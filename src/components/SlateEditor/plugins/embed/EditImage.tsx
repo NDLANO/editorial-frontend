@@ -6,22 +6,22 @@
  *
  */
 
-import { css } from '@emotion/core';
-import { useState } from 'react';
-import FocusTrapReact from 'focus-trap-react';
+import styled from '@emotion/styled';
 import { shadows } from '@ndla/core';
+import FocusTrapReact from 'focus-trap-react';
 import { FormikValues } from 'formik';
-import FigureInput from './FigureInput';
+import { useState } from 'react';
 import ImageEditor from '../../../../containers/ImageEditor/ImageEditor';
-import Overlay from '../../../Overlay';
 import { ImageEmbed } from '../../../../interfaces';
 import { TransformData } from '../../../../util/imageEditorUtil';
+import Overlay from '../../../Overlay';
+import FigureInput from './FigureInput';
 
-const editorContentCSS = css`
+const StyledEditorContent = styled.div`
   box-shadow: ${shadows.levitate1};
 `;
 
-const imageEditorWrapperStyle = css`
+const StyledEditorWrapper = styled.div`
   background-color: white;
   position: absolute;
 `;
@@ -114,7 +114,7 @@ const EditImage = ({ embed, saveEmbedUpdates, setEditModus }: Props) => {
   };
 
   return (
-    <div contentEditable={false} css={imageEditorWrapperStyle}>
+    <StyledEditorWrapper contentEditable={false}>
       <Overlay />
       <FocusTrapReact
         focusTrapOptions={{
@@ -124,7 +124,7 @@ const EditImage = ({ embed, saveEmbedUpdates, setEditModus }: Props) => {
           clickOutsideDeactivates: true,
           escapeDeactivates: true,
         }}>
-        <div css={editorContentCSS}>
+        <StyledEditorContent>
           <ImageEditor
             embed={embed}
             onUpdatedImageSettings={onUpdatedImageSettings}
@@ -138,9 +138,9 @@ const EditImage = ({ embed, saveEmbedUpdates, setEditModus }: Props) => {
             onAbort={onAbort}
             onSave={onSave}
           />
-        </div>
+        </StyledEditorContent>
       </FocusTrapReact>
-    </div>
+    </StyledEditorWrapper>
   );
 };
 

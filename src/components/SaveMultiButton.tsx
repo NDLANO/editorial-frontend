@@ -6,10 +6,9 @@
  *
  */
 
+import styled from '@emotion/styled';
 import { MultiButton } from '@ndla/button';
 import { Check } from '@ndla/icons/editor';
-import styled from '@emotion/styled';
-import { css } from '@emotion/core';
 import { useTranslation } from 'react-i18next';
 import { saveButtonAppearances } from './SaveButton';
 
@@ -26,7 +25,7 @@ const Wrapper = styled('div')`
   }
 `;
 
-const checkStyle = css`
+const StyledCheck = styled(Check)`
   width: 1.45rem;
   height: 1.45rem;
 `;
@@ -90,7 +89,7 @@ const SaveMultiButton = ({
           {...rest}>
           <StyledSpan>
             {t(`form.${modifier}`)}
-            {showSaved && <Check css={checkStyle} />}
+            {showSaved && <StyledCheck />}
           </StyledSpan>
         </MultiButton>
       </Wrapper>

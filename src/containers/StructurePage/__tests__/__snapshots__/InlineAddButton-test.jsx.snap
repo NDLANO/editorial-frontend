@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Goes to edit mode, handles input and calls action prop 1`] = `
-.emotion-0 {
+.emotion-1 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -39,44 +39,44 @@ exports[`Goes to edit mode, handles input and calls action prop 1`] = `
   background: linear-gradient( rgba(226,226,226,0.1),#507aa4 50%,rgba(226,226,226,0.1) 100% );
 }
 
-.emotion-0:hover,
-.emotion-0:focus {
+.emotion-1:hover,
+.emotion-1:focus {
   color: white;
   background-color: #184673;
   border: 2px solid #184673;
 }
 
-.emotion-0[disabled] {
+.emotion-1[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-0:focus {
+.emotion-1:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-0:hover,
-.emotion-0:active,
-.emotion-0:disabled,
-.emotion-0:focus {
+.emotion-1:hover,
+.emotion-1:active,
+.emotion-1:disabled,
+.emotion-1:focus {
   box-shadow: none;
   color: #20588f;
   background-color: transparent;
   border: none;
 }
 
-.emotion-0:focus {
+.emotion-1:focus {
   outline-width: medium;
 }
 
-.emotion-0:hover {
+.emotion-1:hover {
   color: white;
 }
 
 <button
-  class="emotion-0 emotion-1"
+  class="emotion-0 emotion-1 emotion-2"
   data-testid="AddSubjectButton"
   type="button"
 >

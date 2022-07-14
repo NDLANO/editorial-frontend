@@ -8,13 +8,14 @@
 
 import { css } from '@emotion/core';
 import { useState } from 'react';
-import FocusTrapReact from 'focus-trap-react';
 import { shadows } from '@ndla/core';
 import { FormikValues } from 'formik';
 import FigureInput from './FigureInput';
 import ImageEditor from '../../../../containers/ImageEditor/ImageEditor';
-import Overlay from '../../../Overlay';
 import { ImageEmbed } from '../../../../interfaces';
+import Portal from 'components/Portal/Portal';
+import Modal from '@ndla/modal';
+import styled from '@emotion/styled';
 
 const editorContentCSS = css`
   box-shadow: ${shadows.levitate1};
@@ -22,7 +23,13 @@ const editorContentCSS = css`
 
 const imageEditorWrapperStyle = css`
   background-color: white;
-  position: absolute;
+  max-height: 80vh;
+`;
+
+const StyledModal = styled(Modal)`
+  [data-reach-dialog-content] {
+    padding: 0;
+  }
 `;
 
 interface Props {
@@ -120,33 +127,36 @@ const EditImage = ({ embed, saveEmbedUpdates, setEditModus }: Props) => {
   };
 
   return (
-    <div contentEditable={false} css={imageEditorWrapperStyle}>
-      <Overlay />
-      <FocusTrapReact
-        focusTrapOptions={{
-          onDeactivate: () => {
-            setEditModus(false);
-          },
-          clickOutsideDeactivates: true,
-          escapeDeactivates: true,
-        }}>
-        <div css={editorContentCSS}>
-          <ImageEditor
-            embed={embed}
-            onUpdatedImageSettings={onUpdatedImageSettings}
-            imageUpdates={state.imageUpdates}
-          />
-          <FigureInput
-            caption={state.caption}
-            alt={state.alt}
-            madeChanges={state.madeChanges}
-            onChange={onChange}
-            onAbort={onAbort}
-            onSave={onSave}
-          />
-        </div>
-      </FocusTrapReact>
-    </div>
+    <Portal isOpened>
+      <StyledModal
+        onClose={() => setEditModus(false)}
+        isOpen
+        controllable
+        size="regular"
+        backgroundColor="white">
+        {() => (
+          <>
+            <div contentEditable={false} css={imageEditorWrapperStyle}>
+              <div css={editorContentCSS}>
+                <ImageEditor
+                  embed={embed}
+                  onUpdatedImageSettings={onUpdatedImageSettings}
+                  imageUpdates={state.imageUpdates}
+                />
+                <FigureInput
+                  caption={state.caption}
+                  alt={state.alt}
+                  madeChanges={state.madeChanges}
+                  onChange={onChange}
+                  onAbort={onAbort}
+                  onSave={onSave}
+                />
+              </div>
+            </div>
+          </>
+        )}
+      </StyledModal>
+    </Portal>
   );
 };
 

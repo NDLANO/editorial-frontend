@@ -281,8 +281,8 @@ exports[`it goes in and out of edit mode 1`] = `
   animation: spinnerAnimation 0.7s linear infinite;
   height: 26px;
   width: 26px;
-  display: block;
   margin: 0;
+  display: block;
 }
 
 .emotion-45 {

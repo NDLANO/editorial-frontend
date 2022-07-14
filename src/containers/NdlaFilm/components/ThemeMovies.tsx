@@ -9,7 +9,7 @@
 import { useState } from 'react';
 import { isEqual } from 'lodash';
 import { useTranslation } from 'react-i18next';
-import { Spinner } from '@ndla/editor';
+import { Spinner } from '@ndla/icons';
 import { IMultiSearchSummary } from '@ndla/types-search-api';
 import ElementList from '../../FormikForm/components/ElementList';
 import { getUrnFromId } from '../../../util/ndlaFilmHelpers';

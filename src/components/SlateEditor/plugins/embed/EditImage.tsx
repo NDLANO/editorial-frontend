@@ -6,22 +6,22 @@
  *
  */
 
-import { css } from '@emotion/core';
 import styled from '@emotion/styled';
-import { useState } from 'react';
 import { shadows } from '@ndla/core';
 import Modal from '@ndla/modal';
 import { FormikValues } from 'formik';
-import { Portal } from '../../../Portal';
-import FigureInput from './FigureInput';
+import { useState } from 'react';
 import ImageEditor from '../../../../containers/ImageEditor/ImageEditor';
 import { ImageEmbed } from '../../../../interfaces';
+import { TransformData } from '../../../../util/imageEditorUtil';
+import { Portal } from '../../../Portal';
+import FigureInput from './FigureInput';
 
-const editorContentCSS = css`
+const StyledEditorContent = styled.div`
   box-shadow: ${shadows.levitate1};
 `;
 
-const imageEditorWrapperStyle = css`
+const StyledEditorWrapper = styled.div`
   background-color: white;
   max-height: 80vh;
 `;
@@ -43,14 +43,7 @@ interface StateProps {
   caption?: string;
   imageUpdates:
     | {
-        transformData: {
-          'focal-x'?: string;
-          'focal-y'?: string;
-          'upper-left-x'?: string;
-          'upper-left-y'?: string;
-          'lower-right-x'?: string;
-          'lower-right-y'?: string;
-        };
+        transformData: TransformData;
         align?: string;
         size?: string;
       }
@@ -136,8 +129,8 @@ const EditImage = ({ embed, saveEmbedUpdates, setEditModus }: Props) => {
         backgroundColor="white">
         {() => (
           <>
-            <div contentEditable={false} css={imageEditorWrapperStyle}>
-              <div css={editorContentCSS}>
+            <StyledEditorWrapper contentEditable={false}>
+              <StyledEditorContent>
                 <ImageEditor
                   embed={embed}
                   onUpdatedImageSettings={onUpdatedImageSettings}
@@ -151,8 +144,8 @@ const EditImage = ({ embed, saveEmbedUpdates, setEditModus }: Props) => {
                   onAbort={onAbort}
                   onSave={onSave}
                 />
-              </div>
-            </div>
+              </StyledEditorContent>
+            </StyledEditorWrapper>
           </>
         )}
       </StyledModal>

@@ -44,7 +44,7 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
 .emotion-4 {
   position: absolute;
   top: 0;
-  right: -6.5px;
+  right: -31.2px;
 }
 
 .emotion-4 > * {

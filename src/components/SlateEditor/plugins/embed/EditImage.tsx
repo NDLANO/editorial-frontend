@@ -7,15 +7,15 @@
  */
 
 import { css } from '@emotion/core';
+import styled from '@emotion/styled';
 import { useState } from 'react';
 import { shadows } from '@ndla/core';
+import Modal from '@ndla/modal';
 import { FormikValues } from 'formik';
+import { Portal } from '../../../Portal';
 import FigureInput from './FigureInput';
 import ImageEditor from '../../../../containers/ImageEditor/ImageEditor';
 import { ImageEmbed } from '../../../../interfaces';
-import Portal from 'components/Portal/Portal';
-import Modal from '@ndla/modal';
-import styled from '@emotion/styled';
 
 const editorContentCSS = css`
   box-shadow: ${shadows.levitate1};
@@ -127,7 +127,7 @@ const EditImage = ({ embed, saveEmbedUpdates, setEditModus }: Props) => {
   };
 
   return (
-    <Portal isOpened>
+    <Portal isOpened key="imagePortal">
       <StyledModal
         onClose={() => setEditModus(false)}
         isOpen

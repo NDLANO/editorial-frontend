@@ -121,12 +121,7 @@ const EditImage = ({ embed, saveEmbedUpdates, setEditModus }: Props) => {
 
   return (
     <Portal isOpened key="imagePortal">
-      <StyledModal
-        onClose={() => setEditModus(false)}
-        isOpen
-        controllable
-        size="regular"
-        backgroundColor="white">
+      <StyledModal onClose={() => setEditModus(false)} isOpen controllable size="regular">
         {() => (
           <>
             <StyledEditorWrapper contentEditable={false}>

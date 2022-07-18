@@ -9,8 +9,9 @@
 import { ReactElement, ReactNode } from 'react';
 
 import { css, SerializedStyles } from '@emotion/core';
-import { colors } from '@ndla/core';
+import styled from '@emotion/styled';
 import Button from '@ndla/button';
+import { colors } from '@ndla/core';
 import { AccordionType } from './Accordion';
 
 const appearances: Record<AccordionType, SerializedStyles> = {
@@ -36,7 +37,7 @@ const appearances: Record<AccordionType, SerializedStyles> = {
   `,
 };
 
-const buttonLineStyle = (styledAppearance: AccordionType) => css`
+const StyledButtonLine = styled(Button)<{ styledAppearance: AccordionType }>`
   display: flex;
   position: relative;
   justify-content: space-between;
@@ -44,7 +45,7 @@ const buttonLineStyle = (styledAppearance: AccordionType) => css`
   width: 100%;
   padding: 0.6rem 0;
 
-  ${appearances[styledAppearance]};
+  ${props => appearances[props.styledAppearance]}
 `;
 
 interface Props {
@@ -56,12 +57,13 @@ interface Props {
 
 const AccordionButtonLine = ({ appearance, handleToggle, addButton, children }: Props) => {
   if (addButton) {
-    return <div css={buttonLineStyle(appearance)}>{children}</div>;
+    return <StyledButtonLine styledAppearance={appearance}>{children}</StyledButtonLine>;
   }
+
   return (
-    <Button css={buttonLineStyle(appearance)} stripped onClick={handleToggle}>
+    <StyledButtonLine styledAppearance={appearance} stripped onClick={handleToggle}>
       {children}
-    </Button>
+    </StyledButtonLine>
   );
 };
 

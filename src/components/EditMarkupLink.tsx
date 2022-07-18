@@ -35,7 +35,7 @@ const StyledLink = styled(Link)<StyledLinkProps>`
     }
   }
   svg {
-    width: ${props => props.inHeader && '18px'};
+    width: ${props => (props.inHeader ? '18px' : spacing.normal)};
     height: ${props => (props.inHeader ? '18px' : spacing.normal)};
     padding: 2px;
     border-radius: 50%;

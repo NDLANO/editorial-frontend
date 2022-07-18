@@ -14,11 +14,7 @@ import { Check } from '@ndla/icons/editor';
 import { MouseEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 
-interface AppearanceMap {
-  [index: string]: SerializedStyles;
-}
-
-export const saveButtonAppearances: AppearanceMap = {
+export const saveButtonAppearances: Record<string, SerializedStyles> = {
   saved: css`
     &,
     &:hover,

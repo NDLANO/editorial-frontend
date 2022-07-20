@@ -8,9 +8,9 @@
 
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
-import css from '@emotion/css';
 import { Home } from '@ndla/icons/common';
 import { colors } from '@ndla/core';
+import styled from '@emotion/styled';
 
 import { NodeType } from '../../../../modules/nodes/nodeApiTypes';
 import { toCreateSubjectpage, toEditSubjectpage } from '../../../../util/routeHelpers';
@@ -22,7 +22,7 @@ interface Props {
   node: NodeType;
 }
 
-const linkStyle = css`
+const StyledLink = styled(Link)`
   color: ${colors.brand.greyDark};
   &:hover {
     color: ${colors.brand.primary};
@@ -37,12 +37,12 @@ const EditSubjectpageOption = ({ node }: Props) => {
     : toCreateSubjectpage(node.id, i18n.language);
 
   return (
-    <Link css={linkStyle} state={{ elementName: node?.name }} to={{ pathname: link }}>
+    <StyledLink state={{ elementName: node?.name }} to={{ pathname: link }}>
       <MenuItemButton stripped data-testid="editSubjectpageOption">
         <RoundIcon small icon={<Home />} />
         {t('taxonomy.editSubjectpage')}
       </MenuItemButton>
-    </Link>
+    </StyledLink>
   );
 };
 

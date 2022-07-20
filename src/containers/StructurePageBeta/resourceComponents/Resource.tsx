@@ -9,7 +9,6 @@
 import React, { ReactElement, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
-import { css } from '@emotion/core';
 import styled from '@emotion/styled';
 import { ContentTypeBadge } from '@ndla/ui';
 import Button from '@ndla/button';
@@ -55,7 +54,7 @@ const StyledWarnIcon = styled(AlertCircle)`
   fill: ${colors.support.red};
 `;
 
-const statusButtonStyle = css`
+const StyledStatusButton = styled(Button)`
   margin-right: ${spacing.xsmall};
 `;
 
@@ -68,7 +67,7 @@ interface Props {
   updateResource?: (resource: ResourceWithNodeConnection) => void;
   dragHandleProps?: DraggableProvidedDragHandleProps;
 }
-const grepButtonStyle = css`
+const StyledGrepButton = styled(Button)`
   margin-left: ${spacing.xsmall};
 `;
 
@@ -226,13 +225,12 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
         />
       </StyledResourceBody>
       {resourceMetaQuery.data?.status?.current && (
-        <Button
+        <StyledStatusButton
           lighter
-          css={statusButtonStyle}
           onClick={() => setShowVersionHistory(true)}
           disabled={contentType === 'learning-path'}>
           {t(`form.status.${resourceMetaQuery.data.status.current.toLowerCase()}`)}
-        </Button>
+        </StyledStatusButton>
       )}
       <WrongTypeError resource={resource} articleType={resourceMetaQuery.data?.articleType} />
       {(resourceMetaQuery.data?.status?.current === PUBLISHED ||
@@ -244,9 +242,9 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
         </PublishedWrapper>
       )}
       {contentType !== 'learning-path' && (
-        <Button lighter css={grepButtonStyle} onClick={() => setShowGrepCodes(true)}>
+        <StyledGrepButton lighter onClick={() => setShowGrepCodes(true)}>
           {`GREP (${resourceMetaQuery.data?.grepCodes?.length || 0})`}
-        </Button>
+        </StyledGrepButton>
       )}
       <RelevanceOption relevanceId={resource.relevanceId} onChange={updateRelevanceId} />
 

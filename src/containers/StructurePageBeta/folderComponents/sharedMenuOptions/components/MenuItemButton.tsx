@@ -9,9 +9,9 @@
 import { ReactNode } from 'react';
 import Button from '@ndla/button';
 import { spacing } from '@ndla/core';
-import { css } from '@emotion/core';
+import styled from '@emotion/styled';
 
-const menuItemStyle = css`
+const StyledMenuItemButton = styled(Button)`
   display: flex;
   align-items: center;
   margin: calc(${spacing.small} / 2);
@@ -26,11 +26,7 @@ interface Props {
 }
 
 const MenuItemButton = ({ children, ...rest }: Props) => {
-  return (
-    <Button css={menuItemStyle} {...rest}>
-      {children}
-    </Button>
-  );
+  return <StyledMenuItemButton {...rest}>{children}</StyledMenuItemButton>;
 };
 
 export default MenuItemButton;

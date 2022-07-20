@@ -7,11 +7,11 @@
  */
 
 import { ReactNode } from 'react';
-import { css } from '@emotion/core';
 import { colors, spacing } from '@ndla/core';
 import Button from '@ndla/button';
+import styled from '@emotion/styled';
 
-const addButtonStyle = css`
+const StyledAddButton = styled(Button)`
   &,
   &:disabled,
   &:hover,
@@ -35,9 +35,9 @@ interface Props {
 }
 
 const AddResourceButton = ({ children, ...rest }: Props) => (
-  <Button type="button" css={addButtonStyle} {...rest}>
+  <StyledAddButton type="button" {...rest}>
     {children}
-  </Button>
+  </StyledAddButton>
 );
 
 export default AddResourceButton;

@@ -11,7 +11,6 @@ import { useTranslation } from 'react-i18next';
 import Button from '@ndla/button';
 import { shadows, colors, spacing, animations } from '@ndla/core';
 import { Settings } from '@ndla/icons/editor';
-import { css } from '@emotion/core';
 import styled from '@emotion/styled';
 import { getNodeTypeFromNodeId } from '../../../modules/nodes/nodeUtil';
 import RoundIcon from '../../../components/RoundIcon';
@@ -20,13 +19,17 @@ import CrossButton from '../../../components/CrossButton';
 import { NodeType } from '../../../modules/nodes/nodeApiTypes';
 import SettingsMenuDropdownType from './SettingsMenuDropdownType';
 
-const SettingsMenuWrapper = styled('div')`
+const SettingsMenuWrapper = styled.div`
   position: relative;
   display: flex;
 
   > button {
     outline: none;
   }
+`;
+
+const StyledSpan = styled.span`
+  margin-left: calc(${spacing.small} / 2);
 `;
 
 const IndexWrapper = styled.div`
@@ -65,13 +68,8 @@ const SettingsMenu = ({
           <StyledDivWrapper>
             <div className="header">
               <RoundIcon icon={<Settings />} open />
-              <span
-                css={css`
-                  margin-left: calc(${spacing.small} / 2);
-                `}>
-                {t(`taxonomy.${nodeType.toLowerCase()}Settings`)}
-              </span>
-              <CrossButton stripped css={closeButtonStyle} onClick={toggleOpenMenu} />
+              <StyledSpan>{t(`taxonomy.${nodeType.toLowerCase()}Settings`)}</StyledSpan>
+              <StyledCrossButton stripped onClick={toggleOpenMenu} />
             </div>
             <SettingsMenuDropdownType
               node={node}
@@ -88,12 +86,12 @@ const SettingsMenu = ({
   );
 };
 
-const closeButtonStyle = css`
+const StyledCrossButton = styled(CrossButton)`
   color: ${colors.brand.grey};
   margin-left: auto;
 `;
 
-export const StyledDivWrapper = styled('div')`
+export const StyledDivWrapper = styled.div`
    position: absolute;
    ${animations.fadeIn()}
    box-shadow: ${shadows.levitate1};

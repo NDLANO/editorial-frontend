@@ -8,10 +8,10 @@
 
 import Button from '@ndla/button';
 import { colors } from '@ndla/core';
-import { css } from '@emotion/core';
 import { ReactNode } from 'react';
+import styled from '@emotion/styled';
 
-const customFieldButtonStyle = css`
+const StyledCustomFieldButton = styled(Button)`
   &,
   &:disabled {
     height: 24px;
@@ -32,11 +32,7 @@ interface Props {
 }
 
 const CustomFieldButton = ({ children, ...rest }: Props) => {
-  return (
-    <Button css={customFieldButtonStyle} {...rest}>
-      {children}
-    </Button>
-  );
+  return <StyledCustomFieldButton {...rest}>{children}</StyledCustomFieldButton>;
 };
 
 export default CustomFieldButton;

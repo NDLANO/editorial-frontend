@@ -9,14 +9,13 @@
 import { spacing, fonts } from '@ndla/core';
 import Button from '@ndla/button';
 import { useTranslation } from 'react-i18next';
-import { css } from '@emotion/core';
 import styled from '@emotion/styled';
 import { NodeType } from '../../../modules/nodes/nodeApiTypes';
 import { Row } from '../../../components';
 import Spinner from '../../../components/Spinner';
 import SettingsMenu from './SettingsMenu';
 
-const resourceButtonStyle = css`
+const StyledResourceButton = styled(Button)`
   margin: 3px ${spacing.xsmall} 3px auto;
   ${fonts.sizes(14, 1.1)};
 `;
@@ -62,9 +61,8 @@ const FolderItem = ({
         />
       )}
       {showJumpToResources && (
-        <Button
+        <StyledResourceButton
           outline
-          css={resourceButtonStyle}
           type="button"
           disabled={resourcesLoading}
           onClick={() => jumpToResources?.()}>
@@ -72,7 +70,7 @@ const FolderItem = ({
             {t('taxonomy.jumpToResources')}
             {!!resourcesLoading && <Spinner appearance="small" />}
           </Row>
-        </Button>
+        </StyledResourceButton>
       )}
     </StyledFolderWrapper>
   );

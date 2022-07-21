@@ -10,7 +10,6 @@ import { ReactElement, useState } from 'react';
 
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
-import { css } from '@emotion/core';
 import styled from '@emotion/styled';
 //@ts-ignore
 import { ContentTypeBadge } from '@ndla/ui';
@@ -44,7 +43,7 @@ const StyledWarnIcon = styled(AlertCircle)`
   fill: ${colors.support.red};
 `;
 
-const statusButtonStyle = css`
+const StyledStatusButton = styled(Button)`
   margin-right: ${spacing.xsmall};
 `;
 
@@ -64,7 +63,7 @@ interface Props {
   primary?: boolean;
   rank?: number;
 }
-const grepButtonStyle = css`
+const StyledGrepButton = styled(Button)`
   margin-left: ${spacing.xsmall};
 `;
 
@@ -194,13 +193,12 @@ const Resource = ({
         />
       </StyledResourceBody>
       {resource.status?.current && (
-        <Button
+        <StyledStatusButton
           lighter
-          css={statusButtonStyle}
           onClick={() => setShowVersionHistory(true)}
           disabled={contentType === 'learning-path'}>
           {t(`form.status.${resource.status.current.toLowerCase()}`)}
-        </Button>
+        </StyledStatusButton>
       )}
       <WrongTypeError />
       {(resource.status?.current === PUBLISHED || resource.status?.other?.includes(PUBLISHED)) && (
@@ -211,9 +209,9 @@ const Resource = ({
         </PublishedWrapper>
       )}
       {contentType !== 'learning-path' && (
-        <Button lighter css={grepButtonStyle} onClick={() => setShowGrepCodes(true)}>
+        <StyledGrepButton lighter onClick={() => setShowGrepCodes(true)}>
           {`GREP (${resource.grepCodes?.length || 0})`}
-        </Button>
+        </StyledGrepButton>
       )}
       <RelevanceOption
         relevanceId={relevanceId}

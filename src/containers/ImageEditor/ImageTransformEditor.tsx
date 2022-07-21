@@ -5,13 +5,13 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import { css } from '@emotion/core';
+import styled from '@emotion/styled';
 import { ImageEmbed } from '../../interfaces';
 import ImageFocalPointEdit from './ImageFocalPointEdit';
 import ImageCropEdit from './ImageCropEdit';
 import { getSrcSets } from '../../util/imageEditorUtil';
 
-const imgStyle = css`
+const StyledImg = styled.img`
   min-width: -webkit-fill-available;
   min-width: -moz-available;
 `;
@@ -58,11 +58,7 @@ const ImageTransformEditor = ({
     default:
       return (
         <figure>
-          <img
-            css={imgStyle}
-            alt={embed.alt}
-            srcSet={getSrcSets(embed.resource_id, transformData)}
-          />
+          <StyledImg alt={embed.alt} srcSet={getSrcSets(embed.resource_id, transformData)} />
         </figure>
       );
   }

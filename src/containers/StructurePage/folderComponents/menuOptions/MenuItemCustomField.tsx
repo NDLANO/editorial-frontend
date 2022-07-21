@@ -9,8 +9,8 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Button from '@ndla/button';
-import { css } from '@emotion/core';
 import { Plus } from '@ndla/icons/action';
+import styled from '@emotion/styled';
 import GroupTopicResources from '../GroupTopicResources';
 import {
   TaxonomyElement,
@@ -42,6 +42,10 @@ interface Props extends TaxonomyElement {
   updateLocalTopics: (topicId: string, saveItems: Pick<TaxonomyElement, 'metadata'>) => void;
   type: 'topic' | 'subject';
 }
+
+const StyledButton = styled(Button)`
+  text-decoration: underline;
+`;
 
 const MenuItemCustomField = ({
   id,
@@ -149,16 +153,10 @@ const MenuItemCustomField = ({
         <CustomFieldComponent onSubmit={setCustomFields} onClose={() => setOpen(false)} />
       ) : (
         <div css={filterWrapper}>
-          <Button
-            stripped
-            css={css`
-              text-decoration: underline;
-            `}
-            data-testid="addCustomFieldButton"
-            onClick={() => setOpen(true)}>
+          <StyledButton stripped data-testid="addCustomFieldButton" onClick={() => setOpen(true)}>
             <Plus />
             {t('taxonomy.metadata.customFields.addField')}
-          </Button>
+          </StyledButton>
         </div>
       )}
     </div>

@@ -8,14 +8,14 @@
 
 import { MouseEventHandler } from 'react';
 import { useTranslation } from 'react-i18next';
-import { css } from '@emotion/core';
+import styled from '@emotion/styled';
 import Button from '@ndla/button';
 import { colors } from '@ndla/core';
 import MetaInformation from '../../../components/MetaInformation';
 import config from '../../../config';
 import { ImageEmbed } from '../../../interfaces';
 
-const bannerImageButtonStyle = css`
+const StyledBannerImageButton = styled(Button)`
   display: block;
   margin: 1%;
   min-width: 7.5rem;
@@ -29,9 +29,9 @@ interface Props {
 const SubjectpageBannerImage = ({ image, onImageSelectOpen }: Props) => {
   const { t } = useTranslation();
   const imageAction = (
-    <Button css={bannerImageButtonStyle} onClick={onImageSelectOpen}>
+    <StyledBannerImageButton onClick={onImageSelectOpen}>
       {t('subjectpageForm.changeBanner')}
-    </Button>
+    </StyledBannerImageButton>
   );
   const metaInformationTranslations = {
     title: t('form.metaImage.imageTitle'),

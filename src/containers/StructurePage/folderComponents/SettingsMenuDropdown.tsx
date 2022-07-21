@@ -9,7 +9,6 @@
 import { useTranslation } from 'react-i18next';
 import { colors, spacing, animations, shadows } from '@ndla/core';
 import styled from '@emotion/styled';
-import { css } from '@emotion/core';
 import { Settings } from '@ndla/icons/editor';
 import RoundIcon from '../../../components/RoundIcon';
 import SettingsMenuDropdownType from './SettingsMenuDropdownType';
@@ -73,13 +72,8 @@ const SettingsMenuDropdown = ({
     <StyledDivWrapper>
       <div className="header">
         <RoundIcon icon={<Settings />} open />
-        <span
-          css={css`
-            margin-left: calc(${spacing.small} / 2);
-          `}>
-          {t(`taxonomy.${settingsMenuType}Settings`)}
-        </span>
-        <CrossButton stripped css={closeButtonStyle} onClick={onClose} />
+        <StyledSpan>{t(`taxonomy.${settingsMenuType}Settings`)}</StyledSpan>
+        <StyledCrossButton stripped onClick={onClose} />
       </div>
       <SettingsMenuDropdownType
         onClose={onClose}
@@ -106,9 +100,13 @@ const SettingsMenuDropdown = ({
   );
 };
 
-const closeButtonStyle = css`
+const StyledCrossButton = styled(CrossButton)`
   color: ${colors.brand.grey};
   margin-left: auto;
+`;
+
+const StyledSpan = styled.span`
+  margin-left: calc(${spacing.small} / 2);
 `;
 
 export const StyledDivWrapper = styled('div')`

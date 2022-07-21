@@ -8,7 +8,6 @@
 
 import { FormEvent, MouseEvent } from 'react';
 import { useTranslation } from 'react-i18next';
-import css from '@emotion/css';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import Button from '@ndla/button';
@@ -35,6 +34,15 @@ interface Props {
   emptySearch: (evt: MouseEvent<HTMLButtonElement>) => void;
   removeTag: (tag: TagType) => void;
 }
+
+const StyledButton = styled(Button)`
+  margin-right: 1%;
+  width: 49%;
+`;
+
+const StyledSubmitButton = styled(Button)`
+  width: 49%;
+`;
 
 export const datePickerTypes: (keyof SearchParams)[] = ['revision-date-from', 'revision-date-to'];
 
@@ -145,22 +153,10 @@ const GenericSearchForm = ({
         );
       })}
       <StyledField width={25}>
-        <Button
-          css={css`
-            margin-right: 1%;
-            width: 49%;
-          `}
-          onClick={emptySearch}
-          outline>
+        <StyledButton onClick={emptySearch} outline>
           {t('searchForm.empty')}
-        </Button>
-        <Button
-          onClick={onSubmit}
-          css={css`
-            width: 49%;
-          `}>
-          {t('searchForm.btn')}
-        </Button>
+        </StyledButton>
+        <StyledSubmitButton onClick={onSubmit}>{t('searchForm.btn')}</StyledSubmitButton>
       </StyledField>
       <StyledTagline>
         <SearchTagGroup onRemoveItem={removeTag} tagTypes={tags} />

@@ -7,7 +7,7 @@
  */
 
 import PropTypes from 'prop-types';
-import { css } from '@emotion/core';
+import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import { FieldHeader, FieldRemoveButton, FieldSection } from '@ndla/forms';
 import DateTimeInput from '../../../components/DateTime/DateTimeInput';
@@ -22,13 +22,9 @@ const DatePicker = ({ name, onReset, label, ...rest }) => {
       <FieldSection>
         <DateTimeInput name={name} locale={locale} {...rest} />
         {onReset && (
-          <FieldRemoveButton
-            onClick={onReset}
-            css={css`
-              padding-top: 0;
-            `}>
+          <StyledFieldRemoveButton onClick={onReset}>
             {t(`form.${name}.reset`)}
-          </FieldRemoveButton>
+          </StyledFieldRemoveButton>
         )}
       </FieldSection>
     </Field>
@@ -48,5 +44,9 @@ DatePicker.propTypes = {
 DatePicker.defaultProps = {
   disabled: false,
 };
+
+const StyledFieldRemoveButton = styled(FieldRemoveButton)`
+  padding-top: 0;
+`;
 
 export default DatePicker;

@@ -6,7 +6,7 @@
  *
  */
 
-import { css } from '@emotion/core';
+import styled from '@emotion/styled';
 import { FieldProps, Form, Formik, FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
 import Button from '@ndla/button';
@@ -17,8 +17,12 @@ import validateFormik from '../../../../components/formikValidationSchema';
 import { LocaleType } from '../../../../interfaces';
 import { TaxNameTranslation } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 
-const formikFieldStyle = css`
+const StyledFormikField = styled(FormikField)`
   margin-top: 0px;
+`;
+
+const StyledForm = styled(Form)`
+  margin-top: 2em;
 `;
 
 interface AddSubjectTranslationProps {
@@ -72,16 +76,10 @@ const AddSubjectTranslation = ({
       {formik => {
         const { isValid } = formik;
         return (
-          <Form
-            css={css`
-              margin-top: 2em;
-            `}>
+          <StyledForm>
             <h1>{t('taxonomy.changeName.addNewTranslation')}</h1>
             <Row>
-              <FormikField
-                name="language"
-                label={t('taxonomy.changeName.language')}
-                css={formikFieldStyle}>
+              <StyledFormikField name="language" label={t('taxonomy.changeName.language')}>
                 {({ field }: FieldProps) => {
                   return (
                     <Select {...field}>
@@ -93,8 +91,8 @@ const AddSubjectTranslation = ({
                     </Select>
                   );
                 }}
-              </FormikField>
-              <FormikField name="name" label={t('taxonomy.changeName.name')} css={formikFieldStyle}>
+              </StyledFormikField>
+              <StyledFormikField name="name" label={t('taxonomy.changeName.name')}>
                 {({ field }) => (
                   <Row>
                     <Input
@@ -111,9 +109,9 @@ const AddSubjectTranslation = ({
                     </Button>
                   </Row>
                 )}
-              </FormikField>
+              </StyledFormikField>
             </Row>
-          </Form>
+          </StyledForm>
         );
       }}
     </Formik>

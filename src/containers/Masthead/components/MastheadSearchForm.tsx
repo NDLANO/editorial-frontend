@@ -14,7 +14,7 @@ import { useNavigate } from 'react-router-dom';
 import { colors, misc, spacing, fonts } from '@ndla/core';
 import { Search } from '@ndla/icons/common';
 import { useTranslation } from 'react-i18next';
-import { css } from '@emotion/core';
+import styled from '@emotion/styled';
 import { isValidLocale } from '../../../i18n';
 import { toEditArticle, to404 } from '../../../util/routeHelpers';
 import { isNDLAFrontendUrl } from '../../../util/htmlHelpers';
@@ -25,7 +25,7 @@ import { fetchNewArticleId } from '../../../modules/draft/draftApi';
 import { resolveUrls } from '../../../modules/taxonomy/taxonomyApi';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 
-const formCSS = css`
+const StyledForm = styled.form`
   display: flex;
   background: ${colors.brand.greyLightest};
   border-radius: ${misc.borderRadius};
@@ -191,7 +191,7 @@ export const MastheadSearchForm = ({ query: initQuery = '', onSearchQuerySubmit 
   };
 
   return (
-    <form onSubmit={handleSubmit} css={formCSS}>
+    <StyledForm onSubmit={handleSubmit}>
       <input
         type="text"
         onChange={handleQueryChange}
@@ -201,7 +201,7 @@ export const MastheadSearchForm = ({ query: initQuery = '', onSearchQuerySubmit 
       <Button submit stripped>
         <Search className="c-icon--medium" />
       </Button>
-    </form>
+    </StyledForm>
   );
 };
 

@@ -7,7 +7,7 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { css } from '@emotion/core';
+import styled from '@emotion/styled';
 import Tooltip from '@ndla/tooltip';
 import {
   TAXONOMY_CUSTOM_FIELD_GROUPED_RESOURCE,
@@ -28,6 +28,10 @@ interface Props {
   updateLocalTopics: (topicId: string, saveItems: { metadata: TaxonomyMetadata }) => void;
   hideIcon?: boolean;
 }
+
+const StyledTooltip = styled(Tooltip)`
+  display: flex;
+`;
 
 const GroupTopicResources = ({
   topicId,
@@ -67,18 +71,14 @@ const GroupTopicResources = ({
         placeholder={t('taxonomy.metadata.customFields.resourceGroupPlaceholder')}
         disabled
       />
-      <Tooltip
-        tooltip={t('taxonomy.metadata.customFields.RGTooltip')}
-        css={css`
-          display: flex;
-        `}>
+      <StyledTooltip tooltip={t('taxonomy.metadata.customFields.RGTooltip')}>
         <ToggleSwitch
           on={isGrouped}
           labelOff={'U'}
           labelOn={'G'}
           onClick={() => updateMetadata()}
         />
-      </Tooltip>
+      </StyledTooltip>
     </StyledMenuItemEditField>
   );
 };

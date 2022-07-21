@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { DeleteForever } from '@ndla/icons/editor';
 import { spacing } from '@ndla/core';
 import { Switch } from '@ndla/switch';
-import { css } from '@emotion/core';
+import styled from '@emotion/styled';
 
 import RoundIcon from '../../../../components/RoundIcon';
 import MenuItemSaveButton from './MenuItemSaveButton';
@@ -21,6 +21,10 @@ interface Props {
   customFields: Record<string, string>;
   updateFields: (newFields: Record<string, string>) => void;
 }
+
+const StyledMenuItemSaveButton = styled(MenuItemSaveButton)`
+  margin-left: ${spacing.xxsmall};
+`;
 
 const ToggleExplanationSubject = ({ customFields, updateFields }: Props) => {
   const { t } = useTranslation();
@@ -46,16 +50,13 @@ const ToggleExplanationSubject = ({ customFields, updateFields }: Props) => {
           label=""
           id={'explanationSubject'}
         />
-        <MenuItemSaveButton
+        <StyledMenuItemSaveButton
           onClick={() => {
             delete customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT];
             updateFields({ ...customFields });
-          }}
-          css={css`
-            margin-left: ${spacing.xxsmall};
-          `}>
+          }}>
           <DeleteForever />
-        </MenuItemSaveButton>
+        </StyledMenuItemSaveButton>
       </StyledMenuItemEditField>
     </>
   );

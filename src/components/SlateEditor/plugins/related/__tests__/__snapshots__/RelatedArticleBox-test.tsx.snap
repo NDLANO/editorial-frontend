@@ -1,11 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`it goes in and out of edit mode 1`] = `
-.emotion-50 article > p {
+.emotion-53 article > p {
   font-family: Source Sans Pro !important;
 }
 
-.emotion-48 {
+.emotion-51 {
   position: absolute;
   width: 100%;
   z-index: 2;
@@ -285,7 +285,7 @@ exports[`it goes in and out of edit mode 1`] = `
   display: block;
 }
 
-.emotion-46 {
+.emotion-49 {
   position: fixed;
   top: 0;
   left: 0;
@@ -303,7 +303,7 @@ exports[`it goes in and out of edit mode 1`] = `
   justify-content: center;
 }
 
-.emotion-44 {
+.emotion-47 {
   background-color: #f8f8f8;
   box-shadow: 0 0 2px 0 rgba(115,115,115,0.5);
   width: 620px;
@@ -315,7 +315,7 @@ exports[`it goes in and out of edit mode 1`] = `
   overflow: auto;
 }
 
-.emotion-28 {
+.emotion-30 {
   background: linear-gradient(180deg,#5d97a9,#508a9c);
   display: -webkit-box;
   display: -webkit-flex;
@@ -335,7 +335,7 @@ exports[`it goes in and out of edit mode 1`] = `
   color: #f8f8f8;
 }
 
-.emotion-26 {
+.emotion-28 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -369,35 +369,35 @@ exports[`it goes in and out of edit mode 1`] = `
   width: 50px;
 }
 
-.emotion-26:hover,
-.emotion-26:focus {
+.emotion-28:hover,
+.emotion-28:focus {
   color: white;
   background-color: #184673;
   border: 2px solid #184673;
 }
 
-.emotion-26[disabled] {
+.emotion-28[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-26:focus {
+.emotion-28:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-26:hover,
-.emotion-26:active,
-.emotion-26:disabled,
-.emotion-26:focus {
+.emotion-28:hover,
+.emotion-28:active,
+.emotion-28:disabled,
+.emotion-28:focus {
   box-shadow: none;
   color: #20588f;
   background-color: transparent;
   border: none;
 }
 
-.emotion-26:focus {
+.emotion-28:focus {
   outline-width: medium;
 }
 
@@ -407,7 +407,7 @@ exports[`it goes in and out of edit mode 1`] = `
   margin-right: 7px;
 }
 
-.emotion-42 {
+.emotion-45 {
   padding: 2em;
   height: 100%;
   display: -webkit-box;
@@ -427,19 +427,19 @@ exports[`it goes in and out of edit mode 1`] = `
   align-items: flex-end;
 }
 
-.emotion-38 {
+.emotion-40 {
   width: 100%;
 }
 
-.emotion-38 > * {
+.emotion-40 > * {
   width: 100%;
 }
 
-.emotion-38 form {
+.emotion-40 form {
   background-color: white;
 }
 
-.emotion-40 {
+.emotion-43 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -471,40 +471,40 @@ exports[`it goes in and out of edit mode 1`] = `
   font-weight: 400;
 }
 
-.emotion-40:hover,
-.emotion-40:focus {
+.emotion-43:hover,
+.emotion-43:focus {
   color: white;
   background-color: #184673;
   border: 2px solid #184673;
 }
 
-.emotion-40[disabled] {
+.emotion-43[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-40:focus {
+.emotion-43:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-40:hover,
-.emotion-40:active,
-.emotion-40:disabled,
-.emotion-40:focus {
+.emotion-43:hover,
+.emotion-43:active,
+.emotion-43:disabled,
+.emotion-43:focus {
   box-shadow: none;
   color: #20588f;
   background-color: transparent;
   border: none;
 }
 
-.emotion-40:focus {
+.emotion-43:focus {
   outline-width: medium;
 }
 
-.emotion-40,
-.emotion-40:hover {
+.emotion-43,
+.emotion-43:hover {
   border-radius: 5px;
   background-color: white;
   margin-top: 26px;
@@ -550,7 +550,7 @@ exports[`it goes in and out of edit mode 1`] = `
     </div>
   </div>
   <div
-    class="emotion-48 emotion-49"
+    class="emotion-51 emotion-52"
     contenteditable="false"
   >
     <div
@@ -656,25 +656,25 @@ exports[`it goes in and out of edit mode 1`] = `
       </button>
     </div>
     <div
-      class="emotion-46 emotion-47"
+      class="emotion-49 emotion-50"
     >
       <div
         aria-hidden="true"
         class="emotion-0 emotion-1"
       />
       <div
-        class="emotion-44 emotion-45"
+        class="emotion-47 emotion-48"
       >
         <div
-          class="emotion-28 emotion-29"
+          class="emotion-30 emotion-31"
         >
           Skriv inn tittel og url på ekstern artikkel
           <button
-            class="emotion-26 emotion-15"
+            class="emotion-27 emotion-28 emotion-15"
             type="button"
           >
             <svg
-              class="c-icon emotion-25"
+              class="c-icon emotion-25 emotion-26"
               data-license="Apache License 2.0"
               data-source="Material Design"
               fill="currentColor"
@@ -697,10 +697,10 @@ exports[`it goes in and out of edit mode 1`] = `
           </button>
         </div>
         <div
-          class="emotion-42 emotion-43"
+          class="emotion-45 emotion-46"
         >
           <div
-            class="emotion-38 emotion-39"
+            class="emotion-40 emotion-41"
           >
             <div>
               <div
@@ -736,7 +736,7 @@ exports[`it goes in and out of edit mode 1`] = `
             </div>
           </div>
           <button
-            class="emotion-40 emotion-15"
+            class="emotion-42 emotion-43 emotion-15"
             data-testid="taxonomyLightboxButton"
             type="button"
           >
@@ -747,7 +747,7 @@ exports[`it goes in and out of edit mode 1`] = `
     </div>
   </div>
   <div
-    class="emotion-50"
+    class="emotion-53"
     contenteditable="false"
     data-testid="relatedWrapper"
     draggable="true"

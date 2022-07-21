@@ -10,7 +10,6 @@ import Button from '@ndla/button';
 import { Cross } from '@ndla/icons/action';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
-import { css } from '@emotion/core';
 import { spacing, colors } from '@ndla/core';
 import Overlay from '../Overlay';
 import Spinner from '../Spinner';
@@ -32,20 +31,16 @@ const TaxonomyLightbox = ({ children, title, onSelect, loading, onClose, wide = 
       <StyledContentWrapper wide={wide}>
         <StyledHeader>
           {title}
-          <Button css={closeButtonStyle} stripped onClick={onClose}>
-            <Cross css={crossStyle} />
-          </Button>
+          <StyledCloseButton stripped onClick={onClose}>
+            <StyledCross />
+          </StyledCloseButton>
         </StyledHeader>
         <StyledContent>
           {children}
           {onSelect && (
-            <Button
-              data-testid="taxonomyLightboxButton"
-              stripped
-              css={selectButtonStyle}
-              onClick={onSelect}>
+            <StyledSelectButton data-testid="taxonomyLightboxButton" stripped onClick={onSelect}>
               {loading ? <Spinner appearance="small" /> : t('form.save')}
-            </Button>
+            </StyledSelectButton>
           )}
         </StyledContent>
       </StyledContentWrapper>
@@ -53,18 +48,18 @@ const TaxonomyLightbox = ({ children, title, onSelect, loading, onClose, wide = 
   );
 };
 
-const closeButtonStyle = css`
+const StyledCloseButton = styled(Button)`
   height: 50px;
   width: 50px;
 `;
 
-const crossStyle = css`
+const StyledCross = styled(Cross)`
   height: 24px;
   width: 24px;
   margin-right: 7px;
 `;
 
-const selectButtonStyle = css`
+const StyledSelectButton = styled(Button)`
   &,
   &:hover {
     border-radius: 5px;

@@ -7,7 +7,7 @@
  */
 
 import { useState, KeyboardEvent } from 'react';
-import { css } from '@emotion/core';
+import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
 import { DeleteForever, Done } from '@ndla/icons/editor';
 import { spacing } from '@ndla/core';
@@ -24,6 +24,10 @@ interface Props {
   dataTestid?: string;
   placeholder?: string;
 }
+
+const StyledMenuItemSaveButton = styled(MenuItemSaveButton)`
+  margin-left: ${spacing.xxsmall};
+`;
 
 const CustomFieldComponent = ({
   onSubmit,
@@ -92,13 +96,9 @@ const CustomFieldComponent = ({
         <MenuItemSaveButton onClick={handleSubmit} data-testid={'CustomFieldSaveButton'}>
           <Done className="c-icon--small" />
         </MenuItemSaveButton>
-        <MenuItemSaveButton
-          onClick={handleDelete}
-          css={css`
-            margin-left: ${spacing.xxsmall};
-          `}>
+        <StyledMenuItemSaveButton onClick={handleDelete}>
           <DeleteForever />
-        </MenuItemSaveButton>
+        </StyledMenuItemSaveButton>
       </StyledMenuItemEditField>
     </>
   );

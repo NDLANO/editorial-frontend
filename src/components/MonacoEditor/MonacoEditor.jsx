@@ -8,7 +8,7 @@
 
 import { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { css } from '@emotion/core';
+import styled from '@emotion/styled';
 import { spacing, colors } from '@ndla/core';
 
 import 'monaco-editor/esm/vs/editor/browser/controller/coreCommands';
@@ -29,6 +29,12 @@ import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
 
 import './html.contribution';
 import { createFormatAction, createSaveAction } from './editorActions';
+
+const StyledDiv = styled.div`
+  height: ${height || '75vh'};
+  margin: ${spacing.normal};
+  border: 1px solid ${colors.brand.greyLight};
+`;
 
 monaco.editor.defineTheme('myCustomTheme', {
   base: 'vs',
@@ -68,16 +74,7 @@ export function MonacoEditor({ value, onChange, onSave, height }) {
     editor.addAction(createSaveAction(monaco, onSave));
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  return (
-    <div
-      css={css`
-        height: ${height || '75vh'};
-        margin: ${spacing.normal};
-        border: 1px solid ${colors.brand.greyLight};
-      `}
-      ref={divRef}
-    />
-  );
+  return <StyledDiv ref={divRef} />;
 }
 
 MonacoEditor.propTypes = {

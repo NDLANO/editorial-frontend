@@ -8,7 +8,6 @@
 
 import { createRef, useEffect, useState } from 'react';
 import FocusTrapReact from 'focus-trap-react';
-import { css } from '@emotion/core';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import { StyledButtonWrapper, TextArea } from '@ndla/forms';
@@ -28,15 +27,6 @@ import {
   getStopTime,
 } from '../../../../util/videoUtil';
 
-const videoStyle = css`
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  right: 0px;
-`;
-
 interface Props {
   embed: BrightcoveEmbed | ExternalEmbed;
   saveEmbedUpdates: (change: { [x: string]: string }) => void;
@@ -44,6 +34,15 @@ interface Props {
   activeSrc: string;
   toggleEditModus: () => void;
 }
+
+const StyledVideoIframe = styled.iframe`
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+`;
 
 const StyledFigure = styled.figure`
   position: relative;
@@ -120,12 +119,11 @@ const EditVideo = ({ embed, saveEmbedUpdates, src, activeSrc, toggleEditModus }:
                 embedElement = embedEl;
               }}>
               <StyledFigure>
-                <iframe
+                <StyledVideoIframe
                   title={`Video: ${embed.metaData ? embed.metaData.name : ''}`}
                   frameBorder="0"
                   src={activeSrc}
                   allowFullScreen
-                  css={videoStyle}
                 />
               </StyledFigure>
               <StyledInputWrapper>

@@ -1,6 +1,5 @@
 import { Fragment } from 'react';
 import styled from '@emotion/styled';
-import { css } from '@emotion/core';
 import { colors, fonts } from '@ndla/core';
 import SafeLink from '@ndla/safelink';
 import { ChevronRight } from '@ndla/icons/common';
@@ -26,6 +25,10 @@ const StyledLink = styled(SafeLink)<StyleProps>`
   color: ${props => (!props.isVisible ? colors.brand.grey : colors.brand.primary)};
 `;
 
+const StyledSpan = styled.span`
+  white-space: 'nowrap';
+`;
+
 export default function Breadcrumb({ breadcrumb, type }: Props) {
   let url = '/structure';
   return (
@@ -34,14 +37,11 @@ export default function Breadcrumb({ breadcrumb, type }: Props) {
         url = `${url}/${path.id}`;
         return (
           <Fragment key={`${path.name}_${index}`}>
-            <span
-              css={css`
-                white-space: 'nowrap';
-              `}>
+            <StyledSpan>
               <StyledLink isVisible={path.metadata ? path.metadata.visible : true} to={url}>
                 {path.name}
               </StyledLink>
-            </span>
+            </StyledSpan>
             {type !== 'topic-article' && index + 1 !== breadcrumb.length && <ChevronRight />}
           </Fragment>
         );

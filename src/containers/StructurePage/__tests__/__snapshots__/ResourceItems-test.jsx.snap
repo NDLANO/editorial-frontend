@@ -1,13 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`matches snapshot 1`] = `
-.emotion-104 {
+.emotion-116 {
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
-.emotion-15 {
+.emotion-17 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -155,7 +155,7 @@ exports[`matches snapshot 1`] = `
   font-size: 0.8rem;
 }
 
-.emotion-13 {
+.emotion-15 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -189,35 +189,35 @@ exports[`matches snapshot 1`] = `
   line-height: 1;
 }
 
-.emotion-13:hover,
-.emotion-13:focus {
+.emotion-15:hover,
+.emotion-15:focus {
   color: white;
   background-color: #184673;
   border: 2px solid #184673;
 }
 
-.emotion-13[disabled] {
+.emotion-15[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-13:focus {
+.emotion-15:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-13:hover,
-.emotion-13:active,
-.emotion-13:disabled,
-.emotion-13:focus {
+.emotion-15:hover,
+.emotion-15:active,
+.emotion-15:disabled,
+.emotion-15:focus {
   box-shadow: none;
   color: #20588f;
   background-color: transparent;
   border: none;
 }
 
-.emotion-13:focus {
+.emotion-15:focus {
   outline-width: medium;
 }
 
@@ -228,16 +228,16 @@ exports[`matches snapshot 1`] = `
 }
 
 <ul
-  class="emotion-104 emotion-105"
+  class="emotion-116 emotion-117"
 >
   <div
-    class="emotion-102 emotion-103"
+    class="emotion-114 emotion-115"
   >
     <div
       data-react-beautiful-dnd-draggable="0"
     >
       <div
-        class="o-flag o-flag--top emotion-15 emotion-16"
+        class="o-flag o-flag--top emotion-17 emotion-18"
         data-testid="resource-type-learning-path"
       >
         <div
@@ -321,11 +321,11 @@ exports[`matches snapshot 1`] = `
             data-tooltip-children="true"
           >
             <button
-              class="emotion-13 emotion-14"
+              class="emotion-14 emotion-15 emotion-16"
               type="button"
             >
               <svg
-                class="c-icon emotion-12"
+                class="c-icon emotion-12 emotion-13"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
                 fill="currentColor"
@@ -354,7 +354,7 @@ exports[`matches snapshot 1`] = `
       data-react-beautiful-dnd-draggable="0"
     >
       <div
-        class="o-flag o-flag--top emotion-15 emotion-16"
+        class="o-flag o-flag--top emotion-17 emotion-18"
         data-testid="resource-type-learning-path"
       >
         <div
@@ -444,11 +444,11 @@ exports[`matches snapshot 1`] = `
             data-tooltip-children="true"
           >
             <button
-              class="emotion-13 emotion-14"
+              class="emotion-14 emotion-15 emotion-16"
               type="button"
             >
               <svg
-                class="c-icon emotion-12"
+                class="c-icon emotion-12 emotion-13"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
                 fill="currentColor"
@@ -477,7 +477,7 @@ exports[`matches snapshot 1`] = `
       data-react-beautiful-dnd-draggable="0"
     >
       <div
-        class="o-flag o-flag--top emotion-15 emotion-16"
+        class="o-flag o-flag--top emotion-17 emotion-18"
         data-testid="resource-type-learning-path"
       >
         <div
@@ -567,11 +567,11 @@ exports[`matches snapshot 1`] = `
             data-tooltip-children="true"
           >
             <button
-              class="emotion-13 emotion-14"
+              class="emotion-14 emotion-15 emotion-16"
               type="button"
             >
               <svg
-                class="c-icon emotion-12"
+                class="c-icon emotion-12 emotion-13"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
                 fill="currentColor"
@@ -600,7 +600,7 @@ exports[`matches snapshot 1`] = `
       data-react-beautiful-dnd-draggable="0"
     >
       <div
-        class="o-flag o-flag--top emotion-15 emotion-16"
+        class="o-flag o-flag--top emotion-17 emotion-18"
         data-testid="resource-type-learning-path"
       >
         <div
@@ -690,11 +690,11 @@ exports[`matches snapshot 1`] = `
             data-tooltip-children="true"
           >
             <button
-              class="emotion-13 emotion-14"
+              class="emotion-14 emotion-15 emotion-16"
               type="button"
             >
               <svg
-                class="c-icon emotion-12"
+                class="c-icon emotion-12 emotion-13"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
                 fill="currentColor"
@@ -723,7 +723,7 @@ exports[`matches snapshot 1`] = `
       data-react-beautiful-dnd-draggable="0"
     >
       <div
-        class="o-flag o-flag--top emotion-15 emotion-16"
+        class="o-flag o-flag--top emotion-17 emotion-18"
         data-testid="resource-type-learning-path"
       >
         <div
@@ -813,11 +813,11 @@ exports[`matches snapshot 1`] = `
             data-tooltip-children="true"
           >
             <button
-              class="emotion-13 emotion-14"
+              class="emotion-14 emotion-15 emotion-16"
               type="button"
             >
               <svg
-                class="c-icon emotion-12"
+                class="c-icon emotion-12 emotion-13"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
                 fill="currentColor"
@@ -846,7 +846,7 @@ exports[`matches snapshot 1`] = `
       data-react-beautiful-dnd-draggable="0"
     >
       <div
-        class="o-flag o-flag--top emotion-15 emotion-16"
+        class="o-flag o-flag--top emotion-17 emotion-18"
         data-testid="resource-type-learning-path"
       >
         <div
@@ -936,11 +936,11 @@ exports[`matches snapshot 1`] = `
             data-tooltip-children="true"
           >
             <button
-              class="emotion-13 emotion-14"
+              class="emotion-14 emotion-15 emotion-16"
               type="button"
             >
               <svg
-                class="c-icon emotion-12"
+                class="c-icon emotion-12 emotion-13"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
                 fill="currentColor"

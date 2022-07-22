@@ -2,7 +2,6 @@ import { PureComponent } from 'react';
 import Button from '@ndla/button';
 import styled from '@emotion/styled';
 import { colors, spacing } from '@ndla/core';
-import { css } from '@emotion/core';
 import { WithTranslation, withTranslation } from 'react-i18next';
 
 const StyledMenu = styled('span')<{ top: number; left: number }>`
@@ -18,7 +17,7 @@ const StyledMenu = styled('span')<{ top: number; left: number }>`
   ${p => (p.top ? `top: ${p.top}px;` : '')};
 `;
 
-const buttonStyle = css`
+const StyledButton = styled(Button)`
   color: ${colors.brand.primary};
   text-decoration: underline;
   margin: 0 ${spacing.xsmall};
@@ -52,13 +51,13 @@ class BlockMenu extends PureComponent<Props & WithTranslation> {
     const { t, top, left, handleRemove, toggleEdit } = this.props;
     return (
       <StyledMenu top={top} left={left} ref={node => (this.modal = node)}>
-        <Button stripped css={buttonStyle} onClick={toggleEdit}>
+        <StyledButton stripped onClick={toggleEdit}>
           {t('form.edit')}
-        </Button>
+        </StyledButton>
         |
-        <Button stripped css={buttonStyle} onClick={handleRemove}>
+        <StyledButton stripped onClick={handleRemove}>
           {t('form.remove')}
-        </Button>
+        </StyledButton>
       </StyledMenu>
     );
   }

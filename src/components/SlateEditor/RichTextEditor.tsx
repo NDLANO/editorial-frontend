@@ -19,7 +19,7 @@ import { withHistory } from 'slate-history';
 import { useFormikContext } from 'formik';
 import { isEqual } from 'lodash';
 import BEMHelper from 'react-bem-helper';
-import { css } from '@emotion/core';
+import styled from '@emotion/styled';
 import { SlatePlugin } from './interfaces';
 import { SlateProvider } from './SlateContext';
 import { SlateToolbar } from './plugins/toolbar';
@@ -36,7 +36,7 @@ export const classes = new BEMHelper({
   prefix: 'c-',
 });
 
-const slateEditorDivStyle = css`
+const StyledSlateEditorDiv = styled.div`
   position: relative;
 `;
 
@@ -185,7 +185,7 @@ const RichTextEditor = ({
   return (
     <article>
       <SlateProvider isSubmitted={submitted}>
-        <div data-cy="slate-editor" css={slateEditorDivStyle} {...classes()}>
+        <StyledSlateEditorDiv data-cy="slate-editor" {...classes()}>
           <Slate editor={editor} value={value} onChange={onChange}>
             {isFirstNormalize ? (
               <Spinner />
@@ -213,7 +213,7 @@ const RichTextEditor = ({
               </>
             )}
           </Slate>
-        </div>
+        </StyledSlateEditorDiv>
       </SlateProvider>
     </article>
   );

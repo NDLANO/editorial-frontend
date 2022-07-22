@@ -747,7 +747,7 @@ exports[`it goes in and out of edit mode 1`] = `
     </div>
   </div>
   <div
-    class="emotion-53"
+    class="emotion-53 emotion-54"
     contenteditable="false"
     data-testid="relatedWrapper"
     draggable="true"
@@ -1426,7 +1426,7 @@ exports[`it goes in and out of edit mode 2`] = `
     </div>
   </div>
   <div
-    class="emotion-31"
+    class="emotion-31 emotion-32"
     contenteditable="false"
     data-testid="relatedWrapper"
     draggable="true"

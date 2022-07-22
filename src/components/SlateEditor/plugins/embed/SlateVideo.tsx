@@ -7,7 +7,6 @@
  */
 
 import { ReactNode, useEffect, useState, MouseEvent } from 'react';
-import { css } from '@emotion/core';
 import styled from '@emotion/styled';
 import { RenderElementProps } from 'slate-react';
 import Button from '@ndla/button';
@@ -28,7 +27,7 @@ import {
 } from '../../../../util/videoUtil';
 import { ExternalEmbed, BrightcoveEmbed } from '../../../../interfaces';
 
-const videoStyle = css`
+const StyledVideo = styled.iframe`
   width: 100%;
   height: 100%;
   position: absolute;
@@ -54,9 +53,21 @@ const isBrightcove = (
   return !!embed && 'videoid' in embed;
 };
 
-const StyledFigure = styled(Figure)`
+interface StyledFigureProps {
+  showOutline: boolean;
+}
+
+const StyledFigure = styled(Figure)<StyledFigureProps>`
   padding-top: 57%;
   position: relative;
+
+  box-shadow: ${props => props.showOutline && 'rgb(32, 88, 143) 0 0 0 2px'};
+`;
+
+const StyledDiv = styled.div`
+  p {
+    margin: 0;
+  }
 `;
 
 const SlateVideo = ({
@@ -153,30 +164,17 @@ const SlateVideo = ({
           <StyledFigure
             id={'videoid' in embed ? embed.videoid : embed.url}
             resizeIframe
-            css={
-              showCopyOutline && {
-                boxShadow: 'rgb(32, 88, 143) 0 0 0 2px;',
-              }
-            }>
-            <iframe
+            showOutline={showCopyOutline}>
+            <StyledVideo
               title={`Video: ${embed?.metaData?.name || ''}`}
               frameBorder="0"
               src={getUrl(showLinkedVideo)}
               allowFullScreen
-              css={videoStyle}
             />
           </StyledFigure>
-          <Button stripped style={{ width: '100%' }} onClick={toggleEditModus}>
+          <Button stripped width="full" onClick={toggleEditModus}>
             <figcaption className="c-figure__caption">
-              <div
-                className="c-figure__info"
-                css={css`
-                  p {
-                    margin: 0;
-                  }
-                `}>
-                {parseMarkdown(embed.caption || '')}
-              </div>
+              <StyledDiv className="c-figure__info">{parseMarkdown(embed.caption || '')}</StyledDiv>
             </figcaption>
           </Button>
         </div>

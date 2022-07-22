@@ -8,7 +8,7 @@
 
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import css from '@emotion/css';
+import styled from '@emotion/styled';
 import { AudioPlayer, FigureCaption } from '@ndla/ui';
 import { IImageMetaInformationV2 } from '@ndla/types-image-api';
 import { getLicenseByAbbreviation } from '@ndla/licenses';
@@ -20,6 +20,15 @@ interface Props {
   locale: LocaleType;
   speech: boolean;
 }
+
+const StyledDiv = styled.div`
+  p {
+    margin: 0 !important;
+  }
+  ul {
+    margin-top: 0;
+  }
+`;
 
 const ImageLicense = ({
   image,
@@ -71,15 +80,7 @@ const AudioPlayerMounter = ({ audio, locale, speech }: Props) => {
   }, [podcastMeta?.coverPhoto.id, locale]);
 
   return (
-    <div
-      css={css`
-        p {
-          margin: 0 !important;
-        }
-        ul {
-          margin-top: 0;
-        }
-      `}>
+    <StyledDiv>
       <AudioPlayer
         src={audio.audioFile.url}
         title={audio.title}
@@ -98,7 +99,7 @@ const AudioPlayerMounter = ({ audio, locale, speech }: Props) => {
         />
       )}
       {image && <ImageLicense image={image} locale={locale} />}
-    </div>
+    </StyledDiv>
   );
 };
 

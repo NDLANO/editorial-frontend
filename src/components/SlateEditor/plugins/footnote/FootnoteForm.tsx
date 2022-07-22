@@ -9,13 +9,12 @@
 import Button from '@ndla/button';
 import { Formik, Form, FormikHelpers } from 'formik';
 import { useTranslation } from 'react-i18next';
-import { css } from '@emotion/core';
+import styled from '@emotion/styled';
 import Field from '../../../Field';
 import MultiSelectDropdown from '../../../Dropdown/MultiSelectDropdown';
 import FormikField from '../../../FormikField';
 import validateFormik from '../../../formikValidationSchema';
 import { FootnoteElement } from '.';
-import styled from '@emotion/styled';
 
 const StyledMarginLeftButton = styled(Button)`
   margin-left: 0.2rem;

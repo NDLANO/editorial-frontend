@@ -9,7 +9,6 @@
 import { MouseEvent } from 'react';
 import { colors } from '@ndla/core';
 import { TFunction, useTranslation } from 'react-i18next';
-import { css } from '@emotion/core';
 import styled from '@emotion/styled';
 import {
   Bold,
@@ -63,9 +62,9 @@ const toolbarIcon = (t: TFunction): Record<string, JSX.Element | undefined> => (
   right: <AlignRight title={t('editorToolbar.rightAlign', options)} />,
 });
 
-const toolbarButtonStyle = (isActive: boolean) => css`
+const StyledToolbarButton = styled.button<{ isActive: boolean }>`
   display: inline-block;
-  background: ${isActive ? colors.brand.lightest : colors.white};
+  background: ${props => (props.isActive ? colors.brand.lightest : colors.white)};
   cursor: pointer;
   padding: 8px 0.5rem 8px 0.5rem;
   border-width: 0px;
@@ -73,8 +72,8 @@ const toolbarButtonStyle = (isActive: boolean) => css`
   border-bottom-width: 1px;
   border-left-width: 1px;
   border-style: solid;
-  border-color: ${isActive ? colors.brand.tertiary : colors.brand.greyLighter};
-  ${isActive && 'border-width: 1px;'};
+  border-color: ${props => (props.isActive ? colors.brand.tertiary : colors.brand.greyLighter)};
+  ${props => props.isActive && 'border-width: 1px;'};
 
   :first-of-type {
     border-left-width: 1px;
@@ -114,13 +113,13 @@ const ToolbarButton = ({ isActive, type, kind, handleOnClick }: Props) => {
   const { t } = useTranslation();
   const onMouseDown = (e: MouseEvent) => handleOnClick(e, kind, type);
   return (
-    <button
+    <StyledToolbarButton
       onMouseDown={onMouseDown}
       data-testid={`toolbar-button-${type}`}
       data-active={isActive}
-      css={toolbarButtonStyle(isActive)}>
+      isActive={isActive}>
       <ToolbarIcon>{toolbarIcon(t)[type]}</ToolbarIcon>
-    </button>
+    </StyledToolbarButton>
   );
 };
 

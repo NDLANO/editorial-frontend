@@ -31,7 +31,7 @@ import './html.contribution';
 import { createFormatAction, createSaveAction } from './editorActions';
 
 const StyledDiv = styled.div`
-  height: ${height || '75vh'};
+  height: ${props => props.showHeight || '75vh'};
   margin: ${spacing.normal};
   border: 1px solid ${colors.brand.greyLight};
 `;
@@ -74,7 +74,7 @@ export function MonacoEditor({ value, onChange, onSave, height }) {
     editor.addAction(createSaveAction(monaco, onSave));
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  return <StyledDiv ref={divRef} />;
+  return <StyledDiv showHeight={height} ref={divRef} />;
 }
 
 MonacoEditor.propTypes = {

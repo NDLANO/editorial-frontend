@@ -26,7 +26,7 @@ import {
   TAXONOMY_CUSTOM_FIELD_SUBJECT_OLD_SUBJECT_ID,
   TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES,
 } from '../../../../constants';
-import { filterWrapper } from '../styles';
+import { StyledFilterWrapper } from '../styles';
 import { updateSubjectMetadata } from '../../../../modules/taxonomy/subjects';
 import { updateTopicMetadata } from '../../../../modules/taxonomy/topics';
 import ToggleExplanationSubject from './ToggleExplanationSubject';
@@ -152,12 +152,12 @@ const MenuItemCustomField = ({
       {isOpen ? (
         <CustomFieldComponent onSubmit={setCustomFields} onClose={() => setOpen(false)} />
       ) : (
-        <div css={filterWrapper}>
+        <StyledFilterWrapper>
           <StyledButton stripped data-testid="addCustomFieldButton" onClick={() => setOpen(true)}>
             <Plus />
             {t('taxonomy.metadata.customFields.addField')}
           </StyledButton>
-        </div>
+        </StyledFilterWrapper>
       )}
     </div>
   );

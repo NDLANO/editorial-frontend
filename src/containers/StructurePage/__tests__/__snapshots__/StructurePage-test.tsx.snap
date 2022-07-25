@@ -238,19 +238,19 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   color: white;
 }
 
-.emotion-365 {
+.emotion-366 {
   padding-bottom: 3rem;
   margin-left: 26px;
 }
 
 @media (min-width:37.5625em) {
-  .emotion-365 {
+  .emotion-366 {
     padding-left: 13px;
     padding-right: 6.5px;
   }
 }
 
-.emotion-363 {
+.emotion-364 {
   position: relative;
   z-index: 1;
 }
@@ -260,7 +260,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   padding: 0;
 }
 
-.emotion-211 {
+.emotion-212 {
   -webkit-animation-duration: 200ms;
   animation-duration: 200ms;
   -webkit-animation-name: fadeInTop;
@@ -409,7 +409,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   transform: rotate(90deg);
 }
 
-.emotion-367 {
+.emotion-368 {
   border: 0.4em solid #e8e3e3;
   border-bottom-color: #20588f;
   border-radius: 50%;
@@ -498,7 +498,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   background: #f1f5f8;
 }
 
-.emotion-214 {
+.emotion-215 {
   margin: 0;
   padding: 0;
   display: -webkit-box;
@@ -510,7 +510,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   flex-direction: column;
 }
 
-.emotion-209 {
+.emotion-210 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -525,7 +525,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   background: #ceddea;
 }
 
-.emotion-209:hover {
+.emotion-210:hover {
   background: #ceddea;
 }
 
@@ -638,7 +638,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   color: #f8f8f8;
 }
 
-.emotion-205 {
+.emotion-206 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -672,46 +672,46 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   line-height: 1.1;
 }
 
-.emotion-205:hover,
-.emotion-205:focus {
+.emotion-206:hover,
+.emotion-206:focus {
   color: white;
   background-color: #184673;
   border: 2px solid #184673;
 }
 
-.emotion-205[disabled] {
+.emotion-206[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-205:focus {
+.emotion-206:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-205:hover,
-.emotion-205:focus {
+.emotion-206:hover,
+.emotion-206:focus {
   color: white;
   background-color: #20588f;
   border: 2px solid transparent;
 }
 
-.emotion-205:disabled {
+.emotion-206:disabled {
   color: #777777;
   border: 2px solid transparent;
   background-color: #e6e6e6;
   cursor: not-allowed;
 }
 
-.emotion-205:hover,
-.emotion-205:focus {
+.emotion-206:hover,
+.emotion-206:focus {
   color: white;
   background-color: #20588f;
   border: 2px solid transparent;
 }
 
-.emotion-205:disabled {
+.emotion-206:disabled {
   color: #777777;
   border: 2px solid transparent;
   background-color: #e6e6e6;
@@ -789,17 +789,17 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
       </svg>
     </button>
     <div
-      class="emotion-365 emotion-366"
+      class="emotion-366 emotion-367"
       type="taxonomy"
     >
       <div
-        class="emotion-363 emotion-364"
+        class="emotion-364 emotion-365"
       >
         <ul
           class="emotion-17 emotion-18"
         >
           <div
-            class="emotion-211"
+            class="emotion-212"
           >
             <li
               class="emotion-19 emotion-20"
@@ -1413,7 +1413,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 class="emotion-17 emotion-18"
               >
                 <div
-                  class="emotion-211"
+                  class="emotion-212"
                 >
                   <li
                     class="emotion-19 emotion-20"
@@ -1503,7 +1503,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                       class="emotion-17 emotion-18"
                     >
                       <div
-                        class="emotion-211"
+                        class="emotion-212"
                       >
                         <li
                           class="emotion-19 emotion-20"
@@ -1528,10 +1528,10 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                           />
                         </li>
                         <li
-                          class="emotion-214 emotion-20"
+                          class="emotion-215 emotion-20"
                         >
                           <div
-                            class="emotion-209 emotion-16"
+                            class="emotion-210 emotion-16"
                           >
                             <button
                               class="emotion-149 emotion-12"
@@ -1580,7 +1580,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                                 </button>
                               </div>
                               <button
-                                class="emotion-205 emotion-8"
+                                class="emotion-205 emotion-206 emotion-8"
                                 type="button"
                               >
                                 <div
@@ -1596,7 +1596,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                             class="emotion-17 emotion-18"
                           >
                             <div
-                              class="emotion-211"
+                              class="emotion-212"
                             />
                           </ul>
                         </li>
@@ -2079,7 +2079,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
     </div>
   </div>
   <div
-    class="emotion-367 emotion-368"
+    class="emotion-368 emotion-369"
   />
 </div>
 `;

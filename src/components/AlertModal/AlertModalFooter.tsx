@@ -10,7 +10,6 @@ import { MouseEvent, ReactElement } from 'react';
 import Button from '@ndla/button';
 import { uuid } from '@ndla/util';
 import styled from '@emotion/styled';
-import { css } from '@emotion/core';
 import { spacing } from '@ndla/core';
 
 const StyledAlertModalFooterButton = styled(Button)`

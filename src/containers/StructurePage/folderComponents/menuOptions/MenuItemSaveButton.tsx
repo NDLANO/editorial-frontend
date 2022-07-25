@@ -8,10 +8,10 @@
 
 import Button from '@ndla/button';
 import { colors } from '@ndla/core';
-import { css } from '@emotion/core';
+import styled from '@emotion/styled';
 import { ReactNode } from 'react';
 
-const menuItemSaveButtonStyle = css`
+const StyledMenuItemSaveButton = styled(Button)`
   &,
   &:disabled {
     height: 24px;
@@ -32,11 +32,7 @@ interface Props {
 }
 
 const MenuItemSaveButton = ({ children, ...rest }: Props) => {
-  return (
-    <Button css={menuItemSaveButtonStyle} {...rest}>
-      {children}
-    </Button>
-  );
+  return <StyledMenuItemSaveButton {...rest}>{children}</StyledMenuItemSaveButton>;
 };
 
 export default MenuItemSaveButton;

@@ -711,6 +711,12 @@ const phrases = {
       'not-set': 'Ikke valgt',
       description: 'Om bildet er modellklarert eller ikke:',
     },
+    visualElementPicker: {
+      h5p: 'H5P',
+      url: 'Ny ressurs',
+      video: 'Video',
+      image: 'Bilde',
+    },
     markdown: {
       button: 'Klikk for å se markdown',
       helpLabel: 'Hva er markdown?',

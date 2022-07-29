@@ -710,6 +710,12 @@ const phrases = {
       imageUpload: 'Last opp bilde',
       h5p: 'H5P',
     },
+    visualElementPicker: {
+      h5p: 'H5P',
+      url: 'Ny ressurs',
+      video: 'Video',
+      image: 'Bilete',
+    },
     concept: {
       create: 'Opprett ny forklaring',
       addText: 'Velg ei forklaring under og trykk "koble til fagtekst", eller',

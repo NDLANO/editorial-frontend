@@ -58,7 +58,7 @@ export interface TopicResourceType {
 }
 
 export interface ResourceWithParentTopics extends Resource {
-  parentTopics: ParentTopic[];
+  parents: ParentTopic[];
 }
 
 export interface TaxNameTranslation {

@@ -353,12 +353,12 @@ class LearningResourceTaxonomy extends Component<Props, State> {
 
   fetchFullResource = async (resourceId: string, locale: LocaleType): Promise<FullResource> => {
     const { taxonomyVersion } = this.props;
-    const { resourceTypes, metadata, parentTopics, name } = await fetchFullResource({
+    const { resourceTypes, metadata, parents, name } = await fetchFullResource({
       id: resourceId,
       language: locale,
       taxonomyVersion,
     });
-    const sortedParents = parentTopics.filter(pt => pt.path).sort((a, b) => (a.id < b.id ? -1 : 1));
+    const sortedParents = parents.filter(pt => pt.path).sort((a, b) => (a.id < b.id ? -1 : 1));
 
     const topicConnections = await Promise.all(
       sortedParents.map(topic => fetchTopicConnections({ id: topic.id, taxonomyVersion })),

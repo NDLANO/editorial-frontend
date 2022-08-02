@@ -31,6 +31,7 @@ const StyledTitleDiv = styled.div`
 interface Props {
   onImageSelect: (image: IImageMetaInformationV2) => void;
   locale: string;
+  language?: string;
   closeModal: () => void;
   onError: (err: Error & Response) => void;
   searchImages: (queryObject: ImageSearchQuery) => Promise<ISearchResult>;
@@ -52,6 +53,7 @@ const ImageSearchAndUploader = ({
   onImageSelect,
   closeModal,
   locale,
+  language,
   fetchImage,
   searchImages,
   onError,
@@ -63,7 +65,7 @@ const ImageSearchAndUploader = ({
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
   const { data: licenses } = useLicenses({ placeholderData: [] });
   const searchImagesWithParameters = (query?: string, page?: number) => {
-    return searchImages({ query, page, 'page-size': 16 });
+    return searchImages({ query, page, 'page-size': 16, language });
   };
   const imageLicenses = draftLicensesToImageLicenses(licenses ?? []);
 

@@ -93,6 +93,7 @@ const VisualElementSearch = ({
         <ImageSearchAndUploader
           inModal={true}
           locale={locale}
+          language={articleLanguage}
           closeModal={closeModal}
           fetchImage={id => fetchImage(id, articleLanguage)}
           searchImages={searchImages}

@@ -31,6 +31,7 @@ const StyledTitleDiv = styled.div`
 interface Props {
   onImageSelect: (image: IImageMetaInformationV2) => void;
   locale: string;
+  language?: string;
   closeModal: () => void;
   onError: (err: Error & Response) => void;
   searchImages: (queryObject: ImageSearchQuery) => Promise<ISearchResult>;
@@ -52,6 +53,7 @@ const ImageSearchAndUploader = ({
   onImageSelect,
   closeModal,
   locale,
+  language,
   fetchImage,
   searchImages,
   onError,

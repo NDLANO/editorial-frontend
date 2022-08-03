@@ -141,6 +141,7 @@ const TopicConnections = ({
         type="topicarticle"
       />
       <Modal
+        label={t('taxonomy.topics.filestructureHeading')}
         backgroundColor="white"
         animation="subtle"
         size="large"

@@ -57,6 +57,7 @@ const EditMathModal = ({
   }, [uuid, renderMathML]);
   return (
     <Modal
+      label={t('mathEditor.editMath')}
       narrow
       controllable
       isOpen

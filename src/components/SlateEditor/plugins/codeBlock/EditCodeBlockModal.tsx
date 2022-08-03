@@ -32,6 +32,7 @@ const EditCodeBlockModal = ({
   const { t } = useTranslation();
   return (
     <Modal
+      label={t('codeEditor.subtitle')}
       narrow
       controllable
       isOpen

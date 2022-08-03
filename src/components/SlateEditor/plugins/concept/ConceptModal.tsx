@@ -123,6 +123,7 @@ const ConceptModal = ({
   return (
     <Portal isOpened>
       <Modal
+        label={t('conceptform.title')}
         controllable
         isOpen={isOpen}
         onClose={onClose}

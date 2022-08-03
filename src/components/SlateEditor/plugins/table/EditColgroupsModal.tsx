@@ -68,6 +68,7 @@ const EditColgroupsModal = ({ element }: Props) => {
   return (
     <Portal isOpened>
       <Modal
+        label={t('form.content.table.colgroupTitle')}
         controllable
         isOpen={showEditColgroups}
         onClose={onClose}

@@ -297,6 +297,7 @@ const VisualElementUrlPreview = ({
         }
         subTitle={getSubTitle()}>
         <Modal
+          label={t('form.content.link.validDomains')}
           backgroundColor="white"
           activateButton={
             <div>

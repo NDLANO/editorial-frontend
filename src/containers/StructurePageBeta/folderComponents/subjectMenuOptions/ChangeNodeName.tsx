@@ -183,7 +183,13 @@ const ChangeNodeNameModal = ({ onClose, node }: ModalProps) => {
   }
 
   return (
-    <Modal narrow controllable isOpen backgroundColor="white" onClose={() => onClose()}>
+    <Modal
+      label={t('taxonomy.changeName.title')}
+      narrow
+      controllable
+      isOpen
+      backgroundColor="white"
+      onClose={() => onClose()}>
       {(onCloseModal: () => void) => (
         <>
           <ModalHeader>

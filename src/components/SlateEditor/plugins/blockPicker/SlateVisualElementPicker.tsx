@@ -52,6 +52,7 @@ interface Props {
   resource: string;
   onVisualElementClose: () => void;
   onInsertBlock: (block: Element, selectBlock?: boolean) => void;
+  label?: string;
 }
 
 const SlateVisualElementPicker = ({
@@ -59,6 +60,7 @@ const SlateVisualElementPicker = ({
   resource,
   onVisualElementClose,
   onInsertBlock,
+  label,
 }: Props) => {
   const formikContext = useFormikContext<{ metaImageAlt?: string; metaImageId?: string }>();
   const { values } = formikContext;
@@ -77,7 +79,11 @@ const SlateVisualElementPicker = ({
     onVisualElementClose();
   };
   return (
-    <VisualElementModalWrapper resource={resource} isOpen onClose={onVisualElementClose}>
+    <VisualElementModalWrapper
+      label={label}
+      resource={resource}
+      isOpen
+      onClose={onVisualElementClose}>
       {setH5pFetchFail => (
         <VisualElementSearch
           articleLanguage={articleLanguage}

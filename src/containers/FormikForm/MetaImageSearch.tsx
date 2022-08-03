@@ -111,12 +111,15 @@ const MetaImageSearch = ({
     }
   };
 
+  const buttonId = 'popupMetaImageModal';
+
   return (
     <div>
       <FieldHeader title={t('form.metaImage.title')}>
         <HowToHelper pageId="MetaImage" tooltip={t('form.metaImage.helpLabel')} />
       </FieldHeader>
       <Modal
+        labelledBy={buttonId}
         controllable
         isOpen={showImageSelect}
         onClose={onImageSelectClose}
@@ -157,7 +160,9 @@ const MetaImageSearch = ({
           onImageLoad={onImageLoad}
         />
       ) : (
-        <Button onClick={onImageSelectOpen}>{t('form.metaImage.add')}</Button>
+        <Button id={buttonId} onClick={onImageSelectOpen}>
+          {t('form.metaImage.add')}
+        </Button>
       )}
     </div>
   );

@@ -709,6 +709,12 @@ const phrases = {
       imageUpload: 'Upload image',
       h5p: 'H5P',
     },
+    visualElementPicker: {
+      h5p: 'H5P',
+      url: 'New resource',
+      video: 'Video',
+      image: 'Image',
+    },
     concept: {
       create: 'Create concept',
       addText: 'Choose a concept and press "connect to topic", or',

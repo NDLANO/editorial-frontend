@@ -26,6 +26,7 @@ const AddFileToList = ({ showFileUploader, onClose, onFileSave }: Props) => {
   return (
     <Portal isOpened>
       <Modal
+        label={t('form.file.addFile')}
         controllable
         isOpen={showFileUploader}
         size="medium"

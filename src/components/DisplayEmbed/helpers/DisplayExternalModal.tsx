@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import VisualElementSearch from '../../../containers/VisualElement/VisualElementSearch';
 import VisualElementModalWrapper from '../../../containers/VisualElement/VisualElementModalWrapper';
 import { Embed, ExternalEmbed, H5pEmbed } from '../../../interfaces';
@@ -24,11 +25,13 @@ const DisplayExternalModal = ({
   embed,
   src,
 }: Props) => {
+  const { t } = useTranslation();
   if (!isEditMode) {
     return null;
   }
   return (
     <VisualElementModalWrapper
+      label={t('form.external.edit', { type: 'iframe' })}
       resource={allowedProvider.name.toLowerCase()}
       isOpen={isEditMode}
       onClose={onClose}>

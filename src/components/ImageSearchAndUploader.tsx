@@ -25,6 +25,7 @@ interface Props {
   onImageSelect: (image: IImageMetaInformationV2) => void;
   inModal?: boolean;
   locale: string;
+  language?: string;
   closeModal: () => void;
   onError: (err: any) => void;
   searchImages: (query: ImageSearchQuery) => Promise<ISearchResult>;
@@ -36,6 +37,7 @@ interface Props {
 const ImageSearchAndUploader = ({
   onImageSelect,
   locale,
+  language,
   inModal,
   closeModal,
   onError,

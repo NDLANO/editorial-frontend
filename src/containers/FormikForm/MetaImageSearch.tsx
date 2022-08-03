@@ -35,6 +35,7 @@ interface Props {
   showRemoveButton: boolean;
   showCheckbox: boolean;
   checkboxAction: (image: IImageMetaInformationV2) => void;
+  language?: string;
 }
 
 const MetaImageSearch = ({
@@ -46,6 +47,7 @@ const MetaImageSearch = ({
   onImageLoad,
   showCheckbox,
   checkboxAction,
+  language,
 }: Props) => {
   const { t, i18n } = useTranslation();
   const { setFieldValue } = useFormikContext();
@@ -134,6 +136,7 @@ const MetaImageSearch = ({
                 inModal={true}
                 onImageSelect={onImageSet}
                 locale={locale}
+                language={language}
                 closeModal={onImageSelectClose}
                 fetchImage={id => fetchImage(id, locale)}
                 searchImages={searchImages}

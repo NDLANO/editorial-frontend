@@ -439,6 +439,7 @@ const VisualElementUrlPreview = ({
               <ImageSearchAndUploader
                 inModal={true}
                 locale={language}
+                language={language}
                 closeModal={() => {}}
                 fetchImage={id => fetchImage(id, articleLanguage)}
                 searchImages={searchImages}

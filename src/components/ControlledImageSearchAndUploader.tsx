@@ -65,7 +65,7 @@ const ImageSearchAndUploader = ({
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
   const { data: licenses } = useLicenses({ placeholderData: [] });
   const searchImagesWithParameters = (query?: string, page?: number) => {
-    return searchImages({ query, page, 'page-size': 16, language });
+    return searchImages({ query, page, 'page-size': 16 });
   };
   const imageLicenses = draftLicensesToImageLicenses(licenses ?? []);
 

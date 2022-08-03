@@ -21,16 +21,12 @@ import { Link } from 'react-router-dom';
 import IconButton from '../../../IconButton';
 import { Embed } from '../../../../interfaces';
 
-const centerAdjustedStyle = css`
-  right: -${spacing.xsmall};
-`;
-
 const rightAdjustedStyle = css`
-  right: -${spacingUnit * 1.25}px;
+  right: -${spacingUnit * 1.2}px;
 `;
 
 const leftAdjustedStyle = css`
-  left: -${spacingUnit * 1.25}px;
+  left: -${spacingUnit * 1.2}px;
 `;
 
 interface StyledFigureButtonsProps {
@@ -43,9 +39,9 @@ const StyledFigureButtons = styled('div')`
   top: 0;
 
   ${(p: StyledFigureButtonsProps) =>
-    p.align !== 'left' && p.align !== 'right' && centerAdjustedStyle}
+    p.align !== 'left' && p.align !== 'right' && rightAdjustedStyle}
+    ${p => p.align === 'right' && rightAdjustedStyle}
   ${p => p.align === 'left' && leftAdjustedStyle}
-  ${p => p.align === 'right' && rightAdjustedStyle}
   > * {
     margin-bottom: ${spacing.xsmall};
   }

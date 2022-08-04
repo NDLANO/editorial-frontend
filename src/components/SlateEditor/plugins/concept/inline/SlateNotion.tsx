@@ -40,7 +40,7 @@ const NotionArrow = styled.div`
   transition: transform 0.1s ease;
 `;
 
-const StyledNotionSpan = styled.span`
+const StyledSpan = styled.span`
   display: inline;
   font-family: inherit;
   font-style: inherit;
@@ -83,7 +83,7 @@ const SlateNotion = ({ children, attributes, id, concept, handleRemove }: Props)
 
   return (
     <span data-notion id={id}>
-      <StyledNotionSpan data-notion-link {...attributes}>
+      <StyledSpan data-notion-link {...attributes}>
         <NotionArrow contentEditable={false} />
         <Portal isOpened>
           <NotionDialog
@@ -115,7 +115,7 @@ const SlateNotion = ({ children, attributes, id, concept, handleRemove }: Props)
           </NotionDialog>
         </Portal>
         {children}
-      </StyledNotionSpan>
+      </StyledSpan>
     </span>
   );
 };

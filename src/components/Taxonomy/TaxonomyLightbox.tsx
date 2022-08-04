@@ -14,40 +14,6 @@ import { spacing, colors } from '@ndla/core';
 import Overlay from '../Overlay';
 import Spinner from '../Spinner';
 
-interface Props {
-  children: JSX.Element;
-  onClose: () => void;
-  loading?: boolean;
-  title: string;
-  onSelect?: () => void;
-  wide?: boolean;
-}
-
-const TaxonomyLightbox = ({ children, title, onSelect, loading, onClose, wide = false }: Props) => {
-  const { t } = useTranslation();
-  return (
-    <StyledLightboxWrapper>
-      <Overlay onExit={onClose} />
-      <StyledContentWrapper wide={wide}>
-        <StyledHeader>
-          {title}
-          <StyledCloseButton stripped onClick={onClose}>
-            <StyledCross />
-          </StyledCloseButton>
-        </StyledHeader>
-        <StyledContent>
-          {children}
-          {onSelect && (
-            <StyledSelectButton data-testid="taxonomyLightboxButton" stripped onClick={onSelect}>
-              {loading ? <Spinner appearance="small" /> : t('form.save')}
-            </StyledSelectButton>
-          )}
-        </StyledContent>
-      </StyledContentWrapper>
-    </StyledLightboxWrapper>
-  );
-};
-
 const StyledCloseButton = styled(Button)`
   height: 50px;
   width: 50px;
@@ -112,5 +78,38 @@ const StyledContent = styled.div`
   justify-content: space-between;
   align-items: flex-end;
 `;
+interface Props {
+  children: JSX.Element;
+  onClose: () => void;
+  loading?: boolean;
+  title: string;
+  onSelect?: () => void;
+  wide?: boolean;
+}
+
+const TaxonomyLightbox = ({ children, title, onSelect, loading, onClose, wide = false }: Props) => {
+  const { t } = useTranslation();
+  return (
+    <StyledLightboxWrapper>
+      <Overlay onExit={onClose} />
+      <StyledContentWrapper wide={wide}>
+        <StyledHeader>
+          {title}
+          <StyledCloseButton stripped onClick={onClose}>
+            <StyledCross />
+          </StyledCloseButton>
+        </StyledHeader>
+        <StyledContent>
+          {children}
+          {onSelect && (
+            <StyledSelectButton data-testid="taxonomyLightboxButton" stripped onClick={onSelect}>
+              {loading ? <Spinner appearance="small" /> : t('form.save')}
+            </StyledSelectButton>
+          )}
+        </StyledContent>
+      </StyledContentWrapper>
+    </StyledLightboxWrapper>
+  );
+};
 
 export default TaxonomyLightbox;

@@ -30,7 +30,7 @@ const StyledFolderWrapper = styled.div`
   width: 100%;
 `;
 
-const StyledResourceButton = styled(Button)`
+const StyledButton = styled(Button)`
   margin: 3px ${spacing.xsmall} 3px auto;
   ${fonts.sizes(14, 1.1)};
 `;
@@ -105,16 +105,12 @@ const FolderItem = ({
         />
       )}
       {showJumpToResources && (
-        <StyledResourceButton
-          outline
-          type="button"
-          disabled={resourcesLoading}
-          onClick={jumpToResources}>
+        <StyledButton outline type="button" disabled={resourcesLoading} onClick={jumpToResources}>
           <Row>
             {t('taxonomy.jumpToResources')}
             {resourcesLoading && <Spinner appearance="small" />}
           </Row>
-        </StyledResourceButton>
+        </StyledButton>
       )}
       <AlertModal
         show={showAlertModal}

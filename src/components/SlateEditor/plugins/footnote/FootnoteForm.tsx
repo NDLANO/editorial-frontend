@@ -16,7 +16,7 @@ import FormikField from '../../../FormikField';
 import validateFormik from '../../../formikValidationSchema';
 import { FootnoteElement } from '.';
 
-const StyledMarginLeftButton = styled(Button)`
+const StyledButton = styled(Button)`
   margin-left: 0.2rem;
 `;
 
@@ -93,12 +93,12 @@ const FootnoteForm = ({ isEdit, footnote, onRemove, onClose, onSave }: Props) =>
             {isEdit && (
               <Button onClick={onRemove}>{t('form.content.footnote.removeFootnote')}</Button>
             )}
-            <StyledMarginLeftButton outline onClick={onClose}>
+            <StyledButton outline onClick={onClose}>
               {t('form.abort')}
-            </StyledMarginLeftButton>
-            <StyledMarginLeftButton data-cy="save_footnote" type="button" onClick={submitForm}>
+            </StyledButton>
+            <StyledButton data-cy="save_footnote" type="button" onClick={submitForm}>
               {t('form.save')}
-            </StyledMarginLeftButton>
+            </StyledButton>
           </Field>
         </Form>
       )}

@@ -38,7 +38,7 @@ const StyledWarnIcon = styled(AlertCircle)`
   fill: ${colors.brand.grey};
 `;
 
-const StyledFigureButtons = styled.span<{ isBlockView?: boolean }>`
+const FigureButtonsContainer = styled.span<{ isBlockView?: boolean }>`
   position: absolute;
   top: 0;
   z-index: 1;
@@ -140,7 +140,7 @@ const BlockConceptPreview = ({ concept, handleRemove, id, isBlockView }: Props) 
         disableScripts={true}
       />
 
-      <StyledFigureButtons isBlockView={isBlockView}>
+      <FigureButtonsContainer isBlockView={isBlockView}>
         <Tooltip tooltip={t('form.concept.removeConcept')}>
           <IconButton color="red" type="button" onClick={handleRemove} tabIndex={-1}>
             <DeleteForever />
@@ -169,7 +169,7 @@ const BlockConceptPreview = ({ concept, handleRemove, id, isBlockView }: Props) 
             <StyledWarnIcon />
           </Tooltip>
         )}
-      </StyledFigureButtons>
+      </FigureButtonsContainer>
     </>
   );
 };

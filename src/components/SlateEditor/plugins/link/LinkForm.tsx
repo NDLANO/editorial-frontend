@@ -27,7 +27,7 @@ import {
 import { isUrl } from '../../../validators';
 import { Model } from './Link';
 
-const StyledMarginLeftButton = styled(Button)`
+const StyledButton = styled(Button)`
   margin-left: 0.2rem;
 `;
 
@@ -120,12 +120,12 @@ const LinkForm = ({ onSave, link, isEdit, onRemove, onClose }: Props) => {
           <Checkbox name="checkbox" label={t('form.content.link.newTab')} />
           <Field right>
             {isEdit ? <Button onClick={onRemove}>{t('form.content.link.remove')}</Button> : ''}
-            <StyledMarginLeftButton outline onClick={onClose}>
+            <StyledButton outline onClick={onClose}>
               {t('form.abort')}
-            </StyledMarginLeftButton>
-            <StyledMarginLeftButton onClick={submitForm}>
+            </StyledButton>
+            <StyledButton onClick={submitForm}>
               {isEdit ? t('form.content.link.update') : t('form.content.link.insert')}
-            </StyledMarginLeftButton>
+            </StyledButton>
           </Field>
         </Form>
       )}

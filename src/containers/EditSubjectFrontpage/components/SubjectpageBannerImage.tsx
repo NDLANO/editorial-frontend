@@ -15,7 +15,7 @@ import MetaInformation from '../../../components/MetaInformation';
 import config from '../../../config';
 import { ImageEmbed } from '../../../interfaces';
 
-const StyledBannerImageButton = styled(Button)`
+const StyledButton = styled(Button)`
   display: block;
   margin: 1%;
   min-width: 7.5rem;
@@ -29,9 +29,7 @@ interface Props {
 const SubjectpageBannerImage = ({ image, onImageSelectOpen }: Props) => {
   const { t } = useTranslation();
   const imageAction = (
-    <StyledBannerImageButton onClick={onImageSelectOpen}>
-      {t('subjectpageForm.changeBanner')}
-    </StyledBannerImageButton>
+    <StyledButton onClick={onImageSelectOpen}>{t('subjectpageForm.changeBanner')}</StyledButton>
   );
   const metaInformationTranslations = {
     title: t('form.metaImage.imageTitle'),

@@ -13,7 +13,7 @@ import { RemoveCircle } from '@ndla/icons/action';
 import { spacing } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
 
-const StyledDeleteButton = styled(Button)`
+const StyledRemoveButton = styled(Button)`
   margin-left: ${spacing.small};
   line-height: 1;
 `;
@@ -32,9 +32,9 @@ const RemoveButton = ({ onClick }: Props) => {
   const { t } = useTranslation();
   return (
     <Tooltip tooltip={t('taxonomy.removeResource')}>
-      <StyledDeleteButton onClick={onClick} stripped>
+      <StyledRemoveButton onClick={onClick} stripped>
         <StyledRemoveCircle />
-      </StyledDeleteButton>
+      </StyledRemoveButton>
     </Tooltip>
   );
 };

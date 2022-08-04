@@ -15,7 +15,7 @@ import DeleteButton from '../../../DeleteButton';
 import MoveContentButton from '../../../MoveContentButton';
 import { EditorShape, AttributesShape } from '../../../../shapes';
 
-const StyledFactBoxButton = styled(Button)`
+const StyledButton = styled(Button)`
   position: absolute;
   left: 0;
   right: 0;
@@ -92,7 +92,7 @@ class SlateFactAside extends Component {
           />
           {children}
         </StyledDiv>
-        <StyledFactBoxButton
+        <StyledButton
           contentEditable={false}
           onMouseDown={this.toggleExpanded}
           className="c-factbox__button"

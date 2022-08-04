@@ -36,7 +36,7 @@ export const classes = new BEMHelper({
   prefix: 'c-',
 });
 
-const StyledSlateEditorDiv = styled.div`
+const StyledSlateWrapper = styled.div`
   position: relative;
 `;
 
@@ -185,7 +185,7 @@ const RichTextEditor = ({
   return (
     <article>
       <SlateProvider isSubmitted={submitted}>
-        <StyledSlateEditorDiv data-cy="slate-editor" {...classes()}>
+        <StyledSlateWrapper data-cy="slate-editor" {...classes()}>
           <Slate editor={editor} value={value} onChange={onChange}>
             {isFirstNormalize ? (
               <Spinner />
@@ -213,7 +213,7 @@ const RichTextEditor = ({
               </>
             )}
           </Slate>
-        </StyledSlateEditorDiv>
+        </StyledSlateWrapper>
       </SlateProvider>
     </article>
   );

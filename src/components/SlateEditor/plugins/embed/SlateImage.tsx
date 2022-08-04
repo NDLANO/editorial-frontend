@@ -43,11 +43,11 @@ const StyledButton = styled(Button)`
   }
 `;
 
-const StyledDiv = styled.div<{ embed: ImageEmbed }>`
+const StyledSlateImage = styled.div<{ embed: ImageEmbed }>`
   ${props => (!props.embed.alt ? 'border: 2px solid rgba(209,55,46,0.3);' : '')}
 `;
 
-const StyledMarginDiv = styled.div`
+const StyledDiv = styled.div`
   p {
     margin: 0;
   }
@@ -106,7 +106,7 @@ const SlateImage = ({
   };
 
   return (
-    <StyledDiv
+    <StyledSlateImage
       {...attributes}
       draggable={!visualElement && !editMode}
       className={constructFigureClassName()}
@@ -149,15 +149,15 @@ const SlateImage = ({
               showOutline={showCopyOutline}
             />
             <figcaption className="c-figure__caption" contentEditable={false}>
-              <StyledMarginDiv className="c-figure__info">
+              <StyledDiv className="c-figure__info">
                 {embed.caption && parseMarkdown(embed.caption)}
-              </StyledMarginDiv>
+              </StyledDiv>
             </figcaption>
           </figure>
         </StyledButton>
       )}
       {children}
-    </StyledDiv>
+    </StyledSlateImage>
   );
 };
 

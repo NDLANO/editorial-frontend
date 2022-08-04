@@ -21,7 +21,7 @@ import { classes } from '../../RichTextEditor';
 import EditLink from './EditLink';
 import { ContentLinkElement, LinkElement } from '.';
 
-const StyledLinkMenuButton = styled(Button)`
+const StyledButton = styled(Button)`
   color: ${colors.brand.primary};
   text-decoration: underline;
 `;
@@ -136,9 +136,9 @@ const Link = (props: Props) => {
         <>
           <Portal isOpened={isInline}>
             <StyledLinkMenu top={top} left={left}>
-              <StyledLinkMenuButton stripped onClick={toggleEditMode}>
+              <StyledButton stripped onClick={toggleEditMode}>
                 {t('form.content.link.change')}
-              </StyledLinkMenuButton>{' '}
+              </StyledButton>{' '}
               | {t('form.content.link.goTo')}{' '}
               <a href={model?.href} target="_blank" rel="noopener noreferrer">
                 {' '}

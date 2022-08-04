@@ -13,6 +13,10 @@ import { FieldHeader, FieldRemoveButton, FieldSection } from '@ndla/forms';
 import DateTimeInput from '../../../components/DateTime/DateTimeInput';
 import Field from '../../../components/Field';
 
+const StyledFieldRemoveButton = styled(FieldRemoveButton)`
+  padding-top: 0;
+`;
+
 const DatePicker = ({ name, onReset, label, ...rest }) => {
   const { t, i18n } = useTranslation();
   const locale = i18n.language;
@@ -44,9 +48,5 @@ DatePicker.propTypes = {
 DatePicker.defaultProps = {
   disabled: false,
 };
-
-const StyledFieldRemoveButton = styled(FieldRemoveButton)`
-  padding-top: 0;
-`;
 
 export default DatePicker;

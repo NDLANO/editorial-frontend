@@ -12,7 +12,7 @@ import { uuid } from '@ndla/util';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 
-const StyledAlertModalFooterButton = styled(Button)`
+const StyledButton = styled(Button)`
   background-color: white;
   margin-left: 0;
 `;
@@ -41,9 +41,9 @@ const AlertModalFooter = ({ component, actions = [] }: Props) =>
       {actions.map(action => {
         const { text, ...rest } = action;
         return (
-          <StyledAlertModalFooterButton key={uuid()} outline {...rest}>
+          <StyledButton key={uuid()} outline {...rest}>
             {text}
-          </StyledAlertModalFooterButton>
+          </StyledButton>
         );
       })}
     </StyledFooter>

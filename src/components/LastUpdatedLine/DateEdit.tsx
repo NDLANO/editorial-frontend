@@ -16,7 +16,7 @@ const StyledButton = styled(Button)`
   align-items: center;
 `;
 
-const StyledPencilIcon = styled(Pencil)`
+const StyledPencil = styled(Pencil)`
   margin-left: 0.2em;
 `;
 
@@ -29,7 +29,7 @@ interface Props {
 const DateEdit = ({ published, onChange, name, ...rest }: Props) => (
   <DateTimeWrapper {...rest} name={name} onChange={onChange} publishTime={published}>
     <StyledButton link>
-      {formatDate(published)} <StyledPencilIcon />
+      {formatDate(published)} <StyledPencil />
     </StyledButton>
   </DateTimeWrapper>
 );

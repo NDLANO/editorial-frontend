@@ -21,7 +21,7 @@ import { fetchImage } from '../../modules/image/imageApi';
 import { parseEmbedTag } from '../../util/embedTagHelpers';
 import { createGuard } from '../../util/guards';
 import { getYoutubeEmbedUrl } from '../../util/videoUtil';
-import Lightbox, { StyledCloseLightboxButton, StyledCross } from '../Lightbox';
+import Lightbox, { StyledButton, StyledCross } from '../Lightbox';
 import { Portal } from '../Portal';
 import PreviewLightboxContent from '../PreviewDraft/PreviewLightboxContent';
 import StyledFilledButton from '../StyledFilledButton';
@@ -41,7 +41,7 @@ const lightboxContentStyle = () => css`
   max-width: 1024px;
 `;
 
-const StyledCloseButton = styled(StyledCloseLightboxButton)`
+const StyledCloseButton = styled(StyledButton)`
   margin-right: 0;
   margin-top: -15px;
 `;

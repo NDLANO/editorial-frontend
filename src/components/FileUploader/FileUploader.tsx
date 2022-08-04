@@ -18,7 +18,7 @@ import handleError from '../../util/handleError';
 import { UnsavedFile } from '../../interfaces';
 import { useSession } from '../../containers/Session/SessionProvider';
 
-const StyledWrapper = styled.div`
+const FileUploaderWrapper = styled.div`
   padding: 0 ${spacing.large};
 `;
 
@@ -69,7 +69,7 @@ const FileUploader = ({ onFileSave }: Props) => {
   }
 
   return (
-    <StyledWrapper>
+    <FileUploaderWrapper>
       <UploadDropZone
         name="file"
         allowedFiles={allowedFiles}
@@ -79,7 +79,7 @@ const FileUploader = ({ onFileSave }: Props) => {
         ariaLabel={t('form.file.dragdrop.ariaLabel')}>
         <strong>{t('form.file.dragdrop.main')}</strong> {t('form.file.dragdrop.sub')}
       </UploadDropZone>
-    </StyledWrapper>
+    </FileUploaderWrapper>
   );
 };
 

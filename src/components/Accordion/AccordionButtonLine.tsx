@@ -37,7 +37,7 @@ const appearances: Record<AccordionType, SerializedStyles> = {
   `,
 };
 
-const StyledButtonLine = styled(Button)<{ styledAppearance: AccordionType }>`
+const StyledButton = styled(Button)<{ styledAppearance: AccordionType }>`
   display: flex;
   position: relative;
   justify-content: space-between;
@@ -57,13 +57,13 @@ interface Props {
 
 const AccordionButtonLine = ({ appearance, handleToggle, addButton, children }: Props) => {
   if (addButton) {
-    return <StyledButtonLine styledAppearance={appearance}>{children}</StyledButtonLine>;
+    return <StyledButton styledAppearance={appearance}>{children}</StyledButton>;
   }
 
   return (
-    <StyledButtonLine styledAppearance={appearance} stripped onClick={handleToggle}>
+    <StyledButton styledAppearance={appearance} stripped onClick={handleToggle}>
       {children}
-    </StyledButtonLine>
+    </StyledButton>
   );
 };
 

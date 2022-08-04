@@ -24,7 +24,7 @@ import {
 import { ArticleConverterApiType } from '../../modules/article/articleApiInterfaces';
 import { fetchDraft } from '../../modules/draft/draftApi';
 import { createGuard } from '../../util/guards';
-import Lightbox, { StyledCloseLightboxButton, StyledCross } from '../Lightbox';
+import Lightbox, { StyledButton, StyledCross } from '../Lightbox';
 import { Portal } from '../Portal';
 import Spinner from '../Spinner';
 import PreviewDraft from './PreviewDraft';
@@ -61,7 +61,7 @@ const lightboxContentStyle = (typeOfPreview: TypeOfPreview) =>
         max-width: 1024px;
       `;
 
-const StyledCloseButton = styled(StyledCloseLightboxButton)<{ previewType: TypeOfPreview }>`
+const StyledCloseButton = styled(StyledButton)<{ previewType: TypeOfPreview }>`
   ${props => props.previewType !== 'preview' && twoArticlesCloseButtonStyle};
   margin-right: 0;
   margin-top: -15px;

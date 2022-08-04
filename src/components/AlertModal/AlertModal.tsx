@@ -23,17 +23,17 @@ const StyledAlertModal = styled.div<{ severity: string }>`
   justify-content: space-between;
 `;
 
-const StyledAlertModalBody = styled.div`
+const StyledBody = styled.div`
   display: flex;
 `;
 
-const StyledAlertModalBodyText = styled.span`
+const StyledText = styled.span`
   width: 100%;
   display: inline-block;
   text-align: left;
 `;
 
-const StyledAlertModalBodyIcon = styled(Warning)`
+const StyledIcon = styled(Warning)`
   width: 27px;
   height: 27px;
   margin-right: ${spacing.small};
@@ -56,10 +56,10 @@ const AlertModal = ({ text, onCancel, actions, component, show, severity = 'dang
   show ? (
     <Lightbox display={show} onClose={onCancel} appearance="modal" severity={severity}>
       <StyledAlertModal severity={severity}>
-        <StyledAlertModalBody>
-          <StyledAlertModalBodyIcon />
-          <StyledAlertModalBodyText>{text}</StyledAlertModalBodyText>
-        </StyledAlertModalBody>
+        <StyledBody>
+          <StyledIcon />
+          <StyledText>{text}</StyledText>
+        </StyledBody>
         <AlertModalFooter actions={actions} component={component} />
       </StyledAlertModal>
     </Lightbox>

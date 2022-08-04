@@ -71,7 +71,7 @@ const SearchContent = ({ content, locale }: Props) => {
   const { userPermissions } = useSession();
   const { contexts, metaImage } = content;
   const { url, alt } = metaImage || {};
-  const imageUrl = url ? `${url}?width=200` : '/placeholder.png';
+  const imageUrl = url ? `${url}?width=200&language=${locale}` : '/placeholder.png';
   let resourceType: ContentType | undefined;
   if ((contexts[0]?.resourceTypes?.length ?? 0) > 0) {
     resourceType = getContentTypeFromResourceTypes(contexts[0].resourceTypes);

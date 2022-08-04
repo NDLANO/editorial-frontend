@@ -104,7 +104,7 @@ class DeleteTopic extends PureComponent<Props, State> {
     let articleId = Number(article.contentUri.split(':')[2]);
     const topics = await queryTopics({ contentId: articleId, language: locale, taxonomyVersion });
     // Only topics with paths are relevant here.
-    if (topics.filter(t => t.path).length === 1) {
+    if (topics.filter(t => t.path).length === 0) {
       await updateStatusDraft(articleId, ARCHIVED);
     }
   }

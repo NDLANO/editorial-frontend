@@ -272,6 +272,7 @@ const PodcastForm = ({
                     field => field in errors,
                   )}>
                   <PodcastMetaData
+                    language={language}
                     onImageLoad={el => {
                       size.current = [
                         el.currentTarget.naturalWidth,

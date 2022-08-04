@@ -250,6 +250,7 @@ const ConceptForm = ({
                   fetchTags={fetchConceptTags}
                   subjects={subjects}
                   inModal={inModal}
+                  language={language}
                 />
               </AccordionSection>
               <AccordionSection

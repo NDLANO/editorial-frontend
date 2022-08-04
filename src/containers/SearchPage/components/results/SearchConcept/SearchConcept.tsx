@@ -73,7 +73,7 @@ const SearchConcept = ({ concept, locale, subjects, editingState }: Props) => {
     <StyledSearchResult>
       <StyledSearchImageContainer>
         {metaImageSrc ? (
-          <img src={`${metaImageSrc}?width=200`} alt={metaImageAlt} />
+          <img src={`${metaImageSrc}?width=200&language=${locale}`} alt={metaImageAlt} />
         ) : (
           <Concept className="c-icon--large" />
         )}

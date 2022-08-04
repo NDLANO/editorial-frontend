@@ -57,11 +57,11 @@ const MetaImageSearch = ({
 
   useEffect(() => {
     if (metaImageId) {
-      fetchImage(parseInt(metaImageId), locale).then(image => setImage(image));
+      fetchImage(parseInt(metaImageId), language).then(image => setImage(image));
     } else {
       setImage(undefined);
     }
-  }, [metaImageId, locale]);
+  }, [metaImageId, language]);
 
   const onChangeFormik = (id: string | null) => {
     onChange({
@@ -138,7 +138,7 @@ const MetaImageSearch = ({
                 locale={locale}
                 language={language}
                 closeModal={onImageSelectClose}
-                fetchImage={id => fetchImage(id, locale)}
+                fetchImage={id => fetchImage(id, language)}
                 searchImages={searchImages}
                 onError={onError}
                 updateImage={onImageUpdate}

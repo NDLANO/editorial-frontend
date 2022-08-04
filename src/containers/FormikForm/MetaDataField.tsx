@@ -75,6 +75,7 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
             showRemoveButton={false}
             showCheckbox={showCheckbox}
             checkboxAction={checkboxAction}
+            language={articleLanguage}
             {...field}
           />
         )}

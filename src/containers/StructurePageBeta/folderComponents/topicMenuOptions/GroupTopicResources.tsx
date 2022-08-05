@@ -8,8 +8,8 @@
 
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
-import { css } from '@emotion/core';
 import Tooltip from '@ndla/tooltip';
+import styled from '@emotion/styled';
 import {
   TAXONOMY_CUSTOM_FIELD_GROUPED_RESOURCE,
   TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES,
@@ -30,6 +30,10 @@ interface Props {
   hideIcon?: boolean;
   onChanged?: (newMeta: Partial<TaxonomyMetadata>) => void;
 }
+
+const StyledTooltip = styled(Tooltip)`
+  display: flex;
+`;
 
 const GroupTopicResources = ({ node, hideIcon, onChanged }: Props) => {
   const { t, i18n } = useTranslation();
@@ -74,18 +78,14 @@ const GroupTopicResources = ({ node, hideIcon, onChanged }: Props) => {
         placeholder={t('taxonomy.metadata.customFields.resourceGroupPlaceholder')}
         disabled
       />
-      <Tooltip
-        tooltip={t('taxonomy.metadata.customFields.RGTooltip')}
-        css={css`
-          display: flex;
-        `}>
+      <StyledTooltip tooltip={t('taxonomy.metadata.customFields.RGTooltip')}>
         <ToggleSwitch
           on={isGrouped}
           labelOff={'U'}
           labelOn={'G'}
           onClick={() => updateMetadata()}
         />
-      </Tooltip>
+      </StyledTooltip>
     </StyledMenuItemEditField>
   );
 };

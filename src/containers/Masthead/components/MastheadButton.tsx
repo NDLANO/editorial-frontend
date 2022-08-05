@@ -9,9 +9,9 @@ import { Cross } from '@ndla/icons/action';
 import { Menu } from '@ndla/icons/common';
 import { useTranslation } from 'react-i18next';
 import { colors, fonts, spacing, misc } from '@ndla/core';
-import { css } from '@emotion/core';
+import styled from '@emotion/styled';
 
-const buttonStyle = css`
+const StyledButton = styled.button`
   background: transparent;
   padding: ${spacing.small} ${spacing.normal};
   ${fonts.sizes(16, 1.625)};
@@ -39,7 +39,7 @@ const buttonStyle = css`
   }
 `;
 
-const crossCss = css`
+const StyledCross = styled(Cross)`
   width: 22px;
   height: 22px;
 `;
@@ -52,10 +52,10 @@ interface Props {
 const MastheadButton = ({ open, onClick }: Props) => {
   const { t } = useTranslation();
   return (
-    <button type="button" onClick={onClick} css={buttonStyle}>
+    <StyledButton type="button" onClick={onClick}>
       {open ? (
         <>
-          <Cross css={crossCss} />
+          <StyledCross />
           <span>{t('masthead.menu.close')}</span>
         </>
       ) : (
@@ -64,7 +64,7 @@ const MastheadButton = ({ open, onClick }: Props) => {
           <span>{t('menu.title')}</span>
         </>
       )}
-    </button>
+    </StyledButton>
   );
 };
 

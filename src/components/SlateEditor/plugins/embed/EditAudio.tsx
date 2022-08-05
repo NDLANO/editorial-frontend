@@ -7,7 +7,7 @@
  */
 
 import { useEffect, FormEvent, MouseEvent, createRef } from 'react';
-import { css } from '@emotion/core';
+import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import { AudioPlayer } from '@ndla/ui';
 import ObjectSelector from '../../../ObjectSelector';
@@ -15,11 +15,6 @@ import Overlay from '../../../Overlay';
 import { Portal } from '../../../Portal';
 import FigureButtons from './FigureButtons';
 import { SlateAudio, AudioEmbed } from '../../../../interfaces';
-
-const placeholderStyle = css`
-  position: relative;
-  border: 1px solid var(--article-color);
-`;
 
 interface Props {
   audio: SlateAudio;
@@ -33,6 +28,17 @@ interface Props {
   speech: boolean;
   type: string;
 }
+
+const StyledPlaceholderDiv = styled.div`
+  position: relative;
+  border: 1px solid var(--article-color);
+`;
+
+const StyledDiv = styled.div`
+  z-index: 1;
+  padding: 50px;
+  background-color: white;
+`;
 
 const EditAudio = ({
   embed,
@@ -66,20 +72,14 @@ const EditAudio = ({
   return (
     <>
       <Overlay onExit={onExit} key="audioOverlay" />
-      <div
+      <StyledPlaceholderDiv
         key="audioPlaceholder"
-        css={placeholderStyle}
         ref={placeholderEl => {
           placeholderElement = placeholderEl;
         }}
       />
       <Portal isOpened key="audioPortal">
-        <div
-          css={css`
-            z-index: 1;
-            padding: 50px;
-            background-color: white;
-          `}
+        <StyledDiv
           ref={embedEl => {
             embedElement = embedEl;
           }}>
@@ -112,7 +112,7 @@ const EditAudio = ({
             language={language}
             withMargin
           />
-        </div>
+        </StyledDiv>
       </Portal>
     </>
   );

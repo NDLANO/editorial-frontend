@@ -29,7 +29,7 @@ const commonAbsoluteAndFixedStyle = css`
 
 export type SpinnerAppearance = 'fixed' | 'absolute' | 'small';
 
-const appeareances: { [key in SpinnerAppearance]: SerializedStyles } = {
+const appeareances: Record<SpinnerAppearance, SerializedStyles> = {
   fixed: css`
     position: fixed;
     ${commonAbsoluteAndFixedStyle}

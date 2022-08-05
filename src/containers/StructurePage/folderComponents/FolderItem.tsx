@@ -10,7 +10,6 @@ import { useState } from 'react';
 import { spacing, fonts } from '@ndla/core';
 import Button from '@ndla/button';
 import { useTranslation } from 'react-i18next';
-import { css } from '@emotion/core';
 import styled from '@emotion/styled';
 import SettingsMenu from './SettingsMenu';
 
@@ -31,7 +30,7 @@ const StyledFolderWrapper = styled.div`
   width: 100%;
 `;
 
-const resourceButtonStyle = css`
+const StyledButton = styled(Button)`
   margin: 3px ${spacing.xsmall} 3px auto;
   ${fonts.sizes(14, 1.1)};
 `;
@@ -106,17 +105,12 @@ const FolderItem = ({
         />
       )}
       {showJumpToResources && (
-        <Button
-          outline
-          css={resourceButtonStyle}
-          type="button"
-          disabled={resourcesLoading}
-          onClick={jumpToResources}>
+        <StyledButton outline type="button" disabled={resourcesLoading} onClick={jumpToResources}>
           <Row>
             {t('taxonomy.jumpToResources')}
             {resourcesLoading && <Spinner appearance="small" />}
           </Row>
-        </Button>
+        </StyledButton>
       )}
       <AlertModal
         show={showAlertModal}

@@ -10,8 +10,8 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Button from '@ndla/button';
 import { spacing } from '@ndla/core';
-import { css } from '@emotion/core';
 import { Plus } from '@ndla/icons/action';
+import styled from '@emotion/styled';
 import { NodeType, SUBJECT_NODE } from '../../../../../modules/nodes/nodeApiTypes';
 import {
   getNodeTypeFromNodeId,
@@ -43,10 +43,14 @@ interface Props {
   onCurrentNodeChanged: (node: NodeType) => void;
 }
 
-const filterWrapper = css`
+const StyledFilterWrapper = styled.div`
   background-color: white;
   padding: calc(${spacing.small} / 2);
   position: relative;
+`;
+
+const StyledButton = styled(Button)`
+  text-decoration: underline;
 `;
 
 const MenuItemCustomField = ({ node, onCurrentNodeChanged }: Props) => {
@@ -138,18 +142,12 @@ const MenuItemCustomField = ({ node, onCurrentNodeChanged }: Props) => {
       {isOpen ? (
         <CustomFieldComponent onSubmit={setCustomFields} onClose={() => setOpen(false)} />
       ) : (
-        <div css={filterWrapper}>
-          <Button
-            stripped
-            css={css`
-              text-decoration: underline;
-            `}
-            data-testid="addCustomFieldButton"
-            onClick={() => setOpen(true)}>
+        <StyledFilterWrapper>
+          <StyledButton stripped data-testid="addCustomFieldButton" onClick={() => setOpen(true)}>
             <Plus />
             {t('taxonomy.metadata.customFields.addField')}
-          </Button>
-        </div>
+          </StyledButton>
+        </StyledFilterWrapper>
       )}
     </>
   );

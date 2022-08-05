@@ -9,7 +9,6 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
-import { css } from '@emotion/core';
 import styled from '@emotion/styled';
 import { Copy } from '@ndla/icons/action';
 import { spacing, colors } from '@ndla/core';
@@ -37,7 +36,7 @@ interface Props {
   type: ActionType;
 }
 
-const iconCss = css`
+const StyledCopyIcon = styled(Copy)`
   width: 8px;
   height: 8px;
 `;
@@ -187,7 +186,7 @@ const CopyNodeResources = ({
   return (
     <>
       <MenuItemButton stripped onClick={toggleEditModeFunc}>
-        <RoundIcon small icon={<Copy css={iconCss} />} />
+        <RoundIcon small icon={<StyledCopyIcon />} />
         {t(`taxonomy.${type}.info`)}
       </MenuItemButton>
       {showDisplay && (

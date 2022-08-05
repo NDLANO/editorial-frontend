@@ -9,13 +9,12 @@
 import { MouseEvent, ReactElement } from 'react';
 import { Warning } from '@ndla/icons/editor';
 import styled from '@emotion/styled';
-import { css } from '@emotion/core';
 import { spacing } from '@ndla/core';
 import AlertModalFooter from './AlertModalFooter';
 import Lightbox from '../Lightbox';
 import { MessageSeverity } from '../../interfaces';
 
-const StyledAlertModal = styled('div')<{ severity: string }>`
+const StyledAlertModal = styled.div<{ severity: string }>`
   height: 100%;
   padding-top: ${spacing.normal};
   font-size: 24px;
@@ -24,17 +23,17 @@ const StyledAlertModal = styled('div')<{ severity: string }>`
   justify-content: space-between;
 `;
 
-const StyledAlertModalBody = styled('div')`
+const StyledBody = styled.div`
   display: flex;
 `;
 
-const StyledAlertModalBodyText = styled('span')`
+const StyledText = styled.span`
   width: 100%;
   display: inline-block;
   text-align: left;
 `;
 
-const alertModalBodyIconStyle = css`
+const StyledIcon = styled(Warning)`
   width: 27px;
   height: 27px;
   margin-right: ${spacing.small};
@@ -57,10 +56,10 @@ const AlertModal = ({ text, onCancel, actions, component, show, severity = 'dang
   show ? (
     <Lightbox display={show} onClose={onCancel} appearance="modal" severity={severity}>
       <StyledAlertModal severity={severity}>
-        <StyledAlertModalBody>
-          <Warning css={alertModalBodyIconStyle} />
-          <StyledAlertModalBodyText>{text}</StyledAlertModalBodyText>
-        </StyledAlertModalBody>
+        <StyledBody>
+          <StyledIcon />
+          <StyledText>{text}</StyledText>
+        </StyledBody>
         <AlertModalFooter actions={actions} component={component} />
       </StyledAlertModal>
     </Lightbox>

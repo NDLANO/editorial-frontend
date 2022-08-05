@@ -9,7 +9,6 @@
 import styled from '@emotion/styled';
 import { useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { css } from '@emotion/core';
 import { spacing, colors } from '@ndla/core';
 import { NodeType } from '../../modules/nodes/nodeApiTypes';
 import { createGuard } from '../../util/guards';
@@ -107,7 +106,7 @@ export const DiffTypePill = ({ diffType }: DiffTypePillProps) => {
   );
 };
 
-const styledItemBarCss = css`
+const StyledItem = styled(StyledItemBar)`
   justify-content: space-between;
 `;
 
@@ -140,7 +139,7 @@ export const TreeNode = ({
       id={node.id.other ?? node.id.original}
       key={path}
       greyedOut={!parentActive && !isActive}>
-      <StyledItemBar level={level} highlight={isActive} css={styledItemBarCss}>
+      <StyledItem level={level} highlight={isActive}>
         <ItemTitleButton
           type="button"
           id={node.id.other ?? node.id.original}
@@ -168,7 +167,7 @@ export const TreeNode = ({
           )}
           {node.changed.diffType !== 'NONE' && <DiffTypePill diffType={node.changed.diffType} />}
         </DiffPills>
-      </StyledItemBar>
+      </StyledItem>
       {hasChildNodes &&
         nodes &&
         nodes.map(node => (

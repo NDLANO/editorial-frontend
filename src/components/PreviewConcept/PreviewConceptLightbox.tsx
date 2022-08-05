@@ -6,26 +6,26 @@
  *
  */
 
-import { useState } from 'react';
 import { css } from '@emotion/core';
-import Button from '@ndla/button';
-import { useTranslation } from 'react-i18next';
+import styled from '@emotion/styled';
 import { FooterLinkButton } from '@ndla/editor';
 import { FileCompare } from '@ndla/icons/action';
 import { IConcept } from '@ndla/types-concept-api';
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import config from '../../config';
-import Lightbox, { closeLightboxButtonStyle, StyledCross } from '../Lightbox';
+import { Embed, TypeOfPreview } from '../../interfaces';
+import { ArticleConverterApiType } from '../../modules/article/articleApiInterfaces';
 import { fetchConcept } from '../../modules/concept/conceptApi';
 import { fetchImage } from '../../modules/image/imageApi';
+import { parseEmbedTag } from '../../util/embedTagHelpers';
+import { createGuard } from '../../util/guards';
+import { getYoutubeEmbedUrl } from '../../util/videoUtil';
+import Lightbox, { StyledButton, StyledCross } from '../Lightbox';
 import { Portal } from '../Portal';
 import PreviewLightboxContent from '../PreviewDraft/PreviewLightboxContent';
 import StyledFilledButton from '../StyledFilledButton';
-import { parseEmbedTag } from '../../util/embedTagHelpers';
-import { getYoutubeEmbedUrl } from '../../util/videoUtil';
 import PreviewConcept from './PreviewConcept';
-import { Embed, TypeOfPreview } from '../../interfaces';
-import { createGuard } from '../../util/guards';
-import { ArticleConverterApiType } from '../../modules/article/articleApiInterfaces';
 
 interface Props {
   getConcept: () => IConcept;
@@ -41,8 +41,7 @@ const lightboxContentStyle = () => css`
   max-width: 1024px;
 `;
 
-const closeButtonStyle = css`
-  ${closeLightboxButtonStyle};
+const StyledCloseButton = styled(StyledButton)`
   margin-right: 0;
   margin-top: -15px;
 `;
@@ -136,9 +135,9 @@ const PreviewConceptLightbox = ({ getConcept, typeOfPreview }: Props) => {
   }
 
   const closeButton = (
-    <Button css={closeButtonStyle} stripped onClick={onClosePreview}>
+    <StyledCloseButton stripped onClick={onClosePreview}>
       <StyledCross />
-    </Button>
+    </StyledCloseButton>
   );
 
   return (

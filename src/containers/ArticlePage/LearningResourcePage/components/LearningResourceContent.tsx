@@ -9,7 +9,6 @@
 import { useRef, useEffect, RefObject, useState } from 'react';
 import { Descendant } from 'slate';
 import { withTranslation, CustomWithTranslation } from 'react-i18next';
-import { css } from '@emotion/core';
 import styled from '@emotion/styled';
 import { FormikContextType } from 'formik';
 import { FieldHeader } from '@ndla/forms';
@@ -65,7 +64,7 @@ import { conceptListPlugin } from '../../../../components/SlateEditor/plugins/co
 import { inlineConceptPlugin } from '../../../../components/SlateEditor/plugins/concept/inline';
 import { blockConceptPlugin } from '../../../../components/SlateEditor/plugins/concept/block';
 
-const byLineStyle = css`
+const StyledFormikField = styled(FormikField)`
   display: flex;
   margin-top: 0;
   align-items: center;
@@ -170,7 +169,7 @@ const LearningResourceContent = ({
   return (
     <>
       <TitleField handleSubmit={handleSubmit} />
-      <FormikField name="published" css={byLineStyle}>
+      <StyledFormikField name="published">
         {({ field, form }) => (
           <StyledDiv>
             <LastUpdatedLine
@@ -192,7 +191,7 @@ const LearningResourceContent = ({
             </IconContainer>
           </StyledDiv>
         )}
-      </FormikField>
+      </StyledFormikField>
       <IngressField preview={preview} handleSubmit={handleSubmit} />
       <FormikField
         name="content"

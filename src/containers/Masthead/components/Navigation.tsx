@@ -11,7 +11,6 @@ import { useTranslation } from 'react-i18next';
 import { colors, spacing } from '@ndla/core';
 import { Logo } from '@ndla/ui';
 import FocusTrapReact from 'focus-trap-react';
-import { css } from '@emotion/core';
 import styled from '@emotion/styled';
 import MastheadButton from './MastheadButton';
 import MastheadSearch from '../MastheadSearch';
@@ -21,7 +20,7 @@ import Overlay from '../../../components/Overlay';
 import config from '../../../config';
 import { NAVIGATION_HEADER_MARGIN } from '../../../constants';
 
-const logoCSS = css`
+const StyledLogoDiv = styled.div`
   transform: translateY(3px);
 `;
 
@@ -92,9 +91,9 @@ const Navigation = () => {
             <div>
               <SessionContainer close={closeMenu} />
               <StyledSplitter />
-              <div css={logoCSS}>
+              <StyledLogoDiv>
                 <Logo to="/" label={t('logo.altText')} />
-              </div>
+              </StyledLogoDiv>
             </div>
           </StyledHeaderItems>
           {open && <NavigationMenu close={closeMenu} />}

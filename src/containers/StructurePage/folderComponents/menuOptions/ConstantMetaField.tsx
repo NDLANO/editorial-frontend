@@ -1,7 +1,7 @@
 import { useState, KeyboardEvent } from 'react';
 
 import { spacing } from '@ndla/core';
-import { css } from '@emotion/core';
+import styled from '@emotion/styled';
 import { DeleteForever, Done } from '@ndla/icons/editor';
 import { StyledMenuItemEditField, StyledMenuItemInputField } from '../styles';
 import RoundIcon from '../../../../components/RoundIcon';
@@ -16,6 +16,10 @@ interface Props {
   valuePlaceholder?: string;
   dataTestid?: string;
 }
+
+const StyledMenuItemSaveButton = styled(MenuItemSaveButton)`
+  margin-left: ${spacing.xxsmall};
+`;
 
 const ConstantMetaField = ({
   onSubmit,
@@ -64,13 +68,9 @@ const ConstantMetaField = ({
       <MenuItemSaveButton onClick={handleSubmit} data-testid={'CustomFieldSaveButton'}>
         <Done className="c-icon--small" />
       </MenuItemSaveButton>
-      <MenuItemSaveButton
-        onClick={handleDelete}
-        css={css`
-          margin-left: ${spacing.xxsmall};
-        `}>
+      <StyledMenuItemSaveButton onClick={handleDelete}>
         <DeleteForever />
-      </MenuItemSaveButton>
+      </StyledMenuItemSaveButton>
     </StyledMenuItemEditField>
   );
 };

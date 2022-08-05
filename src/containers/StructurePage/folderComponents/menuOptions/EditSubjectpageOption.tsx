@@ -8,7 +8,7 @@
 
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { css } from '@emotion/core';
+import styled from '@emotion/styled';
 import { colors } from '@ndla/core';
 import { Home } from '@ndla/icons/common';
 import { Link } from 'react-router-dom';
@@ -25,7 +25,7 @@ interface Props {
   locale: string;
 }
 
-const linkStyle = css`
+const StyledLink = styled(Link)`
   color: ${colors.brand.greyDark};
   &:hover {
     color: ${colors.brand.primary};
@@ -50,12 +50,12 @@ const EditSubjectpageOption = ({ id, locale }: Props) => {
     : toCreateSubjectpage(id, locale);
 
   return (
-    <Link css={linkStyle} state={{ elementName: subject?.name }} to={{ pathname: link }}>
+    <StyledLink state={{ elementName: subject?.name }} to={{ pathname: link }}>
       <MenuItemButton stripped data-testid="editSubjectpageOption">
         <RoundIcon small icon={<Home />} />
         {t('taxonomy.editSubjectpage')}
       </MenuItemButton>
-    </Link>
+    </StyledLink>
   );
 };
 

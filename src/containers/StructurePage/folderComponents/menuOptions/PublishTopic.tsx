@@ -8,7 +8,6 @@
 
 import { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
-import { css } from '@emotion/core';
 import { useTranslation } from 'react-i18next';
 import { Done } from '@ndla/icons/editor';
 import { Spinner } from '@ndla/icons';
@@ -46,7 +45,7 @@ const LinkWrapper = styled.div`
   margin-top: 0.5em;
 `;
 
-const iconStyle = css`
+const StyledDone = styled(Done)`
   margin: 0px 4px;
   color: green;
 `;
@@ -142,7 +141,7 @@ const PublishTopic = ({ locale, id, setResourcesUpdated }: Props) => {
       </MenuItemButton>
       {showDisplay && (
         <StyledDiv>
-          {done ? <Done css={iconStyle} /> : <Spinner size="normal" margin="0px 4px" />}
+          {done ? <StyledDone /> : <Spinner size="normal" margin="0px 4px" />}
           {t(done ? 'taxonomy.publish.done' : 'taxonomy.publish.waiting') +
             ` (${publishedCount}/${articleCount})`}
         </StyledDiv>

@@ -8,7 +8,7 @@
 
 import { useState } from 'react';
 import FocusTrapReact from 'focus-trap-react';
-import { css } from '@emotion/core';
+import styled from '@emotion/styled';
 import { User } from '@ndla/icons/common';
 import Button from '@ndla/button';
 import { useTranslation } from 'react-i18next';
@@ -21,7 +21,7 @@ import Overlay from '../../../components/Overlay';
 import { StyledDropdownOverlay } from '../../../components/Dropdown';
 import { useSession } from '../../Session/SessionProvider';
 
-const userIconCss = css`
+const StyledUserIcon = styled(User)`
   color: ${colors.brand.grey};
   margin-right: ${spacing.xsmall};
 `;
@@ -58,7 +58,7 @@ const SessionContainer = ({ close }: Props) => {
     <div>
       {authenticated && isAccessTokenPersonal ? (
         <div>
-          <User css={userIconCss} className="c-icon--22" />
+          <StyledUserIcon className="c-icon--22" />
           <Button
             onClick={() => {
               toggleOpen();

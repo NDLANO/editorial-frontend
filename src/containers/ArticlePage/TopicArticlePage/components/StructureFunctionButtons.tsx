@@ -9,7 +9,6 @@
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
-import { css } from '@emotion/core';
 import { Check } from '@ndla/icons/editor';
 import { colors, spacing, fonts } from '@ndla/core';
 import Button from '@ndla/button';
@@ -22,7 +21,7 @@ interface Props {
   addTopic: () => Promise<void>;
 }
 
-const buttonAdditionStyle = css`
+const StyledButton = styled(Button)`
   opacity: 0;
   height: auto;
   padding: 0 ${spacing.small};
@@ -75,9 +74,9 @@ const StructureFunctionButtons = ({ isSubject, isOpen, id, activeTopics, addTopi
     }
     return (
       <StyledButtonWrapper>
-        <Button outline css={buttonAdditionStyle} type="button" onClick={addTopic}>
+        <StyledButton outline type="button" onClick={addTopic}>
           {t('taxonomy.topics.addNewTopic')}
-        </Button>
+        </StyledButton>
       </StyledButtonWrapper>
     );
   }
@@ -86,9 +85,9 @@ const StructureFunctionButtons = ({ isSubject, isOpen, id, activeTopics, addTopi
 
   return (
     <StyledButtonWrapper>
-      <Button outline css={buttonAdditionStyle} type="button" onClick={addTopic}>
+      <StyledButton outline type="button" onClick={addTopic}>
         {t('taxonomy.topics.addNewSubTopic')}
-      </Button>
+      </StyledButton>
       {currentIndex !== -1 && (
         <StyledChecked>
           <Check className="c-icon--22" style={{ fill: colors.support.green }} />{' '}

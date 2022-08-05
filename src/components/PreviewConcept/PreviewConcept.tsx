@@ -8,7 +8,6 @@
 
 import { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
-import { css } from '@emotion/core';
 import { spacing, fonts, misc, colors } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
 import {
@@ -106,6 +105,12 @@ const StyledVisualElementImageInfo = styled.div`
   align-items: start;
 `;
 
+const StyledLicensesWrapper = styled(LicensesWrapper)`
+  border-top: 0;
+  padding-bottom: 12px;
+  border-bottom: 1px solid ${colors.brand.greyLight};
+`;
+
 interface Props {
   concept: IConcept;
   visualElement?: Embed;
@@ -151,17 +156,12 @@ const PreviewConcept = ({ concept, visualElement }: Props) => {
               <img alt={visualElement?.alt} src={visualElement?.url} srcSet={srcSet} />{' '}
             </ImageLink>
             {visualElement?.alt && <StyledAltSpan>{`Alt: ${visualElement.alt}`}</StyledAltSpan>}
-            <LicensesWrapper
-              css={css`
-                border-top: 0;
-                padding-bottom: 12px;
-                border-bottom: 1px solid ${colors.brand.greyLight};
-              `}>
+            <StyledLicensesWrapper>
               <LicenseByline licenseRights={license.rights} />
               {authors.map((author, i) => (
                 <span key={`author-${i}`}>{author.name}</span>
               ))}
-            </LicensesWrapper>
+            </StyledLicensesWrapper>
           </StyledVisualElementImageInfo>
         );
       case 'video':

@@ -7,16 +7,16 @@
 
 import { Pencil } from '@ndla/icons/action';
 import Button from '@ndla/button';
-import { css } from '@emotion/core';
+import styled from '@emotion/styled';
 import DateTimeWrapper from '../DateTime/DateTimeWrapper';
 import formatDate from '../../util/formatDate';
 
-const buttonCss = css`
+const StyledButton = styled(Button)`
   display: inline-flex;
   align-items: center;
 `;
 
-const iconCss = css`
+const StyledPencil = styled(Pencil)`
   margin-left: 0.2em;
 `;
 
@@ -28,9 +28,9 @@ interface Props {
 
 const DateEdit = ({ published, onChange, name, ...rest }: Props) => (
   <DateTimeWrapper {...rest} name={name} onChange={onChange} publishTime={published}>
-    <Button link css={buttonCss}>
-      {formatDate(published)} <Pencil css={iconCss} />
-    </Button>
+    <StyledButton link>
+      {formatDate(published)} <StyledPencil />
+    </StyledButton>
   </DateTimeWrapper>
 );
 

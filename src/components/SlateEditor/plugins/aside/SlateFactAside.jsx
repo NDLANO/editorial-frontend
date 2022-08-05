@@ -9,14 +9,13 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
 import Button from '@ndla/button';
-import { css } from '@emotion/core';
 import styled from '@emotion/styled';
 import { colors } from '@ndla/core';
 import DeleteButton from '../../../DeleteButton';
 import MoveContentButton from '../../../MoveContentButton';
 import { EditorShape, AttributesShape } from '../../../../shapes';
 
-const factBoxButtonStyle = css`
+const StyledButton = styled(Button)`
   position: absolute;
   left: 0;
   right: 0;
@@ -93,11 +92,10 @@ class SlateFactAside extends Component {
           />
           {children}
         </StyledDiv>
-        <Button
+        <StyledButton
           contentEditable={false}
           onMouseDown={this.toggleExpanded}
           className="c-factbox__button"
-          css={factBoxButtonStyle}
         />
       </StyledAside>
     );

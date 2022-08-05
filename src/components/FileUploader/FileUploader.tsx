@@ -7,7 +7,7 @@
  */
 
 import { useState } from 'react';
-import { css } from '@emotion/core';
+import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import { spacing } from '@ndla/core';
 import { UploadDropZone } from '@ndla/forms';
@@ -18,7 +18,7 @@ import handleError from '../../util/handleError';
 import { UnsavedFile } from '../../interfaces';
 import { useSession } from '../../containers/Session/SessionProvider';
 
-const wrapperCSS = css`
+const FileUploaderWrapper = styled.div`
   padding: 0 ${spacing.large};
 `;
 
@@ -69,7 +69,7 @@ const FileUploader = ({ onFileSave }: Props) => {
   }
 
   return (
-    <div css={wrapperCSS}>
+    <FileUploaderWrapper>
       <UploadDropZone
         name="file"
         allowedFiles={allowedFiles}
@@ -79,7 +79,7 @@ const FileUploader = ({ onFileSave }: Props) => {
         ariaLabel={t('form.file.dragdrop.ariaLabel')}>
         <strong>{t('form.file.dragdrop.main')}</strong> {t('form.file.dragdrop.sub')}
       </UploadDropZone>
-    </div>
+    </FileUploaderWrapper>
   );
 };
 

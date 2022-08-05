@@ -11,7 +11,7 @@ import { useQueryClient } from 'react-query';
 import { FieldArray, Formik, FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
-import css from '@emotion/css';
+import styled from '@emotion/styled';
 
 import Button from '@ndla/button';
 import { spacing } from '@ndla/core';
@@ -47,21 +47,21 @@ import UIField from '../../../../components/Field';
 import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
 import StyledForm from '../../../../components/StyledFormComponents';
 
-const buttonStyle = css`
+const StyledDeleteButton = styled(DeleteButton)`
   flex-grow: 1;
   text-align: center;
   align-items: center;
 `;
 
-const cancelButtonStyle = css`
+const StyledCancelButton = styled(Button)`
   padding: 0 ${spacing.normal};
 `;
 
-const buttonRowStyle = css`
+const StyledUIField = styled(UIField)`
   margin-right: 0px;
 `;
 
-const formikFieldStyle = css`
+const StyledFormikField = styled(FormikField)`
   margin-top: 0px;
 `;
 
@@ -231,8 +231,7 @@ const ChangeNodeNameModal = ({ onClose, node }: ModalProps) => {
                         <>
                           {values.translations.map((trans, i) => (
                             <Row key={i}>
-                              <FormikField
-                                css={formikFieldStyle}
+                              <StyledFormikField
                                 name={`translations.${i}.name`}
                                 label={t(`language.${trans.language}`)}>
                                 {({ field }) => (
@@ -241,14 +240,13 @@ const ChangeNodeNameModal = ({ onClose, node }: ModalProps) => {
                                       {...field}
                                       data-testid={`subjectName_${trans.language}`}
                                     />
-                                    <DeleteButton
+                                    <StyledDeleteButton
                                       onClick={() => remove(i)}
-                                      css={buttonStyle}
                                       data-testid={`subjectName_${trans.language}_delete`}
                                     />
                                   </Row>
                                 )}
-                              </FormikField>
+                              </StyledFormikField>
                             </Row>
                           ))}
                           <AddNodeTranslation
@@ -259,11 +257,11 @@ const ChangeNodeNameModal = ({ onClose, node }: ModalProps) => {
                         </>
                       )}
                     </FieldArray>
-                    <UIField right noBorder css={buttonRowStyle}>
+                    <StyledUIField right noBorder>
                       <Row justifyContent="end">
-                        <Button css={cancelButtonStyle} onClick={onCloseModal}>
+                        <StyledCancelButton onClick={onCloseModal}>
                           {t('taxonomy.changeName.cancel')}
-                        </Button>
+                        </StyledCancelButton>
                         <SaveButton
                           data-testid="saveNodeTranslationsButton"
                           large
@@ -274,7 +272,7 @@ const ChangeNodeNameModal = ({ onClose, node }: ModalProps) => {
                           disabled={!isValid}
                         />
                       </Row>
-                    </UIField>
+                    </StyledUIField>
                     {updateError && <StyledErrorMessage>{updateError}</StyledErrorMessage>}
                   </StyledForm>
                 );

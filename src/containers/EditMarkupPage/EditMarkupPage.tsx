@@ -13,7 +13,6 @@ import { Link, useLocation, useParams } from 'react-router-dom';
 import { spacing, colors } from '@ndla/core';
 import { IArticle } from '@ndla/types-draft-api';
 import styled from '@emotion/styled';
-import { css } from '@emotion/core';
 import { FieldHeader } from '@ndla/forms';
 import { Spinner } from '@ndla/icons';
 import { fetchDraft, updateDraft } from '../../modules/draft/draftApi';
@@ -81,18 +80,22 @@ function updateContentInDraft(draft: IArticle | undefined, content: string): IAr
   };
 }
 
-const StyledErrorMessage = styled('p')`
+const StyledErrorMessage = styled.p`
   color: ${colors.support.red};
   text-align: center;
 `;
 
-const Container = styled('div')`
+const Container = styled.div`
   margin: 0 auto;
   max-width: 1000px;
 `;
 
 const LanguageWrapper = styled.div`
   display: flex;
+`;
+
+const StyledRow = styled(Row)`
+  margin: ${spacing.normal};
 `;
 
 interface ErrorMessageProps {
@@ -227,11 +230,7 @@ const EditMarkupPage = () => {
           onChange={handleChange}
           onSave={saveChanges}
         />
-        <Row
-          justifyContent="space-between"
-          css={css`
-            margin: ${spacing.normal};
-          `}>
+        <StyledRow justifyContent="space-between">
           <PreviewDraftLightbox
             label={t('form.previewProductionArticle.article')}
             typeOfPreview="preview"
@@ -262,7 +261,7 @@ const EditMarkupPage = () => {
               onClick={() => saveChanges(draft?.content?.content ?? '')}
             />
           </Row>
-        </Row>
+        </StyledRow>
       </Suspense>
       <AlertModalWrapper
         isSubmitting={isSubmitting}

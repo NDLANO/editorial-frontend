@@ -6,23 +6,22 @@
  *
  */
 
-import { ReactNode } from 'react';
-import { css } from '@emotion/core';
 import styled from '@emotion/styled';
-import { colors, mq, spacing, breakpoints } from '@ndla/core';
 import Button from '@ndla/button';
+import { breakpoints, colors, mq, spacing } from '@ndla/core';
 import { ExpandLess, ExpandMore } from '@ndla/icons/action';
+import { ReactNode } from 'react';
 import AccordionButtonLine from './AccordionButtonLine';
 
-const buttonStyle = css`
+const StyledButton = styled(Button)`
   color: ${colors.brand.greyDark};
   width: 100%;
   height: 100%;
   text-align: left;
 `;
 
-const arrowButtonStyle = css`
-  ${buttonStyle} min-width: 50px;
+const StyledArrowButton = styled(StyledButton)`
+  min-width: 50px;
   width: 50px;
 `;
 
@@ -110,14 +109,14 @@ const Accordion = ({
           addButton={addButton}
           appearance={appearance}
           handleToggle={handleToggle}>
-          <Button css={buttonStyle} stripped onClick={handleToggle}>
+          <StyledButton stripped onClick={handleToggle}>
             {title}
-          </Button>
+          </StyledButton>
           <>{toggleSwitch}</>
           <>{addButton}</>
-          <Button css={arrowButtonStyle} stripped onClick={handleToggle}>
+          <StyledArrowButton stripped onClick={handleToggle}>
             {arrow}
-          </Button>
+          </StyledArrowButton>
         </AccordionButtonLine>
       ) : (
         <AccordionButtonLine appearance={appearance} handleToggle={handleToggle}>

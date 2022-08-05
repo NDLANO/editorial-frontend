@@ -10,7 +10,6 @@ import { MouseEvent, useRef, useState } from 'react';
 import Button from '@ndla/button';
 import { colors } from '@ndla/core';
 import styled from '@emotion/styled';
-import { css } from '@emotion/core';
 import {
   getElementOffset,
   getClientPos,
@@ -19,7 +18,7 @@ import {
 } from '../../util/imageEditorUtil';
 import { ImageEmbed } from '../../interfaces';
 
-const focalPointButtonStyle = css`
+const StyledFocalPointButton = styled(Button)`
   cursor: crosshair;
   min-width: -webkit-fill-available;
   min-width: -moz-available;
@@ -114,7 +113,7 @@ const ImageFocalPointEdit = ({ embed, onFocalPointChange, transformData }: Props
   return (
     <div>
       <StyledFocalPointContainer>
-        <Button stripped onClick={onImageClick} css={focalPointButtonStyle}>
+        <StyledFocalPointButton stripped onClick={onImageClick}>
           <img
             style={{ minWidth: 'inherit' }}
             alt={embed.alt}
@@ -122,7 +121,7 @@ const ImageFocalPointEdit = ({ embed, onFocalPointChange, transformData }: Props
             onLoad={e => setXandY(e.target as HTMLImageElement)}
             srcSet={getSrcSets(embed.resource_id, transformData)}
           />
-        </Button>
+        </StyledFocalPointButton>
         <StyledFocalPointMarker style={style} />
       </StyledFocalPointContainer>
     </div>

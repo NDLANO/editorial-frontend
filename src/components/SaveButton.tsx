@@ -6,19 +6,15 @@
  *
  */
 
-import { MouseEvent } from 'react';
-import Button from '@ndla/button';
-import { Check } from '@ndla/icons/editor';
-import styled from '@emotion/styled';
 import { css, SerializedStyles } from '@emotion/core';
-import { colors, spacing, fonts } from '@ndla/core';
+import styled from '@emotion/styled';
+import Button from '@ndla/button';
+import { colors, fonts, spacing } from '@ndla/core';
+import { Check } from '@ndla/icons/editor';
+import { MouseEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 
-interface AppearanceMap {
-  [index: string]: SerializedStyles;
-}
-
-export const saveButtonAppearances: AppearanceMap = {
+export const saveButtonAppearances: Record<string, SerializedStyles> = {
   saved: css`
     &,
     &:hover,
@@ -46,15 +42,32 @@ const StyledSpan = styled('span')`
   justify-content: space-evenly;
 `;
 
-const checkStyle = css`
+const StyledCheck = styled(Check)`
   width: 1.45rem;
   height: 1.45rem;
 `;
 
-const largerButtonStyle = css`
-  height: ${spacing.large};
-  padding: 0 ${spacing.normal};
-  ${fonts.sizes(18, 1.25)};
+interface StyledSaveButtonProps {
+  large?: boolean;
+  color?: string;
+}
+
+const StyledSaveButton = styled(Button)<StyledSaveButtonProps>`
+  &,
+  &:hover,
+  &:disabled {
+    color: white;
+    transition: all 0.5s ease;
+    background-color: ${p => p.color};
+    border-color: ${p => p.color};
+  }
+  ${p =>
+    p.large &&
+    css`
+      height: ${spacing.large};
+      padding: 0 ${spacing.normal};
+      ${fonts.sizes(18, 1.25)};
+    `}
 `;
 
 interface Props {
@@ -86,24 +99,27 @@ const SaveButton = ({
     if (showSaved) return 'saved';
     return defaultText || 'save';
   };
+
+  const color = isSaving ? colors.support.greenLight : showSaved ? colors.support.green : undefined;
   const { t } = useTranslation();
   const modifier = getModifier();
   const disabledButton = isSaving || !formIsDirty || disabled;
 
   return (
     <>
-      <Button
+      <StyledSaveButton
         disabled={disabledButton}
         onClick={onClick}
         clippedButton={clippedButton}
         submit={submit}
-        css={[large ? largerButtonStyle : null, saveButtonAppearances[modifier]]}
+        large={large}
+        color={color}
         {...rest}>
         <StyledSpan>
           {t(`form.${modifier}`)}
-          {showSaved && <Check css={checkStyle} />}
+          {showSaved && <StyledCheck />}
         </StyledSpan>
-      </Button>
+      </StyledSaveButton>
     </>
   );
 };

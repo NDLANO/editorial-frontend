@@ -51,7 +51,7 @@ const severities: Record<string, SerializedStyles> = {
   `,
 };
 
-const StyledLightbox = styled('div')<{ appearance?: string }>`
+const StyledLightbox = styled.div<{ appearance?: string }>`
   position: fixed;
   top: 0;
   left: 0;
@@ -78,11 +78,13 @@ const StyledLightbox = styled('div')<{ appearance?: string }>`
   }
 `;
 
-const StyledLightboxContent = styled('div')<{
+interface StyledContentProps {
   maxWidth?: string;
   appearance?: string;
   severity?: string;
-}>`
+}
+
+const StyledContent = styled.div<StyledContentProps>`
   overflow-x: auto;
   background-color: white;
   margin: 52px auto 52px;
@@ -93,7 +95,7 @@ const StyledLightboxContent = styled('div')<{
   ${p => (p.severity ? severities[p.severity] : null)};
 `;
 
-export const closeLightboxButtonStyle = css`
+export const StyledButton = styled(Button)`
   float: right;
   height: 44px;
   width: 44px;
@@ -163,7 +165,7 @@ class Lightbox extends PureComponent<Props, State> {
 
     return this.state.display ? (
       <StyledLightbox appearance={appearance}>
-        <StyledLightboxContent
+        <StyledContent
           maxWidth={width}
           appearance={appearance}
           severity={severity}
@@ -172,16 +174,12 @@ class Lightbox extends PureComponent<Props, State> {
             (closeButton ? (
               closeButton
             ) : (
-              <Button
-                css={closeLightboxButtonStyle}
-                stripped
-                data-testid="closeAlert"
-                onClick={this.onCloseButtonClick}>
+              <StyledButton stripped data-testid="closeAlert" onClick={this.onCloseButtonClick}>
                 <StyledCross severity={severity} />
-              </Button>
+              </StyledButton>
             ))}
           <ChildWrapper>{children}</ChildWrapper>
-        </StyledLightboxContent>
+        </StyledContent>
       </StyledLightbox>
     ) : null;
   }

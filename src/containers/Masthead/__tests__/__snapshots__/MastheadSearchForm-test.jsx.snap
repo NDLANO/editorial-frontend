@@ -122,7 +122,7 @@ exports[`MastheadSearchForm invalid id at the end of the url 1`] = `
 
 <div>
   <form
-    class="emotion-2"
+    class="emotion-2 emotion-3"
   >
     <input
       placeholder="Søk etter artikler, aktiviteter eller oppgaver"
@@ -277,7 +277,7 @@ exports[`MastheadSearchForm redirects on ndla node id pasted 1`] = `
 
 <div>
   <form
-    class="emotion-2"
+    class="emotion-2 emotion-3"
   >
     <input
       placeholder="Søk etter artikler, aktiviteter eller oppgaver"
@@ -432,7 +432,7 @@ exports[`MastheadSearchForm redirects on ndla url paste with id at the end 1`] =
 
 <div>
   <form
-    class="emotion-2"
+    class="emotion-2 emotion-3"
   >
     <input
       placeholder="Søk etter artikler, aktiviteter eller oppgaver"
@@ -587,7 +587,7 @@ exports[`MastheadSearchForm redirects on ndla url paste with taxonomy id at the 
 
 <div>
   <form
-    class="emotion-2"
+    class="emotion-2 emotion-3"
   >
     <input
       placeholder="Søk etter artikler, aktiviteter eller oppgaver"
@@ -742,7 +742,7 @@ exports[`MastheadSearchForm redirects on old ndla url paste with new id 1`] = `
 
 <div>
   <form
-    class="emotion-2"
+    class="emotion-2 emotion-3"
   >
     <input
       placeholder="Søk etter artikler, aktiviteter eller oppgaver"

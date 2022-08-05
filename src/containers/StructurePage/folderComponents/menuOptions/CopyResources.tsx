@@ -7,7 +7,7 @@
  */
 
 import { useState, useEffect } from 'react';
-import { css } from '@emotion/core';
+import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import { Copy } from '@ndla/icons/action';
 
@@ -52,7 +52,7 @@ interface Props {
   setShowAlertModal: (show: boolean) => void;
 }
 
-const iconCss = css`
+const StyledCopyIcon = styled(Copy)`
   width: 8px;
   height: 8px;
 `;
@@ -249,7 +249,7 @@ const CopyResources = ({
             setShowCopySearch(true);
             setShowCloneSearch(false);
           }}>
-          <RoundIcon small smallIcon icon={<Copy css={iconCss} />} />
+          <RoundIcon small smallIcon icon={<StyledCopyIcon />} />
           {t('taxonomy.copyResources.info')}
         </MenuItemButton>
       ) : (
@@ -270,7 +270,7 @@ const CopyResources = ({
             setShowCopySearch(false);
             setShowCloneSearch(true);
           }}>
-          <RoundIcon small smallIcon icon={<Copy css={iconCss} />} />
+          <RoundIcon small smallIcon icon={<StyledCopyIcon />} />
           {t('taxonomy.cloneResources.info')}
         </MenuItemButton>
       ) : (

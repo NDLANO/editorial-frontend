@@ -12,29 +12,28 @@ import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import { useTranslation } from 'react-i18next';
 import { uniqueId } from 'lodash';
 import styled from '@emotion/styled';
-import { css } from '@emotion/core';
 import Button from '@ndla/button';
 import { spacing } from '@ndla/core';
 import AlertModal from '../../../AlertModal';
 
-const StyledMathEditorWrapper = styled('div')`
+const StyledMathEditorWrapper = styled.div`
   padding: ${spacing.small} 0;
   height: 40vh;
 `;
 
-const StyledMathPreviewWrapper = styled('div')`
+const StyledMathPreviewWrapper = styled.div`
   padding: ${spacing.small} 0;
   display: flex;
   overflow: auto;
 `;
 
-const StyledButtonWrapper = styled('div')`
+const StyledButtonWrapper = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
 `;
 
-const buttonStyle = css`
+const StyledButton = styled(Button)`
   margin-right: ${spacing.small};
 `;
 
@@ -75,18 +74,18 @@ const EditMathModal = ({
             <hr />
             <StyledMathEditorWrapper id={`mathEditorContainer-${id}`} />
             <StyledButtonWrapper>
-              <Button outline css={buttonStyle} onClick={previewMath}>
+              <StyledButton outline onClick={previewMath}>
                 {t('form.preview.button')}
-              </Button>
-              <Button data-cy="save-math" outline css={buttonStyle} onClick={handleSave}>
+              </StyledButton>
+              <StyledButton data-cy="save-math" outline onClick={handleSave}>
                 {t('form.save')}
-              </Button>
-              <Button outline css={buttonStyle} onClick={onCloseModal}>
+              </StyledButton>
+              <StyledButton outline onClick={onCloseModal}>
                 {t('form.abort')}
-              </Button>
-              <Button outline css={buttonStyle} onClick={handleRemove}>
+              </StyledButton>
+              <StyledButton outline onClick={handleRemove}>
                 {t('form.remove')}
-              </Button>
+              </StyledButton>
             </StyledButtonWrapper>
             <h3>{t('mathEditor.preview')}</h3>
             <hr />

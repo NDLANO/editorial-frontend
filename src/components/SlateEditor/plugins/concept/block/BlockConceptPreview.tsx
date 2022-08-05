@@ -10,7 +10,6 @@ import { useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { Remarkable } from 'remarkable';
 import styled from '@emotion/styled';
-import { css } from '@emotion/core';
 import { colors, spacing } from '@ndla/core';
 import { DeleteForever } from '@ndla/icons/editor';
 import { Link as LinkIcon } from '@ndla/icons/common';
@@ -39,7 +38,7 @@ const StyledWarnIcon = styled(AlertCircle)`
   fill: ${colors.brand.grey};
 `;
 
-const StyledFigureButtons = styled('span')<{ isBlockView?: boolean }>`
+const FigureButtonsContainer = styled.span<{ isBlockView?: boolean }>`
   position: absolute;
   top: 0;
   z-index: 1;
@@ -50,6 +49,10 @@ const StyledFigureButtons = styled('span')<{ isBlockView?: boolean }>`
   > * {
     margin-bottom: ${spacing.xsmall};
   }
+`;
+
+const StyledTooltip = styled(Tooltip)`
+  margin-right: auto;
 `;
 
 interface Props {
@@ -137,7 +140,7 @@ const BlockConceptPreview = ({ concept, handleRemove, id, isBlockView }: Props) 
         disableScripts={true}
       />
 
-      <StyledFigureButtons isBlockView={isBlockView}>
+      <FigureButtonsContainer isBlockView={isBlockView}>
         <Tooltip tooltip={t('form.concept.removeConcept')}>
           <IconButton color="red" type="button" onClick={handleRemove} tabIndex={-1}>
             <DeleteForever />
@@ -154,13 +157,9 @@ const BlockConceptPreview = ({ concept, handleRemove, id, isBlockView }: Props) 
           </IconButton>
         </Tooltip>
         {(concept?.status.current === PUBLISHED || concept?.status.other.includes(PUBLISHED)) && (
-          <Tooltip
-            tooltip={t('form.workflow.published')}
-            css={css`
-              margin-right: auto;
-            `}>
+          <StyledTooltip tooltip={t('form.workflow.published')}>
             <StyledCheckIcon />
-          </Tooltip>
+          </StyledTooltip>
         )}
         {concept?.status.current !== PUBLISHED && (
           <Tooltip
@@ -170,7 +169,7 @@ const BlockConceptPreview = ({ concept, handleRemove, id, isBlockView }: Props) 
             <StyledWarnIcon />
           </Tooltip>
         )}
-      </StyledFigureButtons>
+      </FigureButtonsContainer>
     </>
   );
 };

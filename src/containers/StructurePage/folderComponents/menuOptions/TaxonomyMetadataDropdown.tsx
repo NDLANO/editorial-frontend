@@ -7,7 +7,6 @@
  */
 
 import styled from '@emotion/styled';
-import { css } from '@emotion/core';
 import { spacing } from '@ndla/core';
 import { DeleteForever } from '@ndla/icons/editor';
 import { StyledMenuItemEditField, StyledMenuItemInputField } from '../styles';
@@ -29,6 +28,10 @@ interface Props {
 const StyledSelect = styled('select')`
   padding: 0 ${spacing.nsmall} 0 calc(${spacing.nsmall} / 2);
   margin-left: 0;
+`;
+
+const StyledMenuItemSaveButton = styled(MenuItemSaveButton)`
+  margin-left: ${spacing.xxsmall};
 `;
 
 const TaxonomyMetadataDropdown = ({
@@ -63,16 +66,13 @@ const TaxonomyMetadataDropdown = ({
           </option>
         ))}
       </StyledSelect>
-      <MenuItemSaveButton
+      <StyledMenuItemSaveButton
         onClick={() => {
           delete customFields[field];
           updateCustomFields({ ...customFields });
-        }}
-        css={css`
-          margin-left: ${spacing.xxsmall};
-        `}>
+        }}>
         <DeleteForever />
-      </MenuItemSaveButton>
+      </StyledMenuItemSaveButton>
     </StyledMenuItemEditField>
   );
 };

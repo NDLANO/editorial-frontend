@@ -6,8 +6,8 @@
 
 import { useState, KeyboardEvent } from 'react';
 import { spacing } from '@ndla/core';
-import { css } from '@emotion/core';
 import { DeleteForever, Done } from '@ndla/icons/editor';
+import styled from '@emotion/styled';
 import { StyledMenuItemEditField, StyledMenuItemInputField } from '../../styles';
 import RoundIcon from '../../../../../components/RoundIcon';
 import { TaxonomyMetadata } from '../../../../../modules/taxonomy/taxonomyApiInterfaces';
@@ -21,6 +21,10 @@ interface Props {
   valuePlaceholder?: string;
   dataTestid?: string;
 }
+
+const StyledCustomFieldButton = styled(CustomFieldButton)`
+  margin-left: ${spacing.xxsmall};
+`;
 
 const ConstantMetaField = ({
   onSubmit,
@@ -69,13 +73,9 @@ const ConstantMetaField = ({
       <CustomFieldButton onClick={handleSubmit} data-testid={'CustomFieldSaveButton'}>
         <Done className="c-icon--small" />
       </CustomFieldButton>
-      <CustomFieldButton
-        onClick={handleDelete}
-        css={css`
-          margin-left: ${spacing.xxsmall};
-        `}>
+      <StyledCustomFieldButton onClick={handleDelete}>
         <DeleteForever />
-      </CustomFieldButton>
+      </StyledCustomFieldButton>
     </StyledMenuItemEditField>
   );
 };

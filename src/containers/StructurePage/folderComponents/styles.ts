@@ -7,10 +7,9 @@
  */
 
 import styled from '@emotion/styled';
-import { css } from '@emotion/core';
 import { spacing, colors } from '@ndla/core';
 
-export const filterWrapper = css`
+export const StyledFilterWrapper = styled.div`
   background-color: white;
   padding: calc(${spacing.small} / 2);
   position: relative;

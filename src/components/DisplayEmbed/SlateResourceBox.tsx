@@ -46,7 +46,6 @@ const SlateResourceBox = ({ embed, language }: Props) => {
         image={image}
         title={embed?.title || ''}
         caption={embed.caption || ''}
-        locale={language}
         url={embed.url}
       />
     </ResourceBoxWrapper>

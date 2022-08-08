@@ -183,7 +183,7 @@ const config: ConfigType = {
   logglyApiKey: getEnvironmentVariabel('LOGGLY_API_KEY'),
   isNdlaProdEnvironment: ndlaEnvironment === 'prod',
   versioningEnabled: getEnvironmentVariabel('ENABLE_VERSIONING', 'true'),
-  revisiondateEnabled: getEnvironmentVariabel('ENABLE_REVISIONDATE', 'false'),
+  revisiondateEnabled: getEnvironmentVariabel('ENABLE_REVISIONDATE', 'true'),
   ndlaApiUrl: getEnvironmentVariabel('NDLA_API_URL', getNdlaApiUrl(ndlaEnvironment)),
   ndlaBaseUrl: ndlaBaseUrl(),
   ndlaFrontendDomain: getEnvironmentVariabel('FRONTEND_DOMAIN', ndlaFrontendDomain()),

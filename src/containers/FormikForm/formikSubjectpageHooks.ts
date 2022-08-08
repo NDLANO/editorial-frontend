@@ -84,6 +84,7 @@ export function useFetchSubjectpageData(
   useEffect(() => {
     (async () => {
       setLoading(true);
+      setSubjectpage(undefined);
       if (subjectpageId) {
         try {
           const subjectpage = await frontpageApi.fetchSubjectpage(subjectpageId, selectedLanguage);

@@ -168,6 +168,7 @@ export type ConfigType = {
   zendeskWidgetKey: string | undefined;
   brightcovePlayerId: string | undefined;
   brightcove360PlayerId: string | undefined;
+  brightcoveCopyrightPlayerId: string | undefined;
   disableCSP: string | undefined;
   usernamePasswordEnabled: boolean;
 };
@@ -197,6 +198,7 @@ const config: ConfigType = {
   brightCoveAccountId: getEnvironmentVariabel('BRIGHTCOVE_ACCOUNT_ID', '123456789'),
   brightcovePlayerId: getEnvironmentVariabel('BRIGHTCOVE_PLAYER_ID', 'Ab1234'),
   brightcove360PlayerId: getEnvironmentVariabel('BRIGHTCOVE_PLAYER_360_ID', 'Ab1234'),
+  brightcoveCopyrightPlayerId: getEnvironmentVariabel('BRIGHTCOVE_PLAYER_COPYRIGHT_ID', 'Ab1234'),
   brightcoveApiUrl: 'https://cms.api.brightcove.com',
   brightcoveUrl: 'https://studio.brightcove.com/products/videocloud/home',
   h5pApiUrl: getEnvironmentVariabel('H5P_API_URL', h5pApiUrl()),

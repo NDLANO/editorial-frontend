@@ -1612,6 +1612,7 @@ const phrases = {
     ar: 'Arabic',
     de: 'German',
     en: 'English',
+    es: 'Spanish',
     se: 'Northern Sámi',
     sma: 'Southern Sámi',
     so: 'Somali',

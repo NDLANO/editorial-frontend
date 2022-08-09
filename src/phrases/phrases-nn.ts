@@ -1616,6 +1616,7 @@ const phrases = {
     ar: 'Arabisk',
     de: 'Tysk',
     en: 'Engelsk',
+    es: 'Spansk',
     se: 'Nordsamisk',
     sma: 'Sørsamisk',
     so: 'Somali',

@@ -50,7 +50,7 @@ const ImageSearchAndUploader = ({
   const { t } = useTranslation();
 
   const searchImagesWithParameters = (query?: string, page?: number) => {
-    return searchImages({ query, page, 'page-size': 16 });
+    return searchImages({ query, page, 'page-size': 16, language: language, fallback: true });
   };
 
   return (

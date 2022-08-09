@@ -7,7 +7,6 @@
  */
 
 import styled from '@emotion/styled';
-import { getLicenseByAbbreviation } from '@ndla/licenses';
 import { IImageMetaInformationV2 } from '@ndla/types-image-api';
 import { ResourceBox } from '@ndla/ui';
 import { useEffect, useState } from 'react';
@@ -36,10 +35,6 @@ const SlateResourceBox = ({ embed, language }: Props) => {
     }
   }, [embed.imageid, language]);
 
-  const licenses = imageMeta?.copyright
-    ? getLicenseByAbbreviation(imageMeta.copyright.license.license, language).rights
-    : [];
-
   const image = {
     src: imageMeta?.imageUrl || '',
     alt: imageMeta?.alttext.alttext || '',
@@ -51,8 +46,6 @@ const SlateResourceBox = ({ embed, language }: Props) => {
         image={image}
         title={embed?.title || ''}
         caption={embed.caption || ''}
-        licenseRights={licenses}
-        locale={language}
         url={embed.url}
       />
     </ResourceBoxWrapper>

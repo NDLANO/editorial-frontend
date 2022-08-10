@@ -18,6 +18,7 @@ const StyledImg = styled.img`
 
 interface Props {
   embed: ImageEmbed;
+  language: string;
   editType?: string;
   onFocalPointChange: (focalPoint: { x: number; y: number }) => void;
   onCropComplete: (crop: ReactCrop.Crop, size: ReactCrop.PixelCrop) => void;
@@ -33,6 +34,7 @@ interface Props {
 
 const ImageTransformEditor = ({
   embed,
+  language,
   editType,
   onFocalPointChange,
   onCropComplete,
@@ -43,6 +45,7 @@ const ImageTransformEditor = ({
       return (
         <ImageFocalPointEdit
           embed={embed}
+          language={language}
           transformData={transformData}
           onFocalPointChange={onFocalPointChange}
         />
@@ -51,6 +54,7 @@ const ImageTransformEditor = ({
       return (
         <ImageCropEdit
           embed={embed}
+          language={language}
           onCropComplete={onCropComplete}
           transformData={transformData}
         />
@@ -58,7 +62,10 @@ const ImageTransformEditor = ({
     default:
       return (
         <figure>
-          <StyledImg alt={embed.alt} srcSet={getSrcSets(embed.resource_id, transformData)} />
+          <StyledImg
+            alt={embed.alt}
+            srcSet={getSrcSets(embed.resource_id, transformData, language)}
+          />
         </figure>
       );
   }

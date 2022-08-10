@@ -464,7 +464,7 @@ const phrases = {
     editImage: 'Rediger bildet',
     remove: {
       crop: 'Fjern utsnitt',
-      focalPoint: 'Fjern fokuspunkt',
+      focalPoint: 'Fjern fokalpunkt',
     },
   },
   imageForm: {

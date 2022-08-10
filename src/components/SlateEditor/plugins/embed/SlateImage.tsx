@@ -120,7 +120,12 @@ const SlateImage = ({
         language={language}
       />
       {editMode && (
-        <EditImage embed={embed} saveEmbedUpdates={saveEmbedUpdates} setEditModus={setEditMode} />
+        <EditImage
+          embed={embed}
+          saveEmbedUpdates={saveEmbedUpdates}
+          setEditModus={setEditMode}
+          language={language}
+        />
       )}
       {!(visualElement && editMode) && (
         <StyledButton

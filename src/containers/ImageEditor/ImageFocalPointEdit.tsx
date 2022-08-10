@@ -41,6 +41,7 @@ const StyledFocalPointContainer = styled('div')`
 
 interface Props {
   embed: ImageEmbed;
+  language: string;
   onFocalPointChange: (focalPoint: { x: number; y: number }) => void;
   transformData?: {
     'focal-x'?: string;
@@ -58,7 +59,7 @@ type Marker = {
   showMarker: boolean;
 };
 
-const ImageFocalPointEdit = ({ embed, onFocalPointChange, transformData }: Props) => {
+const ImageFocalPointEdit = ({ embed, language, onFocalPointChange, transformData }: Props) => {
   const focalImgRef = useRef<HTMLImageElement | null>(null);
   const [marker, setMarker] = useState<Marker>({
     showMarker: false,
@@ -119,7 +120,7 @@ const ImageFocalPointEdit = ({ embed, onFocalPointChange, transformData }: Props
             alt={embed.alt}
             ref={focalImgRef}
             onLoad={e => setXandY(e.target as HTMLImageElement)}
-            srcSet={getSrcSets(embed.resource_id, transformData)}
+            srcSet={getSrcSets(embed.resource_id, transformData, language)}
           />
         </StyledFocalPointButton>
         <StyledFocalPointMarker style={style} />

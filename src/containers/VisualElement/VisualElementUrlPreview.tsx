@@ -188,8 +188,22 @@ const VisualElementUrlPreview = ({
           setEmbedUrl(src ?? undefined);
           setShowPreview(true);
         } else {
+          const data = showFullscreen
+            ? {
+                title,
+                caption: description,
+                imageid: image?.id,
+                type: 'fullscreen',
+              }
+            : {
+                type: 'iframe',
+              };
           onUrlSave({
-            value: { resource: 'external', url: src || undefined } as ExternalEmbed,
+            value: {
+              ...data,
+              resource: 'external',
+              url: src || undefined,
+            } as ExternalEmbed,
             type: 'embed',
           });
         }

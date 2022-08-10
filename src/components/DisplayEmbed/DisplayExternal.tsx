@@ -212,7 +212,8 @@ export class DisplayExternal extends Component<Props, State> {
               : undefined
           }
         />
-        {embed.resource === 'iframe' && embed.type === 'fullscreen' ? (
+        {(embed.resource === 'iframe' || embed.resource === 'external') &&
+        embed.type === 'fullscreen' ? (
           <SlateResourceBox embed={embed} language={language} />
         ) : (
           <iframe

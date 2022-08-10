@@ -148,8 +148,6 @@ const frameSrc = (() => {
     'https://*.auth0.com',
     '*.facebook.com',
     '*.twitter.com',
-    '*.livestream.com',
-    'livestream.com',
     'tomknudsen.no',
     'www.tomknudsen.no',
     'geogebra.org',

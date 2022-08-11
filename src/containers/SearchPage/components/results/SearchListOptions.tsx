@@ -12,7 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { spacing } from '@ndla/core';
 import { SearchParams } from '../form/SearchForm';
 
-const pageSizeOptions = [4, 6, 8, 10, 12, 14, 16, 18, 20];
+const pageSizeOptions = [5, 10, 20, 50, 100];
 
 interface Props {
   searchObject?: SearchParams;

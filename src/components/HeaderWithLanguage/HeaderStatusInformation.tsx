@@ -183,7 +183,7 @@ const HeaderStatusInformation = ({
   );
 
   const publishedIconLink = (
-    <StyledLink target="_blank" to={`${config.ndlaFrontendDomain}${taxonomyPaths?.[0]}`}>
+    <StyledLink target="_blank" to={`${config.ndlaFrontendDomain}/article/${id}`}>
       {publishedIcon}
     </StyledLink>
   );

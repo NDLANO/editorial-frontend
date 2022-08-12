@@ -36,6 +36,7 @@ interface Props {
   embed: ImageEmbed;
   saveEmbedUpdates: Function;
   setEditModus: Function;
+  language: string;
 }
 
 interface StateProps {
@@ -51,7 +52,7 @@ interface StateProps {
   madeChanges: boolean;
 }
 
-const EditImage = ({ embed, saveEmbedUpdates, setEditModus }: Props) => {
+const EditImage = ({ embed, saveEmbedUpdates, setEditModus, language }: Props) => {
   const [state, setState] = useState<StateProps>({
     alt: embed.alt,
     caption: embed.caption,
@@ -130,6 +131,7 @@ const EditImage = ({ embed, saveEmbedUpdates, setEditModus }: Props) => {
                   embed={embed}
                   onUpdatedImageSettings={onUpdatedImageSettings}
                   imageUpdates={state.imageUpdates}
+                  language={language}
                 />
                 <FigureInput
                   caption={state.caption}

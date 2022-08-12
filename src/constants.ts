@@ -71,11 +71,6 @@ export const EXTERNAL_WHITELIST_PROVIDERS = [
   { name: 'SlideShare', url: ['www.slideshare.net'], height: '500px' },
   { name: 'Scribd', url: ['scribd.com'] },
   { name: 'Kahoot', url: ['embed.kahoot.it'] },
-  {
-    name: 'Livestream',
-    url: ['livestream.com', 'new.livestream.com'],
-    height: '398px',
-  },
   { name: 'Geogebra', url: ['geogebra.org', 'www.geogebra.org', 'ggbm.at'] },
   { name: 'IMDB', url: ['www.imdb.com', 'imdb.com'], height: '398px' },
   { name: 'Tom Knudsen', url: ['www.tomknudsen.no', 'tomknudsen.no'] },

@@ -141,9 +141,7 @@ const VisualElementUrlPreview = ({
   const [image, setImage] = useState<IImageMetaInformationV2>();
   const [imageModalOpen, setImageModalOpen] = useState(false);
   const [description, setDescription] = useState(embed?.caption || '');
-  const [showFullscreen, setShowFullscreen] = useState(
-    !!(embed?.imageid || embed?.caption || embed?.title),
-  );
+  const [showFullscreen, setShowFullscreen] = useState(embed?.type === 'fullscreen');
   const [embedUrl, setEmbedUrl] = useState(selectedResourceUrl);
   const [showPreview, setShowPreview] = useState(selectedResourceUrl !== '');
   const [error, setError] = useState<URLError | undefined>(undefined);
@@ -188,8 +186,22 @@ const VisualElementUrlPreview = ({
           setEmbedUrl(src ?? undefined);
           setShowPreview(true);
         } else {
+          const data = showFullscreen
+            ? {
+                title,
+                caption: description,
+                imageid: image?.id,
+                type: 'fullscreen',
+              }
+            : {
+                type: 'iframe',
+              };
           onUrlSave({
-            value: { resource: 'external', url: src || undefined } as ExternalEmbed,
+            value: {
+              ...data,
+              resource: 'external',
+              url: src || undefined,
+            } as ExternalEmbed,
             type: 'embed',
           });
         }

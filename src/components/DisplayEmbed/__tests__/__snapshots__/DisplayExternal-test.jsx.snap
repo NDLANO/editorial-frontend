@@ -187,7 +187,7 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
     >
       <div
         data-tooltip="true"
-        data-tooltip-id="1"
+        data-tooltip-id="2"
         data-tooltip-label="Fjern eksternt element"
       >
         <span
@@ -232,7 +232,7 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
       </div>
       <div
         data-tooltip="true"
-        data-tooltip-id="2"
+        data-tooltip-id="4"
         data-tooltip-label="Rediger eksternt element"
       >
         <span

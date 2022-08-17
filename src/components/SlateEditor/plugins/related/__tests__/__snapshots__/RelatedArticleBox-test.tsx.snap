@@ -1261,7 +1261,7 @@ exports[`it goes in and out of edit mode 2`] = `
               >
                 <div
                   data-tooltip="true"
-                  data-tooltip-id="1"
+                  data-tooltip-id="2"
                   data-tooltip-label="Endre ekstern artikkel"
                 >
                   <span

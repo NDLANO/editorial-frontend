@@ -17,6 +17,7 @@ const phrases = {
     agreementPage: `Avtale ${titleTemplate}`,
     welcomePage: `Forside ${titleTemplate}`,
     structurePage: `Struktur ${titleTemplate}`,
+    versionsPage: `Versjonar ${titleTemplate}`,
     audioUploaderPage: `Lyd ${titleTemplate}`,
     imageUploaderPage: `Bilde ${titleTemplate}`,
     loginPage: `Logg inn ${titleTemplate}`,

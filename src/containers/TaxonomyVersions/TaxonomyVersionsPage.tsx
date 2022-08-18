@@ -11,6 +11,7 @@ import styled from '@emotion/styled';
 import { colors, spacing } from '@ndla/core';
 import Button from '@ndla/button';
 import { OneColumn } from '@ndla/ui';
+import { HelmetWithTracker } from '@ndla/tracker';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Row } from '../../components';
@@ -51,6 +52,7 @@ const TaxonomyVersionsPage = () => {
   return (
     <>
       <OneColumn>
+        <HelmetWithTracker title={t('htmlTitles.versionsPage')} />
         <h1>{t('taxonomyVersions.title')}</h1>
         <Row alignItems="center">
           <p>{t('taxonomyVersions.about')}</p>

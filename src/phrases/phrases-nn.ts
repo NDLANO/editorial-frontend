@@ -1273,7 +1273,7 @@ const phrases = {
     addTopicDescription: 'Endre emnebeskrivelse',
     confirmSetPrimary: 'Vil du gjere dette til hovedplassering?',
     jumpToResources: 'Hopp til ressurser',
-    jumpToStructure: 'Hopp till struktur',
+    jumpToStructure: 'Hopp til struktur',
     copyResources: {
       error: 'Noko gjekk feil med kopiering',
       info: 'Gjenbruk ressurser fra emne',

@@ -48,6 +48,7 @@ const StructureContainer = () => {
   const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
   const [currentNode, setCurrentNode] = useState<NodeType | undefined>(undefined);
+  const [shouldScroll, setShouldScroll] = useState(!!paths.length);
 
   const { userPermissions } = useSession();
   const [editStructureHidden, setEditStructureHidden] = useState(false);
@@ -73,10 +74,16 @@ const StructureContainer = () => {
   );
 
   useEffect(() => {
-    if (currentNode) {
+    if (currentNode && shouldScroll) {
       document.getElementById(currentNode.id)?.scrollIntoView(true);
+      setShouldScroll(false);
     }
-  }, [currentNode, taxonomyVersion]);
+  }, [currentNode, shouldScroll]);
+
+  useEffect(() => {
+    setCurrentNode(undefined);
+    setShouldScroll(true);
+  }, [taxonomyVersion]);
 
   const handleStructureToggle = (path: string) => {
     const { search } = location;

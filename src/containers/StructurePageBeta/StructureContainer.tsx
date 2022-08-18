@@ -75,7 +75,7 @@ const StructureContainer = () => {
 
   useEffect(() => {
     if (currentNode && shouldScroll) {
-      document.getElementById(currentNode.id)?.scrollIntoView(true);
+      document.getElementById(currentNode.id)?.scrollIntoView({ block: 'center' });
       setShouldScroll(false);
     }
   }, [currentNode, shouldScroll]);

@@ -25,7 +25,7 @@ interface Props {
   openedPaths: string[];
   isFavorite: boolean;
   toggleFavorite: () => void;
-  onChildNodeSelected: (node?: ChildNodeType) => void;
+  onNodeSelected: (node?: NodeType) => void;
   resourceSectionRef: MutableRefObject<HTMLDivElement | null>;
   allRootNodes: NodeType[];
   renderBeforeTitle?: RenderBeforeFunction;
@@ -37,7 +37,7 @@ const RootNode = ({
   openedPaths,
   toggleOpen,
   toggleFavorite,
-  onChildNodeSelected,
+  onNodeSelected,
   resourceSectionRef,
   allRootNodes,
   renderBeforeTitle,
@@ -98,7 +98,7 @@ const RootNode = ({
       nodes={childNodesQuery.data}
       openedPaths={openedPaths}
       level={1}
-      onChildNodeSelected={onChildNodeSelected}
+      onNodeSelected={onNodeSelected}
       toggleOpen={toggleOpen}
       toggleFavorite={toggleFavorite}
       rootNodeId={node.id}

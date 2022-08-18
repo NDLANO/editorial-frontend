@@ -52,7 +52,12 @@ const StickyVersionSelector = () => {
 
   const onVersionChanged = (newVersionHash: string) => {
     changeVersion(newVersionHash);
-    qc.invalidateQueries();
+    qc.removeQueries({
+      predicate: query => {
+        const qk = query.queryKey as [string, Record<string, any>];
+        return qk[1]?.taxonomyVersion === 'default';
+      },
+    });
   };
 
   return (

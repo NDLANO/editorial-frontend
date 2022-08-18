@@ -267,11 +267,14 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
 };
 
 const PublishedWrapper = ({ path, children }: { path?: string; children: ReactElement }) => {
+  const { taxonomyVersion } = useTaxonomyVersion();
   if (!path) {
     return children;
   }
   return (
-    <StyledLink target="_blank" to={`${config.ndlaFrontendDomain}${path}`}>
+    <StyledLink
+      target="_blank"
+      to={`${config.ndlaFrontendDomain}${path}?versionHash=${taxonomyVersion}`}>
       {children}
     </StyledLink>
   );

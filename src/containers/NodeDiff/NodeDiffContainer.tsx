@@ -100,7 +100,7 @@ const NodeDiffcontainer = ({ originalHash, otherHash, nodeId }: Props) => {
     {
       id: nodeId,
       language: i18n.language,
-      taxonomyVersion: otherHash || originalHash,
+      taxonomyVersion: otherHash || 'default',
     },
     {
       enabled: !!nodeId && !!otherHash,

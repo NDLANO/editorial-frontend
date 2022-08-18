@@ -1271,6 +1271,7 @@ const phrases = {
     confirmSetPrimary: 'Do you want to make this the main location?',
     removeLink: 'Remove link',
     jumpToResources: 'Jump to resources',
+    jumpToStructure: 'Jump to structure',
     copyResources: {
       error: 'Something went wrong during copying',
       info: 'Reuse resources from topic',

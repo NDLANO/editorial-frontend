@@ -96,7 +96,7 @@ const StructureResources = ({ currentChildNode, resourceRef, onCurrentNodeChange
           onClick={() =>
             document.getElementById(currentChildNode.id)?.scrollIntoView({ block: 'center' })
           }>
-          Go back
+          {t('taxonomy.jumpToStructure')}
         </Button>
         {currentChildNode && currentChildNode.id && (
           <StyledDiv>

@@ -173,7 +173,8 @@ const groupSortResourceTypesFromTopicResources = (
   return topicResourcesByTypeWithMetaData(resorceTypesByTopic);
 };
 
-const safeConcat = <T>(toAdd: T, existing?: T[]) => (existing ? existing.concat(toAdd) : [toAdd]);
+export const safeConcat = <T>(toAdd: T, existing?: T[]) =>
+  existing ? existing.concat(toAdd) : [toAdd];
 
 const insertSubTopic = (topics: SubjectTopic[], subTopic: SubjectTopic): SubjectTopic[] => {
   return topics.map(topic => {

@@ -51,8 +51,14 @@ const StickyVersionSelector = () => {
   const currentVersion = data.find(version => version.hash === taxonomyVersion);
 
   const onVersionChanged = (newVersionHash: string) => {
+    const oldVersion = taxonomyVersion;
     changeVersion(newVersionHash);
-    qc.invalidateQueries();
+    qc.removeQueries({
+      predicate: query => {
+        const qk = query.queryKey as [string, Record<string, any>];
+        return qk[1]?.taxonomyVersion === oldVersion;
+      },
+    });
   };
 
   return (

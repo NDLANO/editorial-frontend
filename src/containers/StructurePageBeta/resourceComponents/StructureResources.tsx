@@ -6,9 +6,10 @@
  *
  */
 
-import React, { memo } from 'react';
+import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { spacing } from '@ndla/core';
+import Button from '@ndla/button';
 import styled from '@emotion/styled';
 import { RefObject } from 'react';
 import { TFunction } from 'i18next';
@@ -29,6 +30,11 @@ const StyledDiv = styled('div')`
   width: calc(${spacing.large} * 5);
   margin-left: auto;
   margin-right: calc(${spacing.nsmall});
+`;
+const Row = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding: ${spacing.xsmall};
 `;
 
 interface Props {
@@ -84,20 +90,29 @@ const StructureResources = ({ currentChildNode, resourceRef, onCurrentNodeChange
 
   return (
     <div ref={resourceRef}>
-      {currentChildNode && currentChildNode.id && (
-        <StyledDiv>
-          <GroupTopicResources
-            node={currentChildNode}
-            hideIcon
-            onChanged={partialMeta => {
-              onCurrentNodeChanged({
-                ...currentChildNode,
-                metadata: { ...currentChildNode.metadata, ...partialMeta },
-              });
-            }}
-          />
-        </StyledDiv>
-      )}
+      <Row>
+        <Button
+          outline
+          onClick={() =>
+            document.getElementById(currentChildNode.id)?.scrollIntoView({ block: 'center' })
+          }>
+          {t('taxonomy.jumpToStructure')}
+        </Button>
+        {currentChildNode && currentChildNode.id && (
+          <StyledDiv>
+            <GroupTopicResources
+              node={currentChildNode}
+              hideIcon
+              onChanged={partialMeta => {
+                onCurrentNodeChanged({
+                  ...currentChildNode,
+                  metadata: { ...currentChildNode.metadata, ...partialMeta },
+                });
+              }}
+            />
+          </StyledDiv>
+        )}
+      </Row>
       <NodeDescription currentNode={currentChildNode} />
       {grouped === 'ungrouped' && (
         <AllResourcesGroup

@@ -2,7 +2,7 @@ import { Taxonomy } from '@ndla/icons/editor';
 import { OneColumn } from '@ndla/ui';
 import { Spinner } from '@ndla/icons';
 import { colors } from '@ndla/core';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Switch } from '@ndla/switch';
@@ -24,11 +24,14 @@ import Footer from '../App/components/Footer';
 import { useTaxonomyVersion } from '../StructureVersion/TaxonomyVersionProvider';
 import StickyVersionSelector from './StickyVersionSelector';
 import config from '../../config';
+import { createGuard } from '../../util/guards';
 
 const StructureWrapper = styled.ul`
   margin: 0;
   padding: 0;
 `;
+
+const isChildNode = createGuard<ChildNodeType>('connectionId');
 
 const StyledStructureContainer = styled.div`
   position: relative;
@@ -36,15 +39,16 @@ const StyledStructureContainer = styled.div`
 
 const StructureContainer = () => {
   const location = useLocation();
-  const [subject, topic, ...rest] = location.pathname.replace('/structureBeta/', '').split('/');
+  const paths = location.pathname.replace('/structureBeta/', '').split('/');
+  const [subject, topic, ...rest] = paths;
   const joinedRest = rest.join('/');
   const subtopics = joinedRest.length > 0 ? joinedRest : undefined;
   const params = { subject, topic, subtopics };
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [currentNode, setCurrentNode] = useState<ChildNodeType | undefined>(undefined);
+  const [currentNode, setCurrentNode] = useState<NodeType | undefined>(undefined);
+  const [shouldScroll, setShouldScroll] = useState(!!paths.length);
 
   const { userPermissions } = useSession();
   const [editStructureHidden, setEditStructureHidden] = useState(false);
@@ -68,6 +72,19 @@ const StructureContainer = () => {
       placeholderData: [],
     },
   );
+
+  useEffect(() => {
+    if (currentNode && shouldScroll) {
+      document.getElementById(currentNode.id)?.scrollIntoView({ block: 'center' });
+      setShouldScroll(false);
+    }
+  }, [currentNode, shouldScroll]);
+
+  useEffect(() => {
+    setCurrentNode(undefined);
+    setShouldScroll(true);
+  }, [taxonomyVersion]);
+
   const handleStructureToggle = (path: string) => {
     const { search } = location;
     const currentPath = location.pathname.replace('/structureBeta/', '');
@@ -155,7 +172,7 @@ const StructureContainer = () => {
                     allRootNodes={nodesQuery.data ?? []}
                     openedPaths={getPathsFromUrl(location.pathname)}
                     resourceSectionRef={resourceSection}
-                    onChildNodeSelected={setCurrentNode}
+                    onNodeSelected={setCurrentNode}
                     isFavorite={!!favoriteNodes[node.id]}
                     key={node.id}
                     node={node}
@@ -168,7 +185,7 @@ const StructureContainer = () => {
           </StyledStructureContainer>
         </Accordion>
         {config.versioningEnabled === 'true' && <StickyVersionSelector />}
-        {currentNode && (
+        {currentNode && isChildNode(currentNode) && (
           <StructureResources
             currentChildNode={currentNode}
             resourceRef={resourceSection}

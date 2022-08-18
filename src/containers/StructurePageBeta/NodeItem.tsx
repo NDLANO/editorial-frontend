@@ -47,7 +47,7 @@ interface Props {
   openedPaths: string[];
   toggleOpen: (nodeId: string) => void;
   level: number;
-  onChildNodeSelected: (childNode?: ChildNodeType) => void;
+  onNodeSelected: (node?: NodeType) => void;
   resourceSectionRef: MutableRefObject<HTMLDivElement | null>;
   rootNodeId: string;
   onDragEnd: (result: DropResult, childNodes: ChildNodeType[]) => Promise<void>;
@@ -67,7 +67,7 @@ const NodeItem = ({
   openedPaths,
   toggleOpen,
   level,
-  onChildNodeSelected,
+  onNodeSelected,
   rootNodeId,
   resourceSectionRef,
   onDragEnd,
@@ -88,15 +88,15 @@ const NodeItem = ({
   const articleType = isChildNode(item) ? item.articleType : undefined;
 
   useEffect(() => {
-    if (isActive && isChildNode(item)) {
-      onChildNodeSelected(item);
+    if (isActive) {
+      onNodeSelected(item);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onItemClick = () => {
     toggleOpen(path);
-    onChildNodeSelected(isChildNode(item) ? item : undefined);
+    onNodeSelected(item);
   };
 
   return (
@@ -131,7 +131,7 @@ const NodeItem = ({
             key={item.id}
             isMainActive={isOpen}
             structure={allRootNodes}
-            onCurrentNodeChanged={node => (isChildNode(node) ? onChildNodeSelected(node) : null)}
+            onCurrentNodeChanged={node => onNodeSelected(node)}
             jumpToResources={() => resourceSectionRef?.current?.scrollIntoView()}
             nodeChildren={nodes ?? []}
           />
@@ -161,7 +161,7 @@ const NodeItem = ({
                   rootNodeId={rootNodeId}
                   openedPaths={openedPaths}
                   resourceSectionRef={resourceSectionRef}
-                  onChildNodeSelected={onChildNodeSelected}
+                  onNodeSelected={onNodeSelected}
                   item={t}
                   nodes={t.childNodes}
                   toggleOpen={toggleOpen}

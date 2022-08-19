@@ -287,7 +287,11 @@ export const StructureContainer = () => {
               DND
               onDragEnd={onDragEnd}
               openedPaths={getPathsFromUrl(location.pathname)}
-              structure={showFavorites ? getFavoriteSubjects(subjects, favoriteSubjects) : subjects}
+              structure={
+                showFavorites
+                  ? getFavoriteSubjects(subjects, [...favoriteSubjects, subject])
+                  : subjects
+              }
               toggleOpen={handleStructureToggle}
               highlightMainActive
               toggleFavorite={toggleFavorite}

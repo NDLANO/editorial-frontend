@@ -100,7 +100,7 @@ const StructureContainer = () => {
 
   const updateUserDataMutation = useUpdateUserDataMutation();
   const nodes = showFavorites
-    ? getFavoriteNodes(nodesQuery.data, favoriteNodeIds)
+    ? getFavoriteNodes(nodesQuery.data, [...favoriteNodeIds, subject])
     : nodesQuery.data!;
 
   const toggleFavorite = (nodeId: string) => {

@@ -21,7 +21,7 @@ import NodeDescription from './NodeDescription';
 import handleError from '../../../util/handleError';
 import AllResourcesGroup from './AllResourcesGroup';
 import ResourceGroup from './ResourceGroup';
-import { groupSortResourceTypesFromNodeResources } from '../../../util/taxonomyHelpers';
+import { groupResourcesByType } from '../../../util/taxonomyHelpers';
 import GroupTopicResources from '../folderComponents/topicMenuOptions/GroupTopicResources';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 
@@ -83,10 +83,7 @@ const StructureResources = ({ currentChildNode, resourceRef, onCurrentNodeChange
     },
   );
 
-  const groupedNodeResources = groupSortResourceTypesFromNodeResources(
-    resourceTypes ?? [],
-    nodeResources ?? [],
-  );
+  const mapping = groupResourcesByType(nodeResources ?? [], resourceTypes ?? []);
 
   return (
     <div ref={resourceRef}>
@@ -124,9 +121,7 @@ const StructureResources = ({ currentChildNode, resourceRef, onCurrentNodeChange
       )}
       {grouped === 'grouped' &&
         resourceTypes?.map(resourceType => {
-          const nodeResource = groupedNodeResources.find(
-            resource => resource.id === resourceType.id,
-          );
+          const nodeResource = mapping.find(resource => resource.id === resourceType.id);
           return (
             <ResourceGroup
               key={resourceType.id}

@@ -6,6 +6,7 @@
  *
  */
 
+import { groupBy, merge, uniqBy } from 'lodash';
 import { IStatus } from '@ndla/types-draft-api';
 import { FlattenedResourceType } from '../interfaces';
 import {
@@ -64,24 +65,59 @@ const flattenResourceTypesAndAddContextTypes = (
   return resourceTypes;
 };
 
-const groupResourcesByResourceType = (resources: ResourceWithNodeConnection[]) => {
-  return resources
+export const groupResourcesByType = (
+  resources: ResourceWithNodeConnection[],
+  resourceTypes: ResourceType[],
+) => {
+  const types = resourceTypes.reduce<Record<string, string>>((types, rt) => {
+    const reversedMapping =
+      rt.subtypes?.reduce<Record<string, string>>((acc, curr) => {
+        acc[curr.id] = rt.id;
+        return acc;
+      }, {}) ?? {};
+    reversedMapping[rt.id] = rt.id;
+    return merge(types, reversedMapping);
+  }, {});
+
+  const typeToResourcesMapping = resources
     .flatMap(res => res.resourceTypes.map<[string, ResourceWithNodeConnection]>(rt => [rt.id, res]))
-    .reduce<Record<string, ResourceWithNodeConnection[]>>(
-      (acc, [id, cur]) => ({ ...acc, [id]: safeConcat(cur, acc[id]) }),
+    .reduce<Record<string, { parent: string; resources: ResourceWithNodeConnection[] }>>(
+      (acc, [id, curr]) => {
+        if (acc[id]) {
+          acc[id]['resources'] = acc[id]['resources'].concat(curr);
+        } else {
+          acc[id] = {
+            parent: types[id],
+            resources: [curr],
+          };
+        }
+        return acc;
+      },
       {},
     );
-};
 
-const groupSortResourceTypesFromNodeResources = (
-  resourceTypes: ResourceType[],
-  topicResources: ResourceWithNodeConnection[],
-) => {
-  const groupedByResource = groupResourcesByResourceType(topicResources);
+  const groupedValues = groupBy(Object.values(typeToResourcesMapping), t => t.parent);
+
+  const unique = Object.entries(groupedValues).reduce<Record<string, ResourceWithNodeConnection[]>>(
+    (acc, [id, val]) => {
+      const uniqueValues = uniqBy(
+        val.flatMap(v => v.resources),
+        r => r.id,
+      );
+
+      acc[id] = uniqueValues;
+      return acc;
+    },
+    {},
+  );
+
   return resourceTypes
-    .map(type => ({ ...type, resources: groupedByResource[type.id] ?? [] }))
-    .filter(type => type.resources.length > 0)
-    .map(type => ({ ...type, contentType: getContentTypeFromResourceTypes([type]).contentType }));
+    .map(rt => ({
+      ...rt,
+      resources: unique[rt.id] ?? [],
+      contentType: getContentTypeFromResourceTypes([rt]).contentType,
+    }))
+    .filter(rt => rt.resources.length > 0);
 };
 
 const sortIntoCreateDeleteUpdate = <T extends { id: string }>({
@@ -301,7 +337,6 @@ const getBreadcrumbFromPath = async (
 export const nodePathToUrnPath = (path: string) => path.replace(/\//g, '/urn:').substr(1);
 
 export {
-  groupSortResourceTypesFromNodeResources,
   groupChildNodes,
   flattenResourceTypesAndAddContextTypes,
   sortIntoCreateDeleteUpdate,

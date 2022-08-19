@@ -13,7 +13,6 @@ import Button from '@ndla/button';
 import styled from '@emotion/styled';
 import { RefObject } from 'react';
 import { TFunction } from 'i18next';
-import { groupBy, merge, uniqBy } from 'lodash';
 import { ChildNodeType, ResourceWithNodeConnection } from '../../../modules/nodes/nodeApiTypes';
 import { ResourceType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import { useResourcesWithNodeConnection } from '../../../modules/nodes/nodeQueries';
@@ -22,10 +21,9 @@ import NodeDescription from './NodeDescription';
 import handleError from '../../../util/handleError';
 import AllResourcesGroup from './AllResourcesGroup';
 import ResourceGroup from './ResourceGroup';
-import { groupSortResourceTypesFromNodeResources } from '../../../util/taxonomyHelpers';
+import { groupResourcesByType } from '../../../util/taxonomyHelpers';
 import GroupTopicResources from '../folderComponents/topicMenuOptions/GroupTopicResources';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
-import { getContentTypeFromResourceTypes } from '../../../util/resourceHelpers';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const StyledDiv = styled('div')`
@@ -85,68 +83,7 @@ const StructureResources = ({ currentChildNode, resourceRef, onCurrentNodeChange
     },
   );
 
-  const groupedNodeResources = groupSortResourceTypesFromNodeResources(
-    resourceTypes ?? [],
-    nodeResources ?? [],
-  );
-
-  const resourceToTypeMapping = (
-    resources: ResourceWithNodeConnection[],
-    resourceTypes: ResourceType[],
-  ) => {
-    const types = resourceTypes.reduce<Record<string, string>>((types, rt) => {
-      const reversedMapping =
-        rt.subtypes?.reduce<Record<string, string>>((acc, curr) => {
-          acc[curr.id] = rt.id;
-          return acc;
-        }, {}) ?? {};
-      reversedMapping[rt.id] = rt.id;
-      return merge(types, reversedMapping);
-    }, {});
-
-    const typeToResourcesMapping = resources
-      .flatMap(res =>
-        res.resourceTypes.map<[string, ResourceWithNodeConnection]>(rt => [rt.id, res]),
-      )
-      .reduce<Record<string, { parent: string; resources: ResourceWithNodeConnection[] }>>(
-        (acc, [id, curr]) => {
-          if (acc[id]) {
-            acc[id]['resources'] = acc[id]['resources'].concat(curr);
-          } else {
-            acc[id] = {
-              parent: types[id],
-              resources: [curr],
-            };
-          }
-          return acc;
-        },
-        {},
-      );
-
-    const groupedValues = groupBy(Object.values(typeToResourcesMapping), t => t.parent);
-
-    const unique = Object.entries(groupedValues).reduce<
-      Record<string, ResourceWithNodeConnection[]>
-    >((acc, [id, val]) => {
-      const uniqueValues = uniqBy(
-        val.flatMap(v => v.resources),
-        r => r.id,
-      );
-
-      acc[id] = uniqueValues;
-      return acc;
-    }, {});
-
-    return resourceTypes
-      .map(rt => ({
-        ...rt,
-        resources: unique[rt.id] ?? [],
-        contentType: getContentTypeFromResourceTypes([rt]).contentType,
-      }))
-      .filter(rt => rt.resources.length > 0);
-  };
-
-  const mapping = resourceToTypeMapping(nodeResources ?? [], resourceTypes ?? []);
+  const mapping = groupResourcesByType(nodeResources ?? [], resourceTypes ?? []);
 
   return (
     <div ref={resourceRef}>

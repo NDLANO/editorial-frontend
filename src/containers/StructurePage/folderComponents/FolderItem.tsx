@@ -6,127 +6,72 @@
  *
  */
 
-import { useState } from 'react';
 import { spacing, fonts } from '@ndla/core';
 import Button from '@ndla/button';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
+import { NodeType } from '../../../modules/nodes/nodeApiTypes';
+import { Row } from '../../../components';
+import Spinner from '../../../components/Spinner';
 import SettingsMenu from './SettingsMenu';
 
-import { TAXONOMY_ADMIN_SCOPE } from '../../../constants';
-import AlertModal from '../../../components/AlertModal';
-import {
-  SubjectTopic,
-  SubjectType,
-  TaxonomyElement,
-  TaxonomyMetadata,
-} from '../../../modules/taxonomy/taxonomyApiInterfaces';
-import Spinner from '../../../components/Spinner';
-import { Row } from '../../../components';
-import { useSession } from '../../Session/SessionProvider';
+const StyledResourceButton = styled(Button)`
+  margin: 3px ${spacing.xsmall} 3px auto;
+  ${fonts.sizes(14, 1.1)};
+`;
 
 const StyledFolderWrapper = styled.div`
   display: flex;
   width: 100%;
 `;
 
-const StyledButton = styled(Button)`
-  margin: 3px ${spacing.xsmall} 3px auto;
-  ${fonts.sizes(14, 1.1)};
-`;
-
 interface Props {
-  getAllSubjects: () => Promise<void>;
-  refreshTopics: () => Promise<void>;
-  structure: SubjectType[];
+  node: NodeType;
+  structure: NodeType[];
   jumpToResources?: () => void;
-  locale: string;
-  name: string;
-  pathToString: string;
   isMainActive?: boolean;
   resourcesLoading?: boolean;
-  id: string;
-  metadata: TaxonomyMetadata;
-  setResourcesUpdated: (updated: boolean) => void;
-  subjectId: string;
-  saveSubjectItems: (
-    subjectid: string,
-    saveItems: { topics?: SubjectTopic[]; loading?: boolean; metadata?: TaxonomyMetadata },
-  ) => void;
-  saveSubjectTopicItems: (topicId: string, saveItems: Pick<TaxonomyElement, 'metadata'>) => void;
-  parent?: string;
+  rootNodeId: string;
+  onCurrentNodeChanged: (node: NodeType) => void;
+  nodeChildren: NodeType[];
 }
 
 const FolderItem = ({
-  name,
-  pathToString,
-  id,
+  node,
   jumpToResources,
   isMainActive,
-  metadata,
-  locale,
   resourcesLoading,
-  getAllSubjects,
-  refreshTopics,
-  subjectId,
-  setResourcesUpdated,
-  saveSubjectItems,
-  saveSubjectTopicItems,
-  parent,
+  rootNodeId,
   structure,
+  onCurrentNodeChanged,
+  nodeChildren,
 }: Props) => {
-  const { userPermissions } = useSession();
-  const type = id?.includes('subject') ? 'subject' : 'topic';
   const { t } = useTranslation();
-  const showJumpToResources = isMainActive && type === 'topic';
-
-  const [showAlertModal, setShowAlertModal] = useState(false);
+  const showJumpToResources = isMainActive && node.id.includes('topic');
 
   return (
     <StyledFolderWrapper data-cy="folderWrapper">
       {isMainActive && (
         <SettingsMenu
-          id={id}
-          name={name}
-          type={type}
-          path={pathToString}
-          showAllOptions={!!userPermissions?.includes(TAXONOMY_ADMIN_SCOPE)}
-          metadata={metadata}
-          setShowAlertModal={setShowAlertModal}
-          locale={locale}
-          getAllSubjects={getAllSubjects}
-          refreshTopics={refreshTopics}
-          subjectId={subjectId}
-          setResourcesUpdated={setResourcesUpdated}
-          saveSubjectItems={saveSubjectItems}
-          saveSubjectTopicItems={saveSubjectTopicItems}
-          parent={parent}
+          node={node}
+          rootNodeId={rootNodeId}
           structure={structure}
+          onCurrentNodeChanged={onCurrentNodeChanged}
+          nodeChildren={nodeChildren}
         />
       )}
       {showJumpToResources && (
-        <StyledButton outline type="button" disabled={resourcesLoading} onClick={jumpToResources}>
+        <StyledResourceButton
+          outline
+          type="button"
+          disabled={resourcesLoading}
+          onClick={() => jumpToResources?.()}>
           <Row>
             {t('taxonomy.jumpToResources')}
-            {resourcesLoading && <Spinner appearance="small" />}
+            {!!resourcesLoading && <Spinner appearance="small" />}
           </Row>
-        </StyledButton>
+        </StyledResourceButton>
       )}
-      <AlertModal
-        show={showAlertModal}
-        text={t('taxonomy.resource.copyError')}
-        actions={[
-          {
-            text: t('alertModal.continue'),
-            onClick: () => {
-              setShowAlertModal(false);
-            },
-          },
-        ]}
-        onCancel={() => {
-          setShowAlertModal(false);
-        }}
-      />
     </StyledFolderWrapper>
   );
 };

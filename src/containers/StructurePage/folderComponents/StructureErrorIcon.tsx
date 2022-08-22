@@ -6,13 +6,13 @@
  *
  */
 
-import { useState, useEffect } from 'react';
 import Tooltip from '@ndla/tooltip';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { AlertCircle } from '@ndla/icons/editor';
 import { spacing, colors } from '@ndla/core';
-import { fetchDraft } from '../../../modules/draft/draftApi';
+import { getIdFromUrn } from '../../../util/taxonomyHelpers';
+import { NodeType } from '../../../modules/nodes/nodeApiTypes';
 
 const StyledWarnIcon = styled(AlertCircle)`
   height: ${spacing.nsmall};
@@ -20,51 +20,20 @@ const StyledWarnIcon = styled(AlertCircle)`
   fill: ${colors.support.red};
 `;
 
-const StructureErrorIcon = ({
-  contentUri,
-  isSubject,
-}: {
-  contentUri?: string;
-  isSubject: boolean;
-}) => {
+const StructureErrorIcon = (item: NodeType, isRoot: boolean, articleType?: string) => {
   const { t } = useTranslation();
-  const [error, setError] = useState<string | undefined>(undefined);
+  if (isRoot || articleType === 'topic-article') return null;
 
-  useEffect(() => {
-    let shouldUpdateState = true;
+  const missingArticleTypeError = t('taxonomy.info.missingArticleType', {
+    id: getIdFromUrn(item.contentUri),
+  });
 
-    const fetchAndSetError = async (contentUri: string) => {
-      const articleId = contentUri.split(':').pop();
-      if (articleId) {
-        try {
-          const fetched = await fetchDraft(Number(articleId));
-          if (fetched.articleType !== 'topic-article') {
-            if (shouldUpdateState) {
-              const wrongTooltip = t('taxonomy.info.wrongArticleType', {
-                placedAs: t(`articleType.topic-article`),
-                isType: t(`articleType.standard`),
-              });
-              setError(wrongTooltip);
-            }
-          }
-        } catch (e) {
-          if (shouldUpdateState) {
-            if (typeof e.messages === 'string') setError(e.messages);
-            else setError(t('errorMessage.errorWhenFetchingTaxonomyArticle'));
-          }
-        }
-      }
-    };
+  const wrongArticleTypeError = t('taxonomy.info.wrongArticleType', {
+    placedAs: t(`articleType.topic-article`),
+    isType: t(`articleType.standard`),
+  });
 
-    if (isSubject || !contentUri) return;
-
-    fetchAndSetError(contentUri);
-    return () => {
-      shouldUpdateState = false;
-    };
-  }, [t, isSubject, contentUri]);
-
-  if (!error) return null;
+  const error = !articleType ? missingArticleTypeError : wrongArticleTypeError;
 
   return (
     <Tooltip tooltip={error}>

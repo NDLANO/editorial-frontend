@@ -6,22 +6,20 @@
  *
  */
 
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import Button from '@ndla/button';
+import { shadows, colors, spacing, animations } from '@ndla/core';
 import { Settings } from '@ndla/icons/editor';
 import styled from '@emotion/styled';
-import { useState } from 'react';
-import Overlay from '../../../components/Overlay';
+import { getNodeTypeFromNodeId } from '../../../modules/nodes/nodeUtil';
 import RoundIcon from '../../../components/RoundIcon';
-import {
-  SubjectTopic,
-  TaxonomyElement,
-  TaxonomyMetadata,
-} from '../../../modules/taxonomy/taxonomyApiInterfaces';
-import SettingsMenuDropdown from './SettingsMenuDropdown';
-import { PathArray } from '../../../util/retrieveBreadCrumbs';
-import { EditMode } from '../../../interfaces';
+import Overlay from '../../../components/Overlay';
+import CrossButton from '../../../components/CrossButton';
+import { NodeType } from '../../../modules/nodes/nodeApiTypes';
+import SettingsMenuDropdownType from './SettingsMenuDropdownType';
 
-const StyledDivWrapper = styled('div')`
+const SettingsMenuWrapper = styled.div`
   position: relative;
   display: flex;
 
@@ -30,90 +28,84 @@ const StyledDivWrapper = styled('div')`
   }
 `;
 
+const StyledSpan = styled.span`
+  margin-left: calc(${spacing.small} / 2);
+`;
+
+const IndexWrapper = styled.div`
+  z-index: 2;
+`;
+
 interface Props {
-  type: string;
-  setShowAlertModal: (show: boolean) => void;
-  id: string;
-  name: string;
-  path: string;
-  showAllOptions: boolean;
-  metadata: TaxonomyMetadata;
-  locale: string;
-  getAllSubjects: () => Promise<void>;
-  refreshTopics: () => Promise<void>;
-  subjectId: string;
-  setResourcesUpdated: (updated: boolean) => void;
-  saveSubjectItems: (
-    subjectid: string,
-    saveItems: { topics?: SubjectTopic[]; loading?: boolean; metadata?: TaxonomyMetadata },
-  ) => void;
-  saveSubjectTopicItems: (topicId: string, saveItems: Pick<TaxonomyElement, 'metadata'>) => void;
-  parent?: string;
-  structure: PathArray;
+  node: NodeType;
+  rootNodeId: string;
+  structure: NodeType[];
+  nodeChildren: NodeType[];
+  onCurrentNodeChanged: (node: NodeType) => void;
 }
 
 const SettingsMenu = ({
-  type,
-  setShowAlertModal,
-  id,
-  name,
-  path,
-  locale,
-  metadata,
-  showAllOptions,
-  getAllSubjects,
-  refreshTopics,
-  subjectId,
-  setResourcesUpdated,
-  saveSubjectItems,
-  saveSubjectTopicItems,
-  parent,
+  node,
+  rootNodeId,
   structure,
+  onCurrentNodeChanged,
+  nodeChildren,
 }: Props) => {
   const [open, setOpen] = useState(false);
-  const [editMode, setEditMode] = useState('');
+  const { t } = useTranslation();
+  const nodeType = getNodeTypeFromNodeId(node.id);
 
-  const toggleEditMode = (mode: EditMode) => {
-    setEditMode(prev => (mode === prev ? '' : mode));
-  };
-
-  const toggleOpenMenu = () => {
-    setOpen(!open);
-  };
+  const toggleOpenMenu = () => setOpen(!open);
 
   return (
-    <StyledDivWrapper>
-      <Button onClick={toggleOpenMenu} data-cy={`settings-button-${type}`} stripped>
+    <SettingsMenuWrapper>
+      <Button onClick={toggleOpenMenu} data-cy={`settings-button`} stripped>
         <RoundIcon icon={<Settings />} margin open={open} />
       </Button>
       {open && (
-        <>
+        <IndexWrapper>
           <Overlay modifiers={['zIndex']} onExit={toggleOpenMenu} />
-          <SettingsMenuDropdown
-            onClose={toggleOpenMenu}
-            toggleEditMode={toggleEditMode}
-            editMode={editMode}
-            setShowAlertModal={setShowAlertModal}
-            id={id}
-            name={name}
-            type={type}
-            locale={locale}
-            metadata={metadata}
-            path={path}
-            showAllOptions={showAllOptions}
-            getAllSubjects={getAllSubjects}
-            refreshTopics={refreshTopics}
-            subjectId={subjectId}
-            setResourcesUpdated={setResourcesUpdated}
-            saveSubjectItems={saveSubjectItems}
-            saveSubjectTopicItems={saveSubjectTopicItems}
-            parent={parent}
-            structure={structure}
-          />
-        </>
+          <StyledDivWrapper>
+            <div className="header">
+              <RoundIcon icon={<Settings />} open />
+              <StyledSpan>{t(`taxonomy.${nodeType.toLowerCase()}Settings`)}</StyledSpan>
+              <StyledCrossButton stripped onClick={toggleOpenMenu} />
+            </div>
+            <SettingsMenuDropdownType
+              node={node}
+              onClose={toggleOpenMenu}
+              rootNodeId={rootNodeId}
+              structure={structure}
+              onCurrentNodeChanged={onCurrentNodeChanged}
+              nodeChildren={nodeChildren}
+            />
+          </StyledDivWrapper>
+        </IndexWrapper>
       )}
-    </StyledDivWrapper>
+    </SettingsMenuWrapper>
   );
 };
+
+const StyledCrossButton = styled(CrossButton)`
+  color: ${colors.brand.grey};
+  margin-left: auto;
+`;
+
+export const StyledDivWrapper = styled.div`
+   position: absolute;
+   ${animations.fadeIn()}
+   box-shadow: ${shadows.levitate1};
+   z-index: 2;
+   top: -1px;
+   padding: calc(${spacing.small} / 2);
+   width: 550px;
+   background-color: ${colors.brand.greyLightest};
+   box-shadow: 0 0 4px 0 rgba(78, 78, 78, 0.5);
+ 
+   & .header {
+     display: flex;
+     align-items: center;
+   }
+ `;
 
 export default SettingsMenu;

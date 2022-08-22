@@ -32,6 +32,9 @@ export const useSavedSearchUrl = (
 ): SearchUrlQueryData => {
   const subject = searchObject['subjects'] || '';
   const resourceType = searchObject['resource-types'] || '';
+  if (searchObject['users']) {
+    searchObject['users'] = searchObject['users'].replaceAll('"', '');
+  }
   const userId = searchObject['users'] || '';
   const searchHook = getSearchHookFromType(searchObject['type']);
   const { data: subjectData, isLoading: subjectLoading } = useSubject(

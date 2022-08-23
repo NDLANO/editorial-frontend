@@ -106,7 +106,7 @@ const SwapTopicResource = ({
         <SearchDropdown
           useQuery={useSearch}
           onChange={handleSubmit}
-          placeholder="search"
+          placeholder={t('taxonomy.swapTopicResource.placeholder')}
           params={{ 'context-types': 'topic-article', language: i18n.language }}
           transform={res => {
             return {

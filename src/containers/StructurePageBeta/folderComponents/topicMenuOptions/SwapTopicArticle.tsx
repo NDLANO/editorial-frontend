@@ -61,14 +61,14 @@ const StyledSuccessIcon = styled(Done)`
   color: ${colors.white};
 `;
 
-const SwapTopicResource = ({
+const SwapTopicArticle = ({
   node,
   rootNodeId,
   editModeHandler: { editMode, toggleEditMode },
 }: Props) => {
   const { t, i18n } = useTranslation();
   const putNodeMutation = usePutNodeMutation();
-  const toggleEditModeFunc = () => toggleEditMode('swapTopicResource');
+  const toggleEditModeFunc = () => toggleEditMode('swapTopicArticle');
   const [error, setError] = useState<string | undefined>(undefined);
   const { taxonomyVersion } = useTaxonomyVersion();
   const qc = useQueryClient();
@@ -95,18 +95,18 @@ const SwapTopicResource = ({
         }),
       );
     } catch (e) {
-      setError('taxonomy.swapTopicResource.failed');
+      setError('taxonomy.swapTopicArticle.failed');
     }
   };
 
-  if (editMode === 'swapTopicResource') {
+  if (editMode === 'swapTopicArticle') {
     return (
       <Wrapper>
         <RoundIcon open small smallIcon icon={<SubjectMaterial />} />
         <SearchDropdown
           useQuery={useSearch}
           onChange={handleSubmit}
-          placeholder={t('taxonomy.swapTopicResource.placeholder')}
+          placeholder={t('taxonomy.swapTopicArticle.placeholder')}
           params={{ 'context-types': 'topic-article', language: i18n.language }}
           transform={res => {
             return {
@@ -129,7 +129,7 @@ const SwapTopicResource = ({
     <StyledMenuWrapper>
       <MenuItemButton stripped onClick={toggleEditModeFunc}>
         <RoundIcon small icon={<SubjectMaterial />} />
-        {t('taxonomy.swapTopicResource.info')}
+        {t('taxonomy.swapTopicArticle.info')}
       </MenuItemButton>
       <StyledActionContent>
         {putNodeMutation.isLoading && (
@@ -140,17 +140,15 @@ const SwapTopicResource = ({
         {putNodeMutation.isSuccess && (
           <MenuContent>
             <StyledSuccessIcon />
-            {t('taxonomy.swapTopicResource.success')}
+            {t('taxonomy.swapTopicArticle.success')}
           </MenuContent>
         )}
         {error && (
-          <StyledErrorMessage data-testid="failedToSwapTopicResource">
-            {t(error)}
-          </StyledErrorMessage>
+          <StyledErrorMessage data-testid="failedToSwapTopicArticle">{t(error)}</StyledErrorMessage>
         )}
       </StyledActionContent>
     </StyledMenuWrapper>
   );
 };
 
-export default SwapTopicResource;
+export default SwapTopicArticle;

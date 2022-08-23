@@ -42,7 +42,7 @@ export type EditMode =
   | 'copyResources'
   | 'cloneResources'
   | 'copyRevisionDate'
-  | 'swapTopicResource'
+  | 'swapTopicArticle'
   | '';
 
 export interface SearchResultBase<T> {

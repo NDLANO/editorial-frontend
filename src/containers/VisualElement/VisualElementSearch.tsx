@@ -178,7 +178,7 @@ const VisualElementSearch = ({
             })
           }
           onClose={closeModal}
-          locale={locale}
+          locale={articleLanguage ?? locale}
           setH5pFetchFail={setH5pFetchFail}
         />
       );

@@ -59,7 +59,7 @@ export const editH5PiframeUrl = (url: string, locale: string = ''): Promise<{ ur
 };
 
 export const getH5pLocale = (language: string) => {
-  return language === 'en' ? 'en-gb' : ['nb', 'nn'].includes(language) ? `${language}-no` : 'nb-no';
+  return language === 'en' ? 'en-gb' : 'nn' === language ? 'nn-no' : 'nb-no';
 };
 
 export const fetchH5PMetadata = async (resourceId: string): Promise<H5PMetadata> => {

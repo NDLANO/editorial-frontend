@@ -139,7 +139,7 @@ const CopyNodeResources = ({
   };
 
   const _clone = async (resource: ResourceWithNodeConnection): Promise<string> => {
-    const [, resourceType, idString] = resource.contentUri?.split(':')[1] ?? [];
+    const [, resourceType, idString] = resource.contentUri?.split(':') ?? [];
     const id = Number(idString);
     if (resourceType === 'article' && id) {
       const clonedArticle = await cloneDraft(id, undefined, false);

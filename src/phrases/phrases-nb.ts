@@ -1274,6 +1274,12 @@ const phrases = {
     confirmSetPrimary: 'Vil du gjøre dette til hovedplassering?',
     jumpToResources: 'Hopp til ressurser',
     jumpToStructure: 'Hopp til struktur',
+    swapTopicArticle: {
+      failed: 'Klarte ikke å bytte emneartikkel',
+      placeholder: 'Artikkel du vil bytte til',
+      info: 'Bytt emneartikkel',
+      success: 'Emneartikkelen er byttet!',
+    },
     copyResources: {
       info: 'Gjenbruk ressurser fra emne',
       done: 'Ressurser ferdigkopiert!',

@@ -25,6 +25,7 @@ import EditSubjectpageOption from './subjectMenuOptions/EditSubjectpageOption';
 import PublishChildNodeResources from './topicMenuOptions/PublishChildNodeResources';
 import CopyNodeResources from './topicMenuOptions/CopyNodeResources';
 import CopyRevisionDate from './sharedMenuOptions/CopyRevisionDate';
+import SwapTopicArticle from './topicMenuOptions/SwapTopicArticle';
 
 interface Props {
   rootNodeId: string;
@@ -94,6 +95,7 @@ const SettingsMenuDropdownType = ({
     return (
       <>
         <PublishChildNodeResources node={node} />
+        <SwapTopicArticle node={node} editModeHandler={editModeHandler} rootNodeId={rootNodeId} />
         <EditCustomFields
           toggleEditMode={toggleEditMode}
           editMode={editMode}

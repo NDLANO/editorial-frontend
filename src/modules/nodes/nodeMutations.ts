@@ -20,8 +20,10 @@ import {
   postNodeConnection,
   postResourceForNode,
   publishNode,
+  putNode,
   putNodeConnection,
   putNodeMetadata,
+  PutNodeParams,
   putNodeTranslation,
   putResourceForNode,
 } from './nodeApi';
@@ -266,4 +268,12 @@ export const usePublishNodeMutation = (
     ({ id, targetId, sourceId }) => publishNode({ id, targetId, sourceId }),
     options,
   );
+};
+
+type UsePutNodeMutation = PutNodeParams;
+
+export const usePutNodeMutation = (
+  options?: UseMutationOptions<void, unknown, UsePutNodeMutation>,
+) => {
+  return useMutation<void, unknown, UsePutNodeMutation>(params => putNode(params), options);
 };

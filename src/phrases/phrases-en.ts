@@ -1272,6 +1272,12 @@ const phrases = {
     removeLink: 'Remove link',
     jumpToResources: 'Jump to resources',
     jumpToStructure: 'Jump to structure',
+    swapTopicArticle: {
+      failed: 'Failed to swap article',
+      placeholder: 'Article to swap to',
+      info: 'Swap topic article',
+      success: 'Topic article swapped!',
+    },
     copyResources: {
       error: 'Something went wrong during copying',
       info: 'Reuse resources from topic',

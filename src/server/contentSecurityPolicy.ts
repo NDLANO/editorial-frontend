@@ -100,6 +100,7 @@ const scriptSrc = (() => {
     'https://*.zendesk.com',
     'https://static.zdassets.com',
     'widget-mediator.zopim.com',
+    'https://*.clarity.ms',
   ];
   if (process.env.NODE_ENV === 'development') {
     return [
@@ -173,6 +174,7 @@ const frameSrc = (() => {
     'ourworldindata.org',
     '*.sketchup.com',
     'www.gapminder.org',
+    'https://*.clarity.ms',
   ];
   if (process.env.NODE_ENV === 'development') {
     return [
@@ -193,6 +195,7 @@ const fontSrc = (() => {
     'https://tagmanager.google.com',
     'https://www.wiris.net',
     'https://cdn.jsdelivr.net',
+    'https://*.clarity.ms',
   ];
   if (process.env.NODE_ENV === 'development') {
     return defaultFontSrc.concat('http://localhost:3001');
@@ -235,6 +238,7 @@ const contentSecurityPolicy = {
       ' data:',
       'blob:',
       'https://www.wiris.net',
+      'https://*.clarity.ms',
     ],
     mediaSrc: [
       "'self'",

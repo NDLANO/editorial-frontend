@@ -29,7 +29,7 @@ import { RootNode } from './TreeNode';
 interface Props {
   originalHash: string;
   nodeId: string;
-  otherHash?: string;
+  otherHash: string;
 }
 
 const StyledNodeList = styled.div`
@@ -100,7 +100,7 @@ const NodeDiffcontainer = ({ originalHash, otherHash, nodeId }: Props) => {
     {
       id: nodeId,
       language: i18n.language,
-      taxonomyVersion: otherHash || 'default',
+      taxonomyVersion: otherHash,
     },
     {
       enabled: !!nodeId && !!otherHash,

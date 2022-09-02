@@ -9,82 +9,53 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Plus } from '@ndla/icons/action';
-import AddTopicResourceButton from './AddTopicResourceButton';
+import { ResourceWithNodeConnection } from '../../../modules/nodes/nodeApiTypes';
+import { ResourceType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import Accordion from '../../../components/Accordion';
 import ResourceItems from './ResourceItems';
+import AddResourceButton from './AddResourceButton';
 import AddResourceModal from './AddResourceModal';
-import { ResourceType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
-import { TopicResource } from './StructureResources';
-import { LocaleType } from '../../../interfaces';
 
 interface Props {
-  topicResources: TopicResource[];
-  resourceTypes: (ResourceType & {
-    disabled?: boolean;
-  })[];
-  params: { topic: string; subtopics?: string };
-  onDeleteResource: (resourceId: string) => void;
-  refreshResources: () => Promise<void>;
-  locale: LocaleType;
-  onUpdateResource: (resource: TopicResource) => void;
+  currentNodeId: string;
+  nodeResources: ResourceWithNodeConnection[];
+  resourceTypes: ResourceType[];
 }
 
-const AllResourcesGroup = ({
-  resourceTypes,
-  topicResources,
-  params,
-  refreshResources,
-  locale,
-  onDeleteResource,
-  onUpdateResource,
-}: Props) => {
+const AllResourcesGroup = ({ resourceTypes, nodeResources, currentNodeId }: Props) => {
   const { t } = useTranslation();
   const [displayResource, setDisplayResource] = useState<boolean>(true);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [showAddModal, setShowAddModal] = useState<boolean>(false);
-
-  const toggleDisplayResource = () => {
-    setDisplayResource(prev => !prev);
-  };
-
-  const toggleAddModal = () => {
-    setShowAddModal(prev => !prev);
-  };
-
-  const topicId = (params.subtopics?.split('/')?.pop() || params.topic)!;
-
-  const newResourceTypeOptions = resourceTypes
+  const resourceTypesWithoutMissing = resourceTypes
     .filter(rt => rt.id !== 'missing')
     .map(rt => ({ id: rt.id, name: rt.name }));
+
+  const toggleDisplayResource = () => setDisplayResource(prev => !prev);
+
+  const toggleAddModal = () => setShowAddModal(prev => !prev);
 
   return (
     <>
       <Accordion
         addButton={
-          <AddTopicResourceButton stripped onClick={toggleAddModal}>
+          <AddResourceButton stripped onClick={toggleAddModal}>
             <Plus />
             {t('taxonomy.addResource')}
-          </AddTopicResourceButton>
+          </AddResourceButton>
         }
         handleToggle={toggleDisplayResource}
         appearance={'resourceGroup'}
         header={t('taxonomy.resources')}
         hidden={!displayResource}>
-        <ResourceItems
-          onDeleteResource={onDeleteResource}
-          onUpdateResource={onUpdateResource}
-          resources={topicResources}
-          refreshResources={refreshResources}
-          locale={locale}
-        />
+        <ResourceItems resources={nodeResources} currentNodeId={currentNodeId} />
       </Accordion>
       {showAddModal && (
         <AddResourceModal
-          resourceTypes={newResourceTypeOptions}
-          topicId={topicId}
-          refreshResources={refreshResources}
+          resourceTypes={resourceTypesWithoutMissing}
+          nodeId={currentNodeId}
           onClose={() => setShowAddModal(false)}
-          existingResourceIds={topicResources.map(r => r.id)}
-          locale={locale}
+          existingResourceIds={nodeResources.map(r => r.id)}
         />
       )}
     </>

@@ -54,7 +54,7 @@ const NdlaFilm = loadable(() => import('../NdlaFilm/NdlaFilm'));
 const ConceptPage = loadable(() => import('../ConceptPage/ConceptPage'));
 const Subjectpage = loadable(() => import('../EditSubjectFrontpage/Subjectpage'));
 const H5PPage = loadable(() => import('../H5PPage/H5PPage'));
-const StructurePageBeta = loadable(() => import('../StructurePageBeta/StructurePage'));
+const StructurePageOld = loadable(() => import('../StructurePageOld/StructurePage'));
 const TaxonomyVersionsPage = loadable(() => import('../TaxonomyVersions/TaxonomyVersionsPage'));
 const PublishRequestsPage = loadable(() => import('../PublishRequests/PublishRequestsPage'));
 const NodeDiffPage = loadable(() => import('../NodeDiff/NodeDiffPage'));
@@ -120,8 +120,8 @@ const App = ({ isClient }: Props) => {
                     element={<PrivateRoute component={<StructurePage />} />}
                   />
                   <Route
-                    path="/structureBeta/*"
-                    element={<PrivateRoute component={<StructurePageBeta />} />}
+                    path="/structureOld/*"
+                    element={<PrivateRoute component={<StructurePageOld />} />}
                   />
                   {config.versioningEnabled === 'true' && (
                     <>

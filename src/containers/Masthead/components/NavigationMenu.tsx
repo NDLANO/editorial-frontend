@@ -83,9 +83,9 @@ const OpenMenu = ({ close }: Props) => {
               </span>
             </StyledLink>
             {userPermissions?.includes(TAXONOMY_ADMIN_SCOPE) && (
-              <StyledLink to="/structureBeta" onClick={close}>
+              <StyledLink to="/structureOld" onClick={close}>
                 <span>
-                  <Taxonomy /> {t('subNavigation.structure') + ' BETA'}
+                  <Taxonomy /> {t('subNavigation.structure') + ' (Gammel)'}
                 </span>
               </StyledLink>
             )}

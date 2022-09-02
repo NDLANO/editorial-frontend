@@ -9,7 +9,7 @@ import { TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH } from '../../constants';
 import { NodeType } from '../../modules/nodes/nodeApiTypes';
 import { useNodes } from '../../modules/nodes/nodeQueries';
 import { useVersions } from '../../modules/taxonomy/versions/versionQueries';
-import { toNodeDiff, toStructureBeta } from '../../util/routeHelpers';
+import { toNodeDiff, toStructure } from '../../util/routeHelpers';
 import Footer from '../App/components/Footer';
 import NodeIconType from '../../components/NodeIconType';
 
@@ -71,7 +71,7 @@ const PublishRequestsContainer = () => {
   const publishedVersion = versionsQuery.data?.[0];
 
   const onShowInStructure = (node: NodeType) => {
-    navigate(toStructureBeta(node.path));
+    navigate(toStructure(node.path));
   };
 
   const onCompare = (node: NodeType) => {

@@ -9,12 +9,6 @@
 import styled from '@emotion/styled';
 import { spacing, colors } from '@ndla/core';
 
-export const StyledFilterWrapper = styled.div`
-  background-color: white;
-  padding: calc(${spacing.small} / 2);
-  position: relative;
-`;
-
 export const StyledErrorMessage = styled('div')`
   color: ${colors.support.red};
   text-align: center;

@@ -16,10 +16,11 @@ describe('Subject editing', () => {
   before(() => {
     setToken();
 
-    cy.apiroute('GET', `${taxonomyApi}/subjects?language=nb`, 'allSubjects');
+    cy.apiroute('GET', `${taxonomyApi}/versions`, 'allVersions');
+    cy.apiroute('GET', `${taxonomyApi}/nodes?isRoot=true&language=nb`, 'allSubjects');
     cy.apiroute(
       'GET',
-      `${taxonomyApi}/subjects/${selectSubject}/topics?language=nb&recursive=true`,
+      `${taxonomyApi}/nodes/${selectSubject}/nodes?language=nb&recursive=true`,
       'allSubjectTopics',
     );
     cy.apiroute('GET', '/get_zendesk_token', 'zendeskToken');
@@ -29,7 +30,7 @@ describe('Subject editing', () => {
     });
 
     cy.visit(`/structure/${selectSubject}`);
-    cy.apiwait(['@allSubjects', '@allSubjectTopics']);
+    cy.apiwait(['@allVersions', '@allSubjects', '@allSubjectTopics']);
   });
 
   beforeEach(() => {
@@ -37,7 +38,7 @@ describe('Subject editing', () => {
   });
 
   it('should add a new subject', () => {
-    cy.intercept('POST', `${taxonomyApi}/subjects`, []).as('addSubject');
+    cy.intercept('POST', `${taxonomyApi}/nodes`, []).as('addSubject');
 
     cy.get('[data-testid=AddSubjectButton]').click();
     cy.get('[data-testid=addSubjectInputField]').type('Cypress test subject{enter}');
@@ -45,42 +46,44 @@ describe('Subject editing', () => {
   });
 
   it('should have a settings menu where everything works', () => {
-    cy.intercept('PUT', `${taxonomyApi}/subjects/${selectSubject}/translations/nb`, []).as(
+    cy.intercept('PUT', `${taxonomyApi}/nodes/${selectSubject}/translations/nb`, []).as(
       'newSubjectName',
     );
-    cy.intercept('POST', `${taxonomyApi}/topics`, []).as('addNewTopic');
-    cy.intercept('GET', `${taxonomyApi}/topics?language=nb`, 'allTopics').as('allTopics');
-    cy.intercept('GET', `${taxonomyApi}/subjects/${selectSubject}`, 'selectSubject');
-    cy.intercept('GET', `${taxonomyApi}/subjects/${selectSubject}/translations`, []).as(
+    cy.intercept('POST', `${taxonomyApi}/nodes`, []).as('addNewTopic');
+    cy.intercept('GET', `${taxonomyApi}/nodes?language=nb`, 'allTopics').as('allTopics');
+    cy.intercept('GET', `${taxonomyApi}/nodes/${selectSubject}/translations`, []).as(
       'subjectTranslations',
     );
-    cy.intercept('GET', `${taxonomyApi}/subjects/${selectSubject}/topics*`, 'allSubjectTopics');
-    cy.intercept('GET', `${taxonomyApi}/subjects?language=nb`, 'allSubjects');
-    cy.intercept('DELETE', `${taxonomyApi}/subjects/${selectSubject}/translations/nb`, []).as(
+    cy.intercept('GET', `${taxonomyApi}/nodes/${selectSubject}/nodes*`, 'allSubjectTopics');
+    cy.intercept('GET', `${taxonomyApi}/nodes?isRoot=true&language=nb`, 'allSubjects').as('allSubjects');
+    cy.intercept('DELETE', `${taxonomyApi}/nodes/${selectSubject}/translations/nb`, []).as(
       'deleteSubjectTranslation',
     );
-    cy.apiroute('PUT', `${taxonomyApi}/subjects/${selectSubject}/metadata`, 'invisibleMetadata');
+    cy.apiroute('PUT', `${taxonomyApi}/nodes/${selectSubject}/metadata`, 'invisibleMetadata');
 
-    cy.get('[data-cy=settings-button-subject]')
+    cy.get('[data-cy=settings-button]')
       .first()
       .click();
-    cy.wait('@allTopics');
-    cy.get('[data-testid=changeSubjectNameButton]').click();
-    cy.get('[data-testid=addSubjectNameTranslation]').type('TEST{enter}');
-    cy.get('[data-testid=saveSubjectTranslationsButton]')
+    cy.get('[data-testid=changeNodeNameButton]').click();
+    cy.wait('@subjectTranslations');
+    cy.intercept('GET', `${taxonomyApi}/nodes/${selectSubject}/translations`, [{name: 'NDLA filmTEST', language: 'nb'}]).as(
+      'subjectTranslations',
+    );
+    cy.get('[data-testid=addNodeNameTranslation]').type('TEST{enter}');
+    cy.get('[data-testid=saveNodeTranslationsButton]')
       .first()
       .click();
-    cy.wait('@newSubjectName');
-    cy.get('[data-testid=saveSubjectTranslationsButton]').contains('Lagret');
+    cy.wait(['@newSubjectName', '@subjectTranslations']);
+    cy.get('[data-testid=saveNodeTranslationsButton]').contains('Lagret');
 
     cy.get('[data-testid=subjectName_nb_delete]')
       .first()
       .click();
-    cy.get('[data-testid=saveSubjectTranslationsButton]')
+    cy.get('[data-testid=saveNodeTranslationsButton]')
       .first()
       .click();
     cy.wait('@deleteSubjectTranslation');
-    cy.get('[data-testid=saveSubjectTranslationsButton]').contains('Lagret');
+    cy.get('[data-testid=saveNodeTranslationsButton]').contains('Lagret');
 
     cy.get('[data-cy=close-modal-button]')
       .first()

@@ -138,13 +138,13 @@ export function toStructure(path: string) {
   return `/structure/${urnPath}`;
 }
 
-export const toStructureBeta = (path: string) => {
+export const toStructureOld = (path: string) => {
   const urnPath = path
     .split('/')
     .slice(1)
     .map(part => `urn:${part}`)
     .join('/');
-  return `/structureBeta/${urnPath}`;
+  return `/structureOld/${urnPath}`;
 };
 
 export const toNodeDiff = (nodeId: string, originalHash: string, otherHash: string) => {

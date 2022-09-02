@@ -18,7 +18,7 @@ import { updateSubjectMetadata, updateTopicMetadata } from '../../../../modules/
 import RoundIcon from '../../../../components/RoundIcon';
 import { convertGrepCodesToObject } from '../../../FormikForm/GrepCodesFieldContent';
 import MenuItemButton from './MenuItemButton';
-import MenuItemEditField from '../menuOptions/MenuItemEditField';
+import MenuItemEditField from './MenuItemEditField';
 import { EditMode } from '../../../../interfaces';
 import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
 

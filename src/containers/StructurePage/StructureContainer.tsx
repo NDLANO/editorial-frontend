@@ -13,7 +13,7 @@ import { REMEMBER_FAVORITE_NODES, TAXONOMY_ADMIN_SCOPE } from '../../constants';
 import { useSession } from '../Session/SessionProvider';
 import InlineAddButton from '../../components/InlineAddButton';
 import { useAddNodeMutation } from '../../modules/nodes/nodeMutations';
-import { useUpdateUserDataMutation, useUserData } from '../../modules/draft/draftQueries';
+import { useUserData } from '../../modules/draft/draftQueries';
 import { useNodes } from '../../modules/nodes/nodeQueries';
 import { ChildNodeType, NodeType } from '../../modules/nodes/nodeApiTypes';
 import RootNode from './RootNode';
@@ -98,20 +98,9 @@ const StructureContainer = () => {
     return nodes.filter(node => favoriteNodeIds.includes(node.id));
   };
 
-  const updateUserDataMutation = useUpdateUserDataMutation();
   const nodes = showFavorites
     ? getFavoriteNodes(nodesQuery.data, [...favoriteNodeIds, subject])
     : nodesQuery.data!;
-
-  const toggleFavorite = (nodeId: string) => {
-    if (!favoriteNodes) {
-      return;
-    }
-    const updatedFavorites = favoriteNodeIds.includes(nodeId)
-      ? favoriteNodeIds.filter(s => s !== nodeId)
-      : [...favoriteNodeIds, nodeId];
-    updateUserDataMutation.mutate({ favoriteSubjects: updatedFavorites });
-  };
 
   const toggleStructure = () => {
     setEditStructureHidden(!editStructureHidden);
@@ -177,7 +166,6 @@ const StructureContainer = () => {
                     key={node.id}
                     node={node}
                     toggleOpen={handleStructureToggle}
-                    toggleFavorite={() => toggleFavorite(node.id)}
                   />
                 ))}
               </StructureWrapper>

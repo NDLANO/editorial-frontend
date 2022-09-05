@@ -28,7 +28,7 @@ const NodeDiffPage = () => {
   const [params] = useSearchParams();
   const { t } = useTranslation();
   const originalHash = params.get('originalHash');
-  const otherHash = params.get('otherHash') ?? undefined;
+  const otherHash = params.get('otherHash') ?? 'default';
 
   if (!originalHash || !nodeId) {
     return (
@@ -45,11 +45,7 @@ const NodeDiffPage = () => {
         <HelmetWithTracker title={t('htmlTitles.nodeDiffPage')} />
         <StyledNodeContainer>
           <DiffOptions originalHash={originalHash} otherHash={otherHash} />
-          <NodeDiffcontainer
-            originalHash={originalHash}
-            otherHash={otherHash ?? undefined}
-            nodeId={nodeId}
-          />
+          <NodeDiffcontainer originalHash={originalHash} otherHash={otherHash} nodeId={nodeId} />
         </StyledNodeContainer>
       </OneColumn>
       <FooterWrapper />

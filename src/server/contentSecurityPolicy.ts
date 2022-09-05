@@ -33,6 +33,7 @@ const connectSrc = (() => {
     'wss://widget-mediator.zopim.com',
     'https://cors-anywhere.herokuapp.com',
     'https://trinket.io',
+    'https://*.clarity.ms',
   ];
   if (process.env.NODE_ENV === 'development') {
     return [

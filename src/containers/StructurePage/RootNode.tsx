@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next';
 import { DropResult } from 'react-beautiful-dnd';
 import { useQueryClient } from 'react-query';
 import { isEqual, partition, sortBy } from 'lodash';
+import { IUserData } from '@ndla/types-draft-api';
 import { ChildNodeType, NodeType } from '../../modules/nodes/nodeApiTypes';
 import {
   childNodesWithArticleTypeQueryKey,
@@ -18,13 +19,13 @@ import { groupChildNodes } from '../../util/taxonomyHelpers';
 import NodeItem, { RenderBeforeFunction } from './NodeItem';
 import { useUpdateNodeConnectionMutation } from '../../modules/nodes/nodeMutations';
 import { useTaxonomyVersion } from '../StructureVersion/TaxonomyVersionProvider';
+import { userDataQueryKey, useUpdateUserDataMutation } from '../../modules/draft/draftQueries';
 
 interface Props {
   node: NodeType;
   toggleOpen: (path: string) => void;
   openedPaths: string[];
   isFavorite: boolean;
-  toggleFavorite: () => void;
   onNodeSelected: (node?: NodeType) => void;
   resourceSectionRef: MutableRefObject<HTMLDivElement | null>;
   allRootNodes: NodeType[];
@@ -36,7 +37,6 @@ const RootNode = ({
   node,
   openedPaths,
   toggleOpen,
-  toggleFavorite,
   onNodeSelected,
   resourceSectionRef,
   allRootNodes,
@@ -57,6 +57,7 @@ const RootNode = ({
     id: node.id,
     language: locale,
   });
+  const updateUserDataMutation = useUpdateUserDataMutation();
 
   const qc = useQueryClient();
 
@@ -88,6 +89,14 @@ const RootNode = ({
       body: { rank: newRank },
       taxonomyVersion,
     });
+  };
+
+  const toggleFavorite = () => {
+    const favorites = qc.getQueryData<IUserData>(userDataQueryKey())?.favoriteSubjects ?? [];
+    const updatedFavs = favorites.includes(node.id)
+      ? favorites.filter(s => s !== node.id)
+      : favorites.concat(node.id);
+    updateUserDataMutation.mutate({ favoriteSubjects: updatedFavs });
   };
 
   return (

@@ -21,7 +21,9 @@ interface StyledLinkProps {
   inHeader: boolean;
 }
 
-const StyledLink = styled(Link)<StyledLinkProps>`
+const shouldForwardProp = (prop: string) => prop !== 'inHeader';
+
+const StyledLink = styled(Link, { shouldForwardProp })<StyledLinkProps>`
   box-shadow: none;
   width: ${props => props.inHeader && '25px;'};
   padding-left: ${props => props.inHeader && '0.4em'};

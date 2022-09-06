@@ -43,9 +43,14 @@ export const fetchDraft = async (id: number | string, language?: string): Promis
   return fetchAuthorized(url).then(r => resolveJsonOrRejectWithError<IArticle>(r));
 };
 
-export const updateDraft = async (id: number, draft: IUpdatedArticle): Promise<IArticle> =>
+export const updateDraft = async (
+  id: number,
+  draft: IUpdatedArticle,
+  versionHash = 'default',
+): Promise<IArticle> =>
   fetchAuthorized(`${baseUrl}/${id}`, {
     method: 'PATCH',
+    headers: { VersionHash: versionHash },
     body: JSON.stringify(draft),
   }).then(r => resolveJsonOrRejectWithError<IArticle>(r));
 

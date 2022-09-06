@@ -96,10 +96,14 @@ const SwapTopicArticle = ({
         }),
       );
       const draft = await fetchDraft(topic.id, i18n.language);
-      await updateDraft(draft.id, {
-        revision: draft.revision,
-        notes: draft.notes.map(n => n.note).concat('Artikkel satt som nytt emne'),
-      });
+      await updateDraft(
+        draft.id,
+        {
+          revision: draft.revision,
+          notes: draft.notes.map(n => n.note).concat('Artikkel satt som nytt emne'),
+        },
+        taxonomyVersion,
+      );
     } catch (e) {
       setError('taxonomy.swapTopicArticle.failed');
     }

@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+import { Fragment } from 'react';
 import escapeHtml from 'escape-html';
 import { compact, toArray } from 'lodash';
 import { Descendant, Element, Node, Text } from 'slate';
@@ -116,12 +117,12 @@ const topicArticleRules: SlateSerializer[] = [
 ];
 
 const articleContentToHTML = (value: Descendant[], rules: SlateSerializer[]) => {
-  const serialize = (node: Descendant): JSX.Element | null => {
+  const serialize = (node: Descendant, nodeIdx: number): JSX.Element | null => {
     let children: JSX.Element[];
     if (Text.isText(node)) {
       children = [escapeHtml(node.text)];
     } else {
-      children = compact(node.children.map((n: Descendant) => serialize(n)));
+      children = compact(node.children.map((n: Descendant, idx: number) => serialize(n, idx)));
     }
 
     for (const rule of rules) {
@@ -135,15 +136,15 @@ const articleContentToHTML = (value: Descendant[], rules: SlateSerializer[]) => 
       } else if (ret === null) {
         return null;
       } else {
-        return ret;
+        return <Fragment key={nodeIdx}>{ret}</Fragment>;
       }
     }
     return <>{children}</>;
   };
 
   const elements = value
-    .map((descendant: Descendant) => {
-      const html = serialize(descendant);
+    .map((descendant: Descendant, idx: number) => {
+      const html = serialize(descendant, idx);
       return html ? renderToStaticMarkup(html) : '';
     })
     .join('');

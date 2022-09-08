@@ -225,8 +225,8 @@ const TableActions = ({ editor, element }: Props) => {
           {/* Row 1 - Row actions */}
           <StyledRowTitle>{`${t('form.content.table.row')}:`}</StyledRowTitle>
           <ActionGroup>
-            {rowActions.map(action => (
-              <TableIconButton operation={action.name} onClick={handleOnClick}>
+            {rowActions.map((action, idx) => (
+              <TableIconButton key={idx} operation={action.name} onClick={handleOnClick}>
                 {action.icon}
               </TableIconButton>
             ))}
@@ -245,8 +245,8 @@ const TableActions = ({ editor, element }: Props) => {
           {/* Row 2  - Column actions*/}
           <StyledRowTitle>{`${t('form.content.table.column')}:`}</StyledRowTitle>
           <ActionGroup>
-            {columnActions.map(action => (
-              <TableIconButton operation={action.name} onClick={handleOnClick}>
+            {columnActions.map((action, idx) => (
+              <TableIconButton key={idx} operation={action.name} onClick={handleOnClick}>
                 {action.icon}
               </TableIconButton>
             ))}

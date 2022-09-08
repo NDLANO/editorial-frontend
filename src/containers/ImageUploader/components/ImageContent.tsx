@@ -41,6 +41,10 @@ interface Props {
 const ImageContent = ({ formik }: Props) => {
   const { t } = useTranslation();
   const { values, errors, setFieldValue, submitForm } = formik;
+
+  // We use the timestamp to avoid caching of the `imageFile` url in the browser
+  const timestamp = new Date().getTime();
+  const imgSrc = values.filepath || `${values.imageFile}?ts=${timestamp}`;
   return (
     <>
       <TitleField handleSubmit={submitForm} />
@@ -85,7 +89,7 @@ const ImageContent = ({ formik }: Props) => {
       {values.imageFile && (
         <>
           <SafeLink target="_blank" to={values.imageFile}>
-            <StyledImage src={values.filepath || values.imageFile} alt="" />
+            <StyledImage src={imgSrc} alt="" />
           </SafeLink>
           <ImageMeta
             contentType={values.contentType ?? ''}

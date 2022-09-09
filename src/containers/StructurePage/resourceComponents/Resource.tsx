@@ -198,10 +198,9 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
 
   const updateRelevanceId = async (relevanceId: string) => {
     const { connectionId, primary, rank } = resource;
-    const func =
-      connectionId.includes('subject-topic') || connectionId.includes('topic-subtopic')
-        ? updateNodeConnection
-        : updateResourceConnection;
+    const func = connectionId.includes('-resource')
+      ? updateResourceConnection
+      : updateNodeConnection;
     await func({
       id: connectionId,
       body: { relevanceId, primary, rank: rank },

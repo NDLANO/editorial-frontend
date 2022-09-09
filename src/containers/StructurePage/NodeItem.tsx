@@ -92,7 +92,7 @@ const NodeItem = ({
       onNodeSelected(item);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [item]);
 
   const onItemClick = () => {
     toggleOpen(path);

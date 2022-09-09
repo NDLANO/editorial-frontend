@@ -16,6 +16,7 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 import RoundIcon from '../../../../components/RoundIcon';
+import { fetchDraft, updateDraft } from '../../../../modules/draft/draftApi';
 import { NodeType } from '../../../../modules/nodes/nodeApiTypes';
 import { usePutNodeMutation } from '../../../../modules/nodes/nodeMutations';
 import { childNodesWithArticleTypeQueryKey } from '../../../../modules/nodes/nodeQueries';
@@ -93,6 +94,15 @@ const SwapTopicArticle = ({
           language: i18n.language,
           id: rootNodeId,
         }),
+      );
+      const draft = await fetchDraft(topic.id, i18n.language);
+      await updateDraft(
+        draft.id,
+        {
+          revision: draft.revision,
+          notes: draft.notes.map(n => n.note).concat('Artikkel satt som nytt emne'),
+        },
+        taxonomyVersion,
       );
     } catch (e) {
       setError('taxonomy.swapTopicArticle.failed');

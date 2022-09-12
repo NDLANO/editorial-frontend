@@ -1276,7 +1276,7 @@ const phrases = {
       failed: 'Failed to swap article',
       placeholder: 'Article to swap to',
       info: 'Swap topic article',
-      success: 'Topic article swapped!',
+      success: 'Topic article swapped! Reload the page to get the updated topic name.',
     },
     copyResources: {
       error: 'Something went wrong during copying',

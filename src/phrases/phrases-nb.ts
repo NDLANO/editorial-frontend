@@ -1278,7 +1278,7 @@ const phrases = {
       failed: 'Klarte ikke å bytte emneartikkel',
       placeholder: 'Artikkel du vil bytte til',
       info: 'Bytt emneartikkel',
-      success: 'Emneartikkelen er byttet!',
+      success: 'Emneartikkelen er byttet! Last siden på nytt for å få oppdatert navn på emnet.',
     },
     copyResources: {
       info: 'Gjenbruk ressurser fra emne',

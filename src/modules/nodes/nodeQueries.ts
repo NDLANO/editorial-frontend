@@ -19,7 +19,7 @@ import {
   ROOT_NODE_WITH_CHILDREN,
   SEARCH_NODES,
 } from '../../queryKeys';
-import { searchDrafts } from '../draft/draftApi';
+import { fetchDrafts } from '../draft/draftApi';
 import {
   fetchChildNodes,
   fetchConnectionsForNode,
@@ -78,9 +78,9 @@ const fetchChildNodesWithArticleType = async ({
   if (childNodes.length === 0) return [];
 
   const childIds = childNodes.map(n => Number(n.contentUri?.split(':').pop())).filter(id => !!id);
-  const searchRes = await searchDrafts({ idList: childIds });
+  const searchRes = await fetchDrafts(childIds);
 
-  const articleTypeMap = searchRes.results.reduce<Record<number, string>>((acc, curr) => {
+  const articleTypeMap = searchRes.reduce<Record<number, string>>((acc, curr) => {
     acc[curr.id] = curr.articleType;
     return acc;
   }, {});

@@ -44,7 +44,7 @@ export const fetchDraft = async (id: number | string, language?: string): Promis
 };
 
 export const fetchDrafts = async (ids: number[]): Promise<[IArticle]> =>
-  fetchAuthorized(`${baseUrl}/ids/?ids=${ids}&page=1&page-size=100`, {
+  fetchAuthorized(`${baseUrl}/ids/?ids=${ids}&page=1&page-size=${ids.length}`, {
     method: 'GET',
   }).then(r => resolveJsonOrRejectWithError<[IArticle]>(r));
 

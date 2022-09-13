@@ -110,7 +110,8 @@ const HeaderActions = ({
     { key: 'sma', title: t('language.sma'), include: true },
     { key: 'se', title: t('language.se'), include: true },
     { key: 'und', title: t('language.und'), include: false },
-    { key: 'de', title: t('language.de'), include: false },
+    { key: 'de', title: t('language.de'), include: true },
+    { key: 'es', title: t('language.es'), include: true },
     { key: 'ukr', title: t('language.ukr'), include: true },
   ];
   const emptyLanguages = languages.filter(

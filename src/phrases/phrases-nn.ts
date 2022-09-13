@@ -98,6 +98,7 @@ const phrases = {
   },
   language: {
     en: 'Engelsk',
+    es: 'Spansk',
     nb: 'Bokmål',
     nn: 'Nynorsk',
     se: 'Nordsamisk',

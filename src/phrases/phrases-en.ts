@@ -97,6 +97,7 @@ const phrases = {
   },
   language: {
     en: 'English',
+    es: 'Spanish',
     nb: 'Norwegian - Bokmål',
     nn: 'Norwegian - Nynorsk',
     se: 'Northern Sami',

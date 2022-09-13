@@ -1508,6 +1508,9 @@ const phrases = {
       onlyExistsInOther: 'Denne noden finnes bare i kildeversjonen',
     },
     options: {
+      about: 'Denne siden lar deg sammenligne et nodetre i to forskjellige versjoner.',
+      admin:
+        'Du kan publisere nodetreet mellom versjonene. Du kan publisere nye og oppdatere eksisterende noder til målversjonen, men ikke slette dem. Sletting må skje i den enkelte versjonen.',
       originalHashLabel: 'Målversjon',
       otherHashLabel: 'Kildeversjon',
       viewLabel: 'Visningstype',

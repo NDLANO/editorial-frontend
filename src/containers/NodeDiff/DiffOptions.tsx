@@ -12,7 +12,10 @@ import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router-dom';
 import { ContentLoader } from '@ndla/ui';
 import { spacing } from '@ndla/core';
+import { TAXONOMY_WRITE_SCOPE } from '../../constants';
+import { Row } from '../../components';
 import ObjectSelector from '../../components/ObjectSelector';
+import { useSession } from '../Session/SessionProvider';
 import { useVersions } from '../../modules/taxonomy/versions/versionQueries';
 import OptGroupVersionSelector from '../../components/Taxonomy/OptGroupVersionSelector';
 
@@ -79,6 +82,7 @@ const DiffOption = ({
 const DiffOptions = ({ originalHash, otherHash }: Props) => {
   const [params, setParams] = useSearchParams();
   const { t } = useTranslation();
+  const { userPermissions } = useSession();
   const taxonomyVersions = useVersions();
   const originalVersion = originalHash
     ? taxonomyVersions.data?.find(v => v.hash === originalHash)
@@ -136,6 +140,14 @@ const DiffOptions = ({ originalHash, otherHash }: Props) => {
 
   return (
     <StyledDiffOptions>
+      <Row alignItems="center" spacing="small">
+        <span>{t('diff.options.about')}</span>
+      </Row>
+      {!!userPermissions?.includes(TAXONOMY_WRITE_SCOPE) && (
+        <Row alignItems="center" spacing="small">
+          <span>{t('diff.options.admin')}</span>
+        </Row>
+      )}
       <StyledOptionRow>
         <StyledDiffOption>
           <strong>{t('diff.options.originalHashLabel')}</strong>

@@ -12,7 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router-dom';
 import { ContentLoader } from '@ndla/ui';
 import { spacing } from '@ndla/core';
-import { TAXONOMY_WRITE_SCOPE } from '../../constants';
+import { TAXONOMY_ADMIN_SCOPE } from '../../constants';
 import { Row } from '../../components';
 import ObjectSelector from '../../components/ObjectSelector';
 import { useSession } from '../Session/SessionProvider';
@@ -143,7 +143,7 @@ const DiffOptions = ({ originalHash, otherHash }: Props) => {
       <Row alignItems="center" spacing="small">
         <span>{t('diff.options.about')}</span>
       </Row>
-      {!!userPermissions?.includes(TAXONOMY_WRITE_SCOPE) && (
+      {!!userPermissions?.includes(TAXONOMY_ADMIN_SCOPE) && (
         <Row alignItems="center" spacing="small">
           <span>{t('diff.options.admin')}</span>
         </Row>

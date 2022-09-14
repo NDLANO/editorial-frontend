@@ -10,7 +10,7 @@ import { memo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 import { DropResult } from 'react-beautiful-dnd';
-import { partition, sortBy, uniqBy } from 'lodash';
+import { sortBy } from 'lodash';
 import styled from '@emotion/styled';
 import Resource from './Resource';
 import handleError from '../../../util/handleError';
@@ -51,6 +51,7 @@ const ResourceItems = ({ resources, currentNodeId }: Props) => {
   const compKey = resourcesWithNodeConnectionQueryKey({
     id: currentNodeId,
     language: i18n.language,
+    taxonomyVersion,
   });
   const deleteNodeResource = useDeleteResourceForNodeMutation({
     onMutate: async ({ id }) => {
@@ -64,13 +65,15 @@ const ResourceItems = ({ resources, currentNodeId }: Props) => {
 
   const onUpdateRank = async (id: string, newRank: number) => {
     await qc.cancelQueries(compKey);
-    const [toUpdate, other] = partition(resources, t => t.connectionId === id);
-    const updatedRes: ResourceWithNodeConnection = { ...toUpdate[0], rank: newRank };
     const prevData = qc.getQueryData<ResourceWithNodeConnection[]>(compKey) ?? [];
-    const updated = other.map(t => (t.rank >= updatedRes.rank ? { ...t, rank: t.rank + 1 } : t));
-    const newArr = sortBy([...updated, updatedRes], 'rank');
-    const allResources = uniqBy<ResourceWithNodeConnection>([...newArr, ...prevData], 'id');
-    qc.setQueryData<ResourceWithNodeConnection[]>(compKey, allResources);
+    const updated = prevData.map(r => {
+      if (r.connectionId === id) {
+        return { ...r, rank: newRank };
+      } else if (r.rank < newRank) {
+        return r;
+      } else return { ...r, rank: r.rank + 1 };
+    });
+    qc.setQueryData<ResourceWithNodeConnection[]>(compKey, sortBy(updated, ['rank', 'name']));
     return resources;
   };
 

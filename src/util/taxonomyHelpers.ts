@@ -6,7 +6,7 @@
  *
  */
 
-import { groupBy, merge, uniqBy } from 'lodash';
+import { groupBy, merge, sortBy, uniqBy } from 'lodash';
 import { IStatus } from '@ndla/types-draft-api';
 import { FlattenedResourceType } from '../interfaces';
 import {
@@ -114,7 +114,7 @@ export const groupResourcesByType = (
   return resourceTypes
     .map(rt => ({
       ...rt,
-      resources: unique[rt.id] ?? [],
+      resources: sortBy(unique[rt.id], res => res.rank) ?? [],
       contentType: getContentTypeFromResourceTypes([rt]).contentType,
     }))
     .filter(rt => rt.resources.length > 0);

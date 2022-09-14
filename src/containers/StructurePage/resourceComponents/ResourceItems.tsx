@@ -73,7 +73,7 @@ const ResourceItems = ({ resources, currentNodeId }: Props) => {
         return r;
       } else return { ...r, rank: r.rank + 1 };
     });
-    qc.setQueryData<ResourceWithNodeConnection[]>(compKey, sortBy(updated, ['rank', 'name']));
+    qc.setQueryData<ResourceWithNodeConnection[]>(compKey, sortBy(updated, ['rank']));
     return resources;
   };
 

@@ -84,6 +84,7 @@ const StructureResources = ({ currentChildNode, resourceRef, onCurrentNodeChange
   );
 
   const mapping = groupResourcesByType(nodeResources ?? [], resourceTypes ?? []);
+  console.log(mapping);
 
   return (
     <div ref={resourceRef}>

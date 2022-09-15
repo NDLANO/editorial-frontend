@@ -134,7 +134,7 @@ export const subjectpageApiTypeToFormikType = (
     layout: subjectpage?.layout ?? 'single',
     metaDescription: plainTextToEditorValue(subjectpage?.metaDescription || ''),
     mostRead: subjectpage?.mostRead ?? [],
-    name: subjectpage?.name ?? elementName ?? '',
+    name: subjectpage?.about?.title ?? elementName ?? '',
     topical: subjectpage?.topical ?? '',
     twitter: subjectpage?.twitter ?? '',
     elementId,

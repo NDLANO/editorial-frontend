@@ -1279,7 +1279,7 @@ const phrases = {
       failed: 'Klarte ikkje å bytte emneartikkel',
       placeholder: 'Artikkel du vil bytte til',
       info: 'Bytt emneartikkel',
-      success: 'Emneartikkelen er bytta!',
+      success: 'Emneartikkelen er bytta! Last sida på nytt for å få oppdatert navn på emnet.',
     },
     copyResources: {
       error: 'Noko gjekk feil med kopiering',
@@ -1509,6 +1509,9 @@ const phrases = {
       onlyExistsInOther: 'Denne noden finnast berre i kildeversjonen',
     },
     options: {
+      about: 'Denne sida lar deg samanlikne eit nodetre i to forskjellige versjoner.',
+      admin:
+        'Du kan publisere nodetreet mellom versjonane. Du kan publisere nye og oppdatere eksisterande noder til målversjonen, men ikkje slette dei. Sletting må skje i den enkelte versjonen.',
       originalHashLabel: 'Målversjon',
       otherHashLabel: 'Kildeversjon',
       viewLabel: 'Visningstype',

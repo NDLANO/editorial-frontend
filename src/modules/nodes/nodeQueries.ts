@@ -9,6 +9,7 @@
 import { useQuery, useQueryClient, UseQueryOptions } from 'react-query';
 import { NodeTree } from '../../containers/NodeDiff/diffUtils';
 import { SearchResultBase, WithTaxonomyVersion } from '../../interfaces';
+import { PUBLISHED } from '../../util/constants/ConceptStatus';
 import {
   CHILD_NODES_WITH_ARTICLE_TYPE,
   CONNECTIONS_FOR_NODE,
@@ -73,6 +74,7 @@ const fetchChildNodesWithArticleType = async ({
   taxonomyVersion,
 }: ChildNodesWithArticleTypeParams): Promise<(ChildNodeType & {
   articleType?: string;
+  isPublished?: boolean;
 })[]> => {
   const childNodes = await fetchChildNodes({ id, taxonomyVersion, language, recursive: true });
   if (childNodes.length === 0) return [];
@@ -85,10 +87,16 @@ const fetchChildNodesWithArticleType = async ({
     return acc;
   }, {});
 
+  const isPublishedMap = searchRes.results.reduce<Record<number, boolean>>((acc, curr) => {
+    acc[curr.id] = curr.status.current === PUBLISHED || curr.status.other.includes(PUBLISHED);
+    return acc;
+  }, {});
+
   return childNodes.map(node => {
     const draftId = Number(node.contentUri?.split(':').pop());
     const articleType = articleTypeMap[draftId];
-    return { ...node, articleType };
+    const isPublished = isPublishedMap[draftId];
+    return { ...node, articleType, isPublished };
   });
 };
 

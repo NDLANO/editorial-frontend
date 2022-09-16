@@ -15,6 +15,8 @@ import { createGuard } from '../../util/guards';
 import { ChildNodeType, NodeType } from '../../modules/nodes/nodeApiTypes';
 import { nodePathToUrnPath } from '../../util/taxonomyHelpers';
 import FolderItem from './folderComponents/FolderItem';
+import { useSession } from '../Session/SessionProvider';
+import { TAXONOMY_ADMIN_SCOPE } from '../../constants';
 import {
   ItemTitleButton,
   StructureWrapper,
@@ -26,7 +28,9 @@ import {
 export type RenderBeforeFunction = (
   input: ChildNodeType | NodeType,
   isRoot: boolean,
+  isTaxonomyAdmin: boolean,
   articleType?: string,
+  isPublished?: boolean,
 ) => ReactNode;
 
 interface RoundIconProps {
@@ -43,7 +47,7 @@ const isChildNode = createGuard<ChildNodeType>('connectionId');
 
 interface Props {
   id: string;
-  item: (ChildNodeType & { articleType?: string }) | NodeType;
+  item: (ChildNodeType & { articleType?: string; isPublished?: boolean }) | NodeType;
   openedPaths: string[];
   toggleOpen: (nodeId: string) => void;
   level: number;
@@ -80,12 +84,15 @@ const NodeItem = ({
   nodes,
   renderBeforeTitle,
 }: Props) => {
+  const { userPermissions } = useSession();
+  const isTaxonomyAdmin = userPermissions?.includes(TAXONOMY_ADMIN_SCOPE) || false;
   const path = nodePathToUrnPath(item.path);
   const isOpen = openedPaths.includes(path);
   const isActive = openedPaths[openedPaths.length - 1] === path;
   const hasChildNodes = isRoot ? true : nodes && nodes.length > 0;
   const connectionId = isChildNode(item) ? item.connectionId : undefined;
   const articleType = isChildNode(item) ? item.articleType : undefined;
+  const isPublished = isChildNode(item) ? item.isPublished : undefined;
 
   useEffect(() => {
     if (isActive) {
@@ -121,7 +128,7 @@ const NodeItem = ({
           arrowDirection={isOpen ? 90 : 0}
           onClick={onItemClick}
           isVisible={item.metadata?.visible}>
-          {renderBeforeTitle?.(item, !!isRoot, articleType)}
+          {renderBeforeTitle?.(item, !!isRoot, isTaxonomyAdmin, articleType, isPublished)}
           {item.name}
         </ItemTitleButton>
         {isActive && (

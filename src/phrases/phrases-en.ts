@@ -1309,6 +1309,7 @@ const phrases = {
       wrongConnections: 'Bad connections',
       wrongConnectionsSubTitle: 'This article has bad connections, see the list below.',
       canBeFixedInDatabase: 'The article type can be changed in the database to fix the error.',
+      notPublished: 'The article has no published version.',
     },
     resource: {
       confirmDelete:

@@ -156,7 +156,7 @@ export const createAgreement = async (agreement: INewAgreement): Promise<IAgreem
 
 export const fetchGrepCodes = async (query: string): Promise<IGrepCodesSearchResult> =>
   fetchAuthorized(`${baseUrl}/grep-codes/?query=${query}`).then(r =>
-    resolveJsonOrRejectWithError<{ value: IGrepCodesSearchResult }>(r).then(r => r.value),
+    resolveJsonOrRejectWithError<IGrepCodesSearchResult>(r),
   );
 
 export const fetchUserData = async (): Promise<IUserData> =>

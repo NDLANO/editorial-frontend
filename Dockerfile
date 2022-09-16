@@ -1,5 +1,5 @@
 ### Build stage
-FROM node:14.16-alpine as builder
+FROM node:16.17-alpine as builder
 
 ENV HOME=/home/app
 ENV APP_PATH=$HOME/editorial-frontend
@@ -22,9 +22,9 @@ COPY public $APP_PATH/public
 RUN yarn run build
 
 ### Run stage
-FROM node:14.16-alpine
+FROM node:16.17-alpine
 
-RUN apk add py2-pip jq && pip install awscli
+RUN apk add py-pip jq && pip install awscli
 COPY run-editorial-frontend.sh /
 
 

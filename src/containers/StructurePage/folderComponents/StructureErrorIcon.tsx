@@ -20,26 +20,53 @@ const StyledWarnIcon = styled(AlertCircle)`
   fill: ${colors.support.red};
 `;
 
-const StructureErrorIcon = (item: NodeType, isRoot: boolean, articleType?: string) => {
+const StyledAlertIcon = styled(AlertCircle)`
+  height: ${spacing.nsmall};
+  width: ${spacing.nsmall};
+  fill: ${colors.brand.grey};
+`;
+
+const StructureErrorIcon = (
+  item: NodeType,
+  isRoot: boolean,
+  isTaxonomyAdmin: boolean,
+  articleType?: string,
+  isPublished?: boolean,
+) => {
   const { t } = useTranslation();
-  if (isRoot || articleType === 'topic-article') return null;
+  if (isRoot) return null;
+  if (articleType === 'topic-article') {
+    if (!isPublished) {
+      const notPublishedWarning = t('taxonomy.info.notPublished');
 
-  const missingArticleTypeError = t('taxonomy.info.missingArticleType', {
-    id: getIdFromUrn(item.contentUri),
-  });
+      return (
+        <Tooltip tooltip={notPublishedWarning}>
+          <StyledAlertIcon title={notPublishedWarning} />
+        </Tooltip>
+      );
+    }
+    return null;
+  }
 
-  const wrongArticleTypeError = t('taxonomy.info.wrongArticleType', {
-    placedAs: t(`articleType.topic-article`),
-    isType: t(`articleType.standard`),
-  });
+  if (isTaxonomyAdmin) {
+    const missingArticleTypeError = t('taxonomy.info.missingArticleType', {
+      id: getIdFromUrn(item.contentUri),
+    });
 
-  const error = !articleType ? missingArticleTypeError : wrongArticleTypeError;
+    const wrongArticleTypeError = t('taxonomy.info.wrongArticleType', {
+      placedAs: t(`articleType.topic-article`),
+      isType: t(`articleType.standard`),
+    });
 
-  return (
-    <Tooltip tooltip={error}>
-      <StyledWarnIcon title={error} />
-    </Tooltip>
-  );
+    const error = !articleType ? missingArticleTypeError : wrongArticleTypeError;
+
+    return (
+      <Tooltip tooltip={error}>
+        <StyledWarnIcon title={error} />
+      </Tooltip>
+    );
+  }
+  return null;
 };
 
 export default StructureErrorIcon;

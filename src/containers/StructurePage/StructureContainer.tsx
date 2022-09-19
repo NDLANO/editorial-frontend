@@ -157,7 +157,7 @@ const StructureContainer = () => {
               <StructureWrapper data-cy="structure">
                 {nodes!.map(node => (
                   <RootNode
-                    renderBeforeTitle={isTaxonomyAdmin ? StructureErrorIcon : undefined}
+                    renderBeforeTitle={StructureErrorIcon}
                     allRootNodes={nodesQuery.data ?? []}
                     openedPaths={getPathsFromUrl(location.pathname)}
                     resourceSectionRef={resourceSection}

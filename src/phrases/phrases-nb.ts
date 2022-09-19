@@ -1312,6 +1312,7 @@ const phrases = {
       wrongConnections: 'Feilkoblinger',
       wrongConnectionsSubTitle: 'Denne artikkelen har feilkoblinger, se listen under.',
       canBeFixedInDatabase: 'Artikkeltypen kan endres i databasen for å fikse feilen.',
+      notPublished: 'Artikkelen har ingen publisert versjon.',
     },
     resource: {
       confirmDelete:

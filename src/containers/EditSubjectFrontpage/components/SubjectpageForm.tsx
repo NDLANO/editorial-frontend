@@ -176,7 +176,7 @@ const SubjectpageForm = ({
               isSubmitting={isSubmitting}
               language={values.language}
               supportedLanguages={values.supportedLanguages!}
-              title={elementName ?? values.name ?? ''}
+              title={values.name ?? ''}
             />
             <SubjectpageAccordionPanels
               editorsChoices={values.editorsChoices}

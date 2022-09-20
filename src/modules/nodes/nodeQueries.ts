@@ -87,7 +87,7 @@ const fetchChildNodesWithArticleType = async ({
     return acc;
   }, {});
 
-  const isPublishedMap = searchRes.results.reduce<Record<number, boolean>>((acc, curr) => {
+  const isPublishedMap = searchRes.reduce<Record<number, boolean>>((acc, curr) => {
     acc[curr.id] = curr.status.current === PUBLISHED || curr.status.other.includes(PUBLISHED);
     return acc;
   }, {});

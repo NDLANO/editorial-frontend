@@ -107,6 +107,7 @@ export interface ImageEmbed {
 
 export interface BrightcoveEmbed {
   resource: 'brightcove' | 'video';
+  alt?: string;
   videoid: string;
   caption: string;
   url?: string;
@@ -121,6 +122,7 @@ export interface AudioEmbed {
   resource_id: string;
   type: string;
   url: string;
+  alt?: string;
 }
 
 export interface H5pEmbed {
@@ -140,6 +142,7 @@ export interface ExternalEmbed {
   width?: string;
   height?: string;
   imageid?: string;
+  alt?: string;
 }
 
 export interface ErrorEmbed {

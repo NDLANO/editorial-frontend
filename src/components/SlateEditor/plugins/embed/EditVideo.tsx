@@ -140,13 +140,11 @@ interface VideoEmbedFormProps extends FormikProps<FormValues> {
 const StyledInputTimeWrapper = styled.div`
   display: flex;
   flex-flow: row;
-  width: 80%;
-  margin-top: 6.5px;
 `;
 
 const timeInputCss = css`
   width: 120px;
-  margin-right: 13px;
+  margin-right: ${spacing.small};
   label {
     width: auto;
   }

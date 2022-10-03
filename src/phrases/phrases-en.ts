@@ -1508,7 +1508,7 @@ const phrases = {
     options: {
       about: 'This page enables you to compare a node-tree between two different versions.',
       admin:
-        'You can publish  the node-tree between versions. You can publish new and update existing nodes to the target version, but not delete them. Deleting nodes need to be done in the specific version.',
+        'You can publish the node-tree between versions. You can publish new, and update existing nodes to the target version, but not delete them. Deleting nodes need to be done in the specific version. Changes further up in the structure is disregarded.',
       originalHashLabel: 'Target version',
       otherHashLabel: 'Source version',
       viewLabel: 'View type',

@@ -1512,7 +1512,7 @@ const phrases = {
     options: {
       about: 'Denne sida lar deg samanlikne eit nodetre i to forskjellige versjoner.',
       admin:
-        'Du kan publisere nodetreet mellom versjonane. Du kan publisere nye og oppdatere eksisterande noder til målversjonen, men ikkje slette dei. Sletting må skje i den enkelte versjonen.',
+        'Du kan publisere nodetreet mellom versjonane. Du kan publisere nye, og oppdatere eksisterande noder til målversjonen, men ikkje slette dei. Sletting må skje i den enkelte versjonen. Endringar høgare oppe i strukturen tas ikkje hensyn til.',
       originalHashLabel: 'Målversjon',
       otherHashLabel: 'Kildeversjon',
       viewLabel: 'Visningstype',

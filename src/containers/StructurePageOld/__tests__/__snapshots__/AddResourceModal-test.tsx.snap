@@ -1,41 +1,41 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Can paste a valid url and add it to topic 1`] = `
-.emotion-53 {
+.emotion-0 {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0,0,0,0.8);
+  background-color: rgba(0, 0, 0, 0.8);
   z-index: 1;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-pack: center;
-  -webkit-justify-content: center;
   -ms-flex-pack: center;
+  -webkit-justify-content: center;
   justify-content: center;
 }
 
-.emotion-0 {
+.emotion-2 {
   position: fixed;
   top: 0;
   left: 0;
   height: 100vh;
   width: 100vw;
   z-index: 1;
-  background: rgba(0,0,0,0.3);
+  background: rgba(0, 0, 0, 0.3);
   -webkit-animation-duration: 400ms;
   animation-duration: 400ms;
   -webkit-animation-name: fadeIn;
   animation-name: fadeIn;
 }
 
-.emotion-51 {
+.emotion-4 {
   background-color: #f8f8f8;
-  box-shadow: 0 0 2px 0 rgba(115,115,115,0.5);
+  box-shadow: 0 0 2px 0 rgba(115, 115, 115, 0.5);
   width: 620px;
   border-radius: 5px;
   position: absolute;
@@ -45,15 +45,14 @@ exports[`Can paste a valid url and add it to topic 1`] = `
   overflow: auto;
 }
 
-.emotion-7 {
-  background: linear-gradient(180deg,#5d97a9,#508a9c);
+.emotion-6 {
+  background: linear-gradient(180deg, #5d97a9, #508a9c);
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-pack: justify;
   -webkit-justify-content: space-between;
-  -ms-flex-pack: justify;
   justify-content: space-between;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -65,7 +64,12 @@ exports[`Can paste a valid url and add it to topic 1`] = `
   color: #f8f8f8;
 }
 
-.emotion-5 {
+.emotion-8 {
+  height: 50px;
+  width: 50px;
+}
+
+.emotion-10 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -81,8 +85,8 @@ exports[`Can paste a valid url and add it to topic 1`] = `
   line-height: 1.625;
   font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
   font-weight: 700;
-  -webkit-transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
-  transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  -webkit-transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
+  transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
   box-shadow: none;
   text-align: center;
   -webkit-transition: background-color none;
@@ -95,49 +99,47 @@ exports[`Can paste a valid url and add it to topic 1`] = `
   box-shadow: none;
   border: none;
   font-weight: 400;
-  height: 50px;
-  width: 50px;
 }
 
-.emotion-5:hover,
-.emotion-5:focus {
+.emotion-10:hover,
+.emotion-10:focus {
   color: white;
   background-color: #184673;
   border: 2px solid #184673;
 }
 
-.emotion-5[disabled] {
+.emotion-10[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-5:focus {
+.emotion-10:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-5:hover,
-.emotion-5:active,
-.emotion-5:disabled,
-.emotion-5:focus {
+.emotion-10:hover,
+.emotion-10:active,
+.emotion-10:disabled,
+.emotion-10:focus {
   box-shadow: none;
   color: #20588f;
   background-color: transparent;
   border: none;
 }
 
-.emotion-5:focus {
+.emotion-10:focus {
   outline-width: medium;
 }
 
-.emotion-2 {
+.emotion-12 {
   height: 24px;
   width: 24px;
   margin-right: 7px;
 }
 
-.emotion-49 {
+.emotion-14 {
   padding: 2em;
   height: 100%;
   display: -webkit-box;
@@ -149,7 +151,6 @@ exports[`Can paste a valid url and add it to topic 1`] = `
   flex-direction: column;
   -webkit-box-pack: justify;
   -webkit-justify-content: space-between;
-  -ms-flex-pack: justify;
   justify-content: space-between;
   -webkit-align-items: flex-end;
   -webkit-box-align: flex-end;
@@ -157,19 +158,19 @@ exports[`Can paste a valid url and add it to topic 1`] = `
   align-items: flex-end;
 }
 
-.emotion-44 {
+.emotion-16 {
   width: 100%;
 }
 
-.emotion-44 > * {
+.emotion-16>* {
   width: 100%;
 }
 
-.emotion-44 form {
+.emotion-16 form {
   background-color: white;
 }
 
-.emotion-11 {
+.emotion-18 {
   margin-top: 6.5px;
   display: -webkit-box;
   display: -webkit-flex;
@@ -177,15 +178,16 @@ exports[`Can paste a valid url and add it to topic 1`] = `
   display: flex;
 }
 
-.emotion-11:first-of-type {
+.emotion-18:first-of-type {
   margin-top: 0;
 }
 
-.emotion-9 {
+.emotion-20 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-flex-wrap: wrap;
   -webkit-flex-wrap: wrap;
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
@@ -199,8 +201,8 @@ exports[`Can paste a valid url and add it to topic 1`] = `
   -ms-flex-align: center;
   align-items: center;
   -webkit-box-pack: start;
-  -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
+  -webkit-justify-content: flex-start;
   justify-content: flex-start;
   border: 1px solid #eff0f2;
   -webkit-transition: border-color 100ms ease;
@@ -210,12 +212,12 @@ exports[`Can paste a valid url and add it to topic 1`] = `
   padding-right: 13px;
 }
 
-.emotion-9:focus-within {
+.emotion-20:focus-within {
   border-color: #20588f;
 }
 
-.emotion-9 input,
-.emotion-9 textarea {
+.emotion-20 input,
+.emotion-20 textarea {
   width: inherit;
   font-weight: 400;
   color: #444;
@@ -234,103 +236,32 @@ exports[`Can paste a valid url and add it to topic 1`] = `
   flex-grow: 1;
 }
 
-.emotion-9 input:focus,
-.emotion-9 textarea:focus {
+.emotion-20 input:focus,
+.emotion-20 textarea:focus {
   -webkit-appearance: none;
   -moz-appearance: none;
+  -ms-appearance: none;
   appearance: none;
   outline: none;
 }
 
-.emotion-9 input {
+.emotion-20 input {
   padding: 6.5px 13px;
 }
 
-.emotion-9 textarea {
+.emotion-20 textarea {
   padding: 0 13px;
   height: 20px;
   margin: 14px 0;
   resize: none;
 }
 
-.emotion-9 .c-icon {
+.emotion-20 .c-icon {
   width: 24px;
   height: 24px;
 }
 
-.emotion-47 {
-  display: inline-block;
-  color: #ffffff;
-  background-color: #20588f;
-  border: 2px solid #20588f;
-  border-radius: 4px;
-  padding: 4px 13px;
-  outline-width: 0;
-  cursor: pointer;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  font-size: 16px;
-  font-size: 0.8888888888888888rem;
-  line-height: 1.625;
-  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
-  font-weight: 700;
-  -webkit-transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
-  transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
-  box-shadow: none;
-  text-align: center;
-  -webkit-transition: background-color none;
-  transition: background-color none;
-  padding: 0;
-  border-radius: 0;
-  color: inherit;
-  font-size: inherit;
-  background-color: transparent;
-  box-shadow: none;
-  border: none;
-  font-weight: 400;
-}
-
-.emotion-47:hover,
-.emotion-47:focus {
-  color: white;
-  background-color: #184673;
-  border: 2px solid #184673;
-}
-
-.emotion-47[disabled] {
-  color: #777777;
-  background-color: #e6e6e6;
-  border-color: transparent;
-  cursor: not-allowed;
-}
-
-.emotion-47:focus {
-  box-shadow: 0 0 2px #20588f;
-}
-
-.emotion-47:hover,
-.emotion-47:active,
-.emotion-47:disabled,
-.emotion-47:focus {
-  box-shadow: none;
-  color: #20588f;
-  background-color: transparent;
-  border: none;
-}
-
-.emotion-47:focus {
-  outline-width: medium;
-}
-
-.emotion-47,
-.emotion-47:hover {
-  border-radius: 5px;
-  background-color: white;
-  margin-top: 26px;
-  padding: 3px 52px;
-}
-
-.emotion-21 {
+.emotion-22 {
   padding: 13px;
   border: 1px solid #ddd;
   background-color: white;
@@ -342,7 +273,7 @@ exports[`Can paste a valid url and add it to topic 1`] = `
   display: flex;
 }
 
-.emotion-13 {
+.emotion-24 {
   text-align: center;
   margin-right: 13px;
   -webkit-flex: 1 1 auto;
@@ -351,24 +282,24 @@ exports[`Can paste a valid url and add it to topic 1`] = `
   max-width: 180px;
 }
 
-.emotion-13 img {
+.emotion-24 img {
   max-height: 100%;
 }
 
-.emotion-13 svg {
+.emotion-24 svg {
   margin: 32.5px;
   width: 60px;
   height: 60px;
 }
 
-.emotion-19 {
+.emotion-26 {
   -webkit-flex: 2 4 auto;
   -ms-flex: 2 4 auto;
   flex: 2 4 auto;
   overflow: hidden;
 }
 
-.emotion-15 {
+.emotion-28 {
   margin: 0;
   font-size: 1rem;
   font-weight: 600;
@@ -376,24 +307,24 @@ exports[`Can paste a valid url and add it to topic 1`] = `
   color: #444;
 }
 
-.emotion-17 {
+.emotion-30 {
   font-size: 0.8rem;
   margin: 0;
 }
 
-.emotion-42 {
+.emotion-32 {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0,0,0,0.8);
+  background-color: rgba(0, 0, 0, 0.8);
   z-index: 1000;
   overflow-x: auto;
 }
 
-@media (max-width:48em) {
-  .emotion-42 {
+@media (max-width: 48em) {
+  .emotion-32 {
     top: 64px;
     overflow-y: auto;
     white-space: normal;
@@ -401,13 +332,13 @@ exports[`Can paste a valid url and add it to topic 1`] = `
   }
 }
 
-@media (max-width:29.75em) {
-  .emotion-42 {
+@media (max-width: 29.75em) {
+  .emotion-32 {
     top: 43px;
   }
 }
 
-.emotion-40 {
+.emotion-34 {
   overflow-x: auto;
   background-color: white;
   margin: 52px auto 52px;
@@ -422,36 +353,7 @@ exports[`Can paste a valid url and add it to topic 1`] = `
   color: white;
 }
 
-.emotion-26 {
-  display: inline-block;
-  color: #ffffff;
-  background-color: #20588f;
-  border: 2px solid #20588f;
-  border-radius: 4px;
-  padding: 4px 13px;
-  outline-width: 0;
-  cursor: pointer;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  font-size: 16px;
-  font-size: 0.8888888888888888rem;
-  line-height: 1.625;
-  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
-  font-weight: 700;
-  -webkit-transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
-  transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
-  box-shadow: none;
-  text-align: center;
-  -webkit-transition: background-color none;
-  transition: background-color none;
-  padding: 0;
-  border-radius: 0;
-  color: inherit;
-  font-size: inherit;
-  background-color: transparent;
-  box-shadow: none;
-  border: none;
-  font-weight: 400;
+.emotion-36 {
   float: right;
   height: 44px;
   width: 44px;
@@ -459,39 +361,7 @@ exports[`Can paste a valid url and add it to topic 1`] = `
   margin-right: -20px;
 }
 
-.emotion-26:hover,
-.emotion-26:focus {
-  color: white;
-  background-color: #184673;
-  border: 2px solid #184673;
-}
-
-.emotion-26[disabled] {
-  color: #777777;
-  background-color: #e6e6e6;
-  border-color: transparent;
-  cursor: not-allowed;
-}
-
-.emotion-26:focus {
-  box-shadow: 0 0 2px #20588f;
-}
-
-.emotion-26:hover,
-.emotion-26:active,
-.emotion-26:disabled,
-.emotion-26:focus {
-  box-shadow: none;
-  color: #20588f;
-  background-color: transparent;
-  border: none;
-}
-
-.emotion-26:focus {
-  outline-width: medium;
-}
-
-.emotion-23 {
+.emotion-40 {
   float: right;
   height: 24px;
   width: 24px;
@@ -501,7 +371,7 @@ exports[`Can paste a valid url and add it to topic 1`] = `
   color: white;
 }
 
-.emotion-38 {
+.emotion-42 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -510,7 +380,7 @@ exports[`Can paste a valid url and add it to topic 1`] = `
   width: 100%;
 }
 
-.emotion-36 {
+.emotion-44 {
   height: 100%;
   padding-top: 26px;
   font-size: 24px;
@@ -523,37 +393,35 @@ exports[`Can paste a valid url and add it to topic 1`] = `
   flex-direction: column;
   -webkit-box-pack: justify;
   -webkit-justify-content: space-between;
-  -ms-flex-pack: justify;
   justify-content: space-between;
 }
 
-.emotion-32 {
+.emotion-46 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
 }
 
-.emotion-28 {
+.emotion-48 {
   width: 27px;
   height: 27px;
   margin-right: 13px;
 }
 
-.emotion-30 {
+.emotion-50 {
   width: 100%;
   display: inline-block;
   text-align: left;
 }
 
-.emotion-34 {
+.emotion-52 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-pack: justify;
   -webkit-justify-content: space-between;
-  -ms-flex-pack: justify;
   justify-content: space-between;
   -webkit-align-items: flex-end;
   -webkit-box-align: flex-end;
@@ -562,26 +430,35 @@ exports[`Can paste a valid url and add it to topic 1`] = `
   margin-top: 13px;
 }
 
+.emotion-54,
+.emotion-54:hover {
+  border-radius: 5px;
+  background-color: white;
+  margin-top: 26px;
+  padding: 3px 52px;
+}
+
 <div
-  class="emotion-53 emotion-54"
+  class="emotion-0 emotion-1"
 >
   <div
     aria-hidden="true"
-    class="emotion-0 emotion-1"
+    class="emotion-2 emotion-3"
   />
   <div
-    class="emotion-51 emotion-52"
+    class="emotion-4 emotion-5"
   >
     <div
-      class="emotion-7 emotion-8"
+      class="emotion-6 emotion-7"
     >
       Søk etter ressurs
       <button
-        class="emotion-4 emotion-5 emotion-6"
+        class="emotion-8 emotion-9 emotion-10 emotion-11"
         type="button"
       >
         <svg
-          class="c-icon emotion-2 emotion-3"
+          aria-hidden="true"
+          class="c-icon emotion-12 emotion-13"
           data-license="Apache License 2.0"
           data-source="Material Design"
           fill="currentColor"
@@ -604,17 +481,17 @@ exports[`Can paste a valid url and add it to topic 1`] = `
       </button>
     </div>
     <div
-      class="emotion-49 emotion-50"
+      class="emotion-14 emotion-15"
     >
       <div
-        class="emotion-44 emotion-45"
+        class="emotion-16 emotion-17"
       >
         <div>
           <div
-            class="emotion-11 emotion-12"
+            class="emotion-18 emotion-19"
           >
             <div
-              class="emotion-9 emotion-10"
+              class="emotion-20 emotion-21"
             >
               <input
                 data-testid="addResourceUrlInput"
@@ -626,11 +503,11 @@ exports[`Can paste a valid url and add it to topic 1`] = `
           </div>
         </div>
         <div
-          class="emotion-21 emotion-22"
+          class="emotion-22 emotion-23"
           data-testid="articlePreview"
         >
           <div
-            class="emotion-13 emotion-14"
+            class="emotion-24 emotion-25"
           >
             <img
               alt=""
@@ -638,31 +515,32 @@ exports[`Can paste a valid url and add it to topic 1`] = `
             />
           </div>
           <div
-            class="emotion-19 emotion-20"
+            class="emotion-26 emotion-27"
           >
             <h1
-              class="emotion-15 emotion-16"
+              class="emotion-28 emotion-29"
             >
               Hva kan du om geologiske prosesser?
             </h1>
             <p
-              class="emotion-17 emotion-18"
+              class="emotion-30 emotion-31"
             />
           </div>
         </div>
         <div
-          class="emotion-42 emotion-43"
+          class="emotion-32 emotion-33"
         >
           <div
-            class="emotion-40 emotion-41"
+            class="emotion-34 emotion-35"
           >
             <button
-              class="emotion-25 emotion-26 emotion-6"
+              class="emotion-36 emotion-37 emotion-10 emotion-11"
               data-testid="closeAlert"
               type="button"
             >
               <svg
-                class="c-icon emotion-23 emotion-24"
+                aria-hidden="true"
+                class="c-icon emotion-40 emotion-41"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
                 fill="currentColor"
@@ -685,16 +563,17 @@ exports[`Can paste a valid url and add it to topic 1`] = `
               </svg>
             </button>
             <div
-              class="emotion-38 emotion-39"
+              class="emotion-42 emotion-43"
             >
               <div
-                class="emotion-36 emotion-37"
+                class="emotion-44 emotion-45"
               >
                 <div
-                  class="emotion-32 emotion-33"
+                  class="emotion-46 emotion-47"
                 >
                   <svg
-                    class="c-icon emotion-28 emotion-29"
+                    aria-hidden="true"
+                    class="c-icon emotion-48 emotion-49"
                     data-license="Apache License 2.0"
                     data-source="Material Design"
                     fill="currentColor"
@@ -715,13 +594,13 @@ exports[`Can paste a valid url and add it to topic 1`] = `
                     </g>
                   </svg>
                   <span
-                    class="emotion-30 emotion-31"
+                    class="emotion-50 emotion-51"
                   >
                     Obs! Denne ressursen er en annen type urn:resourcetype:tasksAndActivities
                   </span>
                 </div>
                 <div
-                  class="emotion-34 emotion-35"
+                  class="emotion-52 emotion-53"
                 />
               </div>
             </div>
@@ -729,7 +608,7 @@ exports[`Can paste a valid url and add it to topic 1`] = `
         </div>
       </div>
       <button
-        class="emotion-46 emotion-47 emotion-6"
+        class="emotion-54 emotion-55 emotion-10 emotion-11"
         data-testid="taxonomyLightboxButton"
         type="button"
       >
@@ -741,41 +620,41 @@ exports[`Can paste a valid url and add it to topic 1`] = `
 `;
 
 exports[`Can select a resource from the list and it adds it to topic 1`] = `
-.emotion-102 {
+.emotion-0 {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0,0,0,0.8);
+  background-color: rgba(0, 0, 0, 0.8);
   z-index: 1;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-pack: center;
-  -webkit-justify-content: center;
   -ms-flex-pack: center;
+  -webkit-justify-content: center;
   justify-content: center;
 }
 
-.emotion-0 {
+.emotion-2 {
   position: fixed;
   top: 0;
   left: 0;
   height: 100vh;
   width: 100vw;
   z-index: 1;
-  background: rgba(0,0,0,0.3);
+  background: rgba(0, 0, 0, 0.3);
   -webkit-animation-duration: 400ms;
   animation-duration: 400ms;
   -webkit-animation-name: fadeIn;
   animation-name: fadeIn;
 }
 
-.emotion-100 {
+.emotion-4 {
   background-color: #f8f8f8;
-  box-shadow: 0 0 2px 0 rgba(115,115,115,0.5);
+  box-shadow: 0 0 2px 0 rgba(115, 115, 115, 0.5);
   width: 620px;
   border-radius: 5px;
   position: absolute;
@@ -785,15 +664,14 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
   overflow: auto;
 }
 
-.emotion-7 {
-  background: linear-gradient(180deg,#5d97a9,#508a9c);
+.emotion-6 {
+  background: linear-gradient(180deg, #5d97a9, #508a9c);
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-pack: justify;
   -webkit-justify-content: space-between;
-  -ms-flex-pack: justify;
   justify-content: space-between;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -805,7 +683,12 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
   color: #f8f8f8;
 }
 
-.emotion-5 {
+.emotion-8 {
+  height: 50px;
+  width: 50px;
+}
+
+.emotion-10 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -821,8 +704,8 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
   line-height: 1.625;
   font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
   font-weight: 700;
-  -webkit-transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
-  transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  -webkit-transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
+  transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
   box-shadow: none;
   text-align: center;
   -webkit-transition: background-color none;
@@ -835,49 +718,47 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
   box-shadow: none;
   border: none;
   font-weight: 400;
-  height: 50px;
-  width: 50px;
 }
 
-.emotion-5:hover,
-.emotion-5:focus {
+.emotion-10:hover,
+.emotion-10:focus {
   color: white;
   background-color: #184673;
   border: 2px solid #184673;
 }
 
-.emotion-5[disabled] {
+.emotion-10[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-5:focus {
+.emotion-10:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-5:hover,
-.emotion-5:active,
-.emotion-5:disabled,
-.emotion-5:focus {
+.emotion-10:hover,
+.emotion-10:active,
+.emotion-10:disabled,
+.emotion-10:focus {
   box-shadow: none;
   color: #20588f;
   background-color: transparent;
   border: none;
 }
 
-.emotion-5:focus {
+.emotion-10:focus {
   outline-width: medium;
 }
 
-.emotion-2 {
+.emotion-12 {
   height: 24px;
   width: 24px;
   margin-right: 7px;
 }
 
-.emotion-98 {
+.emotion-14 {
   padding: 2em;
   height: 100%;
   display: -webkit-box;
@@ -889,7 +770,6 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
   flex-direction: column;
   -webkit-box-pack: justify;
   -webkit-justify-content: space-between;
-  -ms-flex-pack: justify;
   justify-content: space-between;
   -webkit-align-items: flex-end;
   -webkit-box-align: flex-end;
@@ -897,19 +777,19 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
   align-items: flex-end;
 }
 
-.emotion-93 {
+.emotion-16 {
   width: 100%;
 }
 
-.emotion-93 > * {
+.emotion-16>* {
   width: 100%;
 }
 
-.emotion-93 form {
+.emotion-16 form {
   background-color: white;
 }
 
-.emotion-11 {
+.emotion-18 {
   margin-top: 6.5px;
   display: -webkit-box;
   display: -webkit-flex;
@@ -917,15 +797,16 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
   display: flex;
 }
 
-.emotion-11:first-of-type {
+.emotion-18:first-of-type {
   margin-top: 0;
 }
 
-.emotion-9 {
+.emotion-20 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-flex-wrap: wrap;
   -webkit-flex-wrap: wrap;
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
@@ -939,8 +820,8 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
   -ms-flex-align: center;
   align-items: center;
   -webkit-box-pack: start;
-  -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
+  -webkit-justify-content: flex-start;
   justify-content: flex-start;
   border: 1px solid #eff0f2;
   -webkit-transition: border-color 100ms ease;
@@ -950,12 +831,12 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
   padding-right: 13px;
 }
 
-.emotion-9:focus-within {
+.emotion-20:focus-within {
   border-color: #20588f;
 }
 
-.emotion-9 input,
-.emotion-9 textarea {
+.emotion-20 input,
+.emotion-20 textarea {
   width: inherit;
   font-weight: 400;
   color: #444;
@@ -974,53 +855,54 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
   flex-grow: 1;
 }
 
-.emotion-9 input:focus,
-.emotion-9 textarea:focus {
+.emotion-20 input:focus,
+.emotion-20 textarea:focus {
   -webkit-appearance: none;
   -moz-appearance: none;
+  -ms-appearance: none;
   appearance: none;
   outline: none;
 }
 
-.emotion-9 input {
+.emotion-20 input {
   padding: 6.5px 13px;
 }
 
-.emotion-9 textarea {
+.emotion-20 textarea {
   padding: 0 13px;
   height: 20px;
   margin: 14px 0;
   resize: none;
 }
 
-.emotion-9 .c-icon {
+.emotion-20 .c-icon {
   width: 24px;
   height: 24px;
 }
 
-.emotion-13 {
+.emotion-22 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-pack: center;
-  -webkit-justify-content: center;
   -ms-flex-pack: center;
+  -webkit-justify-content: center;
   justify-content: center;
   margin: 20px 0;
 }
 
-.emotion-91 {
+.emotion-28 {
   font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
   background: #fff;
   border-radius: 4px;
-  box-shadow: 0 0 19px rgba(0,0,0,0.2);
+  box-shadow: 0 0 19px rgba(0, 0, 0, 0.2);
   -webkit-transition: height 100ms ease;
   transition: height 100ms ease;
   width: 100%;
 }
 
-.emotion-79 {
+.emotion-30 {
   overflow-y: scroll;
   -webkit-animation-duration: 200ms;
   animation-duration: 200ms;
@@ -1030,143 +912,7 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
   max-height: 500px;
 }
 
-.emotion-89 {
-  font-size: 14;
-  font-size: 0.7777777777777778rem;
-  line-height: 1.1;
-  color: #757575;
-  padding: 13px;
-  border-top: 1px solid #f8f8f8;
-}
-
-.emotion-96 {
-  display: inline-block;
-  color: #ffffff;
-  background-color: #20588f;
-  border: 2px solid #20588f;
-  border-radius: 4px;
-  padding: 4px 13px;
-  outline-width: 0;
-  cursor: pointer;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  font-size: 16px;
-  font-size: 0.8888888888888888rem;
-  line-height: 1.625;
-  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
-  font-weight: 700;
-  -webkit-transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
-  transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
-  box-shadow: none;
-  text-align: center;
-  -webkit-transition: background-color none;
-  transition: background-color none;
-  padding: 0;
-  border-radius: 0;
-  color: inherit;
-  font-size: inherit;
-  background-color: transparent;
-  box-shadow: none;
-  border: none;
-  font-weight: 400;
-}
-
-.emotion-96:hover,
-.emotion-96:focus {
-  color: white;
-  background-color: #184673;
-  border: 2px solid #184673;
-}
-
-.emotion-96[disabled] {
-  color: #777777;
-  background-color: #e6e6e6;
-  border-color: transparent;
-  cursor: not-allowed;
-}
-
-.emotion-96:focus {
-  box-shadow: 0 0 2px #20588f;
-}
-
-.emotion-96:hover,
-.emotion-96:active,
-.emotion-96:disabled,
-.emotion-96:focus {
-  box-shadow: none;
-  color: #20588f;
-  background-color: transparent;
-  border: none;
-}
-
-.emotion-96:focus {
-  outline-width: medium;
-}
-
-.emotion-96,
-.emotion-96:hover {
-  border-radius: 5px;
-  background-color: white;
-  margin-top: 26px;
-  padding: 3px 52px;
-}
-
-.emotion-87 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-wrap: wrap;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  margin-top: 1em;
-}
-
-.emotion-81 {
-  display: inline;
-  background: transparent;
-  border: 0;
-  border-top: 3px solid #e6e6e6;
-  padding: 1em 1.45em;
-  margin: 1em 0.3em 0;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  box-shadow: none;
-  color: #20588f;
-  cursor: pointer;
-  border-top: 3px solid #20588f;
-  background-color: 'rgba(222,235,246,0.5)';
-}
-
-.emotion-81:hover {
-  border-top: 3px solid #20588f;
-  background-color: 'rgba(222,235,246,0.5)';
-}
-
-.emotion-82 {
-  display: inline;
-  background: transparent;
-  border: 0;
-  border-top: 3px solid #e6e6e6;
-  padding: 1em 1.45em;
-  margin: 1em 0.3em 0;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  box-shadow: none;
-  color: #20588f;
-  cursor: pointer;
-}
-
-.emotion-82:hover {
-  border-top: 3px solid #20588f;
-  background-color: 'rgba(222,235,246,0.5)';
-}
-
-.emotion-23 {
+.emotion-32 {
   border: 0;
   border-bottom: 1px solid #f8f8f8;
   padding: 13px;
@@ -1182,8 +928,8 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
   -ms-flex-align: center;
   align-items: center;
   -webkit-box-pack: start;
-  -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
+  -webkit-justify-content: flex-start;
   justify-content: flex-start;
   width: 100%;
   -webkit-transition: background 200ms ease;
@@ -1191,12 +937,12 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
   background: transparent;
 }
 
-.emotion-23:focus,
-.emotion-23:hover {
+.emotion-32:focus,
+.emotion-32:hover {
   background: #deebf6;
 }
 
-.emotion-21 {
+.emotion-34 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1215,7 +961,7 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
   flex-grow: 3;
 }
 
-.emotion-19 {
+.emotion-36 {
   font-size: 18;
   font-size: 1rem;
   line-height: 1.1;
@@ -1224,26 +970,100 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
   text-align: left;
 }
 
+.emotion-92 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex-wrap: wrap;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  margin-top: 1em;
+}
+
+.emotion-94 {
+  display: inline;
+  background: transparent;
+  border: 0;
+  border-top: 3px solid #e6e6e6;
+  padding: 1em 1.45em;
+  margin: 1em 0.3em 0;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  box-shadow: none;
+  color: #20588f;
+  cursor: pointer;
+  border-top: 3px solid #20588f;
+  background-color: 'rgba(222,235,246,0.5)';
+}
+
+.emotion-94:hover {
+  border-top: 3px solid #20588f;
+  background-color: 'rgba(222,235,246,0.5)';
+}
+
+.emotion-95 {
+  display: inline;
+  background: transparent;
+  border: 0;
+  border-top: 3px solid #e6e6e6;
+  padding: 1em 1.45em;
+  margin: 1em 0.3em 0;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  box-shadow: none;
+  color: #20588f;
+  cursor: pointer;
+}
+
+.emotion-95:hover {
+  border-top: 3px solid #20588f;
+  background-color: 'rgba(222,235,246,0.5)';
+}
+
+.emotion-100 {
+  font-size: 14;
+  font-size: 0.7777777777777778rem;
+  line-height: 1.1;
+  color: #757575;
+  padding: 13px;
+  border-top: 1px solid #f8f8f8;
+}
+
+.emotion-102,
+.emotion-102:hover {
+  border-radius: 5px;
+  background-color: white;
+  margin-top: 26px;
+  padding: 3px 52px;
+}
+
 <div
-  class="emotion-102 emotion-103"
+  class="emotion-0 emotion-1"
 >
   <div
     aria-hidden="true"
-    class="emotion-0 emotion-1"
+    class="emotion-2 emotion-3"
   />
   <div
-    class="emotion-100 emotion-101"
+    class="emotion-4 emotion-5"
   >
     <div
-      class="emotion-7 emotion-8"
+      class="emotion-6 emotion-7"
     >
       Søk etter ressurs
       <button
-        class="emotion-4 emotion-5 emotion-6"
+        class="emotion-8 emotion-9 emotion-10 emotion-11"
         type="button"
       >
         <svg
-          class="c-icon emotion-2 emotion-3"
+          aria-hidden="true"
+          class="c-icon emotion-12 emotion-13"
           data-license="Apache License 2.0"
           data-source="Material Design"
           fill="currentColor"
@@ -1266,17 +1086,17 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
       </button>
     </div>
     <div
-      class="emotion-98 emotion-99"
+      class="emotion-14 emotion-15"
     >
       <div
-        class="emotion-93 emotion-94"
+        class="emotion-16 emotion-17"
       >
         <div>
           <div
-            class="emotion-11 emotion-12"
+            class="emotion-18 emotion-19"
           >
             <div
-              class="emotion-9 emotion-10"
+              class="emotion-20 emotion-21"
             >
               <input
                 data-testid="addResourceUrlInput"
@@ -1288,7 +1108,7 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
           </div>
         </div>
         <div
-          class="emotion-13 emotion-14"
+          class="emotion-22 emotion-23"
         >
           Eller
         </div>
@@ -1301,10 +1121,10 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
         >
           <div>
             <div
-              class="emotion-11 emotion-12"
+              class="emotion-18 emotion-19"
             >
               <div
-                class="emotion-9 emotion-10"
+                class="emotion-20 emotion-21"
               >
                 <input
                   aria-autocomplete="list"
@@ -1317,6 +1137,7 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
                   value=""
                 />
                 <svg
+                  aria-hidden="true"
                   class="c-icon"
                   data-license="Apache License 2.0"
                   data-source="Material Design"
@@ -1338,26 +1159,26 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
           </div>
           <div
             aria-labelledby="downshift-0-label"
-            class="emotion-91 emotion-92"
+            class="emotion-28 emotion-29"
             data-testid="dropdown-items"
             id="downshift-0-menu"
             role="listbox"
           >
             <div
-              class="emotion-79 emotion-80"
+              class="emotion-30 emotion-31"
             >
               <button
                 aria-selected="false"
-                class="emotion-23 emotion-24"
+                class="emotion-32 emotion-33"
                 id="downshift-0-item-0"
                 role="option"
                 type="button"
               >
                 <div
-                  class="emotion-21 emotion-22"
+                  class="emotion-34 emotion-35"
                 >
                   <span
-                    class="emotion-19 emotion-20"
+                    class="emotion-36 emotion-37"
                   >
                     Hva kan du om geologiske prosesser?
                   </span>
@@ -1366,16 +1187,16 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
               </button>
               <button
                 aria-selected="false"
-                class="emotion-23 emotion-24"
+                class="emotion-32 emotion-33"
                 id="downshift-0-item-1"
                 role="option"
                 type="button"
               >
                 <div
-                  class="emotion-21 emotion-22"
+                  class="emotion-34 emotion-35"
                 >
                   <span
-                    class="emotion-19 emotion-20"
+                    class="emotion-36 emotion-37"
                   >
                     Hva kan du om petroleumsgeologi?
                   </span>
@@ -1384,16 +1205,16 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
               </button>
               <button
                 aria-selected="false"
-                class="emotion-23 emotion-24"
+                class="emotion-32 emotion-33"
                 id="downshift-0-item-2"
                 role="option"
                 type="button"
               >
                 <div
-                  class="emotion-21 emotion-22"
+                  class="emotion-34 emotion-35"
                 >
                   <span
-                    class="emotion-19 emotion-20"
+                    class="emotion-36 emotion-37"
                   >
                     Hva kan du om olje og gass på den norske sokkelen?
                   </span>
@@ -1402,16 +1223,16 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
               </button>
               <button
                 aria-selected="false"
-                class="emotion-23 emotion-24"
+                class="emotion-32 emotion-33"
                 id="downshift-0-item-3"
                 role="option"
                 type="button"
               >
                 <div
-                  class="emotion-21 emotion-22"
+                  class="emotion-34 emotion-35"
                 >
                   <span
-                    class="emotion-19 emotion-20"
+                    class="emotion-36 emotion-37"
                   >
                     Hva kan du om letemetoder og datainnsamling?
                   </span>
@@ -1420,16 +1241,16 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
               </button>
               <button
                 aria-selected="false"
-                class="emotion-23 emotion-24"
+                class="emotion-32 emotion-33"
                 id="downshift-0-item-4"
                 role="option"
                 type="button"
               >
                 <div
-                  class="emotion-21 emotion-22"
+                  class="emotion-34 emotion-35"
                 >
                   <span
-                    class="emotion-19 emotion-20"
+                    class="emotion-36 emotion-37"
                   >
                     Hva kan du om installasjoner for boring og vedlikehold?
                   </span>
@@ -1438,16 +1259,16 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
               </button>
               <button
                 aria-selected="false"
-                class="emotion-23 emotion-24"
+                class="emotion-32 emotion-33"
                 id="downshift-0-item-5"
                 role="option"
                 type="button"
               >
                 <div
-                  class="emotion-21 emotion-22"
+                  class="emotion-34 emotion-35"
                 >
                   <span
-                    class="emotion-19 emotion-20"
+                    class="emotion-36 emotion-37"
                   >
                     Hva kan du om installasjoner for produksjon?
                   </span>
@@ -1456,16 +1277,16 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
               </button>
               <button
                 aria-selected="false"
-                class="emotion-23 emotion-24"
+                class="emotion-32 emotion-33"
                 id="downshift-0-item-6"
                 role="option"
                 type="button"
               >
                 <div
-                  class="emotion-21 emotion-22"
+                  class="emotion-34 emotion-35"
                 >
                   <span
-                    class="emotion-19 emotion-20"
+                    class="emotion-36 emotion-37"
                   >
                     Sammendrag om rørhåndtering
                   </span>
@@ -1474,16 +1295,16 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
               </button>
               <button
                 aria-selected="false"
-                class="emotion-23 emotion-24"
+                class="emotion-32 emotion-33"
                 id="downshift-0-item-7"
                 role="option"
                 type="button"
               >
                 <div
-                  class="emotion-21 emotion-22"
+                  class="emotion-34 emotion-35"
                 >
                   <span
-                    class="emotion-19 emotion-20"
+                    class="emotion-36 emotion-37"
                   >
                     Hva kan du om slamsystemet?
                   </span>
@@ -1492,16 +1313,16 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
               </button>
               <button
                 aria-selected="false"
-                class="emotion-23 emotion-24"
+                class="emotion-32 emotion-33"
                 id="downshift-0-item-8"
                 role="option"
                 type="button"
               >
                 <div
-                  class="emotion-21 emotion-22"
+                  class="emotion-34 emotion-35"
                 >
                   <span
-                    class="emotion-19 emotion-20"
+                    class="emotion-36 emotion-37"
                   >
                     Hva kan du om sementeringsutstyret?
                   </span>
@@ -1510,16 +1331,16 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
               </button>
               <button
                 aria-selected="false"
-                class="emotion-23 emotion-24"
+                class="emotion-32 emotion-33"
                 id="downshift-0-item-9"
                 role="option"
                 type="button"
               >
                 <div
-                  class="emotion-21 emotion-22"
+                  class="emotion-34 emotion-35"
                 >
                   <span
-                    class="emotion-19 emotion-20"
+                    class="emotion-36 emotion-37"
                   >
                     Hva kan du om stigerørsystemet?
                   </span>
@@ -1528,43 +1349,43 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
               </button>
             </div>
             <div
-              class="emotion-87 emotion-88"
+              class="emotion-92 emotion-93"
+              data-testid="pager"
             >
               <span
-                class="emotion-81"
+                aria-current="step"
+                class="emotion-94"
               >
                 1
               </span>
               <button
-                class="emotion-82"
+                class="emotion-95"
               >
                 2
               </button>
               <button
-                class="emotion-82"
+                class="emotion-95"
               >
                 3
               </button>
               <button
-                class="emotion-82"
+                class="emotion-95"
               >
                 4
               </button>
               <button
-                class="emotion-82"
+                class="emotion-95"
               >
                 5
               </button>
               <button
-                class="emotion-82"
+                class="emotion-95"
               >
-                 
                 &gt;
-                 
               </button>
             </div>
             <div
-              class="emotion-89 emotion-90"
+              class="emotion-100 emotion-101"
             >
               Søket gav 180 treff
             </div>
@@ -1572,7 +1393,7 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
         </div>
       </div>
       <button
-        class="emotion-95 emotion-96 emotion-6"
+        class="emotion-102 emotion-103 emotion-10 emotion-11"
         data-testid="taxonomyLightboxButton"
         type="button"
       >
@@ -1584,41 +1405,41 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
 `;
 
 exports[`Can select a resource from the list and it adds it to topic 2`] = `
-.emotion-38 {
+.emotion-0 {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0,0,0,0.8);
+  background-color: rgba(0, 0, 0, 0.8);
   z-index: 1;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-pack: center;
-  -webkit-justify-content: center;
   -ms-flex-pack: center;
+  -webkit-justify-content: center;
   justify-content: center;
 }
 
-.emotion-0 {
+.emotion-2 {
   position: fixed;
   top: 0;
   left: 0;
   height: 100vh;
   width: 100vw;
   z-index: 1;
-  background: rgba(0,0,0,0.3);
+  background: rgba(0, 0, 0, 0.3);
   -webkit-animation-duration: 400ms;
   animation-duration: 400ms;
   -webkit-animation-name: fadeIn;
   animation-name: fadeIn;
 }
 
-.emotion-36 {
+.emotion-4 {
   background-color: #f8f8f8;
-  box-shadow: 0 0 2px 0 rgba(115,115,115,0.5);
+  box-shadow: 0 0 2px 0 rgba(115, 115, 115, 0.5);
   width: 620px;
   border-radius: 5px;
   position: absolute;
@@ -1628,15 +1449,14 @@ exports[`Can select a resource from the list and it adds it to topic 2`] = `
   overflow: auto;
 }
 
-.emotion-7 {
-  background: linear-gradient(180deg,#5d97a9,#508a9c);
+.emotion-6 {
+  background: linear-gradient(180deg, #5d97a9, #508a9c);
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-pack: justify;
   -webkit-justify-content: space-between;
-  -ms-flex-pack: justify;
   justify-content: space-between;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -1648,7 +1468,12 @@ exports[`Can select a resource from the list and it adds it to topic 2`] = `
   color: #f8f8f8;
 }
 
-.emotion-5 {
+.emotion-8 {
+  height: 50px;
+  width: 50px;
+}
+
+.emotion-10 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -1664,8 +1489,8 @@ exports[`Can select a resource from the list and it adds it to topic 2`] = `
   line-height: 1.625;
   font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
   font-weight: 700;
-  -webkit-transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
-  transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  -webkit-transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
+  transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
   box-shadow: none;
   text-align: center;
   -webkit-transition: background-color none;
@@ -1678,49 +1503,47 @@ exports[`Can select a resource from the list and it adds it to topic 2`] = `
   box-shadow: none;
   border: none;
   font-weight: 400;
-  height: 50px;
-  width: 50px;
 }
 
-.emotion-5:hover,
-.emotion-5:focus {
+.emotion-10:hover,
+.emotion-10:focus {
   color: white;
   background-color: #184673;
   border: 2px solid #184673;
 }
 
-.emotion-5[disabled] {
+.emotion-10[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-5:focus {
+.emotion-10:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-5:hover,
-.emotion-5:active,
-.emotion-5:disabled,
-.emotion-5:focus {
+.emotion-10:hover,
+.emotion-10:active,
+.emotion-10:disabled,
+.emotion-10:focus {
   box-shadow: none;
   color: #20588f;
   background-color: transparent;
   border: none;
 }
 
-.emotion-5:focus {
+.emotion-10:focus {
   outline-width: medium;
 }
 
-.emotion-2 {
+.emotion-12 {
   height: 24px;
   width: 24px;
   margin-right: 7px;
 }
 
-.emotion-34 {
+.emotion-14 {
   padding: 2em;
   height: 100%;
   display: -webkit-box;
@@ -1732,7 +1555,6 @@ exports[`Can select a resource from the list and it adds it to topic 2`] = `
   flex-direction: column;
   -webkit-box-pack: justify;
   -webkit-justify-content: space-between;
-  -ms-flex-pack: justify;
   justify-content: space-between;
   -webkit-align-items: flex-end;
   -webkit-box-align: flex-end;
@@ -1740,19 +1562,19 @@ exports[`Can select a resource from the list and it adds it to topic 2`] = `
   align-items: flex-end;
 }
 
-.emotion-29 {
+.emotion-16 {
   width: 100%;
 }
 
-.emotion-29 > * {
+.emotion-16>* {
   width: 100%;
 }
 
-.emotion-29 form {
+.emotion-16 form {
   background-color: white;
 }
 
-.emotion-11 {
+.emotion-18 {
   margin-top: 6.5px;
   display: -webkit-box;
   display: -webkit-flex;
@@ -1760,15 +1582,16 @@ exports[`Can select a resource from the list and it adds it to topic 2`] = `
   display: flex;
 }
 
-.emotion-11:first-of-type {
+.emotion-18:first-of-type {
   margin-top: 0;
 }
 
-.emotion-9 {
+.emotion-20 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-flex-wrap: wrap;
   -webkit-flex-wrap: wrap;
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
@@ -1782,8 +1605,8 @@ exports[`Can select a resource from the list and it adds it to topic 2`] = `
   -ms-flex-align: center;
   align-items: center;
   -webkit-box-pack: start;
-  -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
+  -webkit-justify-content: flex-start;
   justify-content: flex-start;
   border: 1px solid #eff0f2;
   -webkit-transition: border-color 100ms ease;
@@ -1793,12 +1616,12 @@ exports[`Can select a resource from the list and it adds it to topic 2`] = `
   padding-right: 13px;
 }
 
-.emotion-9:focus-within {
+.emotion-20:focus-within {
   border-color: #20588f;
 }
 
-.emotion-9 input,
-.emotion-9 textarea {
+.emotion-20 input,
+.emotion-20 textarea {
   width: inherit;
   font-weight: 400;
   color: #444;
@@ -1817,115 +1640,44 @@ exports[`Can select a resource from the list and it adds it to topic 2`] = `
   flex-grow: 1;
 }
 
-.emotion-9 input:focus,
-.emotion-9 textarea:focus {
+.emotion-20 input:focus,
+.emotion-20 textarea:focus {
   -webkit-appearance: none;
   -moz-appearance: none;
+  -ms-appearance: none;
   appearance: none;
   outline: none;
 }
 
-.emotion-9 input {
+.emotion-20 input {
   padding: 6.5px 13px;
 }
 
-.emotion-9 textarea {
+.emotion-20 textarea {
   padding: 0 13px;
   height: 20px;
   margin: 14px 0;
   resize: none;
 }
 
-.emotion-9 .c-icon {
+.emotion-20 .c-icon {
   width: 24px;
   height: 24px;
 }
 
-.emotion-13 {
+.emotion-22 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-pack: center;
-  -webkit-justify-content: center;
   -ms-flex-pack: center;
+  -webkit-justify-content: center;
   justify-content: center;
   margin: 20px 0;
 }
 
-.emotion-32 {
-  display: inline-block;
-  color: #ffffff;
-  background-color: #20588f;
-  border: 2px solid #20588f;
-  border-radius: 4px;
-  padding: 4px 13px;
-  outline-width: 0;
-  cursor: pointer;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  font-size: 16px;
-  font-size: 0.8888888888888888rem;
-  line-height: 1.625;
-  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
-  font-weight: 700;
-  -webkit-transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
-  transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
-  box-shadow: none;
-  text-align: center;
-  -webkit-transition: background-color none;
-  transition: background-color none;
-  padding: 0;
-  border-radius: 0;
-  color: inherit;
-  font-size: inherit;
-  background-color: transparent;
-  box-shadow: none;
-  border: none;
-  font-weight: 400;
-}
-
-.emotion-32:hover,
-.emotion-32:focus {
-  color: white;
-  background-color: #184673;
-  border: 2px solid #184673;
-}
-
-.emotion-32[disabled] {
-  color: #777777;
-  background-color: #e6e6e6;
-  border-color: transparent;
-  cursor: not-allowed;
-}
-
-.emotion-32:focus {
-  box-shadow: 0 0 2px #20588f;
-}
-
-.emotion-32:hover,
-.emotion-32:active,
-.emotion-32:disabled,
-.emotion-32:focus {
-  box-shadow: none;
-  color: #20588f;
-  background-color: transparent;
-  border: none;
-}
-
-.emotion-32:focus {
-  outline-width: medium;
-}
-
-.emotion-32,
-.emotion-32:hover {
-  border-radius: 5px;
-  background-color: white;
-  margin-top: 26px;
-  padding: 3px 52px;
-}
-
-.emotion-27 {
+.emotion-28 {
   padding: 13px;
   border: 1px solid #ddd;
   background-color: white;
@@ -1937,7 +1689,7 @@ exports[`Can select a resource from the list and it adds it to topic 2`] = `
   display: flex;
 }
 
-.emotion-19 {
+.emotion-30 {
   text-align: center;
   margin-right: 13px;
   -webkit-flex: 1 1 auto;
@@ -1946,24 +1698,24 @@ exports[`Can select a resource from the list and it adds it to topic 2`] = `
   max-width: 180px;
 }
 
-.emotion-19 img {
+.emotion-30 img {
   max-height: 100%;
 }
 
-.emotion-19 svg {
+.emotion-30 svg {
   margin: 32.5px;
   width: 60px;
   height: 60px;
 }
 
-.emotion-25 {
+.emotion-32 {
   -webkit-flex: 2 4 auto;
   -ms-flex: 2 4 auto;
   flex: 2 4 auto;
   overflow: hidden;
 }
 
-.emotion-21 {
+.emotion-34 {
   margin: 0;
   font-size: 1rem;
   font-weight: 600;
@@ -1971,31 +1723,40 @@ exports[`Can select a resource from the list and it adds it to topic 2`] = `
   color: #444;
 }
 
-.emotion-23 {
+.emotion-36 {
   font-size: 0.8rem;
   margin: 0;
 }
 
+.emotion-38,
+.emotion-38:hover {
+  border-radius: 5px;
+  background-color: white;
+  margin-top: 26px;
+  padding: 3px 52px;
+}
+
 <div
-  class="emotion-38 emotion-39"
+  class="emotion-0 emotion-1"
 >
   <div
     aria-hidden="true"
-    class="emotion-0 emotion-1"
+    class="emotion-2 emotion-3"
   />
   <div
-    class="emotion-36 emotion-37"
+    class="emotion-4 emotion-5"
   >
     <div
-      class="emotion-7 emotion-8"
+      class="emotion-6 emotion-7"
     >
       Søk etter ressurs
       <button
-        class="emotion-4 emotion-5 emotion-6"
+        class="emotion-8 emotion-9 emotion-10 emotion-11"
         type="button"
       >
         <svg
-          class="c-icon emotion-2 emotion-3"
+          aria-hidden="true"
+          class="c-icon emotion-12 emotion-13"
           data-license="Apache License 2.0"
           data-source="Material Design"
           fill="currentColor"
@@ -2018,17 +1779,17 @@ exports[`Can select a resource from the list and it adds it to topic 2`] = `
       </button>
     </div>
     <div
-      class="emotion-34 emotion-35"
+      class="emotion-14 emotion-15"
     >
       <div
-        class="emotion-29 emotion-30"
+        class="emotion-16 emotion-17"
       >
         <div>
           <div
-            class="emotion-11 emotion-12"
+            class="emotion-18 emotion-19"
           >
             <div
-              class="emotion-9 emotion-10"
+              class="emotion-20 emotion-21"
             >
               <input
                 data-testid="addResourceUrlInput"
@@ -2040,7 +1801,7 @@ exports[`Can select a resource from the list and it adds it to topic 2`] = `
           </div>
         </div>
         <div
-          class="emotion-13 emotion-14"
+          class="emotion-22 emotion-23"
         >
           Eller
         </div>
@@ -2052,10 +1813,10 @@ exports[`Can select a resource from the list and it adds it to topic 2`] = `
         >
           <div>
             <div
-              class="emotion-11 emotion-12"
+              class="emotion-18 emotion-19"
             >
               <div
-                class="emotion-9 emotion-10"
+                class="emotion-20 emotion-21"
               >
                 <input
                   aria-autocomplete="list"
@@ -2067,6 +1828,7 @@ exports[`Can select a resource from the list and it adds it to topic 2`] = `
                   value="Hva kan du om geologiske prosesser?"
                 />
                 <svg
+                  aria-hidden="true"
                   class="c-icon"
                   data-license="Apache License 2.0"
                   data-source="Material Design"
@@ -2088,11 +1850,11 @@ exports[`Can select a resource from the list and it adds it to topic 2`] = `
           </div>
         </div>
         <div
-          class="emotion-27 emotion-28"
+          class="emotion-28 emotion-29"
           data-testid="articlePreview"
         >
           <div
-            class="emotion-19 emotion-20"
+            class="emotion-30 emotion-31"
           >
             <img
               alt=""
@@ -2100,21 +1862,21 @@ exports[`Can select a resource from the list and it adds it to topic 2`] = `
             />
           </div>
           <div
-            class="emotion-25 emotion-26"
+            class="emotion-32 emotion-33"
           >
             <h1
-              class="emotion-21 emotion-22"
+              class="emotion-34 emotion-35"
             >
               Hva kan du om geologiske prosesser?
             </h1>
             <p
-              class="emotion-23 emotion-24"
+              class="emotion-36 emotion-37"
             />
           </div>
         </div>
       </div>
       <button
-        class="emotion-31 emotion-32 emotion-6"
+        class="emotion-38 emotion-39 emotion-10 emotion-11"
         data-testid="taxonomyLightboxButton"
         type="button"
       >

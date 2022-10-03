@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Messages A message is removed if the modal is closed 1`] = `
-.emotion-21 {
+.emotion-0 {
   position: fixed;
   width: 80%;
   max-width: 800px;
@@ -12,19 +12,19 @@ exports[`Messages A message is removed if the modal is closed 1`] = `
   margin: 0 auto;
 }
 
-.emotion-19 {
+.emotion-2 {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0,0,0,0.8);
+  background-color: rgba(0, 0, 0, 0.8);
   z-index: 1000;
   overflow-x: auto;
 }
 
-@media (max-width:48em) {
-  .emotion-19 {
+@media (max-width: 48em) {
+  .emotion-2 {
     top: 64px;
     overflow-y: auto;
     white-space: normal;
@@ -32,13 +32,13 @@ exports[`Messages A message is removed if the modal is closed 1`] = `
   }
 }
 
-@media (max-width:29.75em) {
-  .emotion-19 {
+@media (max-width: 29.75em) {
+  .emotion-2 {
     top: 43px;
   }
 }
 
-.emotion-17 {
+.emotion-4 {
   overflow-x: auto;
   background-color: white;
   margin: 52px auto 52px;
@@ -53,7 +53,15 @@ exports[`Messages A message is removed if the modal is closed 1`] = `
   color: white;
 }
 
-.emotion-3 {
+.emotion-6 {
+  float: right;
+  height: 44px;
+  width: 44px;
+  margin-top: -5px;
+  margin-right: -20px;
+}
+
+.emotion-8 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -69,8 +77,8 @@ exports[`Messages A message is removed if the modal is closed 1`] = `
   line-height: 1.625;
   font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
   font-weight: 700;
-  -webkit-transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
-  transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  -webkit-transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
+  transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
   box-shadow: none;
   text-align: center;
   -webkit-transition: background-color none;
@@ -83,46 +91,41 @@ exports[`Messages A message is removed if the modal is closed 1`] = `
   box-shadow: none;
   border: none;
   font-weight: 400;
-  float: right;
-  height: 44px;
-  width: 44px;
-  margin-top: -5px;
-  margin-right: -20px;
 }
 
-.emotion-3:hover,
-.emotion-3:focus {
+.emotion-8:hover,
+.emotion-8:focus {
   color: white;
   background-color: #184673;
   border: 2px solid #184673;
 }
 
-.emotion-3[disabled] {
+.emotion-8[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-3:focus {
+.emotion-8:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-3:hover,
-.emotion-3:active,
-.emotion-3:disabled,
-.emotion-3:focus {
+.emotion-8:hover,
+.emotion-8:active,
+.emotion-8:disabled,
+.emotion-8:focus {
   box-shadow: none;
   color: #20588f;
   background-color: transparent;
   border: none;
 }
 
-.emotion-3:focus {
+.emotion-8:focus {
   outline-width: medium;
 }
 
-.emotion-0 {
+.emotion-10 {
   float: right;
   height: 24px;
   width: 24px;
@@ -132,7 +135,7 @@ exports[`Messages A message is removed if the modal is closed 1`] = `
   color: white;
 }
 
-.emotion-15 {
+.emotion-12 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -141,7 +144,7 @@ exports[`Messages A message is removed if the modal is closed 1`] = `
   width: 100%;
 }
 
-.emotion-13 {
+.emotion-14 {
   height: 100%;
   padding-top: 26px;
   font-size: 24px;
@@ -154,37 +157,35 @@ exports[`Messages A message is removed if the modal is closed 1`] = `
   flex-direction: column;
   -webkit-box-pack: justify;
   -webkit-justify-content: space-between;
-  -ms-flex-pack: justify;
   justify-content: space-between;
 }
 
-.emotion-9 {
+.emotion-16 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
 }
 
-.emotion-5 {
+.emotion-18 {
   width: 27px;
   height: 27px;
   margin-right: 13px;
 }
 
-.emotion-7 {
+.emotion-20 {
   width: 100%;
   display: inline-block;
   text-align: left;
 }
 
-.emotion-11 {
+.emotion-22 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-pack: justify;
   -webkit-justify-content: space-between;
-  -ms-flex-pack: justify;
   justify-content: space-between;
   -webkit-align-items: flex-end;
   -webkit-box-align: flex-end;
@@ -195,21 +196,22 @@ exports[`Messages A message is removed if the modal is closed 1`] = `
 
 <div>
   <div
-    class="emotion-21 emotion-22"
+    class="emotion-0 emotion-1"
   >
     <div
-      class="emotion-19 emotion-20"
+      class="emotion-2 emotion-3"
     >
       <div
-        class="emotion-17 emotion-18"
+        class="emotion-4 emotion-5"
       >
         <button
-          class="emotion-2 emotion-3 emotion-4"
+          class="emotion-6 emotion-7 emotion-8 emotion-9"
           data-testid="closeAlert"
           type="button"
         >
           <svg
-            class="c-icon emotion-0 emotion-1"
+            aria-hidden="true"
+            class="c-icon emotion-10 emotion-11"
             data-license="Apache License 2.0"
             data-source="Material Design"
             fill="currentColor"
@@ -232,16 +234,17 @@ exports[`Messages A message is removed if the modal is closed 1`] = `
           </svg>
         </button>
         <div
-          class="emotion-15 emotion-16"
+          class="emotion-12 emotion-13"
         >
           <div
-            class="emotion-13 emotion-14"
+            class="emotion-14 emotion-15"
           >
             <div
-              class="emotion-9 emotion-10"
+              class="emotion-16 emotion-17"
             >
               <svg
-                class="c-icon emotion-5 emotion-6"
+                aria-hidden="true"
+                class="c-icon emotion-18 emotion-19"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
                 fill="currentColor"
@@ -262,13 +265,13 @@ exports[`Messages A message is removed if the modal is closed 1`] = `
                 </g>
               </svg>
               <span
-                class="emotion-7 emotion-8"
+                class="emotion-20 emotion-21"
               >
                 Testmessage
               </span>
             </div>
             <div
-              class="emotion-11 emotion-12"
+              class="emotion-22 emotion-23"
             />
           </div>
         </div>
@@ -299,7 +302,7 @@ exports[`Messages A message is removed if the modal is closed 2`] = `
 `;
 
 exports[`Messages A single message renders correctly 1`] = `
-.emotion-21 {
+.emotion-0 {
   position: fixed;
   width: 80%;
   max-width: 800px;
@@ -310,19 +313,19 @@ exports[`Messages A single message renders correctly 1`] = `
   margin: 0 auto;
 }
 
-.emotion-19 {
+.emotion-2 {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0,0,0,0.8);
+  background-color: rgba(0, 0, 0, 0.8);
   z-index: 1000;
   overflow-x: auto;
 }
 
-@media (max-width:48em) {
-  .emotion-19 {
+@media (max-width: 48em) {
+  .emotion-2 {
     top: 64px;
     overflow-y: auto;
     white-space: normal;
@@ -330,13 +333,13 @@ exports[`Messages A single message renders correctly 1`] = `
   }
 }
 
-@media (max-width:29.75em) {
-  .emotion-19 {
+@media (max-width: 29.75em) {
+  .emotion-2 {
     top: 43px;
   }
 }
 
-.emotion-17 {
+.emotion-4 {
   overflow-x: auto;
   background-color: white;
   margin: 52px auto 52px;
@@ -351,7 +354,15 @@ exports[`Messages A single message renders correctly 1`] = `
   color: white;
 }
 
-.emotion-3 {
+.emotion-6 {
+  float: right;
+  height: 44px;
+  width: 44px;
+  margin-top: -5px;
+  margin-right: -20px;
+}
+
+.emotion-8 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -367,8 +378,8 @@ exports[`Messages A single message renders correctly 1`] = `
   line-height: 1.625;
   font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
   font-weight: 700;
-  -webkit-transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
-  transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  -webkit-transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
+  transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
   box-shadow: none;
   text-align: center;
   -webkit-transition: background-color none;
@@ -381,46 +392,41 @@ exports[`Messages A single message renders correctly 1`] = `
   box-shadow: none;
   border: none;
   font-weight: 400;
-  float: right;
-  height: 44px;
-  width: 44px;
-  margin-top: -5px;
-  margin-right: -20px;
 }
 
-.emotion-3:hover,
-.emotion-3:focus {
+.emotion-8:hover,
+.emotion-8:focus {
   color: white;
   background-color: #184673;
   border: 2px solid #184673;
 }
 
-.emotion-3[disabled] {
+.emotion-8[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-3:focus {
+.emotion-8:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-3:hover,
-.emotion-3:active,
-.emotion-3:disabled,
-.emotion-3:focus {
+.emotion-8:hover,
+.emotion-8:active,
+.emotion-8:disabled,
+.emotion-8:focus {
   box-shadow: none;
   color: #20588f;
   background-color: transparent;
   border: none;
 }
 
-.emotion-3:focus {
+.emotion-8:focus {
   outline-width: medium;
 }
 
-.emotion-0 {
+.emotion-10 {
   float: right;
   height: 24px;
   width: 24px;
@@ -430,7 +436,7 @@ exports[`Messages A single message renders correctly 1`] = `
   color: white;
 }
 
-.emotion-15 {
+.emotion-12 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -439,7 +445,7 @@ exports[`Messages A single message renders correctly 1`] = `
   width: 100%;
 }
 
-.emotion-13 {
+.emotion-14 {
   height: 100%;
   padding-top: 26px;
   font-size: 24px;
@@ -452,37 +458,35 @@ exports[`Messages A single message renders correctly 1`] = `
   flex-direction: column;
   -webkit-box-pack: justify;
   -webkit-justify-content: space-between;
-  -ms-flex-pack: justify;
   justify-content: space-between;
 }
 
-.emotion-9 {
+.emotion-16 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
 }
 
-.emotion-5 {
+.emotion-18 {
   width: 27px;
   height: 27px;
   margin-right: 13px;
 }
 
-.emotion-7 {
+.emotion-20 {
   width: 100%;
   display: inline-block;
   text-align: left;
 }
 
-.emotion-11 {
+.emotion-22 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-pack: justify;
   -webkit-justify-content: space-between;
-  -ms-flex-pack: justify;
   justify-content: space-between;
   -webkit-align-items: flex-end;
   -webkit-box-align: flex-end;
@@ -493,21 +497,22 @@ exports[`Messages A single message renders correctly 1`] = `
 
 <div>
   <div
-    class="emotion-21 emotion-22"
+    class="emotion-0 emotion-1"
   >
     <div
-      class="emotion-19 emotion-20"
+      class="emotion-2 emotion-3"
     >
       <div
-        class="emotion-17 emotion-18"
+        class="emotion-4 emotion-5"
       >
         <button
-          class="emotion-2 emotion-3 emotion-4"
+          class="emotion-6 emotion-7 emotion-8 emotion-9"
           data-testid="closeAlert"
           type="button"
         >
           <svg
-            class="c-icon emotion-0 emotion-1"
+            aria-hidden="true"
+            class="c-icon emotion-10 emotion-11"
             data-license="Apache License 2.0"
             data-source="Material Design"
             fill="currentColor"
@@ -530,16 +535,17 @@ exports[`Messages A single message renders correctly 1`] = `
           </svg>
         </button>
         <div
-          class="emotion-15 emotion-16"
+          class="emotion-12 emotion-13"
         >
           <div
-            class="emotion-13 emotion-14"
+            class="emotion-14 emotion-15"
           >
             <div
-              class="emotion-9 emotion-10"
+              class="emotion-16 emotion-17"
             >
               <svg
-                class="c-icon emotion-5 emotion-6"
+                aria-hidden="true"
+                class="c-icon emotion-18 emotion-19"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
                 fill="currentColor"
@@ -560,13 +566,13 @@ exports[`Messages A single message renders correctly 1`] = `
                 </g>
               </svg>
               <span
-                class="emotion-7 emotion-8"
+                class="emotion-20 emotion-21"
               >
                 Testmessage
               </span>
             </div>
             <div
-              class="emotion-11 emotion-12"
+              class="emotion-22 emotion-23"
             />
           </div>
         </div>
@@ -577,7 +583,7 @@ exports[`Messages A single message renders correctly 1`] = `
 `;
 
 exports[`Messages Several messages renders correctly 1`] = `
-.emotion-42 {
+.emotion-0 {
   position: fixed;
   width: 80%;
   max-width: 800px;
@@ -588,19 +594,19 @@ exports[`Messages Several messages renders correctly 1`] = `
   margin: 0 auto;
 }
 
-.emotion-19 {
+.emotion-2 {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0,0,0,0.8);
+  background-color: rgba(0, 0, 0, 0.8);
   z-index: 1000;
   overflow-x: auto;
 }
 
-@media (max-width:48em) {
-  .emotion-19 {
+@media (max-width: 48em) {
+  .emotion-2 {
     top: 64px;
     overflow-y: auto;
     white-space: normal;
@@ -608,13 +614,13 @@ exports[`Messages Several messages renders correctly 1`] = `
   }
 }
 
-@media (max-width:29.75em) {
-  .emotion-19 {
+@media (max-width: 29.75em) {
+  .emotion-2 {
     top: 43px;
   }
 }
 
-.emotion-17 {
+.emotion-4 {
   overflow-x: auto;
   background-color: white;
   margin: 52px auto 52px;
@@ -629,7 +635,15 @@ exports[`Messages Several messages renders correctly 1`] = `
   color: white;
 }
 
-.emotion-3 {
+.emotion-6 {
+  float: right;
+  height: 44px;
+  width: 44px;
+  margin-top: -5px;
+  margin-right: -20px;
+}
+
+.emotion-8 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -645,8 +659,8 @@ exports[`Messages Several messages renders correctly 1`] = `
   line-height: 1.625;
   font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
   font-weight: 700;
-  -webkit-transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
-  transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  -webkit-transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
+  transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
   box-shadow: none;
   text-align: center;
   -webkit-transition: background-color none;
@@ -659,46 +673,41 @@ exports[`Messages Several messages renders correctly 1`] = `
   box-shadow: none;
   border: none;
   font-weight: 400;
-  float: right;
-  height: 44px;
-  width: 44px;
-  margin-top: -5px;
-  margin-right: -20px;
 }
 
-.emotion-3:hover,
-.emotion-3:focus {
+.emotion-8:hover,
+.emotion-8:focus {
   color: white;
   background-color: #184673;
   border: 2px solid #184673;
 }
 
-.emotion-3[disabled] {
+.emotion-8[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-3:focus {
+.emotion-8:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-3:hover,
-.emotion-3:active,
-.emotion-3:disabled,
-.emotion-3:focus {
+.emotion-8:hover,
+.emotion-8:active,
+.emotion-8:disabled,
+.emotion-8:focus {
   box-shadow: none;
   color: #20588f;
   background-color: transparent;
   border: none;
 }
 
-.emotion-3:focus {
+.emotion-8:focus {
   outline-width: medium;
 }
 
-.emotion-0 {
+.emotion-10 {
   float: right;
   height: 24px;
   width: 24px;
@@ -708,7 +717,7 @@ exports[`Messages Several messages renders correctly 1`] = `
   color: white;
 }
 
-.emotion-15 {
+.emotion-12 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -717,7 +726,7 @@ exports[`Messages Several messages renders correctly 1`] = `
   width: 100%;
 }
 
-.emotion-13 {
+.emotion-14 {
   height: 100%;
   padding-top: 26px;
   font-size: 24px;
@@ -730,37 +739,35 @@ exports[`Messages Several messages renders correctly 1`] = `
   flex-direction: column;
   -webkit-box-pack: justify;
   -webkit-justify-content: space-between;
-  -ms-flex-pack: justify;
   justify-content: space-between;
 }
 
-.emotion-9 {
+.emotion-16 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
 }
 
-.emotion-5 {
+.emotion-18 {
   width: 27px;
   height: 27px;
   margin-right: 13px;
 }
 
-.emotion-7 {
+.emotion-20 {
   width: 100%;
   display: inline-block;
   text-align: left;
 }
 
-.emotion-11 {
+.emotion-22 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-pack: justify;
   -webkit-justify-content: space-between;
-  -ms-flex-pack: justify;
   justify-content: space-between;
   -webkit-align-items: flex-end;
   -webkit-box-align: flex-end;
@@ -771,21 +778,22 @@ exports[`Messages Several messages renders correctly 1`] = `
 
 <div>
   <div
-    class="emotion-42 emotion-43"
+    class="emotion-0 emotion-1"
   >
     <div
-      class="emotion-19 emotion-20"
+      class="emotion-2 emotion-3"
     >
       <div
-        class="emotion-17 emotion-18"
+        class="emotion-4 emotion-5"
       >
         <button
-          class="emotion-2 emotion-3 emotion-4"
+          class="emotion-6 emotion-7 emotion-8 emotion-9"
           data-testid="closeAlert"
           type="button"
         >
           <svg
-            class="c-icon emotion-0 emotion-1"
+            aria-hidden="true"
+            class="c-icon emotion-10 emotion-11"
             data-license="Apache License 2.0"
             data-source="Material Design"
             fill="currentColor"
@@ -808,16 +816,17 @@ exports[`Messages Several messages renders correctly 1`] = `
           </svg>
         </button>
         <div
-          class="emotion-15 emotion-16"
+          class="emotion-12 emotion-13"
         >
           <div
-            class="emotion-13 emotion-14"
+            class="emotion-14 emotion-15"
           >
             <div
-              class="emotion-9 emotion-10"
+              class="emotion-16 emotion-17"
             >
               <svg
-                class="c-icon emotion-5 emotion-6"
+                aria-hidden="true"
+                class="c-icon emotion-18 emotion-19"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
                 fill="currentColor"
@@ -838,31 +847,32 @@ exports[`Messages Several messages renders correctly 1`] = `
                 </g>
               </svg>
               <span
-                class="emotion-7 emotion-8"
+                class="emotion-20 emotion-21"
               >
                 Testmessage
               </span>
             </div>
             <div
-              class="emotion-11 emotion-12"
+              class="emotion-22 emotion-23"
             />
           </div>
         </div>
       </div>
     </div>
     <div
-      class="emotion-19 emotion-20"
+      class="emotion-2 emotion-3"
     >
       <div
-        class="emotion-17 emotion-18"
+        class="emotion-4 emotion-5"
       >
         <button
-          class="emotion-2 emotion-3 emotion-4"
+          class="emotion-6 emotion-7 emotion-8 emotion-9"
           data-testid="closeAlert"
           type="button"
         >
           <svg
-            class="c-icon emotion-0 emotion-1"
+            aria-hidden="true"
+            class="c-icon emotion-10 emotion-11"
             data-license="Apache License 2.0"
             data-source="Material Design"
             fill="currentColor"
@@ -885,16 +895,17 @@ exports[`Messages Several messages renders correctly 1`] = `
           </svg>
         </button>
         <div
-          class="emotion-15 emotion-16"
+          class="emotion-12 emotion-13"
         >
           <div
-            class="emotion-13 emotion-14"
+            class="emotion-14 emotion-15"
           >
             <div
-              class="emotion-9 emotion-10"
+              class="emotion-16 emotion-17"
             >
               <svg
-                class="c-icon emotion-5 emotion-6"
+                aria-hidden="true"
+                class="c-icon emotion-18 emotion-19"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
                 fill="currentColor"
@@ -915,13 +926,13 @@ exports[`Messages Several messages renders correctly 1`] = `
                 </g>
               </svg>
               <span
-                class="emotion-7 emotion-8"
+                class="emotion-20 emotion-21"
               >
                 Testmessage2
               </span>
             </div>
             <div
-              class="emotion-11 emotion-12"
+              class="emotion-22 emotion-23"
             />
           </div>
         </div>
@@ -932,7 +943,7 @@ exports[`Messages Several messages renders correctly 1`] = `
 `;
 
 exports[`Messages auth0 messages provides a cancel button 1`] = `
-.emotion-27 {
+.emotion-0 {
   position: fixed;
   width: 80%;
   max-width: 800px;
@@ -943,19 +954,19 @@ exports[`Messages auth0 messages provides a cancel button 1`] = `
   margin: 0 auto;
 }
 
-.emotion-25 {
+.emotion-2 {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0,0,0,0.8);
+  background-color: rgba(0, 0, 0, 0.8);
   z-index: 1000;
   overflow-x: auto;
 }
 
-@media (max-width:48em) {
-  .emotion-25 {
+@media (max-width: 48em) {
+  .emotion-2 {
     top: 64px;
     overflow-y: auto;
     white-space: normal;
@@ -963,13 +974,13 @@ exports[`Messages auth0 messages provides a cancel button 1`] = `
   }
 }
 
-@media (max-width:29.75em) {
-  .emotion-25 {
+@media (max-width: 29.75em) {
+  .emotion-2 {
     top: 43px;
   }
 }
 
-.emotion-23 {
+.emotion-4 {
   overflow-x: auto;
   background-color: white;
   margin: 52px auto 52px;
@@ -984,7 +995,15 @@ exports[`Messages auth0 messages provides a cancel button 1`] = `
   color: white;
 }
 
-.emotion-3 {
+.emotion-6 {
+  float: right;
+  height: 44px;
+  width: 44px;
+  margin-top: -5px;
+  margin-right: -20px;
+}
+
+.emotion-8 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -1000,8 +1019,8 @@ exports[`Messages auth0 messages provides a cancel button 1`] = `
   line-height: 1.625;
   font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
   font-weight: 700;
-  -webkit-transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
-  transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  -webkit-transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
+  transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
   box-shadow: none;
   text-align: center;
   -webkit-transition: background-color none;
@@ -1014,46 +1033,41 @@ exports[`Messages auth0 messages provides a cancel button 1`] = `
   box-shadow: none;
   border: none;
   font-weight: 400;
-  float: right;
-  height: 44px;
-  width: 44px;
-  margin-top: -5px;
-  margin-right: -20px;
 }
 
-.emotion-3:hover,
-.emotion-3:focus {
+.emotion-8:hover,
+.emotion-8:focus {
   color: white;
   background-color: #184673;
   border: 2px solid #184673;
 }
 
-.emotion-3[disabled] {
+.emotion-8[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-3:focus {
+.emotion-8:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-3:hover,
-.emotion-3:active,
-.emotion-3:disabled,
-.emotion-3:focus {
+.emotion-8:hover,
+.emotion-8:active,
+.emotion-8:disabled,
+.emotion-8:focus {
   box-shadow: none;
   color: #20588f;
   background-color: transparent;
   border: none;
 }
 
-.emotion-3:focus {
+.emotion-8:focus {
   outline-width: medium;
 }
 
-.emotion-0 {
+.emotion-10 {
   float: right;
   height: 24px;
   width: 24px;
@@ -1063,7 +1077,7 @@ exports[`Messages auth0 messages provides a cancel button 1`] = `
   color: white;
 }
 
-.emotion-21 {
+.emotion-12 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1072,7 +1086,7 @@ exports[`Messages auth0 messages provides a cancel button 1`] = `
   width: 100%;
 }
 
-.emotion-19 {
+.emotion-14 {
   height: 100%;
   padding-top: 26px;
   font-size: 24px;
@@ -1085,37 +1099,35 @@ exports[`Messages auth0 messages provides a cancel button 1`] = `
   flex-direction: column;
   -webkit-box-pack: justify;
   -webkit-justify-content: space-between;
-  -ms-flex-pack: justify;
   justify-content: space-between;
 }
 
-.emotion-9 {
+.emotion-16 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
 }
 
-.emotion-5 {
+.emotion-18 {
   width: 27px;
   height: 27px;
   margin-right: 13px;
 }
 
-.emotion-7 {
+.emotion-20 {
   width: 100%;
   display: inline-block;
   text-align: left;
 }
 
-.emotion-17 {
+.emotion-22 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-pack: justify;
   -webkit-justify-content: space-between;
-  -ms-flex-pack: justify;
   justify-content: space-between;
   -webkit-align-items: flex-end;
   -webkit-box-align: flex-end;
@@ -1124,7 +1136,12 @@ exports[`Messages auth0 messages provides a cancel button 1`] = `
   margin-top: 13px;
 }
 
-.emotion-12 {
+.emotion-24 {
+  background-color: white;
+  margin-left: 0;
+}
+
+.emotion-26 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -1140,8 +1157,8 @@ exports[`Messages auth0 messages provides a cancel button 1`] = `
   line-height: 1.625;
   font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
   font-weight: 700;
-  -webkit-transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
-  transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  -webkit-transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
+  transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
   box-shadow: none;
   text-align: center;
   color: #20588f;
@@ -1152,50 +1169,48 @@ exports[`Messages auth0 messages provides a cancel button 1`] = `
   background-color: transparent;
   border: 2px solid #20588f;
   box-shadow: none;
-  background-color: white;
-  margin-left: 0;
 }
 
-.emotion-12:hover,
-.emotion-12:focus {
+.emotion-26:hover,
+.emotion-26:focus {
   color: white;
   background-color: #184673;
   border: 2px solid #184673;
 }
 
-.emotion-12[disabled] {
+.emotion-26[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-12:focus {
+.emotion-26:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-12:hover,
-.emotion-12:focus {
+.emotion-26:hover,
+.emotion-26:focus {
   color: white;
   background-color: #20588f;
   border: 2px solid transparent;
 }
 
-.emotion-12:disabled {
+.emotion-26:disabled {
   color: #777777;
   border: 2px solid transparent;
   background-color: #e6e6e6;
   cursor: not-allowed;
 }
 
-.emotion-12:hover,
-.emotion-12:focus {
+.emotion-26:hover,
+.emotion-26:focus {
   color: white;
   background-color: #20588f;
   border: 2px solid transparent;
 }
 
-.emotion-12:disabled {
+.emotion-26:disabled {
   color: #777777;
   border: 2px solid transparent;
   background-color: #e6e6e6;
@@ -1204,21 +1219,22 @@ exports[`Messages auth0 messages provides a cancel button 1`] = `
 
 <div>
   <div
-    class="emotion-27 emotion-28"
+    class="emotion-0 emotion-1"
   >
     <div
-      class="emotion-25 emotion-26"
+      class="emotion-2 emotion-3"
     >
       <div
-        class="emotion-23 emotion-24"
+        class="emotion-4 emotion-5"
       >
         <button
-          class="emotion-2 emotion-3 emotion-4"
+          class="emotion-6 emotion-7 emotion-8 emotion-9"
           data-testid="closeAlert"
           type="button"
         >
           <svg
-            class="c-icon emotion-0 emotion-1"
+            aria-hidden="true"
+            class="c-icon emotion-10 emotion-11"
             data-license="Apache License 2.0"
             data-source="Material Design"
             fill="currentColor"
@@ -1241,16 +1257,17 @@ exports[`Messages auth0 messages provides a cancel button 1`] = `
           </svg>
         </button>
         <div
-          class="emotion-21 emotion-22"
+          class="emotion-12 emotion-13"
         >
           <div
-            class="emotion-19 emotion-20"
+            class="emotion-14 emotion-15"
           >
             <div
-              class="emotion-9 emotion-10"
+              class="emotion-16 emotion-17"
             >
               <svg
-                class="c-icon emotion-5 emotion-6"
+                aria-hidden="true"
+                class="c-icon emotion-18 emotion-19"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
                 fill="currentColor"
@@ -1271,22 +1288,22 @@ exports[`Messages auth0 messages provides a cancel button 1`] = `
                 </g>
               </svg>
               <span
-                class="emotion-7 emotion-8"
+                class="emotion-20 emotion-21"
               >
                 Testmessage
               </span>
             </div>
             <div
-              class="emotion-17 emotion-18"
+              class="emotion-22 emotion-23"
             >
               <button
-                class="emotion-11 emotion-12 emotion-4"
+                class="emotion-24 emotion-25 emotion-26 emotion-9"
                 type="button"
               >
                 Avbryt
               </button>
               <button
-                class="emotion-11 emotion-12 emotion-4"
+                class="emotion-24 emotion-25 emotion-26 emotion-9"
                 type="button"
               >
                 Logg inn på nytt

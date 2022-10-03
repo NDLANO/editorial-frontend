@@ -1,7 +1,7 @@
 {
   "presets": ["razzle/babel", "@emotion/babel-preset-css-prop"],
   "plugins": [
-    ["emotion", { "sourceMap": true }],
+    ["@emotion", { "sourceMap": true }],
     "@babel/plugin-proposal-optional-chaining",
     "@loadable/babel-plugin"
   ]

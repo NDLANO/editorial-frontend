@@ -6,7 +6,7 @@
  *
  */
 
-import { constants, HeroContentType } from '@ndla/ui';
+import { constants } from '@ndla/ui';
 import { TFunction } from 'react-i18next';
 import {
   toEditArticle,
@@ -29,7 +29,7 @@ import { ResourceType } from '../modules/taxonomy/taxonomyApiInterfaces';
 const { contentTypes } = constants;
 
 interface ContentTypeType {
-  contentType: HeroContentType;
+  contentType: string;
 }
 
 const mapping: Record<string, ContentTypeType> = {

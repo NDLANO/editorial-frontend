@@ -6,7 +6,7 @@
  *
  */
 
-import { css } from '@emotion/core';
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { FooterLinkButton } from '@ndla/editor';
 import { FileCompare } from '@ndla/icons/action';

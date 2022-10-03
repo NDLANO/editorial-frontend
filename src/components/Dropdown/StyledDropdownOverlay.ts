@@ -7,7 +7,7 @@
  */
 
 import styled from '@emotion/styled';
-import { css } from '@emotion/core';
+import { css } from '@emotion/react';
 import { spacing, shadows, misc } from '@ndla/core';
 
 interface Props {

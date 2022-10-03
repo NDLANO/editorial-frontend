@@ -151,6 +151,8 @@ const VersionAndNotesPanel = ({ article, getArticle, type, currentLanguage }: Pr
               const isLatestVersion = index === 0;
               const published = current === 'PUBLISHED' || other.some(s => s === 'PUBLISHED');
               const showFromArticleApi = versions.length === 1 && published;
+              const _panelProps = getPanelProps(index);
+              const panelProps = { ..._panelProps, id: _panelProps.id.toString() };
               return (
                 <Fragment key={revision}>
                   <AccordionBar {...getBarProps(index)} title={`${revision}`}>
@@ -175,7 +177,7 @@ const VersionAndNotesPanel = ({ article, getArticle, type, currentLanguage }: Pr
                       </div>
                     </StyledAccordionsPanelItemsWrapper>
                   </AccordionBar>
-                  <StyledAccordionPanel {...getPanelProps(index)}>
+                  <StyledAccordionPanel {...panelProps}>
                     <VersionHistory notes={cleanupNotes(notes)} />
                   </StyledAccordionPanel>
                 </Fragment>

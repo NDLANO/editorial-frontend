@@ -9,7 +9,7 @@
 import { ReactNode, MouseEvent } from 'react';
 
 import styled from '@emotion/styled';
-import { css } from '@emotion/core';
+import { css } from '@emotion/react';
 import Tooltip from '@ndla/tooltip';
 import { spacing, spacingUnit } from '@ndla/core';
 import { Link as LinkIcon } from '@ndla/icons/common';

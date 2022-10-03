@@ -9,7 +9,7 @@
 import { useTranslation } from 'react-i18next';
 import { Formik, Form, FormikHelpers } from 'formik';
 import Button from '@ndla/button';
-import { css } from '@emotion/core';
+import { css } from '@emotion/react';
 import { colors } from '@ndla/core';
 import styled from '@emotion/styled';
 import Field from '../../../Field';

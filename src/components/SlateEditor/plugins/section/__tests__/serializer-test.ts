@@ -47,8 +47,6 @@ describe('section serializing tests', () => {
     ];
 
     const res1 = learningResourceContentToEditorValue('');
-    const res2 = learningResourceContentToEditorValue(undefined);
     expect(res1).toEqual(expected);
-    expect(res2).toEqual(expected);
   });
 });

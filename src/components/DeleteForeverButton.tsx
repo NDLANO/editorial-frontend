@@ -9,7 +9,7 @@
 import { MouseEvent } from 'react';
 import { DeleteForever } from '@ndla/icons/editor';
 import Button from '@ndla/button';
-import { SerializedStyles } from '@emotion/core';
+import { SerializedStyles } from '@emotion/react';
 
 interface Props {
   'data-cy'?: string;

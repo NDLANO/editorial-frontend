@@ -6,7 +6,7 @@
  *
  */
 
-import { SerializedStyles } from '@emotion/core';
+import { SerializedStyles } from '@emotion/react';
 
 export enum ButtonAppearance {
   FILL = 'fill',

@@ -8,7 +8,7 @@
 
 import { colors, spacing, fonts } from '@ndla/core';
 import styled from '@emotion/styled';
-import { css } from '@emotion/core';
+import { css } from '@emotion/react';
 
 interface ItemTitleButtonProps {
   isVisible?: boolean;

@@ -4,7 +4,7 @@
     "@emotion/babel-preset-css-prop"
   ],
   "plugins": [
-    ["@emotion", { "sourceMap": true }],
+    ["@emotion", { "autoLabel": "always" }],
     "@babel/plugin-proposal-optional-chaining",
     "@loadable/babel-plugin"
   ]

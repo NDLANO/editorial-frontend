@@ -64,12 +64,431 @@ exports[`Can paste a valid url and add it to topic 1`] = `
   color: #f8f8f8;
 }
 
-.emotion-8 {
+.emotion-9 {
+  display: inline-block;
+  color: #ffffff;
+  background-color: #20588f;
+  border: 2px solid #20588f;
+  border-radius: 4px;
+  padding: 4px 13px;
+  outline-width: 0;
+  cursor: pointer;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-size: 16px;
+  font-size: 0.8888888888888888rem;
+  line-height: 1.625;
+  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
+  font-weight: 700;
+  -webkit-transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
+  transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
+  box-shadow: none;
+  text-align: center;
+  -webkit-transition: background-color none;
+  transition: background-color none;
+  padding: 0;
+  border-radius: 0;
+  color: inherit;
+  font-size: inherit;
+  background-color: transparent;
+  box-shadow: none;
+  border: none;
+  font-weight: 400;
   height: 50px;
   width: 50px;
 }
 
-.emotion-10 {
+.emotion-9:hover,
+.emotion-9:focus {
+  color: white;
+  background-color: #184673;
+  border: 2px solid #184673;
+}
+
+.emotion-9[disabled] {
+  color: #777777;
+  background-color: #e6e6e6;
+  border-color: transparent;
+  cursor: not-allowed;
+}
+
+.emotion-9:focus {
+  box-shadow: 0 0 2px #20588f;
+}
+
+.emotion-9:hover,
+.emotion-9:active,
+.emotion-9:disabled,
+.emotion-9:focus {
+  box-shadow: none;
+  color: #20588f;
+  background-color: transparent;
+  border: none;
+}
+
+.emotion-9:focus {
+  outline-width: medium;
+}
+
+.emotion-11 {
+  height: 24px;
+  width: 24px;
+  margin-right: 7px;
+}
+
+.emotion-13 {
+  padding: 2em;
+  height: 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+  -webkit-align-items: flex-end;
+  -webkit-box-align: flex-end;
+  -ms-flex-align: flex-end;
+  align-items: flex-end;
+}
+
+.emotion-15 {
+  width: 100%;
+}
+
+.emotion-15>* {
+  width: 100%;
+}
+
+.emotion-15 form {
+  background-color: white;
+}
+
+.emotion-17 {
+  margin-top: 6.5px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.emotion-17:first-of-type {
+  margin-top: 0;
+}
+
+.emotion-19 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex-wrap: wrap;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  background: #f8f8f8;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  -webkit-justify-content: flex-start;
+  justify-content: flex-start;
+  border: 1px solid #eff0f2;
+  -webkit-transition: border-color 100ms ease;
+  transition: border-color 100ms ease;
+  border-radius: 4px;
+  min-height: 52px;
+  padding-right: 13px;
+}
+
+.emotion-19:focus-within {
+  border-color: #20588f;
+}
+
+.emotion-19 input,
+.emotion-19 textarea {
+  width: inherit;
+  font-weight: 400;
+  color: #444;
+  font-size: 18;
+  font-size: 1rem;
+  line-height: 1.3;
+  background: none;
+  border: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+}
+
+.emotion-19 input:focus,
+.emotion-19 textarea:focus {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  outline: none;
+}
+
+.emotion-19 input {
+  padding: 6.5px 13px;
+}
+
+.emotion-19 textarea {
+  padding: 0 13px;
+  height: 20px;
+  margin: 14px 0;
+  resize: none;
+}
+
+.emotion-19 .c-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.emotion-21 {
+  padding: 13px;
+  border: 1px solid #ddd;
+  background-color: white;
+  width: 100%;
+  height: 150px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.emotion-23 {
+  text-align: center;
+  margin-right: 13px;
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+  max-width: 180px;
+}
+
+.emotion-23 img {
+  max-height: 100%;
+}
+
+.emotion-23 svg {
+  margin: 32.5px;
+  width: 60px;
+  height: 60px;
+}
+
+.emotion-25 {
+  -webkit-flex: 2 4 auto;
+  -ms-flex: 2 4 auto;
+  flex: 2 4 auto;
+  overflow: hidden;
+}
+
+.emotion-27 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.8;
+  color: #444;
+}
+
+.emotion-29 {
+  font-size: 0.8rem;
+  margin: 0;
+}
+
+.emotion-31 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 1000;
+  overflow-x: auto;
+}
+
+@media (max-width: 48em) {
+  .emotion-31 {
+    top: 64px;
+    overflow-y: auto;
+    white-space: normal;
+    z-index: 26;
+  }
+}
+
+@media (max-width: 29.75em) {
+  .emotion-31 {
+    top: 43px;
+  }
+}
+
+.emotion-33 {
+  overflow-x: auto;
+  background-color: white;
+  margin: 52px auto 52px;
+  padding: 1em 2em 3em;
+  max-width: 400px;
+  border-radius: 5px;
+  border-radius: 0;
+  min-height: 210px;
+  max-width: 620px;
+  padding-bottom: 26px;
+  background-color: #d1372e;
+  color: white;
+}
+
+.emotion-36 {
+  display: inline-block;
+  color: #ffffff;
+  background-color: #20588f;
+  border: 2px solid #20588f;
+  border-radius: 4px;
+  padding: 4px 13px;
+  outline-width: 0;
+  cursor: pointer;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-size: 16px;
+  font-size: 0.8888888888888888rem;
+  line-height: 1.625;
+  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
+  font-weight: 700;
+  -webkit-transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
+  transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
+  box-shadow: none;
+  text-align: center;
+  -webkit-transition: background-color none;
+  transition: background-color none;
+  padding: 0;
+  border-radius: 0;
+  color: inherit;
+  font-size: inherit;
+  background-color: transparent;
+  box-shadow: none;
+  border: none;
+  font-weight: 400;
+  float: right;
+  height: 44px;
+  width: 44px;
+  margin-top: -5px;
+  margin-right: -20px;
+}
+
+.emotion-36:hover,
+.emotion-36:focus {
+  color: white;
+  background-color: #184673;
+  border: 2px solid #184673;
+}
+
+.emotion-36[disabled] {
+  color: #777777;
+  background-color: #e6e6e6;
+  border-color: transparent;
+  cursor: not-allowed;
+}
+
+.emotion-36:focus {
+  box-shadow: 0 0 2px #20588f;
+}
+
+.emotion-36:hover,
+.emotion-36:active,
+.emotion-36:disabled,
+.emotion-36:focus {
+  box-shadow: none;
+  color: #20588f;
+  background-color: transparent;
+  border: none;
+}
+
+.emotion-36:focus {
+  outline-width: medium;
+}
+
+.emotion-38 {
+  float: right;
+  height: 24px;
+  width: 24px;
+  margin-right: 7px;
+  color: #777777;
+  background-color: #d1372e;
+  color: white;
+}
+
+.emotion-40 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  height: 100%;
+  width: 100%;
+}
+
+.emotion-42 {
+  height: 100%;
+  padding-top: 26px;
+  font-size: 24px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+}
+
+.emotion-44 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.emotion-46 {
+  width: 27px;
+  height: 27px;
+  margin-right: 13px;
+}
+
+.emotion-48 {
+  width: 100%;
+  display: inline-block;
+  text-align: left;
+}
+
+.emotion-50 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+  -webkit-align-items: flex-end;
+  -webkit-box-align: flex-end;
+  -ms-flex-align: flex-end;
+  align-items: flex-end;
+  margin-top: 13px;
+}
+
+.emotion-53 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -101,337 +520,40 @@ exports[`Can paste a valid url and add it to topic 1`] = `
   font-weight: 400;
 }
 
-.emotion-10:hover,
-.emotion-10:focus {
+.emotion-53:hover,
+.emotion-53:focus {
   color: white;
   background-color: #184673;
   border: 2px solid #184673;
 }
 
-.emotion-10[disabled] {
+.emotion-53[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-10:focus {
+.emotion-53:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-10:hover,
-.emotion-10:active,
-.emotion-10:disabled,
-.emotion-10:focus {
+.emotion-53:hover,
+.emotion-53:active,
+.emotion-53:disabled,
+.emotion-53:focus {
   box-shadow: none;
   color: #20588f;
   background-color: transparent;
   border: none;
 }
 
-.emotion-10:focus {
+.emotion-53:focus {
   outline-width: medium;
 }
 
-.emotion-12 {
-  height: 24px;
-  width: 24px;
-  margin-right: 7px;
-}
-
-.emotion-14 {
-  padding: 2em;
-  height: 100%;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-  justify-content: space-between;
-  -webkit-align-items: flex-end;
-  -webkit-box-align: flex-end;
-  -ms-flex-align: flex-end;
-  align-items: flex-end;
-}
-
-.emotion-16 {
-  width: 100%;
-}
-
-.emotion-16>* {
-  width: 100%;
-}
-
-.emotion-16 form {
-  background-color: white;
-}
-
-.emotion-18 {
-  margin-top: 6.5px;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-}
-
-.emotion-18:first-of-type {
-  margin-top: 0;
-}
-
-.emotion-20 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-flex-wrap: wrap;
-  -webkit-flex-wrap: wrap;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-  background: #f8f8f8;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: start;
-  -ms-flex-pack: start;
-  -webkit-justify-content: flex-start;
-  justify-content: flex-start;
-  border: 1px solid #eff0f2;
-  -webkit-transition: border-color 100ms ease;
-  transition: border-color 100ms ease;
-  border-radius: 4px;
-  min-height: 52px;
-  padding-right: 13px;
-}
-
-.emotion-20:focus-within {
-  border-color: #20588f;
-}
-
-.emotion-20 input,
-.emotion-20 textarea {
-  width: inherit;
-  font-weight: 400;
-  color: #444;
-  font-size: 18;
-  font-size: 1rem;
-  line-height: 1.3;
-  background: none;
-  border: 0;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-}
-
-.emotion-20 input:focus,
-.emotion-20 textarea:focus {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  -ms-appearance: none;
-  appearance: none;
-  outline: none;
-}
-
-.emotion-20 input {
-  padding: 6.5px 13px;
-}
-
-.emotion-20 textarea {
-  padding: 0 13px;
-  height: 20px;
-  margin: 14px 0;
-  resize: none;
-}
-
-.emotion-20 .c-icon {
-  width: 24px;
-  height: 24px;
-}
-
-.emotion-22 {
-  padding: 13px;
-  border: 1px solid #ddd;
-  background-color: white;
-  width: 100%;
-  height: 150px;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-}
-
-.emotion-24 {
-  text-align: center;
-  margin-right: 13px;
-  -webkit-flex: 1 1 auto;
-  -ms-flex: 1 1 auto;
-  flex: 1 1 auto;
-  max-width: 180px;
-}
-
-.emotion-24 img {
-  max-height: 100%;
-}
-
-.emotion-24 svg {
-  margin: 32.5px;
-  width: 60px;
-  height: 60px;
-}
-
-.emotion-26 {
-  -webkit-flex: 2 4 auto;
-  -ms-flex: 2 4 auto;
-  flex: 2 4 auto;
-  overflow: hidden;
-}
-
-.emotion-28 {
-  margin: 0;
-  font-size: 1rem;
-  font-weight: 600;
-  line-height: 1.8;
-  color: #444;
-}
-
-.emotion-30 {
-  font-size: 0.8rem;
-  margin: 0;
-}
-
-.emotion-32 {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.8);
-  z-index: 1000;
-  overflow-x: auto;
-}
-
-@media (max-width: 48em) {
-  .emotion-32 {
-    top: 64px;
-    overflow-y: auto;
-    white-space: normal;
-    z-index: 26;
-  }
-}
-
-@media (max-width: 29.75em) {
-  .emotion-32 {
-    top: 43px;
-  }
-}
-
-.emotion-34 {
-  overflow-x: auto;
-  background-color: white;
-  margin: 52px auto 52px;
-  padding: 1em 2em 3em;
-  max-width: 400px;
-  border-radius: 5px;
-  border-radius: 0;
-  min-height: 210px;
-  max-width: 620px;
-  padding-bottom: 26px;
-  background-color: #d1372e;
-  color: white;
-}
-
-.emotion-36 {
-  float: right;
-  height: 44px;
-  width: 44px;
-  margin-top: -5px;
-  margin-right: -20px;
-}
-
-.emotion-40 {
-  float: right;
-  height: 24px;
-  width: 24px;
-  margin-right: 7px;
-  color: #777777;
-  background-color: #d1372e;
-  color: white;
-}
-
-.emotion-42 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  height: 100%;
-  width: 100%;
-}
-
-.emotion-44 {
-  height: 100%;
-  padding-top: 26px;
-  font-size: 24px;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-  justify-content: space-between;
-}
-
-.emotion-46 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-}
-
-.emotion-48 {
-  width: 27px;
-  height: 27px;
-  margin-right: 13px;
-}
-
-.emotion-50 {
-  width: 100%;
-  display: inline-block;
-  text-align: left;
-}
-
-.emotion-52 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-  justify-content: space-between;
-  -webkit-align-items: flex-end;
-  -webkit-box-align: flex-end;
-  -ms-flex-align: flex-end;
-  align-items: flex-end;
-  margin-top: 13px;
-}
-
-.emotion-54,
-.emotion-54:hover {
+.emotion-53,
+.emotion-53:hover {
   border-radius: 5px;
   background-color: white;
   margin-top: 26px;
@@ -453,12 +575,12 @@ exports[`Can paste a valid url and add it to topic 1`] = `
     >
       Søk etter ressurs
       <button
-        class="emotion-8 emotion-9 emotion-10 emotion-11"
+        class="emotion-8 emotion-9 emotion-10"
         type="button"
       >
         <svg
           aria-hidden="true"
-          class="c-icon emotion-12 emotion-13"
+          class="c-icon emotion-11 emotion-12"
           data-license="Apache License 2.0"
           data-source="Material Design"
           fill="currentColor"
@@ -481,17 +603,17 @@ exports[`Can paste a valid url and add it to topic 1`] = `
       </button>
     </div>
     <div
-      class="emotion-14 emotion-15"
+      class="emotion-13 emotion-14"
     >
       <div
-        class="emotion-16 emotion-17"
+        class="emotion-15 emotion-16"
       >
         <div>
           <div
-            class="emotion-18 emotion-19"
+            class="emotion-17 emotion-18"
           >
             <div
-              class="emotion-20 emotion-21"
+              class="emotion-19 emotion-20"
             >
               <input
                 data-testid="addResourceUrlInput"
@@ -503,11 +625,11 @@ exports[`Can paste a valid url and add it to topic 1`] = `
           </div>
         </div>
         <div
-          class="emotion-22 emotion-23"
+          class="emotion-21 emotion-22"
           data-testid="articlePreview"
         >
           <div
-            class="emotion-24 emotion-25"
+            class="emotion-23 emotion-24"
           >
             <img
               alt=""
@@ -515,32 +637,32 @@ exports[`Can paste a valid url and add it to topic 1`] = `
             />
           </div>
           <div
-            class="emotion-26 emotion-27"
+            class="emotion-25 emotion-26"
           >
             <h1
-              class="emotion-28 emotion-29"
+              class="emotion-27 emotion-28"
             >
               Hva kan du om geologiske prosesser?
             </h1>
             <p
-              class="emotion-30 emotion-31"
+              class="emotion-29 emotion-30"
             />
           </div>
         </div>
         <div
-          class="emotion-32 emotion-33"
+          class="emotion-31 emotion-32"
         >
           <div
-            class="emotion-34 emotion-35"
+            class="emotion-33 emotion-34"
           >
             <button
-              class="emotion-36 emotion-37 emotion-10 emotion-11"
+              class="emotion-35 emotion-36 emotion-10"
               data-testid="closeAlert"
               type="button"
             >
               <svg
                 aria-hidden="true"
-                class="c-icon emotion-40 emotion-41"
+                class="c-icon emotion-38 emotion-39"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
                 fill="currentColor"
@@ -563,17 +685,17 @@ exports[`Can paste a valid url and add it to topic 1`] = `
               </svg>
             </button>
             <div
-              class="emotion-42 emotion-43"
+              class="emotion-40 emotion-41"
             >
               <div
-                class="emotion-44 emotion-45"
+                class="emotion-42 emotion-43"
               >
                 <div
-                  class="emotion-46 emotion-47"
+                  class="emotion-44 emotion-45"
                 >
                   <svg
                     aria-hidden="true"
-                    class="c-icon emotion-48 emotion-49"
+                    class="c-icon emotion-46 emotion-47"
                     data-license="Apache License 2.0"
                     data-source="Material Design"
                     fill="currentColor"
@@ -594,13 +716,13 @@ exports[`Can paste a valid url and add it to topic 1`] = `
                     </g>
                   </svg>
                   <span
-                    class="emotion-50 emotion-51"
+                    class="emotion-48 emotion-49"
                   >
                     Obs! Denne ressursen er en annen type urn:resourcetype:tasksAndActivities
                   </span>
                 </div>
                 <div
-                  class="emotion-52 emotion-53"
+                  class="emotion-50 emotion-51"
                 />
               </div>
             </div>
@@ -608,7 +730,7 @@ exports[`Can paste a valid url and add it to topic 1`] = `
         </div>
       </div>
       <button
-        class="emotion-54 emotion-55 emotion-10 emotion-11"
+        class="emotion-52 emotion-53 emotion-10"
         data-testid="taxonomyLightboxButton"
         type="button"
       >
@@ -683,12 +805,356 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
   color: #f8f8f8;
 }
 
-.emotion-8 {
+.emotion-9 {
+  display: inline-block;
+  color: #ffffff;
+  background-color: #20588f;
+  border: 2px solid #20588f;
+  border-radius: 4px;
+  padding: 4px 13px;
+  outline-width: 0;
+  cursor: pointer;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-size: 16px;
+  font-size: 0.8888888888888888rem;
+  line-height: 1.625;
+  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
+  font-weight: 700;
+  -webkit-transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
+  transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
+  box-shadow: none;
+  text-align: center;
+  -webkit-transition: background-color none;
+  transition: background-color none;
+  padding: 0;
+  border-radius: 0;
+  color: inherit;
+  font-size: inherit;
+  background-color: transparent;
+  box-shadow: none;
+  border: none;
+  font-weight: 400;
   height: 50px;
   width: 50px;
 }
 
-.emotion-10 {
+.emotion-9:hover,
+.emotion-9:focus {
+  color: white;
+  background-color: #184673;
+  border: 2px solid #184673;
+}
+
+.emotion-9[disabled] {
+  color: #777777;
+  background-color: #e6e6e6;
+  border-color: transparent;
+  cursor: not-allowed;
+}
+
+.emotion-9:focus {
+  box-shadow: 0 0 2px #20588f;
+}
+
+.emotion-9:hover,
+.emotion-9:active,
+.emotion-9:disabled,
+.emotion-9:focus {
+  box-shadow: none;
+  color: #20588f;
+  background-color: transparent;
+  border: none;
+}
+
+.emotion-9:focus {
+  outline-width: medium;
+}
+
+.emotion-11 {
+  height: 24px;
+  width: 24px;
+  margin-right: 7px;
+}
+
+.emotion-13 {
+  padding: 2em;
+  height: 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+  -webkit-align-items: flex-end;
+  -webkit-box-align: flex-end;
+  -ms-flex-align: flex-end;
+  align-items: flex-end;
+}
+
+.emotion-15 {
+  width: 100%;
+}
+
+.emotion-15>* {
+  width: 100%;
+}
+
+.emotion-15 form {
+  background-color: white;
+}
+
+.emotion-17 {
+  margin-top: 6.5px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.emotion-17:first-of-type {
+  margin-top: 0;
+}
+
+.emotion-19 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex-wrap: wrap;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  background: #f8f8f8;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  -webkit-justify-content: flex-start;
+  justify-content: flex-start;
+  border: 1px solid #eff0f2;
+  -webkit-transition: border-color 100ms ease;
+  transition: border-color 100ms ease;
+  border-radius: 4px;
+  min-height: 52px;
+  padding-right: 13px;
+}
+
+.emotion-19:focus-within {
+  border-color: #20588f;
+}
+
+.emotion-19 input,
+.emotion-19 textarea {
+  width: inherit;
+  font-weight: 400;
+  color: #444;
+  font-size: 18;
+  font-size: 1rem;
+  line-height: 1.3;
+  background: none;
+  border: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+}
+
+.emotion-19 input:focus,
+.emotion-19 textarea:focus {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  outline: none;
+}
+
+.emotion-19 input {
+  padding: 6.5px 13px;
+}
+
+.emotion-19 textarea {
+  padding: 0 13px;
+  height: 20px;
+  margin: 14px 0;
+  resize: none;
+}
+
+.emotion-19 .c-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.emotion-21 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.emotion-27 {
+  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
+  background: #fff;
+  border-radius: 4px;
+  box-shadow: 0 0 19px rgba(0, 0, 0, 0.2);
+  -webkit-transition: height 100ms ease;
+  transition: height 100ms ease;
+  width: 100%;
+}
+
+.emotion-29 {
+  overflow-y: scroll;
+  -webkit-animation-duration: 200ms;
+  animation-duration: 200ms;
+  -webkit-animation-name: fadeInLeft;
+  animation-name: fadeInLeft;
+  border-top: 1px solid #f8f8f8;
+  max-height: 500px;
+}
+
+.emotion-31 {
+  border: 0;
+  border-bottom: 1px solid #f8f8f8;
+  padding: 13px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  -webkit-justify-content: flex-start;
+  justify-content: flex-start;
+  width: 100%;
+  -webkit-transition: background 200ms ease;
+  transition: background 200ms ease;
+  background: transparent;
+}
+
+.emotion-31:focus,
+.emotion-31:hover {
+  background: #deebf6;
+}
+
+.emotion-33 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+  padding-right: 13px;
+  -webkit-box-flex: 3;
+  -webkit-flex-grow: 3;
+  -ms-flex-positive: 3;
+  flex-grow: 3;
+}
+
+.emotion-35 {
+  font-size: 18;
+  font-size: 1rem;
+  line-height: 1.1;
+  font-weight: 600;
+  color: #444;
+  text-align: left;
+}
+
+.emotion-91 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex-wrap: wrap;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  margin-top: 1em;
+}
+
+.emotion-93 {
+  display: inline;
+  background: transparent;
+  border: 0;
+  border-top: 3px solid #e6e6e6;
+  padding: 1em 1.45em;
+  margin: 1em 0.3em 0;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  box-shadow: none;
+  color: #20588f;
+  cursor: pointer;
+  border-top: 3px solid #20588f;
+  background-color: 'rgba(222,235,246,0.5)';
+}
+
+.emotion-93:hover {
+  border-top: 3px solid #20588f;
+  background-color: 'rgba(222,235,246,0.5)';
+}
+
+.emotion-94 {
+  display: inline;
+  background: transparent;
+  border: 0;
+  border-top: 3px solid #e6e6e6;
+  padding: 1em 1.45em;
+  margin: 1em 0.3em 0;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  box-shadow: none;
+  color: #20588f;
+  cursor: pointer;
+}
+
+.emotion-94:hover {
+  border-top: 3px solid #20588f;
+  background-color: 'rgba(222,235,246,0.5)';
+}
+
+.emotion-99 {
+  font-size: 14;
+  font-size: 0.7777777777777778rem;
+  line-height: 1.1;
+  color: #757575;
+  padding: 13px;
+  border-top: 1px solid #f8f8f8;
+}
+
+.emotion-102 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -720,319 +1186,36 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
   font-weight: 400;
 }
 
-.emotion-10:hover,
-.emotion-10:focus {
+.emotion-102:hover,
+.emotion-102:focus {
   color: white;
   background-color: #184673;
   border: 2px solid #184673;
 }
 
-.emotion-10[disabled] {
+.emotion-102[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-10:focus {
+.emotion-102:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-10:hover,
-.emotion-10:active,
-.emotion-10:disabled,
-.emotion-10:focus {
+.emotion-102:hover,
+.emotion-102:active,
+.emotion-102:disabled,
+.emotion-102:focus {
   box-shadow: none;
   color: #20588f;
   background-color: transparent;
   border: none;
 }
 
-.emotion-10:focus {
+.emotion-102:focus {
   outline-width: medium;
-}
-
-.emotion-12 {
-  height: 24px;
-  width: 24px;
-  margin-right: 7px;
-}
-
-.emotion-14 {
-  padding: 2em;
-  height: 100%;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-  justify-content: space-between;
-  -webkit-align-items: flex-end;
-  -webkit-box-align: flex-end;
-  -ms-flex-align: flex-end;
-  align-items: flex-end;
-}
-
-.emotion-16 {
-  width: 100%;
-}
-
-.emotion-16>* {
-  width: 100%;
-}
-
-.emotion-16 form {
-  background-color: white;
-}
-
-.emotion-18 {
-  margin-top: 6.5px;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-}
-
-.emotion-18:first-of-type {
-  margin-top: 0;
-}
-
-.emotion-20 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-flex-wrap: wrap;
-  -webkit-flex-wrap: wrap;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-  background: #f8f8f8;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: start;
-  -ms-flex-pack: start;
-  -webkit-justify-content: flex-start;
-  justify-content: flex-start;
-  border: 1px solid #eff0f2;
-  -webkit-transition: border-color 100ms ease;
-  transition: border-color 100ms ease;
-  border-radius: 4px;
-  min-height: 52px;
-  padding-right: 13px;
-}
-
-.emotion-20:focus-within {
-  border-color: #20588f;
-}
-
-.emotion-20 input,
-.emotion-20 textarea {
-  width: inherit;
-  font-weight: 400;
-  color: #444;
-  font-size: 18;
-  font-size: 1rem;
-  line-height: 1.3;
-  background: none;
-  border: 0;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-}
-
-.emotion-20 input:focus,
-.emotion-20 textarea:focus {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  -ms-appearance: none;
-  appearance: none;
-  outline: none;
-}
-
-.emotion-20 input {
-  padding: 6.5px 13px;
-}
-
-.emotion-20 textarea {
-  padding: 0 13px;
-  height: 20px;
-  margin: 14px 0;
-  resize: none;
-}
-
-.emotion-20 .c-icon {
-  width: 24px;
-  height: 24px;
-}
-
-.emotion-22 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  -webkit-justify-content: center;
-  justify-content: center;
-  margin: 20px 0;
-}
-
-.emotion-28 {
-  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
-  background: #fff;
-  border-radius: 4px;
-  box-shadow: 0 0 19px rgba(0, 0, 0, 0.2);
-  -webkit-transition: height 100ms ease;
-  transition: height 100ms ease;
-  width: 100%;
-}
-
-.emotion-30 {
-  overflow-y: scroll;
-  -webkit-animation-duration: 200ms;
-  animation-duration: 200ms;
-  -webkit-animation-name: fadeInLeft;
-  animation-name: fadeInLeft;
-  border-top: 1px solid #f8f8f8;
-  max-height: 500px;
-}
-
-.emotion-32 {
-  border: 0;
-  border-bottom: 1px solid #f8f8f8;
-  padding: 13px;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: row;
-  -ms-flex-direction: row;
-  flex-direction: row;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: start;
-  -ms-flex-pack: start;
-  -webkit-justify-content: flex-start;
-  justify-content: flex-start;
-  width: 100%;
-  -webkit-transition: background 200ms ease;
-  transition: background 200ms ease;
-  background: transparent;
-}
-
-.emotion-32:focus,
-.emotion-32:hover {
-  background: #deebf6;
-}
-
-.emotion-34 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  -webkit-align-items: flex-start;
-  -webkit-box-align: flex-start;
-  -ms-flex-align: flex-start;
-  align-items: flex-start;
-  padding-right: 13px;
-  -webkit-box-flex: 3;
-  -webkit-flex-grow: 3;
-  -ms-flex-positive: 3;
-  flex-grow: 3;
-}
-
-.emotion-36 {
-  font-size: 18;
-  font-size: 1rem;
-  line-height: 1.1;
-  font-weight: 600;
-  color: #444;
-  text-align: left;
-}
-
-.emotion-92 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-flex-wrap: wrap;
-  -webkit-flex-wrap: wrap;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  -webkit-justify-content: center;
-  justify-content: center;
-  margin-top: 1em;
-}
-
-.emotion-94 {
-  display: inline;
-  background: transparent;
-  border: 0;
-  border-top: 3px solid #e6e6e6;
-  padding: 1em 1.45em;
-  margin: 1em 0.3em 0;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  box-shadow: none;
-  color: #20588f;
-  cursor: pointer;
-  border-top: 3px solid #20588f;
-  background-color: 'rgba(222,235,246,0.5)';
-}
-
-.emotion-94:hover {
-  border-top: 3px solid #20588f;
-  background-color: 'rgba(222,235,246,0.5)';
-}
-
-.emotion-95 {
-  display: inline;
-  background: transparent;
-  border: 0;
-  border-top: 3px solid #e6e6e6;
-  padding: 1em 1.45em;
-  margin: 1em 0.3em 0;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  box-shadow: none;
-  color: #20588f;
-  cursor: pointer;
-}
-
-.emotion-95:hover {
-  border-top: 3px solid #20588f;
-  background-color: 'rgba(222,235,246,0.5)';
-}
-
-.emotion-100 {
-  font-size: 14;
-  font-size: 0.7777777777777778rem;
-  line-height: 1.1;
-  color: #757575;
-  padding: 13px;
-  border-top: 1px solid #f8f8f8;
 }
 
 .emotion-102,
@@ -1058,12 +1241,12 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
     >
       Søk etter ressurs
       <button
-        class="emotion-8 emotion-9 emotion-10 emotion-11"
+        class="emotion-8 emotion-9 emotion-10"
         type="button"
       >
         <svg
           aria-hidden="true"
-          class="c-icon emotion-12 emotion-13"
+          class="c-icon emotion-11 emotion-12"
           data-license="Apache License 2.0"
           data-source="Material Design"
           fill="currentColor"
@@ -1086,17 +1269,17 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
       </button>
     </div>
     <div
-      class="emotion-14 emotion-15"
+      class="emotion-13 emotion-14"
     >
       <div
-        class="emotion-16 emotion-17"
+        class="emotion-15 emotion-16"
       >
         <div>
           <div
-            class="emotion-18 emotion-19"
+            class="emotion-17 emotion-18"
           >
             <div
-              class="emotion-20 emotion-21"
+              class="emotion-19 emotion-20"
             >
               <input
                 data-testid="addResourceUrlInput"
@@ -1108,7 +1291,7 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
           </div>
         </div>
         <div
-          class="emotion-22 emotion-23"
+          class="emotion-21 emotion-22"
         >
           Eller
         </div>
@@ -1121,10 +1304,10 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
         >
           <div>
             <div
-              class="emotion-18 emotion-19"
+              class="emotion-17 emotion-18"
             >
               <div
-                class="emotion-20 emotion-21"
+                class="emotion-19 emotion-20"
               >
                 <input
                   aria-autocomplete="list"
@@ -1159,26 +1342,26 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
           </div>
           <div
             aria-labelledby="downshift-0-label"
-            class="emotion-28 emotion-29"
+            class="emotion-27 emotion-28"
             data-testid="dropdown-items"
             id="downshift-0-menu"
             role="listbox"
           >
             <div
-              class="emotion-30 emotion-31"
+              class="emotion-29 emotion-30"
             >
               <button
                 aria-selected="false"
-                class="emotion-32 emotion-33"
+                class="emotion-31 emotion-32"
                 id="downshift-0-item-0"
                 role="option"
                 type="button"
               >
                 <div
-                  class="emotion-34 emotion-35"
+                  class="emotion-33 emotion-34"
                 >
                   <span
-                    class="emotion-36 emotion-37"
+                    class="emotion-35 emotion-36"
                   >
                     Hva kan du om geologiske prosesser?
                   </span>
@@ -1187,16 +1370,16 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
               </button>
               <button
                 aria-selected="false"
-                class="emotion-32 emotion-33"
+                class="emotion-31 emotion-32"
                 id="downshift-0-item-1"
                 role="option"
                 type="button"
               >
                 <div
-                  class="emotion-34 emotion-35"
+                  class="emotion-33 emotion-34"
                 >
                   <span
-                    class="emotion-36 emotion-37"
+                    class="emotion-35 emotion-36"
                   >
                     Hva kan du om petroleumsgeologi?
                   </span>
@@ -1205,16 +1388,16 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
               </button>
               <button
                 aria-selected="false"
-                class="emotion-32 emotion-33"
+                class="emotion-31 emotion-32"
                 id="downshift-0-item-2"
                 role="option"
                 type="button"
               >
                 <div
-                  class="emotion-34 emotion-35"
+                  class="emotion-33 emotion-34"
                 >
                   <span
-                    class="emotion-36 emotion-37"
+                    class="emotion-35 emotion-36"
                   >
                     Hva kan du om olje og gass på den norske sokkelen?
                   </span>
@@ -1223,16 +1406,16 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
               </button>
               <button
                 aria-selected="false"
-                class="emotion-32 emotion-33"
+                class="emotion-31 emotion-32"
                 id="downshift-0-item-3"
                 role="option"
                 type="button"
               >
                 <div
-                  class="emotion-34 emotion-35"
+                  class="emotion-33 emotion-34"
                 >
                   <span
-                    class="emotion-36 emotion-37"
+                    class="emotion-35 emotion-36"
                   >
                     Hva kan du om letemetoder og datainnsamling?
                   </span>
@@ -1241,16 +1424,16 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
               </button>
               <button
                 aria-selected="false"
-                class="emotion-32 emotion-33"
+                class="emotion-31 emotion-32"
                 id="downshift-0-item-4"
                 role="option"
                 type="button"
               >
                 <div
-                  class="emotion-34 emotion-35"
+                  class="emotion-33 emotion-34"
                 >
                   <span
-                    class="emotion-36 emotion-37"
+                    class="emotion-35 emotion-36"
                   >
                     Hva kan du om installasjoner for boring og vedlikehold?
                   </span>
@@ -1259,16 +1442,16 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
               </button>
               <button
                 aria-selected="false"
-                class="emotion-32 emotion-33"
+                class="emotion-31 emotion-32"
                 id="downshift-0-item-5"
                 role="option"
                 type="button"
               >
                 <div
-                  class="emotion-34 emotion-35"
+                  class="emotion-33 emotion-34"
                 >
                   <span
-                    class="emotion-36 emotion-37"
+                    class="emotion-35 emotion-36"
                   >
                     Hva kan du om installasjoner for produksjon?
                   </span>
@@ -1277,16 +1460,16 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
               </button>
               <button
                 aria-selected="false"
-                class="emotion-32 emotion-33"
+                class="emotion-31 emotion-32"
                 id="downshift-0-item-6"
                 role="option"
                 type="button"
               >
                 <div
-                  class="emotion-34 emotion-35"
+                  class="emotion-33 emotion-34"
                 >
                   <span
-                    class="emotion-36 emotion-37"
+                    class="emotion-35 emotion-36"
                   >
                     Sammendrag om rørhåndtering
                   </span>
@@ -1295,16 +1478,16 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
               </button>
               <button
                 aria-selected="false"
-                class="emotion-32 emotion-33"
+                class="emotion-31 emotion-32"
                 id="downshift-0-item-7"
                 role="option"
                 type="button"
               >
                 <div
-                  class="emotion-34 emotion-35"
+                  class="emotion-33 emotion-34"
                 >
                   <span
-                    class="emotion-36 emotion-37"
+                    class="emotion-35 emotion-36"
                   >
                     Hva kan du om slamsystemet?
                   </span>
@@ -1313,16 +1496,16 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
               </button>
               <button
                 aria-selected="false"
-                class="emotion-32 emotion-33"
+                class="emotion-31 emotion-32"
                 id="downshift-0-item-8"
                 role="option"
                 type="button"
               >
                 <div
-                  class="emotion-34 emotion-35"
+                  class="emotion-33 emotion-34"
                 >
                   <span
-                    class="emotion-36 emotion-37"
+                    class="emotion-35 emotion-36"
                   >
                     Hva kan du om sementeringsutstyret?
                   </span>
@@ -1331,16 +1514,16 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
               </button>
               <button
                 aria-selected="false"
-                class="emotion-32 emotion-33"
+                class="emotion-31 emotion-32"
                 id="downshift-0-item-9"
                 role="option"
                 type="button"
               >
                 <div
-                  class="emotion-34 emotion-35"
+                  class="emotion-33 emotion-34"
                 >
                   <span
-                    class="emotion-36 emotion-37"
+                    class="emotion-35 emotion-36"
                   >
                     Hva kan du om stigerørsystemet?
                   </span>
@@ -1349,43 +1532,43 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
               </button>
             </div>
             <div
-              class="emotion-92 emotion-93"
+              class="emotion-91 emotion-92"
               data-testid="pager"
             >
               <span
                 aria-current="step"
-                class="emotion-94"
+                class="emotion-93"
               >
                 1
               </span>
               <button
-                class="emotion-95"
+                class="emotion-94"
               >
                 2
               </button>
               <button
-                class="emotion-95"
+                class="emotion-94"
               >
                 3
               </button>
               <button
-                class="emotion-95"
+                class="emotion-94"
               >
                 4
               </button>
               <button
-                class="emotion-95"
+                class="emotion-94"
               >
                 5
               </button>
               <button
-                class="emotion-95"
+                class="emotion-94"
               >
                 &gt;
               </button>
             </div>
             <div
-              class="emotion-100 emotion-101"
+              class="emotion-99 emotion-100"
             >
               Søket gav 180 treff
             </div>
@@ -1393,7 +1576,7 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
         </div>
       </div>
       <button
-        class="emotion-102 emotion-103 emotion-10 emotion-11"
+        class="emotion-101 emotion-102 emotion-10"
         data-testid="taxonomyLightboxButton"
         type="button"
       >
@@ -1468,12 +1651,264 @@ exports[`Can select a resource from the list and it adds it to topic 2`] = `
   color: #f8f8f8;
 }
 
-.emotion-8 {
+.emotion-9 {
+  display: inline-block;
+  color: #ffffff;
+  background-color: #20588f;
+  border: 2px solid #20588f;
+  border-radius: 4px;
+  padding: 4px 13px;
+  outline-width: 0;
+  cursor: pointer;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-size: 16px;
+  font-size: 0.8888888888888888rem;
+  line-height: 1.625;
+  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
+  font-weight: 700;
+  -webkit-transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
+  transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
+  box-shadow: none;
+  text-align: center;
+  -webkit-transition: background-color none;
+  transition: background-color none;
+  padding: 0;
+  border-radius: 0;
+  color: inherit;
+  font-size: inherit;
+  background-color: transparent;
+  box-shadow: none;
+  border: none;
+  font-weight: 400;
   height: 50px;
   width: 50px;
 }
 
-.emotion-10 {
+.emotion-9:hover,
+.emotion-9:focus {
+  color: white;
+  background-color: #184673;
+  border: 2px solid #184673;
+}
+
+.emotion-9[disabled] {
+  color: #777777;
+  background-color: #e6e6e6;
+  border-color: transparent;
+  cursor: not-allowed;
+}
+
+.emotion-9:focus {
+  box-shadow: 0 0 2px #20588f;
+}
+
+.emotion-9:hover,
+.emotion-9:active,
+.emotion-9:disabled,
+.emotion-9:focus {
+  box-shadow: none;
+  color: #20588f;
+  background-color: transparent;
+  border: none;
+}
+
+.emotion-9:focus {
+  outline-width: medium;
+}
+
+.emotion-11 {
+  height: 24px;
+  width: 24px;
+  margin-right: 7px;
+}
+
+.emotion-13 {
+  padding: 2em;
+  height: 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+  -webkit-align-items: flex-end;
+  -webkit-box-align: flex-end;
+  -ms-flex-align: flex-end;
+  align-items: flex-end;
+}
+
+.emotion-15 {
+  width: 100%;
+}
+
+.emotion-15>* {
+  width: 100%;
+}
+
+.emotion-15 form {
+  background-color: white;
+}
+
+.emotion-17 {
+  margin-top: 6.5px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.emotion-17:first-of-type {
+  margin-top: 0;
+}
+
+.emotion-19 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex-wrap: wrap;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  background: #f8f8f8;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  -webkit-justify-content: flex-start;
+  justify-content: flex-start;
+  border: 1px solid #eff0f2;
+  -webkit-transition: border-color 100ms ease;
+  transition: border-color 100ms ease;
+  border-radius: 4px;
+  min-height: 52px;
+  padding-right: 13px;
+}
+
+.emotion-19:focus-within {
+  border-color: #20588f;
+}
+
+.emotion-19 input,
+.emotion-19 textarea {
+  width: inherit;
+  font-weight: 400;
+  color: #444;
+  font-size: 18;
+  font-size: 1rem;
+  line-height: 1.3;
+  background: none;
+  border: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+}
+
+.emotion-19 input:focus,
+.emotion-19 textarea:focus {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  outline: none;
+}
+
+.emotion-19 input {
+  padding: 6.5px 13px;
+}
+
+.emotion-19 textarea {
+  padding: 0 13px;
+  height: 20px;
+  margin: 14px 0;
+  resize: none;
+}
+
+.emotion-19 .c-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.emotion-21 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.emotion-27 {
+  padding: 13px;
+  border: 1px solid #ddd;
+  background-color: white;
+  width: 100%;
+  height: 150px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.emotion-29 {
+  text-align: center;
+  margin-right: 13px;
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+  max-width: 180px;
+}
+
+.emotion-29 img {
+  max-height: 100%;
+}
+
+.emotion-29 svg {
+  margin: 32.5px;
+  width: 60px;
+  height: 60px;
+}
+
+.emotion-31 {
+  -webkit-flex: 2 4 auto;
+  -ms-flex: 2 4 auto;
+  flex: 2 4 auto;
+  overflow: hidden;
+}
+
+.emotion-33 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.8;
+  color: #444;
+}
+
+.emotion-35 {
+  font-size: 0.8rem;
+  margin: 0;
+}
+
+.emotion-38 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -1505,227 +1940,36 @@ exports[`Can select a resource from the list and it adds it to topic 2`] = `
   font-weight: 400;
 }
 
-.emotion-10:hover,
-.emotion-10:focus {
+.emotion-38:hover,
+.emotion-38:focus {
   color: white;
   background-color: #184673;
   border: 2px solid #184673;
 }
 
-.emotion-10[disabled] {
+.emotion-38[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-10:focus {
+.emotion-38:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-10:hover,
-.emotion-10:active,
-.emotion-10:disabled,
-.emotion-10:focus {
+.emotion-38:hover,
+.emotion-38:active,
+.emotion-38:disabled,
+.emotion-38:focus {
   box-shadow: none;
   color: #20588f;
   background-color: transparent;
   border: none;
 }
 
-.emotion-10:focus {
+.emotion-38:focus {
   outline-width: medium;
-}
-
-.emotion-12 {
-  height: 24px;
-  width: 24px;
-  margin-right: 7px;
-}
-
-.emotion-14 {
-  padding: 2em;
-  height: 100%;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-  justify-content: space-between;
-  -webkit-align-items: flex-end;
-  -webkit-box-align: flex-end;
-  -ms-flex-align: flex-end;
-  align-items: flex-end;
-}
-
-.emotion-16 {
-  width: 100%;
-}
-
-.emotion-16>* {
-  width: 100%;
-}
-
-.emotion-16 form {
-  background-color: white;
-}
-
-.emotion-18 {
-  margin-top: 6.5px;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-}
-
-.emotion-18:first-of-type {
-  margin-top: 0;
-}
-
-.emotion-20 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-flex-wrap: wrap;
-  -webkit-flex-wrap: wrap;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-  background: #f8f8f8;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: start;
-  -ms-flex-pack: start;
-  -webkit-justify-content: flex-start;
-  justify-content: flex-start;
-  border: 1px solid #eff0f2;
-  -webkit-transition: border-color 100ms ease;
-  transition: border-color 100ms ease;
-  border-radius: 4px;
-  min-height: 52px;
-  padding-right: 13px;
-}
-
-.emotion-20:focus-within {
-  border-color: #20588f;
-}
-
-.emotion-20 input,
-.emotion-20 textarea {
-  width: inherit;
-  font-weight: 400;
-  color: #444;
-  font-size: 18;
-  font-size: 1rem;
-  line-height: 1.3;
-  background: none;
-  border: 0;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-}
-
-.emotion-20 input:focus,
-.emotion-20 textarea:focus {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  -ms-appearance: none;
-  appearance: none;
-  outline: none;
-}
-
-.emotion-20 input {
-  padding: 6.5px 13px;
-}
-
-.emotion-20 textarea {
-  padding: 0 13px;
-  height: 20px;
-  margin: 14px 0;
-  resize: none;
-}
-
-.emotion-20 .c-icon {
-  width: 24px;
-  height: 24px;
-}
-
-.emotion-22 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  -webkit-justify-content: center;
-  justify-content: center;
-  margin: 20px 0;
-}
-
-.emotion-28 {
-  padding: 13px;
-  border: 1px solid #ddd;
-  background-color: white;
-  width: 100%;
-  height: 150px;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-}
-
-.emotion-30 {
-  text-align: center;
-  margin-right: 13px;
-  -webkit-flex: 1 1 auto;
-  -ms-flex: 1 1 auto;
-  flex: 1 1 auto;
-  max-width: 180px;
-}
-
-.emotion-30 img {
-  max-height: 100%;
-}
-
-.emotion-30 svg {
-  margin: 32.5px;
-  width: 60px;
-  height: 60px;
-}
-
-.emotion-32 {
-  -webkit-flex: 2 4 auto;
-  -ms-flex: 2 4 auto;
-  flex: 2 4 auto;
-  overflow: hidden;
-}
-
-.emotion-34 {
-  margin: 0;
-  font-size: 1rem;
-  font-weight: 600;
-  line-height: 1.8;
-  color: #444;
-}
-
-.emotion-36 {
-  font-size: 0.8rem;
-  margin: 0;
 }
 
 .emotion-38,
@@ -1751,12 +1995,12 @@ exports[`Can select a resource from the list and it adds it to topic 2`] = `
     >
       Søk etter ressurs
       <button
-        class="emotion-8 emotion-9 emotion-10 emotion-11"
+        class="emotion-8 emotion-9 emotion-10"
         type="button"
       >
         <svg
           aria-hidden="true"
-          class="c-icon emotion-12 emotion-13"
+          class="c-icon emotion-11 emotion-12"
           data-license="Apache License 2.0"
           data-source="Material Design"
           fill="currentColor"
@@ -1779,17 +2023,17 @@ exports[`Can select a resource from the list and it adds it to topic 2`] = `
       </button>
     </div>
     <div
-      class="emotion-14 emotion-15"
+      class="emotion-13 emotion-14"
     >
       <div
-        class="emotion-16 emotion-17"
+        class="emotion-15 emotion-16"
       >
         <div>
           <div
-            class="emotion-18 emotion-19"
+            class="emotion-17 emotion-18"
           >
             <div
-              class="emotion-20 emotion-21"
+              class="emotion-19 emotion-20"
             >
               <input
                 data-testid="addResourceUrlInput"
@@ -1801,7 +2045,7 @@ exports[`Can select a resource from the list and it adds it to topic 2`] = `
           </div>
         </div>
         <div
-          class="emotion-22 emotion-23"
+          class="emotion-21 emotion-22"
         >
           Eller
         </div>
@@ -1813,10 +2057,10 @@ exports[`Can select a resource from the list and it adds it to topic 2`] = `
         >
           <div>
             <div
-              class="emotion-18 emotion-19"
+              class="emotion-17 emotion-18"
             >
               <div
-                class="emotion-20 emotion-21"
+                class="emotion-19 emotion-20"
               >
                 <input
                   aria-autocomplete="list"
@@ -1850,11 +2094,11 @@ exports[`Can select a resource from the list and it adds it to topic 2`] = `
           </div>
         </div>
         <div
-          class="emotion-28 emotion-29"
+          class="emotion-27 emotion-28"
           data-testid="articlePreview"
         >
           <div
-            class="emotion-30 emotion-31"
+            class="emotion-29 emotion-30"
           >
             <img
               alt=""
@@ -1862,21 +2106,21 @@ exports[`Can select a resource from the list and it adds it to topic 2`] = `
             />
           </div>
           <div
-            class="emotion-32 emotion-33"
+            class="emotion-31 emotion-32"
           >
             <h1
-              class="emotion-34 emotion-35"
+              class="emotion-33 emotion-34"
             >
               Hva kan du om geologiske prosesser?
             </h1>
             <p
-              class="emotion-36 emotion-37"
+              class="emotion-35 emotion-36"
             />
           </div>
         </div>
       </div>
       <button
-        class="emotion-38 emotion-39 emotion-10 emotion-11"
+        class="emotion-37 emotion-38 emotion-10"
         data-testid="taxonomyLightboxButton"
         type="button"
       >

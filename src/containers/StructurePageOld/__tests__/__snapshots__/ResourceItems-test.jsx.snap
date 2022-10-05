@@ -151,12 +151,7 @@ exports[`matches snapshot 1`] = `
   font-size: 0.8rem;
 }
 
-.emotion-18 {
-  margin-left: 13px;
-  line-height: 1;
-}
-
-.emotion-20 {
+.emotion-19 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -186,41 +181,43 @@ exports[`matches snapshot 1`] = `
   box-shadow: none;
   border: none;
   font-weight: 400;
+  margin-left: 13px;
+  line-height: 1;
 }
 
-.emotion-20:hover,
-.emotion-20:focus {
+.emotion-19:hover,
+.emotion-19:focus {
   color: white;
   background-color: #184673;
   border: 2px solid #184673;
 }
 
-.emotion-20[disabled] {
+.emotion-19[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-20:focus {
+.emotion-19:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-20:hover,
-.emotion-20:active,
-.emotion-20:disabled,
-.emotion-20:focus {
+.emotion-19:hover,
+.emotion-19:active,
+.emotion-19:disabled,
+.emotion-19:focus {
   box-shadow: none;
   color: #20588f;
   background-color: transparent;
   border: none;
 }
 
-.emotion-20:focus {
+.emotion-19:focus {
   outline-width: medium;
 }
 
-.emotion-22 {
+.emotion-21 {
   width: 24px;
   height: 24px;
   opacity: 0.6;
@@ -324,12 +321,12 @@ exports[`matches snapshot 1`] = `
             data-tooltip-children="true"
           >
             <button
-              class="emotion-18 emotion-19 emotion-20 emotion-21"
+              class="emotion-18 emotion-19 emotion-20"
               type="button"
             >
               <svg
                 aria-hidden="true"
-                class="c-icon emotion-22 emotion-23"
+                class="c-icon emotion-21 emotion-22"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
                 fill="currentColor"
@@ -452,12 +449,12 @@ exports[`matches snapshot 1`] = `
             data-tooltip-children="true"
           >
             <button
-              class="emotion-18 emotion-19 emotion-20 emotion-21"
+              class="emotion-18 emotion-19 emotion-20"
               type="button"
             >
               <svg
                 aria-hidden="true"
-                class="c-icon emotion-22 emotion-23"
+                class="c-icon emotion-21 emotion-22"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
                 fill="currentColor"
@@ -580,12 +577,12 @@ exports[`matches snapshot 1`] = `
             data-tooltip-children="true"
           >
             <button
-              class="emotion-18 emotion-19 emotion-20 emotion-21"
+              class="emotion-18 emotion-19 emotion-20"
               type="button"
             >
               <svg
                 aria-hidden="true"
-                class="c-icon emotion-22 emotion-23"
+                class="c-icon emotion-21 emotion-22"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
                 fill="currentColor"
@@ -708,12 +705,12 @@ exports[`matches snapshot 1`] = `
             data-tooltip-children="true"
           >
             <button
-              class="emotion-18 emotion-19 emotion-20 emotion-21"
+              class="emotion-18 emotion-19 emotion-20"
               type="button"
             >
               <svg
                 aria-hidden="true"
-                class="c-icon emotion-22 emotion-23"
+                class="c-icon emotion-21 emotion-22"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
                 fill="currentColor"
@@ -836,12 +833,12 @@ exports[`matches snapshot 1`] = `
             data-tooltip-children="true"
           >
             <button
-              class="emotion-18 emotion-19 emotion-20 emotion-21"
+              class="emotion-18 emotion-19 emotion-20"
               type="button"
             >
               <svg
                 aria-hidden="true"
-                class="c-icon emotion-22 emotion-23"
+                class="c-icon emotion-21 emotion-22"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
                 fill="currentColor"
@@ -964,12 +961,12 @@ exports[`matches snapshot 1`] = `
             data-tooltip-children="true"
           >
             <button
-              class="emotion-18 emotion-19 emotion-20 emotion-21"
+              class="emotion-18 emotion-19 emotion-20"
               type="button"
             >
               <svg
                 aria-hidden="true"
-                class="c-icon emotion-22 emotion-23"
+                class="c-icon emotion-21 emotion-22"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
                 fill="currentColor"

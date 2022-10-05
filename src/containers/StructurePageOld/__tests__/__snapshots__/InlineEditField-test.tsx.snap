@@ -57,18 +57,7 @@ exports[`Goes to edit mode, handles submit 1`] = `
   width: 100%;
 }
 
-.emotion-6,
-.emotion-6:disabled {
-  height: 24px;
-  width: 24px;
-  min-width: 24px;
-  background-color: #4d4d4d;
-  border-color: #4d4d4d;
-  padding: 0;
-  line-height: 16.9px;
-}
-
-.emotion-8 {
+.emotion-7 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -90,22 +79,33 @@ exports[`Goes to edit mode, handles submit 1`] = `
   text-align: center;
 }
 
-.emotion-8:hover,
-.emotion-8:focus {
+.emotion-7:hover,
+.emotion-7:focus {
   color: white;
   background-color: #184673;
   border: 2px solid #184673;
 }
 
-.emotion-8[disabled] {
+.emotion-7[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-8:focus {
+.emotion-7:focus {
   box-shadow: 0 0 2px #20588f;
+}
+
+.emotion-7,
+.emotion-7:disabled {
+  height: 24px;
+  width: 24px;
+  min-width: 24px;
+  background-color: #4d4d4d;
+  border-color: #4d4d4d;
+  padding: 0;
+  line-height: 16.9px;
 }
 
 <div
@@ -122,7 +122,7 @@ exports[`Goes to edit mode, handles submit 1`] = `
     value=""
   />
   <button
-    class="emotion-6 emotion-7 emotion-8 emotion-9"
+    class="emotion-6 emotion-7 emotion-8"
     data-testid="inlineEditSaveButton"
     type="button"
   >

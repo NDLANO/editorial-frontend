@@ -39,7 +39,10 @@ interface RoundIconProps {
   type?: 'button' | 'reset' | 'submit';
 }
 
-const RoundIcon = ({ smallIcon, ...rest }: RoundIconProps & HTMLProps<HTMLButtonElement>) => (
+const RoundIcon = ({
+  smallIcon,
+  ...rest
+}: RoundIconProps & Omit<HTMLProps<HTMLButtonElement>, 'as'>) => (
   <StyledIcon {...rest}>{smallIcon}</StyledIcon>
 );
 

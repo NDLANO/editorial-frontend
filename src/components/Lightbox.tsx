@@ -10,7 +10,7 @@ import { MouseEvent, PureComponent, ReactNode } from 'react';
 import Button from '@ndla/button';
 import { Cross } from '@ndla/icons/action';
 import styled from '@emotion/styled';
-import { css, SerializedStyles } from '@emotion/core';
+import { css, SerializedStyles } from '@emotion/react';
 import { colors, breakpoints, spacing } from '@ndla/core';
 import { MessageSeverity } from '../interfaces';
 

@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`MastheadSearchForm invalid id at the end of the url 1`] = `
-.emotion-2 {
+.emotion-0 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -11,14 +11,14 @@ exports[`MastheadSearchForm invalid id at the end of the url 1`] = `
   border: 1px solid transparent;
   font-size: 16;
   font-size: 0.8888888888888888rem;
-  line-height: 1.2 font-weight:600;
+  line-height:1.2 font-weight: 600;
   padding: 6.5px;
   padding-left: 13px;
   -webkit-transition: all 200ms ease;
   transition: all 200ms ease;
 }
 
-.emotion-2 input {
+.emotion-0 input {
   padding: 6.5px;
   background: transparent;
   border: 0;
@@ -29,34 +29,34 @@ exports[`MastheadSearchForm invalid id at the end of the url 1`] = `
   width: 200px;
 }
 
-.emotion-2 input:focus {
+.emotion-0 input:focus {
   width: 400px;
 }
 
-.emotion-2 > button {
+.emotion-0>button {
   color: #777777;
 }
 
-.emotion-2 .c-icon {
+.emotion-0 .c-icon {
   margin: 0 13px;
 }
 
-.emotion-2:focus-within {
+.emotion-0:focus-within {
   border: 1px solid #20588f;
 }
 
-.emotion-2:focus-within .c-icon {
+.emotion-0:focus-within .c-icon {
   color: #20588f;
 }
 
-.emotion-2:hover:not(:focus-within),
-.emotion-2:focus:not(:focus-within) {
+.emotion-0:hover:not(:focus-within),
+.emotion-0:focus:not(:focus-within) {
   cursor: pointer;
   background: #eff0f2;
   border: 1px solid #e8e3e3;
 }
 
-.emotion-0 {
+.emotion-2 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -72,8 +72,8 @@ exports[`MastheadSearchForm invalid id at the end of the url 1`] = `
   line-height: 1.625;
   font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
   font-weight: 700;
-  -webkit-transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
-  transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  -webkit-transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
+  transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
   box-shadow: none;
   text-align: center;
   -webkit-transition: background-color none;
@@ -88,41 +88,41 @@ exports[`MastheadSearchForm invalid id at the end of the url 1`] = `
   font-weight: 400;
 }
 
-.emotion-0:hover,
-.emotion-0:focus {
+.emotion-2:hover,
+.emotion-2:focus {
   color: white;
   background-color: #184673;
   border: 2px solid #184673;
 }
 
-.emotion-0[disabled] {
+.emotion-2[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-0:focus {
+.emotion-2:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-0:hover,
-.emotion-0:active,
-.emotion-0:disabled,
-.emotion-0:focus {
+.emotion-2:hover,
+.emotion-2:active,
+.emotion-2:disabled,
+.emotion-2:focus {
   box-shadow: none;
   color: #20588f;
   background-color: transparent;
   border: none;
 }
 
-.emotion-0:focus {
+.emotion-2:focus {
   outline-width: medium;
 }
 
 <div>
   <form
-    class="emotion-2 emotion-3"
+    class="emotion-0 emotion-1"
   >
     <input
       placeholder="Søk etter artikler, aktiviteter eller oppgaver"
@@ -130,10 +130,11 @@ exports[`MastheadSearchForm invalid id at the end of the url 1`] = `
       value="https://ndla-frontend.test.api.ndla.no/article/urn:subject:100/urn:topic:1:179373/urn:resource:1:16838"
     />
     <button
-      class="emotion-0 emotion-1"
+      class="emotion-2 emotion-3"
       type="submit"
     >
       <svg
+        aria-hidden="true"
         class="c-icon c-icon--medium"
         data-license="Apache License 2.0"
         data-source="Material Design"
@@ -156,7 +157,7 @@ exports[`MastheadSearchForm invalid id at the end of the url 1`] = `
 `;
 
 exports[`MastheadSearchForm redirects on ndla node id pasted 1`] = `
-.emotion-2 {
+.emotion-0 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -166,14 +167,14 @@ exports[`MastheadSearchForm redirects on ndla node id pasted 1`] = `
   border: 1px solid transparent;
   font-size: 16;
   font-size: 0.8888888888888888rem;
-  line-height: 1.2 font-weight:600;
+  line-height:1.2 font-weight: 600;
   padding: 6.5px;
   padding-left: 13px;
   -webkit-transition: all 200ms ease;
   transition: all 200ms ease;
 }
 
-.emotion-2 input {
+.emotion-0 input {
   padding: 6.5px;
   background: transparent;
   border: 0;
@@ -184,34 +185,34 @@ exports[`MastheadSearchForm redirects on ndla node id pasted 1`] = `
   width: 200px;
 }
 
-.emotion-2 input:focus {
+.emotion-0 input:focus {
   width: 400px;
 }
 
-.emotion-2 > button {
+.emotion-0>button {
   color: #777777;
 }
 
-.emotion-2 .c-icon {
+.emotion-0 .c-icon {
   margin: 0 13px;
 }
 
-.emotion-2:focus-within {
+.emotion-0:focus-within {
   border: 1px solid #20588f;
 }
 
-.emotion-2:focus-within .c-icon {
+.emotion-0:focus-within .c-icon {
   color: #20588f;
 }
 
-.emotion-2:hover:not(:focus-within),
-.emotion-2:focus:not(:focus-within) {
+.emotion-0:hover:not(:focus-within),
+.emotion-0:focus:not(:focus-within) {
   cursor: pointer;
   background: #eff0f2;
   border: 1px solid #e8e3e3;
 }
 
-.emotion-0 {
+.emotion-2 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -227,8 +228,8 @@ exports[`MastheadSearchForm redirects on ndla node id pasted 1`] = `
   line-height: 1.625;
   font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
   font-weight: 700;
-  -webkit-transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
-  transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  -webkit-transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
+  transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
   box-shadow: none;
   text-align: center;
   -webkit-transition: background-color none;
@@ -243,41 +244,41 @@ exports[`MastheadSearchForm redirects on ndla node id pasted 1`] = `
   font-weight: 400;
 }
 
-.emotion-0:hover,
-.emotion-0:focus {
+.emotion-2:hover,
+.emotion-2:focus {
   color: white;
   background-color: #184673;
   border: 2px solid #184673;
 }
 
-.emotion-0[disabled] {
+.emotion-2[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-0:focus {
+.emotion-2:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-0:hover,
-.emotion-0:active,
-.emotion-0:disabled,
-.emotion-0:focus {
+.emotion-2:hover,
+.emotion-2:active,
+.emotion-2:disabled,
+.emotion-2:focus {
   box-shadow: none;
   color: #20588f;
   background-color: transparent;
   border: none;
 }
 
-.emotion-0:focus {
+.emotion-2:focus {
   outline-width: medium;
 }
 
 <div>
   <form
-    class="emotion-2 emotion-3"
+    class="emotion-0 emotion-1"
   >
     <input
       placeholder="Søk etter artikler, aktiviteter eller oppgaver"
@@ -285,10 +286,11 @@ exports[`MastheadSearchForm redirects on ndla node id pasted 1`] = `
       value="#4737"
     />
     <button
-      class="emotion-0 emotion-1"
+      class="emotion-2 emotion-3"
       type="submit"
     >
       <svg
+        aria-hidden="true"
         class="c-icon c-icon--medium"
         data-license="Apache License 2.0"
         data-source="Material Design"
@@ -311,7 +313,7 @@ exports[`MastheadSearchForm redirects on ndla node id pasted 1`] = `
 `;
 
 exports[`MastheadSearchForm redirects on ndla url paste with id at the end 1`] = `
-.emotion-2 {
+.emotion-0 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -321,14 +323,14 @@ exports[`MastheadSearchForm redirects on ndla url paste with id at the end 1`] =
   border: 1px solid transparent;
   font-size: 16;
   font-size: 0.8888888888888888rem;
-  line-height: 1.2 font-weight:600;
+  line-height:1.2 font-weight: 600;
   padding: 6.5px;
   padding-left: 13px;
   -webkit-transition: all 200ms ease;
   transition: all 200ms ease;
 }
 
-.emotion-2 input {
+.emotion-0 input {
   padding: 6.5px;
   background: transparent;
   border: 0;
@@ -339,34 +341,34 @@ exports[`MastheadSearchForm redirects on ndla url paste with id at the end 1`] =
   width: 200px;
 }
 
-.emotion-2 input:focus {
+.emotion-0 input:focus {
   width: 400px;
 }
 
-.emotion-2 > button {
+.emotion-0>button {
   color: #777777;
 }
 
-.emotion-2 .c-icon {
+.emotion-0 .c-icon {
   margin: 0 13px;
 }
 
-.emotion-2:focus-within {
+.emotion-0:focus-within {
   border: 1px solid #20588f;
 }
 
-.emotion-2:focus-within .c-icon {
+.emotion-0:focus-within .c-icon {
   color: #20588f;
 }
 
-.emotion-2:hover:not(:focus-within),
-.emotion-2:focus:not(:focus-within) {
+.emotion-0:hover:not(:focus-within),
+.emotion-0:focus:not(:focus-within) {
   cursor: pointer;
   background: #eff0f2;
   border: 1px solid #e8e3e3;
 }
 
-.emotion-0 {
+.emotion-2 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -382,8 +384,8 @@ exports[`MastheadSearchForm redirects on ndla url paste with id at the end 1`] =
   line-height: 1.625;
   font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
   font-weight: 700;
-  -webkit-transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
-  transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  -webkit-transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
+  transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
   box-shadow: none;
   text-align: center;
   -webkit-transition: background-color none;
@@ -398,41 +400,41 @@ exports[`MastheadSearchForm redirects on ndla url paste with id at the end 1`] =
   font-weight: 400;
 }
 
-.emotion-0:hover,
-.emotion-0:focus {
+.emotion-2:hover,
+.emotion-2:focus {
   color: white;
   background-color: #184673;
   border: 2px solid #184673;
 }
 
-.emotion-0[disabled] {
+.emotion-2[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-0:focus {
+.emotion-2:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-0:hover,
-.emotion-0:active,
-.emotion-0:disabled,
-.emotion-0:focus {
+.emotion-2:hover,
+.emotion-2:active,
+.emotion-2:disabled,
+.emotion-2:focus {
   box-shadow: none;
   color: #20588f;
   background-color: transparent;
   border: none;
 }
 
-.emotion-0:focus {
+.emotion-2:focus {
   outline-width: medium;
 }
 
 <div>
   <form
-    class="emotion-2 emotion-3"
+    class="emotion-0 emotion-1"
   >
     <input
       placeholder="Søk etter artikler, aktiviteter eller oppgaver"
@@ -440,10 +442,11 @@ exports[`MastheadSearchForm redirects on ndla url paste with id at the end 1`] =
       value=""
     />
     <button
-      class="emotion-0 emotion-1"
+      class="emotion-2 emotion-3"
       type="submit"
     >
       <svg
+        aria-hidden="true"
         class="c-icon c-icon--medium"
         data-license="Apache License 2.0"
         data-source="Material Design"
@@ -466,7 +469,7 @@ exports[`MastheadSearchForm redirects on ndla url paste with id at the end 1`] =
 `;
 
 exports[`MastheadSearchForm redirects on ndla url paste with taxonomy id at the end 1`] = `
-.emotion-2 {
+.emotion-0 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -476,14 +479,14 @@ exports[`MastheadSearchForm redirects on ndla url paste with taxonomy id at the 
   border: 1px solid transparent;
   font-size: 16;
   font-size: 0.8888888888888888rem;
-  line-height: 1.2 font-weight:600;
+  line-height:1.2 font-weight: 600;
   padding: 6.5px;
   padding-left: 13px;
   -webkit-transition: all 200ms ease;
   transition: all 200ms ease;
 }
 
-.emotion-2 input {
+.emotion-0 input {
   padding: 6.5px;
   background: transparent;
   border: 0;
@@ -494,34 +497,34 @@ exports[`MastheadSearchForm redirects on ndla url paste with taxonomy id at the 
   width: 200px;
 }
 
-.emotion-2 input:focus {
+.emotion-0 input:focus {
   width: 400px;
 }
 
-.emotion-2 > button {
+.emotion-0>button {
   color: #777777;
 }
 
-.emotion-2 .c-icon {
+.emotion-0 .c-icon {
   margin: 0 13px;
 }
 
-.emotion-2:focus-within {
+.emotion-0:focus-within {
   border: 1px solid #20588f;
 }
 
-.emotion-2:focus-within .c-icon {
+.emotion-0:focus-within .c-icon {
   color: #20588f;
 }
 
-.emotion-2:hover:not(:focus-within),
-.emotion-2:focus:not(:focus-within) {
+.emotion-0:hover:not(:focus-within),
+.emotion-0:focus:not(:focus-within) {
   cursor: pointer;
   background: #eff0f2;
   border: 1px solid #e8e3e3;
 }
 
-.emotion-0 {
+.emotion-2 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -537,8 +540,8 @@ exports[`MastheadSearchForm redirects on ndla url paste with taxonomy id at the 
   line-height: 1.625;
   font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
   font-weight: 700;
-  -webkit-transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
-  transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  -webkit-transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
+  transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
   box-shadow: none;
   text-align: center;
   -webkit-transition: background-color none;
@@ -553,41 +556,41 @@ exports[`MastheadSearchForm redirects on ndla url paste with taxonomy id at the 
   font-weight: 400;
 }
 
-.emotion-0:hover,
-.emotion-0:focus {
+.emotion-2:hover,
+.emotion-2:focus {
   color: white;
   background-color: #184673;
   border: 2px solid #184673;
 }
 
-.emotion-0[disabled] {
+.emotion-2[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-0:focus {
+.emotion-2:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-0:hover,
-.emotion-0:active,
-.emotion-0:disabled,
-.emotion-0:focus {
+.emotion-2:hover,
+.emotion-2:active,
+.emotion-2:disabled,
+.emotion-2:focus {
   box-shadow: none;
   color: #20588f;
   background-color: transparent;
   border: none;
 }
 
-.emotion-0:focus {
+.emotion-2:focus {
   outline-width: medium;
 }
 
 <div>
   <form
-    class="emotion-2 emotion-3"
+    class="emotion-0 emotion-1"
   >
     <input
       placeholder="Søk etter artikler, aktiviteter eller oppgaver"
@@ -595,10 +598,11 @@ exports[`MastheadSearchForm redirects on ndla url paste with taxonomy id at the 
       value="https://ndla-frontend.test.api.ndla.no/article/urn:subject:100/urn:topic:1:179373"
     />
     <button
-      class="emotion-0 emotion-1"
+      class="emotion-2 emotion-3"
       type="submit"
     >
       <svg
+        aria-hidden="true"
         class="c-icon c-icon--medium"
         data-license="Apache License 2.0"
         data-source="Material Design"
@@ -621,7 +625,7 @@ exports[`MastheadSearchForm redirects on ndla url paste with taxonomy id at the 
 `;
 
 exports[`MastheadSearchForm redirects on old ndla url paste with new id 1`] = `
-.emotion-2 {
+.emotion-0 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -631,14 +635,14 @@ exports[`MastheadSearchForm redirects on old ndla url paste with new id 1`] = `
   border: 1px solid transparent;
   font-size: 16;
   font-size: 0.8888888888888888rem;
-  line-height: 1.2 font-weight:600;
+  line-height:1.2 font-weight: 600;
   padding: 6.5px;
   padding-left: 13px;
   -webkit-transition: all 200ms ease;
   transition: all 200ms ease;
 }
 
-.emotion-2 input {
+.emotion-0 input {
   padding: 6.5px;
   background: transparent;
   border: 0;
@@ -649,34 +653,34 @@ exports[`MastheadSearchForm redirects on old ndla url paste with new id 1`] = `
   width: 200px;
 }
 
-.emotion-2 input:focus {
+.emotion-0 input:focus {
   width: 400px;
 }
 
-.emotion-2 > button {
+.emotion-0>button {
   color: #777777;
 }
 
-.emotion-2 .c-icon {
+.emotion-0 .c-icon {
   margin: 0 13px;
 }
 
-.emotion-2:focus-within {
+.emotion-0:focus-within {
   border: 1px solid #20588f;
 }
 
-.emotion-2:focus-within .c-icon {
+.emotion-0:focus-within .c-icon {
   color: #20588f;
 }
 
-.emotion-2:hover:not(:focus-within),
-.emotion-2:focus:not(:focus-within) {
+.emotion-0:hover:not(:focus-within),
+.emotion-0:focus:not(:focus-within) {
   cursor: pointer;
   background: #eff0f2;
   border: 1px solid #e8e3e3;
 }
 
-.emotion-0 {
+.emotion-2 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -692,8 +696,8 @@ exports[`MastheadSearchForm redirects on old ndla url paste with new id 1`] = `
   line-height: 1.625;
   font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
   font-weight: 700;
-  -webkit-transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
-  transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  -webkit-transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
+  transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
   box-shadow: none;
   text-align: center;
   -webkit-transition: background-color none;
@@ -708,41 +712,41 @@ exports[`MastheadSearchForm redirects on old ndla url paste with new id 1`] = `
   font-weight: 400;
 }
 
-.emotion-0:hover,
-.emotion-0:focus {
+.emotion-2:hover,
+.emotion-2:focus {
   color: white;
   background-color: #184673;
   border: 2px solid #184673;
 }
 
-.emotion-0[disabled] {
+.emotion-2[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-0:focus {
+.emotion-2:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-0:hover,
-.emotion-0:active,
-.emotion-0:disabled,
-.emotion-0:focus {
+.emotion-2:hover,
+.emotion-2:active,
+.emotion-2:disabled,
+.emotion-2:focus {
   box-shadow: none;
   color: #20588f;
   background-color: transparent;
   border: none;
 }
 
-.emotion-0:focus {
+.emotion-2:focus {
   outline-width: medium;
 }
 
 <div>
   <form
-    class="emotion-2 emotion-3"
+    class="emotion-0 emotion-1"
   >
     <input
       placeholder="Søk etter artikler, aktiviteter eller oppgaver"
@@ -750,10 +754,11 @@ exports[`MastheadSearchForm redirects on old ndla url paste with new id 1`] = `
       value="https://ndla.no/nb/node/4737?fag=36"
     />
     <button
-      class="emotion-0 emotion-1"
+      class="emotion-2 emotion-3"
       type="submit"
     >
       <svg
+        aria-hidden="true"
         class="c-icon c-icon--medium"
         data-license="Apache License 2.0"
         data-source="Material Design"

@@ -10,7 +10,7 @@ import { memo, ReactNode, useState } from 'react';
 
 import { useTranslation } from 'react-i18next';
 import { spacing } from '@ndla/core';
-import { css } from '@emotion/core';
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { Spinner } from '@ndla/icons';
 import Downshift from 'downshift';

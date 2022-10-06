@@ -8,7 +8,7 @@
 
 import { ReactElement, ReactNode } from 'react';
 
-import { css, SerializedStyles } from '@emotion/core';
+import { css, SerializedStyles } from '@emotion/react';
 import styled from '@emotion/styled';
 import Button from '@ndla/button';
 import { colors } from '@ndla/core';

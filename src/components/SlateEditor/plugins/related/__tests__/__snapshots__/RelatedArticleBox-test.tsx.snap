@@ -1,51 +1,27 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`it goes in and out of edit mode 1`] = `
-.emotion-57 article > p {
-  font-family: Source Sans Pro !important;
-}
-
-.emotion-2 {
-  font-weight: 700;
-  text-transform: uppercase;
-  -webkit-letter-spacing: 0.05em;
-  -moz-letter-spacing: 0.05em;
-  -ms-letter-spacing: 0.05em;
-  letter-spacing: 0.05em;
-  font-size: 18px;
-  font-size: 1rem;
-  line-height: 24px;
-}
-
-@media (min-width:37.5625em) {
-  .emotion-2 {
-    font-size: 20px;
-    font-size: 1.1111111111111112rem;
-    line-height: 26px;
-  }
-}
-
-.emotion-53 {
+.emotion-0 {
   position: absolute;
   width: 100%;
   z-index: 2;
 }
 
-.emotion-0 {
+.emotion-2 {
   position: fixed;
   top: 0;
   left: 0;
   height: 100vh;
   width: 100vw;
   z-index: 1;
-  background: rgba(0,0,0,0.3);
+  background: rgba(0, 0, 0, 0.3);
   -webkit-animation-duration: 400ms;
   animation-duration: 400ms;
   -webkit-animation-name: fadeIn;
   animation-name: fadeIn;
 }
 
-.emotion-23 {
+.emotion-4 {
   position: relative;
   border: 2px solid #a5bcd3;
   padding: 52px;
@@ -55,817 +31,45 @@ exports[`it goes in and out of edit mode 1`] = `
 }
 
 .emotion-6 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-wrap: wrap;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
-  z-index: 1;
-}
-
-.emotion-6 figure {
-  position: static !important;
-}
-
-.emotion-4 {
-  -webkit-flex: 1;
-  -ms-flex: 1;
-  flex: 1;
-}
-
-.emotion-18 {
-  position: relative;
-  -webkit-flex: 1 0 50%;
-  -ms-flex: 1 0 50%;
-  flex: 1 0 50%;
-  max-width: 600px;
-}
-
-.emotion-18 > article {
-  max-width: 100%;
-}
-
-.emotion-12 {
-  margin-top: 6.5px;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-}
-
-.emotion-12:first-of-type {
-  margin-top: 0;
-}
-
-.emotion-10 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-wrap: wrap;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-  background: #f8f8f8;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: start;
-  -webkit-justify-content: flex-start;
-  -ms-flex-pack: start;
-  justify-content: flex-start;
-  border: 1px solid #eff0f2;
-  -webkit-transition: border-color 100ms ease;
-  transition: border-color 100ms ease;
-  border-radius: 4px;
-  min-height: 52px;
-  padding-right: 13px;
-}
-
-.emotion-10:focus-within {
-  border-color: #20588f;
-}
-
-.emotion-10 input,
-.emotion-10 textarea {
-  width: inherit;
-  font-weight: 400;
-  color: #444;
-  font-size: 18;
-  font-size: 1rem;
-  line-height: 1.3;
-  background: none;
-  border: 0;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-}
-
-.emotion-10 input:focus,
-.emotion-10 textarea:focus {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  outline: none;
-}
-
-.emotion-10 input {
-  padding: 6.5px 13px;
-}
-
-.emotion-10 textarea {
-  padding: 0 13px;
-  height: 20px;
-  margin: 14px 0;
-  resize: none;
-}
-
-.emotion-10 .c-icon {
-  width: 24px;
-  height: 24px;
-}
-
-.emotion-14 {
-  margin: 10px 0;
-}
-
-.emotion-16 {
-  display: inline-block;
-  color: #ffffff;
-  background-color: #20588f;
-  border: 2px solid #20588f;
-  border-radius: 4px;
-  padding: 4px 13px;
-  outline-width: 0;
-  cursor: pointer;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  font-size: 16px;
-  font-size: 0.8888888888888888rem;
-  line-height: 1.625;
-  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
-  font-weight: 700;
-  -webkit-transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
-  transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
-  box-shadow: none;
-  text-align: center;
-}
-
-.emotion-16:hover,
-.emotion-16:focus {
-  color: white;
-  background-color: #184673;
-  border: 2px solid #184673;
-}
-
-.emotion-16[disabled] {
-  color: #777777;
-  background-color: #e6e6e6;
-  border-color: transparent;
-  cursor: not-allowed;
-}
-
-.emotion-16:focus {
-  box-shadow: 0 0 2px #20588f;
-}
-
-.emotion-21 {
-  display: inline-block;
-  color: #ffffff;
-  background-color: #20588f;
-  border: 2px solid #20588f;
-  border-radius: 4px;
-  padding: 4px 13px;
-  outline-width: 0;
-  cursor: pointer;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  font-size: 16px;
-  font-size: 0.8888888888888888rem;
-  line-height: 1.625;
-  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
-  font-weight: 700;
-  -webkit-transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
-  transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
-  box-shadow: none;
-  text-align: center;
-  -webkit-transition: background-color none;
-  transition: background-color none;
-  padding: 0;
-  border-radius: 0;
-  color: inherit;
-  font-size: inherit;
-  background-color: transparent;
-  box-shadow: none;
-  border: none;
-  font-weight: 400;
-  position: absolute;
-  top: 0.1rem;
-  right: 0.2rem;
-  color: #d1372e;
-}
-
-.emotion-21:hover,
-.emotion-21:focus {
-  color: white;
-  background-color: #184673;
-  border: 2px solid #184673;
-}
-
-.emotion-21[disabled] {
-  color: #777777;
-  background-color: #e6e6e6;
-  border-color: transparent;
-  cursor: not-allowed;
-}
-
-.emotion-21:focus {
-  box-shadow: 0 0 2px #20588f;
-}
-
-.emotion-21:hover,
-.emotion-21:active,
-.emotion-21:disabled,
-.emotion-21:focus {
-  box-shadow: none;
-  color: #20588f;
-  background-color: transparent;
-  border: none;
-}
-
-.emotion-21:focus {
-  outline-width: medium;
-}
-
-.emotion-21:hover,
-.emotion-21:focus {
-  color: #7d211c;
-}
-
-.emotion-8 {
-  border: calc(26px / 6.5) solid rgba(0,0,0,0.1);
-  border-bottom-color: #20588f;
-  border-radius: 50%;
-  -webkit-animation: spinnerAnimation 0.7s linear infinite;
-  animation: spinnerAnimation 0.7s linear infinite;
-  height: 26px;
-  width: 26px;
-  margin: 0;
-  display: block;
-}
-
-.emotion-51 {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0,0,0,0.8);
-  z-index: 1;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-}
-
-.emotion-49 {
-  background-color: #f8f8f8;
-  box-shadow: 0 0 2px 0 rgba(115,115,115,0.5);
-  width: 620px;
-  border-radius: 5px;
-  position: absolute;
-  top: 5%;
-  z-index: 2;
-  max-height: 90vh;
-  overflow: auto;
-}
-
-.emotion-32 {
-  background: linear-gradient(180deg,#5d97a9,#508a9c);
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  font-size: 1.2rem;
-  padding-left: 13px;
-  height: 50px;
-  color: #f8f8f8;
-}
-
-.emotion-30 {
-  display: inline-block;
-  color: #ffffff;
-  background-color: #20588f;
-  border: 2px solid #20588f;
-  border-radius: 4px;
-  padding: 4px 13px;
-  outline-width: 0;
-  cursor: pointer;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  font-size: 16px;
-  font-size: 0.8888888888888888rem;
-  line-height: 1.625;
-  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
-  font-weight: 700;
-  -webkit-transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
-  transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
-  box-shadow: none;
-  text-align: center;
-  -webkit-transition: background-color none;
-  transition: background-color none;
-  padding: 0;
-  border-radius: 0;
-  color: inherit;
-  font-size: inherit;
-  background-color: transparent;
-  box-shadow: none;
-  border: none;
-  font-weight: 400;
-  height: 50px;
-  width: 50px;
-}
-
-.emotion-30:hover,
-.emotion-30:focus {
-  color: white;
-  background-color: #184673;
-  border: 2px solid #184673;
-}
-
-.emotion-30[disabled] {
-  color: #777777;
-  background-color: #e6e6e6;
-  border-color: transparent;
-  cursor: not-allowed;
-}
-
-.emotion-30:focus {
-  box-shadow: 0 0 2px #20588f;
-}
-
-.emotion-30:hover,
-.emotion-30:active,
-.emotion-30:disabled,
-.emotion-30:focus {
-  box-shadow: none;
-  color: #20588f;
-  background-color: transparent;
-  border: none;
-}
-
-.emotion-30:focus {
-  outline-width: medium;
-}
-
-.emotion-27 {
-  height: 24px;
-  width: 24px;
-  margin-right: 7px;
-}
-
-.emotion-47 {
-  padding: 2em;
-  height: 100%;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
-  -webkit-align-items: flex-end;
-  -webkit-box-align: flex-end;
-  -ms-flex-align: flex-end;
-  align-items: flex-end;
-}
-
-.emotion-42 {
-  width: 100%;
-}
-
-.emotion-42 > * {
-  width: 100%;
-}
-
-.emotion-42 form {
-  background-color: white;
-}
-
-.emotion-45 {
-  display: inline-block;
-  color: #ffffff;
-  background-color: #20588f;
-  border: 2px solid #20588f;
-  border-radius: 4px;
-  padding: 4px 13px;
-  outline-width: 0;
-  cursor: pointer;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  font-size: 16px;
-  font-size: 0.8888888888888888rem;
-  line-height: 1.625;
-  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
-  font-weight: 700;
-  -webkit-transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
-  transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
-  box-shadow: none;
-  text-align: center;
-  -webkit-transition: background-color none;
-  transition: background-color none;
-  padding: 0;
-  border-radius: 0;
-  color: inherit;
-  font-size: inherit;
-  background-color: transparent;
-  box-shadow: none;
-  border: none;
-  font-weight: 400;
-}
-
-.emotion-45:hover,
-.emotion-45:focus {
-  color: white;
-  background-color: #184673;
-  border: 2px solid #184673;
-}
-
-.emotion-45[disabled] {
-  color: #777777;
-  background-color: #e6e6e6;
-  border-color: transparent;
-  cursor: not-allowed;
-}
-
-.emotion-45:focus {
-  box-shadow: 0 0 2px #20588f;
-}
-
-.emotion-45:hover,
-.emotion-45:active,
-.emotion-45:disabled,
-.emotion-45:focus {
-  box-shadow: none;
-  color: #20588f;
-  background-color: transparent;
-  border: none;
-}
-
-.emotion-45:focus {
-  outline-width: medium;
-}
-
-.emotion-45,
-.emotion-45:hover {
-  border-radius: 5px;
-  background-color: white;
-  margin-top: 26px;
-  padding: 3px 52px;
-}
-
-<div>
-  <div
-    autocapitalize="false"
-    autocorrect="false"
-    contenteditable="true"
-    data-slate-editor="true"
-    data-slate-node="value"
-    role="textbox"
-    spellcheck="false"
-    style="position: relative; outline: none; white-space: pre-wrap; word-wrap: break-word;"
-    zindex="-1"
-  >
-    <div
-      data-slate-node="element"
-      style="position: relative;"
-    >
-      <div
-        data-slate-node="element"
-        style="position: relative;"
-      >
-        <span
-          data-slate-node="text"
-        >
-          <span
-            data-slate-leaf="true"
-          >
-            <span
-              data-slate-length="0"
-              data-slate-zero-width="n"
-            >
-              ﻿
-              <br />
-            </span>
-          </span>
-        </span>
-      </div>
-    </div>
-  </div>
-  <div
-    class="emotion-53 emotion-54"
-    contenteditable="false"
-  >
-    <div
-      aria-hidden="true"
-      class="emotion-0 emotion-1"
-    />
-    <div
-      class="emotion-23 emotion-24"
-    >
-      <h2
-        class="c-related-articles__component-title emotion-2 emotion-3"
-      >
-        Relatert innhold
-      </h2>
-      <p>
-        Dra artikkel for å endre rekkefølge
-      </p>
-      <div
-        class="emotion-6 emotion-7"
-      >
-        <div
-          class="drop-zone emotion-4 emotion-5"
-        />
-      </div>
-      <div
-        class="emotion-18 emotion-19"
-        data-cy="styled-article-modal"
-      >
-        <div
-          aria-expanded="false"
-          aria-haspopup="listbox"
-          aria-labelledby="downshift-0-label"
-          role="combobox"
-          style="position: relative;"
-        >
-          <div>
-            <div
-              class="emotion-12 emotion-13"
-            >
-              <div
-                class="emotion-10 emotion-11"
-              >
-                <input
-                  aria-autocomplete="list"
-                  aria-labelledby="downshift-0-label"
-                  autocomplete="off"
-                  data-testid="dropdownInput"
-                  id="downshift-0-input"
-                  placeholder="Søk på tittel"
-                  value=""
-                />
-                <div
-                  class="emotion-8 emotion-9"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-        <div
-          class="emotion-14 emotion-15"
-        >
-          Eller
-        </div>
-        <button
-          class="emotion-16 emotion-17"
-          data-testid="showAddExternal"
-          type="button"
-        >
-          Legg til ekstern artikkel
-        </button>
-      </div>
-      <button
-        class="emotion-20 emotion-21 emotion-17"
-        contenteditable="false"
-        data-cy="close-related-button"
-        type="button"
-      >
-        <svg
-          class="c-icon"
-          data-license="Apache License 2.0"
-          data-source="Material Design"
-          fill="currentColor"
-          height="1em"
-          preserveAspectRatio="xMidYMid meet"
-          style="vertical-align: middle;"
-          viewBox="0 0 24 24"
-          width="1em"
-        >
-          <g>
-            <path
-              d="M0 0h24v24H0V0z"
-              fill="none"
-            />
-            <path
-              d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z"
-            />
-            <path
-              d="M0 0h24v24H0z"
-              fill="none"
-            />
-          </g>
-        </svg>
-      </button>
-    </div>
-    <div
-      class="emotion-51 emotion-52"
-    >
-      <div
-        aria-hidden="true"
-        class="emotion-0 emotion-1"
-      />
-      <div
-        class="emotion-49 emotion-50"
-      >
-        <div
-          class="emotion-32 emotion-33"
-        >
-          Skriv inn tittel og url på ekstern artikkel
-          <button
-            class="emotion-29 emotion-30 emotion-17"
-            type="button"
-          >
-            <svg
-              class="c-icon emotion-27 emotion-28"
-              data-license="Apache License 2.0"
-              data-source="Material Design"
-              fill="currentColor"
-              height="1em"
-              preserveAspectRatio="xMidYMid meet"
-              style="vertical-align: middle;"
-              viewBox="0 0 24 24"
-              width="1em"
-            >
-              <g>
-                <path
-                  d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
-                />
-                <path
-                  d="M0 0h24v24H0z"
-                  fill="none"
-                />
-              </g>
-            </svg>
-          </button>
-        </div>
-        <div
-          class="emotion-47 emotion-48"
-        >
-          <div
-            class="emotion-42 emotion-43"
-          >
-            <div>
-              <div
-                class="emotion-12 emotion-13"
-              >
-                <div
-                  class="emotion-10 emotion-11"
-                >
-                  <input
-                    data-testid="addExternalTitleInput"
-                    placeholder="Tittel"
-                    type="text"
-                    value=""
-                  />
-                </div>
-              </div>
-            </div>
-            <div>
-              <div
-                class="emotion-12 emotion-13"
-              >
-                <div
-                  class="emotion-10 emotion-11"
-                >
-                  <input
-                    data-testid="addExternalUrlInput"
-                    placeholder="https://example.com"
-                    type="text"
-                    value=""
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-          <button
-            class="emotion-44 emotion-45 emotion-17"
-            data-testid="taxonomyLightboxButton"
-            type="button"
-          >
-            Lagre
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div
-    class="emotion-57 emotion-58"
-    contenteditable="false"
-    data-testid="relatedWrapper"
-    draggable="true"
-    role="button"
-    tabindex="0"
-  >
-    <section
-      class="c-related-articles"
-    >
-      <h2
-        class="c-related-articles__component-title emotion-2 emotion-3"
-      >
-        Relatert innhold
-      </h2>
-      <div
-        class="c-related-articles__articles"
-      />
-    </section>
-  </div>
-</div>
-`;
-
-exports[`it goes in and out of edit mode 2`] = `
-.emotion-35 article > p {
-  font-family: Source Sans Pro !important;
-}
-
-.emotion-2 {
   font-weight: 700;
   text-transform: uppercase;
-  -webkit-letter-spacing: 0.05em;
-  -moz-letter-spacing: 0.05em;
-  -ms-letter-spacing: 0.05em;
   letter-spacing: 0.05em;
   font-size: 18px;
   font-size: 1rem;
   line-height: 24px;
 }
 
-@media (min-width:37.5625em) {
-  .emotion-2 {
+@media (min-width: 37.5625em) {
+  .emotion-6 {
     font-size: 20px;
     font-size: 1.1111111111111112rem;
     line-height: 26px;
   }
 }
 
-.emotion-31 {
-  position: absolute;
-  width: 100%;
-  z-index: 2;
-}
-
-.emotion-0 {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100vh;
-  width: 100vw;
-  z-index: 1;
-  background: rgba(0,0,0,0.3);
-  -webkit-animation-duration: 400ms;
-  animation-duration: 400ms;
-  -webkit-animation-name: fadeIn;
-  animation-name: fadeIn;
-}
-
-.emotion-29 {
-  position: relative;
-  border: 2px solid #a5bcd3;
-  padding: 52px;
-  padding-top: 0;
-  background-color: #fff;
-  z-index: 1;
-}
-
-.emotion-14 {
+.emotion-8 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-flex-wrap: wrap;
   -webkit-flex-wrap: wrap;
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
   z-index: 1;
 }
 
-.emotion-14 figure {
-  position: static !important;
+.emotion-8 figure {
+  position: static!important;
 }
 
-.emotion-12 {
+.emotion-10 {
   -webkit-flex: 1;
   -ms-flex: 1;
   flex: 1;
 }
 
-.emotion-10 {
+.emotion-12 {
   position: relative;
   -webkit-flex: 1 0 50%;
   -ms-flex: 1 0 50%;
@@ -873,11 +77,11 @@ exports[`it goes in and out of edit mode 2`] = `
   max-width: 600px;
 }
 
-.emotion-10 > article {
+.emotion-12>article {
   max-width: 100%;
 }
 
-.emotion-18 {
+.emotion-14 {
   margin-top: 6.5px;
   display: -webkit-box;
   display: -webkit-flex;
@@ -885,7 +89,7 @@ exports[`it goes in and out of edit mode 2`] = `
   display: flex;
 }
 
-.emotion-18:first-of-type {
+.emotion-14:first-of-type {
   margin-top: 0;
 }
 
@@ -894,6 +98,7 @@ exports[`it goes in and out of edit mode 2`] = `
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-flex-wrap: wrap;
   -webkit-flex-wrap: wrap;
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
@@ -907,8 +112,8 @@ exports[`it goes in and out of edit mode 2`] = `
   -ms-flex-align: center;
   align-items: center;
   -webkit-box-pack: start;
-  -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
+  -webkit-justify-content: flex-start;
   justify-content: flex-start;
   border: 1px solid #eff0f2;
   -webkit-transition: border-color 100ms ease;
@@ -946,6 +151,7 @@ exports[`it goes in and out of edit mode 2`] = `
 .emotion-16 textarea:focus {
   -webkit-appearance: none;
   -moz-appearance: none;
+  -ms-appearance: none;
   appearance: none;
   outline: none;
 }
@@ -964,6 +170,18 @@ exports[`it goes in and out of edit mode 2`] = `
 .emotion-16 .c-icon {
   width: 24px;
   height: 24px;
+}
+
+.emotion-18 {
+  border: calc(26px / 6.5) solid rgba(0, 0, 0, 0.1);
+  border-bottom-color: #20588f;
+  border-radius: 50%;
+  -webkit-animation: spinnerAnimation 0.7s linear infinite;
+  animation: spinnerAnimation 0.7s linear infinite;
+  height: 26px;
+  width: 26px;
+  margin: 0;
+  display: block;
 }
 
 .emotion-20 {
@@ -986,8 +204,8 @@ exports[`it goes in and out of edit mode 2`] = `
   line-height: 1.625;
   font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
   font-weight: 700;
-  -webkit-transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
-  transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  -webkit-transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
+  transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
   box-shadow: none;
   text-align: center;
 }
@@ -1010,7 +228,7 @@ exports[`it goes in and out of edit mode 2`] = `
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-8 {
+.emotion-25 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -1026,8 +244,8 @@ exports[`it goes in and out of edit mode 2`] = `
   line-height: 1.625;
   font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
   font-weight: 700;
-  -webkit-transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
-  transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  -webkit-transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
+  transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
   box-shadow: none;
   text-align: center;
   -webkit-transition: background-color none;
@@ -1046,44 +264,93 @@ exports[`it goes in and out of edit mode 2`] = `
   color: #d1372e;
 }
 
-.emotion-8:hover,
-.emotion-8:focus {
+.emotion-25:hover,
+.emotion-25:focus {
   color: white;
   background-color: #184673;
   border: 2px solid #184673;
 }
 
-.emotion-8[disabled] {
+.emotion-25[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-8:focus {
+.emotion-25:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-8:hover,
-.emotion-8:active,
-.emotion-8:disabled,
-.emotion-8:focus {
+.emotion-25:hover,
+.emotion-25:active,
+.emotion-25:disabled,
+.emotion-25:focus {
   box-shadow: none;
   color: #20588f;
   background-color: transparent;
   border: none;
 }
 
-.emotion-8:focus {
+.emotion-25:focus {
   outline-width: medium;
 }
 
-.emotion-8:hover,
-.emotion-8:focus {
+.emotion-25:hover,
+.emotion-25:focus {
   color: #7d211c;
 }
 
-.emotion-5 {
+.emotion-27 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 1;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+}
+
+.emotion-31 {
+  background-color: #f8f8f8;
+  box-shadow: 0 0 2px 0 rgba(115, 115, 115, 0.5);
+  width: 620px;
+  border-radius: 5px;
+  position: absolute;
+  top: 5%;
+  z-index: 2;
+  max-height: 90vh;
+  overflow: auto;
+}
+
+.emotion-33 {
+  background: linear-gradient(180deg, #5d97a9, #508a9c);
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  font-size: 1.2rem;
+  padding-left: 13px;
+  height: 50px;
+  color: #f8f8f8;
+}
+
+.emotion-36 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -1099,8 +366,8 @@ exports[`it goes in and out of edit mode 2`] = `
   line-height: 1.625;
   font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
   font-weight: 700;
-  -webkit-transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
-  transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  -webkit-transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
+  transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
   box-shadow: none;
   text-align: center;
   -webkit-transition: background-color none;
@@ -1113,47 +380,153 @@ exports[`it goes in and out of edit mode 2`] = `
   box-shadow: none;
   border: none;
   font-weight: 400;
-  position: absolute;
-  top: 0.1rem;
-  right: 1.5rem;
-  color: #d1372e;
+  height: 50px;
+  width: 50px;
 }
 
-.emotion-5:hover,
-.emotion-5:focus {
+.emotion-36:hover,
+.emotion-36:focus {
   color: white;
   background-color: #184673;
   border: 2px solid #184673;
 }
 
-.emotion-5[disabled] {
+.emotion-36[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-5:focus {
+.emotion-36:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-5:hover,
-.emotion-5:active,
-.emotion-5:disabled,
-.emotion-5:focus {
+.emotion-36:hover,
+.emotion-36:active,
+.emotion-36:disabled,
+.emotion-36:focus {
   box-shadow: none;
   color: #20588f;
   background-color: transparent;
   border: none;
 }
 
-.emotion-5:focus {
+.emotion-36:focus {
   outline-width: medium;
 }
 
-.emotion-5:hover,
-.emotion-5:focus {
-  color: #7d211c;
+.emotion-38 {
+  height: 24px;
+  width: 24px;
+  margin-right: 7px;
+}
+
+.emotion-40 {
+  padding: 2em;
+  height: 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+  -webkit-align-items: flex-end;
+  -webkit-box-align: flex-end;
+  -ms-flex-align: flex-end;
+  align-items: flex-end;
+}
+
+.emotion-42 {
+  width: 100%;
+}
+
+.emotion-42>* {
+  width: 100%;
+}
+
+.emotion-42 form {
+  background-color: white;
+}
+
+.emotion-53 {
+  display: inline-block;
+  color: #ffffff;
+  background-color: #20588f;
+  border: 2px solid #20588f;
+  border-radius: 4px;
+  padding: 4px 13px;
+  outline-width: 0;
+  cursor: pointer;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-size: 16px;
+  font-size: 0.8888888888888888rem;
+  line-height: 1.625;
+  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
+  font-weight: 700;
+  -webkit-transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
+  transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
+  box-shadow: none;
+  text-align: center;
+  -webkit-transition: background-color none;
+  transition: background-color none;
+  padding: 0;
+  border-radius: 0;
+  color: inherit;
+  font-size: inherit;
+  background-color: transparent;
+  box-shadow: none;
+  border: none;
+  font-weight: 400;
+}
+
+.emotion-53:hover,
+.emotion-53:focus {
+  color: white;
+  background-color: #184673;
+  border: 2px solid #184673;
+}
+
+.emotion-53[disabled] {
+  color: #777777;
+  background-color: #e6e6e6;
+  border-color: transparent;
+  cursor: not-allowed;
+}
+
+.emotion-53:focus {
+  box-shadow: 0 0 2px #20588f;
+}
+
+.emotion-53:hover,
+.emotion-53:active,
+.emotion-53:disabled,
+.emotion-53:focus {
+  box-shadow: none;
+  color: #20588f;
+  background-color: transparent;
+  border: none;
+}
+
+.emotion-53:focus {
+  outline-width: medium;
+}
+
+.emotion-53,
+.emotion-53:hover {
+  border-radius: 5px;
+  background-color: white;
+  margin-top: 26px;
+  padding: 3px 52px;
+}
+
+.emotion-55 article>p {
+  font-family: Source Sans Pro!important;
 }
 
 <div>
@@ -1195,18 +568,18 @@ exports[`it goes in and out of edit mode 2`] = `
     </div>
   </div>
   <div
-    class="emotion-31 emotion-32"
+    class="emotion-0 emotion-1"
     contenteditable="false"
   >
     <div
       aria-hidden="true"
-      class="emotion-0 emotion-1"
+      class="emotion-2 emotion-3"
     />
     <div
-      class="emotion-29 emotion-30"
+      class="emotion-4 emotion-5"
     >
       <h2
-        class="c-related-articles__component-title emotion-2 emotion-3"
+        class="c-related-articles__component-title emotion-6 emotion-7"
       >
         Relatert innhold
       </h2>
@@ -1214,21 +587,651 @@ exports[`it goes in and out of edit mode 2`] = `
         Dra artikkel for å endre rekkefølge
       </p>
       <div
-        class="emotion-14 emotion-15"
+        class="emotion-8 emotion-9"
       >
         <div
-          class="drop-zone emotion-12 emotion-13"
+          class="drop-zone emotion-10 emotion-11"
+        />
+      </div>
+      <div
+        class="emotion-12 emotion-13"
+        data-cy="styled-article-modal"
+      >
+        <div
+          aria-expanded="false"
+          aria-haspopup="listbox"
+          aria-labelledby="downshift-0-label"
+          role="combobox"
+          style="position: relative;"
+        >
+          <div>
+            <div
+              class="emotion-14 emotion-15"
+            >
+              <div
+                class="emotion-16 emotion-17"
+              >
+                <input
+                  aria-autocomplete="list"
+                  aria-labelledby="downshift-0-label"
+                  autocomplete="off"
+                  data-testid="dropdownInput"
+                  id="downshift-0-input"
+                  placeholder="Søk på tittel"
+                  value=""
+                />
+                <div
+                  class="emotion-18 emotion-19"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="emotion-20 emotion-21"
+        >
+          Eller
+        </div>
+        <button
+          class="emotion-22 emotion-23"
+          data-testid="showAddExternal"
+          type="button"
+        >
+          Legg til ekstern artikkel
+        </button>
+      </div>
+      <button
+        class="emotion-24 emotion-25 emotion-23"
+        contenteditable="false"
+        data-cy="close-related-button"
+        type="button"
+      >
+        <svg
+          aria-hidden="true"
+          class="c-icon"
+          data-license="Apache License 2.0"
+          data-source="Material Design"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
+          style="vertical-align: middle;"
+          viewBox="0 0 24 24"
+          width="1em"
+        >
+          <g>
+            <path
+              d="M0 0h24v24H0V0z"
+              fill="none"
+            />
+            <path
+              d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z"
+            />
+            <path
+              d="M0 0h24v24H0z"
+              fill="none"
+            />
+          </g>
+        </svg>
+      </button>
+    </div>
+    <div
+      class="emotion-27 emotion-28"
+    >
+      <div
+        aria-hidden="true"
+        class="emotion-2 emotion-3"
+      />
+      <div
+        class="emotion-31 emotion-32"
+      >
+        <div
+          class="emotion-33 emotion-34"
+        >
+          Skriv inn tittel og url på ekstern artikkel
+          <button
+            class="emotion-35 emotion-36 emotion-23"
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              class="c-icon emotion-38 emotion-39"
+              data-license="Apache License 2.0"
+              data-source="Material Design"
+              fill="currentColor"
+              height="1em"
+              preserveAspectRatio="xMidYMid meet"
+              style="vertical-align: middle;"
+              viewBox="0 0 24 24"
+              width="1em"
+            >
+              <g>
+                <path
+                  d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+                />
+                <path
+                  d="M0 0h24v24H0z"
+                  fill="none"
+                />
+              </g>
+            </svg>
+          </button>
+        </div>
+        <div
+          class="emotion-40 emotion-41"
         >
           <div
-            aria-roledescription="Draggable item. Press space bar to lift"
+            class="emotion-42 emotion-43"
+          >
+            <div>
+              <div
+                class="emotion-14 emotion-15"
+              >
+                <div
+                  class="emotion-16 emotion-17"
+                >
+                  <input
+                    data-testid="addExternalTitleInput"
+                    placeholder="Tittel"
+                    type="text"
+                    value=""
+                  />
+                </div>
+              </div>
+            </div>
+            <div>
+              <div
+                class="emotion-14 emotion-15"
+              >
+                <div
+                  class="emotion-16 emotion-17"
+                >
+                  <input
+                    data-testid="addExternalUrlInput"
+                    placeholder="https://example.com"
+                    type="text"
+                    value=""
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <button
+            class="emotion-52 emotion-53 emotion-23"
+            data-testid="taxonomyLightboxButton"
+            type="button"
+          >
+            Lagre
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="emotion-55 emotion-56"
+    contenteditable="false"
+    data-testid="relatedWrapper"
+    draggable="true"
+    role="button"
+    tabindex="0"
+  >
+    <section
+      class="c-related-articles"
+    >
+      <h2
+        class="c-related-articles__component-title emotion-6 emotion-7"
+      >
+        Relatert innhold
+      </h2>
+      <div
+        class="c-related-articles__articles"
+      />
+    </section>
+  </div>
+</div>
+`;
+
+exports[`it goes in and out of edit mode 2`] = `
+.emotion-0 {
+  position: absolute;
+  width: 100%;
+  z-index: 2;
+}
+
+.emotion-2 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  z-index: 1;
+  background: rgba(0, 0, 0, 0.3);
+  -webkit-animation-duration: 400ms;
+  animation-duration: 400ms;
+  -webkit-animation-name: fadeIn;
+  animation-name: fadeIn;
+}
+
+.emotion-4 {
+  position: relative;
+  border: 2px solid #a5bcd3;
+  padding: 52px;
+  padding-top: 0;
+  background-color: #fff;
+  z-index: 1;
+}
+
+.emotion-6 {
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 18px;
+  font-size: 1rem;
+  line-height: 24px;
+}
+
+@media (min-width: 37.5625em) {
+  .emotion-6 {
+    font-size: 20px;
+    font-size: 1.1111111111111112rem;
+    line-height: 26px;
+  }
+}
+
+.emotion-8 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex-wrap: wrap;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  z-index: 1;
+}
+
+.emotion-8 figure {
+  position: static!important;
+}
+
+.emotion-10 {
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+}
+
+.emotion-12 {
+  position: relative;
+  -webkit-flex: 1 0 50%;
+  -ms-flex: 1 0 50%;
+  flex: 1 0 50%;
+  max-width: 600px;
+}
+
+.emotion-12>article {
+  max-width: 100%;
+}
+
+.emotion-15 {
+  display: inline-block;
+  color: #ffffff;
+  background-color: #20588f;
+  border: 2px solid #20588f;
+  border-radius: 4px;
+  padding: 4px 13px;
+  outline-width: 0;
+  cursor: pointer;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-size: 16px;
+  font-size: 0.8888888888888888rem;
+  line-height: 1.625;
+  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
+  font-weight: 700;
+  -webkit-transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
+  transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
+  box-shadow: none;
+  text-align: center;
+  -webkit-transition: background-color none;
+  transition: background-color none;
+  padding: 0;
+  border-radius: 0;
+  color: inherit;
+  font-size: inherit;
+  background-color: transparent;
+  box-shadow: none;
+  border: none;
+  font-weight: 400;
+  position: absolute;
+  top: 0.1rem;
+  right: 1.5rem;
+  color: #d1372e;
+}
+
+.emotion-15:hover,
+.emotion-15:focus {
+  color: white;
+  background-color: #184673;
+  border: 2px solid #184673;
+}
+
+.emotion-15[disabled] {
+  color: #777777;
+  background-color: #e6e6e6;
+  border-color: transparent;
+  cursor: not-allowed;
+}
+
+.emotion-15:focus {
+  box-shadow: 0 0 2px #20588f;
+}
+
+.emotion-15:hover,
+.emotion-15:active,
+.emotion-15:disabled,
+.emotion-15:focus {
+  box-shadow: none;
+  color: #20588f;
+  background-color: transparent;
+  border: none;
+}
+
+.emotion-15:focus {
+  outline-width: medium;
+}
+
+.emotion-15:hover,
+.emotion-15:focus {
+  color: #7d211c;
+}
+
+.emotion-18 {
+  display: inline-block;
+  color: #ffffff;
+  background-color: #20588f;
+  border: 2px solid #20588f;
+  border-radius: 4px;
+  padding: 4px 13px;
+  outline-width: 0;
+  cursor: pointer;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-size: 16px;
+  font-size: 0.8888888888888888rem;
+  line-height: 1.625;
+  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
+  font-weight: 700;
+  -webkit-transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
+  transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
+  box-shadow: none;
+  text-align: center;
+  -webkit-transition: background-color none;
+  transition: background-color none;
+  padding: 0;
+  border-radius: 0;
+  color: inherit;
+  font-size: inherit;
+  background-color: transparent;
+  box-shadow: none;
+  border: none;
+  font-weight: 400;
+  position: absolute;
+  top: 0.1rem;
+  right: 0.2rem;
+  color: #d1372e;
+}
+
+.emotion-18:hover,
+.emotion-18:focus {
+  color: white;
+  background-color: #184673;
+  border: 2px solid #184673;
+}
+
+.emotion-18[disabled] {
+  color: #777777;
+  background-color: #e6e6e6;
+  border-color: transparent;
+  cursor: not-allowed;
+}
+
+.emotion-18:focus {
+  box-shadow: 0 0 2px #20588f;
+}
+
+.emotion-18:hover,
+.emotion-18:active,
+.emotion-18:disabled,
+.emotion-18:focus {
+  box-shadow: none;
+  color: #20588f;
+  background-color: transparent;
+  border: none;
+}
+
+.emotion-18:focus {
+  outline-width: medium;
+}
+
+.emotion-18:hover,
+.emotion-18:focus {
+  color: #7d211c;
+}
+
+.emotion-22 {
+  margin-top: 6.5px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.emotion-22:first-of-type {
+  margin-top: 0;
+}
+
+.emotion-24 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex-wrap: wrap;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  background: #f8f8f8;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  -webkit-justify-content: flex-start;
+  justify-content: flex-start;
+  border: 1px solid #eff0f2;
+  -webkit-transition: border-color 100ms ease;
+  transition: border-color 100ms ease;
+  border-radius: 4px;
+  min-height: 52px;
+  padding-right: 13px;
+}
+
+.emotion-24:focus-within {
+  border-color: #20588f;
+}
+
+.emotion-24 input,
+.emotion-24 textarea {
+  width: inherit;
+  font-weight: 400;
+  color: #444;
+  font-size: 18;
+  font-size: 1rem;
+  line-height: 1.3;
+  background: none;
+  border: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+}
+
+.emotion-24 input:focus,
+.emotion-24 textarea:focus {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  outline: none;
+}
+
+.emotion-24 input {
+  padding: 6.5px 13px;
+}
+
+.emotion-24 textarea {
+  padding: 0 13px;
+  height: 20px;
+  margin: 14px 0;
+  resize: none;
+}
+
+.emotion-24 .c-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.emotion-26 {
+  margin: 10px 0;
+}
+
+.emotion-28 {
+  display: inline-block;
+  color: #ffffff;
+  background-color: #20588f;
+  border: 2px solid #20588f;
+  border-radius: 4px;
+  padding: 4px 13px;
+  outline-width: 0;
+  cursor: pointer;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-size: 16px;
+  font-size: 0.8888888888888888rem;
+  line-height: 1.625;
+  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
+  font-weight: 700;
+  -webkit-transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
+  transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
+  box-shadow: none;
+  text-align: center;
+}
+
+.emotion-28:hover,
+.emotion-28:focus {
+  color: white;
+  background-color: #184673;
+  border: 2px solid #184673;
+}
+
+.emotion-28[disabled] {
+  color: #777777;
+  background-color: #e6e6e6;
+  border-color: transparent;
+  cursor: not-allowed;
+}
+
+.emotion-28:focus {
+  box-shadow: 0 0 2px #20588f;
+}
+
+.emotion-33 article>p {
+  font-family: Source Sans Pro!important;
+}
+
+<div>
+  <div
+    autocapitalize="false"
+    autocorrect="false"
+    contenteditable="true"
+    data-slate-editor="true"
+    data-slate-node="value"
+    role="textbox"
+    spellcheck="false"
+    style="position: relative; outline: none; white-space: pre-wrap; word-wrap: break-word;"
+    zindex="-1"
+  >
+    <div
+      data-slate-node="element"
+      style="position: relative;"
+    >
+      <div
+        data-slate-node="element"
+        style="position: relative;"
+      >
+        <span
+          data-slate-node="text"
+        >
+          <span
+            data-slate-leaf="true"
+          >
+            <span
+              data-slate-length="0"
+              data-slate-zero-width="n"
+            >
+              ﻿
+              <br />
+            </span>
+          </span>
+        </span>
+      </div>
+    </div>
+  </div>
+  <div
+    class="emotion-0 emotion-1"
+    contenteditable="false"
+  >
+    <div
+      aria-hidden="true"
+      class="emotion-2 emotion-3"
+    />
+    <div
+      class="emotion-4 emotion-5"
+    >
+      <h2
+        class="c-related-articles__component-title emotion-6 emotion-7"
+      >
+        Relatert innhold
+      </h2>
+      <p>
+        Dra artikkel for å endre rekkefølge
+      </p>
+      <div
+        class="emotion-8 emotion-9"
+      >
+        <div
+          class="drop-zone emotion-10 emotion-11"
+        >
+          <div
+            aria-describedby="rbd-hidden-text-0-hidden-text-0"
             class="drag-item"
-            data-react-beautiful-dnd-drag-handle="0"
-            data-react-beautiful-dnd-draggable="0"
+            data-rbd-drag-handle-context-id="0"
+            data-rbd-drag-handle-draggable-id="https://www.vg.no"
+            data-rbd-draggable-context-id="0"
+            data-rbd-draggable-id="https://www.vg.no"
             draggable="false"
+            role="button"
             tabindex="0"
           >
             <div
-              class="emotion-10 emotion-11"
+              class="emotion-12 emotion-13"
             >
               <article
                 class="c-related-articles__item c-related-articles__item--external-learning-resources"
@@ -1240,6 +1243,7 @@ exports[`it goes in and out of edit mode 2`] = `
                     class="c-content-type-badge c-content-type-badge--external-learning-resources c-content-type-badge--small c-content-type-badge--background c-content-type-badge--border"
                   >
                     <svg
+                      aria-hidden="true"
                       class="c-icon"
                       data-license="Apache License 2.0"
                       data-source="Material Design"
@@ -1296,7 +1300,7 @@ exports[`it goes in and out of edit mode 2`] = `
                 </p>
               </article>
               <button
-                class="emotion-4 emotion-5 emotion-6"
+                class="emotion-14 emotion-15 emotion-16"
                 type="button"
               >
                 <div
@@ -1310,6 +1314,7 @@ exports[`it goes in and out of edit mode 2`] = `
                     data-tooltip-children="true"
                   >
                     <svg
+                      aria-hidden="true"
                       class="c-icon"
                       data-license="Apache License 2.0"
                       data-source="Material Design"
@@ -1334,13 +1339,14 @@ exports[`it goes in and out of edit mode 2`] = `
                 </div>
               </button>
               <button
-                class="emotion-7 emotion-8 emotion-6"
+                class="emotion-17 emotion-18 emotion-16"
                 contenteditable="false"
                 data-cy="close-related-button"
                 title="Slett ekstern artikkel"
                 type="button"
               >
                 <svg
+                  aria-hidden="true"
                   class="c-icon"
                   data-license="Apache License 2.0"
                   data-source="Material Design"
@@ -1371,7 +1377,7 @@ exports[`it goes in and out of edit mode 2`] = `
         </div>
       </div>
       <div
-        class="emotion-10 emotion-11"
+        class="emotion-12 emotion-13"
         data-cy="styled-article-modal"
       >
         <div
@@ -1383,10 +1389,10 @@ exports[`it goes in and out of edit mode 2`] = `
         >
           <div>
             <div
-              class="emotion-18 emotion-19"
+              class="emotion-22 emotion-23"
             >
               <div
-                class="emotion-16 emotion-17"
+                class="emotion-24 emotion-25"
               >
                 <input
                   aria-autocomplete="list"
@@ -1398,6 +1404,7 @@ exports[`it goes in and out of edit mode 2`] = `
                   value=""
                 />
                 <svg
+                  aria-hidden="true"
                   class="c-icon"
                   data-license="Apache License 2.0"
                   data-source="Material Design"
@@ -1419,12 +1426,12 @@ exports[`it goes in and out of edit mode 2`] = `
           </div>
         </div>
         <div
-          class="emotion-20 emotion-21"
+          class="emotion-26 emotion-27"
         >
           Eller
         </div>
         <button
-          class="emotion-22 emotion-6"
+          class="emotion-28 emotion-16"
           data-testid="showAddExternal"
           type="button"
         >
@@ -1432,12 +1439,13 @@ exports[`it goes in and out of edit mode 2`] = `
         </button>
       </div>
       <button
-        class="emotion-7 emotion-8 emotion-6"
+        class="emotion-17 emotion-18 emotion-16"
         contenteditable="false"
         data-cy="close-related-button"
         type="button"
       >
         <svg
+          aria-hidden="true"
           class="c-icon"
           data-license="Apache License 2.0"
           data-source="Material Design"
@@ -1466,7 +1474,7 @@ exports[`it goes in and out of edit mode 2`] = `
     </div>
   </div>
   <div
-    class="emotion-35 emotion-36"
+    class="emotion-33 emotion-34"
     contenteditable="false"
     data-testid="relatedWrapper"
     draggable="true"
@@ -1477,7 +1485,7 @@ exports[`it goes in and out of edit mode 2`] = `
       class="c-related-articles"
     >
       <h2
-        class="c-related-articles__component-title emotion-2 emotion-3"
+        class="c-related-articles__component-title emotion-6 emotion-7"
       >
         Relatert innhold
       </h2>
@@ -1494,6 +1502,7 @@ exports[`it goes in and out of edit mode 2`] = `
               class="c-content-type-badge c-content-type-badge--external-learning-resources c-content-type-badge--small c-content-type-badge--background c-content-type-badge--border"
             >
               <svg
+                aria-hidden="true"
                 class="c-icon"
                 data-license="Apache License 2.0"
                 data-source="Material Design"

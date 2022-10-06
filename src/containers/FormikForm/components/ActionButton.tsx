@@ -7,7 +7,7 @@
  */
 
 import Button from '@ndla/button';
-import { css } from '@emotion/core';
+import { css } from '@emotion/react';
 import { fonts, spacing } from '@ndla/core';
 import { ButtonHTMLAttributes, ReactNode } from 'react';
 

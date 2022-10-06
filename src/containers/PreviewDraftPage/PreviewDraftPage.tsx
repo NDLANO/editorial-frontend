@@ -7,7 +7,7 @@
  */
 
 import { HelmetWithTracker } from '@ndla/tracker';
-import { Hero, OneColumn } from '@ndla/ui';
+import { Hero, HeroContentType, OneColumn } from '@ndla/ui';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
@@ -63,7 +63,7 @@ const PreviewDraftPage = () => {
 
   return (
     <>
-      <Hero contentType={contentType}>
+      <Hero contentType={contentType as HeroContentType | undefined}>
         <LanguageSelector supportedLanguages={draft.supportedLanguages} />
       </Hero>
       <HelmetWithTracker title={`${draft.title} ${t('htmlTitles.titleTemplate')}`} />

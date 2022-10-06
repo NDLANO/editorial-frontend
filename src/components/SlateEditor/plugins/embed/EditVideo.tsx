@@ -8,7 +8,7 @@
 
 import { useEffect, useMemo } from 'react';
 import styled from '@emotion/styled';
-import { css } from '@emotion/core';
+import { css } from '@emotion/react';
 import { useTranslation } from 'react-i18next';
 import { FieldProps, Form, Formik, FormikProps } from 'formik';
 import { Input, TextArea } from '@ndla/forms';

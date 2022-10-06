@@ -8,7 +8,7 @@
 
 import { ReactNode } from 'react';
 import styled from '@emotion/styled';
-import { css } from '@emotion/core';
+import { css } from '@emotion/react';
 import { AlertCircle } from '@ndla/icons/editor';
 import { colors, spacing } from '@ndla/core';
 import { FieldHeader } from '@ndla/forms';

@@ -8,7 +8,7 @@
 
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
-import { css } from '@emotion/core';
+import { css } from '@emotion/react';
 
 const StyledFormikDescriptionBlock = styled.span`
   display: flex;

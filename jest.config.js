@@ -2,7 +2,7 @@ module.exports = {
   testRegex: '/__tests__/.*-test.(js|jsx|ts|tsx)$',
   setupFiles: ['./src/__tests__/_initTestEnv.js'],
   setupFilesAfterEnv: ['./src/__tests__/jest.setup.js'],
-  snapshotSerializers: ['jest-emotion/serializer'],
+  snapshotSerializers: ['@emotion/jest/serializer'],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
   transform: {
     '^.+\\.(js|jsx)$': 'babel-jest',

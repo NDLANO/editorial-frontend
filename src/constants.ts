@@ -65,7 +65,7 @@ export const EXTERNAL_WHITELIST_PROVIDERS = [
   { name: 'Vimeo', url: ['vimeo.com', 'vimeopro.com'], height: '486px' },
   { name: 'Norgesfilm', url: ['ndla.filmiundervisning.no'] },
   { name: 'TED', url: ['ted.com', 'embed.ted.com'] },
-  { name: 'TV2 Skole', url: ['www.tv2skole.no', 'elevkanalen.no'], height: '431px' },
+  { name: 'TV2 Skole', url: ['www.tv2skole.no', 'app.elevkanalen.no'], height: '560px' },
   { name: 'Khan Academy', url: ['nb.khanacademy.org', 'www.khanacademy.org'], height: '486px' },
   { name: 'Prezi', url: ['prezi.com'] },
   { name: 'SlideShare', url: ['www.slideshare.net'], height: '500px' },

@@ -1,5 +1,5 @@
 import { Callback, i18n } from 'i18next';
-import { ComponentProps, ComponentType } from 'react';
+import { ComponentType } from 'react';
 import { LocaleType } from '../interfaces';
 
 declare module 'react-i18next' {

@@ -17,7 +17,7 @@ import {
   resolveJsonOrRejectWithError,
   apiResourceUrl,
   fetchAuthorized,
-  createErrorPayload,
+  throwErrorPayload,
 } from '../../util/apiHelpers';
 import { ImageSearchQuery } from './imageApiInterfaces';
 import { resolveJsonOrVoidOrRejectWithError } from '../../util/resolveJsonOrRejectWithError';
@@ -58,7 +58,7 @@ export const searchImages = (query: ImageSearchQuery): Promise<ISearchResult> =>
 };
 
 export const onError = (err: Response & Error) => {
-  createErrorPayload(err.status, err.message ?? err.statusText, err);
+  throwErrorPayload(err.status, err.message ?? err.statusText, err);
 };
 
 export const deleteLanguageVersionImage = (

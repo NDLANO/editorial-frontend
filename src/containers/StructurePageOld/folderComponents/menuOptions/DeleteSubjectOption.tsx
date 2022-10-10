@@ -59,7 +59,8 @@ const DeleteSubjectOption = ({ id, locale, editMode, toggleEditMode, getAllSubje
       await deleteSubject({ id, taxonomyVersion });
       getAllSubjects();
       setLoading(false);
-    } catch (err) {
+    } catch (e) {
+      const err = e as Error;
       setLoading(false);
       setError(`${t('taxonomy.errorMessage')}: ${err.message}`);
 

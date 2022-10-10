@@ -14,7 +14,7 @@ import { Figure } from '@ndla/ui';
 import { colors } from '@ndla/core';
 import Modal from '@ndla/modal';
 import { fetchAudio } from '../../../../modules/audio/audioApi';
-import { onError } from '../../../../util/resolveJsonOrRejectWithError';
+import { NdlaErrorPayload, onError } from '../../../../util/resolveJsonOrRejectWithError';
 import AudioPlayerMounter from './AudioPlayerMounter';
 import FigureButtons from './FigureButtons';
 import { SlateAudio as Audio, LocaleType, AudioEmbed } from '../../../../interfaces';
@@ -81,7 +81,7 @@ const SlatePodcast = ({
           title: audio.title?.title || '',
         });
       } catch (error) {
-        onError(error);
+        onError(error as NdlaErrorPayload);
       }
     };
 

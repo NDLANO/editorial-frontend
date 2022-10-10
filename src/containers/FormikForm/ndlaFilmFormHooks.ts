@@ -14,6 +14,7 @@ import { getNdlaFilmFromSlate } from '../../util/ndlaFilmHelpers';
 import { FilmFormikType } from '../../containers/NdlaFilm/components/NdlaFilmForm';
 import { useMessages } from '../Messages/MessagesProvider';
 import { useUpdateFilmFrontpageMutation } from '../../modules/frontpage/filmMutations';
+import { NdlaErrorPayload } from '../../util/resolveJsonOrRejectWithError';
 
 export function useNdlaFilmFormHooks(filmFrontpage: IFilmFrontPageData, selectedLanguage: string) {
   const { t } = useTranslation();
@@ -34,7 +35,8 @@ export function useNdlaFilmFormHooks(filmFrontpage: IFilmFrontPageData, selected
 
       formik.resetForm();
       setSavedToServer(true);
-    } catch (err) {
+    } catch (e) {
+      const err = e as NdlaErrorPayload;
       if (err?.status === 409) {
         createMessage({
           message: t('alertModal.needToRefresh'),

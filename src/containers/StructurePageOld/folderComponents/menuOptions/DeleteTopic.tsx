@@ -76,7 +76,8 @@ class DeleteTopic extends PureComponent<Props, State> {
       await deleteTopic({ id, taxonomyVersion });
       refreshTopics();
       this.setState({ loading: false });
-    } catch (err) {
+    } catch (e) {
+      const err = e as Error;
       this.setState({
         loading: false,
         error: `${t('taxonomy.errorMessage')}: ${err.message}`,

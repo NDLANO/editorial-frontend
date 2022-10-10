@@ -10,7 +10,7 @@ import { useParams } from 'react-router-dom';
 import { IUpdatedAgreement, INewAgreement } from '@ndla/types-draft-api';
 import AgreementForm from './components/AgreementForm';
 import { fetchAgreement } from '../../modules/draft/draftApi';
-import { useMessages } from '../Messages/MessagesProvider';
+import { MessageError, useMessages } from '../Messages/MessagesProvider';
 
 interface Props {
   upsertAgreement: (agreement: IUpdatedAgreement | INewAgreement, id?: number) => Promise<void>;
@@ -30,7 +30,7 @@ const EditAgreement = ({ upsertAgreement }: Props) => {
         const fetchedAgreement = await fetchAgreement(Number(agreementId));
         setAgreement(fetchedAgreement);
       } catch (e) {
-        applicationError(e);
+        applicationError(e as MessageError);
       }
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps

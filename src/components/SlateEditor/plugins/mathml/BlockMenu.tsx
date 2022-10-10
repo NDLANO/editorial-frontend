@@ -2,7 +2,7 @@ import { PureComponent } from 'react';
 import Button from '@ndla/button';
 import styled from '@emotion/styled';
 import { colors, spacing } from '@ndla/core';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { CustomWithTranslation, withTranslation } from 'react-i18next';
 
 const StyledMenu = styled('span')<{ top: number; left: number }>`
   cursor: pointer;
@@ -31,7 +31,7 @@ interface Props {
   toggleMenu: (event: Event) => void;
 }
 
-class BlockMenu extends PureComponent<Props & WithTranslation> {
+class BlockMenu extends PureComponent<Props & CustomWithTranslation> {
   modal: HTMLSpanElement | null | undefined;
   componentDidMount() {
     document.addEventListener('click', this.closeModal, false);

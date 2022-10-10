@@ -15,7 +15,7 @@ import { IUpdatedAgreement, INewAgreement } from '@ndla/types-draft-api';
 import { createAgreement, updateAgreement } from '../../modules/draft/draftApi';
 import { toEditAgreement } from '../../util/routeHelpers';
 import Footer from '../App/components/Footer';
-import { useMessages } from '../Messages/MessagesProvider';
+import { MessageError, useMessages } from '../Messages/MessagesProvider';
 const EditAgreement = loadable(() => import('./EditAgreement'));
 const CreateAgreement = loadable(() => import('./CreateAgreement'));
 const NotFoundPage = loadable(() => import('../NotFoundPage/NotFoundPage'));
@@ -42,7 +42,7 @@ const AgreementPage = () => {
       });
     } catch (err) {
       setIsSaving(false);
-      applicationError(err);
+      applicationError(err as MessageError);
     }
   };
 

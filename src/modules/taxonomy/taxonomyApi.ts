@@ -73,29 +73,25 @@ async function updateTaxonomy({
   taxonomyChanges,
   taxonomyVersion,
 }: UpdateTaxonomyParams): Promise<boolean> {
-  try {
-    await Promise.all([
-      createDeleteResourceTypes({
-        resourceId,
-        resourceTypes: taxonomyChanges.resourceTypes,
-        originalResourceTypes: resourceTaxonomy.resourceTypes,
-        taxonomyVersion,
-      }),
+  await Promise.all([
+    createDeleteResourceTypes({
+      resourceId,
+      resourceTypes: taxonomyChanges.resourceTypes,
+      originalResourceTypes: resourceTaxonomy.resourceTypes,
+      taxonomyVersion,
+    }),
 
-      taxonomyChanges.metadata &&
-        updateResourceMetadata({ resourceId, body: taxonomyChanges.metadata, taxonomyVersion }),
+    taxonomyChanges.metadata &&
+      updateResourceMetadata({ resourceId, body: taxonomyChanges.metadata, taxonomyVersion }),
 
-      createDeleteUpdateTopicResources({
-        resourceId,
-        topics: taxonomyChanges.topics,
-        originalTopics: resourceTaxonomy.topics,
-        taxonomyVersion,
-      }),
-    ]);
-    return true;
-  } catch (e) {
-    throw new Error(e);
-  }
+    createDeleteUpdateTopicResources({
+      resourceId,
+      topics: taxonomyChanges.topics,
+      originalTopics: resourceTaxonomy.topics,
+      taxonomyVersion,
+    }),
+  ]);
+  return true;
 }
 
 export { fetchResourceTypes, updateTaxonomy, resolveUrls };

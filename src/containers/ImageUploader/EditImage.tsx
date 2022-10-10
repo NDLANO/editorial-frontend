@@ -51,8 +51,9 @@ const EditImage = ({ isNewlyCreated }: Props) => {
       const res = await updateImage(Number(imageId), updatedImage, formData);
       setImage(res);
     } catch (e) {
-      applicationError(e);
-      createMessage(e.messages);
+      const error = e as any;
+      applicationError(error);
+      createMessage(error.messages);
     }
   };
 

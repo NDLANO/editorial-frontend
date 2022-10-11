@@ -172,7 +172,7 @@ const StructureContainer = () => {
             )}
           </StyledStructureContainer>
         </Accordion>
-        {config.versioningEnabled === 'true' && <StickyVersionSelector />}
+        {config.versioningEnabled === 'true' && isTaxonomyAdmin && <StickyVersionSelector />}
         {currentNode && isChildNode(currentNode) && (
           <StructureResources
             currentChildNode={currentNode}

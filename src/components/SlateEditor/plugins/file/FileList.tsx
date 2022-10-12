@@ -12,7 +12,7 @@ import { ReactEditor, RenderElementProps } from 'slate-react';
 import debounce from 'lodash/debounce';
 import { DebouncedFunc } from 'lodash';
 import styled from '@emotion/styled';
-import { withTranslation, TFunction } from 'react-i18next';
+import { withTranslation, TFunction, CustomWithTranslation } from 'react-i18next';
 import { FieldHeader, FieldHeaderIconStyle } from '@ndla/forms';
 import { FileListEditor } from '@ndla/editor';
 import { Cross, Plus } from '@ndla/icons/action';
@@ -62,13 +62,12 @@ document.addEventListener('keydown', event => {
   okToRevert = (event.ctrlKey || event.metaKey) && event.key === 'z';
 });
 
-interface Props {
+interface Props extends CustomWithTranslation {
   attributes: RenderElementProps['attributes'];
   editor: Editor;
   element: FileElement;
   locale?: string;
   children: ReactNode;
-  t: TFunction;
 }
 
 interface State {

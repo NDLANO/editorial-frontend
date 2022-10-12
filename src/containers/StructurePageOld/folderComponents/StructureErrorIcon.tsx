@@ -13,6 +13,7 @@ import styled from '@emotion/styled';
 import { AlertCircle } from '@ndla/icons/editor';
 import { spacing, colors } from '@ndla/core';
 import { fetchDraft } from '../../../modules/draft/draftApi';
+import { isNdlaErrorPayload } from '../../../util/resolveJsonOrRejectWithError';
 
 const StyledWarnIcon = styled(AlertCircle)`
   height: ${spacing.nsmall};
@@ -49,7 +50,7 @@ const StructureErrorIcon = ({
           }
         } catch (e) {
           if (shouldUpdateState) {
-            if (typeof e.messages === 'string') setError(e.messages);
+            if (isNdlaErrorPayload(e)) setError(e.messages);
             else setError(t('errorMessage.errorWhenFetchingTaxonomyArticle'));
           }
         }

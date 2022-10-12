@@ -19,7 +19,7 @@ import AudioPlayerMounter from './AudioPlayerMounter';
 import FigureButtons from './FigureButtons';
 import { SlateAudio as Audio, LocaleType, AudioEmbed } from '../../../../interfaces';
 import { fetchAudio } from '../../../../modules/audio/audioApi';
-import { onError } from '../../../../util/resolveJsonOrRejectWithError';
+import { NdlaErrorPayload, onError } from '../../../../util/resolveJsonOrRejectWithError';
 import validateFormik from '../../../formikValidationSchema';
 
 interface Props {
@@ -85,7 +85,7 @@ const SlateAudio = ({
           title: audio.title?.title || '',
         });
       } catch (error) {
-        onError(error);
+        onError(error as NdlaErrorPayload);
       }
     };
 

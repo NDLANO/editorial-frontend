@@ -7,10 +7,10 @@
  */
 import fetch from 'cross-fetch';
 import queryString from 'query-string';
-import { BrightcoveAccessToken, H5POembed, MessageSeverity } from '../interfaces';
+import { BrightcoveAccessToken, H5POembed, NdlaError } from '../interfaces';
 import config from '../config';
 import { apiBaseUrl, getAccessToken, isAccessTokenValid, renewAuth } from './authHelpers';
-import { resolveJsonOrRejectWithError, createErrorPayload } from './resolveJsonOrRejectWithError';
+import { resolveJsonOrRejectWithError, throwErrorPayload } from './resolveJsonOrRejectWithError';
 
 export const formatErrorMessage = (error: {
   json: {
@@ -19,11 +19,7 @@ export const formatErrorMessage = (error: {
       message: string;
     }[];
   };
-}): {
-  message?: string;
-  severity: MessageSeverity;
-  timeToLive: number;
-} => ({
+}): NdlaError => ({
   message: error?.json?.messages?.map(message => `${message.field}: ${message.message}`).join(', '),
   severity: 'danger',
   timeToLive: 0,
@@ -185,4 +181,4 @@ export const fetchExternalOembed = (url: string, options?: FetchConfigType) => {
   return fetchOembed(setOembed, options);
 };
 
-export { resolveJsonOrRejectWithError, createErrorPayload };
+export { resolveJsonOrRejectWithError, throwErrorPayload };

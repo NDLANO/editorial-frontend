@@ -71,7 +71,8 @@ const DeleteNode = ({
         },
         { onSuccess: () => setLoading(false) },
       );
-    } catch (e) {
+    } catch (error) {
+      const e = error as Error;
       setError(`${t('taxonomy.errorMessage')}${e.message ? `:${e.message}` : ''}`);
       setLoading(false);
     }

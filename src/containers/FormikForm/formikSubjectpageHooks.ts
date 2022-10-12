@@ -34,7 +34,7 @@ export function useFetchSubjectpageData(
   const [editorsChoices, setEditorsChoices] = useState<(IArticle | ILearningPathV2)[]>([]);
   const [banner, setBanner] = useState<IImageMetaInformationV2 | undefined>(undefined);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(undefined);
+  const [error, setError] = useState<Error | undefined>(undefined);
   const { taxonomyVersion } = useTaxonomyVersion();
 
   const fetchElementList = async (taxonomyUrns: string[], taxonomyVersion: string) => {
@@ -90,7 +90,7 @@ export function useFetchSubjectpageData(
           const subjectpage = await frontpageApi.fetchSubjectpage(subjectpageId, selectedLanguage);
           setSubjectpage(subjectpage);
         } catch (e) {
-          setError(e);
+          setError(e as Error);
           setLoading(false);
         }
       }
@@ -109,7 +109,7 @@ export function useFetchSubjectpageData(
           setEditorsChoices(editorsChoices);
           setBanner(banner);
         } catch (e) {
-          setError(e);
+          setError(e as Error);
         } finally {
           setLoading(false);
         }

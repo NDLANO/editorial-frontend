@@ -25,6 +25,7 @@ import contentSecurityPolicy from './contentSecurityPolicy';
 import errorLogger from '../util/logger';
 import config from '../config';
 import { DRAFT_PUBLISH_SCOPE, DRAFT_WRITE_SCOPE } from '../constants';
+import { NdlaError } from '../interfaces';
 
 type NdlaUser = (Express.User | undefined) & {
   'https://ndla.no/user_email'?: string;
@@ -162,7 +163,7 @@ app.get(
         const users = await getUsers(managementToken, userIds);
         res.status(OK).json(users);
       } catch (err) {
-        res.status(INTERNAL_SERVER_ERROR).send(err.message);
+        res.status(INTERNAL_SERVER_ERROR).send((err as NdlaError).message);
       }
     }
   },
@@ -189,7 +190,7 @@ app.get(
       const editors = await getEditors(managementToken, permission);
       res.status(OK).json(editors);
     } catch (err) {
-      res.status(INTERNAL_SERVER_ERROR).send(err.message);
+      res.status(INTERNAL_SERVER_ERROR).send((err as NdlaError).message);
     }
   },
 );

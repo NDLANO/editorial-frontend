@@ -196,7 +196,8 @@ const AddResourceModal = ({
         const searchResult = await searchGroups(input, type, locale, page);
         return searchResult ?? emptySearchResults;
       }
-    } catch (err) {
+    } catch (e) {
+      const err = e as Error;
       handleError(err);
       setError(err.message);
       return emptySearchResults;

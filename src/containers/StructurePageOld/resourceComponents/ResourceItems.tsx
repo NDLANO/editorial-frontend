@@ -63,8 +63,9 @@ const ResourceItems = ({
       await deleteTopicResource({ id: deleteId, taxonomyVersion });
       onDeleteResource(deleteId);
     } catch (e) {
-      handleError(e);
-      setError(`${t('taxonomy.errorMessage')}: ${e.message}`);
+      const err = e as Error;
+      handleError(err);
+      setError(`${t('taxonomy.errorMessage')}: ${err.message}`);
     }
   };
 
@@ -97,7 +98,8 @@ const ResourceItems = ({
       });
       await refreshResources();
     } catch (e) {
-      handleError(e.message);
+      const err = e as Error;
+      handleError(err.message);
     }
     setLoading(false);
   };

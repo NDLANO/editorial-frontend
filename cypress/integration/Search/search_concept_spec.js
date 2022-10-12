@@ -65,11 +65,11 @@ describe('Search concepts', () => {
   it('Can use subject dropdown', () => {
     cy.apiroute(
       'GET',
-      '/concept-api/v1/drafts/?*subjects=urn%3Asubject%3A1*',
+      '/concept-api/v1/drafts/?*subjects=urn%3Asubject%3A*',
       'searchConceptSubject',
     );
     cy.get('select[name="subjects"]')
-      .select('Medieuttrykk og mediesamfunnet Vg2 og Vg3')
+      .select('Biologi')
       .blur();
     cy.apiwait('@searchConceptSubject');
     cy.get('span[data-cy="totalCount"').contains(/^Antall søketreff: \d+/);

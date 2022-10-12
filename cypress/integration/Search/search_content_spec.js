@@ -83,11 +83,11 @@ describe('Search content', () => {
   it('Can use subject dropdown', () => {
     cy.apiroute(
       'GET',
-      '/search-api/v1/search/editorial/?*subjects=urn%3Asubject%3A1',
+      '/search-api/v1/search/editorial/?*subjects=urn%3Asubject%3A*',
       'searchSubject',
     );
     cy.get('select[name="subjects"]')
-      .select('Medieuttrykk og mediesamfunnet Vg2 og Vg3')
+      .select('Mediesamfunnet 1')
       .blur();
     cy.apiwait('@searchSubject');
     cy.get('span[data-cy="totalCount"').contains(/^Antall søketreff: \d+/);

@@ -12,7 +12,10 @@ import { getResourceLanguages } from '../../../../util/resourceHelpers';
 import { getTagName } from '../../../../util/formHelper';
 import { SearchParams } from './SearchForm';
 import * as conceptStatuses from '../../../../util/constants/ConceptStatus';
-import { CONCEPT_WRITE_SCOPE } from '../../../../constants';
+import {
+  CONCEPT_WRITE_SCOPE,
+  TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
+} from '../../../../constants';
 import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { useAuth0Editors } from '../../../../modules/auth0/auth0Queries';
 import GenericSearchForm, { SearchFormSelector } from './GenericSearchForm';
@@ -91,7 +94,9 @@ const SearchConceptForm = ({ search: doSearch, searchObject: search, subjects }:
     {
       type: 'subjects',
       name: getTagName(search.subjects, subjects),
-      options: subjects.sort(sortByProperty('name')),
+      options: subjects
+        .filter(s => s.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] === 'true')
+        .sort(sortByProperty('name')),
     },
     {
       type: 'status',

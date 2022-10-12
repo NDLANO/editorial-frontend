@@ -14,7 +14,10 @@ import { getResourceLanguages } from '../../../../util/resourceHelpers';
 import { getTagName } from '../../../../util/formHelper';
 import ArticleStatuses from '../../../../util/constants/index';
 import { SearchParams } from './SearchForm';
-import { DRAFT_WRITE_SCOPE } from '../../../../constants';
+import {
+  DRAFT_WRITE_SCOPE,
+  TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
+} from '../../../../constants';
 import config from '../../../../config';
 import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { useAuth0Editors } from '../../../../modules/auth0/auth0Queries';
@@ -127,7 +130,9 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
       name: getTagName(search.subjects, subjects),
       type: 'subjects',
       width: config.revisiondateEnabled === 'true' ? 50 : 25,
-      options: subjects.sort(sortByProperty('name')),
+      options: subjects
+        .filter(s => s.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] !== 'true')
+        .sort(sortByProperty('name')),
     },
     {
       name: getTagName(search['resource-types'], resourceTypes),

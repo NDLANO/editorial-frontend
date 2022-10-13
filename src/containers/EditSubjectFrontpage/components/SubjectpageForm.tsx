@@ -39,6 +39,7 @@ import { Resource, Topic } from '../../../modules/taxonomy/taxonomyApiInterfaces
 import { TYPE_EMBED } from '../../../components/SlateEditor/plugins/embed/types';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 import StyledForm from '../../../components/StyledFormComponents';
+import { NdlaErrorPayload } from '../../../util/resolveJsonOrRejectWithError';
 
 interface Props {
   subjectpage?: ISubjectPageData;
@@ -135,7 +136,8 @@ const SubjectpageForm = ({
         await createSubjectpage?.(subjectpageFormikTypeToPostType(values, urns));
       }
       setSavedToServer(true);
-    } catch (err) {
+    } catch (e) {
+      const err = e as NdlaErrorPayload;
       if (err?.status === 409) {
         createMessage({ message: t('alertModal.needToRefresh'), timeToLive: 0 });
       } else if (err?.json?.messages) {

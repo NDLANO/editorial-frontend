@@ -19,6 +19,7 @@ import { DraftStatusType, RelatedContent } from '../../interfaces';
 import { useMessages } from '../Messages/MessagesProvider';
 import { useLicenses } from '../../modules/draft/draftQueries';
 import { getWarnings, RulesType } from '../../components/formikValidationSchema';
+import { NdlaErrorPayload } from '../../util/resolveJsonOrRejectWithError';
 
 const getFilePathsFromHtml = (htmlString: string): string[] => {
   const parsed = new DOMParser().parseFromString(htmlString, 'text/html');
@@ -179,7 +180,7 @@ export function useArticleFormHooks<T extends ArticleFormType>({
       }
       formikHelpers.setFieldValue('notes', [], false);
     } catch (e) {
-      const err = e as any;
+      const err = e as NdlaErrorPayload;
       if (err && err.status && err.status === 409) {
         createMessage({
           message: t('alertModal.needToRefresh'),

@@ -35,6 +35,7 @@ import AlertModal from '../AlertModal';
 import StyledFilledButton from '../StyledFilledButton';
 import { formatErrorMessage } from '../../util/apiHelpers';
 import { useMessages } from '../../containers/Messages/MessagesProvider';
+import { NdlaErrorPayload } from '../../util/resolveJsonOrRejectWithError';
 
 const StyledWrapper = styled.div`
   flex-grow: 1;
@@ -119,7 +120,7 @@ const DeleteLanguageVersion = ({ values, type, disabled }: Props) => {
             break;
         }
       } catch (error) {
-        createMessage(formatErrorMessage(error as any));
+        createMessage(formatErrorMessage(error as NdlaErrorPayload));
       }
     }
   };

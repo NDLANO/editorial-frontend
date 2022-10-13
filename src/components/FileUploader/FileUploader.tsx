@@ -17,6 +17,7 @@ import { DRAFT_ADMIN_SCOPE } from '../../constants';
 import handleError from '../../util/handleError';
 import { UnsavedFile } from '../../interfaces';
 import { useSession } from '../../containers/Session/SessionProvider';
+import { isNdlaErrorPayload } from '../../util/resolveJsonOrRejectWithError';
 
 const FileUploaderWrapper = styled.div`
   padding: 0 ${spacing.large};
@@ -54,7 +55,7 @@ const FileUploader = ({ onFileSave }: Props) => {
         })),
       );
     } catch (err) {
-      if (err && err.json && err.json.messages) {
+      if (isNdlaErrorPayload(err) && err.json && err.json.messages) {
         setErrorMessage(
           err.json.messages.map((message: { message: string }) => message.message).join(', '),
         );

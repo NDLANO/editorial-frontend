@@ -32,6 +32,7 @@ import HelpMessage from '../../components/HelpMessage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { useMessages } from '../Messages/MessagesProvider';
 import { formatErrorMessage } from '../../util/apiHelpers';
+import { NdlaErrorPayload } from '../../util/resolveJsonOrRejectWithError';
 
 declare global {
   interface Window {
@@ -178,9 +179,8 @@ const EditMarkupPage = () => {
       setDraft(updatedDraft);
       setStatus('saved');
     } catch (e) {
-      if (e.json?.messages) {
-        createMessage(formatErrorMessage(e));
-      }
+      const err = e as NdlaErrorPayload;
+      createMessage(formatErrorMessage(err));
       handleError(e);
     }
   };

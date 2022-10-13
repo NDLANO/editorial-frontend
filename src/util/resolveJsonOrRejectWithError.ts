@@ -5,12 +5,33 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-export function createErrorPayload(status: number, messages: string, json: any) {
-  throw Object.assign({}, { status, json, messages }, new Error(''));
+type NdlaErrorFields = {
+  status: number;
+  messages: string;
+  json: any;
+};
+
+export type NdlaErrorPayload = NdlaErrorFields & Error;
+
+export function isNdlaErrorPayload(err: any): err is NdlaErrorPayload {
+  if (typeof err.status === 'number' && typeof err.messages === 'string') {
+    if (err instanceof Error) {
+      return true;
+    }
+  }
+  return false;
 }
 
-export const onError = (err: Response & Error) => {
-  createErrorPayload(err.status, err.message ?? err.statusText, err);
+function buildErrorPayload(status: number, messages: string, json: any): NdlaErrorPayload {
+  return Object.assign({}, { status, json, messages }, new Error(''));
+}
+
+export function throwErrorPayload(status: number, messages: string, json: any) {
+  throw buildErrorPayload(status, messages, json);
+}
+
+export const onError = (err: NdlaErrorPayload & { statusText?: string }) => {
+  throwErrorPayload(err.status, err.message ?? err.statusText ?? '', err);
 };
 
 export const resolveLocation = (res: Response): Promise<string> => {
@@ -19,7 +40,7 @@ export const resolveLocation = (res: Response): Promise<string> => {
     if (res.status === 201 && location) {
       return resolve(location);
     }
-    return reject(createErrorPayload(res.status || -1, 'Location does not exist!', null));
+    return reject(throwErrorPayload(res.status || -1, 'Location does not exist!', null));
   });
 };
 
@@ -39,7 +60,7 @@ export const resolveVoidOrRejectWithError = (res: Response): Promise<void> => {
     return res
       .json()
       .then(json => {
-        reject(createErrorPayload(res.status, json.messages ?? res.statusText, json));
+        reject(throwErrorPayload(res.status, json.messages ?? res.statusText, json));
       })
       .catch(reject);
   });
@@ -67,7 +88,7 @@ export const resolveJsonOrRejectWithError = <T>(
       .json()
       .then(json => {
         reject(
-          createErrorPayload(res.status, json.messages ?? json.description ?? res.statusText, json),
+          throwErrorPayload(res.status, json.messages ?? json.description ?? res.statusText, json),
         );
       })
       .catch(reject);

@@ -46,7 +46,9 @@ const RoundIcon = ({
   <StyledIcon {...rest}>{smallIcon}</StyledIcon>
 );
 
-const isChildNode = createGuard<ChildNodeType>('connectionId');
+const isChildNode = createGuard<ChildNodeType & { articleType?: string; isPublished?: boolean }>(
+  'connectionId',
+);
 
 interface Props {
   id: string;

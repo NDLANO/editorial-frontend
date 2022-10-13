@@ -20,8 +20,6 @@ import Breadcrumb from './Breadcrumb';
 import RelevanceOption from './RelevanceOption';
 import RemoveButton from './RemoveButton';
 import { StagedTopic } from '../../containers/ArticlePage/TopicArticlePage/components/TopicArticleTaxonomy';
-import { useSession } from '../../containers/Session/SessionProvider';
-import { TAXONOMY_ADMIN_SCOPE } from '../../constants';
 
 interface Props {
   removeConnection?: (id: string) => void;
@@ -44,7 +42,6 @@ const ActiveTopicConnection = ({
   topic,
 }: Props) => {
   const { t } = useTranslation();
-  const { userPermissions } = useSession();
   if (!topic.breadcrumb) {
     return (
       <StyledConnections error>
@@ -73,14 +70,12 @@ const ActiveTopicConnection = ({
     <>
       <StyledConnections>
         <StyledFlexWrapper>
-          {userPermissions?.includes(TAXONOMY_ADMIN_SCOPE) && (
-            <StyledPrimaryConnectionButton
-              primary={topic.primary}
-              type="button"
-              onClick={() => setPrimaryConnection?.(topic.id)}>
-              {t('form.topics.primaryTopic')}
-            </StyledPrimaryConnectionButton>
-          )}
+          <StyledPrimaryConnectionButton
+            primary={topic.primary}
+            type="button"
+            onClick={() => setPrimaryConnection?.(topic.id)}>
+            {t('form.topics.primaryTopic')}
+          </StyledPrimaryConnectionButton>
           <Breadcrumb breadcrumb={topic.breadcrumb} />
         </StyledFlexWrapper>
         <StyledFlexWrapper>

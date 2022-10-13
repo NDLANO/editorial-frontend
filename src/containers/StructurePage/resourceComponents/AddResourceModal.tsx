@@ -153,9 +153,10 @@ const AddResourceModal = ({
         return resource[0].id;
       } else throw Error(`Could not find resource after updating for ${learningpathId}`);
     } catch (e) {
-      handleError(e);
+      const err = e as Error;
+      handleError(err);
       setLoading(false);
-      setError(e.message);
+      setError(err.message);
     }
   };
 
@@ -183,7 +184,8 @@ const AddResourceModal = ({
         const article = await getArticle(id);
         setContent(toContent({ ...article, paths: [evt.target.value] }));
       }
-    } catch (error) {
+    } catch (e) {
+      const error = e as Error;
       handleError(error);
       setError(error.message);
     }

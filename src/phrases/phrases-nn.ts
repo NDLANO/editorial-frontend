@@ -227,6 +227,7 @@ const phrases = {
       license: 'Velg lisens',
       'revision-date-from': 'Revisjonsdato fra',
       'revision-date-to': 'Revisjonsdato til',
+      'exclude-revision-log': 'Ekskluder endringslogg',
     },
     tagType: {
       query: 'Innhald',
@@ -241,6 +242,7 @@ const phrases = {
       'model-released': 'Modellklarering',
       'revision-date-from': 'Revisjonsdato fra',
       'revision-date-to': 'Revisjonsdato til',
+      'exclude-revision-log': 'Endringslogg ekskludert',
     },
     btn: 'Søk',
     empty: 'Tøm',

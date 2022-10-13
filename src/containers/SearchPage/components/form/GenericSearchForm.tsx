@@ -15,12 +15,14 @@ import ObjectSelector from '../../../../components/ObjectSelector';
 import { SearchParams } from './SearchForm';
 import SearchTagGroup, { TagType } from './SearchTagGroup';
 import InlineDatePicker from '../../../FormikForm/components/InlineDatePicker';
+import CheckboxSelector from './CheckboxSelector';
 
 export interface SearchFormSelector {
   type: keyof SearchParams;
   name?: string;
   options: { id: string; name: string }[];
   width?: number;
+  formElementType: 'date-picker' | 'dropdown' | 'text-input' | 'check-box';
 }
 
 interface Props {
@@ -44,8 +46,6 @@ const StyledSubmitButton = styled(Button)`
   width: 49%;
 `;
 
-export const datePickerTypes: (keyof SearchParams)[] = ['revision-date-from', 'revision-date-to'];
-
 interface SelectorProps {
   selector: SearchFormSelector;
   onFieldChange: (name: string, value: string) => void;
@@ -54,36 +54,46 @@ interface SelectorProps {
 
 const Selector = ({ selector, onFieldChange, searchObject }: SelectorProps) => {
   const { t } = useTranslation();
-  if (datePickerTypes.includes(selector.type)) {
-    return (
-      <InlineDatePicker
-        name={selector.type}
-        onChange={e => {
-          const { name, value } = e.target;
-          onFieldChange(name, value);
-        }}
-        placeholder={t(`searchForm.types.${selector.type}`)}
-        value={(searchObject[selector.type] as string | undefined) ?? ''}
-      />
-    );
+  switch (selector.formElementType) {
+    case 'date-picker':
+      return (
+        <InlineDatePicker
+          name={selector.type}
+          onChange={e => {
+            const { name, value } = e.target;
+            onFieldChange(name, value);
+          }}
+          placeholder={t(`searchForm.types.${selector.type}`)}
+          value={(searchObject[selector.type] as string | undefined) ?? ''}
+        />
+      );
+    case 'check-box':
+      return (
+        <CheckboxSelector
+          name={selector.type}
+          checked={searchObject[selector.type] as boolean}
+          onChange={e => {
+            const value = e.currentTarget.checked;
+            onFieldChange(selector.type, value.toString());
+          }}
+        />
+      );
+    default:
+      return (
+        <ObjectSelector
+          name={selector.type}
+          // The fields in selectFields that are mapped over all correspond to a string value in SearchState.
+          // As such, the value used below will always be a string. TypeScript just needs to be told explicitly.
+          value={(searchObject[selector.type] as string) ?? ''}
+          options={selector.options}
+          idKey="id"
+          labelKey="name"
+          emptyField
+          onChange={evt => onFieldChange(evt.currentTarget.name, evt.currentTarget.value)}
+          placeholder={t(`searchForm.types.${selector.type}`)}
+        />
+      );
   }
-  return (
-    <ObjectSelector
-      name={selector.type}
-      // The fields in selectFields that are mapped over all correspond to a string value in SearchState.
-      // As such, the value used below will always be a string. TypeScript just needs to be told explicitly.
-      value={(searchObject[selector.type] as string) ?? ''}
-      options={selector.options}
-      idKey="id"
-      labelKey="name"
-      emptyField
-      onChange={evt => {
-        const { name, value } = evt.currentTarget;
-        onFieldChange(name, value);
-      }}
-      placeholder={t(`searchForm.types.${selector.type}`)}
-    />
-  );
 };
 
 const StyledForm = styled.form`
@@ -126,7 +136,10 @@ const GenericSearchForm = ({
   removeTag,
 }: Props) => {
   const { t } = useTranslation();
-  const tags: TagType[] = [{ type: 'query', name: query }, ...selectors];
+  const tags: TagType[] = [
+    { type: 'query', name: query, formElementType: 'text-input' },
+    ...selectors,
+  ];
   return (
     <StyledForm
       onSubmit={e => {

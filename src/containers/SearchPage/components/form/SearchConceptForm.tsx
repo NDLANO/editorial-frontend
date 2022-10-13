@@ -97,24 +97,28 @@ const SearchConceptForm = ({ search: doSearch, searchObject: search, subjects }:
       options: subjects
         .filter(s => s.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] === 'true')
         .sort(sortByProperty('name')),
+      formElementType: 'dropdown',
     },
     {
       type: 'status',
       name: getTagName(search.status, getConceptStatuses()),
       options: getConceptStatuses(),
       width: 25,
+      formElementType: 'dropdown',
     },
     {
       type: 'language',
       name: getTagName(search.language, getResourceLanguages(t)),
       options: getResourceLanguages(t),
       width: 25,
+      formElementType: 'dropdown',
     },
     {
       type: 'users',
       name: getTagName(search.users, users),
       options: users!.sort(sortByProperty('name')),
       width: 25,
+      formElementType: 'dropdown',
     },
   ];
 

@@ -108,6 +108,7 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
       language: '',
       'revision-date-from': '',
       'revision-date-to': '',
+      'exclude-revision-log': false,
     });
   };
 
@@ -133,12 +134,14 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
       options: subjects
         .filter(s => s.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] !== 'true')
         .sort(sortByProperty('name')),
+      formElementType: 'dropdown',
     },
     {
       name: getTagName(search['resource-types'], resourceTypes),
       type: 'resource-types',
       width: 25,
       options: resourceTypes!.sort(sortByProperty('name')),
+      formElementType: 'dropdown',
     },
     {
       name: getTagName(
@@ -148,18 +151,28 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
       type: 'draft-status',
       width: 25,
       options: getDraftStatuses().sort(sortByProperty('name')),
+      formElementType: 'dropdown',
     },
     {
       name: getTagName(search.users, users),
       type: 'users',
       width: 25,
       options: users!.sort(sortByProperty('name')),
+      formElementType: 'dropdown',
     },
     {
       name: getTagName(search.language, getResourceLanguages(t)),
       type: 'language',
       width: 25,
       options: getResourceLanguages(t),
+      formElementType: 'dropdown',
+    },
+    {
+      name: search['exclude-revision-log']?.toString(),
+      type: 'exclude-revision-log',
+      width: 25,
+      options: [],
+      formElementType: 'check-box',
     },
   ];
 
@@ -170,12 +183,14 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
         type: 'revision-date-from',
         width: 25,
         options: [],
+        formElementType: 'date-picker',
       },
       {
         name: search['revision-date-to'],
         type: 'revision-date-to',
         width: 25,
         options: [],
+        formElementType: 'date-picker',
       },
     );
   }

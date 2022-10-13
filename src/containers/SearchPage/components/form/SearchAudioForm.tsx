@@ -86,17 +86,20 @@ const SearchAudioForm = ({
       type: 'audio-type',
       name: getTagName(search['audio-type'], getAudioTypes()),
       options: getAudioTypes(),
+      formElementType: 'dropdown',
     },
     {
       type: 'license',
       name: getTagName(search.license, licenses),
       options: licenses ?? [],
+      formElementType: 'dropdown',
     },
     {
       type: 'language',
       name: getTagName(search.language, getResourceLanguages(t)),
       options: getResourceLanguages(t),
       width: 25,
+      formElementType: 'dropdown',
     },
   ];
 

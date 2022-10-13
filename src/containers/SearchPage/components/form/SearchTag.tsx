@@ -8,7 +8,7 @@
 
 import { Component, MouseEvent } from 'react';
 
-import { withTranslation, CustomWithTranslation } from 'react-i18next';
+import { withTranslation, CustomWithTranslation, useTranslation } from 'react-i18next';
 import { colors, spacing } from '@ndla/core';
 import Button from '@ndla/button';
 import { Cross } from '@ndla/icons/action';
@@ -51,6 +51,24 @@ interface Props {
   onRemoveItem: (tag: TagType) => void;
 }
 
+const SearchTagContent = ({
+  tag,
+  tagValue,
+}: {
+  tag: TagType;
+  tagValue: string | number | boolean | undefined;
+}) => {
+  const { t } = useTranslation();
+  const isCheckboxTag = tag.formElementType === 'check-box';
+
+  return (
+    <>
+      {!isCheckboxTag && <StyledDt>{t(`searchForm.tagType.${tag.type}`)}:</StyledDt>}
+      <StyledDd>{tagValue}</StyledDd>
+    </>
+  );
+};
+
 class SearchTag extends Component<Props & CustomWithTranslation> {
   constructor(props: Props & CustomWithTranslation) {
     super(props);
@@ -66,12 +84,18 @@ class SearchTag extends Component<Props & CustomWithTranslation> {
 
   render() {
     const { tag, t } = this.props;
-    const tagValue = searchParamsFormatter(tag.type, tag.name) || '';
+    const tagValue = searchParamsFormatter(
+      tag.type,
+      tag.name,
+      tag.formElementType,
+      t(`searchForm.tagType.${tag.type}`),
+    );
+
+    if (tagValue === undefined) return null;
 
     return (
       <StyledDl>
-        <StyledDt>{t(`searchForm.tagType.${tag.type}`)}:</StyledDt>
-        <StyledDd>{tagValue}</StyledDd>
+        <SearchTagContent tag={tag} tagValue={tagValue} />
         <Button onClick={this.onRemove} stripped>
           <Cross className="c-icon--small" />
         </Button>

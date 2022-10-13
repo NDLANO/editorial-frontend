@@ -8,10 +8,12 @@
 
 import SearchTag from './SearchTag';
 import { SearchParams } from './SearchForm';
+import { SearchFormSelector } from './GenericSearchForm';
 
 export interface TagType {
   type: keyof SearchParams;
   name?: string;
+  formElementType: SearchFormSelector['formElementType'];
 }
 
 interface Props {

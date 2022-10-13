@@ -68,6 +68,7 @@ const SearchAudioForm = ({
       name: getTagName(search.language, getResourceLanguages(t)),
       options: getResourceLanguages(t),
       width: 25,
+      formElementType: 'dropdown',
     },
   ];
 

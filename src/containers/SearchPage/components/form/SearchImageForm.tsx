@@ -85,17 +85,20 @@ const SearchImageForm = ({
       type: 'license',
       name: getTagName(search.license, licenses),
       options: licenses ?? [],
+      formElementType: 'dropdown',
     },
     {
       type: 'model-released',
       name: getTagName(search['model-released'], getModelReleasedValues(t)),
       options: getModelReleasedValues(t),
+      formElementType: 'dropdown',
     },
     {
       type: 'language',
       name: getTagName(search.language, getResourceLanguages(t)),
       options: getResourceLanguages(t),
       width: 25,
+      formElementType: 'dropdown',
     },
   ];
 

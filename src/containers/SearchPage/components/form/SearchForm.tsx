@@ -14,7 +14,7 @@ import SearchImageForm from './SearchImageForm';
 import SearchConceptForm from './SearchConceptForm';
 import { SearchType } from '../../../../interfaces';
 import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
-import { datePickerTypes } from './GenericSearchForm';
+import { SearchFormSelector } from './GenericSearchForm';
 import formatDate from '../../../../util/formatDate';
 
 export interface SearchParams {
@@ -36,15 +36,27 @@ export interface SearchParams {
   'model-released'?: string;
   'revision-date-from'?: string;
   'revision-date-to'?: string;
+  'exclude-revision-log'?: boolean;
 }
 
 export const searchParamsFormatter = (
   key: keyof SearchParams,
-  value?: string | number | boolean,
+  value: string | number | boolean | undefined,
+  formElementType: SearchFormSelector['formElementType'],
+  tagTypeString: string,
 ): string | number | boolean | undefined => {
-  if (datePickerTypes.includes(key) && typeof value === 'string') {
+  if (formElementType === 'date-picker' && typeof value === 'string') {
     return formatDate(value);
   }
+
+  if (formElementType === 'check-box' && value === 'true') {
+    return tagTypeString;
+  }
+
+  if (formElementType === 'check-box') {
+    return undefined;
+  }
+
   return value;
 };
 
@@ -74,6 +86,7 @@ export const parseSearchParams = (locationSearch: string): SearchParams => {
     users: queryStringObject.users,
     'revision-date-from': queryStringObject['revision-date-from'],
     'revision-date-to': queryStringObject['revision-date-to'],
+    'exclude-revision-log': queryStringObject['exclude-revision-log'] === 'true',
   };
 };
 

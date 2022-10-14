@@ -6,7 +6,7 @@
  *
  */
 
-import { FormEvent, useEffect, useState, MouseEvent } from 'react';
+import { useEffect, useState, MouseEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getResourceLanguages } from '../../../../util/resourceHelpers';
 import { getTagName } from '../../../../util/formHelper';
@@ -41,12 +41,8 @@ const SearchAudioForm = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search.query]);
 
-  const onInputChange = (evt: FormEvent<HTMLInputElement>) => {
-    setQueryInput(evt.currentTarget.value);
-    doSearch({ ...search, query: evt.currentTarget.value });
-  };
-
-  const onFieldChange: OnFieldChangeFunction = (name, value) => {
+  const onFieldChange: OnFieldChangeFunction = (name, value, evt) => {
+    if (name === 'query' && evt) setQueryInput(evt.currentTarget.value);
     doSearch({ ...search, [name]: value });
   };
 
@@ -78,7 +74,6 @@ const SearchAudioForm = ({
       type="podcastSeries"
       selectors={selectors}
       query={queryInput}
-      onQueryChange={onInputChange}
       onSubmit={handleSearch}
       searchObject={search}
       onFieldChange={onFieldChange}

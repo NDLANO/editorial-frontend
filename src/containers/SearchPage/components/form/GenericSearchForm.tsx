@@ -14,10 +14,15 @@ import Button from '@ndla/button';
 import { SearchParams } from './SearchForm';
 import SearchTagGroup, { TagType } from './SearchTagGroup';
 import Selector, { SearchFormSelector } from './Selector';
+import { DateChangedEvent } from '../../../FormikForm/components/InlineDatePicker';
+
+type FormEvents = FormEvent<HTMLInputElement> | FormEvent<HTMLSelectElement>;
+type FieldChangedEvent = FormEvents | DateChangedEvent;
 
 export type OnFieldChangeFunction = <T extends keyof SearchParams>(
   name: T,
   value: SearchParams[T],
+  event: FieldChangedEvent,
 ) => void;
 
 interface Props {
@@ -25,7 +30,6 @@ interface Props {
   selectors: SearchFormSelector[];
   query: string;
   searchObject: SearchParams;
-  onQueryChange: (event: FormEvent<HTMLInputElement>) => void;
   onSubmit: () => void;
   onFieldChange: OnFieldChangeFunction;
   emptySearch: (evt: MouseEvent<HTMLButtonElement>) => void;
@@ -72,9 +76,8 @@ const StyledTagline = styled.div`
 
 const GenericSearchForm = ({
   type,
-  selectors,
+  selectors: baseSelectors,
   query,
-  onQueryChange,
   onSubmit,
   searchObject,
   onFieldChange,
@@ -82,24 +85,17 @@ const GenericSearchForm = ({
   removeTag,
 }: Props) => {
   const { t } = useTranslation();
-  const tags: TagType[] = [
-    { parameterName: 'query', value: query, formElementType: 'text-input' },
-    ...selectors,
+  const selectors: SearchFormSelector[] = [
+    { parameterName: 'query', width: 50, value: query, formElementType: 'text-input' },
+    ...baseSelectors,
   ];
+
   return (
     <StyledForm
       onSubmit={e => {
         e.preventDefault();
         e.stopPropagation();
       }}>
-      <StyledField width={50}>
-        <input
-          name="query"
-          placeholder={t(`searchForm.types.${type}Query`)}
-          value={query}
-          onChange={onQueryChange}
-        />
-      </StyledField>
       {selectors.map(selector => {
         return (
           <StyledField
@@ -109,6 +105,7 @@ const GenericSearchForm = ({
               searchObject={searchObject}
               selector={selector}
               onFieldChange={onFieldChange}
+              formType={type}
             />
           </StyledField>
         );
@@ -120,7 +117,7 @@ const GenericSearchForm = ({
         <StyledSubmitButton onClick={onSubmit}>{t('searchForm.btn')}</StyledSubmitButton>
       </StyledField>
       <StyledTagline>
-        <SearchTagGroup onRemoveItem={removeTag} tagTypes={tags} />
+        <SearchTagGroup onRemoveItem={removeTag} tagTypes={selectors} />
       </StyledTagline>
     </StyledForm>
   );

@@ -6,7 +6,7 @@
  *
  */
 
-import { FormEvent, useEffect, useState, MouseEvent } from 'react';
+import { useEffect, useState, MouseEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getResourceLanguages } from '../../../../util/resourceHelpers';
 import { getTagName } from '../../../../util/formHelper';
@@ -40,12 +40,8 @@ const SearchConceptForm = ({ search: doSearch, searchObject: search, subjects }:
     },
   );
 
-  const onInputChange = (evt: FormEvent<HTMLInputElement>) => {
-    setQueryInput(evt.currentTarget.value);
-    doSearch({ ...search, query: evt.currentTarget.value });
-  };
-
-  const onFieldChange: OnFieldChangeFunction = (name, value) => {
+  const onFieldChange: OnFieldChangeFunction = (name, value, evt) => {
+    if (name === 'query' && evt) setQueryInput(evt.currentTarget.value);
     doSearch({ ...search, [name]: value });
   };
 
@@ -128,7 +124,6 @@ const SearchConceptForm = ({ search: doSearch, searchObject: search, subjects }:
       type="concept"
       selectors={selectors}
       query={queryInput}
-      onQueryChange={onInputChange}
       onSubmit={handleSearch}
       searchObject={search}
       onFieldChange={onFieldChange}

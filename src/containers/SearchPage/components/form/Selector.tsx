@@ -54,22 +54,27 @@ interface SelectorProps {
   selector: SearchFormSelector;
   onFieldChange: OnFieldChangeFunction;
   searchObject: SearchParams;
+  formType: string;
 }
 
-const Selector = ({ selector, onFieldChange, searchObject }: SelectorProps) => {
+const Selector = ({ formType, selector, onFieldChange, searchObject }: SelectorProps) => {
   const { t } = useTranslation();
   switch (selector.formElementType) {
     case 'text-input':
-      // TODO: text-input/query is handled specifically in `GenericSearchForm`
-      //       in the future this should probably be moved here.
-      //       for now this branch will remain here to satisfy the typing.
-      return null;
+      return (
+        <input
+          name={selector.parameterName}
+          placeholder={t(`searchForm.types.${formType}Query`)}
+          value={selector.value}
+          onChange={e => onFieldChange(selector.parameterName, e.currentTarget.value, e)}
+        />
+      );
     case 'date-picker':
       const datePickerValue = searchObject[selector.parameterName];
       return (
         <InlineDatePicker
           name={selector.parameterName}
-          onChange={e => onFieldChange(selector.parameterName, e.target.value)}
+          onChange={e => onFieldChange(selector.parameterName, e.currentTarget.value, e)}
           placeholder={t(`searchForm.types.${selector.parameterName}`)}
           value={datePickerValue ?? ''}
         />
@@ -80,7 +85,7 @@ const Selector = ({ selector, onFieldChange, searchObject }: SelectorProps) => {
         <CheckboxSelector
           name={selector.parameterName}
           checked={checkboxValue ?? false}
-          onChange={e => onFieldChange(selector.parameterName, e.currentTarget.checked)}
+          onChange={e => onFieldChange(selector.parameterName, e.currentTarget.checked, e)}
         />
       );
     case 'dropdown':
@@ -93,7 +98,7 @@ const Selector = ({ selector, onFieldChange, searchObject }: SelectorProps) => {
           idKey="id"
           labelKey="name"
           emptyField
-          onChange={evt => onFieldChange(selector.parameterName, evt.currentTarget.value)}
+          onChange={e => onFieldChange(selector.parameterName, e.currentTarget.value, e)}
           placeholder={t(`searchForm.types.${selector.parameterName}`)}
         />
       );

@@ -6,7 +6,7 @@
  *
  */
 
-import { FormEvent, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useTranslation } from 'react-i18next';
 import { flattenResourceTypesAndAddContextTypes } from '../../../../util/taxonomyHelpers';
@@ -63,14 +63,10 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search.query]);
 
-  const onInputChange = (evt: FormEvent<HTMLInputElement>) => {
-    setQueryInput(evt.currentTarget.value);
-    doSearch({ ...search, query: evt.currentTarget.value });
-  };
-
-  const onFieldChange: OnFieldChangeFunction = (name, value) => {
+  const onFieldChange: OnFieldChangeFunction = (name, value, evt) => {
     let includeOtherStatuses: boolean | undefined;
     let status: string | undefined;
+    if (name === 'query' && evt) setQueryInput(evt.currentTarget.value);
     if (name === 'draft-status' && typeof value === 'string') {
       const isHasPublished = value === 'HAS_PUBLISHED';
       includeOtherStatuses = isHasPublished;
@@ -198,7 +194,6 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
       type="content"
       selectors={selectors}
       query={queryInput}
-      onQueryChange={onInputChange}
       onSubmit={handleSearch}
       searchObject={{
         ...search,

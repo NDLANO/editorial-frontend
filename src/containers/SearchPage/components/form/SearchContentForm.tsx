@@ -22,9 +22,10 @@ import config from '../../../../config';
 import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { useAuth0Editors } from '../../../../modules/auth0/auth0Queries';
 import { useAllResourceTypes } from '../../../../modules/taxonomy/resourcetypes/resourceTypesQueries';
-import GenericSearchForm, { OnFieldChangeFunction, SearchFormSelector } from './GenericSearchForm';
+import GenericSearchForm, { OnFieldChangeFunction } from './GenericSearchForm';
 import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
 import { TagType } from './SearchTagGroup';
+import { SearchFormSelector } from './Selector';
 
 interface Props {
   search: (o: SearchParams) => void;

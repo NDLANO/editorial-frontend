@@ -12,8 +12,9 @@ import { getResourceLanguages } from '../../../../util/resourceHelpers';
 import { getTagName } from '../../../../util/formHelper';
 import { SearchParams } from './SearchForm';
 import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
-import GenericSearchForm, { OnFieldChangeFunction, SearchFormSelector } from './GenericSearchForm';
+import GenericSearchForm, { OnFieldChangeFunction } from './GenericSearchForm';
 import { TagType } from './SearchTagGroup';
+import { SearchFormSelector } from './Selector';
 
 interface Props {
   search: (o: SearchParams) => void;

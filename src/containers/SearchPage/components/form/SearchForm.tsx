@@ -14,8 +14,8 @@ import SearchImageForm from './SearchImageForm';
 import SearchConceptForm from './SearchConceptForm';
 import { SearchType } from '../../../../interfaces';
 import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
-import { SearchFormSelector } from './GenericSearchForm';
 import formatDate from '../../../../util/formatDate';
+import { SearchFormSelector } from './Selector';
 
 export interface SearchParams {
   query?: string;

@@ -11,47 +11,9 @@ import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import Button from '@ndla/button';
-import ObjectSelector from '../../../../components/ObjectSelector';
 import { SearchParams } from './SearchForm';
 import SearchTagGroup, { TagType } from './SearchTagGroup';
-import InlineDatePicker from '../../../FormikForm/components/InlineDatePicker';
-import CheckboxSelector from './CheckboxSelector';
-import { unreachable } from '../../../../util/guards';
-
-interface SearchFormSelectorBase {
-  parameterName: keyof SearchParams;
-  value?: string;
-  width?: number;
-  formElementType: 'date-picker' | 'dropdown' | 'check-box' | 'text-input';
-}
-
-/** These types are to extract keys of a specific type from SearchParams */
-type RSP = Required<SearchParams>;
-type SearchParamsWithOnlyType<P> = { [k in keyof RSP]: RSP[k] extends P ? k : never }[keyof RSP];
-type SearchParamsOfType<O> = { [k in SearchParamsWithOnlyType<O>]: O };
-
-export type SearchFormSelector =
-  | CheckboxSelectorType
-  | ObjectSelectorType
-  | DatePickerSelectorType
-  | TextInputSelectorType;
-
-export interface CheckboxSelectorType extends SearchFormSelectorBase {
-  formElementType: 'check-box';
-  parameterName: keyof SearchParamsOfType<boolean>;
-}
-export interface ObjectSelectorType extends SearchFormSelectorBase {
-  formElementType: 'dropdown';
-  options: { id: string; name: string }[];
-  parameterName: keyof SearchParamsOfType<string>;
-}
-export interface DatePickerSelectorType extends SearchFormSelectorBase {
-  formElementType: 'date-picker';
-  parameterName: keyof SearchParamsOfType<string>;
-}
-export interface TextInputSelectorType extends SearchFormSelectorBase {
-  formElementType: 'text-input';
-}
+import Selector, { SearchFormSelector } from './Selector';
 
 export type OnFieldChangeFunction = <T extends keyof SearchParams>(
   name: T,
@@ -78,58 +40,6 @@ const StyledButton = styled(Button)`
 const StyledSubmitButton = styled(Button)`
   width: 49%;
 `;
-
-interface SelectorProps {
-  selector: SearchFormSelector;
-  onFieldChange: OnFieldChangeFunction;
-  searchObject: SearchParams;
-}
-
-const Selector = ({ selector, onFieldChange, searchObject }: SelectorProps) => {
-  const { t } = useTranslation();
-  switch (selector.formElementType) {
-    case 'text-input':
-      // TODO: text-input/query is handled specifically in `GenericSearchForm`
-      //       in the future this should probably be moved here.
-      //       for now this branch will remain here to satisfy the typing.
-      return null;
-    case 'date-picker':
-      const datePickerValue = searchObject[selector.parameterName];
-      return (
-        <InlineDatePicker
-          name={selector.parameterName}
-          onChange={e => onFieldChange(selector.parameterName, e.target.value)}
-          placeholder={t(`searchForm.types.${selector.parameterName}`)}
-          value={datePickerValue ?? ''}
-        />
-      );
-    case 'check-box':
-      const checkboxValue = searchObject[selector.parameterName];
-      return (
-        <CheckboxSelector
-          name={selector.parameterName}
-          checked={checkboxValue ?? false}
-          onChange={e => onFieldChange(selector.parameterName, e.currentTarget.checked)}
-        />
-      );
-    case 'dropdown':
-      const dropdownValue = searchObject[selector.parameterName];
-      return (
-        <ObjectSelector
-          name={selector.parameterName}
-          value={dropdownValue ?? ''}
-          options={selector.options}
-          idKey="id"
-          labelKey="name"
-          emptyField
-          onChange={evt => onFieldChange(selector.parameterName, evt.currentTarget.value)}
-          placeholder={t(`searchForm.types.${selector.parameterName}`)}
-        />
-      );
-    default:
-      return unreachable(selector);
-  }
-};
 
 const StyledForm = styled.form`
   display: flex;

@@ -8,7 +8,7 @@
 
 import SearchTag from './SearchTag';
 import { SearchParams } from './SearchForm';
-import { SearchFormSelector } from './GenericSearchForm';
+import { SearchFormSelector } from './Selector';
 
 export interface TagType {
   parameterName: keyof SearchParams;

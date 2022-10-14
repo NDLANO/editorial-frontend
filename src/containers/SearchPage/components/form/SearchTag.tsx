@@ -14,7 +14,7 @@ import Button from '@ndla/button';
 import { Cross } from '@ndla/icons/action';
 import styled from '@emotion/styled';
 import { searchParamsFormatter } from './SearchForm';
-import { TagType } from './SearchTagGroup';
+import { SearchFormSelector } from './Selector';
 
 const StyledDl = styled.dl`
   display: flex;
@@ -47,15 +47,15 @@ const StyledDd = styled.dd`
 `;
 
 interface Props {
-  tag: TagType;
-  onRemoveItem: (tag: TagType) => void;
+  tag: SearchFormSelector;
+  onRemoveItem: (tag: SearchFormSelector) => void;
 }
 
 const SearchTagContent = ({
   tag,
   tagValue,
 }: {
-  tag: TagType;
+  tag: SearchFormSelector;
   tagValue: string | number | boolean | undefined;
 }) => {
   const { t } = useTranslation();
@@ -84,12 +84,7 @@ class SearchTag extends Component<Props & CustomWithTranslation> {
 
   render() {
     const { tag, t } = this.props;
-    const tagValue = searchParamsFormatter(
-      tag.parameterName,
-      tag.value,
-      tag.formElementType,
-      t(`searchForm.tagType.${tag.parameterName}`),
-    );
+    const tagValue = searchParamsFormatter(tag, t);
 
     if (tagValue === undefined) return null;
 

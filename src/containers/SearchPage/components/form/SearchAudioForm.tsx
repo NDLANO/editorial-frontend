@@ -16,7 +16,6 @@ import { SearchParams } from './SearchForm';
 import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { useLicenses } from '../../../../modules/draft/draftQueries';
 import GenericSearchForm, { OnFieldChangeFunction } from './GenericSearchForm';
-import { TagType } from './SearchTagGroup';
 import { SearchFormSelector } from './Selector';
 
 interface Props {
@@ -60,7 +59,7 @@ const SearchAudioForm = ({
 
   const handleSearch = () => doSearch({ ...search, page: 1 });
 
-  const removeTagItem = (tag: TagType) => {
+  const removeTagItem = (tag: SearchFormSelector) => {
     if (tag.parameterName === 'query') setQueryInput('');
     doSearch({ ...search, [tag.parameterName]: '' });
   };

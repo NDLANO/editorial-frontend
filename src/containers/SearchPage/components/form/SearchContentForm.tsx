@@ -24,7 +24,6 @@ import { useAuth0Editors } from '../../../../modules/auth0/auth0Queries';
 import { useAllResourceTypes } from '../../../../modules/taxonomy/resourcetypes/resourceTypesQueries';
 import GenericSearchForm, { OnFieldChangeFunction } from './GenericSearchForm';
 import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
-import { TagType } from './SearchTagGroup';
 import { SearchFormSelector } from './Selector';
 
 interface Props {
@@ -87,7 +86,7 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
 
   const handleSearch = () => doSearch({ ...search, fallback: false, page: 1 });
 
-  const removeTagItem = (tag: TagType) => {
+  const removeTagItem = (tag: SearchFormSelector) => {
     if (tag.parameterName === 'query') setQueryInput('');
     if (tag.parameterName === 'draft-status') setIsHasPublished(tag.value === 'HAS_PUBLISHED');
     doSearch({ ...search, [tag.parameterName]: '' });

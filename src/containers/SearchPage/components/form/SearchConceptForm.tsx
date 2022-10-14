@@ -19,7 +19,6 @@ import {
 import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { useAuth0Editors } from '../../../../modules/auth0/auth0Queries';
 import GenericSearchForm, { OnFieldChangeFunction } from './GenericSearchForm';
-import { TagType } from './SearchTagGroup';
 import { SearchFormSelector } from './Selector';
 
 interface Props {
@@ -60,7 +59,7 @@ const SearchConceptForm = ({ search: doSearch, searchObject: search, subjects }:
 
   const handleSearch = () => doSearch({ ...search, page: 1 });
 
-  const removeTagItem = (tag: TagType) => {
+  const removeTagItem = (tag: SearchFormSelector) => {
     if (tag.parameterName === 'query') setQueryInput('');
     doSearch({ ...search, [tag.parameterName]: '' });
   };

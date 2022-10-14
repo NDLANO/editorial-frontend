@@ -12,7 +12,7 @@ import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import Button from '@ndla/button';
 import { SearchParams } from './SearchForm';
-import SearchTagGroup, { TagType } from './SearchTagGroup';
+import SearchTagGroup from './SearchTagGroup';
 import Selector, { SearchFormSelector } from './Selector';
 import { DateChangedEvent } from '../../../FormikForm/components/InlineDatePicker';
 
@@ -33,7 +33,7 @@ interface Props {
   onSubmit: () => void;
   onFieldChange: OnFieldChangeFunction;
   emptySearch: (evt: MouseEvent<HTMLButtonElement>) => void;
-  removeTag: (tag: TagType) => void;
+  removeTag: (tag: SearchFormSelector) => void;
 }
 
 const StyledButton = styled(Button)`

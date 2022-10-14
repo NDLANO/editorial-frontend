@@ -36,7 +36,7 @@ export interface SearchParams {
   'model-released'?: string;
   'revision-date-from'?: string;
   'revision-date-to'?: string;
-  'exclude-revision-log'?: boolean;
+  'exclude-revision-log'?: boolean | undefined;
 }
 
 export const searchParamsFormatter = (

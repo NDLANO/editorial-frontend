@@ -16,14 +16,47 @@ import { SearchParams } from './SearchForm';
 import SearchTagGroup, { TagType } from './SearchTagGroup';
 import InlineDatePicker from '../../../FormikForm/components/InlineDatePicker';
 import CheckboxSelector from './CheckboxSelector';
+import { unreachable } from '../../../../util/guards';
 
-export interface SearchFormSelector {
-  type: keyof SearchParams;
-  name?: string;
-  options: { id: string; name: string }[];
+interface SearchFormSelectorBase {
+  parameterName: keyof SearchParams;
+  value?: string;
   width?: number;
-  formElementType: 'date-picker' | 'dropdown' | 'text-input' | 'check-box';
+  formElementType: 'date-picker' | 'dropdown' | 'check-box' | 'text-input';
 }
+
+/** These types are to extract keys of a specific type from SearchParams */
+type RSP = Required<SearchParams>;
+type SearchParamsWithOnlyType<P> = { [k in keyof RSP]: RSP[k] extends P ? k : never }[keyof RSP];
+type SearchParamsOfType<O> = { [k in SearchParamsWithOnlyType<O>]: O };
+
+export type SearchFormSelector =
+  | CheckboxSelectorType
+  | ObjectSelectorType
+  | DatePickerSelectorType
+  | TextInputSelectorType;
+
+export interface CheckboxSelectorType extends SearchFormSelectorBase {
+  formElementType: 'check-box';
+  parameterName: keyof SearchParamsOfType<boolean>;
+}
+export interface ObjectSelectorType extends SearchFormSelectorBase {
+  formElementType: 'dropdown';
+  options: { id: string; name: string }[];
+  parameterName: keyof SearchParamsOfType<string>;
+}
+export interface DatePickerSelectorType extends SearchFormSelectorBase {
+  formElementType: 'date-picker';
+  parameterName: keyof SearchParamsOfType<string>;
+}
+export interface TextInputSelectorType extends SearchFormSelectorBase {
+  formElementType: 'text-input';
+}
+
+export type OnFieldChangeFunction = <T extends keyof SearchParams>(
+  name: T,
+  value: SearchParams[T],
+) => void;
 
 interface Props {
   type: string;
@@ -32,7 +65,7 @@ interface Props {
   searchObject: SearchParams;
   onQueryChange: (event: FormEvent<HTMLInputElement>) => void;
   onSubmit: () => void;
-  onFieldChange: (name: string, value: string) => void;
+  onFieldChange: OnFieldChangeFunction;
   emptySearch: (evt: MouseEvent<HTMLButtonElement>) => void;
   removeTag: (tag: TagType) => void;
 }
@@ -48,51 +81,53 @@ const StyledSubmitButton = styled(Button)`
 
 interface SelectorProps {
   selector: SearchFormSelector;
-  onFieldChange: (name: string, value: string) => void;
+  onFieldChange: OnFieldChangeFunction;
   searchObject: SearchParams;
 }
 
 const Selector = ({ selector, onFieldChange, searchObject }: SelectorProps) => {
   const { t } = useTranslation();
   switch (selector.formElementType) {
+    case 'text-input':
+      // TODO: text-input/query is handled specifically in `GenericSearchForm`
+      //       in the future this should probably be moved here.
+      //       for now this branch will remain here to satisfy the typing.
+      return null;
     case 'date-picker':
+      const datePickerValue = searchObject[selector.parameterName];
       return (
         <InlineDatePicker
-          name={selector.type}
-          onChange={e => {
-            const { name, value } = e.target;
-            onFieldChange(name, value);
-          }}
-          placeholder={t(`searchForm.types.${selector.type}`)}
-          value={(searchObject[selector.type] as string | undefined) ?? ''}
+          name={selector.parameterName}
+          onChange={e => onFieldChange(selector.parameterName, e.target.value)}
+          placeholder={t(`searchForm.types.${selector.parameterName}`)}
+          value={datePickerValue ?? ''}
         />
       );
     case 'check-box':
+      const checkboxValue = searchObject[selector.parameterName];
       return (
         <CheckboxSelector
-          name={selector.type}
-          checked={searchObject[selector.type] as boolean}
-          onChange={e => {
-            const value = e.currentTarget.checked;
-            onFieldChange(selector.type, value.toString());
-          }}
+          name={selector.parameterName}
+          checked={checkboxValue ?? false}
+          onChange={e => onFieldChange(selector.parameterName, e.currentTarget.checked)}
         />
       );
-    default:
+    case 'dropdown':
+      const dropdownValue = searchObject[selector.parameterName];
       return (
         <ObjectSelector
-          name={selector.type}
-          // The fields in selectFields that are mapped over all correspond to a string value in SearchState.
-          // As such, the value used below will always be a string. TypeScript just needs to be told explicitly.
-          value={(searchObject[selector.type] as string) ?? ''}
+          name={selector.parameterName}
+          value={dropdownValue ?? ''}
           options={selector.options}
           idKey="id"
           labelKey="name"
           emptyField
-          onChange={evt => onFieldChange(evt.currentTarget.name, evt.currentTarget.value)}
-          placeholder={t(`searchForm.types.${selector.type}`)}
+          onChange={evt => onFieldChange(selector.parameterName, evt.currentTarget.value)}
+          placeholder={t(`searchForm.types.${selector.parameterName}`)}
         />
       );
+    default:
+      return unreachable(selector);
   }
 };
 
@@ -101,6 +136,7 @@ const StyledForm = styled.form`
   flex-flow: row;
   flex-wrap: wrap;
   margin: 0 -0.4rem;
+
   & select {
     width: 100%;
     padding-top: 0.5rem;
@@ -137,7 +173,7 @@ const GenericSearchForm = ({
 }: Props) => {
   const { t } = useTranslation();
   const tags: TagType[] = [
-    { type: 'query', name: query, formElementType: 'text-input' },
+    { parameterName: 'query', value: query, formElementType: 'text-input' },
     ...selectors,
   ];
   return (
@@ -156,7 +192,9 @@ const GenericSearchForm = ({
       </StyledField>
       {selectors.map(selector => {
         return (
-          <StyledField key={`search-form-field-${selector.type}`} width={selector.width ?? 50}>
+          <StyledField
+            key={`search-form-field-${selector.parameterName}`}
+            width={selector.width ?? 50}>
             <Selector
               searchObject={searchObject}
               selector={selector}

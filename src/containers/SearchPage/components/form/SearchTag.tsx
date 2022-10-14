@@ -30,7 +30,7 @@ const StyledDl = styled.dl`
   padding-right: 0.3rem;
   margin: 0.1rem 0.3rem;
   margin-right: ${spacing.small};
-  &:first-child {
+  &:first-of-type {
     margin-left: 0;
   }
 `;
@@ -63,7 +63,7 @@ const SearchTagContent = ({
 
   return (
     <>
-      {!isCheckboxTag && <StyledDt>{t(`searchForm.tagType.${tag.type}`)}:</StyledDt>}
+      {!isCheckboxTag && <StyledDt>{t(`searchForm.tagType.${tag.parameterName}`)}:</StyledDt>}
       <StyledDd>{tagValue}</StyledDd>
     </>
   );
@@ -85,10 +85,10 @@ class SearchTag extends Component<Props & CustomWithTranslation> {
   render() {
     const { tag, t } = this.props;
     const tagValue = searchParamsFormatter(
-      tag.type,
-      tag.name,
+      tag.parameterName,
+      tag.value,
       tag.formElementType,
-      t(`searchForm.tagType.${tag.type}`),
+      t(`searchForm.tagType.${tag.parameterName}`),
     );
 
     if (tagValue === undefined) return null;

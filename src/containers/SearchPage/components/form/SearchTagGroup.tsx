@@ -11,8 +11,8 @@ import { SearchParams } from './SearchForm';
 import { SearchFormSelector } from './GenericSearchForm';
 
 export interface TagType {
-  type: keyof SearchParams;
-  name?: string;
+  parameterName: keyof SearchParams;
+  value?: string;
   formElementType: SearchFormSelector['formElementType'];
 }
 
@@ -25,8 +25,10 @@ const SearchTagGroup = ({ tagTypes, onRemoveItem }: Props) => {
   return (
     <>
       {tagTypes.map((tag: TagType) => {
-        if (!tag.name) return null;
-        return <SearchTag key={`searchtag_${tag.type}`} onRemoveItem={onRemoveItem} tag={tag} />;
+        if (!tag.value) return null;
+        return (
+          <SearchTag key={`searchtag_${tag.parameterName}`} onRemoveItem={onRemoveItem} tag={tag} />
+        );
       })}
     </>
   );

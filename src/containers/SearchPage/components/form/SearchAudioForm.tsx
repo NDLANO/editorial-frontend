@@ -15,7 +15,7 @@ import { getLicensesWithTranslations } from '../../../../util/licenseHelpers';
 import { SearchParams } from './SearchForm';
 import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { useLicenses } from '../../../../modules/draft/draftQueries';
-import GenericSearchForm, { SearchFormSelector } from './GenericSearchForm';
+import GenericSearchForm, { OnFieldChangeFunction, SearchFormSelector } from './GenericSearchForm';
 import { TagType } from './SearchTagGroup';
 
 interface Props {
@@ -58,16 +58,15 @@ const SearchAudioForm = ({
     setQueryInput(evt.currentTarget.value);
     doSearch({ ...search, query: evt.currentTarget.value });
   };
-
-  const onFieldChange = (name: string, value: string) => {
+  const onFieldChange: OnFieldChangeFunction = (name, value) => {
     doSearch({ ...search, [name]: value });
   };
 
   const handleSearch = () => doSearch({ ...search, page: 1 });
 
   const removeTagItem = (tag: TagType) => {
-    if (tag.type === 'query') setQueryInput('');
-    doSearch({ ...search, [tag.type]: '' });
+    if (tag.parameterName === 'query') setQueryInput('');
+    doSearch({ ...search, [tag.parameterName]: '' });
   };
 
   const emptySearch = (evt: MouseEvent<HTMLButtonElement>) => {
@@ -83,20 +82,20 @@ const SearchAudioForm = ({
 
   const selectors: SearchFormSelector[] = [
     {
-      type: 'audio-type',
-      name: getTagName(search['audio-type'], getAudioTypes()),
+      parameterName: 'audio-type',
+      value: getTagName(search['audio-type'], getAudioTypes()),
       options: getAudioTypes(),
       formElementType: 'dropdown',
     },
     {
-      type: 'license',
-      name: getTagName(search.license, licenses),
+      parameterName: 'license',
+      value: getTagName(search.license, licenses),
       options: licenses ?? [],
       formElementType: 'dropdown',
     },
     {
-      type: 'language',
-      name: getTagName(search.language, getResourceLanguages(t)),
+      parameterName: 'language',
+      value: getTagName(search.language, getResourceLanguages(t)),
       options: getResourceLanguages(t),
       width: 25,
       formElementType: 'dropdown',

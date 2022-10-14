@@ -18,7 +18,7 @@ import {
 } from '../../../../constants';
 import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { useAuth0Editors } from '../../../../modules/auth0/auth0Queries';
-import GenericSearchForm, { SearchFormSelector } from './GenericSearchForm';
+import GenericSearchForm, { OnFieldChangeFunction, SearchFormSelector } from './GenericSearchForm';
 import { TagType } from './SearchTagGroup';
 
 interface Props {
@@ -44,7 +44,7 @@ const SearchConceptForm = ({ search: doSearch, searchObject: search, subjects }:
     doSearch({ ...search, query: evt.currentTarget.value });
   };
 
-  const onFieldChange = (name: string, value: string) => {
+  const onFieldChange: OnFieldChangeFunction = (name, value) => {
     doSearch({ ...search, [name]: value });
   };
 
@@ -64,8 +64,8 @@ const SearchConceptForm = ({ search: doSearch, searchObject: search, subjects }:
   const handleSearch = () => doSearch({ ...search, page: 1 });
 
   const removeTagItem = (tag: TagType) => {
-    if (tag.type === 'query') setQueryInput('');
-    doSearch({ ...search, [tag.type]: '' });
+    if (tag.parameterName === 'query') setQueryInput('');
+    doSearch({ ...search, [tag.parameterName]: '' });
   };
 
   const emptySearch = (evt: MouseEvent<HTMLButtonElement>) => {
@@ -92,30 +92,30 @@ const SearchConceptForm = ({ search: doSearch, searchObject: search, subjects }:
 
   const selectors: SearchFormSelector[] = [
     {
-      type: 'subjects',
-      name: getTagName(search.subjects, subjects),
+      parameterName: 'subjects',
+      value: getTagName(search.subjects, subjects),
       options: subjects
         .filter(s => s.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] === 'true')
         .sort(sortByProperty('name')),
       formElementType: 'dropdown',
     },
     {
-      type: 'status',
-      name: getTagName(search.status, getConceptStatuses()),
+      parameterName: 'status',
+      value: getTagName(search.status, getConceptStatuses()),
       options: getConceptStatuses(),
       width: 25,
       formElementType: 'dropdown',
     },
     {
-      type: 'language',
-      name: getTagName(search.language, getResourceLanguages(t)),
+      parameterName: 'language',
+      value: getTagName(search.language, getResourceLanguages(t)),
       options: getResourceLanguages(t),
       width: 25,
       formElementType: 'dropdown',
     },
     {
-      type: 'users',
-      name: getTagName(search.users, users),
+      parameterName: 'users',
+      value: getTagName(search.users, users),
       options: users!.sort(sortByProperty('name')),
       width: 25,
       formElementType: 'dropdown',

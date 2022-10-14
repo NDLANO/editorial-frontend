@@ -31,7 +31,7 @@ const CheckboxSelector = ({ name, checked: checkedProp, onChange: onChangeProp }
 
   return (
     <ToggleItem
-      id={'exclude-revision-log'}
+      id={`checkbox-${name}`}
       label={t(`searchForm.types.${name}`)}
       onChange={onChange}
       checked={checked}

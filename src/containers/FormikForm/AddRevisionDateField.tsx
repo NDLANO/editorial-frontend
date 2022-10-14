@@ -144,9 +144,9 @@ const AddRevisionDateField = ({ formikField, showError }: Props) => {
                     <InlineDatePicker
                       value={revisionMeta.revisionDate}
                       name={`revision_date_${index}`}
-                      onChange={date => {
-                        editRevision(old => ({ ...old, revisionDate: date.target.value }));
-                      }}
+                      onChange={date =>
+                        editRevision(old => ({ ...old, revisionDate: date.currentTarget.value }))
+                      }
                     />
                   </StyledDatePickerWrapper>
                 </StyledTooltip>

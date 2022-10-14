@@ -10,17 +10,22 @@ import { colors } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
 import DateTimeInput from '../../../components/DateTime/DateTimeInput';
 
-type ChangeObject = {
+export interface DateChangedEvent {
   target: {
     name: string;
     value: string;
     type: string;
   };
-};
+  currentTarget: {
+    name: string;
+    value: string;
+    type: string;
+  };
+}
 
 interface Props {
   name: string;
-  onChange: (changeObject: ChangeObject) => void;
+  onChange: (event: DateChangedEvent) => void;
   value?: string;
   placeholder?: string;
 }

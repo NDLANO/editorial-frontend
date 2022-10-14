@@ -6,7 +6,7 @@
  *
  */
 import { ToggleItem } from '@ndla/ui/lib/Filter';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 
 interface Props {
@@ -15,19 +15,8 @@ interface Props {
   name: string;
 }
 
-const CheckboxSelector = ({ name, checked: checkedProp, onChange: onChangeProp }: Props) => {
+const CheckboxSelector = ({ name, checked, onChange }: Props) => {
   const { t } = useTranslation();
-  const [checked, setChecked] = useState(checkedProp);
-  const onChange = (event: ChangeEvent<HTMLInputElement>) => {
-    onChangeProp(event);
-    setChecked(event.currentTarget.checked);
-  };
-
-  useEffect(() => {
-    if (checked !== checkedProp) {
-      setChecked(checkedProp);
-    }
-  }, [checked, checkedProp]);
 
   return (
     <ToggleItem

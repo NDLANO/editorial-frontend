@@ -13,8 +13,9 @@ import { colors, spacing } from '@ndla/core';
 import Button from '@ndla/button';
 import { Cross } from '@ndla/icons/action';
 import styled from '@emotion/styled';
-import { searchParamsFormatter } from './SearchForm';
 import { SearchFormSelector } from './Selector';
+import formatDate from '../../../../util/formatDate';
+import { unreachable } from '../../../../util/guards';
 
 const StyledDl = styled.dl`
   display: flex;
@@ -73,6 +74,7 @@ class SearchTag extends Component<Props & CustomWithTranslation> {
   constructor(props: Props & CustomWithTranslation) {
     super(props);
     this.onRemove = this.onRemove.bind(this);
+    this.searchParamsFormatter = this.searchParamsFormatter.bind(this);
   }
 
   onRemove(e: MouseEvent<HTMLButtonElement>) {
@@ -82,9 +84,26 @@ class SearchTag extends Component<Props & CustomWithTranslation> {
     onRemoveItem(tag);
   }
 
+  searchParamsFormatter = (selector: SearchFormSelector): string | number | boolean | undefined => {
+    const { t } = this.props;
+    switch (selector.formElementType) {
+      case 'date-picker':
+        if (selector.value) return formatDate(selector.value);
+        break;
+      case 'check-box':
+        if (selector.value === 'true') return t(`searchForm.tagType.${selector.parameterName}`);
+        break;
+      case 'dropdown':
+      case 'text-input':
+        return selector.value;
+      default:
+        unreachable(selector);
+    }
+  };
+
   render() {
-    const { tag, t } = this.props;
-    const tagValue = searchParamsFormatter(tag, t);
+    const { tag } = this.props;
+    const tagValue = this.searchParamsFormatter(tag);
 
     if (tagValue === undefined) return null;
 

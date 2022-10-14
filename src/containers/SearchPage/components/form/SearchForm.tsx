@@ -14,10 +14,6 @@ import SearchImageForm from './SearchImageForm';
 import SearchConceptForm from './SearchConceptForm';
 import { SearchType } from '../../../../interfaces';
 import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
-import formatDate from '../../../../util/formatDate';
-import { SearchFormSelector } from './Selector';
-import { unreachable } from '../../../../util/guards';
-import { TFunction } from 'react-i18next';
 
 export interface SearchParams {
   query?: string;
@@ -40,25 +36,6 @@ export interface SearchParams {
   'revision-date-to'?: string;
   'exclude-revision-log'?: boolean | undefined;
 }
-
-export const searchParamsFormatter = (
-  selector: SearchFormSelector,
-  t: TFunction,
-): string | number | boolean | undefined => {
-  switch (selector.formElementType) {
-    case 'date-picker':
-      if (selector.value) return formatDate(selector.value);
-      break;
-    case 'check-box':
-      if (selector.value === 'true') return t(`searchForm.tagType.${selector.parameterName}`);
-      break;
-    case 'dropdown':
-    case 'text-input':
-      return selector.value;
-    default:
-      unreachable(selector);
-  }
-};
 
 export const parseSearchParams = (locationSearch: string): SearchParams => {
   const queryStringObject: Record<string, string | undefined> = queryString.parse(locationSearch);

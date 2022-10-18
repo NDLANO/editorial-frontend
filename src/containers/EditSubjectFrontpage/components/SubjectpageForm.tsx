@@ -33,7 +33,6 @@ import {
   subjectpageFormikTypeToPostType,
 } from '../../../util/subjectHelpers';
 import { useMessages } from '../../Messages/MessagesProvider';
-import { formatErrorMessage } from '../../../util/apiHelpers';
 import { queryLearningPathResource, queryResources, queryTopics } from '../../../modules/taxonomy';
 import { Resource, Topic } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import { TYPE_EMBED } from '../../../components/SlateEditor/plugins/embed/types';
@@ -98,7 +97,7 @@ const SubjectpageForm = ({
   const { t } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
   const [savedToServer, setSavedToServer] = useState(false);
-  const { createMessage, applicationError } = useMessages();
+  const { createMessage, applicationError, formatErrorMessage } = useMessages();
   const initialValues = subjectpageApiTypeToFormikType(
     subjectpage,
     elementName,

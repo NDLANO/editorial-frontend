@@ -1206,7 +1206,7 @@ const phrases = {
     },
     grepCodes: 'Følgande koder har feil format eller eksisterer ikkje, og blir ikkje lagt til: ',
     errorOnSave: 'Noko gjekk gale under lagring av artikkelen.',
-    genericError: 'Noko gjekk gale, handlingen kunne ikke utføres.',
+    genericError: 'Noko gjekk gale, handlinga kunne ikkje utførast.',
   },
   warningMessage: {
     fieldWithWrongLanguage: 'Dette feltet er henta frå språkkode: {{language}}',

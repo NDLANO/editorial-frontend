@@ -1203,6 +1203,8 @@ const phrases = {
       409: 'This article has already been updated. Keep what you have changed and reload the page to save.',
     },
     grepCodes: 'The following codes have wrong format or does not exist, and will not be added: ',
+    errorOnSave: 'Something went wrong when saving the article.',
+    genericError: 'Something went wrong, the action could not be completed.',
   },
   warningMessage: {
     fieldWithWrongLanguage: 'This value is fetched from language code: {{language}}',

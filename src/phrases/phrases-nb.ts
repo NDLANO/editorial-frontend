@@ -1205,6 +1205,8 @@ const phrases = {
       409: 'Denne artikkelen har allerede blitt oppdatert. Ta vare på det du har endret og last siden på nytt for å kunne lagre.',
     },
     grepCodes: 'Følgende koder har feil format eller eksisterer ikke, og vil ikke bli lagt til: ',
+    errorOnSave: 'Noe gikk galt under lagring av artikkelen.',
+    genericError: 'Noe gikk galt, handlingen kunne ikke utføres.',
   },
   warningMessage: {
     fieldWithWrongLanguage: 'Dette feltet er hentet fra språkkode: {{language}}',

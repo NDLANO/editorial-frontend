@@ -33,7 +33,6 @@ import {
 } from '../../util/routeHelpers';
 import AlertModal from '../AlertModal';
 import StyledFilledButton from '../StyledFilledButton';
-import { formatErrorMessage } from '../../util/apiHelpers';
 import { useMessages } from '../../containers/Messages/MessagesProvider';
 import { NdlaErrorPayload } from '../../util/resolveJsonOrRejectWithError';
 
@@ -59,7 +58,7 @@ interface Props {
 const DeleteLanguageVersion = ({ values, type, disabled }: Props) => {
   const { t } = useTranslation();
   const [showDeleteWarning, setShowDeleteWarning] = useState(false);
-  const { createMessage } = useMessages();
+  const { createMessage, formatErrorMessage } = useMessages();
   const navigate = useNavigate();
 
   const toggleShowDeleteWarning = () => {

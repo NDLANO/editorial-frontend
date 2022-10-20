@@ -31,7 +31,6 @@ import SaveButton from '../../components/SaveButton';
 import HelpMessage from '../../components/HelpMessage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { useMessages } from '../Messages/MessagesProvider';
-import { formatErrorMessage } from '../../util/apiHelpers';
 import { NdlaErrorPayload } from '../../util/resolveJsonOrRejectWithError';
 
 declare global {
@@ -140,7 +139,7 @@ const EditMarkupPage = () => {
   const [draft, setDraft] = useState<IArticle | undefined>(undefined);
   const location = useLocation();
   const locationState = location.state as LocationState | undefined;
-  const { createMessage } = useMessages();
+  const { createMessage, formatErrorMessage } = useMessages();
 
   useEffect(() => {
     const session = getSessionStateFromLocalStorage();

@@ -226,6 +226,7 @@ const phrases = {
       license: 'Select license',
       'revision-date-from': 'Revisiondate from',
       'revision-date-to': 'Revisiondate to',
+      'exclude-revision-log': 'Exclude revision log',
     },
     tagType: {
       query: 'Query',
@@ -240,6 +241,7 @@ const phrases = {
       'model-released': 'Model released',
       'revision-date-from': 'Revisiondate from',
       'revision-date-to': 'Revisiondate to',
+      'exclude-revision-log': 'Revision log excluded',
     },
     btn: 'Search',
     empty: 'Empty',

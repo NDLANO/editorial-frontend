@@ -6,14 +6,14 @@
  *
  */
 
-import { FormEvent, useEffect, useState, MouseEvent } from 'react';
+import { useEffect, useState, MouseEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getResourceLanguages } from '../../../../util/resourceHelpers';
 import { getTagName } from '../../../../util/formHelper';
 import { SearchParams } from './SearchForm';
 import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
-import GenericSearchForm, { SearchFormSelector } from './GenericSearchForm';
-import { TagType } from './SearchTagGroup';
+import GenericSearchForm, { OnFieldChangeFunction } from './GenericSearchForm';
+import { SearchFormSelector } from './Selector';
 
 interface Props {
   search: (o: SearchParams) => void;
@@ -40,20 +40,16 @@ const SearchAudioForm = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search.query]);
 
-  const onInputChange = (evt: FormEvent<HTMLInputElement>) => {
-    setQueryInput(evt.currentTarget.value);
-    doSearch({ ...search, query: evt.currentTarget.value });
-  };
-
-  const onFieldChange = (name: string, value: string) => {
+  const onFieldChange: OnFieldChangeFunction = (name, value, evt) => {
+    if (name === 'query' && evt) setQueryInput(evt.currentTarget.value);
     doSearch({ ...search, [name]: value });
   };
 
   const handleSearch = () => doSearch({ ...search, page: 1 });
 
-  const removeTagItem = (tag: TagType) => {
-    if (tag.type === 'query') setQueryInput('');
-    doSearch({ ...search, [tag.type]: '' });
+  const removeTagItem = (tag: SearchFormSelector) => {
+    if (tag.parameterName === 'query') setQueryInput('');
+    doSearch({ ...search, [tag.parameterName]: '' });
   };
 
   const emptySearch = (evt: MouseEvent<HTMLButtonElement>) => {
@@ -64,10 +60,11 @@ const SearchAudioForm = ({
 
   const selectors: SearchFormSelector[] = [
     {
-      type: 'language',
-      name: getTagName(search.language, getResourceLanguages(t)),
+      parameterName: 'language',
+      value: getTagName(search.language, getResourceLanguages(t)),
       options: getResourceLanguages(t),
       width: 25,
+      formElementType: 'dropdown',
     },
   ];
 
@@ -76,7 +73,6 @@ const SearchAudioForm = ({
       type="podcastSeries"
       selectors={selectors}
       query={queryInput}
-      onQueryChange={onInputChange}
       onSubmit={handleSearch}
       searchObject={search}
       onFieldChange={onFieldChange}

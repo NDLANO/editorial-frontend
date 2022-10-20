@@ -11,28 +11,29 @@ import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import Button from '@ndla/button';
-import ObjectSelector from '../../../../components/ObjectSelector';
 import { SearchParams } from './SearchForm';
-import SearchTagGroup, { TagType } from './SearchTagGroup';
-import InlineDatePicker from '../../../FormikForm/components/InlineDatePicker';
+import SearchTagGroup from './SearchTagGroup';
+import Selector, { SearchFormSelector } from './Selector';
+import { DateChangedEvent } from '../../../FormikForm/components/InlineDatePicker';
 
-export interface SearchFormSelector {
-  type: keyof SearchParams;
-  name?: string;
-  options: { id: string; name: string }[];
-  width?: number;
-}
+type FormEvents = FormEvent<HTMLInputElement> | FormEvent<HTMLSelectElement>;
+type FieldChangedEvent = FormEvents | DateChangedEvent;
+
+export type OnFieldChangeFunction = <T extends keyof SearchParams>(
+  name: T,
+  value: SearchParams[T],
+  event: FieldChangedEvent,
+) => void;
 
 interface Props {
   type: string;
   selectors: SearchFormSelector[];
   query: string;
   searchObject: SearchParams;
-  onQueryChange: (event: FormEvent<HTMLInputElement>) => void;
   onSubmit: () => void;
-  onFieldChange: (name: string, value: string) => void;
+  onFieldChange: OnFieldChangeFunction;
   emptySearch: (evt: MouseEvent<HTMLButtonElement>) => void;
-  removeTag: (tag: TagType) => void;
+  removeTag: (tag: SearchFormSelector) => void;
 }
 
 const StyledButton = styled(Button)`
@@ -44,53 +45,12 @@ const StyledSubmitButton = styled(Button)`
   width: 49%;
 `;
 
-export const datePickerTypes: (keyof SearchParams)[] = ['revision-date-from', 'revision-date-to'];
-
-interface SelectorProps {
-  selector: SearchFormSelector;
-  onFieldChange: (name: string, value: string) => void;
-  searchObject: SearchParams;
-}
-
-const Selector = ({ selector, onFieldChange, searchObject }: SelectorProps) => {
-  const { t } = useTranslation();
-  if (datePickerTypes.includes(selector.type)) {
-    return (
-      <InlineDatePicker
-        name={selector.type}
-        onChange={e => {
-          const { name, value } = e.target;
-          onFieldChange(name, value);
-        }}
-        placeholder={t(`searchForm.types.${selector.type}`)}
-        value={(searchObject[selector.type] as string | undefined) ?? ''}
-      />
-    );
-  }
-  return (
-    <ObjectSelector
-      name={selector.type}
-      // The fields in selectFields that are mapped over all correspond to a string value in SearchState.
-      // As such, the value used below will always be a string. TypeScript just needs to be told explicitly.
-      value={(searchObject[selector.type] as string) ?? ''}
-      options={selector.options}
-      idKey="id"
-      labelKey="name"
-      emptyField
-      onChange={evt => {
-        const { name, value } = evt.currentTarget;
-        onFieldChange(name, value);
-      }}
-      placeholder={t(`searchForm.types.${selector.type}`)}
-    />
-  );
-};
-
 const StyledForm = styled.form`
   display: flex;
   flex-flow: row;
   flex-wrap: wrap;
   margin: 0 -0.4rem;
+
   & select {
     width: 100%;
     padding-top: 0.5rem;
@@ -116,9 +76,8 @@ const StyledTagline = styled.div`
 
 const GenericSearchForm = ({
   type,
-  selectors,
+  selectors: baseSelectors,
   query,
-  onQueryChange,
   onSubmit,
   searchObject,
   onFieldChange,
@@ -126,28 +85,27 @@ const GenericSearchForm = ({
   removeTag,
 }: Props) => {
   const { t } = useTranslation();
-  const tags: TagType[] = [{ type: 'query', name: query }, ...selectors];
+  const selectors: SearchFormSelector[] = [
+    { parameterName: 'query', width: 50, value: query, formElementType: 'text-input' },
+    ...baseSelectors,
+  ];
+
   return (
     <StyledForm
       onSubmit={e => {
         e.preventDefault();
         e.stopPropagation();
       }}>
-      <StyledField width={50}>
-        <input
-          name="query"
-          placeholder={t(`searchForm.types.${type}Query`)}
-          value={query}
-          onChange={onQueryChange}
-        />
-      </StyledField>
       {selectors.map(selector => {
         return (
-          <StyledField key={`search-form-field-${selector.type}`} width={selector.width ?? 50}>
+          <StyledField
+            key={`search-form-field-${selector.parameterName}`}
+            width={selector.width ?? 50}>
             <Selector
               searchObject={searchObject}
               selector={selector}
               onFieldChange={onFieldChange}
+              formType={type}
             />
           </StyledField>
         );
@@ -159,7 +117,7 @@ const GenericSearchForm = ({
         <StyledSubmitButton onClick={onSubmit}>{t('searchForm.btn')}</StyledSubmitButton>
       </StyledField>
       <StyledTagline>
-        <SearchTagGroup onRemoveItem={removeTag} tagTypes={tags} />
+        <SearchTagGroup onRemoveItem={removeTag} tagTypes={selectors} />
       </StyledTagline>
     </StyledForm>
   );

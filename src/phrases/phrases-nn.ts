@@ -963,6 +963,10 @@ const phrases = {
       helpLabel: 'Kva er lisensar?',
       choose: 'Velg ein lisens',
     },
+    responsible: {
+      label: 'Ansvarlig',
+      choose: 'Velg ein ansvarleg',
+    },
     origin: {
       label: 'Opphav',
     },

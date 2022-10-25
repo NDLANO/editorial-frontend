@@ -962,6 +962,10 @@ const phrases = {
       helpLabel: 'What is a license?',
       choose: 'Choose a license',
     },
+    responsible: {
+      label: 'Responsible',
+      choose: 'Choose a responsible',
+    },
     origin: {
       label: 'Origin',
     },

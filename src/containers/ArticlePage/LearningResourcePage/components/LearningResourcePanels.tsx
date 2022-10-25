@@ -85,7 +85,7 @@ const LearningResourcePanels = ({
         hasError={
           !!(errors.creators || errors.rightsholders || errors.processors || errors.license)
         }>
-        <CopyrightFieldGroup values={values} />
+        <CopyrightFieldGroup values={values} enableResponsible={true} />
       </AccordionSection>
       <AccordionSection
         id={'learning-resource-metadata'}

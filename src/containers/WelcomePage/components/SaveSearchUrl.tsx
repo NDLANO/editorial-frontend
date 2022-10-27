@@ -16,14 +16,8 @@ import { getAccessToken, getAccessTokenPersonal } from '../../../util/authHelper
 import { isValid } from '../../../util/jwtHelper';
 
 import SavedSearch from './SavedSearch';
-import { updateUserData } from '../../../modules/draft/draftApi';
 import { isNDLAEdSearchUrl } from '../../../util/htmlHelpers';
 import { useUpdateUserDataMutation, useUserData } from '../../../modules/draft/draftQueries';
-
-export const updateUserMetadata = async (searches: string[]) => {
-  const userUpdatedMetadata = { savedSearches: searches };
-  updateUserData(userUpdatedMetadata);
-};
 
 export const getSavedSearchRelativeUrl = (inputValue: string) => {
   const relativeUrl = inputValue.split('search')[1];

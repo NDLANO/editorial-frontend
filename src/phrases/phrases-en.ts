@@ -119,6 +119,7 @@ const phrases = {
     lastUsed: 'Last edited',
     savedSearch: 'Saved searches',
     saveSearch: 'Save search',
+    worklist: 'Work list',
   },
   searchPage: {
     header: {

@@ -31,6 +31,7 @@ interface Props {
 interface UserData {
   name?: string;
   permissions?: string[];
+  ndlaId?: string;
 }
 
 interface SessionState {
@@ -47,6 +48,7 @@ export const initialState: SessionState = {
 
 export interface SessionProps {
   userName?: string;
+  ndlaId: string | undefined;
   userPermissions?: string[];
   authenticated: boolean;
   userNotRegistered: boolean;
@@ -62,6 +64,7 @@ export const getSessionStateFromLocalStorage = (): SessionState => {
     return {
       user: {
         name: decodedToken?.['https://ndla.no/user_name'],
+        ndlaId: decodedToken?.['https://ndla.no/ndla_id'],
         permissions: decodedToken?.permissions,
       },
       authenticated: true,
@@ -130,6 +133,7 @@ export const useSession = (): SessionProps => {
 
   return {
     userName: session.user.name,
+    ndlaId: session.user.ndlaId,
     userPermissions: session.user.permissions,
     authenticated: !!session.authenticated,
     userNotRegistered: !!session.userNotRegistered,

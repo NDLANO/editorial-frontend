@@ -10,7 +10,7 @@ import { OneColumn } from '@ndla/ui';
 import { spacing } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
 import { HelmetWithTracker } from '@ndla/tracker';
-import { SearchFolder } from '@ndla/icons/editor';
+import { SearchFolder, SubjectMatter } from '@ndla/icons/editor';
 import styled from '@emotion/styled';
 import { NAVIGATION_HEADER_MARGIN } from '../../constants';
 import { getAccessToken, getAccessTokenPersonal } from '../../util/authHelpers';
@@ -21,6 +21,7 @@ import Footer from '../App/components/Footer';
 import LastUsedItems from './components/LastUsedItems';
 import { useUserData } from '../../modules/draft/draftQueries';
 import { StyledColumnHeader } from './styles';
+import WorkList from './components/WorkList';
 
 const ContentWrapper = styled.div`
   display: flex;
@@ -67,10 +68,6 @@ export const WelcomePage = () => {
       <HelmetWithTracker title={t('htmlTitles.welcomePage')} />
       <OneColumn>
         <StyledHeader>
-          {/* <a href="#guidelines" {...classes('header-link')}>
-              {t('welcomePage.guidelines')}
-              <RightArrow className="c-icon--large" />
-            </a> */}
           <StyledHeaderImage src="/welcome-image.jpg" alt="illustration" />
         </StyledHeader>
         <StyledTwoColumn>
@@ -81,6 +78,15 @@ export const WelcomePage = () => {
               <span>{t('welcomePage.savedSearch')}</span>
             </StyledColumnHeader>
             <SaveSearchUrl />
+          </div>
+        </StyledTwoColumn>
+        <StyledTwoColumn>
+          <div>
+            <StyledColumnHeader>
+              <SubjectMatter className="c-icon--medium" />
+              <span>{t('welcomePage.worklist')}</span>
+            </StyledColumnHeader>
+            <WorkList />
           </div>
         </StyledTwoColumn>
       </OneColumn>

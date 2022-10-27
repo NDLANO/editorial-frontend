@@ -81,7 +81,7 @@ const draftApiTypeToArticleFormType = (
     availability: article?.availability ?? 'everyone',
     relatedContent: article?.relatedContent ?? [],
     revisionMeta: article?.revisions ?? [],
-    responsibleId: article?.responsibleId,
+    responsibleId: article?.responsible?.responsibleId,
   };
 };
 

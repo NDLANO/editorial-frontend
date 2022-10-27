@@ -6,7 +6,6 @@
  *
  */
 
-import { Link } from 'react-router-dom';
 import queryString from 'query-string';
 
 import { useTranslation } from 'react-i18next';
@@ -17,6 +16,7 @@ import IconButton from '../../../components/IconButton';
 import { transformQuery } from '../../../util/searchHelpers';
 import { useSavedSearchUrl } from '../hooks/savedSearchHook';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
+import { NoShadowLink } from './NoShadowLink';
 
 interface Props {
   deleteSearch: Function;
@@ -87,10 +87,7 @@ const SavedSearch = ({ deleteSearch, search, index }: Props) => {
           <DeleteForever />
         </IconButton>
       </Tooltip>
-      {/* Not having a className activates undesirable global scss */}
-      <Link className="" to={localizedSearch}>
-        {linkText(searchObject)}
-      </Link>
+      <NoShadowLink to={localizedSearch}>{linkText(searchObject)}</NoShadowLink>
     </div>
   );
 };

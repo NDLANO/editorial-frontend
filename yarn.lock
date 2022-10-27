@@ -3140,7 +3140,7 @@
 
 "@ndla/article-scripts@^3.0.9":
   version "3.0.9"
-  resolved "https://registry.yarnpkg.com/@ndla/article-scripts/-/article-scripts-3.0.9.tgz#53c39c1d8b2fe0783dcebc4a1b6d064dcbc55831"
+  resolved "https://registry.npmjs.org/@ndla/article-scripts/-/article-scripts-3.0.9.tgz#53c39c1d8b2fe0783dcebc4a1b6d064dcbc55831"
   integrity sha512-Zx59sOdGeOLv6+f7p7Ja8LRZ2qtt4hjy6bca5ZPlUKhwmPcNAd/95hTLO6giPXq3eX5UrxahBC08trihOocwTg==
   dependencies:
     "@ndla/util" "^3.1.7"
@@ -3237,7 +3237,7 @@
 
 "@ndla/hooks@^1.1.13":
   version "1.1.13"
-  resolved "https://registry.yarnpkg.com/@ndla/hooks/-/hooks-1.1.13.tgz#e147b18f113c44ae039afb30440160bdd8bd7d64"
+  resolved "https://registry.npmjs.org/@ndla/hooks/-/hooks-1.1.13.tgz#e147b18f113c44ae039afb30440160bdd8bd7d64"
   integrity sha512-ZHQcStpvXzvoausjjJn9Z/5lx/A6VSiuInB6OddznaK1+sVmwg4kZvtFMR0z6vjx3AEZ7k2g0QYPfMgHOGmm5Q==
   dependencies:
     "@ndla/util" "^3.1.7"
@@ -3348,7 +3348,7 @@
 
 "@ndla/tabs@^2.0.7":
   version "2.0.7"
-  resolved "https://registry.yarnpkg.com/@ndla/tabs/-/tabs-2.0.7.tgz#2c98d242221e4c2cc717114f53ecfe306b76f60a"
+  resolved "https://registry.npmjs.org/@ndla/tabs/-/tabs-2.0.7.tgz#2c98d242221e4c2cc717114f53ecfe306b76f60a"
   integrity sha512-JJv0ZXaG+nOGSgfU0NzbzVJwOe9JL2UIo4LyVz3//7Ub+vom1GcRmWpRjlQLMSEX1buBvGA/XfmrtrS9AT+9Og==
   dependencies:
     "@ndla/icons" "^2.0.5"
@@ -3459,7 +3459,7 @@
 
 "@ndla/util@^3.1.7":
   version "3.1.7"
-  resolved "https://registry.yarnpkg.com/@ndla/util/-/util-3.1.7.tgz#72b668ed46237b30d0c2fba636b350a989a92996"
+  resolved "https://registry.npmjs.org/@ndla/util/-/util-3.1.7.tgz#72b668ed46237b30d0c2fba636b350a989a92996"
   integrity sha512-8fRaHDMmaGAj3JBrPMjlWCHpFkQCxLcImU/pUWuYQkwuvVtlovsRM8JwewVxp0ip0Wipb3RhjiFBTnrtRw3YkA==
   dependencies:
     html-react-parser "^0.14.1"

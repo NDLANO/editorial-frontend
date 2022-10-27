@@ -8,7 +8,6 @@ import { FormikProps } from 'formik';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { IFilmFrontPageData } from '@ndla/types-frontpage-api';
-import { formatErrorMessage } from '../../util/apiHelpers';
 import { getInitialValues } from '../../util/ndlaFilmHelpers';
 import { getNdlaFilmFromSlate } from '../../util/ndlaFilmHelpers';
 import { FilmFormikType } from '../../containers/NdlaFilm/components/NdlaFilmForm';
@@ -22,7 +21,7 @@ export function useNdlaFilmFormHooks(filmFrontpage: IFilmFrontPageData, selected
   const updateFilmFrontpage = useUpdateFilmFrontpageMutation();
 
   const initialValues = getInitialValues(filmFrontpage, selectedLanguage);
-  const { createMessage, applicationError } = useMessages();
+  const { createMessage, applicationError, formatErrorMessage } = useMessages();
 
   const handleSubmit = async (formik: FormikProps<FilmFormikType>) => {
     formik.setSubmitting(true);

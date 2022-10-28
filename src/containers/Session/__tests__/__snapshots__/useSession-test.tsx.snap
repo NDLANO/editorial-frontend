@@ -5,6 +5,7 @@ Object {
   "authenticated": true,
   "user": Object {
     "name": "Test user",
+    "ndlaId": "mNmru7YoSIjPepOrkN4MMhlU",
     "permissions": Array [
       "some:permission",
     ],
@@ -34,6 +35,7 @@ Object {
   "authenticated": true,
   "login": [Function],
   "logout": [Function],
+  "ndlaId": undefined,
   "userName": "Test user",
   "userNotRegistered": true,
   "userPermissions": Array [
@@ -47,6 +49,7 @@ Object {
   "authenticated": false,
   "login": [Function],
   "logout": [Function],
+  "ndlaId": undefined,
   "userName": undefined,
   "userNotRegistered": true,
   "userPermissions": undefined,
@@ -58,6 +61,7 @@ Object {
   "authenticated": true,
   "login": [Function],
   "logout": [Function],
+  "ndlaId": "mNmru7YoSIjPepOrkN4MMhlU",
   "userName": "Test user",
   "userNotRegistered": false,
   "userPermissions": Array [
@@ -71,6 +75,7 @@ Object {
   "authenticated": false,
   "login": [Function],
   "logout": [Function],
+  "ndlaId": undefined,
   "userName": undefined,
   "userNotRegistered": true,
   "userPermissions": undefined,

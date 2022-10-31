@@ -691,6 +691,7 @@ const phrases = {
       teacher: 'Teachers',
       label: 'Availability',
       description: 'Who the article is intended for:',
+      forTeacher: 'The article is intended for teachers.',
     },
     modelReleased: {
       label: 'Model released',

@@ -13,6 +13,7 @@ import styled from '@emotion/styled';
 import { ContentTypeBadge } from '@ndla/ui';
 import Button from '@ndla/button';
 import { colors, spacing, breakpoints } from '@ndla/core';
+import { HumanMaleBoard } from '@ndla/icons/common';
 import { AlertCircle, Check } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
 import SafeLink from '@ndla/safelink';
@@ -52,6 +53,12 @@ const StyledWarnIcon = styled(AlertCircle)`
   height: 24px;
   width: 24px;
   fill: ${colors.support.red};
+`;
+
+const StyledAvailability = styled(HumanMaleBoard)`
+  height: 24px;
+  width: 24px;
+  fill: ${colors.brand.grey};
 `;
 
 const StyledStatusButton = styled(Button)`
@@ -112,6 +119,7 @@ interface ResourceMeta {
   grepCodes?: string[];
   status?: { current: string; other: string[] };
   articleType?: string;
+  availability?: string;
 }
 
 const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props) => {
@@ -152,8 +160,8 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
   const getArticleMeta = async (resource: ResourceWithNodeConnection): Promise<ResourceMeta> => {
     const [, resourceType, id] = resource.contentUri?.split(':') ?? [];
     if (id && resourceType === 'article') {
-      const { status, grepCodes, articleType } = await fetchDraft(id, i18n.language);
-      return { status, grepCodes, articleType };
+      const { status, grepCodes, articleType, availability } = await fetchDraft(id, i18n.language);
+      return { status, grepCodes, articleType, availability };
     } else if (id && resourceType === 'learningpath') {
       const learningpath = await fetchLearningpath(parseInt(id), i18n.language);
       if (learningpath.status) {
@@ -232,6 +240,11 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
         </StyledStatusButton>
       )}
       <WrongTypeError resource={resource} articleType={resourceMetaQuery.data?.articleType} />
+      {resourceMetaQuery.data?.availability === 'teacher' && (
+        <Tooltip tooltip={t('form.availability.forTeacher')}>
+          <StyledAvailability />
+        </Tooltip>
+      )}
       {(resourceMetaQuery.data?.status?.current === PUBLISHED ||
         resourceMetaQuery.data?.status?.other?.includes(PUBLISHED)) && (
         <PublishedWrapper path={path}>

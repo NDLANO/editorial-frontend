@@ -706,6 +706,7 @@ const phrases = {
       teacher: 'Lærere',
       label: 'Tilgjengelighet',
       description: 'Hvem er artikkelen ment for:',
+      forTeacher: 'Artikkelen er ment for lærere',
     },
     modelReleased: {
       label: 'Modellklarert',

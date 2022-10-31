@@ -23,7 +23,7 @@ import { fetchNnTranslation } from '../../modules/translate/translateApi';
 
 // Values _most likely_ not used in translated values
 const arrayIdent = 'ARRAY:';
-const separator = '~~';
+const separator = '/|/';
 
 export function useTranslateApi(
   element: any,

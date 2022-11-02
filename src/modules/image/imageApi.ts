@@ -22,7 +22,7 @@ import {
 import { ImageSearchQuery } from './imageApiInterfaces';
 import { resolveJsonOrVoidOrRejectWithError } from '../../util/resolveJsonOrRejectWithError';
 
-const baseUrl = apiResourceUrl('/image-api/v2/images');
+const baseUrl = apiResourceUrl('/image-api/v3/images');
 
 export const postImage = (formData: FormData): Promise<IImageMetaInformationV2> =>
   fetchAuthorized(`${baseUrl}`, {

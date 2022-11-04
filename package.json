@@ -124,7 +124,7 @@
     "@ndla/forms": "^4.0.11",
     "@ndla/howto": "^3.0.22",
     "@ndla/icons": "^2.0.5",
-    "@ndla/image-search": "^4.0.22",
+    "@ndla/image-search": "^5.0.0",
     "@ndla/licenses": "^6.0.5",
     "@ndla/modal": "^2.0.5",
     "@ndla/notion": "^4.0.11",

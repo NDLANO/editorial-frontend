@@ -12,7 +12,7 @@ import styled from '@emotion/styled';
 import { colors } from '@ndla/core';
 import { LicenseByline, getLicenseByAbbreviation } from '@ndla/licenses';
 import { ImageMeta } from '@ndla/image-search';
-import { IImageMetaSummary } from '@ndla/types-image-api';
+import { IImageMetaInformationV3 } from '@ndla/types-image-api';
 import { toEditImage } from '../../../../util/routeHelpers';
 import { useLicenses } from '../../../../modules/draft/draftQueries';
 import {
@@ -29,18 +29,19 @@ const StyledImageMeta = styled(ImageMeta)`
 `;
 
 interface Props {
-  image: IImageMetaSummary;
+  image: IImageMetaInformationV3;
   locale: string;
 }
 
 const SearchImage = ({ image, locale }: Props) => {
   const { t } = useTranslation();
   const { data: licenses } = useLicenses();
-  const license = licenses && licenses.find(l => image.license === l.license);
+  const license = licenses && licenses.find(l => image.copyright.license.license === l.license);
+  
   return (
     <StyledSearchResult>
       <StyledSearchImageContainer>
-        <img src={image.previewUrl + '?width=200'} alt={`${image.altText?.alttext}`} />
+        <img src={image.image.imageUrl + '?width=200'} alt={`${image.alttext.alttext}`} />
       </StyledSearchImageContainer>
       <StyledSearchContent>
         <Link to={toEditImage(image.id, image.title.language)}>
@@ -53,9 +54,9 @@ const SearchImage = ({ image, locale }: Props) => {
           ))}
         </StyledSearchDescription>
         <StyledImageMeta
-          contentType={image.contentType}
-          fileSize={image.fileSize}
-          imageDimensions={image.imageDimensions}
+          contentType={image.image.contentType}
+          fileSize={image.image.size}
+          imageDimensions={image.image.dimensions}
         />
         {license && (
           <LicenseByline

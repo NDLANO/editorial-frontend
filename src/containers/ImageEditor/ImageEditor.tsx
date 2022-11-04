@@ -143,7 +143,9 @@ const ImageEditor = ({ embed, onUpdatedImageSettings, imageUpdates, language }: 
 
   const isModifiable = () => {
     if (image) {
-      return !(image.copyright.license.license.includes('ND') || image.image.contentType.includes('svg'));
+      return !(
+        image.copyright.license.license.includes('ND') || image.image.contentType.includes('svg')
+      );
     }
   };
 

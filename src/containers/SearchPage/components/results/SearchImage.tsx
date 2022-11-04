@@ -37,7 +37,7 @@ const SearchImage = ({ image, locale }: Props) => {
   const { t } = useTranslation();
   const { data: licenses } = useLicenses();
   const license = licenses && licenses.find(l => image.copyright.license.license === l.license);
-  
+
   return (
     <StyledSearchResult>
       <StyledSearchImageContainer>

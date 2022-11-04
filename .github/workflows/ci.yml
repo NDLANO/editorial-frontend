@@ -20,8 +20,8 @@ jobs:
     name: 'Unit tests'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
           node-version: '16.17'
       - name: 'Login to ECR repo'
@@ -63,8 +63,8 @@ jobs:
       TERM: 'xterm-256color'
       CYPRESS_RECORD_KEY: ${{ secrets.EDITORIAL_FRONTEND_CYPRESS_RECORD_KEY }}
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
           node-version: '16.17'
       - name: 'Login to ECR repo'

@@ -15,29 +15,17 @@ import AlertModal from '../../../../components/AlertModal';
 import Overlay from '../../../../components/Overlay';
 import RoundIcon from '../../../../components/RoundIcon';
 import Spinner from '../../../../components/Spinner';
-import { ChildNodeType, NodeType } from '../../../../modules/nodes/nodeApiTypes';
-import { createGuard } from '../../../../util/guards';
+import { NodeType } from '../../../../modules/nodes/nodeApiTypes';
 import { EditModeHandler } from '../SettingsMenuDropdownType';
 import { StyledErrorMessage } from '../styles';
-import MenuItemButton from './components/MenuItemButton';
+import MenuItemButton from '../sharedMenuOptions/components/MenuItemButton';
 
 interface Props {
+  node: NodeType;
   editModeHandler: EditModeHandler;
-  nodeChildren: NodeType[];
 }
 
-const isChildNode = createGuard<ChildNodeType>('connectionId');
-
-const isNotPrimary = (nc: NodeType ) => {
-  if (isChildNode(nc)){
-   return !nc.isPrimary
-  }
-}
-
-const SetResourcesPrimary = ({
-  nodeChildren,
-  editModeHandler: { editMode, toggleEditMode },
-}: Props) => {
+const SetResourcesPrimary = ({ node, editModeHandler: { editMode, toggleEditMode } }: Props) => {
   const { t } = useTranslation();
   const [error, setError] = useState<string | undefined>(undefined);
   const { mutateAsync, isLoading } = usePutResourcesPrimaryMutation();
@@ -49,13 +37,9 @@ const SetResourcesPrimary = ({
     setError(undefined);
     toggleConnectedResourcesPrimary();
 
-    await Promise.allSettled(
-      nodeChildren.filter(nc => isNotPrimary(nc)).map(item =>
-        mutateAsync(
-          { taxonomyVersion, id: item.id },
-          { onError: () => setError(t('taxonomy.resourcesPrimary.error')) },
-        ),
-      ),
+    await mutateAsync(
+      { taxonomyVersion, id: node.id },
+      { onError: () => setError(t('taxonomy.resourcesPrimary.error')) },
     );
   };
 

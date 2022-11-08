@@ -1361,6 +1361,11 @@ const phrases = {
       buttonText: 'Kopier revisjonsdato',
       error: 'Ein feil oppstod under kopiering',
     },
+    resourcesPrimary: {
+      text: 'Er du heilt sikker på at du ønsker å gjere alle relaterte ressursar primære?',
+      buttonText: 'Gjer alle relaterte ressursar primære',
+      error: 'Ein feil oppstod',
+    },
     goTo: 'Åpne i stukturredigering',
     missingResourceType: 'Mangler ressurstype',
     metadata: {

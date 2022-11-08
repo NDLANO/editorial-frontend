@@ -1357,6 +1357,11 @@ const phrases = {
       buttonText: 'Copy revision date',
       error: 'An error occurred when copying the revision date',
     },
+    resourcesPrimary: {
+      text: 'Are you sure you want to make all connected resources primary?',
+      buttonText: 'Make connected resources primary',
+      error: 'An error occured',
+    },
     goTo: 'Open in structure editor',
     missingResourceType: 'Missing resource type',
     metadata: {

@@ -1362,8 +1362,8 @@ const phrases = {
       error: 'En feil oppstod under kopiering',
     },
     resourcesPrimary: {
-      text: 'Er du helt sikker på at du ønsker å gjøre alle relaterte ressurser primære?',
-      buttonText: 'Gjør alle relaterte ressurser primære',
+      text: 'Er du helt sikker på at du ønsker å gjøre alle tilhørende ressurser om til primærkoblinger?',
+      buttonText: 'Gjør alle tilhørende ressurser om til primærkoblinger',
       error: 'En feil oppstod',
     },
     goTo: 'Åpne i stukturredigering',

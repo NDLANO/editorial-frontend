@@ -6,13 +6,12 @@
  *
  */
 
-import { INewImageMetaInformationV2, IUpdateImageMetaInformation } from '@ndla/types-image-api';
+import { IUpdateImageMetaInformation } from '@ndla/types-image-api';
 import { INewAudioMetaInformation, IUpdatedAudioMetaInformation } from '@ndla/types-audio-api';
 
 export const createFormData = (
   file?: string | Blob,
   metadata?:
-    | INewImageMetaInformationV2
     | IUpdateImageMetaInformation
     | INewAudioMetaInformation
     | IUpdatedAudioMetaInformation,

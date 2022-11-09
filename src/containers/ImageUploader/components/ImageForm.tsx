@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { Formik, FormikHelpers } from 'formik';
 import {
   IImageMetaInformationV3,
-  INewImageMetaInformationV2,
+  IUpdateImageMetaInformation,
   ILicense,
 } from '@ndla/types-image-api';
 import { Accordions, AccordionSection } from '@ndla/accordion';
@@ -82,7 +82,7 @@ const imageRules: RulesType<ImageFormikType, IImageMetaInformationV3> = {
 interface Props {
   image?: IImageMetaInformationV3;
   licenses: ILicense[];
-  onSubmitFunc: (imageMetadata: INewImageMetaInformationV2, image: string | Blob) => void;
+  onSubmitFunc: (imageMetadata: IUpdateImageMetaInformation, image: string | Blob) => void;
   inModal?: boolean;
   isNewlyCreated?: boolean;
   closeModal?: () => void;
@@ -139,7 +139,7 @@ const ImageForm = ({
     }
 
     actions.setSubmitting(true);
-    const imageMetaData: INewImageMetaInformationV2 = {
+    const imageMetaData: IUpdateImageMetaInformation = {
       title: editorValueToPlainText(values.title),
       alttext: values.alttext,
       caption: values.caption,

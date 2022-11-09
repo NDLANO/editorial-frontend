@@ -36,7 +36,10 @@ const CreateImage = ({
   const imageLicenses = draftLicensesToImageLicenses(licenses!);
   const navigate = useNavigate();
 
-  const onCreateImage = async (imageMetadata: IUpdateImageMetaInformation, image: string | Blob) => {
+  const onCreateImage = async (
+    imageMetadata: IUpdateImageMetaInformation,
+    image: string | Blob,
+  ) => {
     const formData = await createFormData(image, imageMetadata);
     const createdImage = await postImage(formData);
     onImageCreated?.(createdImage);

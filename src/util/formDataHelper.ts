@@ -11,10 +11,7 @@ import { INewAudioMetaInformation, IUpdatedAudioMetaInformation } from '@ndla/ty
 
 export const createFormData = (
   file?: string | Blob,
-  metadata?:
-    | IUpdateImageMetaInformation
-    | INewAudioMetaInformation
-    | IUpdatedAudioMetaInformation,
+  metadata?: IUpdateImageMetaInformation | INewAudioMetaInformation | IUpdatedAudioMetaInformation,
 ): Promise<FormData> =>
   new Promise(resolve => {
     const form = new FormData();

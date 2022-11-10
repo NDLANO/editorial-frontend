@@ -14,7 +14,7 @@ import {
   INewSubjectFrontPageData,
   IUpdatedSubjectFrontPageData,
 } from '@ndla/types-frontpage-api';
-import { IImageMetaInformationV2 } from '@ndla/types-image-api';
+import { IImageMetaInformationV3 } from '@ndla/types-image-api';
 import { ILearningPathV2 } from '@ndla/types-learningpath-api';
 import { IArticle } from '@ndla/types-draft-api';
 import Field from '../../../components/Field';
@@ -43,7 +43,7 @@ import { NdlaErrorPayload } from '../../../util/resolveJsonOrRejectWithError';
 interface Props {
   subjectpage?: ISubjectPageData;
   editorsChoices?: (IArticle | ILearningPathV2)[];
-  banner?: IImageMetaInformationV2;
+  banner?: IImageMetaInformationV3;
   elementName?: string;
   createSubjectpage?: (subjectpage: INewSubjectFrontPageData) => Promise<ISubjectPageData>;
   updateSubjectpage?: (

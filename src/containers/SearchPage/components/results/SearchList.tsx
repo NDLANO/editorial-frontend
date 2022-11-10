@@ -10,7 +10,7 @@ import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { IAudioSummary, ISeriesSummary } from '@ndla/types-audio-api';
 import { IConceptSummary } from '@ndla/types-concept-api';
-import { IImageMetaSummary } from '@ndla/types-image-api';
+import { IImageMetaInformationV3 } from '@ndla/types-image-api';
 import { IMultiSearchSummary } from '@ndla/types-search-api';
 import SearchResult, { SearchResultReturnType } from './SearchResult';
 import Spinner from '../../../../components/Spinner';
@@ -20,7 +20,7 @@ import { LocaleType, SearchType } from '../../../../interfaces';
 import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 
 export type ResultSummaryType =
-  | IImageMetaSummary
+  | IImageMetaInformationV3
   | IConceptSummary
   | ISeriesSummary
   | IAudioSummary

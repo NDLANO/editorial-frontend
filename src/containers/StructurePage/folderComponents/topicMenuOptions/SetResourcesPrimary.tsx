@@ -27,7 +27,7 @@ interface Props {
 
 const SetResourcesPrimary = ({ node, editModeHandler: { editMode, toggleEditMode } }: Props) => {
   const { t } = useTranslation();
-  const [error, setError] = useState<string | undefined>(undefined);
+  const [error, setError] = useState<string>();
   const { mutateAsync, isLoading } = usePutResourcesPrimaryMutation();
   const { taxonomyVersion } = useTaxonomyVersion();
 

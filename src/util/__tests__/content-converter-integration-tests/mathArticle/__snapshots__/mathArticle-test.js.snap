@@ -9,7 +9,7 @@ exports[`serializing article with mathml tags 1`] = `
     data-resource=\\"image\\"
     data-resource_id=\\"18284\\"
     data-size=\\"full\\"
-    data-url=\\"https://api.ndla.no/image-api/v2/images/18284\\"
+    data-url=\\"https://api.ndla.no/image-api/v3/images/18284\\"
   />
   <h2>Hva er budsjettkontroll?</h2>
   <p>

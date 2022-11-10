@@ -13,7 +13,7 @@ import styled from '@emotion/styled';
 import { DeleteForever } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
 import { Link as LinkIcon } from '@ndla/icons/common';
-import { IImageMetaInformationV2 } from '@ndla/types-image-api';
+import { IImageMetaInformationV3 } from '@ndla/types-image-api';
 import { convertFieldWithFallback } from '../../../util/convertFieldWithFallback';
 import MetaInformation from '../../../components/MetaInformation';
 import FormikField from '../../../components/FormikField';
@@ -31,7 +31,7 @@ const StyledImage = styled.img`
 `;
 
 interface Props {
-  image: IImageMetaInformationV2;
+  image: IImageMetaInformationV3;
   onImageSelectOpen: () => void;
   onImageRemove: () => void;
   showRemoveButton: boolean;
@@ -74,7 +74,7 @@ const MetaImageField = ({ image, onImageRemove, onImageLoad }: Props) => {
   return (
     <>
       <MetaImageContainer>
-        <StyledImage src={image.imageUrl} alt={alt} onLoad={onImageLoad} />
+        <StyledImage src={image.image.imageUrl} alt={alt} onLoad={onImageLoad} />
         <MetaInformation
           title={title}
           copyright={copyright}

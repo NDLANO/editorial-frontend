@@ -3398,10 +3398,10 @@
   resolved "https://registry.yarnpkg.com/@ndla/types-frontpage-api/-/types-frontpage-api-0.0.3.tgz#31e6b1dba0b8a215c06b2918f34cfb0385192b0e"
   integrity sha512-1sAwf7TyjAElbzvWjfLw1PI4pG9HQ+KArMNY8shDZnY3GiASko2GsJUxbTX/ryU85iTwkA9dPPR+Zuo6C9o9DA==
 
-"@ndla/types-image-api@^0.0.6":
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/@ndla/types-image-api/-/types-image-api-0.0.6.tgz#04793395caff75fc82ca43dd15d3cffaff4fc7f0"
-  integrity sha512-GPCnDC63aF0VjyMggD4YYjNutFZyfOxmShLqfZuDAQ+7dC8zVkYFGbNnvw+UfcHL2iaXNRtJ1B93tXk6WJmEgQ==
+"@ndla/types-image-api@^0.0.8":
+  version "0.0.8"
+  resolved "https://registry.yarnpkg.com/@ndla/types-image-api/-/types-image-api-0.0.8.tgz#4d1c7d830bb90ede23ac311c8f860811f83a0c39"
+  integrity sha512-O8nVTzA8nLqawNArweLRcYgAyCRdhw/MK5T1pcOYJDnORllTgKCrbeaemWZH0Fu5jd4perFwCI1P+50FteNY6w==
 
 "@ndla/types-learningpath-api@^0.0.14":
   version "0.0.14"

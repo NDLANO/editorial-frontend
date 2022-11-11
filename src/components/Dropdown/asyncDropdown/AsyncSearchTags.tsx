@@ -73,9 +73,18 @@ const AsyncSearchTags = ({
     }
   };
 
+  const formatTagToList = (newTag: string): string[] => {
+    if (newTag.includes(',')) {
+      const tagList = newTag.split(',').map(tag => tag.trim());
+      const temp = [...tags, ...tagList];
+      // Return unique list
+      return [...new Set(temp)];
+    } else return [...tags, newTag.trim()];
+  };
+
   const createNewTag = (newTag: string) => {
     if (newTag && !tags.includes(newTag.trim())) {
-      const temp = [...tags, newTag.trim()];
+      const temp = formatTagToList(newTag);
       updateField(temp);
     }
   };

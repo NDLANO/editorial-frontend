@@ -45,10 +45,7 @@ const SetResourcesPrimary = ({ node, editModeHandler: { editMode, toggleEditMode
 
   return (
     <>
-      <MenuItemButton
-        stripped
-        data-testid="setRevisionDate"
-        onClick={toggleConnectedResourcesPrimary}>
+      <MenuItemButton stripped onClick={toggleConnectedResourcesPrimary}>
         <RoundIcon small icon={<Pencil />} />
         {t('taxonomy.resourcesPrimary.buttonText')}
       </MenuItemButton>

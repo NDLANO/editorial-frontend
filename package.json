@@ -104,7 +104,8 @@
     "wait-on": "^3.3.0",
     "webpack": "^4.44.1",
     "webpack-dev-server": "^3.11.2",
-    "yargs": "^14.0.0"
+    "yargs": "^14.0.0",
+    "yarn-deduplicate": "^6.0.0"
   },
   "dependencies": {
     "@emotion/react": "^11.10.4",

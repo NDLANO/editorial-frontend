@@ -7,7 +7,7 @@
  */
 
 import { MouseEvent, useEffect, useState } from 'react';
-import { IImageMetaInformationV2 } from '@ndla/types-image-api';
+import { IImageMetaInformationV3 } from '@ndla/types-image-api';
 import Button from '@ndla/button';
 import { colors } from '@ndla/core';
 import styled from '@emotion/styled';
@@ -82,7 +82,7 @@ type StateProp = 'crop' | 'focalPoint' | undefined;
 const ImageEditor = ({ embed, onUpdatedImageSettings, imageUpdates, language }: Props) => {
   const { t } = useTranslation();
   const [editType, setEditType] = useState<StateProp>(undefined);
-  const [image, setImage] = useState<IImageMetaInformationV2 | undefined>(undefined);
+  const [image, setImage] = useState<IImageMetaInformationV3 | undefined>(undefined);
 
   useEffect(() => {
     const getImage = async () => {
@@ -143,7 +143,9 @@ const ImageEditor = ({ embed, onUpdatedImageSettings, imageUpdates, language }: 
 
   const isModifiable = () => {
     if (image) {
-      return !(image.copyright.license.license.includes('ND') || image.contentType.includes('svg'));
+      return !(
+        image.copyright.license.license.includes('ND') || image.image.contentType.includes('svg')
+      );
     }
   };
 

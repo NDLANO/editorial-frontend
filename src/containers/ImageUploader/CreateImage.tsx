@@ -7,7 +7,7 @@
 
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { IImageMetaInformationV2, INewImageMetaInformationV2 } from '@ndla/types-image-api';
+import { IImageMetaInformationV3, INewImageMetaInformationV2 } from '@ndla/types-image-api';
 import ImageForm from './components/ImageForm';
 import { createFormData } from '../../util/formDataHelper';
 import { postImage } from '../../modules/image/imageApi';
@@ -18,7 +18,7 @@ import { draftLicensesToImageLicenses } from '../../modules/draft/draftApiUtils'
 interface Props {
   isNewlyCreated?: boolean;
   editingArticle?: boolean;
-  onImageCreated?: (image: IImageMetaInformationV2) => void;
+  onImageCreated?: (image: IImageMetaInformationV3) => void;
   closeModal?: () => void;
   inModal?: boolean;
 }

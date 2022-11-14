@@ -325,3 +325,17 @@ export const putNode = ({ taxonomyVersion, id, ...params }: PutNodeParams): Prom
     alternateResolve: resolveVoidOrRejectWithError,
   });
 };
+
+export interface PutResourcesPrimaryParams extends WithTaxonomyVersion {
+  id: string;
+}
+
+export const putResourcesPrimary = ({
+  id,
+  taxonomyVersion,
+}: PutResourcesPrimaryParams): Promise<void> =>
+  putAndResolve({
+    url: `${baseUrl}/${id}/makeResourcesPrimary`,
+    alternateResolve: resolveVoidOrRejectWithError,
+    taxonomyVersion,
+  });

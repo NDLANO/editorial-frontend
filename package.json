@@ -44,8 +44,8 @@
     "npm": ">=5.3.0"
   },
   "devDependencies": {
-    "@babel/plugin-proposal-optional-chaining": "7.11.0",
-    "@babel/register": "^7.8.3",
+    "@babel/core": "^7.20.2",
+    "@babel/register": "^7.18.9",
     "@emotion/babel-plugin": "11.10.2",
     "@emotion/babel-preset-css-prop": "^11.10.0",
     "@emotion/eslint-plugin": "11.10.0",
@@ -78,7 +78,7 @@
     "concurrently": "^5.3.0",
     "cross-env": "^5.2.0",
     "cypress": "^7.2.0",
-    "eslint": "^7.22.0",
+    "eslint": "^8.27.0",
     "eslint-config-ndla": "^2.0.6",
     "eslint-plugin-cypress": "^2.11.2",
     "esm": "^3.2.25",
@@ -93,7 +93,6 @@
     "razzle": "^4.2.17",
     "razzle-config-utils": "^0.1.0",
     "razzle-dev-utils": "^4.2.17",
-    "razzle-plugin-typescript": "^4.2.17",
     "regenerator-runtime": "0.13.7",
     "rimraf": "^3.0.0",
     "start-server-and-test": "^1.12.0",
@@ -103,7 +102,8 @@
     "typescript": "4.8.4",
     "webpack": "^4.44.1",
     "webpack-dev-server": "^3.11.2",
-    "yargs": "^14.0.0"
+    "yargs": "^14.0.0",
+    "yarn-deduplicate": "^6.0.0"
   },
   "dependencies": {
     "@emotion/react": "^11.10.4",

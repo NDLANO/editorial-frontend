@@ -160,7 +160,7 @@ app.get(
     } else {
       try {
         const managementToken = await getToken(`https://${config.auth0Domain}/api/v2/`);
-        const users = await getUsers(managementToken, userIds);
+        const users = await getUsers(managementToken, userIds as string);
         res.status(OK).json(users);
       } catch (err) {
         res.status(INTERNAL_SERVER_ERROR).send((err as NdlaError).message);
@@ -187,7 +187,7 @@ app.get(
 
     try {
       const managementToken = await getToken(`https://${config.auth0Domain}/api/v2/`);
-      const editors = await getEditors(managementToken, permission);
+      const editors = await getEditors(managementToken, permission as string);
       res.status(OK).json(editors);
     } catch (err) {
       res.status(INTERNAL_SERVER_ERROR).send((err as NdlaError).message);

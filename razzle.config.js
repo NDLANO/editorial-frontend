@@ -2,6 +2,10 @@ const { modifyRule } = require('razzle-config-utils');
 
 module.exports = {
   modifyWebpackConfig({ env: { target, dev }, webpackConfig: appConfig }) {
+    appConfig.stats = 'errors-warnings';
+    appConfig.infrastructureLogging = {
+      level: 'warn',
+    };
     modifyRule(appConfig, { test: /\.css$/ }, rule => {
       rule.use.push({ loader: 'postcss-loader' });
     });

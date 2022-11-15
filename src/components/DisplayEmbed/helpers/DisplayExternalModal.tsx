@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import VisualElementSearch from '../../../containers/VisualElement/VisualElementSearch';
 import VisualElementModalWrapper from '../../../containers/VisualElement/VisualElementModalWrapper';
-import { Embed, ExternalEmbed, H5pEmbed } from '../../../interfaces';
+import { Embed, ExternalEmbed, H5pEmbed, WhitelistProvider } from '../../../interfaces';
 
 interface Props {
   src: string;
@@ -10,12 +10,9 @@ interface Props {
   onClose: () => void;
   embed: H5pEmbed | ExternalEmbed;
   isEditMode: boolean;
-  allowedProvider: {
-    height?: string;
-    name: string;
-    url: string[];
-  };
+  allowedProvider: WhitelistProvider;
 }
+
 const DisplayExternalModal = ({
   isEditMode,
   allowedProvider,

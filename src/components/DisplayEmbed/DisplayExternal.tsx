@@ -1,15 +1,15 @@
 /**
- * Copyright (c) 2017-present, NDLA.
+ * Copyright (c) 2022-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
  *
  */
 
-import { Component, MouseEvent } from 'react';
+import { MouseEvent, useEffect, useState, useRef } from 'react';
 import { Editor, Transforms } from 'slate';
 import { ReactEditor } from 'slate-react';
-import { withTranslation, CustomWithTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import './helpers/h5pResizer';
 import handleError from '../../util/handleError';
 import EditorErrorMessage from '../SlateEditor/EditorErrorMessage';
@@ -24,19 +24,19 @@ import { Embed, ExternalEmbed, H5pEmbed } from '../../interfaces';
 import { EmbedElement } from '../SlateEditor/plugins/embed';
 import SlateResourceBox from './SlateResourceBox';
 
-interface Props extends CustomWithTranslation {
+type EmbedType = ExternalEmbed | H5pEmbed;
+
+interface Props {
   element: EmbedElement;
   editor: Editor;
-  embed: ExternalEmbed | H5pEmbed;
+  embed: EmbedType;
   onRemoveClick: (event: MouseEvent) => void;
   language: string;
   active: boolean;
   isSelectedForCopy: boolean;
 }
 
-interface State {
-  isEditMode: boolean;
-  error?: boolean;
+interface EmbedProperties {
   domain?: string;
   src?: string;
   title?: string;
@@ -45,60 +45,35 @@ interface State {
   provider?: string;
 }
 
-export class DisplayExternal extends Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      isEditMode: false,
-      type: this.props.embed.resource,
-    };
-    this.onEditEmbed = this.onEditEmbed.bind(this);
-    this.openEditEmbed = this.openEditEmbed.bind(this);
-    this.closeEditEmbed = this.closeEditEmbed.bind(this);
-    this.getPropsFromEmbed = this.getPropsFromEmbed.bind(this);
-  }
+const DisplayExternal = ({
+  element,
+  editor,
+  embed,
+  onRemoveClick,
+  language,
+  active,
+  isSelectedForCopy,
+}: Props) => {
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [error, setError] = useState(false);
+  const [properties, setProperties] = useState<EmbedProperties>({ type: embed.resource });
+  const { t } = useTranslation();
+  const prevEmbed = useRef<EmbedType>(embed);
 
-  componentDidMount() {
-    this.getPropsFromEmbed();
-  }
+  // H5P does not provide its name
+  const providerName =
+    properties.domain && properties.domain.includes('h5p') ? 'H5P' : properties.provider;
+    
+  const [allowedProvider] = EXTERNAL_WHITELIST_PROVIDERS.filter(whitelistProvider =>
+    properties.type === 'iframe' && properties.domain
+      ? whitelistProvider.url.includes(properties.domain)
+      : whitelistProvider.name === providerName,
+  );
 
-  componentDidUpdate(prevProps: Props) {
-    const { embed } = this.props;
-    const { embed: prevEmbed } = prevProps;
-    if (prevProps.embed.resource !== embed.resource) {
-      this.getPropsFromEmbed();
-    } else if (
-      embed.resource === 'h5p' &&
-      prevEmbed.resource === 'h5p' &&
-      embed.path !== prevEmbed.path
-    ) {
-      this.getPropsFromEmbed();
-    } else if (
-      (embed.resource === 'external' || embed.resource === 'iframe') &&
-      (prevEmbed.resource === 'external' || prevEmbed.resource === 'iframe') &&
-      embed.url !== prevEmbed.url
-    ) {
-      this.getPropsFromEmbed();
-    }
-  }
-
-  onEditEmbed(properties: Embed) {
-    const { editor, element } = this.props;
-
-    Transforms.setNodes(
-      editor,
-      { data: { ...properties } },
-      { at: ReactEditor.findPath(editor, element) },
-    );
-    this.closeEditEmbed();
-  }
-
-  async getPropsFromEmbed() {
-    const { embed, language } = this.props;
+  const getPropsFromEmbed = async () => {
     const origin = embed.url ? urlOrigin(embed.url) : config.h5pApiUrl;
     const domain = embed.url ? urlDomain(embed.url) : config.h5pApiUrl;
     const cssUrl = encodeURIComponent(`${config.ndlaFrontendDomain}/static/h5p-custom-css.css`);
-    this.setState({ domain });
 
     if (embed.resource === 'external' || embed.resource === 'h5p') {
       try {
@@ -112,132 +87,145 @@ export class DisplayExternal extends Component<Props, State> {
         const src = getIframeSrcFromHtmlString(data.html);
 
         if (src) {
-          this.setState({
+          setProperties({
+            ...properties,
             title: data.title,
             src,
             type: data.type,
             provider: data.providerName,
             height: data.height || '486px',
+            domain: domain,
           });
         } else {
-          this.setState({ error: true });
+          setError(true);
         }
       } catch (err) {
-        this.setState({ error: true });
+        setError(true);
         handleError(err);
       }
     } else {
-      this.setState({
+      setProperties({
+        ...properties,
         title: domain,
         src: embed.url,
         type: embed.resource,
         height: embed.height,
+        domain: domain,
       });
     }
-  }
+  };
 
-  openEditEmbed(evt: MouseEvent) {
+  useEffect(() => {
+    getPropsFromEmbed();
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    prevEmbed.current = embed;
+    const prevEmbedElement: EmbedType = prevEmbed.current;
+    if (prevEmbedElement.resource !== embed.resource) {
+      getPropsFromEmbed();
+    } else if (
+      embed.resource === 'h5p' &&
+      prevEmbedElement.resource === 'h5p' &&
+      embed.path !== prevEmbedElement.path
+    ) {
+      getPropsFromEmbed();
+    } else if (
+      (embed.resource === 'external' || embed.resource === 'iframe') &&
+      (prevEmbedElement.resource === 'external' || prevEmbedElement.resource === 'iframe') &&
+      embed.url !== prevEmbedElement.url
+    ) {
+      getPropsFromEmbed();
+    }
+  }, [embed]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const openEditEmbed = (evt: MouseEvent) => {
     evt.preventDefault();
-    this.setState({ isEditMode: true });
-  }
+    setIsEditMode(true);
+  };
 
-  closeEditEmbed() {
-    this.setState({ isEditMode: false });
-  }
+  const closeEditEmbed = () => {
+    setIsEditMode(false);
+  };
 
-  render() {
-    const { onRemoveClick, embed, t, language, isSelectedForCopy, active } = this.props;
-    const { isEditMode, title, src, height, error, type, provider, domain } = this.state;
-    const showCopyOutline = isSelectedForCopy && (!isEditMode || !active);
-
-    const errorHolder = () => (
-      <EditorErrorMessage
-        onRemoveClick={onRemoveClick}
-        msg={
-          error
-            ? t('displayOembed.errorMessage')
-            : t('displayOembed.notSupported', {
-                type,
-                provider,
-              })
-        }
-      />
+  const onEditEmbed = (properties: Embed) => {
+    Transforms.setNodes(
+      editor,
+      { data: { ...properties } },
+      { at: ReactEditor.findPath(editor, element) },
     );
+    closeEditEmbed();
+  };
 
-    if (error) {
-      return errorHolder();
-    }
+  const showCopyOutline = isSelectedForCopy && (!isEditMode || !active);
 
-    // H5P does not provide its name
-    const providerName = domain && domain.includes('h5p') ? 'H5P' : provider;
-
-    const [allowedProvider] = EXTERNAL_WHITELIST_PROVIDERS.filter(whitelistProvider =>
-      type === 'iframe' && domain
-        ? whitelistProvider.url.includes(domain)
-        : whitelistProvider.name === providerName,
-    );
-
-    if (!allowedProvider) {
-      return errorHolder();
-    }
-
-    if (!src || !type) {
-      return <div />;
-    }
-
-    return (
-      <div
-        className={'c-figure'}
-        css={
-          showCopyOutline && {
-            boxShadow: 'rgb(32, 88, 143) 0 0 0 2px',
-          }
-        }>
-        <FigureButtons
-          language={language}
-          tooltip={t('form.external.remove', {
-            type: providerName || t('form.external.title'),
-          })}
+  return (
+    <>
+      {!properties.src || !properties.type ? (
+        <div />
+      ) : !allowedProvider || error ? (
+        <EditorErrorMessage
           onRemoveClick={onRemoveClick}
-          embed={embed}
-          providerName={providerName}
-          figureType="external"
-          onEdit={
-            allowedProvider.name
-              ? evt => {
-                  evt.preventDefault();
-                  evt.stopPropagation();
-                  this.openEditEmbed(evt);
-                }
-              : undefined
+          msg={
+            error
+              ? t('displayOembed.errorMessage')
+              : t('displayOembed.notSupported', properties.type, properties.provider)
           }
         />
-        {(embed.resource === 'iframe' || embed.resource === 'external') &&
-        embed.type === 'fullscreen' ? (
-          <SlateResourceBox embed={embed} language={language} />
-        ) : (
-          <iframe
-            contentEditable={false}
-            src={src}
-            height={allowedProvider.height || height}
-            title={title}
-            scrolling={type === 'iframe' ? 'no' : undefined}
-            allowFullScreen={true}
-            frameBorder="0"
+      ) : (
+        <div
+          className={'c-figure'}
+          css={
+            showCopyOutline && {
+              boxShadow: 'rgb(32, 88, 143) 0 0 0 2px',
+            }
+          }>
+          <FigureButtons
+            language={language}
+            tooltip={t('form.external.remove', {
+              type: providerName || t('form.external.title'),
+            })}
+            onRemoveClick={onRemoveClick}
+            embed={embed}
+            providerName={providerName}
+            figureType="external"
+            onEdit={
+              allowedProvider.name
+                ? evt => {
+                    evt.preventDefault();
+                    evt.stopPropagation();
+                    openEditEmbed(evt);
+                  }
+                : undefined
+            }
           />
-        )}
-        <DisplayExternalModal
-          embed={embed}
-          isEditMode={isEditMode}
-          src={src}
-          type={type}
-          onEditEmbed={this.onEditEmbed}
-          onClose={this.closeEditEmbed}
-          allowedProvider={allowedProvider}
-        />
-      </div>
-    );
-  }
-}
+          {(embed.resource === 'iframe' || embed.resource === 'external') &&
+          embed.type === 'fullscreen' ? (
+            <SlateResourceBox embed={embed} language={language} />
+          ) : (
+            <iframe
+              contentEditable={false}
+              src={properties.src}
+              height={allowedProvider.height || properties.height}
+              title={properties.title}
+              scrolling={properties.type === 'iframe' ? 'no' : undefined}
+              allowFullScreen={true}
+              frameBorder="0"
+            />
+          )}
+          <DisplayExternalModal
+            embed={embed}
+            isEditMode={isEditMode}
+            src={properties.src}
+            type={properties.type}
+            onEditEmbed={onEditEmbed}
+            onClose={closeEditEmbed}
+            allowedProvider={allowedProvider}
+          />
+        </div>
+      )}
+    </>
+  );
+};
 
-export default withTranslation()(DisplayExternal);
+export default DisplayExternal;

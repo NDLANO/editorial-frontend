@@ -5,6 +5,7 @@ import {
   TableCellElement,
   TableElement,
   TableHeadElement,
+  TableMatrix,
   TableRowElement,
 } from './interfaces';
 import {
@@ -106,4 +107,9 @@ export const updateCell = (
       at: [],
     },
   );
+};
+
+// Getters
+export const getPrevCell = (matrix: TableMatrix, row: number, column: number) => {
+  return matrix[row][column - 1];
 };

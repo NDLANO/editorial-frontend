@@ -3,6 +3,7 @@ import { Descendant, Editor, Path, Transforms } from 'slate';
 import { ReactEditor } from 'slate-react';
 import { TableBodyElement, TableCellElement, TableHeadElement } from './interfaces';
 import {
+  getPrevCell,
   insertEmptyCells,
   isTable,
   isTableBody,
@@ -178,7 +179,17 @@ const normalizeRow = (
           }
         }
       } else {
-        // i. If table has rowHeaders
+        // i. If table does not have headers on rows
+        //    Make sure cells in body has scope=undefined and isHeader=false
+        if (!rowHeaders && (scope || isHeader)) {
+          updateCell(editor, cell, {
+            scope: undefined,
+            isHeader: false,
+          });
+          return true;
+        }
+
+        // ii. If table has headers on rows
         //    First cell in row should be a header
         //    Other cells should not be a header
         if (rowHeaders) {
@@ -191,23 +202,13 @@ const normalizeRow = (
               return true;
             }
           } else {
-            if ((scope || isHeader) && matrix[rowIndex][index - 1] !== cell) {
+            if ((scope || isHeader) && getPrevCell(matrix, rowIndex, index) !== cell) {
               updateCell(editor, cell, {
                 scope: undefined,
                 isHeader: false,
               });
               return true;
             }
-          }
-        } else {
-          // ii. If table does not have rowHeaders
-          //     Make sure cells in body has scope=undefined and isHeader=false
-          if (scope || isHeader) {
-            updateCell(editor, cell, {
-              scope: undefined,
-              isHeader: false,
-            });
-            return true;
           }
         }
       }

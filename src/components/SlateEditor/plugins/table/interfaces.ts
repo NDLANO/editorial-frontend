@@ -43,3 +43,5 @@ export interface TableCellElement {
   };
   children: Descendant[];
 }
+
+export type TableMatrix = TableCellElement[][];

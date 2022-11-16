@@ -37,6 +37,7 @@ import {
   isTableCell,
   isTableHead,
   isTableRow,
+  updateCell,
 } from './helpers';
 import { defaultParagraphBlock } from '../paragraph/utils';
 import { TableElement } from './interfaces';
@@ -243,7 +244,6 @@ export const tablePlugin = (editor: Editor) => {
                 contentEditable={false}
                 dangerouslySetInnerHTML={{ __html: element.colgroups || '' }}
               />
-
               {children}
             </SlateTable>
           </>
@@ -388,7 +388,7 @@ export const tablePlugin = (editor: Editor) => {
       // ii. Make sure cells in TableHead are marked as isHeader.
       //     Cells in TableBody will not be altered if rowHeaders=true on Table.
       if ((isTableHead(body) || isTableBody(body)) && isTable(table)) {
-        for (const [index, cell] of node.children.entries()) {
+        for (const [, cell] of node.children.entries()) {
           if (table.rowHeaders && isTableBody(body)) {
             continue;
           }
@@ -400,17 +400,10 @@ export const tablePlugin = (editor: Editor) => {
             (cell.data.isHeader !== shouldBeHeader || expectedScope !== cell.data.scope)
           ) {
             return HistoryEditor.withoutSaving(editor, () => {
-              Transforms.setNodes(
-                editor,
-                {
-                  data: {
-                    ...cell.data,
-                    isHeader: shouldBeHeader,
-                    scope: expectedScope,
-                  },
-                },
-                { at: [...path, index] },
-              );
+              updateCell(editor, cell, {
+                isHeader: shouldBeHeader,
+                scope: expectedScope,
+              });
             });
           }
         }

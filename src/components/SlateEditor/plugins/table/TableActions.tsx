@@ -23,7 +23,15 @@ import { useSession } from '../../../../containers/Session/SessionProvider';
 import { DRAFT_HTML_SCOPE } from '../../../../constants';
 import { isTable, isTableHead } from './slateHelpers';
 import { alignColumn } from './slateActions';
-import { editColgroups, insertColumn, insertRow, insertTableHead, removeColumn, removeRow, toggleRowHeaders } from './toolbarActions';
+import {
+  editColgroups,
+  insertColumn,
+  insertRow,
+  insertTableHead,
+  removeColumn,
+  removeRow,
+  toggleRowHeaders,
+} from './toolbarActions';
 
 const StyledButton = styled(Button)`
   display: flex;

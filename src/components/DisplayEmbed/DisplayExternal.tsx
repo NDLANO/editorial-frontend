@@ -6,7 +6,7 @@
  *
  */
 
-import { MouseEvent, useEffect, useState, useRef } from 'react';
+import { MouseEvent, useEffect, useState, useRef, useCallback } from 'react';
 import { Editor, Transforms } from 'slate';
 import { ReactEditor } from 'slate-react';
 import { useTranslation } from 'react-i18next';
@@ -34,6 +34,7 @@ interface Props {
   language: string;
   active: boolean;
   isSelectedForCopy: boolean;
+  saveEmbedUpdates: Function;
 }
 
 interface EmbedProperties {
@@ -53,22 +54,41 @@ const DisplayExternal = ({
   language,
   active,
   isSelectedForCopy,
+  saveEmbedUpdates,
 }: Props) => {
   const [isEditMode, setIsEditMode] = useState(false);
   const [error, setError] = useState(false);
   const [properties, setProperties] = useState<EmbedProperties>({ type: embed.resource });
   const { t } = useTranslation();
   const prevEmbed = useRef<EmbedType>(embed);
+  const [height, setHeight] = useState(0);
+  const iframeWrapper = useRef(null);
 
   // H5P does not provide its name
   const providerName =
     properties.domain && properties.domain.includes('h5p') ? 'H5P' : properties.provider;
-    
+
   const [allowedProvider] = EXTERNAL_WHITELIST_PROVIDERS.filter(whitelistProvider =>
     properties.type === 'iframe' && properties.domain
       ? whitelistProvider.url.includes(properties.domain)
       : whitelistProvider.name === providerName,
   );
+
+  const handleMouseDown = useCallback(() => {
+    document.addEventListener(
+      'mouseup',
+      () => {
+        if (iframeWrapper.current) {
+          const elementHeight = (iframeWrapper.current as HTMLDivElement).clientHeight;
+          saveEmbedUpdates({
+            height: elementHeight,
+          });
+          setHeight(elementHeight);
+        }
+      },
+      { once: true },
+    );
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const getPropsFromEmbed = async () => {
     const origin = embed.url ? urlOrigin(embed.url) : config.h5pApiUrl;
@@ -173,13 +193,7 @@ const DisplayExternal = ({
           }
         />
       ) : (
-        <div
-          className={'c-figure'}
-          css={
-            showCopyOutline && {
-              boxShadow: 'rgb(32, 88, 143) 0 0 0 2px',
-            }
-          }>
+        <div className={'c-figure'}>
           <FigureButtons
             language={language}
             tooltip={t('form.external.remove', {
@@ -203,15 +217,25 @@ const DisplayExternal = ({
           embed.type === 'fullscreen' ? (
             <SlateResourceBox embed={embed} language={language} />
           ) : (
-            <iframe
-              contentEditable={false}
-              src={properties.src}
-              height={allowedProvider.height || properties.height}
-              title={properties.title}
-              scrolling={properties.type === 'iframe' ? 'no' : undefined}
-              allowFullScreen={true}
-              frameBorder="0"
-            />
+            <div
+              onMouseDown={handleMouseDown}
+              ref={iframeWrapper}
+              css={
+                showCopyOutline && {
+                  boxShadow: 'rgb(32, 88, 143) 0 0 0 2px',
+                }
+              }
+              style={{ resize: 'vertical', overflow: 'hidden' }}>
+              <iframe
+                contentEditable={false}
+                src={properties.src}
+                height={height ? height : allowedProvider.height || properties.height}
+                title={properties.title}
+                scrolling={properties.type === 'iframe' ? 'no' : undefined}
+                allowFullScreen={true}
+                frameBorder="0"
+              />
+            </div>
           )}
           <DisplayExternalModal
             embed={embed}

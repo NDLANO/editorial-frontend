@@ -65,6 +65,22 @@ export const insertEmptyCells = (editor: Editor, path: Path, amount: number) => 
   );
 };
 
+export const increaseTableBodyWidth = (
+  editor: Editor,
+  body: TableBodyElement | TableHeadElement,
+  path: Path,
+  amount: number,
+) => {
+  Editor.withoutNormalizing(editor, () => {
+    for (const [index, row] of body.children.entries()) {
+      if (isTableRow(row)) {
+        const targetPath = [...path, index, row.children.length];
+        insertEmptyCells(editor, targetPath, Math.abs(amount));
+      }
+    }
+  });
+};
+
 export const toggleCellAlign = (editor: Editor, type: string) => {
   const newAlign = hasCellAlignOfType(editor, type) ? undefined : type;
 

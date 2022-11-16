@@ -4,6 +4,7 @@ import { ReactEditor } from 'slate-react';
 import { TableBodyElement, TableCellElement, TableHeadElement, TableMatrix } from './interfaces';
 import {
   getPrevCell,
+  increaseTableBodyWidth,
   insertEmptyCells,
   isTable,
   isTableBody,
@@ -20,24 +21,36 @@ import { defaultTableRowBlock, getTableBodyWidth } from './utils';
  * A cell with rowspan=2 and colspan=4 will be inserted in 8 slots.
  * It will represent the 2x4 area of cells it covers in the html-table.
  */
-const placeCellInMatrix = (
+
+const insertCellHelper = (
+  matrix: TableMatrix,
+  cell: TableCellElement,
+  rowIndex: number,
+  rowspan: number,
+  colStart: number,
+  colEnd: number,
+) => {
+  for (let r = rowIndex; r < rowIndex + rowspan; r++) {
+    for (let c = colStart; c < colEnd; c++) {
+      if (!matrix[r]) {
+        matrix[r] = [];
+      }
+      matrix[r][c] = cell;
+    }
+  }
+};
+
+const insertCellInMatrix = (
   matrix: TableMatrix,
   rowIndex: number,
   colspan: number,
   rowspan: number,
-  cellElement: TableCellElement,
+  cell: TableCellElement,
 ) => {
   const rowLength = matrix[rowIndex].length;
   // A. If row has no elements => Place cell at start of the row.
   if (rowLength === 0) {
-    for (let r = rowIndex; r < rowIndex + rowspan; r++) {
-      for (let c = 0; c < colspan; c++) {
-        if (!matrix[r]) {
-          matrix[r] = [];
-        }
-        matrix[r][c] = cellElement;
-      }
-    }
+    insertCellHelper(matrix, cell, rowIndex, rowspan, 0, rowIndex + rowspan);
     return;
   }
   // B. If there are open slots in the row => Place cell at first open slot.
@@ -45,26 +58,12 @@ const placeCellInMatrix = (
     if (cell) {
       continue;
     } else {
-      for (let r = rowIndex; r < rowIndex + rowspan; r++) {
-        for (let c = colIndex; c < colIndex + colspan; c++) {
-          if (!matrix[r]) {
-            matrix[r] = [];
-          }
-          matrix[r][c] = cellElement;
-        }
-      }
+      insertCellHelper(matrix, cell, rowIndex, rowspan, colIndex, colIndex + colspan + rowspan);
       return;
     }
   }
   // C. Otherwise place cell at end of row.
-  for (let r = rowIndex; r < rowIndex + rowspan; r++) {
-    for (let c = rowLength; c < rowLength + colspan; c++) {
-      if (!matrix[r]) {
-        matrix[r] = [];
-      }
-      matrix[r][c] = cellElement;
-    }
-  }
+  insertCellHelper(matrix, cell, rowIndex, rowspan, rowLength, rowLength + colspan + rowspan);
 };
 
 // Before placing a cell in the table matrix, make sure the cell has the required space
@@ -268,11 +267,9 @@ export const normalizeTableBodyAsMatrix = (
       }
 
       // ii. Place cell in matrix
-      placeCellInMatrix(matrix, rowIndex, colspan, rowspan, cell);
+      insertCellInMatrix(matrix, rowIndex, colspan, rowspan, cell);
     }
-    if (isTableBody(tableBody)) {
-    }
-    // B. Validate insertion of the current row. This will restart the normalization.
+    // B. Validate insertion of the current row. This will automatically restart the normalization if true.
     if (normalizeRow(editor, matrix, rowIndex, tableBody, tableBodyPath)) {
       return true;
     }
@@ -284,6 +281,7 @@ export const normalizeTableBodyAsMatrix = (
       return true;
     }
   }
+
   // C. Previous header/body can have different width. Add cells if necessary.
   if (Path.hasPrevious(tableBodyPath)) {
     const [previousBody, previousBodyPath] = Editor.node(editor, Path.previous(tableBodyPath));
@@ -293,27 +291,13 @@ export const normalizeTableBodyAsMatrix = (
 
       const widthDiff = currentBodyWidth - previousBodyWidth;
 
-      // i. Previous body is narrower. Add cells in all rows
+      // i. Previous body is narrower. Add cells in all rows in previous body
       if (widthDiff > 0) {
-        Editor.withoutNormalizing(editor, () => {
-          for (const [index, row] of previousBody.children.entries()) {
-            if (isTableRow(row)) {
-              const targetPath = [...previousBodyPath, index, row.children.length];
-              insertEmptyCells(editor, targetPath, widthDiff);
-            }
-          }
-        });
+        increaseTableBodyWidth(editor, previousBody, previousBodyPath, widthDiff);
         return true;
-        // ii. Current body is narrower. Add cells at end of all rows
+        // ii. Current body is narrower. Add cells to all rows in current body
       } else if (widthDiff < 0) {
-        Editor.withoutNormalizing(editor, () => {
-          for (const [index, row] of tableBody.children.entries()) {
-            if (isTableRow(row)) {
-              const targetPath = [...tableBodyPath, index, row.children.length];
-              insertEmptyCells(editor, targetPath, Math.abs(widthDiff));
-            }
-          }
-        });
+        increaseTableBodyWidth(editor, tableBody, tableBodyPath, widthDiff);
         return true;
       }
     }
@@ -337,14 +321,7 @@ export const normalizeTableBodyAsMatrix = (
 
         // ii. Current body is narrower. Add cells in all rows
       } else if (widthDiff < 0) {
-        Editor.withoutNormalizing(editor, () => {
-          for (const [index, row] of tableBody.children.entries()) {
-            if (isTableRow(row)) {
-              const targetPath = [...tableBodyPath, index, row.children.length];
-              insertEmptyCells(editor, targetPath, Math.abs(widthDiff));
-            }
-          }
-        });
+        increaseTableBodyWidth(editor, tableBody, tableBodyPath, widthDiff);
         return true;
       }
     }
@@ -372,7 +349,7 @@ export const getTableBodyAsMatrix = (editor: Editor, path: Path) => {
 
       const colspan = cell.data.colspan;
       const rowspan = cell.data.rowspan;
-      placeCellInMatrix(matrix, rowIndex, colspan, rowspan, cell);
+      insertCellInMatrix(matrix, rowIndex, colspan, rowspan, cell);
     }
   });
 
@@ -405,7 +382,7 @@ export const getTableAsMatrix = (editor: Editor, path: Path) => {
 
         const colspan = cell.data.colspan;
         const rowspan = cell.data.rowspan;
-        placeCellInMatrix(matrix, rowIndex, colspan, rowspan, cell);
+        insertCellInMatrix(matrix, rowIndex, colspan, rowspan, cell);
       }
     });
 

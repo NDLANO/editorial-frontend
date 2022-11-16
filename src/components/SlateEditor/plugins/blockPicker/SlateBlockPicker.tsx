@@ -29,7 +29,7 @@ import { useSession } from '../../../../containers/Session/SessionProvider';
 import getCurrentBlock from '../../utils/getCurrentBlock';
 import { TYPE_PARAGRAPH } from '../paragraph/types';
 import { isParagraph } from '../paragraph/utils';
-import { isTableCell } from '../table/helpers';
+import { isTableCell } from '../table/slateHelpers';
 
 interface Props {
   editor: Editor;

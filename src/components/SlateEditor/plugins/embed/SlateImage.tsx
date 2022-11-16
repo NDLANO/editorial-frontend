@@ -19,7 +19,7 @@ import EditImage from './EditImage';
 import { ImageEmbed } from '../../../../interfaces';
 
 import { EmbedElement } from './index';
-import { isTable } from '../table/helpers';
+import { isTable } from '../table/slateHelpers';
 
 interface Props {
   active?: boolean;

@@ -27,11 +27,11 @@ import {
   alignColumn,
 } from './utils';
 import { TableElement } from './interfaces';
-import { isTable, isTableHead } from './helpers';
 import getCurrentBlock from '../../utils/getCurrentBlock';
 import { TYPE_TABLE_CAPTION } from './types';
 import { useSession } from '../../../../containers/Session/SessionProvider';
 import { DRAFT_HTML_SCOPE } from '../../../../constants';
+import { isTable, isTableHead } from './slateHelpers';
 
 const StyledButton = styled(Button)`
   display: flex;

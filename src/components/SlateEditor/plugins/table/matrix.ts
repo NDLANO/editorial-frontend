@@ -68,7 +68,7 @@ const insertCellInMatrix = (
 
 // Before placing a cell in the table matrix, make sure the cell has the required space
 // If not, add the required space by inserting empty cells.
-const normalizeBeforeInsert = (
+const normalizeCell = (
   editor: Editor,
   matrix: TableMatrix,
   rowIndex: number,
@@ -262,7 +262,7 @@ export const normalizeTableBodyAsMatrix = (
 
       // i. Check if next element can be placed in matrix without needing a normalize.
       // Normalize if needed. This will restart the normalization.
-      if (normalizeBeforeInsert(editor, matrix, rowIndex, colspan, rowspan)) {
+      if (normalizeCell(editor, matrix, rowIndex, colspan, rowspan)) {
         return true;
       }
 

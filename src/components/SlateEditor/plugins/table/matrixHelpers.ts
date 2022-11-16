@@ -1,4 +1,4 @@
-import { uniq } from 'lodash';
+import { compact, uniq } from 'lodash';
 import { TableCellElement, TableMatrix } from './interfaces';
 
 export const getPrevCell = (matrix: TableMatrix, row: number, column: number) => {
@@ -22,4 +22,61 @@ export const findCellCoordinate = (
 export const getMatrixColumn = (matrix: TableMatrix, index: number) => {
   const column = matrix.map(row => row[index]);
   return uniq(column);
+};
+
+// Find the amount of cells in a matrix row.
+export const countMatrixRowCells = (matrix: TableMatrix, rowIndex: number): number => {
+  return compact([...new Set(matrix[rowIndex])]).filter(cell =>
+    rowIndex > 0 ? !matrix[rowIndex - 1].includes(cell) : true,
+  ).length;
+};
+
+const insertCellHelper = (
+  matrix: TableMatrix,
+  cell: TableCellElement,
+  rowIndex: number,
+  rowspan: number,
+  colStart: number,
+  colEnd: number,
+) => {
+  for (let r = rowIndex; r < rowIndex + rowspan; r++) {
+    for (let c = colStart; c < colEnd; c++) {
+      if (!matrix[r]) {
+        matrix[r] = [];
+      }
+      matrix[r][c] = cell;
+    }
+  }
+};
+
+/**
+ * Insert cellElement into the matrix and the first available column in rowIndex.
+ * Example:
+ * A cell with rowspan=2 and colspan=4 will be inserted in 8 slots.
+ * It will represent the 2x4 area of cells it covers in the html-table.
+ */
+export const insertCellInMatrix = (
+  matrix: TableMatrix,
+  rowIndex: number,
+  colspan: number,
+  rowspan: number,
+  cell: TableCellElement,
+) => {
+  const rowLength = matrix[rowIndex].length;
+  // A. If row has no elements => Place cell at start of the row.
+  if (rowLength === 0) {
+    insertCellHelper(matrix, cell, rowIndex, rowspan, 0, rowIndex + rowspan);
+    return;
+  }
+  // B. If there are open slots in the row => Place cell at first open slot.
+  for (const [colIndex, cell] of matrix[rowIndex].entries()) {
+    if (cell) {
+      continue;
+    } else {
+      insertCellHelper(matrix, cell, rowIndex, rowspan, colIndex, colIndex + colspan + rowspan);
+      return;
+    }
+  }
+  // C. Otherwise place cell at end of row.
+  insertCellHelper(matrix, cell, rowIndex, rowspan, rowLength, rowLength + colspan + rowspan);
 };

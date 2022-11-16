@@ -1,4 +1,6 @@
 import { Editor, Element, Node } from 'slate';
+import { jsx as slatejsx } from 'slate-hyperscript';
+import { defaultTableCellBlock } from './defaultBlocks';
 import {
   TableBodyElement,
   TableCaptionElement,
@@ -50,4 +52,47 @@ export const hasCellAlignOfType = (editor: Editor, type: string) => {
     }
   }
   return false;
+};
+
+export const countCells = (row: TableRowElement, stop?: number) => {
+  return row.children
+    .map(child => {
+      if (!isTableCell(child)) {
+        return 0;
+      }
+      return child.data.colspan;
+    })
+    .slice(0, stop)
+    .reduce((a, b) => a + b);
+};
+
+export const getTableBodyWidth = (element: TableHeadElement | TableBodyElement) => {
+  const firstRow = element.children[0];
+  if (isTableRow(firstRow)) {
+    return countCells(firstRow);
+  }
+  return 0;
+};
+
+export const getTableBodyHeight = (element: TableHeadElement | TableBodyElement) => {
+  return element.children.length;
+};
+
+export const createIdenticalRow = (element: TableRowElement) => {
+  return slatejsx(
+    'element',
+    { type: TYPE_TABLE_ROW },
+    element.children.map(child => {
+      if (isTableCell(child)) {
+        return {
+          ...defaultTableCellBlock(),
+          data: {
+            ...child.data,
+            rowspan: 1,
+          },
+        };
+      }
+      return defaultTableCellBlock();
+    }),
+  );
 };

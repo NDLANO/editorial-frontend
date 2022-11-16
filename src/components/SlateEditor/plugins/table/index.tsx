@@ -21,7 +21,6 @@ import {
 } from '../../../../util/embedTagHelpers';
 import SlateTable from './SlateTable';
 import getCurrentBlock from '../../utils/getCurrentBlock';
-import { normalizeTableBodyAsMatrix } from './matrix';
 import { handleTableKeydown } from './handleKeyDown';
 import { defaultParagraphBlock } from '../paragraph/utils';
 import { TableElement } from './interfaces';
@@ -62,6 +61,7 @@ import {
   defaultTableHeadBlock,
   defaultTableRowBlock,
 } from './defaultBlocks';
+import { normalizeTableBodyAsMatrix } from './matrixNormalizer';
 
 const validKeys = [KEY_ARROW_UP, KEY_ARROW_DOWN, KEY_TAB, KEY_BACKSPACE, KEY_DELETE];
 

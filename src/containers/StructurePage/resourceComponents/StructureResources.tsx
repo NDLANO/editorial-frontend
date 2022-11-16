@@ -13,9 +13,14 @@ import Button from '@ndla/button';
 import styled from '@emotion/styled';
 import { RefObject } from 'react';
 import { TFunction } from 'i18next';
+import keyBy from 'lodash/keyBy';
 import { ChildNodeType, ResourceWithNodeConnection } from '../../../modules/nodes/nodeApiTypes';
 import { ResourceType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
-import { useResourcesWithNodeConnection } from '../../../modules/nodes/nodeQueries';
+import {
+  NodeResourceMeta,
+  useNodeResourceMetas,
+  useResourcesWithNodeConnection,
+} from '../../../modules/nodes/nodeQueries';
 import { useAllResourceTypes } from '../../../modules/taxonomy/resourcetypes/resourceTypesQueries';
 import NodeDescription from './NodeDescription';
 import handleError from '../../../util/handleError';
@@ -36,6 +41,10 @@ const Row = styled.div`
   justify-content: space-between;
   padding: ${spacing.xsmall};
 `;
+
+export interface ResourceWithNodeConnectionAndMeta extends ResourceWithNodeConnection {
+  contentMeta?: NodeResourceMeta;
+}
 
 interface Props {
   currentChildNode: ChildNodeType;
@@ -75,6 +84,27 @@ const StructureResources = ({ currentChildNode, resourceRef, onCurrentNodeChange
     },
   );
 
+  const { data: nodeResourceMetas } = useNodeResourceMetas(
+    {
+      nodeId: currentChildNode.id,
+      ids:
+        nodeResources
+          ?.map(r => r.contentUri)
+          .concat(currentChildNode.contentUri)
+          .filter<string>((uri): uri is string => !!uri) ?? [],
+      language: i18n.language,
+    },
+    { enabled: !!nodeResources?.length },
+  );
+
+  const keyedMetas = keyBy(nodeResourceMetas, m => m.contentUri);
+
+  const nodeResourcesWithMeta: ResourceWithNodeConnectionAndMeta[] =
+    nodeResources?.map(res => ({
+      ...res,
+      contentMeta: res.contentUri ? keyedMetas[res.contentUri] : undefined,
+    })) ?? [];
+
   const { data: resourceTypes } = useAllResourceTypes(
     { language: i18n.language, taxonomyVersion },
     {
@@ -83,7 +113,7 @@ const StructureResources = ({ currentChildNode, resourceRef, onCurrentNodeChange
     },
   );
 
-  const mapping = groupResourcesByType(nodeResources ?? [], resourceTypes ?? []);
+  const mapping = groupResourcesByType(nodeResourcesWithMeta ?? [], resourceTypes ?? []);
 
   return (
     <div ref={resourceRef}>
@@ -110,7 +140,12 @@ const StructureResources = ({ currentChildNode, resourceRef, onCurrentNodeChange
           </StyledDiv>
         )}
       </Row>
-      <NodeDescription currentNode={currentChildNode} />
+      <NodeDescription
+        currentNode={currentChildNode}
+        contentMeta={
+          currentChildNode.contentUri ? keyedMetas[currentChildNode.contentUri] : undefined
+        }
+      />
       {grouped === 'ungrouped' && (
         <AllResourcesGroup
           key="ungrouped"

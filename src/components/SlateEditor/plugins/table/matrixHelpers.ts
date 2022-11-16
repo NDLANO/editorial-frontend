@@ -74,7 +74,7 @@ export const insertCellInMatrix = (
   const rowLength = matrix[rowIndex].length;
   // A. If row has no elements => Place cell at start of the row.
   if (rowLength === 0) {
-    insertCellHelper(matrix, cell, rowIndex, rowspan, 0, rowIndex + rowspan);
+    insertCellHelper(matrix, cell, rowIndex, rowspan, 0, colspan);
     return;
   }
   // B. If there are open slots in the row => Place cell at first open slot.
@@ -82,10 +82,10 @@ export const insertCellInMatrix = (
     if (cell) {
       continue;
     } else {
-      insertCellHelper(matrix, cell, rowIndex, rowspan, colIndex, colIndex + colspan + rowspan);
+      insertCellHelper(matrix, cell, rowIndex, rowspan, colIndex, colIndex + colspan);
       return;
     }
   }
   // C. Otherwise place cell at end of row.
-  insertCellHelper(matrix, cell, rowIndex, rowspan, rowLength, rowLength + colspan + rowspan);
+  insertCellHelper(matrix, cell, rowIndex, rowspan, rowLength, rowLength + colspan);
 };

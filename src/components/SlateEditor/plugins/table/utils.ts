@@ -12,14 +12,6 @@ import {
 } from './interfaces';
 import getCurrentBlock from '../../utils/getCurrentBlock';
 import { defaultParagraphBlock } from '../paragraph/utils';
-import {
-  findCellCoordinate,
-  isTable,
-  isTableBody,
-  isTableCell,
-  isTableHead,
-  isTableRow,
-} from './helpers';
 import { getTableAsMatrix, getTableBodyAsMatrix } from './matrix';
 import {
   TYPE_TABLE,
@@ -29,6 +21,9 @@ import {
   TYPE_TABLE_HEAD,
   TYPE_TABLE_BODY,
 } from './types';
+import { isTable, isTableBody, isTableCell, isTableHead, isTableRow } from './slateHelpers';
+import { findCellCoordinate } from './matrixHelpers';
+import { updateCell } from './slateActions';
 
 export const countCells = (row: TableRowElement, stop?: number) => {
   return row.children
@@ -236,17 +231,10 @@ export const removeRow = (editor: Editor, path: Path) => {
                 .map(e => e[columnIndex])
                 .filter(c => c === cell).length;
 
-              Transforms.setNodes(
-                editor,
-                {
-                  ...cell,
-                  data: {
-                    ...cell.data,
-                    rowspan: cell.data.rowspan - reductionAmount,
-                  },
-                },
-                { at: ReactEditor.findPath(editor, cell) },
-              );
+              updateCell(editor, cell, {
+                rowspan: cell.data.rowspan - reductionAmount,
+              });
+
               // D. If current cell exists beneith rows to be deleted => Reduce rowspan and move cell below rows to be deleted.
             } else if (
               selectedRowIndex < matrix.length - 1 &&
@@ -268,17 +256,9 @@ export const removeRow = (editor: Editor, path: Path) => {
                     );
 
               // iii. Reduce rowspan.
-              Transforms.setNodes(
-                editor,
-                {
-                  ...cell,
-                  data: {
-                    ...cell.data,
-                    rowspan: cell.data.rowspan - reductionAmount,
-                  },
-                },
-                { at: ReactEditor.findPath(editor, cell) },
-              );
+              updateCell(editor, cell, {
+                rowspan: cell.data.rowspan - reductionAmount,
+              });
 
               // iv. Move below deleted rows.
               Transforms.moveNodes(editor, {
@@ -288,7 +268,7 @@ export const removeRow = (editor: Editor, path: Path) => {
             }
           }
 
-          // E.  After cells with rowspan are handled. Just remove the entire row.
+          // E.  After cells with rowspan are reduced. Just remove the entire row.
           Transforms.removeNodes(editor, {
             at: currentRowPath,
           });
@@ -377,7 +357,7 @@ export const insertRow = (editor: Editor, tableElement: TableElement, path: Path
               {
                 ...defaultTableRowBlock(0),
                 children: firstRow.children.map(cell => {
-                  if (Element.isElement(cell) && cell.type === TYPE_TABLE_CELL) {
+                  if (isTableCell(cell)) {
                     return {
                       ...defaultTableCellBlock(),
                       data: {

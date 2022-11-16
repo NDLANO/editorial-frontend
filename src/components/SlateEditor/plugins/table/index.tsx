@@ -30,15 +30,6 @@ import {
 import getCurrentBlock from '../../utils/getCurrentBlock';
 import { normalizeTableBodyAsMatrix } from './matrix';
 import { handleTableKeydown } from './handleKeyDown';
-import {
-  isTable,
-  isTableBody,
-  isTableCaption,
-  isTableCell,
-  isTableHead,
-  isTableRow,
-  updateCell,
-} from './helpers';
 import { defaultParagraphBlock } from '../paragraph/utils';
 import { TableElement } from './interfaces';
 import { NormalizerConfig, defaultBlockNormalizer } from '../../utils/defaultNormalizer';
@@ -62,6 +53,15 @@ import {
   TYPE_TABLE_ROW,
   TYPE_TABLE_CELL,
 } from './types';
+import {
+  isTable,
+  isTableBody,
+  isTableCaption,
+  isTableCell,
+  isTableHead,
+  isTableRow,
+} from './slateHelpers';
+import { updateCell } from './slateActions';
 
 const validKeys = [KEY_ARROW_UP, KEY_ARROW_DOWN, KEY_TAB, KEY_BACKSPACE, KEY_DELETE];
 

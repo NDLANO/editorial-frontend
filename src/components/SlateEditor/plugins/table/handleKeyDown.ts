@@ -8,9 +8,10 @@ import {
   TableRowElement,
 } from './interfaces';
 import { KEY_ARROW_DOWN, KEY_ARROW_UP, KEY_BACKSPACE, KEY_DELETE, KEY_TAB } from '../../utils/keys';
-import { findCellCoordinate, isTableBody, isTableCell, isTableHead, isTableRow } from './helpers';
 import { getTableAsMatrix } from './matrix';
 import { createIdenticalRow } from './utils';
+import { isTableBody, isTableCell, isTableHead, isTableRow } from './slateHelpers';
+import { findCellCoordinate } from './matrixHelpers';
 
 export const handleTableKeydown = (
   event: KeyboardEvent,

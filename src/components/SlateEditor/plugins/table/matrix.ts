@@ -9,6 +9,7 @@ import {
   isTableCell,
   isTableHead,
   isTableRow,
+  updateCell,
 } from './helpers';
 import { defaultTableRowBlock, getTableBodyWidth } from './utils';
 
@@ -126,8 +127,6 @@ const normalizeRow = (
   tableBody: TableHeadElement | TableBodyElement,
   tableBodyPath: Path,
 ): boolean => {
-  const [table] = Editor.node(editor, Path.parent(tableBodyPath));
-
   // A. If row does not exist in slate => Insert empty row
   if (!Editor.hasPath(editor, [...tableBodyPath, rowIndex])) {
     Transforms.insertNodes(editor, defaultTableRowBlock(1), {
@@ -136,69 +135,45 @@ const normalizeRow = (
     return true;
   }
 
-  // B. Insert cells if row has empty positions.
+  // B. Insert empty cell if missing
   for (const [columnIndex, element] of matrix[rowIndex].entries()) {
-    // i. Check if cell at first index exists in Slate.
-    if (!element) {
-      if (columnIndex === 0) {
-        // If path does not exist. Insert empty row.
-        const targetPath = [...tableBodyPath, rowIndex, 0];
-        insertEmptyCells(editor, targetPath, 1);
-        return true;
-      }
+    if (!element && columnIndex === 0) {
+      const targetPath = [...tableBodyPath, rowIndex, 0];
+      insertEmptyCells(editor, targetPath, 1);
+      return true;
     }
   }
 
   // C. Make sure isHeader and scope is set correctly in cells in header and body
+  const [table] = Editor.node(editor, Path.parent(tableBodyPath));
   if (isTable(table)) {
     const isHead = isTableHead(tableBody);
     const { rowHeaders } = table;
     // Check every cell of the row to be normalized
-    for (const [index, cell] of matrix[rowIndex].entries()) {
+
+    const row = matrix[rowIndex].entries();
+    for (const [index, cell] of row) {
+      const { scope, isHeader } = cell.data;
       // A. Normalize table head
       if (isHead) {
         // i. If table has row headers.
         //    Make sure scope='col' and isHeader=true
         if (rowHeaders) {
-          if (cell.data.scope !== 'col' || !cell.data.isHeader) {
-            Transforms.setNodes(
-              editor,
-              {
-                ...cell,
-                data: {
-                  ...cell.data,
-                  scope: rowHeaders ? 'col' : undefined,
-                  isHeader: true,
-                },
-              },
-              {
-                at: [...tableBodyPath, rowIndex],
-                match: node => node === cell,
-                mode: 'lowest',
-              },
-            );
+          if (scope !== 'col' || !isHeader) {
+            updateCell(editor, cell, {
+              scope: rowHeaders ? 'col' : undefined,
+              isHeader: true,
+            });
             return true;
           }
         } else {
           // ii. If table does not have rowHeaders
           // Make sure cells in header has scope=undefined and isHeader=true
-          if (cell.data.scope || !cell.data.isHeader) {
-            Transforms.setNodes(
-              editor,
-              {
-                ...cell,
-                data: {
-                  ...cell.data,
-                  scope: undefined,
-                  isHeader: true,
-                },
-              },
-              {
-                at: [...tableBodyPath, rowIndex],
-                match: node => node === cell,
-                mode: 'lowest',
-              },
-            );
+          if (scope || !isHeader) {
+            updateCell(editor, cell, {
+              scope: undefined,
+              isHeader: true,
+            });
             return true;
           }
         }
@@ -207,66 +182,31 @@ const normalizeRow = (
         //    First cell in row should be a header
         //    Other cells should not be a header
         if (rowHeaders) {
-          if (index === 0 && (cell.data.scope !== 'row' || !cell.data.isHeader)) {
-            Transforms.setNodes(
-              editor,
-              {
-                ...cell,
-                data: {
-                  ...cell.data,
-                  scope: 'row',
-                  isHeader: true,
-                },
-              },
-              {
-                at: [...tableBodyPath, rowIndex],
-                match: node => node === cell,
-              },
-            );
-            return true;
-          }
-          if (
-            index !== 0 &&
-            (cell.data.scope || cell.data.isHeader) &&
-            matrix[rowIndex][index - 1] !== cell
-          ) {
-            Transforms.setNodes(
-              editor,
-              {
-                ...cell,
-                data: {
-                  ...cell.data,
-                  scope: undefined,
-                  isHeader: false,
-                },
-              },
-              {
-                at: [...tableBodyPath, rowIndex],
-                match: node => node === cell,
-              },
-            );
-            return true;
+          if (index === 0) {
+            if (scope !== 'row' || !isHeader) {
+              updateCell(editor, cell, {
+                scope: 'row',
+                isHeader: true,
+              });
+              return true;
+            }
+          } else {
+            if ((scope || isHeader) && matrix[rowIndex][index - 1] !== cell) {
+              updateCell(editor, cell, {
+                scope: undefined,
+                isHeader: false,
+              });
+              return true;
+            }
           }
         } else {
           // ii. If table does not have rowHeaders
           //     Make sure cells in body has scope=undefined and isHeader=false
-          if (cell.data.scope || cell.data.isHeader) {
-            Transforms.setNodes(
-              editor,
-              {
-                ...cell,
-                data: {
-                  ...cell.data,
-                  scope: undefined,
-                  isHeader: false,
-                },
-              },
-              {
-                at: [...tableBodyPath, rowIndex, index],
-                match: isTableCell,
-                mode: 'lowest',
-              },
-            );
+          if (scope || isHeader) {
+            updateCell(editor, cell, {
+              scope: undefined,
+              isHeader: false,
+            });
             return true;
           }
         }

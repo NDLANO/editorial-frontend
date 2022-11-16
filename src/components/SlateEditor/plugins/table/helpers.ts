@@ -41,17 +41,6 @@ export const isTableCell = (node?: Node): node is TableCellElement => {
   return Element.isElement(node) && node.type === TYPE_TABLE_CELL;
 };
 
-// Transforms
-export const insertEmptyCells = (editor: Editor, path: Path, amount: number) => {
-  Transforms.insertNodes(
-    editor,
-    [...Array(amount)].map(() => defaultTableCellBlock()),
-    {
-      at: path,
-    },
-  );
-};
-
 export const hasCellAlignOfType = (editor: Editor, type: string) => {
   // For all selected table cells
   for (const [cell] of Editor.nodes<TableCellElement>(editor, {
@@ -62,6 +51,17 @@ export const hasCellAlignOfType = (editor: Editor, type: string) => {
     }
   }
   return false;
+};
+
+// Transforms
+export const insertEmptyCells = (editor: Editor, path: Path, amount: number) => {
+  Transforms.insertNodes(
+    editor,
+    [...Array(amount)].map(() => defaultTableCellBlock()),
+    {
+      at: path,
+    },
+  );
 };
 
 export const toggleCellAlign = (editor: Editor, type: string) => {
@@ -84,4 +84,26 @@ export const toggleCellAlign = (editor: Editor, type: string) => {
       );
     }
   });
+};
+
+export const updateCell = (
+  editor: Editor,
+  cell: TableCellElement,
+  data: Partial<TableCellElement['data']>,
+) => {
+  Transforms.setNodes(
+    editor,
+    {
+      ...cell,
+      data: {
+        ...cell.data,
+        ...data,
+      },
+    },
+    {
+      match: node => node === cell,
+      // If performance is low, send in path of table, row or cell to narrow the search.
+      at: [],
+    },
+  );
 };

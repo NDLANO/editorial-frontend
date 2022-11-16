@@ -12,8 +12,15 @@ import {
 } from './interfaces';
 import getCurrentBlock from '../../utils/getCurrentBlock';
 import { defaultParagraphBlock } from '../paragraph/utils';
-import { isTable, isTableBody, isTableCell, isTableHead, isTableRow } from './helpers';
-import { findCellCoordinate, getTableAsMatrix, getTableBodyAsMatrix } from './matrix';
+import {
+  findCellCoordinate,
+  isTable,
+  isTableBody,
+  isTableCell,
+  isTableHead,
+  isTableRow,
+} from './helpers';
+import { getTableAsMatrix, getTableBodyAsMatrix } from './matrix';
 import {
   TYPE_TABLE,
   TYPE_TABLE_CAPTION,

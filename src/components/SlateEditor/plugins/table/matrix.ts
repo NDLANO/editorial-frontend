@@ -1,7 +1,7 @@
 import { compact } from 'lodash';
 import { Descendant, Editor, Path, Transforms } from 'slate';
 import { ReactEditor } from 'slate-react';
-import { TableBodyElement, TableCellElement, TableHeadElement } from './interfaces';
+import { TableBodyElement, TableCellElement, TableHeadElement, TableMatrix } from './interfaces';
 import {
   getPrevCell,
   insertEmptyCells,
@@ -21,7 +21,7 @@ import { defaultTableRowBlock, getTableBodyWidth } from './utils';
  * It will represent the 2x4 area of cells it covers in the html-table.
  */
 const placeCellInMatrix = (
-  matrix: TableCellElement[][],
+  matrix: TableMatrix,
   rowIndex: number,
   colspan: number,
   rowspan: number,
@@ -71,7 +71,7 @@ const placeCellInMatrix = (
 // If not, add the required space by inserting empty cells.
 const normalizeBeforeInsert = (
   editor: Editor,
-  matrix: TableCellElement[][],
+  matrix: TableMatrix,
   rowIndex: number,
   colspan: number,
   rowspan: number,
@@ -101,29 +101,16 @@ const normalizeBeforeInsert = (
 };
 
 // Find the amount of cells in a matrix row.
-const countMatrixRowCells = (matrix: TableCellElement[][], rowIndex: number): number => {
+const countMatrixRowCells = (matrix: TableMatrix, rowIndex: number): number => {
   return compact([...new Set(matrix[rowIndex])]).filter(cell =>
     rowIndex > 0 ? !matrix[rowIndex - 1].includes(cell) : true,
   ).length;
 };
 
-// Find the matrix coordinates for a cell. Returns the coordinates for top left corner of cell.
-export const findCellCoordinate = (
-  matrix: TableCellElement[][],
-  targetCell: TableCellElement,
-): [number, number] | undefined => {
-  for (const [rowIndex, row] of matrix.entries()) {
-    for (const [cellIndex, cell] of row.entries()) {
-      if (cell === targetCell) {
-        return [rowIndex, cellIndex];
-      }
-    }
-  }
-};
-
+// Normalize <tr>. Returns true if normalization occurs.
 const normalizeRow = (
   editor: Editor,
-  matrix: TableCellElement[][],
+  matrix: TableMatrix,
   rowIndex: number,
   tableBody: TableHeadElement | TableBodyElement,
   tableBodyPath: Path,
@@ -221,12 +208,12 @@ const normalizeRow = (
 
     // Previous row is shorter
     if (lengthDiff > 0) {
-      const targetPath = Path.next([
+      const rowEndPath = Path.next([
         ...tableBodyPath,
         rowIndex - 1,
         countMatrixRowCells(matrix, rowIndex - 1) - 1,
       ]);
-      insertEmptyCells(editor, targetPath, lengthDiff);
+      insertEmptyCells(editor, rowEndPath, lengthDiff);
       return true;
 
       // Current row is shorter. Insert empty cells.
@@ -254,7 +241,7 @@ export const normalizeTableBodyAsMatrix = (
   tableBody: TableHeadElement | TableBodyElement,
   tableBodyPath: Path,
 ): boolean => {
-  let matrix: TableCellElement[][] = [];
+  let matrix: TableMatrix = [];
 
   // Build up a matrix by inserting and normalizing one row at a time
   for (const [rowIndex, row] of tableBody.children.entries()) {
@@ -397,7 +384,7 @@ export const getTableAsMatrix = (editor: Editor, path: Path) => {
   if (!Editor.hasPath(editor, path)) return;
   const [table] = Editor.node(editor, path);
   if (!isTable(table)) return;
-  let matrix: TableCellElement[][] = [];
+  let matrix: TableMatrix = [];
 
   // Merge all rows in head and body. Then build up a matrix one row at a time.
   table.children

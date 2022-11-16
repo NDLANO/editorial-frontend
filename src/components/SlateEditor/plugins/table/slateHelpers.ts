@@ -1,3 +1,12 @@
+/**
+ * Copyright (c) 2022-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ *
+ */
+
 import { Editor, Element, Node } from 'slate';
 import { jsx as slatejsx } from 'slate-hyperscript';
 import { defaultTableCellBlock } from './defaultBlocks';
@@ -18,7 +27,6 @@ import {
   TYPE_TABLE_ROW,
 } from './types';
 
-// Checks
 export const isTable = (node?: Node): node is TableElement => {
   return Element.isElement(node) && node.type === TYPE_TABLE;
 };

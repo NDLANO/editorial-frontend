@@ -1,4 +1,11 @@
-// Before placing a cell in the table matrix, make sure the cell has the required space
+/**
+ * Copyright (c) 2022-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ *
+ */
 
 import { compact } from 'lodash';
 import { Editor, Path, Transforms } from 'slate';
@@ -16,6 +23,7 @@ import {
   getTableBodyWidth,
 } from './slateHelpers';
 
+// Before placing a cell in the table matrix, make sure the cell has the required space
 // If not, add the required space by inserting empty cells.
 const normalizeCell = (
   editor: Editor,

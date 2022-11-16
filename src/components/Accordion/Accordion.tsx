@@ -105,10 +105,7 @@ const Accordion = ({
   return (
     <div {...rest}>
       {addButton ? (
-        <AccordionButtonLine
-          addButton={addButton}
-          appearance={appearance}
-          handleToggle={handleToggle}>
+        <AccordionButtonLine addButton={addButton} appearance={appearance}>
           <StyledButton stripped onClick={handleToggle}>
             {title}
           </StyledButton>
@@ -119,7 +116,7 @@ const Accordion = ({
           </StyledArrowButton>
         </AccordionButtonLine>
       ) : (
-        <AccordionButtonLine appearance={appearance} handleToggle={handleToggle}>
+        <AccordionButtonLine appearance={appearance}>
           {title}
           <>{toggleSwitch}</>
           {arrow}

@@ -1,29 +1,19 @@
 import { Editor, Element, Path, Transforms } from 'slate';
 import { jsx as slatejsx } from 'slate-hyperscript';
 import { ReactEditor } from 'slate-react';
-import { uniq } from 'lodash';
-import {
-  TableElement,
-  TableRowElement,
-  TableHeadElement,
-  TableBodyElement,
-  TableCellElement,
-  TableCaptionElement,
-} from './interfaces';
+import { TableElement, TableRowElement, TableHeadElement, TableBodyElement } from './interfaces';
 import getCurrentBlock from '../../utils/getCurrentBlock';
-import { defaultParagraphBlock } from '../paragraph/utils';
 import { getTableAsMatrix, getTableBodyAsMatrix } from './matrix';
-import {
-  TYPE_TABLE,
-  TYPE_TABLE_CAPTION,
-  TYPE_TABLE_CELL,
-  TYPE_TABLE_ROW,
-  TYPE_TABLE_HEAD,
-  TYPE_TABLE_BODY,
-} from './types';
+import { TYPE_TABLE_CELL, TYPE_TABLE_ROW, TYPE_TABLE_BODY } from './types';
 import { isTable, isTableBody, isTableCell, isTableHead, isTableRow } from './slateHelpers';
 import { findCellCoordinate } from './matrixHelpers';
 import { updateCell } from './slateActions';
+import {
+  defaultTableCellBlock,
+  defaultTableHeadBlock,
+  defaultTableRowBlock,
+  defaultTableBodyBlock,
+} from './defaultBlocks';
 
 export const countCells = (row: TableRowElement, stop?: number) => {
   return row.children
@@ -35,66 +25,6 @@ export const countCells = (row: TableRowElement, stop?: number) => {
     })
     .slice(0, stop)
     .reduce((a, b) => a + b);
-};
-
-export const defaultTableBlock = (height: number, width: number) => {
-  return slatejsx('element', { type: TYPE_TABLE, colgroups: '' }, [
-    defaultTableCaptionBlock(),
-    defaultTableHeadBlock(width),
-    defaultTableBodyBlock(height - 1, width),
-  ]) as TableElement;
-};
-
-export const defaultTableCaptionBlock = () => {
-  return slatejsx('element', { type: TYPE_TABLE_CAPTION }, [{ text: '' }]) as TableCaptionElement;
-};
-
-export const defaultTableCellBlock = () => {
-  return slatejsx(
-    'element',
-    {
-      type: TYPE_TABLE_CELL,
-      data: {
-        isHeader: false,
-        colspan: 1,
-        rowspan: 1,
-      },
-    },
-    {
-      ...defaultParagraphBlock(),
-      serializeAsText: true,
-    },
-  ) as TableCellElement;
-};
-
-export const defaultTableRowBlock = (width: number) => {
-  return slatejsx(
-    'element',
-    {
-      type: TYPE_TABLE_ROW,
-    },
-    [...Array(width)].map(() => defaultTableCellBlock()),
-  );
-};
-
-export const defaultTableHeadBlock = (width: number) => {
-  return slatejsx(
-    'element',
-    {
-      type: TYPE_TABLE_HEAD,
-    },
-    defaultTableRowBlock(width),
-  );
-};
-
-export const defaultTableBodyBlock = (height: number, width: number) => {
-  return slatejsx(
-    'element',
-    {
-      type: TYPE_TABLE_BODY,
-    },
-    [...Array(height)].map(() => defaultTableRowBlock(width)),
-  );
 };
 
 export const getTableBodyWidth = (element: TableHeadElement | TableBodyElement) => {
@@ -192,6 +122,7 @@ export const removeRow = (editor: Editor, path: Path) => {
     if (selectedCell.data.rowspan === matrix.length) {
       return;
     }
+
     const selectedPath = findCellCoordinate(matrix, selectedCell);
     if (selectedPath) {
       const selectedRowIndex = selectedPath[0];
@@ -528,17 +459,9 @@ export const insertColumn = (editor: Editor, tableElement: TableElement, path: P
             cell.data.colspan &&
             row[selectedColumnIndex + 1] === cell
           ) {
-            Transforms.setNodes(
-              editor,
-              {
-                ...cell,
-                data: {
-                  ...cell.data,
-                  colspan: cell.data.colspan + 1,
-                },
-              },
-              { at: ReactEditor.findPath(editor, cell) },
-            );
+            updateCell(editor, cell, {
+              colspan: cell.data.colspan + 1,
+            });
             // C. Otherwise, insert column of same type and height.
           } else {
             Transforms.insertNodes(
@@ -620,55 +543,5 @@ export const removeColumn = (editor: Editor, tableElement: TableElement, path: P
         }
       });
     }
-  }
-};
-
-export const removeTable = (editor: Editor, element: TableElement) => {
-  Transforms.removeNodes(editor, {
-    at: [],
-    match: node => node === element,
-  });
-};
-
-export const getMatrixColumn = (matrix: TableCellElement[][], index: number) => {
-  const column = matrix.map(row => row[index]);
-  return uniq(column);
-};
-
-export const alignColumn = (editor: Editor, tablePath: Path, align: string) => {
-  const cellElement = getCurrentBlock(editor, TYPE_TABLE_CELL)?.[0];
-
-  if (!isTableCell(cellElement)) {
-    return;
-  }
-
-  const matrix = getTableAsMatrix(editor, tablePath);
-
-  if (!matrix) {
-    return;
-  }
-
-  const currentPosition = findCellCoordinate(matrix, cellElement);
-
-  if (currentPosition) {
-    const column = getMatrixColumn(matrix, currentPosition[1]);
-    Editor.withoutNormalizing(editor, () => {
-      column.forEach(cell => {
-        Transforms.setNodes(
-          editor,
-          {
-            ...cell,
-            data: {
-              ...cell.data,
-              align: align === 'left' ? undefined : align,
-            },
-          },
-          {
-            at: [],
-            match: node => node === cell,
-          },
-        );
-      });
-    });
   }
 };

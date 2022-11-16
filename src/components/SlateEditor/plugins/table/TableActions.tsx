@@ -24,7 +24,6 @@ import {
   toggleRowHeaders,
   insertTableHead,
   editColgroups,
-  alignColumn,
 } from './utils';
 import { TableElement } from './interfaces';
 import getCurrentBlock from '../../utils/getCurrentBlock';
@@ -32,6 +31,7 @@ import { TYPE_TABLE_CAPTION } from './types';
 import { useSession } from '../../../../containers/Session/SessionProvider';
 import { DRAFT_HTML_SCOPE } from '../../../../constants';
 import { isTable, isTableHead } from './slateHelpers';
+import { alignColumn } from './slateActions';
 
 const StyledButton = styled(Button)`
   display: flex;

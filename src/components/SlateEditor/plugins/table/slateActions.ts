@@ -1,7 +1,11 @@
 import { Editor, Path, Transforms } from 'slate';
-import { TableBodyElement, TableCellElement, TableHeadElement } from './interfaces';
+import getCurrentBlock from '../../utils/getCurrentBlock';
+import { defaultTableCellBlock } from './defaultBlocks';
+import { TableBodyElement, TableCellElement, TableElement, TableHeadElement } from './interfaces';
+import { getTableAsMatrix } from './matrix';
+import { findCellCoordinate, getMatrixColumn } from './matrixHelpers';
 import { hasCellAlignOfType, isTableCell, isTableRow } from './slateHelpers';
-import { defaultTableCellBlock } from './utils';
+import { TYPE_TABLE_CELL } from './types';
 
 export const insertEmptyCells = (editor: Editor, path: Path, amount: number) => {
   Transforms.insertNodes(
@@ -61,4 +65,38 @@ export const updateCell = (
       at: [],
     },
   );
+};
+
+export const alignColumn = (editor: Editor, tablePath: Path, align: string) => {
+  const cellElement = getCurrentBlock(editor, TYPE_TABLE_CELL)?.[0];
+
+  if (!isTableCell(cellElement)) {
+    return;
+  }
+
+  const matrix = getTableAsMatrix(editor, tablePath);
+
+  if (!matrix) {
+    return;
+  }
+
+  const currentPosition = findCellCoordinate(matrix, cellElement);
+
+  if (currentPosition) {
+    const column = getMatrixColumn(matrix, currentPosition[1]);
+    Editor.withoutNormalizing(editor, () => {
+      column.forEach(cell => {
+        updateCell(editor, cell, {
+          align: align === 'left' ? undefined : align,
+        });
+      });
+    });
+  }
+};
+
+export const removeTable = (editor: Editor, element: TableElement) => {
+  Transforms.removeNodes(editor, {
+    at: [],
+    match: node => node === element,
+  });
 };

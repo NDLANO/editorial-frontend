@@ -1,0 +1,71 @@
+import { jsx as slatejsx } from 'slate-hyperscript';
+import { defaultParagraphBlock } from '../paragraph/utils';
+import { TableElement, TableCaptionElement, TableCellElement } from './interfaces';
+import {
+  TYPE_TABLE,
+  TYPE_TABLE_CAPTION,
+  TYPE_TABLE_CELL,
+  TYPE_TABLE_ROW,
+  TYPE_TABLE_HEAD,
+  TYPE_TABLE_BODY,
+} from './types';
+
+export const defaultTableBlock = (height: number, width: number) => {
+  return slatejsx('element', { type: TYPE_TABLE, colgroups: '' }, [
+    defaultTableCaptionBlock(),
+    defaultTableHeadBlock(width),
+    defaultTableBodyBlock(height - 1, width),
+  ]) as TableElement;
+};
+
+export const defaultTableCaptionBlock = () => {
+  return slatejsx('element', { type: TYPE_TABLE_CAPTION }, [{ text: '' }]) as TableCaptionElement;
+};
+
+export const defaultTableCellBlock = () => {
+  return slatejsx(
+    'element',
+    {
+      type: TYPE_TABLE_CELL,
+      data: {
+        isHeader: false,
+        colspan: 1,
+        rowspan: 1,
+      },
+    },
+    {
+      ...defaultParagraphBlock(),
+      serializeAsText: true,
+    },
+  ) as TableCellElement;
+};
+
+export const defaultTableRowBlock = (width: number) => {
+  return slatejsx(
+    'element',
+    {
+      type: TYPE_TABLE_ROW,
+    },
+    [...Array(width)].map(() => defaultTableCellBlock()),
+  );
+};
+
+export const defaultTableHeadBlock = (width: number) => {
+  return slatejsx(
+    'element',
+    {
+      type: TYPE_TABLE_HEAD,
+    },
+    defaultTableRowBlock(width),
+  );
+};
+
+export const defaultTableBodyBlock = (height: number, width: number) => {
+  return slatejsx(
+    'element',
+    {
+      type: TYPE_TABLE_BODY,
+    },
+    [...Array(height)].map(() => defaultTableRowBlock(width)),
+  );
+};

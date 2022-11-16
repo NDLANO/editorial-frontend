@@ -2,10 +2,11 @@ import { compact } from 'lodash';
 import { Descendant, Editor, Path, Transforms } from 'slate';
 import { ReactEditor } from 'slate-react';
 import { TableBodyElement, TableCellElement, TableHeadElement, TableMatrix } from './interfaces';
-import { defaultTableRowBlock, getTableBodyWidth } from './utils';
+import { getTableBodyWidth } from './utils';
 import { increaseTableBodyWidth, insertEmptyCells, updateCell } from './slateActions';
 import { isTable, isTableHead, isTableRow, isTableCell, isTableBody } from './slateHelpers';
 import { getPrevCell } from './matrixHelpers';
+import { defaultTableRowBlock } from './defaultBlocks';
 
 /**
  * Insert cellElement into the matrix and the first available column in rowIndex.

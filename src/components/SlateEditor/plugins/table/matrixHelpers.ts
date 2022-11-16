@@ -1,3 +1,4 @@
+import { uniq } from 'lodash';
 import { TableCellElement, TableMatrix } from './interfaces';
 
 export const getPrevCell = (matrix: TableMatrix, row: number, column: number) => {
@@ -16,4 +17,9 @@ export const findCellCoordinate = (
       }
     }
   }
+};
+
+export const getMatrixColumn = (matrix: TableMatrix, index: number) => {
+  const column = matrix.map(row => row[index]);
+  return uniq(column);
 };

@@ -169,11 +169,13 @@ const DisplayExternal = ({
   };
 
   const onEditEmbed = (properties: Embed) => {
-    Transforms.setNodes(
+    saveEmbedUpdates(properties);
+    console.log('1', { data: { ...properties } }, { at: ReactEditor.findPath(editor, element) });
+    /*   Transforms.setNodes(
       editor,
       { data: { ...properties } },
       { at: ReactEditor.findPath(editor, element) },
-    );
+    );*/
     closeEditEmbed();
   };
 

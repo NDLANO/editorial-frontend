@@ -7,8 +7,7 @@
  */
 
 import { MouseEvent, useEffect, useState, useRef, useCallback } from 'react';
-import { Editor, Transforms } from 'slate';
-import { ReactEditor } from 'slate-react';
+import { Editor } from 'slate';
 import { useTranslation } from 'react-i18next';
 import './helpers/h5pResizer';
 import handleError from '../../util/handleError';
@@ -74,7 +73,7 @@ const DisplayExternal = ({
       : whitelistProvider.name === providerName,
   );
 
-  const handleMouseDown = useCallback(() => {
+  const onMouseDown = useCallback(() => {
     document.addEventListener(
       'mouseup',
       () => {
@@ -214,7 +213,7 @@ const DisplayExternal = ({
             <SlateResourceBox embed={embed} language={language} />
           ) : (
             <div
-              onMouseDown={handleMouseDown}
+              onMouseDown={onMouseDown}
               ref={iframeWrapper}
               css={
                 showCopyOutline && {

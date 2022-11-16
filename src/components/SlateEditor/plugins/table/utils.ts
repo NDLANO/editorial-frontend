@@ -143,6 +143,7 @@ export const removeRow = (editor: Editor, path: Path) => {
             if (columnIndex > 0 && cell === matrix[selectedRowIndex + rowIndex][columnIndex - 1]) {
               continue;
             }
+
             // B. If cell in next row is the same, skip
             if (
               rowIndex < selectedCell.data.rowspan - 1 &&
@@ -150,6 +151,7 @@ export const removeRow = (editor: Editor, path: Path) => {
             ) {
               continue;
             }
+
             // C. If current cell exists above rows to be deleted => Reduce its rowspan
             if (
               selectedRowIndex > 0 &&
@@ -288,21 +290,14 @@ export const insertRow = (editor: Editor, tableElement: TableElement, path: Path
               {
                 ...defaultTableRowBlock(0),
                 children: firstRow.children.map(cell => {
-                  if (isTableCell(cell)) {
-                    return {
-                      ...defaultTableCellBlock(),
-                      data: {
-                        ...cell.data,
-                        rowspan: 1,
-                      },
-                    };
-                  }
+                  const cellData = isTableCell(cell) ? cell.data : {};
+                  const defaultCell = defaultTableCellBlock();
                   return {
-                    ...defaultTableCellBlock(),
+                    ...defaultCell,
                     data: {
+                      ...defaultCell.data,
+                      ...cellData,
                       rowspan: 1,
-                      colspan: 1,
-                      isHeader: false,
                     },
                   };
                 }),
@@ -371,6 +366,7 @@ export const insertRow = (editor: Editor, tableElement: TableElement, path: Path
           if (columnIndex > 0 && cell === matrix[selectedRowIndex][columnIndex - 1]) {
             continue;
           }
+
           // B. If next cell is identical, extend rowspan by 1.
           if (
             columnIndex + 1 < matrix[selectedRowIndex].length &&
@@ -378,17 +374,9 @@ export const insertRow = (editor: Editor, tableElement: TableElement, path: Path
             matrix[selectedRowIndex + 1] &&
             matrix[selectedRowIndex + 1][columnIndex] === cell
           ) {
-            Transforms.setNodes(
-              editor,
-              {
-                ...cell,
-                data: {
-                  ...cell.data,
-                  rowspan: cell.data.rowspan + 1,
-                },
-              },
-              { at: ReactEditor.findPath(editor, cell) },
-            );
+            updateCell(editor, cell, {
+              rowspan: cell.data.rowspan + 1,
+            });
             // Insert cell of same type and width
           } else {
             // C. If not row is inserted yet. Insert a new row.
@@ -449,10 +437,12 @@ export const insertColumn = (editor: Editor, tableElement: TableElement, path: P
         // Evaluate selected column in all rows. Only evaluate each cell once, therefore point A.
         for (const [rowIndex, row] of matrix.entries()) {
           const cell = row[selectedColumnIndex];
+
           // A. If previous row contains the same cell, skip.
           if (rowIndex > 0 && cell === matrix[rowIndex - 1][selectedColumnIndex]) {
             continue;
           }
+
           // B. If next row contains an identical cell, extend columnspan by 1.
           if (
             selectedColumnIndex + 1 < row.length &&
@@ -462,6 +452,7 @@ export const insertColumn = (editor: Editor, tableElement: TableElement, path: P
             updateCell(editor, cell, {
               colspan: cell.data.colspan + 1,
             });
+
             // C. Otherwise, insert column of same type and height.
           } else {
             Transforms.insertNodes(
@@ -517,23 +508,18 @@ export const removeColumn = (editor: Editor, tableElement: TableElement, path: P
         // Evaluate selected column in all rows. Only evaluate each cell once, therefore point A.
         for (const [rowIndex, row] of matrix.entries()) {
           const cell = row[selectedColumnIndex];
+
           // A. If next row contains the same cell, skip
           if (rowIndex < matrix.length - 1 && cell === matrix[rowIndex + 1][selectedColumnIndex]) {
             continue;
           }
+
           // B. If cell has spans over multiple columns, reduce span by 1.
           if (cell.data.colspan && cell.data.colspan > 1) {
-            Transforms.setNodes(
-              editor,
-              {
-                ...cell,
-                data: {
-                  ...cell.data,
-                  colspan: cell.data.colspan - 1,
-                },
-              },
-              { at: ReactEditor.findPath(editor, cell) },
-            );
+            updateCell(editor, cell, {
+              colspan: cell.data.colspan - 1,
+            });
+
             // C. Otherwise, remove cell
           } else {
             Transforms.removeNodes(editor, {

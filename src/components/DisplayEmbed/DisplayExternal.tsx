@@ -33,7 +33,7 @@ interface Props {
   language: string;
   active: boolean;
   isSelectedForCopy: boolean;
-  saveEmbedUpdates: Function;
+  saveEmbedUpdates: (updates: Embed) => void;
 }
 
 interface EmbedProperties {
@@ -79,9 +79,7 @@ const DisplayExternal = ({
       () => {
         if (iframeWrapper.current) {
           const elementHeight = (iframeWrapper.current as HTMLDivElement).clientHeight;
-          saveEmbedUpdates({
-            height: elementHeight,
-          });
+          saveEmbedUpdates({ ...properties, height: `${elementHeight}px` });
           setHeight(elementHeight);
         }
       },

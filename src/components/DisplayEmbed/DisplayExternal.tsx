@@ -20,14 +20,11 @@ import FigureButtons from '../SlateEditor/plugins/embed/FigureButtons';
 import config from '../../config';
 import { getH5pLocale } from '../H5PElement/h5pApi';
 import { Embed, ExternalEmbed, H5pEmbed } from '../../interfaces';
-import { EmbedElement } from '../SlateEditor/plugins/embed';
 import SlateResourceBox from './SlateResourceBox';
 
 type EmbedType = ExternalEmbed | H5pEmbed;
 
 interface Props {
-  element: EmbedElement;
-  editor: Editor;
   embed: EmbedType;
   onRemoveClick: (event: MouseEvent) => void;
   language: string;
@@ -46,8 +43,6 @@ interface EmbedProperties {
 }
 
 const DisplayExternal = ({
-  element,
-  editor,
   embed,
   onRemoveClick,
   language,

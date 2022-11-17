@@ -63,16 +63,6 @@ const DisplayExternal = ({
   const [height, setHeight] = useState(0);
   const iframeWrapper = useRef(null);
 
-  // H5P does not provide its name
-  const providerName =
-    properties.domain && properties.domain.includes('h5p') ? 'H5P' : properties.provider;
-
-  const [allowedProvider] = EXTERNAL_WHITELIST_PROVIDERS.filter(whitelistProvider =>
-    properties.type === 'iframe' && properties.domain
-      ? whitelistProvider.url.includes(properties.domain)
-      : whitelistProvider.name === providerName,
-  );
-
   const onMouseDown = useCallback(() => {
     document.addEventListener(
       'mouseup',
@@ -137,7 +127,6 @@ const DisplayExternal = ({
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    prevEmbed.current = embed;
     const prevEmbedElement: EmbedType = prevEmbed.current;
     if (prevEmbedElement.resource !== embed.resource) {
       getPropsFromEmbed();
@@ -154,6 +143,7 @@ const DisplayExternal = ({
     ) {
       getPropsFromEmbed();
     }
+    prevEmbed.current = embed;
   }, [embed]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const openEditEmbed = (evt: MouseEvent) => {
@@ -172,80 +162,94 @@ const DisplayExternal = ({
 
   const showCopyOutline = isSelectedForCopy && (!isEditMode || !active);
 
-  if (error || !allowedProvider) {
-    return (
-      <EditorErrorMessage
-        onRemoveClick={onRemoveClick}
-        msg={
-          error
-            ? t('displayOembed.errorMessage')
-            : t('displayOembed.notSupported', properties.type, properties.provider)
-        }
-      />
-    );
+  const errorHolder = () => (
+    <EditorErrorMessage
+      onRemoveClick={onRemoveClick}
+      msg={
+        error
+          ? t('displayOembed.errorMessage')
+          : t('displayOembed.notSupported', properties.type, properties.provider)
+      }
+    />
+  );
+
+  if (error) {
+    return errorHolder();
+  }
+
+  // H5P does not provide its name
+  const providerName =
+    properties.domain && properties.domain.includes('h5p') ? 'H5P' : properties.provider;
+
+  const [allowedProvider] = EXTERNAL_WHITELIST_PROVIDERS.filter(whitelistProvider =>
+    properties.type === 'iframe' && properties.domain
+      ? whitelistProvider.url.includes(properties.domain)
+      : whitelistProvider.name === providerName,
+  );
+
+  if (!allowedProvider) {
+    return errorHolder();
+  }
+
+  if (!properties.src || !properties.type) {
+    return <div />;
   }
 
   return (
-    <>
-      {!properties.src || !properties.type ? (
-        <div />
-      ) : (
-        <div className={'c-figure'}>
-          <FigureButtons
-            language={language}
-            tooltip={t('form.external.remove', {
-              type: providerName || t('form.external.title'),
-            })}
-            onRemoveClick={onRemoveClick}
-            embed={embed}
-            providerName={providerName}
-            figureType="external"
-            onEdit={
-              allowedProvider.name
-                ? evt => {
-                    evt.preventDefault();
-                    evt.stopPropagation();
-                    openEditEmbed(evt);
-                  }
-                : undefined
-            }
-          />
-          {(embed.resource === 'iframe' || embed.resource === 'external') &&
-          embed.type === 'fullscreen' ? (
-            <SlateResourceBox embed={embed} language={language} />
-          ) : (
-            <div
-              onMouseDown={onMouseDown}
-              ref={iframeWrapper}
-              css={
-                showCopyOutline && {
-                  boxShadow: 'rgb(32, 88, 143) 0 0 0 2px',
-                }
+    <div className={'c-figure'}>
+      <FigureButtons
+        language={language}
+        tooltip={t('form.external.remove', {
+          type: providerName || t('form.external.title'),
+        })}
+        onRemoveClick={onRemoveClick}
+        embed={embed}
+        providerName={providerName}
+        figureType="external"
+        onEdit={
+          allowedProvider.name
+            ? evt => {
+                evt.preventDefault();
+                evt.stopPropagation();
+                openEditEmbed(evt);
               }
-              style={{ resize: 'vertical', overflow: 'hidden' }}>
-              <iframe
-                contentEditable={false}
-                src={properties.src}
-                height={height ? height : allowedProvider.height || properties.height}
-                title={properties.title}
-                scrolling={properties.type === 'iframe' ? 'no' : undefined}
-                allowFullScreen={true}
-                frameBorder="0"
-              />
-            </div>
-          )}
-          <DisplayExternalModal
-            embed={embed}
-            isEditMode={isEditMode}
+            : undefined
+        }
+      />
+      {(embed.resource === 'iframe' || embed.resource === 'external') &&
+      embed.type === 'fullscreen' ? (
+        <SlateResourceBox embed={embed} language={language} />
+      ) : (
+        <div
+          onMouseDown={onMouseDown}
+          ref={iframeWrapper}
+          css={
+            showCopyOutline && {
+              boxShadow: 'rgb(32, 88, 143) 0 0 0 2px',
+            }
+          }
+          style={{ resize: 'vertical', overflow: 'hidden' }}>
+          <iframe
+            contentEditable={false}
             src={properties.src}
-            type={properties.type}
-            onEditEmbed={onEditEmbed}
-            onClose={closeEditEmbed}
-            allowedProvider={allowedProvider}
+            height={height ? height : allowedProvider.height || properties.height}
+            title={properties.title}
+            scrolling={properties.type === 'iframe' ? 'no' : undefined}
+            allowFullScreen={true}
+            frameBorder="0"
           />
         </div>
       )}
-    </>
+      <DisplayExternalModal
+        embed={embed}
+        isEditMode={isEditMode}
+        src={properties.src}
+        type={properties.type}
+        onEditEmbed={onEditEmbed}
+        onClose={closeEditEmbed}
+        allowedProvider={allowedProvider}
+      />
+    </div>
   );
 };
 

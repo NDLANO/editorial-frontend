@@ -217,12 +217,12 @@ const DisplayExternal = ({
         <div
           onMouseDown={onMouseDown}
           ref={iframeWrapper}
-          css={
+          css={[
             showCopyOutline && {
               boxShadow: 'rgb(32, 88, 143) 0 0 0 2px',
-            }
-          }
-          style={{ resize: 'vertical', overflow: 'hidden' }}>
+            },
+            embed.resource === 'iframe' && { resize: 'vertical', overflow: 'hidden' },
+          ]}>
           <iframe
             contentEditable={false}
             src={properties.src}

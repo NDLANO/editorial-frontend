@@ -174,19 +174,23 @@ const DisplayExternal = ({
 
   const showCopyOutline = isSelectedForCopy && (!isEditMode || !active);
 
+  if (error || !allowedProvider) {
+    return (
+      <EditorErrorMessage
+        onRemoveClick={onRemoveClick}
+        msg={
+          error
+            ? t('displayOembed.errorMessage')
+            : t('displayOembed.notSupported', properties.type, properties.provider)
+        }
+      />
+    );
+  }
+
   return (
     <>
       {!properties.src || !properties.type ? (
         <div />
-      ) : !allowedProvider || error ? (
-        <EditorErrorMessage
-          onRemoveClick={onRemoveClick}
-          msg={
-            error
-              ? t('displayOembed.errorMessage')
-              : t('displayOembed.notSupported', properties.type, properties.provider)
-          }
-        />
       ) : (
         <div className={'c-figure'}>
           <FigureButtons

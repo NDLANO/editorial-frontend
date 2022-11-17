@@ -1,14 +1,42 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`DisplayExternal display error on fetch fail 1`] = `
+.emotion-0 {
+  position: relative;
+  border: 1px solid #d1372e;
+  color: #d1372e;
+  padding: 1rem;
+}
+
 <div>
-  <div />
+  <div
+    class="emotion-0 emotion-1"
+    contenteditable="false"
+  >
+    <span>
+      oEmbed av type {{type}} og kilde {{provider}} er ikke støttet.
+    </span>
+  </div>
 </div>
 `;
 
 exports[`DisplayExternal renders external correctly 1`] = `
+.emotion-0 {
+  position: relative;
+  border: 1px solid #d1372e;
+  color: #d1372e;
+  padding: 1rem;
+}
+
 <div>
-  <div />
+  <div
+    class="emotion-0 emotion-1"
+    contenteditable="false"
+  >
+    <span>
+      oEmbed av type {{type}} og kilde {{provider}} er ikke støttet.
+    </span>
+  </div>
 </div>
 `;
 

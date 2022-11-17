@@ -48,6 +48,15 @@ After insertion of second row:
 
 If the result produced is not a perfect table, e.g. missing cells or differences in width, the normalization will fix it.
 
+## Normalization process
+
+1. On opening slate or on every table change.
+2. Normalize individual nodes (e.g. check if <tbody> only contains <tr>. If wrong, wrap element in <tr>). If an error is found, that specific error is fixed, then go back to step 1.
+3. Matrix based normalization. Its normalized on <tbody> level and not <table>. Heres a short summary of what it does:
+   - Build up the matrix used for the rest of the normalization, one row at a time (same process as explained previously). If a format error is found, normalize it and return to step 1.
+   - Make sure that all <tbody> or <thead> have identical width. E.g. Insert cells in rows where needed. On any change go back to step 1.
+   - Make sure that cells have correct header and scope attributes based on current settings. On any change go back to step 1.
+
 ## Thoughts
 
 ### Performance
@@ -61,3 +70,7 @@ This is by far the most complicated code and is only necessary as some stored ta
 ### Matrix
 
 The data structure of a matrix representation is more readable for a human and makes it easier to do manipulations and validate the table format. The only reason why need this is because of colspan and rowspan which makes it diffucult to identify which cell is neighbour to which. Without it the datastructure of slate would be almost identical to the matrix.
+
+### Colgroups
+
+Editing of colgroups is currently done using a html editor. It requires the user to have knowledge of html table structures and can easily cause the article to crash (same as the regular HTML editor used in articles). Another solution to this would be to create a GUI for creating and removing colgroups, but its more complicated. As colgroups are not slate elements, but inserted manually, the serializing and deserializing of it is not straight forward. It is handled as a part of the serializing and deserializing of table.

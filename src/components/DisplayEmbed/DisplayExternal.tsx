@@ -7,7 +7,6 @@
  */
 
 import { MouseEvent, useEffect, useState, useRef, useCallback } from 'react';
-import { Editor } from 'slate';
 import { useTranslation } from 'react-i18next';
 import './helpers/h5pResizer';
 import handleError from '../../util/handleError';
@@ -30,7 +29,7 @@ interface Props {
   language: string;
   active: boolean;
   isSelectedForCopy: boolean;
-  saveEmbedUpdates: (updates: Embed) => void;
+  saveEmbedUpdates: (updates: Embed | EmbedProperties) => void;
 }
 
 interface EmbedProperties {
@@ -64,7 +63,7 @@ const DisplayExternal = ({
       () => {
         if (iframeWrapper.current) {
           const elementHeight = (iframeWrapper.current as HTMLDivElement).clientHeight;
-          saveEmbedUpdates({ ...properties, height: `${elementHeight}px` });
+          saveEmbedUpdates({ height: `${elementHeight}px` });
           setHeight(elementHeight);
         }
       },

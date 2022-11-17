@@ -146,7 +146,8 @@ const SlateFigure = ({ attributes, editor, element, language, locale = 'nb', chi
             language={language}
             active={isActive()}
             isSelectedForCopy={isSelected}
-            saveEmbedUpdates={saveEmbedUpdates}
+            element={element}
+            editor={editor}
           />
           {children}
         </div>

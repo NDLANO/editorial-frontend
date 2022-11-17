@@ -9,6 +9,8 @@
 import { MouseEvent, useEffect, useState, useRef, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import './helpers/h5pResizer';
+import { Transforms, Editor } from 'slate';
+import { ReactEditor } from 'slate-react';
 import handleError from '../../util/handleError';
 import EditorErrorMessage from '../SlateEditor/EditorErrorMessage';
 import DisplayExternalModal from './helpers/DisplayExternalModal';
@@ -19,17 +21,19 @@ import FigureButtons from '../SlateEditor/plugins/embed/FigureButtons';
 import config from '../../config';
 import { getH5pLocale } from '../H5PElement/h5pApi';
 import { Embed, ExternalEmbed, H5pEmbed } from '../../interfaces';
+import { EmbedElement } from '../SlateEditor/plugins/embed';
 import SlateResourceBox from './SlateResourceBox';
 
 type EmbedType = ExternalEmbed | H5pEmbed;
 
 interface Props {
+  element: EmbedElement;
+  editor: Editor;
   embed: EmbedType;
   onRemoveClick: (event: MouseEvent) => void;
   language: string;
   active: boolean;
   isSelectedForCopy: boolean;
-  saveEmbedUpdates: (updates: Embed | EmbedProperties) => void;
 }
 
 interface EmbedProperties {
@@ -42,12 +46,13 @@ interface EmbedProperties {
 }
 
 const DisplayExternal = ({
+  element,
+  editor,
   embed,
   onRemoveClick,
   language,
   active,
   isSelectedForCopy,
-  saveEmbedUpdates,
 }: Props) => {
   const [isEditMode, setIsEditMode] = useState(false);
   const [error, setError] = useState(false);
@@ -63,8 +68,14 @@ const DisplayExternal = ({
       () => {
         if (iframeWrapper.current) {
           const elementHeight = (iframeWrapper.current as HTMLDivElement).clientHeight;
-          saveEmbedUpdates({ height: `${elementHeight}px` });
-          setHeight(elementHeight);
+          if (elementHeight) {
+            Transforms.setNodes(
+              editor,
+              { data: { ...prevEmbed.current, height: `${elementHeight}px` } },
+              { at: ReactEditor.findPath(editor, element) },
+            );
+            setHeight(elementHeight);
+          }
         }
       },
       { once: true },
@@ -122,6 +133,7 @@ const DisplayExternal = ({
 
   useEffect(() => {
     const prevEmbedElement: EmbedType = prevEmbed.current;
+
     if (prevEmbedElement.resource !== embed.resource) {
       getPropsFromEmbed();
     } else if (
@@ -150,7 +162,11 @@ const DisplayExternal = ({
   };
 
   const onEditEmbed = (properties: Embed) => {
-    saveEmbedUpdates(properties);
+    Transforms.setNodes(
+      editor,
+      { data: { ...properties } },
+      { at: ReactEditor.findPath(editor, element) },
+    );
     closeEditEmbed();
   };
 

@@ -11,6 +11,7 @@ import { useTranslation } from 'react-i18next';
 import './helpers/h5pResizer';
 import { Transforms, Editor } from 'slate';
 import { ReactEditor } from 'slate-react';
+import styled from '@emotion/styled';
 import handleError from '../../util/handleError';
 import EditorErrorMessage from '../SlateEditor/EditorErrorMessage';
 import DisplayExternalModal from './helpers/DisplayExternalModal';
@@ -23,6 +24,10 @@ import { getH5pLocale } from '../H5PElement/h5pApi';
 import { Embed, ExternalEmbed, H5pEmbed } from '../../interfaces';
 import { EmbedElement } from '../SlateEditor/plugins/embed';
 import SlateResourceBox from './SlateResourceBox';
+
+const ApplyBoxshadow = styled('div')<{ showCopyOutline: boolean }>`
+  box-shadow: ${props => props.showCopyOutline && 'rgb(32, 88, 143) 0 0 0 2px'};
+`;
 
 type EmbedType = ExternalEmbed | H5pEmbed;
 
@@ -229,17 +234,15 @@ const DisplayExternal = ({
       />
       {(embed.resource === 'iframe' || embed.resource === 'external') &&
       embed.type === 'fullscreen' ? (
-        <SlateResourceBox embed={embed} language={language} />
+        <ApplyBoxshadow showCopyOutline={showCopyOutline}>
+          <SlateResourceBox embed={embed} language={language} />
+        </ApplyBoxshadow>
       ) : (
-        <div
+        <ApplyBoxshadow
           onMouseDown={onMouseDown}
           ref={iframeWrapper}
-          css={[
-            showCopyOutline && {
-              boxShadow: 'rgb(32, 88, 143) 0 0 0 2px',
-            },
-            embed.resource === 'iframe' && { resize: 'vertical', overflow: 'hidden' },
-          ]}>
+          css={[embed.resource === 'iframe' && { resize: 'vertical', overflow: 'hidden' }]}
+          showCopyOutline={showCopyOutline}>
           <iframe
             contentEditable={false}
             src={properties.src}
@@ -249,7 +252,7 @@ const DisplayExternal = ({
             allowFullScreen={true}
             frameBorder="0"
           />
-        </div>
+        </ApplyBoxshadow>
       )}
       <DisplayExternalModal
         embed={embed}

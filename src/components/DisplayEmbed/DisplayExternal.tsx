@@ -104,6 +104,7 @@ const DisplayExternal = ({
         const src = getIframeSrcFromHtmlString(data.html);
 
         if (src) {
+          setHeight(0);
           setProperties({
             ...properties,
             title: data.title,
@@ -121,6 +122,12 @@ const DisplayExternal = ({
         handleError(err);
       }
     } else {
+      // Update height if height of inserted element changes - otherwise reset height
+      if (embed.height && prevEmbed.current.url === embed.url) {
+        setHeight(Number(embed.height.replace(/\D/g, '')));
+      } else {
+        setHeight(0);
+      }
       setProperties({
         ...properties,
         title: domain,
@@ -165,14 +172,10 @@ const DisplayExternal = ({
   const closeEditEmbed = () => {
     setIsEditMode(false);
   };
-
-  const onEditEmbed = (properties: Embed) => {
-    // Reset height when embed changes
-    setHeight(0);
-    setProperties({ ...properties, height: 0 });
+  const onEditEmbed = (embedUpdates: Embed) => {
     Transforms.setNodes(
       editor,
-      { data: properties },
+      { data: { ...embedUpdates } },
       { at: ReactEditor.findPath(editor, element) },
     );
     closeEditEmbed();
@@ -243,11 +246,12 @@ const DisplayExternal = ({
           onMouseDown={onMouseDown}
           ref={iframeWrapper}
           css={[embed.resource === 'iframe' && { resize: 'vertical', overflow: 'hidden' }]}
+          style={{ height: height ? height : allowedProvider.height || properties.height }}
           showCopyOutline={showCopyOutline}>
           <iframe
             contentEditable={false}
             src={properties.src}
-            height={height ? height : properties.height || allowedProvider.height}
+            height={height ? height : allowedProvider.height || properties.height}
             title={properties.title}
             scrolling={properties.type === 'iframe' ? 'no' : undefined}
             allowFullScreen={true}

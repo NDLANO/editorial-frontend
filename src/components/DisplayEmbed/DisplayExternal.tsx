@@ -190,8 +190,7 @@ const DisplayExternal = ({
   }
 
   // H5P does not provide its name
-  const providerName =
-    properties.domain && properties.domain.includes('h5p') ? 'H5P' : properties.provider;
+  const providerName = properties.domain?.includes('h5p') ? 'H5P' : properties.provider;
 
   const [allowedProvider] = EXTERNAL_WHITELIST_PROVIDERS.filter(whitelistProvider =>
     properties.type === 'iframe' && properties.domain

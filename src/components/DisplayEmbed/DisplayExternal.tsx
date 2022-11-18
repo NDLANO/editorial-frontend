@@ -83,6 +83,8 @@ const DisplayExternal = ({
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const getPropsFromEmbed = async () => {
+    setHeight(0);
+
     const origin = embed.url ? urlOrigin(embed.url) : config.h5pApiUrl;
     const domain = embed.url ? urlDomain(embed.url) : config.h5pApiUrl;
     const cssUrl = encodeURIComponent(`${config.ndlaFrontendDomain}/static/h5p-custom-css.css`);

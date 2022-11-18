@@ -242,7 +242,7 @@ const DisplayExternal = ({
           <iframe
             contentEditable={false}
             src={properties.src}
-            height={height ? height : allowedProvider.height || properties.height}
+            height={height ? height : properties.height || allowedProvider.height}
             title={properties.title}
             scrolling={properties.type === 'iframe' ? 'no' : undefined}
             allowFullScreen={true}

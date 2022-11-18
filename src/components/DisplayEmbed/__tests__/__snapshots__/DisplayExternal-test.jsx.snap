@@ -181,6 +181,11 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
   opacity: 1;
 }
 
+.emotion-6 {
+  resize: vertical;
+  overflow: hidden;
+}
+
 <div>
   <div
     class="c-figure"
@@ -277,14 +282,13 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
       </div>
     </div>
     <div
-      class="emotion-6"
-      style="resize: vertical; overflow: hidden;"
+      class="emotion-6 emotion-7"
     >
       <iframe
         allowfullscreen=""
         contenteditable="false"
         frameborder="0"
-        height="486px"
+        height="392"
         scrolling="no"
         src="https://nb.khanacademy.org/embed_video?v=jHPr-CuvHhs"
         title="nb.khanacademy.org"

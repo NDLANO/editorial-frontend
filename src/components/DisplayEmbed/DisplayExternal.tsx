@@ -88,8 +88,6 @@ const DisplayExternal = ({
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const getPropsFromEmbed = async () => {
-    setHeight(0);
-
     const origin = embed.url ? urlOrigin(embed.url) : config.h5pApiUrl;
     const domain = embed.url ? urlDomain(embed.url) : config.h5pApiUrl;
     const cssUrl = encodeURIComponent(`${config.ndlaFrontendDomain}/static/h5p-custom-css.css`);
@@ -169,9 +167,12 @@ const DisplayExternal = ({
   };
 
   const onEditEmbed = (properties: Embed) => {
+    // Reset height when embed changes
+    setHeight(0);
+    setProperties({ ...properties, height: 0 });
     Transforms.setNodes(
       editor,
-      { data: { ...properties } },
+      { data: properties },
       { at: ReactEditor.findPath(editor, element) },
     );
     closeEditEmbed();

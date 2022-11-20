@@ -283,6 +283,7 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
     </div>
     <div
       class="emotion-6 emotion-7"
+      style="height: 392px;"
     >
       <iframe
         allowfullscreen=""

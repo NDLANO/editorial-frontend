@@ -1,130 +1,35 @@
+/**
+ * Copyright (c) 2022-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ *
+ */
+
 import { Editor, Element, Path, Transforms } from 'slate';
 import { jsx as slatejsx } from 'slate-hyperscript';
 import { ReactEditor } from 'slate-react';
-import { uniq } from 'lodash';
-import {
-  TableElement,
-  TableRowElement,
-  TableHeadElement,
-  TableBodyElement,
-  TableCellElement,
-  TableCaptionElement,
-} from './interfaces';
+import { TableElement } from './interfaces';
 import getCurrentBlock from '../../utils/getCurrentBlock';
-import { defaultParagraphBlock } from '../paragraph/utils';
-import { isTable, isTableBody, isTableCell, isTableHead, isTableRow } from './helpers';
-import { findCellCoordinate, getTableAsMatrix, getTableBodyAsMatrix } from './matrix';
+import { getTableAsMatrix, getTableBodyAsMatrix } from './matrix';
+import { TYPE_TABLE_CELL, TYPE_TABLE_ROW, TYPE_TABLE_BODY } from './types';
 import {
-  TYPE_TABLE,
-  TYPE_TABLE_CAPTION,
-  TYPE_TABLE_CELL,
-  TYPE_TABLE_ROW,
-  TYPE_TABLE_HEAD,
-  TYPE_TABLE_BODY,
-} from './types';
-
-export const countCells = (row: TableRowElement, stop?: number) => {
-  return row.children
-    .map(child => {
-      if (!isTableCell(child)) {
-        return 0;
-      }
-      return child.data.colspan;
-    })
-    .slice(0, stop)
-    .reduce((a, b) => a + b);
-};
-
-export const defaultTableBlock = (height: number, width: number) => {
-  return slatejsx('element', { type: TYPE_TABLE, colgroups: '' }, [
-    defaultTableCaptionBlock(),
-    defaultTableHeadBlock(width),
-    defaultTableBodyBlock(height - 1, width),
-  ]) as TableElement;
-};
-
-export const defaultTableCaptionBlock = () => {
-  return slatejsx('element', { type: TYPE_TABLE_CAPTION }, [{ text: '' }]) as TableCaptionElement;
-};
-
-export const defaultTableCellBlock = () => {
-  return slatejsx(
-    'element',
-    {
-      type: TYPE_TABLE_CELL,
-      data: {
-        isHeader: false,
-        colspan: 1,
-        rowspan: 1,
-      },
-    },
-    {
-      ...defaultParagraphBlock(),
-      serializeAsText: true,
-    },
-  ) as TableCellElement;
-};
-
-export const defaultTableRowBlock = (width: number) => {
-  return slatejsx(
-    'element',
-    {
-      type: TYPE_TABLE_ROW,
-    },
-    [...Array(width)].map(() => defaultTableCellBlock()),
-  );
-};
-
-export const defaultTableHeadBlock = (width: number) => {
-  return slatejsx(
-    'element',
-    {
-      type: TYPE_TABLE_HEAD,
-    },
-    defaultTableRowBlock(width),
-  );
-};
-
-export const defaultTableBodyBlock = (height: number, width: number) => {
-  return slatejsx(
-    'element',
-    {
-      type: TYPE_TABLE_BODY,
-    },
-    [...Array(height)].map(() => defaultTableRowBlock(width)),
-  );
-};
-
-export const getTableBodyWidth = (element: TableHeadElement | TableBodyElement) => {
-  const firstRow = element.children[0];
-  if (isTableRow(firstRow)) {
-    return countCells(firstRow);
-  }
-  return 0;
-};
-
-export const getTableBodyHeight = (element: TableHeadElement | TableBodyElement) => {
-  return element.children.length;
-};
-
-export const createIdenticalRow = (element: TableRowElement) => {
-  return slatejsx(
-    'element',
-    { type: TYPE_TABLE_ROW },
-    element.children.map(child => {
-      if (isTableCell(child)) {
-        return {
-          ...defaultTableCellBlock(),
-          data: {
-            ...child.data,
-            rowspan: 1,
-          },
-        };
-      }
-      return defaultTableCellBlock();
-    }),
-  );
-};
+  getTableBodyWidth,
+  isTable,
+  isTableBody,
+  isTableCell,
+  isTableHead,
+  isTableRow,
+} from './slateHelpers';
+import { findCellCoordinate } from './matrixHelpers';
+import { updateCell } from './slateActions';
+import {
+  defaultTableCellBlock,
+  defaultTableHeadBlock,
+  defaultTableRowBlock,
+  defaultTableBodyBlock,
+} from './defaultBlocks';
 
 export const toggleRowHeaders = (editor: Editor, path: Path) => {
   const [table] = Editor.node(editor, path);
@@ -190,6 +95,7 @@ export const removeRow = (editor: Editor, path: Path) => {
     if (selectedCell.data.rowspan === matrix.length) {
       return;
     }
+
     const selectedPath = findCellCoordinate(matrix, selectedCell);
     if (selectedPath) {
       const selectedRowIndex = selectedPath[0];
@@ -210,6 +116,7 @@ export const removeRow = (editor: Editor, path: Path) => {
             if (columnIndex > 0 && cell === matrix[selectedRowIndex + rowIndex][columnIndex - 1]) {
               continue;
             }
+
             // B. If cell in next row is the same, skip
             if (
               rowIndex < selectedCell.data.rowspan - 1 &&
@@ -217,6 +124,7 @@ export const removeRow = (editor: Editor, path: Path) => {
             ) {
               continue;
             }
+
             // C. If current cell exists above rows to be deleted => Reduce its rowspan
             if (
               selectedRowIndex > 0 &&
@@ -229,17 +137,10 @@ export const removeRow = (editor: Editor, path: Path) => {
                 .map(e => e[columnIndex])
                 .filter(c => c === cell).length;
 
-              Transforms.setNodes(
-                editor,
-                {
-                  ...cell,
-                  data: {
-                    ...cell.data,
-                    rowspan: cell.data.rowspan - reductionAmount,
-                  },
-                },
-                { at: ReactEditor.findPath(editor, cell) },
-              );
+              updateCell(editor, cell, {
+                rowspan: cell.data.rowspan - reductionAmount,
+              });
+
               // D. If current cell exists beneith rows to be deleted => Reduce rowspan and move cell below rows to be deleted.
             } else if (
               selectedRowIndex < matrix.length - 1 &&
@@ -261,17 +162,9 @@ export const removeRow = (editor: Editor, path: Path) => {
                     );
 
               // iii. Reduce rowspan.
-              Transforms.setNodes(
-                editor,
-                {
-                  ...cell,
-                  data: {
-                    ...cell.data,
-                    rowspan: cell.data.rowspan - reductionAmount,
-                  },
-                },
-                { at: ReactEditor.findPath(editor, cell) },
-              );
+              updateCell(editor, cell, {
+                rowspan: cell.data.rowspan - reductionAmount,
+              });
 
               // iv. Move below deleted rows.
               Transforms.moveNodes(editor, {
@@ -281,7 +174,7 @@ export const removeRow = (editor: Editor, path: Path) => {
             }
           }
 
-          // E.  After cells with rowspan are handled. Just remove the entire row.
+          // E.  After cells with rowspan are reduced. Just remove the entire row.
           Transforms.removeNodes(editor, {
             at: currentRowPath,
           });
@@ -370,21 +263,14 @@ export const insertRow = (editor: Editor, tableElement: TableElement, path: Path
               {
                 ...defaultTableRowBlock(0),
                 children: firstRow.children.map(cell => {
-                  if (Element.isElement(cell) && cell.type === TYPE_TABLE_CELL) {
-                    return {
-                      ...defaultTableCellBlock(),
-                      data: {
-                        ...cell.data,
-                        rowspan: 1,
-                      },
-                    };
-                  }
+                  const cellData = isTableCell(cell) ? cell.data : {};
+                  const defaultCell = defaultTableCellBlock();
                   return {
-                    ...defaultTableCellBlock(),
+                    ...defaultCell,
                     data: {
+                      ...defaultCell.data,
+                      ...cellData,
                       rowspan: 1,
-                      colspan: 1,
-                      isHeader: false,
                     },
                   };
                 }),
@@ -453,6 +339,7 @@ export const insertRow = (editor: Editor, tableElement: TableElement, path: Path
           if (columnIndex > 0 && cell === matrix[selectedRowIndex][columnIndex - 1]) {
             continue;
           }
+
           // B. If next cell is identical, extend rowspan by 1.
           if (
             columnIndex + 1 < matrix[selectedRowIndex].length &&
@@ -460,17 +347,9 @@ export const insertRow = (editor: Editor, tableElement: TableElement, path: Path
             matrix[selectedRowIndex + 1] &&
             matrix[selectedRowIndex + 1][columnIndex] === cell
           ) {
-            Transforms.setNodes(
-              editor,
-              {
-                ...cell,
-                data: {
-                  ...cell.data,
-                  rowspan: cell.data.rowspan + 1,
-                },
-              },
-              { at: ReactEditor.findPath(editor, cell) },
-            );
+            updateCell(editor, cell, {
+              rowspan: cell.data.rowspan + 1,
+            });
             // Insert cell of same type and width
           } else {
             // C. If not row is inserted yet. Insert a new row.
@@ -531,27 +410,22 @@ export const insertColumn = (editor: Editor, tableElement: TableElement, path: P
         // Evaluate selected column in all rows. Only evaluate each cell once, therefore point A.
         for (const [rowIndex, row] of matrix.entries()) {
           const cell = row[selectedColumnIndex];
+
           // A. If previous row contains the same cell, skip.
           if (rowIndex > 0 && cell === matrix[rowIndex - 1][selectedColumnIndex]) {
             continue;
           }
+
           // B. If next row contains an identical cell, extend columnspan by 1.
           if (
             selectedColumnIndex + 1 < row.length &&
             cell.data.colspan &&
             row[selectedColumnIndex + 1] === cell
           ) {
-            Transforms.setNodes(
-              editor,
-              {
-                ...cell,
-                data: {
-                  ...cell.data,
-                  colspan: cell.data.colspan + 1,
-                },
-              },
-              { at: ReactEditor.findPath(editor, cell) },
-            );
+            updateCell(editor, cell, {
+              colspan: cell.data.colspan + 1,
+            });
+
             // C. Otherwise, insert column of same type and height.
           } else {
             Transforms.insertNodes(
@@ -607,23 +481,18 @@ export const removeColumn = (editor: Editor, tableElement: TableElement, path: P
         // Evaluate selected column in all rows. Only evaluate each cell once, therefore point A.
         for (const [rowIndex, row] of matrix.entries()) {
           const cell = row[selectedColumnIndex];
+
           // A. If next row contains the same cell, skip
           if (rowIndex < matrix.length - 1 && cell === matrix[rowIndex + 1][selectedColumnIndex]) {
             continue;
           }
+
           // B. If cell has spans over multiple columns, reduce span by 1.
           if (cell.data.colspan && cell.data.colspan > 1) {
-            Transforms.setNodes(
-              editor,
-              {
-                ...cell,
-                data: {
-                  ...cell.data,
-                  colspan: cell.data.colspan - 1,
-                },
-              },
-              { at: ReactEditor.findPath(editor, cell) },
-            );
+            updateCell(editor, cell, {
+              colspan: cell.data.colspan - 1,
+            });
+
             // C. Otherwise, remove cell
           } else {
             Transforms.removeNodes(editor, {
@@ -633,55 +502,5 @@ export const removeColumn = (editor: Editor, tableElement: TableElement, path: P
         }
       });
     }
-  }
-};
-
-export const removeTable = (editor: Editor, element: TableElement) => {
-  Transforms.removeNodes(editor, {
-    at: [],
-    match: node => node === element,
-  });
-};
-
-export const getMatrixColumn = (matrix: TableCellElement[][], index: number) => {
-  const column = matrix.map(row => row[index]);
-  return uniq(column);
-};
-
-export const alignColumn = (editor: Editor, tablePath: Path, align: string) => {
-  const cellElement = getCurrentBlock(editor, TYPE_TABLE_CELL)?.[0];
-
-  if (!isTableCell(cellElement)) {
-    return;
-  }
-
-  const matrix = getTableAsMatrix(editor, tablePath);
-
-  if (!matrix) {
-    return;
-  }
-
-  const currentPosition = findCellCoordinate(matrix, cellElement);
-
-  if (currentPosition) {
-    const column = getMatrixColumn(matrix, currentPosition[1]);
-    Editor.withoutNormalizing(editor, () => {
-      column.forEach(cell => {
-        Transforms.setNodes(
-          editor,
-          {
-            ...cell,
-            data: {
-              ...cell.data,
-              align: align === 'left' ? undefined : align,
-            },
-          },
-          {
-            at: [],
-            match: node => node === cell,
-          },
-        );
-      });
-    });
   }
 };

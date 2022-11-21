@@ -19,8 +19,8 @@ import { isMarkActive } from '../mark';
 import { LIST_TYPES as listTypes } from '../list/types';
 import hasListItem from '../list/utils/hasListItem';
 import getCurrentBlock from '../../utils/getCurrentBlock';
-import { hasCellAlignOfType } from '../table/helpers';
 import { TYPE_TABLE_CELL } from '../table/types';
+import { hasCellAlignOfType } from '../table/slateHelpers';
 
 const topicArticleElements: { [key: string]: string[] } = {
   mark: ['bold', 'italic', 'code', 'sub', 'sup'],

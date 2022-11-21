@@ -1,4 +1,15 @@
-import { Editor, Element, Node, Path, Transforms } from 'slate';
+/**
+ * Copyright (c) 2022-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ *
+ */
+
+import { Editor, Element, Node } from 'slate';
+import { jsx as slatejsx } from 'slate-hyperscript';
+import { defaultTableCellBlock } from './defaultBlocks';
 import {
   TableBodyElement,
   TableCaptionElement,
@@ -15,9 +26,7 @@ import {
   TYPE_TABLE_HEAD,
   TYPE_TABLE_ROW,
 } from './types';
-import { defaultTableCellBlock } from './utils';
 
-// Checks
 export const isTable = (node?: Node): node is TableElement => {
   return Element.isElement(node) && node.type === TYPE_TABLE;
 };
@@ -41,17 +50,6 @@ export const isTableCell = (node?: Node): node is TableCellElement => {
   return Element.isElement(node) && node.type === TYPE_TABLE_CELL;
 };
 
-// Transforms
-export const insertEmptyCells = (editor: Editor, path: Path, amount: number) => {
-  Transforms.insertNodes(
-    editor,
-    [...Array(amount)].map(() => defaultTableCellBlock()),
-    {
-      at: path,
-    },
-  );
-};
-
 export const hasCellAlignOfType = (editor: Editor, type: string) => {
   // For all selected table cells
   for (const [cell] of Editor.nodes<TableCellElement>(editor, {
@@ -64,24 +62,45 @@ export const hasCellAlignOfType = (editor: Editor, type: string) => {
   return false;
 };
 
-export const toggleCellAlign = (editor: Editor, type: string) => {
-  const newAlign = hasCellAlignOfType(editor, type) ? undefined : type;
+export const countCells = (row: TableRowElement, stop?: number) => {
+  return row.children
+    .map(child => {
+      if (!isTableCell(child)) {
+        return 0;
+      }
+      return child.data.colspan;
+    })
+    .slice(0, stop)
+    .reduce((a, b) => a + b);
+};
 
-  Editor.withoutNormalizing(editor, () => {
-    for (const [cell] of Editor.nodes<TableCellElement>(editor, {
-      match: node => isTableCell(node),
-    })) {
-      Transforms.setNodes(
-        editor,
-        {
-          ...cell,
+export const getTableBodyWidth = (element: TableHeadElement | TableBodyElement) => {
+  const firstRow = element.children[0];
+  if (isTableRow(firstRow)) {
+    return countCells(firstRow);
+  }
+  return 0;
+};
+
+export const getTableBodyHeight = (element: TableHeadElement | TableBodyElement) => {
+  return element.children.length;
+};
+
+export const createIdenticalRow = (element: TableRowElement) => {
+  return slatejsx(
+    'element',
+    { type: TYPE_TABLE_ROW },
+    element.children.map(child => {
+      if (isTableCell(child)) {
+        return {
+          ...defaultTableCellBlock(),
           data: {
-            ...cell.data,
-            align: newAlign,
+            ...child.data,
+            rowspan: 1,
           },
-        },
-        { match: node => node === cell },
-      );
-    }
-  });
+        };
+      }
+      return defaultTableCellBlock();
+    }),
+  );
 };

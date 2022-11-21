@@ -7,21 +7,21 @@
  */
 
 import { OneColumn } from '@ndla/ui';
-import { spacing } from '@ndla/core';
+import { spacing, colors } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { SearchFolder, SubjectMatter } from '@ndla/icons/editor';
 import styled from '@emotion/styled';
+import { css } from '@emotion/react';
 import { NAVIGATION_HEADER_MARGIN } from '../../constants';
 import { getAccessToken, getAccessTokenPersonal } from '../../util/authHelpers';
 import { isValid } from '../../util/jwtHelper';
-
 import SaveSearchUrl from './components/SaveSearchUrl';
 import Footer from '../App/components/Footer';
 import LastUsedItems from './components/LastUsedItems';
 import { useUserData } from '../../modules/draft/draftQueries';
 import { StyledColumnHeader } from './styles';
-import WorkList from './components/WorkList';
+import WorkList from './components/WorkList/WorkList';
 
 const ContentWrapper = styled.div`
   display: flex;
@@ -43,15 +43,25 @@ const StyledHeaderImage = styled.img`
   margin-top: -250px;
 `;
 
-const StyledTwoColumn = styled.div`
+const StyledTwoColumn = css`
   display: flex;
   justify-content: space-between;
   margin: 0 auto;
-  width: 80%;
   margin-top: ${spacing.large};
   & > div {
     flex: 1;
   }
+`;
+
+const StyledTwoColumnSmaller = css`
+  ${StyledTwoColumn};
+  width: 80%;
+`;
+
+const StyledWorkList = styled.div`
+  background-color: ${colors.brand.lighter};
+  border-radius: 10px;
+  padding: ${spacing.small};
 `;
 
 export const WelcomePage = () => {
@@ -70,7 +80,7 @@ export const WelcomePage = () => {
         <StyledHeader>
           <StyledHeaderImage src="/welcome-image.jpg" alt="illustration" />
         </StyledHeader>
-        <StyledTwoColumn>
+        <div css={StyledTwoColumnSmaller}>
           <LastUsedItems lastUsed={lastUsed} />
           <div>
             <StyledColumnHeader>
@@ -79,16 +89,16 @@ export const WelcomePage = () => {
             </StyledColumnHeader>
             <SaveSearchUrl />
           </div>
-        </StyledTwoColumn>
-        <StyledTwoColumn>
-          <div>
+        </div>
+        <div css={StyledTwoColumn}>
+          <StyledWorkList>
             <StyledColumnHeader>
               <SubjectMatter className="c-icon--medium" />
               <span>{t('welcomePage.worklist')}</span>
             </StyledColumnHeader>
             <WorkList />
-          </div>
-        </StyledTwoColumn>
+          </StyledWorkList>
+        </div>
       </OneColumn>
       <Footer showLocaleSelector />
     </ContentWrapper>

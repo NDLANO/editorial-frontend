@@ -16,6 +16,7 @@ const StyledTable = styled.table`
   border-collapse: collapse;
   width: 100%;
   font-family: ${fonts.sans};
+  margin-bottom: 0px;
   th {
     border-bottom: 1px solid ${colors.text.primary};
     font-weight: ${fonts.weight.bold};

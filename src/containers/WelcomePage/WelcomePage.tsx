@@ -62,7 +62,7 @@ const StyledTwoColumnSmaller = css`
 const StyledWorkList = styled.div`
   background-color: ${colors.brand.lighter};
   border-radius: 10px;
-  padding: ${spacing.small};
+  padding: ${spacing.nsmall};
 `;
 
 export const WelcomePage = () => {

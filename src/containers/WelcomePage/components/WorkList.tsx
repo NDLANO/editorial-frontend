@@ -18,7 +18,7 @@ const tableTitles = [
   'Innholdstype',
   'Primærfag',
   'Emnetilhørighet',
-  'Dato',
+  'Dato status ble endret',
   'Kommentar',
 ];
 

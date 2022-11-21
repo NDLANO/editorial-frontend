@@ -10,7 +10,7 @@ import { OneColumn } from '@ndla/ui';
 import { spacing, colors } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
 import { HelmetWithTracker } from '@ndla/tracker';
-import { SearchFolder, SubjectMatter } from '@ndla/icons/editor';
+import { SearchFolder } from '@ndla/icons/editor';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import { NAVIGATION_HEADER_MARGIN } from '../../constants';
@@ -22,6 +22,7 @@ import LastUsedItems from './components/LastUsedItems';
 import { useUserData } from '../../modules/draft/draftQueries';
 import { StyledColumnHeader } from './styles';
 import WorkList from './components/WorkList';
+import TableTitle from './components/TableTitle';
 
 const ContentWrapper = styled.div`
   display: flex;
@@ -92,10 +93,10 @@ export const WelcomePage = () => {
         </div>
         <div css={StyledTwoColumn}>
           <StyledWorkList>
-            <StyledColumnHeader>
-              <SubjectMatter className="c-icon--medium" />
-              <span>{t('welcomePage.worklist')}</span>
-            </StyledColumnHeader>
+            <TableTitle
+              title={t('welcomePage.worklist')}
+              description="Artikler hvor jeg står i ansvarlig-feltet"
+            />
             <WorkList />
           </StyledWorkList>
         </div>

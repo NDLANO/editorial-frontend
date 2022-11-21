@@ -35,6 +35,7 @@ const WorkList = () => {
     return <div />;
   }
 
+  console.log(data);
   return (
     <TableComponent isLoading={!data || isLoading} tableTitleList={tableTitles}>
       {data.results.map(res => {

@@ -60,7 +60,7 @@ const TableComponent = ({ tableTitleList, children, isLoading }: Props) => {
       <thead>
         <tr>
           {tableTitleList.map(title => (
-            <th>{title}</th>
+            <th scope="col">{title}</th>
           ))}
         </tr>
       </thead>

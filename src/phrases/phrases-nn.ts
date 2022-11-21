@@ -120,7 +120,7 @@ const phrases = {
     lastUsed: 'Sist redigert',
     savedSearch: 'Lagra søk',
     saveSearch: 'Lagre søk',
-    worklist: 'Arbeidsliste',
+    worklist: 'Mine arbeidsoppgåver',
   },
   searchPage: {
     header: {

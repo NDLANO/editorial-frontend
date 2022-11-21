@@ -6,11 +6,10 @@
  *
  */
 
-import { ReactElement, ReactNode } from 'react';
+import { ReactElement } from 'react';
 
 import { css, SerializedStyles } from '@emotion/react';
 import styled from '@emotion/styled';
-import Button from '@ndla/button';
 import { colors } from '@ndla/core';
 import { AccordionType } from './Accordion';
 
@@ -37,34 +36,24 @@ const appearances: Record<AccordionType, SerializedStyles> = {
   `,
 };
 
-const StyledButton = styled(Button)<{ styledAppearance: AccordionType }>`
+const StyledWrapper = styled('div')<{ styledAppearance: AccordionType }>`
   display: flex;
   position: relative;
   justify-content: space-between;
   align-items: center;
   width: 100%;
   padding: 0.6rem 0;
-
-  ${props => appearances[props.styledAppearance]}
+  border-radius: 4px;
+  ${props => appearances[props.styledAppearance]};
 `;
 
 interface Props {
   appearance: AccordionType;
   children: ReactElement | ReactElement[];
-  addButton?: ReactNode;
-  handleToggle: () => void;
 }
 
-const AccordionButtonLine = ({ appearance, handleToggle, addButton, children }: Props) => {
-  if (addButton) {
-    return <StyledButton styledAppearance={appearance}>{children}</StyledButton>;
-  }
-
-  return (
-    <StyledButton styledAppearance={appearance} stripped onClick={handleToggle}>
-      {children}
-    </StyledButton>
-  );
+const AccordionButtonLine = ({ appearance, children }: Props) => {
+  return <StyledWrapper styledAppearance={appearance}>{children}</StyledWrapper>;
 };
 
 export default AccordionButtonLine;

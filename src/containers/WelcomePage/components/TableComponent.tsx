@@ -5,13 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+
+import { ReactNode } from 'react';
 import { ContentLoader } from '@ndla/ui';
 import styled from '@emotion/styled';
 import { spacing, colors, fonts } from '@ndla/core';
-import { useSearch } from '../../../../modules/search/searchQueries';
-import { useSession } from '../../../Session/SessionProvider';
-import { toEditArticle } from '../../../../util/routeHelpers';
-import { NoShadowLink } from '../NoShadowLink';
 
 const StyledTable = styled.table`
   font-family: arial, sans-serif;
@@ -40,16 +38,14 @@ const StyledTable = styled.table`
   }
 `;
 
-const WorkList = () => {
-  const { ndlaId } = useSession();
-  const { data, isLoading } = useSearch(
-    { 'responsible-ids': ndlaId, sort: '-responsibleLastUpdated' },
-    {
-      enabled: !!ndlaId,
-    },
-  );
+interface Props {
+  tableTitleList: string[];
+  children: ReactNode;
+  isLoading: boolean;
+}
 
-  if (!data || isLoading) {
+const TableComponent = ({ tableTitleList, children, isLoading }: Props) => {
+  if (isLoading) {
     return (
       <ContentLoader width={800} height={150}>
         <rect x="0" y="4" rx="3" ry="3" width="500" height="23" key={`rect-1`} />
@@ -58,41 +54,19 @@ const WorkList = () => {
       </ContentLoader>
     );
   }
-  console.log(data);
+
   return (
     <StyledTable>
       <thead>
         <tr>
-          <th>Navn</th>
-          <th>Status</th>
-          <th>Innholdstype</th>
-          <th>Primærfag</th>
-          <th>Emnetilhørighet</th>
-          <th>Dato</th>
-          <th>Kommentar</th>
+          {tableTitleList.map(title => (
+            <th>{title}</th>
+          ))}
         </tr>
       </thead>
-      <tbody>
-        {data.results.map(res => {
-          return (
-            <tr>
-              <td>
-                <NoShadowLink to={toEditArticle(res.id, res.learningResourceType)}>
-                  {res.title?.title}
-                </NoShadowLink>
-              </td>
-              <td>{res.status?.current}</td>
-              <td>{res.learningResourceType}</td>
-              <td>Fag</td>
-              <td>test</td>
-              <td>10.10.2022</td>
-              <td>test</td>
-            </tr>
-          );
-        })}
-      </tbody>
+      <tbody>{children}</tbody>
     </StyledTable>
   );
 };
 
-export default WorkList;
+export default TableComponent;

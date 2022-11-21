@@ -189,7 +189,10 @@ const DisplayExternal = ({
       msg={
         error
           ? t('displayOembed.errorMessage')
-          : t('displayOembed.notSupported', properties.type, properties.provider)
+          : t('displayOembed.notSupported', {
+              type: properties.type,
+              provider: properties.provider,
+            })
       }
     />
   );

@@ -14,7 +14,7 @@ exports[`DisplayExternal display error on fetch fail 1`] = `
     contenteditable="false"
   >
     <span>
-      oEmbed av type {{type}} og kilde {{provider}} er ikke støttet.
+      oEmbed av type  og kilde  er ikke støttet.
     </span>
   </div>
 </div>
@@ -34,7 +34,7 @@ exports[`DisplayExternal renders external correctly 1`] = `
     contenteditable="false"
   >
     <span>
-      oEmbed av type {{type}} og kilde {{provider}} er ikke støttet.
+      oEmbed av type external og kilde  er ikke støttet.
     </span>
   </div>
 </div>

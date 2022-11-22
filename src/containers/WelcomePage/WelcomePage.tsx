@@ -13,6 +13,7 @@ import { HelmetWithTracker } from '@ndla/tracker';
 import { SearchFolder } from '@ndla/icons/editor';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
+import { Calendar } from '@ndla/icons/editor';
 import { NAVIGATION_HEADER_MARGIN } from '../../constants';
 import { getAccessToken, getAccessTokenPersonal } from '../../util/authHelpers';
 import { isValid } from '../../util/jwtHelper';
@@ -96,6 +97,7 @@ export const WelcomePage = () => {
             <TableTitle
               title={t('welcomePage.worklist')}
               description="Artikler hvor jeg står i ansvarlig-feltet"
+              Icon={Calendar}
             />
             <WorkList />
           </StyledWorkList>

@@ -8,7 +8,7 @@
 
 import styled from '@emotion/styled';
 import { spacing, colors, fonts } from '@ndla/core';
-import { Calendar } from '@ndla/icons/editor';
+import { ElementType } from 'react';
 
 const TableComponentWrapper = styled.div`
   display: flex;
@@ -46,13 +46,14 @@ const StyledIconWrapper = styled.div`
 interface Props {
   title: string;
   description: string;
+  Icon: ElementType;
 }
 
-const TableComponent = ({ title, description }: Props) => {
+const TableComponent = ({ title, description, Icon }: Props) => {
   return (
     <TableComponentWrapper>
       <StyledIconWrapper>
-        <Calendar className="c-icon--medium" style={{ color: `${colors.white}` }} />
+        <Icon className="c-icon--medium" css={{ color: `${colors.white}` }} />
       </StyledIconWrapper>
       <TextWrapper>
         <StyledTitle>{title}</StyledTitle>

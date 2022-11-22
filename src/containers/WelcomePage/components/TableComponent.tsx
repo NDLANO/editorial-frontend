@@ -57,7 +57,7 @@ const TableComponent = ({ tableTitleList, children, isLoading }: Props) => {
   }
 
   return (
-    <StyledTable>
+    <StyledTable className="sortable">
       <thead>
         <tr>
           {tableTitleList.map((title, index) => (

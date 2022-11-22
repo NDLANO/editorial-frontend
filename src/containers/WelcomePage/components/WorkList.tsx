@@ -6,6 +6,7 @@
  *
  */
 
+import { EmotionJSX } from '@emotion/react/types/jsx-namespace';
 import { useSearch } from '../../../modules/search/searchQueries';
 import { useSession } from '../../Session/SessionProvider';
 import { toEditArticle } from '../../../util/routeHelpers';
@@ -36,27 +37,25 @@ const WorkList = () => {
     return <div />;
   }
 
+  const tableContentList: (string | EmotionJSX.Element)[][] = data.results.map(res => [
+    <NoShadowLink to={toEditArticle(res.id, res.learningResourceType)}>
+      {res.title?.title}
+    </NoShadowLink>,
+    res.revisions?.[0]?.status,
+    res.learningResourceType,
+    'Primærfag',
+    res.contexts?.[0]?.subject,
+    formatDate(res.lastUpdated),
+    res.revisions?.[0]?.note,
+  ]);
   console.log(data);
+
   return (
-    <TableComponent isLoading={!data || isLoading} tableTitleList={tableTitles}>
-      {data.results.map(res => {
-        return (
-          <tr key={res.id}>
-            <td>
-              <NoShadowLink to={toEditArticle(res.id, res.learningResourceType)}>
-                {res.title?.title}
-              </NoShadowLink>
-            </td>
-            <td>{res.revisions?.[0]?.status}</td>
-            <td>{res.learningResourceType}</td>
-            <td>Fag</td>
-            <td>{res.contexts?.[0]?.subject}</td>
-            <td>{formatDate(res.lastUpdated)}</td>
-            <td>{res.revisions?.[0]?.note}</td>
-          </tr>
-        );
-      })}
-    </TableComponent>
+    <TableComponent
+      isLoading={!data || isLoading}
+      tableTitleList={tableTitles}
+      tableContentList={tableContentList}
+    />
   );
 };
 

@@ -6,10 +6,10 @@
  *
  */
 
-import { ReactNode } from 'react';
 import { ContentLoader } from '@ndla/ui';
 import styled from '@emotion/styled';
 import { spacing, colors, fonts } from '@ndla/core';
+import { EmotionJSX } from '@emotion/react/types/jsx-namespace';
 
 const StyledTable = styled.table`
   font-family: arial, sans-serif;
@@ -41,11 +41,11 @@ const StyledTable = styled.table`
 
 interface Props {
   tableTitleList: string[];
-  children: ReactNode;
+  tableContentList: (string | EmotionJSX.Element)[][];
   isLoading: boolean;
 }
 
-const TableComponent = ({ tableTitleList, children, isLoading }: Props) => {
+const TableComponent = ({ tableTitleList, tableContentList = [[]], isLoading }: Props) => {
   if (isLoading) {
     return (
       <ContentLoader width={800} height={150}>
@@ -57,17 +57,23 @@ const TableComponent = ({ tableTitleList, children, isLoading }: Props) => {
   }
 
   return (
-    <StyledTable className="sortable">
+    <StyledTable>
       <thead>
         <tr>
           {tableTitleList.map((title, index) => (
-            <th scope="col" key={`${index}_${title}`}>
-              {title}
-            </th>
+            <th key={`${index}_${title}`}>{title}</th>
           ))}
         </tr>
       </thead>
-      <tbody>{children}</tbody>
+      <tbody>
+        {tableContentList.map(contentRow => (
+          <tr>
+            {contentRow.map(field => (
+              <td>{field}</td>
+            ))}
+          </tr>
+        ))}
+      </tbody>
     </StyledTable>
   );
 };

@@ -7,6 +7,7 @@
  */
 
 import { EmotionJSX } from '@emotion/react/types/jsx-namespace';
+import { useTranslation } from 'react-i18next';
 import { useSearch } from '../../../modules/search/searchQueries';
 import { useSession } from '../../Session/SessionProvider';
 import { toEditArticle } from '../../../util/routeHelpers';
@@ -26,6 +27,7 @@ const tableTitles = [
 
 const WorkList = () => {
   const { ndlaId } = useSession();
+  const { t } = useTranslation();
   const { data, isLoading } = useSearch(
     { 'responsible-ids': ndlaId, sort: '-responsibleLastUpdated' },
     {
@@ -41,13 +43,14 @@ const WorkList = () => {
     <NoShadowLink to={toEditArticle(res.id, res.learningResourceType)}>
       {res.title?.title}
     </NoShadowLink>,
-    res.revisions?.[0]?.status,
-    res.learningResourceType,
-    'Primærfag',
+    res.status?.current ? t(`form.status.${res.status.current.toLowerCase()}`) : '',
+    res.contexts?.[0]?.resourceTypes[0]?.name,
+    'n/a',
     res.contexts?.[0]?.subject,
     formatDate(res.lastUpdated),
     res.revisions?.[0]?.note,
   ]);
+
   console.log(data);
 
   return (

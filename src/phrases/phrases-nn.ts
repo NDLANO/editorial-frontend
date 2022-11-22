@@ -122,6 +122,8 @@ const phrases = {
     saveSearch: 'Lagre søk',
     worklist: 'Mine arbeidsoppgåver',
     worklistDescription: 'Artiklar der eg står i ansvarleg-feltet',
+    chooseSubject: 'Velg fag',
+    chooseTopic: 'Velg emner',
   },
   searchPage: {
     header: {

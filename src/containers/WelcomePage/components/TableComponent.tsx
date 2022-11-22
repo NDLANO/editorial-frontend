@@ -25,7 +25,7 @@ const StyledTable = styled.table`
     border-left: 1px solid ${colors.text.primary};
   }
   td {
-    ${fonts.sizes('16px', '24px')};
+    ${fonts.sizes(16, 1.1)};
   }
   th,
   td {

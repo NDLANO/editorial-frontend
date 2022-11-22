@@ -35,21 +35,19 @@ const WorkList = () => {
     },
   );
 
-  if (!data || isLoading) {
-    return <div />;
-  }
-
-  const tableContentList: (string | EmotionJSX.Element)[][] = data.results.map(res => [
-    <NoShadowLink to={toEditArticle(res.id, res.learningResourceType)}>
-      {res.title?.title}
-    </NoShadowLink>,
-    res.status?.current ? t(`form.status.${res.status.current.toLowerCase()}`) : '',
-    res.contexts?.[0]?.resourceTypes[0]?.name,
-    'n/a',
-    res.contexts?.[0]?.subject,
-    formatDate(res.lastUpdated),
-    res.revisions?.[0]?.note,
-  ]);
+  const tableContentList: (string | EmotionJSX.Element)[][] = data
+    ? data.results.map(res => [
+        <NoShadowLink to={toEditArticle(res.id, res.learningResourceType)}>
+          {res.title?.title}
+        </NoShadowLink>,
+        res.status?.current ? t(`form.status.${res.status.current.toLowerCase()}`) : '',
+        res.contexts?.[0]?.resourceTypes[0]?.name,
+        'n/a',
+        res.contexts?.[0]?.subject,
+        formatDate(res.lastUpdated),
+        res.revisions?.[0]?.note,
+      ])
+    : [[]];
 
   console.log(data);
 

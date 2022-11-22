@@ -119,8 +119,10 @@ const phrases = {
     lastUsed: 'Last edited',
     savedSearch: 'Saved searches',
     saveSearch: 'Save search',
-    worklists: 'My tasks',
+    worklist: 'My tasks',
     worklistDescription: 'Articles where I am responsible',
+    chooseSubject: 'Choose subjects',
+    chooseTopic: 'Choose topics',
   },
   searchPage: {
     header: {

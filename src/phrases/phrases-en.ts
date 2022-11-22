@@ -120,6 +120,7 @@ const phrases = {
     savedSearch: 'Saved searches',
     saveSearch: 'Save search',
     worklists: 'My tasks',
+    worklistDescription: 'Articles where I am responsible',
   },
   searchPage: {
     header: {

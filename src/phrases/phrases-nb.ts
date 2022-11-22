@@ -121,6 +121,7 @@ const phrases = {
     savedSearch: 'Lagrede søk',
     saveSearch: 'Lagre søk',
     worklist: 'Mine arbeidsoppgaver',
+    worklistDescription: 'Artikler hvor jeg står i ansvarlig-feltet',
   },
   searchPage: {
     header: {

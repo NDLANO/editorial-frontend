@@ -96,7 +96,7 @@ export const WelcomePage = () => {
           <StyledWorkList>
             <TableTitle
               title={t('welcomePage.worklist')}
-              description="Artikler hvor jeg står i ansvarlig-feltet"
+              description={t('welcomePage.worklistDescription')}
               Icon={Calendar}
             />
             <WorkList />

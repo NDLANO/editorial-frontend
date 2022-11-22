@@ -7,6 +7,7 @@
  */
 
 import config from './config';
+import { WhitelistProvider } from './interfaces';
 
 export const NAVIGATION_HEADER_MARGIN = '71px';
 
@@ -58,7 +59,7 @@ export const MAX_IMAGE_UPLOAD_SIZE = 1024 * 1024 * 40; // 40MB.
 
 export const LOCALE_VALUES = ['nb', 'nn', 'en'] as const;
 
-export const EXTERNAL_WHITELIST_PROVIDERS = [
+export const EXTERNAL_WHITELIST_PROVIDERS: WhitelistProvider[] = [
   { name: 'H5P', url: ['h5p'] },
   { name: 'YouTube', url: ['youtube.com', 'youtu.be'], height: '486px' },
   { name: 'NRK', url: ['static.nrk.no'], height: '398px' },

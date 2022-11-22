@@ -11,6 +11,7 @@ import { useSession } from '../../Session/SessionProvider';
 import { toEditArticle } from '../../../util/routeHelpers';
 import { NoShadowLink } from './NoShadowLink';
 import TableComponent from './TableComponent';
+import formatDate from '../../../util/formatDate';
 
 const tableTitles = [
   'Navn',
@@ -40,18 +41,18 @@ const WorkList = () => {
     <TableComponent isLoading={!data || isLoading} tableTitleList={tableTitles}>
       {data.results.map(res => {
         return (
-          <tr>
+          <tr key={res.id}>
             <td>
               <NoShadowLink to={toEditArticle(res.id, res.learningResourceType)}>
                 {res.title?.title}
               </NoShadowLink>
             </td>
-            <td>{res.status?.current}</td>
+            <td>{res.revisions?.[0]?.status}</td>
             <td>{res.learningResourceType}</td>
             <td>Fag</td>
-            <td>test</td>
-            <td>10.10.2022</td>
-            <td>test</td>
+            <td>{res.contexts?.[0]?.subject}</td>
+            <td>{formatDate(res.lastUpdated)}</td>
+            <td>{res.revisions?.[0]?.note}</td>
           </tr>
         );
       })}

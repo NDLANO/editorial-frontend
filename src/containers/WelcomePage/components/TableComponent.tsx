@@ -21,7 +21,7 @@ const StyledTable = styled.table`
     border-bottom: 1px solid ${colors.text.primary};
     font-weight: ${fonts.weight.bold};
   }
-  th:not(:first-child) {
+  th:not(:first-of-type) {
     border-left: 1px solid ${colors.text.primary};
   }
   td {
@@ -34,7 +34,7 @@ const StyledTable = styled.table`
   tr {
     height: 30px;
   }
-  tr:nth-child(even) {
+  tr:nth-of-type(even) {
     background: rgba(248, 248, 248, 0.5);
   }
 `;
@@ -60,8 +60,10 @@ const TableComponent = ({ tableTitleList, children, isLoading }: Props) => {
     <StyledTable>
       <thead>
         <tr>
-          {tableTitleList.map(title => (
-            <th scope="col">{title}</th>
+          {tableTitleList.map((title, index) => (
+            <th scope="col" key={`${index}_${title}`}>
+              {title}
+            </th>
           ))}
         </tr>
       </thead>

@@ -1,0 +1,76 @@
+/**
+ * Copyright (c) 2022-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import { Pencil } from '@ndla/icons/action';
+import { useTaxonomyVersion } from 'containers/StructureVersion/TaxonomyVersionProvider';
+import { usePutResourcesPrimaryMutation } from 'modules/nodes/nodeMutations';
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import AlertModal from '../../../../components/AlertModal';
+import Overlay from '../../../../components/Overlay';
+import RoundIcon from '../../../../components/RoundIcon';
+import Spinner from '../../../../components/Spinner';
+import { NodeType } from '../../../../modules/nodes/nodeApiTypes';
+import { EditModeHandler } from '../SettingsMenuDropdownType';
+import { StyledErrorMessage } from '../styles';
+import MenuItemButton from '../sharedMenuOptions/components/MenuItemButton';
+
+interface Props {
+  node: NodeType;
+  editModeHandler: EditModeHandler;
+}
+
+const SetResourcesPrimary = ({ node, editModeHandler: { editMode, toggleEditMode } }: Props) => {
+  const { t } = useTranslation();
+  const [error, setError] = useState<string>();
+  const { mutateAsync, isLoading } = usePutResourcesPrimaryMutation();
+  const { taxonomyVersion } = useTaxonomyVersion();
+
+  const toggleConnectedResourcesPrimary = () => toggleEditMode('setResourcesPrimary');
+
+  const setConnectedResourcesPrimary = async () => {
+    setError(undefined);
+    toggleConnectedResourcesPrimary();
+
+    await mutateAsync(
+      { taxonomyVersion, id: node.id },
+      { onError: () => setError(t('taxonomy.resourcesPrimary.error')) },
+    );
+  };
+
+  return (
+    <>
+      <MenuItemButton stripped onClick={toggleConnectedResourcesPrimary}>
+        <RoundIcon small icon={<Pencil />} />
+        {t('taxonomy.resourcesPrimary.buttonText')}
+      </MenuItemButton>
+      <AlertModal
+        show={editMode === 'setResourcesPrimary'}
+        actions={[
+          {
+            text: t('form.abort'),
+            onClick: toggleConnectedResourcesPrimary,
+          },
+          {
+            text: t('alertModal.continue'),
+            onClick: setConnectedResourcesPrimary,
+          },
+        ]}
+        onCancel={toggleConnectedResourcesPrimary}
+        text={t('taxonomy.resourcesPrimary.text')}
+      />
+      {isLoading && <Spinner appearance="absolute" />}
+      {isLoading && <Overlay modifiers={['absolute', 'white-opacity', 'zIndex']} />}
+      {error && (
+        <StyledErrorMessage data-testid="inlineEditErrorMessage">{error}</StyledErrorMessage>
+      )}
+    </>
+  );
+};
+
+export default SetResourcesPrimary;

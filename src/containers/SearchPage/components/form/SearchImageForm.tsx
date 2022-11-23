@@ -6,7 +6,7 @@
  *
  */
 
-import { FormEvent, useEffect, useState, MouseEvent } from 'react';
+import { useEffect, useState, MouseEvent } from 'react';
 
 import { TFunction, useTranslation } from 'react-i18next';
 import { getResourceLanguages } from '../../../../util/resourceHelpers';
@@ -15,8 +15,8 @@ import { getLicensesWithTranslations } from '../../../../util/licenseHelpers';
 import { SearchParams } from './SearchForm';
 import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { useLicenses } from '../../../../modules/draft/draftQueries';
-import GenericSearchForm, { SearchFormSelector } from './GenericSearchForm';
-import { TagType } from './SearchTagGroup';
+import GenericSearchForm, { OnFieldChangeFunction } from './GenericSearchForm';
+import { SearchFormSelector } from './Selector';
 
 interface Props {
   search: (o: SearchParams) => void;
@@ -58,20 +58,16 @@ const SearchImageForm = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search.query]);
 
-  const onInputChange = (evt: FormEvent<HTMLInputElement>) => {
-    setQueryInput(evt.currentTarget.value);
-    doSearch({ ...search, query: evt.currentTarget.value });
-  };
-
-  const onFieldChange = (name: string, value: string) => {
+  const onFieldChange: OnFieldChangeFunction = (name, value, evt) => {
+    if (name === 'query' && evt) setQueryInput(evt.currentTarget.value);
     doSearch({ ...search, [name]: value });
   };
 
   const handleSearch = () => doSearch({ ...search, page: 1 });
 
-  const removeTagItem = (tag: TagType) => {
-    if (tag.type === 'query') setQueryInput('');
-    doSearch({ ...search, [tag.type]: '' });
+  const removeTagItem = (tag: SearchFormSelector) => {
+    if (tag.parameterName === 'query') setQueryInput('');
+    doSearch({ ...search, [tag.parameterName]: '' });
   };
 
   const emptySearch = (evt: MouseEvent<HTMLButtonElement>) => {
@@ -82,20 +78,23 @@ const SearchImageForm = ({
 
   const selectors: SearchFormSelector[] = [
     {
-      type: 'license',
-      name: getTagName(search.license, licenses),
+      parameterName: 'license',
+      value: getTagName(search.license, licenses),
       options: licenses ?? [],
+      formElementType: 'dropdown',
     },
     {
-      type: 'model-released',
-      name: getTagName(search['model-released'], getModelReleasedValues(t)),
+      parameterName: 'model-released',
+      value: getTagName(search['model-released'], getModelReleasedValues(t)),
       options: getModelReleasedValues(t),
+      formElementType: 'dropdown',
     },
     {
-      type: 'language',
-      name: getTagName(search.language, getResourceLanguages(t)),
+      parameterName: 'language',
+      value: getTagName(search.language, getResourceLanguages(t)),
       options: getResourceLanguages(t),
       width: 25,
+      formElementType: 'dropdown',
     },
   ];
 
@@ -104,7 +103,6 @@ const SearchImageForm = ({
       type="image"
       selectors={selectors}
       query={queryInput}
-      onQueryChange={onInputChange}
       onSubmit={handleSearch}
       searchObject={search}
       onFieldChange={onFieldChange}

@@ -28,10 +28,9 @@ RUN apk add py-pip jq && pip install awscli
 COPY run-editorial-frontend.sh /
 
 
-RUN npm install pm2 -g
 WORKDIR /home/app/editorial-frontend
 COPY --from=builder /home/app/editorial-frontend/build build
 
 ENV NODE_ENV=production
 
-CMD ["/run-editorial-frontend.sh", "pm2-runtime -i max build/server.js '|' bunyan"]
+CMD ["/run-editorial-frontend.sh", "node build/server.js '|' bunyan"]

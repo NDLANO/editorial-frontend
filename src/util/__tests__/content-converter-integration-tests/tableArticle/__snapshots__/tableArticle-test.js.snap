@@ -9,7 +9,7 @@ exports[`serializing article with table tag and attributes 1`] = `
     data-resource=\\"image\\"
     data-resource_id=\\"2935\\"
     data-size=\\"full\\"
-    data-url=\\"https://api.ndla.no/image-api/v2/images/2935\\"
+    data-url=\\"https://api.ndla.no/image-api/v3/images/2935\\"
   />
   <h2>Balanse</h2>
 </section>

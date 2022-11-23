@@ -17,7 +17,6 @@ import { IUpdatedArticle, IStatus as DraftStatus } from '@ndla/types-draft-api';
 import { useFormikContext } from 'formik';
 
 import { toPreviewDraft } from '../../util/routeHelpers';
-import { formatErrorMessage } from '../../util/apiHelpers';
 import PreviewConceptLightbox from '../PreviewConcept/PreviewConceptLightbox';
 import SaveMultiButton from '../SaveMultiButton';
 import { createGuard, createReturnTypeGuard } from '../../util/guards';
@@ -74,7 +73,7 @@ function EditorFooter<T extends FormValues>({
 }: Props) {
   const { t } = useTranslation();
   const { values, setFieldValue, isSubmitting } = useFormikContext<T>();
-  const { createMessage } = useMessages();
+  const { createMessage, formatErrorMessage } = useMessages();
   // Wait for newStatus to be set to trigger since formik doesn't update fields instantly
   const [newStatus, setNewStatus] = useState<string | null>(null);
   useEffect(() => {

@@ -14,7 +14,7 @@ import {
   INewSubjectFrontPageData,
   IUpdatedSubjectFrontPageData,
 } from '@ndla/types-frontpage-api';
-import { IImageMetaInformationV2 } from '@ndla/types-image-api';
+import { IImageMetaInformationV3 } from '@ndla/types-image-api';
 import { ILearningPathV2 } from '@ndla/types-learningpath-api';
 import { IArticle } from '@ndla/types-draft-api';
 import Field from '../../../components/Field';
@@ -33,7 +33,6 @@ import {
   subjectpageFormikTypeToPostType,
 } from '../../../util/subjectHelpers';
 import { useMessages } from '../../Messages/MessagesProvider';
-import { formatErrorMessage } from '../../../util/apiHelpers';
 import { queryLearningPathResource, queryResources, queryTopics } from '../../../modules/taxonomy';
 import { Resource, Topic } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import { TYPE_EMBED } from '../../../components/SlateEditor/plugins/embed/types';
@@ -44,7 +43,7 @@ import { NdlaErrorPayload } from '../../../util/resolveJsonOrRejectWithError';
 interface Props {
   subjectpage?: ISubjectPageData;
   editorsChoices?: (IArticle | ILearningPathV2)[];
-  banner?: IImageMetaInformationV2;
+  banner?: IImageMetaInformationV3;
   elementName?: string;
   createSubjectpage?: (subjectpage: INewSubjectFrontPageData) => Promise<ISubjectPageData>;
   updateSubjectpage?: (
@@ -98,7 +97,7 @@ const SubjectpageForm = ({
   const { t } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
   const [savedToServer, setSavedToServer] = useState(false);
-  const { createMessage, applicationError } = useMessages();
+  const { createMessage, applicationError, formatErrorMessage } = useMessages();
   const initialValues = subjectpageApiTypeToFormikType(
     subjectpage,
     elementName,

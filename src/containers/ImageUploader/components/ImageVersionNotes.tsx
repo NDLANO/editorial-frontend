@@ -8,7 +8,7 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import { VersionHistory } from '@ndla/editor';
-import { IImageMetaInformationV2, IEditorNote } from '@ndla/types-image-api';
+import { IImageMetaInformationV3, IEditorNote } from '@ndla/types-image-api';
 import { fetchAuth0UsersFromUserIds, SimpleUserType } from '../../../modules/auth0/auth0Api';
 import Spinner from '../../../components/Spinner';
 import formatDate from '../../../util/formatDate';
@@ -19,7 +19,7 @@ const getUser = (userId: string, allUsers: SimpleUserType[]): string => {
 };
 
 interface Props {
-  image?: IImageMetaInformationV2;
+  image?: IImageMetaInformationV3;
 }
 
 const ImageVersionNotes = ({ image }: Props) => {

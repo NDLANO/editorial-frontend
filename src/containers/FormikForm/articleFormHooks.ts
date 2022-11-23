@@ -12,7 +12,6 @@ import { FormikHelpers } from 'formik';
 import { Descendant } from 'slate';
 import { IArticle, ILicense, IStatus, IUpdatedArticle, IAuthor } from '@ndla/types-draft-api';
 import { deleteFile } from '../../modules/draft/draftApi';
-import { formatErrorMessage } from '../../util/apiHelpers';
 import * as articleStatuses from '../../util/constants/ArticleStatus';
 import { isFormikFormDirty } from '../../util/formHelper';
 import { DraftStatusType, RelatedContent } from '../../interfaces';
@@ -186,8 +185,11 @@ export function useArticleFormHooks<T extends ArticleFormType>({
           message: t('alertModal.needToRefresh'),
           timeToLive: 0,
         });
-      } else if (err && err.json && err.json.messages) {
-        createMessage(formatErrorMessage(err));
+      } else if (false && err && err.status && err.status === 500) {
+        createMessage({
+          message: t('errorMessage.errorOnSave'),
+          timeToLive: 0,
+        });
       } else {
         applicationError(err);
       }

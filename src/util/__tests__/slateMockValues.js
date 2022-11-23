@@ -9,7 +9,7 @@ export const valueWithTwoImageEmbeds = {
         align: '',
         alt: 'Mann med maske ved datamaskin. Foto.',
         caption: '',
-        url: 'https://test.api.ndla.no/image-api/v2/images/3',
+        url: 'https://test.api.ndla.no/image-api/v3/images/3',
       },
       type: 'embed',
       children: [

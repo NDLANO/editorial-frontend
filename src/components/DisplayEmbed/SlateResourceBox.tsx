@@ -7,7 +7,7 @@
  */
 
 import styled from '@emotion/styled';
-import { IImageMetaInformationV2 } from '@ndla/types-image-api';
+import { IImageMetaInformationV3 } from '@ndla/types-image-api';
 import { ResourceBox } from '@ndla/ui';
 import { useEffect, useState } from 'react';
 import { ExternalEmbed } from '../../interfaces';
@@ -25,7 +25,7 @@ const ResourceBoxWrapper = styled.div`
 `;
 
 const SlateResourceBox = ({ embed, language }: Props) => {
-  const [imageMeta, setImageMeta] = useState<IImageMetaInformationV2>();
+  const [imageMeta, setImageMeta] = useState<IImageMetaInformationV3>();
 
   useEffect(() => {
     if (embed.imageid) {
@@ -36,7 +36,7 @@ const SlateResourceBox = ({ embed, language }: Props) => {
   }, [embed.imageid, language]);
 
   const image = {
-    src: imageMeta?.imageUrl || '',
+    src: imageMeta?.image.imageUrl || '',
     alt: imageMeta?.alttext.alttext || '',
   };
 

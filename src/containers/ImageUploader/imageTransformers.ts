@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import { IImageMetaInformationV2, IAuthor, IImageDimensions } from '@ndla/types-image-api';
+import { IImageMetaInformationV3, IAuthor, IImageDimensions } from '@ndla/types-image-api';
 import { Descendant } from 'slate';
 import { plainTextToEditorValue } from '../../util/articleContentConverter';
 
@@ -31,7 +31,7 @@ export interface ImageFormikType {
 }
 
 export const imageApiTypeToFormType = (
-  image: IImageMetaInformationV2 | undefined,
+  image: IImageMetaInformationV3 | undefined,
   language: string,
 ): ImageFormikType => {
   return {
@@ -41,7 +41,7 @@ export const imageApiTypeToFormType = (
     title: plainTextToEditorValue(image?.title.title || ''),
     alttext: image?.alttext.alttext ?? '',
     caption: image?.caption.caption ?? '',
-    imageFile: image?.imageUrl,
+    imageFile: image?.image.imageUrl,
     tags: image?.tags.tags ?? [],
     creators: image?.copyright.creators ?? [],
     processors: image?.copyright.processors ?? [],
@@ -49,8 +49,8 @@ export const imageApiTypeToFormType = (
     origin: image?.copyright.origin ?? '',
     license: image?.copyright.license.license,
     modelReleased: image?.modelRelease ?? 'not-set',
-    contentType: image?.contentType,
-    fileSize: image?.size,
-    imageDimensions: image?.imageDimensions,
+    contentType: image?.image.contentType,
+    fileSize: image?.image.size,
+    imageDimensions: image?.image.dimensions,
   };
 };

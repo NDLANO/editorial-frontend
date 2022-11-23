@@ -93,7 +93,7 @@ const PreviewConceptLightbox = ({ getConcept, typeOfPreview }: Props) => {
         const image = await fetchImage(parseInt(embedTag.resource_id));
         return {
           ...embedTag,
-          url: image.imageUrl,
+          url: image?.image.imageUrl,
         };
       case 'video':
       case 'brightcove':

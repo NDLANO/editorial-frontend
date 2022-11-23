@@ -227,6 +227,7 @@ const phrases = {
       license: 'Velg lisens',
       'revision-date-from': 'Revisjonsdato fra',
       'revision-date-to': 'Revisjonsdato til',
+      'exclude-revision-log': 'Ekskluder endringslogg',
     },
     tagType: {
       query: 'Innhold',
@@ -241,6 +242,7 @@ const phrases = {
       'model-released': 'Modellklarering',
       'revision-date-from': 'Revisjonsdato fra',
       'revision-date-to': 'Revisjonsdato til',
+      'exclude-revision-log': 'Endringslogg ekskludert',
     },
     btn: 'Søk',
     empty: 'Tøm',
@@ -1205,6 +1207,8 @@ const phrases = {
       409: 'Denne artikkelen har allerede blitt oppdatert. Ta vare på det du har endret og last siden på nytt for å kunne lagre.',
     },
     grepCodes: 'Følgende koder har feil format eller eksisterer ikke, og vil ikke bli lagt til: ',
+    errorOnSave: 'Noe gikk galt under lagring av artikkelen.',
+    genericError: 'Noe gikk galt, handlingen kunne ikke utføres.',
   },
   warningMessage: {
     fieldWithWrongLanguage: 'Dette feltet er hentet fra språkkode: {{language}}',
@@ -1356,6 +1360,12 @@ const phrases = {
         'Er du helt sikker på at du ønsker å kopiere revisjonsdatoen? Dette vil sette alle revisjonsdatoer fra denne noden til alle undernoder og ressurser.',
       buttonText: 'Kopier revisjonsdato',
       error: 'En feil oppstod under kopiering',
+    },
+    resourcesPrimary: {
+      text:
+        'Er du helt sikker på at du ønsker å gjøre alle tilhørende ressurser om til primærkoblinger?',
+      buttonText: 'Gjør alle ressurser om til primærkoblinger',
+      error: 'En feil oppstod',
     },
     goTo: 'Åpne i stukturredigering',
     missingResourceType: 'Mangler ressurstype',

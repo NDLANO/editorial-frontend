@@ -22,7 +22,7 @@ import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import Tooltip from '@ndla/tooltip';
-import { IImageMetaInformationV2 } from '@ndla/types-image-api';
+import { IImageMetaInformationV3 } from '@ndla/types-image-api';
 import { DeleteForever } from '@ndla/icons/editor';
 import { Link } from 'react-router-dom';
 
@@ -138,7 +138,7 @@ const VisualElementUrlPreview = ({
   const { userPermissions } = useSession();
   const [url, setUrl] = useState(selectedResourceUrl);
   const [title, setTitle] = useState(embed?.title || '');
-  const [image, setImage] = useState<IImageMetaInformationV2>();
+  const [image, setImage] = useState<IImageMetaInformationV3>();
   const [imageModalOpen, setImageModalOpen] = useState(false);
   const [description, setDescription] = useState(embed?.caption || '');
   const [showFullscreen, setShowFullscreen] = useState(embed?.type === 'fullscreen');
@@ -376,7 +376,7 @@ const VisualElementUrlPreview = ({
             {image ? (
               <ImageWrapper>
                 {/* eslint-disable-next-line jsx-a11y/img-redundant-alt */}
-                <img src={image?.imageUrl} alt={image?.alttext.alttext} />
+                <img src={image?.image.imageUrl} alt={image?.alttext.alttext} />
                 <ImageButtons>
                   <Tooltip tooltip={t('form.metaImage.remove')}>
                     <IconButton

@@ -6,7 +6,7 @@
  *
  */
 
-import { FormEvent, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useTranslation } from 'react-i18next';
 import { flattenResourceTypesAndAddContextTypes } from '../../../../util/taxonomyHelpers';
@@ -22,9 +22,9 @@ import config from '../../../../config';
 import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { useAuth0Editors } from '../../../../modules/auth0/auth0Queries';
 import { useAllResourceTypes } from '../../../../modules/taxonomy/resourcetypes/resourceTypesQueries';
-import GenericSearchForm, { SearchFormSelector } from './GenericSearchForm';
+import GenericSearchForm, { OnFieldChangeFunction } from './GenericSearchForm';
 import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
-import { TagType } from './SearchTagGroup';
+import { SearchFormSelector } from './Selector';
 
 interface Props {
   search: (o: SearchParams) => void;
@@ -62,15 +62,11 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search.query]);
 
-  const onInputChange = (evt: FormEvent<HTMLInputElement>) => {
-    setQueryInput(evt.currentTarget.value);
-    doSearch({ ...search, query: evt.currentTarget.value });
-  };
-
-  const onFieldChange = (name: string, value: string) => {
+  const onFieldChange: OnFieldChangeFunction = (name, value, evt) => {
     let includeOtherStatuses: boolean | undefined;
     let status: string | undefined;
-    if (name === 'draft-status') {
+    if (name === 'query' && evt) setQueryInput(evt.currentTarget.value);
+    if (name === 'draft-status' && typeof value === 'string') {
       const isHasPublished = value === 'HAS_PUBLISHED';
       includeOtherStatuses = isHasPublished;
       setIsHasPublished(isHasPublished);
@@ -90,10 +86,10 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
 
   const handleSearch = () => doSearch({ ...search, fallback: false, page: 1 });
 
-  const removeTagItem = (tag: TagType) => {
-    if (tag.type === 'query') setQueryInput('');
-    if (tag.type === 'draft-status') setIsHasPublished(tag.name === 'HAS_PUBLISHED');
-    doSearch({ ...search, [tag.type]: '' });
+  const removeTagItem = (tag: SearchFormSelector) => {
+    if (tag.parameterName === 'query') setQueryInput('');
+    if (tag.parameterName === 'draft-status') setIsHasPublished(tag.value === 'HAS_PUBLISHED');
+    doSearch({ ...search, [tag.parameterName]: '' });
   };
 
   const emptySearch = () => {
@@ -108,6 +104,7 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
       language: '',
       'revision-date-from': '',
       'revision-date-to': '',
+      'exclude-revision-log': false,
     });
   };
 
@@ -127,55 +124,66 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
 
   const selectors: SearchFormSelector[] = [
     {
-      name: getTagName(search.subjects, subjects),
-      type: 'subjects',
+      value: getTagName(search.subjects, subjects),
+      parameterName: 'subjects',
       width: config.revisiondateEnabled === 'true' ? 50 : 25,
       options: subjects
         .filter(s => s.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] !== 'true')
         .sort(sortByProperty('name')),
+      formElementType: 'dropdown',
     },
     {
-      name: getTagName(search['resource-types'], resourceTypes),
-      type: 'resource-types',
+      value: getTagName(search['resource-types'], resourceTypes),
+      parameterName: 'resource-types',
       width: 25,
       options: resourceTypes!.sort(sortByProperty('name')),
+      formElementType: 'dropdown',
     },
     {
-      name: getTagName(
+      value: getTagName(
         isHasPublished ? 'HAS_PUBLISHED' : search['draft-status'],
         getDraftStatuses(),
       ),
-      type: 'draft-status',
+      parameterName: 'draft-status',
       width: 25,
       options: getDraftStatuses().sort(sortByProperty('name')),
+      formElementType: 'dropdown',
     },
     {
-      name: getTagName(search.users, users),
-      type: 'users',
+      value: getTagName(search.users, users),
+      parameterName: 'users',
       width: 25,
       options: users!.sort(sortByProperty('name')),
+      formElementType: 'dropdown',
     },
     {
-      name: getTagName(search.language, getResourceLanguages(t)),
-      type: 'language',
+      value: getTagName(search.language, getResourceLanguages(t)),
+      parameterName: 'language',
       width: 25,
       options: getResourceLanguages(t),
+      formElementType: 'dropdown',
+    },
+    {
+      value: search['exclude-revision-log']?.toString(),
+      parameterName: 'exclude-revision-log',
+      width: 25,
+      formElementType: 'check-box',
     },
   ];
 
   if (config.revisiondateEnabled === 'true') {
     selectors.push(
       {
-        name: search['revision-date-from'],
-        type: 'revision-date-from',
+        value: search['revision-date-from'],
+        parameterName: 'revision-date-from',
         width: 25,
-        options: [],
+        formElementType: 'date-picker',
       },
       {
-        name: search['revision-date-to'],
-        type: 'revision-date-to',
+        value: search['revision-date-to'],
+        parameterName: 'revision-date-to',
         width: 25,
-        options: [],
+        formElementType: 'date-picker',
       },
     );
   }
@@ -185,7 +193,6 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
       type="content"
       selectors={selectors}
       query={queryInput}
-      onQueryChange={onInputChange}
       onSubmit={handleSearch}
       searchObject={{
         ...search,

@@ -226,6 +226,7 @@ const phrases = {
       license: 'Select license',
       'revision-date-from': 'Revisiondate from',
       'revision-date-to': 'Revisiondate to',
+      'exclude-revision-log': 'Exclude revision log',
     },
     tagType: {
       query: 'Query',
@@ -240,6 +241,7 @@ const phrases = {
       'model-released': 'Model released',
       'revision-date-from': 'Revisiondate from',
       'revision-date-to': 'Revisiondate to',
+      'exclude-revision-log': 'Revision log excluded',
     },
     btn: 'Search',
     empty: 'Empty',
@@ -1203,6 +1205,8 @@ const phrases = {
       409: 'This article has already been updated. Keep what you have changed and reload the page to save.',
     },
     grepCodes: 'The following codes have wrong format or does not exist, and will not be added: ',
+    errorOnSave: 'Something went wrong when saving the article.',
+    genericError: 'Something went wrong, the action could not be completed.',
   },
   warningMessage: {
     fieldWithWrongLanguage: 'This value is fetched from language code: {{language}}',
@@ -1352,6 +1356,11 @@ const phrases = {
         'Are you sure you want to copy this revision date? This will apply for all nodes and resources underneath this node',
       buttonText: 'Copy revision date',
       error: 'An error occurred when copying the revision date',
+    },
+    resourcesPrimary: {
+      text: 'Are you sure you want to make all connected resources primary?',
+      buttonText: 'Make resources primary',
+      error: 'An error occured',
     },
     goTo: 'Open in structure editor',
     missingResourceType: 'Missing resource type',

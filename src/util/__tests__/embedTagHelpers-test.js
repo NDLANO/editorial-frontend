@@ -18,7 +18,7 @@ test('parseEmbedTag parses image embed tag to object', () => {
       data-alt="Guinness sign"
       data-caption="Guinness is good for you" data-resource_id="42159"
       data-id="0"
-      data-url="https://api.ndla.no/image-api/v2/images/42159">`,
+      data-url="https://api.ndla.no/image-api/v3/images/42159">`,
   );
   expect(obj).toMatchSnapshot();
 });
@@ -65,7 +65,7 @@ test('createEmbedTag creates image embed tag from object', () => {
     resource: 'image',
     resource_id: '42159',
     size: 'full',
-    url: 'https://api.ndla.no/image-api/v2/images/42159',
+    url: 'https://api.ndla.no/image-api/v3/images/42159',
   });
   expect(tag).toMatchSnapshot();
 });

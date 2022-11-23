@@ -16,22 +16,22 @@ import { AlignCenter, AlignLeft, AlignRight } from '@ndla/icons/editor';
 import Button from '@ndla/button';
 import { Minus, Pencil, Plus } from '@ndla/icons/action';
 import IconButton from '../../../../components/IconButton';
-import {
-  insertRow,
-  removeRow,
-  insertColumn,
-  removeColumn,
-  toggleRowHeaders,
-  insertTableHead,
-  editColgroups,
-  alignColumn,
-} from './utils';
 import { TableElement } from './interfaces';
-import { isTable, isTableHead } from './helpers';
 import getCurrentBlock from '../../utils/getCurrentBlock';
 import { TYPE_TABLE_CAPTION } from './types';
 import { useSession } from '../../../../containers/Session/SessionProvider';
 import { DRAFT_HTML_SCOPE } from '../../../../constants';
+import { isTable, isTableHead } from './slateHelpers';
+import { alignColumn } from './slateActions';
+import {
+  editColgroups,
+  insertColumn,
+  insertRow,
+  insertTableHead,
+  removeColumn,
+  removeRow,
+  toggleRowHeaders,
+} from './toolbarActions';
 
 const StyledButton = styled(Button)`
   display: flex;

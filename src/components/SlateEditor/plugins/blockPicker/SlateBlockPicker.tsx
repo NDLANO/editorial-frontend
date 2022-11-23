@@ -17,7 +17,6 @@ import SlateVisualElementPicker from './SlateVisualElementPicker';
 import actions, { ActionData } from './actions';
 import { defaultAsideBlock } from '../aside/utils';
 import { defaultDetailsBlock } from '../details/utils';
-import { defaultTableBlock } from '../table/utils';
 import { defaultBodyboxBlock } from '../bodybox/utils';
 import { defaultCodeblockBlock } from '../codeBlock/utils';
 import { defaultRelatedBlock } from '../related';
@@ -29,7 +28,8 @@ import { useSession } from '../../../../containers/Session/SessionProvider';
 import getCurrentBlock from '../../utils/getCurrentBlock';
 import { TYPE_PARAGRAPH } from '../paragraph/types';
 import { isParagraph } from '../paragraph/utils';
-import { isTableCell } from '../table/helpers';
+import { isTableCell } from '../table/slateHelpers';
+import { defaultTableBlock } from '../table/defaultBlocks';
 
 interface Props {
   editor: Editor;

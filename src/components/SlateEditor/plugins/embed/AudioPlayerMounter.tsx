@@ -10,7 +10,7 @@ import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { AudioPlayer, FigureCaption } from '@ndla/ui';
-import { IImageMetaInformationV2 } from '@ndla/types-image-api';
+import { IImageMetaInformationV3 } from '@ndla/types-image-api';
 import { getLicenseByAbbreviation } from '@ndla/licenses';
 import { SlateAudio, LocaleType } from '../../../../interfaces';
 import { fetchImage } from '../../../../modules/image/imageApi';
@@ -35,7 +35,7 @@ const ImageLicense = ({
   locale,
 }: {
   locale: LocaleType;
-  image: IImageMetaInformationV2;
+  image: IImageMetaInformationV3;
 }) => {
   const { t } = useTranslation();
   const { copyright, id } = image;
@@ -61,7 +61,7 @@ const ImageLicense = ({
 const AudioPlayerMounter = ({ audio, locale, speech }: Props) => {
   const { t } = useTranslation();
   const { copyright, podcastMeta } = audio;
-  const [image, setImage] = useState<IImageMetaInformationV2>();
+  const [image, setImage] = useState<IImageMetaInformationV3>();
 
   const license = getLicenseByAbbreviation(copyright.license?.license || '', locale);
   const figureLicenseDialogId = `audio-${audio.id}`;

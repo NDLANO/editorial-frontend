@@ -26,6 +26,7 @@ import PublishChildNodeResources from './topicMenuOptions/PublishChildNodeResour
 import CopyNodeResources from './topicMenuOptions/CopyNodeResources';
 import CopyRevisionDate from './sharedMenuOptions/CopyRevisionDate';
 import SwapTopicArticle from './topicMenuOptions/SwapTopicArticle';
+import SetResourcesPrimary from './topicMenuOptions/SetResourcesPrimary';
 
 interface Props {
   rootNodeId: string;
@@ -140,6 +141,7 @@ const SettingsMenuDropdownType = ({
           editModeHandler={editModeHandler}
           type="cloneResources"
         />
+        <SetResourcesPrimary node={node} editModeHandler={editModeHandler} />
       </>
     );
   } else return null;

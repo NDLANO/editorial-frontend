@@ -24,7 +24,7 @@ import { useUserData } from '../../modules/draft/draftQueries';
 import { StyledColumnHeader } from './styles';
 import WorkList from './components/WorkList';
 import TableTitle from './components/TableTitle';
-import DropdownPicker from './components/DropdownPicker';
+import WorkListDropdownWrapper from './components/WorkListDropdownWrapper';
 
 const ContentWrapper = styled.div`
   display: flex;
@@ -72,11 +72,6 @@ const StyledTopRow = styled.div`
   justify-content: space-between;
 `;
 
-const StyledDropdownWrapper = styled.div`
-  display: flex;
-  gap: ${spacing.nsmall};
-`;
-
 export const WelcomePage = () => {
   const { t } = useTranslation();
   const { data } = useUserData({
@@ -111,20 +106,7 @@ export const WelcomePage = () => {
                 description={t('welcomePage.worklistDescription')}
                 Icon={Calendar}
               />
-              <StyledDropdownWrapper>
-                <DropdownPicker
-                  placeholder={t('welcomePage.chooseSubject')}
-                  valueList={['Biologi 1', 'Norsk', 'Engelsk 1']}
-                />
-                <DropdownPicker
-                  placeholder={t('welcomePage.chooseTopic')}
-                  valueList={[
-                    'English as a world language',
-                    'Current Issues',
-                    'Working with grammar 1',
-                  ]}
-                />
-              </StyledDropdownWrapper>
+              <WorkListDropdownWrapper />
             </StyledTopRow>
             <WorkList />
           </StyledWorkList>

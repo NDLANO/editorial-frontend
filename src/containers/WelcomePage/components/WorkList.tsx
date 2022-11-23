@@ -29,12 +29,17 @@ const WorkList = () => {
   const { ndlaId } = useSession();
   const { t } = useTranslation();
   const { data, isLoading } = useSearch(
-    { 'responsible-ids': ndlaId, sort: '-responsibleLastUpdated' },
+    {
+      'responsible-ids': ndlaId,
+      sort: '-responsibleLastUpdated',
+      // subjects: 'urn:subject:1:51a7271b-a9d5-4205-bade-1c125a8650b5',
+    },
     {
       enabled: !!ndlaId,
     },
   );
 
+  // TODO: add in object structure
   const tableContentList: (string | EmotionJSX.Element)[][] = data
     ? data.results.map(res => [
         <NoShadowLink to={toEditArticle(res.id, res.learningResourceType)}>
@@ -48,8 +53,6 @@ const WorkList = () => {
         res.revisions?.[0]?.note,
       ])
     : [[]];
-
-  console.log(data);
 
   return (
     <TableComponent

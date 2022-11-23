@@ -10,6 +10,7 @@ import styled from '@emotion/styled';
 import { IImageMetaInformationV3 } from '@ndla/types-image-api';
 import { ResourceBox } from '@ndla/ui';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ExternalEmbed } from '../../interfaces';
 import { fetchImage } from '../../modules/image/imageApi';
 
@@ -26,6 +27,7 @@ const ResourceBoxWrapper = styled.div`
 
 const SlateResourceBox = ({ embed, language }: Props) => {
   const [imageMeta, setImageMeta] = useState<IImageMetaInformationV3>();
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (embed.imageid) {
@@ -47,6 +49,7 @@ const SlateResourceBox = ({ embed, language }: Props) => {
         title={embed?.title || ''}
         caption={embed.caption || ''}
         url={embed.url}
+        buttonText={t('license.other.itemImage.ariaLabel')}
       />
     </ResourceBoxWrapper>
   );

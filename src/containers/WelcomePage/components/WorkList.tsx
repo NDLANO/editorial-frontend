@@ -41,7 +41,7 @@ const WorkList = () => {
           {res.title?.title}
         </NoShadowLink>,
         res.status?.current ? t(`form.status.${res.status.current.toLowerCase()}`) : '',
-        res.contexts?.[0]?.resourceTypes[0]?.name,
+        res.contexts?.[0]?.resourceTypes?.map(context => context.name).join(' - '),
         'n/a',
         res.contexts?.[0]?.subject,
         formatDate(res.lastUpdated),

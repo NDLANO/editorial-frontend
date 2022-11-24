@@ -7,13 +7,12 @@
  */
 
 import { OneColumn } from '@ndla/ui';
-import { spacing, colors } from '@ndla/core';
+import { spacing } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { SearchFolder } from '@ndla/icons/editor';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
-import { Calendar } from '@ndla/icons/editor';
 import { NAVIGATION_HEADER_MARGIN } from '../../constants';
 import { getAccessToken, getAccessTokenPersonal } from '../../util/authHelpers';
 import { isValid } from '../../util/jwtHelper';
@@ -23,8 +22,6 @@ import LastUsedItems from './components/LastUsedItems';
 import { useUserData } from '../../modules/draft/draftQueries';
 import { StyledColumnHeader } from './styles';
 import WorkList from './components/WorkList';
-import TableTitle from './components/TableTitle';
-import WorkListDropdownWrapper from './components/WorkListDropdownWrapper';
 
 const ContentWrapper = styled.div`
   display: flex;
@@ -61,17 +58,6 @@ const StyledTwoColumnSmaller = css`
   width: 80%;
 `;
 
-const StyledWorkList = styled.div`
-  background-color: ${colors.brand.lighter};
-  border-radius: 10px;
-  padding: ${spacing.nsmall};
-`;
-
-const StyledTopRow = styled.div`
-  display: flex;
-  justify-content: space-between;
-`;
-
 export const WelcomePage = () => {
   const { t } = useTranslation();
   const { data } = useUserData({
@@ -99,17 +85,7 @@ export const WelcomePage = () => {
           </div>
         </div>
         <div css={StyledTwoColumn}>
-          <StyledWorkList>
-            <StyledTopRow>
-              <TableTitle
-                title={t('welcomePage.worklist')}
-                description={t('welcomePage.worklistDescription')}
-                Icon={Calendar}
-              />
-              <WorkListDropdownWrapper />
-            </StyledTopRow>
-            <WorkList />
-          </StyledWorkList>
+          <WorkList />
         </div>
       </OneColumn>
       <Footer showLocaleSelector />

@@ -8,12 +8,29 @@
 
 import { EmotionJSX } from '@emotion/react/types/jsx-namespace';
 import { useTranslation } from 'react-i18next';
+import styled from '@emotion/styled';
+import { spacing, colors } from '@ndla/core';
+import { Calendar } from '@ndla/icons/editor';
+import { useState } from 'react';
 import { useSearch } from '../../../modules/search/searchQueries';
 import { useSession } from '../../Session/SessionProvider';
 import { toEditArticle } from '../../../util/routeHelpers';
 import { NoShadowLink } from './NoShadowLink';
 import TableComponent from './TableComponent';
 import formatDate from '../../../util/formatDate';
+import TableTitle from './TableTitle';
+import WorkListDropdownWrapper from './WorkListDropdownWrapper';
+
+const StyledWorkList = styled.div`
+  background-color: ${colors.brand.lighter};
+  border-radius: 10px;
+  padding: ${spacing.nsmall};
+`;
+
+const StyledTopRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
 
 const tableTitles = [
   'Navn',
@@ -25,14 +42,23 @@ const tableTitles = [
   'Kommentar',
 ];
 
+export interface FilterElement {
+  id: string;
+  name: string;
+}
+
 const WorkList = () => {
+  const [filterSubject, setFilterSubject] = useState<FilterElement | undefined>();
+  const [filterTopic, setFilterTopic] = useState<FilterElement | undefined>();
+
   const { ndlaId } = useSession();
   const { t } = useTranslation();
+  // Data search
   const { data, isLoading } = useSearch(
     {
       'responsible-ids': ndlaId,
       sort: '-responsibleLastUpdated',
-      // subjects: 'urn:subject:1:51a7271b-a9d5-4205-bade-1c125a8650b5',
+      ...(filterSubject ? { subjects: filterSubject.id } : {}),
     },
     {
       enabled: !!ndlaId,
@@ -55,11 +81,26 @@ const WorkList = () => {
     : [[]];
 
   return (
-    <TableComponent
-      isLoading={!data || isLoading}
-      tableTitleList={tableTitles}
-      tableContentList={tableContentList}
-    />
+    <StyledWorkList>
+      <StyledTopRow>
+        <TableTitle
+          title={t('welcomePage.worklist')}
+          description={t('welcomePage.worklistDescription')}
+          Icon={Calendar}
+        />
+        <WorkListDropdownWrapper
+          filterSubject={filterSubject}
+          setFilterSubject={setFilterSubject}
+          filterTopic={filterTopic}
+          setFilterTopic={setFilterTopic}
+        />
+      </StyledTopRow>
+      <TableComponent
+        isLoading={!data || isLoading}
+        tableTitleList={tableTitles}
+        tableContentList={tableContentList}
+      />
+    </StyledWorkList>
   );
 };
 

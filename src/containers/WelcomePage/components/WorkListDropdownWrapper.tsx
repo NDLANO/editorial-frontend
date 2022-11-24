@@ -14,13 +14,26 @@ import { fetchSubject } from '../../../modules/taxonomy';
 import { useSession } from '../../Session/SessionProvider';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 import DropdownPicker from './DropdownPicker';
+import { FilterElement } from './WorkList';
 
 const StyledDropdownWrapper = styled.div`
   display: flex;
   gap: ${spacing.nsmall};
 `;
 
-const WorkListDropdownWrapper = () => {
+interface Props {
+  filterSubject: FilterElement | undefined;
+  setFilterSubject: (fs: FilterElement) => void;
+  filterTopic: FilterElement | undefined;
+  setFilterTopic: (fs: FilterElement) => void;
+}
+
+const WorkListDropdownWrapper = ({
+  filterSubject,
+  setFilterSubject,
+  filterTopic,
+  setFilterTopic,
+}: Props) => {
   const { t } = useTranslation();
   const { ndlaId } = useSession();
   const { taxonomyVersion } = useTaxonomyVersion();
@@ -30,20 +43,19 @@ const WorkListDropdownWrapper = () => {
     'aggregate-paths': 'contexts.subjectId',
   });
 
-  const [subjectList, setSubjectList] = useState<string[]>([]);
-  const [filterSubject, setFilterSubject] = useState<string>();
+  const [subjectList, setSubjectList] = useState<FilterElement[]>([]);
+  const [topicList, setTopicList] = useState<FilterElement[]>([]);
 
   useEffect(() => {
     if (data) {
       const subjectIds = data.aggregations[0].values.map(value => value.value);
-
+      console.log(data);
       const updateSubjectList = async () => {
         const subjects = await Promise.all(
           subjectIds?.map(id => fetchSubject({ id, taxonomyVersion })) ?? [],
         );
-
-        const filterName = subjects.map(subject => subject.name);
-        setSubjectList(filterName);
+        const subjectsResult = subjects.map(subject => ({ id: subject.id, name: subject.name }));
+        setSubjectList(subjectsResult);
       };
       updateSubjectList();
     }
@@ -58,12 +70,13 @@ const WorkListDropdownWrapper = () => {
         stateValue={filterSubject}
         updateValue={setFilterSubject}
       />
+      {/* Todo: needs to implement functionality
       <DropdownPicker
         placeholder={t('welcomePage.chooseTopic')}
-        valueList={['English as a world language', 'Current Issues', 'Working with grammar 1']}
-        stateValue={filterSubject}
-        updateValue={() => console.log('Update ')}
-      />
+        valueList={topicList} //['English as a world language', 'Current Issues', 'Working with grammar 1']}
+        stateValue={filterTopic}
+        updateValue={setFilterTopic}
+      />*/}
     </StyledDropdownWrapper>
   );
 };

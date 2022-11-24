@@ -7,6 +7,7 @@
  */
 import styled from '@emotion/styled';
 import { fonts } from '@ndla/core';
+import { FilterElement } from './WorkList';
 
 const StyledSelect = styled.select`
   height: 35px;
@@ -16,17 +17,24 @@ const StyledSelect = styled.select`
 
 interface Props {
   placeholder: string;
-  valueList: string[];
-  stateValue: any;
-  updateValue: (updateValue: string) => void;
+  valueList: FilterElement[];
+  stateValue: FilterElement | undefined;
+  updateValue: (updateValue: FilterElement) => void;
 }
 
 const DropdownPicker = ({ placeholder, valueList, stateValue, updateValue }: Props) => {
   return (
-    <StyledSelect onChange={e => updateValue(e.target.value)} value={stateValue}>
+    <StyledSelect
+      onChange={e =>
+        updateValue({
+          id: e.target.value,
+          name: valueList.find(value => value.id === e.target.value)?.name ?? '',
+        })
+      }
+      value={stateValue?.id}>
       <option value="">{placeholder}</option>
       {valueList.map(value => (
-        <option value={value}>{value}</option>
+        <option value={value.id}>{value.name}</option>
       ))}
     </StyledSelect>
   );

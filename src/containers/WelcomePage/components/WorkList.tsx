@@ -17,7 +17,6 @@ import { useSession } from '../../Session/SessionProvider';
 import { toEditArticle } from '../../../util/routeHelpers';
 import { NoShadowLink } from './NoShadowLink';
 import TableComponent, { TitleElement } from './TableComponent';
-import formatDate from '../../../util/formatDate';
 import TableTitle from './TableTitle';
 import WorkListDropdownWrapper from './WorkListDropdownWrapper';
 
@@ -39,7 +38,6 @@ const tableTitles: TitleElement[] = [
   { title: 'Primærfag' },
   { title: 'Emnetilhørighet' },
   { title: 'Dato status ble endret', sortableField: 'responsibleLastUpdated' },
-  { title: 'Kommentar' },
 ];
 
 export interface FilterElement {
@@ -51,7 +49,6 @@ const WorkList = () => {
   const [sortOption, setSortOption] = useState<string>();
 
   const [filterSubject, setFilterSubject] = useState<FilterElement | undefined>();
-  const [filterTopic, setFilterTopic] = useState<FilterElement | undefined>();
 
   const { ndlaId } = useSession();
   const { t } = useTranslation();
@@ -75,12 +72,11 @@ const WorkList = () => {
         res.status?.current ? t(`form.status.${res.status.current.toLowerCase()}`) : '',
         res.contexts?.[0]?.resourceTypes?.map(context => context.name).join(' - '),
         'n/a',
-        res.contexts?.[0]?.subject,
-        formatDate(res.lastUpdated),
-        res.revisions?.[0]?.note,
+        res.contexts?.[0]?.breadcrumbs.join(' - '),
+        'n/a',
       ])
     : [[]];
-
+  console.log(data);
   return (
     <StyledWorkList>
       <StyledTopRow>
@@ -92,12 +88,10 @@ const WorkList = () => {
         <WorkListDropdownWrapper
           filterSubject={filterSubject}
           setFilterSubject={setFilterSubject}
-          filterTopic={filterTopic}
-          setFilterTopic={setFilterTopic}
         />
       </StyledTopRow>
       <TableComponent
-        isLoading={!data || isLoading}
+        isLoading={isLoading}
         tableTitleList={tableTitles}
         tableContentList={tableContentList}
         setSortOption={setSortOption}

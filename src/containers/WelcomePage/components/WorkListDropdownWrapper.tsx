@@ -24,16 +24,9 @@ const StyledDropdownWrapper = styled.div`
 interface Props {
   filterSubject: FilterElement | undefined;
   setFilterSubject: (fs: FilterElement) => void;
-  filterTopic: FilterElement | undefined;
-  setFilterTopic: (fs: FilterElement) => void;
 }
 
-const WorkListDropdownWrapper = ({
-  filterSubject,
-  setFilterSubject,
-  filterTopic,
-  setFilterTopic,
-}: Props) => {
+const WorkListDropdownWrapper = ({ filterSubject, setFilterSubject }: Props) => {
   const { t } = useTranslation();
   const { ndlaId } = useSession();
   const { taxonomyVersion } = useTaxonomyVersion();
@@ -44,12 +37,11 @@ const WorkListDropdownWrapper = ({
   });
 
   const [subjectList, setSubjectList] = useState<FilterElement[]>([]);
-  const [topicList, setTopicList] = useState<FilterElement[]>([]);
 
   useEffect(() => {
     if (data) {
       const subjectIds = data.aggregations[0].values.map(value => value.value);
-      console.log(data);
+
       const updateSubjectList = async () => {
         const subjects = await Promise.all(
           subjectIds?.map(id => fetchSubject({ id, taxonomyVersion })) ?? [],
@@ -70,13 +62,6 @@ const WorkListDropdownWrapper = ({
         stateValue={filterSubject}
         updateValue={setFilterSubject}
       />
-      {/* Todo: needs to implement functionality
-      <DropdownPicker
-        placeholder={t('welcomePage.chooseTopic')}
-        valueList={topicList} //['English as a world language', 'Current Issues', 'Working with grammar 1']}
-        stateValue={filterTopic}
-        updateValue={setFilterTopic}
-      />*/}
     </StyledDropdownWrapper>
   );
 };

@@ -11,7 +11,7 @@ import { FilterElement } from './WorkList';
 
 const StyledSelect = styled.select`
   height: 35px;
-  max-width: 150px;
+  width: 150px;
   ${fonts.sizes(16, 1.1)};
 `;
 

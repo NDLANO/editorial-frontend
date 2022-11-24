@@ -41,27 +41,41 @@ const StyledTable = styled.table`
   font-family: arial, sans-serif;
   border-collapse: collapse;
   width: 100%;
+  min-width: 900px;
   font-family: ${fonts.sans};
   margin-bottom: 0px;
   th {
     border-bottom: 1px solid ${colors.text.primary};
     font-weight: ${fonts.weight.bold};
+    padding: 0px ${spacing.xsmall};
   }
   th:not(:first-of-type) {
     border-left: 1px solid ${colors.text.primary};
   }
   td {
     ${fonts.sizes(16, 1.1)};
-  }
-  th,
-  td {
-    padding: 0px ${spacing.xsmall};
+    padding: ${spacing.xsmall} ${spacing.xsmall};
   }
   tr {
     height: 30px;
   }
   tr:nth-of-type(even) {
     background: rgba(248, 248, 248, 0.5);
+  }
+  table {
+    width: 100%;
+  }
+  thead,
+  tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+  }
+  tbody {
+    display: block;
+    overflow-y: auto;
+    table-layout: fixed;
+    max-height: 200px;
   }
 `;
 

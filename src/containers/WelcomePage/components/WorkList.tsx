@@ -12,6 +12,7 @@ import styled from '@emotion/styled';
 import { spacing, colors } from '@ndla/core';
 import { Calendar } from '@ndla/icons/editor';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useSearch } from '../../../modules/search/searchQueries';
 import { useSession } from '../../Session/SessionProvider';
 import { toEditArticle } from '../../../util/routeHelpers';
@@ -31,13 +32,20 @@ const StyledTopRow = styled.div`
   justify-content: space-between;
 `;
 
+export const StyledLink = styled(Link)`
+  line-height: 1.5em;
+  &:any-link {
+    color: ${colors.brand.primary};
+  }
+`;
+
 const tableTitles: TitleElement[] = [
   { title: 'Navn', sortableField: 'title' },
   { title: 'Status' },
   { title: 'Innholdstype' },
   { title: 'Primærfag' },
   { title: 'Emnetilhørighet' },
-  { title: 'Dato status ble endret', sortableField: 'responsibleLastUpdated' },
+  { title: 'Dato', sortableField: 'responsibleLastUpdated' },
 ];
 
 export interface FilterElement {
@@ -66,13 +74,13 @@ const WorkList = () => {
 
   const tableContentList: (string | EmotionJSX.Element)[][] = data
     ? data.results.map(res => [
-        <NoShadowLink to={toEditArticle(res.id, res.learningResourceType)}>
+        <StyledLink to={toEditArticle(res.id, res.learningResourceType)}>
           {res.title?.title}
-        </NoShadowLink>,
+        </StyledLink>,
         res.status?.current ? t(`form.status.${res.status.current.toLowerCase()}`) : '',
         res.contexts?.[0]?.resourceTypes?.map(context => context.name).join(' - '),
         'n/a',
-        res.contexts?.[0]?.breadcrumbs.join(' - '),
+        res.contexts?.[0]?.breadcrumbs[res.contexts?.[0]?.breadcrumbs.length - 1],
         'n/a',
       ])
     : [[]];

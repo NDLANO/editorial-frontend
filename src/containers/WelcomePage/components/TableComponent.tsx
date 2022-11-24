@@ -10,6 +10,31 @@ import { ContentLoader } from '@ndla/ui';
 import styled from '@emotion/styled';
 import { spacing, colors, fonts } from '@ndla/core';
 import { EmotionJSX } from '@emotion/react/types/jsx-namespace';
+import { SVGProps } from 'react';
+
+const ArrowUp = (props: SVGProps<SVGSVGElement>) => (
+  <svg
+    width="10"
+    height="8"
+    viewBox="0 0 10 8"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}>
+    <path d="M5 0L9.33013 7.5H0.669873L5 0Z" fill="#757575" />
+  </svg>
+);
+
+const ArrowDown = (props: SVGProps<SVGSVGElement>) => (
+  <svg
+    width="10"
+    height="8"
+    viewBox="0 0 10 8"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}>
+    <path d="M5.00012 8L0.669997 0.5L9.33025 0.500001L5.00012 8Z" fill="#757575" />
+  </svg>
+);
 
 const StyledTable = styled.table`
   font-family: arial, sans-serif;
@@ -39,13 +64,37 @@ const StyledTable = styled.table`
   }
 `;
 
-interface Props {
-  tableTitleList: string[];
-  tableContentList: (string | EmotionJSX.Element)[][];
-  isLoading: boolean;
+const SortArrowWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${spacing.xxsmall};
+  justify-content: center;
+  margin-left: auto;
+`;
+
+const TableTitleComponent = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
+export interface TitleElement {
+  title: string;
+  sortableField?: string;
 }
 
-const TableComponent = ({ tableTitleList, tableContentList = [[]], isLoading }: Props) => {
+interface Props {
+  tableTitleList: TitleElement[];
+  tableContentList: (string | EmotionJSX.Element)[][];
+  isLoading: boolean;
+  setSortOption: (o: string) => void;
+}
+
+const TableComponent = ({
+  tableTitleList,
+  tableContentList = [[]],
+  isLoading,
+  setSortOption,
+}: Props) => {
   if (isLoading) {
     return (
       <ContentLoader width={800} height={150}>
@@ -60,8 +109,24 @@ const TableComponent = ({ tableTitleList, tableContentList = [[]], isLoading }: 
     <StyledTable>
       <thead>
         <tr>
-          {tableTitleList.map((title, index) => (
-            <th key={`${index}_${title}`}>{title}</th>
+          {tableTitleList.map((tableTitle, index) => (
+            <th key={`${index}_${tableTitle.title}`}>
+              <TableTitleComponent>
+                <div>{tableTitle.title}</div>
+                {tableTitle.sortableField ? (
+                  <SortArrowWrapper>
+                    <ArrowUp
+                      role="button"
+                      onClick={() => setSortOption(`${tableTitle.sortableField}`)}
+                    />
+                    <ArrowDown
+                      role="button"
+                      onClick={() => setSortOption(`-${tableTitle.sortableField}`)}
+                    />
+                  </SortArrowWrapper>
+                ) : null}
+              </TableTitleComponent>
+            </th>
           ))}
         </tr>
       </thead>

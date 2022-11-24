@@ -16,7 +16,7 @@ import { useSearch } from '../../../modules/search/searchQueries';
 import { useSession } from '../../Session/SessionProvider';
 import { toEditArticle } from '../../../util/routeHelpers';
 import { NoShadowLink } from './NoShadowLink';
-import TableComponent from './TableComponent';
+import TableComponent, { TitleElement } from './TableComponent';
 import formatDate from '../../../util/formatDate';
 import TableTitle from './TableTitle';
 import WorkListDropdownWrapper from './WorkListDropdownWrapper';
@@ -32,14 +32,14 @@ const StyledTopRow = styled.div`
   justify-content: space-between;
 `;
 
-const tableTitles = [
-  'Navn',
-  'Status',
-  'Innholdstype',
-  'Primærfag',
-  'Emnetilhørighet',
-  'Dato status ble endret',
-  'Kommentar',
+const tableTitles: TitleElement[] = [
+  { title: 'Navn', sortableField: 'title' },
+  { title: 'Status' },
+  { title: 'Innholdstype' },
+  { title: 'Primærfag' },
+  { title: 'Emnetilhørighet' },
+  { title: 'Dato status ble endret', sortableField: 'responsibleLastUpdated' },
+  { title: 'Kommentar' },
 ];
 
 export interface FilterElement {
@@ -48,6 +48,8 @@ export interface FilterElement {
 }
 
 const WorkList = () => {
+  const [sortOption, setSortOption] = useState<string>();
+
   const [filterSubject, setFilterSubject] = useState<FilterElement | undefined>();
   const [filterTopic, setFilterTopic] = useState<FilterElement | undefined>();
 
@@ -57,7 +59,7 @@ const WorkList = () => {
   const { data, isLoading } = useSearch(
     {
       'responsible-ids': ndlaId,
-      sort: '-responsibleLastUpdated',
+      sort: sortOption ? sortOption : '-responsibleLastUpdated',
       ...(filterSubject ? { subjects: filterSubject.id } : {}),
     },
     {
@@ -65,7 +67,6 @@ const WorkList = () => {
     },
   );
 
-  // TODO: add in object structure
   const tableContentList: (string | EmotionJSX.Element)[][] = data
     ? data.results.map(res => [
         <NoShadowLink to={toEditArticle(res.id, res.learningResourceType)}>
@@ -99,6 +100,7 @@ const WorkList = () => {
         isLoading={!data || isLoading}
         tableTitleList={tableTitles}
         tableContentList={tableContentList}
+        setSortOption={setSortOption}
       />
     </StyledWorkList>
   );

@@ -16,10 +16,10 @@ import { Link } from 'react-router-dom';
 import { useSearch } from '../../../modules/search/searchQueries';
 import { useSession } from '../../Session/SessionProvider';
 import { toEditArticle } from '../../../util/routeHelpers';
-import { NoShadowLink } from './NoShadowLink';
 import TableComponent, { TitleElement } from './TableComponent';
 import TableTitle from './TableTitle';
 import WorkListDropdownWrapper from './WorkListDropdownWrapper';
+import formatDate from '../../../util/formatDate';
 
 const StyledWorkList = styled.div`
   background-color: ${colors.brand.lighter};
@@ -45,7 +45,7 @@ const tableTitles: TitleElement[] = [
   { title: 'Innholdstype' },
   { title: 'Primærfag' },
   { title: 'Emnetilhørighet' },
-  { title: 'Dato', sortableField: 'responsibleLastUpdated' },
+  { title: 'Tildelningsdato', sortableField: 'responsibleLastUpdated' },
 ];
 
 export interface FilterElement {
@@ -72,18 +72,22 @@ const WorkList = () => {
     },
   );
 
+  // TODO: update this structure!
   const tableContentList: (string | EmotionJSX.Element)[][] = data
     ? data.results.map(res => [
         <StyledLink to={toEditArticle(res.id, res.learningResourceType)}>
           {res.title?.title}
         </StyledLink>,
         res.status?.current ? t(`form.status.${res.status.current.toLowerCase()}`) : '',
-        res.contexts?.[0]?.resourceTypes?.map(context => context.name).join(' - '),
-        'n/a',
+        res.learningResourceType === 'topic-article'
+          ? 'Emne'
+          : res.contexts?.[0]?.resourceTypes?.map(context => context.name).join(' - '),
+        res.contexts.find(context => context.isPrimaryConnection)?.subject ?? '',
         res.contexts?.[0]?.breadcrumbs[res.contexts?.[0]?.breadcrumbs.length - 1],
-        'n/a',
+        res.responsible?.lastUpdated ? formatDate(res.responsible?.lastUpdated) : '',
       ])
     : [[]];
+
   console.log(data);
   return (
     <StyledWorkList>

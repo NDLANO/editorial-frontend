@@ -65,7 +65,9 @@ const StyledTable = styled.table`
   table {
     width: 100%;
   }
-  thead,
+`;
+/*
+ thead,
   tbody tr {
     display: table;
     width: 100%;
@@ -77,7 +79,8 @@ const StyledTable = styled.table`
     table-layout: fixed;
     max-height: 200px;
   }
-`;
+
+*/
 
 const SortArrowWrapper = styled.div`
   display: flex;

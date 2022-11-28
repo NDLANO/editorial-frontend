@@ -61,8 +61,8 @@ const TableTitleComponent = styled.div`
 `;
 
 const ScrollableTableWrapper = styled.div`
-  height: 340px;
-  overflow-y: scroll;
+  max-height: 340px;
+  overflow-y: auto;
 `;
 
 const orderButtonStyle = (isHidden: boolean) => css`

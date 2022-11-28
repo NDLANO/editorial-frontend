@@ -15,6 +15,7 @@ import { useSession } from '../../Session/SessionProvider';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 import DropdownPicker from './DropdownPicker';
 import { FilterElement } from './WorkList';
+import { fetchUserData } from '../../../modules/draft/draftApi';
 
 const StyledDropdownWrapper = styled.div`
   display: flex;
@@ -37,15 +38,32 @@ const WorkListDropdownWrapper = ({ filterSubject, setFilterSubject }: Props) => 
   });
 
   const [subjectList, setSubjectList] = useState<FilterElement[]>([]);
+  const [favoriteSubjectIds, setFavoriteSubjectIds] = useState<string[]>([]);
+
+  const fetchFavoriteSubjects = async () => {
+    const result = await fetchUserData();
+    const favoriteSubjects = result.favoriteSubjects || [];
+    setFavoriteSubjectIds(favoriteSubjects);
+  };
+  useEffect(() => {
+    fetchFavoriteSubjects();
+  }, []);
 
   useEffect(() => {
     if (data) {
-      const subjectIds = data.aggregations[0].values.map(value => value.value);
+      // Responsible subject ids and favorite subject ids in one array, remove duplicates.
+      const subjectIds = [
+        ...new Set([
+          ...data.aggregations[0].values.map(value => value.value),
+          ...favoriteSubjectIds,
+        ]),
+      ];
 
       const updateSubjectList = async () => {
         const subjects = await Promise.all(
-          subjectIds?.map(id => fetchSubject({ id, taxonomyVersion })) ?? [],
+          subjectIds.map(id => fetchSubject({ id, taxonomyVersion })) ?? [],
         );
+
         const subjectsResult = subjects.map(subject => ({ id: subject.id, name: subject.name }));
         setSubjectList(subjectsResult);
       };

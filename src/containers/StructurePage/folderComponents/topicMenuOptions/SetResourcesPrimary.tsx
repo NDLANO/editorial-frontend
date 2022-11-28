@@ -22,10 +22,15 @@ import MenuItemButton from '../sharedMenuOptions/components/MenuItemButton';
 
 interface Props {
   node: NodeType;
+  recursive?: boolean;
   editModeHandler: EditModeHandler;
 }
 
-const SetResourcesPrimary = ({ node, editModeHandler: { editMode, toggleEditMode } }: Props) => {
+const SetResourcesPrimary = ({
+  node,
+  recursive = false,
+  editModeHandler: { editMode, toggleEditMode },
+}: Props) => {
   const { t } = useTranslation();
   const [error, setError] = useState<string>();
   const { mutateAsync, isLoading } = usePutResourcesPrimaryMutation();
@@ -38,7 +43,7 @@ const SetResourcesPrimary = ({ node, editModeHandler: { editMode, toggleEditMode
     toggleConnectedResourcesPrimary();
 
     await mutateAsync(
-      { taxonomyVersion, id: node.id },
+      { taxonomyVersion, id: node.id, recursive },
       { onError: () => setError(t('taxonomy.resourcesPrimary.error')) },
     );
   };
@@ -47,7 +52,7 @@ const SetResourcesPrimary = ({ node, editModeHandler: { editMode, toggleEditMode
     <>
       <MenuItemButton stripped onClick={toggleConnectedResourcesPrimary}>
         <RoundIcon small icon={<Pencil />} />
-        {t('taxonomy.resourcesPrimary.buttonText')}
+        {t('taxonomy.resourcesPrimary.buttonText', { count: recursive ? 2 : 1 })}
       </MenuItemButton>
       <AlertModal
         show={editMode === 'setResourcesPrimary'}
@@ -62,7 +67,7 @@ const SetResourcesPrimary = ({ node, editModeHandler: { editMode, toggleEditMode
           },
         ]}
         onCancel={toggleConnectedResourcesPrimary}
-        text={t('taxonomy.resourcesPrimary.text')}
+        text={t('taxonomy.resourcesPrimary.text', { count: recursive ? 2 : 1 })}
       />
       {isLoading && <Spinner appearance="absolute" />}
       {isLoading && <Overlay modifiers={['absolute', 'white-opacity', 'zIndex']} />}

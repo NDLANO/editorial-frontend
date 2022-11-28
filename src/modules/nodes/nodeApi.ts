@@ -328,14 +328,16 @@ export const putNode = ({ taxonomyVersion, id, ...params }: PutNodeParams): Prom
 
 export interface PutResourcesPrimaryParams extends WithTaxonomyVersion {
   id: string;
+  recursive: boolean;
 }
 
 export const putResourcesPrimary = ({
   id,
+  recursive,
   taxonomyVersion,
 }: PutResourcesPrimaryParams): Promise<void> =>
   putAndResolve({
-    url: `${baseUrl}/${id}/makeResourcesPrimary`,
+    url: `${baseUrl}/${id}/makeResourcesPrimary?recursive=${recursive}`,
     alternateResolve: resolveVoidOrRejectWithError,
     taxonomyVersion,
   });

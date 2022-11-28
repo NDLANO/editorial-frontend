@@ -90,6 +90,7 @@ const SettingsMenuDropdownType = ({
           editModeHandler={editModeHandler}
           rootNodeId={rootNodeId}
         />
+        <SetResourcesPrimary node={node} recursive editModeHandler={editModeHandler} />
       </>
     );
   } else if (nodeType === TOPIC_NODE) {

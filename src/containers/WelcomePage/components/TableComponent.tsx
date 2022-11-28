@@ -39,15 +39,16 @@ const ArrowDown = (props: SVGProps<SVGSVGElement>) => (
 
 const StyledTable = styled.table`
   font-family: arial, sans-serif;
-  border-collapse: collapse;
+  border-collapse: separate;
   width: 100%;
-  min-width: 900px;
+  border-spacing: 0;
   font-family: ${fonts.sans};
   margin-bottom: 0px;
   th {
-    border-bottom: 1px solid ${colors.text.primary};
     font-weight: ${fonts.weight.bold};
     padding: 0px ${spacing.xsmall};
+    border-bottom: 1px solid ${colors.text.primary};
+    background-color: ${colors.brand.lighter};
   }
   th:not(:first-of-type) {
     border-left: 1px solid ${colors.text.primary};
@@ -62,25 +63,11 @@ const StyledTable = styled.table`
   tr:nth-of-type(even) {
     background: rgba(248, 248, 248, 0.5);
   }
-  table {
-    width: 100%;
+  thead tr th {
+    position: sticky;
+    top: 0;
   }
 `;
-/*
- thead,
-  tbody tr {
-    display: table;
-    width: 100%;
-    table-layout: fixed;
-  }
-  tbody {
-    display: block;
-    overflow-y: auto;
-    table-layout: fixed;
-    max-height: 200px;
-  }
-
-*/
 
 const SortArrowWrapper = styled.div`
   display: flex;
@@ -131,42 +118,48 @@ const TableComponent = ({
 
   return (
     <>
-      <StyledTable>
-        <thead>
-          <tr>
-            {tableTitleList.map((tableTitle, index) => (
-              <th key={`${index}_${tableTitle.title}`}>
-                <TableTitleComponent>
-                  <div>{tableTitle.title}</div>
-                  {tableTitle.sortableField ? (
-                    <SortArrowWrapper>
-                      <ArrowUp
-                        role="button"
-                        onClick={() => setSortOption(`${tableTitle.sortableField}`)}
-                      />
-                      <ArrowDown
-                        role="button"
-                        onClick={() => setSortOption(`-${tableTitle.sortableField}`)}
-                      />
-                    </SortArrowWrapper>
-                  ) : null}
-                </TableTitleComponent>
-              </th>
-            ))}
-          </tr>
-        </thead>
-        {!isLoading ? (
-          <tbody>
-            {tableContentList.map(contentRow => (
-              <tr>
-                {contentRow.map(field => (
-                  <td>{field}</td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        ) : null}
-      </StyledTable>
+      <div
+        style={{
+          height: 340,
+          overflow: 'auto',
+        }}>
+        <StyledTable>
+          <thead>
+            <tr>
+              {tableTitleList.map((tableTitle, index) => (
+                <th key={`${index}_${tableTitle.title}`}>
+                  <TableTitleComponent>
+                    <div>{tableTitle.title}</div>
+                    {tableTitle.sortableField ? (
+                      <SortArrowWrapper>
+                        <ArrowUp
+                          role="button"
+                          onClick={() => setSortOption(`${tableTitle.sortableField}`)}
+                        />
+                        <ArrowDown
+                          role="button"
+                          onClick={() => setSortOption(`-${tableTitle.sortableField}`)}
+                        />
+                      </SortArrowWrapper>
+                    ) : null}
+                  </TableTitleComponent>
+                </th>
+              ))}
+            </tr>
+          </thead>
+          {!isLoading ? (
+            <tbody>
+              {tableContentList.map(contentRow => (
+                <tr>
+                  {contentRow.map(field => (
+                    <td>{field}</td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          ) : null}
+        </StyledTable>
+      </div>
       {isLoading ? (
         <div css={{ padding: `${spacing.small}` }}>
           <Spinner appearance="small" />

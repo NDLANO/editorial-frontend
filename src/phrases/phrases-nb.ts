@@ -569,6 +569,7 @@ const phrases = {
     preview: {
       button: 'Forhåndsvis',
     },
+    resize: 'Endre størrelse',
     name: {
       title: 'Tittel',
       aboutTitle: 'Tittel',

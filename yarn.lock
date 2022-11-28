@@ -1877,6 +1877,13 @@
   dependencies:
     "@ndla/core" "^3.0.3"
 
+"@ndla/icons@^2.1.0":
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/@ndla/icons/-/icons-2.1.0.tgz#124f614417c716caa7a16150d95660a21c5f7330"
+  integrity sha512-dfLiKZ9/8U0tX1vzJE+fJa5olLRpnuQeb7ddwmzSPDKrsdwhWSRzju3ZB/YBrYOYr/RWrhmZR4A1OkSaiLrpyQ==
+  dependencies:
+    "@ndla/core" "^3.0.3"
+
 "@ndla/image-search@^5.0.5":
   version "5.0.5"
   resolved "https://registry.yarnpkg.com/@ndla/image-search/-/image-search-5.0.5.tgz#1050955c31a19497a624cce1c7605a09a9e8368f"

@@ -9,32 +9,10 @@
 import { ContentLoader } from '@ndla/ui';
 import styled from '@emotion/styled';
 import { spacing, colors, fonts } from '@ndla/core';
-import { SVGProps, useEffect, useRef, ReactNode } from 'react';
+import { useEffect, useRef, ReactNode } from 'react';
+import { ExpandLess, ExpandMore } from '@ndla/icons/action';
+import { css } from '@emotion/react';
 import Spinner from '../../../components/Spinner';
-
-const ArrowUp = (props: SVGProps<SVGSVGElement>) => (
-  <svg
-    width="10"
-    height="8"
-    viewBox="0 0 10 8"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    {...props}>
-    <path d="M5 0L9.33013 7.5H0.669873L5 0Z" fill="#757575" />
-  </svg>
-);
-
-const ArrowDown = (props: SVGProps<SVGSVGElement>) => (
-  <svg
-    width="10"
-    height="8"
-    viewBox="0 0 10 8"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    {...props}>
-    <path d="M5.00012 8L0.669997 0.5L9.33025 0.500001L5.00012 8Z" fill="#757575" />
-  </svg>
-);
 
 const StyledTable = styled.table`
   font-family: arial, sans-serif;
@@ -43,6 +21,7 @@ const StyledTable = styled.table`
   border-spacing: 0;
   font-family: ${fonts.sans};
   margin-bottom: 0px;
+  table-layout: fixed;
   th {
     font-weight: ${fonts.weight.bold};
     padding: 0px ${spacing.xsmall};
@@ -71,7 +50,7 @@ const StyledTable = styled.table`
 const SortArrowWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  gap: ${spacing.xxsmall};
+
   justify-content: center;
   margin-left: auto;
 `;
@@ -83,7 +62,13 @@ const TableTitleComponent = styled.div`
 
 const ScrollableTableWrapper = styled.div`
   height: 340px;
-  overflow: auto;
+  overflow-y: scroll;
+`;
+
+const orderButtonStyle = (isHidden: boolean) => css`
+  cursor: pointer;
+  color: ${colors.text.primary};
+  visibility: ${isHidden ? 'hidden' : 'visible'};
 `;
 
 export interface FieldElement {
@@ -101,9 +86,16 @@ interface Props {
   tableData: FieldElement[][];
   isLoading: boolean;
   setSortOption: (o: string) => void;
+  sortOption?: string;
 }
 
-const TableComponent = ({ tableTitleList, tableData = [[]], isLoading, setSortOption }: Props) => {
+const TableComponent = ({
+  tableTitleList,
+  tableData = [[]],
+  isLoading,
+  setSortOption,
+  sortOption,
+}: Props) => {
   const isMounted = useRef(false);
 
   useEffect(() => {
@@ -132,13 +124,15 @@ const TableComponent = ({ tableTitleList, tableData = [[]], isLoading, setSortOp
                     <div>{tableTitle.title}</div>
                     {tableTitle.sortableField ? (
                       <SortArrowWrapper>
-                        <ArrowUp
+                        <ExpandLess
                           role="button"
                           onClick={() => setSortOption(`${tableTitle.sortableField}`)}
+                          css={orderButtonStyle(sortOption === tableTitle.sortableField)}
                         />
-                        <ArrowDown
+                        <ExpandMore
                           role="button"
                           onClick={() => setSortOption(`-${tableTitle.sortableField}`)}
+                          css={orderButtonStyle(sortOption === `-${tableTitle.sortableField}`)}
                         />
                       </SortArrowWrapper>
                     ) : null}

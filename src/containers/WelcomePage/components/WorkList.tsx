@@ -45,7 +45,6 @@ export interface FilterElement {
 
 const WorkList = () => {
   const [sortOption, setSortOption] = useState<string>();
-
   const [filterSubject, setFilterSubject] = useState<FilterElement | undefined>();
 
   const { ndlaId } = useSession();
@@ -125,6 +124,7 @@ const WorkList = () => {
         tableTitleList={tableTitles}
         tableData={tableData}
         setSortOption={setSortOption}
+        sortOption={sortOption}
       />
     </StyledWorkList>
   );

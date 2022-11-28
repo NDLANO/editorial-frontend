@@ -22,6 +22,7 @@ const StyledTable = styled.table`
   font-family: ${fonts.sans};
   margin-bottom: 0px;
   table-layout: fixed;
+  min-width: 850px;
   th {
     font-weight: ${fonts.weight.bold};
     padding: 0px ${spacing.xsmall};
@@ -129,20 +130,24 @@ const TableComponent = ({
                 <th key={`${index}_${tableTitle.title}`}>
                   <TableTitleComponent>
                     <div>{tableTitle.title}</div>
-                    {tableTitle.sortableField ? (
-                      <SortArrowWrapper>
-                        <ExpandLess
-                          role="button"
-                          onClick={() => setSortOption(`${tableTitle.sortableField}`)}
-                          css={orderButtonStyle(sortOption === tableTitle.sortableField)}
-                        />
-                        <ExpandMore
-                          role="button"
-                          onClick={() => setSortOption(`-${tableTitle.sortableField}`)}
-                          css={orderButtonStyle(sortOption === `-${tableTitle.sortableField}`)}
-                        />
-                      </SortArrowWrapper>
-                    ) : null}
+
+                    <SortArrowWrapper>
+                      <ExpandLess
+                        role="button"
+                        onClick={() => setSortOption(`${tableTitle.sortableField}`)}
+                        css={orderButtonStyle(
+                          !tableTitle.sortableField || sortOption === tableTitle.sortableField,
+                        )}
+                      />
+                      <ExpandMore
+                        role="button"
+                        onClick={() => setSortOption(`-${tableTitle.sortableField}`)}
+                        css={orderButtonStyle(
+                          !tableTitle.sortableField ||
+                            sortOption === `-${tableTitle.sortableField}`,
+                        )}
+                      />
+                    </SortArrowWrapper>
                   </TableTitleComponent>
                 </th>
               ))}

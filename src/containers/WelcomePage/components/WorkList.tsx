@@ -12,7 +12,6 @@ import { spacing, colors } from '@ndla/core';
 import { Calendar } from '@ndla/icons/editor';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { setDefaultResultOrder } from 'dns';
 import { useSearch } from '../../../modules/search/searchQueries';
 import { useSession } from '../../Session/SessionProvider';
 import { toEditArticle } from '../../../util/routeHelpers';
@@ -101,11 +100,13 @@ const WorkList = () => {
         },
         {
           id: `topic_${res.id}`,
-          data: res.contexts?.[0]?.breadcrumbs[res.contexts?.[0]?.breadcrumbs.length - 1],
+          data: res.contexts.length
+            ? res.contexts[0].breadcrumbs[res.contexts[0].breadcrumbs.length - 1]
+            : '',
         },
         {
           id: `date_${res.id}`,
-          data: res.responsible?.lastUpdated ? formatDate(res.responsible?.lastUpdated) : '',
+          data: res.responsible ? formatDate(res.responsible.lastUpdated) : '',
         },
       ])
     : [[]];

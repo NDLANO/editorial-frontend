@@ -9,8 +9,7 @@
 import { ContentLoader } from '@ndla/ui';
 import styled from '@emotion/styled';
 import { spacing, colors, fonts } from '@ndla/core';
-import { EmotionJSX } from '@emotion/react/types/jsx-namespace';
-import { SVGProps, useEffect, useRef } from 'react';
+import { SVGProps, useEffect, useRef, ReactNode } from 'react';
 import Spinner from '../../../components/Spinner';
 
 const ArrowUp = (props: SVGProps<SVGSVGElement>) => (
@@ -82,6 +81,16 @@ const TableTitleComponent = styled.div`
   flex-direction: row;
 `;
 
+const ScrollableTableWrapper = styled.div`
+  height: 340px;
+  overflow: auto;
+`;
+
+export interface FieldElement {
+  id: string;
+  data: string | ReactNode;
+}
+
 export interface TitleElement {
   title: string;
   sortableField?: string;
@@ -89,17 +98,12 @@ export interface TitleElement {
 
 interface Props {
   tableTitleList: TitleElement[];
-  tableContentList: (string | EmotionJSX.Element)[][];
+  tableData: FieldElement[][];
   isLoading: boolean;
   setSortOption: (o: string) => void;
 }
 
-const TableComponent = ({
-  tableTitleList,
-  tableContentList = [[]],
-  isLoading,
-  setSortOption,
-}: Props) => {
+const TableComponent = ({ tableTitleList, tableData = [[]], isLoading, setSortOption }: Props) => {
   const isMounted = useRef(false);
 
   useEffect(() => {
@@ -118,11 +122,7 @@ const TableComponent = ({
 
   return (
     <>
-      <div
-        style={{
-          height: 340,
-          overflow: 'auto',
-        }}>
+      <ScrollableTableWrapper>
         <StyledTable>
           <thead>
             <tr>
@@ -149,17 +149,17 @@ const TableComponent = ({
           </thead>
           {!isLoading ? (
             <tbody>
-              {tableContentList.map(contentRow => (
+              {tableData.map(contentRow => (
                 <tr>
                   {contentRow.map(field => (
-                    <td>{field}</td>
+                    <td key={field.id}>{field.data}</td>
                   ))}
                 </tr>
               ))}
             </tbody>
           ) : null}
         </StyledTable>
-      </div>
+      </ScrollableTableWrapper>
       {isLoading ? (
         <div css={{ padding: `${spacing.small}` }}>
           <Spinner appearance="small" />

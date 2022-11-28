@@ -120,10 +120,18 @@ const phrases = {
     lastUsed: 'Sist redigert',
     savedSearch: 'Lagra søk',
     saveSearch: 'Lagre søk',
-    worklist: 'Mine arbeidsoppgåver',
-    worklistDescription: 'Artiklar der eg står i ansvarleg-feltet',
     chooseSubject: 'Velg fag',
     chooseTopic: 'Velg emner',
+    workList: {
+      title: 'Mine arbeidsoppgåver',
+      description: 'Artiklar der eg står i ansvarleg-feltet',
+      name: 'Navn',
+      status: 'Status',
+      contentType: 'Innhaldstype',
+      primarySubject: 'Primærfag',
+      topicRelation: 'Emnetilknytning',
+      date: 'Tildelningsdato',
+    },
   },
   searchPage: {
     header: {

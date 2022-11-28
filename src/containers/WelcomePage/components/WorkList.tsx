@@ -6,7 +6,6 @@
  *
  */
 
-import { EmotionJSX } from '@emotion/react/types/jsx-namespace';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { spacing, colors } from '@ndla/core';
@@ -16,7 +15,7 @@ import { Link } from 'react-router-dom';
 import { useSearch } from '../../../modules/search/searchQueries';
 import { useSession } from '../../Session/SessionProvider';
 import { toEditArticle } from '../../../util/routeHelpers';
-import TableComponent, { TitleElement } from './TableComponent';
+import TableComponent, { FieldElement, TitleElement } from './TableComponent';
 import TableTitle from './TableTitle';
 import WorkListDropdownWrapper from './WorkListDropdownWrapper';
 import formatDate from '../../../util/formatDate';
@@ -38,15 +37,6 @@ export const StyledLink = styled(Link)`
     color: ${colors.brand.primary};
   }
 `;
-
-const tableTitles: TitleElement[] = [
-  { title: 'Navn', sortableField: 'title' },
-  { title: 'Status' },
-  { title: 'Innholdstype' },
-  { title: 'Primærfag' },
-  { title: 'Emnetilhørighet' },
-  { title: 'Tildelningsdato', sortableField: 'responsibleLastUpdated' },
-];
 
 export interface FilterElement {
   id: string;
@@ -72,29 +62,57 @@ const WorkList = () => {
     },
   );
 
-  // TODO: update this structure!
-  const tableContentList: (string | EmotionJSX.Element)[][] = data
-    ? data.results.map(res => [
-        <StyledLink to={toEditArticle(res.id, res.learningResourceType)}>
-          {res.title?.title}
-        </StyledLink>,
-        res.status?.current ? t(`form.status.${res.status.current.toLowerCase()}`) : '',
-        res.learningResourceType === 'topic-article'
-          ? 'Emne'
-          : res.contexts?.[0]?.resourceTypes?.map(context => context.name).join(' - '),
-        res.contexts.find(context => context.isPrimaryConnection)?.subject ?? '',
-        res.contexts?.[0]?.breadcrumbs[res.contexts?.[0]?.breadcrumbs.length - 1],
-        res.responsible?.lastUpdated ? formatDate(res.responsible?.lastUpdated) : '',
+  const tableTitles: TitleElement[] = [
+    { title: t('welcomePage.workList.name'), sortableField: 'title' },
+    { title: t('welcomePage.workList.status') },
+    { title: t('welcomePage.workList.contentType') },
+    { title: t('welcomePage.workList.primarySubject') },
+    { title: t('welcomePage.workList.topicRelation') },
+    { title: t('welcomePage.workList.date'), sortableField: 'responsibleLastUpdated' },
+  ];
+
+  const tableData: FieldElement[][] = data
+    ? data.results.map((res, index) => [
+        {
+          id: `title_${res.id}`,
+          data: (
+            <StyledLink to={toEditArticle(res.id, res.learningResourceType)}>
+              {res.title?.title}
+            </StyledLink>
+          ),
+        },
+        {
+          id: `status_${res.id}`,
+          data: res.status?.current ? t(`form.status.${res.status.current.toLowerCase()}`) : '',
+        },
+        {
+          id: `contentType_${res.id}`,
+          data:
+            res.learningResourceType === 'topic-article'
+              ? 'Emne'
+              : res.contexts?.[0]?.resourceTypes?.map(context => context.name).join(' - '),
+        },
+        {
+          id: `primarySubject_${res.id}`,
+          data: res.contexts.find(context => context.isPrimaryConnection)?.subject ?? '',
+        },
+        {
+          id: `topic_${res.id}`,
+          data: res.contexts?.[0]?.breadcrumbs[res.contexts?.[0]?.breadcrumbs.length - 1],
+        },
+        {
+          id: `date_${res.id}`,
+          data: res.responsible?.lastUpdated ? formatDate(res.responsible?.lastUpdated) : '',
+        },
       ])
     : [[]];
 
-  console.log(data);
   return (
     <StyledWorkList>
       <StyledTopRow>
         <TableTitle
-          title={t('welcomePage.worklist')}
-          description={t('welcomePage.worklistDescription')}
+          title={t('welcomePage.workList.title')}
+          description={t('welcomePage.workList.description')}
           Icon={Calendar}
         />
         <WorkListDropdownWrapper
@@ -105,7 +123,7 @@ const WorkList = () => {
       <TableComponent
         isLoading={isLoading}
         tableTitleList={tableTitles}
-        tableContentList={tableContentList}
+        tableData={tableData}
         setSortOption={setSortOption}
       />
     </StyledWorkList>

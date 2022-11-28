@@ -119,10 +119,18 @@ const phrases = {
     lastUsed: 'Last edited',
     savedSearch: 'Saved searches',
     saveSearch: 'Save search',
-    worklist: 'My tasks',
-    worklistDescription: 'Articles where I am responsible',
     chooseSubject: 'Choose subjects',
     chooseTopic: 'Choose topics',
+    workList: {
+      title: 'My tasks',
+      description: 'Articles where I am responsible',
+      name: 'Name',
+      status: 'Status',
+      contentType: 'Content type',
+      primarySubject: 'Primary subject',
+      topicRelation: 'Topic relation',
+      date: 'Date assigned',
+    },
   },
   searchPage: {
     header: {

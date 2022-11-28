@@ -12,6 +12,7 @@ import { spacing, colors } from '@ndla/core';
 import { Calendar } from '@ndla/icons/editor';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { setDefaultResultOrder } from 'dns';
 import { useSearch } from '../../../modules/search/searchQueries';
 import { useSession } from '../../Session/SessionProvider';
 import { toEditArticle } from '../../../util/routeHelpers';
@@ -46,6 +47,7 @@ export interface FilterElement {
 const WorkList = () => {
   const [sortOption, setSortOption] = useState<string>();
   const [filterSubject, setFilterSubject] = useState<FilterElement | undefined>();
+  const [error, setError] = useState();
 
   const { ndlaId } = useSession();
   const { t } = useTranslation();
@@ -58,6 +60,8 @@ const WorkList = () => {
     },
     {
       enabled: !!ndlaId,
+      onError: () => setError(t('welcomePage.errorMessage')),
+      onSuccess: () => setError(undefined),
     },
   );
 
@@ -71,7 +75,7 @@ const WorkList = () => {
   ];
 
   const tableData: FieldElement[][] = data
-    ? data.results.map((res, index) => [
+    ? data.results.map(res => [
         {
           id: `title_${res.id}`,
           data: (
@@ -125,6 +129,7 @@ const WorkList = () => {
         tableData={tableData}
         setSortOption={setSortOption}
         sortOption={sortOption}
+        error={error}
       />
     </StyledWorkList>
   );

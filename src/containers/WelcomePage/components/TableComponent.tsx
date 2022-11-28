@@ -65,6 +65,10 @@ const ScrollableTableWrapper = styled.div`
   overflow-y: auto;
 `;
 
+const StyledError = styled.p`
+  color: ${colors.support.red};
+`;
+
 const orderButtonStyle = (isHidden: boolean) => css`
   cursor: pointer;
   color: ${colors.text.primary};
@@ -87,6 +91,7 @@ interface Props {
   isLoading: boolean;
   setSortOption: (o: string) => void;
   sortOption?: string;
+  error?: string;
 }
 
 const TableComponent = ({
@@ -95,6 +100,7 @@ const TableComponent = ({
   isLoading,
   setSortOption,
   sortOption,
+  error,
 }: Props) => {
   const isMounted = useRef(false);
 
@@ -111,6 +117,7 @@ const TableComponent = ({
       </ContentLoader>
     );
   }
+  if (error) return <StyledError>{error}</StyledError>;
 
   return (
     <>

@@ -122,6 +122,7 @@ const phrases = {
     saveSearch: 'Lagre søk',
     chooseSubject: 'Velg fag',
     chooseTopic: 'Velg emner',
+    errorMessage: 'Innhenting av data feila',
     workList: {
       title: 'Mine arbeidsoppgåver',
       description: 'Artiklar der eg står i ansvarleg-feltet',

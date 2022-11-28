@@ -34,7 +34,9 @@ const DropdownPicker = ({ placeholder, valueList, stateValue, updateValue }: Pro
       value={stateValue?.id}>
       <option value="">{placeholder}</option>
       {valueList.map(value => (
-        <option value={value.id}>{value.name}</option>
+        <option value={value.id} key={value.id}>
+          {value.name}
+        </option>
       ))}
     </StyledSelect>
   );

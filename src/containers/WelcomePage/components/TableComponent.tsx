@@ -156,7 +156,7 @@ const TableComponent = ({
           {!isLoading ? (
             <tbody>
               {tableData.map((contentRow, index) => (
-                <tr key={`tablerow_${contentRow[0].id}_index`}>
+                <tr key={`tablerow_${contentRow?.[0]?.id}_index`}>
                   {contentRow.map(field => (
                     <td key={field.id}>{field.data}</td>
                   ))}

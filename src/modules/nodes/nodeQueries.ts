@@ -40,7 +40,7 @@ import {
   NodeType,
   ResourceWithNodeConnection,
 } from './nodeApiTypes';
-import { learningpathSearch } from '../learningpath/learningpathApi';
+import { fetchLearningpaths } from '../learningpath/learningpathApi';
 
 interface UseNodesParams extends WithTaxonomyVersion, GetNodeParams {}
 export const nodesQueryKey = (params?: Partial<UseNodesParams>) => [NODES, params];
@@ -130,9 +130,7 @@ const fetchNodeResourceMetas = async (
     ? fetchDrafts(articleIds, params.language)
     : Promise.resolve([]);
   const learningpathsPromise = learningpathIds.length
-    ? learningpathSearch({ ids: learningpathIds, language: params.language }).then(
-        res => res.results,
-      )
+    ? fetchLearningpaths(learningpathIds, params.language)
     : Promise.resolve([]);
   const [articles, learningpaths] = await Promise.all([articlesPromise, learningpathsPromise]);
   const transformedArticles: NodeResourceMeta[] = articles.map(

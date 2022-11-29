@@ -142,12 +142,12 @@ const SlateFigure = ({ attributes, editor, element, language, locale = 'nb', chi
         <div {...attributes}>
           <DisplayExternal
             onRemoveClick={onRemoveClick}
-            editor={editor}
-            element={element}
             embed={embed}
             language={language}
             active={isActive()}
             isSelectedForCopy={isSelected}
+            element={element}
+            editor={editor}
           />
           {children}
         </div>

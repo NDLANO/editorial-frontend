@@ -21,7 +21,7 @@ import { ImageLink } from '@ndla/ui';
 import { getLicenseByAbbreviation, LicenseByline } from '@ndla/licenses';
 import { Remarkable } from 'remarkable';
 import { IConcept } from '@ndla/types-concept-api';
-import { IImageMetaInformationV2 } from '@ndla/types-image-api';
+import { IImageMetaInformationV3 } from '@ndla/types-image-api';
 import { getSrcSets } from '../../util/imageEditorUtil';
 import { SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
 import { fetchSubject } from '../../modules/taxonomy/subjects';
@@ -120,7 +120,7 @@ const PreviewConcept = ({ concept, visualElement }: Props) => {
   const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
   const [subjects, setSubjects] = useState<SubjectType[]>([]);
-  const [image, setImage] = useState<IImageMetaInformationV2 | undefined>(undefined);
+  const [image, setImage] = useState<IImageMetaInformationV3 | undefined>(undefined);
   const markdown = new Remarkable({ breaks: true });
   markdown.inline.ruler.enable(['sub', 'sup']);
 

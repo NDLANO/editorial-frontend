@@ -49,6 +49,7 @@ export type EditMode =
   | 'cloneResources'
   | 'copyRevisionDate'
   | 'swapTopicArticle'
+  | 'setResourcesPrimary'
   | '';
 
 export interface SearchResultBase<T> {
@@ -215,4 +216,10 @@ export interface ReturnType<TType, TReturnType> {
 
 export interface WithTaxonomyVersion {
   taxonomyVersion: string;
+}
+
+export interface WhitelistProvider {
+  name: string;
+  url: string[];
+  height?: string;
 }

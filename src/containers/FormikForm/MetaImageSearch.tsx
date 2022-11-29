@@ -9,7 +9,7 @@
 import { useState, useEffect, SyntheticEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FieldHeader } from '@ndla/forms';
-import { IImageMetaInformationV2, IUpdateImageMetaInformation } from '@ndla/types-image-api';
+import { IImageMetaInformationV3, IUpdateImageMetaInformation } from '@ndla/types-image-api';
 import Button from '@ndla/button';
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import { FormikHandlers, useFormikContext } from 'formik';
@@ -34,7 +34,7 @@ interface Props {
   onImageLoad?: (event: SyntheticEvent<HTMLImageElement, Event>) => void;
   showRemoveButton: boolean;
   showCheckbox: boolean;
-  checkboxAction: (image: IImageMetaInformationV2) => void;
+  checkboxAction: (image: IImageMetaInformationV3) => void;
   language?: string;
 }
 
@@ -52,7 +52,7 @@ const MetaImageSearch = ({
   const { t, i18n } = useTranslation();
   const { setFieldValue } = useFormikContext();
   const [showImageSelect, setShowImageSelect] = useState(false);
-  const [image, setImage] = useState<IImageMetaInformationV2 | undefined>(undefined);
+  const [image, setImage] = useState<IImageMetaInformationV3 | undefined>(undefined);
   const locale = i18n.language;
 
   useEffect(() => {
@@ -75,7 +75,7 @@ const MetaImageSearch = ({
     setShowImageSelect(false);
   };
 
-  const onImageSet = (image: IImageMetaInformationV2) => {
+  const onImageSet = (image: IImageMetaInformationV3) => {
     onImageSelectClose();
     setImage(image);
     setFieldValue(name, image.id);

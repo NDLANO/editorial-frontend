@@ -14,6 +14,15 @@ import { useTranslation } from 'react-i18next';
 import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropdown';
 import { SearchResultBase } from '../../../interfaces';
 
+export const formatTagToList = (newTag: string, existingTags: string[]): string[] => {
+  if (newTag.includes(',')) {
+    const tagList = newTag.split(',').map(tag => tag.trim());
+    const temp = [...existingTags, ...tagList];
+    // Return unique list
+    return [...new Set(temp)];
+  } else return [...existingTags, newTag.trim()];
+};
+
 interface Props {
   language: string;
   initialTags: string[];
@@ -75,7 +84,7 @@ const AsyncSearchTags = ({
 
   const createNewTag = (newTag: string) => {
     if (newTag && !tags.includes(newTag.trim())) {
-      const temp = [...tags, newTag.trim()];
+      const temp = formatTagToList(newTag, tags);
       updateField(temp);
     }
   };

@@ -16,7 +16,7 @@ import { toggleList } from '../list/utils/toggleList';
 import { insertMathml } from '../mathml/utils';
 import { insertInlineConcept } from '../concept/inline/utils';
 import { toggleSpan } from '../span/utils';
-import { toggleCellAlign } from '../table/helpers';
+import { toggleCellAlign } from '../table/slateActions';
 
 export function handleClickBlock(event: SyntheticEvent, editor: Editor, type: string) {
   event.preventDefault();

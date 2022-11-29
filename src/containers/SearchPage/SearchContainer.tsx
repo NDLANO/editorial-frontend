@@ -10,7 +10,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { UseQueryResult } from 'react-query';
 import styled from '@emotion/styled';
-import { ISearchResult } from '@ndla/types-image-api';
+import { ISearchResultV3 } from '@ndla/types-image-api';
 import { IAudioSummarySearchResult, ISeriesSummarySearchResult } from '@ndla/types-audio-api';
 import { IConceptSearchResult } from '@ndla/types-concept-api';
 import { IMultiSearchResult } from '@ndla/types-search-api';
@@ -37,7 +37,7 @@ const StyledSearchHeader = styled.div`
 `;
 
 export type ResultType =
-  | ISearchResult
+  | ISearchResultV3
   | IConceptSearchResult
   | ISeriesSummarySearchResult
   | IAudioSummarySearchResult

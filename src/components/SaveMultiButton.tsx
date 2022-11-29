@@ -7,7 +7,7 @@
  */
 
 import styled from '@emotion/styled';
-import { MultiButton } from '@ndla/button';
+import { MultiButtonV2 as MultiButton } from '@ndla/button';
 import { Check } from '@ndla/icons/editor';
 import { useTranslation } from 'react-i18next';
 import { saveButtonAppearances } from './SaveButton';

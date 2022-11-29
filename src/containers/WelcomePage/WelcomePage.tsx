@@ -15,12 +15,12 @@ import styled from '@emotion/styled';
 import { NAVIGATION_HEADER_MARGIN } from '../../constants';
 import { getAccessToken, getAccessTokenPersonal } from '../../util/authHelpers';
 import { isValid } from '../../util/jwtHelper';
-
 import SaveSearchUrl from './components/SaveSearchUrl';
 import Footer from '../App/components/Footer';
 import LastUsedItems from './components/LastUsedItems';
 import { useUserData } from '../../modules/draft/draftQueries';
 import { StyledColumnHeader } from './styles';
+import WelcomeHeader from './components/WelcomeHeader';
 
 const ContentWrapper = styled.div`
   display: flex;
@@ -28,18 +28,6 @@ const ContentWrapper = styled.div`
   justify-content: space-between;
   height: calc(100vh - ${NAVIGATION_HEADER_MARGIN});
   overflow: auto;
-`;
-
-const StyledHeader = styled.div`
-  width: 100%;
-  height: 200px;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-`;
-
-const StyledHeaderImage = styled.img`
-  margin-top: -250px;
 `;
 
 const StyledTwoColumn = styled.div`
@@ -66,13 +54,7 @@ export const WelcomePage = () => {
     <ContentWrapper>
       <HelmetWithTracker title={t('htmlTitles.welcomePage')} />
       <OneColumn>
-        <StyledHeader>
-          {/* <a href="#guidelines" {...classes('header-link')}>
-              {t('welcomePage.guidelines')}
-              <RightArrow className="c-icon--large" />
-            </a> */}
-          <StyledHeaderImage src="/welcome-image.jpg" alt="illustration" />
-        </StyledHeader>
+        <WelcomeHeader />
         <StyledTwoColumn>
           <LastUsedItems lastUsed={lastUsed} />
           <div>

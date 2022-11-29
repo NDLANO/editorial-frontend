@@ -335,9 +335,11 @@ export const putResourcesPrimary = ({
   id,
   recursive,
   taxonomyVersion,
-}: PutResourcesPrimaryParams): Promise<void> =>
-  putAndResolve({
-    url: `${baseUrl}/${id}/makeResourcesPrimary?recursive=${recursive}`,
+}: PutResourcesPrimaryParams): Promise<void> => {
+  const queryParams = stringifyQuery({ recursive });
+  return putAndResolve({
+    url: `${baseUrl}/${id}/makeResourcesPrimary${queryParams}`,
     alternateResolve: resolveVoidOrRejectWithError,
     taxonomyVersion,
   });
+};

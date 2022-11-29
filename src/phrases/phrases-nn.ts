@@ -977,7 +977,7 @@ const phrases = {
       choose: 'Velg ein lisens',
     },
     responsible: {
-      label: 'Ansvarlig',
+      label: 'Ansvarleg',
       choose: 'Velg ein ansvarleg',
     },
     origin: {

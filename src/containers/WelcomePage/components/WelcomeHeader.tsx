@@ -11,6 +11,12 @@ import styled from '@emotion/styled';
 import { SafeLinkButton } from '@ndla/safelink';
 import { useSession } from '../../Session/SessionProvider';
 
+const zIndex = {
+  header: 0,
+  shapes: 1,
+  content: 2,
+};
+
 const StyledWrapper = styled.header`
   height: 150px;
   display: flex;
@@ -18,12 +24,6 @@ const StyledWrapper = styled.header`
   overflow: hidden;
   min-width: 600px;
 `;
-
-const zIndex = {
-  header: 0,
-  shapes: 1,
-  content: 2,
-};
 
 const StyledHeader = styled.div`
   width: 100%;
@@ -117,7 +117,7 @@ export const WelcomeHeader = () => {
             <ButtonText>Strukturredigering</ButtonText>
           </SafeLinkButton>
           <SafeLinkButton to="subject-matter/learning-resource/new">
-            <ButtonText> Opprett tom artikkel</ButtonText>
+            <ButtonText>Opprett tom artikkel</ButtonText>
           </SafeLinkButton>
         </ButtonWrapper>
         <RightShape />

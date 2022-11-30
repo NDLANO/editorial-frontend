@@ -11,7 +11,7 @@ import { Editor, Transforms } from 'slate';
 import { ReactEditor, RenderElementProps } from 'slate-react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
-import { compact } from 'lodash';
+import compact from 'lodash/compact';
 import { RelatedArticleList } from '@ndla/ui';
 import { toggleRelatedArticles } from '@ndla/article-scripts';
 import { IArticle } from '@ndla/types-draft-api';

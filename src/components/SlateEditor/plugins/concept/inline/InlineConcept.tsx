@@ -10,7 +10,9 @@ import { useState, useEffect, ReactNode, useMemo } from 'react';
 
 import { Editor, Element, Node, Transforms, Path } from 'slate';
 import { ReactEditor, RenderElementProps } from 'slate-react';
-import { Dictionary, uniqueId } from 'lodash';
+import uniqueId from 'lodash/uniqueId';
+// eslint-disable-next-line lodash/import-scope
+import { Dictionary } from 'lodash';
 import { IConcept } from '@ndla/types-concept-api';
 import { ConceptInlineElement } from '../inline/interfaces';
 import ConceptModal from '../ConceptModal';

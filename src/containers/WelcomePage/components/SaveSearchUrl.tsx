@@ -81,7 +81,7 @@ const SaveSearchUrl = () => {
 
   return (
     <>
-      {!!savedSearches.length ? (
+      {savedSearches.length ? (
         savedSearches.map((search, index) => (
           <SavedSearch key={search} deleteSearch={deleteSearch} search={search} index={index} />
         ))

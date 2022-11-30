@@ -8,10 +8,9 @@
 
 import { useTranslation } from 'react-i18next';
 import { Check } from '@ndla/icons/editor';
-import HeaderInformation from './HeaderInformation';
+import HeaderInformation, { StyledSplitter } from './HeaderInformation';
 import HeaderSupportedLanguages from './HeaderSupportedLanguages';
 import HeaderLanguagePill from './HeaderLanguagePill';
-import { StyledSplitter } from './HeaderInformation';
 import { StyledLanguageWrapper } from './HeaderWithLanguage';
 import HeaderLanguagePicker from './HeaderLanguagePicker';
 

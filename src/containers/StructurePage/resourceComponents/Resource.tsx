@@ -18,7 +18,7 @@ import Tooltip from '@ndla/tooltip';
 import SafeLink from '@ndla/safelink';
 import { useQuery, useQueryClient } from 'react-query';
 import { DraggableProvidedDragHandleProps } from 'react-beautiful-dnd';
-import { isEqual } from 'lodash';
+import isEqual from 'lodash/isEqual';
 import {
   NodeConnectionPutType,
   ResourceWithNodeConnection,

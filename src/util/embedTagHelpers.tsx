@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+// eslint-disable-next-line lodash/import-scope
 import { Dictionary } from 'lodash';
 import isObject from 'lodash/fp/isObject';
 import { isEmpty } from '../components/validators';

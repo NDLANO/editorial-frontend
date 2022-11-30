@@ -60,9 +60,9 @@ const wrapper = () => {
           editor={editor}
           locale="nb"
           element={relatedElement}
-          children={<></>}
-          onRemoveClick={() => {}}
-        />
+          onRemoveClick={() => {}}>
+          <></>
+        </RelatedArticleBox>
       </div>
     </IntlWrapper>,
   );

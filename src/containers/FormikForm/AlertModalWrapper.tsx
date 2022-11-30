@@ -28,8 +28,8 @@ const useBlocker = (blocker: Blocker, when = true): void => {
 
   useEffect(() => {
     if (!when) return;
-    let unblock = navigator.block((tx: Transition) => {
-      let autoUnblockingTx = {
+    const unblock = navigator.block((tx: Transition) => {
+      const autoUnblockingTx = {
         ...tx,
         retry() {
           // Automatically unblock the transition so it can play all the way

@@ -105,7 +105,7 @@ const FormikField = ({
           <StyledErrorPreLine>{get(name, errors)}</StyledErrorPreLine>
         </FormikFieldHelp>
       )}
-      {status?.hasOwnProperty('warnings') && (
+      {Object.prototype.hasOwnProperty.call(status, 'warnings') && (
         <FormikFieldHelp warning={!!get(name, status.warnings)}>
           <StyledErrorPreLine>{get(name, status.warnings)}</StyledErrorPreLine>
         </FormikFieldHelp>

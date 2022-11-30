@@ -18,7 +18,9 @@ class TestComponent extends Component<Props> {
 
     return (
       <>
-        <button onClick={() => login(accessToken)}>Click</button>
+        <button type="button" onClick={() => login(accessToken)}>
+          Click
+        </button>
         <p>{userName ?? 'test'}</p>
       </>
     );

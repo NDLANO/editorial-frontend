@@ -129,6 +129,7 @@ const AddRevisionDateField = ({ formikField, showError }: Props) => {
                   }
                   placeholder={t('form.revisions.inputPlaceholder')}
                   type="text"
+                  // eslint-disable-next-line jsx-a11y/no-autofocus
                   autoFocus
                   value={revisionMeta.note}
                   data-testid="revisionInput"

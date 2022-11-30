@@ -170,8 +170,9 @@ const SlateToolbar = (props: Props) => {
   const tableCellElement = getCurrentBlock(editor, TYPE_TABLE_CELL)?.[0];
   const tableButtons =
     !!tableCellElement &&
-    toolbarElements.table?.map(type => (
+    toolbarElements.table?.map((type, index) => (
       <ToolbarButton
+        key={index}
         type={type}
         kind={'table'}
         isActive={hasCellAlignOfType(editor, type)}

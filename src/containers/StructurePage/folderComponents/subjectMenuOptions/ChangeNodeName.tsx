@@ -208,7 +208,7 @@ const ChangeNodeNameModal = ({ onClose, node }: ModalProps) => {
                   {},
                 );
                 const availableLanguages = supportedLanguages.filter(
-                  trans => !takenLanguages.hasOwnProperty(trans),
+                  trans => !Object.prototype.hasOwnProperty.call(takenLanguages, trans),
                 );
                 const formIsDirty: boolean = isFormikFormDirty({
                   values,

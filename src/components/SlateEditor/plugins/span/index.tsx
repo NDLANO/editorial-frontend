@@ -6,7 +6,7 @@
  *
  */
 
-import { isEmpty } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 import { Descendant, Editor, Element, Node, Transforms } from 'slate';
 import { jsx as slatejsx } from 'slate-hyperscript';
 import { RenderElementProps } from 'slate-react';

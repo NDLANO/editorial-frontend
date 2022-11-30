@@ -6,7 +6,7 @@
  *
  */
 
-import { isEmpty } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 import { Descendant } from 'slate';
 import { ILicense, IUpdatedArticle, IArticle, IRevisionMeta } from '@ndla/types-draft-api';
 import {

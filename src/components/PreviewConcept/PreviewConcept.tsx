@@ -143,7 +143,7 @@ const PreviewConcept = ({ concept, visualElement }: Props) => {
 
   const VisualElement = () => {
     switch (visualElement?.resource) {
-      case 'image':
+      case 'image': {
         const srcSet = getSrcSets(visualElement.resource_id, visualElement);
         const license = getLicenseByAbbreviation(
           image?.copyright.license.license ?? '',
@@ -164,6 +164,7 @@ const PreviewConcept = ({ concept, visualElement }: Props) => {
             </StyledLicensesWrapper>
           </StyledVisualElementImageInfo>
         );
+      }
       case 'video':
       case 'brightcove':
       case 'external':

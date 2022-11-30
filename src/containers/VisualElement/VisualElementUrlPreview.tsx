@@ -333,6 +333,7 @@ const VisualElementUrlPreview = ({
       </FieldHeader>
       <FieldSection>
         <Input
+          // eslint-disable-next-line jsx-a11y/no-autofocus
           autoFocus
           iconRight={<LinkIcon />}
           warningText={getUrlWarningText()}

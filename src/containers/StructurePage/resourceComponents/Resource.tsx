@@ -44,6 +44,14 @@ import {
 } from '../../../modules/nodes/nodeQueries';
 import { ResourceWithNodeConnectionAndMeta } from './StructureResources';
 
+const Wrapper = styled.div`
+  border: 1px solid ${colors.brand.neutral7};
+  border-radius: 5px;
+  padding: 10px;
+  display: flex;
+  margin-bottom: ${spacing.xsmall};
+`;
+
 const StyledCheckIcon = styled(Check)`
   height: 24px;
   width: 24px;
@@ -56,10 +64,6 @@ const StyledWarnIcon = styled(AlertCircle)`
   fill: ${colors.support.red};
 `;
 
-const StyledStatusButton = styled(Button)`
-  margin-right: ${spacing.xsmall};
-`;
-
 interface Props {
   currentNodeId: string;
   connectionId?: string; // required for MakeDndList, otherwise ignored
@@ -69,7 +73,7 @@ interface Props {
   updateResource?: (resource: ResourceWithNodeConnection) => void;
   dragHandleProps?: DraggableProvidedDragHandleProps;
 }
-const StyledGrepButton = styled(Button)`
+const ButtonWithSpacing = styled(Button)`
   margin-left: ${spacing.xsmall};
 `;
 
@@ -94,7 +98,6 @@ const StyledResourceBody = styled.div`
 
 const StyledText = styled.div`
   display: flex;
-  padding: 10px;
   margin-bottom: 6.5px;
   box-shadow: none;
   align-items: center;
@@ -102,6 +105,19 @@ const StyledText = styled.div`
 
 const StyledLink = styled(SafeLink)`
   box-shadow: inset 0 0;
+`;
+
+const ButtonRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const BadgeWrapper = styled.div`
+  display: flex;
+  align-items: center;
+`;
+const ContentWrapper = styled.div`
+  width: 100%;
 `;
 
 const getArticleTypeFromId = (id?: string) => {
@@ -189,59 +205,72 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
   };
 
   return (
-    <StyledText data-testid={`resource-type-${contentType}`} className="o-flag o-flag--top">
-      {contentType && (
-        <StyledResourceIcon key="img" className=" o-flag__img" {...dragHandleProps}>
-          <ContentTypeBadge background type={iconType} />
-        </StyledResourceIcon>
-      )}
-      <StyledResourceBody key="body" className="o-flag__body">
-        <ResourceItemLink
-          contentType={contentType}
-          contentUri={resource.contentUri}
-          name={resource.name}
-          isVisible={resource.metadata?.visible}
-        />
-      </StyledResourceBody>
-      {resource.contentMeta?.status?.current && (
-        <StyledStatusButton
-          lighter
-          onClick={() => setShowVersionHistory(true)}
-          disabled={contentType === 'learning-path'}>
-          {t(`form.status.${resource.contentMeta.status.current.toLowerCase()}`)}
-        </StyledStatusButton>
-      )}
-      <WrongTypeError resource={resource} articleType={resource.contentMeta?.articleType} />
-      {(resource.contentMeta?.status?.current === PUBLISHED ||
-        resource.contentMeta?.status?.other?.includes(PUBLISHED)) && (
-        <PublishedWrapper path={path}>
-          <Tooltip tooltip={t('form.workflow.published')}>
-            <StyledCheckIcon />
-          </Tooltip>
-        </PublishedWrapper>
-      )}
-      {contentType !== 'learning-path' && (
-        <StyledGrepButton lighter onClick={() => setShowGrepCodes(true)}>
-          {`GREP (${resource.contentMeta?.grepCodes?.length || 0})`}
-        </StyledGrepButton>
-      )}
-      <RelevanceOption relevanceId={resource.relevanceId} onChange={updateRelevanceId} />
+    <Wrapper>
+      <BadgeWrapper>
+        {contentType && (
+          <StyledResourceIcon key="img" className=" o-flag__img" {...dragHandleProps}>
+            <ContentTypeBadge background type={iconType} size="x-small" />
+          </StyledResourceIcon>
+        )}
+      </BadgeWrapper>
+      <ContentWrapper>
+        <StyledText data-testid={`resource-type-${contentType}`} className="o-flag o-flag--top">
+          <StyledResourceBody key="body" className="o-flag__body">
+            <ResourceItemLink
+              contentType={contentType}
+              contentUri={resource.contentUri}
+              name={resource.name}
+              isVisible={resource.metadata?.visible}
+            />
+          </StyledResourceBody>
 
-      {onDelete && <RemoveButton onClick={() => onDelete(resource.connectionId)} />}
-      {showVersionHistory && (
-        <VersionHistoryLightbox
-          onClose={() => setShowVersionHistory(false)}
-          contentUri={resource.contentUri}
-          contentType={contentType}
-          name={resource.name}
-          isVisible={resource.metadata?.visible}
-          locale={i18n.language}
-        />
-      )}
-      {showGrepCodes && resource.contentUri && (
-        <GrepCodesModal onClose={onGrepModalClosed} contentUri={resource.contentUri} />
-      )}
-    </StyledText>
+          <WrongTypeError resource={resource} articleType={resource.contentMeta?.articleType} />
+          {(resource.contentMeta?.status?.current === PUBLISHED ||
+            resource.contentMeta?.status?.other?.includes(PUBLISHED)) && (
+            <PublishedWrapper path={path}>
+              <Tooltip tooltip={t('form.workflow.published')}>
+                <StyledCheckIcon />
+              </Tooltip>
+            </PublishedWrapper>
+          )}
+
+          <RelevanceOption relevanceId={resource.relevanceId} onChange={updateRelevanceId} />
+
+          {onDelete && <RemoveButton onClick={() => onDelete(resource.connectionId)} />}
+          {showVersionHistory && (
+            <VersionHistoryLightbox
+              onClose={() => setShowVersionHistory(false)}
+              contentUri={resource.contentUri}
+              contentType={contentType}
+              name={resource.name}
+              isVisible={resource.metadata?.visible}
+              locale={i18n.language}
+            />
+          )}
+          {showGrepCodes && resource.contentUri && (
+            <GrepCodesModal onClose={onGrepModalClosed} contentUri={resource.contentUri} />
+          )}
+        </StyledText>
+        <ButtonRow>
+          <Button css={{ flex: 1 }} lighter>
+            Ansvarlig: Navn Navnesen
+          </Button>
+          {contentType !== 'learning-path' && (
+            <ButtonWithSpacing lighter onClick={() => setShowGrepCodes(true)}>
+              {`GREP (${resource.contentMeta?.grepCodes?.length || 0})`}
+            </ButtonWithSpacing>
+          )}
+          {resource.contentMeta?.status?.current && (
+            <ButtonWithSpacing
+              lighter
+              onClick={() => setShowVersionHistory(true)}
+              disabled={contentType === 'learning-path'}>
+              {t(`form.status.${resource.contentMeta.status.current.toLowerCase()}`)}
+            </ButtonWithSpacing>
+          )}
+        </ButtonRow>
+      </ContentWrapper>
+    </Wrapper>
   );
 };
 

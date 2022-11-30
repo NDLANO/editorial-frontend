@@ -107,10 +107,14 @@ export const WelcomeHeader = () => {
         </ContentWrapper>
         <ContentWrapper>
           <StyledTitle>Velkommen tilbake</StyledTitle>
-          <StyledTitle
-            css={{
-              marginLeft: `${spacing.large}`,
-            }}>{`${userName}!`}</StyledTitle>
+          {userName ? (
+            <StyledTitle
+              css={{
+                marginLeft: `${spacing.large}`,
+              }}>
+              {`${userName}!`}
+            </StyledTitle>
+          ) : null}
         </ContentWrapper>
         <ButtonWrapper>
           <SafeLinkButton to="/structure">

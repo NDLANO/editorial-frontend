@@ -52,6 +52,12 @@ const toolbarIcon = (t: TFunction): Record<string, JSX.Element | undefined> => (
   'heading-1': <Heading1 title={t('editorToolbar.headingOne', options)} />,
   'heading-2': <Heading2 title={t('editorToolbar.headingTwo', options)} />,
   'heading-3': <Heading3 title={t('editorToolbar.headingThree', options)} />,
+  'heading-4': (
+    <svg>
+      <title>{t('editorToolbar.headingFour', options)}</title>
+      <text>h4</text>
+    </svg>
+  ),
   mathml: <Math title={t('editorToolbar.mathml', options)} />,
   concept: <Concept title={t('editorToolbar.concept', options)} />,
   code: <Code title={t('editorToolbar.code', options)} />,

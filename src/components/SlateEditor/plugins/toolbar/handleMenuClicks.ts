@@ -26,6 +26,8 @@ export function handleClickBlock(event: SyntheticEvent, editor: Editor, type: st
     toggleHeading(editor, 2);
   } else if (type === 'heading-3') {
     toggleHeading(editor, 3);
+  } else if (type === 'heading-4') {
+    toggleHeading(editor, 4);
   } else if (LIST_TYPES.includes(type)) {
     toggleList(editor, type);
   }

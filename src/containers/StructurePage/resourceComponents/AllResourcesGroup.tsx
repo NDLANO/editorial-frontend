@@ -9,7 +9,7 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Plus } from '@ndla/icons/action';
-import { ResourceWithNodeConnection } from '../../../modules/nodes/nodeApiTypes';
+import { ResourceWithNodeConnectionAndMeta } from './StructureResources';
 import { ResourceType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import Accordion from '../../../components/Accordion';
 import ResourceItems from './ResourceItems';
@@ -18,7 +18,7 @@ import AddResourceModal from './AddResourceModal';
 
 interface Props {
   currentNodeId: string;
-  nodeResources: ResourceWithNodeConnection[];
+  nodeResources: ResourceWithNodeConnectionAndMeta[];
   resourceTypes: ResourceType[];
 }
 

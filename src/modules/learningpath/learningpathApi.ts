@@ -6,6 +6,7 @@
  *
  */
 
+import queryString from 'query-string';
 import { ILearningPathV2, ISearchResultV2 } from '@ndla/types-learningpath-api';
 import {
   resolveJsonOrRejectWithError,
@@ -21,6 +22,21 @@ export const fetchLearningpath = (id: number, locale?: string): Promise<ILearnin
   return fetchAuthorized(`${baseUrl}/${id}${language}`).then(res =>
     resolveJsonOrRejectWithError<ILearningPathV2>(res),
   );
+};
+
+export const fetchLearningpaths = (
+  ids: number[],
+  language?: string,
+): Promise<ILearningPathV2[]> => {
+  const query = queryString.stringify({
+    ids: ids.join(','),
+    language,
+    page: 1,
+    'page-size': ids.length,
+  });
+  return fetchAuthorized(`${baseUrl}/ids/?${query}`, {
+    method: 'GET',
+  }).then(r => resolveJsonOrRejectWithError<ILearningPathV2[]>(r));
 };
 
 export const fetchLearningpathsWithArticle = (id: number): Promise<ILearningPathV2[]> =>

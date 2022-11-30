@@ -13,12 +13,12 @@ import AddResourceButton from './AddResourceButton';
 import Accordion from '../../../components/Accordion';
 import ResourceItems from './ResourceItems';
 import { ResourceType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
-import { ResourceWithNodeConnection } from '../../../modules/nodes/nodeApiTypes';
+import { ResourceWithNodeConnectionAndMeta } from './StructureResources';
 import AddResourceModal from './AddResourceModal';
 import { RESOURCE_TYPE_LEARNING_PATH } from '../../../constants';
 
 interface Props {
-  resources?: ResourceWithNodeConnection[];
+  resources?: ResourceWithNodeConnectionAndMeta[];
   resourceType: ResourceType & {
     disabled?: boolean;
   };

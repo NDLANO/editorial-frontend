@@ -91,15 +91,16 @@ export const WelcomeHeader = () => {
           <img src="/welcome-page-person.svg" alt="illustration-person" aria-hidden={true} />
         </ContentWrapper>
         <ContentWrapper>
-          <StyledTitle>Velkommen tilbake</StyledTitle>
-          {userName ? (
-            <StyledTitle
+          <StyledTitle>
+            <span>Velkommen tilbake</span>
+            <span
               css={{
                 marginLeft: `${spacing.large}`,
+                display: 'block',
               }}>
-              {`${userName}!`}
-            </StyledTitle>
-          ) : null}
+              {userName ? `${userName}!` : '!'}
+            </span>
+          </StyledTitle>
         </ContentWrapper>
         <ButtonWrapper>
           <SafeLinkButton to="/structure">

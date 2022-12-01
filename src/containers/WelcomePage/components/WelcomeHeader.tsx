@@ -97,7 +97,7 @@ export const WelcomeHeader = () => {
                 marginLeft: `${spacing.large}`,
                 display: 'block',
               }}>
-              {userName ? `${userName}!` : '!'}
+              {userName ? `${userName}!` : null}
             </span>
           </StyledTitle>
         </ContentWrapper>

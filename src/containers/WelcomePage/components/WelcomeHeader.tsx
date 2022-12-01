@@ -53,7 +53,6 @@ const ButtonText = styled.div`
 `;
 
 const shapeStyles = css`
-  content: '';
   position: absolute;
   background-color: ${colors.brand.light};
 `;

@@ -11,12 +11,6 @@ import styled from '@emotion/styled';
 import { SafeLinkButton } from '@ndla/safelink';
 import { useSession } from '../../Session/SessionProvider';
 
-const zIndex = {
-  header: 0,
-  shapes: 1,
-  content: 2,
-};
-
 const StyledWrapper = styled.header`
   height: 150px;
   display: flex;
@@ -35,14 +29,13 @@ const StyledHeader = styled.div`
   padding: ${spacing.small};
   border-radius: 10px;
   position: relative;
-  z-index: ${zIndex.header};
 `;
 
 const ButtonWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${spacing.xsmall};
-  z-index: ${zIndex.content};
+  z-index: 1;
 `;
 
 const StyledTitle = styled.h1`
@@ -67,7 +60,6 @@ const LeftShape = styled.div`
   width: 120px;
   height: 100px;
   border-radius: 10px 0 100px 0;
-  z-index: ${zIndex.shapes};
 `;
 
 const RightShape = styled.div`
@@ -79,7 +71,6 @@ const RightShape = styled.div`
   width: 110px;
   height: 80px;
   border-radius: 100px 0 10px 0;
-  z-index: ${zIndex.shapes};
 `;
 
 const StyledImage = styled.img`
@@ -88,7 +79,7 @@ const StyledImage = styled.img`
 `;
 
 const ContentWrapper = styled.div`
-  z-index: ${zIndex.content};
+  z-index: 1;
 `;
 
 export const WelcomeHeader = () => {

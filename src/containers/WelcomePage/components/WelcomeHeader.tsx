@@ -76,11 +76,6 @@ const RightShape = styled.div`
   border-radius: 100px 0 10px 0;
 `;
 
-const StyledImage = styled.img`
-  height: 150;
-  width: 170;
-`;
-
 const ContentWrapper = styled.div`
   z-index: 1;
 `;
@@ -93,11 +88,7 @@ export const WelcomeHeader = () => {
       <StyledHeader>
         <LeftShape />
         <ContentWrapper>
-          <StyledImage
-            src="/welcome-page-person.svg"
-            alt="illustration-person"
-            aria-hidden={true}
-          />
+          <img src="/welcome-page-person.svg" alt="illustration-person" aria-hidden={true} />
         </ContentWrapper>
         <ContentWrapper>
           <StyledTitle>Velkommen tilbake</StyledTitle>

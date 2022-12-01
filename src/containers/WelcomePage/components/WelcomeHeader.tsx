@@ -9,6 +9,7 @@
 import { colors, spacing, fonts } from '@ndla/core';
 import styled from '@emotion/styled';
 import { SafeLinkButton } from '@ndla/safelink';
+import { css } from '@emotion/react';
 import { useSession } from '../../Session/SessionProvider';
 
 const StyledWrapper = styled.header`
@@ -51,23 +52,25 @@ const ButtonText = styled.div`
   font-size: ${fonts.sizes(16, 1.1)};
 `;
 
-const LeftShape = styled.div`
+const shapeStyles = css`
   content: '';
   position: absolute;
+  background-color: ${colors.brand.light};
+`;
+
+const LeftShape = styled.div`
+  ${shapeStyles}
   left: 0;
   top: 0;
-  background-color: ${colors.brand.light};
   width: 120px;
   height: 100px;
   border-radius: 10px 0 100px 0;
 `;
 
 const RightShape = styled.div`
-  content: '';
-  position: absolute;
+  ${shapeStyles}
   right: 0;
   bottom: 0;
-  background-color: ${colors.brand.light};
   width: 110px;
   height: 80px;
   border-radius: 100px 0 10px 0;

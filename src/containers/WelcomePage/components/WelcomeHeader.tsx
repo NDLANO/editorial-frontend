@@ -40,16 +40,16 @@ const ButtonWrapper = styled.div`
 `;
 
 const StyledTitle = styled.h1`
-  font-size: ${fonts.sizes(24, 1.2)};
+  ${fonts.sizes(24, 1.2)};
   color: ${colors.brand.primary};
   margin: 0;
   font-family: ${fonts.sans};
   white-space: nowrap;
 `;
 
-const ButtonText = styled.div`
+const StyledSafeLinkButton = styled(SafeLinkButton)`
   font-weight: ${fonts.weight.normal};
-  font-size: ${fonts.sizes(16, 1.1)};
+  ${fonts.sizes(16, 1.1)};
 `;
 
 const shapeStyles = css`
@@ -102,12 +102,10 @@ export const WelcomeHeader = () => {
           </StyledTitle>
         </ContentWrapper>
         <ButtonWrapper>
-          <SafeLinkButton to="/structure">
-            <ButtonText>Strukturredigering</ButtonText>
-          </SafeLinkButton>
-          <SafeLinkButton to="subject-matter/learning-resource/new">
-            <ButtonText>Opprett tom artikkel</ButtonText>
-          </SafeLinkButton>
+          <StyledSafeLinkButton to="/structure">Strukturredigering</StyledSafeLinkButton>
+          <StyledSafeLinkButton to="subject-matter/learning-resource/new">
+            Opprett tom artikkel
+          </StyledSafeLinkButton>
         </ButtonWrapper>
         <RightShape />
       </StyledHeader>

@@ -25,9 +25,6 @@ import { useAllResourceTypes } from '../../../modules/taxonomy/resourcetypes/res
 import NodeDescription from './NodeDescription';
 import handleError from '../../../util/handleError';
 import AllResourcesGroup from './AllResourcesGroup';
-import ResourceGroup from './ResourceGroup';
-import { groupResourcesByType } from '../../../util/taxonomyHelpers';
-import GroupTopicResources from '../folderComponents/topicMenuOptions/GroupTopicResources';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -35,11 +32,6 @@ const StyledDiv = styled('div')`
   width: calc(${spacing.large} * 5);
   margin-left: auto;
   margin-right: calc(${spacing.nsmall});
-`;
-const Row = styled.div`
-  display: flex;
-  justify-content: space-between;
-  padding: ${spacing.xsmall};
 `;
 
 export interface ResourceWithNodeConnectionAndMeta extends ResourceWithNodeConnection {
@@ -73,7 +65,6 @@ const withMissing = (r: ResourceWithNodeConnection): ResourceWithNodeConnection 
 const StructureResources = ({ currentChildNode, resourceRef, onCurrentNodeChanged }: Props) => {
   const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
-  const grouped = currentChildNode?.metadata?.customFields['topic-resources'] ?? 'grouped';
 
   const { data: nodeResources } = useResourcesWithNodeConnection(
     { id: currentChildNode.id, language: i18n.language, taxonomyVersion },
@@ -99,12 +90,6 @@ const StructureResources = ({ currentChildNode, resourceRef, onCurrentNodeChange
 
   const keyedMetas = keyBy(nodeResourceMetas, m => m.contentUri);
 
-  const nodeResourcesWithMeta: ResourceWithNodeConnectionAndMeta[] =
-    nodeResources?.map(res => ({
-      ...res,
-      contentMeta: res.contentUri ? keyedMetas[res.contentUri] : undefined,
-    })) ?? [];
-
   const { data: resourceTypes } = useAllResourceTypes(
     { language: i18n.language, taxonomyVersion },
     {
@@ -113,59 +98,29 @@ const StructureResources = ({ currentChildNode, resourceRef, onCurrentNodeChange
     },
   );
 
-  const mapping = groupResourcesByType(nodeResourcesWithMeta ?? [], resourceTypes ?? []);
-
   return (
     <div ref={resourceRef}>
-      <Row>
-        <Button
-          outline
-          onClick={() =>
-            document.getElementById(currentChildNode.id)?.scrollIntoView({ block: 'center' })
-          }>
-          {t('taxonomy.jumpToStructure')}
-        </Button>
-        {currentChildNode && currentChildNode.id && (
-          <StyledDiv>
-            <GroupTopicResources
-              node={currentChildNode}
-              hideIcon
-              onChanged={partialMeta => {
-                onCurrentNodeChanged({
-                  ...currentChildNode,
-                  metadata: { ...currentChildNode.metadata, ...partialMeta },
-                });
-              }}
-            />
-          </StyledDiv>
-        )}
-      </Row>
+      <Button
+        outline
+        onClick={() =>
+          document.getElementById(currentChildNode.id)?.scrollIntoView({ block: 'center' })
+        }>
+        {t('taxonomy.jumpToStructure')}
+      </Button>
+
       <NodeDescription
         currentNode={currentChildNode}
         contentMeta={
           currentChildNode.contentUri ? keyedMetas[currentChildNode.contentUri] : undefined
         }
       />
-      {grouped === 'ungrouped' && (
-        <AllResourcesGroup
-          key="ungrouped"
-          nodeResources={nodeResources ?? []}
-          resourceTypes={resourceTypes ?? []}
-          currentNodeId={currentChildNode.id}
-        />
-      )}
-      {grouped === 'grouped' &&
-        resourceTypes?.map(resourceType => {
-          const nodeResource = mapping.find(resource => resource.id === resourceType.id);
-          return (
-            <ResourceGroup
-              key={resourceType.id}
-              resourceType={resourceType}
-              resources={nodeResource?.resources}
-              currentNodeId={currentChildNode.id}
-            />
-          );
-        })}
+
+      <AllResourcesGroup
+        key="ungrouped"
+        nodeResources={nodeResources ?? []}
+        resourceTypes={resourceTypes ?? []}
+        currentNodeId={currentChildNode.id}
+      />
     </div>
   );
 };

@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { ContentTypeBadge } from '@ndla/ui';
-import Button from '@ndla/button';
+import Button, { ButtonV2 } from '@ndla/button';
 import { colors, spacing, breakpoints } from '@ndla/core';
 import { AlertCircle, Check } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
@@ -73,7 +73,7 @@ interface Props {
   updateResource?: (resource: ResourceWithNodeConnection) => void;
   dragHandleProps?: DraggableProvidedDragHandleProps;
 }
-const ButtonWithSpacing = styled(Button)`
+const ButtonWithSpacing = styled(ButtonV2)`
   margin-left: ${spacing.xsmall};
 `;
 
@@ -252,17 +252,21 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
           )}
         </StyledText>
         <ButtonRow>
-          <Button css={{ flex: 1 }} lighter>
+          <ButtonV2 css={{ flex: 1 }} size="xsmall" colorTheme="lighter">
             Ansvarlig: Navn Navnesen
-          </Button>
+          </ButtonV2>
           {contentType !== 'learning-path' && (
-            <ButtonWithSpacing lighter onClick={() => setShowGrepCodes(true)}>
+            <ButtonWithSpacing
+              size="xsmall"
+              colorTheme="lighter"
+              onClick={() => setShowGrepCodes(true)}>
               {`GREP (${resource.contentMeta?.grepCodes?.length || 0})`}
             </ButtonWithSpacing>
           )}
           {resource.contentMeta?.status?.current && (
             <ButtonWithSpacing
-              lighter
+              size="xsmall"
+              colorTheme="lighter"
               onClick={() => setShowVersionHistory(true)}
               disabled={contentType === 'learning-path'}>
               {t(`form.status.${resource.contentMeta.status.current.toLowerCase()}`)}

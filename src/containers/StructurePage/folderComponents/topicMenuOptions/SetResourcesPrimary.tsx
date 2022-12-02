@@ -52,7 +52,9 @@ const SetResourcesPrimary = ({
     <>
       <MenuItemButton stripped onClick={toggleConnectedResourcesPrimary}>
         <RoundIcon small icon={<Pencil />} />
-        {t('taxonomy.resourcesPrimary.buttonText', { count: recursive ? 2 : 1 })}
+        {recursive
+          ? t('taxonomy.resourcesPrimary.recursiveButtonText')
+          : t('taxonomy.resourcesPrimary.buttonText')}
       </MenuItemButton>
       <AlertModal
         show={editMode === 'setResourcesPrimary'}
@@ -67,7 +69,11 @@ const SetResourcesPrimary = ({
           },
         ]}
         onCancel={toggleConnectedResourcesPrimary}
-        text={t('taxonomy.resourcesPrimary.text', { count: recursive ? 2 : 1 })}
+        text={
+          recursive
+            ? t('taxonomy.resourcesPrimary.recursiveText')
+            : t('taxonomy.resourcesPrimary.text')
+        }
       />
       {isLoading && <Spinner appearance="absolute" />}
       {isLoading && <Overlay modifiers={['absolute', 'white-opacity', 'zIndex']} />}

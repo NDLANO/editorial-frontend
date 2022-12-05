@@ -14,7 +14,6 @@
 @import './content-block.css';
 @import './form.css';
 @import './vars.css';
-@import './table.css';
 
 .c-audio-search {
   width: 70%;

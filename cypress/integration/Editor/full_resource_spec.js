@@ -16,7 +16,7 @@ describe('Edit article with everything', () => {
     editorRoutes(ARTICLE_ID);
 
     cy.visit(`/subject-matter/learning-resource/${ARTICLE_ID}/edit/nb`);
-    cy.get('.c-editor');
+    cy.get('[data-cy="slate-editor"]');
     cy.apiwait([`@draft-${ARTICLE_ID}`, '@statusMachine', '@licenses', '@taxonomyTopics']);
     cy.get('article span')
       .contains('Cypress test')

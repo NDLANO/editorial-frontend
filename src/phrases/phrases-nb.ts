@@ -120,6 +120,8 @@ const phrases = {
     lastUsed: 'Sist redigert',
     savedSearch: 'Lagrede søk',
     saveSearch: 'Lagre søk',
+    welcomeBack: 'Velkommen tilbake',
+    addEmptyArticle: 'Opprett tom artikkel',
   },
   searchPage: {
     header: {

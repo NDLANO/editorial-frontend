@@ -10,6 +10,7 @@ import { colors, spacing, fonts } from '@ndla/core';
 import styled from '@emotion/styled';
 import { SafeLinkButton } from '@ndla/safelink';
 import { css } from '@emotion/react';
+import { useTranslation } from 'react-i18next';
 import { useSession } from '../../Session/SessionProvider';
 
 const StyledWrapper = styled.header`
@@ -81,17 +82,18 @@ const ContentWrapper = styled.div`
 
 export const WelcomeHeader = () => {
   const { userName } = useSession();
+  const { t } = useTranslation();
 
   return (
     <StyledWrapper>
       <StyledHeader>
         <LeftShape />
         <ContentWrapper>
-          <img src="/welcome-page-person.svg" alt="illustration-person" aria-hidden={true} />
+          <img src="/welcome-page-person.svg" alt="" />
         </ContentWrapper>
         <ContentWrapper>
           <StyledTitle>
-            <span>Velkommen tilbake</span>
+            <span>{t('welcomePage.welcomeBack')}</span>
             <span
               css={{
                 marginLeft: `${spacing.large}`,
@@ -102,9 +104,11 @@ export const WelcomeHeader = () => {
           </StyledTitle>
         </ContentWrapper>
         <ButtonWrapper>
-          <StyledSafeLinkButton to="/structure">Strukturredigering</StyledSafeLinkButton>
+          <StyledSafeLinkButton to="/structure">
+            {t('subNavigation.structure')}
+          </StyledSafeLinkButton>
           <StyledSafeLinkButton to="subject-matter/learning-resource/new">
-            Opprett tom artikkel
+            {t('welcomePage.addEmptyArticle')}
           </StyledSafeLinkButton>
         </ButtonWrapper>
         <RightShape />

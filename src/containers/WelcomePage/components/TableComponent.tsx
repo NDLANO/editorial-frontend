@@ -78,7 +78,7 @@ const orderButtonStyle = (isHidden: boolean) => css`
 
 export interface FieldElement {
   id: string;
-  data: string | ReactNode;
+  data: ReactNode;
 }
 
 export interface TitleElement {

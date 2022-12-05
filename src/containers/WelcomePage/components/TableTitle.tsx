@@ -29,7 +29,7 @@ const StyledTitle = styled.span`
 
 const StyledDescription = styled.div`
   font-weight: normal;
-  font-size: ${fonts.sizes('16px', '20px')};
+  ${fonts.sizes('16px', '20px')};
   color: ${colors.text.light};
 `;
 

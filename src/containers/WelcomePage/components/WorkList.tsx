@@ -50,7 +50,6 @@ const WorkList = () => {
 
   const { ndlaId } = useSession();
   const { t } = useTranslation();
-  // Data search
   const { data, isLoading } = useSearch(
     {
       'responsible-ids': ndlaId,

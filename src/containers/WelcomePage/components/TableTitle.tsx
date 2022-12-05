@@ -6,6 +6,7 @@
  *
  */
 
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { spacing, colors, fonts } from '@ndla/core';
 import { ElementType } from 'react';
@@ -43,6 +44,12 @@ const StyledIconWrapper = styled.div`
   margin-right: ${spacing.normal};
 `;
 
+const iconStyles = css`
+  color: ${colors.white};
+  width: 24px;
+  height: 24px;
+`;
+
 interface Props {
   title: string;
   description: string;
@@ -53,7 +60,7 @@ const TableComponent = ({ title, description, Icon }: Props) => {
   return (
     <TableComponentWrapper>
       <StyledIconWrapper>
-        <Icon className="c-icon--medium" css={{ color: `${colors.white}` }} />
+        <Icon css={iconStyles} />
       </StyledIconWrapper>
       <TextWrapper>
         <StyledTitle>{title}</StyledTitle>

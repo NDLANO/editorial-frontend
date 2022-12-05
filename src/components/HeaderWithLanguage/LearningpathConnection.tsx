@@ -46,6 +46,7 @@ const LearningpathConnection = ({ id, learningpaths, setLearningpaths }: Props) 
 
   return (
     <Modal
+      label={t('form.learningpathConnections.title')}
       backgroundColor="white"
       narrow
       wrapperFunctionForButton={(activateButton: any) => (

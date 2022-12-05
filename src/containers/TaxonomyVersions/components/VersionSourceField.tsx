@@ -6,27 +6,23 @@
  *
  */
 
-import { FieldHeader, Select } from '@ndla/forms';
-import { FieldProps } from 'formik';
+import { FieldHeader } from '@ndla/forms';
+import { FieldProps, useFormikContext } from 'formik';
 import { useTranslation } from 'react-i18next';
 import FormikField from '../../../components/FormikField';
+import OptGroupVersionSelector from '../../../components/Taxonomy/OptGroupVersionSelector';
 import { VersionType } from '../../../modules/taxonomy/versions/versionApiTypes';
 
 interface Props {
   existingVersions: VersionType[];
 }
 
-interface Option {
-  value?: string;
-  name: string;
-}
-
 const VersionSourceField = ({ existingVersions }: Props) => {
   const { t } = useTranslation();
+  const { setFieldValue } = useFormikContext();
 
-  const defaultOption: Option = { name: t('taxonomyVersions.form.source.defaultOption') };
+  const findCurrentlySelected = (hash: string) => existingVersions.find(v => v.hash === hash);
 
-  const options: Option[] = existingVersions.map(v => ({ name: v.name, value: v.id }));
   return (
     <>
       <FieldHeader
@@ -35,13 +31,11 @@ const VersionSourceField = ({ existingVersions }: Props) => {
       />
       <FormikField name="sourceId">
         {({ field }: FieldProps) => (
-          <Select {...field}>
-            {[defaultOption].concat(options).map(option => (
-              <option value={option.value} key={option.name}>
-                {option.name}
-              </option>
-            ))}
-          </Select>
+          <OptGroupVersionSelector
+            versions={existingVersions}
+            currentVersion={field.value}
+            onVersionChanged={val => setFieldValue('sourceId', findCurrentlySelected(val)?.id)}
+          />
         )}
       </FormikField>
     </>

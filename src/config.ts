@@ -151,6 +151,7 @@ export type ConfigType = {
   googleSearchEngineId: string | undefined;
   isNdlaProdEnvironment: boolean;
   versioningEnabled: string;
+  revisiondateEnabled: string;
   ndlaEnvironment: string;
   learningpathFrontendDomain: string;
   googleSearchApiKey: string | undefined;
@@ -167,6 +168,7 @@ export type ConfigType = {
   zendeskWidgetKey: string | undefined;
   brightcovePlayerId: string | undefined;
   brightcove360PlayerId: string | undefined;
+  brightcoveCopyrightPlayerId: string | undefined;
   disableCSP: string | undefined;
   usernamePasswordEnabled: boolean;
 };
@@ -182,6 +184,7 @@ const config: ConfigType = {
   logglyApiKey: getEnvironmentVariabel('LOGGLY_API_KEY'),
   isNdlaProdEnvironment: ndlaEnvironment === 'prod',
   versioningEnabled: getEnvironmentVariabel('ENABLE_VERSIONING', 'true'),
+  revisiondateEnabled: getEnvironmentVariabel('ENABLE_REVISIONDATE', 'true'),
   ndlaApiUrl: getEnvironmentVariabel('NDLA_API_URL', getNdlaApiUrl(ndlaEnvironment)),
   ndlaBaseUrl: ndlaBaseUrl(),
   ndlaFrontendDomain: getEnvironmentVariabel('FRONTEND_DOMAIN', ndlaFrontendDomain()),
@@ -195,6 +198,7 @@ const config: ConfigType = {
   brightCoveAccountId: getEnvironmentVariabel('BRIGHTCOVE_ACCOUNT_ID', '123456789'),
   brightcovePlayerId: getEnvironmentVariabel('BRIGHTCOVE_PLAYER_ID', 'Ab1234'),
   brightcove360PlayerId: getEnvironmentVariabel('BRIGHTCOVE_PLAYER_360_ID', 'Ab1234'),
+  brightcoveCopyrightPlayerId: getEnvironmentVariabel('BRIGHTCOVE_PLAYER_COPYRIGHT_ID', 'Ab1234'),
   brightcoveApiUrl: 'https://cms.api.brightcove.com',
   brightcoveUrl: 'https://studio.brightcove.com/products/videocloud/home',
   h5pApiUrl: getEnvironmentVariabel('H5P_API_URL', h5pApiUrl()),

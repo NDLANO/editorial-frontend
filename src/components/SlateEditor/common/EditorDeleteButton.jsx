@@ -7,12 +7,12 @@
  */
 
 import PropTypes from 'prop-types';
-import { css } from '@emotion/core';
-import darken from 'polished/lib/color/darken';
+import styled from '@emotion/styled';
+import { darken } from 'polished';
 import { colors } from '@ndla/core';
 import DeleteButton from '../../DeleteButton';
 
-const deleteButtonStyle = css`
+const StyledDeleteButton = styled(DeleteButton)`
   position: absolute;
   top: 0.1rem;
   right: 0.2rem;
@@ -23,9 +23,7 @@ const deleteButtonStyle = css`
   }
 `;
 
-export const EditorDeleteButton = props => (
-  <DeleteButton stripped css={deleteButtonStyle} tabIndex="-1" {...props} />
-);
+export const EditorDeleteButton = props => <StyledDeleteButton stripped tabIndex="-1" {...props} />;
 
 EditorDeleteButton.propTypes = {
   onClick: PropTypes.func.isRequired,

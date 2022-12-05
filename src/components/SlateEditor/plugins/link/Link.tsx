@@ -12,7 +12,6 @@ import { RenderElementProps } from 'slate-react';
 import Button from '@ndla/button';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
-import { css } from '@emotion/core';
 import { colors, spacing } from '@ndla/core';
 import config from '../../../../config';
 import { toEditGenericArticle, toLearningpathFull } from '../../../../util/routeHelpers';
@@ -22,7 +21,7 @@ import { classes } from '../../RichTextEditor';
 import EditLink from './EditLink';
 import { ContentLinkElement, LinkElement } from '.';
 
-const linkMenuButtonStyle = css`
+const StyledButton = styled(Button)`
   color: ${colors.brand.primary};
   text-decoration: underline;
 `;
@@ -137,9 +136,9 @@ const Link = (props: Props) => {
         <>
           <Portal isOpened={isInline}>
             <StyledLinkMenu top={top} left={left}>
-              <Button css={linkMenuButtonStyle} stripped onClick={toggleEditMode}>
+              <StyledButton stripped onClick={toggleEditMode}>
                 {t('form.content.link.change')}
-              </Button>{' '}
+              </StyledButton>{' '}
               | {t('form.content.link.goTo')}{' '}
               <a href={model?.href} target="_blank" rel="noopener noreferrer">
                 {' '}

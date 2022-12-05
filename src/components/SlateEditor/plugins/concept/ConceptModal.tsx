@@ -9,7 +9,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { debounce } from 'lodash';
 import PropTypes from 'prop-types';
-import Modal from '@ndla/modal/lib/Modal';
+import Modal from '@ndla/modal';
 import { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import {
   IConcept,
@@ -123,6 +123,7 @@ const ConceptModal = ({
   return (
     <Portal isOpened>
       <Modal
+        label={t('conceptform.title')}
         controllable
         isOpen={isOpen}
         onClose={onClose}
@@ -170,7 +171,7 @@ const ConceptModal = ({
                         />
                         <Pager
                           query={searchObject}
-                          page={searchObject.page ?? 1}
+                          page={results.page ?? 1}
                           pathname=""
                           lastPage={Math.ceil(results.totalCount / results.pageSize)}
                           onClick={searchConcept}

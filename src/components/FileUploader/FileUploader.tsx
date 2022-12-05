@@ -7,7 +7,7 @@
  */
 
 import { useState } from 'react';
-import { css } from '@emotion/core';
+import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import { spacing } from '@ndla/core';
 import { UploadDropZone } from '@ndla/forms';
@@ -17,8 +17,9 @@ import { DRAFT_ADMIN_SCOPE } from '../../constants';
 import handleError from '../../util/handleError';
 import { UnsavedFile } from '../../interfaces';
 import { useSession } from '../../containers/Session/SessionProvider';
+import { isNdlaErrorPayload } from '../../util/resolveJsonOrRejectWithError';
 
-const wrapperCSS = css`
+const FileUploaderWrapper = styled.div`
   padding: 0 ${spacing.large};
 `;
 
@@ -41,8 +42,9 @@ const FileUploader = ({ onFileSave }: Props) => {
     return uploadFile(formData);
   };
 
-  const onSave = async (files: (Blob & { name: string })[]) => {
+  const onSave = async (filesList: File[]) => {
     try {
+      const files = Array.from(filesList);
       setSaving(true);
       const newFiles = await Promise.all(files.map(file => saveFile(file)));
       onFileSave(
@@ -53,7 +55,7 @@ const FileUploader = ({ onFileSave }: Props) => {
         })),
       );
     } catch (err) {
-      if (err && err.json && err.json.messages) {
+      if (isNdlaErrorPayload(err) && err.json && err.json.messages) {
         setErrorMessage(
           err.json.messages.map((message: { message: string }) => message.message).join(', '),
         );
@@ -68,7 +70,7 @@ const FileUploader = ({ onFileSave }: Props) => {
   }
 
   return (
-    <div css={wrapperCSS}>
+    <FileUploaderWrapper>
       <UploadDropZone
         name="file"
         allowedFiles={allowedFiles}
@@ -78,7 +80,7 @@ const FileUploader = ({ onFileSave }: Props) => {
         ariaLabel={t('form.file.dragdrop.ariaLabel')}>
         <strong>{t('form.file.dragdrop.main')}</strong> {t('form.file.dragdrop.sub')}
       </UploadDropZone>
-    </div>
+    </FileUploaderWrapper>
   );
 };
 

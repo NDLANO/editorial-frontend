@@ -12,7 +12,7 @@ import {
   INewSubjectFrontPageData,
   IUpdatedSubjectFrontPageData,
 } from '@ndla/types-frontpage-api';
-import { IImageMetaInformationV2 } from '@ndla/types-image-api';
+import { IImageMetaInformationV3 } from '@ndla/types-image-api';
 import { ILearningPathV2 } from '@ndla/types-learningpath-api';
 import { IArticle } from '@ndla/types-draft-api';
 import { BrightcoveEmbed, ImageEmbed } from '../interfaces';
@@ -109,7 +109,7 @@ export const subjectpageApiTypeToFormikType = (
   elementId: string,
   selectedLanguage: string,
   editorsChoices?: (ILearningPathV2 | IArticle)[],
-  banner?: IImageMetaInformationV2, // maybe undefined?
+  banner?: IImageMetaInformationV3, // maybe undefined?
 ): SubjectPageFormikType => {
   const visualElement = subjectpage?.about?.visualElement;
   const desktopBanner = banner ? imageToVisualElement(banner) : undefined;
@@ -134,7 +134,7 @@ export const subjectpageApiTypeToFormikType = (
     layout: subjectpage?.layout ?? 'single',
     metaDescription: plainTextToEditorValue(subjectpage?.metaDescription || ''),
     mostRead: subjectpage?.mostRead ?? [],
-    name: subjectpage?.name ?? elementName ?? '',
+    name: subjectpage?.about?.title ?? elementName ?? '',
     topical: subjectpage?.topical ?? '',
     twitter: subjectpage?.twitter ?? '',
     elementId,

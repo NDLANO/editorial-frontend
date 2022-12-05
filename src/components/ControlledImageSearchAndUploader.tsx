@@ -13,9 +13,9 @@ import ImageSearch from '@ndla/image-search';
 import Tabs from '@ndla/tabs';
 import styled from '@emotion/styled';
 import {
-  IImageMetaInformationV2,
+  IImageMetaInformationV3,
   IUpdateImageMetaInformation,
-  ISearchResult,
+  ISearchResultV3,
 } from '@ndla/types-image-api';
 import { useTranslation } from 'react-i18next';
 import ImageForm from '../containers/ImageUploader/components/ImageForm';
@@ -29,13 +29,14 @@ const StyledTitleDiv = styled.div`
 `;
 
 interface Props {
-  onImageSelect: (image: IImageMetaInformationV2) => void;
+  onImageSelect: (image: IImageMetaInformationV3) => void;
   locale: string;
+  language?: string;
   closeModal: () => void;
   onError: (err: Error & Response) => void;
-  searchImages: (queryObject: ImageSearchQuery) => Promise<ISearchResult>;
-  fetchImage: (id: number) => Promise<IImageMetaInformationV2>;
-  image?: IImageMetaInformationV2;
+  searchImages: (queryObject: ImageSearchQuery) => Promise<ISearchResultV3>;
+  fetchImage: (id: number) => Promise<IImageMetaInformationV3>;
+  image?: IImageMetaInformationV3;
   updateImage: (
     imageMetadata: IUpdateImageMetaInformation,
     file: string | Blob,
@@ -43,7 +44,7 @@ interface Props {
   ) => void;
   inModal?: boolean;
   showCheckbox?: boolean;
-  checkboxAction?: (image: IImageMetaInformationV2) => void;
+  checkboxAction?: (image: IImageMetaInformationV3) => void;
 }
 
 const ImageSearchAndUploader = ({
@@ -52,6 +53,7 @@ const ImageSearchAndUploader = ({
   onImageSelect,
   closeModal,
   locale,
+  language,
   fetchImage,
   searchImages,
   onError,
@@ -63,7 +65,7 @@ const ImageSearchAndUploader = ({
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
   const { data: licenses } = useLicenses({ placeholderData: [] });
   const searchImagesWithParameters = (query?: string, page?: number) => {
-    return searchImages({ query, page, 'page-size': 16 });
+    return searchImages({ query, page, 'page-size': 16, language: language, fallback: true });
   };
   const imageLicenses = draftLicensesToImageLicenses(licenses ?? []);
 

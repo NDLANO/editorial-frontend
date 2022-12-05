@@ -6,48 +6,75 @@
  *
  */
 
-import { FormEvent, ReactNode, useEffect, useState, MouseEvent } from 'react';
+import { ReactNode, useEffect, useState, MouseEvent, useCallback } from 'react';
 import { RenderElementProps } from 'slate-react';
-import { Figure } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
+import styled from '@emotion/styled';
+import { Figure } from '@ndla/ui';
+import { colors } from '@ndla/core';
+import Modal from '@ndla/modal';
 
-import EditAudio from './EditAudio';
+import EditAudio, { audioEmbedFormRules, toAudioEmbedFormValues } from './EditAudio';
 import AudioPlayerMounter from './AudioPlayerMounter';
 import FigureButtons from './FigureButtons';
 import { SlateAudio as Audio, LocaleType, AudioEmbed } from '../../../../interfaces';
 import { fetchAudio } from '../../../../modules/audio/audioApi';
-import { onError } from '../../../../util/resolveJsonOrRejectWithError';
+import { NdlaErrorPayload, onError } from '../../../../util/resolveJsonOrRejectWithError';
+import validateFormik from '../../../formikValidationSchema';
 
 interface Props {
   attributes: RenderElementProps['attributes'];
-  changes: { [x: string]: string };
   embed: AudioEmbed;
   language: string;
   locale: LocaleType;
   onRemoveClick: (event: MouseEvent) => void;
-  onFigureInputChange: (event: FormEvent<HTMLSelectElement>) => void;
+  saveEmbedUpdates: (updates: Record<string, string>) => void;
   active: boolean;
   isSelectedForCopy: boolean;
   children: ReactNode;
 }
 
+interface SlateAudioWrapperProps {
+  hasError?: boolean;
+  showCopyOutline?: boolean;
+}
+
+const SlateAudioWrapper = styled.div<SlateAudioWrapperProps>`
+  border-style: solid;
+  border-width: 2px;
+  border-color: ${p =>
+    p.showCopyOutline ? colors.brand.primary : p.hasError ? colors.support.red : 'transparent'};
+`;
+
 const SlateAudio = ({
   attributes,
-  changes,
   embed,
   language,
   locale,
   onRemoveClick,
-  onFigureInputChange,
   active,
   isSelectedForCopy,
+  saveEmbedUpdates,
   children,
 }: Props) => {
   const { t } = useTranslation();
   const speech = embed.type === 'minimal';
+  const [error, _setHasError] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [audio, setAudio] = useState<Audio>({} as Audio);
   const showCopyOutline = isSelectedForCopy && (!editMode || !active);
+
+  const setHasError = useCallback((hasError: boolean) => _setHasError(hasError), []);
+
+  useEffect(() => {
+    if (!editMode) {
+      _setHasError(
+        !!Object.keys(
+          validateFormik(toAudioEmbedFormValues(embed, embed.type), audioEmbedFormRules, t),
+        ).length,
+      );
+    }
+  }, [editMode, embed, t]);
 
   useEffect(() => {
     const getAudio = async () => {
@@ -58,73 +85,63 @@ const SlateAudio = ({
           title: audio.title?.title || '',
         });
       } catch (error) {
-        onError(error);
+        onError(error as NdlaErrorPayload);
       }
     };
 
     getAudio();
   }, [embed, language]);
 
-  const onAudioFigureInputChange = (e: FormEvent<HTMLSelectElement>) => {
-    const { value, name } = e.currentTarget;
-    setAudio({
-      ...audio,
-      [name]: value,
-    });
-    onFigureInputChange(e);
-  };
-
   const toggleEdit = () => {
     setEditMode(!editMode);
   };
 
   return (
-    <div draggable {...attributes}>
-      <Figure id={`${audio.id}`}>
-        {editMode ? (
+    <>
+      <Modal
+        controllable
+        backgroundColor="white"
+        isOpen={editMode}
+        labelledBy={'editAudioEmbed'}
+        onClose={() => setEditMode(false)}>
+        {close => (
           <EditAudio
+            saveEmbedUpdates={saveEmbedUpdates}
+            setHasError={setHasError}
             audio={audio}
-            changes={changes}
             embed={embed}
-            language={language}
-            onExit={toggleEdit}
-            onChange={onFigureInputChange}
-            onAudioFigureInputChange={onAudioFigureInputChange}
-            onRemoveClick={onRemoveClick}
-            speech={speech}
+            onExit={close}
             type={embed.type || 'standard'}
           />
-        ) : (
-          <>
-            {!speech && (
-              <FigureButtons
-                tooltip={t('form.audio.remove')}
-                onRemoveClick={onRemoveClick}
-                embed={embed}
-                figureType="audio"
-                language={language}
-              />
-            )}
-            <div
-              css={
-                showCopyOutline && {
-                  boxShadow: 'rgb(32, 88, 143) 0 0 0 2px;',
-                }
-              }
-              contentEditable={false}
-              role="button"
-              draggable
-              className="c-placeholder-editmode"
-              tabIndex={0}
-              onKeyPress={toggleEdit}
-              onClick={toggleEdit}>
-              {audio.id && <AudioPlayerMounter audio={audio} locale={locale} speech={speech} />}
-            </div>
-          </>
         )}
-      </Figure>
-      {children}
-    </div>
+      </Modal>
+      <div draggable {...attributes}>
+        <Figure id={`${audio.id}`}>
+          {!speech && (
+            <FigureButtons
+              tooltip={t('form.audio.remove')}
+              onRemoveClick={onRemoveClick}
+              embed={embed}
+              figureType="audio"
+              language={language}
+            />
+          )}
+          <SlateAudioWrapper
+            showCopyOutline={showCopyOutline}
+            hasError={!!error}
+            contentEditable={false}
+            role="button"
+            draggable
+            className="c-placeholder-editmode"
+            tabIndex={0}
+            onKeyPress={toggleEdit}
+            onClick={toggleEdit}>
+            {audio.id && <AudioPlayerMounter audio={audio} locale={locale} speech={speech} />}
+          </SlateAudioWrapper>
+        </Figure>
+        {children}
+      </div>
+    </>
   );
 };
 

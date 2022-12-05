@@ -8,12 +8,12 @@ import { FormikProps } from 'formik';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { IFilmFrontPageData } from '@ndla/types-frontpage-api';
-import { formatErrorMessage } from '../../util/apiHelpers';
 import { getInitialValues } from '../../util/ndlaFilmHelpers';
 import { getNdlaFilmFromSlate } from '../../util/ndlaFilmHelpers';
 import { FilmFormikType } from '../../containers/NdlaFilm/components/NdlaFilmForm';
 import { useMessages } from '../Messages/MessagesProvider';
 import { useUpdateFilmFrontpageMutation } from '../../modules/frontpage/filmMutations';
+import { NdlaErrorPayload } from '../../util/resolveJsonOrRejectWithError';
 
 export function useNdlaFilmFormHooks(filmFrontpage: IFilmFrontPageData, selectedLanguage: string) {
   const { t } = useTranslation();
@@ -21,7 +21,7 @@ export function useNdlaFilmFormHooks(filmFrontpage: IFilmFrontPageData, selected
   const updateFilmFrontpage = useUpdateFilmFrontpageMutation();
 
   const initialValues = getInitialValues(filmFrontpage, selectedLanguage);
-  const { createMessage, applicationError } = useMessages();
+  const { createMessage, applicationError, formatErrorMessage } = useMessages();
 
   const handleSubmit = async (formik: FormikProps<FilmFormikType>) => {
     formik.setSubmitting(true);
@@ -34,7 +34,8 @@ export function useNdlaFilmFormHooks(filmFrontpage: IFilmFrontPageData, selected
 
       formik.resetForm();
       setSavedToServer(true);
-    } catch (err) {
+    } catch (e) {
+      const err = e as NdlaErrorPayload;
       if (err?.status === 409) {
         createMessage({
           message: t('alertModal.needToRefresh'),

@@ -12,13 +12,13 @@ import { FormikHelpers } from 'formik';
 import { Descendant } from 'slate';
 import { IArticle, ILicense, IStatus, IUpdatedArticle, IAuthor } from '@ndla/types-draft-api';
 import { deleteFile } from '../../modules/draft/draftApi';
-import { formatErrorMessage } from '../../util/apiHelpers';
 import * as articleStatuses from '../../util/constants/ArticleStatus';
 import { isFormikFormDirty } from '../../util/formHelper';
 import { DraftStatusType, RelatedContent } from '../../interfaces';
 import { useMessages } from '../Messages/MessagesProvider';
 import { useLicenses } from '../../modules/draft/draftQueries';
 import { getWarnings, RulesType } from '../../components/formikValidationSchema';
+import { NdlaErrorPayload } from '../../util/resolveJsonOrRejectWithError';
 
 const getFilePathsFromHtml = (htmlString: string): string[] => {
   const parsed = new DOMParser().parseFromString(htmlString, 'text/html');
@@ -68,6 +68,8 @@ export interface ArticleFormType {
     status: string;
     new?: boolean;
   }[];
+  // This field is only used for error checking in revisions
+  revisionError?: string;
 }
 
 export interface LearningResourceFormType extends ArticleFormType {
@@ -177,14 +179,17 @@ export function useArticleFormHooks<T extends ArticleFormType>({
       }
       formikHelpers.setFieldValue('notes', [], false);
     } catch (e) {
-      const err = e as any;
+      const err = e as NdlaErrorPayload;
       if (err && err.status && err.status === 409) {
         createMessage({
           message: t('alertModal.needToRefresh'),
           timeToLive: 0,
         });
-      } else if (err && err.json && err.json.messages) {
-        createMessage(formatErrorMessage(err));
+      } else if (false && err && err.status && err.status === 500) {
+        createMessage({
+          message: t('errorMessage.errorOnSave'),
+          timeToLive: 0,
+        });
       } else {
         applicationError(err);
       }

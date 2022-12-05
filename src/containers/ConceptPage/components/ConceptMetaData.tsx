@@ -22,9 +22,10 @@ interface Props {
   subjects: SubjectType[];
   fetchTags: (input: string, language: string) => Promise<ITagsSearchResult>;
   inModal: boolean;
+  language?: string;
 }
 
-const ConceptMetaData = ({ subjects, fetchTags, inModal }: Props) => {
+const ConceptMetaData = ({ subjects, fetchTags, inModal, language }: Props) => {
   const { t } = useTranslation();
   const formikContext = useFormikContext<ConceptFormValues>();
   const { values } = formikContext;
@@ -42,6 +43,7 @@ const ConceptMetaData = ({ subjects, fetchTags, inModal }: Props) => {
               showRemoveButton
               showCheckbox={true}
               checkboxAction={image => onSaveAsVisualElement(image, formikContext)}
+              language={language}
               {...field}
             />
           )}
@@ -66,6 +68,7 @@ const ConceptMetaData = ({ subjects, fetchTags, inModal }: Props) => {
         description={t('form.categories.description')}>
         {({ field, form }) => (
           <AsyncSearchTags
+            multiSelect
             language={values.language}
             initialTags={values.tags}
             field={field}

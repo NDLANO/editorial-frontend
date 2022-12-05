@@ -6,30 +6,29 @@
  *
  */
 
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
+import { spacing } from '@ndla/core';
+import { IArticle, IUpdatedArticle } from '@ndla/types-draft-api';
+import { ErrorMessage, OneColumn } from '@ndla/ui';
+import { uniq } from 'lodash';
 import { ReactElement, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import Button from '@ndla/button';
-import { spacing } from '@ndla/core';
-import styled from '@emotion/styled';
-import { css } from '@emotion/core';
-import { OneColumn, ErrorMessage } from '@ndla/ui';
-import { IArticle, IUpdatedArticle } from '@ndla/types-draft-api';
-import { uniq } from 'lodash';
-import {
-  getPreviewArticle,
-  getArticleFromArticleConverter,
-} from '../../modules/article/articleApi';
-import { fetchDraft } from '../../modules/draft/draftApi';
-import Lightbox, { closeLightboxButtonStyle, StyledCross } from '../Lightbox';
-import PreviewLightboxContent from './PreviewLightboxContent';
-import { ActionButton } from '../../containers/FormikForm';
-import Spinner from '../Spinner';
-import { Portal } from '../Portal';
-import PreviewDraft from './PreviewDraft';
-import { ArticleConverterApiType } from '../../modules/article/articleApiInterfaces';
-import { LocaleType, PartialRecord, TypeOfPreview } from '../../interfaces';
-import { createGuard } from '../../util/guards';
 import { updatedDraftApiTypeToDraftApiType } from '../../containers/ArticlePage/articleTransformers';
+import { ActionButton } from '../../containers/FormikForm';
+import { LocaleType, PartialRecord, TypeOfPreview } from '../../interfaces';
+import {
+  getArticleFromArticleConverter,
+  getPreviewArticle,
+} from '../../modules/article/articleApi';
+import { ArticleConverterApiType } from '../../modules/article/articleApiInterfaces';
+import { fetchDraft } from '../../modules/draft/draftApi';
+import { createGuard } from '../../util/guards';
+import Lightbox, { StyledButton, StyledCross } from '../Lightbox';
+import { Portal } from '../Portal';
+import Spinner from '../Spinner';
+import PreviewDraft from './PreviewDraft';
+import PreviewLightboxContent from './PreviewLightboxContent';
 
 const twoArticlesCloseButtonStyle = css`
   position: absolute;
@@ -62,14 +61,13 @@ const lightboxContentStyle = (typeOfPreview: TypeOfPreview) =>
         max-width: 1024px;
       `;
 
-const closeButtonStyle = (typeOfPreview: TypeOfPreview) => css`
-  ${closeLightboxButtonStyle};
-  ${typeOfPreview !== 'preview' ? twoArticlesCloseButtonStyle : null};
+const StyledCloseButton = styled(StyledButton)<{ previewType: TypeOfPreview }>`
+  ${props => props.previewType !== 'preview' && twoArticlesCloseButtonStyle};
   margin-right: 0;
   margin-top: -15px;
 `;
 
-const customSpinnerStyle = css`
+const StyledSpinner = styled(Spinner)`
   display: inline-block;
   margin-right: ${spacing.xsmall};
 `;
@@ -172,20 +170,20 @@ const PreviewDraftLightbox = ({
     }
     return (
       <ActionButton onClick={openPreview} disabled={loading} link data-testid={typeOfPreview}>
-        {loading && <Spinner appearance="small" css={customSpinnerStyle} />}
+        {loading && <StyledSpinner appearance="small" />}
         {t(`form.${typeOfPreview}.button`)}
       </ActionButton>
     );
   }
 
   const closeButton = (
-    <Button
-      css={closeButtonStyle(typeOfPreview)}
+    <StyledCloseButton
+      previewType={typeOfPreview}
       stripped
       data-testid="closePreview"
       onClick={onClosePreview}>
       <StyledCross />
-    </Button>
+    </StyledCloseButton>
   );
 
   return (

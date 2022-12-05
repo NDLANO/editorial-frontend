@@ -7,6 +7,7 @@
  */
 
 import config from './config';
+import { WhitelistProvider } from './interfaces';
 
 export const NAVIGATION_HEADER_MARGIN = '71px';
 
@@ -58,26 +59,19 @@ export const MAX_IMAGE_UPLOAD_SIZE = 1024 * 1024 * 40; // 40MB.
 
 export const LOCALE_VALUES = ['nb', 'nn', 'en'] as const;
 
-export const EXTERNAL_WHITELIST_PROVIDERS = [
+export const EXTERNAL_WHITELIST_PROVIDERS: WhitelistProvider[] = [
   { name: 'H5P', url: ['h5p'] },
   { name: 'YouTube', url: ['youtube.com', 'youtu.be'], height: '486px' },
   { name: 'NRK', url: ['static.nrk.no'], height: '398px' },
   { name: 'Vimeo', url: ['vimeo.com', 'vimeopro.com'], height: '486px' },
-  { name: 'MSDN', url: ['channel9.msdn.com'], height: '486px' },
   { name: 'Norgesfilm', url: ['ndla.filmiundervisning.no'] },
   { name: 'TED', url: ['ted.com', 'embed.ted.com'] },
-  { name: 'TV2 Skole', url: ['www.tv2skole.no'], height: '431px' },
+  { name: 'TV2 Skole', url: ['www.tv2skole.no', 'app.elevkanalen.no'], height: '560px' },
   { name: 'Khan Academy', url: ['nb.khanacademy.org', 'www.khanacademy.org'], height: '486px' },
   { name: 'Prezi', url: ['prezi.com'] },
   { name: 'SlideShare', url: ['www.slideshare.net'], height: '500px' },
   { name: 'Scribd', url: ['scribd.com'] },
   { name: 'Kahoot', url: ['embed.kahoot.it'] },
-  {
-    name: 'Livestream',
-    url: ['livestream.com', 'new.livestream.com'],
-    height: '398px',
-  },
-  { name: 'Issuu', url: ['e.issuu.com'] },
   { name: 'Geogebra', url: ['geogebra.org', 'www.geogebra.org', 'ggbm.at'] },
   { name: 'IMDB', url: ['www.imdb.com', 'imdb.com'], height: '398px' },
   { name: 'Tom Knudsen', url: ['www.tomknudsen.no', 'tomknudsen.no'] },
@@ -94,11 +88,6 @@ export const EXTERNAL_WHITELIST_PROVIDERS = [
     name: 'NDLA Statisk',
     url: [`statisk.${config.ndlaBaseUrl}`],
   },
-  {
-    name: 'NDLA Liste',
-    url: [`liste.${config.ndlaBaseUrl}`],
-    height: '398px',
-  },
   { name: 'Ebok', url: ['ebok.no'] },
   { name: 'VG', url: ['www.vg.no'] },
   { name: 'Trinket', url: ['trinket.io'], height: '700px' },
@@ -107,6 +96,8 @@ export const EXTERNAL_WHITELIST_PROVIDERS = [
   { name: 'Our World in Data', url: ['ourworldindata.org'] },
   { name: 'SketchUp 3D Warehouse', url: ['3dwarehouse.sketchup.com'] },
   { name: 'Gapminder', url: ['www.gapminder.org'] },
+  { name: 'Facebook', url: ['www.facebook.com', 'fb.watch'] },
+  { name: 'Sketchfab', url: ['sketchfab.com'] },
 ];
 
 export const SearchTypeValues = [

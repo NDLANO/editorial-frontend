@@ -54,7 +54,11 @@ describe('can enter both element types SlateBlockPicker and SlateVisualElementPi
   });
 
   it('opens and closes image', () => {
-    cy.apiroute('GET', '/image-api/v2/images/?page=1&page-size=16', 'editor/images/imageList');
+    cy.apiroute(
+      'GET',
+      '/image-api/v3/images/?fallback=true&language=nb&page=1&page-size=16',
+      'editor/images/imageList',
+    );
     cy.get('[data-cy=create-image]').click();
     cy.get('[data-cy="modal-header"]').should('exist');
     cy.get('[data-cy="modal-body"]').should('exist');
@@ -63,7 +67,11 @@ describe('can enter both element types SlateBlockPicker and SlateVisualElementPi
   });
 
   it('adds and removes image', () => {
-    cy.apiroute('GET', '/image-api/v2/images/?page=1&page-size=16', 'editor/images/imageList');
+    cy.apiroute(
+      'GET',
+      '/image-api/v3/images/?fallback=true&language=nb&page=1&page-size=16',
+      'editor/images/imageList',
+    );
     cy.apiroute('GET', '**/images/*?language=nb', 'editor/images/image');
     cy.get('[data-cy=create-image]').click();
     cy.apiwait('@editor/images/imageList');

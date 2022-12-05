@@ -6,16 +6,16 @@
  *
  */
 
-import { ReactNode } from 'react';
-import { withTranslation, CustomWithTranslation } from 'react-i18next';
-import { css } from '@emotion/core';
-import { spacing } from '@ndla/core';
+import styled from '@emotion/styled';
 import Button from '@ndla/button';
-import Modal, { ModalCloseButton, ModalHeader, ModalBody } from '@ndla/modal';
+import { spacing } from '@ndla/core';
+import Modal, { ModalBody, ModalCloseButton, ModalHeader } from '@ndla/modal';
 import Tooltip from '@ndla/tooltip';
+import { ReactNode } from 'react';
+import { CustomWithTranslation, withTranslation } from 'react-i18next';
 import { HelpIcon } from './HowTo';
 
-const iconCSS = css`
+const StyledHelpIcon = styled(HelpIcon)`
   width: ${spacing.normal};
   height: ${spacing.normal};
   padding: 0;
@@ -30,7 +30,7 @@ const HelpMessage = ({ children, t }: Props & CustomWithTranslation) => (
     activateButton={
       <Button stripped tabIndex={-1}>
         <Tooltip tooltip={t('editMarkup.helpMessage.tooltip')}>
-          <HelpIcon css={iconCSS} />
+          <StyledHelpIcon />
         </Tooltip>
       </Button>
     }>

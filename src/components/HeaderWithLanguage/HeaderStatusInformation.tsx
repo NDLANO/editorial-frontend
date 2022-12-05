@@ -172,18 +172,18 @@ const HeaderStatusInformation = ({
 
   const multipleTaxonomyIcon = taxonomyPaths && taxonomyPaths?.length > 2 && (
     <Tooltip tooltip={t('form.workflow.multipleTaxonomy')}>
-      <StyledWarnIcon title={t('form.taxonomySection')} />
+      <StyledWarnIcon />
     </Tooltip>
   );
 
   const publishedIcon = (
     <Tooltip tooltip={t('form.workflow.published')}>
-      <StyledCheckIcon title={t('form.status.published')} />
+      <StyledCheckIcon />
     </Tooltip>
   );
 
   const publishedIconLink = (
-    <StyledLink target="_blank" to={`${config.ndlaFrontendDomain}${taxonomyPaths?.[0]}`}>
+    <StyledLink target="_blank" to={`${config.ndlaFrontendDomain}/article/${id}`}>
       {publishedIcon}
     </StyledLink>
   );
@@ -232,7 +232,7 @@ const HeaderStatusInformation = ({
         {articleConnections}
         {conceptConnecions}
         {learningpathConnections}
-        {revisionDateExpiration}
+        {config.revisiondateEnabled === 'true' && revisionDateExpiration}
         {published &&
           (taxonomyPaths && taxonomyPaths?.length > 0 ? publishedIconLink : publishedIcon)}
         {multipleTaxonomyIcon}

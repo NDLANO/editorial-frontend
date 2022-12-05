@@ -17,6 +17,7 @@ const AudioFileInfoModal = () => {
 
   return (
     <Modal
+      label={t('form.audio.modal.header')}
       backgroundColor="white"
       activateButton={
         <div>

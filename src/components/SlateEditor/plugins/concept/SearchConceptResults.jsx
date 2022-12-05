@@ -12,8 +12,7 @@ import PropTypes from 'prop-types';
 import { Concept } from '@ndla/icons/editor';
 import { spacing, colors } from '@ndla/core';
 import Button from '@ndla/button';
-import { css } from '@emotion/core';
-import { Check } from '@ndla/icons/lib/editor';
+import { Check } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
 import { convertFieldWithFallback } from '../../../../util/convertFieldWithFallback';
 import Spinner from '../../../../components/Spinner';
@@ -28,6 +27,11 @@ const StyledConceptResult = styled.div`
   &:last-child {
     border: none;
   }
+`;
+
+const StyledConcept = styled(Concept)`
+  grid-column: 1 / 2;
+  grid-row: 1 / 2;
 `;
 
 const StyledConceptResultHeader = styled.h1`
@@ -67,13 +71,7 @@ const SearchConceptResults = ({ results, searchObject, addConcept, searching }) 
       ) : null}
       {results.map(result => (
         <StyledConceptResult key={result.id}>
-          <Concept
-            className="c-icon--large"
-            css={css`
-              grid-column: 1 / 2;
-              grid-row: 1 / 2;
-            `}
-          />
+          <StyledConcept className="c-icon--large" />
           <StyledConceptResultHeader>
             {convertFieldWithFallback(result, 'title', t('conceptSearch.noTitle'))}
             {(result.status.current === 'PUBLISHED' ||

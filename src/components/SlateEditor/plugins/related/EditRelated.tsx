@@ -10,8 +10,9 @@ import { MouseEvent, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Button from '@ndla/button';
 import styled from '@emotion/styled';
-import darken from 'polished/lib/color/darken';
+import { darken } from 'polished';
 import { DragDropContext, Droppable, Draggable, DropResult } from 'react-beautiful-dnd';
+import { SectionHeading } from '@ndla/ui';
 import Tooltip from '@ndla/tooltip';
 import { Pencil } from '@ndla/icons/action';
 import { colors, spacing } from '@ndla/core';
@@ -170,9 +171,9 @@ const EditRelated = ({
     <StyledContainer contentEditable={false}>
       <Overlay onExit={onExit} />
       <StyledBorderDiv>
-        <h1 className="c-section-heading c-related-articles__component-title">
+        <SectionHeading className="c-related-articles__component-title">
           {t('form.related.title')}
-        </h1>
+        </SectionHeading>
         <p>{t('form.related.subtitle')}</p>
         <StyledListWrapper>
           <DragDropContext onDragEnd={onDragEnd}>

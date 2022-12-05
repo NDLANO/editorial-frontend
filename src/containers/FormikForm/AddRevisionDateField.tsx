@@ -7,6 +7,7 @@
  */
 
 import { FormEvent } from 'react';
+import addYears from 'date-fns/addYears';
 import Button from '@ndla/button';
 import { Input, FieldRemoveButton } from '@ndla/forms';
 import { useTranslation } from 'react-i18next';
@@ -18,6 +19,7 @@ import Tooltip from '@ndla/tooltip';
 import { ArticleFormType } from './articleFormHooks';
 import InlineDatePicker from './components/InlineDatePicker';
 import { formatDateForBackend } from '../../util/formatDate';
+import { useMessages } from '../Messages/MessagesProvider';
 
 type RevisionMetaFormType = ArticleFormType['revisionMeta'];
 
@@ -32,6 +34,7 @@ interface Props {
 
 const Wrapper = styled.div`
   margin-bottom: ${spacing.small};
+  align-items: baseline;
   display: flex;
   > div {
     &:first-of-type {
@@ -53,6 +56,10 @@ const StyledSwitch = styled(Switch)`
   outline: none;
 `;
 
+const StyledDatePickerWrapper = styled.div`
+  height: ${spacing.large};
+`;
+
 const StyledTooltip = styled(Tooltip)<{ hide?: boolean }>`
   height: ${spacing.large};
   visibility: ${({ hide }) => (hide ? 'hidden' : 'visible')};
@@ -67,6 +74,11 @@ const StyledRemoveButton = styled(FieldRemoveButton)<{ visible?: boolean }>`
   .c-icon {
     fill: ${colors.support.red};
   }
+`;
+
+const VerticalCenter = styled.div`
+  display: flex;
+  align-items: center;
 `;
 
 const AddRevisionDateField = ({ formikField, showError }: Props) => {
@@ -85,7 +97,7 @@ const AddRevisionDateField = ({ formikField, showError }: Props) => {
       ...formikField.value,
       {
         note: '',
-        revisionDate: formatDateForBackend(new Date()),
+        revisionDate: formatDateForBackend(addYears(new Date(), 5)),
         status: 'needs-revision',
         new: true,
       },
@@ -96,6 +108,8 @@ const AddRevisionDateField = ({ formikField, showError }: Props) => {
     const withoutIdx = formikField.value.filter((_, index) => index !== idx);
     onRevisionChange(withoutIdx);
   };
+
+  const { createMessage } = useMessages();
 
   return (
     <>
@@ -113,10 +127,9 @@ const AddRevisionDateField = ({ formikField, showError }: Props) => {
                   warningText={
                     showError && revisionMeta.note === '' ? t('validation.noEmptyRevision') : ''
                   }
-                  container="div"
                   placeholder={t('form.revisions.inputPlaceholder')}
                   type="text"
-                  focusOnMount
+                  autoFocus
                   value={revisionMeta.note}
                   data-testid="revisionInput"
                   onChange={(e: FormEvent<HTMLInputElement>) => {
@@ -125,29 +138,40 @@ const AddRevisionDateField = ({ formikField, showError }: Props) => {
                   white
                 />
               </InputWrapper>
-              <StyledTooltip tooltip={t('form.revisions.datePickerTooltip')}>
-                <InlineDatePicker
-                  value={revisionMeta.revisionDate}
-                  name={`revision_date_${index}`}
-                  onChange={date => {
-                    editRevision(old => ({ ...old, revisionDate: date.target.value }));
-                  }}
-                />
-              </StyledTooltip>
-              <StyledTooltip tooltip={t('form.revisions.switchTooltip')}>
-                <StyledSwitch
-                  checked={revisionMeta.status === 'revised'}
-                  onChange={e => {
-                    const status = e.currentTarget.checked ? 'revised' : 'needs-revision';
-                    editRevision(old => ({ ...old, status }));
-                  }}
-                  label={''}
-                  id={`revision_switch_${index}`}
-                />
-              </StyledTooltip>
-              <StyledTooltip tooltip={t('form.revisions.deleteTooltip')}>
-                <StyledRemoveButton stripped visible onClick={() => removeRevision(index)} />
-              </StyledTooltip>
+              <VerticalCenter>
+                <StyledTooltip tooltip={t('form.revisions.datePickerTooltip')}>
+                  <StyledDatePickerWrapper>
+                    <InlineDatePicker
+                      value={revisionMeta.revisionDate}
+                      name={`revision_date_${index}`}
+                      onChange={date =>
+                        editRevision(old => ({ ...old, revisionDate: date.currentTarget.value }))
+                      }
+                    />
+                  </StyledDatePickerWrapper>
+                </StyledTooltip>
+                <StyledTooltip tooltip={t('form.revisions.switchTooltip')}>
+                  <StyledSwitch
+                    checked={revisionMeta.status === 'revised'}
+                    onChange={e => {
+                      const status = e.currentTarget.checked ? 'revised' : 'needs-revision';
+                      editRevision(old => ({ ...old, status }));
+                      if (status === 'revised') {
+                        createMessage({
+                          translationKey: 'form.revisions.reminder',
+                          severity: 'info',
+                          timeToLive: 0,
+                        });
+                      }
+                    }}
+                    label={''}
+                    id={`revision_switch_${index}`}
+                  />
+                </StyledTooltip>
+                <StyledTooltip tooltip={t('form.revisions.deleteTooltip')}>
+                  <StyledRemoveButton visible onClick={() => removeRevision(index)} />
+                </StyledTooltip>
+              </VerticalCenter>
             </Wrapper>
           </div>
         );

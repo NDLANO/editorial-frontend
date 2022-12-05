@@ -30,6 +30,7 @@ const AudioMetaData = () => {
         description={t('form.tags.description')}>
         {({ field, form }: FieldProps<string[], string[]>) => (
           <AsyncSearchTags
+            multiSelect
             language={language}
             initialTags={tags}
             field={field}

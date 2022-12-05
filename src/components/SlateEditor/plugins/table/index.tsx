@@ -20,24 +20,8 @@ import {
   removeEmptyElementDataAttributes,
 } from '../../../../util/embedTagHelpers';
 import SlateTable from './SlateTable';
-import {
-  defaultTableBodyBlock,
-  defaultTableCaptionBlock,
-  defaultTableCellBlock,
-  defaultTableHeadBlock,
-  defaultTableRowBlock,
-} from './utils';
 import getCurrentBlock from '../../utils/getCurrentBlock';
-import { normalizeTableBodyAsMatrix } from './matrix';
 import { handleTableKeydown } from './handleKeyDown';
-import {
-  isTable,
-  isTableBody,
-  isTableCaption,
-  isTableCell,
-  isTableHead,
-  isTableRow,
-} from './helpers';
 import { defaultParagraphBlock } from '../paragraph/utils';
 import { TableElement } from './interfaces';
 import { NormalizerConfig, defaultBlockNormalizer } from '../../utils/defaultNormalizer';
@@ -61,6 +45,23 @@ import {
   TYPE_TABLE_ROW,
   TYPE_TABLE_CELL,
 } from './types';
+import {
+  isTable,
+  isTableBody,
+  isTableCaption,
+  isTableCell,
+  isTableHead,
+  isTableRow,
+} from './slateHelpers';
+import { updateCell } from './slateActions';
+import {
+  defaultTableBodyBlock,
+  defaultTableCaptionBlock,
+  defaultTableCellBlock,
+  defaultTableHeadBlock,
+  defaultTableRowBlock,
+} from './defaultBlocks';
+import { normalizeTableBodyAsMatrix } from './matrixNormalizer';
 
 const validKeys = [KEY_ARROW_UP, KEY_ARROW_DOWN, KEY_TAB, KEY_BACKSPACE, KEY_DELETE];
 
@@ -243,7 +244,6 @@ export const tablePlugin = (editor: Editor) => {
                 contentEditable={false}
                 dangerouslySetInnerHTML={{ __html: element.colgroups || '' }}
               />
-
               {children}
             </SlateTable>
           </>
@@ -388,7 +388,7 @@ export const tablePlugin = (editor: Editor) => {
       // ii. Make sure cells in TableHead are marked as isHeader.
       //     Cells in TableBody will not be altered if rowHeaders=true on Table.
       if ((isTableHead(body) || isTableBody(body)) && isTable(table)) {
-        for (const [index, cell] of node.children.entries()) {
+        for (const [, cell] of node.children.entries()) {
           if (table.rowHeaders && isTableBody(body)) {
             continue;
           }
@@ -400,17 +400,10 @@ export const tablePlugin = (editor: Editor) => {
             (cell.data.isHeader !== shouldBeHeader || expectedScope !== cell.data.scope)
           ) {
             return HistoryEditor.withoutSaving(editor, () => {
-              Transforms.setNodes(
-                editor,
-                {
-                  data: {
-                    ...cell.data,
-                    isHeader: shouldBeHeader,
-                    scope: expectedScope,
-                  },
-                },
-                { at: [...path, index] },
-              );
+              updateCell(editor, cell, {
+                isHeader: shouldBeHeader,
+                scope: expectedScope,
+              });
             });
           }
         }

@@ -6,10 +6,10 @@
  *
  */
 
-import { ReactNode, MouseEvent, HTMLProps } from 'react';
+import { ReactNode, MouseEvent, HTMLProps, ElementType } from 'react';
 import styled from '@emotion/styled';
 import { colors, spacing } from '@ndla/core';
-import { css } from '@emotion/core';
+import { css } from '@emotion/react';
 
 interface StyledButtonProps {
   color?: keyof typeof colors.support;
@@ -67,7 +67,7 @@ export const StyledButton = styled.button<StyledButtonProps>`
 `;
 
 interface Props extends Omit<HTMLProps<HTMLButtonElement>, 'as'> {
-  as?: ReactNode;
+  as?: ElementType;
   to?: string;
   target?: string;
   title?: string;

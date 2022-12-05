@@ -21,6 +21,10 @@ export const transformQuery = ({ 'resource-types': resourceTypes, ...rest }: any
   } else if (resourceTypes) {
     query['resource-types'] = resourceTypes;
   }
+  if (query.users) {
+    // in case of weird ID's starting with -
+    query['users'] = `"${query['users']}"`;
+  }
 
   return query;
 };

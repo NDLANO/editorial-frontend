@@ -6,32 +6,70 @@
  *
  */
 
-import { ReactNode } from 'react';
-import PropTypes from 'prop-types';
-import BEMHelper from 'react-bem-helper';
-import { css } from '@emotion/core';
-import { colors } from '@ndla/core';
+import styled from '@emotion/styled';
 import Button from '@ndla/button';
+import { breakpoints, colors, mq, spacing } from '@ndla/core';
 import { ExpandLess, ExpandMore } from '@ndla/icons/action';
+import { ReactNode } from 'react';
 import AccordionButtonLine from './AccordionButtonLine';
-import { ButtonAppearance } from './types';
 
-const classes = new BEMHelper({
-  name: 'accordion',
-  prefix: 'c-',
-});
-
-const buttonStyle = css`
+const StyledButton = styled(Button)`
   color: ${colors.brand.greyDark};
   width: 100%;
   height: 100%;
   text-align: left;
 `;
 
-const arrowButtonStyle = css`
-  ${buttonStyle} min-width: 50px;
+const StyledArrowButton = styled(StyledButton)`
+  min-width: 50px;
   width: 50px;
 `;
+
+interface StyledAccordionTitleProps {
+  type?: AccordionType;
+}
+
+const StyledAccordionTitle = styled.span<StyledAccordionTitleProps>`
+  padding-left: ${spacing.normal};
+  font-size: 1.25rem;
+  color: ${p => (p.type === 'taxonomy' ? 'white' : 'rgb(102, 102, 102);')};
+  align-items: center;
+  display: flex;
+  align-self: center;
+  & > svg {
+    margin-right: 10px;
+    color: ${p => p.type === 'resourceGroup' && 'rgb(102, 102, 102)'};
+  }
+`;
+
+interface StyledExpandProps {
+  type?: AccordionType;
+}
+
+const StyledExpandMore = styled(ExpandMore)<StyledExpandProps>`
+  width: 45px;
+  height: 45px;
+  color: ${p => (p.type === 'resourceGroup' ? 'rgb(136,136,136)' : 'white')};
+  margin-right: ${p => p.type === 'resourceGroup' && '4px'};
+`;
+const StyledExpandLess = StyledExpandMore.withComponent(ExpandLess);
+
+interface StyledContentProps {
+  hidden?: boolean;
+  type?: AccordionType;
+}
+const StyledContent = styled.div<StyledContentProps>`
+  ${mq.range({ from: breakpoints.tablet })} {
+    padding-left: ${spacing.small};
+    padding-right: ${spacing.xsmall};
+  }
+  padding-bottom: ${p => !p.hidden && '3rem'};
+  display: ${p => p.hidden && 'none'};
+  margin-left: ${p => p.type === 'taxonomy' && spacing.normal};
+  margin-bottom: ${p => p.type === 'resourceGroup' && '-1.8em'};
+`;
+
+export type AccordionType = 'resourceGroup' | 'taxonomy';
 
 interface Props {
   inModal?: boolean;
@@ -41,7 +79,7 @@ interface Props {
   handleToggle: () => void;
   className?: string;
   addButton?: ReactNode;
-  appearance: ButtonAppearance;
+  appearance: AccordionType;
   toggleSwitch?: ReactNode;
   children?: ReactNode;
 }
@@ -57,70 +95,38 @@ const Accordion = ({
   toggleSwitch,
   ...rest
 }: Props) => {
-  const contentModifiers = appearance
-    ? {
-        hidden,
-        visible: !hidden,
-        [appearance]: true,
-      }
-    : {
-        hidden,
-        visible: !hidden,
-      };
-
-  const title = <span {...classes('title', appearance)}>{header}</span>;
+  const title = <StyledAccordionTitle type={appearance}>{header}</StyledAccordionTitle>;
   const arrow = hidden ? (
-    <ExpandMore {...classes('arrow', appearance)} />
+    <StyledExpandMore type={appearance} />
   ) : (
-    <ExpandLess {...classes('arrow', appearance)} />
+    <StyledExpandLess type={appearance} />
   );
 
   return (
-    <div {...classes('', appearance)} {...rest}>
+    <div {...rest}>
       {addButton ? (
-        <AccordionButtonLine
-          addButton={addButton}
-          appearance={appearance}
-          handleToggle={handleToggle}>
-          <Button css={buttonStyle} stripped onClick={handleToggle}>
+        <AccordionButtonLine appearance={appearance}>
+          <StyledButton stripped onClick={handleToggle}>
             {title}
-          </Button>
+          </StyledButton>
           <>{toggleSwitch}</>
           <>{addButton}</>
-          <Button css={arrowButtonStyle} stripped onClick={handleToggle}>
+          <StyledArrowButton stripped onClick={handleToggle}>
             {arrow}
-          </Button>
+          </StyledArrowButton>
         </AccordionButtonLine>
       ) : (
-        <AccordionButtonLine appearance={appearance} handleToggle={handleToggle}>
+        <AccordionButtonLine appearance={appearance}>
           {title}
           <>{toggleSwitch}</>
           {arrow}
         </AccordionButtonLine>
       )}
-      <div
-        {...classes(
-          'content',
-          contentModifiers,
-          appearance || inModal ? '' : 'u-4/6@desktop u-push-1/6@desktop',
-        )}>
+      <StyledContent hidden={hidden} type={appearance}>
         <>{rest.children}</>
-      </div>
+      </StyledContent>
     </div>
   );
-};
-
-Accordion.propTypes = {
-  children: PropTypes.node,
-  addButton: PropTypes.node,
-  className: PropTypes.string,
-  disabled: PropTypes.bool,
-  inModal: PropTypes.bool,
-  header: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
-  hidden: PropTypes.bool.isRequired,
-  handleToggle: PropTypes.func.isRequired,
-  appearance: PropTypes.oneOf(['fill', 'resourceGroup', 'taxonomy']).isRequired,
-  toggleSwitch: PropTypes.node,
 };
 
 export default Accordion;

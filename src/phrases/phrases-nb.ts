@@ -17,6 +17,7 @@ const phrases = {
     agreementPage: `Avtale ${titleTemplate}`,
     welcomePage: `Forside ${titleTemplate}`,
     structurePage: `Struktur ${titleTemplate}`,
+    versionsPage: `Versjoner ${titleTemplate}`,
     audioUploaderPage: `Lyd ${titleTemplate}`,
     imageUploaderPage: `Bilde ${titleTemplate}`,
     loginPage: `Logg inn ${titleTemplate}`,
@@ -97,6 +98,7 @@ const phrases = {
   },
   language: {
     en: 'Engelsk',
+    es: 'Spansk',
     nb: 'Bokmål',
     nn: 'Nynorsk',
     se: 'Nordsamisk',
@@ -225,6 +227,7 @@ const phrases = {
       license: 'Velg lisens',
       'revision-date-from': 'Revisjonsdato fra',
       'revision-date-to': 'Revisjonsdato til',
+      'exclude-revision-log': 'Ekskluder endringslogg',
     },
     tagType: {
       query: 'Innhold',
@@ -239,6 +242,7 @@ const phrases = {
       'model-released': 'Modellklarering',
       'revision-date-from': 'Revisjonsdato fra',
       'revision-date-to': 'Revisjonsdato til',
+      'exclude-revision-log': 'Endringslogg ekskludert',
     },
     btn: 'Søk',
     empty: 'Tøm',
@@ -464,7 +468,7 @@ const phrases = {
     editImage: 'Rediger bildet',
     remove: {
       crop: 'Fjern utsnitt',
-      focalPoint: 'Fjern fokuspunkt',
+      focalPoint: 'Fjern fokalpunkt',
     },
   },
   imageForm: {
@@ -532,6 +536,7 @@ const phrases = {
       file: 'Fil',
       code: 'Kodevisning',
       podcast: 'Podkastepisode',
+      conceptList: 'Forklaringsliste',
       concept: 'Forklaring',
     },
   },
@@ -625,6 +630,10 @@ const phrases = {
       markdown: 'Feltet støtter markdown. Bruk formatet [Tekst](https://url) for å lage lenke.',
       subjects: 'Kun fag markert som forklaringsfag vil vises i lista.',
     },
+    conceptList: {
+      edit: 'Rediger forklaringsliste',
+      remove: 'Fjern forklaringsliste',
+    },
     abort: 'Avbryt',
     edit: 'Rediger',
     remove: 'Fjern',
@@ -705,6 +714,12 @@ const phrases = {
       'not-applicable': 'Ikke relevant',
       'not-set': 'Ikke valgt',
       description: 'Om bildet er modellklarert eller ikke:',
+    },
+    visualElementPicker: {
+      h5p: 'H5P',
+      url: 'Ny ressurs',
+      video: 'Video',
+      image: 'Bilde',
     },
     markdown: {
       button: 'Klikk for å se markdown',
@@ -814,6 +829,9 @@ const phrases = {
         changeExternal: 'Endre ekstern artikkel',
         searchExternal: 'Skriv inn tittel og url på ekstern artikkel',
       },
+      conceptList: {
+        subjectMissing: 'Fag mangler: {{subjectId}}',
+      },
       concept: {
         remove: 'Fjern forklaring',
         choose: 'Velg forklaring',
@@ -838,6 +856,7 @@ const phrases = {
         unSupported: 'Innholdstypen i lenken er ikke støttet',
         newUrlResource: 'Ny ressurs',
         changeUrlResource: 'Rediger ressurs: {{type}}',
+        fullscreen: 'Åpne i nytt vindu',
         description:
           'Lenker til ndla-ressurser spesialhåndteres av systemet og vises korrekt på {{url}}. Ndla-ressurser vises med blå bakgrunn og eksterne lenker med gul.',
       },
@@ -991,6 +1010,7 @@ const phrases = {
       },
       remove: 'Fjern video',
       save: 'Lagre video',
+      editVideo: 'Rediger video',
       time: {
         start: 'Start',
         stop: 'Stopp',
@@ -1136,9 +1156,10 @@ const phrases = {
       add: 'Ny revisjon',
       remove: 'Fjern revisjon',
       description:
-        'Revisjoner krever en beskrivelse og en dato artikkelen utløper på. Bryteren bestemmer hvorvidt en revisjon er utført eller ikke. Lagrede revisjoner kan ikke slettes, bare oppdateres.',
+        'Revisjoner krever en beskrivelse og en dato artikkelen utløper på. Bryteren markerer hvorvidt en revisjon er utført eller ikke. Husk at en revidert artikkel må republiseres.',
       datePickerTooltip:
         'Dato artikkelen utløper dersom revisjonen ikke blir markert som revidert.',
+      reminder: 'Husk å sjekke om revisjonen du nå har utført krever republisering.',
       switchTooltip: 'Hvorvidt artikkelen er revidert eller ikke.',
       inputPlaceholder: 'Beskrivelse av revisjonen',
       deleteTooltip: 'Fjern denne revisjonen',
@@ -1166,6 +1187,8 @@ const phrases = {
       'Koden er på feil format. Det korrekte formatet er K(E/M) eller TT fulgt av ett eller flere siffer. Eks. KE137, KM2255, TT2',
     podcastImageShape: 'Metabilde må være like høyt som det er bredt.',
     podcastImageSize: 'Metabilde må være mellom 1400 og 3000 piksler bredt.',
+    unfinishedRevision: 'Det må være minst en planlagt revisjon.',
+    missingRevision: 'Det må være minst en revisjon.',
   },
   errorMessage: {
     title: 'Oops, noe gikk galt',
@@ -1184,6 +1207,8 @@ const phrases = {
       409: 'Denne artikkelen har allerede blitt oppdatert. Ta vare på det du har endret og last siden på nytt for å kunne lagre.',
     },
     grepCodes: 'Følgende koder har feil format eller eksisterer ikke, og vil ikke bli lagt til: ',
+    errorOnSave: 'Noe gikk galt under lagring av artikkelen.',
+    genericError: 'Noe gikk galt, handlingen kunne ikke utføres.',
   },
   warningMessage: {
     fieldWithWrongLanguage: 'Dette feltet er hentet fra språkkode: {{language}}',
@@ -1253,6 +1278,13 @@ const phrases = {
     addTopicDescription: 'Endre emnebeskrivelse',
     confirmSetPrimary: 'Vil du gjøre dette til hovedplassering?',
     jumpToResources: 'Hopp til ressurser',
+    jumpToStructure: 'Hopp til struktur',
+    swapTopicArticle: {
+      failed: 'Klarte ikke å bytte emneartikkel',
+      placeholder: 'Artikkel du vil bytte til',
+      info: 'Bytt emneartikkel',
+      success: 'Emneartikkelen er byttet! Last siden på nytt for å få oppdatert navn på emnet.',
+    },
     copyResources: {
       info: 'Gjenbruk ressurser fra emne',
       done: 'Ressurser ferdigkopiert!',
@@ -1284,6 +1316,7 @@ const phrases = {
       wrongConnections: 'Feilkoblinger',
       wrongConnectionsSubTitle: 'Denne artikkelen har feilkoblinger, se listen under.',
       canBeFixedInDatabase: 'Artikkeltypen kan endres i databasen for å fikse feilen.',
+      notPublished: 'Artikkelen har ingen publisert versjon.',
     },
     resource: {
       confirmDelete:
@@ -1327,6 +1360,15 @@ const phrases = {
         'Er du helt sikker på at du ønsker å kopiere revisjonsdatoen? Dette vil sette alle revisjonsdatoer fra denne noden til alle undernoder og ressurser.',
       buttonText: 'Kopier revisjonsdato',
       error: 'En feil oppstod under kopiering',
+    },
+    resourcesPrimary: {
+      text:
+        'Er du helt sikker på at du ønsker å gjøre alle tilhørende ressurser om til primærkoblinger?',
+      recursiveText:
+        'Er du helt sikker på at du ønsker å gjøre alle tilhørende ressurser og underressurser om til primærkoblinger?',
+      buttonText: 'Gjør alle ressurser om til primærkoblinger',
+      recursiveButtonText: 'Gjør alle ressurser og underressurser om til primærkoblinger',
+      error: 'En feil oppstod',
     },
     goTo: 'Åpne i stukturredigering',
     missingResourceType: 'Mangler ressurstype',
@@ -1481,6 +1523,9 @@ const phrases = {
       onlyExistsInOther: 'Denne noden finnes bare i kildeversjonen',
     },
     options: {
+      about: 'Denne siden lar deg sammenligne et nodetre i to forskjellige versjoner.',
+      admin:
+        'Du kan publisere nodetreet mellom versjonene. Du kan publisere nye, og oppdatere eksisterende noder til målversjonen, men ikke slette dem. Sletting må skje i den enkelte versjonen. Endringer høyere oppe i strukturen tas ikke hensyn til.',
       originalHashLabel: 'Målversjon',
       otherHashLabel: 'Kildeversjon',
       viewLabel: 'Visningstype',
@@ -1597,6 +1642,7 @@ const phrases = {
     ar: 'Arabisk',
     de: 'Tysk',
     en: 'Engelsk',
+    es: 'Spansk',
     se: 'Nordsamisk',
     sma: 'Sørsamisk',
     so: 'Somali',

@@ -29,6 +29,7 @@ import {
   GetNodeParams,
   GetChildNodesParams,
   GetNodeResourcesParams,
+  NodeTypeValue,
 } from './nodeApiTypes';
 
 const baseUrl = apiResourceUrl(`${taxonomyApi}/nodes`);
@@ -304,5 +305,41 @@ export const searchNodes = ({
     url: `${baseUrl}/search`,
     taxonomyVersion,
     queryParams,
+  });
+};
+
+export interface PutNodeParams extends WithTaxonomyVersion {
+  id: string;
+  contentUri?: string;
+  name?: string;
+  nodeId?: string;
+  nodeType?: NodeTypeValue;
+  root?: boolean;
+}
+
+export const putNode = ({ taxonomyVersion, id, ...params }: PutNodeParams): Promise<void> => {
+  return putAndResolve({
+    url: `${baseUrl}/${id}`,
+    taxonomyVersion,
+    body: JSON.stringify(params),
+    alternateResolve: resolveVoidOrRejectWithError,
+  });
+};
+
+export interface PutResourcesPrimaryParams extends WithTaxonomyVersion {
+  id: string;
+  recursive: boolean;
+}
+
+export const putResourcesPrimary = ({
+  id,
+  recursive,
+  taxonomyVersion,
+}: PutResourcesPrimaryParams): Promise<void> => {
+  const queryParams = stringifyQuery({ recursive });
+  return putAndResolve({
+    url: `${baseUrl}/${id}/makeResourcesPrimary${queryParams}`,
+    alternateResolve: resolveVoidOrRejectWithError,
+    taxonomyVersion,
   });
 };

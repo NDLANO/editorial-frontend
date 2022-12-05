@@ -9,17 +9,19 @@
 import { useQuery, useQueryClient, UseQueryOptions } from 'react-query';
 import { NodeTree } from '../../containers/NodeDiff/diffUtils';
 import { SearchResultBase, WithTaxonomyVersion } from '../../interfaces';
+import { PUBLISHED } from '../../util/constants/ConceptStatus';
 import {
   CHILD_NODES_WITH_ARTICLE_TYPE,
   CONNECTIONS_FOR_NODE,
   NODE,
   NODES,
+  NODE_RESOURCES,
   NODE_TRANSLATIONS,
   RESOURCES_WITH_NODE_CONNECTION,
   ROOT_NODE_WITH_CHILDREN,
   SEARCH_NODES,
 } from '../../queryKeys';
-import { searchDrafts } from '../draft/draftApi';
+import { fetchDrafts } from '../draft/draftApi';
 import {
   fetchChildNodes,
   fetchConnectionsForNode,
@@ -38,6 +40,7 @@ import {
   NodeType,
   ResourceWithNodeConnection,
 } from './nodeApiTypes';
+import { fetchLearningpaths } from '../learningpath/learningpathApi';
 
 interface UseNodesParams extends WithTaxonomyVersion, GetNodeParams {}
 export const nodesQueryKey = (params?: Partial<UseNodesParams>) => [NODES, params];
@@ -62,6 +65,90 @@ export const useNode = (params: UseNodeParams, options?: UseQueryOptions<NodeTyp
   });
 };
 
+interface UseNodeResourceMetas {
+  nodeId: string;
+  ids: string[];
+  language?: string;
+}
+
+export interface NodeResourceMeta {
+  contentUri: string;
+  grepCodes?: string[];
+  status?: { current: string; other: string[] };
+  articleType?: string;
+}
+
+export const nodeResourceMetasQueryKey = (params: Partial<UseNodeResourceMetas>) => [
+  NODE_RESOURCES,
+  {
+    nodeId: params.nodeId,
+    language: params.language,
+  },
+];
+
+export const useNodeResourceMetas = (
+  params: UseNodeResourceMetas,
+  options?: UseQueryOptions<NodeResourceMeta[]>,
+) => {
+  return useQuery<NodeResourceMeta[]>(
+    nodeResourceMetasQueryKey(params),
+    () => fetchNodeResourceMetas(params),
+    options,
+  );
+};
+
+interface ContentUriPartition {
+  articleIds: number[];
+  learningpathIds: number[];
+}
+
+const partitionByContentUri = (contentUris: (string | undefined)[]) => {
+  return contentUris
+    .filter(uri => !!uri)
+    .reduce<ContentUriPartition>(
+      (acc, curr) => {
+        const split = curr!.split(':');
+        const type = split[1];
+        const id = parseInt(split[2]);
+        if (!id) return acc;
+        if (type === 'article') {
+          acc.articleIds = acc.articleIds.concat(id);
+        } else if (type === 'learningpath') {
+          acc.learningpathIds = acc.learningpathIds.concat(id);
+        }
+        return acc;
+      },
+      { articleIds: [], learningpathIds: [] },
+    );
+};
+
+const fetchNodeResourceMetas = async (
+  params: UseNodeResourceMetas,
+): Promise<NodeResourceMeta[]> => {
+  const { articleIds, learningpathIds } = partitionByContentUri(params.ids);
+  const articlesPromise = articleIds.length
+    ? fetchDrafts(articleIds, params.language)
+    : Promise.resolve([]);
+  const learningpathsPromise = learningpathIds.length
+    ? fetchLearningpaths(learningpathIds, params.language)
+    : Promise.resolve([]);
+  const [articles, learningpaths] = await Promise.all([articlesPromise, learningpathsPromise]);
+  const transformedArticles: NodeResourceMeta[] = articles.map(
+    ({ status, grepCodes, articleType, id }) => ({
+      status,
+      grepCodes,
+      articleType,
+      contentUri: `urn:article:${id}`,
+    }),
+  );
+  const transformedLearningpaths: NodeResourceMeta[] = learningpaths.map(lp => ({
+    status: { current: lp.status, other: [] },
+    contentUri: `urn:learningpath:${lp.id}`,
+  }));
+
+  return transformedArticles.concat(transformedLearningpaths);
+};
+
 interface ChildNodesWithArticleTypeParams extends WithTaxonomyVersion {
   id: string;
   language: string;
@@ -73,22 +160,29 @@ const fetchChildNodesWithArticleType = async ({
   taxonomyVersion,
 }: ChildNodesWithArticleTypeParams): Promise<(ChildNodeType & {
   articleType?: string;
+  isPublished?: boolean;
 })[]> => {
   const childNodes = await fetchChildNodes({ id, taxonomyVersion, language, recursive: true });
   if (childNodes.length === 0) return [];
 
   const childIds = childNodes.map(n => Number(n.contentUri?.split(':').pop())).filter(id => !!id);
-  const searchRes = await searchDrafts({ idList: childIds });
+  const searchRes = await fetchDrafts(childIds);
 
-  const articleTypeMap = searchRes.results.reduce<Record<number, string>>((acc, curr) => {
+  const articleTypeMap = searchRes.reduce<Record<number, string>>((acc, curr) => {
     acc[curr.id] = curr.articleType;
+    return acc;
+  }, {});
+
+  const isPublishedMap = searchRes.reduce<Record<number, boolean>>((acc, curr) => {
+    acc[curr.id] = curr.status.current === PUBLISHED || curr.status.other.includes(PUBLISHED);
     return acc;
   }, {});
 
   return childNodes.map(node => {
     const draftId = Number(node.contentUri?.split(':').pop());
     const articleType = articleTypeMap[draftId];
-    return { ...node, articleType };
+    const isPublished = isPublishedMap[draftId];
+    return { ...node, articleType, isPublished };
   });
 };
 

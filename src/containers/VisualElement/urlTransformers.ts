@@ -166,6 +166,28 @@ const sketchupTransformer: UrlTransformer = {
   },
 };
 
+const sketcfabTransformer: UrlTransformer = {
+  domains: ['sketchfab.com'],
+  shouldTransform: (url, domains) => {
+    const aTag = urlAsATag(url);
+
+    if (!domains.includes(aTag.hostname)) {
+      return false;
+    }
+    if (!aTag.href.includes('/3d-models/')) {
+      return false;
+    }
+    return true;
+  },
+  transform: async url => {
+    const embedId = url.split('-').pop();
+    if (embedId?.match(/\b[0-9a-f]{32}/)) {
+      return `https://sketchfab.com/models/${embedId}/embed`;
+    }
+    return url;
+  },
+};
+
 export const urlTransformers: UrlTransformer[] = [
   nrkTransformer,
   kahootTransformer,
@@ -173,4 +195,5 @@ export const urlTransformers: UrlTransformer[] = [
   tedTransformer,
   flourishTransformer,
   sketchupTransformer,
+  sketcfabTransformer,
 ];

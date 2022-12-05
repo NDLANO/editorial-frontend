@@ -8,13 +8,14 @@
 
 import { Component, MouseEvent } from 'react';
 
-import { withTranslation, CustomWithTranslation } from 'react-i18next';
+import { withTranslation, CustomWithTranslation, useTranslation } from 'react-i18next';
 import { colors, spacing } from '@ndla/core';
 import Button from '@ndla/button';
 import { Cross } from '@ndla/icons/action';
 import styled from '@emotion/styled';
-import { searchParamsFormatter } from './SearchForm';
-import { TagType } from './SearchTagGroup';
+import { SearchFormSelector } from './Selector';
+import formatDate from '../../../../util/formatDate';
+import { unreachable } from '../../../../util/guards';
 
 const StyledDl = styled.dl`
   display: flex;
@@ -30,7 +31,7 @@ const StyledDl = styled.dl`
   padding-right: 0.3rem;
   margin: 0.1rem 0.3rem;
   margin-right: ${spacing.small};
-  &:first-child {
+  &:first-of-type {
     margin-left: 0;
   }
 `;
@@ -47,14 +48,33 @@ const StyledDd = styled.dd`
 `;
 
 interface Props {
-  tag: TagType;
-  onRemoveItem: (tag: TagType) => void;
+  tag: SearchFormSelector;
+  onRemoveItem: (tag: SearchFormSelector) => void;
 }
+
+const SearchTagContent = ({
+  tag,
+  tagValue,
+}: {
+  tag: SearchFormSelector;
+  tagValue: string | number | boolean | undefined;
+}) => {
+  const { t } = useTranslation();
+  const isCheckboxTag = tag.formElementType === 'check-box';
+
+  return (
+    <>
+      {!isCheckboxTag && <StyledDt>{t(`searchForm.tagType.${tag.parameterName}`)}:</StyledDt>}
+      <StyledDd>{tagValue}</StyledDd>
+    </>
+  );
+};
 
 class SearchTag extends Component<Props & CustomWithTranslation> {
   constructor(props: Props & CustomWithTranslation) {
     super(props);
     this.onRemove = this.onRemove.bind(this);
+    this.searchParamsFormatter = this.searchParamsFormatter.bind(this);
   }
 
   onRemove(e: MouseEvent<HTMLButtonElement>) {
@@ -64,14 +84,32 @@ class SearchTag extends Component<Props & CustomWithTranslation> {
     onRemoveItem(tag);
   }
 
+  searchParamsFormatter = (selector: SearchFormSelector): string | number | boolean | undefined => {
+    const { t } = this.props;
+    switch (selector.formElementType) {
+      case 'date-picker':
+        if (selector.value) return formatDate(selector.value);
+        break;
+      case 'check-box':
+        if (selector.value === 'true') return t(`searchForm.tagType.${selector.parameterName}`);
+        break;
+      case 'dropdown':
+      case 'text-input':
+        return selector.value;
+      default:
+        unreachable(selector);
+    }
+  };
+
   render() {
-    const { tag, t } = this.props;
-    const tagValue = searchParamsFormatter(tag.type, tag.name) || '';
+    const { tag } = this.props;
+    const tagValue = this.searchParamsFormatter(tag);
+
+    if (tagValue === undefined) return null;
 
     return (
       <StyledDl>
-        <StyledDt>{t(`searchForm.tagType.${tag.type}`)}:</StyledDt>
-        <StyledDd>{tagValue}</StyledDd>
+        <SearchTagContent tag={tag} tagValue={tagValue} />
         <Button onClick={this.onRemove} stripped>
           <Cross className="c-icon--small" />
         </Button>

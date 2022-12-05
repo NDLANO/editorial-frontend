@@ -17,18 +17,19 @@ import SlateVisualElementPicker from './SlateVisualElementPicker';
 import actions, { ActionData } from './actions';
 import { defaultAsideBlock } from '../aside/utils';
 import { defaultDetailsBlock } from '../details/utils';
-import { defaultTableBlock } from '../table/utils';
 import { defaultBodyboxBlock } from '../bodybox/utils';
 import { defaultCodeblockBlock } from '../codeBlock/utils';
 import { defaultRelatedBlock } from '../related';
 import { TYPE_LIST_ITEM } from '../list/types';
+import { defaultConceptListBlock } from '../conceptList/utils';
 import { TYPE_CONCEPT_BLOCK } from '../concept/block/types';
 import { defaultConceptBlock } from '../concept/block/utils';
 import { useSession } from '../../../../containers/Session/SessionProvider';
 import getCurrentBlock from '../../utils/getCurrentBlock';
 import { TYPE_PARAGRAPH } from '../paragraph/types';
 import { isParagraph } from '../paragraph/utils';
-import { isTableCell } from '../table/helpers';
+import { isTableCell } from '../table/slateHelpers';
+import { defaultTableBlock } from '../table/defaultBlocks';
 
 interface Props {
   editor: Editor;
@@ -178,6 +179,10 @@ const SlateBlockPicker = ({
       }
       case 'code-block': {
         onInsertBlock(defaultCodeblockBlock());
+        break;
+      }
+      case 'concept-list': {
+        onInsertBlock({ ...defaultConceptListBlock(), isFirstEdit: true });
         break;
       }
       case TYPE_CONCEPT_BLOCK: {

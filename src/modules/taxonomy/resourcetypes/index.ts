@@ -94,30 +94,26 @@ const createDeleteResourceTypes = async ({
   originalResourceTypes,
   taxonomyVersion,
 }: CreateDeleteResourceTypesParams): Promise<void> => {
-  try {
-    const [createItems, deleteItems]: ResourceResourceType[][] = sortIntoCreateDeleteUpdate({
-      changedItems: resourceTypes,
-      originalItems: originalResourceTypes,
-    });
+  const [createItems, deleteItems]: ResourceResourceType[][] = sortIntoCreateDeleteUpdate({
+    changedItems: resourceTypes,
+    originalItems: originalResourceTypes,
+  });
 
-    await Promise.all(
-      createItems.map(item =>
-        createResourceResourceType({
-          body: {
-            resourceTypeId: item.id,
-            resourceId,
-          },
-          taxonomyVersion,
-        }),
-      ),
-    );
+  await Promise.all(
+    createItems.map(item =>
+      createResourceResourceType({
+        body: {
+          resourceTypeId: item.id,
+          resourceId,
+        },
+        taxonomyVersion,
+      }),
+    ),
+  );
 
-    deleteItems.forEach(item => {
-      deleteResourceResourceType({ id: item.connectionId, taxonomyVersion });
-    });
-  } catch (e) {
-    throw new Error(e);
-  }
+  deleteItems.forEach(item => {
+    deleteResourceResourceType({ id: item.connectionId, taxonomyVersion });
+  });
 };
 
 export {

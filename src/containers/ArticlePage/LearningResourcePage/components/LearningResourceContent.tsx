@@ -9,7 +9,6 @@
 import { useRef, useEffect, RefObject, useState } from 'react';
 import { Descendant } from 'slate';
 import { withTranslation, CustomWithTranslation } from 'react-i18next';
-import { css } from '@emotion/core';
 import styled from '@emotion/styled';
 import { FormikContextType } from 'formik';
 import { FieldHeader } from '@ndla/forms';
@@ -61,10 +60,11 @@ import withSession from '../../../Session/withSession';
 import RichTextEditor from '../../../../components/SlateEditor/RichTextEditor';
 import { spanPlugin } from '../../../../components/SlateEditor/plugins/span';
 import { TYPE_FOOTNOTE } from '../../../../components/SlateEditor/plugins/footnote/types';
+import { conceptListPlugin } from '../../../../components/SlateEditor/plugins/conceptList';
 import { inlineConceptPlugin } from '../../../../components/SlateEditor/plugins/concept/inline';
 import { blockConceptPlugin } from '../../../../components/SlateEditor/plugins/concept/block';
 
-const byLineStyle = css`
+const StyledFormikField = styled(FormikField)`
   display: flex;
   margin-top: 0;
   align-items: center;
@@ -122,6 +122,7 @@ export const plugins = (
     detailsPlugin,
     blockQuotePlugin,
     linkPlugin(articleLanguage),
+    conceptListPlugin(articleLanguage),
     inlineConceptPlugin(articleLanguage),
     blockConceptPlugin(articleLanguage),
     headingPlugin,
@@ -172,7 +173,7 @@ const LearningResourceContent = ({
   return (
     <>
       <TitleField handleSubmit={handleSubmit} />
-      <FormikField name="published" css={byLineStyle}>
+      <StyledFormikField name="published">
         {({ field, form }) => (
           <StyledDiv>
             <LastUpdatedLine
@@ -194,7 +195,7 @@ const LearningResourceContent = ({
             </IconContainer>
           </StyledDiv>
         )}
-      </FormikField>
+      </StyledFormikField>
       <IngressField preview={preview} handleSubmit={handleSubmit} />
       <StyledContentDiv name="content" label={t('form.content.label')} noBorder>
         {({ field: { value, name, onChange }, form: { isSubmitting, setFieldValue } }) => (

@@ -7,27 +7,10 @@
  */
 import fetch from 'cross-fetch';
 import queryString from 'query-string';
-import { BrightcoveAccessToken, H5POembed, MessageSeverity } from '../interfaces';
+import { BrightcoveAccessToken, H5POembed } from '../interfaces';
 import config from '../config';
 import { apiBaseUrl, getAccessToken, isAccessTokenValid, renewAuth } from './authHelpers';
-import { resolveJsonOrRejectWithError, createErrorPayload } from './resolveJsonOrRejectWithError';
-
-export const formatErrorMessage = (error: {
-  json: {
-    messages?: {
-      field: string;
-      message: string;
-    }[];
-  };
-}): {
-  message?: string;
-  severity: MessageSeverity;
-  timeToLive: number;
-} => ({
-  message: error?.json?.messages?.map(message => `${message.field}: ${message.message}`).join(', '),
-  severity: 'danger',
-  timeToLive: 0,
-});
+import { resolveJsonOrRejectWithError, throwErrorPayload } from './resolveJsonOrRejectWithError';
 
 export interface HttpHeadersType {
   'Content-Type': string;
@@ -185,4 +168,4 @@ export const fetchExternalOembed = (url: string, options?: FetchConfigType) => {
   return fetchOembed(setOembed, options);
 };
 
-export { resolveJsonOrRejectWithError, createErrorPayload };
+export { resolveJsonOrRejectWithError, throwErrorPayload };

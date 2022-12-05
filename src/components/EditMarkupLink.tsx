@@ -6,11 +6,10 @@
  *
  */
 
-import PropTypes from 'prop-types';
-import { Link, useLocation } from 'react-router-dom';
-import { css } from '@emotion/core';
+import styled from '@emotion/styled';
+import { colors, spacing } from '@ndla/core';
 import { Code } from '@ndla/icons/editor';
-import { spacing, colors } from '@ndla/core';
+import { Link, useLocation } from 'react-router-dom';
 
 interface Props {
   to: string;
@@ -18,50 +17,51 @@ interface Props {
   inHeader?: boolean;
 }
 
+interface StyledLinkProps {
+  inHeader: boolean;
+}
+
+const shouldForwardProp = (prop: string) => prop !== 'inHeader';
+
+const StyledLink = styled(Link, { shouldForwardProp })<StyledLinkProps>`
+  box-shadow: none;
+  width: ${props => props.inHeader && '25px;'};
+  padding-left: ${props => props.inHeader && '0.4em'};
+  padding-right: ${props => props.inHeader && '1.2em'};
+  &:hover svg,
+  &:focus svg {
+    border-color: ${colors.brand.primary};
+    path:last-child {
+      stroke: ${colors.brand.primary};
+      fill: ${colors.brand.primary};
+    }
+  }
+  svg {
+    width: ${props => (props.inHeader ? '18px' : spacing.normal)};
+    height: ${props => (props.inHeader ? '18px' : spacing.normal)};
+    padding: 2px;
+    border-radius: 50%;
+    border: 2px solid ${colors.brand.light};
+
+    path:last-child {
+      stroke: ${colors.brand.light};
+      fill: ${colors.brand.light};
+    }
+
+    margin-bottom: ${props => props.inHeader && '0.18em'};
+  }
+`;
+
 export const EditMarkupLink = ({ title, to, inHeader }: Props) => {
-  let location = useLocation();
+  const location = useLocation();
 
-  const linkStyle = css`
-    box-shadow: none;
-    width: ${inHeader ? '25px;' : ''};
-    padding-left: ${inHeader ? '0.4em' : ''};
-    padding-right: ${inHeader ? '1.2em' : ''};
-    &:hover svg,
-    &:focus svg {
-      border-color: ${colors.brand.primary};
-      path:last-child {
-        stroke: ${colors.brand.primary};
-        fill: ${colors.brand.primary};
-      }
-    }
-    svg {
-      width: ${inHeader ? '18px' : spacing.normal};
-      height: ${inHeader ? '18px' : spacing.normal};
-      padding: 2px;
-      border-radius: 50%;
-      border: 2px solid ${colors.brand.light};
-
-      path:last-child {
-        stroke: ${colors.brand.light};
-        fill: ${colors.brand.light};
-      }
-
-      margin-bottom: ${inHeader ? '0.18em' : ''};
-    }
-  `;
   return (
-    <Link
-      css={linkStyle}
+    <StyledLink
+      inHeader={!!inHeader}
       data-testid="edit-markup-link"
       state={{ backUrl: location.pathname + location.search }}
       to={{ pathname: to }}>
       <Code title={title} />
-    </Link>
+    </StyledLink>
   );
-};
-
-EditMarkupLink.propTypes = {
-  to: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  inHeader: PropTypes.bool,
 };

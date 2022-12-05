@@ -7,7 +7,7 @@
  */
 
 import { MouseEvent, useEffect, useState } from 'react';
-import { IImageMetaInformationV2 } from '@ndla/types-image-api';
+import { IImageMetaInformationV3 } from '@ndla/types-image-api';
 import Button from '@ndla/button';
 import { colors } from '@ndla/core';
 import styled from '@emotion/styled';
@@ -74,22 +74,23 @@ interface Props {
         size?: string;
       }
     | undefined;
+  language: string;
 }
 
 type StateProp = 'crop' | 'focalPoint' | undefined;
 
-const ImageEditor = ({ embed, onUpdatedImageSettings, imageUpdates }: Props) => {
+const ImageEditor = ({ embed, onUpdatedImageSettings, imageUpdates, language }: Props) => {
   const { t } = useTranslation();
   const [editType, setEditType] = useState<StateProp>(undefined);
-  const [image, setImage] = useState<IImageMetaInformationV2 | undefined>(undefined);
+  const [image, setImage] = useState<IImageMetaInformationV3 | undefined>(undefined);
 
   useEffect(() => {
     const getImage = async () => {
-      const img = await fetchImage(embed.resource_id, 'nb');
+      const img = await fetchImage(embed.resource_id, language);
       setImage(img);
     };
     getImage();
-  }, [embed]);
+  }, [embed, language]);
 
   const onFocalPointChange = (focalPoint: { x: number; y: number }) => {
     onUpdatedImageSettings({
@@ -142,7 +143,9 @@ const ImageEditor = ({ embed, onUpdatedImageSettings, imageUpdates }: Props) => 
 
   const isModifiable = () => {
     if (image) {
-      return !(image.copyright.license.license.includes('ND') || image.contentType.includes('svg'));
+      return !(
+        image.copyright.license.license.includes('ND') || image.image.contentType.includes('svg')
+      );
     }
   };
 
@@ -198,6 +201,7 @@ const ImageEditor = ({ embed, onUpdatedImageSettings, imageUpdates }: Props) => 
           embed={embed}
           transformData={imageUpdates?.transformData}
           editType={editType}
+          language={language}
         />
         <StyledImageEditorMenu>
           {isModifiable() && (

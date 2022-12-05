@@ -9,7 +9,7 @@
 import { ChangeEvent, MouseEventHandler } from 'react';
 import styled from '@emotion/styled';
 import { spacing, colors } from '@ndla/core';
-import { Input, StyledButtonWrapper } from '@ndla/forms';
+import { StyledButtonWrapper, TextArea } from '@ndla/forms';
 import Button from '@ndla/button';
 import { useTranslation } from 'react-i18next';
 import { useSlateContext } from '../../SlateContext';
@@ -26,7 +26,7 @@ interface Props {
   caption?: string;
   alt: string;
   madeChanges: boolean;
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
   onAbort: MouseEventHandler<HTMLButtonElement>;
   onSave: MouseEventHandler<HTMLButtonElement>;
 }
@@ -38,26 +38,22 @@ const FigureInput = ({ caption, alt, madeChanges, onChange, onAbort, onSave }: P
   return (
     <StyledInputWrapper>
       {caption !== undefined && (
-        <Input
+        <TextArea
           name="caption"
           label={`${t('form.image.caption.label')}:`}
           value={caption}
           onChange={onChange}
-          container="div"
           type="text"
-          autoExpand
           placeholder={t('form.image.caption.placeholder')}
           white
         />
       )}
-      <Input
+      <TextArea
         name="alt"
         label={`${t('form.image.alt.label')}:`}
         value={alt}
         onChange={onChange}
-        container="div"
         type="text"
-        autoExpand
         placeholder={t('form.image.alt.placeholder')}
         white
         warningText={!submitted && isEmpty(alt) ? t('form.image.alt.noText') : ''}

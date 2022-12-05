@@ -17,6 +17,7 @@ const phrases = {
     agreementPage: `Agreement ${titleTemplate}`,
     welcomePage: `Frontpage ${titleTemplate}`,
     structurePage: `Structure ${titleTemplate}`,
+    versionsPage: `Versions ${titleTemplate}`,
     audioUploaderPage: `Audio ${titleTemplate}`,
     imageUploaderPage: `Image ${titleTemplate}`,
     loginPage: `Login ${titleTemplate}`,
@@ -96,6 +97,7 @@ const phrases = {
   },
   language: {
     en: 'English',
+    es: 'Spanish',
     nb: 'Norwegian - Bokmål',
     nn: 'Norwegian - Nynorsk',
     se: 'Northern Sami',
@@ -224,6 +226,7 @@ const phrases = {
       license: 'Select license',
       'revision-date-from': 'Revisiondate from',
       'revision-date-to': 'Revisiondate to',
+      'exclude-revision-log': 'Exclude revision log',
     },
     tagType: {
       query: 'Query',
@@ -238,6 +241,7 @@ const phrases = {
       'model-released': 'Model released',
       'revision-date-from': 'Revisiondate from',
       'revision-date-to': 'Revisiondate to',
+      'exclude-revision-log': 'Revision log excluded',
     },
     btn: 'Search',
     empty: 'Empty',
@@ -531,6 +535,7 @@ const phrases = {
       file: 'File',
       code: 'Codeblock',
       podcast: 'Podcast episode',
+      conceptList: 'Concept list',
       concept: 'Concept',
     },
   },
@@ -708,6 +713,12 @@ const phrases = {
       imageUpload: 'Upload image',
       h5p: 'H5P',
     },
+    visualElementPicker: {
+      h5p: 'H5P',
+      url: 'New resource',
+      video: 'Video',
+      image: 'Image',
+    },
     concept: {
       create: 'Create concept',
       addText: 'Choose a concept and press "connect to topic", or',
@@ -717,6 +728,10 @@ const phrases = {
       source: 'Source',
       markdown: 'The field supports markdown. Use the format [Text](https://url) to create a link.',
       subjects: 'Only subjects marked as explanation subjects will be displayed in the list.',
+    },
+    conceptList: {
+      edit: 'Edit concept list',
+      remove: 'Remove concept list',
     },
     workflow: {
       title: 'Status',
@@ -813,6 +828,9 @@ const phrases = {
         changeExternal: 'Edit external article',
         searchExternal: 'Write the title and url of the external article',
       },
+      conceptList: {
+        subjectMissing: 'Subject missing: {{subjectId}}',
+      },
       concept: {
         remove: 'Remove concept',
         choose: 'Choose concept',
@@ -837,6 +855,7 @@ const phrases = {
         unSupported: 'Content in link is not supported',
         newUrlResource: 'New resource',
         changeUrlResource: 'Edit resource: {{type}}',
+        fullscreen: 'Open in new window',
         description:
           'Links to ndla-resources are handled by the system and are displayed correct on {{url}}. Ndla-resources are shown with blue background and external links with yellow.',
       },
@@ -990,6 +1009,7 @@ const phrases = {
       },
       remove: 'Remove video',
       save: 'Save video',
+      editVideo: 'Edit video',
       time: {
         start: 'Start',
         stop: 'Stop',
@@ -1135,8 +1155,9 @@ const phrases = {
       add: 'New revision',
       remove: 'Remove revision',
       description:
-        'Revisions requires a description and an expiration date for the article. The switch decides whether a revision is performed or not. Saved revisions can not be deleted, just updated.',
+        'Revisions requires a description and an expiration date for the article. The switch marks whether a revision is performed or not. Remember that a revised article must be republished.',
       datePickerTooltip: 'The date the article expires if the revision is not marked as revised.',
+      reminder: 'Remember to check if the revision you now have performed requires republishing.',
       switchTooltip: 'Whether the article is revised or not.',
       inputPlaceholder: 'Description of the revision',
       deleteTooltip: 'Remove this revision',
@@ -1164,6 +1185,8 @@ const phrases = {
       'The code format is wrong. The correct format is K(E/M) or TT followed by one or more digits. Ex. KE137, KM2255, TT2.',
     podcastImageShape: 'A meta image must have equal height and width.',
     podcastImageSize: 'A meta image must be between 1400 and 3000 pixels wide.',
+    unfinishedRevision: 'You must have at least one planned revision.',
+    missingRevision: 'There must be at least one revision.',
   },
   errorMessage: {
     title: 'Oops, something went wrong',
@@ -1182,6 +1205,8 @@ const phrases = {
       409: 'This article has already been updated. Keep what you have changed and reload the page to save.',
     },
     grepCodes: 'The following codes have wrong format or does not exist, and will not be added: ',
+    errorOnSave: 'Something went wrong when saving the article.',
+    genericError: 'Something went wrong, the action could not be completed.',
   },
   warningMessage: {
     fieldWithWrongLanguage: 'This value is fetched from language code: {{language}}',
@@ -1251,6 +1276,13 @@ const phrases = {
     confirmSetPrimary: 'Do you want to make this the main location?',
     removeLink: 'Remove link',
     jumpToResources: 'Jump to resources',
+    jumpToStructure: 'Jump to structure',
+    swapTopicArticle: {
+      failed: 'Failed to swap article',
+      placeholder: 'Article to swap to',
+      info: 'Swap topic article',
+      success: 'Topic article swapped! Reload the page to get the updated topic name.',
+    },
     copyResources: {
       error: 'Something went wrong during copying',
       info: 'Reuse resources from topic',
@@ -1281,6 +1313,7 @@ const phrases = {
       wrongConnections: 'Bad connections',
       wrongConnectionsSubTitle: 'This article has bad connections, see the list below.',
       canBeFixedInDatabase: 'The article type can be changed in the database to fix the error.',
+      notPublished: 'The article has no published version.',
     },
     resource: {
       confirmDelete:
@@ -1323,6 +1356,14 @@ const phrases = {
         'Are you sure you want to copy this revision date? This will apply for all nodes and resources underneath this node',
       buttonText: 'Copy revision date',
       error: 'An error occurred when copying the revision date',
+    },
+    resourcesPrimary: {
+      text: 'Are you sure you want to make all connected resources primary?',
+      recursiveText:
+        'Are you sure you want to make all connected resources and sub resources primary?',
+      buttonText: 'Make resources primary',
+      recursiveButtonText: 'Make resources and sub resources primary',
+      error: 'An error occured',
     },
     goTo: 'Open in structure editor',
     missingResourceType: 'Missing resource type',
@@ -1477,6 +1518,9 @@ const phrases = {
       onlyExistsInOther: 'This node only exists in the source version',
     },
     options: {
+      about: 'This page enables you to compare a node-tree between two different versions.',
+      admin:
+        'You can publish the node-tree between versions. You can publish new, and update existing nodes to the target version, but not delete them. Deleting nodes need to be done in the specific version. Changes further up in the structure is disregarded.',
       originalHashLabel: 'Target version',
       otherHashLabel: 'Source version',
       viewLabel: 'View type',
@@ -1593,6 +1637,7 @@ const phrases = {
     ar: 'Arabic',
     de: 'German',
     en: 'English',
+    es: 'Spanish',
     se: 'Northern Sámi',
     sma: 'Southern Sámi',
     so: 'Somali',

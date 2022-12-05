@@ -33,6 +33,7 @@ const connectSrc = (() => {
     'wss://widget-mediator.zopim.com',
     'https://cors-anywhere.herokuapp.com',
     'https://trinket.io',
+    'https://*.clarity.ms',
   ];
   if (process.env.NODE_ENV === 'development') {
     return [
@@ -100,6 +101,7 @@ const scriptSrc = (() => {
     'https://*.zendesk.com',
     'https://static.zdassets.com',
     'widget-mediator.zopim.com',
+    'https://*.clarity.ms',
   ];
   if (process.env.NODE_ENV === 'development') {
     return [
@@ -120,6 +122,8 @@ const frameSrc = (() => {
     '*.vg.no',
     'vg.no',
     'https://www.tv2skole.no/',
+    '*.elevkanalen.no',
+    'elevkanalen.no',
     'https://www.scribd.com/',
     'https://www.youtube.com',
     'https://youtu.be',
@@ -148,10 +152,6 @@ const frameSrc = (() => {
     'https://*.auth0.com',
     '*.facebook.com',
     '*.twitter.com',
-    'e.issuu.com',
-    '*.livestream.com',
-    'livestream.com',
-    'channel9.msdn.com',
     'tomknudsen.no',
     'www.tomknudsen.no',
     'geogebra.org',
@@ -177,6 +177,10 @@ const frameSrc = (() => {
     'ourworldindata.org',
     '*.sketchup.com',
     'www.gapminder.org',
+    'https://*.clarity.ms',
+    'www.facebook.com',
+    'fb.watch',
+    'sketchfab.com',
   ];
   if (process.env.NODE_ENV === 'development') {
     return [
@@ -197,6 +201,7 @@ const fontSrc = (() => {
     'https://tagmanager.google.com',
     'https://www.wiris.net',
     'https://cdn.jsdelivr.net',
+    'https://*.clarity.ms',
   ];
   if (process.env.NODE_ENV === 'development') {
     return defaultFontSrc.concat('http://localhost:3001');
@@ -239,6 +244,7 @@ const contentSecurityPolicy = {
       ' data:',
       'blob:',
       'https://www.wiris.net',
+      'https://*.clarity.ms',
     ],
     mediaSrc: [
       "'self'",

@@ -6,7 +6,7 @@
  *
  */
 
-import { ChangeEvent, FormEvent } from 'react';
+import { FormEvent, MouseEvent } from 'react';
 import PropTypes from 'prop-types';
 import { contributorGroups, contributorTypes } from '@ndla/licenses';
 import Button from '@ndla/button';
@@ -69,7 +69,7 @@ const Contributors = ({
     onContributorChange(newContributors);
   };
 
-  const removeContributor = (e: FormEvent<HTMLInputElement>, index: number) => {
+  const removeContributor = (e: MouseEvent<HTMLButtonElement>, index: number) => {
     e.preventDefault();
     const newContributors = [...value];
     newContributors.splice(index, 1);
@@ -77,14 +77,14 @@ const Contributors = ({
   };
 
   const handleContributorChange = (
-    evt: ChangeEvent<HTMLInputElement>,
+    evt: FormEvent<HTMLInputElement> | FormEvent<HTMLSelectElement>,
     fieldName: ContributorFieldName,
     index: number,
   ) => {
     const newContributors = [...value];
     newContributors[index] = {
       ...newContributors[index],
-      [fieldName]: evt.target.value,
+      [fieldName]: evt.currentTarget.value,
     };
     onContributorChange(newContributors);
   };

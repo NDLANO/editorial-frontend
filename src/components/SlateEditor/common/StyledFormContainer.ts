@@ -13,23 +13,11 @@ const StyledFormContainer = styled('div')`
   &:focus {
     border-top: 1px solid ${colors.brand.greyLight};
     border-bottom: 1px solid ${colors.brand.greyLight};
-
-    .tooltipContainerClass {
-      color: red;
-      display: block;
-      position: absolute;
-      top: 0px;
-      right: 0px;
-    }
   }
 
   & ol,
   & ul {
     margin-top: 1rem;
-  }
-
-  .tooltipContainerClass {
-    display: none;
   }
 `;
 

@@ -51,12 +51,14 @@ class DateTimeInput extends Component {
     const selectedDateValue = selectedDates[0] || null;
     if (selectedDateValue && selectedDateValue !== value) {
       selectedDateValue.setHours(12);
+      const target = {
+        name,
+        value: formatDateForBackend(selectedDateValue),
+        type: 'DateTime',
+      };
       onChange({
-        target: {
-          name,
-          value: formatDateForBackend(selectedDateValue),
-          type: 'DateTime',
-        },
+        target,
+        currentTarget: target,
       });
     }
   }

@@ -10,7 +10,7 @@ import { TFunction, useTranslation } from 'react-i18next';
 import VideoSearch from '@ndla/video-search';
 import AudioSearch from '@ndla/audio-search';
 import { IAudioSummary } from '@ndla/types-audio-api';
-import { IImageMetaInformationV2 } from '@ndla/types-image-api';
+import { IImageMetaInformationV3 } from '@ndla/types-image-api';
 import config from '../../config';
 import H5PElement from '../../components/H5PElement/H5PElement';
 import { EXTERNAL_WHITELIST_PROVIDERS } from '../../constants';
@@ -27,7 +27,7 @@ import {
 } from '../../modules/video/brightcoveApi';
 import { AudioSearchParams } from '../../modules/audio/audioApiInterfaces';
 import { searchAudio } from '../../modules/audio/audioApi';
-import { Embed, ReturnType } from '../../interfaces';
+import { Embed, ExternalEmbed, H5pEmbed, ReturnType } from '../../interfaces';
 import FileUploader from '../../components/FileUploader';
 
 const titles = (t: TFunction, resource: string) => ({
@@ -47,7 +47,8 @@ interface Props {
   articleLanguage?: string;
   closeModal: () => void;
   showCheckbox?: boolean;
-  checkboxAction?: (image: IImageMetaInformationV2) => void;
+  checkboxAction?: (image: IImageMetaInformationV3) => void;
+  embed?: H5pEmbed | ExternalEmbed;
 }
 
 interface LocalAudioSearchParams extends Omit<AudioSearchParams, 'audio-type' | 'page-size'> {
@@ -79,6 +80,7 @@ const VisualElementSearch = ({
   closeModal,
   showCheckbox: showMetaImageCheckbox,
   checkboxAction: onSaveAsMetaImage,
+  embed,
 }: Props) => {
   const { t, i18n } = useTranslation();
   const locale = i18n.language;
@@ -91,6 +93,7 @@ const VisualElementSearch = ({
         <ImageSearchAndUploader
           inModal={true}
           locale={locale}
+          language={articleLanguage}
           closeModal={closeModal}
           fetchImage={id => fetchImage(id, articleLanguage)}
           searchImages={searchImages}
@@ -145,6 +148,8 @@ const VisualElementSearch = ({
                   player:
                     video.projection === 'equirectangular'
                       ? config.brightcove360PlayerId!
+                      : video.custom_fields['license'] === 'Opphavsrett'
+                      ? config.brightcoveCopyrightPlayerId!
                       : config.brightcovePlayerId!,
                   metaData: video,
                   title: video.name,
@@ -173,7 +178,7 @@ const VisualElementSearch = ({
             })
           }
           onClose={closeModal}
-          locale={locale}
+          locale={articleLanguage ?? locale}
           setH5pFetchFail={setH5pFetchFail}
         />
       );
@@ -226,6 +231,8 @@ const VisualElementSearch = ({
           selectedResourceUrl={selectedResourceUrl}
           selectedResourceType={selectedResourceType}
           onUrlSave={handleVisualElementChange}
+          articleLanguage={articleLanguage}
+          embed={embed?.resource === 'external' || embed?.resource === 'iframe' ? embed : undefined}
         />
       );
     }

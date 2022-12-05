@@ -8,63 +8,63 @@
 
 import queryString from 'query-string';
 import {
-  IImageMetaInformationV2,
+  IImageMetaInformationV3,
   IUpdateImageMetaInformation,
-  ISearchResult,
+  ISearchResultV3,
   ITagsSearchResult,
 } from '@ndla/types-image-api';
 import {
   resolveJsonOrRejectWithError,
   apiResourceUrl,
   fetchAuthorized,
-  createErrorPayload,
+  throwErrorPayload,
 } from '../../util/apiHelpers';
 import { ImageSearchQuery } from './imageApiInterfaces';
 import { resolveJsonOrVoidOrRejectWithError } from '../../util/resolveJsonOrRejectWithError';
 
-const baseUrl = apiResourceUrl('/image-api/v2/images');
+const baseUrl = apiResourceUrl('/image-api/v3/images');
 
-export const postImage = (formData: FormData): Promise<IImageMetaInformationV2> =>
+export const postImage = (formData: FormData): Promise<IImageMetaInformationV3> =>
   fetchAuthorized(`${baseUrl}`, {
     method: 'POST',
     headers: { 'Content-Type': undefined }, // Without this we're missing a boundary: https://stackoverflow.com/questions/39280438/fetch-missing-boundary-in-multipart-form-data-post
     body: formData,
-  }).then(r => resolveJsonOrRejectWithError<IImageMetaInformationV2>(r));
+  }).then(r => resolveJsonOrRejectWithError<IImageMetaInformationV3>(r));
 
 export const fetchImage = (
   id: number | string,
   language?: string,
-): Promise<IImageMetaInformationV2> =>
+): Promise<IImageMetaInformationV3> =>
   fetchAuthorized(`${baseUrl}/${id}?language=${language}`).then(r =>
-    resolveJsonOrRejectWithError<IImageMetaInformationV2>(r),
+    resolveJsonOrRejectWithError<IImageMetaInformationV3>(r),
   );
 
 export const updateImage = (
   id: number,
   imageMetadata: IUpdateImageMetaInformation,
   formData?: FormData,
-): Promise<IImageMetaInformationV2> =>
+): Promise<IImageMetaInformationV3> =>
   fetchAuthorized(`${baseUrl}/${id}`, {
     method: 'PATCH',
     headers: { 'Content-Type': undefined }, // Without this we're missing a boundary: https://stackoverflow.com/questions/39280438/fetch-missing-boundary-in-multipart-form-data-post
     body: formData || JSON.stringify(imageMetadata),
-  }).then(r => resolveJsonOrRejectWithError<IImageMetaInformationV2>(r));
+  }).then(r => resolveJsonOrRejectWithError<IImageMetaInformationV3>(r));
 
-export const searchImages = (query: ImageSearchQuery): Promise<ISearchResult> => {
+export const searchImages = (query: ImageSearchQuery): Promise<ISearchResultV3> => {
   const response = fetchAuthorized(`${baseUrl}/?${queryString.stringify(query)}`).then(r =>
-    resolveJsonOrRejectWithError<ISearchResult>(r),
+    resolveJsonOrRejectWithError<ISearchResultV3>(r),
   );
   return response;
 };
 
 export const onError = (err: Response & Error) => {
-  createErrorPayload(err.status, err.message ?? err.statusText, err);
+  throwErrorPayload(err.status, err.message ?? err.statusText, err);
 };
 
 export const deleteLanguageVersionImage = (
   imageId: number,
   locale: string,
-): Promise<IImageMetaInformationV2 | void> =>
+): Promise<IImageMetaInformationV3 | void> =>
   fetchAuthorized(`${baseUrl}/${imageId}/language/${locale}`, {
     method: 'DELETE',
   }).then(r => resolveJsonOrVoidOrRejectWithError(r));

@@ -14,7 +14,7 @@ import { RenderElementProps } from 'slate-react';
 import DeleteButton from '../../../DeleteButton';
 import EditColgroupsModal from './EditColgroupsModal';
 import { TableElement } from './interfaces';
-import { removeTable } from './utils';
+import { removeTable } from './slateActions';
 
 interface Props {
   editor: Editor;

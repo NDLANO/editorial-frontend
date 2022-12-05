@@ -12,7 +12,7 @@ import { spacing } from '@ndla/core';
 import ImageSearch from '@ndla/image-search';
 import Tabs from '@ndla/tabs';
 import styled from '@emotion/styled';
-import { IImageMetaInformationV2, ISearchResult } from '@ndla/types-image-api';
+import { IImageMetaInformationV3, ISearchResultV3 } from '@ndla/types-image-api';
 import { useTranslation } from 'react-i18next';
 import { ImageSearchQuery } from '../modules/image/imageApiInterfaces';
 import CreateImage from '../containers/ImageUploader/CreateImage';
@@ -22,20 +22,22 @@ const StyledTitleDiv = styled.div`
 `;
 
 interface Props {
-  onImageSelect: (image: IImageMetaInformationV2) => void;
+  onImageSelect: (image: IImageMetaInformationV3) => void;
   inModal?: boolean;
   locale: string;
+  language?: string;
   closeModal: () => void;
   onError: (err: any) => void;
-  searchImages: (query: ImageSearchQuery) => Promise<ISearchResult>;
-  fetchImage: (id: number) => Promise<IImageMetaInformationV2>;
+  searchImages: (query: ImageSearchQuery) => Promise<ISearchResultV3>;
+  fetchImage: (id: number) => Promise<IImageMetaInformationV3>;
   showCheckbox?: boolean;
-  checkboxAction?: (image: IImageMetaInformationV2) => void;
+  checkboxAction?: (image: IImageMetaInformationV3) => void;
 }
 
 const ImageSearchAndUploader = ({
   onImageSelect,
   locale,
+  language,
   inModal,
   closeModal,
   onError,
@@ -48,7 +50,7 @@ const ImageSearchAndUploader = ({
   const { t } = useTranslation();
 
   const searchImagesWithParameters = (query?: string, page?: number) => {
-    return searchImages({ query, page, 'page-size': 16 });
+    return searchImages({ query, page, 'page-size': 16, language: language, fallback: true });
   };
 
   return (

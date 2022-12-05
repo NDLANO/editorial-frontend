@@ -6,18 +6,17 @@
  *
  */
 
-import { PureComponent, KeyboardEvent, ChangeEvent, SyntheticEvent } from 'react';
 import styled from '@emotion/styled';
-import { css } from '@emotion/core';
 import Button from '@ndla/button';
 import { colors, spacing } from '@ndla/core';
-import { Done } from '@ndla/icons/editor';
 import { Plus } from '@ndla/icons/action';
-import { withTranslation, CustomWithTranslation } from 'react-i18next';
+import { Done } from '@ndla/icons/editor';
+import { ChangeEvent, KeyboardEvent, PureComponent, SyntheticEvent } from 'react';
+import { CustomWithTranslation, withTranslation } from 'react-i18next';
 import handleError from '../util/handleError';
 import Spinner from './Spinner';
 
-const addButtonStyle = css`
+const StyledInlineAddButton = styled(Button)`
   height: 50px;
   margin-left: auto;
   padding: 0 ${spacing.small};
@@ -59,7 +58,7 @@ const StyledInputField = styled('input')`
   width: 200px;
 `;
 
-const saveButtonStyle = css`
+const StyledSaveButton = styled(Button)`
   &,
   &:hover {
     background-color: ${colors.brand.greyDark};
@@ -149,21 +148,16 @@ export class InlineAddButton extends PureComponent<Props & CustomWithTranslation
           onKeyDown={this.handleKeyPress}
         />
         <StyledEditMode>
-          <Button
-            stripped
-            css={saveButtonStyle}
-            disabled={status === 'loading'}
-            onClick={this.handleClick}>
+          <StyledSaveButton stripped disabled={status === 'loading'} onClick={this.handleClick}>
             {status === 'loading' ? <Spinner appearance="small" /> : <Done />}
-          </Button>
+          </StyledSaveButton>
         </StyledEditMode>
         {status === 'error' && (
           <StyledErrorMessage>{this.props.t('taxonomy.errorMessage')}</StyledErrorMessage>
         )}
       </>
     ) : (
-      <Button
-        css={addButtonStyle}
+      <StyledInlineAddButton
         stripped
         data-testid="AddSubjectButton"
         onClick={() => {
@@ -171,7 +165,7 @@ export class InlineAddButton extends PureComponent<Props & CustomWithTranslation
         }}>
         <Plus />
         {title}
-      </Button>
+      </StyledInlineAddButton>
     );
   }
 }

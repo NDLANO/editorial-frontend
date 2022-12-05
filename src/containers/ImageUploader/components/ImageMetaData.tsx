@@ -33,6 +33,7 @@ const ImageMetaData = ({ imageTags, imageLanguage }: Props) => {
         description={t('form.tags.description')}>
         {({ field, form }: FieldProps<string[], string[]>) => (
           <AsyncSearchTags
+            multiSelect
             language={imageLanguage || 'all'}
             initialTags={imageTags}
             field={field}

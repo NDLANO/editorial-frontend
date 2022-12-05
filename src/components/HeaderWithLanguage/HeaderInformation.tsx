@@ -10,7 +10,6 @@ import { ReactChild, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useFormikContext } from 'formik';
-import { css } from '@emotion/core';
 import Button from '@ndla/button';
 import styled from '@emotion/styled';
 import { ContentTypeBadge, constants } from '@ndla/ui';
@@ -52,6 +51,10 @@ const StyledTitleHeaderWrapper = styled.div`
     margin: ${spacing.small} ${spacing.normal} ${spacing.small} ${spacing.small};
     color: ${colors.text.primary};
   }
+`;
+
+const StyledButton = styled(Button)`
+  white-space: nowrap;
 `;
 
 const { contentTypes } = constants;
@@ -162,16 +165,10 @@ const HeaderInformation = ({
           {title ? `${t(`${types[type].form}.title`)}: ${title}` : t(`${types[type].form}.title`)}
         </h1>
         {(type === 'standard' || type === 'topic-article') && (
-          <Button
-            stripped
-            css={css`
-              white-space: nowrap;
-            `}
-            onClick={onSaveAsNew}
-            data-testid="saveAsNew">
+          <StyledButton stripped onClick={onSaveAsNew} data-testid="saveAsNew">
             {t('form.workflow.saveAsNew')}
             {loading && <Spinner appearance="absolute" />}
-          </Button>
+          </StyledButton>
         )}
       </StyledTitleHeaderWrapper>
       <HeaderStatusInformation

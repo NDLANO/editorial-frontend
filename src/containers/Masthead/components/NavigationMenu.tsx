@@ -82,13 +82,6 @@ const OpenMenu = ({ close }: Props) => {
                 <Taxonomy /> {t('subNavigation.structure')}
               </span>
             </StyledLink>
-            {userPermissions?.includes(TAXONOMY_ADMIN_SCOPE) && (
-              <StyledLink to="/structureBeta" onClick={close}>
-                <span>
-                  <Taxonomy /> {t('subNavigation.structure') + ' BETA'}
-                </span>
-              </StyledLink>
-            )}
             {userPermissions?.includes(TAXONOMY_ADMIN_SCOPE) && config.versioningEnabled && (
               <StyledLink to="/taxonomyVersions" onClick={close}>
                 <span>

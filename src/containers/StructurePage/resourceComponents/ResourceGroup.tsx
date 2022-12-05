@@ -9,90 +9,52 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Plus } from '@ndla/icons/action';
-import AddTopicResourceButton from './AddTopicResourceButton';
+import AddResourceButton from './AddResourceButton';
 import Accordion from '../../../components/Accordion';
 import ResourceItems from './ResourceItems';
-import AddResourceModal from './AddResourceModal';
-
-import { RESOURCE_TYPE_LEARNING_PATH } from '../../../constants';
-import { ButtonAppearance } from '../../../components/Accordion/types';
 import { ResourceType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
-import { TopicResource } from './StructureResources';
-import { LocaleType } from '../../../interfaces';
+import { ResourceWithNodeConnectionAndMeta } from './StructureResources';
+import AddResourceModal from './AddResourceModal';
+import { RESOURCE_TYPE_LEARNING_PATH } from '../../../constants';
 
 interface Props {
-  topicResource?: {
-    resources?: TopicResource[];
-    contentType: string;
-  };
+  resources?: ResourceWithNodeConnectionAndMeta[];
   resourceType: ResourceType & {
     disabled?: boolean;
   };
-  params: { topic: string; subtopics?: string };
-  refreshResources: () => Promise<void>;
-  locale: LocaleType;
-  onUpdateResource: (resource: TopicResource) => void;
-  onDeleteResource: (resourceId: string) => void;
+  currentNodeId: string;
 }
-const ResourceGroup = ({
-  resourceType,
-  topicResource,
-  params,
-  refreshResources,
-  locale,
-  onUpdateResource,
-  onDeleteResource,
-}: Props) => {
+const ResourceGroup = ({ resourceType, resources, currentNodeId }: Props) => {
   const { t } = useTranslation();
   const [displayResource, setDisplayResource] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
 
-  const handleToggle = () => {
-    setDisplayResource(!displayResource);
-  };
+  const handleToggle = () => setDisplayResource(prev => !prev);
 
-  const toggleAddModal = () => {
-    setShowAddModal(!showAddModal);
-  };
-  const topicId = (params.subtopics?.split('/')?.pop() || params.topic)!;
+  const toggleAddModal = () => setShowAddModal(prev => !prev);
 
   return (
     <>
       <Accordion
         addButton={
-          <AddTopicResourceButton
-            stripped
-            onClick={toggleAddModal}
-            disabled={resourceType.disabled}>
+          <AddResourceButton stripped onClick={toggleAddModal} disabled={resourceType.disabled}>
             <Plus />
             {t('taxonomy.addResource')}
-          </AddTopicResourceButton>
+          </AddResourceButton>
         }
         handleToggle={handleToggle}
-        appearance={ButtonAppearance.RESOURCEGROUP}
+        appearance={'resourceGroup'}
         header={resourceType.name}
-        hidden={topicResource?.resources ? displayResource : true}>
-        <>
-          {topicResource?.resources && (
-            <ResourceItems
-              onDeleteResource={onDeleteResource}
-              onUpdateResource={onUpdateResource}
-              resources={topicResource.resources}
-              refreshResources={refreshResources}
-              locale={locale}
-            />
-          )}
-        </>
+        hidden={resources ? displayResource : true}>
+        {resources && <ResourceItems resources={resources} currentNodeId={currentNodeId} />}
       </Accordion>
       {showAddModal && (
         <AddResourceModal
           type={resourceType.id}
           allowPaste={resourceType.id !== RESOURCE_TYPE_LEARNING_PATH}
-          topicId={topicId}
-          refreshResources={refreshResources}
+          nodeId={currentNodeId}
           onClose={toggleAddModal}
-          existingResourceIds={topicResource?.resources?.map(r => r.id) ?? []}
-          locale={locale}
+          existingResourceIds={resources?.map(r => r.id) ?? []}
         />
       )}
     </>

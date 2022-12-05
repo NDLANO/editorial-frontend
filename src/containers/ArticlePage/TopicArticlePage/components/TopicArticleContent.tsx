@@ -10,7 +10,6 @@ import { useRef, useEffect, RefObject, useMemo, useState } from 'react';
 import { FieldHeader } from '@ndla/forms';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'formik';
-import { css } from '@emotion/core';
 import styled from '@emotion/styled';
 import Tooltip from '@ndla/tooltip';
 import { Eye } from '@ndla/icons/editor';
@@ -46,7 +45,7 @@ import { SlatePlugin } from '../../../../components/SlateEditor/interfaces';
 import { useSession } from '../../../Session/SessionProvider';
 import { spanPlugin } from '../../../../components/SlateEditor/plugins/span';
 
-const byLineStyle = css`
+const StyledByLineFormikField = styled(FormikField)`
   display: flex;
   margin-top: 0;
   align-items: center;
@@ -116,7 +115,7 @@ const TopicArticleContent = (props: Props) => {
   return (
     <>
       <TitleField handleSubmit={handleSubmit} />
-      <FormikField name="published" css={byLineStyle}>
+      <StyledByLineFormikField name="published">
         {({ field, form }) => (
           <StyledDiv>
             <LastUpdatedLine
@@ -138,7 +137,7 @@ const TopicArticleContent = (props: Props) => {
             </IconContainer>
           </StyledDiv>
         )}
-      </FormikField>
+      </StyledByLineFormikField>
       <IngressField preview={preview} handleSubmit={handleSubmit} />
       <VisualElementField />
       <FormikField name="content" label={t('form.content.label')} noBorder>

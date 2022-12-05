@@ -27,6 +27,7 @@ export const convertUpdateToNewDraft = (article: IUpdatedArticle): INewArticle =
     grepCodes: article.grepCodes ?? [],
     conceptIds: article.conceptIds ?? [],
     relatedContent: article.relatedContent ?? [],
+    responsibleId: article.responsibleId ?? undefined,
   };
 };
 

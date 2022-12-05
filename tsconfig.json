@@ -5,6 +5,7 @@
     "esModuleInterop": true,
     "outDir": "build",
     "jsx": "react-jsx",
+    "jsxImportSource": "@emotion/react",
     // isolatedModules and declaration are not allowed together at
     // the moment, We set isolatedModules to true here to prevent
     // accidental export of types. We disable it when we build the
@@ -20,8 +21,8 @@
     "noEmit": false,
     "sourceMap": true,
     "skipLibCheck": true,
-    "lib": ["es2019", "esnext.asynciterable", "dom"],
-    "types": ["@emotion/core", "@emotion/styled", "jest", "node", "webpack-env"],
+    "lib": ["es2020", "esnext.asynciterable", "dom"],
+    "types": ["@emotion/react", "@emotion/styled", "jest", "node", "webpack-env"],
     "paths": {
       "*": ["node_modules/*", "src/types/*"]
     },

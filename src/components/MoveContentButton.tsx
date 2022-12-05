@@ -6,14 +6,14 @@
  *
  */
 
-import darken from 'polished/lib/color/darken';
-import { css } from '@emotion/core';
-import { colors } from '@ndla/core';
+import styled from '@emotion/styled';
 import Button from '@ndla/button';
+import { colors } from '@ndla/core';
 import { ChevronLeft } from '@ndla/icons/common';
+import { darken } from 'polished';
 import { useTranslation } from 'react-i18next';
 
-const moveContentButtonStyle = css`
+const StyledMoveContentButton = styled(Button)`
   position: absolute;
   top: 0.1rem;
   right: 1.2rem;
@@ -32,15 +32,14 @@ interface Props {
 const MoveContentButton = ({ onMouseDown }: Props) => {
   const { t } = useTranslation();
   return (
-    <Button
-      css={moveContentButtonStyle}
+    <StyledMoveContentButton
       contentEditable={false}
       tabIndex={-1}
       title={t('learningResourceForm.fields.rightAside.moveContent')}
       stripped
       onMouseDown={onMouseDown}>
       <ChevronLeft />
-    </Button>
+    </StyledMoveContentButton>
   );
 };
 

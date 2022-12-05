@@ -6,15 +6,14 @@
  *
  */
 
-import { ReactElement, ReactNode } from 'react';
+import { ReactElement } from 'react';
 
-import PropTypes from 'prop-types';
-import { css } from '@emotion/core';
+import { css, SerializedStyles } from '@emotion/react';
+import styled from '@emotion/styled';
 import { colors } from '@ndla/core';
-import Button from '@ndla/button';
-import { AppearanceMap, ButtonAppearance } from './types';
+import { AccordionType } from './Accordion';
 
-const appearances: AppearanceMap = {
+const appearances: Record<AccordionType, SerializedStyles> = {
   resourceGroup: css`
     &,
     &:hover {
@@ -23,15 +22,6 @@ const appearances: AppearanceMap = {
       height: 50px;
       background: linear-gradient(180deg, white, ${colors.brand.greyLighter});
       border: 1px solid ${colors.brand.greyLighter};
-    }
-  `,
-  fill: css`
-    background-color: ${colors.brand.greyLightest};
-    color: black;
-
-    &:hover,
-    &:focus {
-      background-color: ${colors.brand.greyLightest};
     }
   `,
   taxonomy: css`
@@ -46,40 +36,24 @@ const appearances: AppearanceMap = {
   `,
 };
 
-const buttonLineStyle = (styledAppearance: ButtonAppearance) => css`
+const StyledWrapper = styled('div')<{ styledAppearance: AccordionType }>`
   display: flex;
   position: relative;
   justify-content: space-between;
   align-items: center;
   width: 100%;
   padding: 0.6rem 0;
-
-  ${appearances[styledAppearance]};
+  border-radius: 4px;
+  ${props => appearances[props.styledAppearance]};
 `;
 
 interface Props {
-  appearance: ButtonAppearance;
+  appearance: AccordionType;
   children: ReactElement | ReactElement[];
-  addButton?: ReactNode;
-  handleToggle: () => void;
 }
 
-const AccordionButtonLine = ({ appearance, handleToggle, addButton, children }: Props) => {
-  if (addButton) {
-    return <div css={buttonLineStyle(appearance)}>{children}</div>;
-  }
-  return (
-    <Button css={buttonLineStyle(appearance)} stripped onClick={handleToggle}>
-      {children}
-    </Button>
-  );
-};
-
-AccordionButtonLine.propTypes = {
-  appearance: PropTypes.oneOf(['fill', 'resourceGroup', 'taxonomy']),
-  children: PropTypes.node,
-  addButton: PropTypes.node,
-  handleToggle: PropTypes.func,
+const AccordionButtonLine = ({ appearance, children }: Props) => {
+  return <StyledWrapper styledAppearance={appearance}>{children}</StyledWrapper>;
 };
 
 export default AccordionButtonLine;

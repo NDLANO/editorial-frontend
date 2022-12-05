@@ -12,27 +12,26 @@ import { Editor, Path, Range } from 'slate';
 import { ReactEditor } from 'slate-react';
 import { useTranslation } from 'react-i18next';
 import { colors, fonts } from '@ndla/core';
-import { AlignCenter, AlignLeft, AlignRight } from '@ndla/icons/lib/editor';
+import { AlignCenter, AlignLeft, AlignRight } from '@ndla/icons/editor';
 import Button from '@ndla/button';
-import { css } from '@emotion/core';
-import { Minus, Pencil, Plus } from '@ndla/icons/lib/action';
+import { Minus, Pencil, Plus } from '@ndla/icons/action';
 import IconButton from '../../../../components/IconButton';
-import {
-  insertRow,
-  removeRow,
-  insertColumn,
-  removeColumn,
-  toggleRowHeaders,
-  insertTableHead,
-  editColgroups,
-  alignColumn,
-} from './utils';
 import { TableElement } from './interfaces';
-import { isTable, isTableHead } from './helpers';
 import getCurrentBlock from '../../utils/getCurrentBlock';
 import { TYPE_TABLE_CAPTION } from './types';
 import { useSession } from '../../../../containers/Session/SessionProvider';
 import { DRAFT_HTML_SCOPE } from '../../../../constants';
+import { isTable, isTableHead } from './slateHelpers';
+import { alignColumn } from './slateActions';
+import {
+  editColgroups,
+  insertColumn,
+  insertRow,
+  insertTableHead,
+  removeColumn,
+  removeRow,
+  toggleRowHeaders,
+} from './toolbarActions';
 
 const StyledButton = styled(Button)`
   display: flex;
@@ -47,7 +46,7 @@ const StyledIconButton = styled(IconButton)`
   margin: 5px;
 `;
 
-const StyledTableActions = styled('div')`
+const StyledTableActions = styled.div`
   background: ${colors.white};
   box-shadow: 1px 1px 8px 1px ${colors.brand.greyLighter};
   border-radius: 5px;
@@ -69,11 +68,11 @@ const ActionGroup = styled.div`
   align-items: center;
 `;
 
-const rightAlign = css`
+const StyledRightAlign = styled.div`
   margin-left: auto;
 `;
 
-const StyledWrapper = styled('div')`
+const StyledWrapper = styled.div`
   display: ${(p: { show: boolean }) => (p.show ? 'block;' : 'none')};
   position: relative;
   z-index: 1;
@@ -226,13 +225,13 @@ const TableActions = ({ editor, element }: Props) => {
           {/* Row 1 - Row actions */}
           <StyledRowTitle>{`${t('form.content.table.row')}:`}</StyledRowTitle>
           <ActionGroup>
-            {rowActions.map(action => (
-              <TableIconButton operation={action.name} onClick={handleOnClick}>
+            {rowActions.map((action, idx) => (
+              <TableIconButton key={idx} operation={action.name} onClick={handleOnClick}>
                 {action.icon}
               </TableIconButton>
             ))}
           </ActionGroup>
-          <div css={rightAlign}>
+          <StyledRightAlign>
             {showAddHeader && (
               <StyledButton
                 data-cy={'head-add'}
@@ -242,12 +241,12 @@ const TableActions = ({ editor, element }: Props) => {
                 {t(`form.content.table.addHeader`)}
               </StyledButton>
             )}
-          </div>
+          </StyledRightAlign>
           {/* Row 2  - Column actions*/}
           <StyledRowTitle>{`${t('form.content.table.column')}:`}</StyledRowTitle>
           <ActionGroup>
-            {columnActions.map(action => (
-              <TableIconButton operation={action.name} onClick={handleOnClick}>
+            {columnActions.map((action, idx) => (
+              <TableIconButton key={idx} operation={action.name} onClick={handleOnClick}>
                 {action.icon}
               </TableIconButton>
             ))}

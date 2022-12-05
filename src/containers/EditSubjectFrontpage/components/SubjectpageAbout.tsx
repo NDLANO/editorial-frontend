@@ -6,7 +6,7 @@
  */
 
 import { useEffect, useState } from 'react';
-import { Spinner } from '@ndla/editor';
+import { Spinner } from '@ndla/icons';
 import { useTranslation } from 'react-i18next';
 import { Descendant } from 'slate';
 import { FieldProps, useFormikContext } from 'formik';

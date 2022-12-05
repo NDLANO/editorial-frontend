@@ -15,7 +15,6 @@ import { IConcept } from '@ndla/types-concept-api';
 import { ConceptInlineElement } from '../inline/interfaces';
 import ConceptModal from '../ConceptModal';
 import { useFetchConceptData } from '../../../../../containers/FormikForm/formikConceptHooks';
-import mergeLastUndos from '../../../utils/mergeLastUndos';
 import { TYPE_CONCEPT_INLINE } from './types';
 import SlateNotion from './SlateNotion';
 
@@ -75,14 +74,13 @@ const InlineConcept = (props: Props) => {
         ...addedConcept,
         title: { title: nodeText },
       });
-      if (element && true) {
+      if (element) {
         const path = ReactEditor.findPath(editor, element);
         Transforms.setNodes(
           editor,
           { data: data.data },
           { at: path, match: node => Element.isElement(node) && node.type === TYPE_CONCEPT_INLINE },
         );
-        mergeLastUndos(editor);
       }
     }, 0);
   };

@@ -8,7 +8,7 @@
 
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
-import { css } from '@emotion/core';
+import { css } from '@emotion/react';
 import { colors } from '@ndla/core';
 
 export const StyledInfo = styled.div`
@@ -65,7 +65,12 @@ export const StyledConceptView = styled.div<StyledConceptViewProps>`
   }
 `;
 
-export const StyledLink = styled(({ noShadow, other, ...rest }) => <Link {...rest} />)`
+interface StyledLinkProps {
+  other?: boolean;
+  noShadow?: boolean;
+}
+
+export const StyledLink = styled(Link)<StyledLinkProps>`
   &:any-link {
     color: ${colors.brand.primary};
   }

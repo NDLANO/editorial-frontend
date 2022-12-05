@@ -38,6 +38,7 @@ interface RuleObject<FormikValuesType, ApiType = any> {
   url?: boolean;
   urlOrNumber?: boolean;
   maxSize?: number;
+  translationKey?: string;
   warnings?: {
     apiField?: keyof ApiType;
     languageMatch?: boolean;
@@ -65,7 +66,12 @@ const validateFormik = <FormikValuesType>(
   try {
     Object.keys(rules).forEach(ruleKey => {
       const value = get(ruleKey, values);
-      const label = formType ? t(`${formType}.${ruleKey}`) : t(`form.name.${ruleKey}`);
+      const translationKey = rules[ruleKey]?.translationKey;
+      const label = translationKey
+        ? t(translationKey)
+        : formType
+        ? t(`${formType}.${ruleKey}`)
+        : t(`form.name.${ruleKey}`);
 
       if (rules[ruleKey].required && isEmpty(value)) {
         errors[ruleKey] = appendError(errors[ruleKey], t('validation.isRequired', { label }));

@@ -14,7 +14,7 @@ import {
   INewSubjectFrontPageData,
   IUpdatedSubjectFrontPageData,
 } from '@ndla/types-frontpage-api';
-import { IImageMetaInformationV2 } from '@ndla/types-image-api';
+import { IImageMetaInformationV3 } from '@ndla/types-image-api';
 import { ILearningPathV2 } from '@ndla/types-learningpath-api';
 import { IArticle } from '@ndla/types-draft-api';
 import Field from '../../../components/Field';
@@ -33,17 +33,17 @@ import {
   subjectpageFormikTypeToPostType,
 } from '../../../util/subjectHelpers';
 import { useMessages } from '../../Messages/MessagesProvider';
-import { formatErrorMessage } from '../../../util/apiHelpers';
 import { queryLearningPathResource, queryResources, queryTopics } from '../../../modules/taxonomy';
 import { Resource, Topic } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import { TYPE_EMBED } from '../../../components/SlateEditor/plugins/embed/types';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 import StyledForm from '../../../components/StyledFormComponents';
+import { NdlaErrorPayload } from '../../../util/resolveJsonOrRejectWithError';
 
 interface Props {
   subjectpage?: ISubjectPageData;
   editorsChoices?: (IArticle | ILearningPathV2)[];
-  banner?: IImageMetaInformationV2;
+  banner?: IImageMetaInformationV3;
   elementName?: string;
   createSubjectpage?: (subjectpage: INewSubjectFrontPageData) => Promise<ISubjectPageData>;
   updateSubjectpage?: (
@@ -97,7 +97,7 @@ const SubjectpageForm = ({
   const { t } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
   const [savedToServer, setSavedToServer] = useState(false);
-  const { createMessage, applicationError } = useMessages();
+  const { createMessage, applicationError, formatErrorMessage } = useMessages();
   const initialValues = subjectpageApiTypeToFormikType(
     subjectpage,
     elementName,
@@ -135,7 +135,8 @@ const SubjectpageForm = ({
         await createSubjectpage?.(subjectpageFormikTypeToPostType(values, urns));
       }
       setSavedToServer(true);
-    } catch (err) {
+    } catch (e) {
+      const err = e as NdlaErrorPayload;
       if (err?.status === 409) {
         createMessage({ message: t('alertModal.needToRefresh'), timeToLive: 0 });
       } else if (err?.json?.messages) {
@@ -176,7 +177,7 @@ const SubjectpageForm = ({
               isSubmitting={isSubmitting}
               language={values.language}
               supportedLanguages={values.supportedLanguages!}
-              title={elementName ?? values.name ?? ''}
+              title={values.name ?? ''}
             />
             <SubjectpageAccordionPanels
               editorsChoices={values.editorsChoices}

@@ -110,6 +110,7 @@ const TopicArticleConnections = ({
       </FieldHeader>
       <ActiveTopicConnections activeTopics={activeTopics} type="topic-article" />
       <Modal
+        label={t('taxonomy.topics.filestructureHeading')}
         backgroundColor="white"
         animation="subtle"
         size="large"

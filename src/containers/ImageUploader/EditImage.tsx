@@ -8,7 +8,7 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
-import { IImageMetaInformationV2, IUpdateImageMetaInformation } from '@ndla/types-image-api';
+import { IImageMetaInformationV3, IUpdateImageMetaInformation } from '@ndla/types-image-api';
 import ImageForm from './components/ImageForm';
 import { fetchImage, updateImage } from '../../modules/image/imageApi';
 import { useLicenses } from '../../modules/draft/draftQueries';
@@ -30,7 +30,7 @@ const EditImage = ({ isNewlyCreated }: Props) => {
   const { data: licenses } = useLicenses({ placeholderData: [] });
   const [loading, setLoading] = useState(false);
   const { applicationError, createMessage } = useMessages();
-  const [image, setImage] = useState<IImageMetaInformationV2 | undefined>(undefined);
+  const [image, setImage] = useState<IImageMetaInformationV3 | undefined>(undefined);
   const imageLicenses = draftLicensesToImageLicenses(licenses ?? []);
 
   useEffect(() => {
@@ -51,8 +51,9 @@ const EditImage = ({ isNewlyCreated }: Props) => {
       const res = await updateImage(Number(imageId), updatedImage, formData);
       setImage(res);
     } catch (e) {
-      applicationError(e);
-      createMessage(e.messages);
+      const error = e as any;
+      applicationError(error);
+      createMessage(error.messages);
     }
   };
 

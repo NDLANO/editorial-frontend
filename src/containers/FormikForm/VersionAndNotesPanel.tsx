@@ -8,7 +8,7 @@
 
 import { useEffect, useState, Fragment } from 'react';
 import { spacing, colors } from '@ndla/core';
-import { css } from '@emotion/core';
+import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import { useFormikContext } from 'formik';
 import Accordion, {
@@ -36,7 +36,7 @@ import {
   draftApiTypeToTopicArticleFormType,
 } from '../ArticlePage/articleTransformers';
 
-const paddingPanelStyleInside = css`
+const StyledAccordionPanel = styled(AccordionPanel)`
   background: ${colors.brand.greyLightest};
   padding: 0 ${spacing.normal};
 `;
@@ -151,6 +151,8 @@ const VersionAndNotesPanel = ({ article, getArticle, type, currentLanguage }: Pr
               const isLatestVersion = index === 0;
               const published = current === 'PUBLISHED' || other.some(s => s === 'PUBLISHED');
               const showFromArticleApi = versions.length === 1 && published;
+              const _panelProps = getPanelProps(index);
+              const panelProps = { ..._panelProps, id: _panelProps.id.toString() };
               return (
                 <Fragment key={revision}>
                   <AccordionBar {...getBarProps(index)} title={`${revision}`}>
@@ -175,9 +177,9 @@ const VersionAndNotesPanel = ({ article, getArticle, type, currentLanguage }: Pr
                       </div>
                     </StyledAccordionsPanelItemsWrapper>
                   </AccordionBar>
-                  <AccordionPanel {...getPanelProps(index)} css={paddingPanelStyleInside}>
+                  <StyledAccordionPanel {...panelProps}>
                     <VersionHistory notes={cleanupNotes(notes)} />
-                  </AccordionPanel>
+                  </StyledAccordionPanel>
                 </Fragment>
               );
             })}

@@ -10,7 +10,6 @@ import { MouseEvent, useRef, useState } from 'react';
 import Button from '@ndla/button';
 import { colors } from '@ndla/core';
 import styled from '@emotion/styled';
-import { css } from '@emotion/core';
 import {
   getElementOffset,
   getClientPos,
@@ -19,7 +18,7 @@ import {
 } from '../../util/imageEditorUtil';
 import { ImageEmbed } from '../../interfaces';
 
-const focalPointButtonStyle = css`
+const StyledFocalPointButton = styled(Button)`
   cursor: crosshair;
   min-width: -webkit-fill-available;
   min-width: -moz-available;
@@ -42,6 +41,7 @@ const StyledFocalPointContainer = styled('div')`
 
 interface Props {
   embed: ImageEmbed;
+  language: string;
   onFocalPointChange: (focalPoint: { x: number; y: number }) => void;
   transformData?: {
     'focal-x'?: string;
@@ -59,32 +59,35 @@ type Marker = {
   showMarker: boolean;
 };
 
-const ImageFocalPointEdit = ({ embed, onFocalPointChange, transformData }: Props) => {
+const ImageFocalPointEdit = ({ embed, language, onFocalPointChange, transformData }: Props) => {
+  const focalImgRef = useRef<HTMLImageElement | null>(null);
   const [marker, setMarker] = useState<Marker>({
     showMarker: false,
   });
-  let focalImgRef = useRef<HTMLImageElement | null>(null);
 
   const onImageClick = (evt: MouseEvent<HTMLButtonElement>) => {
     evt.preventDefault();
-    const imageOffset = getElementOffset(focalImgRef.current);
-    const dimensions = getImageDimensions(focalImgRef.current);
-    const clientPos = getClientPos(evt);
 
-    const xPc = (clientPos.x - imageOffset.left) / dimensions.current.width;
-    const yPc = (clientPos.y - imageOffset.top) / dimensions.current.height;
-    setMarker({
-      showMarker: true,
-      xMarkPos: clientPos.x - imageOffset.left,
-      yMarkPos: clientPos.y - imageOffset.top,
-    });
-    onFocalPointChange({
-      x: xPc * 100,
-      y: yPc * 100,
-    });
+    if (focalImgRef.current) {
+      const imageOffset = getElementOffset(focalImgRef.current);
+      const dimensions = getImageDimensions(focalImgRef.current);
+      const clientPos = getClientPos(evt);
+
+      const xPc = (clientPos.x - imageOffset.left) / dimensions.current.width;
+      const yPc = (clientPos.y - imageOffset.top) / dimensions.current.height;
+      setMarker({
+        showMarker: true,
+        xMarkPos: clientPos.x - imageOffset.left,
+        yMarkPos: clientPos.y - imageOffset.top,
+      });
+      onFocalPointChange({
+        x: xPc * 100,
+        y: yPc * 100,
+      });
+    }
   };
 
-  const setXandY = (target: EventTarget) => {
+  const setXandY = (target: HTMLImageElement) => {
     const dimensions = getImageDimensions(target);
     let x, y;
     if (transformData) {
@@ -111,17 +114,15 @@ const ImageFocalPointEdit = ({ embed, onFocalPointChange, transformData }: Props
   return (
     <div>
       <StyledFocalPointContainer>
-        <Button stripped onClick={onImageClick} css={focalPointButtonStyle}>
+        <StyledFocalPointButton stripped onClick={onImageClick}>
           <img
             style={{ minWidth: 'inherit' }}
             alt={embed.alt}
-            ref={focalImg => {
-              focalImgRef.current = focalImg;
-            }}
-            onLoad={e => setXandY(e.target)}
-            srcSet={getSrcSets(embed.resource_id, transformData)}
+            ref={focalImgRef}
+            onLoad={e => setXandY(e.target as HTMLImageElement)}
+            srcSet={getSrcSets(embed.resource_id, transformData, language)}
           />
-        </Button>
+        </StyledFocalPointButton>
         <StyledFocalPointMarker style={style} />
       </StyledFocalPointContainer>
     </div>

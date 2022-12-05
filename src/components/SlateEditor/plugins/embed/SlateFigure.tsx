@@ -6,7 +6,7 @@
  *
  */
 
-import { FormEvent, ReactNode, useState } from 'react';
+import { ReactNode } from 'react';
 import { Editor, Transforms, Element, Path } from 'slate';
 import { RenderElementProps, ReactEditor, useSelected } from 'slate-react';
 import { useTranslation } from 'react-i18next';
@@ -38,16 +38,6 @@ interface ChangesProp {
 const SlateFigure = ({ attributes, editor, element, language, locale = 'nb', children }: Props) => {
   const embed = element.data;
   const { t } = useTranslation();
-  const [changes, setChanges] = useState<ChangesProp>({ caption: '' });
-
-  const onFigureInputChange = (event: FormEvent<HTMLSelectElement>) => {
-    event.preventDefault();
-    const { value, name } = event.currentTarget;
-    const change = { [name]: value };
-
-    setChanges(change);
-    saveEmbedUpdates(change);
-  };
 
   const saveEmbedUpdates = (updates: ChangesProp) => {
     Transforms.setNodes(
@@ -85,7 +75,8 @@ const SlateFigure = ({ attributes, editor, element, language, locale = 'nb', chi
           saveEmbedUpdates={saveEmbedUpdates}
           visualElement={false}
           active={isActive()}
-          isSelectedForCopy={isSelected}>
+          isSelectedForCopy={isSelected}
+          element={element}>
           {children}
         </SlateImage>
       );
@@ -111,6 +102,7 @@ const SlateFigure = ({ attributes, editor, element, language, locale = 'nb', chi
             language={language}
             locale={locale}
             onRemoveClick={onRemoveClick}
+            saveEmbedUpdates={saveEmbedUpdates}
             isSelectedForCopy={isSelected}>
             {children}
           </SlatePodcast>
@@ -119,12 +111,11 @@ const SlateFigure = ({ attributes, editor, element, language, locale = 'nb', chi
       return (
         <SlateAudio
           attributes={attributes}
-          changes={changes}
           embed={embed}
           language={language}
           locale={locale}
           onRemoveClick={onRemoveClick}
-          onFigureInputChange={onFigureInputChange}
+          saveEmbedUpdates={saveEmbedUpdates}
           active={isActive()}
           isSelectedForCopy={isSelected}>
           {children}
@@ -148,17 +139,18 @@ const SlateFigure = ({ attributes, editor, element, language, locale = 'nb', chi
         );
       }
       return (
-        <DisplayExternal
-          attributes={attributes}
-          onRemoveClick={onRemoveClick}
-          editor={editor}
-          element={element}
-          embed={embed}
-          language={language}
-          active={isActive()}
-          isSelectedForCopy={isSelected}>
+        <div {...attributes}>
+          <DisplayExternal
+            onRemoveClick={onRemoveClick}
+            embed={embed}
+            language={language}
+            active={isActive()}
+            isSelectedForCopy={isSelected}
+            element={element}
+            editor={editor}
+          />
           {children}
-        </DisplayExternal>
+        </div>
       );
     case 'error':
       return (

@@ -20,7 +20,6 @@ import DeleteLanguageVersion from './DeleteLanguageVersion';
 import HeaderSupportedLanguages from './HeaderSupportedLanguages';
 import HeaderLanguagePill from './HeaderLanguagePill';
 import PreviewConceptLightbox from '../PreviewConcept/PreviewConceptLightbox';
-import { createReturnTypeGuard } from '../../util/guards';
 
 type PreviewTypes = IConcept | IUpdatedArticle;
 
@@ -33,10 +32,6 @@ interface PreviewLightBoxProps {
   currentLanguage: string;
 }
 
-const isConceptReturnType = createReturnTypeGuard<IConcept>('articleIds');
-const isDraftReturnType = (value: () => PreviewTypes): value is () => IUpdatedArticle =>
-  !isConceptReturnType(value);
-
 const PreviewLightBox = ({
   type,
   getEntity,
@@ -46,9 +41,14 @@ const PreviewLightBox = ({
   articleId,
 }: PreviewLightBoxProps) => {
   const { t } = useTranslation();
-  if (type === 'concept' && isConceptReturnType(getEntity) && supportedLanguages.length > 1) {
-    return <PreviewConceptLightbox typeOfPreview="previewLanguageArticle" getConcept={getEntity} />;
-  } else if (isDraftReturnType(getEntity) && (type === 'standard' || type === 'topic-article')) {
+  if (type === 'concept' && supportedLanguages.length > 1) {
+    return (
+      <PreviewConceptLightbox
+        typeOfPreview="previewLanguageArticle"
+        getConcept={getEntity as () => IConcept}
+      />
+    );
+  } else if (type === 'standard' || type === 'topic-article') {
     return (
       <PreviewDraftLightbox
         articleId={articleId}
@@ -56,7 +56,7 @@ const PreviewLightBox = ({
         label={t(`articleType.${articleType!}`)}
         typeOfPreview="previewLanguageArticle"
         supportedLanguages={supportedLanguages}
-        getArticle={_ => getEntity()}>
+        getArticle={_ => getEntity() as IUpdatedArticle}>
         {(openPreview: () => void) => (
           <StyledFilledButton type="button" onClick={openPreview}>
             <FileCompare />
@@ -110,7 +110,8 @@ const HeaderActions = ({
     { key: 'sma', title: t('language.sma'), include: true },
     { key: 'se', title: t('language.se'), include: true },
     { key: 'und', title: t('language.und'), include: false },
-    { key: 'de', title: t('language.de'), include: false },
+    { key: 'de', title: t('language.de'), include: true },
+    { key: 'es', title: t('language.es'), include: true },
     { key: 'ukr', title: t('language.ukr'), include: true },
   ];
   const emptyLanguages = languages.filter(

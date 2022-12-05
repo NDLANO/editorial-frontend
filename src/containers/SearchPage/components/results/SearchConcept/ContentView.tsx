@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 import Button from '@ndla/button';
 import { LicenseByline, getLicenseByAbbreviation } from '@ndla/licenses';
 import { colors } from '@ndla/core';
-import { css } from '@emotion/core';
+import styled from '@emotion/styled';
 import { IConceptSummary } from '@ndla/types-concept-api';
 import {
   StyledInfo,
@@ -37,6 +37,13 @@ interface Props {
   editing: boolean;
 }
 
+const StyledButton = styled(Button)`
+  line-height: 1;
+  font-size: 0.7rem;
+  padding: 4px 6px;
+  margin-left: 5px;
+`;
+
 const ContentView = ({
   concept,
   locale,
@@ -56,18 +63,7 @@ const ContentView = ({
         <StyledLink noShadow to={toEditConcept(concept.id)}>
           {title}
         </StyledLink>
-        {!editing && (
-          <Button
-            css={css`
-              line-height: 1;
-              font-size: 0.7rem;
-              padding: 4px 6px;
-              margin-left: 5px;
-            `}
-            onClick={setShowForm}>
-            {t('form.edit')}
-          </Button>
-        )}
+        {!editing && <StyledButton onClick={setShowForm}>{t('form.edit')}</StyledButton>}
       </h2>
       <StyledInfo>
         {`${t('topicArticleForm.info.lastUpdated')} ${formatDate(concept.lastUpdated)}`}

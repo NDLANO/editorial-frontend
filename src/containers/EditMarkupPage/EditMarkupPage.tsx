@@ -13,9 +13,8 @@ import { Link, useLocation, useParams } from 'react-router-dom';
 import { spacing, colors } from '@ndla/core';
 import { IArticle } from '@ndla/types-draft-api';
 import styled from '@emotion/styled';
-import { css } from '@emotion/core';
 import { FieldHeader } from '@ndla/forms';
-import { Spinner } from '@ndla/editor';
+import { Spinner } from '@ndla/icons';
 import { fetchDraft, updateDraft } from '../../modules/draft/draftApi';
 import handleError from '../../util/handleError';
 import { Row, PreviewDraftLightbox } from '../../components';
@@ -32,7 +31,7 @@ import SaveButton from '../../components/SaveButton';
 import HelpMessage from '../../components/HelpMessage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { useMessages } from '../Messages/MessagesProvider';
-import { formatErrorMessage } from '../../util/apiHelpers';
+import { NdlaErrorPayload } from '../../util/resolveJsonOrRejectWithError';
 
 declare global {
   interface Window {
@@ -81,18 +80,22 @@ function updateContentInDraft(draft: IArticle | undefined, content: string): IAr
   };
 }
 
-const StyledErrorMessage = styled('p')`
+const StyledErrorMessage = styled.p`
   color: ${colors.support.red};
   text-align: center;
 `;
 
-const Container = styled('div')`
+const Container = styled.div`
   margin: 0 auto;
   max-width: 1000px;
 `;
 
 const LanguageWrapper = styled.div`
   display: flex;
+`;
+
+const StyledRow = styled(Row)`
+  margin: ${spacing.normal};
 `;
 
 interface ErrorMessageProps {
@@ -136,7 +139,7 @@ const EditMarkupPage = () => {
   const [draft, setDraft] = useState<IArticle | undefined>(undefined);
   const location = useLocation();
   const locationState = location.state as LocationState | undefined;
-  const { createMessage } = useMessages();
+  const { createMessage, formatErrorMessage } = useMessages();
 
   useEffect(() => {
     const session = getSessionStateFromLocalStorage();
@@ -175,9 +178,8 @@ const EditMarkupPage = () => {
       setDraft(updatedDraft);
       setStatus('saved');
     } catch (e) {
-      if (e.json?.messages) {
-        createMessage(formatErrorMessage(e));
-      }
+      const err = e as NdlaErrorPayload;
+      createMessage(formatErrorMessage(err));
       handleError(e);
     }
   };
@@ -227,11 +229,7 @@ const EditMarkupPage = () => {
           onChange={handleChange}
           onSave={saveChanges}
         />
-        <Row
-          justifyContent="space-between"
-          css={css`
-            margin: ${spacing.normal};
-          `}>
+        <StyledRow justifyContent="space-between">
           <PreviewDraftLightbox
             label={t('form.previewProductionArticle.article')}
             typeOfPreview="preview"
@@ -262,7 +260,7 @@ const EditMarkupPage = () => {
               onClick={() => saveChanges(draft?.content?.content ?? '')}
             />
           </Row>
-        </Row>
+        </StyledRow>
       </Suspense>
       <AlertModalWrapper
         isSubmitting={isSubmitting}

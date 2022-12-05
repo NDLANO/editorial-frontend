@@ -7,12 +7,12 @@
  */
 
 import { MouseEvent, ReactNode } from 'react';
-import { css, SerializedStyles } from '@emotion/core';
-import darken from 'polished/lib/color/darken';
+import { darken } from 'polished';
+import styled from '@emotion/styled';
 import { colors } from '@ndla/core';
 import DeleteForeverButton from './DeleteForeverButton';
 
-const deleteButtonStyle = css`
+const StyledDeleteButton = styled(DeleteForeverButton)`
   position: absolute;
   top: 0.1rem;
   right: 0.2rem;
@@ -25,7 +25,6 @@ const deleteButtonStyle = css`
 `;
 
 interface Props {
-  style?: string | SerializedStyles;
   children?: ReactNode;
   stripped?: boolean;
   onMouseDown?: (event: MouseEvent) => void;
@@ -35,13 +34,8 @@ interface Props {
   tabIndex?: string;
 }
 
-export const DeleteButton = ({ children, style, ...rest }: Props) => (
-  <DeleteForeverButton
-    data-cy="close-related-button"
-    stripped
-    css={[deleteButtonStyle, style]}
-    {...rest}
-  />
+export const DeleteButton = ({ children, ...rest }: Props) => (
+  <StyledDeleteButton data-cy="close-related-button" stripped {...rest} />
 );
 
 export default DeleteButton;

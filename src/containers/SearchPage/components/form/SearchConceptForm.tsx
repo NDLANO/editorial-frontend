@@ -6,17 +6,20 @@
  *
  */
 
-import { FormEvent, useEffect, useState, MouseEvent } from 'react';
+import { useEffect, useState, MouseEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getResourceLanguages } from '../../../../util/resourceHelpers';
 import { getTagName } from '../../../../util/formHelper';
 import { SearchParams } from './SearchForm';
 import * as conceptStatuses from '../../../../util/constants/ConceptStatus';
-import { CONCEPT_WRITE_SCOPE } from '../../../../constants';
+import {
+  CONCEPT_WRITE_SCOPE,
+  TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
+} from '../../../../constants';
 import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { useAuth0Editors } from '../../../../modules/auth0/auth0Queries';
-import GenericSearchForm, { SearchFormSelector } from './GenericSearchForm';
-import { TagType } from './SearchTagGroup';
+import GenericSearchForm, { OnFieldChangeFunction } from './GenericSearchForm';
+import { SearchFormSelector } from './Selector';
 
 interface Props {
   search: (o: SearchParams) => void;
@@ -36,12 +39,8 @@ const SearchConceptForm = ({ search: doSearch, searchObject: search, subjects }:
     },
   );
 
-  const onInputChange = (evt: FormEvent<HTMLInputElement>) => {
-    setQueryInput(evt.currentTarget.value);
-    doSearch({ ...search, query: evt.currentTarget.value });
-  };
-
-  const onFieldChange = (name: string, value: string) => {
+  const onFieldChange: OnFieldChangeFunction = (name, value, evt) => {
+    if (name === 'query' && evt) setQueryInput(evt.currentTarget.value);
     doSearch({ ...search, [name]: value });
   };
 
@@ -60,9 +59,9 @@ const SearchConceptForm = ({ search: doSearch, searchObject: search, subjects }:
 
   const handleSearch = () => doSearch({ ...search, page: 1 });
 
-  const removeTagItem = (tag: TagType) => {
-    if (tag.type === 'query') setQueryInput('');
-    doSearch({ ...search, [tag.type]: '' });
+  const removeTagItem = (tag: SearchFormSelector) => {
+    if (tag.parameterName === 'query') setQueryInput('');
+    doSearch({ ...search, [tag.parameterName]: '' });
   };
 
   const emptySearch = (evt: MouseEvent<HTMLButtonElement>) => {
@@ -89,27 +88,33 @@ const SearchConceptForm = ({ search: doSearch, searchObject: search, subjects }:
 
   const selectors: SearchFormSelector[] = [
     {
-      type: 'subjects',
-      name: getTagName(search.subjects, subjects),
-      options: subjects.sort(sortByProperty('name')),
+      parameterName: 'subjects',
+      value: getTagName(search.subjects, subjects),
+      options: subjects
+        .filter(s => s.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] === 'true')
+        .sort(sortByProperty('name')),
+      formElementType: 'dropdown',
     },
     {
-      type: 'status',
-      name: getTagName(search.status, getConceptStatuses()),
+      parameterName: 'status',
+      value: getTagName(search.status, getConceptStatuses()),
       options: getConceptStatuses(),
       width: 25,
+      formElementType: 'dropdown',
     },
     {
-      type: 'language',
-      name: getTagName(search.language, getResourceLanguages(t)),
+      parameterName: 'language',
+      value: getTagName(search.language, getResourceLanguages(t)),
       options: getResourceLanguages(t),
       width: 25,
+      formElementType: 'dropdown',
     },
     {
-      type: 'users',
-      name: getTagName(search.users, users),
+      parameterName: 'users',
+      value: getTagName(search.users, users),
       options: users!.sort(sortByProperty('name')),
       width: 25,
+      formElementType: 'dropdown',
     },
   ];
 
@@ -118,7 +123,6 @@ const SearchConceptForm = ({ search: doSearch, searchObject: search, subjects }:
       type="concept"
       selectors={selectors}
       query={queryInput}
-      onQueryChange={onInputChange}
       onSubmit={handleSearch}
       searchObject={search}
       onFieldChange={onFieldChange}

@@ -10,7 +10,7 @@ import {
   IUpdatedSubjectFrontPageData,
   INewSubjectFrontPageData,
 } from '@ndla/types-frontpage-api';
-import { IImageMetaInformationV2 } from '@ndla/types-image-api';
+import { IImageMetaInformationV3 } from '@ndla/types-image-api';
 import { ILearningPathV2 } from '@ndla/types-learningpath-api';
 import { IArticle } from '@ndla/types-draft-api';
 import * as frontpageApi from '../../modules/frontpage/frontpageApi';
@@ -32,9 +32,9 @@ export function useFetchSubjectpageData(
 ) {
   const [subjectpage, setSubjectpage] = useState<ISubjectPageData>();
   const [editorsChoices, setEditorsChoices] = useState<(IArticle | ILearningPathV2)[]>([]);
-  const [banner, setBanner] = useState<IImageMetaInformationV2 | undefined>(undefined);
+  const [banner, setBanner] = useState<IImageMetaInformationV3 | undefined>(undefined);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(undefined);
+  const [error, setError] = useState<Error | undefined>(undefined);
   const { taxonomyVersion } = useTaxonomyVersion();
 
   const fetchElementList = async (taxonomyUrns: string[], taxonomyVersion: string) => {
@@ -84,12 +84,13 @@ export function useFetchSubjectpageData(
   useEffect(() => {
     (async () => {
       setLoading(true);
+      setSubjectpage(undefined);
       if (subjectpageId) {
         try {
           const subjectpage = await frontpageApi.fetchSubjectpage(subjectpageId, selectedLanguage);
           setSubjectpage(subjectpage);
         } catch (e) {
-          setError(e);
+          setError(e as Error);
           setLoading(false);
         }
       }
@@ -108,7 +109,7 @@ export function useFetchSubjectpageData(
           setEditorsChoices(editorsChoices);
           setBanner(banner);
         } catch (e) {
-          setError(e);
+          setError(e as Error);
         } finally {
           setLoading(false);
         }

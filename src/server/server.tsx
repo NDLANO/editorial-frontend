@@ -25,6 +25,7 @@ import contentSecurityPolicy from './contentSecurityPolicy';
 import errorLogger from '../util/logger';
 import config from '../config';
 import { DRAFT_PUBLISH_SCOPE, DRAFT_WRITE_SCOPE } from '../constants';
+import { NdlaError } from '../interfaces';
 
 type NdlaUser = (Express.User | undefined) & {
   'https://ndla.no/user_email'?: string;
@@ -159,10 +160,10 @@ app.get(
     } else {
       try {
         const managementToken = await getToken(`https://${config.auth0Domain}/api/v2/`);
-        const users = await getUsers(managementToken, userIds);
+        const users = await getUsers(managementToken, userIds as string);
         res.status(OK).json(users);
       } catch (err) {
-        res.status(INTERNAL_SERVER_ERROR).send(err.message);
+        res.status(INTERNAL_SERVER_ERROR).send((err as NdlaError).message);
       }
     }
   },
@@ -186,10 +187,10 @@ app.get(
 
     try {
       const managementToken = await getToken(`https://${config.auth0Domain}/api/v2/`);
-      const editors = await getEditors(managementToken, permission);
+      const editors = await getEditors(managementToken, permission as string);
       res.status(OK).json(editors);
     } catch (err) {
-      res.status(INTERNAL_SERVER_ERROR).send(err.message);
+      res.status(INTERNAL_SERVER_ERROR).send((err as NdlaError).message);
     }
   },
 );

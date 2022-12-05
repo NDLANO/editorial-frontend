@@ -9,7 +9,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Formik, FormikHelpers } from 'formik';
 import {
-  IImageMetaInformationV2,
+  IImageMetaInformationV3,
   INewImageMetaInformationV2,
   ILicense,
 } from '@ndla/types-image-api';
@@ -29,7 +29,7 @@ import { imageApiTypeToFormType, ImageFormikType } from '../imageTransformers';
 import { editorValueToPlainText } from '../../../util/articleContentConverter';
 import FormWrapper from '../../../components/FormWrapper';
 
-const imageRules: RulesType<ImageFormikType, IImageMetaInformationV2> = {
+const imageRules: RulesType<ImageFormikType, IImageMetaInformationV3> = {
   title: {
     required: true,
     warnings: {
@@ -80,7 +80,7 @@ const imageRules: RulesType<ImageFormikType, IImageMetaInformationV2> = {
 };
 
 interface Props {
-  image?: IImageMetaInformationV2;
+  image?: IImageMetaInformationV3;
   licenses: ILicense[];
   onSubmitFunc: (imageMetadata: INewImageMetaInformationV2, image: string | Blob) => void;
   inModal?: boolean;

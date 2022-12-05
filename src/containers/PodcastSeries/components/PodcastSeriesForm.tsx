@@ -171,6 +171,7 @@ const PodcastSeriesForm = ({
                 className="u-4/6@desktop u-push-1/6@desktop"
                 hasError={['title', 'coverPhotoId', 'metaImageAlt'].some(field => field in errors)}>
                 <PodcastSeriesMetaData
+                  language={language}
                   onImageLoad={el => {
                     size.current = [el.currentTarget.naturalWidth, el.currentTarget.naturalHeight];
                     validateForm();

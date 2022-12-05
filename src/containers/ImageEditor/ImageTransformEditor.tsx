@@ -5,19 +5,20 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import { css } from '@emotion/core';
+import styled from '@emotion/styled';
 import { ImageEmbed } from '../../interfaces';
 import ImageFocalPointEdit from './ImageFocalPointEdit';
 import ImageCropEdit from './ImageCropEdit';
 import { getSrcSets } from '../../util/imageEditorUtil';
 
-const imgStyle = css`
+const StyledImg = styled.img`
   min-width: -webkit-fill-available;
   min-width: -moz-available;
 `;
 
 interface Props {
   embed: ImageEmbed;
+  language: string;
   editType?: string;
   onFocalPointChange: (focalPoint: { x: number; y: number }) => void;
   onCropComplete: (crop: ReactCrop.Crop, size: ReactCrop.PixelCrop) => void;
@@ -33,6 +34,7 @@ interface Props {
 
 const ImageTransformEditor = ({
   embed,
+  language,
   editType,
   onFocalPointChange,
   onCropComplete,
@@ -43,6 +45,7 @@ const ImageTransformEditor = ({
       return (
         <ImageFocalPointEdit
           embed={embed}
+          language={language}
           transformData={transformData}
           onFocalPointChange={onFocalPointChange}
         />
@@ -51,6 +54,7 @@ const ImageTransformEditor = ({
       return (
         <ImageCropEdit
           embed={embed}
+          language={language}
           onCropComplete={onCropComplete}
           transformData={transformData}
         />
@@ -58,10 +62,9 @@ const ImageTransformEditor = ({
     default:
       return (
         <figure>
-          <img
-            css={imgStyle}
+          <StyledImg
             alt={embed.alt}
-            srcSet={getSrcSets(embed.resource_id, transformData)}
+            srcSet={getSrcSets(embed.resource_id, transformData, language)}
           />
         </figure>
       );

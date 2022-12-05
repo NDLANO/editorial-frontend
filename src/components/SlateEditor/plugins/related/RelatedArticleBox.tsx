@@ -9,9 +9,8 @@
 import { MouseEvent, ReactNode, SyntheticEvent, useCallback, useEffect, useState } from 'react';
 import { Editor, Transforms } from 'slate';
 import { ReactEditor, RenderElementProps } from 'slate-react';
-import { uuid } from '@ndla/util';
 import { useTranslation } from 'react-i18next';
-import { css } from '@emotion/core';
+import styled from '@emotion/styled';
 import { compact } from 'lodash';
 import { RelatedArticleList } from '@ndla/ui';
 import { toggleRelatedArticles } from '@ndla/article-scripts';
@@ -35,6 +34,13 @@ interface Props {
   onRemoveClick: (e: MouseEvent<HTMLButtonElement>) => void;
   children: ReactNode;
 }
+
+const StyledDiv = styled.div`
+  & article > p {
+    font-family: Source Sans Pro !important;
+  }
+`;
+
 export interface ExternalArticle {
   id: 'external-learning-resources';
   tempId: string;
@@ -167,7 +173,7 @@ const RelatedArticleBox = ({ attributes, editor, element, onRemoveClick, childre
   const structureExternal = (url: string, title: string): ExternalArticle => {
     return {
       id: ARTICLE_EXTERNAL,
-      tempId: uuid(),
+      tempId: url,
       url,
       title,
       description: '',
@@ -197,7 +203,7 @@ const RelatedArticleBox = ({ attributes, editor, element, onRemoveClick, childre
           updateArticles={updateArticles}
         />
       )}
-      <div
+      <StyledDiv
         role="button"
         draggable
         contentEditable={false}
@@ -205,11 +211,6 @@ const RelatedArticleBox = ({ attributes, editor, element, onRemoveClick, childre
         data-testid="relatedWrapper"
         onClick={openEditMode}
         onKeyPress={openEditMode}
-        css={css`
-          & article > p {
-            font-family: Source Sans Pro !important;
-          }
-        `}
         {...attributes}>
         <RelatedArticleList
           messages={{
@@ -223,13 +224,13 @@ const RelatedArticleBox = ({ attributes, editor, element, onRemoveClick, childre
               !('id' in item) ? (
                 t('form.content.relatedArticle.invalidArticle')
               ) : (
-                <RelatedArticle key={uuid()} numberInList={i} item={item} />
+                <RelatedArticle key={i} numberInList={i} item={item} />
               ),
             )}
           </>
         </RelatedArticleList>
         {children}
-      </div>
+      </StyledDiv>
     </>
   );
 };

@@ -9,10 +9,10 @@
 import { useState, useEffect, SyntheticEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FieldHeader } from '@ndla/forms';
-import { IImageMetaInformationV2, IUpdateImageMetaInformation } from '@ndla/types-image-api';
+import { IImageMetaInformationV3, IUpdateImageMetaInformation } from '@ndla/types-image-api';
 import Button from '@ndla/button';
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
-import { FormikHandlers } from 'formik';
+import { FormikHandlers, useFormikContext } from 'formik';
 import { createFormData } from '../../util/formDataHelper';
 import {
   postImage,
@@ -34,7 +34,8 @@ interface Props {
   onImageLoad?: (event: SyntheticEvent<HTMLImageElement, Event>) => void;
   showRemoveButton: boolean;
   showCheckbox: boolean;
-  checkboxAction: (image: IImageMetaInformationV2) => void;
+  checkboxAction: (image: IImageMetaInformationV3) => void;
+  language?: string;
 }
 
 const MetaImageSearch = ({
@@ -46,19 +47,21 @@ const MetaImageSearch = ({
   onImageLoad,
   showCheckbox,
   checkboxAction,
+  language,
 }: Props) => {
   const { t, i18n } = useTranslation();
+  const { setFieldValue } = useFormikContext();
   const [showImageSelect, setShowImageSelect] = useState(false);
-  const [image, setImage] = useState<IImageMetaInformationV2 | undefined>(undefined);
+  const [image, setImage] = useState<IImageMetaInformationV3 | undefined>(undefined);
   const locale = i18n.language;
 
   useEffect(() => {
     if (metaImageId) {
-      fetchImage(parseInt(metaImageId), locale).then(image => setImage(image));
+      fetchImage(parseInt(metaImageId), language).then(image => setImage(image));
     } else {
       setImage(undefined);
     }
-  }, [metaImageId, locale]);
+  }, [metaImageId, language]);
 
   const onChangeFormik = (id: string | null) => {
     onChange({
@@ -69,14 +72,18 @@ const MetaImageSearch = ({
     });
   };
   const onImageSelectClose = () => {
-    setFieldTouched('metaImageAlt', true, true);
     setShowImageSelect(false);
   };
 
-  const onImageSet = (image: IImageMetaInformationV2) => {
+  const onImageSet = (image: IImageMetaInformationV3) => {
     onImageSelectClose();
     setImage(image);
-    onChangeFormik(image.id);
+    setFieldValue(name, image.id);
+    setFieldValue('metaImageAlt', image.alttext.alttext.trim(), true);
+    setTimeout(() => {
+      setFieldTouched('metaImageAlt', true, true);
+      setFieldTouched(name, true, true);
+    }, 0);
   };
 
   const onImageRemove = () => {
@@ -104,12 +111,15 @@ const MetaImageSearch = ({
     }
   };
 
+  const buttonId = 'popupMetaImageModal';
+
   return (
     <div>
       <FieldHeader title={t('form.metaImage.title')}>
         <HowToHelper pageId="MetaImage" tooltip={t('form.metaImage.helpLabel')} />
       </FieldHeader>
       <Modal
+        labelledBy={buttonId}
         controllable
         isOpen={showImageSelect}
         onClose={onImageSelectClose}
@@ -126,8 +136,9 @@ const MetaImageSearch = ({
                 inModal={true}
                 onImageSelect={onImageSet}
                 locale={locale}
+                language={language}
                 closeModal={onImageSelectClose}
-                fetchImage={id => fetchImage(id, locale)}
+                fetchImage={id => fetchImage(id, language)}
                 searchImages={searchImages}
                 onError={onError}
                 updateImage={onImageUpdate}
@@ -149,7 +160,9 @@ const MetaImageSearch = ({
           onImageLoad={onImageLoad}
         />
       ) : (
-        <Button onClick={onImageSelectOpen}>{t('form.metaImage.add')}</Button>
+        <Button id={buttonId} onClick={onImageSelectOpen}>
+          {t('form.metaImage.add')}
+        </Button>
       )}
     </div>
   );

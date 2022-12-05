@@ -10,7 +10,7 @@ import { useEffect, useState } from 'react';
 import { useFormikContext } from 'formik';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
-import { IImageMetaInformationV2 } from '@ndla/types-image-api';
+import { IImageMetaInformationV3 } from '@ndla/types-image-api';
 import { useTranslation } from 'react-i18next';
 import Button from '@ndla/button';
 import ImageSearch from '@ndla/image-search';
@@ -31,8 +31,8 @@ interface Props {
 
 const InlineImageSearch = ({ name }: Props) => {
   const { t, i18n } = useTranslation();
-  const { setFieldValue, values } = useFormikContext<ConceptFormValues>();
-  const [image, setImage] = useState<IImageMetaInformationV2 | undefined>();
+  const { setFieldValue, values, setFieldTouched } = useFormikContext<ConceptFormValues>();
+  const [image, setImage] = useState<IImageMetaInformationV3 | undefined>();
   const locale: LocaleType = i18n.language;
   const fetchImageWithLocale = (id: number) => fetchImage(id, locale);
   const searchImagesWithParameters = (query?: string, page?: number) => {
@@ -59,6 +59,7 @@ const InlineImageSearch = ({ name }: Props) => {
         }}
         onImageRemove={() => {
           setFieldValue(name, undefined);
+          setFieldValue('metaImageAlt', undefined, true);
           setImage(undefined);
         }}
         showRemoveButton
@@ -78,9 +79,14 @@ const InlineImageSearch = ({ name }: Props) => {
         searchPlaceholder={t('imageSearch.placeholder')}
         searchButtonTitle={t('imageSearch.buttonTitle')}
         useImageTitle={t('imageSearch.useImage')}
-        onImageSelect={(image: IImageMetaInformationV2) => {
+        onImageSelect={(image: IImageMetaInformationV3) => {
           setFieldValue(name, image.id);
+          setFieldValue('metaImageAlt', image.alttext.alttext.trim(), true);
           setImage(image);
+          setTimeout(() => {
+            setFieldTouched('metaImageAlt', true, true);
+            setFieldTouched(name, true, true);
+          }, 0);
         }}
         noResults={
           <>

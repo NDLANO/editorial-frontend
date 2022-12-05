@@ -9,8 +9,9 @@
 import { useTranslation } from 'react-i18next';
 import { Formik, Form, FormikHelpers } from 'formik';
 import Button from '@ndla/button';
-import { css } from '@emotion/core';
+import { css } from '@emotion/react';
 import { colors } from '@ndla/core';
+import styled from '@emotion/styled';
 import Field from '../../../Field';
 import config from '../../../../config';
 import validateFormik from '../../../formikValidationSchema';
@@ -26,7 +27,7 @@ import {
 import { isUrl } from '../../../validators';
 import { Model } from './Link';
 
-const marginLeftStyle = css`
+const StyledButton = styled(Button)`
   margin-left: 0.2rem;
 `;
 
@@ -119,12 +120,12 @@ const LinkForm = ({ onSave, link, isEdit, onRemove, onClose }: Props) => {
           <Checkbox name="checkbox" label={t('form.content.link.newTab')} />
           <Field right>
             {isEdit ? <Button onClick={onRemove}>{t('form.content.link.remove')}</Button> : ''}
-            <Button css={marginLeftStyle} outline onClick={onClose}>
+            <StyledButton outline onClick={onClose}>
               {t('form.abort')}
-            </Button>
-            <Button css={marginLeftStyle} onClick={submitForm}>
+            </StyledButton>
+            <StyledButton onClick={submitForm}>
               {isEdit ? t('form.content.link.update') : t('form.content.link.insert')}
-            </Button>
+            </StyledButton>
           </Field>
         </Form>
       )}

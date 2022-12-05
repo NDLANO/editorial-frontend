@@ -6,29 +6,37 @@
  *
  */
 
-import { css } from '@emotion/core';
-import { createRef, useEffect, useState } from 'react';
-import FocusTrapReact from 'focus-trap-react';
-import { shadows, spacingUnit } from '@ndla/core';
+import styled from '@emotion/styled';
+import { shadows } from '@ndla/core';
+import Modal from '@ndla/modal';
 import { FormikValues } from 'formik';
-import FigureInput from './FigureInput';
+import { useState } from 'react';
 import ImageEditor from '../../../../containers/ImageEditor/ImageEditor';
-import { Portal } from '../../../Portal';
-import Overlay from '../../../Overlay';
 import { ImageEmbed } from '../../../../interfaces';
+import { TransformData } from '../../../../util/imageEditorUtil';
+import { Portal } from '../../../Portal';
+import FigureInput from './FigureInput';
 
-const editorContentCSS = css`
+const StyledEditorContent = styled.div`
   box-shadow: ${shadows.levitate1};
 `;
 
-const imageEditorWrapperStyle = css`
+const StyledEditorWrapper = styled.div`
   background-color: white;
+  max-height: 80vh;
+`;
+
+const StyledModal = styled(Modal)`
+  [data-reach-dialog-content] {
+    padding: 0;
+  }
 `;
 
 interface Props {
   embed: ImageEmbed;
   saveEmbedUpdates: Function;
   setEditModus: Function;
+  language: string;
 }
 
 interface StateProps {
@@ -36,14 +44,7 @@ interface StateProps {
   caption?: string;
   imageUpdates:
     | {
-        transformData: {
-          'focal-x'?: string;
-          'focal-y'?: string;
-          'upper-left-x'?: string;
-          'upper-left-y'?: string;
-          'lower-right-x'?: string;
-          'lower-right-y'?: string;
-        };
+        transformData: TransformData;
         align?: string;
         size?: string;
       }
@@ -51,9 +52,7 @@ interface StateProps {
   madeChanges: boolean;
 }
 
-const EditImage = ({ embed, saveEmbedUpdates, setEditModus }: Props) => {
-  let placeholderElement: any = createRef();
-  let embedElement: any = createRef();
+const EditImage = ({ embed, saveEmbedUpdates, setEditModus, language }: Props) => {
   const [state, setState] = useState<StateProps>({
     alt: embed.alt,
     caption: embed.caption,
@@ -71,19 +70,6 @@ const EditImage = ({ embed, saveEmbedUpdates, setEditModus }: Props) => {
     },
     madeChanges: false,
   });
-
-  useEffect(() => {
-    const bodyRect = document.body.getBoundingClientRect();
-
-    const editorRect = placeholderElement.closest('.c-editor').getBoundingClientRect();
-
-    const placeholderRect = placeholderElement.closest('div.c-figure').getBoundingClientRect();
-
-    embedElement.style.position = 'absolute';
-    embedElement.style.top = `${placeholderRect.top - bodyRect.top}px`;
-    embedElement.style.left = `${editorRect.left + spacingUnit - editorRect.width * (0.333 / 2)}px`;
-    embedElement.style.width = `${editorRect.width * 1.333 - spacingUnit * 2}px`;
-  }, [embedElement, placeholderElement]);
 
   const onUpdatedImageSettings = (transformedData: NonNullable<StateProps['imageUpdates']>) => {
     setState({
@@ -135,43 +121,32 @@ const EditImage = ({ embed, saveEmbedUpdates, setEditModus }: Props) => {
   };
 
   return (
-    <div
-      css={imageEditorWrapperStyle}
-      ref={placeholderEl => {
-        placeholderElement = placeholderEl;
-      }}>
-      <Overlay />
-      <Portal isOpened>
-        <FocusTrapReact
-          focusTrapOptions={{
-            onDeactivate: () => {
-              setEditModus(false);
-            },
-            clickOutsideDeactivates: true,
-            escapeDeactivates: true,
-          }}>
-          <div
-            css={editorContentCSS}
-            ref={embedEl => {
-              embedElement = embedEl;
-            }}>
-            <ImageEditor
-              embed={embed}
-              onUpdatedImageSettings={onUpdatedImageSettings}
-              imageUpdates={state.imageUpdates}
-            />
-            <FigureInput
-              caption={state.caption}
-              alt={state.alt}
-              madeChanges={state.madeChanges}
-              onChange={onChange}
-              onAbort={onAbort}
-              onSave={onSave}
-            />
-          </div>
-        </FocusTrapReact>
-      </Portal>
-    </div>
+    <Portal isOpened key="imagePortal">
+      <StyledModal onClose={() => setEditModus(false)} isOpen controllable size="regular">
+        {() => (
+          <>
+            <StyledEditorWrapper contentEditable={false}>
+              <StyledEditorContent>
+                <ImageEditor
+                  embed={embed}
+                  onUpdatedImageSettings={onUpdatedImageSettings}
+                  imageUpdates={state.imageUpdates}
+                  language={language}
+                />
+                <FigureInput
+                  caption={state.caption}
+                  alt={state.alt}
+                  madeChanges={state.madeChanges}
+                  onChange={onChange}
+                  onAbort={onAbort}
+                  onSave={onSave}
+                />
+              </StyledEditorContent>
+            </StyledEditorWrapper>
+          </>
+        )}
+      </StyledModal>
+    </Portal>
   );
 };
 

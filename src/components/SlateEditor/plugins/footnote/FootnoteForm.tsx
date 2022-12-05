@@ -9,14 +9,14 @@
 import Button from '@ndla/button';
 import { Formik, Form, FormikHelpers } from 'formik';
 import { useTranslation } from 'react-i18next';
-import { css } from '@emotion/core';
+import styled from '@emotion/styled';
 import Field from '../../../Field';
 import MultiSelectDropdown from '../../../Dropdown/MultiSelectDropdown';
 import FormikField from '../../../FormikField';
 import validateFormik from '../../../formikValidationSchema';
 import { FootnoteElement } from '.';
 
-const marginLeftStyle = css`
+const StyledButton = styled(Button)`
   margin-left: 0.2rem;
 `;
 
@@ -93,16 +93,12 @@ const FootnoteForm = ({ isEdit, footnote, onRemove, onClose, onSave }: Props) =>
             {isEdit && (
               <Button onClick={onRemove}>{t('form.content.footnote.removeFootnote')}</Button>
             )}
-            <Button css={marginLeftStyle} outline onClick={onClose}>
+            <StyledButton outline onClick={onClose}>
               {t('form.abort')}
-            </Button>
-            <Button
-              css={marginLeftStyle}
-              data-cy="save_footnote"
-              type="button"
-              onClick={submitForm}>
+            </StyledButton>
+            <StyledButton data-cy="save_footnote" type="button" onClick={submitForm}>
               {t('form.save')}
-            </Button>
+            </StyledButton>
           </Field>
         </Form>
       )}

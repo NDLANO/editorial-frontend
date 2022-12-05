@@ -13,8 +13,10 @@ import {
   TableMaterial,
 } from '@ndla/icons/editor';
 import { Download, Podcast, VolumeUp } from '@ndla/icons/common';
+import { List } from '@ndla/icons/action';
 import HowToHelper from '../../../HowTo/HowToHelper';
 import { TYPE_CONCEPT_BLOCK } from '../concept/block/types';
+import { DRAFT_ADMIN_SCOPE } from '../../../../constants';
 
 const renderArticleInModal = (pageId: string) => <HowToHelper pageId={pageId} extraIconPadding />;
 
@@ -100,6 +102,12 @@ const actions: Action[] = [
     data: { type: TYPE_CONCEPT_BLOCK, object: 'concept' },
     icon: <Concept />,
     helpIcon: renderArticleInModal('Concept'),
+  },
+  {
+    data: { type: 'concept-list', object: 'conceptList' },
+    icon: <List />,
+    helpIcon: renderArticleInModal('ConceptList'),
+    requiredScope: DRAFT_ADMIN_SCOPE,
   },
 ];
 

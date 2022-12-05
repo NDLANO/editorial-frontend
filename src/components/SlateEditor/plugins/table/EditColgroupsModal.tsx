@@ -7,7 +7,7 @@
  */
 
 import { lazy, Suspense, useState } from 'react';
-import { Spinner } from '@ndla/editor';
+import { Spinner } from '@ndla/icons';
 import Button from '@ndla/button';
 import Modal, { ModalBody, ModalCloseButton, ModalHeader } from '@ndla/modal';
 import { fonts } from '@ndla/core';
@@ -68,6 +68,7 @@ const EditColgroupsModal = ({ element }: Props) => {
   return (
     <Portal isOpened>
       <Modal
+        label={t('form.content.table.colgroupTitle')}
         controllable
         isOpen={showEditColgroups}
         onClose={onClose}

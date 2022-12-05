@@ -6,19 +6,20 @@
  *
  */
 
-import { ReactNode, useEffect, useState, MouseEvent } from 'react';
-import { css } from '@emotion/core';
+import { ReactNode, useEffect, useState, MouseEvent, useCallback } from 'react';
 import styled from '@emotion/styled';
 import { RenderElementProps } from 'slate-react';
 import Button from '@ndla/button';
 import { Figure } from '@ndla/ui';
-import { parseMarkdown } from '@ndla/util';
+import { breakpoints, parseMarkdown } from '@ndla/util';
 import { useTranslation } from 'react-i18next';
 import Tooltip from '@ndla/tooltip';
 import SafeLink from '@ndla/safelink';
+import { colors, spacing, fonts, mq } from '@ndla/core';
+import Modal from '@ndla/modal';
 import { isNumeric } from '../../../validators';
 import FigureButtons from './FigureButtons';
-import EditVideo from './EditVideo';
+import EditVideo, { toVideoEmbedFormValues, brightcoveEmbedFormRules } from './EditVideo';
 import IconButton from '../../../IconButton';
 import { fetchBrightcoveVideo } from '../../../../modules/video/brightcoveApi';
 import {
@@ -27,14 +28,37 @@ import {
   getYoutubeEmbedUrl,
 } from '../../../../util/videoUtil';
 import { ExternalEmbed, BrightcoveEmbed } from '../../../../interfaces';
+import validateFormik from '../../../formikValidationSchema';
 
-const videoStyle = css`
+export const StyledVideo = styled.iframe`
   width: 100%;
   height: 100%;
   position: absolute;
   top: 0px;
   left: 0px;
   right: 0px;
+  bottom: 0px;
+  border: 0px;
+`;
+
+interface SlateVideoWrapperProps {
+  showOutline?: boolean;
+  hasError?: boolean;
+}
+
+const shouldForwardProp = (prop: string) => prop !== 'showOutline' && prop !== 'hasError';
+
+export const SlateVideoWrapper = styled('div', { shouldForwardProp })<SlateVideoWrapperProps>`
+  position: relative;
+  display: block;
+  height: 0;
+  padding: 0;
+  overflow: hidden;
+  padding-bottom: 56.25%;
+  border-style: solid;
+  border-width: 2px;
+  border-color: ${p =>
+    p.showOutline ? colors.brand.primary : p.hasError ? colors.support.red : 'transparent'};
 `;
 
 interface Props {
@@ -54,9 +78,27 @@ const isBrightcove = (
   return !!embed && 'videoid' in embed;
 };
 
-const StyledFigure = styled(Figure)`
-  padding-top: 57%;
-  position: relative;
+const FigureInfo = styled.div`
+  max-width: 650px;
+  margin-bottom: ${spacing.small};
+  font-family: ${fonts.sans};
+  color: ${colors.text.primary};
+  ${fonts.sizes('16px', '24px')};
+  white-space: normal;
+  ${mq.range({ from: breakpoints.tablet })} {
+    flex: 2;
+    margin-bottom: ${spacing.small};
+  }
+  p {
+    margin: 0;
+  }
+`;
+
+const StyledFigcaption = styled.figcaption`
+  background-color: ${colors.white};
+  padding: ${spacing.small};
+  display: block;
+  border-bottom: 1px solid ${colors.brand.greyLight};
 `;
 
 const SlateVideo = ({
@@ -70,11 +112,24 @@ const SlateVideo = ({
   children,
 }: Props) => {
   const { t } = useTranslation();
+  const [hasError, _setHasError] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const showCopyOutline = isSelectedForCopy && (!editMode || !active);
   const [showLinkedVideo, setShowLinkedVideo] = useState(false);
 
+  const setHasError = useCallback((hasError: boolean) => _setHasError(hasError), []);
+
   const [linkedVideoId, setLinkedVideoId] = useState<string | undefined>();
+
+  useEffect(() => {
+    if (!editMode && embed.resource === 'brightcove') {
+      _setHasError(
+        !!Object.keys(validateFormik(toVideoEmbedFormValues(embed), brightcoveEmbedFormRules, t))
+          .length,
+      );
+    }
+  }, [editMode, embed, t]);
+
   useEffect(() => {
     if (!isBrightcove(embed)) {
       return;
@@ -121,68 +176,68 @@ const SlateVideo = ({
   };
 
   return (
-    <div className="c-figure" draggable="true" {...attributes}>
-      <FigureButtons
-        tooltip={t('form.video.remove')}
-        onRemoveClick={onRemoveClick}
-        embed={embed}
-        figureType="video"
-        language={language}>
-        {linkedVideoId && (
-          <Tooltip
-            tooltip={
-              showLinkedVideo ? t('form.video.fromLinkedVideo') : t('form.video.toLinkedVideo')
-            }
-            align="right">
-            <IconButton as={SafeLink} onClick={switchEmbedSource} to="">
-              {t('form.video.linkedVideoButton')}
-            </IconButton>
-          </Tooltip>
+    <>
+      <Modal
+        controllable
+        backgroundColor="white"
+        isOpen={editMode}
+        labelledBy={'editVideoEmbed'}
+        onClose={() => setEditMode(false)}>
+        {close => (
+          <EditVideo
+            embed={embed}
+            close={close}
+            activeSrc={getUrl(showLinkedVideo)}
+            saveEmbedUpdates={saveEmbedUpdates}
+            setHasError={setHasError}
+          />
         )}
-      </FigureButtons>
-      {editMode ? (
-        <EditVideo
-          embed={embed}
-          toggleEditModus={toggleEditModus}
-          src={getUrl(false)}
-          activeSrc={getUrl(showLinkedVideo)}
-          saveEmbedUpdates={saveEmbedUpdates}
-        />
-      ) : (
-        <div contentEditable={false}>
-          <StyledFigure
-            id={'videoid' in embed ? embed.videoid : embed.url}
-            resizeIframe
-            css={
-              showCopyOutline && {
-                boxShadow: 'rgb(32, 88, 143) 0 0 0 2px;',
-              }
-            }>
-            <iframe
+      </Modal>
+      <div draggable {...attributes}>
+        <Figure id={'videoid' in embed ? embed.videoid : embed.url}>
+          <FigureButtons
+            tooltip={t('form.video.remove')}
+            onRemoveClick={onRemoveClick}
+            embed={embed}
+            onEdit={toggleEditModus}
+            figureType="video"
+            language={language}>
+            {linkedVideoId && (
+              <Tooltip
+                tooltip={
+                  showLinkedVideo ? t('form.video.fromLinkedVideo') : t('form.video.toLinkedVideo')
+                }>
+                <IconButton as={SafeLink} onClick={switchEmbedSource} to="">
+                  {t('form.video.linkedVideoButton')}
+                </IconButton>
+              </Tooltip>
+            )}
+          </FigureButtons>
+          <SlateVideoWrapper
+            hasError={hasError}
+            showOutline={showCopyOutline}
+            contentEditable={false}
+            role="button"
+            draggable
+            className="c-placeholder-editomode"
+            tabIndex={0}
+            onClick={toggleEditModus}>
+            <StyledVideo
               title={`Video: ${embed?.metaData?.name || ''}`}
               frameBorder="0"
               src={getUrl(showLinkedVideo)}
               allowFullScreen
-              css={videoStyle}
             />
-          </StyledFigure>
-          <Button stripped style={{ width: '100%' }} onClick={toggleEditModus}>
-            <figcaption className="c-figure__caption">
-              <div
-                className="c-figure__info"
-                css={css`
-                  p {
-                    margin: 0;
-                  }
-                `}>
-                {parseMarkdown(embed.caption || '')}
-              </div>
-            </figcaption>
+          </SlateVideoWrapper>
+          <Button stripped width="full" onClick={toggleEditModus}>
+            <StyledFigcaption>
+              <FigureInfo>{parseMarkdown(embed.caption ?? '')}</FigureInfo>
+            </StyledFigcaption>
           </Button>
-        </div>
-      )}
-      {children}
-    </div>
+        </Figure>
+        {children}
+      </div>
+    </>
   );
 };
 

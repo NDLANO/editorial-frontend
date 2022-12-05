@@ -7,11 +7,21 @@
  */
 
 import { useState, useEffect } from 'react';
+//@ts-ignore
 import { DropdownInput } from '@ndla/forms';
 import { FieldInputProps, FormikHelpers } from 'formik';
 import { useTranslation } from 'react-i18next';
 import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropdown';
 import { SearchResultBase } from '../../../interfaces';
+
+export const formatTagToList = (newTag: string, existingTags: string[]): string[] => {
+  if (newTag.includes(',')) {
+    const tagList = newTag.split(',').map(tag => tag.trim());
+    const temp = [...existingTags, ...tagList];
+    // Return unique list
+    return [...new Set(temp)];
+  } else return [...existingTags, newTag.trim()];
+};
 
 interface Props {
   language: string;
@@ -20,13 +30,24 @@ interface Props {
   form?: FormikHelpers<string[]>;
   fetchTags: (input: string, language: string) => Promise<SearchResultBase<string>>;
   updateValue?: (value: string[]) => void;
+  disableCreate?: boolean;
+  multiSelect?: boolean;
 }
 
 interface TagWithTitle {
   title: string;
 }
 
-const AsyncSearchTags = ({ language, initialTags, field, form, fetchTags, updateValue }: Props) => {
+const AsyncSearchTags = ({
+  language,
+  initialTags,
+  field,
+  form,
+  fetchTags,
+  updateValue,
+  multiSelect,
+  disableCreate,
+}: Props) => {
   const { t } = useTranslation();
   const convertToTagsWithTitle = (tagsWithoutTitle: string[]) => {
     return tagsWithoutTitle.map(tag => ({ title: tag }));
@@ -63,7 +84,7 @@ const AsyncSearchTags = ({ language, initialTags, field, form, fetchTags, update
 
   const createNewTag = (newTag: string) => {
     if (newTag && !tags.includes(newTag.trim())) {
-      const temp = [...tags, newTag.trim()];
+      const temp = formatTagToList(newTag, tags);
       updateField(temp);
     }
   };
@@ -83,10 +104,10 @@ const AsyncSearchTags = ({ language, initialTags, field, form, fetchTags, update
         apiAction={searchForTags}
         onChange={addTag}
         selectedItems={convertToTagsWithTitle(tags)}
-        multiSelect
+        multiSelect={multiSelect}
         disableSelected
         saveOnEnter
-        onCreate={createNewTag}
+        onCreate={!disableCreate ? createNewTag : undefined}
         removeItem={removeTag}>
         {({ selectedItems, value, removeItem, onBlur, onChange, onKeyDown }) => (
           <DropdownInput

@@ -6,10 +6,11 @@
  *
  */
 
-import { MouseEvent } from 'react';
+import { css, SerializedStyles } from '@emotion/react';
 import styled from '@emotion/styled';
-import { css, SerializedStyles } from '@emotion/core';
 import { animations } from '@ndla/core';
+import { MouseEvent } from 'react';
+
 const appearances: Record<string, SerializedStyles> = {
   zIndex: css`
     z-index: 1;
@@ -42,6 +43,7 @@ const StyledOverlay = styled.div<{ modifiers: string | string[] }>`
   left: 0;
   height: 100vh;
   width: 100vw;
+  z-index: 1;
   background: rgba(0, 0, 0, 0.3);
 
   ${animations.fadeIn()}

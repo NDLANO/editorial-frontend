@@ -43,9 +43,26 @@ export const fetchDraft = async (id: number | string, language?: string): Promis
   return fetchAuthorized(url).then(r => resolveJsonOrRejectWithError<IArticle>(r));
 };
 
-export const updateDraft = async (id: number, draft: IUpdatedArticle): Promise<IArticle> =>
+export const fetchDrafts = async (ids: number[], language?: string): Promise<IArticle[]> => {
+  const query = queryString.stringify({
+    ids: ids.join(','),
+    language,
+    page: 1,
+    'page-size': ids.length,
+  });
+  return fetchAuthorized(`${baseUrl}/ids/?${query}`, {
+    method: 'GET',
+  }).then(r => resolveJsonOrRejectWithError<[IArticle]>(r));
+};
+
+export const updateDraft = async (
+  id: number,
+  draft: IUpdatedArticle,
+  versionHash = 'default',
+): Promise<IArticle> =>
   fetchAuthorized(`${baseUrl}/${id}`, {
     method: 'PATCH',
+    headers: { VersionHash: versionHash },
     body: JSON.stringify(draft),
   }).then(r => resolveJsonOrRejectWithError<IArticle>(r));
 
@@ -151,7 +168,7 @@ export const createAgreement = async (agreement: INewAgreement): Promise<IAgreem
 
 export const fetchGrepCodes = async (query: string): Promise<IGrepCodesSearchResult> =>
   fetchAuthorized(`${baseUrl}/grep-codes/?query=${query}`).then(r =>
-    resolveJsonOrRejectWithError<{ value: IGrepCodesSearchResult }>(r).then(r => r.value),
+    resolveJsonOrRejectWithError<IGrepCodesSearchResult>(r),
   );
 
 export const fetchUserData = async (): Promise<IUserData> =>

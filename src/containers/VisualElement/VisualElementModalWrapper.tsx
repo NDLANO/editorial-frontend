@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { ReactElement, useState } from 'react';
 
-import { css } from '@emotion/core';
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import Lightbox from '../../components/Lightbox';
@@ -11,6 +11,7 @@ interface Props {
   onClose: () => void;
   isOpen: boolean;
   children: (setH5pFetchFail: (failed: boolean) => void) => ReactElement;
+  label?: string;
 }
 
 const h5pContentCss = css`
@@ -27,7 +28,7 @@ const StyledVisualElementModal = styled(Modal)`
   }
 `;
 
-const VisualElementModalWrapper = ({ resource, children, onClose, isOpen }: Props) => {
+const VisualElementModalWrapper = ({ resource, children, onClose, isOpen, label }: Props) => {
   const { t } = useTranslation();
   const [h5pFetchFail, setH5pFetchFail] = useState(false);
 
@@ -45,6 +46,7 @@ const VisualElementModalWrapper = ({ resource, children, onClose, isOpen }: Prop
   }
   return (
     <StyledVisualElementModal
+      label={label}
       narrow
       controllable
       isOpen={isOpen}

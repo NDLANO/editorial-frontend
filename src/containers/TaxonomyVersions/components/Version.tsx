@@ -8,7 +8,6 @@
 
 import { useQueryClient } from 'react-query';
 import { useState } from 'react';
-import { css } from '@emotion/core';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import { colors, spacing } from '@ndla/core';
@@ -85,7 +84,7 @@ const StyledLink = styled(SafeLink)`
   box-shadow: inset 0 0;
 `;
 
-const linkIconCss = css`
+const StyledLaunch = styled(Launch)`
   height: 24px;
   width: 100%;
   color: ${colors.brand.tertiary};
@@ -95,7 +94,7 @@ const linkIconCss = css`
   }
 `;
 
-const iconCss = css`
+const StyledKeyhole = styled(Keyhole)`
   margin-left: ${spacing.xxsmall};
   height: 30px;
   width: 100%;
@@ -143,7 +142,7 @@ const Version = ({ version }: Props) => {
             <VersionTitle>{version.name}</VersionTitle>
             {version.locked && (
               <Tooltip tooltip={t('taxonomyVersions.locked')}>
-                <Keyhole css={iconCss} />
+                <StyledKeyhole />
               </Tooltip>
             )}
           </ContentBlock>
@@ -153,7 +152,7 @@ const Version = ({ version }: Props) => {
             </StatusWrapper>
             <Tooltip tooltip={t('taxonomyVersions.previewVersion')}>
               <StyledLink target={'_blank'} to={ndlaUrl}>
-                <Launch css={linkIconCss} />
+                <StyledLaunch />
               </StyledLink>
             </Tooltip>
             <Tooltip tooltip={t('taxonomyVersions.editVersionTooltip')}>

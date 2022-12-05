@@ -6,7 +6,7 @@
  *
  */
 
-import { colors, spacing, fonts } from '@ndla/core';
+import { colors, spacing, fonts, mq, breakpoints } from '@ndla/core';
 import styled from '@emotion/styled';
 import { SafeLinkButton } from '@ndla/safelink';
 import { css } from '@emotion/react';
@@ -18,7 +18,6 @@ const StyledWrapper = styled.header`
   display: flex;
   align-items: flex-end;
   overflow: hidden;
-  min-width: 600px;
 `;
 
 const StyledHeader = styled.div`
@@ -76,6 +75,13 @@ const RightShape = styled.div`
   border-radius: 100px 0 10px 0;
 `;
 
+const ImageWrapper = styled.div`
+  display: none;
+  ${mq.range({ from: breakpoints.tablet })} {
+    display: inline;
+  }
+`;
+
 const ContentWrapper = styled.div`
   z-index: 1;
 `;
@@ -89,7 +95,9 @@ export const WelcomeHeader = () => {
       <StyledHeader>
         <LeftShape />
         <ContentWrapper>
-          <img src="/welcome-page-person.svg" alt="" />
+          <ImageWrapper>
+            <img src="/welcome-page-person.svg" alt="" />
+          </ImageWrapper>
         </ContentWrapper>
         <ContentWrapper>
           <StyledTitle>

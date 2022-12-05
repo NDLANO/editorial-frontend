@@ -5,8 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
+
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSearch } from '../../../modules/search/searchQueries';
@@ -16,11 +15,6 @@ import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvid
 import DropdownPicker from './DropdownPicker';
 import { FilterElement } from './WorkList';
 import { fetchUserData } from '../../../modules/draft/draftApi';
-
-const StyledDropdownWrapper = styled.div`
-  display: flex;
-  gap: ${spacing.nsmall};
-`;
 
 interface Props {
   filterSubject: FilterElement | undefined;
@@ -73,14 +67,12 @@ const WorkListDropdownWrapper = ({ filterSubject, setFilterSubject }: Props) => 
   }, [data]);
 
   return (
-    <StyledDropdownWrapper>
-      <DropdownPicker
-        placeholder={t('welcomePage.chooseSubject')}
-        options={subjectList}
-        value={filterSubject}
-        onChange={setFilterSubject}
-      />
-    </StyledDropdownWrapper>
+    <DropdownPicker
+      placeholder={t('welcomePage.chooseSubject')}
+      options={subjectList}
+      value={filterSubject}
+      onChange={setFilterSubject}
+    />
   );
 };
 

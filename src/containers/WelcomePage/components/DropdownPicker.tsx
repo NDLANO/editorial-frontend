@@ -17,25 +17,25 @@ const StyledSelect = styled.select`
 
 interface Props {
   placeholder: string;
-  valueList: FilterElement[];
-  stateValue: FilterElement | undefined;
-  updateValue: (updateValue: FilterElement) => void;
+  options: FilterElement[];
+  value: FilterElement | undefined;
+  onChange: (updateValue: FilterElement) => void;
 }
 
-const DropdownPicker = ({ placeholder, valueList, stateValue, updateValue }: Props) => {
+const DropdownPicker = ({ placeholder, options, value, onChange }: Props) => {
   return (
     <StyledSelect
       onChange={e =>
-        updateValue({
+        onChange({
           id: e.target.value,
-          name: valueList.find(value => value.id === e.target.value)?.name ?? '',
+          name: options.find(option => option.id === e.target.value)?.name ?? '',
         })
       }
-      value={stateValue?.id}>
+      value={value?.id}>
       <option value="">{placeholder}</option>
-      {valueList.map(value => (
-        <option value={value.id} key={value.id}>
-          {value.name}
+      {options.map(option => (
+        <option value={option.id} key={option.id}>
+          {option.name}
         </option>
       ))}
     </StyledSelect>

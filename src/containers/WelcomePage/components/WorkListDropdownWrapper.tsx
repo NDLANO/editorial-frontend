@@ -76,9 +76,9 @@ const WorkListDropdownWrapper = ({ filterSubject, setFilterSubject }: Props) => 
     <StyledDropdownWrapper>
       <DropdownPicker
         placeholder={t('welcomePage.chooseSubject')}
-        valueList={subjectList}
-        stateValue={filterSubject}
-        updateValue={setFilterSubject}
+        options={subjectList}
+        value={filterSubject}
+        onChange={setFilterSubject}
       />
     </StyledDropdownWrapper>
   );

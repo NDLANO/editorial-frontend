@@ -12,7 +12,6 @@ import { spacing } from '@ndla/core';
 import { Footer, LanguageSelector, FooterText, EditorName } from '@ndla/ui';
 import styled from '@emotion/styled';
 import { getLocaleUrls } from '../../../util/localeHelpers';
-import { LocaleType } from '../../../interfaces';
 
 const StyledFooterWrapper = styled.div`
   margin-top: ${spacing.large};
@@ -37,7 +36,7 @@ const FooterWrapper = ({ showLocaleSelector }: Props) => {
 
   return (
     <StyledFooterWrapper>
-      <Footer lang={i18n.language as LocaleType} languageSelector={languageSelector}>
+      <Footer languageSelector={languageSelector} lang={i18n.language}>
         <FooterText>
           <EditorName title={t('footer.footerEditiorInChief')} name="Sigurd Trageton" />
           {t('footer.footerInfo')}

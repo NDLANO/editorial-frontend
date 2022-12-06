@@ -25,6 +25,9 @@ import { useAllResourceTypes } from '../../../../modules/taxonomy/resourcetypes/
 import GenericSearchForm, { OnFieldChangeFunction } from './GenericSearchForm';
 import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
 import { SearchFormSelector } from './Selector';
+import { useUserData } from '../../../../modules/draft/draftQueries';
+import { isValid } from '../../../../util/jwtHelper';
+import { getAccessToken, getAccessTokenPersonal } from '../../../../util/authHelpers';
 
 interface Props {
   search: (o: SearchParams) => void;
@@ -38,6 +41,9 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
   const { taxonomyVersion } = useTaxonomyVersion();
   const [queryInput, setQueryInput] = useState(search.query ?? '');
   const [isHasPublished, setIsHasPublished] = useState(false);
+  const { data: userData } = useUserData({
+    enabled: isValid(getAccessToken()) && getAccessTokenPersonal(),
+  });
 
   const { data: users } = useAuth0Editors(
     { permission: DRAFT_WRITE_SCOPE },
@@ -61,6 +67,17 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search.query]);
+  const favorite_subject = {
+    id: userData?.favoriteSubjects?.toLocaleString() ?? '',
+    name: 'Mine Favoritter',
+    contentUri: '',
+    path: '',
+    metadata: {
+      customFields: {},
+      grepCodes: [],
+      visible: true,
+    },
+  };
 
   const onFieldChange: OnFieldChangeFunction = (name, value, evt) => {
     let includeOtherStatuses: boolean | undefined;
@@ -122,12 +139,17 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
     return (a: Sortable, b: Sortable) => a[property]?.localeCompare(b[property]);
   };
 
+  const subjects_with_favorite =
+    subjects.find(subject => subject.name === 'Mine Favoritter') === undefined
+      ? [favorite_subject, ...subjects]
+      : subjects;
+
   const selectors: SearchFormSelector[] = [
     {
-      value: getTagName(search.subjects, subjects),
+      value: getTagName(search.subjects, subjects_with_favorite),
       parameterName: 'subjects',
       width: config.revisiondateEnabled === 'true' ? 50 : 25,
-      options: subjects
+      options: subjects_with_favorite
         .filter(s => s.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] !== 'true')
         .sort(sortByProperty('name')),
       formElementType: 'dropdown',

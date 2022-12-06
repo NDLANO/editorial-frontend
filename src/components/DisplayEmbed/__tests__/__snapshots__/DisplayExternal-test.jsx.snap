@@ -189,6 +189,7 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
   position: absolute;
   bottom: 0px;
   right: 23px;
+  cursor: pointer;
 }
 
 <div>

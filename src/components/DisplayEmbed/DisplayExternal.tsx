@@ -34,6 +34,7 @@ const ExpandableButton = styled.div`
   position: absolute;
   bottom: 0px;
   right: 23px;
+  cursor: pointer;
 `;
 
 type EmbedType = ExternalEmbed | H5pEmbed;

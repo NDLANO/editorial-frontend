@@ -6,10 +6,9 @@
  *
  */
 
-import { ContentLoader } from '@ndla/ui';
 import styled from '@emotion/styled';
 import { spacing, colors, fonts } from '@ndla/core';
-import { useEffect, useRef, ReactNode } from 'react';
+import { ReactNode } from 'react';
 import { ExpandLess, ExpandMore } from '@ndla/icons/action';
 import { css } from '@emotion/react';
 import Spinner from '../../../components/Spinner';
@@ -103,21 +102,6 @@ const TableComponent = ({
   sortOption,
   error,
 }: Props) => {
-  const isMounted = useRef(false);
-
-  useEffect(() => {
-    isMounted.current = true;
-  }, []);
-
-  if (isLoading && !isMounted.current) {
-    return (
-      <ContentLoader width={800} height={100}>
-        <rect x="0" y="4" rx="3" ry="3" width="500" height="23" key={`rect-1`} />
-        <rect x="0" y="31" rx="3" ry="3" width="600" height="23" key={`rect-2`} />
-        <rect x="0" y="58" rx="3" ry="3" width="700" height="23" key={`rect-3`} />
-      </ContentLoader>
-    );
-  }
   if (error) return <StyledError>{error}</StyledError>;
 
   return (

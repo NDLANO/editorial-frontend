@@ -25,13 +25,15 @@ interface Props {
 }
 
 const StyledTable = styled.table`
-  display: block;
-  position: relative;
-  margin-left: auto;
-  margin-right: auto;
-  padding: 0 24px;
-  margin-top: 64px;
-  margin-bottom: 64px;
+  && {
+    display: block;
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 24px;
+    margin-top: 64px;
+    margin-bottom: 64px;
+  }
   &:before {
     display: none;
   }

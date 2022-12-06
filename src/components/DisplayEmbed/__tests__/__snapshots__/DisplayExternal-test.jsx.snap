@@ -182,8 +182,14 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
 }
 
 .emotion-6 {
-  resize: vertical;
-  overflow: hidden;
+  pointer-events: auto;
+}
+
+.emotion-8 {
+  position: absolute;
+  bottom: 0px;
+  right: 23px;
+  cursor: pointer;
 }
 
 <div>
@@ -283,7 +289,6 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
     </div>
     <div
       class="emotion-6 emotion-7"
-      style="height: 392px;"
     >
       <iframe
         allowfullscreen=""
@@ -294,6 +299,34 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
         src="https://nb.khanacademy.org/embed_video?v=jHPr-CuvHhs"
         title="nb.khanacademy.org"
       />
+      <div
+        aria-label="Endre størrelse"
+        class="emotion-8 emotion-9"
+        role="button"
+      >
+        <svg
+          aria-hidden="true"
+          class="c-icon"
+          data-license="Apache License 2.0"
+          data-source="Material Design"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
+          style="vertical-align: middle;"
+          viewBox="0 0 24 24"
+          width="1em"
+        >
+          <g>
+            <path
+              d="M0 0h24v24H0z"
+              fill="none"
+            />
+            <path
+              d="M12 5.83L15.17 9l1.41-1.41L12 3 7.41 7.59 8.83 9 12 5.83zm0 12.34L8.83 15l-1.41 1.41L12 21l4.59-4.59L15.17 15 12 18.17z"
+            />
+          </g>
+        </svg>
+      </div>
     </div>
   </div>
 </div>

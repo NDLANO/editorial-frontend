@@ -69,6 +69,10 @@ const StyledError = styled.p`
   color: ${colors.support.red};
 `;
 
+const SpinnerWrapper = styled.div`
+  padding: ${spacing.small};
+`;
+
 const orderButtonStyle = (isHidden: boolean) => css`
   cursor: pointer;
   color: ${colors.text.primary};
@@ -151,9 +155,9 @@ const TableComponent = ({
         </StyledTable>
       </ScrollableTableWrapper>
       {isLoading ? (
-        <div css={{ padding: `${spacing.small}` }}>
+        <SpinnerWrapper>
           <Spinner appearance="small" />
-        </div>
+        </SpinnerWrapper>
       ) : null}
     </>
   );

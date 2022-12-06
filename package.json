@@ -128,7 +128,7 @@
     "@ndla/error-reporter": "^1.0.24",
     "@ndla/forms": "^4.0.17",
     "@ndla/howto": "^3.0.33",
-    "@ndla/icons": "^2.0.8",
+    "@ndla/icons": "^2.1.0",
     "@ndla/image-search": "^5.0.5",
     "@ndla/licenses": "^6.0.10",
     "@ndla/modal": "^2.1.3",

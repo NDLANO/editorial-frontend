@@ -6,12 +6,13 @@
  *
  */
 
-import { MouseEvent, useEffect, useState, useRef, useCallback } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import './helpers/h5pResizer';
 import { Transforms, Editor } from 'slate';
 import { ReactEditor } from 'slate-react';
 import styled from '@emotion/styled';
+import { Expandable } from '@ndla/icons/editor';
 import handleError from '../../util/handleError';
 import EditorErrorMessage from '../SlateEditor/EditorErrorMessage';
 import DisplayExternalModal from './helpers/DisplayExternalModal';
@@ -29,13 +30,20 @@ const ApplyBoxshadow = styled('div')<{ showCopyOutline: boolean }>`
   box-shadow: ${props => props.showCopyOutline && 'rgb(32, 88, 143) 0 0 0 2px'};
 `;
 
+const ExpandableButton = styled.div`
+  position: absolute;
+  bottom: 0px;
+  right: 23px;
+  cursor: pointer;
+`;
+
 type EmbedType = ExternalEmbed | H5pEmbed;
 
 interface Props {
   element: EmbedElement;
   editor: Editor;
   embed: EmbedType;
-  onRemoveClick: (event: MouseEvent) => void;
+  onRemoveClick: (event: React.MouseEvent) => void;
   language: string;
   active: boolean;
   isSelectedForCopy: boolean;
@@ -65,27 +73,8 @@ const DisplayExternal = ({
   const { t } = useTranslation();
   const prevEmbed = useRef<EmbedType>(embed);
   const [height, setHeight] = useState(0);
+  const [isResizing, setIsResizing] = useState(false);
   const iframeWrapper = useRef(null);
-
-  const onMouseDown = useCallback(() => {
-    document.addEventListener(
-      'mouseup',
-      () => {
-        if (iframeWrapper.current) {
-          const elementHeight = (iframeWrapper.current as HTMLDivElement).clientHeight;
-          if (elementHeight) {
-            Transforms.setNodes(
-              editor,
-              { data: { ...prevEmbed.current, height: `${elementHeight}px` } },
-              { at: ReactEditor.findPath(editor, element) },
-            );
-            setHeight(elementHeight);
-          }
-        }
-      },
-      { once: true },
-    );
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const getPropsFromEmbed = async () => {
     const origin = embed.url ? urlOrigin(embed.url) : config.h5pApiUrl;
@@ -164,7 +153,7 @@ const DisplayExternal = ({
     prevEmbed.current = embed;
   }, [embed]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const openEditEmbed = (evt: MouseEvent) => {
+  const openEditEmbed = (evt: React.MouseEvent) => {
     evt.preventDefault();
     setIsEditMode(true);
   };
@@ -218,6 +207,41 @@ const DisplayExternal = ({
     return <div />;
   }
 
+  const handleResize = (mouseDownEvent: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    const startSize = height;
+    const startPosition = mouseDownEvent.pageY;
+    const minHeight = 100;
+
+    setIsResizing(true);
+
+    const onMouseMove = (mouseMoveEvent: MouseEvent) => {
+      const elementHeight = startSize - startPosition + mouseMoveEvent.pageY;
+      setHeight(elementHeight > minHeight ? elementHeight : minHeight);
+    };
+
+    const onMouseUp = (mouseUpEvent: MouseEvent) => {
+      document.body.removeEventListener('mousemove', onMouseMove);
+      const elementHeight = startSize - startPosition + mouseUpEvent.pageY;
+      const updatedElementHeight = elementHeight > minHeight ? elementHeight : minHeight;
+
+      Transforms.setNodes(
+        editor,
+        {
+          data: {
+            ...prevEmbed.current,
+            height: `${updatedElementHeight}px`,
+          },
+        },
+        { at: ReactEditor.findPath(editor, element) },
+      );
+      setHeight(updatedElementHeight);
+      setIsResizing(false);
+    };
+
+    document.body.addEventListener('mousemove', onMouseMove);
+    document.body.addEventListener('mouseup', onMouseUp, { once: true });
+  };
+
   return (
     <div className={'c-figure'}>
       <FigureButtons
@@ -246,11 +270,9 @@ const DisplayExternal = ({
         </ApplyBoxshadow>
       ) : (
         <ApplyBoxshadow
-          onMouseDown={onMouseDown}
           ref={iframeWrapper}
-          css={[embed.resource === 'iframe' && { resize: 'vertical', overflow: 'hidden' }]}
-          style={{ height: height ? height : allowedProvider.height || properties.height }}
-          showCopyOutline={showCopyOutline}>
+          showCopyOutline={showCopyOutline}
+          css={{ pointerEvents: isResizing ? 'none' : 'auto' }}>
           <iframe
             contentEditable={false}
             src={properties.src}
@@ -260,6 +282,14 @@ const DisplayExternal = ({
             allowFullScreen={true}
             frameBorder="0"
           />
+          {embed.resource === 'iframe' && (
+            <ExpandableButton
+              role="button"
+              onMouseDown={handleResize}
+              aria-label={t('form.resize')}>
+              <Expandable />
+            </ExpandableButton>
+          )}
         </ApplyBoxshadow>
       )}
       <DisplayExternalModal

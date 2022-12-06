@@ -17,9 +17,6 @@ const StyledForm = styled(Form)`
     padding-right: 0;
     padding-top: 0;
   }
-  & .c-editor__figure {
-    position: relative;
-  }
 `;
 
 export default StyledForm;

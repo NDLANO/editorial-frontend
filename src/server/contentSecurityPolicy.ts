@@ -19,6 +19,7 @@ const connectSrc = (() => {
     'https://*.zendesk.com',
     'https://ekr.zdassets.com',
     'https://static.zdassets.com',
+    'https://zendesk-eu.my.sentry.io',
     'https://*.boltdns.net',
     'https://*.google-analytics.com',
     'https://*.analytics.google.com',
@@ -100,6 +101,8 @@ const scriptSrc = (() => {
     'http://www.google-analytics.com',
     'https://*.zendesk.com',
     'https://static.zdassets.com',
+    'https://zendesk-eu.my.sentry.io',
+    'https://*.hotjar.com',
     'widget-mediator.zopim.com',
     'https://*.clarity.ms',
   ];

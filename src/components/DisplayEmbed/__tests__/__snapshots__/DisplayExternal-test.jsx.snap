@@ -51,7 +51,7 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
   margin-bottom: 6.5px;
 }
 
-.emotion-2 {
+.emotion-1 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -77,7 +77,7 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
   height: 26px;
 }
 
-.emotion-2 svg {
+.emotion-1 svg {
   width: 22px;
   height: 22px;
   position: relative;
@@ -85,7 +85,7 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
   pointer-events: none;
 }
 
-.emotion-2::before {
+.emotion-1::before {
   content: '';
   display: block;
   position: absolute;
@@ -102,13 +102,13 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
   transition: all 200ms ease;
 }
 
-.emotion-2:hover,
-.emotion-2:focus {
+.emotion-1:hover,
+.emotion-1:focus {
   color: #d1372e;
 }
 
-.emotion-2:hover::before,
-.emotion-2:focus::before {
+.emotion-1:hover::before,
+.emotion-1:focus::before {
   -webkit-transform: scale(1.25);
   -moz-transform: scale(1.25);
   -ms-transform: scale(1.25);
@@ -116,7 +116,7 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
   opacity: 1;
 }
 
-.emotion-4 {
+.emotion-2 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -142,7 +142,7 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
   height: 26px;
 }
 
-.emotion-4 svg {
+.emotion-2 svg {
   width: 22px;
   height: 22px;
   position: relative;
@@ -150,7 +150,7 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
   pointer-events: none;
 }
 
-.emotion-4::before {
+.emotion-2::before {
   content: '';
   display: block;
   position: absolute;
@@ -167,13 +167,13 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
   transition: all 200ms ease;
 }
 
-.emotion-4:hover,
-.emotion-4:focus {
+.emotion-2:hover,
+.emotion-2:focus {
   color: #20588f;
 }
 
-.emotion-4:hover::before,
-.emotion-4:focus::before {
+.emotion-2:hover::before,
+.emotion-2:focus::before {
   -webkit-transform: scale(1.25);
   -moz-transform: scale(1.25);
   -ms-transform: scale(1.25);
@@ -181,11 +181,11 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
   opacity: 1;
 }
 
-.emotion-6 {
+.emotion-3 {
   pointer-events: auto;
 }
 
-.emotion-8 {
+.emotion-4 {
   position: absolute;
   bottom: 0px;
   right: 23px;
@@ -197,7 +197,7 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
     class="c-figure"
   >
     <div
-      class="emotion-0 emotion-1"
+      class="emotion-0"
       contenteditable="false"
     >
       <div
@@ -211,7 +211,7 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
           data-tooltip-children="true"
         >
           <button
-            class="emotion-2 emotion-3"
+            class="emotion-1"
             color="red"
             data-cy="remove-element"
             tabindex="-1"
@@ -257,7 +257,7 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
           data-tooltip-children="true"
         >
           <button
-            class="emotion-4 emotion-3"
+            class="emotion-2"
             tabindex="-1"
             type="button"
           >
@@ -288,7 +288,7 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
       </div>
     </div>
     <div
-      class="emotion-6 emotion-7"
+      class="emotion-3"
     >
       <iframe
         allowfullscreen=""
@@ -301,7 +301,7 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
       />
       <div
         aria-label="Endre størrelse"
-        class="emotion-8 emotion-9"
+        class="emotion-4"
         role="button"
       >
         <svg

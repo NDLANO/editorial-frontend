@@ -181,10 +181,6 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
   opacity: 1;
 }
 
-.emotion-3 {
-  pointer-events: auto;
-}
-
 .emotion-4 {
   position: absolute;
   bottom: 0px;
@@ -289,6 +285,7 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
     </div>
     <div
       class="emotion-3"
+      style="pointer-events: auto;"
     >
       <iframe
         allowfullscreen=""

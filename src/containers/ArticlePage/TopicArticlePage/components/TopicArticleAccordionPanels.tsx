@@ -69,7 +69,7 @@ const TopicArticleAccordionPanels = ({
         hasError={
           !!(errors.creators || errors.rightsholders || errors.processors || errors.license)
         }>
-        <CopyrightFieldGroup values={values} enableResponsible={true} enableLicenseNA={true} />
+        <CopyrightFieldGroup values={values} enableResponsible enableLicenseNA />
       </AccordionSection>
       <AccordionSection
         id={'topic-article-metadata'}

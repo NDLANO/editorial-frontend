@@ -7,8 +7,6 @@
  */
 
 import { Pencil } from '@ndla/icons/action';
-import { useTaxonomyVersion } from 'containers/StructureVersion/TaxonomyVersionProvider';
-import { usePutResourcesPrimaryMutation } from 'modules/nodes/nodeMutations';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import AlertModal from '../../../../components/AlertModal';
@@ -19,6 +17,8 @@ import { NodeType } from '../../../../modules/nodes/nodeApiTypes';
 import { EditModeHandler } from '../SettingsMenuDropdownType';
 import { StyledErrorMessage } from '../styles';
 import MenuItemButton from '../sharedMenuOptions/components/MenuItemButton';
+import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
+import { usePutResourcesPrimaryMutation } from '../../../../modules/nodes/nodeMutations';
 
 interface Props {
   node: NodeType;

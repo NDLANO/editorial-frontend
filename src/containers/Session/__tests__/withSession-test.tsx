@@ -18,6 +18,7 @@ class TestComponent extends Component<Props> {
 
     return (
       <>
+        {/*  @ts-ignore */}
         <button onClick={() => login(accessToken)}>Click</button>
         <p>{userName ?? 'test'}</p>
       </>

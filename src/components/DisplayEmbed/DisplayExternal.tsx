@@ -272,7 +272,7 @@ const DisplayExternal = ({
         <ApplyBoxshadow
           ref={iframeWrapper}
           showCopyOutline={showCopyOutline}
-          css={{ pointerEvents: isResizing ? 'none' : 'auto' }}>
+          style={{ pointerEvents: isResizing ? 'none' : 'auto' }}>
           <iframe
             contentEditable={false}
             src={properties.src}

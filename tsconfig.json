@@ -22,12 +22,19 @@
     "sourceMap": true,
     "skipLibCheck": true,
     "lib": ["es2020", "esnext.asynciterable", "dom"],
-    "types": ["@emotion/react", "@emotion/styled", "jest", "node", "webpack-env"],
+    "types": [
+      "@emotion/react",
+      "@emotion/styled",
+      "jest",
+      "node",
+      "webpack-env",
+      "@testing-library/jest-dom"
+    ],
     "paths": {
       "*": ["node_modules/*", "src/types/*"]
     },
     "downlevelIteration": true
   },
-  "include": ["src/**/*", "custom-typings/*"],
+  "include": ["src/**/*", "custom-typings/*", "./jest.config.js"],
   "exclude": ["**/*-test.*"]
 }

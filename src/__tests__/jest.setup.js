@@ -7,6 +7,8 @@
  */
 
 import 'regenerator-runtime/runtime';
+import '@testing-library/jest-dom';
+import '@testing-library/jest-dom/extend-expect';
 
 global.DEFAULT_TIMEOUT = process.env.DEFAULT_TIMEOUT
   ? parseInt(process.env.DEFAULT_TIMEOUT, 10)

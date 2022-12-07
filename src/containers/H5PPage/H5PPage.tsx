@@ -15,7 +15,7 @@ const H5PPage = () => {
           '.o-content': {
             height: '100vh',
             display: 'flex',
-            'flex-direction': 'column',
+            flexDirection: 'column',
           },
         }}
       />

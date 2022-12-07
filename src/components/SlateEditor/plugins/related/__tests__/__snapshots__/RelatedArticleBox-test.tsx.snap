@@ -47,7 +47,7 @@ exports[`it goes in and out of edit mode 1`] = `
   }
 }
 
-.emotion-5 {
+.emotion-4 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -59,17 +59,17 @@ exports[`it goes in and out of edit mode 1`] = `
   z-index: 1;
 }
 
-.emotion-5 figure {
+.emotion-4 figure {
   position: static!important;
 }
 
-.emotion-6 {
+.emotion-5 {
   -webkit-flex: 1;
   -ms-flex: 1;
   flex: 1;
 }
 
-.emotion-7 {
+.emotion-6 {
   position: relative;
   -webkit-flex: 1 0 50%;
   -ms-flex: 1 0 50%;
@@ -77,11 +77,11 @@ exports[`it goes in and out of edit mode 1`] = `
   max-width: 600px;
 }
 
-.emotion-7>article {
+.emotion-6>article {
   max-width: 100%;
 }
 
-.emotion-8 {
+.emotion-7 {
   margin-top: 6.5px;
   display: -webkit-box;
   display: -webkit-flex;
@@ -89,11 +89,11 @@ exports[`it goes in and out of edit mode 1`] = `
   display: flex;
 }
 
-.emotion-8:first-of-type {
+.emotion-7:first-of-type {
   margin-top: 0;
 }
 
-.emotion-10 {
+.emotion-9 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -123,12 +123,12 @@ exports[`it goes in and out of edit mode 1`] = `
   padding-right: 13px;
 }
 
-.emotion-10:focus-within {
+.emotion-9:focus-within {
   border-color: #20588f;
 }
 
-.emotion-10 input,
-.emotion-10 textarea {
+.emotion-9 input,
+.emotion-9 textarea {
   width: inherit;
   font-weight: 400;
   color: #444;
@@ -147,8 +147,8 @@ exports[`it goes in and out of edit mode 1`] = `
   flex-grow: 1;
 }
 
-.emotion-10 input:focus,
-.emotion-10 textarea:focus {
+.emotion-9 input:focus,
+.emotion-9 textarea:focus {
   -webkit-appearance: none;
   -moz-appearance: none;
   -ms-appearance: none;
@@ -156,23 +156,23 @@ exports[`it goes in and out of edit mode 1`] = `
   outline: none;
 }
 
-.emotion-10 input {
+.emotion-9 input {
   padding: 6.5px 13px;
 }
 
-.emotion-10 textarea {
+.emotion-9 textarea {
   padding: 0 13px;
   height: 20px;
   margin: 14px 0;
   resize: none;
 }
 
-.emotion-10 .c-icon {
+.emotion-9 .c-icon {
   width: 24px;
   height: 24px;
 }
 
-.emotion-12 {
+.emotion-11 {
   border: calc(26px / 6.5) solid rgba(0, 0, 0, 0.1);
   border-bottom-color: #20588f;
   border-radius: 50%;
@@ -184,11 +184,11 @@ exports[`it goes in and out of edit mode 1`] = `
   display: block;
 }
 
-.emotion-14 {
+.emotion-13 {
   margin: 10px 0;
 }
 
-.emotion-15 {
+.emotion-14 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -210,25 +210,25 @@ exports[`it goes in and out of edit mode 1`] = `
   text-align: center;
 }
 
-.emotion-15:hover,
-.emotion-15:focus {
+.emotion-14:hover,
+.emotion-14:focus {
   color: white;
   background-color: #184673;
   border: 2px solid #184673;
 }
 
-.emotion-15[disabled] {
+.emotion-14[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-15:focus {
+.emotion-14:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-17 {
+.emotion-16 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -264,44 +264,44 @@ exports[`it goes in and out of edit mode 1`] = `
   color: #d1372e;
 }
 
-.emotion-17:hover,
-.emotion-17:focus {
+.emotion-16:hover,
+.emotion-16:focus {
   color: white;
   background-color: #184673;
   border: 2px solid #184673;
 }
 
-.emotion-17[disabled] {
+.emotion-16[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-17:focus {
+.emotion-16:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-17:hover,
-.emotion-17:active,
-.emotion-17:disabled,
-.emotion-17:focus {
+.emotion-16:hover,
+.emotion-16:active,
+.emotion-16:disabled,
+.emotion-16:focus {
   box-shadow: none;
   color: #20588f;
   background-color: transparent;
   border: none;
 }
 
-.emotion-17:focus {
+.emotion-16:focus {
   outline-width: medium;
 }
 
-.emotion-17:hover,
-.emotion-17:focus {
+.emotion-16:hover,
+.emotion-16:focus {
   color: #7d211c;
 }
 
-.emotion-19 {
+.emotion-18 {
   position: fixed;
   top: 0;
   left: 0;
@@ -319,7 +319,7 @@ exports[`it goes in and out of edit mode 1`] = `
   justify-content: center;
 }
 
-.emotion-21 {
+.emotion-20 {
   background-color: #f8f8f8;
   box-shadow: 0 0 2px 0 rgba(115, 115, 115, 0.5);
   width: 620px;
@@ -331,7 +331,7 @@ exports[`it goes in and out of edit mode 1`] = `
   overflow: auto;
 }
 
-.emotion-22 {
+.emotion-21 {
   background: linear-gradient(180deg, #5d97a9, #508a9c);
   display: -webkit-box;
   display: -webkit-flex;
@@ -350,7 +350,7 @@ exports[`it goes in and out of edit mode 1`] = `
   color: #f8f8f8;
 }
 
-.emotion-23 {
+.emotion-22 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -384,45 +384,45 @@ exports[`it goes in and out of edit mode 1`] = `
   width: 50px;
 }
 
-.emotion-23:hover,
-.emotion-23:focus {
+.emotion-22:hover,
+.emotion-22:focus {
   color: white;
   background-color: #184673;
   border: 2px solid #184673;
 }
 
-.emotion-23[disabled] {
+.emotion-22[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-23:focus {
+.emotion-22:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-23:hover,
-.emotion-23:active,
-.emotion-23:disabled,
-.emotion-23:focus {
+.emotion-22:hover,
+.emotion-22:active,
+.emotion-22:disabled,
+.emotion-22:focus {
   box-shadow: none;
   color: #20588f;
   background-color: transparent;
   border: none;
 }
 
-.emotion-23:focus {
+.emotion-22:focus {
   outline-width: medium;
 }
 
-.emotion-25 {
+.emotion-24 {
   height: 24px;
   width: 24px;
   margin-right: 7px;
 }
 
-.emotion-26 {
+.emotion-25 {
   padding: 2em;
   height: 100%;
   display: -webkit-box;
@@ -441,19 +441,19 @@ exports[`it goes in and out of edit mode 1`] = `
   align-items: flex-end;
 }
 
-.emotion-27 {
+.emotion-26 {
   width: 100%;
 }
 
-.emotion-27>* {
+.emotion-26>* {
   width: 100%;
 }
 
-.emotion-27 form {
+.emotion-26 form {
   background-color: white;
 }
 
-.emotion-36 {
+.emotion-35 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -485,47 +485,47 @@ exports[`it goes in and out of edit mode 1`] = `
   font-weight: 400;
 }
 
-.emotion-36:hover,
-.emotion-36:focus {
+.emotion-35:hover,
+.emotion-35:focus {
   color: white;
   background-color: #184673;
   border: 2px solid #184673;
 }
 
-.emotion-36[disabled] {
+.emotion-35[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-36:focus {
+.emotion-35:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-36:hover,
-.emotion-36:active,
-.emotion-36:disabled,
-.emotion-36:focus {
+.emotion-35:hover,
+.emotion-35:active,
+.emotion-35:disabled,
+.emotion-35:focus {
   box-shadow: none;
   color: #20588f;
   background-color: transparent;
   border: none;
 }
 
-.emotion-36:focus {
+.emotion-35:focus {
   outline-width: medium;
 }
 
-.emotion-36,
-.emotion-36:hover {
+.emotion-35,
+.emotion-35:hover {
   border-radius: 5px;
   background-color: white;
   margin-top: 26px;
   padding: 3px 52px;
 }
 
-.emotion-38 article>p {
+.emotion-37 article>p {
   font-family: Source Sans Pro!important;
 }
 
@@ -578,23 +578,23 @@ exports[`it goes in and out of edit mode 1`] = `
     <div
       class="emotion-2"
     >
-      <h2
-        class="c-related-articles__component-title emotion-3 emotion-4"
+      <h3
+        class="c-related-articles__component-title emotion-3"
       >
         Relatert innhold
-      </h2>
+      </h3>
       <p>
         Dra artikkel for å endre rekkefølge
       </p>
       <div
-        class="emotion-5"
+        class="emotion-4"
       >
         <div
-          class="drop-zone emotion-6"
+          class="drop-zone emotion-5"
         />
       </div>
       <div
-        class="emotion-7"
+        class="emotion-6"
         data-cy="styled-article-modal"
       >
         <div
@@ -606,10 +606,10 @@ exports[`it goes in and out of edit mode 1`] = `
         >
           <div>
             <div
-              class="emotion-8 emotion-9"
+              class="emotion-7 emotion-8"
             >
               <div
-                class="emotion-10 emotion-11"
+                class="emotion-9 emotion-10"
               >
                 <input
                   aria-autocomplete="list"
@@ -621,19 +621,19 @@ exports[`it goes in and out of edit mode 1`] = `
                   value=""
                 />
                 <div
-                  class="emotion-12 emotion-13"
+                  class="emotion-11 emotion-12"
                 />
               </div>
             </div>
           </div>
         </div>
         <div
-          class="emotion-14"
+          class="emotion-13"
         >
           Eller
         </div>
         <button
-          class="emotion-15 emotion-16"
+          class="emotion-14 emotion-15"
           data-testid="showAddExternal"
           type="button"
         >
@@ -641,7 +641,7 @@ exports[`it goes in and out of edit mode 1`] = `
         </button>
       </div>
       <button
-        class="emotion-17 emotion-16"
+        class="emotion-16 emotion-15"
         contenteditable="false"
         data-cy="close-related-button"
         type="button"
@@ -675,26 +675,26 @@ exports[`it goes in and out of edit mode 1`] = `
       </button>
     </div>
     <div
-      class="emotion-19"
+      class="emotion-18"
     >
       <div
         aria-hidden="true"
         class="emotion-1"
       />
       <div
-        class="emotion-21"
+        class="emotion-20"
       >
         <div
-          class="emotion-22"
+          class="emotion-21"
         >
           Skriv inn tittel og url på ekstern artikkel
           <button
-            class="emotion-23 emotion-16"
+            class="emotion-22 emotion-15"
             type="button"
           >
             <svg
               aria-hidden="true"
-              class="c-icon emotion-25"
+              class="c-icon emotion-24"
               data-license="Apache License 2.0"
               data-source="Material Design"
               fill="currentColor"
@@ -717,17 +717,17 @@ exports[`it goes in and out of edit mode 1`] = `
           </button>
         </div>
         <div
-          class="emotion-26"
+          class="emotion-25"
         >
           <div
-            class="emotion-27"
+            class="emotion-26"
           >
             <div>
               <div
-                class="emotion-8 emotion-9"
+                class="emotion-7 emotion-8"
               >
                 <div
-                  class="emotion-10 emotion-11"
+                  class="emotion-9 emotion-10"
                 >
                   <input
                     data-testid="addExternalTitleInput"
@@ -740,10 +740,10 @@ exports[`it goes in and out of edit mode 1`] = `
             </div>
             <div>
               <div
-                class="emotion-8 emotion-9"
+                class="emotion-7 emotion-8"
               >
                 <div
-                  class="emotion-10 emotion-11"
+                  class="emotion-9 emotion-10"
                 >
                   <input
                     data-testid="addExternalUrlInput"
@@ -756,7 +756,7 @@ exports[`it goes in and out of edit mode 1`] = `
             </div>
           </div>
           <button
-            class="emotion-36 emotion-16"
+            class="emotion-35 emotion-15"
             data-testid="taxonomyLightboxButton"
             type="button"
           >
@@ -767,7 +767,7 @@ exports[`it goes in and out of edit mode 1`] = `
     </div>
   </div>
   <div
-    class="emotion-38"
+    class="emotion-37"
     contenteditable="false"
     data-testid="relatedWrapper"
     draggable="true"
@@ -777,11 +777,11 @@ exports[`it goes in and out of edit mode 1`] = `
     <section
       class="c-related-articles"
     >
-      <h2
-        class="c-related-articles__component-title emotion-3 emotion-4"
+      <h3
+        class="c-related-articles__component-title emotion-3"
       >
         Relatert innhold
-      </h2>
+      </h3>
       <div
         class="c-related-articles__articles"
       />
@@ -837,7 +837,7 @@ exports[`it goes in and out of edit mode 2`] = `
   }
 }
 
-.emotion-5 {
+.emotion-4 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -849,17 +849,17 @@ exports[`it goes in and out of edit mode 2`] = `
   z-index: 1;
 }
 
-.emotion-5 figure {
+.emotion-4 figure {
   position: static!important;
 }
 
-.emotion-6 {
+.emotion-5 {
   -webkit-flex: 1;
   -ms-flex: 1;
   flex: 1;
 }
 
-.emotion-7 {
+.emotion-6 {
   position: relative;
   -webkit-flex: 1 0 50%;
   -ms-flex: 1 0 50%;
@@ -867,11 +867,11 @@ exports[`it goes in and out of edit mode 2`] = `
   max-width: 600px;
 }
 
-.emotion-7>article {
+.emotion-6>article {
   max-width: 100%;
 }
 
-.emotion-8 {
+.emotion-7 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -907,44 +907,44 @@ exports[`it goes in and out of edit mode 2`] = `
   color: #d1372e;
 }
 
-.emotion-8:hover,
-.emotion-8:focus {
+.emotion-7:hover,
+.emotion-7:focus {
   color: white;
   background-color: #184673;
   border: 2px solid #184673;
 }
 
-.emotion-8[disabled] {
+.emotion-7[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-8:focus {
+.emotion-7:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-8:hover,
-.emotion-8:active,
-.emotion-8:disabled,
-.emotion-8:focus {
+.emotion-7:hover,
+.emotion-7:active,
+.emotion-7:disabled,
+.emotion-7:focus {
   box-shadow: none;
   color: #20588f;
   background-color: transparent;
   border: none;
 }
 
-.emotion-8:focus {
+.emotion-7:focus {
   outline-width: medium;
 }
 
-.emotion-8:hover,
-.emotion-8:focus {
+.emotion-7:hover,
+.emotion-7:focus {
   color: #7d211c;
 }
 
-.emotion-10 {
+.emotion-9 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -980,44 +980,44 @@ exports[`it goes in and out of edit mode 2`] = `
   color: #d1372e;
 }
 
-.emotion-10:hover,
-.emotion-10:focus {
+.emotion-9:hover,
+.emotion-9:focus {
   color: white;
   background-color: #184673;
   border: 2px solid #184673;
 }
 
-.emotion-10[disabled] {
+.emotion-9[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-10:focus {
+.emotion-9:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-10:hover,
-.emotion-10:active,
-.emotion-10:disabled,
-.emotion-10:focus {
+.emotion-9:hover,
+.emotion-9:active,
+.emotion-9:disabled,
+.emotion-9:focus {
   box-shadow: none;
   color: #20588f;
   background-color: transparent;
   border: none;
 }
 
-.emotion-10:focus {
+.emotion-9:focus {
   outline-width: medium;
 }
 
-.emotion-10:hover,
-.emotion-10:focus {
+.emotion-9:hover,
+.emotion-9:focus {
   color: #7d211c;
 }
 
-.emotion-13 {
+.emotion-12 {
   margin-top: 6.5px;
   display: -webkit-box;
   display: -webkit-flex;
@@ -1025,11 +1025,11 @@ exports[`it goes in and out of edit mode 2`] = `
   display: flex;
 }
 
-.emotion-13:first-of-type {
+.emotion-12:first-of-type {
   margin-top: 0;
 }
 
-.emotion-15 {
+.emotion-14 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1059,12 +1059,12 @@ exports[`it goes in and out of edit mode 2`] = `
   padding-right: 13px;
 }
 
-.emotion-15:focus-within {
+.emotion-14:focus-within {
   border-color: #20588f;
 }
 
-.emotion-15 input,
-.emotion-15 textarea {
+.emotion-14 input,
+.emotion-14 textarea {
   width: inherit;
   font-weight: 400;
   color: #444;
@@ -1083,8 +1083,8 @@ exports[`it goes in and out of edit mode 2`] = `
   flex-grow: 1;
 }
 
-.emotion-15 input:focus,
-.emotion-15 textarea:focus {
+.emotion-14 input:focus,
+.emotion-14 textarea:focus {
   -webkit-appearance: none;
   -moz-appearance: none;
   -ms-appearance: none;
@@ -1092,27 +1092,27 @@ exports[`it goes in and out of edit mode 2`] = `
   outline: none;
 }
 
-.emotion-15 input {
+.emotion-14 input {
   padding: 6.5px 13px;
 }
 
-.emotion-15 textarea {
+.emotion-14 textarea {
   padding: 0 13px;
   height: 20px;
   margin: 14px 0;
   resize: none;
 }
 
-.emotion-15 .c-icon {
+.emotion-14 .c-icon {
   width: 24px;
   height: 24px;
 }
 
-.emotion-17 {
+.emotion-16 {
   margin: 10px 0;
 }
 
-.emotion-18 {
+.emotion-17 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -1134,25 +1134,25 @@ exports[`it goes in and out of edit mode 2`] = `
   text-align: center;
 }
 
-.emotion-18:hover,
-.emotion-18:focus {
+.emotion-17:hover,
+.emotion-17:focus {
   color: white;
   background-color: #184673;
   border: 2px solid #184673;
 }
 
-.emotion-18[disabled] {
+.emotion-17[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-18:focus {
+.emotion-17:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-22 article>p {
+.emotion-21 article>p {
   font-family: Source Sans Pro!important;
 }
 
@@ -1205,19 +1205,19 @@ exports[`it goes in and out of edit mode 2`] = `
     <div
       class="emotion-2"
     >
-      <h2
-        class="c-related-articles__component-title emotion-3 emotion-4"
+      <h3
+        class="c-related-articles__component-title emotion-3"
       >
         Relatert innhold
-      </h2>
+      </h3>
       <p>
         Dra artikkel for å endre rekkefølge
       </p>
       <div
-        class="emotion-5"
+        class="emotion-4"
       >
         <div
-          class="drop-zone emotion-6"
+          class="drop-zone emotion-5"
         >
           <div
             aria-describedby="rbd-hidden-text-0-hidden-text-0"
@@ -1231,7 +1231,7 @@ exports[`it goes in and out of edit mode 2`] = `
             tabindex="0"
           >
             <div
-              class="emotion-7"
+              class="emotion-6"
             >
               <article
                 class="c-related-articles__item c-related-articles__item--external-learning-resources"
@@ -1300,7 +1300,7 @@ exports[`it goes in and out of edit mode 2`] = `
                 </p>
               </article>
               <button
-                class="emotion-8 emotion-9"
+                class="emotion-7 emotion-8"
                 type="button"
               >
                 <div
@@ -1339,7 +1339,7 @@ exports[`it goes in and out of edit mode 2`] = `
                 </div>
               </button>
               <button
-                class="emotion-10 emotion-9"
+                class="emotion-9 emotion-8"
                 contenteditable="false"
                 data-cy="close-related-button"
                 title="Slett ekstern artikkel"
@@ -1377,7 +1377,7 @@ exports[`it goes in and out of edit mode 2`] = `
         </div>
       </div>
       <div
-        class="emotion-7"
+        class="emotion-6"
         data-cy="styled-article-modal"
       >
         <div
@@ -1389,10 +1389,10 @@ exports[`it goes in and out of edit mode 2`] = `
         >
           <div>
             <div
-              class="emotion-13 emotion-14"
+              class="emotion-12 emotion-13"
             >
               <div
-                class="emotion-15 emotion-16"
+                class="emotion-14 emotion-15"
               >
                 <input
                   aria-autocomplete="list"
@@ -1426,12 +1426,12 @@ exports[`it goes in and out of edit mode 2`] = `
           </div>
         </div>
         <div
-          class="emotion-17"
+          class="emotion-16"
         >
           Eller
         </div>
         <button
-          class="emotion-18 emotion-9"
+          class="emotion-17 emotion-8"
           data-testid="showAddExternal"
           type="button"
         >
@@ -1439,7 +1439,7 @@ exports[`it goes in and out of edit mode 2`] = `
         </button>
       </div>
       <button
-        class="emotion-10 emotion-9"
+        class="emotion-9 emotion-8"
         contenteditable="false"
         data-cy="close-related-button"
         type="button"
@@ -1474,7 +1474,7 @@ exports[`it goes in and out of edit mode 2`] = `
     </div>
   </div>
   <div
-    class="emotion-22"
+    class="emotion-21"
     contenteditable="false"
     data-testid="relatedWrapper"
     draggable="true"
@@ -1484,11 +1484,11 @@ exports[`it goes in and out of edit mode 2`] = `
     <section
       class="c-related-articles"
     >
-      <h2
-        class="c-related-articles__component-title emotion-3 emotion-4"
+      <h3
+        class="c-related-articles__component-title emotion-3"
       >
         Relatert innhold
-      </h2>
+      </h3>
       <div
         class="c-related-articles__articles"
       >

@@ -116,7 +116,7 @@ export const WelcomeHeader = () => {
             {t('subNavigation.structure')}
           </StyledSafeLinkButton>
           <StyledSafeLinkButton to="subject-matter/learning-resource/new">
-            {t('welcomePage.addEmptyArticle')}
+            {t('subNavigation.subjectMatter')}
           </StyledSafeLinkButton>
         </ButtonWrapper>
         <RightShape />

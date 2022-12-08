@@ -120,7 +120,6 @@ const phrases = {
     savedSearch: 'Saved searches',
     saveSearch: 'Save search',
     welcomeBack: 'Welcome back',
-    addEmptyArticle: 'Create empty article',
   },
   searchPage: {
     header: {

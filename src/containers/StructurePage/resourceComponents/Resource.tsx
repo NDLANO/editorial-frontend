@@ -208,14 +208,14 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
     <Wrapper>
       <BadgeWrapper>
         {contentType && (
-          <StyledResourceIcon key="img" className=" o-flag__img" {...dragHandleProps}>
+          <StyledResourceIcon key="img" {...dragHandleProps}>
             <ContentTypeBadge background type={iconType} size="x-small" />
           </StyledResourceIcon>
         )}
       </BadgeWrapper>
       <ContentWrapper>
-        <StyledText data-testid={`resource-type-${contentType}`} className="o-flag o-flag--top">
-          <StyledResourceBody key="body" className="o-flag__body">
+        <StyledText data-testid={`resource-type-${contentType}`}>
+          <StyledResourceBody key="body">
             <ResourceItemLink
               contentType={contentType}
               contentUri={resource.contentUri}
@@ -224,7 +224,6 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
               size="small"
             />
           </StyledResourceBody>
-
           <WrongTypeError resource={resource} articleType={resource.contentMeta?.articleType} />
           {(resource.contentMeta?.status?.current === PUBLISHED ||
             resource.contentMeta?.status?.other?.includes(PUBLISHED)) && (
@@ -234,9 +233,7 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
               </Tooltip>
             </PublishedWrapper>
           )}
-
           <RelevanceOption relevanceId={resource.relevanceId} onChange={updateRelevanceId} />
-
           {onDelete && <RemoveButton onClick={() => onDelete(resource.connectionId)} />}
           {showVersionHistory && (
             <VersionHistoryLightbox

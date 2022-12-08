@@ -10,11 +10,11 @@ import { Node } from 'slate';
 import { useTranslation } from 'react-i18next';
 import { RenderElementProps } from 'slate-react';
 import EditorErrorMessage from '../../EditorErrorMessage';
-import { EmbedElement } from '../embed';
+import { NdlaEmbedElement } from '../embed';
 
 interface Props {
   attributes: RenderElementProps['attributes'];
-  element: EmbedElement;
+  element: NdlaEmbedElement;
 }
 
 const NoEmbedMessage = ({ attributes, element }: Props) => {

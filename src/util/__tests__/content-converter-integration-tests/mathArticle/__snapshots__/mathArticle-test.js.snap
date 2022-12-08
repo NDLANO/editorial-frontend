@@ -2,7 +2,7 @@
 
 exports[`serializing article with mathml tags 1`] = `
 "<section>
-  <embed
+  <ndlaembed
     data-align=""
     data-alt="Ulikhet 4"
     data-caption=""
@@ -10,7 +10,7 @@ exports[`serializing article with mathml tags 1`] = `
     data-resource_id="18284"
     data-size="full"
     data-url="https://api.ndla.no/image-api/v3/images/18284"
-  />
+  ></ndlaembed>
   <h2>Hva er budsjettkontroll?</h2>
   <p>
     Normalt er vi ferdig med driftsregnskapet 10–15 dager inn i neste måned.

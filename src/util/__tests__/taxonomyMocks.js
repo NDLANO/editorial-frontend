@@ -940,7 +940,7 @@ export const articleMock = {
   title: { title: 'Hva kan du om geologiske prosesser?', language: 'nb' },
   content: {
     content:
-      '<section><embed data-resource="external" data-url="https://h5p-test.ndla.no/resource/494bf7ee-6eb6-439c-bed5-2ce03e5cd802"><embed data-resource="external" data-url="https://h5p-test.ndla.no/resource/bfa48872-5141-4c96-a200-7bcb9fed3cae"></section>',
+      '<section><ndlaembed data-resource="external" data-url="https://h5p-test.ndla.no/resource/494bf7ee-6eb6-439c-bed5-2ce03e5cd802"></ndlaembed><ndlaembed data-resource="external" data-url="https://h5p-test.ndla.no/resource/bfa48872-5141-4c96-a200-7bcb9fed3cae"></ndlaembed></section>',
     language: 'nb',
   },
   copyright: {

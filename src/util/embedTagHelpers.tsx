@@ -21,7 +21,7 @@ export const removeEmptyElementDataAttributes = (obj: Dictionary<any>) => {
 };
 
 export const reduceElementDataAttributes = (
-  el: HTMLElement,
+  el: Element,
   filter?: string[],
 ): { [key: string]: string } => {
   if (!el.attributes) return {};
@@ -84,7 +84,7 @@ export const parseEmbedTag = (embedTag?: string): Embed | undefined => {
   }
   const el = document.createElement('html');
   el.innerHTML = embedTag;
-  const embedElements = el.getElementsByTagName('embed');
+  const embedElements = el.getElementsByTagName('ndlaembed');
 
   if (embedElements.length !== 1) {
     return undefined;
@@ -104,7 +104,7 @@ export const createEmbedTag = (data: { [key: string]: any }) => {
     .filter(key => data[key] !== undefined && !isObject(data[key]))
     .forEach(key => (props[`data-${key}`] = data[key]));
 
-  return <embed {...props}></embed>;
+  return <ndlaembed {...props}></ndlaembed>;
 };
 
 export const isUserProvidedEmbedDataValid = (embed: Embed) => {

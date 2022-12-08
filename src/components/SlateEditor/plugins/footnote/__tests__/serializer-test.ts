@@ -50,7 +50,7 @@ const editor: Descendant[] = [
 ];
 
 const html =
-  '<section><p>text<embed data-title="test-title" data-year="2000" data-resource="footnote" data-authors="test" data-edition="1" data-publisher="test-publisher" data-type=""/></p></section>';
+  '<section><p>text<ndlaembed data-title="test-title" data-year="2000" data-resource="footnote" data-authors="test" data-edition="1" data-publisher="test-publisher" data-type=""></ndlaembed></p></section>';
 describe('file serializing tests', () => {
   test('serializing', () => {
     const res = learningResourceContentToHTML(editor);

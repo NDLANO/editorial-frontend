@@ -69,7 +69,7 @@ const SlateVisualElementPicker = ({
   const showCheckbox = values.metaImageAlt !== undefined && values.metaImageId !== undefined;
 
   const onVisualElementAdd = (visualElement: VisualElementChangeReturnType) => {
-    if (visualElement.type === 'embed') {
+    if (visualElement.type === 'ndlaembed') {
       const blockToInsert = getNewEmbed(editor, visualElement);
       onInsertBlock(blockToInsert);
     } else if (visualElement.type === 'file') {

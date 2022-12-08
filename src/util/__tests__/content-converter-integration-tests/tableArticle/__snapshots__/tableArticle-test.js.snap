@@ -2,7 +2,7 @@
 
 exports[`serializing article with table tag and attributes 1`] = `
 "<section>
-  <embed
+  <ndlaembed
     data-align=""
     data-alt="Regnskap. Foto."
     data-caption=""
@@ -10,7 +10,7 @@ exports[`serializing article with table tag and attributes 1`] = `
     data-resource_id="2935"
     data-size="full"
     data-url="https://api.ndla.no/image-api/v3/images/2935"
-  />
+  ></ndlaembed>
   <h2>Balanse</h2>
 </section>
 <section>

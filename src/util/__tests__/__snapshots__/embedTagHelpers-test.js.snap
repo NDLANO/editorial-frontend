@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`createEmbedTag creates brightcove embed tag from object 1`] = `
-<embed
+<ndlaembed
   data-account="4806596774001"
   data-caption="Intervju med Hallvard"
   data-player="BkLm8fT"
@@ -11,14 +11,14 @@ exports[`createEmbedTag creates brightcove embed tag from object 1`] = `
 `;
 
 exports[`createEmbedTag creates h5p embed tag from object 1`] = `
-<embed
+<ndlaembed
   data-resource="h5p"
   data-url="https://h5p-test.ndla.no/resource/3ab6850d/oembed"
 />
 `;
 
 exports[`createEmbedTag creates image embed tag from object 1`] = `
-<embed
+<ndlaembed
   data-align=""
   data-alt="Guinness sign"
   data-caption="Guinness is good for you"

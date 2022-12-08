@@ -47,7 +47,7 @@ const editor: Descendant[] = [
 ];
 
 const html =
-  '<section><div data-type="related-content"><embed data-resource="related-content" data-article-id="123"/><embed data-resource="related-content" data-url="http://google.com" data-title="test-title"/></div></section>';
+  '<section><div data-type="related-content"><ndlaembed data-resource="related-content" data-article-id="123"></ndlaembed><ndlaembed data-resource="related-content" data-url="http://google.com" data-title="test-title"></ndlaembed></div></section>';
 
 describe('related serializing tests', () => {
   test('serializing', () => {

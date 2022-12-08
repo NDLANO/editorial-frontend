@@ -47,7 +47,7 @@ const normalizerConfig: NormalizerConfig = {
 
 export const codeblockSerializer: SlateSerializer = {
   deserialize(el: HTMLElement) {
-    if (!el.tagName.toLowerCase().startsWith('embed')) return;
+    if (!el.tagName.toLowerCase().startsWith('ndlaembed')) return;
     const embed = el as HTMLEmbedElement;
     const embedAttributes = reduceElementDataAttributes(embed);
     if (embedAttributes.resource !== 'code-block') return;

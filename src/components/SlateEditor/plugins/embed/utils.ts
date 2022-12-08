@@ -8,14 +8,14 @@
 
 import { jsx as slatejsx } from 'slate-hyperscript';
 import { Element, Node } from 'slate';
-import { EmbedElement } from '.';
+import { NdlaEmbedElement } from '.';
 import { Embed } from '../../../../interfaces';
-import { TYPE_EMBED } from './types';
+import { TYPE_NDLA_EMBED } from './types';
 
 export const defaultEmbedBlock = (data: Partial<Embed>) => {
-  return slatejsx('element', { type: TYPE_EMBED, data }, { text: '' });
+  return slatejsx('element', { type: TYPE_NDLA_EMBED, data }, { text: '' });
 };
 
-export const isEmbed = (node: Node): node is EmbedElement => {
-  return Element.isElement(node) && node.type === 'embed';
+export const isEmbed = (node: Node): node is NdlaEmbedElement => {
+  return Element.isElement(node) && node.type === 'ndlaembed';
 };

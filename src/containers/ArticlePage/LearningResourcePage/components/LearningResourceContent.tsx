@@ -93,7 +93,7 @@ const findFootnotes = (content: Descendant[]): FootnoteType[] =>
     .filter(footnote => Object.keys(footnote.data).length > 0)
     .map(footnoteElement => footnoteElement.data);
 
-const actions = ['table', 'embed', 'code-block', 'file', 'h5p'];
+const actions = ['table', 'ndlaembed', 'code-block', 'file', 'h5p'];
 const actionsToShowInAreas = {
   details: actions,
   aside: actions,

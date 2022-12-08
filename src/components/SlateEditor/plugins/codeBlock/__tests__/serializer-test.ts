@@ -37,7 +37,7 @@ const editor: Descendant[] = [
 ];
 
 const html =
-  '<section><embed data-resource="code-block" data-code-content="print(1)" data-code-format="python" data-title="tittel"/></section>';
+  '<section><ndlaembed data-resource="code-block" data-code-content="print(1)" data-code-format="python" data-title="tittel"></ndlaembed></section>';
 
 describe('codeblock serializing tests', () => {
   test('serializing', () => {

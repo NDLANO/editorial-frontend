@@ -6,7 +6,7 @@ import { TYPE_QUOTE } from '../plugins/blockquote/types';
 import { TYPE_BODYBOX } from '../plugins/bodybox/types';
 import { TYPE_CODEBLOCK } from '../plugins/codeBlock/types';
 import { TYPE_DETAILS } from '../plugins/details/types';
-import { TYPE_EMBED } from '../plugins/embed/types';
+import { TYPE_NDLA_EMBED } from '../plugins/embed/types';
 import { TYPE_FILE } from '../plugins/file/types';
 import { TYPE_HEADING } from '../plugins/heading/types';
 import { TYPE_LIST } from '../plugins/list/types';
@@ -21,7 +21,7 @@ export const textBlockElements: Element['type'][] = [
   TYPE_LIST,
   TYPE_QUOTE,
   TYPE_TABLE,
-  TYPE_EMBED,
+  TYPE_NDLA_EMBED,
   TYPE_FILE,
   TYPE_CODEBLOCK,
   TYPE_ASIDE,

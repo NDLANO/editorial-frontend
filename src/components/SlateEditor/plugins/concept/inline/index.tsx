@@ -18,7 +18,7 @@ import { TYPE_CONCEPT_INLINE } from './types';
 
 export const inlineConceptSerializer: SlateSerializer = {
   deserialize(el: HTMLElement, children: Descendant[]) {
-    if (el.tagName.toLowerCase() !== 'embed') return;
+    if (el.tagName.toLowerCase() !== 'ndlaembed') return;
     const embed = el as HTMLEmbedElement;
     const embedAttributes = reduceElementDataAttributes(embed);
     if (embedAttributes.resource === 'concept' && embedAttributes.type === 'inline') {

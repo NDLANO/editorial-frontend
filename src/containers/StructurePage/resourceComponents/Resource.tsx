@@ -221,6 +221,7 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
               contentUri={resource.contentUri}
               name={resource.name}
               isVisible={resource.metadata?.visible}
+              size="small"
             />
           </StyledResourceBody>
 

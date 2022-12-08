@@ -6,12 +6,11 @@
  *
  */
 
-import { OneColumn } from '@ndla/ui';
-import { spacing } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { SearchFolder } from '@ndla/icons/editor';
 import styled from '@emotion/styled';
+import { mq, breakpoints } from '@ndla/core';
 import { NAVIGATION_HEADER_MARGIN } from '../../constants';
 import { getAccessToken, getAccessTokenPersonal } from '../../util/authHelpers';
 import { isValid } from '../../util/jwtHelper';
@@ -22,22 +21,35 @@ import { useUserData } from '../../modules/draft/draftQueries';
 import { StyledColumnHeader } from './styles';
 import WelcomeHeader from './components/WelcomeHeader';
 
+const gridGap = '1.5em';
+
 const ContentWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  display: grid;
+  grid-template-rows: [first] 150px repeat(1, 1fr);
+  grid-template-columns: repeat(12, 1fr);
+  grid-gap: ${gridGap};
   height: calc(100vh - ${NAVIGATION_HEADER_MARGIN});
-  overflow: auto;
 `;
 
-const StyledTwoColumn = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin: 0 auto;
-  width: 80%;
-  margin-top: ${spacing.large};
-  & > div {
-    flex: 1;
+const GridHeader = styled.div`
+  grid-column: 2 / 12;
+  grid-row: 1 / 1;
+`;
+const GridContent = styled.div`
+  grid-column: 3 / 11;
+`;
+
+const GridFooter = styled.div`
+  grid-column: 1 / 13;
+  grid-row: third-line / 4;
+`;
+
+const TwoColumn = styled.div`
+  grid-template-columns: 1fr;
+  display: grid;
+  grid-gap: ${gridGap};
+  ${mq.range({ from: breakpoints.tabletWide })} {
+    grid-template-columns: 1fr 1fr;
   }
 `;
 
@@ -53,9 +65,11 @@ export const WelcomePage = () => {
   return (
     <ContentWrapper>
       <HelmetWithTracker title={t('htmlTitles.welcomePage')} />
-      <OneColumn>
+      <GridHeader>
         <WelcomeHeader />
-        <StyledTwoColumn>
+      </GridHeader>
+      <GridContent>
+        <TwoColumn>
           <LastUsedItems lastUsed={lastUsed} />
           <div>
             <StyledColumnHeader>
@@ -64,9 +78,12 @@ export const WelcomePage = () => {
             </StyledColumnHeader>
             <SaveSearchUrl />
           </div>
-        </StyledTwoColumn>
-      </OneColumn>
-      <Footer showLocaleSelector />
+        </TwoColumn>
+      </GridContent>
+
+      <GridFooter>
+        <Footer showLocaleSelector />
+      </GridFooter>
     </ContentWrapper>
   );
 };

@@ -7,7 +7,7 @@
  */
 
 import queryString from 'query-string';
-import SearchContentForm from './SearchContentForm';
+import SearchContentForm, { isFavouritesSearch } from './SearchContentForm';
 import SearchAudioForm from './SearchAudioForm';
 import SearchPodcastSeriesForm from './SearchPodcastSeriesForm';
 import SearchImageForm from './SearchImageForm';
@@ -37,7 +37,10 @@ export interface SearchParams {
   'exclude-revision-log'?: boolean | undefined;
 }
 
-export const parseSearchParams = (locationSearch: string): SearchParams => {
+export const parseSearchParams = (
+  locationSearch: string,
+  favouriteSubjects?: string,
+): SearchParams => {
   const queryStringObject: Record<string, string | undefined> = queryString.parse(locationSearch);
 
   const parseBooleanParam = (key: string): boolean | undefined => {
@@ -66,7 +69,7 @@ export const parseSearchParams = (locationSearch: string): SearchParams => {
     'page-size': parseNumberParam('page-size'),
     sort: queryStringObject.sort,
     status: queryStringObject.status,
-    subjects: queryStringObject.subjects,
+    subjects: isFavouritesSearch(queryStringObject.subjects, favouriteSubjects),
     type: queryStringObject.type,
     users: queryStringObject.users,
     'revision-date-from': queryStringObject['revision-date-from'],

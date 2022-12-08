@@ -17,21 +17,24 @@ import IconButton from '../../../components/IconButton';
 import { transformQuery } from '../../../util/searchHelpers';
 import { useSavedSearchUrl } from '../hooks/savedSearchHook';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
+import { isFavouritesSearch } from '../../SearchPage/components/form/SearchContentForm';
+import { SubjectType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 
 interface Props {
   deleteSearch: Function;
   search: string;
   index: number;
+  favouriteSubject?: SubjectType;
 }
 
-const SavedSearch = ({ deleteSearch, search, index }: Props) => {
+const SavedSearch = ({ deleteSearch, search, index, favouriteSubject }: Props) => {
   const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
   const locale = i18n.language;
   const [searchUrl, searchParams] = search.split('?');
 
   const searchObject = transformQuery(queryString.parse(searchParams));
-  const subject = searchObject['subjects'] || '';
+  const subject = isFavouritesSearch(searchObject['subjects'], favouriteSubject?.id) || '';
   const resourceType = searchObject['resource-types'] || '';
 
   searchObject['type'] = searchUrl.replace('/search/', '');
@@ -42,7 +45,12 @@ const SavedSearch = ({ deleteSearch, search, index }: Props) => {
   if (searchObject['type'] === 'content' && searchObject['language']) {
     searchObject['language'] = locale;
   }
-  const { data, loading } = useSavedSearchUrl(searchObject, locale, taxonomyVersion);
+  const { data, loading } = useSavedSearchUrl(
+    searchObject,
+    locale,
+    taxonomyVersion,
+    favouriteSubject,
+  );
 
   const linkText = (searchObject: Record<string, string>) => {
     const query = searchObject.query || undefined;

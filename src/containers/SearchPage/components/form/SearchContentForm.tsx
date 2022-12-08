@@ -36,6 +36,9 @@ interface Props {
   locale: string;
 }
 
+export const isFavouritesSearch = (subjects?: string, favouriteSubjects?: string) =>
+  subjects === 'urn:favourites' ? favouriteSubjects : subjects;
+
 const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, locale }: Props) => {
   const { t } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
@@ -67,9 +70,10 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search.query]);
+
   const favorite_subject = {
     id: userData?.favoriteSubjects?.toLocaleString() ?? '',
-    name: 'Mine Favoritter',
+    name: t('searchForm.favourites'),
     contentUri: '',
     path: '',
     metadata: {
@@ -92,7 +96,10 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
       includeOtherStatuses = search['include-other-statuses'];
       status = search.status;
     }
-
+    search.subjects = isFavouritesSearch(
+      search.subjects,
+      userData?.favoriteSubjects?.toLocaleString(),
+    );
     const searchObj = { ...search, 'include-other-statuses': includeOtherStatuses, [name]: value };
     doSearch(
       name !== 'draft-status'
@@ -101,7 +108,13 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
     );
   };
 
-  const handleSearch = () => doSearch({ ...search, fallback: false, page: 1 });
+  const handleSearch = () => {
+    search.subjects = isFavouritesSearch(
+      search.subjects,
+      userData?.favoriteSubjects?.toLocaleString(),
+    );
+    doSearch({ ...search, fallback: false, page: 1 });
+  };
 
   const removeTagItem = (tag: SearchFormSelector) => {
     if (tag.parameterName === 'query') setQueryInput('');
@@ -140,7 +153,7 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
   };
 
   const subjects_with_favorite =
-    subjects.find(subject => subject.name === 'Mine Favoritter') === undefined
+    subjects.find(subject => subject.id === 'urn:favourite') === undefined
       ? [favorite_subject, ...subjects]
       : subjects;
 

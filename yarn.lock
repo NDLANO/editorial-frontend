@@ -11578,10 +11578,10 @@ slash@^4.0.0:
   resolved "https://registry.yarnpkg.com/slash/-/slash-4.0.0.tgz#2422372176c4c6c5addb5e2ada885af984b396a7"
   integrity sha512-3dOsAHXXUkQTpOYcoAxLIorMTp4gIQr5IW3iVb7A7lFIp0VHhnynm9izx6TssdrIcVIESAlVjtnO2K8bg+Coew==
 
-slate-history@^0.66.0:
-  version "0.66.0"
-  resolved "https://registry.yarnpkg.com/slate-history/-/slate-history-0.66.0.tgz#ac63fddb903098ceb4c944433e3f75fe63acf940"
-  integrity sha512-6MWpxGQZiMvSINlCbMW43E2YBSVMCMCIwQfBzGssjWw4kb0qfvj0pIdblWNRQZD0hR6WHP+dHHgGSeVdMWzfng==
+slate-history@^0.86.0:
+  version "0.86.0"
+  resolved "https://registry.yarnpkg.com/slate-history/-/slate-history-0.86.0.tgz#5554612271d2fc1018a7918be3961bb66e620c58"
+  integrity sha512-OxObL9tbhgwvSlnKSCpGIh7wnuaqvOj5jRExGjEyCU2Ke8ctf22HjT+jw7GEi9ttLzNTUmTEU3YIzqKGeqN+og==
   dependencies:
     is-plain-object "^5.0.0"
 
@@ -11592,10 +11592,10 @@ slate-hyperscript@^0.77.0:
   dependencies:
     is-plain-object "^5.0.0"
 
-slate-react@0.82.0:
-  version "0.82.0"
-  resolved "https://registry.yarnpkg.com/slate-react/-/slate-react-0.82.0.tgz#42be9615f79c4367bce6967e7a2ddb870032b795"
-  integrity sha512-kaLpphZ2apX1C7N+8LQElKZ3XKHdmuAZYfTtUOetxCQ6MctDMHg1GHE/tX5hNvF/2bvG5PSnEOrfUOqaSOpzMA==
+slate-react@0.87.0:
+  version "0.87.0"
+  resolved "https://registry.yarnpkg.com/slate-react/-/slate-react-0.87.0.tgz#012efb26cea845af9fa6a3ae257c51e927fe659f"
+  integrity sha512-3ujWBdsMqCY2wRHjBYkbh44gkhIgEPjwvFnrzMporbgIRXUVdlAeQM3DevHZnS+Cvja9XTH9nI4Q0vChzzQPfQ==
   dependencies:
     "@types/is-hotkey" "^0.1.1"
     "@types/lodash" "^4.14.149"
@@ -11606,10 +11606,10 @@ slate-react@0.82.0:
     scroll-into-view-if-needed "^2.2.20"
     tiny-invariant "1.0.6"
 
-slate@0.82.0:
-  version "0.82.0"
-  resolved "https://registry.yarnpkg.com/slate/-/slate-0.82.0.tgz#3a948347df58af2800bef162179cebc467c08b34"
-  integrity sha512-2O2NQunBoIWp3M6HP9w1RnNYR6eC52jW4cAXiUDthTxeiwTjL+wrSncls+9jmfqVrUnUb13qbgOEmw6/EdE1yA==
+slate@0.87.0:
+  version "0.87.0"
+  resolved "https://registry.yarnpkg.com/slate/-/slate-0.87.0.tgz#ba68aef379918f7f6302d68fdacf561ab8e70178"
+  integrity sha512-m+IWERpdtb7Zna09MxHlUYIAoo4WVdxp2fSf7c+jSV9pDmJ4QvUTuHghX/TVrxtr+8BKGhyQCWIerZt32B1Ysg==
   dependencies:
     immer "^9.0.6"
     is-plain-object "^5.0.0"

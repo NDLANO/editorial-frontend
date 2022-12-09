@@ -23,25 +23,25 @@ import WelcomeHeader from './components/WelcomeHeader';
 
 const gridGap = '1.5em';
 
-const ContentWrapper = styled.div`
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: calc(100vh - ${NAVIGATION_HEADER_MARGIN});
+  overflow: auto;
+`;
+
+const GridContainer = styled.div`
   display: grid;
-  grid-template-rows: [first] 150px repeat(1, 1fr);
   grid-template-columns: repeat(12, 1fr);
   grid-gap: ${gridGap};
-  height: calc(100vh - ${NAVIGATION_HEADER_MARGIN});
 `;
 
 const GridHeader = styled.div`
   grid-column: 2 / 12;
-  grid-row: 1 / 1;
 `;
 const GridContent = styled.div`
   grid-column: 3 / 11;
-`;
-
-const GridFooter = styled.div`
-  grid-column: 1 / 13;
-  grid-row: third-line / 4;
 `;
 
 const TwoColumn = styled.div`
@@ -63,28 +63,27 @@ export const WelcomePage = () => {
   localStorage.setItem('lastPath', '');
 
   return (
-    <ContentWrapper>
-      <HelmetWithTracker title={t('htmlTitles.welcomePage')} />
-      <GridHeader>
-        <WelcomeHeader />
-      </GridHeader>
-      <GridContent>
-        <TwoColumn>
-          <LastUsedItems lastUsed={lastUsed} />
-          <div>
-            <StyledColumnHeader>
-              <SearchFolder className="c-icon--medium" />
-              <span>{t('welcomePage.savedSearch')}</span>
-            </StyledColumnHeader>
-            <SaveSearchUrl />
-          </div>
-        </TwoColumn>
-      </GridContent>
-
-      <GridFooter>
-        <Footer showLocaleSelector />
-      </GridFooter>
-    </ContentWrapper>
+    <Wrapper>
+      <GridContainer>
+        <HelmetWithTracker title={t('htmlTitles.welcomePage')} />
+        <GridHeader>
+          <WelcomeHeader />
+        </GridHeader>
+        <GridContent>
+          <TwoColumn>
+            <LastUsedItems lastUsed={lastUsed} />
+            <div>
+              <StyledColumnHeader>
+                <SearchFolder className="c-icon--medium" />
+                <span>{t('welcomePage.savedSearch')}</span>
+              </StyledColumnHeader>
+              <SaveSearchUrl />
+            </div>
+          </TwoColumn>
+        </GridContent>
+      </GridContainer>
+      <Footer showLocaleSelector />
+    </Wrapper>
   );
 };
 

@@ -84,6 +84,7 @@ interface Props {
   search: (o: SearchParams) => void;
   subjects: SubjectType[];
   locale: string;
+  favouriteSubjectIDs?: string;
 }
 
 const SearchForm = ({ type, searchObject, ...rest }: Props) => {

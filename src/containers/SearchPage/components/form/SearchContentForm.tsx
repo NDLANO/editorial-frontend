@@ -25,28 +25,31 @@ import { useAllResourceTypes } from '../../../../modules/taxonomy/resourcetypes/
 import GenericSearchForm, { OnFieldChangeFunction } from './GenericSearchForm';
 import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
 import { SearchFormSelector } from './Selector';
-import { useUserData } from '../../../../modules/draft/draftQueries';
-import { isValid } from '../../../../util/jwtHelper';
-import { getAccessToken, getAccessTokenPersonal } from '../../../../util/authHelpers';
 
 interface Props {
   search: (o: SearchParams) => void;
   subjects: SubjectType[];
   searchObject: SearchParams;
   locale: string;
+  favouriteSubjectIDs?: string;
 }
 
-export const isFavouritesSearch = (subjects?: string, favouriteSubjects?: string) =>
-  subjects === 'urn:favourites' ? favouriteSubjects : subjects;
+export const FAVOURITES_SUBJECT_ID = 'urn:favourites';
 
-const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, locale }: Props) => {
+export const isFavouritesSearch = (subjectsId?: string, favouriteSubjects?: string) =>
+  subjectsId === FAVOURITES_SUBJECT_ID ? favouriteSubjects : subjectsId;
+
+const SearchContentForm = ({
+  search: doSearch,
+  searchObject: search,
+  subjects,
+  locale,
+  favouriteSubjectIDs,
+}: Props) => {
   const { t } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
   const [queryInput, setQueryInput] = useState(search.query ?? '');
   const [isHasPublished, setIsHasPublished] = useState(false);
-  const { data: userData } = useUserData({
-    enabled: isValid(getAccessToken()) && getAccessTokenPersonal(),
-  });
 
   const { data: users } = useAuth0Editors(
     { permission: DRAFT_WRITE_SCOPE },
@@ -71,18 +74,6 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search.query]);
 
-  const favorite_subject = {
-    id: userData?.favoriteSubjects?.toLocaleString() ?? '',
-    name: t('searchForm.favourites'),
-    contentUri: '',
-    path: '',
-    metadata: {
-      customFields: {},
-      grepCodes: [],
-      visible: true,
-    },
-  };
-
   const onFieldChange: OnFieldChangeFunction = (name, value, evt) => {
     let includeOtherStatuses: boolean | undefined;
     let status: string | undefined;
@@ -96,10 +87,6 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
       includeOtherStatuses = search['include-other-statuses'];
       status = search.status;
     }
-    search.subjects = isFavouritesSearch(
-      search.subjects,
-      userData?.favoriteSubjects?.toLocaleString(),
-    );
     const searchObj = { ...search, 'include-other-statuses': includeOtherStatuses, [name]: value };
     doSearch(
       name !== 'draft-status'
@@ -108,13 +95,7 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
     );
   };
 
-  const handleSearch = () => {
-    search.subjects = isFavouritesSearch(
-      search.subjects,
-      userData?.favoriteSubjects?.toLocaleString(),
-    );
-    doSearch({ ...search, fallback: false, page: 1 });
-  };
+  const handleSearch = () => doSearch({ ...search, fallback: false, page: 1 });
 
   const removeTagItem = (tag: SearchFormSelector) => {
     if (tag.parameterName === 'query') setQueryInput('');
@@ -152,19 +133,35 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
     return (a: Sortable, b: Sortable) => a[property]?.localeCompare(b[property]);
   };
 
-  const subjects_with_favorite =
-    subjects.find(subject => subject.id === 'urn:favourite') === undefined
-      ? [favorite_subject, ...subjects]
-      : subjects;
+  const favourite_ids = favouriteSubjectIDs || '';
+
+  const favoriteSubject = {
+    id: favourite_ids,
+    name: t('searchForm.favourites'),
+    contentUri: '',
+    path: '',
+    metadata: {
+      customFields: {},
+      grepCodes: [],
+      visible: true,
+    },
+  };
+
+  const subjects_filtered_and_sorted = subjects
+    .filter(s => s.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] !== 'true')
+    .sort(sortByProperty('name'));
+
+  const subjects_with_favorite_option =
+    subjects_filtered_and_sorted.find(subject => subject.id === favourite_ids) === undefined
+      ? [favoriteSubject, ...subjects_filtered_and_sorted]
+      : subjects_filtered_and_sorted;
 
   const selectors: SearchFormSelector[] = [
     {
-      value: getTagName(search.subjects, subjects_with_favorite),
+      value: getTagName(search.subjects, subjects_with_favorite_option),
       parameterName: 'subjects',
       width: config.revisiondateEnabled === 'true' ? 50 : 25,
-      options: subjects_with_favorite
-        .filter(s => s.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] !== 'true')
-        .sort(sortByProperty('name')),
+      options: subjects_with_favorite_option,
       formElementType: 'dropdown',
     },
     {

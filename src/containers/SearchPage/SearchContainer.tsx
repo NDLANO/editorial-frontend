@@ -28,10 +28,7 @@ import { SearchType } from '../../interfaces';
 import SearchSaveButton from './SearchSaveButton';
 import { useSubjects } from '../../modules/taxonomy/subjects';
 import { useTaxonomyVersion } from '../StructureVersion/TaxonomyVersionProvider';
-import { useUserData } from '../../modules/draft/draftQueries';
-import { isValid } from '../../util/jwtHelper';
-import { getAccessToken, getAccessTokenPersonal } from '../../util/authHelpers';
-import { isFavouritesSearch } from './components/form/SearchContentForm';
+import { FAVOURITES_SUBJECT_ID, isFavouritesSearch } from './components/form/SearchContentForm';
 
 const StyledSearchHeader = styled.div`
   display: flex;
@@ -50,29 +47,30 @@ export type ResultType =
 interface Props {
   type: SearchType;
   searchHook: (query: SearchParams) => UseQueryResult<ResultType>;
+  favouriteSubjectIDs?: string;
 }
 
-const SearchContainer = ({ searchHook, type }: Props) => {
+const SearchContainer = ({ searchHook, type, favouriteSubjectIDs }: Props) => {
   const { t, i18n } = useTranslation();
   const location = useLocation();
   const navigate = useNavigate();
   const locale = i18n.language;
   const { taxonomyVersion } = useTaxonomyVersion();
   const { data: subjectData } = useSubjects({ language: locale, taxonomyVersion });
-  const { data: userData } = useUserData({
-    enabled: isValid(getAccessToken()) && getAccessTokenPersonal(),
+  const [searchObject, setSearchObject] = useState(
+    parseSearchParams(location.search, favouriteSubjectIDs),
+  );
+  searchObject.subjects = isFavouritesSearch(searchObject.subjects, favouriteSubjectIDs);
+  const { data: results, isLoading: isSearching } = searchHook({
+    ...searchObject,
+    subjects: isFavouritesSearch(searchObject.subjects, favouriteSubjectIDs),
   });
-  const [searchObject, setSearchObject] = useState(parseSearchParams(location.search));
-  const { data: results, isLoading: isSearching } = searchHook(searchObject);
   const nextPage = (searchObject?.page ?? 1) + 1;
   // preload next page.
   searchHook({ ...searchObject, page: nextPage });
-
   useEffect(() => {
-    setSearchObject(
-      parseSearchParams(location.search, userData?.favoriteSubjects?.toLocaleString()),
-    );
-  }, [location.search, userData?.favoriteSubjects]);
+    setSearchObject(parseSearchParams(location.search, favouriteSubjectIDs));
+  }, [location.search, favouriteSubjectIDs]);
 
   const subjects = subjectData ?? [];
 
@@ -81,10 +79,8 @@ const SearchContainer = ({ searchHook, type }: Props) => {
       ...searchObject,
       ...newSearchObject,
     };
-    searchQuery.subjects = isFavouritesSearch(
-      searchQuery.subjects,
-      userData?.favoriteSubjects?.toLocaleString(),
-    );
+
+    searchQuery.subjects = isFavouritesSearch(searchQuery.subjects, favouriteSubjectIDs);
     // Remove unused/empty query params
     const newQuery = Object.entries(searchQuery).reduce((prev, [currKey, currVal]) => {
       const validValue = currVal !== '' && currVal !== undefined;
@@ -92,7 +88,7 @@ const SearchContainer = ({ searchHook, type }: Props) => {
     }, {} as any);
     setSearchObject(newQuery);
     if (newQuery?.subjects?.includes(',')) {
-      newQuery.subjects = 'urn:favourites';
+      newQuery.subjects = FAVOURITES_SUBJECT_ID;
     }
     navigate(toSearch(newQuery, type));
   };
@@ -126,6 +122,7 @@ const SearchContainer = ({ searchHook, type }: Props) => {
           searchObject={searchObject}
           locale={locale}
           subjects={subjects}
+          favouriteSubjectIDs={favouriteSubjectIDs}
         />
         <SearchSort type={type} onSortOrderChange={onSortOrderChange} />
         <SearchListOptions

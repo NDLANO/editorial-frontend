@@ -270,7 +270,7 @@ const phrases = {
       revisionDate: 'Neste revisjon',
     },
     resultError: 'Noko gjekk feil med innlasting av type: {{type}}',
-    favourites: 'Mine favoritt fag',
+    favourites: 'Mine favorittfag',
   },
   subjectsPage: {
     subjects: 'Fag',

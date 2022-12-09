@@ -1,5 +1,8 @@
 {
-  "presets": [["razzle", { "runtime": "automatic", "importSource": "@emotion/react" }]],
+  "presets": [
+    ["razzle", { "runtime": "automatic", "importSource": "@emotion/react" }],
+    "@emotion/babel-preset-css-prop"
+  ],
   "plugins": [
     ["@emotion", { "autoLabel": "always" }],
     "@babel/plugin-proposal-optional-chaining",

@@ -123,6 +123,7 @@ const MathEditor = ({ element, children, attributes, editor }: Props & RenderEle
           voids: true,
         });
 
+        // Insertion of concept consists of insert an empty mathml and then updating it with content. By merging the events we can consider them as one action and undo both with ctrl+z.
         mergeLastUndos(editor);
       } else {
         Transforms.setNodes(editor, properties, {

@@ -41,7 +41,6 @@ export interface ResourceWithNodeConnectionAndMeta extends ResourceWithNodeConne
 interface Props {
   currentChildNode: ChildNodeType;
   resourceRef: RefObject<HTMLDivElement>;
-  onCurrentNodeChanged: (changedNode: ChildNodeType) => void;
 }
 
 const getMissingResourceType = (t: TFunction): ResourceType & { disabled?: boolean } => ({
@@ -62,7 +61,7 @@ const withMissing = (r: ResourceWithNodeConnection): ResourceWithNodeConnection 
   resourceTypes: [missingObject],
 });
 
-const StructureResources = ({ currentChildNode, resourceRef, onCurrentNodeChanged }: Props) => {
+const StructureResources = ({ currentChildNode, resourceRef }: Props) => {
   const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
 
@@ -120,6 +119,7 @@ const StructureResources = ({ currentChildNode, resourceRef, onCurrentNodeChange
         nodeResources={nodeResources ?? []}
         resourceTypes={resourceTypes ?? []}
         currentNodeId={currentChildNode.id}
+        topicName={currentChildNode.name}
       />
     </div>
   );

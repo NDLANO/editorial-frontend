@@ -8,21 +8,31 @@
 
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Plus } from '@ndla/icons/action';
+import styled from '@emotion/styled';
+import { colors } from '@ndla/core';
+import { fonts } from '@ndla/core';
 import { ResourceWithNodeConnectionAndMeta } from './StructureResources';
 import { ResourceType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
-import Accordion from '../../../components/Accordion';
 import ResourceItems from './ResourceItems';
-import AddResourceButton from './AddResourceButton';
 import AddResourceModal from './AddResourceModal';
+
+const ResourceGroupBanner = styled.div`
+  background-color: ${colors.brand.lighter};
+  border-radius: 10px;
+  ${fonts.sizes(16)};
+  color: ${colors.brand.primary};
+  font-weight: ${fonts.weight.semibold};
+  padding: 10px;
+`;
 
 interface Props {
   currentNodeId: string;
   nodeResources: ResourceWithNodeConnectionAndMeta[];
   resourceTypes: ResourceType[];
+  topicName: string;
 }
 
-const AllResourcesGroup = ({ resourceTypes, nodeResources, currentNodeId }: Props) => {
+const AllResourcesGroup = ({ resourceTypes, nodeResources, currentNodeId, topicName }: Props) => {
   const { t } = useTranslation();
   const [displayResource, setDisplayResource] = useState<boolean>(true);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -37,20 +47,9 @@ const AllResourcesGroup = ({ resourceTypes, nodeResources, currentNodeId }: Prop
 
   return (
     <>
-      <Accordion
-        addButton={
-          <AddResourceButton stripped onClick={toggleAddModal}>
-            <Plus />
-            {t('taxonomy.addResource')}
-          </AddResourceButton>
-        }
-        handleToggle={toggleDisplayResource}
-        appearance={'resourceGroup'}
-        header={t('taxonomy.resources')}
-        hidden={!displayResource}>
-        <ResourceItems resources={nodeResources} currentNodeId={currentNodeId} />
-      </Accordion>
-      {showAddModal && (
+      <ResourceGroupBanner>{topicName}</ResourceGroupBanner>
+
+      {false && (
         <AddResourceModal
           resourceTypes={resourceTypesWithoutMissing}
           nodeId={currentNodeId}
@@ -58,6 +57,7 @@ const AllResourcesGroup = ({ resourceTypes, nodeResources, currentNodeId }: Prop
           existingResourceIds={nodeResources.map(r => r.id)}
         />
       )}
+      <ResourceItems resources={nodeResources} currentNodeId={currentNodeId} />
     </>
   );
 };

@@ -531,14 +531,15 @@ exports[`it goes in and out of edit mode 1`] = `
 
 <div>
   <div
+    aria-multiline="true"
     autocapitalize="false"
     autocorrect="false"
     contenteditable="true"
     data-slate-editor="true"
+    data-slate-editor-id="0"
     data-slate-node="value"
     role="textbox"
     spellcheck="false"
-    style="position: relative; outline: none; white-space: pre-wrap; word-wrap: break-word;"
     zindex="-1"
   >
     <div
@@ -1158,14 +1159,15 @@ exports[`it goes in and out of edit mode 2`] = `
 
 <div>
   <div
+    aria-multiline="true"
     autocapitalize="false"
     autocorrect="false"
     contenteditable="true"
     data-slate-editor="true"
+    data-slate-editor-id="0"
     data-slate-node="value"
     role="textbox"
     spellcheck="false"
-    style="position: relative; outline: none; white-space: pre-wrap; word-wrap: break-word;"
     zindex="-1"
   >
     <div

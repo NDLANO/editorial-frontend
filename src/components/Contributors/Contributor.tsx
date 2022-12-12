@@ -55,6 +55,7 @@ const Contributor = ({
               : undefined
           }
           type="text"
+          // eslint-disable-next-line jsx-a11y/no-autofocus
           autoFocus={!!contributor.focusOnMount}
           placeholder={placeholder}
           disabled={disabled}

@@ -5,10 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { Dictionary } from 'lodash';
 import isObject from 'lodash/fp/isObject';
 import { isEmpty } from '../components/validators';
-import { Embed } from '../interfaces';
+import { Dictionary, Embed } from '../interfaces';
 
 export const removeEmptyElementDataAttributes = (obj: Dictionary<any>) => {
   const newObject: Dictionary<string> = {};

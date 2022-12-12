@@ -18,7 +18,7 @@ import VisualElementUrlPreview from './VisualElementUrlPreview';
 import ImageSearchAndUploader from '../../components/ImageSearchAndUploader';
 import { convertFieldWithFallback } from '../../util/convertFieldWithFallback';
 import { fetchImage, searchImages } from '../../modules/image/imageApi';
-import { fetchAudio } from '../../modules/audio/audioApi';
+import { fetchAudio, searchAudio } from '../../modules/audio/audioApi';
 import { onError } from '../../util/resolveJsonOrRejectWithError';
 import {
   BrightcoveApiType,
@@ -26,7 +26,6 @@ import {
   VideoSearchQuery,
 } from '../../modules/video/brightcoveApi';
 import { AudioSearchParams } from '../../modules/audio/audioApiInterfaces';
-import { searchAudio } from '../../modules/audio/audioApi';
 import { Embed, ExternalEmbed, H5pEmbed, ReturnType } from '../../interfaces';
 import FileUploader from '../../components/FileUploader';
 

@@ -9,10 +9,9 @@
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
-import { Concept } from '@ndla/icons/editor';
+import { Concept, Check } from '@ndla/icons/editor';
 import { spacing, colors } from '@ndla/core';
 import Button from '@ndla/button';
-import { Check } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
 import { convertFieldWithFallback } from '../../../../util/convertFieldWithFallback';
 import Spinner from '../../../../components/Spinner';

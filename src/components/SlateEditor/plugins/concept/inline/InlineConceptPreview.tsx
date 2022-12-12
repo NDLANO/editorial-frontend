@@ -65,7 +65,7 @@ const InlineConceptPreview = ({ concept, handleRemove, id, isBlockView }: Props)
     const visualElement: Embed | undefined = parseEmbedTag(concept.visualElement?.visualElement);
     if (!visualElement) return null;
     switch (visualElement?.resource) {
-      case 'image':
+      case 'image': {
         const wrapperUrl = `${config.ndlaApiUrl}/image-api/raw/id/${visualElement.resource_id}`;
         const srcSet = getSrcSets(visualElement.resource_id, visualElement);
         return (
@@ -73,6 +73,7 @@ const InlineConceptPreview = ({ concept, handleRemove, id, isBlockView }: Props)
             <img alt={visualElement?.alt} src={visualElement?.url} srcSet={srcSet} />
           </ImageWrapper>
         );
+      }
       case 'external':
         return (
           <iframe

@@ -7,7 +7,7 @@
  *
  */
 
-import { compact } from 'lodash';
+import compact from 'lodash/compact';
 import { Editor, Path, Transforms } from 'slate';
 import { ReactEditor } from 'slate-react';
 import { defaultTableRowBlock } from './defaultBlocks';
@@ -190,7 +190,7 @@ export const normalizeTableBodyAsMatrix = (
   tableBody: TableHeadElement | TableBodyElement,
   tableBodyPath: Path,
 ): boolean => {
-  let matrix: TableMatrix = [];
+  const matrix: TableMatrix = [];
 
   // Build up a matrix by inserting and normalizing one row at a time
   for (const [rowIndex, row] of tableBody.children.entries()) {

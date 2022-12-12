@@ -5,12 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { Fragment } from 'react';
+import { cloneElement } from 'react';
 import escapeHtml from 'escape-html';
-import { compact, toArray } from 'lodash';
+import compact from 'lodash/compact';
+import toArray from 'lodash/toArray';
 import { Descendant, Element, Node, Text } from 'slate';
 import { renderToStaticMarkup } from 'react-dom/server';
-import React from 'react';
 import { Plain } from './slatePlainSerializer';
 import { convertFromHTML } from './convertFromHTML';
 import { sectionSerializer } from '../components/SlateEditor/plugins/section';
@@ -137,7 +137,7 @@ const articleContentToHTML = (value: Descendant[], rules: SlateSerializer[]) => 
       } else if (ret === null) {
         return null;
       } else {
-        return React.cloneElement(ret, { key: nodeIdx });
+        return cloneElement(ret, { key: nodeIdx });
       }
     }
     return <>{children}</>;

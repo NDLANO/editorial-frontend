@@ -63,6 +63,7 @@ const AddNotesField = ({
             <Input
               warningText={showError && note === '' ? labelWarningNote : ''}
               type="text"
+              // eslint-disable-next-line jsx-a11y/no-autofocus
               autoFocus
               placeholder={placeholder}
               value={note}

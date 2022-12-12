@@ -17,7 +17,7 @@ import {
 } from 'slate-react';
 import { withHistory } from 'slate-history';
 import { useFormikContext } from 'formik';
-import { isEqual } from 'lodash';
+import isEqual from 'lodash/isEqual';
 import styled from '@emotion/styled';
 import { fonts } from '@ndla/core';
 import { SlatePlugin } from './interfaces';

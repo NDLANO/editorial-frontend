@@ -20,7 +20,7 @@ const nrkTransformer: UrlTransformer = {
 
     const oldMediaId = queryString.parse(aTag.search).mediaId;
     const newMediaId = Number(aTag.pathname.split('/skole-deling/')[1]);
-    const mediaId = !!newMediaId ? newMediaId : oldMediaId;
+    const mediaId = newMediaId ? newMediaId : oldMediaId;
     if (mediaId) {
       return true;
     }
@@ -30,7 +30,7 @@ const nrkTransformer: UrlTransformer = {
     const aTag = urlAsATag(url);
     const oldMediaId = queryString.parse(aTag.search).mediaId;
     const newMediaId = Number(aTag.pathname.split('/skole-deling/')[1]);
-    const mediaId = !!newMediaId ? newMediaId : oldMediaId;
+    const mediaId = newMediaId ? newMediaId : oldMediaId;
     if (!mediaId) {
       return url;
     }

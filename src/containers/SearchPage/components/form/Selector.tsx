@@ -69,7 +69,7 @@ const Selector = ({ formType, selector, onFieldChange, searchObject }: SelectorP
           onChange={e => onFieldChange(selector.parameterName, e.currentTarget.value, e)}
         />
       );
-    case 'date-picker':
+    case 'date-picker': {
       const datePickerValue = searchObject[selector.parameterName];
       return (
         <InlineDatePicker
@@ -79,7 +79,8 @@ const Selector = ({ formType, selector, onFieldChange, searchObject }: SelectorP
           value={datePickerValue ?? ''}
         />
       );
-    case 'check-box':
+    }
+    case 'check-box': {
       const checkboxValue = searchObject[selector.parameterName];
       return (
         <CheckboxSelector
@@ -88,7 +89,8 @@ const Selector = ({ formType, selector, onFieldChange, searchObject }: SelectorP
           onChange={e => onFieldChange(selector.parameterName, e.currentTarget.checked, e)}
         />
       );
-    case 'dropdown':
+    }
+    case 'dropdown': {
       const dropdownValue = searchObject[selector.parameterName];
       return (
         <ObjectSelector
@@ -102,6 +104,7 @@ const Selector = ({ formType, selector, onFieldChange, searchObject }: SelectorP
           placeholder={t(`searchForm.types.${selector.parameterName}`)}
         />
       );
+    }
     default:
       return unreachable(selector);
   }

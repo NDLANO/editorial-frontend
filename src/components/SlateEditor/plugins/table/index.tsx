@@ -13,7 +13,7 @@ import { Descendant, Editor, Element, Node, NodeEntry, Path, Text, Transforms } 
 import { ReactEditor, RenderElementProps, RenderLeafProps } from 'slate-react';
 import { HistoryEditor } from 'slate-history';
 import { jsx as slatejsx } from 'slate-hyperscript';
-import { equals } from 'lodash/fp';
+import equals from 'lodash/fp/equals';
 import { SlateSerializer } from '../../interfaces';
 import {
   reduceElementDataAttributes,

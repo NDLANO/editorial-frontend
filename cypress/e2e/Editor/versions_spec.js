@@ -6,7 +6,7 @@
  *
  */
 
-import { setToken } from '../../support';
+import { setToken } from '../../support/e2e';
 import editorRoutes from './editorRoutes';
 
 describe('Workflow features', () => {

@@ -7,7 +7,7 @@
  */
 
 import { taxonomyApi } from '../../../src/config';
-import { setToken } from '../../support';
+import { setToken } from '../../support/e2e';
 
 describe('Search concepts', () => {
   beforeEach(() => {

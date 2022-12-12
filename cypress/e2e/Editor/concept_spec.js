@@ -6,7 +6,7 @@
  *
  */
 
-import { setToken } from '../../support';
+import { setToken } from '../../support/e2e';
 import editorRoutes from './editorRoutes';
 
 const CONCEPT_ID = 1;

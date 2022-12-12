@@ -79,7 +79,7 @@
     "cross-env": "^5.2.0",
     "css-loader": "^6.7.1",
     "css-minimizer-webpack-plugin": "^4.2.2",
-    "cypress": "^7.2.0",
+    "cypress": "^11.0.0",
     "eslint": "^8.27.0",
     "eslint-config-ndla": "^2.0.6",
     "eslint-plugin-cypress": "^2.11.2",

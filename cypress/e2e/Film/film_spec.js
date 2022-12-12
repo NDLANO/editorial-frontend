@@ -6,7 +6,7 @@
  *
  */
 
-import { setToken } from '../../support';
+import { setToken } from '../../support/e2e';
 
 describe('Film editing', () => {
   before(() => {

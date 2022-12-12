@@ -7,7 +7,7 @@
  */
 
 import { taxonomyApi } from '../../../src/config';
-import { setToken } from '../../support';
+import { setToken } from '../../support/e2e';
 import phrases from '../../../src/phrases/phrases-nb';
 
 const selectSubject = 'urn:subject:20';
@@ -55,7 +55,9 @@ describe('Subject editing', () => {
       'subjectTranslations',
     );
     cy.intercept('GET', `${taxonomyApi}/nodes/${selectSubject}/nodes*`, 'allSubjectTopics');
-    cy.intercept('GET', `${taxonomyApi}/nodes?isRoot=true&language=nb`, 'allSubjects').as('allSubjects');
+    cy.intercept('GET', `${taxonomyApi}/nodes?isRoot=true&language=nb`, 'allSubjects').as(
+      'allSubjects',
+    );
     cy.intercept('DELETE', `${taxonomyApi}/nodes/${selectSubject}/translations/nb`, []).as(
       'deleteSubjectTranslation',
     );
@@ -66,9 +68,9 @@ describe('Subject editing', () => {
       .click();
     cy.get('[data-testid=changeNodeNameButton]').click();
     cy.wait('@subjectTranslations');
-    cy.intercept('GET', `${taxonomyApi}/nodes/${selectSubject}/translations`, [{name: 'NDLA filmTEST', language: 'nb'}]).as(
-      'subjectTranslations',
-    );
+    cy.intercept('GET', `${taxonomyApi}/nodes/${selectSubject}/translations`, [
+      { name: 'NDLA filmTEST', language: 'nb' },
+    ]).as('subjectTranslations');
     cy.get('[data-testid=addNodeNameTranslation]').type('TEST{enter}');
     cy.get('[data-testid=saveNodeTranslationsButton]')
       .first()

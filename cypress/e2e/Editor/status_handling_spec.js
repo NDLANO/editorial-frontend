@@ -6,7 +6,7 @@
  *
  */
 
-import { setToken } from '../../support';
+import { setToken } from '../../support/e2e';
 import editorRoutes from './editorRoutes';
 
 // change article ID and run cy-record to add the new fixture data

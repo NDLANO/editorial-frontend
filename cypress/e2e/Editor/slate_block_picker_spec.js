@@ -6,7 +6,7 @@
  *
  */
 
-import { setToken } from '../../support';
+import { setToken } from '../../support/e2e';
 import editorRoutes from './editorRoutes';
 
 describe('can enter both element types SlateBlockPicker and SlateVisualElementPicker and add, remove, open and close them', () => {
@@ -160,20 +160,5 @@ describe('can enter both element types SlateBlockPicker and SlateVisualElementPi
     cy.get('[data-cy="styled-article-modal"]').should('exist');
     cy.apiwait('@search');
     cy.get('[data-cy="close-related-button"]').click();
-  });
-
-  // Placed last because closing depends on event from iframe.
-  it('opens and closes H5P', () => {
-    // Discard h5p-auth request
-    cy.intercept('*', req => {
-      if (req.url.includes('auth')) {
-        req.reply({
-          statusCode: 404,
-        });
-      }
-    });
-
-    cy.get('[data-cy=create-h5p]').click();
-    cy.get('[data-cy="h5p-editor"]').should('exist');
   });
 });

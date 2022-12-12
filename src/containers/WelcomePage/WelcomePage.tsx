@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { SearchFolder } from '@ndla/icons/editor';
 import styled from '@emotion/styled';
-import { mq, breakpoints } from '@ndla/core';
+import { mq, breakpoints, spacing } from '@ndla/core';
 import { NAVIGATION_HEADER_MARGIN } from '../../constants';
 import { getAccessToken, getAccessTokenPersonal } from '../../util/authHelpers';
 import { isValid } from '../../util/jwtHelper';
@@ -21,36 +21,37 @@ import { useUserData } from '../../modules/draft/draftQueries';
 import { StyledColumnHeader } from './styles';
 import WelcomeHeader from './components/WelcomeHeader';
 
-const gridGap = '1.5em';
-
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   height: calc(100vh - ${NAVIGATION_HEADER_MARGIN});
-  overflow: auto;
 `;
 
 const GridContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  grid-gap: ${gridGap};
+  ${mq.range({ from: '0px', until: breakpoints.tabletWide })} {
+    padding: ${spacing.nsmall};
+  }
+  ${mq.range({ from: breakpoints.tabletWide })} {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-gap: 1em;
+    max-width: 1400px;
+    justify-self: center;
+    align-self: center;
+    width: 100%;
+  }
 `;
 
 const GridHeader = styled.div`
   grid-column: 2 / 12;
 `;
-const GridContent = styled.div`
-  grid-column: 3 / 11;
-`;
 
-const TwoColumn = styled.div`
-  grid-template-columns: 1fr;
-  display: grid;
-  grid-gap: ${gridGap};
-  ${mq.range({ from: breakpoints.tabletWide })} {
-    grid-template-columns: 1fr 1fr;
-  }
+const LeftColumn = styled.div`
+  grid-column: 3 / 7;
+`;
+const RightColumn = styled.div`
+  grid-column: 7 / 11;
 `;
 
 export const WelcomePage = () => {
@@ -69,19 +70,18 @@ export const WelcomePage = () => {
         <GridHeader>
           <WelcomeHeader />
         </GridHeader>
-        <GridContent>
-          <TwoColumn>
-            <LastUsedItems lastUsed={lastUsed} />
-            <div>
-              <StyledColumnHeader>
-                <SearchFolder className="c-icon--medium" />
-                <span>{t('welcomePage.savedSearch')}</span>
-              </StyledColumnHeader>
-              <SaveSearchUrl />
-            </div>
-          </TwoColumn>
-        </GridContent>
+        <LeftColumn>
+          <LastUsedItems lastUsed={lastUsed} />
+        </LeftColumn>
+        <RightColumn>
+          <StyledColumnHeader>
+            <SearchFolder className="c-icon--medium" />
+            <span>{t('welcomePage.savedSearch')}</span>
+          </StyledColumnHeader>
+          <SaveSearchUrl />
+        </RightColumn>
       </GridContainer>
+
       <Footer showLocaleSelector />
     </Wrapper>
   );

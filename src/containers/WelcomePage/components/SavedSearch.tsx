@@ -12,6 +12,7 @@ import queryString from 'query-string';
 
 import { useTranslation } from 'react-i18next';
 import { DeleteForever } from '@ndla/icons/editor';
+import { IUserData } from '@ndla/types-draft-api';
 import Tooltip from '@ndla/tooltip';
 
 import IconButton from '../../../components/IconButton';
@@ -25,10 +26,10 @@ interface Props {
   deleteSearch: Function;
   search: string;
   index: number;
-  favouriteSubject?: SubjectType;
+  userData: IUserData;
 }
 
-const SavedSearch = ({ deleteSearch, search, index, favouriteSubject }: Props) => {
+const SavedSearch = ({ deleteSearch, search, index, userData }: Props) => {
   const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
   const locale = i18n.language;
@@ -37,8 +38,8 @@ const SavedSearch = ({ deleteSearch, search, index, favouriteSubject }: Props) =
   const [searchObject, isFavorite] = useMemo(() => {
     const obj = transformQuery(queryString.parse(searchParams));
     const isFav = obj.subjects === FAVOURITES_SUBJECT_ID;
-    return [isFav ? { ...obj, subjects: undefined } : obj, isFav];
-  }, [searchParams]);
+    return [isFav ? { ...obj, subjects: userData.favoriteSubjects } : obj, isFav];
+  }, [searchParams, userData?.favoriteSubjects]);
 
   const resourceType = searchObject['resource-types'] || '';
 

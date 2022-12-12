@@ -32,13 +32,6 @@ const StyledHeader = styled.div`
   position: relative;
 `;
 
-const ButtonWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.xsmall};
-  z-index: 1;
-`;
-
 const StyledTitle = styled.h1`
   ${fonts.sizes(24, 1.2)};
   color: ${colors.brand.primary};
@@ -109,14 +102,7 @@ export const WelcomeHeader = () => {
             </span>
           </StyledTitle>
         </ContentWrapper>
-        <ButtonWrapper>
-          <StyledSafeLinkButton to="/structure">
-            {t('subNavigation.structure')}
-          </StyledSafeLinkButton>
-          <StyledSafeLinkButton to="subject-matter/learning-resource/new">
-            {t('subNavigation.subjectMatter')}
-          </StyledSafeLinkButton>
-        </ButtonWrapper>
+        <StyledSafeLinkButton to="/structure">{t('subNavigation.structure')}</StyledSafeLinkButton>
         <RightShape />
       </StyledHeader>
     </StyledWrapper>

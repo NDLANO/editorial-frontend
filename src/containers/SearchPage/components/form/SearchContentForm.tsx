@@ -35,9 +35,6 @@ interface Props {
   favouriteSubjectIDs?: string;
 }
 
-export const isFavouritesSearch = (subjectsId?: string, favouriteSubjects?: string) =>
-  subjectsId === FAVOURITES_SUBJECT_ID ? favouriteSubjects : subjectsId;
-
 const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, locale }: Props) => {
   const { t } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();

@@ -1,8 +1,6 @@
 import { Editor, Node, Element, Descendant, Transforms, Text, Path } from 'slate';
 import { RenderElementProps } from 'slate-react';
 import { jsx as slatejsx } from 'slate-hyperscript';
-// eslint-disable-next-line lodash/import-scope
-import { Dictionary } from 'lodash';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { SlateSerializer } from '../../interfaces';
@@ -19,6 +17,7 @@ import { TYPE_FOOTNOTE } from '../footnote/types';
 import { TYPE_LINK, TYPE_CONTENT_LINK } from '../link/types';
 import { TYPE_MATHML } from '../mathml/types';
 import { TYPE_PARAGRAPH } from '../paragraph/types';
+import { Dictionary } from '../../../../interfaces';
 
 export interface ListElement {
   type: 'list';

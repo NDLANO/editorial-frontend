@@ -75,7 +75,8 @@ class PreviewDraft extends Component<Props, {}> {
         messages={{
           label,
         }}
-        renderMarkdown={renderMarkdown}></Article>
+        renderMarkdown={renderMarkdown}
+      />
     );
   }
 }

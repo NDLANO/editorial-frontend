@@ -223,3 +223,5 @@ export interface WhitelistProvider {
   url: string[];
   height?: string;
 }
+
+export type Dictionary<T> = Record<string, T>;

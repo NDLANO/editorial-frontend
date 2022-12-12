@@ -6,9 +6,8 @@
  *
  */
 
-// eslint-disable-next-line lodash/import-scope
-import { Dictionary } from 'lodash';
 import { Descendant, Node, Element } from 'slate';
+import { Dictionary } from '../interfaces';
 import { TYPE_PARAGRAPH } from './SlateEditor/plugins/paragraph/types';
 import { TYPE_SECTION } from './SlateEditor/plugins/section/types';
 

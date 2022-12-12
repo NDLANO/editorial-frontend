@@ -10,8 +10,6 @@ import { useState, useEffect, ReactNode } from 'react';
 import { colors } from '@ndla/core';
 import { Editor, Element, Transforms, Path } from 'slate';
 import { ReactEditor, RenderElementProps, useSelected } from 'slate-react';
-// eslint-disable-next-line lodash/import-scope
-import { Dictionary } from 'lodash';
 import styled from '@emotion/styled';
 import { IConcept } from '@ndla/types-concept-api';
 import ConceptModal from '../ConceptModal';
@@ -20,6 +18,7 @@ import mergeLastUndos from '../../../utils/mergeLastUndos';
 import { TYPE_CONCEPT_BLOCK } from './types';
 import { ConceptBlockElement } from './interfaces';
 import BlockConceptPreview from './BlockConceptPreview';
+import { Dictionary } from '../../../../../interfaces';
 
 const getConceptDataAttributes = ({ id }: Dictionary<any>) => ({
   type: TYPE_CONCEPT_BLOCK,

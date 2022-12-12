@@ -11,14 +11,13 @@ import { useState, useEffect, ReactNode, useMemo } from 'react';
 import { Editor, Element, Node, Transforms, Path } from 'slate';
 import { ReactEditor, RenderElementProps } from 'slate-react';
 import uniqueId from 'lodash/uniqueId';
-// eslint-disable-next-line lodash/import-scope
-import { Dictionary } from 'lodash';
 import { IConcept } from '@ndla/types-concept-api';
 import { ConceptInlineElement } from '../inline/interfaces';
 import ConceptModal from '../ConceptModal';
 import { useFetchConceptData } from '../../../../../containers/FormikForm/formikConceptHooks';
 import { TYPE_CONCEPT_INLINE } from './types';
 import SlateNotion from './SlateNotion';
+import { Dictionary } from '../../../../../interfaces';
 
 const getConceptDataAttributes = ({ id, title: { title } }: Dictionary<any>) => ({
   type: TYPE_CONCEPT_INLINE,

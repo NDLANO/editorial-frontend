@@ -134,7 +134,7 @@ const SettingsMenuDropdownType = ({
           editModeHandler={editModeHandler}
           type="cloneResources"
         />
-        <SetResourcesPrimary node={node} editModeHandler={editModeHandler} recursive/>
+        <SetResourcesPrimary node={node} editModeHandler={editModeHandler} recursive />
       </>
     );
   } else return null;

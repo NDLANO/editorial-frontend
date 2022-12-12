@@ -7,7 +7,7 @@
  */
 
 import queryString from 'query-string';
-import SearchContentForm, { isFavouritesSearch } from './SearchContentForm';
+import SearchContentForm from './SearchContentForm';
 import SearchAudioForm from './SearchAudioForm';
 import SearchPodcastSeriesForm from './SearchPodcastSeriesForm';
 import SearchImageForm from './SearchImageForm';
@@ -37,15 +37,12 @@ export interface SearchParams {
   'exclude-revision-log'?: boolean | undefined;
 }
 
-export const parseSearchParams = (
-  locationSearch: string,
-  favouriteSubjects?: string,
-): SearchParams => {
+export const parseSearchParams = (locationSearch: string): SearchParams => {
   const queryStringObject: Record<string, string | undefined> = queryString.parse(locationSearch);
 
   const parseBooleanParam = (key: string): boolean | undefined => {
     const value = queryStringObject[key];
-    if (!value) return undefined;
+    if (!value) return false;
     return value === 'true';
   };
 
@@ -69,7 +66,7 @@ export const parseSearchParams = (
     'page-size': parseNumberParam('page-size'),
     sort: queryStringObject.sort,
     status: queryStringObject.status,
-    subjects: isFavouritesSearch(queryStringObject.subjects, favouriteSubjects),
+    subjects: queryStringObject.subjects,
     type: queryStringObject.type,
     users: queryStringObject.users,
     'revision-date-from': queryStringObject['revision-date-from'],
@@ -84,7 +81,6 @@ interface Props {
   search: (o: SearchParams) => void;
   subjects: SubjectType[];
   locale: string;
-  favouriteSubjectIDs?: string;
 }
 
 const SearchForm = ({ type, searchObject, ...rest }: Props) => {

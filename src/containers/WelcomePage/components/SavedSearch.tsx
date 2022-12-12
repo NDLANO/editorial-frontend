@@ -7,6 +7,7 @@
  */
 
 import { Link } from 'react-router-dom';
+import { useMemo } from 'react';
 import queryString from 'query-string';
 
 import { useTranslation } from 'react-i18next';
@@ -17,8 +18,8 @@ import IconButton from '../../../components/IconButton';
 import { transformQuery } from '../../../util/searchHelpers';
 import { useSavedSearchUrl } from '../hooks/savedSearchHook';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
-import { isFavouritesSearch } from '../../SearchPage/components/form/SearchContentForm';
 import { SubjectType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
+import { FAVOURITES_SUBJECT_ID } from '../../../constants';
 
 interface Props {
   deleteSearch: Function;
@@ -33,8 +34,12 @@ const SavedSearch = ({ deleteSearch, search, index, favouriteSubject }: Props) =
   const locale = i18n.language;
   const [searchUrl, searchParams] = search.split('?');
 
-  const searchObject = transformQuery(queryString.parse(searchParams));
-  const subject = isFavouritesSearch(searchObject['subjects'], favouriteSubject?.id) || '';
+  const [searchObject, isFavorite] = useMemo(() => {
+    const obj = transformQuery(queryString.parse(searchParams));
+    const isFav = obj.subjects === FAVOURITES_SUBJECT_ID;
+    return [isFav ? { ...obj, subjects: undefined } : obj, isFav];
+  }, [searchParams]);
+
   const resourceType = searchObject['resource-types'] || '';
 
   searchObject['type'] = searchUrl.replace('/search/', '');
@@ -45,12 +50,7 @@ const SavedSearch = ({ deleteSearch, search, index, favouriteSubject }: Props) =
   if (searchObject['type'] === 'content' && searchObject['language']) {
     searchObject['language'] = locale;
   }
-  const { data, loading } = useSavedSearchUrl(
-    searchObject,
-    locale,
-    taxonomyVersion,
-    favouriteSubject,
-  );
+  const { data, loading } = useSavedSearchUrl(searchObject, locale, taxonomyVersion);
 
   const linkText = (searchObject: Record<string, string>) => {
     const query = searchObject.query || undefined;
@@ -68,7 +68,7 @@ const SavedSearch = ({ deleteSearch, search, index, favouriteSubject }: Props) =
     results.push(language && t(`language.${language}`));
     results.push(audioType);
     results.push(status && t(`form.status.${status.toLowerCase()}`));
-    results.push(subject && data?.subject?.name);
+    results.push(isFavorite ? t('searchForm.favourites') : data?.subject?.name);
     results.push(resourceType && data?.resourceType?.name);
     results.push(contextType && t(`contextTypes.topic`));
     results.push(data?.user?.[0].name);

@@ -6,7 +6,7 @@
  *
  */
 
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import { useTranslation } from 'react-i18next';
 import { flattenResourceTypesAndAddContextTypes } from '../../../../util/taxonomyHelpers';
@@ -16,6 +16,7 @@ import ArticleStatuses from '../../../../util/constants/index';
 import { SearchParams } from './SearchForm';
 import {
   DRAFT_WRITE_SCOPE,
+  FAVOURITES_SUBJECT_ID,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
 } from '../../../../constants';
 import config from '../../../../config';
@@ -34,18 +35,10 @@ interface Props {
   favouriteSubjectIDs?: string;
 }
 
-export const FAVOURITES_SUBJECT_ID = 'urn:favourites';
-
 export const isFavouritesSearch = (subjectsId?: string, favouriteSubjects?: string) =>
   subjectsId === FAVOURITES_SUBJECT_ID ? favouriteSubjects : subjectsId;
 
-const SearchContentForm = ({
-  search: doSearch,
-  searchObject: search,
-  subjects,
-  locale,
-  favouriteSubjectIDs,
-}: Props) => {
+const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, locale }: Props) => {
   const { t } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
   const [queryInput, setQueryInput] = useState(search.query ?? '');
@@ -133,35 +126,30 @@ const SearchContentForm = ({
     return (a: Sortable, b: Sortable) => a[property]?.localeCompare(b[property]);
   };
 
-  const favourite_ids = favouriteSubjectIDs || '';
-
-  const favoriteSubject = {
-    id: favourite_ids,
-    name: t('searchForm.favourites'),
-    contentUri: '',
-    path: '',
-    metadata: {
-      customFields: {},
-      grepCodes: [],
-      visible: true,
-    },
-  };
-
-  const subjects_filtered_and_sorted = subjects
-    .filter(s => s.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] !== 'true')
-    .sort(sortByProperty('name'));
-
-  const subjects_with_favorite_option =
-    subjects_filtered_and_sorted.find(subject => subject.id === favourite_ids) === undefined
-      ? [favoriteSubject, ...subjects_filtered_and_sorted]
-      : subjects_filtered_and_sorted;
+  const sortedSubjects = useMemo(() => {
+    const favoriteSubject: SubjectType = {
+      id: FAVOURITES_SUBJECT_ID,
+      name: t('searchForm.favourites'),
+      contentUri: '',
+      path: '',
+      metadata: {
+        customFields: {},
+        grepCodes: [],
+        visible: true,
+      },
+    };
+    const filteredAndSortedSubjects = subjects
+      .filter(s => s.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] !== 'true')
+      .sort(sortByProperty('name'));
+    return [favoriteSubject].concat(filteredAndSortedSubjects);
+  }, [subjects, t]);
 
   const selectors: SearchFormSelector[] = [
     {
-      value: getTagName(search.subjects, subjects_with_favorite_option),
+      value: getTagName(search.subjects, sortedSubjects),
       parameterName: 'subjects',
       width: config.revisiondateEnabled === 'true' ? 50 : 25,
-      options: subjects_with_favorite_option,
+      options: sortedSubjects,
       formElementType: 'dropdown',
     },
     {

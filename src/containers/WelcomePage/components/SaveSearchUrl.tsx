@@ -79,29 +79,11 @@ const SaveSearchUrl = () => {
     userDataMutation.mutate({ savedSearches: reduced_array });
   };
 
-  const favourite_subject = {
-    id: data.favoriteSubjects?.toLocaleString() ?? '',
-    name: t('searchForm.favourites'),
-    contentUri: '',
-    path: '',
-    metadata: {
-      customFields: {},
-      grepCodes: [],
-      visible: true,
-    },
-  };
-
   return (
     <>
       {!!savedSearches.length ? (
         savedSearches.map((search, index) => (
-          <SavedSearch
-            key={search}
-            deleteSearch={deleteSearch}
-            search={search}
-            index={index}
-            favouriteSubject={favourite_subject}
-          />
+          <SavedSearch key={search} deleteSearch={deleteSearch} search={search} index={index} />
         ))
       ) : (
         <span>{t('welcomePage.emptySavedSearch')}</span>

@@ -24,16 +24,10 @@ import { useSearch } from '../../modules/search/searchQueries';
 import { useSearchImages } from '../../modules/image/imageQueries';
 import { useSearchConcepts } from '../../modules/concept/conceptQueries';
 import { useSearchAudio, useSearchSeries } from '../../modules/audio/audioQueries';
-import { useUserData } from '../../modules/draft/draftQueries';
-import { isValid } from '../../util/jwtHelper';
-import { getAccessToken, getAccessTokenPersonal } from '../../util/authHelpers';
 const NotFoundPage = loadable(() => import('../NotFoundPage/NotFoundPage'));
 
 const SearchPage = () => {
   const { t } = useTranslation();
-  const { isLoading, data: userData } = useUserData({
-    enabled: isValid(getAccessToken()) && getAccessTokenPersonal(),
-  });
   const supportedTypes: {
     title: string;
     type: SearchType;
@@ -105,7 +99,7 @@ const SearchPage = () => {
     },
   ];
 
-  return !isLoading ? (
+  return (
     <>
       <SubNavigation subtypes={supportedTypes} />
       <Routes>
@@ -117,13 +111,7 @@ const SearchPage = () => {
               element={
                 <PrivateRoute
                   key={type.type}
-                  component={
-                    <SearchContainer
-                      searchHook={type.searchHook}
-                      type={type.type}
-                      favouriteSubjectIDs={userData?.favoriteSubjects?.toLocaleString()}
-                    />
-                  }
+                  component={<SearchContainer searchHook={type.searchHook} type={type.type} />}
                 />
               }
             />
@@ -133,8 +121,6 @@ const SearchPage = () => {
       </Routes>
       <Footer showLocaleSelector={false} />
     </>
-  ) : (
-    <></>
   );
 };
 

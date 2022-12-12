@@ -32,6 +32,10 @@ const StyledHeader = styled.div`
   position: relative;
 `;
 
+const ButtonWrapper = styled.div`
+  z-index: 1;
+`;
+
 const StyledTitle = styled.h1`
   ${fonts.sizes(24, 1.2)};
   color: ${colors.brand.primary};
@@ -102,7 +106,11 @@ export const WelcomeHeader = () => {
             </span>
           </StyledTitle>
         </ContentWrapper>
-        <StyledSafeLinkButton to="/structure">{t('subNavigation.structure')}</StyledSafeLinkButton>
+        <ButtonWrapper>
+          <StyledSafeLinkButton to="/structure">
+            {t('subNavigation.structure')}
+          </StyledSafeLinkButton>
+        </ButtonWrapper>
         <RightShape />
       </StyledHeader>
     </StyledWrapper>

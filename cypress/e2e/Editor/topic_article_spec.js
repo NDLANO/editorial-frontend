@@ -6,7 +6,7 @@
  *
  */
 
-import { setToken } from '../../support';
+import { setToken } from '../../support/e2e';
 import editorRoutes from './editorRoutes';
 
 const ARTICLE_ID = 800;
@@ -15,11 +15,7 @@ describe('Language handling', () => {
   beforeEach(() => {
     setToken();
     editorRoutes();
-    cy.apiroute(
-      'GET',
-      `/draft-api/v1/drafts/${ARTICLE_ID}*`,
-      `draft-${ARTICLE_ID}`,
-    );
+    cy.apiroute('GET', `/draft-api/v1/drafts/${ARTICLE_ID}*`, `draft-${ARTICLE_ID}`);
 
     cy.visit(`/subject-matter/topic-article/${ARTICLE_ID}/edit/nb`);
     cy.apiwait(['@licenses', `@draft-${ARTICLE_ID}`]);

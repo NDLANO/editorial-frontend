@@ -235,9 +235,10 @@ export const updatedDraftApiTypeToDraftApiType = (
 export const getExpirationDate = (article?: { revisions: IRevisionMeta[] }): string | undefined => {
   if (!article) return undefined;
 
-  const withParsed = article.revisions.map(r => {
-    return { parsed: new Date(r.revisionDate), ...r };
-  });
+  const withParsed =
+    article.revisions?.map(r => {
+      return { parsed: new Date(r.revisionDate), ...r };
+    }) ?? [];
   const sorted = withParsed.sort((a, b) => a.parsed.getTime() - b.parsed.getTime());
   return sorted.find(r => r.status !== 'revised')?.revisionDate;
 };

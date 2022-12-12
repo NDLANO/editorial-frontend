@@ -8,13 +8,15 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Accordion from '../../../components/Accordion';
 import { ChildNodeType } from '../../../modules/nodes/nodeApiTypes';
+import { NodeResourceMeta } from '../../../modules/nodes/nodeQueries';
 import Resource from './Resource';
 
 interface Props {
   currentNode: ChildNodeType;
+  contentMeta?: NodeResourceMeta;
 }
 
-const NodeDescription = ({ currentNode }: Props) => {
+const NodeDescription = ({ currentNode, contentMeta }: Props) => {
   const { t } = useTranslation();
   const [displayDescription, setDisplayDescription] = useState(true);
 
@@ -36,6 +38,7 @@ const NodeDescription = ({ currentNode }: Props) => {
               ...currentNode,
               paths: currentNode.paths ?? [],
               nodeId: '',
+              contentMeta,
               resourceTypes: [],
               relevanceId: currentNode.relevanceId!,
             }}

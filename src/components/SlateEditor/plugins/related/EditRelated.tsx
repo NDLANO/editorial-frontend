@@ -171,7 +171,7 @@ const EditRelated = ({
     <StyledContainer contentEditable={false}>
       <Overlay onExit={onExit} />
       <StyledBorderDiv>
-        <SectionHeading className="c-related-articles__component-title">
+        <SectionHeading className="c-related-articles__component-title" headingLevel="h3">
           {t('form.related.title')}
         </SectionHeading>
         <p>{t('form.related.subtitle')}</p>

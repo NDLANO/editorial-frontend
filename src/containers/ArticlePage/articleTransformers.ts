@@ -53,6 +53,8 @@ const draftApiTypeToArticleFormType = (
   articleType: string,
   contentFunc: (html: string) => Descendant[],
 ): ArticleFormType => {
+  const license = article?.copyright?.license?.license;
+  const articleLicense = !license || license === 'unknown' ? DEFAULT_LICENSE.license : license;
   return {
     agreementId: article?.copyright?.agreementId,
     articleType,
@@ -61,7 +63,7 @@ const draftApiTypeToArticleFormType = (
     id: article?.id,
     introduction: plainTextToEditorValue(article?.introduction?.introduction ?? ''),
     language,
-    license: article?.copyright?.license?.license ?? DEFAULT_LICENSE.license,
+    license: articleLicense,
     metaDescription: plainTextToEditorValue(article?.metaDescription?.metaDescription ?? ''),
     metaImageAlt: article?.metaImage?.alt ?? '',
     metaImageId: parseImageUrl(article?.metaImage),

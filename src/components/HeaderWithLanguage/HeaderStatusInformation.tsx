@@ -171,13 +171,13 @@ const HeaderStatusInformation = ({
 
   const multipleTaxonomyIcon = taxonomyPaths && taxonomyPaths?.length > 2 && (
     <Tooltip tooltip={t('form.workflow.multipleTaxonomy')}>
-      <StyledWarnIcon title={t('form.taxonomySection')} />
+      <StyledWarnIcon />
     </Tooltip>
   );
 
   const publishedIcon = (
     <Tooltip tooltip={t('form.workflow.published')}>
-      <StyledCheckIcon title={t('form.status.published')} />
+      <StyledCheckIcon />
     </Tooltip>
   );
 

@@ -12,10 +12,8 @@
 @import '../../node_modules/react-image-crop/dist/ReactCrop.css';
 @import '../../node_modules/@reach/dialog/styles.css';
 @import './content-block.css';
-@import './fields.css';
 @import './form.css';
 @import './vars.css';
-@import './table.css';
 
 .c-audio-search {
   width: 70%;

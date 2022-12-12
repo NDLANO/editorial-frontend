@@ -90,6 +90,7 @@ const SettingsMenuDropdownType = ({
           editModeHandler={editModeHandler}
           rootNodeId={rootNodeId}
         />
+        <SetResourcesPrimary node={node} recursive editModeHandler={editModeHandler} />
       </>
     );
   } else if (nodeType === TOPIC_NODE) {
@@ -133,7 +134,7 @@ const SettingsMenuDropdownType = ({
           editModeHandler={editModeHandler}
           type="cloneResources"
         />
-        <SetResourcesPrimary node={node} editModeHandler={editModeHandler} />
+        <SetResourcesPrimary node={node} editModeHandler={editModeHandler} recursive />
       </>
     );
   } else return null;

@@ -16,7 +16,7 @@ import { colors, spacing, breakpoints } from '@ndla/core';
 import { AlertCircle, Check } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
 import SafeLink from '@ndla/safelink';
-import { useQuery, useQueryClient } from 'react-query';
+import { useQueryClient } from 'react-query';
 import { DraggableProvidedDragHandleProps } from 'react-beautiful-dnd';
 import isEqual from 'lodash/isEqual';
 import {
@@ -27,9 +27,6 @@ import {
   usePutResourceForNodeMutation,
   useUpdateNodeConnectionMutation,
 } from '../../../modules/nodes/nodeMutations';
-import { fetchDraft } from '../../../modules/draft/draftApi';
-import { fetchLearningpath } from '../../../modules/learningpath/learningpathApi';
-import { RESOURCE_META } from '../../../queryKeys';
 import { getContentTypeFromResourceTypes } from '../../../util/resourceHelpers';
 import config from '../../../config';
 import { getIdFromUrn } from '../../../util/taxonomyHelpers';
@@ -40,7 +37,12 @@ import RemoveButton from '../../../components/Taxonomy/RemoveButton';
 import ResourceItemLink from './ResourceItemLink';
 import GrepCodesModal from './GrepCodesModal';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
-import { resourcesWithNodeConnectionQueryKey } from '../../../modules/nodes/nodeQueries';
+import {
+  NodeResourceMeta,
+  nodeResourceMetasQueryKey,
+  resourcesWithNodeConnectionQueryKey,
+} from '../../../modules/nodes/nodeQueries';
+import { ResourceWithNodeConnectionAndMeta } from './StructureResources';
 
 const StyledCheckIcon = styled(Check)`
   height: 24px;
@@ -62,7 +64,7 @@ interface Props {
   currentNodeId: string;
   connectionId?: string; // required for MakeDndList, otherwise ignored
   id?: string; // required for MakeDndList, otherwise ignored
-  resource: ResourceWithNodeConnection;
+  resource: ResourceWithNodeConnectionAndMeta;
   onDelete?: (connectionId: string) => void;
   updateResource?: (resource: ResourceWithNodeConnection) => void;
   dragHandleProps?: DraggableProvidedDragHandleProps;
@@ -108,12 +110,6 @@ const getArticleTypeFromId = (id?: string) => {
   return undefined;
 };
 
-interface ResourceMeta {
-  grepCodes?: string[];
-  status?: { current: string; other: string[] };
-  articleType?: string;
-}
-
 const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props) => {
   const { t, i18n } = useTranslation();
   const location = useLocation();
@@ -149,27 +145,6 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
     onSettled: () => qc.invalidateQueries(compKey),
   });
 
-  const getArticleMeta = async (resource: ResourceWithNodeConnection): Promise<ResourceMeta> => {
-    const [, resourceType, id] = resource.contentUri?.split(':') ?? [];
-    if (id && resourceType === 'article') {
-      const { status, grepCodes, articleType } = await fetchDraft(id, i18n.language);
-      return { status, grepCodes, articleType };
-    } else if (id && resourceType === 'learningpath') {
-      const learningpath = await fetchLearningpath(parseInt(id), i18n.language);
-      if (learningpath.status) {
-        const status = { current: learningpath.status, other: [] };
-        return { ...resource, status };
-      }
-    }
-    return {};
-  };
-
-  const resourceMetaQuery = useQuery<ResourceMeta>(
-    [RESOURCE_META, { id: resource.id }],
-    () => getArticleMeta(resource),
-    { retry: false, initialData: {} },
-  );
-
   const contentType =
     resource.resourceTypes.length > 0
       ? getContentTypeFromResourceTypes(resource.resourceTypes).contentType
@@ -188,11 +163,16 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
 
   const onGrepModalClosed = async (newGrepCodes?: string[]) => {
     setShowGrepCodes(false);
-    if (!newGrepCodes || isEqual(newGrepCodes, resourceMetaQuery.data?.grepCodes)) return;
-    const compKey = [RESOURCE_META, resource.id];
+    if (!newGrepCodes || isEqual(newGrepCodes, resource.contentMeta?.grepCodes)) return;
+    const compKey = nodeResourceMetasQueryKey({ nodeId: currentNodeId, language: i18n.language });
+    const metas = qc.getQueryData<NodeResourceMeta[]>(compKey) ?? [];
+    const newMetas = metas.map(meta =>
+      meta.contentUri === resource.contentMeta?.contentUri
+        ? { ...meta, grepCodes: newGrepCodes }
+        : meta,
+    );
+    qc.setQueryData(compKey, newMetas);
     qc.cancelQueries(compKey);
-    const resourceWithNewGrep: ResourceMeta = { ...resource, grepCodes: newGrepCodes };
-    qc.setQueryData<ResourceMeta>(compKey, resourceWithNewGrep);
     await qc.invalidateQueries(compKey);
   };
 
@@ -223,17 +203,17 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
           isVisible={resource.metadata?.visible}
         />
       </StyledResourceBody>
-      {resourceMetaQuery.data?.status?.current && (
+      {resource.contentMeta?.status?.current && (
         <StyledStatusButton
           lighter
           onClick={() => setShowVersionHistory(true)}
           disabled={contentType === 'learning-path'}>
-          {t(`form.status.${resourceMetaQuery.data.status.current.toLowerCase()}`)}
+          {t(`form.status.${resource.contentMeta.status.current.toLowerCase()}`)}
         </StyledStatusButton>
       )}
-      <WrongTypeError resource={resource} articleType={resourceMetaQuery.data?.articleType} />
-      {(resourceMetaQuery.data?.status?.current === PUBLISHED ||
-        resourceMetaQuery.data?.status?.other?.includes(PUBLISHED)) && (
+      <WrongTypeError resource={resource} articleType={resource.contentMeta?.articleType} />
+      {(resource.contentMeta?.status?.current === PUBLISHED ||
+        resource.contentMeta?.status?.other?.includes(PUBLISHED)) && (
         <PublishedWrapper path={path}>
           <Tooltip tooltip={t('form.workflow.published')}>
             <StyledCheckIcon />
@@ -242,7 +222,7 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
       )}
       {contentType !== 'learning-path' && (
         <StyledGrepButton lighter onClick={() => setShowGrepCodes(true)}>
-          {`GREP (${resourceMetaQuery.data?.grepCodes?.length || 0})`}
+          {`GREP (${resource.contentMeta?.grepCodes?.length || 0})`}
         </StyledGrepButton>
       )}
       <RelevanceOption relevanceId={resource.relevanceId} onChange={updateRelevanceId} />

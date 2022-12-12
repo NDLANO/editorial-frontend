@@ -259,7 +259,7 @@ export const tablePlugin = (editor: Editor) => {
           : undefined) as TdHTMLAttributes<HTMLTableCellElement>['align'];
         return (
           <td
-            className={element.data.isHeader ? 'c-table__header' : ''}
+            className={element.data.isHeader ? 'table_header' : ''}
             rowSpan={element.data.rowspan}
             colSpan={element.data.colspan}
             align={parsedAlign}

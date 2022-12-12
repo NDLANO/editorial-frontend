@@ -26,7 +26,8 @@ import {
   fetchSubject,
 } from '../modules/taxonomy';
 import { getContentTypeFromResourceTypes } from './resourceHelpers';
-import { ChildNodeType, ResourceWithNodeConnection } from '../modules/nodes/nodeApiTypes';
+import { ChildNodeType } from '../modules/nodes/nodeApiTypes';
+import { ResourceWithNodeConnectionAndMeta } from '../containers/StructurePage/resourceComponents/StructureResources';
 
 // Kan hende at id i contentUri fra taxonomy inneholder '#xxx' (revision)
 export const getIdFromUrn = (urn?: string) => {
@@ -69,7 +70,7 @@ const flattenResourceTypesAndAddContextTypes = (
 };
 
 export const groupResourcesByType = (
-  resources: ResourceWithNodeConnection[],
+  resources: ResourceWithNodeConnectionAndMeta[],
   resourceTypes: ResourceType[],
 ) => {
   const types = resourceTypes.reduce<Record<string, string>>((types, rt) => {
@@ -83,8 +84,10 @@ export const groupResourcesByType = (
   }, {});
 
   const typeToResourcesMapping = resources
-    .flatMap(res => res.resourceTypes.map<[string, ResourceWithNodeConnection]>(rt => [rt.id, res]))
-    .reduce<Record<string, { parent: string; resources: ResourceWithNodeConnection[] }>>(
+    .flatMap(res =>
+      res.resourceTypes.map<[string, ResourceWithNodeConnectionAndMeta]>(rt => [rt.id, res]),
+    )
+    .reduce<Record<string, { parent: string; resources: ResourceWithNodeConnectionAndMeta[] }>>(
       (acc, [id, curr]) => {
         if (acc[id]) {
           acc[id]['resources'] = acc[id]['resources'].concat(curr);
@@ -101,18 +104,17 @@ export const groupResourcesByType = (
 
   const groupedValues = groupBy(Object.values(typeToResourcesMapping), t => t.parent);
 
-  const unique = Object.entries(groupedValues).reduce<Record<string, ResourceWithNodeConnection[]>>(
-    (acc, [id, val]) => {
-      const uniqueValues = uniqBy(
-        val.flatMap(v => v.resources),
-        r => r.id,
-      );
+  const unique = Object.entries(groupedValues).reduce<
+    Record<string, ResourceWithNodeConnectionAndMeta[]>
+  >((acc, [id, val]) => {
+    const uniqueValues = uniqBy(
+      val.flatMap(v => v.resources),
+      r => r.id,
+    );
 
-      acc[id] = uniqueValues;
-      return acc;
-    },
-    {},
-  );
+    acc[id] = uniqueValues;
+    return acc;
+  }, {});
 
   return resourceTypes
     .map(rt => ({

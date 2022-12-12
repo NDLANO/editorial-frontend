@@ -43,10 +43,17 @@ export const fetchDraft = async (id: number | string, language?: string): Promis
   return fetchAuthorized(url).then(r => resolveJsonOrRejectWithError<IArticle>(r));
 };
 
-export const fetchDrafts = async (ids: number[]): Promise<[IArticle]> =>
-  fetchAuthorized(`${baseUrl}/ids/?ids=${ids}&page=1&page-size=${ids.length}`, {
+export const fetchDrafts = async (ids: number[], language?: string): Promise<IArticle[]> => {
+  const query = queryString.stringify({
+    ids: ids.join(','),
+    language,
+    page: 1,
+    'page-size': ids.length,
+  });
+  return fetchAuthorized(`${baseUrl}/ids/?${query}`, {
     method: 'GET',
   }).then(r => resolveJsonOrRejectWithError<[IArticle]>(r));
+};
 
 export const updateDraft = async (
   id: number,

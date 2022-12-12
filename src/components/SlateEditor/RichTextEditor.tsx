@@ -18,8 +18,8 @@ import {
 import { withHistory } from 'slate-history';
 import { useFormikContext } from 'formik';
 import isEqual from 'lodash/isEqual';
-import BEMHelper from 'react-bem-helper';
 import styled from '@emotion/styled';
+import { fonts } from '@ndla/core';
 import { SlatePlugin } from './interfaces';
 import { SlateProvider } from './SlateContext';
 import { SlateToolbar } from './plugins/toolbar';
@@ -31,19 +31,17 @@ import { FormikStatus } from '../../interfaces';
 import SlateBlockPicker from './plugins/blockPicker/SlateBlockPicker';
 import { BlockPickerOptions, createBlockpickerOptions } from './plugins/blockPicker/options';
 
-export const classes = new BEMHelper({
-  name: 'editor',
-  prefix: 'c-',
-});
-
 const StyledSlateWrapper = styled.div`
   position: relative;
+`;
+
+const StyledEditable = styled(Editable)`
+  font-family: ${fonts.serif};
 `;
 
 interface Props {
   value: Descendant[];
   onChange: (descendant: Descendant[]) => void;
-  className?: string;
   placeholder?: string;
   plugins?: SlatePlugin[];
   submitted: boolean;
@@ -52,7 +50,6 @@ interface Props {
 }
 
 const RichTextEditor = ({
-  className,
   placeholder,
   plugins,
   value,
@@ -185,7 +182,7 @@ const RichTextEditor = ({
   return (
     <article>
       <SlateProvider isSubmitted={submitted}>
-        <StyledSlateWrapper data-cy="slate-editor" {...classes()}>
+        <StyledSlateWrapper data-cy="slate-editor">
           <Slate editor={editor} value={value} onChange={onChange}>
             {isFirstNormalize ? (
               <Spinner />
@@ -197,7 +194,7 @@ const RichTextEditor = ({
                   articleLanguage={language}
                   {...createBlockpickerOptions(blockpickerOptions)}
                 />
-                <Editable
+                <StyledEditable
                   decorate={decorations}
                   // @ts-ignore is-hotkey and editor.onKeyDown does not have matching types
                   onKeyDown={editor.onKeyDown}
@@ -208,7 +205,6 @@ const RichTextEditor = ({
                   onDragStart={onDragStartCallback}
                   onDragOver={onDragOverCallback}
                   onDrop={onDropCallback}
-                  {...classes('content', undefined, className)}
                 />
               </>
             )}

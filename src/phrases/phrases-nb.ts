@@ -569,6 +569,7 @@ const phrases = {
     preview: {
       button: 'Forhåndsvis',
     },
+    resize: 'Endre størrelse',
     name: {
       title: 'Tittel',
       aboutTitle: 'Tittel',
@@ -1364,7 +1365,10 @@ const phrases = {
     resourcesPrimary: {
       text:
         'Er du helt sikker på at du ønsker å gjøre alle tilhørende ressurser om til primærkoblinger?',
+      recursiveText:
+        'Er du helt sikker på at du ønsker å gjøre alle tilhørende ressurser og underressurser om til primærkoblinger?',
       buttonText: 'Gjør alle ressurser om til primærkoblinger',
+      recursiveButtonText: 'Gjør alle ressurser og underressurser om til primærkoblinger',
       error: 'En feil oppstod',
     },
     goTo: 'Åpne i stukturredigering',

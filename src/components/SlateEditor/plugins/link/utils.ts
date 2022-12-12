@@ -8,7 +8,6 @@
 
 import { Editor, Element, Range, Transforms } from 'slate';
 import { jsx as slatejsx } from 'slate-hyperscript';
-import Url from 'url-parse';
 import { isValidLocale } from '../../../../i18n';
 import { resolveUrls } from '../../../../modules/taxonomy/taxonomyApi';
 
@@ -81,7 +80,7 @@ export const splitPlainUrl = (href: string) => ({
 });
 
 export const splitTaxonomyUrl = async (href: string) => {
-  const { pathname } = new Url(href.replace('/subjects', ''));
+  const { pathname } = new URL(href.replace('/subjects', ''));
   const paths = pathname.split('/');
   const path = isValidLocale(paths[1]) ? paths.slice(2).join('/') : pathname;
   const resolvedTaxonomy = await resolveUrls({ path, taxonomyVersion: 'default' });

@@ -213,6 +213,7 @@ const RelatedArticleBox = ({ attributes, editor, element, onRemoveClick, childre
         onKeyPress={openEditMode}
         {...attributes}>
         <RelatedArticleList
+          headingLevel="h3"
           messages={{
             title: t('form.related.title'),
             showMore: t('form.related.showMore'),

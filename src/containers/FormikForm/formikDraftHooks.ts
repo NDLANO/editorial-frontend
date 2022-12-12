@@ -7,7 +7,8 @@
  */
 
 import { useState, useEffect } from 'react';
-import { dropRight, uniq } from 'lodash';
+import dropRight from 'lodash/dropRight';
+import uniq from 'lodash/uniq';
 import { INewArticle, IUpdatedArticle, IArticle } from '@ndla/types-draft-api';
 import {
   fetchDraft,

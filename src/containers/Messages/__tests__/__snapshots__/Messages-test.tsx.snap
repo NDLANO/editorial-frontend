@@ -12,7 +12,7 @@ exports[`Messages A message is removed if the modal is closed 1`] = `
   margin: 0 auto;
 }
 
-.emotion-2 {
+.emotion-1 {
   position: fixed;
   top: 0;
   left: 0;
@@ -24,7 +24,7 @@ exports[`Messages A message is removed if the modal is closed 1`] = `
 }
 
 @media (max-width: 48em) {
-  .emotion-2 {
+  .emotion-1 {
     top: 64px;
     overflow-y: auto;
     white-space: normal;
@@ -33,12 +33,12 @@ exports[`Messages A message is removed if the modal is closed 1`] = `
 }
 
 @media (max-width: 29.75em) {
-  .emotion-2 {
+  .emotion-1 {
     top: 43px;
   }
 }
 
-.emotion-4 {
+.emotion-2 {
   overflow-x: auto;
   background-color: white;
   margin: 52px auto 52px;
@@ -53,7 +53,7 @@ exports[`Messages A message is removed if the modal is closed 1`] = `
   color: white;
 }
 
-.emotion-7 {
+.emotion-3 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -90,39 +90,39 @@ exports[`Messages A message is removed if the modal is closed 1`] = `
   margin-right: -20px;
 }
 
-.emotion-7:hover,
-.emotion-7:focus {
+.emotion-3:hover,
+.emotion-3:focus {
   color: white;
   background-color: #184673;
   border: 2px solid #184673;
 }
 
-.emotion-7[disabled] {
+.emotion-3[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-7:focus {
+.emotion-3:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-7:hover,
-.emotion-7:active,
-.emotion-7:disabled,
-.emotion-7:focus {
+.emotion-3:hover,
+.emotion-3:active,
+.emotion-3:disabled,
+.emotion-3:focus {
   box-shadow: none;
   color: #20588f;
   background-color: transparent;
   border: none;
 }
 
-.emotion-7:focus {
+.emotion-3:focus {
   outline-width: medium;
 }
 
-.emotion-9 {
+.emotion-5 {
   float: right;
   height: 24px;
   width: 24px;
@@ -132,7 +132,7 @@ exports[`Messages A message is removed if the modal is closed 1`] = `
   color: white;
 }
 
-.emotion-11 {
+.emotion-6 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -141,7 +141,7 @@ exports[`Messages A message is removed if the modal is closed 1`] = `
   width: 100%;
 }
 
-.emotion-13 {
+.emotion-7 {
   height: 100%;
   padding-top: 26px;
   font-size: 24px;
@@ -157,26 +157,26 @@ exports[`Messages A message is removed if the modal is closed 1`] = `
   justify-content: space-between;
 }
 
-.emotion-15 {
+.emotion-8 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
 }
 
-.emotion-17 {
+.emotion-9 {
   width: 27px;
   height: 27px;
   margin-right: 13px;
 }
 
-.emotion-19 {
+.emotion-10 {
   width: 100%;
   display: inline-block;
   text-align: left;
 }
 
-.emotion-21 {
+.emotion-11 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -193,22 +193,22 @@ exports[`Messages A message is removed if the modal is closed 1`] = `
 
 <div>
   <div
-    class="emotion-0 emotion-1"
+    class="emotion-0"
   >
     <div
-      class="emotion-2 emotion-3"
+      class="emotion-1"
     >
       <div
-        class="emotion-4 emotion-5"
+        class="emotion-2"
       >
         <button
-          class="emotion-6 emotion-7 emotion-8"
+          class="emotion-3 emotion-4"
           data-testid="closeAlert"
           type="button"
         >
           <svg
             aria-hidden="true"
-            class="c-icon emotion-9 emotion-10"
+            class="c-icon emotion-5"
             data-license="Apache License 2.0"
             data-source="Material Design"
             fill="currentColor"
@@ -231,17 +231,17 @@ exports[`Messages A message is removed if the modal is closed 1`] = `
           </svg>
         </button>
         <div
-          class="emotion-11 emotion-12"
+          class="emotion-6"
         >
           <div
-            class="emotion-13 emotion-14"
+            class="emotion-7"
           >
             <div
-              class="emotion-15 emotion-16"
+              class="emotion-8"
             >
               <svg
                 aria-hidden="true"
-                class="c-icon emotion-17 emotion-18"
+                class="c-icon emotion-9"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
                 fill="currentColor"
@@ -262,13 +262,13 @@ exports[`Messages A message is removed if the modal is closed 1`] = `
                 </g>
               </svg>
               <span
-                class="emotion-19 emotion-20"
+                class="emotion-10"
               >
                 Testmessage
               </span>
             </div>
             <div
-              class="emotion-21 emotion-22"
+              class="emotion-11"
             />
           </div>
         </div>
@@ -293,7 +293,7 @@ exports[`Messages A message is removed if the modal is closed 2`] = `
 
 <div>
   <div
-    class="emotion-0 emotion-1"
+    class="emotion-0"
   />
 </div>
 `;
@@ -310,7 +310,7 @@ exports[`Messages A single message renders correctly 1`] = `
   margin: 0 auto;
 }
 
-.emotion-2 {
+.emotion-1 {
   position: fixed;
   top: 0;
   left: 0;
@@ -322,7 +322,7 @@ exports[`Messages A single message renders correctly 1`] = `
 }
 
 @media (max-width: 48em) {
-  .emotion-2 {
+  .emotion-1 {
     top: 64px;
     overflow-y: auto;
     white-space: normal;
@@ -331,12 +331,12 @@ exports[`Messages A single message renders correctly 1`] = `
 }
 
 @media (max-width: 29.75em) {
-  .emotion-2 {
+  .emotion-1 {
     top: 43px;
   }
 }
 
-.emotion-4 {
+.emotion-2 {
   overflow-x: auto;
   background-color: white;
   margin: 52px auto 52px;
@@ -351,7 +351,7 @@ exports[`Messages A single message renders correctly 1`] = `
   color: white;
 }
 
-.emotion-7 {
+.emotion-3 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -388,39 +388,39 @@ exports[`Messages A single message renders correctly 1`] = `
   margin-right: -20px;
 }
 
-.emotion-7:hover,
-.emotion-7:focus {
+.emotion-3:hover,
+.emotion-3:focus {
   color: white;
   background-color: #184673;
   border: 2px solid #184673;
 }
 
-.emotion-7[disabled] {
+.emotion-3[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-7:focus {
+.emotion-3:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-7:hover,
-.emotion-7:active,
-.emotion-7:disabled,
-.emotion-7:focus {
+.emotion-3:hover,
+.emotion-3:active,
+.emotion-3:disabled,
+.emotion-3:focus {
   box-shadow: none;
   color: #20588f;
   background-color: transparent;
   border: none;
 }
 
-.emotion-7:focus {
+.emotion-3:focus {
   outline-width: medium;
 }
 
-.emotion-9 {
+.emotion-5 {
   float: right;
   height: 24px;
   width: 24px;
@@ -430,7 +430,7 @@ exports[`Messages A single message renders correctly 1`] = `
   color: white;
 }
 
-.emotion-11 {
+.emotion-6 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -439,7 +439,7 @@ exports[`Messages A single message renders correctly 1`] = `
   width: 100%;
 }
 
-.emotion-13 {
+.emotion-7 {
   height: 100%;
   padding-top: 26px;
   font-size: 24px;
@@ -455,26 +455,26 @@ exports[`Messages A single message renders correctly 1`] = `
   justify-content: space-between;
 }
 
-.emotion-15 {
+.emotion-8 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
 }
 
-.emotion-17 {
+.emotion-9 {
   width: 27px;
   height: 27px;
   margin-right: 13px;
 }
 
-.emotion-19 {
+.emotion-10 {
   width: 100%;
   display: inline-block;
   text-align: left;
 }
 
-.emotion-21 {
+.emotion-11 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -491,22 +491,22 @@ exports[`Messages A single message renders correctly 1`] = `
 
 <div>
   <div
-    class="emotion-0 emotion-1"
+    class="emotion-0"
   >
     <div
-      class="emotion-2 emotion-3"
+      class="emotion-1"
     >
       <div
-        class="emotion-4 emotion-5"
+        class="emotion-2"
       >
         <button
-          class="emotion-6 emotion-7 emotion-8"
+          class="emotion-3 emotion-4"
           data-testid="closeAlert"
           type="button"
         >
           <svg
             aria-hidden="true"
-            class="c-icon emotion-9 emotion-10"
+            class="c-icon emotion-5"
             data-license="Apache License 2.0"
             data-source="Material Design"
             fill="currentColor"
@@ -529,17 +529,17 @@ exports[`Messages A single message renders correctly 1`] = `
           </svg>
         </button>
         <div
-          class="emotion-11 emotion-12"
+          class="emotion-6"
         >
           <div
-            class="emotion-13 emotion-14"
+            class="emotion-7"
           >
             <div
-              class="emotion-15 emotion-16"
+              class="emotion-8"
             >
               <svg
                 aria-hidden="true"
-                class="c-icon emotion-17 emotion-18"
+                class="c-icon emotion-9"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
                 fill="currentColor"
@@ -560,13 +560,13 @@ exports[`Messages A single message renders correctly 1`] = `
                 </g>
               </svg>
               <span
-                class="emotion-19 emotion-20"
+                class="emotion-10"
               >
                 Testmessage
               </span>
             </div>
             <div
-              class="emotion-21 emotion-22"
+              class="emotion-11"
             />
           </div>
         </div>
@@ -588,7 +588,7 @@ exports[`Messages Several messages renders correctly 1`] = `
   margin: 0 auto;
 }
 
-.emotion-2 {
+.emotion-1 {
   position: fixed;
   top: 0;
   left: 0;
@@ -600,7 +600,7 @@ exports[`Messages Several messages renders correctly 1`] = `
 }
 
 @media (max-width: 48em) {
-  .emotion-2 {
+  .emotion-1 {
     top: 64px;
     overflow-y: auto;
     white-space: normal;
@@ -609,12 +609,12 @@ exports[`Messages Several messages renders correctly 1`] = `
 }
 
 @media (max-width: 29.75em) {
-  .emotion-2 {
+  .emotion-1 {
     top: 43px;
   }
 }
 
-.emotion-4 {
+.emotion-2 {
   overflow-x: auto;
   background-color: white;
   margin: 52px auto 52px;
@@ -629,7 +629,7 @@ exports[`Messages Several messages renders correctly 1`] = `
   color: white;
 }
 
-.emotion-7 {
+.emotion-3 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -666,39 +666,39 @@ exports[`Messages Several messages renders correctly 1`] = `
   margin-right: -20px;
 }
 
-.emotion-7:hover,
-.emotion-7:focus {
+.emotion-3:hover,
+.emotion-3:focus {
   color: white;
   background-color: #184673;
   border: 2px solid #184673;
 }
 
-.emotion-7[disabled] {
+.emotion-3[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-7:focus {
+.emotion-3:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-7:hover,
-.emotion-7:active,
-.emotion-7:disabled,
-.emotion-7:focus {
+.emotion-3:hover,
+.emotion-3:active,
+.emotion-3:disabled,
+.emotion-3:focus {
   box-shadow: none;
   color: #20588f;
   background-color: transparent;
   border: none;
 }
 
-.emotion-7:focus {
+.emotion-3:focus {
   outline-width: medium;
 }
 
-.emotion-9 {
+.emotion-5 {
   float: right;
   height: 24px;
   width: 24px;
@@ -708,7 +708,7 @@ exports[`Messages Several messages renders correctly 1`] = `
   color: white;
 }
 
-.emotion-11 {
+.emotion-6 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -717,7 +717,7 @@ exports[`Messages Several messages renders correctly 1`] = `
   width: 100%;
 }
 
-.emotion-13 {
+.emotion-7 {
   height: 100%;
   padding-top: 26px;
   font-size: 24px;
@@ -733,26 +733,26 @@ exports[`Messages Several messages renders correctly 1`] = `
   justify-content: space-between;
 }
 
-.emotion-15 {
+.emotion-8 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
 }
 
-.emotion-17 {
+.emotion-9 {
   width: 27px;
   height: 27px;
   margin-right: 13px;
 }
 
-.emotion-19 {
+.emotion-10 {
   width: 100%;
   display: inline-block;
   text-align: left;
 }
 
-.emotion-21 {
+.emotion-11 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -769,22 +769,22 @@ exports[`Messages Several messages renders correctly 1`] = `
 
 <div>
   <div
-    class="emotion-0 emotion-1"
+    class="emotion-0"
   >
     <div
-      class="emotion-2 emotion-3"
+      class="emotion-1"
     >
       <div
-        class="emotion-4 emotion-5"
+        class="emotion-2"
       >
         <button
-          class="emotion-6 emotion-7 emotion-8"
+          class="emotion-3 emotion-4"
           data-testid="closeAlert"
           type="button"
         >
           <svg
             aria-hidden="true"
-            class="c-icon emotion-9 emotion-10"
+            class="c-icon emotion-5"
             data-license="Apache License 2.0"
             data-source="Material Design"
             fill="currentColor"
@@ -807,17 +807,17 @@ exports[`Messages Several messages renders correctly 1`] = `
           </svg>
         </button>
         <div
-          class="emotion-11 emotion-12"
+          class="emotion-6"
         >
           <div
-            class="emotion-13 emotion-14"
+            class="emotion-7"
           >
             <div
-              class="emotion-15 emotion-16"
+              class="emotion-8"
             >
               <svg
                 aria-hidden="true"
-                class="c-icon emotion-17 emotion-18"
+                class="c-icon emotion-9"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
                 fill="currentColor"
@@ -838,32 +838,32 @@ exports[`Messages Several messages renders correctly 1`] = `
                 </g>
               </svg>
               <span
-                class="emotion-19 emotion-20"
+                class="emotion-10"
               >
                 Testmessage
               </span>
             </div>
             <div
-              class="emotion-21 emotion-22"
+              class="emotion-11"
             />
           </div>
         </div>
       </div>
     </div>
     <div
-      class="emotion-2 emotion-3"
+      class="emotion-1"
     >
       <div
-        class="emotion-4 emotion-5"
+        class="emotion-2"
       >
         <button
-          class="emotion-6 emotion-7 emotion-8"
+          class="emotion-3 emotion-4"
           data-testid="closeAlert"
           type="button"
         >
           <svg
             aria-hidden="true"
-            class="c-icon emotion-9 emotion-10"
+            class="c-icon emotion-5"
             data-license="Apache License 2.0"
             data-source="Material Design"
             fill="currentColor"
@@ -886,17 +886,17 @@ exports[`Messages Several messages renders correctly 1`] = `
           </svg>
         </button>
         <div
-          class="emotion-11 emotion-12"
+          class="emotion-6"
         >
           <div
-            class="emotion-13 emotion-14"
+            class="emotion-7"
           >
             <div
-              class="emotion-15 emotion-16"
+              class="emotion-8"
             >
               <svg
                 aria-hidden="true"
-                class="c-icon emotion-17 emotion-18"
+                class="c-icon emotion-9"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
                 fill="currentColor"
@@ -917,13 +917,13 @@ exports[`Messages Several messages renders correctly 1`] = `
                 </g>
               </svg>
               <span
-                class="emotion-19 emotion-20"
+                class="emotion-10"
               >
                 Testmessage2
               </span>
             </div>
             <div
-              class="emotion-21 emotion-22"
+              class="emotion-11"
             />
           </div>
         </div>
@@ -945,7 +945,7 @@ exports[`Messages auth0 messages provides a cancel button 1`] = `
   margin: 0 auto;
 }
 
-.emotion-2 {
+.emotion-1 {
   position: fixed;
   top: 0;
   left: 0;
@@ -957,7 +957,7 @@ exports[`Messages auth0 messages provides a cancel button 1`] = `
 }
 
 @media (max-width: 48em) {
-  .emotion-2 {
+  .emotion-1 {
     top: 64px;
     overflow-y: auto;
     white-space: normal;
@@ -966,12 +966,12 @@ exports[`Messages auth0 messages provides a cancel button 1`] = `
 }
 
 @media (max-width: 29.75em) {
-  .emotion-2 {
+  .emotion-1 {
     top: 43px;
   }
 }
 
-.emotion-4 {
+.emotion-2 {
   overflow-x: auto;
   background-color: white;
   margin: 52px auto 52px;
@@ -986,7 +986,7 @@ exports[`Messages auth0 messages provides a cancel button 1`] = `
   color: white;
 }
 
-.emotion-7 {
+.emotion-3 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -1023,39 +1023,39 @@ exports[`Messages auth0 messages provides a cancel button 1`] = `
   margin-right: -20px;
 }
 
-.emotion-7:hover,
-.emotion-7:focus {
+.emotion-3:hover,
+.emotion-3:focus {
   color: white;
   background-color: #184673;
   border: 2px solid #184673;
 }
 
-.emotion-7[disabled] {
+.emotion-3[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-7:focus {
+.emotion-3:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-7:hover,
-.emotion-7:active,
-.emotion-7:disabled,
-.emotion-7:focus {
+.emotion-3:hover,
+.emotion-3:active,
+.emotion-3:disabled,
+.emotion-3:focus {
   box-shadow: none;
   color: #20588f;
   background-color: transparent;
   border: none;
 }
 
-.emotion-7:focus {
+.emotion-3:focus {
   outline-width: medium;
 }
 
-.emotion-9 {
+.emotion-5 {
   float: right;
   height: 24px;
   width: 24px;
@@ -1065,7 +1065,7 @@ exports[`Messages auth0 messages provides a cancel button 1`] = `
   color: white;
 }
 
-.emotion-11 {
+.emotion-6 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1074,7 +1074,7 @@ exports[`Messages auth0 messages provides a cancel button 1`] = `
   width: 100%;
 }
 
-.emotion-13 {
+.emotion-7 {
   height: 100%;
   padding-top: 26px;
   font-size: 24px;
@@ -1090,26 +1090,26 @@ exports[`Messages auth0 messages provides a cancel button 1`] = `
   justify-content: space-between;
 }
 
-.emotion-15 {
+.emotion-8 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
 }
 
-.emotion-17 {
+.emotion-9 {
   width: 27px;
   height: 27px;
   margin-right: 13px;
 }
 
-.emotion-19 {
+.emotion-10 {
   width: 100%;
   display: inline-block;
   text-align: left;
 }
 
-.emotion-21 {
+.emotion-11 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1124,7 +1124,7 @@ exports[`Messages auth0 messages provides a cancel button 1`] = `
   margin-top: 13px;
 }
 
-.emotion-24 {
+.emotion-12 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -1156,46 +1156,46 @@ exports[`Messages auth0 messages provides a cancel button 1`] = `
   margin-left: 0;
 }
 
-.emotion-24:hover,
-.emotion-24:focus {
+.emotion-12:hover,
+.emotion-12:focus {
   color: white;
   background-color: #184673;
   border: 2px solid #184673;
 }
 
-.emotion-24[disabled] {
+.emotion-12[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-24:focus {
+.emotion-12:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-24:hover,
-.emotion-24:focus {
+.emotion-12:hover,
+.emotion-12:focus {
   color: white;
   background-color: #20588f;
   border: 2px solid transparent;
 }
 
-.emotion-24:disabled {
+.emotion-12:disabled {
   color: #777777;
   border: 2px solid transparent;
   background-color: #e6e6e6;
   cursor: not-allowed;
 }
 
-.emotion-24:hover,
-.emotion-24:focus {
+.emotion-12:hover,
+.emotion-12:focus {
   color: white;
   background-color: #20588f;
   border: 2px solid transparent;
 }
 
-.emotion-24:disabled {
+.emotion-12:disabled {
   color: #777777;
   border: 2px solid transparent;
   background-color: #e6e6e6;
@@ -1204,22 +1204,22 @@ exports[`Messages auth0 messages provides a cancel button 1`] = `
 
 <div>
   <div
-    class="emotion-0 emotion-1"
+    class="emotion-0"
   >
     <div
-      class="emotion-2 emotion-3"
+      class="emotion-1"
     >
       <div
-        class="emotion-4 emotion-5"
+        class="emotion-2"
       >
         <button
-          class="emotion-6 emotion-7 emotion-8"
+          class="emotion-3 emotion-4"
           data-testid="closeAlert"
           type="button"
         >
           <svg
             aria-hidden="true"
-            class="c-icon emotion-9 emotion-10"
+            class="c-icon emotion-5"
             data-license="Apache License 2.0"
             data-source="Material Design"
             fill="currentColor"
@@ -1242,17 +1242,17 @@ exports[`Messages auth0 messages provides a cancel button 1`] = `
           </svg>
         </button>
         <div
-          class="emotion-11 emotion-12"
+          class="emotion-6"
         >
           <div
-            class="emotion-13 emotion-14"
+            class="emotion-7"
           >
             <div
-              class="emotion-15 emotion-16"
+              class="emotion-8"
             >
               <svg
                 aria-hidden="true"
-                class="c-icon emotion-17 emotion-18"
+                class="c-icon emotion-9"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
                 fill="currentColor"
@@ -1273,22 +1273,22 @@ exports[`Messages auth0 messages provides a cancel button 1`] = `
                 </g>
               </svg>
               <span
-                class="emotion-19 emotion-20"
+                class="emotion-10"
               >
                 Testmessage
               </span>
             </div>
             <div
-              class="emotion-21 emotion-22"
+              class="emotion-11"
             >
               <button
-                class="emotion-23 emotion-24 emotion-8"
+                class="emotion-12 emotion-4"
                 type="button"
               >
                 Avbryt
               </button>
               <button
-                class="emotion-23 emotion-24 emotion-8"
+                class="emotion-12 emotion-4"
                 type="button"
               >
                 Logg inn på nytt
@@ -1317,7 +1317,7 @@ exports[`Messages auth0 messages provides a cancel button 2`] = `
 
 <div>
   <div
-    class="emotion-0 emotion-1"
+    class="emotion-0"
   />
 </div>
 `;

@@ -94,7 +94,7 @@ function allowStrongRemoval({ current, next, previous }) {
   }
   return false;
 }
-function allowBrWrapping({ current, next }) {
+function allowBrWrapping({ current }) {
   if (current === 'br/') {
     return true;
   }

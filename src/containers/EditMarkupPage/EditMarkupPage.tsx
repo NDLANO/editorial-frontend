@@ -45,9 +45,15 @@ declare global {
 window.MonacoEnvironment = {
   getWorkerUrl: function(moduleId: string, label: string) {
     if (label === 'html') {
-      return '/static/js/html.worker.js';
+      return process.env.NODE_ENV !== 'production'
+        ? '/static/js/html.worker.js'
+        : // @ts-ignore
+          window.assets['html.worker.js'] ?? '';
     }
-    return '/static/js/editor.worker.js';
+    return process.env.NODE_ENV !== 'production'
+      ? '/static/js/editor.worker.js'
+      : // @ts-ignore
+        window.assets['editor.worker.js'] ?? '';
   },
   globalAPI: true,
 };

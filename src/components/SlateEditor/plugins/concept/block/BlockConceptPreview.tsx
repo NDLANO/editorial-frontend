@@ -11,13 +11,12 @@ import { Link } from 'react-router-dom';
 import { Remarkable } from 'remarkable';
 import styled from '@emotion/styled';
 import { colors, spacing } from '@ndla/core';
-import { DeleteForever } from '@ndla/icons/editor';
+import { DeleteForever, AlertCircle, Check } from '@ndla/icons/editor';
 import { Link as LinkIcon } from '@ndla/icons/common';
 import { ConceptNotion } from '@ndla/ui';
 import { IConcept } from '@ndla/types-concept-api';
 import { useTranslation } from 'react-i18next';
 import Tooltip from '@ndla/tooltip';
-import { AlertCircle, Check } from '@ndla/icons/editor';
 import { addShowConceptDefinitionClickListeners } from '@ndla/article-scripts';
 import IconButton from '../../../../IconButton';
 import { getYoutubeEmbedUrl } from '../../../../../util/videoUtil';
@@ -83,7 +82,7 @@ const BlockConceptPreview = ({ concept, handleRemove, id, isBlockView }: Props) 
     const embed: Embed | undefined = parseEmbedTag(concept.visualElement?.visualElement);
     if (!embed) return;
     switch (embed?.resource) {
-      case 'image':
+      case 'image': {
         const imageUrl = `${config.ndlaApiUrl}/image-api/raw/id/${embed.resource_id}`;
         return {
           resource: embed.resource,
@@ -93,6 +92,7 @@ const BlockConceptPreview = ({ concept, handleRemove, id, isBlockView }: Props) 
             alt: embed.alt,
           },
         };
+      }
       case 'external':
       case 'iframe':
         return {
@@ -100,14 +100,14 @@ const BlockConceptPreview = ({ concept, handleRemove, id, isBlockView }: Props) 
           url: embed.url ?? '',
           title: embed.title,
         };
-      case 'brightcove':
+      case 'brightcove': {
         const videoUrl = `https://players.brightcove.net/${embed.account}/${embed.player}_default/index.html?videoId=${embed.videoid}`;
         return {
           resource: embed.resource,
           url: videoUrl,
           title: embed.title,
         };
-
+      }
       case 'video':
       case 'h5p':
         return {

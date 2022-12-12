@@ -23,6 +23,7 @@ const SubjectCategorySelector = ({ customFields, updateCustomFields }: Props) =>
     subjectCategories.ACTIVE_SUBJECTS,
     subjectCategories.ARCHIVE_SUBJECTS,
     subjectCategories.BETA_SUBJECTS,
+    subjectCategories.OTHER,
   ];
   const options = categories.map(category => ({
     key: category,

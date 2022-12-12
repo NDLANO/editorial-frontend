@@ -4,13 +4,13 @@ exports[`serializing article with <embed> in <h3> 1`] = `
 "<section>
   <h3>
     <embed
-      data-align=\\"\\"
-      data-alt=\\"Ung jente tar en personlighetstest. Foto.\\"
-      data-caption=\\"\\"
-      data-resource=\\"image\\"
-      data-resource_id=\\"6073\\"
-      data-size=\\"full\\"
-      data-url=\\"https://api.ndla.no/image-api/v3/images/6073\\"
+      data-align=""
+      data-alt="Ung jente tar en personlighetstest. Foto."
+      data-caption=""
+      data-resource="image"
+      data-resource_id="6073"
+      data-size="full"
+      data-url="https://api.ndla.no/image-api/v3/images/6073"
     />
   </h3>
 </section>
@@ -42,13 +42,13 @@ exports[`serializing article with <embed> in <h3> 1`] = `
     brukes ganske mye, sier han.
   </p>
   <embed
-    data-align=\\"right\\"
-    data-alt=\\"Henriette Hjerpåsen. Foto.\\"
-    data-caption=\\"Henriette Hjerpaasen opplevde at personlighetstesten stemte bra med slik hun oppfatter seg selv.\\"
-    data-resource=\\"image\\"
-    data-resource_id=\\"6072\\"
-    data-size=\\"full\\"
-    data-url=\\"https://api.ndla.no/image-api/v3/images/6072\\"
+    data-align="right"
+    data-alt="Henriette Hjerpåsen. Foto."
+    data-caption="Henriette Hjerpaasen opplevde at personlighetstesten stemte bra med slik hun oppfatter seg selv."
+    data-resource="image"
+    data-resource_id="6072"
+    data-size="full"
+    data-url="https://api.ndla.no/image-api/v3/images/6072"
   />
   <h2>Personlighet</h2>
   <p>Så hvor mye kan egentlig en god personlighetstest si om en person?</p>
@@ -67,7 +67,7 @@ exports[`serializing article with <embed> in <h3> 1`] = `
     seg å håndtere kravene. Så hvor godt egnet man er til en jobb, dreier seg
     også om hvor lærevillig og motivert man er, sier han.
   </p>
-  <div class=\\"c-bodybox\\">
+  <div class="c-bodybox">
     <h3>Femfaktormodellen</h3>
     <p>
       <strong
@@ -136,13 +136,13 @@ exports[`serializing article with <embed> in <h3> 1`] = `
     utvikling.
   </p>
   <embed
-    data-align=\\"right\\"
-    data-alt=\\"Testskjema. Foto.\\"
-    data-caption=\\" \\"
-    data-resource=\\"image\\"
-    data-resource_id=\\"6070\\"
-    data-size=\\"full\\"
-    data-url=\\"https://api.ndla.no/image-api/v3/images/6070\\"
+    data-align="right"
+    data-alt="Testskjema. Foto."
+    data-caption=" "
+    data-resource="image"
+    data-resource_id="6070"
+    data-size="full"
+    data-url="https://api.ndla.no/image-api/v3/images/6070"
   />
   <h2>Sertifisering</h2>
   <p>

@@ -20,8 +20,8 @@ export const formatNestedMessages = (
   prefix: string = '',
 ): FormattedMessages => {
   const messages = formattedMessages;
-  for (let key in phrases) {
-    if (phrases.hasOwnProperty(key)) {
+  for (const key in phrases) {
+    if (Object.prototype.hasOwnProperty.call(phrases, key)) {
       const keyWithPrefix = prefix ? `${prefix}.${key}` : key;
       const value: NestedPhrases | string = phrases[key];
       if (typeof value === 'string') {

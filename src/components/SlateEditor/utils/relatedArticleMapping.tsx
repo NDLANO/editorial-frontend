@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import { isNumber } from 'lodash';
+import isNumber from 'lodash/isNumber';
 import { ContentTypeBadge, constants } from '@ndla/ui';
 import * as resourceTypeConstants from '../../../constants';
 

@@ -66,9 +66,12 @@ const MakeDndList = ({ disableDND, children, onDragEnd, dragHandle }: Props) => 
                         ref={providedInner.innerRef}
                         {...providedInner.draggableProps}
                         {...(dragHandle ? {} : providedInner.dragHandleProps)}
-                        css={[dragHandleWrapperStyle, snapshotInner.isDragging && draggingStyle]}>
+                        css={[
+                          dragHandleWrapperStyle,
+                          ...[snapshotInner.isDragging ? [draggingStyle] : []],
+                        ]}>
                         {dragHandle && (
-                          <div css={{ position: 'absolute' }} {...providedInner.dragHandleProps}>
+                          <div style={{ position: 'absolute' }} {...providedInner.dragHandleProps}>
                             <DragHorizontal />
                           </div>
                         )}

@@ -56,7 +56,7 @@ exports[`MastheadSearchForm invalid id at the end of the url 1`] = `
   border: 1px solid #e8e3e3;
 }
 
-.emotion-2 {
+.emotion-1 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -88,41 +88,41 @@ exports[`MastheadSearchForm invalid id at the end of the url 1`] = `
   font-weight: 400;
 }
 
-.emotion-2:hover,
-.emotion-2:focus {
+.emotion-1:hover,
+.emotion-1:focus {
   color: white;
   background-color: #184673;
   border: 2px solid #184673;
 }
 
-.emotion-2[disabled] {
+.emotion-1[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-2:focus {
+.emotion-1:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-2:hover,
-.emotion-2:active,
-.emotion-2:disabled,
-.emotion-2:focus {
+.emotion-1:hover,
+.emotion-1:active,
+.emotion-1:disabled,
+.emotion-1:focus {
   box-shadow: none;
   color: #20588f;
   background-color: transparent;
   border: none;
 }
 
-.emotion-2:focus {
+.emotion-1:focus {
   outline-width: medium;
 }
 
 <div>
   <form
-    class="emotion-0 emotion-1"
+    class="emotion-0"
   >
     <input
       placeholder="Søk etter artikler, aktiviteter eller oppgaver"
@@ -130,7 +130,7 @@ exports[`MastheadSearchForm invalid id at the end of the url 1`] = `
       value="https://ndla-frontend.test.api.ndla.no/article/urn:subject:100/urn:topic:1:179373/urn:resource:1:16838"
     />
     <button
-      class="emotion-2 emotion-3"
+      class="emotion-1 emotion-2"
       type="submit"
     >
       <svg
@@ -212,7 +212,7 @@ exports[`MastheadSearchForm redirects on ndla node id pasted 1`] = `
   border: 1px solid #e8e3e3;
 }
 
-.emotion-2 {
+.emotion-1 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -244,41 +244,41 @@ exports[`MastheadSearchForm redirects on ndla node id pasted 1`] = `
   font-weight: 400;
 }
 
-.emotion-2:hover,
-.emotion-2:focus {
+.emotion-1:hover,
+.emotion-1:focus {
   color: white;
   background-color: #184673;
   border: 2px solid #184673;
 }
 
-.emotion-2[disabled] {
+.emotion-1[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-2:focus {
+.emotion-1:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-2:hover,
-.emotion-2:active,
-.emotion-2:disabled,
-.emotion-2:focus {
+.emotion-1:hover,
+.emotion-1:active,
+.emotion-1:disabled,
+.emotion-1:focus {
   box-shadow: none;
   color: #20588f;
   background-color: transparent;
   border: none;
 }
 
-.emotion-2:focus {
+.emotion-1:focus {
   outline-width: medium;
 }
 
 <div>
   <form
-    class="emotion-0 emotion-1"
+    class="emotion-0"
   >
     <input
       placeholder="Søk etter artikler, aktiviteter eller oppgaver"
@@ -286,7 +286,7 @@ exports[`MastheadSearchForm redirects on ndla node id pasted 1`] = `
       value="#4737"
     />
     <button
-      class="emotion-2 emotion-3"
+      class="emotion-1 emotion-2"
       type="submit"
     >
       <svg
@@ -368,7 +368,7 @@ exports[`MastheadSearchForm redirects on ndla url paste with id at the end 1`] =
   border: 1px solid #e8e3e3;
 }
 
-.emotion-2 {
+.emotion-1 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -400,41 +400,41 @@ exports[`MastheadSearchForm redirects on ndla url paste with id at the end 1`] =
   font-weight: 400;
 }
 
-.emotion-2:hover,
-.emotion-2:focus {
+.emotion-1:hover,
+.emotion-1:focus {
   color: white;
   background-color: #184673;
   border: 2px solid #184673;
 }
 
-.emotion-2[disabled] {
+.emotion-1[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-2:focus {
+.emotion-1:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-2:hover,
-.emotion-2:active,
-.emotion-2:disabled,
-.emotion-2:focus {
+.emotion-1:hover,
+.emotion-1:active,
+.emotion-1:disabled,
+.emotion-1:focus {
   box-shadow: none;
   color: #20588f;
   background-color: transparent;
   border: none;
 }
 
-.emotion-2:focus {
+.emotion-1:focus {
   outline-width: medium;
 }
 
 <div>
   <form
-    class="emotion-0 emotion-1"
+    class="emotion-0"
   >
     <input
       placeholder="Søk etter artikler, aktiviteter eller oppgaver"
@@ -442,7 +442,7 @@ exports[`MastheadSearchForm redirects on ndla url paste with id at the end 1`] =
       value=""
     />
     <button
-      class="emotion-2 emotion-3"
+      class="emotion-1 emotion-2"
       type="submit"
     >
       <svg
@@ -524,7 +524,7 @@ exports[`MastheadSearchForm redirects on ndla url paste with taxonomy id at the 
   border: 1px solid #e8e3e3;
 }
 
-.emotion-2 {
+.emotion-1 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -556,41 +556,41 @@ exports[`MastheadSearchForm redirects on ndla url paste with taxonomy id at the 
   font-weight: 400;
 }
 
-.emotion-2:hover,
-.emotion-2:focus {
+.emotion-1:hover,
+.emotion-1:focus {
   color: white;
   background-color: #184673;
   border: 2px solid #184673;
 }
 
-.emotion-2[disabled] {
+.emotion-1[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-2:focus {
+.emotion-1:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-2:hover,
-.emotion-2:active,
-.emotion-2:disabled,
-.emotion-2:focus {
+.emotion-1:hover,
+.emotion-1:active,
+.emotion-1:disabled,
+.emotion-1:focus {
   box-shadow: none;
   color: #20588f;
   background-color: transparent;
   border: none;
 }
 
-.emotion-2:focus {
+.emotion-1:focus {
   outline-width: medium;
 }
 
 <div>
   <form
-    class="emotion-0 emotion-1"
+    class="emotion-0"
   >
     <input
       placeholder="Søk etter artikler, aktiviteter eller oppgaver"
@@ -598,7 +598,7 @@ exports[`MastheadSearchForm redirects on ndla url paste with taxonomy id at the 
       value="https://ndla-frontend.test.api.ndla.no/article/urn:subject:100/urn:topic:1:179373"
     />
     <button
-      class="emotion-2 emotion-3"
+      class="emotion-1 emotion-2"
       type="submit"
     >
       <svg
@@ -680,7 +680,7 @@ exports[`MastheadSearchForm redirects on old ndla url paste with new id 1`] = `
   border: 1px solid #e8e3e3;
 }
 
-.emotion-2 {
+.emotion-1 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -712,41 +712,41 @@ exports[`MastheadSearchForm redirects on old ndla url paste with new id 1`] = `
   font-weight: 400;
 }
 
-.emotion-2:hover,
-.emotion-2:focus {
+.emotion-1:hover,
+.emotion-1:focus {
   color: white;
   background-color: #184673;
   border: 2px solid #184673;
 }
 
-.emotion-2[disabled] {
+.emotion-1[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-2:focus {
+.emotion-1:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-2:hover,
-.emotion-2:active,
-.emotion-2:disabled,
-.emotion-2:focus {
+.emotion-1:hover,
+.emotion-1:active,
+.emotion-1:disabled,
+.emotion-1:focus {
   box-shadow: none;
   color: #20588f;
   background-color: transparent;
   border: none;
 }
 
-.emotion-2:focus {
+.emotion-1:focus {
   outline-width: medium;
 }
 
 <div>
   <form
-    class="emotion-0 emotion-1"
+    class="emotion-0"
   >
     <input
       placeholder="Søk etter artikler, aktiviteter eller oppgaver"
@@ -754,7 +754,7 @@ exports[`MastheadSearchForm redirects on old ndla url paste with new id 1`] = `
       value="https://ndla.no/nb/node/4737?fag=36"
     />
     <button
-      class="emotion-2 emotion-3"
+      class="emotion-1 emotion-2"
       type="submit"
     >
       <svg

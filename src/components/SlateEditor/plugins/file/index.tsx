@@ -40,7 +40,7 @@ export const fileSerializer: SlateSerializer = {
     if (el.tagName.toLowerCase() !== 'div') return;
     if (el.dataset.type !== TYPE_FILE) return;
 
-    let children: DOMStringMap[] = [];
+    const children: DOMStringMap[] = [];
     el.childNodes.forEach(node => {
       children.push((node as HTMLEmbedElement).dataset);
     });

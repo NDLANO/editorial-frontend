@@ -10,7 +10,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 import { DropResult } from 'react-beautiful-dnd';
-import { sortBy } from 'lodash';
+import sortBy from 'lodash/sortBy';
 import styled from '@emotion/styled';
 import Resource from './Resource';
 import handleError from '../../../util/handleError';

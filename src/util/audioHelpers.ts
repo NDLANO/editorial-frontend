@@ -23,6 +23,8 @@ export const audioApiTypeToFormType = (
     rightsholders: [],
     license: DEFAULT_LICENSE,
   };
+  const license = audio?.copyright.license.license;
+  const audioLicense = !license || license === 'unknown' ? DEFAULT_LICENSE.license : license;
 
   return {
     ...audio,
@@ -31,7 +33,7 @@ export const audioApiTypeToFormType = (
     tags: audio?.tags.tags ?? [],
     ...copyright,
     origin: audio?.copyright.origin ?? '',
-    license: audio?.copyright?.license?.license || DEFAULT_LICENSE.license,
+    license: audioLicense,
     audioFile: audio?.audioFile ? { storedFile: audio.audioFile } : {},
     language,
     supportedLanguages: audio?.supportedLanguages ?? [language],

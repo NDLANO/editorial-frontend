@@ -7,7 +7,8 @@
  *
  */
 
-import { compact, uniq } from 'lodash';
+import compact from 'lodash/compact';
+import uniq from 'lodash/uniq';
 import { TableCellElement, TableMatrix } from './interfaces';
 
 export const getPrevCell = (matrix: TableMatrix, row: number, column: number) => {

@@ -23,6 +23,7 @@ const AudioPlayer = ({ audio, noBorder = true }: Props) => {
   return (
     <Field noBorder={noBorder}>
       {
+        // eslint-disable-next-line jsx-a11y/media-has-caption
         <audio controls ref={audioPlayerRef}>
           <source src={audio.src} type={audio.mimeType} />
         </audio>

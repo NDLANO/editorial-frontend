@@ -181,6 +181,7 @@ const frameSrc = (() => {
     'www.facebook.com',
     'fb.watch',
     'sketchfab.com',
+    'jeopardylabs.com',
   ];
   if (process.env.NODE_ENV === 'development') {
     return [

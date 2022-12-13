@@ -33,7 +33,7 @@ import {
   TableRowElement,
 } from './plugins/table/interfaces';
 import { RelatedElement } from './plugins/related';
-import { EmbedElement } from './plugins/embed';
+import { NdlaEmbedElement } from './plugins/embed';
 import { BodyboxElement } from './plugins/bodybox';
 import { CodeblockElement } from './plugins/codeBlock';
 import { DivElement } from './plugins/div';
@@ -90,7 +90,7 @@ declare module 'slate' {
       | TableHeadElement
       | TableBodyElement
       | RelatedElement
-      | EmbedElement
+      | NdlaEmbedElement
       | BodyboxElement
       | DivElement
       | SpanElement

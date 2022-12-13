@@ -35,7 +35,7 @@ import {
 import { useMessages } from '../../Messages/MessagesProvider';
 import { queryLearningPathResource, queryResources, queryTopics } from '../../../modules/taxonomy';
 import { Resource, Topic } from '../../../modules/taxonomy/taxonomyApiInterfaces';
-import { TYPE_EMBED } from '../../../components/SlateEditor/plugins/embed/types';
+import { TYPE_NDLA_EMBED } from '../../../components/SlateEditor/plugins/embed/types';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 import StyledForm from '../../../components/StyledFormComponents';
 import { NdlaErrorPayload } from '../../../util/resolveJsonOrRejectWithError';
@@ -67,7 +67,7 @@ const subjectpageRules: RulesType<SubjectPageFormikType> = {
     required: true,
     test: (values: SubjectPageFormikType) => {
       const element = values?.visualElement[0];
-      const data = Element.isElement(element) && element.type === TYPE_EMBED && element.data;
+      const data = Element.isElement(element) && element.type === TYPE_NDLA_EMBED && element.data;
       const badVisualElementId = data && 'resource_id' in data && data.resource_id === '';
       return badVisualElementId
         ? { translationKey: 'subjectpageForm.missingVisualElement' }

@@ -23,7 +23,7 @@ import FigureButtons from '../SlateEditor/plugins/embed/FigureButtons';
 import config from '../../config';
 import { getH5pLocale } from '../H5PElement/h5pApi';
 import { Embed, ExternalEmbed, H5pEmbed } from '../../interfaces';
-import { EmbedElement } from '../SlateEditor/plugins/embed';
+import { NdlaEmbedElement } from '../SlateEditor/plugins/embed';
 import SlateResourceBox from './SlateResourceBox';
 
 const ApplyBoxshadow = styled('div')<{ showCopyOutline: boolean }>`
@@ -40,7 +40,7 @@ const ExpandableButton = styled.div`
 type EmbedType = ExternalEmbed | H5pEmbed;
 
 interface Props {
-  element: EmbedElement;
+  element: NdlaEmbedElement;
   editor: Editor;
   embed: EmbedType;
   onRemoveClick: (event: React.MouseEvent) => void;

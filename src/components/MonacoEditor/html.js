@@ -1,6 +1,6 @@
 const _monaco = typeof monaco === 'undefined' ? self.monaco : monaco; //eslint-disable-line
 
-const EMPTY_ELEMENTS = ['br', 'embed'];
+const EMPTY_ELEMENTS = ['br', 'ndlaembed'];
 
 export const conf = {
   wordPattern: /(-?\d*\.\d\w*)|([^`~!@$^&*()=+[{\]}\\|;:'",.<>/\s]+)/g,

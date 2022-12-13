@@ -32,7 +32,7 @@ export interface FootnoteElement {
 
 export const footnoteSerializer: SlateSerializer = {
   deserialize(el: HTMLElement, children: Descendant[]) {
-    if (el.tagName.toLowerCase() !== 'embed') return;
+    if (el.tagName.toLowerCase() !== 'ndlaembed') return;
     const embed = el as HTMLEmbedElement;
     const embedAttributes = reduceElementDataAttributes(embed);
     if (embedAttributes.resource !== 'footnote') return;

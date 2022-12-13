@@ -168,7 +168,7 @@ const SlateBlockPicker = ({
         break;
       }
       case 'file':
-      case 'embed': {
+      case 'ndlaembed': {
         setVisualElementPickerOpen(true);
         setType(data.object);
         break;

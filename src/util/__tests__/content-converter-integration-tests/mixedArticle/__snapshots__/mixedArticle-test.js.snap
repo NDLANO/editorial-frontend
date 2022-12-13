@@ -88,7 +88,7 @@ exports[`serializing article with many diffrent tags and embeds 1`] = `
       </tr>
     </tbody>
   </table>
-  <embed
+  <ndlaembed
     data-size="full"
     data-align=""
     data-caption="focalpoint"
@@ -98,7 +98,8 @@ exports[`serializing article with many diffrent tags and embeds 1`] = `
     data-focal-x="20.126776485788113"
     data-focal-y="7.414585620197585"
     data-url="https://test.api.ndla.no/image-api/v3/images/2"
-  /><embed
+  ></ndlaembed
+  ><ndlaembed
     data-size="full"
     data-align=""
     data-caption="cropped"
@@ -110,7 +111,7 @@ exports[`serializing article with many diffrent tags and embeds 1`] = `
     data-upper-left-x="37.72916666666667"
     data-upper-left-y="23.736979166666668"
     data-url="https://test.api.ndla.no/image-api/v3/images/3"
-  />
+  ></ndlaembed>
   <p>
     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec laoreet sit
     amet tortor quis sollicitudin. Donec lacinia, nisl a pharetra lacinia, eros
@@ -133,7 +134,7 @@ exports[`serializing article with many diffrent tags and embeds 1`] = `
     nibh. Aliquam vestibulum ligula at tristique varius. Proin fermentum nisi in
     ligula cursus, nec scelerisque felis interdum.
   </p>
-  <embed
+  <ndlaembed
     data-size="full"
     data-align="left"
     data-caption="left align"
@@ -141,7 +142,7 @@ exports[`serializing article with many diffrent tags and embeds 1`] = `
     data-resource_id="4"
     data-resource="image"
     data-url="https://test.api.ndla.no/image-api/v3/images/4"
-  />
+  ></ndlaembed>
   <p>
     Nunc velit dui, sagittis vel lectus eu, tempus porttitor risus. Duis
     tristique ipsum id massa consequat, non bibendum nisl dictum. Mauris non
@@ -168,7 +169,7 @@ exports[`serializing article with many diffrent tags and embeds 1`] = `
     hac habitasse platea dictumst. Proin metus tortor, molestie id commodo
     ullamcorper, malesuada volutpat nisi.
   </p>
-  <embed
+  <ndlaembed
     data-size="full"
     data-align="right"
     data-caption="right align"
@@ -176,7 +177,7 @@ exports[`serializing article with many diffrent tags and embeds 1`] = `
     data-resource_id="6"
     data-resource="image"
     data-url="https://test.api.ndla.no/image-api/v3/images/6"
-  />
+  ></ndlaembed>
   <p>
     In hac habitasse platea dictumst. Curabitur vestibulum nisl leo, blandit
     vehicula purus cursus vel. Pellentesque ac mi dolor. Ut pretium arcu
@@ -187,17 +188,18 @@ exports[`serializing article with many diffrent tags and embeds 1`] = `
     molestie ipsum. Donec eget justo accumsan, malesuada nisi id, commodo elit.
     Mauris congue lacus a scelerisque varius.
   </p>
-  <embed
+  <ndlaembed
     data-resource="brightcove"
     data-videoid="5389115230001"
     data-caption="video"
     data-account="4806596774001"
     data-player="BkLm8fT"
-  /><embed
+  ></ndlaembed
+  ><ndlaembed
     data-resource="audio"
     data-resource_id="945"
     data-url="https://test.api.ndla.no/audio-api/v1/audio/945"
-  />
+  ></ndlaembed>
   <p>
     Hei på <a href="https://ndla.no/" title="deg">deg</a> og
     <a

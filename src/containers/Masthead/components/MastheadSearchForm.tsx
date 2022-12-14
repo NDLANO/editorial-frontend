@@ -9,7 +9,6 @@
 import { FormEvent, useState } from 'react';
 
 import Button from '@ndla/button';
-import Url from 'url-parse';
 import { useNavigate } from 'react-router-dom';
 import { colors, misc, spacing, fonts } from '@ndla/core';
 import { Search } from '@ndla/icons/common';
@@ -157,7 +156,7 @@ export const MastheadSearchForm = ({ query: initQuery = '', onSearchQuerySubmit 
   };
 
   const handleFrontendUrl = async (url: string) => {
-    const { pathname } = new Url(url);
+    const { pathname } = new URL(url);
     const paths = pathname.split('/');
     const path = isValidLocale(paths[1]) ? paths.slice(2).join('/') : pathname;
 

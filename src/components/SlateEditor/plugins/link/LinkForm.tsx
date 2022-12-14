@@ -106,6 +106,7 @@ const LinkForm = ({ onSave, link, isEdit, onRemove, onClose }: Props) => {
             name="text"
             type="text"
             label={t('form.content.link.text')}
+            // eslint-disable-next-line jsx-a11y/no-autofocus
             autoFocus={true}
           />
           <FormikField

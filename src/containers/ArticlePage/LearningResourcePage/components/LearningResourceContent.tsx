@@ -14,7 +14,7 @@ import { FormikContextType } from 'formik';
 import { FieldHeader } from '@ndla/forms';
 import Tooltip from '@ndla/tooltip';
 import { Eye } from '@ndla/icons/editor';
-import FormikField, { classes as formikFieldClasses } from '../../../../components/FormikField';
+import FormikField from '../../../../components/FormikField';
 import LearningResourceFootnotes, { FootnoteType } from './LearningResourceFootnotes';
 import LastUpdatedLine from '../../../../components/LastUpdatedLine/LastUpdatedLine';
 import ToggleButton from '../../../../components/ToggleButton';
@@ -83,13 +83,17 @@ const StyledDiv = styled.div`
   justify-content: space-between;
 `;
 
+const StyledContentDiv = styled(FormikField)`
+  position: static;
+`;
+
 const findFootnotes = (content: Descendant[]): FootnoteType[] =>
   findNodesByType(content, TYPE_FOOTNOTE)
     .map(e => e as FootnoteElement)
     .filter(footnote => Object.keys(footnote.data).length > 0)
     .map(footnoteElement => footnoteElement.data);
 
-const actions = ['table', 'embed', 'code-block', 'file', 'h5p'];
+const actions = ['table', 'ndlaembed', 'code-block', 'file', 'h5p'];
 const actionsToShowInAreas = {
   details: actions,
   aside: actions,
@@ -193,11 +197,7 @@ const LearningResourceContent = ({
         )}
       </StyledFormikField>
       <IngressField preview={preview} handleSubmit={handleSubmit} />
-      <FormikField
-        name="content"
-        label={t('form.content.label')}
-        noBorder
-        className={formikFieldClasses('', 'position-static').className}>
+      <StyledContentDiv name="content" label={t('form.content.label')} noBorder>
         {({ field: { value, name, onChange }, form: { isSubmitting, setFieldValue } }) => (
           <>
             <FieldHeader title={t('form.content.label')}>
@@ -230,7 +230,7 @@ const LearningResourceContent = ({
             {!isSubmitting && <LearningResourceFootnotes footnotes={findFootnotes(value)} />}
           </>
         )}
-      </FormikField>
+      </StyledContentDiv>
     </>
   );
 };

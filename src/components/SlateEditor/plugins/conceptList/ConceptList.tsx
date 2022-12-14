@@ -80,6 +80,7 @@ const ConceptList = ({ element, language, editor, attributes, children }: Props)
       <StyledWrapper
         {...attributes}
         isSelected={isSelected}
+        // eslint-disable-next-line jsx-a11y/tabindex-no-positive
         tabIndex={1}
         draggable
         className="c-figure u-float">

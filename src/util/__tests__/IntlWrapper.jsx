@@ -6,9 +6,8 @@
  *
  */
 
-import { I18nextProvider } from 'react-i18next';
+import { I18nextProvider, useTranslation } from 'react-i18next';
 import { i18nInstance } from '@ndla/ui';
-import { useTranslation } from 'react-i18next';
 import { initializeI18n } from '../../i18n2';
 
 const InitI18nWrapper = ({ children }) => {

@@ -10,7 +10,7 @@ import { useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import { useTranslation } from 'react-i18next';
-import { uniqueId } from 'lodash';
+import uniqueId from 'lodash/uniqueId';
 import styled from '@emotion/styled';
 import Button from '@ndla/button';
 import { spacing } from '@ndla/core';

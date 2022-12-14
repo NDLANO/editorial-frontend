@@ -199,8 +199,8 @@ const CopyNodeResources = ({
         show={showAlert}
         onCancel={() => setShowAlert(false)}
         text={t(`taxonomy.${type}.error`)}
-        component={failedResources.map(res => (
-          <LinkWrapper>
+        component={failedResources.map((res, index) => (
+          <LinkWrapper key={index}>
             <ResourceItemLink
               contentType={
                 res.contentUri?.split(':')[1] === 'article' ? 'article' : 'learning-resource'

@@ -6,14 +6,8 @@
  *
  */
 
-import BEMHelper from 'react-bem-helper';
 import FormikField from './FormikField';
 import FormikFieldHelp from './FormikFieldHelp';
-
-export const classes = new BEMHelper({
-  name: 'field',
-  prefix: 'c-',
-});
 
 export { FormikFieldHelp };
 

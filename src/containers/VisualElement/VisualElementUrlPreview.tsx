@@ -202,7 +202,7 @@ const VisualElementUrlPreview = ({
               resource: 'external',
               url: src || undefined,
             } as ExternalEmbed,
-            type: 'embed',
+            type: 'ndlaembed',
           });
         }
       } catch (err) {
@@ -223,7 +223,7 @@ const VisualElementUrlPreview = ({
                 type: 'iframe',
               };
           onUrlSave({
-            type: 'embed',
+            type: 'ndlaembed',
             value: {
               ...data,
               resource: 'iframe',
@@ -333,6 +333,7 @@ const VisualElementUrlPreview = ({
       </FieldHeader>
       <FieldSection>
         <Input
+          // eslint-disable-next-line jsx-a11y/no-autofocus
           autoFocus
           iconRight={<LinkIcon />}
           warningText={getUrlWarningText()}

@@ -12,7 +12,7 @@ import { Spinner } from '@ndla/icons';
 import { Done } from '@ndla/icons/editor';
 import { IArticle } from '@ndla/types-draft-api';
 import { ILearningPathV2 } from '@ndla/types-learningpath-api';
-import { partition } from 'lodash';
+import partition from 'lodash/partition';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
@@ -151,8 +151,8 @@ const PublishChildNodeResources = ({ node }: Props) => {
         show={showAlert}
         onCancel={() => setShowAlert(false)}
         text={t('taxonomy.publish.error')}
-        component={failedResources.map(res => (
-          <LinkWrapper>
+        component={failedResources.map((res, index) => (
+          <LinkWrapper key={index}>
             <ResourceItemLink
               contentType={
                 res.contentUri?.split(':')[1] === 'article' ? 'article' : 'learning-resource'

@@ -76,7 +76,7 @@ const filmFrontPageAfterTransformation: FilmFormikType = {
   ],
   visualElement: [
     {
-      type: 'embed',
+      type: 'ndlaembed',
       data: {
         alt: 'Et bilde Foto.',
         metaData: {

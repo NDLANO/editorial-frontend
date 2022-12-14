@@ -13,7 +13,7 @@ import {
 } from '../../../../../util/articleContentConverter';
 import { TYPE_PARAGRAPH } from '../../paragraph/types';
 import { TYPE_SECTION } from '../../section/types';
-import { TYPE_EMBED } from '../types';
+import { TYPE_NDLA_EMBED } from '../types';
 
 describe('embed image serializing tests', () => {
   const editorWithImage: Descendant[] = [
@@ -23,7 +23,7 @@ describe('embed image serializing tests', () => {
         { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
 
         {
-          type: TYPE_EMBED,
+          type: TYPE_NDLA_EMBED,
           children: [
             {
               text: '',
@@ -45,7 +45,7 @@ describe('embed image serializing tests', () => {
   ];
 
   const htmlWithImage =
-    '<section><embed data-resource="image" data-resource_id="123" data-size="small" data-align="right" data-alt="test-alt" data-caption="test-caption" data-url="https://test.url"/></section>';
+    '<section><ndlaembed data-resource="image" data-resource_id="123" data-size="small" data-align="right" data-alt="test-alt" data-caption="test-caption" data-url="https://test.url"></ndlaembed></section>';
 
   test('serializing image', () => {
     const res = learningResourceContentToHTML(editorWithImage);
@@ -65,7 +65,7 @@ describe('embed brightcove video serializing tests', () => {
         { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
 
         {
-          type: 'embed',
+          type: 'ndlaembed',
           data: {
             resource: 'brightcove',
             videoid: '123',
@@ -87,7 +87,7 @@ describe('embed brightcove video serializing tests', () => {
     },
   ];
   const htmlWithBrightcove =
-    '<section><embed data-resource="brightcove" data-videoid="123" data-caption="test caption" data-account="1000" data-player="abc" data-url="https://test.url" data-title="test title"/></section>';
+    '<section><ndlaembed data-resource="brightcove" data-videoid="123" data-caption="test caption" data-account="1000" data-player="abc" data-url="https://test.url" data-title="test title"></ndlaembed></section>';
   test('serializing', () => {
     const res = learningResourceContentToHTML(editorWithBrightcove);
     expect(res).toMatch(htmlWithBrightcove);
@@ -106,7 +106,7 @@ describe('embed youtube video serializing tests', () => {
         { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
 
         {
-          type: 'embed',
+          type: 'ndlaembed',
           data: {
             resource: 'external',
             url: 'https://www.youtube.com/watch?v=testurl',
@@ -124,7 +124,7 @@ describe('embed youtube video serializing tests', () => {
     },
   ];
   const htmlWithYoutube =
-    '<section><embed data-resource="external" data-url="https://www.youtube.com/watch?v=testurl" data-title="test title"/></section>';
+    '<section><ndlaembed data-resource="external" data-url="https://www.youtube.com/watch?v=testurl" data-title="test title"></ndlaembed></section>';
   test('serializing', () => {
     const res = learningResourceContentToHTML(editorWithYotube);
     expect(res).toMatch(htmlWithYoutube);
@@ -144,7 +144,7 @@ describe('embed audio serializing tests', () => {
         { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
 
         {
-          type: TYPE_EMBED,
+          type: TYPE_NDLA_EMBED,
           data: {
             resource: 'audio',
             resource_id: '123',
@@ -163,7 +163,7 @@ describe('embed audio serializing tests', () => {
   ];
 
   const htmlWithAudio =
-    '<section><embed data-resource="audio" data-resource_id="123" data-type="standard" data-url="https://test.url"/></section>';
+    '<section><ndlaembed data-resource="audio" data-resource_id="123" data-type="standard" data-url="https://test.url"></ndlaembed></section>';
 
   test('serializing audio', () => {
     const res = learningResourceContentToHTML(editorWithAudio);
@@ -184,7 +184,7 @@ describe('embed podcast serializing tests', () => {
         { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
 
         {
-          type: TYPE_EMBED,
+          type: TYPE_NDLA_EMBED,
           data: {
             resource: 'audio',
             resource_id: '123',
@@ -203,7 +203,7 @@ describe('embed podcast serializing tests', () => {
   ];
 
   const htmlWithPodcast =
-    '<section><embed data-resource="audio" data-resource_id="123" data-type="podcast" data-url="https://test.url"/></section>';
+    '<section><ndlaembed data-resource="audio" data-resource_id="123" data-type="podcast" data-url="https://test.url"></ndlaembed></section>';
 
   test('serializing podcast', () => {
     const res = learningResourceContentToHTML(editorWithPodcast);
@@ -224,7 +224,7 @@ describe('embed h5p serializing tests', () => {
         { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
 
         {
-          type: TYPE_EMBED,
+          type: TYPE_NDLA_EMBED,
           data: {
             resource: 'h5p',
             path: '/resource/123',
@@ -242,7 +242,7 @@ describe('embed h5p serializing tests', () => {
   ];
 
   const htmlWithH5P =
-    '<section><embed data-resource="h5p" data-path="/resource/123" data-url="https://test.url/resource/123"/></section>';
+    '<section><ndlaembed data-resource="h5p" data-path="/resource/123" data-url="https://test.url/resource/123"></ndlaembed></section>';
 
   test('serializing h5p', () => {
     const res = learningResourceContentToHTML(editorWithH5P);

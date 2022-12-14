@@ -120,6 +120,7 @@ const phrases = {
     lastUsed: 'Sist redigert',
     savedSearch: 'Lagra søk',
     saveSearch: 'Lagre søk',
+    welcomeBack: 'Velkommen tilbake',
   },
   searchPage: {
     header: {
@@ -568,6 +569,7 @@ const phrases = {
     preview: {
       button: 'Forhandsvis',
     },
+    resize: 'Endre storleik',
     name: {
       title: 'Tittel',
       aboutTitle: 'Tittel',
@@ -1364,7 +1366,10 @@ const phrases = {
     resourcesPrimary: {
       text:
         'Er du heilt sikker på at du ønsker å gjere alle tilhøyrande ressursar om til primærkoblingar?',
+      recursiveText:
+        'Er du heilt sikker på at du ønsker å gjere alle tilhøyrande ressursar og underressursar om til primærkoblingar?',
       buttonText: 'Gjer alle ressursar om til primærkoblingar',
+      recursiveButtonText: 'Gjer alle ressursar og underressursar om til primærkoblingar',
       error: 'Ein feil oppstod',
     },
     goTo: 'Åpne i stukturredigering',

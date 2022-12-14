@@ -1,7 +1,8 @@
 import { Editor, Node, Element, Descendant, Transforms, Text, Path } from 'slate';
 import { RenderElementProps } from 'slate-react';
 import { jsx as slatejsx } from 'slate-hyperscript';
-import { Dictionary } from 'lodash';
+import styled from '@emotion/styled';
+import { spacing } from '@ndla/core';
 import { SlateSerializer } from '../../interfaces';
 import onEnter from './handlers/onEnter';
 import { firstTextBlockElement } from '../../utils/normalizationHelpers';
@@ -16,6 +17,7 @@ import { TYPE_FOOTNOTE } from '../footnote/types';
 import { TYPE_LINK, TYPE_CONTENT_LINK } from '../link/types';
 import { TYPE_MATHML } from '../mathml/types';
 import { TYPE_PARAGRAPH } from '../paragraph/types';
+import { Dictionary } from '../../../../interfaces';
 
 export interface ListElement {
   type: 'list';
@@ -31,6 +33,18 @@ export interface ListItemElement {
   moveUp?: boolean;
   moveDown?: boolean;
 }
+
+const BlockListItem = styled.li`
+  line-height: 1.7em;
+  margin-bottom: ${spacing.small};
+  direction: ltr;
+  margin-left: 3.2em;
+`;
+
+const BulletedList = styled.ul`
+  margin: 16px 0;
+  padding: 0;
+`;
 
 const inlines = [TYPE_CONCEPT_INLINE, TYPE_FOOTNOTE, TYPE_LINK, TYPE_CONTENT_LINK, TYPE_MATHML];
 
@@ -152,11 +166,7 @@ export const listPlugin = (editor: Editor) => {
   editor.renderElement = ({ attributes, children, element }: RenderElementProps) => {
     if (element.type === TYPE_LIST) {
       if (element.listType === 'bulleted-list') {
-        return (
-          <ul className="c-block__bulleted-list" {...attributes}>
-            {children}
-          </ul>
-        );
+        return <BulletedList {...attributes}>{children}</BulletedList>;
       } else if (element.listType === 'numbered-list') {
         const { start } = element.data;
 
@@ -177,11 +187,7 @@ export const listPlugin = (editor: Editor) => {
         );
       }
     } else if (element.type === TYPE_LIST_ITEM) {
-      return (
-        <li className="c-block__list-item" {...attributes}>
-          {children}
-        </li>
-      );
+      return <BlockListItem {...attributes}>{children}</BlockListItem>;
     } else if (renderElement) {
       return renderElement({ attributes, children, element });
     }

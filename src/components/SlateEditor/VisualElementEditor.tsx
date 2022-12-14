@@ -8,7 +8,7 @@
 
 import { useEffect, useMemo } from 'react';
 import { FormikHandlers } from 'formik';
-import { isEqual } from 'lodash';
+import isEqual from 'lodash/isEqual';
 import { Descendant, createEditor } from 'slate';
 import { Slate, Editable, withReact, RenderElementProps } from 'slate-react';
 import { withHistory } from 'slate-history';

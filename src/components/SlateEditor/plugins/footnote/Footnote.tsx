@@ -34,6 +34,7 @@ const Footnote = (props: Props) => {
 
   return (
     <>
+      {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
       <a
         style={{ boxShadow: selected && focused ? `0 0 0 1px ${colors.brand.tertiary}` : 'none' }}
         contentEditable={false}

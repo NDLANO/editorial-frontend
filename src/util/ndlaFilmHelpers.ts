@@ -19,7 +19,7 @@ import { LOCALE_VALUES } from '../constants';
 import { LocaleType } from '../interfaces';
 import { FilmFormikType } from '../containers/NdlaFilm/components/NdlaFilmForm';
 import { ThemeNames } from '../containers/NdlaFilm/components/ThemeEditor';
-import { TYPE_EMBED } from '../components/SlateEditor/plugins/embed/types';
+import { TYPE_NDLA_EMBED } from '../components/SlateEditor/plugins/embed/types';
 
 export const getInitialValues = (
   filmFrontpage: IFilmFrontPageData,
@@ -50,7 +50,7 @@ export const convertVisualElement = (visualElement: IVisualElement): Descendant[
       slatejsx(
         'element',
         {
-          type: TYPE_EMBED,
+          type: TYPE_NDLA_EMBED,
           data: {
             url: visualElement.url,
             resource: visualElement.type,
@@ -74,7 +74,7 @@ export const convertVisualElement = (visualElement: IVisualElement): Descendant[
     slatejsx(
       'element',
       {
-        type: TYPE_EMBED,
+        type: TYPE_NDLA_EMBED,
         data: {
           url: visualElement.url,
           resource: visualElement.type,
@@ -107,7 +107,7 @@ export const getNdlaFilmFromSlate = (
 ): INewOrUpdatedFilmFrontPageData => {
   const slateVisualElement = newFrontpage.visualElement?.[0];
   const data =
-    Element.isElement(slateVisualElement) && slateVisualElement.type === TYPE_EMBED
+    Element.isElement(slateVisualElement) && slateVisualElement.type === TYPE_NDLA_EMBED
       ? slateVisualElement.data
       : undefined;
 

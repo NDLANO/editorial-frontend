@@ -188,6 +188,27 @@ const sketcfabTransformer: UrlTransformer = {
   },
 };
 
+const jeopardyLabTransformer: UrlTransformer = {
+  domains: ['jeopardylabs.com'],
+  shouldTransform: (url, domains) => {
+    const aTag = urlAsATag(url);
+
+    if (!domains.includes(aTag.hostname)) {
+      return false;
+    }
+    if (!aTag.href.includes('/play/')) {
+      return false;
+    }
+    return true;
+  },
+  transform: async url => {
+    if (url.endsWith('?embed=1')) {
+      return url;
+    }
+    return url.concat('?embed=1');
+  },
+};
+
 export const urlTransformers: UrlTransformer[] = [
   nrkTransformer,
   kahootTransformer,
@@ -196,4 +217,5 @@ export const urlTransformers: UrlTransformer[] = [
   flourishTransformer,
   sketchupTransformer,
   sketcfabTransformer,
+  jeopardyLabTransformer,
 ];

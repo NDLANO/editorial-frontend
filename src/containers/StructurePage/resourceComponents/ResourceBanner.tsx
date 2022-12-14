@@ -7,9 +7,10 @@
  */
 
 import styled from '@emotion/styled';
-import { colors, spacing } from '@ndla/core';
-import { fonts } from '@ndla/core';
+import { colors, spacing, fonts } from '@ndla/core';
 import { Share } from '@ndla/icons/lib/common';
+import { Dictionary } from '../../../interfaces';
+import { NodeResourceMeta } from '../../../modules/nodes/nodeQueries';
 
 const ResourceGroupBanner = styled.div`
   background-color: ${colors.brand.lighter};
@@ -19,6 +20,9 @@ const ResourceGroupBanner = styled.div`
   font-weight: ${fonts.weight.semibold};
   padding: 10px;
   margin: ${spacing.small} 0px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 `;
 
 const StyledIcon = styled(Share)`
@@ -27,15 +31,32 @@ const StyledIcon = styled(Share)`
   margin-right: ${spacing.small};
 `;
 
+const PublishedText = styled.div`
+  font-weight: ${fonts.weight.normal};
+`;
+
 interface Props {
   title: string;
+  contentMeta: Dictionary<NodeResourceMeta>;
 }
 
-const ResourceBanner = ({ title }: Props) => {
+const getPublishedCount = (contentMeta: Dictionary<NodeResourceMeta>) => {
+  const contentMetaList = Object.values(contentMeta);
+  const publishedCount = contentMetaList.filter(c => c.status?.current === 'PUBLISHED').length;
+  return publishedCount;
+};
+
+const ResourceBanner = ({ title, contentMeta }: Props) => {
+  const elementCount = Object.values(contentMeta).length;
+  const publishedCount = getPublishedCount(contentMeta);
+
   return (
     <ResourceGroupBanner>
-      <StyledIcon />
-      {title}
+      <div>
+        <StyledIcon />
+        {title}
+      </div>
+      <PublishedText>{`${publishedCount}/${elementCount} publisert`}</PublishedText>
     </ResourceGroupBanner>
   );
 };

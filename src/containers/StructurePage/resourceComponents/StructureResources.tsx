@@ -110,9 +110,7 @@ const StructureResources = ({ currentChildNode, resourceRef }: Props) => {
         nodeResources={nodeResources ?? []}
         resourceTypes={resourceTypes ?? []}
         currentNode={currentChildNode}
-        contentMeta={
-          currentChildNode.contentUri ? keyedMetas[currentChildNode.contentUri] : undefined
-        }
+        contentMeta={keyedMetas}
       />
     </div>
   );

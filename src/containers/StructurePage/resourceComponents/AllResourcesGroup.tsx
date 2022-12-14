@@ -9,8 +9,7 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
-import { colors, spacing } from '@ndla/core';
-import { fonts } from '@ndla/core';
+import { colors, spacing, fonts } from '@ndla/core';
 import { Share } from '@ndla/icons/lib/common';
 import { ResourceWithNodeConnectionAndMeta } from './StructureResources';
 import { ResourceType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
@@ -20,6 +19,7 @@ import { ChildNodeType } from '../../../modules/nodes/nodeApiTypes';
 import Resource from './Resource';
 import { NodeResourceMeta } from '../../../modules/nodes/nodeQueries';
 import ResourceBanner from './ResourceBanner';
+import { Dictionary } from '../../../interfaces';
 
 const ResourceGroupBanner = styled.div`
   background-color: ${colors.brand.lighter};
@@ -41,7 +41,7 @@ interface Props {
   nodeResources: ResourceWithNodeConnectionAndMeta[];
   resourceTypes: ResourceType[];
   currentNode: ChildNodeType;
-  contentMeta?: NodeResourceMeta;
+  contentMeta: Dictionary<NodeResourceMeta>;
 }
 
 const AllResourcesGroup = ({ resourceTypes, nodeResources, currentNode, contentMeta }: Props) => {
@@ -61,7 +61,7 @@ const AllResourcesGroup = ({ resourceTypes, nodeResources, currentNode, contentM
 
   return (
     <>
-      <ResourceBanner title={currentNode.name} />
+      <ResourceBanner title={currentNode.name} contentMeta={contentMeta} />
 
       {false && (
         <AddResourceModal
@@ -78,13 +78,17 @@ const AllResourcesGroup = ({ resourceTypes, nodeResources, currentNode, contentM
             ...currentNode,
             paths: currentNode.paths ?? [],
             nodeId: '',
-            contentMeta,
+            contentMeta: currentNode.contentUri ? contentMeta[currentNode.contentUri] : undefined,
             resourceTypes: [],
             relevanceId: currentNode.relevanceId!,
           }}
         />
       )}
-      <ResourceItems resources={nodeResources} currentNodeId={currentNodeId} />
+      <ResourceItems
+        resources={nodeResources}
+        currentNodeId={currentNodeId}
+        contentMeta={contentMeta}
+      />
     </>
   );
 };

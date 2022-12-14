@@ -38,7 +38,7 @@ const SavedSearch = ({ deleteSearch, search, index, userData }: Props) => {
   const [searchObject, isFavorite] = useMemo(() => {
     const obj = transformQuery(queryString.parse(searchParams));
     const isFav = obj.subjects === FAVOURITES_SUBJECT_ID;
-    return [isFav ? { ...obj, subjects: userData.favoriteSubjects } : obj, isFav];
+    return [isFav ? { ...obj, subjects: userData.favoriteSubjects?.join(',') } : obj, isFav];
   }, [searchParams, userData?.favoriteSubjects]);
 
   const resourceType = searchObject['resource-types'] || '';

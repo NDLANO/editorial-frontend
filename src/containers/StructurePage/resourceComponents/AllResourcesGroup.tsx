@@ -9,8 +9,9 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
-import { colors } from '@ndla/core';
+import { colors, spacing } from '@ndla/core';
 import { fonts } from '@ndla/core';
+import { Share } from '@ndla/icons/lib/common';
 import { ResourceWithNodeConnectionAndMeta } from './StructureResources';
 import { ResourceType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import ResourceItems from './ResourceItems';
@@ -18,6 +19,7 @@ import AddResourceModal from './AddResourceModal';
 import { ChildNodeType } from '../../../modules/nodes/nodeApiTypes';
 import Resource from './Resource';
 import { NodeResourceMeta } from '../../../modules/nodes/nodeQueries';
+import ResourceBanner from './ResourceBanner';
 
 const ResourceGroupBanner = styled.div`
   background-color: ${colors.brand.lighter};
@@ -26,6 +28,13 @@ const ResourceGroupBanner = styled.div`
   color: ${colors.brand.primary};
   font-weight: ${fonts.weight.semibold};
   padding: 10px;
+  margin: ${spacing.small} 0px;
+`;
+
+const StyledIcon = styled(Share)`
+  width: 24px;
+  height: 24px;
+  margin-right: ${spacing.small};
 `;
 
 interface Props {
@@ -52,7 +61,7 @@ const AllResourcesGroup = ({ resourceTypes, nodeResources, currentNode, contentM
 
   return (
     <>
-      <ResourceGroupBanner>{currentNode.name}</ResourceGroupBanner>
+      <ResourceBanner title={currentNode.name} />
 
       {false && (
         <AddResourceModal

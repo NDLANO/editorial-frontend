@@ -50,7 +50,7 @@ const Wrapper = styled.div`
 `;
 
 const StyledCard = styled.div`
-  border: 1px solid ${colors.brand.neutral7};
+  border: 1px solid ${colors.brand.lighter};
   border-radius: 5px;
   width: 100%;
   padding: 10px;

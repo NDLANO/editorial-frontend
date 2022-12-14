@@ -71,6 +71,7 @@ const StyledWarnIcon = styled(AlertCircle)`
 
 const ButtonWithSpacing = styled(ButtonV2)`
   margin-left: ${spacing.xsmall};
+  flex: 1;
 `;
 
 const StyledResourceIcon = styled.div`
@@ -275,7 +276,7 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
             )}
           </StyledText>
           <ButtonRow>
-            <ButtonV2 css={{ flex: 1 }} size="xsmall" colorTheme="lighter">
+            <ButtonV2 css={{ flex: 2 }} size="xsmall" colorTheme="lighter">
               Ansvarlig: Navn Navnesen
             </ButtonV2>
             {contentType !== 'learning-path' && (

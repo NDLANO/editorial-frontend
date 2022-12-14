@@ -22,7 +22,6 @@ import {
   useResourcesWithNodeConnection,
 } from '../../../modules/nodes/nodeQueries';
 import { useAllResourceTypes } from '../../../modules/taxonomy/resourcetypes/resourceTypesQueries';
-import NodeDescription from './NodeDescription';
 import handleError from '../../../util/handleError';
 import AllResourcesGroup from './AllResourcesGroup';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
@@ -107,19 +106,14 @@ const StructureResources = ({ currentChildNode, resourceRef }: Props) => {
         {t('taxonomy.jumpToStructure')}
       </Button>
 
-      <NodeDescription
-        currentNode={currentChildNode}
-        contentMeta={
-          currentChildNode.contentUri ? keyedMetas[currentChildNode.contentUri] : undefined
-        }
-      />
-
       <AllResourcesGroup
         key="ungrouped"
         nodeResources={nodeResources ?? []}
         resourceTypes={resourceTypes ?? []}
-        currentNodeId={currentChildNode.id}
-        topicName={currentChildNode.name}
+        currentNode={currentChildNode}
+        contentMeta={
+          currentChildNode.contentUri ? keyedMetas[currentChildNode.contentUri] : undefined
+        }
       />
     </div>
   );

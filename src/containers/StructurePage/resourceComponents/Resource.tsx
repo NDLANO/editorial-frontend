@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { ContentTypeBadge } from '@ndla/ui';
-import Button, { ButtonV2 } from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 import { colors, spacing, breakpoints } from '@ndla/core';
 import { AlertCircle, Check } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';

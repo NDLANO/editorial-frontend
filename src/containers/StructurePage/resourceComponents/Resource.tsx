@@ -53,7 +53,7 @@ const StyledCard = styled.div`
   border: 1px solid ${colors.brand.lighter};
   border-radius: 5px;
   width: 100%;
-  padding: 10px;
+  padding: 5px;
   display: flex;
 `;
 
@@ -95,7 +95,7 @@ const StyledResourceBody = styled.div`
 
 const StyledText = styled.div`
   display: flex;
-  margin-bottom: 6.5px;
+  margin-bottom: ${spacing.xxsmall};
   box-shadow: none;
   align-items: center;
 `;

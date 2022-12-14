@@ -13,7 +13,7 @@ import styled from '@emotion/styled';
 import { ContentTypeBadge } from '@ndla/ui';
 import { ButtonV2 } from '@ndla/button';
 import { colors, spacing, breakpoints } from '@ndla/core';
-import { AlertCircle, Check } from '@ndla/icons/editor';
+import { AlertCircle, Check, DragVertical } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
 import SafeLink from '@ndla/safelink';
 import { useQueryClient } from 'react-query';
@@ -45,11 +45,16 @@ import {
 import { ResourceWithNodeConnectionAndMeta } from './StructureResources';
 
 const Wrapper = styled.div`
-  border: 1px solid ${colors.brand.neutral7};
-  border-radius: 5px;
-  padding: 10px;
   display: flex;
   margin-bottom: ${spacing.xsmall};
+`;
+
+const StyledCard = styled.div`
+  border: 1px solid ${colors.brand.neutral7};
+  border-radius: 5px;
+  width: 100%;
+  padding: 10px;
+  display: flex;
 `;
 
 const StyledCheckIcon = styled(Check)`
@@ -64,15 +69,6 @@ const StyledWarnIcon = styled(AlertCircle)`
   fill: ${colors.support.red};
 `;
 
-interface Props {
-  currentNodeId: string;
-  connectionId?: string; // required for MakeDndList, otherwise ignored
-  id?: string; // required for MakeDndList, otherwise ignored
-  resource: ResourceWithNodeConnectionAndMeta;
-  onDelete?: (connectionId: string) => void;
-  updateResource?: (resource: ResourceWithNodeConnection) => void;
-  dragHandleProps?: DraggableProvidedDragHandleProps;
-}
 const ButtonWithSpacing = styled(ButtonV2)`
   margin-left: ${spacing.xsmall};
 `;
@@ -120,11 +116,33 @@ const ContentWrapper = styled.div`
   width: 100%;
 `;
 
+const StyledDndIconWrapper = styled.div<{ isVisible: boolean }>`
+  visibility: ${p => (p.isVisible ? 'visible' : 'hidden')};
+  display: flex;
+  align-items: center;
+`;
+
+const StyledDndIcon = styled(DragVertical)`
+  height: 30px;
+  width: 30px;
+  color: ${colors.learningPath.light};
+`;
+
 const getArticleTypeFromId = (id?: string) => {
   if (id?.startsWith('urn:topic:')) return 'topic-article';
   else if (id?.startsWith('urn:resource:')) return 'standard';
   return undefined;
 };
+
+interface Props {
+  currentNodeId: string;
+  connectionId?: string; // required for MakeDndList, otherwise ignored
+  id?: string; // required for MakeDndList, otherwise ignored
+  resource: ResourceWithNodeConnectionAndMeta;
+  onDelete?: (connectionId: string) => void;
+  updateResource?: (resource: ResourceWithNodeConnection) => void;
+  dragHandleProps?: DraggableProvidedDragHandleProps;
+}
 
 const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props) => {
   const { t, i18n } = useTranslation();
@@ -206,72 +224,80 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
 
   return (
     <Wrapper>
-      <BadgeWrapper>
-        {contentType && (
-          <StyledResourceIcon key="img" {...dragHandleProps}>
-            <ContentTypeBadge background type={iconType} size="x-small" />
-          </StyledResourceIcon>
-        )}
-      </BadgeWrapper>
-      <ContentWrapper>
-        <StyledText data-testid={`resource-type-${contentType}`}>
-          <StyledResourceBody key="body">
-            <ResourceItemLink
-              contentType={contentType}
-              contentUri={resource.contentUri}
-              name={resource.name}
-              isVisible={resource.metadata?.visible}
-              size="small"
-            />
-          </StyledResourceBody>
-          <WrongTypeError resource={resource} articleType={resource.contentMeta?.articleType} />
-          {(resource.contentMeta?.status?.current === PUBLISHED ||
-            resource.contentMeta?.status?.other?.includes(PUBLISHED)) && (
-            <PublishedWrapper path={path}>
-              <Tooltip tooltip={t('form.workflow.published')}>
-                <StyledCheckIcon />
-              </Tooltip>
-            </PublishedWrapper>
+      <StyledDndIconWrapper
+        isVisible={resource.contentMeta?.articleType !== 'topic-article'}
+        {...dragHandleProps}>
+        <StyledDndIcon />
+      </StyledDndIconWrapper>
+
+      <StyledCard>
+        <BadgeWrapper>
+          {contentType && (
+            <StyledResourceIcon key="img">
+              <ContentTypeBadge background type={iconType} size="x-small" />
+            </StyledResourceIcon>
           )}
-          <RelevanceOption relevanceId={resource.relevanceId} onChange={updateRelevanceId} />
-          {onDelete && <RemoveButton onClick={() => onDelete(resource.connectionId)} />}
-          {showVersionHistory && (
-            <VersionHistoryLightbox
-              onClose={() => setShowVersionHistory(false)}
-              contentUri={resource.contentUri}
-              contentType={contentType}
-              name={resource.name}
-              isVisible={resource.metadata?.visible}
-              locale={i18n.language}
-            />
-          )}
-          {showGrepCodes && resource.contentUri && (
-            <GrepCodesModal onClose={onGrepModalClosed} contentUri={resource.contentUri} />
-          )}
-        </StyledText>
-        <ButtonRow>
-          <ButtonV2 css={{ flex: 1 }} size="xsmall" colorTheme="lighter">
-            Ansvarlig: Navn Navnesen
-          </ButtonV2>
-          {contentType !== 'learning-path' && (
-            <ButtonWithSpacing
-              size="xsmall"
-              colorTheme="lighter"
-              onClick={() => setShowGrepCodes(true)}>
-              {`GREP (${resource.contentMeta?.grepCodes?.length || 0})`}
-            </ButtonWithSpacing>
-          )}
-          {resource.contentMeta?.status?.current && (
-            <ButtonWithSpacing
-              size="xsmall"
-              colorTheme="lighter"
-              onClick={() => setShowVersionHistory(true)}
-              disabled={contentType === 'learning-path'}>
-              {t(`form.status.${resource.contentMeta.status.current.toLowerCase()}`)}
-            </ButtonWithSpacing>
-          )}
-        </ButtonRow>
-      </ContentWrapper>
+        </BadgeWrapper>
+        <ContentWrapper>
+          <StyledText data-testid={`resource-type-${contentType}`}>
+            <StyledResourceBody key="body">
+              <ResourceItemLink
+                contentType={contentType}
+                contentUri={resource.contentUri}
+                name={resource.name}
+                isVisible={resource.metadata?.visible}
+                size="small"
+              />
+            </StyledResourceBody>
+            <WrongTypeError resource={resource} articleType={resource.contentMeta?.articleType} />
+            {(resource.contentMeta?.status?.current === PUBLISHED ||
+              resource.contentMeta?.status?.other?.includes(PUBLISHED)) && (
+              <PublishedWrapper path={path}>
+                <Tooltip tooltip={t('form.workflow.published')}>
+                  <StyledCheckIcon />
+                </Tooltip>
+              </PublishedWrapper>
+            )}
+            <RelevanceOption relevanceId={resource.relevanceId} onChange={updateRelevanceId} />
+            {onDelete && <RemoveButton onClick={() => onDelete(resource.connectionId)} />}
+            {showVersionHistory && (
+              <VersionHistoryLightbox
+                onClose={() => setShowVersionHistory(false)}
+                contentUri={resource.contentUri}
+                contentType={contentType}
+                name={resource.name}
+                isVisible={resource.metadata?.visible}
+                locale={i18n.language}
+              />
+            )}
+            {showGrepCodes && resource.contentUri && (
+              <GrepCodesModal onClose={onGrepModalClosed} contentUri={resource.contentUri} />
+            )}
+          </StyledText>
+          <ButtonRow>
+            <ButtonV2 css={{ flex: 1 }} size="xsmall" colorTheme="lighter">
+              Ansvarlig: Navn Navnesen
+            </ButtonV2>
+            {contentType !== 'learning-path' && (
+              <ButtonWithSpacing
+                size="xsmall"
+                colorTheme="lighter"
+                onClick={() => setShowGrepCodes(true)}>
+                {`GREP (${resource.contentMeta?.grepCodes?.length || 0})`}
+              </ButtonWithSpacing>
+            )}
+            {resource.contentMeta?.status?.current && (
+              <ButtonWithSpacing
+                size="xsmall"
+                colorTheme="lighter"
+                onClick={() => setShowVersionHistory(true)}
+                disabled={contentType === 'learning-path'}>
+                {t(`form.status.${resource.contentMeta.status.current.toLowerCase()}`)}
+              </ButtonWithSpacing>
+            )}
+          </ButtonRow>
+        </ContentWrapper>
+      </StyledCard>
     </Wrapper>
   );
 };

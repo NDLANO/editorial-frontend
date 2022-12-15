@@ -11,6 +11,7 @@ import { spacing, colors, fonts } from '@ndla/core';
 import { ReactNode } from 'react';
 import { ExpandLess, ExpandMore } from '@ndla/icons/action';
 import { css } from '@emotion/react';
+import Tooltip from '@ndla/tooltip';
 import Spinner from '../../../components/Spinner';
 
 const StyledTable = styled.table`
@@ -34,6 +35,9 @@ const StyledTable = styled.table`
   td {
     ${fonts.sizes(16, 1.1)};
     padding: ${spacing.xsmall} ${spacing.xsmall};
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
   tr {
     height: 30px;
@@ -61,7 +65,7 @@ const TableTitleComponent = styled.div`
 `;
 
 const ScrollableTableWrapper = styled.div`
-  max-height: 340px;
+  max-height: 250px;
   overflow-y: auto;
 `;
 

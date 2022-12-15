@@ -45,7 +45,7 @@ const GridContainer = styled.div`
   }
 `;
 
-const GridHeader = styled.div`
+const MainArea = styled.div`
   grid-column: 2 / 12;
 `;
 
@@ -69,10 +69,12 @@ export const WelcomePage = () => {
     <Wrapper>
       <GridContainer>
         <HelmetWithTracker title={t('htmlTitles.welcomePage')} />
-        <GridHeader>
+        <MainArea>
           <WelcomeHeader />
-        </GridHeader>
-        <WorkList />
+        </MainArea>
+        <MainArea>
+          <WorkList />
+        </MainArea>
         <LeftColumn>
           <LastUsedItems lastUsed={lastUsed} />
         </LeftColumn>

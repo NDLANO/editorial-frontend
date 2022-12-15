@@ -22,6 +22,7 @@ import SaveMultiButton from '../SaveMultiButton';
 import { createGuard, createReturnTypeGuard } from '../../util/guards';
 import { NewMessageType, useMessages } from '../../containers/Messages/MessagesProvider';
 import { ConceptStatusStateMachineType, DraftStatusStateMachineType } from '../../interfaces';
+import ResponsibleField from '../../containers/FormikForm/components/ResponsibleField';
 
 interface Props {
   formIsDirty: boolean;
@@ -178,6 +179,7 @@ function EditorFooter<T extends FormValues>({
           )}
         </div>
         <div data-cy="footerStatus">
+          <ResponsibleField />
           <FooterStatus
             onSave={updateStatus}
             options={statuses}

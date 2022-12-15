@@ -186,11 +186,6 @@ export function useArticleFormHooks<T extends ArticleFormType>({
           message: t('alertModal.needToRefresh'),
           timeToLive: 0,
         });
-      } else if (err && err.status && err.status === 500) {
-        createMessage({
-          message: t('errorMessage.errorOnSave'),
-          timeToLive: 0,
-        });
       } else {
         applicationError(err);
       }

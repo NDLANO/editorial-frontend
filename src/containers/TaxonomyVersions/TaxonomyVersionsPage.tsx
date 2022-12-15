@@ -6,7 +6,7 @@
  *
  */
 
-import { partition } from 'lodash';
+import partition from 'lodash/partition';
 import styled from '@emotion/styled';
 import { colors, spacing } from '@ndla/core';
 import Button from '@ndla/button';

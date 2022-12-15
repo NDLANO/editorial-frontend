@@ -17,7 +17,6 @@ import config from '../../../../config';
 import { toEditGenericArticle, toLearningpathFull } from '../../../../util/routeHelpers';
 import { Portal } from '../../../Portal';
 import isNodeInCurrentSelection from '../../utils/isNodeInCurrentSelection';
-import { classes } from '../../RichTextEditor';
 import EditLink from './EditLink';
 import { ContentLinkElement, LinkElement } from '.';
 
@@ -70,6 +69,11 @@ export interface Model {
   text: string;
   checkbox: boolean;
 }
+
+const StyledLink = styled.a`
+  color: ${colors.brand.primary};
+  cursor: text;
+`;
 
 const Link = (props: Props) => {
   const {
@@ -130,7 +134,7 @@ const Link = (props: Props) => {
   const isInline = isNodeInCurrentSelection(editor, element);
 
   return (
-    <a {...attributes} href={model?.href} {...classes('link')} ref={linkRef}>
+    <StyledLink {...attributes} href={model?.href} ref={linkRef}>
       {children}
       {model && (
         <>
@@ -151,7 +155,7 @@ const Link = (props: Props) => {
           )}
         </>
       )}
-    </a>
+    </StyledLink>
   );
 };
 

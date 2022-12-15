@@ -103,8 +103,8 @@ const ImageEditor = ({ embed, onUpdatedImageSettings, imageUpdates, language }: 
   };
 
   const onCropComplete = (crop: ReactCrop.Crop, size: ReactCrop.PixelCrop) => {
-    let width = crop.width ?? 0;
-    let height = crop.height ?? 0;
+    const width = crop.width ?? 0;
+    const height = crop.height ?? 0;
     if (size.width === 0) {
       setEditType(undefined);
       onUpdatedImageSettings({ transformData: defaultData.crop });
@@ -185,6 +185,7 @@ const ImageEditor = ({ embed, onUpdatedImageSettings, imageUpdates, language }: 
             <StyledImageEditorMenu>
               {bylineOptions.map(option => (
                 <ShowBylineButton
+                  key={option}
                   show={option === 'show'}
                   currentSize={imageUpdates.size}
                   onFieldChange={onFieldChange}

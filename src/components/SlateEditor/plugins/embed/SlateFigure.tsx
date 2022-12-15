@@ -16,14 +16,14 @@ import SlateAudio from './SlateAudio';
 import SlatePodcast from './SlatePodcast';
 import EditorErrorMessage from '../../EditorErrorMessage';
 import DisplayExternal from '../../../DisplayEmbed/DisplayExternal';
-import { EmbedElement } from '.';
+import { NdlaEmbedElement } from '.';
 import { LocaleType } from '../../../../interfaces';
-import { TYPE_EMBED } from './types';
+import { TYPE_NDLA_EMBED } from './types';
 
 interface Props {
   attributes: RenderElementProps['attributes'];
   editor: Editor;
-  element: EmbedElement;
+  element: NdlaEmbedElement;
   language: string;
   locale?: LocaleType;
   children: ReactNode;
@@ -60,7 +60,7 @@ const SlateFigure = ({ attributes, editor, element, language, locale = 'nb', chi
     ReactEditor.focus(editor);
     Transforms.removeNodes(editor, {
       at: path,
-      match: node => Element.isElement(node) && node.type === TYPE_EMBED,
+      match: node => Element.isElement(node) && node.type === TYPE_NDLA_EMBED,
     });
   };
 

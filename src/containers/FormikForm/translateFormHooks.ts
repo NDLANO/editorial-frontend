@@ -8,7 +8,7 @@
 
 import { useState } from 'react';
 import dot from 'dot-object';
-import { merge } from 'lodash';
+import merge from 'lodash/merge';
 import { fetchNnTranslation } from '../../modules/translate/translateApi';
 
 /**

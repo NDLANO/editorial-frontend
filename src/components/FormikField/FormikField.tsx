@@ -7,7 +7,7 @@
  */
 
 import { ReactElement } from 'react';
-import { get } from 'lodash/fp';
+import get from 'lodash/get';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import {
@@ -23,9 +23,9 @@ import styled from '@emotion/styled';
 import { FormikShape } from '../../shapes';
 import FormikFieldLabel from './FormikFieldLabel';
 import FormikFieldDescription from './FormikFieldDescription';
-import { classes } from './';
 import FormikFieldHelp from './FormikFieldHelp';
 import FormikRemainingCharacters from './FormikRemainingCharacters';
+import { StyledField } from '../Field';
 
 const StyledErrorPreLine = styled.span`
   white-space: pre-line;
@@ -75,7 +75,7 @@ const FormikField = ({
       }
     : {};
   return (
-    <div {...classes('', { 'no-border': noBorder, right, title }, className)}>
+    <StyledField noBorder={noBorder} right={right} isTitle={title} className={className}>
       <FormikFieldLabel label={label} name={name} noBorder={noBorder} />
       <FormikFieldDescription description={description} obligatory={obligatory} />
       <Field name={name} maxLength={maxLength} {...rest} {...fieldActions}>
@@ -100,17 +100,17 @@ const FormikField = ({
           value={isSlateValue ? Node.string(values[name][0]) : values[name]}
         />
       )}
-      {showError && get(name, errors) && (
-        <FormikFieldHelp error={!!get(name, errors)}>
-          <StyledErrorPreLine>{get(name, errors)}</StyledErrorPreLine>
+      {showError && get(errors, name) && (
+        <FormikFieldHelp error={!!get(errors, name)}>
+          <StyledErrorPreLine>{get(errors, name)}</StyledErrorPreLine>
         </FormikFieldHelp>
       )}
-      {status?.hasOwnProperty('warnings') && (
-        <FormikFieldHelp warning={!!get(name, status.warnings)}>
-          <StyledErrorPreLine>{get(name, status.warnings)}</StyledErrorPreLine>
+      {status && status['warnings'] && (
+        <FormikFieldHelp warning={!!get(status.warnings, name)}>
+          <StyledErrorPreLine>{get(status.warnings, name)}</StyledErrorPreLine>
         </FormikFieldHelp>
       )}
-    </div>
+    </StyledField>
   );
 };
 

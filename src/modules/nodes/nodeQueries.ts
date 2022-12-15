@@ -15,6 +15,7 @@ import {
   CONNECTIONS_FOR_NODE,
   NODE,
   NODES,
+  NODE_RESOURCES,
   NODE_TRANSLATIONS,
   RESOURCES_WITH_NODE_CONNECTION,
   ROOT_NODE_WITH_CHILDREN,
@@ -39,6 +40,7 @@ import {
   NodeType,
   ResourceWithNodeConnection,
 } from './nodeApiTypes';
+import { fetchLearningpaths } from '../learningpath/learningpathApi';
 
 interface UseNodesParams extends WithTaxonomyVersion, GetNodeParams {}
 export const nodesQueryKey = (params?: Partial<UseNodesParams>) => [NODES, params];
@@ -61,6 +63,90 @@ export const useNode = (params: UseNodeParams, options?: UseQueryOptions<NodeTyp
       ?.find(s => s.id === params.id),
     ...options,
   });
+};
+
+interface UseNodeResourceMetas {
+  nodeId: string;
+  ids: string[];
+  language?: string;
+}
+
+export interface NodeResourceMeta {
+  contentUri: string;
+  grepCodes?: string[];
+  status?: { current: string; other: string[] };
+  articleType?: string;
+}
+
+export const nodeResourceMetasQueryKey = (params: Partial<UseNodeResourceMetas>) => [
+  NODE_RESOURCES,
+  {
+    nodeId: params.nodeId,
+    language: params.language,
+  },
+];
+
+export const useNodeResourceMetas = (
+  params: UseNodeResourceMetas,
+  options?: UseQueryOptions<NodeResourceMeta[]>,
+) => {
+  return useQuery<NodeResourceMeta[]>(
+    nodeResourceMetasQueryKey(params),
+    () => fetchNodeResourceMetas(params),
+    options,
+  );
+};
+
+interface ContentUriPartition {
+  articleIds: number[];
+  learningpathIds: number[];
+}
+
+const partitionByContentUri = (contentUris: (string | undefined)[]) => {
+  return contentUris
+    .filter(uri => !!uri)
+    .reduce<ContentUriPartition>(
+      (acc, curr) => {
+        const split = curr!.split(':');
+        const type = split[1];
+        const id = parseInt(split[2]);
+        if (!id) return acc;
+        if (type === 'article') {
+          acc.articleIds = acc.articleIds.concat(id);
+        } else if (type === 'learningpath') {
+          acc.learningpathIds = acc.learningpathIds.concat(id);
+        }
+        return acc;
+      },
+      { articleIds: [], learningpathIds: [] },
+    );
+};
+
+const fetchNodeResourceMetas = async (
+  params: UseNodeResourceMetas,
+): Promise<NodeResourceMeta[]> => {
+  const { articleIds, learningpathIds } = partitionByContentUri(params.ids);
+  const articlesPromise = articleIds.length
+    ? fetchDrafts(articleIds, params.language)
+    : Promise.resolve([]);
+  const learningpathsPromise = learningpathIds.length
+    ? fetchLearningpaths(learningpathIds, params.language)
+    : Promise.resolve([]);
+  const [articles, learningpaths] = await Promise.all([articlesPromise, learningpathsPromise]);
+  const transformedArticles: NodeResourceMeta[] = articles.map(
+    ({ status, grepCodes, articleType, id }) => ({
+      status,
+      grepCodes,
+      articleType,
+      contentUri: `urn:article:${id}`,
+    }),
+  );
+  const transformedLearningpaths: NodeResourceMeta[] = learningpaths.map(lp => ({
+    status: { current: lp.status, other: [] },
+    contentUri: `urn:learningpath:${lp.id}`,
+  }));
+
+  return transformedArticles.concat(transformedLearningpaths);
 };
 
 interface ChildNodesWithArticleTypeParams extends WithTaxonomyVersion {
@@ -129,7 +215,7 @@ const fetchNodeTree = async ({
     fetchNodeResources({ id, language, taxonomyVersion, recursive: true }),
   ]);
 
-  let rootFromChildren: ChildNodeType | undefined = children.find(child => child.id === id);
+  const rootFromChildren: ChildNodeType | undefined = children.find(child => child.id === id);
   const childOrRegularRoot = rootFromChildren ?? root;
 
   const resourcesForNodeIdMap = allResources.reduce<Record<string, ResourceWithNodeConnection[]>>(

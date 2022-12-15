@@ -6,11 +6,11 @@
  *
  */
 
-import { memo, useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 import { DropResult } from 'react-beautiful-dnd';
-import { sortBy } from 'lodash';
+import sortBy from 'lodash/sortBy';
 import styled from '@emotion/styled';
 import Resource from './Resource';
 import handleError from '../../../util/handleError';
@@ -23,6 +23,7 @@ import AlertModal from '../../../components/AlertModal';
 import MakeDndList from '../../../components/MakeDndList';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 import { resourcesWithNodeConnectionQueryKey } from '../../../modules/nodes/nodeQueries';
+import { ResourceWithNodeConnectionAndMeta } from './StructureResources';
 
 const StyledResourceItems = styled.ul`
   list-style: none;
@@ -36,7 +37,7 @@ const StyledErrorMessage = styled.div`
 `;
 
 interface Props {
-  resources: ResourceWithNodeConnection[];
+  resources: ResourceWithNodeConnectionAndMeta[];
   currentNodeId: string;
 }
 
@@ -151,4 +152,4 @@ const ResourceItems = ({ resources, currentNodeId }: Props) => {
   );
 };
 
-export default memo(ResourceItems);
+export default ResourceItems;

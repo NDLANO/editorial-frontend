@@ -6,8 +6,9 @@
  *
  */
 
-import { isEqual, partition } from 'lodash';
-import { isObjectLike } from 'lodash/fp';
+import isEqual from 'lodash/isEqual';
+import partition from 'lodash/partition';
+import isObjectLike from 'lodash/fp/isObjectLike';
 import {
   ChildNodeType,
   NodeType,

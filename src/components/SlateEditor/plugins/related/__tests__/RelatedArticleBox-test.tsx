@@ -22,7 +22,7 @@ jest.mock('slate-react', () => {
     ...slatereact,
     ReactEditor: {
       ...slatereact.ReactEditor,
-      findPath: (editor, element) => {
+      findPath: (_editor: any, _element: any) => {
         return [0, 0, 0];
       },
     },
@@ -60,9 +60,9 @@ const wrapper = () => {
           editor={editor}
           locale="nb"
           element={relatedElement}
-          children={<></>}
-          onRemoveClick={() => {}}
-        />
+          onRemoveClick={() => {}}>
+          <></>
+        </RelatedArticleBox>
       </div>
     </IntlWrapper>,
   );

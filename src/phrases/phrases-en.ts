@@ -133,6 +133,7 @@ const phrases = {
       topicRelation: 'Topic relation',
       date: 'Date assigned',
     },
+    welcomeBack: 'Welcome back',
   },
   searchPage: {
     header: {
@@ -581,6 +582,7 @@ const phrases = {
     preview: {
       button: 'Preview',
     },
+    resize: 'Resize',
     name: {
       title: 'Title',
       aboutTitle: 'Title',
@@ -1377,7 +1379,10 @@ const phrases = {
     },
     resourcesPrimary: {
       text: 'Are you sure you want to make all connected resources primary?',
+      recursiveText:
+        'Are you sure you want to make all connected resources and sub resources primary?',
       buttonText: 'Make resources primary',
+      recursiveButtonText: 'Make resources and sub resources primary',
       error: 'An error occured',
     },
     goTo: 'Open in structure editor',

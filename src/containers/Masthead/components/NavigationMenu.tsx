@@ -1,11 +1,10 @@
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Launch } from '@ndla/icons/common';
+import { Launch, Audio, Podcast } from '@ndla/icons/common';
 import styled from '@emotion/styled';
 import { colors, spacing, animations } from '@ndla/core';
 import { Camera, Concept, H5P, Taxonomy, Video } from '@ndla/icons/editor';
 import { List } from '@ndla/icons/action';
-import { Audio, Podcast } from '@ndla/icons/common';
 //@ts-ignore
 import { ContentTypeBadge, constants } from '@ndla/ui';
 import StyledListButton from '../../../components/StyledListButton';

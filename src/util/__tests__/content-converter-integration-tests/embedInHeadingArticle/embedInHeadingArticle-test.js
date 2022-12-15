@@ -6,18 +6,14 @@
  *
  */
 
-import jsdom from 'jsdom';
-
 import {
   learningResourceContentToEditorValue,
   learningResourceContentToHTML,
 } from '../../../articleContentConverter';
 import { html } from './embedInHeadingArticle';
 
-const { fragment } = jsdom.JSDOM;
-
 test('serializing article with <embed> in <h3>', () => {
-  const converted = learningResourceContentToEditorValue(html, fragment);
+  const converted = learningResourceContentToEditorValue(html);
 
   const result = learningResourceContentToHTML(converted);
 

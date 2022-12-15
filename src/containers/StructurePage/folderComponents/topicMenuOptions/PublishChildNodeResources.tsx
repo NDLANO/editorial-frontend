@@ -10,17 +10,17 @@ import styled from '@emotion/styled';
 import { colors } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
 import { Done } from '@ndla/icons/editor';
-import { ISearchResult } from '@ndla/types-draft-api';
-import { ISearchResultV2 } from '@ndla/types-learningpath-api';
-import { partition } from 'lodash';
+import { IArticle } from '@ndla/types-draft-api';
+import { ILearningPathV2 } from '@ndla/types-learningpath-api';
+import partition from 'lodash/partition';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 import AlertModal from '../../../../components/AlertModal';
 import RoundIcon from '../../../../components/RoundIcon';
-import { searchDrafts, updateStatusDraft } from '../../../../modules/draft/draftApi';
+import { fetchDrafts, updateStatusDraft } from '../../../../modules/draft/draftApi';
 import {
-  learningpathSearch,
+  fetchLearningpaths,
   updateStatusLearningpath,
 } from '../../../../modules/learningpath/learningpathApi';
 import { fetchNodeResources } from '../../../../modules/nodes/nodeApi';
@@ -95,16 +95,16 @@ const PublishChildNodeResources = ({ node }: Props) => {
     });
     const draftIds = draftResources.map(res => Number(res.contentUri!.split(':')[2]));
     const learningpathIds = learningpathResources.map(res => Number(res.contentUri!.split(':')[2]));
-    const [drafts, learningpaths]: [ISearchResult, ISearchResultV2] = await Promise.all([
-      searchDrafts({ idList: draftIds }),
-      learningpathSearch({ ids: learningpathIds }),
+    const [drafts, learningpaths]: [IArticle[], ILearningPathV2[]] = await Promise.all([
+      fetchDrafts(draftIds),
+      fetchLearningpaths(learningpathIds),
     ]);
     const [unpublishedDrafts, publishedDrafts] = partition(
-      drafts.results,
+      drafts,
       draft => draft.status.current !== PUBLISHED,
     );
     const [unpublishedLearningpaths, publishedLearningpaths] = partition(
-      learningpaths.results,
+      learningpaths,
       lp => lp.status !== PUBLISHED,
     );
 
@@ -115,7 +115,7 @@ const PublishChildNodeResources = ({ node }: Props) => {
         .then(_ => setPublishedCount(c => c + 1))
         .catch(_ =>
           setFailedResources(prev =>
-            prev.concat({ name: draft.title.title, contentUri: `url:article:${draft.id}` }),
+            prev.concat({ name: draft.title?.title ?? '', contentUri: `url:article:${draft.id}` }),
           ),
         ),
     );
@@ -151,8 +151,8 @@ const PublishChildNodeResources = ({ node }: Props) => {
         show={showAlert}
         onCancel={() => setShowAlert(false)}
         text={t('taxonomy.publish.error')}
-        component={failedResources.map(res => (
-          <LinkWrapper>
+        component={failedResources.map((res, index) => (
+          <LinkWrapper key={index}>
             <ResourceItemLink
               contentType={
                 res.contentUri?.split(':')[1] === 'article' ? 'article' : 'learning-resource'

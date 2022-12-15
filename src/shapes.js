@@ -365,7 +365,7 @@ export const AttributesShape = PropTypes.shape({
 });
 
 const ActionsShape = PropTypes.arrayOf(
-  PropTypes.oneOf(['table', 'embed', 'code-block', 'file', 'h5p']),
+  PropTypes.oneOf(['table', 'ndlaembed', 'code-block', 'file', 'h5p']),
 );
 
 export const ActionsInAreasShape = PropTypes.shape({

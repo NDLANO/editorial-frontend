@@ -6,17 +6,14 @@
  *
  */
 
-import jsdom from 'jsdom';
 import {
   learningResourceContentToEditorValue,
   learningResourceContentToHTML,
 } from '../../../articleContentConverter';
 import { html } from './supArticle';
 
-const { fragment } = jsdom.JSDOM;
-
 test('serializing article with sup tag', () => {
-  const converted = learningResourceContentToEditorValue(html, fragment);
+  const converted = learningResourceContentToEditorValue(html);
 
   const result = learningResourceContentToHTML(converted);
 

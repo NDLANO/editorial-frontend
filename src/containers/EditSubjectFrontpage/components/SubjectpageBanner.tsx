@@ -52,7 +52,7 @@ const SubjectpageBanner = ({ title, fieldName }: Props) => {
           <VisualElementSearch
             selectedResource={'image'}
             handleVisualElementChange={rt =>
-              rt.type === 'embed' ? onImageChange(rt.value as ImageEmbed) : null
+              rt.type === 'ndlaembed' ? onImageChange(rt.value as ImageEmbed) : null
             }
             closeModal={onImageSelectClose}
           />

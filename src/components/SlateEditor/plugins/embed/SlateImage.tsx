@@ -18,7 +18,7 @@ import FigureButtons from './FigureButtons';
 import EditImage from './EditImage';
 import { ImageEmbed } from '../../../../interfaces';
 
-import { EmbedElement } from './index';
+import { NdlaEmbedElement } from './index';
 import { isTable } from '../table/slateHelpers';
 
 interface Props {
@@ -32,7 +32,7 @@ interface Props {
   saveEmbedUpdates: (change: { [x: string]: string }) => void;
   visualElement: boolean;
   children: ReactNode;
-  element: EmbedElement;
+  element: NdlaEmbedElement;
 }
 
 const StyledButton = styled(Button)`

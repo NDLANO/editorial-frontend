@@ -15,14 +15,13 @@ import { Launch } from '@ndla/icons/common';
 import { IConcept, IStatus as ConceptStatus } from '@ndla/types-concept-api';
 import { IUpdatedArticle, IStatus as DraftStatus } from '@ndla/types-draft-api';
 import { useFormikContext } from 'formik';
-
 import { toPreviewDraft } from '../../util/routeHelpers';
 import PreviewConceptLightbox from '../PreviewConcept/PreviewConceptLightbox';
 import SaveMultiButton from '../SaveMultiButton';
 import { createGuard, createReturnTypeGuard } from '../../util/guards';
 import { NewMessageType, useMessages } from '../../containers/Messages/MessagesProvider';
 import { ConceptStatusStateMachineType, DraftStatusStateMachineType } from '../../interfaces';
-import ResponsibleField from '../../containers/FormikForm/components/ResponsibleField';
+import ResponsibleSelect from '../../containers/FormikForm/components/ResponsibleSelect';
 
 interface Props {
   formIsDirty: boolean;
@@ -38,6 +37,7 @@ interface Props {
   hideSecondaryButton: boolean;
   isNewlyCreated: boolean;
   hasErrors?: boolean;
+  responsibleId?: string;
 }
 
 interface FormValues {
@@ -71,18 +71,27 @@ function EditorFooter<T extends FormValues>({
   hideSecondaryButton,
   isNewlyCreated,
   hasErrors,
+  responsibleId,
 }: Props) {
   const { t } = useTranslation();
   const { values, setFieldValue, isSubmitting } = useFormikContext<T>();
   const { createMessage, formatErrorMessage } = useMessages();
-  // Wait for newStatus to be set to trigger since formik doesn't update fields instantly
+  // Wait for newStatus and responsible to be set to trigger since formik doesn't update fields instantly
   const [newStatus, setNewStatus] = useState<string | null>(null);
+  const [newResponsibleId, setNewResponsibleId] = useState<string | null>();
   useEffect(() => {
     if (newStatus) {
       onSaveClick();
       setNewStatus(null);
     }
   }, [newStatus, onSaveClick]);
+
+  useEffect(() => {
+    if (newResponsibleId) {
+      onSaveClick();
+      setNewResponsibleId(null);
+    }
+  }, [newResponsibleId, onSaveClick]);
 
   const saveButton = (
     <SaveMultiButton
@@ -154,6 +163,16 @@ function EditorFooter<T extends FormValues>({
     }
   };
 
+  const updateResponsible = async (responsibleId: string) => {
+    try {
+      // Set responsible and update form (which we listen for changes to in the useEffect above)
+      setNewResponsibleId(responsibleId);
+      setFieldValue('responsibleId', responsibleId);
+    } catch (error) {
+      catchError(error, createMessage);
+    }
+  };
+
   const isConceptType = createReturnTypeGuard<IConcept>('subjectIds');
 
   return (
@@ -178,8 +197,9 @@ function EditorFooter<T extends FormValues>({
             </FooterLinkButton>
           )}
         </div>
+
+        <ResponsibleSelect onSave={updateResponsible} responsibleId={responsibleId} />
         <div data-cy="footerStatus">
-          <ResponsibleField />
           <FooterStatus
             onSave={updateStatus}
             options={statuses}

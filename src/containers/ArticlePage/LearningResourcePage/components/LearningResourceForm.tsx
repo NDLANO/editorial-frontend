@@ -105,6 +105,7 @@ const LearningResourceForm = ({
     const editUrl = values.id
       ? (lang: string) => toEditArticle(values.id!, values.articleType, lang)
       : undefined;
+
     return (
       <StyledForm>
         <HeaderWithLanguage
@@ -147,6 +148,7 @@ const LearningResourceForm = ({
           isNewlyCreated={isNewlyCreated}
           isConcept={false}
           hideSecondaryButton={false}
+          responsibleId={article?.responsible?.responsibleId}
         />
         <AlertModalWrapper
           isSubmitting={isSubmitting}

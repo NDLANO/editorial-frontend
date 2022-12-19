@@ -78,20 +78,13 @@ function EditorFooter<T extends FormValues>({
   const { createMessage, formatErrorMessage } = useMessages();
   // Wait for newStatus and responsible to be set to trigger since formik doesn't update fields instantly
   const [newStatus, setNewStatus] = useState<string | null>(null);
-  const [newResponsibleId, setNewResponsibleId] = useState<string | null>();
+
   useEffect(() => {
     if (newStatus) {
       onSaveClick();
       setNewStatus(null);
     }
   }, [newStatus, onSaveClick]);
-
-  useEffect(() => {
-    if (newResponsibleId) {
-      onSaveClick();
-      setNewResponsibleId(null);
-    }
-  }, [newResponsibleId, onSaveClick]);
 
   const saveButton = (
     <SaveMultiButton
@@ -165,8 +158,6 @@ function EditorFooter<T extends FormValues>({
 
   const updateResponsible = async (responsibleId: string) => {
     try {
-      // Set responsible and update form (which we listen for changes to in the useEffect above)
-      setNewResponsibleId(responsibleId);
       setFieldValue('responsibleId', responsibleId);
     } catch (error) {
       catchError(error, createMessage);

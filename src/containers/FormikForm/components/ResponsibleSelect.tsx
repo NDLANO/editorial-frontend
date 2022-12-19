@@ -12,6 +12,7 @@ import styled from '@emotion/styled';
 import { ButtonV2 as Button } from '@ndla/button';
 import { useState, useEffect } from 'react';
 import { ChevronDown } from '@ndla/icons/common';
+import sortBy from 'lodash/sortBy';
 import { useAuth0Editors } from '../../../modules/auth0/auth0Queries';
 import { DRAFT_WRITE_SCOPE } from '../../../constants';
 
@@ -69,11 +70,15 @@ const ResponsibleSelect = ({ onSave, responsibleId }: Props) => {
   );
 
   const [responsible, setResponsible] = useState<SingleValue>();
+  const [sortedUsers, setSortedUsers] = useState<SingleValue[]>([]);
 
   useEffect(() => {
     if (users) {
       const defaultResponsible = users.find(user => user.value === responsibleId);
       setResponsible(defaultResponsible);
+
+      const sortedList = sortBy(users, u => u.label);
+      setSortedUsers(sortedList);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [users]);
@@ -87,7 +92,7 @@ const ResponsibleSelect = ({ onSave, responsibleId }: Props) => {
 
   return (
     <Select
-      options={users ?? []}
+      options={sortedUsers ?? []}
       menuPlacement="top"
       placeholder={t('form.responsible.label')}
       ControlComponent={CustomControl}

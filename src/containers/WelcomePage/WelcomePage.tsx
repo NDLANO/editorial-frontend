@@ -10,8 +10,6 @@ import { useTranslation } from 'react-i18next';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { SearchFolder } from '@ndla/icons/editor';
 import styled from '@emotion/styled';
-import { mq, breakpoints, spacing } from '@ndla/core';
-import { NAVIGATION_HEADER_MARGIN } from '../../constants';
 import { getAccessToken, getAccessTokenPersonal } from '../../util/authHelpers';
 import { isValid } from '../../util/jwtHelper';
 import SaveSearchUrl from './components/SaveSearchUrl';
@@ -20,38 +18,14 @@ import LastUsedItems from './components/LastUsedItems';
 import { useUserData } from '../../modules/draft/draftQueries';
 import { StyledColumnHeader } from './styles';
 import WelcomeHeader from './components/WelcomeHeader';
+import { GridContainer, GridHeader, LeftColumn, RightColumn } from '../../components/Layout/Layout';
+import { NAVIGATION_HEADER_MARGIN } from '../../constants';
 
-const Wrapper = styled.div`
+export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   height: calc(100vh - ${NAVIGATION_HEADER_MARGIN});
-`;
-
-const GridContainer = styled.div`
-  ${mq.range({ from: '0px', until: breakpoints.tabletWide })} {
-    padding: ${spacing.nsmall};
-  }
-  ${mq.range({ from: breakpoints.tabletWide })} {
-    display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    grid-gap: 1em;
-    max-width: 1400px;
-    justify-self: center;
-    align-self: center;
-    width: 100%;
-  }
-`;
-
-const GridHeader = styled.div`
-  grid-column: 2 / 12;
-`;
-
-const LeftColumn = styled.div`
-  grid-column: 3 / 7;
-`;
-const RightColumn = styled.div`
-  grid-column: 7 / 11;
 `;
 
 export const WelcomePage = () => {

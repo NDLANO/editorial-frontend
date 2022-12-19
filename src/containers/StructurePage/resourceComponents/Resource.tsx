@@ -19,6 +19,7 @@ import SafeLink from '@ndla/safelink';
 import { useQueryClient } from 'react-query';
 import { DraggableProvidedDragHandleProps } from 'react-beautiful-dnd';
 import isEqual from 'lodash/isEqual';
+import { css } from '@emotion/react';
 import {
   NodeConnectionPutType,
   ResourceWithNodeConnection,
@@ -67,11 +68,6 @@ const StyledWarnIcon = styled(AlertCircle)`
   height: 24px;
   width: 24px;
   fill: ${colors.support.red};
-`;
-
-const ButtonWithSpacing = styled(ButtonV2)`
-  margin-left: ${spacing.xsmall};
-  flex: 1;
 `;
 
 const StyledResourceIcon = styled.div`
@@ -127,6 +123,27 @@ const StyledDndIcon = styled(DragVertical)`
   height: 30px;
   width: 30px;
   color: ${colors.learningPath.light};
+`;
+
+const ButtonWithSpacing = styled(ButtonV2)`
+  margin-left: ${spacing.xsmall};
+  flex: 1;
+`;
+
+const baseButtonStyles = css`
+  margin-left: ${spacing.xsmall};
+  flex: 1;
+`;
+
+const StatusButton = styled(ButtonV2)<{ isPublished: boolean }>`
+  ${baseButtonStyles}
+  border: none;
+  background-color: ${props =>
+    props.isPublished ? colors.subjectMaterial.light : colors.learningPath.light};
+  &:hover {
+    background-color: ${props =>
+      props.isPublished ? colors.subjectMaterial.dark : colors.learningPath.dark};
+  }
 `;
 
 const getArticleTypeFromId = (id?: string) => {
@@ -280,21 +297,23 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
               Ansvarlig: Navn Navnesen
             </ButtonV2>
             {contentType !== 'learning-path' && (
-              <ButtonWithSpacing
+              <ButtonV2
+                css={baseButtonStyles}
                 size="xsmall"
                 colorTheme="lighter"
                 onClick={() => setShowGrepCodes(true)}>
                 {`GREP (${resource.contentMeta?.grepCodes?.length || 0})`}
-              </ButtonWithSpacing>
+              </ButtonV2>
             )}
             {resource.contentMeta?.status?.current && (
-              <ButtonWithSpacing
+              <StatusButton
                 size="xsmall"
-                colorTheme="lighter"
+                colorTheme="light"
+                isPublished={resource.contentMeta?.status?.current.toLowerCase() === 'published'}
                 onClick={() => setShowVersionHistory(true)}
                 disabled={contentType === 'learning-path'}>
                 {t(`form.status.${resource.contentMeta.status.current.toLowerCase()}`)}
-              </ButtonWithSpacing>
+              </StatusButton>
             )}
           </ButtonRow>
         </ContentWrapper>

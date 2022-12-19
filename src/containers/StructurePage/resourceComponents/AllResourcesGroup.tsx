@@ -11,6 +11,8 @@ import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { colors, spacing, fonts } from '@ndla/core';
 import { Share } from '@ndla/icons/lib/common';
+import { Plus } from '@ndla/icons/action';
+import Tooltip from '@ndla/tooltip';
 import { ResourceWithNodeConnectionAndMeta } from './StructureResources';
 import { ResourceType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import ResourceItems from './ResourceItems';
@@ -20,6 +22,7 @@ import Resource from './Resource';
 import { NodeResourceMeta } from '../../../modules/nodes/nodeQueries';
 import ResourceBanner from './ResourceBanner';
 import { Dictionary } from '../../../interfaces';
+import AddResourceButton from './AddResourceButton';
 
 const ResourceGroupBanner = styled.div`
   background-color: ${colors.brand.lighter};
@@ -46,7 +49,6 @@ interface Props {
 
 const AllResourcesGroup = ({ resourceTypes, nodeResources, currentNode, contentMeta }: Props) => {
   const { t } = useTranslation();
-  const [displayResource, setDisplayResource] = useState<boolean>(true);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [showAddModal, setShowAddModal] = useState<boolean>(false);
   const resourceTypesWithoutMissing = resourceTypes
@@ -55,15 +57,23 @@ const AllResourcesGroup = ({ resourceTypes, nodeResources, currentNode, contentM
 
   const currentNodeId = currentNode.id;
 
-  const toggleDisplayResource = () => setDisplayResource(prev => !prev);
-  // TODO: this should be included
   const toggleAddModal = () => setShowAddModal(prev => !prev);
 
   return (
     <>
-      <ResourceBanner title={currentNode.name} contentMeta={contentMeta} />
+      <ResourceBanner
+        title={currentNode.name}
+        contentMeta={contentMeta}
+        addButton={
+          <AddResourceButton onClick={toggleAddModal}>
+            <Tooltip tooltip={t('taxonomy.addResource')}>
+              <Plus />
+            </Tooltip>
+          </AddResourceButton>
+        }
+      />
 
-      {false && (
+      {showAddModal && (
         <AddResourceModal
           resourceTypes={resourceTypesWithoutMissing}
           nodeId={currentNodeId}

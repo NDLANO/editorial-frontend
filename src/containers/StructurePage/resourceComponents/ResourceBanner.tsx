@@ -9,6 +9,7 @@
 import styled from '@emotion/styled';
 import { colors, spacing, fonts } from '@ndla/core';
 import { Share } from '@ndla/icons/lib/common';
+import { ReactNode } from 'react';
 import { Dictionary } from '../../../interfaces';
 import { NodeResourceMeta } from '../../../modules/nodes/nodeQueries';
 
@@ -35,18 +36,19 @@ const PublishedText = styled.div`
   font-weight: ${fonts.weight.normal};
 `;
 
-interface Props {
-  title: string;
-  contentMeta: Dictionary<NodeResourceMeta>;
-}
-
 const getPublishedCount = (contentMeta: Dictionary<NodeResourceMeta>) => {
   const contentMetaList = Object.values(contentMeta);
   const publishedCount = contentMetaList.filter(c => c.status?.current === 'PUBLISHED').length;
   return publishedCount;
 };
 
-const ResourceBanner = ({ title, contentMeta }: Props) => {
+interface Props {
+  title: string;
+  contentMeta: Dictionary<NodeResourceMeta>;
+  addButton?: ReactNode;
+}
+
+const ResourceBanner = ({ title, contentMeta, addButton }: Props) => {
   const elementCount = Object.values(contentMeta).length;
   const publishedCount = getPublishedCount(contentMeta);
 
@@ -55,6 +57,7 @@ const ResourceBanner = ({ title, contentMeta }: Props) => {
       <div>
         <StyledIcon />
         {title}
+        {addButton}
       </div>
       <PublishedText>{`${publishedCount}/${elementCount} publisert`}</PublishedText>
     </ResourceGroupBanner>

@@ -56,20 +56,20 @@ const SettingsMenuDropdownType = ({
   const toggleEditMode = (mode: EditMode) => setEditMode(prev => (mode === prev ? '' : mode));
   const editModeHandler = { editMode, toggleEditMode };
 
-  if (!userPermissions?.includes(TAXONOMY_ADMIN_SCOPE)) {
-    return null;
-  }
+  const isTaxonomyAdmin = userPermissions?.includes(TAXONOMY_ADMIN_SCOPE);
 
   if (nodeType === SUBJECT_NODE) {
     return (
       <>
         <ChangeNodeName editModeHandler={editModeHandler} node={node} />
-        <EditCustomFields
-          toggleEditMode={toggleEditMode}
-          editMode={editMode}
-          node={node}
-          onCurrentNodeChanged={onCurrentNodeChanged}
-        />
+        {isTaxonomyAdmin && (
+          <EditCustomFields
+            toggleEditMode={toggleEditMode}
+            editMode={editMode}
+            node={node}
+            onCurrentNodeChanged={onCurrentNodeChanged}
+          />
+        )}
         <AddExistingToNode editModeHandler={editModeHandler} currentNode={node} />
         <ToggleVisibility node={node} editModeHandler={editModeHandler} rootNodeId={rootNodeId} />
         <EditGrepCodes node={node} editModeHandler={editModeHandler} />
@@ -84,25 +84,31 @@ const SettingsMenuDropdownType = ({
             <ToNodeDiff node={node} />
           </>
         )}
-        <DeleteNode
-          node={node}
-          nodeChildren={nodeChildren}
-          editModeHandler={editModeHandler}
-          rootNodeId={rootNodeId}
-        />
+        {isTaxonomyAdmin && (
+          <DeleteNode
+            node={node}
+            nodeChildren={nodeChildren}
+            editModeHandler={editModeHandler}
+            rootNodeId={rootNodeId}
+          />
+        )}
       </>
     );
   } else if (nodeType === TOPIC_NODE) {
     return (
       <>
-        <PublishChildNodeResources node={node} />
-        <SwapTopicArticle node={node} editModeHandler={editModeHandler} rootNodeId={rootNodeId} />
-        <EditCustomFields
-          toggleEditMode={toggleEditMode}
-          editMode={editMode}
-          node={node}
-          onCurrentNodeChanged={onCurrentNodeChanged}
-        />
+        {isTaxonomyAdmin && <PublishChildNodeResources node={node} />}
+        {isTaxonomyAdmin && (
+          <SwapTopicArticle node={node} editModeHandler={editModeHandler} rootNodeId={rootNodeId} />
+        )}
+        {isTaxonomyAdmin && (
+          <EditCustomFields
+            toggleEditMode={toggleEditMode}
+            editMode={editMode}
+            node={node}
+            onCurrentNodeChanged={onCurrentNodeChanged}
+          />
+        )}
         <AddExistingToNode editModeHandler={editModeHandler} currentNode={node} />
         <ToggleVisibility node={node} editModeHandler={editModeHandler} rootNodeId={rootNodeId} />
         <EditGrepCodes node={node} editModeHandler={editModeHandler} />
@@ -117,12 +123,14 @@ const SettingsMenuDropdownType = ({
           </>
         )}
         {false && <CopyRevisionDate node={node} editModeHandler={editModeHandler} />}
-        <DeleteNode
-          node={node}
-          nodeChildren={nodeChildren}
-          editModeHandler={editModeHandler}
-          rootNodeId={rootNodeId}
-        />
+        {isTaxonomyAdmin && (
+          <DeleteNode
+            node={node}
+            nodeChildren={nodeChildren}
+            editModeHandler={editModeHandler}
+            rootNodeId={rootNodeId}
+          />
+        )}
         <CopyNodeResources
           currentNode={node}
           editModeHandler={editModeHandler}

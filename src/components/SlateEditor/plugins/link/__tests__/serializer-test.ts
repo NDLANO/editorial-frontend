@@ -61,7 +61,7 @@ const editor: Descendant[] = [
 ];
 
 const html =
-  '<section><p><a href="http://test.url/">link</a></p><p><ndlaembed data-content-id="123" data-link-text="content-link" data-open-in="new-context" data-resource="content-link" data-content-type="article"></ndlaembed></p></section>';
+  '<section><p><a href="http://test.url/">link</a></p><p><ndlaembed data-content-id="123" data-open-in="new-context" data-resource="content-link" data-content-type="article">content-link</ndlaembed></p></section>';
 describe('link serializing tests', () => {
   test('serializing', () => {
     const res = learningResourceContentToHTML(editor);

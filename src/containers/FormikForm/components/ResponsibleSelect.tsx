@@ -96,6 +96,7 @@ const ResponsibleSelect = ({ onSave, responsibleId }: Props) => {
       menuPlacement="top"
       placeholder={t('form.responsible.label')}
       ControlComponent={CustomControl}
+      DropdownIndicatorComponent={() => null}
       value={responsible}
       onChange={updateResponsible}
       isMultiSelect={false}

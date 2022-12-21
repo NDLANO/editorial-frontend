@@ -61,7 +61,6 @@ const StructureContainer = () => {
   const [showFavorites, setShowFavorites] = useState(
     window.localStorage.getItem(REMEMBER_FAVORITE_NODES) === 'true',
   );
-  const resourceSection = useRef<HTMLDivElement>(null);
 
   const addNodeMutation = useAddNodeMutation();
   const userDataQuery = useUserData();
@@ -170,7 +169,6 @@ const StructureContainer = () => {
                         renderBeforeTitle={StructureErrorIcon}
                         allRootNodes={nodesQuery.data ?? []}
                         openedPaths={getPathsFromUrl(location.pathname)}
-                        resourceSectionRef={resourceSection}
                         onNodeSelected={setCurrentNode}
                         isFavorite={!!favoriteNodes[node.id]}
                         key={node.id}
@@ -185,7 +183,7 @@ const StructureContainer = () => {
           </LeftColumn>
           <RightColumn>
             {currentNode && isChildNode(currentNode) && (
-              <StructureResources currentChildNode={currentNode} resourceRef={resourceSection} />
+              <StructureResources currentChildNode={currentNode} />
             )}
           </RightColumn>
           <MainArea>

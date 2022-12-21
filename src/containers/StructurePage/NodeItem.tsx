@@ -4,7 +4,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import { HTMLProps, MutableRefObject, ReactNode, useEffect } from 'react';
+import { HTMLProps, ReactNode, useEffect } from 'react';
 import { DropResult } from 'react-beautiful-dnd';
 import { colors } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
@@ -57,7 +57,6 @@ interface Props {
   toggleOpen: (nodeId: string) => void;
   level: number;
   onNodeSelected: (node?: NodeType) => void;
-  resourceSectionRef: MutableRefObject<HTMLDivElement | null>;
   rootNodeId: string;
   onDragEnd: (result: DropResult, childNodes: ChildNodeType[]) => Promise<void>;
   connectionId: string;
@@ -78,7 +77,6 @@ const NodeItem = ({
   level,
   onNodeSelected,
   rootNodeId,
-  resourceSectionRef,
   onDragEnd,
   parentActive,
   allRootNodes,
@@ -144,7 +142,6 @@ const NodeItem = ({
             isMainActive={isOpen}
             structure={allRootNodes}
             onCurrentNodeChanged={node => onNodeSelected(node)}
-            jumpToResources={() => resourceSectionRef?.current?.scrollIntoView()}
             nodeChildren={nodes ?? []}
           />
         )}
@@ -172,7 +169,6 @@ const NodeItem = ({
                   id={t.id}
                   rootNodeId={rootNodeId}
                   openedPaths={openedPaths}
-                  resourceSectionRef={resourceSectionRef}
                   onNodeSelected={onNodeSelected}
                   item={t}
                   nodes={t.childNodes}

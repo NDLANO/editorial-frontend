@@ -1277,8 +1277,6 @@ const phrases = {
     addTopicDescription: 'Change topic description',
     confirmSetPrimary: 'Do you want to make this the main location?',
     removeLink: 'Remove link',
-    jumpToResources: 'Jump to resources',
-    jumpToStructure: 'Jump to structure',
     swapTopicArticle: {
       failed: 'Failed to swap article',
       placeholder: 'Article to swap to',

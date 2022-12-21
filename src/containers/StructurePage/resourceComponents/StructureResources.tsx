@@ -6,10 +6,9 @@
  *
  */
 
-import { memo, RefObject } from 'react';
+import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { spacing } from '@ndla/core';
-import Button from '@ndla/button';
 import styled from '@emotion/styled';
 import { TFunction } from 'i18next';
 import keyBy from 'lodash/keyBy';
@@ -38,7 +37,6 @@ export interface ResourceWithNodeConnectionAndMeta extends ResourceWithNodeConne
 
 interface Props {
   currentChildNode: ChildNodeType;
-  resourceRef: RefObject<HTMLDivElement>;
 }
 
 const getMissingResourceType = (t: TFunction): ResourceType & { disabled?: boolean } => ({
@@ -59,7 +57,7 @@ const withMissing = (r: ResourceWithNodeConnection): ResourceWithNodeConnection 
   resourceTypes: [missingObject],
 });
 
-const StructureResources = ({ currentChildNode, resourceRef }: Props) => {
+const StructureResources = ({ currentChildNode }: Props) => {
   const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
 
@@ -96,23 +94,13 @@ const StructureResources = ({ currentChildNode, resourceRef }: Props) => {
   );
 
   return (
-    <div ref={resourceRef}>
-      <Button
-        outline
-        onClick={() =>
-          document.getElementById(currentChildNode.id)?.scrollIntoView({ block: 'center' })
-        }>
-        {t('taxonomy.jumpToStructure')}
-      </Button>
-
-      <AllResourcesGroup
-        key="ungrouped"
-        nodeResources={nodeResources ?? []}
-        resourceTypes={resourceTypes ?? []}
-        currentNode={currentChildNode}
-        contentMeta={keyedMetas}
-      />
-    </div>
+    <AllResourcesGroup
+      key="ungrouped"
+      nodeResources={nodeResources ?? []}
+      resourceTypes={resourceTypes ?? []}
+      currentNode={currentChildNode}
+      contentMeta={keyedMetas}
+    />
   );
 };
 

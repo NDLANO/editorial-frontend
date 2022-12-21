@@ -8,11 +8,8 @@
 
 import { spacing, fonts } from '@ndla/core';
 import Button from '@ndla/button';
-import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { NodeType } from '../../../modules/nodes/nodeApiTypes';
-import { Row } from '../../../components';
-import Spinner from '../../../components/Spinner';
 import SettingsMenu from './SettingsMenu';
 
 const StyledResourceButton = styled(Button)`
@@ -28,9 +25,7 @@ const StyledFolderWrapper = styled.div`
 interface Props {
   node: NodeType;
   structure: NodeType[];
-  jumpToResources?: () => void;
   isMainActive?: boolean;
-  resourcesLoading?: boolean;
   rootNodeId: string;
   onCurrentNodeChanged: (node: NodeType) => void;
   nodeChildren: NodeType[];
@@ -38,17 +33,12 @@ interface Props {
 
 const FolderItem = ({
   node,
-  jumpToResources,
   isMainActive,
-  resourcesLoading,
   rootNodeId,
   structure,
   onCurrentNodeChanged,
   nodeChildren,
 }: Props) => {
-  const { t } = useTranslation();
-  const showJumpToResources = isMainActive && node.id.includes('topic');
-
   return (
     <StyledFolderWrapper data-cy="folderWrapper">
       {isMainActive && (
@@ -59,18 +49,6 @@ const FolderItem = ({
           onCurrentNodeChanged={onCurrentNodeChanged}
           nodeChildren={nodeChildren}
         />
-      )}
-      {showJumpToResources && (
-        <StyledResourceButton
-          outline
-          type="button"
-          disabled={resourcesLoading}
-          onClick={() => jumpToResources?.()}>
-          <Row>
-            {t('taxonomy.jumpToResources')}
-            {!!resourcesLoading && <Spinner appearance="small" />}
-          </Row>
-        </StyledResourceButton>
       )}
     </StyledFolderWrapper>
   );

@@ -1232,7 +1232,7 @@ const phrases = {
     editStructure: 'Edit structure',
     editSubjectpage: 'Edit subjectpage',
     deleteSubject: 'Delete subject',
-    addSubject: 'Add new subject',
+    addSubject: 'Add subject',
     addExistingTopic: 'Move existing topic here',
     addExistingLoading: 'Moving topic',
     addExistingSuccess: 'Topic successfully moved',

@@ -12,25 +12,7 @@ import { Share } from '@ndla/icons/lib/common';
 import { ReactNode } from 'react';
 import { Dictionary } from '../../../interfaces';
 import { NodeResourceMeta } from '../../../modules/nodes/nodeQueries';
-
-const ResourceGroupBanner = styled.div`
-  background-color: ${colors.brand.lighter};
-  border-radius: 10px;
-  ${fonts.sizes(16)};
-  color: ${colors.brand.primary};
-  font-weight: ${fonts.weight.semibold};
-  padding: 10px;
-  margin-bottom: ${spacing.small};
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-`;
-
-const StyledIcon = styled(Share)`
-  width: 24px;
-  height: 24px;
-  margin-right: ${spacing.small};
-`;
+import { ResourceGroupBanner, StyledIcon } from '../styles';
 
 const PublishedText = styled.div`
   font-weight: ${fonts.weight.normal};

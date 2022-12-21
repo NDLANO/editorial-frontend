@@ -7,9 +7,8 @@
  */
 
 import { resolveJsonOrRejectWithError } from '../../util/apiHelpers';
-import config from '../../config';
 
-const baseUrl = 'https://nynorsk.cloud/translate';
+const baseUrl = '/translate';
 
 export const fetchNnTranslation = ({ id, ...content }) =>
   fetch(baseUrl, {
@@ -18,23 +17,6 @@ export const fetchNnTranslation = ({ id, ...content }) =>
       'Content-Type': 'application/json; charset=utf-8',
     },
     body: JSON.stringify({
-      token: config.npkToken,
-      guid: config.ndlaEnvironment + '_' + id,
-      prefs: {
-        pronoun: 'vi',
-        vi: 'vi',
-        infinitive: 'e',
-        gg: false,
-        k: false,
-        skilnad: false,
-        enten: true,
-        dokker: false,
-        mens: true,
-        einig: true,
-        blant: false,
-        loven: false,
-      },
       document: content,
-      fileType: 'htmlp', // Tells old html-parser to skip changing æøå to entities.
     }),
   }).then(resolveJsonOrRejectWithError);

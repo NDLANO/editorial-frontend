@@ -1,12 +1,11 @@
 import { Taxonomy } from '@ndla/icons/editor';
-import { OneColumn } from '@ndla/ui';
 import { Spinner } from '@ndla/icons';
-import { colors } from '@ndla/core';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Switch } from '@ndla/switch';
 import styled from '@emotion/styled';
+import { colors } from '@ndla/core';
 import Accordion from '../../components/Accordion';
 import ErrorBoundary from '../../components/ErrorBoundary';
 import { REMEMBER_FAVORITE_NODES, TAXONOMY_ADMIN_SCOPE } from '../../constants';
@@ -25,6 +24,7 @@ import { useTaxonomyVersion } from '../StructureVersion/TaxonomyVersionProvider'
 import StickyVersionSelector from './StickyVersionSelector';
 import config from '../../config';
 import { createGuard } from '../../util/guards';
+import { GridContainer, MainArea, LeftColumn, RightColumn } from '../../components/Layout/Layout';
 
 const StructureWrapper = styled.ul`
   margin: 0;
@@ -35,6 +35,12 @@ const isChildNode = createGuard<ChildNodeType>('connectionId');
 
 const StyledStructureContainer = styled.div`
   position: relative;
+`;
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 `;
 
 const StructureContainer = () => {
@@ -126,58 +132,69 @@ const StructureContainer = () => {
 
   return (
     <ErrorBoundary>
-      <OneColumn>
-        <Accordion
-          handleToggle={toggleStructure}
-          header={
-            <>
-              <Taxonomy className="c-icon--medium" />
-              {t('taxonomy.editStructure')}
-            </>
-          }
-          appearance={'taxonomy'}
-          addButton={
-            isTaxonomyAdmin && <InlineAddButton title={t('taxonomy.addSubject')} action={addNode} />
-          }
-          toggleSwitch={
-            <Switch
-              onChange={toggleShowFavorites}
-              checked={showFavorites}
-              label={t('taxonomy.favorites')}
-              id={'favorites'}
-              //@ts-ignore
-              style={{ color: colors.white, width: '15.2em' }}
-            />
-          }
-          hidden={editStructureHidden}>
-          <StyledStructureContainer>
-            {userDataQuery.isLoading || nodesQuery.isLoading ? (
-              <Spinner />
-            ) : (
-              <StructureWrapper data-cy="structure">
-                {nodes!.map(node => (
-                  <RootNode
-                    renderBeforeTitle={StructureErrorIcon}
-                    allRootNodes={nodesQuery.data ?? []}
-                    openedPaths={getPathsFromUrl(location.pathname)}
-                    resourceSectionRef={resourceSection}
-                    onNodeSelected={setCurrentNode}
-                    isFavorite={!!favoriteNodes[node.id]}
-                    key={node.id}
-                    node={node}
-                    toggleOpen={handleStructureToggle}
-                  />
-                ))}
-              </StructureWrapper>
+      <Wrapper>
+        <GridContainer>
+          <LeftColumn>
+            <Accordion
+              handleToggle={toggleStructure}
+              header={
+                <>
+                  <Taxonomy className="c-icon--medium" />
+                  {t('taxonomy.editStructure')}
+                </>
+              }
+              appearance={'taxonomy'}
+              addButton={
+                isTaxonomyAdmin && (
+                  <InlineAddButton title={t('taxonomy.addSubject')} action={addNode} />
+                )
+              }
+              toggleSwitch={
+                <Switch
+                  onChange={toggleShowFavorites}
+                  checked={showFavorites}
+                  label={t('taxonomy.favorites')}
+                  id={'favorites'}
+                  //@ts-ignore
+                  style={{ color: colors.white, width: '15.2em' }}
+                />
+              }
+              hidden={editStructureHidden}>
+              <StyledStructureContainer>
+                {userDataQuery.isLoading || nodesQuery.isLoading ? (
+                  <Spinner />
+                ) : (
+                  <StructureWrapper data-cy="structure">
+                    {nodes!.map(node => (
+                      <RootNode
+                        renderBeforeTitle={StructureErrorIcon}
+                        allRootNodes={nodesQuery.data ?? []}
+                        openedPaths={getPathsFromUrl(location.pathname)}
+                        resourceSectionRef={resourceSection}
+                        onNodeSelected={setCurrentNode}
+                        isFavorite={!!favoriteNodes[node.id]}
+                        key={node.id}
+                        node={node}
+                        toggleOpen={handleStructureToggle}
+                      />
+                    ))}
+                  </StructureWrapper>
+                )}
+              </StyledStructureContainer>
+            </Accordion>
+          </LeftColumn>
+          <RightColumn>
+            {currentNode && isChildNode(currentNode) && (
+              <StructureResources currentChildNode={currentNode} resourceRef={resourceSection} />
             )}
-          </StyledStructureContainer>
-        </Accordion>
-        {config.versioningEnabled === 'true' && isTaxonomyAdmin && <StickyVersionSelector />}
-        {currentNode && isChildNode(currentNode) && (
-          <StructureResources currentChildNode={currentNode} resourceRef={resourceSection} />
-        )}
-      </OneColumn>
-      <Footer showLocaleSelector />
+          </RightColumn>
+          <MainArea>
+            {config.versioningEnabled === 'true' && isTaxonomyAdmin && <StickyVersionSelector />}
+          </MainArea>
+        </GridContainer>
+
+        <Footer showLocaleSelector />
+      </Wrapper>
     </ErrorBoundary>
   );
 };

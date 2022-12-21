@@ -1,12 +1,11 @@
 /**
- * Copyright (c) 2019-present, NDLA.
+ * Copyright (c) 2022-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
  *
  */
 
-import { ReactNode } from 'react';
 import styled from '@emotion/styled';
 import { spacing, breakpoints, mq } from '@ndla/core';
 
@@ -25,7 +24,7 @@ export const GridContainer = styled.div`
   }
 `;
 
-export const GridHeader = styled.div`
+export const MainArea = styled.div`
   grid-column: 2 / 12;
 `;
 

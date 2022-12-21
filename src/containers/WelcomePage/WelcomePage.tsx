@@ -18,7 +18,7 @@ import LastUsedItems from './components/LastUsedItems';
 import { useUserData } from '../../modules/draft/draftQueries';
 import { StyledColumnHeader } from './styles';
 import WelcomeHeader from './components/WelcomeHeader';
-import { GridContainer, GridHeader, LeftColumn, RightColumn } from '../../components/Layout/Layout';
+import { GridContainer, MainArea, LeftColumn, RightColumn } from '../../components/Layout/Layout';
 import { NAVIGATION_HEADER_MARGIN } from '../../constants';
 
 export const Wrapper = styled.div`
@@ -41,9 +41,9 @@ export const WelcomePage = () => {
     <Wrapper>
       <GridContainer>
         <HelmetWithTracker title={t('htmlTitles.welcomePage')} />
-        <GridHeader>
+        <MainArea>
           <WelcomeHeader />
-        </GridHeader>
+        </MainArea>
         <LeftColumn>
           <LastUsedItems lastUsed={lastUsed} />
         </LeftColumn>

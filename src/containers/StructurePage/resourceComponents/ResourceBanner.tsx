@@ -20,7 +20,7 @@ const ResourceGroupBanner = styled.div`
   color: ${colors.brand.primary};
   font-weight: ${fonts.weight.semibold};
   padding: 10px;
-  margin: ${spacing.small} 0px;
+  margin-bottom: ${spacing.small};
   display: flex;
   flex-direction: row;
   justify-content: space-between;

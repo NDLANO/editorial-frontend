@@ -133,7 +133,7 @@ const StructureContainer = () => {
     <ErrorBoundary>
       <Wrapper>
         <GridContainer>
-          <LeftColumn>
+          <LeftColumn colStart={2}>
             <Accordion
               handleToggle={toggleStructure}
               header={
@@ -181,7 +181,7 @@ const StructureContainer = () => {
               </StyledStructureContainer>
             </Accordion>
           </LeftColumn>
-          <RightColumn>
+          <RightColumn colEnd={12}>
             {currentNode && isChildNode(currentNode) && (
               <StructureResources currentChildNode={currentNode} />
             )}

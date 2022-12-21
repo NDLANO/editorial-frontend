@@ -28,9 +28,14 @@ export const MainArea = styled.div`
   grid-column: 2 / 12;
 `;
 
-export const LeftColumn = styled.div`
-  grid-column: 3 / 7;
+interface ColumnSize {
+  colStart?: number;
+  colEnd?: number;
+}
+
+export const LeftColumn = styled.div<ColumnSize>`
+  grid-column: ${props => `${props.colStart ?? 3} / ${props.colEnd ?? 7}`};
 `;
-export const RightColumn = styled.div`
-  grid-column: 7 / 11;
+export const RightColumn = styled.div<ColumnSize>`
+  grid-column: ${props => `${props.colStart ?? 7} / ${props.colEnd ?? 11}`};
 `;

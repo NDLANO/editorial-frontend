@@ -19,7 +19,6 @@ const StyledResourceButton = styled(Button)`
 
 const StyledFolderWrapper = styled.div`
   display: flex;
-  width: 100%;
 `;
 
 interface Props {

@@ -53,7 +53,6 @@ export const ItemTitleButton = styled.button<ItemTitleButtonProps>`
   display: flex;
   align-items: center;
   text-align: left;
-  white-space: nowrap;
   font-style: ${props => !props.isVisible && 'italic'};
 
   ${props => props.hasChildNodes && itemTitleArrow};

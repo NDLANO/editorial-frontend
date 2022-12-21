@@ -9,8 +9,6 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
-import { colors, spacing, fonts } from '@ndla/core';
-import { Share } from '@ndla/icons/lib/common';
 import { Plus } from '@ndla/icons/action';
 import Tooltip from '@ndla/tooltip';
 import { ResourceWithNodeConnectionAndMeta } from './StructureResources';
@@ -24,20 +22,9 @@ import ResourceBanner from './ResourceBanner';
 import { Dictionary } from '../../../interfaces';
 import AddResourceButton from './AddResourceButton';
 
-const ResourceGroupBanner = styled.div`
-  background-color: ${colors.brand.lighter};
-  border-radius: 10px;
-  ${fonts.sizes(16)};
-  color: ${colors.brand.primary};
-  font-weight: ${fonts.weight.semibold};
-  padding: 10px;
-  margin: ${spacing.small} 0px;
-`;
-
-const StyledIcon = styled(Share)`
-  width: 24px;
-  height: 24px;
-  margin-right: ${spacing.small};
+const ResourceWrapper = styled.div`
+  max-height: 80vh;
+  overflow-y: auto;
 `;
 
 interface Props {
@@ -72,33 +59,36 @@ const AllResourcesGroup = ({ resourceTypes, nodeResources, currentNode, contentM
           </AddResourceButton>
         }
       />
+      <ResourceWrapper>
+        {showAddModal && (
+          <AddResourceModal
+            resourceTypes={resourceTypesWithoutMissing}
+            nodeId={currentNodeId}
+            onClose={() => setShowAddModal(false)}
+            existingResourceIds={nodeResources.map(r => r.id)}
+          />
+        )}
 
-      {showAddModal && (
-        <AddResourceModal
-          resourceTypes={resourceTypesWithoutMissing}
-          nodeId={currentNodeId}
-          onClose={() => setShowAddModal(false)}
-          existingResourceIds={nodeResources.map(r => r.id)}
+        {currentNode.name && (
+          <Resource
+            currentNodeId={currentNode.id}
+            resource={{
+              ...currentNode,
+              paths: currentNode.paths ?? [],
+              nodeId: '',
+              contentMeta: currentNode.contentUri ? contentMeta[currentNode.contentUri] : undefined,
+              resourceTypes: [],
+              relevanceId: currentNode.relevanceId!,
+            }}
+          />
+        )}
+
+        <ResourceItems
+          resources={nodeResources}
+          currentNodeId={currentNodeId}
+          contentMeta={contentMeta}
         />
-      )}
-      {currentNode.name && (
-        <Resource
-          currentNodeId={currentNode.id}
-          resource={{
-            ...currentNode,
-            paths: currentNode.paths ?? [],
-            nodeId: '',
-            contentMeta: currentNode.contentUri ? contentMeta[currentNode.contentUri] : undefined,
-            resourceTypes: [],
-            relevanceId: currentNode.relevanceId!,
-          }}
-        />
-      )}
-      <ResourceItems
-        resources={nodeResources}
-        currentNodeId={currentNodeId}
-        contentMeta={contentMeta}
-      />
+      </ResourceWrapper>
     </>
   );
 };

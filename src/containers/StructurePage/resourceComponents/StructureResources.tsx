@@ -23,12 +23,18 @@ import { useAllResourceTypes } from '../../../modules/taxonomy/resourcetypes/res
 import handleError from '../../../util/handleError';
 import AllResourcesGroup from './AllResourcesGroup';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
+import { spacingTop } from '../styles';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const StyledDiv = styled('div')`
   width: calc(${spacing.large} * 5);
   margin-left: auto;
   margin-right: calc(${spacing.nsmall});
+`;
+
+const StickyContainer = styled.div`
+  position: sticky;
+  top: ${spacingTop};
 `;
 
 export interface ResourceWithNodeConnectionAndMeta extends ResourceWithNodeConnection {
@@ -94,13 +100,15 @@ const StructureResources = ({ currentChildNode }: Props) => {
   );
 
   return (
-    <AllResourcesGroup
-      key="ungrouped"
-      nodeResources={nodeResources ?? []}
-      resourceTypes={resourceTypes ?? []}
-      currentNode={currentChildNode}
-      contentMeta={keyedMetas}
-    />
+    <StickyContainer>
+      <AllResourcesGroup
+        key="ungrouped"
+        nodeResources={nodeResources ?? []}
+        resourceTypes={resourceTypes ?? []}
+        currentNode={currentChildNode}
+        contentMeta={keyedMetas}
+      />
+    </StickyContainer>
   );
 };
 

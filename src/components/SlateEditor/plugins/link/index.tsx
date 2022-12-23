@@ -50,7 +50,6 @@ export const linkSerializer: SlateSerializer = {
     }
     if (tag === 'ndlaembed') {
       const embed = el as HTMLEmbedElement;
-      const linkText = embed.innerHTML === '' ? 'Ukjent link tekst' : embed.innerHTML;
       const embedAttributes = reduceElementDataAttributes(embed);
       if (embedAttributes.resource !== 'content-link') return;
       return slatejsx(
@@ -61,11 +60,7 @@ export const linkSerializer: SlateSerializer = {
           'open-in': embedAttributes['open-in'],
           'content-id': embedAttributes['content-id'],
         },
-        [
-          {
-            text: linkText,
-          },
-        ],
+        children,
       );
     }
     return;
@@ -85,8 +80,9 @@ export const linkSerializer: SlateSerializer = {
           data-content-id={node['content-id']}
           data-open-in={node['open-in']}
           data-resource="content-link"
-          data-content-type={node['content-type']}>
-          {Node.string(node)}
+          data-content-type={node['content-type']}
+          data-link-text={Node.string(node)}>
+          {children}
         </ndlaembed>
       );
     }
@@ -133,20 +129,6 @@ export const linkPlugin = (language: string) => (editor: Editor) => {
         }
         if (Node.string(node) === '') {
           return Transforms.removeNodes(editor, { at: path });
-        }
-      }
-      if (node.type === 'content-link') {
-        for (const child of node.children) {
-          if (
-            Text.isText(child) &&
-            (child.bold || child.code || child.italic || child.sub || child.sup || child.underlined)
-          ) {
-            Transforms.unsetNodes(editor, ['bold', 'code', 'italic', 'sub', 'sup', 'underlined'], {
-              at: path,
-              match: node => Text.isText(node),
-            });
-            return;
-          }
         }
       }
     }

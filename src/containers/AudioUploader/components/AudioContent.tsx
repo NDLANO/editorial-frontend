@@ -14,13 +14,14 @@ import { UploadDropZone, FieldHeader } from '@ndla/forms';
 import styled from '@emotion/styled';
 import Tooltip from '@ndla/tooltip';
 import { DeleteForever } from '@ndla/icons/editor';
-import IconButton from '../../../components/IconButton';
 import AudioPlayer from './AudioPlayer';
 import FormikField from '../../../components/FormikField';
 import { AudioFormikType } from './AudioForm';
 import { TitleField } from '../../FormikForm';
 import AudioCopyInfo from './AudioCopyInfo';
 import AudioFileInfoModal from './AudioFileInfoModal';
+import { IconButtonV2 } from '@ndla/button';
+import { spacing } from '@ndla/core';
 
 interface BaseProps {}
 
@@ -29,13 +30,15 @@ interface Props extends BaseProps {
 }
 
 const StyledDeleteButtonContainer = styled.div`
-  margin-top: 2.7rem;
   margin-left: 0.5rem;
 `;
 
 const PlayerWrapper = styled.div`
   display: flex;
   flex-direction: row;
+  align-items: center;
+  gap: ${spacing.small};
+  margin-top: ${spacing.large};
 `;
 
 const getPlayerObject = (
@@ -75,17 +78,16 @@ const AudioContent = ({ formik }: Props) => {
             {playerObject ? (
               <PlayerWrapper>
                 <AudioPlayer audio={playerObject} />
-                <StyledDeleteButtonContainer>
-                  <Tooltip tooltip={t('form.audio.remove')}>
-                    <IconButton
-                      onClick={() => {
-                        setFieldValue('audioFile', {});
-                      }}
-                      tabIndex={-1}>
-                      <DeleteForever />
-                    </IconButton>
-                  </Tooltip>
-                </StyledDeleteButtonContainer>
+                <Tooltip tooltip={t('form.audio.remove')}>
+                  <IconButtonV2
+                    variant="ghost"
+                    colorTheme="danger"
+                    aria-label={t('form.audio.remove')}
+                    onClick={() => setFieldValue('audioFile', {})}
+                    tabIndex={-1}>
+                    <DeleteForever />
+                  </IconButtonV2>
+                </Tooltip>
               </PlayerWrapper>
             ) : (
               <UploadDropZone

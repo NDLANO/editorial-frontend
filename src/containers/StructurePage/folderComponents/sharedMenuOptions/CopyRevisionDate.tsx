@@ -42,7 +42,7 @@ const CopyRevisionDate = ({ node, editModeHandler: { editMode, toggleEditMode } 
 
   return (
     <>
-      <MenuItemButton stripped data-testid="setRevisionDate" onClick={toggleCopyRevisionDate}>
+      <MenuItemButton data-testid="setRevisionDate" onClick={toggleCopyRevisionDate}>
         <RoundIcon small icon={<Time />} />
         {t('taxonomy.copyRevisionDates.buttonText')}
       </MenuItemButton>

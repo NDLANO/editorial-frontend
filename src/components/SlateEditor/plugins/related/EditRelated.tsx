@@ -8,14 +8,14 @@
 
 import { MouseEvent, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import Button from '@ndla/button';
+import { ButtonV2, IconButtonV2 } from '@ndla/button';
 import styled from '@emotion/styled';
-import { darken } from 'polished';
 import { DragDropContext, Droppable, Draggable, DropResult } from 'react-beautiful-dnd';
 import { SectionHeading } from '@ndla/ui';
 import Tooltip from '@ndla/tooltip';
 import { Pencil } from '@ndla/icons/action';
 import { colors, spacing } from '@ndla/core';
+import { DeleteForever } from '@ndla/icons/editor';
 import { search } from '../../../../modules/search/searchApi';
 import AsyncDropdown from '../../../Dropdown/asyncDropdown/AsyncDropdown';
 import Overlay from '../../../Overlay';
@@ -50,11 +50,12 @@ const StyledListWrapper = styled('div')`
 `;
 
 const StyledArticle = styled('div')`
-  position: relative;
-  flex: 1 0 50%;
+  display: flex;
+  justify-content: space-between;
+  align-items: top;
   max-width: 600px;
-
   & > article {
+    flex: 1;
     max-width: 100%;
   }
 `;
@@ -63,20 +64,13 @@ const StyledOr = styled('div')`
   margin: 10px 0;
 `;
 
-const StyledEditButton = styled(Button)`
-  position: absolute;
-  top: 0.1rem;
-  right: 1.5rem;
-  color: ${colors.support.red};
-
-  &:hover,
-  &:focus {
-    color: ${darken(0.2, colors.support.red)};
-  }
-`;
-
 const StyledDropZone = styled('div')`
   flex: 1;
+`;
+
+const ButtonWrapper = styled.div`
+  display: flex;
+  gap: ${spacing.xxsmall};
 `;
 
 interface Props {
@@ -197,21 +191,29 @@ const EditRelated = ({
                             {...providedInner.draggableProps}>
                             <StyledArticle key={article.id}>
                               <RelatedArticle item={article} />
-                              {'url' in article && (
-                                <StyledEditButton
-                                  stripped
-                                  onClick={() => openExternalEdit(article)}>
+                              <ButtonWrapper>
+                                {'url' in article && (
                                   <Tooltip
                                     tooltip={t('form.content.relatedArticle.changeExternal')}>
-                                    <Pencil />
+                                    <IconButtonV2
+                                      aria-label={t('form.content.relatedArticle.changeExternal')}
+                                      variant="ghost"
+                                      colorTheme="light"
+                                      onClick={() => openExternalEdit(article)}>
+                                      <Pencil />
+                                    </IconButtonV2>
                                   </Tooltip>
-                                </StyledEditButton>
-                              )}
-                              <DeleteButton
-                                title={t('form.content.relatedArticle.removeExternal')}
-                                stripped
-                                onClick={e => deleteRelatedArticle(e, articleKey)}
-                              />
+                                )}
+                                <Tooltip tooltip={t('form.content.relatedArticle.removeExternal')}>
+                                  <IconButtonV2
+                                    aria-label={t('form.content.relatedArticle.removeExternal')}
+                                    variant="ghost"
+                                    colorTheme="danger"
+                                    onClick={e => deleteRelatedArticle(e, articleKey)}>
+                                    <DeleteForever />
+                                  </IconButtonV2>
+                                </Tooltip>
+                              </ButtonWrapper>
                             </StyledArticle>
                           </div>
                         )}
@@ -224,7 +226,7 @@ const EditRelated = ({
             </Droppable>
           </DragDropContext>
         </StyledListWrapper>
-        <StyledArticle data-cy="styled-article-modal">
+        <div data-cy="styled-article-modal">
           <AsyncDropdown
             idField="id"
             labelField="title"
@@ -236,10 +238,10 @@ const EditRelated = ({
             showPagination
           />
           <StyledOr>{t('taxonomy.or')}</StyledOr>
-          <Button data-testid="showAddExternal" onClick={toggleAddExternal}>
+          <ButtonV2 data-testid="showAddExternal" onClick={toggleAddExternal}>
             {t('form.content.relatedArticle.addExternal')}
-          </Button>
-        </StyledArticle>
+          </ButtonV2>
+        </div>
         <DeleteButton stripped onClick={onRemoveClick} />
       </StyledBorderDiv>
       {showAddExternal && (

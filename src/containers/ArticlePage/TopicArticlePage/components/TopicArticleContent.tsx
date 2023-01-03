@@ -17,7 +17,6 @@ import { headingPlugin } from '../../../../components/SlateEditor/plugins/headin
 import { noEmbedPlugin } from '../../../../components/SlateEditor/plugins/noEmbed';
 import VisualElementField from '../../../FormikForm/components/VisualElementField';
 import LastUpdatedLine from './../../../../components/LastUpdatedLine/LastUpdatedLine';
-import ToggleButton from '../../../../components/ToggleButton';
 import HowToHelper from '../../../../components/HowTo/HowToHelper';
 
 import { blockQuotePlugin } from '../../../../components/SlateEditor/plugins/blockquote';
@@ -44,6 +43,8 @@ import { dndPlugin } from '../../../../components/SlateEditor/plugins/DND';
 import { SlatePlugin } from '../../../../components/SlateEditor/interfaces';
 import { useSession } from '../../../Session/SessionProvider';
 import { spanPlugin } from '../../../../components/SlateEditor/plugins/span';
+import { IconButtonV2 } from '@ndla/button';
+import { colors } from '@ndla/core';
 
 const StyledByLineFormikField = styled(FormikField)`
   display: flex;
@@ -55,13 +56,19 @@ const StyledByLineFormikField = styled(FormikField)`
 const IconContainer = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
   width: 64px;
 `;
 
 const StyledDiv = styled.div`
   display: flex;
   width: 100%;
+  align-items: center;
   justify-content: space-between;
+`;
+
+const MarkdownButton = styled(IconButtonV2)<{ active: boolean }>`
+  color: ${p => (p.active ? colors.brand.primary : colors.brand.light)};
 `;
 
 const createPlugins = (language: string, handleSubmitRef: RefObject<() => void>): SlatePlugin[] => {
@@ -129,9 +136,14 @@ const TopicArticleContent = (props: Props) => {
             />
             <IconContainer>
               <Tooltip tooltip={t('form.markdown.button')}>
-                <ToggleButton active={preview} onClick={() => setPreview(!preview)}>
+                <MarkdownButton
+                  aria-label={'form.markdown.button'}
+                  variant="stripped"
+                  colorTheme="light"
+                  active={preview}
+                  onClick={() => setPreview(!preview)}>
                   <Eye />
-                </ToggleButton>
+                </MarkdownButton>
               </Tooltip>
               <HowToHelper pageId="Markdown" tooltip={t('form.markdown.helpLabel')} />
             </IconContainer>

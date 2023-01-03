@@ -32,7 +32,7 @@ const ToNodeDiff = ({ node }: Props) => {
   const { taxonomyVersion } = useTaxonomyVersion();
   return (
     <StyledLink to={toNodeDiff(node.id, taxonomyVersion, 'default')}>
-      <MenuItemButton stripped data-testid="toNodeDiff">
+      <MenuItemButton data-testid="toNodeDiff">
         <RoundIcon small icon={<Taxonomy />} />
         {t('diff.compareVersions')}
       </MenuItemButton>

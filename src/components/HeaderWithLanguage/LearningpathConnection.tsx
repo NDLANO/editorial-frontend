@@ -13,7 +13,7 @@ import { useTranslation } from 'react-i18next';
 import { LearningPath } from '@ndla/icons/contentType';
 import Modal, { ModalHeader, ModalCloseButton, ModalBody } from '@ndla/modal';
 import Tooltip from '@ndla/tooltip';
-import Button from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 import { ILearningPathV2 } from '@ndla/types-learningpath-api';
 import { normalPaddingCSS } from '../HowTo';
 import ElementList from '../../containers/FormikForm/components/ElementList';
@@ -49,13 +49,13 @@ const LearningpathConnection = ({ id, learningpaths, setLearningpaths }: Props) 
       label={t('form.learningpathConnections.title')}
       backgroundColor="white"
       narrow
-      wrapperFunctionForButton={(activateButton: any) => (
-        <Tooltip tooltip={t('form.learningpathConnections.sectionTitle')}>{activateButton}</Tooltip>
+      wrapperFunctionForButton={button => (
+        <Tooltip tooltip={t('form.learningpathConnections.sectionTitle')}>{button}</Tooltip>
       )}
       activateButton={
-        <Button stripped>
+        <ButtonV2 variant="stripped">
           <LearningpathIcon css={normalPaddingCSS} />
-        </Button>
+        </ButtonV2>
       }>
       {(onClose: () => void) => (
         <>

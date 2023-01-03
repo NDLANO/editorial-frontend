@@ -137,7 +137,7 @@ const PublishChildNodeResources = ({ node }: Props) => {
 
   return (
     <>
-      <MenuItemButton stripped onClick={() => setShowConfirmation(true)}>
+      <MenuItemButton onClick={() => setShowConfirmation(true)}>
         <RoundIcon small icon={<Done />} />
         {t('taxonomy.publish.button')}
       </MenuItemButton>

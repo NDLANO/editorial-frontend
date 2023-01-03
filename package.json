@@ -143,6 +143,7 @@
     "@ndla/notion": "^4.1.2",
     "@ndla/pager": "^2.1.1",
     "@ndla/safelink": "^3.1.1",
+    "@ndla/select": "^2.0.2",
     "@ndla/switch": "^1.0.3",
     "@ndla/tabs": "^2.1.0",
     "@ndla/tooltip": "^3.1.1",

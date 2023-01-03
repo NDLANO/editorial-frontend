@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { spacing, colors } from '@ndla/core';
 import { Calendar } from '@ndla/icons/editor';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Option } from '@ndla/select';
 import { useSearch } from '../../../modules/search/searchQueries';
@@ -43,6 +43,9 @@ const WorkList = () => {
   const [sortOption, setSortOption] = useState<string>();
   const [filterSubjects, setFilterSubject] = useState<Option[]>([]);
   const [error, setError] = useState();
+
+  const updateSortOption = useCallback((v: string) => setSortOption(v), []);
+  const updateFilterSubjects = useCallback((o: Option[]) => setFilterSubject(o), []);
 
   const { ndlaId } = useSession();
   const { t } = useTranslation();
@@ -114,13 +117,13 @@ const WorkList = () => {
           description={t('welcomePage.workList.description')}
           Icon={Calendar}
         />
-        <SubjectDropdown filterSubject={filterSubjects} setFilterSubject={setFilterSubject} />
+        <SubjectDropdown filterSubject={filterSubjects} setFilterSubject={updateFilterSubjects} />
       </StyledTopRow>
       <TableComponent
         isLoading={isLoading}
         tableTitleList={tableTitles}
         tableData={tableData}
-        setSortOption={setSortOption}
+        setSortOption={updateSortOption}
         sortOption={sortOption}
         error={error}
       />

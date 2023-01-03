@@ -6,48 +6,11 @@
  *
  */
 import { useTranslation } from 'react-i18next';
-import { Select, ControlPropsType, SingleValue } from '@ndla/select';
-import { spacing, colors } from '@ndla/core';
-import styled from '@emotion/styled';
-import { ButtonV2 as Button } from '@ndla/button';
+import { Select, Option } from '@ndla/select';
 import { useState, useEffect } from 'react';
-import { ChevronDown } from '@ndla/icons/common';
 import sortBy from 'lodash/sortBy';
 import { useAuth0Editors } from '../../../modules/auth0/auth0Queries';
 import { DRAFT_WRITE_SCOPE } from '../../../constants';
-
-const Wrapper = styled.div`
-  width: 200px;
-`;
-
-const StyledButton = styled(Button)`
-  width: 200px;
-  display: flex;
-  justify-content: space-between;
-  padding: ${spacing.small};
-  text-align: center;
-  border: none;
-
-  &:focus {
-    color: ${colors.brand.primary};
-    background-color: ${colors.brand.lighter};
-    outline: 2px solid ${colors.brand.dark};
-  }
-`;
-const StyledChevron = styled(ChevronDown)`
-  width: 26px;
-  height: 26px;
-`;
-
-const CustomControl = (props: ControlPropsType<false>) => {
-  return (
-    <div ref={props.innerRef} {...props.innerProps}>
-      <StyledButton size="large" colorTheme="lighter">
-        {props.children} <StyledChevron />
-      </StyledButton>
-    </div>
-  );
-};
 
 interface Props {
   onSave: (responsibleId: string) => void;
@@ -69,8 +32,8 @@ const ResponsibleSelect = ({ onSave, responsibleId }: Props) => {
     },
   );
 
-  const [responsible, setResponsible] = useState<SingleValue>();
-  const [sortedUsers, setSortedUsers] = useState<SingleValue[]>([]);
+  const [responsible, setResponsible] = useState<Option>();
+  const [sortedUsers, setSortedUsers] = useState<Option[]>([]);
 
   useEffect(() => {
     if (users) {
@@ -83,7 +46,7 @@ const ResponsibleSelect = ({ onSave, responsibleId }: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [users]);
 
-  const updateResponsible = async (responsible: SingleValue) => {
+  const updateResponsible = async (responsible: Option) => {
     if (responsible) {
       setResponsible(responsible);
       onSave(responsible.value);
@@ -91,12 +54,10 @@ const ResponsibleSelect = ({ onSave, responsibleId }: Props) => {
   };
 
   return (
-    <Select
+    <Select<false>
       options={sortedUsers ?? []}
       menuPlacement="top"
       placeholder={t('form.responsible.label')}
-      ControlComponent={CustomControl}
-      DropdownIndicatorComponent={() => null}
       value={responsible}
       onChange={updateResponsible}
       isMultiSelect={false}

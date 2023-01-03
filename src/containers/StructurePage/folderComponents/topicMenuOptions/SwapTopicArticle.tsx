@@ -137,7 +137,7 @@ const SwapTopicArticle = ({
 
   return (
     <StyledMenuWrapper>
-      <MenuItemButton stripped onClick={toggleEditModeFunc}>
+      <MenuItemButton onClick={toggleEditModeFunc}>
         <RoundIcon small icon={<SubjectMaterial />} />
         {t('taxonomy.swapTopicArticle.info')}
       </MenuItemButton>

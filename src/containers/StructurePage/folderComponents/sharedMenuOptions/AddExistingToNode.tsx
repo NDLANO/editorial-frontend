@@ -145,7 +145,7 @@ const AddExistingToNode = ({
 
   return (
     <StyledMenuWrapper>
-      <MenuItemButton stripped onClick={toggleEditModeFunc}>
+      <MenuItemButton onClick={toggleEditModeFunc}>
         <RoundIcon small icon={<Plus />} />
         {t('taxonomy.addExistingTopic')}
       </MenuItemButton>

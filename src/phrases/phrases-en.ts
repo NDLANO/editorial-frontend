@@ -1526,7 +1526,7 @@ const phrases = {
     publishing: 'Publishing node...',
     publish: 'Publish node',
     publishWarning:
-      'Are you sure you want to publish this node? Any changes within this version will be immediately available in the targeted version',
+      'Are you sure you want to publish this node? All the changes will be available in the targeted version after the publishing have completed',
     publishError: 'Failed to publish node',
     equalNodes: 'These nodes are equal!',
     defaultVersion: 'Draft',

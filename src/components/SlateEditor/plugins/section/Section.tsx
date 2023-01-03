@@ -5,10 +5,11 @@ import { ReactEditor, RenderElementProps } from 'slate-react';
 import { useTranslation } from 'react-i18next';
 import Tooltip from '@ndla/tooltip';
 import { colors } from '@ndla/core';
+import { DeleteForever } from '@ndla/icons/editor';
+import { ButtonV2 } from '@ndla/button';
 import { SectionElement } from '.';
 
 import StyledFormContainer from '../../common/StyledFormContainer';
-import DeleteForeverButton from '../../../DeleteForeverButton';
 
 interface Props {
   attributes: RenderElementProps['attributes'];
@@ -42,13 +43,16 @@ const Section = ({ attributes, children, element, editor }: Props) => {
       {editor.children.length > 1 && (
         <TooltipWrapper contentEditable={false}>
           <Tooltip tooltip={t('form.section.remove')}>
-            <DeleteForeverButton
-              stripped
+            <ButtonV2
+              contentEditable={false}
+              colorTheme="danger"
+              variant="stripped"
               onClick={() => {
                 const path = ReactEditor.findPath(editor, element);
                 Transforms.removeNodes(editor, { at: path });
-              }}
-            />
+              }}>
+              <DeleteForever />
+            </ButtonV2>
           </Tooltip>
         </TooltipWrapper>
       )}

@@ -8,10 +8,10 @@
 
 import { ReactNode } from 'react';
 import { colors, spacing } from '@ndla/core';
-import Button from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 import styled from '@emotion/styled';
 
-const StyledAddButton = styled(Button)`
+const StyledAddButton = styled(ButtonV2)`
   &,
   &:disabled,
   &:hover,
@@ -35,7 +35,7 @@ interface Props {
 }
 
 const AddResourceButton = ({ children, ...rest }: Props) => (
-  <StyledAddButton type="button" {...rest}>
+  <StyledAddButton variant="stripped" {...rest}>
     {children}
   </StyledAddButton>
 );

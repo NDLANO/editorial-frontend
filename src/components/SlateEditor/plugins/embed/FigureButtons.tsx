@@ -16,9 +16,8 @@ import { Link as LinkIcon } from '@ndla/icons/common';
 import { Pencil } from '@ndla/icons/action';
 import { DeleteForever } from '@ndla/icons/editor';
 import { useTranslation } from 'react-i18next';
-import SafeLink from '@ndla/safelink';
-import { Link } from 'react-router-dom';
-import IconButton from '../../../IconButton';
+import { SafeLinkIconButton } from '@ndla/safelink';
+import { IconButtonV2 } from '@ndla/button';
 import { Embed } from '../../../../interfaces';
 
 const rightAdjustedStyle = css`
@@ -107,26 +106,27 @@ const FigureButtons = ({
       withMargin={withMargin}
       contentEditable={false}>
       <Tooltip tooltip={tooltip}>
-        <IconButton
-          color="red"
-          type="button"
+        <IconButtonV2
+          aria-label={tooltip}
+          colorTheme="danger"
+          variant="ghost"
           onClick={onRemoveClick}
-          tabIndex={-1}
           data-cy="remove-element">
           <DeleteForever />
-        </IconButton>
+        </IconButtonV2>
       </Tooltip>
       {(figureType === 'image' || figureType === 'audio' || figureType === 'podcast') &&
         (embed.resource === 'image' || embed.resource === 'audio') && (
           <Tooltip tooltip={url[figureType].editTitle}>
-            <IconButton
-              as={Link}
+            <SafeLinkIconButton
+              variant="ghost"
+              colorTheme="light"
               to={`${url[figureType].path}/${embed.resource_id}/edit/${language}`}
               target="_blank"
               title={url[figureType].editTitle}
               tabIndex={-1}>
               <LinkIcon />
-            </IconButton>
+            </SafeLinkIconButton>
           </Tooltip>
         )}
       {figureType === 'external' && onEdit && (
@@ -134,24 +134,28 @@ const FigureButtons = ({
           tooltip={t('form.external.edit', {
             type: providerName || t('form.external.title'),
           })}>
-          <IconButton type="button" tabIndex={-1} onClick={onEdit}>
+          <IconButtonV2
+            aria-label={t('form.external.edit', { type: providerName || t('form.external.title') })}
+            variant="ghost"
+            colorTheme="light"
+            onClick={onEdit}>
             <LinkIcon />
-          </IconButton>
+          </IconButtonV2>
         </Tooltip>
       )}
       {figureType === 'video' && embed.resource === 'brightcove' && (
         <>
           <Tooltip tooltip={t('form.video.brightcove')}>
-            <IconButton
-              as={SafeLink}
+            <SafeLinkIconButton
+              aria-label={t('form.video.brightcove')}
+              variant="ghost"
+              colorTheme="light"
               to={`https://studio.brightcove.com/products/videocloud/media/videos/${
                 embed.videoid.split('&t=')[0]
               }`}
-              target="_blank"
-              title={t('form.video.brightcove')}
-              tabIndex={-1}>
+              target="_blank">
               <LinkIcon />
-            </IconButton>
+            </SafeLinkIconButton>
           </Tooltip>
           {children}
         </>
@@ -159,9 +163,15 @@ const FigureButtons = ({
       {(figureType === 'video' || figureType === 'image') && (
         <Tooltip
           tooltip={figureType === 'video' ? t('form.video.editVideo') : t('form.image.editImage')}>
-          <IconButton type="button" tabIndex={-1} onClick={onEdit}>
+          <IconButtonV2
+            aria-label={
+              figureType === 'video' ? t('form.video.editVideo') : t('form.image.editImage')
+            }
+            variant="ghost"
+            colorTheme="light"
+            onClick={onEdit}>
             <Pencil />
-          </IconButton>
+          </IconButtonV2>
         </Tooltip>
       )}
     </StyledFigureButtons>

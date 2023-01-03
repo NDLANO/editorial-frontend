@@ -79,7 +79,6 @@ const ChangeNodeName = ({ editModeHandler: { editMode, toggleEditMode }, node }:
   return (
     <>
       <MenuItemButton
-        stripped
         data-testid="changeNodeNameButton"
         onClick={() => toggleEditMode('changeSubjectName')}>
         <RoundIcon small icon={<Pencil />} />

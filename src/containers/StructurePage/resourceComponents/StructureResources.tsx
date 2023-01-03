@@ -148,7 +148,7 @@ const StructureResources = ({ currentChildNode, resourceRef, onCurrentNodeChange
       {grouped === 'ungrouped' && (
         <AllResourcesGroup
           key="ungrouped"
-          nodeResources={nodeResources ?? []}
+          nodeResources={nodeResourcesWithMeta ?? []}
           resourceTypes={resourceTypes ?? []}
           currentNodeId={currentChildNode.id}
         />

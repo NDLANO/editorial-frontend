@@ -208,7 +208,6 @@ const ImageEditor = ({ embed, onUpdatedImageSettings, imageUpdates, language }: 
           {isModifiable() && (
             <Tooltip tooltip={t('form.image.focalPoint')}>
               <ImageEditorButton
-                stripped
                 tabIndex={-1}
                 isActive={embed['focal-x'] !== undefined}
                 onClick={(evt: MouseEvent<HTMLButtonElement>) =>
@@ -228,7 +227,6 @@ const ImageEditor = ({ embed, onUpdatedImageSettings, imageUpdates, language }: 
           {isModifiable() && (
             <Tooltip tooltip={t('form.image.crop')}>
               <ImageEditorButton
-                stripped
                 isActive={embed['upper-left-x'] !== undefined}
                 onClick={(evt: MouseEvent<HTMLButtonElement>) => onEditorTypeSet(evt, 'crop')}
                 tabIndex={-1}>

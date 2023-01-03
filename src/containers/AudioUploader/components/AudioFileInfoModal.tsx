@@ -6,6 +6,7 @@
  *
  */
 
+import { IconButtonV2 } from '@ndla/button';
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import Tooltip from '@ndla/tooltip';
 
@@ -19,12 +20,16 @@ const AudioFileInfoModal = () => {
     <Modal
       label={t('form.audio.modal.header')}
       backgroundColor="white"
+      wrapperFunctionForButton={btn => (
+        <Tooltip tooltip={t('form.audio.modal.label')}>{btn}</Tooltip>
+      )}
       activateButton={
-        <div>
-          <Tooltip tooltip={t('form.audio.modal.label')}>
-            <HelpIcon css={normalPaddingCSS} />
-          </Tooltip>
-        </div>
+        <IconButtonV2
+          aria-label={t('form.audio.modal.label')}
+          variant="stripped"
+          colorTheme="light">
+          <HelpIcon css={normalPaddingCSS} />
+        </IconButtonV2>
       }>
       {(onClose: () => void) => (
         <>

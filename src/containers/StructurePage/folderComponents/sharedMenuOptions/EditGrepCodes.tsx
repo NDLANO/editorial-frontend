@@ -117,7 +117,7 @@ const EditGrepCodes = ({ node, editModeHandler: { editMode, toggleEditMode } }: 
 
   return (
     <>
-      <MenuItemButton stripped data-testid="editGrepCodes" onClick={() => toggleEditModes()}>
+      <MenuItemButton data-testid="editGrepCodes" onClick={() => toggleEditModes()}>
         <RoundIcon small icon={<Pencil />} />
         {t('taxonomy.grepCodes.edit')}
       </MenuItemButton>

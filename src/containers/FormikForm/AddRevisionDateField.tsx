@@ -8,7 +8,7 @@
 
 import { FormEvent } from 'react';
 import addYears from 'date-fns/addYears';
-import Button from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 import { Input, FieldRemoveButton } from '@ndla/forms';
 import { useTranslation } from 'react-i18next';
 import { FieldInputProps } from 'formik';
@@ -58,13 +58,6 @@ const StyledSwitch = styled(Switch)`
 
 const StyledDatePickerWrapper = styled.div`
   height: ${spacing.large};
-`;
-
-const StyledTooltip = styled(Tooltip)<{ hide?: boolean }>`
-  height: ${spacing.large};
-  visibility: ${({ hide }) => (hide ? 'hidden' : 'visible')};
-  display: flex;
-  align-items: center;
 `;
 
 const StyledRemoveButton = styled(FieldRemoveButton)<{ visible?: boolean }>`
@@ -140,7 +133,7 @@ const AddRevisionDateField = ({ formikField, showError }: Props) => {
                 />
               </InputWrapper>
               <VerticalCenter>
-                <StyledTooltip tooltip={t('form.revisions.datePickerTooltip')}>
+                <Tooltip tooltip={t('form.revisions.datePickerTooltip')}>
                   <StyledDatePickerWrapper>
                     <InlineDatePicker
                       value={revisionMeta.revisionDate}
@@ -150,36 +143,40 @@ const AddRevisionDateField = ({ formikField, showError }: Props) => {
                       }
                     />
                   </StyledDatePickerWrapper>
-                </StyledTooltip>
-                <StyledTooltip tooltip={t('form.revisions.switchTooltip')}>
-                  <StyledSwitch
-                    checked={revisionMeta.status === 'revised'}
-                    onChange={e => {
-                      const status = e.currentTarget.checked ? 'revised' : 'needs-revision';
-                      editRevision(old => ({ ...old, status }));
-                      if (status === 'revised') {
-                        createMessage({
-                          translationKey: 'form.revisions.reminder',
-                          severity: 'info',
-                          timeToLive: 0,
-                        });
-                      }
-                    }}
-                    label={''}
-                    id={`revision_switch_${index}`}
-                  />
-                </StyledTooltip>
-                <StyledTooltip tooltip={t('form.revisions.deleteTooltip')}>
-                  <StyledRemoveButton visible onClick={() => removeRevision(index)} />
-                </StyledTooltip>
+                </Tooltip>
+                <Tooltip tooltip={t('form.revisions.switchTooltip')}>
+                  <div>
+                    <StyledSwitch
+                      checked={revisionMeta.status === 'revised'}
+                      onChange={e => {
+                        const status = e.currentTarget.checked ? 'revised' : 'needs-revision';
+                        editRevision(old => ({ ...old, status }));
+                        if (status === 'revised') {
+                          createMessage({
+                            translationKey: 'form.revisions.reminder',
+                            severity: 'info',
+                            timeToLive: 0,
+                          });
+                        }
+                      }}
+                      label={''}
+                      id={`revision_switch_${index}`}
+                    />
+                  </div>
+                </Tooltip>
+                <Tooltip tooltip={t('form.revisions.deleteTooltip')}>
+                  <div>
+                    <StyledRemoveButton visible onClick={() => removeRevision(index)} />
+                  </div>
+                </Tooltip>
               </VerticalCenter>
             </Wrapper>
           </div>
         );
       })}
-      <Button outline onClick={addRevision} data-testid="addRevision">
+      <ButtonV2 variant="outline" onClick={addRevision} data-testid="addRevision">
         {t('form.revisions.add')}
-      </Button>
+      </ButtonV2>
     </>
   );
 };

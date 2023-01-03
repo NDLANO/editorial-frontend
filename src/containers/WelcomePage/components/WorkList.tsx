@@ -12,6 +12,7 @@ import { spacing, colors } from '@ndla/core';
 import { Calendar } from '@ndla/icons/editor';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { Option } from '@ndla/select';
 import { useSearch } from '../../../modules/search/searchQueries';
 import { useSession } from '../../Session/SessionProvider';
 import { toEditArticle } from '../../../util/routeHelpers';
@@ -38,14 +39,9 @@ export const StyledLink = styled(Link)`
   }
 `;
 
-export interface FilterElement {
-  id: string;
-  name: string;
-}
-
 const WorkList = () => {
   const [sortOption, setSortOption] = useState<string>();
-  const [filterSubject, setFilterSubject] = useState<FilterElement | undefined>();
+  const [filterSubjects, setFilterSubject] = useState<Option[]>([]);
   const [error, setError] = useState();
 
   const { ndlaId } = useSession();
@@ -54,7 +50,7 @@ const WorkList = () => {
     {
       'responsible-ids': ndlaId,
       sort: sortOption ? sortOption : '-responsibleLastUpdated',
-      ...(filterSubject ? { subjects: filterSubject.id } : {}),
+      ...(filterSubjects.length ? { subjects: filterSubjects.map(fs => fs.value).join(',') } : {}),
     },
     {
       enabled: !!ndlaId,
@@ -119,7 +115,7 @@ const WorkList = () => {
           Icon={Calendar}
         />
         <WorkListDropdownWrapper
-          filterSubject={filterSubject}
+          filterSubject={filterSubjects}
           setFilterSubject={setFilterSubject}
         />
       </StyledTopRow>

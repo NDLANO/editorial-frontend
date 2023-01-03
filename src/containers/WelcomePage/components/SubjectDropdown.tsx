@@ -10,11 +10,16 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import uniq from 'lodash/uniq';
 import { Option, Select } from '@ndla/select';
+import styled from '@emotion/styled';
 import { useSearch } from '../../../modules/search/searchQueries';
 import { fetchSubject } from '../../../modules/taxonomy';
 import { useSession } from '../../Session/SessionProvider';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 import { fetchUserData } from '../../../modules/draft/draftApi';
+
+const Wrapper = styled.div`
+  width: 200px;
+`;
 
 interface Props {
   filterSubject: Option[] | undefined;
@@ -26,7 +31,7 @@ const SubjectDropdown = ({ filterSubject, setFilterSubject }: Props) => {
   const { ndlaId } = useSession();
   const { taxonomyVersion } = useTaxonomyVersion();
 
-  const { data } = useSearch({
+  const { data, isLoading } = useSearch({
     'responsible-ids': ndlaId,
     'aggregate-paths': 'contexts.subjectId',
   });
@@ -68,18 +73,20 @@ const SubjectDropdown = ({ filterSubject, setFilterSubject }: Props) => {
   }, [data]);
 
   return (
-    <Select<true>
-      options={subjectList}
-      placeholder={t('welcomePage.chooseSubject')}
-      value={filterSubject}
-      onChange={setFilterSubject}
-      menuPlacement="bottom"
-      isMultiSelect
-      small
-      outline
-      postfix={t('subjectsPage.subjects').toLowerCase()}
-      //isLoading={isLoading}
-    />
+    <Wrapper>
+      <Select<true>
+        options={subjectList}
+        placeholder={t('welcomePage.chooseSubject')}
+        value={filterSubject}
+        onChange={setFilterSubject}
+        menuPlacement="bottom"
+        isMultiSelect
+        small
+        outline
+        postfix={t('subjectsPage.subjects').toLowerCase()}
+        isLoading={isLoading}
+      />
+    </Wrapper>
   );
 };
 

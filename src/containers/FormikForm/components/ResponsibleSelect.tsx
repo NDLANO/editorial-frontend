@@ -9,8 +9,15 @@ import { useTranslation } from 'react-i18next';
 import { Select, Option } from '@ndla/select';
 import { useState, useEffect } from 'react';
 import sortBy from 'lodash/sortBy';
+import styled from '@emotion/styled';
+import { spacing } from '@ndla/core';
 import { useAuth0Editors } from '../../../modules/auth0/auth0Queries';
 import { DRAFT_WRITE_SCOPE } from '../../../constants';
+
+const Wrapper = styled.div`
+  margin-right: ${spacing.normal};
+  width: 200px;
+`;
 
 interface Props {
   onSave: (responsibleId: string) => void;
@@ -54,15 +61,17 @@ const ResponsibleSelect = ({ onSave, responsibleId }: Props) => {
   };
 
   return (
-    <Select<false>
-      options={sortedUsers ?? []}
-      menuPlacement="top"
-      placeholder={t('form.responsible.label')}
-      value={responsible}
-      onChange={updateResponsible}
-      isMultiSelect={false}
-      isLoading={isLoading}
-    />
+    <Wrapper>
+      <Select<false>
+        options={sortedUsers ?? []}
+        menuPlacement="top"
+        placeholder={t('form.responsible.label')}
+        value={responsible}
+        onChange={updateResponsible}
+        isMultiSelect={false}
+        isLoading={isLoading}
+      />
+    </Wrapper>
   );
 };
 

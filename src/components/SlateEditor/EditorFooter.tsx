@@ -189,8 +189,8 @@ function EditorFooter<T extends FormValues>({
           )}
         </div>
 
-        <ResponsibleSelect onSave={updateResponsible} responsibleId={responsibleId} />
         <div data-cy="footerStatus">
+          <ResponsibleSelect onSave={updateResponsible} responsibleId={responsibleId} />
           <FooterStatus
             onSave={updateStatus}
             options={statuses}

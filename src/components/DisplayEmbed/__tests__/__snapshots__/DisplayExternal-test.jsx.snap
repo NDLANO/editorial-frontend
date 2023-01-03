@@ -52,11 +52,10 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
 }
 
 .emotion-1 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
@@ -65,63 +64,78 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
   -ms-flex-pack: center;
   -webkit-justify-content: center;
   justify-content: center;
-  margin: 0;
-  padding: 0;
-  background: 0;
-  border: 0;
+  gap: 6.5px;
+  color: #fff;
+  background: #d1372e;
+  border: 2px solid #d1372e;
+  border-radius: 4px;
+  outline-width: 0;
+  cursor: pointer;
   -webkit-text-decoration: none;
   text-decoration: none;
+  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
+  font-weight: 600;
+  -webkit-transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
+  transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
   box-shadow: none;
-  color: #d1372e99;
-  width: 26px;
-  height: 26px;
-}
-
-.emotion-1 svg {
-  width: 22px;
-  height: 22px;
-  position: relative;
-  z-index: 1;
-  pointer-events: none;
-}
-
-.emotion-1::before {
-  content: '';
-  display: block;
-  position: absolute;
-  width: 26px;
-  height: 26px;
-  background: #d1372e4D;
+  text-align: center;
+  padding: 4.333333333333333px 6.5px;
+  font-size: 14px;
+  font-size: 0.7777777777777778rem;
+  line-height: 18px;
+  min-height: 32px;
+  border-width: 1px;
+  outline-width: 2px;
+  color: #d1372e;
+  background: transparent;
+  border-color: transparent;
   border-radius: 100%;
-  -webkit-transform: scale(0.5);
-  -moz-transform: scale(0.5);
-  -ms-transform: scale(0.5);
-  transform: scale(0.5);
-  opacity: 0;
-  -webkit-transition: all 200ms ease;
-  transition: all 200ms ease;
+  padding: 6.5px;
+  line-height: 1;
+  border-color: transparent;
+  min-height: unset;
 }
 
 .emotion-1:hover,
 .emotion-1:focus {
-  color: #d1372e;
+  color: #fff;
+  background-color: #d1372e;
+  border-color: #d1372e;
 }
 
-.emotion-1:hover::before,
-.emotion-1:focus::before {
-  -webkit-transform: scale(1.25);
-  -moz-transform: scale(1.25);
-  -ms-transform: scale(1.25);
-  transform: scale(1.25);
-  opacity: 1;
+.emotion-1[disabled] {
+  color: #777777;
+  background-color: #e6e6e6;
+  border-color: transparent;
+  cursor: not-allowed;
+}
+
+.emotion-1:hover,
+.emotion-1:active,
+.emotion-1:focus {
+  color: #fff;
+  background: #d1372e;
+  border-color: #d1372e;
+}
+
+.emotion-1[disabled] {
+  color: #777777;
+  background-color: transparent;
+  border-color: transparent;
+  cursor: not-allowed;
+}
+
+.emotion-1 svg {
+  width: 26px;
+  height: 26px;
+  margin: 0;
 }
 
 .emotion-2 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
@@ -130,55 +144,71 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
   -ms-flex-pack: center;
   -webkit-justify-content: center;
   justify-content: center;
-  margin: 0;
-  padding: 0;
-  background: 0;
-  border: 0;
+  gap: 6.5px;
+  color: #20588f;
+  background: #ceddea;
+  border: 2px solid #ceddea;
+  border-radius: 4px;
+  outline-width: 0;
+  cursor: pointer;
   -webkit-text-decoration: none;
   text-decoration: none;
+  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
+  font-weight: 600;
+  -webkit-transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
+  transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
   box-shadow: none;
-  color: #a5bcd3;
-  width: 26px;
-  height: 26px;
-}
-
-.emotion-2 svg {
-  width: 22px;
-  height: 22px;
-  position: relative;
-  z-index: 1;
-  pointer-events: none;
-}
-
-.emotion-2::before {
-  content: '';
-  display: block;
-  position: absolute;
-  width: 26px;
-  height: 26px;
-  background: #deebf6;
+  text-align: center;
+  padding: 4.333333333333333px 6.5px;
+  font-size: 14px;
+  font-size: 0.7777777777777778rem;
+  line-height: 18px;
+  min-height: 32px;
+  border-width: 1px;
+  outline-width: 2px;
+  color: #20588f;
+  background: transparent;
+  border-color: transparent;
   border-radius: 100%;
-  -webkit-transform: scale(0.5);
-  -moz-transform: scale(0.5);
-  -ms-transform: scale(0.5);
-  transform: scale(0.5);
-  opacity: 0;
-  -webkit-transition: all 200ms ease;
-  transition: all 200ms ease;
+  padding: 6.5px;
+  line-height: 1;
+  border-color: transparent;
+  min-height: unset;
 }
 
 .emotion-2:hover,
 .emotion-2:focus {
-  color: #20588f;
+  color: #fff;
+  background-color: #184673;
+  border-color: #184673;
 }
 
-.emotion-2:hover::before,
-.emotion-2:focus::before {
-  -webkit-transform: scale(1.25);
-  -moz-transform: scale(1.25);
-  -ms-transform: scale(1.25);
-  transform: scale(1.25);
-  opacity: 1;
+.emotion-2[disabled] {
+  color: #777777;
+  background-color: #e6e6e6;
+  border-color: transparent;
+  cursor: not-allowed;
+}
+
+.emotion-2:hover,
+.emotion-2:active,
+.emotion-2:focus {
+  color: #20588f;
+  background: #ceddea;
+  border-color: #ceddea;
+}
+
+.emotion-2[disabled] {
+  color: #777777;
+  background-color: transparent;
+  border-color: transparent;
+  cursor: not-allowed;
+}
+
+.emotion-2 svg {
+  width: 26px;
+  height: 26px;
+  margin: 0;
 }
 
 .emotion-4 {
@@ -201,12 +231,11 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
         data-tooltip-container="true"
       >
         <button
+          aria-label="Fjern eksternt element"
           class="emotion-1"
-          color="red"
           data-cy="remove-element"
           data-state="closed"
           data-trigger="true"
-          tabindex="-1"
           type="button"
         >
           <svg
@@ -242,10 +271,10 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
         data-tooltip-container="true"
       >
         <button
+          aria-label="Rediger eksternt element"
           class="emotion-2"
           data-state="closed"
           data-trigger="true"
-          tabindex="-1"
           type="button"
         >
           <svg

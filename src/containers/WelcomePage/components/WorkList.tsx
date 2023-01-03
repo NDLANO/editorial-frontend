@@ -110,24 +110,31 @@ const WorkList = () => {
     : [[]];
 
   return (
-    <StyledWorkList>
-      <StyledTopRow>
-        <TableTitle
-          title={t('welcomePage.workList.title')}
-          description={t('welcomePage.workList.description')}
-          Icon={Calendar}
-        />
-        <SubjectDropdown filterSubject={filterSubjects} setFilterSubject={updateFilterSubjects} />
-      </StyledTopRow>
-      <TableComponent
-        isLoading={isLoading}
-        tableTitleList={tableTitles}
-        tableData={tableData}
-        setSortOption={updateSortOption}
-        sortOption={sortOption}
-        error={error}
-      />
-    </StyledWorkList>
+    <>
+      {ndlaId && (
+        <StyledWorkList>
+          <StyledTopRow>
+            <TableTitle
+              title={t('welcomePage.workList.title')}
+              description={t('welcomePage.workList.description')}
+              Icon={Calendar}
+            />
+            <SubjectDropdown
+              filterSubject={filterSubjects}
+              setFilterSubject={updateFilterSubjects}
+            />
+          </StyledTopRow>
+          <TableComponent
+            isLoading={isLoading}
+            tableTitleList={tableTitles}
+            tableData={tableData}
+            setSortOption={updateSortOption}
+            sortOption={sortOption}
+            error={error}
+          />
+        </StyledWorkList>
+      )}
+    </>
   );
 };
 

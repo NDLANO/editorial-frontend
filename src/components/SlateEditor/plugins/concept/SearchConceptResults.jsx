@@ -76,7 +76,9 @@ const SearchConceptResults = ({ results, searchObject, addConcept, searching }) 
             {(result.status.current === 'PUBLISHED' ||
               result.status.other.includes('PUBLISHED')) && (
               <Tooltip tooltip={t('form.workflow.published')}>
-                <StyledCheckIcon title={t('form.status.published')} />
+                <div>
+                  <StyledCheckIcon />
+                </div>
               </Tooltip>
             )}
           </StyledConceptResultHeader>

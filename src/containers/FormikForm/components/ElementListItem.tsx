@@ -12,6 +12,7 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { spacing, spacingUnit, colors, fonts, animations } from '@ndla/core';
 import Tooltip from '@ndla/tooltip';
+import { IconButtonV2 } from '@ndla/button';
 import { DragHorizontal, DeleteForever } from '@ndla/icons/editor';
 import { resourceToLinkProps } from '../../../util/resourceHelpers';
 import { ElementType } from './ElementList';
@@ -44,6 +45,10 @@ interface Props {
   onDragStart: (evt: MouseEvent<HTMLButtonElement>, dragIndex: number) => void;
   showDragTooltip: boolean;
 }
+
+const DraggableIconButton = styled(IconButtonV2)`
+  cursor: grabbing;
+`;
 
 const ElementListItem = ({
   deleteFile,
@@ -93,35 +98,35 @@ const ElementListItem = ({
           {isOrderable ? (
             showDragTooltip ? (
               <Tooltip tooltip={messages?.dragElement || ''}>
-                <StyledButtonIcons
-                  draggable
-                  tabIndex={-1}
-                  type="button"
+                <DraggableIconButton
+                  aria-label={messages?.dragElement || ''}
+                  variant="ghost"
+                  colorTheme="light"
                   onMouseDown={e => onDragStart(e, index)}
                   onMouseUp={onDragEnd}>
                   <DragHorizontal />
-                </StyledButtonIcons>
+                </DraggableIconButton>
               </Tooltip>
             ) : (
-              <StyledButtonIcons
-                draggable
-                tabIndex={-1}
-                type="button"
+              <DraggableIconButton
+                aria-label={messages?.dragElement || ''}
+                variant="ghost"
+                colorTheme="light"
                 onMouseDown={e => onDragStart(e, index)}
                 onMouseUp={onDragEnd}>
                 <DragHorizontal />
-              </StyledButtonIcons>
+              </DraggableIconButton>
             )
           ) : null}
           <Tooltip tooltip={messages?.removeElement || ''}>
-            <StyledButtonIcons
+            <IconButtonV2
+              aria-label={messages?.removeElement || ''}
+              variant="ghost"
+              colorTheme="danger"
               data-cy="elementListItemDeleteButton"
-              tabIndex={-1}
-              type="button"
-              onClick={() => deleteFile(index)}
-              delete>
+              onClick={() => deleteFile(index)}>
               <DeleteForever />
-            </StyledButtonIcons>
+            </IconButtonV2>
           </Tooltip>
         </div>
       )}
@@ -163,43 +168,6 @@ const StyledElementImage = styled.img`
   height: ${ELEMENT_HEIGHT - spacingUnit / 2}px;
   object-fit: cover;
   margin-right: ${spacing.small};
-`;
-
-export const StyledButtonIcons = styled.button<StyledProps>`
-  border: 0;
-  background: none;
-  color: ${colors.brand.primary};
-  width: ${spacing.medium};
-  height: ${spacing.medium};
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0;
-  padding: 0;
-  border-radius: 100%;
-  transition: background 200ms ease;
-  svg {
-    width: 18px;
-    height: 18px;
-  }
-  &:hover,
-  &:focus {
-    background: ${colors.brand.light};
-  }
-  ${props =>
-    props.delete &&
-    css`
-      color: ${colors.support.red};
-      &:hover,
-      &:focus {
-        background: ${colors.support.redLight};
-      }
-    `}
-  ${props =>
-    props.draggable &&
-    css`
-      cursor: grabbing;
-    `};
 `;
 
 export default ElementListItem;

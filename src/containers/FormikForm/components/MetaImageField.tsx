@@ -8,17 +8,16 @@
 
 import { SyntheticEvent } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { DeleteForever } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
-import { Link as LinkIcon } from '@ndla/icons/common';
+import { IconButtonV2 } from '@ndla/button';
+import { Link } from '@ndla/icons/common';
+import { SafeLinkButton } from '@ndla/safelink';
 import { IImageMetaInformationV3 } from '@ndla/types-image-api';
 import { convertFieldWithFallback } from '../../../util/convertFieldWithFallback';
 import MetaInformation from '../../../components/MetaInformation';
 import FormikField from '../../../components/FormikField';
-
-import IconButton from '../../../components/IconButton';
 
 const MetaImageContainer = styled.div`
   display: flex;
@@ -46,24 +45,25 @@ const MetaImageField = ({ image, onImageRemove, onImageLoad }: Props) => {
   const imageAction = (
     <>
       <Tooltip tooltip={t('form.image.removeImage')}>
-        <IconButton
-          color="red"
-          type="button"
+        <IconButtonV2
+          aria-label={t('form.image.removeImage')}
+          colorTheme="danger"
+          variant="ghost"
           onClick={onImageRemove}
           tabIndex={-1}
           data-cy="remove-element">
           <DeleteForever />
-        </IconButton>
+        </IconButtonV2>
       </Tooltip>
       <Tooltip tooltip={t('form.image.editImage')}>
-        <IconButton
-          as={Link}
+        <SafeLinkButton
+          variant="ghost"
+          colorTheme="light"
+          shape="pill"
           to={`/media/image-upload/${image.id}/edit/${image.title.language}`}
-          target="_blank"
-          title={t('form.editOriginalImage')}
-          tabIndex={-1}>
-          <LinkIcon />
-        </IconButton>
+          target="_blank">
+          <Link />
+        </SafeLinkButton>
       </Tooltip>
     </>
   );

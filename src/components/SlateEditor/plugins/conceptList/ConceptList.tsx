@@ -6,6 +6,7 @@
  */
 
 import styled from '@emotion/styled';
+import { IconButtonV2 } from '@ndla/button';
 import { colors } from '@ndla/core';
 import { Pencil } from '@ndla/icons/action';
 import { DeleteForever } from '@ndla/icons/editor';
@@ -15,7 +16,6 @@ import { useTranslation } from 'react-i18next';
 import { Editor, Transforms } from 'slate';
 import { RenderElementProps, ReactEditor, useSelected } from 'slate-react';
 import { ConceptListElement } from '.';
-import IconButton from '../../../IconButton';
 import ConceptSearchResult from './ConceptSearchResult';
 import ConceptTagPicker from './ConceptTagPicker';
 
@@ -86,14 +86,22 @@ const ConceptList = ({ element, language, editor, attributes, children }: Props)
         className="c-figure u-float">
         <ButtonContainer contentEditable={false}>
           <Tooltip tooltip={t('form.conceptList.remove')}>
-            <IconButton color="red" type="button" onClick={onRemoveClick} tabIndex={-1}>
+            <IconButtonV2
+              aria-label={t('form.conceptList.remove')}
+              variant="ghost"
+              colorTheme="danger"
+              onClick={onRemoveClick}>
               <DeleteForever />
-            </IconButton>
+            </IconButtonV2>
           </Tooltip>
           <Tooltip tooltip={t('form.conceptList.edit')}>
-            <IconButton type="button" onClick={onEditClick} tabIndex={-1}>
+            <IconButtonV2
+              aria-label={t('form.conceptList.edit')}
+              variant="ghost"
+              colorTheme="light"
+              onClick={onEditClick}>
               <Pencil />
-            </IconButton>
+            </IconButtonV2>
           </Tooltip>
         </ButtonContainer>
         {title && <StyledHeader contentEditable={false}>{title}</StyledHeader>}

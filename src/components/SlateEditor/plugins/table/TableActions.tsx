@@ -13,9 +13,8 @@ import { ReactEditor } from 'slate-react';
 import { useTranslation } from 'react-i18next';
 import { colors, fonts } from '@ndla/core';
 import { AlignCenter, AlignLeft, AlignRight } from '@ndla/icons/editor';
-import Button from '@ndla/button';
+import { ButtonV2, IconButtonV2 } from '@ndla/button';
 import { Minus, Pencil, Plus } from '@ndla/icons/action';
-import IconButton from '../../../../components/IconButton';
 import { TableElement } from './interfaces';
 import getCurrentBlock from '../../utils/getCurrentBlock';
 import { TYPE_TABLE_CAPTION } from './types';
@@ -32,19 +31,6 @@ import {
   removeRow,
   toggleRowHeaders,
 } from './toolbarActions';
-
-const StyledButton = styled(Button)`
-  display: flex;
-  align-items: center;
-  margin: 5px;
-  gap: 5px;
-`;
-
-const StyledIconButton = styled(IconButton)`
-  display: flex;
-  align-items: center;
-  margin: 5px;
-`;
 
 const StyledTableActions = styled.div`
   background: ${colors.white};
@@ -127,13 +113,15 @@ const columnActions = [
 const TableIconButton = ({ operation, onClick, children }: TableIconButtonProps) => {
   const { t } = useTranslation();
   return (
-    <StyledIconButton
+    <IconButtonV2
+      variant="ghost"
+      colorTheme="light"
       type="button"
       data-cy={operation}
-      title={t(`form.content.table.${operation}`)}
+      aria-label={t(`form.content.table.${operation}`)}
       onMouseDown={(e: MouseEvent<HTMLButtonElement>) => onClick(e, operation)}>
       {children}
-    </StyledIconButton>
+    </IconButtonV2>
   );
 };
 
@@ -212,14 +200,14 @@ const TableActions = ({ editor, element }: Props) => {
     <StyledWrapper contentEditable={false} show={show}>
       <StyledTableActions>
         {showEditColgroups && (
-          <StyledButton
+          <ButtonV2
             data-cy={'edit-colgroups'}
-            stripped
+            variant="stripped"
             title={t('form.content.table.edit-colgroups')}
             onMouseDown={(e: MouseEvent<HTMLButtonElement>) => handleOnClick(e, 'edit-colgroups')}>
             {t('form.content.table.colgroups')}
             <Pencil />
-          </StyledButton>
+          </ButtonV2>
         )}
         <ActionGrid>
           {/* Row 1 - Row actions */}
@@ -233,13 +221,13 @@ const TableActions = ({ editor, element }: Props) => {
           </ActionGroup>
           <StyledRightAlign>
             {showAddHeader && (
-              <StyledButton
+              <ButtonV2
                 data-cy={'head-add'}
-                stripped
+                variant="stripped"
                 title={t(`form.content.table.addHeader`)}
                 onMouseDown={(e: MouseEvent<HTMLButtonElement>) => handleOnClick(e, 'head-add')}>
                 {t(`form.content.table.addHeader`)}
-              </StyledButton>
+              </ButtonV2>
             )}
           </StyledRightAlign>
           {/* Row 2  - Column actions*/}
@@ -251,13 +239,13 @@ const TableActions = ({ editor, element }: Props) => {
               </TableIconButton>
             ))}
           </ActionGroup>
-          <StyledButton
+          <ButtonV2
             data-cy={'toggle-row-headers'}
-            stripped
+            variant="stripped"
             onMouseDown={(e: MouseEvent<HTMLButtonElement>) =>
               handleOnClick(e, 'toggle-row-headers')
             }
-            title={t(
+            aria-label={t(
               `form.content.table.${
                 isTable(table) && table.rowHeaders ? 'disable-header' : 'enable-header'
               }`,
@@ -267,7 +255,7 @@ const TableActions = ({ editor, element }: Props) => {
                 isTable(table) && table.rowHeaders ? 'disable-header' : 'enable-header'
               }`,
             )}
-          </StyledButton>
+          </ButtonV2>
         </ActionGrid>
       </StyledTableActions>
     </StyledWrapper>

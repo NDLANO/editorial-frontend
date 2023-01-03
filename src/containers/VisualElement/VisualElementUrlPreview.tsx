@@ -8,7 +8,7 @@
 
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import Button from '@ndla/button';
+import { ButtonV2, IconButtonV2 } from '@ndla/button';
 import {
   FieldHeader,
   FieldSection,
@@ -22,9 +22,9 @@ import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import Tooltip from '@ndla/tooltip';
+import { SafeLinkIconButton } from '@ndla/safelink';
 import { IImageMetaInformationV3 } from '@ndla/types-image-api';
 import { DeleteForever } from '@ndla/icons/editor';
-import { Link } from 'react-router-dom';
 
 import UrlAllowList from './UrlAllowList';
 import { fetchExternalOembed } from '../../util/apiHelpers';
@@ -38,7 +38,6 @@ import { ExternalEmbed } from '../../interfaces';
 import ImageSearchAndUploader from '../../components/ImageSearchAndUploader';
 import { fetchImage, searchImages } from '../../modules/image/imageApi';
 import { onError } from '../../util/resolveJsonOrRejectWithError';
-import IconButton from '../../components/IconButton';
 
 const filterWhiteListedURL = (url: string) => {
   const domain = urlDomain(url);
@@ -88,7 +87,7 @@ const ContentInputWrapper = styled.div`
   flex-direction: column;
 `;
 
-const UpdateButton = styled(Button)`
+const UpdateButton = styled(ButtonV2)`
   margin-left: auto;
   margin-top: ${spacing.small};
 `;
@@ -97,16 +96,8 @@ const ImageInputWrapper = styled.div`
   position: relative;
 `;
 
-const ImageButtons = styled.div`
-  position: absolute;
-  display: flex;
-  gap: ${spacing.xsmall};
-  flex-direction: column;
-  right: -${spacing.medium};
-  top: 0;
-`;
-
 const ImageWrapper = styled.div`
+  display: flex;
   max-width: 200px;
   max-height: 160px;
   > img {
@@ -351,15 +342,15 @@ const VisualElementUrlPreview = ({
       </FieldSection>
       {!showFullscreen && (
         <StyledButtonWrapper>
-          <Button
+          <ButtonV2
             disabled={url === selectedResourceUrl || url === ''}
-            outline
+            variant="outline"
             onClick={() => handleSaveUrl(true)}>
             {t('form.content.link.preview')}
-          </Button>
-          <Button disabled={!canSave()} outline onClick={() => handleSaveUrl()}>
+          </ButtonV2>
+          <ButtonV2 disabled={!canSave()} variant="outline" onClick={() => handleSaveUrl()}>
             {urlChanged ? t('form.content.link.insert') : t('form.content.link.update')}
-          </Button>
+          </ButtonV2>
         </StyledButtonWrapper>
       )}
       {userPermissions?.includes(DRAFT_ADMIN_SCOPE) && (
@@ -378,31 +369,31 @@ const VisualElementUrlPreview = ({
               <ImageWrapper>
                 {/* eslint-disable-next-line jsx-a11y/img-redundant-alt */}
                 <img src={image?.image.imageUrl} alt={image?.alttext.alttext} />
-                <ImageButtons>
+                <div>
                   <Tooltip tooltip={t('form.metaImage.remove')}>
-                    <IconButton
-                      color="red"
-                      type="button"
+                    <IconButtonV2
+                      aria-label={t('form.metaImage.remove')}
+                      variant="ghost"
+                      colorTheme="danger"
                       onClick={() => setImage(undefined)}
-                      tabIndex={-1}
                       data-cy="remove-element">
                       <DeleteForever />
-                    </IconButton>
+                    </IconButtonV2>
                   </Tooltip>
                   <Tooltip tooltip={t('imageEditor.editImage')}>
-                    <IconButton
-                      as={Link}
+                    <SafeLinkIconButton
+                      variant="ghost"
+                      colorTheme="light"
                       to={`/media/image-upload/${image.id}/edit/${language}`}
                       target="_blank"
-                      title={t('form.editOriginalImage')}
-                      tabIndex={-1}>
+                      aria-label={t('form.editOriginalImage')}>
                       <LinkIcon />
-                    </IconButton>
+                    </SafeLinkIconButton>
                   </Tooltip>
-                </ImageButtons>
+                </div>
               </ImageWrapper>
             ) : (
-              <Button onClick={() => setImageModalOpen(true)}>{t('form.metaImage.add')}</Button>
+              <ButtonV2 onClick={() => setImageModalOpen(true)}>{t('form.metaImage.add')}</ButtonV2>
             )}
           </ImageInputWrapper>
           <ContentInputWrapper>
@@ -420,7 +411,7 @@ const VisualElementUrlPreview = ({
               placeholder={t('form.name.description')}
               onChange={e => setDescription(e.currentTarget.value)}
             />
-            <UpdateButton disabled={!canSave()} outline onClick={() => handleSaveUrl()}>
+            <UpdateButton disabled={!canSave()} variant="outline" onClick={() => handleSaveUrl()}>
               {urlChanged ? t('form.content.link.insert') : t('form.content.link.update')}
             </UpdateButton>
           </ContentInputWrapper>

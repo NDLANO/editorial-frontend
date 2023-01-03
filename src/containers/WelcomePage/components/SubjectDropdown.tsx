@@ -9,12 +9,11 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import uniq from 'lodash/uniq';
-import { Option } from '@ndla/select';
+import { Option, Select } from '@ndla/select';
 import { useSearch } from '../../../modules/search/searchQueries';
 import { fetchSubject } from '../../../modules/taxonomy';
 import { useSession } from '../../Session/SessionProvider';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
-import DropdownPicker from './DropdownPicker';
 import { fetchUserData } from '../../../modules/draft/draftApi';
 
 interface Props {
@@ -22,7 +21,7 @@ interface Props {
   setFilterSubject: (fs: Option[]) => void;
 }
 
-const WorkListDropdownWrapper = ({ filterSubject, setFilterSubject }: Props) => {
+const SubjectDropdown = ({ filterSubject, setFilterSubject }: Props) => {
   const { t } = useTranslation();
   const { ndlaId } = useSession();
   const { taxonomyVersion } = useTaxonomyVersion();
@@ -69,13 +68,19 @@ const WorkListDropdownWrapper = ({ filterSubject, setFilterSubject }: Props) => 
   }, [data]);
 
   return (
-    <DropdownPicker
-      placeholder={t('welcomePage.chooseSubject')}
+    <Select<true>
       options={subjectList}
+      placeholder={t('welcomePage.chooseSubject')}
       value={filterSubject}
       onChange={setFilterSubject}
+      menuPlacement="bottom"
+      isMultiSelect
+      small
+      outline
+      postfix={t('subjectsPage.subjects').toLowerCase()}
+      //isLoading={isLoading}
     />
   );
 };
 
-export default WorkListDropdownWrapper;
+export default SubjectDropdown;

@@ -18,7 +18,7 @@ import { useSession } from '../../Session/SessionProvider';
 import { toEditArticle } from '../../../util/routeHelpers';
 import TableComponent, { FieldElement, TitleElement } from './TableComponent';
 import TableTitle from './TableTitle';
-import WorkListDropdownWrapper from './WorkListDropdownWrapper';
+import SubjectDropdown from './SubjectDropdown';
 import formatDate from '../../../util/formatDate';
 
 const StyledWorkList = styled.div`
@@ -114,10 +114,7 @@ const WorkList = () => {
           description={t('welcomePage.workList.description')}
           Icon={Calendar}
         />
-        <WorkListDropdownWrapper
-          filterSubject={filterSubjects}
-          setFilterSubject={setFilterSubject}
-        />
+        <SubjectDropdown filterSubject={filterSubjects} setFilterSubject={setFilterSubject} />
       </StyledTopRow>
       <TableComponent
         isLoading={isLoading}

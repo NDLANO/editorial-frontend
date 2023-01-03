@@ -19,7 +19,7 @@ interface Props {
   placeholder: string;
   options: Option[];
   value: Option[] | undefined;
-  onChange: (v: readonly Option[]) => void;
+  onChange: (v: Option[]) => void;
 }
 
 const DropdownPicker = ({ placeholder, options, value, onChange }: Props) => {

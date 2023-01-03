@@ -8,18 +8,18 @@
 
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { uniq } from 'lodash';
+import uniq from 'lodash/uniq';
+import { Option } from '@ndla/select';
 import { useSearch } from '../../../modules/search/searchQueries';
 import { fetchSubject } from '../../../modules/taxonomy';
 import { useSession } from '../../Session/SessionProvider';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 import DropdownPicker from './DropdownPicker';
-import { FilterElement } from './WorkList';
 import { fetchUserData } from '../../../modules/draft/draftApi';
 
 interface Props {
-  filterSubject: FilterElement | undefined;
-  setFilterSubject: (fs: FilterElement) => void;
+  filterSubject: Option[] | undefined;
+  setFilterSubject: (fs: Option[]) => void;
 }
 
 const WorkListDropdownWrapper = ({ filterSubject, setFilterSubject }: Props) => {
@@ -32,7 +32,7 @@ const WorkListDropdownWrapper = ({ filterSubject, setFilterSubject }: Props) => 
     'aggregate-paths': 'contexts.subjectId',
   });
 
-  const [subjectList, setSubjectList] = useState<FilterElement[]>([]);
+  const [subjectList, setSubjectList] = useState<Option[]>([]);
   const [favoriteSubjectIds, setFavoriteSubjectIds] = useState<string[]>([]);
 
   const fetchFavoriteSubjects = async () => {
@@ -57,7 +57,10 @@ const WorkListDropdownWrapper = ({ filterSubject, setFilterSubject }: Props) => 
           subjectIds.map(id => fetchSubject({ id, taxonomyVersion })) ?? [],
         );
 
-        const subjectsResult = subjects.map(subject => ({ id: subject.id, name: subject.name }));
+        const subjectsResult = subjects.map(subject => ({
+          value: subject.id,
+          label: subject.name,
+        }));
         setSubjectList(subjectsResult);
       };
       updateSubjectList();

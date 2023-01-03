@@ -14,14 +14,14 @@ import { UploadDropZone, FieldHeader } from '@ndla/forms';
 import styled from '@emotion/styled';
 import Tooltip from '@ndla/tooltip';
 import { DeleteForever } from '@ndla/icons/editor';
+import { IconButtonV2 } from '@ndla/button';
+import { spacing } from '@ndla/core';
 import AudioPlayer from './AudioPlayer';
 import FormikField from '../../../components/FormikField';
 import { AudioFormikType } from './AudioForm';
 import { TitleField } from '../../FormikForm';
 import AudioCopyInfo from './AudioCopyInfo';
 import AudioFileInfoModal from './AudioFileInfoModal';
-import { IconButtonV2 } from '@ndla/button';
-import { spacing } from '@ndla/core';
 
 interface BaseProps {}
 

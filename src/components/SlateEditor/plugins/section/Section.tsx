@@ -6,10 +6,10 @@ import { useTranslation } from 'react-i18next';
 import Tooltip from '@ndla/tooltip';
 import { colors } from '@ndla/core';
 import { DeleteForever } from '@ndla/icons/editor';
+import { ButtonV2 } from '@ndla/button';
 import { SectionElement } from '.';
 
 import StyledFormContainer from '../../common/StyledFormContainer';
-import { ButtonV2 } from '@ndla/button';
 
 interface Props {
   attributes: RenderElementProps['attributes'];

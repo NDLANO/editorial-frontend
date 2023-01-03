@@ -13,6 +13,8 @@ import { connect } from 'formik';
 import styled from '@emotion/styled';
 import Tooltip from '@ndla/tooltip';
 import { Eye } from '@ndla/icons/editor';
+import { IconButtonV2 } from '@ndla/button';
+import { colors } from '@ndla/core';
 import { headingPlugin } from '../../../../components/SlateEditor/plugins/heading';
 import { noEmbedPlugin } from '../../../../components/SlateEditor/plugins/noEmbed';
 import VisualElementField from '../../../FormikForm/components/VisualElementField';
@@ -43,8 +45,6 @@ import { dndPlugin } from '../../../../components/SlateEditor/plugins/DND';
 import { SlatePlugin } from '../../../../components/SlateEditor/interfaces';
 import { useSession } from '../../../Session/SessionProvider';
 import { spanPlugin } from '../../../../components/SlateEditor/plugins/span';
-import { IconButtonV2 } from '@ndla/button';
-import { colors } from '@ndla/core';
 
 const StyledByLineFormikField = styled(FormikField)`
   display: flex;

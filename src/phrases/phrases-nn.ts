@@ -126,7 +126,7 @@ const phrases = {
     workList: {
       title: 'Mine arbeidsoppgåver',
       description: 'Artiklar der eg står i ansvarleg-feltet',
-      name: 'Navn',
+      name: 'Namn',
       status: 'Status',
       contentType: 'Innhaldstype',
       primarySubject: 'Primærfag',

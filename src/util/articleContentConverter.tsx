@@ -117,6 +117,33 @@ const topicArticleRules: SlateSerializer[] = [
   spanSerializer,
 ];
 
+// Rules are checked from first to last
+const frontpageArticleRules: SlateSerializer[] = [
+  paragraphSerializer,
+  sectionSerializer,
+  breakSerializer,
+  markSerializer,
+  linkSerializer,
+  blockQuoteSerializer,
+  headingSerializer,
+  listSerializer,
+  footnoteSerializer,
+  mathmlSerializer,
+  conceptListSerializer,
+  inlineConceptSerializer,
+  blockConceptSerializer,
+  asideSerializer,
+  fileSerializer,
+  detailsSerializer,
+  tableSerializer,
+  relatedSerializer,
+  codeblockSerializer,
+  embedSerializer,
+  bodyboxSerializer,
+  divSerializer,
+  spanSerializer,
+];
+
 const articleContentToHTML = (value: Descendant[], rules: SlateSerializer[]) => {
   const serialize = (node: Descendant, nodeIdx: number): JSX.Element | null => {
     let children: JSX.Element[];
@@ -207,6 +234,14 @@ export function topicArticleContentToEditorValue(html: string) {
 
 export function topicArticleContentToHTML(value: Descendant[]) {
   return articleContentToHTML(value, topicArticleRules);
+}
+
+export function frontpageContentToEditorValue(html: string) {
+  return articleContentToEditorValue(html, frontpageArticleRules);
+}
+
+export function frontpageContentToHTML(value: Descendant[]) {
+  return articleContentToHTML(value, frontpageArticleRules);
 }
 
 export function plainTextToEditorValue(text: string): Descendant[] {

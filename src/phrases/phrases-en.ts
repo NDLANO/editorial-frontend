@@ -14,6 +14,7 @@ const phrases = {
     createLearningResourcePage: `Learning resource ${titleTemplate}`,
     createTopicArticlePage: `Topic ${titleTemplate}`,
     createSubjectpage: `Subjectpage ${titleTemplate}`,
+    createFrontPageArticePage: `Frontpage article ${titleTemplate}`,
     agreementPage: `Agreement ${titleTemplate}`,
     welcomePage: `Frontpage ${titleTemplate}`,
     structurePage: `Structure ${titleTemplate}`,
@@ -184,6 +185,7 @@ const phrases = {
     h5p: 'Edit H5P',
     newConcept: 'Create new concept',
     newSubject: 'Create new subject',
+    newFrontpageArticle: 'Create new frontpage article',
   },
   logo: {
     altText: 'The Norwegian Digital Learning Arena',
@@ -473,6 +475,9 @@ const phrases = {
   },
   imageForm: {
     title: 'Image',
+  },
+  frontpageArticleForm: {
+    title: 'Frontpage article',
   },
   learningResourceForm: {
     metaImage: {

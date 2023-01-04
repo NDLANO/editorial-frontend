@@ -21,7 +21,7 @@ import { DRAFT_ADMIN_SCOPE } from '../../../../constants';
 const renderArticleInModal = (pageId: string) => <HowToHelper pageId={pageId} extraIconPadding />;
 
 export interface ActionData {
-  type: Element['type'];
+  type: Element['type'] | 'h5p';
   object: string;
 }
 
@@ -74,7 +74,7 @@ const actions: Action[] = [
     helpIcon: renderArticleInModal('Podcasts'),
   },
   {
-    data: { type: 'ndlaembed', object: 'h5p' },
+    data: { type: 'h5p', object: 'h5p' },
     icon: <PresentationPlay />,
     helpIcon: renderArticleInModal('H5P'),
   },

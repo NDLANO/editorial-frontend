@@ -59,7 +59,8 @@ interface Props {
     | 'standard'
     | 'concept'
     | 'podcast'
-    | 'podcast-series';
+    | 'podcast-series'
+    | 'frontpage-article';
   translateToNN?: () => void;
   values: {
     id?: number;

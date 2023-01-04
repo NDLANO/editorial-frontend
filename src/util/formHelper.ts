@@ -21,6 +21,7 @@ import {
   ArticleFormType,
   LearningResourceFormType,
   TopicArticleFormType,
+  FrontpageArticleFormType,
 } from '../containers/FormikForm/articleFormHooks';
 import { isEmbed } from '../components/SlateEditor/plugins/embed/utils';
 import { NdlaEmbedElement } from '../components/SlateEditor/plugins/embed';
@@ -205,6 +206,35 @@ export const formikCommonArticleRules: RulesType<ArticleFormType, IArticle> = {
 };
 
 export const learningResourceRules: RulesType<LearningResourceFormType, IArticle> = {
+  ...formikCommonArticleRules,
+  metaImageAlt: {
+    required: true,
+    onlyValidateIf: values => !!values.metaImageId,
+    warnings: {
+      languageMatch: true,
+      apiField: 'metaImage',
+    },
+  },
+  content: {
+    required: true,
+    test: values => {
+      const embeds = findNodesByType(values.content ?? [], 'ndlaembed').map(
+        node => (node as NdlaEmbedElement).data,
+      );
+      const notValidEmbeds = embeds.filter(embed => !isUserProvidedEmbedDataValid(embed));
+      const embedsHasErrors = notValidEmbeds.length > 0;
+
+      return embedsHasErrors
+        ? { translationKey: 'learningResourceForm.validation.missingEmbedData' }
+        : undefined;
+    },
+    warnings: {
+      languageMatch: true,
+    },
+  },
+};
+
+export const frontPageArticleRules: RulesType<FrontpageArticleFormType, IArticle> = {
   ...formikCommonArticleRules,
   metaImageAlt: {
     required: true,

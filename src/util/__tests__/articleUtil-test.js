@@ -6,7 +6,7 @@
  *
  */
 
-import { isGrepCodeValid } from '../articleUtil';
+import { isGrepCodeValid, getSlugFromTitle } from '../articleUtil';
 
 test('isGrepCodeValid correct behavior', () => {
   const grepCodes = new Map();
@@ -26,4 +26,11 @@ test('isGrepCodeValid correct behavior', () => {
   grepCodes.set('k123', false);
 
   grepCodes.forEach((value, key) => expect(isGrepCodeValid(key)).toBe(value));
+});
+
+test('getSlugFromTitle filters away correct illegal characters', () => {
+  expect(getSlugFromTitle('asd er en helt!')).toBe('asd-er-en-helt');
+  expect(getSlugFromTitle('asd!#!"# er !#!"#!#en helt!')).toBe('asd-er-en-helt');
+  expect(getSlugFromTitle('     ASDASDNA ASDA123123123%"!#!# !!!!')).toBe('ASDASDNA-ASDA123123123');
+  expect(getSlugFromTitle('"$!#$!"$!"$')).toBe('');
 });

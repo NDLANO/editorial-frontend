@@ -14,6 +14,7 @@ const phrases = {
     createLearningResourcePage: `Fagstoff ${titleTemplate}`,
     createTopicArticlePage: `Emne ${titleTemplate}`,
     createSubjectpage: `Fagforside ${titleTemplate}`,
+    createFrontPageArticePage: `Forsideartikkel ${titleTemplate}`,
     agreementPage: `Avtale ${titleTemplate}`,
     welcomePage: `Forside ${titleTemplate}`,
     structurePage: `Struktur ${titleTemplate}`,
@@ -185,6 +186,7 @@ const phrases = {
     h5p: 'Rediger H5P',
     newConcept: 'Opprett forklaring',
     newSubject: 'Opprett fag',
+    newFrontpageArticle: 'Opprett forsideartikkel',
   },
   logo: {
     altText: 'Nasjonal digital læringsarena',
@@ -474,6 +476,9 @@ const phrases = {
   },
   imageForm: {
     title: 'Bilde ',
+  },
+  frontpageArticleForm: {
+    title: 'Forsideartikkel',
   },
   learningResourceForm: {
     metaImage: {

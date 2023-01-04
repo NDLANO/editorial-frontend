@@ -18,6 +18,7 @@ import {
   toCreatePodcastFile,
   toCreatePodcastSeries,
   toEditNdlaFilm,
+  toCreateFrontPageArticle,
 } from '../../../util/routeHelpers';
 import { useSession } from '../../Session/SessionProvider';
 import { DRAFT_ADMIN_SCOPE, TAXONOMY_ADMIN_SCOPE } from '../../../constants';
@@ -52,6 +53,12 @@ const OpenMenu = ({ close }: Props) => {
             <StyledLink to={toCreateConcept()} onClick={close}>
               <span>
                 <Concept /> {t('subNavigation.newConcept')}
+              </span>
+            </StyledLink>
+            <StyledLink to={toCreateFrontPageArticle()} onClick={close}>
+              <span>
+                <ContentTypeBadge type={contentTypes.SUBJECT_MATERIAL} background size="xx-small" />{' '}
+                {t('subNavigation.newFrontpageArticle')}
               </span>
             </StyledLink>
             <StyledLink to={toCreateImage()} onClick={close}>

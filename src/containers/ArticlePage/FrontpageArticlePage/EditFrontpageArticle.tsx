@@ -1,0 +1,77 @@
+/**
+ * Copyright (c) 2023-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import { HelmetWithTracker } from '@ndla/tracker';
+import { Navigate, useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import FrontPageForm from './components/FrontpageForm';
+import { toEditArticle } from '../../../util/routeHelpers';
+import { useFetchArticleData } from '../../FormikForm/formikDraftHooks';
+import { useTranslateApi } from '../../FormikForm/translateFormHooks';
+import Spinner from '../../../components/Spinner';
+import { LocaleType } from '../../../interfaces';
+import NotFound from '../../NotFoundPage/NotFoundPage';
+
+interface Props {
+  isNewlyCreated?: boolean;
+}
+
+const EditFrontpageArticle = ({ isNewlyCreated }: Props) => {
+  const { t } = useTranslation();
+  const params = useParams<'selectedLanguage' | 'id'>();
+  const selectedLanguage = params.selectedLanguage as LocaleType;
+  const articleId = Number(params.id!) || undefined;
+  const {
+    loading,
+    article,
+    setArticle,
+    articleChanged,
+    updateArticle,
+    updateArticleAndStatus,
+  } = useFetchArticleData(articleId, selectedLanguage);
+  const { translating, translateToNN } = useTranslateApi(article, setArticle, [
+    'id',
+    'title.title',
+    'metaDescription.metaDescription',
+    'introduction.introduction',
+    'content.content',
+    'tags.tags',
+  ]);
+
+  if (loading || !article || !article.id) {
+    return <Spinner withWrapper />;
+  }
+
+  if (!article || !articleId) {
+    return <NotFound />;
+  }
+
+  if (article.articleType !== 'frontpage-article') {
+    const replaceUrl = toEditArticle(article.id, article.articleType, selectedLanguage);
+    return <Navigate replace to={replaceUrl} />;
+  }
+  const newLanguage = !article.supportedLanguages.includes(selectedLanguage);
+  return (
+    <>
+      <HelmetWithTracker title={`${article.title?.title} ${t('htmlTitles.titleTemplate')}`} />
+      <FrontPageForm
+        articleLanguage={selectedLanguage}
+        article={article}
+        articleStatus={article.status}
+        articleChanged={articleChanged || newLanguage}
+        translating={translating}
+        translateToNN={translateToNN}
+        isNewlyCreated={!!isNewlyCreated}
+        updateArticle={updateArticle}
+        updateArticleAndStatus={updateArticleAndStatus}
+      />
+    </>
+  );
+};
+
+export default EditFrontpageArticle;

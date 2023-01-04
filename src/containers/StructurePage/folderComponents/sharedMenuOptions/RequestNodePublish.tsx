@@ -42,7 +42,6 @@ const RequestNodePublish = ({ node, rootNodeId }: Props) => {
   const { t } = useTranslation();
   const button = (
     <MenuItemButton
-      stripped
       data-testid="requestPublish"
       onClick={togglePublish}
       disabled={taxonomyVersion !== 'default' || metadata.customFields.isPublishing === 'true'}>

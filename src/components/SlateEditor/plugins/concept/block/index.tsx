@@ -30,7 +30,7 @@ const normalizerConfig: NormalizerConfig = {
 
 export const blockConceptSerializer: SlateSerializer = {
   deserialize(el: HTMLElement, children: Descendant[]) {
-    if (el.tagName.toLowerCase() !== 'embed') return;
+    if (el.tagName.toLowerCase() !== 'ndlaembed') return;
     const embed = el as HTMLEmbedElement;
     const embedAttributes = reduceElementDataAttributes(embed);
     if (embedAttributes.resource === 'concept' && embedAttributes.type === 'block') {

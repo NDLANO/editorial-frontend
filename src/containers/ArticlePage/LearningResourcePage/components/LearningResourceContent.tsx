@@ -14,10 +14,11 @@ import { FormikContextType } from 'formik';
 import { FieldHeader } from '@ndla/forms';
 import Tooltip from '@ndla/tooltip';
 import { Eye } from '@ndla/icons/editor';
+import { IconButtonV2 } from '@ndla/button';
+import { colors } from '@ndla/core';
 import FormikField from '../../../../components/FormikField';
 import LearningResourceFootnotes, { FootnoteType } from './LearningResourceFootnotes';
 import LastUpdatedLine from '../../../../components/LastUpdatedLine/LastUpdatedLine';
-import ToggleButton from '../../../../components/ToggleButton';
 import HowToHelper from '../../../../components/HowTo/HowToHelper';
 import { findNodesByType } from '../../../../util/slateHelpers';
 import { codeblockPlugin } from '../../../../components/SlateEditor/plugins/codeBlock';
@@ -74,6 +75,7 @@ const StyledFormikField = styled(FormikField)`
 const IconContainer = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
   width: 64px;
 `;
 
@@ -87,13 +89,17 @@ const StyledContentDiv = styled(FormikField)`
   position: static;
 `;
 
+const MarkdownButton = styled(IconButtonV2)<{ active: boolean }>`
+  color: ${p => (p.active ? colors.brand.primary : colors.brand.light)};
+`;
+
 const findFootnotes = (content: Descendant[]): FootnoteType[] =>
   findNodesByType(content, TYPE_FOOTNOTE)
     .map(e => e as FootnoteElement)
     .filter(footnote => Object.keys(footnote.data).length > 0)
     .map(footnoteElement => footnoteElement.data);
 
-const actions = ['table', 'embed', 'code-block', 'file', 'h5p'];
+const actions = ['table', 'ndlaembed', 'code-block', 'file', 'h5p'];
 const actionsToShowInAreas = {
   details: actions,
   aside: actions,
@@ -187,9 +193,14 @@ const LearningResourceContent = ({
             />
             <IconContainer>
               <Tooltip tooltip={t('form.markdown.button')}>
-                <ToggleButton active={preview} onClick={() => setPreview(!preview)}>
+                <MarkdownButton
+                  aria-label={t('form.markdown.button')}
+                  variant="stripped"
+                  colorTheme="light"
+                  active={preview}
+                  onClick={() => setPreview(!preview)}>
                   <Eye />
-                </ToggleButton>
+                </MarkdownButton>
               </Tooltip>
               <HowToHelper pageId="Markdown" tooltip={t('form.markdown.helpLabel')} />
             </IconContainer>

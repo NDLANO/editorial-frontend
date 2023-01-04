@@ -99,6 +99,7 @@ export const EXTERNAL_WHITELIST_PROVIDERS: WhitelistProvider[] = [
   { name: 'Gapminder', url: ['www.gapminder.org'] },
   { name: 'Facebook', url: ['www.facebook.com', 'fb.watch'] },
   { name: 'Sketchfab', url: ['sketchfab.com'] },
+  { name: 'JeopardyLabs', url: ['jeopardylabs.com'] },
 ];
 
 export const SearchTypeValues = [

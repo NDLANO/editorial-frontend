@@ -14,8 +14,10 @@ import { useTranslation } from 'react-i18next';
 import { DeleteForever } from '@ndla/icons/editor';
 import { IUserData } from '@ndla/types-draft-api';
 import Tooltip from '@ndla/tooltip';
+import { IconButtonV2 } from '@ndla/button';
+import styled from '@emotion/styled';
+import { spacing } from '@ndla/core';
 
-import IconButton from '../../../components/IconButton';
 import { transformQuery } from '../../../util/searchHelpers';
 import { useSavedSearchUrl } from '../hooks/savedSearchHook';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
@@ -28,6 +30,12 @@ interface Props {
   index: number;
   userData: IUserData;
 }
+
+const StyledSearch = styled.div`
+  display: flex;
+  gap: ${spacing.xsmall};
+  align-items: center;
+`;
 
 const SavedSearch = ({ deleteSearch, search, index, userData }: Props) => {
   const { t, i18n } = useTranslation();
@@ -86,21 +94,23 @@ const SavedSearch = ({ deleteSearch, search, index, userData }: Props) => {
   }
 
   return (
-    <div style={{ display: 'flex' }} key={index}>
+    <StyledSearch key={index}>
       <Tooltip tooltip={t('welcomePage.deleteSavedSearch')}>
-        <IconButton
-          color="red"
+        <IconButtonV2
+          aria-label={t('welcomePage.deleteSavedSearch')}
+          colorTheme="danger"
+          variant="ghost"
           type="button"
           onClick={() => deleteSearch(index)}
           data-cy="remove-element">
           <DeleteForever />
-        </IconButton>
+        </IconButtonV2>
       </Tooltip>
       {/* Not having a className activates undesirable global scss */}
       <Link className="" to={localizedSearch}>
         {linkText(searchObject)}
       </Link>
-    </div>
+    </StyledSearch>
   );
 };
 

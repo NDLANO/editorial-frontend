@@ -48,8 +48,9 @@ export const linkSerializer: SlateSerializer = {
         children,
       );
     }
-    if (tag === 'embed') {
+    if (tag === 'ndlaembed') {
       const embed = el as HTMLEmbedElement;
+      const linkText = embed.innerHTML === '' ? 'Ukjent link tekst' : embed.innerHTML;
       const embedAttributes = reduceElementDataAttributes(embed);
       if (embedAttributes.resource !== 'content-link') return;
       return slatejsx(
@@ -62,10 +63,7 @@ export const linkSerializer: SlateSerializer = {
         },
         [
           {
-            text:
-              embedAttributes['link-text'] === ''
-                ? 'Ukjent link tekst'
-                : embedAttributes['link-text'],
+            text: linkText,
           },
         ],
       );
@@ -83,13 +81,13 @@ export const linkSerializer: SlateSerializer = {
     }
     if (node.type === TYPE_CONTENT_LINK) {
       return (
-        <embed
+        <ndlaembed
           data-content-id={node['content-id']}
-          data-link-text={Node.string(node)}
           data-open-in={node['open-in']}
           data-resource="content-link"
-          data-content-type={node['content-type']}
-        />
+          data-content-type={node['content-type']}>
+          {Node.string(node)}
+        </ndlaembed>
       );
     }
   },

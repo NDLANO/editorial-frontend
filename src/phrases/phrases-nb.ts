@@ -120,6 +120,7 @@ const phrases = {
     lastUsed: 'Sist redigert',
     savedSearch: 'Lagrede søk',
     saveSearch: 'Lagre søk',
+    welcomeBack: 'Velkommen tilbake',
   },
   searchPage: {
     header: {
@@ -1513,7 +1514,7 @@ const phrases = {
     publishing: 'Publiserer node...',
     publish: 'Publiser node',
     publishWarning:
-      'Er du sikker på at du ønsker å publisere denne noden? Alle endringer vil umiddelbart bli tilgjengelige i målversjonen',
+      'Er du sikker på at du ønsker å publisere denne noden? Alle endringer vil bli tilgjengelige i målversjonen når publiseringen er ferdig',
     publishError: 'Publisering av node feilet',
     equalNodes: 'Disse nodene er like!',
     defaultVersion: 'Draft',

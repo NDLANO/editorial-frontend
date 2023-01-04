@@ -14,8 +14,8 @@ import SafeLink from '@ndla/safelink';
 import Tooltip from '@ndla/tooltip';
 import { DeleteForever } from '@ndla/icons/editor';
 import { ImageMeta } from '@ndla/image-search';
+import { IconButtonV2 } from '@ndla/button';
 import { animations, spacing, colors } from '@ndla/core';
-import IconButton from '../../../components/IconButton';
 import FormikField from '../../../components/FormikField';
 import { ImageFormikType } from '../imageTransformers';
 import { TitleField } from '../../FormikForm';
@@ -28,7 +28,7 @@ const StyledImage = styled.img`
 
 const StyledDeleteButtonContainer = styled.div`
   position: absolute;
-  right: -${spacing.medium};
+  right: -${spacing.large};
   transform: translateY(${spacing.normal});
   display: flex;
   flex-direction: row;
@@ -75,14 +75,13 @@ const ImageContent = ({ formik }: Props) => {
       {values.imageFile && (
         <StyledDeleteButtonContainer>
           <Tooltip tooltip={t('form.image.removeImage')}>
-            <IconButton
-              type="button"
-              onClick={() => {
-                setFieldValue('imageFile', undefined);
-              }}
-              tabIndex={-1}>
+            <IconButtonV2
+              aria-label={t('form.image.removeImage')}
+              variant="ghost"
+              colorTheme="danger"
+              onClick={() => setFieldValue('imageFile', undefined)}>
               <DeleteForever />
-            </IconButton>
+            </IconButtonV2>
           </Tooltip>
         </StyledDeleteButtonContainer>
       )}

@@ -140,19 +140,22 @@ const InlineConceptPreview = ({ concept, handleRemove, id, isBlockView }: Props)
 
       <StyledFigureButtons isBlockView={isBlockView}>
         <Tooltip tooltip={t('form.concept.removeConcept')}>
-          <IconButton color="red" type="button" onClick={handleRemove} tabIndex={-1}>
-            <DeleteForever />
-          </IconButton>
+          <div>
+            <IconButton color="red" type="button" onClick={handleRemove} tabIndex={-1}>
+              <DeleteForever />
+            </IconButton>
+          </div>
         </Tooltip>
         <Tooltip tooltip={t('form.concept.edit')}>
-          <IconButton
-            as={Link}
-            to={`/concept/${id}/edit/${concept.content?.language}`}
-            target="_blank"
-            title={t('form.concept.edit')}
-            tabIndex={-1}>
-            <LinkIcon />
-          </IconButton>
+          <div>
+            <IconButton
+              as={Link}
+              to={`/concept/${id}/edit/${concept.content?.language}`}
+              target="_blank"
+              tabIndex={-1}>
+              <LinkIcon />
+            </IconButton>
+          </div>
         </Tooltip>
       </StyledFigureButtons>
     </>

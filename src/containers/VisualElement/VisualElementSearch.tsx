@@ -33,7 +33,7 @@ const titles = (t: TFunction, resource: string) => ({
   [resource]: t(`form.visualElement.${resource.toLowerCase()}`),
 });
 
-export type EmbedReturnType = ReturnType<'embed', Embed>;
+export type EmbedReturnType = ReturnType<'ndlaembed', Embed>;
 type FileReturnType = ReturnType<'file', DOMStringMap[]>;
 export type VisualElementChangeReturnType = EmbedReturnType | FileReturnType;
 
@@ -99,7 +99,7 @@ const VisualElementSearch = ({
           onError={onError}
           onImageSelect={image => {
             handleVisualElementChange({
-              type: 'embed',
+              type: 'ndlaembed',
               value: {
                 resource: selectedResource,
                 resource_id: image.id,
@@ -138,7 +138,7 @@ const VisualElementSearch = ({
             translations={videoTranslations}
             onVideoSelect={(video: BrightcoveApiType, type: 'brightcove') => {
               handleVisualElementChange({
-                type: 'embed',
+                type: 'ndlaembed',
                 value: {
                   resource: type,
                   videoid: video.id,
@@ -168,7 +168,7 @@ const VisualElementSearch = ({
           h5pUrl={selectedResourceUrl}
           onSelect={h5p =>
             handleVisualElementChange({
-              type: 'embed',
+              type: 'ndlaembed',
               value: {
                 resource: 'h5p',
                 path: h5p.path!,
@@ -207,7 +207,7 @@ const VisualElementSearch = ({
           searchAudios={searchAudios}
           onAudioSelect={(audio: IAudioSummary) =>
             handleVisualElementChange({
-              type: 'embed',
+              type: 'ndlaembed',
               value: {
                 resource: 'audio',
                 resource_id: audio.id.toString(),

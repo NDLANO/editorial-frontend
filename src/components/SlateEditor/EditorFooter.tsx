@@ -57,6 +57,10 @@ const StyledLine = styled.hr`
   }
 `;
 
+const StyledFooter = styled.div`
+  margin-left: auto;
+`;
+
 function EditorFooter<T extends FormValues>({
   formIsDirty,
   savedToServer,
@@ -126,11 +130,23 @@ function EditorFooter<T extends FormValues>({
       catchError(error, createMessage);
     }
   };
+  const updateResponsible = async (responsibleId: string) => {
+    try {
+      setFieldValue('responsibleId', responsibleId);
+    } catch (error) {
+      catchError(error, createMessage);
+    }
+  };
 
   if (showSimpleFooter) {
     return (
       <Footer>
-        <div>{saveButton}</div>
+        <StyledFooter>
+          {isArticle && (
+            <ResponsibleSelect onSave={updateResponsible} responsibleId={responsibleId} />
+          )}
+          {saveButton}
+        </StyledFooter>
       </Footer>
     );
   }
@@ -151,14 +167,6 @@ function EditorFooter<T extends FormValues>({
       // Set new status field and update form (which we listen for changes to in the useEffect above)
       setNewStatus(status);
       setFieldValue('status', { current: status });
-    } catch (error) {
-      catchError(error, createMessage);
-    }
-  };
-
-  const updateResponsible = async (responsibleId: string) => {
-    try {
-      setFieldValue('responsibleId', responsibleId);
     } catch (error) {
       catchError(error, createMessage);
     }

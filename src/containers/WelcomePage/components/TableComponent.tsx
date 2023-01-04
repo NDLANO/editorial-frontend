@@ -42,7 +42,7 @@ const StyledTable = styled.table`
   tr {
     height: 30px;
   }
-  tr:nth-of-type(even) {
+  tr:nth-of-type(odd) {
     background: rgba(248, 248, 248, 0.5);
   }
   thead tr th {

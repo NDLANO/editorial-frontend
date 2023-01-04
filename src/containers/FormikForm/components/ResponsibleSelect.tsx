@@ -44,9 +44,10 @@ const ResponsibleSelect = ({ onSave, responsibleId }: Props) => {
 
   useEffect(() => {
     if (users) {
-      const defaultResponsible = users.find(user => user.value === responsibleId);
-      setResponsible(defaultResponsible);
-
+      if (responsibleId) {
+        const defaultResponsible = users.find(user => user.value === responsibleId);
+        setResponsible(defaultResponsible);
+      }
       const sortedList = sortBy(users, u => u.label);
       setSortedUsers(sortedList);
     }

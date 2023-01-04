@@ -363,7 +363,9 @@ const WrongTypeError = ({
 
   return (
     <Tooltip tooltip={errorText}>
-      <StyledWarnIcon title={undefined} />
+      <div>
+        <StyledWarnIcon title={undefined} />
+      </div>
     </Tooltip>
   );
 };

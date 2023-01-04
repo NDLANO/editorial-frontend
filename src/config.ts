@@ -117,7 +117,7 @@ export const getAuth0Hostname = () => {
 export const taxonomyApi = `/taxonomy/v1`;
 
 export const getZendeskWidgetSecret = () => {
-  return getEnvironmentVariabel('NDLA_ED_ZENDESK_WIDGET_SECRET', 'something');
+  return getEnvironmentVariabel('NDLA_ED_ZENDESK_SECRET_KEY', 'something');
 };
 
 export const getDefaultLanguage = () =>

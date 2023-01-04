@@ -79,12 +79,14 @@ const GroupTopicResources = ({ node, hideIcon, onChanged }: Props) => {
         disabled
       />
       <StyledTooltip tooltip={t('taxonomy.metadata.customFields.RGTooltip')}>
-        <ToggleSwitch
-          on={isGrouped}
-          labelOff={'U'}
-          labelOn={'G'}
-          onClick={() => updateMetadata()}
-        />
+        <div>
+          <ToggleSwitch
+            on={isGrouped}
+            labelOff={'U'}
+            labelOn={'G'}
+            onClick={() => updateMetadata()}
+          />
+        </div>
       </StyledTooltip>
     </StyledMenuItemEditField>
   );

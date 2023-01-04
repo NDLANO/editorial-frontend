@@ -13,7 +13,7 @@ import styled from '@emotion/styled';
 import { colors } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
 import { Select } from '@ndla/forms';
-import Button, { MultiButtonV2 as MultiButton } from '@ndla/button';
+import Button, { MultiButton } from '@ndla/button';
 import { fetchSearchTags } from '../../../../../modules/concept/conceptApi';
 import AsyncSearchTags from '../../../../../components/Dropdown/asyncDropdown/AsyncSearchTags';
 import { MultiSelectDropdown } from '../../../../../components/Dropdown/MultiSelectDropdown';

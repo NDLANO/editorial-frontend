@@ -6,27 +6,28 @@
  *
  */
 
-import { ReactNode } from 'react';
-import Button from '@ndla/button';
+import { forwardRef, ReactNode } from 'react';
+import { ButtonV2 } from '@ndla/button';
 import { spacing } from '@ndla/core';
 import styled from '@emotion/styled';
 
-const StyledMenuItemButton = styled(Button)`
+const StyledMenuItemButton = styled(ButtonV2)`
   display: flex;
   align-items: center;
-  margin: calc(${spacing.small} / 2);
+  margin: 0 ${spacing.xxsmall};
 `;
 
 interface Props {
   children: ReactNode;
-  stripped?: boolean;
   'data-testid'?: string;
   onClick?: () => void;
   disabled?: boolean;
 }
 
-const MenuItemButton = ({ children, ...rest }: Props) => {
-  return <StyledMenuItemButton {...rest}>{children}</StyledMenuItemButton>;
-};
+const MenuItemButton = forwardRef<HTMLButtonElement, Props>(({ children, ...rest }, ref) => (
+  <StyledMenuItemButton ref={ref} variant="stripped" {...rest}>
+    {children}
+  </StyledMenuItemButton>
+));
 
 export default MenuItemButton;

@@ -7,7 +7,7 @@
  */
 
 import styled from '@emotion/styled';
-import Button from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 import { spacing } from '@ndla/core';
 import Modal, { ModalBody, ModalCloseButton, ModalHeader } from '@ndla/modal';
 import Tooltip from '@ndla/tooltip';
@@ -27,12 +27,13 @@ interface Props {
 
 const HelpMessage = ({ children, t }: Props & CustomWithTranslation) => (
   <Modal
+    wrapperFunctionForButton={btn => (
+      <Tooltip tooltip={t('editMarkup.helpMessage.tooltip')}>{btn}</Tooltip>
+    )}
     activateButton={
-      <Button stripped tabIndex={-1}>
-        <Tooltip tooltip={t('editMarkup.helpMessage.tooltip')}>
-          <StyledHelpIcon />
-        </Tooltip>
-      </Button>
+      <ButtonV2 variant="stripped">
+        <StyledHelpIcon />
+      </ButtonV2>
     }>
     {(onClose: () => void) => (
       <>

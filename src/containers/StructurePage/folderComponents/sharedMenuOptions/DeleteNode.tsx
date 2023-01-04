@@ -79,7 +79,7 @@ const DeleteNode = ({
   };
   return (
     <>
-      <MenuItemButton stripped data-testid="deleteNode" disabled={disabled} onClick={toggleDelete}>
+      <MenuItemButton data-testid="deleteNode" disabled={disabled} onClick={toggleDelete}>
         <RoundIcon small icon={<DeleteForever />} />
         {t('taxonomy.deleteNode')}
       </MenuItemButton>

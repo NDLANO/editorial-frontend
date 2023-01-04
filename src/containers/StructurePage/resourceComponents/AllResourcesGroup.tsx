@@ -50,7 +50,7 @@ interface Props {
 const AllResourcesGroup = ({ resourceTypes, nodeResources, currentNode, contentMeta }: Props) => {
   const { t } = useTranslation();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [showAddModal, setShowAddModal] = useState<boolean>(false);
+  const [showAddModal, setShowAddModal] = useState(false);
   const resourceTypesWithoutMissing = resourceTypes
     .filter(rt => rt.id !== 'missing')
     .map(rt => ({ id: rt.id, name: rt.name }));

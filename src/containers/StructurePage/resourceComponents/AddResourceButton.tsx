@@ -7,7 +7,7 @@
  */
 
 import { ReactNode } from 'react';
-import { ButtonV2 as Button, IconButton } from '@ndla/button';
+import { IconButton } from '@ndla/button';
 import { useTranslation } from 'react-i18next';
 
 interface Props {
@@ -15,11 +15,11 @@ interface Props {
   children: ReactNode;
 }
 
-const AddResourceButton = ({ children, onClick }: Props) => {
+const AddResourceButton = ({ children, ...rest }: Props) => {
   const { t } = useTranslation();
 
   return (
-    <IconButton size="xsmall" stripped aria-label={t('taxonomy.addResource')} onClick={onClick}>
+    <IconButton size="xsmall" stripped aria-label={t('taxonomy.addResource')} {...rest}>
       {children}
     </IconButton>
   );

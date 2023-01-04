@@ -31,7 +31,9 @@ const NodeIconType = ({ node }: Props) => {
 
   return (
     <Tooltip tooltip={t(`diff.nodeTypeTooltips.${nodeType}`)}>
-      <Icon />
+      <div>
+        <Icon />
+      </div>
     </Tooltip>
   );
 };

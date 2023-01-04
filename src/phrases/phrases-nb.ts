@@ -980,7 +980,7 @@ const phrases = {
     },
     responsible: {
       label: 'Ansvarlig',
-      choose: 'Velg en ansvarlig',
+      noResults: 'Ingen treff',
     },
     origin: {
       label: 'Opphav',

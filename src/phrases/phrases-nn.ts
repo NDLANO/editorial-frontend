@@ -131,7 +131,7 @@ const phrases = {
       contentType: 'Innhaldstype',
       primarySubject: 'Primærfag',
       topicRelation: 'Emnetilknytning',
-      date: 'Tildelningsdato',
+      date: 'Tildelingsdato',
     },
     welcomeBack: 'Velkommen tilbake',
   },

@@ -6,7 +6,7 @@
  *
  */
 import { useTranslation } from 'react-i18next';
-import { Select, Option } from '@ndla/select';
+import { Select, Option, SingleValue } from '@ndla/select';
 import { useState, useEffect } from 'react';
 import sortBy from 'lodash/sortBy';
 import styled from '@emotion/styled';
@@ -53,7 +53,7 @@ const ResponsibleSelect = ({ onSave, responsibleId }: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [users]);
 
-  const updateResponsible = async (responsible: Option) => {
+  const updateResponsible = async (responsible: SingleValue) => {
     if (responsible) {
       setResponsible(responsible);
       onSave(responsible.value);
@@ -68,7 +68,6 @@ const ResponsibleSelect = ({ onSave, responsibleId }: Props) => {
         placeholder={t('form.responsible.label')}
         value={responsible}
         onChange={updateResponsible}
-        isMultiSelect={false}
         isLoading={isLoading}
       />
     </Wrapper>

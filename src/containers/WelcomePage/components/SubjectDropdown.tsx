@@ -9,7 +9,7 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import uniq from 'lodash/uniq';
-import { Option, Select } from '@ndla/select';
+import { Option, Select, MultiValue } from '@ndla/select';
 import styled from '@emotion/styled';
 import { useSearch } from '../../../modules/search/searchQueries';
 import { fetchSubject } from '../../../modules/taxonomy';
@@ -22,8 +22,8 @@ const Wrapper = styled.div`
 `;
 
 interface Props {
-  filterSubject: Option[] | undefined;
-  setFilterSubject: (fs: Option[]) => void;
+  filterSubject: MultiValue | undefined;
+  setFilterSubject: (fs: MultiValue) => void;
 }
 
 const SubjectDropdown = ({ filterSubject, setFilterSubject }: Props) => {
@@ -80,7 +80,7 @@ const SubjectDropdown = ({ filterSubject, setFilterSubject }: Props) => {
         value={filterSubject}
         onChange={setFilterSubject}
         menuPlacement="bottom"
-        isMultiSelect
+        isMulti
         small
         outline
         postfix={t('subjectsPage.subjects').toLowerCase()}

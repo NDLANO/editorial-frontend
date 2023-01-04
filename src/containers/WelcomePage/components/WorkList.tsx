@@ -12,7 +12,7 @@ import { spacing, colors } from '@ndla/core';
 import { Calendar } from '@ndla/icons/editor';
 import { useCallback, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Option } from '@ndla/select';
+import { Option, MultiValue } from '@ndla/select';
 import { useSearch } from '../../../modules/search/searchQueries';
 import { useSession } from '../../Session/SessionProvider';
 import { toEditArticle } from '../../../util/routeHelpers';
@@ -41,11 +41,11 @@ export const StyledLink = styled(Link)`
 
 const WorkList = () => {
   const [sortOption, setSortOption] = useState<string>();
-  const [filterSubjects, setFilterSubject] = useState<Option[]>([]);
+  const [filterSubjects, setFilterSubject] = useState<MultiValue>([]);
   const [error, setError] = useState();
 
   const updateSortOption = useCallback((v: string) => setSortOption(v), []);
-  const updateFilterSubjects = useCallback((o: Option[]) => setFilterSubject(o), []);
+  const updateFilterSubjects = useCallback((o: MultiValue) => setFilterSubject(o), []);
 
   const { ndlaId } = useSession();
   const { t } = useTranslation();

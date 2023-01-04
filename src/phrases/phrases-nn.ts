@@ -130,7 +130,7 @@ const phrases = {
       status: 'Status',
       contentType: 'Innhaldstype',
       primarySubject: 'Primærfag',
-      topicRelation: 'Emnetilknytning',
+      topicRelation: 'Emnetilknytting',
       date: 'Tildelingsdato',
     },
     welcomeBack: 'Velkommen tilbake',

@@ -2029,6 +2029,15 @@
     url-regex "^4.1.1"
     vercel "^27.2.0"
 
+"@ndla/select@^2.0.5":
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/@ndla/select/-/select-2.0.5.tgz#cd3e1f13b2adabe285b8a9ca34026a4b91525e25"
+  integrity sha512-gP9floQH2t8yz5GCHrP5YKBL2cUGTcKZn2nrTgVVAUmjqkjqiwDfLs5Ktmqx2gHPQqw1Up5MUh1jVc7EgHl7pg==
+  dependencies:
+    "@ndla/core" "^3.0.3"
+    "@ndla/icons" "^2.1.1"
+    react-select "^5.7.0"
+
 "@ndla/switch@^1.0.3":
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/@ndla/switch/-/switch-1.0.3.tgz#f0ada532edae8e8678a41feb38cd244a4c945fd2"

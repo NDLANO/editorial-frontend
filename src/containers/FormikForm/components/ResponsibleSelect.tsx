@@ -39,7 +39,7 @@ const ResponsibleSelect = ({ onSave, responsibleId }: Props) => {
     },
   );
 
-  const [responsible, setResponsible] = useState<Option>();
+  const [responsible, setResponsible] = useState<SingleValue>();
   const [sortedUsers, setSortedUsers] = useState<Option[]>([]);
 
   useEffect(() => {
@@ -55,8 +55,9 @@ const ResponsibleSelect = ({ onSave, responsibleId }: Props) => {
   }, [users]);
 
   const updateResponsible = async (responsible: SingleValue) => {
+    setResponsible(responsible);
+
     if (responsible) {
-      setResponsible(responsible);
       onSave(responsible.value);
     }
   };
@@ -73,6 +74,7 @@ const ResponsibleSelect = ({ onSave, responsibleId }: Props) => {
         groupTitle={t('form.responsible.label')}
         noOptionsMessage={() => t('form.responsible.noResults')}
         isSearchable
+        isClearable
       />
     </Wrapper>
   );

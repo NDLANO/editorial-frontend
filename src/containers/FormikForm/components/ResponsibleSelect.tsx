@@ -70,6 +70,9 @@ const ResponsibleSelect = ({ onSave, responsibleId }: Props) => {
         value={responsible}
         onChange={updateResponsible}
         isLoading={isLoading}
+        groupTitle={t('form.responsible.label')}
+        noOptionsMessage={() => t('form.responsible.noResults')}
+        isSearchable
       />
     </Wrapper>
   );

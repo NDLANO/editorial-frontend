@@ -20,6 +20,7 @@ import { useQueryClient } from 'react-query';
 import { DraggableProvidedDragHandleProps } from 'react-beautiful-dnd';
 import isEqual from 'lodash/isEqual';
 import { css } from '@emotion/react';
+import { Select } from '@ndla/select';
 import {
   NodeConnectionPutType,
   ResourceWithNodeConnection,
@@ -44,6 +45,8 @@ import {
   resourcesWithNodeConnectionQueryKey,
 } from '../../../modules/nodes/nodeQueries';
 import { ResourceWithNodeConnectionAndMeta } from './StructureResources';
+import { DRAFT_WRITE_SCOPE } from '../../../constants';
+import { useAuth0Editors } from '../../../modules/auth0/auth0Queries';
 
 const Wrapper = styled.div`
   display: flex;
@@ -192,6 +195,18 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
     onSettled: () => qc.invalidateQueries(compKey),
   });
 
+  const { data: users, isLoading } = useAuth0Editors(
+    { permission: DRAFT_WRITE_SCOPE },
+    {
+      select: users =>
+        users.map(u => ({
+          value: `${u.app_metadata.ndla_id}`,
+          label: u.name,
+        })),
+      placeholderData: [],
+    },
+  );
+
   const contentType =
     resource.resourceTypes.length > 0
       ? getContentTypeFromResourceTypes(resource.resourceTypes).contentType
@@ -288,9 +303,18 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
             )}
           </StyledText>
           <ButtonRow>
-            <ButtonV2 css={{ flex: 2 }} size="xsmall" colorTheme="lighter">
-              Ansvarlig: Navn Navnesen
-            </ButtonV2>
+            <div css={{ flex: 2 }}>
+              <Select
+                small
+                prefix={'Ansvarlig: '} // TODO: update from phrases
+                placeholder={'Velg ansvarlig'}
+                //isSearchable
+                //CloseMenuOnSelect
+                //noOptionsMessage
+                isLoading={isLoading}
+                options={users ?? []}
+              />
+            </div>
             {contentType !== 'learning-path' && (
               <ButtonV2
                 css={baseButtonStyles}

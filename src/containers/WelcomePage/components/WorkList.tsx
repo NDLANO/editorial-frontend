@@ -131,6 +131,7 @@ const WorkList = () => {
             setSortOption={updateSortOption}
             sortOption={sortOption}
             error={error}
+            noResultsText={t('form.responsible.noArticles')}
           />
         </StyledWorkList>
       )}

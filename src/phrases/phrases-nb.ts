@@ -981,6 +981,7 @@ const phrases = {
     responsible: {
       label: 'Ansvarlig',
       noResults: 'Ingen treff',
+      noArticles: 'Ingen artikler ...',
     },
     origin: {
       label: 'Opphav',

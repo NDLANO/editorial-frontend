@@ -11,7 +11,7 @@ import { spacing, colors, fonts } from '@ndla/core';
 import { ReactNode } from 'react';
 import { ExpandLess, ExpandMore } from '@ndla/icons/action';
 import { css } from '@emotion/react';
-import Tooltip from '@ndla/tooltip';
+import isEmpty from 'lodash/isEmpty';
 import Spinner from '../../../components/Spinner';
 
 const StyledTable = styled.table`
@@ -77,6 +77,14 @@ const SpinnerWrapper = styled.div`
   padding: ${spacing.small};
 `;
 
+const NoResultsText = styled.div`
+  display: flex;
+  justify-content: center;
+  ${fonts.sizes('16px', '20px')};
+  color: ${colors.text.light};
+  margin-bottom: ${spacing.nsmall};
+`;
+
 const orderButtonStyle = (isHidden: boolean) => css`
   cursor: pointer;
   color: ${colors.text.primary};
@@ -98,6 +106,7 @@ interface Props {
   tableData: FieldElement[][];
   isLoading: boolean;
   setSortOption: (o: string) => void;
+  noResultsText?: string;
   sortOption?: string;
   error?: string;
 }
@@ -107,6 +116,7 @@ const TableComponent = ({
   tableData = [[]],
   isLoading,
   setSortOption,
+  noResultsText,
   sortOption,
   error,
 }: Props) => {
@@ -148,7 +158,7 @@ const TableComponent = ({
           {!isLoading ? (
             <tbody>
               {tableData.map((contentRow, index) => (
-                <tr key={`tablerow_${contentRow?.[0]?.id}_index`}>
+                <tr key={`tablerow_${contentRow?.[0]?.id}_${index}`}>
                   {contentRow.map(field => (
                     <td key={field.id}>{field.data}</td>
                   ))}
@@ -162,6 +172,8 @@ const TableComponent = ({
         <SpinnerWrapper>
           <Spinner appearance="small" />
         </SpinnerWrapper>
+      ) : noResultsText && isEmpty(tableData.flat()) ? (
+        <NoResultsText>{noResultsText}</NoResultsText>
       ) : null}
     </>
   );

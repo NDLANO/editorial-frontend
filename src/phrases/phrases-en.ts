@@ -981,6 +981,7 @@ const phrases = {
     responsible: {
       label: 'Responsible',
       noResults: 'No results',
+      noArticles: 'No articles ...',
     },
     origin: {
       label: 'Origin',

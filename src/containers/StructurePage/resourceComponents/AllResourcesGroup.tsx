@@ -8,9 +8,6 @@
 
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { colors, spacing, fonts } from '@ndla/core';
-import { Share } from '@ndla/icons/lib/common';
 import { Plus } from '@ndla/icons/action';
 import Tooltip from '@ndla/tooltip';
 import { ResourceWithNodeConnectionAndMeta } from './StructureResources';
@@ -23,22 +20,6 @@ import { NodeResourceMeta } from '../../../modules/nodes/nodeQueries';
 import ResourceBanner from './ResourceBanner';
 import { Dictionary } from '../../../interfaces';
 import AddResourceButton from './AddResourceButton';
-
-const ResourceGroupBanner = styled.div`
-  background-color: ${colors.brand.lighter};
-  border-radius: 10px;
-  ${fonts.sizes(16)};
-  color: ${colors.brand.primary};
-  font-weight: ${fonts.weight.semibold};
-  padding: 10px;
-  margin: ${spacing.small} 0px;
-`;
-
-const StyledIcon = styled(Share)`
-  width: 24px;
-  height: 24px;
-  margin-right: ${spacing.small};
-`;
 
 interface Props {
   nodeResources: ResourceWithNodeConnectionAndMeta[];

@@ -125,11 +125,6 @@ const StyledDndIcon = styled(DragVertical)`
   color: ${colors.learningPath.light};
 `;
 
-const ButtonWithSpacing = styled(ButtonV2)`
-  margin-left: ${spacing.xsmall};
-  flex: 1;
-`;
-
 const baseButtonStyles = css`
   margin-left: ${spacing.xsmall};
   flex: 1;

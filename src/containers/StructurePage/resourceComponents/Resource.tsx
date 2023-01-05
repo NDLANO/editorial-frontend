@@ -308,9 +308,8 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
                 small
                 prefix={'Ansvarlig: '} // TODO: update from phrases
                 placeholder={'Velg ansvarlig'}
-                //isSearchable
-                //CloseMenuOnSelect
-                //noOptionsMessage
+                isSearchable
+                noOptionsMessage={() => t('form.responsible.noResults')}
                 isLoading={isLoading}
                 options={users ?? []}
               />

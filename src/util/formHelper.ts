@@ -261,6 +261,20 @@ export const frontPageArticleRules: RulesType<FrontpageArticleFormType, IArticle
       languageMatch: true,
     },
   },
+  slug: {
+    required: true,
+    onlyValidateIf: values => values.slug !== undefined,
+    test: values => {
+      const containsIllegalCharacters =
+        values.slug?.replace(/[^a-zA-Z0-9-]/g, '').length !== values.slug?.length;
+      return containsIllegalCharacters
+        ? { translationKey: 'frontpageArticleForm.validation.illegalSlug' }
+        : undefined;
+    },
+    warnings: {
+      languageMatch: true,
+    },
+  },
 };
 
 export const topicArticleRules: RulesType<TopicArticleFormType, IArticle> = {

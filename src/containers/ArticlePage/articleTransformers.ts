@@ -85,6 +85,7 @@ const draftApiTypeToArticleFormType = (
     availability: article?.availability ?? 'everyone',
     relatedContent: article?.relatedContent ?? [],
     revisionMeta: article?.revisions ?? [],
+    slug: article?.slug,
   };
 };
 
@@ -179,7 +180,7 @@ export const frontpageArticleFormTypeToDraftApiType = (
     : nullOrUndefined(article.metaImageId);
   return {
     revision: 0,
-    slug: getSlugFromTitle(editorValueToPlainText(article.title)),
+    slug: article.slug || getSlugFromTitle(editorValueToPlainText(article.title)),
     articleType: 'frontpage-article',
     content: learningResourceContentToHTML(article.content),
     copyright: {

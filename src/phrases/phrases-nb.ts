@@ -479,6 +479,10 @@ const phrases = {
   },
   frontpageArticleForm: {
     title: 'Forsideartikkel',
+    validation: {
+      illegalSlug:
+        'Bruk av ulovlige tegn i Slug tekst! Lovelige er alle tall og bokstaver med bindestrek',
+    },
   },
   learningResourceForm: {
     metaImage: {
@@ -576,9 +580,13 @@ const phrases = {
       button: 'Forhåndsvis',
     },
     resize: 'Endre størrelse',
+    slug: {
+      label: 'Slug',
+    },
     name: {
       title: 'Tittel',
       aboutTitle: 'Tittel',
+      slug: 'Slug',
       introduction: 'Ingress',
       creators: 'Opphavsperson',
       rightsholders: 'Rettighetshaver',
@@ -1407,6 +1415,7 @@ const phrases = {
   },
   contextTypes: {
     topic: 'Emne',
+    frontpage: 'Forsideartikkel',
   },
   ndlaFilm: {
     editor: {

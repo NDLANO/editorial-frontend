@@ -35,7 +35,7 @@ import { mathmlPlugin } from '../../../../components/SlateEditor/plugins/mathml'
 import { textTransformPlugin } from '../../../../components/SlateEditor/plugins/textTransform';
 import { tablePlugin } from '../../../../components/SlateEditor/plugins/table';
 import { EditMarkupLink } from '../../../../components/EditMarkupLink';
-import { IngressField, TitleField } from '../../../FormikForm';
+import { IngressField, TitleField, SlugField } from '../../../FormikForm';
 import { DRAFT_HTML_SCOPE } from '../../../../constants';
 import { toEditMarkup } from '../../../../util/routeHelpers';
 import { toolbarPlugin } from '../../../../components/SlateEditor/plugins/toolbar';
@@ -151,7 +151,7 @@ const FrontPageFormContent = ({
   t,
   userPermissions,
   articleLanguage,
-  values: { id, language, creators, published },
+  values: { id, language, creators, published, slug },
   handleSubmit,
   i18n,
 }: Props) => {
@@ -194,6 +194,7 @@ const FrontPageFormContent = ({
           </StyledDiv>
         )}
       </StyledFormikField>
+      {slug && <SlugField handleSubmit={handleSubmit} />}
       <IngressField preview={preview} handleSubmit={handleSubmit} />
       <StyledContentDiv name="content" label={t('form.content.label')} noBorder>
         {({ field: { value, name, onChange }, form: { isSubmitting, setFieldValue } }) => (

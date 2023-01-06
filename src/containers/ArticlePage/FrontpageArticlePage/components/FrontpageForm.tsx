@@ -12,7 +12,7 @@ import { Formik, FormikProps } from 'formik';
 import { IArticle, IUpdatedArticle, IStatus } from '@ndla/types-draft-api';
 import { AlertModalWrapper } from '../../../FormikForm';
 import validateFormik, { getWarnings } from '../../../../components/formikValidationSchema';
-import { isFormikFormDirty, learningResourceRules } from '../../../../util/formHelper';
+import { frontPageArticleRules, isFormikFormDirty } from '../../../../util/formHelper';
 import { toEditArticle } from '../../../../util/routeHelpers';
 import HeaderWithLanguage from '../../../../components/HeaderWithLanguage';
 import EditorFooter from '../../../../components/SlateEditor/EditorFooter';
@@ -77,7 +77,7 @@ const FrontPageForm = ({
     updateArticleAndStatus,
     getArticleFromSlate: frontpageArticleFormTypeToDraftApiType,
     articleLanguage,
-    rules: learningResourceRules,
+    rules: frontPageArticleRules,
   });
 
   const initialHTML = useMemo(() => frontpageContentToHTML(initialValues.content), [initialValues]);
@@ -151,8 +151,8 @@ const FrontPageForm = ({
     );
   };
 
-  const initialWarnings = getWarnings(initialValues, learningResourceRules, t, article);
-  const initialErrors = useMemo(() => validateFormik(initialValues, learningResourceRules, t), [
+  const initialWarnings = getWarnings(initialValues, frontPageArticleRules, t, article);
+  const initialErrors = useMemo(() => validateFormik(initialValues, frontPageArticleRules, t), [
     initialValues,
     t,
   ]);
@@ -166,7 +166,7 @@ const FrontPageForm = ({
       validateOnBlur={false}
       validateOnMount
       onSubmit={handleSubmit}
-      validate={values => validateFormik(values, learningResourceRules, t)}
+      validate={values => validateFormik(values, frontPageArticleRules, t)}
       initialStatus={{ warnings: initialWarnings }}>
       {FormikChild}
     </Formik>

@@ -478,6 +478,10 @@ const phrases = {
   },
   frontpageArticleForm: {
     title: 'Frontpage article',
+    validation: {
+      illegalSlug:
+        'Use of illegal characters! Legal characters are numbers and letters with dashes.',
+    },
   },
   learningResourceForm: {
     metaImage: {
@@ -574,9 +578,13 @@ const phrases = {
       button: 'Preview',
     },
     resize: 'Resize',
+    slug: {
+      label: 'Slug',
+    },
     name: {
       title: 'Title',
       aboutTitle: 'Title',
+      slug: 'Slug',
       introduction: 'Ingress',
       creators: 'Creators',
       rightsholders: 'Rightsholders',
@@ -1402,6 +1410,7 @@ const phrases = {
   },
   contextTypes: {
     topic: 'Topic',
+    frontpage: 'Frontpage article',
   },
   ndlaFilm: {
     editor: {

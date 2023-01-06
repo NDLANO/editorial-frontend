@@ -313,6 +313,7 @@ export const flattenedResourceTypes = [
   },
   { id: 'urn:resourcetype:concept', name: 'Forklaring' },
   { id: 'topic-article', name: 'Emne' },
+  { id: 'frontpage-article', name: 'Forsideartikkel' },
 ];
 
 export const subjectsMock = [

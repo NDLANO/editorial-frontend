@@ -6,10 +6,9 @@
  *
  */
 
-import { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
-import { Footer, FooterStatus, FooterLinkButton } from '@ndla/editor';
+import { Footer, FooterLinkButton } from '@ndla/editor';
 import { colors, spacing } from '@ndla/core';
 import { Launch } from '@ndla/icons/common';
 import { IConcept, IStatus as ConceptStatus } from '@ndla/types-concept-api';
@@ -22,6 +21,7 @@ import { createGuard, createReturnTypeGuard } from '../../util/guards';
 import { NewMessageType, useMessages } from '../../containers/Messages/MessagesProvider';
 import { ConceptStatusStateMachineType, DraftStatusStateMachineType } from '../../interfaces';
 import ResponsibleSelect from '../../containers/FormikForm/components/ResponsibleSelect';
+import StatusSelect from '../../containers/FormikForm/components/StatusSelect';
 
 interface Props {
   formIsDirty: boolean;
@@ -80,15 +80,6 @@ function EditorFooter<T extends FormValues>({
   const { t } = useTranslation();
   const { values, setFieldValue, isSubmitting } = useFormikContext<T>();
   const { createMessage, formatErrorMessage } = useMessages();
-  // Wait for newStatus and responsible to be set to trigger since formik doesn't update fields instantly
-  const [newStatus, setNewStatus] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (newStatus) {
-      onSaveClick();
-      setNewStatus(null);
-    }
-  }, [newStatus, onSaveClick]);
 
   const saveButton = (
     <SaveMultiButton
@@ -138,6 +129,14 @@ function EditorFooter<T extends FormValues>({
     }
   };
 
+  const updateStatus = async (status: string | null) => {
+    try {
+      setFieldValue('status', { current: status });
+    } catch (error) {
+      catchError(error, createMessage);
+    }
+  };
+
   if (showSimpleFooter) {
     return (
       <Footer>
@@ -150,27 +149,6 @@ function EditorFooter<T extends FormValues>({
       </Footer>
     );
   }
-
-  const transformStatus = (entityStatus: DraftStatus, status: string) => ({
-    name: t(`form.status.actions.${status}`),
-    id: status,
-    active: status === entityStatus.current,
-  });
-
-  const statuses =
-    statusStateMachine && entityStatus
-      ? statusStateMachine[entityStatus.current]?.map(s => transformStatus(entityStatus, s)) ?? []
-      : [];
-
-  const updateStatus = async (comment: string, status: string) => {
-    try {
-      // Set new status field and update form (which we listen for changes to in the useEffect above)
-      setNewStatus(status);
-      setFieldValue('status', { current: status });
-    } catch (error) {
-      catchError(error, createMessage);
-    }
-  };
 
   const isConceptType = createReturnTypeGuard<IConcept>('subjectIds');
 
@@ -199,21 +177,10 @@ function EditorFooter<T extends FormValues>({
 
         <div data-cy="footerStatus">
           <ResponsibleSelect onSave={updateResponsible} responsibleId={responsibleId} />
-          <FooterStatus
+          <StatusSelect
             onSave={updateStatus}
-            options={statuses}
-            messages={{
-              label: '',
-              changeStatus: t(`form.status.${entityStatus?.current.toLowerCase()}`),
-              back: t('editorFooter.back'),
-              inputHeader: t('editorFooter.inputHeader'),
-              inputHelperText: t('editorFooter.inputHelperText'),
-              cancelLabel: t('editorFooter.cancelLabel'),
-              saveLabel: t('editorFooter.saveLabel'),
-              warningSavedWithoutComment: t('editorFooter.warningSaveWithoutComment'),
-              newStatusPrefix: t('editorFooter.newStatusPrefix'),
-              statusLabel: t('editorFooter.statusLabel'),
-            }}
+            statusStateMachine={statusStateMachine}
+            entityStatus={entityStatus}
           />
           {saveButton}
         </div>

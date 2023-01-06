@@ -49,15 +49,10 @@ const toolbarIcon = (t: TFunction): Record<string, JSX.Element | undefined> => (
   'numbered-list': <ListNumbered title={t('editorToolbar.numberedList', options)} />,
   'bulleted-list': <ListCircle title={t('editorToolbar.bulletedList', options)} />,
   'letter-list': <ListAlphabetical title={t('editorToolbar.letterList', options)} />,
-  'heading-1': <Heading1 title={t('editorToolbar.headingOne', options)} />,
-  'heading-2': <Heading2 title={t('editorToolbar.headingTwo', options)} />,
-  'heading-3': <Heading3 title={t('editorToolbar.headingThree', options)} />,
-  'heading-4': (
-    <svg>
-      <title>{t('editorToolbar.headingFour', options)}</title>
-      <text>h4</text>
-    </svg>
-  ),
+  'heading-1': <span>H1</span>,
+  'heading-2': <span>H2</span>,
+  'heading-3': <span>H3</span>,
+  'heading-4': <span>H4</span>,
   mathml: <Math title={t('editorToolbar.mathml', options)} />,
   concept: <Concept title={t('editorToolbar.concept', options)} />,
   code: <Code title={t('editorToolbar.code', options)} />,

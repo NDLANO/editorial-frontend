@@ -980,6 +980,7 @@ const phrases = {
     },
     responsible: {
       label: 'Ansvarleg',
+      choose: 'Velg ansvarleg',
       noResults: 'Ingen treff',
       noArticles: 'Ingen artiklar ...',
     },

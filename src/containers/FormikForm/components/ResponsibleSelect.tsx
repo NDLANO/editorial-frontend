@@ -64,7 +64,7 @@ const ResponsibleSelect = ({ onSave, responsibleId }: Props) => {
       <Select<false>
         options={sortedUsers ?? []}
         menuPlacement="top"
-        placeholder={t('form.responsible.label')}
+        placeholder={t('form.responsible.choose')}
         value={responsible}
         onChange={updateResponsible}
         isLoading={isLoading}

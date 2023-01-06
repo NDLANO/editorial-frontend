@@ -11,7 +11,7 @@ import { useState, useEffect } from 'react';
 import sortBy from 'lodash/sortBy';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
-import { useAuth0Editors } from '../../../modules/auth0/auth0Queries';
+import { useAuth0Responsibles } from '../../../modules/auth0/auth0Queries';
 import { DRAFT_WRITE_SCOPE } from '../../../constants';
 
 const Wrapper = styled.div`
@@ -27,7 +27,7 @@ interface Props {
 const ResponsibleSelect = ({ onSave, responsibleId }: Props) => {
   const { t } = useTranslation();
 
-  const { data: users, isLoading } = useAuth0Editors(
+  const { data: users, isLoading } = useAuth0Responsibles(
     { permission: DRAFT_WRITE_SCOPE },
     {
       select: users =>

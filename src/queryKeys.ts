@@ -16,6 +16,7 @@ export const CONCEPT_STATE_MACHINE = 'conceptStateMachine';
 
 export const AUTH0_USERS = 'auth0Users';
 export const AUTH0_EDITORS = 'auth0Editors';
+export const AUTH0_RESPONSIBLES = 'auth0Responsibles';
 
 export const CONCEPT = 'concept';
 

@@ -19,12 +19,20 @@ const Wrapper = styled.div`
 `;
 
 interface Props {
-  onSave: (statusId: string | null) => void;
+  status: SingleValue;
+  setStatus: (s: SingleValue) => void;
+  onSave: (s: SingleValue) => void;
   statusStateMachine?: ConceptStatusStateMachineType | DraftStatusStateMachineType;
   entityStatus?: DraftStatus;
 }
 
-const ResponsibleSelect = ({ onSave, statusStateMachine, entityStatus }: Props) => {
+const ResponsibleSelect = ({
+  status,
+  setStatus,
+  onSave,
+  statusStateMachine,
+  entityStatus,
+}: Props) => {
   const { t } = useTranslation();
 
   const transformStatus = (status: string) => ({
@@ -33,24 +41,26 @@ const ResponsibleSelect = ({ onSave, statusStateMachine, entityStatus }: Props) 
   });
 
   const [options, setOptions] = useState<Option[]>([]);
-  const [status, setStatus] = useState<SingleValue>();
 
   useEffect(() => {
     if (entityStatus && statusStateMachine) {
       const statuses = statusStateMachine[entityStatus.current]?.map(s => transformStatus(s)) ?? [];
       setOptions(statuses);
+      if (entityStatus.current === 'PUBLISHED') {
+        setStatus({ label: t(`form.status.published`), value: 'PUBLISHED' });
+      } else {
+        const initialStatus =
+          statuses.find(s => s.value.toLowerCase() === entityStatus.current.toLowerCase()) ?? null;
 
-      const initialStatus =
-        statuses.find(s => s.value.toLowerCase() === entityStatus.current.toLowerCase()) ?? null;
-      setStatus(initialStatus);
+        setStatus(initialStatus);
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [entityStatus, statusStateMachine]);
 
   const updateStatus = async (status: SingleValue) => {
     if (status) {
-      setStatus(status);
-      onSave(status.value);
+      onSave(status);
     }
   };
 

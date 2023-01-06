@@ -14,6 +14,8 @@ import { Launch } from '@ndla/icons/common';
 import { IConcept, IStatus as ConceptStatus } from '@ndla/types-concept-api';
 import { IUpdatedArticle, IStatus as DraftStatus } from '@ndla/types-draft-api';
 import { useFormikContext } from 'formik';
+import { useState } from 'react';
+import { SingleValue } from '@ndla/select';
 import { toPreviewDraft } from '../../util/routeHelpers';
 import PreviewConceptLightbox from '../PreviewConcept/PreviewConceptLightbox';
 import SaveMultiButton from '../SaveMultiButton';
@@ -77,6 +79,9 @@ function EditorFooter<T extends FormValues>({
   hasErrors,
   responsibleId,
 }: Props) {
+  const [status, setStatus] = useState<SingleValue>(null);
+  const [responsible, setResponsible] = useState<SingleValue>(null);
+
   const { t } = useTranslation();
   const { values, setFieldValue, isSubmitting } = useFormikContext<T>();
   const { createMessage, formatErrorMessage } = useMessages();
@@ -121,17 +126,24 @@ function EditorFooter<T extends FormValues>({
       catchError(error, createMessage);
     }
   };
-  const updateResponsible = async (responsibleId: string | null) => {
+  const updateResponsible = async (responsible: SingleValue) => {
     try {
-      setFieldValue('responsibleId', responsibleId);
+      setResponsible(responsible);
+      setFieldValue('responsibleId', responsible ? responsible.value : null);
     } catch (error) {
       catchError(error, createMessage);
     }
   };
 
-  const updateStatus = async (status: string | null) => {
+  const updateStatus = async (status: SingleValue) => {
     try {
-      setFieldValue('status', { current: status });
+      setStatus(status);
+      setFieldValue('status', { current: status?.value });
+
+      // When status changes user should also update responsible
+      if (responsible && responsible.value === responsibleId) {
+        updateResponsible(null);
+      }
     } catch (error) {
       catchError(error, createMessage);
     }
@@ -142,7 +154,12 @@ function EditorFooter<T extends FormValues>({
       <Footer>
         <StyledFooter>
           {isArticle && (
-            <ResponsibleSelect onSave={updateResponsible} responsibleId={responsibleId} />
+            <ResponsibleSelect
+              responsible={responsible}
+              setResponsible={setResponsible}
+              onSave={updateResponsible}
+              responsibleId={responsibleId}
+            />
           )}
           {saveButton}
         </StyledFooter>
@@ -176,8 +193,15 @@ function EditorFooter<T extends FormValues>({
         </div>
 
         <div data-cy="footerStatus">
-          <ResponsibleSelect onSave={updateResponsible} responsibleId={responsibleId} />
+          <ResponsibleSelect
+            responsible={responsible}
+            setResponsible={setResponsible}
+            onSave={updateResponsible}
+            responsibleId={responsibleId}
+          />
           <StatusSelect
+            status={status}
+            setStatus={setStatus}
             onSave={updateStatus}
             statusStateMachine={statusStateMachine}
             entityStatus={entityStatus}

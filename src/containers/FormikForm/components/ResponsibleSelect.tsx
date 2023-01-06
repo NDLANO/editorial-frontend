@@ -20,11 +20,13 @@ const Wrapper = styled.div`
 `;
 
 interface Props {
-  onSave: (responsibleId: string | null) => void;
+  responsible: SingleValue;
+  setResponsible: (r: SingleValue) => void;
+  onSave: (r: SingleValue) => void;
   responsibleId?: string;
 }
 
-const ResponsibleSelect = ({ onSave, responsibleId }: Props) => {
+const ResponsibleSelect = ({ responsible, setResponsible, onSave, responsibleId }: Props) => {
   const { t } = useTranslation();
 
   const { data: users, isLoading } = useAuth0Responsibles(
@@ -39,14 +41,13 @@ const ResponsibleSelect = ({ onSave, responsibleId }: Props) => {
     },
   );
 
-  const [responsible, setResponsible] = useState<SingleValue>();
   const [sortedUsers, setSortedUsers] = useState<Option[]>([]);
 
   useEffect(() => {
     if (users) {
       if (responsibleId) {
-        const defaultResponsible = users.find(user => user.value === responsibleId);
-        setResponsible(defaultResponsible);
+        const initialResponsible = users.find(user => user.value === responsibleId) ?? null;
+        setResponsible(initialResponsible);
       }
       const sortedList = sortBy(users, u => u.label);
       setSortedUsers(sortedList);
@@ -55,8 +56,7 @@ const ResponsibleSelect = ({ onSave, responsibleId }: Props) => {
   }, [users]);
 
   const updateResponsible = async (responsible: SingleValue) => {
-    setResponsible(responsible);
-    onSave(responsible ? responsible.value : null);
+    onSave(responsible);
   };
 
   return (

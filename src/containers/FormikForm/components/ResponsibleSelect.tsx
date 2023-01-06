@@ -20,7 +20,7 @@ const Wrapper = styled.div`
 `;
 
 interface Props {
-  onSave: (responsibleId: string) => void;
+  onSave: (responsibleId: string | null) => void;
   responsibleId?: string;
 }
 
@@ -56,10 +56,7 @@ const ResponsibleSelect = ({ onSave, responsibleId }: Props) => {
 
   const updateResponsible = async (responsible: SingleValue) => {
     setResponsible(responsible);
-
-    if (responsible) {
-      onSave(responsible.value);
-    }
+    onSave(responsible ? responsible.value : null);
   };
 
   return (

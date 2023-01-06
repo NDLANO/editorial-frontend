@@ -91,7 +91,7 @@ const LearningResourceForm = ({
 
   const FormikChild = (formik: FormikProps<LearningResourceFormType>) => {
     // eslint doesn't allow this to be inlined when using hooks (in usePreventWindowUnload)
-    const { values, dirty, isSubmitting } = formik;
+    const { values, dirty, isSubmitting, errors } = formik;
     const formIsDirty = isFormikFormDirty({
       values,
       initialValues,
@@ -105,6 +105,8 @@ const LearningResourceForm = ({
     const editUrl = values.id
       ? (lang: string) => toEditArticle(values.id!, values.articleType, lang)
       : undefined;
+
+    const disableSave = Object.keys(errors).length > 0;
 
     return (
       <StyledForm>
@@ -149,6 +151,7 @@ const LearningResourceForm = ({
           isConcept={false}
           hideSecondaryButton={false}
           responsibleId={article?.responsible?.responsibleId}
+          hasErrors={!formIsDirty || disableSave || isSubmitting}
         />
         <AlertModalWrapper
           isSubmitting={isSubmitting}

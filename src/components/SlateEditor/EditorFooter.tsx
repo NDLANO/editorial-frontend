@@ -130,7 +130,7 @@ function EditorFooter<T extends FormValues>({
       catchError(error, createMessage);
     }
   };
-  const updateResponsible = async (responsibleId: string) => {
+  const updateResponsible = async (responsibleId: string | null) => {
     try {
       setFieldValue('responsibleId', responsibleId);
     } catch (error) {

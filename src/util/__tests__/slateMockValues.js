@@ -11,7 +11,7 @@ export const valueWithTwoImageEmbeds = {
         caption: '',
         url: 'https://test.api.ndla.no/image-api/v3/images/3',
       },
-      type: 'embed',
+      type: 'ndlaembed',
       children: [
         {
           text: ' ',
@@ -56,7 +56,7 @@ export const valueWithTwoImageEmbeds = {
           captions: [{ caption: 'Guinness is good for you', language: 'nb' }],
         },
       },
-      type: 'embed',
+      type: 'ndlaembed',
       children: [
         {
           text: ' ',

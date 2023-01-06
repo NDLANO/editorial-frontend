@@ -6,4 +6,4 @@
  *
  */
 
-export const TYPE_EMBED = 'embed';
+export const TYPE_NDLA_EMBED = 'ndlaembed';

@@ -41,7 +41,9 @@ const StructureErrorIcon = (
 
       return (
         <Tooltip tooltip={notPublishedWarning}>
-          <StyledAlertIcon title={notPublishedWarning} />
+          <div>
+            <StyledAlertIcon />
+          </div>
         </Tooltip>
       );
     }
@@ -62,7 +64,9 @@ const StructureErrorIcon = (
 
     return (
       <Tooltip tooltip={error}>
-        <StyledWarnIcon title={error} />
+        <div>
+          <StyledWarnIcon />
+        </div>
       </Tooltip>
     );
   }

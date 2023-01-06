@@ -216,7 +216,9 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
         resource.contentMeta?.status?.other?.includes(PUBLISHED)) && (
         <PublishedWrapper path={path}>
           <Tooltip tooltip={t('form.workflow.published')}>
-            <StyledCheckIcon />
+            <div>
+              <StyledCheckIcon />
+            </div>
           </Tooltip>
         </PublishedWrapper>
       )}
@@ -286,7 +288,9 @@ const WrongTypeError = ({
 
   return (
     <Tooltip tooltip={errorText}>
-      <StyledWarnIcon title={undefined} />
+      <div>
+        <StyledWarnIcon title={undefined} />
+      </div>
     </Tooltip>
   );
 };

@@ -37,7 +37,7 @@ const ResourceGroup = ({ resourceType, resources, currentNodeId }: Props) => {
     <>
       <Accordion
         addButton={
-          <AddResourceButton stripped onClick={toggleAddModal} disabled={resourceType.disabled}>
+          <AddResourceButton onClick={toggleAddModal} disabled={resourceType.disabled}>
             <Plus />
             {t('taxonomy.addResource')}
           </AddResourceButton>

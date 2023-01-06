@@ -119,6 +119,7 @@ const phrases = {
     lastUsed: 'Last edited',
     savedSearch: 'Saved searches',
     saveSearch: 'Save search',
+    welcomeBack: 'Welcome back',
   },
   searchPage: {
     header: {
@@ -567,6 +568,7 @@ const phrases = {
     preview: {
       button: 'Preview',
     },
+    resize: 'Resize',
     name: {
       title: 'Title',
       aboutTitle: 'Title',
@@ -1359,7 +1361,10 @@ const phrases = {
     },
     resourcesPrimary: {
       text: 'Are you sure you want to make all connected resources primary?',
+      recursiveText:
+        'Are you sure you want to make all connected resources and sub resources primary?',
       buttonText: 'Make resources primary',
+      recursiveButtonText: 'Make resources and sub resources primary',
       error: 'An error occured',
     },
     goTo: 'Open in structure editor',
@@ -1503,7 +1508,7 @@ const phrases = {
     publishing: 'Publishing node...',
     publish: 'Publish node',
     publishWarning:
-      'Are you sure you want to publish this node? Any changes within this version will be immediately available in the targeted version',
+      'Are you sure you want to publish this node? All the changes will be available in the targeted version after the publishing have completed',
     publishError: 'Failed to publish node',
     equalNodes: 'These nodes are equal!',
     defaultVersion: 'Draft',

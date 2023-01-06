@@ -10,6 +10,7 @@ import { Component, ReactNode } from 'react';
 import { Editor, Element, Transforms } from 'slate';
 import { ReactEditor, RenderElementProps } from 'slate-react';
 import debounce from 'lodash/debounce';
+// eslint-disable-next-line lodash/import-scope
 import { DebouncedFunc } from 'lodash';
 import styled from '@emotion/styled';
 import { withTranslation, TFunction, CustomWithTranslation } from 'react-i18next';

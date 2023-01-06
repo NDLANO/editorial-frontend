@@ -79,7 +79,6 @@ const ChangeNodeName = ({ editModeHandler: { editMode, toggleEditMode }, node }:
   return (
     <>
       <MenuItemButton
-        stripped
         data-testid="changeNodeNameButton"
         onClick={() => toggleEditMode('changeSubjectName')}>
         <RoundIcon small icon={<Pencil />} />
@@ -208,7 +207,7 @@ const ChangeNodeNameModal = ({ onClose, node }: ModalProps) => {
                   {},
                 );
                 const availableLanguages = supportedLanguages.filter(
-                  trans => !takenLanguages.hasOwnProperty(trans),
+                  trans => !Object.prototype.hasOwnProperty.call(takenLanguages, trans),
                 );
                 const formIsDirty: boolean = isFormikFormDirty({
                   values,

@@ -2,15 +2,15 @@
 
 exports[`serializing article with mathml tags 1`] = `
 "<section>
-  <embed
-    data-align=\\"\\"
-    data-alt=\\"Ulikhet 4\\"
-    data-caption=\\"\\"
-    data-resource=\\"image\\"
-    data-resource_id=\\"18284\\"
-    data-size=\\"full\\"
-    data-url=\\"https://api.ndla.no/image-api/v3/images/18284\\"
-  />
+  <ndlaembed
+    data-align=""
+    data-alt="Ulikhet 4"
+    data-caption=""
+    data-resource="image"
+    data-resource_id="18284"
+    data-size="full"
+    data-url="https://api.ndla.no/image-api/v3/images/18284"
+  ></ndlaembed>
   <h2>Hva er budsjettkontroll?</h2>
   <p>
     Normalt er vi ferdig med driftsregnskapet 10–15 dager inn i neste måned.
@@ -47,98 +47,98 @@ exports[`serializing article with mathml tags 1`] = `
   <table>
     <thead>
       <tr>
-        <th rowspan=\\"2\\">Tekst</th>
-        <th align=\\"center\\" valign=\\"top\\">Regnskap</th>
-        <th align=\\"center\\" valign=\\"top\\">Budsjett</th>
-        <th colspan=\\"2\\" align=\\"center\\" valign=\\"top\\">Avvik</th>
+        <th rowspan="2">Tekst</th>
+        <th align="center" valign="top">Regnskap</th>
+        <th align="center" valign="top">Budsjett</th>
+        <th colspan="2" align="center" valign="top">Avvik</th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td align=\\"center\\" valign=\\"top\\"><strong>kr</strong></td>
-        <td align=\\"center\\" valign=\\"top\\"><strong>kr</strong></td>
-        <td align=\\"center\\" valign=\\"top\\"><strong>kr</strong></td>
-        <td align=\\"center\\" valign=\\"top\\"><strong>%</strong></td>
+        <td align="center" valign="top"><strong>kr</strong></td>
+        <td align="center" valign="top"><strong>kr</strong></td>
+        <td align="center" valign="top"><strong>kr</strong></td>
+        <td align="center" valign="top"><strong>%</strong></td>
       </tr>
       <tr>
         <td>Varesalg</td>
-        <td align=\\"right\\" valign=\\"top\\">50 000</td>
-        <td align=\\"right\\" valign=\\"top\\">45 000</td>
-        <td align=\\"right\\" valign=\\"top\\">+5 000</td>
-        <td align=\\"right\\" valign=\\"top\\">+11,1 %</td>
+        <td align="right" valign="top">50 000</td>
+        <td align="right" valign="top">45 000</td>
+        <td align="right" valign="top">+5 000</td>
+        <td align="right" valign="top">+11,1 %</td>
       </tr>
       <tr>
         <td>Varekostnader</td>
-        <td align=\\"right\\" valign=\\"top\\">30 000</td>
-        <td align=\\"right\\" valign=\\"top\\">26 000</td>
-        <td align=\\"right\\" valign=\\"top\\">+4 000</td>
-        <td align=\\"right\\" valign=\\"top\\">+15,4 %</td>
+        <td align="right" valign="top">30 000</td>
+        <td align="right" valign="top">26 000</td>
+        <td align="right" valign="top">+4 000</td>
+        <td align="right" valign="top">+15,4 %</td>
       </tr>
       <tr>
-        <td align=\\"left\\" valign=\\"top\\">
+        <td align="left" valign="top">
           <strong>Bruttofortjeneste</strong><strong><br /></strong
           ><strong> (dekningsbidrag)</strong>
         </td>
-        <td align=\\"right\\" valign=\\"top\\"><strong>20 000</strong></td>
-        <td align=\\"right\\" valign=\\"top\\"><strong>19 000</strong></td>
-        <td align=\\"right\\" valign=\\"top\\"><strong>+1 000</strong></td>
-        <td align=\\"right\\" valign=\\"top\\"><strong>+5,3 %</strong></td>
+        <td align="right" valign="top"><strong>20 000</strong></td>
+        <td align="right" valign="top"><strong>19 000</strong></td>
+        <td align="right" valign="top"><strong>+1 000</strong></td>
+        <td align="right" valign="top"><strong>+5,3 %</strong></td>
       </tr>
       <tr>
         <td>Lønn</td>
-        <td align=\\"right\\" valign=\\"top\\">8 000</td>
-        <td align=\\"right\\" valign=\\"top\\">7 800</td>
-        <td align=\\"right\\" valign=\\"top\\">+200</td>
-        <td align=\\"right\\" valign=\\"top\\">+2,6 %</td>
+        <td align="right" valign="top">8 000</td>
+        <td align="right" valign="top">7 800</td>
+        <td align="right" valign="top">+200</td>
+        <td align="right" valign="top">+2,6 %</td>
       </tr>
       <tr>
         <td>Arbeidsgiveravgift</td>
-        <td align=\\"right\\" valign=\\"top\\">1 120</td>
-        <td align=\\"right\\" valign=\\"top\\">1 092</td>
-        <td align=\\"right\\" valign=\\"top\\">+28</td>
-        <td align=\\"right\\" valign=\\"top\\">+2,6 %</td>
+        <td align="right" valign="top">1 120</td>
+        <td align="right" valign="top">1 092</td>
+        <td align="right" valign="top">+28</td>
+        <td align="right" valign="top">+2,6 %</td>
       </tr>
       <tr>
         <td>Strømkostnader</td>
-        <td align=\\"right\\" valign=\\"top\\">1 000</td>
-        <td align=\\"right\\" valign=\\"top\\">1 200</td>
-        <td align=\\"right\\" valign=\\"top\\">–200</td>
-        <td align=\\"right\\" valign=\\"top\\">–16,7 %</td>
+        <td align="right" valign="top">1 000</td>
+        <td align="right" valign="top">1 200</td>
+        <td align="right" valign="top">–200</td>
+        <td align="right" valign="top">–16,7 %</td>
       </tr>
       <tr>
         <td>Husleie</td>
-        <td align=\\"right\\" valign=\\"top\\">2 000</td>
-        <td align=\\"right\\" valign=\\"top\\">2 050</td>
-        <td align=\\"right\\" valign=\\"top\\">–50</td>
-        <td align=\\"right\\" valign=\\"top\\">–2,4 %</td>
+        <td align="right" valign="top">2 000</td>
+        <td align="right" valign="top">2 050</td>
+        <td align="right" valign="top">–50</td>
+        <td align="right" valign="top">–2,4 %</td>
       </tr>
       <tr>
         <td>Avskrivinger</td>
-        <td align=\\"right\\" valign=\\"top\\">1 200</td>
-        <td align=\\"right\\" valign=\\"top\\">1 400</td>
-        <td align=\\"right\\" valign=\\"top\\">–200</td>
-        <td align=\\"right\\" valign=\\"top\\">–14,3 %</td>
+        <td align="right" valign="top">1 200</td>
+        <td align="right" valign="top">1 400</td>
+        <td align="right" valign="top">–200</td>
+        <td align="right" valign="top">–14,3 %</td>
       </tr>
       <tr>
         <td>Rentekostnader</td>
-        <td align=\\"right\\" valign=\\"top\\">1 000</td>
-        <td align=\\"right\\" valign=\\"top\\">800</td>
-        <td align=\\"right\\" valign=\\"top\\">+200</td>
-        <td align=\\"right\\" valign=\\"top\\">+25,0 %</td>
+        <td align="right" valign="top">1 000</td>
+        <td align="right" valign="top">800</td>
+        <td align="right" valign="top">+200</td>
+        <td align="right" valign="top">+25,0 %</td>
       </tr>
       <tr>
-        <td align=\\"left\\"><strong>Sum indirekte kostnader</strong></td>
-        <td align=\\"right\\" valign=\\"top\\"><strong>14 320</strong></td>
-        <td align=\\"right\\" valign=\\"top\\"><strong>14 342</strong></td>
-        <td align=\\"right\\" valign=\\"top\\">–<strong>22</strong></td>
-        <td align=\\"right\\" valign=\\"top\\">–<strong>0,2 %</strong></td>
+        <td align="left"><strong>Sum indirekte kostnader</strong></td>
+        <td align="right" valign="top"><strong>14 320</strong></td>
+        <td align="right" valign="top"><strong>14 342</strong></td>
+        <td align="right" valign="top">–<strong>22</strong></td>
+        <td align="right" valign="top">–<strong>0,2 %</strong></td>
       </tr>
       <tr>
-        <td align=\\"left\\"><strong>Resultat</strong></td>
-        <td align=\\"right\\" valign=\\"top\\"><strong>5 680</strong></td>
-        <td align=\\"right\\" valign=\\"top\\"><strong>4 658</strong></td>
-        <td align=\\"right\\" valign=\\"top\\"><strong>+1 022</strong></td>
-        <td align=\\"right\\" valign=\\"top\\"><strong>+21,9 %</strong></td>
+        <td align="left"><strong>Resultat</strong></td>
+        <td align="right" valign="top"><strong>5 680</strong></td>
+        <td align="right" valign="top"><strong>4 658</strong></td>
+        <td align="right" valign="top"><strong>+1 022</strong></td>
+        <td align="right" valign="top"><strong>+21,9 %</strong></td>
       </tr>
     </tbody>
   </table>
@@ -161,7 +161,7 @@ exports[`serializing article with mathml tags 1`] = `
     Vi regner økningen i prosent i forhold til budsjettet:
   </p>
   <p>
-    <math xmlns=\\"http://www.w3.org/1998/Math/MathML\\"
+    <math xmlns="http://www.w3.org/1998/Math/MathML"
       ><mfrac
         ><mrow
           ><mn>5</mn><mo>&nbsp; </mo><mn>000</mn><mo>&nbsp; </mo><mi>kr</mi

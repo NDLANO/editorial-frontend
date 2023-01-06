@@ -26,7 +26,6 @@ const EditCustomFields = ({ node, toggleEditMode, editMode, onCurrentNodeChanged
   return (
     <div>
       <MenuItemButton
-        stripped
         data-testid="editCustomFieldsButton"
         onClick={() => toggleEditMode('openCustomFields')}>
         <RoundIcon small open={editMode === 'openCustomFields'} icon={<Pencil />} />

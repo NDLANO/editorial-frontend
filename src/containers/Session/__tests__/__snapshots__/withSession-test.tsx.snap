@@ -2,7 +2,9 @@
 
 exports[`withSession correctly injects and updates session state 1`] = `
 <div>
-  <button>
+  <button
+    type="button"
+  >
     Click
   </button>
   <p>
@@ -13,7 +15,9 @@ exports[`withSession correctly injects and updates session state 1`] = `
 
 exports[`withSession correctly injects and updates session state 2`] = `
 <div>
-  <button>
+  <button
+    type="button"
+  >
     Click
   </button>
   <p>

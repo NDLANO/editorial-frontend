@@ -7,10 +7,9 @@
  */
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { debounce } from 'lodash';
+import debounce from 'lodash/debounce';
 import PropTypes from 'prop-types';
-import Modal from '@ndla/modal';
-import { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
+import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import {
   IConcept,
   IConceptSearchResult,

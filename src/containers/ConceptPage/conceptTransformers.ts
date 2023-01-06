@@ -27,6 +27,9 @@ export const conceptApiTypeToFormType = (
   initialTitle = '',
 ): ConceptFormValues => {
   const conceptSubjects = subjects.filter(s => concept?.subjectIds?.find(id => id === s.id)) ?? [];
+  const license = concept?.copyright?.license?.license;
+  const conceptLicense = license === 'unknown' ? undefined : license;
+
   // Make sure to omit the content field from concept. It will crash Slate.
   return {
     id: concept?.id,
@@ -44,7 +47,7 @@ export const conceptApiTypeToFormType = (
     rightsholders: concept?.copyright?.rightsholders ?? [],
     processors: concept?.copyright?.processors ?? [],
     source: concept?.source ?? '',
-    license: concept?.copyright?.license?.license ?? '',
+    license: conceptLicense,
     metaImageId: parseImageUrl(concept?.metaImage),
     metaImageAlt: concept?.metaImage?.alt ?? '',
     tags: concept?.tags?.tags ?? [],

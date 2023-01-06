@@ -120,6 +120,7 @@ const phrases = {
     lastUsed: 'Sist redigert',
     savedSearch: 'Lagrede søk',
     saveSearch: 'Lagre søk',
+    welcomeBack: 'Velkommen tilbake',
   },
   searchPage: {
     header: {
@@ -569,6 +570,7 @@ const phrases = {
     preview: {
       button: 'Forhåndsvis',
     },
+    resize: 'Endre størrelse',
     name: {
       title: 'Tittel',
       aboutTitle: 'Tittel',
@@ -1364,7 +1366,10 @@ const phrases = {
     resourcesPrimary: {
       text:
         'Er du helt sikker på at du ønsker å gjøre alle tilhørende ressurser om til primærkoblinger?',
+      recursiveText:
+        'Er du helt sikker på at du ønsker å gjøre alle tilhørende ressurser og underressurser om til primærkoblinger?',
       buttonText: 'Gjør alle ressurser om til primærkoblinger',
+      recursiveButtonText: 'Gjør alle ressurser og underressurser om til primærkoblinger',
       error: 'En feil oppstod',
     },
     goTo: 'Åpne i stukturredigering',
@@ -1508,7 +1513,7 @@ const phrases = {
     publishing: 'Publiserer node...',
     publish: 'Publiser node',
     publishWarning:
-      'Er du sikker på at du ønsker å publisere denne noden? Alle endringer vil umiddelbart bli tilgjengelige i målversjonen',
+      'Er du sikker på at du ønsker å publisere denne noden? Alle endringer vil bli tilgjengelige i målversjonen når publiseringen er ferdig',
     publishError: 'Publisering av node feilet',
     equalNodes: 'Disse nodene er like!',
     defaultVersion: 'Draft',

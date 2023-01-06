@@ -215,7 +215,7 @@ const fetchNodeTree = async ({
     fetchNodeResources({ id, language, taxonomyVersion, recursive: true }),
   ]);
 
-  let rootFromChildren: ChildNodeType | undefined = children.find(child => child.id === id);
+  const rootFromChildren: ChildNodeType | undefined = children.find(child => child.id === id);
   const childOrRegularRoot = rootFromChildren ?? root;
 
   const resourcesForNodeIdMap = allResources.reduce<Record<string, ResourceWithNodeConnection[]>>(

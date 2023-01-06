@@ -6,7 +6,6 @@
  *
  */
 
-import jsdom from 'jsdom';
 import {
   topicArticleContentToEditorValue,
   topicArticleContentToHTML,
@@ -20,28 +19,26 @@ const contentHTML = `<section><h2>Lorem ipsum</h2></section>`;
 const contentHTMLWithSections = `<section><h2>Section 1</h2></section><section><h2>Section 2</h2></section><section><h2>Section 3</h2></section>`;
 const mustBeWrappedHtml = `<section><h2>Section 1</h2><aside>Some text that slate wants to delete <div><em>blabla</em></div></aside></section><section><h2>Section 2</h2></section><section><h2>Section 3</h2></section>`;
 
-const { fragment } = jsdom.JSDOM;
-
 test('articleContentConverter convert topic article content to and from editorValue', () => {
   // Todo fix test to handle empty text nodes
-  const editorValue = topicArticleContentToEditorValue(contentHTML, fragment);
+  const editorValue = topicArticleContentToEditorValue(contentHTML);
   const html = topicArticleContentToHTML(editorValue);
   expect(html).toMatchSnapshot();
 });
 
 test('articleContentConverter convert learningresource content to and from editorValue', () => {
-  const editorValue = learningResourceContentToEditorValue(contentHTML, fragment);
+  const editorValue = learningResourceContentToEditorValue(contentHTML);
   const html = learningResourceContentToHTML(editorValue);
   expect(html).toMatchSnapshot();
 });
 
 test('articleContentConverter convert learningresource content', () => {
-  const editorValue = learningResourceContentToEditorValue(contentHTML, fragment);
+  const editorValue = learningResourceContentToEditorValue(contentHTML);
   expect(editorValue[0]).toMatchSnapshot();
 });
 
 test('articleContentConverter convert learningresource content with multiple sections to and from editorValue', () => {
-  const editorValue = learningResourceContentToEditorValue(contentHTMLWithSections, fragment);
+  const editorValue = learningResourceContentToEditorValue(contentHTMLWithSections);
   const html = learningResourceContentToHTML(editorValue);
   expect(html).toMatchSnapshot();
 });
@@ -61,7 +58,7 @@ test('util/domOperations trippleNestedSections into array', () => {
 });
 
 test('articleContentConverter convert article that is a mix of inline and block object by wrapping the inline', () => {
-  const editorValue = learningResourceContentToEditorValue(mustBeWrappedHtml, fragment);
+  const editorValue = learningResourceContentToEditorValue(mustBeWrappedHtml);
 
   const html = learningResourceContentToHTML(editorValue);
   expect(html).toMatchSnapshot();

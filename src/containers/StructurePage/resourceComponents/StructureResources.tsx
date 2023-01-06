@@ -6,12 +6,11 @@
  *
  */
 
-import { memo } from 'react';
+import { memo, RefObject } from 'react';
 import { useTranslation } from 'react-i18next';
 import { spacing } from '@ndla/core';
 import Button from '@ndla/button';
 import styled from '@emotion/styled';
-import { RefObject } from 'react';
 import { TFunction } from 'i18next';
 import keyBy from 'lodash/keyBy';
 import { ChildNodeType, ResourceWithNodeConnection } from '../../../modules/nodes/nodeApiTypes';
@@ -149,7 +148,7 @@ const StructureResources = ({ currentChildNode, resourceRef, onCurrentNodeChange
       {grouped === 'ungrouped' && (
         <AllResourcesGroup
           key="ungrouped"
-          nodeResources={nodeResources ?? []}
+          nodeResources={nodeResourcesWithMeta ?? []}
           resourceTypes={resourceTypes ?? []}
           currentNodeId={currentChildNode.id}
         />

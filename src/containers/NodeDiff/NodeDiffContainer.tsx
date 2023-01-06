@@ -10,7 +10,7 @@ import styled from '@emotion/styled';
 import Button from '@ndla/button';
 import { spacing } from '@ndla/core';
 import { ContentLoader, MessageBox } from '@ndla/ui';
-import { isEqual } from 'lodash';
+import isEqual from 'lodash/isEqual';
 import { ReactNode, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';

@@ -8,7 +8,7 @@ exports[`EditorErrorMessage renders 1`] = `
   padding: 1rem;
 }
 
-.emotion-4 {
+.emotion-3 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -48,45 +48,45 @@ exports[`EditorErrorMessage renders 1`] = `
   color: #d1372e;
 }
 
-.emotion-4:hover,
-.emotion-4:focus {
+.emotion-3:hover,
+.emotion-3:focus {
   color: white;
   background-color: #184673;
   border: 2px solid #184673;
 }
 
-.emotion-4[disabled] {
+.emotion-3[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-4:focus {
+.emotion-3:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-4:hover,
-.emotion-4:active,
-.emotion-4:disabled,
-.emotion-4:focus {
+.emotion-3:hover,
+.emotion-3:active,
+.emotion-3:disabled,
+.emotion-3:focus {
   box-shadow: none;
   color: #20588f;
   background-color: transparent;
   border: none;
 }
 
-.emotion-4:focus {
+.emotion-3:focus {
   outline-width: medium;
 }
 
-.emotion-4:hover,
-.emotion-4:focus {
+.emotion-3:hover,
+.emotion-3:focus {
   color: #7d211c;
 }
 
-.emotion-4:hover,
-.emotion-4:focus {
+.emotion-3:hover,
+.emotion-3:focus {
   color: #7d211c;
 }
 
@@ -96,7 +96,7 @@ exports[`EditorErrorMessage renders 1`] = `
     contenteditable="false"
   >
     <button
-      class="emotion-2 emotion-3 emotion-4 emotion-5"
+      class="emotion-2 emotion-3 emotion-4"
       contenteditable="false"
       data-cy="close-related-button"
       tabindex="-1"

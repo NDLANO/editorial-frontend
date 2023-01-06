@@ -31,12 +31,12 @@ const UrlAllowList = ({ allowList }: Props) => {
         </tr>
       </thead>
       <tbody>
-        {filteredAllowList.map(provider => (
-          <tr>
+        {filteredAllowList.map((provider, trIndex) => (
+          <tr key={`tr-${trIndex}`}>
             <td>{provider.name}</td>
             <td>
-              {provider.url.map(url => (
-                <div>{url}</div>
+              {provider.url.map((url, index) => (
+                <div key={`cell-${trIndex}-${index}`}>{url}</div>
               ))}
             </td>
           </tr>

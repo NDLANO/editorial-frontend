@@ -1,11 +1,28 @@
 {
   "presets": [
-    ["razzle/babel", { "runtime": "automatic", "importSource": "@emotion/react" }],
-    "@emotion/babel-preset-css-prop"
+    [
+      "razzle",
+      {
+        "preset-react": {
+          "runtime": "automatic",
+          "importSource": "@emotion/react"
+        }
+      }
+    ]
   ],
   "plugins": [
     ["@emotion", { "autoLabel": "always" }],
     "@babel/plugin-proposal-optional-chaining",
     "@loadable/babel-plugin"
-  ]
+  ],
+  "env": {
+    "development": {
+      "plugins": [
+        ["@emotion", { "autoLabel": "always" }],
+        "@babel/plugin-proposal-optional-chaining",
+        "@loadable/babel-plugin",
+        "react-refresh/babel"
+      ]
+    }
+  }
 }

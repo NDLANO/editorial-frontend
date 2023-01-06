@@ -23,7 +23,7 @@ import {
   TopicArticleFormType,
 } from '../containers/FormikForm/articleFormHooks';
 import { isEmbed } from '../components/SlateEditor/plugins/embed/utils';
-import { EmbedElement } from '../components/SlateEditor/plugins/embed';
+import { NdlaEmbedElement } from '../components/SlateEditor/plugins/embed';
 
 export const DEFAULT_LICENSE: ILicense = {
   description: 'Creative Commons Attribution-ShareAlike 4.0 International',
@@ -217,8 +217,8 @@ export const learningResourceRules: RulesType<LearningResourceFormType, IArticle
   content: {
     required: true,
     test: values => {
-      const embeds = findNodesByType(values.content ?? [], 'embed').map(
-        node => (node as EmbedElement).data,
+      const embeds = findNodesByType(values.content ?? [], 'ndlaembed').map(
+        node => (node as NdlaEmbedElement).data,
       );
       const notValidEmbeds = embeds.filter(embed => !isUserProvidedEmbedDataValid(embed));
       const embedsHasErrors = notValidEmbeds.length > 0;

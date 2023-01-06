@@ -6,15 +6,12 @@
  *
  */
 
-import jsdom from 'jsdom';
 import filterConsole from 'filter-console';
 import {
   learningResourceContentToEditorValue,
   learningResourceContentToHTML,
 } from '../../../articleContentConverter';
 import { html } from './mathArticle';
-
-const { fragment } = jsdom.JSDOM;
 
 let disableFilter;
 beforeEach(() => {
@@ -30,7 +27,7 @@ afterEach(() => {
 });
 
 test('serializing article with mathml tags', () => {
-  const converted = learningResourceContentToEditorValue(html, fragment);
+  const converted = learningResourceContentToEditorValue(html);
 
   const result = learningResourceContentToHTML(converted);
 

@@ -13,7 +13,7 @@ registerLanguage({
     const rules = await fetchAllRules();
 
     const VALID_TAGS = [
-      'embed',
+      'ndlaembed',
       ...rules.htmlRules.tags,
       ...Object.keys(rules.htmlRules.attributes),
       ...Object.keys(rules.mathmlRules.attributes),

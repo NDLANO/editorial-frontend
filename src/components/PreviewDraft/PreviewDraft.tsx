@@ -69,7 +69,6 @@ class PreviewDraft extends Component<Props, {}> {
       <Article
         // @ts-ignore TODO: denne må kanskje fikses i frontend-packages? En draft kan vel være lisensløs?
         article={formatted}
-        children={undefined}
         icon={icon}
         id={formatted?.id.toString() ?? ''}
         locale={language as LocaleType} // Sørsamisk er ikke en del av LocaleType nå.

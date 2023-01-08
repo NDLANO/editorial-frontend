@@ -23,6 +23,7 @@ const StyledTable = styled.table`
   margin-bottom: 0px;
   table-layout: fixed;
   min-width: 850px;
+  display: inline-table;
   th {
     font-weight: ${fonts.weight.bold};
     padding: 0px ${spacing.xsmall};

@@ -36,6 +36,7 @@ const StyledDescription = styled.div`
 const StyledIconWrapper = styled.div`
   width: 50px;
   height: 50px;
+  flex-shrink: 0;
   background-color: ${colors.brand.primary};
   border-radius: 50%;
   display: flex;

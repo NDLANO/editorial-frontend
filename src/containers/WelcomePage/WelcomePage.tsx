@@ -10,7 +10,6 @@ import { useTranslation } from 'react-i18next';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { SearchFolder } from '@ndla/icons/editor';
 import styled from '@emotion/styled';
-import { css } from '@emotion/react';
 import { mq, breakpoints, spacing } from '@ndla/core';
 import { NAVIGATION_HEADER_MARGIN } from '../../constants';
 import { getAccessToken, getAccessTokenPersonal } from '../../util/authHelpers';
@@ -33,6 +32,9 @@ const Wrapper = styled.div`
 const GridContainer = styled.div`
   ${mq.range({ from: '0px', until: breakpoints.tabletWide })} {
     padding: ${spacing.nsmall};
+    display: flex;
+    flex-direction: column;
+    gap: ${spacing.nsmall};
   }
   ${mq.range({ from: breakpoints.tabletWide })} {
     display: grid;

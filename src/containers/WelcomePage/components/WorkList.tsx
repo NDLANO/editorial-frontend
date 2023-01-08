@@ -12,7 +12,7 @@ import { spacing, colors } from '@ndla/core';
 import { Calendar } from '@ndla/icons/editor';
 import { useCallback, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Option, MultiValue } from '@ndla/select';
+import { MultiValue } from '@ndla/select';
 import { useSearch } from '../../../modules/search/searchQueries';
 import { useSession } from '../../Session/SessionProvider';
 import { toEditArticle } from '../../../util/routeHelpers';

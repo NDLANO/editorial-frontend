@@ -8,13 +8,14 @@
 
 import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { spacing } from '@ndla/core';
+import { spacing, colors } from '@ndla/core';
 import { Footer, LanguageSelector, FooterText, EditorName } from '@ndla/ui';
 import styled from '@emotion/styled';
 import { getLocaleUrls } from '../../../util/localeHelpers';
 
 const StyledFooterWrapper = styled.div`
   margin-top: ${spacing.large};
+  background-color: ${colors.brand.greyLightest};
 `;
 
 interface Props {

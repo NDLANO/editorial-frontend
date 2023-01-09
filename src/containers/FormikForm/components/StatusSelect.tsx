@@ -73,6 +73,7 @@ const ResponsibleSelect = ({
         value={status}
         onChange={updateStatus}
         groupTitle={t('editorFooter.statusLabel')}
+        closeMenuOnSelect
       />
     </Wrapper>
   );

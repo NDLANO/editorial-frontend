@@ -72,6 +72,8 @@ const ResponsibleSelect = ({ responsible, setResponsible, onSave, responsibleId 
         noOptionsMessage={() => t('form.responsible.noResults')}
         isSearchable
         isClearable
+        closeMenuOnSelect
+        required
       />
     </Wrapper>
   );

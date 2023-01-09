@@ -49,6 +49,7 @@ const ResponsibleSelect = ({
   );
 
   const [sortedUsers, setSortedUsers] = useState<Option[]>([]);
+  const [enableRequired, setEnableRequired] = useState(false);
 
   useEffect(() => {
     if (users) {
@@ -62,10 +63,15 @@ const ResponsibleSelect = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [users]);
 
+  useEffect(() => {
+    // Enable required styling after responsible is updated first time
+    if ((responsible || !responsibleId) && !enableRequired) setEnableRequired(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [responsible]);
+
   const updateResponsible = async (responsible: SingleValue) => {
     onSave(responsible);
   };
-
   return (
     <Wrapper>
       {status?.value !== 'PUBLISHED' ? (
@@ -81,7 +87,7 @@ const ResponsibleSelect = ({
           isSearchable
           isClearable
           closeMenuOnSelect
-          required
+          required={enableRequired}
         />
       ) : null}
     </Wrapper>

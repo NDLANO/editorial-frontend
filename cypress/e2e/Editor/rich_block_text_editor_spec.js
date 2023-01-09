@@ -20,7 +20,7 @@ describe('Learning resource editing', () => {
     cy.apiwait('@licenses');
   });
 
-  it('can enter title, ingress and content then save', () => {
+  it('can enter title, ingress, content and responsible then save', () => {
     cy.get('[data-testid=saveLearningResourceButtonWrapper] button').should('be.disabled');
     cy.get('[data-cy=learning-resource-title]')
       .click()
@@ -34,6 +34,9 @@ describe('Learning resource editing', () => {
       .click()
       .should('have.focus')
       .type('This is test content {enter}');
+    cy.get('[data-cy=responsible-select]')
+      .click()
+      .type('Ed test {enter}');
     cy.get('[data-testid=saveLearningResourceButtonWrapper] button')
       .first()
       .click();

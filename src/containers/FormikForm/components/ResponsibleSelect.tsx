@@ -75,20 +75,22 @@ const ResponsibleSelect = ({
   return (
     <Wrapper>
       {status?.value !== 'PUBLISHED' ? (
-        <Select<false>
-          options={sortedUsers ?? []}
-          menuPlacement="top"
-          placeholder={t('form.responsible.choose')}
-          value={responsible}
-          onChange={updateResponsible}
-          isLoading={isLoading}
-          groupTitle={t('form.responsible.label')}
-          noOptionsMessage={() => t('form.responsible.noResults')}
-          isSearchable
-          isClearable
-          closeMenuOnSelect
-          required={enableRequired}
-        />
+        <div data-cy="responsible-select">
+          <Select<false>
+            options={sortedUsers ?? []}
+            menuPlacement="top"
+            placeholder={t('form.responsible.choose')}
+            value={responsible}
+            onChange={updateResponsible}
+            isLoading={isLoading}
+            groupTitle={t('form.responsible.label')}
+            noOptionsMessage={() => t('form.responsible.noResults')}
+            isSearchable
+            isClearable
+            closeMenuOnSelect
+            required={enableRequired}
+          />
+        </div>
       ) : null}
     </Wrapper>
   );

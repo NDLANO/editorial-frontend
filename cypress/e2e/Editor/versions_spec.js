@@ -27,12 +27,15 @@ describe('Workflow features', () => {
     cy.get('[data-testid=addNote]').should('be.visible');
   });
 
-  it('Can add notes and save', () => {
+  it('Can add notes and responsible then save', () => {
     cy.get('[data-testid=addNote]').click();
     cy.get('[data-testid=notesInput]')
       .click()
       .should('have.focus')
       .type('Test merknad');
+    cy.get('[data-cy=responsible-select]')
+      .click()
+      .type('Ed test {enter}');
     cy.get('[data-testid=saveLearningResourceButtonWrapper] button')
       .first()
       .click();

@@ -14,7 +14,7 @@ import { Launch } from '@ndla/icons/common';
 import { IConcept, IStatus as ConceptStatus } from '@ndla/types-concept-api';
 import { IUpdatedArticle, IStatus as DraftStatus } from '@ndla/types-draft-api';
 import { useFormikContext } from 'formik';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { SingleValue } from '@ndla/select';
 import { toPreviewDraft } from '../../util/routeHelpers';
 import PreviewConceptLightbox from '../PreviewConcept/PreviewConceptLightbox';
@@ -86,6 +86,16 @@ function EditorFooter<T extends FormValues>({
   const { values, setFieldValue, isSubmitting } = useFormikContext<T>();
   const { createMessage, formatErrorMessage } = useMessages();
 
+  // Wait for newStatus to be set to trigger since formik doesn't update fields instantly
+  const [newStatus, setNewStatus] = useState<SingleValue>(null);
+
+  useEffect(() => {
+    if (newStatus && newStatus.value === 'PUBLISHED') {
+      onSaveClick();
+      setNewStatus(null);
+    }
+  }, [newStatus, onSaveClick]);
+
   const saveButton = (
     <SaveMultiButton
       large
@@ -137,6 +147,8 @@ function EditorFooter<T extends FormValues>({
 
   const updateStatus = async (status: SingleValue) => {
     try {
+      // Set new status field and update form (which we listen for changes to in the useEffect above)
+      setNewStatus(status);
       setStatus(status);
       setFieldValue('status', { current: status?.value });
 
@@ -198,6 +210,7 @@ function EditorFooter<T extends FormValues>({
             setResponsible={setResponsible}
             onSave={updateResponsible}
             responsibleId={responsibleId}
+            status={status}
           />
           <StatusSelect
             status={status}

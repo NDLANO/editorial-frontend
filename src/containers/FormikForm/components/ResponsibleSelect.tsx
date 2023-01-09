@@ -24,9 +24,16 @@ interface Props {
   setResponsible: (r: SingleValue) => void;
   onSave: (r: SingleValue) => void;
   responsibleId?: string;
+  status?: SingleValue;
 }
 
-const ResponsibleSelect = ({ responsible, setResponsible, onSave, responsibleId }: Props) => {
+const ResponsibleSelect = ({
+  responsible,
+  setResponsible,
+  onSave,
+  responsibleId,
+  status,
+}: Props) => {
   const { t } = useTranslation();
 
   const { data: users, isLoading } = useAuth0Responsibles(
@@ -61,20 +68,22 @@ const ResponsibleSelect = ({ responsible, setResponsible, onSave, responsibleId 
 
   return (
     <Wrapper>
-      <Select<false>
-        options={sortedUsers ?? []}
-        menuPlacement="top"
-        placeholder={t('form.responsible.choose')}
-        value={responsible}
-        onChange={updateResponsible}
-        isLoading={isLoading}
-        groupTitle={t('form.responsible.label')}
-        noOptionsMessage={() => t('form.responsible.noResults')}
-        isSearchable
-        isClearable
-        closeMenuOnSelect
-        required
-      />
+      {status?.value !== 'PUBLISHED' ? (
+        <Select<false>
+          options={sortedUsers ?? []}
+          menuPlacement="top"
+          placeholder={t('form.responsible.choose')}
+          value={responsible}
+          onChange={updateResponsible}
+          isLoading={isLoading}
+          groupTitle={t('form.responsible.label')}
+          noOptionsMessage={() => t('form.responsible.noResults')}
+          isSearchable
+          isClearable
+          closeMenuOnSelect
+          required={!(status && status.value === 'PUBLISHED')}
+        />
+      ) : null}
     </Wrapper>
   );
 };

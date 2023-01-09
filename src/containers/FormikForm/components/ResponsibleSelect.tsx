@@ -81,7 +81,7 @@ const ResponsibleSelect = ({
           isSearchable
           isClearable
           closeMenuOnSelect
-          required={!(status && status.value === 'PUBLISHED')}
+          required
         />
       ) : null}
     </Wrapper>

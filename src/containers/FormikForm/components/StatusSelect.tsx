@@ -26,13 +26,7 @@ interface Props {
   entityStatus?: DraftStatus;
 }
 
-const ResponsibleSelect = ({
-  status,
-  setStatus,
-  onSave,
-  statusStateMachine,
-  entityStatus,
-}: Props) => {
+const StatusSelect = ({ status, setStatus, onSave, statusStateMachine, entityStatus }: Props) => {
   const { t } = useTranslation();
 
   const transformStatus = (status: string) => ({
@@ -79,4 +73,4 @@ const ResponsibleSelect = ({
   );
 };
 
-export default ResponsibleSelect;
+export default StatusSelect;

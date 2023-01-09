@@ -47,6 +47,9 @@ describe('Edit article with everything', () => {
     cy.get('.flatpickr-day ')
       .first()
       .click();
+    cy.get('[data-cy=responsible-select]')
+      .click()
+      .type('Ed test {enter}');
     cy.get('[data-testid=saveLearningResourceButtonWrapper] button')
       .first()
       .click();

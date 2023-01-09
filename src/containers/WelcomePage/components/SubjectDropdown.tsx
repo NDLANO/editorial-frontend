@@ -85,6 +85,7 @@ const SubjectDropdown = ({ filterSubject, setFilterSubject }: Props) => {
         outline
         postfix={t('subjectsPage.subjects').toLowerCase()}
         isLoading={isLoading}
+        closeMenuOnSelect={false}
       />
     </Wrapper>
   );

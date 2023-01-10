@@ -16,8 +16,8 @@ import { useSearch } from '../modules/search/searchQueries';
 export const transformQuery = ({ 'resource-types': resourceTypes, ...rest }: any) => {
   const query = { ...rest };
 
-  if (resourceTypes === 'topic-article') {
-    query['context-types'] = resourceTypes;
+  if (resourceTypes === 'topic-article' || resourceTypes === 'frontpage-article') {
+    query['article-types'] = resourceTypes;
   } else if (resourceTypes) {
     query['resource-types'] = resourceTypes;
   }

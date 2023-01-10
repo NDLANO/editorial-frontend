@@ -21,6 +21,7 @@ import { DraggableProvidedDragHandleProps } from 'react-beautiful-dnd';
 import isEqual from 'lodash/isEqual';
 import { css } from '@emotion/react';
 import { Select } from '@ndla/select';
+import sortBy from 'lodash/sortBy';
 import {
   NodeConnectionPutType,
   ResourceWithNodeConnection,
@@ -199,10 +200,13 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
     { permission: DRAFT_WRITE_SCOPE },
     {
       select: users =>
-        users.map(u => ({
-          value: `${u.app_metadata.ndla_id}`,
-          label: u.name,
-        })),
+        sortBy(
+          users.map(u => ({
+            value: `${u.app_metadata.ndla_id}`,
+            label: u.name,
+          })),
+          u => u.label,
+        ),
       placeholderData: [],
     },
   );
@@ -312,6 +316,7 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
                 noOptionsMessage={() => t('form.responsible.noResults')}
                 isLoading={isLoading}
                 options={users ?? []}
+                closeMenuOnSelect
               />
             </div>
             {contentType !== 'learning-path' && (

@@ -104,7 +104,7 @@ function EditorFooter<T extends FormValues>({
       showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}
       onClick={onSaveClick}
       hideSecondaryButton={hideSecondaryButton}
-      disabled={!!hasErrors}
+      disabled={!!hasErrors && status?.value !== 'PUBLISHED'}
     />
   );
 
@@ -155,7 +155,10 @@ function EditorFooter<T extends FormValues>({
       setFieldValue('status', { current: status?.value });
 
       // When status changes user should also update responsible
-      if (responsible && responsible.value === responsibleId && status?.value !== 'PUBLISHED') {
+      if (
+        ((responsible && responsible.value === responsibleId) || !responsibleId) &&
+        status?.value !== 'PUBLISHED'
+      ) {
         updateResponsible(null);
       }
     } catch (error) {

@@ -149,11 +149,13 @@ function EditorFooter<T extends FormValues>({
     try {
       // Set new status field and update form (which we listen for changes to in the useEffect above)
       setNewStatus(status);
-      setStatus(status);
+      if (status?.value !== 'PUBLISHED') {
+        setStatus(status);
+      }
       setFieldValue('status', { current: status?.value });
 
       // When status changes user should also update responsible
-      if (responsible && responsible.value === responsibleId) {
+      if (responsible && responsible.value === responsibleId && status?.value !== 'PUBLISHED') {
         updateResponsible(null);
       }
     } catch (error) {
@@ -205,13 +207,15 @@ function EditorFooter<T extends FormValues>({
         </div>
 
         <div data-cy="footerStatus">
-          <ResponsibleSelect
-            responsible={responsible}
-            setResponsible={setResponsible}
-            onSave={updateResponsible}
-            responsibleId={responsibleId}
-            status={status}
-          />
+          {status?.value !== 'PUBLISHED' ? (
+            <ResponsibleSelect
+              responsible={responsible}
+              setResponsible={setResponsible}
+              onSave={updateResponsible}
+              responsibleId={responsibleId}
+              status={status}
+            />
+          ) : null}
           <StatusSelect
             status={status}
             setStatus={setStatus}

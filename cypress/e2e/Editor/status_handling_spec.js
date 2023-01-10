@@ -42,6 +42,7 @@ describe('Status changes', () => {
       .contains('Publisert')
       .click();
     cy.contains('Utkast').click();
+    cy.apiwait('@getUsersResponsible');
     cy.get('[data-cy=responsible-select]')
       .click()
       .type('Ed test {enter}');

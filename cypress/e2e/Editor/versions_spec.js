@@ -67,6 +67,10 @@ describe('Workflow features', () => {
       .first()
       .click();
     cy.contains('Innhold er tilbakestilt');
+    cy.apiwait('@getUsersResponsible');
+    cy.get('[data-cy=responsible-select]')
+      .click()
+      .type('Ed test {enter}');
     cy.get('[data-testid=saveLearningResourceButtonWrapper] button')
       .first()
       .click();

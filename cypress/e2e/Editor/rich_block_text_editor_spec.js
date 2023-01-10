@@ -34,6 +34,7 @@ describe('Learning resource editing', () => {
       .click()
       .should('have.focus')
       .type('This is test content {enter}');
+    cy.apiwait('@getUsersResponsible');
     cy.get('[data-cy=responsible-select]')
       .click()
       .type('Ed test {enter}');

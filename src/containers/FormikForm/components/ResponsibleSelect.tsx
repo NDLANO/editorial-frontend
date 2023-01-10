@@ -40,15 +40,17 @@ const ResponsibleSelect = ({
     { permission: DRAFT_WRITE_SCOPE },
     {
       select: users =>
-        users.map(u => ({
-          value: `${u.app_metadata.ndla_id}`,
-          label: u.name,
-        })),
+        sortBy(
+          users.map(u => ({
+            value: `${u.app_metadata.ndla_id}`,
+            label: u.name,
+          })),
+          u => u.label,
+        ),
       placeholderData: [],
     },
   );
 
-  const [sortedUsers, setSortedUsers] = useState<Option[]>([]);
   const [enableRequired, setEnableRequired] = useState(false);
 
   useEffect(() => {
@@ -57,8 +59,6 @@ const ResponsibleSelect = ({
         const initialResponsible = users.find(user => user.value === responsibleId) ?? null;
         setResponsible(initialResponsible);
       }
-      const sortedList = sortBy(users, u => u.label);
-      setSortedUsers(sortedList);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [users]);
@@ -76,7 +76,7 @@ const ResponsibleSelect = ({
     <Wrapper>
       <div data-cy="responsible-select">
         <Select<false>
-          options={sortedUsers ?? []}
+          options={users ?? []}
           menuPlacement="top"
           placeholder={t('form.responsible.choose')}
           value={responsible}

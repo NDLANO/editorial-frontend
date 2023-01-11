@@ -48,6 +48,7 @@ import {
 import { ResourceWithNodeConnectionAndMeta } from './StructureResources';
 import { DRAFT_WRITE_SCOPE } from '../../../constants';
 import { useAuth0Editors } from '../../../modules/auth0/auth0Queries';
+import ResponsibleSelect from './ResponsibleSelect';
 
 const Wrapper = styled.div`
   display: flex;
@@ -307,18 +308,11 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
             )}
           </StyledText>
           <ButtonRow>
-            <div css={{ flex: 2 }}>
-              <Select
-                small
-                prefix={'Ansvarlig: '} // TODO: update from phrases
-                placeholder={'Velg ansvarlig'}
-                isSearchable
-                noOptionsMessage={() => t('form.responsible.noResults')}
-                isLoading={isLoading}
-                options={users ?? []}
-                closeMenuOnSelect
-              />
-            </div>
+            <ResponsibleSelect
+              options={users ?? []}
+              isLoading={isLoading}
+              meta={resource.contentMeta}
+            />
             {contentType !== 'learning-path' && (
               <ButtonV2
                 css={baseButtonStyles}

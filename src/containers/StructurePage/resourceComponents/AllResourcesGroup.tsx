@@ -64,7 +64,7 @@ const AllResourcesGroup = ({ resourceTypes, nodeResources, currentNode, contentM
       )}
       {currentNode.name && (
         <Resource
-          currentNodeId={currentNode.id}
+          currentNodeId={currentNodeId}
           resource={{
             ...currentNode,
             paths: currentNode.paths ?? [],

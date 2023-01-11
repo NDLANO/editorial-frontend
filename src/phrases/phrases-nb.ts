@@ -965,6 +965,9 @@ const phrases = {
       helpLabel: 'Hva er lisenser?',
       choose: 'Velg en lisens',
     },
+    responsible: {
+      error: 'Noe gikk galt ved oppdatering av ansvarlig.',
+    },
     origin: {
       label: 'Opphav',
     },

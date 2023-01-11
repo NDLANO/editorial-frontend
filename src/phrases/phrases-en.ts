@@ -964,6 +964,9 @@ const phrases = {
       helpLabel: 'What is a license?',
       choose: 'Choose a license',
     },
+    responsible: {
+      error: 'Something went wrong when updating responsible',
+    },
     origin: {
       label: 'Origin',
     },

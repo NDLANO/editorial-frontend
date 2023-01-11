@@ -481,7 +481,7 @@ const phrases = {
     title: 'Forsideartikkel',
     validation: {
       illegalSlug:
-        'Bruk av ulovlige tegn i Slug tekst! Lovelige er alle tall og bokstaver med bindestrek',
+        'Bruk av ulovlige tegn i permalenken! Lovelige er alle tall og bokstaver med bindestrek',
     },
   },
   learningResourceForm: {
@@ -581,12 +581,13 @@ const phrases = {
     },
     resize: 'Endre størrelse',
     slug: {
-      label: 'Slug',
+      label: 'Permalenke',
+      edit: 'Forandre permalenke',
     },
     name: {
       title: 'Tittel',
       aboutTitle: 'Tittel',
-      slug: 'Slug',
+      slug: 'Permalenke',
       introduction: 'Ingress',
       creators: 'Opphavsperson',
       rightsholders: 'Rettighetshaver',

@@ -480,7 +480,7 @@ const phrases = {
     title: 'Frontpage article',
     validation: {
       illegalSlug:
-        'Use of illegal characters! Legal characters are numbers and letters with dashes.',
+        'Use of illegal characters in permalink! Legal characters are numbers and letters, plus dashes.',
     },
   },
   learningResourceForm: {
@@ -579,12 +579,13 @@ const phrases = {
     },
     resize: 'Resize',
     slug: {
-      label: 'Slug',
+      label: 'Permalink',
+      edit: 'Edit permalink',
     },
     name: {
       title: 'Title',
       aboutTitle: 'Title',
-      slug: 'Slug',
+      slug: 'Permalink',
       introduction: 'Ingress',
       creators: 'Creators',
       rightsholders: 'Rightsholders',

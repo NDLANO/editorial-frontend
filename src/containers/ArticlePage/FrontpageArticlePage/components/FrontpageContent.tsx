@@ -12,7 +12,7 @@ import styled from '@emotion/styled';
 import { FormikContextType } from 'formik';
 import { FieldHeader } from '@ndla/forms';
 import Tooltip from '@ndla/tooltip';
-import { Eye } from '@ndla/icons/editor';
+import { Eye, Link } from '@ndla/icons/editor';
 import { IconButtonV2 } from '@ndla/button';
 import { colors } from '@ndla/core';
 import FormikField from '../../../../components/FormikField';
@@ -68,7 +68,6 @@ const IconContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 64px;
 `;
 
 const StyledDiv = styled.div`
@@ -82,6 +81,10 @@ const StyledContentDiv = styled(FormikField)`
 `;
 
 const MarkdownButton = styled(IconButtonV2)<{ active: boolean }>`
+  color: ${p => (p.active ? colors.brand.primary : colors.brand.light)};
+`;
+
+const SlugButton = styled(IconButtonV2)<{ active: boolean }>`
   color: ${p => (p.active ? colors.brand.primary : colors.brand.light)};
 `;
 
@@ -158,6 +161,7 @@ const FrontPageFormContent = ({
   const handleSubmitRef = useRef(handleSubmit);
 
   const [preview, setPreview] = useState(false);
+  const [editSlug, setEditSlug] = useState(false);
 
   useEffect(() => {
     handleSubmitRef.current = handleSubmit;
@@ -165,7 +169,11 @@ const FrontPageFormContent = ({
 
   return (
     <>
-      <TitleField handleSubmit={handleSubmit} />
+      {editSlug && slug ? (
+        <SlugField handleSubmit={handleSubmit} />
+      ) : (
+        <TitleField handleSubmit={handleSubmit} />
+      )}
       <StyledFormikField name="published">
         {({ field, form }) => (
           <StyledDiv>
@@ -179,6 +187,18 @@ const FrontPageFormContent = ({
               }}
             />
             <IconContainer>
+              {slug && (
+                <Tooltip tooltip={t('form.slug.edit')}>
+                  <SlugButton
+                    aria-label={t('form.slug.edit')}
+                    variant="stripped"
+                    colorTheme="light"
+                    active={editSlug}
+                    onClick={() => setEditSlug(!editSlug)}>
+                    <Link />
+                  </SlugButton>
+                </Tooltip>
+              )}
               <Tooltip tooltip={t('form.markdown.button')}>
                 <MarkdownButton
                   aria-label={t('form.markdown.button')}
@@ -194,7 +214,7 @@ const FrontPageFormContent = ({
           </StyledDiv>
         )}
       </StyledFormikField>
-      {slug && <SlugField handleSubmit={handleSubmit} />}
+
       <IngressField preview={preview} handleSubmit={handleSubmit} />
       <StyledContentDiv name="content" label={t('form.content.label')} noBorder>
         {({ field: { value, name, onChange }, form: { isSubmitting, setFieldValue } }) => (

@@ -9,7 +9,7 @@
 import { useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FieldProps } from 'formik';
-import { Input } from '@ndla/forms';
+import { TextArea } from '@ndla/forms';
 import FormikField from '../../components/FormikField';
 
 interface Props {
@@ -22,15 +22,18 @@ interface Props {
 const SlugField = ({ name = 'slug', handleSubmit }: Props) => {
   const { t } = useTranslation();
   const handleSubmitRef = useRef(handleSubmit);
-
   useEffect(() => {
     handleSubmitRef.current = handleSubmit;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [handleSubmit]);
   return (
-    <FormikField label={t('form.slug.label')} name={name}>
-      {({ field }: FieldProps) => <Input white {...field} placeholder={t('form.slug.label')} />}
-    </FormikField>
+    <>
+      <FormikField name={name}>
+        {({ field }: FieldProps) => (
+          <TextArea {...field} white placeholder={t('form.slug.label')} />
+        )}
+      </FormikField>
+    </>
   );
 };
 

@@ -73,7 +73,7 @@ const SettingsMenuDropdownType = ({
         <AddExistingToNode editModeHandler={editModeHandler} currentNode={node} />
         <ToggleVisibility node={node} editModeHandler={editModeHandler} rootNodeId={rootNodeId} />
         {isTaxonomyAdmin && <EditGrepCodes node={node} editModeHandler={editModeHandler} />}
-        <EditSubjectpageOption node={node} />
+        {isTaxonomyAdmin && <EditSubjectpageOption node={node} />}
         {config.versioningEnabled === 'true' && (
           <>
             <RequestNodePublish

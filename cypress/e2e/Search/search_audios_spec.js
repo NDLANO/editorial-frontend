@@ -6,8 +6,8 @@
  *
  */
 
- import { setToken } from '../../support/e2e';
- 
+import { setToken } from '../../support/e2e';
+
 describe('Search audios', () => {
   beforeEach(() => {
     setToken();

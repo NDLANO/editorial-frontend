@@ -36,6 +36,6 @@ export const useSearch = (query: UseSearch, options?: UseQueryOptions<IMultiSear
 
   return useQuery<IMultiSearchResult>(searchQueryKey(actualQuery), () => search(actualQuery), {
     ...options,
-    enabled: options?.enabled ? options.enabled && !isLoading : options?.enabled,
+    enabled: options?.enabled && !isLoading,
   });
 };

@@ -149,7 +149,6 @@ const LearningResourceForm = ({
           isConcept={false}
           hideSecondaryButton={false}
           responsibleId={article?.responsible?.responsibleId}
-          hasErrors={!values.responsibleId}
         />
         <AlertModalWrapper
           isSubmitting={isSubmitting}

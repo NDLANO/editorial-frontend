@@ -91,7 +91,7 @@ export const isFormikFormDirty = <T extends FormikFields>({
     'manuscript',
   ];
   // and skipping fields that only changes on the server
-  const skipFields = ['revision', 'updated', 'updatePublished', 'id'];
+  const skipFields = ['revision', 'updated', 'updatePublished', 'id', 'status'];
   const dirtyFields = [];
   Object.entries(values)
     .filter(([key]) => !skipFields.includes(key))

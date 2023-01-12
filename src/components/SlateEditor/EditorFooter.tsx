@@ -24,6 +24,7 @@ import { NewMessageType, useMessages } from '../../containers/Messages/MessagesP
 import { ConceptStatusStateMachineType, DraftStatusStateMachineType } from '../../interfaces';
 import ResponsibleSelect from '../../containers/FormikForm/components/ResponsibleSelect';
 import StatusSelect from '../../containers/FormikForm/components/StatusSelect';
+import { requiredFieldsT } from '../../util/yupHelpers';
 
 interface Props {
   formIsDirty: boolean;
@@ -91,10 +92,23 @@ function EditorFooter<T extends FormValues>({
 
   useEffect(() => {
     if (newStatus && newStatus.value === 'PUBLISHED') {
-      onSaveClick();
+      onSave();
       setNewStatus(null);
+      setResponsible(null);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [newStatus, onSaveClick]);
+
+  const onSave = (saveAsNewVersion?: boolean) => {
+    if (!responsible && newStatus?.value !== 'PUBLISHED') {
+      createMessage({
+        message: requiredFieldsT('form.responsible.label', t),
+        timeToLive: 0,
+      });
+      return;
+    }
+    onSaveClick(saveAsNewVersion);
+  };
 
   const saveButton = (
     <SaveMultiButton
@@ -102,9 +116,9 @@ function EditorFooter<T extends FormValues>({
       isSaving={isSubmitting}
       formIsDirty={formIsDirty}
       showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}
-      onClick={onSaveClick}
+      onClick={onSave}
       hideSecondaryButton={hideSecondaryButton}
-      disabled={!!hasErrors && status?.value !== 'PUBLISHED'}
+      disabled={!!hasErrors}
     />
   );
 
@@ -155,10 +169,7 @@ function EditorFooter<T extends FormValues>({
       setFieldValue('status', { current: status?.value });
 
       // When status changes user should also update responsible
-      if (
-        ((responsible && responsible.value === responsibleId) || !responsibleId) &&
-        status?.value !== 'PUBLISHED'
-      ) {
+      if (responsible && responsible.value === responsibleId) {
         updateResponsible(null);
       }
     } catch (error) {
@@ -210,15 +221,15 @@ function EditorFooter<T extends FormValues>({
         </div>
 
         <div data-cy="footerStatus">
-          {status?.value !== 'PUBLISHED' ? (
-            <ResponsibleSelect
-              responsible={responsible}
-              setResponsible={setResponsible}
-              onSave={updateResponsible}
-              responsibleId={responsibleId}
-              status={status}
-            />
-          ) : null}
+          <ResponsibleSelect
+            responsible={responsible}
+            setResponsible={setResponsible}
+            onSave={updateResponsible}
+            responsibleId={responsibleId}
+            status={status}
+            entityStatus={entityStatus}
+          />
+
           <StatusSelect
             status={status}
             setStatus={setStatus}

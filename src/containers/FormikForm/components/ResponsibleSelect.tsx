@@ -6,11 +6,12 @@
  *
  */
 import { useTranslation } from 'react-i18next';
-import { Select, Option, SingleValue } from '@ndla/select';
+import { Select, SingleValue } from '@ndla/select';
 import { useState, useEffect } from 'react';
 import sortBy from 'lodash/sortBy';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
+import { IStatus as DraftStatus } from '@ndla/types-draft-api';
 import { useAuth0Responsibles } from '../../../modules/auth0/auth0Queries';
 import { DRAFT_WRITE_SCOPE } from '../../../constants';
 
@@ -25,6 +26,7 @@ interface Props {
   onSave: (r: SingleValue) => void;
   responsibleId?: string;
   status?: SingleValue;
+  entityStatus?: DraftStatus;
 }
 
 const ResponsibleSelect = ({
@@ -33,6 +35,7 @@ const ResponsibleSelect = ({
   onSave,
   responsibleId,
   status,
+  entityStatus,
 }: Props) => {
   const { t } = useTranslation();
 
@@ -65,7 +68,9 @@ const ResponsibleSelect = ({
 
   useEffect(() => {
     // Enable required styling after responsible is updated first time
-    if ((responsible || !responsibleId) && !enableRequired) setEnableRequired(true);
+    if (!enableRequired && (responsible || !responsibleId)) {
+      setEnableRequired(true);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [responsible]);
 

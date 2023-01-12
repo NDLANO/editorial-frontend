@@ -21,6 +21,7 @@ import { DraftStatusStateMachineType } from '../../interfaces';
 export interface UseDraft {
   id: number;
   language?: string;
+  responsibleId?: string;
 }
 
 export const draftQueryKey = (params?: Partial<UseDraft>) => [DRAFT, params];

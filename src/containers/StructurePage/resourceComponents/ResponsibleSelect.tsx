@@ -24,45 +24,50 @@ const StyledWrapper = styled.div`
 
 interface Props {
   options: Option[];
-  isLoading: boolean;
   meta?: NodeResourceMeta;
 }
 
-const ResponsibleSelect = ({ options, isLoading, meta }: Props) => {
+const ResponsibleSelect = ({ options, meta }: Props) => {
   const { t } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
-  const { createMessage, formatErrorMessage } = useMessages();
-
-  const id = getIdFromUrn(meta?.contentUri);
-  const { data: article } = useDraft({ id: id! }, { enabled: !!id });
+  const { createMessage } = useMessages();
 
   const [responsible, setResponsible] = useState<SingleValue>(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const id = getIdFromUrn(meta?.contentUri);
+  const { data: article } = useDraft(
+    { id: id!, responsibleId: responsible?.value },
+    { enabled: !!id },
+  );
 
   const onChange = async (r: SingleValue) => {
-    if (!r || !meta) return;
-
-    setResponsible(r);
+    if (!r || !meta || r === responsible) return;
 
     try {
       const id = getIdFromUrn(meta.contentUri)!;
+
+      setIsLoading(true);
       await updateDraft(
         id,
         {
           responsibleId: r.value,
-          revision: meta.revision!,
+          revision: article?.revision ?? -1,
           notes: meta.notes?.map(n => n.note).concat('Ansvarlig oppdatert'),
         },
         taxonomyVersion,
       );
+      setResponsible(r);
+      setIsLoading(false);
     } catch (e) {
+      setIsLoading(false);
       createMessage({
         message: t('form.responsible.error'),
         timeToLive: 0,
       });
     }
   };
-  console.log(article);
-  console.log(meta);
+
   useEffect(() => {
     if (!responsible) {
       const initialResponsible =

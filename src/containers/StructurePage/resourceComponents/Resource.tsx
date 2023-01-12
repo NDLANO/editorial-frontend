@@ -197,7 +197,7 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
     onSettled: () => qc.invalidateQueries(compKey),
   });
 
-  const { data: users, isLoading } = useAuth0Editors(
+  const { data: users } = useAuth0Editors(
     { permission: DRAFT_WRITE_SCOPE },
     {
       select: users =>
@@ -308,11 +308,7 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
             )}
           </StyledText>
           <ButtonRow>
-            <ResponsibleSelect
-              options={users ?? []}
-              isLoading={isLoading}
-              meta={resource.contentMeta}
-            />
+            <ResponsibleSelect options={users ?? []} meta={resource.contentMeta} />
             {contentType !== 'learning-path' && (
               <ButtonV2
                 css={baseButtonStyles}

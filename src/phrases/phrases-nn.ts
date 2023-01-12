@@ -968,6 +968,7 @@ const phrases = {
     responsible: {
       label: 'Ansvarleg',
       choose: 'Velg ansvarleg',
+      noResults: 'Ingen treff',
       error: 'Noe gjekk gale ved oppdatering av ansvarleg.',
     },
     origin: {

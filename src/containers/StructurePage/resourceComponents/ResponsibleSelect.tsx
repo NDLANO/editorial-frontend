@@ -14,6 +14,7 @@ import { updateDraft } from '../../../modules/draft/draftApi';
 import { useDraft } from '../../../modules/draft/draftQueries';
 import { NodeResourceMeta } from '../../../modules/nodes/nodeQueries';
 import { getIdFromUrn } from '../../../util/taxonomyHelpers';
+import { useMessages } from '../../Messages/MessagesProvider';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 import { StyledErrorMessage } from '../../TaxonomyVersions/components/StyledErrorMessage';
 
@@ -30,11 +31,12 @@ interface Props {
 const ResponsibleSelect = ({ options, isLoading, meta }: Props) => {
   const { t } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
+  const { createMessage, formatErrorMessage } = useMessages();
+
   const id = getIdFromUrn(meta?.contentUri);
   const { data: article } = useDraft({ id: id! }, { enabled: !!id });
 
   const [responsible, setResponsible] = useState<SingleValue>(null);
-  const [error, setError] = useState<string | undefined>(undefined);
 
   const onChange = async (r: SingleValue) => {
     if (!r || !meta) return;
@@ -53,7 +55,10 @@ const ResponsibleSelect = ({ options, isLoading, meta }: Props) => {
         taxonomyVersion,
       );
     } catch (e) {
-      setError('form.responsible.error');
+      createMessage({
+        message: t('form.responsible.error'),
+        timeToLive: 0,
+      });
     }
   };
   console.log(article);
@@ -71,8 +76,8 @@ const ResponsibleSelect = ({ options, isLoading, meta }: Props) => {
     <StyledWrapper>
       <Select<false>
         small
-        prefix={'Ansvarlig: '} // TODO: update from phrases
-        placeholder={'Velg ansvarlig'}
+        prefix={`${t('form.responsible.label')}: `}
+        placeholder={t('form.responsible.choose')}
         isSearchable
         noOptionsMessage={() => t('form.responsible.noResults')}
         isLoading={isLoading}
@@ -81,7 +86,6 @@ const ResponsibleSelect = ({ options, isLoading, meta }: Props) => {
         value={responsible}
         onChange={onChange}
       />
-      {error && <StyledErrorMessage>{t(error)}</StyledErrorMessage>}
     </StyledWrapper>
   );
 };

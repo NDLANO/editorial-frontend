@@ -966,6 +966,8 @@ const phrases = {
       choose: 'Velg en lisens',
     },
     responsible: {
+      label: 'Ansvarlig',
+      choose: 'Velg ansvarlig',
       error: 'Noe gikk galt ved oppdatering av ansvarlig.',
     },
     origin: {

@@ -44,7 +44,7 @@ const StyledTable = styled.table`
     height: 30px;
   }
   tr:nth-of-type(odd) {
-    background: rgba(248, 248, 248, 0.5);
+    background: ${colors.brand.greyLightest}80;
   }
   thead tr th {
     position: sticky;

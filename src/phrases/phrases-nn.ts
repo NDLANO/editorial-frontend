@@ -970,6 +970,7 @@ const phrases = {
       choose: 'Velg ansvarleg',
       noResults: 'Ingen treff',
       revisionDate: 'Antall som nærmar seg revisjonsdato',
+      revisionDateSingle: 'Nærmar seg revisjonsdato',
       error: 'Noe gjekk gale ved oppdatering av ansvarleg.',
     },
     origin: {

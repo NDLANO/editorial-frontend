@@ -8,12 +8,10 @@
 
 import styled from '@emotion/styled';
 import { Select, Option, SingleValue } from '@ndla/select';
+import { IArticle } from '@ndla/types-draft-api';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { updateDraft } from '../../../modules/draft/draftApi';
-import { useDraft } from '../../../modules/draft/draftQueries';
-import { NodeResourceMeta } from '../../../modules/nodes/nodeQueries';
-import { getIdFromUrn } from '../../../util/taxonomyHelpers';
 import { useMessages } from '../../Messages/MessagesProvider';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 
@@ -23,22 +21,17 @@ const StyledWrapper = styled.div`
 
 interface Props {
   options: Option[];
-  meta?: NodeResourceMeta;
+  responsible: SingleValue;
+  setResponsible: (r: SingleValue) => void;
+  article?: IArticle;
 }
 
-const ResponsibleSelect = ({ options, meta }: Props) => {
+const ResponsibleSelect = ({ options, responsible, setResponsible, article }: Props) => {
   const { t } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
   const { createMessage } = useMessages();
 
-  const [responsible, setResponsible] = useState<SingleValue>(null);
   const [isLoading, setIsLoading] = useState(false);
-
-  const id = getIdFromUrn(meta?.contentUri);
-  const { data: article } = useDraft(
-    { id: id!, responsibleId: responsible?.value },
-    { enabled: !!id },
-  );
 
   const onChange = async (r: SingleValue) => {
     if (!r || !article || r === responsible) return;

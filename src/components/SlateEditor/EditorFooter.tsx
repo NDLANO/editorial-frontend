@@ -102,7 +102,7 @@ function EditorFooter<T extends FormValues>({
       setResponsible(null);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [newStatus, onSaveClick]);
+  }, [newStatus]);
 
   const onSave = (saveAsNewVersion?: boolean) => {
     if (!responsible && newStatus?.value !== 'PUBLISHED') {

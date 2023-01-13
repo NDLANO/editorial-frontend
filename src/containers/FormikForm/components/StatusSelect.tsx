@@ -13,11 +13,6 @@ import { spacing } from '@ndla/core';
 import { IStatus as DraftStatus } from '@ndla/types-draft-api';
 import { ConceptStatusStateMachineType, DraftStatusStateMachineType } from '../../../interfaces';
 
-const Wrapper = styled.div`
-  margin-right: ${spacing.normal};
-  width: 200px;
-`;
-
 interface Props {
   status: SingleValue;
   setStatus: (s: SingleValue) => void;
@@ -59,17 +54,15 @@ const StatusSelect = ({ status, setStatus, onSave, statusStateMachine, entitySta
   };
 
   return (
-    <Wrapper>
-      <Select<false>
-        options={options}
-        menuPlacement="top"
-        placeholder={t('searchForm.types.status')}
-        value={status}
-        onChange={updateStatus}
-        groupTitle={t('editorFooter.statusLabel')}
-        closeMenuOnSelect
-      />
-    </Wrapper>
+    <Select<false>
+      options={options}
+      menuPlacement="top"
+      placeholder={t('searchForm.types.status')}
+      value={status}
+      onChange={updateStatus}
+      groupTitle={t('editorFooter.statusLabel')}
+      closeMenuOnSelect
+    />
   );
 };
 

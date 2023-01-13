@@ -60,6 +60,11 @@ const StyledLine = styled.hr`
   }
 `;
 
+const Wrapper = styled.div`
+  margin-right: ${spacing.normal};
+  width: 200px;
+`;
+
 const StyledFooter = styled.div`
   margin-left: auto;
 `;
@@ -182,12 +187,14 @@ function EditorFooter<T extends FormValues>({
       <Footer>
         <StyledFooter>
           {isArticle && (
-            <ResponsibleSelect
-              responsible={responsible}
-              setResponsible={setResponsible}
-              onSave={updateResponsible}
-              responsibleId={responsibleId}
-            />
+            <Wrapper>
+              <ResponsibleSelect
+                responsible={responsible}
+                setResponsible={setResponsible}
+                onSave={updateResponsible}
+                responsibleId={responsibleId}
+              />
+            </Wrapper>
           )}
           {saveButton}
         </StyledFooter>
@@ -221,22 +228,23 @@ function EditorFooter<T extends FormValues>({
         </div>
 
         <div data-cy="footerStatus">
-          <ResponsibleSelect
-            responsible={responsible}
-            setResponsible={setResponsible}
-            onSave={updateResponsible}
-            responsibleId={responsibleId}
-            status={status}
-            entityStatus={entityStatus}
-          />
-
-          <StatusSelect
-            status={status}
-            setStatus={setStatus}
-            onSave={updateStatus}
-            statusStateMachine={statusStateMachine}
-            entityStatus={entityStatus}
-          />
+          <Wrapper>
+            <ResponsibleSelect
+              responsible={responsible}
+              setResponsible={setResponsible}
+              onSave={updateResponsible}
+              responsibleId={responsibleId}
+            />
+          </Wrapper>
+          <Wrapper>
+            <StatusSelect
+              status={status}
+              setStatus={setStatus}
+              onSave={updateStatus}
+              statusStateMachine={statusStateMachine}
+              entityStatus={entityStatus}
+            />
+          </Wrapper>
           {saveButton}
         </div>
       </>

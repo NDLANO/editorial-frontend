@@ -15,28 +15,14 @@ import { IStatus as DraftStatus } from '@ndla/types-draft-api';
 import { useAuth0Responsibles } from '../../../modules/auth0/auth0Queries';
 import { DRAFT_WRITE_SCOPE } from '../../../constants';
 
-const Wrapper = styled.div`
-  margin-right: ${spacing.normal};
-  width: 200px;
-`;
-
 interface Props {
   responsible: SingleValue;
   setResponsible: (r: SingleValue) => void;
   onSave: (r: SingleValue) => void;
   responsibleId?: string;
-  status?: SingleValue;
-  entityStatus?: DraftStatus;
 }
 
-const ResponsibleSelect = ({
-  responsible,
-  setResponsible,
-  onSave,
-  responsibleId,
-  status,
-  entityStatus,
-}: Props) => {
+const ResponsibleSelect = ({ responsible, setResponsible, onSave, responsibleId }: Props) => {
   const { t } = useTranslation();
 
   const { data: users, isLoading } = useAuth0Responsibles(
@@ -76,24 +62,22 @@ const ResponsibleSelect = ({
     onSave(responsible);
   };
   return (
-    <Wrapper>
-      <div data-cy="responsible-select">
-        <Select<false>
-          options={users ?? []}
-          menuPlacement="top"
-          placeholder={t('form.responsible.choose')}
-          value={responsible}
-          onChange={updateResponsible}
-          isLoading={isLoading}
-          groupTitle={t('form.responsible.label')}
-          noOptionsMessage={() => t('form.responsible.noResults')}
-          isSearchable
-          isClearable
-          closeMenuOnSelect
-          required={enableRequired}
-        />
-      </div>
-    </Wrapper>
+    <div data-cy="responsible-select">
+      <Select<false>
+        options={users ?? []}
+        menuPlacement="top"
+        placeholder={t('form.responsible.choose')}
+        value={responsible}
+        onChange={updateResponsible}
+        isLoading={isLoading}
+        groupTitle={t('form.responsible.label')}
+        noOptionsMessage={() => t('form.responsible.noResults')}
+        isSearchable
+        isClearable
+        closeMenuOnSelect
+        required={enableRequired}
+      />
+    </div>
   );
 };
 

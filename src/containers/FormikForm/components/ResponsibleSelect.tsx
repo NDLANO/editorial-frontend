@@ -57,11 +57,9 @@ const ResponsibleSelect = ({
   const [enableRequired, setEnableRequired] = useState(false);
 
   useEffect(() => {
-    if (users) {
-      if (responsibleId) {
-        const initialResponsible = users.find(user => user.value === responsibleId) ?? null;
-        setResponsible(initialResponsible);
-      }
+    if (users && responsibleId) {
+      const initialResponsible = users.find(user => user.value === responsibleId) ?? null;
+      setResponsible(initialResponsible);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [users]);

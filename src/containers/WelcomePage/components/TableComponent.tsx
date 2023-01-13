@@ -35,7 +35,7 @@ const StyledTable = styled.table`
   }
   td {
     ${fonts.sizes(16, 1.1)};
-    padding: ${spacing.xsmall} ${spacing.xsmall};
+    padding: ${spacing.xsmall};
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -55,7 +55,6 @@ const StyledTable = styled.table`
 const SortArrowWrapper = styled.div`
   display: flex;
   flex-direction: column;
-
   justify-content: center;
   margin-left: auto;
 `;

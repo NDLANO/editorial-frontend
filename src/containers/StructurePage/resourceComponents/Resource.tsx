@@ -20,7 +20,6 @@ import { useQueryClient } from 'react-query';
 import { DraggableProvidedDragHandleProps } from 'react-beautiful-dnd';
 import isEqual from 'lodash/isEqual';
 import { css } from '@emotion/react';
-import { Select } from '@ndla/select';
 import sortBy from 'lodash/sortBy';
 import {
   NodeConnectionPutType,

@@ -5,13 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-
+import React, { ReactNode } from 'react';
 import styled from '@emotion/styled';
 import { colors, spacing, fonts } from '@ndla/core';
 import { Share } from '@ndla/icons/lib/common';
-import { ReactNode } from 'react';
 import { Dictionary } from '../../../interfaces';
 import { NodeResourceMeta } from '../../../modules/nodes/nodeQueries';
+import ApproachingRevisionDate from './ApproachingRevisionDate';
 
 const ResourceGroupBanner = styled.div`
   background-color: ${colors.brand.lighter};
@@ -24,6 +24,7 @@ const ResourceGroupBanner = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
 `;
 
 const StyledIcon = styled(Share)`
@@ -36,6 +37,12 @@ const PublishedText = styled.div`
   font-weight: ${fonts.weight.normal};
 `;
 
+const RightContent = styled.div`
+  display: flex;
+  gap: ${spacing.small};
+  align-items: center;
+`;
+
 const getPublishedCount = (contentMeta: Dictionary<NodeResourceMeta>) => {
   const contentMetaList = Object.values(contentMeta);
   const publishedCount = contentMetaList.filter(c => c.status?.current === 'PUBLISHED').length;
@@ -46,9 +53,10 @@ interface Props {
   title: string;
   contentMeta: Dictionary<NodeResourceMeta>;
   addButton?: ReactNode;
+  articleIds?: number[];
 }
 
-const ResourceBanner = ({ title, contentMeta, addButton }: Props) => {
+const ResourceBanner = ({ title, contentMeta, addButton, articleIds }: Props) => {
   const elementCount = Object.values(contentMeta).length;
   const publishedCount = getPublishedCount(contentMeta);
 
@@ -59,7 +67,10 @@ const ResourceBanner = ({ title, contentMeta, addButton }: Props) => {
         {title}
         {addButton}
       </div>
-      <PublishedText>{`${publishedCount}/${elementCount} publisert`}</PublishedText>
+      <RightContent>
+        <PublishedText>{`${publishedCount}/${elementCount} publisert`}</PublishedText>
+        <ApproachingRevisionDate articleIds={articleIds} />
+      </RightContent>
     </ResourceGroupBanner>
   );
 };

@@ -10,6 +10,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Plus } from '@ndla/icons/action';
 import Tooltip from '@ndla/tooltip';
+import compact from 'lodash/compact';
 import { ResourceWithNodeConnectionAndMeta } from './StructureResources';
 import { ResourceType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import ResourceItems from './ResourceItems';
@@ -20,6 +21,7 @@ import { NodeResourceMeta } from '../../../modules/nodes/nodeQueries';
 import ResourceBanner from './ResourceBanner';
 import { Dictionary } from '../../../interfaces';
 import AddResourceButton from './AddResourceButton';
+import { getIdFromUrn } from '../../../util/taxonomyHelpers';
 
 interface Props {
   nodeResources: ResourceWithNodeConnectionAndMeta[];
@@ -40,6 +42,12 @@ const AllResourcesGroup = ({ resourceTypes, nodeResources, currentNode, contentM
 
   const toggleAddModal = () => setShowAddModal(prev => !prev);
 
+  const articleIds = compact(
+    [currentNode.contentUri, nodeResources.map(n => n.contentUri)]
+      .flat()
+      .map(id => getIdFromUrn(id)),
+  );
+
   return (
     <>
       <ResourceBanner
@@ -52,6 +60,7 @@ const AllResourcesGroup = ({ resourceTypes, nodeResources, currentNode, contentM
             </Tooltip>
           </AddResourceButton>
         }
+        articleIds={articleIds}
       />
 
       {showAddModal && (

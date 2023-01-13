@@ -968,6 +968,7 @@ const phrases = {
       label: 'Responsible',
       choose: 'Choose a responsible',
       noResults: 'No results',
+      revisionDate: 'Number approaching revision date',
       error: 'Something went wrong when updating responsible',
     },
     origin: {

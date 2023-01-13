@@ -16,7 +16,6 @@ import { NodeResourceMeta } from '../../../modules/nodes/nodeQueries';
 import { getIdFromUrn } from '../../../util/taxonomyHelpers';
 import { useMessages } from '../../Messages/MessagesProvider';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
-import { StyledErrorMessage } from '../../TaxonomyVersions/components/StyledErrorMessage';
 
 const StyledWrapper = styled.div`
   flex: 2;
@@ -42,18 +41,16 @@ const ResponsibleSelect = ({ options, meta }: Props) => {
   );
 
   const onChange = async (r: SingleValue) => {
-    if (!r || !meta || r === responsible) return;
+    if (!r || !article || r === responsible) return;
 
     try {
-      const id = getIdFromUrn(meta.contentUri)!;
-
       setIsLoading(true);
       await updateDraft(
-        id,
+        article.id,
         {
           responsibleId: r.value,
-          revision: article?.revision ?? -1,
-          notes: meta.notes?.map(n => n.note).concat('Ansvarlig oppdatert'),
+          revision: article.revision ?? -1,
+          notes: article.notes?.map(n => n.note).concat('Ansvarlig oppdatert'),
         },
         taxonomyVersion,
       );

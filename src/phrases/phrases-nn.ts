@@ -1376,7 +1376,7 @@ const phrases = {
     missingResourceType: 'Mangler ressurstype',
     metadata: {
       customFields: {
-        cancelPublishRequest: 'Avlys forespørjing om delvis publisering av struktur',
+        cancelPublishRequest: 'Avbryt forespørjing om delvis publisering av struktur',
         requestPublish: 'Be om delvis publisering av struktur',
         requestVersionError: 'Publiseringsforespørjingar kan bare opprettes fra Draft',
         alterFields: 'Legg til/endra metadata',

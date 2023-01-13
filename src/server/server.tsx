@@ -213,7 +213,6 @@ app.post('/translate', async (req, res) => {
   const { body } = req;
   if (body && body['document']) {
     const translated = await translateDocument(body['document']);
-    console.log(translated);
     res.status(OK).json(translated);
   } else {
     res.status(OK).json({ status: OK, text: 'No body' });

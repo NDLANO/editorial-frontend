@@ -6,11 +6,12 @@
  *
  */
 
+import { ApiTranslateType } from '../../interfaces';
 import { resolveJsonOrRejectWithError } from '../../util/apiHelpers';
 
 const baseUrl = '/translate';
 
-export const fetchNnTranslation = ({ id, ...content }) =>
+export const fetchNnTranslation = ({ ...content }: Record<string, ApiTranslateType>) =>
   fetch(baseUrl, {
     method: 'POST',
     headers: {
@@ -19,4 +20,4 @@ export const fetchNnTranslation = ({ id, ...content }) =>
     body: JSON.stringify({
       document: content,
     }),
-  }).then(resolveJsonOrRejectWithError);
+  }).then(r => resolveJsonOrRejectWithError<Record<string, string | string[]>>(r));

@@ -12,23 +12,26 @@ import AudioForm from './components/AudioForm';
 import { createFormData } from '../../util/formDataHelper';
 import { toEditPodcast } from '../../util/routeHelpers';
 import Spinner from '../../components/Spinner';
-import { useTranslateApi } from '../FormikForm/translateFormHooks';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { fetchAudio, updateAudio } from '../../modules/audio/audioApi';
+import { TranslateType, useTranslateToNN } from '../../components/NynorskTranslateProvider';
+import handleError from '../../util/handleError';
 
 interface Props {
   isNewlyCreated?: boolean;
 }
 
+const translateFields: TranslateType[] = [
+  { field: 'manuscript.manuscript', type: 'text' },
+  { field: 'title.title', type: 'text' },
+  { field: 'tags.tags', type: 'text' },
+];
+
 const EditAudio = ({ isNewlyCreated }: Props) => {
   const params = useParams<'id' | 'selectedLanguage'>();
   const [audio, setAudio] = useState<IAudioMetaInformation | undefined>(undefined);
-  const [loading, setLoading] = useState<boolean>(false);
-  const { translating, translateToNN } = useTranslateApi(
-    audio,
-    (audio: IAudioMetaInformation) => setAudio(audio),
-    ['id', 'manuscript.manuscript', 'title.title', 'tags.tags'],
-  );
+  const [loading, setLoading] = useState<boolean>(true);
+  const { shouldTranslate, translate, translating } = useTranslateToNN();
   const audioId = Number(params.id) || undefined;
   const audioLanguage = params.selectedLanguage!;
 
@@ -43,7 +46,19 @@ const EditAudio = ({ isNewlyCreated }: Props) => {
     })();
   }, [audioId, audioLanguage]);
 
-  if (loading) {
+  useEffect(() => {
+    (async () => {
+      if (shouldTranslate && !loading) {
+        setLoading(true);
+      }
+      if (audio && !loading && shouldTranslate) {
+        await translate(audio, translateFields, setAudio);
+        setLoading(false);
+      }
+    })();
+  }, [shouldTranslate, translate, audio, loading]);
+
+  if (loading || translating) {
     return <Spinner withWrapper />;
   }
 
@@ -72,8 +87,6 @@ const EditAudio = ({ isNewlyCreated }: Props) => {
       onUpdateAudio={onUpdate}
       audioLanguage={audioLanguage}
       isNewlyCreated={isNewlyCreated}
-      translating={translating}
-      translateToNN={translateToNN}
       isNewLanguage={isNewLanguage}
     />
   );

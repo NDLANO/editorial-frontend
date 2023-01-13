@@ -20,6 +20,7 @@ import DeleteLanguageVersion from './DeleteLanguageVersion';
 import HeaderSupportedLanguages from './HeaderSupportedLanguages';
 import HeaderLanguagePill from './HeaderLanguagePill';
 import PreviewConceptLightbox from '../PreviewConcept/PreviewConceptLightbox';
+import { useIsTranslatableToNN } from '../NynorskTranslateProvider';
 
 type PreviewTypes = IConcept | IUpdatedArticle;
 
@@ -70,13 +71,10 @@ const PreviewLightBox = ({
 
 interface Props {
   editUrl?: (url: string) => string;
-  formIsDirty: boolean;
   getEntity?: () => PreviewTypes;
   isNewLanguage: boolean;
   isSubmitting?: boolean;
   noStatus: boolean;
-  setTranslateOnContinue?: (translateOnContinue: boolean) => void;
-  translateToNN?: () => void;
   disableDelete: boolean;
   type: string;
   values: {
@@ -89,18 +87,16 @@ interface Props {
 
 const HeaderActions = ({
   editUrl,
-  formIsDirty,
   getEntity,
   isNewLanguage,
   isSubmitting,
   noStatus,
-  setTranslateOnContinue,
   type,
-  translateToNN,
   disableDelete,
   values,
 }: Props) => {
   const { t } = useTranslation();
+  const showTranslate = useIsTranslatableToNN();
   const { articleType, id, language, supportedLanguages = [] } = values;
 
   const languages = [
@@ -151,16 +147,11 @@ const HeaderActions = ({
         <HeaderLanguagePicker emptyLanguages={emptyLanguages} editUrl={editUrl} />
         {translatableTypes.includes(type) &&
           language === 'nb' &&
-          !!translateToNN &&
+          showTranslate &&
           !supportedLanguages.includes('nn') && (
             <>
               <StyledSplitter />
-              <TranslateNbToNn
-                translateToNN={translateToNN}
-                editUrl={editUrl}
-                formIsDirty={formIsDirty}
-                setTranslateOnContinue={setTranslateOnContinue}
-              />
+              <TranslateNbToNn editUrl={editUrl} />
             </>
           )}
         {<DeleteLanguageVersion values={values} type={type} disabled={disableDelete} />}

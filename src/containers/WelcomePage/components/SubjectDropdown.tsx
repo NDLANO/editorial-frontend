@@ -86,6 +86,8 @@ const SubjectDropdown = ({ filterSubject, setFilterSubject }: Props) => {
         postfix={t('subjectsPage.subjects').toLowerCase()}
         isLoading={isLoading}
         closeMenuOnSelect={false}
+        isSearchable
+        noOptionsMessage={() => t('form.responsible.noResults')}
       />
     </Wrapper>
   );

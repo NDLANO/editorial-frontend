@@ -13,12 +13,11 @@ import {
   editorValueToEmbedTag,
   editorValueToPlainText,
   embedTagToEditorValue,
-  frontpageContentToEditorValue,
-  learningResourceContentToEditorValue,
-  learningResourceContentToHTML,
+  blockContentToEditorValue,
+  blockContentToHTML,
   plainTextToEditorValue,
-  topicArticleContentToEditorValue,
-  topicArticleContentToHTML,
+  inlineContentToEditorValue,
+  inlineContentToHTML,
 } from '../../util/articleContentConverter';
 import {
   ArticleFormType,
@@ -94,12 +93,7 @@ export const draftApiTypeToLearningResourceFormType = (
   language: string,
 ): LearningResourceFormType => {
   return {
-    ...draftApiTypeToArticleFormType(
-      article,
-      language,
-      'standard',
-      learningResourceContentToEditorValue,
-    ),
+    ...draftApiTypeToArticleFormType(article, language, 'standard', blockContentToEditorValue),
     origin: article?.copyright?.origin,
   };
 };
@@ -113,7 +107,7 @@ export const draftApiTypeToFrontpageArticleFormType = (
       article,
       language,
       'frontpage-article',
-      frontpageContentToEditorValue,
+      blockContentToEditorValue,
     ),
   };
 };
@@ -127,7 +121,7 @@ export const draftApiTypeToTopicArticleFormType = (
       article,
       language,
       'topic-article',
-      topicArticleContentToEditorValue,
+      inlineContentToEditorValue,
     ),
     visualElement: embedTagToEditorValue(article?.visualElement?.visualElement ?? ''),
   };
@@ -145,7 +139,7 @@ export const learningResourceFormTypeToDraftApiType = (
   return {
     revision: 0,
     articleType: 'standard',
-    content: learningResourceContentToHTML(article.content),
+    content: blockContentToHTML(article.content),
     copyright: {
       license: licenses.find(lic => lic.license === article.license),
       origin: article.origin,
@@ -182,7 +176,7 @@ export const frontpageArticleFormTypeToDraftApiType = (
     revision: 0,
     slug: article.slug || getSlugFromTitle(editorValueToPlainText(article.title)),
     articleType: 'frontpage-article',
-    content: learningResourceContentToHTML(article.content),
+    content: blockContentToHTML(article.content),
     copyright: {
       license: licenses.find(lic => lic.license === article.license),
       creators: article.creators,
@@ -227,7 +221,7 @@ export const topicArticleFormTypeToDraftApiType = (
     language: article.language,
     title: editorValueToPlainText(article.title),
     published: getPublishedDate(article, initialValues, preview) ?? '',
-    content: topicArticleContentToHTML(article.content),
+    content: inlineContentToHTML(article.content),
     tags: article.tags,
     introduction: editorValueToPlainText(article.introduction),
     metaDescription: editorValueToPlainText(article.metaDescription),

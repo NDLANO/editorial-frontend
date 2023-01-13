@@ -10,10 +10,7 @@ import { Descendant } from 'slate';
 import { IArticle, ILicense, IArticleMetaImage } from '@ndla/types-draft-api';
 import { isUserProvidedEmbedDataValid } from './embedTagHelpers';
 import { findNodesByType } from './slateHelpers';
-import {
-  learningResourceContentToHTML,
-  topicArticleContentToHTML,
-} from './articleContentConverter';
+import { blockContentToHTML, inlineContentToHTML } from './articleContentConverter';
 import { diffHTML } from './diffHTML';
 import { isGrepCodeValid } from './articleUtil';
 import { RulesType } from '../components/formikValidationSchema';
@@ -39,8 +36,7 @@ const checkIfContentHasChanged = (
   initialHTML?: string,
 ) => {
   if (currentValue.length !== initialContent.length) return true;
-  const toHTMLFunction =
-    type === 'standard' ? learningResourceContentToHTML : topicArticleContentToHTML;
+  const toHTMLFunction = type === 'standard' ? blockContentToHTML : inlineContentToHTML;
   const newHTML = toHTMLFunction(currentValue);
 
   const diff = diffHTML(newHTML, initialHTML || toHTMLFunction(initialContent));
@@ -236,31 +232,7 @@ export const learningResourceRules: RulesType<LearningResourceFormType, IArticle
 
 export const frontPageArticleRules: RulesType<FrontpageArticleFormType, IArticle> = {
   ...formikCommonArticleRules,
-  metaImageAlt: {
-    required: true,
-    onlyValidateIf: values => !!values.metaImageId,
-    warnings: {
-      languageMatch: true,
-      apiField: 'metaImage',
-    },
-  },
-  content: {
-    required: true,
-    test: values => {
-      const embeds = findNodesByType(values.content ?? [], 'ndlaembed').map(
-        node => (node as NdlaEmbedElement).data,
-      );
-      const notValidEmbeds = embeds.filter(embed => !isUserProvidedEmbedDataValid(embed));
-      const embedsHasErrors = notValidEmbeds.length > 0;
-
-      return embedsHasErrors
-        ? { translationKey: 'learningResourceForm.validation.missingEmbedData' }
-        : undefined;
-    },
-    warnings: {
-      languageMatch: true,
-    },
-  },
+  ...learningResourceRules,
   slug: {
     required: true,
     onlyValidateIf: values => values.slug !== undefined,

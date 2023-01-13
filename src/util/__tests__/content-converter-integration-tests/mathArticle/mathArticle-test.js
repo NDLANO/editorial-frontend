@@ -7,10 +7,7 @@
  */
 
 import filterConsole from 'filter-console';
-import {
-  learningResourceContentToEditorValue,
-  learningResourceContentToHTML,
-} from '../../../articleContentConverter';
+import { blockContentToEditorValue, blockContentToHTML } from '../../../articleContentConverter';
 import { html } from './mathArticle';
 
 let disableFilter;
@@ -27,9 +24,9 @@ afterEach(() => {
 });
 
 test('serializing article with mathml tags', () => {
-  const converted = learningResourceContentToEditorValue(html);
+  const converted = blockContentToEditorValue(html);
 
-  const result = learningResourceContentToHTML(converted);
+  const result = blockContentToHTML(converted);
 
   expect(global.prettifyHTML(result)).toMatchSnapshot();
 });

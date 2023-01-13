@@ -6,7 +6,7 @@
  *
  */
 
-import { learningResourceContentToEditorValue } from '../articleContentConverter';
+import { blockContentToEditorValue } from '../articleContentConverter';
 import { parseEmbedTag, createEmbedTag, isUserProvidedEmbedDataValid } from '../embedTagHelpers';
 
 test('parseEmbedTag parses image embed tag to object', () => {
@@ -147,7 +147,7 @@ test('isUserProvidedEmbedDataValid for audio', () => {
 });
 
 test('deserializing related-content works', () => {
-  const deserialized = learningResourceContentToEditorValue(
+  const deserialized = blockContentToEditorValue(
     '<div data-type="related-content"><ndlaembed data-url="www.vg.no" data-title="Forsiden vg"></ndlaembed><ndlaembed data-article-id="54"></ndlaembed></div>',
   );
 

@@ -8,8 +8,8 @@
 
 import { Descendant } from 'slate';
 import {
-  learningResourceContentToEditorValue,
-  learningResourceContentToHTML,
+  blockContentToEditorValue,
+  blockContentToHTML,
 } from '../../../../../util/articleContentConverter';
 import { TYPE_SECTION } from '../../section/types';
 import { TYPE_HEADING } from '../types';
@@ -33,7 +33,7 @@ const html =
 
 describe('heading serializing tests', () => {
   test('serializing', () => {
-    const res = learningResourceContentToHTML(editor);
+    const res = blockContentToHTML(editor);
     expect(res).toMatch(html);
   });
 
@@ -51,7 +51,7 @@ describe('heading serializing tests', () => {
         ],
       },
     ];
-    const res = learningResourceContentToEditorValue(html);
+    const res = blockContentToEditorValue(html);
     expect(res).toEqual(expected);
   });
 });

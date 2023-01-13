@@ -28,7 +28,7 @@ import {
 import { validateDraft } from '../../../../modules/draft/draftApi';
 import { isFormikFormDirty, topicArticleRules } from '../../../../util/formHelper';
 import { ArticleTaxonomy } from '../../../FormikForm/formikDraftHooks';
-import { learningResourceContentToHTML } from '../../../../util/articleContentConverter';
+import { blockContentToHTML } from '../../../../util/articleContentConverter';
 import { DraftStatusType } from '../../../../interfaces';
 import StyledForm from '../../../../components/StyledFormComponents';
 
@@ -82,9 +82,7 @@ const TopicArticleForm = ({
     rules: topicArticleRules,
   });
 
-  const initialHTML = useMemo(() => learningResourceContentToHTML(initialValues.content), [
-    initialValues,
-  ]);
+  const initialHTML = useMemo(() => blockContentToHTML(initialValues.content), [initialValues]);
 
   const [translateOnContinue, setTranslateOnContinue] = useState(false);
 

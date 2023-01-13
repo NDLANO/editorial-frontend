@@ -98,7 +98,8 @@ const HeaderWithLanguage = ({
   const statusText = status?.current ? t(`form.status.${status.current.toLowerCase()}`) : '';
   const published = status?.current === 'PUBLISHED' || status?.other?.includes('PUBLISHED');
   const multiType = articleType ?? type;
-  const isArticle = multiType === 'standard' || multiType === 'topic-article';
+  const isArticle =
+    multiType === 'standard' || multiType === 'topic-article' || multiType === 'frontpage-article';
 
   const taxonomyPaths = isArticle ? getTaxonomyPathsFromTaxonomy(taxonomy, id) : [];
 

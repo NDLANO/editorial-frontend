@@ -169,7 +169,7 @@ const FrontPageFormContent = ({
 
   return (
     <>
-      {editSlug && slug ? (
+      {editSlug && slug !== undefined ? (
         <SlugField handleSubmit={handleSubmit} />
       ) : (
         <TitleField handleSubmit={handleSubmit} />

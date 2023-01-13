@@ -29,7 +29,7 @@ import {
   frontpageArticleFormTypeToDraftApiType,
   getExpirationDate,
 } from '../../articleTransformers';
-import { frontpageContentToHTML } from '../../../../util/articleContentConverter';
+import { blockContentToHTML } from '../../../../util/articleContentConverter';
 import { DraftStatusType } from '../../../../interfaces';
 import StyledForm from '../../../../components/StyledFormComponents';
 import FrontPagePanels from './FrontpagePanels';
@@ -80,7 +80,7 @@ const FrontPageForm = ({
     rules: frontPageArticleRules,
   });
 
-  const initialHTML = useMemo(() => frontpageContentToHTML(initialValues.content), [initialValues]);
+  const initialHTML = useMemo(() => blockContentToHTML(initialValues.content), [initialValues]);
 
   const [translateOnContinue, setTranslateOnContinue] = useState(false);
 

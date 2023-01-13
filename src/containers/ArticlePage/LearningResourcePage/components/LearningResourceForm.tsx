@@ -31,7 +31,7 @@ import {
   learningResourceFormTypeToDraftApiType,
 } from '../../articleTransformers';
 import { ArticleTaxonomy } from '../../../FormikForm/formikDraftHooks';
-import { learningResourceContentToHTML } from '../../../../util/articleContentConverter';
+import { blockContentToHTML } from '../../../../util/articleContentConverter';
 import { DraftStatusType } from '../../../../interfaces';
 import StyledForm from '../../../../components/StyledFormComponents';
 
@@ -83,9 +83,7 @@ const LearningResourceForm = ({
     rules: learningResourceRules,
   });
 
-  const initialHTML = useMemo(() => learningResourceContentToHTML(initialValues.content), [
-    initialValues,
-  ]);
+  const initialHTML = useMemo(() => blockContentToHTML(initialValues.content), [initialValues]);
 
   const [translateOnContinue, setTranslateOnContinue] = useState(false);
 

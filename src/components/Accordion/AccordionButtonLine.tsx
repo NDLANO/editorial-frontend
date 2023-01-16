@@ -6,7 +6,7 @@
  *
  */
 
-import { ReactElement } from 'react';
+import { ReactNode } from 'react';
 
 import { css, SerializedStyles } from '@emotion/react';
 import styled from '@emotion/styled';
@@ -49,7 +49,7 @@ const StyledWrapper = styled('div')<{ styledAppearance: AccordionType }>`
 
 interface Props {
   appearance: AccordionType;
-  children: ReactElement | ReactElement[];
+  children: ReactNode;
 }
 
 const AccordionButtonLine = ({ appearance, children }: Props) => {

@@ -964,6 +964,14 @@ const phrases = {
       helpLabel: 'What is a license?',
       choose: 'Choose a license',
     },
+    responsible: {
+      label: 'Responsible',
+      choose: 'Choose a responsible',
+      noResults: 'No results',
+      revisionDate: 'Number approaching revision date',
+      revisionDateSingle: 'Approaching revision date',
+      error: 'Something went wrong when updating responsible',
+    },
     origin: {
       label: 'Origin',
     },
@@ -1506,7 +1514,7 @@ const phrases = {
     publishing: 'Publishing node...',
     publish: 'Publish node',
     publishWarning:
-      'Are you sure you want to publish this node? Any changes within this version will be immediately available in the targeted version',
+      'Are you sure you want to publish this node? All the changes will be available in the targeted version after the publishing have completed',
     publishError: 'Failed to publish node',
     equalNodes: 'These nodes are equal!',
     defaultVersion: 'Draft',

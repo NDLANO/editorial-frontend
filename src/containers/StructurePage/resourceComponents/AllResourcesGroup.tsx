@@ -11,6 +11,7 @@ import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { Plus } from '@ndla/icons/action';
 import Tooltip from '@ndla/tooltip';
+import compact from 'lodash/compact';
 import { ResourceWithNodeConnectionAndMeta } from './StructureResources';
 import { ResourceType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import ResourceItems from './ResourceItems';
@@ -21,6 +22,7 @@ import { NodeResourceMeta } from '../../../modules/nodes/nodeQueries';
 import ResourceBanner from './ResourceBanner';
 import { Dictionary } from '../../../interfaces';
 import AddResourceButton from './AddResourceButton';
+import { getIdFromUrn } from '../../../util/taxonomyHelpers';
 
 const ResourceWrapper = styled.div`
   max-height: 80vh;
@@ -37,7 +39,7 @@ interface Props {
 const AllResourcesGroup = ({ resourceTypes, nodeResources, currentNode, contentMeta }: Props) => {
   const { t } = useTranslation();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [showAddModal, setShowAddModal] = useState<boolean>(false);
+  const [showAddModal, setShowAddModal] = useState(false);
   const resourceTypesWithoutMissing = resourceTypes
     .filter(rt => rt.id !== 'missing')
     .map(rt => ({ id: rt.id, name: rt.name }));
@@ -45,6 +47,12 @@ const AllResourcesGroup = ({ resourceTypes, nodeResources, currentNode, contentM
   const currentNodeId = currentNode.id;
 
   const toggleAddModal = () => setShowAddModal(prev => !prev);
+
+  const articleIds = compact(
+    [currentNode.contentUri, nodeResources.map(n => n.contentUri)]
+      .flat()
+      .map(id => getIdFromUrn(id)),
+  );
 
   return (
     <>
@@ -58,6 +66,7 @@ const AllResourcesGroup = ({ resourceTypes, nodeResources, currentNode, contentM
             </Tooltip>
           </AddResourceButton>
         }
+        articleIds={articleIds}
       />
       <ResourceWrapper>
         {showAddModal && (

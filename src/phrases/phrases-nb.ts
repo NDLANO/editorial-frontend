@@ -965,6 +965,14 @@ const phrases = {
       helpLabel: 'Hva er lisenser?',
       choose: 'Velg en lisens',
     },
+    responsible: {
+      label: 'Ansvarlig',
+      choose: 'Velg ansvarlig',
+      noResults: 'Ingen treff',
+      revisionDate: 'Antall som nærmer seg revisjonsdato',
+      revisionDateSingle: 'Nærmer seg revisjonsdato',
+      error: 'Noe gikk galt ved oppdatering av ansvarlig.',
+    },
     origin: {
       label: 'Opphav',
     },
@@ -1374,7 +1382,7 @@ const phrases = {
     missingResourceType: 'Mangler ressurstype',
     metadata: {
       customFields: {
-        cancelPublishRequest: 'Avlys forespørsel om delvis publisering av struktur',
+        cancelPublishRequest: 'Avbryt forespørsel om delvis publisering av struktur',
         requestPublish: 'Be om delpublisering av struktur',
         requestVersionError: 'Publiseringsforespørsler kan bare opprettes fra Draft',
         alterFields: 'Legg til/endre metadata',
@@ -1511,7 +1519,7 @@ const phrases = {
     publishing: 'Publiserer node...',
     publish: 'Publiser node',
     publishWarning:
-      'Er du sikker på at du ønsker å publisere denne noden? Alle endringer vil umiddelbart bli tilgjengelige i målversjonen',
+      'Er du sikker på at du ønsker å publisere denne noden? Alle endringer vil bli tilgjengelige i målversjonen når publiseringen er ferdig',
     publishError: 'Publisering av node feilet',
     equalNodes: 'Disse nodene er like!',
     defaultVersion: 'Draft',

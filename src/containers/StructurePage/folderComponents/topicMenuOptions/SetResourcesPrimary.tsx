@@ -50,7 +50,7 @@ const SetResourcesPrimary = ({
 
   return (
     <>
-      <MenuItemButton stripped onClick={toggleConnectedResourcesPrimary}>
+      <MenuItemButton onClick={toggleConnectedResourcesPrimary}>
         <RoundIcon small icon={<Pencil />} />
         {recursive
           ? t('taxonomy.resourcesPrimary.recursiveButtonText')

@@ -5,17 +5,23 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-
+import React, { ReactNode } from 'react';
 import styled from '@emotion/styled';
 import { colors, spacing, fonts } from '@ndla/core';
 import { Share } from '@ndla/icons/lib/common';
-import { ReactNode } from 'react';
 import { Dictionary } from '../../../interfaces';
 import { NodeResourceMeta } from '../../../modules/nodes/nodeQueries';
 import { ResourceGroupBanner, StyledIcon } from '../styles';
+import ApproachingRevisionDate from './ApproachingRevisionDate';
 
 const PublishedText = styled.div`
   font-weight: ${fonts.weight.normal};
+`;
+
+const RightContent = styled.div`
+  display: flex;
+  gap: ${spacing.small};
+  align-items: center;
 `;
 
 const getPublishedCount = (contentMeta: Dictionary<NodeResourceMeta>) => {
@@ -28,9 +34,10 @@ interface Props {
   title: string;
   contentMeta: Dictionary<NodeResourceMeta>;
   addButton?: ReactNode;
+  articleIds?: number[];
 }
 
-const ResourceBanner = ({ title, contentMeta, addButton }: Props) => {
+const ResourceBanner = ({ title, contentMeta, addButton, articleIds }: Props) => {
   const elementCount = Object.values(contentMeta).length;
   const publishedCount = getPublishedCount(contentMeta);
 
@@ -41,7 +48,10 @@ const ResourceBanner = ({ title, contentMeta, addButton }: Props) => {
         {title}
         {addButton}
       </div>
-      <PublishedText>{`${publishedCount}/${elementCount} publisert`}</PublishedText>
+      <RightContent>
+        <PublishedText>{`${publishedCount}/${elementCount} publisert`}</PublishedText>
+        <ApproachingRevisionDate articleIds={articleIds} />
+      </RightContent>
     </ResourceGroupBanner>
   );
 };

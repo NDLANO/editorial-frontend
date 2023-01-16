@@ -7,6 +7,7 @@
  */
 
 import { useQuery, useQueryClient, UseQueryOptions } from 'react-query';
+import { IEditorNote } from '@ndla/types-draft-api';
 import { NodeTree } from '../../containers/NodeDiff/diffUtils';
 import { SearchResultBase, WithTaxonomyVersion } from '../../interfaces';
 import { PUBLISHED } from '../../util/constants/ConceptStatus';
@@ -76,6 +77,8 @@ export interface NodeResourceMeta {
   grepCodes?: string[];
   status?: { current: string; other: string[] };
   articleType?: string;
+  revision?: number;
+  notes?: IEditorNote[];
 }
 
 export const nodeResourceMetasQueryKey = (params: Partial<UseNodeResourceMetas>) => [
@@ -134,11 +137,13 @@ const fetchNodeResourceMetas = async (
     : Promise.resolve([]);
   const [articles, learningpaths] = await Promise.all([articlesPromise, learningpathsPromise]);
   const transformedArticles: NodeResourceMeta[] = articles.map(
-    ({ status, grepCodes, articleType, id }) => ({
+    ({ status, grepCodes, articleType, id, revision, notes }) => ({
       status,
       grepCodes,
       articleType,
       contentUri: `urn:article:${id}`,
+      revision,
+      notes,
     }),
   );
   const transformedLearningpaths: NodeResourceMeta[] = learningpaths.map(lp => ({

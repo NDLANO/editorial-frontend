@@ -11,9 +11,10 @@ import styled from '@emotion/styled';
 import { spacing, spacingUnit, colors } from '@ndla/core';
 import { Link } from '@ndla/icons/common';
 import Tooltip from '@ndla/tooltip';
+import { IconButtonV2 } from '@ndla/button';
 import { DragHorizontal, DeleteForever } from '@ndla/icons/editor';
 import { IRelatedContentLink } from '@ndla/types-draft-api';
-import { StyledButtonIcons, StyledListItem } from './ElementListItem';
+import { StyledListItem } from './ElementListItem';
 
 const ELEMENT_HEIGHT = 69;
 
@@ -37,6 +38,10 @@ interface Props {
   showDragTooltip: boolean;
 }
 
+const DraggableIconButton = styled(IconButtonV2)`
+  cursor: grabbing;
+`;
+
 const ElementListLink = ({
   deleteFile,
   deleteIndex,
@@ -58,7 +63,6 @@ const ElementListLink = ({
         <StyledLinkContainer>
           <Link />
         </StyledLinkContainer>
-
         <Tooltip tooltip={element.url}>
           <a href={element.url} target="_blank" rel="noopener noreferrer">
             {element.title}
@@ -70,30 +74,34 @@ const ElementListLink = ({
           {isOrderable ? (
             showDragTooltip ? (
               <Tooltip tooltip={messages?.dragElement || ''}>
-                <StyledButtonIcons
-                  draggable
-                  tabIndex={-1}
-                  type="button"
+                <DraggableIconButton
+                  aria-label={messages?.dragElement || ''}
+                  variant="ghost"
+                  colorTheme="light"
                   onMouseDown={e => onDragStart(e, index)}
                   onMouseUp={onDragEnd}>
                   <DragHorizontal />
-                </StyledButtonIcons>
+                </DraggableIconButton>
               </Tooltip>
             ) : (
-              <StyledButtonIcons
-                draggable
-                tabIndex={-1}
-                type="button"
+              <DraggableIconButton
+                aria-label={messages?.dragElement || ''}
+                variant="ghost"
+                colorTheme="light"
                 onMouseDown={e => onDragStart(e, index)}
                 onMouseUp={onDragEnd}>
                 <DragHorizontal />
-              </StyledButtonIcons>
+              </DraggableIconButton>
             )
           ) : null}
           <Tooltip tooltip={messages?.removeElement || ''}>
-            <StyledButtonIcons tabIndex={-1} type="button" onClick={() => deleteFile(index)} delete>
+            <IconButtonV2
+              aria-label={messages?.removeElement || ''}
+              variant="ghost"
+              colorTheme="danger"
+              onClick={() => deleteFile(index)}>
               <DeleteForever />
-            </StyledButtonIcons>
+            </IconButtonV2>
           </Tooltip>
         </div>
       )}

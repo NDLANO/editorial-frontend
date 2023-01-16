@@ -185,7 +185,7 @@ const CopyNodeResources = ({
 
   return (
     <>
-      <MenuItemButton stripped onClick={toggleEditModeFunc}>
+      <MenuItemButton onClick={toggleEditModeFunc}>
         <RoundIcon small icon={<StyledCopyIcon />} />
         {t(`taxonomy.${type}.info`)}
       </MenuItemButton>

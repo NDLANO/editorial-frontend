@@ -6,7 +6,7 @@
  *
  */
 
-import React, { ReactElement, useState } from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import styled from '@emotion/styled';
@@ -20,6 +20,8 @@ import { useQueryClient } from 'react-query';
 import { DraggableProvidedDragHandleProps } from 'react-beautiful-dnd';
 import isEqual from 'lodash/isEqual';
 import { css } from '@emotion/react';
+import sortBy from 'lodash/sortBy';
+import { SingleValue } from '@ndla/select';
 import {
   NodeConnectionPutType,
   ResourceWithNodeConnection,
@@ -44,6 +46,11 @@ import {
   resourcesWithNodeConnectionQueryKey,
 } from '../../../modules/nodes/nodeQueries';
 import { ResourceWithNodeConnectionAndMeta } from './StructureResources';
+import { DRAFT_WRITE_SCOPE } from '../../../constants';
+import { useAuth0Editors } from '../../../modules/auth0/auth0Queries';
+import ResponsibleSelect from './ResponsibleSelect';
+import { useDraft } from '../../../modules/draft/draftQueries';
+import { getCountApproachingRevision, RevisionDateIcon } from './ApproachingRevisionDate';
 
 const Wrapper = styled.div`
   display: flex;
@@ -125,11 +132,6 @@ const StyledDndIcon = styled(DragVertical)`
   color: ${colors.learningPath.light};
 `;
 
-const ButtonWithSpacing = styled(ButtonV2)`
-  margin-left: ${spacing.xsmall};
-  flex: 1;
-`;
-
 const baseButtonStyles = css`
   margin-left: ${spacing.xsmall};
   flex: 1;
@@ -144,6 +146,10 @@ const StatusButton = styled(ButtonV2)<{ isPublished: boolean }>`
     background-color: ${props =>
       props.isPublished ? colors.subjectMaterial.dark : colors.learningPath.dark};
   }
+`;
+
+const CheckedWrapper = styled.div`
+  display: flex;
 `;
 
 const getArticleTypeFromId = (id?: string) => {
@@ -167,6 +173,9 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
   const location = useLocation();
   const [showVersionHistory, setShowVersionHistory] = useState(false);
   const [showGrepCodes, setShowGrepCodes] = useState(false);
+  const [responsible, setResponsible] = useState<SingleValue>(null);
+  const [aproachingRevision, setAproachingRevision] = useState(false);
+
   const qc = useQueryClient();
   const { taxonomyVersion } = useTaxonomyVersion();
   const compKey = resourcesWithNodeConnectionQueryKey({
@@ -196,6 +205,33 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
     onMutate: async ({ id, body }) => onUpdateConnection(id, body),
     onSettled: () => qc.invalidateQueries(compKey),
   });
+
+  const { data: users } = useAuth0Editors(
+    { permission: DRAFT_WRITE_SCOPE },
+    {
+      select: users =>
+        sortBy(
+          users.map(u => ({
+            value: `${u.app_metadata.ndla_id}`,
+            label: u.name,
+          })),
+          u => u.label,
+        ),
+      placeholderData: [],
+    },
+  );
+  const id = getIdFromUrn(resource?.contentMeta?.contentUri);
+  const { data: article } = useDraft(
+    { id: id!, responsibleId: responsible?.value },
+    { enabled: !!id },
+  );
+
+  useEffect(() => {
+    if (article) {
+      const isAproachingRevision = !!getCountApproachingRevision(article);
+      setAproachingRevision(isAproachingRevision);
+    }
+  }, [article]);
 
   const contentType =
     resource.resourceTypes.length > 0
@@ -267,12 +303,17 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
                 size="small"
               />
             </StyledResourceBody>
+            {aproachingRevision ? (
+              <RevisionDateIcon text="!" phrasesKey="form.responsible.revisionDateSingle" />
+            ) : null}
             <WrongTypeError resource={resource} articleType={resource.contentMeta?.articleType} />
             {(resource.contentMeta?.status?.current === PUBLISHED ||
               resource.contentMeta?.status?.other?.includes(PUBLISHED)) && (
               <PublishedWrapper path={path}>
                 <Tooltip tooltip={t('form.workflow.published')}>
-                  <StyledCheckIcon />
+                  <CheckedWrapper>
+                    <StyledCheckIcon />
+                  </CheckedWrapper>
                 </Tooltip>
               </PublishedWrapper>
             )}
@@ -293,9 +334,12 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
             )}
           </StyledText>
           <ButtonRow>
-            <ButtonV2 css={{ flex: 2 }} size="xsmall" colorTheme="lighter">
-              Ansvarlig: Navn Navnesen
-            </ButtonV2>
+            <ResponsibleSelect
+              options={users ?? []}
+              responsible={responsible}
+              setResponsible={setResponsible}
+              article={article}
+            />
             {contentType !== 'learning-path' && (
               <ButtonV2
                 css={baseButtonStyles}
@@ -363,7 +407,9 @@ const WrongTypeError = ({
 
   return (
     <Tooltip tooltip={errorText}>
-      <StyledWarnIcon title={undefined} />
+      <div>
+        <StyledWarnIcon title={undefined} />
+      </div>
     </Tooltip>
   );
 };

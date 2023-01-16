@@ -61,7 +61,7 @@ const SettingsMenuDropdownType = ({
   if (nodeType === SUBJECT_NODE) {
     return (
       <>
-        <ChangeNodeName editModeHandler={editModeHandler} node={node} />
+        {isTaxonomyAdmin && <ChangeNodeName editModeHandler={editModeHandler} node={node} />}
         {isTaxonomyAdmin && (
           <EditCustomFields
             toggleEditMode={toggleEditMode}
@@ -72,9 +72,9 @@ const SettingsMenuDropdownType = ({
         )}
         <AddExistingToNode editModeHandler={editModeHandler} currentNode={node} />
         <ToggleVisibility node={node} editModeHandler={editModeHandler} rootNodeId={rootNodeId} />
-        <EditGrepCodes node={node} editModeHandler={editModeHandler} />
-        <EditSubjectpageOption node={node} />
-        {config.versioningEnabled && (
+        {isTaxonomyAdmin && <EditGrepCodes node={node} editModeHandler={editModeHandler} />}
+        {isTaxonomyAdmin && <EditSubjectpageOption node={node} />}
+        {config.versioningEnabled === 'true' && (
           <>
             <RequestNodePublish
               node={node}
@@ -111,7 +111,6 @@ const SettingsMenuDropdownType = ({
         )}
         <AddExistingToNode editModeHandler={editModeHandler} currentNode={node} />
         <ToggleVisibility node={node} editModeHandler={editModeHandler} rootNodeId={rootNodeId} />
-        <EditGrepCodes node={node} editModeHandler={editModeHandler} />
         {config.versioningEnabled === 'true' && (
           <>
             <RequestNodePublish

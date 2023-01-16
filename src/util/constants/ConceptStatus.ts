@@ -6,10 +6,11 @@
  *
  */
 
-export const DRAFT = 'DRAFT';
-export const QUEUED_FOR_LANGUAGE = 'QUEUED_FOR_LANGUAGE';
-export const TRANSLATED = 'TRANSLATED';
-export const QUALITY_ASSURED = 'QUALITY_ASSURED';
-export const PUBLISHED = 'PUBLISHED';
-export const UNPUBLISHED = 'UNPUBLISHED';
 export const ARCHIVED = 'ARCHIVED';
+export const END_CONTROL = 'END_CONTROL';
+export const FOR_APPROVAL = 'FOR_APPROVAL';
+export const IN_PROGRESS = 'IN_PROGRESS';
+export const LANGUAGE = 'LANGUAGE';
+export const PUBLISHED = 'PUBLISHED';
+export const TRANSLATED = 'TRANSLATED';
+export const UNPUBLISHED = 'UNPUBLISHED';

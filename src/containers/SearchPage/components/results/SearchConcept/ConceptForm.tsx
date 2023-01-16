@@ -21,7 +21,7 @@ import { InputField } from './SearchStyles';
 import { SubjectType } from '../../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { getLicensesWithTranslations } from '../../../../../util/licenseHelpers';
 import { useLicenses } from '../../../../../modules/draft/draftQueries';
-import { PUBLISHED, QUALITY_ASSURED } from '../../../../../util/constants/ConceptStatus';
+import { PUBLISHED, END_CONTROL } from '../../../../../util/constants/ConceptStatus';
 import { ConceptStatusType } from '../../../../../interfaces';
 import { CONCEPT_ADMIN_SCOPE } from '../../../../../constants';
 import { useSession } from '../../../../Session/SessionProvider';
@@ -85,7 +85,7 @@ const ConceptForm = ({ initialValues, status, language, onSubmit, allSubjects, c
     if (value === 'saveAndPublish') {
       return PUBLISHED;
     } else if (status === PUBLISHED) {
-      return QUALITY_ASSURED;
+      return END_CONTROL;
     } else {
       return undefined;
     }

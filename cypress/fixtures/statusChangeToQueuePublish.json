@@ -3,7 +3,7 @@
   "oldNdlaUrl": "//red.ndla.no/node/153041",
   "revision": 38,
   "status": {
-    "current": "QUEUED_FOR_PUBLISHING",
+    "current": "INTERNAL_REVIEW",
     "other": [
       "IMPORTED",
       "PUBLISHED"
@@ -85,7 +85,7 @@
       "note": "Status endret",
       "user": "XVtdp6Ik4kdLDjMTQE2CIxnGB6Gvhr2n",
       "status": {
-        "current": "QUEUED_FOR_PUBLISHING",
+        "current": "END_CONTROL",
         "other": [
           "IMPORTED",
           "PUBLISHED"

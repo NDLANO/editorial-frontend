@@ -19,6 +19,10 @@ import { useTaxonomyVersion } from '../StructureVersion/TaxonomyVersionProvider'
 const StyledInputField = styled('input')`
   width: 100%;
   border-radius: 4px;
+
+  ::placeholder {
+    color: ${colors.brand.neutral7};
+  }
 `;
 const StyledErrorMessage = styled('span')`
   color: ${colors.support.red};

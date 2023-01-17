@@ -56,7 +56,7 @@ export const getCountApproachingRevision = (d: IArticle | IArticle[]) => {
 
   const countApproachingRevision =
     countBy(elementsArray, elementsArray =>
-      isBefore(new Date(elementsArray.revisions[0].revisionDate), currentDateAddYear),
+      isBefore(new Date(elementsArray?.revisions?.[0]?.revisionDate), currentDateAddYear),
     ).true ?? 0;
 
   return countApproachingRevision;

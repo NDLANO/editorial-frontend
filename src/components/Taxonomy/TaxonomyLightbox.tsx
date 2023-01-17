@@ -103,13 +103,13 @@ const StyledTitle = styled.div`
 interface Props {
   children: JSX.Element;
   onClose: () => void;
-  title: string;
-  wide?: boolean;
   loading?: boolean;
+  title: string;
   onSelect?: () => void;
+  wide?: boolean;
 }
 
-const TaxonomyLightbox = ({ children, title, onClose, onSelect, loading, wide = false }: Props) => {
+const TaxonomyLightbox = ({ children, title, onSelect, loading, onClose, wide = false }: Props) => {
   const { t } = useTranslation();
 
   return (

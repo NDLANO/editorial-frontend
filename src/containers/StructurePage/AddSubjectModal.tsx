@@ -16,8 +16,7 @@ import { useAddNodeMutation } from '../../modules/nodes/nodeMutations';
 import handleError from '../../util/handleError';
 import { useTaxonomyVersion } from '../StructureVersion/TaxonomyVersionProvider';
 
-const StyledInputField = styled('input')`
-  width: 100%;
+const StyledInputField = styled.input`
   border-radius: 4px;
 
   ::placeholder {
@@ -59,9 +58,7 @@ const AddSubjectModal = ({ onClose }: Props) => {
     });
   };
 
-  const handleClick = async (e: SyntheticEvent) => {
-    e.stopPropagation();
-
+  const handleClick = async () => {
     try {
       await addNode(inputValue);
       setInputValue('');
@@ -73,14 +70,13 @@ const AddSubjectModal = ({ onClose }: Props) => {
   };
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    e.stopPropagation();
     if (error) setError(false);
     setInputValue(e.target.value);
   };
 
   const handleKeyPress = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
-      handleClick(e);
+      handleClick();
     }
   };
 

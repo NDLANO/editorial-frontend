@@ -96,6 +96,10 @@ const StyledWrapper = styled.div`
   padding: ${spacing.small} 0px;
 `;
 
+const StyledTitle = styled.div`
+  font-weight: ${fonts.weight.semibold};
+`;
+
 interface Props {
   children: JSX.Element;
   onClose: () => void;
@@ -117,7 +121,7 @@ const TaxonomyLightbox = ({ children, title, onClose, onSelect, loading, wide = 
             <StyledIconWrapper>
               <StyledMenuBook />
             </StyledIconWrapper>
-            {title}
+            <StyledTitle>{title}</StyledTitle>
           </StyledTitleWrapper>
           <StyledCloseButton stripped onClick={onClose}>
             <StyledCross />

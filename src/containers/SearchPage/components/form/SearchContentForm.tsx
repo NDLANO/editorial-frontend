@@ -12,7 +12,6 @@ import { useTranslation } from 'react-i18next';
 import { flattenResourceTypesAndAddContextTypes } from '../../../../util/taxonomyHelpers';
 import { getResourceLanguages } from '../../../../util/resourceHelpers';
 import { getTagName } from '../../../../util/formHelper';
-import ArticleStatuses from '../../../../util/constants/index';
 import { SearchParams } from './SearchForm';
 import {
   DRAFT_WRITE_SCOPE,
@@ -22,6 +21,7 @@ import config from '../../../../config';
 import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { useAuth0Editors } from '../../../../modules/auth0/auth0Queries';
 import { useAllResourceTypes } from '../../../../modules/taxonomy/resourcetypes/resourceTypesQueries';
+import { useDraftStatusStateMachine } from '../../../../modules/draft/draftQueries';
 import GenericSearchForm, { OnFieldChangeFunction } from './GenericSearchForm';
 import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
 import { SearchFormSelector } from './Selector';
@@ -108,9 +108,11 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
     });
   };
 
+  const { data: statuses } = useDraftStatusStateMachine();
+
   const getDraftStatuses = (): { id: string; name: string }[] => {
     return [
-      ...Object.keys(ArticleStatuses.articleStatuses).map(s => {
+      ...Object.keys(statuses || []).map(s => {
         return { id: s, name: t(`form.status.${s.toLowerCase()}`) };
       }),
       { id: 'HAS_PUBLISHED', name: t(`form.status.has_published`) },

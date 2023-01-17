@@ -18,12 +18,12 @@ describe('Status changes', () => {
     editorRoutes(ARTICLE_ID);
     cy.apiroute(
       'PUT',
-      `**/draft-api/v1/drafts/${ARTICLE_ID}/status/PROPOSAL`,
+      `**/draft-api/v1/drafts/${ARTICLE_ID}/status/IN_PROGRESS`,
       `statusChangeToUtkast`,
     );
     cy.apiroute(
       'PUT',
-      `**/draft-api/v1/drafts/${ARTICLE_ID}/status/QUEUED_FOR_PUBLISHING`,
+      `**/draft-api/v1/drafts/${ARTICLE_ID}/status/INTERNAL_REVIEW`,
       `statusChangeToQueuePublish`,
     );
     cy.apiroute(
@@ -42,7 +42,7 @@ describe('Status changes', () => {
       .contains('Publisert')
       .click();
     cy.get('footer li > button')
-      .contains('Utkast')
+      .contains('I arbeid')
       .click();
     cy.get('[data-testid=saveLearningResourceButtonWrapper]').contains('Lagrer');
     cy.apiwait(`@statusChangeToUtkast`);
@@ -52,10 +52,10 @@ describe('Status changes', () => {
       .click()
       .type('Some change');
     cy.get('footer button')
-      .contains('Utkast')
+      .contains('I arbeid')
       .click();
     cy.get('footer li > button')
-      .contains('Til publisering')
+      .contains('Sisteblikk')
       .click();
     cy.get('[data-testid=saveLearningResourceButtonWrapper]').contains('Lagrer');
     cy.apiwait(`@updateDraft-${ARTICLE_ID}`);
@@ -63,7 +63,7 @@ describe('Status changes', () => {
     cy.get('[data-testid=saveLearningResourceButtonWrapper]').contains('Lagret');
 
     cy.get('footer button')
-      .contains('Til publisering')
+      .contains('Sisteblikk')
       .click();
     cy.get('footer li > button')
       .contains('Publiser')

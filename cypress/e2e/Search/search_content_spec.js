@@ -14,6 +14,7 @@ describe('Search content', () => {
     setToken();
     cy.apiroute('GET', `${taxonomyApi}/resource-types?language=nb`, 'resourceTypes');
     cy.apiroute('GET', `${taxonomyApi}/subjects?language=nb`, 'allSubjects');
+    cy.apiroute('GET', '/draft-api/v1/drafts/status-state-machine/', 'statusMachine');
     cy.apiroute('GET', '/search-api/v1/search/editorial/*', 'search');
     cy.intercept('GET', '/get_editors*', [
       {
@@ -25,7 +26,7 @@ describe('Search content', () => {
     ]);
     cy.apiroute('GET', '/get_zendesk_token', 'zendeskToken');
     cy.visit('/search/content?fallback=true&language=nb&page=1&page-size=10&sort=-relevance');
-    cy.apiwait(['@resourceTypes', '@search', '@allSubjects', '@zendeskToken']);
+    cy.apiwait(['@resourceTypes', '@search', '@allSubjects', '@statusMachine', '@zendeskToken']);
   });
 
   it('Can use text input', () => {
@@ -40,9 +41,9 @@ describe('Search content', () => {
   });
 
   it('Can use status dropdown', () => {
-    cy.apiroute('GET', '/search-api/v1/search/editorial/?*draft-status=USER_TEST*', 'searchStatus');
+    cy.apiroute('GET', '/search-api/v1/search/editorial/?*draft-status=EXTERNAL_REVIEW*', 'searchStatus');
     cy.get('select[name="draft-status"]')
-      .select('Brukertest')
+      .select('Eksternt gjennomsyn')
       .blur();
     cy.apiwait('@searchStatus');
     cy.get('span[data-cy="totalCount"').contains(/^Antall søketreff: \d+/);

@@ -26,7 +26,7 @@ import {
 import { fetchNodeResources } from '../../../../modules/nodes/nodeApi';
 import { NodeType } from '../../../../modules/nodes/nodeApiTypes';
 import { RESOURCE_META } from '../../../../queryKeys';
-import { PUBLISHED } from '../../../../util/constants/ArticleStatus';
+import { PUBLISHED } from '../../../../constants';
 import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
 import ResourceItemLink from '../../resourceComponents/ResourceItemLink';
 import MenuItemButton from '../sharedMenuOptions/components/MenuItemButton';

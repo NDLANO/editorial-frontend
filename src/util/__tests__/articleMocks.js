@@ -6,7 +6,7 @@
  *
  */
 
-import { PLANNED, IMPORTED } from '../constants/ArticleStatus';
+import { PLANNED, IMPORTED } from '../../constants';
 
 export const apiArticle = {
   id: 302,

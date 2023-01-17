@@ -17,7 +17,7 @@ import {
 import { ConceptFormValues } from './conceptInterfaces';
 import { SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
 import { parseImageUrl } from '../../util/formHelper';
-import { IN_PROGRESS } from '../../util/constants/ConceptStatus';
+import { IN_PROGRESS } from '../../constants';
 
 export const conceptApiTypeToFormType = (
   concept: IConcept | undefined,

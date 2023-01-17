@@ -14,7 +14,7 @@ import { Formik, FormikProps, FormikHelpers } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { isFormikFormDirty } from '../../../util/formHelper';
 import { toEditConcept } from '../../../util/routeHelpers';
-import * as articleStatuses from '../../../util/constants/ArticleStatus';
+import { UNPUBLISHED } from '../../../constants';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
 import validateFormik, { getWarnings, RulesType } from '../../../components/formikValidationSchema';
 import {
@@ -154,7 +154,7 @@ const ConceptForm = ({
       } else if (statusChange && concept?.id) {
         // if editor is not dirty, OR we are unpublishing, we don't save before changing status
         const formikDirty = isFormikFormDirty({ values, initialValues, dirty: true });
-        const skipSaving = newStatus === articleStatuses.UNPUBLISHED || !formikDirty;
+        const skipSaving = newStatus === UNPUBLISHED || !formikDirty;
         savedConcept = await upsertProps.updateConceptAndStatus(
           concept.id,
           getUpdatedConceptType(values, licenses),

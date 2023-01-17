@@ -12,7 +12,7 @@ import { FormikHelpers } from 'formik';
 import { Descendant } from 'slate';
 import { IArticle, ILicense, IStatus, IUpdatedArticle, IAuthor } from '@ndla/types-draft-api';
 import { deleteFile } from '../../modules/draft/draftApi';
-import * as articleStatuses from '../../util/constants/ArticleStatus';
+import { UNPUBLISHED } from '../../constants';
 import { isFormikFormDirty } from '../../util/formHelper';
 import { DraftStatusType, RelatedContent } from '../../interfaces';
 import { useMessages } from '../Messages/MessagesProvider';
@@ -147,7 +147,7 @@ export function useArticleFormHooks<T extends ArticleFormType>({
       if (statusChange && newStatus && updateArticleAndStatus) {
         // if editor is not dirty, OR we are unpublishing, we don't save before changing status
         const skipSaving =
-          newStatus === articleStatuses.UNPUBLISHED ||
+          newStatus === UNPUBLISHED ||
           !isFormikFormDirty({
             values,
             initialValues,

@@ -21,9 +21,8 @@ import { InputField } from './SearchStyles';
 import { SubjectType } from '../../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { getLicensesWithTranslations } from '../../../../../util/licenseHelpers';
 import { useLicenses } from '../../../../../modules/draft/draftQueries';
-import { PUBLISHED, END_CONTROL } from '../../../../../util/constants/ConceptStatus';
+import { CONCEPT_ADMIN_SCOPE, END_CONTROL, PUBLISHED } from '../../../../../constants';
 import { ConceptStatusType } from '../../../../../interfaces';
-import { CONCEPT_ADMIN_SCOPE } from '../../../../../constants';
 import { useSession } from '../../../../Session/SessionProvider';
 
 export interface InlineFormConcept {

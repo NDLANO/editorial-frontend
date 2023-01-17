@@ -26,7 +26,7 @@ import {
 } from '../FormikForm/articleFormHooks';
 import { DEFAULT_LICENSE, parseImageUrl } from '../../util/formHelper';
 import { nullOrUndefined } from '../../util/articleUtil';
-import { PLANNED } from '../../util/constants/ArticleStatus';
+import { PLANNED } from '../../constants';
 
 const getPublishedDate = (
   values: ArticleFormType,

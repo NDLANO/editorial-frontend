@@ -59,6 +59,14 @@ export const MAX_IMAGE_UPLOAD_SIZE = 1024 * 1024 * 40; // 40MB.
 
 export const LOCALE_VALUES = ['nb', 'nn', 'en'] as const;
 
+export const ARCHIVED = 'ARCHIVED';
+export const END_CONTROL = 'END_CONTROL';
+export const IMPORTED = 'IMPORTED';
+export const IN_PROGRESS = 'IN_PROGRESS';
+export const PLANNED = 'PLANNED';
+export const PUBLISHED = 'PUBLISHED';
+export const UNPUBLISHED = 'UNPUBLISHED';
+
 export const EXTERNAL_WHITELIST_PROVIDERS: WhitelistProvider[] = [
   { name: 'H5P', url: ['h5p'] },
   { name: 'YouTube', url: ['youtube.com', 'youtu.be'], height: '486px' },

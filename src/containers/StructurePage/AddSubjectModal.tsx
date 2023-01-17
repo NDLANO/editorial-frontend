@@ -7,7 +7,7 @@
  */
 
 import styled from '@emotion/styled';
-import Button from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 import { ChangeEvent, useState, SyntheticEvent, KeyboardEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { spacing, colors } from '@ndla/core';
@@ -99,9 +99,9 @@ const AddSubjectModal = ({ onClose }: Props) => {
             onKeyDown={handleKeyPress}
             placeholder={t('taxonomy.subjectName')}
           />
-          <Button onClick={handleClick} disabled={!inputValue}>
+          <ButtonV2 onClick={handleClick} disabled={!inputValue}>
             {t('form.save')}
-          </Button>
+          </ButtonV2>
         </Wrapper>
         {error && <StyledErrorMessage>{t('taxonomy.errorMessage')}</StyledErrorMessage>}
       </>

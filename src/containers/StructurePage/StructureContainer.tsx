@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Switch } from '@ndla/switch';
 import styled from '@emotion/styled';
-import Button from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 import { Plus } from '@ndla/icons/action';
 import Accordion from '../../components/Accordion';
 import ErrorBoundary from '../../components/ErrorBoundary';
@@ -28,7 +28,7 @@ import config from '../../config';
 import { createGuard } from '../../util/guards';
 import AddSubjectModal from './AddSubjectModal';
 
-const AddSubjectButton = styled(Button)`
+const AddSubjectButton = styled(ButtonV2)`
   white-space: nowrap;
 `;
 

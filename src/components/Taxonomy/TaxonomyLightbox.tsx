@@ -55,7 +55,7 @@ const StyledHeader = styled.div`
   justify-content: space-between;
   align-items: center;
   font-size: 1.2rem;
-  ${fonts.sizes(24)};
+  ${fonts.sizes(24, 1.1)};
   padding: ${spacing.nsmall};
   height: 90px;
   color: ${colors.text.primary};

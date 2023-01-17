@@ -63,7 +63,7 @@ const AddSubjectModal = ({ onClose }: Props) => {
     e.stopPropagation();
 
     try {
-      addNode(inputValue);
+      await addNode(inputValue);
       setInputValue('');
       onClose();
     } catch (error) {

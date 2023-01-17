@@ -123,7 +123,7 @@ const TaxonomyLightbox = ({ children, title, onSelect, loading, onClose, wide = 
             </StyledIconWrapper>
             <StyledTitle>{title}</StyledTitle>
           </StyledTitleWrapper>
-          <StyledCloseButton stripped onClick={onClose}>
+          <StyledCloseButton stripped onClick={onClose} data-testid="taxonomyLightboxCloseButton">
             <StyledCross />
           </StyledCloseButton>
         </StyledHeader>

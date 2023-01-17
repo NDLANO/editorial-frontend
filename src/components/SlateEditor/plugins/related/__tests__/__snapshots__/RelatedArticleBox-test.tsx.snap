@@ -755,6 +755,7 @@ exports[`it goes in and out of edit mode 1`] = `
           </div>
           <button
             class="emotion-24 emotion-15"
+            data-testid="taxonomyLightboxCloseButton"
             type="button"
           >
             <svg

@@ -344,7 +344,7 @@ exports[`it goes in and out of edit mode 1`] = `
   font-size: 1.2rem;
   font-size: 24;
   font-size: 1.3333333333333333rem;
-  line-height: 1.0833333333333333;
+  line-height: 1.1;
   padding: 17.333333333333332px;
   height: 90px;
   color: #444;

@@ -9,7 +9,6 @@
 import styled from '@emotion/styled';
 import Button from '@ndla/button';
 import { colors, spacing } from '@ndla/core';
-import { Plus } from '@ndla/icons/action';
 import { Done } from '@ndla/icons/editor';
 import { ChangeEvent, KeyboardEvent, PureComponent, SyntheticEvent } from 'react';
 import { CustomWithTranslation, withTranslation } from 'react-i18next';
@@ -18,7 +17,6 @@ import Spinner from './Spinner';
 
 const StyledInlineAddButton = styled(Button)`
   height: 50px;
-  margin-left: auto;
   padding: 0 ${spacing.small};
   white-space: nowrap;
   font-size: 1.1rem;
@@ -27,7 +25,6 @@ const StyledInlineAddButton = styled(Button)`
     ${colors.brand.secondary} 50%,
     rgba(226, 226, 226, 0.1) 100%
   );
-
   &:hover {
     color: white;
   }
@@ -36,7 +33,6 @@ const StyledInlineAddButton = styled(Button)`
 const StyledEditMode = styled('div')`
   display: flex;
   height: 100%;
-  margin-left: auto;
   position: absolute;
   right: 0;
 
@@ -74,7 +70,6 @@ interface State {
 }
 
 interface Props {
-  title: string;
   action: Function;
 }
 
@@ -132,10 +127,9 @@ export class InlineAddButton extends PureComponent<Props & CustomWithTranslation
   }
 
   render() {
-    const { title } = this.props;
     const { status, inputValue } = this.state;
 
-    return status === 'edit' || status === 'loading' || status === 'error' ? (
+    return (
       <>
         <StyledInputField
           type="text"
@@ -147,25 +141,15 @@ export class InlineAddButton extends PureComponent<Props & CustomWithTranslation
           onChange={this.handleInputChange}
           onKeyDown={this.handleKeyPress}
         />
-        <StyledEditMode>
+        {/*  <StyledEditMode>
           <StyledSaveButton stripped disabled={status === 'loading'} onClick={this.handleClick}>
             {status === 'loading' ? <Spinner appearance="small" /> : <Done />}
           </StyledSaveButton>
-        </StyledEditMode>
+    </StyledEditMode>*/}
         {status === 'error' && (
           <StyledErrorMessage>{this.props.t('taxonomy.errorMessage')}</StyledErrorMessage>
         )}
       </>
-    ) : (
-      <StyledInlineAddButton
-        stripped
-        data-testid="AddSubjectButton"
-        onClick={() => {
-          this.setState({ status: 'edit' });
-        }}>
-        <Plus />
-        {title}
-      </StyledInlineAddButton>
     );
   }
 }

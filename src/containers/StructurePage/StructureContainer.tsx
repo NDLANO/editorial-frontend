@@ -134,7 +134,10 @@ const StructureContainer = () => {
           appearance={'taxonomy'}
           addButton={
             isTaxonomyAdmin && (
-              <AddSubjectButton size="small" onClick={() => setAddSubjectModalOpen(true)}>
+              <AddSubjectButton
+                size="small"
+                onClick={() => setAddSubjectModalOpen(true)}
+                data-testid="AddSubjectButton">
                 <Plus /> {t('taxonomy.addSubject')}
               </AddSubjectButton>
             )

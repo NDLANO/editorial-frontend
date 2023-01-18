@@ -174,7 +174,11 @@ const StructureContainer = () => {
         </Accordion>
         {config.versioningEnabled === 'true' && isTaxonomyAdmin && <StickyVersionSelector />}
         {currentNode && isChildNode(currentNode) && (
-          <StructureResources currentChildNode={currentNode} resourceRef={resourceSection} />
+          <StructureResources
+            currentChildNode={currentNode}
+            resourceRef={resourceSection}
+            onCurrentNodeChanged={setCurrentNode}
+          />
         )}
       </OneColumn>
       <Footer showLocaleSelector />

@@ -13,6 +13,7 @@ import Button from '@ndla/button';
 import styled from '@emotion/styled';
 import { TFunction } from 'i18next';
 import keyBy from 'lodash/keyBy';
+import compact from 'lodash/compact';
 import { ChildNodeType, ResourceWithNodeConnection } from '../../../modules/nodes/nodeApiTypes';
 import { ResourceType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import {
@@ -24,12 +25,23 @@ import { useAllResourceTypes } from '../../../modules/taxonomy/resourcetypes/res
 import handleError from '../../../util/handleError';
 import AllResourcesGroup from './AllResourcesGroup';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
+import GroupTopicResources from '../folderComponents/topicMenuOptions/GroupTopicResources';
+import { groupResourcesByType } from '../../../util/taxonomyHelpers';
+import ResourceGroup from './ResourceGroup';
+import Resource from './Resource';
+import { Dictionary } from '../../../interfaces';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const StyledDiv = styled('div')`
   width: calc(${spacing.large} * 5);
   margin-left: auto;
   margin-right: calc(${spacing.nsmall});
+`;
+
+const Row = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding: ${spacing.xsmall};
 `;
 
 export interface ResourceWithNodeConnectionAndMeta extends ResourceWithNodeConnection {
@@ -39,6 +51,7 @@ export interface ResourceWithNodeConnectionAndMeta extends ResourceWithNodeConne
 interface Props {
   currentChildNode: ChildNodeType;
   resourceRef: RefObject<HTMLDivElement>;
+  onCurrentNodeChanged: (changedNode: ChildNodeType) => void;
 }
 
 const getMissingResourceType = (t: TFunction): ResourceType & { disabled?: boolean } => ({
@@ -59,9 +72,33 @@ const withMissing = (r: ResourceWithNodeConnection): ResourceWithNodeConnection 
   resourceTypes: [missingObject],
 });
 
-const StructureResources = ({ currentChildNode, resourceRef }: Props) => {
+const getGroupedResourceList = (
+  nodeResources: ResourceWithNodeConnection[] | undefined,
+  resourceTypes: ResourceType[] | undefined,
+  keyedMetas: Dictionary<NodeResourceMeta>,
+): ResourceWithNodeConnectionAndMeta[] => {
+  if (!nodeResources || !resourceTypes) return [];
+
+  const nodeResourcesWithMeta: ResourceWithNodeConnectionAndMeta[] =
+    nodeResources?.map(res => ({
+      ...res,
+      contentMeta: res.contentUri ? keyedMetas[res.contentUri] : undefined,
+    })) ?? [];
+  const mapping = groupResourcesByType(nodeResourcesWithMeta ?? [], resourceTypes ?? []);
+  const resourcesGrouped: ResourceWithNodeConnectionAndMeta[] =
+    compact(
+      resourceTypes?.map(
+        resourceType => mapping.find(resource => resource.id === resourceType.id)?.resources,
+      ),
+    ).flat() ?? [];
+
+  return resourcesGrouped;
+};
+
+const StructureResources = ({ currentChildNode, resourceRef, onCurrentNodeChanged }: Props) => {
   const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
+  const grouped = currentChildNode?.metadata?.customFields['topic-resources'] ?? 'grouped';
 
   const { data: nodeResources } = useResourcesWithNodeConnection(
     { id: currentChildNode.id, language: i18n.language, taxonomyVersion },
@@ -95,19 +132,40 @@ const StructureResources = ({ currentChildNode, resourceRef }: Props) => {
     },
   );
 
+  const resourceList =
+    grouped === 'ungrouped'
+      ? nodeResources
+      : getGroupedResourceList(nodeResources, resourceTypes, keyedMetas);
+
   return (
     <div ref={resourceRef}>
-      <Button
-        outline
-        onClick={() =>
-          document.getElementById(currentChildNode.id)?.scrollIntoView({ block: 'center' })
-        }>
-        {t('taxonomy.jumpToStructure')}
-      </Button>
+      <Row>
+        <Button
+          outline
+          onClick={() =>
+            document.getElementById(currentChildNode.id)?.scrollIntoView({ block: 'center' })
+          }>
+          {t('taxonomy.jumpToStructure')}
+        </Button>
+        {currentChildNode && currentChildNode.id && (
+          <StyledDiv>
+            <GroupTopicResources
+              node={currentChildNode}
+              hideIcon
+              onChanged={partialMeta => {
+                onCurrentNodeChanged({
+                  ...currentChildNode,
+                  metadata: { ...currentChildNode.metadata, ...partialMeta },
+                });
+              }}
+            />
+          </StyledDiv>
+        )}
+      </Row>
 
       <AllResourcesGroup
         key="ungrouped"
-        nodeResources={nodeResources ?? []}
+        nodeResources={resourceList ?? []}
         resourceTypes={resourceTypes ?? []}
         currentNode={currentChildNode}
         contentMeta={keyedMetas}

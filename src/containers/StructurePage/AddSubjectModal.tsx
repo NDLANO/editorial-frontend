@@ -18,7 +18,6 @@ import { useTaxonomyVersion } from '../StructureVersion/TaxonomyVersionProvider'
 
 const StyledInputField = styled.input`
   border-radius: 4px;
-
   ::placeholder {
     color: ${colors.brand.neutral7};
   }
@@ -28,7 +27,7 @@ const StyledErrorMessage = styled('span')`
   margin-right: auto;
 `;
 
-const Wrapper = styled.div`
+const FormWrapper = styled.form`
   display: flex;
   justify-content: space-between;
   width: 100%;
@@ -58,7 +57,9 @@ const AddSubjectModal = ({ onClose }: Props) => {
     });
   };
 
-  const handleClick = async () => {
+  const handleClick = async (e: SyntheticEvent) => {
+    e.preventDefault();
+
     try {
       await addNode(inputValue);
       setInputValue('');
@@ -74,28 +75,21 @@ const AddSubjectModal = ({ onClose }: Props) => {
     setInputValue(e.target.value);
   };
 
-  const handleKeyPress = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      handleClick();
-    }
-  };
-
   return (
     <TaxonomyLightbox title={t('taxonomy.addSubject')} onClose={onClose}>
       <>
-        <Wrapper>
+        <FormWrapper>
           <StyledInputField
             type="text"
             data-testid="addSubjectInputField"
             value={inputValue}
             onChange={handleInputChange}
-            onKeyDown={handleKeyPress}
             placeholder={t('taxonomy.subjectName')}
           />
-          <ButtonV2 onClick={handleClick} disabled={!inputValue}>
+          <ButtonV2 type="submit" onClick={handleClick} disabled={!inputValue}>
             {t('form.save')}
           </ButtonV2>
-        </Wrapper>
+        </FormWrapper>
         {error && <StyledErrorMessage>{t('taxonomy.errorMessage')}</StyledErrorMessage>}
       </>
     </TaxonomyLightbox>

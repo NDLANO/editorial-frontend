@@ -23,7 +23,7 @@ export function useFetchConceptData(conceptId: number | undefined, locale: strin
   const [concept, setConcept] = useState<IConcept>();
   const [conceptArticles, setConceptArticles] = useState<IArticle[]>([]);
   const [conceptChanged, setConceptChanged] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [subjects, setSubjects] = useState<SubjectType[]>([]);
   const { taxonomyVersion } = useTaxonomyVersion();
 

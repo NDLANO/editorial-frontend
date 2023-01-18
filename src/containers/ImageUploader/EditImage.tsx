@@ -8,6 +8,7 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
+import { unstable_batchedUpdates } from 'react-dom';
 import { IImageMetaInformationV3, IUpdateImageMetaInformation } from '@ndla/types-image-api';
 import ImageForm from './components/ImageForm';
 import { fetchImage, updateImage } from '../../modules/image/imageApi';
@@ -28,7 +29,7 @@ const EditImage = ({ isNewlyCreated }: Props) => {
   const { i18n } = useTranslation();
   const { id: imageId, selectedLanguage: imageLanguage } = useParams<'id' | 'selectedLanguage'>();
   const { data: licenses } = useLicenses({ placeholderData: [] });
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const { applicationError, createMessage } = useMessages();
   const [image, setImage] = useState<IImageMetaInformationV3 | undefined>(undefined);
   const imageLicenses = draftLicensesToImageLicenses(licenses ?? []);

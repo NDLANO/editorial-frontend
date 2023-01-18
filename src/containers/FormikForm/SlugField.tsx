@@ -24,7 +24,6 @@ const SlugField = ({ name = 'slug', handleSubmit }: Props) => {
   const handleSubmitRef = useRef(handleSubmit);
   useEffect(() => {
     handleSubmitRef.current = handleSubmit;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [handleSubmit]);
   return (
     <>

@@ -7,7 +7,7 @@
  */
 
 import { useRef, useEffect, RefObject, useState } from 'react';
-import { withTranslation, CustomWithTranslation } from 'react-i18next';
+import { withTranslation, CustomWithTranslation, useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { FormikContextType } from 'formik';
 import { FieldHeader } from '@ndla/forms';
@@ -49,7 +49,7 @@ import { LocaleType } from '../../../../interfaces';
 import { FrontpageArticleFormType } from '../../../FormikForm/articleFormHooks';
 import { dndPlugin } from '../../../../components/SlateEditor/plugins/DND';
 import { SlatePlugin } from '../../../../components/SlateEditor/interfaces';
-import { SessionProps } from '../../../Session/SessionProvider';
+import { useSession } from '../../../Session/SessionProvider';
 import withSession from '../../../Session/withSession';
 import RichTextEditor from '../../../../components/SlateEditor/RichTextEditor';
 import { spanPlugin } from '../../../../components/SlateEditor/plugins/span';
@@ -132,7 +132,6 @@ export const plugins = (
     codeblockPlugin,
     blockPickerPlugin,
     dndPlugin,
-    // pasteHandler(),
     toolbarPlugin,
     textTransformPlugin,
     breakPlugin,
@@ -146,19 +145,18 @@ type Props = {
   handleBlur: (evt: { target: { name: string } }) => void;
   values: FrontpageArticleFormType;
   handleSubmit: () => Promise<void>;
-} & CustomWithTranslation & {
-    formik: FormikContextType<FrontpageArticleFormType>;
-  } & SessionProps;
+} & {
+  formik: FormikContextType<FrontpageArticleFormType>;
+};
 
 const FrontPageFormContent = ({
-  t,
-  userPermissions,
   articleLanguage,
   values: { id, language, creators, published, slug },
   handleSubmit,
-  i18n,
 }: Props) => {
   const handleSubmitRef = useRef(handleSubmit);
+  const { userPermissions } = useSession();
+  const { t, i18n } = useTranslation();
 
   const [preview, setPreview] = useState(false);
   const [editSlug, setEditSlug] = useState(false);
@@ -253,4 +251,4 @@ const FrontPageFormContent = ({
   );
 };
 
-export default withTranslation()(withSession(FrontPageFormContent));
+export default FrontPageFormContent;

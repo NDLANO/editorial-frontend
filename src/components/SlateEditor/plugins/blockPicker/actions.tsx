@@ -74,7 +74,7 @@ const actions: Action[] = [
     helpIcon: renderArticleInModal('Podcasts'),
   },
   {
-    data: { type: 'ndlaembed', object: 'h5p' },
+    data: { type: 'h5p', object: 'h5p' },
     icon: <PresentationPlay />,
     helpIcon: renderArticleInModal('H5P'),
   },

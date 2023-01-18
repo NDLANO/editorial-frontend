@@ -231,7 +231,6 @@ export const learningResourceRules: RulesType<LearningResourceFormType, IArticle
 };
 
 export const frontPageArticleRules: RulesType<FrontpageArticleFormType, IArticle> = {
-  ...formikCommonArticleRules,
   ...learningResourceRules,
   slug: {
     required: true,

@@ -9,14 +9,37 @@
 import { HelmetWithTracker } from '@ndla/tracker';
 import { Navigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useEffect } from 'react';
 import FrontPageForm from './components/FrontpageForm';
 import { toEditArticle } from '../../../util/routeHelpers';
 import { useFetchArticleData } from '../../FormikForm/formikDraftHooks';
-import { useTranslateApi } from '../../FormikForm/translateFormHooks';
 import Spinner from '../../../components/Spinner';
 import { LocaleType } from '../../../interfaces';
 import NotFound from '../../NotFoundPage/NotFoundPage';
+import { TranslateType, useTranslateToNN } from '../../../components/NynorskTranslateProvider';
 
+const translateFields: TranslateType[] = [
+  {
+    field: 'title.title',
+    type: 'text',
+  },
+  {
+    field: 'metaDescription.metaDescription',
+    type: 'text',
+  },
+  {
+    field: 'introduction.introduction',
+    type: 'text',
+  },
+  {
+    field: 'content.content',
+    type: 'html',
+  },
+  {
+    field: 'tags.tags',
+    type: 'text',
+  },
+];
 interface Props {
   isNewlyCreated?: boolean;
 }
@@ -34,20 +57,21 @@ const EditFrontpageArticle = ({ isNewlyCreated }: Props) => {
     updateArticle,
     updateArticleAndStatus,
   } = useFetchArticleData(articleId, selectedLanguage);
-  const { translating, translateToNN } = useTranslateApi(article, setArticle, [
-    'id',
-    'title.title',
-    'metaDescription.metaDescription',
-    'introduction.introduction',
-    'content.content',
-    'tags.tags',
-  ]);
+  const { translate, shouldTranslate, translating } = useTranslateToNN();
 
-  if (loading || !article || !article.id) {
+  useEffect(() => {
+    (async () => {
+      if (article && !loading && shouldTranslate) {
+        await translate(article, translateFields, setArticle);
+      }
+    })();
+  }, [article, loading, setArticle, shouldTranslate, translate]);
+
+  if (loading || translating) {
     return <Spinner withWrapper />;
   }
 
-  if (!article || !articleId) {
+  if (!article) {
     return <NotFound />;
   }
 
@@ -64,8 +88,6 @@ const EditFrontpageArticle = ({ isNewlyCreated }: Props) => {
         article={article}
         articleStatus={article.status}
         articleChanged={articleChanged || newLanguage}
-        translating={translating}
-        translateToNN={translateToNN}
         isNewlyCreated={!!isNewlyCreated}
         updateArticle={updateArticle}
         updateArticleAndStatus={updateArticleAndStatus}

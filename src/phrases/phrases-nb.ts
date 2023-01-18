@@ -481,7 +481,7 @@ const phrases = {
     title: 'Forsideartikkel',
     validation: {
       illegalSlug:
-        'Bruk av ulovlige tegn i permalenken! Lovelige er alle tall og bokstaver med bindestrek',
+        'Bruk av ulovlige tegn i permalenken! Tillatte tegn er alle tall og bokstaver, og bindestrek',
     },
   },
   learningResourceForm: {

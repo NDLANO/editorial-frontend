@@ -123,7 +123,6 @@ const HeaderWithLanguage = ({
           type={multiType}
           isSubmitting={isSubmitting}
           {...rest}
-          formIsDirty={false}
         />
       </StyledLanguageWrapper>
     </header>

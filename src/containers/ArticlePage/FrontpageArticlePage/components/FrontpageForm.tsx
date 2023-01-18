@@ -21,7 +21,6 @@ import {
   useArticleFormHooks,
 } from '../../../FormikForm/articleFormHooks';
 import usePreventWindowUnload from '../../../FormikForm/preventWindowUnloadHook';
-import Spinner from '../../../../components/Spinner';
 import { useLicenses, useDraftStatusStateMachine } from '../../../../modules/draft/draftQueries';
 import { validateDraft } from '../../../../modules/draft/draftApi';
 import {
@@ -36,8 +35,6 @@ import FrontPagePanels from './FrontpagePanels';
 
 interface Props {
   article?: IArticle;
-  translating: boolean;
-  translateToNN?: () => void;
   articleStatus?: IStatus;
   isNewlyCreated: boolean;
   articleChanged: boolean;
@@ -54,8 +51,6 @@ const FrontPageForm = ({
   article,
   articleStatus,
   isNewlyCreated = false,
-  translateToNN,
-  translating,
   updateArticle,
   updateArticleAndStatus,
   articleChanged,
@@ -82,8 +77,6 @@ const FrontPageForm = ({
 
   const initialHTML = useMemo(() => blockContentToHTML(initialValues.content), [initialValues]);
 
-  const [translateOnContinue, setTranslateOnContinue] = useState(false);
-
   const FormikChild = (formik: FormikProps<FrontpageArticleFormType>) => {
     // eslint doesn't allow this to be inlined when using hooks (in usePreventWindowUnload)
     const { values, dirty, isSubmitting } = formik;
@@ -107,23 +100,16 @@ const FrontPageForm = ({
           content={{ ...article, title: article?.title?.title, language: articleLanguage }}
           editUrl={editUrl}
           getEntity={getArticle}
-          formIsDirty={formIsDirty}
           isSubmitting={isSubmitting}
-          translateToNN={translateToNN}
-          setTranslateOnContinue={setTranslateOnContinue}
           type="frontpage-article"
           expirationDate={getExpirationDate(article)}
         />
-        {translating ? (
-          <Spinner withWrapper />
-        ) : (
-          <FrontPagePanels
-            articleLanguage={articleLanguage}
-            article={article}
-            getArticle={getArticle}
-            handleSubmit={handleSubmit}
-          />
-        )}
+        <FrontPagePanels
+          articleLanguage={articleLanguage}
+          article={article}
+          getArticle={getArticle}
+          handleSubmit={handleSubmit}
+        />
         <EditorFooter
           showSimpleFooter={!article}
           formIsDirty={formIsDirty}
@@ -143,7 +129,6 @@ const FrontPageForm = ({
         <AlertModalWrapper
           isSubmitting={isSubmitting}
           formIsDirty={formIsDirty}
-          onContinue={translateOnContinue ? translateToNN : () => {}}
           severity="danger"
           text={t('alertModal.notSaved')}
         />
@@ -159,7 +144,6 @@ const FrontPageForm = ({
 
   return (
     <Formik
-      enableReinitialize={translating}
       initialValues={initialValues}
       initialErrors={initialErrors}
       innerRef={formikRef}

@@ -3,7 +3,7 @@
   "oldNdlaUrl": "//red.ndla.no/node/153040",
   "revision": 34,
   "status": {
-    "current": "PROPOSAL",
+    "current": "IN_PROGRESS",
     "other": ["IMPORTED", "PUBLISHED"]
   },
   "title": {
@@ -64,7 +64,7 @@
       "note": "Status endret",
       "user": "XVtdp6Ik4kdLDjMTQE2CIxnGB6Gvhr2n",
       "status": {
-        "current": "PROPOSAL",
+        "current": "IN_PROGRESS",
         "other": ["IMPORTED", "PUBLISHED"]
       },
       "timestamp": "2021-11-05T11:48:00Z"
@@ -73,7 +73,7 @@
       "note": "Test merknad",
       "user": "XVtdp6Ik4kdLDjMTQE2CIxnGB6Gvhr2n",
       "status": {
-        "current": "PROPOSAL",
+        "current": "IN_PROGRESS",
         "other": ["IMPORTED", "PUBLISHED"]
       },
       "timestamp": "2021-11-05T12:46:28Z"
@@ -82,7 +82,7 @@
       "note": "Test merknad",
       "user": "XVtdp6Ik4kdLDjMTQE2CIxnGB6Gvhr2n",
       "status": {
-        "current": "PROPOSAL",
+        "current": "IN_PROGRESS",
         "other": ["IMPORTED", "PUBLISHED"]
       },
       "timestamp": "2021-11-05T12:47:26Z"
@@ -91,7 +91,7 @@
       "note": "Test merknad",
       "user": "tXiamHcvp3TZ87iSy2A5Ph424l23K4Fi",
       "status": {
-        "current": "PROPOSAL",
+        "current": "IN_PROGRESS",
         "other": ["IMPORTED", "PUBLISHED"]
       },
       "timestamp": "2022-01-18T08:21:33Z"

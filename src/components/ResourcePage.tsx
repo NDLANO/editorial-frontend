@@ -16,6 +16,7 @@ import { HelmetWithTracker } from '@ndla/tracker';
 import { usePreviousLocation } from '../util/routeHelpers';
 import Footer from '../containers/App/components/Footer';
 import Spinner from './Spinner';
+import { NynorskTranslateProvider } from './NynorskTranslateProvider';
 const NotFoundPage = loadable(() => import('../containers/NotFoundPage/NotFoundPage'));
 
 interface ResourceComponentProps {
@@ -100,7 +101,10 @@ const EditResourceRedirect = <T extends BaseResource>({
 
   return (
     <Routes>
-      <Route path="/:selectedLanguage/" element={<Component isNewlyCreated={isNewlyCreated} />} />
+      <Route
+        path="/:selectedLanguage/"
+        element={<EditComponentWrapper isNewlyCreated={isNewlyCreated} Component={Component} />}
+      />
       <Route
         path="/"
         element={<Navigate replace state={{ from: pathname }} to={supportedLanguage} />}
@@ -109,4 +113,20 @@ const EditResourceRedirect = <T extends BaseResource>({
     </Routes>
   );
 };
+
+interface EditComponentWrapperProps {
+  isNewlyCreated?: boolean;
+  Component: ComponentType<ResourceComponentProps>;
+}
+
+const EditComponentWrapper = ({ isNewlyCreated, Component }: EditComponentWrapperProps) => {
+  const { selectedLanguage } = useParams<'selectedLanguage'>();
+
+  return (
+    <NynorskTranslateProvider>
+      <Component key={selectedLanguage} isNewlyCreated={isNewlyCreated} />
+    </NynorskTranslateProvider>
+  );
+};
+
 export default ResourcePage;

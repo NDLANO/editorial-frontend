@@ -25,7 +25,6 @@ interface Props {
   isNewlyCreated: boolean;
   showSimpleFooter: boolean;
   onClose?: () => void;
-  onContinue: () => void;
   getApiConcept?: () => IConcept;
 }
 
@@ -37,7 +36,6 @@ const ConceptFormFooter = ({
   isNewlyCreated,
   showSimpleFooter,
   onClose,
-  onContinue,
   getApiConcept,
 }: Props) => {
   const { t } = useTranslation();
@@ -91,7 +89,6 @@ const ConceptFormFooter = ({
         <AlertModalWrapper
           formIsDirty={formIsDirty}
           isSubmitting={isSubmitting}
-          onContinue={onContinue}
           severity="danger"
           text={t('alertModal.notSaved')}
         />

@@ -50,7 +50,6 @@ interface Props {
   getEntity?: () => IConcept | IUpdatedArticle;
   isSubmitting?: boolean;
   noStatus?: boolean;
-  setTranslateOnContinue?: (translateOnContinue: boolean) => void;
   type:
     | 'image'
     | 'audio'
@@ -61,14 +60,12 @@ interface Props {
     | 'podcast'
     | 'podcast-series'
     | 'frontpage-article';
-  translateToNN?: () => void;
   values: {
     id?: number;
     articleType?: string;
     language?: string;
     supportedLanguages?: string[];
   };
-  formIsDirty?: boolean;
   expirationDate?: string;
 }
 
@@ -76,11 +73,8 @@ const HeaderWithLanguage = ({
   content,
   isSubmitting,
   noStatus = false,
-  setTranslateOnContinue,
-  translateToNN,
   type,
   values,
-  formIsDirty = false,
   taxonomy,
   expirationDate,
   ...rest
@@ -128,10 +122,8 @@ const HeaderWithLanguage = ({
           isNewLanguage={isNewLanguage}
           type={multiType}
           isSubmitting={isSubmitting}
-          translateToNN={translateToNN}
-          setTranslateOnContinue={setTranslateOnContinue}
-          formIsDirty={formIsDirty}
           {...rest}
+          formIsDirty={false}
         />
       </StyledLanguageWrapper>
     </header>

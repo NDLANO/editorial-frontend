@@ -103,7 +103,6 @@ interface Props {
   onCreatePodcast?: (newPodcast: INewAudioMetaInformation, file?: string | Blob) => void;
   onUpdatePodcast?: (updatedPodcast: IUpdatedAudioMetaInformation, file?: string | Blob) => void;
   translating?: boolean;
-  translateToNN?: () => void;
 }
 
 const PodcastForm = ({
@@ -115,7 +114,6 @@ const PodcastForm = ({
   onCreatePodcast,
   onUpdatePodcast,
   translating,
-  translateToNN,
 }: Props) => {
   const { data: licenses } = useLicenses({ placeholderData: [] });
   const { t } = useTranslation();
@@ -243,7 +241,6 @@ const PodcastForm = ({
               editUrl={(lang: string) => {
                 return values.id ? toEditPodcast(values.id, lang) : toCreatePodcastFile();
               }}
-              translateToNN={translateToNN}
             />
             {translating ? (
               <Spinner withWrapper />

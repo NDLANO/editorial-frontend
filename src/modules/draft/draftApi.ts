@@ -47,6 +47,7 @@ export const fetchDrafts = async (ids: number[], language?: string): Promise<IAr
   const query = queryString.stringify({
     ids: ids.join(','),
     language,
+    fallback: true,
     page: 1,
     'page-size': ids.length,
   });

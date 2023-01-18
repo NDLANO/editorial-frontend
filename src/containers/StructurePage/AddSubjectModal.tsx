@@ -86,9 +86,6 @@ const AddSubjectModal = ({ onClose }: Props) => {
         <Wrapper>
           <StyledInputField
             type="text"
-            autoFocus //  eslint-disable-line
-            /* allow autofocus when it happens when clicking a dialog and not at page load
-         ref: https://w3c.github.io/html/sec-forms.html#autofocusing-a-form-control-the-autofocus-attribute */
             data-testid="addSubjectInputField"
             value={inputValue}
             onChange={handleInputChange}

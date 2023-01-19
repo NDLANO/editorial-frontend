@@ -9,9 +9,6 @@ import { useTranslation } from 'react-i18next';
 import { Select, SingleValue } from '@ndla/select';
 import { useState, useEffect } from 'react';
 import sortBy from 'lodash/sortBy';
-import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
-import { IStatus as DraftStatus } from '@ndla/types-draft-api';
 import { useAuth0Responsibles } from '../../../modules/auth0/auth0Queries';
 import { DRAFT_WRITE_SCOPE } from '../../../constants';
 

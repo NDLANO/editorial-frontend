@@ -105,7 +105,7 @@ function EditorFooter<T extends FormValues>({
   }, [newStatus]);
 
   const onSave = (saveAsNewVersion?: boolean) => {
-    if (!responsible && newStatus?.value !== 'PUBLISHED') {
+    if (!responsible && newStatus?.value !== 'PUBLISHED' && isArticle) {
       createMessage({
         message: requiredFieldsT('form.responsible.label', t),
         timeToLive: 0,

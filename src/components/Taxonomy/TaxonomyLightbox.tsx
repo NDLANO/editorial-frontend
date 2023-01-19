@@ -71,8 +71,8 @@ const StyledContent = styled.div`
 `;
 
 const StyledIconWrapper = styled.div`
-  width: 50px;
-  height: 50px;
+  width: ${spacing.large};
+  height: ${spacing.large};
   border-radius: 50%;
   background-color: ${colors.brand.primary};
   display: flex;

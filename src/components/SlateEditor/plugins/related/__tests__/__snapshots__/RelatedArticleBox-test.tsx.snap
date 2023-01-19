@@ -380,7 +380,6 @@ exports[`it goes in and out of edit mode 1`] = `
   align-items: center;
   color: #fff;
   margin-right: 17.333333333333332px;
-  color: #fff;
 }
 
 .emotion-22 {

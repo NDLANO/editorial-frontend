@@ -7,10 +7,11 @@
  */
 
 import Button from '@ndla/button';
-import { Cross, MenuBook } from '@ndla/icons/action';
+import { Cross } from '@ndla/icons/action';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { spacing, colors, fonts } from '@ndla/core';
+import { BookOpen } from '@ndla/icons/lib/common';
 import Overlay from '../Overlay';
 import Spinner from '../Spinner';
 
@@ -80,6 +81,7 @@ const StyledIconWrapper = styled.div`
   align-items: center;
   color: ${colors.white};
   margin-right: ${spacing.nsmall};
+  color: ${colors.white};
 `;
 
 const StyledTitleWrapper = styled.div`
@@ -87,9 +89,9 @@ const StyledTitleWrapper = styled.div`
   align-items: center;
 `;
 
-const StyledMenuBook = styled(MenuBook)`
-  width: 20px;
-  height: 20px;
+const StyledMenuBook = styled(BookOpen)`
+  width: ${spacing.normal};
+  height: ${spacing.normal};
 `;
 
 const StyledWrapper = styled.div`

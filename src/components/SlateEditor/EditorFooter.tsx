@@ -228,14 +228,16 @@ function EditorFooter<T extends FormValues>({
         </div>
 
         <div data-cy="footerStatus">
-          <Wrapper>
-            <ResponsibleSelect
-              responsible={responsible}
-              setResponsible={setResponsible}
-              onSave={updateResponsible}
-              responsibleId={responsibleId}
-            />
-          </Wrapper>
+          {isArticle && (
+            <Wrapper>
+              <ResponsibleSelect
+                responsible={responsible}
+                setResponsible={setResponsible}
+                onSave={updateResponsible}
+                responsibleId={responsibleId}
+              />
+            </Wrapper>
+          )}
           <Wrapper>
             <StatusSelect
               status={status}

@@ -54,6 +54,7 @@ export const TAXONOMY_CUSTOM_FIELD_SUBJECT_OLD_SUBJECT_ID = 'old-subject-id';
 export const TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY = 'subjectCategory';
 export const TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE = 'subjectType';
 export const TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH = 'requestPublish';
+export const TAXONOMY_CUSTOM_FIELD_IS_PUBLISHING = 'isPublishing';
 
 export const MAX_IMAGE_UPLOAD_SIZE = 1024 * 1024 * 40; // 40MB.
 

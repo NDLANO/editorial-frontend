@@ -164,7 +164,6 @@ export type ConfigType = {
   googleSearchApiUrl: string | undefined;
   port: string | undefined;
   ndlaPersonalClientId: string | undefined;
-  npkToken: string | undefined;
   zendeskWidgetKey: string | undefined;
   brightcovePlayerId: string | undefined;
   brightcove360PlayerId: string | undefined;
@@ -209,7 +208,6 @@ const config: ConfigType = {
   checkArticleScript: getEnvironmentVariabel('CHECK_ARTICLE_SCRIPT', 'false') === 'true',
   googleTagManagerId: getEnvironmentVariabel('NDLA_GOOGLE_TAG_MANAGER_ID'),
   gaTrackingId: getEnvironmentVariabel('GA_TRACKING_ID', gaTrackingId()),
-  npkToken: getEnvironmentVariabel('NPK_TOKEN'),
   zendeskWidgetKey: getEnvironmentVariabel('NDLA_ED_ZENDESK_WIDGET_KEY'),
   disableCSP: getEnvironmentVariabel('DISABLE_CSP', 'false'),
   usernamePasswordEnabled: getEnvironmentVariabel(

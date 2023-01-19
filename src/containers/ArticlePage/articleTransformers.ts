@@ -26,7 +26,7 @@ import {
 } from '../FormikForm/articleFormHooks';
 import { DEFAULT_LICENSE, parseImageUrl } from '../../util/formHelper';
 import { nullOrUndefined } from '../../util/articleUtil';
-import { DRAFT } from '../../util/constants/ArticleStatus';
+import { PLANNED } from '../../constants';
 
 const getPublishedDate = (
   values: ArticleFormType,
@@ -203,7 +203,7 @@ export const updatedDraftApiTypeToDraftApiType = (
   return {
     id: id,
     revision: article.revision,
-    status: { current: article.status ?? DRAFT, other: [] },
+    status: { current: article.status ?? PLANNED, other: [] },
     title: article.title ? { title: article.title, language } : undefined,
     content: article.content ? { content: article.content, language } : undefined,
     copyright: article.copyright,

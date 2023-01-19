@@ -18,12 +18,12 @@ describe('Status changes', () => {
     editorRoutes(ARTICLE_ID);
     cy.apiroute(
       'PUT',
-      `**/draft-api/v1/drafts/${ARTICLE_ID}/status/PROPOSAL`,
+      `**/draft-api/v1/drafts/${ARTICLE_ID}/status/IN_PROGRESS`,
       `statusChangeToUtkast`,
     );
     cy.apiroute(
       'PUT',
-      `**/draft-api/v1/drafts/${ARTICLE_ID}/status/QUEUED_FOR_PUBLISHING`,
+      `**/draft-api/v1/drafts/${ARTICLE_ID}/status/INTERNAL_REVIEW`,
       `statusChangeToQueuePublish`,
     );
     cy.apiroute(
@@ -41,7 +41,7 @@ describe('Status changes', () => {
     cy.get('[data-cy=footerStatus]')
       .contains('Publisert')
       .click();
-    cy.contains('Utkast').click();
+    cy.contains('I arbeid').click();
     cy.apiwait('@getUsersResponsible');
     cy.get('[data-cy=responsible-select]')
       .click()
@@ -55,9 +55,9 @@ describe('Status changes', () => {
       .click()
       .type('Some change');
     cy.get('[data-cy=footerStatus]')
-      .contains('Utkast')
+      .contains('I arbeid')
       .click();
-    cy.contains('Til publisering').click();
+    cy.contains('Sisteblikk').click();
     cy.get('[data-cy=responsible-select]')
       .click()
       .type('Ed test {enter}');
@@ -68,7 +68,7 @@ describe('Status changes', () => {
     cy.get('[data-testid=saveLearningResourceButtonWrapper]').contains('Lagret');
 
     cy.get('[data-cy=footerStatus]')
-      .contains('Til publisering')
+      .contains('Sisteblikk')
       .click();
     cy.contains('Publiser').click();
 

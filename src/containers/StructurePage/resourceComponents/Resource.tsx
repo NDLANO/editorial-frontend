@@ -31,7 +31,7 @@ import { getContentTypeFromResourceTypes } from '../../../util/resourceHelpers';
 import config from '../../../config';
 import { getIdFromUrn } from '../../../util/taxonomyHelpers';
 import VersionHistoryLightbox from '../../../components/VersionHistoryLightbox';
-import { PUBLISHED } from '../../../util/constants/ArticleStatus';
+import { PUBLISHED } from '../../../constants';
 import RelevanceOption from '../../../components/Taxonomy/RelevanceOption';
 import RemoveButton from '../../../components/Taxonomy/RemoveButton';
 import ResourceItemLink from './ResourceItemLink';

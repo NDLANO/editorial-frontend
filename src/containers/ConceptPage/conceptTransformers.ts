@@ -17,7 +17,7 @@ import {
 import { ConceptFormValues } from './conceptInterfaces';
 import { SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
 import { parseImageUrl } from '../../util/formHelper';
-import { DRAFT } from '../../util/constants/ConceptStatus';
+import { IN_PROGRESS } from '../../constants';
 
 export const conceptApiTypeToFormType = (
   concept: IConcept | undefined,
@@ -98,7 +98,7 @@ export const conceptFormTypeToApiType = (
   return {
     id: values.id ?? -1,
     revision: values.revision ?? -1,
-    status: values.status ?? { current: DRAFT, other: [] },
+    status: values.status ?? { current: IN_PROGRESS, other: [] },
     visualElement: {
       visualElement: editorValueToEmbedTag(values.visualElement),
       language: values.language,

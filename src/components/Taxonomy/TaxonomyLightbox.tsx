@@ -81,7 +81,6 @@ const StyledIconWrapper = styled.div`
   align-items: center;
   color: ${colors.white};
   margin-right: ${spacing.nsmall};
-  color: ${colors.white};
 `;
 
 const StyledTitleWrapper = styled.div`

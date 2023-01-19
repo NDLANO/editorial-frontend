@@ -23,10 +23,6 @@ const StyledInputField = styled(InputV2)`
     color: ${colors.brand.neutral7};
   }
 `;
-const StyledErrorMessage = styled('span')`
-  color: ${colors.support.red};
-  margin-right: auto;
-`;
 
 const FormWrapper = styled.form`
   display: flex;
@@ -89,12 +85,12 @@ const AddSubjectModal = ({ onClose }: Props) => {
             value={inputValue}
             onChange={handleInputChange}
             placeholder={t('taxonomy.subjectName')}
+            error={error ? t('taxonomy.errorMessage') : undefined}
           />
           <ButtonV2 type="submit" onClick={handleClick} disabled={!inputValue}>
             {t('form.save')}
           </ButtonV2>
         </FormWrapper>
-        {error && <StyledErrorMessage>{t('taxonomy.errorMessage')}</StyledErrorMessage>}
       </>
     </TaxonomyLightbox>
   );

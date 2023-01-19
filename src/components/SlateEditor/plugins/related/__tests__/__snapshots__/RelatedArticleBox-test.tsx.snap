@@ -380,11 +380,12 @@ exports[`it goes in and out of edit mode 1`] = `
   align-items: center;
   color: #fff;
   margin-right: 17.333333333333332px;
+  color: #fff;
 }
 
 .emotion-22 {
-  width: 20px;
-  height: 20px;
+  width: 26px;
+  height: 26px;
 }
 
 .emotion-23 {
@@ -709,7 +710,7 @@ exports[`it goes in and out of edit mode 1`] = `
                 aria-hidden="true"
                 class="c-icon emotion-22"
                 data-license="Apache License 2.0"
-                data-source="Material Design"
+                data-source="Knowit"
                 fill="currentColor"
                 height="1em"
                 preserveAspectRatio="xMidYMid meet"
@@ -718,32 +719,54 @@ exports[`it goes in and out of edit mode 1`] = `
                 width="1em"
               >
                 <g>
-                  <g>
-                    <rect
-                      fill="none"
-                      height="24"
-                      width="24"
-                    />
-                  </g>
-                  <g>
-                    <g />
-                    <g>
-                      <path
-                        d="M21,5c-1.11-0.35-2.33-0.5-3.5-0.5c-1.95,0-4.05,0.4-5.5,1.5c-1.45-1.1-3.55-1.5-5.5-1.5S2.45,4.9,1,6v14.65 c0,0.25,0.25,0.5,0.5,0.5c0.1,0,0.15-0.05,0.25-0.05C3.1,20.45,5.05,20,6.5,20c1.95,0,4.05,0.4,5.5,1.5c1.35-0.85,3.8-1.5,5.5-1.5 c1.65,0,3.35,0.3,4.75,1.05c0.1,0.05,0.15,0.05,0.25,0.05c0.25,0,0.5-0.25,0.5-0.5V6C22.4,5.55,21.75,5.25,21,5z M21,18.5 c-1.1-0.35-2.3-0.5-3.5-0.5c-1.7,0-4.15,0.65-5.5,1.5V8c1.35-0.85,3.8-1.5,5.5-1.5c1.2,0,2.4,0.15,3.5,0.5V18.5z"
-                      />
-                      <g>
-                        <path
-                          d="M17.5,10.5c0.88,0,1.73,0.09,2.5,0.26V9.24C19.21,9.09,18.36,9,17.5,9c-1.7,0-3.24,0.29-4.5,0.83v1.66 C14.13,10.85,15.7,10.5,17.5,10.5z"
-                        />
-                        <path
-                          d="M13,12.49v1.66c1.13-0.64,2.7-0.99,4.5-0.99c0.88,0,1.73,0.09,2.5,0.26V11.9c-0.79-0.15-1.64-0.24-2.5-0.24 C15.8,11.66,14.26,11.96,13,12.49z"
-                        />
-                        <path
-                          d="M17.5,14.33c-1.7,0-3.24,0.29-4.5,0.83v1.66c1.13-0.64,2.7-0.99,4.5-0.99c0.88,0,1.73,0.09,2.5,0.26v-1.52 C19.21,14.41,18.36,14.33,17.5,14.33z"
-                        />
-                      </g>
-                    </g>
-                  </g>
+                  <path
+                    d="M12 19.3099H4.81C3.68 19.3099 2.75 18.3799 2.75 17.2499V6.96991C2.75 5.83991 3.68 4.90991 4.81 4.90991H5.72"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="1.5"
+                  />
+                  <path
+                    d="M12.0001 4.91993V19.3099C11.6901 18.8099 10.7701 17.4799 8.99008 16.7499C8.18008 16.4199 7.41009 16.31 6.81009 16.28C6.26009 16.26 5.84009 15.8 5.84009 15.26V3.86994C5.84009 3.28994 6.31011 2.81997 6.89011 2.83997C7.46011 2.85997 8.14009 2.94993 8.87009 3.16993C10.4001 3.61993 11.4501 4.42993 12.0001 4.91993Z"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="1.5"
+                  />
+                  <path
+                    d="M21.25 6.96991V17.2499C21.25 18.3799 20.32 19.3099 19.19 19.3099H12V4.91992H19.19C20.32 4.91992 21.25 5.83991 21.25 6.96991Z"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="1.5"
+                  />
+                  <path
+                    d="M15.0701 7.96997H18.1801"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="1.5"
+                  />
+                  <path
+                    d="M15.0701 12.1099H18.1801"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="1.5"
+                  />
+                  <path
+                    d="M15.0701 16.26H18.1801"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="1.5"
+                  />
                 </g>
               </svg>
             </div>

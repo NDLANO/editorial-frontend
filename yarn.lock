@@ -1895,6 +1895,14 @@
     inuitcss "6.0.0"
     sass-mq "^5.0.1"
 
+"@ndla/core@^3.1.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@ndla/core/-/core-3.1.0.tgz#0188dc4eb7c9423b8b139430049dfd0eb06fecc3"
+  integrity sha512-5m3GccPygmUuSW0KFp4qSDLXcL9dpeTjQlO86i7jLjVYXPv9TjkPMu2y+eYadqPBeSmh9DuoPzoIEb5o8UyI2w==
+  dependencies:
+    inuitcss "6.0.0"
+    sass-mq "^5.0.1"
+
 "@ndla/editor@^3.1.10":
   version "3.1.10"
   resolved "https://registry.yarnpkg.com/@ndla/editor/-/editor-3.1.10.tgz#d2b5d69bdc584c8ecd25efe89b626f4e0739fa82"
@@ -1956,6 +1964,13 @@
   integrity sha512-zT+QZ4YO34iLws0xClXLeomGSesqJKQgVM9XlJfl1OYIJYwifnSWMglIaYxJNswrcHg5WPw+8muUCk9zzCEEbA==
   dependencies:
     "@ndla/core" "^3.0.3"
+
+"@ndla/icons@^2.2.0":
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/@ndla/icons/-/icons-2.2.0.tgz#61f4f98fd96f4ce8a2c06d65956b673d583a8ea2"
+  integrity sha512-YzDf5YvMtGmOL42LGEwMpfItfJ6QNc155fbHOSF3T1O2ngx75vezaQ9ZdIvfvRIXDQX0XYv6tmzC/y0H38cYag==
+  dependencies:
+    "@ndla/core" "^3.1.0"
 
 "@ndla/image-search@^5.1.20":
   version "5.1.20"

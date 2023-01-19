@@ -135,7 +135,7 @@
     "@ndla/error-reporter": "^1.0.24",
     "@ndla/forms": "^4.1.9",
     "@ndla/howto": "^3.1.20",
-    "@ndla/icons": "^2.1.1",
+    "@ndla/icons": "^2.2.0",
     "@ndla/image-search": "^5.1.20",
     "@ndla/licenses": "^6.1.5",
     "@ndla/modal": "^2.2.2",

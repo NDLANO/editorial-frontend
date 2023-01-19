@@ -71,14 +71,12 @@ const SearchSaveButton = () => {
     setError('');
     setLoading(true);
     const oldSearchList = savedSearches;
-
     if (!oldSearchList) {
       handleFailure('fetchFailed');
       return;
     }
 
     const newSearch = createSearchString(window.location);
-
     const newSearchList = [...oldSearchList, getSavedSearchRelativeUrl(newSearch)];
     if (!oldSearchList.find(s => s === getSavedSearchRelativeUrl(newSearch))) {
       mutateAsync({ savedSearches: newSearchList })

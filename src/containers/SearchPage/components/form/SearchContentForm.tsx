@@ -6,7 +6,7 @@
  *
  */
 
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import { useTranslation } from 'react-i18next';
 import { flattenResourceTypesAndAddContextTypes } from '../../../../util/taxonomyHelpers';
@@ -15,6 +15,7 @@ import { getTagName } from '../../../../util/formHelper';
 import { SearchParams } from './SearchForm';
 import {
   DRAFT_WRITE_SCOPE,
+  FAVOURITES_SUBJECT_ID,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
 } from '../../../../constants';
 import config from '../../../../config';
@@ -31,6 +32,7 @@ interface Props {
   subjects: SubjectType[];
   searchObject: SearchParams;
   locale: string;
+  favouriteSubjectIDs?: string;
 }
 
 const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, locale }: Props) => {
@@ -75,7 +77,6 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
       includeOtherStatuses = search['include-other-statuses'];
       status = search.status;
     }
-
     const searchObj = { ...search, 'include-other-statuses': includeOtherStatuses, [name]: value };
     doSearch(
       name !== 'draft-status'
@@ -124,14 +125,30 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
     return (a: Sortable, b: Sortable) => a[property]?.localeCompare(b[property]);
   };
 
+  const sortedSubjects = useMemo(() => {
+    const favoriteSubject: SubjectType = {
+      id: FAVOURITES_SUBJECT_ID,
+      name: t('searchForm.favourites'),
+      contentUri: '',
+      path: '',
+      metadata: {
+        customFields: {},
+        grepCodes: [],
+        visible: true,
+      },
+    };
+    const filteredAndSortedSubjects = subjects
+      .filter(s => s.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] !== 'true')
+      .sort(sortByProperty('name'));
+    return [favoriteSubject].concat(filteredAndSortedSubjects);
+  }, [subjects, t]);
+
   const selectors: SearchFormSelector[] = [
     {
-      value: getTagName(search.subjects, subjects),
+      value: getTagName(search.subjects, sortedSubjects),
       parameterName: 'subjects',
       width: config.revisiondateEnabled === 'true' ? 50 : 25,
-      options: subjects
-        .filter(s => s.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] !== 'true')
-        .sort(sortByProperty('name')),
+      options: sortedSubjects,
       formElementType: 'dropdown',
     },
     {

@@ -271,6 +271,7 @@ const phrases = {
       revisionDate: 'Neste revisjon',
     },
     resultError: 'Noe gikk feil med innlasting av type: {{type}}',
+    favourites: 'Mine favorittfag',
   },
   subjectsPage: {
     subjects: 'Fag',

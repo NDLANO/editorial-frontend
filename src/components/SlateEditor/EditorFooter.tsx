@@ -25,6 +25,7 @@ import { ConceptStatusStateMachineType, DraftStatusStateMachineType } from '../.
 import ResponsibleSelect from '../../containers/FormikForm/components/ResponsibleSelect';
 import StatusSelect from '../../containers/FormikForm/components/StatusSelect';
 import { requiredFieldsT } from '../../util/yupHelpers';
+import { PUBLISHED } from '../../constants';
 
 interface Props {
   formIsDirty: boolean;
@@ -96,7 +97,7 @@ function EditorFooter<T extends FormValues>({
   const [newStatus, setNewStatus] = useState<SingleValue>(null);
 
   useEffect(() => {
-    if (newStatus && newStatus.value === 'PUBLISHED') {
+    if (newStatus && newStatus.value === PUBLISHED) {
       onSave();
       setNewStatus(null);
       setResponsible(null);
@@ -105,7 +106,7 @@ function EditorFooter<T extends FormValues>({
   }, [newStatus]);
 
   const onSave = (saveAsNewVersion?: boolean) => {
-    if (!responsible && newStatus?.value !== 'PUBLISHED' && isArticle) {
+    if (!responsible && newStatus?.value !== PUBLISHED && isArticle) {
       createMessage({
         message: requiredFieldsT('form.responsible.label', t),
         timeToLive: 0,
@@ -168,7 +169,7 @@ function EditorFooter<T extends FormValues>({
     try {
       // Set new status field and update form (which we listen for changes to in the useEffect above)
       setNewStatus(status);
-      if (status?.value !== 'PUBLISHED') {
+      if (status?.value !== PUBLISHED) {
         setStatus(status);
       }
       setFieldValue('status', { current: status?.value });

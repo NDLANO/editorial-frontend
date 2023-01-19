@@ -8,10 +8,9 @@
 import { useTranslation } from 'react-i18next';
 import { Select, SingleValue, Option } from '@ndla/select';
 import { useEffect, useState } from 'react';
-import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
 import { IStatus as DraftStatus } from '@ndla/types-draft-api';
 import { ConceptStatusStateMachineType, DraftStatusStateMachineType } from '../../../interfaces';
+import { PUBLISHED } from '../../../constants';
 
 interface Props {
   status: SingleValue;
@@ -35,8 +34,8 @@ const StatusSelect = ({ status, setStatus, onSave, statusStateMachine, entitySta
     if (entityStatus && statusStateMachine) {
       const statuses = statusStateMachine[entityStatus.current]?.map(s => transformStatus(s)) ?? [];
       setOptions(statuses);
-      if (entityStatus.current === 'PUBLISHED') {
-        setStatus({ label: t(`form.status.published`), value: 'PUBLISHED' });
+      if (entityStatus.current === PUBLISHED) {
+        setStatus({ label: t(`form.status.published`), value: PUBLISHED });
       } else {
         const initialStatus =
           statuses.find(s => s.value.toLowerCase() === entityStatus.current.toLowerCase()) ?? null;

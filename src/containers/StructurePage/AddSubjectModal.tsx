@@ -8,15 +8,16 @@
 
 import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
-import { ChangeEvent, useState, SyntheticEvent, KeyboardEvent } from 'react';
+import { ChangeEvent, useState, SyntheticEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { spacing, colors } from '@ndla/core';
+import { InputV2 } from '@ndla/forms';
 import TaxonomyLightbox from '../../components/Taxonomy/TaxonomyLightbox';
 import { useAddNodeMutation } from '../../modules/nodes/nodeMutations';
 import handleError from '../../util/handleError';
 import { useTaxonomyVersion } from '../StructureVersion/TaxonomyVersionProvider';
 
-const StyledInputField = styled.input`
+const StyledInputField = styled(InputV2)`
   border-radius: 4px;
   ::placeholder {
     color: ${colors.brand.neutral7};
@@ -80,6 +81,9 @@ const AddSubjectModal = ({ onClose }: Props) => {
       <>
         <FormWrapper>
           <StyledInputField
+            label={t('taxonomy.newSubject')}
+            name={t('taxonomy.newSubject')}
+            labelHidden
             type="text"
             data-testid="addSubjectInputField"
             value={inputValue}

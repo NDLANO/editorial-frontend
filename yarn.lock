@@ -1965,10 +1965,10 @@
   dependencies:
     "@ndla/core" "^3.0.3"
 
-"@ndla/icons@^2.2.0":
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/@ndla/icons/-/icons-2.2.0.tgz#61f4f98fd96f4ce8a2c06d65956b673d583a8ea2"
-  integrity sha512-YzDf5YvMtGmOL42LGEwMpfItfJ6QNc155fbHOSF3T1O2ngx75vezaQ9ZdIvfvRIXDQX0XYv6tmzC/y0H38cYag==
+"@ndla/icons@^2.2.1":
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/@ndla/icons/-/icons-2.2.1.tgz#8fb3cfd7bf924b68e49068b4daf12db0976f72dd"
+  integrity sha512-OV0dNG3Y2jqdO9/pWkpwfL6/fJy9gVnMftDhMwesf8JI6oh/xJSyl9tlgEqYvzEWNjGhSXBABV17dMIaB7CK9Q==
   dependencies:
     "@ndla/core" "^3.1.0"
 

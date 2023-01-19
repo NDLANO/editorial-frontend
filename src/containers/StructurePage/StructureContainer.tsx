@@ -1,7 +1,7 @@
 import { Taxonomy } from '@ndla/icons/editor';
 import { OneColumn } from '@ndla/ui';
 import { Spinner } from '@ndla/icons';
-import { colors } from '@ndla/core';
+import { colors, spacing } from '@ndla/core';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -30,6 +30,7 @@ import AddSubjectModal from './AddSubjectModal';
 
 const AddSubjectButton = styled(ButtonV2)`
   white-space: nowrap;
+  margin: 0px ${spacing.small};
 `;
 
 const StructureWrapper = styled.ul`

@@ -50,9 +50,9 @@ interface Props {
   articleIds?: number[];
 }
 
-export const getCountApproachingRevision = (d: IArticle | IArticle[]) => {
+export const getCountApproachingRevision = (article: IArticle | IArticle[]) => {
   const currentDateAddYear = addYears(new Date(), 1);
-  const elementsArray = isArray(d) ? d : [d];
+  const elementsArray = isArray(article) ? article : [article];
 
   const countApproachingRevision =
     countBy(elementsArray, elementsArray =>

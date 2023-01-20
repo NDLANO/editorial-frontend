@@ -121,6 +121,7 @@ const HeaderActions = ({
     'podcast',
     'image',
     'podcast-series',
+    'frontpage-article',
   ];
   if (id && editUrl) {
     return (

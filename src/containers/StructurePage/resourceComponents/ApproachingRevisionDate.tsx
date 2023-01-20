@@ -76,7 +76,6 @@ const ApproachingRevisionDate = ({ articleIds = [] }: Props) => {
         handleError(e);
       }
     })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [articleIds]);
 
   return <RevisionDateIcon text={count} phrasesKey={'form.responsible.revisionDate'} />;

@@ -22,6 +22,7 @@ interface StyledProps {
 }
 
 const StyledPreviewSingleArticle = styled.div<StyledProps>`
+  width: 100%;
   & .c-article {
     padding-top: 0;
     margin-top: 20px;

@@ -54,7 +54,7 @@ describe('Search content', () => {
   it('Status dropdown with HAS_PUBLISHED results in PUBLISHED with include-other-statuses', () => {
     cy.apiroute(
       'GET',
-      '/search-api/v1/search/editorial/?draft-status=PUBLISHED&fallback=false&include-other-statuses=true*',
+      '/search-api/v1/search/editorial/?draft-status=PUBLISHED&exclude-revision-log=false&fallback=false&include-other-statuses=true&language=nb&page=2&page-size=10&sort=-relevance*',
       'searchOther',
     );
     cy.get('select[name="draft-status"]')

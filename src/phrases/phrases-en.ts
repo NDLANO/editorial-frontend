@@ -272,6 +272,7 @@ const phrases = {
       revisionDate: 'Next revision',
     },
     resultError: 'Something went wrong with type: {{type}}',
+    favourites: 'My favourite subjects',
   },
   subjectsPage: {
     subjects: 'Subjects',

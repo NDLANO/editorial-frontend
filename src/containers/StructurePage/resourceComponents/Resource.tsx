@@ -22,6 +22,7 @@ import isEqual from 'lodash/isEqual';
 import { css } from '@emotion/react';
 import sortBy from 'lodash/sortBy';
 import { SingleValue } from '@ndla/select';
+import last from 'lodash/last';
 import {
   NodeConnectionPutType,
   ResourceWithNodeConnection,
@@ -237,6 +238,11 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
       ? getContentTypeFromResourceTypes(resource.resourceTypes).contentType
       : 'topic-article';
 
+  const contentTypeName =
+    resource.resourceTypes.length > 0
+      ? last(resource.resourceTypes)!.name
+      : t('searchForm.articleType.topicArticle');
+
   const iconType = contentType === 'topic-article' ? 'topic' : contentType;
 
   const structurePaths: string[] = location.pathname.replace('/structure', '').split('/');
@@ -286,9 +292,11 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
       <StyledCard>
         <BadgeWrapper>
           {contentType && (
-            <StyledResourceIcon key="img">
-              <ContentTypeBadge background type={iconType} size="x-small" />
-            </StyledResourceIcon>
+            <Tooltip tooltip={contentTypeName}>
+              <StyledResourceIcon key="img">
+                <ContentTypeBadge background type={iconType} size="x-small" />
+              </StyledResourceIcon>
+            </Tooltip>
           )}
         </BadgeWrapper>
         <ContentWrapper>

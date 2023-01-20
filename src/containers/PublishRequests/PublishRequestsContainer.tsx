@@ -1,11 +1,15 @@
 import styled from '@emotion/styled';
 import Button from '@ndla/button';
 import { spacing, colors } from '@ndla/core';
+import { Spinner } from '@ndla/icons';
 import { OneColumn } from '@ndla/ui';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
-import { TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH } from '../../constants';
+import {
+  TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH,
+  TAXONOMY_CUSTOM_FIELD_IS_PUBLISHING,
+} from '../../constants';
 import { NodeType } from '../../modules/nodes/nodeApiTypes';
 import { useNodes } from '../../modules/nodes/nodeQueries';
 import { useVersions } from '../../modules/taxonomy/versions/versionQueries';
@@ -92,6 +96,9 @@ const PublishRequestsContainer = () => {
             <StyledNodeContainer key={`node-request-${i}`}>
               <StyledTitleRow>
                 <NodeIconType node={node} />
+                {node.metadata.customFields[TAXONOMY_CUSTOM_FIELD_IS_PUBLISHING] === 'true' && (
+                  <Spinner size="nsmall" margin="0" />
+                )}
                 {node.name}
               </StyledTitleRow>
               <StyledButtonRow>

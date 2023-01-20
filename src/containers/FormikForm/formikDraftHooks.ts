@@ -6,7 +6,7 @@
  *
  */
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import dropRight from 'lodash/dropRight';
 import uniq from 'lodash/uniq';
 import { INewArticle, IUpdatedArticle, IArticle } from '@ndla/types-draft-api';
@@ -29,10 +29,10 @@ export interface ArticleTaxonomy {
 }
 
 export function useFetchArticleData(articleId: number | undefined, language: string) {
-  const [article, setArticle] = useState<IArticle | undefined>(undefined);
+  const [article, _setArticle] = useState<IArticle | undefined>(undefined);
   const [taxonomy, setTaxonony] = useState<ArticleTaxonomy>({ resources: [], topics: [] });
   const [articleChanged, setArticleChanged] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const { taxonomyVersion } = useTaxonomyVersion();
 
   useEffect(() => {
@@ -40,9 +40,17 @@ export function useFetchArticleData(articleId: number | undefined, language: str
       if (articleId) {
         setLoading(true);
         const article = await fetchDraft(articleId, language);
-        const taxonomy = await fetchTaxonomy(articleId, language, taxonomyVersion);
-        setArticle(article);
-        setTaxonony(taxonomy);
+        const [resources, topics] = await Promise.all([
+          queryResources({
+            contentId: articleId,
+            language,
+            contentType: 'article',
+            taxonomyVersion,
+          }),
+          queryTopics({ contentId: articleId, language, contentType: 'article', taxonomyVersion }),
+        ]);
+        _setArticle(article);
+        setTaxonony({ resources, topics });
         setArticleChanged(false);
         setLoading(false);
       }
@@ -50,56 +58,7 @@ export function useFetchArticleData(articleId: number | undefined, language: str
     fetchArticle();
   }, [articleId, language, taxonomyVersion]);
 
-  const fetchTaxonomy = async (id: number, language: string, taxonomyVersion: string) => {
-    const [resources, topics] = await Promise.all([
-      queryResources({ contentId: id, language, contentType: 'article', taxonomyVersion }),
-      queryTopics({ contentId: id, language, contentType: 'article', taxonomyVersion }),
-    ]);
-    return { resources, topics };
-  };
-
-  const updateArticle = async (updatedArticle: IUpdatedArticle): Promise<IArticle> => {
-    if (!articleId) throw new Error('Received article without id when updating');
-    const savedArticle = await updateDraft(articleId, updatedArticle);
-    await updateUserData(savedArticle.id);
-    setArticle(savedArticle);
-    setArticleChanged(false);
-    return savedArticle;
-  };
-
-  const updateArticleAndStatus = async ({
-    updatedArticle,
-    newStatus,
-    dirty,
-  }: {
-    updatedArticle: IUpdatedArticle;
-    newStatus: DraftStatusType;
-    dirty: boolean;
-  }): Promise<IArticle> => {
-    if (!articleId) throw new Error('Received Article without id when updating status');
-    if (dirty) {
-      await updateDraft(articleId, updatedArticle);
-    }
-
-    const statusChangedDraft = await updateStatusDraft(articleId, newStatus);
-    const article = await fetchDraft(articleId, language);
-    const updated: IArticle = { ...article, status: statusChangedDraft.status };
-    await updateUserData(statusChangedDraft.id);
-
-    setArticle(updated);
-    setArticleChanged(false);
-    return updated;
-  };
-
-  const createArticle = async (createdArticle: INewArticle) => {
-    const savedArticle = await createDraft(createdArticle);
-    setArticle(savedArticle);
-    setArticleChanged(false);
-    await updateUserData(savedArticle.id);
-    return savedArticle;
-  };
-
-  const updateUserData = async (articleId: number) => {
+  const updateUserData = useCallback(async (articleId: number) => {
     const stringId = articleId.toString();
     const result = await fetchUserData();
     const latestEdited = uniq(result.latestEditedArticles || []);
@@ -107,15 +66,67 @@ export function useFetchArticleData(articleId: number | undefined, language: str
       ? [stringId].concat(latestEdited.filter(id => id !== stringId))
       : [stringId].concat(dropRight(latestEdited, 1));
     apiUpdateUserData({ latestEditedArticles });
-  };
+  }, []);
+
+  const updateArticle = useCallback(
+    async (updatedArticle: IUpdatedArticle): Promise<IArticle> => {
+      if (!articleId) throw new Error('Received article without id when updating');
+      const savedArticle = await updateDraft(articleId, updatedArticle);
+      await updateUserData(savedArticle.id);
+      _setArticle(savedArticle);
+      setArticleChanged(false);
+      return savedArticle;
+    },
+    [articleId, updateUserData],
+  );
+
+  const updateArticleAndStatus = useCallback(
+    async ({
+      updatedArticle,
+      newStatus,
+      dirty,
+    }: {
+      updatedArticle: IUpdatedArticle;
+      newStatus: DraftStatusType;
+      dirty: boolean;
+    }): Promise<IArticle> => {
+      if (!articleId) throw new Error('Received Article without id when updating status');
+      if (dirty) {
+        await updateDraft(articleId, updatedArticle);
+      }
+
+      const statusChangedDraft = await updateStatusDraft(articleId, newStatus);
+      const article = await fetchDraft(articleId, language);
+      const updated: IArticle = { ...article, status: statusChangedDraft.status };
+      await updateUserData(statusChangedDraft.id);
+
+      _setArticle(updated);
+      setArticleChanged(false);
+      return updated;
+    },
+    [articleId, language, updateUserData],
+  );
+
+  const createArticle = useCallback(
+    async (createdArticle: INewArticle) => {
+      const savedArticle = await createDraft(createdArticle);
+      _setArticle(savedArticle);
+      setArticleChanged(false);
+      await updateUserData(savedArticle.id);
+      return savedArticle;
+    },
+    [updateUserData],
+  );
+
+  const setArticle = useCallback((article: IArticle) => {
+    _setArticle(article);
+    setArticleChanged(true);
+  }, []);
 
   return {
     article,
     taxonomy,
-    setArticle: (article: IArticle) => {
-      setArticle(article);
-      setArticleChanged(true);
-    },
+    setArticle,
     articleChanged,
     updateArticle,
     createArticle,

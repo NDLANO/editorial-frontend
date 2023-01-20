@@ -7,7 +7,7 @@
  */
 
 import { MouseEvent } from 'react';
-import { colors } from '@ndla/core';
+import { colors, fonts } from '@ndla/core';
 import { TFunction, useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import {
@@ -31,6 +31,10 @@ import {
 
 import { Language } from '@ndla/icons/common';
 
+const StyledHeadingSpan = styled.span`
+  ${fonts.sizes('14px', '14px')};
+`;
+
 // Fetched from https://github.com/ianstormtaylor/is-hotkey/blob/master/src/index.js
 const IS_MAC =
   typeof window != 'undefined' && /Mac|iPod|iPhone|iPad/.test(window.navigator.platform);
@@ -46,10 +50,10 @@ const toolbarIcon = (t: TFunction): Record<string, JSX.Element | undefined> => (
   'numbered-list': <ListNumbered title={t('editorToolbar.numberedList', options)} />,
   'bulleted-list': <ListCircle title={t('editorToolbar.bulletedList', options)} />,
   'letter-list': <ListAlphabetical title={t('editorToolbar.letterList', options)} />,
-  'heading-1': <span>H1</span>,
-  'heading-2': <span>H2</span>,
-  'heading-3': <span>H3</span>,
-  'heading-4': <span>H4</span>,
+  'heading-1': <StyledHeadingSpan>H1</StyledHeadingSpan>,
+  'heading-2': <StyledHeadingSpan>H2</StyledHeadingSpan>,
+  'heading-3': <StyledHeadingSpan>H3</StyledHeadingSpan>,
+  'heading-4': <StyledHeadingSpan>H4</StyledHeadingSpan>,
   mathml: <Math title={t('editorToolbar.mathml', options)} />,
   concept: <Concept title={t('editorToolbar.concept', options)} />,
   code: <Code title={t('editorToolbar.code', options)} />,

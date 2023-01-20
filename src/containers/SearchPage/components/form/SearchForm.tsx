@@ -40,9 +40,9 @@ export interface SearchParams {
 export const parseSearchParams = (locationSearch: string): SearchParams => {
   const queryStringObject: Record<string, string | undefined> = queryString.parse(locationSearch);
 
-  const parseBooleanParam = (key: string): boolean | undefined => {
+  const parseBooleanParam = (key: string): boolean => {
     const value = queryStringObject[key];
-    if (!value) return undefined;
+    if (!value) return false;
     return value === 'true';
   };
 

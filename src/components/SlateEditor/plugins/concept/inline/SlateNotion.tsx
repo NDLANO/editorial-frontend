@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 import Tooltip from '@ndla/tooltip';
 import { AlertCircle, Check } from '@ndla/icons/editor';
 import { Portal } from '../../../../Portal';
-import { PUBLISHED } from '../../../../../util/constants/ConceptStatus';
+import { PUBLISHED } from '../../../../../constants';
 import InlineConceptPreview from './InlineConceptPreview';
 
 const StyledCheckIcon = styled(Check)`

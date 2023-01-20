@@ -26,6 +26,7 @@ export const STORED_LANGUAGE_KEY = 'language';
 
 export const REMEMBER_FAVOURITE_SUBJECTS = 'rememberFavouriteSubjects';
 export const REMEMBER_FAVORITE_NODES = 'rememberFavoriteNodes';
+export const FAVOURITES_SUBJECT_ID = 'urn:favourites';
 // Relevances
 export const RESOURCE_FILTER_CORE = 'urn:relevance:core';
 export const RESOURCE_FILTER_SUPPLEMENTARY = 'urn:relevance:supplementary';
@@ -54,10 +55,19 @@ export const TAXONOMY_CUSTOM_FIELD_SUBJECT_OLD_SUBJECT_ID = 'old-subject-id';
 export const TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY = 'subjectCategory';
 export const TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE = 'subjectType';
 export const TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH = 'requestPublish';
+export const TAXONOMY_CUSTOM_FIELD_IS_PUBLISHING = 'isPublishing';
 
 export const MAX_IMAGE_UPLOAD_SIZE = 1024 * 1024 * 40; // 40MB.
 
 export const LOCALE_VALUES = ['nb', 'nn', 'en'] as const;
+
+export const ARCHIVED = 'ARCHIVED';
+export const END_CONTROL = 'END_CONTROL';
+export const IMPORTED = 'IMPORTED';
+export const IN_PROGRESS = 'IN_PROGRESS';
+export const PLANNED = 'PLANNED';
+export const PUBLISHED = 'PUBLISHED';
+export const UNPUBLISHED = 'UNPUBLISHED';
 
 export const EXTERNAL_WHITELIST_PROVIDERS: WhitelistProvider[] = [
   { name: 'H5P', url: ['h5p'] },

@@ -24,7 +24,7 @@ import { getYoutubeEmbedUrl } from '../../../../../util/videoUtil';
 import { parseEmbedTag } from '../../../../../util/embedTagHelpers';
 import config from '../../../../../config';
 import { Embed } from '../../../../../interfaces';
-import { PUBLISHED } from '../../../../../util/constants/ConceptStatus';
+import { PUBLISHED } from '../../../../../constants';
 
 const StyledCheckIcon = styled(Check)`
   width: ${spacing.normal};

@@ -193,6 +193,7 @@ const NodeDiffcontainer = ({ originalHash, otherHash, nodeId }: Props) => {
   const equal =
     (defaultQuery.data || otherQuery.data) &&
     diff.root.changed.diffType === 'NONE' &&
+    diff.root.resourcesChanged?.diffType === 'NONE' &&
     diff.root.childrenChanged?.diffType === 'NONE';
   const publishable =
     !equal && userPermissions?.includes(TAXONOMY_ADMIN_SCOPE) && originalHash !== 'default';

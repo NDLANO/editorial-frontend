@@ -34,7 +34,7 @@ import { getContentTypeFromResourceTypes } from '../../../util/resourceHelpers';
 import config from '../../../config';
 import { getIdFromUrn } from '../../../util/taxonomyHelpers';
 import VersionHistoryLightbox from '../../../components/VersionHistoryLightbox';
-import { PUBLISHED } from '../../../constants';
+import { PUBLISHED, DRAFT_WRITE_SCOPE } from '../../../constants';
 import RelevanceOption from '../../../components/Taxonomy/RelevanceOption';
 import RemoveButton from '../../../components/Taxonomy/RemoveButton';
 import ResourceItemLink from './ResourceItemLink';
@@ -46,7 +46,6 @@ import {
   resourcesWithNodeConnectionQueryKey,
 } from '../../../modules/nodes/nodeQueries';
 import { ResourceWithNodeConnectionAndMeta } from './StructureResources';
-import { DRAFT_WRITE_SCOPE } from '../../../constants';
 import { useAuth0Editors } from '../../../modules/auth0/auth0Queries';
 import ResponsibleSelect from './ResponsibleSelect';
 import { useDraft } from '../../../modules/draft/draftQueries';

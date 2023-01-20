@@ -14,7 +14,7 @@ describe('Search concepts', () => {
     setToken();
     cy.apiroute('GET', `${taxonomyApi}/subjects?language=nb`, 'allSubjects');
     cy.apiroute('GET', '/concept-api/v1/drafts/status-state-machine/', 'conceptStatusMachine');
-    cy.apiroute('GET', '/concept-api/v1/drafts/?page*', 'searchConcepts');
+    cy.apiroute('GET', '/concept-api/v1/drafts/?exclude-revision-log=false&fallback=false&include-other-statuses=false&page*', 'searchConcepts');
     cy.apiroute('GET', '/draft-api/v1/drafts/licenses/', 'licenses');
     cy.intercept('GET', '/get_editors*', [
       {

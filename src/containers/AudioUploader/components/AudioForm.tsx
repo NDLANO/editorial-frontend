@@ -19,7 +19,6 @@ import { Formik, FormikHelpers } from 'formik';
 import { Descendant } from 'slate';
 import { editorValueToPlainText } from '../../../util/articleContentConverter';
 import Field from '../../../components/Field';
-import Spinner from '../../../components/Spinner';
 import SaveButton from '../../../components/SaveButton';
 import { DEFAULT_LICENSE, isFormikFormDirty } from '../../../util/formHelper';
 import { AbortButton, AlertModalWrapper } from '../../FormikForm';
@@ -103,8 +102,6 @@ interface Props {
   audio?: IAudioMetaInformation;
   audioLanguage: string;
   isNewlyCreated?: boolean;
-  translating?: boolean;
-  translateToNN?: () => void;
   isNewLanguage?: boolean;
 }
 
@@ -112,8 +109,6 @@ const AudioForm = ({
   audioLanguage,
   audio,
   isNewlyCreated,
-  translating,
-  translateToNN,
   onCreateAudio,
   onUpdateAudio,
   isNewLanguage,
@@ -206,42 +201,31 @@ const AudioForm = ({
                 if (values.id) return toEditAudio(values.id, lang);
                 else return toCreateAudioFile();
               }}
-              translateToNN={translateToNN}
             />
-            {translating ? (
-              <Spinner withWrapper />
-            ) : (
-              <Accordions>
-                <AccordionSection
-                  id="audio-upload-content"
-                  className="u-4/6@desktop u-push-1/6@desktop"
-                  title={t('form.contentSection')}
-                  hasError={hasError(['title', 'audioFile'])}
-                  startOpen>
-                  <AudioContent />
-                </AccordionSection>
-                <AccordionSection
-                  id="podcast-upload-podcastmanus"
-                  title={t('podcastForm.fields.manuscript')}
-                  className="u-4/6@desktop u-push-1/6@desktop"
-                  hasError={[].some(field => field in errors)}>
-                  <AudioManuscript />
-                </AccordionSection>
-                <AccordionSection
-                  id="audio-upload-metadataSection"
-                  className="u-4/6@desktop u-push-1/6@desktop"
-                  title={t('form.metadataSection')}
-                  hasError={hasError([
-                    'tags',
-                    'creators',
-                    'rightsholders',
-                    'processors',
-                    'license',
-                  ])}>
-                  <AudioMetaData />
-                </AccordionSection>
-              </Accordions>
-            )}
+            <Accordions>
+              <AccordionSection
+                id="audio-upload-content"
+                className="u-4/6@desktop u-push-1/6@desktop"
+                title={t('form.contentSection')}
+                hasError={hasError(['title', 'audioFile'])}
+                startOpen>
+                <AudioContent />
+              </AccordionSection>
+              <AccordionSection
+                id="podcast-upload-podcastmanus"
+                title={t('podcastForm.fields.manuscript')}
+                className="u-4/6@desktop u-push-1/6@desktop"
+                hasError={[].some(field => field in errors)}>
+                <AudioManuscript />
+              </AccordionSection>
+              <AccordionSection
+                id="audio-upload-metadataSection"
+                className="u-4/6@desktop u-push-1/6@desktop"
+                title={t('form.metadataSection')}
+                hasError={hasError(['tags', 'creators', 'rightsholders', 'processors', 'license'])}>
+                <AudioMetaData />
+              </AccordionSection>
+            </Accordions>
             <Field right>
               <AbortButton outline disabled={isSubmitting}>
                 {t('form.abort')}

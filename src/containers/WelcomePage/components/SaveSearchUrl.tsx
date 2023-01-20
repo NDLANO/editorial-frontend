@@ -83,7 +83,13 @@ const SaveSearchUrl = () => {
     <>
       {savedSearches.length ? (
         savedSearches.map((search, index) => (
-          <SavedSearch key={search} deleteSearch={deleteSearch} search={search} index={index} />
+          <SavedSearch
+            key={search}
+            deleteSearch={deleteSearch}
+            search={search}
+            index={index}
+            userData={data}
+          />
         ))
       ) : (
         <span>{t('welcomePage.emptySavedSearch')}</span>

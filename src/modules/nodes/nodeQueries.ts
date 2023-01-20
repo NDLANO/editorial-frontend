@@ -9,7 +9,7 @@
 import { useQuery, useQueryClient, UseQueryOptions } from 'react-query';
 import { NodeTree } from '../../containers/NodeDiff/diffUtils';
 import { SearchResultBase, WithTaxonomyVersion } from '../../interfaces';
-import { PUBLISHED } from '../../util/constants/ConceptStatus';
+import { PUBLISHED } from '../../constants';
 import {
   CHILD_NODES_WITH_ARTICLE_TYPE,
   CONNECTIONS_FOR_NODE,

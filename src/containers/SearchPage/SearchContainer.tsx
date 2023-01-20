@@ -60,7 +60,6 @@ const SearchContainer = ({ searchHook, type }: Props) => {
   const nextPage = (searchObject?.page ?? 1) + 1;
   // preload next page.
   searchHook({ ...searchObject, page: nextPage });
-
   useEffect(() => {
     setSearchObject(parseSearchParams(location.search));
   }, [location.search]);

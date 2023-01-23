@@ -82,8 +82,8 @@ const TaxonomyLightbox = ({ children, title, onSelect, loading, onClose, wide = 
   return (
     <ModalV2
       onClose={onClose}
-      controlled={true}
-      isOpen={true}
+      controlled
+      isOpen
       position="top"
       label={title}
       size={wide ? 'large' : 'normal'}>

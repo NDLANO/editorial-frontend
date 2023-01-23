@@ -19,7 +19,7 @@ describe('Status changes', () => {
     cy.apiroute(
       'PUT',
       `**/draft-api/v1/drafts/${ARTICLE_ID}/status/IN_PROGRESS`,
-      `statusChangeToUtkast`,
+      `statusChangeToInProgress`,
     );
     cy.apiroute(
       'PUT',
@@ -41,14 +41,18 @@ describe('Status changes', () => {
     cy.get('[data-cy=footerStatus]')
       .contains('Publisert')
       .click();
-    cy.contains('I arbeid').click();
+
+    cy.get('*[id^="react-select-3-option"]')
+      .contains('I arbeid')
+      .click();
+
     cy.apiwait('@getUsersResponsible');
     cy.get('[data-cy=responsible-select]')
       .click()
       .type('Ed test {enter}');
     cy.contains('Lagre').click();
     cy.get('[data-testid=saveLearningResourceButtonWrapper]').contains('Lagrer');
-    cy.apiwait(`@statusChangeToUtkast`);
+    cy.apiwait(`@statusChangeToInProgress`);
     cy.get('[data-testid=saveLearningResourceButtonWrapper]').contains('Lagret');
 
     cy.get('[data-cy="learning-resource-title"]')

@@ -317,7 +317,7 @@ exports[`it goes in and out of edit mode 1`] = `
 }
 
 .emotion-18 {
-  background-color: #f8f8f8;
+  background-color: #fff;
   box-shadow: 0 0 2px 0 rgba(115, 115, 115, 0.5);
   width: 620px;
   border-radius: 5px;
@@ -329,7 +329,7 @@ exports[`it goes in and out of edit mode 1`] = `
 }
 
 .emotion-19 {
-  background: linear-gradient(180deg, #5d97a9, #508a9c);
+  background: #deebf6;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -342,12 +342,56 @@ exports[`it goes in and out of edit mode 1`] = `
   -ms-flex-align: center;
   align-items: center;
   font-size: 1.2rem;
-  padding-left: 13px;
-  height: 50px;
-  color: #f8f8f8;
+  font-size: 24;
+  font-size: 1.3333333333333333rem;
+  line-height: 1.1;
+  padding: 17.333333333333332px;
+  height: 90px;
+  color: #444;
 }
 
 .emotion-20 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.emotion-21 {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background-color: #20588f;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  color: #fff;
+  margin-right: 17.333333333333332px;
+}
+
+.emotion-22 {
+  width: 26px;
+  height: 26px;
+}
+
+.emotion-23 {
+  font-weight: 600;
+}
+
+.emotion-24 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -381,46 +425,46 @@ exports[`it goes in and out of edit mode 1`] = `
   width: 50px;
 }
 
-.emotion-20:hover,
-.emotion-20:focus {
+.emotion-24:hover,
+.emotion-24:focus {
   color: white;
   background-color: #184673;
   border: 2px solid #184673;
 }
 
-.emotion-20[disabled] {
+.emotion-24[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-20:focus {
+.emotion-24:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-20:hover,
-.emotion-20:active,
-.emotion-20:disabled,
-.emotion-20:focus {
+.emotion-24:hover,
+.emotion-24:active,
+.emotion-24:disabled,
+.emotion-24:focus {
   box-shadow: none;
   color: #20588f;
   background-color: transparent;
   border: none;
 }
 
-.emotion-20:focus {
+.emotion-24:focus {
   outline-width: medium;
 }
 
-.emotion-22 {
+.emotion-26 {
   height: 24px;
   width: 24px;
   margin-right: 7px;
 }
 
-.emotion-23 {
-  padding: 2em;
+.emotion-27 {
+  padding: 26px 52px;
   height: 100%;
   display: -webkit-box;
   display: -webkit-flex;
@@ -438,19 +482,23 @@ exports[`it goes in and out of edit mode 1`] = `
   align-items: flex-end;
 }
 
-.emotion-24 {
+.emotion-28 {
   width: 100%;
 }
 
-.emotion-24>* {
+.emotion-28>* {
   width: 100%;
 }
 
-.emotion-24 form {
+.emotion-28 form {
   background-color: white;
 }
 
-.emotion-33 {
+.emotion-37 {
+  padding: 13px 0px;
+}
+
+.emotion-38 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -470,59 +518,27 @@ exports[`it goes in and out of edit mode 1`] = `
   transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
   box-shadow: none;
   text-align: center;
-  -webkit-transition: background-color none;
-  transition: background-color none;
-  padding: 0;
-  border-radius: 0;
-  color: inherit;
-  font-size: inherit;
-  background-color: transparent;
-  box-shadow: none;
-  border: none;
-  font-weight: 400;
 }
 
-.emotion-33:hover,
-.emotion-33:focus {
+.emotion-38:hover,
+.emotion-38:focus {
   color: white;
   background-color: #184673;
   border: 2px solid #184673;
 }
 
-.emotion-33[disabled] {
+.emotion-38[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-33:focus {
+.emotion-38:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-33:hover,
-.emotion-33:active,
-.emotion-33:disabled,
-.emotion-33:focus {
-  box-shadow: none;
-  color: #20588f;
-  background-color: transparent;
-  border: none;
-}
-
-.emotion-33:focus {
-  outline-width: medium;
-}
-
-.emotion-33,
-.emotion-33:hover {
-  border-radius: 5px;
-  background-color: white;
-  margin-top: 26px;
-  padding: 3px 52px;
-}
-
-.emotion-35 article>p {
+.emotion-40 article>p {
   font-family: Source Sans Pro!important;
 }
 
@@ -683,14 +699,90 @@ exports[`it goes in and out of edit mode 1`] = `
         <div
           class="emotion-19"
         >
-          Skriv inn tittel og url på ekstern artikkel
+          <div
+            class="emotion-20"
+          >
+            <div
+              class="emotion-21"
+            >
+              <svg
+                aria-hidden="true"
+                class="c-icon emotion-22"
+                data-license="Apache License 2.0"
+                data-source="Knowit"
+                fill="currentColor"
+                height="1em"
+                preserveAspectRatio="xMidYMid meet"
+                style="vertical-align: middle;"
+                viewBox="0 0 24 24"
+                width="1em"
+              >
+                <g>
+                  <path
+                    d="M12 19.3099H4.81C3.68 19.3099 2.75 18.3799 2.75 17.2499V6.96991C2.75 5.83991 3.68 4.90991 4.81 4.90991H5.72"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="1.5"
+                  />
+                  <path
+                    d="M12.0001 4.91993V19.3099C11.6901 18.8099 10.7701 17.4799 8.99008 16.7499C8.18008 16.4199 7.41009 16.31 6.81009 16.28C6.26009 16.26 5.84009 15.8 5.84009 15.26V3.86994C5.84009 3.28994 6.31011 2.81997 6.89011 2.83997C7.46011 2.85997 8.14009 2.94993 8.87009 3.16993C10.4001 3.61993 11.4501 4.42993 12.0001 4.91993Z"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="1.5"
+                  />
+                  <path
+                    d="M21.25 6.96991V17.2499C21.25 18.3799 20.32 19.3099 19.19 19.3099H12V4.91992H19.19C20.32 4.91992 21.25 5.83991 21.25 6.96991Z"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="1.5"
+                  />
+                  <path
+                    d="M15.0701 7.96997H18.1801"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="1.5"
+                  />
+                  <path
+                    d="M15.0701 12.1099H18.1801"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="1.5"
+                  />
+                  <path
+                    d="M15.0701 16.26H18.1801"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="1.5"
+                  />
+                </g>
+              </svg>
+            </div>
+            <div
+              class="emotion-23"
+            >
+              Skriv inn tittel og url på ekstern artikkel
+            </div>
+          </div>
           <button
-            class="emotion-20 emotion-15"
+            class="emotion-24 emotion-15"
+            data-testid="taxonomyLightboxCloseButton"
             type="button"
           >
             <svg
               aria-hidden="true"
-              class="c-icon emotion-22"
+              class="c-icon emotion-26"
               data-license="Apache License 2.0"
               data-source="Material Design"
               fill="currentColor"
@@ -713,10 +805,10 @@ exports[`it goes in and out of edit mode 1`] = `
           </button>
         </div>
         <div
-          class="emotion-23"
+          class="emotion-27"
         >
           <div
-            class="emotion-24"
+            class="emotion-28"
           >
             <div>
               <div
@@ -751,19 +843,23 @@ exports[`it goes in and out of edit mode 1`] = `
               </div>
             </div>
           </div>
-          <button
-            class="emotion-33 emotion-15"
-            data-testid="taxonomyLightboxButton"
-            type="button"
+          <div
+            class="emotion-37"
           >
-            Lagre
-          </button>
+            <button
+              class="emotion-38 emotion-15"
+              data-testid="taxonomyLightboxButton"
+              type="button"
+            >
+              Lagre
+            </button>
+          </div>
         </div>
       </div>
     </div>
   </div>
   <div
-    class="emotion-35"
+    class="emotion-40"
     contenteditable="false"
     data-testid="relatedWrapper"
     draggable="true"

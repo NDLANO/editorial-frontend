@@ -10,7 +10,8 @@ import Button from '@ndla/button';
 import { Cross } from '@ndla/icons/action';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
-import { spacing, colors } from '@ndla/core';
+import { spacing, colors, fonts } from '@ndla/core';
+import { BookOpen } from '@ndla/icons/lib/common';
 import Overlay from '../Overlay';
 import Spinner from '../Spinner';
 
@@ -23,16 +24,6 @@ const StyledCross = styled(Cross)`
   height: 24px;
   width: 24px;
   margin-right: 7px;
-`;
-
-const StyledSelectButton = styled(Button)`
-  &,
-  &:hover {
-    border-radius: 5px;
-    background-color: white;
-    margin-top: ${spacing.normal};
-    padding: 3px ${spacing.large};
-  }
 `;
 
 const StyledLightboxWrapper = styled.div`
@@ -48,7 +39,7 @@ const StyledLightboxWrapper = styled.div`
 `;
 
 const StyledContentWrapper = styled.div<{ wide: boolean }>`
-  background-color: ${colors.brand.greyLightest};
+  background-color: ${colors.white};
   box-shadow: 0 0 2px 0 rgba(115, 115, 115, 0.5);
   width: ${props => (props.wide ? '900px' : '620px')};
   border-radius: 5px;
@@ -60,24 +51,56 @@ const StyledContentWrapper = styled.div<{ wide: boolean }>`
 `;
 
 const StyledHeader = styled.div`
-  background: linear-gradient(180deg, #5d97a9, #508a9c);
+  background: ${colors.brand.lighter};
   display: flex;
   justify-content: space-between;
   align-items: center;
   font-size: 1.2rem;
-  padding-left: ${spacing.small};
-  height: 50px;
-  color: ${colors.brand.greyLightest};
+  ${fonts.sizes(24, 1.1)};
+  padding: ${spacing.nsmall};
+  height: 90px;
+  color: ${colors.text.primary};
 `;
 
 const StyledContent = styled.div`
-  padding: 2em;
+  padding: ${spacing.normal} ${spacing.large};
   height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: flex-end;
 `;
+
+const StyledIconWrapper = styled.div`
+  width: ${spacing.large};
+  height: ${spacing.large};
+  border-radius: 50%;
+  background-color: ${colors.brand.primary};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: ${colors.white};
+  margin-right: ${spacing.nsmall};
+`;
+
+const StyledTitleWrapper = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const StyledMenuBook = styled(BookOpen)`
+  width: ${spacing.normal};
+  height: ${spacing.normal};
+`;
+
+const StyledWrapper = styled.div`
+  padding: ${spacing.small} 0px;
+`;
+
+const StyledTitle = styled.div`
+  font-weight: ${fonts.weight.semibold};
+`;
+
 interface Props {
   children: JSX.Element;
   onClose: () => void;
@@ -89,22 +112,30 @@ interface Props {
 
 const TaxonomyLightbox = ({ children, title, onSelect, loading, onClose, wide = false }: Props) => {
   const { t } = useTranslation();
+
   return (
     <StyledLightboxWrapper>
       <Overlay onExit={onClose} />
       <StyledContentWrapper wide={wide}>
         <StyledHeader>
-          {title}
-          <StyledCloseButton stripped onClick={onClose}>
+          <StyledTitleWrapper>
+            <StyledIconWrapper>
+              <StyledMenuBook />
+            </StyledIconWrapper>
+            <StyledTitle>{title}</StyledTitle>
+          </StyledTitleWrapper>
+          <StyledCloseButton stripped onClick={onClose} data-testid="taxonomyLightboxCloseButton">
             <StyledCross />
           </StyledCloseButton>
         </StyledHeader>
         <StyledContent>
           {children}
           {onSelect && (
-            <StyledSelectButton data-testid="taxonomyLightboxButton" stripped onClick={onSelect}>
-              {loading ? <Spinner appearance="small" /> : t('form.save')}
-            </StyledSelectButton>
+            <StyledWrapper>
+              <Button onClick={onSelect} data-testid="taxonomyLightboxButton">
+                {loading ? <Spinner appearance="small" /> : t('form.save')}
+              </Button>
+            </StyledWrapper>
           )}
         </StyledContent>
       </StyledContentWrapper>

@@ -43,6 +43,8 @@ describe('Subject editing', () => {
     cy.get('[data-testid=AddSubjectButton]').click();
     cy.get('[data-testid=addSubjectInputField]').type('Cypress test subject{enter}');
     cy.wait('@addSubject');
+    // Since post request is mocked --> modal will not close automatically
+    cy.get('[data-testid=taxonomyLightboxCloseButton]').click();
   });
 
   it('should have a settings menu where everything works', () => {

@@ -14,7 +14,7 @@ import config from '../../../../config';
 import { CopyrightFieldGroup, VersionAndNotesPanel, MetaDataField } from '../../../FormikForm';
 import { FrontpageArticleFormType } from '../../../FormikForm/articleFormHooks';
 import RevisionNotes from '../../components/RevisionNotes';
-import FrontPageContent from './FrontpageContent';
+import FrontpageArticleFormContent from './FrontpageArticleFormContent';
 
 interface Props {
   handleSubmit: (
@@ -26,7 +26,7 @@ interface Props {
   articleLanguage: string;
 }
 
-const LearningResourcePanels = ({ article, getArticle, handleSubmit, articleLanguage }: Props) => {
+const FrontpageArticlePanels = ({ article, getArticle, handleSubmit, articleLanguage }: Props) => {
   const { t } = useTranslation();
   const formikContext = useFormikContext<FrontpageArticleFormType>();
   const { values, errors, handleBlur } = formikContext;
@@ -39,7 +39,7 @@ const LearningResourcePanels = ({ article, getArticle, handleSubmit, articleLang
         className={'u-4/6@desktop u-push-1/6@desktop'}
         hasError={!!(errors.title || errors.introduction || errors.content)}
         startOpen>
-        <FrontPageContent
+        <FrontpageArticleFormContent
           articleLanguage={articleLanguage}
           formik={formikContext}
           handleSubmit={() => handleSubmit(values, formikContext)}
@@ -90,4 +90,4 @@ const LearningResourcePanels = ({ article, getArticle, handleSubmit, articleLang
   );
 };
 
-export default LearningResourcePanels;
+export default FrontpageArticlePanels;

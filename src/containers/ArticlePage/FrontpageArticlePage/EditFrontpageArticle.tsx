@@ -10,7 +10,7 @@ import { HelmetWithTracker } from '@ndla/tracker';
 import { Navigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useEffect } from 'react';
-import FrontPageForm from './components/FrontpageForm';
+import FrontpageArticleForm from './components/FrontpageArticleForm';
 import { toEditArticle } from '../../../util/routeHelpers';
 import { useFetchArticleData } from '../../FormikForm/formikDraftHooks';
 import Spinner from '../../../components/Spinner';
@@ -83,7 +83,7 @@ const EditFrontpageArticle = ({ isNewlyCreated }: Props) => {
   return (
     <>
       <HelmetWithTracker title={`${article.title?.title} ${t('htmlTitles.titleTemplate')}`} />
-      <FrontPageForm
+      <FrontpageArticleForm
         articleLanguage={selectedLanguage}
         article={article}
         articleStatus={article.status}

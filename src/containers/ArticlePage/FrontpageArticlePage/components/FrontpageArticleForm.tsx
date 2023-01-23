@@ -6,7 +6,7 @@
  *
  */
 
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Formik, FormikProps } from 'formik';
 import { IArticle, IUpdatedArticle, IStatus } from '@ndla/types-draft-api';
@@ -31,7 +31,7 @@ import {
 import { blockContentToHTML } from '../../../../util/articleContentConverter';
 import { DraftStatusType } from '../../../../interfaces';
 import StyledForm from '../../../../components/StyledFormComponents';
-import FrontPagePanels from './FrontpagePanels';
+import FrontpageArticlePanels from './FrontpageArticlePanels';
 
 interface Props {
   article?: IArticle;
@@ -47,7 +47,7 @@ interface Props {
   articleLanguage: string;
 }
 
-const FrontPageForm = ({
+const FrontpageArticleForm = ({
   article,
   articleStatus,
   isNewlyCreated = false,
@@ -104,7 +104,7 @@ const FrontPageForm = ({
           type="frontpage-article"
           expirationDate={getExpirationDate(article)}
         />
-        <FrontPagePanels
+        <FrontpageArticlePanels
           articleLanguage={articleLanguage}
           article={article}
           getArticle={getArticle}
@@ -157,4 +157,4 @@ const FrontPageForm = ({
   );
 };
 
-export default FrontPageForm;
+export default FrontpageArticleForm;

@@ -9,7 +9,7 @@ import { HelmetWithTracker } from '@ndla/tracker';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { IUpdatedArticle } from '@ndla/types-draft-api';
-import FrontPageForm from './components/FrontpageForm';
+import FrontpageArticleForm from './components/FrontpageArticleForm';
 import { useFetchArticleData } from '../../FormikForm/formikDraftHooks';
 import { toEditArticle } from '../../../util/routeHelpers';
 import { convertUpdateToNewDraft } from '../../../util/articleUtil';
@@ -29,7 +29,7 @@ const CreateFrontpageArticle = () => {
   return (
     <>
       <HelmetWithTracker title={t('htmlTitles.createFrontPageArticePage')} />
-      <FrontPageForm
+      <FrontpageArticleForm
         updateArticle={createArticleAndPushRoute}
         updateArticleAndStatus={inp => createArticleAndPushRoute(inp.updatedArticle)}
         articleChanged={false}

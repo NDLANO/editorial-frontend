@@ -149,7 +149,7 @@ type Props = {
   formik: FormikContextType<FrontpageArticleFormType>;
 };
 
-const FrontPageFormContent = ({
+const FrontpageArticleFormContent = ({
   articleLanguage,
   values: { id, language, creators, published, slug },
   handleSubmit,
@@ -251,4 +251,4 @@ const FrontPageFormContent = ({
   );
 };
 
-export default FrontPageFormContent;
+export default FrontpageArticleFormContent;

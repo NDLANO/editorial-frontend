@@ -10,7 +10,7 @@ import Button from '@ndla/button';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { spacing, colors, fonts } from '@ndla/core';
-import { BookOpen } from '@ndla/icons/lib/common';
+import { BookOpen } from '@ndla/icons/common';
 import { ModalV2, ModalCloseButton } from '@ndla/modal';
 import Spinner from '../Spinner';
 

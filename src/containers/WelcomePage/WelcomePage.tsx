@@ -21,6 +21,7 @@ import { useUserData } from '../../modules/draft/draftQueries';
 import { StyledColumnHeader } from './styles';
 import WorkList from './components/WorkList';
 import WelcomeHeader from './components/WelcomeHeader';
+import { useSession } from '../Session/SessionProvider';
 
 const Wrapper = styled.div`
   display: flex;
@@ -63,6 +64,7 @@ export const WelcomePage = () => {
   const { data } = useUserData({
     enabled: isValid(getAccessToken()) && getAccessTokenPersonal(),
   });
+  const { ndlaId } = useSession();
   const lastUsed = data?.latestEditedArticles;
 
   localStorage.setItem('lastPath', '');
@@ -74,9 +76,7 @@ export const WelcomePage = () => {
         <MainArea>
           <WelcomeHeader />
         </MainArea>
-        <MainArea>
-          <WorkList />
-        </MainArea>
+        <MainArea>{ndlaId && <WorkList ndlaId={ndlaId} />}</MainArea>
         <LeftColumn>
           <LastUsedItems lastUsed={lastUsed} />
         </LeftColumn>

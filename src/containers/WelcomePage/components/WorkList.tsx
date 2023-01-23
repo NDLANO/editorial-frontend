@@ -14,7 +14,6 @@ import { useCallback, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { MultiValue } from '@ndla/select';
 import { useSearch } from '../../../modules/search/searchQueries';
-import { useSession } from '../../Session/SessionProvider';
 import { toEditArticle } from '../../../util/routeHelpers';
 import TableComponent, { FieldElement, TitleElement } from './TableComponent';
 import TableTitle from './TableTitle';
@@ -39,7 +38,11 @@ export const StyledLink = styled(Link)`
   }
 `;
 
-const WorkList = () => {
+interface Props {
+  ndlaId: string;
+}
+
+const WorkList = ({ ndlaId }: Props) => {
   const [sortOption, setSortOption] = useState<string>();
   const [filterSubjects, setFilterSubject] = useState<MultiValue>([]);
   const [error, setError] = useState();
@@ -47,7 +50,6 @@ const WorkList = () => {
   const updateSortOption = useCallback((v: string) => setSortOption(v), []);
   const updateFilterSubjects = useCallback((o: MultiValue) => setFilterSubject(o), []);
 
-  const { ndlaId } = useSession();
   const { t } = useTranslation();
   const { data, isLoading } = useSearch(
     {
@@ -110,32 +112,25 @@ const WorkList = () => {
     : [[]];
 
   return (
-    <>
-      {ndlaId && (
-        <StyledWorkList>
-          <StyledTopRow>
-            <TableTitle
-              title={t('welcomePage.workList.title')}
-              description={t('welcomePage.workList.description')}
-              Icon={Calendar}
-            />
-            <SubjectDropdown
-              filterSubject={filterSubjects}
-              setFilterSubject={updateFilterSubjects}
-            />
-          </StyledTopRow>
-          <TableComponent
-            isLoading={isLoading}
-            tableTitleList={tableTitles}
-            tableData={tableData}
-            setSortOption={updateSortOption}
-            sortOption={sortOption}
-            error={error}
-            noResultsText={t('form.responsible.noArticles')}
-          />
-        </StyledWorkList>
-      )}
-    </>
+    <StyledWorkList>
+      <StyledTopRow>
+        <TableTitle
+          title={t('welcomePage.workList.title')}
+          description={t('welcomePage.workList.description')}
+          Icon={Calendar}
+        />
+        <SubjectDropdown filterSubject={filterSubjects} setFilterSubject={updateFilterSubjects} />
+      </StyledTopRow>
+      <TableComponent
+        isLoading={isLoading}
+        tableTitleList={tableTitles}
+        tableData={tableData}
+        setSortOption={updateSortOption}
+        sortOption={sortOption}
+        error={error}
+        noResultsText={t('form.responsible.noArticles')}
+      />
+    </StyledWorkList>
   );
 };
 

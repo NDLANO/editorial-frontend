@@ -32,6 +32,8 @@ export const nodeTreeWithNoChildren: NodeTree = {
     ],
     supportedLanguages: ['en', 'nb', 'nn'],
     resources: [],
+    resourceTypes: [],
+    nodeType: 'SUBJECT',
   },
   children: [],
 };
@@ -65,6 +67,8 @@ export const nodeTreeWithNoChildrenUpdated: NodeTree = {
     ],
     supportedLanguages: ['nb', 'nn'],
     resources: [],
+    resourceTypes: [],
+    nodeType: 'SUBJECT',
   },
   children: [],
 };
@@ -172,6 +176,8 @@ export const nodeTreeWithNoChildrenDiff: DiffTree = {
     resourcesChanged: {
       diffType: 'NONE',
     },
+    resourceTypes: { diffType: 'NONE', original: [], other: [] },
+    nodeType: { diffType: 'NONE', original: 'SUBJECT', other: 'SUBJECT' },
   },
   children: [],
 };
@@ -208,6 +214,8 @@ export const nodeTreeWithDirectChildren: NodeTree = {
     ],
     supportedLanguages: ['en', 'nb', 'nn'],
     resources: [],
+    resourceTypes: [],
+    nodeType: 'SUBJECT',
   },
   children: [
     {
@@ -242,6 +250,8 @@ export const nodeTreeWithDirectChildren: NodeTree = {
       },
       primary: true,
       resources: [],
+      nodeType: 'TOPIC',
+      resourceTypes: [],
     },
     {
       id: 'urn:topic:1:d208bf2d-836c-43fe-977b-de4af1771396',
@@ -275,6 +285,8 @@ export const nodeTreeWithDirectChildren: NodeTree = {
       },
       primary: true,
       resources: [],
+      nodeType: 'TOPIC',
+      resourceTypes: [],
     },
   ],
 };
@@ -311,6 +323,8 @@ export const nodeTreeWithDirectChildrenUpdated: NodeTree = {
     ],
     supportedLanguages: ['en', 'nb', 'nn'],
     resources: [],
+    nodeType: 'SUBJECT',
+    resourceTypes: [],
   },
   children: [
     {
@@ -345,6 +359,8 @@ export const nodeTreeWithDirectChildrenUpdated: NodeTree = {
       },
       primary: true,
       resources: [],
+      nodeType: 'TOPIC',
+      resourceTypes: [],
     },
     {
       id: 'urn:topic:1:00018b29-3b51-478d-a691-20732e0601fd',
@@ -378,6 +394,8 @@ export const nodeTreeWithDirectChildrenUpdated: NodeTree = {
       },
       primary: true,
       resources: [],
+      nodeType: 'TOPIC',
+      resourceTypes: [],
     },
   ],
 };
@@ -482,6 +500,8 @@ export const nodeTreeWithDirectChildrenDiff: DiffTree = {
     },
     resources: [],
     resourcesChanged: { diffType: 'NONE' },
+    resourceTypes: { diffType: 'NONE', original: [], other: [] },
+    nodeType: { diffType: 'NONE', original: 'SUBJECT', other: 'SUBJECT' },
   },
   children: [
     {
@@ -599,6 +619,16 @@ export const nodeTreeWithDirectChildrenDiff: DiffTree = {
         other: true,
         diffType: 'NONE',
       },
+      nodeType: {
+        original: 'TOPIC',
+        other: 'TOPIC',
+        diffType: 'NONE',
+      },
+      resourceTypes: {
+        original: [],
+        other: [],
+        diffType: 'NONE',
+      },
     },
     {
       changed: { diffType: 'DELETED' },
@@ -701,6 +731,16 @@ export const nodeTreeWithDirectChildrenDiff: DiffTree = {
       },
       primary: {
         original: true,
+        other: undefined,
+        diffType: 'DELETED',
+      },
+      nodeType: {
+        original: 'TOPIC',
+        other: undefined,
+        diffType: 'DELETED',
+      },
+      resourceTypes: {
+        original: [],
         other: undefined,
         diffType: 'DELETED',
       },
@@ -808,6 +848,16 @@ export const nodeTreeWithDirectChildrenDiff: DiffTree = {
         other: true,
         diffType: 'ADDED',
       },
+      nodeType: {
+        original: undefined,
+        other: 'TOPIC',
+        diffType: 'ADDED',
+      },
+      resourceTypes: {
+        original: undefined,
+        other: [],
+        diffType: 'ADDED',
+      },
     },
   ],
 };
@@ -844,6 +894,8 @@ export const nodeTreeWithDirectChildrenAndResources: NodeTree = {
     ],
     supportedLanguages: ['en', 'nb', 'nn'],
     resources: [],
+    nodeType: 'SUBJECT',
+    resourceTypes: [],
   },
   children: [
     {
@@ -878,6 +930,8 @@ export const nodeTreeWithDirectChildrenAndResources: NodeTree = {
       },
       primary: true,
       resources: [],
+      nodeType: 'TOPIC',
+      resourceTypes: [],
     },
     {
       id: 'urn:topic:1:d208bf2d-836c-43fe-977b-de4af1771396',
@@ -911,6 +965,8 @@ export const nodeTreeWithDirectChildrenAndResources: NodeTree = {
       },
       primary: true,
       resources: [],
+      nodeType: 'TOPIC',
+      resourceTypes: [],
     },
   ],
 };
@@ -947,6 +1003,8 @@ export const nodeTreeWithNestedChildren: NodeTree = {
     ],
     supportedLanguages: ['en', 'nb', 'nn'],
     resources: [],
+    nodeType: 'SUBJECT',
+    resourceTypes: [],
   },
   children: [
     {
@@ -981,6 +1039,8 @@ export const nodeTreeWithNestedChildren: NodeTree = {
       },
       primary: true,
       resources: [],
+      nodeType: 'TOPIC',
+      resourceTypes: [],
     },
     {
       id: 'urn:topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
@@ -1014,6 +1074,8 @@ export const nodeTreeWithNestedChildren: NodeTree = {
       },
       primary: true,
       resources: [],
+      nodeType: 'TOPIC',
+      resourceTypes: [],
     },
     {
       id: 'urn:topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
@@ -1047,6 +1109,8 @@ export const nodeTreeWithNestedChildren: NodeTree = {
       },
       primary: true,
       resources: [],
+      nodeType: 'TOPIC',
+      resourceTypes: [],
     },
   ],
 };
@@ -1083,6 +1147,8 @@ export const nodeTreeWithNestedChildrenUpdated: NodeTree = {
     ],
     supportedLanguages: ['en', 'nb', 'nn'],
     resources: [],
+    nodeType: 'SUBJECT',
+    resourceTypes: [],
   },
   children: [
     {
@@ -1117,6 +1183,8 @@ export const nodeTreeWithNestedChildrenUpdated: NodeTree = {
       },
       primary: true,
       resources: [],
+      nodeType: 'TOPIC',
+      resourceTypes: [],
     },
     {
       id: 'urn:topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
@@ -1150,6 +1218,8 @@ export const nodeTreeWithNestedChildrenUpdated: NodeTree = {
       },
       primary: false,
       resources: [],
+      nodeType: 'TOPIC',
+      resourceTypes: [],
     },
     {
       id: 'urn:topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
@@ -1183,6 +1253,8 @@ export const nodeTreeWithNestedChildrenUpdated: NodeTree = {
       },
       primary: true,
       resources: [],
+      nodeType: 'TOPIC',
+      resourceTypes: [],
     },
   ],
 };
@@ -1287,6 +1359,16 @@ export const nodeTreeWithNestedChildrenDiff: DiffTree = {
     },
     resources: [],
     resourcesChanged: {
+      diffType: 'NONE',
+    },
+    resourceTypes: {
+      original: [],
+      other: [],
+      diffType: 'NONE',
+    },
+    nodeType: {
+      original: 'SUBJECT',
+      other: 'SUBJECT',
       diffType: 'NONE',
     },
   },
@@ -1521,6 +1603,8 @@ export const nodeTreeWithNestedChildrenDiff: DiffTree = {
             diffType: 'MODIFIED',
           },
           children: [],
+          resourceTypes: { diffType: 'NONE', original: [], other: [] },
+          nodeType: { diffType: 'NONE', original: 'TOPIC', other: 'TOPIC' },
         },
         {
           changed: { diffType: 'NONE' },
@@ -1637,8 +1721,28 @@ export const nodeTreeWithNestedChildrenDiff: DiffTree = {
             diffType: 'NONE',
           },
           children: [],
+          resourceTypes: {
+            original: [],
+            other: [],
+            diffType: 'NONE',
+          },
+          nodeType: {
+            original: 'TOPIC',
+            other: 'TOPIC',
+            diffType: 'NONE',
+          },
         },
       ],
+      resourceTypes: {
+        original: [],
+        other: [],
+        diffType: 'NONE',
+      },
+      nodeType: {
+        original: 'TOPIC',
+        other: 'TOPIC',
+        diffType: 'NONE',
+      },
     },
   ],
 };
@@ -1730,6 +1834,8 @@ export const nodeTreeInOriginalVersionDiff: DiffTree = {
     },
     resources: [],
     resourcesChanged: { diffType: 'NONE' },
+    resourceTypes: { diffType: 'DELETED', original: [], other: undefined },
+    nodeType: { diffType: 'DELETED', original: 'SUBJECT', other: undefined },
   },
   children: [],
 };
@@ -1821,6 +1927,8 @@ export const nodeTreeInOtherVersionDiff: DiffTree = {
     },
     resources: [],
     resourcesChanged: { diffType: 'NONE' },
+    resourceTypes: { diffType: 'ADDED', original: undefined, other: [] },
+    nodeType: { diffType: 'ADDED', original: undefined, other: 'SUBJECT' },
   },
   children: [],
 };
@@ -1857,6 +1965,8 @@ export const nodeTreeWithNestedChildrenAndResources: NodeTree = {
     ],
     supportedLanguages: ['en', 'nb', 'nn'],
     resources: [],
+    resourceTypes: [],
+    nodeType: 'SUBJECT',
   },
   children: [
     {
@@ -1891,6 +2001,8 @@ export const nodeTreeWithNestedChildrenAndResources: NodeTree = {
       },
       primary: true,
       resources: [],
+      resourceTypes: [],
+      nodeType: 'TOPIC',
     },
     {
       id: 'urn:topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
@@ -1979,13 +2091,17 @@ export const nodeTreeWithNestedChildrenAndResources: NodeTree = {
             },
           ],
           supportedLanguages: ['nb', 'nn'],
-          parentId: 'urn:topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
+          parent: 'urn:topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
           connectionId: 'urn:topic-resource:4e8305fa-7aac-4c08-97dc-9630becdb83a',
           rank: 2,
           primary: true,
           relevanceId: 'urn:relevance:core',
+          isPrimary: true,
+          nodeType: 'RESOURCE',
         },
       ],
+      resourceTypes: [],
+      nodeType: 'TOPIC',
     },
     {
       id: 'urn:topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
@@ -2019,6 +2135,8 @@ export const nodeTreeWithNestedChildrenAndResources: NodeTree = {
       },
       primary: true,
       resources: [],
+      resourceTypes: [],
+      nodeType: 'TOPIC',
     },
   ],
 };
@@ -2055,6 +2173,8 @@ export const nodeTreeWithNestedChildrenAndResourcesUpdated: NodeTree = {
     ],
     supportedLanguages: ['en', 'nb', 'nn'],
     resources: [],
+    resourceTypes: [],
+    nodeType: 'SUBJECT',
   },
   children: [
     {
@@ -2089,6 +2209,8 @@ export const nodeTreeWithNestedChildrenAndResourcesUpdated: NodeTree = {
       },
       primary: true,
       resources: [],
+      resourceTypes: [],
+      nodeType: 'TOPIC',
     },
     {
       id: 'urn:topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
@@ -2177,13 +2299,17 @@ export const nodeTreeWithNestedChildrenAndResourcesUpdated: NodeTree = {
             },
           ],
           supportedLanguages: ['nb', 'nn'],
-          parentId: 'urn:topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
+          parent: 'urn:topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
           connectionId: 'urn:topic-resource:4e8305fa-7aac-4c08-97dc-9630becdb83a',
           rank: 2,
           primary: true,
           relevanceId: 'urn:relevance:core',
+          nodeType: 'RESOURCE',
+          isPrimary: true,
         },
       ],
+      nodeType: 'TOPIC',
+      resourceTypes: [],
     },
     {
       id: 'urn:topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
@@ -2217,6 +2343,8 @@ export const nodeTreeWithNestedChildrenAndResourcesUpdated: NodeTree = {
       },
       primary: true,
       resources: [],
+      nodeType: 'TOPIC',
+      resourceTypes: [],
     },
   ],
 };
@@ -2321,6 +2449,8 @@ export const nodeTreeWithNestedChildrenAndResourcesDiff: DiffTree = {
     },
     resources: [],
     resourcesChanged: { diffType: 'NONE' },
+    resourceTypes: { diffType: 'NONE', original: [], other: [] },
+    nodeType: { diffType: 'NONE', original: 'SUBJECT', other: 'SUBJECT' },
   },
   children: [
     {
@@ -2546,6 +2676,8 @@ export const nodeTreeWithNestedChildrenAndResourcesDiff: DiffTree = {
           resourcesChanged: {
             diffType: 'MODIFIED',
           },
+          nodeType: { diffType: 'NONE', original: 'TOPIC', other: 'TOPIC' },
+          resourceTypes: { diffType: 'NONE', original: [], other: [] },
           resources: [
             {
               changed: { diffType: 'MODIFIED' },
@@ -2685,7 +2817,7 @@ export const nodeTreeWithNestedChildrenAndResourcesDiff: DiffTree = {
                 other: ['nb', 'nn'],
                 diffType: 'NONE',
               },
-              parentId: {
+              parent: {
                 original: 'urn:topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
                 other: 'urn:topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
                 diffType: 'NONE',
@@ -2705,9 +2837,19 @@ export const nodeTreeWithNestedChildrenAndResourcesDiff: DiffTree = {
                 other: true,
                 diffType: 'NONE',
               },
+              isPrimary: {
+                original: true,
+                other: true,
+                diffType: 'NONE',
+              },
               relevanceId: {
                 original: 'urn:relevance:core',
                 other: 'urn:relevance:core',
+                diffType: 'NONE',
+              },
+              nodeType: {
+                original: 'RESOURCE',
+                other: 'RESOURCE',
                 diffType: 'NONE',
               },
             },
@@ -2828,8 +2970,12 @@ export const nodeTreeWithNestedChildrenAndResourcesDiff: DiffTree = {
           resourcesChanged: {
             diffType: 'NONE',
           },
+          resourceTypes: { diffType: 'NONE', original: [], other: [] },
+          nodeType: { diffType: 'NONE', original: 'TOPIC', other: 'TOPIC' },
         },
       ],
+      resourceTypes: { diffType: 'NONE', original: [], other: [] },
+      nodeType: { diffType: 'NONE', original: 'TOPIC', other: 'TOPIC' },
     },
   ],
 };

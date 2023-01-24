@@ -291,7 +291,7 @@ export const publishNode = ({ id, targetId, sourceId }: PublishNodeParams) => {
 interface SearchNodes extends WithTaxonomyVersion {
   ids?: string[];
   language?: string;
-  nodeType?: 'NODE' | 'TOPIC' | 'SUBJECT';
+  nodeType?: 'NODE' | 'TOPIC' | 'SUBJECT' | 'RESOURCE';
   page?: number;
   pageSize?: number;
   query?: string;

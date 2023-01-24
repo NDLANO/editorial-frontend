@@ -153,7 +153,7 @@ const StyledResponsibleBadge = styled.div`
   background-color: ${colors.brand.lighter};
   border-radius: 4px;
   color: ${colors.brand.dark};
-  ${fonts.sizes(16)};
+  ${fonts.sizes(14)};
   flex: 2;
   text-align: center;
   overflow: hidden;

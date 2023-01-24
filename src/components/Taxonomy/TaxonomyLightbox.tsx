@@ -7,48 +7,12 @@
  */
 
 import Button from '@ndla/button';
-import { Cross } from '@ndla/icons/action';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { spacing, colors, fonts } from '@ndla/core';
-import { BookOpen } from '@ndla/icons/lib/common';
-import Overlay from '../Overlay';
+import { BookOpen } from '@ndla/icons/common';
+import { ModalV2, ModalCloseButton } from '@ndla/modal';
 import Spinner from '../Spinner';
-
-const StyledCloseButton = styled(Button)`
-  height: 50px;
-  width: 50px;
-`;
-
-const StyledCross = styled(Cross)`
-  height: 24px;
-  width: 24px;
-  margin-right: 7px;
-`;
-
-const StyledLightboxWrapper = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.8);
-  z-index: 1;
-  display: flex;
-  justify-content: center;
-`;
-
-const StyledContentWrapper = styled.div<{ wide: boolean }>`
-  background-color: ${colors.white};
-  box-shadow: 0 0 2px 0 rgba(115, 115, 115, 0.5);
-  width: ${props => (props.wide ? '900px' : '620px')};
-  border-radius: 5px;
-  position: absolute;
-  top: 5%;
-  z-index: 2;
-  max-height: 90vh;
-  overflow: auto;
-`;
 
 const StyledHeader = styled.div`
   background: ${colors.brand.lighter};
@@ -97,8 +61,10 @@ const StyledWrapper = styled.div`
   padding: ${spacing.small} 0px;
 `;
 
-const StyledTitle = styled.div`
+const StyledTitle = styled.h2`
   font-weight: ${fonts.weight.semibold};
+  margin: 0px;
+  ${fonts.sizes(24)}
 `;
 
 interface Props {
@@ -114,32 +80,37 @@ const TaxonomyLightbox = ({ children, title, onSelect, loading, onClose, wide = 
   const { t } = useTranslation();
 
   return (
-    <StyledLightboxWrapper>
-      <Overlay onExit={onClose} />
-      <StyledContentWrapper wide={wide}>
-        <StyledHeader>
-          <StyledTitleWrapper>
-            <StyledIconWrapper>
-              <StyledMenuBook />
-            </StyledIconWrapper>
-            <StyledTitle>{title}</StyledTitle>
-          </StyledTitleWrapper>
-          <StyledCloseButton stripped onClick={onClose} data-testid="taxonomyLightboxCloseButton">
-            <StyledCross />
-          </StyledCloseButton>
-        </StyledHeader>
-        <StyledContent>
-          {children}
-          {onSelect && (
-            <StyledWrapper>
-              <Button onClick={onSelect} data-testid="taxonomyLightboxButton">
-                {loading ? <Spinner appearance="small" /> : t('form.save')}
-              </Button>
-            </StyledWrapper>
-          )}
-        </StyledContent>
-      </StyledContentWrapper>
-    </StyledLightboxWrapper>
+    <ModalV2
+      onClose={onClose}
+      controlled
+      isOpen
+      position="top"
+      label={title}
+      size={wide ? 'large' : 'normal'}>
+      {onCloseModal => (
+        <>
+          <StyledHeader>
+            <StyledTitleWrapper>
+              <StyledIconWrapper>
+                <StyledMenuBook />
+              </StyledIconWrapper>
+              <StyledTitle>{title}</StyledTitle>
+            </StyledTitleWrapper>
+            <ModalCloseButton onClick={onCloseModal} data-testid="taxonomyLightboxCloseButton" />
+          </StyledHeader>
+          <StyledContent>
+            {children}
+            {onSelect && (
+              <StyledWrapper>
+                <Button onClick={onSelect} data-testid="taxonomyLightboxButton">
+                  {loading ? <Spinner appearance="small" /> : t('form.save')}
+                </Button>
+              </StyledWrapper>
+            )}
+          </StyledContent>
+        </>
+      )}
+    </ModalV2>
   );
 };
 

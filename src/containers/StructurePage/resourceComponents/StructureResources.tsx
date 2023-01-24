@@ -13,7 +13,6 @@ import Button from '@ndla/button';
 import styled from '@emotion/styled';
 import { TFunction } from 'i18next';
 import keyBy from 'lodash/keyBy';
-import compact from 'lodash/compact';
 import { ChildNodeType, ResourceWithNodeConnection } from '../../../modules/nodes/nodeApiTypes';
 import { ResourceType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import {
@@ -26,10 +25,6 @@ import handleError from '../../../util/handleError';
 import AllResourcesGroup from './AllResourcesGroup';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 import GroupTopicResources from '../folderComponents/topicMenuOptions/GroupTopicResources';
-import { groupResourcesByType } from '../../../util/taxonomyHelpers';
-import ResourceGroup from './ResourceGroup';
-import Resource from './Resource';
-import { Dictionary } from '../../../interfaces';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const StyledDiv = styled('div')`
@@ -72,29 +67,6 @@ const withMissing = (r: ResourceWithNodeConnection): ResourceWithNodeConnection 
   resourceTypes: [missingObject],
 });
 
-const getGroupedResourceList = (
-  nodeResources: ResourceWithNodeConnection[] | undefined,
-  resourceTypes: ResourceType[] | undefined,
-  keyedMetas: Dictionary<NodeResourceMeta>,
-): ResourceWithNodeConnectionAndMeta[] => {
-  if (!nodeResources || !resourceTypes) return [];
-
-  const nodeResourcesWithMeta: ResourceWithNodeConnectionAndMeta[] =
-    nodeResources?.map(res => ({
-      ...res,
-      contentMeta: res.contentUri ? keyedMetas[res.contentUri] : undefined,
-    })) ?? [];
-  const mapping = groupResourcesByType(nodeResourcesWithMeta ?? [], resourceTypes ?? []);
-  const resourcesGrouped: ResourceWithNodeConnectionAndMeta[] =
-    compact(
-      resourceTypes?.map(
-        resourceType => mapping.find(resource => resource.id === resourceType.id)?.resources,
-      ),
-    ).flat() ?? [];
-
-  return resourcesGrouped;
-};
-
 const StructureResources = ({ currentChildNode, resourceRef, onCurrentNodeChanged }: Props) => {
   const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
@@ -132,11 +104,6 @@ const StructureResources = ({ currentChildNode, resourceRef, onCurrentNodeChange
     },
   );
 
-  const resourceList =
-    grouped === 'ungrouped'
-      ? nodeResources
-      : getGroupedResourceList(nodeResources, resourceTypes, keyedMetas);
-
   return (
     <div ref={resourceRef}>
       <Row>
@@ -165,10 +132,11 @@ const StructureResources = ({ currentChildNode, resourceRef, onCurrentNodeChange
 
       <AllResourcesGroup
         key="ungrouped"
-        nodeResources={resourceList ?? []}
+        nodeResources={nodeResources ?? []}
         resourceTypes={resourceTypes ?? []}
         currentNode={currentChildNode}
         contentMeta={keyedMetas}
+        grouped={grouped === 'grouped'}
       />
     </div>
   );

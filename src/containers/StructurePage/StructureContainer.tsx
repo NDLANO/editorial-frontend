@@ -1,16 +1,11 @@
 import { Spinner } from '@ndla/icons';
-import { colors, spacing } from '@ndla/core';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
-import { ButtonV2 } from '@ndla/button';
-import { Plus } from '@ndla/icons/action';
 import ErrorBoundary from '../../components/ErrorBoundary';
 import { REMEMBER_FAVORITE_NODES, TAXONOMY_ADMIN_SCOPE } from '../../constants';
 import { useSession } from '../Session/SessionProvider';
-import Accordion from '../../components/Accordion';
-import { useAddNodeMutation } from '../../modules/nodes/nodeMutations';
 import { useUserData } from '../../modules/draft/draftQueries';
 import { useNodes } from '../../modules/nodes/nodeQueries';
 import { ChildNodeType, NodeType } from '../../modules/nodes/nodeApiTypes';
@@ -25,7 +20,6 @@ import config from '../../config';
 import { createGuard } from '../../util/guards';
 import { GridContainer, MainArea, LeftColumn, RightColumn } from '../../components/Layout/Layout';
 import StructureBanner from './StructureBanner';
-import AddSubjectModal from './AddSubjectModal';
 
 const StructureWrapper = styled.ul`
   margin: 0;

@@ -50,13 +50,13 @@ interface Props {
   articleIds?: number[];
 }
 
-export const getCountApproachingRevision = (d: IArticle | IArticle[]) => {
+export const getCountApproachingRevision = (article: IArticle | IArticle[]) => {
   const currentDateAddYear = addYears(new Date(), 1);
-  const elementsArray = isArray(d) ? d : [d];
+  const elementsArray = isArray(article) ? article : [article];
 
   const countApproachingRevision =
     countBy(elementsArray, elementsArray =>
-      isBefore(new Date(elementsArray.revisions[0].revisionDate), currentDateAddYear),
+      isBefore(new Date(elementsArray?.revisions?.[0]?.revisionDate), currentDateAddYear),
     ).true ?? 0;
 
   return countApproachingRevision;
@@ -76,7 +76,6 @@ const ApproachingRevisionDate = ({ articleIds = [] }: Props) => {
         handleError(e);
       }
     })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [articleIds]);
 
   return <RevisionDateIcon text={count} phrasesKey={'form.responsible.revisionDate'} />;

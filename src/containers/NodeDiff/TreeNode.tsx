@@ -51,6 +51,7 @@ export const RootNode = ({ tree, onNodeSelected, selectedNode }: RootNodeProps) 
   if (
     root.changed.diffType === 'NONE' &&
     root.childrenChanged?.diffType === 'NONE' &&
+    root.resourcesChanged?.diffType === 'NONE' &&
     nodeView === 'changed'
   )
     return null;

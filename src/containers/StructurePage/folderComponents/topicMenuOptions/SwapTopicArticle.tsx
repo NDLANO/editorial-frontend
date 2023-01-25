@@ -10,7 +10,7 @@ import styled from '@emotion/styled';
 import { spacing, colors } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
 import { SubjectMaterial } from '@ndla/icons/contentType';
-import { Done } from '@ndla/icons/lib/editor';
+import { Done } from '@ndla/icons/editor';
 import { IMultiSearchSummary } from '@ndla/types-search-api';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';

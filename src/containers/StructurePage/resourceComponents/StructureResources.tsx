@@ -66,6 +66,7 @@ const withMissing = (r: ResourceWithNodeConnection): ResourceWithNodeConnection 
 const StructureResources = ({ currentChildNode }: Props) => {
   const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
+  const grouped = currentChildNode?.metadata?.customFields['topic-resources'] ?? 'grouped';
 
   const { data: nodeResources } = useResourcesWithNodeConnection(
     { id: currentChildNode.id, language: i18n.language, taxonomyVersion },
@@ -107,6 +108,7 @@ const StructureResources = ({ currentChildNode }: Props) => {
         resourceTypes={resourceTypes ?? []}
         currentNode={currentChildNode}
         contentMeta={keyedMetas}
+        grouped={grouped === 'grouped'}
       />
     </StickyContainer>
   );

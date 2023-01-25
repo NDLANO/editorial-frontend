@@ -33,7 +33,6 @@ const CreateTopicArticle = () => {
         articleLanguage={i18n.language}
         updateArticle={createArticleAndPushRoute}
         isNewlyCreated={false}
-        translating={false}
         articleChanged={false}
       />
     </>

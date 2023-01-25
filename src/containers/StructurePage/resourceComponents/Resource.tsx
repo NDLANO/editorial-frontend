@@ -12,7 +12,7 @@ import { useLocation } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { ContentTypeBadge } from '@ndla/ui';
 import { ButtonV2 } from '@ndla/button';
-import { colors, spacing, breakpoints } from '@ndla/core';
+import { colors, spacing, breakpoints, fonts } from '@ndla/core';
 import { AlertCircle, Check, DragVertical } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
 import SafeLink from '@ndla/safelink';
@@ -20,8 +20,7 @@ import { useQueryClient } from 'react-query';
 import { DraggableProvidedDragHandleProps } from 'react-beautiful-dnd';
 import isEqual from 'lodash/isEqual';
 import { css } from '@emotion/react';
-import sortBy from 'lodash/sortBy';
-import { SingleValue } from '@ndla/select';
+import last from 'lodash/last';
 import {
   NodeConnectionPutType,
   ResourceWithNodeConnection,
@@ -34,7 +33,7 @@ import { getContentTypeFromResourceTypes } from '../../../util/resourceHelpers';
 import config from '../../../config';
 import { getIdFromUrn } from '../../../util/taxonomyHelpers';
 import VersionHistoryLightbox from '../../../components/VersionHistoryLightbox';
-import { PUBLISHED } from '../../../util/constants/ArticleStatus';
+import { PUBLISHED } from '../../../constants';
 import RelevanceOption from '../../../components/Taxonomy/RelevanceOption';
 import RemoveButton from '../../../components/Taxonomy/RemoveButton';
 import ResourceItemLink from './ResourceItemLink';
@@ -46,9 +45,7 @@ import {
   resourcesWithNodeConnectionQueryKey,
 } from '../../../modules/nodes/nodeQueries';
 import { ResourceWithNodeConnectionAndMeta } from './StructureResources';
-import { DRAFT_WRITE_SCOPE } from '../../../constants';
-import { useAuth0Editors } from '../../../modules/auth0/auth0Queries';
-import ResponsibleSelect from './ResponsibleSelect';
+import { useAuth0Users } from '../../../modules/auth0/auth0Queries';
 import { useDraft } from '../../../modules/draft/draftQueries';
 import { getCountApproachingRevision, RevisionDateIcon } from './ApproachingRevisionDate';
 
@@ -151,6 +148,23 @@ const StatusButton = styled(ButtonV2)<{ isPublished: boolean }>`
 const CheckedWrapper = styled.div`
   display: flex;
 `;
+const StyledResponsibleBadge = styled.div`
+  height: ${spacing.normal};
+  background-color: ${colors.brand.lighter};
+  border-radius: 4px;
+  color: ${colors.brand.dark};
+  ${fonts.sizes(14)};
+  flex: 2;
+  text-align: center;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  padding: 0px ${spacing.small};
+`;
+
+const BoldFont = styled.span`
+  font-weight: ${fonts.weight.semibold};
+`;
 
 const getArticleTypeFromId = (id?: string) => {
   if (id?.startsWith('urn:topic:')) return 'topic-article';
@@ -173,7 +187,7 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
   const location = useLocation();
   const [showVersionHistory, setShowVersionHistory] = useState(false);
   const [showGrepCodes, setShowGrepCodes] = useState(false);
-  const [responsible, setResponsible] = useState<SingleValue>(null);
+  const [responsible, setResponsible] = useState<string>();
   const [aproachingRevision, setAproachingRevision] = useState(false);
 
   const qc = useQueryClient();
@@ -206,25 +220,8 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
     onSettled: () => qc.invalidateQueries(compKey),
   });
 
-  const { data: users } = useAuth0Editors(
-    { permission: DRAFT_WRITE_SCOPE },
-    {
-      select: users =>
-        sortBy(
-          users.map(u => ({
-            value: `${u.app_metadata.ndla_id}`,
-            label: u.name,
-          })),
-          u => u.label,
-        ),
-      placeholderData: [],
-    },
-  );
   const id = getIdFromUrn(resource?.contentMeta?.contentUri);
-  const { data: article } = useDraft(
-    { id: id!, responsibleId: responsible?.value },
-    { enabled: !!id },
-  );
+  const { data: article } = useDraft({ id: id! }, { enabled: !!id });
 
   useEffect(() => {
     if (article) {
@@ -233,10 +230,26 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
     }
   }, [article]);
 
+  const { data: userData } = useAuth0Users(
+    { uniqueUserIds: article?.responsible?.responsibleId! },
+    { enabled: !!article?.responsible?.responsibleId },
+  );
+
+  useEffect(() => {
+    if (userData?.length) {
+      setResponsible(userData[0].name);
+    }
+  }, [userData]);
+
   const contentType =
     resource.resourceTypes.length > 0
       ? getContentTypeFromResourceTypes(resource.resourceTypes).contentType
       : 'topic-article';
+
+  const contentTypeName =
+    resource.resourceTypes.length > 0
+      ? last(resource.resourceTypes)!.name
+      : t('searchForm.articleType.topicArticle');
 
   const iconType = contentType === 'topic-article' ? 'topic' : contentType;
 
@@ -287,9 +300,11 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
       <StyledCard>
         <BadgeWrapper>
           {contentType && (
-            <StyledResourceIcon key="img">
-              <ContentTypeBadge background type={iconType} size="x-small" />
-            </StyledResourceIcon>
+            <Tooltip tooltip={contentTypeName}>
+              <StyledResourceIcon key="img">
+                <ContentTypeBadge background type={iconType} size="x-small" />
+              </StyledResourceIcon>
+            </Tooltip>
           )}
         </BadgeWrapper>
         <ContentWrapper>
@@ -334,12 +349,11 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
             )}
           </StyledText>
           <ButtonRow>
-            <ResponsibleSelect
-              options={users ?? []}
-              responsible={responsible}
-              setResponsible={setResponsible}
-              article={article}
-            />
+            {responsible && (
+              <StyledResponsibleBadge>
+                <BoldFont>Ansvarlig:</BoldFont> {responsible}
+              </StyledResponsibleBadge>
+            )}
             {contentType !== 'learning-path' && (
               <ButtonV2
                 css={baseButtonStyles}

@@ -22,7 +22,7 @@ import { NodeResourceMeta } from '../../../modules/nodes/nodeQueries';
 import ResourceBanner from './ResourceBanner';
 import { Dictionary } from '../../../interfaces';
 import AddResourceButton from './AddResourceButton';
-import { getIdFromUrn } from '../../../util/taxonomyHelpers';
+import { getIdFromUrn, groupResourcesByType } from '../../../util/taxonomyHelpers';
 
 const ResourceWrapper = styled.div`
   max-height: 80vh;
@@ -34,11 +34,17 @@ interface Props {
   resourceTypes: ResourceType[];
   currentNode: ChildNodeType;
   contentMeta: Dictionary<NodeResourceMeta>;
+  grouped: boolean;
 }
 
-const AllResourcesGroup = ({ resourceTypes, nodeResources, currentNode, contentMeta }: Props) => {
+const AllResourcesGroup = ({
+  resourceTypes,
+  nodeResources,
+  currentNode,
+  contentMeta,
+  grouped,
+}: Props) => {
   const { t } = useTranslation();
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [showAddModal, setShowAddModal] = useState(false);
   const resourceTypesWithoutMissing = resourceTypes
     .filter(rt => rt.id !== 'missing')
@@ -53,6 +59,13 @@ const AllResourcesGroup = ({ resourceTypes, nodeResources, currentNode, contentM
       .flat()
       .map(id => getIdFromUrn(id)),
   );
+
+  const nodeResourcesWithMeta: ResourceWithNodeConnectionAndMeta[] =
+    nodeResources?.map(res => ({
+      ...res,
+      contentMeta: res.contentUri ? contentMeta[res.contentUri] : undefined,
+    })) ?? [];
+  const mapping = groupResourcesByType(nodeResourcesWithMeta ?? [], resourceTypes ?? []);
 
   return (
     <>
@@ -91,12 +104,22 @@ const AllResourcesGroup = ({ resourceTypes, nodeResources, currentNode, contentM
             }}
           />
         )}
-
-        <ResourceItems
-          resources={nodeResources}
-          currentNodeId={currentNodeId}
-          contentMeta={contentMeta}
-        />
+        {grouped ? (
+          mapping?.map(resource => (
+            <ResourceItems
+              key={resource.id}
+              resources={resource.resources}
+              currentNodeId={currentNodeId}
+              contentMeta={contentMeta}
+            />
+          ))
+        ) : (
+          <ResourceItems
+            resources={nodeResources}
+            currentNodeId={currentNodeId}
+            contentMeta={contentMeta}
+          />
+        )}
       </ResourceWrapper>
     </>
   );

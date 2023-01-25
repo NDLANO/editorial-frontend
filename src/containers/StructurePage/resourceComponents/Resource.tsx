@@ -150,16 +150,13 @@ const CheckedWrapper = styled.div`
 `;
 const StyledResponsibleBadge = styled.div`
   height: ${spacing.normal};
-  background-color: ${colors.brand.lighter};
   border-radius: 4px;
   color: ${colors.brand.dark};
   ${fonts.sizes(14)};
   flex: 2;
-  text-align: center;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  padding: 0px ${spacing.small};
 `;
 
 const BoldFont = styled.span`
@@ -349,11 +346,10 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
             )}
           </StyledText>
           <ButtonRow>
-            {responsible && (
-              <StyledResponsibleBadge>
-                <BoldFont>Ansvarlig:</BoldFont> {responsible}
-              </StyledResponsibleBadge>
-            )}
+            <StyledResponsibleBadge>
+              <BoldFont>Ansvarlig:</BoldFont> {responsible ?? t('form.responsible.noResponible')}
+            </StyledResponsibleBadge>
+
             {contentType !== 'learning-path' && (
               <ButtonV2
                 css={baseButtonStyles}

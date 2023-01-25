@@ -23,6 +23,11 @@ import formatDate from '../util/formatDate';
 import { getIdFromUrn } from '../util/taxonomyHelpers';
 import { Auth0UserData } from '../interfaces';
 
+const StyledHistoryContainer = styled.div`
+  display: flow-root;
+  width: 100%;
+`;
+
 const StyledResourceLinkContainer = styled.div`
   display: flex;
   align-items: center;
@@ -90,24 +95,26 @@ const VersionHistoryLightBox = ({
 
   return (
     <Lightbox onClose={onClose} display width="800px" appearance="modal" severity="info">
-      <StyledResourceLinkContainer>
-        {contentType && (
-          <StyledBadge>
-            <ContentTypeBadge
-              background
-              type={contentType === 'topic-article' ? 'topic' : contentType}
-            />
-          </StyledBadge>
-        )}
-        <ResourceItemLink
-          contentType={contentType}
-          contentUri={contentUri}
-          locale={locale}
-          name={name}
-          isVisible={isVisible}
-        />
-      </StyledResourceLinkContainer>
-      {notes ? <VersionHistory notes={notes} /> : <Spinner />}
+      <StyledHistoryContainer>
+        <StyledResourceLinkContainer>
+          {contentType && (
+            <StyledBadge>
+              <ContentTypeBadge
+                background
+                type={contentType === 'topic-article' ? 'topic' : contentType}
+              />
+            </StyledBadge>
+          )}
+          <ResourceItemLink
+            contentType={contentType}
+            contentUri={contentUri}
+            locale={locale}
+            name={name}
+            isVisible={isVisible}
+          />
+        </StyledResourceLinkContainer>
+        {notes ? <VersionHistory notes={notes} /> : <Spinner />}
+      </StyledHistoryContainer>
     </Lightbox>
   );
 };

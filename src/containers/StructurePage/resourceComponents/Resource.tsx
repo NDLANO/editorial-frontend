@@ -35,7 +35,6 @@ import { getIdFromUrn } from '../../../util/taxonomyHelpers';
 import VersionHistoryLightbox from '../../../components/VersionHistoryLightbox';
 import { PUBLISHED } from '../../../constants';
 import RelevanceOption from '../../../components/Taxonomy/RelevanceOption';
-import RemoveButton from '../../../components/Taxonomy/RemoveButton';
 import ResourceItemLink from './ResourceItemLink';
 import GrepCodesModal from './GrepCodesModal';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
@@ -131,12 +130,21 @@ const StyledDndIcon = styled(DragVertical)`
 
 const baseButtonStyles = css`
   margin-left: ${spacing.xsmall};
+`;
+
+const GrepButton = styled(ButtonV2)`
+  ${baseButtonStyles}
   flex: 1;
+`;
+const RemoveButton = styled(ButtonV2)`
+  ${baseButtonStyles};
+  flex: 0;
 `;
 
 const StatusButton = styled(ButtonV2)<{ isPublished: boolean }>`
   ${baseButtonStyles}
   border: none;
+  flex: 1;
   background-color: ${props =>
     props.isPublished ? colors.subjectMaterial.light : colors.learningPath.light};
   &:hover {
@@ -150,16 +158,13 @@ const CheckedWrapper = styled.div`
 `;
 const StyledResponsibleBadge = styled.div`
   height: ${spacing.normal};
-  background-color: ${colors.brand.lighter};
   border-radius: 4px;
   color: ${colors.brand.dark};
   ${fonts.sizes(14)};
-  flex: 2;
-  text-align: center;
+  flex: 6;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  padding: 0px ${spacing.small};
 `;
 
 const BoldFont = styled.span`
@@ -333,7 +338,6 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
               </PublishedWrapper>
             )}
             <RelevanceOption relevanceId={resource.relevanceId} onChange={updateRelevanceId} />
-            {onDelete && <RemoveButton onClick={() => onDelete(resource.connectionId)} />}
             {showVersionHistory && (
               <VersionHistoryLightbox
                 onClose={() => setShowVersionHistory(false)}
@@ -349,19 +353,14 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
             )}
           </StyledText>
           <ButtonRow>
-            {responsible && (
-              <StyledResponsibleBadge>
-                <BoldFont>Ansvarlig:</BoldFont> {responsible}
-              </StyledResponsibleBadge>
-            )}
+            <StyledResponsibleBadge>
+              <BoldFont>{`${t('form.responsible.label')}:`}</BoldFont>
+              {responsible ?? t('form.responsible.noResponible')}
+            </StyledResponsibleBadge>
             {contentType !== 'learning-path' && (
-              <ButtonV2
-                css={baseButtonStyles}
-                size="xsmall"
-                colorTheme="lighter"
-                onClick={() => setShowGrepCodes(true)}>
+              <GrepButton size="xsmall" colorTheme="lighter" onClick={() => setShowGrepCodes(true)}>
                 {`GREP (${resource.contentMeta?.grepCodes?.length || 0})`}
-              </ButtonV2>
+              </GrepButton>
             )}
             {resource.contentMeta?.status?.current && (
               <StatusButton
@@ -373,6 +372,14 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
                 {t(`form.status.${resource.contentMeta.status.current.toLowerCase()}`)}
               </StatusButton>
             )}
+            <RemoveButton
+              css={baseButtonStyles}
+              onClick={() => (onDelete ? onDelete(resource.connectionId) : null)}
+              size="xsmall"
+              colorTheme="danger"
+              disabled={!onDelete}>
+              {t('form.remove')}
+            </RemoveButton>
           </ButtonRow>
         </ContentWrapper>
       </StyledCard>

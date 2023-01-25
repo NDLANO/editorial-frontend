@@ -354,7 +354,8 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
           </StyledText>
           <ButtonRow>
             <StyledResponsibleBadge>
-              <BoldFont>Ansvarlig:</BoldFont> {responsible ?? t('form.responsible.noResponible')}
+              <BoldFont>{`${t('form.responsible.label')}:`}</BoldFont>
+              {responsible ?? t('form.responsible.noResponible')}
             </StyledResponsibleBadge>
             {contentType !== 'learning-path' && (
               <GrepButton size="xsmall" colorTheme="lighter" onClick={() => setShowGrepCodes(true)}>

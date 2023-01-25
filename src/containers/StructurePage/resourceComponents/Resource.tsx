@@ -354,7 +354,7 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
           </StyledText>
           <ButtonRow>
             <StyledResponsibleBadge>
-              <BoldFont>{`${t('form.responsible.label')}:`}</BoldFont>
+              <BoldFont>{`${t('form.responsible.label')}: `}</BoldFont>
               {responsible ?? t('form.responsible.noResponible')}
             </StyledResponsibleBadge>
             {contentType !== 'learning-path' && (

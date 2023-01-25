@@ -50,7 +50,6 @@ const StructureContainer = () => {
   const { taxonomyVersion } = useTaxonomyVersion();
   const [currentNode, setCurrentNode] = useState<NodeType | undefined>(undefined);
   const [shouldScroll, setShouldScroll] = useState(!!paths.length);
-  const [addSubjectModalOpen, setAddSubjectModalOpen] = useState(false);
 
   const { userPermissions } = useSession();
   const [showFavorites, setShowFavorites] = useState(

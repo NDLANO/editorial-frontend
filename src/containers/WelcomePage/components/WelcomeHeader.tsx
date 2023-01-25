@@ -13,16 +13,9 @@ import { css } from '@emotion/react';
 import { useTranslation } from 'react-i18next';
 import { useSession } from '../../Session/SessionProvider';
 
-const StyledWrapper = styled.header`
-  height: 150px;
-  display: flex;
-  align-items: flex-end;
-  overflow: hidden;
-`;
-
 const StyledHeader = styled.div`
   width: 100%;
-  height: 130px;
+  height: 60px;
   display: flex;
   align-items: center;
   background-color: ${colors.brand.lighter};
@@ -41,7 +34,6 @@ const StyledTitle = styled.h1`
   color: ${colors.brand.primary};
   margin: 0;
   font-family: ${fonts.sans};
-  white-space: nowrap;
 `;
 
 const StyledSafeLinkButton = styled(SafeLinkButton)`
@@ -58,8 +50,8 @@ const LeftShape = styled.div`
   ${shapeStyles}
   left: 0;
   top: 0;
-  width: 120px;
-  height: 100px;
+  width: 130px;
+  height: 50px;
   border-radius: 10px 0 100px 0;
 `;
 
@@ -68,7 +60,7 @@ const RightShape = styled.div`
   right: 0;
   bottom: 0;
   width: 110px;
-  height: 80px;
+  height: 50px;
   border-radius: 100px 0 10px 0;
 `;
 
@@ -88,32 +80,18 @@ export const WelcomeHeader = () => {
   const { t } = useTranslation();
 
   return (
-    <StyledWrapper>
-      <StyledHeader>
-        <LeftShape />
-        <ContentWrapper>
-          <StyledImg src="/welcome-page-person.svg" alt="" />
-        </ContentWrapper>
-        <ContentWrapper>
-          <StyledTitle>
-            <span>{t('welcomePage.welcomeBack')}</span>
-            <span
-              css={{
-                marginLeft: `${spacing.large}`,
-                display: 'block',
-              }}>
-              {userName ? `${userName}!` : null}
-            </span>
-          </StyledTitle>
-        </ContentWrapper>
-        <ButtonWrapper>
-          <StyledSafeLinkButton to="/structure">
-            {t('subNavigation.structure')}
-          </StyledSafeLinkButton>
-        </ButtonWrapper>
-        <RightShape />
-      </StyledHeader>
-    </StyledWrapper>
+    <StyledHeader>
+      <LeftShape />
+      <ContentWrapper>
+        <StyledTitle>
+          {`${t('welcomePage.welcomeBack')} ${userName ? `${userName}!` : null}`}
+        </StyledTitle>
+      </ContentWrapper>
+      <ButtonWrapper>
+        <StyledSafeLinkButton to="/structure">{t('subNavigation.structure')}</StyledSafeLinkButton>
+      </ButtonWrapper>
+      <RightShape />
+    </StyledHeader>
   );
 };
 

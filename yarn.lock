@@ -1895,6 +1895,14 @@
     inuitcss "6.0.0"
     sass-mq "^5.0.1"
 
+"@ndla/core@^3.1.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@ndla/core/-/core-3.1.0.tgz#0188dc4eb7c9423b8b139430049dfd0eb06fecc3"
+  integrity sha512-5m3GccPygmUuSW0KFp4qSDLXcL9dpeTjQlO86i7jLjVYXPv9TjkPMu2y+eYadqPBeSmh9DuoPzoIEb5o8UyI2w==
+  dependencies:
+    inuitcss "6.0.0"
+    sass-mq "^5.0.1"
+
 "@ndla/editor@^3.1.10":
   version "3.1.10"
   resolved "https://registry.yarnpkg.com/@ndla/editor/-/editor-3.1.10.tgz#d2b5d69bdc584c8ecd25efe89b626f4e0739fa82"
@@ -1956,6 +1964,13 @@
   integrity sha512-zT+QZ4YO34iLws0xClXLeomGSesqJKQgVM9XlJfl1OYIJYwifnSWMglIaYxJNswrcHg5WPw+8muUCk9zzCEEbA==
   dependencies:
     "@ndla/core" "^3.0.3"
+
+"@ndla/icons@^2.2.1":
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/@ndla/icons/-/icons-2.2.1.tgz#8fb3cfd7bf924b68e49068b4daf12db0976f72dd"
+  integrity sha512-OV0dNG3Y2jqdO9/pWkpwfL6/fJy9gVnMftDhMwesf8JI6oh/xJSyl9tlgEqYvzEWNjGhSXBABV17dMIaB7CK9Q==
+  dependencies:
+    "@ndla/core" "^3.1.0"
 
 "@ndla/image-search@^5.1.20":
   version "5.1.20"
@@ -5086,9 +5101,9 @@ cookie@0.5.0:
   integrity sha512-YZ3GUyn/o8gfKJlnlX7g7xq4gyO6OSuhGPKaaGssGB2qgDUS0gPgtTvoyZLTt9Ab6dC4hfc9dV5arkvc/OCmrw==
 
 cookiejar@^2.1.0:
-  version "2.1.2"
-  resolved "https://registry.yarnpkg.com/cookiejar/-/cookiejar-2.1.2.tgz#dd8a235530752f988f9a0844f3fc589e3111125c"
-  integrity sha512-Mw+adcfzPxcPeI+0WlvRrr/3lGVO0bD75SxX6811cxSh1Wbxx7xZBGK1eVtDf6si8rg2lhnUjsVLMFMfbRIuwA==
+  version "2.1.4"
+  resolved "https://registry.yarnpkg.com/cookiejar/-/cookiejar-2.1.4.tgz#ee669c1fea2cf42dc31585469d193fef0d65771b"
+  integrity sha512-LDx6oHrK+PhzLKJU9j5S7/Y3jM/mUHvD/DeI1WQmJn652iPC5Y4TBzC9l+5OMOXlyTTA+SmVUPm0HQUwpD5Jqw==
 
 copy-webpack-plugin@^11.0.0:
   version "11.0.0"

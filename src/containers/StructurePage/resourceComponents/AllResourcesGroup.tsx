@@ -35,6 +35,7 @@ interface Props {
   currentNode: ChildNodeType;
   contentMeta: Dictionary<NodeResourceMeta>;
   grouped: boolean;
+  setCurrentNode: (changedNode: ChildNodeType) => void;
 }
 
 const AllResourcesGroup = ({
@@ -43,6 +44,7 @@ const AllResourcesGroup = ({
   currentNode,
   contentMeta,
   grouped,
+  setCurrentNode,
 }: Props) => {
   const { t } = useTranslation();
   const [showAddModal, setShowAddModal] = useState(false);
@@ -72,6 +74,8 @@ const AllResourcesGroup = ({
       <ResourceBanner
         title={currentNode.name}
         contentMeta={contentMeta}
+        currentNode={currentNode}
+        onCurrentNodeChanged={setCurrentNode}
         addButton={
           <AddResourceButton onClick={toggleAddModal}>
             <Tooltip tooltip={t('taxonomy.addResource')}>

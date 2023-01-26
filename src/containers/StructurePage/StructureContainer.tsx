@@ -136,7 +136,7 @@ const StructureContainer = () => {
           </LeftColumn>
           <RightColumn colEnd={12}>
             {currentNode && isChildNode(currentNode) && (
-              <StructureResources currentChildNode={currentNode} />
+              <StructureResources currentChildNode={currentNode} setCurrentNode={setCurrentNode} />
             )}
           </RightColumn>
           <MainArea>

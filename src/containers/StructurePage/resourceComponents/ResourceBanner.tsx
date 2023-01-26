@@ -13,6 +13,8 @@ import { Dictionary } from '../../../interfaces';
 import { NodeResourceMeta } from '../../../modules/nodes/nodeQueries';
 import { ResourceGroupBanner, StyledIcon } from '../styles';
 import ApproachingRevisionDate from './ApproachingRevisionDate';
+import GroupTopicResources from '../folderComponents/topicMenuOptions/GroupTopicResources';
+import { ChildNodeType } from '../../../modules/nodes/nodeApiTypes';
 
 const PublishedText = styled.div`
   font-weight: ${fonts.weight.normal};
@@ -33,11 +35,20 @@ const getPublishedCount = (contentMeta: Dictionary<NodeResourceMeta>) => {
 interface Props {
   title: string;
   contentMeta: Dictionary<NodeResourceMeta>;
+  currentNode: ChildNodeType;
+  onCurrentNodeChanged: (changedNode: ChildNodeType) => void;
   addButton?: ReactNode;
   articleIds?: number[];
 }
 
-const ResourceBanner = ({ title, contentMeta, addButton, articleIds }: Props) => {
+const ResourceBanner = ({
+  title,
+  contentMeta,
+  currentNode,
+  onCurrentNodeChanged,
+  addButton,
+  articleIds,
+}: Props) => {
   const elementCount = Object.values(contentMeta).length;
   const publishedCount = getPublishedCount(contentMeta);
 
@@ -49,6 +60,18 @@ const ResourceBanner = ({ title, contentMeta, addButton, articleIds }: Props) =>
         {addButton}
       </div>
       <RightContent>
+        {currentNode && currentNode.id && (
+          <GroupTopicResources
+            node={currentNode}
+            hideIcon
+            onChanged={partialMeta => {
+              onCurrentNodeChanged({
+                ...currentNode,
+                metadata: { ...currentNode.metadata, ...partialMeta },
+              });
+            }}
+          />
+        )}
         <PublishedText>{`${publishedCount}/${elementCount} publisert`}</PublishedText>
         <ApproachingRevisionDate articleIds={articleIds} />
       </RightContent>

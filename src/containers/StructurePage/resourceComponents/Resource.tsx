@@ -134,7 +134,7 @@ const baseButtonStyles = css`
 
 const GrepButton = styled(ButtonV2)`
   ${baseButtonStyles}
-  flex: 1;
+  flex: 2;
 `;
 const RemoveButton = styled(ButtonV2)`
   ${baseButtonStyles};
@@ -144,7 +144,7 @@ const RemoveButton = styled(ButtonV2)`
 const StatusButton = styled(ButtonV2)<{ isPublished: boolean }>`
   ${baseButtonStyles}
   border: none;
-  flex: 1;
+  flex: 2;
   background-color: ${props =>
     props.isPublished ? colors.subjectMaterial.light : colors.learningPath.light};
   &:hover {

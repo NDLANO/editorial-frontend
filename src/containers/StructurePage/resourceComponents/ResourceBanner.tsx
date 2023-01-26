@@ -26,6 +26,7 @@ const RightContent = styled.div`
   display: flex;
   gap: ${spacing.small};
   align-items: center;
+  justify-content: space-between;
 `;
 
 const BannerWrapper = styled.div`

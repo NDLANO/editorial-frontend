@@ -125,7 +125,7 @@ const StyledDndIconWrapper = styled.div<{ isVisible: boolean }>`
 const StyledDndIcon = styled(DragVertical)`
   height: 30px;
   width: 30px;
-  color: ${colors.learningPath.light};
+  color: ${colors.brand.greyMedium};
 `;
 
 const baseButtonStyles = css`
@@ -354,7 +354,7 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
           </StyledText>
           <ButtonRow>
             <StyledResponsibleBadge>
-              <BoldFont>{`${t('form.responsible.label')}:`}</BoldFont>
+              <BoldFont>{`${t('form.responsible.label')}: `}</BoldFont>
               {responsible ?? t('form.responsible.noResponible')}
             </StyledResponsibleBadge>
             {contentType !== 'learning-path' && (

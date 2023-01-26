@@ -1,17 +1,18 @@
 import { Taxonomy } from '@ndla/icons/editor';
 import { OneColumn } from '@ndla/ui';
 import { Spinner } from '@ndla/icons';
-import { colors } from '@ndla/core';
+import { colors, spacing } from '@ndla/core';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Switch } from '@ndla/switch';
 import styled from '@emotion/styled';
+import { ButtonV2 } from '@ndla/button';
+import { Plus } from '@ndla/icons/action';
 import Accordion from '../../components/Accordion';
 import ErrorBoundary from '../../components/ErrorBoundary';
 import { REMEMBER_FAVORITE_NODES, TAXONOMY_ADMIN_SCOPE } from '../../constants';
 import { useSession } from '../Session/SessionProvider';
-import InlineAddButton from '../../components/InlineAddButton';
 import { useAddNodeMutation } from '../../modules/nodes/nodeMutations';
 import { useUserData } from '../../modules/draft/draftQueries';
 import { useNodes } from '../../modules/nodes/nodeQueries';
@@ -25,6 +26,12 @@ import { useTaxonomyVersion } from '../StructureVersion/TaxonomyVersionProvider'
 import StickyVersionSelector from './StickyVersionSelector';
 import config from '../../config';
 import { createGuard } from '../../util/guards';
+import AddSubjectModal from './AddSubjectModal';
+
+const AddSubjectButton = styled(ButtonV2)`
+  white-space: nowrap;
+  margin: 0px ${spacing.small};
+`;
 
 const StructureWrapper = styled.ul`
   margin: 0;
@@ -49,6 +56,7 @@ const StructureContainer = () => {
   const { taxonomyVersion } = useTaxonomyVersion();
   const [currentNode, setCurrentNode] = useState<NodeType | undefined>(undefined);
   const [shouldScroll, setShouldScroll] = useState(!!paths.length);
+  const [addSubjectModalOpen, setAddSubjectModalOpen] = useState(false);
 
   const { userPermissions } = useSession();
   const [editStructureHidden, setEditStructureHidden] = useState(false);
@@ -111,17 +119,6 @@ const StructureContainer = () => {
     setShowFavorites(!showFavorites);
   };
 
-  const addNode = async (name: string) => {
-    await addNodeMutation.mutateAsync({
-      body: {
-        name,
-        nodeType: 'SUBJECT',
-        root: true,
-      },
-      taxonomyVersion,
-    });
-  };
-
   const isTaxonomyAdmin = userPermissions?.includes(TAXONOMY_ADMIN_SCOPE);
 
   return (
@@ -137,7 +134,14 @@ const StructureContainer = () => {
           }
           appearance={'taxonomy'}
           addButton={
-            isTaxonomyAdmin && <InlineAddButton title={t('taxonomy.addSubject')} action={addNode} />
+            isTaxonomyAdmin && (
+              <AddSubjectButton
+                size="small"
+                onClick={() => setAddSubjectModalOpen(true)}
+                data-testid="AddSubjectButton">
+                <Plus /> {t('taxonomy.addSubject')}
+              </AddSubjectButton>
+            )
           }
           toggleSwitch={
             <Switch
@@ -180,6 +184,7 @@ const StructureContainer = () => {
             onCurrentNodeChanged={setCurrentNode}
           />
         )}
+        {addSubjectModalOpen && <AddSubjectModal onClose={() => setAddSubjectModalOpen(false)} />}
       </OneColumn>
       <Footer showLocaleSelector />
     </ErrorBoundary>

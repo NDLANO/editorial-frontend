@@ -125,7 +125,7 @@ const StyledDndIconWrapper = styled.div<{ isVisible: boolean }>`
 const StyledDndIcon = styled(DragVertical)`
   height: 30px;
   width: 30px;
-  color: ${colors.learningPath.light};
+  color: ${colors.brand.greyMedium};
 `;
 
 const baseButtonStyles = css`

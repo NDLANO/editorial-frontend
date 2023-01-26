@@ -26,7 +26,7 @@ export const ResourceGroupBanner = styled.div`
   justify-content: space-between;
   position: relative;
   align-content: center;
-  height: 52px;
+  min-height: 52px;
 `;
 
 export const StyledIcon = styled(Share)`

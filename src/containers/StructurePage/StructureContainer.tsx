@@ -111,7 +111,7 @@ const StructureContainer = () => {
     <ErrorBoundary>
       <Wrapper>
         <GridContainer>
-          <LeftColumn colStart={2}>
+          <LeftColumn colStart={1}>
             <StructureBanner onChange={toggleShowFavorites} checked={showFavorites} />
             <StyledStructureContainer>
               {userDataQuery.isLoading || nodesQuery.isLoading ? (
@@ -134,7 +134,7 @@ const StructureContainer = () => {
               )}
             </StyledStructureContainer>
           </LeftColumn>
-          <RightColumn colEnd={12}>
+          <RightColumn colEnd={13}>
             {currentNode && isChildNode(currentNode) && (
               <StructureResources currentChildNode={currentNode} setCurrentNode={setCurrentNode} />
             )}

@@ -13,6 +13,7 @@ export const GridContainer = styled.div`
   ${mq.range({ from: '0px', until: breakpoints.tabletWide })} {
     padding: ${spacing.nsmall};
   }
+
   ${mq.range({ from: breakpoints.tabletWide })} {
     display: grid;
     grid-template-columns: repeat(12, 1fr);
@@ -21,6 +22,7 @@ export const GridContainer = styled.div`
     justify-self: center;
     align-self: center;
     width: 100%;
+    padding: 0 ${spacing.nsmall};
   }
 `;
 

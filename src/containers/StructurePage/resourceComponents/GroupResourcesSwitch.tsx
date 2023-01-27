@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Switch } from '@ndla/switch';
 import Tooltip from '@ndla/tooltip';
 import { useTranslation } from 'react-i18next';
@@ -33,13 +33,16 @@ interface Props {
   onChanged: (newMeta: Partial<TaxonomyMetadata>) => void;
 }
 
-const GroupResourceSwitch = ({ node, onChanged }: Props) => {
+const getGroupedStatus = (node: NodeType): boolean => {
   const nodeResources = node.metadata?.customFields[TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES];
-
-  const [isGrouped, setIsGrouped] = useState(
+  const isGrouped =
     (nodeResources ?? TAXONOMY_CUSTOM_FIELD_GROUPED_RESOURCE) ===
-      TAXONOMY_CUSTOM_FIELD_GROUPED_RESOURCE,
-  );
+    TAXONOMY_CUSTOM_FIELD_GROUPED_RESOURCE;
+  return isGrouped;
+};
+
+const GroupResourceSwitch = ({ node, onChanged }: Props) => {
+  const [isGrouped, setIsGrouped] = useState(getGroupedStatus(node));
   const { t, i18n } = useTranslation();
 
   const updateNodeMetadata = useUpdateNodeMetadataMutation();
@@ -69,14 +72,16 @@ const GroupResourceSwitch = ({ node, onChanged }: Props) => {
       },
       {
         onSettled: () => qc.invalidateQueries(compKey),
-
-        onSuccess: () => {
-          onChanged({ customFields });
-          setIsGrouped(checked);
-        },
+        onSuccess: () => onChanged({ customFields }),
       },
     );
   };
+
+  useEffect(() => {
+    const groupedStatus = getGroupedStatus(node);
+    if (isGrouped !== groupedStatus) setIsGrouped(groupedStatus);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [node]);
 
   return (
     <Tooltip tooltip={t('taxonomy.metadata.customFields.RGTooltip')}>

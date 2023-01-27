@@ -6,7 +6,7 @@
  *
  */
 
-import { spacing, fonts, breakpoints, mq } from '@ndla/core';
+import { spacing, fonts, mq } from '@ndla/core';
 import Button from '@ndla/button';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
@@ -14,12 +14,13 @@ import { NodeType } from '../../../modules/nodes/nodeApiTypes';
 import SettingsMenu from './SettingsMenu';
 import { Row } from '../../../components';
 import Spinner from '../../../components/Spinner';
+import { structureContainerBreakpoint } from '../StructureContainer';
 
 const StyledResourceButton = styled(Button)`
   margin: 3px ${spacing.xsmall} 3px auto;
   ${fonts.sizes(14, 1.1)};
 
-  ${mq.range({ from: breakpoints.tabletWide })} {
+  ${mq.range({ from: structureContainerBreakpoint })} {
     visibility: hidden;
   }
 `;

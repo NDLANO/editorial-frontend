@@ -21,7 +21,7 @@ import AddSubjectModal from './AddSubjectModal';
 const FlexWrapper = styled.div`
   display: flex;
   align-items: center;
-  gap: ${spacing.small};
+  gap: ${spacing.xsmall};
 `;
 const AddSubjectButton = styled(ButtonV2)`
   white-space: nowrap;

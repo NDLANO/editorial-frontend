@@ -9,12 +9,12 @@
 import styled from '@emotion/styled';
 import { spacing, breakpoints, mq } from '@ndla/core';
 
-export const GridContainer = styled.div`
-  ${mq.range({ from: '0px', until: breakpoints.tabletWide })} {
+export const GridContainer = styled.div<{ breakpoint?: string }>`
+  ${({ breakpoint }) => mq.range({ from: '0px', until: breakpoint ?? breakpoints.tabletWide })} {
     padding: ${spacing.nsmall};
   }
 
-  ${mq.range({ from: breakpoints.tabletWide })} {
+  ${({ breakpoint }) => mq.range({ from: breakpoint ?? breakpoints.tabletWide })} {
     display: grid;
     grid-template-columns: repeat(12, 1fr);
     grid-gap: 1em;

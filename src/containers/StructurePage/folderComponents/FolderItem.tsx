@@ -6,7 +6,7 @@
  *
  */
 
-import { spacing, fonts, breakpoints } from '@ndla/core';
+import { spacing, fonts, breakpoints, mq } from '@ndla/core';
 import Button from '@ndla/button';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
@@ -18,6 +18,10 @@ import Spinner from '../../../components/Spinner';
 const StyledResourceButton = styled(Button)`
   margin: 3px ${spacing.xsmall} 3px auto;
   ${fonts.sizes(14, 1.1)};
+
+  ${mq.range({ from: breakpoints.tabletWide })} {
+    visibility: hidden;
+  }
 `;
 
 const StyledFolderWrapper = styled.div`

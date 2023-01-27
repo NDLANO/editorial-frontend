@@ -144,7 +144,7 @@
     "@ndla/pager": "^2.1.9",
     "@ndla/safelink": "^4.0.0",
     "@ndla/select": "^2.1.1",
-    "@ndla/switch": "^1.0.3",
+    "@ndla/switch": "^1.0.5",
     "@ndla/tabs": "^2.1.1",
     "@ndla/tooltip": "^4.0.3",
     "@ndla/tracker": "^2.0.5",

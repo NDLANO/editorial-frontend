@@ -14,8 +14,8 @@ import { Dictionary } from '../../../interfaces';
 import { NodeResourceMeta } from '../../../modules/nodes/nodeQueries';
 import { ResourceGroupBanner, StyledIcon } from '../styles';
 import ApproachingRevisionDate from './ApproachingRevisionDate';
-import GroupTopicResources from '../folderComponents/topicMenuOptions/GroupTopicResources';
 import { ChildNodeType } from '../../../modules/nodes/nodeApiTypes';
+import GroupResourceSwitch from './GroupResourcesSwitch';
 
 const PublishedText = styled.div`
   font-weight: ${fonts.weight.normal};
@@ -86,9 +86,8 @@ const ResourceBanner = ({
               <PublishedText>{`${publishedCount}/${elementCount} publisert`}</PublishedText>
               <ApproachingRevisionDate articleIds={articleIds} />
               {currentNode && currentNode.id && (
-                <GroupTopicResources
+                <GroupResourceSwitch
                   node={currentNode}
-                  hideIcon
                   onChanged={partialMeta => {
                     onCurrentNodeChanged({
                       ...currentNode,

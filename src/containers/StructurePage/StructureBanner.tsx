@@ -9,7 +9,7 @@
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import { Switch } from '@ndla/switch';
-import { ChangeEventHandler, useState } from 'react';
+import { useState } from 'react';
 import { ButtonV2 } from '@ndla/button';
 import { Plus } from '@ndla/icons/lib/action';
 import { spacing } from '@ndla/core';
@@ -29,7 +29,7 @@ const AddSubjectButton = styled(ButtonV2)`
 `;
 
 interface Props {
-  onChange: ChangeEventHandler<HTMLInputElement>;
+  onChange: (checked: boolean) => void;
   checked: boolean;
 }
 

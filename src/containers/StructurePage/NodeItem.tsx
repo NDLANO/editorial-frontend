@@ -4,7 +4,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import { HTMLProps, ReactNode, useEffect } from 'react';
+import { HTMLProps, MutableRefObject, ReactNode, useEffect } from 'react';
 import { DropResult } from 'react-beautiful-dnd';
 import { colors } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
@@ -62,6 +62,7 @@ interface Props {
   connectionId: string;
   parentActive: boolean;
   allRootNodes: NodeType[];
+  resourceSectionRef: MutableRefObject<HTMLDivElement | null>;
   isRoot?: boolean;
   isFavorite: boolean;
   toggleFavorite?: () => void;
@@ -80,6 +81,7 @@ const NodeItem = ({
   onDragEnd,
   parentActive,
   allRootNodes,
+  resourceSectionRef,
   isRoot,
   isFavorite,
   toggleFavorite,
@@ -143,6 +145,7 @@ const NodeItem = ({
             structure={allRootNodes}
             onCurrentNodeChanged={node => onNodeSelected(node)}
             nodeChildren={nodes ?? []}
+            jumpToResources={() => resourceSectionRef?.current?.scrollIntoView()}
           />
         )}
         {isLoading && (
@@ -175,6 +178,7 @@ const NodeItem = ({
                   toggleOpen={toggleOpen}
                   level={level + 1}
                   onDragEnd={onDragEnd}
+                  resourceSectionRef={resourceSectionRef}
                 />
               ))}
             </MakeDndList>

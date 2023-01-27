@@ -30,6 +30,7 @@ interface Props {
   isFavorite: boolean;
   onNodeSelected: (node?: NodeType) => void;
   allRootNodes: NodeType[];
+  resourceSectionRef: MutableRefObject<HTMLDivElement | null>;
   renderBeforeTitle?: RenderBeforeFunction;
 }
 
@@ -40,6 +41,7 @@ const RootNode = ({
   toggleOpen,
   onNodeSelected,
   allRootNodes,
+  resourceSectionRef,
   renderBeforeTitle,
 }: Props) => {
   const { i18n } = useTranslation();
@@ -118,6 +120,7 @@ const RootNode = ({
       isRoot={true}
       isFavorite={isFavorite}
       isLoading={childNodesQuery.isLoading}
+      resourceSectionRef={resourceSectionRef}
     />
   );
 };

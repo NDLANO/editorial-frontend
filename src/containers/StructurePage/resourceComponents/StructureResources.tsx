@@ -6,7 +6,7 @@
  *
  */
 
-import { memo } from 'react';
+import { memo, RefObject } from 'react';
 import { useTranslation } from 'react-i18next';
 import { spacing } from '@ndla/core';
 import styled from '@emotion/styled';
@@ -43,6 +43,7 @@ export interface ResourceWithNodeConnectionAndMeta extends ResourceWithNodeConne
 
 interface Props {
   currentChildNode: ChildNodeType;
+  resourceRef: RefObject<HTMLDivElement>;
   setCurrentNode: (changedNode: ChildNodeType) => void;
 }
 
@@ -64,7 +65,7 @@ const withMissing = (r: ResourceWithNodeConnection): ResourceWithNodeConnection 
   resourceTypes: [missingObject],
 });
 
-const StructureResources = ({ currentChildNode, setCurrentNode }: Props) => {
+const StructureResources = ({ currentChildNode, resourceRef, setCurrentNode }: Props) => {
   const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
   const grouped = currentChildNode?.metadata?.customFields['topic-resources'] ?? 'grouped';
@@ -102,7 +103,7 @@ const StructureResources = ({ currentChildNode, setCurrentNode }: Props) => {
   );
 
   return (
-    <StickyContainer>
+    <StickyContainer ref={resourceRef}>
       <AllResourcesGroup
         key="ungrouped"
         nodeResources={nodeResources ?? []}

@@ -1,5 +1,5 @@
 import { Spinner } from '@ndla/icons';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
@@ -55,6 +55,8 @@ const StructureContainer = () => {
   const [showFavorites, setShowFavorites] = useState(
     window.localStorage.getItem(REMEMBER_FAVORITE_NODES) === 'true',
   );
+
+  const resourceSection = useRef<HTMLDivElement>(null);
 
   const userDataQuery = useUserData();
   const favoriteNodes =
@@ -128,6 +130,7 @@ const StructureContainer = () => {
                       key={node.id}
                       node={node}
                       toggleOpen={handleStructureToggle}
+                      resourceSectionRef={resourceSection}
                     />
                   ))}
                 </StructureWrapper>
@@ -136,7 +139,11 @@ const StructureContainer = () => {
           </LeftColumn>
           <RightColumn colEnd={13}>
             {currentNode && isChildNode(currentNode) && (
-              <StructureResources currentChildNode={currentNode} setCurrentNode={setCurrentNode} />
+              <StructureResources
+                currentChildNode={currentNode}
+                setCurrentNode={setCurrentNode}
+                resourceRef={resourceSection}
+              />
             )}
           </RightColumn>
           <MainArea>

@@ -34,11 +34,12 @@ const BannerWrapper = styled.div`
   flex-direction: column;
   width: 100%;
   justify-content: space-between;
+  gap: ${spacing.xsmall};
 `;
 
 const ControlWrapper = styled.div`
   display: flex;
-  gap: ${spacing.xsmall};
+  gap: ${spacing.small};
   align-items: center;
 `;
 

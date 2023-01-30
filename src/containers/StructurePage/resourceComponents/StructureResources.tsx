@@ -22,7 +22,7 @@ import {
 } from '../../../modules/nodes/nodeQueries';
 import { useAllResourceTypes } from '../../../modules/taxonomy/resourcetypes/resourceTypesQueries';
 import handleError from '../../../util/handleError';
-import AllResourcesGroup from './AllResourcesGroup';
+import ResourcesContainer from './ResourcesContainer';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 import GroupTopicResources from '../folderComponents/topicMenuOptions/GroupTopicResources';
 
@@ -130,7 +130,7 @@ const StructureResources = ({ currentChildNode, resourceRef, onCurrentNodeChange
         )}
       </Row>
 
-      <AllResourcesGroup
+      <ResourcesContainer
         key="ungrouped"
         nodeResources={nodeResources ?? []}
         resourceTypes={resourceTypes ?? []}

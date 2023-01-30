@@ -31,7 +31,7 @@ interface Props {
   grouped: boolean;
 }
 
-const AllResourcesGroup = ({
+const ResourcesContainer = ({
   resourceTypes,
   nodeResources,
   currentNode,
@@ -121,4 +121,4 @@ const AllResourcesGroup = ({
   );
 };
 
-export default AllResourcesGroup;
+export default ResourcesContainer;

@@ -97,7 +97,7 @@ const AllResourcesGroup = ({
             nodeId: '',
             contentMeta: currentNode.contentUri ? contentMeta[currentNode.contentUri] : undefined,
             resourceTypes: [],
-            relevanceId: currentNode.relevanceId!,
+            relevanceId: currentNode.relevanceId,
           }}
         />
       )}

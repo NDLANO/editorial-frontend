@@ -12,6 +12,7 @@ import styled from '@emotion/styled';
 import { Plus } from '@ndla/icons/action';
 import Tooltip from '@ndla/tooltip';
 import compact from 'lodash/compact';
+import { Spinner } from '@ndla/icons';
 import { ResourceWithNodeConnectionAndMeta } from './StructureResources';
 import { ResourceType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import ResourceItems from './ResourceItems';
@@ -36,6 +37,7 @@ interface Props {
   contentMeta: Dictionary<NodeResourceMeta>;
   grouped: boolean;
   setCurrentNode: (changedNode: ChildNodeType) => void;
+  contentMetaLoading: boolean;
 }
 
 const AllResourcesGroup = ({
@@ -45,6 +47,7 @@ const AllResourcesGroup = ({
   contentMeta,
   grouped,
   setCurrentNode,
+  contentMetaLoading,
 }: Props) => {
   const { t } = useTranslation();
   const [showAddModal, setShowAddModal] = useState(false);
@@ -94,7 +97,6 @@ const AllResourcesGroup = ({
             existingResourceIds={nodeResources.map(r => r.id)}
           />
         )}
-
         {currentNode.name && (
           <Resource
             currentNodeId={currentNode.id}
@@ -106,23 +108,32 @@ const AllResourcesGroup = ({
               resourceTypes: [],
               relevanceId: currentNode.relevanceId!,
             }}
+            contentMetaLoading={contentMetaLoading}
           />
         )}
-        {grouped ? (
-          mapping?.map(resource => (
-            <ResourceItems
-              key={resource.id}
-              resources={resource.resources}
-              currentNodeId={currentNodeId}
-              contentMeta={contentMeta}
-            />
-          ))
+        {contentMetaLoading ? (
+          <Spinner />
         ) : (
-          <ResourceItems
-            resources={nodeResources}
-            currentNodeId={currentNodeId}
-            contentMeta={contentMeta}
-          />
+          <>
+            {grouped ? (
+              mapping?.map(resource => (
+                <ResourceItems
+                  key={resource.id}
+                  resources={resource.resources}
+                  currentNodeId={currentNodeId}
+                  contentMeta={contentMeta}
+                  contentMetaLoading={contentMetaLoading}
+                />
+              ))
+            ) : (
+              <ResourceItems
+                resources={nodeResources}
+                currentNodeId={currentNodeId}
+                contentMeta={contentMeta}
+                contentMetaLoading={contentMetaLoading}
+              />
+            )}
+          </>
         )}
       </ResourceWrapper>
     </>

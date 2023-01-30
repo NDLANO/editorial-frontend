@@ -79,7 +79,7 @@ const StructureResources = ({ currentChildNode, resourceRef, setCurrentNode }: P
     },
   );
 
-  const { data: nodeResourceMetas } = useNodeResourceMetas(
+  const { data: nodeResourceMetas, isLoading: contentMetaLoading } = useNodeResourceMetas(
     {
       nodeId: currentChildNode.id,
       ids:
@@ -112,6 +112,7 @@ const StructureResources = ({ currentChildNode, resourceRef, setCurrentNode }: P
         contentMeta={keyedMetas}
         grouped={grouped === 'grouped'}
         setCurrentNode={setCurrentNode}
+        contentMetaLoading={contentMetaLoading}
       />
     </StickyContainer>
   );

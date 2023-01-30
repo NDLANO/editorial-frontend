@@ -185,9 +185,16 @@ interface Props {
   onDelete?: (connectionId: string) => void;
   updateResource?: (resource: ResourceWithNodeConnection) => void;
   dragHandleProps?: DraggableProvidedDragHandleProps;
+  contentMetaLoading: boolean;
 }
 
-const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props) => {
+const Resource = ({
+  resource,
+  onDelete,
+  dragHandleProps,
+  currentNodeId,
+  contentMetaLoading,
+}: Props) => {
   const { t, i18n } = useTranslation();
   const location = useLocation();
   const [showVersionHistory, setShowVersionHistory] = useState(false);
@@ -297,9 +304,7 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
   return (
     <Wrapper>
       <StyledDndIconWrapper
-        isVisible={
-          !!(resource.contentMeta && resource.contentMeta?.articleType !== 'topic-article')
-        }
+        isVisible={!contentMetaLoading && resource.contentMeta?.articleType !== 'topic-article'}
         {...dragHandleProps}>
         <StyledDndIcon />
       </StyledDndIconWrapper>
@@ -328,7 +333,9 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
             {aproachingRevision ? (
               <RevisionDateIcon text="!" phrasesKey="form.responsible.revisionDateSingle" />
             ) : null}
-            <WrongTypeError resource={resource} articleType={resource.contentMeta?.articleType} />
+            {!contentMetaLoading && (
+              <WrongTypeError resource={resource} articleType={resource.contentMeta?.articleType} />
+            )}
             {(resource.contentMeta?.status?.current === PUBLISHED ||
               resource.contentMeta?.status?.other?.includes(PUBLISHED)) && (
               <PublishedWrapper path={path}>

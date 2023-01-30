@@ -44,11 +44,12 @@ interface Props {
   resources: ResourceWithNodeConnectionAndMeta[];
   currentNodeId: string;
   contentMeta: Dictionary<NodeResourceMeta>;
+  contentMetaLoading: boolean;
 }
 
 const isError = (error: unknown): error is Error => (error as Error).message !== undefined;
 
-const ResourceItems = ({ resources, currentNodeId, contentMeta }: Props) => {
+const ResourceItems = ({ resources, currentNodeId, contentMeta, contentMetaLoading }: Props) => {
   const { t, i18n } = useTranslation();
   const [deleteId, setDeleteId] = useState<string>('');
   const { taxonomyVersion } = useTaxonomyVersion();
@@ -133,6 +134,7 @@ const ResourceItems = ({ resources, currentNodeId, contentMeta }: Props) => {
             }}
             key={resource.id}
             onDelete={toggleDelete}
+            contentMetaLoading={contentMetaLoading}
           />
         ))}
       </MakeDndList>

@@ -11,6 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { Plus } from '@ndla/icons/action';
 import Tooltip from '@ndla/tooltip';
 import compact from 'lodash/compact';
+import { IconButtonV2 } from '@ndla/button';
 import { ResourceWithNodeConnectionAndMeta } from './StructureResources';
 import { ResourceType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import ResourceItems from './ResourceItems';
@@ -20,7 +21,6 @@ import Resource from './Resource';
 import { NodeResourceMeta } from '../../../modules/nodes/nodeQueries';
 import ResourceBanner from './ResourceBanner';
 import { Dictionary } from '../../../interfaces';
-import AddResourceButton from './AddResourceButton';
 import { getIdFromUrn, groupResourcesByType } from '../../../util/taxonomyHelpers';
 
 interface Props {
@@ -67,11 +67,15 @@ const AllResourcesGroup = ({
         title={currentNode.name}
         contentMeta={contentMeta}
         addButton={
-          <AddResourceButton onClick={toggleAddModal}>
+          <IconButtonV2
+            onClick={toggleAddModal}
+            size="xsmall"
+            variant="stripped"
+            aria-label={t('taxonomy.addResource')}>
             <Tooltip tooltip={t('taxonomy.addResource')}>
               <Plus />
             </Tooltip>
-          </AddResourceButton>
+          </IconButtonV2>
         }
         articleIds={articleIds}
       />

@@ -105,6 +105,7 @@ const StyledLink = styled(SafeLink)`
 const ButtonRow = styled.div`
   display: flex;
   justify-content: space-between;
+  gap: ${spacing.xsmall};
 `;
 
 const BadgeWrapper = styled.div`
@@ -127,21 +128,14 @@ const StyledDndIcon = styled(DragVertical)`
   color: ${colors.brand.greyMedium};
 `;
 
-const baseButtonStyles = css`
-  margin-left: ${spacing.xsmall};
-`;
-
 const GrepButton = styled(ButtonV2)`
-  ${baseButtonStyles}
   flex: 1;
 `;
 const RemoveButton = styled(ButtonV2)`
-  ${baseButtonStyles};
   flex: 0;
 `;
 
 const StatusButton = styled(ButtonV2)<{ isPublished: boolean }>`
-  ${baseButtonStyles}
   border: none;
   flex: 1;
   background-color: ${props =>
@@ -372,7 +366,6 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
               </StatusButton>
             )}
             <RemoveButton
-              css={baseButtonStyles}
               onClick={() => (onDelete ? onDelete(resource.connectionId) : null)}
               size="xsmall"
               colorTheme="danger"

@@ -24,7 +24,8 @@ import { getIdFromUrn } from '../util/taxonomyHelpers';
 import { Auth0UserData } from '../interfaces';
 
 const StyledHistoryContainer = styled.div`
-  display: flow-root;
+  display: flex;
+  flex-direction: column;
   width: 100%;
 `;
 

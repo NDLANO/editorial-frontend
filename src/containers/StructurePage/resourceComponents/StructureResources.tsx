@@ -21,7 +21,7 @@ import {
 } from '../../../modules/nodes/nodeQueries';
 import { useAllResourceTypes } from '../../../modules/taxonomy/resourcetypes/resourceTypesQueries';
 import handleError from '../../../util/handleError';
-import AllResourcesGroup from './AllResourcesGroup';
+import ResourcesContainer from './ResourcesContainer';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 import { spacingTop } from '../styles';
 
@@ -104,7 +104,7 @@ const StructureResources = ({ currentChildNode, resourceRef, setCurrentNode }: P
 
   return (
     <StickyContainer ref={resourceRef}>
-      <AllResourcesGroup
+      <ResourcesContainer
         key="ungrouped"
         nodeResources={nodeResources ?? []}
         resourceTypes={resourceTypes ?? []}

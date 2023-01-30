@@ -13,6 +13,7 @@ import { Plus } from '@ndla/icons/action';
 import Tooltip from '@ndla/tooltip';
 import compact from 'lodash/compact';
 import { Spinner } from '@ndla/icons';
+import { IconButtonV2 } from '@ndla/button';
 import { ResourceWithNodeConnectionAndMeta } from './StructureResources';
 import { ResourceType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import ResourceItems from './ResourceItems';
@@ -22,7 +23,6 @@ import Resource from './Resource';
 import { NodeResourceMeta } from '../../../modules/nodes/nodeQueries';
 import ResourceBanner from './ResourceBanner';
 import { Dictionary } from '../../../interfaces';
-import AddResourceButton from './AddResourceButton';
 import { getIdFromUrn, groupResourcesByType } from '../../../util/taxonomyHelpers';
 
 const ResourceWrapper = styled.div`
@@ -40,7 +40,7 @@ interface Props {
   contentMetaLoading: boolean;
 }
 
-const AllResourcesGroup = ({
+const ResourcesContainer = ({
   resourceTypes,
   nodeResources,
   currentNode,
@@ -80,11 +80,15 @@ const AllResourcesGroup = ({
         currentNode={currentNode}
         onCurrentNodeChanged={setCurrentNode}
         addButton={
-          <AddResourceButton onClick={toggleAddModal}>
-            <Tooltip tooltip={t('taxonomy.addResource')}>
+          <Tooltip tooltip={t('taxonomy.addResource')}>
+            <IconButtonV2
+              onClick={toggleAddModal}
+              size="xsmall"
+              variant="stripped"
+              aria-label={t('taxonomy.addResource')}>
               <Plus />
-            </Tooltip>
-          </AddResourceButton>
+            </IconButtonV2>
+          </Tooltip>
         }
         articleIds={articleIds}
       />
@@ -106,7 +110,7 @@ const AllResourcesGroup = ({
               nodeId: '',
               contentMeta: currentNode.contentUri ? contentMeta[currentNode.contentUri] : undefined,
               resourceTypes: [],
-              relevanceId: currentNode.relevanceId!,
+              relevanceId: currentNode.relevanceId,
             }}
             contentMetaLoading={contentMetaLoading}
           />
@@ -140,4 +144,4 @@ const AllResourcesGroup = ({
   );
 };
 
-export default AllResourcesGroup;
+export default ResourcesContainer;

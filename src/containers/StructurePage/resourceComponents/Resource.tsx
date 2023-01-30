@@ -13,14 +13,12 @@ import styled from '@emotion/styled';
 import { ContentTypeBadge } from '@ndla/ui';
 import { ButtonV2 } from '@ndla/button';
 import { colors, spacing, breakpoints, fonts } from '@ndla/core';
-import { AlertCircle, Check, DragVertical } from '@ndla/icons/editor';
+import { Check, DragVertical } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
 import SafeLink from '@ndla/safelink';
 import { useQueryClient } from 'react-query';
 import { DraggableProvidedDragHandleProps } from 'react-beautiful-dnd';
 import isEqual from 'lodash/isEqual';
-import { css } from '@emotion/react';
-import last from 'lodash/last';
 import {
   NodeConnectionPutType,
   ResourceWithNodeConnection,
@@ -101,6 +99,7 @@ const StyledLink = styled(SafeLink)`
 const ButtonRow = styled.div`
   display: flex;
   justify-content: space-between;
+  gap: ${spacing.xsmall};
 `;
 
 const BadgeWrapper = styled.div`
@@ -123,21 +122,14 @@ const StyledDndIcon = styled(DragVertical)`
   color: ${colors.brand.greyMedium};
 `;
 
-const baseButtonStyles = css`
-  margin-left: ${spacing.xsmall};
-`;
-
 const GrepButton = styled(ButtonV2)`
-  ${baseButtonStyles}
   flex: 2;
 `;
 const RemoveButton = styled(ButtonV2)`
-  ${baseButtonStyles};
   flex: 0;
 `;
 
 const StatusButton = styled(ButtonV2)<{ isPublished: boolean }>`
-  ${baseButtonStyles}
   border: none;
   flex: 2;
   background-color: ${props =>
@@ -255,7 +247,7 @@ const Resource = ({
 
   const contentTypeName =
     resource.resourceTypes.length > 0
-      ? last(resource.resourceTypes)!.name
+      ? resource.resourceTypes[resource.resourceTypes.length - 1].name
       : t('searchForm.articleType.topicArticle');
 
   const iconType = contentType === 'topic-article' ? 'topic' : contentType;
@@ -377,7 +369,6 @@ const Resource = ({
               </StatusButton>
             )}
             <RemoveButton
-              css={baseButtonStyles}
               onClick={() => (onDelete ? onDelete(resource.connectionId) : null)}
               size="xsmall"
               colorTheme="danger"

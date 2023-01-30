@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useMemo } from 'react';
 import styled from '@emotion/styled';
 import { colors, spacing, fonts } from '@ndla/core';
 import { Share } from '@ndla/icons/lib/common';
@@ -61,7 +61,7 @@ interface Props {
 
 const ResourceBanner = ({ title, contentMeta, addButton, articleIds }: Props) => {
   const elementCount = Object.values(contentMeta).length;
-  const publishedCount = getPublishedCount(contentMeta);
+  const publishedCount = useMemo(() => getPublishedCount(contentMeta), [contentMeta]);
 
   return (
     <ResourceGroupBanner>

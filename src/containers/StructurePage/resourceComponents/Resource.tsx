@@ -20,7 +20,6 @@ import { useQueryClient } from 'react-query';
 import { DraggableProvidedDragHandleProps } from 'react-beautiful-dnd';
 import isEqual from 'lodash/isEqual';
 import { css } from '@emotion/react';
-import last from 'lodash/last';
 import {
   NodeConnectionPutType,
   ResourceWithNodeConnection,
@@ -253,7 +252,7 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
 
   const contentTypeName =
     resource.resourceTypes.length > 0
-      ? last(resource.resourceTypes)!.name
+      ? resource.resourceTypes[resource.resourceTypes.length - 1].name
       : t('searchForm.articleType.topicArticle');
 
   const iconType = contentType === 'topic-article' ? 'topic' : contentType;

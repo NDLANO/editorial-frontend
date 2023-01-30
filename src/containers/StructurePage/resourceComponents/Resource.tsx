@@ -297,7 +297,9 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
   return (
     <Wrapper>
       <StyledDndIconWrapper
-        isVisible={resource.contentMeta?.articleType !== 'topic-article'}
+        isVisible={
+          !!(resource.contentMeta && resource.contentMeta?.articleType !== 'topic-article')
+        }
         {...dragHandleProps}>
         <StyledDndIcon />
       </StyledDndIconWrapper>

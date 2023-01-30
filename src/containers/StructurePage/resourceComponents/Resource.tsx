@@ -47,6 +47,7 @@ import { ResourceWithNodeConnectionAndMeta } from './StructureResources';
 import { useAuth0Users } from '../../../modules/auth0/auth0Queries';
 import { useDraft } from '../../../modules/draft/draftQueries';
 import { getCountApproachingRevision, RevisionDateIcon } from './ApproachingRevisionDate';
+import WrongTypeError from './WrongTypeError';
 
 const Wrapper = styled.div`
   display: flex;
@@ -65,12 +66,6 @@ const StyledCheckIcon = styled(Check)`
   height: 24px;
   width: 24px;
   fill: ${colors.support.green};
-`;
-
-const StyledWarnIcon = styled(AlertCircle)`
-  height: 24px;
-  width: 24px;
-  fill: ${colors.support.red};
 `;
 
 const StyledResourceIcon = styled.div`
@@ -407,40 +402,6 @@ const PublishedWrapper = ({ path, children }: { path?: string; children: ReactEl
       to={`${config.ndlaFrontendDomain}${path}?versionHash=${taxonomyVersion}`}>
       {children}
     </StyledLink>
-  );
-};
-
-const WrongTypeError = ({
-  resource,
-  articleType,
-}: {
-  resource: ResourceWithNodeConnection;
-  articleType?: string;
-}) => {
-  const { t } = useTranslation();
-  const isArticle = resource.contentUri?.startsWith('urn:article');
-  if (!isArticle) return null;
-
-  const expectedArticleType = getArticleTypeFromId(resource.id);
-  if (expectedArticleType === articleType) return null;
-
-  const missingArticleTypeError = t('taxonomy.info.missingArticleType', {
-    id: getIdFromUrn(resource.contentUri),
-  });
-
-  const wrongArticleTypeError = t('taxonomy.info.wrongArticleType', {
-    placedAs: t(`articleType.${expectedArticleType}`),
-    isType: t(`articleType.${articleType}`),
-  });
-
-  const errorText = articleType ? wrongArticleTypeError : missingArticleTypeError;
-
-  return (
-    <Tooltip tooltip={errorText}>
-      <div>
-        <StyledWarnIcon title={undefined} />
-      </div>
-    </Tooltip>
   );
 };
 

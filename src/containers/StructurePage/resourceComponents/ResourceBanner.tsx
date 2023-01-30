@@ -37,10 +37,13 @@ const PublishedText = styled.div`
   font-weight: ${fonts.weight.normal};
 `;
 
-const RightContent = styled.div`
+const Content = styled.div`
   display: flex;
-  gap: ${spacing.small};
   align-items: center;
+`;
+
+const RightContent = styled(Content)`
+  gap: ${spacing.small};
 `;
 
 const getPublishedCount = (contentMeta: Dictionary<NodeResourceMeta>) => {
@@ -62,11 +65,11 @@ const ResourceBanner = ({ title, contentMeta, addButton, articleIds }: Props) =>
 
   return (
     <ResourceGroupBanner>
-      <div>
+      <Content>
         <StyledIcon />
         {title}
         {addButton}
-      </div>
+      </Content>
       <RightContent>
         <PublishedText>{`${publishedCount}/${elementCount} publisert`}</PublishedText>
         <ApproachingRevisionDate articleIds={articleIds} />

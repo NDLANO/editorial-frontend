@@ -67,15 +67,15 @@ const AllResourcesGroup = ({
         title={currentNode.name}
         contentMeta={contentMeta}
         addButton={
-          <IconButtonV2
-            onClick={toggleAddModal}
-            size="xsmall"
-            variant="stripped"
-            aria-label={t('taxonomy.addResource')}>
-            <Tooltip tooltip={t('taxonomy.addResource')}>
+          <Tooltip tooltip={t('taxonomy.addResource')}>
+            <IconButtonV2
+              onClick={toggleAddModal}
+              size="xsmall"
+              variant="stripped"
+              aria-label={t('taxonomy.addResource')}>
               <Plus />
-            </Tooltip>
-          </IconButtonV2>
+            </IconButtonV2>
+          </Tooltip>
         }
         articleIds={articleIds}
       />

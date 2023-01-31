@@ -15,12 +15,12 @@ import { useSession } from '../../Session/SessionProvider';
 
 const StyledHeader = styled.div`
   width: 100%;
-  height: 60px;
+  min-height: 60px;
   display: flex;
   align-items: center;
   background-color: ${colors.brand.lighter};
   justify-content: space-evenly;
-  padding: ${spacing.small};
+  padding: ${spacing.xsmall};
   border-radius: 10px;
   position: relative;
 `;

@@ -64,13 +64,6 @@ const RightShape = styled.div`
   border-radius: 100px 0 10px 0;
 `;
 
-const StyledImg = styled.img`
-  display: none;
-  ${mq.range({ from: breakpoints.tablet })} {
-    display: inline;
-  }
-`;
-
 const ContentWrapper = styled.div`
   z-index: 1;
 `;

@@ -107,7 +107,7 @@ const Navigation = () => {
         }}>
         <StyledNavigationWrapper open={open} backgroundColor={environmentData().color}>
           <FlexWrapper>
-            <StyledEnvironmentText>produksjon{/*environmentData().name*/}</StyledEnvironmentText>
+            <StyledEnvironmentText>{environmentData().name}</StyledEnvironmentText>
           </FlexWrapper>
           <StyledHeaderItems>
             <div>

@@ -6,7 +6,7 @@
  *
  */
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { colors, spacing, fonts } from '@ndla/core';
 import { Logo } from '@ndla/ui';
@@ -32,13 +32,13 @@ const StyledSplitter = styled.div`
 `;
 
 interface StyledNavigationWrapperProps {
-  backgroundColor: string;
+  backgroundColor?: string;
   open?: boolean;
 }
 
 const StyledNavigationWrapper = styled.div<StyledNavigationWrapperProps>`
   position: absolute;
-  display: flex;
+
   z-index: ${props => props.open && '3'};
   top: 0;
   left: 0;
@@ -58,6 +58,7 @@ const StyledHeaderItems = styled.div`
     align-items: center;
   }
 `;
+
 const StyledWrapper = styled.div`
   margin-bottom: ${NAVIGATION_HEADER_MARGIN};
 `;
@@ -68,14 +69,23 @@ const StyledEnvironmentText = styled.p`
 `;
 
 const FlexWrapper = styled.div`
-  flex: 1;
   display: flex;
+`;
+
+const OuterContent = styled(FlexWrapper)`
+  flex: 1;
   align-items: center;
 `;
+
+interface EnvironmentSettings {
+  color: string;
+  name: string;
+}
 
 const Navigation = () => {
   const { t } = useTranslation();
   const [open, setOpen] = useState<boolean>(false);
+  const [envSettings, setEnvSettings] = useState<EnvironmentSettings>();
 
   const toggleOpen = () => {
     setOpen(prevState => !prevState);
@@ -85,7 +95,7 @@ const Navigation = () => {
     setOpen(false);
   };
 
-  const environmentData = (): { color: string; name: string } => {
+  const getEnvironmentSettings = (): EnvironmentSettings => {
     switch (config.ndlaEnvironment) {
       case 'prod':
         return { color: colors.white, name: t('environment.production') };
@@ -96,6 +106,11 @@ const Navigation = () => {
     }
   };
 
+  useEffect(() => {
+    if (!envSettings) setEnvSettings(getEnvironmentSettings());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <StyledWrapper>
       <FocusTrapReact
@@ -105,25 +120,27 @@ const Navigation = () => {
           clickOutsideDeactivates: true,
           escapeDeactivates: true,
         }}>
-        <StyledNavigationWrapper open={open} backgroundColor={environmentData().color}>
+        <StyledNavigationWrapper open={open} backgroundColor={envSettings?.color}>
           <FlexWrapper>
-            <StyledEnvironmentText>{environmentData().name}</StyledEnvironmentText>
+            <OuterContent>
+              <StyledEnvironmentText>{envSettings?.name}</StyledEnvironmentText>
+            </OuterContent>
+            <StyledHeaderItems>
+              <div>
+                <MastheadButton onClick={toggleOpen} open={open} />
+                <StyledSplitter />
+                <MastheadSearch close={closeMenu} />
+              </div>
+              <div>
+                <SessionContainer close={closeMenu} />
+                <StyledSplitter />
+                <StyledLogoDiv>
+                  <Logo to="/" label={t('logo.altText')} />
+                </StyledLogoDiv>
+              </div>
+            </StyledHeaderItems>
+            <OuterContent />
           </FlexWrapper>
-          <StyledHeaderItems>
-            <div>
-              <MastheadButton onClick={toggleOpen} open={open} />
-              <StyledSplitter />
-              <MastheadSearch close={closeMenu} />
-            </div>
-            <div>
-              <SessionContainer close={closeMenu} />
-              <StyledSplitter />
-              <StyledLogoDiv>
-                <Logo to="/" label={t('logo.altText')} />
-              </StyledLogoDiv>
-            </div>
-          </StyledHeaderItems>
-          <FlexWrapper />
           {open && <NavigationMenu close={closeMenu} />}
         </StyledNavigationWrapper>
       </FocusTrapReact>

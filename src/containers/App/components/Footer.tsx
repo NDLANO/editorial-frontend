@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { spacing } from '@ndla/core';
 import { Footer, LanguageSelector, FooterText, EditorName } from '@ndla/ui';
 import styled from '@emotion/styled';
-import { getLocaleUrls } from '../../../util/localeHelpers';
+import { supportedLanguages } from '../../../i18n2';
 
 const StyledFooterWrapper = styled.div`
   margin-top: ${spacing.large};
@@ -25,13 +25,7 @@ const FooterWrapper = ({ showLocaleSelector }: Props) => {
   const location = useLocation();
   const { t, i18n } = useTranslation();
   const languageSelector = showLocaleSelector ? (
-    <LanguageSelector
-      center
-      outline
-      alwaysVisible
-      options={getLocaleUrls(i18n.language, location)}
-      currentLanguage={i18n.language}
-    />
+    <LanguageSelector locales={supportedLanguages} onSelect={i18n.changeLanguage} />
   ) : null;
 
   return (

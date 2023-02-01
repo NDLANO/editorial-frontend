@@ -6,7 +6,7 @@
  *
  */
 
-import { useEffect, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { colors, spacing, fonts } from '@ndla/core';
 import { Logo } from '@ndla/ui';
@@ -85,17 +85,8 @@ interface EnvironmentSettings {
 const Navigation = () => {
   const { t } = useTranslation();
   const [open, setOpen] = useState<boolean>(false);
-  const [envSettings, setEnvSettings] = useState<EnvironmentSettings>();
 
-  const toggleOpen = () => {
-    setOpen(prevState => !prevState);
-  };
-
-  const closeMenu = () => {
-    setOpen(false);
-  };
-
-  const getEnvironmentSettings = (): EnvironmentSettings => {
+  const envSettings = useMemo((): EnvironmentSettings => {
     switch (config.ndlaEnvironment) {
       case 'prod':
         return { color: colors.white, name: t('environment.production') };
@@ -104,12 +95,15 @@ const Navigation = () => {
       default:
         return { color: colors.brand.greyLight, name: t('environment.test') };
     }
+  }, [t]);
+
+  const toggleOpen = () => {
+    setOpen(prevState => !prevState);
   };
 
-  useEffect(() => {
-    if (!envSettings) setEnvSettings(getEnvironmentSettings());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const closeMenu = () => {
+    setOpen(false);
+  };
 
   return (
     <StyledWrapper>
@@ -123,7 +117,7 @@ const Navigation = () => {
         <StyledNavigationWrapper open={open} backgroundColor={envSettings?.color}>
           <FlexWrapper>
             <OuterContent>
-              <StyledEnvironmentText>{envSettings?.name}</StyledEnvironmentText>
+              <StyledEnvironmentText>{envSettings.name}</StyledEnvironmentText>
             </OuterContent>
             <StyledHeaderItems>
               <div>

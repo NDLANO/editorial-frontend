@@ -14,7 +14,7 @@ const phrases = {
     createLearningResourcePage: `Learning resource ${titleTemplate}`,
     createTopicArticlePage: `Topic ${titleTemplate}`,
     createSubjectpage: `Subjectpage ${titleTemplate}`,
-    createFrontPageArticePage: `Frontpage article ${titleTemplate}`,
+    createFrontPageArticePage: `Content article ${titleTemplate}`,
     agreementPage: `Agreement ${titleTemplate}`,
     welcomePage: `Frontpage ${titleTemplate}`,
     structurePage: `Structure ${titleTemplate}`,
@@ -185,7 +185,7 @@ const phrases = {
     h5p: 'Edit H5P',
     newConcept: 'Create new concept',
     newSubject: 'Create new subject',
-    newFrontpageArticle: 'Create new frontpage article',
+    newFrontpageArticle: 'Create new content article',
   },
   logo: {
     altText: 'The Norwegian Digital Learning Arena',
@@ -478,7 +478,7 @@ const phrases = {
     title: 'Image',
   },
   frontpageArticleForm: {
-    title: 'Frontpage article',
+    title: 'Content article',
     validation: {
       illegalSlug:
         'Use of illegal characters in permalink! Legal characters are numbers and letters, plus dashes.',
@@ -1431,7 +1431,7 @@ const phrases = {
   },
   contextTypes: {
     topic: 'Topic',
-    frontpage: 'Frontpage article',
+    frontpage: 'Content article',
   },
   ndlaFilm: {
     editor: {

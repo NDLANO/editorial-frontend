@@ -415,6 +415,10 @@ const phrases = {
         placeholder: 'Alt-tekst',
       },
     },
+    validation: {
+      containsContent:
+        'Emneartikler bør kun ha tittel, ingress og visuelt element. Innhold trengs ikke i de fleste tilfeller.',
+    },
   },
   agreementForm: {
     title: {

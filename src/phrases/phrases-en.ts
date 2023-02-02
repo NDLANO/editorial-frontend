@@ -414,6 +414,10 @@ const phrases = {
         placeholder: 'Alt-text',
       },
     },
+    validation: {
+      containsContent:
+        'Topic articles should only have title, introduction and visualelement. The content is in most cases not needed.',
+    },
   },
   agreementForm: {
     title: {

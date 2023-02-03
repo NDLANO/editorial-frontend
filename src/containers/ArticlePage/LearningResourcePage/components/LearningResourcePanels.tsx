@@ -10,6 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import { FormikHelpers, useFormikContext } from 'formik';
 import { IUpdatedArticle, IArticle } from '@ndla/types-draft-api';
+import { useQueryClient } from 'react-query';
 import config from '../../../../config';
 import RelatedContentFieldGroup from '../../components/RelatedContentFieldGroup';
 import { TAXONOMY_WRITE_SCOPE } from '../../../../constants';
@@ -21,7 +22,8 @@ import { LearningResourceFormType } from '../../../FormikForm/articleFormHooks';
 import { useSession } from '../../../Session/SessionProvider';
 import { ArticleTaxonomy } from '../../../FormikForm/formikDraftHooks';
 import RevisionNotes from '../../components/RevisionNotes';
-import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
+import { TaxonomyVersionProvider } from '../../../StructureVersion/TaxonomyVersionProvider';
+import { useVersions } from '../../../../modules/taxonomy/versions/versionQueries';
 
 interface Props {
   handleSubmit: (
@@ -44,10 +46,11 @@ const LearningResourcePanels = ({
   articleLanguage,
 }: Props) => {
   const { t } = useTranslation();
-  const { taxonomyVersion } = useTaxonomyVersion();
   const { userPermissions } = useSession();
   const formikContext = useFormikContext<LearningResourceFormType>();
   const { values, errors, handleBlur } = formikContext;
+  const { data } = useVersions();
+  const qc = useQueryClient();
 
   return (
     <Accordions>
@@ -70,12 +73,15 @@ const LearningResourcePanels = ({
           id={'learning-resource-taxonomy'}
           title={t('form.taxonomySection')}
           className={'u-6/6'}>
-          <LearningResourceTaxonomy
-            article={article}
-            updateNotes={updateNotes}
-            taxonomy={taxonomy}
-            taxonomyVersion={taxonomyVersion}
-          />
+          <TaxonomyVersionProvider>
+            <LearningResourceTaxonomy
+              article={article}
+              updateNotes={updateNotes}
+              taxonomy={taxonomy}
+              versions={data}
+              queryClient={qc}
+            />
+          </TaxonomyVersionProvider>
         </AccordionSection>
       )}
       <AccordionSection

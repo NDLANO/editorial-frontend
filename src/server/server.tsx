@@ -20,7 +20,14 @@ import { OK, INTERNAL_SERVER_ERROR, NOT_ACCEPTABLE, FORBIDDEN } from '../httpCod
 import getConditionalClassnames from './getConditionalClassnames';
 import { getLocaleObject } from '../i18n';
 import Html from './Html';
-import { getToken, getBrightcoveToken, getUsers, getEditors, getZendeskToken } from './auth';
+import {
+  getToken,
+  getBrightcoveToken,
+  fetchAuth0UsersById,
+  getEditors,
+  getZendeskToken,
+  getResponsibles,
+} from './auth';
 import contentSecurityPolicy from './contentSecurityPolicy';
 import errorLogger from '../util/logger';
 import config from '../config';
@@ -161,7 +168,7 @@ app.get(
     } else {
       try {
         const managementToken = await getToken(`https://${config.auth0Domain}/api/v2/`);
-        const users = await getUsers(managementToken, userIds as string);
+        const users = await fetchAuth0UsersById(managementToken, userIds as string);
         res.status(OK).json(users);
       } catch (err) {
         res.status(INTERNAL_SERVER_ERROR).send((err as NdlaError).message);
@@ -189,6 +196,32 @@ app.get(
     try {
       const managementToken = await getToken(`https://${config.auth0Domain}/api/v2/`);
       const editors = await getEditors(managementToken, permission as string);
+      res.status(OK).json(editors);
+    } catch (err) {
+      res.status(INTERNAL_SERVER_ERROR).send((err as NdlaError).message);
+    }
+  },
+);
+
+app.get(
+  '/get_responsibles',
+  jwt({
+    secret: jwksRsa.expressJwtSecret({
+      cache: true,
+      jwksUri: `https://${config.auth0Domain}/.well-known/jwks.json`,
+    }),
+    audience: 'ndla_system',
+    issuer: `https://${config.auth0Domain}/`,
+    algorithms: ['RS256'],
+  }),
+  async (req, res) => {
+    const {
+      query: { permission },
+    } = req;
+
+    try {
+      const managementToken = await getToken(`https://${config.auth0Domain}/api/v2/`);
+      const editors = await getResponsibles(managementToken, permission as string);
       res.status(OK).json(editors);
     } catch (err) {
       res.status(INTERNAL_SERVER_ERROR).send((err as NdlaError).message);

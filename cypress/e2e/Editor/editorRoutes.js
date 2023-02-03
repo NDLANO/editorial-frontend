@@ -33,9 +33,9 @@ const editorRoutes = ARTICLE_ID => {
   cy.apiroute('GET', '/draft-api/v1/agreements?query=', 'agreements');
   cy.apiroute('GET', '**/get_note_users?*', 'getNoteUsers');
   cy.apiroute('GET', '/draft-api/v1/user-data', 'getUserData');
+  cy.apiroute('GET', '/get_responsibles?*', 'getUsersResponsible');
   cy.apiroute('PATCH', '/draft-api/v1/user-data', 'patchUserData');
   cy.apiroute('POST', '/draft-api/v1/drafts/search/', 'relatedArticles');
-  cy.apiroute('POST', '/draft-api/v1/drafts/', 'saveLearningResource');
 };
 
 export default editorRoutes;

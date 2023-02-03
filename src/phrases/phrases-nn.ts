@@ -120,6 +120,19 @@ const phrases = {
     lastUsed: 'Sist redigert',
     savedSearch: 'Lagra søk',
     saveSearch: 'Lagre søk',
+    chooseSubject: 'Velg fag',
+    chooseTopic: 'Velg emner',
+    errorMessage: 'Innhenting av data feila',
+    workList: {
+      title: 'Mine arbeidsoppgåver',
+      description: 'Artiklar der eg står i ansvarleg-feltet',
+      name: 'Namn',
+      status: 'Status',
+      contentType: 'Innhaldstype',
+      primarySubject: 'Primærfag',
+      topicRelation: 'Emnetilknytting',
+      date: 'Tildelingsdato',
+    },
     welcomeBack: 'Velkommen tilbake',
   },
   searchPage: {
@@ -983,6 +996,12 @@ const phrases = {
       label: 'Lisens',
       helpLabel: 'Kva er lisensar?',
       choose: 'Velg ein lisens',
+    },
+    responsible: {
+      label: 'Ansvarleg',
+      choose: 'Velg ansvarleg',
+      noResults: 'Ingen treff',
+      noArticles: 'Ingen artiklar ...',
     },
     origin: {
       label: 'Opphav',

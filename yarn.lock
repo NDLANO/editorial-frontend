@@ -994,9 +994,9 @@
     regenerator-runtime "^0.13.4"
 
 "@babel/runtime@^7.0.0", "@babel/runtime@^7.10.2", "@babel/runtime@^7.10.5", "@babel/runtime@^7.12.0", "@babel/runtime@^7.12.13", "@babel/runtime@^7.12.5", "@babel/runtime@^7.13.10", "@babel/runtime@^7.14.5", "@babel/runtime@^7.14.6", "@babel/runtime@^7.15.4", "@babel/runtime@^7.17.2", "@babel/runtime@^7.18.3", "@babel/runtime@^7.18.9", "@babel/runtime@^7.3.1", "@babel/runtime@^7.4.5", "@babel/runtime@^7.5.5", "@babel/runtime@^7.6.2", "@babel/runtime@^7.7.2", "@babel/runtime@^7.7.6", "@babel/runtime@^7.7.7", "@babel/runtime@^7.8.4", "@babel/runtime@^7.8.7", "@babel/runtime@^7.9.2":
-  version "7.20.6"
-  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.20.6.tgz#facf4879bfed9b5326326273a64220f099b0fce3"
-  integrity sha512-Q+8MqP7TiHMWzSfwiJwXCjyf4GYA4Dgw3emg/7xmwsdLJOZUp+nMqcOwOzzYheuM1rhDu8FSj2l0aoMygEuXuA==
+  version "7.20.7"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.20.7.tgz#fcb41a5a70550e04a7b708037c7c32f7f356d8fd"
+  integrity sha512-UF0tvkUtxwAgZ5W/KrkHf0Rn0fdnLDU9ScxBrEVNUprE/MzirjK4MJUX1/BVDv00Sv8cljtukVK1aky++X1SjQ==
   dependencies:
     regenerator-runtime "^0.13.11"
 
@@ -1903,6 +1903,14 @@
     inuitcss "6.0.0"
     sass-mq "^5.0.1"
 
+"@ndla/core@^3.1.1":
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/@ndla/core/-/core-3.1.1.tgz#2d5a400dca65abfd32cdd6de14ab2d7b5e96d207"
+  integrity sha512-cMozoRRitemDakFZS4cErZwb99kr1379ASkL6k8j0bM35+4ehcSs53ovBa3ipQh+0fnJrdi2bxmki3SiYrWeSw==
+  dependencies:
+    inuitcss "6.0.0"
+    sass-mq "^5.0.1"
+
 "@ndla/editor@^3.1.16":
   version "3.1.16"
   resolved "https://registry.yarnpkg.com/@ndla/editor/-/editor-3.1.16.tgz#ca1cb1bd0df16396cac05857ad64cf3dd919af2d"
@@ -1957,6 +1965,13 @@
     "@ndla/ui" "^34.3.2"
     "@ndla/util" "^3.1.9"
     remarkable "^2.0.1"
+
+"@ndla/icons@^2.1.1":
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/@ndla/icons/-/icons-2.2.2.tgz#5f8e5610f40e533d1439c32157443f5af075728b"
+  integrity sha512-NxJV4Ox3amCOUwUVGdP5fvWOzt3eVDv4MsQoO3A0attY+CfEL9FAiqVFL63SLsW83bG9iuxg64orYO0UGmoYXg==
+  dependencies:
+    "@ndla/core" "^3.1.1"
 
 "@ndla/icons@^2.2.1":
   version "2.2.1"
@@ -2036,6 +2051,15 @@
     octokit "^2.0.10"
     url-regex "^4.1.1"
     vercel "^27.2.0"
+
+"@ndla/select@^2.1.1":
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/@ndla/select/-/select-2.1.1.tgz#494c70bcfaa5b4176d28469a8380be48d0fdb589"
+  integrity sha512-PXFAuVxUNELP1a0Wx0+qMdvmYuxpyXL+9ae5v5WNz2tM7H8uxVolRbEPPrCDaIZ8nVguQPyCaP5NP+hc5iEeWA==
+  dependencies:
+    "@ndla/core" "^3.0.3"
+    "@ndla/icons" "^2.1.1"
+    react-select "^5.7.0"
 
 "@ndla/switch@^1.0.3":
   version "1.0.3"

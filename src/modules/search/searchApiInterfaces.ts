@@ -40,4 +40,6 @@ export interface MultiSearchApiQuery {
   'grep-codes'?: CommaSeparatedList;
   'embed-id'?: number;
   'embed-resource'?: string;
+  'responsible-ids'?: CommaSeparatedList;
+  'aggregate-paths'?: CommaSeparatedList;
 }

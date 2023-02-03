@@ -119,6 +119,20 @@ const phrases = {
     lastUsed: 'Last edited',
     savedSearch: 'Saved searches',
     saveSearch: 'Save search',
+    chooseSubject: 'Choose subjects',
+    chooseTopic: 'Choose topics',
+    errorMessage: 'Failed to retrieve data',
+
+    workList: {
+      title: 'My tasks',
+      description: 'Articles where I am responsible',
+      name: 'Name',
+      status: 'Status',
+      contentType: 'Content type',
+      primarySubject: 'Primary subject',
+      topicRelation: 'Topic relation',
+      date: 'Date assigned',
+    },
     welcomeBack: 'Welcome back',
   },
   searchPage: {
@@ -982,6 +996,12 @@ const phrases = {
       label: 'License',
       helpLabel: 'What is a license?',
       choose: 'Choose a license',
+    },
+    responsible: {
+      label: 'Responsible',
+      choose: 'Choose a responsible',
+      noResults: 'No results',
+      noArticles: 'No articles ...',
     },
     origin: {
       label: 'Origin',

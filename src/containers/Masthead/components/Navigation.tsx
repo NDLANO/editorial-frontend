@@ -91,9 +91,9 @@ const Navigation = () => {
       case 'prod':
         return { color: colors.white, name: t('environment.production') };
       case 'staging':
-        return { color: colors.brand.greyLighter, name: t('environment.staging') };
+        return { color: colors.brand.greyLight, name: t('environment.staging') };
       default:
-        return { color: colors.brand.greyLight, name: t('environment.test') };
+        return { color: colors.brand.greyLighter, name: t('environment.test') };
     }
   }, [t]);
 

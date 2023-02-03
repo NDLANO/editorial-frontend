@@ -19,7 +19,9 @@ import Footer from '../App/components/Footer';
 import LastUsedItems from './components/LastUsedItems';
 import { useUserData } from '../../modules/draft/draftQueries';
 import { StyledColumnHeader } from './styles';
+import WorkList from './components/WorkList';
 import WelcomeHeader from './components/WelcomeHeader';
+import { useSession } from '../Session/SessionProvider';
 
 const Wrapper = styled.div`
   display: flex;
@@ -31,6 +33,9 @@ const Wrapper = styled.div`
 const GridContainer = styled.div`
   ${mq.range({ from: '0px', until: breakpoints.tabletWide })} {
     padding: ${spacing.nsmall};
+    display: flex;
+    flex-direction: column;
+    gap: ${spacing.nsmall};
   }
   ${mq.range({ from: breakpoints.tabletWide })} {
     display: grid;
@@ -43,7 +48,7 @@ const GridContainer = styled.div`
   }
 `;
 
-const GridHeader = styled.div`
+const MainArea = styled.div`
   grid-column: 2 / 12;
 `;
 
@@ -59,6 +64,7 @@ export const WelcomePage = () => {
   const { data } = useUserData({
     enabled: isValid(getAccessToken()) && getAccessTokenPersonal(),
   });
+  const { ndlaId } = useSession();
   const lastUsed = data?.latestEditedArticles;
 
   localStorage.setItem('lastPath', '');
@@ -67,9 +73,10 @@ export const WelcomePage = () => {
     <Wrapper>
       <GridContainer>
         <HelmetWithTracker title={t('htmlTitles.welcomePage')} />
-        <GridHeader>
+        <MainArea>
           <WelcomeHeader />
-        </GridHeader>
+        </MainArea>
+        <MainArea>{ndlaId && <WorkList ndlaId={ndlaId} />}</MainArea>
         <LeftColumn>
           <LastUsedItems lastUsed={lastUsed} />
         </LeftColumn>

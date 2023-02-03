@@ -6,7 +6,6 @@
  *
  */
 
-import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 import { DRAFT_HTML_SCOPE } from '../../../constants';
@@ -15,6 +14,7 @@ import { toEditArticle, toEditMarkup } from '../../../util/routeHelpers';
 import { EditMarkupLink } from '../../../components/EditMarkupLink';
 import { useDraft } from '../../../modules/draft/draftQueries';
 import { useSession } from '../../Session/SessionProvider';
+import { NoShadowLink } from './NoShadowLink';
 
 interface Props {
   articleId: number;
@@ -31,10 +31,10 @@ const LastUsedContent = ({ articleId }: Props) => {
     <div>
       {article && (
         <>
-          <Link className="" to={toEditArticle(article.id, article.articleType)}>
+          <NoShadowLink to={toEditArticle(article.id, article.articleType)}>
             {article.title?.title} ({t('article.lastUpdated')}{' '}
             {article && formatDate(article.updated)})
-          </Link>
+          </NoShadowLink>
           {userPermissions?.includes(DRAFT_HTML_SCOPE) ? (
             <EditMarkupLink
               to={toEditMarkup(

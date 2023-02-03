@@ -119,6 +119,20 @@ const phrases = {
     lastUsed: 'Last edited',
     savedSearch: 'Saved searches',
     saveSearch: 'Save search',
+    chooseSubject: 'Choose subjects',
+    chooseTopic: 'Choose topics',
+    errorMessage: 'Failed to retrieve data',
+
+    workList: {
+      title: 'My tasks',
+      description: 'Articles where I am responsible',
+      name: 'Name',
+      status: 'Status',
+      contentType: 'Content type',
+      primarySubject: 'Primary subject',
+      topicRelation: 'Topic relation',
+      date: 'Date assigned',
+    },
     welcomeBack: 'Welcome back',
   },
   searchPage: {
@@ -991,6 +1005,7 @@ const phrases = {
       revisionDate: 'Amount approaching revision date',
       revisionDateSingle: 'Approaching revision date',
       error: 'Something went wrong when updating responsible',
+      noArticles: 'No articles ...',
     },
     origin: {
       label: 'Origin',
@@ -1256,6 +1271,7 @@ const phrases = {
     confirm: 'Confirm',
     loginAgain: 'Login again',
   },
+  environment: { production: '', staging: 'Staging', test: 'Test' },
   taxonomy: {
     editStructure: 'Edit structure',
     editSubjectpage: 'Edit subjectpage',

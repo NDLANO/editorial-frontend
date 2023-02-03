@@ -21,8 +21,8 @@ import handleError from '../../../util/handleError';
 
 const StyledWrapper = styled.div`
   color: ${colors.white};
-  // TODO: Should be added to colors
-  background-color: #e29929;
+  // TODO: Update when color is added to colors
+  background-color: #c77623;
   width: 20px;
   height: 20px;
   border-radius: 50%;

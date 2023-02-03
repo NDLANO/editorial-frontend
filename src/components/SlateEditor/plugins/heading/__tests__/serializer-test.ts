@@ -45,9 +45,9 @@ describe('heading serializing tests', () => {
           { type: TYPE_HEADING, level: 2, children: [{ text: 'title1' }] },
           { type: TYPE_HEADING, level: 2, children: [{ text: 'title2' }] },
           { type: TYPE_HEADING, level: 3, children: [{ text: 'title3' }] },
-          { type: TYPE_HEADING, level: 3, children: [{ text: 'title4' }] },
-          { type: TYPE_HEADING, level: 3, children: [{ text: 'title5' }] },
-          { type: TYPE_HEADING, level: 3, children: [{ text: 'title6' }] },
+          { type: TYPE_HEADING, level: 4, children: [{ text: 'title4' }] },
+          { type: TYPE_HEADING, level: 4, children: [{ text: 'title5' }] },
+          { type: TYPE_HEADING, level: 4, children: [{ text: 'title6' }] },
         ],
       },
     ];

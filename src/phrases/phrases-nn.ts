@@ -1273,6 +1273,7 @@ const phrases = {
     editSubjectpage: 'Rediger fagforside',
     deleteSubject: 'Slett fag',
     addSubject: 'Legg til nytt fag',
+    subjectName: 'Namn på nytt fag',
     addExistingTopic: 'Flytt eksisterande emne hit',
     addExistingLoading: 'Flyttar emne',
     addExistingSuccess: 'Emnet har blitt flytta!',

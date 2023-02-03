@@ -11,8 +11,13 @@ import { TaxonomyMetadata } from '../taxonomy/taxonomyApiInterfaces';
 export const SUBJECT_NODE = 'SUBJECT';
 export const NODE = 'NODE';
 export const TOPIC_NODE = 'TOPIC';
+export const RESOURCE_NODE = 'RESOURCE';
 
-export type NodeTypeValue = typeof SUBJECT_NODE | typeof NODE | typeof TOPIC_NODE;
+export type NodeTypeValue =
+  | typeof SUBJECT_NODE
+  | typeof NODE
+  | typeof TOPIC_NODE
+  | typeof RESOURCE_NODE;
 
 export interface GetNodeParams {
   contentURI?: string;
@@ -55,6 +60,15 @@ export interface NodeType {
   relevanceId?: string;
   translations: NodeTranslation[];
   supportedLanguages: string[];
+  nodeType: NodeTypeValue;
+  resourceTypes: {
+    id: string;
+    name: string;
+    parentId?: string;
+    translations: { name: string; language: string }[];
+    supportedLanguages: string[];
+    connectionId: string;
+  }[];
 }
 
 export interface ResourceWithNodeConnection {
@@ -72,6 +86,7 @@ export interface ResourceWithNodeConnection {
   relevanceId: string;
   translations: NodeTranslation[];
   supportedLanguages: string[];
+  nodeType: NodeTypeValue;
   resourceTypes: {
     id: string;
     name: string;

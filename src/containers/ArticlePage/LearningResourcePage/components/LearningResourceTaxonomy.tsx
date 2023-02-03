@@ -7,11 +7,12 @@
  */
 
 import { FormEvent, Component, MouseEvent } from 'react';
-
 import { withTranslation, CustomWithTranslation } from 'react-i18next';
 import { Spinner } from '@ndla/icons';
 import { ErrorMessage } from '@ndla/ui';
 import { IUpdatedArticle, IArticle } from '@ndla/types-draft-api';
+import { QueryClient } from 'react-query';
+import { SingleValue } from '@ndla/select';
 import Field from '../../../../components/Field';
 import {
   fetchResourceTypes,
@@ -50,6 +51,10 @@ import TaxonomyConnectionErrors from '../../components/TaxonomyConnectionErrors'
 import { SessionProps } from '../../../Session/SessionProvider';
 import withSession from '../../../Session/withSession';
 import { ArticleTaxonomy } from '../../../FormikForm/formikDraftHooks';
+import { VersionType } from '../../../../modules/taxonomy/versions/versionApiTypes';
+import withTaxonomy from './withTaxonomy';
+import { TaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
+import VersionSelect from './VersionSelect';
 
 const blacklistedResourceTypes = [RESOURCE_TYPE_LEARNING_PATH];
 
@@ -66,14 +71,16 @@ interface FullResource {
   metadata?: TaxonomyMetadata;
 }
 
-type Props = {
+export type Props = {
   article: IArticle;
   taxonomy: ArticleTaxonomy;
   updateNotes: (art: IUpdatedArticle) => Promise<IArticle>;
   setIsOpen?: (open: boolean) => void;
-  taxonomyVersion: string;
+  versions?: VersionType[];
+  queryClient: QueryClient;
 } & CustomWithTranslation &
-  SessionProps;
+  SessionProps &
+  TaxonomyVersion;
 
 interface LearningResourceSubjectType extends SubjectType {
   topics?: SubjectTopic[];
@@ -131,9 +138,10 @@ class LearningResourceTaxonomy extends Component<Props, State> {
     this.fetchTaxonomyChoices();
   }
 
-  componentDidUpdate({ article: { id: prevId } }: Props, prevState: State) {
-    // We need to refresh taxonomy for when an article URL has been pasted and a new article is showing
-    if (prevId !== this.props.article.id) {
+  componentDidUpdate({ article: { id: prevId }, taxonomyVersion: prevTaxVersion }: Props) {
+    // We need to refresh taxonomy when an article URL has been pasted and a new article is showing
+    // and when taxonomy version changes
+    if (prevId !== this.props.article.id || prevTaxVersion !== this.props.taxonomyVersion) {
       this.fetchTaxonomy();
     }
   }
@@ -450,7 +458,7 @@ class LearningResourceTaxonomy extends Component<Props, State> {
         subtype: rt.subtypes && rt.subtypes.filter(st => !blacklistedResourceTypes.includes(st.id)),
       }));
 
-    const { userPermissions, t, article } = this.props;
+    const { userPermissions, t, article, queryClient } = this.props;
 
     if (status === 'loading') {
       return <Spinner />;
@@ -481,6 +489,23 @@ class LearningResourceTaxonomy extends Component<Props, State> {
 
     const isTaxonomyAdmin = userPermissions?.includes(TAXONOMY_ADMIN_SCOPE);
 
+    const onVersionChanged = (newVersion: SingleValue) => {
+      if (!newVersion || newVersion.value === this.props.taxonomyVersion) return;
+      const oldVersion = this.props.taxonomyVersion;
+      try {
+        this.setState({ status: 'loading', isDirty: false });
+        this.props.changeVersion(newVersion.value);
+        queryClient.removeQueries({
+          predicate: query => {
+            const qk = query.queryKey as [string, Record<string, any>];
+            return qk[1]?.taxonomyVersion === oldVersion;
+          },
+        });
+      } catch (e) {
+        handleError(e);
+        this.setState({ status: 'error' });
+      }
+    };
     return (
       <>
         {isTaxonomyAdmin && (
@@ -489,8 +514,15 @@ class LearningResourceTaxonomy extends Component<Props, State> {
             taxonomy={this.props.taxonomy}
           />
         )}
+
         {isTaxonomyAdmin && resourceId && (
-          <TaxonomyInfo taxonomyElement={mainEntity} updateMetadata={this.updateMetadata} />
+          <>
+            <VersionSelect
+              versions={this.props.versions ?? []}
+              onVersionChanged={onVersionChanged}
+            />
+            <TaxonomyInfo taxonomyElement={mainEntity} updateMetadata={this.updateMetadata} />
+          </>
         )}
         <ResourceTypeSelect
           availableResourceTypes={filteredResourceTypes}
@@ -529,4 +561,4 @@ class LearningResourceTaxonomy extends Component<Props, State> {
   }
 }
 
-export default withTranslation()(withSession(LearningResourceTaxonomy));
+export default withTranslation()(withSession(withTaxonomy(LearningResourceTaxonomy)));

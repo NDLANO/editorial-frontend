@@ -1286,6 +1286,7 @@ const phrases = {
     currentVersion: 'Current version',
     deleteNode: 'Delete',
     confirmDelete: 'Are you sure you want to delete this node?',
+    version: 'Version',
     changeName: {
       loadError: 'Could not fetch translations',
       updateError: 'Could not update translations',

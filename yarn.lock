@@ -1966,19 +1966,19 @@
     "@ndla/util" "^3.1.9"
     remarkable "^2.0.1"
 
-"@ndla/icons@^2.1.1":
-  version "2.2.2"
-  resolved "https://registry.yarnpkg.com/@ndla/icons/-/icons-2.2.2.tgz#5f8e5610f40e533d1439c32157443f5af075728b"
-  integrity sha512-NxJV4Ox3amCOUwUVGdP5fvWOzt3eVDv4MsQoO3A0attY+CfEL9FAiqVFL63SLsW83bG9iuxg64orYO0UGmoYXg==
-  dependencies:
-    "@ndla/core" "^3.1.1"
-
 "@ndla/icons@^2.2.1":
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/@ndla/icons/-/icons-2.2.1.tgz#8fb3cfd7bf924b68e49068b4daf12db0976f72dd"
   integrity sha512-OV0dNG3Y2jqdO9/pWkpwfL6/fJy9gVnMftDhMwesf8JI6oh/xJSyl9tlgEqYvzEWNjGhSXBABV17dMIaB7CK9Q==
   dependencies:
     "@ndla/core" "^3.1.0"
+
+"@ndla/icons@^2.2.2":
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/@ndla/icons/-/icons-2.2.2.tgz#5f8e5610f40e533d1439c32157443f5af075728b"
+  integrity sha512-NxJV4Ox3amCOUwUVGdP5fvWOzt3eVDv4MsQoO3A0attY+CfEL9FAiqVFL63SLsW83bG9iuxg64orYO0UGmoYXg==
+  dependencies:
+    "@ndla/core" "^3.1.1"
 
 "@ndla/image-search@^5.1.36":
   version "5.1.36"
@@ -2052,13 +2052,13 @@
     url-regex "^4.1.1"
     vercel "^27.2.0"
 
-"@ndla/select@^2.1.1":
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/@ndla/select/-/select-2.1.1.tgz#494c70bcfaa5b4176d28469a8380be48d0fdb589"
-  integrity sha512-PXFAuVxUNELP1a0Wx0+qMdvmYuxpyXL+9ae5v5WNz2tM7H8uxVolRbEPPrCDaIZ8nVguQPyCaP5NP+hc5iEeWA==
+"@ndla/select@^2.1.4":
+  version "2.1.4"
+  resolved "https://registry.yarnpkg.com/@ndla/select/-/select-2.1.4.tgz#051b66e5fd1c2af3217c66a62c7744cc3ca7addd"
+  integrity sha512-+ipf0+FXrmgixfJEK7exPztYElmOlPXKkLNDTHokfJzMrnXlTTRbqGnIH4Afnz1rYm7bCW0TMor3+IWK77SJ4A==
   dependencies:
-    "@ndla/core" "^3.0.3"
-    "@ndla/icons" "^2.1.1"
+    "@ndla/core" "^3.1.1"
+    "@ndla/icons" "^2.2.2"
     react-select "^5.7.0"
 
 "@ndla/switch@^1.0.3":

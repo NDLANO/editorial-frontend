@@ -54,7 +54,7 @@ import { ArticleTaxonomy } from '../../../FormikForm/formikDraftHooks';
 import { VersionType } from '../../../../modules/taxonomy/versions/versionApiTypes';
 import withTaxonomy from './withTaxonomy';
 import { TaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
-import VersionSelect from './VersionSelect';
+import VersionSelect from '../../components/VersionSelect';
 
 const blacklistedResourceTypes = [RESOURCE_TYPE_LEARNING_PATH];
 

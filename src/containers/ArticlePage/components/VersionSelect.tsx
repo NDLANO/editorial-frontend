@@ -9,8 +9,8 @@ import styled from '@emotion/styled';
 import { Select, SingleValue } from '@ndla/select';
 import { useTranslation } from 'react-i18next';
 import { spacing } from '@ndla/core';
-import { VersionType } from '../../../../modules/taxonomy/versions/versionApiTypes';
-import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
+import { VersionType } from '../../../modules/taxonomy/versions/versionApiTypes';
+import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 
 const Wrapper = styled.div`
   margin-top: ${spacing.normal};
@@ -28,7 +28,7 @@ const getCurrentTaxVersion = (versions: VersionType[], oldTaxVersion: string): S
 };
 
 const VersionSelect = ({ versions = [], onVersionChanged }: Props) => {
-  const { taxonomyVersion, changeVersion } = useTaxonomyVersion();
+  const { taxonomyVersion } = useTaxonomyVersion();
   const { t } = useTranslation();
 
   const fakeDefault = {

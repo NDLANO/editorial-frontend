@@ -22,6 +22,7 @@ import { useSession } from '../../../Session/SessionProvider';
 import { onSaveAsVisualElement } from '../../../FormikForm/utils';
 import { ArticleTaxonomy } from '../../../FormikForm/formikDraftHooks';
 import RevisionNotes from '../../components/RevisionNotes';
+import { TaxonomyVersionProvider } from '../../../StructureVersion/TaxonomyVersionProvider';
 
 interface Props {
   handleSubmit: () => Promise<void>;
@@ -59,7 +60,9 @@ const TopicArticleAccordionPanels = ({
           id={'topic-article-taxonomy'}
           title={t('form.taxonomySection')}
           className={'u-6/6'}>
-          <TopicArticleTaxonomy article={article} updateNotes={updateNotes} taxonomy={taxonomy} />
+          <TaxonomyVersionProvider>
+            <TopicArticleTaxonomy article={article} updateNotes={updateNotes} taxonomy={taxonomy} />
+          </TaxonomyVersionProvider>
         </AccordionSection>
       )}
       <AccordionSection

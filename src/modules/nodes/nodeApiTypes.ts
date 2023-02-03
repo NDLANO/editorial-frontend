@@ -87,6 +87,7 @@ export interface ResourceWithNodeConnection {
   translations: NodeTranslation[];
   supportedLanguages: string[];
   nodeType: NodeTypeValue;
+  isPrimary?: boolean;
   resourceTypes: {
     id: string;
     name: string;

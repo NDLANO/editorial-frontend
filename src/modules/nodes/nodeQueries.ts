@@ -217,22 +217,22 @@ const fetchNodeTree = async ({
   language,
   taxonomyVersion,
 }: NodeTreeGetParams): Promise<NodeTree> => {
-  const [root, children] = await Promise.all([
+  const [root, children, allResources] = await Promise.all([
     fetchNode({ id, language, taxonomyVersion }),
     fetchChildNodesWithArticleType({ id, language, taxonomyVersion }),
+    fetchNodeResources({ id, language, taxonomyVersion, recursive: true }),
   ]);
 
   const rootFromChildren: ChildNodeType | undefined = children.find(child => child.id === id);
   const childOrRegularRoot = rootFromChildren ?? root;
-  const allResources = children.filter(n => n.nodeType === RESOURCE_NODE);
-  const resourcesForNodeIdMap = allResources.reduce<Record<string, ChildNodeType[]>>(
+  const resourcesForNodeIdMap = allResources.reduce<Record<string, ResourceWithNodeConnection[]>>(
     (acc, curr) => {
-      if (!curr.parent) return acc;
+      if (!curr.parentId) return acc;
 
-      if (acc[curr.parent]) {
-        acc[curr.parent] = acc[curr.parent].concat([curr]);
+      if (acc[curr.parentId]) {
+        acc[curr.parentId] = acc[curr.parentId].concat([curr]);
       } else {
-        acc[curr.parent] = [curr];
+        acc[curr.parentId] = [curr];
       }
 
       return acc;

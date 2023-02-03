@@ -232,7 +232,7 @@ const NodeDiff = ({ node, isRoot }: Props) => {
 };
 
 interface ResourceDiffListProps {
-  resources?: DiffType<ChildNodeType>[];
+  resources?: DiffType<ResourceWithNodeConnection>[];
   fieldFilter: string;
 }
 
@@ -254,7 +254,7 @@ const ResourceDiffList = ({ resources, fieldFilter }: ResourceDiffListProps) => 
 };
 
 interface ResourceDiffProps {
-  resource: DiffType<ChildNodeType>;
+  resource: DiffType<ResourceWithNodeConnection>;
   fieldView: string;
 }
 
@@ -288,7 +288,9 @@ const ResourceDiff = ({ resource, fieldView }: ResourceDiffProps) => {
         )}
         {res.id && <FieldDiff fieldName="id" result={res.id} toDisplayValue={v => v} />}
         {res.name && <FieldDiff fieldName="name" result={res.name} toDisplayValue={v => v} />}
-        {res.parent && <FieldDiff fieldName="parent" result={res.parent} toDisplayValue={v => v} />}
+        {res.parentId && (
+          <FieldDiff fieldName="parent" result={res.parentId} toDisplayValue={v => v} />
+        )}
         {res.primary && (
           <FieldDiff
             fieldName="primary"

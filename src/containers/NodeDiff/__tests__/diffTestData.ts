@@ -2091,7 +2091,7 @@ export const nodeTreeWithNestedChildrenAndResources: NodeTree = {
             },
           ],
           supportedLanguages: ['nb', 'nn'],
-          parent: 'urn:topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
+          parentId: 'urn:topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
           connectionId: 'urn:topic-resource:4e8305fa-7aac-4c08-97dc-9630becdb83a',
           rank: 2,
           primary: true,
@@ -2299,7 +2299,7 @@ export const nodeTreeWithNestedChildrenAndResourcesUpdated: NodeTree = {
             },
           ],
           supportedLanguages: ['nb', 'nn'],
-          parent: 'urn:topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
+          parentId: 'urn:topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
           connectionId: 'urn:topic-resource:4e8305fa-7aac-4c08-97dc-9630becdb83a',
           rank: 2,
           primary: true,
@@ -2817,7 +2817,7 @@ export const nodeTreeWithNestedChildrenAndResourcesDiff: DiffTree = {
                 other: ['nb', 'nn'],
                 diffType: 'NONE',
               },
-              parent: {
+              parentId: {
                 original: 'urn:topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
                 other: 'urn:topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
                 diffType: 'NONE',

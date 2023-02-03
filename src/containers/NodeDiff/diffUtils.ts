@@ -51,11 +51,11 @@ export interface NodeTree {
 }
 
 export interface NodeTypeWithResources extends NodeType {
-  resources: ChildNodeType[];
+  resources: ResourceWithNodeConnection[];
 }
 
 export interface ChildNodeTypeWithResources extends ChildNodeType {
-  resources: ChildNodeType[];
+  resources: ResourceWithNodeConnection[];
 }
 
 type TagType = 'original' | 'other';
@@ -72,11 +72,11 @@ interface Grouping<T> {
 
 export interface DiffTypeWithChildren extends DiffType<Omit<ChildNodeType, 'resources'>> {
   children?: DiffTypeWithChildren[];
-  resources?: DiffType<ChildNodeType>[];
+  resources?: DiffType<ResourceWithNodeConnection>[];
 }
 
 export interface RootDiffType extends DiffType<Omit<NodeTypeWithResources, 'resources'>> {
-  resources?: DiffType<ChildNodeType>[];
+  resources?: DiffType<ResourceWithNodeConnection>[];
 }
 
 const diffAndGroupChildren = <T extends NodeType = NodeType>(

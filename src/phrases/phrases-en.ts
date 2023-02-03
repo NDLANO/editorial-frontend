@@ -1267,6 +1267,7 @@ const phrases = {
     confirm: 'Confirm',
     loginAgain: 'Login again',
   },
+  environment: { production: '', staging: 'Staging', test: 'Test' },
   taxonomy: {
     editStructure: 'Edit structure',
     editSubjectpage: 'Edit subjectpage',

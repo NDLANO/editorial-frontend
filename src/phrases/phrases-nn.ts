@@ -1268,6 +1268,7 @@ const phrases = {
     confirm: 'Bekreft',
     loginAgain: 'Logg inn på nytt',
   },
+  environment: { production: '', staging: 'staging', test: 'test' },
   taxonomy: {
     editStructure: 'Rediger struktur',
     editSubjectpage: 'Rediger fagforside',

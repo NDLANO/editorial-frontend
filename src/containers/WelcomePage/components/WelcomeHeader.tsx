@@ -15,12 +15,12 @@ import { useSession } from '../../Session/SessionProvider';
 
 const StyledHeader = styled.div`
   width: 100%;
-  height: 60px;
+  min-height: 60px;
   display: flex;
   align-items: center;
   background-color: ${colors.brand.lighter};
   justify-content: space-evenly;
-  padding: ${spacing.small};
+  padding: ${spacing.xsmall};
   border-radius: 10px;
   position: relative;
 `;
@@ -62,13 +62,6 @@ const RightShape = styled.div`
   width: 110px;
   height: 50px;
   border-radius: 100px 0 10px 0;
-`;
-
-const StyledImg = styled.img`
-  display: none;
-  ${mq.range({ from: breakpoints.tablet })} {
-    display: inline;
-  }
 `;
 
 const ContentWrapper = styled.div`

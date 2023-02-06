@@ -85,6 +85,7 @@ const draftApiTypeToArticleFormType = (
     relatedContent: article?.relatedContent ?? [],
     revisionMeta: article?.revisions ?? [],
     slug: article?.slug,
+    responsibleId: article?.responsible?.responsibleId,
   };
 };
 
@@ -160,6 +161,7 @@ export const learningResourceFormTypeToDraftApiType = (
     availability: article.availability,
     relatedContent: article.relatedContent,
     revisionMeta: article.revisionMeta,
+    responsibleId: article.responsibleId,
   };
 };
 
@@ -235,6 +237,7 @@ export const topicArticleFormTypeToDraftApiType = (
     availability: article.availability,
     relatedContent: article.relatedContent,
     revisionMeta: article.revisionMeta,
+    responsibleId: article.responsibleId,
   };
 };
 

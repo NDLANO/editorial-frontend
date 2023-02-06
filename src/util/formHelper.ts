@@ -88,7 +88,7 @@ export const isFormikFormDirty = <T extends FormikFields>({
     'manuscript',
   ];
   // and skipping fields that only changes on the server
-  const skipFields = ['revision', 'updated', 'updatePublished', 'id', 'status'];
+  const skipFields = ['revision', 'updated', 'updatePublished', 'id'];
   const dirtyFields = [];
   Object.entries(values)
     .filter(([key]) => !skipFields.includes(key))
@@ -198,6 +198,9 @@ export const formikCommonArticleRules: RulesType<ArticleFormType, IArticle> = {
       }
       return undefined;
     },
+  },
+  responsibleId: {
+    required: true,
   },
 };
 

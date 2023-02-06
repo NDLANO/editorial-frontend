@@ -1,0 +1,30 @@
+[
+  {
+    "created_at": "2019-12-02T09:06:01.440Z",
+    "email": "test@epost.no",
+    "family_name": "Test",
+    "given_name": "Ed",
+    "name": "Ed Test",
+    "app_metadata": {
+      "ndla_id": "ndlaid123",
+      "roles": [
+        "audio:write",
+        "concept:write",
+        "drafts:write",
+        "frontpage:write",
+        "images:write",
+        "learningpath:write",
+        "taxonomy:write"
+      ],
+      "permissions": [
+        "images:write",
+        "taxonomy:write",
+        "audio:write",
+        "frontpage:write",
+        "learningpath:write",
+        "drafts:write",
+        "concept:write"
+      ]
+    }
+  }
+]

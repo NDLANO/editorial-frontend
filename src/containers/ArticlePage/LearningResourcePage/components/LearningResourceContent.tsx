@@ -209,7 +209,7 @@ const LearningResourceContent = ({
       </StyledFormikField>
       <IngressField preview={preview} handleSubmit={handleSubmit} />
       <StyledContentDiv name="content" label={t('form.content.label')} noBorder>
-        {({ field: { value, name, onChange }, form: { isSubmitting, setFieldValue } }) => (
+        {({ field: { value, name, onChange }, form: { isSubmitting } }) => (
           <>
             <FieldHeader title={t('form.content.label')}>
               {id && userPermissions?.includes(DRAFT_HTML_SCOPE) && (

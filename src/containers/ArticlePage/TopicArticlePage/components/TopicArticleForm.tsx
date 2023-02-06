@@ -136,6 +136,7 @@ const TopicArticleForm = ({
           isNewlyCreated={isNewlyCreated}
           isConcept={false}
           hideSecondaryButton={false}
+          responsibleId={article?.responsible?.responsibleId}
         />
         <AlertModalWrapper
           isSubmitting={isSubmitting}

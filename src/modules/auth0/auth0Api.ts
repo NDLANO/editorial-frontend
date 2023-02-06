@@ -38,5 +38,10 @@ export const fetchAuth0Editors = (permission: string): Promise<Auth0UserData[]> 
     resolveJsonOrRejectWithError<Auth0UserData[]>(r),
   );
 
+export const fetchAuth0Responsibles = (permission: string): Promise<Auth0UserData[]> =>
+  fetchAuthorized(`/get_responsibles?permission=${permission}`).then(r =>
+    resolveJsonOrRejectWithError<Auth0UserData[]>(r),
+  );
+
 export const fetchZendeskToken = (): Promise<ZendeskToken> =>
   fetchAuthorized('/get_zendesk_token').then(r => resolveJsonOrRejectWithError<ZendeskToken>(r));

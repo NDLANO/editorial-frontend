@@ -68,6 +68,7 @@ export interface ArticleFormType {
     status: string;
     new?: boolean;
   }[];
+  responsibleId?: string;
   // This field is only used for error checking in revisions
   revisionError?: string;
   slug?: string;

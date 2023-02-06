@@ -13,6 +13,7 @@ import { useTranslation } from 'react-i18next';
 import { spacing, colors } from '@ndla/core';
 import { InputV2 } from '@ndla/forms';
 import TaxonomyLightbox from '../../components/Taxonomy/TaxonomyLightbox';
+import { SUBJECT_NODE } from '../../modules/nodes/nodeApiTypes';
 import { useAddNodeMutation } from '../../modules/nodes/nodeMutations';
 import handleError from '../../util/handleError';
 import { useTaxonomyVersion } from '../StructureVersion/TaxonomyVersionProvider';
@@ -47,7 +48,7 @@ const AddSubjectModal = ({ onClose }: Props) => {
     await addNodeMutation.mutateAsync({
       body: {
         name,
-        nodeType: 'SUBJECT',
+        nodeType: SUBJECT_NODE,
         root: true,
       },
       taxonomyVersion,

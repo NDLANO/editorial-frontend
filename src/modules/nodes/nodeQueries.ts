@@ -38,6 +38,7 @@ import {
   GetNodeResourcesParams,
   NodeTranslation,
   NodeType,
+  NodeTypeValue,
   RESOURCE_NODE,
   ResourceWithNodeConnection,
   TOPIC_NODE,
@@ -154,7 +155,7 @@ const fetchNodeResourceMetas = async (
 interface ChildNodesWithArticleTypeParams extends WithTaxonomyVersion {
   id: string;
   language: string;
-  nodeType?: string[];
+  nodeType?: NodeTypeValue[];
 }
 
 const fetchChildNodesWithArticleType = async ({
@@ -224,7 +225,7 @@ const fetchNodeTree = async ({
     fetchChildNodesWithArticleType({
       id,
       language,
-      nodeType: [`${TOPIC_NODE},${RESOURCE_NODE}`],
+      nodeType: [TOPIC_NODE, RESOURCE_NODE],
       taxonomyVersion,
     }),
   ]);
@@ -339,7 +340,7 @@ export const useResourcesWithNodeConnection = (
 interface UseSearchNodes extends WithTaxonomyVersion {
   ids?: string[];
   language?: string;
-  nodeType?: 'NODE' | 'TOPIC' | 'SUBJECT' | 'RESOURCE';
+  nodeType?: NodeTypeValue;
   page?: number;
   pageSize?: number;
   query?: string;

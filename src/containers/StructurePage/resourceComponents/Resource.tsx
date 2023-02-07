@@ -185,7 +185,7 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
   const [showVersionHistory, setShowVersionHistory] = useState(false);
   const [showGrepCodes, setShowGrepCodes] = useState(false);
   const [responsible, setResponsible] = useState<string>();
-  const [aproachingRevision, setAproachingRevision] = useState(false);
+  const [approachingRevision, setApproachingRevision] = useState(false);
 
   const qc = useQueryClient();
   const { taxonomyVersion } = useTaxonomyVersion();
@@ -223,7 +223,7 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
   useEffect(() => {
     if (article) {
       const isAproachingRevision = !!getCountApproachingRevision(article);
-      setAproachingRevision(isAproachingRevision);
+      setApproachingRevision(isAproachingRevision);
     }
   }, [article]);
 
@@ -315,7 +315,7 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
                 size="small"
               />
             </StyledResourceBody>
-            {aproachingRevision ? (
+            {approachingRevision ? (
               <RevisionDateIcon text="!" phrasesKey="form.responsible.revisionDateSingle" />
             ) : null}
             <WrongTypeError resource={resource} articleType={resource.contentMeta?.articleType} />

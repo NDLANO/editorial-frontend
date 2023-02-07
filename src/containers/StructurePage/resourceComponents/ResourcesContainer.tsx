@@ -6,7 +6,7 @@
  *
  */
 
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Plus } from '@ndla/icons/action';
 import Tooltip from '@ndla/tooltip';
@@ -40,13 +40,12 @@ const ResourcesContainer = ({
 }: Props) => {
   const { t } = useTranslation();
   const [showAddModal, setShowAddModal] = useState(false);
-  const resourceTypesWithoutMissing = resourceTypes
-    .filter(rt => rt.id !== 'missing')
-    .map(rt => ({ id: rt.id, name: rt.name }));
+  const resourceTypesWithoutMissing = useMemo(
+    () => resourceTypes.filter(rt => rt.id !== 'missing').map(rt => ({ id: rt.id, name: rt.name })),
+    [resourceTypes],
+  );
 
   const currentNodeId = currentNode.id;
-
-  const toggleAddModal = () => setShowAddModal(prev => !prev);
 
   const articleIds = compact(
     [currentNode.contentUri, nodeResources.map(n => n.contentUri)]
@@ -55,10 +54,14 @@ const ResourcesContainer = ({
   );
 
   const nodeResourcesWithMeta: ResourceWithNodeConnectionAndMeta[] =
-    nodeResources?.map(res => ({
-      ...res,
-      contentMeta: res.contentUri ? contentMeta[res.contentUri] : undefined,
-    })) ?? [];
+    useMemo(
+      () =>
+        nodeResources?.map(res => ({
+          ...res,
+          contentMeta: res.contentUri ? contentMeta[res.contentUri] : undefined,
+        })),
+      [contentMeta, nodeResources],
+    ) ?? [];
   const mapping = groupResourcesByType(nodeResourcesWithMeta ?? [], resourceTypes ?? []);
 
   return (
@@ -69,7 +72,7 @@ const ResourcesContainer = ({
         addButton={
           <Tooltip tooltip={t('taxonomy.addResource')}>
             <IconButtonV2
-              onClick={toggleAddModal}
+              onClick={() => setShowAddModal(prev => !prev)}
               size="xsmall"
               variant="stripped"
               aria-label={t('taxonomy.addResource')}>

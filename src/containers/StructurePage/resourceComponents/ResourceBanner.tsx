@@ -72,7 +72,7 @@ const ResourceBanner = ({ title, contentMeta, addButton, articleIds }: Props) =>
       </Content>
       <RightContent>
         <PublishedText>{`${publishedCount}/${elementCount} publisert`}</PublishedText>
-        <ApproachingRevisionDate articleIds={articleIds} />
+        {articleIds?.length && <ApproachingRevisionDate articleIds={articleIds} />}
       </RightContent>
     </ResourceGroupBanner>
   );

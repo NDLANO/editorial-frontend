@@ -6,7 +6,7 @@
  *
  */
 
-import React, { ReactElement, useEffect, useMemo, useState } from 'react';
+import React, { ReactElement, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import styled from '@emotion/styled';
@@ -183,7 +183,6 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
   const location = useLocation();
   const [showVersionHistory, setShowVersionHistory] = useState(false);
   const [showGrepCodes, setShowGrepCodes] = useState(false);
-  const [responsible, setResponsible] = useState<string>();
 
   const qc = useQueryClient();
   const { taxonomyVersion } = useTaxonomyVersion();
@@ -224,10 +223,9 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
     return !!getCountApproachingRevision([article]);
   }, [article]);
 
-  useEffect(() => {
-    if (userData?.length) {
-      setResponsible(userData[0].name);
-    }
+  const responsible = useMemo(() => {
+    if (userData?.length) return;
+    return userData![0].name;
   }, [userData]);
 
   const contentType =

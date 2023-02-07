@@ -53,10 +53,10 @@ const MainArea = styled.div`
 `;
 
 const LeftColumn = styled.div`
-  grid-column: 3 / 7;
+  grid-column: 2 / 7;
 `;
 const RightColumn = styled.div`
-  grid-column: 7 / 11;
+  grid-column: 7 / 12;
 `;
 
 export const WelcomePage = () => {
@@ -65,7 +65,7 @@ export const WelcomePage = () => {
     enabled: isValid(getAccessToken()) && getAccessTokenPersonal(),
   });
   const { ndlaId } = useSession();
-  const lastUsed = data?.latestEditedArticles;
+  const lastUsed = data?.latestEditedArticles?.map(l => Number(l)) ?? [];
 
   localStorage.setItem('lastPath', '');
 

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-present, NDLA.
+ * Copyright (c) 2023-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
@@ -12,31 +12,29 @@ import { Formik, FormikProps } from 'formik';
 import { IArticle, IUpdatedArticle, IStatus } from '@ndla/types-draft-api';
 import { AlertModalWrapper } from '../../../FormikForm';
 import validateFormik, { getWarnings } from '../../../../components/formikValidationSchema';
-import LearningResourcePanels from './LearningResourcePanels';
-import { isFormikFormDirty, learningResourceRules } from '../../../../util/formHelper';
+import { frontPageArticleRules, isFormikFormDirty } from '../../../../util/formHelper';
 import { toEditArticle } from '../../../../util/routeHelpers';
 import HeaderWithLanguage from '../../../../components/HeaderWithLanguage';
 import EditorFooter from '../../../../components/SlateEditor/EditorFooter';
 import {
-  LearningResourceFormType,
+  FrontpageArticleFormType,
   useArticleFormHooks,
 } from '../../../FormikForm/articleFormHooks';
 import usePreventWindowUnload from '../../../FormikForm/preventWindowUnloadHook';
 import { useLicenses, useDraftStatusStateMachine } from '../../../../modules/draft/draftQueries';
 import { validateDraft } from '../../../../modules/draft/draftApi';
 import {
-  draftApiTypeToLearningResourceFormType,
+  draftApiTypeToFrontpageArticleFormType,
+  frontpageArticleFormTypeToDraftApiType,
   getExpirationDate,
-  learningResourceFormTypeToDraftApiType,
 } from '../../articleTransformers';
-import { ArticleTaxonomy } from '../../../FormikForm/formikDraftHooks';
 import { blockContentToHTML } from '../../../../util/articleContentConverter';
 import { DraftStatusType } from '../../../../interfaces';
 import StyledForm from '../../../../components/StyledFormComponents';
+import FrontpageArticlePanels from './FrontpageArticlePanels';
 
 interface Props {
   article?: IArticle;
-  articleTaxonomy?: ArticleTaxonomy;
   articleStatus?: IStatus;
   isNewlyCreated: boolean;
   articleChanged: boolean;
@@ -49,9 +47,8 @@ interface Props {
   articleLanguage: string;
 }
 
-const LearningResourceForm = ({
+const FrontpageArticleForm = ({
   article,
-  articleTaxonomy,
   articleStatus,
   isNewlyCreated = false,
   updateArticle,
@@ -65,22 +62,22 @@ const LearningResourceForm = ({
   const statusStateMachine = useDraftStatusStateMachine({ articleId: article?.id });
 
   const { savedToServer, formikRef, initialValues, handleSubmit } = useArticleFormHooks<
-    LearningResourceFormType
+    FrontpageArticleFormType
   >({
-    getInitialValues: draftApiTypeToLearningResourceFormType,
+    getInitialValues: draftApiTypeToFrontpageArticleFormType,
     article,
     t,
     articleStatus,
     updateArticle,
     updateArticleAndStatus,
-    getArticleFromSlate: learningResourceFormTypeToDraftApiType,
+    getArticleFromSlate: frontpageArticleFormTypeToDraftApiType,
     articleLanguage,
-    rules: learningResourceRules,
+    rules: frontPageArticleRules,
   });
 
   const initialHTML = useMemo(() => blockContentToHTML(initialValues.content), [initialValues]);
 
-  const FormikChild = (formik: FormikProps<LearningResourceFormType>) => {
+  const FormikChild = (formik: FormikProps<FrontpageArticleFormType>) => {
     // eslint doesn't allow this to be inlined when using hooks (in usePreventWindowUnload)
     const { values, dirty, isSubmitting } = formik;
     const formIsDirty = isFormikFormDirty({
@@ -92,28 +89,24 @@ const LearningResourceForm = ({
     });
     usePreventWindowUnload(formIsDirty);
     const getArticle = () =>
-      learningResourceFormTypeToDraftApiType(values, initialValues, licenses!, false);
+      frontpageArticleFormTypeToDraftApiType(values, initialValues, licenses!, false);
     const editUrl = values.id
       ? (lang: string) => toEditArticle(values.id!, values.articleType, lang)
       : undefined;
-
     return (
       <StyledForm>
         <HeaderWithLanguage
           values={values}
-          taxonomy={articleTaxonomy}
           content={{ ...article, title: article?.title?.title, language: articleLanguage }}
           editUrl={editUrl}
           getEntity={getArticle}
           isSubmitting={isSubmitting}
-          type="standard"
+          type="frontpage-article"
           expirationDate={getExpirationDate(article)}
         />
-        <LearningResourcePanels
+        <FrontpageArticlePanels
           articleLanguage={articleLanguage}
           article={article}
-          taxonomy={articleTaxonomy}
-          updateNotes={updateArticle}
           getArticle={getArticle}
           handleSubmit={handleSubmit}
         />
@@ -132,7 +125,6 @@ const LearningResourceForm = ({
           isNewlyCreated={isNewlyCreated}
           isConcept={false}
           hideSecondaryButton={false}
-          responsibleId={article?.responsible?.responsibleId}
         />
         <AlertModalWrapper
           isSubmitting={isSubmitting}
@@ -144,26 +136,25 @@ const LearningResourceForm = ({
     );
   };
 
-  const initialWarnings = getWarnings(initialValues, learningResourceRules, t, article);
-  const initialErrors = useMemo(() => validateFormik(initialValues, learningResourceRules, t), [
+  const initialWarnings = getWarnings(initialValues, frontPageArticleRules, t, article);
+  const initialErrors = useMemo(() => validateFormik(initialValues, frontPageArticleRules, t), [
     initialValues,
     t,
   ]);
 
   return (
     <Formik
-      key={articleLanguage}
       initialValues={initialValues}
       initialErrors={initialErrors}
       innerRef={formikRef}
       validateOnBlur={false}
       validateOnMount
       onSubmit={handleSubmit}
-      validate={values => validateFormik(values, learningResourceRules, t)}
+      validate={values => validateFormik(values, frontPageArticleRules, t)}
       initialStatus={{ warnings: initialWarnings }}>
       {FormikChild}
     </Formik>
   );
 };
 
-export default LearningResourceForm;
+export default FrontpageArticleForm;

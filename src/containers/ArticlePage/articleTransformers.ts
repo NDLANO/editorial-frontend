@@ -13,19 +13,20 @@ import {
   editorValueToEmbedTag,
   editorValueToPlainText,
   embedTagToEditorValue,
-  learningResourceContentToEditorValue,
-  learningResourceContentToHTML,
+  blockContentToEditorValue,
+  blockContentToHTML,
   plainTextToEditorValue,
-  topicArticleContentToEditorValue,
-  topicArticleContentToHTML,
+  inlineContentToEditorValue,
+  inlineContentToHTML,
 } from '../../util/articleContentConverter';
 import {
   ArticleFormType,
   LearningResourceFormType,
   TopicArticleFormType,
+  FrontpageArticleFormType,
 } from '../FormikForm/articleFormHooks';
 import { DEFAULT_LICENSE, parseImageUrl } from '../../util/formHelper';
-import { nullOrUndefined } from '../../util/articleUtil';
+import { getSlugFromTitle, nullOrUndefined } from '../../util/articleUtil';
 import { PLANNED } from '../../constants';
 
 const getPublishedDate = (
@@ -83,6 +84,7 @@ const draftApiTypeToArticleFormType = (
     availability: article?.availability ?? 'everyone',
     relatedContent: article?.relatedContent ?? [],
     revisionMeta: article?.revisions ?? [],
+    slug: article?.slug,
     responsibleId: article?.responsible?.responsibleId,
   };
 };
@@ -92,13 +94,22 @@ export const draftApiTypeToLearningResourceFormType = (
   language: string,
 ): LearningResourceFormType => {
   return {
+    ...draftApiTypeToArticleFormType(article, language, 'standard', blockContentToEditorValue),
+    origin: article?.copyright?.origin,
+  };
+};
+
+export const draftApiTypeToFrontpageArticleFormType = (
+  article: IArticle | undefined,
+  language: string,
+): FrontpageArticleFormType => {
+  return {
     ...draftApiTypeToArticleFormType(
       article,
       language,
-      'standard',
-      learningResourceContentToEditorValue,
+      'frontpage-article',
+      blockContentToEditorValue,
     ),
-    origin: article?.copyright?.origin,
   };
 };
 
@@ -111,7 +122,7 @@ export const draftApiTypeToTopicArticleFormType = (
       article,
       language,
       'topic-article',
-      topicArticleContentToEditorValue,
+      inlineContentToEditorValue,
     ),
     visualElement: embedTagToEditorValue(article?.visualElement?.visualElement ?? ''),
   };
@@ -129,7 +140,7 @@ export const learningResourceFormTypeToDraftApiType = (
   return {
     revision: 0,
     articleType: 'standard',
-    content: learningResourceContentToHTML(article.content),
+    content: blockContentToHTML(article.content),
     copyright: {
       license: licenses.find(lic => lic.license === article.license),
       origin: article.origin,
@@ -151,6 +162,42 @@ export const learningResourceFormTypeToDraftApiType = (
     relatedContent: article.relatedContent,
     revisionMeta: article.revisionMeta,
     responsibleId: article.responsibleId,
+  };
+};
+
+export const frontpageArticleFormTypeToDraftApiType = (
+  article: FrontpageArticleFormType,
+  initialValues: FrontpageArticleFormType,
+  licenses: ILicense[],
+  preview = false,
+): IUpdatedArticle => {
+  const metaImage = article.metaImageId
+    ? { id: article.metaImageId, alt: article.metaImageAlt ?? '' }
+    : nullOrUndefined(article.metaImageId);
+  return {
+    revision: 0,
+    slug: article.slug || getSlugFromTitle(editorValueToPlainText(article.title)),
+    articleType: 'frontpage-article',
+    content: blockContentToHTML(article.content),
+    copyright: {
+      license: licenses.find(lic => lic.license === article.license),
+      creators: article.creators,
+      processors: article.processors,
+      rightsholders: article.rightsholders,
+    },
+    introduction: editorValueToPlainText(article.introduction),
+    language: article.language,
+    metaImage,
+    metaDescription: editorValueToPlainText(article.metaDescription),
+    notes: article.notes,
+    published: getPublishedDate(article, initialValues, preview) ?? '',
+    tags: article.tags,
+    title: editorValueToPlainText(article.title),
+    grepCodes: article.grepCodes,
+    conceptIds: article.conceptIds,
+    availability: article.availability,
+    relatedContent: article.relatedContent,
+    revisionMeta: article.revisionMeta,
   };
 };
 
@@ -176,7 +223,7 @@ export const topicArticleFormTypeToDraftApiType = (
     language: article.language,
     title: editorValueToPlainText(article.title),
     published: getPublishedDate(article, initialValues, preview) ?? '',
-    content: topicArticleContentToHTML(article.content),
+    content: inlineContentToHTML(article.content),
     tags: article.tags,
     introduction: editorValueToPlainText(article.introduction),
     metaDescription: editorValueToPlainText(article.metaDescription),

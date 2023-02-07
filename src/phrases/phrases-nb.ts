@@ -14,6 +14,7 @@ const phrases = {
     createLearningResourcePage: `Fagstoff ${titleTemplate}`,
     createTopicArticlePage: `Emne ${titleTemplate}`,
     createSubjectpage: `Fagforside ${titleTemplate}`,
+    createFrontPageArticePage: `Innholdsartikkel ${titleTemplate}`,
     agreementPage: `Avtale ${titleTemplate}`,
     welcomePage: `Forside ${titleTemplate}`,
     structurePage: `Struktur ${titleTemplate}`,
@@ -198,6 +199,7 @@ const phrases = {
     h5p: 'Rediger H5P',
     newConcept: 'Opprett forklaring',
     newSubject: 'Opprett fag',
+    newFrontpageArticle: 'Opprett innholdsartikkel',
   },
   logo: {
     altText: 'Nasjonal digital læringsarena',
@@ -493,6 +495,13 @@ const phrases = {
   imageForm: {
     title: 'Bilde',
   },
+  frontpageArticleForm: {
+    title: 'Innholdsartikkel',
+    validation: {
+      illegalSlug:
+        'Bruk av ulovlige tegn i permalenken! Tillatte tegn er alle tall og bokstaver, og bindestrek',
+    },
+  },
   learningResourceForm: {
     metaImage: {
       title: 'Bildetittel',
@@ -589,9 +598,14 @@ const phrases = {
       button: 'Forhåndsvis',
     },
     resize: 'Endre størrelse',
+    slug: {
+      label: 'Permalenke',
+      edit: 'Forandre permalenke',
+    },
     name: {
       title: 'Tittel',
       aboutTitle: 'Tittel',
+      slug: 'Permalenke',
       introduction: 'Ingress',
       creators: 'Opphavsperson',
       rightsholders: 'Rettighetshaver',
@@ -1446,6 +1460,7 @@ const phrases = {
   },
   contextTypes: {
     topic: 'Emne',
+    frontpage: 'Innholdsartikkel',
   },
   ndlaFilm: {
     editor: {

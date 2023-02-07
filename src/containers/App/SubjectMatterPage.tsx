@@ -16,6 +16,9 @@ const TopicArticlePage = loadable(() => import('../ArticlePage/TopicArticlePage/
 const LearningResourcePage = loadable(() =>
   import('../ArticlePage/LearningResourcePage/LearningResourcePage'),
 );
+const FrontPageArticlePage = loadable(() =>
+  import('../ArticlePage/FrontpageArticlePage/FrontpageArticlePage'),
+);
 
 const SubjectMatterPage = () => (
   <>
@@ -24,6 +27,10 @@ const SubjectMatterPage = () => (
       <Route
         path="learning-resource/*"
         element={<PrivateRoute component={<LearningResourcePage />} />}
+      />
+      <Route
+        path="frontpage-article/*"
+        element={<PrivateRoute component={<FrontPageArticlePage />} />}
       />
       <Route path="article/:id" element={<PrivateRoute component={<GenericArticleRedirect />} />} />
       <Route path="*" element={<NotFoundPage />} />

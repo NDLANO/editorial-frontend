@@ -221,7 +221,7 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
 
   const isApproachingRevision = useMemo(() => {
     if (!article) return false;
-    return !!getCountApproachingRevision(article);
+    return !!getCountApproachingRevision([article]);
   }, [article]);
 
   useEffect(() => {

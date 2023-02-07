@@ -15,7 +15,6 @@ import countBy from 'lodash/countBy';
 import { IArticle } from '@ndla/types-draft-api';
 import Tooltip from '@ndla/tooltip';
 import { useTranslation } from 'react-i18next';
-import isArray from 'lodash/isArray';
 import { fetchDrafts } from '../../../modules/draft/draftApi';
 import handleError from '../../../util/handleError';
 
@@ -50,12 +49,11 @@ interface Props {
   articleIds?: number[];
 }
 
-export const getCountApproachingRevision = (article: IArticle | IArticle[]) => {
+export const getCountApproachingRevision = (articles: IArticle[]) => {
   const currentDateAddYear = addYears(new Date(), 1);
-  const elementsArray = isArray(article) ? article : [article];
 
   const countApproachingRevision =
-    countBy(elementsArray, elementsArray =>
+    countBy(articles, elementsArray =>
       isBefore(new Date(elementsArray?.revisions?.[0]?.revisionDate), currentDateAddYear),
     ).true ?? 0;
 

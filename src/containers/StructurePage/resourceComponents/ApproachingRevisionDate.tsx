@@ -11,7 +11,6 @@ import styled from '@emotion/styled';
 import { colors } from '@ndla/core';
 import addYears from 'date-fns/addYears';
 import isBefore from 'date-fns/isBefore';
-import countBy from 'lodash/countBy';
 import { IArticle } from '@ndla/types-draft-api';
 import Tooltip from '@ndla/tooltip';
 import { useTranslation } from 'react-i18next';
@@ -51,12 +50,9 @@ interface Props {
 
 export const getCountApproachingRevision = (articles: IArticle[]) => {
   const currentDateAddYear = addYears(new Date(), 1);
-
-  const countApproachingRevision =
-    countBy(articles, elementsArray =>
-      isBefore(new Date(elementsArray?.revisions?.[0]?.revisionDate), currentDateAddYear),
-    ).true ?? 0;
-
+  const countApproachingRevision = articles.filter(a =>
+    isBefore(new Date(a?.revisions?.[0]?.revisionDate), currentDateAddYear),
+  ).length;
   return countApproachingRevision;
 };
 

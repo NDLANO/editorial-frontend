@@ -224,7 +224,7 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
   }, [article]);
 
   const responsible = useMemo(() => {
-    if (userData?.length) return;
+    if (!userData?.length) return;
     return userData![0].name;
   }, [userData]);
 

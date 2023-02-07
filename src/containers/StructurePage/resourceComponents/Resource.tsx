@@ -42,8 +42,7 @@ import {
   resourcesWithNodeConnectionQueryKey,
 } from '../../../modules/nodes/nodeQueries';
 import { ResourceWithNodeConnectionAndMeta } from './StructureResources';
-import { useAuth0Users } from '../../../modules/auth0/auth0Queries';
-import { useDraft } from '../../../modules/draft/draftQueries';
+import { useDraft, useResponsibleUserData } from '../../../modules/draft/draftQueries';
 import { getCountApproachingRevision, RevisionDateIcon } from './ApproachingRevisionDate';
 
 const Wrapper = styled.div`
@@ -219,6 +218,7 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
 
   const id = getIdFromUrn(resource?.contentMeta?.contentUri);
   const { data: article } = useDraft({ id: id! }, { enabled: !!id });
+  const { data: userData } = useResponsibleUserData(article);
 
   useEffect(() => {
     if (article) {
@@ -226,11 +226,6 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
       setApproachingRevision(isAproachingRevision);
     }
   }, [article]);
-
-  const { data: userData } = useAuth0Users(
-    { uniqueUserIds: article?.responsible?.responsibleId! },
-    { enabled: !!article?.responsible?.responsibleId },
-  );
 
   useEffect(() => {
     if (userData?.length) {

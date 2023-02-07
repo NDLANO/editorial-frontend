@@ -47,10 +47,14 @@ const ResourcesContainer = ({
 
   const currentNodeId = currentNode.id;
 
-  const articleIds = compact(
-    [currentNode.contentUri, nodeResources.map(n => n.contentUri)]
-      .flat()
-      .map(id => getIdFromUrn(id)),
+  const articleIds = useMemo(
+    () =>
+      compact(
+        [currentNode.contentUri, nodeResources.map(n => n.contentUri)]
+          .flat()
+          .map(id => getIdFromUrn(id)),
+      ),
+    [currentNode, nodeResources],
   );
 
   const nodeResourcesWithMeta: ResourceWithNodeConnectionAndMeta[] =

@@ -39,6 +39,7 @@ export interface NodeTranslationPutType {
 
 export interface GetChildNodesParams {
   language?: string;
+  nodeType?: NodeTypeValue[];
   recursive?: boolean;
 }
 

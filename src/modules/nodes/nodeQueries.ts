@@ -38,8 +38,10 @@ import {
   GetNodeResourcesParams,
   NodeTranslation,
   NodeType,
+  NodeTypeValue,
   RESOURCE_NODE,
   ResourceWithNodeConnection,
+  TOPIC_NODE,
 } from './nodeApiTypes';
 import { fetchLearningpaths } from '../learningpath/learningpathApi';
 
@@ -153,24 +155,25 @@ const fetchNodeResourceMetas = async (
 interface ChildNodesWithArticleTypeParams extends WithTaxonomyVersion {
   id: string;
   language: string;
+  nodeType?: NodeTypeValue[];
 }
 
 const fetchChildNodesWithArticleType = async ({
   id,
   language,
+  nodeType,
   taxonomyVersion,
 }: ChildNodesWithArticleTypeParams): Promise<(ChildNodeType & {
   articleType?: string;
   isPublished?: boolean;
 })[]> => {
-  const childNodesWithResources = await fetchChildNodes({
+  const childNodes = await fetchChildNodes({
     id,
     taxonomyVersion,
     language,
     recursive: true,
+    nodeType,
   });
-  const childNodes = childNodesWithResources.filter(x => x.nodeType !== RESOURCE_NODE);
-
   if (childNodes.length === 0) return [];
 
   const childIds = childNodes.map(n => Number(n.contentUri?.split(':').pop())).filter(id => !!id);
@@ -219,7 +222,12 @@ const fetchNodeTree = async ({
 }: NodeTreeGetParams): Promise<NodeTree> => {
   const [root, children] = await Promise.all([
     fetchNode({ id, language, taxonomyVersion }),
-    fetchChildNodesWithArticleType({ id, language, taxonomyVersion }),
+    fetchChildNodesWithArticleType({
+      id,
+      language,
+      nodeType: [TOPIC_NODE, RESOURCE_NODE],
+      taxonomyVersion,
+    }),
   ]);
 
   const rootFromChildren: ChildNodeType | undefined = children.find(child => child.id === id);
@@ -332,7 +340,7 @@ export const useResourcesWithNodeConnection = (
 interface UseSearchNodes extends WithTaxonomyVersion {
   ids?: string[];
   language?: string;
-  nodeType?: 'NODE' | 'TOPIC' | 'SUBJECT' | 'RESOURCE';
+  nodeType?: NodeTypeValue;
   page?: number;
   pageSize?: number;
   query?: string;

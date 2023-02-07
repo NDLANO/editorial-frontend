@@ -125,6 +125,7 @@ const phrases = {
     chooseSubject: 'Velg fag',
     chooseTopic: 'Velg emner',
     errorMessage: 'Innhenting av data feilet',
+    goToSearch: 'Gå til søk',
     workList: {
       title: 'Mine arbeidsoppgaver',
       description: 'Artikler hvor jeg står i ansvarlig-feltet',

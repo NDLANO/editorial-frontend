@@ -124,6 +124,7 @@ const phrases = {
     chooseSubject: 'Choose subjects',
     chooseTopic: 'Choose topics',
     errorMessage: 'Failed to retrieve data',
+    goToSearch: 'Go to search',
     workList: {
       title: 'My tasks',
       description: 'Articles where I am responsible',

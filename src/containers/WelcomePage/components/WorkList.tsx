@@ -10,6 +10,10 @@ import { useTranslation } from 'react-i18next';
 import { Calendar } from '@ndla/icons/editor';
 import { useCallback, useState } from 'react';
 import { MultiValue } from '@ndla/select';
+import { SafeLinkButton } from '@ndla/safelink';
+import { parse, stringify } from 'query-string';
+import styled from '@emotion/styled';
+import { colors, spacing } from '@ndla/core';
 import { useSearch } from '../../../modules/search/searchQueries';
 import { toEditArticle } from '../../../util/routeHelpers';
 import TableComponent, { FieldElement, TitleElement } from './TableComponent';
@@ -17,6 +21,22 @@ import TableTitle from './TableTitle';
 import SubjectDropdown from './SubjectDropdown';
 import formatDate from '../../../util/formatDate';
 import { StyledDashboardInfo, StyledLink, StyledTopRowDashboardInfo } from '../styles';
+
+const StyledWorkList = styled.div`
+  background-color: ${colors.brand.lighter};
+  border-radius: 10px;
+  padding: ${spacing.nsmall};
+`;
+
+const ControlWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: ${spacing.small};
+`;
+
+const StyledSafeLinkButton = styled(SafeLinkButton)`
+  height: fit-content;
+`;
 
 interface Props {
   ndlaId: string;
@@ -91,6 +111,13 @@ const WorkList = ({ ndlaId }: Props) => {
       ])
     : [[]];
 
+  const goToSearch = () => {
+    const subjects = filterSubjects.map(subject => stringify(parse(subject.value)));
+    const searchUrl = `/search/content?subjects=${subjects.join(',')}`;
+
+    return searchUrl;
+  };
+
   return (
     <StyledDashboardInfo>
       <StyledTopRowDashboardInfo>
@@ -99,7 +126,12 @@ const WorkList = ({ ndlaId }: Props) => {
           description={t('welcomePage.workList.description')}
           Icon={Calendar}
         />
-        <SubjectDropdown filterSubject={filterSubjects} setFilterSubject={updateFilterSubjects} />
+        <ControlWrapper>
+          <SubjectDropdown filterSubject={filterSubjects} setFilterSubject={updateFilterSubjects} />
+          <StyledSafeLinkButton to={goToSearch()} size="small" disabled={!filterSubjects.length}>
+            {t('welcomePage.goToSearch')}
+          </StyledSafeLinkButton>
+        </ControlWrapper>
       </StyledTopRowDashboardInfo>
       <TableComponent
         isLoading={isLoading}

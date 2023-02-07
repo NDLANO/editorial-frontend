@@ -6,7 +6,7 @@
  */
 
 import isEqual from 'lodash/fp/isEqual';
-import { Descendant } from 'slate';
+import { Descendant, Node } from 'slate';
 import { IArticle, ILicense, IArticleMetaImage } from '@ndla/types-draft-api';
 import { isUserProvidedEmbedDataValid } from './embedTagHelpers';
 import { findNodesByType } from './slateHelpers';
@@ -255,6 +255,13 @@ export const topicArticleRules: RulesType<TopicArticleFormType, IArticle> = {
     },
   },
   content: {
+    required: false,
+    test: values => {
+      return Node.string(values.content[0]) !== '' || values.content.length > 1
+        ? { translationKey: 'topicArticleForm.validation.containsContent' }
+        : undefined;
+    },
+
     warnings: {
       languageMatch: true,
     },

@@ -58,7 +58,6 @@ export const getCountApproachingRevision = (articles: IArticle[]) => {
 
 const ApproachingRevisionDate = ({ articleIds = [] }: Props) => {
   const [count, setCount] = useState<number>(0);
-
   useEffect(() => {
     (async () => {
       try {
@@ -71,7 +70,7 @@ const ApproachingRevisionDate = ({ articleIds = [] }: Props) => {
       }
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [articleIds]);
 
   return <RevisionDateIcon text={count} phrasesKey={'form.responsible.revisionDate'} />;
 };

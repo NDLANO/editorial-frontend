@@ -6,7 +6,7 @@
  *
  */
 
-import React, { ReactElement, useEffect, useState } from 'react';
+import React, { ReactElement, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import styled from '@emotion/styled';
@@ -184,7 +184,6 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
   const [showVersionHistory, setShowVersionHistory] = useState(false);
   const [showGrepCodes, setShowGrepCodes] = useState(false);
   const [responsible, setResponsible] = useState<string>();
-  const [approachingRevision, setApproachingRevision] = useState(false);
 
   const qc = useQueryClient();
   const { taxonomyVersion } = useTaxonomyVersion();
@@ -220,11 +219,9 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
   const { data: article } = useDraft({ id: id! }, { enabled: !!id });
   const { data: userData } = useResponsibleUserData(article);
 
-  useEffect(() => {
-    if (article) {
-      const isAproachingRevision = !!getCountApproachingRevision(article);
-      setApproachingRevision(isAproachingRevision);
-    }
+  const isApproachingRevision = useMemo(() => {
+    if (!article) return false;
+    return !!getCountApproachingRevision(article);
   }, [article]);
 
   useEffect(() => {
@@ -310,7 +307,7 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
                 size="small"
               />
             </StyledResourceBody>
-            {approachingRevision ? (
+            {isApproachingRevision ? (
               <RevisionDateIcon text="!" phrasesKey="form.responsible.revisionDateSingle" />
             ) : null}
             <WrongTypeError resource={resource} articleType={resource.contentMeta?.articleType} />

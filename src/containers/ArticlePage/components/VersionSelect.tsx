@@ -11,6 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { spacing } from '@ndla/core';
 import { VersionType } from '../../../modules/taxonomy/versions/versionApiTypes';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
+import { generateOptionGroupes } from '../../../components/Taxonomy/OptGroupVersionSelector';
 
 const Wrapper = styled.div`
   margin-top: ${spacing.normal};
@@ -37,12 +38,20 @@ const VersionSelect = ({ versions = [], onVersionChanged }: Props) => {
   };
 
   const currentVersion = getCurrentTaxVersion(versions, taxonomyVersion) ?? fakeDefault;
-  const options = versions.map(version => ({ value: version.hash, label: version.name }));
+  const options = versions.map(version => ({
+    id: version.hash,
+    name: version.name,
+    type: version.versionType,
+  }));
+  const optGroups = generateOptionGroupes(options, t).map(g => ({
+    label: g.label,
+    options: g.options.map(o => ({ value: o.id, label: o.name })),
+  }));
 
   return (
     <Wrapper>
       <Select<false>
-        options={options}
+        options={optGroups}
         value={currentVersion}
         onChange={onVersionChanged}
         prefix={`${t('taxonomy.version')}: `}

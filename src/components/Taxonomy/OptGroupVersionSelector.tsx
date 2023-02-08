@@ -1,4 +1,4 @@
-import { useTranslation } from 'react-i18next';
+import { TFunction, useTranslation } from 'react-i18next';
 import { VersionStatusType, VersionType } from '../../modules/taxonomy/versions/versionApiTypes';
 import ObjectSelector from '../ObjectSelector';
 
@@ -17,6 +17,36 @@ interface VersionTypeWithDefault extends Omit<VersionType, 'versionType'> {
 }
 
 type PossibleVersionTypes = VersionStatusType | 'default';
+
+export const generateOptionGroupes = (
+  options: {
+    id: string;
+    name: string;
+    type: VersionStatusType;
+  }[],
+  t: TFunction,
+) => {
+  const { published, beta, archived } = options.reduce<OptGroups>(
+    (acc, curr) => {
+      const type = curr.type.toLowerCase() as Lowercase<VersionStatusType>;
+      acc[type].push(curr);
+      return acc;
+    },
+    {
+      published: [],
+      beta: [],
+      archived: [],
+    },
+  );
+
+  const optGroups = [
+    { label: t('taxonomyVersions.status.PUBLISHED'), options: published },
+    { label: t('taxonomyVersions.status.BETA'), options: beta },
+    { label: t('taxonomyVersions.status.ARCHIVED'), options: archived },
+  ].filter(group => group.options.length > 0);
+
+  return optGroups;
+};
 
 const OptGroupVersionSelector = ({
   versions,
@@ -38,25 +68,7 @@ const OptGroupVersionSelector = ({
     name: version.name,
     type: version.versionType,
   }));
-
-  const { published, beta, archived } = options.reduce<OptGroups>(
-    (acc, curr) => {
-      const type = curr.type.toLowerCase() as Lowercase<VersionStatusType>;
-      acc[type].push(curr);
-      return acc;
-    },
-    {
-      published: [],
-      beta: [],
-      archived: [],
-    },
-  );
-
-  const optGroups = [
-    { label: t('taxonomyVersions.status.PUBLISHED'), options: published },
-    { label: t('taxonomyVersions.status.BETA'), options: beta },
-    { label: t('taxonomyVersions.status.ARCHIVED'), options: archived },
-  ].filter(group => group.options.length > 0);
+  const optGroups = generateOptionGroupes(options, t);
 
   return (
     <ObjectSelector

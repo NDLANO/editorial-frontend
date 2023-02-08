@@ -9,6 +9,7 @@ import styled from '@emotion/styled';
 import { Select, SingleValue } from '@ndla/select';
 import { useTranslation } from 'react-i18next';
 import { spacing } from '@ndla/core';
+import { useMemo } from 'react';
 import { VersionType } from '../../../modules/taxonomy/versions/versionApiTypes';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 import { generateOptionGroupes } from '../../../components/Taxonomy/OptGroupVersionSelector';
@@ -43,10 +44,14 @@ const VersionSelect = ({ versions = [], onVersionChanged }: Props) => {
     name: version.name,
     type: version.versionType,
   }));
-  const optGroups = generateOptionGroupes(options, t).map(g => ({
-    label: g.label,
-    options: g.options.map(o => ({ value: o.id, label: o.name })),
-  }));
+  const optGroups = useMemo(
+    () =>
+      generateOptionGroupes(options, t).map(g => ({
+        label: g.label,
+        options: g.options.map(o => ({ value: o.id, label: o.name })),
+      })),
+    [options, t],
+  );
 
   return (
     <Wrapper>

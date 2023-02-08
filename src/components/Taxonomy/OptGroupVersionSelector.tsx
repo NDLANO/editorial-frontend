@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { TFunction, useTranslation } from 'react-i18next';
 import { VersionStatusType, VersionType } from '../../modules/taxonomy/versions/versionApiTypes';
 import ObjectSelector from '../ObjectSelector';
@@ -68,7 +69,7 @@ const OptGroupVersionSelector = ({
     name: version.name,
     type: version.versionType,
   }));
-  const optGroups = generateOptionGroupes(options, t);
+  const optGroups = useMemo(() => generateOptionGroupes(options, t), [options, t]);
 
   return (
     <ObjectSelector

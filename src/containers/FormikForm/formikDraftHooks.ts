@@ -58,7 +58,7 @@ export function useFetchArticleData(articleId: number | undefined, language: str
     fetchArticle();
   }, [articleId, language, taxonomyVersion]);
 
-  const rightDelete = (ids: string[]): string[] => (ids.length > 10 ? dropRight(ids, 1) : ids);
+  const rightDelete = (ids: string[]): string[] => (ids.length > 9 ? dropRight(ids, 1) : ids);
 
   const updateUserData = useCallback(async (articleId: number) => {
     const stringId = articleId.toString();

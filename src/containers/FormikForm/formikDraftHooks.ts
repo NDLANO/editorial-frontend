@@ -58,13 +58,16 @@ export function useFetchArticleData(articleId: number | undefined, language: str
     fetchArticle();
   }, [articleId, language, taxonomyVersion]);
 
+  const rightDelete = (ids: string[]): string[] => (ids.length > 10 ? dropRight(ids, 1) : ids);
+
   const updateUserData = useCallback(async (articleId: number) => {
     const stringId = articleId.toString();
     const result = await fetchUserData();
     const latestEdited = uniq(result.latestEditedArticles || []);
     const latestEditedArticles = latestEdited.includes(stringId)
       ? [stringId].concat(latestEdited.filter(id => id !== stringId))
-      : [stringId].concat(dropRight(latestEdited, 1));
+      : [stringId].concat(rightDelete(latestEdited));
+
     apiUpdateUserData({ latestEditedArticles });
   }, []);
 

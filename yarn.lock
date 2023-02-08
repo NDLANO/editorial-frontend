@@ -2052,10 +2052,10 @@
     url-regex "^4.1.1"
     vercel "^27.2.0"
 
-"@ndla/select@^2.1.4":
-  version "2.1.4"
-  resolved "https://registry.yarnpkg.com/@ndla/select/-/select-2.1.4.tgz#051b66e5fd1c2af3217c66a62c7744cc3ca7addd"
-  integrity sha512-+ipf0+FXrmgixfJEK7exPztYElmOlPXKkLNDTHokfJzMrnXlTTRbqGnIH4Afnz1rYm7bCW0TMor3+IWK77SJ4A==
+"@ndla/select@^2.2.0":
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/@ndla/select/-/select-2.2.0.tgz#548ca7c4c5ed79f807c73863e43c4cd74ebc2b16"
+  integrity sha512-IeL3ezQRn9SMeYp+jrXGgHZvyDd01SyVcaHrH1WJcwgEP1tGc0TWnOrqsCsEq1eB3WoeegR9GTOO8hjGBwUewA==
   dependencies:
     "@ndla/core" "^3.1.1"
     "@ndla/icons" "^2.2.2"

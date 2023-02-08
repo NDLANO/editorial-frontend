@@ -71,7 +71,7 @@ interface FullResource {
   metadata?: TaxonomyMetadata;
 }
 
-export type Props = {
+type Props = {
   article: IArticle;
   taxonomy: ArticleTaxonomy;
   updateNotes: (art: IUpdatedArticle) => Promise<IArticle>;

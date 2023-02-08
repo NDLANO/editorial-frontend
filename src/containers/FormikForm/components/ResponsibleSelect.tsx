@@ -36,6 +36,7 @@ const ResponsibleSelect = ({ responsible, setResponsible, onSave, responsibleId 
       placeholderData: [],
     },
   );
+  const optionsWithGroupTitle = [{ label: t('form.responsible.label'), options: users ?? [] }];
 
   const [enableRequired, setEnableRequired] = useState(false);
 
@@ -61,13 +62,12 @@ const ResponsibleSelect = ({ responsible, setResponsible, onSave, responsibleId 
   return (
     <div data-cy="responsible-select">
       <Select<false>
-        options={users ?? []}
+        options={optionsWithGroupTitle}
         menuPlacement="top"
         placeholder={t('form.responsible.choose')}
         value={responsible}
         onChange={updateResponsible}
         isLoading={isLoading}
-        groupTitle={t('form.responsible.label')}
         noOptionsMessage={() => t('form.responsible.noResults')}
         isSearchable
         isClearable

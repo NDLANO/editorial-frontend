@@ -57,12 +57,12 @@ interface Props {
   toggleOpen: (nodeId: string) => void;
   level: number;
   onNodeSelected: (node?: NodeType) => void;
+  resourceSectionRef: MutableRefObject<HTMLDivElement | null>;
   rootNodeId: string;
   onDragEnd: (result: DropResult, childNodes: ChildNodeType[]) => Promise<void>;
   connectionId: string;
   parentActive: boolean;
   allRootNodes: NodeType[];
-  resourceSectionRef: MutableRefObject<HTMLDivElement | null>;
   isRoot?: boolean;
   isFavorite: boolean;
   toggleFavorite?: () => void;
@@ -78,10 +78,10 @@ const NodeItem = ({
   level,
   onNodeSelected,
   rootNodeId,
+  resourceSectionRef,
   onDragEnd,
   parentActive,
   allRootNodes,
-  resourceSectionRef,
   isRoot,
   isFavorite,
   toggleFavorite,
@@ -144,8 +144,8 @@ const NodeItem = ({
             isMainActive={isOpen}
             structure={allRootNodes}
             onCurrentNodeChanged={node => onNodeSelected(node)}
-            nodeChildren={nodes ?? []}
             jumpToResources={() => resourceSectionRef?.current?.scrollIntoView()}
+            nodeChildren={nodes ?? []}
           />
         )}
         {isLoading && (
@@ -172,13 +172,13 @@ const NodeItem = ({
                   id={t.id}
                   rootNodeId={rootNodeId}
                   openedPaths={openedPaths}
+                  resourceSectionRef={resourceSectionRef}
                   onNodeSelected={onNodeSelected}
                   item={t}
                   nodes={t.childNodes}
                   toggleOpen={toggleOpen}
                   level={level + 1}
                   onDragEnd={onDragEnd}
-                  resourceSectionRef={resourceSectionRef}
                 />
               ))}
             </MakeDndList>

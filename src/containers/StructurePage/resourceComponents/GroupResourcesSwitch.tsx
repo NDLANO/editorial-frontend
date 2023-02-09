@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import React, { useEffect, useState } from 'react';
+import React, { useMemo } from 'react';
 import { Switch } from '@ndla/switch';
 import Tooltip from '@ndla/tooltip';
 import { useTranslation } from 'react-i18next';
@@ -42,7 +42,7 @@ const getGroupedStatus = (node: NodeType): boolean => {
 };
 
 const GroupResourceSwitch = ({ node, onChanged }: Props) => {
-  const [isGrouped, setIsGrouped] = useState(getGroupedStatus(node));
+  const isGrouped = useMemo(() => getGroupedStatus(node), [node]);
   const { t, i18n } = useTranslation();
 
   const updateNodeMetadata = useUpdateNodeMetadataMutation();
@@ -56,7 +56,7 @@ const GroupResourceSwitch = ({ node, onChanged }: Props) => {
     language: i18n.language,
   });
 
-  const updateMetadata = async (checked: boolean) => {
+  const updateMetadata = async () => {
     const customFields = {
       ...node.metadata.customFields,
       [TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES]: isGrouped
@@ -77,12 +77,6 @@ const GroupResourceSwitch = ({ node, onChanged }: Props) => {
     );
   };
 
-  useEffect(() => {
-    const groupedStatus = getGroupedStatus(node);
-    if (isGrouped !== groupedStatus) setIsGrouped(groupedStatus);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [node]);
-
   return (
     <Tooltip tooltip={t('taxonomy.metadata.customFields.RGTooltip')}>
       <div>
@@ -90,7 +84,7 @@ const GroupResourceSwitch = ({ node, onChanged }: Props) => {
           id="group-resources"
           checked={isGrouped}
           label=""
-          onChange={c => updateMetadata(c)}
+          onChange={updateMetadata}
           thumbCharacter={isGrouped ? 'G' : 'U'}
         />
       </div>

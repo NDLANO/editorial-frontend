@@ -8,7 +8,7 @@
 
 import styled from '@emotion/styled';
 import { colors, fonts, spacing } from '@ndla/core';
-import { Share } from '@ndla/icons/lib/common';
+import { Share } from '@ndla/icons/common';
 
 export const spacingTop = spacing.small;
 

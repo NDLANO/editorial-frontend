@@ -1339,9 +1339,9 @@ const phrases = {
     noResources: 'No resources found',
     addTopicDescription: 'Change topic description',
     confirmSetPrimary: 'Do you want to make this the main location?',
+    removeLink: 'Remove link',
     jumpToResources: 'Jump to resources',
     jumpToStructure: 'Jump to structure',
-    removeLink: 'Remove link',
     swapTopicArticle: {
       failed: 'Failed to swap article',
       placeholder: 'Article to swap to',

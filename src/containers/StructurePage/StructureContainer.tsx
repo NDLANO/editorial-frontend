@@ -1,8 +1,16 @@
+/**
+ * Copyright (c) 2021-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
 import { Spinner } from '@ndla/icons';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
+import { breakpoints } from '@ndla/core';
 import ErrorBoundary from '../../components/ErrorBoundary';
 import { REMEMBER_FAVORITE_NODES, TAXONOMY_ADMIN_SCOPE } from '../../constants';
 import { useSession } from '../Session/SessionProvider';
@@ -21,7 +29,7 @@ import { createGuard } from '../../util/guards';
 import { GridContainer, MainArea, LeftColumn, RightColumn } from '../../components/Layout/Layout';
 import StructureBanner from './StructureBanner';
 
-export const structureContainerBreakpoint = '61.3125em';
+export const structureContainerBreakpoint = breakpoints.desktop;
 
 const StructureWrapper = styled.ul`
   margin: 0;
@@ -127,12 +135,12 @@ const StructureContainer = () => {
                       renderBeforeTitle={StructureErrorIcon}
                       allRootNodes={nodesQuery.data ?? []}
                       openedPaths={getPathsFromUrl(location.pathname)}
+                      resourceSectionRef={resourceSection}
                       onNodeSelected={setCurrentNode}
                       isFavorite={!!favoriteNodes[node.id]}
                       key={node.id}
                       node={node}
                       toggleOpen={handleStructureToggle}
-                      resourceSectionRef={resourceSection}
                     />
                   ))}
                 </StructureWrapper>

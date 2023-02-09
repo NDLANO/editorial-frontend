@@ -157,12 +157,6 @@ const BoldFont = styled.span`
   font-weight: ${fonts.weight.semibold};
 `;
 
-const getArticleTypeFromId = (id?: string) => {
-  if (id?.startsWith('urn:topic:')) return 'topic-article';
-  else if (id?.startsWith('urn:resource:')) return 'standard';
-  return undefined;
-};
-
 interface Props {
   currentNodeId: string;
   connectionId?: string; // required for MakeDndList, otherwise ignored

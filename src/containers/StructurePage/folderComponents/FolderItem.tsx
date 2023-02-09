@@ -8,12 +8,12 @@
 
 import { spacing, fonts, mq } from '@ndla/core';
 import Button from '@ndla/button';
-import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
+import styled from '@emotion/styled';
 import { NodeType } from '../../../modules/nodes/nodeApiTypes';
-import SettingsMenu from './SettingsMenu';
 import { Row } from '../../../components';
 import Spinner from '../../../components/Spinner';
+import SettingsMenu from './SettingsMenu';
 import { structureContainerBreakpoint } from '../StructureContainer';
 
 const StyledResourceButton = styled(Button)`
@@ -32,26 +32,26 @@ const StyledFolderWrapper = styled.div`
 interface Props {
   node: NodeType;
   structure: NodeType[];
+  jumpToResources?: () => void;
   isMainActive?: boolean;
+  resourcesLoading?: boolean;
   rootNodeId: string;
   onCurrentNodeChanged: (node: NodeType) => void;
   nodeChildren: NodeType[];
-  jumpToResources?: () => void;
-  resourcesLoading?: boolean;
 }
 
 const FolderItem = ({
   node,
+  jumpToResources,
   isMainActive,
+  resourcesLoading,
   rootNodeId,
   structure,
   onCurrentNodeChanged,
   nodeChildren,
-  jumpToResources,
-  resourcesLoading,
 }: Props) => {
-  const showJumpToResources = isMainActive && node.id.includes('topic');
   const { t } = useTranslation();
+  const showJumpToResources = isMainActive && node.id.includes('topic');
 
   return (
     <StyledFolderWrapper data-cy="folderWrapper">

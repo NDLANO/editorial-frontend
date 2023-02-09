@@ -29,8 +29,8 @@ interface Props {
   openedPaths: string[];
   isFavorite: boolean;
   onNodeSelected: (node?: NodeType) => void;
-  allRootNodes: NodeType[];
   resourceSectionRef: MutableRefObject<HTMLDivElement | null>;
+  allRootNodes: NodeType[];
   renderBeforeTitle?: RenderBeforeFunction;
 }
 
@@ -40,8 +40,8 @@ const RootNode = ({
   openedPaths,
   toggleOpen,
   onNodeSelected,
-  allRootNodes,
   resourceSectionRef,
+  allRootNodes,
   renderBeforeTitle,
 }: Props) => {
   const { i18n } = useTranslation();
@@ -113,6 +113,7 @@ const RootNode = ({
       toggleOpen={toggleOpen}
       toggleFavorite={toggleFavorite}
       rootNodeId={node.id}
+      resourceSectionRef={resourceSectionRef}
       onDragEnd={onDragEnd}
       connectionId={''}
       parentActive={true}
@@ -120,7 +121,6 @@ const RootNode = ({
       isRoot={true}
       isFavorite={isFavorite}
       isLoading={childNodesQuery.isLoading}
-      resourceSectionRef={resourceSectionRef}
     />
   );
 };

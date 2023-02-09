@@ -1019,6 +1019,10 @@ const phrases = {
       label: 'Ansvarlig',
       choose: 'Velg ansvarlig',
       noResults: 'Ingen treff',
+      noResponible: 'Ingen ansvarlig',
+      revisionDate: 'Antall som nærmer seg revisjonsdato',
+      revisionDateSingle: 'Nærmer seg revisjonsdato',
+      error: 'Noe gikk galt ved oppdatering av ansvarlig.',
       noArticles: 'Ingen artikler ...',
     },
     origin: {

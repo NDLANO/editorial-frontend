@@ -17,10 +17,12 @@ import {
   updateUserData,
 } from './draftApi';
 import { DraftStatusStateMachineType } from '../../interfaces';
+import { useAuth0Users } from '../auth0/auth0Queries';
 
 export interface UseDraft {
   id: number;
   language?: string;
+  responsibleId?: string;
 }
 
 export const draftQueryKey = (params?: Partial<UseDraft>) => [DRAFT, params];
@@ -30,6 +32,13 @@ export const useDraft = (params: UseDraft, options?: UseQueryOptions<IArticle>) 
     draftQueryKey(params),
     () => fetchDraft(params.id, params.language),
     options,
+  );
+};
+
+export const useResponsibleUserData = (article?: IArticle) => {
+  return useAuth0Users(
+    { uniqueUserIds: article?.responsible?.responsibleId! },
+    { enabled: !!article?.responsible?.responsibleId },
   );
 };
 

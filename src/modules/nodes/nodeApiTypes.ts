@@ -84,7 +84,7 @@ export interface ResourceWithNodeConnection {
   paths: string[];
   primary: boolean;
   rank: number;
-  relevanceId: string;
+  relevanceId?: string;
   translations: NodeTranslation[];
   supportedLanguages: string[];
   nodeType: NodeTypeValue;

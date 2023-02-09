@@ -46,10 +46,13 @@ const VersionSelect = ({ versions = [], onVersionChanged }: Props) => {
   }));
   const optGroups = useMemo(
     () =>
-      generateOptionGroupes(options, t).map(g => ({
-        label: g.label,
-        options: g.options.map(o => ({ value: o.id, label: o.name })),
-      })),
+      [{ label: '', options: [fakeDefault] }].concat(
+        generateOptionGroupes(options, t).map(g => ({
+          label: g.label,
+          options: g.options.map(o => ({ value: o.id, label: o.name })),
+        })),
+      ),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [options, t],
   );
 

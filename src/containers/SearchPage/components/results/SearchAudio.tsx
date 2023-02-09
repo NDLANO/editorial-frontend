@@ -8,7 +8,8 @@
 
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { LicenseByline, getLicenseByAbbreviation } from '@ndla/licenses';
+import { getLicenseByAbbreviation } from '@ndla/licenses';
+import { LicenseByline } from '@ndla/notion';
 import { colors } from '@ndla/core';
 import { Audio, Podcast } from '@ndla/icons/common';
 import { IAudioSummary } from '@ndla/types-audio-api';

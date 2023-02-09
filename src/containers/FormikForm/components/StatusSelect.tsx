@@ -29,6 +29,7 @@ const StatusSelect = ({ status, setStatus, onSave, statusStateMachine, entitySta
   });
 
   const [options, setOptions] = useState<Option[]>([]);
+  const optionsWithGroupTitle = [{ label: t('editorFooter.statusLabel'), options: options }];
 
   useEffect(() => {
     if (entityStatus && statusStateMachine) {
@@ -54,12 +55,11 @@ const StatusSelect = ({ status, setStatus, onSave, statusStateMachine, entitySta
 
   return (
     <Select<false>
-      options={options}
+      options={optionsWithGroupTitle}
       menuPlacement="top"
       placeholder={t('searchForm.types.status')}
       value={status}
       onChange={updateStatus}
-      groupTitle={t('editorFooter.statusLabel')}
       closeMenuOnSelect
     />
   );

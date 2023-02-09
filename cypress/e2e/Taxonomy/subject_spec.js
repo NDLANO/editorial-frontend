@@ -96,7 +96,7 @@ describe('Subject editing', () => {
     cy.get('button')
       .contains(phrases.metadata.changeVisibility)
       .click();
-    cy.get('input[id="visible"]').click({ force: true });
+    cy.get('button[id="switch-visible"]').click({ force: true });
     cy.wait('@invisibleMetadata');
   });
 });

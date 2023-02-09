@@ -6,10 +6,8 @@
  *
  */
 
-import { Link } from 'react-router-dom';
 import { useMemo } from 'react';
 import queryString from 'query-string';
-
 import { useTranslation } from 'react-i18next';
 import { DeleteForever } from '@ndla/icons/editor';
 import { IUserData } from '@ndla/types-draft-api';
@@ -17,11 +15,10 @@ import Tooltip from '@ndla/tooltip';
 import { IconButtonV2 } from '@ndla/button';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
-
 import { transformQuery } from '../../../util/searchHelpers';
 import { useSavedSearchUrl } from '../hooks/savedSearchHook';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
-import { SubjectType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
+import { NoShadowLink } from './NoShadowLink';
 import { FAVOURITES_SUBJECT_ID } from '../../../constants';
 
 interface Props {
@@ -111,10 +108,7 @@ const SavedSearch = ({ deleteSearch, search, index, userData }: Props) => {
           <DeleteForever />
         </IconButtonV2>
       </Tooltip>
-      {/* Not having a className activates undesirable global scss */}
-      <Link className="" to={localizedSearch}>
-        {linkText(searchObject)}
-      </Link>
+      <NoShadowLink to={localizedSearch}>{linkText(searchObject)}</NoShadowLink>
     </StyledSearch>
   );
 };

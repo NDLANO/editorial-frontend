@@ -12,6 +12,9 @@ import { spacing, breakpoints, mq } from '@ndla/core';
 export const GridContainer = styled.div<{ breakpoint?: string }>`
   ${({ breakpoint }) => mq.range({ from: '0px', until: breakpoint ?? breakpoints.tabletWide })} {
     padding: ${spacing.nsmall};
+    display: flex;
+    flex-direction: column;
+    gap: ${spacing.nsmall};
   }
 
   ${({ breakpoint }) => mq.range({ from: breakpoint ?? breakpoints.tabletWide })} {

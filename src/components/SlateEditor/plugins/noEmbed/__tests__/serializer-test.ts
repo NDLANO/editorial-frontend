@@ -8,8 +8,8 @@
 
 import { Descendant } from 'slate';
 import {
-  topicArticleContentToEditorValue,
-  topicArticleContentToHTML,
+  inlineContentToEditorValue,
+  inlineContentToHTML,
 } from '../../../../../util/articleContentConverter';
 import { TYPE_NDLA_EMBED } from '../../embed/types';
 import { TYPE_PARAGRAPH } from '../../paragraph/types';
@@ -46,7 +46,7 @@ describe('embed serializing tests', () => {
   test('serializing', () => {
     const emptySectionHtml = '<section></section>';
 
-    const res = topicArticleContentToHTML(editor);
+    const res = inlineContentToHTML(editor);
     expect(res).toMatch(emptySectionHtml);
   });
 
@@ -54,7 +54,7 @@ describe('embed serializing tests', () => {
     const embedHtml =
       '<section><ndlaembed data-resource="image" data-resource_id="41176" data-size="fullbredde" data-align=" " data-alt=" " data-caption=" " data-url="https://test123.no"></ndlaembed></section>';
 
-    const res = topicArticleContentToEditorValue(embedHtml);
+    const res = inlineContentToEditorValue(embedHtml);
     expect(res).toEqual(editor);
   });
 });

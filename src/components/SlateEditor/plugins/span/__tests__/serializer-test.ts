@@ -8,8 +8,8 @@
 
 import { Descendant } from 'slate';
 import {
-  learningResourceContentToEditorValue,
-  learningResourceContentToHTML,
+  blockContentToEditorValue,
+  blockContentToHTML,
 } from '../../../../../util/articleContentConverter';
 import { TYPE_PARAGRAPH } from '../../paragraph/types';
 import { TYPE_SECTION } from '../../section/types';
@@ -37,7 +37,7 @@ const hmtlWithoutSpan = '<section><p>test</p></section>';
 
 describe('span serializing tests', () => {
   test('serializing', () => {
-    const res = learningResourceContentToHTML(editor);
+    const res = blockContentToHTML(editor);
     expect(res).toMatch(html);
   });
 
@@ -57,12 +57,12 @@ describe('span serializing tests', () => {
       },
     ];
 
-    const res = learningResourceContentToHTML(editorWithoutAttributes);
+    const res = blockContentToHTML(editorWithoutAttributes);
     expect(res).toMatch(hmtlWithoutSpan);
   });
 
   test('deserializing', () => {
-    const res = learningResourceContentToEditorValue(html);
+    const res = blockContentToEditorValue(html);
     expect(res).toEqual(editor);
   });
 
@@ -79,7 +79,7 @@ describe('span serializing tests', () => {
       },
     ];
 
-    const res = learningResourceContentToEditorValue(htmlWithoutAttributes);
+    const res = blockContentToEditorValue(htmlWithoutAttributes);
     expect(res).toEqual(editorWithoutSpan);
   });
 });

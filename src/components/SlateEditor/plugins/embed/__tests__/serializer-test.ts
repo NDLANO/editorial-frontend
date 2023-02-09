@@ -8,8 +8,8 @@
 
 import { Descendant } from 'slate';
 import {
-  learningResourceContentToEditorValue,
-  learningResourceContentToHTML,
+  blockContentToEditorValue,
+  blockContentToHTML,
 } from '../../../../../util/articleContentConverter';
 import { TYPE_PARAGRAPH } from '../../paragraph/types';
 import { TYPE_SECTION } from '../../section/types';
@@ -48,12 +48,12 @@ describe('embed image serializing tests', () => {
     '<section><ndlaembed data-resource="image" data-resource_id="123" data-size="small" data-align="right" data-alt="test-alt" data-caption="test-caption" data-url="https://test.url"></ndlaembed></section>';
 
   test('serializing image', () => {
-    const res = learningResourceContentToHTML(editorWithImage);
+    const res = blockContentToHTML(editorWithImage);
     expect(res).toMatch(htmlWithImage);
   });
 
   test('deserializing image', () => {
-    const res = learningResourceContentToEditorValue(htmlWithImage);
+    const res = blockContentToEditorValue(htmlWithImage);
     expect(res).toEqual(editorWithImage);
   });
 });
@@ -89,12 +89,12 @@ describe('embed brightcove video serializing tests', () => {
   const htmlWithBrightcove =
     '<section><ndlaembed data-resource="brightcove" data-videoid="123" data-caption="test caption" data-account="1000" data-player="abc" data-url="https://test.url" data-title="test title"></ndlaembed></section>';
   test('serializing', () => {
-    const res = learningResourceContentToHTML(editorWithBrightcove);
+    const res = blockContentToHTML(editorWithBrightcove);
     expect(res).toMatch(htmlWithBrightcove);
   });
 
   test('deserializing', () => {
-    const res = learningResourceContentToEditorValue(htmlWithBrightcove);
+    const res = blockContentToEditorValue(htmlWithBrightcove);
     expect(res).toEqual(editorWithBrightcove);
   });
 });
@@ -126,12 +126,12 @@ describe('embed youtube video serializing tests', () => {
   const htmlWithYoutube =
     '<section><ndlaembed data-resource="external" data-url="https://www.youtube.com/watch?v=testurl" data-title="test title"></ndlaembed></section>';
   test('serializing', () => {
-    const res = learningResourceContentToHTML(editorWithYotube);
+    const res = blockContentToHTML(editorWithYotube);
     expect(res).toMatch(htmlWithYoutube);
   });
 
   test('deserializing', () => {
-    const res = learningResourceContentToEditorValue(htmlWithYoutube);
+    const res = blockContentToEditorValue(htmlWithYoutube);
     expect(res).toEqual(editorWithYotube);
   });
 });
@@ -166,12 +166,12 @@ describe('embed audio serializing tests', () => {
     '<section><ndlaembed data-resource="audio" data-resource_id="123" data-type="standard" data-url="https://test.url"></ndlaembed></section>';
 
   test('serializing audio', () => {
-    const res = learningResourceContentToHTML(editorWithAudio);
+    const res = blockContentToHTML(editorWithAudio);
     expect(res).toMatch(htmlWithAudio);
   });
 
   test('deserializing audio', () => {
-    const res = learningResourceContentToEditorValue(htmlWithAudio);
+    const res = blockContentToEditorValue(htmlWithAudio);
     expect(res).toEqual(editorWithAudio);
   });
 });
@@ -206,12 +206,12 @@ describe('embed podcast serializing tests', () => {
     '<section><ndlaembed data-resource="audio" data-resource_id="123" data-type="podcast" data-url="https://test.url"></ndlaembed></section>';
 
   test('serializing podcast', () => {
-    const res = learningResourceContentToHTML(editorWithPodcast);
+    const res = blockContentToHTML(editorWithPodcast);
     expect(res).toMatch(htmlWithPodcast);
   });
 
   test('deserializing podcast', () => {
-    const res = learningResourceContentToEditorValue(htmlWithPodcast);
+    const res = blockContentToEditorValue(htmlWithPodcast);
     expect(res).toEqual(editorWithPodcast);
   });
 });
@@ -245,12 +245,12 @@ describe('embed h5p serializing tests', () => {
     '<section><ndlaembed data-resource="h5p" data-path="/resource/123" data-url="https://test.url/resource/123"></ndlaembed></section>';
 
   test('serializing h5p', () => {
-    const res = learningResourceContentToHTML(editorWithH5P);
+    const res = blockContentToHTML(editorWithH5P);
     expect(res).toMatch(htmlWithH5P);
   });
 
   test('deserializing h5p', () => {
-    const res = learningResourceContentToEditorValue(htmlWithH5P);
+    const res = blockContentToEditorValue(htmlWithH5P);
     expect(res).toEqual(editorWithH5P);
   });
 });

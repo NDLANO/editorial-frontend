@@ -17,9 +17,11 @@ import Footer from '../App/components/Footer';
 import LastUsedItems from './components/LastUsedItems';
 import { useUserData } from '../../modules/draft/draftQueries';
 import { StyledColumnHeader } from './styles';
+import WorkList from './components/WorkList';
 import WelcomeHeader from './components/WelcomeHeader';
 import { GridContainer, MainArea, LeftColumn, RightColumn } from '../../components/Layout/Layout';
 import { NAVIGATION_HEADER_MARGIN } from '../../constants';
+import { useSession } from '../Session/SessionProvider';
 
 export const Wrapper = styled.div`
   display: flex;
@@ -33,6 +35,7 @@ export const WelcomePage = () => {
   const { data } = useUserData({
     enabled: isValid(getAccessToken()) && getAccessTokenPersonal(),
   });
+  const { ndlaId } = useSession();
   const lastUsed = data?.latestEditedArticles;
 
   localStorage.setItem('lastPath', '');
@@ -44,6 +47,7 @@ export const WelcomePage = () => {
         <MainArea>
           <WelcomeHeader />
         </MainArea>
+        <MainArea>{ndlaId && <WorkList ndlaId={ndlaId} />}</MainArea>
         <LeftColumn>
           <LastUsedItems lastUsed={lastUsed} />
         </LeftColumn>

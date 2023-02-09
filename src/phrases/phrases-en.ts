@@ -14,6 +14,7 @@ const phrases = {
     createLearningResourcePage: `Learning resource ${titleTemplate}`,
     createTopicArticlePage: `Topic ${titleTemplate}`,
     createSubjectpage: `Subjectpage ${titleTemplate}`,
+    createFrontPageArticePage: `Content article ${titleTemplate}`,
     agreementPage: `Agreement ${titleTemplate}`,
     welcomePage: `Frontpage ${titleTemplate}`,
     structurePage: `Structure ${titleTemplate}`,
@@ -119,6 +120,20 @@ const phrases = {
     lastUsed: 'Last edited',
     savedSearch: 'Saved searches',
     saveSearch: 'Save search',
+    chooseSubject: 'Choose subjects',
+    chooseTopic: 'Choose topics',
+    errorMessage: 'Failed to retrieve data',
+
+    workList: {
+      title: 'My tasks',
+      description: 'Articles where I am responsible',
+      name: 'Name',
+      status: 'Status',
+      contentType: 'Content type',
+      primarySubject: 'Primary subject',
+      topicRelation: 'Topic relation',
+      date: 'Date assigned',
+    },
     welcomeBack: 'Welcome back',
   },
   searchPage: {
@@ -184,6 +199,7 @@ const phrases = {
     h5p: 'Edit H5P',
     newConcept: 'Create new concept',
     newSubject: 'Create new subject',
+    newFrontpageArticle: 'Create new content article',
   },
   logo: {
     altText: 'The Norwegian Digital Learning Arena',
@@ -414,6 +430,10 @@ const phrases = {
         placeholder: 'Alt-text',
       },
     },
+    validation: {
+      containsContent:
+        'Topic articles should only have title, introduction and visualelement. The content is in most cases not needed.',
+    },
   },
   agreementForm: {
     title: {
@@ -474,6 +494,13 @@ const phrases = {
   },
   imageForm: {
     title: 'Image',
+  },
+  frontpageArticleForm: {
+    title: 'Content article',
+    validation: {
+      illegalSlug:
+        'Use of illegal characters in permalink! Legal characters are numbers and letters, plus dashes.',
+    },
   },
   learningResourceForm: {
     metaImage: {
@@ -570,9 +597,14 @@ const phrases = {
       button: 'Preview',
     },
     resize: 'Resize',
+    slug: {
+      label: 'Permalink',
+      edit: 'Edit permalink',
+    },
     name: {
       title: 'Title',
       aboutTitle: 'Title',
+      slug: 'Permalink',
       introduction: 'Ingress',
       creators: 'Creators',
       rightsholders: 'Rightsholders',
@@ -991,6 +1023,7 @@ const phrases = {
       revisionDate: 'Amount approaching revision date',
       revisionDateSingle: 'Approaching revision date',
       error: 'Something went wrong when updating responsible',
+      noArticles: 'No articles ...',
     },
     origin: {
       label: 'Origin',
@@ -1256,6 +1289,7 @@ const phrases = {
     confirm: 'Confirm',
     loginAgain: 'Login again',
   },
+  environment: { production: '', staging: 'Staging', test: 'Test' },
   taxonomy: {
     editStructure: 'Edit structure',
     editSubjectpage: 'Edit subjectpage',
@@ -1426,6 +1460,7 @@ const phrases = {
   },
   contextTypes: {
     topic: 'Topic',
+    frontpage: 'Content article',
   },
   ndlaFilm: {
     editor: {

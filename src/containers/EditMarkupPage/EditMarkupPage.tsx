@@ -18,10 +18,7 @@ import { Spinner } from '@ndla/icons';
 import { fetchDraft, updateDraft } from '../../modules/draft/draftApi';
 import handleError from '../../util/handleError';
 import { Row, PreviewDraftLightbox } from '../../components';
-import {
-  learningResourceContentToEditorValue,
-  learningResourceContentToHTML,
-} from '../../util/articleContentConverter';
+import { blockContentToEditorValue, blockContentToHTML } from '../../util/articleContentConverter';
 import { DRAFT_HTML_SCOPE } from '../../constants';
 import { getSessionStateFromLocalStorage } from '../Session/SessionProvider';
 import HeaderSupportedLanguages from '../../components/HeaderWithLanguage/HeaderSupportedLanguages';
@@ -68,8 +65,8 @@ function standardizeContent(content: string): string {
     .split(/>\r?\n/)
     .map(s => s.trim())
     .join('>');
-  const converted = learningResourceContentToEditorValue(trimmedContent);
-  return learningResourceContentToHTML(converted);
+  const converted = blockContentToEditorValue(trimmedContent);
+  return blockContentToHTML(converted);
 }
 
 function updateContentInDraft(draft: IArticle | undefined, content: string): IArticle | undefined {

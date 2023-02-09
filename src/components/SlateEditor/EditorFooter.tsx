@@ -6,22 +6,26 @@
  *
  */
 
-import { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
-import { Footer, FooterStatus, FooterLinkButton } from '@ndla/editor';
+import { Footer, FooterLinkButton } from '@ndla/editor';
 import { colors, spacing } from '@ndla/core';
 import { Launch } from '@ndla/icons/common';
 import { IConcept, IStatus as ConceptStatus } from '@ndla/types-concept-api';
 import { IUpdatedArticle, IStatus as DraftStatus } from '@ndla/types-draft-api';
 import { useFormikContext } from 'formik';
-
+import { useEffect, useState } from 'react';
+import { SingleValue } from '@ndla/select';
 import { toPreviewDraft } from '../../util/routeHelpers';
 import PreviewConceptLightbox from '../PreviewConcept/PreviewConceptLightbox';
 import SaveMultiButton from '../SaveMultiButton';
 import { createGuard, createReturnTypeGuard } from '../../util/guards';
 import { NewMessageType, useMessages } from '../../containers/Messages/MessagesProvider';
 import { ConceptStatusStateMachineType, DraftStatusStateMachineType } from '../../interfaces';
+import ResponsibleSelect from '../../containers/FormikForm/components/ResponsibleSelect';
+import StatusSelect from '../../containers/FormikForm/components/StatusSelect';
+import { requiredFieldsT } from '../../util/yupHelpers';
+import { PUBLISHED } from '../../constants';
 
 interface Props {
   formIsDirty: boolean;
@@ -37,6 +41,7 @@ interface Props {
   hideSecondaryButton: boolean;
   isNewlyCreated: boolean;
   hasErrors?: boolean;
+  responsibleId?: string;
 }
 
 interface FormValues {
@@ -56,6 +61,15 @@ const StyledLine = styled.hr`
   }
 `;
 
+const Wrapper = styled.div`
+  margin-right: ${spacing.normal};
+  width: 200px;
+`;
+
+const StyledFooter = styled.div`
+  margin-left: auto;
+`;
+
 function EditorFooter<T extends FormValues>({
   formIsDirty,
   savedToServer,
@@ -70,18 +84,37 @@ function EditorFooter<T extends FormValues>({
   hideSecondaryButton,
   isNewlyCreated,
   hasErrors,
+  responsibleId,
 }: Props) {
+  const [status, setStatus] = useState<SingleValue>(null);
+  const [responsible, setResponsible] = useState<SingleValue>(null);
+
   const { t } = useTranslation();
   const { values, setFieldValue, isSubmitting } = useFormikContext<T>();
   const { createMessage, formatErrorMessage } = useMessages();
+
   // Wait for newStatus to be set to trigger since formik doesn't update fields instantly
-  const [newStatus, setNewStatus] = useState<string | null>(null);
+  const [newStatus, setNewStatus] = useState<SingleValue>(null);
+
   useEffect(() => {
-    if (newStatus) {
-      onSaveClick();
+    if (newStatus && newStatus.value === PUBLISHED) {
+      onSave();
       setNewStatus(null);
+      setResponsible(null);
     }
-  }, [newStatus, onSaveClick]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [newStatus]);
+
+  const onSave = (saveAsNewVersion?: boolean) => {
+    if (!responsible && newStatus?.value !== PUBLISHED && isArticle) {
+      createMessage({
+        message: requiredFieldsT('form.responsible.label', t),
+        timeToLive: 0,
+      });
+      return;
+    }
+    onSaveClick(saveAsNewVersion);
+  };
 
   const saveButton = (
     <SaveMultiButton
@@ -89,7 +122,7 @@ function EditorFooter<T extends FormValues>({
       isSaving={isSubmitting}
       formIsDirty={formIsDirty}
       showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}
-      onClick={onSaveClick}
+      onClick={onSave}
       hideSecondaryButton={hideSecondaryButton}
       disabled={!!hasErrors}
     />
@@ -123,35 +156,52 @@ function EditorFooter<T extends FormValues>({
       catchError(error, createMessage);
     }
   };
-
-  if (showSimpleFooter) {
-    return (
-      <Footer>
-        <div>{saveButton}</div>
-      </Footer>
-    );
-  }
-
-  const transformStatus = (entityStatus: DraftStatus, status: string) => ({
-    name: t(`form.status.actions.${status}`),
-    id: status,
-    active: status === entityStatus.current,
-  });
-
-  const statuses =
-    statusStateMachine && entityStatus
-      ? statusStateMachine[entityStatus.current]?.map(s => transformStatus(entityStatus, s)) ?? []
-      : [];
-
-  const updateStatus = async (comment: string, status: string) => {
+  const updateResponsible = async (responsible: SingleValue) => {
     try {
-      // Set new status field and update form (which we listen for changes to in the useEffect above)
-      setNewStatus(status);
-      setFieldValue('status', { current: status });
+      setResponsible(responsible);
+      setFieldValue('responsibleId', responsible ? responsible.value : null);
     } catch (error) {
       catchError(error, createMessage);
     }
   };
+
+  const updateStatus = async (status: SingleValue) => {
+    try {
+      // Set new status field and update form (which we listen for changes to in the useEffect above)
+      setNewStatus(status);
+      if (status?.value !== PUBLISHED) {
+        setStatus(status);
+      }
+      setFieldValue('status', { current: status?.value });
+
+      // When status changes user should also update responsible
+      if (responsible && responsible.value === responsibleId) {
+        updateResponsible(null);
+      }
+    } catch (error) {
+      catchError(error, createMessage);
+    }
+  };
+
+  if (showSimpleFooter) {
+    return (
+      <Footer>
+        <StyledFooter>
+          {isArticle && (
+            <Wrapper>
+              <ResponsibleSelect
+                responsible={responsible}
+                setResponsible={setResponsible}
+                onSave={updateResponsible}
+                responsibleId={responsibleId}
+              />
+            </Wrapper>
+          )}
+          {saveButton}
+        </StyledFooter>
+      </Footer>
+    );
+  }
 
   const isConceptType = createReturnTypeGuard<IConcept>('subjectIds');
 
@@ -177,23 +227,27 @@ function EditorFooter<T extends FormValues>({
             </FooterLinkButton>
           )}
         </div>
+
         <div data-cy="footerStatus">
-          <FooterStatus
-            onSave={updateStatus}
-            options={statuses}
-            messages={{
-              label: '',
-              changeStatus: t(`form.status.${entityStatus?.current.toLowerCase()}`),
-              back: t('editorFooter.back'),
-              inputHeader: t('editorFooter.inputHeader'),
-              inputHelperText: t('editorFooter.inputHelperText'),
-              cancelLabel: t('editorFooter.cancelLabel'),
-              saveLabel: t('editorFooter.saveLabel'),
-              warningSavedWithoutComment: t('editorFooter.warningSaveWithoutComment'),
-              newStatusPrefix: t('editorFooter.newStatusPrefix'),
-              statusLabel: t('editorFooter.statusLabel'),
-            }}
-          />
+          {isArticle && (
+            <Wrapper>
+              <ResponsibleSelect
+                responsible={responsible}
+                setResponsible={setResponsible}
+                onSave={updateResponsible}
+                responsibleId={responsibleId}
+              />
+            </Wrapper>
+          )}
+          <Wrapper>
+            <StatusSelect
+              status={status}
+              setStatus={setStatus}
+              onSave={updateStatus}
+              statusStateMachine={statusStateMachine}
+              entityStatus={entityStatus}
+            />
+          </Wrapper>
           {saveButton}
         </div>
       </>

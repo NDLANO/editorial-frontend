@@ -14,6 +14,7 @@ const phrases = {
     createLearningResourcePage: `Fagstoff ${titleTemplate}`,
     createTopicArticlePage: `Emne ${titleTemplate}`,
     createSubjectpage: `Fagforside ${titleTemplate}`,
+    createFrontPageArticePage: `Innholdsartikkel ${titleTemplate}`,
     agreementPage: `Avtale ${titleTemplate}`,
     welcomePage: `Forside ${titleTemplate}`,
     structurePage: `Struktur ${titleTemplate}`,
@@ -120,6 +121,19 @@ const phrases = {
     lastUsed: 'Sist redigert',
     savedSearch: 'Lagrede søk',
     saveSearch: 'Lagre søk',
+    chooseSubject: 'Velg fag',
+    chooseTopic: 'Velg emner',
+    errorMessage: 'Innhenting av data feilet',
+    workList: {
+      title: 'Mine arbeidsoppgaver',
+      description: 'Artikler hvor jeg står i ansvarlig-feltet',
+      name: 'Navn',
+      status: 'Status',
+      contentType: 'Innholdstype',
+      primarySubject: 'Primærfag',
+      topicRelation: 'Emnetilhørighet',
+      date: 'Tildelningsdato',
+    },
     welcomeBack: 'Velkommen tilbake',
   },
   searchPage: {
@@ -185,6 +199,7 @@ const phrases = {
     h5p: 'Rediger H5P',
     newConcept: 'Opprett forklaring',
     newSubject: 'Opprett fag',
+    newFrontpageArticle: 'Opprett innholdsartikkel',
   },
   logo: {
     altText: 'Nasjonal digital læringsarena',
@@ -415,6 +430,10 @@ const phrases = {
         placeholder: 'Alt-tekst',
       },
     },
+    validation: {
+      containsContent:
+        'Emneartikler bør kun ha tittel, ingress og visuelt element. Innhold trengs ikke i de fleste tilfeller.',
+    },
   },
   agreementForm: {
     title: {
@@ -475,6 +494,13 @@ const phrases = {
   },
   imageForm: {
     title: 'Bilde',
+  },
+  frontpageArticleForm: {
+    title: 'Innholdsartikkel',
+    validation: {
+      illegalSlug:
+        'Bruk av ulovlige tegn i permalenken! Tillatte tegn er alle tall og bokstaver, og bindestrek',
+    },
   },
   learningResourceForm: {
     metaImage: {
@@ -572,9 +598,14 @@ const phrases = {
       button: 'Forhåndsvis',
     },
     resize: 'Endre størrelse',
+    slug: {
+      label: 'Permalenke',
+      edit: 'Forandre permalenke',
+    },
     name: {
       title: 'Tittel',
       aboutTitle: 'Tittel',
+      slug: 'Permalenke',
       introduction: 'Ingress',
       creators: 'Opphavsperson',
       rightsholders: 'Rettighetshaver',
@@ -992,6 +1023,7 @@ const phrases = {
       revisionDate: 'Antall som nærmer seg revisjonsdato',
       revisionDateSingle: 'Nærmer seg revisjonsdato',
       error: 'Noe gikk galt ved oppdatering av ansvarlig.',
+      noArticles: 'Ingen artikler ...',
     },
     origin: {
       label: 'Opphav',
@@ -1258,6 +1290,7 @@ const phrases = {
     confirm: 'Bekreft',
     loginAgain: 'Logg inn på nytt',
   },
+  environment: { production: '', staging: 'staging', test: 'test' },
   taxonomy: {
     editStructure: 'Rediger struktur',
     editSubjectpage: 'Rediger fagforside',
@@ -1431,6 +1464,7 @@ const phrases = {
   },
   contextTypes: {
     topic: 'Emne',
+    frontpage: 'Innholdsartikkel',
   },
   ndlaFilm: {
     editor: {

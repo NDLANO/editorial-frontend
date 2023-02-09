@@ -73,7 +73,7 @@ export const createEmptyValue = (): Descendant[] => [
 ];
 
 // Rules are checked from first to last
-const learningResourceRules: SlateSerializer[] = [
+const extendedRules: SlateSerializer[] = [
   paragraphSerializer,
   sectionSerializer,
   breakSerializer,
@@ -100,7 +100,7 @@ const learningResourceRules: SlateSerializer[] = [
 ];
 
 // Rules are checked from first to last
-const topicArticleRules: SlateSerializer[] = [
+const commonRules: SlateSerializer[] = [
   paragraphSerializer,
   sectionSerializer,
   breakSerializer,
@@ -193,20 +193,20 @@ const articleContentToEditorValue = (html: string, rules: SlateSerializer[]) => 
   return normalizedNodes;
 };
 
-export const learningResourceContentToEditorValue = (html: string): Descendant[] => {
-  return articleContentToEditorValue(html, learningResourceRules);
+export const blockContentToEditorValue = (html: string): Descendant[] => {
+  return articleContentToEditorValue(html, extendedRules);
 };
 
-export function learningResourceContentToHTML(contentValues: Descendant[]) {
-  return articleContentToHTML(contentValues, learningResourceRules);
+export function blockContentToHTML(contentValues: Descendant[]) {
+  return articleContentToHTML(contentValues, extendedRules);
 }
 
-export function topicArticleContentToEditorValue(html: string) {
-  return articleContentToEditorValue(html, topicArticleRules);
+export function inlineContentToEditorValue(html: string) {
+  return articleContentToEditorValue(html, commonRules);
 }
 
-export function topicArticleContentToHTML(value: Descendant[]) {
-  return articleContentToHTML(value, topicArticleRules);
+export function inlineContentToHTML(value: Descendant[]) {
+  return articleContentToHTML(value, commonRules);
 }
 
 export function plainTextToEditorValue(text: string): Descendant[] {

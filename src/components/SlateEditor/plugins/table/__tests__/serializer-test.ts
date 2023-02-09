@@ -8,8 +8,8 @@
 
 import { Descendant } from 'slate';
 import {
-  learningResourceContentToEditorValue,
-  learningResourceContentToHTML,
+  blockContentToEditorValue,
+  blockContentToHTML,
 } from '../../../../../util/articleContentConverter';
 import { TYPE_PARAGRAPH } from '../../paragraph/types';
 import { TYPE_SECTION } from '../../section/types';
@@ -192,10 +192,10 @@ describe('table serializing tests', () => {
     const html =
       '<section><table><caption>title</caption><colgroup></colgroup><colgroup span="2"></colgroup><thead><tr><th><p>1</p></th><th><p>2</p></th></tr></thead><tbody><tr><td><p>3</p></td><td><p>4</p></td></tr><tr><td><p>5</p></td><td><p>6</p></td></tr></tbody></table></section>';
 
-    const serialized = learningResourceContentToHTML(editor);
+    const serialized = blockContentToHTML(editor);
     expect(serialized).toMatch(html);
 
-    const deserialized = learningResourceContentToEditorValue(html);
+    const deserialized = blockContentToEditorValue(html);
     expect(deserialized).toEqual(editor);
   });
 
@@ -339,10 +339,10 @@ describe('table serializing tests', () => {
     const html =
       '<section><table><colgroup></colgroup><colgroup span="2"></colgroup><thead><tr><th scope="col"><p>1</p></th><th scope="col"><p>2</p></th></tr></thead><tbody><tr><th rowspan="2" scope="row"><p>3</p></th><td><p>4</p></td></tr><tr><td><p>5</p></td></tr></tbody></table></section>';
 
-    const serialized = learningResourceContentToHTML(editor);
+    const serialized = blockContentToHTML(editor);
     expect(serialized).toMatch(html);
 
-    const deserialized = learningResourceContentToEditorValue(html);
+    const deserialized = blockContentToEditorValue(html);
     expect(deserialized).toEqual(editor);
   });
 });

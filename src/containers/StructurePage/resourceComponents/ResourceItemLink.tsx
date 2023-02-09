@@ -22,7 +22,7 @@ const StyledH1 = styled.h1<{ isVisible?: boolean; size?: FontSizeType }>`
   margin: 0;
   display: inline;
   ${props => fonts.sizes(props.size === 'small' ? '16px' : '18px')};
-  font-weight: ${props => (props.size === 'small' ? fonts.weight.normal : 500)};
+  font-weight: ${fonts.weight.normal};
 
   ${mq.range({ from: breakpoints.desktop })} {
     ${props => fonts.sizes(props.size === 'small' ? '18px' : '20px')};

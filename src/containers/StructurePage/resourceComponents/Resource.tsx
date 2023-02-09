@@ -6,7 +6,7 @@
  *
  */
 
-import React, { ReactElement, useEffect, useState } from 'react';
+import React, { ReactElement, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import styled from '@emotion/styled';
@@ -42,8 +42,7 @@ import {
   resourcesWithNodeConnectionQueryKey,
 } from '../../../modules/nodes/nodeQueries';
 import { ResourceWithNodeConnectionAndMeta } from './StructureResources';
-import { useAuth0Users } from '../../../modules/auth0/auth0Queries';
-import { useDraft } from '../../../modules/draft/draftQueries';
+import { useDraft, useResponsibleUserData } from '../../../modules/draft/draftQueries';
 import { getCountApproachingRevision, RevisionDateIcon } from './ApproachingRevisionDate';
 import WrongTypeError from './WrongTypeError';
 
@@ -186,8 +185,6 @@ const Resource = ({
   const location = useLocation();
   const [showVersionHistory, setShowVersionHistory] = useState(false);
   const [showGrepCodes, setShowGrepCodes] = useState(false);
-  const [responsible, setResponsible] = useState<string>();
-  const [aproachingRevision, setAproachingRevision] = useState(false);
 
   const qc = useQueryClient();
   const { taxonomyVersion } = useTaxonomyVersion();
@@ -221,23 +218,15 @@ const Resource = ({
 
   const id = getIdFromUrn(resource?.contentMeta?.contentUri);
   const { data: article } = useDraft({ id: id! }, { enabled: !!id });
+  const { data: userData } = useResponsibleUserData(article);
 
-  useEffect(() => {
-    if (article) {
-      const isAproachingRevision = !!getCountApproachingRevision(article);
-      setAproachingRevision(isAproachingRevision);
-    }
+  const isApproachingRevision = useMemo(() => {
+    if (!article) return false;
+    return !!getCountApproachingRevision([article]);
   }, [article]);
 
-  const { data: userData } = useAuth0Users(
-    { uniqueUserIds: article?.responsible?.responsibleId! },
-    { enabled: !!article?.responsible?.responsibleId },
-  );
-
-  useEffect(() => {
-    if (userData?.length) {
-      setResponsible(userData[0].name);
-    }
+  const responsible = useMemo(() => {
+    return userData?.[0]?.name;
   }, [userData]);
 
   const contentType =
@@ -317,7 +306,7 @@ const Resource = ({
                 size="small"
               />
             </StyledResourceBody>
-            {aproachingRevision ? (
+            {isApproachingRevision ? (
               <RevisionDateIcon text="!" phrasesKey="form.responsible.revisionDateSingle" />
             ) : null}
             {!contentMetaLoading && (

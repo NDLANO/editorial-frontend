@@ -11,18 +11,16 @@ import styled from '@emotion/styled';
 import { colors } from '@ndla/core';
 import addYears from 'date-fns/addYears';
 import isBefore from 'date-fns/isBefore';
-import countBy from 'lodash/countBy';
 import { IArticle } from '@ndla/types-draft-api';
 import Tooltip from '@ndla/tooltip';
 import { useTranslation } from 'react-i18next';
-import isArray from 'lodash/isArray';
 import { fetchDrafts } from '../../../modules/draft/draftApi';
 import handleError from '../../../util/handleError';
 
 const StyledWrapper = styled.div`
   color: ${colors.white};
-  // TODO: Should be added to colors
-  background-color: #e29929;
+  // TODO: Update when color is added to colors
+  background-color: #c77623;
   width: 20px;
   height: 20px;
   border-radius: 50%;
@@ -50,21 +48,16 @@ interface Props {
   articleIds?: number[];
 }
 
-export const getCountApproachingRevision = (article: IArticle | IArticle[]) => {
+export const getCountApproachingRevision = (articles: IArticle[]) => {
   const currentDateAddYear = addYears(new Date(), 1);
-  const elementsArray = isArray(article) ? article : [article];
-
-  const countApproachingRevision =
-    countBy(elementsArray, elementsArray =>
-      isBefore(new Date(elementsArray?.revisions?.[0]?.revisionDate), currentDateAddYear),
-    ).true ?? 0;
-
+  const countApproachingRevision = articles.filter(a =>
+    isBefore(new Date(a?.revisions?.[0]?.revisionDate), currentDateAddYear),
+  ).length;
   return countApproachingRevision;
 };
 
 const ApproachingRevisionDate = ({ articleIds = [] }: Props) => {
   const [count, setCount] = useState<number>(0);
-
   useEffect(() => {
     (async () => {
       try {

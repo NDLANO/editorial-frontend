@@ -16,9 +16,10 @@ import {
   NotionDialogLicenses,
   NotionDialogText,
   NotionDialogTags,
+  LicenseByline,
 } from '@ndla/notion';
 import { ImageLink } from '@ndla/ui';
-import { getLicenseByAbbreviation, LicenseByline } from '@ndla/licenses';
+import { getLicenseByAbbreviation } from '@ndla/licenses';
 import { Remarkable } from 'remarkable';
 import { IConcept } from '@ndla/types-concept-api';
 import { IImageMetaInformationV3 } from '@ndla/types-image-api';

@@ -10,7 +10,7 @@ import { Check } from '@ndla/icons/editor';
 import { FileCompare } from '@ndla/icons/action';
 import { useTranslation } from 'react-i18next';
 import { IConcept } from '@ndla/types-concept-api';
-import { IUpdatedArticle } from '@ndla/types-draft-api';
+import { IArticle, IUpdatedArticle } from '@ndla/types-draft-api';
 import StyledFilledButton from '../StyledFilledButton';
 import PreviewDraftLightbox from '../PreviewDraft/PreviewDraftLightbox';
 import { StyledSplitter } from './HeaderInformation';
@@ -21,11 +21,15 @@ import HeaderSupportedLanguages from './HeaderSupportedLanguages';
 import HeaderLanguagePill from './HeaderLanguagePill';
 import PreviewConceptLightbox from '../PreviewConcept/PreviewConceptLightbox';
 import { useIsTranslatableToNN } from '../NynorskTranslateProvider';
+import PreviewDraftLightboxV2 from '../PreviewDraft/PreviewDraftLightboxV2';
+import config from '../../config';
 
 type PreviewTypes = IConcept | IUpdatedArticle;
 
 interface PreviewLightBoxProps {
   articleId: number;
+  article?: IArticle;
+  concept?: IConcept;
   type: string;
   getEntity: () => PreviewTypes;
   articleType?: string;
@@ -40,32 +44,62 @@ const PreviewLightBox = ({
   supportedLanguages = [],
   currentLanguage,
   articleId,
+  article,
+  concept,
 }: PreviewLightBoxProps) => {
   const { t } = useTranslation();
-  if (type === 'concept' && supportedLanguages.length > 1) {
+  if (type === 'concept' && concept && supportedLanguages.length > 1) {
+    if (config.useArticleConverter) {
+      return (
+        <PreviewConceptLightbox
+          typeOfPreview="previewLanguageArticle"
+          getConcept={getEntity as () => IConcept}
+        />
+      );
+    }
     return (
-      <PreviewConceptLightbox
-        typeOfPreview="previewLanguageArticle"
-        getConcept={getEntity as () => IConcept}
+      <PreviewDraftLightboxV2
+        type="conceptCompare"
+        concept={concept}
+        language={currentLanguage}
+        activateButton={
+          <StyledFilledButton type="button">
+            <FileCompare /> {t('form.previewLanguageArticle.button')}
+          </StyledFilledButton>
+        }
       />
     );
-  } else if (type === 'standard' || type === 'topic-article') {
-    return (
-      <PreviewDraftLightbox
-        articleId={articleId}
-        currentArticleLanguage={currentLanguage}
-        label={t(`articleType.${articleType!}`)}
-        typeOfPreview="previewLanguageArticle"
-        supportedLanguages={supportedLanguages}
-        getArticle={_ => getEntity() as IUpdatedArticle}>
-        {(openPreview: () => void) => (
-          <StyledFilledButton type="button" onClick={openPreview}>
-            <FileCompare />
-            {t(`form.previewLanguageArticle.button`)}
-          </StyledFilledButton>
-        )}
-      </PreviewDraftLightbox>
-    );
+  } else if ((type === 'standard' || type === 'topic-article') && article) {
+    if (config.useArticleConverter) {
+      return (
+        <PreviewDraftLightbox
+          articleId={articleId}
+          currentArticleLanguage={currentLanguage}
+          label={t(`articleType.${articleType!}`)}
+          typeOfPreview="previewLanguageArticle"
+          supportedLanguages={supportedLanguages}
+          getArticle={_ => getEntity() as IUpdatedArticle}>
+          {(openPreview: () => void) => (
+            <StyledFilledButton type="button" onClick={openPreview}>
+              <FileCompare />
+              {t(`form.previewLanguageArticle.button`)}
+            </StyledFilledButton>
+          )}
+        </PreviewDraftLightbox>
+      );
+    } else
+      return (
+        <PreviewDraftLightboxV2
+          type="compare"
+          article={article}
+          language={currentLanguage}
+          activateButton={
+            <StyledFilledButton type="button">
+              <FileCompare /> {t('form.previewLanguageArticle.button')}
+            </StyledFilledButton>
+          }
+        />
+      );
   } else return null;
 };
 
@@ -73,6 +107,8 @@ interface Props {
   editUrl?: (url: string) => string;
   getEntity?: () => PreviewTypes;
   isNewLanguage: boolean;
+  article?: IArticle;
+  concept?: IConcept;
   isSubmitting?: boolean;
   noStatus: boolean;
   disableDelete: boolean;
@@ -93,6 +129,8 @@ const HeaderActions = ({
   noStatus,
   type,
   disableDelete,
+  article,
+  concept,
   values,
 }: Props) => {
   const { t } = useTranslation();
@@ -143,6 +181,8 @@ const HeaderActions = ({
         {!noStatus && getEntity && values.id && (
           <>
             <PreviewLightBox
+              article={article}
+              concept={concept}
               articleId={values.id}
               type={type}
               getEntity={getEntity!}

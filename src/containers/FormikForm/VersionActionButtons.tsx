@@ -13,6 +13,8 @@ import { StyledAccordionsPanelIconButton } from '@ndla/accordion';
 import { IUpdatedArticle, IArticle } from '@ndla/types-draft-api';
 
 import { PreviewDraftLightbox } from '../../components';
+import PreviewDraftLightboxV2 from '../../components/PreviewDraft/PreviewDraftLightboxV2';
+import config from '../../config';
 
 interface Props {
   showFromArticleApi: boolean;
@@ -39,24 +41,40 @@ const VersionActionButtons = ({
   if (current && !showFromArticleApi) return null;
   return (
     <>
-      <PreviewDraftLightbox
-        articleId={article.id}
-        currentArticleLanguage={currentLanguage}
-        label={t(`articleType.${article.articleType}`)}
-        typeOfPreview={showFromArticleApi ? 'previewProductionArticle' : 'previewVersion'}
-        getArticle={getArticle}
-        version={version}>
-        {(openPreview: VoidFunction) => (
-          <Tooltip tooltip={t('form.previewVersion')}>
-            <StyledAccordionsPanelIconButton
-              type="button"
-              data-testid="previewVersion"
-              onClick={openPreview}>
+      {!config.useArticleConverter ? (
+        <PreviewDraftLightboxV2
+          type="version"
+          article={version}
+          language={currentLanguage}
+          wrapperFunctionForButton={btn => (
+            <Tooltip tooltip={t('form.previewVersion')}>{btn}</Tooltip>
+          )}
+          activateButton={
+            <StyledAccordionsPanelIconButton type="button" data-testid="previewVersion">
               <Eye />
             </StyledAccordionsPanelIconButton>
-          </Tooltip>
-        )}
-      </PreviewDraftLightbox>
+          }
+        />
+      ) : (
+        <PreviewDraftLightbox
+          articleId={article.id}
+          currentArticleLanguage={currentLanguage}
+          label={t(`articleType.${article.articleType}`)}
+          typeOfPreview={showFromArticleApi ? 'previewProductionArticle' : 'previewVersion'}
+          getArticle={getArticle}
+          version={version}>
+          {(openPreview: VoidFunction) => (
+            <Tooltip tooltip={t('form.previewVersion')}>
+              <StyledAccordionsPanelIconButton
+                type="button"
+                data-testid="previewVersion"
+                onClick={openPreview}>
+                <Eye />
+              </StyledAccordionsPanelIconButton>
+            </Tooltip>
+          )}
+        </PreviewDraftLightbox>
+      )}
 
       <Tooltip tooltip={t('form.resetToVersion')}>
         <StyledAccordionsPanelIconButton

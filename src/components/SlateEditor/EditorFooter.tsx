@@ -26,6 +26,9 @@ import ResponsibleSelect from '../../containers/FormikForm/components/Responsibl
 import StatusSelect from '../../containers/FormikForm/components/StatusSelect';
 import { requiredFieldsT } from '../../util/yupHelpers';
 import { PUBLISHED } from '../../constants';
+import config from '../../config';
+import PreviewDraftLightboxV2 from '../PreviewDraft/PreviewDraftLightboxV2';
+import { ButtonV2 } from '@ndla/button';
 
 interface Props {
   formIsDirty: boolean;
@@ -209,9 +212,19 @@ function EditorFooter<T extends FormValues>({
     <Footer>
       <>
         <div data-cy="footerPreviewAndValidate">
-          {values.id && isConcept && getEntity && isConceptType(getEntity) && (
-            <PreviewConceptLightbox getConcept={getEntity} typeOfPreview={'preview'} />
-          )}
+          {values.id &&
+            isConcept &&
+            getEntity &&
+            isConceptType(getEntity) &&
+            (config.useArticleConverter ? (
+              <PreviewConceptLightbox getConcept={getEntity} typeOfPreview={'preview'} />
+            ) : (
+              <PreviewDraftLightboxV2
+                type="concept"
+                language={values.language}
+                activateButton={<ButtonV2 variant="link">{t('form.preview.button')}</ButtonV2>}
+              />
+            ))}
           {values.id && isArticle && (
             <FooterLinkButton
               bold

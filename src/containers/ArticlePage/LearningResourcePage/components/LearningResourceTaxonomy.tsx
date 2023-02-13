@@ -71,14 +71,16 @@ interface FullResource {
   metadata?: TaxonomyMetadata;
 }
 
-interface Props extends CustomWithTranslation, SessionProps, TaxonomyVersion {
+type Props = {
   article: IArticle;
   taxonomy: ArticleTaxonomy;
   updateNotes: (art: IUpdatedArticle) => Promise<IArticle>;
   setIsOpen?: (open: boolean) => void;
   versions?: VersionType[];
   queryClient: QueryClient;
-}
+} & CustomWithTranslation &
+  SessionProps &
+  TaxonomyVersion;
 
 interface LearningResourceSubjectType extends SubjectType {
   topics?: SubjectTopic[];

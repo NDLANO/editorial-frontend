@@ -64,11 +64,15 @@ const OptGroupVersionSelector = ({
     locked: false,
   };
   const currentVersion = currentVersionProp ?? fakeDefault;
-  const options = versions.map(version => ({
-    id: version.hash,
-    name: version.name,
-    type: version.versionType,
-  }));
+  const options = useMemo(
+    () =>
+      versions.map(version => ({
+        id: version.hash,
+        name: version.name,
+        type: version.versionType,
+      })),
+    [versions],
+  );
   const optGroups = useMemo(() => generateOptionGroups(options, t), [options, t]);
 
   return (

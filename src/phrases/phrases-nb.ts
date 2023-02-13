@@ -1570,6 +1570,7 @@ const phrases = {
     errors: {
       noPublishedVersion: 'Klarte ikke finne publisert versjon',
     },
+    numberRequests: 'Antall publiseringsforespørsler',
   },
   diff: {
     published:

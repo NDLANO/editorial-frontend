@@ -1566,6 +1566,7 @@ const phrases = {
     errors: {
       noPublishedVersion: 'Failed to find a published version',
     },
+    numberRequests: 'Number of publication request',
   },
   diff: {
     published:

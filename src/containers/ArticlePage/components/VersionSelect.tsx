@@ -12,7 +12,7 @@ import { spacing } from '@ndla/core';
 import { useMemo } from 'react';
 import { VersionType } from '../../../modules/taxonomy/versions/versionApiTypes';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
-import { generateOptionGroupes } from '../../../components/Taxonomy/OptGroupVersionSelector';
+import { generateOptionGroups } from '../../../components/Taxonomy/OptGroupVersionSelector';
 
 const Wrapper = styled.div`
   margin-top: ${spacing.normal};
@@ -47,7 +47,7 @@ const VersionSelect = ({ versions = [], onVersionChanged }: Props) => {
   const optGroups = useMemo(
     () =>
       [{ label: '', options: [fakeDefault] }].concat(
-        generateOptionGroupes(options, t).map(g => ({
+        generateOptionGroups(options, t).map(g => ({
           label: g.label,
           options: g.options.map(o => ({ value: o.id, label: o.name })),
         })),

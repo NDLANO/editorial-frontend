@@ -69,7 +69,7 @@ const OptGroupVersionSelector = ({
     name: version.name,
     type: version.versionType,
   }));
-  const optGroups = useMemo(() => generateOptionGroupes(options, t), [options, t]);
+  const optGroups = useMemo(() => generateOptionGroups(options, t), [options, t]);
 
   return (
     <ObjectSelector

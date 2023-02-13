@@ -39,11 +39,15 @@ const VersionSelect = ({ versions = [], onVersionChanged }: Props) => {
   };
 
   const currentVersion = getCurrentTaxVersion(versions, taxonomyVersion) ?? fakeDefault;
-  const options = versions.map(version => ({
-    id: version.hash,
-    name: version.name,
-    type: version.versionType,
-  }));
+  const options = useMemo(
+    () =>
+      versions.map(version => ({
+        id: version.hash,
+        name: version.name,
+        type: version.versionType,
+      })),
+    [versions],
+  );
   const optGroups = useMemo(
     () =>
       [{ label: '', options: [fakeDefault] }].concat(

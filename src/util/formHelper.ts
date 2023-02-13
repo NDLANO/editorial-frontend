@@ -6,14 +6,11 @@
  */
 
 import isEqual from 'lodash/fp/isEqual';
-import { Descendant } from 'slate';
+import { Descendant, Node } from 'slate';
 import { IArticle, ILicense, IArticleMetaImage } from '@ndla/types-draft-api';
 import { isUserProvidedEmbedDataValid } from './embedTagHelpers';
 import { findNodesByType } from './slateHelpers';
-import {
-  learningResourceContentToHTML,
-  topicArticleContentToHTML,
-} from './articleContentConverter';
+import { blockContentToHTML, inlineContentToHTML } from './articleContentConverter';
 import { diffHTML } from './diffHTML';
 import { isGrepCodeValid } from './articleUtil';
 import { RulesType } from '../components/formikValidationSchema';
@@ -21,6 +18,7 @@ import {
   ArticleFormType,
   LearningResourceFormType,
   TopicArticleFormType,
+  FrontpageArticleFormType,
 } from '../containers/FormikForm/articleFormHooks';
 import { isEmbed } from '../components/SlateEditor/plugins/embed/utils';
 import { NdlaEmbedElement } from '../components/SlateEditor/plugins/embed';
@@ -38,8 +36,7 @@ const checkIfContentHasChanged = (
   initialHTML?: string,
 ) => {
   if (currentValue.length !== initialContent.length) return true;
-  const toHTMLFunction =
-    type === 'standard' ? learningResourceContentToHTML : topicArticleContentToHTML;
+  const toHTMLFunction = type === 'standard' ? blockContentToHTML : inlineContentToHTML;
   const newHTML = toHTMLFunction(currentValue);
 
   const diff = diffHTML(newHTML, initialHTML || toHTMLFunction(initialContent));
@@ -236,6 +233,24 @@ export const learningResourceRules: RulesType<LearningResourceFormType, IArticle
   },
 };
 
+export const frontPageArticleRules: RulesType<FrontpageArticleFormType, IArticle> = {
+  ...learningResourceRules,
+  slug: {
+    required: true,
+    onlyValidateIf: values => values.slug !== undefined,
+    test: values => {
+      const containsIllegalCharacters =
+        values.slug?.replace(/[^a-zA-Z0-9-]/g, '').length !== values.slug?.length;
+      return containsIllegalCharacters
+        ? { translationKey: 'frontpageArticleForm.validation.illegalSlug' }
+        : undefined;
+    },
+    warnings: {
+      languageMatch: true,
+    },
+  },
+};
+
 export const topicArticleRules: RulesType<TopicArticleFormType, IArticle> = {
   ...formikCommonArticleRules,
   visualElementAlt: {
@@ -255,6 +270,13 @@ export const topicArticleRules: RulesType<TopicArticleFormType, IArticle> = {
     },
   },
   content: {
+    required: false,
+    test: values => {
+      return Node.string(values.content[0]) !== '' || values.content.length > 1
+        ? { translationKey: 'topicArticleForm.validation.containsContent' }
+        : undefined;
+    },
+
     warnings: {
       languageMatch: true,
     },

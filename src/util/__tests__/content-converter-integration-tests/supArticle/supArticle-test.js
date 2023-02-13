@@ -6,16 +6,13 @@
  *
  */
 
-import {
-  learningResourceContentToEditorValue,
-  learningResourceContentToHTML,
-} from '../../../articleContentConverter';
+import { blockContentToEditorValue, blockContentToHTML } from '../../../articleContentConverter';
 import { html } from './supArticle';
 
 test('serializing article with sup tag', () => {
-  const converted = learningResourceContentToEditorValue(html);
+  const converted = blockContentToEditorValue(html);
 
-  const result = learningResourceContentToHTML(converted);
+  const result = blockContentToHTML(converted);
 
   expect(global.prettifyHTML(result)).toMatchSnapshot();
 });

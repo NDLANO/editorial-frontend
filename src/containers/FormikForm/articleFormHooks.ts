@@ -71,6 +71,7 @@ export interface ArticleFormType {
   responsibleId?: string;
   // This field is only used for error checking in revisions
   revisionError?: string;
+  slug?: string;
 }
 
 export interface LearningResourceFormType extends ArticleFormType {
@@ -80,6 +81,8 @@ export interface LearningResourceFormType extends ArticleFormType {
 export interface TopicArticleFormType extends ArticleFormType {
   visualElement: Descendant[];
 }
+
+export interface FrontpageArticleFormType extends ArticleFormType {}
 
 type HooksInputObject<T extends ArticleFormType> = {
   getInitialValues: (article: IArticle | undefined, language: string) => T;

@@ -14,6 +14,7 @@ const phrases = {
     createLearningResourcePage: `Fagstoff ${titleTemplate}`,
     createTopicArticlePage: `Emne ${titleTemplate}`,
     createSubjectpage: `Fagforside ${titleTemplate}`,
+    createFrontPageArticePage: `Innholdsartikkel ${titleTemplate}`,
     agreementPage: `Avtale ${titleTemplate}`,
     welcomePage: `Forside ${titleTemplate}`,
     structurePage: `Struktur ${titleTemplate}`,
@@ -198,6 +199,7 @@ const phrases = {
     h5p: 'Rediger H5P',
     newConcept: 'Opprett forklaring',
     newSubject: 'Opprett fag',
+    newFrontpageArticle: 'Opprett innholdsartikkel',
   },
   logo: {
     altText: 'Nasjonal digital læringsarena',
@@ -428,6 +430,10 @@ const phrases = {
         placeholder: 'Alt-tekst',
       },
     },
+    validation: {
+      containsContent:
+        'Emneartikler bør kun ha tittel, ingress og visuelt element. Innhold trengs ikke i de fleste tilfeller.',
+    },
   },
   agreementForm: {
     title: {
@@ -488,6 +494,13 @@ const phrases = {
   },
   imageForm: {
     title: 'Bilde',
+  },
+  frontpageArticleForm: {
+    title: 'Innholdsartikkel',
+    validation: {
+      illegalSlug:
+        'Bruk av ulovlige tegn i permalenken! Tillatte tegn er alle tall og bokstaver, og bindestrek',
+    },
   },
   learningResourceForm: {
     metaImage: {
@@ -585,9 +598,14 @@ const phrases = {
       button: 'Forhåndsvis',
     },
     resize: 'Endre størrelse',
+    slug: {
+      label: 'Permalenke',
+      edit: 'Forandre permalenke',
+    },
     name: {
       title: 'Tittel',
       aboutTitle: 'Tittel',
+      slug: 'Permalenke',
       introduction: 'Ingress',
       creators: 'Opphavsperson',
       rightsholders: 'Rettighetshaver',
@@ -1001,6 +1019,10 @@ const phrases = {
       label: 'Ansvarlig',
       choose: 'Velg ansvarlig',
       noResults: 'Ingen treff',
+      noResponible: 'Ingen ansvarlig',
+      revisionDate: 'Antall som nærmer seg revisjonsdato',
+      revisionDateSingle: 'Nærmer seg revisjonsdato',
+      error: 'Noe gikk galt ved oppdatering av ansvarlig.',
       noArticles: 'Ingen artikler ...',
     },
     origin: {
@@ -1443,6 +1465,7 @@ const phrases = {
   },
   contextTypes: {
     topic: 'Emne',
+    frontpage: 'Innholdsartikkel',
   },
   ndlaFilm: {
     editor: {

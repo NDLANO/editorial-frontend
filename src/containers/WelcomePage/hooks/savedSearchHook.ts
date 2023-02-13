@@ -39,7 +39,7 @@ export const useSavedSearchUrl = (
   const searchHook = getSearchHookFromType(searchObject['type']);
   const { data: subjectData, isLoading: subjectLoading } = useSubject(
     { id: subject, language: locale, taxonomyVersion },
-    { enabled: !!subject },
+    { enabled: !!subject && !subject.includes(',') },
   );
   const { data: resourceTypeData, isLoading: resourceTypeLoading } = useResourceType(
     { id: resourceType, language: locale, taxonomyVersion },

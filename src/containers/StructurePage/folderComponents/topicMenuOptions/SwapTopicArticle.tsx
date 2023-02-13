@@ -17,7 +17,7 @@ import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 import RoundIcon from '../../../../components/RoundIcon';
 import { fetchDraft, updateDraft } from '../../../../modules/draft/draftApi';
-import { NodeType } from '../../../../modules/nodes/nodeApiTypes';
+import { NodeType, TOPIC_NODE } from '../../../../modules/nodes/nodeApiTypes';
 import { usePutNodeMutation } from '../../../../modules/nodes/nodeMutations';
 import { childNodesWithArticleTypeQueryKey } from '../../../../modules/nodes/nodeQueries';
 import { useSearch } from '../../../../modules/search/searchQueries';
@@ -84,7 +84,7 @@ const SwapTopicArticle = ({
     try {
       await putNodeMutation.mutateAsync({
         ...node,
-        nodeType: 'TOPIC',
+        nodeType: TOPIC_NODE,
         contentUri: `urn:article:${topic.id}`,
         taxonomyVersion,
       });

@@ -75,6 +75,11 @@ export const types: Record<string, { form: string; cssModifier: string; icon: Re
     cssModifier: 'article',
     icon: <ContentTypeBadge type={contentTypes.SUBJECT} background size="small" />,
   },
+  'frontpage-article': {
+    form: 'frontpageArticleForm',
+    cssModifier: 'article',
+    icon: <ContentTypeBadge type={contentTypes.SUBJECT} background size="small" />,
+  },
   image: { form: 'imageForm', cssModifier: 'multimedia', icon: <Camera /> },
   audio: {
     form: 'audioForm',

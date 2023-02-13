@@ -56,8 +56,6 @@ const ResponsibleSelect = ({ responsible, setResponsible, onSave, responsibleId 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [responsible]);
 
-  const optionsWithGroupTitle = [{ label: t('form.responsible.label'), options: users ?? [] }];
-
   const updateResponsible = async (responsible: SingleValue) => {
     onSave(responsible);
   };

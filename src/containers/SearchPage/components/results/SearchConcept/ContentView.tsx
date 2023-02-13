@@ -8,7 +8,8 @@
 
 import { useTranslation } from 'react-i18next';
 import Button from '@ndla/button';
-import { LicenseByline, getLicenseByAbbreviation } from '@ndla/licenses';
+import { getLicenseByAbbreviation } from '@ndla/licenses';
+import { LicenseByline } from '@ndla/notion';
 import { colors } from '@ndla/core';
 import styled from '@emotion/styled';
 import { IConceptSummary } from '@ndla/types-concept-api';

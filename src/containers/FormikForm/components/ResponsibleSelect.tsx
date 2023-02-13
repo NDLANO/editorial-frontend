@@ -55,19 +55,20 @@ const ResponsibleSelect = ({ responsible, setResponsible, onSave, responsibleId 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [responsible]);
 
+  const optionsWithGroupTitle = [{ label: t('form.responsible.label'), options: users ?? [] }];
+
   const updateResponsible = async (responsible: SingleValue) => {
     onSave(responsible);
   };
   return (
     <div data-cy="responsible-select">
       <Select<false>
-        options={users ?? []}
+        options={optionsWithGroupTitle}
         menuPlacement="top"
         placeholder={t('form.responsible.choose')}
         value={responsible}
         onChange={updateResponsible}
         isLoading={isLoading}
-        groupTitle={t('form.responsible.label')}
         noOptionsMessage={() => t('form.responsible.noResults')}
         isSearchable
         isClearable

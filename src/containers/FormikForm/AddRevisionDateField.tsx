@@ -148,8 +148,8 @@ const AddRevisionDateField = ({ formikField, showError }: Props) => {
                   <div>
                     <StyledSwitch
                       checked={revisionMeta.status === 'revised'}
-                      onChange={checked => {
-                        const status = checked ? 'revised' : 'needs-revision';
+                      onChange={c => {
+                        const status = c ? 'revised' : 'needs-revision';
                         editRevision(old => ({ ...old, status }));
                         if (status === 'revised') {
                           createMessage({

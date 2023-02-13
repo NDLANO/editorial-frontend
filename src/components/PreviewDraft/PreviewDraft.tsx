@@ -155,7 +155,10 @@ export const PreviewDraftV2 = ({
 
   const article = useMemo(() => {
     if (!transformedContent.data) return;
-    const content = transform(transformedContent.data, { previewAlt: true, frontendDomain: '' });
+    const content = transform(transformedContent.data, {
+      previewAlt: true,
+      frontendDomain: config.ndlaFrontendDomain,
+    });
     return {
       title: draft.title ?? '',
       introduction: draft.introduction ?? '',

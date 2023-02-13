@@ -83,10 +83,6 @@ interface TaxonomyChanges {
   metadata?: TaxonomyMetadata;
 }
 
-interface TaxonomyChoices {
-  availableResourceTypes: ResourceType[];
-}
-
 interface Props {
   article: IArticle;
   taxonomy: ArticleTaxonomy;
@@ -104,9 +100,7 @@ const LearningResourceTaxonomy = ({ article, taxonomy, updateNotes, setIsOpen }:
     ...emptyTaxonomy,
   });
   const [taxonomyChanges, setTaxonomyChanges] = useState<TaxonomyChanges>({ ...emptyTaxonomy });
-  const [taxonomyChoices, setTaxonomyChoices] = useState<TaxonomyChoices>({
-    availableResourceTypes: [],
-  });
+  const [availableResourceTypes, setAvailableResourceTypes] = useState<ResourceType[]>([]);
 
   const { t, i18n } = useTranslation();
   const { userPermissions } = useSession();
@@ -114,7 +108,6 @@ const LearningResourceTaxonomy = ({ article, taxonomy, updateNotes, setIsOpen }:
   const prevArticleId = useRef(article.id);
 
   const onChangeSelectedResource = (evt: FormEvent<HTMLSelectElement>) => {
-    const { availableResourceTypes } = taxonomyChoices;
     const options = evt.currentTarget?.value?.split(',');
     const selectedResource = availableResourceTypes.find(
       resourceType => resourceType.id === options[0],
@@ -227,9 +220,7 @@ const LearningResourceTaxonomy = ({ article, taxonomy, updateNotes, setIsOpen }:
       const sortedSubjects = subjects.filter(subject => subject.name).sort(sortByName);
 
       if (status !== 'error') {
-        setTaxonomyChoices({
-          availableResourceTypes: allResourceTypes.filter(resourceType => resourceType.name),
-        });
+        setAvailableResourceTypes(allResourceTypes.filter(resourceType => resourceType.name));
         setStructure(sortedSubjects);
       }
     } catch (e) {
@@ -394,14 +385,14 @@ const LearningResourceTaxonomy = ({ article, taxonomy, updateNotes, setIsOpen }:
 
   const filteredResourceTypes = useMemo(
     () =>
-      taxonomyChoices.availableResourceTypes
+      availableResourceTypes
         .filter(rt => !blacklistedResourceTypes.includes(rt.id))
         .map(rt => ({
           ...rt,
           subtype:
             rt.subtypes && rt.subtypes.filter(st => !blacklistedResourceTypes.includes(st.id)),
         })),
-    [taxonomyChoices],
+    [availableResourceTypes],
   );
 
   if (status === 'loading') {

@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useMemo } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import Tooltip from '@ndla/tooltip';
 import { AlertCircle } from '@ndla/icons/editor';
@@ -35,9 +35,9 @@ interface Props {
 const WrongTypeError = ({ resource, articleType }: Props) => {
   const { t } = useTranslation();
   const isArticle = resource.contentUri?.startsWith('urn:article');
-  const expectedArticleType = useMemo(() => getArticleTypeFromId(resource.id), [resource]);
-
   if (!isArticle) return null;
+
+  const expectedArticleType = getArticleTypeFromId(resource.id);
   if (expectedArticleType === articleType) return null;
 
   const missingArticleTypeError = t('taxonomy.info.missingArticleType', {

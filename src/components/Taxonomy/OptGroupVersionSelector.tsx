@@ -19,7 +19,7 @@ interface VersionTypeWithDefault extends Omit<VersionType, 'versionType'> {
 
 type PossibleVersionTypes = VersionStatusType | 'default';
 
-export const generateOptionGroupes = (
+export const generateOptionGroups = (
   options: {
     id: string;
     name: string;

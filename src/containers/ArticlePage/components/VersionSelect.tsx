@@ -33,10 +33,13 @@ const VersionSelect = ({ versions = [], onVersionChanged }: Props) => {
   const { taxonomyVersion } = useTaxonomyVersion();
   const { t } = useTranslation();
 
-  const fakeDefault = {
-    value: '',
-    label: t('diff.defaultVersion'),
-  };
+  const fakeDefault = useMemo(
+    () => ({
+      value: '',
+      label: t('diff.defaultVersion'),
+    }),
+    [t],
+  );
 
   const currentVersion = getCurrentTaxVersion(versions, taxonomyVersion) ?? fakeDefault;
   const options = useMemo(
@@ -56,8 +59,7 @@ const VersionSelect = ({ versions = [], onVersionChanged }: Props) => {
           options: g.options.map(o => ({ value: o.id, label: o.name })),
         })),
       ),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [options, t],
+    [fakeDefault, options, t],
   );
 
   return (

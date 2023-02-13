@@ -8,9 +8,12 @@
 
 import { request, gql } from 'graphql-request';
 import { useQuery, UseQueryOptions, UseQueryResult } from 'react-query';
+import config from '../../config';
 import { apiResourceUrl } from '../../util/apiHelpers';
 
-const gqlEndpoint = apiResourceUrl('/graphql-api/graphql');
+const gqlEndpoint = config.localConverter
+  ? 'http://localhost:4000/graphql-api/graphql'
+  : apiResourceUrl('/graphql-api/graphql');
 
 interface UseTransformArticle {
   content: string;

@@ -90,10 +90,12 @@ interface Props {
   setIsOpen?: (open: boolean) => void;
 }
 
+type Status = 'success' | 'loading' | 'error' | 'initial';
+
 const LearningResourceTaxonomy = ({ article, taxonomy, updateNotes, setIsOpen }: Props) => {
   const [resourceId, setResourceId] = useState<string>('');
   const [structure, setStructure] = useState<LearningResourceSubjectType[]>([]);
-  const [status, setStatus] = useState('loading');
+  const [status, setStatus] = useState<Status>('loading');
   const [isDirty, setIsDirty] = useState<boolean>(false);
   const [showWarning, setShowWarning] = useState<boolean>(false);
   const [resourceTaxonomy, setResourceTaxonomy] = useState<ResourceTaxonomy>({
@@ -453,11 +455,10 @@ const LearningResourceTaxonomy = ({ article, taxonomy, updateNotes, setIsOpen }:
       />
       {showWarning && <FormikFieldHelp error>{t('errorMessage.unsavedTaxonomy')}</FormikFieldHelp>}
       <Field right>
-        <ActionButton outline onClick={onCancel} disabled={status === 'loading'}>
+        <ActionButton outline onClick={onCancel}>
           {t('form.abort')}
         </ActionButton>
         <SaveButton
-          isSaving={status === 'loading'}
           showSaved={status === 'success' && !isDirty}
           disabled={!isDirty || !taxonomyChanges.resourceTypes.length}
           onClick={handleSubmit}

@@ -6,7 +6,7 @@
  *
  */
 
-import { FormEvent, MouseEvent, useState, useEffect, useMemo, useRef } from 'react';
+import { FormEvent, MouseEvent, useState, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Spinner } from '@ndla/icons';
 import { ErrorMessage } from '@ndla/ui';
@@ -107,7 +107,6 @@ const LearningResourceTaxonomy = ({ article, taxonomy, updateNotes, setIsOpen }:
   const { t, i18n } = useTranslation();
   const { userPermissions } = useSession();
   const { taxonomyVersion } = useTaxonomyVersion();
-  const prevArticleId = useRef(article.id);
 
   const onChangeSelectedResource = (evt: FormEvent<HTMLSelectElement>) => {
     const options = evt.currentTarget?.value?.split(',');
@@ -372,18 +371,6 @@ const LearningResourceTaxonomy = ({ article, taxonomy, updateNotes, setIsOpen }:
     fetchTaxonomyChoices();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  useEffect(() => {
-    if (prevArticleId.current) {
-      const prevId = prevArticleId.current;
-      // We need to refresh taxonomy for when an article URL has been pasted and a new article is showing
-      if (prevId !== article.id) {
-        fetchTaxonomy();
-      }
-    }
-    prevArticleId.current = article.id;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [article.id]);
 
   const filteredResourceTypes = useMemo(
     () =>

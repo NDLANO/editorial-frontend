@@ -38,6 +38,13 @@ const StructureWrapper = styled.ul`
   padding: 0;
 `;
 
+const StyledSwitch = styled(Switch)`
+  > label {
+    color: ${colors.white};
+    white-space: nowrap;
+  }
+`;
+
 const isChildNode = createGuard<ChildNodeType>('connectionId');
 
 const StyledStructureContainer = styled.div`
@@ -144,13 +151,11 @@ const StructureContainer = () => {
             )
           }
           toggleSwitch={
-            <Switch
+            <StyledSwitch
               onChange={toggleShowFavorites}
               checked={showFavorites}
               label={t('taxonomy.favorites')}
               id={'favorites'}
-              //@ts-ignore
-              style={{ color: colors.white, width: '15.2em' }}
             />
           }
           hidden={editStructureHidden}>

@@ -433,6 +433,7 @@ const phrases = {
     validation: {
       containsContent:
         'Topic articles should only have title, introduction and visualelement. The content is in most cases not needed.',
+      illegalResource: 'Topic articles should only have image as visual element.',
     },
   },
   agreementForm: {
@@ -1019,6 +1020,10 @@ const phrases = {
       label: 'Responsible',
       choose: 'Choose a responsible',
       noResults: 'No results',
+      noResponible: 'No responsible',
+      revisionDate: 'Amount approaching revision date',
+      revisionDateSingle: 'Approaching revision date',
+      error: 'Something went wrong when updating responsible',
       noArticles: 'No articles ...',
     },
     origin: {
@@ -1561,6 +1566,7 @@ const phrases = {
     errors: {
       noPublishedVersion: 'Failed to find a published version',
     },
+    numberRequests: 'Number of publication request',
   },
   diff: {
     published:

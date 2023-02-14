@@ -9,24 +9,23 @@
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
-import { colors, mq, breakpoints } from '@ndla/core';
+import { colors, fonts, mq, breakpoints } from '@ndla/core';
 import { toEditArticle, toLearningpathFull } from '../../../util/routeHelpers';
 
-const StyledH1 = styled.h1<{ isVisible?: boolean }>`
+type FontSizeType = 'small' | 'medium';
+
+const StyledH1 = styled.h1<{ isVisible?: boolean; size?: FontSizeType }>`
   font-style: ${props => !props.isVisible && 'italic'};
   color: ${props => (!props.isVisible ? colors.brand.grey : colors.brand.primary)};
   text-transform: none;
   letter-spacing: 0;
   margin: 0;
   display: inline;
-  font-size: 18px;
-  font-size: 1rem;
-  line-height: 1.44444;
-  font-weight: 500;
+  ${props => fonts.sizes(props.size === 'small' ? '16px' : '18px')};
+  font-weight: ${fonts.weight.normal};
+
   ${mq.range({ from: breakpoints.desktop })} {
-    font-size: 20px;
-    font-size: 1.11111rem;
-    line-height: 1.3;
+    ${props => fonts.sizes(props.size === 'small' ? '18px' : '20px')};
   }
 `;
 
@@ -35,9 +34,16 @@ interface Props {
   contentUri?: string;
   name?: string;
   isVisible?: boolean;
+  size?: FontSizeType;
 }
 
-const ResourceItemLink = ({ contentType, contentUri, name, isVisible = true }: Props) => {
+const ResourceItemLink = ({
+  contentType,
+  contentUri,
+  name,
+  isVisible = true,
+  size = 'medium',
+}: Props) => {
   const { i18n } = useTranslation();
   const linkTo = contentUri && contentUri.split(':').pop();
 
@@ -49,7 +55,7 @@ const ResourceItemLink = ({ contentType, contentUri, name, isVisible = true }: P
         rel: 'noopener noreferrer',
       };
       return (
-        <StyledH1 isVisible={isVisible}>
+        <StyledH1 isVisible={isVisible} size={size}>
           <a {...linkProps}>{name}</a>
         </StyledH1>
       );
@@ -59,11 +65,17 @@ const ResourceItemLink = ({ contentType, contentUri, name, isVisible = true }: P
         to={toEditArticle(parseInt(linkTo), contentType!)}
         target="_blank"
         rel="noopener noreferrer">
-        <StyledH1 isVisible={isVisible}>{name}</StyledH1>
+        <StyledH1 isVisible={isVisible} size={size}>
+          {name}
+        </StyledH1>
       </Link>
     );
   }
-  return <StyledH1 isVisible={isVisible}>{name}</StyledH1>;
+  return (
+    <StyledH1 isVisible={isVisible} size={size}>
+      {name}
+    </StyledH1>
+  );
 };
 
 export default ResourceItemLink;

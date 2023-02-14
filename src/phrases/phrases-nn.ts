@@ -434,6 +434,7 @@ const phrases = {
     validation: {
       containsContent:
         'Emneartiklar bør kun ha tittel, ingress og visuelt element. Innhold trengs ikkje i dei fleste tilfeller.',
+      illegalResource: 'Emneartiklar bør kun ha bilde som visuelt element.',
     },
   },
   agreementForm: {
@@ -1020,6 +1021,10 @@ const phrases = {
       label: 'Ansvarleg',
       choose: 'Velg ansvarleg',
       noResults: 'Ingen treff',
+      noResponible: 'Ingen ansvarleg',
+      revisionDate: 'Antall som nærmar seg revisjonsdato',
+      revisionDateSingle: 'Nærmar seg revisjonsdato',
+      error: 'Noe gjekk gale ved oppdatering av ansvarleg.',
       noArticles: 'Ingen artiklar ...',
     },
     origin: {
@@ -1566,6 +1571,7 @@ const phrases = {
     errors: {
       noPublishedVersion: 'Klarte ikkje finne publisert versjon',
     },
+    numberRequests: 'Antall publiseringsforespørslar',
   },
   diff: {
     published:

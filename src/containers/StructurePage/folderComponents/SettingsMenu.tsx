@@ -8,32 +8,47 @@
 
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import Button from '@ndla/button';
-import { shadows, colors, spacing, animations } from '@ndla/core';
+import { Root, Trigger, Close, Content, Portal } from '@radix-ui/react-popover';
+import { CloseButton, IconButtonV2 } from '@ndla/button';
+import { colors, spacing, animations } from '@ndla/core';
 import { Settings } from '@ndla/icons/editor';
 import styled from '@emotion/styled';
 import { getNodeTypeFromNodeId } from '../../../modules/nodes/nodeUtil';
 import RoundIcon from '../../../components/RoundIcon';
 import Overlay from '../../../components/Overlay';
-import CrossButton from '../../../components/CrossButton';
 import { NodeType } from '../../../modules/nodes/nodeApiTypes';
 import SettingsMenuDropdownType from './SettingsMenuDropdownType';
 
-const SettingsMenuWrapper = styled.div`
-  position: relative;
+const TitleWrapper = styled.div`
   display: flex;
+  gap: ${spacing.xsmall};
+`;
 
-  > button {
-    outline: none;
+const Header = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const StyledIconButton = styled(IconButtonV2)`
+  margin-left: ${spacing.xsmall};
+  border: 1px solid ${colors.brand.greyDark};
+  background-color: ${colors.white};
+  width: 28px;
+  padding: 0;
+  height: 28px;
+  svg {
+    width: 20px;
+    height: 20px;
   }
-`;
-
-const StyledSpan = styled.span`
-  margin-left: calc(${spacing.small} / 2);
-`;
-
-const IndexWrapper = styled.div`
-  z-index: 2;
+  &:focus,
+  &:hover,
+  &:focus-within {
+    border: 1px solid ${colors.brand.greyDark};
+    background-color: ${colors.brand.greyDark};
+    svg {
+      color: ${colors.white};
+    }
+  }
 `;
 
 interface Props {
@@ -58,54 +73,54 @@ const SettingsMenu = ({
   const toggleOpenMenu = () => setOpen(!open);
 
   return (
-    <SettingsMenuWrapper>
-      <Button onClick={toggleOpenMenu} data-cy={`settings-button`} stripped>
-        <RoundIcon icon={<Settings />} margin open={open} />
-      </Button>
-      {open && (
-        <IndexWrapper>
-          <Overlay modifiers={['zIndex']} onExit={toggleOpenMenu} />
-          <StyledDivWrapper>
-            <div className="header">
-              <RoundIcon icon={<Settings />} open />
-              <StyledSpan>{t(`taxonomy.${nodeType.toLowerCase()}Settings`)}</StyledSpan>
-              <StyledCrossButton stripped onClick={toggleOpenMenu} />
-            </div>
-            <SettingsMenuDropdownType
-              node={node}
-              onClose={toggleOpenMenu}
-              rootNodeId={rootNodeId}
-              structure={structure}
-              onCurrentNodeChanged={onCurrentNodeChanged}
-              nodeChildren={nodeChildren}
-            />
-          </StyledDivWrapper>
-        </IndexWrapper>
-      )}
-    </SettingsMenuWrapper>
+    <Root>
+      <Trigger asChild>
+        <StyledIconButton
+          variant="stripped"
+          data-cy="settings-button"
+          aria-label={t(`taxonomy.${nodeType.toLowerCase()}Settings`)}
+          colorTheme="primary">
+          <Settings />
+        </StyledIconButton>
+      </Trigger>
+      <Portal>
+        <>
+          <Content side="right" sideOffset={10} asChild>
+            <StyledDivWrapper>
+              <Header>
+                <TitleWrapper>
+                  <RoundIcon icon={<Settings />} open />
+                  <span>{t(`taxonomy.${nodeType.toLowerCase()}Settings`)}</span>
+                </TitleWrapper>
+                <Close asChild>
+                  <CloseButton />
+                </Close>
+              </Header>
+              <SettingsMenuDropdownType
+                node={node}
+                onClose={toggleOpenMenu}
+                rootNodeId={rootNodeId}
+                structure={structure}
+                onCurrentNodeChanged={onCurrentNodeChanged}
+                nodeChildren={nodeChildren}
+              />
+            </StyledDivWrapper>
+          </Content>
+          <Overlay modifiers={['zIndex']} />
+        </>
+      </Portal>
+    </Root>
   );
 };
 
-const StyledCrossButton = styled(CrossButton)`
-  color: ${colors.brand.grey};
-  margin-left: auto;
-`;
-
 export const StyledDivWrapper = styled.div`
-   position: absolute;
-   ${animations.fadeIn()}
-   box-shadow: ${shadows.levitate1};
-   z-index: 2;
-   top: -1px;
-   padding: calc(${spacing.small} / 2);
-   width: 550px;
-   background-color: ${colors.brand.greyLightest};
-   box-shadow: 0 0 4px 0 rgba(78, 78, 78, 0.5);
- 
-   & .header {
-     display: flex;
-     align-items: center;
-   }
- `;
+  position: absolute;
+  ${animations.fadeIn()}
+  z-index: 2;
+  padding: ${spacing.xsmall};
+  width: 550px;
+  background-color: ${colors.brand.greyLightest};
+  box-shadow: 0 0 4px 0 rgba(78, 78, 78, 0.5);
+`;
 
 export default SettingsMenu;

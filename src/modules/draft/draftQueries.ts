@@ -7,28 +7,55 @@
  */
 
 import { useMutation, useQuery, useQueryClient, UseQueryOptions } from 'react-query';
-import { ILicense, IArticle, IUserData, IUpdatedUserData } from '@ndla/types-draft-api';
-import { DRAFT, DRAFT_STATUS_STATE_MACHINE, LICENSES, USER_DATA } from '../../queryKeys';
+import {
+  ILicense,
+  IArticle,
+  IUserData,
+  IUpdatedUserData,
+  ISearchResult,
+} from '@ndla/types-draft-api';
+import {
+  DRAFT,
+  DRAFT_STATUS_STATE_MACHINE,
+  LICENSES,
+  USER_DATA,
+  ALL_DRAFTS,
+} from '../../queryKeys';
 import {
   fetchDraft,
   fetchLicenses,
   fetchStatusStateMachine,
   fetchUserData,
   updateUserData,
+  searchAllDrafts,
 } from './draftApi';
 import { DraftStatusStateMachineType } from '../../interfaces';
+import { DraftSearchQuery } from './draftApiInterfaces';
 
 export interface UseDraft {
   id: number;
   language?: string;
 }
 
-export const draftQueryKey = (params?: Partial<UseDraft>) => [DRAFT, params];
+export const draftQueryKey = (params?: Partial<UseDraft>) => [DRAFT, ...[params]];
 
 export const useDraft = (params: UseDraft, options?: UseQueryOptions<IArticle>) => {
   return useQuery<IArticle>(
     draftQueryKey(params),
     () => fetchDraft(params.id, params.language),
+    options,
+  );
+};
+interface UseAllDrafts extends DraftSearchQuery {
+  ids: number[];
+}
+
+const allDraftQueryKey = (params: UseAllDrafts) => [ALL_DRAFTS, ...[params]];
+
+export const useSearchDrafts = (params: UseAllDrafts, options?: UseQueryOptions<ISearchResult>) => {
+  return useQuery<ISearchResult>(
+    allDraftQueryKey(params),
+    () => searchAllDrafts(params.ids, params.language, params.sort),
     options,
   );
 };

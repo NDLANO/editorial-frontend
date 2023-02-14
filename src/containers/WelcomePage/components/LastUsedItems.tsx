@@ -6,47 +6,45 @@
  *
  */
 
-import { memo, useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pencil } from '@ndla/icons/action';
-import { IArticle } from '@ndla/types-draft-api';
 import { StyledDashboardInfo, StyledLink } from '../styles';
 import TableComponent, { FieldElement, TitleElement } from './TableComponent';
 import TableTitle from './TableTitle';
-import { fetchDrafts } from '../../../modules/draft/draftApi';
 import formatDate from '../../../util/formatDate';
 import { toEditArticle } from '../../../util/routeHelpers';
+import { useSearchDrafts } from '../../../modules/draft/draftQueries';
 
 interface Props {
   lastUsed?: number[];
 }
 
 const LastUsedItems = ({ lastUsed = [] }: Props) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const tableTitles: TitleElement[] = [
     { title: 'Artikkel', sortableField: 'title' },
     { title: 'Sist oppdatert', sortableField: 'lastUpdated' },
   ];
-  const [articleData, setArticleData] = useState<IArticle[] | undefined>(undefined);
   const [sortOption, setSortOption] = useState<string | undefined>(undefined);
   const [error, setError] = useState<string | undefined>(undefined);
 
   const updateSortOption = useCallback((v: string) => setSortOption(v), []);
+  const { data, isLoading } = useSearchDrafts(
+    {
+      ids: lastUsed!,
+      language: i18n.language,
+      sort: sortOption ? sortOption : '-lastUpdated',
+    },
+    {
+      enabled: !!lastUsed.length,
+      onError: () => setError(t('welcomePage.errorMessage')),
+      onSuccess: () => setError(undefined),
+    },
+  );
 
-  useEffect(() => {
-    (async () => {
-      try {
-        const drafts = await fetchDrafts(lastUsed);
-        setArticleData(drafts);
-        setError(undefined);
-      } catch (e) {
-        setError(t('welcomePage.errorMessage'));
-      }
-    })();
-  }, [lastUsed, t]);
-
-  const tableData: FieldElement[][] = articleData?.map(a => [
+  const tableData: FieldElement[][] = data?.results?.map(a => [
     {
       id: `title_${a.id}`,
       data: <StyledLink to={toEditArticle(a.id, a.articleType)}>{a.title?.title}</StyledLink>,
@@ -62,7 +60,7 @@ const LastUsedItems = ({ lastUsed = [] }: Props) => {
         Icon={Pencil}
       />
       <TableComponent
-        isLoading={false}
+        isLoading={isLoading}
         tableTitleList={tableTitles}
         tableData={tableData}
         setSortOption={updateSortOption}
@@ -74,4 +72,4 @@ const LastUsedItems = ({ lastUsed = [] }: Props) => {
   );
 };
 
-export default memo(LastUsedItems);
+export default LastUsedItems;

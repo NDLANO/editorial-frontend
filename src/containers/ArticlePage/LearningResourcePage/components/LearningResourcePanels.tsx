@@ -23,7 +23,6 @@ import { useSession } from '../../../Session/SessionProvider';
 import { ArticleTaxonomy } from '../../../FormikForm/formikDraftHooks';
 import RevisionNotes from '../../components/RevisionNotes';
 import { TaxonomyVersionProvider } from '../../../StructureVersion/TaxonomyVersionProvider';
-import { useVersions } from '../../../../modules/taxonomy/versions/versionQueries';
 
 interface Props {
   handleSubmit: (
@@ -49,8 +48,6 @@ const LearningResourcePanels = ({
   const { userPermissions } = useSession();
   const formikContext = useFormikContext<LearningResourceFormType>();
   const { values, errors, handleBlur } = formikContext;
-  const { data } = useVersions();
-  const qc = useQueryClient();
 
   return (
     <Accordions>
@@ -78,8 +75,6 @@ const LearningResourcePanels = ({
               article={article}
               updateNotes={updateNotes}
               taxonomy={taxonomy}
-              versions={data}
-              queryClient={qc}
             />
           </TaxonomyVersionProvider>
         </AccordionSection>

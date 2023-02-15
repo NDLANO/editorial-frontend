@@ -433,6 +433,7 @@ const phrases = {
     validation: {
       containsContent:
         'Emneartikler bør kun ha tittel, ingress og visuelt element. Innhold trengs ikke i de fleste tilfeller.',
+      illegalResource: 'Emneartikler bør kun ha bilde som visuelt element.',
     },
   },
   agreementForm: {
@@ -1570,6 +1571,7 @@ const phrases = {
     errors: {
       noPublishedVersion: 'Klarte ikke finne publisert versjon',
     },
+    numberRequests: 'Antall publiseringsforespørsler',
   },
   diff: {
     published:

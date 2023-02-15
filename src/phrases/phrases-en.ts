@@ -433,6 +433,7 @@ const phrases = {
     validation: {
       containsContent:
         'Topic articles should only have title, introduction and visualelement. The content is in most cases not needed.',
+      illegalResource: 'Topic articles should only have image as visual element.',
     },
   },
   agreementForm: {
@@ -1566,6 +1567,7 @@ const phrases = {
     errors: {
       noPublishedVersion: 'Failed to find a published version',
     },
+    numberRequests: 'Number of publication request',
   },
   diff: {
     published:

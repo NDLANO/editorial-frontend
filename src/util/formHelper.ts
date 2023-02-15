@@ -269,14 +269,19 @@ export const topicArticleRules: RulesType<TopicArticleFormType, IArticle> = {
       apiField: 'visualElement',
     },
   },
+  visualElement: {
+    required: false,
+    test: values =>
+      isEmbed(values.visualElement[0]) && values.visualElement[0].data.resource !== 'image'
+        ? { translationKey: 'topicArticleForm.validation.illegalResource' }
+        : undefined,
+  },
   content: {
     required: false,
-    test: values => {
-      return Node.string(values.content[0]) !== '' || values.content.length > 1
+    test: values =>
+      Node.string(values.content[0]) !== '' || values.content.length > 1
         ? { translationKey: 'topicArticleForm.validation.containsContent' }
-        : undefined;
-    },
-
+        : undefined,
     warnings: {
       languageMatch: true,
     },

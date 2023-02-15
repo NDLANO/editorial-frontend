@@ -29,7 +29,7 @@ export const ResourceGroupBanner = styled.div`
   min-height: 52px;
 `;
 
-export const StyledIcon = styled(Share)`
+export const StyledShareIcon = styled(Share)`
   width: 24px;
   height: 24px;
   margin-right: ${spacing.small};

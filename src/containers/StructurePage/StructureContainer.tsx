@@ -29,8 +29,6 @@ import { createGuard } from '../../util/guards';
 import { GridContainer, MainArea, LeftColumn, RightColumn } from '../../components/Layout/Layout';
 import StructureBanner from './StructureBanner';
 
-export const structureContainerBreakpoint = breakpoints.desktop;
-
 const StructureWrapper = styled.ul`
   margin: 0;
   padding: 0;
@@ -122,7 +120,7 @@ const StructureContainer = () => {
   return (
     <ErrorBoundary>
       <Wrapper>
-        <GridContainer breakpoint={structureContainerBreakpoint}>
+        <GridContainer breakpoint={breakpoints.desktop}>
           <LeftColumn colStart={1}>
             <StructureBanner onChange={toggleShowFavorites} checked={showFavorites} />
             <StyledStructureContainer>

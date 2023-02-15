@@ -12,7 +12,7 @@ import { ButtonV2 } from '@ndla/button';
 import { useTranslation } from 'react-i18next';
 import { Dictionary } from '../../../interfaces';
 import { NodeResourceMeta } from '../../../modules/nodes/nodeQueries';
-import { ResourceGroupBanner, StyledIcon } from '../styles';
+import { ResourceGroupBanner, StyledShareIcon } from '../styles';
 import ApproachingRevisionDate from './ApproachingRevisionDate';
 import { ChildNodeType } from '../../../modules/nodes/nodeApiTypes';
 import GroupResourceSwitch from './GroupResourcesSwitch';
@@ -102,7 +102,7 @@ const ResourceBanner = ({
         </RightContent>
 
         <Content>
-          <StyledIcon />
+          <StyledShareIcon />
           {title}
           {addButton}
         </Content>

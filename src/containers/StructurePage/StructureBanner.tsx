@@ -13,7 +13,7 @@ import { useState } from 'react';
 import { ButtonV2 } from '@ndla/button';
 import { Plus } from '@ndla/icons/lib/action';
 import { spacing, colors } from '@ndla/core';
-import { ResourceGroupBanner, StyledIcon } from './styles';
+import { ResourceGroupBanner, StyledShareIcon } from './styles';
 import { useSession } from '../Session/SessionProvider';
 import { TAXONOMY_ADMIN_SCOPE } from '../../constants';
 import AddSubjectModal from './AddSubjectModal';
@@ -48,7 +48,7 @@ const StructureBanner = ({ onChange, checked }: Props) => {
   return (
     <ResourceGroupBanner>
       <FlexWrapper>
-        <StyledIcon />
+        <StyledShareIcon />
         {t('taxonomy.editStructure')}
       </FlexWrapper>
       <FlexWrapper>

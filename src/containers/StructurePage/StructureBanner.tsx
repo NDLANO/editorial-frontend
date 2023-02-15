@@ -24,7 +24,6 @@ const FlexWrapper = styled.div`
   gap: ${spacing.xsmall};
 `;
 const AddSubjectButton = styled(ButtonV2)`
-  white-space: nowrap;
   margin: 0px ${spacing.small};
 `;
 

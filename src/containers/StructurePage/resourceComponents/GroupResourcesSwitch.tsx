@@ -33,7 +33,7 @@ interface Props {
   onChanged: (newMeta: Partial<TaxonomyMetadata>) => void;
 }
 
-const getGroupedStatus = (node: NodeType): boolean => {
+const isGrouped = (node: NodeType): boolean => {
   const nodeResources = node.metadata?.customFields[TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES];
   const isGrouped =
     (nodeResources ?? TAXONOMY_CUSTOM_FIELD_GROUPED_RESOURCE) ===
@@ -42,7 +42,7 @@ const getGroupedStatus = (node: NodeType): boolean => {
 };
 
 const GroupResourceSwitch = ({ node, onChanged }: Props) => {
-  const isGrouped = useMemo(() => getGroupedStatus(node), [node]);
+  const grouped = useMemo(() => isGrouped(node), [node]);
   const { t, i18n } = useTranslation();
 
   const updateNodeMetadata = useUpdateNodeMetadataMutation();
@@ -59,7 +59,7 @@ const GroupResourceSwitch = ({ node, onChanged }: Props) => {
   const updateMetadata = async () => {
     const customFields = {
       ...node.metadata.customFields,
-      [TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES]: isGrouped
+      [TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES]: grouped
         ? TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE
         : TAXONOMY_CUSTOM_FIELD_GROUPED_RESOURCE,
     };
@@ -82,10 +82,10 @@ const GroupResourceSwitch = ({ node, onChanged }: Props) => {
       <div>
         <StyledSwitch
           id="group-resources"
-          checked={isGrouped}
+          checked={grouped}
           label=""
           onChange={updateMetadata}
-          thumbCharacter={isGrouped ? 'G' : 'U'}
+          thumbCharacter={grouped ? 'G' : 'U'}
         />
       </div>
     </Tooltip>

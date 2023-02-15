@@ -6,7 +6,7 @@
  *
  */
 
-import { useQuery, UseQueryOptions } from 'react-query';
+import { useQuery, UseQueryOptions } from '@tanstack/react-query';
 import { fetchSubject, fetchSubjects } from '.';
 import { WithTaxonomyVersion } from '../../../interfaces';
 import { SUBJECT, SUBJECTS } from '../../../queryKeys';

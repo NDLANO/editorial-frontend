@@ -6,7 +6,7 @@
  *
  */
 
-import { UseQueryResult } from 'react-query';
+import { UseQueryResult } from '@tanstack/react-query';
 import { SearchResultBase, SearchType } from '../interfaces';
 import { useSearchAudio, useSearchSeries } from '../modules/audio/audioQueries';
 import { useSearchConcepts } from '../modules/concept/conceptQueries';

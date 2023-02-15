@@ -15,7 +15,7 @@ import { ILearningPathV2 } from '@ndla/types-learningpath-api';
 import partition from 'lodash/partition';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useQueryClient } from 'react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import AlertModal from '../../../../components/AlertModal';
 import RoundIcon from '../../../../components/RoundIcon';
 import { fetchDrafts, updateStatusDraft } from '../../../../modules/draft/draftApi';

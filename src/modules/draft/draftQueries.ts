@@ -6,7 +6,7 @@
  *
  */
 
-import { useMutation, useQuery, useQueryClient, UseQueryOptions } from 'react-query';
+import { useMutation, useQuery, useQueryClient, UseQueryOptions } from '@tanstack/react-query';
 import { ILicense, IArticle, IUserData, IUpdatedUserData } from '@ndla/types-draft-api';
 import { DRAFT, DRAFT_STATUS_STATE_MACHINE, LICENSES, USER_DATA } from '../../queryKeys';
 import {

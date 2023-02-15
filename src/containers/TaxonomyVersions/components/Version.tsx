@@ -6,7 +6,7 @@
  *
  */
 
-import { useQueryClient } from 'react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';

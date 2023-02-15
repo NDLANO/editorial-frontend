@@ -11,7 +11,7 @@ import Button from '@ndla/button';
 import { Formik, FormikHelpers } from 'formik';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useQueryClient } from 'react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import { Row } from '../../../components';
 import AlertModal from '../../../components/AlertModal';
 import Field from '../../../components/Field';

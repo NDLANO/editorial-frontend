@@ -51,7 +51,7 @@ const WorkList = ({ ndlaId }: Props) => {
   const updateFilterSubjects = useCallback((o: MultiValue) => setFilterSubject(o), []);
 
   const { t } = useTranslation();
-  const { data, isLoading } = useSearch(
+  const { data, isInitialLoading } = useSearch(
     {
       'responsible-ids': ndlaId,
       sort: sortOption ? sortOption : '-responsibleLastUpdated',
@@ -122,7 +122,7 @@ const WorkList = ({ ndlaId }: Props) => {
         <SubjectDropdown filterSubject={filterSubjects} setFilterSubject={updateFilterSubjects} />
       </StyledTopRow>
       <TableComponent
-        isLoading={isLoading}
+        isLoading={isInitialLoading}
         tableTitleList={tableTitles}
         tableData={tableData}
         setSortOption={updateSortOption}

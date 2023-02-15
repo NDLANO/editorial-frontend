@@ -33,13 +33,9 @@ interface Props {
   onChanged: (newMeta: Partial<TaxonomyMetadata>) => void;
 }
 
-const isGrouped = (node: NodeType): boolean => {
-  const nodeResources = node.metadata?.customFields[TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES];
-  const isGrouped =
-    (nodeResources ?? TAXONOMY_CUSTOM_FIELD_GROUPED_RESOURCE) ===
-    TAXONOMY_CUSTOM_FIELD_GROUPED_RESOURCE;
-  return isGrouped;
-};
+const isGrouped = (node: NodeType): boolean =>
+  node.metadata?.customFields[TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES] !==
+  TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE;
 
 const GroupResourceSwitch = ({ node, onChanged }: Props) => {
   const grouped = useMemo(() => isGrouped(node), [node]);

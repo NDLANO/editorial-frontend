@@ -19,7 +19,7 @@ import {
   DRAFT_STATUS_STATE_MACHINE,
   LICENSES,
   USER_DATA,
-  ALL_DRAFTS,
+  SEARCH_DRAFTS,
 } from '../../queryKeys';
 import {
   fetchDraft,
@@ -48,15 +48,18 @@ export const useDraft = (params: UseDraft, options?: UseQueryOptions<IArticle>) 
     options,
   );
 };
-interface UseAllDrafts extends DraftSearchQuery {
+interface UseSearchDrafts extends DraftSearchQuery {
   ids: number[];
 }
 
-const allDraftQueryKey = (params: UseAllDrafts) => [ALL_DRAFTS, ...[params]];
+const searchDraftQueryKey = (params: UseSearchDrafts) => [SEARCH_DRAFTS, ...[params]];
 
-export const useSearchDrafts = (params: UseAllDrafts, options?: UseQueryOptions<ISearchResult>) => {
+export const useSearchDrafts = (
+  params: UseSearchDrafts,
+  options?: UseQueryOptions<ISearchResult>,
+) => {
   return useQuery<ISearchResult>(
-    allDraftQueryKey(params),
+    searchDraftQueryKey(params),
     () => searchAllDrafts(params.ids, params.language, params.sort),
     options,
   );

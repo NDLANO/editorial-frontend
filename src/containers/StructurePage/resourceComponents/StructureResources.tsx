@@ -23,7 +23,6 @@ import { useAllResourceTypes } from '../../../modules/taxonomy/resourcetypes/res
 import handleError from '../../../util/handleError';
 import ResourcesContainer from './ResourcesContainer';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
-import { spacingTop } from '../styles';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const StyledDiv = styled('div')`
@@ -34,7 +33,7 @@ const StyledDiv = styled('div')`
 
 const StickyContainer = styled.div`
   position: sticky;
-  top: ${spacingTop};
+  top: ${spacing.small};
 `;
 
 export interface ResourceWithNodeConnectionAndMeta extends ResourceWithNodeConnection {

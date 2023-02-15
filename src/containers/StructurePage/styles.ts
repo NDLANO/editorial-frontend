@@ -10,8 +10,6 @@ import styled from '@emotion/styled';
 import { colors, fonts, spacing } from '@ndla/core';
 import { Share } from '@ndla/icons/common';
 
-export const spacingTop = spacing.small;
-
 export const ResourceGroupBanner = styled.div`
   background-color: ${colors.brand.lighter};
   border-radius: 10px;
@@ -19,7 +17,7 @@ export const ResourceGroupBanner = styled.div`
   color: ${colors.brand.primary};
   font-weight: ${fonts.weight.semibold};
   padding: 10px;
-  margin-top: ${spacingTop};
+  margin-top: ${spacing.small};
   margin-bottom: ${spacing.small};
   display: flex;
   flex-direction: row;

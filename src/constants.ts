@@ -46,6 +46,8 @@ export const CONCEPT_WRITE_SCOPE = 'concept:write';
 export const TAXONOMY_WRITE_SCOPE = 'taxonomy:write';
 export const TAXONOMY_ADMIN_SCOPE = 'taxonomy:admin';
 
+export const AUDIO_ADMIN_SCOPE = 'audio:admin';
+
 export const TAXONOMY_CUSTOM_FIELD_LANGUAGE = 'language';
 export const TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES = 'topic-resources';
 export const TAXONOMY_CUSTOM_FIELD_GROUPED_RESOURCE = 'grouped';

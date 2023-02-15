@@ -21,9 +21,14 @@ import { toCreatePodcastSeries, toEditPodcastSeries } from '../../../util/routeH
 import { editorValueToPlainText } from '../../../util/articleContentConverter';
 import PodcastSeriesMetaData from './PodcastSeriesMetaData';
 import PodcastEpisodes from './PodcastEpisodes';
-import { ITUNES_STANDARD_MAXIMUM_WIDTH, ITUNES_STANDARD_MINIMUM_WIDTH } from '../../../constants';
+import {
+  AUDIO_ADMIN_SCOPE,
+  ITUNES_STANDARD_MAXIMUM_WIDTH,
+  ITUNES_STANDARD_MINIMUM_WIDTH,
+} from '../../../constants';
 import { podcastSeriesTypeToFormType } from '../../../util/audioHelpers';
 import FormWrapper from '../../../components/FormWrapper';
+import { useSession } from '../../Session/SessionProvider';
 
 const podcastRules: RulesType<PodcastSeriesFormikType, ISeries> = {
   title: {
@@ -80,7 +85,10 @@ const PodcastSeriesForm = ({
 }: Props) => {
   const { t } = useTranslation();
   const [savedToServer, setSavedToServer] = useState(false);
+  const { userPermissions } = useSession();
   const size = useRef<[number, number] | undefined>(undefined);
+
+  const isAudioAdmin = !!userPermissions?.includes(AUDIO_ADMIN_SCOPE);
 
   const handleSubmit = async (
     values: PodcastSeriesFormikType,
@@ -191,6 +199,7 @@ const PodcastSeriesForm = ({
                 {t('form.abort')}
               </AbortButton>
               <SaveButton
+                disabled={!isAudioAdmin}
                 isSaving={isSubmitting}
                 showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}
                 formIsDirty={formIsDirty}

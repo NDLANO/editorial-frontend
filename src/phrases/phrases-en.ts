@@ -118,7 +118,7 @@ const phrases = {
     guidelines: 'Guidelines',
     mustBeSearch: 'Link must be a search url',
     lastUsed: 'Last edited',
-    lastUsedDescription: 'Articles you have recently edited',
+    lastUsedDescription: 'Your recently edited articles',
     savedSearch: 'Saved searches',
     saveSearch: 'Save search',
     chooseSubject: 'Choose subjects',

@@ -39,7 +39,7 @@ export interface UseDraft {
   responsibleId?: string;
 }
 
-export const draftQueryKey = (params?: Partial<UseDraft>) => [DRAFT, ...[params]];
+export const draftQueryKey = (params?: Partial<UseDraft>) => [DRAFT, params];
 
 export const useDraft = (params: UseDraft, options?: UseQueryOptions<IArticle>) => {
   return useQuery<IArticle>(

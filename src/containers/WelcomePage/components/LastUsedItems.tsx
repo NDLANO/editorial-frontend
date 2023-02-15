@@ -24,8 +24,8 @@ const LastUsedItems = ({ lastUsed = [] }: Props) => {
   const { t, i18n } = useTranslation();
 
   const tableTitles: TitleElement[] = [
-    { title: 'Artikkel', sortableField: 'title' },
-    { title: 'Sist oppdatert', sortableField: 'lastUpdated' },
+    { title: t('form.article.label'), sortableField: 'title' },
+    { title: t('searchForm.sort.lastUpdated'), sortableField: 'lastUpdated' },
   ];
   const [sortOption, setSortOption] = useState<string | undefined>(undefined);
   const [error, setError] = useState<string | undefined>(undefined);

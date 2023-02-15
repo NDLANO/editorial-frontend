@@ -84,7 +84,9 @@ const ResourceBanner = ({
             {t('taxonomy.jumpToStructure')}
           </ButtonV2>
           <ControlWrapper>
-            <PublishedText>{`${publishedCount}/${elementCount} publisert`}</PublishedText>
+            <PublishedText>{`${publishedCount}/${elementCount} ${t(
+              'form.notes.published',
+            ).toLowerCase()}`}</PublishedText>
             <ApproachingRevisionDate articleIds={articleIds} />
             {currentNode && currentNode.id && (
               <GroupResourceSwitch

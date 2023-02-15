@@ -20,10 +20,11 @@ import ResourceItems from './ResourceItems';
 import AddResourceModal from './AddResourceModal';
 import { ChildNodeType } from '../../../modules/nodes/nodeApiTypes';
 import Resource from './Resource';
-import { NodeResourceMeta } from '../../../modules/nodes/nodeQueries';
+import { NodeResourceMeta, useNodes } from '../../../modules/nodes/nodeQueries';
 import ResourceBanner from './ResourceBanner';
 import { Dictionary } from '../../../interfaces';
 import { getIdFromUrn, groupResourcesByType } from '../../../util/taxonomyHelpers';
+import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 
 const ResourceWrapper = styled.div`
   max-height: 80vh;
@@ -55,8 +56,15 @@ const ResourcesContainer = ({
     () => resourceTypes.filter(rt => rt.id !== 'missing').map(rt => ({ id: rt.id, name: rt.name })),
     [resourceTypes],
   );
-
+  const { taxonomyVersion } = useTaxonomyVersion();
   const currentNodeId = currentNode.id;
+
+  const { data } = useNodes(
+    { contentURI: currentNode.contentUri!, taxonomyVersion },
+    { enabled: !!currentNode.contentUri },
+  );
+
+  const paths = useMemo(() => data?.map(d => d.path).filter(d => !!d) ?? [], [data]);
 
   const articleIds = useMemo(
     () =>
@@ -113,7 +121,7 @@ const ResourcesContainer = ({
             currentNodeId={currentNode.id}
             resource={{
               ...currentNode,
-              paths: currentNode.paths ?? [],
+              paths,
               nodeId: '',
               contentMeta: currentNode.contentUri ? contentMeta[currentNode.contentUri] : undefined,
               resourceTypes: [],

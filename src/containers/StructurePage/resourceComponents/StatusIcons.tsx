@@ -8,7 +8,6 @@
 
 import React, { ReactElement, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { colors } from '@ndla/core';
 import { AlertCircle, Check } from '@ndla/icons/editor';
@@ -16,14 +15,11 @@ import Tooltip from '@ndla/tooltip';
 import SafeLink from '@ndla/safelink';
 import { IArticle } from '@ndla/types-draft-api';
 import config from '../../../config';
-import { getIdFromUrn } from '../../../util/taxonomyHelpers';
 import { PUBLISHED } from '../../../constants';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 import { ResourceWithNodeConnectionAndMeta } from './StructureResources';
 import { getCountApproachingRevision, RevisionDateIcon } from './ApproachingRevisionDate';
 import WrongTypeError from './WrongTypeError';
-import { useFetchArticleData } from '../../FormikForm/formikDraftHooks';
-import { getTaxonomyPathsFromTaxonomy } from '../../../components/HeaderWithLanguage/util';
 
 const StyledCheckIcon = styled(Check)`
   height: 24px;
@@ -58,15 +54,7 @@ interface Props {
 }
 
 const StatusIcons = ({ article, contentMetaLoading, resource, path }: Props) => {
-  const { selectedLanguage } = useParams();
   const { t } = useTranslation();
-
-  const id = getIdFromUrn(resource?.contentMeta?.contentUri);
-  const { taxonomy, loading: fetchArticleLoading } = useFetchArticleData(
-    id,
-    selectedLanguage ?? '',
-  );
-  const taxonomyPaths = useMemo(() => getTaxonomyPathsFromTaxonomy(taxonomy, id), [taxonomy, id]);
 
   const isApproachingRevision = useMemo(() => {
     if (!article) return false;
@@ -81,7 +69,7 @@ const StatusIcons = ({ article, contentMetaLoading, resource, path }: Props) => 
       {!contentMetaLoading && (
         <WrongTypeError resource={resource} articleType={resource.contentMeta?.articleType} />
       )}
-      {taxonomyPaths?.length > 2 && (
+      {resource.paths?.length > 1 && (
         <Tooltip tooltip={t('form.workflow.multipleTaxonomy')}>
           <IconWrapper>
             <StyledWarnIcon />

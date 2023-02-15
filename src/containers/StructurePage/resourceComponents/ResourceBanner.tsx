@@ -19,7 +19,6 @@ import GroupResourceSwitch from './GroupResourcesSwitch';
 
 const PublishedText = styled.div`
   font-weight: ${fonts.weight.normal};
-  text-align: center;
 `;
 
 const BannerWrapper = styled.div`

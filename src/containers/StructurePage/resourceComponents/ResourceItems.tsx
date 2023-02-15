@@ -12,14 +12,11 @@ import { useQueryClient } from 'react-query';
 import { DropResult } from 'react-beautiful-dnd';
 import sortBy from 'lodash/sortBy';
 import styled from '@emotion/styled';
+import { ModalV2 } from '@ndla/modal';
 import Resource from './Resource';
 import handleError from '../../../util/handleError';
-import {
-  useDeleteResourceForNodeMutation,
-  usePutResourceForNodeMutation,
-} from '../../../modules/nodes/nodeMutations';
+import { usePutResourceForNodeMutation } from '../../../modules/nodes/nodeMutations';
 import { ResourceWithNodeConnection } from '../../../modules/nodes/nodeApiTypes';
-import AlertModal from '../../../components/AlertModal';
 import MakeDndList from '../../../components/MakeDndList';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 import {
@@ -28,16 +25,12 @@ import {
 } from '../../../modules/nodes/nodeQueries';
 import { ResourceWithNodeConnectionAndMeta } from './StructureResources';
 import { Dictionary } from '../../../interfaces';
+import RemoveResource from './RemoveResource';
 
 const StyledResourceItems = styled.ul`
   list-style: none;
   margin: 0;
   padding: 0;
-`;
-
-const StyledErrorMessage = styled.div`
-  text-align: center;
-  color: #fe5f55;
 `;
 
 interface Props {
@@ -46,11 +39,11 @@ interface Props {
   contentMeta: Dictionary<NodeResourceMeta>;
 }
 
-const isError = (error: unknown): error is Error => (error as Error).message !== undefined;
-
 const ResourceItems = ({ resources, currentNodeId, contentMeta }: Props) => {
-  const { t, i18n } = useTranslation();
-  const [deleteId, setDeleteId] = useState<string>('');
+  const { i18n } = useTranslation();
+  const [deleteResource, setDeleteResource] = useState<
+    ResourceWithNodeConnectionAndMeta | undefined
+  >(undefined);
   const { taxonomyVersion } = useTaxonomyVersion();
 
   const qc = useQueryClient();
@@ -58,15 +51,6 @@ const ResourceItems = ({ resources, currentNodeId, contentMeta }: Props) => {
     id: currentNodeId,
     language: i18n.language,
     taxonomyVersion,
-  });
-  const deleteNodeResource = useDeleteResourceForNodeMutation({
-    onMutate: async ({ id }) => {
-      await qc.cancelQueries(compKey);
-      const prevData = qc.getQueryData<ResourceWithNodeConnection[]>(compKey) ?? [];
-      const withoutDeleted = prevData.filter(res => res.connectionId !== id);
-      qc.setQueryData<ResourceWithNodeConnection[]>(compKey, withoutDeleted);
-      return prevData;
-    },
   });
 
   const onUpdateRank = async (id: string, newRank: number) => {
@@ -89,14 +73,6 @@ const ResourceItems = ({ resources, currentNodeId, contentMeta }: Props) => {
     onSuccess: () => qc.invalidateQueries(compKey),
   });
 
-  const onDelete = async (deleteId: string) => {
-    setDeleteId('');
-    await deleteNodeResource.mutateAsync(
-      { id: deleteId, taxonomyVersion },
-      { onSuccess: () => qc.invalidateQueries(compKey) },
-    );
-  };
-
   const onDragEnd = async ({ destination, source }: DropResult) => {
     if (!destination) return;
     const { connectionId, primary, relevanceId, rank: currentRank } = resources[source.index];
@@ -115,8 +91,11 @@ const ResourceItems = ({ resources, currentNodeId, contentMeta }: Props) => {
     });
   };
 
-  const toggleDelete = (newDeleteId: string) => {
-    setDeleteId(newDeleteId);
+  const toggleDelete = (resource: ResourceWithNodeConnection) => {
+    setDeleteResource({
+      ...resource,
+      contentMeta: resource.contentUri ? contentMeta[resource.contentUri] : undefined,
+    });
   };
 
   return (
@@ -132,30 +111,22 @@ const ResourceItems = ({ resources, currentNodeId, contentMeta }: Props) => {
               contentMeta: resource.contentUri ? contentMeta[resource.contentUri] : undefined,
             }}
             key={resource.id}
-            onDelete={toggleDelete}
+            onDelete={() => toggleDelete(resource)}
           />
         ))}
       </MakeDndList>
-      {deleteNodeResource.error && isError(deleteNodeResource.error) && (
-        <StyledErrorMessage data-testid="inlineEditErrorMessage">
-          {`${t('taxonomy.errorMessage')}: ${deleteNodeResource.error.message}`}
-        </StyledErrorMessage>
-      )}
-      <AlertModal
-        show={!!deleteId}
-        text={t('taxonomy.resource.confirmDelete')}
-        actions={[
-          {
-            text: t('form.abort'),
-            onClick: () => toggleDelete(''),
-          },
-          {
-            text: t('alertModal.delete'),
-            onClick: () => onDelete(deleteId!),
-          },
-        ]}
-        onCancel={() => toggleDelete('')}
-      />
+      <ModalV2 controlled isOpen={!!deleteResource} onClose={() => setDeleteResource(undefined)}>
+        {close =>
+          deleteResource && (
+            <RemoveResource
+              key={deleteResource.id}
+              deleteResource={deleteResource!}
+              nodeId={currentNodeId}
+              onClose={close}
+            />
+          )
+        }
+      </ModalV2>
     </StyledResourceItems>
   );
 };

@@ -1254,7 +1254,7 @@ const phrases = {
   },
   errorMessage: {
     title: 'Oops, something went wrong',
-    description: 'Sorry, an error occurd.',
+    description: 'Sorry, an error occurred.',
     back: 'Back',
     goToFrontPage: 'Go to frontpage',
     invalidUrl: 'Invalid url',
@@ -1384,6 +1384,8 @@ const phrases = {
     resource: {
       confirmDelete:
         'Do you want to delete the resource from this folder? This will not affect the placement other places',
+      confirmDeleteAndUnpublish:
+        'Do you want to delete the resource from this folder. This is the last place this resource is used. It will be unpublished if you delete it.',
       copyError:
         'An error occurred while copying resources. Double check the copied resources and try to fix deficiencies manually, or delete the copied resources and try to copy again',
       addResourceConflict: 'The resource you attempted to add already exists on the topic.',

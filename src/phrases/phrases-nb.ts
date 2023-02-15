@@ -1386,6 +1386,8 @@ const phrases = {
     resource: {
       confirmDelete:
         'Vil du fjerne ressursen fra denne mappen? Dette vil ikke påvirke plasseringen andre steder',
+      confirmDeleteAndUnpublish:
+        'Vil du fjerne ressursen fra denne mappen? Dette er det siste stedet ressursen brukes. Den vil bli avpublisert dersom du fjerner den.',
       copyError:
         'Det oppsto en feil ved kopiering av ressurser. Dobbeltsjekk de kopierte ressursene og prøv å fikse mangler manuelt, eller slett de kopierte ressursene og prøv å kopiere på nytt',
       addResourceConflict: 'Ressursen du forsøkte å legge til finnes allerede på emnet.',

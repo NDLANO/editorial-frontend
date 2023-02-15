@@ -16,7 +16,7 @@ export const ResourceGroupBanner = styled.div`
   ${fonts.sizes(16)};
   color: ${colors.brand.primary};
   font-weight: ${fonts.weight.semibold};
-  padding: 10px;
+  padding: ${spacing.small};
   margin-top: ${spacing.small};
   margin-bottom: ${spacing.small};
   display: flex;

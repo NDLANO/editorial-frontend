@@ -6,14 +6,14 @@
  *
  */
 
-import React, { ReactElement, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { ContentTypeBadge } from '@ndla/ui';
 import { ButtonV2 } from '@ndla/button';
 import { colors, spacing, breakpoints, fonts } from '@ndla/core';
-import { Check, DragVertical } from '@ndla/icons/editor';
+import { DragVertical } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
 import SafeLink from '@ndla/safelink';
 import { useQueryClient } from 'react-query';
@@ -28,10 +28,8 @@ import {
   useUpdateNodeConnectionMutation,
 } from '../../../modules/nodes/nodeMutations';
 import { getContentTypeFromResourceTypes } from '../../../util/resourceHelpers';
-import config from '../../../config';
 import { getIdFromUrn } from '../../../util/taxonomyHelpers';
 import VersionHistoryLightbox from '../../../components/VersionHistoryLightbox';
-import { PUBLISHED } from '../../../constants';
 import RelevanceOption from '../../../components/Taxonomy/RelevanceOption';
 import ResourceItemLink from './ResourceItemLink';
 import GrepCodesModal from './GrepCodesModal';
@@ -43,8 +41,7 @@ import {
 } from '../../../modules/nodes/nodeQueries';
 import { ResourceWithNodeConnectionAndMeta } from './StructureResources';
 import { useDraft, useResponsibleUserData } from '../../../modules/draft/draftQueries';
-import { getCountApproachingRevision, RevisionDateIcon } from './ApproachingRevisionDate';
-import WrongTypeError from './WrongTypeError';
+import StatusIcons from './StatusIcons';
 
 const Wrapper = styled.div`
   display: flex;
@@ -57,12 +54,6 @@ const StyledCard = styled.div`
   width: 100%;
   padding: 5px;
   display: flex;
-`;
-
-const StyledCheckIcon = styled(Check)`
-  height: 24px;
-  width: 24px;
-  fill: ${colors.support.green};
 `;
 
 const StyledResourceIcon = styled.div`
@@ -89,10 +80,6 @@ const StyledText = styled.div`
   margin-bottom: ${spacing.xxsmall};
   box-shadow: none;
   align-items: center;
-`;
-
-const StyledLink = styled(SafeLink)`
-  box-shadow: inset 0 0;
 `;
 
 const ButtonRow = styled.div`
@@ -139,9 +126,6 @@ const StatusButton = styled(ButtonV2)<{ isPublished: boolean }>`
   }
 `;
 
-const CheckedWrapper = styled.div`
-  display: flex;
-`;
 const StyledResponsibleBadge = styled.div`
   height: ${spacing.normal};
   border-radius: 4px;
@@ -213,11 +197,6 @@ const Resource = ({
   const id = getIdFromUrn(resource?.contentMeta?.contentUri);
   const { data: article } = useDraft({ id: id! }, { enabled: !!id });
   const { data: userData } = useResponsibleUserData(article);
-
-  const isApproachingRevision = useMemo(() => {
-    if (!article) return false;
-    return !!getCountApproachingRevision([article]);
-  }, [article]);
 
   const responsible = useMemo(() => {
     return userData?.[0]?.name;
@@ -300,22 +279,12 @@ const Resource = ({
                 size="small"
               />
             </StyledResourceBody>
-            {isApproachingRevision ? (
-              <RevisionDateIcon text="!" phrasesKey="form.responsible.revisionDateSingle" />
-            ) : null}
-            {!contentMetaLoading && (
-              <WrongTypeError resource={resource} articleType={resource.contentMeta?.articleType} />
-            )}
-            {(resource.contentMeta?.status?.current === PUBLISHED ||
-              resource.contentMeta?.status?.other?.includes(PUBLISHED)) && (
-              <PublishedWrapper path={path}>
-                <Tooltip tooltip={t('form.workflow.published')}>
-                  <CheckedWrapper>
-                    <StyledCheckIcon />
-                  </CheckedWrapper>
-                </Tooltip>
-              </PublishedWrapper>
-            )}
+            <StatusIcons
+              article={article}
+              contentMetaLoading={contentMetaLoading}
+              resource={resource}
+              path={path}
+            />
             <RelevanceOption relevanceId={resource.relevanceId} onChange={updateRelevanceId} />
             {showVersionHistory && (
               <VersionHistoryLightbox
@@ -362,20 +331,6 @@ const Resource = ({
         </ContentWrapper>
       </StyledCard>
     </Wrapper>
-  );
-};
-
-const PublishedWrapper = ({ path, children }: { path?: string; children: ReactElement }) => {
-  const { taxonomyVersion } = useTaxonomyVersion();
-  if (!path) {
-    return children;
-  }
-  return (
-    <StyledLink
-      target="_blank"
-      to={`${config.ndlaFrontendDomain}${path}?versionHash=${taxonomyVersion}`}>
-      {children}
-    </StyledLink>
   );
 };
 

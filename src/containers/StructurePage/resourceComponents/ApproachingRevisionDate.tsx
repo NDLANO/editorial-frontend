@@ -17,7 +17,15 @@ import { useTranslation } from 'react-i18next';
 import { fetchDrafts } from '../../../modules/draft/draftApi';
 import handleError from '../../../util/handleError';
 
-const StyledWrapper = styled.div`
+const Wrapper = styled.div`
+  width: 24px;
+  height: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const StyledIcon = styled.div`
   color: ${colors.white};
   // TODO: Update when color is added to colors
   background-color: #c77623;
@@ -39,7 +47,9 @@ export const RevisionDateIcon = ({ text, phrasesKey }: RevisionDateProps) => {
 
   return (
     <Tooltip tooltip={t(phrasesKey)}>
-      <StyledWrapper>{text}</StyledWrapper>
+      <Wrapper>
+        <StyledIcon>{text}</StyledIcon>
+      </Wrapper>
     </Tooltip>
   );
 };

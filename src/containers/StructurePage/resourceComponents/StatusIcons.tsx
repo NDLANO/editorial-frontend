@@ -41,7 +41,7 @@ const CheckedWrapper = styled.div`
   display: flex;
 `;
 
-const IconWrapper = styled.div`
+export const IconWrapper = styled.div`
   display: flex;
   flex-align: center;
 `;

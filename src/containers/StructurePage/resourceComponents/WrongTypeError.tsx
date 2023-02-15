@@ -14,6 +14,7 @@ import styled from '@emotion/styled';
 import { colors } from '@ndla/core';
 import { ResourceWithNodeConnection } from '../../../modules/nodes/nodeApiTypes';
 import { getIdFromUrn } from '../../../util/taxonomyHelpers';
+import { IconWrapper } from './StatusIcons';
 
 const StyledWarnIcon = styled(AlertCircle)`
   height: 24px;
@@ -53,9 +54,9 @@ const WrongTypeError = ({ resource, articleType }: Props) => {
 
   return (
     <Tooltip tooltip={errorText}>
-      <div>
+      <IconWrapper>
         <StyledWarnIcon title={undefined} />
-      </div>
+      </IconWrapper>
     </Tooltip>
   );
 };

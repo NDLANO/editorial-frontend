@@ -198,6 +198,7 @@ export const frontpageArticleFormTypeToDraftApiType = (
     availability: article.availability,
     relatedContent: article.relatedContent,
     revisionMeta: article.revisionMeta,
+    responsibleId: article.responsibleId,
   };
 };
 

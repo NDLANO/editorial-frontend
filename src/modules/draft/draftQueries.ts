@@ -52,7 +52,7 @@ interface UseSearchDrafts extends DraftSearchQuery {
   ids: number[];
 }
 
-const searchDraftQueryKey = (params: UseSearchDrafts) => [SEARCH_DRAFTS, ...[params]];
+const searchDraftQueryKey = (params: UseSearchDrafts) => [SEARCH_DRAFTS, params];
 
 export const useSearchDrafts = (
   params: UseSearchDrafts,

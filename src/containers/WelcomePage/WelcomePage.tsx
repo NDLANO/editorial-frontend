@@ -11,6 +11,7 @@ import { HelmetWithTracker } from '@ndla/tracker';
 import { SearchFolder } from '@ndla/icons/editor';
 import styled from '@emotion/styled';
 import { mq, breakpoints, spacing } from '@ndla/core';
+import { useMemo } from 'react';
 import { NAVIGATION_HEADER_MARGIN } from '../../constants';
 import { getAccessToken, getAccessTokenPersonal } from '../../util/authHelpers';
 import { isValid } from '../../util/jwtHelper';
@@ -65,7 +66,9 @@ export const WelcomePage = () => {
     enabled: isValid(getAccessToken()) && getAccessTokenPersonal(),
   });
   const { ndlaId } = useSession();
-  const lastUsed = data?.latestEditedArticles?.map(l => Number(l)) ?? [];
+  const lastUsed = useMemo(() => data?.latestEditedArticles?.map(l => Number(l)) ?? [], [
+    data?.latestEditedArticles,
+  ]);
 
   localStorage.setItem('lastPath', '');
 

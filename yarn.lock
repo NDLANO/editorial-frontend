@@ -2090,10 +2090,10 @@
   resolved "https://registry.yarnpkg.com/@ndla/types-concept-api/-/types-concept-api-0.0.10.tgz#43bd9dcfede1c1680e52bdc0f1ffa31246fbca9c"
   integrity sha512-btJNLpUuSaQXH1RYAhF4867Ka8dYLFo1gAbwcXQj3uQdo6BWJfPKMHoRHGXJ9Qww+MuZArlLgWc+YEh2Hd0aJg==
 
-"@ndla/types-draft-api@^0.0.29":
-  version "0.0.29"
-  resolved "https://registry.yarnpkg.com/@ndla/types-draft-api/-/types-draft-api-0.0.29.tgz#4f004b214e71839e471f984cfe11fa023fe1319a"
-  integrity sha512-elsNLyEk1NJWjVV3YsY6I7WRKGRQLs1HDL/C0J6DN4SJgl/O55Ir4dfn2Rd0lElsV71Wa+OcqiQTXj/fpcTYew==
+"@ndla/types-draft-api@^0.0.30":
+  version "0.0.30"
+  resolved "https://registry.yarnpkg.com/@ndla/types-draft-api/-/types-draft-api-0.0.30.tgz#3a15f00ac60332fce2e58265f07cc90c36866d79"
+  integrity sha512-x4qUH3Gj8NRotWrIsMSW78cEVlO4+CsuR4BNfUHMDa6TLL7QxjNAbEJUC+hwrnbXMDSEsxZE+u0jg4EcuV/qyQ==
 
 "@ndla/types-frontpage-api@^0.0.4":
   version "0.0.4"

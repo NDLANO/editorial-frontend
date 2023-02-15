@@ -27,10 +27,6 @@ const AddSubjectButton = styled(ButtonV2)`
   margin: 0px ${spacing.small};
 `;
 
-const SwitchWrapper = styled.div`
-  flex-shrink: 0;
-`;
-
 interface Props {
   onChange: (checked: boolean) => void;
   checked: boolean;
@@ -51,14 +47,13 @@ const StructureBanner = ({ onChange, checked }: Props) => {
         {t('taxonomy.editStructure')}
       </FlexWrapper>
       <FlexWrapper>
-        <SwitchWrapper>
-          <Switch
-            onChange={onChange}
-            checked={checked}
-            label={t('taxonomy.favorites')}
-            id={'favorites'}
-          />
-        </SwitchWrapper>
+        <Switch
+          onChange={onChange}
+          checked={checked}
+          label={t('taxonomy.favorites')}
+          id={'favorites'}
+        />
+
         {isTaxonomyAdmin && (
           <AddSubjectButton
             size="small"

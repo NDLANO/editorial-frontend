@@ -23,7 +23,7 @@ interface Props {
 }
 
 const WorkList = ({ ndlaId }: Props) => {
-  const [sortOption, setSortOption] = useState<string>();
+  const [sortOption, setSortOption] = useState<string>('-responsibleLastUpdated');
   const [filterSubjects, setFilterSubject] = useState<MultiValue>([]);
   const [error, setError] = useState();
 

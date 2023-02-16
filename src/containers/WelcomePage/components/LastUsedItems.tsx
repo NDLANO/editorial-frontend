@@ -29,7 +29,7 @@ const LastUsedItems = ({ lastUsed = [] }: Props) => {
     { title: t('form.article.label'), sortableField: 'title' },
     { title: t('searchForm.sort.lastUpdated'), sortableField: 'lastUpdated' },
   ];
-  const [sortOption, setSortOption] = useState<string | undefined>(undefined);
+  const [sortOption, setSortOption] = useState<string | undefined>('-lastUpdated');
   const [error, setError] = useState<string | undefined>(undefined);
   const [sortedData, setSortedData] = useState<IArticleSummary[]>([]);
 

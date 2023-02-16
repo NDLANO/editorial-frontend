@@ -11,7 +11,7 @@ import { Calendar } from '@ndla/icons/editor';
 import { useCallback, useState } from 'react';
 import { SingleValue } from '@ndla/select';
 import { SafeLinkButton } from '@ndla/safelink';
-import queryString, { parse, stringify } from 'query-string';
+import queryString from 'query-string';
 import styled from '@emotion/styled';
 import { colors, spacing } from '@ndla/core';
 import { useSearch } from '../../../modules/search/searchQueries';
@@ -21,12 +21,6 @@ import TableTitle from './TableTitle';
 import SubjectDropdown from './SubjectDropdown';
 import formatDate from '../../../util/formatDate';
 import { StyledDashboardInfo, StyledLink, StyledTopRowDashboardInfo } from '../styles';
-
-const StyledWorkList = styled.div`
-  background-color: ${colors.brand.lighter};
-  border-radius: 10px;
-  padding: ${spacing.nsmall};
-`;
 
 const ControlWrapper = styled.div`
   display: flex;
@@ -44,7 +38,7 @@ interface Props {
 
 const WorkList = ({ ndlaId }: Props) => {
   const [sortOption, setSortOption] = useState<string>('-responsibleLastUpdated');
-  const [filterSubject, setFilterSubject] = useState<SingleValue>();
+  const [filterSubject, setFilterSubject] = useState<SingleValue | undefined>(undefined);
   const [error, setError] = useState();
 
   const updateSortOption = useCallback((v: string) => setSortOption(v), []);

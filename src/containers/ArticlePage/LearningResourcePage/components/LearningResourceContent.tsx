@@ -150,11 +150,12 @@ export const plugins = (
     listPlugin,
   ];
 };
-interface Props extends FormikContextType<LearningResourceFormType> {
+interface Props {
   articleLanguage: string;
   handleBlur: (evt: { target: { name: string } }) => void;
   values: LearningResourceFormType;
   handleSubmit: () => Promise<void>;
+  formik: FormikContextType<LearningResourceFormType>;
 }
 
 const LearningResourceContent = ({

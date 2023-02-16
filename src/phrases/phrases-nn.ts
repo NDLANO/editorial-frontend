@@ -119,6 +119,7 @@ const phrases = {
     guidelines: 'Retningslinjer',
     mustBeSearch: 'Lenka må være til eit søk',
     lastUsed: 'Sist redigert',
+    lastUsedDescription: 'Artiklar du har redigert nyleg',
     savedSearch: 'Lagra søk',
     saveSearch: 'Lagre søk',
     chooseSubject: 'Velg fag',

@@ -65,14 +65,16 @@ const LastUsedItems = ({ lastUsed = [] }: Props) => {
   );
 
   const updateSortOption = useCallback(
-    (v: string) => {
-      const sortDesc = v.charAt(0) === '-';
-      const sorted = orderBy(sortedData, t => (v.includes('title') ? t.title?.title : t.updated), [
-        sortDesc ? 'desc' : 'asc',
-      ]);
+    (sortableField: string) => {
+      const sortDesc = sortableField.charAt(0) === '-';
+      const sorted = orderBy(
+        sortedData,
+        t => (sortableField.includes('title') ? t.title?.title : t.updated),
+        [sortDesc ? 'desc' : 'asc'],
+      );
 
       setSortedData(sorted);
-      setSortOption(v);
+      setSortOption(sortableField);
     },
     [sortedData],
   );

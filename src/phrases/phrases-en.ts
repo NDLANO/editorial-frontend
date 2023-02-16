@@ -118,12 +118,12 @@ const phrases = {
     guidelines: 'Guidelines',
     mustBeSearch: 'Link must be a search url',
     lastUsed: 'Last edited',
+    lastUsedDescription: 'Your recently edited articles',
     savedSearch: 'Saved searches',
     saveSearch: 'Save search',
     chooseSubject: 'Choose subjects',
     chooseTopic: 'Choose topics',
     errorMessage: 'Failed to retrieve data',
-
     workList: {
       title: 'My tasks',
       description: 'Articles where I am responsible',

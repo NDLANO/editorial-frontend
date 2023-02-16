@@ -9,9 +9,9 @@
 import { useTranslation } from 'react-i18next';
 import { Calendar } from '@ndla/icons/editor';
 import { useCallback, useState } from 'react';
-import { MultiValue } from '@ndla/select';
+import { SingleValue } from '@ndla/select';
 import { SafeLinkButton } from '@ndla/safelink';
-import { parse, stringify } from 'query-string';
+import queryString, { parse, stringify } from 'query-string';
 import styled from '@emotion/styled';
 import { colors, spacing } from '@ndla/core';
 import { useSearch } from '../../../modules/search/searchQueries';
@@ -44,18 +44,18 @@ interface Props {
 
 const WorkList = ({ ndlaId }: Props) => {
   const [sortOption, setSortOption] = useState<string>('-responsibleLastUpdated');
-  const [filterSubjects, setFilterSubject] = useState<MultiValue>([]);
+  const [filterSubject, setFilterSubject] = useState<SingleValue>();
   const [error, setError] = useState();
 
   const updateSortOption = useCallback((v: string) => setSortOption(v), []);
-  const updateFilterSubjects = useCallback((o: MultiValue) => setFilterSubject(o), []);
+  const updateFilterSubject = useCallback((o: SingleValue) => setFilterSubject(o), []);
 
   const { t } = useTranslation();
   const { data, isLoading } = useSearch(
     {
       'responsible-ids': ndlaId,
       sort: sortOption ? sortOption : '-responsibleLastUpdated',
-      ...(filterSubjects.length ? { subjects: filterSubjects.map(fs => fs.value).join(',') } : {}),
+      ...(filterSubject ? { subjects: filterSubject.value } : {}),
     },
     {
       enabled: !!ndlaId,
@@ -111,12 +111,14 @@ const WorkList = ({ ndlaId }: Props) => {
       ])
     : [[]];
 
-  const goToSearch = () => {
-    const subjects = filterSubjects.map(subject => stringify(parse(subject.value)));
-    const searchUrl = `/search/content?subjects=${subjects.join(',')}`;
+  const onSearch = useCallback(() => {
+    const query = queryString.stringify({
+      ...(filterSubject && { subjects: filterSubject.value }),
+      ...(ndlaId && { 'responsible-ids': ndlaId }),
+    });
 
-    return searchUrl;
-  };
+    return `/search/content?${query}`;
+  }, [filterSubject, ndlaId]);
 
   return (
     <StyledDashboardInfo>
@@ -127,8 +129,8 @@ const WorkList = ({ ndlaId }: Props) => {
           Icon={Calendar}
         />
         <ControlWrapper>
-          <SubjectDropdown filterSubject={filterSubjects} setFilterSubject={updateFilterSubjects} />
-          <StyledSafeLinkButton to={goToSearch()} size="small" disabled={!filterSubjects.length}>
+          <SubjectDropdown filterSubject={filterSubject} setFilterSubject={updateFilterSubject} />
+          <StyledSafeLinkButton to={onSearch()} size="small">
             {t('welcomePage.goToSearch')}
           </StyledSafeLinkButton>
         </ControlWrapper>

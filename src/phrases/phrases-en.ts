@@ -245,6 +245,7 @@ const phrases = {
       'revision-date-from': 'Revisiondate from',
       'revision-date-to': 'Revisiondate to',
       'exclude-revision-log': 'Exclude revision log',
+      'responsible-ids': 'Select responsible',
     },
     tagType: {
       query: 'Query',
@@ -260,6 +261,7 @@ const phrases = {
       'revision-date-from': 'Revisiondate from',
       'revision-date-to': 'Revisiondate to',
       'exclude-revision-log': 'Revision log excluded',
+      'responsible-ids': 'Responsible',
     },
     btn: 'Search',
     empty: 'Empty',

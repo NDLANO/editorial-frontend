@@ -31,7 +31,7 @@ const LastUsedItems = ({ lastUsed = [] }: Props) => {
   ];
   const [sortOption, setSortOption] = useState<string | undefined>(undefined);
   const [error, setError] = useState<string | undefined>(undefined);
-  const [sortedData, setSortedData] = useState<IArticleSummary[] | undefined>(undefined);
+  const [sortedData, setSortedData] = useState<IArticleSummary[]>([]);
 
   const { data, isLoading } = useSearchDrafts(
     {
@@ -47,7 +47,9 @@ const LastUsedItems = ({ lastUsed = [] }: Props) => {
   );
 
   useEffect(() => {
-    setSortedData(data?.results);
+    if (data) {
+      setSortedData(data.results);
+    }
   }, [data]);
 
   const tableData: FieldElement[][] = useMemo(

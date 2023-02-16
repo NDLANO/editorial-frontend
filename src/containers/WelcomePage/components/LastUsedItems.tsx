@@ -6,9 +6,11 @@
  *
  */
 
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pencil } from '@ndla/icons/action';
+import orderBy from 'lodash/orderBy';
+import { IArticleSummary } from '@ndla/types-draft-api';
 import { StyledDashboardInfo, StyledLink } from '../styles';
 import TableComponent, { FieldElement, TitleElement } from './TableComponent';
 import TableTitle from './TableTitle';
@@ -29,13 +31,13 @@ const LastUsedItems = ({ lastUsed = [] }: Props) => {
   ];
   const [sortOption, setSortOption] = useState<string | undefined>(undefined);
   const [error, setError] = useState<string | undefined>(undefined);
+  const [sortedData, setSortedData] = useState<IArticleSummary[] | undefined>(undefined);
 
-  const updateSortOption = useCallback((v: string) => setSortOption(v), []);
   const { data, isLoading } = useSearchDrafts(
     {
       ids: lastUsed!,
       language: i18n.language,
-      sort: sortOption ? sortOption : '-lastUpdated',
+      sort: '-lastUpdated',
     },
     {
       enabled: !!lastUsed.length,
@@ -44,13 +46,34 @@ const LastUsedItems = ({ lastUsed = [] }: Props) => {
     },
   );
 
-  const tableData: FieldElement[][] = data?.results?.map(a => [
-    {
-      id: `title_${a.id}`,
-      data: <StyledLink to={toEditArticle(a.id, a.articleType)}>{a.title?.title}</StyledLink>,
+  useEffect(() => {
+    setSortedData(data?.results);
+  }, [data]);
+
+  const tableData: FieldElement[][] = useMemo(
+    () =>
+      sortedData?.map(a => [
+        {
+          id: `title_${a.id}`,
+          data: <StyledLink to={toEditArticle(a.id, a.articleType)}>{a.title?.title}</StyledLink>,
+        },
+        { id: `lastUpdated_${a.id}`, data: formatDate(a.updated) },
+      ]) ?? [[]],
+    [sortedData],
+  );
+
+  const updateSortOption = useCallback(
+    (v: string) => {
+      const sortDesc = v.charAt(0) === '-';
+      const sorted = orderBy(sortedData, t => (v.includes('title') ? t.title?.title : t.updated), [
+        sortDesc ? 'desc' : 'asc',
+      ]);
+
+      setSortedData(sorted);
+      setSortOption(v);
     },
-    { id: `lastUpdated_${a.id}`, data: formatDate(a.updated) },
-  ]) ?? [[]];
+    [sortedData],
+  );
 
   return (
     <StyledDashboardInfo>

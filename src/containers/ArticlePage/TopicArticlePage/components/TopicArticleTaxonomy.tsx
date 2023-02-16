@@ -50,6 +50,7 @@ import { ArticleTaxonomy } from '../../../FormikForm/formikDraftHooks';
 import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
 import VersionSelect from '../../components/VersionSelect';
 import { useVersions } from '../../../../modules/taxonomy/versions/versionQueries';
+import { useNodes } from '../../../../modules/nodes/nodeQueries';
 
 type Props = {
   article: IArticle;
@@ -87,13 +88,19 @@ const TopicArticleTaxonomy = ({ article, setIsOpen, updateNotes, taxonomy }: Pro
   const { data: versions } = useVersions();
   const qc = useQueryClient();
 
+  const { data: topics } = useNodes({
+    language: i18n.language,
+    contentURI: taxonomy.topics[0].contentUri,
+    taxonomyVersion,
+  });
+
   useEffect(() => {
     (async () => {
       try {
         const subjects = await fetchSubjects({ language: i18n.language, taxonomyVersion });
 
         const sortedSubjects = subjects.filter(subject => subject.name).sort(sortByName);
-        const activeTopics = taxonomy.topics.filter(t => t.path) ?? [];
+        const activeTopics = topics?.filter(t => t.path) ?? [];
         const sortedTopics = activeTopics.sort((a, b) => (a.id < b.id ? -1 : 1));
 
         const topicConnections = await Promise.all(
@@ -122,7 +129,7 @@ const TopicArticleTaxonomy = ({ article, setIsOpen, updateNotes, taxonomy }: Pro
         setStatus('error');
       }
     })();
-  }, [i18n.language, taxonomy, taxonomyVersion]);
+  }, [i18n.language, taxonomy, taxonomyVersion, topics]);
 
   const getSubjectTopics = async (subjectId: string, locale: LocaleType) => {
     if (structure.some(subject => subject.id === subjectId && subject.topics)) {

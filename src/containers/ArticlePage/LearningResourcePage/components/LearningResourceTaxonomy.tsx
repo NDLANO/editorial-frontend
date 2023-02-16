@@ -94,12 +94,13 @@ interface Props {
   setIsOpen?: (open: boolean) => void;
 }
 
-type Status = 'success' | 'loading' | 'error' | 'initial';
+type Status = 'success' | 'loading' | 'initial';
 
 const LearningResourceTaxonomy = ({ article, taxonomy, updateNotes, setIsOpen }: Props) => {
   const [resourceId, setResourceId] = useState<string>('');
   const [structure, setStructure] = useState<LearningResourceSubjectType[]>([]);
   const [status, setStatus] = useState<Status>('loading');
+  const [error, setError] = useState<string | undefined>(undefined);
   const [isDirty, setIsDirty] = useState<boolean>(false);
   const [showWarning, setShowWarning] = useState<boolean>(false);
   const [resourceTaxonomy, setResourceTaxonomy] = useState<ResourceTaxonomy>({
@@ -193,7 +194,7 @@ const LearningResourceTaxonomy = ({ article, taxonomy, updateNotes, setIsOpen }:
       const resourceId = taxonomy.resources.length === 1 && taxonomy.resources[0].id;
 
       if (taxonomy.resources.length > 1) {
-        setStatus('error');
+        setError('errorMessage.taxonomy');
       } else if (resourceId) {
         const fullResource = await fetchFullResource(resourceId, i18n.language);
 
@@ -213,7 +214,7 @@ const LearningResourceTaxonomy = ({ article, taxonomy, updateNotes, setIsOpen }:
       }
     } catch (e) {
       handleError(e);
-      setStatus('error');
+      setError('errorMessage.versionSelect');
     }
   };
 
@@ -225,14 +226,13 @@ const LearningResourceTaxonomy = ({ article, taxonomy, updateNotes, setIsOpen }:
       ]);
 
       const sortedSubjects = subjects.filter(subject => subject.name).sort(sortByName);
-
-      if (status !== 'error') {
+      if (!error) {
         setAvailableResourceTypes(allResourceTypes.filter(resourceType => resourceType.name));
         setStructure(sortedSubjects);
       }
     } catch (e) {
       handleError(e);
-      setStatus('error');
+      setError('errorMessage.taxonomy');
     }
   };
 
@@ -279,7 +279,7 @@ const LearningResourceTaxonomy = ({ article, taxonomy, updateNotes, setIsOpen }:
       }
     } catch (err) {
       handleError(err);
-      setStatus('error');
+      setError('errorMessage.taxonomy');
     }
   };
 
@@ -388,7 +388,7 @@ const LearningResourceTaxonomy = ({ article, taxonomy, updateNotes, setIsOpen }:
       });
     } catch (e) {
       handleError(e);
-      setStatus('error');
+      setError('errorMessage.taxonomy');
     }
   };
 
@@ -418,10 +418,7 @@ const LearningResourceTaxonomy = ({ article, taxonomy, updateNotes, setIsOpen }:
     [availableResourceTypes],
   );
 
-  if (status === 'loading') {
-    return <Spinner />;
-  }
-  if (status === 'error') {
+  if (error) {
     return (
       <ErrorMessage
         illustration={{
@@ -430,12 +427,15 @@ const LearningResourceTaxonomy = ({ article, taxonomy, updateNotes, setIsOpen }:
         }}
         messages={{
           title: t('errorMessage.title'),
-          description: t('errorMessage.taxonomy'),
+          description: t(error),
           back: t('errorMessage.back'),
           goToFrontPage: t('errorMessage.goToFrontPage'),
         }}
       />
     );
+  }
+  if (status === 'loading') {
+    return <Spinner />;
   }
 
   const mainResource = taxonomy.resources?.[0];

@@ -56,14 +56,14 @@ const TopicArticleAccordionPanels = ({
         <TopicArticleContent handleSubmit={handleSubmit} values={values} />
       </AccordionSection>
       {article && taxonomy && !!userPermissions?.includes(TAXONOMY_WRITE_SCOPE) && (
-        <AccordionSection
-          id={'topic-article-taxonomy'}
-          title={t('form.taxonomySection')}
-          className={'u-6/6'}>
-          <TaxonomyVersionProvider>
+        <TaxonomyVersionProvider>
+          <AccordionSection
+            id={'topic-article-taxonomy'}
+            title={t('form.taxonomySection')}
+            className={'u-6/6'}>
             <TopicArticleTaxonomy article={article} updateNotes={updateNotes} taxonomy={taxonomy} />
-          </TaxonomyVersionProvider>
-        </AccordionSection>
+          </AccordionSection>
+        </TaxonomyVersionProvider>
       )}
       <AccordionSection
         id={'topic-article-copyright'}

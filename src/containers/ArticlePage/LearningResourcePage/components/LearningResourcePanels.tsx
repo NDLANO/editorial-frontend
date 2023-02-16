@@ -66,18 +66,18 @@ const LearningResourcePanels = ({
         />
       </AccordionSection>
       {article && taxonomy && !!userPermissions?.includes(TAXONOMY_WRITE_SCOPE) && (
-        <AccordionSection
-          id={'learning-resource-taxonomy'}
-          title={t('form.taxonomySection')}
-          className={'u-6/6'}>
-          <TaxonomyVersionProvider>
+        <TaxonomyVersionProvider>
+          <AccordionSection
+            id={'learning-resource-taxonomy'}
+            title={t('form.taxonomySection')}
+            className={'u-6/6'}>
             <LearningResourceTaxonomy
               article={article}
               updateNotes={updateNotes}
               taxonomy={taxonomy}
             />
-          </TaxonomyVersionProvider>
-        </AccordionSection>
+          </AccordionSection>
+        </TaxonomyVersionProvider>
       )}
       <AccordionSection
         id={'learning-resource-copyright'}

@@ -9,6 +9,7 @@
 import { useRef, useEffect, RefObject, useState } from 'react';
 import { Descendant } from 'slate';
 import { useTranslation } from 'react-i18next';
+import { FormikContextType } from 'formik';
 import styled from '@emotion/styled';
 import { FieldHeader } from '@ndla/forms';
 import Tooltip from '@ndla/tooltip';
@@ -149,12 +150,12 @@ export const plugins = (
     listPlugin,
   ];
 };
-type Props = {
+interface Props extends FormikContextType<LearningResourceFormType> {
   articleLanguage: string;
   handleBlur: (evt: { target: { name: string } }) => void;
   values: LearningResourceFormType;
   handleSubmit: () => Promise<void>;
-};
+}
 
 const LearningResourceContent = ({
   articleLanguage,

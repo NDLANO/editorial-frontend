@@ -10,6 +10,8 @@ import { Formik, FormikProps, FormikHelpers, FormikErrors } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import { Descendant } from 'slate';
+import styled from '@emotion/styled';
+import { colors } from '@ndla/core';
 import { IAudioMetaInformation, INewSeries, ISeries } from '@ndla/types-audio-api';
 import { AbortButton, AlertModalWrapper } from '../../FormikForm';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
@@ -51,6 +53,14 @@ const podcastRules: RulesType<PodcastSeriesFormikType, ISeries> = {
     onlyValidateIf: (values: PodcastSeriesFormikType) => !!values.coverPhotoId,
   },
 };
+
+const AdminWarningTextWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  p {
+    color: ${colors.support.red};
+  }
+`;
 
 export interface PodcastSeriesFormikType {
   id?: number;
@@ -210,6 +220,11 @@ const PodcastSeriesForm = ({
                 }}
               />
             </Field>
+            {!isAudioAdmin ? (
+              <AdminWarningTextWrapper>
+                <p>Du kan ikke opprette eller endre podkastserier uten å ha admin-tilgang!</p>
+              </AdminWarningTextWrapper>
+            ) : null}
             <AlertModalWrapper
               {...formikProps}
               formIsDirty={formIsDirty}

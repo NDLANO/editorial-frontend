@@ -469,6 +469,7 @@ const phrases = {
     alreadyPartOfSeries: 'Del av ein anna serie',
     description: 'Beskrivelse',
     rss: 'Rss-feed',
+    adminError: 'Du kan ikkje opprette eller endre podkastseriar uten administrator-tilgang',
   },
   podcastForm: {
     title: 'Podkastepisode',

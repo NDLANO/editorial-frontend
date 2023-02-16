@@ -262,7 +262,7 @@ const phrases = {
       'revision-date-from': 'Revisjonsdato fra',
       'revision-date-to': 'Revisjonsdato til',
       'exclude-revision-log': 'Endringslogg ekskludert',
-      'responsible-ids': 'Velg ansvarlig',
+      'responsible-ids': 'Ansvarlig',
     },
     btn: 'Søk',
     empty: 'Tøm',

@@ -47,10 +47,10 @@ const LastUsedItems = ({ lastUsed = [] }: Props) => {
   );
 
   useEffect(() => {
-    if (data) {
+    if (data?.results) {
       setSortedData(data.results);
     }
-  }, [data]);
+  }, [data?.results]);
 
   const tableData: FieldElement[][] = useMemo(
     () =>

@@ -6,7 +6,7 @@
  *
  */
 
-import PropTypes from 'prop-types';
+import { ComponentProps } from 'react';
 import styled from '@emotion/styled';
 import { darken } from 'polished';
 import { colors } from '@ndla/core';
@@ -23,8 +23,6 @@ const StyledDeleteButton = styled(DeleteButton)`
   }
 `;
 
-export const EditorDeleteButton = props => <StyledDeleteButton stripped tabIndex="-1" {...props} />;
-
-EditorDeleteButton.propTypes = {
-  onClick: PropTypes.func.isRequired,
-};
+export const EditorDeleteButton = (props: ComponentProps<typeof DeleteButton>) => (
+  <StyledDeleteButton stripped tabIndex="-1" {...props} />
+);

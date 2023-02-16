@@ -11,7 +11,7 @@ import { colors } from '@ndla/core';
 import { Editor, Element, Transforms, Path } from 'slate';
 import { ReactEditor, RenderElementProps, useSelected } from 'slate-react';
 import styled from '@emotion/styled';
-import { IConcept } from '@ndla/types-concept-api';
+import { IConcept, IConceptSummary } from '@ndla/types-concept-api';
 import ConceptModal from '../ConceptModal';
 import { useFetchConceptData } from '../../../../../containers/FormikForm/formikConceptHooks';
 import mergeLastUndos from '../../../utils/mergeLastUndos';
@@ -69,7 +69,7 @@ const BlockConcept = ({ element, locale, editor, attributes, children }: Props) 
     }
   };
 
-  const addConcept = (addedConcept: IConcept) => {
+  const addConcept = (addedConcept: IConceptSummary | IConcept) => {
     setShowConcept(false);
     setTimeout(() => {
       handleSelectionChange(true);
@@ -132,7 +132,6 @@ const BlockConcept = ({ element, locale, editor, attributes, children }: Props) 
         </div>
       )}
       <ConceptModal
-        id={conceptId}
         isOpen={!conceptId && showConcept}
         onClose={onClose}
         addConcept={addConcept}

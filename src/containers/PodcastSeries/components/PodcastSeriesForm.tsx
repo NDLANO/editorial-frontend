@@ -222,7 +222,7 @@ const PodcastSeriesForm = ({
             </Field>
             {!isAudioAdmin ? (
               <AdminWarningTextWrapper>
-                <p>Du kan ikke opprette eller endre podkastserier uten å ha admin-tilgang!</p>
+                <p>{t('podcastSeriesForm.adminError')}</p>
               </AdminWarningTextWrapper>
             ) : null}
             <AlertModalWrapper

@@ -64,7 +64,7 @@ const StatusIcons = ({ article, contentMetaLoading, resource, path }: Props) => 
   return (
     <IconWrapper>
       {isApproachingRevision ? (
-        <RevisionDateIcon text="!" phrasesKey="form.responsible.revisionDateSingle" />
+        <RevisionDateIcon phrasesKey="form.responsible.revisionDateSingle" />
       ) : null}
       {!contentMetaLoading && (
         <WrongTypeError resource={resource} articleType={resource.contentMeta?.articleType} />

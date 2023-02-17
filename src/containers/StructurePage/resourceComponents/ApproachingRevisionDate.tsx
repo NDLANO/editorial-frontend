@@ -14,6 +14,7 @@ import isBefore from 'date-fns/isBefore';
 import { IArticle } from '@ndla/types-draft-api';
 import Tooltip from '@ndla/tooltip';
 import { useTranslation } from 'react-i18next';
+import { Time } from '@ndla/icons/common';
 import { fetchDrafts } from '../../../modules/draft/draftApi';
 import handleError from '../../../util/handleError';
 
@@ -26,19 +27,26 @@ const Wrapper = styled.div`
 `;
 
 const StyledIcon = styled.div`
-  color: ${colors.white};
   // TODO: Update when color is added to colors
-  background-color: #c77623;
+  background-color: transparent;
+  border: 1px solid #c77623;
   width: 20px;
   height: 20px;
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
+  color: #c77623;
+`;
+
+const StyledTimeIcon = styled(Time)`
+  width: 24px;
+  height: 24px;
+  color: #c77623;
 `;
 
 interface RevisionDateProps {
-  text: string | number;
+  text?: string | number;
   phrasesKey: string;
 }
 
@@ -47,9 +55,7 @@ export const RevisionDateIcon = ({ text, phrasesKey }: RevisionDateProps) => {
 
   return (
     <Tooltip tooltip={t(phrasesKey)}>
-      <Wrapper>
-        <StyledIcon>{text}</StyledIcon>
-      </Wrapper>
+      <Wrapper>{text || text === 0 ? <StyledIcon>{text}</StyledIcon> : <StyledTimeIcon />}</Wrapper>
     </Tooltip>
   );
 };

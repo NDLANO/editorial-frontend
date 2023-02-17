@@ -214,22 +214,20 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
     },
   ];
 
-  if (config.revisiondateEnabled === 'true') {
-    selectors.push(
-      {
-        value: search['revision-date-from'],
-        parameterName: 'revision-date-from',
-        width: 25,
-        formElementType: 'date-picker',
-      },
-      {
-        value: search['revision-date-to'],
-        parameterName: 'revision-date-to',
-        width: 25,
-        formElementType: 'date-picker',
-      },
-    );
-  }
+  selectors.push(
+    {
+      value: search['revision-date-from'],
+      parameterName: 'revision-date-from',
+      width: 25,
+      formElementType: 'date-picker',
+    },
+    {
+      value: search['revision-date-to'],
+      parameterName: 'revision-date-to',
+      width: 25,
+      formElementType: 'date-picker',
+    },
+  );
 
   return (
     <GenericSearchForm

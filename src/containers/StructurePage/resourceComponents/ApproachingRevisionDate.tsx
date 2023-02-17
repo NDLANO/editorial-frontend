@@ -8,7 +8,6 @@
 
 import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
-import { colors } from '@ndla/core';
 import addYears from 'date-fns/addYears';
 import isBefore from 'date-fns/isBefore';
 import { IArticle } from '@ndla/types-draft-api';

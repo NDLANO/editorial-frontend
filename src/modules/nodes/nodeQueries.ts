@@ -86,10 +86,7 @@ export interface NodeResourceMeta {
 
 export const nodeResourceMetasQueryKey = (params: Partial<UseNodeResourceMetas>) => [
   NODE_RESOURCES,
-  {
-    nodeId: params.nodeId,
-    language: params.language,
-  },
+  params,
 ];
 
 export const useNodeResourceMetas = (

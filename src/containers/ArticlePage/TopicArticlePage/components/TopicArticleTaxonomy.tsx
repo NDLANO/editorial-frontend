@@ -129,7 +129,7 @@ const TopicArticleTaxonomy = ({ article, setIsOpen, updateNotes, taxonomy }: Pro
         setStatus('error');
       }
     })();
-  }, [i18n.language, taxonomy, taxonomyVersion, topics]);
+  }, [i18n.language, taxonomyVersion, topics]);
 
   const getSubjectTopics = async (subjectId: string, locale: LocaleType) => {
     if (structure.some(subject => subject.id === subjectId && subject.topics)) {

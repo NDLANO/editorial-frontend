@@ -86,6 +86,7 @@ const SubjectDropdown = ({ filterSubject, setFilterSubject }: Props) => {
         isLoading={isLoading}
         isSearchable
         noOptionsMessage={() => t('form.responsible.noResults')}
+        isClearable
       />
     </Wrapper>
   );

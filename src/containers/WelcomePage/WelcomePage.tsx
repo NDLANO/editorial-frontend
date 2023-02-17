@@ -10,6 +10,8 @@ import { useTranslation } from 'react-i18next';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { SearchFolder } from '@ndla/icons/editor';
 import styled from '@emotion/styled';
+import { useMemo } from 'react';
+import { NAVIGATION_HEADER_MARGIN } from '../../constants';
 import { getAccessToken, getAccessTokenPersonal } from '../../util/authHelpers';
 import { isValid } from '../../util/jwtHelper';
 import SaveSearchUrl from './components/SaveSearchUrl';
@@ -20,7 +22,6 @@ import { StyledColumnHeader } from './styles';
 import WorkList from './components/WorkList';
 import WelcomeHeader from './components/WelcomeHeader';
 import { GridContainer, MainArea, LeftColumn, RightColumn } from '../../components/Layout/Layout';
-import { NAVIGATION_HEADER_MARGIN } from '../../constants';
 import { useSession } from '../Session/SessionProvider';
 
 export const Wrapper = styled.div`
@@ -36,7 +37,9 @@ export const WelcomePage = () => {
     enabled: isValid(getAccessToken()) && getAccessTokenPersonal(),
   });
   const { ndlaId } = useSession();
-  const lastUsed = data?.latestEditedArticles;
+  const lastUsed = useMemo(() => data?.latestEditedArticles?.map(l => Number(l)) ?? [], [
+    data?.latestEditedArticles,
+  ]);
 
   localStorage.setItem('lastPath', '');
 
@@ -48,10 +51,8 @@ export const WelcomePage = () => {
           <WelcomeHeader />
         </MainArea>
         <MainArea>{ndlaId && <WorkList ndlaId={ndlaId} />}</MainArea>
-        <LeftColumn>
-          <LastUsedItems lastUsed={lastUsed} />
-        </LeftColumn>
-        <RightColumn>
+        <LeftColumn colStart={2}>{ndlaId && <LastUsedItems lastUsed={lastUsed} />}</LeftColumn>
+        <RightColumn colEnd={12}>
           <StyledColumnHeader>
             <SearchFolder className="c-icon--medium" />
             <span>{t('welcomePage.savedSearch')}</span>

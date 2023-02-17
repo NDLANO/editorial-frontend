@@ -79,6 +79,24 @@ export const searchDrafts = async (query: DraftSearchQuery): Promise<ISearchResu
     body: JSON.stringify(query),
   }).then(r => resolveJsonOrRejectWithError<ISearchResult>(r));
 
+export const searchAllDrafts = async (
+  ids: number[],
+  language?: string,
+  sort?: string,
+): Promise<ISearchResult> => {
+  const query = queryString.stringify({
+    ids: ids.join(','),
+    language,
+    page: 1,
+    'page-size': ids.length,
+    sort,
+  });
+
+  return fetchAuthorized(`${baseUrl}/?${query}`, {
+    method: 'GET',
+  }).then(r => resolveJsonOrRejectWithError<ISearchResult>(r));
+};
+
 export const cloneDraft = async (
   id: number,
   language?: string,

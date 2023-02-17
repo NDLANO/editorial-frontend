@@ -119,6 +119,7 @@ const phrases = {
     guidelines: 'Retningslinjer',
     mustBeSearch: 'Lenken må være til et søk',
     lastUsed: 'Sist redigert',
+    lastUsedDescription: 'Artikler du har redigert nylig',
     savedSearch: 'Lagrede søk',
     saveSearch: 'Lagre søk',
     chooseSubject: 'Velg fag',
@@ -433,6 +434,7 @@ const phrases = {
     validation: {
       containsContent:
         'Emneartikler bør kun ha tittel, ingress og visuelt element. Innhold trengs ikke i de fleste tilfeller.',
+      illegalResource: 'Emneartikler bør kun ha bilde som visuelt element.',
     },
   },
   agreementForm: {
@@ -1569,6 +1571,7 @@ const phrases = {
     errors: {
       noPublishedVersion: 'Klarte ikke finne publisert versjon',
     },
+    numberRequests: 'Antall publiseringsforespørsler',
   },
   diff: {
     published:

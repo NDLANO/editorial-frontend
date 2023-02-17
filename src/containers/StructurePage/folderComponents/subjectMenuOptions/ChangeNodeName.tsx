@@ -35,7 +35,7 @@ import {
 } from '../../../../modules/nodes/nodeMutations';
 import Spinner from '../../../../components/Spinner';
 import { StyledErrorMessage } from '../styles';
-import { supportedLanguages } from '../../../../i18n2';
+import { subjectpageLanguages } from '../../../../i18n2';
 import { requiredField } from '../../../../util/yupValidators';
 import { isFormikFormDirty } from '../../../../util/formHelper';
 import { Row } from '../../../../components';
@@ -206,7 +206,7 @@ const ChangeNodeNameModal = ({ onClose, node }: ModalProps) => {
                   (prev, curr) => ({ ...prev, [curr.language]: '' }),
                   {},
                 );
-                const availableLanguages = supportedLanguages.filter(
+                const availableLanguages = subjectpageLanguages.filter(
                   trans => !Object.prototype.hasOwnProperty.call(takenLanguages, trans),
                 );
                 const formIsDirty: boolean = isFormikFormDirty({

@@ -68,7 +68,7 @@ interface Props {
 }
 
 const SlateFactAside = ({ children, onRemoveClick, attributes, onMoveContent }: Props) => {
-  const [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useState(true);
 
   const toggleExpanded = useCallback(evt => {
     evt.preventDefault();

@@ -174,7 +174,6 @@
     "he": "^1.2.0",
     "helmet": "^3.20.0",
     "history": "^5.1.0",
-    "hoist-non-react-statics": "^3.3.0",
     "i18next": "^21.9.2",
     "is-hotkey": "^0.1.4",
     "jwks-rsa": "^1.12.3",

@@ -252,13 +252,20 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
     setShowGrepCodes(false);
     if (!newGrepCodes || isEqual(newGrepCodes, resource.contentMeta?.grepCodes)) return;
     const compKey = nodeResourceMetasQueryKey({ nodeId: currentNodeId, language: i18n.language });
-    const metas = qc.getQueryData<NodeResourceMeta[]>(compKey) ?? [];
-    const newMetas = metas.map(meta =>
-      meta.contentUri === resource.contentMeta?.contentUri
-        ? { ...meta, grepCodes: newGrepCodes }
-        : meta,
+    qc.setQueriesData<NodeResourceMeta[]>(
+      {
+        queryKey: compKey,
+      },
+      data => {
+        return (
+          data?.map(meta =>
+            meta.contentUri === resource.contentMeta?.contentUri
+              ? { ...meta, grepCodes: newGrepCodes }
+              : meta,
+          ) ?? []
+        );
+      },
     );
-    qc.setQueryData(compKey, newMetas);
     qc.cancelQueries(compKey);
     await qc.invalidateQueries(compKey);
   };

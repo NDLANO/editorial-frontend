@@ -11,6 +11,7 @@ import { HelmetWithTracker } from '@ndla/tracker';
 import { SearchFolder } from '@ndla/icons/editor';
 import styled from '@emotion/styled';
 import { mq, breakpoints, spacing } from '@ndla/core';
+import { useMemo } from 'react';
 import { NAVIGATION_HEADER_MARGIN } from '../../constants';
 import { getAccessToken, getAccessTokenPersonal } from '../../util/authHelpers';
 import { isValid } from '../../util/jwtHelper';
@@ -53,10 +54,10 @@ const MainArea = styled.div`
 `;
 
 const LeftColumn = styled.div`
-  grid-column: 3 / 7;
+  grid-column: 2 / 7;
 `;
 const RightColumn = styled.div`
-  grid-column: 7 / 11;
+  grid-column: 7 / 12;
 `;
 
 export const WelcomePage = () => {
@@ -65,7 +66,9 @@ export const WelcomePage = () => {
     enabled: isValid(getAccessToken()) && getAccessTokenPersonal(),
   });
   const { ndlaId } = useSession();
-  const lastUsed = data?.latestEditedArticles;
+  const lastUsed = useMemo(() => data?.latestEditedArticles?.map(l => Number(l)) ?? [], [
+    data?.latestEditedArticles,
+  ]);
 
   localStorage.setItem('lastPath', '');
 
@@ -77,9 +80,7 @@ export const WelcomePage = () => {
           <WelcomeHeader />
         </MainArea>
         <MainArea>{ndlaId && <WorkList ndlaId={ndlaId} />}</MainArea>
-        <LeftColumn>
-          <LastUsedItems lastUsed={lastUsed} />
-        </LeftColumn>
+        <LeftColumn>{ndlaId && <LastUsedItems lastUsed={lastUsed} />}</LeftColumn>
         <RightColumn>
           <StyledColumnHeader>
             <SearchFolder className="c-icon--medium" />

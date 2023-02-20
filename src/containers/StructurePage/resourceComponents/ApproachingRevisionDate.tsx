@@ -16,6 +16,7 @@ import Tooltip from '@ndla/tooltip';
 import { useTranslation } from 'react-i18next';
 import { fetchDrafts } from '../../../modules/draft/draftApi';
 import handleError from '../../../util/handleError';
+import { getExpirationDate } from '../../ArticlePage/articleTransformers';
 
 const StyledWrapper = styled.div`
   color: ${colors.white};
@@ -49,9 +50,13 @@ interface Props {
 }
 
 export const getCountApproachingRevision = (articles: IArticle[]) => {
+  const expirationDates = articles
+    .map(a => getExpirationDate({ revisions: a.revisions }))
+    .filter(r => !!r);
+
   const currentDateAddYear = addYears(new Date(), 1);
-  const countApproachingRevision = articles.filter(a =>
-    isBefore(new Date(a?.revisions?.[0]?.revisionDate), currentDateAddYear),
+  const countApproachingRevision = expirationDates.filter(a =>
+    isBefore(new Date(a!), currentDateAddYear),
   ).length;
   return countApproachingRevision;
 };

@@ -125,6 +125,7 @@ const FrontpageArticleForm = ({
           isNewlyCreated={isNewlyCreated}
           isConcept={false}
           hideSecondaryButton={false}
+          responsibleId={article?.responsible?.responsibleId}
         />
         <AlertModalWrapper
           isSubmitting={isSubmitting}

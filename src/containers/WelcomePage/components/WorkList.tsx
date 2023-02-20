@@ -7,11 +7,8 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { spacing, colors } from '@ndla/core';
 import { Calendar } from '@ndla/icons/editor';
 import { useCallback, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { MultiValue } from '@ndla/select';
 import { useSearch } from '../../../modules/search/searchQueries';
 import { toEditArticle } from '../../../util/routeHelpers';
@@ -19,31 +16,14 @@ import TableComponent, { FieldElement, TitleElement } from './TableComponent';
 import TableTitle from './TableTitle';
 import SubjectDropdown from './SubjectDropdown';
 import formatDate from '../../../util/formatDate';
-
-const StyledWorkList = styled.div`
-  background-color: ${colors.brand.lighter};
-  border-radius: 10px;
-  padding: ${spacing.nsmall};
-`;
-
-const StyledTopRow = styled.div`
-  display: flex;
-  justify-content: space-between;
-`;
-
-export const StyledLink = styled(Link)`
-  line-height: 1.5em;
-  &:any-link {
-    color: ${colors.brand.primary};
-  }
-`;
+import { StyledDashboardInfo, StyledLink, StyledTopRowDashboardInfo } from '../styles';
 
 interface Props {
   ndlaId: string;
 }
 
 const WorkList = ({ ndlaId }: Props) => {
-  const [sortOption, setSortOption] = useState<string>();
+  const [sortOption, setSortOption] = useState<string>('-responsibleLastUpdated');
   const [filterSubjects, setFilterSubject] = useState<MultiValue>([]);
   const [error, setError] = useState();
 
@@ -112,15 +92,15 @@ const WorkList = ({ ndlaId }: Props) => {
     : [[]];
 
   return (
-    <StyledWorkList>
-      <StyledTopRow>
+    <StyledDashboardInfo>
+      <StyledTopRowDashboardInfo>
         <TableTitle
           title={t('welcomePage.workList.title')}
           description={t('welcomePage.workList.description')}
           Icon={Calendar}
         />
         <SubjectDropdown filterSubject={filterSubjects} setFilterSubject={updateFilterSubjects} />
-      </StyledTopRow>
+      </StyledTopRowDashboardInfo>
       <TableComponent
         isLoading={isLoading}
         tableTitleList={tableTitles}
@@ -130,7 +110,7 @@ const WorkList = ({ ndlaId }: Props) => {
         error={error}
         noResultsText={t('form.responsible.noArticles')}
       />
-    </StyledWorkList>
+    </StyledDashboardInfo>
   );
 };
 

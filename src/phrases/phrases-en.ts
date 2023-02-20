@@ -118,12 +118,12 @@ const phrases = {
     guidelines: 'Guidelines',
     mustBeSearch: 'Link must be a search url',
     lastUsed: 'Last edited',
+    lastUsedDescription: 'Your recently edited articles',
     savedSearch: 'Saved searches',
     saveSearch: 'Save search',
     chooseSubject: 'Choose subjects',
     chooseTopic: 'Choose topics',
     errorMessage: 'Failed to retrieve data',
-
     workList: {
       title: 'My tasks',
       description: 'Articles where I am responsible',
@@ -433,6 +433,7 @@ const phrases = {
     validation: {
       containsContent:
         'Topic articles should only have title, introduction and visualelement. The content is in most cases not needed.',
+      illegalResource: 'Topic articles should only have image as visual element.',
     },
   },
   agreementForm: {
@@ -468,6 +469,7 @@ const phrases = {
     alreadyPartOfSeries: 'Part of another series',
     description: 'Description',
     rss: 'Rss feed',
+    adminError: "You don't have access to create or update podcast series.",
   },
   podcastForm: {
     title: 'Podcast episode',
@@ -1565,6 +1567,7 @@ const phrases = {
     errors: {
       noPublishedVersion: 'Failed to find a published version',
     },
+    numberRequests: 'Number of publication request',
   },
   diff: {
     published:

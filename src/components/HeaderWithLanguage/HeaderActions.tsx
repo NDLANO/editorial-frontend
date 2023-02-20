@@ -70,7 +70,10 @@ const PreviewLightBox = ({
         }
       />
     );
-  } else if ((type === 'standard' || type === 'topic-article') && article) {
+  } else if (
+    (type === 'standard' || type === 'topic-article' || type === 'frontpage-article') &&
+    article
+  ) {
     if (!disableConverter) {
       return (
         <PreviewDraftLightbox

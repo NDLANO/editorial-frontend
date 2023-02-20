@@ -31,7 +31,7 @@ import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { useMessages } from '../Messages/MessagesProvider';
 import { NdlaErrorPayload } from '../../util/resolveJsonOrRejectWithError';
 import PreviewDraftLightboxV2 from '../../components/PreviewDraft/PreviewDraftLightboxV2';
-import config from '../../config';
+import { useDisableConverter } from '../../components/ArticleConverterContext';
 
 declare global {
   interface Window {
@@ -141,6 +141,7 @@ type Status = 'initial' | 'edit' | 'fetch-error' | 'access-error' | 'saving' | '
 const EditMarkupPage = () => {
   const { t } = useTranslation();
   const params = useParams<'draftId' | 'language'>();
+  const disableConverter = useDisableConverter();
   const draftId = Number(params.draftId) || undefined;
   const language = params.language!;
   const [status, setStatus] = useState<Status>('initial');
@@ -238,7 +239,7 @@ const EditMarkupPage = () => {
           onSave={saveChanges}
         />
         <StyledRow>
-          {!config.useArticleConverter && draft ? (
+          {disableConverter && draft ? (
             <PreviewDraftLightboxV2
               type="markup"
               language={language}

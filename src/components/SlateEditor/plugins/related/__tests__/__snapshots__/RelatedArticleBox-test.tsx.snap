@@ -1035,7 +1035,7 @@ exports[`it goes in and out of edit mode 2`] = `
                   class="c-related-articles__title"
                 >
                   <div
-                    class="c-content-type-badge c-content-type-badge--external-learning-resources c-content-type-badge--small c-content-type-badge--background c-content-type-badge--border"
+                    class="c-content-type-badge c-content-type-badge--external-learning-resources c-content-type-badge--small c-content-type-badge--background c-content-type-badge--border c-icon--medium"
                   >
                     <svg
                       aria-hidden="true"
@@ -1298,7 +1298,7 @@ exports[`it goes in and out of edit mode 2`] = `
             class="c-related-articles__title"
           >
             <div
-              class="c-content-type-badge c-content-type-badge--external-learning-resources c-content-type-badge--small c-content-type-badge--background c-content-type-badge--border"
+              class="c-content-type-badge c-content-type-badge--external-learning-resources c-content-type-badge--small c-content-type-badge--background c-content-type-badge--border c-icon--medium"
             >
               <svg
                 aria-hidden="true"

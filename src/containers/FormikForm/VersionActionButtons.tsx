@@ -14,7 +14,7 @@ import { IUpdatedArticle, IArticle } from '@ndla/types-draft-api';
 
 import { PreviewDraftLightbox } from '../../components';
 import PreviewDraftLightboxV2 from '../../components/PreviewDraft/PreviewDraftLightboxV2';
-import config from '../../config';
+import { useDisableConverter } from '../../components/ArticleConverterContext';
 
 interface Props {
   showFromArticleApi: boolean;
@@ -36,12 +36,13 @@ const VersionActionButtons = ({
   currentLanguage,
 }: Props) => {
   const { t } = useTranslation();
+  const disableConverter = useDisableConverter();
   // we only show preview and reset for current versions if they are the ONLY version
   // ie. that they were published before versions were introduced
   if (current && !showFromArticleApi) return null;
   return (
     <>
-      {!config.useArticleConverter ? (
+      {disableConverter ? (
         <PreviewDraftLightboxV2
           type="version"
           article={version}

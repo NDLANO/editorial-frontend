@@ -22,7 +22,7 @@ import HeaderLanguagePill from './HeaderLanguagePill';
 import PreviewConceptLightbox from '../PreviewConcept/PreviewConceptLightbox';
 import { useIsTranslatableToNN } from '../NynorskTranslateProvider';
 import PreviewDraftLightboxV2 from '../PreviewDraft/PreviewDraftLightboxV2';
-import config from '../../config';
+import { useDisableConverter } from '../ArticleConverterContext';
 
 type PreviewTypes = IConcept | IUpdatedArticle;
 
@@ -48,8 +48,9 @@ const PreviewLightBox = ({
   concept,
 }: PreviewLightBoxProps) => {
   const { t } = useTranslation();
+  const disableConverter = useDisableConverter();
   if (type === 'concept' && concept && supportedLanguages.length > 1) {
-    if (config.useArticleConverter) {
+    if (!disableConverter) {
       return (
         <PreviewConceptLightbox
           typeOfPreview="previewLanguageArticle"
@@ -70,7 +71,7 @@ const PreviewLightBox = ({
       />
     );
   } else if ((type === 'standard' || type === 'topic-article') && article) {
-    if (config.useArticleConverter) {
+    if (!disableConverter) {
       return (
         <PreviewDraftLightbox
           articleId={articleId}

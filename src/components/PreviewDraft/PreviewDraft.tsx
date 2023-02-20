@@ -176,7 +176,7 @@ export const PreviewDraftV2 = ({
     <Article
       //@ts-ignore
       article={article}
-      contentTransformed={!config.useArticleConverter}
+      contentTransformed
       icon={contentType ? <ContentTypeBadge type={contentType} background size="large" /> : null}
       id={draft.id.toString()}
       locale={language as LocaleType}

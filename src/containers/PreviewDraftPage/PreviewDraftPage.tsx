@@ -22,7 +22,7 @@ import { useTaxonomyVersion } from '../StructureVersion/TaxonomyVersionProvider'
 import LanguageSelector from './LanguageSelector';
 import { useDraft } from '../../modules/draft/draftQueries';
 import { useNodes } from '../../modules/nodes/nodeQueries';
-import config from '../../config';
+import { useDisableConverter } from '../../components/ArticleConverterContext';
 
 const PreviewDraftPageV2 = () => {
   const params = useParams<'draftId' | 'language'>();
@@ -67,7 +67,8 @@ const PreviewDraftPageV2 = () => {
 };
 
 const PreviewDraftPage = () => {
-  if (!config.useArticleConverter) {
+  const disableConverter = useDisableConverter();
+  if (disableConverter) {
     return <PreviewDraftPageV2 />;
   }
   return <PreviewDraftPageV1 />;

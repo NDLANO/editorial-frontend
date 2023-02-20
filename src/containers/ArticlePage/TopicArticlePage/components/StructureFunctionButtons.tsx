@@ -6,7 +6,6 @@
  *
  */
 
-import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import { Check } from '@ndla/icons/editor';
@@ -96,14 +95,6 @@ const StructureFunctionButtons = ({ isSubject, isOpen, id, activeTopics, addTopi
       )}
     </StyledButtonWrapper>
   );
-};
-
-StructureFunctionButtons.propTypes = {
-  isSubject: PropTypes.bool,
-  isOpen: PropTypes.bool,
-  id: PropTypes.string,
-  activeTopics: PropTypes.array.isRequired,
-  addTopic: PropTypes.func.isRequired,
 };
 
 export default StructureFunctionButtons;

@@ -6,7 +6,6 @@
  *
  */
 
-import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 
@@ -39,11 +38,6 @@ const FormikFieldDescription = ({ description, obligatory }: Props) => {
       <StyledFormikDescription obligatory={obligatory}>{description}</StyledFormikDescription>
     </StyledFormikDescriptionBlock>
   );
-};
-
-FormikFieldDescription.propTypes = {
-  obligatory: PropTypes.bool,
-  description: PropTypes.string,
 };
 
 export default FormikFieldDescription;

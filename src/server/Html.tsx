@@ -7,7 +7,6 @@
  */
 
 import { ReactElement } from 'react';
-import PropTypes from 'prop-types';
 import { renderToString } from 'react-dom/server';
 import serialize from 'serialize-javascript';
 import config from '../config';
@@ -111,13 +110,6 @@ const Html = (props: Props) => {
       </body>
     </html>
   );
-};
-
-Html.propTypes = {
-  lang: PropTypes.string.isRequired,
-  component: PropTypes.node,
-  state: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
-  className: PropTypes.string.isRequired,
 };
 
 export default Html;

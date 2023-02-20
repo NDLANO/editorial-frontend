@@ -6,8 +6,6 @@
  *
  */
 
-import PropTypes from 'prop-types';
-
 interface Props {
   name: string;
   label?: string;
@@ -28,12 +26,6 @@ const FormikFieldLabel = ({ label, noBorder, name }: Props) => {
       </label>
     </>
   );
-};
-
-FormikFieldLabel.propTypes = {
-  noBorder: PropTypes.bool,
-  name: PropTypes.string.isRequired,
-  label: PropTypes.string,
 };
 
 export default FormikFieldLabel;

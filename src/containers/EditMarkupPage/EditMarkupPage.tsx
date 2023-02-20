@@ -7,7 +7,6 @@
  */
 
 import { lazy, Suspense, useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import { spacing, colors } from '@ndla/core';
@@ -119,12 +118,6 @@ const ErrorMessage = ({ draftId, language, messageId }: ErrorMessageProps) => {
       </Row>
     </Container>
   );
-};
-
-ErrorMessage.propTypes = {
-  messageId: PropTypes.string.isRequired,
-  draftId: PropTypes.string.isRequired,
-  language: PropTypes.string.isRequired,
 };
 
 interface LocationState {

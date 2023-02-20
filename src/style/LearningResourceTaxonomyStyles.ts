@@ -11,7 +11,12 @@ const flexButtonCenterAlignStyle = css`
 
 /* Styled components */
 
-const StyledConnections = styled('div')`
+interface StyledConnectionsProps {
+  error?: boolean;
+  shared?: boolean;
+}
+
+const StyledConnections = styled.div<StyledConnectionsProps>`
   ${flexButtonCenterAlignStyle}
   justify-content: space-between;
   background: ${props => (props.error ? `${colors.support.red}11` : colors.brand.greyLightest)};
@@ -46,11 +51,15 @@ const StyledConnections = styled('div')`
     `};
 `;
 
-const StyledConnectionsWrapper = styled('div')`
+const StyledConnectionsWrapper = styled.div`
   padding-bottom: ${spacing.small};
 `;
 
-const StyledErrorLabel = styled('div')`
+interface StyledErrorLabelProps {
+  primary?: boolean;
+}
+
+const StyledErrorLabel = styled.div<StyledErrorLabelProps>`
   background: ${colors.support.red};
   border: 0;
   border-radius: ${misc.borderRadius};
@@ -66,22 +75,6 @@ const StyledErrorLabel = styled('div')`
     `};
 `;
 
-const StyledRelevanceButton = styled('button')`
-  border: 0;
-  background: none;
-  transition: opacity 200ms ease;
-  opacity: ${props => (props.selected ? 1 : 0.3)};
-  &:hover,
-  &:focus {
-    opacity: 1;
-  }
-  ${flexButtonCenterAlignStyle};
-  ${fonts.sizes(14, 1.1)};
-  svg {
-    margin-right: ${spacing.xsmall};
-  }
-`;
-
 const connectionButtonStyle = css`
   border: 0;
   border-radius: ${misc.borderRadius};
@@ -91,7 +84,11 @@ const connectionButtonStyle = css`
   ${fonts.sizes(14, 1.1)} font-weight: ${fonts.weight.semibold};
 `;
 
-const StyledPrimaryConnectionButton = styled('button')`
+interface StyledPrimaryConnectionButtonProps {
+  primary?: boolean;
+}
+
+const StyledPrimaryConnectionButton = styled.button<StyledPrimaryConnectionButtonProps>`
   ${connectionButtonStyle}
   background: ${colors.support.green};
   opacity: 0.3;
@@ -107,12 +104,12 @@ const StyledPrimaryConnectionButton = styled('button')`
     `};
 `;
 
-const StyledDuplicateConnectionLabel = styled('div')`
+const StyledDuplicateConnectionLabel = styled.div`
   ${connectionButtonStyle}
   background: ${colors.brand.light};
 `;
 
-const StyledRemoveConnectionButton = styled('button')`
+const StyledRemoveConnectionButton = styled.button`
   border: 0;
   border-radius: 100%;
   padding: 0;
@@ -129,18 +126,12 @@ const StyledRemoveConnectionButton = styled('button')`
   }
 `;
 
-const StyledSubjectName = styled('div')`
-  padding: ${props => (props.firstSubject ? spacing.small : spacing.medium)} 0 ${spacing.xsmall};
-`;
-
 export {
   flexButtonCenterAlignStyle,
   StyledConnections,
   StyledConnectionsWrapper,
   StyledErrorLabel,
-  StyledRelevanceButton,
   StyledPrimaryConnectionButton,
   StyledRemoveConnectionButton,
   StyledDuplicateConnectionLabel,
-  StyledSubjectName,
 };

@@ -6,31 +6,31 @@
  *
  */
 
-import PropTypes from 'prop-types';
+import { HTMLAttributes, MouseEventHandler, ReactNode } from 'react';
 import styled from '@emotion/styled';
 import { colors } from '@ndla/core';
 import { EditorDeleteButton } from './common/EditorDeleteButton';
-import { AttributesShape } from '../../shapes';
 
-const StyledEditorErrorMessage = styled('div')`
+const StyledEditorErrorMessage = styled.div`
   position: relative;
   border: 1px solid ${colors.support.red};
   color: ${colors.support.red};
   padding: 1rem;
 `;
 
-const EditorErrorMessage = ({ msg, attributes, onRemoveClick, children }) => (
+interface Props {
+  msg: string;
+  onRemoveClick?: MouseEventHandler;
+  attributes?: HTMLAttributes<HTMLDivElement>;
+  children?: ReactNode;
+}
+
+const EditorErrorMessage = ({ msg, attributes, onRemoveClick, children }: Props) => (
   <StyledEditorErrorMessage {...attributes} contentEditable={false}>
     {onRemoveClick && <EditorDeleteButton onClick={onRemoveClick} />}
     <span>{msg}</span>
     {children}
   </StyledEditorErrorMessage>
 );
-
-EditorErrorMessage.propTypes = {
-  attributes: AttributesShape,
-  msg: PropTypes.string.isRequired,
-  onRemoveClick: PropTypes.func,
-};
 
 export default EditorErrorMessage;

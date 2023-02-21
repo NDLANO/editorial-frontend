@@ -100,6 +100,7 @@ const TopicArticleForm = ({
       <StyledForm>
         <HeaderWithLanguage
           taxonomy={articleTaxonomy}
+          article={article}
           values={values}
           content={{
             ...article,

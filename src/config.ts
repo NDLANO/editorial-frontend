@@ -169,6 +169,7 @@ export type ConfigType = {
   brightcoveCopyrightPlayerId: string | undefined;
   disableCSP: string | undefined;
   usernamePasswordEnabled: boolean;
+  disableConverter: boolean;
 };
 
 const config: ConfigType = {
@@ -208,6 +209,7 @@ const config: ConfigType = {
   gaTrackingId: getEnvironmentVariabel('GA_TRACKING_ID', gaTrackingId()),
   zendeskWidgetKey: getEnvironmentVariabel('NDLA_ED_ZENDESK_WIDGET_KEY'),
   disableCSP: getEnvironmentVariabel('DISABLE_CSP', 'false'),
+  disableConverter: getEnvironmentVariabel('USE_ARTICLE_CONVERTER', 'false') === 'true',
   usernamePasswordEnabled: getEnvironmentVariabel(
     'USERNAME_PASSWORD_ENABLED',
     usernamePasswordEnabled(),

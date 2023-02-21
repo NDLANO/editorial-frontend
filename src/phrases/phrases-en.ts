@@ -1417,6 +1417,7 @@ const phrases = {
       edit: 'Edit grep codes',
       empty: 'No existing grep codes',
       addNew: 'Add new grep code',
+      delete: 'Remove {{grepCode}}',
     },
     copyRevisionDates: {
       text:

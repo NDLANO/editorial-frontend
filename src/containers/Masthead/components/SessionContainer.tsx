@@ -10,7 +10,7 @@ import { useState } from 'react';
 import FocusTrapReact from 'focus-trap-react';
 import styled from '@emotion/styled';
 import { User } from '@ndla/icons/common';
-import Button from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 import { useTranslation } from 'react-i18next';
 import { colors, spacing } from '@ndla/core';
 import { Link } from 'react-router-dom';
@@ -59,14 +59,14 @@ const SessionContainer = ({ close }: Props) => {
       {authenticated && isAccessTokenPersonal ? (
         <div>
           <StyledUserIcon className="c-icon--22" />
-          <Button
+          <ButtonV2
             onClick={() => {
               toggleOpen();
               close();
             }}
-            link>
+            variant="link">
             {userName}
-          </Button>
+          </ButtonV2>
         </div>
       ) : (
         <Link to={toLogin()}>{t('siteNav.login')}</Link>

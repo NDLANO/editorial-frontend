@@ -8,8 +8,8 @@
 
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import Button from '@ndla/button';
-import { spacing } from '@ndla/core';
+import { ButtonV2 } from '@ndla/button';
+import { spacing, colors } from '@ndla/core';
 import { Plus } from '@ndla/icons/action';
 import styled from '@emotion/styled';
 import { NodeType, SUBJECT_NODE } from '../../../../../modules/nodes/nodeApiTypes';
@@ -49,8 +49,8 @@ const StyledFilterWrapper = styled.div`
   position: relative;
 `;
 
-const StyledButton = styled(Button)`
-  text-decoration: underline;
+const StyledButton = styled(ButtonV2)`
+  color: ${colors.brand.greyDark};
 `;
 
 const MenuItemCustomField = ({ node, onCurrentNodeChanged }: Props) => {
@@ -143,7 +143,11 @@ const MenuItemCustomField = ({ node, onCurrentNodeChanged }: Props) => {
         <CustomFieldComponent onSubmit={setCustomFields} onClose={() => setOpen(false)} />
       ) : (
         <StyledFilterWrapper>
-          <StyledButton stripped data-testid="addCustomFieldButton" onClick={() => setOpen(true)}>
+          <StyledButton
+            variant="link"
+            colorTheme="greyLighter"
+            data-testid="addCustomFieldButton"
+            onClick={() => setOpen(true)}>
             <Plus />
             {t('taxonomy.metadata.customFields.addField')}
           </StyledButton>

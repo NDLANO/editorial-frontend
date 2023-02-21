@@ -124,6 +124,7 @@ const phrases = {
     chooseSubject: 'Choose subjects',
     chooseTopic: 'Choose topics',
     errorMessage: 'Failed to retrieve data',
+    goToSearch: 'Go to search',
     workList: {
       title: 'My tasks',
       description: 'Articles where I am responsible',
@@ -244,6 +245,7 @@ const phrases = {
       'revision-date-from': 'Revisiondate from',
       'revision-date-to': 'Revisiondate to',
       'exclude-revision-log': 'Exclude revision log',
+      'responsible-ids': 'Select responsible',
     },
     tagType: {
       query: 'Query',
@@ -259,6 +261,7 @@ const phrases = {
       'revision-date-from': 'Revisiondate from',
       'revision-date-to': 'Revisiondate to',
       'exclude-revision-log': 'Revision log excluded',
+      'responsible-ids': 'Responsible',
     },
     btn: 'Search',
     empty: 'Empty',
@@ -469,6 +472,7 @@ const phrases = {
     alreadyPartOfSeries: 'Part of another series',
     description: 'Description',
     rss: 'Rss feed',
+    adminError: "You don't have access to create or update podcast series.",
   },
   podcastForm: {
     title: 'Podcast episode',

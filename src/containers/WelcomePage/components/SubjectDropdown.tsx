@@ -9,7 +9,7 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import uniq from 'lodash/uniq';
-import { Option, Select, MultiValue } from '@ndla/select';
+import { Option, Select, SingleValue } from '@ndla/select';
 import styled from '@emotion/styled';
 import { useSearch } from '../../../modules/search/searchQueries';
 import { fetchSubject } from '../../../modules/taxonomy';
@@ -22,8 +22,8 @@ const Wrapper = styled.div`
 `;
 
 interface Props {
-  filterSubject: MultiValue | undefined;
-  setFilterSubject: (fs: MultiValue) => void;
+  filterSubject: SingleValue | undefined;
+  setFilterSubject: (fs: SingleValue) => void;
 }
 
 const SubjectDropdown = ({ filterSubject, setFilterSubject }: Props) => {
@@ -31,7 +31,7 @@ const SubjectDropdown = ({ filterSubject, setFilterSubject }: Props) => {
   const { ndlaId } = useSession();
   const { taxonomyVersion } = useTaxonomyVersion();
 
-  const { data, isLoading } = useSearch({
+  const { data, isInitialLoading } = useSearch({
     'responsible-ids': ndlaId,
     'aggregate-paths': 'contexts.subjectId',
   });
@@ -74,20 +74,19 @@ const SubjectDropdown = ({ filterSubject, setFilterSubject }: Props) => {
 
   return (
     <Wrapper>
-      <Select<true>
+      <Select<false>
         options={subjectList}
         placeholder={t('welcomePage.chooseSubject')}
         value={filterSubject}
         onChange={setFilterSubject}
         menuPlacement="bottom"
-        isMulti
         small
         outline
         postfix={t('subjectsPage.subjects').toLowerCase()}
-        isLoading={isLoading}
-        closeMenuOnSelect={false}
+        isLoading={isInitialLoading}
         isSearchable
         noOptionsMessage={() => t('form.responsible.noResults')}
+        isClearable
       />
     </Wrapper>
   );

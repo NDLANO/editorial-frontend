@@ -6,7 +6,7 @@
  *
  */
 
-import { useQuery, UseQueryOptions } from 'react-query';
+import { useQuery, UseQueryOptions } from '@tanstack/react-query';
 import { Auth0UserData } from '../../interfaces';
 import { AUTH0_EDITORS, AUTH0_RESPONSIBLES, AUTH0_USERS } from '../../queryKeys';
 import { fetchAuth0Editors, fetchAuth0Responsibles, fetchAuth0Users } from './auth0Api';

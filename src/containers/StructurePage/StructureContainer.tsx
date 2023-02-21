@@ -124,7 +124,7 @@ const StructureContainer = () => {
           <LeftColumn colStart={1}>
             <StructureBanner onChange={toggleShowFavorites} checked={showFavorites} />
             <StyledStructureContainer>
-              {userDataQuery.isLoading || nodesQuery.isLoading ? (
+              {userDataQuery.isInitialLoading || nodesQuery.isInitialLoading ? (
                 <Spinner />
               ) : (
                 <StructureWrapper data-cy="structure">

@@ -6,7 +6,7 @@
  *
  */
 
-import { useMutation, useQueryClient } from 'react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { IFilmFrontPageData, INewOrUpdatedFilmFrontPageData } from '@ndla/types-frontpage-api';
 import { updateFilmFrontpage } from './frontpageApi';
 import { filmFrontpageQueryKey } from './filmQueries';

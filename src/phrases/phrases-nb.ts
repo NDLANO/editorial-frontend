@@ -125,6 +125,7 @@ const phrases = {
     chooseSubject: 'Velg fag',
     chooseTopic: 'Velg emner',
     errorMessage: 'Innhenting av data feilet',
+    goToSearch: 'Gå til søk',
     workList: {
       title: 'Mine arbeidsoppgaver',
       description: 'Artikler hvor jeg står i ansvarlig-feltet',
@@ -245,6 +246,7 @@ const phrases = {
       'revision-date-from': 'Revisjonsdato fra',
       'revision-date-to': 'Revisjonsdato til',
       'exclude-revision-log': 'Ekskluder endringslogg',
+      'responsible-ids': 'Velg ansvarlig',
     },
     tagType: {
       query: 'Innhold',
@@ -260,6 +262,7 @@ const phrases = {
       'revision-date-from': 'Revisjonsdato fra',
       'revision-date-to': 'Revisjonsdato til',
       'exclude-revision-log': 'Endringslogg ekskludert',
+      'responsible-ids': 'Ansvarlig',
     },
     btn: 'Søk',
     empty: 'Tøm',
@@ -470,6 +473,7 @@ const phrases = {
     alreadyPartOfSeries: 'Del av en annen serie',
     description: 'Beskrivelse',
     rss: 'Rss-feed',
+    adminError: 'Du har ikke tilgang til å opprette eller endre podkastserier.',
   },
   podcastForm: {
     title: 'Podkastepisode',

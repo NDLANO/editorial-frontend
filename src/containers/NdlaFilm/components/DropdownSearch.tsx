@@ -5,12 +5,10 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import PropTypes from 'prop-types';
 import { IMultiSearchSummary } from '@ndla/types-search-api';
 import { IArticle } from '@ndla/types-draft-api';
 import { ILearningPathV2 } from '@ndla/types-learningpath-api';
 import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropdown';
-import { ContentResultShape } from '../../../shapes';
 import { searchResources } from '../../../modules/search/searchApi';
 
 interface Props {
@@ -66,16 +64,6 @@ const DropdownSearch = ({
       onClick={onClick}
     />
   );
-};
-
-DropdownSearch.propTypes = {
-  selectedElements: PropTypes.arrayOf(ContentResultShape),
-  onChange: PropTypes.func.isRequired,
-  placeholder: PropTypes.string.isRequired,
-  subjectId: PropTypes.string,
-  contextTypes: PropTypes.string,
-  clearInputField: PropTypes.bool,
-  onClick: PropTypes.func,
 };
 
 export default DropdownSearch;

@@ -1,6 +1,6 @@
 import { ReactElement } from 'react';
 import { NavLink } from 'react-router-dom';
-import { UseQueryResult } from 'react-query';
+import { UseQueryResult } from '@tanstack/react-query';
 import styled from '@emotion/styled';
 import { spacing, colors } from '@ndla/core';
 import { SearchType } from '../../../interfaces';

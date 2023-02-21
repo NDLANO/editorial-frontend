@@ -8,9 +8,9 @@
 
 import { useRef, useEffect, RefObject, useState } from 'react';
 import { Descendant } from 'slate';
-import { withTranslation, CustomWithTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
+import { useTranslation } from 'react-i18next';
 import { FormikContextType } from 'formik';
+import styled from '@emotion/styled';
 import { FieldHeader } from '@ndla/forms';
 import Tooltip from '@ndla/tooltip';
 import { Eye } from '@ndla/icons/editor';
@@ -56,8 +56,7 @@ import { LocaleType } from '../../../../interfaces';
 import { LearningResourceFormType } from '../../../FormikForm/articleFormHooks';
 import { dndPlugin } from '../../../../components/SlateEditor/plugins/DND';
 import { SlatePlugin } from '../../../../components/SlateEditor/interfaces';
-import { SessionProps } from '../../../Session/SessionProvider';
-import withSession from '../../../Session/withSession';
+import { useSession } from '../../../Session/SessionProvider';
 import RichTextEditor from '../../../../components/SlateEditor/RichTextEditor';
 import { spanPlugin } from '../../../../components/SlateEditor/plugins/span';
 import { TYPE_FOOTNOTE } from '../../../../components/SlateEditor/plugins/footnote/types';
@@ -151,23 +150,21 @@ export const plugins = (
     listPlugin,
   ];
 };
-type Props = {
+interface Props {
   articleLanguage: string;
   handleBlur: (evt: { target: { name: string } }) => void;
   values: LearningResourceFormType;
   handleSubmit: () => Promise<void>;
-} & CustomWithTranslation & {
-    formik: FormikContextType<LearningResourceFormType>;
-  } & SessionProps;
+  formik: FormikContextType<LearningResourceFormType>;
+}
 
 const LearningResourceContent = ({
-  t,
-  userPermissions,
   articleLanguage,
   values: { id, language, creators, published },
   handleSubmit,
-  i18n,
 }: Props) => {
+  const { t, i18n } = useTranslation();
+  const { userPermissions } = useSession();
   const handleSubmitRef = useRef(handleSubmit);
 
   const [preview, setPreview] = useState(false);
@@ -246,4 +243,4 @@ const LearningResourceContent = ({
   );
 };
 
-export default withTranslation()(withSession(LearningResourceContent));
+export default LearningResourceContent;

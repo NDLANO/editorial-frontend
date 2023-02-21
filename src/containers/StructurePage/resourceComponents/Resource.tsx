@@ -16,7 +16,7 @@ import { colors, spacing, breakpoints, fonts } from '@ndla/core';
 import { DragVertical } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
 import SafeLink from '@ndla/safelink';
-import { useQueryClient } from 'react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import { DraggableProvidedDragHandleProps } from 'react-beautiful-dnd';
 import isEqual from 'lodash/isEqual';
 import {
@@ -227,13 +227,20 @@ const Resource = ({
     setShowGrepCodes(false);
     if (!newGrepCodes || isEqual(newGrepCodes, resource.contentMeta?.grepCodes)) return;
     const compKey = nodeResourceMetasQueryKey({ nodeId: currentNodeId, language: i18n.language });
-    const metas = qc.getQueryData<NodeResourceMeta[]>(compKey) ?? [];
-    const newMetas = metas.map(meta =>
-      meta.contentUri === resource.contentMeta?.contentUri
-        ? { ...meta, grepCodes: newGrepCodes }
-        : meta,
+    qc.setQueriesData<NodeResourceMeta[]>(
+      {
+        queryKey: compKey,
+      },
+      data => {
+        return (
+          data?.map(meta =>
+            meta.contentUri === resource.contentMeta?.contentUri
+              ? { ...meta, grepCodes: newGrepCodes }
+              : meta,
+          ) ?? []
+        );
+      },
     );
-    qc.setQueryData(compKey, newMetas);
     qc.cancelQueries(compKey);
     await qc.invalidateQueries(compKey);
   };

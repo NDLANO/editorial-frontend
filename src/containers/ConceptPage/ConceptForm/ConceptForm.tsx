@@ -24,7 +24,6 @@ import {
   getUpdatedConceptType,
 } from '../conceptTransformers';
 import { ConceptArticles, ConceptCopyright, ConceptContent, ConceptMetaData } from '../components';
-
 import { ConceptFormValues } from '../conceptInterfaces';
 import { SubjectType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import ConceptFormFooter from './ConceptFormFooter';
@@ -107,6 +106,9 @@ const conceptFormRules: RulesType<ConceptFormValues, IConcept> = {
       if (!values.license || values.license === 'N/A' || authors.length > 0) return undefined;
       return { translationKey: 'validation.noLicenseWithoutCopyrightHolder' };
     },
+  },
+  responsibleId: {
+    required: true,
   },
 };
 
@@ -265,6 +267,7 @@ const ConceptForm = ({
               showSimpleFooter={!concept?.id}
               onClose={onClose}
               getApiConcept={getEntity}
+              responsibleId={concept?.responsible?.responsibleId}
             />
           </FormWrapper>
         );

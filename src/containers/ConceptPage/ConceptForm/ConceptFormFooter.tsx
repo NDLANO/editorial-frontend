@@ -26,6 +26,7 @@ interface Props {
   showSimpleFooter: boolean;
   onClose?: () => void;
   getApiConcept?: () => IConcept;
+  responsibleId?: string;
 }
 
 const ConceptFormFooter = ({
@@ -37,6 +38,7 @@ const ConceptFormFooter = ({
   showSimpleFooter,
   onClose,
   getApiConcept,
+  responsibleId,
 }: Props) => {
   const { t } = useTranslation();
   const formikContext = useFormikContext<ConceptFormValues>();
@@ -83,6 +85,7 @@ const ConceptFormFooter = ({
           isConcept
           isNewlyCreated={isNewlyCreated}
           hasErrors={isSubmitting || !formIsDirty || disableSave}
+          responsibleId={responsibleId}
         />
       )}
       {!inModal && (

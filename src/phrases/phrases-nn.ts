@@ -125,6 +125,7 @@ const phrases = {
     chooseSubject: 'Velg fag',
     chooseTopic: 'Velg emner',
     errorMessage: 'Innhenting av data feila',
+    goToSearch: 'Gå til søk',
     workList: {
       title: 'Mine arbeidsoppgåver',
       description: 'Artiklar der eg står i ansvarleg-feltet',
@@ -245,6 +246,7 @@ const phrases = {
       'revision-date-from': 'Revisjonsdato fra',
       'revision-date-to': 'Revisjonsdato til',
       'exclude-revision-log': 'Ekskluder endringslogg',
+      'responsible-ids': 'Velg ansvarleg',
     },
     tagType: {
       query: 'Innhald',
@@ -260,6 +262,7 @@ const phrases = {
       'revision-date-from': 'Revisjonsdato fra',
       'revision-date-to': 'Revisjonsdato til',
       'exclude-revision-log': 'Endringslogg ekskludert',
+      'responsible-ids': 'Ansvarleg',
     },
     btn: 'Søk',
     empty: 'Tøm',

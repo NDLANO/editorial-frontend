@@ -11,10 +11,8 @@ import { useTranslation } from 'react-i18next';
 import Button from '@ndla/button';
 import { FieldHeader, FieldSection, Input } from '@ndla/forms';
 import { Link as LinkIcon } from '@ndla/icons/common';
-
 import { getAccessToken, getAccessTokenPersonal } from '../../../util/authHelpers';
 import { isValid } from '../../../util/jwtHelper';
-
 import SavedSearch from './SavedSearch';
 import { isNDLAEdSearchUrl } from '../../../util/htmlHelpers';
 import { useUpdateUserDataMutation, useUserData } from '../../../modules/draft/draftQueries';

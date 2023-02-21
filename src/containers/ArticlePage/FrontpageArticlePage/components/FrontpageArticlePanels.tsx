@@ -10,7 +10,6 @@ import { useTranslation } from 'react-i18next';
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import { FormikHelpers, useFormikContext } from 'formik';
 import { IUpdatedArticle, IArticle } from '@ndla/types-draft-api';
-import config from '../../../../config';
 import { CopyrightFieldGroup, VersionAndNotesPanel, MetaDataField } from '../../../FormikForm';
 import { FrontpageArticleFormType } from '../../../FormikForm/articleFormHooks';
 import RevisionNotes from '../../components/RevisionNotes';
@@ -63,15 +62,14 @@ const FrontpageArticlePanels = ({ article, getArticle, handleSubmit, articleLang
         hasError={!!(errors.metaDescription || errors.metaImageAlt || errors.tags)}>
         <MetaDataField articleLanguage={articleLanguage} />
       </AccordionSection>
-      {config.revisiondateEnabled === 'true' && (
-        <AccordionSection
-          id={'frontpage-article-revisions'}
-          title={t('form.name.revisions')}
-          className={'u-6/6'}
-          hasError={!!errors.revisionMeta || !!errors.revisionError}>
-          <RevisionNotes />
-        </AccordionSection>
-      )}
+      <AccordionSection
+        id={'frontpage-article-revisions'}
+        title={t('form.name.revisions')}
+        className={'u-6/6'}
+        hasError={!!errors.revisionMeta || !!errors.revisionError}>
+        <RevisionNotes />
+      </AccordionSection>
+
       {article && (
         <AccordionSection
           id={'frontpage-article-workflow'}

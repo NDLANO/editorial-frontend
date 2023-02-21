@@ -10,7 +10,7 @@ import { ComponentType } from 'react';
 import loadable from '@loadable/component';
 import { useTranslation } from 'react-i18next';
 import { Navigate, Route, Routes, useLocation, useParams } from 'react-router-dom';
-import { UseQueryOptions, UseQueryResult } from 'react-query';
+import { UseQueryOptions, UseQueryResult } from '@tanstack/react-query';
 import { OneColumn } from '@ndla/ui';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { usePreviousLocation } from '../util/routeHelpers';
@@ -90,11 +90,11 @@ const EditResourceRedirect = <T extends BaseResource>({
   const locale = i18n.language;
   const { id } = useParams<'id'>();
   const parsedId = Number(id);
-  const { data, error, isLoading } = useHook(
+  const { data, error, isInitialLoading } = useHook(
     { id: parsedId, language: undefined },
     { enabled: !!parsedId },
   );
-  if (isLoading) return <Spinner />;
+  if (isInitialLoading) return <Spinner />;
   if (error || !data || !parsedId) return <NotFoundPage />;
   const supportedLanguage =
     data.supportedLanguages.find(l => l === locale) ?? data.supportedLanguages[0];

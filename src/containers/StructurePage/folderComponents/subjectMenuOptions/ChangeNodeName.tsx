@@ -7,7 +7,7 @@
  */
 
 import { useState } from 'react';
-import { useQueryClient } from 'react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import { FieldArray, Formik, FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
@@ -104,7 +104,7 @@ const ChangeNodeNameModal = ({ onClose, node }: ModalProps) => {
   const { taxonomyVersion } = useTaxonomyVersion();
   const { id, name } = node;
 
-  const { data: translations, isLoading: loading, refetch } = useNodeTranslations(
+  const { data: translations, isInitialLoading: loading, refetch } = useNodeTranslations(
     { id, taxonomyVersion },
     {
       onError: e => {

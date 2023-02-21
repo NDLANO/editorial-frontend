@@ -7,7 +7,7 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import Button from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 import { getLicenseByAbbreviation } from '@ndla/licenses';
 import { LicenseByline } from '@ndla/notion';
 import { colors } from '@ndla/core';
@@ -38,7 +38,8 @@ interface Props {
   editing: boolean;
 }
 
-const StyledButton = styled(Button)`
+const StyledButton = styled(ButtonV2)`
+  min-height: 24px;
   line-height: 1;
   font-size: 0.7rem;
   padding: 4px 6px;

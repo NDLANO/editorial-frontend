@@ -7,7 +7,7 @@
  */
 
 import styled from '@emotion/styled';
-import Button from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 import { Formik, FormikHelpers } from 'formik';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -158,9 +158,9 @@ const VersionForm = ({ version, existingVersions, onClose }: Props) => {
               <Row>
                 <Field>
                   {version && version.versionType === 'BETA' && (
-                    <Button disabled={dirty} onClick={() => setShowAlertModal(true)}>
+                    <ButtonV2 disabled={dirty} onClick={() => setShowAlertModal(true)}>
                       {t('taxonomyVersions.publishButton')}
-                    </Button>
+                    </ButtonV2>
                   )}
                 </Field>
                 <Field right>

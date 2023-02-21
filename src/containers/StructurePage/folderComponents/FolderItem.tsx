@@ -16,7 +16,7 @@ import Spinner from '../../../components/Spinner';
 import SettingsMenu from './SettingsMenu';
 
 const StyledResourceButton = styled(ButtonV2)`
-  min-height: 0px;
+  min-height: unset;
   margin: 3px ${spacing.xsmall} 3px auto;
   ${fonts.sizes(14, 1.1)};
 `;

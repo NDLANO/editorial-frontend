@@ -39,6 +39,7 @@ const StickyDiv = styled.div<StickyDivProps>`
   width: 40%;
   transform: translateX(-50%);
   padding: ${spacing.small};
+  max-width: 400px;
 `;
 
 const StickyVersionSelector = () => {

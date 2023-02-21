@@ -26,7 +26,7 @@ import { useTaxonomyVersion } from '../StructureVersion/TaxonomyVersionProvider'
 import StickyVersionSelector from './StickyVersionSelector';
 import config from '../../config';
 import { createGuard } from '../../util/guards';
-import { GridContainer, MainArea, LeftColumn, RightColumn } from '../../components/Layout/Layout';
+import { GridContainer, LeftColumn, RightColumn } from '../../components/Layout/Layout';
 import StructureBanner from './StructureBanner';
 
 const StructureWrapper = styled.ul`
@@ -154,11 +154,8 @@ const StructureContainer = () => {
               />
             )}
           </RightColumn>
-          <MainArea>
-            {config.versioningEnabled === 'true' && isTaxonomyAdmin && <StickyVersionSelector />}
-          </MainArea>
         </GridContainer>
-
+        {config.versioningEnabled === 'true' && isTaxonomyAdmin && <StickyVersionSelector />}
         <Footer showLocaleSelector />
       </Wrapper>
     </ErrorBoundary>

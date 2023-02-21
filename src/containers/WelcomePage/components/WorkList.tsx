@@ -7,30 +7,22 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { Calendar } from '@ndla/icons/editor';
 import { useCallback, useState } from 'react';
 import { MultiValue } from '@ndla/select';
+import { TabsV2 } from '@ndla/tabs';
 import { useSearch } from '../../../modules/search/searchQueries';
-import { toEditArticle } from '../../../util/routeHelpers';
-import TableComponent, { FieldElement, TitleElement } from './TableComponent';
-import TableTitle from './TableTitle';
-import SubjectDropdown from './SubjectDropdown';
-import formatDate from '../../../util/formatDate';
-import { StyledDashboardInfo, StyledLink, StyledTopRowDashboardInfo } from '../styles';
-
+import WorkListTabContent from './WorkListTabContent';
 interface Props {
   ndlaId: string;
 }
 
 const WorkList = ({ ndlaId }: Props) => {
   const [sortOption, setSortOption] = useState<string>('-responsibleLastUpdated');
-  const [filterSubjects, setFilterSubject] = useState<MultiValue>([]);
   const [error, setError] = useState();
 
-  const updateSortOption = useCallback((v: string) => setSortOption(v), []);
+  const [filterSubjects, setFilterSubject] = useState<MultiValue>([]);
   const updateFilterSubjects = useCallback((o: MultiValue) => setFilterSubject(o), []);
 
-  const { t } = useTranslation();
   const { data, isLoading } = useSearch(
     {
       'responsible-ids': ndlaId,
@@ -44,73 +36,31 @@ const WorkList = ({ ndlaId }: Props) => {
     },
   );
 
-  const tableTitles: TitleElement[] = [
-    { title: t('welcomePage.workList.name'), sortableField: 'title' },
-    { title: t('welcomePage.workList.status') },
-    { title: t('welcomePage.workList.contentType') },
-    { title: t('welcomePage.workList.primarySubject') },
-    { title: t('welcomePage.workList.topicRelation') },
-    { title: t('welcomePage.workList.date'), sortableField: 'responsibleLastUpdated' },
-  ];
+  const updateSortOption = useCallback((v: string) => setSortOption(v), []);
 
-  const tableData: FieldElement[][] = data
-    ? data.results.map(res => [
-        {
-          id: `title_${res.id}`,
-          data: (
-            <StyledLink to={toEditArticle(res.id, res.learningResourceType)}>
-              {res.title?.title}
-            </StyledLink>
-          ),
-        },
-        {
-          id: `status_${res.id}`,
-          data: res.status?.current ? t(`form.status.${res.status.current.toLowerCase()}`) : '',
-        },
-        {
-          id: `contentType_${res.id}`,
-          data:
-            res.learningResourceType === 'topic-article'
-              ? 'Emne'
-              : res.contexts?.[0]?.resourceTypes?.map(context => context.name).join(' - '),
-        },
-        {
-          id: `primarySubject_${res.id}`,
-          data: res.contexts.find(context => context.isPrimaryConnection)?.subject ?? '',
-        },
-        {
-          id: `topic_${res.id}`,
-          data: res.contexts.length
-            ? res.contexts[0].breadcrumbs[res.contexts[0].breadcrumbs.length - 1]
-            : '',
-        },
-        {
-          id: `date_${res.id}`,
-          data: res.responsible ? formatDate(res.responsible.lastUpdated) : '',
-        },
-      ])
-    : [[]];
+  const { t } = useTranslation();
 
   return (
-    <StyledDashboardInfo>
-      <StyledTopRowDashboardInfo>
-        <TableTitle
-          title={t('welcomePage.workList.title')}
-          description={t('welcomePage.workList.description')}
-          Icon={Calendar}
-        />
-        <SubjectDropdown filterSubject={filterSubjects} setFilterSubject={updateFilterSubjects} />
-      </StyledTopRowDashboardInfo>
-      <TableComponent
-        isLoading={isLoading}
-        tableTitleList={tableTitles}
-        tableData={tableData}
-        setSortOption={updateSortOption}
-        sortOption={sortOption}
-        error={error}
-        noResultsText={t('form.responsible.noArticles')}
-      />
-    </StyledDashboardInfo>
+    <TabsV2
+      ariaLabel="tabell hei"
+      tabs={[
+        {
+          title: `${t('welcomePage.workList.title')} (${data?.results.length ?? 0})`,
+          content: (
+            <WorkListTabContent
+              data={data}
+              filterSubjects={filterSubjects}
+              setSortOption={updateSortOption}
+              setFilterSubject={updateFilterSubjects}
+              isLoading={isLoading}
+              error={error}
+              sortOption={sortOption}
+            />
+          ),
+        },
+        { title: `${t('form.name.concepts')} (0)`, content: <div>hehe</div> },
+      ]}
+    />
   );
 };
 

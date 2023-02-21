@@ -472,6 +472,7 @@ const phrases = {
     alreadyPartOfSeries: 'Part of another series',
     description: 'Description',
     rss: 'Rss feed',
+    adminError: "You don't have access to create or update podcast series.",
   },
   podcastForm: {
     title: 'Podcast episode',

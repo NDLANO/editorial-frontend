@@ -71,7 +71,7 @@ const EditGrepCodes = ({ node, editModeHandler: { editMode, toggleEditMode } }: 
     <DropDownWrapper>
       {grepCodesWithName?.length > 0 ? (
         grepCodesWithName.map((grepCode, index) => {
-          if (grepCode.isLoading) {
+          if (grepCode.isInitialLoading) {
             return <Spinner key={index} />;
           }
           if (!grepCode.data) {

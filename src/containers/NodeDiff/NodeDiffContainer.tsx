@@ -13,7 +13,7 @@ import { ContentLoader, MessageBox } from '@ndla/ui';
 import isEqual from 'lodash/isEqual';
 import { ReactNode, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useQueryClient } from 'react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import { useSearchParams } from 'react-router-dom';
 import AlertModal from '../../components/AlertModal';
 import { TAXONOMY_ADMIN_SCOPE } from '../../constants';
@@ -110,7 +110,11 @@ const NodeDiffcontainer = ({ originalHash, otherHash, nodeId }: Props) => {
   );
 
   useEffect(() => {
-    if (defaultQuery.isLoading || otherQuery.isLoading || (defaultQuery.data && otherQuery.data)) {
+    if (
+      defaultQuery.isInitialLoading ||
+      otherQuery.isInitialLoading ||
+      (defaultQuery.data && otherQuery.data)
+    ) {
       setError(undefined);
       return;
     }
@@ -121,7 +125,12 @@ const NodeDiffcontainer = ({ originalHash, otherHash, nodeId }: Props) => {
     } else {
       setError('diff.error.onlyExistsInOriginal');
     }
-  }, [defaultQuery.data, defaultQuery.isLoading, otherQuery.data, otherQuery.isLoading]);
+  }, [
+    defaultQuery.data,
+    defaultQuery.isInitialLoading,
+    otherQuery.data,
+    otherQuery.isInitialLoading,
+  ]);
 
   const onPublish = async (node: NodeType) => {
     setHasPublished(false);
@@ -160,7 +169,7 @@ const NodeDiffcontainer = ({ originalHash, otherHash, nodeId }: Props) => {
     (otherQuery.data?.children.length ?? 0) + 1,
   );
 
-  if (defaultQuery.isLoading || otherQuery.isLoading) {
+  if (defaultQuery.isInitialLoading || otherQuery.isInitialLoading) {
     const rows: ReactNode[] = [];
     for (let i = 0; i < shownNodes; i++) {
       rows.push(

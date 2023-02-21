@@ -4,8 +4,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import { useQueries } from '@tanstack/react-query';
 import { GREP_CODE } from '../../queryKeys';
-import { useQueriesTyped } from '../../util/queryUtils';
 import { fetchGrepCodeTitle } from './grepApi';
 import { GrepCode } from './grepApiInterfaces';
 
@@ -17,14 +17,12 @@ const grepToGrepCodeObject = (grepCode: string, grepCodeTitle: string | undefine
 export const grepCodeQueryKey = (params?: Partial<{ grepCode: string }>) => [GREP_CODE, params];
 
 export const useGrepCodes = (grepCodes: string[], enabled = true) => {
-  return useQueriesTyped(
-    grepCodes.map(grepCode => {
-      return {
-        queryKey: grepCodeQueryKey({ grepCode }),
-        queryFn: () => fetchGrepCodeTitle(grepCode),
-        select: (grepCodeTitle: any) => grepToGrepCodeObject(grepCode, grepCodeTitle as string),
-        enabled,
-      };
-    }),
-  );
+  return useQueries({
+    queries: grepCodes.map(grepCode => ({
+      queryKey: grepCodeQueryKey({ grepCode }),
+      queryFn: () => fetchGrepCodeTitle(grepCode),
+      select: (title: string | undefined) => grepToGrepCodeObject(grepCode, title),
+      enabled,
+    })),
+  });
 };

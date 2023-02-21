@@ -31,7 +31,7 @@ const SubjectDropdown = ({ filterSubject, setFilterSubject }: Props) => {
   const { ndlaId } = useSession();
   const { taxonomyVersion } = useTaxonomyVersion();
 
-  const { data, isLoading } = useSearch({
+  const { data, isInitialLoading } = useSearch({
     'responsible-ids': ndlaId,
     'aggregate-paths': 'contexts.subjectId',
   });
@@ -83,7 +83,7 @@ const SubjectDropdown = ({ filterSubject, setFilterSubject }: Props) => {
         small
         outline
         postfix={t('subjectsPage.subjects').toLowerCase()}
-        isLoading={isLoading}
+        isLoading={isInitialLoading}
         isSearchable
         noOptionsMessage={() => t('form.responsible.noResults')}
         isClearable

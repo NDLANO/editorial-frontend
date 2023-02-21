@@ -7,7 +7,7 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { useMutation, UseMutationOptions, useQueryClient } from 'react-query';
+import { useMutation, UseMutationOptions, useQueryClient } from '@tanstack/react-query';
 import { WithTaxonomyVersion } from '../../interfaces';
 import handleError from '../../util/handleError';
 import { TaxonomyMetadata } from '../taxonomy/taxonomyApiInterfaces';

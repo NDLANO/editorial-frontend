@@ -46,6 +46,8 @@ export const CONCEPT_WRITE_SCOPE = 'concept:write';
 export const TAXONOMY_WRITE_SCOPE = 'taxonomy:write';
 export const TAXONOMY_ADMIN_SCOPE = 'taxonomy:admin';
 
+export const AUDIO_ADMIN_SCOPE = 'audio:admin';
+
 export const TAXONOMY_CUSTOM_FIELD_LANGUAGE = 'language';
 export const TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES = 'topic-resources';
 export const TAXONOMY_CUSTOM_FIELD_GROUPED_RESOURCE = 'grouped';
@@ -59,7 +61,7 @@ export const TAXONOMY_CUSTOM_FIELD_IS_PUBLISHING = 'isPublishing';
 
 export const MAX_IMAGE_UPLOAD_SIZE = 1024 * 1024 * 40; // 40MB.
 
-export const LOCALE_VALUES = ['nb', 'nn', 'en'] as const;
+export const LOCALE_VALUES = ['nb', 'nn', 'en', 'se', 'sma'] as const;
 
 export const ARCHIVED = 'ARCHIVED';
 export const END_CONTROL = 'END_CONTROL';

@@ -7,7 +7,6 @@
  */
 
 import { ReactNode } from 'react';
-import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import { colors, spacing } from '@ndla/core';
@@ -75,13 +74,5 @@ const StyledRoundIcon = styled.div<Omit<Props, 'icon'>>`
       margin: 0 calc(${spacing.small} / 2);
     `}
 `;
-
-RoundIcon.propTypes = {
-  icon: PropTypes.node,
-  open: PropTypes.bool,
-  small: PropTypes.bool,
-  smallIcon: PropTypes.bool,
-  margin: PropTypes.bool,
-};
 
 export default RoundIcon;

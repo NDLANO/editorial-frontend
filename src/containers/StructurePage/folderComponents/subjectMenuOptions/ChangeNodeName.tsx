@@ -7,7 +7,7 @@
  */
 
 import { useState } from 'react';
-import { useQueryClient } from 'react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import { FieldArray, Formik, FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
@@ -35,7 +35,7 @@ import {
 } from '../../../../modules/nodes/nodeMutations';
 import Spinner from '../../../../components/Spinner';
 import { StyledErrorMessage } from '../styles';
-import { supportedLanguages } from '../../../../i18n2';
+import { subjectpageLanguages } from '../../../../i18n2';
 import { requiredField } from '../../../../util/yupValidators';
 import { isFormikFormDirty } from '../../../../util/formHelper';
 import { Row } from '../../../../components';
@@ -104,7 +104,7 @@ const ChangeNodeNameModal = ({ onClose, node }: ModalProps) => {
   const { taxonomyVersion } = useTaxonomyVersion();
   const { id, name } = node;
 
-  const { data: translations, isLoading: loading, refetch } = useNodeTranslations(
+  const { data: translations, isInitialLoading: loading, refetch } = useNodeTranslations(
     { id, taxonomyVersion },
     {
       onError: e => {
@@ -206,7 +206,7 @@ const ChangeNodeNameModal = ({ onClose, node }: ModalProps) => {
                   (prev, curr) => ({ ...prev, [curr.language]: '' }),
                   {},
                 );
-                const availableLanguages = supportedLanguages.filter(
+                const availableLanguages = subjectpageLanguages.filter(
                   trans => !Object.prototype.hasOwnProperty.call(takenLanguages, trans),
                 );
                 const formIsDirty: boolean = isFormikFormDirty({

@@ -11,6 +11,7 @@ import Button from '@ndla/button';
 import { colors } from '@ndla/core';
 import { ChevronLeft } from '@ndla/icons/common';
 import { darken } from 'polished';
+import { MouseEventHandler } from 'react';
 import { useTranslation } from 'react-i18next';
 
 const StyledMoveContentButton = styled(Button)`
@@ -26,7 +27,7 @@ const StyledMoveContentButton = styled(Button)`
 `;
 
 interface Props {
-  onMouseDown: () => void;
+  onMouseDown?: MouseEventHandler;
 }
 
 const MoveContentButton = ({ onMouseDown }: Props) => {

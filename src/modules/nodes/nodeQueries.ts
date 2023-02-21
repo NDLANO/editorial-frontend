@@ -6,7 +6,7 @@
  *
  */
 
-import { useQuery, useQueryClient, UseQueryOptions } from 'react-query';
+import { useQuery, useQueryClient, UseQueryOptions } from '@tanstack/react-query';
 import { IEditorNote } from '@ndla/types-draft-api';
 import { NodeTree } from '../../containers/NodeDiff/diffUtils';
 import { SearchResultBase, WithTaxonomyVersion } from '../../interfaces';
@@ -86,10 +86,7 @@ export interface NodeResourceMeta {
 
 export const nodeResourceMetasQueryKey = (params: Partial<UseNodeResourceMetas>) => [
   NODE_RESOURCES,
-  {
-    nodeId: params.nodeId,
-    language: params.language,
-  },
+  params,
 ];
 
 export const useNodeResourceMetas = (

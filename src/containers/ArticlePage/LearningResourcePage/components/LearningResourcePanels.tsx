@@ -21,6 +21,7 @@ import { LearningResourceFormType } from '../../../FormikForm/articleFormHooks';
 import { useSession } from '../../../Session/SessionProvider';
 import { ArticleTaxonomy } from '../../../FormikForm/formikDraftHooks';
 import RevisionNotes from '../../components/RevisionNotes';
+import { TaxonomyVersionProvider } from '../../../StructureVersion/TaxonomyVersionProvider';
 
 interface Props {
   handleSubmit: (
@@ -64,16 +65,18 @@ const LearningResourcePanels = ({
         />
       </AccordionSection>
       {article && taxonomy && !!userPermissions?.includes(TAXONOMY_WRITE_SCOPE) && (
-        <AccordionSection
-          id={'learning-resource-taxonomy'}
-          title={t('form.taxonomySection')}
-          className={'u-6/6'}>
-          <LearningResourceTaxonomy
-            article={article}
-            updateNotes={updateNotes}
-            taxonomy={taxonomy}
-          />
-        </AccordionSection>
+        <TaxonomyVersionProvider>
+          <AccordionSection
+            id={'learning-resource-taxonomy'}
+            title={t('form.taxonomySection')}
+            className={'u-6/6'}>
+            <LearningResourceTaxonomy
+              article={article}
+              updateNotes={updateNotes}
+              taxonomy={taxonomy}
+            />
+          </AccordionSection>
+        </TaxonomyVersionProvider>
       )}
       <AccordionSection
         id={'learning-resource-copyright'}

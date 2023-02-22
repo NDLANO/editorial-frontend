@@ -145,7 +145,7 @@
     "@ndla/safelink": "^4.0.6",
     "@ndla/select": "^2.2.0",
     "@ndla/switch": "^1.0.6",
-    "@ndla/tabs": "^2.1.4",
+    "@ndla/tabs": "^2.1.8",
     "@ndla/tooltip": "^4.0.7",
     "@ndla/tracker": "^2.0.5",
     "@ndla/ui": "^34.3.6",

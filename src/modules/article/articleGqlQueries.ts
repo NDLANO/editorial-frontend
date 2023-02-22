@@ -7,7 +7,7 @@
  */
 
 import { request, gql } from 'graphql-request';
-import { useQuery, UseQueryOptions, UseQueryResult } from 'react-query';
+import { useQuery, UseQueryOptions, UseQueryResult } from '@tanstack/react-query';
 import config from '../../config';
 import { apiResourceUrl } from '../../util/apiHelpers';
 

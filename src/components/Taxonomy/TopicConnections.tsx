@@ -13,7 +13,7 @@ import { Structure } from '@ndla/editor';
 import { FieldHeader } from '@ndla/forms';
 import { Switch } from '@ndla/switch';
 import { colors } from '@ndla/core';
-import Button from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 import { useTranslation } from 'react-i18next';
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import { fetchUserData } from '../../modules/draft/draftApi';
@@ -147,7 +147,7 @@ const TopicConnections = ({
         size="large"
         narrow
         minHeight="85vh"
-        activateButton={<Button>{t('taxonomy.topics.filestructureButton')}</Button>}>
+        activateButton={<ButtonV2>{t('taxonomy.topics.filestructureButton')}</ButtonV2>}>
         {(closeModal: () => void) => (
           <>
             <ModalHeader>

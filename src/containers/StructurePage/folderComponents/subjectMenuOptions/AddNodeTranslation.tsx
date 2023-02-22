@@ -8,7 +8,7 @@
 
 import { FieldProps, Form, Formik, FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
-import Button from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 import { Select, Input } from '@ndla/forms';
 import styled from '@emotion/styled';
 import { NodeTranslation } from '../../../../modules/nodes/nodeApiTypes';
@@ -97,12 +97,12 @@ const AddNodeTranslation = ({ onAddTranslation, availableLanguages, defaultName 
                       placeholder={t('taxonomy.changeName.namePlaceholder')}
                       data-testid="addNodeNameTranslation"
                     />
-                    <Button
+                    <ButtonV2
                       data-testid="addNodeNameTranslationButton"
                       onClick={() => handleAddTranslation(formik)}
                       disabled={!isValid}>
                       {t('taxonomy.changeName.add')}
-                    </Button>
+                    </ButtonV2>
                   </Row>
                 )}
               </StyledFormikField>

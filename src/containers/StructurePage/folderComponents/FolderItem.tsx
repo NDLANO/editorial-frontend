@@ -7,7 +7,7 @@
  */
 
 import { spacing, fonts, mq, breakpoints } from '@ndla/core';
-import Button from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { NodeType } from '../../../modules/nodes/nodeApiTypes';
@@ -15,7 +15,8 @@ import { Row } from '../../../components';
 import Spinner from '../../../components/Spinner';
 import SettingsMenu from './SettingsMenu';
 
-const StyledResourceButton = styled(Button)`
+const StyledResourceButton = styled(ButtonV2)`
+  min-height: unset;
   margin: 3px ${spacing.xsmall} 3px auto;
   ${fonts.sizes(14, 1.1)};
 
@@ -26,6 +27,8 @@ const StyledResourceButton = styled(Button)`
 
 const StyledFolderWrapper = styled.div`
   display: flex;
+  width: 100%;
+  align-items: center;
 `;
 
 interface Props {
@@ -65,8 +68,7 @@ const FolderItem = ({
       )}
       {showJumpToResources && (
         <StyledResourceButton
-          outline
-          type="button"
+          variant="outline"
           disabled={resourcesLoading}
           onClick={() => jumpToResources?.()}>
           <Row>

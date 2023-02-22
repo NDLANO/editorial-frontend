@@ -6,17 +6,18 @@
  *
  */
 
-import Button from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 import { colors } from '@ndla/core';
 import { ReactNode } from 'react';
 import styled from '@emotion/styled';
 
-const StyledCustomFieldButton = styled(Button)`
+const StyledCustomFieldButton = styled(ButtonV2)`
   &,
   &:disabled {
     height: 24px;
     width: 24px;
     min-width: 24px;
+    min-height: 24px;
     background-color: ${colors.brand.greyDark};
     border-color: ${colors.brand.greyDark};
     padding: 0;

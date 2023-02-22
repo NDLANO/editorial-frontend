@@ -12,7 +12,7 @@ import styled from '@emotion/styled';
 import { Structure } from '@ndla/editor';
 import { FieldHeader } from '@ndla/forms';
 import { colors } from '@ndla/core';
-import Button from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 import { useTranslation } from 'react-i18next';
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import { Switch } from '@ndla/switch';
@@ -116,7 +116,7 @@ const TopicArticleConnections = ({
         size="large"
         narrow
         minHeight="85vh"
-        activateButton={<Button>{t(`taxonomy.topics.${'chooseTaxonomyPlacement'}`)}</Button>}>
+        activateButton={<ButtonV2>{t(`taxonomy.topics.${'chooseTaxonomyPlacement'}`)}</ButtonV2>}>
         {(closeModal: () => void) => (
           <>
             <ModalHeader>

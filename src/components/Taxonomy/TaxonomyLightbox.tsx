@@ -6,7 +6,7 @@
  *
  */
 
-import Button from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { spacing, colors, fonts } from '@ndla/core';
@@ -102,9 +102,9 @@ const TaxonomyLightbox = ({ children, title, onSelect, loading, onClose, wide = 
             {children}
             {onSelect && (
               <StyledWrapper>
-                <Button onClick={onSelect} data-testid="taxonomyLightboxButton">
+                <ButtonV2 onClick={onSelect} data-testid="taxonomyLightboxButton">
                   {loading ? <Spinner appearance="small" /> : t('form.save')}
-                </Button>
+                </ButtonV2>
               </StyledWrapper>
             )}
           </StyledContent>

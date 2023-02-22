@@ -399,7 +399,7 @@ const LearningResourceTaxonomy = ({ article, taxonomy, updateNotes, setIsOpen }:
   }, []);
 
   useEffect(() => {
-    if (prevTaxVersion.current) {
+    if (prevTaxVersion.current || prevTaxVersion.current === '') {
       if (prevTaxVersion.current !== taxonomyVersion) fetchTaxonomy();
     }
     prevTaxVersion.current = taxonomyVersion;

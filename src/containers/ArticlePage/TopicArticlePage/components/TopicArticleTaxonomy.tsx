@@ -296,6 +296,7 @@ const TopicArticleTaxonomy = ({ article, setIsOpen, updateNotes, taxonomy }: Pro
     return <Spinner />;
   }
   if (status === 'error') {
+    changeVersion('');
     return (
       <ErrorMessage
         illustration={{

@@ -419,6 +419,7 @@ const LearningResourceTaxonomy = ({ article, taxonomy, updateNotes, setIsOpen }:
   );
 
   if (error) {
+    changeVersion('');
     return (
       <ErrorMessage
         illustration={{

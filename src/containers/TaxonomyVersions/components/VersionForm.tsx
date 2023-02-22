@@ -8,6 +8,7 @@
 
 import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
+import { spacing } from '@ndla/core';
 import { Formik, FormikHelpers } from 'formik';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -24,7 +25,6 @@ import {
   usePutVersionMutation,
 } from '../../../modules/taxonomy/versions/versionMutations';
 import { versionsQueryKey } from '../../../modules/taxonomy/versions/versionQueries';
-import { ActionButton } from '../../FormikForm';
 import { StyledErrorMessage } from './StyledErrorMessage';
 import Fade from '../../../components/Taxonomy/Fade';
 import {
@@ -52,6 +52,12 @@ const versionFormRules: RulesType<VersionFormType> = {
 const StyledTitle = styled.h2`
   padding: 0;
   margin: 0;
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  gap: ${spacing.xsmall};
 `;
 
 const VersionForm = ({ version, existingVersions, onClose }: Props) => {
@@ -163,17 +169,17 @@ const VersionForm = ({ version, existingVersions, onClose }: Props) => {
                     </ButtonV2>
                   )}
                 </Field>
-                <Field right>
-                  <ActionButton outline onClick={onClose}>
+                <ButtonContainer>
+                  <ButtonV2 variant="outline" onClick={onClose}>
                     {t('form.abort')}
-                  </ActionButton>
+                  </ButtonV2>
                   <SaveButton
                     isSaving={isSubmitting}
                     disabled={!dirty || !isValid}
                     onClick={() => handleSubmit()}
                     formIsDirty={dirty}
                   />
-                </Field>
+                </ButtonContainer>
               </Row>
               <AlertModal
                 show={showAlertModal}

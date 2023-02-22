@@ -8,10 +8,12 @@
 
 import { FormEvent, MouseEvent, useState, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import styled from '@emotion/styled';
 import { Spinner } from '@ndla/icons';
 import { ErrorMessage } from '@ndla/ui';
 import { IUpdatedArticle, IArticle } from '@ndla/types-draft-api';
-import Field from '../../../../components/Field';
+import { spacing } from '@ndla/core';
+import { ButtonV2 } from '@ndla/button';
 import {
   fetchResourceTypes,
   fetchSubjects,
@@ -27,7 +29,6 @@ import { sortByName, groupTopics, getBreadcrumbFromPath } from '../../../../util
 import handleError from '../../../../util/handleError';
 import TopicConnections from '../../../../components/Taxonomy/TopicConnections';
 import SaveButton from '../../../../components/SaveButton';
-import { ActionButton } from '../../../FormikForm';
 import ResourceTypeSelect from '../../components/ResourceTypeSelect';
 import TaxonomyInfo from './taxonomy/TaxonomyInfo';
 import {
@@ -91,6 +92,12 @@ interface Props {
 }
 
 type Status = 'success' | 'loading' | 'error' | 'initial';
+
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  gap: ${spacing.xsmall};
+`;
 
 const LearningResourceTaxonomy = ({ article, taxonomy, updateNotes, setIsOpen }: Props) => {
   const [resourceId, setResourceId] = useState<string>('');
@@ -441,10 +448,10 @@ const LearningResourceTaxonomy = ({ article, taxonomy, updateNotes, setIsOpen }:
         onChangeShowFavorites={() => {}}
       />
       {showWarning && <FormikFieldHelp error>{t('errorMessage.unsavedTaxonomy')}</FormikFieldHelp>}
-      <Field right>
-        <ActionButton outline onClick={onCancel}>
+      <ButtonContainer>
+        <ButtonV2 variant="outline" onClick={onCancel}>
           {t('form.abort')}
-        </ActionButton>
+        </ButtonV2>
         <SaveButton
           showSaved={status === 'success' && !isDirty}
           disabled={!isDirty || !taxonomyChanges.resourceTypes.length}
@@ -452,7 +459,7 @@ const LearningResourceTaxonomy = ({ article, taxonomy, updateNotes, setIsOpen }:
           defaultText="saveTax"
           formIsDirty={isDirty}
         />
-      </Field>
+      </ButtonContainer>
     </>
   );
 };

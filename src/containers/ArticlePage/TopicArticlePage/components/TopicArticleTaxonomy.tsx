@@ -8,10 +8,12 @@
 
 import { MouseEvent, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import styled from '@emotion/styled';
 import { Spinner } from '@ndla/icons';
 import { ErrorMessage } from '@ndla/ui';
+import { ButtonV2 } from '@ndla/button';
+import { spacing } from '@ndla/core';
 import { IUpdatedArticle, IArticle } from '@ndla/types-draft-api';
-import Field from '../../../../components/Field';
 import {
   fetchSubjects,
   fetchSubjectTopics,
@@ -29,7 +31,6 @@ import {
 } from '../../../../util/taxonomyHelpers';
 import handleError from '../../../../util/handleError';
 import SaveButton from '../../../../components/SaveButton';
-import { ActionButton } from '../../../FormikForm';
 import TopicArticleConnections from './TopicArticleConnections';
 
 import { FormikFieldHelp } from '../../../../components/FormikField';
@@ -70,6 +71,12 @@ export interface StagedTopic extends TaxonomyElement {
   isPrimary?: boolean;
   metadata: TaxonomyMetadata;
 }
+
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  gap: ${spacing.xsmall};
+`;
 
 const TopicArticleTaxonomy = ({ article, setIsOpen, updateNotes, taxonomy }: Props) => {
   const [structure, setStructure] = useState<StructureSubject[]>([]);
@@ -297,10 +304,10 @@ const TopicArticleTaxonomy = ({ article, setIsOpen, updateNotes, taxonomy }: Pro
         stageTaxonomyChanges={stageTaxonomyChanges}
       />
       {showWarning && <FormikFieldHelp error>{t('errorMessage.unsavedTaxonomy')}</FormikFieldHelp>}
-      <Field right>
-        <ActionButton outline onClick={onCancel} disabled={status === 'loading'}>
+      <ButtonContainer>
+        <ButtonV2 variant="outline" onClick={onCancel} disabled={status === 'loading'}>
           {t('form.abort')}
-        </ActionButton>
+        </ButtonV2>
         <SaveButton
           formIsDirty={isDirty}
           isSaving={status === 'loading'}
@@ -309,7 +316,7 @@ const TopicArticleTaxonomy = ({ article, setIsOpen, updateNotes, taxonomy }: Pro
           onClick={handleSubmit}
           defaultText="saveTax"
         />
-      </Field>
+      </ButtonContainer>
     </>
   );
 };

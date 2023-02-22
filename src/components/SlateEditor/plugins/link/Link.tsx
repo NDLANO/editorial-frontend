@@ -9,7 +9,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Editor, Node } from 'slate';
 import { RenderElementProps } from 'slate-react';
-import Button from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import { colors, spacing } from '@ndla/core';
@@ -19,11 +19,6 @@ import { Portal } from '../../../Portal';
 import isNodeInCurrentSelection from '../../utils/isNodeInCurrentSelection';
 import EditLink from './EditLink';
 import { ContentLinkElement, LinkElement } from '.';
-
-const StyledButton = styled(Button)`
-  color: ${colors.brand.primary};
-  text-decoration: underline;
-`;
 
 interface StyledLinkMenuProps {
   top: number;
@@ -140,9 +135,9 @@ const Link = (props: Props) => {
         <>
           <Portal isOpened={isInline}>
             <StyledLinkMenu top={top} left={left}>
-              <StyledButton stripped onClick={toggleEditMode}>
+              <ButtonV2 variant="link" onClick={toggleEditMode}>
                 {t('form.content.link.change')}
-              </StyledButton>{' '}
+              </ButtonV2>{' '}
               | {t('form.content.link.goTo')}{' '}
               <a href={model?.href} target="_blank" rel="noopener noreferrer">
                 {' '}

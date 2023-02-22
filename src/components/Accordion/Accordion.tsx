@@ -7,17 +7,16 @@
  */
 
 import styled from '@emotion/styled';
-import Button from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 import { breakpoints, colors, mq, spacing } from '@ndla/core';
 import { ExpandLess, ExpandMore } from '@ndla/icons/action';
 import { ReactNode } from 'react';
 import AccordionButtonLine from './AccordionButtonLine';
 
-const StyledButton = styled(Button)`
-  color: ${colors.brand.greyDark};
+const StyledButton = styled(ButtonV2)`
+  justify-content: flex-start;
   width: 100%;
   height: 100%;
-  text-align: left;
 `;
 
 const StyledArrowButton = styled(StyledButton)`
@@ -106,12 +105,12 @@ const Accordion = ({
     <div {...rest}>
       {addButton ? (
         <AccordionButtonLine appearance={appearance}>
-          <StyledButton stripped onClick={handleToggle}>
+          <StyledButton variant="stripped" onClick={handleToggle}>
             {title}
           </StyledButton>
           <>{toggleSwitch}</>
           <>{addButton}</>
-          <StyledArrowButton stripped onClick={handleToggle}>
+          <StyledArrowButton variant="stripped" onClick={handleToggle}>
             {arrow}
           </StyledArrowButton>
         </AccordionButtonLine>

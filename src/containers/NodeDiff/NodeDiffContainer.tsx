@@ -7,7 +7,7 @@
  */
 
 import styled from '@emotion/styled';
-import Button from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 import { spacing } from '@ndla/core';
 import { ContentLoader, MessageBox } from '@ndla/ui';
 import isEqual from 'lodash/isEqual';
@@ -44,7 +44,7 @@ const DiffContainer = styled.div`
   gap: ${spacing.small};
 `;
 
-const PublishButton = styled(Button)`
+const PublishButton = styled(ButtonV2)`
   align-self: flex-end;
   margin-right: ${spacing.small};
 `;

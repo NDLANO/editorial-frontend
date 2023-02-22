@@ -124,6 +124,7 @@ const phrases = {
     chooseSubject: 'Choose subjects',
     chooseTopic: 'Choose topics',
     errorMessage: 'Failed to retrieve data',
+    goToSearch: 'Go to search',
     workList: {
       title: 'My tasks',
       description: 'Articles where I am responsible',
@@ -244,6 +245,7 @@ const phrases = {
       'revision-date-from': 'Revisiondate from',
       'revision-date-to': 'Revisiondate to',
       'exclude-revision-log': 'Exclude revision log',
+      'responsible-ids': 'Select responsible',
     },
     tagType: {
       query: 'Query',
@@ -259,6 +261,7 @@ const phrases = {
       'revision-date-from': 'Revisiondate from',
       'revision-date-to': 'Revisiondate to',
       'exclude-revision-log': 'Revision log excluded',
+      'responsible-ids': 'Responsible',
     },
     btn: 'Search',
     empty: 'Empty',
@@ -1417,6 +1420,7 @@ const phrases = {
       edit: 'Edit grep codes',
       empty: 'No existing grep codes',
       addNew: 'Add new grep code',
+      delete: 'Remove {{grepCode}}',
     },
     copyRevisionDates: {
       text:

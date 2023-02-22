@@ -216,6 +216,7 @@ const ConceptForm = ({
         return (
           <FormWrapper inModal={inModal}>
             <HeaderWithLanguage
+              concept={concept}
               content={{ ...concept, title: concept?.title?.title, language }}
               editUrl={editUrl}
               getEntity={getEntity}

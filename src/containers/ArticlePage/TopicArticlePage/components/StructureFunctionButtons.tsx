@@ -10,7 +10,7 @@ import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import { Check } from '@ndla/icons/editor';
 import { colors, spacing, fonts } from '@ndla/core';
-import Button from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 
 interface Props {
   isSubject?: boolean;
@@ -20,9 +20,10 @@ interface Props {
   addTopic: () => Promise<void>;
 }
 
-const StyledButton = styled(Button)`
+const StyledButton = styled(ButtonV2)`
   opacity: 0;
   height: auto;
+  min-height: 30px;
   padding: 0 ${spacing.small};
   margin: 3px ${spacing.xsmall};
   transition: background 200ms ease;
@@ -73,7 +74,7 @@ const StructureFunctionButtons = ({ isSubject, isOpen, id, activeTopics, addTopi
     }
     return (
       <StyledButtonWrapper>
-        <StyledButton outline type="button" onClick={addTopic}>
+        <StyledButton variant="outline" onClick={addTopic}>
           {t('taxonomy.topics.addNewTopic')}
         </StyledButton>
       </StyledButtonWrapper>
@@ -84,7 +85,7 @@ const StructureFunctionButtons = ({ isSubject, isOpen, id, activeTopics, addTopi
 
   return (
     <StyledButtonWrapper>
-      <StyledButton outline type="button" onClick={addTopic}>
+      <StyledButton variant="outline" onClick={addTopic}>
         {t('taxonomy.topics.addNewSubTopic')}
       </StyledButton>
       {currentIndex !== -1 && (

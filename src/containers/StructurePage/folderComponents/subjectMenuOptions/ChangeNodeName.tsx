@@ -13,7 +13,7 @@ import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 import styled from '@emotion/styled';
 
-import Button from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 import { spacing } from '@ndla/core';
 import { Input } from '@ndla/forms';
 import { Pencil } from '@ndla/icons/action';
@@ -53,7 +53,7 @@ const StyledDeleteButton = styled(DeleteButton)`
   align-items: center;
 `;
 
-const StyledCancelButton = styled(Button)`
+const StyledCancelButton = styled(ButtonV2)`
   padding: 0 ${spacing.normal};
 `;
 

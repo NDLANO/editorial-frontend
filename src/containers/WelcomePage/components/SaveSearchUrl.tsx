@@ -8,13 +8,11 @@
 
 import { ChangeEvent, MouseEvent, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import Button from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 import { FieldHeader, FieldSection, Input } from '@ndla/forms';
 import { Link as LinkIcon } from '@ndla/icons/common';
-
 import { getAccessToken, getAccessTokenPersonal } from '../../../util/authHelpers';
 import { isValid } from '../../../util/jwtHelper';
-
 import SavedSearch from './SavedSearch';
 import { isNDLAEdSearchUrl } from '../../../util/htmlHelpers';
 import { useUpdateUserDataMutation, useUserData } from '../../../modules/draft/draftQueries';
@@ -104,7 +102,7 @@ const SaveSearchUrl = () => {
           onBlur={handleBlur}
         />
       </FieldSection>
-      <Button onClick={createSaveSearchUrl}>{t('welcomePage.saveSearch')}</Button>
+      <ButtonV2 onClick={createSaveSearchUrl}>{t('welcomePage.saveSearch')}</ButtonV2>
     </>
   );
 };

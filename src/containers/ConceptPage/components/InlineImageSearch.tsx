@@ -12,7 +12,7 @@ import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { IImageMetaInformationV3 } from '@ndla/types-image-api';
 import { useTranslation } from 'react-i18next';
-import Button from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 import ImageSearch from '@ndla/image-search';
 import { FieldHeader } from '@ndla/forms';
 import MetaImageField from '../../FormikForm/components/MetaImageField';
@@ -91,9 +91,9 @@ const InlineImageSearch = ({ name }: Props) => {
         noResults={
           <>
             <StyledTitleDiv>{t('imageSearch.noResultsText')}</StyledTitleDiv>
-            <Button submit outline>
+            <ButtonV2 type="submit" variant="outline">
               {t('imageSearch.noResultsButtonText')}
-            </Button>
+            </ButtonV2>
           </>
         }
         onError={onError}

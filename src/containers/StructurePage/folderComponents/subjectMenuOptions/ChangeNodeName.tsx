@@ -240,6 +240,7 @@ const ChangeNodeNameModal = ({ onClose, node }: ModalProps) => {
                                       data-testid={`subjectName_${trans.language}`}
                                     />
                                     <StyledDeleteButton
+                                      aria-label={t('form.remove')}
                                       onClick={() => remove(i)}
                                       data-testid={`subjectName_${trans.language}_delete`}
                                     />
@@ -263,7 +264,7 @@ const ChangeNodeNameModal = ({ onClose, node }: ModalProps) => {
                         </StyledCancelButton>
                         <SaveButton
                           data-testid="saveNodeTranslationsButton"
-                          large
+                          size="large"
                           isSaving={isSubmitting}
                           showSaved={!formIsDirty && saved}
                           formIsDirty={formIsDirty}

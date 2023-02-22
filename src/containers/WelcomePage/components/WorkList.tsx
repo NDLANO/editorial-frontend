@@ -42,7 +42,7 @@ const WorkList = ({ ndlaId }: Props) => {
 
   return (
     <TabsV2
-      ariaLabel="tabell hei"
+      ariaLabel={t('welcomePage.workList.ariaLabel')}
       tabs={[
         {
           title: `${t('welcomePage.workList.title')} (${data?.results.length ?? 0})`,

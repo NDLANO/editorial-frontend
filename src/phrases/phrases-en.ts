@@ -133,6 +133,7 @@ const phrases = {
       primarySubject: 'Primary subject',
       topicRelation: 'Topic relation',
       date: 'Date assigned',
+      ariaLabel: 'Overview of my tasks and concepts',
     },
     welcomeBack: 'Welcome back',
   },

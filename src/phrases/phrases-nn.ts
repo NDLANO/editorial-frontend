@@ -134,6 +134,7 @@ const phrases = {
       primarySubject: 'Primærfag',
       topicRelation: 'Emnetilknytting',
       date: 'Tildelingsdato',
+      ariaLabel: 'Oversikt over arbeidsoppgåvene og forklaringane mine',
     },
     welcomeBack: 'Velkommen tilbake',
   },

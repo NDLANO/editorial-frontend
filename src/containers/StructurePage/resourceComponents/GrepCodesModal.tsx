@@ -7,7 +7,7 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { useQueryClient } from 'react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import Spinner from '../../../components/Spinner';
 import TaxonomyLightbox from '../../../components/Taxonomy/TaxonomyLightbox';
 import { useUpdateDraftMutation } from '../../../modules/draft/draftMutations';
@@ -22,7 +22,7 @@ interface Props {
 const GrepCodesModal = ({ contentUri, onClose }: Props) => {
   const { t, i18n } = useTranslation();
   const draftId = getIdFromUrn(contentUri);
-  const { data, isLoading } = useDraft(
+  const { data, isInitialLoading } = useDraft(
     { id: draftId!, language: i18n.language },
     { enabled: !!draftId },
   );
@@ -52,7 +52,11 @@ const GrepCodesModal = ({ contentUri, onClose }: Props) => {
       title={t('form.name.grepCodes')}
       onClose={() => onClose(data?.grepCodes)}
       wide>
-      {isLoading ? <Spinner /> : <GrepCodesForm article={data!} onUpdate={onUpdateGrepCodes} />}
+      {isInitialLoading ? (
+        <Spinner />
+      ) : (
+        <GrepCodesForm article={data!} onUpdate={onUpdateGrepCodes} />
+      )}
     </TaxonomyLightbox>
   );
 };

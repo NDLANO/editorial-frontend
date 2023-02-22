@@ -10,7 +10,7 @@ import { FormEvent, MouseEvent, useState, useEffect, useMemo, useRef } from 'rea
 import { Spinner } from '@ndla/icons';
 import { ErrorMessage } from '@ndla/ui';
 import { IUpdatedArticle, IArticle } from '@ndla/types-draft-api';
-import { useQueryClient } from 'react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import { SingleValue } from '@ndla/select';
 import { useTranslation } from 'react-i18next';
 import Field from '../../../../components/Field';

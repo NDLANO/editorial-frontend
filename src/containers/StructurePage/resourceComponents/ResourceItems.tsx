@@ -8,7 +8,7 @@
 
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useQueryClient } from 'react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import { DropResult } from 'react-beautiful-dnd';
 import sortBy from 'lodash/sortBy';
 import styled from '@emotion/styled';

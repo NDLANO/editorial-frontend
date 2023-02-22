@@ -10,8 +10,7 @@ import { Component, MouseEvent } from 'react';
 
 import { withTranslation, CustomWithTranslation, useTranslation } from 'react-i18next';
 import { colors, spacing } from '@ndla/core';
-import Button from '@ndla/button';
-import { Cross } from '@ndla/icons/action';
+import { CloseButton } from '@ndla/button';
 import styled from '@emotion/styled';
 import { SearchFormSelector } from './Selector';
 import formatDate from '../../../../util/formatDate';
@@ -110,9 +109,7 @@ class SearchTag extends Component<Props & CustomWithTranslation> {
     return (
       <StyledDl>
         <SearchTagContent tag={tag} tagValue={tagValue} />
-        <Button onClick={this.onRemove} stripped>
-          <Cross className="c-icon--small" />
-        </Button>
+        <CloseButton onClick={this.onRemove} />
       </StyledDl>
     );
   }

@@ -9,7 +9,11 @@
 import { useTranslation } from 'react-i18next';
 import { Calendar } from '@ndla/icons/editor';
 import { useCallback, useState } from 'react';
-import { MultiValue } from '@ndla/select';
+import { SingleValue } from '@ndla/select';
+import { SafeLinkButton } from '@ndla/safelink';
+import queryString from 'query-string';
+import styled from '@emotion/styled';
+import { colors, spacing } from '@ndla/core';
 import { useSearch } from '../../../modules/search/searchQueries';
 import { toEditArticle } from '../../../util/routeHelpers';
 import TableComponent, { FieldElement, TitleElement } from './TableComponent';
@@ -18,24 +22,34 @@ import SubjectDropdown from './SubjectDropdown';
 import formatDate from '../../../util/formatDate';
 import { StyledDashboardInfo, StyledLink, StyledTopRowDashboardInfo } from '../styles';
 
+const ControlWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: ${spacing.small};
+`;
+
+const StyledSafeLinkButton = styled(SafeLinkButton)`
+  height: fit-content;
+`;
+
 interface Props {
   ndlaId: string;
 }
 
 const WorkList = ({ ndlaId }: Props) => {
   const [sortOption, setSortOption] = useState<string>('-responsibleLastUpdated');
-  const [filterSubjects, setFilterSubject] = useState<MultiValue>([]);
+  const [filterSubject, setFilterSubject] = useState<SingleValue | undefined>(undefined);
   const [error, setError] = useState();
 
   const updateSortOption = useCallback((v: string) => setSortOption(v), []);
-  const updateFilterSubjects = useCallback((o: MultiValue) => setFilterSubject(o), []);
+  const updateFilterSubject = useCallback((o: SingleValue) => setFilterSubject(o), []);
 
   const { t } = useTranslation();
-  const { data, isLoading } = useSearch(
+  const { data, isInitialLoading } = useSearch(
     {
       'responsible-ids': ndlaId,
       sort: sortOption ? sortOption : '-responsibleLastUpdated',
-      ...(filterSubjects.length ? { subjects: filterSubjects.map(fs => fs.value).join(',') } : {}),
+      ...(filterSubject ? { subjects: filterSubject.value } : {}),
     },
     {
       enabled: !!ndlaId,
@@ -91,6 +105,15 @@ const WorkList = ({ ndlaId }: Props) => {
       ])
     : [[]];
 
+  const onSearch = useCallback(() => {
+    const query = queryString.stringify({
+      ...(filterSubject && { subjects: filterSubject.value }),
+      ...(ndlaId && { 'responsible-ids': ndlaId }),
+    });
+
+    return `/search/content?${query}`;
+  }, [filterSubject, ndlaId]);
+
   return (
     <StyledDashboardInfo>
       <StyledTopRowDashboardInfo>
@@ -99,10 +122,15 @@ const WorkList = ({ ndlaId }: Props) => {
           description={t('welcomePage.workList.description')}
           Icon={Calendar}
         />
-        <SubjectDropdown filterSubject={filterSubjects} setFilterSubject={updateFilterSubjects} />
+        <ControlWrapper>
+          <SubjectDropdown filterSubject={filterSubject} setFilterSubject={updateFilterSubject} />
+          <StyledSafeLinkButton to={onSearch()} size="small">
+            {t('welcomePage.goToSearch')}
+          </StyledSafeLinkButton>
+        </ControlWrapper>
       </StyledTopRowDashboardInfo>
       <TableComponent
-        isLoading={isLoading}
+        isLoading={isInitialLoading}
         tableTitleList={tableTitles}
         tableData={tableData}
         setSortOption={updateSortOption}

@@ -106,6 +106,8 @@ const ThemeEditor = ({ onUpdateMovieTheme, selectedLanguage }: Props) => {
                     nb: findName(theme.name, 'nb'),
                     nn: findName(theme.name, 'nn'),
                     en: findName(theme.name, 'en'),
+                    se: findName(theme.name, 'se'),
+                    sma: findName(theme.name, 'sma'),
                   },
                 }}
                 activateButton={

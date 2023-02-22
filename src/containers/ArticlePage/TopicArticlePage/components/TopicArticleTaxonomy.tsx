@@ -12,7 +12,7 @@ import { Spinner } from '@ndla/icons';
 import { ErrorMessage } from '@ndla/ui';
 import { IUpdatedArticle, IArticle } from '@ndla/types-draft-api';
 import { SingleValue } from '@ndla/select';
-import { useQueryClient } from 'react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import Field from '../../../../components/Field';
 import {
   fetchSubjects,

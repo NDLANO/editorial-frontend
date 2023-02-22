@@ -10,6 +10,8 @@ import { Formik, FormikProps, FormikHelpers, FormikErrors } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import { Descendant } from 'slate';
+import styled from '@emotion/styled';
+import { colors } from '@ndla/core';
 import { IAudioMetaInformation, INewSeries, ISeries } from '@ndla/types-audio-api';
 import { AbortButton, AlertModalWrapper } from '../../FormikForm';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
@@ -21,9 +23,14 @@ import { toCreatePodcastSeries, toEditPodcastSeries } from '../../../util/routeH
 import { editorValueToPlainText } from '../../../util/articleContentConverter';
 import PodcastSeriesMetaData from './PodcastSeriesMetaData';
 import PodcastEpisodes from './PodcastEpisodes';
-import { ITUNES_STANDARD_MAXIMUM_WIDTH, ITUNES_STANDARD_MINIMUM_WIDTH } from '../../../constants';
+import {
+  AUDIO_ADMIN_SCOPE,
+  ITUNES_STANDARD_MAXIMUM_WIDTH,
+  ITUNES_STANDARD_MINIMUM_WIDTH,
+} from '../../../constants';
 import { podcastSeriesTypeToFormType } from '../../../util/audioHelpers';
 import FormWrapper from '../../../components/FormWrapper';
+import { useSession } from '../../Session/SessionProvider';
 
 const podcastRules: RulesType<PodcastSeriesFormikType, ISeries> = {
   title: {
@@ -46,6 +53,14 @@ const podcastRules: RulesType<PodcastSeriesFormikType, ISeries> = {
     onlyValidateIf: (values: PodcastSeriesFormikType) => !!values.coverPhotoId,
   },
 };
+
+const AdminWarningTextWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  p {
+    color: ${colors.support.red};
+  }
+`;
 
 export interface PodcastSeriesFormikType {
   id?: number;
@@ -80,7 +95,10 @@ const PodcastSeriesForm = ({
 }: Props) => {
   const { t } = useTranslation();
   const [savedToServer, setSavedToServer] = useState(false);
+  const { userPermissions } = useSession();
   const size = useRef<[number, number] | undefined>(undefined);
+
+  const isAudioAdmin = !!userPermissions?.includes(AUDIO_ADMIN_SCOPE);
 
   const handleSubmit = async (
     values: PodcastSeriesFormikType,
@@ -191,6 +209,7 @@ const PodcastSeriesForm = ({
                 {t('form.abort')}
               </AbortButton>
               <SaveButton
+                disabled={!isAudioAdmin}
                 isSaving={isSubmitting}
                 showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}
                 formIsDirty={formIsDirty}
@@ -201,6 +220,11 @@ const PodcastSeriesForm = ({
                 }}
               />
             </Field>
+            {!isAudioAdmin ? (
+              <AdminWarningTextWrapper>
+                <p>{t('podcastSeriesForm.adminError')}</p>
+              </AdminWarningTextWrapper>
+            ) : null}
             <AlertModalWrapper
               {...formikProps}
               formIsDirty={formIsDirty}

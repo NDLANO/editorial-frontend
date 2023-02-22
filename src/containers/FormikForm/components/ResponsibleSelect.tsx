@@ -22,7 +22,7 @@ interface Props {
 const ResponsibleSelect = ({ responsible, setResponsible, onSave, responsibleId }: Props) => {
   const { t } = useTranslation();
 
-  const { data: users, isLoading } = useAuth0Responsibles(
+  const { data: users, isInitialLoading } = useAuth0Responsibles(
     { permission: DRAFT_WRITE_SCOPE },
     {
       select: users =>
@@ -67,7 +67,7 @@ const ResponsibleSelect = ({ responsible, setResponsible, onSave, responsibleId 
         placeholder={t('form.responsible.choose')}
         value={responsible}
         onChange={updateResponsible}
-        isLoading={isLoading}
+        isLoading={isInitialLoading}
         noOptionsMessage={() => t('form.responsible.noResults')}
         isSearchable
         isClearable

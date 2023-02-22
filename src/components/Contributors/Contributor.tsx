@@ -7,7 +7,6 @@
  */
 
 import { FormEvent, MouseEvent } from 'react';
-import PropTypes from 'prop-types';
 import { FieldSection, FieldSplitter, Input, Select, FieldRemoveButton } from '@ndla/forms';
 import { ContributorType, ContributorFieldName } from './types';
 
@@ -83,27 +82,5 @@ const Contributor = ({
     </div>
   </FieldSection>
 );
-
-Contributor.propTypes = {
-  showError: PropTypes.bool.isRequired,
-  placeholder: PropTypes.string,
-  disabled: PropTypes.bool,
-  labelRemove: PropTypes.string,
-  contributor: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-    focusOnMount: PropTypes.bool,
-  }).isRequired,
-  handleContributorChange: PropTypes.func.isRequired,
-  removeContributor: PropTypes.func.isRequired,
-  contributorTypeItems: PropTypes.arrayOf(
-    PropTypes.shape({
-      translation: PropTypes.string,
-      type: PropTypes.string,
-    }),
-  ).isRequired,
-  index: PropTypes.number.isRequired,
-  errorMessages: PropTypes.arrayOf(PropTypes.string),
-};
 
 export default Contributor;

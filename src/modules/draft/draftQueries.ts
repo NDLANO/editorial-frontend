@@ -6,7 +6,7 @@
  *
  */
 
-import { useMutation, useQuery, useQueryClient, UseQueryOptions } from 'react-query';
+import { useMutation, useQuery, useQueryClient, UseQueryOptions } from '@tanstack/react-query';
 import {
   ILicense,
   IArticle,

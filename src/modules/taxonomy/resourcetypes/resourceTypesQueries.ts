@@ -6,7 +6,7 @@
  *
  */
 
-import { useQuery, UseQueryOptions } from 'react-query';
+import { useQuery, UseQueryOptions } from '@tanstack/react-query';
 import { fetchAllResourceTypes, fetchResourceType } from '.';
 import { WithTaxonomyVersion } from '../../../interfaces';
 import { RESOURCE_TYPE, RESOURCE_TYPES } from '../../../queryKeys';

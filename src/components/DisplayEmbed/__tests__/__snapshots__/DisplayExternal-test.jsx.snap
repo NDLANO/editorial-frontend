@@ -10,7 +10,7 @@ exports[`DisplayExternal display error on fetch fail 1`] = `
 
 <div>
   <div
-    class="emotion-0 emotion-1"
+    class="emotion-0"
     contenteditable="false"
   >
     <span>
@@ -30,7 +30,7 @@ exports[`DisplayExternal renders external correctly 1`] = `
 
 <div>
   <div
-    class="emotion-0 emotion-1"
+    class="emotion-0"
     contenteditable="false"
   >
     <span>

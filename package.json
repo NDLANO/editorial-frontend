@@ -47,7 +47,7 @@
     "@ndla/scripts": "^1.0.2",
     "@ndla/types-article-api": "^0.0.8",
     "@ndla/types-audio-api": "^0.0.12",
-    "@ndla/types-concept-api": "^0.0.13",
+    "@ndla/types-concept-api": "^0.0.14",
     "@ndla/types-draft-api": "^0.0.30",
     "@ndla/types-frontpage-api": "^0.0.4",
     "@ndla/types-image-api": "^0.0.10",

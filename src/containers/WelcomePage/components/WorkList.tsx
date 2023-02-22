@@ -12,21 +12,30 @@ import { MultiValue } from '@ndla/select';
 import { TabsV2 } from '@ndla/tabs';
 import { useSearch } from '../../../modules/search/searchQueries';
 import WorkListTabContent from './WorkListTabContent';
+import { useSearchConcepts } from '../../../modules/concept/conceptQueries';
+import ConceptListTabContent from './ConceptListTabContent';
+
 interface Props {
   ndlaId: string;
 }
 
 const WorkList = ({ ndlaId }: Props) => {
-  const [sortOption, setSortOption] = useState<string>('-responsibleLastUpdated');
-  const [error, setError] = useState();
+  const [sortOption, setSortOption] = useState('-responsibleLastUpdated');
+  const [sortOptionConcepts, setSortOptionConcepts] = useState('-title');
+  const [error, setError] = useState<string>();
+  const [errorConceptList, setErrorConceptList] = useState<string>();
 
   const [filterSubjects, setFilterSubject] = useState<MultiValue>([]);
+
+  const updateSortOption = useCallback((v: string) => setSortOption(v), []);
+  const updateSortOptionConcepts = useCallback((v: string) => setSortOptionConcepts(v), []);
+
   const updateFilterSubjects = useCallback((o: MultiValue) => setFilterSubject(o), []);
 
   const { data, isLoading } = useSearch(
     {
       'responsible-ids': ndlaId,
-      sort: sortOption ? sortOption : '-responsibleLastUpdated',
+      sort: sortOption,
       ...(filterSubjects.length ? { subjects: filterSubjects.map(fs => fs.value).join(',') } : {}),
     },
     {
@@ -36,10 +45,20 @@ const WorkList = ({ ndlaId }: Props) => {
     },
   );
 
-  const updateSortOption = useCallback((v: string) => setSortOption(v), []);
+  const { data: concepts, isLoading: conceptsLoading } = useSearchConcepts(
+    {
+      'responsible-ids': ndlaId,
+      sort: sortOptionConcepts,
+    },
+    {
+      enabled: !!ndlaId,
+      onError: () => setErrorConceptList(t('welcomePage.errorMessage')),
+      onSuccess: () => setErrorConceptList(undefined),
+    },
+  );
 
   const { t } = useTranslation();
-
+  console.log(data);
   return (
     <TabsV2
       ariaLabel={t('welcomePage.workList.ariaLabel')}
@@ -58,7 +77,18 @@ const WorkList = ({ ndlaId }: Props) => {
             />
           ),
         },
-        { title: `${t('form.name.concepts')} (0)`, content: <div>hehe</div> },
+        {
+          title: `${t('form.name.concepts')} (${concepts?.results.length ?? 0})`,
+          content: (
+            <ConceptListTabContent
+              data={concepts}
+              setSortOption={updateSortOptionConcepts}
+              isLoading={conceptsLoading}
+              error={errorConceptList}
+              sortOption={sortOptionConcepts}
+            />
+          ),
+        },
       ]}
     />
   );

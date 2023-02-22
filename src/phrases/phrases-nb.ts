@@ -127,7 +127,7 @@ const phrases = {
     errorMessage: 'Innhenting av data feilet',
     workList: {
       title: 'Mine arbeidsoppgaver',
-      description: 'Artikler hvor jeg står i ansvarlig-feltet',
+      description: 'Artikler hvor du står i ansvarlig-feltet',
       name: 'Navn',
       status: 'Status',
       contentType: 'Innholdstype',
@@ -135,6 +135,8 @@ const phrases = {
       topicRelation: 'Emnetilhørighet',
       date: 'Tildelningsdato',
       ariaLabel: 'Oversikt over mine arbeidsoppgaver og forklaringer',
+      conceptDescription: 'Forklaringer hvor du står som ansvarlig',
+      conceptSubject: 'Forklaringsfag',
     },
     welcomeBack: 'Velkommen tilbake',
   },

@@ -126,7 +126,7 @@ const phrases = {
     errorMessage: 'Failed to retrieve data',
     workList: {
       title: 'My tasks',
-      description: 'Articles where I am responsible',
+      description: 'Articles where you are responsible',
       name: 'Name',
       status: 'Status',
       contentType: 'Content type',
@@ -134,6 +134,8 @@ const phrases = {
       topicRelation: 'Topic relation',
       date: 'Date assigned',
       ariaLabel: 'Overview of my tasks and concepts',
+      conceptDescription: 'Concepts where you are responsible',
+      conceptSubject: 'Concept subject',
     },
     welcomeBack: 'Welcome back',
   },

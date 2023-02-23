@@ -6,18 +6,21 @@
  *
  */
 
-import Button from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
+import { spacing } from '@ndla/core';
 import { Formik, Form, FormikHelpers } from 'formik';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
-import Field from '../../../Field';
 import MultiSelectDropdown from '../../../Dropdown/MultiSelectDropdown';
 import FormikField from '../../../FormikField';
 import validateFormik from '../../../formikValidationSchema';
 import { FootnoteElement } from '.';
 
-const StyledButton = styled(Button)`
-  margin-left: 0.2rem;
+const ButtonContainer = styled.div`
+  margin-top: ${spacing.small};
+  display: flex;
+  gap: ${spacing.xsmall};
+  justify-content: flex-end;
 `;
 
 const rules = {
@@ -89,17 +92,17 @@ const FootnoteForm = ({ isEdit, footnote, onRemove, onClose, onSave }: Props) =>
           <FormikField name="edition" label={t('form.content.footnote.edition')} />
 
           <FormikField name="publisher" label={t('form.content.footnote.publisher')} />
-          <Field right>
+          <ButtonContainer>
             {isEdit && (
-              <Button onClick={onRemove}>{t('form.content.footnote.removeFootnote')}</Button>
+              <ButtonV2 onClick={onRemove}>{t('form.content.footnote.removeFootnote')}</ButtonV2>
             )}
-            <StyledButton outline onClick={onClose}>
+            <ButtonV2 variant="outline" onClick={onClose}>
               {t('form.abort')}
-            </StyledButton>
-            <StyledButton data-cy="save_footnote" type="button" onClick={submitForm}>
+            </ButtonV2>
+            <ButtonV2 data-cy="save_footnote" onClick={submitForm}>
               {t('form.save')}
-            </StyledButton>
-          </Field>
+            </ButtonV2>
+          </ButtonContainer>
         </Form>
       )}
     </Formik>

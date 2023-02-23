@@ -6,36 +6,21 @@
  *
  */
 
-import { MouseEvent, ReactNode } from 'react';
-import { darken } from 'polished';
-import styled from '@emotion/styled';
-import { colors } from '@ndla/core';
-import DeleteForeverButton from './DeleteForeverButton';
+import { IconButtonV2 } from '@ndla/button';
+import { DeleteForever } from '@ndla/icons/editor';
+import { ComponentProps } from 'react';
 
-const StyledDeleteButton = styled(DeleteForeverButton)`
-  position: absolute;
-  top: 0.1rem;
-  right: 0.2rem;
-  color: ${colors.support.red};
-
-  &:hover,
-  &:focus {
-    color: ${darken(0.2, colors.support.red)};
-  }
-`;
-
-interface Props {
-  children?: ReactNode;
-  stripped?: boolean;
-  onMouseDown?: (event: MouseEvent) => void;
-  'data-cy'?: string;
-  onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
-  title?: string;
-  tabIndex?: string;
-}
+interface Props extends ComponentProps<typeof IconButtonV2> {}
 
 export const DeleteButton = ({ children, ...rest }: Props) => (
-  <StyledDeleteButton data-cy="close-related-button" stripped {...rest} />
+  <IconButtonV2
+    colorTheme="danger"
+    variant="ghost"
+    contentEditable={false}
+    data-cy="close-related-button"
+    {...rest}>
+    <DeleteForever />
+  </IconButtonV2>
 );
 
 export default DeleteButton;

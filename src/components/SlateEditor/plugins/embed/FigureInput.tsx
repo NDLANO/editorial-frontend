@@ -10,7 +10,7 @@ import { ChangeEvent, MouseEventHandler } from 'react';
 import styled from '@emotion/styled';
 import { spacing, colors } from '@ndla/core';
 import { StyledButtonWrapper, TextArea } from '@ndla/forms';
-import Button from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 import { useTranslation } from 'react-i18next';
 import { useSlateContext } from '../../SlateContext';
 import { isEmpty } from '../../../validators';
@@ -59,12 +59,12 @@ const FigureInput = ({ caption, alt, madeChanges, onChange, onAbort, onSave }: P
         warningText={!submitted && isEmpty(alt) ? t('form.image.alt.noText') : ''}
       />
       <StyledButtonWrapper paddingLeft>
-        <Button onClick={onAbort} outline>
+        <ButtonV2 onClick={onAbort} variant="outline">
           {t('form.abort')}
-        </Button>
-        <Button disabled={!madeChanges || isEmpty(alt)} onClick={onSave}>
+        </ButtonV2>
+        <ButtonV2 disabled={!madeChanges || isEmpty(alt)} onClick={onSave}>
           {t('form.image.save')}
-        </Button>
+        </ButtonV2>
       </StyledButtonWrapper>
     </StyledInputWrapper>
   );

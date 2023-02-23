@@ -242,7 +242,7 @@ const EditRelated = ({
             {t('form.content.relatedArticle.addExternal')}
           </ButtonV2>
         </div>
-        <DeleteButton stripped onClick={onRemoveClick} />
+        <DeleteButton variant="stripped" aria-label={t('form.remove')} onClick={onRemoveClick} />
       </StyledBorderDiv>
       {showAddExternal && (
         <ContentLink

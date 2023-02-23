@@ -24,5 +24,5 @@ const StyledDeleteButton = styled(DeleteButton)`
 `;
 
 export const EditorDeleteButton = (props: ComponentProps<typeof DeleteButton>) => (
-  <StyledDeleteButton stripped tabIndex="-1" {...props} />
+  <StyledDeleteButton variant="stripped" tabIndex={-1} {...props} />
 );

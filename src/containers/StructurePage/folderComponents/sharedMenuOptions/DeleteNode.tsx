@@ -10,7 +10,7 @@ import {
   useDeleteNodeMutation,
 } from '../../../../modules/nodes/nodeMutations';
 import { queryTopics } from '../../../../modules/taxonomy';
-import { ARCHIVED } from '../../../../util/constants/ArticleStatus';
+import { ARCHIVED } from '../../../../constants';
 import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
 import { EditModeHandler } from '../SettingsMenuDropdownType';
 import MenuItemButton from './components/MenuItemButton';
@@ -79,7 +79,7 @@ const DeleteNode = ({
   };
   return (
     <>
-      <MenuItemButton stripped data-testid="deleteNode" disabled={disabled} onClick={toggleDelete}>
+      <MenuItemButton data-testid="deleteNode" disabled={disabled} onClick={toggleDelete}>
         <RoundIcon small icon={<DeleteForever />} />
         {t('taxonomy.deleteNode')}
       </MenuItemButton>

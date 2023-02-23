@@ -6,22 +6,24 @@
  *
  */
 
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import { useTranslation } from 'react-i18next';
+import sortBy from 'lodash/sortBy';
 import { flattenResourceTypesAndAddContextTypes } from '../../../../util/taxonomyHelpers';
 import { getResourceLanguages } from '../../../../util/resourceHelpers';
 import { getTagName } from '../../../../util/formHelper';
-import ArticleStatuses from '../../../../util/constants/index';
 import { SearchParams } from './SearchForm';
 import {
   DRAFT_WRITE_SCOPE,
+  FAVOURITES_SUBJECT_ID,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
 } from '../../../../constants';
 import config from '../../../../config';
 import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
-import { useAuth0Editors } from '../../../../modules/auth0/auth0Queries';
+import { useAuth0Editors, useAuth0Responsibles } from '../../../../modules/auth0/auth0Queries';
 import { useAllResourceTypes } from '../../../../modules/taxonomy/resourcetypes/resourceTypesQueries';
+import { useDraftStatusStateMachine } from '../../../../modules/draft/draftQueries';
 import GenericSearchForm, { OnFieldChangeFunction } from './GenericSearchForm';
 import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
 import { SearchFormSelector } from './Selector';
@@ -31,6 +33,7 @@ interface Props {
   subjects: SubjectType[];
   searchObject: SearchParams;
   locale: string;
+  favouriteSubjectIDs?: string;
 }
 
 const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, locale }: Props) => {
@@ -43,6 +46,21 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
     { permission: DRAFT_WRITE_SCOPE },
     {
       select: users => users.map(u => ({ id: `${u.app_metadata.ndla_id}`, name: u.name })),
+      placeholderData: [],
+    },
+  );
+
+  const { data: responsibles } = useAuth0Responsibles(
+    { permission: DRAFT_WRITE_SCOPE },
+    {
+      select: users =>
+        sortBy(
+          users.map(u => ({
+            id: `${u.app_metadata.ndla_id}`,
+            name: u.name,
+          })),
+          u => u.name,
+        ),
       placeholderData: [],
     },
   );
@@ -75,7 +93,6 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
       includeOtherStatuses = search['include-other-statuses'];
       status = search.status;
     }
-
     const searchObj = { ...search, 'include-other-statuses': includeOtherStatuses, [name]: value };
     doSearch(
       name !== 'draft-status'
@@ -105,12 +122,15 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
       'revision-date-from': '',
       'revision-date-to': '',
       'exclude-revision-log': false,
+      'responsible-ids': '',
     });
   };
 
+  const { data: statuses } = useDraftStatusStateMachine();
+
   const getDraftStatuses = (): { id: string; name: string }[] => {
     return [
-      ...Object.keys(ArticleStatuses.articleStatuses).map(s => {
+      ...Object.keys(statuses || []).map(s => {
         return { id: s, name: t(`form.status.${s.toLowerCase()}`) };
       }),
       { id: 'HAS_PUBLISHED', name: t(`form.status.has_published`) },
@@ -122,14 +142,37 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
     return (a: Sortable, b: Sortable) => a[property]?.localeCompare(b[property]);
   };
 
+  const sortedSubjects = useMemo(() => {
+    const favoriteSubject: SubjectType = {
+      id: FAVOURITES_SUBJECT_ID,
+      name: t('searchForm.favourites'),
+      contentUri: '',
+      path: '',
+      metadata: {
+        customFields: {},
+        grepCodes: [],
+        visible: true,
+      },
+    };
+    const filteredAndSortedSubjects = subjects
+      .filter(s => s.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] !== 'true')
+      .sort(sortByProperty('name'));
+    return [favoriteSubject].concat(filteredAndSortedSubjects);
+  }, [subjects, t]);
+
   const selectors: SearchFormSelector[] = [
     {
-      value: getTagName(search.subjects, subjects),
+      value: getTagName(search.subjects, sortedSubjects),
       parameterName: 'subjects',
-      width: config.revisiondateEnabled === 'true' ? 50 : 25,
-      options: subjects
-        .filter(s => s.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] !== 'true')
-        .sort(sortByProperty('name')),
+      width: 25,
+      options: sortedSubjects,
+      formElementType: 'dropdown',
+    },
+    {
+      value: getTagName(search['responsible-ids'], responsibles),
+      parameterName: 'responsible-ids',
+      width: 25,
+      options: responsibles!,
       formElementType: 'dropdown',
     },
     {
@@ -171,22 +214,20 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
     },
   ];
 
-  if (config.revisiondateEnabled === 'true') {
-    selectors.push(
-      {
-        value: search['revision-date-from'],
-        parameterName: 'revision-date-from',
-        width: 25,
-        formElementType: 'date-picker',
-      },
-      {
-        value: search['revision-date-to'],
-        parameterName: 'revision-date-to',
-        width: 25,
-        formElementType: 'date-picker',
-      },
-    );
-  }
+  selectors.push(
+    {
+      value: search['revision-date-from'],
+      parameterName: 'revision-date-from',
+      width: 25,
+      formElementType: 'date-picker',
+    },
+    {
+      value: search['revision-date-to'],
+      parameterName: 'revision-date-to',
+      width: 25,
+      formElementType: 'date-picker',
+    },
+  );
 
   return (
     <GenericSearchForm

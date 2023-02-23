@@ -10,7 +10,7 @@ import { ReactChild, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useFormikContext } from 'formik';
-import Button from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 import styled from '@emotion/styled';
 import { ContentTypeBadge, constants } from '@ndla/ui';
 import { colors, fonts, spacing } from '@ndla/core';
@@ -53,10 +53,6 @@ const StyledTitleHeaderWrapper = styled.div`
   }
 `;
 
-const StyledButton = styled(Button)`
-  white-space: nowrap;
-`;
-
 const { contentTypes } = constants;
 
 export const types: Record<string, { form: string; cssModifier: string; icon: ReactChild }> = {
@@ -72,6 +68,11 @@ export const types: Record<string, { form: string; cssModifier: string; icon: Re
   },
   subjectpage: {
     form: 'subjectpageForm',
+    cssModifier: 'article',
+    icon: <ContentTypeBadge type={contentTypes.SUBJECT} background size="small" />,
+  },
+  'frontpage-article': {
+    form: 'frontpageArticleForm',
     cssModifier: 'article',
     icon: <ContentTypeBadge type={contentTypes.SUBJECT} background size="small" />,
   },
@@ -165,10 +166,10 @@ const HeaderInformation = ({
           {title ? `${t(`${types[type].form}.title`)}: ${title}` : t(`${types[type].form}.title`)}
         </h1>
         {(type === 'standard' || type === 'topic-article') && (
-          <StyledButton stripped onClick={onSaveAsNew} data-testid="saveAsNew">
+          <ButtonV2 variant="stripped" onClick={onSaveAsNew} data-testid="saveAsNew">
             {t('form.workflow.saveAsNew')}
             {loading && <Spinner appearance="absolute" />}
-          </StyledButton>
+          </ButtonV2>
         )}
       </StyledTitleHeaderWrapper>
       <HeaderStatusInformation

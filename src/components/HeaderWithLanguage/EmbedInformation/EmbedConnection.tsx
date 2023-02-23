@@ -13,7 +13,7 @@ import { useTranslation } from 'react-i18next';
 import { SubjectMaterial } from '@ndla/icons/contentType';
 import Modal, { ModalHeader, ModalCloseButton, ModalBody } from '@ndla/modal';
 import Tooltip from '@ndla/tooltip';
-import Button from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 import { IConceptSummary } from '@ndla/types-concept-api';
 import { IMultiSearchSummary } from '@ndla/types-search-api';
 
@@ -88,9 +88,9 @@ const EmbedConnection = ({ id, type, articles, setArticles, concepts, setConcept
         <Tooltip tooltip={t(`form.embedConnections.info.${type}`)}>{activateButton}</Tooltip>
       )}
       activateButton={
-        <Button stripped>
+        <ButtonV2 variant="stripped">
           <ImageInformationIcon css={normalPaddingCSS} />
-        </Button>
+        </ButtonV2>
       }>
       {(onClose: () => void) => (
         <>

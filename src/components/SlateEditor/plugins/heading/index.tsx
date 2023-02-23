@@ -35,13 +35,13 @@ export const headingSerializer: SlateSerializer = {
       return slatejsx('element', { type: TYPE_HEADING, level: 3 }, children);
     }
     if (tag === 'h4') {
-      return slatejsx('element', { type: TYPE_HEADING, level: 3 }, children);
+      return slatejsx('element', { type: TYPE_HEADING, level: 4 }, children);
     }
     if (tag === 'h5') {
-      return slatejsx('element', { type: TYPE_HEADING, level: 3 }, children);
+      return slatejsx('element', { type: TYPE_HEADING, level: 4 }, children);
     }
     if (tag === 'h6') {
-      return slatejsx('element', { type: TYPE_HEADING, level: 3 }, children);
+      return slatejsx('element', { type: TYPE_HEADING, level: 4 }, children);
     }
   },
   serialize(node: Descendant, children: JSX.Element[]) {

@@ -11,13 +11,13 @@ import { useTranslation } from 'react-i18next';
 import { getResourceLanguages } from '../../../../util/resourceHelpers';
 import { getTagName } from '../../../../util/formHelper';
 import { SearchParams } from './SearchForm';
-import * as conceptStatuses from '../../../../util/constants/ConceptStatus';
 import {
   CONCEPT_WRITE_SCOPE,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
 } from '../../../../constants';
 import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { useAuth0Editors } from '../../../../modules/auth0/auth0Queries';
+import { useConceptStateMachine } from '../../../../modules/concept/conceptQueries';
 import GenericSearchForm, { OnFieldChangeFunction } from './GenericSearchForm';
 import { SearchFormSelector } from './Selector';
 
@@ -51,8 +51,10 @@ const SearchConceptForm = ({ search: doSearch, searchObject: search, subjects }:
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search.query]);
 
+  const { data: statuses } = useConceptStateMachine();
+
   const getConceptStatuses = () => {
-    return Object.keys(conceptStatuses).map(s => {
+    return Object.keys(statuses || []).map(s => {
       return { id: s, name: t(`form.status.${s.toLowerCase()}`) };
     });
   };

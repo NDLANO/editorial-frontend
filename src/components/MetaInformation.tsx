@@ -7,7 +7,6 @@
  */
 
 import { ReactNode } from 'react';
-import PropTypes from 'prop-types';
 import { spacing } from '@ndla/core';
 import styled from '@emotion/styled';
 
@@ -42,15 +41,5 @@ const MetaInformation = ({ title, copyright, translations, action }: Props) => (
     </div>
   </StyleMetaInformation>
 );
-
-MetaInformation.propTypes = {
-  title: PropTypes.string,
-  copyright: PropTypes.string,
-  translations: PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    copyright: PropTypes.string.isRequired,
-  }),
-  action: PropTypes.node,
-};
 
 export default MetaInformation;

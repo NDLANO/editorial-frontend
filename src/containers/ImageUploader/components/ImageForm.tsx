@@ -6,21 +6,24 @@
  */
 
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Formik, FormikHelpers } from 'formik';
+import styled from '@emotion/styled';
 import {
   IImageMetaInformationV3,
   INewImageMetaInformationV2,
   ILicense,
 } from '@ndla/types-image-api';
 import { Accordions, AccordionSection } from '@ndla/accordion';
-import Field from '../../../components/Field';
+import { ButtonV2 } from '@ndla/button';
+import { spacing } from '@ndla/core';
 import SaveButton from '../../../components/SaveButton';
 import { isFormikFormDirty } from '../../../util/formHelper';
 import validateFormik, { RulesType, getWarnings } from '../../../components/formikValidationSchema';
 import ImageMetaData from './ImageMetaData';
 import ImageContent from './ImageContent';
-import { ActionButton, AbortButton, AlertModalWrapper } from '../../FormikForm';
+import { AlertModalWrapper } from '../../FormikForm';
 import { toCreateImage, toEditImage } from '../../../util/routeHelpers';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage/HeaderWithLanguage';
 import ImageVersionNotes from './ImageVersionNotes';
@@ -28,6 +31,13 @@ import { MAX_IMAGE_UPLOAD_SIZE } from '../../../constants';
 import { imageApiTypeToFormType, ImageFormikType } from '../imageTransformers';
 import { editorValueToPlainText } from '../../../util/articleContentConverter';
 import FormWrapper from '../../../components/FormWrapper';
+
+const ButtonContainer = styled.div`
+  margin-top: ${spacing.small};
+  display: flex;
+  justify-content: flex-end;
+  gap: ${spacing.xsmall};
+`;
 
 const imageRules: RulesType<ImageFormikType, IImageMetaInformationV3> = {
   title: {
@@ -37,12 +47,6 @@ const imageRules: RulesType<ImageFormikType, IImageMetaInformationV3> = {
     },
   },
   alttext: {
-    required: true,
-    warnings: {
-      languageMatch: true,
-    },
-  },
-  caption: {
     required: true,
     warnings: {
       languageMatch: true,
@@ -115,6 +119,7 @@ const ImageForm = ({
 }: Props) => {
   const { t } = useTranslation();
   const [savedToServer, setSavedToServer] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = async (values: ImageFormikType, actions: FormikHelpers<ImageFormikType>) => {
     const license = licenses.find(license => license.license === values.license);
@@ -221,22 +226,25 @@ const ImageForm = ({
                 <ImageVersionNotes image={image} />
               </AccordionSection>
             </Accordions>
-            <Field right>
+            <ButtonContainer>
               {inModal ? (
-                <ActionButton outline onClick={closeModal}>
+                <ButtonV2 variant="outline" onClick={closeModal}>
                   {t('form.abort')}
-                </ActionButton>
+                </ButtonV2>
               ) : (
-                <AbortButton outline disabled={isSubmitting || isSaving}>
+                <ButtonV2
+                  variant="outline"
+                  disabled={isSubmitting || isSaving}
+                  onClick={() => navigate(-1)}>
                   {t('form.abort')}
-                </AbortButton>
+                </ButtonV2>
               )}
               <SaveButton
+                type={!inModal ? 'submit' : 'button'}
                 isSaving={isSubmitting || isSaving}
                 disabled={!isValid}
                 showSaved={!dirty && (isNewlyCreated || savedToServer)}
                 formIsDirty={formIsDirty}
-                submit={!inModal}
                 onClick={evt => {
                   if (inModal) {
                     evt.preventDefault();
@@ -244,7 +252,7 @@ const ImageForm = ({
                   }
                 }}
               />
-            </Field>
+            </ButtonContainer>
             <AlertModalWrapper
               isSubmitting={isSubmitting}
               severity="danger"

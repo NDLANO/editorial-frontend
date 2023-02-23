@@ -18,9 +18,10 @@ import {
   toCreatePodcastFile,
   toCreatePodcastSeries,
   toEditNdlaFilm,
+  toCreateFrontPageArticle,
 } from '../../../util/routeHelpers';
 import { useSession } from '../../Session/SessionProvider';
-import { DRAFT_ADMIN_SCOPE, TAXONOMY_ADMIN_SCOPE } from '../../../constants';
+import { AUDIO_ADMIN_SCOPE, DRAFT_ADMIN_SCOPE, TAXONOMY_ADMIN_SCOPE } from '../../../constants';
 
 interface Props {
   close: () => void;
@@ -54,6 +55,12 @@ const OpenMenu = ({ close }: Props) => {
                 <Concept /> {t('subNavigation.newConcept')}
               </span>
             </StyledLink>
+            <StyledLink to={toCreateFrontPageArticle()} onClick={close}>
+              <span>
+                <ContentTypeBadge type={contentTypes.SUBJECT_MATERIAL} background size="xx-small" />{' '}
+                {t('subNavigation.newFrontpageArticle')}
+              </span>
+            </StyledLink>
             <StyledLink to={toCreateImage()} onClick={close}>
               <span>
                 <Camera /> {t('subNavigation.image')}
@@ -69,11 +76,13 @@ const OpenMenu = ({ close }: Props) => {
                 <Podcast /> {t('subNavigation.podcast')}
               </span>
             </StyledLink>
-            <StyledLink to={toCreatePodcastSeries()} onClick={close}>
-              <span>
-                <List /> {t('subNavigation.podcastSeries')}
-              </span>
-            </StyledLink>
+            {userPermissions?.includes(AUDIO_ADMIN_SCOPE) && (
+              <StyledLink to={toCreatePodcastSeries()} onClick={close}>
+                <span>
+                  <List /> {t('subNavigation.podcastSeries')}
+                </span>
+              </StyledLink>
+            )}
           </div>
           <div>
             <StyledLink to="/structure" onClick={close}>

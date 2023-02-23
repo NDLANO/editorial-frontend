@@ -9,7 +9,7 @@
 import { memo, RefObject } from 'react';
 import { useTranslation } from 'react-i18next';
 import { spacing } from '@ndla/core';
-import Button from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 import styled from '@emotion/styled';
 import { TFunction } from 'i18next';
 import keyBy from 'lodash/keyBy';
@@ -21,13 +21,10 @@ import {
   useResourcesWithNodeConnection,
 } from '../../../modules/nodes/nodeQueries';
 import { useAllResourceTypes } from '../../../modules/taxonomy/resourcetypes/resourceTypesQueries';
-import NodeDescription from './NodeDescription';
 import handleError from '../../../util/handleError';
-import AllResourcesGroup from './AllResourcesGroup';
-import ResourceGroup from './ResourceGroup';
-import { groupResourcesByType } from '../../../util/taxonomyHelpers';
-import GroupTopicResources from '../folderComponents/topicMenuOptions/GroupTopicResources';
+import ResourcesContainer from './ResourcesContainer';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
+import GroupTopicResources from '../folderComponents/topicMenuOptions/GroupTopicResources';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const StyledDiv = styled('div')`
@@ -35,6 +32,7 @@ const StyledDiv = styled('div')`
   margin-left: auto;
   margin-right: calc(${spacing.nsmall});
 `;
+
 const Row = styled.div`
   display: flex;
   justify-content: space-between;
@@ -98,12 +96,6 @@ const StructureResources = ({ currentChildNode, resourceRef, onCurrentNodeChange
 
   const keyedMetas = keyBy(nodeResourceMetas, m => m.contentUri);
 
-  const nodeResourcesWithMeta: ResourceWithNodeConnectionAndMeta[] =
-    nodeResources?.map(res => ({
-      ...res,
-      contentMeta: res.contentUri ? keyedMetas[res.contentUri] : undefined,
-    })) ?? [];
-
   const { data: resourceTypes } = useAllResourceTypes(
     { language: i18n.language, taxonomyVersion },
     {
@@ -112,18 +104,16 @@ const StructureResources = ({ currentChildNode, resourceRef, onCurrentNodeChange
     },
   );
 
-  const mapping = groupResourcesByType(nodeResourcesWithMeta ?? [], resourceTypes ?? []);
-
   return (
     <div ref={resourceRef}>
       <Row>
-        <Button
-          outline
+        <ButtonV2
+          variant="outline"
           onClick={() =>
             document.getElementById(currentChildNode.id)?.scrollIntoView({ block: 'center' })
           }>
           {t('taxonomy.jumpToStructure')}
-        </Button>
+        </ButtonV2>
         {currentChildNode && currentChildNode.id && (
           <StyledDiv>
             <GroupTopicResources
@@ -139,32 +129,15 @@ const StructureResources = ({ currentChildNode, resourceRef, onCurrentNodeChange
           </StyledDiv>
         )}
       </Row>
-      <NodeDescription
+
+      <ResourcesContainer
+        key="ungrouped"
+        nodeResources={nodeResources ?? []}
+        resourceTypes={resourceTypes ?? []}
         currentNode={currentChildNode}
-        contentMeta={
-          currentChildNode.contentUri ? keyedMetas[currentChildNode.contentUri] : undefined
-        }
+        contentMeta={keyedMetas}
+        grouped={grouped === 'grouped'}
       />
-      {grouped === 'ungrouped' && (
-        <AllResourcesGroup
-          key="ungrouped"
-          nodeResources={nodeResources ?? []}
-          resourceTypes={resourceTypes ?? []}
-          currentNodeId={currentChildNode.id}
-        />
-      )}
-      {grouped === 'grouped' &&
-        resourceTypes?.map(resourceType => {
-          const nodeResource = mapping.find(resource => resource.id === resourceType.id);
-          return (
-            <ResourceGroup
-              key={resourceType.id}
-              resourceType={resourceType}
-              resources={nodeResource?.resources}
-              currentNodeId={currentChildNode.id}
-            />
-          );
-        })}
     </div>
   );
 };

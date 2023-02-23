@@ -5,7 +5,7 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
+import SafeLink from '@ndla/safelink';
 import { Check } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
 import HeaderLanguagePill from './HeaderLanguagePill';
@@ -15,7 +15,7 @@ interface LinkWithReplaceProps {
 }
 
 const LinkWithReplace = ({ to, ...rest }: LinkWithReplaceProps) => {
-  return <Link to={to} replace {...rest} />;
+  return <SafeLink to={to} replace {...rest} />;
 };
 
 interface Props {
@@ -49,12 +49,14 @@ const HeaderSupportedLanguages = ({
             tooltip={t('language.change', {
               language: t(`language.${supportedLanguage}`).toLowerCase(),
             })}>
-            <HeaderLanguagePill
-              to={editUrl(supportedLanguage)}
-              withComponent={replace ? LinkWithReplace : Link}
-              isSubmitting={isSubmitting}>
-              {t(`language.${supportedLanguage}`)}
-            </HeaderLanguagePill>
+            <div>
+              <HeaderLanguagePill
+                to={editUrl(supportedLanguage)}
+                component={replace ? LinkWithReplace : SafeLink}
+                isSubmitting={isSubmitting}>
+                {t(`language.${supportedLanguage}`)}
+              </HeaderLanguagePill>
+            </div>
           </Tooltip>
         ),
       )}

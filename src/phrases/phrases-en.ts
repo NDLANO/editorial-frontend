@@ -14,6 +14,7 @@ const phrases = {
     createLearningResourcePage: `Learning resource ${titleTemplate}`,
     createTopicArticlePage: `Topic ${titleTemplate}`,
     createSubjectpage: `Subjectpage ${titleTemplate}`,
+    createFrontPageArticePage: `Content article ${titleTemplate}`,
     agreementPage: `Agreement ${titleTemplate}`,
     welcomePage: `Frontpage ${titleTemplate}`,
     structurePage: `Structure ${titleTemplate}`,
@@ -117,8 +118,23 @@ const phrases = {
     guidelines: 'Guidelines',
     mustBeSearch: 'Link must be a search url',
     lastUsed: 'Last edited',
+    lastUsedDescription: 'Your recently edited articles',
     savedSearch: 'Saved searches',
     saveSearch: 'Save search',
+    chooseSubject: 'Choose subjects',
+    chooseTopic: 'Choose topics',
+    errorMessage: 'Failed to retrieve data',
+    goToSearch: 'Go to search',
+    workList: {
+      title: 'My tasks',
+      description: 'Articles where I am responsible',
+      name: 'Name',
+      status: 'Status',
+      contentType: 'Content type',
+      primarySubject: 'Primary subject',
+      topicRelation: 'Topic relation',
+      date: 'Date assigned',
+    },
     welcomeBack: 'Welcome back',
   },
   searchPage: {
@@ -184,6 +200,7 @@ const phrases = {
     h5p: 'Edit H5P',
     newConcept: 'Create new concept',
     newSubject: 'Create new subject',
+    newFrontpageArticle: 'Create new content article',
   },
   logo: {
     altText: 'The Norwegian Digital Learning Arena',
@@ -228,6 +245,7 @@ const phrases = {
       'revision-date-from': 'Revisiondate from',
       'revision-date-to': 'Revisiondate to',
       'exclude-revision-log': 'Exclude revision log',
+      'responsible-ids': 'Select responsible',
     },
     tagType: {
       query: 'Query',
@@ -243,6 +261,7 @@ const phrases = {
       'revision-date-from': 'Revisiondate from',
       'revision-date-to': 'Revisiondate to',
       'exclude-revision-log': 'Revision log excluded',
+      'responsible-ids': 'Responsible',
     },
     btn: 'Search',
     empty: 'Empty',
@@ -270,6 +289,7 @@ const phrases = {
       revisionDate: 'Next revision',
     },
     resultError: 'Something went wrong with type: {{type}}',
+    favourites: 'My favourite subjects',
   },
   subjectsPage: {
     subjects: 'Subjects',
@@ -413,6 +433,11 @@ const phrases = {
         placeholder: 'Alt-text',
       },
     },
+    validation: {
+      containsContent:
+        'Topic articles should only have title, introduction and visualelement. The content is in most cases not needed.',
+      illegalResource: 'Topic articles should only have image as visual element.',
+    },
   },
   agreementForm: {
     title: {
@@ -447,6 +472,7 @@ const phrases = {
     alreadyPartOfSeries: 'Part of another series',
     description: 'Description',
     rss: 'Rss feed',
+    adminError: "You don't have access to create or update podcast series.",
   },
   podcastForm: {
     title: 'Podcast episode',
@@ -473,6 +499,13 @@ const phrases = {
   },
   imageForm: {
     title: 'Image',
+  },
+  frontpageArticleForm: {
+    title: 'Content article',
+    validation: {
+      illegalSlug:
+        'Use of illegal characters in permalink! Legal characters are numbers and letters, plus dashes.',
+    },
   },
   learningResourceForm: {
     metaImage: {
@@ -569,9 +602,14 @@ const phrases = {
       button: 'Preview',
     },
     resize: 'Resize',
+    slug: {
+      label: 'Permalink',
+      edit: 'Edit permalink',
+    },
     name: {
       title: 'Title',
       aboutTitle: 'Title',
+      slug: 'Permalink',
       introduction: 'Ingress',
       creators: 'Creators',
       rightsholders: 'Rightsholders',
@@ -759,6 +797,14 @@ const phrases = {
       new: 'New - unsaved',
       new_language: 'New language - unsaved',
       created: 'Created',
+      planned: 'Planned',
+      in_progress: 'In progress',
+      external_review: 'External review',
+      internal_review: 'Internal review',
+      quality_assurance: 'Quality assurance desk',
+      language: 'Language',
+      for_approval: 'For approval LMA',
+      end_control: 'End control',
       imported: 'Imported',
       draft: 'Draft',
       proposal: 'Proposal',
@@ -770,6 +816,7 @@ const phrases = {
       queued_for_publishing: 'Queued for publishing',
       quality_assured_delayed: 'Ready for publishing-delayed',
       queued_for_publishing_delayed: 'Queue for publishing-delayed',
+      publish_delayed: 'Publish-delayed',
       published: 'Published',
       has_published: 'Has published version',
       unlisted: 'Link shared',
@@ -778,6 +825,14 @@ const phrases = {
       awaiting_archiving: 'Delayed archivation',
       archived: 'Deleted',
       actions: {
+        PLANNED: 'Planned',
+        IN_PROGRESS: 'In progress',
+        EXTERNAL_REVIEW: 'External review',
+        INTERNAL_REVIEW: 'Internal review',
+        QUALITY_ASSURANCE: 'Quality assurance',
+        LANGUAGE: 'Language',
+        FOR_APPROVAL: 'For approval LMA',
+        END_CONTROL: 'End control',
         DRAFT: 'Draft',
         PROPOSAL: 'Proposal',
         USER_TEST: 'User test',
@@ -788,6 +843,7 @@ const phrases = {
         QUEUED_FOR_PUBLISHING: 'Queue for publishing',
         QUALITY_ASSURED_DELAYED: 'Ready for publishing-delayed',
         QUEUED_FOR_PUBLISHING_DELAYED: 'Queue for publishing-delayed',
+        PUBLISH_DELAYED: 'Publish-delayed',
         PUBLISHED: 'Publish',
         AWAITING_UNPUBLISHING: 'Queue for unpublishing',
         UNPUBLISHED: 'Unpublish',
@@ -963,6 +1019,16 @@ const phrases = {
       label: 'License',
       helpLabel: 'What is a license?',
       choose: 'Choose a license',
+    },
+    responsible: {
+      label: 'Responsible',
+      choose: 'Choose a responsible',
+      noResults: 'No results',
+      noResponible: 'No responsible',
+      revisionDate: 'Amount approaching revision date',
+      revisionDateSingle: 'Approaching revision date',
+      error: 'Something went wrong when updating responsible',
+      noArticles: 'No articles ...',
     },
     origin: {
       label: 'Origin',
@@ -1198,6 +1264,7 @@ const phrases = {
     invalidUrl: 'Invalid url',
     noArticleInProd: 'No article found in prod',
     taxonomy: 'There was a problem loading taxonomy',
+    versionSelect: 'This article does not exist in the selected version',
     errorWhenFetchingTaxonomyArticle: 'There was a problem fetching the underlying article',
     unsavedTaxonomy:
       'You have unsaved changes. Press cancel again if you are sure you want to continue.',
@@ -1228,11 +1295,13 @@ const phrases = {
     confirm: 'Confirm',
     loginAgain: 'Login again',
   },
+  environment: { production: '', staging: 'Staging', test: 'Test' },
   taxonomy: {
     editStructure: 'Edit structure',
     editSubjectpage: 'Edit subjectpage',
     deleteSubject: 'Delete subject',
     addSubject: 'Add new subject',
+    subjectName: 'New subject name',
     addExistingTopic: 'Move existing topic here',
     addExistingLoading: 'Moving topic',
     addExistingSuccess: 'Topic successfully moved',
@@ -1245,6 +1314,7 @@ const phrases = {
     currentVersion: 'Current version',
     deleteNode: 'Delete',
     confirmDelete: 'Are you sure you want to delete this node?',
+    version: 'Version',
     changeName: {
       loadError: 'Could not fetch translations',
       updateError: 'Could not update translations',
@@ -1352,6 +1422,7 @@ const phrases = {
       edit: 'Edit grep codes',
       empty: 'No existing grep codes',
       addNew: 'Add new grep code',
+      delete: 'Remove {{grepCode}}',
     },
     copyRevisionDates: {
       text:
@@ -1397,6 +1468,7 @@ const phrases = {
   },
   contextTypes: {
     topic: 'Topic',
+    frontpage: 'Content article',
   },
   ndlaFilm: {
     editor: {
@@ -1501,6 +1573,7 @@ const phrases = {
     errors: {
       noPublishedVersion: 'Failed to find a published version',
     },
+    numberRequests: 'Number of publication request',
   },
   diff: {
     published:
@@ -1508,7 +1581,7 @@ const phrases = {
     publishing: 'Publishing node...',
     publish: 'Publish node',
     publishWarning:
-      'Are you sure you want to publish this node? Any changes within this version will be immediately available in the targeted version',
+      'Are you sure you want to publish this node? All the changes will be available in the targeted version after the publishing have completed',
     publishError: 'Failed to publish node',
     equalNodes: 'These nodes are equal!',
     defaultVersion: 'Draft',

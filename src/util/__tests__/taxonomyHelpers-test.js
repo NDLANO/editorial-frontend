@@ -15,7 +15,11 @@ import {
 import { resourceTypesMock, flattenedResourceTypes, filtersMock } from './taxonomyMocks';
 
 test('taxonomy/flattenResourceTypesAndAddContextTypes flattening', () => {
-  const t = () => 'Emne';
+  const types = {
+    'contextTypes.topic': 'Emne',
+    'contextTypes.frontpage': 'Forsideartikkel',
+  };
+  const t = key => types[key];
   expect(flattenResourceTypesAndAddContextTypes(resourceTypesMock, t)).toEqual(
     flattenedResourceTypes,
   );

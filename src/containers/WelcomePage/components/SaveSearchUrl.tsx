@@ -8,22 +8,14 @@
 
 import { ChangeEvent, MouseEvent, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import Button from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 import { FieldHeader, FieldSection, Input } from '@ndla/forms';
 import { Link as LinkIcon } from '@ndla/icons/common';
-
 import { getAccessToken, getAccessTokenPersonal } from '../../../util/authHelpers';
 import { isValid } from '../../../util/jwtHelper';
-
 import SavedSearch from './SavedSearch';
-import { updateUserData } from '../../../modules/draft/draftApi';
 import { isNDLAEdSearchUrl } from '../../../util/htmlHelpers';
 import { useUpdateUserDataMutation, useUserData } from '../../../modules/draft/draftQueries';
-
-export const updateUserMetadata = async (searches: string[]) => {
-  const userUpdatedMetadata = { savedSearches: searches };
-  updateUserData(userUpdatedMetadata);
-};
 
 export const getSavedSearchRelativeUrl = (inputValue: string) => {
   const relativeUrl = inputValue.split('search')[1];
@@ -83,7 +75,13 @@ const SaveSearchUrl = () => {
     <>
       {savedSearches.length ? (
         savedSearches.map((search, index) => (
-          <SavedSearch key={search} deleteSearch={deleteSearch} search={search} index={index} />
+          <SavedSearch
+            key={search}
+            deleteSearch={deleteSearch}
+            search={search}
+            index={index}
+            userData={data}
+          />
         ))
       ) : (
         <span>{t('welcomePage.emptySavedSearch')}</span>
@@ -104,7 +102,7 @@ const SaveSearchUrl = () => {
           onBlur={handleBlur}
         />
       </FieldSection>
-      <Button onClick={createSaveSearchUrl}>{t('welcomePage.saveSearch')}</Button>
+      <ButtonV2 onClick={createSaveSearchUrl}>{t('welcomePage.saveSearch')}</ButtonV2>
     </>
   );
 };

@@ -19,7 +19,7 @@ exports[`util/searchHelpers transformQuery 2`] = `
 
 exports[`util/searchHelpers transformQuery 3`] = `
 {
-  "context-types": "topic-article",
+  "article-types": "topic-article",
   "page": "1",
   "page-size": "10",
   "sort": "-relevance",

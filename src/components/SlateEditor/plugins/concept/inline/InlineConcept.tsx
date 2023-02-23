@@ -11,7 +11,7 @@ import { useState, useEffect, ReactNode, useMemo } from 'react';
 import { Editor, Element, Node, Transforms, Path } from 'slate';
 import { ReactEditor, RenderElementProps } from 'slate-react';
 import uniqueId from 'lodash/uniqueId';
-import { IConcept } from '@ndla/types-concept-api';
+import { IConcept, IConceptSummary } from '@ndla/types-concept-api';
 import { ConceptInlineElement } from '../inline/interfaces';
 import ConceptModal from '../ConceptModal';
 import { useFetchConceptData } from '../../../../../containers/FormikForm/formikConceptHooks';
@@ -67,7 +67,7 @@ const InlineConcept = (props: Props) => {
     }
   };
 
-  const addConcept = (addedConcept: IConcept) => {
+  const addConcept = (addedConcept: IConceptSummary | IConcept) => {
     toggleConceptModal();
     setTimeout(() => {
       handleSelectionChange(true);

@@ -12,7 +12,7 @@ import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import { useTranslation } from 'react-i18next';
 import uniqueId from 'lodash/uniqueId';
 import styled from '@emotion/styled';
-import Button from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 import { spacing } from '@ndla/core';
 import AlertModal from '../../../AlertModal';
 
@@ -28,13 +28,10 @@ const StyledMathPreviewWrapper = styled.div`
 `;
 
 const StyledButtonWrapper = styled.div`
+  gap: ${spacing.small};
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-`;
-
-const StyledButton = styled(Button)`
-  margin-right: ${spacing.small};
 `;
 
 const EditMathModal = ({
@@ -74,18 +71,18 @@ const EditMathModal = ({
             <hr />
             <StyledMathEditorWrapper id={`mathEditorContainer-${id}`} />
             <StyledButtonWrapper>
-              <StyledButton outline onClick={previewMath}>
+              <ButtonV2 variant="outline" onClick={previewMath}>
                 {t('form.preview.button')}
-              </StyledButton>
-              <StyledButton data-cy="save-math" outline onClick={handleSave}>
+              </ButtonV2>
+              <ButtonV2 data-cy="save-math" variant="outline" onClick={handleSave}>
                 {t('form.save')}
-              </StyledButton>
-              <StyledButton outline onClick={onCloseModal}>
+              </ButtonV2>
+              <ButtonV2 variant="outline" onClick={onCloseModal}>
                 {t('form.abort')}
-              </StyledButton>
-              <StyledButton outline onClick={handleRemove}>
+              </ButtonV2>
+              <ButtonV2 variant="outline" onClick={handleRemove}>
                 {t('form.remove')}
-              </StyledButton>
+              </ButtonV2>
             </StyledButtonWrapper>
             <h3>{t('mathEditor.preview')}</h3>
             <hr />

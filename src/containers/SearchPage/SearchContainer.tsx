@@ -8,7 +8,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { UseQueryResult } from 'react-query';
+import { UseQueryResult } from '@tanstack/react-query';
 import styled from '@emotion/styled';
 import { ISearchResultV3 } from '@ndla/types-image-api';
 import { IAudioSummarySearchResult, ISeriesSummarySearchResult } from '@ndla/types-audio-api';
@@ -56,11 +56,10 @@ const SearchContainer = ({ searchHook, type }: Props) => {
   const { taxonomyVersion } = useTaxonomyVersion();
   const { data: subjectData } = useSubjects({ language: locale, taxonomyVersion });
   const [searchObject, setSearchObject] = useState(parseSearchParams(location.search));
-  const { data: results, isLoading: isSearching } = searchHook(searchObject);
+  const { data: results, isInitialLoading: isSearching } = searchHook(searchObject);
   const nextPage = (searchObject?.page ?? 1) + 1;
   // preload next page.
   searchHook({ ...searchObject, page: nextPage });
-
   useEffect(() => {
     setSearchObject(parseSearchParams(location.search));
   }, [location.search]);

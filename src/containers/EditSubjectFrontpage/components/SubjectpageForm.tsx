@@ -186,7 +186,7 @@ const SubjectpageForm = ({
             />
             <Field right>
               <SaveButton
-                large
+                size="large"
                 isSaving={isSubmitting}
                 showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}
                 formIsDirty={formIsDirty}

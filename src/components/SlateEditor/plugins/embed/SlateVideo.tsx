@@ -9,18 +9,16 @@
 import { ReactNode, useEffect, useState, MouseEvent, useCallback } from 'react';
 import styled from '@emotion/styled';
 import { RenderElementProps } from 'slate-react';
-import Button from '@ndla/button';
+import { ButtonV2, IconButtonV2 } from '@ndla/button';
 import { Figure } from '@ndla/ui';
 import { breakpoints, parseMarkdown } from '@ndla/util';
 import { useTranslation } from 'react-i18next';
 import Tooltip from '@ndla/tooltip';
-import SafeLink from '@ndla/safelink';
 import { colors, spacing, fonts, mq } from '@ndla/core';
 import Modal from '@ndla/modal';
 import { isNumeric } from '../../../validators';
 import FigureButtons from './FigureButtons';
 import EditVideo, { toVideoEmbedFormValues, brightcoveEmbedFormRules } from './EditVideo';
-import IconButton from '../../../IconButton';
 import { fetchBrightcoveVideo } from '../../../../modules/video/brightcoveApi';
 import {
   addBrightCoveTimeStampVideoid,
@@ -94,11 +92,25 @@ const FigureInfo = styled.div`
   }
 `;
 
+const CaptionButton = styled(ButtonV2)`
+  width: 100%;
+`;
+
 const StyledFigcaption = styled.figcaption`
   background-color: ${colors.white};
+  width: 100%;
   padding: ${spacing.small};
   display: block;
   border-bottom: 1px solid ${colors.brand.greyLight};
+`;
+
+const StyledText = styled.p`
+  width: 26px;
+  height: 26px;
+  ${fonts.sizes('20px', '26px')};
+  margin: 0;
+  padding: 0;
+  text-align: center;
 `;
 
 const SlateVideo = ({
@@ -116,6 +128,9 @@ const SlateVideo = ({
   const [editMode, setEditMode] = useState(false);
   const showCopyOutline = isSelectedForCopy && (!editMode || !active);
   const [showLinkedVideo, setShowLinkedVideo] = useState(false);
+  const linkedVideoTooltip = showLinkedVideo
+    ? t('form.video.fromLinkedVideo')
+    : t('form.video.toLinkedVideo');
 
   const setHasError = useCallback((hasError: boolean) => _setHasError(hasError), []);
 
@@ -203,13 +218,14 @@ const SlateVideo = ({
             figureType="video"
             language={language}>
             {linkedVideoId && (
-              <Tooltip
-                tooltip={
-                  showLinkedVideo ? t('form.video.fromLinkedVideo') : t('form.video.toLinkedVideo')
-                }>
-                <IconButton as={SafeLink} onClick={switchEmbedSource} to="">
-                  {t('form.video.linkedVideoButton')}
-                </IconButton>
+              <Tooltip tooltip={linkedVideoTooltip}>
+                <IconButtonV2
+                  aria-label={linkedVideoTooltip}
+                  variant="ghost"
+                  colorTheme="light"
+                  onClick={switchEmbedSource}>
+                  <StyledText>{t('form.video.linkedVideoButton')}</StyledText>
+                </IconButtonV2>
               </Tooltip>
             )}
           </FigureButtons>
@@ -229,11 +245,11 @@ const SlateVideo = ({
               allowFullScreen
             />
           </SlateVideoWrapper>
-          <Button stripped width="full" onClick={toggleEditModus}>
+          <CaptionButton variant="stripped" onClick={toggleEditModus}>
             <StyledFigcaption>
               <FigureInfo>{parseMarkdown(embed.caption ?? '')}</FigureInfo>
             </StyledFigcaption>
-          </Button>
+          </CaptionButton>
         </Figure>
         {children}
       </div>

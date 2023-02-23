@@ -79,11 +79,11 @@ const SlateTable = ({ attributes, children, element, editor }: Props) => {
     <StyledWrapper>
       <StyledTable {...attributes}>
         <DeleteButton
-          stripped
+          variant="stripped"
           onClick={(e: MouseEvent<HTMLButtonElement>) => removeTable(editor, element)}
           data-cy="table-remove"
-          title={t('form.content.table.table-remove')}
-          tabIndex="-1"
+          aria-label={t('form.content.table.table-remove')}
+          tabIndex={-1}
         />
         {children}
       </StyledTable>

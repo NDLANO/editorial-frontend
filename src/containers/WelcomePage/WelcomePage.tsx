@@ -11,6 +11,7 @@ import { HelmetWithTracker } from '@ndla/tracker';
 import { SearchFolder } from '@ndla/icons/editor';
 import styled from '@emotion/styled';
 import { mq, breakpoints, spacing } from '@ndla/core';
+import { useMemo } from 'react';
 import { NAVIGATION_HEADER_MARGIN } from '../../constants';
 import { getAccessToken, getAccessTokenPersonal } from '../../util/authHelpers';
 import { isValid } from '../../util/jwtHelper';
@@ -19,7 +20,9 @@ import Footer from '../App/components/Footer';
 import LastUsedItems from './components/LastUsedItems';
 import { useUserData } from '../../modules/draft/draftQueries';
 import { StyledColumnHeader } from './styles';
+import WorkList from './components/WorkList';
 import WelcomeHeader from './components/WelcomeHeader';
+import { useSession } from '../Session/SessionProvider';
 
 const Wrapper = styled.div`
   display: flex;
@@ -31,6 +34,9 @@ const Wrapper = styled.div`
 const GridContainer = styled.div`
   ${mq.range({ from: '0px', until: breakpoints.tabletWide })} {
     padding: ${spacing.nsmall};
+    display: flex;
+    flex-direction: column;
+    gap: ${spacing.nsmall};
   }
   ${mq.range({ from: breakpoints.tabletWide })} {
     display: grid;
@@ -43,15 +49,15 @@ const GridContainer = styled.div`
   }
 `;
 
-const GridHeader = styled.div`
+const MainArea = styled.div`
   grid-column: 2 / 12;
 `;
 
 const LeftColumn = styled.div`
-  grid-column: 3 / 7;
+  grid-column: 2 / 7;
 `;
 const RightColumn = styled.div`
-  grid-column: 7 / 11;
+  grid-column: 7 / 12;
 `;
 
 export const WelcomePage = () => {
@@ -59,7 +65,10 @@ export const WelcomePage = () => {
   const { data } = useUserData({
     enabled: isValid(getAccessToken()) && getAccessTokenPersonal(),
   });
-  const lastUsed = data?.latestEditedArticles;
+  const { ndlaId } = useSession();
+  const lastUsed = useMemo(() => data?.latestEditedArticles?.map(l => Number(l)) ?? [], [
+    data?.latestEditedArticles,
+  ]);
 
   localStorage.setItem('lastPath', '');
 
@@ -67,12 +76,11 @@ export const WelcomePage = () => {
     <Wrapper>
       <GridContainer>
         <HelmetWithTracker title={t('htmlTitles.welcomePage')} />
-        <GridHeader>
+        <MainArea>
           <WelcomeHeader />
-        </GridHeader>
-        <LeftColumn>
-          <LastUsedItems lastUsed={lastUsed} />
-        </LeftColumn>
+        </MainArea>
+        <MainArea>{ndlaId && <WorkList ndlaId={ndlaId} />}</MainArea>
+        <LeftColumn>{ndlaId && <LastUsedItems lastUsed={lastUsed} />}</LeftColumn>
         <RightColumn>
           <StyledColumnHeader>
             <SearchFolder className="c-icon--medium" />

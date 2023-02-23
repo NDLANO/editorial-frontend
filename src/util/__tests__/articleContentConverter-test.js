@@ -7,10 +7,10 @@
  */
 
 import {
-  topicArticleContentToEditorValue,
-  topicArticleContentToHTML,
-  learningResourceContentToEditorValue,
-  learningResourceContentToHTML,
+  inlineContentToEditorValue,
+  inlineContentToHTML,
+  blockContentToEditorValue,
+  blockContentToHTML,
   sectionSplitter,
 } from '../articleContentConverter';
 
@@ -21,25 +21,25 @@ const mustBeWrappedHtml = `<section><h2>Section 1</h2><aside>Some text that slat
 
 test('articleContentConverter convert topic article content to and from editorValue', () => {
   // Todo fix test to handle empty text nodes
-  const editorValue = topicArticleContentToEditorValue(contentHTML);
-  const html = topicArticleContentToHTML(editorValue);
+  const editorValue = inlineContentToEditorValue(contentHTML);
+  const html = inlineContentToHTML(editorValue);
   expect(html).toMatchSnapshot();
 });
 
 test('articleContentConverter convert learningresource content to and from editorValue', () => {
-  const editorValue = learningResourceContentToEditorValue(contentHTML);
-  const html = learningResourceContentToHTML(editorValue);
+  const editorValue = blockContentToEditorValue(contentHTML);
+  const html = blockContentToHTML(editorValue);
   expect(html).toMatchSnapshot();
 });
 
 test('articleContentConverter convert learningresource content', () => {
-  const editorValue = learningResourceContentToEditorValue(contentHTML);
+  const editorValue = blockContentToEditorValue(contentHTML);
   expect(editorValue[0]).toMatchSnapshot();
 });
 
 test('articleContentConverter convert learningresource content with multiple sections to and from editorValue', () => {
-  const editorValue = learningResourceContentToEditorValue(contentHTMLWithSections);
-  const html = learningResourceContentToHTML(editorValue);
+  const editorValue = blockContentToEditorValue(contentHTMLWithSections);
+  const html = blockContentToHTML(editorValue);
   expect(html).toMatchSnapshot();
 });
 
@@ -58,8 +58,8 @@ test('util/domOperations trippleNestedSections into array', () => {
 });
 
 test('articleContentConverter convert article that is a mix of inline and block object by wrapping the inline', () => {
-  const editorValue = learningResourceContentToEditorValue(mustBeWrappedHtml);
+  const editorValue = blockContentToEditorValue(mustBeWrappedHtml);
 
-  const html = learningResourceContentToHTML(editorValue);
+  const html = blockContentToHTML(editorValue);
   expect(html).toMatchSnapshot();
 });

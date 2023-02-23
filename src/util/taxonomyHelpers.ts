@@ -66,6 +66,7 @@ const flattenResourceTypesAndAddContextTypes = (
     }
   });
   resourceTypes.push({ name: t('contextTypes.topic'), id: 'topic-article' });
+  resourceTypes.push({ name: t('contextTypes.frontpage'), id: 'frontpage-article' });
   return resourceTypes;
 };
 

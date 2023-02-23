@@ -147,7 +147,7 @@
         "note": "Status endret",
         "user": "F0JvFlqhEGwhcobd6uUAW26x",
         "status": {
-          "current": "PROPOSAL",
+          "current": "IN_PROGRESS",
           "other": [
             "IMPORTED",
             "PUBLISHED"
@@ -159,7 +159,7 @@
         "note": "Test merknad",
         "user": "fsexOCfJFGOKuy1C2e71OsvQwq0NWKAK",
         "status": {
-          "current": "PROPOSAL",
+          "current": "IN_PROGRESS",
           "other": [
             "IMPORTED",
             "PUBLISHED"
@@ -171,7 +171,7 @@
         "note": "Test merknad",
         "user": "fsexOCfJFGOKuy1C2e71OsvQwq0NWKAK",
         "status": {
-          "current": "PROPOSAL",
+          "current": "IN_PROGRESS",
           "other": [
             "IMPORTED",
             "PUBLISHED"
@@ -183,7 +183,7 @@
         "note": "Test merknad",
         "user": "fsexOCfJFGOKuy1C2e71OsvQwq0NWKAK",
         "status": {
-          "current": "PROPOSAL",
+          "current": "IN_PROGRESS",
           "other": [
             "IMPORTED",
             "PUBLISHED"

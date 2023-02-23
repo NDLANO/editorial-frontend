@@ -13,8 +13,8 @@ import withPlugins from '../../../utils/withPlugins';
 import { plugins } from '../../../../../containers/ArticlePage/LearningResourcePage/components/LearningResourceContent';
 
 import {
-  learningResourceContentToEditorValue,
-  learningResourceContentToHTML,
+  blockContentToEditorValue,
+  blockContentToHTML,
 } from '../../../../../util/articleContentConverter';
 
 const editor = withHistory(
@@ -26,12 +26,12 @@ describe('combined table plugin tests', () => {
     const html =
       '<section><table><tbody><tr><th id="123" scope="row"><p>1</p></th><td id="abc"><p>2</p></td></tr></tbody></table></section>';
 
-    const deserialized = learningResourceContentToEditorValue(html);
+    const deserialized = blockContentToEditorValue(html);
 
     editor.children = deserialized;
     Editor.normalize(editor, { force: true });
 
-    const serialized = learningResourceContentToHTML(editor.children);
+    const serialized = blockContentToHTML(editor.children);
     expect(serialized).toMatch(html);
   });
 
@@ -42,12 +42,12 @@ describe('combined table plugin tests', () => {
     const expected =
       '<section><table><thead><tr><th>1</th></tr></thead><tbody><tr><td>2</td></tr></tbody></table></section>';
 
-    const deserialized = learningResourceContentToEditorValue(initial);
+    const deserialized = blockContentToEditorValue(initial);
 
     editor.children = deserialized;
     Editor.normalize(editor, { force: true });
 
-    const serialized = learningResourceContentToHTML(editor.children);
+    const serialized = blockContentToHTML(editor.children);
     expect(serialized).toMatch(expected);
   });
 });

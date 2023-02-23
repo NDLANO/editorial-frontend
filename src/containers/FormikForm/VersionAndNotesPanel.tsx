@@ -111,7 +111,11 @@ const VersionAndNotesPanel = ({ article, getArticle, type, currentLanguage }: Pr
         type === 'standard'
           ? draftApiTypeToLearningResourceFormType
           : draftApiTypeToTopicArticleFormType;
-      const newValues = transform({ ...newArticle, status: version.status }, language);
+      const newValues = transform(
+        { ...newArticle, status: version.status, responsible: article.responsible },
+        language,
+      );
+
       setValues(newValues);
       setStatus((prevStatus: FormikStatus) => ({ ...prevStatus, status: 'revertVersion' }));
       createMessage({

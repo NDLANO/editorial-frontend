@@ -35,14 +35,15 @@ export interface SearchParams {
   'revision-date-from'?: string;
   'revision-date-to'?: string;
   'exclude-revision-log'?: boolean | undefined;
+  'responsible-ids'?: string;
 }
 
 export const parseSearchParams = (locationSearch: string): SearchParams => {
   const queryStringObject: Record<string, string | undefined> = queryString.parse(locationSearch);
 
-  const parseBooleanParam = (key: string): boolean | undefined => {
+  const parseBooleanParam = (key: string): boolean => {
     const value = queryStringObject[key];
-    if (!value) return undefined;
+    if (!value) return false;
     return value === 'true';
   };
 
@@ -72,6 +73,7 @@ export const parseSearchParams = (locationSearch: string): SearchParams => {
     'revision-date-from': queryStringObject['revision-date-from'],
     'revision-date-to': queryStringObject['revision-date-to'],
     'exclude-revision-log': parseBooleanParam('exclude-revision-log'),
+    'responsible-ids': queryStringObject['responsible-ids'],
   };
 };
 

@@ -1,0 +1,131 @@
+/**
+ * Copyright (c) 2021-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import { useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Plus } from '@ndla/icons/action';
+import Tooltip from '@ndla/tooltip';
+import compact from 'lodash/compact';
+import { IconButtonV2 } from '@ndla/button';
+import { ResourceWithNodeConnectionAndMeta } from './StructureResources';
+import { ResourceType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
+import ResourceItems from './ResourceItems';
+import AddResourceModal from './AddResourceModal';
+import { ChildNodeType } from '../../../modules/nodes/nodeApiTypes';
+import Resource from './Resource';
+import { NodeResourceMeta } from '../../../modules/nodes/nodeQueries';
+import ResourceBanner from './ResourceBanner';
+import { Dictionary } from '../../../interfaces';
+import { getIdFromUrn, groupResourcesByType } from '../../../util/taxonomyHelpers';
+
+interface Props {
+  nodeResources: ResourceWithNodeConnectionAndMeta[];
+  resourceTypes: ResourceType[];
+  currentNode: ChildNodeType;
+  contentMeta: Dictionary<NodeResourceMeta>;
+  grouped: boolean;
+}
+
+const ResourcesContainer = ({
+  resourceTypes,
+  nodeResources,
+  currentNode,
+  contentMeta,
+  grouped,
+}: Props) => {
+  const { t } = useTranslation();
+  const [showAddModal, setShowAddModal] = useState(false);
+  const resourceTypesWithoutMissing = useMemo(
+    () => resourceTypes.filter(rt => rt.id !== 'missing').map(rt => ({ id: rt.id, name: rt.name })),
+    [resourceTypes],
+  );
+
+  const currentNodeId = currentNode.id;
+
+  const articleIds = useMemo(
+    () =>
+      compact(
+        [currentNode.contentUri, nodeResources.map(n => n.contentUri)]
+          .flat()
+          .map(id => getIdFromUrn(id)),
+      ),
+    [currentNode, nodeResources],
+  );
+
+  const nodeResourcesWithMeta: ResourceWithNodeConnectionAndMeta[] =
+    useMemo(
+      () =>
+        nodeResources?.map(res => ({
+          ...res,
+          contentMeta: res.contentUri ? contentMeta[res.contentUri] : undefined,
+        })),
+      [contentMeta, nodeResources],
+    ) ?? [];
+  const mapping = groupResourcesByType(nodeResourcesWithMeta ?? [], resourceTypes ?? []);
+
+  return (
+    <>
+      <ResourceBanner
+        title={currentNode.name}
+        contentMeta={contentMeta}
+        addButton={
+          <Tooltip tooltip={t('taxonomy.addResource')}>
+            <IconButtonV2
+              onClick={() => setShowAddModal(prev => !prev)}
+              size="xsmall"
+              variant="stripped"
+              aria-label={t('taxonomy.addResource')}>
+              <Plus />
+            </IconButtonV2>
+          </Tooltip>
+        }
+        articleIds={articleIds}
+      />
+
+      {showAddModal && (
+        <AddResourceModal
+          resourceTypes={resourceTypesWithoutMissing}
+          nodeId={currentNodeId}
+          onClose={() => setShowAddModal(false)}
+          existingResourceIds={nodeResources.map(r => r.id)}
+        />
+      )}
+      {currentNode.name && (
+        <Resource
+          currentNodeId={currentNodeId}
+          resource={{
+            ...currentNode,
+            paths: currentNode.paths ?? [],
+            nodeId: '',
+            contentMeta: currentNode.contentUri ? contentMeta[currentNode.contentUri] : undefined,
+            resourceTypes: [],
+            relevanceId: currentNode.relevanceId,
+          }}
+        />
+      )}
+      {grouped ? (
+        mapping?.map(resource => (
+          <ResourceItems
+            key={resource.id}
+            resources={resource.resources}
+            currentNodeId={currentNodeId}
+            contentMeta={contentMeta}
+          />
+        ))
+      ) : (
+        <ResourceItems
+          resources={nodeResources}
+          currentNodeId={currentNodeId}
+          contentMeta={contentMeta}
+        />
+      )}
+    </>
+  );
+};
+
+export default ResourcesContainer;

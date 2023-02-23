@@ -8,7 +8,7 @@
 
 import { lazy, Suspense, useState } from 'react';
 import { Spinner } from '@ndla/icons';
-import Button from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 import Modal, { ModalBody, ModalCloseButton, ModalHeader } from '@ndla/modal';
 import { fonts } from '@ndla/core';
 import { useSlateStatic } from 'slate-react';
@@ -102,7 +102,7 @@ const EditColgroupsModal = ({ element }: Props) => {
                   height={'50vh'}
                 />
               </Suspense>
-              <Button onClick={() => onSave(colgroups)}>{t('form.save')}</Button>
+              <ButtonV2 onClick={() => onSave(colgroups)}>{t('form.save')}</ButtonV2>
             </ModalBody>
           </div>
         )}

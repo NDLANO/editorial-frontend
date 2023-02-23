@@ -8,10 +8,10 @@
 
 import { css, SerializedStyles } from '@emotion/react';
 import styled from '@emotion/styled';
-import Button from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 import { colors, fonts, spacing } from '@ndla/core';
 import { Check } from '@ndla/icons/editor';
-import { MouseEvent } from 'react';
+import { ComponentProps } from 'react';
 import { useTranslation } from 'react-i18next';
 
 export const saveButtonAppearances: Record<string, SerializedStyles> = {
@@ -47,12 +47,9 @@ const StyledCheck = styled(Check)`
   height: 1.45rem;
 `;
 
-interface StyledSaveButtonProps {
-  large?: boolean;
-  color?: string;
-}
+const shouldForwardProp = (p: string) => p !== 'color';
 
-const StyledSaveButton = styled(Button)<StyledSaveButtonProps>`
+const StyledSaveButton = styled(ButtonV2, { shouldForwardProp })`
   &,
   &:hover,
   &:disabled {
@@ -61,25 +58,13 @@ const StyledSaveButton = styled(Button)<StyledSaveButtonProps>`
     background-color: ${p => p.color};
     border-color: ${p => p.color};
   }
-  ${p =>
-    p.large &&
-    css`
-      height: ${spacing.large};
-      padding: 0 ${spacing.normal};
-      ${fonts.sizes(18, 1.25)};
-    `}
 `;
 
-interface Props {
+interface Props extends ComponentProps<typeof ButtonV2> {
   isSaving?: boolean;
   showSaved?: boolean;
   defaultText?: string;
   formIsDirty?: boolean;
-  large?: boolean;
-  disabled?: boolean;
-  onClick: (evt: MouseEvent<HTMLButtonElement>) => void;
-  clippedButton?: boolean;
-  submit?: boolean;
 }
 
 const SaveButton = ({
@@ -87,11 +72,7 @@ const SaveButton = ({
   showSaved,
   defaultText,
   formIsDirty = true,
-  large,
   disabled,
-  onClick,
-  clippedButton,
-  submit,
   ...rest
 }: Props) => {
   const getModifier = () => {
@@ -107,14 +88,7 @@ const SaveButton = ({
 
   return (
     <>
-      <StyledSaveButton
-        disabled={disabledButton}
-        onClick={onClick}
-        clippedButton={clippedButton}
-        submit={submit}
-        large={large}
-        color={color}
-        {...rest}>
+      <StyledSaveButton disabled={disabledButton} color={color} {...rest}>
         <StyledSpan>
           {t(`form.${modifier}`)}
           {showSaved && <StyledCheck />}

@@ -8,16 +8,18 @@
 import { useState, useRef, useCallback, useMemo } from 'react';
 import { Formik, FormikHelpers, FormikErrors } from 'formik';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import {
   IAudioMetaInformation,
   IUpdatedAudioMetaInformation,
   INewAudioMetaInformation,
 } from '@ndla/types-audio-api';
+import { ButtonV2 } from '@ndla/button';
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import AudioContent from '../../AudioUploader/components/AudioContent';
 import AudioMetaData from '../../AudioUploader/components/AudioMetaData';
 import AudioManuscript from '../../AudioUploader/components/AudioManuscript';
-import { AbortButton, AlertModalWrapper } from '../../FormikForm';
+import { AlertModalWrapper } from '../../FormikForm';
 import PodcastMetaData from './PodcastMetaData';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
 import validateFormik, { getWarnings, RulesType } from '../../../components/formikValidationSchema';
@@ -103,7 +105,6 @@ interface Props {
   onCreatePodcast?: (newPodcast: INewAudioMetaInformation, file?: string | Blob) => void;
   onUpdatePodcast?: (updatedPodcast: IUpdatedAudioMetaInformation, file?: string | Blob) => void;
   translating?: boolean;
-  translateToNN?: () => void;
 }
 
 const PodcastForm = ({
@@ -115,12 +116,12 @@ const PodcastForm = ({
   onCreatePodcast,
   onUpdatePodcast,
   translating,
-  translateToNN,
 }: Props) => {
   const { data: licenses } = useLicenses({ placeholderData: [] });
   const { t } = useTranslation();
   const [savedToServer, setSavedToServer] = useState(false);
   const size = useRef<[number, number] | undefined>(undefined);
+  const navigate = useNavigate();
 
   const handleSubmit = async (
     values: PodcastFormValues,
@@ -243,7 +244,6 @@ const PodcastForm = ({
               editUrl={(lang: string) => {
                 return values.id ? toEditPodcast(values.id, lang) : toCreatePodcastFile();
               }}
-              translateToNN={translateToNN}
             />
             {translating ? (
               <Spinner withWrapper />
@@ -297,14 +297,14 @@ const PodcastForm = ({
             )}
 
             <Field right>
-              <AbortButton outline disabled={isSubmitting}>
+              <ButtonV2 variant="outline" disabled={isSubmitting} onClick={() => navigate(-1)}>
                 {t('form.abort')}
-              </AbortButton>
+              </ButtonV2>
               <SaveButton
+                type={!inModal ? 'submit' : 'button'}
                 isSaving={isSubmitting}
                 showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}
                 formIsDirty={formIsDirty}
-                submit={!inModal}
                 onClick={evt => {
                   evt.preventDefault();
                   submitForm();

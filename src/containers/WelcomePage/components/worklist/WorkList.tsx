@@ -7,7 +7,7 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import { SingleValue } from '@ndla/select';
 import { TabsV2 } from '@ndla/tabs';
 import { useSearch } from '../../../../modules/search/searchQueries';
@@ -24,16 +24,11 @@ const WorkList = ({ ndlaId }: Props) => {
   const [filterSubject, setFilterSubject] = useState<SingleValue | undefined>(undefined);
   const [error, setError] = useState();
 
-  const updateSortOption = useCallback((v: string) => setSortOption(v), []);
-  const updateFilterSubject = useCallback((o: SingleValue) => setFilterSubject(o), []);
-
   const [sortOptionConcepts, setSortOptionConcepts] = useState('-title');
   const [errorConceptList, setErrorConceptList] = useState<string>();
   const [filterConceptSubjects, setFilterConceptSubjects] = useState<SingleValue | undefined>(
     undefined,
   );
-
-  const updateSortOptionConcepts = useCallback((v: string) => setSortOptionConcepts(v), []);
 
   const { t } = useTranslation();
   const { data, isInitialLoading } = useSearch(
@@ -71,8 +66,8 @@ const WorkList = ({ ndlaId }: Props) => {
             <WorkListTabContent
               data={data}
               filterSubject={filterSubject}
-              setSortOption={updateSortOption}
-              setFilterSubject={updateFilterSubject}
+              setSortOption={setSortOption}
+              setFilterSubject={setFilterSubject}
               isLoading={isInitialLoading}
               error={error}
               sortOption={sortOption}
@@ -85,7 +80,7 @@ const WorkList = ({ ndlaId }: Props) => {
           content: (
             <ConceptListTabContent
               data={concepts}
-              setSortOption={updateSortOptionConcepts}
+              setSortOption={setSortOptionConcepts}
               isLoading={conceptsLoading}
               error={errorConceptList}
               sortOption={sortOptionConcepts}

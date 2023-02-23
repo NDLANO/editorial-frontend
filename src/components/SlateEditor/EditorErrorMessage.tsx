@@ -10,10 +10,12 @@ import { HTMLAttributes, MouseEventHandler, ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { colors } from '@ndla/core';
-import { EditorDeleteButton } from './common/EditorDeleteButton';
+import DeleteButton from '../DeleteButton';
 
 const StyledEditorErrorMessage = styled.div`
   position: relative;
+  display: flex;
+  justify-content: space-between;
   border: 1px solid ${colors.support.red};
   color: ${colors.support.red};
   padding: 1rem;
@@ -31,11 +33,11 @@ const EditorErrorMessage = ({ msg, attributes, onRemoveClick, children }: Props)
 
   return (
     <StyledEditorErrorMessage {...attributes} contentEditable={false}>
-      {onRemoveClick && (
-        <EditorDeleteButton aria-label={t('form.remove')} onClick={onRemoveClick} />
-      )}
-      <span>{msg}</span>
-      {children}
+      <div>
+        <span>{msg}</span>
+        {children}
+      </div>
+      {onRemoveClick && <DeleteButton aria-label={t('form.remove')} onClick={onRemoveClick} />}
     </StyledEditorErrorMessage>
   );
 };

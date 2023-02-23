@@ -3,6 +3,13 @@
 exports[`EditorErrorMessage renders 1`] = `
 .emotion-0 {
   position: relative;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
   border: 1px solid #d1372e;
   color: #d1372e;
   padding: 1rem;
@@ -42,23 +49,15 @@ exports[`EditorErrorMessage renders 1`] = `
   line-height: 18px;
   min-height: 32px;
   border-width: 1px;
-  padding: 0;
-  border-radius: 0;
-  color: inherit;
-  font-size: inherit;
-  background-color: transparent;
-  box-shadow: none;
-  border: none;
-  font-weight: 400;
+  outline-width: 2px;
+  color: #d1372e;
+  background: transparent;
+  border-color: transparent;
   border-radius: 100%;
   padding: 6.5px;
   line-height: 1;
   border-color: transparent;
   min-height: unset;
-  position: absolute;
-  top: 0.1rem;
-  right: 0.2rem;
-  color: #d1372e;
 }
 
 .emotion-1:hover,
@@ -77,16 +76,17 @@ exports[`EditorErrorMessage renders 1`] = `
 
 .emotion-1:hover,
 .emotion-1:active,
-.emotion-1:disabled,
 .emotion-1:focus {
-  box-shadow: none;
-  color: #20588f;
-  background-color: transparent;
-  border: none;
+  color: #fff;
+  background: #d1372e;
+  border-color: #d1372e;
 }
 
-.emotion-1:focus {
-  outline-width: medium;
+.emotion-1[disabled] {
+  color: #777777;
+  background-color: transparent;
+  border-color: transparent;
+  cursor: not-allowed;
 }
 
 .emotion-1 svg {
@@ -95,22 +95,21 @@ exports[`EditorErrorMessage renders 1`] = `
   margin: 0;
 }
 
-.emotion-1:hover,
-.emotion-1:focus {
-  color: #7d211c;
-}
-
 <div>
   <div
     class="emotion-0"
     contenteditable="false"
   >
+    <div>
+      <span>
+        This is error
+      </span>
+    </div>
     <button
       aria-label="form.remove"
       class="emotion-1"
       contenteditable="false"
       data-cy="close-related-button"
-      tabindex="-1"
       type="button"
     >
       <svg
@@ -140,9 +139,6 @@ exports[`EditorErrorMessage renders 1`] = `
         </g>
       </svg>
     </button>
-    <span>
-      This is error
-    </span>
   </div>
 </div>
 `;

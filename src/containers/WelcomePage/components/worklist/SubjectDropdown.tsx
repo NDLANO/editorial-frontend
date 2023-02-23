@@ -11,11 +11,11 @@ import { useTranslation } from 'react-i18next';
 import { Option, Select, SingleValue } from '@ndla/select';
 import styled from '@emotion/styled';
 import uniqBy from 'lodash/uniqBy';
-import { useSearch } from '../../../modules/search/searchQueries';
-import { fetchSubject } from '../../../modules/taxonomy';
-import { useSession } from '../../Session/SessionProvider';
-import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
-import { fetchUserData } from '../../../modules/draft/draftApi';
+import { useSearch } from '../../../../modules/search/searchQueries';
+import { fetchSubject } from '../../../../modules/taxonomy';
+import { useSession } from '../../../Session/SessionProvider';
+import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
+import { fetchUserData } from '../../../../modules/draft/draftApi';
 
 const Wrapper = styled.div`
   width: 200px;

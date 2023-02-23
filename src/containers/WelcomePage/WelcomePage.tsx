@@ -20,7 +20,7 @@ import Footer from '../App/components/Footer';
 import LastUsedItems from './components/LastUsedItems';
 import { useUserData } from '../../modules/draft/draftQueries';
 import { StyledColumnHeader } from './styles';
-import WorkList from './components/WorkList';
+import WorkList from './components/worklist/WorkList';
 import WelcomeHeader from './components/WelcomeHeader';
 import { useSession } from '../Session/SessionProvider';
 

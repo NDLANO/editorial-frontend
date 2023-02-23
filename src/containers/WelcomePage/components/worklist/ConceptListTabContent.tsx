@@ -7,23 +7,25 @@
  */
 
 import { Calendar } from '@ndla/icons/editor';
+import { SingleValue } from '@ndla/select';
 import { IConceptSearchResult } from '@ndla/types-concept-api';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { fetchSubject } from '../../../modules/taxonomy';
-import { toEditConcept } from '../../../util/routeHelpers';
-import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
-import { StyledLink, StyledTopRowDashboardInfo } from '../styles';
-import TableComponent, { FieldElement, TitleElement } from './TableComponent';
-import TableTitle from './TableTitle';
+import { fetchSubject } from '../../../../modules/taxonomy';
+import { toEditConcept } from '../../../../util/routeHelpers';
+import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
+import { StyledLink, StyledTopRowDashboardInfo } from '../../styles';
+import TableComponent, { FieldElement, TitleElement } from '../TableComponent';
+import TableTitle from '../TableTitle';
 
 interface Props {
   data: IConceptSearchResult | undefined;
-  //filterSubjects: MultiValue | undefined;
+  filterSubject: SingleValue | undefined;
   isLoading: boolean;
   setSortOption: (o: string) => void;
   sortOption: string;
   error: string | undefined;
+  setFilterSubject: (fs: SingleValue) => void;
 }
 
 interface Concept {
@@ -33,7 +35,15 @@ interface Concept {
   subjects: { id: string; title: string }[];
 }
 
-const ConceptListTabContent = ({ data, isLoading, setSortOption, sortOption, error }: Props) => {
+const ConceptListTabContent = ({
+  data,
+  filterSubject,
+  isLoading,
+  setSortOption,
+  sortOption,
+  error,
+  setFilterSubject,
+}: Props) => {
   const { t } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
 

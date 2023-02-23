@@ -15,12 +15,12 @@ import styled from '@emotion/styled';
 import { SafeLinkButton } from '@ndla/safelink';
 import { useCallback } from 'react';
 import queryString from 'query-string';
-import formatDate from '../../../util/formatDate';
-import { toEditArticle } from '../../../util/routeHelpers';
-import { StyledLink, StyledTopRowDashboardInfo } from '../styles';
+import formatDate from '../../../../util/formatDate';
+import { toEditArticle } from '../../../../util/routeHelpers';
+import { StyledLink, StyledTopRowDashboardInfo } from '../../styles';
 import SubjectDropdown from './SubjectDropdown';
-import TableComponent, { FieldElement, TitleElement } from './TableComponent';
-import TableTitle from './TableTitle';
+import TableComponent, { FieldElement, TitleElement } from '../TableComponent';
+import TableTitle from '../TableTitle';
 
 const ControlWrapper = styled.div`
   display: flex;

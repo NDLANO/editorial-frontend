@@ -43,7 +43,6 @@ const ConceptListTabContent = ({ data, isLoading, setSortOption, sortOption, err
     const updateConceptData = async () => {
       const _conceptData = await Promise.all(
         (data?.results ?? []).map(async concept => {
-          console.log('concept', concept);
           const subjects = await Promise.all(
             (concept.subjectIds ?? []).map(id => fetchSubject({ id, taxonomyVersion })),
           );

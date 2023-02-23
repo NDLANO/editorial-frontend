@@ -58,7 +58,6 @@ const WorkList = ({ ndlaId }: Props) => {
     },
   );
 
-  console.log(data);
   return (
     <TabsV2
       ariaLabel={t('welcomePage.workList.ariaLabel')}

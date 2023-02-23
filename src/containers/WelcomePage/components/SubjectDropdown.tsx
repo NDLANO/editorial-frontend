@@ -6,11 +6,11 @@
  *
  */
 
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import uniq from 'lodash/uniq';
 import { Option, Select, SingleValue } from '@ndla/select';
 import styled from '@emotion/styled';
+import uniqBy from 'lodash/uniqBy';
 import { useSearch } from '../../../modules/search/searchQueries';
 import { fetchSubject } from '../../../modules/taxonomy';
 import { useSession } from '../../Session/SessionProvider';
@@ -36,6 +36,14 @@ const SubjectDropdown = ({ filterSubject, setFilterSubject }: Props) => {
     'aggregate-paths': 'contexts.subjectId',
   });
 
+  const subjectContexts = useMemo(() => {
+    if (data?.results.length) {
+      return data.results
+        .map(r => r.contexts.map(c => ({ value: c.subjectId, label: c.subject })))
+        .flat();
+    } else return [];
+  }, [data?.results]);
+
   const [subjectList, setSubjectList] = useState<Option[]>([]);
   const [favoriteSubjectIds, setFavoriteSubjectIds] = useState<string[]>([]);
 
@@ -50,21 +58,20 @@ const SubjectDropdown = ({ filterSubject, setFilterSubject }: Props) => {
 
   useEffect(() => {
     if (data) {
-      // Responsible subject ids and favorite subject ids in one array, remove duplicates.
-      const subjectIds = uniq([
-        ...data.aggregations[0].values.map(value => value.value),
-        ...favoriteSubjectIds,
-      ]);
-
       const updateSubjectList = async () => {
         const subjects = await Promise.all(
-          subjectIds.map(id => fetchSubject({ id, taxonomyVersion })) ?? [],
+          favoriteSubjectIds.map(id => fetchSubject({ id, taxonomyVersion })) ?? [],
         );
 
-        const subjectsResult = subjects.map(subject => ({
-          value: subject.id,
-          label: subject.name,
-        }));
+        const subjectsResult = uniqBy(
+          subjects
+            .map(s => ({
+              value: s.id,
+              label: s.name,
+            }))
+            .concat(subjectContexts),
+          s => s.value,
+        );
         setSubjectList(subjectsResult);
       };
       updateSubjectList();

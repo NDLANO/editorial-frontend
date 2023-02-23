@@ -81,6 +81,8 @@ const BlockConcept = ({ element, locale, editor, attributes, children }: Props) 
           { data: data.data },
           { at: path, match: node => Element.isElement(node) && node.type === TYPE_CONCEPT_BLOCK },
         );
+
+        // Insertion of concept consists of insert an empty concept and then updating it with an ID. By merging the events we can consider them as one action and undo both with ctrl+z.
         mergeLastUndos(editor);
       }
     }, 0);

@@ -125,6 +125,7 @@ const phrases = {
     chooseSubject: 'Velg fag',
     chooseTopic: 'Velg emner',
     errorMessage: 'Innhenting av data feilet',
+    goToSearch: 'Gå til søk',
     workList: {
       title: 'Mine arbeidsoppgaver',
       description: 'Artikler hvor du står i ansvarlig-feltet',
@@ -248,6 +249,7 @@ const phrases = {
       'revision-date-from': 'Revisjonsdato fra',
       'revision-date-to': 'Revisjonsdato til',
       'exclude-revision-log': 'Ekskluder endringslogg',
+      'responsible-ids': 'Velg ansvarlig',
     },
     tagType: {
       query: 'Innhold',
@@ -263,6 +265,7 @@ const phrases = {
       'revision-date-from': 'Revisjonsdato fra',
       'revision-date-to': 'Revisjonsdato til',
       'exclude-revision-log': 'Endringslogg ekskludert',
+      'responsible-ids': 'Ansvarlig',
     },
     btn: 'Søk',
     empty: 'Tøm',
@@ -1266,6 +1269,7 @@ const phrases = {
     invalidUrl: 'Ugyldig url',
     noArticleInProd: 'Ingen artikkel funnet i prod',
     taxonomy: 'Det var et problem ved lasting av taksonomi',
+    versionSelect: 'Artikkelen finnes ikke i valgt versjon',
     errorWhenFetchingTaxonomyArticle:
       'Det var et problem ved lasting av den underliggende artikkelen',
     unsavedTaxonomy: 'Du har ulagrede endringer. Trykk avbryt igjen hvis du ønsker å fortsette.',
@@ -1315,6 +1319,7 @@ const phrases = {
     currentVersion: 'Nåværende versjon',
     deleteNode: 'Slett',
     confirmDelete: 'Er du sikker på at du vil slette denne noden?',
+    version: 'Versjon',
     changeName: {
       loadError: 'Klarte ikke hente oversettelser',
       updateError: 'Klarte ikke oppdatere oversettelser',
@@ -1424,6 +1429,7 @@ const phrases = {
       edit: 'Endre læreplankobling',
       empty: 'Ingen registerte koder',
       addNew: 'Legg til ny læreplankobling',
+      delete: 'Fjern {{grepCode}}',
     },
     copyRevisionDates: {
       text:

@@ -7,9 +7,9 @@
  */
 
 import { lazy, Suspense, useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Link, useLocation, useParams } from 'react-router-dom';
+import { ButtonV2 } from '@ndla/button';
 import { spacing, colors } from '@ndla/core';
 import { IArticle } from '@ndla/types-draft-api';
 import styled from '@emotion/styled';
@@ -29,6 +29,8 @@ import HelpMessage from '../../components/HelpMessage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { useMessages } from '../Messages/MessagesProvider';
 import { NdlaErrorPayload } from '../../util/resolveJsonOrRejectWithError';
+import PreviewDraftLightboxV2 from '../../components/PreviewDraft/PreviewDraftLightboxV2';
+import { useDisableConverter } from '../../components/ArticleConverterContext';
 
 declare global {
   interface Window {
@@ -97,8 +99,10 @@ const LanguageWrapper = styled.div`
   display: flex;
 `;
 
-const StyledRow = styled(Row)`
-  margin: ${spacing.normal};
+const StyledRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: ${spacing.small};
 `;
 
 interface ErrorMessageProps {
@@ -121,12 +125,6 @@ const ErrorMessage = ({ draftId, language, messageId }: ErrorMessageProps) => {
   );
 };
 
-ErrorMessage.propTypes = {
-  messageId: PropTypes.string.isRequired,
-  draftId: PropTypes.string.isRequired,
-  language: PropTypes.string.isRequired,
-};
-
 interface LocationState {
   backUrl?: string;
 }
@@ -136,6 +134,7 @@ type Status = 'initial' | 'edit' | 'fetch-error' | 'access-error' | 'saving' | '
 const EditMarkupPage = () => {
   const { t } = useTranslation();
   const params = useParams<'draftId' | 'language'>();
+  const disableConverter = useDisableConverter();
   const draftId = Number(params.draftId) || undefined;
   const language = params.language!;
   const [status, setStatus] = useState<Status>('initial');
@@ -232,22 +231,31 @@ const EditMarkupPage = () => {
           onChange={handleChange}
           onSave={saveChanges}
         />
-        <StyledRow justifyContent="space-between">
-          <PreviewDraftLightbox
-            label={t('form.previewProductionArticle.article')}
-            typeOfPreview="preview"
-            articleId={draft?.id}
-            currentArticleLanguage={language}
-            getArticle={() => {
-              const content = standardizeContent(draft?.content?.content ?? '');
-              const update = updateContentInDraft(draft, content)!;
-              return {
-                ...update,
-                tags: { tags: [], language },
-                language,
-              };
-            }}
-          />
+        <StyledRow>
+          {disableConverter && draft ? (
+            <PreviewDraftLightboxV2
+              type="markup"
+              language={language}
+              article={draft}
+              activateButton={<ButtonV2 variant="link">{t('form.preview.button')}</ButtonV2>}
+            />
+          ) : (
+            <PreviewDraftLightbox
+              label={t('form.previewProductionArticle.article')}
+              typeOfPreview="preview"
+              articleId={draft?.id}
+              currentArticleLanguage={language}
+              getArticle={() => {
+                const content = standardizeContent(draft?.content?.content ?? '');
+                const update = updateContentInDraft(draft, content)!;
+                return {
+                  ...update,
+                  tags: { tags: [], language },
+                  language,
+                };
+              }}
+            />
+          )}
           <Row justifyContent="end" alignItems="baseline">
             <Link
               to={

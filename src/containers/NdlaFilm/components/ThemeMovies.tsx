@@ -50,7 +50,7 @@ export const ThemeMovies = ({ movies, onMoviesUpdated, placeholder }: Props) => 
 
   return (
     <>
-      {moviesQuery.status === 'loading' ? (
+      {moviesQuery.isInitialLoading ? (
         <Spinner />
       ) : (
         <ElementList

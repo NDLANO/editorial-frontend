@@ -120,7 +120,7 @@ const DiffOptions = ({ originalHash, otherHash }: Props) => {
     setParams(params);
   };
 
-  if (taxonomyVersions.isLoading) {
+  if (taxonomyVersions.isInitialLoading) {
     return (
       <ContentLoader width={800} height={150}>
         <rect x="0" y="0" rx="3" ry="3" width="100" height="23" key="rect-1-2" />

@@ -160,7 +160,7 @@ const StructureContainer = () => {
           }
           hidden={editStructureHidden}>
           <StyledStructureContainer>
-            {userDataQuery.isLoading || nodesQuery.isLoading ? (
+            {userDataQuery.isInitialLoading || nodesQuery.isInitialLoading ? (
               <Spinner />
             ) : (
               <StructureWrapper data-cy="structure">

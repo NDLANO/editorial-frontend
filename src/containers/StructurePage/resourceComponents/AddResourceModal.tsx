@@ -6,7 +6,7 @@
  *
  */
 
-import { useQueryClient } from 'react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import { Input } from '@ndla/forms';
 import styled from '@emotion/styled';
 import { ChangeEvent, useState } from 'react';

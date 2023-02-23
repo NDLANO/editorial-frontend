@@ -7,7 +7,6 @@
  */
 
 import { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import { ErrorMessage } from '@ndla/ui';
@@ -125,15 +124,6 @@ const H5PElement = ({
       {url && <StyledIFrame src={url} title="H5P" frameBorder="0" />}
     </FlexWrapper>
   );
-};
-
-H5PElement.propTypes = {
-  h5pUrl: PropTypes.string,
-  onSelect: PropTypes.func.isRequired,
-  onClose: PropTypes.func.isRequired,
-  locale: PropTypes.string.isRequired,
-  canReturnResources: PropTypes.bool,
-  setH5pFetchFail: PropTypes.func,
 };
 
 export default H5PElement;

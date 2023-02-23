@@ -9,7 +9,7 @@
 import { memo, RefObject } from 'react';
 import { useTranslation } from 'react-i18next';
 import { spacing } from '@ndla/core';
-import Button from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 import styled from '@emotion/styled';
 import { TFunction } from 'i18next';
 import keyBy from 'lodash/keyBy';
@@ -107,13 +107,13 @@ const StructureResources = ({ currentChildNode, resourceRef, onCurrentNodeChange
   return (
     <div ref={resourceRef}>
       <Row>
-        <Button
-          outline
+        <ButtonV2
+          variant="outline"
           onClick={() =>
             document.getElementById(currentChildNode.id)?.scrollIntoView({ block: 'center' })
           }>
           {t('taxonomy.jumpToStructure')}
-        </Button>
+        </ButtonV2>
         {currentChildNode && currentChildNode.id && (
           <StyledDiv>
             <GroupTopicResources

@@ -7,7 +7,6 @@
  */
 
 import { ReactNode } from 'react';
-import PropTypes from 'prop-types';
 import FormikFieldHelp from './FormikFieldHelp';
 
 interface Props {
@@ -23,12 +22,6 @@ export const FormikRemainingCharacters = ({ value, maxLength, getRemainingLabel 
       {getRemainingLabel(maxLength, maxLength - currentLength)}
     </FormikFieldHelp>
   );
-};
-
-FormikRemainingCharacters.propTypes = {
-  value: PropTypes.string.isRequired,
-  maxLength: PropTypes.number.isRequired,
-  getRemainingLabel: PropTypes.func.isRequired,
 };
 
 export default FormikRemainingCharacters;

@@ -35,6 +35,7 @@ export interface SearchParams {
   'revision-date-from'?: string;
   'revision-date-to'?: string;
   'exclude-revision-log'?: boolean | undefined;
+  'responsible-ids'?: string;
 }
 
 export const parseSearchParams = (locationSearch: string): SearchParams => {
@@ -72,6 +73,7 @@ export const parseSearchParams = (locationSearch: string): SearchParams => {
     'revision-date-from': queryStringObject['revision-date-from'],
     'revision-date-to': queryStringObject['revision-date-to'],
     'exclude-revision-log': parseBooleanParam('exclude-revision-log'),
+    'responsible-ids': queryStringObject['responsible-ids'],
   };
 };
 

@@ -7,9 +7,14 @@
  */
 
 import { Calendar } from '@ndla/icons/editor';
-import { MultiValue } from '@ndla/select';
+import { SingleValue } from '@ndla/select';
 import { IMultiSearchResult } from '@ndla/types-search-api';
 import { useTranslation } from 'react-i18next';
+import { spacing } from '@ndla/core';
+import styled from '@emotion/styled';
+import { SafeLinkButton } from '@ndla/safelink';
+import { useCallback } from 'react';
+import queryString from 'query-string';
 import formatDate from '../../../util/formatDate';
 import { toEditArticle } from '../../../util/routeHelpers';
 import { StyledLink, StyledTopRowDashboardInfo } from '../styles';
@@ -17,24 +22,36 @@ import SubjectDropdown from './SubjectDropdown';
 import TableComponent, { FieldElement, TitleElement } from './TableComponent';
 import TableTitle from './TableTitle';
 
+const ControlWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: ${spacing.small};
+`;
+
+const StyledSafeLinkButton = styled(SafeLinkButton)`
+  height: fit-content;
+`;
+
 interface Props {
   data: IMultiSearchResult | undefined;
-  filterSubjects: MultiValue | undefined;
+  filterSubject: SingleValue | undefined;
   isLoading: boolean;
   setSortOption: (o: string) => void;
   sortOption: string;
   error: string | undefined;
-  setFilterSubject: (fs: MultiValue) => void;
+  setFilterSubject: (fs: SingleValue) => void;
+  ndlaId: string;
 }
 
 const WorkListTabContent = ({
   data,
-  filterSubjects,
+  filterSubject,
   setSortOption,
   isLoading,
   sortOption,
   error,
   setFilterSubject,
+  ndlaId,
 }: Props) => {
   const { t } = useTranslation();
 
@@ -85,6 +102,15 @@ const WorkListTabContent = ({
     { title: t('welcomePage.workList.date'), sortableField: 'responsibleLastUpdated' },
   ];
 
+  const onSearch = useCallback(() => {
+    const query = queryString.stringify({
+      ...(filterSubject && { subjects: filterSubject.value }),
+      ...(ndlaId && { 'responsible-ids': ndlaId }),
+    });
+
+    return `/search/content?${query}`;
+  }, [filterSubject, ndlaId]);
+
   return (
     <>
       <StyledTopRowDashboardInfo>
@@ -93,7 +119,13 @@ const WorkListTabContent = ({
           description={t('welcomePage.workList.description')}
           Icon={Calendar}
         />
-        <SubjectDropdown filterSubject={filterSubjects} setFilterSubject={setFilterSubject} />
+
+        <ControlWrapper>
+          <SubjectDropdown filterSubject={filterSubject} setFilterSubject={setFilterSubject} />
+          <StyledSafeLinkButton to={onSearch()} size="small">
+            {t('welcomePage.goToSearch')}
+          </StyledSafeLinkButton>
+        </ControlWrapper>
       </StyledTopRowDashboardInfo>
       <TableComponent
         isLoading={isLoading}

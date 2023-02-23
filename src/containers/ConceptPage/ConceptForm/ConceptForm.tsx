@@ -8,7 +8,13 @@
 
 import { useState, useEffect, useMemo } from 'react';
 import { Accordions, AccordionSection } from '@ndla/accordion';
-import { IConcept, INewConcept, IUpdatedConcept, ITagsSearchResult } from '@ndla/types-concept-api';
+import {
+  IConcept,
+  INewConcept,
+  IUpdatedConcept,
+  ITagsSearchResult,
+  IConceptSummary,
+} from '@ndla/types-concept-api';
 import { IArticle } from '@ndla/types-draft-api';
 import { Formik, FormikProps, FormikHelpers } from 'formik';
 import { useTranslation } from 'react-i18next';
@@ -58,7 +64,7 @@ interface Props {
   language: string;
   subjects: SubjectType[];
   initialTitle?: string;
-  onUpserted?: (concept: IConcept) => void;
+  onUpserted?: (concept: IConceptSummary | IConcept) => void;
 }
 
 const conceptFormRules: RulesType<ConceptFormValues, IConcept> = {
@@ -212,6 +218,7 @@ const ConceptForm = ({
         return (
           <FormWrapper inModal={inModal}>
             <HeaderWithLanguage
+              concept={concept}
               content={{ ...concept, title: concept?.title?.title, language }}
               editUrl={editUrl}
               getEntity={getEntity}

@@ -100,6 +100,7 @@ const LearningResourceForm = ({
     return (
       <StyledForm>
         <HeaderWithLanguage
+          article={article}
           values={values}
           taxonomy={articleTaxonomy}
           content={{ ...article, title: article?.title?.title, language: articleLanguage }}

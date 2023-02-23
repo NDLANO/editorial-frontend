@@ -8,7 +8,7 @@
 
 import { useTranslation } from 'react-i18next';
 import { useCallback, useState } from 'react';
-import { MultiValue } from '@ndla/select';
+import { SingleValue } from '@ndla/select';
 import { TabsV2 } from '@ndla/tabs';
 import { useSearch } from '../../../modules/search/searchQueries';
 import WorkListTabContent from './WorkListTabContent';
@@ -20,23 +20,24 @@ interface Props {
 }
 
 const WorkList = ({ ndlaId }: Props) => {
-  const [sortOption, setSortOption] = useState('-responsibleLastUpdated');
-  const [sortOptionConcepts, setSortOptionConcepts] = useState('-title');
-  const [error, setError] = useState<string>();
-  const [errorConceptList, setErrorConceptList] = useState<string>();
-
-  const [filterSubjects, setFilterSubject] = useState<MultiValue>([]);
+  const [sortOption, setSortOption] = useState<string>('-responsibleLastUpdated');
+  const [filterSubject, setFilterSubject] = useState<SingleValue | undefined>(undefined);
+  const [error, setError] = useState();
 
   const updateSortOption = useCallback((v: string) => setSortOption(v), []);
+  const updateFilterSubject = useCallback((o: SingleValue) => setFilterSubject(o), []);
+
+  const [sortOptionConcepts, setSortOptionConcepts] = useState('-title');
+  const [errorConceptList, setErrorConceptList] = useState<string>();
+
   const updateSortOptionConcepts = useCallback((v: string) => setSortOptionConcepts(v), []);
 
-  const updateFilterSubjects = useCallback((o: MultiValue) => setFilterSubject(o), []);
-
-  const { data, isLoading } = useSearch(
+  const { t } = useTranslation();
+  const { data, isInitialLoading } = useSearch(
     {
       'responsible-ids': ndlaId,
-      sort: sortOption,
-      ...(filterSubjects.length ? { subjects: filterSubjects.map(fs => fs.value).join(',') } : {}),
+      sort: sortOption ? sortOption : '-responsibleLastUpdated',
+      ...(filterSubject ? { subjects: filterSubject.value } : {}),
     },
     {
       enabled: !!ndlaId,
@@ -57,7 +58,6 @@ const WorkList = ({ ndlaId }: Props) => {
     },
   );
 
-  const { t } = useTranslation();
   console.log(data);
   return (
     <TabsV2
@@ -68,12 +68,13 @@ const WorkList = ({ ndlaId }: Props) => {
           content: (
             <WorkListTabContent
               data={data}
-              filterSubjects={filterSubjects}
+              filterSubject={filterSubject}
               setSortOption={updateSortOption}
-              setFilterSubject={updateFilterSubjects}
-              isLoading={isLoading}
+              setFilterSubject={updateFilterSubject}
+              isLoading={isInitialLoading}
               error={error}
               sortOption={sortOption}
+              ndlaId={ndlaId}
             />
           ),
         },

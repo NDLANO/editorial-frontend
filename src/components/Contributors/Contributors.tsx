@@ -7,7 +7,6 @@
  */
 
 import { FormEvent, MouseEvent } from 'react';
-import PropTypes from 'prop-types';
 import { contributorGroups, contributorTypes } from '@ndla/licenses';
 import Button from '@ndla/button';
 import styled from '@emotion/styled';
@@ -120,28 +119,6 @@ const Contributors = ({
       </Button>
     </div>
   );
-};
-
-Contributors.propTypes = {
-  name: PropTypes.oneOf<ContributorGroups>([
-    ContributorGroups.CREATORS,
-    ContributorGroups.PROCESSORS,
-    ContributorGroups.RIGHTSHOLDERS,
-  ]).isRequired,
-  label: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
-  errorMessages: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
-  showError: PropTypes.bool,
-  placeholder: PropTypes.string,
-  disabled: PropTypes.bool,
-  value: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      type: PropTypes.string.isRequired,
-      focusOnMount: PropTypes.bool,
-    }).isRequired,
-  ).isRequired,
-  width: PropTypes.number,
 };
 
 export default Contributors;

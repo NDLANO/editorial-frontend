@@ -22,7 +22,7 @@ interface Props {
 const ResponsibleSelect = ({ responsible, setResponsible, onSave, responsibleId }: Props) => {
   const { t } = useTranslation();
 
-  const { data: users, isLoading } = useAuth0Responsibles(
+  const { data: users, isInitialLoading } = useAuth0Responsibles(
     { permission: DRAFT_WRITE_SCOPE },
     {
       select: users =>
@@ -36,6 +36,7 @@ const ResponsibleSelect = ({ responsible, setResponsible, onSave, responsibleId 
       placeholderData: [],
     },
   );
+  const optionsWithGroupTitle = [{ label: t('form.responsible.label'), options: users ?? [] }];
 
   const [enableRequired, setEnableRequired] = useState(false);
 
@@ -55,8 +56,6 @@ const ResponsibleSelect = ({ responsible, setResponsible, onSave, responsibleId 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [responsible]);
 
-  const optionsWithGroupTitle = [{ label: t('form.responsible.label'), options: users ?? [] }];
-
   const updateResponsible = async (responsible: SingleValue) => {
     onSave(responsible);
   };
@@ -68,7 +67,7 @@ const ResponsibleSelect = ({ responsible, setResponsible, onSave, responsibleId 
         placeholder={t('form.responsible.choose')}
         value={responsible}
         onChange={updateResponsible}
-        isLoading={isLoading}
+        isLoading={isInitialLoading}
         noOptionsMessage={() => t('form.responsible.noResults')}
         isSearchable
         isClearable

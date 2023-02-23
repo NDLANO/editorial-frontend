@@ -36,6 +36,7 @@ const ResponsibleSelect = ({ responsible, setResponsible, onSave, responsibleId 
       placeholderData: [],
     },
   );
+  const optionsWithGroupTitle = [{ label: t('form.responsible.label'), options: users ?? [] }];
 
   const [enableRequired, setEnableRequired] = useState(false);
 
@@ -54,8 +55,6 @@ const ResponsibleSelect = ({ responsible, setResponsible, onSave, responsibleId 
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [responsible]);
-
-  const optionsWithGroupTitle = [{ label: t('form.responsible.label'), options: users ?? [] }];
 
   const updateResponsible = async (responsible: SingleValue) => {
     onSave(responsible);

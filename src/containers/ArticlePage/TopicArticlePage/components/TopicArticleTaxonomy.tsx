@@ -14,6 +14,8 @@ import { ErrorMessage } from '@ndla/ui';
 import { ButtonV2 } from '@ndla/button';
 import { spacing } from '@ndla/core';
 import { IUpdatedArticle, IArticle } from '@ndla/types-draft-api';
+import { SingleValue } from '@ndla/select';
+import { useQueryClient } from '@tanstack/react-query';
 import {
   fetchSubjects,
   fetchSubjectTopics,
@@ -47,6 +49,9 @@ import { TAXONOMY_ADMIN_SCOPE } from '../../../../constants';
 import { useSession } from '../../../Session/SessionProvider';
 import { ArticleTaxonomy } from '../../../FormikForm/formikDraftHooks';
 import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
+import VersionSelect from '../../components/VersionSelect';
+import { useVersions } from '../../../../modules/taxonomy/versions/versionQueries';
+import { useNodes } from '../../../../modules/nodes/nodeQueries';
 
 type Props = {
   article: IArticle;
@@ -86,7 +91,15 @@ const TopicArticleTaxonomy = ({ article, setIsOpen, updateNotes, taxonomy }: Pro
   const [showWarning, setShowWarning] = useState(false);
   const { t, i18n } = useTranslation();
   const { userPermissions } = useSession();
-  const { taxonomyVersion } = useTaxonomyVersion();
+  const { taxonomyVersion, changeVersion } = useTaxonomyVersion();
+  const { data: versions } = useVersions();
+  const qc = useQueryClient();
+
+  const { data: topics } = useNodes({
+    language: i18n.language,
+    contentURI: taxonomy.topics[0].contentUri,
+    taxonomyVersion,
+  });
 
   useEffect(() => {
     (async () => {
@@ -94,7 +107,7 @@ const TopicArticleTaxonomy = ({ article, setIsOpen, updateNotes, taxonomy }: Pro
         const subjects = await fetchSubjects({ language: i18n.language, taxonomyVersion });
 
         const sortedSubjects = subjects.filter(subject => subject.name).sort(sortByName);
-        const activeTopics = taxonomy.topics.filter(t => t.path) ?? [];
+        const activeTopics = topics?.filter(t => t.path) ?? [];
         const sortedTopics = activeTopics.sort((a, b) => (a.id < b.id ? -1 : 1));
 
         const topicConnections = await Promise.all(
@@ -123,7 +136,7 @@ const TopicArticleTaxonomy = ({ article, setIsOpen, updateNotes, taxonomy }: Pro
         setStatus('error');
       }
     })();
-  }, [i18n.language, taxonomy, taxonomyVersion]);
+  }, [i18n.language, taxonomyVersion, topics]);
 
   const getSubjectTopics = async (subjectId: string, locale: LocaleType) => {
     if (structure.some(subject => subject.id === subjectId && subject.topics)) {
@@ -267,10 +280,30 @@ const TopicArticleTaxonomy = ({ article, setIsOpen, updateNotes, taxonomy }: Pro
     };
   };
 
+  const onVersionChanged = (newVersion: SingleValue) => {
+    if (!newVersion || newVersion.value === taxonomyVersion) return;
+    const oldVersion = taxonomyVersion;
+    try {
+      setStatus('loading');
+      setIsDirty(false);
+      changeVersion(newVersion.value);
+      qc.removeQueries({
+        predicate: query => {
+          const qk = query.queryKey as [string, Record<string, any>];
+          return qk[1]?.taxonomyVersion === oldVersion;
+        },
+      });
+    } catch (e) {
+      handleError(e);
+      setStatus('error');
+    }
+  };
+
   if (status === 'loading') {
     return <Spinner />;
   }
   if (status === 'error') {
+    changeVersion('');
     return (
       <ErrorMessage
         illustration={{
@@ -292,10 +325,13 @@ const TopicArticleTaxonomy = ({ article, setIsOpen, updateNotes, taxonomy }: Pro
   return (
     <>
       {isTaxonomyAdmin && (
-        <TaxonomyConnectionErrors
-          articleType={article.articleType ?? 'topic-article'}
-          taxonomy={taxonomy}
-        />
+        <>
+          <TaxonomyConnectionErrors
+            articleType={article.articleType ?? 'topic-article'}
+            taxonomy={taxonomy}
+          />
+          <VersionSelect versions={versions ?? []} onVersionChanged={onVersionChanged} />
+        </>
       )}
       <TopicArticleConnections
         structure={structure}

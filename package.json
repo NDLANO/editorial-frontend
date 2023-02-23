@@ -13,7 +13,7 @@
     "format-check": "node prettier.js lint",
     "format": "node prettier.js write",
     "start:tsc": "tsc -b -w --preserveWatchOutput",
-    "start": "NODE_OPTIONS='--max-old-space-size=2048' concurrently 'yarn start:tsc' 'ts-node scripts/start-ssr'",
+    "start": "cross-env NODE_OPTIONS='--max-old-space-size=2048' concurrently \"yarn start:tsc\" \"ts-node scripts/start-ssr\"",
     "start-with-local-converter": "LOCAL_CONVERTER=true yarn start",
     "start-prod": "cross-env NODE_ENV=production node build/server | bunyan",
     "now-start": "cross-env NODE_ENV=production NOW=true node build/server | bunyan",

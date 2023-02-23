@@ -31,6 +31,7 @@ import { ArticleTaxonomy } from '../../../FormikForm/formikDraftHooks';
 import { blockContentToHTML } from '../../../../util/articleContentConverter';
 import { DraftStatusType } from '../../../../interfaces';
 import StyledForm from '../../../../components/StyledFormComponents';
+import { TaxonomyVersionProvider } from '../../../StructureVersion/TaxonomyVersionProvider';
 
 interface Props {
   article?: IArticle;
@@ -114,14 +115,16 @@ const TopicArticleForm = ({
           type="topic-article"
           expirationDate={getExpirationDate(article)}
         />
-        <TopicArticleAccordionPanels
-          taxonomy={articleTaxonomy}
-          articleLanguage={articleLanguage}
-          updateNotes={updateArticle}
-          article={article}
-          getArticle={getArticle}
-          handleSubmit={async () => handleSubmit(values, formik)}
-        />
+        <TaxonomyVersionProvider>
+          <TopicArticleAccordionPanels
+            taxonomy={articleTaxonomy}
+            articleLanguage={articleLanguage}
+            updateNotes={updateArticle}
+            article={article}
+            getArticle={getArticle}
+            handleSubmit={async () => handleSubmit(values, formik)}
+          />
+        </TaxonomyVersionProvider>
         <EditorFooter
           showSimpleFooter={!article?.id}
           formIsDirty={formIsDirty}

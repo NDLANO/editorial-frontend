@@ -33,6 +33,7 @@ import { ArticleTaxonomy } from '../../../FormikForm/formikDraftHooks';
 import { blockContentToHTML } from '../../../../util/articleContentConverter';
 import { DraftStatusType } from '../../../../interfaces';
 import StyledForm from '../../../../components/StyledFormComponents';
+import { TaxonomyVersionProvider } from '../../../StructureVersion/TaxonomyVersionProvider';
 
 interface Props {
   article?: IArticle;
@@ -110,14 +111,16 @@ const LearningResourceForm = ({
           type="standard"
           expirationDate={getExpirationDate(article)}
         />
-        <LearningResourcePanels
-          articleLanguage={articleLanguage}
-          article={article}
-          taxonomy={articleTaxonomy}
-          updateNotes={updateArticle}
-          getArticle={getArticle}
-          handleSubmit={handleSubmit}
-        />
+        <TaxonomyVersionProvider>
+          <LearningResourcePanels
+            articleLanguage={articleLanguage}
+            article={article}
+            taxonomy={articleTaxonomy}
+            updateNotes={updateArticle}
+            getArticle={getArticle}
+            handleSubmit={handleSubmit}
+          />
+        </TaxonomyVersionProvider>
         <EditorFooter
           showSimpleFooter={!article}
           formIsDirty={formIsDirty}

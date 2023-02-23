@@ -1,0 +1,145 @@
+/**
+ * Copyright (c) 2022-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import { useTranslation } from 'react-i18next';
+import { Calendar } from '@ndla/icons/editor';
+import { useCallback, useState } from 'react';
+import { SingleValue } from '@ndla/select';
+import { SafeLinkButton } from '@ndla/safelink';
+import queryString from 'query-string';
+import styled from '@emotion/styled';
+import { colors, spacing } from '@ndla/core';
+import { useSearch } from '../../../modules/search/searchQueries';
+import { toEditArticle } from '../../../util/routeHelpers';
+import TableComponent, { FieldElement, TitleElement } from './TableComponent';
+import TableTitle from './TableTitle';
+import SubjectDropdown from './SubjectDropdown';
+import formatDate from '../../../util/formatDate';
+import { StyledDashboardInfo, StyledLink, StyledTopRowDashboardInfo } from '../styles';
+
+const ControlWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: ${spacing.small};
+`;
+
+const StyledSafeLinkButton = styled(SafeLinkButton)`
+  height: fit-content;
+`;
+
+interface Props {
+  ndlaId: string;
+}
+
+const WorkList = ({ ndlaId }: Props) => {
+  const [sortOption, setSortOption] = useState<string>('-responsibleLastUpdated');
+  const [filterSubject, setFilterSubject] = useState<SingleValue | undefined>(undefined);
+  const [error, setError] = useState();
+
+  const updateSortOption = useCallback((v: string) => setSortOption(v), []);
+  const updateFilterSubject = useCallback((o: SingleValue) => setFilterSubject(o), []);
+
+  const { t } = useTranslation();
+  const { data, isInitialLoading } = useSearch(
+    {
+      'responsible-ids': ndlaId,
+      sort: sortOption ? sortOption : '-responsibleLastUpdated',
+      ...(filterSubject ? { subjects: filterSubject.value } : {}),
+    },
+    {
+      enabled: !!ndlaId,
+      onError: () => setError(t('welcomePage.errorMessage')),
+      onSuccess: () => setError(undefined),
+    },
+  );
+
+  const tableTitles: TitleElement[] = [
+    { title: t('welcomePage.workList.name'), sortableField: 'title' },
+    { title: t('welcomePage.workList.status') },
+    { title: t('welcomePage.workList.contentType') },
+    { title: t('welcomePage.workList.primarySubject') },
+    { title: t('welcomePage.workList.topicRelation') },
+    { title: t('welcomePage.workList.date'), sortableField: 'responsibleLastUpdated' },
+  ];
+
+  const tableData: FieldElement[][] = data
+    ? data.results.map(res => [
+        {
+          id: `title_${res.id}`,
+          data: (
+            <StyledLink to={toEditArticle(res.id, res.learningResourceType)}>
+              {res.title?.title}
+            </StyledLink>
+          ),
+        },
+        {
+          id: `status_${res.id}`,
+          data: res.status?.current ? t(`form.status.${res.status.current.toLowerCase()}`) : '',
+        },
+        {
+          id: `contentType_${res.id}`,
+          data:
+            res.learningResourceType === 'topic-article'
+              ? 'Emne'
+              : res.contexts?.[0]?.resourceTypes?.map(context => context.name).join(' - '),
+        },
+        {
+          id: `primarySubject_${res.id}`,
+          data: res.contexts.find(context => context.isPrimaryConnection)?.subject ?? '',
+        },
+        {
+          id: `topic_${res.id}`,
+          data: res.contexts.length
+            ? res.contexts[0].breadcrumbs[res.contexts[0].breadcrumbs.length - 1]
+            : '',
+        },
+        {
+          id: `date_${res.id}`,
+          data: res.responsible ? formatDate(res.responsible.lastUpdated) : '',
+        },
+      ])
+    : [[]];
+
+  const onSearch = useCallback(() => {
+    const query = queryString.stringify({
+      ...(filterSubject && { subjects: filterSubject.value }),
+      ...(ndlaId && { 'responsible-ids': ndlaId }),
+    });
+
+    return `/search/content?${query}`;
+  }, [filterSubject, ndlaId]);
+
+  return (
+    <StyledDashboardInfo>
+      <StyledTopRowDashboardInfo>
+        <TableTitle
+          title={t('welcomePage.workList.title')}
+          description={t('welcomePage.workList.description')}
+          Icon={Calendar}
+        />
+        <ControlWrapper>
+          <SubjectDropdown filterSubject={filterSubject} setFilterSubject={updateFilterSubject} />
+          <StyledSafeLinkButton to={onSearch()} size="small">
+            {t('welcomePage.goToSearch')}
+          </StyledSafeLinkButton>
+        </ControlWrapper>
+      </StyledTopRowDashboardInfo>
+      <TableComponent
+        isLoading={isInitialLoading}
+        tableTitleList={tableTitles}
+        tableData={tableData}
+        setSortOption={updateSortOption}
+        sortOption={sortOption}
+        error={error}
+        noResultsText={t('form.responsible.noArticles')}
+      />
+    </StyledDashboardInfo>
+  );
+};
+
+export default WorkList;

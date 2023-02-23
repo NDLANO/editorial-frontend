@@ -6,52 +6,52 @@
  *
  */
 
-import { learningResourceContentToEditorValue } from '../articleContentConverter';
+import { blockContentToEditorValue } from '../articleContentConverter';
 import { parseEmbedTag, createEmbedTag, isUserProvidedEmbedDataValid } from '../embedTagHelpers';
 
 test('parseEmbedTag parses image embed tag to object', () => {
   const obj = parseEmbedTag(
-    `<embed
+    `<ndlaembed
       data-size="full"
       data-align=""
       data-resource="image"
       data-alt="Guinness sign"
       data-caption="Guinness is good for you" data-resource_id="42159"
       data-id="0"
-      data-url="https://api.ndla.no/image-api/v3/images/42159">`,
+      data-url="https://api.ndla.no/image-api/v3/images/42159"></ndlaembed>`,
   );
   expect(obj).toMatchSnapshot();
 });
 
 test('parseEmbedTag parses brightcove embed tag to object', () => {
   const obj = parseEmbedTag(
-    `<embed
+    `<ndlaembed
       data-account="4806596774001"
       data-caption="Intervju med Hallvard"
       data-player="BkLm8fT"
       data-resource="brightcove"
       data-videoid="ref:106952"
-      data-id="0">`,
+      data-id="0"></ndlaembed>`,
   );
   expect(obj).toMatchSnapshot();
 });
 
 test('parseEmbedTag parses h5p embed tag to object', () => {
   const obj = parseEmbedTag(
-    `<embed
+    `<ndlaembed
       data-resource="h5p"
       data-url="https://h5p-test.ndla.no/resource/3ab6850d-cd30-4f11-aead-8be65f66f566/oembed"
-      data-id="0">`,
+      data-id="0"></ndlaembed>`,
   );
   expect(obj).toMatchSnapshot();
 });
 
 test('parseEmbedTag parses related-content embed tag to object', () => {
   const obj = parseEmbedTag(
-    `<embed
+    `<ndlaembed
       data-article-id="363"
       data-resource="related-content"
-     >`,
+     ></ndlaembed>`,
   );
   expect(obj).toMatchSnapshot();
 });
@@ -147,8 +147,8 @@ test('isUserProvidedEmbedDataValid for audio', () => {
 });
 
 test('deserializing related-content works', () => {
-  const deserialized = learningResourceContentToEditorValue(
-    '<div data-type="related-content"><embed data-url="www.vg.no" data-title="Forsiden vg" /><embed data-article-id="54" /></div>',
+  const deserialized = blockContentToEditorValue(
+    '<div data-type="related-content"><ndlaembed data-url="www.vg.no" data-title="Forsiden vg"></ndlaembed><ndlaembed data-article-id="54"></ndlaembed></div>',
   );
 
   expect(deserialized).toMatchSnapshot();

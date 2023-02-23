@@ -15,11 +15,15 @@ const blankTheme = {
     nb: '',
     nn: '',
     en: '',
+    se: '',
+    sma: '',
   },
   warnings: {
     nb: false,
     nn: false,
     en: false,
+    se: false,
+    sma: false,
   },
 };
 

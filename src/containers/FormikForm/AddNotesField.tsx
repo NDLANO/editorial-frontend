@@ -7,7 +7,7 @@
  */
 
 import { FormEvent, MouseEvent } from 'react';
-import Button from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 import { FieldSection, Input, FieldRemoveButton } from '@ndla/forms';
 import Field from '../../components/Field';
 
@@ -63,6 +63,7 @@ const AddNotesField = ({
             <Input
               warningText={showError && note === '' ? labelWarningNote : ''}
               type="text"
+              // eslint-disable-next-line jsx-a11y/no-autofocus
               autoFocus
               placeholder={placeholder}
               value={note}
@@ -78,9 +79,9 @@ const AddNotesField = ({
           </div>
         </FieldSection>
       ))}
-      <Button outline onClick={addNote} data-testid="addNote">
+      <ButtonV2 variant="outline" onClick={addNote} data-testid="addNote">
         {labelAddNote}
-      </Button>
+      </ButtonV2>
     </Field>
   );
 };

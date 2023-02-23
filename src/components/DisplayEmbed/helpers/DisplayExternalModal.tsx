@@ -37,7 +37,7 @@ const DisplayExternalModal = ({
           selectedResource={allowedProvider.name}
           selectedResourceUrl={src}
           selectedResourceType={type}
-          handleVisualElementChange={rt => (rt.type === 'embed' ? onEditEmbed(rt.value) : null)}
+          handleVisualElementChange={rt => (rt.type === 'ndlaembed' ? onEditEmbed(rt.value) : null)}
           closeModal={onClose}
           embed={embed}
           setH5pFetchFail={setH5pFetchFail}

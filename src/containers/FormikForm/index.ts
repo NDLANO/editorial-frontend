@@ -14,6 +14,7 @@ import ContributorsField from './components/ContributorsField';
 import MetaDataField from './MetaDataField';
 import AbortButton from './components/AbortButton';
 import LearningpathConnection from '../../components/HeaderWithLanguage/LearningpathConnection';
+import SlugField from './SlugField';
 
 export {
   CopyrightFieldGroup,
@@ -32,4 +33,5 @@ export {
   MetaDataField,
   AbortButton,
   LearningpathConnection,
+  SlugField,
 };

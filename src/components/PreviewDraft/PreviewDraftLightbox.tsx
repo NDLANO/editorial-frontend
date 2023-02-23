@@ -11,7 +11,7 @@ import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { IArticle, IUpdatedArticle } from '@ndla/types-draft-api';
 import { ErrorMessage, OneColumn } from '@ndla/ui';
-import { uniq } from 'lodash';
+import uniq from 'lodash/uniq';
 import { ReactElement, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { updatedDraftApiTypeToDraftApiType } from '../../containers/ArticlePage/articleTransformers';

@@ -177,10 +177,16 @@ export const detailsPlugin = (editor: Editor) => {
 
   editor.renderElement = ({ attributes, children, element }: RenderElementProps) => {
     if (element.type === TYPE_SUMMARY) {
-      return <Summary attributes={attributes} children={children} element={element} />;
+      return (
+        <Summary attributes={attributes} element={element}>
+          {children}
+        </Summary>
+      );
     } else if (element.type === TYPE_DETAILS) {
       return (
-        <Details attributes={attributes} children={children} editor={editor} element={element} />
+        <Details attributes={attributes} editor={editor} element={element}>
+          {children}
+        </Details>
       );
     } else if (nextRenderElement) {
       return nextRenderElement({ attributes, children, element });

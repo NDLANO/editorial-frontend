@@ -8,9 +8,9 @@
 
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useQueryClient } from 'react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import { DropResult } from 'react-beautiful-dnd';
-import { sortBy } from 'lodash';
+import sortBy from 'lodash/sortBy';
 import styled from '@emotion/styled';
 import Resource from './Resource';
 import handleError from '../../../util/handleError';
@@ -22,8 +22,12 @@ import { ResourceWithNodeConnection } from '../../../modules/nodes/nodeApiTypes'
 import AlertModal from '../../../components/AlertModal';
 import MakeDndList from '../../../components/MakeDndList';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
-import { resourcesWithNodeConnectionQueryKey } from '../../../modules/nodes/nodeQueries';
+import {
+  NodeResourceMeta,
+  resourcesWithNodeConnectionQueryKey,
+} from '../../../modules/nodes/nodeQueries';
 import { ResourceWithNodeConnectionAndMeta } from './StructureResources';
+import { Dictionary } from '../../../interfaces';
 
 const StyledResourceItems = styled.ul`
   list-style: none;
@@ -39,11 +43,12 @@ const StyledErrorMessage = styled.div`
 interface Props {
   resources: ResourceWithNodeConnectionAndMeta[];
   currentNodeId: string;
+  contentMeta: Dictionary<NodeResourceMeta>;
 }
 
 const isError = (error: unknown): error is Error => (error as Error).message !== undefined;
 
-const ResourceItems = ({ resources, currentNodeId }: Props) => {
+const ResourceItems = ({ resources, currentNodeId, contentMeta }: Props) => {
   const { t, i18n } = useTranslation();
   const [deleteId, setDeleteId] = useState<string>('');
   const { taxonomyVersion } = useTaxonomyVersion();
@@ -122,7 +127,10 @@ const ResourceItems = ({ resources, currentNodeId }: Props) => {
             currentNodeId={currentNodeId}
             id={resource.id}
             connectionId={resource.connectionId}
-            resource={resource}
+            resource={{
+              ...resource,
+              contentMeta: resource.contentUri ? contentMeta[resource.contentUri] : undefined,
+            }}
             key={resource.id}
             onDelete={toggleDelete}
           />

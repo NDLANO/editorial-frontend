@@ -13,7 +13,7 @@ import styled from '@emotion/styled';
 import { colors } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
 import { Select } from '@ndla/forms';
-import Button, { MultiButtonV2 as MultiButton } from '@ndla/button';
+import { MultiButton, ButtonV2 } from '@ndla/button';
 import { fetchSearchTags } from '../../../../../modules/concept/conceptApi';
 import AsyncSearchTags from '../../../../../components/Dropdown/asyncDropdown/AsyncSearchTags';
 import { MultiSelectDropdown } from '../../../../../components/Dropdown/MultiSelectDropdown';
@@ -21,9 +21,8 @@ import { InputField } from './SearchStyles';
 import { SubjectType } from '../../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { getLicensesWithTranslations } from '../../../../../util/licenseHelpers';
 import { useLicenses } from '../../../../../modules/draft/draftQueries';
-import { PUBLISHED, QUALITY_ASSURED } from '../../../../../util/constants/ConceptStatus';
+import { CONCEPT_ADMIN_SCOPE, END_CONTROL, PUBLISHED } from '../../../../../constants';
 import { ConceptStatusType } from '../../../../../interfaces';
-import { CONCEPT_ADMIN_SCOPE } from '../../../../../constants';
 import { useSession } from '../../../../Session/SessionProvider';
 
 export interface InlineFormConcept {
@@ -85,7 +84,7 @@ const ConceptForm = ({ initialValues, status, language, onSubmit, allSubjects, c
     if (value === 'saveAndPublish') {
       return PUBLISHED;
     } else if (status === PUBLISHED) {
-      return QUALITY_ASSURED;
+      return END_CONTROL;
     } else {
       return undefined;
     }
@@ -172,9 +171,9 @@ const ConceptForm = ({ initialValues, status, language, onSubmit, allSubjects, c
         />
       </InputField>
       <div className="buttons">
-        <Button className="form-button secondary" onClick={cancel}>
+        <ButtonV2 className="form-button secondary" onClick={cancel}>
           {t('editorFooter.cancelLabel')}
-        </Button>
+        </ButtonV2>
         <MultiButton
           disabled={!hasChanges || Object.keys(errors).length > 0}
           onClick={value => handleClick(value)}

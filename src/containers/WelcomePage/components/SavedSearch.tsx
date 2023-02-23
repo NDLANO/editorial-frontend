@@ -6,32 +6,51 @@
  *
  */
 
-import { Link } from 'react-router-dom';
+import { useMemo } from 'react';
 import queryString from 'query-string';
-
 import { useTranslation } from 'react-i18next';
 import { DeleteForever } from '@ndla/icons/editor';
+import { IUserData } from '@ndla/types-draft-api';
 import Tooltip from '@ndla/tooltip';
-
-import IconButton from '../../../components/IconButton';
+import { IconButtonV2 } from '@ndla/button';
+import styled from '@emotion/styled';
+import { spacing } from '@ndla/core';
 import { transformQuery } from '../../../util/searchHelpers';
 import { useSavedSearchUrl } from '../hooks/savedSearchHook';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
+import { NoShadowLink } from './NoShadowLink';
+import { FAVOURITES_SUBJECT_ID } from '../../../constants';
 
 interface Props {
   deleteSearch: Function;
   search: string;
   index: number;
+  userData: IUserData;
 }
 
-const SavedSearch = ({ deleteSearch, search, index }: Props) => {
+const StyledSearch = styled.div`
+  display: flex;
+  gap: ${spacing.xsmall};
+  align-items: center;
+`;
+
+const SavedSearch = ({ deleteSearch, search, index, userData }: Props) => {
   const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
   const locale = i18n.language;
   const [searchUrl, searchParams] = search.split('?');
 
-  const searchObject = transformQuery(queryString.parse(searchParams));
-  const subject = searchObject['subjects'] || '';
+  const [searchObject, isFavorite] = useMemo(() => {
+    const searchObject = transformQuery(queryString.parse(searchParams));
+    const isFavorite = searchObject.subjects === FAVOURITES_SUBJECT_ID;
+    return [
+      isFavorite
+        ? { ...searchObject, subjects: userData.favoriteSubjects?.join(',') }
+        : searchObject,
+      isFavorite,
+    ];
+  }, [searchParams, userData?.favoriteSubjects]);
+
   const resourceType = searchObject['resource-types'] || '';
 
   searchObject['type'] = searchUrl.replace('/search/', '');
@@ -60,7 +79,7 @@ const SavedSearch = ({ deleteSearch, search, index }: Props) => {
     results.push(language && t(`language.${language}`));
     results.push(audioType);
     results.push(status && t(`form.status.${status.toLowerCase()}`));
-    results.push(subject && data?.subject?.name);
+    results.push(isFavorite ? t('searchForm.favourites') : data?.subject?.name);
     results.push(resourceType && data?.resourceType?.name);
     results.push(contextType && t(`contextTypes.topic`));
     results.push(data?.user?.[0].name);
@@ -77,21 +96,20 @@ const SavedSearch = ({ deleteSearch, search, index }: Props) => {
   }
 
   return (
-    <div style={{ display: 'flex' }} key={index}>
+    <StyledSearch key={index}>
       <Tooltip tooltip={t('welcomePage.deleteSavedSearch')}>
-        <IconButton
-          color="red"
+        <IconButtonV2
+          aria-label={t('welcomePage.deleteSavedSearch')}
+          colorTheme="danger"
+          variant="ghost"
           type="button"
           onClick={() => deleteSearch(index)}
           data-cy="remove-element">
           <DeleteForever />
-        </IconButton>
+        </IconButtonV2>
       </Tooltip>
-      {/* Not having a className activates undesirable global scss */}
-      <Link className="" to={localizedSearch}>
-        {linkText(searchObject)}
-      </Link>
-    </div>
+      <NoShadowLink to={localizedSearch}>{linkText(searchObject)}</NoShadowLink>
+    </StyledSearch>
   );
 };
 

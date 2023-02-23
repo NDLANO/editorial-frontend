@@ -6,14 +6,11 @@
  */
 
 import isEqual from 'lodash/fp/isEqual';
-import { Descendant } from 'slate';
+import { Descendant, Node } from 'slate';
 import { IArticle, ILicense, IArticleMetaImage } from '@ndla/types-draft-api';
 import { isUserProvidedEmbedDataValid } from './embedTagHelpers';
 import { findNodesByType } from './slateHelpers';
-import {
-  learningResourceContentToHTML,
-  topicArticleContentToHTML,
-} from './articleContentConverter';
+import { blockContentToHTML, inlineContentToHTML } from './articleContentConverter';
 import { diffHTML } from './diffHTML';
 import { isGrepCodeValid } from './articleUtil';
 import { RulesType } from '../components/formikValidationSchema';
@@ -21,9 +18,10 @@ import {
   ArticleFormType,
   LearningResourceFormType,
   TopicArticleFormType,
+  FrontpageArticleFormType,
 } from '../containers/FormikForm/articleFormHooks';
 import { isEmbed } from '../components/SlateEditor/plugins/embed/utils';
-import { EmbedElement } from '../components/SlateEditor/plugins/embed';
+import { NdlaEmbedElement } from '../components/SlateEditor/plugins/embed';
 
 export const DEFAULT_LICENSE: ILicense = {
   description: 'Creative Commons Attribution-ShareAlike 4.0 International',
@@ -38,8 +36,7 @@ const checkIfContentHasChanged = (
   initialHTML?: string,
 ) => {
   if (currentValue.length !== initialContent.length) return true;
-  const toHTMLFunction =
-    type === 'standard' ? learningResourceContentToHTML : topicArticleContentToHTML;
+  const toHTMLFunction = type === 'standard' ? blockContentToHTML : inlineContentToHTML;
   const newHTML = toHTMLFunction(currentValue);
 
   const diff = diffHTML(newHTML, initialHTML || toHTMLFunction(initialContent));
@@ -91,7 +88,7 @@ export const isFormikFormDirty = <T extends FormikFields>({
     'manuscript',
   ];
   // and skipping fields that only changes on the server
-  const skipFields = ['revision', 'updated', 'updatePublished', 'id', 'status'];
+  const skipFields = ['revision', 'updated', 'updatePublished', 'id'];
   const dirtyFields = [];
   Object.entries(values)
     .filter(([key]) => !skipFields.includes(key))
@@ -202,6 +199,9 @@ export const formikCommonArticleRules: RulesType<ArticleFormType, IArticle> = {
       return undefined;
     },
   },
+  responsibleId: {
+    required: true,
+  },
 };
 
 export const learningResourceRules: RulesType<LearningResourceFormType, IArticle> = {
@@ -217,14 +217,32 @@ export const learningResourceRules: RulesType<LearningResourceFormType, IArticle
   content: {
     required: true,
     test: values => {
-      const embeds = findNodesByType(values.content ?? [], 'embed').map(
-        node => (node as EmbedElement).data,
+      const embeds = findNodesByType(values.content ?? [], 'ndlaembed').map(
+        node => (node as NdlaEmbedElement).data,
       );
       const notValidEmbeds = embeds.filter(embed => !isUserProvidedEmbedDataValid(embed));
       const embedsHasErrors = notValidEmbeds.length > 0;
 
       return embedsHasErrors
         ? { translationKey: 'learningResourceForm.validation.missingEmbedData' }
+        : undefined;
+    },
+    warnings: {
+      languageMatch: true,
+    },
+  },
+};
+
+export const frontPageArticleRules: RulesType<FrontpageArticleFormType, IArticle> = {
+  ...learningResourceRules,
+  slug: {
+    required: true,
+    onlyValidateIf: values => values.slug !== undefined,
+    test: values => {
+      const containsIllegalCharacters =
+        values.slug?.replace(/[^a-zA-Z0-9-]/g, '').length !== values.slug?.length;
+      return containsIllegalCharacters
+        ? { translationKey: 'frontpageArticleForm.validation.illegalSlug' }
         : undefined;
     },
     warnings: {
@@ -251,7 +269,19 @@ export const topicArticleRules: RulesType<TopicArticleFormType, IArticle> = {
       apiField: 'visualElement',
     },
   },
+  visualElement: {
+    required: false,
+    test: values =>
+      isEmbed(values.visualElement[0]) && values.visualElement[0].data.resource !== 'image'
+        ? { translationKey: 'topicArticleForm.validation.illegalResource' }
+        : undefined,
+  },
   content: {
+    required: false,
+    test: values =>
+      Node.string(values.content[0]) !== '' || values.content.length > 1
+        ? { translationKey: 'topicArticleForm.validation.containsContent' }
+        : undefined,
     warnings: {
       languageMatch: true,
     },

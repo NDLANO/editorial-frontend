@@ -65,7 +65,7 @@ const InlineConceptPreview = ({ concept, handleRemove, id, isBlockView }: Props)
     const visualElement: Embed | undefined = parseEmbedTag(concept.visualElement?.visualElement);
     if (!visualElement) return null;
     switch (visualElement?.resource) {
-      case 'image':
+      case 'image': {
         const wrapperUrl = `${config.ndlaApiUrl}/image-api/raw/id/${visualElement.resource_id}`;
         const srcSet = getSrcSets(visualElement.resource_id, visualElement);
         return (
@@ -73,6 +73,7 @@ const InlineConceptPreview = ({ concept, handleRemove, id, isBlockView }: Props)
             <img alt={visualElement?.alt} src={visualElement?.url} srcSet={srcSet} />
           </ImageWrapper>
         );
+      }
       case 'external':
         return (
           <iframe
@@ -139,19 +140,22 @@ const InlineConceptPreview = ({ concept, handleRemove, id, isBlockView }: Props)
 
       <StyledFigureButtons isBlockView={isBlockView}>
         <Tooltip tooltip={t('form.concept.removeConcept')}>
-          <IconButton color="red" type="button" onClick={handleRemove} tabIndex={-1}>
-            <DeleteForever />
-          </IconButton>
+          <div>
+            <IconButton color="red" type="button" onClick={handleRemove} tabIndex={-1}>
+              <DeleteForever />
+            </IconButton>
+          </div>
         </Tooltip>
         <Tooltip tooltip={t('form.concept.edit')}>
-          <IconButton
-            as={Link}
-            to={`/concept/${id}/edit/${concept.content?.language}`}
-            target="_blank"
-            title={t('form.concept.edit')}
-            tabIndex={-1}>
-            <LinkIcon />
-          </IconButton>
+          <div>
+            <IconButton
+              as={Link}
+              to={`/concept/${id}/edit/${concept.content?.language}`}
+              target="_blank"
+              tabIndex={-1}>
+              <LinkIcon />
+            </IconButton>
+          </div>
         </Tooltip>
       </StyledFigureButtons>
     </>

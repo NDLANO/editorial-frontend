@@ -7,7 +7,7 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { useQueryClient } from 'react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import Tooltip from '@ndla/tooltip';
 import styled from '@emotion/styled';
 import {
@@ -79,12 +79,14 @@ const GroupTopicResources = ({ node, hideIcon, onChanged }: Props) => {
         disabled
       />
       <StyledTooltip tooltip={t('taxonomy.metadata.customFields.RGTooltip')}>
-        <ToggleSwitch
-          on={isGrouped}
-          labelOff={'U'}
-          labelOn={'G'}
-          onClick={() => updateMetadata()}
-        />
+        <div>
+          <ToggleSwitch
+            on={isGrouped}
+            labelOff={'U'}
+            labelOn={'G'}
+            onClick={() => updateMetadata()}
+          />
+        </div>
       </StyledTooltip>
     </StyledMenuItemEditField>
   );

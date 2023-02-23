@@ -13,7 +13,7 @@ import { Descendant, Editor, Element, Node, NodeEntry, Path, Text, Transforms } 
 import { ReactEditor, RenderElementProps, RenderLeafProps } from 'slate-react';
 import { HistoryEditor } from 'slate-history';
 import { jsx as slatejsx } from 'slate-hyperscript';
-import { equals } from 'lodash/fp';
+import equals from 'lodash/fp/equals';
 import { SlateSerializer } from '../../interfaces';
 import {
   reduceElementDataAttributes,
@@ -252,7 +252,7 @@ export const tablePlugin = (editor: Editor) => {
         return <caption {...attributes}>{children}</caption>;
       case TYPE_TABLE_ROW:
         return <tr {...attributes}>{children}</tr>;
-      case TYPE_TABLE_CELL:
+      case TYPE_TABLE_CELL: {
         const align = element.data.align || '';
         const parsedAlign = (['left', 'center', 'right'].includes(align)
           ? align
@@ -267,6 +267,7 @@ export const tablePlugin = (editor: Editor) => {
             {children}
           </td>
         );
+      }
       case TYPE_TABLE_HEAD:
         return <thead {...attributes}>{children}</thead>;
       case TYPE_TABLE_BODY:

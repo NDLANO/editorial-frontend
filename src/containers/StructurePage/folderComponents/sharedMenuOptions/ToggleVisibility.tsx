@@ -58,7 +58,7 @@ const ToggleVisibility = ({
 
   return (
     <>
-      <MenuItemButton stripped data-testid="toggleVisibilityButton" onClick={toggleEditModes}>
+      <MenuItemButton data-testid="toggleVisibilityButton" onClick={toggleEditModes}>
         <RoundIcon small icon={<Eye />} />
         {t('metadata.changeVisibility')}
       </MenuItemButton>

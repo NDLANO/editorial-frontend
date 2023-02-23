@@ -6,17 +6,18 @@
  *
  */
 
-import { useQuery, useQueryClient, UseQueryOptions } from 'react-query';
+import { useQuery, useQueryClient, UseQueryOptions } from '@tanstack/react-query';
+import { IEditorNote } from '@ndla/types-draft-api';
 import { NodeTree } from '../../containers/NodeDiff/diffUtils';
 import { SearchResultBase, WithTaxonomyVersion } from '../../interfaces';
-import { PUBLISHED } from '../../util/constants/ConceptStatus';
+import { PUBLISHED } from '../../constants';
 import {
   CHILD_NODES_WITH_ARTICLE_TYPE,
   CONNECTIONS_FOR_NODE,
   NODE,
-  NODES,
   NODE_RESOURCES,
   NODE_TRANSLATIONS,
+  NODES,
   RESOURCES_WITH_NODE_CONNECTION,
   ROOT_NODE_WITH_CHILDREN,
   SEARCH_NODES,
@@ -38,7 +39,10 @@ import {
   GetNodeResourcesParams,
   NodeTranslation,
   NodeType,
+  NodeTypeValue,
+  RESOURCE_NODE,
   ResourceWithNodeConnection,
+  TOPIC_NODE,
 } from './nodeApiTypes';
 import { fetchLearningpaths } from '../learningpath/learningpathApi';
 
@@ -76,14 +80,13 @@ export interface NodeResourceMeta {
   grepCodes?: string[];
   status?: { current: string; other: string[] };
   articleType?: string;
+  revision?: number;
+  notes?: IEditorNote[];
 }
 
 export const nodeResourceMetasQueryKey = (params: Partial<UseNodeResourceMetas>) => [
   NODE_RESOURCES,
-  {
-    nodeId: params.nodeId,
-    language: params.language,
-  },
+  params,
 ];
 
 export const useNodeResourceMetas = (
@@ -134,11 +137,13 @@ const fetchNodeResourceMetas = async (
     : Promise.resolve([]);
   const [articles, learningpaths] = await Promise.all([articlesPromise, learningpathsPromise]);
   const transformedArticles: NodeResourceMeta[] = articles.map(
-    ({ status, grepCodes, articleType, id }) => ({
+    ({ status, grepCodes, articleType, id, revision, notes }) => ({
       status,
       grepCodes,
       articleType,
       contentUri: `urn:article:${id}`,
+      revision,
+      notes,
     }),
   );
   const transformedLearningpaths: NodeResourceMeta[] = learningpaths.map(lp => ({
@@ -152,17 +157,25 @@ const fetchNodeResourceMetas = async (
 interface ChildNodesWithArticleTypeParams extends WithTaxonomyVersion {
   id: string;
   language: string;
+  nodeType?: NodeTypeValue[];
 }
 
 const fetchChildNodesWithArticleType = async ({
   id,
   language,
+  nodeType,
   taxonomyVersion,
 }: ChildNodesWithArticleTypeParams): Promise<(ChildNodeType & {
   articleType?: string;
   isPublished?: boolean;
 })[]> => {
-  const childNodes = await fetchChildNodes({ id, taxonomyVersion, language, recursive: true });
+  const childNodes = await fetchChildNodes({
+    id,
+    taxonomyVersion,
+    language,
+    recursive: true,
+    nodeType,
+  });
   if (childNodes.length === 0) return [];
 
   const childIds = childNodes.map(n => Number(n.contentUri?.split(':').pop())).filter(id => !!id);
@@ -209,34 +222,40 @@ const fetchNodeTree = async ({
   language,
   taxonomyVersion,
 }: NodeTreeGetParams): Promise<NodeTree> => {
-  const [root, children, allResources] = await Promise.all([
+  const [root, children] = await Promise.all([
     fetchNode({ id, language, taxonomyVersion }),
-    fetchChildNodesWithArticleType({ id, language, taxonomyVersion }),
-    fetchNodeResources({ id, language, taxonomyVersion, recursive: true }),
+    fetchChildNodesWithArticleType({
+      id,
+      language,
+      nodeType: [TOPIC_NODE, RESOURCE_NODE],
+      taxonomyVersion,
+    }),
   ]);
 
-  let rootFromChildren: ChildNodeType | undefined = children.find(child => child.id === id);
+  const rootFromChildren: ChildNodeType | undefined = children.find(child => child.id === id);
   const childOrRegularRoot = rootFromChildren ?? root;
-
-  const resourcesForNodeIdMap = allResources.reduce<Record<string, ResourceWithNodeConnection[]>>(
+  const allResources = children.filter(n => n.nodeType === RESOURCE_NODE);
+  const resourcesForNodeIdMap = allResources.reduce<Record<string, ChildNodeType[]>>(
     (acc, curr) => {
-      if (!curr.parentId) {
-        return acc;
-      }
-      if (acc[curr.parentId]) {
-        acc[curr.parentId] = acc[curr.parentId].concat([curr]);
+      if (!curr.parent) return acc;
+
+      if (acc[curr.parent]) {
+        acc[curr.parent] = acc[curr.parent].concat([curr]);
       } else {
-        acc[curr.parentId] = [curr];
+        acc[curr.parent] = [curr];
       }
 
       return acc;
     },
     {},
   );
-  const childrenWithResources = children.map(child => ({
-    ...child,
-    resources: resourcesForNodeIdMap[child.id] ?? [],
-  }));
+
+  const childrenWithResources = children
+    .filter(x => x.nodeType !== RESOURCE_NODE)
+    .map(child => ({
+      ...child,
+      resources: resourcesForNodeIdMap[child.id] ?? [],
+    }));
   return {
     root: { ...childOrRegularRoot, resources: resourcesForNodeIdMap[root.id] ?? [] },
     children: childrenWithResources,
@@ -323,7 +342,7 @@ export const useResourcesWithNodeConnection = (
 interface UseSearchNodes extends WithTaxonomyVersion {
   ids?: string[];
   language?: string;
-  nodeType?: 'NODE' | 'TOPIC' | 'SUBJECT';
+  nodeType?: NodeTypeValue;
   page?: number;
   pageSize?: number;
   query?: string;

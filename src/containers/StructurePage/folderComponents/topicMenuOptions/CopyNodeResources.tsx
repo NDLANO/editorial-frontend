@@ -8,7 +8,7 @@
 
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useQueryClient } from 'react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import styled from '@emotion/styled';
 import { Copy } from '@ndla/icons/action';
 import { spacing, colors } from '@ndla/core';
@@ -185,7 +185,7 @@ const CopyNodeResources = ({
 
   return (
     <>
-      <MenuItemButton stripped onClick={toggleEditModeFunc}>
+      <MenuItemButton onClick={toggleEditModeFunc}>
         <RoundIcon small icon={<StyledCopyIcon />} />
         {t(`taxonomy.${type}.info`)}
       </MenuItemButton>
@@ -199,8 +199,8 @@ const CopyNodeResources = ({
         show={showAlert}
         onCancel={() => setShowAlert(false)}
         text={t(`taxonomy.${type}.error`)}
-        component={failedResources.map(res => (
-          <LinkWrapper>
+        component={failedResources.map((res, index) => (
+          <LinkWrapper key={index}>
             <ResourceItemLink
               contentType={
                 res.contentUri?.split(':')[1] === 'article' ? 'article' : 'learning-resource'

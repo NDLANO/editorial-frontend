@@ -22,6 +22,7 @@ import { useSession } from '../../../Session/SessionProvider';
 import { onSaveAsVisualElement } from '../../../FormikForm/utils';
 import { ArticleTaxonomy } from '../../../FormikForm/formikDraftHooks';
 import RevisionNotes from '../../components/RevisionNotes';
+import { TaxonomyVersionProvider } from '../../../StructureVersion/TaxonomyVersionProvider';
 
 interface Props {
   handleSubmit: () => Promise<void>;
@@ -55,12 +56,14 @@ const TopicArticleAccordionPanels = ({
         <TopicArticleContent handleSubmit={handleSubmit} values={values} />
       </AccordionSection>
       {article && taxonomy && !!userPermissions?.includes(TAXONOMY_WRITE_SCOPE) && (
-        <AccordionSection
-          id={'topic-article-taxonomy'}
-          title={t('form.taxonomySection')}
-          className={'u-6/6'}>
-          <TopicArticleTaxonomy article={article} updateNotes={updateNotes} taxonomy={taxonomy} />
-        </AccordionSection>
+        <TaxonomyVersionProvider>
+          <AccordionSection
+            id={'topic-article-taxonomy'}
+            title={t('form.taxonomySection')}
+            className={'u-6/6'}>
+            <TopicArticleTaxonomy article={article} updateNotes={updateNotes} taxonomy={taxonomy} />
+          </AccordionSection>
+        </TaxonomyVersionProvider>
       )}
       <AccordionSection
         id={'topic-article-copyright'}
@@ -69,7 +72,7 @@ const TopicArticleAccordionPanels = ({
         hasError={
           !!(errors.creators || errors.rightsholders || errors.processors || errors.license)
         }>
-        <CopyrightFieldGroup values={values} enableLicenseNA={true} />
+        <CopyrightFieldGroup values={values} enableLicenseNA />
       </AccordionSection>
       <AccordionSection
         id={'topic-article-metadata'}
@@ -98,15 +101,13 @@ const TopicArticleAccordionPanels = ({
           <RelatedContentFieldGroup />
         </AccordionSection>
       )}
-      {config.revisiondateEnabled === 'true' && (
-        <AccordionSection
-          id={'topic-article-revisions'}
-          title={t('form.name.revisions')}
-          className={'u-6/6'}
-          hasError={!!errors.revisionMeta || !!errors.revisionError}>
-          <RevisionNotes />
-        </AccordionSection>
-      )}
+      <AccordionSection
+        id={'topic-article-revisions'}
+        title={t('form.name.revisions')}
+        className={'u-6/6'}
+        hasError={!!errors.revisionMeta || !!errors.revisionError}>
+        <RevisionNotes />
+      </AccordionSection>
       {article && (
         <AccordionSection
           id={'topic-article-workflow'}

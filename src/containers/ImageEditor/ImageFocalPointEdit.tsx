@@ -7,7 +7,7 @@
  */
 
 import { MouseEvent, useRef, useState } from 'react';
-import Button from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 import { colors } from '@ndla/core';
 import styled from '@emotion/styled';
 import {
@@ -18,7 +18,8 @@ import {
 } from '../../util/imageEditorUtil';
 import { ImageEmbed } from '../../interfaces';
 
-const StyledFocalPointButton = styled(Button)`
+const StyledFocalPointButton = styled(ButtonV2)`
+  display: block;
   cursor: crosshair;
   min-width: -webkit-fill-available;
   min-width: -moz-available;
@@ -114,7 +115,7 @@ const ImageFocalPointEdit = ({ embed, language, onFocalPointChange, transformDat
   return (
     <div>
       <StyledFocalPointContainer>
-        <StyledFocalPointButton stripped onClick={onImageClick}>
+        <StyledFocalPointButton variant="stripped" onClick={onImageClick}>
           <img
             style={{ minWidth: 'inherit' }}
             alt={embed.alt}

@@ -8,13 +8,19 @@
 
 import { useState, useEffect, useMemo } from 'react';
 import { Accordions, AccordionSection } from '@ndla/accordion';
-import { IConcept, INewConcept, IUpdatedConcept, ITagsSearchResult } from '@ndla/types-concept-api';
+import {
+  IConcept,
+  INewConcept,
+  IUpdatedConcept,
+  ITagsSearchResult,
+  IConceptSummary,
+} from '@ndla/types-concept-api';
 import { IArticle } from '@ndla/types-draft-api';
 import { Formik, FormikProps, FormikHelpers } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { isFormikFormDirty } from '../../../util/formHelper';
 import { toEditConcept } from '../../../util/routeHelpers';
-import * as articleStatuses from '../../../util/constants/ArticleStatus';
+import { UNPUBLISHED } from '../../../constants';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
 import validateFormik, { getWarnings, RulesType } from '../../../components/formikValidationSchema';
 import {
@@ -59,8 +65,7 @@ interface Props {
   language: string;
   subjects: SubjectType[];
   initialTitle?: string;
-  translateToNN?: () => void;
-  onUpserted?: (concept: IConcept) => void;
+  onUpserted?: (concept: IConceptSummary | IConcept) => void;
 }
 
 const conceptFormRules: RulesType<ConceptFormValues, IConcept> = {
@@ -119,7 +124,6 @@ const ConceptForm = ({
   isNewlyCreated = false,
   onClose,
   subjects,
-  translateToNN,
   language,
   upsertProps,
   conceptArticles,
@@ -127,7 +131,6 @@ const ConceptForm = ({
   onUpserted,
 }: Props) => {
   const [savedToServer, setSavedToServer] = useState(false);
-  const [translateOnContinue, setTranslateOnContinue] = useState(false);
   const { t } = useTranslation();
   const { applicationError } = useMessages();
   const { data: licenses = [] } = useLicenses({ placeholderData: [] });
@@ -154,7 +157,7 @@ const ConceptForm = ({
       } else if (statusChange && concept?.id) {
         // if editor is not dirty, OR we are unpublishing, we don't save before changing status
         const formikDirty = isFormikFormDirty({ values, initialValues, dirty: true });
-        const skipSaving = newStatus === articleStatuses.UNPUBLISHED || !formikDirty;
+        const skipSaving = newStatus === UNPUBLISHED || !formikDirty;
         savedConcept = await upsertProps.updateConceptAndStatus(
           concept.id,
           getUpdatedConceptType(values, licenses),
@@ -213,12 +216,11 @@ const ConceptForm = ({
         return (
           <FormWrapper inModal={inModal}>
             <HeaderWithLanguage
+              concept={concept}
               content={{ ...concept, title: concept?.title?.title, language }}
               editUrl={editUrl}
               getEntity={getEntity}
-              translateToNN={translateToNN}
               type="concept"
-              setTranslateOnContinue={setTranslateOnContinue}
               values={values}
             />
             <Accordions>
@@ -269,7 +271,6 @@ const ConceptForm = ({
               isNewlyCreated={isNewlyCreated}
               showSimpleFooter={!concept?.id}
               onClose={onClose}
-              onContinue={translateOnContinue && translateToNN ? translateToNN : () => {}}
               getApiConcept={getEntity}
             />
           </FormWrapper>

@@ -12,10 +12,10 @@ import { Spinner } from '@ndla/icons';
 import { Done } from '@ndla/icons/editor';
 import { IArticle } from '@ndla/types-draft-api';
 import { ILearningPathV2 } from '@ndla/types-learningpath-api';
-import { partition } from 'lodash';
+import partition from 'lodash/partition';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useQueryClient } from 'react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import AlertModal from '../../../../components/AlertModal';
 import RoundIcon from '../../../../components/RoundIcon';
 import { fetchDrafts, updateStatusDraft } from '../../../../modules/draft/draftApi';
@@ -26,7 +26,7 @@ import {
 import { fetchNodeResources } from '../../../../modules/nodes/nodeApi';
 import { NodeType } from '../../../../modules/nodes/nodeApiTypes';
 import { RESOURCE_META } from '../../../../queryKeys';
-import { PUBLISHED } from '../../../../util/constants/ArticleStatus';
+import { PUBLISHED } from '../../../../constants';
 import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
 import ResourceItemLink from '../../resourceComponents/ResourceItemLink';
 import MenuItemButton from '../sharedMenuOptions/components/MenuItemButton';
@@ -137,7 +137,7 @@ const PublishChildNodeResources = ({ node }: Props) => {
 
   return (
     <>
-      <MenuItemButton stripped onClick={() => setShowConfirmation(true)}>
+      <MenuItemButton onClick={() => setShowConfirmation(true)}>
         <RoundIcon small icon={<Done />} />
         {t('taxonomy.publish.button')}
       </MenuItemButton>
@@ -151,8 +151,8 @@ const PublishChildNodeResources = ({ node }: Props) => {
         show={showAlert}
         onCancel={() => setShowAlert(false)}
         text={t('taxonomy.publish.error')}
-        component={failedResources.map(res => (
-          <LinkWrapper>
+        component={failedResources.map((res, index) => (
+          <LinkWrapper key={index}>
             <ResourceItemLink
               contentType={
                 res.contentUri?.split(':')[1] === 'article' ? 'article' : 'learning-resource'

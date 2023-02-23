@@ -115,13 +115,14 @@ interface ChildNodesGetParams extends WithTaxonomyVersion, GetChildNodesParams {
 export const fetchChildNodes = ({
   id,
   recursive,
+  nodeType,
   language,
   taxonomyVersion,
 }: ChildNodesGetParams): Promise<ChildNodeType[]> =>
   fetchAndResolve({
     url: `${baseUrl}/${id}/nodes`,
     taxonomyVersion,
-    queryParams: { recursive, language },
+    queryParams: { recursive, nodeType, language },
   });
 
 interface NodeTranslationsGetParams extends WithTaxonomyVersion {
@@ -291,7 +292,7 @@ export const publishNode = ({ id, targetId, sourceId }: PublishNodeParams) => {
 interface SearchNodes extends WithTaxonomyVersion {
   ids?: string[];
   language?: string;
-  nodeType?: 'NODE' | 'TOPIC' | 'SUBJECT';
+  nodeType?: NodeTypeValue;
   page?: number;
   pageSize?: number;
   query?: string;

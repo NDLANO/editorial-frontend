@@ -37,19 +37,19 @@ export const useSavedSearchUrl = (
   }
   const userId = searchObject['users'] || '';
   const searchHook = getSearchHookFromType(searchObject['type']);
-  const { data: subjectData, isLoading: subjectLoading } = useSubject(
+  const { data: subjectData, isInitialLoading: subjectLoading } = useSubject(
     { id: subject, language: locale, taxonomyVersion },
-    { enabled: !!subject },
+    { enabled: !!subject && !subject.includes(',') },
   );
-  const { data: resourceTypeData, isLoading: resourceTypeLoading } = useResourceType(
+  const { data: resourceTypeData, isInitialLoading: resourceTypeLoading } = useResourceType(
     { id: resourceType, language: locale, taxonomyVersion },
     { enabled: !!resourceType },
   );
-  const { data: userData, isLoading: auth0UsersLoading } = useAuth0Users(
+  const { data: userData, isInitialLoading: auth0UsersLoading } = useAuth0Users(
     { uniqueUserIds: userId },
     { enabled: !!userId },
   );
-  const { data: searchResultData, isLoading: resultsLoading } = searchHook(searchObject);
+  const { data: searchResultData, isInitialLoading: resultsLoading } = searchHook(searchObject);
 
   const loading = subjectLoading && resourceTypeLoading && auth0UsersLoading && resultsLoading;
 

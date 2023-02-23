@@ -24,13 +24,13 @@ import { hasCellAlignOfType } from '../table/slateHelpers';
 
 const topicArticleElements: { [key: string]: string[] } = {
   mark: ['bold', 'italic', 'code', 'sub', 'sup'],
-  block: ['quote', 'heading-2', 'heading-3', ...listTypes],
+  block: ['quote', 'heading-2', 'heading-3', 'heading-4', ...listTypes],
   inline: ['link', 'mathml', 'concept', 'span'],
 };
 
 const learningResourceElements: { [key: string]: string[] } = {
   mark: ['bold', 'italic', 'code', 'sub', 'sup'],
-  block: ['quote', 'heading-2', 'heading-3', ...listTypes],
+  block: ['quote', 'heading-2', 'heading-3', 'heading-4', ...listTypes],
   inline: ['link', 'mathml', 'concept', 'span'],
   table: ['left', 'center', 'right'],
 };
@@ -43,6 +43,10 @@ const specialRules: { [key: string]: Partial<Element> } = {
   'heading-3': {
     type: 'heading',
     level: 3,
+  },
+  'heading-4': {
+    type: 'heading',
+    level: 4,
   },
 };
 
@@ -170,8 +174,9 @@ const SlateToolbar = (props: Props) => {
   const tableCellElement = getCurrentBlock(editor, TYPE_TABLE_CELL)?.[0];
   const tableButtons =
     !!tableCellElement &&
-    toolbarElements.table?.map(type => (
+    toolbarElements.table?.map((type, index) => (
       <ToolbarButton
+        key={index}
         type={type}
         kind={'table'}
         isActive={hasCellAlignOfType(editor, type)}

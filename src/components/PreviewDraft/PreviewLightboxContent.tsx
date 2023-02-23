@@ -7,7 +7,6 @@
  */
 
 import { ReactNode } from 'react';
-import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import Spinner from '../Spinner';
 import PreviewProduction from './PreviewProduction';
@@ -22,6 +21,7 @@ interface StyledProps {
 }
 
 const StyledPreviewSingleArticle = styled.div<StyledProps>`
+  width: 100%;
   & .c-article {
     padding-top: 0;
     margin-top: 20px;
@@ -95,33 +95,6 @@ const PreviewLightboxContent = ({
     );
   }
   return null;
-};
-
-PreviewLightboxContent.propTypes = {
-  firstEntity: PropTypes.shape({
-    id: PropTypes.number,
-    content: PropTypes.string,
-    title: PropTypes.string,
-    introduction: PropTypes.string,
-  }),
-  secondEntity: PropTypes.shape({
-    id: PropTypes.number,
-    content: PropTypes.string,
-    title: PropTypes.string,
-    introduction: PropTypes.string,
-  }),
-  loading: PropTypes.bool,
-  typeOfPreview: PropTypes.oneOf([
-    'preview',
-    'previewProductionArticle',
-    'previewLanguageArticle',
-    'previewVersion',
-  ]),
-  label: PropTypes.string.isRequired,
-  onChangePreviewLanguage: PropTypes.func.isRequired,
-  previewLanguage: PropTypes.string,
-  contentType: PropTypes.string,
-  getEntityPreview: PropTypes.func,
 };
 
 export default PreviewLightboxContent;

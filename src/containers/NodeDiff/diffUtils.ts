@@ -6,8 +6,9 @@
  *
  */
 
-import { isEqual, partition } from 'lodash';
-import { isObjectLike } from 'lodash/fp';
+import isEqual from 'lodash/isEqual';
+import partition from 'lodash/partition';
+import isObjectLike from 'lodash/fp/isObjectLike';
 import {
   ChildNodeType,
   NodeType,
@@ -50,11 +51,11 @@ export interface NodeTree {
 }
 
 export interface NodeTypeWithResources extends NodeType {
-  resources: ResourceWithNodeConnection[];
+  resources: ChildNodeType[];
 }
 
 export interface ChildNodeTypeWithResources extends ChildNodeType {
-  resources: ResourceWithNodeConnection[];
+  resources: ChildNodeType[];
 }
 
 type TagType = 'original' | 'other';
@@ -71,11 +72,11 @@ interface Grouping<T> {
 
 export interface DiffTypeWithChildren extends DiffType<Omit<ChildNodeType, 'resources'>> {
   children?: DiffTypeWithChildren[];
-  resources?: DiffType<ResourceWithNodeConnection>[];
+  resources?: DiffType<ChildNodeType>[];
 }
 
 export interface RootDiffType extends DiffType<Omit<NodeTypeWithResources, 'resources'>> {
-  resources?: DiffType<ResourceWithNodeConnection>[];
+  resources?: DiffType<ChildNodeType>[];
 }
 
 const diffAndGroupChildren = <T extends NodeType = NodeType>(

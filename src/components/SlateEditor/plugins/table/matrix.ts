@@ -17,7 +17,7 @@ export const getTableBodyAsMatrix = (editor: Editor, path: Path) => {
   if (!Editor.hasPath(editor, path)) return;
   const [tableBody] = Editor.node(editor, path);
   if (!isTableHead(tableBody) && !isTableBody(tableBody)) return;
-  let matrix: TableCellElement[][] = [];
+  const matrix: TableCellElement[][] = [];
 
   // Build up a matrix one row at a time.
   tableBody.children.forEach((row, rowIndex) => {
@@ -43,7 +43,7 @@ export const getTableAsMatrix = (editor: Editor, path: Path) => {
   if (!Editor.hasPath(editor, path)) return;
   const [table] = Editor.node(editor, path);
   if (!isTable(table)) return;
-  let matrix: TableMatrix = [];
+  const matrix: TableMatrix = [];
 
   // Merge all rows in head and body. Then build up a matrix one row at a time.
   table.children

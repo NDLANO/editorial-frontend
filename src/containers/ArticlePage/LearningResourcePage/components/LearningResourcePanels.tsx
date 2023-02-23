@@ -21,7 +21,7 @@ import { LearningResourceFormType } from '../../../FormikForm/articleFormHooks';
 import { useSession } from '../../../Session/SessionProvider';
 import { ArticleTaxonomy } from '../../../FormikForm/formikDraftHooks';
 import RevisionNotes from '../../components/RevisionNotes';
-import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
+import { TaxonomyVersionProvider } from '../../../StructureVersion/TaxonomyVersionProvider';
 
 interface Props {
   handleSubmit: (
@@ -44,7 +44,6 @@ const LearningResourcePanels = ({
   articleLanguage,
 }: Props) => {
   const { t } = useTranslation();
-  const { taxonomyVersion } = useTaxonomyVersion();
   const { userPermissions } = useSession();
   const formikContext = useFormikContext<LearningResourceFormType>();
   const { values, errors, handleBlur } = formikContext;
@@ -66,17 +65,18 @@ const LearningResourcePanels = ({
         />
       </AccordionSection>
       {article && taxonomy && !!userPermissions?.includes(TAXONOMY_WRITE_SCOPE) && (
-        <AccordionSection
-          id={'learning-resource-taxonomy'}
-          title={t('form.taxonomySection')}
-          className={'u-6/6'}>
-          <LearningResourceTaxonomy
-            article={article}
-            updateNotes={updateNotes}
-            taxonomy={taxonomy}
-            taxonomyVersion={taxonomyVersion}
-          />
-        </AccordionSection>
+        <TaxonomyVersionProvider>
+          <AccordionSection
+            id={'learning-resource-taxonomy'}
+            title={t('form.taxonomySection')}
+            className={'u-6/6'}>
+            <LearningResourceTaxonomy
+              article={article}
+              updateNotes={updateNotes}
+              taxonomy={taxonomy}
+            />
+          </AccordionSection>
+        </TaxonomyVersionProvider>
       )}
       <AccordionSection
         id={'learning-resource-copyright'}
@@ -110,15 +110,13 @@ const LearningResourcePanels = ({
           <RelatedContentFieldGroup />
         </AccordionSection>
       )}
-      {config.revisiondateEnabled === 'true' && (
-        <AccordionSection
-          id={'learning-resource-revisions'}
-          title={t('form.name.revisions')}
-          className={'u-6/6'}
-          hasError={!!errors.revisionMeta || !!errors.revisionError}>
-          <RevisionNotes />
-        </AccordionSection>
-      )}
+      <AccordionSection
+        id={'learning-resource-revisions'}
+        title={t('form.name.revisions')}
+        className={'u-6/6'}
+        hasError={!!errors.revisionMeta || !!errors.revisionError}>
+        <RevisionNotes />
+      </AccordionSection>
       {article && (
         <AccordionSection
           id={'learning-resource-workflow'}

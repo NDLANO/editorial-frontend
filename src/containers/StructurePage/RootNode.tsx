@@ -7,8 +7,10 @@
 import { memo, MutableRefObject } from 'react';
 import { useTranslation } from 'react-i18next';
 import { DropResult } from 'react-beautiful-dnd';
-import { useQueryClient } from 'react-query';
-import { isEqual, partition, sortBy } from 'lodash';
+import { useQueryClient } from '@tanstack/react-query';
+import isEqual from 'lodash/isEqual';
+import partition from 'lodash/partition';
+import sortBy from 'lodash/sortBy';
 import { IUserData } from '@ndla/types-draft-api';
 import { ChildNodeType, NodeType } from '../../modules/nodes/nodeApiTypes';
 import {
@@ -118,7 +120,7 @@ const RootNode = ({
       allRootNodes={allRootNodes}
       isRoot={true}
       isFavorite={isFavorite}
-      isLoading={childNodesQuery.isLoading}
+      isLoading={childNodesQuery.isInitialLoading}
     />
   );
 };

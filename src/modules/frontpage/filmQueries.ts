@@ -6,9 +6,9 @@
  *
  */
 
-import { sortBy } from 'lodash';
+import sortBy from 'lodash/sortBy';
 import { useTranslation } from 'react-i18next';
-import { useQuery, UseQueryOptions } from 'react-query';
+import { useQuery, UseQueryOptions } from '@tanstack/react-query';
 import { IFilmFrontPageData } from '@ndla/types-frontpage-api';
 import { IMultiSearchResult } from '@ndla/types-search-api';
 import { fetchFilmFrontpage } from './frontpageApi';

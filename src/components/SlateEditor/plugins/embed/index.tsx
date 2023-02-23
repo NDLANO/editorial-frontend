@@ -16,10 +16,10 @@ import { defaultEmbedBlock } from './utils';
 import { defaultBlockNormalizer, NormalizerConfig } from '../../utils/defaultNormalizer';
 import { afterOrBeforeTextBlockElement } from '../../utils/normalizationHelpers';
 import { TYPE_PARAGRAPH } from '../paragraph/types';
-import { TYPE_EMBED } from './types';
+import { TYPE_NDLA_EMBED } from './types';
 
-export interface EmbedElement {
-  type: 'embed';
+export interface NdlaEmbedElement {
+  type: 'ndlaembed';
   data: Embed;
   children: Descendant[];
 }
@@ -37,12 +37,12 @@ const normalizerConfig: NormalizerConfig = {
 
 export const embedSerializer: SlateSerializer = {
   deserialize(el: HTMLElement) {
-    if (el.tagName.toLowerCase() !== TYPE_EMBED) return;
+    if (el.tagName.toLowerCase() !== TYPE_NDLA_EMBED) return;
     return defaultEmbedBlock(parseEmbedTag(el.outerHTML) as Embed);
   },
   serialize(node: Descendant) {
     if (!Element.isElement(node)) return;
-    if (node.type !== TYPE_EMBED) return;
+    if (node.type !== TYPE_NDLA_EMBED) return;
     return createEmbedTag(node.data);
   },
 };
@@ -57,7 +57,7 @@ export const embedPlugin = (language: string, locale?: LocaleType, disableNormal
   } = editor;
 
   editor.renderElement = ({ attributes, children, element }: RenderElementProps) => {
-    if (element.type === TYPE_EMBED) {
+    if (element.type === TYPE_NDLA_EMBED) {
       return (
         <SlateFigure
           attributes={attributes}
@@ -77,7 +77,7 @@ export const embedPlugin = (language: string, locale?: LocaleType, disableNormal
   editor.normalizeNode = entry => {
     const [node] = entry;
 
-    if (Element.isElement(node) && node.type === TYPE_EMBED) {
+    if (Element.isElement(node) && node.type === TYPE_NDLA_EMBED) {
       if (!disableNormalize && defaultBlockNormalizer(editor, entry, normalizerConfig)) {
         return;
       }
@@ -86,7 +86,7 @@ export const embedPlugin = (language: string, locale?: LocaleType, disableNormal
   };
 
   editor.isVoid = (element: Element) => {
-    if (element.type === TYPE_EMBED) {
+    if (element.type === TYPE_NDLA_EMBED) {
       return true;
     }
     return nextIsVoid(element);

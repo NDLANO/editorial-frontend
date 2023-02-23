@@ -223,3 +223,23 @@ export interface WhitelistProvider {
   url: string[];
   height?: string;
 }
+
+export type Dictionary<T> = Record<string, T>;
+
+interface BaseApiTranslateType {
+  content: string | string[];
+  type: 'text' | 'html';
+  isArray: true | false;
+}
+
+interface ApiTranslateTypeSingle extends BaseApiTranslateType {
+  content: string;
+  isArray: false;
+}
+
+interface ApiTranslateTypeArray extends BaseApiTranslateType {
+  content: string[];
+  isArray: true;
+}
+
+export type ApiTranslateType = ApiTranslateTypeSingle | ApiTranslateTypeArray;

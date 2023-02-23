@@ -41,7 +41,7 @@ const ShowBylineButton = ({ currentSize, onFieldChange, show }: Props) => {
 
   return (
     <Tooltip tooltip={t(`form.image.byline.${show ? 'show' : 'hide'}`)}>
-      <ImageEditorButton tabIndex={-1} isActive={isActive} stripped onClick={onChange}>
+      <ImageEditorButton tabIndex={-1} isActive={isActive} onClick={onChange}>
         {icon[show ? 'show' : 'hide']}
       </ImageEditorButton>
     </Tooltip>

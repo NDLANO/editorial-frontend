@@ -7,6 +7,7 @@ import { NDLA_FILM_SUBJECT } from '../constants';
 const articleTypes: Record<string, string> = {
   'topic-article': 'topic-article',
   standard: 'learning-resource',
+  'frontpage-article': 'frontpage-article',
 };
 
 export function toSearch(query: object, type = 'content') {
@@ -56,6 +57,10 @@ export function toCreateLearningResource() {
 
 export function toCreateTopicArticle() {
   return '/subject-matter/topic-article/new';
+}
+
+export function toCreateFrontPageArticle() {
+  return '/subject-matter/frontpage-article/new';
 }
 
 export function toCreateSubjectpage(subjectId: string, locale: string) {

@@ -8,7 +8,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FieldHeader } from '@ndla/forms';
 import { useField, useFormikContext } from 'formik';
-import Button from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 import { ImageEmbed } from '../../../interfaces';
 import VisualElementSearch from '../../VisualElement/VisualElementSearch';
 import SubjectpageBannerImage from './SubjectpageBannerImage';
@@ -52,7 +52,7 @@ const SubjectpageBanner = ({ title, fieldName }: Props) => {
           <VisualElementSearch
             selectedResource={'image'}
             handleVisualElementChange={rt =>
-              rt.type === 'embed' ? onImageChange(rt.value as ImageEmbed) : null
+              rt.type === 'ndlaembed' ? onImageChange(rt.value as ImageEmbed) : null
             }
             closeModal={onImageSelectClose}
           />
@@ -61,7 +61,7 @@ const SubjectpageBanner = ({ title, fieldName }: Props) => {
       {fieldValue ? (
         <SubjectpageBannerImage image={fieldValue} onImageSelectOpen={onImageSelectOpen} />
       ) : (
-        <Button onClick={onImageSelectOpen}>{t('subjectpageForm.addBanner')}</Button>
+        <ButtonV2 onClick={onImageSelectOpen}>{t('subjectpageForm.addBanner')}</ButtonV2>
       )}
     </>
   );

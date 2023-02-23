@@ -12,7 +12,7 @@ import { FormikHelpers } from 'formik';
 import { Descendant } from 'slate';
 import { IArticle, ILicense, IStatus, IUpdatedArticle, IAuthor } from '@ndla/types-draft-api';
 import { deleteFile } from '../../modules/draft/draftApi';
-import * as articleStatuses from '../../util/constants/ArticleStatus';
+import { UNPUBLISHED } from '../../constants';
 import { isFormikFormDirty } from '../../util/formHelper';
 import { DraftStatusType, RelatedContent } from '../../interfaces';
 import { useMessages } from '../Messages/MessagesProvider';
@@ -68,8 +68,10 @@ export interface ArticleFormType {
     status: string;
     new?: boolean;
   }[];
+  responsibleId?: string;
   // This field is only used for error checking in revisions
   revisionError?: string;
+  slug?: string;
 }
 
 export interface LearningResourceFormType extends ArticleFormType {
@@ -79,6 +81,8 @@ export interface LearningResourceFormType extends ArticleFormType {
 export interface TopicArticleFormType extends ArticleFormType {
   visualElement: Descendant[];
 }
+
+export interface FrontpageArticleFormType extends ArticleFormType {}
 
 type HooksInputObject<T extends ArticleFormType> = {
   getInitialValues: (article: IArticle | undefined, language: string) => T;
@@ -147,7 +151,7 @@ export function useArticleFormHooks<T extends ArticleFormType>({
       if (statusChange && newStatus && updateArticleAndStatus) {
         // if editor is not dirty, OR we are unpublishing, we don't save before changing status
         const skipSaving =
-          newStatus === articleStatuses.UNPUBLISHED ||
+          newStatus === UNPUBLISHED ||
           !isFormikFormDirty({
             values,
             initialValues,
@@ -183,11 +187,6 @@ export function useArticleFormHooks<T extends ArticleFormType>({
       if (err && err.status && err.status === 409) {
         createMessage({
           message: t('alertModal.needToRefresh'),
-          timeToLive: 0,
-        });
-      } else if (false && err && err.status && err.status === 500) {
-        createMessage({
-          message: t('errorMessage.errorOnSave'),
           timeToLive: 0,
         });
       } else {

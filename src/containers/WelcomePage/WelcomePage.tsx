@@ -6,51 +6,58 @@
  *
  */
 
-import { OneColumn } from '@ndla/ui';
-import { spacing } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { SearchFolder } from '@ndla/icons/editor';
 import styled from '@emotion/styled';
+import { mq, breakpoints, spacing } from '@ndla/core';
+import { useMemo } from 'react';
 import { NAVIGATION_HEADER_MARGIN } from '../../constants';
 import { getAccessToken, getAccessTokenPersonal } from '../../util/authHelpers';
 import { isValid } from '../../util/jwtHelper';
-
 import SaveSearchUrl from './components/SaveSearchUrl';
 import Footer from '../App/components/Footer';
 import LastUsedItems from './components/LastUsedItems';
 import { useUserData } from '../../modules/draft/draftQueries';
 import { StyledColumnHeader } from './styles';
+import WorkList from './components/WorkList';
+import WelcomeHeader from './components/WelcomeHeader';
+import { useSession } from '../Session/SessionProvider';
 
-const ContentWrapper = styled.div`
+const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   height: calc(100vh - ${NAVIGATION_HEADER_MARGIN});
-  overflow: auto;
 `;
 
-const StyledHeader = styled.div`
-  width: 100%;
-  height: 200px;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-`;
-
-const StyledHeaderImage = styled.img`
-  margin-top: -250px;
-`;
-
-const StyledTwoColumn = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin: 0 auto;
-  width: 80%;
-  margin-top: ${spacing.large};
-  & > div {
-    flex: 1;
+const GridContainer = styled.div`
+  ${mq.range({ from: '0px', until: breakpoints.tabletWide })} {
+    padding: ${spacing.nsmall};
+    display: flex;
+    flex-direction: column;
+    gap: ${spacing.nsmall};
   }
+  ${mq.range({ from: breakpoints.tabletWide })} {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-gap: 1em;
+    max-width: 1400px;
+    justify-self: center;
+    align-self: center;
+    width: 100%;
+  }
+`;
+
+const MainArea = styled.div`
+  grid-column: 2 / 12;
+`;
+
+const LeftColumn = styled.div`
+  grid-column: 2 / 7;
+`;
+const RightColumn = styled.div`
+  grid-column: 7 / 12;
 `;
 
 export const WelcomePage = () => {
@@ -58,34 +65,33 @@ export const WelcomePage = () => {
   const { data } = useUserData({
     enabled: isValid(getAccessToken()) && getAccessTokenPersonal(),
   });
-  const lastUsed = data?.latestEditedArticles;
+  const { ndlaId } = useSession();
+  const lastUsed = useMemo(() => data?.latestEditedArticles?.map(l => Number(l)) ?? [], [
+    data?.latestEditedArticles,
+  ]);
 
   localStorage.setItem('lastPath', '');
 
   return (
-    <ContentWrapper>
-      <HelmetWithTracker title={t('htmlTitles.welcomePage')} />
-      <OneColumn>
-        <StyledHeader>
-          {/* <a href="#guidelines" {...classes('header-link')}>
-              {t('welcomePage.guidelines')}
-              <RightArrow className="c-icon--large" />
-            </a> */}
-          <StyledHeaderImage src="/welcome-image.jpg" alt="illustration" />
-        </StyledHeader>
-        <StyledTwoColumn>
-          <LastUsedItems lastUsed={lastUsed} />
-          <div>
-            <StyledColumnHeader>
-              <SearchFolder className="c-icon--medium" />
-              <span>{t('welcomePage.savedSearch')}</span>
-            </StyledColumnHeader>
-            <SaveSearchUrl />
-          </div>
-        </StyledTwoColumn>
-      </OneColumn>
+    <Wrapper>
+      <GridContainer>
+        <HelmetWithTracker title={t('htmlTitles.welcomePage')} />
+        <MainArea>
+          <WelcomeHeader />
+        </MainArea>
+        <MainArea>{ndlaId && <WorkList ndlaId={ndlaId} />}</MainArea>
+        <LeftColumn>{ndlaId && <LastUsedItems lastUsed={lastUsed} />}</LeftColumn>
+        <RightColumn>
+          <StyledColumnHeader>
+            <SearchFolder className="c-icon--medium" />
+            <span>{t('welcomePage.savedSearch')}</span>
+          </StyledColumnHeader>
+          <SaveSearchUrl />
+        </RightColumn>
+      </GridContainer>
+
       <Footer showLocaleSelector />
-    </ContentWrapper>
+    </Wrapper>
   );
 };
 

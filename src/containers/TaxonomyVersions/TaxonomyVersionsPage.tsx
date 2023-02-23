@@ -6,10 +6,10 @@
  *
  */
 
-import { partition } from 'lodash';
+import partition from 'lodash/partition';
 import styled from '@emotion/styled';
 import { colors, spacing } from '@ndla/core';
-import Button from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 import { OneColumn } from '@ndla/ui';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { useState } from 'react';
@@ -56,9 +56,9 @@ const TaxonomyVersionsPage = () => {
         <h1>{t('taxonomyVersions.title')}</h1>
         <Row alignItems="center">
           <p>{t('taxonomyVersions.about')}</p>
-          <Button onClick={() => setShowNewForm(prev => !prev)}>
+          <ButtonV2 onClick={() => setShowNewForm(prev => !prev)}>
             {t('taxonomyVersions.newVersionButton')}
-          </Button>
+          </ButtonV2>
         </Row>
         {showNewForm && (
           <FormSpacingWrapper>

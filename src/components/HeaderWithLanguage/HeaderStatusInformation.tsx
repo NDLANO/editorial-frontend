@@ -9,13 +9,12 @@ import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import SafeLink from '@ndla/safelink';
 import { colors, fonts, spacing } from '@ndla/core';
-import { RssFeed } from '@ndla/icons/common';
+import { RssFeed, Time } from '@ndla/icons/common';
 import { Check, AlertCircle } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
 import { IConceptSummary } from '@ndla/types-concept-api';
 import { IMultiSearchSummary } from '@ndla/types-search-api';
 import { ILearningPathV2 } from '@ndla/types-learningpath-api';
-import { Time } from '@ndla/icons/common';
 import config from '../../config';
 import LearningpathConnection from './LearningpathConnection';
 import EmbedConnection from './EmbedInformation/EmbedConnection';
@@ -166,19 +165,25 @@ const HeaderStatusInformation = ({
         tooltip={t(`form.workflow.expiration.${expirationColor}`, {
           date: formatDate(expirationDate),
         })}>
-        <StyledTimeIcon status={expirationColor} />
+        <div>
+          <StyledTimeIcon status={expirationColor} />
+        </div>
       </Tooltip>
     ) : null;
 
   const multipleTaxonomyIcon = taxonomyPaths && taxonomyPaths?.length > 2 && (
     <Tooltip tooltip={t('form.workflow.multipleTaxonomy')}>
-      <StyledWarnIcon />
+      <div>
+        <StyledWarnIcon />
+      </div>
     </Tooltip>
   );
 
   const publishedIcon = (
     <Tooltip tooltip={t('form.workflow.published')}>
-      <StyledCheckIcon />
+      <div>
+        <StyledCheckIcon />
+      </div>
     </Tooltip>
   );
 
@@ -232,7 +237,7 @@ const HeaderStatusInformation = ({
         {articleConnections}
         {conceptConnecions}
         {learningpathConnections}
-        {config.revisiondateEnabled === 'true' && revisionDateExpiration}
+        {revisionDateExpiration}
         {published &&
           (taxonomyPaths && taxonomyPaths?.length > 0 ? publishedIconLink : publishedIcon)}
         {multipleTaxonomyIcon}

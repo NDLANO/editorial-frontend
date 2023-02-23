@@ -5,12 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { Fragment } from 'react';
+import { cloneElement } from 'react';
 import escapeHtml from 'escape-html';
-import { compact, toArray } from 'lodash';
+import compact from 'lodash/compact';
+import toArray from 'lodash/toArray';
 import { Descendant, Element, Node, Text } from 'slate';
 import { renderToStaticMarkup } from 'react-dom/server';
-import React from 'react';
 import { Plain } from './slatePlainSerializer';
 import { convertFromHTML } from './convertFromHTML';
 import { sectionSerializer } from '../components/SlateEditor/plugins/section';
@@ -39,7 +39,7 @@ import { parseEmbedTag, createEmbedTag } from './embedTagHelpers';
 import { Embed } from '../interfaces';
 import { divSerializer } from '../components/SlateEditor/plugins/div';
 import { spanSerializer } from '../components/SlateEditor/plugins/span';
-import { TYPE_EMBED } from '../components/SlateEditor/plugins/embed/types';
+import { TYPE_NDLA_EMBED } from '../components/SlateEditor/plugins/embed/types';
 import { TYPE_PARAGRAPH } from '../components/SlateEditor/plugins/paragraph/types';
 import { TYPE_SECTION } from '../components/SlateEditor/plugins/section/types';
 import { conceptListSerializer } from '../components/SlateEditor/plugins/conceptList';
@@ -73,7 +73,7 @@ export const createEmptyValue = (): Descendant[] => [
 ];
 
 // Rules are checked from first to last
-const learningResourceRules: SlateSerializer[] = [
+const extendedRules: SlateSerializer[] = [
   paragraphSerializer,
   sectionSerializer,
   breakSerializer,
@@ -100,7 +100,7 @@ const learningResourceRules: SlateSerializer[] = [
 ];
 
 // Rules are checked from first to last
-const topicArticleRules: SlateSerializer[] = [
+const commonRules: SlateSerializer[] = [
   paragraphSerializer,
   sectionSerializer,
   breakSerializer,
@@ -137,7 +137,7 @@ const articleContentToHTML = (value: Descendant[], rules: SlateSerializer[]) => 
       } else if (ret === null) {
         return null;
       } else {
-        return React.cloneElement(ret, { key: nodeIdx });
+        return cloneElement(ret, { key: nodeIdx });
       }
     }
     return <>{children}</>;
@@ -193,20 +193,20 @@ const articleContentToEditorValue = (html: string, rules: SlateSerializer[]) => 
   return normalizedNodes;
 };
 
-export const learningResourceContentToEditorValue = (html: string): Descendant[] => {
-  return articleContentToEditorValue(html, learningResourceRules);
+export const blockContentToEditorValue = (html: string): Descendant[] => {
+  return articleContentToEditorValue(html, extendedRules);
 };
 
-export function learningResourceContentToHTML(contentValues: Descendant[]) {
-  return articleContentToHTML(contentValues, learningResourceRules);
+export function blockContentToHTML(contentValues: Descendant[]) {
+  return articleContentToHTML(contentValues, extendedRules);
 }
 
-export function topicArticleContentToEditorValue(html: string) {
-  return articleContentToEditorValue(html, topicArticleRules);
+export function inlineContentToEditorValue(html: string) {
+  return articleContentToEditorValue(html, commonRules);
 }
 
-export function topicArticleContentToHTML(value: Descendant[]) {
-  return articleContentToHTML(value, topicArticleRules);
+export function inlineContentToHTML(value: Descendant[]) {
+  return articleContentToHTML(value, commonRules);
 }
 
 export function plainTextToEditorValue(text: string): Descendant[] {
@@ -228,7 +228,7 @@ export function embedTagToEditorValue(embedTag: string) {
 
 export function editorValueToEmbed(editorValue?: Descendant[]) {
   const embed = editorValue && editorValue[0];
-  if (Element.isElement(embed) && embed.type === TYPE_EMBED) return embed?.data;
+  if (Element.isElement(embed) && embed.type === TYPE_NDLA_EMBED) return embed?.data;
 }
 
 export function editorValueToEmbedTag(editorValue?: Descendant[]) {

@@ -8,8 +8,8 @@
 import { MouseEvent, ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { IMovieTheme } from '@ndla/types-frontpage-api';
-import Button from '@ndla/button';
-import { FieldHeader, FieldHeaderIconStyle } from '@ndla/forms';
+import { ButtonV2, IconButtonV2 } from '@ndla/button';
+import { FieldHeader } from '@ndla/forms';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import Tooltip from '@ndla/tooltip';
@@ -83,7 +83,7 @@ const ThemeEditor = ({ onUpdateMovieTheme, selectedLanguage }: Props) => {
       <ThemeNameModal
         onSaveTheme={onAddTheme}
         createTheme={true}
-        activateButton={<Button data-cy="add-theme-modal">Lag ny gruppe</Button>}
+        activateButton={<ButtonV2 data-cy="add-theme-modal">Lag ny gruppe</ButtonV2>}
         messages={{
           save: t('ndlaFilm.editor.createThemeGroup'),
           cancel: t('ndlaFilm.editor.cancel'),
@@ -106,16 +106,18 @@ const ThemeEditor = ({ onUpdateMovieTheme, selectedLanguage }: Props) => {
                     nb: findName(theme.name, 'nb'),
                     nn: findName(theme.name, 'nn'),
                     en: findName(theme.name, 'en'),
+                    se: findName(theme.name, 'se'),
+                    sma: findName(theme.name, 'sma'),
                   },
                 }}
                 activateButton={
-                  <Button
-                    stripped
-                    css={FieldHeaderIconStyle}
-                    tabIndex={-1}
+                  <IconButtonV2
+                    aria-label={t('ndlaFilm.editor.editMovieGroupName')}
+                    variant="ghost"
+                    colorTheme="lighter"
                     onClick={(e: MouseEvent<HTMLButtonElement>) => e.preventDefault()}>
                     <Pencil />
-                  </Button>
+                  </IconButtonV2>
                 }
                 wrapperFunctionForButton={(activateButton: ReactNode) => (
                   <Tooltip tooltip={t('ndlaFilm.editor.editMovieGroupName')}>
@@ -132,37 +134,37 @@ const ThemeEditor = ({ onUpdateMovieTheme, selectedLanguage }: Props) => {
                 tooltip={t('ndlaFilm.editor.deleteMovieGroup', {
                   name: theme.name.find(name => name.language === selectedLanguage)?.name || '',
                 })}>
-                <Button
-                  stripped
-                  css={FieldHeaderIconStyle}
-                  tabIndex={-1}
+                <IconButtonV2
+                  aria-label={t('ndlaFilm.editor.deleteMovieGroup')}
+                  variant="ghost"
+                  colorTheme="danger"
                   onClick={() => onDeleteTheme(index)}>
                   <DeleteForever />
-                </Button>
+                </IconButtonV2>
               </Tooltip>
               <Tooltip tooltip={t('ndlaFilm.editor.moveMovieGroupUp')}>
-                <Button
-                  stripped
-                  css={FieldHeaderIconStyle}
-                  tabIndex={-1}
+                <IconButtonV2
+                  aria-label={t('ndlaFilm.editor.moveMovieGroupUp')}
+                  variant="ghost"
+                  colorTheme="lighter"
                   onClick={(e: MouseEvent<HTMLButtonElement>) => {
                     onMoveTheme(index, -1);
                     e.preventDefault();
                   }}>
                   <ChevronUp />
-                </Button>
+                </IconButtonV2>
               </Tooltip>
               <Tooltip tooltip={t('ndlaFilm.editor.moveMovieGroupDown')}>
-                <Button
-                  stripped
-                  css={FieldHeaderIconStyle}
-                  tabIndex={-1}
+                <IconButtonV2
+                  aria-label={t('ndlaFilm.editor.moveMovieGroupDown')}
+                  variant="ghost"
+                  colorTheme="lighter"
                   onClick={(e: MouseEvent<HTMLButtonElement>) => {
                     onMoveTheme(index, 1);
                     e.preventDefault();
                   }}>
                   <ChevronDown />
-                </Button>
+                </IconButtonV2>
               </Tooltip>
             </FieldHeader>
             <ThemeMovies

@@ -9,7 +9,7 @@
 import config from './config';
 import { WhitelistProvider } from './interfaces';
 
-export const NAVIGATION_HEADER_MARGIN = '71px';
+export const NAVIGATION_HEADER_MARGIN = '80px';
 
 export const RESOURCE_TYPE_LEARNING_PATH = 'urn:resourcetype:learningPath';
 export const RESOURCE_TYPE_SUBJECT_MATERIAL = 'urn:resourcetype:subjectMaterial';
@@ -26,6 +26,7 @@ export const STORED_LANGUAGE_KEY = 'language';
 
 export const REMEMBER_FAVOURITE_SUBJECTS = 'rememberFavouriteSubjects';
 export const REMEMBER_FAVORITE_NODES = 'rememberFavoriteNodes';
+export const FAVOURITES_SUBJECT_ID = 'urn:favourites';
 // Relevances
 export const RESOURCE_FILTER_CORE = 'urn:relevance:core';
 export const RESOURCE_FILTER_SUPPLEMENTARY = 'urn:relevance:supplementary';
@@ -45,6 +46,8 @@ export const CONCEPT_WRITE_SCOPE = 'concept:write';
 export const TAXONOMY_WRITE_SCOPE = 'taxonomy:write';
 export const TAXONOMY_ADMIN_SCOPE = 'taxonomy:admin';
 
+export const AUDIO_ADMIN_SCOPE = 'audio:admin';
+
 export const TAXONOMY_CUSTOM_FIELD_LANGUAGE = 'language';
 export const TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES = 'topic-resources';
 export const TAXONOMY_CUSTOM_FIELD_GROUPED_RESOURCE = 'grouped';
@@ -54,10 +57,19 @@ export const TAXONOMY_CUSTOM_FIELD_SUBJECT_OLD_SUBJECT_ID = 'old-subject-id';
 export const TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY = 'subjectCategory';
 export const TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE = 'subjectType';
 export const TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH = 'requestPublish';
+export const TAXONOMY_CUSTOM_FIELD_IS_PUBLISHING = 'isPublishing';
 
 export const MAX_IMAGE_UPLOAD_SIZE = 1024 * 1024 * 40; // 40MB.
 
-export const LOCALE_VALUES = ['nb', 'nn', 'en'] as const;
+export const LOCALE_VALUES = ['nb', 'nn', 'en', 'se', 'sma'] as const;
+
+export const ARCHIVED = 'ARCHIVED';
+export const END_CONTROL = 'END_CONTROL';
+export const IMPORTED = 'IMPORTED';
+export const IN_PROGRESS = 'IN_PROGRESS';
+export const PLANNED = 'PLANNED';
+export const PUBLISHED = 'PUBLISHED';
+export const UNPUBLISHED = 'UNPUBLISHED';
 
 export const EXTERNAL_WHITELIST_PROVIDERS: WhitelistProvider[] = [
   { name: 'H5P', url: ['h5p'] },
@@ -98,6 +110,7 @@ export const EXTERNAL_WHITELIST_PROVIDERS: WhitelistProvider[] = [
   { name: 'Gapminder', url: ['www.gapminder.org'] },
   { name: 'Facebook', url: ['www.facebook.com', 'fb.watch'] },
   { name: 'Sketchfab', url: ['sketchfab.com'] },
+  { name: 'JeopardyLabs', url: ['jeopardylabs.com'] },
 ];
 
 export const SearchTypeValues = [

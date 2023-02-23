@@ -19,6 +19,7 @@ const connectSrc = (() => {
     'https://*.zendesk.com',
     'https://ekr.zdassets.com',
     'https://static.zdassets.com',
+    'https://zendesk-eu.my.sentry.io',
     'https://*.boltdns.net',
     'https://*.google-analytics.com',
     'https://*.analytics.google.com',
@@ -26,7 +27,6 @@ const connectSrc = (() => {
     'https://house-fastly-signed-eu-west-1-prod.brightcovecdn.com',
     'https://www.wiris.net',
     'https://nrkno-skole-prod.kube.nrk.no',
-    'https://nynorsk.cloud',
     'https://data.udir.no',
     'https://cdn.jsdelivr.net',
     'https://widget-mediator.zopim.com',
@@ -41,6 +41,7 @@ const connectSrc = (() => {
       'http://localhost:3001',
       'ws://localhost:3001',
       'http://localhost:3100',
+      'http://localhost:4000',
       'http://localhost',
     ];
   }
@@ -100,6 +101,8 @@ const scriptSrc = (() => {
     'http://www.google-analytics.com',
     'https://*.zendesk.com',
     'https://static.zdassets.com',
+    'https://zendesk-eu.my.sentry.io',
+    'https://*.hotjar.com',
     'widget-mediator.zopim.com',
     'https://*.clarity.ms',
   ];
@@ -181,6 +184,7 @@ const frameSrc = (() => {
     'www.facebook.com',
     'fb.watch',
     'sketchfab.com',
+    'jeopardylabs.com',
   ];
   if (process.env.NODE_ENV === 'development') {
     return [

@@ -167,8 +167,9 @@ const SlateBlockPicker = ({
         onInsertBlock(defaultAsideBlock(data.object), true);
         break;
       }
+      case 'h5p':
       case 'file':
-      case 'embed': {
+      case 'ndlaembed': {
         setVisualElementPickerOpen(true);
         setType(data.object);
         break;

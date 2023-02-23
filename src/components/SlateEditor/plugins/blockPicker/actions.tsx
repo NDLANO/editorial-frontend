@@ -21,7 +21,7 @@ import { DRAFT_ADMIN_SCOPE } from '../../../../constants';
 const renderArticleInModal = (pageId: string) => <HowToHelper pageId={pageId} extraIconPadding />;
 
 export interface ActionData {
-  type: Element['type'];
+  type: Element['type'] | 'h5p';
   object: string;
 }
 
@@ -54,32 +54,32 @@ const actions: Action[] = [
     helpIcon: renderArticleInModal('BodyBox'),
   },
   {
-    data: { type: 'embed', object: 'image' },
+    data: { type: 'ndlaembed', object: 'image' },
     icon: <Camera />,
     helpIcon: renderArticleInModal('Images'),
   },
   {
-    data: { type: 'embed', object: 'video' },
+    data: { type: 'ndlaembed', object: 'video' },
     icon: <PlayBoxOutline />,
     helpIcon: renderArticleInModal('Videos'),
   },
   {
-    data: { type: 'embed', object: 'audio' },
+    data: { type: 'ndlaembed', object: 'audio' },
     icon: <VolumeUp />,
     helpIcon: renderArticleInModal('Audios'),
   },
   {
-    data: { type: 'embed', object: 'podcast' },
+    data: { type: 'ndlaembed', object: 'podcast' },
     icon: <Podcast />,
     helpIcon: renderArticleInModal('Podcasts'),
   },
   {
-    data: { type: 'embed', object: 'h5p' },
+    data: { type: 'h5p', object: 'h5p' },
     icon: <PresentationPlay />,
     helpIcon: renderArticleInModal('H5P'),
   },
   {
-    data: { type: 'embed', object: 'url' },
+    data: { type: 'ndlaembed', object: 'url' },
     icon: <LinkIcon />,
     helpIcon: renderArticleInModal('ResourceFromLink'),
   },

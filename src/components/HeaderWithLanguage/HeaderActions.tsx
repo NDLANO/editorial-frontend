@@ -10,7 +10,7 @@ import { Check } from '@ndla/icons/editor';
 import { FileCompare } from '@ndla/icons/action';
 import { useTranslation } from 'react-i18next';
 import { IConcept } from '@ndla/types-concept-api';
-import { IUpdatedArticle } from '@ndla/types-draft-api';
+import { IArticle, IUpdatedArticle } from '@ndla/types-draft-api';
 import StyledFilledButton from '../StyledFilledButton';
 import PreviewDraftLightbox from '../PreviewDraft/PreviewDraftLightbox';
 import { StyledSplitter } from './HeaderInformation';
@@ -20,11 +20,16 @@ import DeleteLanguageVersion from './DeleteLanguageVersion';
 import HeaderSupportedLanguages from './HeaderSupportedLanguages';
 import HeaderLanguagePill from './HeaderLanguagePill';
 import PreviewConceptLightbox from '../PreviewConcept/PreviewConceptLightbox';
+import { useIsTranslatableToNN } from '../NynorskTranslateProvider';
+import PreviewDraftLightboxV2 from '../PreviewDraft/PreviewDraftLightboxV2';
+import { useDisableConverter } from '../ArticleConverterContext';
 
 type PreviewTypes = IConcept | IUpdatedArticle;
 
 interface PreviewLightBoxProps {
   articleId: number;
+  article?: IArticle;
+  concept?: IConcept;
   type: string;
   getEntity: () => PreviewTypes;
   articleType?: string;
@@ -39,44 +44,77 @@ const PreviewLightBox = ({
   supportedLanguages = [],
   currentLanguage,
   articleId,
+  article,
+  concept,
 }: PreviewLightBoxProps) => {
   const { t } = useTranslation();
-  if (type === 'concept' && supportedLanguages.length > 1) {
+  const disableConverter = useDisableConverter();
+  if (type === 'concept' && concept && supportedLanguages.length > 1) {
+    if (!disableConverter) {
+      return (
+        <PreviewConceptLightbox
+          typeOfPreview="previewLanguageArticle"
+          getConcept={getEntity as () => IConcept}
+        />
+      );
+    }
     return (
-      <PreviewConceptLightbox
-        typeOfPreview="previewLanguageArticle"
-        getConcept={getEntity as () => IConcept}
+      <PreviewDraftLightboxV2
+        type="conceptCompare"
+        concept={concept}
+        language={currentLanguage}
+        activateButton={
+          <StyledFilledButton type="button">
+            <FileCompare /> {t('form.previewLanguageArticle.button')}
+          </StyledFilledButton>
+        }
       />
     );
-  } else if (type === 'standard' || type === 'topic-article') {
-    return (
-      <PreviewDraftLightbox
-        articleId={articleId}
-        currentArticleLanguage={currentLanguage}
-        label={t(`articleType.${articleType!}`)}
-        typeOfPreview="previewLanguageArticle"
-        supportedLanguages={supportedLanguages}
-        getArticle={_ => getEntity() as IUpdatedArticle}>
-        {(openPreview: () => void) => (
-          <StyledFilledButton type="button" onClick={openPreview}>
-            <FileCompare />
-            {t(`form.previewLanguageArticle.button`)}
-          </StyledFilledButton>
-        )}
-      </PreviewDraftLightbox>
-    );
+  } else if (
+    (type === 'standard' || type === 'topic-article' || type === 'frontpage-article') &&
+    article
+  ) {
+    if (!disableConverter) {
+      return (
+        <PreviewDraftLightbox
+          articleId={articleId}
+          currentArticleLanguage={currentLanguage}
+          label={t(`articleType.${articleType!}`)}
+          typeOfPreview="previewLanguageArticle"
+          supportedLanguages={supportedLanguages}
+          getArticle={_ => getEntity() as IUpdatedArticle}>
+          {(openPreview: () => void) => (
+            <StyledFilledButton type="button" onClick={openPreview}>
+              <FileCompare />
+              {t(`form.previewLanguageArticle.button`)}
+            </StyledFilledButton>
+          )}
+        </PreviewDraftLightbox>
+      );
+    } else
+      return (
+        <PreviewDraftLightboxV2
+          type="compare"
+          article={article}
+          language={currentLanguage}
+          activateButton={
+            <StyledFilledButton type="button">
+              <FileCompare /> {t('form.previewLanguageArticle.button')}
+            </StyledFilledButton>
+          }
+        />
+      );
   } else return null;
 };
 
 interface Props {
   editUrl?: (url: string) => string;
-  formIsDirty: boolean;
   getEntity?: () => PreviewTypes;
   isNewLanguage: boolean;
+  article?: IArticle;
+  concept?: IConcept;
   isSubmitting?: boolean;
   noStatus: boolean;
-  setTranslateOnContinue?: (translateOnContinue: boolean) => void;
-  translateToNN?: () => void;
   disableDelete: boolean;
   type: string;
   values: {
@@ -89,18 +127,18 @@ interface Props {
 
 const HeaderActions = ({
   editUrl,
-  formIsDirty,
   getEntity,
   isNewLanguage,
   isSubmitting,
   noStatus,
-  setTranslateOnContinue,
   type,
-  translateToNN,
   disableDelete,
+  article,
+  concept,
   values,
 }: Props) => {
   const { t } = useTranslation();
+  const showTranslate = useIsTranslatableToNN();
   const { articleType, id, language, supportedLanguages = [] } = values;
 
   const languages = [
@@ -117,7 +155,16 @@ const HeaderActions = ({
   const emptyLanguages = languages.filter(
     lang => lang.key !== language && !supportedLanguages.includes(lang.key) && lang.include,
   );
-  const translatableTypes = ['audio', 'concept', 'standard', 'topic-article', 'podcast'];
+  const translatableTypes = [
+    'audio',
+    'concept',
+    'standard',
+    'topic-article',
+    'podcast',
+    'image',
+    'podcast-series',
+    'frontpage-article',
+  ];
   if (id && editUrl) {
     return (
       <>
@@ -138,6 +185,8 @@ const HeaderActions = ({
         {!noStatus && getEntity && values.id && (
           <>
             <PreviewLightBox
+              article={article}
+              concept={concept}
               articleId={values.id}
               type={type}
               getEntity={getEntity!}
@@ -151,16 +200,11 @@ const HeaderActions = ({
         <HeaderLanguagePicker emptyLanguages={emptyLanguages} editUrl={editUrl} />
         {translatableTypes.includes(type) &&
           language === 'nb' &&
-          !!translateToNN &&
+          showTranslate &&
           !supportedLanguages.includes('nn') && (
             <>
               <StyledSplitter />
-              <TranslateNbToNn
-                translateToNN={translateToNN}
-                editUrl={editUrl}
-                formIsDirty={formIsDirty}
-                setTranslateOnContinue={setTranslateOnContinue}
-              />
+              <TranslateNbToNn editUrl={editUrl} />
             </>
           )}
         {<DeleteLanguageVersion values={values} type={type} disabled={disableDelete} />}

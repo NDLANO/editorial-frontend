@@ -13,7 +13,7 @@ import { Spinner } from '@ndla/icons';
 import { Search } from '@ndla/icons/common';
 import Downshift, { GetItemPropsOptions } from 'downshift';
 import { useState } from 'react';
-import { UseQueryOptions, UseQueryResult } from 'react-query';
+import { UseQueryOptions, UseQueryResult } from '@tanstack/react-query';
 import { SearchResultBase } from '../../../../../interfaces';
 import useDebounce from '../../../../../util/useDebounce';
 
@@ -95,7 +95,9 @@ const SearchDropdown = <ParamType extends BaseParams, InnerType, ApiType, Type>(
               {...getInputProps({ placeholder })}
               white
               data-testid="inlineDropdownInput"
-              iconRight={searchQuery.isLoading ? <Spinner size="normal" margin="0" /> : <Search />}
+              iconRight={
+                searchQuery.isInitialLoading ? <Spinner size="normal" margin="0" /> : <Search />
+              }
             />
             <DropdownMenu
               items={transformed?.results ?? []}

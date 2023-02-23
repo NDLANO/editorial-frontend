@@ -8,8 +8,8 @@
 
 import { Descendant } from 'slate';
 import {
-  learningResourceContentToEditorValue,
-  learningResourceContentToHTML,
+  blockContentToEditorValue,
+  blockContentToHTML,
 } from '../../../../../util/articleContentConverter';
 import { TYPE_PARAGRAPH } from '../../paragraph/types';
 import { TYPE_SECTION } from '../../section/types';
@@ -47,16 +47,16 @@ const editor: Descendant[] = [
 ];
 
 const html =
-  '<section><div data-type="related-content"><embed data-resource="related-content" data-article-id="123"/><embed data-resource="related-content" data-url="http://google.com" data-title="test-title"/></div></section>';
+  '<section><div data-type="related-content"><ndlaembed data-resource="related-content" data-article-id="123"></ndlaembed><ndlaembed data-resource="related-content" data-url="http://google.com" data-title="test-title"></ndlaembed></div></section>';
 
 describe('related serializing tests', () => {
   test('serializing', () => {
-    const res = learningResourceContentToHTML(editor);
+    const res = blockContentToHTML(editor);
     expect(res).toMatch(html);
   });
 
   test('deserializing', () => {
-    const res = learningResourceContentToEditorValue(html);
+    const res = blockContentToEditorValue(html);
     expect(res).toMatchObject(editor);
   });
 });

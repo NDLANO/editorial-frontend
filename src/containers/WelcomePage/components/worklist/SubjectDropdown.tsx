@@ -9,7 +9,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Option, Select, SingleValue } from '@ndla/select';
-import styled from '@emotion/styled';
 import uniqBy from 'lodash/uniqBy';
 import { useSearch } from '../../../../modules/search/searchQueries';
 import { fetchSubject } from '../../../../modules/taxonomy';

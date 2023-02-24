@@ -113,7 +113,7 @@ const WorkListTabContent = ({
         setSortOption={setSortOption}
         sortOption={sortOption}
         error={error}
-        noResultsText={t('form.responsible.noArticles')}
+        noResultsText={t('welcomePage.noArticles')}
       />
     </>
   );

@@ -113,7 +113,9 @@ const phrases = {
     addSearch: 'Add new search',
     deleteSavedSearch: 'Delete saved search',
     deleteSearch: 'Delete search',
-    emptyLastUsed: 'Empty last edited list',
+    noArticles: 'Empty article list ...',
+    emptyLastUsed: 'Empty last edited list ...',
+    emptyConcepts: 'Empty concept list ...',
     emptySavedSearch: 'No saved searches',
     guidelines: 'Guidelines',
     mustBeSearch: 'Link must be a search url',
@@ -1031,7 +1033,6 @@ const phrases = {
       revisionDate: 'Amount approaching revision date',
       revisionDateSingle: 'Approaching revision date',
       error: 'Something went wrong when updating responsible',
-      noArticles: 'No articles ...',
     },
     origin: {
       label: 'Origin',

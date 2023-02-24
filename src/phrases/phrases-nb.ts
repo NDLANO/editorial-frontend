@@ -114,7 +114,9 @@ const phrases = {
     addSearch: 'Legg til nytt søk',
     deleteSavedSearch: 'Slett lagret søk',
     deleteSearch: 'Slett søk',
-    emptyLastUsed: 'Ingen sist redigerte',
+    noArticles: 'Ingen artikler ...',
+    emptyLastUsed: 'Ingen sist redigerte ...',
+    emptyConcepts: 'Ingen forklaringer ...',
     emptySavedSearch: 'Ingen lagrede søk',
     guidelines: 'Retningslinjer',
     mustBeSearch: 'Lenken må være til et søk',
@@ -1032,7 +1034,6 @@ const phrases = {
       revisionDate: 'Antall som nærmer seg revisjonsdato',
       revisionDateSingle: 'Nærmer seg revisjonsdato',
       error: 'Noe gikk galt ved oppdatering av ansvarlig.',
-      noArticles: 'Ingen artikler ...',
     },
     origin: {
       label: 'Opphav',

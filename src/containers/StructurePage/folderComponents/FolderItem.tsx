@@ -27,8 +27,10 @@ const StyledResourceButton = styled(ButtonV2)`
 
 const StyledFolderWrapper = styled.div`
   display: flex;
-  width: 100%;
+  flex-grow: 1;
+  justify-content: space-between;
   align-items: center;
+  gap: ${spacing.small};
 `;
 
 interface Props {

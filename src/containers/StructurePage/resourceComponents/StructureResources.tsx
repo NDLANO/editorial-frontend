@@ -78,7 +78,7 @@ const StructureResources = ({ currentChildNode, resourceRef, setCurrentNode }: P
     },
   );
 
-  const { data: nodeResourceMetas, isLoading: contentMetaLoading } = useNodeResourceMetas(
+  const { data: nodeResourceMetas, isInitialLoading: contentMetaLoading } = useNodeResourceMetas(
     {
       nodeId: currentChildNode.id,
       ids:

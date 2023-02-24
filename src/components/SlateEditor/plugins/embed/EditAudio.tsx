@@ -13,7 +13,7 @@ import { FieldProps, Form, Formik, FormikProps } from 'formik';
 import { AudioPlayer } from '@ndla/ui';
 import { spacing } from '@ndla/core';
 import { ModalBody, ModalHeader } from '@ndla/modal';
-import Button from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 import { Input } from '@ndla/forms';
 import ObjectSelector from '../../../ObjectSelector';
 import { SlateAudio, AudioEmbed } from '../../../../interfaces';
@@ -159,10 +159,10 @@ const AudioEmbedForm = ({
         )}
       </StyledFormikField>
       <ButtonWrapper>
-        <Button onClick={onClose}>{t('form.abort')}</Button>
-        <Button disabled={!isValid || !dirty} type="submit">
+        <ButtonV2 onClick={onClose}>{t('form.abort')}</ButtonV2>
+        <ButtonV2 disabled={!isValid || !dirty} type="submit">
           {t('form.save')}
-        </Button>
+        </ButtonV2>
       </ButtonWrapper>
     </Form>
   );

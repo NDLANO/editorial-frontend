@@ -8,12 +8,14 @@
 import { useState, useRef } from 'react';
 import { Formik, FormikProps, FormikHelpers, FormikErrors } from 'formik';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import { Descendant } from 'slate';
 import styled from '@emotion/styled';
 import { colors } from '@ndla/core';
+import { ButtonV2 } from '@ndla/button';
 import { IAudioMetaInformation, INewSeries, ISeries } from '@ndla/types-audio-api';
-import { AbortButton, AlertModalWrapper } from '../../FormikForm';
+import { AlertModalWrapper } from '../../FormikForm';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
 import validateFormik, { getWarnings, RulesType } from '../../../components/formikValidationSchema';
 import SaveButton from '../../../components/SaveButton';
@@ -96,6 +98,7 @@ const PodcastSeriesForm = ({
   const { t } = useTranslation();
   const [savedToServer, setSavedToServer] = useState(false);
   const { userPermissions } = useSession();
+  const navigate = useNavigate();
   const size = useRef<[number, number] | undefined>(undefined);
 
   const isAudioAdmin = !!userPermissions?.includes(AUDIO_ADMIN_SCOPE);
@@ -205,15 +208,15 @@ const PodcastSeriesForm = ({
               </AccordionSection>
             </Accordions>
             <Field right>
-              <AbortButton outline disabled={isSubmitting}>
+              <ButtonV2 variant="outline" disabled={isSubmitting} onClick={() => navigate(-1)}>
                 {t('form.abort')}
-              </AbortButton>
+              </ButtonV2>
               <SaveButton
                 disabled={!isAudioAdmin}
                 isSaving={isSubmitting}
                 showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}
                 formIsDirty={formIsDirty}
-                submit={!inModal}
+                type={!inModal ? 'submit' : 'button'}
                 onClick={evt => {
                   evt.preventDefault();
                   submitForm();

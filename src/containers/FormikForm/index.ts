@@ -6,13 +6,11 @@ import VersionAndNotesPanel from './VersionAndNotesPanel';
 import AddNotesField from './AddNotesField';
 import LicenseField from './components/LicenseField';
 import AlertModalWrapper from './AlertModalWrapper';
-import ActionButton from './components/ActionButton';
 import MetaImageSearch from './MetaImageSearch';
 import DatePicker from './components/DatePicker';
 import Checkbox from './components/Checkbox';
 import ContributorsField from './components/ContributorsField';
 import MetaDataField from './MetaDataField';
-import AbortButton from './components/AbortButton';
 import LearningpathConnection from '../../components/HeaderWithLanguage/LearningpathConnection';
 import SlugField from './SlugField';
 
@@ -26,12 +24,10 @@ export {
   VersionAndNotesPanel,
   AddNotesField,
   LicenseField,
-  ActionButton,
   MetaImageSearch,
   Checkbox,
   ContributorsField,
   MetaDataField,
-  AbortButton,
   LearningpathConnection,
   SlugField,
 };

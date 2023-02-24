@@ -9,7 +9,7 @@
 import { ReactNode, useState, MouseEvent } from 'react';
 import styled from '@emotion/styled';
 import { ReactEditor, RenderElementProps, useSlateStatic } from 'slate-react';
-import Button from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 import { useTranslation } from 'react-i18next';
 import { parseMarkdown } from '@ndla/util';
 import { Editor } from 'slate';
@@ -35,7 +35,7 @@ interface Props {
   element: NdlaEmbedElement;
 }
 
-const StyledButton = styled(Button)`
+const StyledButton = styled(ButtonV2)`
   min-width: -webkit-fill-available;
   min-width: -moz-available;
   &:focus img {
@@ -130,7 +130,7 @@ const SlateImage = ({
       {!(visualElement && editMode) && (
         <StyledButton
           contentEditable={false}
-          stripped
+          variant="stripped"
           data-label={t('imageEditor.editImage')}
           onClick={evt => {
             evt.preventDefault();

@@ -3,56 +3,68 @@
 exports[`EditorErrorMessage renders 1`] = `
 .emotion-0 {
   position: relative;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
   border: 1px solid #d1372e;
   color: #d1372e;
   padding: 1rem;
 }
 
 .emotion-1 {
-  display: inline-block;
-  color: #ffffff;
-  background-color: #20588f;
-  border: 2px solid #20588f;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  gap: 6.5px;
+  color: #fff;
+  background: #d1372e;
+  border: 2px solid #d1372e;
   border-radius: 4px;
-  padding: 4px 13px;
   outline-width: 0;
   cursor: pointer;
   -webkit-text-decoration: none;
   text-decoration: none;
-  font-size: 16px;
-  font-size: 0.8888888888888888rem;
-  line-height: 1.625;
   font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
-  font-weight: 700;
+  font-weight: 600;
   -webkit-transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
   transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
   box-shadow: none;
   text-align: center;
-  -webkit-transition: background-color none;
-  transition: background-color none;
-  padding: 0;
-  border-radius: 0;
-  color: inherit;
-  font-size: inherit;
-  background-color: transparent;
-  box-shadow: none;
-  border: none;
-  font-weight: 400;
-  position: absolute;
-  top: 0.1rem;
-  right: 0.2rem;
+  padding: 4.333333333333333px 6.5px;
+  font-size: 14px;
+  font-size: 0.7777777777777778rem;
+  line-height: 18px;
+  min-height: 32px;
+  border-width: 1px;
+  outline-width: 2px;
   color: #d1372e;
-  position: absolute;
-  top: 0.1rem;
-  right: 0.2rem;
-  color: #d1372e;
+  background: transparent;
+  border-color: transparent;
+  border-radius: 100%;
+  padding: 6.5px;
+  line-height: 1;
+  border-color: transparent;
+  min-height: unset;
 }
 
 .emotion-1:hover,
 .emotion-1:focus {
-  color: white;
-  background-color: #184673;
-  border: 2px solid #184673;
+  color: #fff;
+  background-color: #d1372e;
+  border-color: #d1372e;
 }
 
 .emotion-1[disabled] {
@@ -62,32 +74,25 @@ exports[`EditorErrorMessage renders 1`] = `
   cursor: not-allowed;
 }
 
-.emotion-1:focus {
-  box-shadow: 0 0 2px #20588f;
-}
-
 .emotion-1:hover,
 .emotion-1:active,
-.emotion-1:disabled,
 .emotion-1:focus {
-  box-shadow: none;
-  color: #20588f;
+  color: #fff;
+  background: #d1372e;
+  border-color: #d1372e;
+}
+
+.emotion-1[disabled] {
+  color: #777777;
   background-color: transparent;
-  border: none;
+  border-color: transparent;
+  cursor: not-allowed;
 }
 
-.emotion-1:focus {
-  outline-width: medium;
-}
-
-.emotion-1:hover,
-.emotion-1:focus {
-  color: #7d211c;
-}
-
-.emotion-1:hover,
-.emotion-1:focus {
-  color: #7d211c;
+.emotion-1 svg {
+  width: 26px;
+  height: 26px;
+  margin: 0;
 }
 
 <div>
@@ -95,11 +100,16 @@ exports[`EditorErrorMessage renders 1`] = `
     class="emotion-0"
     contenteditable="false"
   >
+    <div>
+      <span>
+        This is error
+      </span>
+    </div>
     <button
-      class="emotion-1 emotion-2"
+      aria-label="form.remove"
+      class="emotion-1"
       contenteditable="false"
       data-cy="close-related-button"
-      tabindex="-1"
       type="button"
     >
       <svg
@@ -129,9 +139,6 @@ exports[`EditorErrorMessage renders 1`] = `
         </g>
       </svg>
     </button>
-    <span>
-      This is error
-    </span>
   </div>
 </div>
 `;

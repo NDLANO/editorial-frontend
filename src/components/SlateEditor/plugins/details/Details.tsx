@@ -7,6 +7,7 @@
 import { useState } from 'react';
 import { Editor, Transforms, Element } from 'slate';
 import { ReactEditor, RenderElementProps } from 'slate-react';
+import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { spacing, colors } from '@ndla/core';
 import DeleteButton from '../../../DeleteButton';
@@ -14,6 +15,7 @@ import MoveContentButton from '../../../MoveContentButton';
 import { TYPE_DETAILS } from './types';
 
 const StyledDetailsDiv = styled.div`
+  padding: ${spacing.small};
   margin: ${spacing.large} 0;
   border: 1px solid ${colors.brand.greyLight};
   overflow: visible;
@@ -54,14 +56,20 @@ const StyledSummary = styled.summary`
   flex-grow: 1;
   color: ${colors.brand.primary};
   font-size: 20px;
+  padding: 0;
   cursor: inherit;
-  padding: ${spacing.normal} ${spacing.small};
   display: block;
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
 `;
 
 const StyledRow = styled.div`
   display: flex;
   flex-direction: row;
+  gap: ${spacing.small};
   &:focus button,
   :hover button {
     display: flex;
@@ -76,6 +84,7 @@ interface Props {
 
 const Details = ({ children, editor, element, attributes }: Props & RenderElementProps) => {
   const [isOpen, setIsOpen] = useState(true);
+  const { t } = useTranslation();
   const toggleOpen = () => {
     setIsOpen(!isOpen);
   };
@@ -110,7 +119,16 @@ const Details = ({ children, editor, element, attributes }: Props & RenderElemen
   const [summaryNode, ...contentNodes] = children;
 
   return (
-    <StyledDetailsDiv className="c-bodybox" {...attributes} draggable>
+    <StyledDetailsDiv {...attributes} draggable>
+      <ButtonContainer>
+        <MoveContentButton onMouseDown={onMoveContent} />
+        <DeleteButton
+          data-cy="remove-details"
+          aria-label={t('form.remove')}
+          variant="stripped"
+          onMouseDown={onRemoveClick}
+        />
+      </ButtonContainer>
       <StyledRow>
         <div contentEditable={false}>
           <StyledChevron isOpen={isOpen} onClick={toggleOpen} />
@@ -118,8 +136,6 @@ const Details = ({ children, editor, element, attributes }: Props & RenderElemen
         <StyledSummary>{summaryNode}</StyledSummary>
       </StyledRow>
       <StyledContent isOpen={isOpen}>{contentNodes}</StyledContent>
-      <MoveContentButton onMouseDown={onMoveContent} />
-      <DeleteButton tabIndex="-1" data-cy="remove-details" stripped onMouseDown={onRemoveClick} />
     </StyledDetailsDiv>
   );
 };

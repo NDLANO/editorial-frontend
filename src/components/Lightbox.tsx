@@ -7,7 +7,7 @@
  */
 
 import { MouseEvent, PureComponent, ReactNode } from 'react';
-import Button from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 import { Cross } from '@ndla/icons/action';
 import styled from '@emotion/styled';
 import { css, SerializedStyles } from '@emotion/react';
@@ -95,7 +95,7 @@ const StyledContent = styled.div<StyledContentProps>`
   ${p => (p.severity ? severities[p.severity] : null)};
 `;
 
-export const StyledButton = styled(Button)`
+export const StyledButton = styled(ButtonV2)`
   float: right;
   height: 44px;
   width: 44px;
@@ -174,7 +174,10 @@ class Lightbox extends PureComponent<Props, State> {
             (closeButton ? (
               closeButton
             ) : (
-              <StyledButton stripped data-testid="closeAlert" onClick={this.onCloseButtonClick}>
+              <StyledButton
+                variant="stripped"
+                data-testid="closeAlert"
+                onClick={this.onCloseButtonClick}>
                 <StyledCross severity={severity} />
               </StyledButton>
             ))}

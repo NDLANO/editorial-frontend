@@ -10,7 +10,7 @@ import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import { Concept, Check } from '@ndla/icons/editor';
 import { spacing, colors } from '@ndla/core';
-import Button from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 import Tooltip from '@ndla/tooltip';
 import { IConceptSummary } from '@ndla/types-concept-api';
 import { convertFieldWithFallback } from '../../../../util/convertFieldWithFallback';
@@ -46,7 +46,7 @@ const StyledConceptContent = styled.p`
   margin: 0;
 `;
 
-const StyledButton = styled(Button)`
+const StyledButton = styled(ButtonV2)`
   grid-row-start: 1 / 3;
   grid-column: 3 / 3;
   align-self: center;

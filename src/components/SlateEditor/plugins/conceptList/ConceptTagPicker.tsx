@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import Button from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 import { Transforms } from 'slate';
 import { spacing } from '@ndla/core';
 import { ReactEditor, useSlateStatic } from 'slate-react';
@@ -34,10 +34,6 @@ const FormInput = styled.div`
   flex-direction: column;
   gap: ${spacing.small};
   flex: 1;
-`;
-
-const StyledButton = styled(Button)`
-  flex: 0;
 `;
 
 interface Props {
@@ -173,9 +169,9 @@ const ConceptTagPicker = ({ element, onClose, language }: Props) => {
                     showResultCount
                   />
                 </FormInput>
-                <StyledButton type="button" onClick={onSave} disabled={!selectedTag}>
+                <ButtonV2 onClick={onSave} disabled={!selectedTag}>
                   {t('form.save')}
-                </StyledButton>
+                </ButtonV2>
               </TwoColumn>
             </ModalBody>
           </div>

@@ -8,27 +8,17 @@
 
 import { ReactNode } from 'react';
 import { RenderElementProps } from 'slate-react';
-import Button from '@ndla/button';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { colors } from '@ndla/core';
-import { ChevronLeft } from '@ndla/icons/common';
-import { darken } from 'polished';
 import DeleteButton from '../../../DeleteButton';
-
-const MoveAsideButton = styled(Button)`
-  position: absolute;
-  top: 0.1rem;
-  right: 1.2rem;
-  color: ${colors.support.green};
-  &:hover,
-  &:focus {
-    color: ${darken(0.2, colors.support.green)};
-  }
-`;
+import MoveContentButton from '../../../MoveContentButton';
 
 const StyledAsideType = styled.div`
-  background-color: #444;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: ${colors.brand.greyDark};
   color: white;
   position: absolute;
   width: 100%;
@@ -37,6 +27,10 @@ const StyledAsideType = styled.div`
 
 const StyledAsideContent = styled.div`
   padding-top: 60px;
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
 `;
 
 interface Props {
@@ -53,21 +47,16 @@ const SlateRightAside = ({ children, onRemoveClick, onMoveContent, attributes }:
     <aside className="c-aside" {...attributes}>
       <StyledAsideType contentEditable={false}>
         {t('learningResourceForm.fields.rightAside.title')}
+        <ButtonContainer>
+          <MoveContentButton onMouseDown={onMoveContent} />
+          <DeleteButton
+            aria-label={t('learningResourceForm.fields.rightAside.delete')}
+            variant="stripped"
+            onMouseDown={onRemoveClick}
+          />
+        </ButtonContainer>
       </StyledAsideType>
       <StyledAsideContent className="c-aside__content">{children}</StyledAsideContent>
-      <DeleteButton
-        title={t('learningResourceForm.fields.rightAside.delete')}
-        stripped
-        onMouseDown={onRemoveClick}
-        tabIndex="-1"
-      />
-      <MoveAsideButton
-        contentEditable={false}
-        title={t('learningResourceForm.fields.rightAside.moveContent')}
-        stripped
-        onMouseDown={onMoveContent}>
-        <ChevronLeft />
-      </MoveAsideButton>
     </aside>
   );
 };

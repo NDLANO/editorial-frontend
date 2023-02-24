@@ -7,14 +7,15 @@
 
 import { useTranslation } from 'react-i18next';
 import { Formik, FormikHelpers } from 'formik';
+import { useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { Agreement } from '@ndla/icons/editor';
 import { colors } from '@ndla/core';
+import { ButtonV2 } from '@ndla/button';
 import { IAgreement, IUpdatedAgreement, INewAgreement, IAuthor } from '@ndla/types-draft-api';
 import Field from '../../../components/Field';
 import { DEFAULT_LICENSE } from '../../../util/formHelper';
 import AgreementFields from './AgreementFields';
-import { ActionButton, AbortButton } from '../../FormikForm';
 import validateFormik from '../../../components/formikValidationSchema';
 import { useLicenses } from '../../../modules/draft/draftQueries';
 import StyledForm from '../../../components/StyledFormComponents';
@@ -97,6 +98,7 @@ interface Props {
 const AgreementForm = ({ onUpsert, agreement }: Props) => {
   const { t } = useTranslation();
   const { data: licenses } = useLicenses({ placeholderData: [] });
+  const navigate = useNavigate();
   const handleSubmit = async (
     values: AgreementFormValues,
     actions: FormikHelpers<AgreementFormValues>,
@@ -142,10 +144,10 @@ const AgreementForm = ({ onUpsert, agreement }: Props) => {
             <AgreementFields />
           </div>
           <Field right>
-            <AbortButton outline disabled={isSubmitting}>
+            <ButtonV2 variant="outline" disabled={isSubmitting} onClick={() => navigate(-1)}>
               {t('form.abort')}
-            </AbortButton>
-            <ActionButton submit>{t('form.save')}</ActionButton>
+            </ButtonV2>
+            <ButtonV2 type="submit">{t('form.save')}</ButtonV2>
           </Field>
         </StyledForm>
       )}

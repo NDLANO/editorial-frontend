@@ -3,6 +3,13 @@
 exports[`DisplayExternal display error on fetch fail 1`] = `
 .emotion-0 {
   position: relative;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
   border: 1px solid #d1372e;
   color: #d1372e;
   padding: 1rem;
@@ -13,9 +20,11 @@ exports[`DisplayExternal display error on fetch fail 1`] = `
     class="emotion-0"
     contenteditable="false"
   >
-    <span>
-      oEmbed av type  og kilde  er ikke støttet.
-    </span>
+    <div>
+      <span>
+        oEmbed av type  og kilde  er ikke støttet.
+      </span>
+    </div>
   </div>
 </div>
 `;
@@ -23,6 +32,13 @@ exports[`DisplayExternal display error on fetch fail 1`] = `
 exports[`DisplayExternal renders external correctly 1`] = `
 .emotion-0 {
   position: relative;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
   border: 1px solid #d1372e;
   color: #d1372e;
   padding: 1rem;
@@ -33,9 +49,11 @@ exports[`DisplayExternal renders external correctly 1`] = `
     class="emotion-0"
     contenteditable="false"
   >
-    <span>
-      oEmbed av type external og kilde  er ikke støttet.
-    </span>
+    <div>
+      <span>
+        oEmbed av type external og kilde  er ikke støttet.
+      </span>
+    </div>
   </div>
 </div>
 `;

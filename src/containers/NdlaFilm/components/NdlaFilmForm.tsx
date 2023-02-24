@@ -101,7 +101,7 @@ const NdlaFilmForm = ({ filmFrontpage, selectedLanguage }: Props) => {
             />
             <Field right>
               <SaveButton
-                large
+                size="large"
                 isSaving={isSubmitting}
                 showSaved={!formIsDirty && savedToServer}
                 formIsDirty={formIsDirty}

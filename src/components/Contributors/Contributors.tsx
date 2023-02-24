@@ -8,7 +8,7 @@
 
 import { FormEvent, MouseEvent } from 'react';
 import { contributorGroups, contributorTypes } from '@ndla/licenses';
-import Button from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 import styled from '@emotion/styled';
 import { fonts, colors } from '@ndla/core';
 import { FieldHeader } from '@ndla/forms';
@@ -114,9 +114,13 @@ const Contributors = ({
       {showError && value.length === 0 && errorMessages.length > 0 && (
         <StyledFormWarningText>{errorMessages[0]}</StyledFormWarningText>
       )}
-      <Button outline onClick={addContributor} data-cy="addContributor" disabled={disabled}>
+      <ButtonV2
+        variant="outline"
+        onClick={addContributor}
+        data-cy="addContributor"
+        disabled={disabled}>
         {t('form.contributor.add')}
-      </Button>
+      </ButtonV2>
     </div>
   );
 };

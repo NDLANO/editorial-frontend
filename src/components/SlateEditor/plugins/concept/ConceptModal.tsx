@@ -19,7 +19,7 @@ import {
 } from '@ndla/types-concept-api';
 import { IArticle } from '@ndla/types-draft-api';
 import { useTranslation } from 'react-i18next';
-import Button from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 import Tabs from '@ndla/tabs';
 import { Search } from '@ndla/icons/common';
 import Pager from '@ndla/pager';
@@ -135,7 +135,7 @@ const ConceptModal = ({
             </ModalHeader>
             <ModalBody>
               {concept?.id && (
-                <Button onClick={handleRemove}>{t('form.content.concept.remove')}</Button>
+                <ButtonV2 onClick={handleRemove}>{t('form.content.concept.remove')}</ButtonV2>
               )}
               <Tabs
                 onSelect={updateSelectedTabIndex}

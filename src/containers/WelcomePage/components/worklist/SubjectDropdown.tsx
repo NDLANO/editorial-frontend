@@ -16,10 +16,7 @@ import { fetchSubject } from '../../../../modules/taxonomy';
 import { useSession } from '../../../Session/SessionProvider';
 import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
 import { fetchUserData } from '../../../../modules/draft/draftApi';
-
-const Wrapper = styled.div`
-  width: 200px;
-`;
+import { DropdownWrapper } from '../../styles';
 
 interface Props {
   filterSubject: SingleValue | undefined;
@@ -80,7 +77,7 @@ const SubjectDropdown = ({ filterSubject, setFilterSubject }: Props) => {
   }, [data]);
 
   return (
-    <Wrapper>
+    <DropdownWrapper>
       <Select<false>
         options={subjectList}
         placeholder={t('welcomePage.chooseSubject')}
@@ -95,7 +92,7 @@ const SubjectDropdown = ({ filterSubject, setFilterSubject }: Props) => {
         noOptionsMessage={() => t('form.responsible.noResults')}
         isClearable
       />
-    </Wrapper>
+    </DropdownWrapper>
   );
 };
 

@@ -13,7 +13,7 @@ import { useTranslation } from 'react-i18next';
 import { spacing } from '@ndla/core';
 import styled from '@emotion/styled';
 import { SafeLinkButton } from '@ndla/safelink';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import queryString from 'query-string';
 import formatDate from '../../../../util/formatDate';
 import { toEditArticle } from '../../../../util/routeHelpers';
@@ -55,43 +55,47 @@ const WorkListTabContent = ({
 }: Props) => {
   const { t } = useTranslation();
 
-  const tableData: FieldElement[][] = data
-    ? data.results.map(res => [
-        {
-          id: `title_${res.id}`,
-          data: (
-            <StyledLink to={toEditArticle(res.id, res.learningResourceType)}>
-              {res.title?.title}
-            </StyledLink>
-          ),
-        },
-        {
-          id: `status_${res.id}`,
-          data: res.status?.current ? t(`form.status.${res.status.current.toLowerCase()}`) : '',
-        },
-        {
-          id: `contentType_${res.id}`,
-          data:
-            res.learningResourceType === 'topic-article'
-              ? 'Emne'
-              : res.contexts?.[0]?.resourceTypes?.map(context => context.name).join(' - '),
-        },
-        {
-          id: `primarySubject_${res.id}`,
-          data: res.contexts.find(context => context.isPrimaryConnection)?.subject ?? '',
-        },
-        {
-          id: `topic_${res.id}`,
-          data: res.contexts.length
-            ? res.contexts[0].breadcrumbs[res.contexts[0].breadcrumbs.length - 1]
-            : '',
-        },
-        {
-          id: `date_${res.id}`,
-          data: res.responsible ? formatDate(res.responsible.lastUpdated) : '',
-        },
-      ])
-    : [[]];
+  const tableData: FieldElement[][] = useMemo(
+    () =>
+      data
+        ? data.results.map(res => [
+            {
+              id: `title_${res.id}`,
+              data: (
+                <StyledLink to={toEditArticle(res.id, res.learningResourceType)}>
+                  {res.title?.title}
+                </StyledLink>
+              ),
+            },
+            {
+              id: `status_${res.id}`,
+              data: res.status?.current ? t(`form.status.${res.status.current.toLowerCase()}`) : '',
+            },
+            {
+              id: `contentType_${res.id}`,
+              data:
+                res.learningResourceType === 'topic-article'
+                  ? 'Emne'
+                  : res.contexts?.[0]?.resourceTypes?.map(context => context.name).join(' - '),
+            },
+            {
+              id: `primarySubject_${res.id}`,
+              data: res.contexts.find(context => context.isPrimaryConnection)?.subject ?? '',
+            },
+            {
+              id: `topic_${res.id}`,
+              data: res.contexts.length
+                ? res.contexts[0].breadcrumbs[res.contexts[0].breadcrumbs.length - 1]
+                : '',
+            },
+            {
+              id: `date_${res.id}`,
+              data: res.responsible ? formatDate(res.responsible.lastUpdated) : '',
+            },
+          ])
+        : [[]],
+    [data, t],
+  );
 
   const tableTitles: TitleElement[] = [
     { title: t('welcomePage.workList.name'), sortableField: 'title' },
@@ -119,7 +123,6 @@ const WorkListTabContent = ({
           description={t('welcomePage.workList.description')}
           Icon={Calendar}
         />
-
         <ControlWrapper>
           <SubjectDropdown filterSubject={filterSubject} setFilterSubject={setFilterSubject} />
           <StyledSafeLinkButton to={onSearch()} size="small">

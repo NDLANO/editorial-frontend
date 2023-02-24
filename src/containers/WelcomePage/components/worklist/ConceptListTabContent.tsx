@@ -7,14 +7,16 @@
  */
 
 import { Calendar } from '@ndla/icons/editor';
-import { SingleValue } from '@ndla/select';
+import { Select, SingleValue } from '@ndla/select';
 import { IConceptSearchResult } from '@ndla/types-concept-api';
-import { useEffect, useState } from 'react';
+import uniqBy from 'lodash/uniqBy';
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { fetchSubject } from '../../../../modules/taxonomy';
+import formatDate from '../../../../util/formatDate';
 import { toEditConcept } from '../../../../util/routeHelpers';
 import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
-import { StyledLink, StyledTopRowDashboardInfo } from '../../styles';
+import { DropdownWrapper, StyledLink, StyledTopRowDashboardInfo } from '../../styles';
 import TableComponent, { FieldElement, TitleElement } from '../TableComponent';
 import TableTitle from '../TableTitle';
 
@@ -32,7 +34,8 @@ interface Concept {
   id: number;
   title: string;
   status: string;
-  subjects: { id: string; title: string }[];
+  lastUpdated: string;
+  subjects: { value: string; label: string }[];
 }
 
 const ConceptListTabContent = ({
@@ -60,7 +63,8 @@ const ConceptListTabContent = ({
             id: concept.id,
             title: concept.title?.title,
             status: concept.status?.current,
-            subjects: subjects.map(subject => ({ id: subject.id, title: subject.name })),
+            lastUpdated: concept.responsible ? formatDate(concept.responsible.lastUpdated) : '',
+            subjects: subjects.map(subject => ({ value: subject.id, label: subject.name })),
           };
         }),
       );
@@ -69,27 +73,40 @@ const ConceptListTabContent = ({
     updateConceptData();
   }, [data?.results, taxonomyVersion]);
 
-  const tableData: FieldElement[][] = conceptData.length
-    ? conceptData.map(res => [
-        {
-          id: `title_${res.id}`,
-          data: <StyledLink to={toEditConcept(res.id)}>{res.title}</StyledLink>,
-        },
-        {
-          id: `status_${res.id}`,
-          data: res.status ? t(`form.status.${res.status.toLowerCase()}`) : '',
-        },
-        {
-          id: `concept_subject_${res.id}`,
-          data: res.subjects.map(s => s.title).join(' - '),
-        },
-      ])
-    : [[]];
+  const tableData: FieldElement[][] = useMemo(
+    () =>
+      conceptData.length
+        ? conceptData.map(res => [
+            {
+              id: `title_${res.id}`,
+              data: <StyledLink to={toEditConcept(res.id)}>{res.title}</StyledLink>,
+            },
+            {
+              id: `status_${res.id}`,
+              data: res.status ? t(`form.status.${res.status.toLowerCase()}`) : '',
+            },
+            {
+              id: `concept_subject_${res.id}`,
+              data: res.subjects.map(s => s.label).join(' - '),
+            },
+            {
+              id: `date_${res.id}`,
+              data: res.lastUpdated,
+            },
+          ])
+        : [[]],
+    [conceptData, t],
+  );
+
+  const subjectList = useMemo(() => uniqBy(conceptData.map(c => c.subjects).flat(), c => c.value), [
+    conceptData,
+  ]);
 
   const tableTitles: TitleElement[] = [
     { title: t('welcomePage.workList.name'), sortableField: 'title' },
     { title: t('welcomePage.workList.status') },
     { title: t('welcomePage.workList.conceptSubject') },
+    { title: t('welcomePage.workList.date'), sortableField: 'responsibleLastUpdated' },
   ];
 
   return (
@@ -100,6 +117,22 @@ const ConceptListTabContent = ({
           description={t('welcomePage.workList.conceptDescription')}
           Icon={Calendar}
         />
+        <DropdownWrapper>
+          <Select<false>
+            options={subjectList}
+            placeholder={t('welcomePage.chooseSubject')}
+            value={filterSubject}
+            onChange={setFilterSubject}
+            menuPlacement="bottom"
+            small
+            outline
+            postfix={t('subjectsPage.subjects').toLowerCase()}
+            isLoading={isLoading}
+            isSearchable
+            noOptionsMessage={() => t('form.responsible.noResults')}
+            isClearable
+          />
+        </DropdownWrapper>
       </StyledTopRowDashboardInfo>
       <TableComponent
         isLoading={isLoading}

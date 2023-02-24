@@ -22,13 +22,13 @@ interface Props {
 const WorkList = ({ ndlaId }: Props) => {
   const [sortOption, setSortOption] = useState<string>('-responsibleLastUpdated');
   const [filterSubject, setFilterSubject] = useState<SingleValue | undefined>(undefined);
-  const [error, setError] = useState();
+  const [error, setError] = useState<string | undefined>(undefined);
 
-  const [sortOptionConcepts, setSortOptionConcepts] = useState('-title');
-  const [errorConceptList, setErrorConceptList] = useState<string>();
-  const [filterConceptSubjects, setFilterConceptSubjects] = useState<SingleValue | undefined>(
+  const [sortOptionConcepts, setSortOptionConcepts] = useState('-responsibleLastUpdated');
+  const [filterConceptSubject, setFilterConceptSubject] = useState<SingleValue | undefined>(
     undefined,
   );
+  const [errorConceptList, setErrorConceptList] = useState<string | undefined>(undefined);
 
   const { t } = useTranslation();
   const { data, isInitialLoading } = useSearch(
@@ -44,10 +44,11 @@ const WorkList = ({ ndlaId }: Props) => {
     },
   );
 
-  const { data: concepts, isLoading: conceptsLoading } = useSearchConcepts(
+  const { data: concepts, isInitialLoading: conceptsLoading } = useSearchConcepts(
     {
       'responsible-ids': ndlaId,
       sort: sortOptionConcepts,
+      ...(filterConceptSubject ? { subjects: filterConceptSubject.value } : {}),
     },
     {
       enabled: !!ndlaId,
@@ -84,8 +85,8 @@ const WorkList = ({ ndlaId }: Props) => {
               isLoading={conceptsLoading}
               error={errorConceptList}
               sortOption={sortOptionConcepts}
-              filterSubject={filterConceptSubjects}
-              setFilterSubject={setFilterConceptSubjects}
+              filterSubject={filterConceptSubject}
+              setFilterSubject={setFilterConceptSubject}
             />
           ),
         },

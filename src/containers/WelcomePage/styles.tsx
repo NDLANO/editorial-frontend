@@ -32,3 +32,8 @@ export const StyledLink = styled(SafeLink)`
 export const DropdownWrapper = styled.div`
   width: 200px;
 `;
+
+export const ControlWrapperDashboard = styled.div`
+  display: flex;
+  gap: ${spacing.small};
+`;

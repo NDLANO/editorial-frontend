@@ -87,6 +87,7 @@ const WorkList = ({ ndlaId }: Props) => {
               sortOption={sortOptionConcepts}
               filterSubject={filterConceptSubject}
               setFilterSubject={setFilterConceptSubject}
+              ndlaId={ndlaId}
             />
           ),
         },

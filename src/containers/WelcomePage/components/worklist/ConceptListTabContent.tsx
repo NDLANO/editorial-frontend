@@ -16,18 +16,25 @@ import { fetchSubject } from '../../../../modules/taxonomy';
 import formatDate from '../../../../util/formatDate';
 import { toEditConcept } from '../../../../util/routeHelpers';
 import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
-import { DropdownWrapper, StyledLink, StyledTopRowDashboardInfo } from '../../styles';
+import {
+  ControlWrapperDashboard,
+  DropdownWrapper,
+  StyledLink,
+  StyledTopRowDashboardInfo,
+} from '../../styles';
+import GoToSearch from '../GoToSearch';
 import TableComponent, { FieldElement, TitleElement } from '../TableComponent';
 import TableTitle from '../TableTitle';
 
 interface Props {
-  data: IConceptSearchResult | undefined;
-  filterSubject: SingleValue | undefined;
+  data?: IConceptSearchResult;
+  filterSubject?: SingleValue;
   isLoading: boolean;
   setSortOption: (o: string) => void;
   sortOption: string;
   error: string | undefined;
   setFilterSubject: (fs: SingleValue) => void;
+  ndlaId?: string;
 }
 
 interface Concept {
@@ -46,6 +53,7 @@ const ConceptListTabContent = ({
   sortOption,
   error,
   setFilterSubject,
+  ndlaId,
 }: Props) => {
   const { t } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
@@ -117,22 +125,25 @@ const ConceptListTabContent = ({
           description={t('welcomePage.workList.conceptDescription')}
           Icon={Calendar}
         />
-        <DropdownWrapper>
-          <Select<false>
-            options={subjectList}
-            placeholder={t('welcomePage.chooseSubject')}
-            value={filterSubject}
-            onChange={setFilterSubject}
-            menuPlacement="bottom"
-            small
-            outline
-            postfix={t('subjectsPage.subjects').toLowerCase()}
-            isLoading={isLoading}
-            isSearchable
-            noOptionsMessage={() => t('form.responsible.noResults')}
-            isClearable
-          />
-        </DropdownWrapper>
+        <ControlWrapperDashboard>
+          <DropdownWrapper>
+            <Select<false>
+              options={subjectList}
+              placeholder={t('welcomePage.chooseSubject')}
+              value={filterSubject}
+              onChange={setFilterSubject}
+              menuPlacement="bottom"
+              small
+              outline
+              postfix={t('subjectsPage.subjects').toLowerCase()}
+              isLoading={isLoading}
+              isSearchable
+              noOptionsMessage={() => t('form.responsible.noResults')}
+              isClearable
+            />
+          </DropdownWrapper>
+          <GoToSearch ndlaId={ndlaId} filterSubject={filterSubject} searchEnv={'concept'} />
+        </ControlWrapperDashboard>
       </StyledTopRowDashboardInfo>
       <TableComponent
         isLoading={isLoading}

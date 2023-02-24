@@ -8,15 +8,17 @@
 
 import { useEffect, useState, MouseEvent } from 'react';
 import { useTranslation } from 'react-i18next';
+import sortBy from 'lodash/sortBy';
 import { getResourceLanguages } from '../../../../util/resourceHelpers';
 import { getTagName } from '../../../../util/formHelper';
 import { SearchParams } from './SearchForm';
 import {
   CONCEPT_WRITE_SCOPE,
+  DRAFT_WRITE_SCOPE,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
 } from '../../../../constants';
 import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
-import { useAuth0Editors } from '../../../../modules/auth0/auth0Queries';
+import { useAuth0Editors, useAuth0Responsibles } from '../../../../modules/auth0/auth0Queries';
 import { useConceptStateMachine } from '../../../../modules/concept/conceptQueries';
 import GenericSearchForm, { OnFieldChangeFunction } from './GenericSearchForm';
 import { SearchFormSelector } from './Selector';
@@ -35,6 +37,21 @@ const SearchConceptForm = ({ search: doSearch, searchObject: search, subjects }:
     { permission: CONCEPT_WRITE_SCOPE },
     {
       select: users => users.map(u => ({ id: `${u.app_metadata.ndla_id}`, name: u.name })),
+      placeholderData: [],
+    },
+  );
+
+  const { data: responsibles } = useAuth0Responsibles(
+    { permission: DRAFT_WRITE_SCOPE },
+    {
+      select: users =>
+        sortBy(
+          users.map(u => ({
+            id: `${u.app_metadata.ndla_id}`,
+            name: u.name,
+          })),
+          u => u.name,
+        ),
       placeholderData: [],
     },
   );
@@ -95,6 +112,14 @@ const SearchConceptForm = ({ search: doSearch, searchObject: search, subjects }:
       options: subjects
         .filter(s => s.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] === 'true')
         .sort(sortByProperty('name')),
+      formElementType: 'dropdown',
+      width: 25,
+    },
+    {
+      value: getTagName(search['responsible-ids'], responsibles),
+      parameterName: 'responsible-ids',
+      width: 25,
+      options: responsibles!,
       formElementType: 'dropdown',
     },
     {

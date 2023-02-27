@@ -4,15 +4,15 @@
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree. *
  */
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { ModalBody, ModalV2 } from '@ndla/modal';
 import { FieldHeader } from '@ndla/forms';
 import { useField, useFormikContext } from 'formik';
 import { ButtonV2 } from '@ndla/button';
 import { ImageEmbed } from '../../../interfaces';
 import VisualElementSearch from '../../VisualElement/VisualElementSearch';
 import SubjectpageBannerImage from './SubjectpageBannerImage';
-import Lightbox from '../../../components/Lightbox';
 
 interface Props {
   title: string;
@@ -36,33 +36,36 @@ const SubjectpageBanner = ({ title, fieldName }: Props) => {
     setFieldTouched(fieldName, true, false);
   };
 
-  const onImageSelectClose = () => {
+  const onImageSelectClose = useCallback(() => {
     setShowImageSelect(false);
-  };
+  }, []);
 
-  const onImageSelectOpen = () => {
+  const onImageSelectOpen = useCallback(() => {
     setShowImageSelect(true);
-  };
+  }, []);
 
   return (
     <>
       <FieldHeader title={title} />
-      {showImageSelect && (
-        <Lightbox display appearance={'big'} onClose={onImageSelectClose}>
-          <VisualElementSearch
-            selectedResource={'image'}
-            handleVisualElementChange={rt =>
-              rt.type === 'ndlaembed' ? onImageChange(rt.value as ImageEmbed) : null
-            }
-            closeModal={onImageSelectClose}
-          />
-        </Lightbox>
-      )}
       {fieldValue ? (
         <SubjectpageBannerImage image={fieldValue} onImageSelectOpen={onImageSelectOpen} />
       ) : (
         <ButtonV2 onClick={onImageSelectOpen}>{t('subjectpageForm.addBanner')}</ButtonV2>
       )}
+
+      <ModalV2 controlled isOpen={showImageSelect} onClose={onImageSelectClose} size="large">
+        {close => (
+          <ModalBody>
+            <VisualElementSearch
+              selectedResource={'image'}
+              closeModal={close}
+              handleVisualElementChange={rt =>
+                rt.type === 'ndlaembed' ? onImageChange(rt.value as ImageEmbed) : null
+              }
+            />
+          </ModalBody>
+        )}
+      </ModalV2>
     </>
   );
 };

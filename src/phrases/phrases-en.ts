@@ -1304,7 +1304,7 @@ const phrases = {
     editStructure: 'Edit structure',
     editSubjectpage: 'Edit subjectpage',
     deleteSubject: 'Delete subject',
-    addSubject: 'Add new subject',
+    addSubject: 'Add subject',
     subjectName: 'New subject name',
     addExistingTopic: 'Move existing topic here',
     addExistingLoading: 'Moving topic',

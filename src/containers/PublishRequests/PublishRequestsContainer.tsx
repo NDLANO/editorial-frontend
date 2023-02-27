@@ -98,7 +98,7 @@ const PublishRequestsContainer = () => {
       <OneColumn>
         <h1>{t('publishRequests.title')}</h1>
         {error && <ErrorMessage>{t(error)}</ErrorMessage>}
-        <h3>{`${t('publishRequests.numberRequests')}: ${nodesQuery.data?.length}`}</h3>
+        <h3>{`${t('publishRequests.numberRequests')}: ${nodesQuery.data?.length ?? 0}`}</h3>
         <StyledRequestList>
           {nodesQuery.data?.map((node, i) => (
             <StyledNodeContainer key={`node-request-${i}`}>

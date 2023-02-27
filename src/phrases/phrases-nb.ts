@@ -1306,7 +1306,7 @@ const phrases = {
     editStructure: 'Rediger struktur',
     editSubjectpage: 'Rediger fagforside',
     deleteSubject: 'Slett fag',
-    addSubject: 'Legg til nytt fag',
+    addSubject: 'Legg til fag',
     subjectName: 'Navn på nytt fag',
     addExistingTopic: 'Flytt eksisterende emne hit',
     addExistingLoading: 'Flytter emne',

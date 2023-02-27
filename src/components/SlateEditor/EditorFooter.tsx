@@ -26,7 +26,7 @@ import { ConceptStatusStateMachineType, DraftStatusStateMachineType } from '../.
 import ResponsibleSelect from '../../containers/FormikForm/components/ResponsibleSelect';
 import StatusSelect from '../../containers/FormikForm/components/StatusSelect';
 import { requiredFieldsT } from '../../util/yupHelpers';
-import { PUBLISHED } from '../../constants';
+import { ARCHIVED, PUBLISHED } from '../../constants';
 import PreviewDraftLightboxV2 from '../PreviewDraft/PreviewDraftLightboxV2';
 import { useDisableConverter } from '../ArticleConverterContext';
 
@@ -110,7 +110,12 @@ function EditorFooter<T extends FormValues>({
   }, [newStatus]);
 
   const onSave = (saveAsNewVersion?: boolean) => {
-    if (!responsible && newStatus?.value !== PUBLISHED && isArticle) {
+    if (
+      !responsible &&
+      newStatus?.value !== PUBLISHED &&
+      newStatus?.value !== ARCHIVED &&
+      isArticle
+    ) {
       createMessage({
         message: requiredFieldsT('form.responsible.label', t),
         timeToLive: 0,

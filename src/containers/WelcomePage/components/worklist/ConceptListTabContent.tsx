@@ -8,11 +8,11 @@
 
 import { Calendar } from '@ndla/icons/editor';
 import { Select, SingleValue } from '@ndla/select';
-import { IConceptSearchResult } from '@ndla/types-concept-api';
+import { IConceptSearchResult, IConceptSummary } from '@ndla/types-concept-api';
 import uniqBy from 'lodash/uniqBy';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { fetchSubject } from '../../../../modules/taxonomy';
+import { searchNodes } from '../../../../modules/nodes/nodeApi';
 import formatDate from '../../../../util/formatDate';
 import { toEditConcept } from '../../../../util/routeHelpers';
 import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
@@ -45,6 +45,19 @@ interface Concept {
   subjects: { value: string; label: string }[];
 }
 
+const fetchConceptData = async (concept: IConceptSummary, taxonomyVersion: string) => {
+  const subjects = concept.subjectIds
+    ? await searchNodes({ ids: concept.subjectIds, taxonomyVersion, nodeType: 'SUBJECT' })
+    : undefined;
+  return {
+    id: concept.id,
+    title: concept.title?.title,
+    status: concept.status?.current,
+    lastUpdated: concept.responsible ? formatDate(concept.responsible.lastUpdated) : '',
+    subjects: subjects?.results.map(subject => ({ value: subject.id, label: subject.name })) ?? [],
+  };
+};
+
 const ConceptListTabContent = ({
   data,
   filterSubject,
@@ -61,24 +74,11 @@ const ConceptListTabContent = ({
   const [conceptData, setConceptData] = useState<Concept[]>([]);
 
   useEffect(() => {
-    const updateConceptData = async () => {
-      const _conceptData = await Promise.all(
-        (data?.results ?? []).map(async concept => {
-          const subjects = await Promise.all(
-            (concept.subjectIds ?? []).map(id => fetchSubject({ id, taxonomyVersion })),
-          );
-          return {
-            id: concept.id,
-            title: concept.title?.title,
-            status: concept.status?.current,
-            lastUpdated: concept.responsible ? formatDate(concept.responsible.lastUpdated) : '',
-            subjects: subjects.map(subject => ({ value: subject.id, label: subject.name })),
-          };
-        }),
-      );
-      setConceptData(_conceptData);
-    };
-    updateConceptData();
+    (async () => {
+      if (!data?.results) return;
+      const _data = await Promise.all(data.results.map(c => fetchConceptData(c, taxonomyVersion)));
+      setConceptData(_data);
+    })();
   }, [data?.results, taxonomyVersion]);
 
   const tableData: FieldElement[][] = useMemo(

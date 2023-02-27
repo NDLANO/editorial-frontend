@@ -6,14 +6,14 @@
  *
  */
 
-import React, { ReactElement, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { ContentTypeBadge } from '@ndla/ui';
 import { ButtonV2 } from '@ndla/button';
 import { colors, spacing, breakpoints, fonts } from '@ndla/core';
-import { AlertCircle, Check, DragVertical } from '@ndla/icons/editor';
+import { DragVertical } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
 import SafeLink from '@ndla/safelink';
 import { useQueryClient } from '@tanstack/react-query';
@@ -28,10 +28,8 @@ import {
   useUpdateNodeConnectionMutation,
 } from '../../../modules/nodes/nodeMutations';
 import { getContentTypeFromResourceTypes } from '../../../util/resourceHelpers';
-import config from '../../../config';
 import { getIdFromUrn } from '../../../util/taxonomyHelpers';
 import VersionHistoryLightbox from '../../../components/VersionHistoryLightbox';
-import { PUBLISHED } from '../../../constants';
 import RelevanceOption from '../../../components/Taxonomy/RelevanceOption';
 import ResourceItemLink from './ResourceItemLink';
 import GrepCodesModal from './GrepCodesModal';
@@ -43,7 +41,7 @@ import {
 } from '../../../modules/nodes/nodeQueries';
 import { ResourceWithNodeConnectionAndMeta } from './StructureResources';
 import { useDraft, useResponsibleUserData } from '../../../modules/draft/draftQueries';
-import { getCountApproachingRevision, RevisionDateIcon } from './ApproachingRevisionDate';
+import StatusIcons from './StatusIcons';
 
 const Wrapper = styled.div`
   display: flex;
@@ -56,18 +54,6 @@ const StyledCard = styled.div`
   width: 100%;
   padding: 5px;
   display: flex;
-`;
-
-const StyledCheckIcon = styled(Check)`
-  height: 24px;
-  width: 24px;
-  fill: ${colors.support.green};
-`;
-
-const StyledWarnIcon = styled(AlertCircle)`
-  height: 24px;
-  width: 24px;
-  fill: ${colors.support.red};
 `;
 
 const StyledResourceIcon = styled.div`
@@ -94,10 +80,6 @@ const StyledText = styled.div`
   margin-bottom: ${spacing.xxsmall};
   box-shadow: none;
   align-items: center;
-`;
-
-const StyledLink = styled(SafeLink)`
-  box-shadow: inset 0 0;
 `;
 
 const ButtonRow = styled.div`
@@ -127,7 +109,7 @@ const StyledDndIcon = styled(DragVertical)`
 `;
 
 const GrepButton = styled(ButtonV2)`
-  flex: 1;
+  flex: 2;
 `;
 const RemoveButton = styled(ButtonV2)`
   flex: 0;
@@ -135,7 +117,7 @@ const RemoveButton = styled(ButtonV2)`
 
 const StatusButton = styled(ButtonV2)<{ isPublished: boolean }>`
   border: none;
-  flex: 1;
+  flex: 2;
   background-color: ${props =>
     props.isPublished ? colors.subjectMaterial.light : colors.learningPath.light};
   &:hover {
@@ -144,9 +126,6 @@ const StatusButton = styled(ButtonV2)<{ isPublished: boolean }>`
   }
 `;
 
-const CheckedWrapper = styled.div`
-  display: flex;
-`;
 const StyledResponsibleBadge = styled.div`
   height: ${spacing.normal};
   border-radius: 4px;
@@ -162,12 +141,6 @@ const BoldFont = styled.span`
   font-weight: ${fonts.weight.semibold};
 `;
 
-const getArticleTypeFromId = (id?: string) => {
-  if (id?.startsWith('urn:topic:')) return 'topic-article';
-  else if (id?.startsWith('urn:resource:')) return 'standard';
-  return undefined;
-};
-
 interface Props {
   currentNodeId: string;
   connectionId?: string; // required for MakeDndList, otherwise ignored
@@ -176,9 +149,16 @@ interface Props {
   onDelete?: (connectionId: string) => void;
   updateResource?: (resource: ResourceWithNodeConnection) => void;
   dragHandleProps?: DraggableProvidedDragHandleProps;
+  contentMetaLoading: boolean;
 }
 
-const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props) => {
+const Resource = ({
+  resource,
+  onDelete,
+  dragHandleProps,
+  currentNodeId,
+  contentMetaLoading,
+}: Props) => {
   const { t, i18n } = useTranslation();
   const location = useLocation();
   const [showVersionHistory, setShowVersionHistory] = useState(false);
@@ -217,11 +197,6 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
   const id = getIdFromUrn(resource?.contentMeta?.contentUri);
   const { data: article } = useDraft({ id: id! }, { enabled: !!id });
   const { data: userData } = useResponsibleUserData(article);
-
-  const isApproachingRevision = useMemo(() => {
-    if (!article) return false;
-    return !!getCountApproachingRevision([article]);
-  }, [article]);
 
   const responsible = useMemo(() => {
     return userData?.[0]?.name;
@@ -285,7 +260,7 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
   return (
     <Wrapper>
       <StyledDndIconWrapper
-        isVisible={resource.contentMeta?.articleType !== 'topic-article'}
+        isVisible={!contentMetaLoading && resource.contentMeta?.articleType !== 'topic-article'}
         {...dragHandleProps}>
         <StyledDndIcon />
       </StyledDndIconWrapper>
@@ -311,20 +286,12 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
                 size="small"
               />
             </StyledResourceBody>
-            {isApproachingRevision ? (
-              <RevisionDateIcon text="!" phrasesKey="form.responsible.revisionDateSingle" />
-            ) : null}
-            <WrongTypeError resource={resource} articleType={resource.contentMeta?.articleType} />
-            {(resource.contentMeta?.status?.current === PUBLISHED ||
-              resource.contentMeta?.status?.other?.includes(PUBLISHED)) && (
-              <PublishedWrapper path={path}>
-                <Tooltip tooltip={t('form.workflow.published')}>
-                  <CheckedWrapper>
-                    <StyledCheckIcon />
-                  </CheckedWrapper>
-                </Tooltip>
-              </PublishedWrapper>
-            )}
+            <StatusIcons
+              article={article}
+              contentMetaLoading={contentMetaLoading}
+              resource={resource}
+              path={path}
+            />
             <RelevanceOption relevanceId={resource.relevanceId} onChange={updateRelevanceId} />
             {showVersionHistory && (
               <VersionHistoryLightbox
@@ -371,54 +338,6 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
         </ContentWrapper>
       </StyledCard>
     </Wrapper>
-  );
-};
-
-const PublishedWrapper = ({ path, children }: { path?: string; children: ReactElement }) => {
-  const { taxonomyVersion } = useTaxonomyVersion();
-  if (!path) {
-    return children;
-  }
-  return (
-    <StyledLink
-      target="_blank"
-      to={`${config.ndlaFrontendDomain}${path}?versionHash=${taxonomyVersion}`}>
-      {children}
-    </StyledLink>
-  );
-};
-
-const WrongTypeError = ({
-  resource,
-  articleType,
-}: {
-  resource: ResourceWithNodeConnection;
-  articleType?: string;
-}) => {
-  const { t } = useTranslation();
-  const isArticle = resource.contentUri?.startsWith('urn:article');
-  if (!isArticle) return null;
-
-  const expectedArticleType = getArticleTypeFromId(resource.id);
-  if (expectedArticleType === articleType) return null;
-
-  const missingArticleTypeError = t('taxonomy.info.missingArticleType', {
-    id: getIdFromUrn(resource.contentUri),
-  });
-
-  const wrongArticleTypeError = t('taxonomy.info.wrongArticleType', {
-    placedAs: t(`articleType.${expectedArticleType}`),
-    isType: t(`articleType.${articleType}`),
-  });
-
-  const errorText = articleType ? wrongArticleTypeError : missingArticleTypeError;
-
-  return (
-    <Tooltip tooltip={errorText}>
-      <div>
-        <StyledWarnIcon title={undefined} />
-      </div>
-    </Tooltip>
   );
 };
 

@@ -6,7 +6,7 @@
  *
  */
 
-import { spacing, fonts } from '@ndla/core';
+import { spacing, fonts, mq, breakpoints } from '@ndla/core';
 import { ButtonV2 } from '@ndla/button';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
@@ -19,12 +19,18 @@ const StyledResourceButton = styled(ButtonV2)`
   min-height: unset;
   margin: 3px ${spacing.xsmall} 3px auto;
   ${fonts.sizes(14, 1.1)};
+
+  ${mq.range({ from: breakpoints.desktop })} {
+    display: none;
+  }
 `;
 
 const StyledFolderWrapper = styled.div`
   display: flex;
-  width: 100%;
+  flex-grow: 1;
+  justify-content: space-between;
   align-items: center;
+  gap: ${spacing.small};
 `;
 
 interface Props {

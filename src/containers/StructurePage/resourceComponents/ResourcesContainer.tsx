@@ -14,6 +14,7 @@ import Tooltip from '@ndla/tooltip';
 import compact from 'lodash/compact';
 import { Spinner } from '@ndla/icons';
 import { IconButtonV2 } from '@ndla/button';
+import { breakpoints, mq } from '@ndla/core';
 import { ResourceWithNodeConnectionAndMeta } from './StructureResources';
 import { ResourceType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import ResourceItems from './ResourceItems';
@@ -27,8 +28,10 @@ import { getIdFromUrn, groupResourcesByType } from '../../../util/taxonomyHelper
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 
 const ResourceWrapper = styled.div`
-  max-height: 80vh;
   overflow-y: auto;
+  ${mq.range({ from: breakpoints.desktop })} {
+    max-height: 80vh;
+  }
 `;
 
 interface Props {

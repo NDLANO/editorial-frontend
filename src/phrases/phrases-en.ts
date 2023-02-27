@@ -1312,7 +1312,8 @@ const phrases = {
     errorMessage: 'An error occurred',
     addTopic: 'Add topic',
     currentVersion: 'Current version',
-    deleteNode: 'Delete',
+    deleteNode: 'Delete node',
+    deleteResource: 'Delete resource',
     confirmDelete: 'Are you sure you want to delete this node?',
     version: 'Version',
     changeName: {
@@ -1522,6 +1523,7 @@ const phrases = {
     deletePublished: 'This version cannot be deleted because it is published',
     delete: 'Delete version',
     locked: 'This version is locked and cannot be deleted',
+    publishTitle: 'Publish version',
     publishButton: 'Publish',
     publishWarning:
       'Are you sure you want to publish this version? The currently published version will be archived, and all new changes within this version will be immediately available on ndla.no',
@@ -1718,6 +1720,15 @@ const phrases = {
     so: 'Somali',
     ti: 'Tigrinya',
     zh: 'Chinese',
+  },
+  unsavedChanges: 'Unsaved changes',
+  messages: {
+    severity: {
+      info: 'Information',
+      warning: 'Warning',
+      success: 'Everything is OK!',
+      danger: 'Watch out!',
+    },
   },
 };
 

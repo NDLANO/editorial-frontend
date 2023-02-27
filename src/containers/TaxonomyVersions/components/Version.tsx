@@ -180,6 +180,8 @@ const Version = ({ version }: Props) => {
             </Tooltip>
           </ContentBlock>
           <AlertModal
+            title={t('taxonomyVersions.delete')}
+            label={t('taxonomyVersions.delete')}
             show={showAlertModal}
             text={t(
               `taxonomyVersions.deleteWarning${

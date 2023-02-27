@@ -84,6 +84,8 @@ const AlertModalWrapper = ({ text, severity, isSubmitting, formIsDirty, onContin
 
   return (
     <AlertModal
+      title={t('unsavedChanges')}
+      label={t('unsavedChanges')}
       show={openModal}
       text={text}
       actions={[

@@ -237,6 +237,8 @@ const NodeDiffcontainer = ({ originalHash, otherHash, nodeId }: Props) => {
         </StyledNodeList>
       )}
       <AlertModal
+        title={t('diff.publish')}
+        label={t('diff.publish')}
         show={showAlertModal}
         text={t('diff.publishWarning')}
         actions={[

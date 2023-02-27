@@ -47,6 +47,8 @@ const CopyRevisionDate = ({ node, editModeHandler: { editMode, toggleEditMode } 
         {t('taxonomy.copyRevisionDates.buttonText')}
       </MenuItemButton>
       <AlertModal
+        title={t('taxonomy.copyRevisionDates.buttonText')}
+        label={t('taxonomy.copyRevisionDates.buttonText')}
         show={editMode === 'copyRevisionDate'}
         actions={[
           {

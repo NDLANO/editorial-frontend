@@ -24,13 +24,13 @@ import { hasCellAlignOfType } from '../table/slateHelpers';
 
 const topicArticleElements: { [key: string]: string[] } = {
   mark: ['bold', 'italic', 'code', 'sub', 'sup'],
-  block: ['quote', 'heading-2', 'heading-3', 'heading-4', ...listTypes],
+  block: ['quote', 'heading-2', 'heading-3', 'heading-4', 'definition-list', ...listTypes],
   inline: ['link', 'mathml', 'concept', 'span'],
 };
 
 const learningResourceElements: { [key: string]: string[] } = {
   mark: ['bold', 'italic', 'code', 'sub', 'sup'],
-  block: ['quote', 'heading-2', 'heading-3', 'heading-4', ...listTypes],
+  block: ['quote', 'heading-2', 'heading-3', 'heading-4', 'definition-list', ...listTypes],
   inline: ['link', 'mathml', 'concept', 'span'],
   table: ['left', 'center', 'right'],
 };

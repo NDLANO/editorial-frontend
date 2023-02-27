@@ -61,7 +61,6 @@ const normalizeNodes = (editor: Editor, entry: NodeEntry, config: NormalizerConf
         }
       }
     }
-
     // 2. If last node
     if (index === children.length - 1 && lastNode) {
       // a. Wrap text as default firstNode type

@@ -50,12 +50,12 @@ import { FrontpageArticleFormType } from '../../../FormikForm/articleFormHooks';
 import { dndPlugin } from '../../../../components/SlateEditor/plugins/DND';
 import { SlatePlugin } from '../../../../components/SlateEditor/interfaces';
 import { useSession } from '../../../Session/SessionProvider';
-import withSession from '../../../Session/withSession';
 import RichTextEditor from '../../../../components/SlateEditor/RichTextEditor';
 import { spanPlugin } from '../../../../components/SlateEditor/plugins/span';
 import { conceptListPlugin } from '../../../../components/SlateEditor/plugins/conceptList';
 import { inlineConceptPlugin } from '../../../../components/SlateEditor/plugins/concept/inline';
 import { blockConceptPlugin } from '../../../../components/SlateEditor/plugins/concept/block';
+import { definitionListPlugin } from '../../../../components/SlateEditor/plugins/definitionList';
 
 const StyledFormikField = styled(FormikField)`
   display: flex;
@@ -137,6 +137,7 @@ export const plugins = (
     breakPlugin,
     saveHotkeyPlugin(() => handleSubmitRef.current && handleSubmitRef.current()),
     markPlugin,
+    definitionListPlugin,
     listPlugin,
   ];
 };

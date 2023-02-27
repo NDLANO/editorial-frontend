@@ -44,6 +44,7 @@ import { TYPE_PARAGRAPH } from '../components/SlateEditor/plugins/paragraph/type
 import { TYPE_SECTION } from '../components/SlateEditor/plugins/section/types';
 import { conceptListSerializer } from '../components/SlateEditor/plugins/conceptList';
 import { blockConceptSerializer } from '../components/SlateEditor/plugins/concept/block';
+import { definitionListSerializer } from '../components/SlateEditor/plugins/definitionList';
 
 export const sectionSplitter = (html: string) => {
   const node = document.createElement('div');
@@ -82,6 +83,7 @@ const extendedRules: SlateSerializer[] = [
   blockQuoteSerializer,
   headingSerializer,
   listSerializer,
+  definitionListSerializer,
   footnoteSerializer,
   mathmlSerializer,
   conceptListSerializer,
@@ -109,6 +111,7 @@ const commonRules: SlateSerializer[] = [
   blockQuoteSerializer,
   headingSerializer,
   listSerializer,
+  definitionListSerializer,
   footnoteSerializer,
   mathmlSerializer,
   inlineConceptSerializer,

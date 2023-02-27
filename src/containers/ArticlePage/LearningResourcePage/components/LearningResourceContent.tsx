@@ -64,6 +64,7 @@ import { TYPE_FOOTNOTE } from '../../../../components/SlateEditor/plugins/footno
 import { conceptListPlugin } from '../../../../components/SlateEditor/plugins/conceptList';
 import { inlineConceptPlugin } from '../../../../components/SlateEditor/plugins/concept/inline';
 import { blockConceptPlugin } from '../../../../components/SlateEditor/plugins/concept/block';
+import { definitionListPlugin } from '../../../../components/SlateEditor/plugins/definitionList';
 
 const StyledFormikField = styled(FormikField)`
   display: flex;
@@ -117,6 +118,7 @@ export const plugins = (
   handleSubmitRef: RefObject<() => void>,
 ): SlatePlugin[] => {
   return [
+    definitionListPlugin,
     sectionPlugin,
     spanPlugin,
     divPlugin,

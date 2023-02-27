@@ -196,6 +196,8 @@ const CopyNodeResources = ({
         </StyledDiv>
       )}
       <AlertModal
+        title={t('errorMessage.description')}
+        label={t('errorMessage.description')}
         show={showAlert}
         onCancel={() => setShowAlert(false)}
         text={t(`taxonomy.${type}.error`)}

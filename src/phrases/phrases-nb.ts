@@ -1314,7 +1314,8 @@ const phrases = {
     subjectSettings: 'Faginnstillinger',
     topicSettings: 'Emneinnstillinger',
     currentVersion: 'Nåværende versjon',
-    deleteNode: 'Slett',
+    deleteNode: 'Slett node',
+    deleteResource: 'Slett ressurs',
     confirmDelete: 'Er du sikker på at du vil slette denne noden?',
     version: 'Versjon',
     changeName: {
@@ -1540,6 +1541,7 @@ const phrases = {
     newVersionTitle: 'Opprett ny versjon',
     newVersionButton: 'Ny versjon',
     editVersionTitle: 'Rediger versjon',
+    publishTitle: 'Publiser versjon',
     publishButton: 'Publiser',
     publishWarning:
       'Er du sikker på at du ønsker å publisere denne versjonen? Den nåværende versjonen vil bli arkivert, og alle nye endringer i denne versjonen vil umiddelbart være tilgjengelige på ndla.no',
@@ -1723,6 +1725,15 @@ const phrases = {
     so: 'Somali',
     ti: 'Tigrinja',
     zh: 'Kinesisk',
+  },
+  unsavedChanges: 'Ulagrede endringer',
+  messages: {
+    severity: {
+      info: 'Informasjon',
+      warning: 'Advarsel',
+      success: 'Alt OK!',
+      danger: 'Pass på!',
+    },
   },
 };
 

@@ -144,6 +144,8 @@ const ResourceItems = ({ resources, currentNodeId, contentMeta, contentMetaLoadi
         </StyledErrorMessage>
       )}
       <AlertModal
+        title={t('taxonomy.deleteResource')}
+        label={t('taxonomy.deleteResource')}
         show={!!deleteId}
         text={t('taxonomy.resource.confirmDelete')}
         actions={[

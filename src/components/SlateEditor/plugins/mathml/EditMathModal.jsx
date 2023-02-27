@@ -93,6 +93,8 @@ const EditMathModal = ({
               }}
             />
             <AlertModal
+              title={t('unsavedChanges')}
+              label={t('unsavedChanges')}
               show={openDiscardModal}
               text={t('mathEditor.continue')}
               actions={[

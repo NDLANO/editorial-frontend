@@ -245,10 +245,11 @@ const AddResourceModal = ({
         {content && <ArticlePreview article={content} />}
         {error && (
           <AlertModal
+            title={t('errorMessage.description')}
+            label={t('errorMessage.description')}
             show={!!error}
             text={error}
             onCancel={() => setError('')}
-            severity={'danger'}
           />
         )}
       </StyledContent>

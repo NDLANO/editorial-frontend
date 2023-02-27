@@ -7,7 +7,7 @@
  */
 
 import { Calendar } from '@ndla/icons/editor';
-import { Select, SingleValue } from '@ndla/select';
+import { Select, SingleValue, Option } from '@ndla/select';
 import { IConceptSearchResult, IConceptSummary } from '@ndla/types-concept-api';
 import uniqBy from 'lodash/uniqBy';
 import { useEffect, useMemo, useState } from 'react';
@@ -35,6 +35,7 @@ interface Props {
   error: string | undefined;
   setFilterSubject: (fs: SingleValue) => void;
   ndlaId?: string;
+  favoriteSubjects: Option[];
 }
 
 interface Concept {
@@ -67,6 +68,7 @@ const ConceptListTabContent = ({
   error,
   setFilterSubject,
   ndlaId,
+  favoriteSubjects,
 }: Props) => {
   const { t } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
@@ -126,7 +128,7 @@ const ConceptListTabContent = ({
         <ControlWrapperDashboard>
           <DropdownWrapper>
             <Select<false>
-              options={subjectList}
+              options={subjectList.concat(favoriteSubjects)}
               placeholder={t('welcomePage.chooseSubject')}
               value={filterSubject}
               onChange={setFilterSubject}

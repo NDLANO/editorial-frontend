@@ -6,26 +6,22 @@
  *
  */
 
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Option, Select, SingleValue } from '@ndla/select';
-import uniqBy from 'lodash/uniqBy';
 import { useSearch } from '../../../../modules/search/searchQueries';
-import { fetchSubject } from '../../../../modules/taxonomy';
 import { useSession } from '../../../Session/SessionProvider';
-import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
-import { fetchUserData } from '../../../../modules/draft/draftApi';
 import { DropdownWrapper } from '../../styles';
 
 interface Props {
   filterSubject: SingleValue | undefined;
   setFilterSubject: (fs: SingleValue) => void;
+  favoriteSubjects: Option[];
 }
 
-const SubjectDropdown = ({ filterSubject, setFilterSubject }: Props) => {
+const SubjectDropdown = ({ filterSubject, setFilterSubject, favoriteSubjects }: Props) => {
   const { t } = useTranslation();
   const { ndlaId } = useSession();
-  const { taxonomyVersion } = useTaxonomyVersion();
 
   const { data, isInitialLoading } = useSearch({
     'responsible-ids': ndlaId,
@@ -40,45 +36,10 @@ const SubjectDropdown = ({ filterSubject, setFilterSubject }: Props) => {
     } else return [];
   }, [data?.results]);
 
-  const [subjectList, setSubjectList] = useState<Option[]>([]);
-  const [favoriteSubjectIds, setFavoriteSubjectIds] = useState<string[]>([]);
-
-  const fetchFavoriteSubjects = async () => {
-    const result = await fetchUserData();
-    const favoriteSubjects = result.favoriteSubjects || [];
-    setFavoriteSubjectIds(favoriteSubjects);
-  };
-  useEffect(() => {
-    fetchFavoriteSubjects();
-  }, []);
-
-  useEffect(() => {
-    if (data) {
-      const updateSubjectList = async () => {
-        const subjects = await Promise.all(
-          favoriteSubjectIds.map(id => fetchSubject({ id, taxonomyVersion })) ?? [],
-        );
-
-        const subjectsResult = uniqBy(
-          subjects
-            .map(s => ({
-              value: s.id,
-              label: s.name,
-            }))
-            .concat(subjectContexts),
-          s => s.value,
-        );
-        setSubjectList(subjectsResult);
-      };
-      updateSubjectList();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data]);
-
   return (
     <DropdownWrapper>
       <Select<false>
-        options={subjectList}
+        options={subjectContexts.concat(favoriteSubjects)}
         placeholder={t('welcomePage.chooseSubject')}
         value={filterSubject}
         onChange={setFilterSubject}

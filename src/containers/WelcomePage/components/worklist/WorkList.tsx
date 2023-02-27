@@ -7,19 +7,25 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { useState } from 'react';
-import { SingleValue } from '@ndla/select';
+import { useEffect, useState } from 'react';
+import { SingleValue, Option } from '@ndla/select';
 import { TabsV2 } from '@ndla/tabs';
+import { IUserData } from '@ndla/types-draft-api';
 import { useSearch } from '../../../../modules/search/searchQueries';
 import WorkListTabContent from './WorkListTabContent';
 import { useSearchConcepts } from '../../../../modules/concept/conceptQueries';
 import ConceptListTabContent from './ConceptListTabContent';
+import { fetchSubject } from '../../../../modules/taxonomy';
+import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
 
 interface Props {
   ndlaId: string;
+  userData?: IUserData;
 }
 
-const WorkList = ({ ndlaId }: Props) => {
+const WorkList = ({ ndlaId, userData }: Props) => {
+  const [favoriteSubjects, setFavoriteSubjects] = useState<Option[]>([]);
+
   const [sortOption, setSortOption] = useState<string>('-responsibleLastUpdated');
   const [filterSubject, setFilterSubject] = useState<SingleValue | undefined>(undefined);
   const [error, setError] = useState<string | undefined>(undefined);
@@ -31,6 +37,7 @@ const WorkList = ({ ndlaId }: Props) => {
   const [errorConceptList, setErrorConceptList] = useState<string | undefined>(undefined);
 
   const { t } = useTranslation();
+  const { taxonomyVersion } = useTaxonomyVersion();
   const { data, isInitialLoading } = useSearch(
     {
       'responsible-ids': ndlaId,
@@ -57,6 +64,16 @@ const WorkList = ({ ndlaId }: Props) => {
     },
   );
 
+  useEffect(() => {
+    (async () => {
+      const favoriteSubjects =
+        (await Promise.all(
+          userData?.favoriteSubjects?.map(id => fetchSubject({ id, taxonomyVersion })) ?? [],
+        )) ?? [];
+      setFavoriteSubjects(favoriteSubjects.map(fs => ({ value: fs.id, label: fs.name })));
+    })();
+  }, [taxonomyVersion, userData?.favoriteSubjects]);
+
   return (
     <TabsV2
       ariaLabel={t('welcomePage.workList.ariaLabel')}
@@ -73,6 +90,7 @@ const WorkList = ({ ndlaId }: Props) => {
               error={error}
               sortOption={sortOption}
               ndlaId={ndlaId}
+              favoriteSubjects={favoriteSubjects}
             />
           ),
         },
@@ -88,6 +106,7 @@ const WorkList = ({ ndlaId }: Props) => {
               filterSubject={filterConceptSubject}
               setFilterSubject={setFilterConceptSubject}
               ndlaId={ndlaId}
+              favoriteSubjects={favoriteSubjects}
             />
           ),
         },

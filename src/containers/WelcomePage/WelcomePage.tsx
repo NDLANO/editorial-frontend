@@ -50,7 +50,7 @@ export const WelcomePage = () => {
         <MainArea>
           <WelcomeHeader />
         </MainArea>
-        <MainArea>{ndlaId && <WorkList ndlaId={ndlaId} />}</MainArea>
+        <MainArea>{ndlaId && <WorkList ndlaId={ndlaId} userData={data} />}</MainArea>
         <LeftColumn colStart={2}>{ndlaId && <LastUsedItems lastUsed={lastUsed} />}</LeftColumn>
         <RightColumn colEnd={12}>
           <StyledColumnHeader>

@@ -27,8 +27,8 @@ const GoToSearch = ({ ndlaId, filterSubject, searchEnv }: Props) => {
 
   const onSearch = () => {
     const query = queryString.stringify({
-      ...(filterSubject && { subjects: filterSubject.value }),
-      ...(ndlaId && { 'responsible-ids': ndlaId }),
+      subjects: filterSubject?.value,
+      'responsible-ids': ndlaId,
     });
 
     return `/search/${searchEnv}?${query}`;

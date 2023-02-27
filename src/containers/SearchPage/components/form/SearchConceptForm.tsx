@@ -14,7 +14,6 @@ import { getTagName } from '../../../../util/formHelper';
 import { SearchParams } from './SearchForm';
 import {
   CONCEPT_WRITE_SCOPE,
-  DRAFT_WRITE_SCOPE,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
 } from '../../../../constants';
 import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
@@ -42,7 +41,7 @@ const SearchConceptForm = ({ search: doSearch, searchObject: search, subjects }:
   );
 
   const { data: responsibles } = useAuth0Responsibles(
-    { permission: DRAFT_WRITE_SCOPE },
+    { permission: CONCEPT_WRITE_SCOPE },
     {
       select: users =>
         sortBy(

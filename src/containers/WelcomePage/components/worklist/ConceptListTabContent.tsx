@@ -83,26 +83,24 @@ const ConceptListTabContent = ({
 
   const tableData: FieldElement[][] = useMemo(
     () =>
-      conceptData.length
-        ? conceptData.map(res => [
-            {
-              id: `title_${res.id}`,
-              data: <StyledLink to={toEditConcept(res.id)}>{res.title}</StyledLink>,
-            },
-            {
-              id: `status_${res.id}`,
-              data: res.status ? t(`form.status.${res.status.toLowerCase()}`) : '',
-            },
-            {
-              id: `concept_subject_${res.id}`,
-              data: res.subjects.map(s => s.label).join(' - '),
-            },
-            {
-              id: `date_${res.id}`,
-              data: res.lastUpdated,
-            },
-          ])
-        : [[]],
+      conceptData.map(res => [
+        {
+          id: `title_${res.id}`,
+          data: <StyledLink to={toEditConcept(res.id)}>{res.title}</StyledLink>,
+        },
+        {
+          id: `status_${res.id}`,
+          data: res.status ? t(`form.status.${res.status.toLowerCase()}`) : '',
+        },
+        {
+          id: `concept_subject_${res.id}`,
+          data: res.subjects.map(s => s.label).join(' - '),
+        },
+        {
+          id: `date_${res.id}`,
+          data: res.lastUpdated,
+        },
+      ]),
     [conceptData, t],
   );
 

@@ -15,7 +15,6 @@ import { ButtonV2 } from '@ndla/button';
 import { colors, spacing, breakpoints, fonts } from '@ndla/core';
 import { DragVertical } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
-import SafeLink from '@ndla/safelink';
 import { useQueryClient } from '@tanstack/react-query';
 import { DraggableProvidedDragHandleProps } from 'react-beautiful-dnd';
 import isEqual from 'lodash/isEqual';
@@ -29,7 +28,6 @@ import {
 } from '../../../modules/nodes/nodeMutations';
 import { getContentTypeFromResourceTypes } from '../../../util/resourceHelpers';
 import { getIdFromUrn } from '../../../util/taxonomyHelpers';
-import VersionHistoryLightbox from '../../../components/VersionHistoryLightbox';
 import RelevanceOption from '../../../components/Taxonomy/RelevanceOption';
 import ResourceItemLink from './ResourceItemLink';
 import GrepCodesModal from './GrepCodesModal';
@@ -42,6 +40,7 @@ import {
 import { ResourceWithNodeConnectionAndMeta } from './StructureResources';
 import { useDraft, useResponsibleUserData } from '../../../modules/draft/draftQueries';
 import StatusIcons from './StatusIcons';
+import VersionHistory from './VersionHistory';
 
 const Wrapper = styled.div`
   display: flex;
@@ -115,17 +114,6 @@ const RemoveButton = styled(ButtonV2)`
   flex: 0;
 `;
 
-const StatusButton = styled(ButtonV2)<{ isPublished: boolean }>`
-  border: none;
-  flex: 2;
-  background-color: ${props =>
-    props.isPublished ? colors.subjectMaterial.light : colors.learningPath.light};
-  &:hover {
-    background-color: ${props =>
-      props.isPublished ? colors.subjectMaterial.dark : colors.learningPath.dark};
-  }
-`;
-
 const StyledResponsibleBadge = styled.div`
   height: ${spacing.normal};
   border-radius: 4px;
@@ -161,7 +149,6 @@ const Resource = ({
 }: Props) => {
   const { t, i18n } = useTranslation();
   const location = useLocation();
-  const [showVersionHistory, setShowVersionHistory] = useState(false);
   const [showGrepCodes, setShowGrepCodes] = useState(false);
 
   const qc = useQueryClient();
@@ -293,16 +280,6 @@ const Resource = ({
               path={path}
             />
             <RelevanceOption relevanceId={resource.relevanceId} onChange={updateRelevanceId} />
-            {showVersionHistory && (
-              <VersionHistoryLightbox
-                onClose={() => setShowVersionHistory(false)}
-                contentUri={resource.contentUri}
-                contentType={contentType}
-                name={resource.name}
-                isVisible={resource.metadata?.visible}
-                locale={i18n.language}
-              />
-            )}
             {showGrepCodes && resource.contentUri && (
               <GrepCodesModal onClose={onGrepModalClosed} contentUri={resource.contentUri} />
             )}
@@ -317,16 +294,7 @@ const Resource = ({
                 {`GREP (${resource.contentMeta?.grepCodes?.length || 0})`}
               </GrepButton>
             )}
-            {resource.contentMeta?.status?.current && (
-              <StatusButton
-                size="xsmall"
-                colorTheme="light"
-                isPublished={resource.contentMeta?.status?.current.toLowerCase() === 'published'}
-                onClick={() => setShowVersionHistory(true)}
-                disabled={contentType === 'learning-path'}>
-                {t(`form.status.${resource.contentMeta.status.current.toLowerCase()}`)}
-              </StatusButton>
-            )}
+            <VersionHistory resource={resource} contentType={contentType} />
             <RemoveButton
               onClick={() => (onDelete ? onDelete(resource.connectionId) : null)}
               size="xsmall"

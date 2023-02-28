@@ -41,7 +41,6 @@ interface Props {
   selectedResource: string;
   selectedResourceUrl?: string;
   selectedResourceType?: string;
-  setH5pFetchFail?: (failed: boolean) => void;
   handleVisualElementChange: (returnType: VisualElementChangeReturnType) => void;
   articleLanguage?: string;
   closeModal: () => void;
@@ -73,7 +72,6 @@ const VisualElementSearch = ({
   selectedResource,
   selectedResourceUrl,
   selectedResourceType,
-  setH5pFetchFail,
   handleVisualElementChange,
   articleLanguage,
   closeModal,
@@ -178,7 +176,6 @@ const VisualElementSearch = ({
           }
           onClose={closeModal}
           locale={articleLanguage ?? locale}
-          setH5pFetchFail={setH5pFetchFail}
         />
       );
     }

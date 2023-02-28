@@ -170,6 +170,8 @@ export type ConfigType = {
   disableCSP: string | undefined;
   usernamePasswordEnabled: boolean;
   disableConverter: boolean;
+  ndkmUser: string;
+  ndkmToken: string;
 };
 
 const config: ConfigType = {
@@ -214,6 +216,8 @@ const config: ConfigType = {
     'USERNAME_PASSWORD_ENABLED',
     usernamePasswordEnabled(),
   ),
+  ndkmUser: getEnvironmentVariabel('NDKM_USER', ''),
+  ndkmToken: getEnvironmentVariabel('NDKM_TOKEN', ''),
 };
 
 export function getUniversalConfig(): ConfigType {

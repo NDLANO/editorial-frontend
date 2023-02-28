@@ -27,7 +27,6 @@ import {
 } from '../../../modules/nodes/nodeMutations';
 import { getContentTypeFromResourceTypes } from '../../../util/resourceHelpers';
 import { getIdFromUrn } from '../../../util/taxonomyHelpers';
-import VersionHistoryLightbox from '../../../components/VersionHistoryLightbox';
 import RelevanceOption from '../../../components/Taxonomy/RelevanceOption';
 import ResourceItemLink from './ResourceItemLink';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
@@ -36,6 +35,7 @@ import { ResourceWithNodeConnectionAndMeta } from './StructureResources';
 import { useDraft, useResponsibleUserData } from '../../../modules/draft/draftQueries';
 import StatusIcons from './StatusIcons';
 import GrepCodesModal from './GrepCodesModal';
+import VersionHistory from './VersionHistory';
 
 const Wrapper = styled.div`
   display: flex;
@@ -106,17 +106,6 @@ const RemoveButton = styled(ButtonV2)`
   flex: 0;
 `;
 
-const StatusButton = styled(ButtonV2)<{ isPublished: boolean }>`
-  border: none;
-  flex: 2;
-  background-color: ${props =>
-    props.isPublished ? colors.subjectMaterial.light : colors.learningPath.light};
-  &:hover {
-    background-color: ${props =>
-      props.isPublished ? colors.subjectMaterial.dark : colors.learningPath.dark};
-  }
-`;
-
 const StyledResponsibleBadge = styled.div`
   height: ${spacing.normal};
   border-radius: 4px;
@@ -152,7 +141,6 @@ const Resource = ({
 }: Props) => {
   const { t, i18n } = useTranslation();
   const location = useLocation();
-  const [showVersionHistory, setShowVersionHistory] = useState(false);
 
   const qc = useQueryClient();
   const { taxonomyVersion } = useTaxonomyVersion();
@@ -261,16 +249,6 @@ const Resource = ({
               path={path}
             />
             <RelevanceOption relevanceId={resource.relevanceId} onChange={updateRelevanceId} />
-            {showVersionHistory && (
-              <VersionHistoryLightbox
-                onClose={() => setShowVersionHistory(false)}
-                contentUri={resource.contentUri}
-                contentType={contentType}
-                name={resource.name}
-                isVisible={resource.metadata?.visible}
-                locale={i18n.language}
-              />
-            )}
           </StyledText>
           <ButtonRow>
             <StyledResponsibleBadge>
@@ -284,16 +262,7 @@ const Resource = ({
               revision={resource.contentMeta?.revision}
               currentNodeId={currentNodeId}
             />
-            {resource.contentMeta?.status?.current && (
-              <StatusButton
-                size="xsmall"
-                colorTheme="light"
-                isPublished={resource.contentMeta?.status?.current.toLowerCase() === 'published'}
-                onClick={() => setShowVersionHistory(true)}
-                disabled={contentType === 'learning-path'}>
-                {t(`form.status.${resource.contentMeta.status.current.toLowerCase()}`)}
-              </StatusButton>
-            )}
+            <VersionHistory resource={resource} contentType={contentType} />
             <RemoveButton
               onClick={() => (onDelete ? onDelete(resource.connectionId) : null)}
               size="xsmall"

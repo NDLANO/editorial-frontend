@@ -13,7 +13,7 @@ import SaveMultiButton from '../../../components/SaveMultiButton';
 import GrepCodesField from '../../FormikForm/GrepCodesField';
 
 interface Props {
-  article: IArticle;
+  codes: string[];
   onUpdate: (grepCodes: string[]) => Promise<void>;
 }
 
@@ -21,9 +21,9 @@ interface Values {
   grepCodes: string[];
 }
 
-const GrepCodesForm = ({ article, onUpdate }: Props) => {
+const GrepCodesForm = ({ codes, onUpdate }: Props) => {
   const [saved, setSaved] = useState(false);
-  const initialValues = { grepCodes: article.grepCodes };
+  const initialValues = { grepCodes: codes };
 
   const handleSubmit = async (values: Values, helpers: FormikHelpers<Values>) => {
     await onUpdate(values.grepCodes);

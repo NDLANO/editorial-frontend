@@ -33,7 +33,7 @@ const LastUsedItems = ({ lastUsed = [] }: Props) => {
   const [error, setError] = useState<string | undefined>(undefined);
   const [sortedData, setSortedData] = useState<IArticleSummary[]>([]);
 
-  const { data, isLoading } = useSearchDrafts(
+  const { data, isInitialLoading } = useSearchDrafts(
     {
       ids: lastUsed!,
       language: i18n.language,
@@ -87,7 +87,7 @@ const LastUsedItems = ({ lastUsed = [] }: Props) => {
         Icon={Pencil}
       />
       <TableComponent
-        isLoading={isLoading}
+        isLoading={isInitialLoading}
         tableTitleList={tableTitles}
         tableData={tableData}
         setSortOption={updateSortOption}

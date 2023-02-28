@@ -598,6 +598,7 @@ const phrases = {
     feil: 'There are still errors.',
     copy: 'copy',
     saveAsCopySuccess: 'New article saved',
+    comment: 'Mark as read and hide comment',
     preview: {
       button: 'Preview',
     },

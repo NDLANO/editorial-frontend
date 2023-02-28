@@ -600,6 +600,7 @@ const phrases = {
     copy: 'kopi',
     mustSaveFirst: 'Du må lagre endringene dine først',
     saveAsCopySuccess: 'Ny artikkel lagret',
+    comment: 'Marker som lest og skjul kommentar',
     preview: {
       button: 'Forhåndsvis',
     },

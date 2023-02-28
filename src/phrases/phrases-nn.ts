@@ -599,6 +599,7 @@ const phrases = {
     feil: 'Det er fortsatt flere feil i skjemaet',
     copy: 'kopi',
     saveAsCopySuccess: 'Ny artikkel lagret',
+    comment: 'Marker som lest og skjul kommentar',
     preview: {
       button: 'Forhandsvis',
     },

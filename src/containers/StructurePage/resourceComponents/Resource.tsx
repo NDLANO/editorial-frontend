@@ -17,7 +17,6 @@ import { DragVertical } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
 import { useQueryClient } from '@tanstack/react-query';
 import { DraggableProvidedDragHandleProps } from 'react-beautiful-dnd';
-import isEqual from 'lodash/isEqual';
 import {
   NodeConnectionPutType,
   ResourceWithNodeConnection,
@@ -30,16 +29,12 @@ import { getContentTypeFromResourceTypes } from '../../../util/resourceHelpers';
 import { getIdFromUrn } from '../../../util/taxonomyHelpers';
 import RelevanceOption from '../../../components/Taxonomy/RelevanceOption';
 import ResourceItemLink from './ResourceItemLink';
-import GrepCodesModal from './GrepCodesModal';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
-import {
-  NodeResourceMeta,
-  nodeResourceMetasQueryKey,
-  resourcesWithNodeConnectionQueryKey,
-} from '../../../modules/nodes/nodeQueries';
+import { resourcesWithNodeConnectionQueryKey } from '../../../modules/nodes/nodeQueries';
 import { ResourceWithNodeConnectionAndMeta } from './StructureResources';
 import { useDraft, useResponsibleUserData } from '../../../modules/draft/draftQueries';
 import StatusIcons from './StatusIcons';
+import GrepCodesModal from './GrepCodesModal';
 import VersionHistory from './VersionHistory';
 
 const Wrapper = styled.div`
@@ -107,9 +102,6 @@ const StyledDndIcon = styled(DragVertical)`
   color: ${colors.brand.greyMedium};
 `;
 
-const GrepButton = styled(ButtonV2)`
-  flex: 2;
-`;
 const RemoveButton = styled(ButtonV2)`
   flex: 0;
 `;
@@ -149,7 +141,6 @@ const Resource = ({
 }: Props) => {
   const { t, i18n } = useTranslation();
   const location = useLocation();
-  const [showGrepCodes, setShowGrepCodes] = useState(false);
 
   const qc = useQueryClient();
   const { taxonomyVersion } = useTaxonomyVersion();
@@ -210,28 +201,6 @@ const Resource = ({
     return pathWithoutResource === currentPath;
   });
 
-  const onGrepModalClosed = async (newGrepCodes?: string[]) => {
-    setShowGrepCodes(false);
-    if (!newGrepCodes || isEqual(newGrepCodes, resource.contentMeta?.grepCodes)) return;
-    const compKey = nodeResourceMetasQueryKey({ nodeId: currentNodeId, language: i18n.language });
-    qc.setQueriesData<NodeResourceMeta[]>(
-      {
-        queryKey: compKey,
-      },
-      data => {
-        return (
-          data?.map(meta =>
-            meta.contentUri === resource.contentMeta?.contentUri
-              ? { ...meta, grepCodes: newGrepCodes }
-              : meta,
-          ) ?? []
-        );
-      },
-    );
-    qc.cancelQueries(compKey);
-    await qc.invalidateQueries(compKey);
-  };
-
   const updateRelevanceId = async (relevanceId: string) => {
     const { connectionId, primary, rank } = resource;
     const func = connectionId.includes('-resource')
@@ -280,20 +249,19 @@ const Resource = ({
               path={path}
             />
             <RelevanceOption relevanceId={resource.relevanceId} onChange={updateRelevanceId} />
-            {showGrepCodes && resource.contentUri && (
-              <GrepCodesModal onClose={onGrepModalClosed} contentUri={resource.contentUri} />
-            )}
           </StyledText>
           <ButtonRow>
             <StyledResponsibleBadge>
               <BoldFont>{`${t('form.responsible.label')}: `}</BoldFont>
               {responsible ?? t('form.responsible.noResponible')}
             </StyledResponsibleBadge>
-            {contentType !== 'learning-path' && (
-              <GrepButton size="xsmall" colorTheme="lighter" onClick={() => setShowGrepCodes(true)}>
-                {`GREP (${resource.contentMeta?.grepCodes?.length || 0})`}
-              </GrepButton>
-            )}
+            <GrepCodesModal
+              codes={resource.contentMeta?.grepCodes ?? []}
+              contentType={contentType}
+              contentUri={resource.contentUri}
+              revision={resource.contentMeta?.revision}
+              currentNodeId={currentNodeId}
+            />
             <VersionHistory resource={resource} contentType={contentType} />
             <RemoveButton
               onClick={() => (onDelete ? onDelete(resource.connectionId) : null)}

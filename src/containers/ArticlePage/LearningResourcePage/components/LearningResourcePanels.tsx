@@ -143,6 +143,7 @@ const LearningResourcePanels = ({
         </Accordions>
       </MainContent>
       <CommentWrapper>
+        <Comment showInput />
         {['Kommentar 1', 'Kommentar 2', 'Kommentar 3'].map(comment => (
           <Comment key={comment} comment={comment} />
         ))}

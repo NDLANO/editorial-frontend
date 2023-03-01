@@ -11,6 +11,9 @@ import { Done } from '@ndla/icons/editor';
 import { IconButtonV2 } from '@ndla/button';
 import { useTranslation } from 'react-i18next';
 import Tooltip from '@ndla/tooltip';
+import { InputV2 } from '@ndla/forms';
+
+const StyledInputField = styled(InputV2)``;
 
 const CommentCard = styled.li`
   width: 200px;
@@ -42,31 +45,39 @@ const TitleWrapper = styled.div`
 `;
 
 interface Props {
-  comment: string;
+  comment?: string;
+  showInput?: boolean;
 }
 
-const Comment = ({ comment }: Props) => {
+const Comment = ({ comment, showInput = false }: Props) => {
   const { t } = useTranslation();
 
   return (
     <CommentCard>
       <TitleWrapper>
         <StyledTitle>Fornavn Etternavn</StyledTitle>
-        <Tooltip tooltip={t('form.comment')}>
-          <IconButtonV2
-            variant="ghost"
-            size="xsmall"
-            aria-label={t('form.comment')}
-            onMouseDown={() => console.log('clicked')}>
-            <Done />
-          </IconButtonV2>
-        </Tooltip>
+        {comment && (
+          <Tooltip tooltip={t('form.comment')}>
+            <IconButtonV2
+              variant="ghost"
+              size="xsmall"
+              aria-label={t('form.comment')}
+              onMouseDown={() => console.log('clicked')}>
+              <Done />
+            </IconButtonV2>
+          </Tooltip>
+        )}
       </TitleWrapper>
-      <StyledDateTime>
-        <span>09:48</span>
-        <span>17. januar 2023</span>
-      </StyledDateTime>
-      <StyledComment>{comment}</StyledComment>
+      {showInput && <StyledInputField label={''} name={''} />}
+      {comment && (
+        <>
+          <StyledDateTime>
+            <span>09:48</span>
+            <span>17. januar 2023</span>
+          </StyledDateTime>
+          <StyledComment>{comment}</StyledComment>
+        </>
+      )}
     </CommentCard>
   );
 };

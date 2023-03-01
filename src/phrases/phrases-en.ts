@@ -125,6 +125,9 @@ const phrases = {
     chooseTopic: 'Choose topics',
     errorMessage: 'Failed to retrieve data',
     goToSearch: 'Go to search',
+    revision: 'Revisjon',
+    revisionDescription: 'Articles in favorite subjects approaching its revision date',
+    emptyRevision: 'No existing favorite subjects approaching its revision date ...',
     workList: {
       title: 'My tasks',
       description: 'Articles where I am responsible',

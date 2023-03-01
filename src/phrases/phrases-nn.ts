@@ -126,6 +126,9 @@ const phrases = {
     chooseTopic: 'Velg emner',
     errorMessage: 'Innhenting av data feila',
     goToSearch: 'Gå til søk',
+    revision: 'Revisjon',
+    revisionDescription: 'Artiklar i favorittfag som nærmar seg revisjonsdato',
+    emptyRevision: 'Ingen favorittfag som nærmar seg revisjonsdato ...',
     workList: {
       title: 'Mine arbeidsoppgåver',
       description: 'Artiklar der eg står i ansvarleg-feltet',

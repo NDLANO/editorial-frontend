@@ -2076,6 +2076,17 @@
     react-device-detect "^2.2.3"
     react-tabs "^3.2.3"
 
+"@ndla/tabs@^2.1.8":
+  version "2.1.8"
+  resolved "https://registry.yarnpkg.com/@ndla/tabs/-/tabs-2.1.8.tgz#ad363c469e890859162fb979f3484bee72936915"
+  integrity sha512-v9CtgcGu5FnfRAMiZjY5Z945RcS2PnMJDJP35Kza/FaoSaZFe0dgNSmCC/gRXZsmurh0iTXZYr4sdbC+yJg/zg==
+  dependencies:
+    "@ndla/icons" "^2.2.3"
+    "@ndla/util" "^3.1.10"
+    "@radix-ui/react-tabs" "^1.0.2"
+    react-device-detect "^2.2.3"
+    react-tabs "^3.2.3"
+
 "@ndla/tooltip@^4.0.10":
   version "4.0.10"
   resolved "https://registry.yarnpkg.com/@ndla/tooltip/-/tooltip-4.0.10.tgz#0867ad8db051bcbdd44f788737b16df56d6fd3bc"
@@ -2106,10 +2117,10 @@
   resolved "https://registry.yarnpkg.com/@ndla/types-audio-api/-/types-audio-api-0.0.12.tgz#cb2acb5cf873eb14cd60c505b75b788d0f743858"
   integrity sha512-g+suRp9YV6kzPD7obQ1b4O1HO/DogfcLtXegT3KVTeFs5S6lZjK7JXWALqGZ0wnZHSNV6Via9LPHaoh4jKTijw==
 
-"@ndla/types-concept-api@^0.0.10":
-  version "0.0.10"
-  resolved "https://registry.yarnpkg.com/@ndla/types-concept-api/-/types-concept-api-0.0.10.tgz#43bd9dcfede1c1680e52bdc0f1ffa31246fbca9c"
-  integrity sha512-btJNLpUuSaQXH1RYAhF4867Ka8dYLFo1gAbwcXQj3uQdo6BWJfPKMHoRHGXJ9Qww+MuZArlLgWc+YEh2Hd0aJg==
+"@ndla/types-concept-api@^0.0.14":
+  version "0.0.14"
+  resolved "https://registry.yarnpkg.com/@ndla/types-concept-api/-/types-concept-api-0.0.14.tgz#3a1e3583fcbf66ec77d248d86ce095fd5f35e816"
+  integrity sha512-7wqi99OTOnjntQqDEmCLJI8jH1NtcKuFDsPTfSFM8w8cVa1SOAPD6b4FQMcwXwGCsX/MEXqD/gQYeVyIErrvXQ==
 
 "@ndla/types-draft-api@^0.0.30":
   version "0.0.30"

@@ -26,7 +26,7 @@ import { ConceptStatusStateMachineType, DraftStatusStateMachineType } from '../.
 import ResponsibleSelect from '../../containers/FormikForm/components/ResponsibleSelect';
 import StatusSelect from '../../containers/FormikForm/components/StatusSelect';
 import { requiredFieldsT } from '../../util/yupHelpers';
-import { ARCHIVED, PUBLISHED, UNPUBLISHED } from '../../constants';
+import { ARCHIVED, PUBLISHED } from '../../constants';
 import PreviewDraftLightboxV2 from '../PreviewDraft/PreviewDraftLightboxV2';
 import { useDisableConverter } from '../ArticleConverterContext';
 
@@ -73,8 +73,6 @@ const StyledFooter = styled.div`
   margin-left: auto;
 `;
 
-const STATUSES_RESPONSIBLE_NOT_REQUIRED = [PUBLISHED, ARCHIVED, UNPUBLISHED];
-
 function EditorFooter<T extends FormValues>({
   formIsDirty,
   savedToServer,
@@ -102,6 +100,8 @@ function EditorFooter<T extends FormValues>({
   // Wait for newStatus to be set to trigger since formik doesn't update fields instantly
   const [newStatus, setNewStatus] = useState<SingleValue>(null);
 
+  const articleOrConcept = isArticle || isConcept;
+
   useEffect(() => {
     if (newStatus && newStatus.value === PUBLISHED) {
       onSave();
@@ -114,8 +114,9 @@ function EditorFooter<T extends FormValues>({
   const onSave = (saveAsNewVersion?: boolean) => {
     if (
       !responsible &&
-      STATUSES_RESPONSIBLE_NOT_REQUIRED.every(s => s !== newStatus?.value) &&
-      isArticle
+      newStatus?.value !== PUBLISHED &&
+      newStatus?.value !== ARCHIVED &&
+      articleOrConcept
     ) {
       createMessage({
         message: requiredFieldsT('form.responsible.label', t),
@@ -197,7 +198,7 @@ function EditorFooter<T extends FormValues>({
     return (
       <Footer>
         <StyledFooter>
-          {isArticle && (
+          {articleOrConcept && (
             <Wrapper>
               <ResponsibleSelect
                 responsible={responsible}
@@ -249,7 +250,7 @@ function EditorFooter<T extends FormValues>({
         </div>
 
         <div data-cy="footerStatus">
-          {isArticle && (
+          {articleOrConcept && (
             <Wrapper>
               <ResponsibleSelect
                 responsible={responsible}

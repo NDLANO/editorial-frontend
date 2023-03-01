@@ -1742,6 +1742,7 @@ const phrases = {
       danger: 'Pass på!',
     },
   },
+  delete: 'Slett',
 };
 
 export default phrases;

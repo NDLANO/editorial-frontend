@@ -26,7 +26,7 @@ import { ConceptStatusStateMachineType, DraftStatusStateMachineType } from '../.
 import ResponsibleSelect from '../../containers/FormikForm/components/ResponsibleSelect';
 import StatusSelect from '../../containers/FormikForm/components/StatusSelect';
 import { requiredFieldsT } from '../../util/yupHelpers';
-import { ARCHIVED, PUBLISHED } from '../../constants';
+import { ARCHIVED, PUBLISHED, UNPUBLISHED } from '../../constants';
 import PreviewDraftLightboxV2 from '../PreviewDraft/PreviewDraftLightboxV2';
 import { useDisableConverter } from '../ArticleConverterContext';
 
@@ -73,6 +73,8 @@ const StyledFooter = styled.div`
   margin-left: auto;
 `;
 
+const STATUSES_RESPONSIBLE_NOT_REQUIRED = [PUBLISHED, ARCHIVED, UNPUBLISHED];
+
 function EditorFooter<T extends FormValues>({
   formIsDirty,
   savedToServer,
@@ -112,8 +114,7 @@ function EditorFooter<T extends FormValues>({
   const onSave = (saveAsNewVersion?: boolean) => {
     if (
       !responsible &&
-      newStatus?.value !== PUBLISHED &&
-      newStatus?.value !== ARCHIVED &&
+      STATUSES_RESPONSIBLE_NOT_REQUIRED.every(s => s !== newStatus?.value) &&
       isArticle
     ) {
       createMessage({

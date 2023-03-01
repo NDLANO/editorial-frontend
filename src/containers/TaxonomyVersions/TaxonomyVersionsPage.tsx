@@ -21,6 +21,9 @@ import Version from './components/Version';
 import VersionForm from './components/VersionForm';
 import VersionList from './components/VersionList';
 import { useVersions } from '../../modules/taxonomy/versions/versionQueries';
+import DeletePublishRequests from './components/DeletePublishRequests';
+import { useNodes } from '../../modules/nodes/nodeQueries';
+import { TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH } from '../../constants';
 
 const NewFormWrapper = styled.div`
   padding: ${spacing.normal};
@@ -30,6 +33,16 @@ const NewFormWrapper = styled.div`
 
 const FormSpacingWrapper = styled.div`
   padding-top: ${spacing.normal};
+`;
+
+const ButtonContainer = styled.div`
+  justify-content: flex-start;
+  display: flex;
+  padding-top: ${spacing.normal};
+  flex: 1;
+  height: 100%;
+  flex-direction: column;
+  gap: ${spacing.small};
 `;
 
 const getPublishedAndOther = (
@@ -46,6 +59,12 @@ const TaxonomyVersionsPage = () => {
   const [showNewForm, setShowNewForm] = useState(false);
   const { data } = useVersions();
 
+  const { data: publishRequests } = useNodes({
+    key: TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH,
+    value: 'true',
+    taxonomyVersion: 'default',
+  });
+
   const { published, other } = getPublishedAndOther(data ?? []);
 
   const { t } = useTranslation();
@@ -56,9 +75,12 @@ const TaxonomyVersionsPage = () => {
         <h1>{t('taxonomyVersions.title')}</h1>
         <Row alignItems="center">
           <p>{t('taxonomyVersions.about')}</p>
-          <ButtonV2 onClick={() => setShowNewForm(prev => !prev)}>
-            {t('taxonomyVersions.newVersionButton')}
-          </ButtonV2>
+          <ButtonContainer>
+            <ButtonV2 size="small" onClick={() => setShowNewForm(prev => !prev)}>
+              {t('taxonomyVersions.newVersionButton')}
+            </ButtonV2>
+            {publishRequests?.length ? <DeletePublishRequests nodes={publishRequests} /> : null}
+          </ButtonContainer>
         </Row>
         {showNewForm && (
           <FormSpacingWrapper>

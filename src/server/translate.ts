@@ -12,7 +12,9 @@ import FormData from 'form-data';
 import { ApiTranslateType } from '../interfaces';
 import config from '../config';
 
-const baseUrl = 'https://ndla.norskrobot.no:4443';
+const baseUrl = config.ndkmUser
+  ? 'https://ndla.norskrobot.no:4443'
+  : 'https://ndla.norskrobot.no:3443';
 const textUrl = `${baseUrl}/translateText`;
 const htmlUrl = `${baseUrl}/translateNHtml`;
 
@@ -30,10 +32,12 @@ interface ResponseType {
 }
 
 const stilmal = 'Intern nynorsk 4';
-const headers = {
-  'x-user': config.ndkmUser,
-  'x-api-key': config.ndkmToken,
-};
+const headers = config.ndkmUser
+  ? {
+      'x-user': config.ndkmUser,
+      'x-api-key': config.ndkmToken,
+    }
+  : undefined;
 
 const doFetch = (name: string, element: ApiTranslateType): Promise<ResponseType> => {
   if (element.type === 'text') {

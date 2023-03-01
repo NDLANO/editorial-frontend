@@ -186,6 +186,7 @@ const VisualElementUrlPreview = ({
               }
             : {
                 type: 'iframe',
+                title,
               };
           onUrlSave({
             value: {
@@ -210,6 +211,7 @@ const VisualElementUrlPreview = ({
               }
             : {
                 width: '708px',
+                title,
                 height: whiteListedUrl.height || '486px',
                 type: 'iframe',
               };
@@ -275,7 +277,7 @@ const VisualElementUrlPreview = ({
       }
     }
 
-    if (urlChanged || typeChanged) {
+    if (urlChanged || typeChanged || titleChanged) {
       return true;
     }
 
@@ -340,6 +342,15 @@ const VisualElementUrlPreview = ({
           </FieldRemoveButton>
         </RemoveButtonWrapper>
       </FieldSection>
+      <FieldHeader title={t('form.name.title')} />
+      <FieldSection>
+        <Input
+          value={title}
+          type="text"
+          placeholder={t('form.name.title')}
+          onChange={e => setTitle(e.currentTarget.value)}
+        />
+      </FieldSection>
       {!showFullscreen && (
         <StyledButtonWrapper>
           <ButtonV2
@@ -397,13 +408,6 @@ const VisualElementUrlPreview = ({
             )}
           </ImageInputWrapper>
           <ContentInputWrapper>
-            <h3>{t('form.name.title')}</h3>
-            <Input
-              value={title}
-              type="text"
-              placeholder={t('form.name.title')}
-              onChange={e => setTitle(e.currentTarget.value)}
-            />
             <h3>{t('form.name.description')}</h3>
             <TextArea
               value={description}

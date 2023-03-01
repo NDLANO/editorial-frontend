@@ -28,3 +28,12 @@ export const StyledLink = styled(SafeLink)`
     color: ${colors.brand.primary};
   }
 `;
+
+export const DropdownWrapper = styled.div`
+  width: 200px;
+`;
+
+export const ControlWrapperDashboard = styled.div`
+  display: flex;
+  gap: ${spacing.small};
+`;

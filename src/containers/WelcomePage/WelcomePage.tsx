@@ -23,6 +23,7 @@ import WorkList from './components/WorkList';
 import WelcomeHeader from './components/WelcomeHeader';
 import { GridContainer, MainArea, LeftColumn, RightColumn } from '../../components/Layout/Layout';
 import { useSession } from '../Session/SessionProvider';
+import Revision from './components/Revision';
 
 export const Wrapper = styled.div`
   display: flex;
@@ -51,8 +52,9 @@ export const WelcomePage = () => {
           <WelcomeHeader />
         </MainArea>
         <MainArea>{ndlaId && <WorkList ndlaId={ndlaId} />}</MainArea>
-        <LeftColumn colStart={2}>{ndlaId && <LastUsedItems lastUsed={lastUsed} />}</LeftColumn>
+        <LeftColumn colStart={2}>{ndlaId && <Revision />}</LeftColumn>
         <RightColumn colEnd={12}>
+          {ndlaId && <LastUsedItems lastUsed={lastUsed} />}{' '}
           <StyledColumnHeader>
             <SearchFolder className="c-icon--medium" />
             <span>{t('welcomePage.savedSearch')}</span>

@@ -35,7 +35,6 @@ const StyledFolderWrapper = styled.div`
 
 interface Props {
   node: NodeType;
-  structure: NodeType[];
   jumpToResources?: () => void;
   isMainActive?: boolean;
   resourcesLoading?: boolean;
@@ -50,7 +49,6 @@ const FolderItem = ({
   isMainActive,
   resourcesLoading,
   rootNodeId,
-  structure,
   onCurrentNodeChanged,
   nodeChildren,
 }: Props) => {
@@ -63,7 +61,6 @@ const FolderItem = ({
         <SettingsMenu
           node={node}
           rootNodeId={rootNodeId}
-          structure={structure}
           onCurrentNodeChanged={onCurrentNodeChanged}
           nodeChildren={nodeChildren}
         />

@@ -62,7 +62,6 @@ interface Props {
   onDragEnd: (result: DropResult, childNodes: ChildNodeType[]) => Promise<void>;
   connectionId: string;
   parentActive: boolean;
-  allRootNodes: NodeType[];
   isRoot?: boolean;
   isFavorite: boolean;
   toggleFavorite?: () => void;
@@ -81,7 +80,6 @@ const NodeItem = ({
   resourceSectionRef,
   onDragEnd,
   parentActive,
-  allRootNodes,
   isRoot,
   isFavorite,
   toggleFavorite,
@@ -142,7 +140,6 @@ const NodeItem = ({
             rootNodeId={rootNodeId}
             key={item.id}
             isMainActive={isOpen}
-            structure={allRootNodes}
             onCurrentNodeChanged={node => onNodeSelected(node)}
             jumpToResources={() => resourceSectionRef?.current?.scrollIntoView()}
             nodeChildren={nodes ?? []}
@@ -166,7 +163,6 @@ const NodeItem = ({
                   isFavorite={false}
                   renderBeforeTitle={renderBeforeTitle}
                   key={`${path}/${t.id}`}
-                  allRootNodes={allRootNodes}
                   parentActive={isActive}
                   connectionId={t.connectionId}
                   id={t.id}

@@ -131,7 +131,6 @@ const StructureContainer = () => {
                   {nodes!.map(node => (
                     <RootNode
                       renderBeforeTitle={StructureErrorIcon}
-                      allRootNodes={nodesQuery.data ?? []}
                       openedPaths={getPathsFromUrl(location.pathname)}
                       resourceSectionRef={resourceSection}
                       onNodeSelected={setCurrentNode}

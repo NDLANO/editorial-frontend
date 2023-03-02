@@ -22,7 +22,6 @@ const Container = styled.div`
   left: 0;
   width: 100%;
   z-index: 1;
-  background-color: white;
 `;
 
 const ItemsWrapper = styled.div`

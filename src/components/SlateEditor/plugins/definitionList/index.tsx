@@ -116,13 +116,6 @@ export const definitionListPlugin = (editor: Editor) => {
   editor.onKeyDown = (e: KeyboardEvent) => {
     if (e.key === KEY_ENTER) {
       onEnter(editor, e, nextOnKeyDown);
-    } else if (e.key === KEY_TAB) {
-      //Jump to next;
-      // DT -> DD
-      // DD -> DT
-      // Ignore for now
-
-      return;
     } else if (e.key === KEY_BACKSPACE) {
       onBackspace(e, editor, nextOnKeyDown);
     } else if (nextOnKeyDown) {

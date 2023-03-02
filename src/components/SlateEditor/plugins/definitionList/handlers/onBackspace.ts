@@ -1,9 +1,7 @@
 import { Editor, Element, Transforms, Node, Path, Text } from 'slate';
 import hasNodeOfType from '../../../utils/hasNodeOfType';
 import { TYPE_DEFINTION_DESCRIPTION, TYPE_DEFINTION_LIST, TYPE_DEFINTION_TERM } from '../types';
-
-const nodeContainsText = (node: Node) =>
-  Element.isElement(node) && node?.children?.length === 1 && Node.string(node.children[0]) !== '';
+import { nodeContainsText, removeDefinitionPair } from '../utils';
 
 const onBackspace = (
   e: KeyboardEvent,
@@ -18,25 +16,29 @@ const onBackspace = (
   }
 
   const [, selectedPath] = editor.selection && Editor.node(editor, editor.selection.focus);
-  const [definitionItem, definitionItemPath] = Editor.parent(editor, selectedPath);
-  if (Element.isElement(definitionItem) && definitionItem.type === TYPE_DEFINTION_TERM) {
-    const [definitionDescription, definitionDescriptionPath] = Editor.node(
+  const [selectedDefinitionItem, selectedDefinitionItemPath] = Editor.parent(editor, selectedPath);
+  if (
+    Element.isElement(selectedDefinitionItem) &&
+    selectedDefinitionItem.type === TYPE_DEFINTION_TERM
+  ) {
+    const [selectedTerm, selectedTermPath] = [selectedDefinitionItem, selectedDefinitionItemPath];
+
+    const [selectedDescription, selectedDescriptionPath] = Editor.node(
       editor,
-      Path.next(definitionItemPath),
+      Path.next(selectedTermPath),
     );
 
-    if (!nodeContainsText(definitionItem)) {
+    if (!nodeContainsText(selectedTerm)) {
       // Remove text in description pair in order to remove pair
-      if (nodeContainsText(definitionDescription)) {
-        Transforms.delete(editor, { at: definitionDescriptionPath });
+      if (nodeContainsText(selectedDescription)) {
+        Transforms.delete(editor, { at: selectedDescriptionPath });
       }
 
-      const previous = Editor.previous(editor, { at: definitionItemPath });
+      const previous = Editor.previous(editor, { at: selectedTermPath });
 
       Editor.withoutNormalizing(editor, () => {
-        Transforms.removeNodes(editor, { at: definitionDescriptionPath });
-        Transforms.removeNodes(editor, { at: definitionItemPath });
-        const [parentNode, parentNodePath] = Editor.parent(editor, definitionItemPath);
+        removeDefinitionPair(editor, selectedDescriptionPath, selectedTermPath);
+        const [parentNode, parentNodePath] = Editor.parent(editor, selectedTermPath);
 
         if (
           Element.isElement(parentNode) &&
@@ -56,22 +58,26 @@ const onBackspace = (
       return nextOnKeyDown && nextOnKeyDown(e);
     }
   } else if (
-    Element.isElement(definitionItem) &&
-    definitionItem.type === TYPE_DEFINTION_DESCRIPTION
+    Element.isElement(selectedDefinitionItem) &&
+    selectedDefinitionItem.type === TYPE_DEFINTION_DESCRIPTION
   ) {
-    const previous = Editor.previous(editor, {
-      at: definitionItemPath,
+    const [selectedDescription, selectedDescriptionPath] = [
+      selectedDefinitionItem,
+      selectedDefinitionItemPath,
+    ];
+    const maybeSelectedTerm = Editor.previous(editor, {
+      at: selectedDescriptionPath,
     });
 
-    if (!nodeContainsText(definitionItem) && previous) {
-      const [, definitionTermPath] = previous;
+    if (!nodeContainsText(selectedDescription) && maybeSelectedTerm) {
+      const [, selectedTermPath] = maybeSelectedTerm;
 
-      Transforms.select(editor, definitionTermPath);
+      Transforms.select(editor, selectedTermPath);
       e.preventDefault();
 
       return;
     } else if (
-      Node.string(Node.child(definitionItem, 0)) !== '' &&
+      Node.string(Node.child(selectedDescription, 0)) !== '' &&
       editor.selection.anchor.offset === 0
     ) {
       e.preventDefault();

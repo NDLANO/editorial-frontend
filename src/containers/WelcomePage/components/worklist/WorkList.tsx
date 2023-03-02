@@ -41,7 +41,7 @@ const WorkList = ({ ndlaId, userData }: Props) => {
   const { data, isInitialLoading } = useSearch(
     {
       'responsible-ids': ndlaId,
-      sort: sortOption ? sortOption : '-responsibleLastUpdated',
+      sort: sortOption,
       ...(filterSubject ? { subjects: filterSubject.value } : {}),
     },
     {

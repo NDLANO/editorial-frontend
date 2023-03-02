@@ -52,8 +52,10 @@ export const WelcomePage = () => {
           <WelcomeHeader />
         </MainArea>
         <MainArea>{ndlaId && <WorkList ndlaId={ndlaId} userData={data} />}</MainArea>
-        <LeftColumn colStart={2}>{ndlaId && <Revision />}</LeftColumn>
-        <RightColumn colEnd={12}>
+        <LeftColumn colStart={2} colEnd={8}>
+          {ndlaId && <Revision userData={data} />}
+        </LeftColumn>
+        <RightColumn colStart={8} colEnd={12}>
           {ndlaId && <LastUsedItems lastUsed={lastUsed} />}
           <StyledColumnHeader>
             <SearchFolder className="c-icon--medium" />

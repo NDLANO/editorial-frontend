@@ -1979,6 +1979,13 @@
   dependencies:
     "@ndla/core" "^3.1.2"
 
+"@ndla/icons@^2.2.4":
+  version "2.2.4"
+  resolved "https://registry.yarnpkg.com/@ndla/icons/-/icons-2.2.4.tgz#182a8655b6231ce982242efa7583f2318302ae73"
+  integrity sha512-FDc4q0+RrBc5F226IUhwsx2/762jk7orJharpGjOYIx66NVrktJ3YYGYQ3L0jgUWoc37H1PAr3ABf7mPJ2mIww==
+  dependencies:
+    "@ndla/core" "^3.1.2"
+
 "@ndla/image-search@^5.1.48":
   version "5.1.48"
   resolved "https://registry.yarnpkg.com/@ndla/image-search/-/image-search-5.1.48.tgz#0f96c6bd8c0762ce73ea62a914e22dada90a5918"
@@ -2064,17 +2071,6 @@
   dependencies:
     "@ndla/core" "^3.1.2"
     "@radix-ui/react-switch" "^1.0.1"
-
-"@ndla/tabs@^2.1.8":
-  version "2.1.8"
-  resolved "https://registry.yarnpkg.com/@ndla/tabs/-/tabs-2.1.8.tgz#ad363c469e890859162fb979f3484bee72936915"
-  integrity sha512-v9CtgcGu5FnfRAMiZjY5Z945RcS2PnMJDJP35Kza/FaoSaZFe0dgNSmCC/gRXZsmurh0iTXZYr4sdbC+yJg/zg==
-  dependencies:
-    "@ndla/icons" "^2.2.3"
-    "@ndla/util" "^3.1.10"
-    "@radix-ui/react-tabs" "^1.0.2"
-    react-device-detect "^2.2.3"
-    react-tabs "^3.2.3"
 
 "@ndla/tabs@^2.1.8":
   version "2.1.8"

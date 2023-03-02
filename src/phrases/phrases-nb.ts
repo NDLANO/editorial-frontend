@@ -117,6 +117,7 @@ const phrases = {
     noArticles: 'Ingen artikler ...',
     emptyLastUsed: 'Ingen sist redigerte ...',
     emptyConcepts: 'Ingen forklaringer ...',
+    emptyRevision: 'Ingen favorittfag som nærmer seg revisjonsdato ...',
     emptySavedSearch: 'Ingen lagrede søk',
     guidelines: 'Retningslinjer',
     mustBeSearch: 'Lenken må være til et søk',
@@ -130,7 +131,7 @@ const phrases = {
     goToSearch: 'Gå til søk',
     revision: 'Revisjon',
     revisionDescription: 'Artikler i favorittfag som nærmer seg revisjonsdato',
-    emptyRevision: 'Ingen favorittfag som nærmer seg revisjonsdato ...',
+    revisionDate: 'Revisjonsdato',
     workList: {
       title: 'Mine arbeidsoppgaver',
       description: 'Artikler hvor du står i ansvarlig-feltet',

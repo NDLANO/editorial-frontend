@@ -126,6 +126,7 @@ const phrases = {
     savedSearch: 'Lagra søk',
     saveSearch: 'Lagre søk',
     chooseSubject: 'Velg fag',
+    chooseFavoriteSubject: 'Velg favorittfag',
     chooseTopic: 'Velg emner',
     errorMessage: 'Innhenting av data feila',
     goToSearch: 'Gå til søk',

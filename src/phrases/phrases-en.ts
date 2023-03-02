@@ -125,6 +125,7 @@ const phrases = {
     savedSearch: 'Saved searches',
     saveSearch: 'Save search',
     chooseSubject: 'Choose subjects',
+    chooseFavoriteSubject: 'Choose favorite subjects',
     chooseTopic: 'Choose topics',
     errorMessage: 'Failed to retrieve data',
     goToSearch: 'Go to search',

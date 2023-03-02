@@ -7,7 +7,7 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { useMemo, useState } from 'react';
+import { memo, useMemo, useState } from 'react';
 import { IUserData } from '@ndla/types-draft-api';
 import { Alarm } from '@ndla/icons/common';
 import addYears from 'date-fns/addYears';
@@ -102,7 +102,7 @@ const Revision = ({ userData, favoriteSubjects, ndlaId }: Props) => {
           <DropdownWrapper>
             <Select<false>
               options={favoriteSubjects}
-              placeholder={t('welcomePage.chooseSubject')}
+              placeholder={t('welcomePage.chooseFavoriteSubject')}
               value={filterSubject}
               onChange={setFilterSubject}
               menuPlacement="bottom"
@@ -131,4 +131,4 @@ const Revision = ({ userData, favoriteSubjects, ndlaId }: Props) => {
   );
 };
 
-export default Revision;
+export default memo(Revision);

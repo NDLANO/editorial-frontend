@@ -10,13 +10,13 @@ import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pencil } from '@ndla/icons/action';
 import orderBy from 'lodash/orderBy';
+import { Option } from '@ndla/select';
 import { StyledDashboardInfo, StyledLink } from '../styles';
 import TableComponent, { FieldElement, TitleElement } from './TableComponent';
 import TableTitle from './TableTitle';
 import formatDate from '../../../util/formatDate';
 import { toEditArticle } from '../../../util/routeHelpers';
 import { useSearchDrafts } from '../../../modules/draft/draftQueries';
-
 interface Props {
   lastUsed?: number[];
 }

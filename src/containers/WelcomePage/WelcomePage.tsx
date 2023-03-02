@@ -9,7 +9,8 @@
 import { useTranslation } from 'react-i18next';
 import { HelmetWithTracker } from '@ndla/tracker';
 import styled from '@emotion/styled';
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { Option } from '@ndla/select';
 import { NAVIGATION_HEADER_MARGIN } from '../../constants';
 import { getAccessToken, getAccessTokenPersonal } from '../../util/authHelpers';
 import { isValid } from '../../util/jwtHelper';
@@ -21,6 +22,8 @@ import WelcomeHeader from './components/WelcomeHeader';
 import { GridContainer, MainArea, LeftColumn, RightColumn } from '../../components/Layout/Layout';
 import { useSession } from '../Session/SessionProvider';
 import Revision from './components/Revision';
+import { useTaxonomyVersion } from '../StructureVersion/TaxonomyVersionProvider';
+import { fetchSubject } from '../../modules/taxonomy';
 
 export const Wrapper = styled.div`
   display: flex;
@@ -30,7 +33,11 @@ export const Wrapper = styled.div`
 `;
 
 export const WelcomePage = () => {
+  const [favoriteSubjects, setFavoriteSubjects] = useState<Option[]>([]);
+
   const { t } = useTranslation();
+  const { taxonomyVersion } = useTaxonomyVersion();
+
   const { data } = useUserData({
     enabled: isValid(getAccessToken()) && getAccessTokenPersonal(),
   });
@@ -41,6 +48,16 @@ export const WelcomePage = () => {
 
   localStorage.setItem('lastPath', '');
 
+  useEffect(() => {
+    (async () => {
+      const favoriteSubjects =
+        (await Promise.all(
+          data?.favoriteSubjects?.map(id => fetchSubject({ id, taxonomyVersion })) ?? [],
+        )) ?? [];
+      setFavoriteSubjects(favoriteSubjects.map(fs => ({ value: fs.id, label: fs.name })));
+    })();
+  }, [taxonomyVersion, data?.favoriteSubjects]);
+
   return (
     <Wrapper>
       <GridContainer>
@@ -48,9 +65,13 @@ export const WelcomePage = () => {
         <MainArea>
           <WelcomeHeader />
         </MainArea>
-        <MainArea>{ndlaId && <WorkList ndlaId={ndlaId} userData={data} />}</MainArea>
+        <MainArea>
+          {ndlaId && <WorkList ndlaId={ndlaId} favoriteSubjects={favoriteSubjects} />}
+        </MainArea>
         <LeftColumn colStart={2} colEnd={8}>
-          {ndlaId && <Revision userData={data} />}
+          {ndlaId && (
+            <Revision ndlaId={ndlaId} userData={data} favoriteSubjects={favoriteSubjects} />
+          )}
         </LeftColumn>
         <RightColumn colStart={8} colEnd={12}>
           {ndlaId && <LastUsedItems lastUsed={lastUsed} />}

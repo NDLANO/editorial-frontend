@@ -11,19 +11,30 @@ import { useMemo, useState } from 'react';
 import { IUserData } from '@ndla/types-draft-api';
 import { Alarm } from '@ndla/icons/common';
 import addYears from 'date-fns/addYears';
-import { StyledDashboardInfo, StyledLink } from '../styles';
+import { Select, Option, SingleValue } from '@ndla/select';
+import {
+  ControlWrapperDashboard,
+  DropdownWrapper,
+  StyledDashboardInfo,
+  StyledLink,
+  StyledTopRowDashboardInfo,
+} from '../styles';
 import TableComponent, { FieldElement, TitleElement } from './TableComponent';
 import TableTitle from './TableTitle';
 import formatDate, { formatDateForBackend } from '../../../util/formatDate';
 import { toEditArticle } from '../../../util/routeHelpers';
 import { useSearch } from '../../../modules/search/searchQueries';
 import { getExpirationDate } from '../../ArticlePage/articleTransformers';
+import GoToSearch from './GoToSearch';
 
 interface Props {
   userData: IUserData | undefined;
+  favoriteSubjects: Option[];
+  ndlaId?: string;
 }
 
-const Revision = ({ userData }: Props) => {
+const Revision = ({ userData, favoriteSubjects, ndlaId }: Props) => {
+  const [filterSubject, setFilterSubject] = useState<SingleValue | undefined>(undefined);
   const [sortOption, setSortOption] = useState<string>('-revisionDate');
   const [error, setError] = useState<string | undefined>(undefined);
 
@@ -43,6 +54,7 @@ const Revision = ({ userData }: Props) => {
       subjects: userData?.favoriteSubjects!.join(','),
       'revision-date-to': currentDateAddYear,
       sort: sortOption,
+      ...(filterSubject ? { subjects: filterSubject.value } : {}),
     },
     {
       enabled: !!userData?.favoriteSubjects,
@@ -80,11 +92,32 @@ const Revision = ({ userData }: Props) => {
 
   return (
     <StyledDashboardInfo>
-      <TableTitle
-        title={t('welcomePage.revision')}
-        description={t('welcomePage.revisionDescription')}
-        Icon={Alarm}
-      />
+      <StyledTopRowDashboardInfo>
+        <TableTitle
+          title={t('welcomePage.revision')}
+          description={t('welcomePage.revisionDescription')}
+          Icon={Alarm}
+        />
+        <ControlWrapperDashboard>
+          <DropdownWrapper>
+            <Select<false>
+              options={favoriteSubjects}
+              placeholder={t('welcomePage.chooseSubject')}
+              value={filterSubject}
+              onChange={setFilterSubject}
+              menuPlacement="bottom"
+              small
+              outline
+              postfix={t('subjectsPage.subjects').toLowerCase()}
+              isLoading={isInitialLoading}
+              isSearchable
+              noOptionsMessage={() => t('form.responsible.noResults')}
+              isClearable
+            />
+          </DropdownWrapper>
+          <GoToSearch ndlaId={ndlaId} filterSubject={filterSubject} searchEnv="content" />
+        </ControlWrapperDashboard>
+      </StyledTopRowDashboardInfo>
       <TableComponent
         isLoading={isInitialLoading}
         tableTitleList={tableTitles}

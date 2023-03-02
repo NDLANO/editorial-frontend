@@ -7,25 +7,20 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { SingleValue, Option } from '@ndla/select';
 import { TabsV2 } from '@ndla/tabs';
-import { IUserData } from '@ndla/types-draft-api';
 import { useSearch } from '../../../../modules/search/searchQueries';
 import WorkListTabContent from './WorkListTabContent';
 import { useSearchConcepts } from '../../../../modules/concept/conceptQueries';
 import ConceptListTabContent from './ConceptListTabContent';
-import { fetchSubject } from '../../../../modules/taxonomy';
-import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
 
 interface Props {
   ndlaId: string;
-  userData?: IUserData;
+  favoriteSubjects: Option[];
 }
 
-const WorkList = ({ ndlaId, userData }: Props) => {
-  const [favoriteSubjects, setFavoriteSubjects] = useState<Option[]>([]);
-
+const WorkList = ({ ndlaId, favoriteSubjects }: Props) => {
   const [sortOption, setSortOption] = useState<string>('-responsibleLastUpdated');
   const [filterSubject, setFilterSubject] = useState<SingleValue | undefined>(undefined);
   const [error, setError] = useState<string | undefined>(undefined);
@@ -37,7 +32,6 @@ const WorkList = ({ ndlaId, userData }: Props) => {
   const [errorConceptList, setErrorConceptList] = useState<string | undefined>(undefined);
 
   const { t } = useTranslation();
-  const { taxonomyVersion } = useTaxonomyVersion();
   const { data, isInitialLoading } = useSearch(
     {
       'responsible-ids': ndlaId,
@@ -63,16 +57,6 @@ const WorkList = ({ ndlaId, userData }: Props) => {
       onSuccess: () => setErrorConceptList(undefined),
     },
   );
-
-  useEffect(() => {
-    (async () => {
-      const favoriteSubjects =
-        (await Promise.all(
-          userData?.favoriteSubjects?.map(id => fetchSubject({ id, taxonomyVersion })) ?? [],
-        )) ?? [];
-      setFavoriteSubjects(favoriteSubjects.map(fs => ({ value: fs.id, label: fs.name })));
-    })();
-  }, [taxonomyVersion, userData?.favoriteSubjects]);
 
   return (
     <TabsV2

@@ -8,17 +8,14 @@
 
 import { useTranslation } from 'react-i18next';
 import { HelmetWithTracker } from '@ndla/tracker';
-import { SearchFolder } from '@ndla/icons/editor';
 import styled from '@emotion/styled';
 import { useMemo } from 'react';
 import { NAVIGATION_HEADER_MARGIN } from '../../constants';
 import { getAccessToken, getAccessTokenPersonal } from '../../util/authHelpers';
 import { isValid } from '../../util/jwtHelper';
-import SaveSearchUrl from './components/SaveSearchUrl';
 import Footer from '../App/components/Footer';
 import LastUsedItems from './components/LastUsedItems';
 import { useUserData } from '../../modules/draft/draftQueries';
-import { StyledColumnHeader } from './styles';
 import WorkList from './components/worklist/WorkList';
 import WelcomeHeader from './components/WelcomeHeader';
 import { GridContainer, MainArea, LeftColumn, RightColumn } from '../../components/Layout/Layout';
@@ -57,11 +54,6 @@ export const WelcomePage = () => {
         </LeftColumn>
         <RightColumn colStart={8} colEnd={12}>
           {ndlaId && <LastUsedItems lastUsed={lastUsed} />}
-          <StyledColumnHeader>
-            <SearchFolder className="c-icon--medium" />
-            <span>{t('welcomePage.savedSearch')}</span>
-          </StyledColumnHeader>
-          <SaveSearchUrl />
         </RightColumn>
       </GridContainer>
 

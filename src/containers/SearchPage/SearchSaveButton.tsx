@@ -13,9 +13,13 @@ import { colors, fonts, spacing } from '@ndla/core';
 import { parse, stringify } from 'query-string';
 import { getAccessToken, getAccessTokenPersonal } from '../../util/authHelpers';
 import { isValid } from '../../util/jwtHelper';
-import { getSavedSearchRelativeUrl } from '../WelcomePage/components/SaveSearchUrl';
 import SaveButton from '../../components/SaveButton';
 import { useUpdateUserDataMutation, useUserData } from '../../modules/draft/draftQueries';
+
+const getSavedSearchRelativeUrl = (inputValue: string) => {
+  const relativeUrl = inputValue.split('search')[1];
+  return '/search'.concat(relativeUrl);
+};
 
 type Error = 'alreadyExist' | 'other' | 'fetchFailed' | '';
 

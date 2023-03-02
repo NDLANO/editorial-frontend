@@ -15,7 +15,6 @@ import Tooltip from '@ndla/tooltip';
 import { useTranslation } from 'react-i18next';
 import { Time } from '@ndla/icons/common';
 import { getExpirationDate } from '../../ArticlePage/articleTransformers';
-import { ResourceWithNodeConnectionAndMeta } from './StructureResources';
 
 const Wrapper = styled.div`
   width: 24px;
@@ -60,7 +59,7 @@ export const RevisionDateIcon = ({ text, phrasesKey }: RevisionDateProps) => {
 };
 
 interface Props {
-  resources: ResourceWithNodeConnectionAndMeta[];
+  revisions: (IRevisionMeta[] | undefined)[];
 }
 
 export const isApproachingRevision = (revisions?: IRevisionMeta[]) => {
@@ -71,11 +70,10 @@ export const isApproachingRevision = (revisions?: IRevisionMeta[]) => {
   return isBefore(new Date(expirationDate), currentDateAddYear);
 };
 
-const ApproachingRevisionDate = ({ resources }: Props) => {
+const ApproachingRevisionDate = ({ revisions }: Props) => {
   const approachingRevision = useMemo(
-    () =>
-      resources.map(r => isApproachingRevision(r.contentMeta?.revisions)).filter(a => !!a).length,
-    [resources],
+    () => revisions.map(r => isApproachingRevision(r)).filter(a => !!a).length,
+    [revisions],
   );
 
   return (

@@ -72,6 +72,13 @@ const ResourceBanner = ({
   const elementCount = Object.values(contentMeta).length;
   const publishedCount = useMemo(() => getPublishedCount(contentMeta), [contentMeta]);
   const { t } = useTranslation();
+  const allRevisions = useMemo(() => {
+    const resourceRevisions = resources.map(r => r.contentMeta?.revisions).filter(r => !!r);
+    const currentNodeRevision = currentNode.contentUri
+      ? contentMeta[currentNode.contentUri]?.revisions
+      : undefined;
+    return resourceRevisions.concat([currentNodeRevision]);
+  }, [contentMeta, currentNode.contentUri, resources]);
 
   return (
     <ResourceGroupBanner>
@@ -89,7 +96,7 @@ const ResourceBanner = ({
             <PublishedText>{`${publishedCount}/${elementCount} ${t(
               'form.notes.published',
             ).toLowerCase()}`}</PublishedText>
-            <ApproachingRevisionDate resources={resources} />
+            <ApproachingRevisionDate revisions={allRevisions} />
             {currentNode && currentNode.id && (
               <GroupResourceSwitch
                 node={currentNode}

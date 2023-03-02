@@ -51,7 +51,6 @@ const isChildNode = createGuard<ChildNodeType & { articleType?: string; isPublis
 );
 
 interface Props {
-  id: string;
   item: (ChildNodeType & { articleType?: string; isPublished?: boolean }) | NodeType;
   openedPaths: string[];
   toggleOpen: (nodeId: string) => void;
@@ -60,7 +59,6 @@ interface Props {
   resourceSectionRef: MutableRefObject<HTMLDivElement | null>;
   rootNodeId: string;
   onDragEnd: (result: DropResult, childNodes: ChildNodeType[]) => Promise<void>;
-  connectionId: string;
   parentActive: boolean;
   isRoot?: boolean;
   isFavorite: boolean;

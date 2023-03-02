@@ -14,7 +14,10 @@ export const definitionTerm = slatejsx('element', { type: TYPE_DEFINTION_TERM },
 export const definitionDescription = slatejsx('element', { type: TYPE_DEFINTION_DESCRIPTION }, [
   { text: '' },
 ]);
-export const definitionList = slatejsx('element', { type: TYPE_DEFINTION_LIST });
+export const definitionList = slatejsx('element', { type: TYPE_DEFINTION_LIST }, [
+  definitionTerm,
+  definitionDescription,
+]);
 
 export const toggleDefinitionList = (editor: Editor) => {
   Transforms.wrapNodes(editor, definitionList);

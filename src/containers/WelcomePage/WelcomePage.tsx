@@ -19,7 +19,7 @@ import Footer from '../App/components/Footer';
 import LastUsedItems from './components/LastUsedItems';
 import { useUserData } from '../../modules/draft/draftQueries';
 import { StyledColumnHeader } from './styles';
-import WorkList from './components/WorkList';
+import WorkList from './components/worklist/WorkList';
 import WelcomeHeader from './components/WelcomeHeader';
 import { GridContainer, MainArea, LeftColumn, RightColumn } from '../../components/Layout/Layout';
 import { useSession } from '../Session/SessionProvider';
@@ -50,7 +50,7 @@ export const WelcomePage = () => {
         <MainArea>
           <WelcomeHeader />
         </MainArea>
-        <MainArea>{ndlaId && <WorkList ndlaId={ndlaId} />}</MainArea>
+        <MainArea>{ndlaId && <WorkList ndlaId={ndlaId} userData={data} />}</MainArea>
         <LeftColumn colStart={2}>{ndlaId && <LastUsedItems lastUsed={lastUsed} />}</LeftColumn>
         <RightColumn colEnd={12}>
           <StyledColumnHeader>

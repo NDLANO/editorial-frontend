@@ -84,6 +84,7 @@ const FormView = ({ concept, cancel, subjects, updateLocalConcept }: Props) => {
         rightsholders: fullConcept.copyright?.rightsholders || [],
         processors: fullConcept.copyright?.processors || [],
       },
+      responsibleId: fullConcept?.responsible?.responsibleId,
     };
     const updatedConcept = await updateConcept(fullConcept.id, newConcept);
     if (formConcept.newStatus) {

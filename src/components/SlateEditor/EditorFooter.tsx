@@ -102,6 +102,8 @@ function EditorFooter<T extends FormValues>({
   // Wait for newStatus to be set to trigger since formik doesn't update fields instantly
   const [newStatus, setNewStatus] = useState<SingleValue>(null);
 
+  const articleOrConcept = isArticle || isConcept;
+
   useEffect(() => {
     if (newStatus && newStatus.value === PUBLISHED) {
       onSave();
@@ -115,7 +117,7 @@ function EditorFooter<T extends FormValues>({
     if (
       !responsible &&
       STATUSES_RESPONSIBLE_NOT_REQUIRED.every(s => s !== newStatus?.value) &&
-      isArticle
+      articleOrConcept
     ) {
       createMessage({
         message: requiredFieldsT('form.responsible.label', t),
@@ -197,7 +199,7 @@ function EditorFooter<T extends FormValues>({
     return (
       <Footer>
         <StyledFooter>
-          {isArticle && (
+          {articleOrConcept && (
             <Wrapper>
               <ResponsibleSelect
                 responsible={responsible}
@@ -249,7 +251,7 @@ function EditorFooter<T extends FormValues>({
         </div>
 
         <div data-cy="footerStatus">
-          {isArticle && (
+          {articleOrConcept && (
             <Wrapper>
               <ResponsibleSelect
                 responsible={responsible}

@@ -16,6 +16,7 @@ import { ResourceGroupBanner, StyledShareIcon } from '../styles';
 import ApproachingRevisionDate from './ApproachingRevisionDate';
 import { ChildNodeType } from '../../../modules/nodes/nodeApiTypes';
 import GroupResourceSwitch from './GroupResourcesSwitch';
+import { ResourceWithNodeConnectionAndMeta } from './StructureResources';
 
 const PublishedText = styled.div`
   font-weight: ${fonts.weight.normal};
@@ -56,6 +57,7 @@ interface Props {
   currentNode: ChildNodeType;
   onCurrentNodeChanged: (changedNode: ChildNodeType) => void;
   addButton?: ReactNode;
+  resources: ResourceWithNodeConnectionAndMeta[];
   articleIds?: number[];
 }
 
@@ -65,7 +67,7 @@ const ResourceBanner = ({
   currentNode,
   onCurrentNodeChanged,
   addButton,
-  articleIds,
+  resources,
 }: Props) => {
   const elementCount = Object.values(contentMeta).length;
   const publishedCount = useMemo(() => getPublishedCount(contentMeta), [contentMeta]);
@@ -87,7 +89,7 @@ const ResourceBanner = ({
             <PublishedText>{`${publishedCount}/${elementCount} ${t(
               'form.notes.published',
             ).toLowerCase()}`}</PublishedText>
-            <ApproachingRevisionDate articleIds={articleIds} />
+            <ApproachingRevisionDate resources={resources} />
             {currentNode && currentNode.id && (
               <GroupResourceSwitch
                 node={currentNode}

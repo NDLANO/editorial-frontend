@@ -6,17 +6,16 @@
  *
  */
 
-import React, { useEffect, useState } from 'react';
+import { useMemo } from 'react';
 import styled from '@emotion/styled';
 import addYears from 'date-fns/addYears';
 import isBefore from 'date-fns/isBefore';
-import { IArticle } from '@ndla/types-draft-api';
+import { IRevisionMeta } from '@ndla/types-draft-api';
 import Tooltip from '@ndla/tooltip';
 import { useTranslation } from 'react-i18next';
 import { Time } from '@ndla/icons/common';
-import { fetchDrafts } from '../../../modules/draft/draftApi';
-import handleError from '../../../util/handleError';
 import { getExpirationDate } from '../../ArticlePage/articleTransformers';
+import { ResourceWithNodeConnectionAndMeta } from './StructureResources';
 
 const Wrapper = styled.div`
   width: 24px;
@@ -61,37 +60,27 @@ export const RevisionDateIcon = ({ text, phrasesKey }: RevisionDateProps) => {
 };
 
 interface Props {
-  articleIds?: number[];
+  resources: ResourceWithNodeConnectionAndMeta[];
 }
 
-export const getCountApproachingRevision = (articles: IArticle[]) => {
-  const expirationDates = articles
-    .map(a => getExpirationDate({ revisions: a.revisions }))
-    .filter(r => !!r);
-
+export const isApproachingRevision = (revisions?: IRevisionMeta[]) => {
+  if (!revisions?.length) return false;
+  const expirationDate = getExpirationDate({ revisions: revisions });
+  if (!expirationDate) return false;
   const currentDateAddYear = addYears(new Date(), 1);
-  const countApproachingRevision = expirationDates.filter(a =>
-    isBefore(new Date(a!), currentDateAddYear),
-  ).length;
-  return countApproachingRevision;
+  return isBefore(new Date(expirationDate), currentDateAddYear);
 };
 
-const ApproachingRevisionDate = ({ articleIds = [] }: Props) => {
-  const [count, setCount] = useState<number>(0);
-  useEffect(() => {
-    (async () => {
-      try {
-        const drafts = await fetchDrafts(articleIds);
-        const count = getCountApproachingRevision(drafts ?? []);
+const ApproachingRevisionDate = ({ resources }: Props) => {
+  const approachingRevision = useMemo(
+    () =>
+      resources.map(r => isApproachingRevision(r.contentMeta?.revisions)).filter(a => !!a).length,
+    [resources],
+  );
 
-        setCount(count);
-      } catch (e) {
-        handleError(e);
-      }
-    })();
-  }, [articleIds]);
-
-  return <RevisionDateIcon text={count} phrasesKey={'form.responsible.revisionDate'} />;
+  return (
+    <RevisionDateIcon text={approachingRevision} phrasesKey={'form.responsible.revisionDate'} />
+  );
 };
 
 export default ApproachingRevisionDate;

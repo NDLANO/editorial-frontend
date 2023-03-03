@@ -6,15 +6,14 @@
  *
  */
 
-import { Editor, Element, Path, Transforms, Node, Point } from 'slate';
+import { Editor, Element, Path, Transforms } from 'slate';
 import { TYPE_DEFINTION_TERM, TYPE_DEFINTION_DESCRIPTION } from '../types';
+import { definitionDescription, definitionTerm } from '../utils/defaultBlocks';
 import {
-  definitionTerm,
-  definitionDescription,
   nodeContainsText,
   removeDefinitionPair,
   moveSelectionOutOfDefinitionList,
-} from '../utils';
+} from '../utils/keyboardHelpers';
 
 const onEnter = (
   editor: Editor,
@@ -65,12 +64,11 @@ const onEnter = (
       Path.previous(selectedDescriptionPath),
     );
 
-    //If empty move selection out of list
+    //If empty move selection out of list and remove empty pair
     if (!nodeContainsText(selectedDescription) && !nodeContainsText(selectedTerm)) {
       Editor.withoutNormalizing(editor, () =>
         moveSelectionOutOfDefinitionList(editor, selectedDescriptionPath),
       );
-      // Potential if, if empty description and empty term remove row and move out selection
       Editor.withoutNormalizing(editor, () =>
         removeDefinitionPair(editor, selectedDescriptionPath, selectedTermPath),
       );

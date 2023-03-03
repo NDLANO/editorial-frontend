@@ -13,7 +13,7 @@ import { RenderElementProps } from 'slate-react';
 import { colors, fonts } from '@ndla/core';
 import { SlateSerializer } from '../../interfaces';
 import { defaultBlockNormalizer, NormalizerConfig } from '../../utils/defaultNormalizer';
-import { KEY_BACKSPACE, KEY_ENTER, KEY_TAB } from '../../utils/keys';
+import { KEY_BACKSPACE, KEY_ENTER } from '../../utils/keys';
 import onBackspace from './handlers/onBackspace';
 import onEnter from './handlers/onEnter';
 import { TYPE_DEFINTION_LIST, TYPE_DEFINTION_DESCRIPTION, TYPE_DEFINTION_TERM } from './types';

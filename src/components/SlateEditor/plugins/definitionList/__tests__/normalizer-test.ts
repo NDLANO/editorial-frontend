@@ -11,19 +11,18 @@ import { withHistory } from 'slate-history';
 import { withReact } from 'slate-react';
 import { plugins } from '../../../../../containers/ArticlePage/LearningResourcePage/components/LearningResourceContent';
 import withPlugins from '../../../utils/withPlugins';
-import { definitionList } from '../utils';
+import { definitionList } from '../utils/defaultBlocks';
 
 const editor = withHistory(
   withReact(withPlugins(createEditor(), plugins('nb', 'nb', { current: () => {} }))),
 );
 
 describe('definition normalizing tests', () => {
-  test('normalize normal', () => {
+  test('expect list with 1 definition pair not to change', () => {
     const editorValue: Descendant[] = [definitionList];
-    const normalizedValue = editorValue;
     editor.children = editorValue;
     Editor.normalize(editor, { force: true });
 
-    expect(editor.children).toEqual(normalizedValue);
+    expect(editor.children).toEqual(editorValue);
   });
 });

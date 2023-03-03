@@ -6,10 +6,10 @@
  *
  */
 
-import { Editor, Element, Transforms, Node, Path, Text } from 'slate';
+import { Editor, Element, Transforms, Node, Path } from 'slate';
 import hasNodeOfType from '../../../utils/hasNodeOfType';
 import { TYPE_DEFINTION_DESCRIPTION, TYPE_DEFINTION_LIST, TYPE_DEFINTION_TERM } from '../types';
-import { nodeContainsText, removeDefinitionPair } from '../utils';
+import { nodeContainsText, removeDefinitionPair } from '../utils/keyboardHelpers';
 
 const onBackspace = (
   e: KeyboardEvent,

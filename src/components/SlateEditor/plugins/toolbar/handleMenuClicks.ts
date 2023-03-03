@@ -17,7 +17,7 @@ import { insertMathml } from '../mathml/utils';
 import { insertInlineConcept } from '../concept/inline/utils';
 import { toggleSpan } from '../span/utils';
 import { toggleCellAlign } from '../table/slateActions';
-import { toggleDefinitionList } from '../definitionList/utils';
+import { toggleDefinitionList } from '../definitionList/utils/toggleDefinitionList';
 
 export function handleClickBlock(event: SyntheticEvent, editor: Editor, type: string) {
   event.preventDefault();

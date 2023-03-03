@@ -1,0 +1,45 @@
+/**
+ * Copyright (c) 2023-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import { Editor, Range, Element, Transforms } from 'slate';
+import { firstTextBlockElement } from '../../../utils/normalizationHelpers';
+import { TYPE_DEFINTION_DESCRIPTION, TYPE_DEFINTION_TERM, TYPE_DEFINTION_LIST } from '../types';
+import { isListItemSelected } from './isDefinitionListItem';
+import isOnlySelectionOfDefinitionList from './isOnlySelectionOfDefinitionList';
+
+export const toggleDefinitionList = (editor: Editor) => {
+  if (!Range.isRange(editor.selection)) {
+    return;
+  }
+  const isSelected = isOnlySelectionOfDefinitionList(editor);
+
+  if (isSelected) {
+    return Transforms.liftNodes(editor, {
+      match: node =>
+        Element.isElement(node) &&
+        (node.type === TYPE_DEFINTION_DESCRIPTION || node.type === TYPE_DEFINTION_TERM) &&
+        isListItemSelected(editor, node),
+      mode: 'all',
+    });
+  } else {
+    Editor.withoutNormalizing(editor, () => {
+      if (!Range.isRange(editor.selection)) {
+        return;
+      }
+      Transforms.setNodes(
+        editor,
+        { type: TYPE_DEFINTION_LIST },
+        {
+          match: node => Element.isElement(node) && firstTextBlockElement.includes(node.type),
+          at: Editor.unhangRange(editor, editor.selection),
+          mode: 'lowest',
+        },
+      );
+    });
+  }
+};

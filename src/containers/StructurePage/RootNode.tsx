@@ -86,7 +86,11 @@ const RootNode = ({
     const newRank = currentRank > destinationRank ? destinationRank : destinationRank + 1;
     await updateNodeConnection({
       id: draggableId,
-      body: { rank: newRank },
+      body: {
+        rank: newRank,
+        relevanceId: nodes[source.index].relevanceId,
+        primary: nodes[source.index].primary,
+      },
       taxonomyVersion,
     });
   };

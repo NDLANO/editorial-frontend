@@ -6,8 +6,9 @@
  *
  */
 
-import { Editor, Transforms, Element, Node, Path } from 'slate';
+import { Editor, Transforms, Element, Node, Path, Range } from 'slate';
 import { jsx as slatejsx } from 'slate-hyperscript';
+import { firstTextBlockElement } from '../../utils/normalizationHelpers';
 import { TYPE_DEFINTION_DESCRIPTION, TYPE_DEFINTION_LIST, TYPE_DEFINTION_TERM } from './types';
 
 export const definitionTerm = slatejsx('element', { type: TYPE_DEFINTION_TERM }, [{ text: '' }]);
@@ -20,7 +21,24 @@ export const definitionList = slatejsx('element', { type: TYPE_DEFINTION_LIST },
 ]);
 
 export const toggleDefinitionList = (editor: Editor) => {
-  Transforms.wrapNodes(editor, definitionList);
+  if (!Range.isRange(editor.selection)) {
+    return;
+  }
+
+  Editor.withoutNormalizing(editor, () => {
+    if (!Range.isRange(editor.selection)) {
+      return;
+    }
+    Transforms.setNodes(
+      editor,
+      { type: TYPE_DEFINTION_LIST },
+      {
+        match: node => Element.isElement(node) && firstTextBlockElement.includes(node.type),
+        at: Editor.unhangRange(editor, editor.selection),
+        mode: 'lowest',
+      },
+    );
+  });
 };
 
 export const nodeContainsText = (node: Node) =>

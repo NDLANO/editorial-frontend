@@ -7,7 +7,7 @@
  */
 
 import styled from '@emotion/styled';
-import { Descendant, Editor, Element } from 'slate';
+import { Descendant, Editor, Element, Path, Transforms } from 'slate';
 import { jsx as slatejsx } from 'slate-hyperscript';
 import { RenderElementProps } from 'slate-react';
 import { colors, fonts } from '@ndla/core';
@@ -138,12 +138,30 @@ export const definitionListPlugin = (editor: Editor) => {
   };
 
   editor.normalizeNode = entry => {
-    const [node] = entry;
+    const [node, nodepath] = entry;
 
     if (Element.isElement(node)) {
       if (
-        (node.type === TYPE_DEFINTION_LIST &&
-          defaultBlockNormalizer(editor, entry, normalizerParentConfig)) ||
+        node.type === TYPE_DEFINTION_LIST &&
+        defaultBlockNormalizer(editor, entry, normalizerParentConfig)
+      ) {
+        // Merge list with previous list if identical type
+        if (Path.hasPrevious(nodepath)) {
+          const prevPath = Path.previous(nodepath);
+          if (Editor.hasPath(editor, prevPath)) {
+            const [prevNode] = Editor.node(editor, prevPath);
+            if (Element.isElement(prevNode) && prevNode.type === TYPE_DEFINTION_LIST) {
+              if (node.type === prevNode.type) {
+                return Transforms.mergeNodes(editor, {
+                  at: nodepath,
+                });
+              }
+            }
+          }
+        }
+
+        return;
+      } else if (
         (node.type === TYPE_DEFINTION_DESCRIPTION &&
           defaultBlockNormalizer(editor, entry, normalizerDDConfig)) ||
         (node.type === TYPE_DEFINTION_TERM &&

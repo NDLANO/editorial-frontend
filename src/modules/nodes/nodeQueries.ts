@@ -7,7 +7,7 @@
  */
 
 import { useQuery, useQueryClient, UseQueryOptions } from '@tanstack/react-query';
-import { IEditorNote } from '@ndla/types-draft-api';
+import { IDraftResponsible, IEditorNote, IRevisionMeta } from '@ndla/types-draft-api';
 import { NodeTree } from '../../containers/NodeDiff/diffUtils';
 import { SearchResultBase, WithTaxonomyVersion } from '../../interfaces';
 import { PUBLISHED } from '../../constants';
@@ -82,6 +82,8 @@ export interface NodeResourceMeta {
   articleType?: string;
   revision?: number;
   notes?: IEditorNote[];
+  revisions?: IRevisionMeta[];
+  responsible?: IDraftResponsible;
 }
 
 export const nodeResourceMetasQueryKey = (params: Partial<UseNodeResourceMetas>) => [
@@ -137,12 +139,14 @@ const fetchNodeResourceMetas = async (
     : Promise.resolve([]);
   const [articles, learningpaths] = await Promise.all([articlesPromise, learningpathsPromise]);
   const transformedArticles: NodeResourceMeta[] = articles.map(
-    ({ status, grepCodes, articleType, id, revision, notes }) => ({
+    ({ status, grepCodes, articleType, id, revision, revisions, notes, responsible }) => ({
       status,
       grepCodes,
       articleType,
       contentUri: `urn:article:${id}`,
       revision,
+      responsible,
+      revisions,
       notes,
     }),
   );

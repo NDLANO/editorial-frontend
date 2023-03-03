@@ -6,7 +6,6 @@
  *
  */
 
-import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import styled from '@emotion/styled';
@@ -26,13 +25,11 @@ import {
   useUpdateNodeConnectionMutation,
 } from '../../../modules/nodes/nodeMutations';
 import { getContentTypeFromResourceTypes } from '../../../util/resourceHelpers';
-import { getIdFromUrn } from '../../../util/taxonomyHelpers';
 import RelevanceOption from '../../../components/Taxonomy/RelevanceOption';
 import ResourceItemLink from './ResourceItemLink';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 import { resourcesWithNodeConnectionQueryKey } from '../../../modules/nodes/nodeQueries';
 import { ResourceWithNodeConnectionAndMeta } from './StructureResources';
-import { useDraft, useResponsibleUserData } from '../../../modules/draft/draftQueries';
 import StatusIcons from './StatusIcons';
 import GrepCodesModal from './GrepCodesModal';
 import VersionHistory from './VersionHistory';
@@ -125,6 +122,7 @@ interface Props {
   currentNodeId: string;
   connectionId?: string; // required for MakeDndList, otherwise ignored
   id?: string; // required for MakeDndList, otherwise ignored
+  responsible?: string;
   resource: ResourceWithNodeConnectionAndMeta;
   onDelete?: (connectionId: string) => void;
   updateResource?: (resource: ResourceWithNodeConnection) => void;
@@ -138,6 +136,7 @@ const Resource = ({
   dragHandleProps,
   currentNodeId,
   contentMetaLoading,
+  responsible,
 }: Props) => {
   const { t, i18n } = useTranslation();
   const location = useLocation();
@@ -171,14 +170,6 @@ const Resource = ({
     onMutate: async ({ id, body }) => onUpdateConnection(id, body),
     onSettled: () => qc.invalidateQueries(compKey),
   });
-
-  const id = getIdFromUrn(resource?.contentMeta?.contentUri);
-  const { data: article } = useDraft({ id: id! }, { enabled: !!id });
-  const { data: userData } = useResponsibleUserData(article);
-
-  const responsible = useMemo(() => {
-    return userData?.[0]?.name;
-  }, [userData]);
 
   const contentType =
     resource.resourceTypes.length > 0
@@ -242,12 +233,7 @@ const Resource = ({
                 size="small"
               />
             </StyledResourceBody>
-            <StatusIcons
-              article={article}
-              contentMetaLoading={contentMetaLoading}
-              resource={resource}
-              path={path}
-            />
+            <StatusIcons contentMetaLoading={contentMetaLoading} resource={resource} path={path} />
             <RelevanceOption relevanceId={resource.relevanceId} onChange={updateRelevanceId} />
           </StyledText>
           <ButtonRow>

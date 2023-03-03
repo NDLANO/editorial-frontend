@@ -30,7 +30,7 @@ import GoToSearch from './GoToSearch';
 interface Props {
   userData: IUserData | undefined;
   favoriteSubjects: Option[];
-  ndlaId?: string;
+  ndlaId: string | undefined;
 }
 
 const Revision = ({ userData, favoriteSubjects, ndlaId }: Props) => {
@@ -108,7 +108,6 @@ const Revision = ({ userData, favoriteSubjects, ndlaId }: Props) => {
               menuPlacement="bottom"
               small
               outline
-              postfix={t('subjectsPage.subjects').toLowerCase()}
               isLoading={isInitialLoading}
               isSearchable
               noOptionsMessage={() => t('form.responsible.noResults')}

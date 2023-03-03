@@ -135,7 +135,6 @@ const ConceptListTabContent = ({
               menuPlacement="bottom"
               small
               outline
-              postfix={t('subjectsPage.subjects').toLowerCase()}
               isLoading={isLoading}
               isSearchable
               noOptionsMessage={() => t('form.responsible.noResults')}

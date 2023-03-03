@@ -88,7 +88,7 @@ const StructureResources = ({ currentChildNode, resourceRef, setCurrentNode }: P
           .filter<string>((uri): uri is string => !!uri) ?? [],
       language: i18n.language,
     },
-    { enabled: !!nodeResources?.length },
+    { enabled: !!currentChildNode.contentUri || !!nodeResources?.length },
   );
 
   const keyedMetas = keyBy(nodeResourceMetas, m => m.contentUri);

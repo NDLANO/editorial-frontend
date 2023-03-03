@@ -27,7 +27,7 @@ import {
   resourcesWithNodeConnectionQueryKey,
 } from '../../../modules/nodes/nodeQueries';
 import { ResourceWithNodeConnectionAndMeta } from './StructureResources';
-import { Dictionary } from '../../../interfaces';
+import { Auth0UserData, Dictionary } from '../../../interfaces';
 
 const StyledResourceItems = styled.ul`
   list-style: none;
@@ -45,11 +45,18 @@ interface Props {
   currentNodeId: string;
   contentMeta: Dictionary<NodeResourceMeta>;
   contentMetaLoading: boolean;
+  users?: Dictionary<Auth0UserData>;
 }
 
 const isError = (error: unknown): error is Error => (error as Error).message !== undefined;
 
-const ResourceItems = ({ resources, currentNodeId, contentMeta, contentMetaLoading }: Props) => {
+const ResourceItems = ({
+  resources,
+  currentNodeId,
+  contentMeta,
+  contentMetaLoading,
+  users,
+}: Props) => {
   const { t, i18n } = useTranslation();
   const [deleteId, setDeleteId] = useState<string>('');
   const { taxonomyVersion } = useTaxonomyVersion();
@@ -125,6 +132,10 @@ const ResourceItems = ({ resources, currentNodeId, contentMeta, contentMetaLoadi
       <MakeDndList onDragEnd={onDragEnd} dragHandle disableDnd={false}>
         {resources.map(resource => (
           <Resource
+            responsible={
+              users?.[contentMeta[resource.contentUri ?? '']?.responsible?.responsibleId ?? '']
+                ?.name
+            }
             currentNodeId={currentNodeId}
             id={resource.id}
             connectionId={resource.connectionId}

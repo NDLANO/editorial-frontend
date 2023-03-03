@@ -31,8 +31,6 @@ import SetResourcesPrimary from './topicMenuOptions/SetResourcesPrimary';
 interface Props {
   rootNodeId: string;
   node: NodeType;
-  onClose: () => void;
-  structure: NodeType[];
   nodeChildren: NodeType[];
   onCurrentNodeChanged: (node: NodeType) => void;
 }
@@ -45,8 +43,6 @@ export interface EditModeHandler {
 const SettingsMenuDropdownType = ({
   rootNodeId,
   node,
-  onClose,
-  structure,
   onCurrentNodeChanged,
   nodeChildren,
 }: Props) => {

@@ -102,6 +102,7 @@ const RootNode = ({
   return (
     <NodeItem
       renderBeforeTitle={renderBeforeTitle}
+      id={node.id}
       item={node}
       nodes={childNodesQuery.data}
       openedPaths={openedPaths}
@@ -112,6 +113,7 @@ const RootNode = ({
       rootNodeId={node.id}
       resourceSectionRef={resourceSectionRef}
       onDragEnd={onDragEnd}
+      connectionId={''}
       parentActive={true}
       isRoot={true}
       isFavorite={isFavorite}

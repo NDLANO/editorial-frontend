@@ -16,6 +16,7 @@ export const CONCEPT_STATE_MACHINE = 'conceptStateMachine';
 
 export const AUTH0_USERS = 'auth0Users';
 export const AUTH0_EDITORS = 'auth0Editors';
+export const AUTH0_RESPONSIBLES = 'auth0Responsibles';
 
 export const CONCEPT = 'concept';
 
@@ -26,6 +27,7 @@ export const AUDIO = 'audio';
 export const PODCAST_SERIES = 'podcastSeries';
 
 export const DRAFT = 'draft';
+export const SEARCH_DRAFTS = 'searchDrafts';
 export const LICENSES = 'licenses';
 export const USER_DATA = 'userData';
 export const DRAFT_STATUS_STATE_MACHINE = 'draftStatusStateMachine';

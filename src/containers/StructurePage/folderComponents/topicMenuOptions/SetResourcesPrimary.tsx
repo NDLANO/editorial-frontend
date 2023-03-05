@@ -50,13 +50,15 @@ const SetResourcesPrimary = ({
 
   return (
     <>
-      <MenuItemButton stripped onClick={toggleConnectedResourcesPrimary}>
+      <MenuItemButton onClick={toggleConnectedResourcesPrimary}>
         <RoundIcon small icon={<Pencil />} />
         {recursive
           ? t('taxonomy.resourcesPrimary.recursiveButtonText')
           : t('taxonomy.resourcesPrimary.buttonText')}
       </MenuItemButton>
       <AlertModal
+        title={t('taxonomy.resourcesPrimary.buttonText')}
+        label={t('taxonomy.resourcesPrimary.buttonText')}
         show={editMode === 'setResourcesPrimary'}
         actions={[
           {

@@ -6,7 +6,7 @@
  *
  */
 
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Formik, FormikProps } from 'formik';
 import { IArticle, IUpdatedArticle, IStatus } from '@ndla/types-draft-api';
@@ -22,7 +22,6 @@ import {
   useArticleFormHooks,
 } from '../../../FormikForm/articleFormHooks';
 import usePreventWindowUnload from '../../../FormikForm/preventWindowUnloadHook';
-import Spinner from '../../../../components/Spinner';
 import { useLicenses, useDraftStatusStateMachine } from '../../../../modules/draft/draftQueries';
 import { validateDraft } from '../../../../modules/draft/draftApi';
 import {
@@ -31,15 +30,14 @@ import {
   learningResourceFormTypeToDraftApiType,
 } from '../../articleTransformers';
 import { ArticleTaxonomy } from '../../../FormikForm/formikDraftHooks';
-import { learningResourceContentToHTML } from '../../../../util/articleContentConverter';
+import { blockContentToHTML } from '../../../../util/articleContentConverter';
 import { DraftStatusType } from '../../../../interfaces';
 import StyledForm from '../../../../components/StyledFormComponents';
+import { TaxonomyVersionProvider } from '../../../StructureVersion/TaxonomyVersionProvider';
 
 interface Props {
   article?: IArticle;
   articleTaxonomy?: ArticleTaxonomy;
-  translating: boolean;
-  translateToNN?: () => void;
   articleStatus?: IStatus;
   isNewlyCreated: boolean;
   articleChanged: boolean;
@@ -57,8 +55,6 @@ const LearningResourceForm = ({
   articleTaxonomy,
   articleStatus,
   isNewlyCreated = false,
-  translateToNN,
-  translating,
   updateArticle,
   updateArticleAndStatus,
   articleChanged,
@@ -83,11 +79,7 @@ const LearningResourceForm = ({
     rules: learningResourceRules,
   });
 
-  const initialHTML = useMemo(() => learningResourceContentToHTML(initialValues.content), [
-    initialValues,
-  ]);
-
-  const [translateOnContinue, setTranslateOnContinue] = useState(false);
+  const initialHTML = useMemo(() => blockContentToHTML(initialValues.content), [initialValues]);
 
   const FormikChild = (formik: FormikProps<LearningResourceFormType>) => {
     // eslint doesn't allow this to be inlined when using hooks (in usePreventWindowUnload)
@@ -105,24 +97,21 @@ const LearningResourceForm = ({
     const editUrl = values.id
       ? (lang: string) => toEditArticle(values.id!, values.articleType, lang)
       : undefined;
+
     return (
       <StyledForm>
         <HeaderWithLanguage
+          article={article}
           values={values}
           taxonomy={articleTaxonomy}
           content={{ ...article, title: article?.title?.title, language: articleLanguage }}
           editUrl={editUrl}
           getEntity={getArticle}
-          formIsDirty={formIsDirty}
           isSubmitting={isSubmitting}
-          translateToNN={translateToNN}
-          setTranslateOnContinue={setTranslateOnContinue}
           type="standard"
           expirationDate={getExpirationDate(article)}
         />
-        {translating ? (
-          <Spinner withWrapper />
-        ) : (
+        <TaxonomyVersionProvider>
           <LearningResourcePanels
             articleLanguage={articleLanguage}
             article={article}
@@ -131,7 +120,7 @@ const LearningResourceForm = ({
             getArticle={getArticle}
             handleSubmit={handleSubmit}
           />
-        )}
+        </TaxonomyVersionProvider>
         <EditorFooter
           showSimpleFooter={!article}
           formIsDirty={formIsDirty}
@@ -147,11 +136,11 @@ const LearningResourceForm = ({
           isNewlyCreated={isNewlyCreated}
           isConcept={false}
           hideSecondaryButton={false}
+          responsibleId={article?.responsible?.responsibleId}
         />
         <AlertModalWrapper
           isSubmitting={isSubmitting}
           formIsDirty={formIsDirty}
-          onContinue={translateOnContinue ? translateToNN : () => {}}
           severity="danger"
           text={t('alertModal.notSaved')}
         />
@@ -167,7 +156,7 @@ const LearningResourceForm = ({
 
   return (
     <Formik
-      enableReinitialize={translating}
+      key={articleLanguage}
       initialValues={initialValues}
       initialErrors={initialErrors}
       innerRef={formikRef}

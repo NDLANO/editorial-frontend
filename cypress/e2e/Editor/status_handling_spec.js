@@ -18,12 +18,12 @@ describe('Status changes', () => {
     editorRoutes(ARTICLE_ID);
     cy.apiroute(
       'PUT',
-      `**/draft-api/v1/drafts/${ARTICLE_ID}/status/PROPOSAL`,
-      `statusChangeToUtkast`,
+      `**/draft-api/v1/drafts/${ARTICLE_ID}/status/IN_PROGRESS`,
+      `statusChangeToInProgress`,
     );
     cy.apiroute(
       'PUT',
-      `**/draft-api/v1/drafts/${ARTICLE_ID}/status/QUEUED_FOR_PUBLISHING`,
+      `**/draft-api/v1/drafts/${ARTICLE_ID}/status/INTERNAL_REVIEW`,
       `statusChangeToQueuePublish`,
     );
     cy.apiroute(
@@ -38,36 +38,44 @@ describe('Status changes', () => {
 
   it('Can change status corretly', () => {
     // change from published to proposal
-    cy.get('[data-cy=footerStatus] button')
+    cy.get('[data-cy=footerStatus]')
       .contains('Publisert')
       .click();
-    cy.get('footer li > button')
-      .contains('Utkast')
+
+    cy.get('*[id^="react-select-3-option"]')
+      .contains('I arbeid')
       .click();
+
+    cy.apiwait('@getUsersResponsible');
+    cy.get('[data-cy=responsible-select]')
+      .click()
+      .type('Ed test {enter}');
+    cy.contains('Lagre').click();
     cy.get('[data-testid=saveLearningResourceButtonWrapper]').contains('Lagrer');
-    cy.apiwait(`@statusChangeToUtkast`);
+    cy.apiwait(`@statusChangeToInProgress`);
     cy.get('[data-testid=saveLearningResourceButtonWrapper]').contains('Lagret');
 
     cy.get('[data-cy="learning-resource-title"]')
       .click()
       .type('Some change');
-    cy.get('footer button')
-      .contains('Utkast')
+    cy.get('[data-cy=footerStatus]')
+      .contains('I arbeid')
       .click();
-    cy.get('footer li > button')
-      .contains('Til publisering')
-      .click();
+    cy.contains('Sisteblikk').click();
+    cy.get('[data-cy=responsible-select]')
+      .click()
+      .type('Ed test {enter}');
+    cy.contains('Lagre').click();
     cy.get('[data-testid=saveLearningResourceButtonWrapper]').contains('Lagrer');
     cy.apiwait(`@updateDraft-${ARTICLE_ID}`);
     cy.apiwait(`@statusChangeToQueuePublish`);
     cy.get('[data-testid=saveLearningResourceButtonWrapper]').contains('Lagret');
 
-    cy.get('footer button')
-      .contains('Til publisering')
+    cy.get('[data-cy=footerStatus]')
+      .contains('Sisteblikk')
       .click();
-    cy.get('footer li > button')
-      .contains('Publiser')
-      .click();
+    cy.contains('Publiser').click();
+
     cy.get('[data-testid=saveLearningResourceButtonWrapper]').contains('Lagrer');
     cy.apiwait(`@statusChangeToPublish`);
     cy.get('[data-testid=saveLearningResourceButtonWrapper]').contains('Lagret');

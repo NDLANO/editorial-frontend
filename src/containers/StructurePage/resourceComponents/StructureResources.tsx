@@ -9,7 +9,6 @@
 import { memo, RefObject } from 'react';
 import { useTranslation } from 'react-i18next';
 import { spacing } from '@ndla/core';
-import Button from '@ndla/button';
 import styled from '@emotion/styled';
 import { TFunction } from 'i18next';
 import keyBy from 'lodash/keyBy';
@@ -21,12 +20,8 @@ import {
   useResourcesWithNodeConnection,
 } from '../../../modules/nodes/nodeQueries';
 import { useAllResourceTypes } from '../../../modules/taxonomy/resourcetypes/resourceTypesQueries';
-import NodeDescription from './NodeDescription';
 import handleError from '../../../util/handleError';
-import AllResourcesGroup from './AllResourcesGroup';
-import ResourceGroup from './ResourceGroup';
-import { groupResourcesByType } from '../../../util/taxonomyHelpers';
-import GroupTopicResources from '../folderComponents/topicMenuOptions/GroupTopicResources';
+import ResourcesContainer from './ResourcesContainer';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -35,10 +30,10 @@ const StyledDiv = styled('div')`
   margin-left: auto;
   margin-right: calc(${spacing.nsmall});
 `;
-const Row = styled.div`
-  display: flex;
-  justify-content: space-between;
-  padding: ${spacing.xsmall};
+
+const StickyContainer = styled.div`
+  position: sticky;
+  top: ${spacing.small};
 `;
 
 export interface ResourceWithNodeConnectionAndMeta extends ResourceWithNodeConnection {
@@ -48,7 +43,7 @@ export interface ResourceWithNodeConnectionAndMeta extends ResourceWithNodeConne
 interface Props {
   currentChildNode: ChildNodeType;
   resourceRef: RefObject<HTMLDivElement>;
-  onCurrentNodeChanged: (changedNode: ChildNodeType) => void;
+  setCurrentNode: (changedNode: ChildNodeType) => void;
 }
 
 const getMissingResourceType = (t: TFunction): ResourceType & { disabled?: boolean } => ({
@@ -69,7 +64,7 @@ const withMissing = (r: ResourceWithNodeConnection): ResourceWithNodeConnection 
   resourceTypes: [missingObject],
 });
 
-const StructureResources = ({ currentChildNode, resourceRef, onCurrentNodeChanged }: Props) => {
+const StructureResources = ({ currentChildNode, resourceRef, setCurrentNode }: Props) => {
   const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
   const grouped = currentChildNode?.metadata?.customFields['topic-resources'] ?? 'grouped';
@@ -83,7 +78,7 @@ const StructureResources = ({ currentChildNode, resourceRef, onCurrentNodeChange
     },
   );
 
-  const { data: nodeResourceMetas } = useNodeResourceMetas(
+  const { data: nodeResourceMetas, isInitialLoading: contentMetaLoading } = useNodeResourceMetas(
     {
       nodeId: currentChildNode.id,
       ids:
@@ -93,16 +88,10 @@ const StructureResources = ({ currentChildNode, resourceRef, onCurrentNodeChange
           .filter<string>((uri): uri is string => !!uri) ?? [],
       language: i18n.language,
     },
-    { enabled: !!nodeResources?.length },
+    { enabled: !!currentChildNode.contentUri || !!nodeResources?.length },
   );
 
   const keyedMetas = keyBy(nodeResourceMetas, m => m.contentUri);
-
-  const nodeResourcesWithMeta: ResourceWithNodeConnectionAndMeta[] =
-    nodeResources?.map(res => ({
-      ...res,
-      contentMeta: res.contentUri ? keyedMetas[res.contentUri] : undefined,
-    })) ?? [];
 
   const { data: resourceTypes } = useAllResourceTypes(
     { language: i18n.language, taxonomyVersion },
@@ -112,60 +101,19 @@ const StructureResources = ({ currentChildNode, resourceRef, onCurrentNodeChange
     },
   );
 
-  const mapping = groupResourcesByType(nodeResourcesWithMeta ?? [], resourceTypes ?? []);
-
   return (
-    <div ref={resourceRef}>
-      <Row>
-        <Button
-          outline
-          onClick={() =>
-            document.getElementById(currentChildNode.id)?.scrollIntoView({ block: 'center' })
-          }>
-          {t('taxonomy.jumpToStructure')}
-        </Button>
-        {currentChildNode && currentChildNode.id && (
-          <StyledDiv>
-            <GroupTopicResources
-              node={currentChildNode}
-              hideIcon
-              onChanged={partialMeta => {
-                onCurrentNodeChanged({
-                  ...currentChildNode,
-                  metadata: { ...currentChildNode.metadata, ...partialMeta },
-                });
-              }}
-            />
-          </StyledDiv>
-        )}
-      </Row>
-      <NodeDescription
+    <StickyContainer ref={resourceRef}>
+      <ResourcesContainer
+        key="ungrouped"
+        nodeResources={nodeResources ?? []}
+        resourceTypes={resourceTypes ?? []}
         currentNode={currentChildNode}
-        contentMeta={
-          currentChildNode.contentUri ? keyedMetas[currentChildNode.contentUri] : undefined
-        }
+        contentMeta={keyedMetas}
+        grouped={grouped === 'grouped'}
+        setCurrentNode={setCurrentNode}
+        contentMetaLoading={contentMetaLoading}
       />
-      {grouped === 'ungrouped' && (
-        <AllResourcesGroup
-          key="ungrouped"
-          nodeResources={nodeResourcesWithMeta ?? []}
-          resourceTypes={resourceTypes ?? []}
-          currentNodeId={currentChildNode.id}
-        />
-      )}
-      {grouped === 'grouped' &&
-        resourceTypes?.map(resourceType => {
-          const nodeResource = mapping.find(resource => resource.id === resourceType.id);
-          return (
-            <ResourceGroup
-              key={resourceType.id}
-              resourceType={resourceType}
-              resources={nodeResource?.resources}
-              currentNodeId={currentChildNode.id}
-            />
-          );
-        })}
-    </div>
+    </StickyContainer>
   );
 };
 

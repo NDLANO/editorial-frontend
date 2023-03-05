@@ -8,7 +8,6 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import debounce from 'lodash/debounce';
-import PropTypes from 'prop-types';
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import {
   IConcept,
@@ -16,10 +15,11 @@ import {
   INewConcept,
   IUpdatedConcept,
   ITagsSearchResult,
+  IConceptSummary,
 } from '@ndla/types-concept-api';
 import { IArticle } from '@ndla/types-draft-api';
 import { useTranslation } from 'react-i18next';
-import Button from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 import Tabs from '@ndla/tabs';
 import { Search } from '@ndla/icons/common';
 import Pager from '@ndla/pager';
@@ -29,14 +29,13 @@ import SearchForm from '../../../../containers/SearchPage/components/form/Search
 import { Portal } from '../../../Portal';
 import SearchConceptResults from './SearchConceptResults';
 import ConceptForm from '../../../../containers/ConceptPage/ConceptForm/ConceptForm';
-import { ConceptShape, SubjectShape } from '../../../../shapes';
 import { ConceptQuery } from '../../../../modules/concept/conceptApiInterfaces';
 import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 
 const type = 'concept';
 
 interface Props {
-  addConcept: (concept: IConcept) => void;
+  addConcept: (concept: IConceptSummary | IConcept) => void;
   concept?: IConcept;
   createConcept: (createdConcept: INewConcept) => Promise<IConcept>;
   fetchSearchTags: (input: string, language: string) => Promise<ITagsSearchResult>;
@@ -136,7 +135,7 @@ const ConceptModal = ({
             </ModalHeader>
             <ModalBody>
               {concept?.id && (
-                <Button onClick={handleRemove}>{t('form.content.concept.remove')}</Button>
+                <ButtonV2 onClick={handleRemove}>{t('form.content.concept.remove')}</ButtonV2>
               )}
               <Tabs
                 onSelect={updateSelectedTabIndex}
@@ -164,9 +163,7 @@ const ConceptModal = ({
                           searchObject={searchObject}
                           results={results.results}
                           searching={searching}
-                          type={type}
                           addConcept={addConcept}
-                          locale={locale}
                         />
                         <Pager
                           query={searchObject}
@@ -204,21 +201,6 @@ const ConceptModal = ({
       </Modal>
     </Portal>
   );
-};
-
-ConceptModal.propTypes = {
-  addConcept: PropTypes.func.isRequired,
-  concept: ConceptShape,
-  createConcept: PropTypes.func.isRequired,
-  fetchSearchTags: PropTypes.func,
-  handleRemove: PropTypes.func.isRequired,
-  id: PropTypes.number,
-  isOpen: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired,
-  locale: PropTypes.string,
-  selectedText: PropTypes.string,
-  updateConcept: PropTypes.func.isRequired,
-  subjects: PropTypes.arrayOf(SubjectShape).isRequired,
 };
 
 export default ConceptModal;

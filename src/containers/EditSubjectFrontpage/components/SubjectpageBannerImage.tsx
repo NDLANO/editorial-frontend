@@ -9,13 +9,13 @@
 import { MouseEventHandler } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
-import Button from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 import { colors } from '@ndla/core';
 import MetaInformation from '../../../components/MetaInformation';
 import config from '../../../config';
 import { ImageEmbed } from '../../../interfaces';
 
-const StyledButton = styled(Button)`
+const StyledButton = styled(ButtonV2)`
   display: block;
   margin: 1%;
   min-width: 7.5rem;

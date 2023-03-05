@@ -80,8 +80,7 @@ export const linkSerializer: SlateSerializer = {
           data-content-id={node['content-id']}
           data-open-in={node['open-in']}
           data-resource="content-link"
-          data-content-type={node['content-type']}
-          data-link-text={Node.string(node)}>
+          data-content-type={node['content-type']}>
           {children}
         </ndlaembed>
       );

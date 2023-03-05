@@ -9,7 +9,7 @@
 import styled from '@emotion/styled';
 import { spacing, colors } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
-import { useQueryClient } from 'react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import OptGroupVersionSelector from '../../components/Taxonomy/OptGroupVersionSelector';
 import { VersionStatusType } from '../../modules/taxonomy/versions/versionApiTypes';
 import { useVersions } from '../../modules/taxonomy/versions/versionQueries';
@@ -39,6 +39,7 @@ const StickyDiv = styled.div<StickyDivProps>`
   width: 40%;
   transform: translateX(-50%);
   padding: ${spacing.small};
+  max-width: 400px;
 `;
 
 const StickyVersionSelector = () => {

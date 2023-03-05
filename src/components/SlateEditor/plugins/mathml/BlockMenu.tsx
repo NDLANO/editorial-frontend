@@ -1,11 +1,12 @@
 import { PureComponent } from 'react';
-import Button from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 import styled from '@emotion/styled';
 import { colors, spacing } from '@ndla/core';
 import { CustomWithTranslation, withTranslation } from 'react-i18next';
 
 const StyledMenu = styled('span')<{ top: number; left: number }>`
-  cursor: pointer;
+  display: flex;
+  gap: ${spacing.xsmall};
   position: absolute;
   padding: ${spacing.xsmall};
   background-color: white;
@@ -15,12 +16,6 @@ const StyledMenu = styled('span')<{ top: number; left: number }>`
   z-index: 1;
   ${p => (p.left ? `left: ${p.left}px;` : '')};
   ${p => (p.top ? `top: ${p.top}px;` : '')};
-`;
-
-const StyledButton = styled(Button)`
-  color: ${colors.brand.primary};
-  text-decoration: underline;
-  margin: 0 ${spacing.xsmall};
 `;
 
 interface Props {
@@ -51,13 +46,13 @@ class BlockMenu extends PureComponent<Props & CustomWithTranslation> {
     const { t, top, left, handleRemove, toggleEdit } = this.props;
     return (
       <StyledMenu top={top} left={left} ref={node => (this.modal = node)}>
-        <StyledButton stripped onClick={toggleEdit}>
+        <ButtonV2 variant="link" onClick={toggleEdit}>
           {t('form.edit')}
-        </StyledButton>
+        </ButtonV2>
         |
-        <StyledButton stripped onClick={handleRemove}>
+        <ButtonV2 variant="link" onClick={handleRemove}>
           {t('form.remove')}
-        </StyledButton>
+        </ButtonV2>
       </StyledMenu>
     );
   }

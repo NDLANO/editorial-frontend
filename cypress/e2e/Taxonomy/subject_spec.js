@@ -43,6 +43,8 @@ describe('Subject editing', () => {
     cy.get('[data-testid=AddSubjectButton]').click();
     cy.get('[data-testid=addSubjectInputField]').type('Cypress test subject{enter}');
     cy.wait('@addSubject');
+    // Since post request is mocked --> modal will not close automatically
+    cy.get('[data-testid=taxonomyLightboxCloseButton]').click();
   });
 
   it('should have a settings menu where everything works', () => {
@@ -93,8 +95,8 @@ describe('Subject editing', () => {
 
     cy.get('button')
       .contains(phrases.metadata.changeVisibility)
-      .click();
-    cy.get('input[id="visible"]').click({ force: true });
+      .click({ force: true });
+    cy.get('button[id="switch-visible"]').click({ force: true });
     cy.wait('@invisibleMetadata');
   });
 });

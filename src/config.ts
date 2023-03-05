@@ -151,7 +151,6 @@ export type ConfigType = {
   googleSearchEngineId: string | undefined;
   isNdlaProdEnvironment: boolean;
   versioningEnabled: string;
-  revisiondateEnabled: string;
   ndlaEnvironment: string;
   learningpathFrontendDomain: string;
   googleSearchApiKey: string | undefined;
@@ -164,13 +163,13 @@ export type ConfigType = {
   googleSearchApiUrl: string | undefined;
   port: string | undefined;
   ndlaPersonalClientId: string | undefined;
-  npkToken: string | undefined;
   zendeskWidgetKey: string | undefined;
   brightcovePlayerId: string | undefined;
   brightcove360PlayerId: string | undefined;
   brightcoveCopyrightPlayerId: string | undefined;
   disableCSP: string | undefined;
   usernamePasswordEnabled: boolean;
+  disableConverter: boolean;
 };
 
 const config: ConfigType = {
@@ -184,7 +183,6 @@ const config: ConfigType = {
   logglyApiKey: getEnvironmentVariabel('LOGGLY_API_KEY'),
   isNdlaProdEnvironment: ndlaEnvironment === 'prod',
   versioningEnabled: getEnvironmentVariabel('ENABLE_VERSIONING', 'true'),
-  revisiondateEnabled: getEnvironmentVariabel('ENABLE_REVISIONDATE', 'true'),
   ndlaApiUrl: getEnvironmentVariabel('NDLA_API_URL', getNdlaApiUrl(ndlaEnvironment)),
   ndlaBaseUrl: ndlaBaseUrl(),
   ndlaFrontendDomain: getEnvironmentVariabel('FRONTEND_DOMAIN', ndlaFrontendDomain()),
@@ -209,9 +207,9 @@ const config: ConfigType = {
   checkArticleScript: getEnvironmentVariabel('CHECK_ARTICLE_SCRIPT', 'false') === 'true',
   googleTagManagerId: getEnvironmentVariabel('NDLA_GOOGLE_TAG_MANAGER_ID'),
   gaTrackingId: getEnvironmentVariabel('GA_TRACKING_ID', gaTrackingId()),
-  npkToken: getEnvironmentVariabel('NPK_TOKEN'),
   zendeskWidgetKey: getEnvironmentVariabel('NDLA_ED_ZENDESK_WIDGET_KEY'),
   disableCSP: getEnvironmentVariabel('DISABLE_CSP', 'false'),
+  disableConverter: getEnvironmentVariabel('USE_ARTICLE_CONVERTER', 'false') === 'true',
   usernamePasswordEnabled: getEnvironmentVariabel(
     'USERNAME_PASSWORD_ENABLED',
     usernamePasswordEnabled(),

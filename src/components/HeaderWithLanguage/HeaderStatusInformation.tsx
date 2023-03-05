@@ -165,19 +165,25 @@ const HeaderStatusInformation = ({
         tooltip={t(`form.workflow.expiration.${expirationColor}`, {
           date: formatDate(expirationDate),
         })}>
-        <StyledTimeIcon status={expirationColor} />
+        <div>
+          <StyledTimeIcon status={expirationColor} />
+        </div>
       </Tooltip>
     ) : null;
 
   const multipleTaxonomyIcon = taxonomyPaths && taxonomyPaths?.length > 2 && (
     <Tooltip tooltip={t('form.workflow.multipleTaxonomy')}>
-      <StyledWarnIcon />
+      <div>
+        <StyledWarnIcon />
+      </div>
     </Tooltip>
   );
 
   const publishedIcon = (
     <Tooltip tooltip={t('form.workflow.published')}>
-      <StyledCheckIcon />
+      <div>
+        <StyledCheckIcon />
+      </div>
     </Tooltip>
   );
 
@@ -231,7 +237,7 @@ const HeaderStatusInformation = ({
         {articleConnections}
         {conceptConnecions}
         {learningpathConnections}
-        {config.revisiondateEnabled === 'true' && revisionDateExpiration}
+        {revisionDateExpiration}
         {published &&
           (taxonomyPaths && taxonomyPaths?.length > 0 ? publishedIconLink : publishedIcon)}
         {multipleTaxonomyIcon}

@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { FieldHeader } from '@ndla/forms';
-import Button from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 import { IArticle, IArticleSummary, IRelatedContentLink } from '@ndla/types-draft-api';
 import { FieldInputProps, FormikHelpers } from 'formik';
 import { fetchDraft, searchDrafts } from '../../../modules/draft/draftApi';
@@ -122,9 +122,9 @@ const ContentField = ({ field, form }: Props) => {
         showPagination
       />
       <StyledButtonWrapper>
-        <Button onClick={() => setShowAddExternal(true)}>
+        <ButtonV2 onClick={() => setShowAddExternal(true)}>
           {t('form.relatedContent.addExternal')}
-        </Button>
+        </ButtonV2>
       </StyledButtonWrapper>
       {showAddExternal && (
         <ContentLink onAddLink={addExternalLink} onClose={() => setShowAddExternal(false)} />

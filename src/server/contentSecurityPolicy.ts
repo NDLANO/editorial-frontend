@@ -27,7 +27,6 @@ const connectSrc = (() => {
     'https://house-fastly-signed-eu-west-1-prod.brightcovecdn.com',
     'https://www.wiris.net',
     'https://nrkno-skole-prod.kube.nrk.no',
-    'https://nynorsk.cloud',
     'https://data.udir.no',
     'https://cdn.jsdelivr.net',
     'https://widget-mediator.zopim.com',
@@ -42,6 +41,7 @@ const connectSrc = (() => {
       'http://localhost:3001',
       'ws://localhost:3001',
       'http://localhost:3100',
+      'http://localhost:4000',
       'http://localhost',
     ];
   }

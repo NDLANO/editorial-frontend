@@ -15,7 +15,7 @@ import { ILearningPathV2 } from '@ndla/types-learningpath-api';
 import partition from 'lodash/partition';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useQueryClient } from 'react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import AlertModal from '../../../../components/AlertModal';
 import RoundIcon from '../../../../components/RoundIcon';
 import { fetchDrafts, updateStatusDraft } from '../../../../modules/draft/draftApi';
@@ -26,7 +26,7 @@ import {
 import { fetchNodeResources } from '../../../../modules/nodes/nodeApi';
 import { NodeType } from '../../../../modules/nodes/nodeApiTypes';
 import { RESOURCE_META } from '../../../../queryKeys';
-import { PUBLISHED } from '../../../../util/constants/ArticleStatus';
+import { PUBLISHED } from '../../../../constants';
 import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
 import ResourceItemLink from '../../resourceComponents/ResourceItemLink';
 import MenuItemButton from '../sharedMenuOptions/components/MenuItemButton';
@@ -137,7 +137,7 @@ const PublishChildNodeResources = ({ node }: Props) => {
 
   return (
     <>
-      <MenuItemButton stripped onClick={() => setShowConfirmation(true)}>
+      <MenuItemButton onClick={() => setShowConfirmation(true)}>
         <RoundIcon small icon={<Done />} />
         {t('taxonomy.publish.button')}
       </MenuItemButton>
@@ -148,6 +148,8 @@ const PublishChildNodeResources = ({ node }: Props) => {
         </StyledDiv>
       )}
       <AlertModal
+        title={t('errorMessage.description')}
+        label={t('errorMessage.description')}
         show={showAlert}
         onCancel={() => setShowAlert(false)}
         text={t('taxonomy.publish.error')}
@@ -164,6 +166,8 @@ const PublishChildNodeResources = ({ node }: Props) => {
         ))}
       />
       <AlertModal
+        title={t('taxonomy.publish.button')}
+        label={t('taxonomy.publish.button')}
         show={showConfirmation}
         actions={[
           {

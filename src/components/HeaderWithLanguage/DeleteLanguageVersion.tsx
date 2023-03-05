@@ -146,6 +146,8 @@ const DeleteLanguageVersion = ({ values, type, disabled }: Props) => {
         })}
       </StyledFilledButton>
       <AlertModal
+        title={t('form.workflow.deleteLanguageVersion.title')}
+        label={t('form.workflow.deleteLanguageVersion.title')}
         show={showDeleteWarning}
         text={t('form.workflow.deleteLanguageVersion.modal')}
         actions={[

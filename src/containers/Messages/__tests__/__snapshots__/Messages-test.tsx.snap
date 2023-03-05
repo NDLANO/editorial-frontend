@@ -1,6 +1,34 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Messages A message is removed if the modal is closed 1`] = `
+@keyframes animation-0 {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes animation-1 {
+  0% {
+    opacity: 0;
+    -webkit-transform: translateY(40px);
+    -moz-transform: translateY(40px);
+    -ms-transform: translateY(40px);
+    transform: translateY(40px);
+  }
+
+  100% {
+    opacity: 1;
+    -webkit-transform: translateY(0);
+    -moz-transform: translateY(0);
+    -ms-transform: translateY(0);
+    transform: translateY(0);
+  }
+}
+
 .emotion-0 {
   position: fixed;
   width: 80%;
@@ -13,121 +41,74 @@ exports[`Messages A message is removed if the modal is closed 1`] = `
 }
 
 .emotion-1 {
+  overflow: hidden;
+  background: rgba(1, 1, 1, 0.3);
   position: fixed;
   top: 0;
+  right: 0;
+  bottom: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.8);
-  z-index: 1000;
-  overflow-x: auto;
-}
-
-@media (max-width: 48em) {
-  .emotion-1 {
-    top: 64px;
-    overflow-y: auto;
-    white-space: normal;
-    z-index: 26;
-  }
-}
-
-@media (max-width: 29.75em) {
-  .emotion-1 {
-    top: 43px;
-  }
-}
-
-.emotion-2 {
-  overflow-x: auto;
-  background-color: white;
-  margin: 52px auto 52px;
-  padding: 1em 2em 3em;
-  max-width: 400px;
-  border-radius: 5px;
-  border-radius: 0;
-  min-height: 210px;
-  max-width: 620px;
-  padding-bottom: 26px;
-  background-color: #d1372e;
-  color: white;
+  z-index: 100;
+  overflow: hidden;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-animation-name: animation-0;
+  animation-name: animation-0;
+  -webkit-animation-duration: 400ms;
+  animation-duration: 400ms;
 }
 
 .emotion-3 {
-  display: inline-block;
-  color: #ffffff;
-  background-color: #20588f;
-  border: 2px solid #20588f;
-  border-radius: 4px;
-  padding: 4px 13px;
-  outline-width: 0;
-  cursor: pointer;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  font-size: 16px;
-  font-size: 0.8888888888888888rem;
-  line-height: 1.625;
-  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
-  font-weight: 700;
-  -webkit-transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
-  transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
-  box-shadow: none;
-  text-align: center;
-  -webkit-transition: background-color none;
-  transition: background-color none;
-  padding: 0;
-  border-radius: 0;
-  color: inherit;
-  font-size: inherit;
-  background-color: transparent;
-  box-shadow: none;
-  border: none;
-  font-weight: 400;
-  float: right;
-  height: 44px;
-  width: 44px;
-  margin-top: -5px;
-  margin-right: -20px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  position: fixed;
+  overflow-y: auto;
+  background: white;
+  max-height: 85%;
+  max-width: 95%;
+  -webkit-animation-name: animation-1;
+  animation-name: animation-1;
+  -webkit-animation-duration: 400ms;
+  animation-duration: 400ms;
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-top: env(safe-area-inset-top);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+  width: 700px;
 }
 
-.emotion-3:hover,
-.emotion-3:focus {
-  color: white;
-  background-color: #184673;
-  border: 2px solid #184673;
-}
-
-.emotion-3[disabled] {
-  color: #777777;
-  background-color: #e6e6e6;
-  border-color: transparent;
-  cursor: not-allowed;
-}
-
-.emotion-3:focus {
-  box-shadow: 0 0 2px #20588f;
-}
-
-.emotion-3:hover,
-.emotion-3:active,
-.emotion-3:disabled,
-.emotion-3:focus {
-  box-shadow: none;
-  color: #20588f;
-  background-color: transparent;
-  border: none;
-}
-
-.emotion-3:focus {
-  outline-width: medium;
+@media (max-width: 37.5625em) {
+  .emotion-3 {
+    min-width: 100%;
+    min-height: 100%;
+  }
 }
 
 .emotion-5 {
-  float: right;
-  height: 24px;
-  width: 24px;
-  margin-right: 7px;
-  color: #777777;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  gap: 26px;
+  padding: 26px;
   background-color: #d1372e;
   color: white;
 }
@@ -137,1169 +118,2015 @@ exports[`Messages A message is removed if the modal is closed 1`] = `
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  height: 100%;
-  width: 100%;
-}
-
-.emotion-7 {
-  height: 100%;
-  padding-top: 26px;
-  font-size: 24px;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  -webkit-justify-content: flex-end;
+  justify-content: flex-end;
+  padding: 26px;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
+  padding: 0;
   -webkit-box-pack: justify;
   -webkit-justify-content: space-between;
   justify-content: space-between;
+}
+
+.emotion-6 h1 {
+  margin: 0;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  font-weight: 700;
+  font-size: 22px;
+  font-size: 1.2222222222222223rem;
+  line-height: 1.2;
+  color: #444;
+}
+
+.emotion-6 h1 {
+  color: #fff;
 }
 
 .emotion-8 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  margin: 0;
+  color: #fff;
 }
 
 .emotion-9 {
-  width: 27px;
-  height: 27px;
-  margin-right: 13px;
-}
-
-.emotion-10 {
-  width: 100%;
-  display: inline-block;
-  text-align: left;
-}
-
-.emotion-11 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-  justify-content: space-between;
-  -webkit-align-items: flex-end;
-  -webkit-box-align: flex-end;
-  -ms-flex-align: flex-end;
-  align-items: flex-end;
-  margin-top: 13px;
-}
-
-<div>
-  <div
-    class="emotion-0"
-  >
-    <div
-      class="emotion-1"
-    >
-      <div
-        class="emotion-2"
-      >
-        <button
-          class="emotion-3 emotion-4"
-          data-testid="closeAlert"
-          type="button"
-        >
-          <svg
-            aria-hidden="true"
-            class="c-icon emotion-5"
-            data-license="Apache License 2.0"
-            data-source="Material Design"
-            fill="currentColor"
-            height="1em"
-            preserveAspectRatio="xMidYMid meet"
-            severity="danger"
-            style="vertical-align: middle;"
-            viewBox="0 0 24 24"
-            width="1em"
-          >
-            <g>
-              <path
-                d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
-              />
-              <path
-                d="M0 0h24v24H0z"
-                fill="none"
-              />
-            </g>
-          </svg>
-        </button>
-        <div
-          class="emotion-6"
-        >
-          <div
-            class="emotion-7"
-          >
-            <div
-              class="emotion-8"
-            >
-              <svg
-                aria-hidden="true"
-                class="c-icon emotion-9"
-                data-license="Apache License 2.0"
-                data-source="Material Design"
-                fill="currentColor"
-                height="1em"
-                preserveAspectRatio="xMidYMid meet"
-                style="vertical-align: middle;"
-                viewBox="0 0 24 24"
-                width="1em"
-              >
-                <g>
-                  <path
-                    d="M0 0h24v24H0V0z"
-                    fill="none"
-                  />
-                  <path
-                    d="M11 15h2v2h-2zm0-8h2v6h-2zm.99-5C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
-                  />
-                </g>
-              </svg>
-              <span
-                class="emotion-10"
-              >
-                Testmessage
-              </span>
-            </div>
-            <div
-              class="emotion-11"
-            />
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-`;
-
-exports[`Messages A message is removed if the modal is closed 2`] = `
-.emotion-0 {
-  position: fixed;
-  width: 80%;
-  max-width: 800px;
-  top: 50px;
-  left: 0;
-  right: 0;
-  z-index: 200;
-  margin: 0 auto;
-  display: none;
-}
-
-<div>
-  <div
-    class="emotion-0"
-  />
-</div>
-`;
-
-exports[`Messages A single message renders correctly 1`] = `
-.emotion-0 {
-  position: fixed;
-  width: 80%;
-  max-width: 800px;
-  top: 50px;
-  left: 0;
-  right: 0;
-  z-index: 200;
-  margin: 0 auto;
-}
-
-.emotion-1 {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.8);
-  z-index: 1000;
-  overflow-x: auto;
-}
-
-@media (max-width: 48em) {
-  .emotion-1 {
-    top: 64px;
-    overflow-y: auto;
-    white-space: normal;
-    z-index: 26;
-  }
-}
-
-@media (max-width: 29.75em) {
-  .emotion-1 {
-    top: 43px;
-  }
-}
-
-.emotion-2 {
-  overflow-x: auto;
-  background-color: white;
-  margin: 52px auto 52px;
-  padding: 1em 2em 3em;
-  max-width: 400px;
-  border-radius: 5px;
-  border-radius: 0;
-  min-height: 210px;
-  max-width: 620px;
-  padding-bottom: 26px;
-  background-color: #d1372e;
-  color: white;
-}
-
-.emotion-3 {
-  display: inline-block;
-  color: #ffffff;
-  background-color: #20588f;
-  border: 2px solid #20588f;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  gap: 6.5px;
+  color: #20588f;
+  background: #deebf6;
+  border: 2px solid #deebf6;
   border-radius: 4px;
-  padding: 4px 13px;
   outline-width: 0;
   cursor: pointer;
   -webkit-text-decoration: none;
   text-decoration: none;
-  font-size: 16px;
-  font-size: 0.8888888888888888rem;
-  line-height: 1.625;
   font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
-  font-weight: 700;
+  font-weight: 600;
   -webkit-transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
   transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
   box-shadow: none;
   text-align: center;
-  -webkit-transition: background-color none;
-  transition: background-color none;
-  padding: 0;
-  border-radius: 0;
-  color: inherit;
-  font-size: inherit;
-  background-color: transparent;
-  box-shadow: none;
-  border: none;
-  font-weight: 400;
-  float: right;
-  height: 44px;
-  width: 44px;
-  margin-top: -5px;
-  margin-right: -20px;
+  padding: 4.333333333333333px 6.5px;
+  font-size: 14px;
+  font-size: 0.7777777777777778rem;
+  line-height: 18px;
+  min-height: 32px;
+  border-width: 1px;
+  outline-width: 2px;
+  color: #20588f;
+  background: transparent;
+  border-color: transparent;
+  border-radius: 100%;
+  padding: 6.5px;
+  line-height: 1;
+  border-color: transparent;
+  min-height: unset;
+  margin-left: auto;
+  color: #fff;
+  justify-self: flex-end;
 }
 
-.emotion-3:hover,
-.emotion-3:focus {
-  color: white;
-  background-color: #184673;
-  border: 2px solid #184673;
+.emotion-9:hover,
+.emotion-9:focus {
+  color: #fff;
+  background-color: #20588f;
+  border-color: #20588f;
 }
 
-.emotion-3[disabled] {
+.emotion-9[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-3:focus {
-  box-shadow: 0 0 2px #20588f;
-}
-
-.emotion-3:hover,
-.emotion-3:active,
-.emotion-3:disabled,
-.emotion-3:focus {
-  box-shadow: none;
+.emotion-9:hover,
+.emotion-9:active,
+.emotion-9:focus {
   color: #20588f;
-  background-color: transparent;
-  border: none;
+  background: #deebf6;
+  border-color: #deebf6;
 }
 
-.emotion-3:focus {
-  outline-width: medium;
-}
-
-.emotion-5 {
-  float: right;
-  height: 24px;
-  width: 24px;
-  margin-right: 7px;
+.emotion-9[disabled] {
   color: #777777;
-  background-color: #d1372e;
-  color: white;
-}
-
-.emotion-6 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  height: 100%;
-  width: 100%;
-}
-
-.emotion-7 {
-  height: 100%;
-  padding-top: 26px;
-  font-size: 24px;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-  justify-content: space-between;
-}
-
-.emotion-8 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-}
-
-.emotion-9 {
-  width: 27px;
-  height: 27px;
-  margin-right: 13px;
-}
-
-.emotion-10 {
-  width: 100%;
-  display: inline-block;
-  text-align: left;
-}
-
-.emotion-11 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-  justify-content: space-between;
-  -webkit-align-items: flex-end;
-  -webkit-box-align: flex-end;
-  -ms-flex-align: flex-end;
-  align-items: flex-end;
-  margin-top: 13px;
-}
-
-<div>
-  <div
-    class="emotion-0"
-  >
-    <div
-      class="emotion-1"
-    >
-      <div
-        class="emotion-2"
-      >
-        <button
-          class="emotion-3 emotion-4"
-          data-testid="closeAlert"
-          type="button"
-        >
-          <svg
-            aria-hidden="true"
-            class="c-icon emotion-5"
-            data-license="Apache License 2.0"
-            data-source="Material Design"
-            fill="currentColor"
-            height="1em"
-            preserveAspectRatio="xMidYMid meet"
-            severity="danger"
-            style="vertical-align: middle;"
-            viewBox="0 0 24 24"
-            width="1em"
-          >
-            <g>
-              <path
-                d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
-              />
-              <path
-                d="M0 0h24v24H0z"
-                fill="none"
-              />
-            </g>
-          </svg>
-        </button>
-        <div
-          class="emotion-6"
-        >
-          <div
-            class="emotion-7"
-          >
-            <div
-              class="emotion-8"
-            >
-              <svg
-                aria-hidden="true"
-                class="c-icon emotion-9"
-                data-license="Apache License 2.0"
-                data-source="Material Design"
-                fill="currentColor"
-                height="1em"
-                preserveAspectRatio="xMidYMid meet"
-                style="vertical-align: middle;"
-                viewBox="0 0 24 24"
-                width="1em"
-              >
-                <g>
-                  <path
-                    d="M0 0h24v24H0V0z"
-                    fill="none"
-                  />
-                  <path
-                    d="M11 15h2v2h-2zm0-8h2v6h-2zm.99-5C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
-                  />
-                </g>
-              </svg>
-              <span
-                class="emotion-10"
-              >
-                Testmessage
-              </span>
-            </div>
-            <div
-              class="emotion-11"
-            />
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-`;
-
-exports[`Messages Several messages renders correctly 1`] = `
-.emotion-0 {
-  position: fixed;
-  width: 80%;
-  max-width: 800px;
-  top: 50px;
-  left: 0;
-  right: 0;
-  z-index: 200;
-  margin: 0 auto;
-}
-
-.emotion-1 {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.8);
-  z-index: 1000;
-  overflow-x: auto;
-}
-
-@media (max-width: 48em) {
-  .emotion-1 {
-    top: 64px;
-    overflow-y: auto;
-    white-space: normal;
-    z-index: 26;
-  }
-}
-
-@media (max-width: 29.75em) {
-  .emotion-1 {
-    top: 43px;
-  }
-}
-
-.emotion-2 {
-  overflow-x: auto;
-  background-color: white;
-  margin: 52px auto 52px;
-  padding: 1em 2em 3em;
-  max-width: 400px;
-  border-radius: 5px;
-  border-radius: 0;
-  min-height: 210px;
-  max-width: 620px;
-  padding-bottom: 26px;
-  background-color: #d1372e;
-  color: white;
-}
-
-.emotion-3 {
-  display: inline-block;
-  color: #ffffff;
-  background-color: #20588f;
-  border: 2px solid #20588f;
-  border-radius: 4px;
-  padding: 4px 13px;
-  outline-width: 0;
-  cursor: pointer;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  font-size: 16px;
-  font-size: 0.8888888888888888rem;
-  line-height: 1.625;
-  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
-  font-weight: 700;
-  -webkit-transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
-  transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
-  box-shadow: none;
-  text-align: center;
-  -webkit-transition: background-color none;
-  transition: background-color none;
-  padding: 0;
-  border-radius: 0;
-  color: inherit;
-  font-size: inherit;
   background-color: transparent;
-  box-shadow: none;
-  border: none;
-  font-weight: 400;
-  float: right;
-  height: 44px;
-  width: 44px;
-  margin-top: -5px;
-  margin-right: -20px;
-}
-
-.emotion-3:hover,
-.emotion-3:focus {
-  color: white;
-  background-color: #184673;
-  border: 2px solid #184673;
-}
-
-.emotion-3[disabled] {
-  color: #777777;
-  background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-3:focus {
-  box-shadow: 0 0 2px #20588f;
-}
-
-.emotion-3:hover,
-.emotion-3:active,
-.emotion-3:disabled,
-.emotion-3:focus {
-  box-shadow: none;
-  color: #20588f;
-  background-color: transparent;
-  border: none;
-}
-
-.emotion-3:focus {
-  outline-width: medium;
-}
-
-.emotion-5 {
-  float: right;
-  height: 24px;
-  width: 24px;
-  margin-right: 7px;
-  color: #777777;
-  background-color: #d1372e;
-  color: white;
-}
-
-.emotion-6 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  height: 100%;
-  width: 100%;
-}
-
-.emotion-7 {
-  height: 100%;
-  padding-top: 26px;
-  font-size: 24px;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-  justify-content: space-between;
-}
-
-.emotion-8 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-}
-
-.emotion-9 {
-  width: 27px;
-  height: 27px;
-  margin-right: 13px;
+.emotion-9 svg {
+  width: 26px;
+  height: 26px;
+  margin: 0;
 }
 
 .emotion-10 {
-  width: 100%;
-  display: inline-block;
-  text-align: left;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 13px;
 }
 
 .emotion-11 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-  justify-content: space-between;
-  -webkit-align-items: flex-end;
-  -webkit-box-align: flex-end;
-  -ms-flex-align: flex-end;
-  align-items: flex-end;
-  margin-top: 13px;
-}
-
-<div>
-  <div
-    class="emotion-0"
-  >
-    <div
-      class="emotion-1"
-    >
-      <div
-        class="emotion-2"
-      >
-        <button
-          class="emotion-3 emotion-4"
-          data-testid="closeAlert"
-          type="button"
-        >
-          <svg
-            aria-hidden="true"
-            class="c-icon emotion-5"
-            data-license="Apache License 2.0"
-            data-source="Material Design"
-            fill="currentColor"
-            height="1em"
-            preserveAspectRatio="xMidYMid meet"
-            severity="danger"
-            style="vertical-align: middle;"
-            viewBox="0 0 24 24"
-            width="1em"
-          >
-            <g>
-              <path
-                d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
-              />
-              <path
-                d="M0 0h24v24H0z"
-                fill="none"
-              />
-            </g>
-          </svg>
-        </button>
-        <div
-          class="emotion-6"
-        >
-          <div
-            class="emotion-7"
-          >
-            <div
-              class="emotion-8"
-            >
-              <svg
-                aria-hidden="true"
-                class="c-icon emotion-9"
-                data-license="Apache License 2.0"
-                data-source="Material Design"
-                fill="currentColor"
-                height="1em"
-                preserveAspectRatio="xMidYMid meet"
-                style="vertical-align: middle;"
-                viewBox="0 0 24 24"
-                width="1em"
-              >
-                <g>
-                  <path
-                    d="M0 0h24v24H0V0z"
-                    fill="none"
-                  />
-                  <path
-                    d="M11 15h2v2h-2zm0-8h2v6h-2zm.99-5C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
-                  />
-                </g>
-              </svg>
-              <span
-                class="emotion-10"
-              >
-                Testmessage
-              </span>
-            </div>
-            <div
-              class="emotion-11"
-            />
-          </div>
-        </div>
-      </div>
-    </div>
-    <div
-      class="emotion-1"
-    >
-      <div
-        class="emotion-2"
-      >
-        <button
-          class="emotion-3 emotion-4"
-          data-testid="closeAlert"
-          type="button"
-        >
-          <svg
-            aria-hidden="true"
-            class="c-icon emotion-5"
-            data-license="Apache License 2.0"
-            data-source="Material Design"
-            fill="currentColor"
-            height="1em"
-            preserveAspectRatio="xMidYMid meet"
-            severity="danger"
-            style="vertical-align: middle;"
-            viewBox="0 0 24 24"
-            width="1em"
-          >
-            <g>
-              <path
-                d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
-              />
-              <path
-                d="M0 0h24v24H0z"
-                fill="none"
-              />
-            </g>
-          </svg>
-        </button>
-        <div
-          class="emotion-6"
-        >
-          <div
-            class="emotion-7"
-          >
-            <div
-              class="emotion-8"
-            >
-              <svg
-                aria-hidden="true"
-                class="c-icon emotion-9"
-                data-license="Apache License 2.0"
-                data-source="Material Design"
-                fill="currentColor"
-                height="1em"
-                preserveAspectRatio="xMidYMid meet"
-                style="vertical-align: middle;"
-                viewBox="0 0 24 24"
-                width="1em"
-              >
-                <g>
-                  <path
-                    d="M0 0h24v24H0V0z"
-                    fill="none"
-                  />
-                  <path
-                    d="M11 15h2v2h-2zm0-8h2v6h-2zm.99-5C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
-                  />
-                </g>
-              </svg>
-              <span
-                class="emotion-10"
-              >
-                Testmessage2
-              </span>
-            </div>
-            <div
-              class="emotion-11"
-            />
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-`;
-
-exports[`Messages auth0 messages provides a cancel button 1`] = `
-.emotion-0 {
-  position: fixed;
-  width: 80%;
-  max-width: 800px;
-  top: 50px;
-  left: 0;
-  right: 0;
-  z-index: 200;
-  margin: 0 auto;
-}
-
-.emotion-1 {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.8);
-  z-index: 1000;
-  overflow-x: auto;
-}
-
-@media (max-width: 48em) {
-  .emotion-1 {
-    top: 64px;
-    overflow-y: auto;
-    white-space: normal;
-    z-index: 26;
-  }
-}
-
-@media (max-width: 29.75em) {
-  .emotion-1 {
-    top: 43px;
-  }
-}
-
-.emotion-2 {
-  overflow-x: auto;
-  background-color: white;
-  margin: 52px auto 52px;
-  padding: 1em 2em 3em;
-  max-width: 400px;
-  border-radius: 5px;
-  border-radius: 0;
-  min-height: 210px;
-  max-width: 620px;
-  padding-bottom: 26px;
-  background-color: #d1372e;
-  color: white;
-}
-
-.emotion-3 {
-  display: inline-block;
-  color: #ffffff;
-  background-color: #20588f;
-  border: 2px solid #20588f;
-  border-radius: 4px;
-  padding: 4px 13px;
-  outline-width: 0;
-  cursor: pointer;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  font-size: 16px;
-  font-size: 0.8888888888888888rem;
-  line-height: 1.625;
-  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
-  font-weight: 700;
-  -webkit-transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
-  transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
-  box-shadow: none;
-  text-align: center;
-  -webkit-transition: background-color none;
-  transition: background-color none;
-  padding: 0;
-  border-radius: 0;
-  color: inherit;
-  font-size: inherit;
-  background-color: transparent;
-  box-shadow: none;
-  border: none;
-  font-weight: 400;
-  float: right;
-  height: 44px;
-  width: 44px;
-  margin-top: -5px;
-  margin-right: -20px;
-}
-
-.emotion-3:hover,
-.emotion-3:focus {
-  color: white;
-  background-color: #184673;
-  border: 2px solid #184673;
-}
-
-.emotion-3[disabled] {
-  color: #777777;
-  background-color: #e6e6e6;
-  border-color: transparent;
-  cursor: not-allowed;
-}
-
-.emotion-3:focus {
-  box-shadow: 0 0 2px #20588f;
-}
-
-.emotion-3:hover,
-.emotion-3:active,
-.emotion-3:disabled,
-.emotion-3:focus {
-  box-shadow: none;
-  color: #20588f;
-  background-color: transparent;
-  border: none;
-}
-
-.emotion-3:focus {
-  outline-width: medium;
-}
-
-.emotion-5 {
-  float: right;
-  height: 24px;
-  width: 24px;
-  margin-right: 7px;
-  color: #777777;
-  background-color: #d1372e;
-  color: white;
-}
-
-.emotion-6 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  height: 100%;
-  width: 100%;
-}
-
-.emotion-7 {
-  height: 100%;
-  padding-top: 26px;
-  font-size: 24px;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-  justify-content: space-between;
-}
-
-.emotion-8 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-}
-
-.emotion-9 {
   width: 27px;
   height: 27px;
-  margin-right: 13px;
-}
-
-.emotion-10 {
-  width: 100%;
-  display: inline-block;
-  text-align: left;
-}
-
-.emotion-11 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-  justify-content: space-between;
-  -webkit-align-items: flex-end;
-  -webkit-box-align: flex-end;
-  -ms-flex-align: flex-end;
-  align-items: flex-end;
-  margin-top: 13px;
 }
 
 .emotion-12 {
-  display: inline-block;
-  color: #ffffff;
-  background-color: #20588f;
-  border: 2px solid #20588f;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+  -webkit-align-items: flex-end;
+  -webkit-box-align: flex-end;
+  -ms-flex-align: flex-end;
+  align-items: flex-end;
+  margin-top: 13px;
+}
+
+<body>
+  <div
+    aria-hidden="true"
+  >
+    <div
+      class="emotion-0"
+    />
+  </div>
+  <reach-portal>
+    <div
+      data-focus-guard="true"
+      style="width: 1px; height: 0px; padding: 0px; overflow: hidden; position: fixed; top: 1px; left: 1px;"
+      tabindex="0"
+    />
+    <div
+      data-focus-lock-disabled="false"
+    >
+      <div>
+        <div
+          class="emotion-1 emotion-2"
+          data-reach-dialog-overlay=""
+        >
+          <div
+            aria-label="Pass på!"
+            aria-modal="true"
+            class=" undefined emotion-3 emotion-4"
+            data-reach-dialog-content=""
+            role="dialog"
+            tabindex="-1"
+          >
+            <div
+              class="emotion-5"
+            >
+              <div
+                class="emotion-6 emotion-7"
+                data-cy="modal-header"
+              >
+                <h1
+                  class="emotion-8"
+                >
+                  Pass på!
+                </h1>
+                <button
+                  aria-label="Lukk"
+                  class="emotion-9"
+                  data-testid="closeAlert"
+                  type="button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="c-icon"
+                    data-license="Apache License 2.0"
+                    data-source="Material Design"
+                    fill="currentColor"
+                    height="1em"
+                    preserveAspectRatio="xMidYMid meet"
+                    style="vertical-align: middle;"
+                    viewBox="0 0 24 24"
+                    width="1em"
+                  >
+                    <g>
+                      <path
+                        d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+                      />
+                      <path
+                        d="M0 0h24v24H0z"
+                        fill="none"
+                      />
+                    </g>
+                  </svg>
+                </button>
+              </div>
+              <div
+                class="emotion-10"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="c-icon emotion-11"
+                  data-license="Apache License 2.0"
+                  data-source="Material Design"
+                  fill="currentColor"
+                  height="1em"
+                  preserveAspectRatio="xMidYMid meet"
+                  style="vertical-align: middle;"
+                  viewBox="0 0 24 24"
+                  width="1em"
+                >
+                  <g>
+                    <path
+                      d="M0 0h24v24H0V0z"
+                      fill="none"
+                    />
+                    <path
+                      d="M11 15h2v2h-2zm0-8h2v6h-2zm.99-5C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                    />
+                  </g>
+                </svg>
+                Testmessage
+              </div>
+              <div
+                class="emotion-12"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      data-focus-guard="true"
+      style="width: 1px; height: 0px; padding: 0px; overflow: hidden; position: fixed; top: 1px; left: 1px;"
+      tabindex="0"
+    />
+  </reach-portal>
+</body>
+`;
+
+exports[`Messages A message is removed if the modal is closed 2`] = `
+@keyframes animation-0 {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes animation-1 {
+  0% {
+    opacity: 0;
+    -webkit-transform: translateY(0);
+    -moz-transform: translateY(0);
+    -ms-transform: translateY(0);
+    transform: translateY(0);
+  }
+
+  100% {
+    opacity: 1;
+    -webkit-transform: translateY(40px);
+    -moz-transform: translateY(40px);
+    -ms-transform: translateY(40px);
+    transform: translateY(40px);
+  }
+}
+
+.emotion-0 {
+  position: fixed;
+  width: 80%;
+  max-width: 800px;
+  top: 50px;
+  left: 0;
+  right: 0;
+  z-index: 200;
+  margin: 0 auto;
+}
+
+.emotion-1 {
+  overflow: hidden;
+  background: rgba(1, 1, 1, 0.3);
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 100;
+  overflow: hidden;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-animation-name: animation-0;
+  animation-name: animation-0;
+  -webkit-animation-duration: 400ms;
+  animation-duration: 400ms;
+}
+
+.emotion-3 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  position: fixed;
+  overflow-y: auto;
+  background: white;
+  max-height: 85%;
+  max-width: 95%;
+  -webkit-animation-name: animation-1;
+  animation-name: animation-1;
+  -webkit-animation-duration: 400ms;
+  animation-duration: 400ms;
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-top: env(safe-area-inset-top);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+  width: 700px;
+}
+
+@media (max-width: 37.5625em) {
+  .emotion-3 {
+    min-width: 100%;
+    min-height: 100%;
+  }
+}
+
+.emotion-5 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  gap: 26px;
+  padding: 26px;
+  background-color: #d1372e;
+  color: white;
+}
+
+.emotion-6 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  -webkit-justify-content: flex-end;
+  justify-content: flex-end;
+  padding: 26px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 0;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+}
+
+.emotion-6 h1 {
+  margin: 0;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  font-weight: 700;
+  font-size: 22px;
+  font-size: 1.2222222222222223rem;
+  line-height: 1.2;
+  color: #444;
+}
+
+.emotion-6 h1 {
+  color: #fff;
+}
+
+.emotion-8 {
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  margin: 0;
+  color: #fff;
+}
+
+.emotion-9 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  gap: 6.5px;
+  color: #20588f;
+  background: #deebf6;
+  border: 2px solid #deebf6;
   border-radius: 4px;
-  padding: 4px 13px;
   outline-width: 0;
   cursor: pointer;
   -webkit-text-decoration: none;
   text-decoration: none;
-  font-size: 16px;
-  font-size: 0.8888888888888888rem;
-  line-height: 1.625;
   font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
-  font-weight: 700;
+  font-weight: 600;
   -webkit-transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
   transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
   box-shadow: none;
   text-align: center;
+  padding: 4.333333333333333px 6.5px;
+  font-size: 14px;
+  font-size: 0.7777777777777778rem;
+  line-height: 18px;
+  min-height: 32px;
+  border-width: 1px;
+  outline-width: 2px;
   color: #20588f;
-  background-color: transparent;
-  border: 2px solid #20588f;
-  box-shadow: none;
+  background: transparent;
+  border-color: transparent;
+  border-radius: 100%;
+  padding: 6.5px;
+  line-height: 1;
+  border-color: transparent;
+  min-height: unset;
+  margin-left: auto;
+  color: #fff;
+  justify-self: flex-end;
+}
+
+.emotion-9:hover,
+.emotion-9:focus {
+  color: #fff;
+  background-color: #20588f;
+  border-color: #20588f;
+}
+
+.emotion-9[disabled] {
+  color: #777777;
+  background-color: #e6e6e6;
+  border-color: transparent;
+  cursor: not-allowed;
+}
+
+.emotion-9:hover,
+.emotion-9:active,
+.emotion-9:focus {
   color: #20588f;
+  background: #deebf6;
+  border-color: #deebf6;
+}
+
+.emotion-9[disabled] {
+  color: #777777;
   background-color: transparent;
-  border: 2px solid #20588f;
+  border-color: transparent;
+  cursor: not-allowed;
+}
+
+.emotion-9 svg {
+  width: 26px;
+  height: 26px;
+  margin: 0;
+}
+
+.emotion-10 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 13px;
+}
+
+.emotion-11 {
+  width: 27px;
+  height: 27px;
+}
+
+.emotion-12 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+  -webkit-align-items: flex-end;
+  -webkit-box-align: flex-end;
+  -ms-flex-align: flex-end;
+  align-items: flex-end;
+  margin-top: 13px;
+}
+
+<body>
+  <div
+    aria-hidden="true"
+  >
+    <div
+      class="emotion-0"
+    />
+  </div>
+  <reach-portal>
+    <div
+      data-focus-guard="true"
+      style="width: 1px; height: 0px; padding: 0px; overflow: hidden; position: fixed; top: 1px; left: 1px;"
+      tabindex="0"
+    />
+    <div
+      data-focus-lock-disabled="false"
+    >
+      <div>
+        <div
+          class="emotion-1 emotion-2"
+          data-reach-dialog-overlay=""
+        >
+          <div
+            aria-label="Pass på!"
+            aria-modal="true"
+            class=" undefined emotion-3 emotion-4"
+            data-reach-dialog-content=""
+            role="dialog"
+            tabindex="-1"
+          >
+            <div
+              class="emotion-5"
+            >
+              <div
+                class="emotion-6 emotion-7"
+                data-cy="modal-header"
+              >
+                <h1
+                  class="emotion-8"
+                >
+                  Pass på!
+                </h1>
+                <button
+                  aria-label="Lukk"
+                  class="emotion-9"
+                  data-testid="closeAlert"
+                  type="button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="c-icon"
+                    data-license="Apache License 2.0"
+                    data-source="Material Design"
+                    fill="currentColor"
+                    height="1em"
+                    preserveAspectRatio="xMidYMid meet"
+                    style="vertical-align: middle;"
+                    viewBox="0 0 24 24"
+                    width="1em"
+                  >
+                    <g>
+                      <path
+                        d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+                      />
+                      <path
+                        d="M0 0h24v24H0z"
+                        fill="none"
+                      />
+                    </g>
+                  </svg>
+                </button>
+              </div>
+              <div
+                class="emotion-10"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="c-icon emotion-11"
+                  data-license="Apache License 2.0"
+                  data-source="Material Design"
+                  fill="currentColor"
+                  height="1em"
+                  preserveAspectRatio="xMidYMid meet"
+                  style="vertical-align: middle;"
+                  viewBox="0 0 24 24"
+                  width="1em"
+                >
+                  <g>
+                    <path
+                      d="M0 0h24v24H0V0z"
+                      fill="none"
+                    />
+                    <path
+                      d="M11 15h2v2h-2zm0-8h2v6h-2zm.99-5C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                    />
+                  </g>
+                </svg>
+                Testmessage
+              </div>
+              <div
+                class="emotion-12"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      data-focus-guard="true"
+      style="width: 1px; height: 0px; padding: 0px; overflow: hidden; position: fixed; top: 1px; left: 1px;"
+      tabindex="0"
+    />
+  </reach-portal>
+</body>
+`;
+
+exports[`Messages A single message renders correctly 1`] = `
+@keyframes animation-0 {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes animation-1 {
+  0% {
+    opacity: 0;
+    -webkit-transform: translateY(40px);
+    -moz-transform: translateY(40px);
+    -ms-transform: translateY(40px);
+    transform: translateY(40px);
+  }
+
+  100% {
+    opacity: 1;
+    -webkit-transform: translateY(0);
+    -moz-transform: translateY(0);
+    -ms-transform: translateY(0);
+    transform: translateY(0);
+  }
+}
+
+.emotion-0 {
+  position: fixed;
+  width: 80%;
+  max-width: 800px;
+  top: 50px;
+  left: 0;
+  right: 0;
+  z-index: 200;
+  margin: 0 auto;
+}
+
+.emotion-1 {
+  overflow: hidden;
+  background: rgba(1, 1, 1, 0.3);
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 100;
+  overflow: hidden;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-animation-name: animation-0;
+  animation-name: animation-0;
+  -webkit-animation-duration: 400ms;
+  animation-duration: 400ms;
+}
+
+.emotion-3 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  position: fixed;
+  overflow-y: auto;
+  background: white;
+  max-height: 85%;
+  max-width: 95%;
+  -webkit-animation-name: animation-1;
+  animation-name: animation-1;
+  -webkit-animation-duration: 400ms;
+  animation-duration: 400ms;
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-top: env(safe-area-inset-top);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+  width: 700px;
+}
+
+@media (max-width: 37.5625em) {
+  .emotion-3 {
+    min-width: 100%;
+    min-height: 100%;
+  }
+}
+
+.emotion-5 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  gap: 26px;
+  padding: 26px;
+  background-color: #d1372e;
+  color: white;
+}
+
+.emotion-6 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  -webkit-justify-content: flex-end;
+  justify-content: flex-end;
+  padding: 26px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 0;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+}
+
+.emotion-6 h1 {
+  margin: 0;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  font-weight: 700;
+  font-size: 22px;
+  font-size: 1.2222222222222223rem;
+  line-height: 1.2;
+  color: #444;
+}
+
+.emotion-6 h1 {
+  color: #fff;
+}
+
+.emotion-8 {
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  margin: 0;
+  color: #fff;
+}
+
+.emotion-9 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  gap: 6.5px;
+  color: #20588f;
+  background: #deebf6;
+  border: 2px solid #deebf6;
+  border-radius: 4px;
+  outline-width: 0;
+  cursor: pointer;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
+  font-weight: 600;
+  -webkit-transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
+  transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
   box-shadow: none;
+  text-align: center;
+  padding: 4.333333333333333px 6.5px;
+  font-size: 14px;
+  font-size: 0.7777777777777778rem;
+  line-height: 18px;
+  min-height: 32px;
+  border-width: 1px;
+  outline-width: 2px;
+  color: #20588f;
+  background: transparent;
+  border-color: transparent;
+  border-radius: 100%;
+  padding: 6.5px;
+  line-height: 1;
+  border-color: transparent;
+  min-height: unset;
+  margin-left: auto;
+  color: #fff;
+  justify-self: flex-end;
+}
+
+.emotion-9:hover,
+.emotion-9:focus {
+  color: #fff;
+  background-color: #20588f;
+  border-color: #20588f;
+}
+
+.emotion-9[disabled] {
+  color: #777777;
+  background-color: #e6e6e6;
+  border-color: transparent;
+  cursor: not-allowed;
+}
+
+.emotion-9:hover,
+.emotion-9:active,
+.emotion-9:focus {
+  color: #20588f;
+  background: #deebf6;
+  border-color: #deebf6;
+}
+
+.emotion-9[disabled] {
+  color: #777777;
+  background-color: transparent;
+  border-color: transparent;
+  cursor: not-allowed;
+}
+
+.emotion-9 svg {
+  width: 26px;
+  height: 26px;
+  margin: 0;
+}
+
+.emotion-10 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 13px;
+}
+
+.emotion-11 {
+  width: 27px;
+  height: 27px;
+}
+
+.emotion-12 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+  -webkit-align-items: flex-end;
+  -webkit-box-align: flex-end;
+  -ms-flex-align: flex-end;
+  align-items: flex-end;
+  margin-top: 13px;
+}
+
+<body>
+  <div
+    aria-hidden="true"
+  >
+    <div
+      class="emotion-0"
+    />
+  </div>
+  <reach-portal>
+    <div
+      data-focus-guard="true"
+      style="width: 1px; height: 0px; padding: 0px; overflow: hidden; position: fixed; top: 1px; left: 1px;"
+      tabindex="0"
+    />
+    <div
+      data-focus-lock-disabled="false"
+    >
+      <div>
+        <div
+          class="emotion-1 emotion-2"
+          data-reach-dialog-overlay=""
+        >
+          <div
+            aria-label="Pass på!"
+            aria-modal="true"
+            class=" undefined emotion-3 emotion-4"
+            data-reach-dialog-content=""
+            role="dialog"
+            tabindex="-1"
+          >
+            <div
+              class="emotion-5"
+            >
+              <div
+                class="emotion-6 emotion-7"
+                data-cy="modal-header"
+              >
+                <h1
+                  class="emotion-8"
+                >
+                  Pass på!
+                </h1>
+                <button
+                  aria-label="Lukk"
+                  class="emotion-9"
+                  data-testid="closeAlert"
+                  type="button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="c-icon"
+                    data-license="Apache License 2.0"
+                    data-source="Material Design"
+                    fill="currentColor"
+                    height="1em"
+                    preserveAspectRatio="xMidYMid meet"
+                    style="vertical-align: middle;"
+                    viewBox="0 0 24 24"
+                    width="1em"
+                  >
+                    <g>
+                      <path
+                        d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+                      />
+                      <path
+                        d="M0 0h24v24H0z"
+                        fill="none"
+                      />
+                    </g>
+                  </svg>
+                </button>
+              </div>
+              <div
+                class="emotion-10"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="c-icon emotion-11"
+                  data-license="Apache License 2.0"
+                  data-source="Material Design"
+                  fill="currentColor"
+                  height="1em"
+                  preserveAspectRatio="xMidYMid meet"
+                  style="vertical-align: middle;"
+                  viewBox="0 0 24 24"
+                  width="1em"
+                >
+                  <g>
+                    <path
+                      d="M0 0h24v24H0V0z"
+                      fill="none"
+                    />
+                    <path
+                      d="M11 15h2v2h-2zm0-8h2v6h-2zm.99-5C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                    />
+                  </g>
+                </svg>
+                Testmessage
+              </div>
+              <div
+                class="emotion-12"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      data-focus-guard="true"
+      style="width: 1px; height: 0px; padding: 0px; overflow: hidden; position: fixed; top: 1px; left: 1px;"
+      tabindex="0"
+    />
+  </reach-portal>
+</body>
+`;
+
+exports[`Messages Several messages renders correctly 1`] = `
+@keyframes animation-0 {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes animation-1 {
+  0% {
+    opacity: 0;
+    -webkit-transform: translateY(40px);
+    -moz-transform: translateY(40px);
+    -ms-transform: translateY(40px);
+    transform: translateY(40px);
+  }
+
+  100% {
+    opacity: 1;
+    -webkit-transform: translateY(0);
+    -moz-transform: translateY(0);
+    -ms-transform: translateY(0);
+    transform: translateY(0);
+  }
+}
+
+.emotion-0 {
+  position: fixed;
+  width: 80%;
+  max-width: 800px;
+  top: 50px;
+  left: 0;
+  right: 0;
+  z-index: 200;
+  margin: 0 auto;
+}
+
+.emotion-1 {
+  overflow: hidden;
+  background: rgba(1, 1, 1, 0.3);
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 100;
+  overflow: hidden;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-animation-name: animation-0;
+  animation-name: animation-0;
+  -webkit-animation-duration: 400ms;
+  animation-duration: 400ms;
+}
+
+.emotion-3 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  position: fixed;
+  overflow-y: auto;
+  background: white;
+  max-height: 85%;
+  max-width: 95%;
+  -webkit-animation-name: animation-1;
+  animation-name: animation-1;
+  -webkit-animation-duration: 400ms;
+  animation-duration: 400ms;
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-top: env(safe-area-inset-top);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+  width: 700px;
+}
+
+@media (max-width: 37.5625em) {
+  .emotion-3 {
+    min-width: 100%;
+    min-height: 100%;
+  }
+}
+
+.emotion-5 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  gap: 26px;
+  padding: 26px;
+  background-color: #d1372e;
+  color: white;
+}
+
+.emotion-6 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  -webkit-justify-content: flex-end;
+  justify-content: flex-end;
+  padding: 26px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 0;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+}
+
+.emotion-6 h1 {
+  margin: 0;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  font-weight: 700;
+  font-size: 22px;
+  font-size: 1.2222222222222223rem;
+  line-height: 1.2;
+  color: #444;
+}
+
+.emotion-6 h1 {
+  color: #fff;
+}
+
+.emotion-8 {
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  margin: 0;
+  color: #fff;
+}
+
+.emotion-9 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  gap: 6.5px;
+  color: #20588f;
+  background: #deebf6;
+  border: 2px solid #deebf6;
+  border-radius: 4px;
+  outline-width: 0;
+  cursor: pointer;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
+  font-weight: 600;
+  -webkit-transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
+  transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
+  box-shadow: none;
+  text-align: center;
+  padding: 4.333333333333333px 6.5px;
+  font-size: 14px;
+  font-size: 0.7777777777777778rem;
+  line-height: 18px;
+  min-height: 32px;
+  border-width: 1px;
+  outline-width: 2px;
+  color: #20588f;
+  background: transparent;
+  border-color: transparent;
+  border-radius: 100%;
+  padding: 6.5px;
+  line-height: 1;
+  border-color: transparent;
+  min-height: unset;
+  margin-left: auto;
+  color: #fff;
+  justify-self: flex-end;
+}
+
+.emotion-9:hover,
+.emotion-9:focus {
+  color: #fff;
+  background-color: #20588f;
+  border-color: #20588f;
+}
+
+.emotion-9[disabled] {
+  color: #777777;
+  background-color: #e6e6e6;
+  border-color: transparent;
+  cursor: not-allowed;
+}
+
+.emotion-9:hover,
+.emotion-9:active,
+.emotion-9:focus {
+  color: #20588f;
+  background: #deebf6;
+  border-color: #deebf6;
+}
+
+.emotion-9[disabled] {
+  color: #777777;
+  background-color: transparent;
+  border-color: transparent;
+  cursor: not-allowed;
+}
+
+.emotion-9 svg {
+  width: 26px;
+  height: 26px;
+  margin: 0;
+}
+
+.emotion-10 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 13px;
+}
+
+.emotion-11 {
+  width: 27px;
+  height: 27px;
+}
+
+.emotion-12 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+  -webkit-align-items: flex-end;
+  -webkit-box-align: flex-end;
+  -ms-flex-align: flex-end;
+  align-items: flex-end;
+  margin-top: 13px;
+}
+
+<body>
+  <div
+    aria-hidden="true"
+  >
+    <div
+      class="emotion-0"
+    />
+  </div>
+  <reach-portal
+    aria-hidden="true"
+  >
+    <div
+      data-focus-guard="true"
+      style="width: 1px; height: 0px; padding: 0px; overflow: hidden; position: fixed; top: 1px; left: 1px;"
+      tabindex="0"
+    />
+    <div
+      data-focus-lock-disabled="false"
+    >
+      <div>
+        <div
+          class="emotion-1 emotion-2"
+          data-reach-dialog-overlay=""
+        >
+          <div
+            aria-label="Pass på!"
+            aria-modal="true"
+            class=" undefined emotion-3 emotion-4"
+            data-reach-dialog-content=""
+            role="dialog"
+            tabindex="-1"
+          >
+            <div
+              class="emotion-5"
+            >
+              <div
+                class="emotion-6 emotion-7"
+                data-cy="modal-header"
+              >
+                <h1
+                  class="emotion-8"
+                >
+                  Pass på!
+                </h1>
+                <button
+                  aria-label="Lukk"
+                  class="emotion-9"
+                  data-testid="closeAlert"
+                  type="button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="c-icon"
+                    data-license="Apache License 2.0"
+                    data-source="Material Design"
+                    fill="currentColor"
+                    height="1em"
+                    preserveAspectRatio="xMidYMid meet"
+                    style="vertical-align: middle;"
+                    viewBox="0 0 24 24"
+                    width="1em"
+                  >
+                    <g>
+                      <path
+                        d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+                      />
+                      <path
+                        d="M0 0h24v24H0z"
+                        fill="none"
+                      />
+                    </g>
+                  </svg>
+                </button>
+              </div>
+              <div
+                class="emotion-10"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="c-icon emotion-11"
+                  data-license="Apache License 2.0"
+                  data-source="Material Design"
+                  fill="currentColor"
+                  height="1em"
+                  preserveAspectRatio="xMidYMid meet"
+                  style="vertical-align: middle;"
+                  viewBox="0 0 24 24"
+                  width="1em"
+                >
+                  <g>
+                    <path
+                      d="M0 0h24v24H0V0z"
+                      fill="none"
+                    />
+                    <path
+                      d="M11 15h2v2h-2zm0-8h2v6h-2zm.99-5C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                    />
+                  </g>
+                </svg>
+                Testmessage
+              </div>
+              <div
+                class="emotion-12"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      data-focus-guard="true"
+      style="width: 1px; height: 0px; padding: 0px; overflow: hidden; position: fixed; top: 1px; left: 1px;"
+      tabindex="0"
+    />
+  </reach-portal>
+  <reach-portal
+    aria-hidden="true"
+  >
+    <div
+      data-focus-guard="true"
+      style="width: 1px; height: 0px; padding: 0px; overflow: hidden; position: fixed; top: 1px; left: 1px;"
+      tabindex="0"
+    />
+    <div
+      data-focus-lock-disabled="false"
+    >
+      <div>
+        <div
+          class="emotion-1 emotion-2"
+          data-reach-dialog-overlay=""
+        >
+          <div
+            aria-label="Pass på!"
+            aria-modal="true"
+            class=" undefined emotion-3 emotion-4"
+            data-reach-dialog-content=""
+            role="dialog"
+            tabindex="-1"
+          >
+            <div
+              class="emotion-5"
+            >
+              <div
+                class="emotion-6 emotion-7"
+                data-cy="modal-header"
+              >
+                <h1
+                  class="emotion-8"
+                >
+                  Pass på!
+                </h1>
+                <button
+                  aria-label="Lukk"
+                  class="emotion-9"
+                  data-testid="closeAlert"
+                  type="button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="c-icon"
+                    data-license="Apache License 2.0"
+                    data-source="Material Design"
+                    fill="currentColor"
+                    height="1em"
+                    preserveAspectRatio="xMidYMid meet"
+                    style="vertical-align: middle;"
+                    viewBox="0 0 24 24"
+                    width="1em"
+                  >
+                    <g>
+                      <path
+                        d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+                      />
+                      <path
+                        d="M0 0h24v24H0z"
+                        fill="none"
+                      />
+                    </g>
+                  </svg>
+                </button>
+              </div>
+              <div
+                class="emotion-10"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="c-icon emotion-11"
+                  data-license="Apache License 2.0"
+                  data-source="Material Design"
+                  fill="currentColor"
+                  height="1em"
+                  preserveAspectRatio="xMidYMid meet"
+                  style="vertical-align: middle;"
+                  viewBox="0 0 24 24"
+                  width="1em"
+                >
+                  <g>
+                    <path
+                      d="M0 0h24v24H0V0z"
+                      fill="none"
+                    />
+                    <path
+                      d="M11 15h2v2h-2zm0-8h2v6h-2zm.99-5C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                    />
+                  </g>
+                </svg>
+                Testmessage2
+              </div>
+              <div
+                class="emotion-12"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      data-focus-guard="true"
+      style="width: 1px; height: 0px; padding: 0px; overflow: hidden; position: fixed; top: 1px; left: 1px;"
+      tabindex="0"
+    />
+  </reach-portal>
+</body>
+`;
+
+exports[`Messages auth0 messages provides a cancel button 1`] = `
+@keyframes animation-0 {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes animation-1 {
+  0% {
+    opacity: 0;
+    -webkit-transform: translateY(40px);
+    -moz-transform: translateY(40px);
+    -ms-transform: translateY(40px);
+    transform: translateY(40px);
+  }
+
+  100% {
+    opacity: 1;
+    -webkit-transform: translateY(0);
+    -moz-transform: translateY(0);
+    -ms-transform: translateY(0);
+    transform: translateY(0);
+  }
+}
+
+.emotion-0 {
+  position: fixed;
+  width: 80%;
+  max-width: 800px;
+  top: 50px;
+  left: 0;
+  right: 0;
+  z-index: 200;
+  margin: 0 auto;
+}
+
+.emotion-1 {
+  overflow: hidden;
+  background: rgba(1, 1, 1, 0.3);
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 100;
+  overflow: hidden;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-animation-name: animation-0;
+  animation-name: animation-0;
+  -webkit-animation-duration: 400ms;
+  animation-duration: 400ms;
+}
+
+.emotion-3 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  position: fixed;
+  overflow-y: auto;
+  background: white;
+  max-height: 85%;
+  max-width: 95%;
+  -webkit-animation-name: animation-1;
+  animation-name: animation-1;
+  -webkit-animation-duration: 400ms;
+  animation-duration: 400ms;
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-top: env(safe-area-inset-top);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+  width: 700px;
+}
+
+@media (max-width: 37.5625em) {
+  .emotion-3 {
+    min-width: 100%;
+    min-height: 100%;
+  }
+}
+
+.emotion-5 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  gap: 26px;
+  padding: 26px;
+  background-color: #d1372e;
+  color: white;
+}
+
+.emotion-6 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  -webkit-justify-content: flex-end;
+  justify-content: flex-end;
+  padding: 26px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 0;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+}
+
+.emotion-6 h1 {
+  margin: 0;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  font-weight: 700;
+  font-size: 22px;
+  font-size: 1.2222222222222223rem;
+  line-height: 1.2;
+  color: #444;
+}
+
+.emotion-6 h1 {
+  color: #fff;
+}
+
+.emotion-8 {
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  margin: 0;
+  color: #fff;
+}
+
+.emotion-9 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  gap: 6.5px;
+  color: #20588f;
+  background: #deebf6;
+  border: 2px solid #deebf6;
+  border-radius: 4px;
+  outline-width: 0;
+  cursor: pointer;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
+  font-weight: 600;
+  -webkit-transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
+  transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
+  box-shadow: none;
+  text-align: center;
+  padding: 4.333333333333333px 6.5px;
+  font-size: 14px;
+  font-size: 0.7777777777777778rem;
+  line-height: 18px;
+  min-height: 32px;
+  border-width: 1px;
+  outline-width: 2px;
+  color: #20588f;
+  background: transparent;
+  border-color: transparent;
+  border-radius: 100%;
+  padding: 6.5px;
+  line-height: 1;
+  border-color: transparent;
+  min-height: unset;
+  margin-left: auto;
+  color: #fff;
+  justify-self: flex-end;
+}
+
+.emotion-9:hover,
+.emotion-9:focus {
+  color: #fff;
+  background-color: #20588f;
+  border-color: #20588f;
+}
+
+.emotion-9[disabled] {
+  color: #777777;
+  background-color: #e6e6e6;
+  border-color: transparent;
+  cursor: not-allowed;
+}
+
+.emotion-9:hover,
+.emotion-9:active,
+.emotion-9:focus {
+  color: #20588f;
+  background: #deebf6;
+  border-color: #deebf6;
+}
+
+.emotion-9[disabled] {
+  color: #777777;
+  background-color: transparent;
+  border-color: transparent;
+  cursor: not-allowed;
+}
+
+.emotion-9 svg {
+  width: 26px;
+  height: 26px;
+  margin: 0;
+}
+
+.emotion-10 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 13px;
+}
+
+.emotion-11 {
+  width: 27px;
+  height: 27px;
+}
+
+.emotion-12 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+  -webkit-align-items: flex-end;
+  -webkit-box-align: flex-end;
+  -ms-flex-align: flex-end;
+  align-items: flex-end;
+  margin-top: 13px;
+}
+
+.emotion-13 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  gap: 6.5px;
+  color: #fff;
+  background: #20588f;
+  border: 2px solid #20588f;
+  border-radius: 4px;
+  outline-width: 0;
+  cursor: pointer;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
+  font-weight: 600;
+  -webkit-transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
+  transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
+  box-shadow: none;
+  text-align: center;
+  padding: 4.333333333333333px 13px;
+  font-size: 16px;
+  font-size: 0.8888888888888888rem;
+  line-height: 1.625;
+  min-height: 40px;
+  color: #20588f;
+  background: transparent;
+  border-color: #20588f;
   background-color: white;
   margin-left: 0;
 }
 
-.emotion-12:hover,
-.emotion-12:focus {
-  color: white;
+.emotion-13:hover,
+.emotion-13:focus {
+  color: #fff;
   background-color: #184673;
-  border: 2px solid #184673;
+  border-color: #184673;
 }
 
-.emotion-12[disabled] {
+.emotion-13[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-12:focus {
-  box-shadow: 0 0 2px #20588f;
+.emotion-13:hover {
+  color: #fff;
+  background: #20588f;
+  border-color: #20588f;
 }
 
-.emotion-12:hover,
-.emotion-12:focus {
-  color: white;
-  background-color: #20588f;
-  border: 2px solid transparent;
-}
-
-.emotion-12:disabled {
+.emotion-13[disabled] {
   color: #777777;
-  border: 2px solid transparent;
-  background-color: #e6e6e6;
+  background-color: transparent;
+  border-color: #777777;
   cursor: not-allowed;
 }
 
-.emotion-12:hover,
-.emotion-12:focus {
-  color: white;
-  background-color: #20588f;
-  border: 2px solid transparent;
-}
-
-.emotion-12:disabled {
-  color: #777777;
-  border: 2px solid transparent;
-  background-color: #e6e6e6;
-  cursor: not-allowed;
-}
-
-<div>
+<body>
   <div
-    class="emotion-0"
+    aria-hidden="true"
   >
     <div
-      class="emotion-1"
+      class="emotion-0"
+    />
+  </div>
+  <reach-portal>
+    <div
+      data-focus-guard="true"
+      style="width: 1px; height: 0px; padding: 0px; overflow: hidden; position: fixed; top: 1px; left: 1px;"
+      tabindex="0"
+    />
+    <div
+      data-focus-lock-disabled="false"
     >
-      <div
-        class="emotion-2"
-      >
-        <button
-          class="emotion-3 emotion-4"
-          data-testid="closeAlert"
-          type="button"
-        >
-          <svg
-            aria-hidden="true"
-            class="c-icon emotion-5"
-            data-license="Apache License 2.0"
-            data-source="Material Design"
-            fill="currentColor"
-            height="1em"
-            preserveAspectRatio="xMidYMid meet"
-            severity="danger"
-            style="vertical-align: middle;"
-            viewBox="0 0 24 24"
-            width="1em"
-          >
-            <g>
-              <path
-                d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
-              />
-              <path
-                d="M0 0h24v24H0z"
-                fill="none"
-              />
-            </g>
-          </svg>
-        </button>
+      <div>
         <div
-          class="emotion-6"
+          class="emotion-1 emotion-2"
+          data-reach-dialog-overlay=""
         >
           <div
-            class="emotion-7"
+            aria-label="Pass på!"
+            aria-modal="true"
+            class=" undefined emotion-3 emotion-4"
+            data-reach-dialog-content=""
+            role="dialog"
+            tabindex="-1"
           >
             <div
-              class="emotion-8"
+              class="emotion-5"
             >
-              <svg
-                aria-hidden="true"
-                class="c-icon emotion-9"
-                data-license="Apache License 2.0"
-                data-source="Material Design"
-                fill="currentColor"
-                height="1em"
-                preserveAspectRatio="xMidYMid meet"
-                style="vertical-align: middle;"
-                viewBox="0 0 24 24"
-                width="1em"
+              <div
+                class="emotion-6 emotion-7"
+                data-cy="modal-header"
               >
-                <g>
-                  <path
-                    d="M0 0h24v24H0V0z"
-                    fill="none"
-                  />
-                  <path
-                    d="M11 15h2v2h-2zm0-8h2v6h-2zm.99-5C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
-                  />
-                </g>
-              </svg>
-              <span
+                <h1
+                  class="emotion-8"
+                >
+                  Pass på!
+                </h1>
+                <button
+                  aria-label="Lukk"
+                  class="emotion-9"
+                  data-testid="closeAlert"
+                  type="button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="c-icon"
+                    data-license="Apache License 2.0"
+                    data-source="Material Design"
+                    fill="currentColor"
+                    height="1em"
+                    preserveAspectRatio="xMidYMid meet"
+                    style="vertical-align: middle;"
+                    viewBox="0 0 24 24"
+                    width="1em"
+                  >
+                    <g>
+                      <path
+                        d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+                      />
+                      <path
+                        d="M0 0h24v24H0z"
+                        fill="none"
+                      />
+                    </g>
+                  </svg>
+                </button>
+              </div>
+              <div
                 class="emotion-10"
               >
+                <svg
+                  aria-hidden="true"
+                  class="c-icon emotion-11"
+                  data-license="Apache License 2.0"
+                  data-source="Material Design"
+                  fill="currentColor"
+                  height="1em"
+                  preserveAspectRatio="xMidYMid meet"
+                  style="vertical-align: middle;"
+                  viewBox="0 0 24 24"
+                  width="1em"
+                >
+                  <g>
+                    <path
+                      d="M0 0h24v24H0V0z"
+                      fill="none"
+                    />
+                    <path
+                      d="M11 15h2v2h-2zm0-8h2v6h-2zm.99-5C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                    />
+                  </g>
+                </svg>
                 Testmessage
-              </span>
-            </div>
-            <div
-              class="emotion-11"
-            >
-              <button
-                class="emotion-12 emotion-4"
-                type="button"
+              </div>
+              <div
+                class="emotion-12"
               >
-                Avbryt
-              </button>
-              <button
-                class="emotion-12 emotion-4"
-                type="button"
-              >
-                Logg inn på nytt
-              </button>
+                <button
+                  class="emotion-13"
+                  type="button"
+                >
+                  Avbryt
+                </button>
+                <button
+                  class="emotion-13"
+                  type="button"
+                >
+                  Logg inn på nytt
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</div>
+    <div
+      data-focus-guard="true"
+      style="width: 1px; height: 0px; padding: 0px; overflow: hidden; position: fixed; top: 1px; left: 1px;"
+      tabindex="0"
+    />
+  </reach-portal>
+</body>
 `;
 
 exports[`Messages auth0 messages provides a cancel button 2`] = `
@@ -1315,9 +2142,11 @@ exports[`Messages auth0 messages provides a cancel button 2`] = `
   display: none;
 }
 
-<div>
-  <div
-    class="emotion-0"
-  />
-</div>
+<body>
+  <div>
+    <div
+      class="emotion-0"
+    />
+  </div>
+</body>
 `;

@@ -5,7 +5,7 @@ import { Subject } from '@ndla/icons/contentType';
 import Tooltip from '@ndla/tooltip';
 import { useTranslation } from 'react-i18next';
 import { DiffType } from '../containers/NodeDiff/diffUtils';
-import { NodeType } from '../modules/nodes/nodeApiTypes';
+import { NodeType, SUBJECT_NODE } from '../modules/nodes/nodeApiTypes';
 import { getNodeTypeFromNodeId } from '../modules/nodes/nodeUtil';
 
 const StyledMenuBook = styled(MenuBook)`
@@ -27,11 +27,13 @@ const NodeIconType = ({ node }: Props) => {
       ? getNodeTypeFromNodeId(node.id)
       : getNodeTypeFromNodeId(node.id.other ?? node.id.original!);
 
-  const Icon = nodeType === 'SUBJECT' ? StyledMenuBook : StyledSubject;
+  const Icon = nodeType === SUBJECT_NODE ? StyledMenuBook : StyledSubject;
 
   return (
     <Tooltip tooltip={t(`diff.nodeTypeTooltips.${nodeType}`)}>
-      <Icon />
+      <div>
+        <Icon />
+      </div>
     </Tooltip>
   );
 };

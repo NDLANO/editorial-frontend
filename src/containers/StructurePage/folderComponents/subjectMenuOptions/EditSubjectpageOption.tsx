@@ -38,7 +38,7 @@ const EditSubjectpageOption = ({ node }: Props) => {
 
   return (
     <StyledLink state={{ elementName: node?.name }} to={{ pathname: link }}>
-      <MenuItemButton stripped data-testid="editSubjectpageOption">
+      <MenuItemButton data-testid="editSubjectpageOption">
         <RoundIcon small icon={<Home />} />
         {t('taxonomy.editSubjectpage')}
       </MenuItemButton>

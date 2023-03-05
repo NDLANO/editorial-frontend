@@ -7,11 +7,12 @@
  */
 
 import styled from '@emotion/styled';
-import Button from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
+import { spacing } from '@ndla/core';
 import { Formik, FormikHelpers } from 'formik';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useQueryClient } from 'react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import { Row } from '../../../components';
 import AlertModal from '../../../components/AlertModal';
 import Field from '../../../components/Field';
@@ -24,7 +25,6 @@ import {
   usePutVersionMutation,
 } from '../../../modules/taxonomy/versions/versionMutations';
 import { versionsQueryKey } from '../../../modules/taxonomy/versions/versionQueries';
-import { ActionButton } from '../../FormikForm';
 import { StyledErrorMessage } from './StyledErrorMessage';
 import Fade from '../../../components/Taxonomy/Fade';
 import {
@@ -52,6 +52,12 @@ const versionFormRules: RulesType<VersionFormType> = {
 const StyledTitle = styled.h2`
   padding: 0;
   margin: 0;
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  gap: ${spacing.xsmall};
 `;
 
 const VersionForm = ({ version, existingVersions, onClose }: Props) => {
@@ -158,24 +164,26 @@ const VersionForm = ({ version, existingVersions, onClose }: Props) => {
               <Row>
                 <Field>
                   {version && version.versionType === 'BETA' && (
-                    <Button disabled={dirty} onClick={() => setShowAlertModal(true)}>
+                    <ButtonV2 disabled={dirty} onClick={() => setShowAlertModal(true)}>
                       {t('taxonomyVersions.publishButton')}
-                    </Button>
+                    </ButtonV2>
                   )}
                 </Field>
-                <Field right>
-                  <ActionButton outline onClick={onClose}>
+                <ButtonContainer>
+                  <ButtonV2 variant="outline" onClick={onClose}>
                     {t('form.abort')}
-                  </ActionButton>
+                  </ButtonV2>
                   <SaveButton
                     isSaving={isSubmitting}
                     disabled={!dirty || !isValid}
                     onClick={() => handleSubmit()}
                     formIsDirty={dirty}
                   />
-                </Field>
+                </ButtonContainer>
               </Row>
               <AlertModal
+                title={t('taxonomyVersions.publishTitle')}
+                label={t('taxonomyVersions.publishTitle')}
                 show={showAlertModal}
                 text={t('taxonomyVersions.publishWarning')}
                 actions={[

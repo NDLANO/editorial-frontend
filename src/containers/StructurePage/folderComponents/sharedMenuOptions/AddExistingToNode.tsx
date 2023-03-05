@@ -7,7 +7,7 @@
  */
 
 import { useEffect, useState } from 'react';
-import { useQueryClient } from 'react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { spacing, colors } from '@ndla/core';
@@ -145,7 +145,7 @@ const AddExistingToNode = ({
 
   return (
     <StyledMenuWrapper>
-      <MenuItemButton stripped onClick={toggleEditModeFunc}>
+      <MenuItemButton onClick={toggleEditModeFunc}>
         <RoundIcon small icon={<Plus />} />
         {t('taxonomy.addExistingTopic')}
       </MenuItemButton>

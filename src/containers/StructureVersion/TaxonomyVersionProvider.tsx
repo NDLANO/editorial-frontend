@@ -25,7 +25,7 @@ export const TaxonomyVersionProvider = ({ children }: Props) => {
   );
 };
 
-interface TaxonomyVersion {
+export interface TaxonomyVersion {
   taxonomyVersion: string;
   changeVersion: (newHash: string) => void;
 }

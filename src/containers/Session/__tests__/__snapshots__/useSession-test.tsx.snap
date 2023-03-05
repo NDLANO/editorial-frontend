@@ -5,6 +5,7 @@ exports[`getSessionStateFromLocalStorage returns a decoded access token if every
   "authenticated": true,
   "user": {
     "name": "Test user",
+    "ndlaId": "mNmru7YoSIjPepOrkN4MMhlU",
     "permissions": [
       "some:permission",
     ],
@@ -34,6 +35,7 @@ exports[`useSession nulls all values when logout is called 1`] = `
   "authenticated": true,
   "login": [Function],
   "logout": [Function],
+  "ndlaId": undefined,
   "userName": "Test user",
   "userNotRegistered": true,
   "userPermissions": [
@@ -47,6 +49,7 @@ exports[`useSession nulls all values when logout is called 2`] = `
   "authenticated": false,
   "login": [Function],
   "logout": [Function],
+  "ndlaId": undefined,
   "userName": undefined,
   "userNotRegistered": true,
   "userPermissions": undefined,
@@ -58,6 +61,7 @@ exports[`useSession returns initial state when called with initial values 1`] = 
   "authenticated": true,
   "login": [Function],
   "logout": [Function],
+  "ndlaId": "mNmru7YoSIjPepOrkN4MMhlU",
   "userName": "Test user",
   "userNotRegistered": false,
   "userPermissions": [
@@ -71,6 +75,7 @@ exports[`useSession returns initial state when called without initial values 1`]
   "authenticated": false,
   "login": [Function],
   "logout": [Function],
+  "ndlaId": undefined,
   "userName": undefined,
   "userNotRegistered": true,
   "userPermissions": undefined,

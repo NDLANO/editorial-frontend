@@ -70,18 +70,6 @@ exports[`it goes in and out of edit mode 1`] = `
 }
 
 .emotion-6 {
-  position: relative;
-  -webkit-flex: 1 0 50%;
-  -ms-flex: 1 0 50%;
-  flex: 1 0 50%;
-  max-width: 600px;
-}
-
-.emotion-6>article {
-  max-width: 100%;
-}
-
-.emotion-7 {
   margin-top: 6.5px;
   display: -webkit-box;
   display: -webkit-flex;
@@ -89,11 +77,11 @@ exports[`it goes in and out of edit mode 1`] = `
   display: flex;
 }
 
-.emotion-7:first-of-type {
+.emotion-6:first-of-type {
   margin-top: 0;
 }
 
-.emotion-9 {
+.emotion-8 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -123,12 +111,12 @@ exports[`it goes in and out of edit mode 1`] = `
   padding-right: 13px;
 }
 
-.emotion-9:focus-within {
+.emotion-8:focus-within {
   border-color: #20588f;
 }
 
-.emotion-9 input,
-.emotion-9 textarea {
+.emotion-8 input,
+.emotion-8 textarea {
   width: inherit;
   font-weight: 400;
   color: #444;
@@ -147,8 +135,8 @@ exports[`it goes in and out of edit mode 1`] = `
   flex-grow: 1;
 }
 
-.emotion-9 input:focus,
-.emotion-9 textarea:focus {
+.emotion-8 input:focus,
+.emotion-8 textarea:focus {
   -webkit-appearance: none;
   -moz-appearance: none;
   -ms-appearance: none;
@@ -156,23 +144,23 @@ exports[`it goes in and out of edit mode 1`] = `
   outline: none;
 }
 
-.emotion-9 input {
+.emotion-8 input {
   padding: 6.5px 13px;
 }
 
-.emotion-9 textarea {
+.emotion-8 textarea {
   padding: 0 13px;
   height: 20px;
   margin: 14px 0;
   resize: none;
 }
 
-.emotion-9 .c-icon {
+.emotion-8 .c-icon {
   width: 24px;
   height: 24px;
 }
 
-.emotion-11 {
+.emotion-10 {
   border: calc(26px / 6.5) solid rgba(0, 0, 0, 0.1);
   border-bottom-color: #20588f;
   border-radius: 50%;
@@ -184,37 +172,113 @@ exports[`it goes in and out of edit mode 1`] = `
   display: block;
 }
 
-.emotion-13 {
+.emotion-12 {
   margin: 10px 0;
 }
 
-.emotion-14 {
-  display: inline-block;
-  color: #ffffff;
-  background-color: #20588f;
+.emotion-13 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  gap: 6.5px;
+  color: #fff;
+  background: #20588f;
   border: 2px solid #20588f;
   border-radius: 4px;
-  padding: 4px 13px;
   outline-width: 0;
   cursor: pointer;
   -webkit-text-decoration: none;
   text-decoration: none;
-  font-size: 16px;
-  font-size: 0.8888888888888888rem;
-  line-height: 1.625;
   font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
-  font-weight: 700;
+  font-weight: 600;
   -webkit-transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
   transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
   box-shadow: none;
   text-align: center;
+  padding: 4.333333333333333px 13px;
+  font-size: 16px;
+  font-size: 0.8888888888888888rem;
+  line-height: 1.625;
+  min-height: 40px;
+}
+
+.emotion-13:hover,
+.emotion-13:focus {
+  color: #fff;
+  background-color: #184673;
+  border-color: #184673;
+}
+
+.emotion-13[disabled] {
+  color: #777777;
+  background-color: #e6e6e6;
+  border-color: transparent;
+  cursor: not-allowed;
+}
+
+.emotion-14 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  gap: 6.5px;
+  color: #fff;
+  background: #d1372e;
+  border: 2px solid #d1372e;
+  border-radius: 4px;
+  outline-width: 0;
+  cursor: pointer;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
+  font-weight: 600;
+  -webkit-transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
+  transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
+  box-shadow: none;
+  text-align: center;
+  padding: 4.333333333333333px 6.5px;
+  font-size: 14px;
+  font-size: 0.7777777777777778rem;
+  line-height: 18px;
+  min-height: 32px;
+  border-width: 1px;
+  padding: 0;
+  border-radius: 0;
+  color: inherit;
+  font-size: inherit;
+  background-color: transparent;
+  box-shadow: none;
+  border: none;
+  font-weight: 400;
+  border-radius: 100%;
+  padding: 6.5px;
+  line-height: 1;
+  border-color: transparent;
+  min-height: unset;
 }
 
 .emotion-14:hover,
 .emotion-14:focus {
-  color: white;
-  background-color: #184673;
-  border: 2px solid #184673;
+  color: #fff;
+  background-color: #d1372e;
+  border-color: #d1372e;
 }
 
 .emotion-14[disabled] {
@@ -224,313 +288,33 @@ exports[`it goes in and out of edit mode 1`] = `
   cursor: not-allowed;
 }
 
+.emotion-14:hover,
+.emotion-14:active,
+.emotion-14:disabled,
 .emotion-14:focus {
-  box-shadow: 0 0 2px #20588f;
-}
-
-.emotion-16 {
-  display: inline-block;
-  color: #ffffff;
-  background-color: #20588f;
-  border: 2px solid #20588f;
-  border-radius: 4px;
-  padding: 4px 13px;
-  outline-width: 0;
-  cursor: pointer;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  font-size: 16px;
-  font-size: 0.8888888888888888rem;
-  line-height: 1.625;
-  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
-  font-weight: 700;
-  -webkit-transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
-  transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
-  box-shadow: none;
-  text-align: center;
-  -webkit-transition: background-color none;
-  transition: background-color none;
-  padding: 0;
-  border-radius: 0;
-  color: inherit;
-  font-size: inherit;
-  background-color: transparent;
-  box-shadow: none;
-  border: none;
-  font-weight: 400;
-  position: absolute;
-  top: 0.1rem;
-  right: 0.2rem;
-  color: #d1372e;
-}
-
-.emotion-16:hover,
-.emotion-16:focus {
-  color: white;
-  background-color: #184673;
-  border: 2px solid #184673;
-}
-
-.emotion-16[disabled] {
-  color: #777777;
-  background-color: #e6e6e6;
-  border-color: transparent;
-  cursor: not-allowed;
-}
-
-.emotion-16:focus {
-  box-shadow: 0 0 2px #20588f;
-}
-
-.emotion-16:hover,
-.emotion-16:active,
-.emotion-16:disabled,
-.emotion-16:focus {
   box-shadow: none;
   color: #20588f;
   background-color: transparent;
   border: none;
 }
 
-.emotion-16:focus {
+.emotion-14:focus {
   outline-width: medium;
 }
 
-.emotion-16:hover,
-.emotion-16:focus {
-  color: #7d211c;
+.emotion-14 svg {
+  width: 26px;
+  height: 26px;
+  margin: 0;
 }
 
-.emotion-18 {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.8);
-  z-index: 1;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  -webkit-justify-content: center;
-  justify-content: center;
-}
-
-.emotion-20 {
-  background-color: #f8f8f8;
-  box-shadow: 0 0 2px 0 rgba(115, 115, 115, 0.5);
-  width: 620px;
-  border-radius: 5px;
-  position: absolute;
-  top: 5%;
-  z-index: 2;
-  max-height: 90vh;
-  overflow: auto;
-}
-
-.emotion-21 {
-  background: linear-gradient(180deg, #5d97a9, #508a9c);
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-  justify-content: space-between;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  font-size: 1.2rem;
-  padding-left: 13px;
-  height: 50px;
-  color: #f8f8f8;
-}
-
-.emotion-22 {
-  display: inline-block;
-  color: #ffffff;
-  background-color: #20588f;
-  border: 2px solid #20588f;
-  border-radius: 4px;
-  padding: 4px 13px;
-  outline-width: 0;
-  cursor: pointer;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  font-size: 16px;
-  font-size: 0.8888888888888888rem;
-  line-height: 1.625;
-  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
-  font-weight: 700;
-  -webkit-transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
-  transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
-  box-shadow: none;
-  text-align: center;
-  -webkit-transition: background-color none;
-  transition: background-color none;
-  padding: 0;
-  border-radius: 0;
-  color: inherit;
-  font-size: inherit;
-  background-color: transparent;
-  box-shadow: none;
-  border: none;
-  font-weight: 400;
-  height: 50px;
-  width: 50px;
-}
-
-.emotion-22:hover,
-.emotion-22:focus {
-  color: white;
-  background-color: #184673;
-  border: 2px solid #184673;
-}
-
-.emotion-22[disabled] {
-  color: #777777;
-  background-color: #e6e6e6;
-  border-color: transparent;
-  cursor: not-allowed;
-}
-
-.emotion-22:focus {
-  box-shadow: 0 0 2px #20588f;
-}
-
-.emotion-22:hover,
-.emotion-22:active,
-.emotion-22:disabled,
-.emotion-22:focus {
-  box-shadow: none;
-  color: #20588f;
-  background-color: transparent;
-  border: none;
-}
-
-.emotion-22:focus {
-  outline-width: medium;
-}
-
-.emotion-24 {
-  height: 24px;
-  width: 24px;
-  margin-right: 7px;
-}
-
-.emotion-25 {
-  padding: 2em;
-  height: 100%;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-  justify-content: space-between;
-  -webkit-align-items: flex-end;
-  -webkit-box-align: flex-end;
-  -ms-flex-align: flex-end;
-  align-items: flex-end;
-}
-
-.emotion-26 {
-  width: 100%;
-}
-
-.emotion-26>* {
-  width: 100%;
-}
-
-.emotion-26 form {
-  background-color: white;
-}
-
-.emotion-35 {
-  display: inline-block;
-  color: #ffffff;
-  background-color: #20588f;
-  border: 2px solid #20588f;
-  border-radius: 4px;
-  padding: 4px 13px;
-  outline-width: 0;
-  cursor: pointer;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  font-size: 16px;
-  font-size: 0.8888888888888888rem;
-  line-height: 1.625;
-  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
-  font-weight: 700;
-  -webkit-transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
-  transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
-  box-shadow: none;
-  text-align: center;
-  -webkit-transition: background-color none;
-  transition: background-color none;
-  padding: 0;
-  border-radius: 0;
-  color: inherit;
-  font-size: inherit;
-  background-color: transparent;
-  box-shadow: none;
-  border: none;
-  font-weight: 400;
-}
-
-.emotion-35:hover,
-.emotion-35:focus {
-  color: white;
-  background-color: #184673;
-  border: 2px solid #184673;
-}
-
-.emotion-35[disabled] {
-  color: #777777;
-  background-color: #e6e6e6;
-  border-color: transparent;
-  cursor: not-allowed;
-}
-
-.emotion-35:focus {
-  box-shadow: 0 0 2px #20588f;
-}
-
-.emotion-35:hover,
-.emotion-35:active,
-.emotion-35:disabled,
-.emotion-35:focus {
-  box-shadow: none;
-  color: #20588f;
-  background-color: transparent;
-  border: none;
-}
-
-.emotion-35:focus {
-  outline-width: medium;
-}
-
-.emotion-35,
-.emotion-35:hover {
-  border-radius: 5px;
-  background-color: white;
-  margin-top: 26px;
-  padding: 3px 52px;
-}
-
-.emotion-37 article>p {
+.emotion-15 article>p {
   font-family: Source Sans Pro!important;
 }
 
 <div>
   <div
+    aria-multiline="true"
     autocapitalize="false"
     autocorrect="false"
     contenteditable="true"
@@ -594,7 +378,6 @@ exports[`it goes in and out of edit mode 1`] = `
         />
       </div>
       <div
-        class="emotion-6"
         data-cy="styled-article-modal"
       >
         <div
@@ -606,10 +389,10 @@ exports[`it goes in and out of edit mode 1`] = `
         >
           <div>
             <div
-              class="emotion-7 emotion-8"
+              class="emotion-6 emotion-7"
             >
               <div
-                class="emotion-9 emotion-10"
+                class="emotion-8 emotion-9"
               >
                 <input
                   aria-autocomplete="list"
@@ -621,19 +404,19 @@ exports[`it goes in and out of edit mode 1`] = `
                   value=""
                 />
                 <div
-                  class="emotion-11 emotion-12"
+                  class="emotion-10 emotion-11"
                 />
               </div>
             </div>
           </div>
         </div>
         <div
-          class="emotion-13"
+          class="emotion-12"
         >
           Eller
         </div>
         <button
-          class="emotion-14 emotion-15"
+          class="emotion-13"
           data-testid="showAddExternal"
           type="button"
         >
@@ -641,7 +424,8 @@ exports[`it goes in and out of edit mode 1`] = `
         </button>
       </div>
       <button
-        class="emotion-16 emotion-15"
+        aria-label="Fjern"
+        class="emotion-14"
         contenteditable="false"
         data-cy="close-related-button"
         type="button"
@@ -674,100 +458,9 @@ exports[`it goes in and out of edit mode 1`] = `
         </svg>
       </button>
     </div>
-    <div
-      class="emotion-18"
-    >
-      <div
-        aria-hidden="true"
-        class="emotion-1"
-      />
-      <div
-        class="emotion-20"
-      >
-        <div
-          class="emotion-21"
-        >
-          Skriv inn tittel og url på ekstern artikkel
-          <button
-            class="emotion-22 emotion-15"
-            type="button"
-          >
-            <svg
-              aria-hidden="true"
-              class="c-icon emotion-24"
-              data-license="Apache License 2.0"
-              data-source="Material Design"
-              fill="currentColor"
-              height="1em"
-              preserveAspectRatio="xMidYMid meet"
-              style="vertical-align: middle;"
-              viewBox="0 0 24 24"
-              width="1em"
-            >
-              <g>
-                <path
-                  d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
-                />
-                <path
-                  d="M0 0h24v24H0z"
-                  fill="none"
-                />
-              </g>
-            </svg>
-          </button>
-        </div>
-        <div
-          class="emotion-25"
-        >
-          <div
-            class="emotion-26"
-          >
-            <div>
-              <div
-                class="emotion-7 emotion-8"
-              >
-                <div
-                  class="emotion-9 emotion-10"
-                >
-                  <input
-                    data-testid="addExternalTitleInput"
-                    placeholder="Tittel"
-                    type="text"
-                    value=""
-                  />
-                </div>
-              </div>
-            </div>
-            <div>
-              <div
-                class="emotion-7 emotion-8"
-              >
-                <div
-                  class="emotion-9 emotion-10"
-                >
-                  <input
-                    data-testid="addExternalUrlInput"
-                    placeholder="https://example.com"
-                    type="text"
-                    value=""
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-          <button
-            class="emotion-35 emotion-15"
-            data-testid="taxonomyLightboxButton"
-            type="button"
-          >
-            Lagre
-          </button>
-        </div>
-      </div>
-    </div>
   </div>
   <div
-    class="emotion-37"
+    class="emotion-15"
     contenteditable="false"
     data-testid="relatedWrapper"
     draggable="true"
@@ -860,131 +553,165 @@ exports[`it goes in and out of edit mode 2`] = `
 }
 
 .emotion-6 {
-  position: relative;
-  -webkit-flex: 1 0 50%;
-  -ms-flex: 1 0 50%;
-  flex: 1 0 50%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+  -webkit-align-items: top;
+  -webkit-box-align: top;
+  -ms-flex-align: top;
+  align-items: top;
   max-width: 600px;
 }
 
 .emotion-6>article {
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
   max-width: 100%;
 }
 
 .emotion-7 {
-  display: inline-block;
-  color: #ffffff;
-  background-color: #20588f;
-  border: 2px solid #20588f;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 4.333333333333333px;
+}
+
+.emotion-8 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  gap: 6.5px;
+  color: #20588f;
+  background: #ceddea;
+  border: 2px solid #ceddea;
   border-radius: 4px;
-  padding: 4px 13px;
   outline-width: 0;
   cursor: pointer;
   -webkit-text-decoration: none;
   text-decoration: none;
-  font-size: 16px;
-  font-size: 0.8888888888888888rem;
-  line-height: 1.625;
   font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
-  font-weight: 700;
+  font-weight: 600;
   -webkit-transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
   transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
   box-shadow: none;
   text-align: center;
-  -webkit-transition: background-color none;
-  transition: background-color none;
-  padding: 0;
-  border-radius: 0;
-  color: inherit;
-  font-size: inherit;
-  background-color: transparent;
-  box-shadow: none;
-  border: none;
-  font-weight: 400;
-  position: absolute;
-  top: 0.1rem;
-  right: 1.5rem;
-  color: #d1372e;
+  padding: 4.333333333333333px 6.5px;
+  font-size: 14px;
+  font-size: 0.7777777777777778rem;
+  line-height: 18px;
+  min-height: 32px;
+  border-width: 1px;
+  outline-width: 2px;
+  color: #20588f;
+  background: transparent;
+  border-color: transparent;
+  border-radius: 100%;
+  padding: 6.5px;
+  line-height: 1;
+  border-color: transparent;
+  min-height: unset;
 }
 
-.emotion-7:hover,
-.emotion-7:focus {
-  color: white;
+.emotion-8:hover,
+.emotion-8:focus {
+  color: #fff;
   background-color: #184673;
-  border: 2px solid #184673;
+  border-color: #184673;
 }
 
-.emotion-7[disabled] {
+.emotion-8[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-7:focus {
-  box-shadow: 0 0 2px #20588f;
-}
-
-.emotion-7:hover,
-.emotion-7:active,
-.emotion-7:disabled,
-.emotion-7:focus {
-  box-shadow: none;
+.emotion-8:hover,
+.emotion-8:active,
+.emotion-8:focus {
   color: #20588f;
+  background: #ceddea;
+  border-color: #ceddea;
+}
+
+.emotion-8[disabled] {
+  color: #777777;
   background-color: transparent;
-  border: none;
+  border-color: transparent;
+  cursor: not-allowed;
 }
 
-.emotion-7:focus {
-  outline-width: medium;
-}
-
-.emotion-7:hover,
-.emotion-7:focus {
-  color: #7d211c;
+.emotion-8 svg {
+  width: 26px;
+  height: 26px;
+  margin: 0;
 }
 
 .emotion-9 {
-  display: inline-block;
-  color: #ffffff;
-  background-color: #20588f;
-  border: 2px solid #20588f;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  gap: 6.5px;
+  color: #fff;
+  background: #d1372e;
+  border: 2px solid #d1372e;
   border-radius: 4px;
-  padding: 4px 13px;
   outline-width: 0;
   cursor: pointer;
   -webkit-text-decoration: none;
   text-decoration: none;
-  font-size: 16px;
-  font-size: 0.8888888888888888rem;
-  line-height: 1.625;
   font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
-  font-weight: 700;
+  font-weight: 600;
   -webkit-transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
   transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
   box-shadow: none;
   text-align: center;
-  -webkit-transition: background-color none;
-  transition: background-color none;
-  padding: 0;
-  border-radius: 0;
-  color: inherit;
-  font-size: inherit;
-  background-color: transparent;
-  box-shadow: none;
-  border: none;
-  font-weight: 400;
-  position: absolute;
-  top: 0.1rem;
-  right: 0.2rem;
+  padding: 4.333333333333333px 6.5px;
+  font-size: 14px;
+  font-size: 0.7777777777777778rem;
+  line-height: 18px;
+  min-height: 32px;
+  border-width: 1px;
+  outline-width: 2px;
   color: #d1372e;
+  background: transparent;
+  border-color: transparent;
+  border-radius: 100%;
+  padding: 6.5px;
+  line-height: 1;
+  border-color: transparent;
+  min-height: unset;
 }
 
 .emotion-9:hover,
 .emotion-9:focus {
-  color: white;
-  background-color: #184673;
-  border: 2px solid #184673;
+  color: #fff;
+  background-color: #d1372e;
+  border-color: #d1372e;
 }
 
 .emotion-9[disabled] {
@@ -994,30 +721,28 @@ exports[`it goes in and out of edit mode 2`] = `
   cursor: not-allowed;
 }
 
-.emotion-9:focus {
-  box-shadow: 0 0 2px #20588f;
-}
-
 .emotion-9:hover,
 .emotion-9:active,
-.emotion-9:disabled,
 .emotion-9:focus {
-  box-shadow: none;
-  color: #20588f;
+  color: #fff;
+  background: #d1372e;
+  border-color: #d1372e;
+}
+
+.emotion-9[disabled] {
+  color: #777777;
   background-color: transparent;
-  border: none;
+  border-color: transparent;
+  cursor: not-allowed;
 }
 
-.emotion-9:focus {
-  outline-width: medium;
+.emotion-9 svg {
+  width: 26px;
+  height: 26px;
+  margin: 0;
 }
 
-.emotion-9:hover,
-.emotion-9:focus {
-  color: #7d211c;
-}
-
-.emotion-12 {
+.emotion-10 {
   margin-top: 6.5px;
   display: -webkit-box;
   display: -webkit-flex;
@@ -1025,11 +750,11 @@ exports[`it goes in and out of edit mode 2`] = `
   display: flex;
 }
 
-.emotion-12:first-of-type {
+.emotion-10:first-of-type {
   margin-top: 0;
 }
 
-.emotion-14 {
+.emotion-12 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1059,12 +784,12 @@ exports[`it goes in and out of edit mode 2`] = `
   padding-right: 13px;
 }
 
-.emotion-14:focus-within {
+.emotion-12:focus-within {
   border-color: #20588f;
 }
 
-.emotion-14 input,
-.emotion-14 textarea {
+.emotion-12 input,
+.emotion-12 textarea {
   width: inherit;
   font-weight: 400;
   color: #444;
@@ -1083,8 +808,8 @@ exports[`it goes in and out of edit mode 2`] = `
   flex-grow: 1;
 }
 
-.emotion-14 input:focus,
-.emotion-14 textarea:focus {
+.emotion-12 input:focus,
+.emotion-12 textarea:focus {
   -webkit-appearance: none;
   -moz-appearance: none;
   -ms-appearance: none;
@@ -1092,72 +817,165 @@ exports[`it goes in and out of edit mode 2`] = `
   outline: none;
 }
 
-.emotion-14 input {
+.emotion-12 input {
   padding: 6.5px 13px;
 }
 
-.emotion-14 textarea {
+.emotion-12 textarea {
   padding: 0 13px;
   height: 20px;
   margin: 14px 0;
   resize: none;
 }
 
-.emotion-14 .c-icon {
+.emotion-12 .c-icon {
   width: 24px;
   height: 24px;
 }
 
-.emotion-16 {
+.emotion-14 {
   margin: 10px 0;
 }
 
-.emotion-17 {
-  display: inline-block;
-  color: #ffffff;
-  background-color: #20588f;
+.emotion-15 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  gap: 6.5px;
+  color: #fff;
+  background: #20588f;
   border: 2px solid #20588f;
   border-radius: 4px;
-  padding: 4px 13px;
   outline-width: 0;
   cursor: pointer;
   -webkit-text-decoration: none;
   text-decoration: none;
-  font-size: 16px;
-  font-size: 0.8888888888888888rem;
-  line-height: 1.625;
   font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
-  font-weight: 700;
+  font-weight: 600;
   -webkit-transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
   transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
   box-shadow: none;
   text-align: center;
+  padding: 4.333333333333333px 13px;
+  font-size: 16px;
+  font-size: 0.8888888888888888rem;
+  line-height: 1.625;
+  min-height: 40px;
 }
 
-.emotion-17:hover,
-.emotion-17:focus {
-  color: white;
+.emotion-15:hover,
+.emotion-15:focus {
+  color: #fff;
   background-color: #184673;
-  border: 2px solid #184673;
+  border-color: #184673;
 }
 
-.emotion-17[disabled] {
+.emotion-15[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-17:focus {
-  box-shadow: 0 0 2px #20588f;
+.emotion-16 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  gap: 6.5px;
+  color: #fff;
+  background: #d1372e;
+  border: 2px solid #d1372e;
+  border-radius: 4px;
+  outline-width: 0;
+  cursor: pointer;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
+  font-weight: 600;
+  -webkit-transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
+  transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
+  box-shadow: none;
+  text-align: center;
+  padding: 4.333333333333333px 6.5px;
+  font-size: 14px;
+  font-size: 0.7777777777777778rem;
+  line-height: 18px;
+  min-height: 32px;
+  border-width: 1px;
+  padding: 0;
+  border-radius: 0;
+  color: inherit;
+  font-size: inherit;
+  background-color: transparent;
+  box-shadow: none;
+  border: none;
+  font-weight: 400;
+  border-radius: 100%;
+  padding: 6.5px;
+  line-height: 1;
+  border-color: transparent;
+  min-height: unset;
 }
 
-.emotion-21 article>p {
+.emotion-16:hover,
+.emotion-16:focus {
+  color: #fff;
+  background-color: #d1372e;
+  border-color: #d1372e;
+}
+
+.emotion-16[disabled] {
+  color: #777777;
+  background-color: #e6e6e6;
+  border-color: transparent;
+  cursor: not-allowed;
+}
+
+.emotion-16:hover,
+.emotion-16:active,
+.emotion-16:disabled,
+.emotion-16:focus {
+  box-shadow: none;
+  color: #20588f;
+  background-color: transparent;
+  border: none;
+}
+
+.emotion-16:focus {
+  outline-width: medium;
+}
+
+.emotion-16 svg {
+  width: 26px;
+  height: 26px;
+  margin: 0;
+}
+
+.emotion-17 article>p {
   font-family: Source Sans Pro!important;
 }
 
 <div>
   <div
+    aria-multiline="true"
     autocapitalize="false"
     autocorrect="false"
     contenteditable="true"
@@ -1240,7 +1058,7 @@ exports[`it goes in and out of edit mode 2`] = `
                   class="c-related-articles__title"
                 >
                   <div
-                    class="c-content-type-badge c-content-type-badge--external-learning-resources c-content-type-badge--small c-content-type-badge--background c-content-type-badge--border"
+                    class="c-content-type-badge c-content-type-badge--external-learning-resources c-content-type-badge--small c-content-type-badge--background c-content-type-badge--border c-icon--medium"
                   >
                     <svg
                       aria-hidden="true"
@@ -1299,19 +1117,19 @@ exports[`it goes in and out of edit mode 2`] = `
                   Nettside hos www.vg.no
                 </p>
               </article>
-              <button
-                class="emotion-7 emotion-8"
-                type="button"
+              <div
+                class="emotion-7"
               >
                 <div
-                  data-tooltip="true"
-                  data-tooltip-id="2"
-                  data-tooltip-label="Endre ekstern artikkel"
+                  data-tooltip="Endre ekstern artikkel"
+                  data-tooltip-container="true"
                 >
-                  <span
-                    data-reach-tooltip-trigger=""
-                    data-state="tooltip-hidden"
-                    data-tooltip-children="true"
+                  <button
+                    aria-label="Endre ekstern artikkel"
+                    class="emotion-8"
+                    data-state="closed"
+                    data-trigger="true"
+                    type="button"
                   >
                     <svg
                       aria-hidden="true"
@@ -1335,49 +1153,53 @@ exports[`it goes in and out of edit mode 2`] = `
                         />
                       </g>
                     </svg>
-                  </span>
+                  </button>
                 </div>
-              </button>
-              <button
-                class="emotion-9 emotion-8"
-                contenteditable="false"
-                data-cy="close-related-button"
-                title="Slett ekstern artikkel"
-                type="button"
-              >
-                <svg
-                  aria-hidden="true"
-                  class="c-icon"
-                  data-license="Apache License 2.0"
-                  data-source="Material Design"
-                  fill="currentColor"
-                  height="1em"
-                  preserveAspectRatio="xMidYMid meet"
-                  style="vertical-align: middle;"
-                  viewBox="0 0 24 24"
-                  width="1em"
+                <div
+                  data-tooltip="Slett ekstern artikkel"
+                  data-tooltip-container="true"
                 >
-                  <g>
-                    <path
-                      d="M0 0h24v24H0V0z"
-                      fill="none"
-                    />
-                    <path
-                      d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z"
-                    />
-                    <path
-                      d="M0 0h24v24H0z"
-                      fill="none"
-                    />
-                  </g>
-                </svg>
-              </button>
+                  <button
+                    aria-label="Slett ekstern artikkel"
+                    class="emotion-9"
+                    data-state="closed"
+                    data-trigger="true"
+                    type="button"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="c-icon"
+                      data-license="Apache License 2.0"
+                      data-source="Material Design"
+                      fill="currentColor"
+                      height="1em"
+                      preserveAspectRatio="xMidYMid meet"
+                      style="vertical-align: middle;"
+                      viewBox="0 0 24 24"
+                      width="1em"
+                    >
+                      <g>
+                        <path
+                          d="M0 0h24v24H0V0z"
+                          fill="none"
+                        />
+                        <path
+                          d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z"
+                        />
+                        <path
+                          d="M0 0h24v24H0z"
+                          fill="none"
+                        />
+                      </g>
+                    </svg>
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
       <div
-        class="emotion-6"
         data-cy="styled-article-modal"
       >
         <div
@@ -1389,10 +1211,10 @@ exports[`it goes in and out of edit mode 2`] = `
         >
           <div>
             <div
-              class="emotion-12 emotion-13"
+              class="emotion-10 emotion-11"
             >
               <div
-                class="emotion-14 emotion-15"
+                class="emotion-12 emotion-13"
               >
                 <input
                   aria-autocomplete="list"
@@ -1426,12 +1248,12 @@ exports[`it goes in and out of edit mode 2`] = `
           </div>
         </div>
         <div
-          class="emotion-16"
+          class="emotion-14"
         >
           Eller
         </div>
         <button
-          class="emotion-17 emotion-8"
+          class="emotion-15"
           data-testid="showAddExternal"
           type="button"
         >
@@ -1439,7 +1261,8 @@ exports[`it goes in and out of edit mode 2`] = `
         </button>
       </div>
       <button
-        class="emotion-9 emotion-8"
+        aria-label="Fjern"
+        class="emotion-16"
         contenteditable="false"
         data-cy="close-related-button"
         type="button"
@@ -1474,7 +1297,7 @@ exports[`it goes in and out of edit mode 2`] = `
     </div>
   </div>
   <div
-    class="emotion-21"
+    class="emotion-17"
     contenteditable="false"
     data-testid="relatedWrapper"
     draggable="true"
@@ -1499,7 +1322,7 @@ exports[`it goes in and out of edit mode 2`] = `
             class="c-related-articles__title"
           >
             <div
-              class="c-content-type-badge c-content-type-badge--external-learning-resources c-content-type-badge--small c-content-type-badge--background c-content-type-badge--border"
+              class="c-content-type-badge c-content-type-badge--external-learning-resources c-content-type-badge--small c-content-type-badge--background c-content-type-badge--border c-icon--medium"
             >
               <svg
                 aria-hidden="true"

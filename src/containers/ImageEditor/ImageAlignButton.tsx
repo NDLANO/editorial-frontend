@@ -31,11 +31,7 @@ const ImageAlignButton = ({ currentAlign, alignType, onFieldChange }: Props) => 
 
   return (
     <Tooltip tooltip={t(`form.image.alignment.${alignType}`)}>
-      <ImageEditorButton
-        tabIndex={-1}
-        isActive={currentAlign === alignType}
-        stripped
-        onClick={onChange}>
+      <ImageEditorButton tabIndex={-1} isActive={currentAlign === alignType} onClick={onChange}>
         {icon[alignType]}
       </ImageEditorButton>
     </Tooltip>

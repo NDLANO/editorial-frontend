@@ -10,7 +10,7 @@ import { useState } from 'react';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { IConcept } from '@ndla/types-concept-api';
-import { IUpdatedArticle } from '@ndla/types-draft-api';
+import { IArticle, IUpdatedArticle } from '@ndla/types-draft-api';
 import { useTranslation } from 'react-i18next';
 import HeaderInformation from './HeaderInformation';
 import HeaderActions from './HeaderActions';
@@ -50,7 +50,8 @@ interface Props {
   getEntity?: () => IConcept | IUpdatedArticle;
   isSubmitting?: boolean;
   noStatus?: boolean;
-  setTranslateOnContinue?: (translateOnContinue: boolean) => void;
+  article?: IArticle;
+  concept?: IConcept;
   type:
     | 'image'
     | 'audio'
@@ -59,15 +60,14 @@ interface Props {
     | 'standard'
     | 'concept'
     | 'podcast'
-    | 'podcast-series';
-  translateToNN?: () => void;
+    | 'podcast-series'
+    | 'frontpage-article';
   values: {
     id?: number;
     articleType?: string;
     language?: string;
     supportedLanguages?: string[];
   };
-  formIsDirty?: boolean;
   expirationDate?: string;
 }
 
@@ -75,12 +75,11 @@ const HeaderWithLanguage = ({
   content,
   isSubmitting,
   noStatus = false,
-  setTranslateOnContinue,
-  translateToNN,
   type,
   values,
-  formIsDirty = false,
   taxonomy,
+  article,
+  concept,
   expirationDate,
   ...rest
 }: Props) => {
@@ -97,7 +96,8 @@ const HeaderWithLanguage = ({
   const statusText = status?.current ? t(`form.status.${status.current.toLowerCase()}`) : '';
   const published = status?.current === 'PUBLISHED' || status?.other?.includes('PUBLISHED');
   const multiType = articleType ?? type;
-  const isArticle = multiType === 'standard' || multiType === 'topic-article';
+  const isArticle =
+    multiType === 'standard' || multiType === 'topic-article' || multiType === 'frontpage-article';
 
   const taxonomyPaths = isArticle ? getTaxonomyPathsFromTaxonomy(taxonomy, id) : [];
 
@@ -121,14 +121,13 @@ const HeaderWithLanguage = ({
       <StyledLanguageWrapper>
         <HeaderActions
           disableDelete={hasConnections && supportedLanguages.length === 1}
+          article={article}
+          concept={concept}
           values={safeValues}
           noStatus={noStatus}
           isNewLanguage={isNewLanguage}
           type={multiType}
           isSubmitting={isSubmitting}
-          translateToNN={translateToNN}
-          setTranslateOnContinue={setTranslateOnContinue}
-          formIsDirty={formIsDirty}
           {...rest}
         />
       </StyledLanguageWrapper>

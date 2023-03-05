@@ -6,13 +6,16 @@
  *
  */
 
-import { FormEvent, Component, MouseEvent } from 'react';
-
-import { withTranslation, CustomWithTranslation } from 'react-i18next';
+import { FormEvent, MouseEvent, useState, useEffect, useMemo, useRef } from 'react';
+import styled from '@emotion/styled';
 import { Spinner } from '@ndla/icons';
+import { spacing } from '@ndla/core';
 import { ErrorMessage } from '@ndla/ui';
 import { IUpdatedArticle, IArticle } from '@ndla/types-draft-api';
-import Field from '../../../../components/Field';
+import { useQueryClient } from '@tanstack/react-query';
+import { SingleValue } from '@ndla/select';
+import { ButtonV2 } from '@ndla/button';
+import { useTranslation } from 'react-i18next';
 import {
   fetchResourceTypes,
   fetchSubjects,
@@ -20,7 +23,7 @@ import {
   fetchTopicConnections,
   fetchTopicResources,
   updateTaxonomy,
-  fetchFullResource,
+  fetchFullResource as fetchResource,
   createResource,
   getResourceId,
 } from '../../../../modules/taxonomy';
@@ -28,7 +31,6 @@ import { sortByName, groupTopics, getBreadcrumbFromPath } from '../../../../util
 import handleError from '../../../../util/handleError';
 import TopicConnections from '../../../../components/Taxonomy/TopicConnections';
 import SaveButton from '../../../../components/SaveButton';
-import { ActionButton } from '../../../FormikForm';
 import ResourceTypeSelect from '../../components/ResourceTypeSelect';
 import TaxonomyInfo from './taxonomy/TaxonomyInfo';
 import {
@@ -47,9 +49,11 @@ import {
 } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { LocaleType } from '../../../../interfaces';
 import TaxonomyConnectionErrors from '../../components/TaxonomyConnectionErrors';
-import { SessionProps } from '../../../Session/SessionProvider';
-import withSession from '../../../Session/withSession';
+import { useSession } from '../../../Session/SessionProvider';
 import { ArticleTaxonomy } from '../../../FormikForm/formikDraftHooks';
+import VersionSelect from '../../components/VersionSelect';
+import { useVersions } from '../../../../modules/taxonomy/versions/versionQueries';
+import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
 
 const blacklistedResourceTypes = [RESOURCE_TYPE_LEARNING_PATH];
 
@@ -66,82 +70,60 @@ interface FullResource {
   metadata?: TaxonomyMetadata;
 }
 
-type Props = {
-  article: IArticle;
-  taxonomy: ArticleTaxonomy;
-  updateNotes: (art: IUpdatedArticle) => Promise<IArticle>;
-  setIsOpen?: (open: boolean) => void;
-  taxonomyVersion: string;
-} & CustomWithTranslation &
-  SessionProps;
-
 interface LearningResourceSubjectType extends SubjectType {
   topics?: SubjectTopic[];
 }
 
-interface State {
-  resourceId: string;
-  structure: LearningResourceSubjectType[];
-  status: string;
-  isDirty: boolean;
-
-  resourceTaxonomy: {
-    resourceTypes: ResourceResourceType[];
-    topics: ParentTopicWithRelevanceAndConnections[];
-    id?: string;
-    name?: string;
-    metadata?: TaxonomyMetadata;
-  };
-  taxonomyChanges: {
-    resourceTypes: ResourceResourceType[];
-    topics: ParentTopicWithRelevanceAndConnections[];
-    metadata?: TaxonomyMetadata;
-  };
-
-  taxonomyChoices: {
-    availableResourceTypes: ResourceType[];
-  };
-  showWarning: boolean;
+interface ResourceTaxonomy {
+  resourceTypes: ResourceResourceType[];
+  topics: ParentTopicWithRelevanceAndConnections[];
+  id?: string;
+  name?: string;
+  metadata?: TaxonomyMetadata;
 }
 
-class LearningResourceTaxonomy extends Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      resourceId: '',
-      structure: [],
+interface TaxonomyChanges {
+  resourceTypes: ResourceResourceType[];
+  topics: ParentTopicWithRelevanceAndConnections[];
+  metadata?: TaxonomyMetadata;
+}
 
-      status: 'loading',
-      isDirty: false,
-      resourceTaxonomy: {
-        ...emptyTaxonomy,
-      },
-      taxonomyChanges: {
-        ...emptyTaxonomy,
-      },
-      taxonomyChoices: {
-        availableResourceTypes: [],
-      },
-      showWarning: false,
-    };
-  }
+interface Props {
+  article: IArticle;
+  taxonomy: ArticleTaxonomy;
+  updateNotes: (art: IUpdatedArticle) => Promise<IArticle>;
+  setIsOpen?: (open: boolean) => void;
+}
 
-  componentDidMount() {
-    this.fetchTaxonomy();
-    this.fetchTaxonomyChoices();
-  }
+type Status = 'success' | 'loading' | 'initial';
 
-  componentDidUpdate({ article: { id: prevId } }: Props, prevState: State) {
-    // We need to refresh taxonomy for when an article URL has been pasted and a new article is showing
-    if (prevId !== this.props.article.id) {
-      this.fetchTaxonomy();
-    }
-  }
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  gap: ${spacing.xsmall};
+`;
 
-  onChangeSelectedResource = (evt: FormEvent<HTMLSelectElement>) => {
-    const {
-      taxonomyChoices: { availableResourceTypes },
-    } = this.state;
+const LearningResourceTaxonomy = ({ article, taxonomy, updateNotes, setIsOpen }: Props) => {
+  const [resourceId, setResourceId] = useState<string>('');
+  const [structure, setStructure] = useState<LearningResourceSubjectType[]>([]);
+  const [status, setStatus] = useState<Status>('loading');
+  const [error, setError] = useState<string | undefined>(undefined);
+  const [isDirty, setIsDirty] = useState<boolean>(false);
+  const [showWarning, setShowWarning] = useState<boolean>(false);
+  const [resourceTaxonomy, setResourceTaxonomy] = useState<ResourceTaxonomy>({
+    ...emptyTaxonomy,
+  });
+  const [taxonomyChanges, setTaxonomyChanges] = useState<TaxonomyChanges>({ ...emptyTaxonomy });
+  const [availableResourceTypes, setAvailableResourceTypes] = useState<ResourceType[]>([]);
+
+  const { t, i18n } = useTranslation();
+  const { userPermissions } = useSession();
+  const { taxonomyVersion, changeVersion } = useTaxonomyVersion();
+  const { data: versions } = useVersions();
+  const qc = useQueryClient();
+  const prevTaxVersion = useRef(taxonomyVersion);
+
+  const onChangeSelectedResource = (evt: FormEvent<HTMLSelectElement>) => {
     const options = evt.currentTarget?.value?.split(',');
     const selectedResource = availableResourceTypes.find(
       resourceType => resourceType.id === options[0],
@@ -167,33 +149,31 @@ class LearningResourceTaxonomy extends Component<Props, State> {
             connectionId: '',
           });
       }
-
-      this.stageTaxonomyChanges({ resourceTypes });
+      stageTaxonomyChanges({ resourceTypes });
     }
   };
 
-  getSubjectTopics = async (subjectid: string) => {
-    if (this.state.structure.some(subject => subject.id === subjectid && subject.topics)) {
+  const getSubjectTopics = async (subjectid: string) => {
+    if (structure.some(subject => subject.id === subjectid && subject.topics)) {
       return;
     }
     try {
-      const { taxonomyVersion } = this.props;
       const allTopics = await fetchSubjectTopics({
         subject: subjectid,
-        language: this.props.i18n.language,
+        language: i18n.language,
         taxonomyVersion,
       });
       const groupedTopics = groupTopics(allTopics);
-      this.updateSubject(subjectid, { topics: groupedTopics });
+      updateSubject(subjectid, { topics: groupedTopics });
     } catch (err) {
       handleError(err);
     }
   };
 
-  setPrimaryConnection = (id: string) => {
-    const { topics } = this.state.taxonomyChanges;
+  const setPrimaryConnection = (id: string) => {
+    const { topics } = taxonomyChanges;
 
-    this.stageTaxonomyChanges({
+    stageTaxonomyChanges({
       topics: topics?.map(topic => ({
         ...topic,
         primary: topic.id === id,
@@ -201,10 +181,10 @@ class LearningResourceTaxonomy extends Component<Props, State> {
     });
   };
 
-  setRelevance = (topicId: string, relevanceId: string) => {
-    const { topics } = this.state.taxonomyChanges;
+  const setRelevance = (topicId: string, relevanceId: string) => {
+    const { topics } = taxonomyChanges;
 
-    this.stageTaxonomyChanges({
+    stageTaxonomyChanges({
       topics: topics?.map(topic => ({
         ...topic,
         ...(topic.id === topicId && {
@@ -214,48 +194,38 @@ class LearningResourceTaxonomy extends Component<Props, State> {
     });
   };
 
-  fetchTaxonomy = async () => {
-    const {
-      article: { id },
-      i18n,
-      taxonomy,
-    } = this.props;
+  const fetchTaxonomy = async () => {
+    const { id } = article;
     if (!id) return;
-
     try {
       const resourceId = taxonomy.resources.length === 1 && taxonomy.resources[0].id;
 
       if (taxonomy.resources.length > 1) {
-        this.setState({ status: 'error' });
+        setError('errorMessage.taxonomy');
       } else if (resourceId) {
-        const fullResource = await this.fetchFullResource(resourceId, i18n.language);
+        const fullResource = await fetchFullResource(resourceId, i18n.language);
 
-        this.setState({
-          resourceId,
-          status: 'initial',
-          resourceTaxonomy: fullResource,
-          taxonomyChanges: fullResource,
-        });
+        setResourceId(resourceId);
+        setStatus('initial');
+        setResourceTaxonomy(fullResource);
+        setTaxonomyChanges(fullResource);
       } else {
         // resource does not exist in taxonomy
-        this.setState(() => ({
-          status: 'initial',
-          resourceTaxonomy: {
-            ...emptyTaxonomy,
-          },
-          taxonomyChanges: {
-            ...emptyTaxonomy,
-          },
-        }));
+        setStatus('initial');
+        setResourceTaxonomy({
+          ...emptyTaxonomy,
+        });
+        setTaxonomyChanges({
+          ...emptyTaxonomy,
+        });
       }
     } catch (e) {
       handleError(e);
-      this.setState({ status: 'error' });
+      setError('errorMessage.versionSelect');
     }
   };
 
-  fetchTaxonomyChoices = async () => {
-    const { i18n, taxonomyVersion } = this.props;
+  const fetchTaxonomyChoices = async () => {
     try {
       const [allResourceTypes, subjects] = await Promise.all([
         fetchResourceTypes({ language: i18n.language, taxonomyVersion }),
@@ -263,42 +233,28 @@ class LearningResourceTaxonomy extends Component<Props, State> {
       ]);
 
       const sortedSubjects = subjects.filter(subject => subject.name).sort(sortByName);
-
-      if (this.state.status !== 'error') {
-        this.setState({
-          taxonomyChoices: {
-            availableResourceTypes: allResourceTypes.filter(resourceType => resourceType.name),
-          },
-          structure: sortedSubjects,
-        });
+      if (!error) {
+        setAvailableResourceTypes(allResourceTypes.filter(resourceType => resourceType.name));
+        setStructure(sortedSubjects);
       }
     } catch (e) {
       handleError(e);
-      this.setState({ status: 'error' });
+      setError('errorMessage.taxonomy');
     }
   };
 
-  stageTaxonomyChanges = (properties: Partial<State['taxonomyChanges']>) => {
-    this.setState(prevState => ({
-      isDirty: true,
-      taxonomyChanges: {
-        ...prevState.taxonomyChanges,
-        ...properties,
-      },
-    }));
+  const stageTaxonomyChanges = (properties: Partial<TaxonomyChanges>) => {
+    setIsDirty(true);
+    setTaxonomyChanges({ ...taxonomyChanges, ...properties });
   };
 
-  handleSubmit = async (evt: MouseEvent<HTMLButtonElement>) => {
+  const handleSubmit = async (evt: MouseEvent<HTMLButtonElement>) => {
     evt.preventDefault();
-    const { taxonomyVersion } = this.props;
-    const { resourceTaxonomy, taxonomyChanges, resourceId } = this.state;
     let reassignedResourceId = resourceId;
-    const {
-      updateNotes,
-      article: { id, title, revision },
-    } = this.props;
+    const { id, title, revision } = article;
+
     if (!title?.language || !id) return;
-    this.setState({ status: 'loading' });
+    setStatus('loading');
     try {
       if (!reassignedResourceId) {
         await createResource({
@@ -310,9 +266,7 @@ class LearningResourceTaxonomy extends Component<Props, State> {
           language: title.language,
           taxonomyVersion,
         });
-        this.setState({
-          resourceId: reassignedResourceId,
-        });
+        setResourceId(reassignedResourceId);
       }
       if (reassignedResourceId) {
         await updateTaxonomy({
@@ -326,34 +280,29 @@ class LearningResourceTaxonomy extends Component<Props, State> {
           language: title.language,
           notes: ['Oppdatert taksonomi.'],
         });
-        this.setState({
-          status: 'success',
-          isDirty: false,
-        });
-        this.silentlyRefetchResourceTaxonomy();
+        setStatus('success');
+        setIsDirty(false);
+        silentlyRefetchResourceTaxonomy();
       }
     } catch (err) {
       handleError(err);
-      this.setState({ status: 'error' });
+      setError('errorMessage.taxonomy');
     }
   };
 
-  silentlyRefetchResourceTaxonomy = async () => {
+  const silentlyRefetchResourceTaxonomy = async () => {
     await new Promise(resolve => {
       setTimeout(resolve, 5000);
     });
-    const resourceTaxonomy = await this.fetchFullResource(
-      this.state.resourceId,
-      this.props.i18n.language ?? '',
-    );
-    this.setState({
-      resourceTaxonomy,
-    });
+    const resourceTaxonomy = await fetchFullResource(resourceId, i18n.language ?? '');
+    setResourceTaxonomy(resourceTaxonomy);
   };
 
-  fetchFullResource = async (resourceId: string, locale: LocaleType): Promise<FullResource> => {
-    const { taxonomyVersion } = this.props;
-    const { resourceTypes, metadata, parents, name } = await fetchFullResource({
+  const fetchFullResource = async (
+    resourceId: string,
+    locale: LocaleType,
+  ): Promise<FullResource> => {
+    const { resourceTypes, metadata, parents, name } = await fetchResource({
       id: resourceId,
       language: locale,
       taxonomyVersion,
@@ -387,30 +336,30 @@ class LearningResourceTaxonomy extends Component<Props, State> {
     };
   };
 
-  updateSubject = (subjectId: string, newSubject: Partial<LearningResourceSubjectType>) => {
-    this.setState(prevState => ({
-      structure: prevState.structure.map(subject =>
+  const updateSubject = (subjectId: string, newSubject: Partial<LearningResourceSubjectType>) => {
+    setStructure(
+      structure.map(subject =>
         subject.id === subjectId ? { ...subject, ...newSubject } : subject,
       ),
-    }));
+    );
   };
 
-  removeConnection = (id: string) => {
-    const { topics } = this.state.taxonomyChanges;
+  const removeConnection = (id: string) => {
+    const { topics } = taxonomyChanges;
     const updatedTopics = topics?.filter(topic => topic.id !== id);
 
     // Auto set primary of only one connection.
     if (updatedTopics?.length === 1) {
       updatedTopics[0].primary = true;
     }
-    this.stageTaxonomyChanges({
+    stageTaxonomyChanges({
       topics: updatedTopics,
     });
   };
 
-  updateMetadata = (visible: boolean) => {
-    const metadata = this.state.resourceTaxonomy.metadata;
-    this.stageTaxonomyChanges({
+  const updateMetadata = (visible: boolean) => {
+    const metadata = resourceTaxonomy.metadata;
+    stageTaxonomyChanges({
       metadata: {
         customFields: {},
         grepCodes: metadata?.grepCodes ?? [],
@@ -419,114 +368,138 @@ class LearningResourceTaxonomy extends Component<Props, State> {
     });
   };
 
-  onCancel = () => {
-    const { isDirty } = this.state;
-    const { setIsOpen } = this.props;
+  const onCancel = () => {
     if (!isDirty) {
       setIsOpen?.(false);
     } else {
-      if (this.state.showWarning) {
+      if (showWarning) {
         setIsOpen?.(false);
       } else {
-        this.setState({ showWarning: true });
+        setShowWarning(true);
       }
     }
   };
 
-  render() {
-    const {
-      taxonomyChoices,
-      taxonomyChanges,
-      structure,
-      status,
-      isDirty,
-      showWarning,
-      resourceId,
-    } = this.state;
-    const filteredResourceTypes = taxonomyChoices.availableResourceTypes
-      .filter(rt => !blacklistedResourceTypes.includes(rt.id))
-      .map(rt => ({
-        ...rt,
-        subtype: rt.subtypes && rt.subtypes.filter(st => !blacklistedResourceTypes.includes(st.id)),
-      }));
-
-    const { userPermissions, t, article } = this.props;
-
-    if (status === 'loading') {
-      return <Spinner />;
+  const onVersionChanged = (newVersion: SingleValue) => {
+    if (!newVersion || newVersion.value === taxonomyVersion) return;
+    const oldVersion = taxonomyVersion;
+    try {
+      setStatus('loading');
+      setIsDirty(false);
+      changeVersion(newVersion.value);
+      qc.removeQueries({
+        predicate: query => {
+          const qk = query.queryKey as [string, Record<string, any>];
+          return qk[1]?.taxonomyVersion === oldVersion;
+        },
+      });
+    } catch (e) {
+      handleError(e);
+      setError('errorMessage.taxonomy');
     }
-    if (status === 'error') {
-      return (
-        <ErrorMessage
-          illustration={{
-            url: '/Oops.gif',
-            altText: t('errorMessage.title'),
-          }}
-          messages={{
-            title: t('errorMessage.title'),
-            description: t('errorMessage.taxonomy'),
-            back: t('errorMessage.back'),
-            goToFrontPage: t('errorMessage.goToFrontPage'),
-          }}
-        />
-      );
+  };
+
+  useEffect(() => {
+    fetchTaxonomy();
+    fetchTaxonomyChoices();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (prevTaxVersion.current || prevTaxVersion.current === '') {
+      if (prevTaxVersion.current !== taxonomyVersion) fetchTaxonomy();
     }
+    prevTaxVersion.current = taxonomyVersion;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [taxonomyVersion]);
 
-    const mainResource = this.props.taxonomy.resources?.[0];
-    const mainEntity = mainResource && {
-      id: mainResource.id,
-      name: mainResource.name,
-      metadata: taxonomyChanges.metadata,
-    };
+  const filteredResourceTypes = useMemo(
+    () =>
+      availableResourceTypes
+        .filter(rt => !blacklistedResourceTypes.includes(rt.id))
+        .map(rt => ({
+          ...rt,
+          subtype:
+            rt.subtypes && rt.subtypes.filter(st => !blacklistedResourceTypes.includes(st.id)),
+        })),
+    [availableResourceTypes],
+  );
 
-    const isTaxonomyAdmin = userPermissions?.includes(TAXONOMY_ADMIN_SCOPE);
-
+  if (error) {
+    changeVersion('');
     return (
-      <>
-        {isTaxonomyAdmin && (
-          <TaxonomyConnectionErrors
-            articleType={article.articleType ?? 'standard'}
-            taxonomy={this.props.taxonomy}
-          />
-        )}
-        {isTaxonomyAdmin && resourceId && (
-          <TaxonomyInfo taxonomyElement={mainEntity} updateMetadata={this.updateMetadata} />
-        )}
-        <ResourceTypeSelect
-          availableResourceTypes={filteredResourceTypes}
-          resourceTypes={taxonomyChanges.resourceTypes}
-          onChangeSelectedResource={this.onChangeSelectedResource}
-        />
-        <TopicConnections
-          structure={structure}
-          activeTopics={taxonomyChanges.topics}
-          removeConnection={this.removeConnection}
-          setPrimaryConnection={this.setPrimaryConnection}
-          setRelevance={this.setRelevance}
-          stageTaxonomyChanges={this.stageTaxonomyChanges}
-          getSubjectTopics={this.getSubjectTopics}
-          allowMultipleSubjectsOpen={false}
-          onChangeShowFavorites={() => {}}
-        />
-        {showWarning && (
-          <FormikFieldHelp error>{t('errorMessage.unsavedTaxonomy')}</FormikFieldHelp>
-        )}
-        <Field right>
-          <ActionButton outline onClick={this.onCancel} disabled={status === 'loading'}>
-            {t('form.abort')}
-          </ActionButton>
-          <SaveButton
-            isSaving={status === 'loading'}
-            showSaved={status === 'success' && !isDirty}
-            disabled={!isDirty || !taxonomyChanges.resourceTypes.length}
-            onClick={this.handleSubmit}
-            defaultText="saveTax"
-            formIsDirty={isDirty}
-          />
-        </Field>
-      </>
+      <ErrorMessage
+        illustration={{
+          url: '/Oops.gif',
+          altText: t('errorMessage.title'),
+        }}
+        messages={{
+          title: t('errorMessage.title'),
+          description: t(error),
+          back: t('errorMessage.back'),
+          goToFrontPage: t('errorMessage.goToFrontPage'),
+        }}
+      />
     );
   }
-}
+  if (status === 'loading') {
+    return <Spinner />;
+  }
 
-export default withTranslation()(withSession(LearningResourceTaxonomy));
+  const mainResource = taxonomy.resources?.[0];
+  const mainEntity = mainResource && {
+    id: mainResource.id,
+    name: mainResource.name,
+    metadata: taxonomyChanges.metadata,
+  };
+
+  const isTaxonomyAdmin = userPermissions?.includes(TAXONOMY_ADMIN_SCOPE);
+
+  return (
+    <>
+      {isTaxonomyAdmin && (
+        <TaxonomyConnectionErrors
+          articleType={article.articleType ?? 'standard'}
+          taxonomy={taxonomy}
+        />
+      )}
+      {isTaxonomyAdmin && resourceId && (
+        <>
+          <VersionSelect versions={versions ?? []} onVersionChanged={onVersionChanged} />
+          <TaxonomyInfo taxonomyElement={mainEntity} updateMetadata={updateMetadata} />
+        </>
+      )}
+      <ResourceTypeSelect
+        availableResourceTypes={filteredResourceTypes}
+        resourceTypes={taxonomyChanges.resourceTypes}
+        onChangeSelectedResource={onChangeSelectedResource}
+      />
+      <TopicConnections
+        structure={structure}
+        activeTopics={taxonomyChanges.topics}
+        removeConnection={removeConnection}
+        setPrimaryConnection={setPrimaryConnection}
+        setRelevance={setRelevance}
+        stageTaxonomyChanges={stageTaxonomyChanges}
+        getSubjectTopics={getSubjectTopics}
+        allowMultipleSubjectsOpen={false}
+        onChangeShowFavorites={() => {}}
+      />
+      {showWarning && <FormikFieldHelp error>{t('errorMessage.unsavedTaxonomy')}</FormikFieldHelp>}
+      <ButtonContainer>
+        <ButtonV2 variant="outline" onClick={onCancel}>
+          {t('form.abort')}
+        </ButtonV2>
+        <SaveButton
+          showSaved={status === 'success' && !isDirty}
+          disabled={!isDirty || !taxonomyChanges.resourceTypes.length}
+          onClick={handleSubmit}
+          defaultText="saveTax"
+          formIsDirty={isDirty}
+        />
+      </ButtonContainer>
+    </>
+  );
+};
+
+export default LearningResourceTaxonomy;

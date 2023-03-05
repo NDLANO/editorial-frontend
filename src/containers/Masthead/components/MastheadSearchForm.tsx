@@ -8,7 +8,7 @@
 
 import { FormEvent, useState } from 'react';
 
-import Button from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 import { useNavigate } from 'react-router-dom';
 import { colors, misc, spacing, fonts } from '@ndla/core';
 import { Search } from '@ndla/icons/common';
@@ -197,9 +197,9 @@ export const MastheadSearchForm = ({ query: initQuery = '', onSearchQuerySubmit 
         value={query}
         placeholder={t('searchForm.placeholder')}
       />
-      <Button submit stripped>
+      <ButtonV2 type="submit" variant="stripped">
         <Search className="c-icon--medium" />
-      </Button>
+      </ButtonV2>
     </StyledForm>
   );
 };

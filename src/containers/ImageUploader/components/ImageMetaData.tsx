@@ -6,7 +6,6 @@
  *
  */
 
-import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { RadioButtonGroup } from '@ndla/ui';
 import { FieldInputProps, FieldProps } from 'formik';
@@ -76,11 +75,6 @@ const ImageMetaData = ({ imageTags, imageLanguage }: Props) => {
       </FormikField>
     </>
   );
-};
-
-ImageMetaData.propTypes = {
-  imageTags: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
-  imageLanguage: PropTypes.string,
 };
 
 export default ImageMetaData;

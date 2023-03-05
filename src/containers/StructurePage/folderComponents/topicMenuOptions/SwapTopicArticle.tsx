@@ -10,14 +10,14 @@ import styled from '@emotion/styled';
 import { spacing, colors } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
 import { SubjectMaterial } from '@ndla/icons/contentType';
-import { Done } from '@ndla/icons/lib/editor';
+import { Done } from '@ndla/icons/editor';
 import { IMultiSearchSummary } from '@ndla/types-search-api';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useQueryClient } from 'react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import RoundIcon from '../../../../components/RoundIcon';
 import { fetchDraft, updateDraft } from '../../../../modules/draft/draftApi';
-import { NodeType } from '../../../../modules/nodes/nodeApiTypes';
+import { NodeType, TOPIC_NODE } from '../../../../modules/nodes/nodeApiTypes';
 import { usePutNodeMutation } from '../../../../modules/nodes/nodeMutations';
 import { childNodesWithArticleTypeQueryKey } from '../../../../modules/nodes/nodeQueries';
 import { useSearch } from '../../../../modules/search/searchQueries';
@@ -84,7 +84,7 @@ const SwapTopicArticle = ({
     try {
       await putNodeMutation.mutateAsync({
         ...node,
-        nodeType: 'TOPIC',
+        nodeType: TOPIC_NODE,
         contentUri: `urn:article:${topic.id}`,
         taxonomyVersion,
       });
@@ -137,7 +137,7 @@ const SwapTopicArticle = ({
 
   return (
     <StyledMenuWrapper>
-      <MenuItemButton stripped onClick={toggleEditModeFunc}>
+      <MenuItemButton onClick={toggleEditModeFunc}>
         <RoundIcon small icon={<SubjectMaterial />} />
         {t('taxonomy.swapTopicArticle.info')}
       </MenuItemButton>

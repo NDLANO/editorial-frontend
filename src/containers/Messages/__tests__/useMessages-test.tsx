@@ -10,6 +10,7 @@ import { ReactNode } from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { act, renderHook } from '@testing-library/react-hooks';
 import { MessagesProvider, NewMessageType, useMessages } from '../MessagesProvider';
+import IntlWrapper from '../../../util/__tests__/IntlWrapper';
 
 interface WrapperProps {
   children?: ReactNode;
@@ -18,7 +19,9 @@ interface WrapperProps {
 
 const wrapper = ({ children, initialValues }: WrapperProps) => (
   <MemoryRouter>
-    <MessagesProvider>{children}</MessagesProvider>
+    <IntlWrapper>
+      <MessagesProvider>{children}</MessagesProvider>
+    </IntlWrapper>
   </MemoryRouter>
 );
 

@@ -8,7 +8,7 @@
 
 import { MouseEvent, useEffect, useState } from 'react';
 import { IImageMetaInformationV3 } from '@ndla/types-image-api';
-import Button from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 import { colors } from '@ndla/core';
 import styled from '@emotion/styled';
 import { Crop, FocalPoint } from '@ndla/icons/editor';
@@ -208,7 +208,6 @@ const ImageEditor = ({ embed, onUpdatedImageSettings, imageUpdates, language }: 
           {isModifiable() && (
             <Tooltip tooltip={t('form.image.focalPoint')}>
               <ImageEditorButton
-                stripped
                 tabIndex={-1}
                 isActive={embed['focal-x'] !== undefined}
                 onClick={(evt: MouseEvent<HTMLButtonElement>) =>
@@ -219,16 +218,15 @@ const ImageEditor = ({ embed, onUpdatedImageSettings, imageUpdates, language }: 
             </Tooltip>
           )}
           {imageCancelButtonNeeded && (
-            <Button
+            <ButtonV2
               onClick={(evt: MouseEvent<HTMLButtonElement>) => onRemoveData(evt, editType)}
-              stripped>
+              variant="stripped">
               {t(`imageEditor.remove.${editType}`)}
-            </Button>
+            </ButtonV2>
           )}
           {isModifiable() && (
             <Tooltip tooltip={t('form.image.crop')}>
               <ImageEditorButton
-                stripped
                 isActive={embed['upper-left-x'] !== undefined}
                 onClick={(evt: MouseEvent<HTMLButtonElement>) => onEditorTypeSet(evt, 'crop')}
                 tabIndex={-1}>

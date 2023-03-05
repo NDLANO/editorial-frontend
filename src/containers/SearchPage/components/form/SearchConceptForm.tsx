@@ -8,16 +8,17 @@
 
 import { useEffect, useState, MouseEvent } from 'react';
 import { useTranslation } from 'react-i18next';
+import sortBy from 'lodash/sortBy';
 import { getResourceLanguages } from '../../../../util/resourceHelpers';
 import { getTagName } from '../../../../util/formHelper';
 import { SearchParams } from './SearchForm';
-import * as conceptStatuses from '../../../../util/constants/ConceptStatus';
 import {
   CONCEPT_WRITE_SCOPE,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
 } from '../../../../constants';
 import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
-import { useAuth0Editors } from '../../../../modules/auth0/auth0Queries';
+import { useAuth0Editors, useAuth0Responsibles } from '../../../../modules/auth0/auth0Queries';
+import { useConceptStateMachine } from '../../../../modules/concept/conceptQueries';
 import GenericSearchForm, { OnFieldChangeFunction } from './GenericSearchForm';
 import { SearchFormSelector } from './Selector';
 
@@ -39,6 +40,21 @@ const SearchConceptForm = ({ search: doSearch, searchObject: search, subjects }:
     },
   );
 
+  const { data: responsibles } = useAuth0Responsibles(
+    { permission: CONCEPT_WRITE_SCOPE },
+    {
+      select: users =>
+        sortBy(
+          users.map(u => ({
+            id: `${u.app_metadata.ndla_id}`,
+            name: u.name,
+          })),
+          u => u.name,
+        ),
+      placeholderData: [],
+    },
+  );
+
   const onFieldChange: OnFieldChangeFunction = (name, value, evt) => {
     if (name === 'query' && evt) setQueryInput(evt.currentTarget.value);
     doSearch({ ...search, [name]: value });
@@ -51,8 +67,10 @@ const SearchConceptForm = ({ search: doSearch, searchObject: search, subjects }:
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search.query]);
 
+  const { data: statuses } = useConceptStateMachine();
+
   const getConceptStatuses = () => {
-    return Object.keys(conceptStatuses).map(s => {
+    return Object.keys(statuses || []).map(s => {
       return { id: s, name: t(`form.status.${s.toLowerCase()}`) };
     });
   };
@@ -93,6 +111,14 @@ const SearchConceptForm = ({ search: doSearch, searchObject: search, subjects }:
       options: subjects
         .filter(s => s.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] === 'true')
         .sort(sortByProperty('name')),
+      formElementType: 'dropdown',
+      width: 25,
+    },
+    {
+      value: getTagName(search['responsible-ids'], responsibles),
+      parameterName: 'responsible-ids',
+      width: 25,
+      options: responsibles!,
       formElementType: 'dropdown',
     },
     {

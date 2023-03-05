@@ -7,6 +7,8 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
+import { ButtonV2 } from '@ndla/button';
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import {
   IAudio,
@@ -19,10 +21,9 @@ import { Formik, FormikHelpers } from 'formik';
 import { Descendant } from 'slate';
 import { editorValueToPlainText } from '../../../util/articleContentConverter';
 import Field from '../../../components/Field';
-import Spinner from '../../../components/Spinner';
 import SaveButton from '../../../components/SaveButton';
 import { DEFAULT_LICENSE, isFormikFormDirty } from '../../../util/formHelper';
-import { AbortButton, AlertModalWrapper } from '../../FormikForm';
+import { AlertModalWrapper } from '../../FormikForm';
 import AudioMetaData from './AudioMetaData';
 import AudioContent from './AudioContent';
 import AudioManuscript from './AudioManuscript';
@@ -103,8 +104,6 @@ interface Props {
   audio?: IAudioMetaInformation;
   audioLanguage: string;
   isNewlyCreated?: boolean;
-  translating?: boolean;
-  translateToNN?: () => void;
   isNewLanguage?: boolean;
 }
 
@@ -112,8 +111,6 @@ const AudioForm = ({
   audioLanguage,
   audio,
   isNewlyCreated,
-  translating,
-  translateToNN,
   onCreateAudio,
   onUpdateAudio,
   isNewLanguage,
@@ -123,6 +120,7 @@ const AudioForm = ({
   const prevAudioLanguage = useRef<string | null>(null);
   const { applicationError } = useMessages();
   const { data: licenses } = useLicenses({ placeholderData: [] });
+  const navigate = useNavigate();
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
@@ -206,46 +204,35 @@ const AudioForm = ({
                 if (values.id) return toEditAudio(values.id, lang);
                 else return toCreateAudioFile();
               }}
-              translateToNN={translateToNN}
             />
-            {translating ? (
-              <Spinner withWrapper />
-            ) : (
-              <Accordions>
-                <AccordionSection
-                  id="audio-upload-content"
-                  className="u-4/6@desktop u-push-1/6@desktop"
-                  title={t('form.contentSection')}
-                  hasError={hasError(['title', 'audioFile'])}
-                  startOpen>
-                  <AudioContent />
-                </AccordionSection>
-                <AccordionSection
-                  id="podcast-upload-podcastmanus"
-                  title={t('podcastForm.fields.manuscript')}
-                  className="u-4/6@desktop u-push-1/6@desktop"
-                  hasError={[].some(field => field in errors)}>
-                  <AudioManuscript />
-                </AccordionSection>
-                <AccordionSection
-                  id="audio-upload-metadataSection"
-                  className="u-4/6@desktop u-push-1/6@desktop"
-                  title={t('form.metadataSection')}
-                  hasError={hasError([
-                    'tags',
-                    'creators',
-                    'rightsholders',
-                    'processors',
-                    'license',
-                  ])}>
-                  <AudioMetaData />
-                </AccordionSection>
-              </Accordions>
-            )}
+            <Accordions>
+              <AccordionSection
+                id="audio-upload-content"
+                className="u-4/6@desktop u-push-1/6@desktop"
+                title={t('form.contentSection')}
+                hasError={hasError(['title', 'audioFile'])}
+                startOpen>
+                <AudioContent />
+              </AccordionSection>
+              <AccordionSection
+                id="podcast-upload-podcastmanus"
+                title={t('podcastForm.fields.manuscript')}
+                className="u-4/6@desktop u-push-1/6@desktop"
+                hasError={[].some(field => field in errors)}>
+                <AudioManuscript />
+              </AccordionSection>
+              <AccordionSection
+                id="audio-upload-metadataSection"
+                className="u-4/6@desktop u-push-1/6@desktop"
+                title={t('form.metadataSection')}
+                hasError={hasError(['tags', 'creators', 'rightsholders', 'processors', 'license'])}>
+                <AudioMetaData />
+              </AccordionSection>
+            </Accordions>
             <Field right>
-              <AbortButton outline disabled={isSubmitting}>
+              <ButtonV2 variant="outline" disabled={isSubmitting} onClick={() => navigate(-1)}>
                 {t('form.abort')}
-              </AbortButton>
+              </ButtonV2>
               <SaveButton
                 isSaving={isSubmitting}
                 formIsDirty={formIsDirty}

@@ -47,6 +47,7 @@ export const fetchDrafts = async (ids: number[], language?: string): Promise<IAr
   const query = queryString.stringify({
     ids: ids.join(','),
     language,
+    fallback: true,
     page: 1,
     'page-size': ids.length,
   });
@@ -77,6 +78,24 @@ export const searchDrafts = async (query: DraftSearchQuery): Promise<ISearchResu
     method: 'POST',
     body: JSON.stringify(query),
   }).then(r => resolveJsonOrRejectWithError<ISearchResult>(r));
+
+export const searchAllDrafts = async (
+  ids: number[],
+  language?: string,
+  sort?: string,
+): Promise<ISearchResult> => {
+  const query = queryString.stringify({
+    ids: ids.join(','),
+    language,
+    page: 1,
+    'page-size': ids.length,
+    sort,
+  });
+
+  return fetchAuthorized(`${baseUrl}/?${query}`, {
+    method: 'GET',
+  }).then(r => resolveJsonOrRejectWithError<ISearchResult>(r));
+};
 
 export const cloneDraft = async (
   id: number,

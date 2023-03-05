@@ -16,9 +16,10 @@ import {
   NotionDialogLicenses,
   NotionDialogText,
   NotionDialogTags,
+  LicenseByline,
 } from '@ndla/notion';
 import { ImageLink } from '@ndla/ui';
-import { getLicenseByAbbreviation, LicenseByline } from '@ndla/licenses';
+import { getLicenseByAbbreviation } from '@ndla/licenses';
 import { Remarkable } from 'remarkable';
 import { IConcept } from '@ndla/types-concept-api';
 import { IImageMetaInformationV3 } from '@ndla/types-image-api';
@@ -101,6 +102,7 @@ const StyledAltSpan = styled.span`
 const StyledVisualElementImageInfo = styled.div`
   padding-top: ${spacing.small};
   display: flex;
+  width: 100%;
   flex-direction: column;
   align-items: start;
 `;
@@ -109,6 +111,10 @@ const StyledLicensesWrapper = styled(LicensesWrapper)`
   border-top: 0;
   padding-bottom: 12px;
   border-bottom: 1px solid ${colors.brand.greyLight};
+`;
+
+const StyledImageLink = styled(ImageLink)`
+  width: 100%;
 `;
 
 interface Props {
@@ -152,9 +158,9 @@ const PreviewConcept = ({ concept, visualElement }: Props) => {
         const authors = image?.copyright?.creators || image?.copyright?.rightsholders || [];
         return (
           <StyledVisualElementImageInfo>
-            <ImageLink src={visualElement.url!}>
+            <StyledImageLink src={visualElement.url!}>
               <img alt={visualElement?.alt} src={visualElement?.url} srcSet={srcSet} />{' '}
-            </ImageLink>
+            </StyledImageLink>
             {visualElement?.alt && <StyledAltSpan>{`Alt: ${visualElement.alt}`}</StyledAltSpan>}
             <StyledLicensesWrapper>
               <LicenseByline licenseRights={license.rights} />

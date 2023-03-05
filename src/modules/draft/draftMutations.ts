@@ -7,7 +7,7 @@
  */
 
 import { IArticle, IUpdatedArticle } from '@ndla/types-draft-api';
-import { useMutation, UseMutationOptions } from 'react-query';
+import { useMutation, UseMutationOptions } from '@tanstack/react-query';
 import { copyRevisionDates, updateDraft } from './draftApi';
 
 export const useUpdateDraftMutation = (

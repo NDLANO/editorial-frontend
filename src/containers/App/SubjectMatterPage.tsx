@@ -16,6 +16,9 @@ const TopicArticlePage = loadable(() => import('../ArticlePage/TopicArticlePage/
 const LearningResourcePage = loadable(() =>
   import('../ArticlePage/LearningResourcePage/LearningResourcePage'),
 );
+const FrontPageArticlePage = loadable(() =>
+  import('../ArticlePage/FrontpageArticlePage/FrontpageArticlePage'),
+);
 
 const SubjectMatterPage = () => (
   <>
@@ -25,6 +28,10 @@ const SubjectMatterPage = () => (
         path="learning-resource/*"
         element={<PrivateRoute component={<LearningResourcePage />} />}
       />
+      <Route
+        path="frontpage-article/*"
+        element={<PrivateRoute component={<FrontPageArticlePage />} />}
+      />
       <Route path="article/:id" element={<PrivateRoute component={<GenericArticleRedirect />} />} />
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
@@ -33,8 +40,11 @@ const SubjectMatterPage = () => (
 
 const GenericArticleRedirect = () => {
   const parsedId = Number(useParams<'id'>().id);
-  const { data: article, error, isLoading } = useDraft({ id: parsedId }, { enabled: !!parsedId });
-  if (isLoading) return <Spinner />;
+  const { data: article, error, isInitialLoading } = useDraft(
+    { id: parsedId },
+    { enabled: !!parsedId },
+  );
+  if (isInitialLoading) return <Spinner />;
   if (error || !article || !parsedId) return <NotFoundPage />;
 
   const replaceUrl = toEditArticle(article.id, article.articleType);

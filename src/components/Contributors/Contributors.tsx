@@ -7,9 +7,8 @@
  */
 
 import { FormEvent, MouseEvent } from 'react';
-import PropTypes from 'prop-types';
 import { contributorGroups, contributorTypes } from '@ndla/licenses';
-import Button from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 import styled from '@emotion/styled';
 import { fonts, colors } from '@ndla/core';
 import { FieldHeader } from '@ndla/forms';
@@ -115,33 +114,15 @@ const Contributors = ({
       {showError && value.length === 0 && errorMessages.length > 0 && (
         <StyledFormWarningText>{errorMessages[0]}</StyledFormWarningText>
       )}
-      <Button outline onClick={addContributor} data-cy="addContributor" disabled={disabled}>
+      <ButtonV2
+        variant="outline"
+        onClick={addContributor}
+        data-cy="addContributor"
+        disabled={disabled}>
         {t('form.contributor.add')}
-      </Button>
+      </ButtonV2>
     </div>
   );
-};
-
-Contributors.propTypes = {
-  name: PropTypes.oneOf<ContributorGroups>([
-    ContributorGroups.CREATORS,
-    ContributorGroups.PROCESSORS,
-    ContributorGroups.RIGHTSHOLDERS,
-  ]).isRequired,
-  label: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
-  errorMessages: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
-  showError: PropTypes.bool,
-  placeholder: PropTypes.string,
-  disabled: PropTypes.bool,
-  value: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      type: PropTypes.string.isRequired,
-      focusOnMount: PropTypes.bool,
-    }).isRequired,
-  ).isRequired,
-  width: PropTypes.number,
 };
 
 export default Contributors;

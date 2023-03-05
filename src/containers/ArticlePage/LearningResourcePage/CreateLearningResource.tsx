@@ -32,7 +32,6 @@ const CreateLearningResource = () => {
       <LearningResourceForm
         updateArticle={createArticleAndPushRoute}
         updateArticleAndStatus={inp => createArticleAndPushRoute(inp.updatedArticle)}
-        translating={false}
         articleChanged={false}
         isNewlyCreated={false}
         articleLanguage={i18n.language}

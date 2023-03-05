@@ -40,7 +40,9 @@ const FormView = ({ concept, cancel, subjects, updateLocalConcept }: Props) => {
     concept.supportedLanguages.find(l => l === i18n.language) ?? concept.supportedLanguages[0],
   );
   const [fullConcept, setFullConcept] = useState<IConcept | undefined>();
-  const { data: licenses, isLoading: licensesLoading } = useLicenses({ placeholderData: [] });
+  const { data: licenses, isInitialLoading: licensesLoading } = useLicenses({
+    placeholderData: [],
+  });
 
   useEffect(() => {
     fetchConcept(concept.id, language).then(c => setFullConcept(c));
@@ -82,6 +84,7 @@ const FormView = ({ concept, cancel, subjects, updateLocalConcept }: Props) => {
         rightsholders: fullConcept.copyright?.rightsholders || [],
         processors: fullConcept.copyright?.processors || [],
       },
+      responsibleId: fullConcept?.responsible?.responsibleId,
     };
     const updatedConcept = await updateConcept(fullConcept.id, newConcept);
     if (formConcept.newStatus) {

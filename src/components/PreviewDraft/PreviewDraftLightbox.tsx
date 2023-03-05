@@ -8,6 +8,7 @@
 
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { ButtonV2 } from '@ndla/button';
 import { spacing } from '@ndla/core';
 import { IArticle, IUpdatedArticle } from '@ndla/types-draft-api';
 import { ErrorMessage, OneColumn } from '@ndla/ui';
@@ -15,7 +16,6 @@ import uniq from 'lodash/uniq';
 import { ReactElement, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { updatedDraftApiTypeToDraftApiType } from '../../containers/ArticlePage/articleTransformers';
-import { ActionButton } from '../../containers/FormikForm';
 import { LocaleType, PartialRecord, TypeOfPreview } from '../../interfaces';
 import {
   getArticleFromArticleConverter,
@@ -169,17 +169,17 @@ const PreviewDraftLightbox = ({
       return children(openPreview);
     }
     return (
-      <ActionButton onClick={openPreview} disabled={loading} link data-testid={typeOfPreview}>
+      <ButtonV2 onClick={openPreview} disabled={loading} variant="link" data-testid={typeOfPreview}>
         {loading && <StyledSpinner appearance="small" />}
         {t(`form.${typeOfPreview}.button`)}
-      </ActionButton>
+      </ButtonV2>
     );
   }
 
   const closeButton = (
     <StyledCloseButton
       previewType={typeOfPreview}
-      stripped
+      variant="stripped"
       data-testid="closePreview"
       onClick={onClosePreview}>
       <StyledCross />

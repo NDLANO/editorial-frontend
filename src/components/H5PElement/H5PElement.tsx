@@ -7,7 +7,6 @@
  */
 
 import { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import { ErrorMessage } from '@ndla/ui';
@@ -15,8 +14,8 @@ import handleError from '../../util/handleError';
 import { fetchH5PiframeUrl, editH5PiframeUrl, fetchH5PMetadata } from './h5pApi';
 
 const FlexWrapper = styled.div`
-  height: 100%;
   width: 100%;
+  height: 100%;
 `;
 
 const StyledIFrame = styled.iframe`
@@ -46,14 +45,7 @@ interface MessageEvent extends Event {
   };
 }
 
-const H5PElement = ({
-  h5pUrl,
-  onSelect,
-  onClose,
-  locale,
-  canReturnResources,
-  setH5pFetchFail,
-}: Props) => {
+const H5PElement = ({ h5pUrl, onSelect, onClose, locale, canReturnResources }: Props) => {
   const { t } = useTranslation();
   const [url, setUrl] = useState<string>('');
   const [fetchFailed, setFetchFailed] = useState<boolean>(false);
@@ -65,7 +57,6 @@ const H5PElement = ({
       fetchAndSetH5PUrl();
     } catch (e) {
       setFetchFailed(true);
-      setH5pFetchFail && setH5pFetchFail(true);
     }
 
     return () => {
@@ -125,15 +116,6 @@ const H5PElement = ({
       {url && <StyledIFrame src={url} title="H5P" frameBorder="0" />}
     </FlexWrapper>
   );
-};
-
-H5PElement.propTypes = {
-  h5pUrl: PropTypes.string,
-  onSelect: PropTypes.func.isRequired,
-  onClose: PropTypes.func.isRequired,
-  locale: PropTypes.string.isRequired,
-  canReturnResources: PropTypes.bool,
-  setH5pFetchFail: PropTypes.func,
 };
 
 export default H5PElement;

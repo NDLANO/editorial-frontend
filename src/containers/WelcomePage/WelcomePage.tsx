@@ -8,14 +8,16 @@
 
 import { useTranslation } from 'react-i18next';
 import { HelmetWithTracker } from '@ndla/tracker';
+import { SearchFolder } from '@ndla/icons/editor';
 import styled from '@emotion/styled';
 import { useEffect, useMemo, useState } from 'react';
 import { Option } from '@ndla/select';
-import { NAVIGATION_HEADER_MARGIN } from '../../constants';
 import { getAccessToken, getAccessTokenPersonal } from '../../util/authHelpers';
+import SaveSearchUrl from './components/SaveSearchUrl';
 import { isValid } from '../../util/jwtHelper';
 import Footer from '../App/components/Footer';
 import LastUsedItems from './components/LastUsedItems';
+import { StyledColumnHeader } from './styles';
 import { useUserData } from '../../modules/draft/draftQueries';
 import WorkList from './components/worklist/WorkList';
 import WelcomeHeader from './components/WelcomeHeader';
@@ -29,7 +31,6 @@ export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: calc(100vh - ${NAVIGATION_HEADER_MARGIN});
 `;
 
 export const WelcomePage = () => {
@@ -72,6 +73,11 @@ export const WelcomePage = () => {
           {ndlaId && (
             <Revision ndlaId={ndlaId} userData={data} favoriteSubjects={favoriteSubjects} />
           )}
+          <StyledColumnHeader>
+            <SearchFolder className="c-icon--medium" />
+            <span>{t('welcomePage.savedSearch')}</span>
+          </StyledColumnHeader>
+          <SaveSearchUrl />
         </LeftColumn>
         <RightColumn colStart={8} colEnd={12}>
           {ndlaId && <LastUsedItems lastUsed={lastUsed} />}

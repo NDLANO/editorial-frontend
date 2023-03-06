@@ -2,6 +2,17 @@ import styled from '@emotion/styled';
 import { spacing, colors } from '@ndla/core';
 import SafeLink from '@ndla/safelink';
 
+export const StyledColumnHeader = styled.div`
+  display: flex;
+  align-items: center;
+  font-size: 1.2rem;
+  margin-top: ${spacing.medium};
+  & > span {
+    text-transform: uppercase;
+    margin-left: ${spacing.small};
+  }
+`;
+
 export const StyledDashboardInfo = styled.div`
   background-color: ${colors.brand.lighter};
   border-radius: 10px;

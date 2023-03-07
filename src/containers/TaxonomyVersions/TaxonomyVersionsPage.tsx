@@ -87,16 +87,6 @@ const TaxonomyVersionsPage = () => {
             {t('taxonomyVersions.newVersionButton')}
           </ButtonV2>
         </Row>
-
-        {publishRequests?.length ? (
-          <>
-            <h2>{t('publishRequests.deleteAll')}</h2>
-            <DangerZone>
-              <>{t('publishRequests.deleteAllInfo')}</>
-              <DeletePublishRequests nodes={publishRequests} />
-            </DangerZone>
-          </>
-        ) : null}
         {showNewForm && (
           <FormSpacingWrapper>
             <NewFormWrapper>
@@ -108,6 +98,15 @@ const TaxonomyVersionsPage = () => {
         {published ? <Version version={published} /> : t('taxonomyVersions.noPublished')}
         <h3>{t('taxonomyVersions.otherVersions')}</h3>
         <VersionList versions={other} />
+        {publishRequests?.length ? (
+          <>
+            <h2>{t('publishRequests.deleteAll')}</h2>
+            <DangerZone>
+              <>{t('publishRequests.deleteAllInfo')}</>
+              <DeletePublishRequests nodes={publishRequests} />
+            </DangerZone>
+          </>
+        ) : null}
       </OneColumn>
       <Footer />
     </>

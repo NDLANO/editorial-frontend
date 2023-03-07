@@ -27,7 +27,7 @@ exports[`it goes in and out of edit mode 1`] = `
   padding: 52px;
   padding-top: 0;
   background-color: #fff;
-  z-index: 1;
+  z-index: 3;
 }
 
 .emotion-3 {
@@ -510,7 +510,7 @@ exports[`it goes in and out of edit mode 2`] = `
   padding: 52px;
   padding-top: 0;
   background-color: #fff;
-  z-index: 1;
+  z-index: 3;
 }
 
 .emotion-3 {

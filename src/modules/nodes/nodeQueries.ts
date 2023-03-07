@@ -187,7 +187,7 @@ const fetchChildNodesWithArticleType = async ({
   const childIds = childNodes.map(n => Number(n.contentUri?.split(':').pop())).filter(id => !!id);
 
   const chunks = chunk(childIds, 250);
-  const searchRes = await Promise.all(chunks.map(async chunk => await fetchDrafts(chunk)));
+  const searchRes = await Promise.all(chunks.map(chunk => fetchDrafts(chunk)));
 
   const flattenedUniqueSeachRes = uniqBy(searchRes.flat(), s => s.id);
   const articleTypeMap = flattenedUniqueSeachRes.reduce<Record<number, string>>((acc, curr) => {

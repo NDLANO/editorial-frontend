@@ -1581,6 +1581,9 @@ const phrases = {
     nodePublished: 'Noden har blitt publisert!',
     showInStructure: 'Vis i struktur',
     compare: 'Sammenlign',
+    deleteAll: 'Slett publiseringsforespørsler',
+    deleteAllInfo:
+      'Er du sikker på at du ønsker å slette alle publiseringsforespørsler? Denne handlingen kan ikke angres.',
     errors: {
       noPublishedVersion: 'Klarte ikke finne publisert versjon',
     },
@@ -1739,6 +1742,7 @@ const phrases = {
       danger: 'Pass på!',
     },
   },
+  delete: 'Slett',
 };
 
 export default phrases;

@@ -8,7 +8,7 @@
 
 import partition from 'lodash/partition';
 import styled from '@emotion/styled';
-import { colors, spacing } from '@ndla/core';
+import { colors, spacing, misc } from '@ndla/core';
 import { ButtonV2 } from '@ndla/button';
 import { OneColumn } from '@ndla/ui';
 import { HelmetWithTracker } from '@ndla/tracker';
@@ -45,6 +45,14 @@ const ButtonContainer = styled.div`
   gap: ${spacing.small};
 `;
 
+const DangerZone = styled.div`
+  display: flex;
+  padding: ${spacing.normal};
+  border-radius: ${misc.borderRadius};
+  background-color: ${colors.support.redLight};
+  justify-content: space-between;
+`;
+
 const getPublishedAndOther = (
   versions: VersionType[],
 ): { published: VersionType | undefined; other: VersionType[] } => {
@@ -75,13 +83,20 @@ const TaxonomyVersionsPage = () => {
         <h1>{t('taxonomyVersions.title')}</h1>
         <Row alignItems="center">
           <p>{t('taxonomyVersions.about')}</p>
-          <ButtonContainer>
-            <ButtonV2 size="small" onClick={() => setShowNewForm(prev => !prev)}>
-              {t('taxonomyVersions.newVersionButton')}
-            </ButtonV2>
-            {publishRequests?.length ? <DeletePublishRequests nodes={publishRequests} /> : null}
-          </ButtonContainer>
+          <ButtonV2 onClick={() => setShowNewForm(prev => !prev)}>
+            {t('taxonomyVersions.newVersionButton')}
+          </ButtonV2>
         </Row>
+
+        {publishRequests?.length ? (
+          <>
+            <h2>{t('publishRequests.deleteAll')}</h2>
+            <DangerZone>
+              <>{t('publishRequests.deleteAllInfo')}</>
+              <DeletePublishRequests nodes={publishRequests} />
+            </DangerZone>
+          </>
+        ) : null}
         {showNewForm && (
           <FormSpacingWrapper>
             <NewFormWrapper>

@@ -60,7 +60,7 @@ const DeletePublishRequests = ({ nodes }: Props) => {
       label={t('publishRequests.deleteAll')}
       activateButton={
         <ButtonV2 size="small" colorTheme="danger">
-          {t('publishRequests.deleteAll')}
+          {t('delete')}
         </ButtonV2>
       }>
       {close => (

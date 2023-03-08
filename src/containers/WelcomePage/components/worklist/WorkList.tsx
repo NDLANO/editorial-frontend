@@ -96,7 +96,7 @@ const WorkList = ({ ndlaId, userData }: Props) => {
           ),
         },
         {
-          title: `${t('form.name.concepts')} (${concepts?.results.length ?? 0})`,
+          title: `${t('form.name.concepts')} (${concepts?.totalCount ?? 0})`,
           content: (
             <ConceptListTabContent
               data={concepts}

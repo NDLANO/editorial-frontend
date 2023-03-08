@@ -117,7 +117,7 @@ const phrases = {
     noArticles: 'Ingen artikler ...',
     emptyLastUsed: 'Ingen sist redigerte ...',
     emptyConcepts: 'Ingen forklaringer ...',
-    emptyRevision: 'Ingen favorittfag som nærmer seg revisjonsdato ...',
+    emptyRevision: 'Ingen artikler i favorittfag som nærmer seg revisjonsdato ...',
     emptySavedSearch: 'Ingen lagrede søk',
     guidelines: 'Retningslinjer',
     mustBeSearch: 'Lenken må være til et søk',

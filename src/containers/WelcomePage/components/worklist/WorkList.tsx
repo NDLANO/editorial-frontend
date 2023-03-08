@@ -36,6 +36,7 @@ const WorkList = ({ ndlaId, favoriteSubjects }: Props) => {
     {
       'responsible-ids': ndlaId,
       sort: sortOption,
+      'page-size': 100,
       ...(filterSubject ? { subjects: filterSubject.value } : {}),
     },
     {
@@ -63,7 +64,7 @@ const WorkList = ({ ndlaId, favoriteSubjects }: Props) => {
       ariaLabel={t('welcomePage.workList.ariaLabel')}
       tabs={[
         {
-          title: `${t('welcomePage.workList.title')} (${data?.results.length ?? 0})`,
+          title: `${t('form.articleSection')} (${data?.totalCount ?? 0})`,
           content: (
             <WorkListTabContent
               data={data}
@@ -79,7 +80,7 @@ const WorkList = ({ ndlaId, favoriteSubjects }: Props) => {
           ),
         },
         {
-          title: `${t('form.name.concepts')} (${concepts?.results.length ?? 0})`,
+          title: `${t('form.name.concepts')} (${concepts?.totalCount ?? 0})`,
           content: (
             <ConceptListTabContent
               data={concepts}

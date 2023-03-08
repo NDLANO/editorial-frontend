@@ -34,7 +34,7 @@ interface Props {
   onImageSelectOpen: () => void;
   onImageRemove: () => void;
   showRemoveButton: boolean;
-  onImageLoad?: (event: SyntheticEvent<HTMLImageElement, Event>) => void;
+  onImageLoad?: (width: number, height: number) => void;
 }
 
 const MetaImageField = ({ image, onImageRemove, onImageLoad }: Props) => {
@@ -71,10 +71,15 @@ const MetaImageField = ({ image, onImageRemove, onImageLoad }: Props) => {
     title: t('form.metaImage.imageTitle'),
     copyright: t('form.metaImage.copyright'),
   };
+  const imageUrl = `${image.image.imageUrl}?width=400`;
+  const { width, height } = image.image?.dimensions || { width: 0, height: 0 };
+  const onLoad = (_: SyntheticEvent<HTMLImageElement, Event>) => {
+    onImageLoad?.(width, height);
+  };
   return (
     <>
       <MetaImageContainer>
-        <StyledImage src={image.image.imageUrl} alt={alt} onLoad={onImageLoad} />
+        <StyledImage src={imageUrl} alt={alt} onLoad={onLoad} />
         <MetaInformation
           title={title}
           copyright={copyright}

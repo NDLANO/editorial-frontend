@@ -121,7 +121,7 @@ const ConceptListTabContent = ({
     <>
       <StyledTopRowDashboardInfo>
         <TableTitle
-          title={t('form.name.concepts')}
+          title={t('welcomePage.workList.title')}
           description={t('welcomePage.workList.conceptDescription')}
           Icon={Calendar}
         />

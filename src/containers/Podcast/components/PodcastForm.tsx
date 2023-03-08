@@ -273,11 +273,8 @@ const PodcastForm = ({
                   )}>
                   <PodcastMetaData
                     language={language}
-                    onImageLoad={el => {
-                      size.current = [
-                        el.currentTarget.naturalWidth,
-                        el.currentTarget.naturalHeight,
-                      ];
+                    onImageLoad={(width, height) => {
+                      size.current = [width, height];
                       validateForm();
                     }}
                   />

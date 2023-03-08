@@ -10,11 +10,7 @@ import styled from '@emotion/styled';
 import { spacing, colors } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router-dom';
-import {
-  ChildNodeType,
-  NodeType,
-  ResourceWithNodeConnection,
-} from '../../modules/nodes/nodeApiTypes';
+import { ChildNodeType, NodeType } from '../../modules/nodes/nodeApiTypes';
 import ArrayDiffField from './ArrayDiffField';
 import { diffField, DiffType, DiffTypeWithChildren, removeType } from './diffUtils';
 import { DiffTypePill } from './TreeNode';

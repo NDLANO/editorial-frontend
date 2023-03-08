@@ -135,7 +135,7 @@ const phrases = {
     revisionDate: 'Revisjonsdato',
     workList: {
       title: 'Mine arbeidsoppgåver',
-      description: 'Artiklar der du står i ansvarleg-feltet',
+      description: 'Artiklar der du står som ansvarleg',
       name: 'Namn',
       status: 'Status',
       contentType: 'Innhaldstype',
@@ -1586,6 +1586,9 @@ const phrases = {
     nodePublished: 'Noden har blitt publisert!',
     showInStructure: 'Vis i struktur',
     compare: 'Samanlikn',
+    deleteAll: 'Slett publiseringsforespørsler',
+    deleteAllInfo:
+      'Er du sikker på at du ønsker å slette alle publiseringsforespørsler? Denne handlingen kan ikkje angres.',
     errors: {
       noPublishedVersion: 'Klarte ikkje finne publisert versjon',
     },
@@ -1744,6 +1747,7 @@ const phrases = {
       danger: 'Pass på!',
     },
   },
+  delete: 'Slett',
 };
 
 export default phrases;

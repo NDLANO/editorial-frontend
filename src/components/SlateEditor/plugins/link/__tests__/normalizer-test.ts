@@ -70,7 +70,7 @@ describe('link normalizer tests', () => {
     expect(editor.children).toEqual(expectedValue);
   });
 
-  test('Remove styling on content-link text', () => {
+  test('content link text keeps styling', () => {
     const editorValue: Descendant[] = [
       {
         type: TYPE_SECTION,
@@ -106,7 +106,7 @@ describe('link normalizer tests', () => {
                 'content-id': '123',
                 'content-type': 'article',
                 'open-in': 'current-context',
-                children: [{ text: 'content' }],
+                children: [{ bold: true, italic: true, text: 'content' }],
               },
               { text: '' },
             ],

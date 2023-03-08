@@ -31,7 +31,7 @@ interface Props {
   onChange: FormikHandlers['handleChange'];
   name: string;
   setFieldTouched: (field: string, isTouched?: boolean, shouldValidate?: boolean) => void;
-  onImageLoad?: (event: SyntheticEvent<HTMLImageElement, Event>) => void;
+  onImageLoad?: (width: number, height: number) => void;
   showRemoveButton: boolean;
   showCheckbox: boolean;
   checkboxAction: (image: IImageMetaInformationV3) => void;

@@ -12,9 +12,7 @@ import { FormikHelpers } from 'formik';
 import { Descendant } from 'slate';
 import { IArticle, ILicense, IStatus, IUpdatedArticle, IAuthor } from '@ndla/types-draft-api';
 import { deleteFile } from '../../modules/draft/draftApi';
-import { UNPUBLISHED } from '../../constants';
-import { isFormikFormDirty } from '../../util/formHelper';
-import { DraftStatusType, RelatedContent } from '../../interfaces';
+import { RelatedContent } from '../../interfaces';
 import { useMessages } from '../Messages/MessagesProvider';
 import { useLicenses } from '../../modules/draft/draftQueries';
 import { getWarnings, RulesType } from '../../components/formikValidationSchema';
@@ -90,11 +88,6 @@ type HooksInputObject<T extends ArticleFormType> = {
   t: TFunction;
   articleStatus?: IStatus;
   updateArticle: (art: IUpdatedArticle) => Promise<IArticle>;
-  updateArticleAndStatus?: (input: {
-    updatedArticle: IUpdatedArticle;
-    newStatus: DraftStatusType;
-    dirty: boolean;
-  }) => Promise<IArticle>;
   licenses?: ILicense[];
   getArticleFromSlate: (
     values: T,
@@ -112,7 +105,6 @@ export function useArticleFormHooks<T extends ArticleFormType>({
   t,
   articleStatus,
   updateArticle,
-  updateArticleAndStatus,
   getArticleFromSlate,
   articleLanguage,
   rules,
@@ -148,29 +140,11 @@ export function useArticleFormHooks<T extends ArticleFormType>({
 
     let savedArticle: IArticle;
     try {
-      if (statusChange && newStatus && updateArticleAndStatus) {
-        // if editor is not dirty, OR we are unpublishing, we don't save before changing status
-        const skipSaving =
-          newStatus === UNPUBLISHED ||
-          !isFormikFormDirty({
-            values,
-            initialValues,
-            dirty: true,
-          });
-        savedArticle = await updateArticleAndStatus({
-          updatedArticle: {
-            ...newArticle,
-            revision: revision || newArticle.revision,
-          },
-          newStatus,
-          dirty: !skipSaving,
-        });
-      } else {
-        savedArticle = await updateArticle({
-          ...newArticle,
-          revision: revision || newArticle.revision,
-        });
-      }
+      savedArticle = await updateArticle({
+        ...newArticle,
+        revision: revision || newArticle.revision,
+        ...(statusChange ? { status: newStatus } : {}),
+      });
 
       await deleteRemovedFiles(article?.content?.content ?? '', newArticle.content ?? '');
 

@@ -56,7 +56,6 @@ const EditTopicArticle = ({ isNewlyCreated }: Props) => {
     setArticle,
     articleChanged,
     updateArticle,
-    updateArticleAndStatus,
   } = useFetchArticleData(articleId, selectedLanguage);
 
   const { shouldTranslate, translate, translating } = useTranslateToNN();
@@ -93,7 +92,6 @@ const EditTopicArticle = ({ isNewlyCreated }: Props) => {
         article={article}
         isNewlyCreated={!!isNewlyCreated}
         updateArticle={updateArticle}
-        updateArticleAndStatus={updateArticleAndStatus}
       />
     </>
   );

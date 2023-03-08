@@ -130,7 +130,7 @@ const phrases = {
     goToSearch: 'Gå til søk',
     workList: {
       title: 'Mine arbeidsoppgaver',
-      description: 'Artikler hvor du står i ansvarlig-feltet',
+      description: 'Artikler hvor du står som ansvarlig',
       name: 'Navn',
       status: 'Status',
       contentType: 'Innholdstype',

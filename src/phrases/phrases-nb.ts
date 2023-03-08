@@ -140,6 +140,7 @@ const phrases = {
       ariaLabel: 'Oversikt over mine arbeidsoppgaver og forklaringer',
       conceptDescription: 'Forklaringer hvor du står som ansvarlig',
       conceptSubject: 'Forklaringsfag',
+      resources: 'Ressurser',
     },
     welcomeBack: 'Velkommen tilbake',
   },

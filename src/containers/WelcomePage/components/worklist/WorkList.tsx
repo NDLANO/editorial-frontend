@@ -42,6 +42,7 @@ const WorkList = ({ ndlaId, userData }: Props) => {
     {
       'responsible-ids': ndlaId,
       sort: sortOption ? sortOption : '-responsibleLastUpdated',
+      'page-size': 100,
       ...(filterSubject ? { subjects: filterSubject.value } : {}),
     },
     {
@@ -79,7 +80,7 @@ const WorkList = ({ ndlaId, userData }: Props) => {
       ariaLabel={t('welcomePage.workList.ariaLabel')}
       tabs={[
         {
-          title: `${t('welcomePage.workList.title')} (${data?.results.length ?? 0})`,
+          title: `${t('welcomePage.workList.resources')} (${data?.totalCount ?? 0})`,
           content: (
             <WorkListTabContent
               data={data}

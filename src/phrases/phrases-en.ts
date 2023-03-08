@@ -139,7 +139,6 @@ const phrases = {
       ariaLabel: 'Overview of my tasks and concepts',
       conceptDescription: 'Concepts where you are responsible',
       conceptSubject: 'Concept subject',
-      resources: 'Resources',
     },
     welcomeBack: 'Welcome back',
   },

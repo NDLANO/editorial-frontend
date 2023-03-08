@@ -80,7 +80,7 @@ const WorkList = ({ ndlaId, userData }: Props) => {
       ariaLabel={t('welcomePage.workList.ariaLabel')}
       tabs={[
         {
-          title: `${t('welcomePage.workList.resources')} (${data?.totalCount ?? 0})`,
+          title: `${t('form.articleSection')} (${data?.totalCount ?? 0})`,
           content: (
             <WorkListTabContent
               data={data}

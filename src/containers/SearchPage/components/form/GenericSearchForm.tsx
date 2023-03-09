@@ -118,7 +118,9 @@ const GenericSearchForm = ({
         <StyledButton onClick={emptySearch} variant="outline">
           {t('searchForm.empty')}
         </StyledButton>
-        <StyledButton onClick={onSubmit}>{t('searchForm.btn')}</StyledButton>
+        <StyledButton type="submit" onClick={onSubmit}>
+          {t('searchForm.btn')}
+        </StyledButton>
       </ButtonContainer>
       <StyledTagline>
         <SearchTagGroup onRemoveItem={removeTag} tagTypes={selectors} />

@@ -34,6 +34,7 @@ const WorkList = ({ ndlaId }: Props) => {
   const { data, isLoading } = useSearch(
     {
       'responsible-ids': ndlaId,
+      'page-size': 100,
       sort: sortOption ? sortOption : '-responsibleLastUpdated',
       ...(filterSubjects.length ? { subjects: filterSubjects.map(fs => fs.value).join(',') } : {}),
     },

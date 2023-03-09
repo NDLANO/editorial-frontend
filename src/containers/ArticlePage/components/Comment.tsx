@@ -31,12 +31,11 @@ const StyledComment = styled.div`
   font-weight: ${fonts.weight.light};
 `;
 const StyledDateTime = styled.div`
-  ${fonts.sizes('10px')}
+  ${fonts.sizes('10px')};
   font-weight: ${fonts.weight.light};
   color: ${colors.text.light};
   display: flex;
-  gap: ${spacing.xsmall}
-  
+  gap: ${spacing.xsmall};
 `;
 const TitleWrapper = styled.div`
   display: flex;

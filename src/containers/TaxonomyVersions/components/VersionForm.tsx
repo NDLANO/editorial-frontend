@@ -182,6 +182,8 @@ const VersionForm = ({ version, existingVersions, onClose }: Props) => {
                 </ButtonContainer>
               </Row>
               <AlertModal
+                title={t('taxonomyVersions.publishTitle')}
+                label={t('taxonomyVersions.publishTitle')}
                 show={showAlertModal}
                 text={t('taxonomyVersions.publishWarning')}
                 actions={[

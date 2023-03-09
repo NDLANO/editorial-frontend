@@ -32,17 +32,14 @@ const DisplayExternalModal = ({
       resource={allowedProvider.name.toLowerCase()}
       isOpen={isEditMode}
       onClose={onClose}>
-      {setH5pFetchFail => (
-        <VisualElementSearch
-          selectedResource={allowedProvider.name}
-          selectedResourceUrl={src}
-          selectedResourceType={type}
-          handleVisualElementChange={rt => (rt.type === 'ndlaembed' ? onEditEmbed(rt.value) : null)}
-          closeModal={onClose}
-          embed={embed}
-          setH5pFetchFail={setH5pFetchFail}
-        />
-      )}
+      <VisualElementSearch
+        selectedResource={allowedProvider.name}
+        selectedResourceUrl={src}
+        selectedResourceType={type}
+        handleVisualElementChange={rt => (rt.type === 'ndlaembed' ? onEditEmbed(rt.value) : null)}
+        closeModal={onClose}
+        embed={embed}
+      />
     </VisualElementModalWrapper>
   );
 };

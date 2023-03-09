@@ -84,17 +84,14 @@ const SlateVisualElementPicker = ({
       resource={resource}
       isOpen
       onClose={onVisualElementClose}>
-      {setH5pFetchFail => (
-        <VisualElementSearch
-          articleLanguage={articleLanguage}
-          selectedResource={resource}
-          handleVisualElementChange={onVisualElementAdd}
-          closeModal={onVisualElementClose}
-          setH5pFetchFail={setH5pFetchFail}
-          showCheckbox={showCheckbox}
-          checkboxAction={(image: IImageMetaInformationV3) => checkboxAction(image, formikContext)}
-        />
-      )}
+      <VisualElementSearch
+        articleLanguage={articleLanguage}
+        selectedResource={resource}
+        handleVisualElementChange={onVisualElementAdd}
+        closeModal={onVisualElementClose}
+        showCheckbox={showCheckbox}
+        checkboxAction={(image: IImageMetaInformationV3) => checkboxAction(image, formikContext)}
+      />
     </VisualElementModalWrapper>
   );
 };

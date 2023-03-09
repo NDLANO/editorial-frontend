@@ -16,7 +16,7 @@ import { MetaImageSearch } from '../../FormikForm';
 
 interface Props {
   language?: string;
-  onImageLoad?: (event: SyntheticEvent<HTMLImageElement, Event>) => void;
+  onImageLoad?: (width: number, height: number) => void;
 }
 
 const plugins = [textTransformPlugin];

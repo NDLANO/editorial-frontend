@@ -113,7 +113,9 @@ const phrases = {
     addSearch: 'Add new search',
     deleteSavedSearch: 'Delete saved search',
     deleteSearch: 'Delete search',
-    emptyLastUsed: 'Empty last edited list',
+    noArticles: 'Empty article list ...',
+    emptyLastUsed: 'Empty last edited list ...',
+    emptyConcepts: 'Empty concept list ...',
     emptySavedSearch: 'No saved searches',
     guidelines: 'Guidelines',
     mustBeSearch: 'Link must be a search url',
@@ -127,13 +129,16 @@ const phrases = {
     goToSearch: 'Go to search',
     workList: {
       title: 'My tasks',
-      description: 'Articles where I am responsible',
+      description: 'Articles where you are responsible',
       name: 'Name',
       status: 'Status',
       contentType: 'Content type',
       primarySubject: 'Primary subject',
       topicRelation: 'Topic relation',
       date: 'Date assigned',
+      ariaLabel: 'Overview of my tasks and concepts',
+      conceptDescription: 'Concepts where you are responsible',
+      conceptSubject: 'Concept subject',
     },
     welcomeBack: 'Welcome back',
   },
@@ -1030,7 +1035,6 @@ const phrases = {
       revisionDate: 'Amount approaching revision date',
       revisionDateSingle: 'Approaching revision date',
       error: 'Something went wrong when updating responsible',
-      noArticles: 'No articles ...',
     },
     origin: {
       label: 'Origin',
@@ -1302,7 +1306,7 @@ const phrases = {
     editStructure: 'Edit structure',
     editSubjectpage: 'Edit subjectpage',
     deleteSubject: 'Delete subject',
-    addSubject: 'Add new subject',
+    addSubject: 'Add subject',
     subjectName: 'New subject name',
     addExistingTopic: 'Move existing topic here',
     addExistingLoading: 'Moving topic',
@@ -1314,7 +1318,8 @@ const phrases = {
     errorMessage: 'An error occurred',
     addTopic: 'Add topic',
     currentVersion: 'Current version',
-    deleteNode: 'Delete',
+    deleteNode: 'Delete node',
+    deleteResource: 'Delete resource',
     confirmDelete: 'Are you sure you want to delete this node?',
     version: 'Version',
     changeName: {
@@ -1524,6 +1529,7 @@ const phrases = {
     deletePublished: 'This version cannot be deleted because it is published',
     delete: 'Delete version',
     locked: 'This version is locked and cannot be deleted',
+    publishTitle: 'Publish version',
     publishButton: 'Publish',
     publishWarning:
       'Are you sure you want to publish this version? The currently published version will be archived, and all new changes within this version will be immediately available on ndla.no',
@@ -1572,6 +1578,9 @@ const phrases = {
     nodePublished: 'The node has been published!',
     showInStructure: 'Show in structure',
     compare: 'Compare',
+    deleteAll: 'Remove publish requests',
+    deleteAllInfo:
+      'Are you sure you want to remove all publish requests? This action cannot be undone.',
     errors: {
       noPublishedVersion: 'Failed to find a published version',
     },
@@ -1721,6 +1730,16 @@ const phrases = {
     ti: 'Tigrinya',
     zh: 'Chinese',
   },
+  unsavedChanges: 'Unsaved changes',
+  messages: {
+    severity: {
+      info: 'Information',
+      warning: 'Warning',
+      success: 'Everything is OK!',
+      danger: 'Watch out!',
+    },
+  },
+  delete: 'Delete',
 };
 
 export default phrases;

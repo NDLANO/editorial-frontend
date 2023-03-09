@@ -148,6 +148,8 @@ const PublishChildNodeResources = ({ node }: Props) => {
         </StyledDiv>
       )}
       <AlertModal
+        title={t('errorMessage.description')}
+        label={t('errorMessage.description')}
         show={showAlert}
         onCancel={() => setShowAlert(false)}
         text={t('taxonomy.publish.error')}
@@ -164,6 +166,8 @@ const PublishChildNodeResources = ({ node }: Props) => {
         ))}
       />
       <AlertModal
+        title={t('taxonomy.publish.button')}
+        label={t('taxonomy.publish.button')}
         show={showConfirmation}
         actions={[
           {

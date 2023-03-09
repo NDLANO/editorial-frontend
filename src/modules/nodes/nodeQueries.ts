@@ -7,7 +7,9 @@
  */
 
 import { useQuery, useQueryClient, UseQueryOptions } from '@tanstack/react-query';
-import { IEditorNote } from '@ndla/types-draft-api';
+import { IDraftResponsible, IEditorNote, IRevisionMeta } from '@ndla/types-draft-api';
+import chunk from 'lodash/chunk';
+import uniqBy from 'lodash/uniqBy';
 import { NodeTree } from '../../containers/NodeDiff/diffUtils';
 import { SearchResultBase, WithTaxonomyVersion } from '../../interfaces';
 import { PUBLISHED } from '../../constants';
@@ -82,6 +84,8 @@ export interface NodeResourceMeta {
   articleType?: string;
   revision?: number;
   notes?: IEditorNote[];
+  revisions?: IRevisionMeta[];
+  responsible?: IDraftResponsible;
 }
 
 export const nodeResourceMetasQueryKey = (params: Partial<UseNodeResourceMetas>) => [
@@ -137,12 +141,14 @@ const fetchNodeResourceMetas = async (
     : Promise.resolve([]);
   const [articles, learningpaths] = await Promise.all([articlesPromise, learningpathsPromise]);
   const transformedArticles: NodeResourceMeta[] = articles.map(
-    ({ status, grepCodes, articleType, id, revision, notes }) => ({
+    ({ status, grepCodes, articleType, id, revision, revisions, notes, responsible }) => ({
       status,
       grepCodes,
       articleType,
       contentUri: `urn:article:${id}`,
       revision,
+      responsible,
+      revisions,
       notes,
     }),
   );
@@ -179,14 +185,17 @@ const fetchChildNodesWithArticleType = async ({
   if (childNodes.length === 0) return [];
 
   const childIds = childNodes.map(n => Number(n.contentUri?.split(':').pop())).filter(id => !!id);
-  const searchRes = await fetchDrafts(childIds);
 
-  const articleTypeMap = searchRes.reduce<Record<number, string>>((acc, curr) => {
+  const chunks = chunk(childIds, 250);
+  const searchRes = await Promise.all(chunks.map(chunk => fetchDrafts(chunk)));
+
+  const flattenedUniqueSeachRes = uniqBy(searchRes.flat(), s => s.id);
+  const articleTypeMap = flattenedUniqueSeachRes.reduce<Record<number, string>>((acc, curr) => {
     acc[curr.id] = curr.articleType;
     return acc;
   }, {});
 
-  const isPublishedMap = searchRes.reduce<Record<number, boolean>>((acc, curr) => {
+  const isPublishedMap = flattenedUniqueSeachRes.reduce<Record<number, boolean>>((acc, curr) => {
     acc[curr.id] = curr.status.current === PUBLISHED || curr.status.other.includes(PUBLISHED);
     return acc;
   }, {});

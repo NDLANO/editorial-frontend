@@ -14,8 +14,8 @@ import handleError from '../../util/handleError';
 import { fetchH5PiframeUrl, editH5PiframeUrl, fetchH5PMetadata } from './h5pApi';
 
 const FlexWrapper = styled.div`
-  height: 100%;
   width: 100%;
+  height: 100%;
 `;
 
 const StyledIFrame = styled.iframe`
@@ -45,14 +45,7 @@ interface MessageEvent extends Event {
   };
 }
 
-const H5PElement = ({
-  h5pUrl,
-  onSelect,
-  onClose,
-  locale,
-  canReturnResources,
-  setH5pFetchFail,
-}: Props) => {
+const H5PElement = ({ h5pUrl, onSelect, onClose, locale, canReturnResources }: Props) => {
   const { t } = useTranslation();
   const [url, setUrl] = useState<string>('');
   const [fetchFailed, setFetchFailed] = useState<boolean>(false);
@@ -64,7 +57,6 @@ const H5PElement = ({
       fetchAndSetH5PUrl();
     } catch (e) {
       setFetchFailed(true);
-      setH5pFetchFail && setH5pFetchFail(true);
     }
 
     return () => {

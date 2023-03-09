@@ -78,6 +78,8 @@ const Message = ({ message }: MessageProps) => {
 
   return (
     <AlertModal
+      title={t(`messages.severity.${message.severity ?? 'danger'}`)}
+      label={t(`messages.severity.${message.severity ?? 'danger'}`)}
       show
       text={
         message.translationKey

@@ -114,7 +114,9 @@ const phrases = {
     addSearch: 'Legg til nytt søk',
     deleteSavedSearch: 'Slett lagra søk',
     deleteSearch: 'Slett søk',
-    emptyLastUsed: 'Ingen sist redigerte',
+    noArticles: 'Ingen artiklar ...',
+    emptyLastUsed: 'Ingen sist redigerte ...',
+    emptyConcepts: 'Ingen forklaringar ...',
     emptySavedSearch: 'Ingen lagra søk',
     guidelines: 'Retningslinjer',
     mustBeSearch: 'Lenka må være til eit søk',
@@ -128,13 +130,16 @@ const phrases = {
     goToSearch: 'Gå til søk',
     workList: {
       title: 'Mine arbeidsoppgåver',
-      description: 'Artiklar der eg står i ansvarleg-feltet',
+      description: 'Artiklar der du står som ansvarleg',
       name: 'Namn',
       status: 'Status',
       contentType: 'Innhaldstype',
       primarySubject: 'Primærfag',
       topicRelation: 'Emnetilknytting',
       date: 'Tildelingsdato',
+      ariaLabel: 'Oversikt over arbeidsoppgåvene og forklaringane mine',
+      conceptDescription: 'Forklaringer der du står som ansvarleg',
+      conceptSubject: 'Forklaringsfag',
     },
     welcomeBack: 'Velkommen tilbake',
   },
@@ -1031,7 +1036,6 @@ const phrases = {
       revisionDate: 'Antall som nærmar seg revisjonsdato',
       revisionDateSingle: 'Nærmar seg revisjonsdato',
       error: 'Noe gjekk gale ved oppdatering av ansvarleg.',
-      noArticles: 'Ingen artiklar ...',
     },
     origin: {
       label: 'Opphav',
@@ -1304,7 +1308,7 @@ const phrases = {
     editStructure: 'Rediger struktur',
     editSubjectpage: 'Rediger fagforside',
     deleteSubject: 'Slett fag',
-    addSubject: 'Legg til nytt fag',
+    addSubject: 'Legg til fag',
     subjectName: 'Namn på nytt fag',
     addExistingTopic: 'Flytt eksisterande emne hit',
     addExistingLoading: 'Flyttar emne',
@@ -1316,7 +1320,8 @@ const phrases = {
     subjectSettings: 'Faginnstillinger',
     topicSettings: 'Emneinnstillinger',
     currentVersion: 'Noverande versjon',
-    deleteNode: 'Slett',
+    deleteNode: 'Slett node',
+    deleteResource: 'Slett ressurs',
     confirmDelete: 'Er du sikker på at du vil slette denne noden?',
     version: 'Versjon',
     changeName: {
@@ -1542,6 +1547,7 @@ const phrases = {
     newVersionTitle: 'Opprett ny versjon',
     editVersionTitle: 'Rediger versjon',
     newVersionButton: 'Ny versjon',
+    publishTitle: 'Publiser versjon',
     publishButton: 'Publiser',
     publishWarning:
       'Er du sikker på at du ønskjar å publisera denne versjonen? Den nåværanda versjonen vil bli arkivert, og alle nye endringar i denne versjonen vil umiddelbart være tilgjengelege på ndla.no',
@@ -1577,6 +1583,9 @@ const phrases = {
     nodePublished: 'Noden har blitt publisert!',
     showInStructure: 'Vis i struktur',
     compare: 'Samanlikn',
+    deleteAll: 'Slett publiseringsforespørsler',
+    deleteAllInfo:
+      'Er du sikker på at du ønsker å slette alle publiseringsforespørsler? Denne handlingen kan ikkje angres.',
     errors: {
       noPublishedVersion: 'Klarte ikkje finne publisert versjon',
     },
@@ -1726,6 +1735,16 @@ const phrases = {
     ti: 'Tigrinja',
     zh: 'Kinesisk',
   },
+  unsavedChanges: 'Ulagra endringar',
+  messages: {
+    severity: {
+      info: 'Informasjon',
+      warning: 'Advarsel',
+      success: 'Alt OK!',
+      danger: 'Pass på!',
+    },
+  },
+  delete: 'Slett',
 };
 
 export default phrases;

@@ -388,6 +388,7 @@ exports[`it goes in and out of edit mode 1`] = `
           <button
             aria-label="Fjern"
             class="emotion-5"
+            data-cy="close-related-button"
             data-state="closed"
             data-trigger="true"
             type="button"
@@ -989,6 +990,7 @@ exports[`it goes in and out of edit mode 2`] = `
           <button
             aria-label="Fjern"
             class="emotion-5"
+            data-cy="close-related-button"
             data-state="closed"
             data-trigger="true"
             type="button"

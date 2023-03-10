@@ -177,6 +177,7 @@ const EditRelated = ({
           </SectionHeading>
           <Tooltip tooltip={t('form.remove')}>
             <IconButtonV2
+              data-cy="close-related-button"
               aria-label={t('form.remove')}
               variant="ghost"
               colorTheme="danger"

@@ -7,7 +7,7 @@
  */
 
 import styled from '@emotion/styled';
-import { Descendant, Editor, Element, Path, Transforms } from 'slate';
+import { Descendant, Editor, Element, Path, Transforms, Node } from 'slate';
 import { jsx as slatejsx } from 'slate-hyperscript';
 import { RenderElementProps } from 'slate-react';
 import { colors, fonts } from '@ndla/core';
@@ -17,6 +17,7 @@ import { KEY_BACKSPACE, KEY_ENTER } from '../../utils/keys';
 import onBackspace from './handlers/onBackspace';
 import onEnter from './handlers/onEnter';
 import { TYPE_DEFINTION_LIST, TYPE_DEFINTION_DESCRIPTION, TYPE_DEFINTION_TERM } from './types';
+import { removeDefinitionPair } from './utils/keyboardHelpers';
 
 export interface DefinitionListElement {
   type: 'definition-list';
@@ -141,12 +142,10 @@ export const definitionListPlugin = (editor: Editor) => {
     const [node, nodepath] = entry;
 
     if (Element.isElement(node)) {
-      if (
-        node.type === TYPE_DEFINTION_LIST &&
-        defaultBlockNormalizer(editor, entry, normalizerParentConfig)
-      ) {
-        // Merge list with previous list if identical type
+      if (node.type === TYPE_DEFINTION_LIST) {
+        defaultBlockNormalizer(editor, entry, normalizerParentConfig);
         if (Path.hasPrevious(nodepath)) {
+          // Merge list with previous list if identical type
           const prevPath = Path.previous(nodepath);
           if (Editor.hasPath(editor, prevPath)) {
             const [prevNode] = Editor.node(editor, prevPath);

@@ -24,8 +24,9 @@ const onEnter = (
   if (!editor.selection && nextOnKeyDown) return nextOnKeyDown(e);
   else if (!editor.selection) return undefined;
 
-  const [, selectedPath] = editor.selection && Editor.node(editor, editor.selection.focus);
-  const [selectedDefinitionItem, selectedDefinitionItemPath] = Editor.parent(editor, selectedPath);
+  const [selectionNode, selectionPath] =
+    editor.selection && Editor.node(editor, editor.selection.anchor.path);
+  const [selectedDefinitionItem, selectedDefinitionItemPath] = Editor.parent(editor, selectionPath);
 
   if (
     Element.isElement(selectedDefinitionItem) &&
@@ -48,7 +49,10 @@ const onEnter = (
         }
       }
     }
-    Transforms.select(editor, Editor.point(editor, Path.next(selectedTermPath)));
+    Transforms.select(editor, {
+      anchor: Editor.point(editor, Path.next(selectedTermPath), { edge: 'end' }),
+      focus: Editor.point(editor, Path.next(selectedTermPath), { edge: 'end' }),
+    });
     return;
   } else if (
     Element.isElement(selectedDefinitionItem) &&
@@ -83,7 +87,10 @@ const onEnter = (
         Transforms.insertNodes(editor, [definitionTerm], {
           at: Path.next(selectedDescriptionPath),
         });
-        Transforms.select(editor, Editor.point(editor, Path.next(selectedDescriptionPath)));
+        Transforms.select(editor, {
+          anchor: Editor.point(editor, Path.next(selectedDescriptionPath), { edge: 'end' }),
+          focus: Editor.point(editor, Path.next(selectedDescriptionPath), { edge: 'end' }),
+        });
       });
 
       e.preventDefault();

@@ -6,10 +6,10 @@
  *
  */
 
-import { Editor, Element, Transforms, Node, Path } from 'slate';
+import { Editor, Element, Transforms, Path, Node } from 'slate';
 import hasNodeOfType from '../../../utils/hasNodeOfType';
 import { TYPE_DEFINTION_DESCRIPTION, TYPE_DEFINTION_LIST, TYPE_DEFINTION_TERM } from '../types';
-import { nodeContainsText, removeDefinitionPair } from '../utils/keyboardHelpers';
+import { removeDefinitionPair } from '../utils/keyboardHelpers';
 
 const onBackspace = (
   e: KeyboardEvent,
@@ -23,47 +23,52 @@ const onBackspace = (
     return nextOnKeyDown && nextOnKeyDown(e);
   }
 
-  const [, selectedPath] = editor.selection && Editor.node(editor, editor.selection.focus);
-  const [selectedDefinitionItem, selectedDefinitionItemPath] = Editor.parent(editor, selectedPath);
+  const [, selectionPath] = editor.selection && Editor.node(editor, editor.selection.anchor.path);
+  const [selectedDefinitionItem, selectedDefinitionItemPath] = Editor.parent(editor, selectionPath);
+
   if (
     Element.isElement(selectedDefinitionItem) &&
     selectedDefinitionItem.type === TYPE_DEFINTION_TERM
   ) {
     const [selectedTerm, selectedTermPath] = [selectedDefinitionItem, selectedDefinitionItemPath];
-
     const [selectedDescription, selectedDescriptionPath] = Editor.node(
       editor,
       Path.next(selectedTermPath),
     );
-
-    if (!nodeContainsText(selectedTerm)) {
+    if (Node.string(selectedTerm) === '') {
       // Remove text in description pair in order to remove pair
-      if (nodeContainsText(selectedDescription)) {
+      if (Node.string(selectedDescription) !== '') {
         Transforms.delete(editor, { at: selectedDescriptionPath });
       }
 
-      const previous = Editor.previous(editor, { at: selectedTermPath });
+      if (Path.hasPrevious(selectedTermPath)) {
+        const previous = Editor.previous(editor, { at: selectedTermPath });
+        if (previous) {
+          const [, previousDefinitionDescriptionPath] = previous;
+          Transforms.select(editor, {
+            anchor: Editor.point(editor, previousDefinitionDescriptionPath, {
+              edge: 'end',
+            }),
+            focus: Editor.point(editor, previousDefinitionDescriptionPath, { edge: 'end' }),
+          });
+          Transforms.move(editor);
+          Transforms.select(editor, Editor.range(editor, editor.selection.anchor.path));
+        }
+      }
+      const [parentNode, parentNodePath] = Editor.parent(editor, selectedTermPath);
 
       Editor.withoutNormalizing(editor, () => {
-        removeDefinitionPair(editor, selectedDescriptionPath, selectedTermPath);
-        const [parentNode, parentNodePath] = Editor.parent(editor, selectedTermPath);
-
-        if (
-          Element.isElement(parentNode) &&
-          parentNode.type === 'definition-list' &&
-          parentNode.children.length === 0
-        ) {
-          Transforms.removeNodes(editor, { at: parentNodePath });
-        }
+        Transforms.removeNodes(editor, { at: selectedDescriptionPath });
+        Transforms.removeNodes(editor, { at: selectedTermPath });
       });
 
-      if (previous) {
-        const [, previousDefinitionDescriptionPath] = previous;
-        Transforms.select(editor, previousDefinitionDescriptionPath);
+      if (
+        Element.isElement(parentNode) &&
+        parentNode.type === TYPE_DEFINTION_LIST &&
+        parentNode.children.length === 0
+      ) {
+        Transforms.liftNodes(editor, { at: parentNodePath });
       }
-
-      e.preventDefault();
-      return nextOnKeyDown && nextOnKeyDown(e);
     }
   } else if (
     Element.isElement(selectedDefinitionItem) &&
@@ -77,21 +82,17 @@ const onBackspace = (
       at: selectedDescriptionPath,
     });
 
-    if (!nodeContainsText(selectedDescription) && maybeSelectedTerm) {
+    if (!(Node.string(selectedDescription) === '') && maybeSelectedTerm) {
       const [, selectedTermPath] = maybeSelectedTerm;
 
-      Transforms.select(editor, selectedTermPath);
-      e.preventDefault();
-
-      return;
-    } else if (
-      Node.string(Node.child(selectedDescription, 0)) !== '' &&
-      editor.selection.anchor.offset === 0
-    ) {
-      e.preventDefault();
+      Transforms.select(editor, {
+        anchor: Editor.point(editor, selectedTermPath, { edge: 'end' }),
+        focus: Editor.point(editor, selectedTermPath, { edge: 'end' }),
+      });
     }
   }
 
+  e.preventDefault();
   return nextOnKeyDown && nextOnKeyDown(e);
 };
 

@@ -17,7 +17,6 @@ import { KEY_BACKSPACE, KEY_ENTER } from '../../utils/keys';
 import onBackspace from './handlers/onBackspace';
 import onEnter from './handlers/onEnter';
 import { TYPE_DEFINTION_LIST, TYPE_DEFINTION_DESCRIPTION, TYPE_DEFINTION_TERM } from './types';
-import { removeDefinitionPair } from './utils/keyboardHelpers';
 
 export interface DefinitionListElement {
   type: 'definition-list';

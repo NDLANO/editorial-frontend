@@ -6,10 +6,9 @@
  *
  */
 
-import { Editor, Element, Transforms, Path, Node } from 'slate';
+import { Editor, Element, Transforms, Path, Node, Range, Point } from 'slate';
 import hasNodeOfType from '../../../utils/hasNodeOfType';
 import { TYPE_DEFINTION_DESCRIPTION, TYPE_DEFINTION_LIST, TYPE_DEFINTION_TERM } from '../types';
-import { removeDefinitionPair } from '../utils/keyboardHelpers';
 
 const onBackspace = (
   e: KeyboardEvent,
@@ -23,76 +22,51 @@ const onBackspace = (
     return nextOnKeyDown && nextOnKeyDown(e);
   }
 
-  const [, selectionPath] = editor.selection && Editor.node(editor, editor.selection.anchor.path);
-  const [selectedDefinitionItem, selectedDefinitionItemPath] = Editor.parent(editor, selectionPath);
+  const [selectedDefinitionItem, selectedDefinitionItemPath] = Editor.parent(
+    editor,
+    editor.selection.anchor.path,
+  );
 
   if (
     Element.isElement(selectedDefinitionItem) &&
     selectedDefinitionItem.type === TYPE_DEFINTION_TERM
   ) {
-    const [selectedTerm, selectedTermPath] = [selectedDefinitionItem, selectedDefinitionItemPath];
-    const [selectedDescription, selectedDescriptionPath] = Editor.node(
-      editor,
-      Path.next(selectedTermPath),
-    );
-    if (Node.string(selectedTerm) === '') {
-      // Remove text in description pair in order to remove pair
-      if (Node.string(selectedDescription) !== '') {
-        Transforms.delete(editor, { at: selectedDescriptionPath });
-      }
-
-      if (Path.hasPrevious(selectedTermPath)) {
-        const previous = Editor.previous(editor, { at: selectedTermPath });
-        if (previous) {
-          const [, previousDefinitionDescriptionPath] = previous;
-          Transforms.select(editor, {
-            anchor: Editor.point(editor, previousDefinitionDescriptionPath, {
-              edge: 'end',
-            }),
-            focus: Editor.point(editor, previousDefinitionDescriptionPath, { edge: 'end' }),
-          });
-          Transforms.move(editor);
-          Transforms.select(editor, Editor.range(editor, editor.selection.anchor.path));
-        }
-      }
-      const [parentNode, parentNodePath] = Editor.parent(editor, selectedTermPath);
-
+    const [, firstItemNodePath] = Editor.node(editor, [...selectedDefinitionItemPath, 0]);
+    // If cursor is placed at start of first item child
+    if (
+      Point.equals(Range.start(editor.selection), Editor.start(editor, firstItemNodePath)) &&
+      !Path.hasPrevious(selectedDefinitionItemPath)
+    ) {
+      e.preventDefault();
       Editor.withoutNormalizing(editor, () => {
-        Transforms.removeNodes(editor, { at: selectedDescriptionPath });
-        Transforms.removeNodes(editor, { at: selectedTermPath });
+        Transforms.removeNodes(editor, { at: Path.next(selectedDefinitionItemPath) });
+        Transforms.liftNodes(editor, { at: selectedDefinitionItemPath });
+      });
+      return;
+    } else if (Range.start(editor.selection) && Node.string(selectedDefinitionItem) === '') {
+      e.preventDefault();
+      Transforms.select(editor, Editor.end(editor, Path.previous(selectedDefinitionItemPath)));
+      Editor.withoutNormalizing(editor, () => {
+        Transforms.removeNodes(editor, { at: Path.next(selectedDefinitionItemPath) });
+        Transforms.removeNodes(editor, { at: selectedDefinitionItemPath });
       });
 
-      if (
-        Element.isElement(parentNode) &&
-        parentNode.type === TYPE_DEFINTION_LIST &&
-        parentNode.children.length === 0
-      ) {
-        Transforms.liftNodes(editor, { at: parentNodePath });
-      }
+      return;
     }
   } else if (
     Element.isElement(selectedDefinitionItem) &&
     selectedDefinitionItem.type === TYPE_DEFINTION_DESCRIPTION
   ) {
-    const [selectedDescription, selectedDescriptionPath] = [
-      selectedDefinitionItem,
-      selectedDefinitionItemPath,
-    ];
-    const maybeSelectedTerm = Editor.previous(editor, {
-      at: selectedDescriptionPath,
-    });
-
-    if (!(Node.string(selectedDescription) === '') && maybeSelectedTerm) {
-      const [, selectedTermPath] = maybeSelectedTerm;
-
-      Transforms.select(editor, {
-        anchor: Editor.point(editor, selectedTermPath, { edge: 'end' }),
-        focus: Editor.point(editor, selectedTermPath, { edge: 'end' }),
-      });
+    if (
+      Range.start(editor.selection) &&
+      Node.string(selectedDefinitionItem) === '' &&
+      Path.hasPrevious(selectedDefinitionItemPath)
+    ) {
+      Transforms.select(editor, Editor.start(editor, Path.previous(selectedDefinitionItemPath)));
+      e.preventDefault();
+      return;
     }
   }
-
-  e.preventDefault();
   return nextOnKeyDown && nextOnKeyDown(e);
 };
 

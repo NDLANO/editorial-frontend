@@ -39,7 +39,7 @@ const onEnter = (
       Editor.deleteFragment(editor);
     }
     if (maybeDescription) {
-      const [description, descriptionPath] = maybeDescription;
+      const [description] = maybeDescription;
       if (
         Path.hasPrevious(termPath) &&
         Node.string(Editor.node(editor, Path.previous(termPath))[0]) === '' &&
@@ -71,14 +71,14 @@ const onEnter = (
       Editor.deleteFragment(editor);
     }
 
-    const selectedDefinitionTerm = Editor.previous(editor, { at: selectedDefinitionItemPath });
-    if (selectedDefinitionTerm) {
-      const [term, termPath] = selectedDefinitionTerm;
-      if (Node.string(description) === '' && Node.string(term) === '') {
+    const maybeSelectedTerm = Editor.previous(editor, { at: selectedDefinitionItemPath });
+    if (maybeSelectedTerm) {
+      const [selectedTerm, selectedTermPath] = maybeSelectedTerm;
+      if (Node.string(description) === '' && Node.string(selectedTerm) === '') {
         Editor.withoutNormalizing(editor, () => {
           Transforms.removeNodes(editor, { at: descriptionPath });
-          Transforms.unwrapNodes(editor, { at: termPath });
-          Transforms.liftNodes(editor, { at: termPath });
+          Transforms.unwrapNodes(editor, { at: selectedTermPath });
+          Transforms.liftNodes(editor, { at: selectedTermPath });
         });
 
         e.preventDefault();

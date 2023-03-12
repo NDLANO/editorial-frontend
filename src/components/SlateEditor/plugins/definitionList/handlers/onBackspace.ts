@@ -31,24 +31,26 @@ const onBackspace = (
     Element.isElement(selectedDefinitionItem) &&
     selectedDefinitionItem.type === TYPE_DEFINTION_TERM
   ) {
-    const [, firstItemNodePath] = Editor.node(editor, [...selectedDefinitionItemPath, 0]);
+    const [selectedTerm, selectedTermPath] = [selectedDefinitionItem, selectedDefinitionItemPath];
+
+    const [, firstItemNodePath] = Editor.node(editor, [...selectedTermPath, 0]);
     // If cursor is placed at start of first item child
     if (
       Point.equals(Range.start(editor.selection), Editor.start(editor, firstItemNodePath)) &&
-      !Path.hasPrevious(selectedDefinitionItemPath)
+      !Path.hasPrevious(selectedTermPath)
     ) {
       e.preventDefault();
       Editor.withoutNormalizing(editor, () => {
-        Transforms.removeNodes(editor, { at: Path.next(selectedDefinitionItemPath) });
-        Transforms.liftNodes(editor, { at: selectedDefinitionItemPath });
+        Transforms.removeNodes(editor, { at: Path.next(selectedTermPath) });
+        Transforms.liftNodes(editor, { at: selectedTermPath });
       });
       return;
-    } else if (Range.start(editor.selection) && Node.string(selectedDefinitionItem) === '') {
+    } else if (Range.start(editor.selection) && Node.string(selectedTerm) === '') {
       e.preventDefault();
-      Transforms.select(editor, Editor.end(editor, Path.previous(selectedDefinitionItemPath)));
+      Transforms.select(editor, Editor.end(editor, Path.previous(selectedTermPath)));
       Editor.withoutNormalizing(editor, () => {
-        Transforms.removeNodes(editor, { at: Path.next(selectedDefinitionItemPath) });
-        Transforms.removeNodes(editor, { at: selectedDefinitionItemPath });
+        Transforms.removeNodes(editor, { at: Path.next(selectedTermPath) });
+        Transforms.removeNodes(editor, { at: selectedTermPath });
       });
 
       return;
@@ -57,12 +59,16 @@ const onBackspace = (
     Element.isElement(selectedDefinitionItem) &&
     selectedDefinitionItem.type === TYPE_DEFINTION_DESCRIPTION
   ) {
+    const [selectedDescription, selectedDescriptionPath] = [
+      selectedDefinitionItem,
+      selectedDefinitionItemPath,
+    ];
     if (
       Range.start(editor.selection) &&
-      Node.string(selectedDefinitionItem) === '' &&
-      Path.hasPrevious(selectedDefinitionItemPath)
+      Node.string(selectedDescription) === '' &&
+      Path.hasPrevious(selectedDescriptionPath)
     ) {
-      Transforms.select(editor, Editor.start(editor, Path.previous(selectedDefinitionItemPath)));
+      Transforms.select(editor, Editor.start(editor, Path.previous(selectedDescriptionPath)));
       e.preventDefault();
       return;
     }

@@ -27,6 +27,7 @@ import {
   AlignLeft,
   AlignCenter,
   AlignRight,
+  FormatList,
 } from '@ndla/icons/editor';
 
 import { Language } from '@ndla/icons/common';
@@ -54,7 +55,7 @@ const toolbarIcon = (t: TFunction): Record<string, JSX.Element | undefined> => (
   'heading-2': <StyledHeadingSpan>H2</StyledHeadingSpan>,
   'heading-3': <StyledHeadingSpan>H3</StyledHeadingSpan>,
   'heading-4': <StyledHeadingSpan>H4</StyledHeadingSpan>,
-  'definition-list': <ListAlphabetical title={'Definition list'} />,
+  'definition-list': <FormatList title={'Definition list'} />,
   mathml: <Math title={t('editorToolbar.mathml', options)} />,
   concept: <Concept title={t('editorToolbar.concept', options)} />,
   code: <Code title={t('editorToolbar.code', options)} />,

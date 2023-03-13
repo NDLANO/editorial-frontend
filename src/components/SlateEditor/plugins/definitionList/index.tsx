@@ -45,7 +45,7 @@ const StyledDT = styled.dt`
   ${fonts.sizes('18px', '29px')};
 `;
 
-const normalizerParentConfig: NormalizerConfig = {
+const normalizerDLConfig: NormalizerConfig = {
   nodes: {
     allowed: [TYPE_DEFINTION_TERM, TYPE_DEFINTION_DESCRIPTION],
     defaultType: TYPE_DEFINTION_TERM,
@@ -140,33 +140,31 @@ export const definitionListPlugin = (editor: Editor) => {
   editor.normalizeNode = entry => {
     const [node, nodepath] = entry;
 
-    if (Element.isElement(node)) {
-      if (node.type === TYPE_DEFINTION_LIST) {
-        defaultBlockNormalizer(editor, entry, normalizerParentConfig);
-        if (Path.hasPrevious(nodepath)) {
-          // Merge list with previous list if identical type
-          const prevPath = Path.previous(nodepath);
-          if (Editor.hasPath(editor, prevPath)) {
-            const [prevNode] = Editor.node(editor, prevPath);
-            if (Element.isElement(prevNode) && prevNode.type === TYPE_DEFINTION_LIST) {
-              if (node.type === prevNode.type) {
-                return Transforms.mergeNodes(editor, {
-                  at: nodepath,
-                });
-              }
-            }
+    if (Element.isElement(node) && node.type === TYPE_DEFINTION_LIST) {
+      // Merge list with previous list if identical type
+      if (Path.hasPrevious(nodepath)) {
+        const previousPath = Path.previous(nodepath);
+        if (Editor.hasPath(editor, previousPath)) {
+          const [prevNode] = Editor.node(editor, previousPath);
+          if (Element.isElement(prevNode) && prevNode.type === TYPE_DEFINTION_LIST) {
+            return Transforms.mergeNodes(editor, {
+              at: nodepath,
+            });
           }
         }
+      }
 
-        return;
-      } else if (
-        (node.type === TYPE_DEFINTION_DESCRIPTION &&
-          defaultBlockNormalizer(editor, entry, normalizerDDConfig)) ||
-        (node.type === TYPE_DEFINTION_TERM &&
-          defaultBlockNormalizer(editor, entry, normalizerDTConfig))
-      ) {
+      if (defaultBlockNormalizer(editor, entry, normalizerDLConfig)) {
         return;
       }
+    } else if (
+      Element.isElement(node) &&
+      ((node.type === TYPE_DEFINTION_DESCRIPTION &&
+        defaultBlockNormalizer(editor, entry, normalizerDDConfig)) ||
+        (node.type === TYPE_DEFINTION_TERM &&
+          defaultBlockNormalizer(editor, entry, normalizerDTConfig)))
+    ) {
+      return;
     }
     nextNormalizeNode(entry);
   };

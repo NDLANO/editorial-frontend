@@ -25,7 +25,7 @@ const onEnter = (
   );
 
   if (!selectedDefinitionItem) {
-    return nextOnKeyDown && nextOnKeyDown(e);
+    return nextOnKeyDown?.(e);
   }
 
   if (
@@ -110,7 +110,7 @@ const onEnter = (
       mode: 'lowest',
     });
   }
-  return nextOnKeyDown && nextOnKeyDown(e);
+  return nextOnKeyDown?.(e);
 };
 
 export default onEnter;

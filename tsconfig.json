@@ -35,11 +35,6 @@
     },
     "downlevelIteration": true
   },
-  "include": [
-    "src/**/*",
-    "custom-typings/*",
-    "./jest.config.js",
-    "src/components/SlateEditor/plugins/definitionList/utils/.ts"
-  ],
+  "include": ["src/**/*", "custom-typings/*", "./jest.config.js"],
   "exclude": ["**/*-test.*"]
 }

@@ -15,11 +15,11 @@ const onBackspace = (
   editor: Editor,
   nextOnKeyDown: ((e: KeyboardEvent) => void) | undefined,
 ) => {
-  if (!editor.selection) return nextOnKeyDown && nextOnKeyDown(e);
+  if (!editor.selection) return nextOnKeyDown?.(e);
   const isDefinition = hasNodeOfType(editor, TYPE_DEFINTION_LIST);
 
   if (!isDefinition) {
-    return nextOnKeyDown && nextOnKeyDown(e);
+    return nextOnKeyDown?.(e);
   }
 
   const [selectedDefinitionItem, selectedDefinitionItemPath] = Editor.parent(
@@ -73,7 +73,7 @@ const onBackspace = (
       return;
     }
   }
-  return nextOnKeyDown && nextOnKeyDown(e);
+  return nextOnKeyDown?.(e);
 };
 
 export default onBackspace;

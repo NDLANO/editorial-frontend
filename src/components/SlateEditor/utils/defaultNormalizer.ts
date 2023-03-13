@@ -136,18 +136,18 @@ const normalizePrevious = (
   const [, path] = entry;
   const { defaultType, allowed } = settings;
 
-  // 1. If previous element does not exist, insert default element
-  if (!Path.hasPrevious(path)) {
-    Transforms.insertNodes(editor, createNode(defaultType), { at: path });
-    return true;
-  }
+  if (Path.hasPrevious(path)) {
+    const previousPath = Path.previous(path);
 
-  const previousPath = Path.previous(path);
+    const [previousNode] = Editor.node(editor, previousPath);
 
-  const [previousNode] = Editor.node(editor, previousPath);
-
-  // 2. If previous element is incorrect, insert default element
-  if (!Element.isElement(previousNode) || !allowed.includes(previousNode.type)) {
+    // 1. If previous element is incorrect, insert default element
+    if (!Element.isElement(previousNode) || !allowed.includes(previousNode.type)) {
+      Transforms.insertNodes(editor, createNode(defaultType), { at: path });
+      return true;
+    }
+    // 2. If previous element does not exist, insert default element
+  } else {
     Transforms.insertNodes(editor, createNode(defaultType), { at: path });
     return true;
   }

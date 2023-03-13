@@ -15,4 +15,4 @@ export const isListItemSelected = (
   node: DefinitionTermElement | DefinitionDescriptionElement,
 ) =>
   Range.isRange(editor.selection) &&
-  Range.includes(editor.selection, [...ReactEditor.findPath(editor, node), 0]);
+  Range.includes(editor.selection, ReactEditor.findPath(editor, node).concat(0));

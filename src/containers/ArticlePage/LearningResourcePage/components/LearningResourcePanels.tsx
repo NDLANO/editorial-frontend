@@ -132,14 +132,6 @@ const LearningResourcePanels = ({
               />
             </AccordionSection>
           )}
-          <AccordionSection
-            id={'learning-resource-comments'}
-            title={t('form.commentSection')}
-            className={'u-6/6'}
-            //hasError={false}
-          >
-            <div>Kommentarer</div>
-          </AccordionSection>
         </Accordions>
       </MainContent>
       <CommentWrapper>

@@ -589,7 +589,6 @@ const phrases = {
     podcastSeriesSection: 'Podcast series',
     podcastEpisodesSection: 'Episodes',
     podcastEpisodesTypeName: 'Podcasts',
-    commentSection: 'Comments',
     inlineEdit: 'Inline editor',
     save: 'Save',
     saveAsNewVersion: 'Save as new version',

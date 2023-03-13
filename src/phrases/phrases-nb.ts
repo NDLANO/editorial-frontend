@@ -590,7 +590,6 @@ const phrases = {
     podcastSeriesSection: 'Podkastserie',
     podcastEpisodesSection: 'Episoder',
     podcastEpisodesTypeName: 'Podkaster',
-    commentSection: 'Kommentarer',
     inlineEdit: 'Hurtigredigering',
     save: 'Lagre',
     saveAsNewVersion: 'Lagre som ny versjon',

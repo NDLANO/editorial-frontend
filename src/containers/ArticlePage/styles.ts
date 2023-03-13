@@ -8,14 +8,6 @@
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 
-export const CommentWrapper = styled.ul`
-  list-style: none;
-  margin-top: 32px;
-  display: flex;
-  flex-direction: column;
-  margin-left: ${spacing.nsmall};
-`;
-
 export const FlexWrapper = styled.div`
   display: flex;
 `;

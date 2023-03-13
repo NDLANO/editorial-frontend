@@ -21,8 +21,8 @@ import { LearningResourceFormType } from '../../../FormikForm/articleFormHooks';
 import { useSession } from '../../../Session/SessionProvider';
 import { ArticleTaxonomy } from '../../../FormikForm/formikDraftHooks';
 import RevisionNotes from '../../components/RevisionNotes';
-import Comment from '../../components/Comment';
-import { CommentWrapper, FlexWrapper, MainContent } from '../../styles';
+import { FlexWrapper, MainContent } from '../../styles';
+import CommentSection from '../../components/CommentSection';
 
 interface Props {
   handleSubmit: (
@@ -134,12 +134,13 @@ const LearningResourcePanels = ({
           )}
         </Accordions>
       </MainContent>
-      <CommentWrapper>
-        <Comment showInput />
-        {['Kommentar 1', 'Kommentar 2', 'Kommentar 3'].map(comment => (
-          <Comment key={comment} comment={comment} />
-        ))}
-      </CommentWrapper>
+      <CommentSection
+        comments={[
+          'Kommentar 1. Dette er den første kommentaren',
+          'Kommentar 2. Denne kommentaren er litt lenger enn kommentar 1. Og har litt mer tekst på slutten',
+          'Kommentar 3',
+        ]}
+      />
     </FlexWrapper>
   );
 };

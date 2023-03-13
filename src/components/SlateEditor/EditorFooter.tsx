@@ -29,6 +29,7 @@ import { requiredFieldsT } from '../../util/yupHelpers';
 import { ARCHIVED, PUBLISHED, UNPUBLISHED } from '../../constants';
 import PreviewDraftLightboxV2 from '../PreviewDraft/PreviewDraftLightboxV2';
 import { useDisableConverter } from '../ArticleConverterContext';
+import AddCommentModal from '../../containers/ArticlePage/components/AddCommentModal';
 
 interface Props {
   formIsDirty: boolean;
@@ -94,6 +95,7 @@ function EditorFooter<T extends FormValues>({
   const disableConverter = useDisableConverter();
   const [status, setStatus] = useState<SingleValue>(null);
   const [responsible, setResponsible] = useState<SingleValue>(null);
+  const [showAddCommentModal, setShowAddCommentModal] = useState(false);
 
   const { t } = useTranslation();
   const { values, setFieldValue, isSubmitting } = useFormikContext<T>();
@@ -272,6 +274,9 @@ function EditorFooter<T extends FormValues>({
           </Wrapper>
           {saveButton}
         </div>
+        {isArticle && showAddCommentModal && (
+          <AddCommentModal onClose={() => setShowAddCommentModal(false)} />
+        )}
       </>
     </Footer>
   );

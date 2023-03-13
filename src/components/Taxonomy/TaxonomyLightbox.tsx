@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { spacing, colors, fonts } from '@ndla/core';
 import { BookOpen } from '@ndla/icons/common';
-import { ModalV2, ModalCloseButton } from '@ndla/modal';
+import { ModalV2, ModalCloseButton, ModalPosition } from '@ndla/modal';
 import Spinner from '../Spinner';
 
 const StyledHeader = styled.div`
@@ -74,9 +74,18 @@ interface Props {
   title: string;
   onSelect?: () => void;
   wide?: boolean;
+  position?: ModalPosition;
 }
 
-const TaxonomyLightbox = ({ children, title, onSelect, loading, onClose, wide = false }: Props) => {
+const TaxonomyLightbox = ({
+  children,
+  title,
+  onSelect,
+  loading,
+  onClose,
+  wide = false,
+  position = 'top',
+}: Props) => {
   const { t } = useTranslation();
 
   return (
@@ -84,7 +93,7 @@ const TaxonomyLightbox = ({ children, title, onSelect, loading, onClose, wide = 
       onClose={onClose}
       controlled
       isOpen
-      position="top"
+      position={position}
       label={title}
       size={wide ? 'large' : 'normal'}>
       {onCloseModal => (

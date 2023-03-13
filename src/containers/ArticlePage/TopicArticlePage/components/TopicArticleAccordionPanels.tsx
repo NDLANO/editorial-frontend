@@ -22,8 +22,8 @@ import { useSession } from '../../../Session/SessionProvider';
 import { onSaveAsVisualElement } from '../../../FormikForm/utils';
 import { ArticleTaxonomy } from '../../../FormikForm/formikDraftHooks';
 import RevisionNotes from '../../components/RevisionNotes';
-import { CommentWrapper, FlexWrapper, MainContent } from '../../styles';
-import Comment from '../../components/Comment';
+import { FlexWrapper, MainContent } from '../../styles';
+import CommentSection from '../../components/CommentSection';
 
 interface Props {
   handleSubmit: () => Promise<void>;
@@ -131,11 +131,13 @@ const TopicArticleAccordionPanels = ({
           )}
         </Accordions>
       </MainContent>
-      <CommentWrapper>
-        {['Kommentar 1', 'Kommentar 2', 'Kommentar 3'].map(comment => (
-          <Comment key={comment} comment={comment} />
-        ))}
-      </CommentWrapper>
+      <CommentSection
+        comments={[
+          'Kommentar 1. Dette er den første kommentaren',
+          'Kommentar 2. Denne kommentaren er litt lenger enn kommentar 1. Og har litt mer tekst på slutten',
+          'Kommentar 3',
+        ]}
+      />
     </FlexWrapper>
   );
 };

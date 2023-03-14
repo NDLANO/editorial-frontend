@@ -9,6 +9,7 @@
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Select, SingleValue } from '@ndla/select';
+import uniqBy from 'lodash/uniqBy';
 import { useSearch } from '../../../../modules/search/searchQueries';
 import { useSession } from '../../../Session/SessionProvider';
 import { DropdownWrapper } from '../../styles';
@@ -29,9 +30,12 @@ const SubjectDropdown = ({ filterSubject, setFilterSubject }: Props) => {
 
   const subjectContexts = useMemo(() => {
     if (data?.results.length) {
-      return data.results
-        .map(r => r.contexts.map(c => ({ value: c.subjectId, label: c.subject })))
-        .flat();
+      return uniqBy(
+        data.results
+          .map(r => r.contexts.map(c => ({ value: c.subjectId, label: c.subject })))
+          .flat(),
+        r => r.value,
+      );
     } else return [];
   }, [data?.results]);
 

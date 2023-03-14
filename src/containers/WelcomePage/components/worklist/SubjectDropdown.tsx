@@ -49,7 +49,6 @@ const SubjectDropdown = ({ filterSubject, setFilterSubject }: Props) => {
         menuPlacement="bottom"
         small
         outline
-        postfix={t('subjectsPage.subjects').toLowerCase()}
         isLoading={isInitialLoading}
         isSearchable
         noOptionsMessage={() => t('form.responsible.noResults')}

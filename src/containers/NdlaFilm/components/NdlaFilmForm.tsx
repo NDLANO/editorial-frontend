@@ -19,8 +19,8 @@ import SimpleLanguageHeader from '../../../components/HeaderWithLanguage/SimpleL
 import { toEditNdlaFilm } from '../../../util/routeHelpers';
 import NdlaFilmAccordionPanels from './NdlaFilmAccordionPanels';
 import SaveButton from '../../../components/SaveButton';
-import { TYPE_NDLA_EMBED } from '../../../components/SlateEditor/plugins/embed/types';
 import StyledForm from '../../../components/StyledFormComponents';
+import { isEmbed } from '../../../components/SlateEditor/plugins/embed/utils';
 
 interface Props {
   filmFrontpage: IFilmFrontPageData;
@@ -51,7 +51,7 @@ const ndlaFilmRules: RulesType<FilmFormikType> = {
     required: true,
     test: (values: FilmFormikType) => {
       const element = values?.visualElement[0];
-      const data = Element.isElement(element) && element.type === TYPE_NDLA_EMBED && element.data;
+      const data = isEmbed(element) && element.data;
       const badVisualElementId = data && 'resource_id' in data && data.resource_id === '';
       return badVisualElementId
         ? { translationKey: 'subjectpageForm.missingVisualElement' }

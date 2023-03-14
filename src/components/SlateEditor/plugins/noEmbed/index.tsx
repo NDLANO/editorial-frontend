@@ -9,10 +9,11 @@
 import { Descendant, Editor, Element } from 'slate';
 import NoEmbedMessage from './NoEmbedMessage';
 import { SlateSerializer } from '../../interfaces';
-import { defaultEmbedBlock } from '../embed/utils';
+import { defaultEmbedBlock, isEmbed } from '../embed/utils';
 import { parseEmbedTag } from '../../../../util/embedTagHelpers';
 import { Embed } from '../../../../interfaces';
 import { TYPE_NDLA_EMBED } from '../embed/types';
+import { isEmbedElement } from '../embed';
 
 export const noEmbedSerializer: SlateSerializer = {
   deserialize(el: HTMLElement) {
@@ -21,7 +22,7 @@ export const noEmbedSerializer: SlateSerializer = {
     return defaultEmbedBlock((parseEmbedTag(el.outerHTML) as unknown) as Embed);
   },
   serialize(node: Descendant) {
-    if (Element.isElement(node) && node.type === TYPE_NDLA_EMBED) {
+    if (isEmbed(node)) {
       // @ts-ignore delemete does not exist in JSX.
       return <deleteme></deleteme>;
     }
@@ -32,7 +33,7 @@ export const noEmbedPlugin = (editor: Editor) => {
   const { renderElement } = editor;
 
   editor.renderElement = ({ attributes, element, children }) => {
-    if (Element.isElement(element) && element.type === TYPE_NDLA_EMBED) {
+    if (isEmbedElement(element)) {
       return <NoEmbedMessage attributes={attributes} element={element} />;
     }
     return renderElement && renderElement({ attributes, element, children });

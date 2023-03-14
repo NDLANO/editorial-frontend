@@ -167,9 +167,13 @@ const SlateBlockPicker = ({
         onInsertBlock(defaultAsideBlock(data.object), true);
         break;
       }
-      case 'h5p':
       case 'file':
-      case 'ndlaembed': {
+      case 'h5p-embed':
+      case 'audio-embed':
+      case 'image-embed':
+      case 'error-embed':
+      case 'external-embed':
+      case 'brightcove-embed': {
         setVisualElementPickerOpen(true);
         setType(data.object);
         break;

@@ -31,10 +31,10 @@ import { detailsSerializer } from '../components/SlateEditor/plugins/details';
 import { bodyboxSerializer } from '../components/SlateEditor/plugins/bodybox';
 import { tableSerializer } from '../components/SlateEditor/plugins/table';
 import { relatedSerializer } from '../components/SlateEditor/plugins/related';
-import { embedSerializer } from '../components/SlateEditor/plugins/embed';
+import { embedSerializer, isEmbedElement } from '../components/SlateEditor/plugins/embed';
 import { codeblockSerializer } from '../components/SlateEditor/plugins/codeBlock';
 import { noEmbedSerializer } from '../components/SlateEditor/plugins/noEmbed';
-import { defaultEmbedBlock } from '../components/SlateEditor/plugins/embed/utils';
+import { defaultEmbedBlock, isEmbed } from '../components/SlateEditor/plugins/embed/utils';
 import { parseEmbedTag, createEmbedTag } from './embedTagHelpers';
 import { Embed } from '../interfaces';
 import { divSerializer } from '../components/SlateEditor/plugins/div';
@@ -228,7 +228,8 @@ export function embedTagToEditorValue(embedTag: string) {
 
 export function editorValueToEmbed(editorValue?: Descendant[]) {
   const embed = editorValue && editorValue[0];
-  if (Element.isElement(embed) && embed.type === TYPE_NDLA_EMBED) return embed?.data;
+  if (embed && isEmbed(embed)) return embed.data;
+  else return undefined;
 }
 
 export function editorValueToEmbedTag(editorValue?: Descendant[]) {

@@ -33,9 +33,8 @@ const titles = (t: TFunction, resource: string) => ({
   [resource]: t(`form.visualElement.${resource.toLowerCase()}`),
 });
 
-export type EmbedReturnType = ReturnType<'ndlaembed', Embed>;
 type FileReturnType = ReturnType<'file', DOMStringMap[]>;
-export type VisualElementChangeReturnType = EmbedReturnType | FileReturnType;
+export type VisualElementChangeReturnType = Embed | FileReturnType;
 
 interface Props {
   selectedResource: string;

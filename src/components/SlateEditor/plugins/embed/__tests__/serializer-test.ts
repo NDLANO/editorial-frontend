@@ -13,7 +13,14 @@ import {
 } from '../../../../../util/articleContentConverter';
 import { TYPE_PARAGRAPH } from '../../paragraph/types';
 import { TYPE_SECTION } from '../../section/types';
-import { TYPE_NDLA_EMBED } from '../types';
+import {
+  TYPE_EMBED_AUDIO,
+  TYPE_EMBED_BRIGHTCOVE,
+  TYPE_EMBED_EXTERNAL,
+  TYPE_EMBED_H5P,
+  TYPE_EMBED_IMAGE,
+  TYPE_NDLA_EMBED,
+} from '../types';
 
 describe('embed image serializing tests', () => {
   const editorWithImage: Descendant[] = [
@@ -23,7 +30,7 @@ describe('embed image serializing tests', () => {
         { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
 
         {
-          type: TYPE_NDLA_EMBED,
+          type: TYPE_EMBED_IMAGE,
           children: [
             {
               text: '',
@@ -65,7 +72,7 @@ describe('embed brightcove video serializing tests', () => {
         { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
 
         {
-          type: 'ndlaembed',
+          type: TYPE_EMBED_BRIGHTCOVE,
           data: {
             resource: 'brightcove',
             videoid: '123',
@@ -106,7 +113,7 @@ describe('embed youtube video serializing tests', () => {
         { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
 
         {
-          type: 'ndlaembed',
+          type: TYPE_EMBED_EXTERNAL,
           data: {
             resource: 'external',
             url: 'https://www.youtube.com/watch?v=testurl',
@@ -144,7 +151,7 @@ describe('embed audio serializing tests', () => {
         { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
 
         {
-          type: TYPE_NDLA_EMBED,
+          type: TYPE_EMBED_AUDIO,
           data: {
             resource: 'audio',
             resource_id: '123',
@@ -182,9 +189,8 @@ describe('embed podcast serializing tests', () => {
       type: TYPE_SECTION,
       children: [
         { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
-
         {
-          type: TYPE_NDLA_EMBED,
+          type: TYPE_EMBED_AUDIO,
           data: {
             resource: 'audio',
             resource_id: '123',
@@ -224,7 +230,7 @@ describe('embed h5p serializing tests', () => {
         { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
 
         {
-          type: TYPE_NDLA_EMBED,
+          type: TYPE_EMBED_H5P,
           data: {
             resource: 'h5p',
             path: '/resource/123',

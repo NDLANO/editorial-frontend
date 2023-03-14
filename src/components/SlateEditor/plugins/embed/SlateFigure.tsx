@@ -16,14 +16,27 @@ import SlateAudio from './SlateAudio';
 import SlatePodcast from './SlatePodcast';
 import EditorErrorMessage from '../../EditorErrorMessage';
 import DisplayExternal from '../../../DisplayEmbed/DisplayExternal';
-import { NdlaEmbedElement } from '.';
+import {
+  AudioEmbedElement,
+  BrightcoveEmbedElement,
+  ErrorEmbedElement,
+  ExternalEmbedElement,
+  H5PEmbedElement,
+  ImageEmbedElement,
+} from '.';
 import { LocaleType } from '../../../../interfaces';
-import { TYPE_NDLA_EMBED } from './types';
+import { isEmbed } from './utils';
 
 interface Props {
   attributes: RenderElementProps['attributes'];
   editor: Editor;
-  element: NdlaEmbedElement;
+  element:
+    | AudioEmbedElement
+    | H5PEmbedElement
+    | BrightcoveEmbedElement
+    | ErrorEmbedElement
+    | ExternalEmbedElement
+    | ImageEmbedElement;
   language: string;
   locale?: LocaleType;
   children: ReactNode;
@@ -54,13 +67,14 @@ const SlateFigure = ({ attributes, editor, element, language, locale = 'nb', chi
 
   const isSelected = useSelected();
 
+  const pathToEmbed = ReactEditor.findPath(editor, element);
+
   const onRemoveClick = (e: any) => {
     e.stopPropagation();
-    const path = ReactEditor.findPath(editor, element);
     ReactEditor.focus(editor);
     Transforms.removeNodes(editor, {
-      at: path,
-      match: node => Element.isElement(node) && node.type === TYPE_NDLA_EMBED,
+      at: pathToEmbed,
+      match: node => isEmbed(node),
     });
   };
 
@@ -76,7 +90,7 @@ const SlateFigure = ({ attributes, editor, element, language, locale = 'nb', chi
           visualElement={false}
           active={isActive()}
           isSelectedForCopy={isSelected}
-          element={element}>
+          pathToEmbed={pathToEmbed}>
           {children}
         </SlateImage>
       );
@@ -146,7 +160,7 @@ const SlateFigure = ({ attributes, editor, element, language, locale = 'nb', chi
             language={language}
             active={isActive()}
             isSelectedForCopy={isSelected}
-            element={element}
+            pathToEmbed={pathToEmbed}
             editor={editor}
           />
           {children}

@@ -11,7 +11,7 @@ import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import { ErrorMessage } from '@ndla/ui';
 import handleError from '../../util/handleError';
-import { fetchH5PiframeUrl, editH5PiframeUrl, fetchH5PMetadata } from './h5pApi';
+import { fetchH5PiframeUrl, editH5PiframeUrl, fetchH5PInfo } from './h5pApi';
 
 const FlexWrapper = styled.div`
   width: 100%;
@@ -81,8 +81,8 @@ const H5PElement = ({ h5pUrl, onSelect, onClose, locale, canReturnResources }: P
     const url = oembedUrl.match(/url=([^&]*)/)?.[0].replace('url=', '');
     const path = url?.replace(/https?:\/\/h5p.{0,8}.ndla.no/, '');
     try {
-      const metadata = await fetchH5PMetadata(event.data.embed_id);
-      const title = metadata.h5p.title;
+      const metadata = await fetchH5PInfo(event.data.embed_id);
+      const title = metadata.title;
       onSelect({ path, title });
     } catch (e) {
       onSelect({ path });

@@ -21,6 +21,8 @@ import hasListItem from '../list/utils/hasListItem';
 import getCurrentBlock from '../../utils/getCurrentBlock';
 import { TYPE_TABLE_CELL } from '../table/types';
 import { hasCellAlignOfType } from '../table/slateHelpers';
+import { isDefinitionListItem } from '../definitionList/utils/isDefinitionListItem';
+import { TYPE_DEFINTION_LIST } from '../definitionList/types';
 
 const topicArticleElements: { [key: string]: string[] } = {
   mark: ['bold', 'italic', 'code', 'sub', 'sup'],
@@ -87,6 +89,17 @@ const SlateToolbar = (props: Props) => {
     updateMenu();
   });
 
+  const isActiveList = (editor: Editor, type: string) => {
+    if (type === 'definition-list') {
+      const path = getCurrentBlock(editor, TYPE_DEFINTION_LIST)?.[1];
+      if (path) {
+        return isDefinitionListItem(editor, path);
+      }
+      return false;
+    }
+    return hasListItem(editor, type);
+  };
+
   const updateMenu = () => {
     const menu = portalRef.current;
     const {
@@ -151,7 +164,7 @@ const SlateToolbar = (props: Props) => {
       kind={'block'}
       isActive={
         type.includes('list')
-          ? hasListItem(editor, type)
+          ? isActiveList(editor, type)
           : hasNodeWithProps(editor, specialRules[type] ?? { type })
       }
       handleOnClick={(event: MouseEvent, kind: string, type: string) => {

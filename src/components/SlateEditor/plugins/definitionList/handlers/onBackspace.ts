@@ -68,7 +68,7 @@ const onBackspace = (
       Node.string(selectedDescription) === '' &&
       Path.hasPrevious(selectedDescriptionPath)
     ) {
-      Transforms.select(editor, Editor.start(editor, Path.previous(selectedDescriptionPath)));
+      Transforms.select(editor, Editor.end(editor, Path.previous(selectedDescriptionPath)));
       e.preventDefault();
       return;
     }

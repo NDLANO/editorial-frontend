@@ -6,13 +6,7 @@
  *
  */
 
-import { Editor, Range } from 'slate';
-import { ReactEditor } from 'slate-react';
-import { DefinitionTermElement, DefinitionDescriptionElement } from '..';
+import { Editor, Range, Path } from 'slate';
 
-export const isListItemSelected = (
-  editor: Editor,
-  node: DefinitionTermElement | DefinitionDescriptionElement,
-) =>
-  Range.isRange(editor.selection) &&
-  Range.includes(editor.selection, ReactEditor.findPath(editor, node).concat(0));
+export const isDefinitionListItem = (editor: Editor, path: Path) =>
+  Range.isRange(editor.selection) && Range.includes(editor.selection, path.concat(0));

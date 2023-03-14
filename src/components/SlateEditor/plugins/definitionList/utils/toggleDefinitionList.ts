@@ -9,7 +9,7 @@
 import { Editor, Range, Element, Transforms } from 'slate';
 import { firstTextBlockElement } from '../../../utils/normalizationHelpers';
 import { TYPE_DEFINTION_DESCRIPTION, TYPE_DEFINTION_TERM, TYPE_DEFINTION_LIST } from '../types';
-import { isListItemSelected } from './isDefinitionListItem';
+import { isDefinitionListItem } from './isDefinitionListItem';
 import isOnlySelectionOfDefinitionList from './isOnlySelectionOfDefinitionList';
 
 export const toggleDefinitionList = (editor: Editor) => {
@@ -20,10 +20,10 @@ export const toggleDefinitionList = (editor: Editor) => {
 
   if (isSelected) {
     return Transforms.liftNodes(editor, {
-      match: node =>
+      match: (node, path) =>
         Element.isElement(node) &&
         (node.type === TYPE_DEFINTION_DESCRIPTION || node.type === TYPE_DEFINTION_TERM) &&
-        isListItemSelected(editor, node),
+        isDefinitionListItem(editor, path),
       mode: 'all',
     });
   } else {

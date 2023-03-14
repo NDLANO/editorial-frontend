@@ -133,6 +133,47 @@ describe('Selecting text and using the toolbar', () => {
       });
   });
 
+  it('Definition list work properly', () => {
+    cy.get('[data-cy=slate-editor] [data-slate-editor=true]')
+      .first()
+      .then($el => {
+        cy.wrap($el)
+          .focus()
+          .type('Definition Term in list');
+        cy.wrap($el)
+          .focus()
+          .type('{selectall}');
+        cy.get('[data-testid=toolbar-button-definition-list]').click();
+        cy.get('[data-testid=toolbar-button-definition-list][data-active=true]').should('exist');
+        cy.wrap($el).type('{rightarrow}{enter} Definition Description in list');
+        cy.get('dl > dt').should('have.length', 1);
+        cy.get('dl > dd').should('have.length', 1);
+        cy.wrap($el).type('{enter} Definition Term 2 in list');
+        cy.wrap($el).type('{enter} Definition Description 2 in list');
+        cy.get('dl > dt').should('have.length', 2);
+        cy.get('dl > dd').should('have.length', 2);
+        cy.wrap($el)
+          .focus()
+          .type('{selectall}');
+      });
+  });
+
+  it('Definition list creates two terms when selecting multiple paragraphs', () => {
+    cy.get('[data-cy=slate-editor] [data-slate-editor=true]')
+      .first()
+      .then($el => {
+        cy.wrap($el)
+          .focus()
+          .type('Definition Term 1 {Enter} Definition Term 2');
+        cy.wrap($el)
+          .focus()
+          .type('{selectall}');
+        cy.get('[data-testid=toolbar-button-definition-list]').click();
+        cy.get('[data-testid=toolbar-button-definition-list][data-active=true]').should('exist');
+        cy.get('dl > dt').should('have.length', 2);
+      });
+  });
+
   it('Creates math', () => {
     cy.get('[data-cy=slate-editor] [data-slate-editor=true]')
       .first()

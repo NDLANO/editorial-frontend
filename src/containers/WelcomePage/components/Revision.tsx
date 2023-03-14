@@ -54,6 +54,7 @@ const Revision = ({ userData, favoriteSubjects, ndlaId }: Props) => {
       subjects: userData?.favoriteSubjects!.join(','),
       'revision-date-to': currentDateAddYear,
       sort: sortOption,
+      'page-size': 100,
       ...(filterSubject ? { subjects: filterSubject.value } : {}),
     },
     {

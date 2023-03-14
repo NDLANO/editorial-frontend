@@ -13,7 +13,7 @@ exports[`it goes in and out of edit mode 1`] = `
   left: 0;
   height: 100vh;
   width: 100vw;
-  z-index: 1;
+  z-index: 3;
   background: rgba(0, 0, 0, 0.3);
   -webkit-animation-duration: 400ms;
   animation-duration: 400ms;
@@ -27,7 +27,7 @@ exports[`it goes in and out of edit mode 1`] = `
   padding: 52px;
   padding-top: 0;
   background-color: #fff;
-  z-index: 1;
+  z-index: 3;
 }
 
 .emotion-3 {
@@ -517,7 +517,7 @@ exports[`it goes in and out of edit mode 2`] = `
   left: 0;
   height: 100vh;
   width: 100vw;
-  z-index: 1;
+  z-index: 3;
   background: rgba(0, 0, 0, 0.3);
   -webkit-animation-duration: 400ms;
   animation-duration: 400ms;
@@ -531,7 +531,7 @@ exports[`it goes in and out of edit mode 2`] = `
   padding: 52px;
   padding-top: 0;
   background-color: #fff;
-  z-index: 1;
+  z-index: 3;
 }
 
 .emotion-3 {

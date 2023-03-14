@@ -42,7 +42,7 @@ const StyledBorderDiv = styled('div')`
   padding: ${spacing.large};
   padding-top: 0;
   background-color: ${colors.white};
-  z-index: 1;
+  z-index: 3;
 `;
 
 const StyledListWrapper = styled('div')`

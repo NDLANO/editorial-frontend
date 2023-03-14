@@ -18,9 +18,8 @@ import {
 import { IArticle } from '@ndla/types-draft-api';
 import { Formik, FormikProps, FormikHelpers } from 'formik';
 import { useTranslation } from 'react-i18next';
-import { isFormikFormDirty } from '../../../util/formHelper';
 import { toEditConcept } from '../../../util/routeHelpers';
-import { UNPUBLISHED } from '../../../constants';
+import { ARCHIVED, PUBLISHED, UNPUBLISHED } from '../../../constants';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
 import validateFormik, { getWarnings, RulesType } from '../../../components/formikValidationSchema';
 import {
@@ -35,17 +34,12 @@ import { SubjectType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import ConceptFormFooter from './ConceptFormFooter';
 import { MessageError, useMessages } from '../../Messages/MessagesProvider';
 import { useLicenses } from '../../../modules/draft/draftQueries';
-import { ConceptStatusType } from '../../../interfaces';
 import FormWrapper from '../../../components/FormWrapper';
+
+const STATUSES_RESPONSIBLE_NOT_REQUIRED = [PUBLISHED, ARCHIVED, UNPUBLISHED];
 
 interface UpdateProps {
   onUpdate: (updatedConcept: IUpdatedConcept, revision?: number) => Promise<IConcept>;
-  updateConceptAndStatus: (
-    id: number,
-    updatedConcept: IUpdatedConcept,
-    newStatus: ConceptStatusType,
-    dirty: boolean,
-  ) => Promise<IConcept>;
 }
 
 interface CreateProps {
@@ -115,6 +109,8 @@ const conceptFormRules: RulesType<ConceptFormValues, IConcept> = {
   },
   responsibleId: {
     required: true,
+    onlyValidateIf: (values: ConceptFormValues) =>
+      STATUSES_RESPONSIBLE_NOT_REQUIRED.every(status => values.status?.current !== status),
   },
 };
 
@@ -156,21 +152,12 @@ const ConceptForm = ({
       let savedConcept: IConcept;
       if ('onCreate' in upsertProps) {
         savedConcept = await upsertProps.onCreate(getNewConceptType(values, licenses));
-      } else if (statusChange && concept?.id) {
-        // if editor is not dirty, OR we are unpublishing, we don't save before changing status
-        const formikDirty = isFormikFormDirty({ values, initialValues, dirty: true });
-        const skipSaving = newStatus === UNPUBLISHED || !formikDirty;
-        savedConcept = await upsertProps.updateConceptAndStatus(
-          concept.id,
-          getUpdatedConceptType(values, licenses),
-          newStatus!,
-          !skipSaving,
-        );
       } else {
-        savedConcept = await upsertProps.onUpdate(
-          getUpdatedConceptType(values, licenses),
-          revision!,
-        );
+        const conceptWithStatus = {
+          ...getUpdatedConceptType(values, licenses),
+          ...(statusChange ? { status: newStatus } : {}),
+        };
+        savedConcept = await upsertProps.onUpdate(conceptWithStatus, revision!);
       }
       formikHelpers.resetForm({
         values: conceptApiTypeToFormType(savedConcept, language, subjects, conceptArticles),

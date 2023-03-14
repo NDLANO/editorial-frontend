@@ -54,7 +54,6 @@ const InlineConcept = (props: Props) => {
     conceptArticles,
     createConcept,
     updateConcept,
-    updateConceptAndStatus,
   } = useFetchConceptData(parseInt(element.data['content-id']), locale);
 
   const handleSelectionChange = (isNewConcept: boolean) => {
@@ -131,7 +130,6 @@ const InlineConcept = (props: Props) => {
         createConcept={createConcept}
         updateConcept={updateConcept}
         conceptArticles={conceptArticles}
-        updateConceptAndStatus={updateConceptAndStatus}
       />
     </>
   );

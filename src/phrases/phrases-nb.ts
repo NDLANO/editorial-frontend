@@ -130,7 +130,7 @@ const phrases = {
     goToSearch: 'Gå til søk',
     workList: {
       title: 'Mine arbeidsoppgaver',
-      description: 'Artikler hvor du står i ansvarlig-feltet',
+      description: 'Artikler hvor du står som ansvarlig',
       name: 'Navn',
       status: 'Status',
       contentType: 'Innholdstype',
@@ -1581,6 +1581,9 @@ const phrases = {
     nodePublished: 'Noden har blitt publisert!',
     showInStructure: 'Vis i struktur',
     compare: 'Sammenlign',
+    deleteAll: 'Slett publiseringsforespørsler',
+    deleteAllInfo:
+      'Er du sikker på at du ønsker å slette alle publiseringsforespørsler? Denne handlingen kan ikke angres.',
     errors: {
       noPublishedVersion: 'Klarte ikke finne publisert versjon',
     },
@@ -1739,6 +1742,7 @@ const phrases = {
       danger: 'Pass på!',
     },
   },
+  delete: 'Slett',
 };
 
 export default phrases;

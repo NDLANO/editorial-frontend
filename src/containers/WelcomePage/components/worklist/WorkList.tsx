@@ -42,6 +42,7 @@ const WorkList = ({ ndlaId, userData }: Props) => {
     {
       'responsible-ids': ndlaId,
       sort: sortOption ? sortOption : '-responsibleLastUpdated',
+      'page-size': 100,
       ...(filterSubject ? { subjects: filterSubject.value } : {}),
     },
     {
@@ -79,7 +80,7 @@ const WorkList = ({ ndlaId, userData }: Props) => {
       ariaLabel={t('welcomePage.workList.ariaLabel')}
       tabs={[
         {
-          title: `${t('welcomePage.workList.title')} (${data?.results.length ?? 0})`,
+          title: `${t('form.articleSection')} (${data?.totalCount ?? 0})`,
           content: (
             <WorkListTabContent
               data={data}
@@ -95,7 +96,7 @@ const WorkList = ({ ndlaId, userData }: Props) => {
           ),
         },
         {
-          title: `${t('form.name.concepts')} (${concepts?.results.length ?? 0})`,
+          title: `${t('form.name.concepts')} (${concepts?.totalCount ?? 0})`,
           content: (
             <ConceptListTabContent
               data={concepts}

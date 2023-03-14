@@ -8,6 +8,8 @@
 
 import { useQuery, useQueryClient, UseQueryOptions } from '@tanstack/react-query';
 import { IDraftResponsible, IEditorNote, IRevisionMeta } from '@ndla/types-draft-api';
+import chunk from 'lodash/chunk';
+import uniqBy from 'lodash/uniqBy';
 import { NodeTree } from '../../containers/NodeDiff/diffUtils';
 import { SearchResultBase, WithTaxonomyVersion } from '../../interfaces';
 import { PUBLISHED } from '../../constants';
@@ -183,14 +185,17 @@ const fetchChildNodesWithArticleType = async ({
   if (childNodes.length === 0) return [];
 
   const childIds = childNodes.map(n => Number(n.contentUri?.split(':').pop())).filter(id => !!id);
-  const searchRes = await fetchDrafts(childIds);
 
-  const articleTypeMap = searchRes.reduce<Record<number, string>>((acc, curr) => {
+  const chunks = chunk(childIds, 250);
+  const searchRes = await Promise.all(chunks.map(chunk => fetchDrafts(chunk)));
+
+  const flattenedUniqueSeachRes = uniqBy(searchRes.flat(), s => s.id);
+  const articleTypeMap = flattenedUniqueSeachRes.reduce<Record<number, string>>((acc, curr) => {
     acc[curr.id] = curr.articleType;
     return acc;
   }, {});
 
-  const isPublishedMap = searchRes.reduce<Record<number, boolean>>((acc, curr) => {
+  const isPublishedMap = flattenedUniqueSeachRes.reduce<Record<number, boolean>>((acc, curr) => {
     acc[curr.id] = curr.status.current === PUBLISHED || curr.status.other.includes(PUBLISHED);
     return acc;
   }, {});

@@ -18,7 +18,7 @@ import { textTransformPlugin } from '../../../components/SlateEditor/plugins/tex
 
 interface Props {
   language?: string;
-  onImageLoad?: (event: SyntheticEvent<HTMLImageElement, Event>) => void;
+  onImageLoad?: (width: number, height: number) => void;
 }
 
 const PodcastSeriesMetaData = ({ language, onImageLoad }: Props) => {

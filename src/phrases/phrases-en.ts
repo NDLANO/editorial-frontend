@@ -1576,6 +1576,9 @@ const phrases = {
     nodePublished: 'The node has been published!',
     showInStructure: 'Show in structure',
     compare: 'Compare',
+    deleteAll: 'Remove publish requests',
+    deleteAllInfo:
+      'Are you sure you want to remove all publish requests? This action cannot be undone.',
     errors: {
       noPublishedVersion: 'Failed to find a published version',
     },
@@ -1734,6 +1737,7 @@ const phrases = {
       danger: 'Watch out!',
     },
   },
+  delete: 'Delete',
 };
 
 export default phrases;

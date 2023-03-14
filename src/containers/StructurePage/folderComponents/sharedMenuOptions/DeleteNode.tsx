@@ -84,6 +84,8 @@ const DeleteNode = ({
         {t('taxonomy.deleteNode')}
       </MenuItemButton>
       <AlertModal
+        label={t('taxonomy.deleteNode')}
+        title={t('taxonomy.deleteNode')}
         show={editMode === 'deleteNode'}
         actions={[
           {

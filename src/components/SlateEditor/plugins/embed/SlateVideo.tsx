@@ -9,7 +9,7 @@
 import { ReactNode, useEffect, useState, MouseEvent, useCallback } from 'react';
 import styled from '@emotion/styled';
 import { RenderElementProps } from 'slate-react';
-import Button, { IconButtonV2 } from '@ndla/button';
+import { ButtonV2, IconButtonV2 } from '@ndla/button';
 import { Figure } from '@ndla/ui';
 import { breakpoints, parseMarkdown } from '@ndla/util';
 import { useTranslation } from 'react-i18next';
@@ -92,8 +92,13 @@ const FigureInfo = styled.div`
   }
 `;
 
+const CaptionButton = styled(ButtonV2)`
+  width: 100%;
+`;
+
 const StyledFigcaption = styled.figcaption`
   background-color: ${colors.white};
+  width: 100%;
   padding: ${spacing.small};
   display: block;
   border-bottom: 1px solid ${colors.brand.greyLight};
@@ -240,11 +245,11 @@ const SlateVideo = ({
               allowFullScreen
             />
           </SlateVideoWrapper>
-          <Button stripped width="full" onClick={toggleEditModus}>
+          <CaptionButton variant="stripped" onClick={toggleEditModus}>
             <StyledFigcaption>
               <FigureInfo>{parseMarkdown(embed.caption ?? '')}</FigureInfo>
             </StyledFigcaption>
-          </Button>
+          </CaptionButton>
         </Figure>
         {children}
       </div>

@@ -49,6 +49,8 @@ const EditCodeBlockModal = ({
             <CodeBlockEditor content={model} onSave={handleSave} onAbort={handleExit} />
 
             <AlertModal
+              title={t('unsavedChanges')}
+              label={t('unsavedChanges')}
               show={openDiscardModal}
               text={t('code.continue')}
               actions={[

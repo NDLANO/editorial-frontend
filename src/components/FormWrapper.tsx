@@ -7,12 +7,12 @@
  */
 
 import { Form } from 'formik';
-import { ReactElement } from 'react';
+import { ReactNode } from 'react';
 import StyledForm from './StyledFormComponents';
 
 interface Props {
   inModal?: boolean;
-  children: ReactElement[];
+  children: ReactNode;
 }
 
 const DivForm = StyledForm.withComponent('div');

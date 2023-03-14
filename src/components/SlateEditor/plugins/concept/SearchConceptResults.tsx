@@ -8,14 +8,14 @@
 
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
-import PropTypes from 'prop-types';
 import { Concept, Check } from '@ndla/icons/editor';
 import { spacing, colors } from '@ndla/core';
-import Button from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 import Tooltip from '@ndla/tooltip';
+import { IConceptSummary } from '@ndla/types-concept-api';
 import { convertFieldWithFallback } from '../../../../util/convertFieldWithFallback';
-import Spinner from '../../../../components/Spinner';
-import { SearchResultShape } from '../../../../shapes';
+import Spinner from '../../../Spinner';
+import { ConceptQuery } from '../../../../modules/concept/conceptApiInterfaces';
 
 const StyledConceptResult = styled.div`
   display: grid;
@@ -46,7 +46,7 @@ const StyledConceptContent = styled.p`
   margin: 0;
 `;
 
-const StyledButton = styled(Button)`
+const StyledButton = styled(ButtonV2)`
   grid-row-start: 1 / 3;
   grid-column: 3 / 3;
   align-self: center;
@@ -60,7 +60,14 @@ const StyledCheckIcon = styled(Check)`
   fill: ${colors.support.green};
 `;
 
-const SearchConceptResults = ({ results, searchObject, addConcept, searching }) => {
+interface Props {
+  searchObject: ConceptQuery;
+  results: IConceptSummary[];
+  addConcept: (concept: IConceptSummary) => void;
+  searching?: boolean;
+}
+
+const SearchConceptResults = ({ results, searchObject, addConcept, searching = true }: Props) => {
   const { t } = useTranslation();
   return (
     <div>
@@ -96,20 +103,6 @@ const SearchConceptResults = ({ results, searchObject, addConcept, searching }) 
       ))}
     </div>
   );
-};
-
-SearchConceptResults.propTypes = {
-  results: PropTypes.arrayOf(SearchResultShape).isRequired,
-  searchObject: PropTypes.shape({
-    query: PropTypes.string,
-    language: PropTypes.string,
-  }),
-  searching: PropTypes.bool,
-  addConcept: PropTypes.func.isRequired,
-};
-
-SearchConceptResults.defaultProps = {
-  searching: true,
 };
 
 export default SearchConceptResults;

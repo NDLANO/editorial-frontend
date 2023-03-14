@@ -6,7 +6,6 @@
  */
 
 import { useContext, useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import { UNSAFE_NavigationContext, useNavigate, Location } from 'react-router-dom';
 import { History, Blocker, Transition } from 'history';
 import { useTranslation } from 'react-i18next';
@@ -85,6 +84,8 @@ const AlertModalWrapper = ({ text, severity, isSubmitting, formIsDirty, onContin
 
   return (
     <AlertModal
+      title={t('unsavedChanges')}
+      label={t('unsavedChanges')}
       show={openModal}
       text={text}
       actions={[
@@ -101,14 +102,6 @@ const AlertModalWrapper = ({ text, severity, isSubmitting, formIsDirty, onContin
       severity={severity}
     />
   );
-};
-
-AlertModalWrapper.propTypes = {
-  text: PropTypes.string,
-  severity: PropTypes.string,
-  isSubmitting: PropTypes.bool,
-  formIsDirty: PropTypes.bool,
-  onContinue: PropTypes.func,
 };
 
 export default AlertModalWrapper;

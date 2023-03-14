@@ -8,7 +8,7 @@
 
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useQueryClient } from 'react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import styled from '@emotion/styled';
 import { Copy } from '@ndla/icons/action';
 import { spacing, colors } from '@ndla/core';
@@ -196,6 +196,8 @@ const CopyNodeResources = ({
         </StyledDiv>
       )}
       <AlertModal
+        title={t('errorMessage.description')}
+        label={t('errorMessage.description')}
         show={showAlert}
         onCancel={() => setShowAlert(false)}
         text={t(`taxonomy.${type}.error`)}

@@ -39,4 +39,5 @@ export interface ConceptFormValues {
   supportedLanguages: string[];
   updated?: string;
   origin?: string;
+  responsibleId?: string;
 }

@@ -13,7 +13,7 @@ exports[`it goes in and out of edit mode 1`] = `
   left: 0;
   height: 100vh;
   width: 100vw;
-  z-index: 1;
+  z-index: 3;
   background: rgba(0, 0, 0, 0.3);
   -webkit-animation-duration: 400ms;
   animation-duration: 400ms;
@@ -27,520 +27,10 @@ exports[`it goes in and out of edit mode 1`] = `
   padding: 52px;
   padding-top: 0;
   background-color: #fff;
-  z-index: 1;
+  z-index: 3;
 }
 
 .emotion-3 {
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  font-size: 18px;
-  font-size: 1rem;
-  line-height: 24px;
-}
-
-@media (min-width: 37.5625em) {
-  .emotion-3 {
-    font-size: 20px;
-    font-size: 1.1111111111111112rem;
-    line-height: 26px;
-  }
-}
-
-.emotion-4 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-flex-wrap: wrap;
-  -webkit-flex-wrap: wrap;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
-  z-index: 1;
-}
-
-.emotion-4 figure {
-  position: static!important;
-}
-
-.emotion-5 {
-  -webkit-flex: 1;
-  -ms-flex: 1;
-  flex: 1;
-}
-
-.emotion-6 {
-  margin-top: 6.5px;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-}
-
-.emotion-6:first-of-type {
-  margin-top: 0;
-}
-
-.emotion-8 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-flex-wrap: wrap;
-  -webkit-flex-wrap: wrap;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-  background: #f8f8f8;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: start;
-  -ms-flex-pack: start;
-  -webkit-justify-content: flex-start;
-  justify-content: flex-start;
-  border: 1px solid #eff0f2;
-  -webkit-transition: border-color 100ms ease;
-  transition: border-color 100ms ease;
-  border-radius: 4px;
-  min-height: 52px;
-  padding-right: 13px;
-}
-
-.emotion-8:focus-within {
-  border-color: #20588f;
-}
-
-.emotion-8 input,
-.emotion-8 textarea {
-  width: inherit;
-  font-weight: 400;
-  color: #444;
-  font-size: 18;
-  font-size: 1rem;
-  line-height: 1.3;
-  background: none;
-  border: 0;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-}
-
-.emotion-8 input:focus,
-.emotion-8 textarea:focus {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  -ms-appearance: none;
-  appearance: none;
-  outline: none;
-}
-
-.emotion-8 input {
-  padding: 6.5px 13px;
-}
-
-.emotion-8 textarea {
-  padding: 0 13px;
-  height: 20px;
-  margin: 14px 0;
-  resize: none;
-}
-
-.emotion-8 .c-icon {
-  width: 24px;
-  height: 24px;
-}
-
-.emotion-10 {
-  border: calc(26px / 6.5) solid rgba(0, 0, 0, 0.1);
-  border-bottom-color: #20588f;
-  border-radius: 50%;
-  -webkit-animation: spinnerAnimation 0.7s linear infinite;
-  animation: spinnerAnimation 0.7s linear infinite;
-  height: 26px;
-  width: 26px;
-  margin: 0;
-  display: block;
-}
-
-.emotion-12 {
-  margin: 10px 0;
-}
-
-.emotion-13 {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  -webkit-justify-content: center;
-  justify-content: center;
-  gap: 6.5px;
-  color: #fff;
-  background: #20588f;
-  border: 2px solid #20588f;
-  border-radius: 4px;
-  outline-width: 0;
-  cursor: pointer;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
-  font-weight: 600;
-  -webkit-transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
-  transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
-  box-shadow: none;
-  text-align: center;
-  padding: 4.333333333333333px 13px;
-  font-size: 16px;
-  font-size: 0.8888888888888888rem;
-  line-height: 1.625;
-  min-height: 40px;
-}
-
-.emotion-13:hover,
-.emotion-13:focus {
-  color: #fff;
-  background-color: #184673;
-  border-color: #184673;
-}
-
-.emotion-13[disabled] {
-  color: #777777;
-  background-color: #e6e6e6;
-  border-color: transparent;
-  cursor: not-allowed;
-}
-
-.emotion-14 {
-  display: inline-block;
-  color: #ffffff;
-  background-color: #20588f;
-  border: 2px solid #20588f;
-  border-radius: 4px;
-  padding: 4px 13px;
-  outline-width: 0;
-  cursor: pointer;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  font-size: 16px;
-  font-size: 0.8888888888888888rem;
-  line-height: 1.625;
-  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
-  font-weight: 700;
-  -webkit-transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
-  transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
-  box-shadow: none;
-  text-align: center;
-  -webkit-transition: background-color none;
-  transition: background-color none;
-  padding: 0;
-  border-radius: 0;
-  color: inherit;
-  font-size: inherit;
-  background-color: transparent;
-  box-shadow: none;
-  border: none;
-  font-weight: 400;
-  position: absolute;
-  top: 0.1rem;
-  right: 0.2rem;
-  color: #d1372e;
-}
-
-.emotion-14:hover,
-.emotion-14:focus {
-  color: white;
-  background-color: #184673;
-  border: 2px solid #184673;
-}
-
-.emotion-14[disabled] {
-  color: #777777;
-  background-color: #e6e6e6;
-  border-color: transparent;
-  cursor: not-allowed;
-}
-
-.emotion-14:focus {
-  box-shadow: 0 0 2px #20588f;
-}
-
-.emotion-14:hover,
-.emotion-14:active,
-.emotion-14:disabled,
-.emotion-14:focus {
-  box-shadow: none;
-  color: #20588f;
-  background-color: transparent;
-  border: none;
-}
-
-.emotion-14:focus {
-  outline-width: medium;
-}
-
-.emotion-14:hover,
-.emotion-14:focus {
-  color: #7d211c;
-}
-
-.emotion-16 article>p {
-  font-family: Source Sans Pro!important;
-}
-
-<div>
-  <div
-    autocapitalize="false"
-    autocorrect="false"
-    contenteditable="true"
-    data-slate-editor="true"
-    data-slate-node="value"
-    role="textbox"
-    spellcheck="false"
-    style="position: relative; outline: none; white-space: pre-wrap; word-wrap: break-word;"
-    zindex="-1"
-  >
-    <div
-      data-slate-node="element"
-      style="position: relative;"
-    >
-      <div
-        data-slate-node="element"
-        style="position: relative;"
-      >
-        <span
-          data-slate-node="text"
-        >
-          <span
-            data-slate-leaf="true"
-          >
-            <span
-              data-slate-length="0"
-              data-slate-zero-width="n"
-            >
-              ﻿
-              <br />
-            </span>
-          </span>
-        </span>
-      </div>
-    </div>
-  </div>
-  <div
-    class="emotion-0"
-    contenteditable="false"
-  >
-    <div
-      aria-hidden="true"
-      class="emotion-1"
-    />
-    <div
-      class="emotion-2"
-    >
-      <h3
-        class="c-related-articles__component-title emotion-3"
-      >
-        Relatert innhold
-      </h3>
-      <p>
-        Dra artikkel for å endre rekkefølge
-      </p>
-      <div
-        class="emotion-4"
-      >
-        <div
-          class="drop-zone emotion-5"
-        />
-      </div>
-      <div
-        data-cy="styled-article-modal"
-      >
-        <div
-          aria-expanded="false"
-          aria-haspopup="listbox"
-          aria-labelledby="downshift-0-label"
-          role="combobox"
-          style="position: relative;"
-        >
-          <div>
-            <div
-              class="emotion-6 emotion-7"
-            >
-              <div
-                class="emotion-8 emotion-9"
-              >
-                <input
-                  aria-autocomplete="list"
-                  aria-labelledby="downshift-0-label"
-                  autocomplete="off"
-                  data-testid="dropdownInput"
-                  id="downshift-0-input"
-                  placeholder="Søk på tittel"
-                  value=""
-                />
-                <div
-                  class="emotion-10 emotion-11"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-        <div
-          class="emotion-12"
-        >
-          Eller
-        </div>
-        <button
-          class="emotion-13"
-          data-testid="showAddExternal"
-          type="button"
-        >
-          Legg til ekstern artikkel
-        </button>
-      </div>
-      <button
-        class="emotion-14 emotion-15"
-        contenteditable="false"
-        data-cy="close-related-button"
-        type="button"
-      >
-        <svg
-          aria-hidden="true"
-          class="c-icon"
-          data-license="Apache License 2.0"
-          data-source="Material Design"
-          fill="currentColor"
-          height="1em"
-          preserveAspectRatio="xMidYMid meet"
-          style="vertical-align: middle;"
-          viewBox="0 0 24 24"
-          width="1em"
-        >
-          <g>
-            <path
-              d="M0 0h24v24H0V0z"
-              fill="none"
-            />
-            <path
-              d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z"
-            />
-            <path
-              d="M0 0h24v24H0z"
-              fill="none"
-            />
-          </g>
-        </svg>
-      </button>
-    </div>
-  </div>
-  <div
-    class="emotion-16"
-    contenteditable="false"
-    data-testid="relatedWrapper"
-    draggable="true"
-    role="button"
-    tabindex="0"
-  >
-    <section
-      class="c-related-articles"
-    >
-      <h3
-        class="c-related-articles__component-title emotion-3"
-      >
-        Relatert innhold
-      </h3>
-      <div
-        class="c-related-articles__articles"
-      />
-    </section>
-  </div>
-</div>
-`;
-
-exports[`it goes in and out of edit mode 2`] = `
-.emotion-0 {
-  position: absolute;
-  width: 100%;
-  z-index: 2;
-}
-
-.emotion-1 {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100vh;
-  width: 100vw;
-  z-index: 1;
-  background: rgba(0, 0, 0, 0.3);
-  -webkit-animation-duration: 400ms;
-  animation-duration: 400ms;
-  -webkit-animation-name: fadeIn;
-  animation-name: fadeIn;
-}
-
-.emotion-2 {
-  position: relative;
-  border: 2px solid #a5bcd3;
-  padding: 52px;
-  padding-top: 0;
-  background-color: #fff;
-  z-index: 1;
-}
-
-.emotion-3 {
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  font-size: 18px;
-  font-size: 1rem;
-  line-height: 24px;
-}
-
-@media (min-width: 37.5625em) {
-  .emotion-3 {
-    font-size: 20px;
-    font-size: 1.1111111111111112rem;
-    line-height: 26px;
-  }
-}
-
-.emotion-4 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-flex-wrap: wrap;
-  -webkit-flex-wrap: wrap;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
-  z-index: 1;
-}
-
-.emotion-4 figure {
-  position: static!important;
-}
-
-.emotion-5 {
-  -webkit-flex: 1;
-  -ms-flex: 1;
-  flex: 1;
-}
-
-.emotion-6 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -548,109 +38,30 @@ exports[`it goes in and out of edit mode 2`] = `
   -webkit-box-pack: justify;
   -webkit-justify-content: space-between;
   justify-content: space-between;
-  -webkit-align-items: top;
-  -webkit-box-align: top;
-  -ms-flex-align: top;
-  align-items: top;
-  max-width: 600px;
-}
-
-.emotion-6>article {
-  -webkit-flex: 1;
-  -ms-flex: 1;
-  flex: 1;
-  max-width: 100%;
-}
-
-.emotion-7 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  gap: 4.333333333333333px;
-}
-
-.emotion-8 {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  -webkit-justify-content: center;
-  justify-content: center;
-  gap: 6.5px;
-  color: #20588f;
-  background: #ceddea;
-  border: 2px solid #ceddea;
-  border-radius: 4px;
-  outline-width: 0;
-  cursor: pointer;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
-  font-weight: 600;
-  -webkit-transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
-  transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
-  box-shadow: none;
-  text-align: center;
-  padding: 4.333333333333333px 6.5px;
-  font-size: 14px;
-  font-size: 0.7777777777777778rem;
-  line-height: 18px;
-  min-height: 32px;
-  border-width: 1px;
-  outline-width: 2px;
-  color: #20588f;
-  background: transparent;
-  border-color: transparent;
-  border-radius: 100%;
-  padding: 6.5px;
-  line-height: 1;
-  border-color: transparent;
-  min-height: unset;
 }
 
-.emotion-8:hover,
-.emotion-8:focus {
-  color: #fff;
-  background-color: #184673;
-  border-color: #184673;
+.emotion-4 {
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 18px;
+  font-size: 1rem;
+  line-height: 24px;
 }
 
-.emotion-8[disabled] {
-  color: #777777;
-  background-color: #e6e6e6;
-  border-color: transparent;
-  cursor: not-allowed;
+@media (min-width: 37.5625em) {
+  .emotion-4 {
+    font-size: 20px;
+    font-size: 1.1111111111111112rem;
+    line-height: 26px;
+  }
 }
 
-.emotion-8:hover,
-.emotion-8:active,
-.emotion-8:focus {
-  color: #20588f;
-  background: #ceddea;
-  border-color: #ceddea;
-}
-
-.emotion-8[disabled] {
-  color: #777777;
-  background-color: transparent;
-  border-color: transparent;
-  cursor: not-allowed;
-}
-
-.emotion-8 svg {
-  width: 26px;
-  height: 26px;
-  margin: 0;
-}
-
-.emotion-9 {
+.emotion-5 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -695,42 +106,64 @@ exports[`it goes in and out of edit mode 2`] = `
   min-height: unset;
 }
 
-.emotion-9:hover,
-.emotion-9:focus {
+.emotion-5:hover,
+.emotion-5:focus-visible {
   color: #fff;
   background-color: #d1372e;
   border-color: #d1372e;
 }
 
-.emotion-9[disabled] {
+.emotion-5[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-9:hover,
-.emotion-9:active,
-.emotion-9:focus {
+.emotion-5:hover,
+.emotion-5:active,
+.emotion-5:focus-visible {
   color: #fff;
   background: #d1372e;
   border-color: #d1372e;
 }
 
-.emotion-9[disabled] {
+.emotion-5[disabled] {
   color: #777777;
   background-color: transparent;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-9 svg {
+.emotion-5 svg {
   width: 26px;
   height: 26px;
   margin: 0;
 }
 
-.emotion-10 {
+.emotion-6 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex-wrap: wrap;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  z-index: 1;
+}
+
+.emotion-6 figure {
+  position: static!important;
+}
+
+.emotion-7 {
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+}
+
+.emotion-8 {
   margin-top: 6.5px;
   display: -webkit-box;
   display: -webkit-flex;
@@ -738,11 +171,11 @@ exports[`it goes in and out of edit mode 2`] = `
   display: flex;
 }
 
-.emotion-10:first-of-type {
+.emotion-8:first-of-type {
   margin-top: 0;
 }
 
-.emotion-12 {
+.emotion-10 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -772,12 +205,12 @@ exports[`it goes in and out of edit mode 2`] = `
   padding-right: 13px;
 }
 
-.emotion-12:focus-within {
+.emotion-10:focus-within {
   border-color: #20588f;
 }
 
-.emotion-12 input,
-.emotion-12 textarea {
+.emotion-10 input,
+.emotion-10 textarea {
   width: inherit;
   font-weight: 400;
   color: #444;
@@ -796,8 +229,8 @@ exports[`it goes in and out of edit mode 2`] = `
   flex-grow: 1;
 }
 
-.emotion-12 input:focus,
-.emotion-12 textarea:focus {
+.emotion-10 input:focus,
+.emotion-10 textarea:focus {
   -webkit-appearance: none;
   -moz-appearance: none;
   -ms-appearance: none;
@@ -805,20 +238,32 @@ exports[`it goes in and out of edit mode 2`] = `
   outline: none;
 }
 
-.emotion-12 input {
+.emotion-10 input {
   padding: 6.5px 13px;
 }
 
-.emotion-12 textarea {
+.emotion-10 textarea {
   padding: 0 13px;
   height: 20px;
   margin: 14px 0;
   resize: none;
 }
 
-.emotion-12 .c-icon {
+.emotion-10 .c-icon {
   width: 24px;
   height: 24px;
+}
+
+.emotion-12 {
+  border: calc(26px / 6.5) solid rgba(0, 0, 0, 0.1);
+  border-bottom-color: #20588f;
+  border-radius: 50%;
+  -webkit-animation: spinnerAnimation 0.7s linear infinite;
+  animation: spinnerAnimation 0.7s linear infinite;
+  height: 26px;
+  width: 26px;
+  margin: 0;
+  display: block;
 }
 
 .emotion-14 {
@@ -861,10 +306,10 @@ exports[`it goes in and out of edit mode 2`] = `
 }
 
 .emotion-15:hover,
-.emotion-15:focus {
-  color: #fff;
-  background-color: #184673;
-  border-color: #184673;
+.emotion-15:focus-visible {
+  color: #20588f;
+  background-color: #ceddea;
+  border-color: #ceddea;
 }
 
 .emotion-15[disabled] {
@@ -874,85 +319,13 @@ exports[`it goes in and out of edit mode 2`] = `
   cursor: not-allowed;
 }
 
-.emotion-16 {
-  display: inline-block;
-  color: #ffffff;
-  background-color: #20588f;
-  border: 2px solid #20588f;
-  border-radius: 4px;
-  padding: 4px 13px;
-  outline-width: 0;
-  cursor: pointer;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  font-size: 16px;
-  font-size: 0.8888888888888888rem;
-  line-height: 1.625;
-  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
-  font-weight: 700;
-  -webkit-transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
-  transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
-  box-shadow: none;
-  text-align: center;
-  -webkit-transition: background-color none;
-  transition: background-color none;
-  padding: 0;
-  border-radius: 0;
-  color: inherit;
-  font-size: inherit;
-  background-color: transparent;
-  box-shadow: none;
-  border: none;
-  font-weight: 400;
-  position: absolute;
-  top: 0.1rem;
-  right: 0.2rem;
-  color: #d1372e;
-}
-
-.emotion-16:hover,
-.emotion-16:focus {
-  color: white;
-  background-color: #184673;
-  border: 2px solid #184673;
-}
-
-.emotion-16[disabled] {
-  color: #777777;
-  background-color: #e6e6e6;
-  border-color: transparent;
-  cursor: not-allowed;
-}
-
-.emotion-16:focus {
-  box-shadow: 0 0 2px #20588f;
-}
-
-.emotion-16:hover,
-.emotion-16:active,
-.emotion-16:disabled,
-.emotion-16:focus {
-  box-shadow: none;
-  color: #20588f;
-  background-color: transparent;
-  border: none;
-}
-
-.emotion-16:focus {
-  outline-width: medium;
-}
-
-.emotion-16:hover,
-.emotion-16:focus {
-  color: #7d211c;
-}
-
-.emotion-18 article>p {
+.emotion-16 article>p {
   font-family: Source Sans Pro!important;
 }
 
 <div>
   <div
+    aria-multiline="true"
     autocapitalize="false"
     autocorrect="false"
     contenteditable="true"
@@ -1000,19 +373,665 @@ exports[`it goes in and out of edit mode 2`] = `
     <div
       class="emotion-2"
     >
-      <h3
-        class="c-related-articles__component-title emotion-3"
+      <div
+        class="emotion-3"
       >
-        Relatert innhold
-      </h3>
+        <h3
+          class="c-related-articles__component-title emotion-4"
+        >
+          Relatert innhold
+        </h3>
+        <div
+          data-tooltip="Fjern"
+          data-tooltip-container="true"
+        >
+          <button
+            aria-label="Fjern"
+            class="emotion-5"
+            data-cy="close-related-button"
+            data-state="closed"
+            data-trigger="true"
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              class="c-icon"
+              data-license="Apache License 2.0"
+              data-source="Material Design"
+              fill="currentColor"
+              height="1em"
+              preserveAspectRatio="xMidYMid meet"
+              style="vertical-align: middle;"
+              viewBox="0 0 24 24"
+              width="1em"
+            >
+              <g>
+                <path
+                  d="M0 0h24v24H0V0z"
+                  fill="none"
+                />
+                <path
+                  d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z"
+                />
+                <path
+                  d="M0 0h24v24H0z"
+                  fill="none"
+                />
+              </g>
+            </svg>
+          </button>
+        </div>
+      </div>
       <p>
         Dra artikkel for å endre rekkefølge
       </p>
       <div
-        class="emotion-4"
+        class="emotion-6"
       >
         <div
-          class="drop-zone emotion-5"
+          class="drop-zone emotion-7"
+        />
+      </div>
+      <div
+        data-cy="styled-article-modal"
+      >
+        <div
+          aria-expanded="false"
+          aria-haspopup="listbox"
+          aria-labelledby="downshift-0-label"
+          role="combobox"
+          style="position: relative;"
+        >
+          <div>
+            <div
+              class="emotion-8 emotion-9"
+            >
+              <div
+                class="emotion-10 emotion-11"
+              >
+                <input
+                  aria-autocomplete="list"
+                  aria-labelledby="downshift-0-label"
+                  autocomplete="off"
+                  data-testid="dropdownInput"
+                  id="downshift-0-input"
+                  placeholder="Søk på tittel"
+                  value=""
+                />
+                <div
+                  class="emotion-12 emotion-13"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="emotion-14"
+        >
+          Eller
+        </div>
+        <button
+          class="emotion-15"
+          data-testid="showAddExternal"
+          type="button"
+        >
+          Legg til ekstern artikkel
+        </button>
+      </div>
+    </div>
+  </div>
+  <div
+    class="emotion-16"
+    contenteditable="false"
+    data-testid="relatedWrapper"
+    draggable="true"
+    role="button"
+    tabindex="0"
+  >
+    <section
+      class="c-related-articles"
+    >
+      <h3
+        class="c-related-articles__component-title emotion-4"
+      >
+        Relatert innhold
+      </h3>
+      <div
+        class="c-related-articles__articles"
+      />
+    </section>
+  </div>
+</div>
+`;
+
+exports[`it goes in and out of edit mode 2`] = `
+.emotion-0 {
+  position: absolute;
+  width: 100%;
+  z-index: 2;
+}
+
+.emotion-1 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  z-index: 3;
+  background: rgba(0, 0, 0, 0.3);
+  -webkit-animation-duration: 400ms;
+  animation-duration: 400ms;
+  -webkit-animation-name: fadeIn;
+  animation-name: fadeIn;
+}
+
+.emotion-2 {
+  position: relative;
+  border: 2px solid #a5bcd3;
+  padding: 52px;
+  padding-top: 0;
+  background-color: #fff;
+  z-index: 3;
+}
+
+.emotion-3 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.emotion-4 {
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 18px;
+  font-size: 1rem;
+  line-height: 24px;
+}
+
+@media (min-width: 37.5625em) {
+  .emotion-4 {
+    font-size: 20px;
+    font-size: 1.1111111111111112rem;
+    line-height: 26px;
+  }
+}
+
+.emotion-5 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  gap: 6.5px;
+  color: #fff;
+  background: #d1372e;
+  border: 2px solid #d1372e;
+  border-radius: 4px;
+  outline-width: 0;
+  cursor: pointer;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
+  font-weight: 600;
+  -webkit-transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
+  transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
+  box-shadow: none;
+  text-align: center;
+  padding: 4.333333333333333px 6.5px;
+  font-size: 14px;
+  font-size: 0.7777777777777778rem;
+  line-height: 18px;
+  min-height: 32px;
+  border-width: 1px;
+  outline-width: 2px;
+  color: #d1372e;
+  background: transparent;
+  border-color: transparent;
+  border-radius: 100%;
+  padding: 6.5px;
+  line-height: 1;
+  border-color: transparent;
+  min-height: unset;
+}
+
+.emotion-5:hover,
+.emotion-5:focus-visible {
+  color: #fff;
+  background-color: #d1372e;
+  border-color: #d1372e;
+}
+
+.emotion-5[disabled] {
+  color: #777777;
+  background-color: #e6e6e6;
+  border-color: transparent;
+  cursor: not-allowed;
+}
+
+.emotion-5:hover,
+.emotion-5:active,
+.emotion-5:focus-visible {
+  color: #fff;
+  background: #d1372e;
+  border-color: #d1372e;
+}
+
+.emotion-5[disabled] {
+  color: #777777;
+  background-color: transparent;
+  border-color: transparent;
+  cursor: not-allowed;
+}
+
+.emotion-5 svg {
+  width: 26px;
+  height: 26px;
+  margin: 0;
+}
+
+.emotion-6 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex-wrap: wrap;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  z-index: 1;
+}
+
+.emotion-6 figure {
+  position: static!important;
+}
+
+.emotion-7 {
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+}
+
+.emotion-8 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+  -webkit-align-items: top;
+  -webkit-box-align: top;
+  -ms-flex-align: top;
+  align-items: top;
+  max-width: 600px;
+}
+
+.emotion-8>article {
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  max-width: 100%;
+}
+
+.emotion-9 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 4.333333333333333px;
+}
+
+.emotion-10 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  gap: 6.5px;
+  color: #20588f;
+  background: #ceddea;
+  border: 2px solid #ceddea;
+  border-radius: 4px;
+  outline-width: 0;
+  cursor: pointer;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
+  font-weight: 600;
+  -webkit-transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
+  transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
+  box-shadow: none;
+  text-align: center;
+  padding: 4.333333333333333px 6.5px;
+  font-size: 14px;
+  font-size: 0.7777777777777778rem;
+  line-height: 18px;
+  min-height: 32px;
+  border-width: 1px;
+  outline-width: 2px;
+  color: #20588f;
+  background: transparent;
+  border-color: transparent;
+  border-radius: 100%;
+  padding: 6.5px;
+  line-height: 1;
+  border-color: transparent;
+  min-height: unset;
+}
+
+.emotion-10:hover,
+.emotion-10:focus-visible {
+  color: #fff;
+  background-color: #184673;
+  border-color: #184673;
+}
+
+.emotion-10[disabled] {
+  color: #777777;
+  background-color: #e6e6e6;
+  border-color: transparent;
+  cursor: not-allowed;
+}
+
+.emotion-10:hover,
+.emotion-10:active,
+.emotion-10:focus-visible {
+  color: #20588f;
+  background: #ceddea;
+  border-color: #ceddea;
+}
+
+.emotion-10[disabled] {
+  color: #777777;
+  background-color: transparent;
+  border-color: transparent;
+  cursor: not-allowed;
+}
+
+.emotion-10 svg {
+  width: 26px;
+  height: 26px;
+  margin: 0;
+}
+
+.emotion-12 {
+  margin-top: 6.5px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.emotion-12:first-of-type {
+  margin-top: 0;
+}
+
+.emotion-14 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex-wrap: wrap;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  background: #f8f8f8;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  -webkit-justify-content: flex-start;
+  justify-content: flex-start;
+  border: 1px solid #eff0f2;
+  -webkit-transition: border-color 100ms ease;
+  transition: border-color 100ms ease;
+  border-radius: 4px;
+  min-height: 52px;
+  padding-right: 13px;
+}
+
+.emotion-14:focus-within {
+  border-color: #20588f;
+}
+
+.emotion-14 input,
+.emotion-14 textarea {
+  width: inherit;
+  font-weight: 400;
+  color: #444;
+  font-size: 18;
+  font-size: 1rem;
+  line-height: 1.3;
+  background: none;
+  border: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+}
+
+.emotion-14 input:focus,
+.emotion-14 textarea:focus {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  outline: none;
+}
+
+.emotion-14 input {
+  padding: 6.5px 13px;
+}
+
+.emotion-14 textarea {
+  padding: 0 13px;
+  height: 20px;
+  margin: 14px 0;
+  resize: none;
+}
+
+.emotion-14 .c-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.emotion-16 {
+  margin: 10px 0;
+}
+
+.emotion-17 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  gap: 6.5px;
+  color: #fff;
+  background: #20588f;
+  border: 2px solid #20588f;
+  border-radius: 4px;
+  outline-width: 0;
+  cursor: pointer;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
+  font-weight: 600;
+  -webkit-transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
+  transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
+  box-shadow: none;
+  text-align: center;
+  padding: 4.333333333333333px 13px;
+  font-size: 16px;
+  font-size: 0.8888888888888888rem;
+  line-height: 1.625;
+  min-height: 40px;
+}
+
+.emotion-17:hover,
+.emotion-17:focus-visible {
+  color: #20588f;
+  background-color: #ceddea;
+  border-color: #ceddea;
+}
+
+.emotion-17[disabled] {
+  color: #777777;
+  background-color: #e6e6e6;
+  border-color: transparent;
+  cursor: not-allowed;
+}
+
+.emotion-18 article>p {
+  font-family: Source Sans Pro!important;
+}
+
+<div>
+  <div
+    aria-multiline="true"
+    autocapitalize="false"
+    autocorrect="false"
+    contenteditable="true"
+    data-slate-editor="true"
+    data-slate-node="value"
+    role="textbox"
+    spellcheck="false"
+    style="position: relative; outline: none; white-space: pre-wrap; word-wrap: break-word;"
+    zindex="-1"
+  >
+    <div
+      data-slate-node="element"
+      style="position: relative;"
+    >
+      <div
+        data-slate-node="element"
+        style="position: relative;"
+      >
+        <span
+          data-slate-node="text"
+        >
+          <span
+            data-slate-leaf="true"
+          >
+            <span
+              data-slate-length="0"
+              data-slate-zero-width="n"
+            >
+              ﻿
+              <br />
+            </span>
+          </span>
+        </span>
+      </div>
+    </div>
+  </div>
+  <div
+    class="emotion-0"
+    contenteditable="false"
+  >
+    <div
+      aria-hidden="true"
+      class="emotion-1"
+    />
+    <div
+      class="emotion-2"
+    >
+      <div
+        class="emotion-3"
+      >
+        <h3
+          class="c-related-articles__component-title emotion-4"
+        >
+          Relatert innhold
+        </h3>
+        <div
+          data-tooltip="Fjern"
+          data-tooltip-container="true"
+        >
+          <button
+            aria-label="Fjern"
+            class="emotion-5"
+            data-cy="close-related-button"
+            data-state="closed"
+            data-trigger="true"
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              class="c-icon"
+              data-license="Apache License 2.0"
+              data-source="Material Design"
+              fill="currentColor"
+              height="1em"
+              preserveAspectRatio="xMidYMid meet"
+              style="vertical-align: middle;"
+              viewBox="0 0 24 24"
+              width="1em"
+            >
+              <g>
+                <path
+                  d="M0 0h24v24H0V0z"
+                  fill="none"
+                />
+                <path
+                  d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z"
+                />
+                <path
+                  d="M0 0h24v24H0z"
+                  fill="none"
+                />
+              </g>
+            </svg>
+          </button>
+        </div>
+      </div>
+      <p>
+        Dra artikkel for å endre rekkefølge
+      </p>
+      <div
+        class="emotion-6"
+      >
+        <div
+          class="drop-zone emotion-7"
         >
           <div
             aria-describedby="rbd-hidden-text-0-hidden-text-0"
@@ -1026,7 +1045,7 @@ exports[`it goes in and out of edit mode 2`] = `
             tabindex="0"
           >
             <div
-              class="emotion-6"
+              class="emotion-8"
             >
               <article
                 class="c-related-articles__item c-related-articles__item--external-learning-resources"
@@ -1035,7 +1054,7 @@ exports[`it goes in and out of edit mode 2`] = `
                   class="c-related-articles__title"
                 >
                   <div
-                    class="c-content-type-badge c-content-type-badge--external-learning-resources c-content-type-badge--small c-content-type-badge--background c-content-type-badge--border"
+                    class="c-content-type-badge c-content-type-badge--external-learning-resources c-content-type-badge--small c-content-type-badge--background c-content-type-badge--border c-icon--medium"
                   >
                     <svg
                       aria-hidden="true"
@@ -1095,7 +1114,7 @@ exports[`it goes in and out of edit mode 2`] = `
                 </p>
               </article>
               <div
-                class="emotion-7"
+                class="emotion-9"
               >
                 <div
                   data-tooltip="Endre ekstern artikkel"
@@ -1103,7 +1122,7 @@ exports[`it goes in and out of edit mode 2`] = `
                 >
                   <button
                     aria-label="Endre ekstern artikkel"
-                    class="emotion-8"
+                    class="emotion-10"
                     data-state="closed"
                     data-trigger="true"
                     type="button"
@@ -1138,7 +1157,7 @@ exports[`it goes in and out of edit mode 2`] = `
                 >
                   <button
                     aria-label="Slett ekstern artikkel"
-                    class="emotion-9"
+                    class="emotion-5"
                     data-state="closed"
                     data-trigger="true"
                     type="button"
@@ -1188,10 +1207,10 @@ exports[`it goes in and out of edit mode 2`] = `
         >
           <div>
             <div
-              class="emotion-10 emotion-11"
+              class="emotion-12 emotion-13"
             >
               <div
-                class="emotion-12 emotion-13"
+                class="emotion-14 emotion-15"
               >
                 <input
                   aria-autocomplete="list"
@@ -1225,51 +1244,18 @@ exports[`it goes in and out of edit mode 2`] = `
           </div>
         </div>
         <div
-          class="emotion-14"
+          class="emotion-16"
         >
           Eller
         </div>
         <button
-          class="emotion-15"
+          class="emotion-17"
           data-testid="showAddExternal"
           type="button"
         >
           Legg til ekstern artikkel
         </button>
       </div>
-      <button
-        class="emotion-16 emotion-17"
-        contenteditable="false"
-        data-cy="close-related-button"
-        type="button"
-      >
-        <svg
-          aria-hidden="true"
-          class="c-icon"
-          data-license="Apache License 2.0"
-          data-source="Material Design"
-          fill="currentColor"
-          height="1em"
-          preserveAspectRatio="xMidYMid meet"
-          style="vertical-align: middle;"
-          viewBox="0 0 24 24"
-          width="1em"
-        >
-          <g>
-            <path
-              d="M0 0h24v24H0V0z"
-              fill="none"
-            />
-            <path
-              d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z"
-            />
-            <path
-              d="M0 0h24v24H0z"
-              fill="none"
-            />
-          </g>
-        </svg>
-      </button>
     </div>
   </div>
   <div
@@ -1284,7 +1270,7 @@ exports[`it goes in and out of edit mode 2`] = `
       class="c-related-articles"
     >
       <h3
-        class="c-related-articles__component-title emotion-3"
+        class="c-related-articles__component-title emotion-4"
       >
         Relatert innhold
       </h3>
@@ -1298,7 +1284,7 @@ exports[`it goes in and out of edit mode 2`] = `
             class="c-related-articles__title"
           >
             <div
-              class="c-content-type-badge c-content-type-badge--external-learning-resources c-content-type-badge--small c-content-type-badge--background c-content-type-badge--border"
+              class="c-content-type-badge c-content-type-badge--external-learning-resources c-content-type-badge--small c-content-type-badge--background c-content-type-badge--border c-icon--medium"
             >
               <svg
                 aria-hidden="true"

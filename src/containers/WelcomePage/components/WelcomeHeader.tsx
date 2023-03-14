@@ -6,7 +6,7 @@
  *
  */
 
-import { colors, spacing, fonts, mq, breakpoints } from '@ndla/core';
+import { colors, spacing, fonts } from '@ndla/core';
 import styled from '@emotion/styled';
 import { SafeLinkButton } from '@ndla/safelink';
 import { css } from '@emotion/react';

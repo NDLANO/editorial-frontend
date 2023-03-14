@@ -6,7 +6,7 @@
  *
  */
 
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Formik, FormikProps } from 'formik';
 import { IUpdatedArticle, IArticle, IStatus } from '@ndla/types-draft-api';
@@ -18,7 +18,6 @@ import HeaderWithLanguage from '../../../../components/HeaderWithLanguage';
 import EditorFooter from '../../../../components/SlateEditor/EditorFooter';
 import { TopicArticleFormType, useArticleFormHooks } from '../../../FormikForm/articleFormHooks';
 import usePreventWindowUnload from '../../../FormikForm/preventWindowUnloadHook';
-import Spinner from '../../../../components/Spinner';
 import { useLicenses, useDraftStatusStateMachine } from '../../../../modules/draft/draftQueries';
 import {
   draftApiTypeToTopicArticleFormType,
@@ -31,6 +30,7 @@ import { ArticleTaxonomy } from '../../../FormikForm/formikDraftHooks';
 import { blockContentToHTML } from '../../../../util/articleContentConverter';
 import { DraftStatusType } from '../../../../interfaces';
 import StyledForm from '../../../../components/StyledFormComponents';
+import { TaxonomyVersionProvider } from '../../../StructureVersion/TaxonomyVersionProvider';
 
 interface Props {
   article?: IArticle;
@@ -100,6 +100,7 @@ const TopicArticleForm = ({
       <StyledForm>
         <HeaderWithLanguage
           taxonomy={articleTaxonomy}
+          article={article}
           values={values}
           content={{
             ...article,
@@ -113,14 +114,16 @@ const TopicArticleForm = ({
           type="topic-article"
           expirationDate={getExpirationDate(article)}
         />
-        <TopicArticleAccordionPanels
-          taxonomy={articleTaxonomy}
-          articleLanguage={articleLanguage}
-          updateNotes={updateArticle}
-          article={article}
-          getArticle={getArticle}
-          handleSubmit={async () => handleSubmit(values, formik)}
-        />
+        <TaxonomyVersionProvider>
+          <TopicArticleAccordionPanels
+            taxonomy={articleTaxonomy}
+            articleLanguage={articleLanguage}
+            updateNotes={updateArticle}
+            article={article}
+            getArticle={getArticle}
+            handleSubmit={async () => handleSubmit(values, formik)}
+          />
+        </TaxonomyVersionProvider>
         <EditorFooter
           showSimpleFooter={!article?.id}
           formIsDirty={formIsDirty}

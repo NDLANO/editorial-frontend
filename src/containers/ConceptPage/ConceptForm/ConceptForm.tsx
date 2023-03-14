@@ -8,7 +8,13 @@
 
 import { useState, useEffect, useMemo } from 'react';
 import { Accordions, AccordionSection } from '@ndla/accordion';
-import { IConcept, INewConcept, IUpdatedConcept, ITagsSearchResult } from '@ndla/types-concept-api';
+import {
+  IConcept,
+  INewConcept,
+  IUpdatedConcept,
+  ITagsSearchResult,
+  IConceptSummary,
+} from '@ndla/types-concept-api';
 import { IArticle } from '@ndla/types-draft-api';
 import { Formik, FormikProps, FormikHelpers } from 'formik';
 import { useTranslation } from 'react-i18next';
@@ -24,7 +30,6 @@ import {
   getUpdatedConceptType,
 } from '../conceptTransformers';
 import { ConceptArticles, ConceptCopyright, ConceptContent, ConceptMetaData } from '../components';
-
 import { ConceptFormValues } from '../conceptInterfaces';
 import { SubjectType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import ConceptFormFooter from './ConceptFormFooter';
@@ -59,7 +64,7 @@ interface Props {
   language: string;
   subjects: SubjectType[];
   initialTitle?: string;
-  onUpserted?: (concept: IConcept) => void;
+  onUpserted?: (concept: IConceptSummary | IConcept) => void;
 }
 
 const conceptFormRules: RulesType<ConceptFormValues, IConcept> = {
@@ -107,6 +112,9 @@ const conceptFormRules: RulesType<ConceptFormValues, IConcept> = {
       if (!values.license || values.license === 'N/A' || authors.length > 0) return undefined;
       return { translationKey: 'validation.noLicenseWithoutCopyrightHolder' };
     },
+  },
+  responsibleId: {
+    required: true,
   },
 };
 
@@ -210,6 +218,7 @@ const ConceptForm = ({
         return (
           <FormWrapper inModal={inModal}>
             <HeaderWithLanguage
+              concept={concept}
               content={{ ...concept, title: concept?.title?.title, language }}
               editUrl={editUrl}
               getEntity={getEntity}
@@ -265,6 +274,7 @@ const ConceptForm = ({
               showSimpleFooter={!concept?.id}
               onClose={onClose}
               getApiConcept={getEntity}
+              responsibleId={concept?.responsible?.responsibleId}
             />
           </FormWrapper>
         );

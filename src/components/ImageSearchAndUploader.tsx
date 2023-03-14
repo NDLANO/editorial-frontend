@@ -7,7 +7,7 @@
  */
 
 import { useState } from 'react';
-import Button from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 import { spacing } from '@ndla/core';
 import ImageSearch from '@ndla/image-search';
 import Tabs from '@ndla/tabs';
@@ -73,14 +73,14 @@ const ImageSearchAndUploader = ({
               noResults={
                 <>
                   <StyledTitleDiv>{t('imageSearch.noResultsText')}</StyledTitleDiv>
-                  <Button
-                    submit
-                    outline
+                  <ButtonV2
+                    type="submit"
+                    variant="outline"
                     onClick={() => {
                       setSelectedTabIndex(1);
                     }}>
                     {t('imageSearch.noResultsButtonText')}
-                  </Button>
+                  </ButtonV2>
                 </>
               }
               onError={onError}

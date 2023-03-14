@@ -30,13 +30,19 @@ const StyledContainer = styled('div')`
   z-index: 2;
 `;
 
+const HeadingWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
 const StyledBorderDiv = styled('div')`
   position: relative;
   border: 2px solid ${colors.brand.tertiary};
   padding: ${spacing.large};
   padding-top: 0;
   background-color: ${colors.white};
-  z-index: 1;
+  z-index: 3;
 `;
 
 const StyledListWrapper = styled('div')`
@@ -165,9 +171,21 @@ const EditRelated = ({
     <StyledContainer contentEditable={false}>
       <Overlay onExit={onExit} />
       <StyledBorderDiv>
-        <SectionHeading className="c-related-articles__component-title" headingLevel="h3">
-          {t('form.related.title')}
-        </SectionHeading>
+        <HeadingWrapper>
+          <SectionHeading className="c-related-articles__component-title" headingLevel="h3">
+            {t('form.related.title')}
+          </SectionHeading>
+          <Tooltip tooltip={t('form.remove')}>
+            <IconButtonV2
+              data-cy="close-related-button"
+              aria-label={t('form.remove')}
+              variant="ghost"
+              colorTheme="danger"
+              onClick={onRemoveClick}>
+              <DeleteForever />
+            </IconButtonV2>
+          </Tooltip>
+        </HeadingWrapper>
         <p>{t('form.related.subtitle')}</p>
         <StyledListWrapper>
           <DragDropContext onDragEnd={onDragEnd}>
@@ -242,7 +260,6 @@ const EditRelated = ({
             {t('form.content.relatedArticle.addExternal')}
           </ButtonV2>
         </div>
-        <DeleteButton stripped onClick={onRemoveClick} />
       </StyledBorderDiv>
       {showAddExternal && (
         <ContentLink

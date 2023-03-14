@@ -1,4 +1,5 @@
-import { useTranslation } from 'react-i18next';
+import { useMemo } from 'react';
+import { TFunction, useTranslation } from 'react-i18next';
 import { VersionStatusType, VersionType } from '../../modules/taxonomy/versions/versionApiTypes';
 import ObjectSelector from '../ObjectSelector';
 
@@ -18,27 +19,14 @@ interface VersionTypeWithDefault extends Omit<VersionType, 'versionType'> {
 
 type PossibleVersionTypes = VersionStatusType | 'default';
 
-const OptGroupVersionSelector = ({
-  versions,
-  currentVersion: currentVersionProp,
-  onVersionChanged,
-}: Props) => {
-  const { t } = useTranslation();
-
-  const fakeDefault: VersionTypeWithDefault = {
-    id: '',
-    versionType: 'default',
-    name: t('diff.defaultVersion'),
-    hash: 'default',
-    locked: false,
-  };
-  const currentVersion = currentVersionProp ?? fakeDefault;
-  const options = versions.map(version => ({
-    id: version.hash,
-    name: version.name,
-    type: version.versionType,
-  }));
-
+export const generateOptionGroups = (
+  options: {
+    id: string;
+    name: string;
+    type: VersionStatusType;
+  }[],
+  t: TFunction,
+) => {
   const { published, beta, archived } = options.reduce<OptGroups>(
     (acc, curr) => {
       const type = curr.type.toLowerCase() as Lowercase<VersionStatusType>;
@@ -57,6 +45,35 @@ const OptGroupVersionSelector = ({
     { label: t('taxonomyVersions.status.BETA'), options: beta },
     { label: t('taxonomyVersions.status.ARCHIVED'), options: archived },
   ].filter(group => group.options.length > 0);
+
+  return optGroups;
+};
+
+const OptGroupVersionSelector = ({
+  versions,
+  currentVersion: currentVersionProp,
+  onVersionChanged,
+}: Props) => {
+  const { t } = useTranslation();
+
+  const fakeDefault: VersionTypeWithDefault = {
+    id: '',
+    versionType: 'default',
+    name: t('diff.defaultVersion'),
+    hash: 'default',
+    locked: false,
+  };
+  const currentVersion = currentVersionProp ?? fakeDefault;
+  const options = useMemo(
+    () =>
+      versions.map(version => ({
+        id: version.hash,
+        name: version.name,
+        type: version.versionType,
+      })),
+    [versions],
+  );
+  const optGroups = useMemo(() => generateOptionGroups(options, t), [options, t]);
 
   return (
     <ObjectSelector

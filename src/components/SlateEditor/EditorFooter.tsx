@@ -10,6 +10,7 @@ import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import { Footer, FooterLinkButton } from '@ndla/editor';
 import { colors, spacing } from '@ndla/core';
+import { ButtonV2 } from '@ndla/button';
 import { Launch } from '@ndla/icons/common';
 import { IConcept, IStatus as ConceptStatus } from '@ndla/types-concept-api';
 import { IUpdatedArticle, IStatus as DraftStatus } from '@ndla/types-draft-api';
@@ -25,7 +26,9 @@ import { ConceptStatusStateMachineType, DraftStatusStateMachineType } from '../.
 import ResponsibleSelect from '../../containers/FormikForm/components/ResponsibleSelect';
 import StatusSelect from '../../containers/FormikForm/components/StatusSelect';
 import { requiredFieldsT } from '../../util/yupHelpers';
-import { PUBLISHED } from '../../constants';
+import { ARCHIVED, PUBLISHED, UNPUBLISHED } from '../../constants';
+import PreviewDraftLightboxV2 from '../PreviewDraft/PreviewDraftLightboxV2';
+import { useDisableConverter } from '../ArticleConverterContext';
 
 interface Props {
   formIsDirty: boolean;
@@ -70,6 +73,8 @@ const StyledFooter = styled.div`
   margin-left: auto;
 `;
 
+const STATUSES_RESPONSIBLE_NOT_REQUIRED = [PUBLISHED, ARCHIVED, UNPUBLISHED];
+
 function EditorFooter<T extends FormValues>({
   formIsDirty,
   savedToServer,
@@ -86,6 +91,7 @@ function EditorFooter<T extends FormValues>({
   hasErrors,
   responsibleId,
 }: Props) {
+  const disableConverter = useDisableConverter();
   const [status, setStatus] = useState<SingleValue>(null);
   const [responsible, setResponsible] = useState<SingleValue>(null);
 
@@ -95,6 +101,8 @@ function EditorFooter<T extends FormValues>({
 
   // Wait for newStatus to be set to trigger since formik doesn't update fields instantly
   const [newStatus, setNewStatus] = useState<SingleValue>(null);
+
+  const articleOrConcept = isArticle || isConcept;
 
   useEffect(() => {
     if (newStatus && newStatus.value === PUBLISHED) {
@@ -106,7 +114,11 @@ function EditorFooter<T extends FormValues>({
   }, [newStatus]);
 
   const onSave = (saveAsNewVersion?: boolean) => {
-    if (!responsible && newStatus?.value !== PUBLISHED && isArticle) {
+    if (
+      !responsible &&
+      STATUSES_RESPONSIBLE_NOT_REQUIRED.every(s => s !== newStatus?.value) &&
+      articleOrConcept
+    ) {
       createMessage({
         message: requiredFieldsT('form.responsible.label', t),
         timeToLive: 0,
@@ -187,7 +199,7 @@ function EditorFooter<T extends FormValues>({
     return (
       <Footer>
         <StyledFooter>
-          {isArticle && (
+          {articleOrConcept && (
             <Wrapper>
               <ResponsibleSelect
                 responsible={responsible}
@@ -209,9 +221,19 @@ function EditorFooter<T extends FormValues>({
     <Footer>
       <>
         <div data-cy="footerPreviewAndValidate">
-          {values.id && isConcept && getEntity && isConceptType(getEntity) && (
-            <PreviewConceptLightbox getConcept={getEntity} typeOfPreview={'preview'} />
-          )}
+          {values.id &&
+            isConcept &&
+            getEntity &&
+            isConceptType(getEntity) &&
+            (!disableConverter ? (
+              <PreviewConceptLightbox getConcept={getEntity} typeOfPreview={'preview'} />
+            ) : (
+              <PreviewDraftLightboxV2
+                type="concept"
+                language={values.language}
+                activateButton={<ButtonV2 variant="link">{t('form.preview.button')}</ButtonV2>}
+              />
+            ))}
           {values.id && isArticle && (
             <FooterLinkButton
               bold
@@ -229,7 +251,7 @@ function EditorFooter<T extends FormValues>({
         </div>
 
         <div data-cy="footerStatus">
-          {isArticle && (
+          {articleOrConcept && (
             <Wrapper>
               <ResponsibleSelect
                 responsible={responsible}

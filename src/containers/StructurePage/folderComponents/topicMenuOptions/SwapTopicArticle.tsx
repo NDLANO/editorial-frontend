@@ -14,7 +14,7 @@ import { Done } from '@ndla/icons/editor';
 import { IMultiSearchSummary } from '@ndla/types-search-api';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useQueryClient } from 'react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import RoundIcon from '../../../../components/RoundIcon';
 import { fetchDraft, updateDraft } from '../../../../modules/draft/draftApi';
 import { NodeType, TOPIC_NODE } from '../../../../modules/nodes/nodeApiTypes';

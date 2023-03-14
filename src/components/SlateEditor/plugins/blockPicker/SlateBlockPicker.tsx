@@ -280,7 +280,10 @@ const SlateBlockPicker = ({
                 ...action,
                 label: t(`editorBlockpicker.actions.${action.data.object}`),
               }))}
-            onToggleOpen={setBlockPickerOpen}
+            onToggleOpen={open => {
+              ReactEditor.focus(editor);
+              setBlockPickerOpen(open);
+            }}
             clickItem={(data: ActionData) => {
               onElementAdd(data);
             }}

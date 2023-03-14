@@ -136,7 +136,7 @@ const PreviewConceptLightbox = ({ getConcept, typeOfPreview }: Props) => {
   }
 
   const closeButton = (
-    <StyledCloseButton stripped onClick={onClosePreview}>
+    <StyledCloseButton variant="stripped" onClick={onClosePreview}>
       <StyledCross />
     </StyledCloseButton>
   );

@@ -10,7 +10,7 @@ import { useState } from 'react';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { IConcept } from '@ndla/types-concept-api';
-import { IUpdatedArticle } from '@ndla/types-draft-api';
+import { IArticle, IUpdatedArticle } from '@ndla/types-draft-api';
 import { useTranslation } from 'react-i18next';
 import HeaderInformation from './HeaderInformation';
 import HeaderActions from './HeaderActions';
@@ -50,6 +50,8 @@ interface Props {
   getEntity?: () => IConcept | IUpdatedArticle;
   isSubmitting?: boolean;
   noStatus?: boolean;
+  article?: IArticle;
+  concept?: IConcept;
   type:
     | 'image'
     | 'audio'
@@ -76,6 +78,8 @@ const HeaderWithLanguage = ({
   type,
   values,
   taxonomy,
+  article,
+  concept,
   expirationDate,
   ...rest
 }: Props) => {
@@ -117,6 +121,8 @@ const HeaderWithLanguage = ({
       <StyledLanguageWrapper>
         <HeaderActions
           disableDelete={hasConnections && supportedLanguages.length === 1}
+          article={article}
+          concept={concept}
           values={safeValues}
           noStatus={noStatus}
           isNewLanguage={isNewLanguage}

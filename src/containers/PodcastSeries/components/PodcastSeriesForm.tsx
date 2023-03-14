@@ -8,10 +8,14 @@
 import { useState, useRef } from 'react';
 import { Formik, FormikProps, FormikHelpers, FormikErrors } from 'formik';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import { Descendant } from 'slate';
+import styled from '@emotion/styled';
+import { colors } from '@ndla/core';
+import { ButtonV2 } from '@ndla/button';
 import { IAudioMetaInformation, INewSeries, ISeries } from '@ndla/types-audio-api';
-import { AbortButton, AlertModalWrapper } from '../../FormikForm';
+import { AlertModalWrapper } from '../../FormikForm';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
 import validateFormik, { getWarnings, RulesType } from '../../../components/formikValidationSchema';
 import SaveButton from '../../../components/SaveButton';
@@ -21,9 +25,14 @@ import { toCreatePodcastSeries, toEditPodcastSeries } from '../../../util/routeH
 import { editorValueToPlainText } from '../../../util/articleContentConverter';
 import PodcastSeriesMetaData from './PodcastSeriesMetaData';
 import PodcastEpisodes from './PodcastEpisodes';
-import { ITUNES_STANDARD_MAXIMUM_WIDTH, ITUNES_STANDARD_MINIMUM_WIDTH } from '../../../constants';
+import {
+  AUDIO_ADMIN_SCOPE,
+  ITUNES_STANDARD_MAXIMUM_WIDTH,
+  ITUNES_STANDARD_MINIMUM_WIDTH,
+} from '../../../constants';
 import { podcastSeriesTypeToFormType } from '../../../util/audioHelpers';
 import FormWrapper from '../../../components/FormWrapper';
+import { useSession } from '../../Session/SessionProvider';
 
 const podcastRules: RulesType<PodcastSeriesFormikType, ISeries> = {
   title: {
@@ -46,6 +55,14 @@ const podcastRules: RulesType<PodcastSeriesFormikType, ISeries> = {
     onlyValidateIf: (values: PodcastSeriesFormikType) => !!values.coverPhotoId,
   },
 };
+
+const AdminWarningTextWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  p {
+    color: ${colors.support.red};
+  }
+`;
 
 export interface PodcastSeriesFormikType {
   id?: number;
@@ -80,7 +97,11 @@ const PodcastSeriesForm = ({
 }: Props) => {
   const { t } = useTranslation();
   const [savedToServer, setSavedToServer] = useState(false);
+  const { userPermissions } = useSession();
+  const navigate = useNavigate();
   const size = useRef<[number, number] | undefined>(undefined);
+
+  const isAudioAdmin = !!userPermissions?.includes(AUDIO_ADMIN_SCOPE);
 
   const handleSubmit = async (
     values: PodcastSeriesFormikType,
@@ -172,8 +193,8 @@ const PodcastSeriesForm = ({
                 hasError={['title', 'coverPhotoId', 'metaImageAlt'].some(field => field in errors)}>
                 <PodcastSeriesMetaData
                   language={language}
-                  onImageLoad={el => {
-                    size.current = [el.currentTarget.naturalWidth, el.currentTarget.naturalHeight];
+                  onImageLoad={(width, height) => {
+                    size.current = [width, height];
                     validateForm();
                   }}
                 />
@@ -187,20 +208,26 @@ const PodcastSeriesForm = ({
               </AccordionSection>
             </Accordions>
             <Field right>
-              <AbortButton outline disabled={isSubmitting}>
+              <ButtonV2 variant="outline" disabled={isSubmitting} onClick={() => navigate(-1)}>
                 {t('form.abort')}
-              </AbortButton>
+              </ButtonV2>
               <SaveButton
+                disabled={!isAudioAdmin}
                 isSaving={isSubmitting}
                 showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}
                 formIsDirty={formIsDirty}
-                submit={!inModal}
+                type={!inModal ? 'submit' : 'button'}
                 onClick={evt => {
                   evt.preventDefault();
                   submitForm();
                 }}
               />
             </Field>
+            {!isAudioAdmin ? (
+              <AdminWarningTextWrapper>
+                <p>{t('podcastSeriesForm.adminError')}</p>
+              </AdminWarningTextWrapper>
+            ) : null}
             <AlertModalWrapper
               {...formikProps}
               formIsDirty={formIsDirty}

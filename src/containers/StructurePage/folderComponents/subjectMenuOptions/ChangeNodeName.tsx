@@ -7,13 +7,13 @@
  */
 
 import { useState } from 'react';
-import { useQueryClient } from 'react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import { FieldArray, Formik, FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 import styled from '@emotion/styled';
 
-import Button from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 import { spacing } from '@ndla/core';
 import { Input } from '@ndla/forms';
 import { Pencil } from '@ndla/icons/action';
@@ -35,7 +35,7 @@ import {
 } from '../../../../modules/nodes/nodeMutations';
 import Spinner from '../../../../components/Spinner';
 import { StyledErrorMessage } from '../styles';
-import { supportedLanguages } from '../../../../i18n2';
+import { subjectpageLanguages } from '../../../../i18n2';
 import { requiredField } from '../../../../util/yupValidators';
 import { isFormikFormDirty } from '../../../../util/formHelper';
 import { Row } from '../../../../components';
@@ -53,7 +53,7 @@ const StyledDeleteButton = styled(DeleteButton)`
   align-items: center;
 `;
 
-const StyledCancelButton = styled(Button)`
+const StyledCancelButton = styled(ButtonV2)`
   padding: 0 ${spacing.normal};
 `;
 
@@ -104,7 +104,7 @@ const ChangeNodeNameModal = ({ onClose, node }: ModalProps) => {
   const { taxonomyVersion } = useTaxonomyVersion();
   const { id, name } = node;
 
-  const { data: translations, isLoading: loading, refetch } = useNodeTranslations(
+  const { data: translations, isInitialLoading: loading, refetch } = useNodeTranslations(
     { id, taxonomyVersion },
     {
       onError: e => {
@@ -206,7 +206,7 @@ const ChangeNodeNameModal = ({ onClose, node }: ModalProps) => {
                   (prev, curr) => ({ ...prev, [curr.language]: '' }),
                   {},
                 );
-                const availableLanguages = supportedLanguages.filter(
+                const availableLanguages = subjectpageLanguages.filter(
                   trans => !Object.prototype.hasOwnProperty.call(takenLanguages, trans),
                 );
                 const formIsDirty: boolean = isFormikFormDirty({
@@ -240,6 +240,7 @@ const ChangeNodeNameModal = ({ onClose, node }: ModalProps) => {
                                       data-testid={`subjectName_${trans.language}`}
                                     />
                                     <StyledDeleteButton
+                                      aria-label={t('form.remove')}
                                       onClick={() => remove(i)}
                                       data-testid={`subjectName_${trans.language}_delete`}
                                     />
@@ -263,7 +264,7 @@ const ChangeNodeNameModal = ({ onClose, node }: ModalProps) => {
                         </StyledCancelButton>
                         <SaveButton
                           data-testid="saveNodeTranslationsButton"
-                          large
+                          size="large"
                           isSaving={isSubmitting}
                           showSaved={!formIsDirty && saved}
                           formIsDirty={formIsDirty}

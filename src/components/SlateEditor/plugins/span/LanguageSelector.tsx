@@ -10,9 +10,10 @@ import styled from '@emotion/styled';
 import { Transforms } from 'slate';
 import { useSlateStatic } from 'slate-react';
 import { colors } from '@ndla/core';
+import { ButtonV2 } from '@ndla/button';
+import { DeleteForever } from '@ndla/icons/editor';
 import { SpanElement } from '.';
 import LanguageButton from './LanguageButton';
-import DeleteForeverButton from '../../../DeleteForeverButton';
 
 interface Props {
   element: SpanElement;
@@ -37,17 +38,6 @@ const Container = styled.div`
   overflow: hidden;
   border-radius: 4px;
   border-width: 1px;
-`;
-
-const StyledDeleteButton = styled(DeleteForeverButton)`
-  color: ${colors.support.red};
-  padding: 8px 0.5rem 8px 0.5rem;
-  background: ${colors.white};
-  &:hover {
-    background: ${colors.support.redLight};
-
-    color: ${colors.support.red};
-  }
 `;
 
 const LanguageSelector = ({ element, onClose }: Props) => {
@@ -87,7 +77,9 @@ const LanguageSelector = ({ element, onClose }: Props) => {
           isActive={lang === element.data.lang}
         />
       ))}
-      <StyledDeleteButton stripped onClick={onDelete} />
+      <ButtonV2 variant="ghost" colorTheme="danger" contentEditable={false} onClick={onDelete}>
+        <DeleteForever />
+      </ButtonV2>
     </Container>
   );
 };

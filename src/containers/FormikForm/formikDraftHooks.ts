@@ -7,7 +7,6 @@
  */
 
 import { useState, useEffect, useCallback } from 'react';
-import dropRight from 'lodash/dropRight';
 import uniq from 'lodash/uniq';
 import { INewArticle, IUpdatedArticle, IArticle } from '@ndla/types-draft-api';
 import {
@@ -61,10 +60,8 @@ export function useFetchArticleData(articleId: number | undefined, language: str
   const updateUserData = useCallback(async (articleId: number) => {
     const stringId = articleId.toString();
     const result = await fetchUserData();
-    const latestEdited = uniq(result.latestEditedArticles || []);
-    const latestEditedArticles = latestEdited.includes(stringId)
-      ? [stringId].concat(latestEdited.filter(id => id !== stringId))
-      : [stringId].concat(dropRight(latestEdited, 1));
+    const latest = uniq([stringId].concat(result.latestEditedArticles ?? []));
+    const latestEditedArticles = latest.slice(0, 10);
     apiUpdateUserData({ latestEditedArticles });
   }, []);
 

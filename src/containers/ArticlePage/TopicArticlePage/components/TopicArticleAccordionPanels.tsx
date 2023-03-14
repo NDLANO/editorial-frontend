@@ -98,15 +98,13 @@ const TopicArticleAccordionPanels = ({
           <RelatedContentFieldGroup />
         </AccordionSection>
       )}
-      {config.revisiondateEnabled === 'true' && (
-        <AccordionSection
-          id={'topic-article-revisions'}
-          title={t('form.name.revisions')}
-          className={'u-6/6'}
-          hasError={!!errors.revisionMeta || !!errors.revisionError}>
-          <RevisionNotes />
-        </AccordionSection>
-      )}
+      <AccordionSection
+        id={'topic-article-revisions'}
+        title={t('form.name.revisions')}
+        className={'u-6/6'}
+        hasError={!!errors.revisionMeta || !!errors.revisionError}>
+        <RevisionNotes />
+      </AccordionSection>
       {article && (
         <AccordionSection
           id={'topic-article-workflow'}

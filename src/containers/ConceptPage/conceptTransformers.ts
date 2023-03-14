@@ -54,6 +54,7 @@ export const conceptApiTypeToFormType = (
     articles,
     visualElement: embedTagToEditorValue(concept?.visualElement?.visualElement ?? ''),
     origin: concept?.copyright?.origin,
+    responsibleId: concept?.responsible?.responsibleId,
   };
 };
 
@@ -80,6 +81,7 @@ export const getNewConceptType = (
   subjectIds: values.subjects.map(subject => subject.id),
   articleIds: values.articles.map(a => a.id),
   visualElement: editorValueToEmbedTag(values.visualElement),
+  responsibleId: values.responsibleId,
 });
 
 export const getUpdatedConceptType = (

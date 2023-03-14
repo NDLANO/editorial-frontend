@@ -151,7 +151,6 @@ export type ConfigType = {
   googleSearchEngineId: string | undefined;
   isNdlaProdEnvironment: boolean;
   versioningEnabled: string;
-  revisiondateEnabled: string;
   ndlaEnvironment: string;
   learningpathFrontendDomain: string;
   googleSearchApiKey: string | undefined;
@@ -170,6 +169,9 @@ export type ConfigType = {
   brightcoveCopyrightPlayerId: string | undefined;
   disableCSP: string | undefined;
   usernamePasswordEnabled: boolean;
+  disableConverter: boolean;
+  translateServiceUser: string;
+  translateServiceToken: string;
 };
 
 const config: ConfigType = {
@@ -183,7 +185,6 @@ const config: ConfigType = {
   logglyApiKey: getEnvironmentVariabel('LOGGLY_API_KEY'),
   isNdlaProdEnvironment: ndlaEnvironment === 'prod',
   versioningEnabled: getEnvironmentVariabel('ENABLE_VERSIONING', 'true'),
-  revisiondateEnabled: getEnvironmentVariabel('ENABLE_REVISIONDATE', 'true'),
   ndlaApiUrl: getEnvironmentVariabel('NDLA_API_URL', getNdlaApiUrl(ndlaEnvironment)),
   ndlaBaseUrl: ndlaBaseUrl(),
   ndlaFrontendDomain: getEnvironmentVariabel('FRONTEND_DOMAIN', ndlaFrontendDomain()),
@@ -210,10 +211,13 @@ const config: ConfigType = {
   gaTrackingId: getEnvironmentVariabel('GA_TRACKING_ID', gaTrackingId()),
   zendeskWidgetKey: getEnvironmentVariabel('NDLA_ED_ZENDESK_WIDGET_KEY'),
   disableCSP: getEnvironmentVariabel('DISABLE_CSP', 'false'),
+  disableConverter: getEnvironmentVariabel('USE_ARTICLE_CONVERTER', 'false') === 'true',
   usernamePasswordEnabled: getEnvironmentVariabel(
     'USERNAME_PASSWORD_ENABLED',
     usernamePasswordEnabled(),
   ),
+  translateServiceUser: getEnvironmentVariabel('NDKM_USER', ''),
+  translateServiceToken: getEnvironmentVariabel('NDKM_TOKEN', ''),
 };
 
 export function getUniversalConfig(): ConfigType {

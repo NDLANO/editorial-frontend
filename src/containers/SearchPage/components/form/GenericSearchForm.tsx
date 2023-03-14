@@ -10,7 +10,7 @@ import { FormEvent, MouseEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
-import Button from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 import { SearchParams } from './SearchForm';
 import SearchTagGroup from './SearchTagGroup';
 import Selector, { SearchFormSelector } from './Selector';
@@ -36,13 +36,10 @@ interface Props {
   removeTag: (tag: SearchFormSelector) => void;
 }
 
-const StyledButton = styled(Button)`
-  margin-right: 1%;
-  width: 49%;
-`;
-
-const StyledSubmitButton = styled(Button)`
-  width: 49%;
+const StyledButton = styled(ButtonV2)`
+  flex: 1;
+  height: ${spacing.normal};
+  min-height: ${spacing.mediumlarge};
 `;
 
 const StyledForm = styled.form`
@@ -61,6 +58,13 @@ const StyledForm = styled.form`
 interface StyledFieldProps {
   width?: number;
 }
+
+const ButtonContainer = styled.div`
+  flex: 1;
+  display: flex;
+  gap: ${spacing.xsmall};
+  margin: 0 ${spacing.xsmall};
+`;
 
 const StyledField = styled.div<StyledFieldProps>`
   align-self: center;
@@ -110,12 +114,14 @@ const GenericSearchForm = ({
           </StyledField>
         );
       })}
-      <StyledField width={25}>
-        <StyledButton onClick={emptySearch} outline>
+      <ButtonContainer>
+        <StyledButton onClick={emptySearch} variant="outline">
           {t('searchForm.empty')}
         </StyledButton>
-        <StyledSubmitButton onClick={onSubmit}>{t('searchForm.btn')}</StyledSubmitButton>
-      </StyledField>
+        <StyledButton type="submit" onClick={onSubmit}>
+          {t('searchForm.btn')}
+        </StyledButton>
+      </ButtonContainer>
       <StyledTagline>
         <SearchTagGroup onRemoveItem={removeTag} tagTypes={selectors} />
       </StyledTagline>

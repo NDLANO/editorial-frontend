@@ -6,7 +6,7 @@
  *
  */
 
-import { useQueryClient } from 'react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
@@ -180,6 +180,8 @@ const Version = ({ version }: Props) => {
             </Tooltip>
           </ContentBlock>
           <AlertModal
+            title={t('taxonomyVersions.delete')}
+            label={t('taxonomyVersions.delete')}
             show={showAlertModal}
             text={t(
               `taxonomyVersions.deleteWarning${

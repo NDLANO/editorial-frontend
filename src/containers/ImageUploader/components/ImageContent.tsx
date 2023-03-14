@@ -44,7 +44,7 @@ const ImageContent = ({ formik }: Props) => {
 
   // We use the timestamp to avoid caching of the `imageFile` url in the browser
   const timestamp = new Date().getTime();
-  const imgSrc = values.filepath || `${values.imageFile}?ts=${timestamp}`;
+  const imgSrc = values.filepath || `${values.imageFile}?width=600&ts=${timestamp}`;
   return (
     <>
       <TitleField handleSubmit={submitForm} />

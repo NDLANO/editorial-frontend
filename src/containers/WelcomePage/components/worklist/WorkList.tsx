@@ -10,7 +10,6 @@ import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
 import { SingleValue } from '@ndla/select';
 import { TabsV2 } from '@ndla/tabs';
-import { IUserData } from '@ndla/types-draft-api';
 import { useSearch } from '../../../../modules/search/searchQueries';
 import WorkListTabContent from './WorkListTabContent';
 import { useSearchConcepts } from '../../../../modules/concept/conceptQueries';
@@ -18,10 +17,9 @@ import ConceptListTabContent from './ConceptListTabContent';
 
 interface Props {
   ndlaId: string;
-  userData?: IUserData;
 }
 
-const WorkList = ({ ndlaId, userData }: Props) => {
+const WorkList = ({ ndlaId }: Props) => {
   const [sortOption, setSortOption] = useState<string>('-responsibleLastUpdated');
   const [filterSubject, setFilterSubject] = useState<SingleValue | undefined>(undefined);
   const [error, setError] = useState<string | undefined>(undefined);

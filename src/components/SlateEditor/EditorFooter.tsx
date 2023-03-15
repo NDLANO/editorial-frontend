@@ -25,8 +25,7 @@ import { NewMessageType, useMessages } from '../../containers/Messages/MessagesP
 import { ConceptStatusStateMachineType, DraftStatusStateMachineType } from '../../interfaces';
 import ResponsibleSelect from '../../containers/FormikForm/components/ResponsibleSelect';
 import StatusSelect from '../../containers/FormikForm/components/StatusSelect';
-import { requiredFieldsT } from '../../util/yupHelpers';
-import { ARCHIVED, PUBLISHED, UNPUBLISHED } from '../../constants';
+import { PUBLISHED } from '../../constants';
 import PreviewDraftLightboxV2 from '../PreviewDraft/PreviewDraftLightboxV2';
 import { useDisableConverter } from '../ArticleConverterContext';
 
@@ -73,8 +72,6 @@ const StyledFooter = styled.div`
   margin-left: auto;
 `;
 
-const STATUSES_RESPONSIBLE_NOT_REQUIRED = [PUBLISHED, ARCHIVED, UNPUBLISHED];
-
 function EditorFooter<T extends FormValues>({
   formIsDirty,
   savedToServer,
@@ -105,36 +102,19 @@ function EditorFooter<T extends FormValues>({
   const articleOrConcept = isArticle || isConcept;
 
   useEffect(() => {
-    if (newStatus && newStatus.value === PUBLISHED) {
-      onSave();
+    if (newStatus?.value === PUBLISHED) {
+      onSaveClick();
       setNewStatus(null);
-      setResponsible(null);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [newStatus]);
-
-  const onSave = (saveAsNewVersion?: boolean) => {
-    if (
-      !responsible &&
-      STATUSES_RESPONSIBLE_NOT_REQUIRED.every(s => s !== newStatus?.value) &&
-      articleOrConcept
-    ) {
-      createMessage({
-        message: requiredFieldsT('form.responsible.label', t),
-        timeToLive: 0,
-      });
-      return;
-    }
-    onSaveClick(saveAsNewVersion);
-  };
-
   const saveButton = (
     <SaveMultiButton
       large
       isSaving={isSubmitting}
       formIsDirty={formIsDirty}
       showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}
-      onClick={onSave}
+      onClick={onSaveClick}
       hideSecondaryButton={hideSecondaryButton}
       disabled={!!hasErrors}
     />

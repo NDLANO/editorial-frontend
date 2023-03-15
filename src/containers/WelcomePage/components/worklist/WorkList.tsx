@@ -17,10 +17,9 @@ import ConceptListTabContent from './ConceptListTabContent';
 
 interface Props {
   ndlaId: string;
-  favoriteSubjects: Option[];
 }
 
-const WorkList = ({ ndlaId, favoriteSubjects }: Props) => {
+const WorkList = ({ ndlaId }: Props) => {
   const [sortOption, setSortOption] = useState<string>('-responsibleLastUpdated');
   const [filterSubject, setFilterSubject] = useState<SingleValue | undefined>(undefined);
   const [error, setError] = useState<string | undefined>(undefined);
@@ -75,7 +74,6 @@ const WorkList = ({ ndlaId, favoriteSubjects }: Props) => {
               error={error}
               sortOption={sortOption}
               ndlaId={ndlaId}
-              favoriteSubjects={favoriteSubjects}
             />
           ),
         },
@@ -91,7 +89,6 @@ const WorkList = ({ ndlaId, favoriteSubjects }: Props) => {
               filterSubject={filterConceptSubject}
               setFilterSubject={setFilterConceptSubject}
               ndlaId={ndlaId}
-              favoriteSubjects={favoriteSubjects}
             />
           ),
         },

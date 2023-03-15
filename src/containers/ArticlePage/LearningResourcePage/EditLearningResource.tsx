@@ -57,7 +57,6 @@ const EditLearningResource = ({ isNewlyCreated }: Props) => {
     setArticle,
     articleChanged,
     updateArticle,
-    updateArticleAndStatus,
   } = useFetchArticleData(articleId, selectedLanguage);
 
   const { translate, shouldTranslate, translating } = useTranslateToNN();
@@ -94,7 +93,6 @@ const EditLearningResource = ({ isNewlyCreated }: Props) => {
         articleChanged={articleChanged || newLanguage}
         isNewlyCreated={!!isNewlyCreated}
         updateArticle={updateArticle}
-        updateArticleAndStatus={updateArticleAndStatus}
       />
     </>
   );

@@ -8,7 +8,8 @@
 
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Option, Select, SingleValue } from '@ndla/select';
+import { Select, SingleValue } from '@ndla/select';
+import uniqBy from 'lodash/uniqBy';
 import { useSearch } from '../../../../modules/search/searchQueries';
 import { useSession } from '../../../Session/SessionProvider';
 import { DropdownWrapper } from '../../styles';
@@ -16,10 +17,9 @@ import { DropdownWrapper } from '../../styles';
 interface Props {
   filterSubject: SingleValue | undefined;
   setFilterSubject: (fs: SingleValue) => void;
-  favoriteSubjects: Option[];
 }
 
-const SubjectDropdown = ({ filterSubject, setFilterSubject, favoriteSubjects }: Props) => {
+const SubjectDropdown = ({ filterSubject, setFilterSubject }: Props) => {
   const { t } = useTranslation();
   const { ndlaId } = useSession();
 
@@ -30,16 +30,19 @@ const SubjectDropdown = ({ filterSubject, setFilterSubject, favoriteSubjects }: 
 
   const subjectContexts = useMemo(() => {
     if (data?.results.length) {
-      return data.results
-        .map(r => r.contexts.map(c => ({ value: c.subjectId, label: c.subject })))
-        .flat();
+      return uniqBy(
+        data.results
+          .map(r => r.contexts.map(c => ({ value: c.subjectId, label: c.subject })))
+          .flat(),
+        r => r.value,
+      );
     } else return [];
   }, [data?.results]);
 
   return (
     <DropdownWrapper>
       <Select<false>
-        options={subjectContexts.concat(favoriteSubjects)}
+        options={subjectContexts}
         placeholder={t('welcomePage.chooseSubject')}
         value={filterSubject}
         onChange={setFilterSubject}

@@ -7,7 +7,7 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { memo, useMemo, useState } from 'react';
+import { memo, useEffect, useMemo, useState } from 'react';
 import { IUserData } from '@ndla/types-draft-api';
 import { Alarm } from '@ndla/icons/common';
 import addYears from 'date-fns/addYears';
@@ -26,19 +26,22 @@ import { toEditArticle } from '../../../util/routeHelpers';
 import { useSearch } from '../../../modules/search/searchQueries';
 import { getExpirationDate } from '../../ArticlePage/articleTransformers';
 import GoToSearch from './GoToSearch';
+import { fetchSubject } from '../../../modules/taxonomy';
+import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 
 interface Props {
   userData: IUserData | undefined;
-  favoriteSubjects: Option[];
   ndlaId: string | undefined;
 }
 
-const Revision = ({ userData, favoriteSubjects, ndlaId }: Props) => {
+const Revision = ({ userData, ndlaId }: Props) => {
+  const [favoriteSubjects, setFavoriteSubjects] = useState<Option[]>([]);
   const [filterSubject, setFilterSubject] = useState<SingleValue | undefined>(undefined);
   const [sortOption, setSortOption] = useState<string>('-revisionDate');
   const [error, setError] = useState<string | undefined>(undefined);
 
   const { t } = useTranslation();
+  const { taxonomyVersion } = useTaxonomyVersion();
 
   const tableTitles: TitleElement[] = [
     { title: t('form.article.label'), sortableField: 'title' },
@@ -51,7 +54,7 @@ const Revision = ({ userData, favoriteSubjects, ndlaId }: Props) => {
 
   const { data, isInitialLoading } = useSearch(
     {
-      subjects: filterSubject ? filterSubject.value : userData?.favoriteSubjects!.join(','),
+      subjects: filterSubject ? filterSubject.value : userData?.favoriteSubjects?.join(','),
       'revision-date-to': currentDateAddYear,
       sort: sortOption,
       'page-size': 100,
@@ -89,6 +92,16 @@ const Revision = ({ userData, favoriteSubjects, ndlaId }: Props) => {
       ]) ?? [[]],
     [data?.results, t],
   );
+
+  useEffect(() => {
+    (async () => {
+      const favoriteSubjects =
+        (await Promise.all(
+          userData?.favoriteSubjects?.map(id => fetchSubject({ id, taxonomyVersion })) ?? [],
+        )) ?? [];
+      setFavoriteSubjects(favoriteSubjects.map(fs => ({ value: fs.id, label: fs.name })));
+    })();
+  }, [taxonomyVersion, userData?.favoriteSubjects]);
 
   return (
     <StyledDashboardInfo>

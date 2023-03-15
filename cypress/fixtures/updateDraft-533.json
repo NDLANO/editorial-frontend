@@ -3,11 +3,8 @@
   "oldNdlaUrl": "//red.ndla.no/node/153041",
   "revision": 37,
   "status": {
-    "current": "PROPOSAL",
-    "other": [
-      "IMPORTED",
-      "PUBLISHED"
-    ]
+    "current": "IN_PROGRESS",
+    "other": ["IMPORTED", "PUBLISHED"]
   },
   "title": {
     "title": "Gassinjeksjon i Some changeSome change",
@@ -39,11 +36,7 @@
     ]
   },
   "tags": {
-    "tags": [
-      "drivmekanisme",
-      "gassinjeksjon",
-      "reservoartrykk"
-    ],
+    "tags": ["drivmekanisme", "gassinjeksjon", "reservoartrykk"],
     "language": "nb"
   },
   "requiredLibraries": [],
@@ -65,19 +58,14 @@
   "updatedBy": "XVtdp6Ik4kdLDjMTQE2CIxnGB6Gvhr2n",
   "published": "2018-06-29T08:13:49Z",
   "articleType": "standard",
-  "supportedLanguages": [
-    "nb"
-  ],
+  "supportedLanguages": ["nb"],
   "notes": [
     {
       "note": "Status endret",
       "user": "XVtdp6Ik4kdLDjMTQE2CIxnGB6Gvhr2n",
       "status": {
         "current": "PROPOSAL",
-        "other": [
-          "IMPORTED",
-          "PUBLISHED"
-        ]
+        "other": ["IMPORTED", "PUBLISHED"]
       },
       "timestamp": "2021-03-23T08:23:46Z"
     }
@@ -92,6 +80,12 @@
       "revisionDate": "2030-01-01T00:00:00Z",
       "note": "Automatisk revisjonsdato satt av systemet.",
       "status": "needs-revision"
+    },
+    {
+      "note": "Status endret",
+      "user": "XVtdp6Ik4kdLDjMTQE2CIxnGB6Gvhr2n",
+      "status": { "current": "IN_PROGRESS", "other": ["PUBLISHED"] },
+      "timestamp": "2023-03-10T16:18:15Z"
     }
   ]
 }

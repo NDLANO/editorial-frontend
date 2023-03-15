@@ -23,7 +23,7 @@ const StyledConnections = styled.div<StyledConnectionsProps>`
   padding: ${spacing.xsmall};
   margin-bottom: 2px;
   border-radius: ${misc.borderRadius};
-  span {
+  div > span {
     padding: ${spacing.xsmall};
     ${fonts.sizes(16, 1.1)} &:nth-of-type(2) {
       font-weight: ${fonts.weight.semibold};

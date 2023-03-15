@@ -7,7 +7,7 @@
  */
 
 import { Calendar } from '@ndla/icons/editor';
-import { SingleValue, Option } from '@ndla/select';
+import { SingleValue } from '@ndla/select';
 import { IMultiSearchResult } from '@ndla/types-search-api';
 import { useTranslation } from 'react-i18next';
 import { useMemo } from 'react';
@@ -28,7 +28,6 @@ interface Props {
   error: string | undefined;
   setFilterSubject: (fs: SingleValue) => void;
   ndlaId?: string;
-  favoriteSubjects: Option[];
 }
 
 const WorkListTabContent = ({
@@ -40,7 +39,6 @@ const WorkListTabContent = ({
   error,
   setFilterSubject,
   ndlaId,
-  favoriteSubjects,
 }: Props) => {
   const { t } = useTranslation();
 
@@ -104,11 +102,7 @@ const WorkListTabContent = ({
           Icon={Calendar}
         />
         <ControlWrapperDashboard>
-          <SubjectDropdown
-            filterSubject={filterSubject}
-            setFilterSubject={setFilterSubject}
-            favoriteSubjects={favoriteSubjects}
-          />
+          <SubjectDropdown filterSubject={filterSubject} setFilterSubject={setFilterSubject} />
           <GoToSearch ndlaId={ndlaId} filterSubject={filterSubject} searchEnv={'content'} />
         </ControlWrapperDashboard>
       </StyledTopRowDashboardInfo>

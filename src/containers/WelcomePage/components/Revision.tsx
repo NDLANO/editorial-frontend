@@ -51,11 +51,10 @@ const Revision = ({ userData, favoriteSubjects, ndlaId }: Props) => {
 
   const { data, isInitialLoading } = useSearch(
     {
-      subjects: userData?.favoriteSubjects!.join(','),
+      subjects: filterSubject ? filterSubject.value : userData?.favoriteSubjects!.join(','),
       'revision-date-to': currentDateAddYear,
       sort: sortOption,
       'page-size': 100,
-      ...(filterSubject ? { subjects: filterSubject.value } : {}),
     },
     {
       enabled: !!userData?.favoriteSubjects,

@@ -200,7 +200,7 @@ export const formikCommonArticleRules: RulesType<ArticleFormType, IArticle> = {
     },
   },
   responsibleId: {
-    required: true,
+    required: false,
   },
 };
 

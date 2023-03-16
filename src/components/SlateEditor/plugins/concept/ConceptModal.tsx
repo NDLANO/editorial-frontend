@@ -46,12 +46,6 @@ interface Props {
   selectedText?: string;
   subjects: SubjectType[];
   updateConcept: (id: number, updatedConcept: IUpdatedConcept) => Promise<IConcept>;
-  updateConceptAndStatus: (
-    id: number,
-    conceptPath: IUpdatedConcept,
-    newStatus: string,
-    dirty: boolean,
-  ) => Promise<IConcept>;
   conceptArticles: IArticle[];
 }
 
@@ -68,7 +62,6 @@ const ConceptModal = ({
   concept,
   fetchSearchTags,
   conceptArticles,
-  updateConceptAndStatus,
 }: Props) => {
   const { t } = useTranslation();
   const [searchObject, updateSearchObject] = useState<ConceptQuery>({
@@ -106,7 +99,6 @@ const ConceptModal = ({
   const upsertProps = concept
     ? {
         onUpdate: (updatedConcept: IUpdatedConcept) => updateConcept(concept.id, updatedConcept),
-        updateConceptAndStatus,
       }
     : { onCreate: createConcept };
 

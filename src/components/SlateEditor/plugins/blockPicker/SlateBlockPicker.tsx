@@ -130,6 +130,7 @@ const SlateBlockPicker = ({
   };
 
   const onInsertBlock = (block: Element, selectBlock?: boolean) => {
+    console.log(block);
     setTimeout(() => {
       Editor.withoutNormalizing(editor, () => {
         if (selectedParagraphPath) {

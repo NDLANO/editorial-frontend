@@ -4,6 +4,7 @@ import { Spinner } from '@ndla/icons';
 import { OneColumn } from '@ndla/ui';
 import { Fragment, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import isBefore from 'date-fns/isBefore';
 import { SafeLinkButton } from '@ndla/safelink';
 import { ChevronRight } from '@ndla/icons/lib/common';
 import {
@@ -73,24 +74,29 @@ const PublishRequestsContainer = () => {
   });
 
   const versionsQuery = useVersions(
-    { type: 'PUBLISHED' },
+    {},
     {
       onSuccess: data => {
         if (!data[0]) {
-          setError('publishRequests.errors.noPublishedVersion');
+          setError('publishRequests.errors.noVersions');
         }
       },
     },
   );
 
-  const publishedVersion = versionsQuery.data?.[0];
+  const publishedVersion = versionsQuery.data?.filter(v => v.versionType === 'PUBLISHED')?.[0];
+  const betaVersions = versionsQuery.data
+    ?.filter(v => v.versionType === 'BETA')
+    .sort((a, b) => (isBefore(new Date(a.created), new Date(b.created)) ? 1 : -1));
+
+  const otherVersion = betaVersions?.[0] || publishedVersion || versionsQuery.data?.[0];
 
   const onCompare = (node: NodeType) => {
-    if (!publishedVersion) {
-      setError('publishRequests.errors.noPublishedVersion');
+    if (!otherVersion) {
+      setError('publishRequests.errors.noVersions');
       return '';
     }
-    return toNodeDiff(node.id, publishedVersion.hash, 'default');
+    return toNodeDiff(node.id, otherVersion.hash, 'default');
   };
 
   return (
@@ -127,7 +133,7 @@ const PublishRequestsContainer = () => {
                 <SafeLinkButton to={toStructure(node.path)}>
                   {t('publishRequests.showInStructure')}
                 </SafeLinkButton>
-                <SafeLinkButton to={onCompare(node)} disabled={!publishedVersion || !!error}>
+                <SafeLinkButton to={onCompare(node)} disabled={!otherVersion || !!error}>
                   {t('publishRequests.compare')}
                 </SafeLinkButton>
               </StyledButtonRow>

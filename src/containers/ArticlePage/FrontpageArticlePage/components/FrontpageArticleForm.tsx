@@ -29,7 +29,6 @@ import {
   getExpirationDate,
 } from '../../articleTransformers';
 import { blockContentToHTML } from '../../../../util/articleContentConverter';
-import { DraftStatusType } from '../../../../interfaces';
 import StyledForm from '../../../../components/StyledFormComponents';
 import FrontpageArticlePanels from './FrontpageArticlePanels';
 
@@ -39,11 +38,6 @@ interface Props {
   isNewlyCreated: boolean;
   articleChanged: boolean;
   updateArticle: (updatedArticle: IUpdatedArticle) => Promise<IArticle>;
-  updateArticleAndStatus: (input: {
-    updatedArticle: IUpdatedArticle;
-    newStatus: DraftStatusType;
-    dirty: boolean;
-  }) => Promise<IArticle>;
   articleLanguage: string;
 }
 
@@ -52,7 +46,6 @@ const FrontpageArticleForm = ({
   articleStatus,
   isNewlyCreated = false,
   updateArticle,
-  updateArticleAndStatus,
   articleChanged,
   articleLanguage,
 }: Props) => {
@@ -69,7 +62,6 @@ const FrontpageArticleForm = ({
     t,
     articleStatus,
     updateArticle,
-    updateArticleAndStatus,
     getArticleFromSlate: frontpageArticleFormTypeToDraftApiType,
     articleLanguage,
     rules: frontPageArticleRules,

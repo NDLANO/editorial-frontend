@@ -62,6 +62,7 @@ const OptGroupVersionSelector = ({
     name: t('diff.defaultVersion'),
     hash: 'default',
     locked: false,
+    created: '',
   };
   const currentVersion = currentVersionProp ?? fakeDefault;
   const options = useMemo(

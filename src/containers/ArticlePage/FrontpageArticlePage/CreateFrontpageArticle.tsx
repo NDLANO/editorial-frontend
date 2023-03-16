@@ -31,7 +31,6 @@ const CreateFrontpageArticle = () => {
       <HelmetWithTracker title={t('htmlTitles.createFrontPageArticePage')} />
       <FrontpageArticleForm
         updateArticle={createArticleAndPushRoute}
-        updateArticleAndStatus={inp => createArticleAndPushRoute(inp.updatedArticle)}
         articleChanged={false}
         isNewlyCreated={false}
         articleLanguage={i18n.language}

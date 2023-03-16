@@ -78,6 +78,7 @@ const VersionForm = ({ version, existingVersions, onClose }: Props) => {
         name: body.name,
         hash: '',
         locked: !!body.locked,
+        created: '',
       };
       const existingVersions = qc.getQueryData<VersionType[]>(versionsKey) ?? [];
       qc.setQueryData<VersionType[]>(versionsKey, existingVersions.concat(optimisticVersion));

@@ -1581,6 +1581,7 @@ const phrases = {
       'Are you sure you want to remove all publish requests? This action cannot be undone.',
     errors: {
       noPublishedVersion: 'Failed to find a published version',
+      noVersions: 'Failed to find other versions',
     },
     numberRequests: 'Number of publication request',
   },

@@ -1586,6 +1586,7 @@ const phrases = {
       'Er du sikker på at du ønsker å slette alle publiseringsforespørsler? Denne handlingen kan ikke angres.',
     errors: {
       noPublishedVersion: 'Klarte ikke finne publisert versjon',
+      noVersions: 'Klarte ikke finne versjoner',
     },
     numberRequests: 'Antall publiseringsforespørsler',
   },

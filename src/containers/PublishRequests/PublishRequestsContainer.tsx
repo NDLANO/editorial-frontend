@@ -2,7 +2,8 @@ import styled from '@emotion/styled';
 import { spacing, colors, fonts } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
 import { OneColumn } from '@ndla/ui';
-import { Fragment, useState } from 'react';
+import { Fragment, useMemo, useState } from 'react';
+import sortBy from 'lodash/sortBy';
 import { useTranslation } from 'react-i18next';
 import isBefore from 'date-fns/isBefore';
 import { SafeLinkButton } from '@ndla/safelink';
@@ -73,6 +74,10 @@ const PublishRequestsContainer = () => {
     value: 'true',
   });
 
+  const sorted = useMemo(() => sortBy(nodesQuery?.data, n => n.breadcrumbs?.join('')), [
+    nodesQuery,
+  ]);
+
   const versionsQuery = useVersions(
     {},
     {
@@ -99,18 +104,14 @@ const PublishRequestsContainer = () => {
     return toNodeDiff(node.id, otherVersion.hash, 'default');
   };
 
-  nodesQuery.data?.sort(
-    (a, b) => a.breadcrumbs?.join(' > ')?.localeCompare(b.breadcrumbs?.join(' > ') || '') || 0,
-  );
-
   return (
     <>
       <OneColumn>
         <h1>{t('publishRequests.title')}</h1>
         {error && <ErrorMessage>{t(error)}</ErrorMessage>}
-        <h3>{`${t('publishRequests.numberRequests')}: ${nodesQuery.data?.length ?? 0}`}</h3>
+        <h3>{`${t('publishRequests.numberRequests')}: ${sorted?.length ?? 0}`}</h3>
         <StyledRequestList>
-          {nodesQuery.data?.map((node, i) => (
+          {sorted?.map((node, i) => (
             <StyledNodeContainer key={`node-request-${i}`}>
               <StyledTitleRow>
                 <StyledTitleColumn>

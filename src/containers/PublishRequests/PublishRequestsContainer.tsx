@@ -99,6 +99,10 @@ const PublishRequestsContainer = () => {
     return toNodeDiff(node.id, otherVersion.hash, 'default');
   };
 
+  nodesQuery.data?.sort(
+    (a, b) => a.breadcrumbs?.join(' > ')?.localeCompare(b.breadcrumbs?.join(' > ') || '') || 0,
+  );
+
   return (
     <>
       <OneColumn>

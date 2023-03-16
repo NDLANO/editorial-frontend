@@ -36,10 +36,6 @@ export function brightcoveApiResourceUrl(path: string) {
   return config.brightcoveApiUrl + path;
 }
 
-export function googleSearchApiResourceUrl(path: string) {
-  return config.googleSearchApiUrl + path;
-}
-
 export const fetchWithAuthorization = async (
   url: string,
   config: FetchConfigType = {},

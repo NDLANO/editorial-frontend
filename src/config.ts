@@ -148,19 +148,16 @@ export type ConfigType = {
   redirectPort: string | undefined;
   host: string | undefined;
   componentName: string | undefined;
-  googleSearchEngineId: string | undefined;
   isNdlaProdEnvironment: boolean;
   versioningEnabled: string;
   ndlaEnvironment: string;
   learningpathFrontendDomain: string;
-  googleSearchApiKey: string | undefined;
   localConverter: boolean;
   brightcoveApiUrl: string;
   brightcoveUrl: string;
   logglyApiKey: string | undefined;
   taxonomyApi: string;
   h5pApiUrl: string | undefined;
-  googleSearchApiUrl: string | undefined;
   port: string | undefined;
   ndlaPersonalClientId: string | undefined;
   zendeskWidgetKey: string | undefined;
@@ -202,9 +199,6 @@ const config: ConfigType = {
   brightcoveApiUrl: 'https://cms.api.brightcove.com',
   brightcoveUrl: 'https://studio.brightcove.com/products/videocloud/home',
   h5pApiUrl: getEnvironmentVariabel('H5P_API_URL', h5pApiUrl()),
-  googleSearchApiUrl: getEnvironmentVariabel('NDLA_GOOGLE_API_URL', 'https://www.googleapis.com'),
-  googleSearchApiKey: getEnvironmentVariabel('NDLA_GOOGLE_API_KEY'),
-  googleSearchEngineId: getEnvironmentVariabel('NDLA_GOOGLE_SEARCH_ENGINE_ID'),
   localConverter: getEnvironmentVariabel('LOCAL_CONVERTER', 'false') === 'true',
   checkArticleScript: getEnvironmentVariabel('CHECK_ARTICLE_SCRIPT', 'false') === 'true',
   googleTagManagerId: getEnvironmentVariabel('NDLA_GOOGLE_TAG_MANAGER_ID'),

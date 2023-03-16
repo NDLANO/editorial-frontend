@@ -17,6 +17,21 @@ import { List } from '@ndla/icons/action';
 import HowToHelper from '../../../HowTo/HowToHelper';
 import { TYPE_CONCEPT_BLOCK } from '../concept/block/types';
 import { DRAFT_ADMIN_SCOPE } from '../../../../constants';
+import {
+  TYPE_EMBED_AUDIO,
+  TYPE_EMBED_BRIGHTCOVE,
+  TYPE_EMBED_EXTERNAL,
+  TYPE_EMBED_H5P,
+  TYPE_EMBED_IMAGE,
+} from '../embed/types';
+import { TYPE_ASIDE } from '../aside/types';
+import { TYPE_DETAILS } from '../details/types';
+import { TYPE_TABLE } from '../table/types';
+import { TYPE_BODYBOX } from '../bodybox/types';
+import { TYPE_FILE } from '../file/types';
+import { TYPE_RELATED } from '../related/types';
+import { TYPE_CODEBLOCK } from '../codeBlock/types';
+import { TYPE_CONCEPT_LIST } from '../conceptList/types';
 
 const renderArticleInModal = (pageId: string) => <HowToHelper pageId={pageId} extraIconPadding />;
 
@@ -34,67 +49,67 @@ export interface Action {
 
 const actions: Action[] = [
   {
-    data: { type: 'aside', object: 'factAside' },
+    data: { type: TYPE_ASIDE, object: 'factAside' },
     icon: <FactBoxMaterial />,
     helpIcon: renderArticleInModal('FactASide'),
   },
   {
-    data: { type: 'details', object: 'details' },
+    data: { type: TYPE_DETAILS, object: 'details' },
     icon: <ArrowExpand />,
     helpIcon: renderArticleInModal('Details'),
   },
   {
-    data: { type: 'table', object: 'table' },
+    data: { type: TYPE_TABLE, object: 'table' },
     icon: <TableMaterial />,
     helpIcon: renderArticleInModal('Table'),
   },
   {
-    data: { type: 'bodybox', object: 'bodybox' },
+    data: { type: TYPE_BODYBOX, object: 'bodybox' },
     icon: <Framed />,
     helpIcon: renderArticleInModal('BodyBox'),
   },
   {
-    data: { type: 'image-embed', object: 'image' },
+    data: { type: TYPE_EMBED_IMAGE, object: 'image' },
     icon: <Camera />,
     helpIcon: renderArticleInModal('Images'),
   },
   {
-    data: { type: 'brightcove-embed', object: 'video' },
+    data: { type: TYPE_EMBED_BRIGHTCOVE, object: 'video' },
     icon: <PlayBoxOutline />,
     helpIcon: renderArticleInModal('Videos'),
   },
   {
-    data: { type: 'audio-embed', object: 'audio' },
+    data: { type: TYPE_EMBED_AUDIO, object: 'audio' },
     icon: <VolumeUp />,
     helpIcon: renderArticleInModal('Audios'),
   },
   {
-    data: { type: 'audio-embed', object: 'podcast' },
+    data: { type: TYPE_EMBED_AUDIO, object: 'podcast' },
     icon: <Podcast />,
     helpIcon: renderArticleInModal('Podcasts'),
   },
   {
-    data: { type: 'h5p-embed', object: 'h5p' },
+    data: { type: TYPE_EMBED_H5P, object: 'h5p' },
     icon: <PresentationPlay />,
     helpIcon: renderArticleInModal('H5P'),
   },
   {
-    data: { type: 'external-embed', object: 'url' },
+    data: { type: TYPE_EMBED_EXTERNAL, object: 'url' },
     icon: <LinkIcon />,
     helpIcon: renderArticleInModal('ResourceFromLink'),
   },
   {
-    data: { type: 'file', object: 'file' },
+    data: { type: TYPE_FILE, object: 'file' },
     icon: <Download />,
     helpIcon: renderArticleInModal('File'),
   },
   {
-    data: { type: 'related', object: 'related' },
+    data: { type: TYPE_RELATED, object: 'related' },
     icon: <RelatedArticle />,
     helpIcon: renderArticleInModal('RelatedArticle'),
   },
   {
-    data: { type: 'code-block', object: 'code' },
+    data: { type: TYPE_CODEBLOCK, object: 'code' },
     icon: <Code />,
     helpIcon: renderArticleInModal('CodeBlock'),
   },
@@ -104,7 +119,7 @@ const actions: Action[] = [
     helpIcon: renderArticleInModal('Concept'),
   },
   {
-    data: { type: 'concept-list', object: 'conceptList' },
+    data: { type: TYPE_CONCEPT_LIST, object: 'conceptList' },
     icon: <List />,
     helpIcon: renderArticleInModal('ConceptList'),
     requiredScope: DRAFT_ADMIN_SCOPE,

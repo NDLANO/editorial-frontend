@@ -163,6 +163,7 @@ const ConceptListTabContent = ({
         onClick={el => setPageConcept(el.page)}
         small
         colorTheme="lighter"
+        pageItemComponentClass="button"
       />
     </>
   );

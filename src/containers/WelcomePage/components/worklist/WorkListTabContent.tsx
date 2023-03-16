@@ -127,6 +127,7 @@ const WorkListTabContent = ({
         onClick={el => setPage(el.page)}
         small
         colorTheme="lighter"
+        pageItemComponentClass="button"
       />
     </>
   );

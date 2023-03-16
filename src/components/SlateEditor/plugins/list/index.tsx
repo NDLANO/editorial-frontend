@@ -181,7 +181,8 @@ export const listPlugin = (editor: Editor) => {
           <ol
             data-type="letters"
             className={`ol-list--roman ${start ? `ol-reset-${start}` : ''}`}
-            {...attributes}>
+            {...attributes}
+          >
             {children}
           </ol>
         );
@@ -194,7 +195,7 @@ export const listPlugin = (editor: Editor) => {
     return undefined;
   };
 
-  editor.normalizeNode = entry => {
+  editor.normalizeNode = (entry) => {
     const [node, path] = entry;
 
     if (Element.isElement(node) && node.type === TYPE_LIST_ITEM) {

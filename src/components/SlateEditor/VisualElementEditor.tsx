@@ -64,12 +64,13 @@ const VisualElementEditor = ({ name, value, plugins, onChange, types, language }
               value: val,
             },
           });
-        }}>
+        }}
+      >
         <VisualElementPicker editor={editor} types={types} language={language} />
         <Editable
           readOnly={true}
           renderElement={renderElement}
-          onDragStart={e => {
+          onDragStart={(e) => {
             e.stopPropagation();
           }}
         />

@@ -63,7 +63,8 @@ const PlainTextEditor = ({
             type: 'SlateEditorValue',
           },
         });
-      }}>
+      }}
+    >
       <Editable
         onBlur={(event: FocusEvent<HTMLDivElement>) => {
           // Forcing slate field to be deselected before selecting new field.

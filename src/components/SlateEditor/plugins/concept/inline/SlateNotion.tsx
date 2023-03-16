@@ -89,7 +89,8 @@ const SlateNotion = ({ children, attributes, id, concept, handleRemove }: Props)
         type="button"
         aria-label={t('concept.showDescription', { title: concept?.title.title ?? '' })}
         {...attributes}
-        data-notion-link>
+        data-notion-link
+      >
         <div>
           {children}
           {<BaselineIcon />}
@@ -113,14 +114,16 @@ const SlateNotion = ({ children, attributes, id, concept, handleRemove }: Props)
                     <Tooltip
                       tooltip={t('form.workflow.currentStatus', {
                         status: t(`form.status.${concept?.status.current.toLowerCase()}`),
-                      })}>
+                      })}
+                    >
                       <div>
                         <StyledWarnIcon />
                       </div>
                     </Tooltip>
                   )}
                 </StyledDiv>
-              }>
+              }
+            >
               {concept && (
                 <InlineConceptPreview
                   concept={concept}

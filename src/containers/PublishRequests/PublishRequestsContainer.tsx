@@ -75,7 +75,7 @@ const PublishRequestsContainer = () => {
   const versionsQuery = useVersions(
     { type: 'PUBLISHED' },
     {
-      onSuccess: data => {
+      onSuccess: (data) => {
         if (!data[0]) {
           setError('publishRequests.errors.noPublishedVersion');
         }

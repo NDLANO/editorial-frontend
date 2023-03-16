@@ -119,7 +119,8 @@ const ConceptModal = ({
         onClose={onClose}
         size="large"
         backgroundColor="white"
-        minHeight="90vh">
+        minHeight="90vh"
+      >
         {() => (
           <div>
             <ModalHeader>
@@ -143,7 +144,7 @@ const ConceptModal = ({
                         </h2>
                         <SearchForm
                           type={type}
-                          search={params => {
+                          search={(params) => {
                             updateSearchObject(params);
                             debouncedSearchConcept(params);
                           }}

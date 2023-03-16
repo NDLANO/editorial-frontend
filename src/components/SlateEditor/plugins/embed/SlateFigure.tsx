@@ -60,7 +60,7 @@ const SlateFigure = ({ attributes, editor, element, language, locale = 'nb', chi
     ReactEditor.focus(editor);
     Transforms.removeNodes(editor, {
       at: path,
-      match: node => Element.isElement(node) && node.type === TYPE_NDLA_EMBED,
+      match: (node) => Element.isElement(node) && node.type === TYPE_NDLA_EMBED,
     });
   };
 
@@ -76,7 +76,8 @@ const SlateFigure = ({ attributes, editor, element, language, locale = 'nb', chi
           visualElement={false}
           active={isActive()}
           isSelectedForCopy={isSelected}
-          element={element}>
+          element={element}
+        >
           {children}
         </SlateImage>
       );
@@ -89,7 +90,8 @@ const SlateFigure = ({ attributes, editor, element, language, locale = 'nb', chi
           onRemoveClick={onRemoveClick}
           saveEmbedUpdates={saveEmbedUpdates}
           active={isActive()}
-          isSelectedForCopy={isSelected}>
+          isSelectedForCopy={isSelected}
+        >
           {children}
         </SlateVideo>
       );
@@ -103,7 +105,8 @@ const SlateFigure = ({ attributes, editor, element, language, locale = 'nb', chi
             locale={locale}
             onRemoveClick={onRemoveClick}
             saveEmbedUpdates={saveEmbedUpdates}
-            isSelectedForCopy={isSelected}>
+            isSelectedForCopy={isSelected}
+          >
             {children}
           </SlatePodcast>
         );
@@ -117,7 +120,8 @@ const SlateFigure = ({ attributes, editor, element, language, locale = 'nb', chi
           onRemoveClick={onRemoveClick}
           saveEmbedUpdates={saveEmbedUpdates}
           active={isActive()}
-          isSelectedForCopy={isSelected}>
+          isSelectedForCopy={isSelected}
+        >
           {children}
         </SlateAudio>
       );
@@ -133,7 +137,8 @@ const SlateFigure = ({ attributes, editor, element, language, locale = 'nb', chi
             onRemoveClick={onRemoveClick}
             saveEmbedUpdates={saveEmbedUpdates}
             active={isActive()}
-            isSelectedForCopy={isSelected}>
+            isSelectedForCopy={isSelected}
+          >
             {children}
           </SlateVideo>
         );
@@ -157,7 +162,8 @@ const SlateFigure = ({ attributes, editor, element, language, locale = 'nb', chi
         <EditorErrorMessage
           onRemoveClick={onRemoveClick}
           attributes={attributes}
-          msg={embed.message}>
+          msg={embed.message}
+        >
           {children}
         </EditorErrorMessage>
       );
@@ -167,7 +173,8 @@ const SlateFigure = ({ attributes, editor, element, language, locale = 'nb', chi
           attributes={attributes}
           msg={t('form.content.figure.notSupported', {
             mediaType: embed.resource,
-          })}>
+          })}
+        >
           {children}
         </EditorErrorMessage>
       );

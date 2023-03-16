@@ -35,7 +35,8 @@ const ResourceTypeSelect = ({
     <>
       <FieldHeader
         title={t('taxonomy.resourceTypes.title')}
-        subTitle={t('taxonomy.resourceTypes.subTitle')}>
+        subTitle={t('taxonomy.resourceTypes.subTitle')}
+      >
         <HowToHelper
           pageId="TaxonomyContentTypes"
           tooltip={t('taxonomy.resourceTypes.helpLabel')}
@@ -43,11 +44,12 @@ const ResourceTypeSelect = ({
       </FieldHeader>
       <Select
         value={selectedResourceTypeValue(resourceTypes ?? [])}
-        onChange={onChangeSelectedResource}>
+        onChange={onChangeSelectedResource}
+      >
         <option value="">{t('taxonomy.resourceTypes.placeholder')}</option>
-        {availableResourceTypes.map(resourceType =>
+        {availableResourceTypes.map((resourceType) =>
           resourceType.subtypes ? (
-            resourceType.subtypes.map(subtype => (
+            resourceType.subtypes.map((subtype) => (
               <option value={`${resourceType.id},${subtype.id}`} key={subtype.id}>
                 {resourceType.name} - {subtype.name}
               </option>

@@ -55,7 +55,7 @@ export const SlateVideoWrapper = styled('div', { shouldForwardProp })<SlateVideo
   padding-bottom: 56.25%;
   border-style: solid;
   border-width: 2px;
-  border-color: ${p =>
+  border-color: ${(p) =>
     p.showOutline ? colors.brand.primary : p.hasError ? colors.support.red : 'transparent'};
 `;
 
@@ -151,7 +151,7 @@ const SlateVideo = ({
     }
     const idWithoutTimestamp = embed.videoid?.split('&')[0];
 
-    fetchBrightcoveVideo(idWithoutTimestamp).then(v => {
+    fetchBrightcoveVideo(idWithoutTimestamp).then((v) => {
       if (isNumeric(v.link?.text)) {
         setLinkedVideoId(v.link?.text);
       }
@@ -184,7 +184,7 @@ const SlateVideo = ({
     if (!isBrightcove(embed)) {
       return;
     } else if (linkedVideoId) {
-      setShowLinkedVideo(prev => !prev);
+      setShowLinkedVideo((prev) => !prev);
     } else {
       setShowLinkedVideo(false);
     }
@@ -197,8 +197,9 @@ const SlateVideo = ({
         backgroundColor="white"
         isOpen={editMode}
         labelledBy={'editVideoEmbed'}
-        onClose={() => setEditMode(false)}>
-        {close => (
+        onClose={() => setEditMode(false)}
+      >
+        {(close) => (
           <EditVideo
             embed={embed}
             close={close}
@@ -216,14 +217,16 @@ const SlateVideo = ({
             embed={embed}
             onEdit={toggleEditModus}
             figureType="video"
-            language={language}>
+            language={language}
+          >
             {linkedVideoId && (
               <Tooltip tooltip={linkedVideoTooltip}>
                 <IconButtonV2
                   aria-label={linkedVideoTooltip}
                   variant="ghost"
                   colorTheme="light"
-                  onClick={switchEmbedSource}>
+                  onClick={switchEmbedSource}
+                >
                   <StyledText>{t('form.video.linkedVideoButton')}</StyledText>
                 </IconButtonV2>
               </Tooltip>
@@ -237,7 +240,8 @@ const SlateVideo = ({
             draggable
             className="c-placeholder-editomode"
             tabIndex={0}
-            onClick={toggleEditModus}>
+            onClick={toggleEditModus}
+          >
             <StyledVideo
               title={`Video: ${embed?.metaData?.name || ''}`}
               frameBorder="0"

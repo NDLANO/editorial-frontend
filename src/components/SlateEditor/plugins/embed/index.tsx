@@ -47,50 +47,50 @@ export const embedSerializer: SlateSerializer = {
   },
 };
 
-export const embedPlugin = (language: string, locale?: LocaleType, disableNormalize?: boolean) => (
-  editor: Editor,
-) => {
-  const {
-    renderElement: nextRenderElement,
-    normalizeNode: nextNormalizeNode,
-    isVoid: nextIsVoid,
-  } = editor;
+export const embedPlugin =
+  (language: string, locale?: LocaleType, disableNormalize?: boolean) => (editor: Editor) => {
+    const {
+      renderElement: nextRenderElement,
+      normalizeNode: nextNormalizeNode,
+      isVoid: nextIsVoid,
+    } = editor;
 
-  editor.renderElement = ({ attributes, children, element }: RenderElementProps) => {
-    if (element.type === TYPE_NDLA_EMBED) {
-      return (
-        <SlateFigure
-          attributes={attributes}
-          editor={editor}
-          element={element}
-          language={language}
-          locale={locale}>
-          {children}
-        </SlateFigure>
-      );
-    } else if (nextRenderElement) {
-      return nextRenderElement({ attributes, children, element });
-    }
-    return undefined;
-  };
-
-  editor.normalizeNode = entry => {
-    const [node] = entry;
-
-    if (Element.isElement(node) && node.type === TYPE_NDLA_EMBED) {
-      if (!disableNormalize && defaultBlockNormalizer(editor, entry, normalizerConfig)) {
-        return;
+    editor.renderElement = ({ attributes, children, element }: RenderElementProps) => {
+      if (element.type === TYPE_NDLA_EMBED) {
+        return (
+          <SlateFigure
+            attributes={attributes}
+            editor={editor}
+            element={element}
+            language={language}
+            locale={locale}
+          >
+            {children}
+          </SlateFigure>
+        );
+      } else if (nextRenderElement) {
+        return nextRenderElement({ attributes, children, element });
       }
-    }
-    nextNormalizeNode(entry);
-  };
+      return undefined;
+    };
 
-  editor.isVoid = (element: Element) => {
-    if (element.type === TYPE_NDLA_EMBED) {
-      return true;
-    }
-    return nextIsVoid(element);
-  };
+    editor.normalizeNode = (entry) => {
+      const [node] = entry;
 
-  return editor;
-};
+      if (Element.isElement(node) && node.type === TYPE_NDLA_EMBED) {
+        if (!disableNormalize && defaultBlockNormalizer(editor, entry, normalizerConfig)) {
+          return;
+        }
+      }
+      nextNormalizeNode(entry);
+    };
+
+    editor.isVoid = (element: Element) => {
+      if (element.type === TYPE_NDLA_EMBED) {
+        return true;
+      }
+      return nextIsVoid(element);
+    };
+
+    return editor;
+  };

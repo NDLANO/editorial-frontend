@@ -16,7 +16,7 @@ interface localeUrlsType {
 }
 
 export const stringToLocale = (stringLanguage?: string): LocaleType | undefined => {
-  return LOCALE_VALUES.find(lv => lv === stringLanguage);
+  return LOCALE_VALUES.find((lv) => lv === stringLanguage);
 };
 
 const getLocaleURL = (newLocale: string, locale: string, location: Location): string => {

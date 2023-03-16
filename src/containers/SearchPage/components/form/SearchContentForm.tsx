@@ -45,7 +45,7 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
   const { data: users } = useAuth0Editors(
     { permission: DRAFT_WRITE_SCOPE },
     {
-      select: users => users.map(u => ({ id: `${u.app_metadata.ndla_id}`, name: u.name })),
+      select: (users) => users.map((u) => ({ id: `${u.app_metadata.ndla_id}`, name: u.name })),
       placeholderData: [],
     },
   );
@@ -53,13 +53,13 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
   const { data: responsibles } = useAuth0Responsibles(
     { permission: DRAFT_WRITE_SCOPE },
     {
-      select: users =>
+      select: (users) =>
         sortBy(
-          users.map(u => ({
+          users.map((u) => ({
             id: `${u.app_metadata.ndla_id}`,
             name: u.name,
           })),
-          u => u.name,
+          (u) => u.name,
         ),
       placeholderData: [],
     },
@@ -68,7 +68,7 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
   const { data: resourceTypes } = useAllResourceTypes(
     { language: locale, taxonomyVersion },
     {
-      select: resourceTypes => flattenResourceTypesAndAddContextTypes(resourceTypes, t),
+      select: (resourceTypes) => flattenResourceTypesAndAddContextTypes(resourceTypes, t),
       placeholderData: [],
     },
   );
@@ -130,7 +130,7 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
 
   const getDraftStatuses = (): { id: string; name: string }[] => {
     return [
-      ...Object.keys(statuses || []).map(s => {
+      ...Object.keys(statuses || []).map((s) => {
         return { id: s, name: t(`form.status.${s.toLowerCase()}`) };
       }),
       { id: 'HAS_PUBLISHED', name: t(`form.status.has_published`) },
@@ -155,7 +155,7 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
       },
     };
     const filteredAndSortedSubjects = subjects
-      .filter(s => s.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] !== 'true')
+      .filter((s) => s.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] !== 'true')
       .sort(sortByProperty('name'));
     return [favoriteSubject].concat(filteredAndSortedSubjects);
   }, [subjects, t]);

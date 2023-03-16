@@ -70,7 +70,7 @@ test('urls are parsed correctly', async () => {
     'https://ndla.no/en/subject:1/',
   ];
 
-  articleUrls.forEach(url => {
+  articleUrls.forEach((url) => {
     expect(isNDLAArticleUrl(url)).toBe(true);
     expect(isNDLALearningPathUrl(url)).toBe(false);
     expect(isNDLATaxonomyUrl(url)).toBe(false);
@@ -78,7 +78,7 @@ test('urls are parsed correctly', async () => {
     expect(isPlainId(url)).toBe(false);
   });
 
-  subjectUrls.forEach(url => {
+  subjectUrls.forEach((url) => {
     expect(isNDLAArticleUrl(url)).toBe(false);
     expect(isNDLALearningPathUrl(url)).toBe(false);
     expect(isNDLATaxonomyUrl(url)).toBe(true);
@@ -86,7 +86,7 @@ test('urls are parsed correctly', async () => {
     expect(isPlainId(url)).toBe(false);
   });
 
-  learningPathUrls.forEach(url => {
+  learningPathUrls.forEach((url) => {
     expect(isNDLAArticleUrl(url)).toBe(false);
     expect(isNDLALearningPathUrl(url)).toBe(true);
     expect(isNDLATaxonomyUrl(url)).toBe(false);
@@ -94,7 +94,7 @@ test('urls are parsed correctly', async () => {
     expect(isPlainId(url)).toBe(false);
   });
 
-  edPathUrls.forEach(url => {
+  edPathUrls.forEach((url) => {
     expect(isNDLAArticleUrl(url)).toBe(false);
     expect(isNDLALearningPathUrl(url)).toBe(false);
     expect(isNDLATaxonomyUrl(url)).toBe(false);
@@ -102,7 +102,7 @@ test('urls are parsed correctly', async () => {
     expect(isPlainId(url)).toBe(false);
   });
 
-  plainIds.forEach(url => {
+  plainIds.forEach((url) => {
     expect(isNDLAArticleUrl(url)).toBe(false);
     expect(isNDLALearningPathUrl(url)).toBe(false);
     expect(isNDLATaxonomyUrl(url)).toBe(false);
@@ -110,7 +110,7 @@ test('urls are parsed correctly', async () => {
     expect(isPlainId(url)).toBe(true);
   });
 
-  otherUrls.forEach(url => {
+  otherUrls.forEach((url) => {
     expect(isNDLAArticleUrl(url)).toBe(false);
     expect(isNDLALearningPathUrl(url)).toBe(false);
     expect(isNDLATaxonomyUrl(url)).toBe(false);

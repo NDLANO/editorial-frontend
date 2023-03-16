@@ -44,7 +44,7 @@ export const generateOptionGroups = (
     { label: t('taxonomyVersions.status.PUBLISHED'), options: published },
     { label: t('taxonomyVersions.status.BETA'), options: beta },
     { label: t('taxonomyVersions.status.ARCHIVED'), options: archived },
-  ].filter(group => group.options.length > 0);
+  ].filter((group) => group.options.length > 0);
 
   return optGroups;
 };
@@ -66,7 +66,7 @@ const OptGroupVersionSelector = ({
   const currentVersion = currentVersionProp ?? fakeDefault;
   const options = useMemo(
     () =>
-      versions.map(version => ({
+      versions.map((version) => ({
         id: version.hash,
         name: version.name,
         type: version.versionType,
@@ -79,8 +79,8 @@ const OptGroupVersionSelector = ({
     <ObjectSelector
       options={[fakeDefault]}
       optGroups={optGroups}
-      onChange={option => onVersionChanged(option.currentTarget.value)}
-      onClick={evt => evt.stopPropagation()}
+      onChange={(option) => onVersionChanged(option.currentTarget.value)}
+      onClick={(evt) => evt.stopPropagation()}
       name="currentHash"
       labelKey="name"
       idKey="id"

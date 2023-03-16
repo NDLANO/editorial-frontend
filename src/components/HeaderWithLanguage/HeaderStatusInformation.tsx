@@ -42,7 +42,7 @@ const Splitter = ({
   children?: ReactNode;
   disableSplitter?: boolean;
 }) => {
-  const validChildren = Children.toArray(children).filter(child =>
+  const validChildren = Children.toArray(children).filter((child) =>
     isValidElement(child),
   ) as ReactElement[];
   if (!Children.count(validChildren)) return null;
@@ -146,7 +146,7 @@ const HeaderStatusInformation = ({
   const StyledTimeIcon = styled(Time)<{ status: 'warn' | 'expired' }>`
     height: ${spacing.normal};
     width: ${spacing.normal};
-    fill: ${p => {
+    fill: ${(p) => {
       switch (p.status) {
         case 'warn':
           return colors.support.yellow;
@@ -164,7 +164,8 @@ const HeaderStatusInformation = ({
       <Tooltip
         tooltip={t(`form.workflow.expiration.${expirationColor}`, {
           date: formatDate(expirationDate),
-        })}>
+        })}
+      >
         <div>
           <StyledTimeIcon status={expirationColor} />
         </div>

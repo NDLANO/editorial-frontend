@@ -18,7 +18,8 @@ export const DeleteButton = ({ children, ...rest }: Props) => (
     variant="ghost"
     contentEditable={false}
     data-cy="close-related-button"
-    {...rest}>
+    {...rest}
+  >
     <DeleteForever />
   </IconButtonV2>
 );

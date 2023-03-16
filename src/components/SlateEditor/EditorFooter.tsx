@@ -217,7 +217,8 @@ function EditorFooter<T extends FormValues>({
           {values.id && isArticle && (
             <FooterLinkButton
               bold
-              onClick={() => window.open(toPreviewDraft(values.id, values.language))}>
+              onClick={() => window.open(toPreviewDraft(values.id, values.language))}
+            >
               {t('form.preview.button')}
               <Launch />
             </FooterLinkButton>

@@ -81,8 +81,8 @@ const VisualElementSearch = ({
 }: Props) => {
   const { t, i18n } = useTranslation();
   const locale = i18n.language;
-  const [allowedUrlResource] = EXTERNAL_WHITELIST_PROVIDERS.map(provider => provider.name).filter(
-    name => name === selectedResource,
+  const [allowedUrlResource] = EXTERNAL_WHITELIST_PROVIDERS.map((provider) => provider.name).filter(
+    (name) => name === selectedResource,
   );
   switch (selectedResource) {
     case 'image':
@@ -92,10 +92,10 @@ const VisualElementSearch = ({
           locale={locale}
           language={articleLanguage}
           closeModal={closeModal}
-          fetchImage={id => fetchImage(id, articleLanguage)}
+          fetchImage={(id) => fetchImage(id, articleLanguage)}
           searchImages={searchImages}
           onError={onError}
-          onImageSelect={image => {
+          onImageSelect={(image) => {
             handleVisualElementChange({
               type: 'ndlaembed',
               value: {
@@ -164,7 +164,7 @@ const VisualElementSearch = ({
         <H5PElement
           canReturnResources={true}
           h5pUrl={selectedResourceUrl}
-          onSelect={h5p =>
+          onSelect={(h5p) =>
             handleVisualElementChange({
               type: 'ndlaembed',
               value: {
@@ -235,8 +235,8 @@ const VisualElementSearch = ({
     case 'file':
       return (
         <FileUploader
-          onFileSave={files => {
-            const preparedFiles = files.map(file => ({
+          onFileSave={(files) => {
+            const preparedFiles = files.map((file) => ({
               url: config.ndlaApiUrl + file.path,
               resource: 'file',
               ...file,

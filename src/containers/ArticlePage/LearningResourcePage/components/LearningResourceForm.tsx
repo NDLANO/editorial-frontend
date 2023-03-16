@@ -31,7 +31,6 @@ import {
 } from '../../articleTransformers';
 import { ArticleTaxonomy } from '../../../FormikForm/formikDraftHooks';
 import { blockContentToHTML } from '../../../../util/articleContentConverter';
-import { DraftStatusType } from '../../../../interfaces';
 import StyledForm from '../../../../components/StyledFormComponents';
 import { TaxonomyVersionProvider } from '../../../StructureVersion/TaxonomyVersionProvider';
 
@@ -42,11 +41,6 @@ interface Props {
   isNewlyCreated: boolean;
   articleChanged: boolean;
   updateArticle: (updatedArticle: IUpdatedArticle) => Promise<IArticle>;
-  updateArticleAndStatus: (input: {
-    updatedArticle: IUpdatedArticle;
-    newStatus: DraftStatusType;
-    dirty: boolean;
-  }) => Promise<IArticle>;
   articleLanguage: string;
 }
 
@@ -56,7 +50,6 @@ const LearningResourceForm = ({
   articleStatus,
   isNewlyCreated = false,
   updateArticle,
-  updateArticleAndStatus,
   articleChanged,
   articleLanguage,
 }: Props) => {
@@ -73,7 +66,6 @@ const LearningResourceForm = ({
     t,
     articleStatus,
     updateArticle,
-    updateArticleAndStatus,
     getArticleFromSlate: learningResourceFormTypeToDraftApiType,
     articleLanguage,
     rules: learningResourceRules,

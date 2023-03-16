@@ -12,14 +12,12 @@ import { INewArticle, IUpdatedArticle, IArticle } from '@ndla/types-draft-api';
 import {
   fetchDraft,
   updateDraft,
-  updateStatusDraft,
   createDraft,
   fetchUserData,
   updateUserData as apiUpdateUserData,
 } from '../../modules/draft/draftApi';
 import { queryResources, queryTopics } from '../../modules/taxonomy';
 import { Resource, Topic } from '../../modules/taxonomy/taxonomyApiInterfaces';
-import { DraftStatusType } from '../../interfaces';
 import { useTaxonomyVersion } from '../StructureVersion/TaxonomyVersionProvider';
 
 export interface ArticleTaxonomy {
@@ -77,33 +75,6 @@ export function useFetchArticleData(articleId: number | undefined, language: str
     [articleId, updateUserData],
   );
 
-  const updateArticleAndStatus = useCallback(
-    async ({
-      updatedArticle,
-      newStatus,
-      dirty,
-    }: {
-      updatedArticle: IUpdatedArticle;
-      newStatus: DraftStatusType;
-      dirty: boolean;
-    }): Promise<IArticle> => {
-      if (!articleId) throw new Error('Received Article without id when updating status');
-      if (dirty) {
-        await updateDraft(articleId, updatedArticle);
-      }
-
-      const statusChangedDraft = await updateStatusDraft(articleId, newStatus);
-      const article = await fetchDraft(articleId, language);
-      const updated: IArticle = { ...article, status: statusChangedDraft.status };
-      await updateUserData(statusChangedDraft.id);
-
-      _setArticle(updated);
-      setArticleChanged(false);
-      return updated;
-    },
-    [articleId, language, updateUserData],
-  );
-
   const createArticle = useCallback(
     async (createdArticle: INewArticle) => {
       const savedArticle = await createDraft(createdArticle);
@@ -127,7 +98,6 @@ export function useFetchArticleData(articleId: number | undefined, language: str
     articleChanged,
     updateArticle,
     createArticle,
-    updateArticleAndStatus,
     loading,
   };
 }

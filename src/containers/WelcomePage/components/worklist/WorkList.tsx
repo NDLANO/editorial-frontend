@@ -8,24 +8,18 @@
 
 import { useTranslation } from 'react-i18next';
 import { useEffect, useState } from 'react';
-import { SingleValue, Option } from '@ndla/select';
+import { SingleValue } from '@ndla/select';
 import { TabsV2 } from '@ndla/tabs';
-import { IUserData } from '@ndla/types-draft-api';
 import { useSearch } from '../../../../modules/search/searchQueries';
 import WorkListTabContent from './WorkListTabContent';
 import { useSearchConcepts } from '../../../../modules/concept/conceptQueries';
 import ConceptListTabContent from './ConceptListTabContent';
-import { fetchSubject } from '../../../../modules/taxonomy';
-import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
 
 interface Props {
   ndlaId: string;
-  userData?: IUserData;
 }
 
-const WorkList = ({ ndlaId, userData }: Props) => {
-  const [favoriteSubjects, setFavoriteSubjects] = useState<Option[]>([]);
-
+const WorkList = ({ ndlaId }: Props) => {
   const [sortOption, setSortOption] = useState<string>('-responsibleLastUpdated');
   const [filterSubject, setFilterSubject] = useState<SingleValue | undefined>(undefined);
   const [error, setError] = useState<string | undefined>(undefined);
@@ -39,7 +33,6 @@ const WorkList = ({ ndlaId, userData }: Props) => {
   const [pageConcept, setPageConcept] = useState(1);
 
   const { t } = useTranslation();
-  const { taxonomyVersion } = useTaxonomyVersion();
   const { data, isInitialLoading } = useSearch(
     {
       'responsible-ids': ndlaId,
@@ -69,16 +62,6 @@ const WorkList = ({ ndlaId, userData }: Props) => {
   );
 
   useEffect(() => {
-    (async () => {
-      const favoriteSubjects =
-        (await Promise.all(
-          userData?.favoriteSubjects?.map(id => fetchSubject({ id, taxonomyVersion })) ?? [],
-        )) ?? [];
-      setFavoriteSubjects(favoriteSubjects.map(fs => ({ value: fs.id, label: fs.name })));
-    })();
-  }, [taxonomyVersion, userData?.favoriteSubjects]);
-
-  useEffect(() => {
     setPage(1);
   }, [filterSubject]);
 
@@ -102,7 +85,6 @@ const WorkList = ({ ndlaId, userData }: Props) => {
               error={error}
               sortOption={sortOption}
               ndlaId={ndlaId}
-              favoriteSubjects={favoriteSubjects}
               setPage={setPage}
             />
           ),
@@ -119,7 +101,6 @@ const WorkList = ({ ndlaId, userData }: Props) => {
               filterSubject={filterConceptSubject}
               setFilterSubject={setFilterConceptSubject}
               ndlaId={ndlaId}
-              favoriteSubjects={favoriteSubjects}
               setPageConcept={setPageConcept}
             />
           ),

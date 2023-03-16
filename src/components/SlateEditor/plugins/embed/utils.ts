@@ -16,7 +16,6 @@ import {
   TYPE_EMBED_EXTERNAL,
   TYPE_EMBED_H5P,
   TYPE_EMBED_IMAGE,
-  TYPE_NDLA_EMBED,
 } from './types';
 import {
   AudioEmbedElement,
@@ -28,10 +27,10 @@ import {
 } from '.';
 
 export const defaultEmbedBlock = (data: Partial<Embed>) => {
-  return slatejsx('element', { type: TYPE_NDLA_EMBED, data }, { text: '' });
+  return slatejsx('element', { type: defineEmbed(data?.resource), data }, { text: '' });
 };
 
-export const isEmbed = (
+export const isSlateEmbed = (
   node: Node,
 ): node is
   | H5PEmbedElement
@@ -49,4 +48,21 @@ export const isEmbed = (
       node.type === TYPE_EMBED_H5P ||
       node.type === TYPE_EMBED_IMAGE)
   );
+};
+
+export const defineEmbed = (type?: string) => {
+  if (type === 'audio') {
+    return TYPE_EMBED_AUDIO;
+  } else if (type === 'video' || type === 'brightcove') {
+    return TYPE_EMBED_BRIGHTCOVE;
+  } else if (type === 'external') {
+    return TYPE_EMBED_EXTERNAL;
+  } else if (type === 'h5p') {
+    return TYPE_EMBED_H5P;
+  } else if (type === 'image') {
+    return TYPE_EMBED_IMAGE;
+  } else if (type === undefined) {
+    return TYPE_EMBED_ERROR;
+  }
+  return type;
 };

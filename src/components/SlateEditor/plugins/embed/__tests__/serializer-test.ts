@@ -19,7 +19,6 @@ import {
   TYPE_EMBED_EXTERNAL,
   TYPE_EMBED_H5P,
   TYPE_EMBED_IMAGE,
-  TYPE_NDLA_EMBED,
 } from '../types';
 
 describe('embed image serializing tests', () => {

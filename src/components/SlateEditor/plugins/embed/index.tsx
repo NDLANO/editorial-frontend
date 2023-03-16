@@ -21,7 +21,7 @@ import {
   ExternalEmbed,
 } from '../../../../interfaces';
 import { createEmbedTag, parseEmbedTag } from '../../../../util/embedTagHelpers';
-import { defaultEmbedBlock, isEmbed } from './utils';
+import { defaultEmbedBlock, isSlateEmbed } from './utils';
 import { defaultBlockNormalizer, NormalizerConfig } from '../../utils/defaultNormalizer';
 import { afterOrBeforeTextBlockElement } from '../../utils/normalizationHelpers';
 import { TYPE_PARAGRAPH } from '../paragraph/types';
@@ -32,6 +32,7 @@ import {
   TYPE_EMBED_EXTERNAL,
   TYPE_EMBED_H5P,
   TYPE_EMBED_IMAGE,
+  TYPE_NDLA_EMBED,
 } from './types';
 
 export interface ImageEmbedElement {
@@ -102,12 +103,11 @@ export const isEmbedType = (type: string) =>
 
 export const embedSerializer: SlateSerializer = {
   deserialize(el: HTMLElement) {
-    if (!isEmbedType(el.tagName.toLowerCase())) return;
+    if (el.tagName.toLowerCase() !== TYPE_NDLA_EMBED) return;
     return defaultEmbedBlock(parseEmbedTag(el.outerHTML) as Embed);
   },
   serialize(node: Descendant) {
-    if (!Element.isElement(node)) return;
-    if (!isEmbed(node)) return;
+    if (!Element.isElement(node) || !isSlateEmbed(node)) return;
     return createEmbedTag(node.data);
   },
 };
@@ -142,7 +142,7 @@ export const embedPlugin = (language: string, locale?: LocaleType, disableNormal
   editor.normalizeNode = entry => {
     const [node] = entry;
 
-    if (isEmbed(node)) {
+    if (isSlateEmbed(node)) {
       if (!disableNormalize && defaultBlockNormalizer(editor, entry, normalizerConfig)) {
         return;
       }

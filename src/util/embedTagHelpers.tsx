@@ -6,6 +6,7 @@
  *
  */
 import isObject from 'lodash/fp/isObject';
+import { TYPE_NDLA_EMBED } from '../components/SlateEditor/plugins/embed/types';
 import { isEmpty } from '../components/validators';
 import { Dictionary, Embed } from '../interfaces';
 
@@ -83,7 +84,7 @@ export const parseEmbedTag = (embedTag?: string): Embed | undefined => {
   }
   const el = document.createElement('html');
   el.innerHTML = embedTag;
-  const embedElements = el.getElementsByTagName('ndlaembed');
+  const embedElements = el.getElementsByTagName(TYPE_NDLA_EMBED);
 
   if (embedElements.length !== 1) {
     return undefined;

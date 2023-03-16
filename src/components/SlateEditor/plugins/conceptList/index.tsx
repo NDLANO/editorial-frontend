@@ -12,6 +12,8 @@ import { createEmbedTag, reduceElementDataAttributes } from '../../../../util/em
 import { SlateSerializer } from '../../interfaces';
 import { defaultBlockNormalizer, NormalizerConfig } from '../../utils/defaultNormalizer';
 import { afterOrBeforeTextBlockElement } from '../../utils/normalizationHelpers';
+import { isEmbedType } from '../embed';
+import { TYPE_NDLA_EMBED } from '../embed/types';
 import { TYPE_PARAGRAPH } from '../paragraph/types';
 import ConceptList from './ConceptList';
 import { TYPE_CONCEPT_LIST } from './types';
@@ -41,7 +43,7 @@ const normalizerConfig: NormalizerConfig = {
 
 export const conceptListSerializer: SlateSerializer = {
   deserialize(el: HTMLElement, children: Descendant[]) {
-    if (el.tagName.toLowerCase() !== 'ndlaembed') return;
+    if (el.tagName.toLowerCase() !== TYPE_NDLA_EMBED) return;
     const embed = el as HTMLEmbedElement;
     const embedAttributes = reduceElementDataAttributes(embed);
     if (embedAttributes.resource !== 'concept-list') return;

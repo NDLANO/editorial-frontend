@@ -13,6 +13,8 @@ import { SlateSerializer } from '../../interfaces';
 import Link from './Link';
 import { reduceElementDataAttributes } from '../../../../util/embedTagHelpers';
 import { TYPE_CONTENT_LINK, TYPE_LINK } from './types';
+import { isEmbedType } from '../embed';
+import { TYPE_NDLA_EMBED } from '../embed/types';
 
 export interface LinkElement {
   type: 'link';
@@ -48,7 +50,7 @@ export const linkSerializer: SlateSerializer = {
         children,
       );
     }
-    if (tag === 'ndlaembed') {
+    if (tag === TYPE_NDLA_EMBED) {
       const embed = el as HTMLEmbedElement;
       const embedAttributes = reduceElementDataAttributes(embed);
       if (embedAttributes.resource !== 'content-link') return;

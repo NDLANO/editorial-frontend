@@ -33,11 +33,11 @@ import { EXTERNAL_WHITELIST_PROVIDERS, DRAFT_ADMIN_SCOPE } from '../../constants
 import { useSession } from '../Session/SessionProvider';
 import { HelpIcon, normalPaddingCSS } from '../../components/HowTo';
 import { urlTransformers } from './urlTransformers';
-import { VisualElementChangeReturnType } from './VisualElementSearch';
-import { ExternalEmbed } from '../../interfaces';
+import { Embed, ExternalEmbed } from '../../interfaces';
 import ImageSearchAndUploader from '../../components/ImageSearchAndUploader';
 import { fetchImage, searchImages } from '../../modules/image/imageApi';
 import { onError } from '../../util/resolveJsonOrRejectWithError';
+import { TYPE_EMBED_EXTERNAL } from '../../components/SlateEditor/plugins/embed/types';
 
 const filterWhiteListedURL = (url: string) => {
   const domain = urlDomain(url);
@@ -110,7 +110,7 @@ interface Props {
   selectedResourceType?: string;
   articleLanguage?: string;
   resource?: string;
-  onUrlSave: (returnType: VisualElementChangeReturnType) => void;
+  onUrlSave: (returnType: Embed) => void;
   embed?: ExternalEmbed;
 }
 const StyledPreviewItem = styled('div')`
@@ -188,12 +188,9 @@ const VisualElementUrlPreview = ({
                 type: 'iframe',
               };
           onUrlSave({
-            value: {
-              ...data,
-              resource: 'external',
-              url: src || undefined,
-            } as ExternalEmbed,
-            type: 'ndlaembed',
+            ...data,
+            resource: 'iframe',
+            url: src || '',
           });
         }
       } catch (err) {
@@ -214,12 +211,9 @@ const VisualElementUrlPreview = ({
                 type: 'iframe',
               };
           onUrlSave({
-            type: 'ndlaembed',
-            value: {
-              ...data,
-              resource: 'iframe',
-              url,
-            } as ExternalEmbed,
+            ...data,
+            resource: 'iframe',
+            url: url || '',
           });
         }
       }

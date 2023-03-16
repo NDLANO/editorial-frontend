@@ -34,12 +34,15 @@ import { relatedSerializer } from '../components/SlateEditor/plugins/related';
 import { embedSerializer, isEmbedElement } from '../components/SlateEditor/plugins/embed';
 import { codeblockSerializer } from '../components/SlateEditor/plugins/codeBlock';
 import { noEmbedSerializer } from '../components/SlateEditor/plugins/noEmbed';
-import { defaultEmbedBlock, isEmbed } from '../components/SlateEditor/plugins/embed/utils';
+import {
+  defaultEmbedBlock,
+  defineEmbed,
+  isSlateEmbed,
+} from '../components/SlateEditor/plugins/embed/utils';
 import { parseEmbedTag, createEmbedTag } from './embedTagHelpers';
 import { Embed } from '../interfaces';
 import { divSerializer } from '../components/SlateEditor/plugins/div';
 import { spanSerializer } from '../components/SlateEditor/plugins/span';
-import { TYPE_NDLA_EMBED } from '../components/SlateEditor/plugins/embed/types';
 import { TYPE_PARAGRAPH } from '../components/SlateEditor/plugins/paragraph/types';
 import { TYPE_SECTION } from '../components/SlateEditor/plugins/section/types';
 import { conceptListSerializer } from '../components/SlateEditor/plugins/conceptList';
@@ -173,10 +176,8 @@ const articleContentToEditorValue = (html: string, rules: SlateSerializer[]) => 
       if (!rule.deserialize) {
         continue;
       }
-
       // Already checked that nodeType === 1 -> el must be of type HTMLElement.
       const ret = rule.deserialize(el as HTMLElement, children);
-
       if (ret === undefined) {
         continue;
       } else {
@@ -228,7 +229,7 @@ export function embedTagToEditorValue(embedTag: string) {
 
 export function editorValueToEmbed(editorValue?: Descendant[]) {
   const embed = editorValue && editorValue[0];
-  if (embed && isEmbed(embed)) return embed.data;
+  if (embed && isSlateEmbed(embed)) return embed.data;
   else return undefined;
 }
 

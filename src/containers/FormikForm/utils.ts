@@ -13,6 +13,7 @@ import { ImageEmbed } from '../../interfaces';
 import { convertFieldWithFallback } from '../../util/convertFieldWithFallback';
 import { ConceptFormValues } from '../ConceptPage/conceptInterfaces';
 import { ArticleFormType } from './articleFormHooks';
+import { TYPE_EMBED_IMAGE } from '../../components/SlateEditor/plugins/embed/types';
 
 export const onSaveAsVisualElement = <T extends ArticleFormType>(
   image: IImageMetaInformationV3,

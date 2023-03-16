@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next';
 import VisualElementSearch from '../../../containers/VisualElement/VisualElementSearch';
 import VisualElementModalWrapper from '../../../containers/VisualElement/VisualElementModalWrapper';
 import { Embed, ExternalEmbed, H5pEmbed, WhitelistProvider } from '../../../interfaces';
+import { isEmbed } from '../../SlateEditor/plugins/blockPicker/SlateVisualElementPicker';
 
 interface Props {
   src: string;
@@ -36,7 +37,7 @@ const DisplayExternalModal = ({
         selectedResource={allowedProvider.name}
         selectedResourceUrl={src}
         selectedResourceType={type}
-        handleVisualElementChange={rt => (rt.type === 'ndlaembed' ? onEditEmbed(rt.value) : null)}
+        handleVisualElementChange={rt => (isEmbed(rt) ? onEditEmbed(rt) : null)}
         closeModal={onClose}
         embed={embed}
       />

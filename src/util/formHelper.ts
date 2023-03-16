@@ -20,8 +20,8 @@ import {
   TopicArticleFormType,
   FrontpageArticleFormType,
 } from '../containers/FormikForm/articleFormHooks';
-import { isEmbed } from '../components/SlateEditor/plugins/embed/utils';
 import { EmbedElements } from '../components/SlateEditor/plugins/embed';
+import { isSlateEmbed } from '../components/SlateEditor/plugins/embed/utils';
 
 export const DEFAULT_LICENSE: ILicense = {
   description: 'Creative Commons Attribution-ShareAlike 4.0 International',
@@ -262,12 +262,12 @@ export const topicArticleRules: RulesType<TopicArticleFormType, IArticle> = {
   visualElementAlt: {
     required: false,
     onlyValidateIf: values =>
-      isEmbed(values.visualElement[0]) && values.visualElement[0].data.resource === 'image',
+      isSlateEmbed(values.visualElement[0]) && values.visualElement[0].data.resource === 'image',
   },
   visualElementCaption: {
     required: false,
     onlyValidateIf: values =>
-      isEmbed(values.visualElement[0]) &&
+      isSlateEmbed(values.visualElement[0]) &&
       (values.visualElement[0].data.resource === 'image' ||
         values.visualElement[0].data.resource === 'brightcove'),
     warnings: {
@@ -278,7 +278,7 @@ export const topicArticleRules: RulesType<TopicArticleFormType, IArticle> = {
   visualElement: {
     required: false,
     test: values =>
-      isEmbed(values.visualElement[0]) && values.visualElement[0].data.resource !== 'image'
+      isSlateEmbed(values.visualElement[0]) && values.visualElement[0].data.resource !== 'image'
         ? { translationKey: 'topicArticleForm.validation.illegalResource' }
         : undefined,
   },

@@ -19,11 +19,8 @@ import { LOCALE_VALUES } from '../constants';
 import { LocaleType } from '../interfaces';
 import { FilmFormikType } from '../containers/NdlaFilm/components/NdlaFilmForm';
 import { ThemeNames } from '../containers/NdlaFilm/components/ThemeEditor';
-import {
-  TYPE_EMBED_BRIGHTCOVE,
-  TYPE_NDLA_EMBED,
-} from '../components/SlateEditor/plugins/embed/types';
-import { isEmbed } from '../components/SlateEditor/plugins/embed/utils';
+import { TYPE_EMBED_BRIGHTCOVE } from '../components/SlateEditor/plugins/embed/types';
+import { defineEmbed, isSlateEmbed } from '../components/SlateEditor/plugins/embed/utils';
 
 export const getInitialValues = (
   filmFrontpage: IFilmFrontPageData,
@@ -54,7 +51,7 @@ export const convertVisualElement = (visualElement: IVisualElement): Descendant[
       slatejsx(
         'element',
         {
-          type: TYPE_EM,
+          type: defineEmbed(visualElement.type),
           data: {
             url: visualElement.url,
             resource: visualElement.type,
@@ -110,7 +107,7 @@ export const getNdlaFilmFromSlate = (
   selectedLanguage: string,
 ): INewOrUpdatedFilmFrontPageData => {
   const slateVisualElement = newFrontpage.visualElement?.[0];
-  const data = isEmbed(slateVisualElement) ? slateVisualElement.data : undefined;
+  const data = isSlateEmbed(slateVisualElement) ? slateVisualElement.data : undefined;
 
   const editedAbout = {
     description: editorValueToPlainText(newFrontpage.description),

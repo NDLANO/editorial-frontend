@@ -10,15 +10,14 @@ import { Editor, Element } from 'slate';
 import { FormikContextType, useFormikContext } from 'formik';
 import { IImageMetaInformationV3 } from '@ndla/types-image-api';
 import { useSlateStatic } from 'slate-react';
-import VisualElementSearch, {
-  EmbedReturnType,
-  VisualElementChangeReturnType,
-} from '../../../../containers/VisualElement/VisualElementSearch';
-import { defaultEmbedBlock } from '../embed/utils';
+import { defaultEmbedBlock, defineEmbed } from '../embed/utils';
 import { defaultFileBlock } from '../file/utils';
 import VisualElementModalWrapper from '../../../../containers/VisualElement/VisualElementModalWrapper';
 import getCurrentBlock from '../../utils/getCurrentBlock';
 import { TYPE_TABLE_CELL } from '../table/types';
+import { Embed, UnsavedFile } from '../../../../interfaces';
+import VisualElementSearch from '../../../../containers/VisualElement/VisualElementSearch';
+import { TYPE_EMBED_IMAGE } from '../embed/types';
 
 export const checkboxAction = (
   image: IImageMetaInformationV3,
@@ -34,8 +33,8 @@ export const checkboxAction = (
   }
 };
 
-const getNewEmbed = (editor: Editor, visualElement: EmbedReturnType) => {
-  const data = visualElement.value;
+const getNewEmbed = (editor: Editor, visualElement: Embed) => {
+  const data = visualElement;
 
   if (data.resource === 'image') {
     const tableCell = getCurrentBlock(editor, TYPE_TABLE_CELL)?.[0];
@@ -44,8 +43,11 @@ const getNewEmbed = (editor: Editor, visualElement: EmbedReturnType) => {
     }
   }
 
-  return defaultEmbedBlock(visualElement.value);
+  return defaultEmbedBlock(visualElement);
 };
+
+export const isEmbed = (visualElement: Embed | DOMStringMap[]): visualElement is Embed =>
+  (visualElement as Embed)?.resource !== undefined;
 
 interface Props {
   articleLanguage: string;
@@ -68,12 +70,12 @@ const SlateVisualElementPicker = ({
 
   const showCheckbox = values.metaImageAlt !== undefined && values.metaImageId !== undefined;
 
-  const onVisualElementAdd = (visualElement: VisualElementChangeReturnType) => {
-    if (visualElement.type === 'ndlaembed') {
+  const onVisualElementAdd = (visualElement: Embed | DOMStringMap[]) => {
+    if (isEmbed(visualElement)) {
       const blockToInsert = getNewEmbed(editor, visualElement);
       onInsertBlock(blockToInsert);
-    } else if (visualElement.type === 'file') {
-      const blockToInsert = defaultFileBlock(visualElement.value);
+    } else {
+      const blockToInsert = defaultFileBlock(visualElement);
       onInsertBlock(blockToInsert);
     }
     onVisualElementClose();

@@ -20,7 +20,7 @@ import { toEditNdlaFilm } from '../../../util/routeHelpers';
 import NdlaFilmAccordionPanels from './NdlaFilmAccordionPanels';
 import SaveButton from '../../../components/SaveButton';
 import StyledForm from '../../../components/StyledFormComponents';
-import { isEmbed } from '../../../components/SlateEditor/plugins/embed/utils';
+import { isSlateEmbed } from '../../../components/SlateEditor/plugins/embed/utils';
 
 interface Props {
   filmFrontpage: IFilmFrontPageData;
@@ -51,7 +51,7 @@ const ndlaFilmRules: RulesType<FilmFormikType> = {
     required: true,
     test: (values: FilmFormikType) => {
       const element = values?.visualElement[0];
-      const data = isEmbed(element) && element.data;
+      const data = isSlateEmbed(element) && element.data;
       const badVisualElementId = data && 'resource_id' in data && data.resource_id === '';
       return badVisualElementId
         ? { translationKey: 'subjectpageForm.missingVisualElement' }

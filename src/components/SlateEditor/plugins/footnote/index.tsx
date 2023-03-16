@@ -15,6 +15,8 @@ import { reduceElementDataAttributes, createEmbedTag } from '../../../../util/em
 import getCurrentBlock from '../../utils/getCurrentBlock';
 import { KEY_BACKSPACE, KEY_DELETE } from '../../utils/keys';
 import { TYPE_FOOTNOTE } from './types';
+import { isEmbedType } from '../embed';
+import { TYPE_NDLA_EMBED } from '../embed/types';
 
 export interface FootnoteElement {
   type: 'footnote';
@@ -32,7 +34,7 @@ export interface FootnoteElement {
 
 export const footnoteSerializer: SlateSerializer = {
   deserialize(el: HTMLElement, children: Descendant[]) {
-    if (el.tagName.toLowerCase() !== 'ndlaembed') return;
+    if (el.tagName.toLowerCase() !== TYPE_NDLA_EMBED) return;
     const embed = el as HTMLEmbedElement;
     const embedAttributes = reduceElementDataAttributes(embed);
     if (embedAttributes.resource !== 'footnote') return;

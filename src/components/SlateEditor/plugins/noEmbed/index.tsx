@@ -6,23 +6,22 @@
  *
  */
 
-import { Descendant, Editor, Element } from 'slate';
+import { Descendant, Editor } from 'slate';
 import NoEmbedMessage from './NoEmbedMessage';
 import { SlateSerializer } from '../../interfaces';
-import { defaultEmbedBlock, isEmbed } from '../embed/utils';
+import { defaultEmbedBlock, isSlateEmbed } from '../embed/utils';
 import { parseEmbedTag } from '../../../../util/embedTagHelpers';
 import { Embed } from '../../../../interfaces';
+import { isEmbedElement, isEmbedType } from '../embed';
 import { TYPE_NDLA_EMBED } from '../embed/types';
-import { isEmbedElement } from '../embed';
 
 export const noEmbedSerializer: SlateSerializer = {
   deserialize(el: HTMLElement) {
     if (el.tagName.toLowerCase() !== TYPE_NDLA_EMBED) return;
-
-    return defaultEmbedBlock((parseEmbedTag(el.outerHTML) as unknown) as Embed);
+    return defaultEmbedBlock(parseEmbedTag(el.outerHTML) as Embed);
   },
   serialize(node: Descendant) {
-    if (isEmbed(node)) {
+    if (isSlateEmbed(node)) {
       // @ts-ignore delemete does not exist in JSX.
       return <deleteme></deleteme>;
     }

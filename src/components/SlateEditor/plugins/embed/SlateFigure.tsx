@@ -25,7 +25,7 @@ import {
   ImageEmbedElement,
 } from '.';
 import { LocaleType } from '../../../../interfaces';
-import { isEmbed } from './utils';
+import { isSlateEmbed } from './utils';
 
 interface Props {
   attributes: RenderElementProps['attributes'];
@@ -74,7 +74,7 @@ const SlateFigure = ({ attributes, editor, element, language, locale = 'nb', chi
     ReactEditor.focus(editor);
     Transforms.removeNodes(editor, {
       at: pathToEmbed,
-      match: node => isEmbed(node),
+      match: node => isSlateEmbed(node),
     });
   };
 

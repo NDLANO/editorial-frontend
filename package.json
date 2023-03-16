@@ -144,7 +144,7 @@
     "@ndla/licenses": "^7.0.2",
     "@ndla/modal": "^2.2.11",
     "@ndla/notion": "^4.2.9",
-    "@ndla/pager": "^2.1.23",
+    "@ndla/pager": "^2.1.24",
     "@ndla/safelink": "^4.0.14",
     "@ndla/select": "^2.2.5",
     "@ndla/switch": "^1.0.8",

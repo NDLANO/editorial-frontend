@@ -125,6 +125,8 @@ const WorkListTabContent = ({
         lastPage={lastPage}
         query={{}}
         onClick={el => setPage(el.page)}
+        small
+        colorTheme="lighter"
       />
     </>
   );

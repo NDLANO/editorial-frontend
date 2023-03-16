@@ -161,6 +161,8 @@ const ConceptListTabContent = ({
         lastPage={lastPage}
         query={{}}
         onClick={el => setPageConcept(el.page)}
+        small
+        colorTheme="lighter"
       />
     </>
   );

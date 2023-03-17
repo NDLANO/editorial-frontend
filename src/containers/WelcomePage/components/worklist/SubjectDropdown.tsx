@@ -10,6 +10,7 @@ import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Select, SingleValue } from '@ndla/select';
 import uniqBy from 'lodash/uniqBy';
+import Tooltip from '@ndla/tooltip';
 import { useSearch } from '../../../../modules/search/searchQueries';
 import { useSession } from '../../../Session/SessionProvider';
 import { DropdownWrapper } from '../../styles';
@@ -40,21 +41,23 @@ const SubjectDropdown = ({ filterSubject, setFilterSubject }: Props) => {
   }, [data?.results]);
 
   return (
-    <DropdownWrapper>
-      <Select<false>
-        options={subjectContexts}
-        placeholder={t('welcomePage.chooseSubject')}
-        value={filterSubject}
-        onChange={setFilterSubject}
-        menuPlacement="bottom"
-        small
-        outline
-        isLoading={isInitialLoading}
-        isSearchable
-        noOptionsMessage={() => t('form.responsible.noResults')}
-        isClearable
-      />
-    </DropdownWrapper>
+    <Tooltip tooltip={filterSubject ? filterSubject.label : t('welcomePage.chooseSubject')}>
+      <DropdownWrapper>
+        <Select<false>
+          options={subjectContexts}
+          placeholder={t('welcomePage.chooseSubject')}
+          value={filterSubject}
+          onChange={setFilterSubject}
+          menuPlacement="bottom"
+          small
+          outline
+          isLoading={isInitialLoading}
+          isSearchable
+          noOptionsMessage={() => t('form.responsible.noResults')}
+          isClearable
+        />
+      </DropdownWrapper>
+    </Tooltip>
   );
 };
 

@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { spacing, colors } from '@ndla/core';
+import { spacing, colors, mq, breakpoints } from '@ndla/core';
 import SafeLink from '@ndla/safelink';
 
 export const StyledColumnHeader = styled.div`
@@ -32,10 +32,13 @@ export const StyledLink = styled(SafeLink)`
 `;
 
 export const DropdownWrapper = styled.div`
-  width: 200px;
+  max-width: 200px;
 `;
 
 export const ControlWrapperDashboard = styled.div`
   display: flex;
   gap: ${spacing.small};
+  ${mq.range({ from: '0px', until: breakpoints.desktop })} {
+    flex-direction: column;
+  }
 `;

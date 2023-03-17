@@ -65,7 +65,7 @@ const ContentView = ({
         <StyledLink noShadow to={toEditConcept(concept.id)}>
           {title}
         </StyledLink>
-        {!editing && <StyledButton onClick={setShowForm}>{t('form.edit')}</StyledButton>}
+        {false && !editing && <StyledButton onClick={setShowForm}>{t('form.edit')}</StyledButton>}
       </h2>
       <StyledInfo>
         {`${t('topicArticleForm.info.lastUpdated')} ${formatDate(concept.lastUpdated)}`}

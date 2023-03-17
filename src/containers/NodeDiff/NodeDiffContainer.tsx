@@ -8,7 +8,7 @@
 
 import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
-import { spacing } from '@ndla/core';
+import { spacing, fonts } from '@ndla/core';
 import { ContentLoader, MessageBox } from '@ndla/ui';
 import { ChevronRight } from '@ndla/icons/lib/common';
 import isEqual from 'lodash/isEqual';
@@ -59,6 +59,7 @@ const StyledBreadCrumb = styled('div')`
   flex-grow: 1;
   flex-direction: row;
   font-style: italic;
+  font-size: ${fonts.sizes(16)};
 `;
 
 const filterNodes = <T,>(diff: DiffType<T>[], options: NodeOptions): DiffType<T>[] => {

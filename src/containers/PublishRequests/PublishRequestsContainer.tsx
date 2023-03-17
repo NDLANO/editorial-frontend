@@ -63,6 +63,7 @@ const StyledBreadCrumb = styled('div')`
   flex-grow: 1;
   flex-direction: row;
   font-style: italic;
+  font-size: ${fonts.sizes(16)};
 `;
 
 const PublishRequestsContainer = () => {
@@ -115,13 +116,6 @@ const PublishRequestsContainer = () => {
             <StyledNodeContainer key={`node-request-${i}`}>
               <StyledTitleRow>
                 <StyledTitleColumn>
-                  <StyledTitleRow>
-                    <NodeIconType node={node} />
-                    {node.metadata.customFields[TAXONOMY_CUSTOM_FIELD_IS_PUBLISHING] === 'true' && (
-                      <Spinner size="nsmall" margin="0" />
-                    )}
-                    {node.name}
-                  </StyledTitleRow>
                   <StyledBreadCrumb>
                     {node?.breadcrumbs?.map((path, index, arr) => {
                       return (
@@ -132,6 +126,13 @@ const PublishRequestsContainer = () => {
                       );
                     })}
                   </StyledBreadCrumb>
+                  <StyledTitleRow>
+                    <NodeIconType node={node} />
+                    {node.metadata.customFields[TAXONOMY_CUSTOM_FIELD_IS_PUBLISHING] === 'true' && (
+                      <Spinner size="nsmall" margin="0" />
+                    )}
+                    {node.name}
+                  </StyledTitleRow>
                 </StyledTitleColumn>
               </StyledTitleRow>
               <StyledButtonRow>

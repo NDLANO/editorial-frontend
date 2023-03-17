@@ -223,11 +223,11 @@ const NodeDiffcontainer = ({ originalHash, otherHash, nodeId }: Props) => {
         </PublishButton>
       )}
       <StyledBreadCrumb>
-        {defaultQuery.data?.root?.breadcrumbs?.map((path, index) => {
+        {defaultQuery.data?.root?.breadcrumbs?.map((path, index, arr) => {
           return (
             <Fragment key={`${path}_${index}`}>
               {path}
-              {index + 1 !== defaultQuery.data?.root?.breadcrumbs?.length && <ChevronRight />}
+              {index + 1 !== arr.length && <ChevronRight />}
             </Fragment>
           );
         })}

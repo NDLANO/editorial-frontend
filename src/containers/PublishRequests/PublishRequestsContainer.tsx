@@ -123,11 +123,11 @@ const PublishRequestsContainer = () => {
                     {node.name}
                   </StyledTitleRow>
                   <StyledBreadCrumb>
-                    {node?.breadcrumbs?.map((path, index) => {
+                    {node?.breadcrumbs?.map((path, index, arr) => {
                       return (
                         <Fragment key={`${path}_${index}`}>
                           {path}
-                          {index + 1 !== node?.breadcrumbs?.length && <ChevronRight />}
+                          {index + 1 !== arr.length && <ChevronRight />}
                         </Fragment>
                       );
                     })}

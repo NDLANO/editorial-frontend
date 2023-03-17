@@ -8,10 +8,11 @@
 
 import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
-import { spacing } from '@ndla/core';
+import { spacing, fonts } from '@ndla/core';
 import { ContentLoader, MessageBox } from '@ndla/ui';
+import { ChevronRight } from '@ndla/icons/lib/common';
 import isEqual from 'lodash/isEqual';
-import { ReactNode, useEffect, useState } from 'react';
+import { Fragment, ReactNode, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from '@tanstack/react-query';
 import { useSearchParams } from 'react-router-dom';
@@ -53,6 +54,13 @@ interface NodeOptions {
   nodeView: string | null;
   fieldView: string | null;
 }
+
+const StyledBreadCrumb = styled('div')`
+  flex-grow: 1;
+  flex-direction: row;
+  font-style: italic;
+  font-size: ${fonts.sizes(16)};
+`;
 
 const filterNodes = <T,>(diff: DiffType<T>[], options: NodeOptions): DiffType<T>[] => {
   const afterNodeOption =
@@ -215,6 +223,16 @@ const NodeDiffcontainer = ({ originalHash, otherHash, nodeId }: Props) => {
           {t(`diff.${isPublishing ? 'publishing' : 'publish'}`)}
         </PublishButton>
       )}
+      <StyledBreadCrumb>
+        {defaultQuery.data?.root?.breadcrumbs?.map((path, index, arr) => {
+          return (
+            <Fragment key={`${path}_${index}`}>
+              {path}
+              {index + 1 !== arr.length && <ChevronRight />}
+            </Fragment>
+          );
+        })}
+      </StyledBreadCrumb>
       {hasPublished && <MessageBox>{t('diff.published')}</MessageBox>}
       {equal && <MessageBox>{t('diff.equalNodes')}</MessageBox>}
       {error && <MessageBox>{t(error)}</MessageBox>}

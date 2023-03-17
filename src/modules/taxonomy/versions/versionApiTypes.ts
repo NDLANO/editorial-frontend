@@ -12,6 +12,7 @@ export interface VersionType {
   name: string;
   hash: string;
   locked: boolean;
+  created: string;
   published?: string;
   archived?: string;
 }

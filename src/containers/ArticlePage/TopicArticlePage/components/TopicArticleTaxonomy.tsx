@@ -97,7 +97,7 @@ const TopicArticleTaxonomy = ({ article, setIsOpen, updateNotes, taxonomy }: Pro
 
   const { data: topics } = useNodes({
     language: i18n.language,
-    contentURI: taxonomy.topics[0].contentUri,
+    contentURI: taxonomy.topics[0]?.contentUri || '',
     taxonomyVersion,
   });
 

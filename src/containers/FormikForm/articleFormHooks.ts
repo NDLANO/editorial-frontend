@@ -17,6 +17,7 @@ import { useMessages } from '../Messages/MessagesProvider';
 import { useLicenses } from '../../modules/draft/draftQueries';
 import { getWarnings, RulesType } from '../../components/formikValidationSchema';
 import { NdlaErrorPayload } from '../../util/resolveJsonOrRejectWithError';
+import { PUBLISHED } from '../../constants';
 
 const getFilePathsFromHtml = (htmlString: string): string[] => {
   const parsed = new DOMParser().parseFromString(htmlString, 'text/html');
@@ -167,8 +168,10 @@ export function useArticleFormHooks<T extends ArticleFormType>({
         applicationError(err);
       }
       if (statusChange) {
-        // if validation failed we need to set status back so it won't be saved as new status on next save
-        formikHelpers.setFieldValue('status', { current: initialStatus });
+        if (newStatus === PUBLISHED) {
+          // if validation failed we need to set status back so it won't be saved as new status on next save
+          formikHelpers.setFieldValue('status', { current: initialStatus });
+        }
       }
       setSavedToServer(false);
     }

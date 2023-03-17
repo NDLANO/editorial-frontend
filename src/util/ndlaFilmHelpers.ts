@@ -20,7 +20,7 @@ import { LocaleType } from '../interfaces';
 import { FilmFormikType } from '../containers/NdlaFilm/components/NdlaFilmForm';
 import { ThemeNames } from '../containers/NdlaFilm/components/ThemeEditor';
 import { TYPE_EMBED_BRIGHTCOVE } from '../components/SlateEditor/plugins/embed/types';
-import { defineEmbed, isSlateEmbed } from '../components/SlateEditor/plugins/embed/utils';
+import { defineTypeOfEmbed, isSlateEmbed } from '../components/SlateEditor/plugins/embed/utils';
 
 export const getInitialValues = (
   filmFrontpage: IFilmFrontPageData,
@@ -51,7 +51,7 @@ export const convertVisualElement = (visualElement: IVisualElement): Descendant[
       slatejsx(
         'element',
         {
-          type: defineEmbed(visualElement.type),
+          type: defineTypeOfEmbed(visualElement.type),
           data: {
             url: visualElement.url,
             resource: visualElement.type,

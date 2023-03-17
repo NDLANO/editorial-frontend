@@ -21,19 +21,11 @@ import {
   ExternalEmbed,
 } from '../../../../interfaces';
 import { createEmbedTag, parseEmbedTag } from '../../../../util/embedTagHelpers';
-import { defaultEmbedBlock, isSlateEmbed } from './utils';
+import { defaultEmbedBlock, isSlateEmbed, isSlateEmbedElement } from './utils';
 import { defaultBlockNormalizer, NormalizerConfig } from '../../utils/defaultNormalizer';
 import { afterOrBeforeTextBlockElement } from '../../utils/normalizationHelpers';
 import { TYPE_PARAGRAPH } from '../paragraph/types';
-import {
-  TYPE_EMBED_AUDIO,
-  TYPE_EMBED_BRIGHTCOVE,
-  TYPE_EMBED_ERROR,
-  TYPE_EMBED_EXTERNAL,
-  TYPE_EMBED_H5P,
-  TYPE_EMBED_IMAGE,
-  TYPE_NDLA_EMBED,
-} from './types';
+import { TYPE_NDLA_EMBED } from './types';
 
 export interface ImageEmbedElement {
   type: 'image-embed';
@@ -90,17 +82,6 @@ const normalizerConfig: NormalizerConfig = {
   },
 };
 
-export const isEmbedElement = (element: Element): element is EmbedElements =>
-  isEmbedType(element.type);
-
-export const isEmbedType = (type: string) =>
-  type === TYPE_EMBED_AUDIO ||
-  type === TYPE_EMBED_BRIGHTCOVE ||
-  type === TYPE_EMBED_H5P ||
-  type === TYPE_EMBED_ERROR ||
-  type === TYPE_EMBED_IMAGE ||
-  type === TYPE_EMBED_EXTERNAL;
-
 export const embedSerializer: SlateSerializer = {
   deserialize(el: HTMLElement) {
     if (el.tagName.toLowerCase() !== TYPE_NDLA_EMBED) return;
@@ -122,7 +103,7 @@ export const embedPlugin = (language: string, locale?: LocaleType, disableNormal
   } = editor;
 
   editor.renderElement = ({ attributes, children, element }: RenderElementProps) => {
-    if (isEmbedElement(element)) {
+    if (isSlateEmbedElement(element)) {
       return (
         <SlateFigure
           attributes={attributes}
@@ -151,7 +132,7 @@ export const embedPlugin = (language: string, locale?: LocaleType, disableNormal
   };
 
   editor.isVoid = (element: Element) => {
-    if (isEmbedElement(element)) {
+    if (isSlateEmbedElement(element)) {
       return true;
     }
     return nextIsVoid(element);

@@ -20,6 +20,7 @@ import {
 import {
   AudioEmbedElement,
   BrightcoveEmbedElement,
+  EmbedElements,
   ErrorEmbedElement,
   ExternalEmbedElement,
   H5PEmbedElement,
@@ -27,7 +28,7 @@ import {
 } from '.';
 
 export const defaultEmbedBlock = (data: Partial<Embed>) => {
-  return slatejsx('element', { type: defineEmbed(data?.resource), data }, { text: '' });
+  return slatejsx('element', { type: defineTypeOfEmbed(data?.resource), data }, { text: '' });
 };
 
 export const isSlateEmbed = (
@@ -50,7 +51,7 @@ export const isSlateEmbed = (
   );
 };
 
-export const defineEmbed = (type?: string) => {
+export const defineTypeOfEmbed = (type?: string) => {
   if (type === 'audio') {
     return TYPE_EMBED_AUDIO;
   } else if (type === 'video' || type === 'brightcove') {
@@ -66,3 +67,14 @@ export const defineEmbed = (type?: string) => {
   }
   return type;
 };
+
+export const isSlateEmbedElement = (element: Element): element is EmbedElements =>
+  isEmbedType(element.type);
+
+export const isEmbedType = (type: string) =>
+  type === TYPE_EMBED_AUDIO ||
+  type === TYPE_EMBED_BRIGHTCOVE ||
+  type === TYPE_EMBED_H5P ||
+  type === TYPE_EMBED_ERROR ||
+  type === TYPE_EMBED_IMAGE ||
+  type === TYPE_EMBED_EXTERNAL;

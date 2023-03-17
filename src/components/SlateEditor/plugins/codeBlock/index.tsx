@@ -16,7 +16,6 @@ import { createEmbedTag, reduceElementDataAttributes } from '../../../../util/em
 import { defaultBlockNormalizer, NormalizerConfig } from '../../utils/defaultNormalizer';
 import { TYPE_CODEBLOCK } from './types';
 import { TYPE_PARAGRAPH } from '../paragraph/types';
-import { isEmbedType } from '../embed';
 import { TYPE_NDLA_EMBED } from '../embed/types';
 
 export interface CodeblockElement {

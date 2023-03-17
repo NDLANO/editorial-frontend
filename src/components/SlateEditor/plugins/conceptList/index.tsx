@@ -12,7 +12,6 @@ import { createEmbedTag, reduceElementDataAttributes } from '../../../../util/em
 import { SlateSerializer } from '../../interfaces';
 import { defaultBlockNormalizer, NormalizerConfig } from '../../utils/defaultNormalizer';
 import { afterOrBeforeTextBlockElement } from '../../utils/normalizationHelpers';
-import { isEmbedType } from '../embed';
 import { TYPE_NDLA_EMBED } from '../embed/types';
 import { TYPE_PARAGRAPH } from '../paragraph/types';
 import ConceptList from './ConceptList';

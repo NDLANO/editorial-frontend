@@ -31,14 +31,10 @@ import { detailsSerializer } from '../components/SlateEditor/plugins/details';
 import { bodyboxSerializer } from '../components/SlateEditor/plugins/bodybox';
 import { tableSerializer } from '../components/SlateEditor/plugins/table';
 import { relatedSerializer } from '../components/SlateEditor/plugins/related';
-import { embedSerializer, isEmbedElement } from '../components/SlateEditor/plugins/embed';
+import { embedSerializer } from '../components/SlateEditor/plugins/embed';
 import { codeblockSerializer } from '../components/SlateEditor/plugins/codeBlock';
 import { noEmbedSerializer } from '../components/SlateEditor/plugins/noEmbed';
-import {
-  defaultEmbedBlock,
-  defineEmbed,
-  isSlateEmbed,
-} from '../components/SlateEditor/plugins/embed/utils';
+import { defaultEmbedBlock, isSlateEmbed } from '../components/SlateEditor/plugins/embed/utils';
 import { parseEmbedTag, createEmbedTag } from './embedTagHelpers';
 import { Embed } from '../interfaces';
 import { divSerializer } from '../components/SlateEditor/plugins/div';

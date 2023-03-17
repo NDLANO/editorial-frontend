@@ -78,9 +78,6 @@ const AudioPlayerMounter = ({ audio, locale, speech }: Props) => {
       });
     }
   }, [podcastMeta?.coverPhoto.id, locale]);
-  console.log(audio);
-  console.log(speech);
-  console.log(podcastMeta);
   return (
     <StyledDiv>
       <AudioPlayer

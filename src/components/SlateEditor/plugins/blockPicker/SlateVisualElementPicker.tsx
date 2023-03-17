@@ -10,14 +10,13 @@ import { Editor, Element } from 'slate';
 import { FormikContextType, useFormikContext } from 'formik';
 import { IImageMetaInformationV3 } from '@ndla/types-image-api';
 import { useSlateStatic } from 'slate-react';
-import { defaultEmbedBlock, defineEmbed } from '../embed/utils';
+import { defaultEmbedBlock } from '../embed/utils';
 import { defaultFileBlock } from '../file/utils';
 import VisualElementModalWrapper from '../../../../containers/VisualElement/VisualElementModalWrapper';
 import getCurrentBlock from '../../utils/getCurrentBlock';
 import { TYPE_TABLE_CELL } from '../table/types';
-import { Embed, UnsavedFile } from '../../../../interfaces';
+import { Embed } from '../../../../interfaces';
 import VisualElementSearch from '../../../../containers/VisualElement/VisualElementSearch';
-import { TYPE_EMBED_IMAGE } from '../embed/types';
 
 export const checkboxAction = (
   image: IImageMetaInformationV3,

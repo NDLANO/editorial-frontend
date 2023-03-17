@@ -13,7 +13,6 @@ import { SlateSerializer } from '../../interfaces';
 import Link from './Link';
 import { reduceElementDataAttributes } from '../../../../util/embedTagHelpers';
 import { TYPE_CONTENT_LINK, TYPE_LINK } from './types';
-import { isEmbedType } from '../embed';
 import { TYPE_NDLA_EMBED } from '../embed/types';
 
 export interface LinkElement {

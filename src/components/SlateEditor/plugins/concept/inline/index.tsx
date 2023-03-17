@@ -15,7 +15,6 @@ import InlineConcept from './InlineConcept';
 import { KEY_BACKSPACE } from '../../../utils/keys';
 import { SlateSerializer } from '../../../interfaces';
 import { TYPE_CONCEPT_INLINE } from './types';
-import { isEmbedType } from '../../embed';
 import { TYPE_NDLA_EMBED } from '../../embed/types';
 
 export const inlineConceptSerializer: SlateSerializer = {

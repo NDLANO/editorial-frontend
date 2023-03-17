@@ -9,10 +9,9 @@
 import { Descendant, Editor } from 'slate';
 import NoEmbedMessage from './NoEmbedMessage';
 import { SlateSerializer } from '../../interfaces';
-import { defaultEmbedBlock, isSlateEmbed } from '../embed/utils';
+import { defaultEmbedBlock, isSlateEmbed, isSlateEmbedElement } from '../embed/utils';
 import { parseEmbedTag } from '../../../../util/embedTagHelpers';
 import { Embed } from '../../../../interfaces';
-import { isEmbedElement, isEmbedType } from '../embed';
 import { TYPE_NDLA_EMBED } from '../embed/types';
 
 export const noEmbedSerializer: SlateSerializer = {
@@ -32,10 +31,10 @@ export const noEmbedPlugin = (editor: Editor) => {
   const { renderElement } = editor;
 
   editor.renderElement = ({ attributes, element, children }) => {
-    if (isEmbedElement(element)) {
+    if (isSlateEmbedElement(element)) {
       return <NoEmbedMessage attributes={attributes} element={element} />;
     }
-    return renderElement && renderElement({ attributes, element, children });
+    return renderElement?.({ attributes, element, children });
   };
   return editor;
 };

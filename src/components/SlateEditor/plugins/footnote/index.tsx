@@ -15,7 +15,6 @@ import { reduceElementDataAttributes, createEmbedTag } from '../../../../util/em
 import getCurrentBlock from '../../utils/getCurrentBlock';
 import { KEY_BACKSPACE, KEY_DELETE } from '../../utils/keys';
 import { TYPE_FOOTNOTE } from './types';
-import { isEmbedType } from '../embed';
 import { TYPE_NDLA_EMBED } from '../embed/types';
 
 export interface FootnoteElement {

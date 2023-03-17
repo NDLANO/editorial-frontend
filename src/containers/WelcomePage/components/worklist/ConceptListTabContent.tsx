@@ -55,7 +55,7 @@ const fetchConceptData = async (
         ids: concept.subjectIds,
         taxonomyVersion,
         nodeType: 'SUBJECT',
-        language: language,
+        language,
       })
     : undefined;
 

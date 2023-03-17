@@ -53,7 +53,7 @@ const LanguageSelector = ({ element, onClose }: Props) => {
         },
       },
       {
-        match: node => node === element,
+        match: (node) => node === element,
         at: [],
       },
     );
@@ -62,14 +62,14 @@ const LanguageSelector = ({ element, onClose }: Props) => {
 
   const onDelete = () => {
     Transforms.unwrapNodes(editor, {
-      match: node => node === element,
+      match: (node) => node === element,
       at: [],
     });
   };
 
   return (
     <Container contentEditable={false}>
-      {languages.map(lang => (
+      {languages.map((lang) => (
         <LanguageButton
           key={lang}
           language={lang}

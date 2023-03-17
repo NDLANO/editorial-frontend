@@ -109,7 +109,7 @@ const AgreementForm = ({ onUpsert, agreement }: Props) => {
       title: values.title,
       content: values.content,
       copyright: {
-        license: licenses!.find(license => license.license === values.license),
+        license: licenses!.find((license) => license.license === values.license),
         origin: values.origin,
         creators: values.creators,
         processors: values.processors,
@@ -129,7 +129,8 @@ const AgreementForm = ({ onUpsert, agreement }: Props) => {
       validateOnBlur={false}
       onSubmit={handleSubmit}
       enableReinitialize
-      validate={values => validateFormik(values, rules, t)}>
+      validate={(values) => validateFormik(values, rules, t)}
+    >
       {({ values, isSubmitting }) => (
         <StyledForm>
           <StyledHeaderContainer>

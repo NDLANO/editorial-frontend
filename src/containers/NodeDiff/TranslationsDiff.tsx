@@ -27,9 +27,9 @@ type DiffedTranslations = Record<string, DiffResult<string>>;
 const TranslationsDiff = ({ translations }: Props) => {
   const { t } = useTranslation();
   const originalTranslations: TranslationWithType[] =
-    translations.original?.map(t => ({ ...t, type: 'original' })) ?? [];
+    translations.original?.map((t) => ({ ...t, type: 'original' })) ?? [];
   const otherTranslations: TranslationWithType[] =
-    translations.other?.map(t => ({ ...t, type: 'other' })) ?? [];
+    translations.other?.map((t) => ({ ...t, type: 'other' })) ?? [];
   const keyedTranslations = originalTranslations
     .concat(otherTranslations)
     .reduce<KeyedTranslations>((acc, curr) => {
@@ -58,7 +58,8 @@ const TranslationsDiff = ({ translations }: Props) => {
     <DiffField>
       <FieldWithTitle
         title={t('diff.fields.translations.title')}
-        key={'diff.fields.translations.left'}>
+        key={'diff.fields.translations.left'}
+      >
         {keys.map((key, i) => (
           <DiffInnerField left type={diff[key].diffType} key={`translations-left-${i}`}>
             {diff[key].original && (
@@ -72,7 +73,8 @@ const TranslationsDiff = ({ translations }: Props) => {
       </FieldWithTitle>
       <FieldWithTitle
         title={t('diff.fields.translations.title')}
-        key={'diff.fields.translations.right'}>
+        key={'diff.fields.translations.right'}
+      >
         {keys.map((key, i) => (
           <DiffInnerField type={diff[key].diffType} key={`translations-right-${i}`}>
             {diff[key].other && (

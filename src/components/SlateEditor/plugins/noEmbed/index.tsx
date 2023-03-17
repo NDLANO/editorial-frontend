@@ -18,7 +18,7 @@ export const noEmbedSerializer: SlateSerializer = {
   deserialize(el: HTMLElement) {
     if (el.tagName.toLowerCase() !== TYPE_NDLA_EMBED) return;
 
-    return defaultEmbedBlock((parseEmbedTag(el.outerHTML) as unknown) as Embed);
+    return defaultEmbedBlock(parseEmbedTag(el.outerHTML) as unknown as Embed);
   },
   serialize(node: Descendant) {
     if (Element.isElement(node) && node.type === TYPE_NDLA_EMBED) {

@@ -54,7 +54,7 @@ const SearchList = ({ results, searchObject, type, searching = true, locale, sub
     return <p>{t(`searchPage.${type}NoHits`, { query: searchObject.query ?? '' })}</p>;
   return (
     <div>
-      {toResultReturnType(results, type).map(result => {
+      {toResultReturnType(results, type).map((result) => {
         const learningResourceType =
           'learningResourceType' in result.value ? result.value.learningResourceType : '';
         return (

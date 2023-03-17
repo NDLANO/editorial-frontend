@@ -42,7 +42,7 @@ const ConceptMetaData = ({ subjects, fetchTags, inModal, language }: Props) => {
               setFieldTouched={form.setFieldTouched}
               showRemoveButton
               showCheckbox={true}
-              checkboxAction={image => onSaveAsVisualElement(image, formikContext)}
+              checkboxAction={(image) => onSaveAsVisualElement(image, formikContext)}
               language={language}
               {...field}
             />
@@ -52,7 +52,8 @@ const ConceptMetaData = ({ subjects, fetchTags, inModal, language }: Props) => {
       <FormikField
         name="subjects"
         label={t('form.subjects.label')}
-        description={t('form.concept.subjects')}>
+        description={t('form.concept.subjects')}
+      >
         {({ field }) => (
           <MultiSelectDropdown
             labelField="name"
@@ -65,7 +66,8 @@ const ConceptMetaData = ({ subjects, fetchTags, inModal, language }: Props) => {
       <FormikField
         name="tags"
         label={t('form.categories.label')}
-        description={t('form.categories.description')}>
+        description={t('form.categories.description')}
+      >
         {({ field, form }) => (
           <AsyncSearchTags
             multiSelect

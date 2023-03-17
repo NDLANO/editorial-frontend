@@ -59,13 +59,14 @@ const Contributor = ({
           placeholder={placeholder}
           disabled={disabled}
           value={contributor.name}
-          onChange={e => handleContributorChange(e, 'name', index)}
+          onChange={(e) => handleContributorChange(e, 'name', index)}
         />
         <Select
           value={contributor.type}
-          onChange={e => handleContributorChange(e, 'type', index)}
-          onBlur={e => handleContributorChange(e, 'type', index)}
-          data-cy="contributor-selector">
+          onChange={(e) => handleContributorChange(e, 'type', index)}
+          onBlur={(e) => handleContributorChange(e, 'type', index)}
+          data-cy="contributor-selector"
+        >
           <option value="" />
           {contributorTypeItems.map((item: ContributorTypeItem) => (
             <option value={item.type} key={item.type}>
@@ -76,7 +77,7 @@ const Contributor = ({
       </FieldSplitter>
     </div>
     <div>
-      <FieldRemoveButton onClick={evt => removeContributor(evt, index)}>
+      <FieldRemoveButton onClick={(evt) => removeContributor(evt, index)}>
         {labelRemove}
       </FieldRemoveButton>
     </div>

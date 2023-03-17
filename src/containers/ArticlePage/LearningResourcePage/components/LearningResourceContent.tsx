@@ -89,14 +89,14 @@ const StyledContentDiv = styled(FormikField)`
 `;
 
 const MarkdownButton = styled(IconButtonV2)<{ active: boolean }>`
-  color: ${p => (p.active ? colors.brand.primary : colors.brand.light)};
+  color: ${(p) => (p.active ? colors.brand.primary : colors.brand.light)};
 `;
 
 const findFootnotes = (content: Descendant[]): FootnoteType[] =>
   findNodesByType(content, TYPE_FOOTNOTE)
-    .map(e => e as FootnoteElement)
-    .filter(footnote => Object.keys(footnote.data).length > 0)
-    .map(footnoteElement => footnoteElement.data);
+    .map((e) => e as FootnoteElement)
+    .filter((footnote) => Object.keys(footnote.data).length > 0)
+    .map((footnoteElement) => footnoteElement.data);
 
 const actions = ['table', 'ndlaembed', 'code-block', 'file', 'h5p'];
 const actionsToShowInAreas = {
@@ -184,7 +184,7 @@ const LearningResourceContent = ({
               creators={creators}
               published={published}
               allowEdit={true}
-              onChange={date => {
+              onChange={(date) => {
                 form.setFieldValue(field.name, date);
               }}
             />
@@ -195,7 +195,8 @@ const LearningResourceContent = ({
                   variant="stripped"
                   colorTheme="light"
                   active={preview}
-                  onClick={() => setPreview(!preview)}>
+                  onClick={() => setPreview(!preview)}
+                >
                   <Eye />
                 </MarkdownButton>
               </Tooltip>
@@ -226,7 +227,7 @@ const LearningResourceContent = ({
               submitted={isSubmitting}
               plugins={plugins(articleLanguage ?? '', i18n.language, handleSubmitRef)}
               data-cy="learning-resource-content"
-              onChange={value => {
+              onChange={(value) => {
                 onChange({
                   target: {
                     value,

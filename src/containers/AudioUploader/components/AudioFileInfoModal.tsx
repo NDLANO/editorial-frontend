@@ -20,17 +20,19 @@ const AudioFileInfoModal = () => {
     <Modal
       label={t('form.audio.modal.header')}
       backgroundColor="white"
-      wrapperFunctionForButton={btn => (
+      wrapperFunctionForButton={(btn) => (
         <Tooltip tooltip={t('form.audio.modal.label')}>{btn}</Tooltip>
       )}
       activateButton={
         <IconButtonV2
           aria-label={t('form.audio.modal.label')}
           variant="stripped"
-          colorTheme="light">
+          colorTheme="light"
+        >
           <HelpIcon css={normalPaddingCSS} />
         </IconButtonV2>
-      }>
+      }
+    >
       {(onClose: () => void) => (
         <>
           <ModalHeader>

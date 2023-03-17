@@ -92,7 +92,7 @@ const VersionForm = ({ version, existingVersions, onClose }: Props) => {
       setError(undefined);
       await qc.cancelQueries(versionsKey);
       const existingVersions = qc.getQueryData<VersionType[]>(versionsKey) ?? [];
-      const newVersions = existingVersions.map(version => {
+      const newVersions = existingVersions.map((version) => {
         if (version.id === id) {
           return {
             ...version,
@@ -112,7 +112,7 @@ const VersionForm = ({ version, existingVersions, onClose }: Props) => {
       setError(undefined);
       await qc.cancelQueries(versionsKey);
       const existingVersions = qc.getQueryData<VersionType[]>(versionsKey) ?? [];
-      const updatedVersions: VersionType[] = existingVersions.map(version => {
+      const updatedVersions: VersionType[] = existingVersions.map((version) => {
         if (version.id === id) {
           return { ...version, versionType: 'PUBLISHED' };
         } else return version;
@@ -151,7 +151,8 @@ const VersionForm = ({ version, existingVersions, onClose }: Props) => {
         initialValues={initialValues}
         validateOnMount={true}
         onSubmit={(values, helpers) => onSubmit(values, helpers)}
-        validate={values => validateFormik(values, versionFormRules, t)}>
+        validate={(values) => validateFormik(values, versionFormRules, t)}
+      >
         {({ isSubmitting, isValid, dirty, handleSubmit }) => {
           return (
             <>

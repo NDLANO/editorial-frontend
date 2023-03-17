@@ -37,7 +37,7 @@ const HeaderSupportedLanguages = ({
   const { t } = useTranslation();
   return (
     <>
-      {supportedLanguages.map(supportedLanguage =>
+      {supportedLanguages.map((supportedLanguage) =>
         language === supportedLanguage ? (
           <HeaderLanguagePill current key={`types_${supportedLanguage}`}>
             <Check />
@@ -48,12 +48,14 @@ const HeaderSupportedLanguages = ({
             key={`types_${supportedLanguage}`}
             tooltip={t('language.change', {
               language: t(`language.${supportedLanguage}`).toLowerCase(),
-            })}>
+            })}
+          >
             <div>
               <HeaderLanguagePill
                 to={editUrl(supportedLanguage)}
                 component={replace ? LinkWithReplace : SafeLink}
-                isSubmitting={isSubmitting}>
+                isSubmitting={isSubmitting}
+              >
                 {t(`language.${supportedLanguage}`)}
               </HeaderLanguagePill>
             </div>

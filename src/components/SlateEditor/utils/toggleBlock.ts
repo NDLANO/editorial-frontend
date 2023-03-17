@@ -19,7 +19,7 @@ const toggleBlock = (editor: Editor, type: Element['type']) => {
   if (isActive) {
     Transforms.unwrapNodes(editor, {
       mode: 'lowest',
-      match: node => Element.isElement(node) && node.type === type,
+      match: (node) => Element.isElement(node) && node.type === type,
       split: true,
       at: Editor.unhangRange(editor, editor.selection),
     });

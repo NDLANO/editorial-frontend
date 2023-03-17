@@ -71,7 +71,7 @@ export const blockConceptPlugin = (locale: string) => (editor: Editor) => {
     return renderElement && renderElement(props);
   };
 
-  editor.normalizeNode = entry => {
+  editor.normalizeNode = (entry) => {
     const [node] = entry;
 
     if (Element.isElement(node) && node.type === TYPE_CONCEPT_BLOCK) {
@@ -82,7 +82,7 @@ export const blockConceptPlugin = (locale: string) => (editor: Editor) => {
     normalizeNode(entry);
   };
 
-  editor.isVoid = element => {
+  editor.isVoid = (element) => {
     if (element.type === TYPE_CONCEPT_BLOCK) {
       return true;
     }

@@ -25,7 +25,7 @@ const SubjectCategorySelector = ({ customFields, updateCustomFields }: Props) =>
     subjectCategories.BETA_SUBJECTS,
     subjectCategories.OTHER,
   ];
-  const options = categories.map(category => ({
+  const options = categories.map((category) => ({
     key: category,
     value: t(`subjectCategories.${category}`),
   }));

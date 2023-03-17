@@ -73,7 +73,7 @@ const AudioPlayerMounter = ({ audio, locale, speech }: Props) => {
 
   useEffect(() => {
     if (podcastMeta?.coverPhoto.id) {
-      fetchImage(parseInt(podcastMeta?.coverPhoto.id), locale).then(res => {
+      fetchImage(parseInt(podcastMeta?.coverPhoto.id), locale).then((res) => {
         setImage(res);
       });
     }

@@ -74,11 +74,12 @@ const EditAudio = ({ embed, onExit, type, audio, setHasError, saveEmbedUpdates }
       <ModalBody>
         <Formik
           initialValues={initialValues}
-          validate={values => validateFormik(values, audioEmbedFormRules, t)}
+          validate={(values) => validateFormik(values, audioEmbedFormRules, t)}
           enableReinitialize
           validateOnMount
-          onSubmit={handleSubmit}>
-          {formik => (
+          onSubmit={handleSubmit}
+        >
+          {(formik) => (
             <AudioEmbedForm audio={audio} {...formik} setHasError={setHasError} close={onExit} />
           )}
         </Formik>

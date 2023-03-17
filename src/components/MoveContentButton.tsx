@@ -23,7 +23,8 @@ const MoveContentButton = ({ onMouseDown }: Props) => {
       tabIndex={-1}
       aria-label={t('learningResourceForm.fields.rightAside.moveContent')}
       variant="ghost"
-      onMouseDown={onMouseDown}>
+      onMouseDown={onMouseDown}
+    >
       <ChevronLeft />
     </IconButtonV2>
   );

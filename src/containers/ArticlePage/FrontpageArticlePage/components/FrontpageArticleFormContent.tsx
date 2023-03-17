@@ -80,11 +80,11 @@ const StyledContentDiv = styled(FormikField)`
 `;
 
 const MarkdownButton = styled(IconButtonV2)<{ active: boolean }>`
-  color: ${p => (p.active ? colors.brand.primary : colors.brand.light)};
+  color: ${(p) => (p.active ? colors.brand.primary : colors.brand.light)};
 `;
 
 const SlugButton = styled(IconButtonV2)<{ active: boolean }>`
-  color: ${p => (p.active ? colors.brand.primary : colors.brand.light)};
+  color: ${(p) => (p.active ? colors.brand.primary : colors.brand.light)};
 `;
 
 const actions = ['table', 'ndlaembed', 'code-block', 'file'];
@@ -179,7 +179,7 @@ const FrontpageArticleFormContent = ({
               creators={creators}
               published={published}
               allowEdit={true}
-              onChange={date => {
+              onChange={(date) => {
                 form.setFieldValue(field.name, date);
               }}
             />
@@ -191,7 +191,8 @@ const FrontpageArticleFormContent = ({
                     variant="stripped"
                     colorTheme="light"
                     active={editSlug}
-                    onClick={() => setEditSlug(!editSlug)}>
+                    onClick={() => setEditSlug(!editSlug)}
+                  >
                     <Link />
                   </SlugButton>
                 </Tooltip>
@@ -202,7 +203,8 @@ const FrontpageArticleFormContent = ({
                   variant="stripped"
                   colorTheme="light"
                   active={preview}
-                  onClick={() => setPreview(!preview)}>
+                  onClick={() => setPreview(!preview)}
+                >
                   <Eye />
                 </MarkdownButton>
               </Tooltip>
@@ -234,7 +236,7 @@ const FrontpageArticleFormContent = ({
               submitted={isSubmitting}
               plugins={plugins(articleLanguage ?? '', i18n.language, handleSubmitRef)}
               data-cy="frontpage-article-content"
-              onChange={value => {
+              onChange={(value) => {
                 onChange({
                   target: {
                     value,

@@ -58,7 +58,8 @@ const StructureBanner = ({ onChange, checked }: Props) => {
           <AddSubjectButton
             size="small"
             onClick={() => setAddSubjectModalOpen(true)}
-            data-testid="AddSubjectButton">
+            data-testid="AddSubjectButton"
+          >
             <Plus /> {t('taxonomy.addSubject')}
           </AddSubjectButton>
         )}

@@ -118,7 +118,8 @@ const Contributors = ({
         variant="outline"
         onClick={addContributor}
         data-cy="addContributor"
-        disabled={disabled}>
+        disabled={disabled}
+      >
         {t('form.contributor.add')}
       </ButtonV2>
     </div>

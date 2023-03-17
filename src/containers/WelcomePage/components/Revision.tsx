@@ -107,6 +107,10 @@ const Revision = ({ userData, ndlaId }: Props) => {
 
   const lastPage = data?.totalCount ? Math.ceil(data?.totalCount / (data.pageSize ?? 1)) : 1;
 
+  useEffect(() => {
+    setPage(1);
+  }, [filterSubject]);
+
   return (
     <StyledDashboardInfo>
       <StyledTopRowDashboardInfo>

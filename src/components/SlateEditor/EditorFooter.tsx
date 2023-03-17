@@ -165,15 +165,15 @@ function EditorFooter<T extends FormValues>({
         setStatus(status);
       }
       setFieldValue('status', { current: status?.value });
-
-      // When status changes user should also update responsible
-      if (responsible && responsible.value === responsibleId) {
-        updateResponsible(null);
-      }
     } catch (error) {
       catchError(error, createMessage);
     }
   };
+
+  useEffect(() => {
+    if (entityStatus?.current === PUBLISHED) updateResponsible(null);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [entityStatus?.current]);
 
   if (showSimpleFooter) {
     return (

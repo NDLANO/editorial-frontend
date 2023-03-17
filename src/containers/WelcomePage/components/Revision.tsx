@@ -12,6 +12,7 @@ import { IUserData } from '@ndla/types-draft-api';
 import { Alarm } from '@ndla/icons/common';
 import addYears from 'date-fns/addYears';
 import { Select, Option, SingleValue } from '@ndla/select';
+import Pager from '@ndla/pager';
 import {
   ControlWrapperDashboard,
   DropdownWrapper,
@@ -39,6 +40,7 @@ const Revision = ({ userData, ndlaId }: Props) => {
   const [filterSubject, setFilterSubject] = useState<SingleValue | undefined>(undefined);
   const [sortOption, setSortOption] = useState<string>('-revisionDate');
   const [error, setError] = useState<string | undefined>(undefined);
+  const [page, setPage] = useState(1);
 
   const { t } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
@@ -57,7 +59,7 @@ const Revision = ({ userData, ndlaId }: Props) => {
       subjects: filterSubject ? filterSubject.value : userData?.favoriteSubjects?.join(','),
       'revision-date-to': currentDateAddYear,
       sort: sortOption,
-      'page-size': 100,
+      page: page,
     },
     {
       enabled: !!userData?.favoriteSubjects,
@@ -103,6 +105,8 @@ const Revision = ({ userData, ndlaId }: Props) => {
     })();
   }, [taxonomyVersion, userData?.favoriteSubjects]);
 
+  const lastPage = data?.totalCount ? Math.ceil(data?.totalCount / (data.pageSize ?? 1)) : 1;
+
   return (
     <StyledDashboardInfo>
       <StyledTopRowDashboardInfo>
@@ -138,6 +142,15 @@ const Revision = ({ userData, ndlaId }: Props) => {
         sortOption={sortOption}
         error={error}
         noResultsText={t('welcomePage.emptyRevision')}
+      />
+      <Pager
+        page={data?.page ?? 1}
+        lastPage={lastPage}
+        query={{}}
+        onClick={el => setPage(el.page)}
+        small
+        colorTheme="lighter"
+        pageItemComponentClass="button"
       />
     </StyledDashboardInfo>
   );

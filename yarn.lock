@@ -1885,6 +1885,17 @@
     "@radix-ui/react-dropdown-menu" "^2.0.1"
     focus-trap-react "^8.9.2"
 
+"@ndla/button@^10.0.6":
+  version "10.0.6"
+  resolved "https://registry.yarnpkg.com/@ndla/button/-/button-10.0.6.tgz#536b5ec0ebf56408510fc5ab3b49d74686724ce7"
+  integrity sha512-fVbZGVUNODQkYodZjQe9jcjF9zCcjJ3vmRHYbylJ8xRftwDzTQ5bP5yDwXHH13wQNhEskar384ezX1bxB3SwAg==
+  dependencies:
+    "@ndla/core" "^3.1.3"
+    "@ndla/icons" "^2.2.9"
+    "@ndla/tooltip" "^4.0.16"
+    "@radix-ui/react-dropdown-menu" "^2.0.1"
+    focus-trap-react "^8.9.2"
+
 "@ndla/carousel@^3.0.7":
   version "3.0.7"
   resolved "https://registry.yarnpkg.com/@ndla/carousel/-/carousel-3.0.7.tgz#c41ad136f8353b9f892023190ad820bd918f736c"
@@ -1979,6 +1990,13 @@
   dependencies:
     "@ndla/core" "^3.1.3"
 
+"@ndla/icons@^2.2.9":
+  version "2.2.9"
+  resolved "https://registry.yarnpkg.com/@ndla/icons/-/icons-2.2.9.tgz#6ed1c4d9c144ba18fe5f1d68f0f16d44891fce73"
+  integrity sha512-p5TY3nC+ppG06dlGD49wXLroeYOg1Hlvc2xmnqVKJIeiYfZqN2WjG32lE29Vfo86ZYvrxVzfZnWl6xkX3lHRUg==
+  dependencies:
+    "@ndla/core" "^3.1.3"
+
 "@ndla/image-search@^5.1.57":
   version "5.1.57"
   resolved "https://registry.yarnpkg.com/@ndla/image-search/-/image-search-5.1.57.tgz#0a1b17ba6407394074e7db816502d73bc65fa40a"
@@ -2028,6 +2046,14 @@
     "@ndla/core" "^3.1.3"
     "@ndla/safelink" "^4.0.14"
 
+"@ndla/pager@^2.1.24":
+  version "2.1.25"
+  resolved "https://registry.yarnpkg.com/@ndla/pager/-/pager-2.1.25.tgz#70f7b882018fc44eb8b213033a52ee39765c4294"
+  integrity sha512-trSZ7EwC26VkDUQ+IPFSHrElERM3MUpaNZBbu5SMmDzo01rjzdaSOrCCSQdleNgG5e15hhAPNw4emJSTtGo99Q==
+  dependencies:
+    "@ndla/core" "^3.1.3"
+    "@ndla/safelink" "^4.0.16"
+
 "@ndla/safelink@^4.0.14":
   version "4.0.14"
   resolved "https://registry.yarnpkg.com/@ndla/safelink/-/safelink-4.0.14.tgz#6c75160939ff3a07278d001292da3a8172e09e54"
@@ -2035,6 +2061,14 @@
   dependencies:
     "@ndla/button" "^10.0.4"
     "@ndla/icons" "^2.2.7"
+
+"@ndla/safelink@^4.0.16":
+  version "4.0.16"
+  resolved "https://registry.yarnpkg.com/@ndla/safelink/-/safelink-4.0.16.tgz#4e4518cddf92e257ac1f36cca352ea50309a95ab"
+  integrity sha512-apEwfc0eBzfOL2L2dcPSE2q62FzE9X2KwGhoAHHhN8PiIDG/P8Q9frNM6fJ9NTLKu81Hitc7KCyZ+GYx4y9O/A==
+  dependencies:
+    "@ndla/button" "^10.0.6"
+    "@ndla/icons" "^2.2.9"
 
 "@ndla/scripts@^1.0.2":
   version "1.0.2"
@@ -2083,6 +2117,17 @@
   dependencies:
     "@ndla/core" "^3.1.3"
     "@ndla/icons" "^2.2.7"
+    "@radix-ui/react-popover" "^1.0.2"
+    "@radix-ui/react-tooltip" "^1.0.2"
+    html-react-parser "^3.0.8"
+
+"@ndla/tooltip@^4.0.16":
+  version "4.0.16"
+  resolved "https://registry.yarnpkg.com/@ndla/tooltip/-/tooltip-4.0.16.tgz#2c026c6bd5fec7973aa1702b0ae6b2b68906a50b"
+  integrity sha512-nu2/33SzJbj0ty6wYJ6Dk3BNrp2K938QI+o9Me1O7Wv+Fk0kb6LmM50gN9iCSm2zOz3HS63jXHA5qqeQFbvGag==
+  dependencies:
+    "@ndla/core" "^3.1.3"
+    "@ndla/icons" "^2.2.9"
     "@radix-ui/react-popover" "^1.0.2"
     "@radix-ui/react-tooltip" "^1.0.2"
     html-react-parser "^3.0.8"

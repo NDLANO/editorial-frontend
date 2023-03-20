@@ -106,7 +106,7 @@ function EditorFooter<T extends FormValues>({
   const articleOrConcept = isArticle || isConcept;
 
   const onSave = (saveAsNewVersion?: boolean | undefined) => {
-    if (STATUSES_RESET_RESPONSIBLE.find(s => s === status?.value)) {
+    if (STATUSES_RESET_RESPONSIBLE.find((s) => s === status?.value)) {
       updateResponsible(null);
     }
     onSaveClick(saveAsNewVersion);

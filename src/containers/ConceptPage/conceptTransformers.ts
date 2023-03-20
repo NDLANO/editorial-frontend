@@ -24,6 +24,7 @@ export const conceptApiTypeToFormType = (
   language: string,
   subjects: SubjectType[],
   articles: IArticle[],
+  ndlaId: string | undefined,
   initialTitle = '',
 ): ConceptFormValues => {
   const conceptSubjects = subjects.filter(s => concept?.subjectIds?.find(id => id === s.id)) ?? [];
@@ -54,7 +55,7 @@ export const conceptApiTypeToFormType = (
     articles,
     visualElement: embedTagToEditorValue(concept?.visualElement?.visualElement ?? ''),
     origin: concept?.copyright?.origin,
-    responsibleId: concept?.responsible?.responsibleId,
+    responsibleId: concept?.responsible?.responsibleId || ndlaId,
   };
 };
 

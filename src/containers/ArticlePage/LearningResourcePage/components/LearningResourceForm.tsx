@@ -33,6 +33,7 @@ import { ArticleTaxonomy } from '../../../FormikForm/formikDraftHooks';
 import { blockContentToHTML } from '../../../../util/articleContentConverter';
 import StyledForm from '../../../../components/StyledFormComponents';
 import { TaxonomyVersionProvider } from '../../../StructureVersion/TaxonomyVersionProvider';
+import { useSession } from '../../../../containers/Session/SessionProvider';
 
 interface Props {
   article?: IArticle;
@@ -54,7 +55,7 @@ const LearningResourceForm = ({
   articleLanguage,
 }: Props) => {
   const { t } = useTranslation();
-
+  const { ndlaId } = useSession();
   const { data: licenses } = useLicenses({ placeholderData: [] });
   const statusStateMachine = useDraftStatusStateMachine({ articleId: article?.id });
 
@@ -68,6 +69,7 @@ const LearningResourceForm = ({
       getArticleFromSlate: learningResourceFormTypeToDraftApiType,
       articleLanguage,
       rules: learningResourceRules,
+      ndlaId,
     });
 
   const initialHTML = useMemo(() => blockContentToHTML(initialValues.content), [initialValues]);

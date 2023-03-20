@@ -31,6 +31,7 @@ import * as articleApi from '../../modules/article/articleApi';
 import Spinner from '../../components/Spinner';
 import { FormikStatus } from '../../interfaces';
 import { useMessages } from '../Messages/MessagesProvider';
+import { useSession } from '../../containers/Session/SessionProvider';
 import {
   draftApiTypeToLearningResourceFormType,
   draftApiTypeToTopicArticleFormType,
@@ -55,6 +56,7 @@ interface Props {
 
 const VersionAndNotesPanel = ({ article, getArticle, type, currentLanguage }: Props) => {
   const { t } = useTranslation();
+  const { ndlaId } = useSession();
   const [versions, setVersions] = useState<IArticle[]>([]);
   const [loading, setLoading] = useState(false);
   const [users, setUsers] = useState<SimpleUserType[]>([]);
@@ -114,6 +116,7 @@ const VersionAndNotesPanel = ({ article, getArticle, type, currentLanguage }: Pr
       const newValues = transform(
         { ...newArticle, status: version.status, responsible: article.responsible },
         language,
+        ndlaId,
       );
 
       setValues(newValues);

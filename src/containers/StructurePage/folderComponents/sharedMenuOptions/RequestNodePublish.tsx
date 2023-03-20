@@ -44,7 +44,8 @@ const RequestNodePublish = ({ node, rootNodeId }: Props) => {
     <MenuItemButton
       data-testid="requestPublish"
       onClick={togglePublish}
-      disabled={taxonomyVersion !== 'default' || metadata.customFields.isPublishing === 'true'}>
+      disabled={taxonomyVersion !== 'default' || metadata.customFields.isPublishing === 'true'}
+    >
       <RoundIcon small icon={<Check />} />
       {t(
         hasRequested

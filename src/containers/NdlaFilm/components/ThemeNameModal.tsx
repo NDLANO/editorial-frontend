@@ -60,7 +60,8 @@ const ThemeNameModal = ({
     <Modal
       narrow
       activateButton={activateButton}
-      wrapperFunctionForButton={wrapperFunctionForButton}>
+      wrapperFunctionForButton={wrapperFunctionForButton}
+    >
       {(onCloseModal: () => void) => (
         <NdlaFilmThemeEditorModal
           onClose={() => {

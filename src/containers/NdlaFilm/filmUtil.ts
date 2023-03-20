@@ -32,8 +32,8 @@ export const sortMoviesByIdList = (
     revisions: [],
   };
   return idList.map(
-    id =>
-      movieList.find(movie => movie.id === id) || {
+    (id) =>
+      movieList.find((movie) => movie.id === id) || {
         ...notFoundMovie,
         id: id,
       },

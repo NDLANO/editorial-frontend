@@ -14,9 +14,9 @@ import { AlignItemsType, JustifyContentType } from '../style/styleInterfaces';
 const StyledRow = styled('div')<Props>`
   display: grid;
   grid-auto-flow: column;
-  grid-gap: ${p => (p.spacing ? styledSpacing[p.spacing] : styledSpacing.normal)};
-  ${p => p.justifyContent && `justify-content: ${p.justifyContent}`};
-  ${p => p.alignItems && `align-items: ${p.alignItems}`};
+  grid-gap: ${(p) => (p.spacing ? styledSpacing[p.spacing] : styledSpacing.normal)};
+  ${(p) => p.justifyContent && `justify-content: ${p.justifyContent}`};
+  ${(p) => p.alignItems && `align-items: ${p.alignItems}`};
 `;
 
 interface Props {

@@ -32,12 +32,13 @@ const DisplayExternalModal = ({
       label={t('form.external.edit', { type: 'iframe' })}
       resource={allowedProvider.name.toLowerCase()}
       isOpen={isEditMode}
-      onClose={onClose}>
+      onClose={onClose}
+    >
       <VisualElementSearch
         selectedResource={allowedProvider.name}
         selectedResourceUrl={src}
         selectedResourceType={type}
-        handleVisualElementChange={rt => (isEmbed(rt) ? onEditEmbed(rt) : null)}
+        handleVisualElementChange={(rt) => (isEmbed(rt) ? onEditEmbed(rt) : null)}
         closeModal={onClose}
         embed={embed}
       />

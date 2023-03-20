@@ -12,7 +12,7 @@ import config from './config';
 let app = require('./server/server').default;
 
 if (module.hot) {
-  module.hot.accept('./server/server', function() {
+  module.hot.accept('./server/server', function () {
     console.log('🔁  HMR Reloading `./server/server`...'); // eslint-disable-line no-console
     try {
       app = require('./server/server').default;
@@ -25,7 +25,7 @@ if (module.hot) {
 
 export default express()
   .use((req, res) => app.handle(req, res))
-  .listen(config.port, function(err) {
+  .listen(config.port, function (err) {
     if (err) {
       console.error(err);
       return;

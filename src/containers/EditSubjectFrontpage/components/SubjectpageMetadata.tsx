@@ -22,7 +22,8 @@ const SubjectpageMetadata = () => {
         maxLength={300}
         showMaxLength
         label={t('form.metaDescription.label')}
-        description={t('form.metaDescription.description')}>
+        description={t('form.metaDescription.description')}
+      >
         {({ field, form: { isSubmitting } }: FieldProps) => (
           <PlainTextEditor
             id={field.name}

@@ -44,7 +44,7 @@ const StyledWrapper = styled('div')<{ styledAppearance: AccordionType }>`
   width: 100%;
   padding: 0.6rem 0;
   border-radius: 4px;
-  ${props => appearances[props.styledAppearance]};
+  ${(props) => appearances[props.styledAppearance]};
 `;
 
 interface Props {

@@ -25,7 +25,8 @@ const WithPlaceHolder = ({ attributes, children, placeholder }: Props) => {
           userSelect: 'none',
           display: 'inline-block',
         }}
-        contentEditable={false}>
+        contentEditable={false}
+      >
         {t(placeholder)}
       </span>
     </span>

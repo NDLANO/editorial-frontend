@@ -16,7 +16,7 @@ export function createFormatAction(monaco) {
     contextMenuGroupId: 'modification',
     contextMenuOrder: 1.5,
 
-    run: async function(editor) {
+    run: async function (editor) {
       const model = editor.getModel();
       const data = await fetch(`/format-html`, {
         method: 'POST',
@@ -43,7 +43,7 @@ export function createSaveAction(monaco, onSave) {
     contextMenuGroupId: null,
     contextMenuOrder: 0,
 
-    run: async function(editor) {
+    run: async function (editor) {
       await onSave(editor.getValue());
 
       return null;

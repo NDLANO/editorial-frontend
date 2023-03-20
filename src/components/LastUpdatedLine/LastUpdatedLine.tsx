@@ -43,7 +43,7 @@ const LastUpdatedLine = ({
   const { t } = useTranslation();
   return (
     <StyledLastUpdatedLine>
-      {creators.map(creator => creator.name).join(', ')}
+      {creators.map((creator) => creator.name).join(', ')}
       {published ? ` - ${t('topicArticleForm.info.lastUpdated')}` : ''}
       {published &&
         (allowEdit ? (

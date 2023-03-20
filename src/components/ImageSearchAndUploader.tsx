@@ -78,7 +78,8 @@ const ImageSearchAndUploader = ({
                     variant="outline"
                     onClick={() => {
                       setSelectedTabIndex(1);
-                    }}>
+                    }}
+                  >
                     {t('imageSearch.noResultsButtonText')}
                   </ButtonV2>
                 </>

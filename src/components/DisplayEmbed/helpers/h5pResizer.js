@@ -55,7 +55,7 @@
   // Listen for messages from iframes
   window.addEventListener(
     'message',
-    event => {
+    (event) => {
       if (event.data.context !== 'h5p') {
         return; // Only handle h5p requests.
       }

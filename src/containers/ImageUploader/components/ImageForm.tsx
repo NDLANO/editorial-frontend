@@ -75,7 +75,7 @@ const imageRules: RulesType<ImageFormikType, IImageMetaInformationV3> = {
   },
   license: {
     required: true,
-    test: values => {
+    test: (values) => {
       const authors = values.creators.concat(values.rightsholders).concat(values.processors);
       if (!values.license || authors.length > 0) return undefined;
       return { translationKey: 'validation.noLicenseWithoutCopyrightHolder' };
@@ -122,7 +122,7 @@ const ImageForm = ({
   const navigate = useNavigate();
 
   const handleSubmit = async (values: ImageFormikType, actions: FormikHelpers<ImageFormikType>) => {
-    const license = licenses.find(license => license.license === values.license);
+    const license = licenses.find((license) => license.license === values.license);
 
     if (
       license === undefined ||
@@ -175,8 +175,9 @@ const ImageForm = ({
       onSubmit={handleSubmit}
       validateOnMount
       enableReinitialize
-      validate={values => validateFormik(values, imageRules, t)}
-      initialStatus={{ warnings: initialWarnings }}>
+      validate={(values) => validateFormik(values, imageRules, t)}
+      initialStatus={{ warnings: initialWarnings }}
+    >
       {({ values, dirty, errors, isSubmitting, submitForm, isValid }) => {
         const formIsDirty = isFormikFormDirty({
           values,
@@ -185,7 +186,7 @@ const ImageForm = ({
           changed: isNewLanguage,
         });
         const hasError = (errorFields: ImageFormErrorFields[]): boolean =>
-          errorFields.some(field => !!errors[field]);
+          errorFields.some((field) => !!errors[field]);
         return (
           <FormWrapper inModal={inModal}>
             <HeaderWithLanguage
@@ -209,20 +210,23 @@ const ImageForm = ({
                 title={t('form.contentSection')}
                 className="u-4/6@desktop u-push-1/6@desktop"
                 hasError={hasError(['title', 'imageFile', 'caption', 'alttext'])}
-                startOpen>
+                startOpen
+              >
                 <ImageContent />
               </AccordionSection>
               <AccordionSection
                 id="image-upload-metadataSection"
                 title={t('form.metadataSection')}
                 className="u-4/6@desktop u-push-1/6@desktop"
-                hasError={hasError(['tags', 'rightsholders', 'creators', 'processors', 'license'])}>
+                hasError={hasError(['tags', 'rightsholders', 'creators', 'processors', 'license'])}
+              >
                 <ImageMetaData imageLanguage={language} imageTags={values.tags} />
               </AccordionSection>
               <AccordionSection
                 id="image-upload-version-history"
                 title={t('form.workflowSection')}
-                className="u-4/6@desktop u-push-1/6@desktop">
+                className="u-4/6@desktop u-push-1/6@desktop"
+              >
                 <ImageVersionNotes image={image} />
               </AccordionSection>
             </Accordions>
@@ -235,7 +239,8 @@ const ImageForm = ({
                 <ButtonV2
                   variant="outline"
                   disabled={isSubmitting || isSaving}
-                  onClick={() => navigate(-1)}>
+                  onClick={() => navigate(-1)}
+                >
                   {t('form.abort')}
                 </ButtonV2>
               )}
@@ -245,7 +250,7 @@ const ImageForm = ({
                 disabled={!isValid}
                 showSaved={!dirty && (isNewlyCreated || savedToServer)}
                 formIsDirty={formIsDirty}
-                onClick={evt => {
+                onClick={(evt) => {
                   if (inModal) {
                     evt.preventDefault();
                     submitForm();

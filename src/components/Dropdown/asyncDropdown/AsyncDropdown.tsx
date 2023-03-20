@@ -103,7 +103,7 @@ export const AsyncDropdown = <ApiType extends ApiTypeValues>({
       setLoading(true);
       const apiOutput = await apiAction(query, showPagination ? page : undefined);
       setTotalCount(apiOutput.totalCount ?? 1);
-      const transformedItems: ItemValues<ApiType>[] = apiOutput.results.map(item => ({
+      const transformedItems: ItemValues<ApiType>[] = apiOutput.results.map((item) => ({
         ...item,
         title: convertFieldWithFallback<'title'>(item, 'title', ''),
         description: convertFieldWithFallback<'metaDescription'>(item, 'metaDescription', ''),
@@ -192,7 +192,7 @@ export const AsyncDropdown = <ApiType extends ApiTypeValues>({
 
   return (
     <Downshift
-      itemToString={item => itemToString(item, labelField)}
+      itemToString={(item) => itemToString(item, labelField)}
       onStateChange={handleStateChange}
       onChange={handleChange}
       isOpen={keepOpen}
@@ -200,7 +200,8 @@ export const AsyncDropdown = <ApiType extends ApiTypeValues>({
       selectedItem={selectedItem}
       onOuterClick={() => {
         setKeepOpen(false);
-      }}>
+      }}
+    >
       {({ getInputProps, openMenu, ...downshiftProps }) => {
         const inpProps = getInputProps({
           ...inputProps,

@@ -158,7 +158,7 @@ const TableComponent = ({
             <tbody>
               {tableData.map((contentRow, index) => (
                 <tr key={`tablerow_${contentRow?.[0]?.id}_${index}`}>
-                  {contentRow.map(field => (
+                  {contentRow.map((field) => (
                     <td key={field.id}>{field.data}</td>
                   ))}
                 </tr>

@@ -50,7 +50,7 @@ const SessionContainer = ({ close }: Props) => {
   const [open, setOpen] = useState(false);
   const { userName, authenticated } = useSession();
 
-  const toggleOpen = (newOpen?: boolean) => setOpen(prevOpen => newOpen ?? !prevOpen);
+  const toggleOpen = (newOpen?: boolean) => setOpen((prevOpen) => newOpen ?? !prevOpen);
 
   const isAccessTokenPersonal = getAccessTokenPersonal();
 
@@ -64,7 +64,8 @@ const SessionContainer = ({ close }: Props) => {
               toggleOpen();
               close();
             }}
-            variant="link">
+            variant="link"
+          >
             {userName}
           </ButtonV2>
         </div>
@@ -81,7 +82,8 @@ const SessionContainer = ({ close }: Props) => {
               },
               clickOutsideDeactivates: true,
               escapeDeactivates: true,
-            }}>
+            }}
+          >
             <div>
               <AuthSiteNavItem logoutText={t('logoutProviders.localLogout')} onClick={toggleOpen} />
             </div>

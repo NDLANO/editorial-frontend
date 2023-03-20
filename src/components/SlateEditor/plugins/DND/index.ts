@@ -18,20 +18,24 @@ import { TYPE_TABLE_CAPTION } from '../table/types';
 import onDrop from './onDrop';
 import { getTopNode } from './utils';
 
-const onDragOver = (editor: Editor): DragEventHandler<HTMLDivElement> => event => {
-  event.preventDefault();
-};
+const onDragOver =
+  (editor: Editor): DragEventHandler<HTMLDivElement> =>
+  (event) => {
+    event.preventDefault();
+  };
 
-const onDragStart = (editor: Editor): DragEventHandler<HTMLDivElement> => event => {
-  event.dataTransfer.effectAllowed = 'copy';
+const onDragStart =
+  (editor: Editor): DragEventHandler<HTMLDivElement> =>
+  (event) => {
+    event.dataTransfer.effectAllowed = 'copy';
 
-  const node = ReactEditor.toSlateNode(editor, event.target as globalThis.Node);
-  const path = ReactEditor.findPath(editor, node);
-  const topNode = getTopNode(editor, path);
-  if (!Text.isText(node) && topNode && Element.isElement(topNode[0])) {
-    event.dataTransfer.setData('application/slate-node-path', JSON.stringify(topNode[1]));
-  }
-};
+    const node = ReactEditor.toSlateNode(editor, event.target as globalThis.Node);
+    const path = ReactEditor.findPath(editor, node);
+    const topNode = getTopNode(editor, path);
+    if (!Text.isText(node) && topNode && Element.isElement(topNode[0])) {
+      event.dataTransfer.setData('application/slate-node-path', JSON.stringify(topNode[1]));
+    }
+  };
 
 const dndPlugin = (editor: Editor) => {
   const { getFragment } = editor;

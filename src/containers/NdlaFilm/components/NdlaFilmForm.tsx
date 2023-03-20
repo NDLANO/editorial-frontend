@@ -73,9 +73,10 @@ const NdlaFilmForm = ({ filmFrontpage, selectedLanguage }: Props) => {
     <Formik
       initialValues={initialValues}
       onSubmit={() => {}}
-      validate={values => validateFormik(values, ndlaFilmRules, t)}
-      enableReinitialize={true}>
-      {formik => {
+      validate={(values) => validateFormik(values, ndlaFilmRules, t)}
+      enableReinitialize={true}
+    >
+      {(formik) => {
         const { values, dirty, isSubmitting, errors, isValid } = formik;
         const formIsDirty: boolean = isFormikFormDirty({
           values,

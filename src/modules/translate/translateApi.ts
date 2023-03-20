@@ -20,4 +20,4 @@ export const fetchNnTranslation = ({ ...content }: Record<string, ApiTranslateTy
     body: JSON.stringify({
       document: content,
     }),
-  }).then(r => resolveJsonOrRejectWithError<Record<string, string | string[]>>(r));
+  }).then((r) => resolveJsonOrRejectWithError<Record<string, string | string[]>>(r));

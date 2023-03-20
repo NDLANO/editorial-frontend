@@ -93,7 +93,7 @@ export const codeblockPlugin = (editor: Editor) => {
     return undefined;
   };
 
-  editor.normalizeNode = entry => {
+  editor.normalizeNode = (entry) => {
     const [node] = entry;
 
     if (Element.isElement(node) && node.type === TYPE_CODEBLOCK) {
@@ -104,7 +104,7 @@ export const codeblockPlugin = (editor: Editor) => {
     nextNormalizeNode(entry);
   };
 
-  editor.isVoid = element => {
+  editor.isVoid = (element) => {
     if (Element.isElement(element) && element.type === TYPE_CODEBLOCK) {
       return true;
     } else {

@@ -39,7 +39,7 @@ interface Props {
 
 const MetaImageField = ({ image, onImageRemove, onImageLoad }: Props) => {
   const { t } = useTranslation();
-  const copyright = image.copyright.creators.map(creator => creator.name).join(', ');
+  const copyright = image.copyright.creators.map((creator) => creator.name).join(', ');
   const title = convertFieldWithFallback<'title'>(image, 'title', '');
   const alt = convertFieldWithFallback<'alttext'>(image, 'alttext', '');
   const imageAction = (
@@ -51,7 +51,8 @@ const MetaImageField = ({ image, onImageRemove, onImageLoad }: Props) => {
           variant="ghost"
           onClick={onImageRemove}
           tabIndex={-1}
-          data-cy="remove-element">
+          data-cy="remove-element"
+        >
           <DeleteForever />
         </IconButtonV2>
       </Tooltip>
@@ -61,7 +62,8 @@ const MetaImageField = ({ image, onImageRemove, onImageLoad }: Props) => {
           colorTheme="light"
           shape="pill"
           to={`/media/image-upload/${image.id}/edit/${image.title.language}`}
-          target="_blank">
+          target="_blank"
+        >
           <Link />
         </SafeLinkButton>
       </Tooltip>

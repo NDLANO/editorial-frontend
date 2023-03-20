@@ -10,7 +10,7 @@ declare module 'react-i18next' {
 
   export interface CustomWithTranslation<
     N extends Namespace = DefaultNamespace,
-    TKPrefix extends KeyPrefix<N> = undefined
+    TKPrefix extends KeyPrefix<N> = undefined,
   > {
     t: TFunction<N, TKPrefix>;
     i18n: CustomI18n;
@@ -34,7 +34,7 @@ declare module 'react-i18next' {
 
   export function withTranslation<
     N extends Namespace = DefaultNamespace,
-    TKPrefix extends KeyPrefix<N> = undefined
+    TKPrefix extends KeyPrefix<N> = undefined,
   >(
     ns?: N,
     options?: {

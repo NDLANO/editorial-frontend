@@ -44,7 +44,7 @@ const StyledWrapper = styled.div<{ isSelected: boolean }>`
     margin-top: 0;
   }
   padding: 5px;
-  border: ${p =>
+  border: ${(p) =>
     p.isSelected ? `2px solid ${colors.brand.primary}` : `2px dashed ${colors.brand.greyLighter}`};
 `;
 
@@ -79,7 +79,10 @@ const BlockConcept = ({ element, locale, editor, attributes, children }: Props) 
         Transforms.setNodes(
           editor,
           { data: data.data },
-          { at: path, match: node => Element.isElement(node) && node.type === TYPE_CONCEPT_BLOCK },
+          {
+            at: path,
+            match: (node) => Element.isElement(node) && node.type === TYPE_CONCEPT_BLOCK,
+          },
         );
 
         // Insertion of concept consists of insert an empty concept and then updating it with an ID. By merging the events we can consider them as one action and undo both with ctrl+z.
@@ -95,7 +98,7 @@ const BlockConcept = ({ element, locale, editor, attributes, children }: Props) 
       const path = ReactEditor.findPath(editor, element);
       Transforms.removeNodes(editor, {
         at: path,
-        match: node => Element.isElement(node) && node.type === TYPE_CONCEPT_BLOCK,
+        match: (node) => Element.isElement(node) && node.type === TYPE_CONCEPT_BLOCK,
       });
     }, 0);
   };
@@ -122,7 +125,8 @@ const BlockConcept = ({ element, locale, editor, attributes, children }: Props) 
       tabIndex={1}
       isSelected={isSelected}
       draggable={true}
-      className="c-figure u-float">
+      className="c-figure u-float"
+    >
       {concept && (
         <div contentEditable={false}>
           <BlockConceptPreview

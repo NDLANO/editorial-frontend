@@ -42,7 +42,7 @@ const CommentSection = ({ comments = [] }: Props) => {
           {allOpen ? t('form.hideAll') : t('form.openAll')}
         </ButtonV2>
       </StyledOpenCloseAll>
-      {comments.map(comment => (
+      {comments.map((comment) => (
         <Comment key={comment} comment={comment} allOpen={allOpen} />
       ))}
     </CommentWrapper>

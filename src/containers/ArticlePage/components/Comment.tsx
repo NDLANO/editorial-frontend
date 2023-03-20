@@ -12,7 +12,7 @@ import { ButtonV2, IconButtonV2 } from '@ndla/button';
 import { useTranslation } from 'react-i18next';
 import Tooltip from '@ndla/tooltip';
 import { TextAreaV2 } from '@ndla/forms';
-import { ChangeEvent, useEffect, useRef, useState } from 'react';
+import { ChangeEvent, useEffect, useMemo, useState } from 'react';
 import { css } from '@emotion/react';
 
 export const textAreaStyles = css`
@@ -25,6 +25,7 @@ export const textAreaStyles = css`
     ${fonts.sizes('16px')};
     margin: 0px;
     padding: ${spacing.xxsmall};
+    font-weight: 300;
   }
 `;
 
@@ -44,6 +45,7 @@ const ClosedTextField = styled.div`
   white-space: nowrap;
   padding: ${spacing.xxsmall};
   border: 1px solid transparent;
+  width: 100%;
 `;
 
 const ButtonWrapper = styled.div`
@@ -53,46 +55,28 @@ const ButtonWrapper = styled.div`
 `;
 
 const StyledButton = styled(ButtonV2)<{ flex: number }>`
-  flex: ${p => p.flex};
+  flex: ${(p) => p.flex};
 `;
 
 const CommentCard = styled.li`
+  display: flex;
   width: 200px;
   border: 1px solid ${colors.brand.neutral7};
   border-radius: 5px;
   padding: 10px;
   ${fonts.sizes('16px')};
+  font-weight: 300;
 `;
 
-const StyledTitle = styled.div`
-  color: ${colors.brand.primary};
-`;
-
-const StyledDateTime = styled.div`
-  ${fonts.sizes('10px', '1')};
-  font-weight: ${fonts.weight.light};
-  color: ${colors.text.light};
+const CardContent = styled.div`
   display: flex;
-  gap: ${spacing.xsmall};
-`;
-const TitleWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-const TitleAndDate = styled.div`
-  display: flex;
-  flex-direction: column;
 `;
 
 const InputAndButtons = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${spacing.xsmall};
-`;
-const CommentWrapper = styled.div`
-  display: flex;
+  width: 100%;
 `;
 
 const StyledTrashIcon = styled(TrashCanOutline)`
@@ -110,6 +94,9 @@ const Comment = ({ comment, showInput = false, allOpen = false }: Props) => {
   const [inputValue, setInputValue] = useState(comment);
   const [open, setOpen] = useState(true);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const displayEditButtons = useMemo(() => inputValue !== comment, [inputValue]);
+
   useEffect(() => {
     comment && setInputValue(comment);
   }, [comment]);
@@ -124,28 +111,6 @@ const Comment = ({ comment, showInput = false, allOpen = false }: Props) => {
 
   return (
     <CommentCard>
-      <TitleWrapper>
-        <TitleAndDate>
-          <StyledTitle>Fornavn Etternavn</StyledTitle>
-          {comment && (
-            <StyledDateTime>
-              <span>09:48</span>
-              <span>17. januar 2023</span>
-            </StyledDateTime>
-          )}
-        </TitleAndDate>
-        {comment && (
-          <Tooltip tooltip={t('form.trash')}>
-            <IconButtonV2
-              variant="ghost"
-              size="xsmall"
-              aria-label={t('form.trash')}
-              onMouseDown={() => console.log('clicked delete')}>
-              <StyledTrashIcon />
-            </IconButtonV2>
-          </Tooltip>
-        )}
-      </TitleWrapper>
       {showInput && (
         <InputAndButtons>
           <TextAreaV2
@@ -164,7 +129,8 @@ const Comment = ({ comment, showInput = false, allOpen = false }: Props) => {
               colorTheme="danger"
               flex={1}
               disabled={!inputValue}
-              onClick={() => setInputValue('')}>
+              onClick={() => setInputValue('')}
+            >
               {t('form.abort')}
             </StyledButton>
             <StyledButton
@@ -173,40 +139,78 @@ const Comment = ({ comment, showInput = false, allOpen = false }: Props) => {
               size="xsmall"
               flex={2}
               disabled={!inputValue}
-              onClick={() => console.log('clicked comment')}>
+              onClick={() => console.log('clicked comment')}
+            >
               {t('form.comment')}
             </StyledButton>
           </ButtonWrapper>
         </InputAndButtons>
       )}
-
       {comment && (
-        <CommentWrapper>
-          <Tooltip tooltip={open ? t('form.hideComment') : t('form.showComment')}>
-            <IconButtonV2
-              variant="ghost"
-              size="xsmall"
-              aria-label={open ? t('form.hideComment') : t('form.showComment')}
-              onMouseDown={() => setOpen(!open)}
-              aria-expanded={open}
-              aria-controls="comment-section">
-              <> {open ? <ExpandMore /> : <RightArrow />}</>
-            </IconButtonV2>
-          </Tooltip>
+        <InputAndButtons>
+          <CardContent>
+            <Tooltip tooltip={open ? t('form.hideComment') : t('form.showComment')}>
+              <IconButtonV2
+                variant="ghost"
+                size="xsmall"
+                aria-label={open ? t('form.hideComment') : t('form.showComment')}
+                onMouseDown={() => setOpen(!open)}
+                aria-expanded={open}
+                aria-controls="comment-section"
+              >
+                <> {open ? <ExpandMore /> : <RightArrow />}</>
+              </IconButtonV2>
+            </Tooltip>
 
-          {open ? (
-            <StyledClickableTextArea
-              value={inputValue}
-              label={t('form.commentField')}
-              name={t('form.commentField')}
-              labelHidden
-              onChange={handleInputChange}
-              id="comment-section"
-            />
-          ) : (
-            <ClosedTextField id="comment-section">{inputValue}</ClosedTextField>
+            {open ? (
+              <StyledClickableTextArea
+                value={inputValue}
+                label={t('form.commentField')}
+                name={t('form.commentField')}
+                labelHidden
+                onChange={handleInputChange}
+                id="comment-section"
+              />
+            ) : (
+              <ClosedTextField id="comment-section">{inputValue}</ClosedTextField>
+            )}
+
+            <Tooltip tooltip={t('form.trash')}>
+              <IconButtonV2
+                variant="ghost"
+                size="xsmall"
+                aria-label={t('form.trash')}
+                onMouseDown={() => console.log('clicked delete')}
+              >
+                <StyledTrashIcon />
+              </IconButtonV2>
+            </Tooltip>
+          </CardContent>
+          {displayEditButtons && (
+            <ButtonWrapper>
+              <StyledButton
+                shape="pill"
+                size="xsmall"
+                colorTheme="danger"
+                flex={1}
+                disabled={!inputValue}
+                onClick={() => setInputValue(comment)}
+              >
+                {t('form.abort')}
+              </StyledButton>
+              <StyledButton
+                variant="outline"
+                shape="pill"
+                size="xsmall"
+                flex={1}
+                disabled={!inputValue}
+                onClick={() => console.log('clicked comment')}
+              >
+                {t('form.save')}
+              </StyledButton>
+            </ButtonWrapper>
           )}
-        </CommentWrapper>
+        </InputAndButtons>
       )}
     </CommentCard>
   );

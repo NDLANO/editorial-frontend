@@ -105,13 +105,6 @@ function EditorFooter<T extends FormValues>({
 
   const articleOrConcept = isArticle || isConcept;
 
-  const onSave = (saveAsNewVersion?: boolean | undefined) => {
-    if (STATUSES_RESET_RESPONSIBLE.find((s) => s === status?.value)) {
-      updateResponsible(null);
-    }
-    onSaveClick(saveAsNewVersion);
-  };
-
   useEffect(() => {
     if (newStatus?.value === PUBLISHED) {
       onSaveClick();
@@ -126,7 +119,7 @@ function EditorFooter<T extends FormValues>({
       isSaving={isSubmitting}
       formIsDirty={formIsDirty}
       showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}
-      onClick={onSave}
+      onClick={onSaveClick}
       hideSecondaryButton={hideSecondaryButton}
       disabled={!!hasErrors}
     />
@@ -181,11 +174,6 @@ function EditorFooter<T extends FormValues>({
       catchError(error, createMessage);
     }
   };
-
-  useEffect(() => {
-    if (entityStatus?.current === PUBLISHED) updateResponsible(null);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [entityStatus?.current]);
 
   if (showSimpleFooter) {
     return (

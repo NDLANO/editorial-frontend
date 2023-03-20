@@ -44,6 +44,8 @@ const ResponsibleSelect = ({ responsible, setResponsible, onSave, responsibleId 
     if (users && responsibleId) {
       const initialResponsible = users.find((user) => user.value === responsibleId) ?? null;
       setResponsible(initialResponsible);
+    } else {
+      setResponsible(null);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [users, responsibleId]);

@@ -33,7 +33,14 @@ import {
   TableRowElement,
 } from './plugins/table/interfaces';
 import { RelatedElement } from './plugins/related';
-import { NdlaEmbedElement } from './plugins/embed';
+import {
+  AudioEmbedElement,
+  BrightcoveEmbedElement,
+  ErrorEmbedElement,
+  ExternalEmbedElement,
+  H5PEmbedElement,
+  ImageEmbedElement,
+} from './plugins/embed';
 import { BodyboxElement } from './plugins/bodybox';
 import { CodeblockElement } from './plugins/codeBlock';
 import { DivElement } from './plugins/div';
@@ -90,7 +97,12 @@ declare module 'slate' {
       | TableHeadElement
       | TableBodyElement
       | RelatedElement
-      | NdlaEmbedElement
+      | ImageEmbedElement
+      | BrightcoveEmbedElement
+      | AudioEmbedElement
+      | ErrorEmbedElement
+      | ExternalEmbedElement
+      | H5PEmbedElement
       | BodyboxElement
       | DivElement
       | SpanElement

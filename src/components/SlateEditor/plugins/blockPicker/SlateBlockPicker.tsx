@@ -30,6 +30,22 @@ import { TYPE_PARAGRAPH } from '../paragraph/types';
 import { isParagraph } from '../paragraph/utils';
 import { isTableCell } from '../table/slateHelpers';
 import { defaultTableBlock } from '../table/defaultBlocks';
+import { TYPE_BODYBOX } from '../bodybox/types';
+import { TYPE_DETAILS } from '../details/types';
+import { TYPE_TABLE } from '../table/types';
+import { TYPE_ASIDE } from '../aside/types';
+import { TYPE_FILE } from '../file/types';
+import {
+  TYPE_EMBED_AUDIO,
+  TYPE_EMBED_BRIGHTCOVE,
+  TYPE_EMBED_ERROR,
+  TYPE_EMBED_EXTERNAL,
+  TYPE_EMBED_H5P,
+  TYPE_EMBED_IMAGE,
+} from '../embed/types';
+import { TYPE_RELATED } from '../related/types';
+import { TYPE_CODEBLOCK } from '../codeBlock/types';
+import { TYPE_CONCEPT_LIST } from '../conceptList/types';
 
 interface Props {
   editor: Editor;
@@ -151,38 +167,42 @@ const SlateBlockPicker = ({
 
   const onElementAdd = (data: ActionData) => {
     switch (data.type) {
-      case 'bodybox': {
+      case TYPE_BODYBOX: {
         onInsertBlock(defaultBodyboxBlock(), true);
         break;
       }
-      case 'details': {
+      case TYPE_DETAILS: {
         onInsertBlock(defaultDetailsBlock(), true);
         break;
       }
-      case 'table': {
+      case TYPE_TABLE: {
         onInsertBlock(defaultTableBlock(2, 2), true);
         break;
       }
-      case 'aside': {
+      case TYPE_ASIDE: {
         onInsertBlock(defaultAsideBlock(data.object), true);
         break;
       }
-      case 'h5p':
-      case 'file':
-      case 'ndlaembed': {
+      case TYPE_FILE:
+      case TYPE_EMBED_H5P:
+      case TYPE_EMBED_AUDIO:
+      case TYPE_EMBED_IMAGE:
+      case TYPE_EMBED_ERROR:
+      case TYPE_EMBED_EXTERNAL:
+      case TYPE_EMBED_BRIGHTCOVE: {
         setVisualElementPickerOpen(true);
         setType(data.object);
         break;
       }
-      case 'related': {
+      case TYPE_RELATED: {
         onInsertBlock(defaultRelatedBlock());
         break;
       }
-      case 'code-block': {
+      case TYPE_CODEBLOCK: {
         onInsertBlock(defaultCodeblockBlock());
         break;
       }
-      case 'concept-list': {
+      case TYPE_CONCEPT_LIST: {
         onInsertBlock({ ...defaultConceptListBlock(), isFirstEdit: true });
         break;
       }

@@ -9,8 +9,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import './helpers/h5pResizer';
-import { Transforms, Editor } from 'slate';
-import { ReactEditor } from 'slate-react';
+import { Transforms, Editor, Path } from 'slate';
 import styled from '@emotion/styled';
 import { Expandable } from '@ndla/icons/editor';
 import handleError from '../../util/handleError';
@@ -23,7 +22,6 @@ import FigureButtons from '../SlateEditor/plugins/embed/FigureButtons';
 import config from '../../config';
 import { getH5pLocale } from '../H5PElement/h5pApi';
 import { Embed, ExternalEmbed, H5pEmbed } from '../../interfaces';
-import { NdlaEmbedElement } from '../SlateEditor/plugins/embed';
 import SlateResourceBox from './SlateResourceBox';
 
 const ApplyBoxshadow = styled('div')<{ showCopyOutline: boolean }>`
@@ -40,7 +38,7 @@ const ExpandableButton = styled.div`
 type EmbedType = ExternalEmbed | H5pEmbed;
 
 interface Props {
-  element: NdlaEmbedElement;
+  pathToEmbed: Path;
   editor: Editor;
   embed: EmbedType;
   onRemoveClick: (event: React.MouseEvent) => void;
@@ -59,7 +57,7 @@ interface EmbedProperties {
 }
 
 const DisplayExternal = ({
-  element,
+  pathToEmbed,
   editor,
   embed,
   onRemoveClick,
@@ -162,11 +160,7 @@ const DisplayExternal = ({
     setIsEditMode(false);
   };
   const onEditEmbed = (embedUpdates: Embed) => {
-    Transforms.setNodes(
-      editor,
-      { data: { ...embedUpdates } },
-      { at: ReactEditor.findPath(editor, element) },
-    );
+    Transforms.setNodes(editor, { data: { ...embedUpdates } }, { at: pathToEmbed });
     closeEditEmbed();
   };
 
@@ -232,7 +226,7 @@ const DisplayExternal = ({
             height: `${updatedElementHeight}px`,
           },
         },
-        { at: ReactEditor.findPath(editor, element) },
+        { at: pathToEmbed },
       );
       setHeight(updatedElementHeight);
       setIsResizing(false);

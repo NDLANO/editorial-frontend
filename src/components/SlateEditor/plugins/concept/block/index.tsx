@@ -13,6 +13,7 @@ import { createEmbedTag, reduceElementDataAttributes } from '../../../../../util
 import { SlateSerializer } from '../../../interfaces';
 import { defaultBlockNormalizer, NormalizerConfig } from '../../../utils/defaultNormalizer';
 import { afterOrBeforeTextBlockElement } from '../../../utils/normalizationHelpers';
+import { TYPE_NDLA_EMBED } from '../../embed/types';
 import { TYPE_PARAGRAPH } from '../../paragraph/types';
 import BlockConcept from './BlockConcept';
 import { TYPE_CONCEPT_BLOCK } from './types';
@@ -30,7 +31,7 @@ const normalizerConfig: NormalizerConfig = {
 
 export const blockConceptSerializer: SlateSerializer = {
   deserialize(el: HTMLElement, children: Descendant[]) {
-    if (el.tagName.toLowerCase() !== 'ndlaembed') return;
+    if (el.tagName.toLowerCase() !== TYPE_NDLA_EMBED) return;
     const embed = el as HTMLEmbedElement;
     const embedAttributes = reduceElementDataAttributes(embed);
     if (embedAttributes.resource === 'concept' && embedAttributes.type === 'block') {

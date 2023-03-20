@@ -52,6 +52,7 @@ const draftApiTypeToArticleFormType = (
   article: IArticle | undefined,
   language: string,
   articleType: string,
+  ndlaId: string | undefined,
   contentFunc: (html: string) => Descendant[],
 ): ArticleFormType => {
   const license = article?.copyright?.license?.license;
@@ -85,16 +86,23 @@ const draftApiTypeToArticleFormType = (
     relatedContent: article?.relatedContent ?? [],
     revisionMeta: article?.revisions ?? [],
     slug: article?.slug,
-    responsibleId: article?.responsible?.responsibleId,
+    responsibleId: article?.responsible?.responsibleId ?? ndlaId,
   };
 };
 
 export const draftApiTypeToLearningResourceFormType = (
   article: IArticle | undefined,
   language: string,
+  ndlaId: string | undefined,
 ): LearningResourceFormType => {
   return {
-    ...draftApiTypeToArticleFormType(article, language, 'standard', blockContentToEditorValue),
+    ...draftApiTypeToArticleFormType(
+      article,
+      language,
+      'standard',
+      ndlaId,
+      blockContentToEditorValue,
+    ),
     origin: article?.copyright?.origin,
   };
 };
@@ -102,12 +110,14 @@ export const draftApiTypeToLearningResourceFormType = (
 export const draftApiTypeToFrontpageArticleFormType = (
   article: IArticle | undefined,
   language: string,
+  ndlaId: string | undefined,
 ): FrontpageArticleFormType => {
   return {
     ...draftApiTypeToArticleFormType(
       article,
       language,
       'frontpage-article',
+      ndlaId,
       blockContentToEditorValue,
     ),
   };
@@ -116,12 +126,14 @@ export const draftApiTypeToFrontpageArticleFormType = (
 export const draftApiTypeToTopicArticleFormType = (
   article: IArticle | undefined,
   language: string,
+  ndlaId: string | undefined,
 ): TopicArticleFormType => {
   return {
     ...draftApiTypeToArticleFormType(
       article,
       language,
       'topic-article',
+      ndlaId,
       inlineContentToEditorValue,
     ),
     visualElement: embedTagToEditorValue(article?.visualElement?.visualElement ?? ''),

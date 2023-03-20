@@ -31,6 +31,7 @@ import {
 import { blockContentToHTML } from '../../../../util/articleContentConverter';
 import StyledForm from '../../../../components/StyledFormComponents';
 import FrontpageArticlePanels from './FrontpageArticlePanels';
+import { useSession } from '../../../../containers/Session/SessionProvider';
 
 interface Props {
   article?: IArticle;
@@ -53,7 +54,7 @@ const FrontpageArticleForm = ({
 
   const { data: licenses } = useLicenses({ placeholderData: [] });
   const statusStateMachine = useDraftStatusStateMachine({ articleId: article?.id });
-
+  const { ndlaId } = useSession();
   const { savedToServer, formikRef, initialValues, handleSubmit } =
     useArticleFormHooks<FrontpageArticleFormType>({
       getInitialValues: draftApiTypeToFrontpageArticleFormType,
@@ -64,6 +65,7 @@ const FrontpageArticleForm = ({
       getArticleFromSlate: frontpageArticleFormTypeToDraftApiType,
       articleLanguage,
       rules: frontPageArticleRules,
+      ndlaId,
     });
 
   const initialHTML = useMemo(() => blockContentToHTML(initialValues.content), [initialValues]);

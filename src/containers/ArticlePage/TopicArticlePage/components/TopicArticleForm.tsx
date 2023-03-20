@@ -30,6 +30,7 @@ import { ArticleTaxonomy } from '../../../FormikForm/formikDraftHooks';
 import { blockContentToHTML } from '../../../../util/articleContentConverter';
 import StyledForm from '../../../../components/StyledFormComponents';
 import { TaxonomyVersionProvider } from '../../../StructureVersion/TaxonomyVersionProvider';
+import { useSession } from '../../../../containers/Session/SessionProvider';
 
 interface Props {
   article?: IArticle;
@@ -55,7 +56,7 @@ const TopicArticleForm = ({
   const statusStateMachine = useDraftStatusStateMachine({ articleId: article?.id });
 
   const { t } = useTranslation();
-
+  const { ndlaId } = useSession();
   const { savedToServer, formikRef, initialValues, handleSubmit } =
     useArticleFormHooks<TopicArticleFormType>({
       getInitialValues: draftApiTypeToTopicArticleFormType,
@@ -67,6 +68,7 @@ const TopicArticleForm = ({
       getArticleFromSlate: topicArticleFormTypeToDraftApiType,
       articleLanguage,
       rules: topicArticleRules,
+      ndlaId,
     });
 
   const initialHTML = useMemo(() => blockContentToHTML(initialValues.content), [initialValues]);

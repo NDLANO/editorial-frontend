@@ -84,7 +84,11 @@ export interface TopicArticleFormType extends ArticleFormType {
 export interface FrontpageArticleFormType extends ArticleFormType {}
 
 type HooksInputObject<T extends ArticleFormType> = {
-  getInitialValues: (article: IArticle | undefined, language: string) => T;
+  getInitialValues: (
+    article: IArticle | undefined,
+    language: string,
+    ndlaId: string | undefined,
+  ) => T;
   article?: IArticle;
   t: TFunction;
   articleStatus?: IStatus;
@@ -98,6 +102,7 @@ type HooksInputObject<T extends ArticleFormType> = {
   ) => IUpdatedArticle;
   articleLanguage: string;
   rules?: RulesType<T, IArticle>;
+  ndlaId?: string;
 };
 
 export function useArticleFormHooks<T extends ArticleFormType>({
@@ -109,13 +114,14 @@ export function useArticleFormHooks<T extends ArticleFormType>({
   getArticleFromSlate,
   articleLanguage,
   rules,
+  ndlaId,
 }: HooksInputObject<T>) {
   const { id, revision } = article ?? {};
   const formikRef: any = useRef<any>(null); // TODO: Formik bruker any for denne ref'en men kanskje vi skulle gjort noe kulere?
   const { createMessage, applicationError } = useMessages();
   const { data: licenses } = useLicenses({ placeholderData: [] });
   const [savedToServer, setSavedToServer] = useState(false);
-  const initialValues = getInitialValues(article, articleLanguage);
+  const initialValues = getInitialValues(article, articleLanguage, ndlaId);
 
   useEffect(() => {
     setSavedToServer(false);
@@ -150,7 +156,7 @@ export function useArticleFormHooks<T extends ArticleFormType>({
       await deleteRemovedFiles(article?.content?.content ?? '', newArticle.content ?? '');
 
       setSavedToServer(true);
-      const newInitialValues = getInitialValues(savedArticle, articleLanguage);
+      const newInitialValues = getInitialValues(savedArticle, articleLanguage, ndlaId);
       formikHelpers.resetForm({ values: newInitialValues });
       if (rules) {
         const newInitialWarnings = getWarnings(newInitialValues, rules, t, savedArticle);

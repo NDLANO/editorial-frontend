@@ -35,6 +35,7 @@ import ConceptFormFooter from './ConceptFormFooter';
 import { MessageError, useMessages } from '../../Messages/MessagesProvider';
 import { useLicenses } from '../../../modules/draft/draftQueries';
 import FormWrapper from '../../../components/FormWrapper';
+import { useSession } from '../../../containers/Session/SessionProvider';
 
 const STATUSES_RESPONSIBLE_NOT_REQUIRED = [PUBLISHED, ARCHIVED, UNPUBLISHED];
 
@@ -132,6 +133,7 @@ const ConceptForm = ({
   const { t } = useTranslation();
   const { applicationError } = useMessages();
   const { data: licenses = [] } = useLicenses({ placeholderData: [] });
+  const { ndlaId } = useSession();
 
   useEffect(() => {
     setSavedToServer(false);
@@ -160,7 +162,7 @@ const ConceptForm = ({
         savedConcept = await upsertProps.onUpdate(conceptWithStatus, revision!);
       }
       formikHelpers.resetForm({
-        values: conceptApiTypeToFormType(savedConcept, language, subjects, conceptArticles),
+        values: conceptApiTypeToFormType(savedConcept, language, subjects, conceptArticles, ndlaId),
       });
       formikHelpers.setSubmitting(false);
       setSavedToServer(true);
@@ -177,6 +179,7 @@ const ConceptForm = ({
     language,
     subjects,
     conceptArticles,
+    ndlaId,
     initialTitle,
   );
   const initialWarnings = getWarnings(initialValues, conceptFormRules, t, concept);

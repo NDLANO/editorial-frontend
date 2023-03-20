@@ -6,7 +6,13 @@ import { TYPE_QUOTE } from '../plugins/blockquote/types';
 import { TYPE_BODYBOX } from '../plugins/bodybox/types';
 import { TYPE_CODEBLOCK } from '../plugins/codeBlock/types';
 import { TYPE_DETAILS } from '../plugins/details/types';
-import { TYPE_NDLA_EMBED } from '../plugins/embed/types';
+import {
+  TYPE_EMBED_AUDIO,
+  TYPE_EMBED_BRIGHTCOVE,
+  TYPE_EMBED_ERROR,
+  TYPE_EMBED_EXTERNAL,
+  TYPE_EMBED_H5P,
+} from '../plugins/embed/types';
 import { TYPE_FILE } from '../plugins/file/types';
 import { TYPE_HEADING } from '../plugins/heading/types';
 import { TYPE_LIST } from '../plugins/list/types';
@@ -21,7 +27,11 @@ export const textBlockElements: Element['type'][] = [
   TYPE_LIST,
   TYPE_QUOTE,
   TYPE_TABLE,
-  TYPE_NDLA_EMBED,
+  TYPE_EMBED_AUDIO,
+  TYPE_EMBED_BRIGHTCOVE,
+  TYPE_EMBED_EXTERNAL,
+  TYPE_EMBED_ERROR,
+  TYPE_EMBED_H5P,
   TYPE_FILE,
   TYPE_CODEBLOCK,
   TYPE_ASIDE,

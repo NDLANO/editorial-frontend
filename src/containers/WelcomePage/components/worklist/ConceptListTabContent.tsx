@@ -45,10 +45,20 @@ interface Concept {
   subjects: { value: string; label: string }[];
 }
 
-const fetchConceptData = async (concept: IConceptSummary, taxonomyVersion: string) => {
+const fetchConceptData = async (
+  concept: IConceptSummary,
+  taxonomyVersion: string,
+  language: string,
+) => {
   const subjects = concept.subjectIds
-    ? await searchNodes({ ids: concept.subjectIds, taxonomyVersion, nodeType: 'SUBJECT' })
+    ? await searchNodes({
+        ids: concept.subjectIds,
+        taxonomyVersion,
+        nodeType: 'SUBJECT',
+        language,
+      })
     : undefined;
+
   return {
     id: concept.id,
     title: concept.title?.title,
@@ -69,7 +79,7 @@ const ConceptListTabContent = ({
   setFilterSubject,
   ndlaId,
 }: Props) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
 
   const [conceptData, setConceptData] = useState<Concept[]>([]);
@@ -78,11 +88,11 @@ const ConceptListTabContent = ({
     (async () => {
       if (!data?.results) return;
       const _data = await Promise.all(
-        data.results.map((c) => fetchConceptData(c, taxonomyVersion)),
+        data.results.map((c) => fetchConceptData(c, taxonomyVersion, i18n.language)),
       );
       setConceptData(_data);
     })();
-  }, [data?.results, taxonomyVersion]);
+  }, [data?.results, i18n.language, taxonomyVersion]);
 
   const tableData: FieldElement[][] = useMemo(
     () =>

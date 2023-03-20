@@ -28,6 +28,7 @@ import StatusSelect from '../../containers/FormikForm/components/StatusSelect';
 import { ARCHIVED, PUBLISHED, UNPUBLISHED } from '../../constants';
 import PreviewDraftLightboxV2 from '../PreviewDraft/PreviewDraftLightboxV2';
 import { useDisableConverter } from '../ArticleConverterContext';
+import { useSession } from '../../containers/Session/SessionProvider';
 
 interface Props {
   formIsDirty: boolean;
@@ -94,6 +95,7 @@ function EditorFooter<T extends FormValues>({
   const [status, setStatus] = useState<SingleValue>(null);
   const [responsible, setResponsible] = useState<SingleValue>(null);
 
+  const { ndlaId } = useSession();
   const { t } = useTranslation();
   const { values, setFieldValue, isSubmitting } = useFormikContext<T>();
   const { createMessage, formatErrorMessage } = useMessages();
@@ -195,7 +197,7 @@ function EditorFooter<T extends FormValues>({
                 responsible={responsible}
                 setResponsible={setResponsible}
                 onSave={updateResponsible}
-                responsibleId={responsibleId}
+                responsibleId={ndlaId}
               />
             </Wrapper>
           )}

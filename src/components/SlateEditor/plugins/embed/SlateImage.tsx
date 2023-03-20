@@ -12,13 +12,11 @@ import { ReactEditor, RenderElementProps, useSlateStatic } from 'slate-react';
 import { ButtonV2 } from '@ndla/button';
 import { useTranslation } from 'react-i18next';
 import { parseMarkdown } from '@ndla/util';
-import { Editor } from 'slate';
+import { Editor, Path } from 'slate';
 import { getSrcSets } from '../../../../util/imageEditorUtil';
 import FigureButtons from './FigureButtons';
 import EditImage from './EditImage';
 import { ImageEmbed } from '../../../../interfaces';
-
-import { NdlaEmbedElement } from './index';
 import { isTable } from '../table/slateHelpers';
 
 interface Props {
@@ -32,7 +30,7 @@ interface Props {
   saveEmbedUpdates: (change: { [x: string]: string }) => void;
   visualElement: boolean;
   children: ReactNode;
-  element: NdlaEmbedElement;
+  pathToEmbed: Path;
 }
 
 const StyledButton = styled(ButtonV2)`
@@ -72,16 +70,15 @@ const SlateImage = ({
   saveEmbedUpdates,
   visualElement,
   children,
-  element,
+  pathToEmbed,
 }: Props) => {
   const { t } = useTranslation();
   const [editMode, setEditMode] = useState(false);
   const showCopyOutline = isSelectedForCopy && (!editMode || !active);
   const editor = useSlateStatic();
 
-  const imagePath = ReactEditor.findPath(editor, element);
   const [parentTable] = Editor.nodes(editor, {
-    at: imagePath,
+    at: pathToEmbed,
     match: (node) => isTable(node),
   });
   const inTable = !!parentTable;

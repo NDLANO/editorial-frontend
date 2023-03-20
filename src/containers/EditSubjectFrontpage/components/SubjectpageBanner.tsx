@@ -10,9 +10,10 @@ import { ModalBody, ModalV2 } from '@ndla/modal';
 import { FieldHeader } from '@ndla/forms';
 import { useField, useFormikContext } from 'formik';
 import { ButtonV2 } from '@ndla/button';
-import { ImageEmbed } from '../../../interfaces';
+import { Embed, ImageEmbed } from '../../../interfaces';
 import VisualElementSearch from '../../VisualElement/VisualElementSearch';
 import SubjectpageBannerImage from './SubjectpageBannerImage';
+import { isEmbed } from '../../../components/SlateEditor/plugins/blockPicker/SlateVisualElementPicker';
 
 interface Props {
   title: string;
@@ -26,12 +27,12 @@ const SubjectpageBanner = ({ title, fieldName }: Props) => {
   const { onChange, value: fieldValue } = FieldInputProps;
   const [showImageSelect, setShowImageSelect] = useState(false);
 
-  const onImageChange = (image: ImageEmbed) => {
+  const onImageChange = (image: Embed) => {
     updateFormik(image);
     onImageSelectClose();
   };
 
-  const updateFormik = (value?: ImageEmbed) => {
+  const updateFormik = (value?: Embed) => {
     onChange({ target: { name: fieldName, value: value } });
     setFieldTouched(fieldName, true, false);
   };
@@ -59,9 +60,7 @@ const SubjectpageBanner = ({ title, fieldName }: Props) => {
             <VisualElementSearch
               selectedResource={'image'}
               closeModal={close}
-              handleVisualElementChange={(rt) =>
-                rt.type === 'ndlaembed' ? onImageChange(rt.value as ImageEmbed) : null
-              }
+              handleVisualElementChange={(rt) => isEmbed(rt) && onImageChange(rt)}
             />
           </ModalBody>
         )}

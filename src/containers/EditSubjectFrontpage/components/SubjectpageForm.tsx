@@ -6,7 +6,6 @@
  */
 
 import { useState } from 'react';
-import { Element } from 'slate';
 import { Formik, FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
 import {
@@ -35,10 +34,10 @@ import {
 import { useMessages } from '../../Messages/MessagesProvider';
 import { queryLearningPathResource, queryResources, queryTopics } from '../../../modules/taxonomy';
 import { Resource, Topic } from '../../../modules/taxonomy/taxonomyApiInterfaces';
-import { TYPE_NDLA_EMBED } from '../../../components/SlateEditor/plugins/embed/types';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 import StyledForm from '../../../components/StyledFormComponents';
 import { NdlaErrorPayload } from '../../../util/resolveJsonOrRejectWithError';
+import { isSlateEmbed } from '../../../components/SlateEditor/plugins/embed/utils';
 
 interface Props {
   subjectpage?: ISubjectPageData;
@@ -67,7 +66,7 @@ const subjectpageRules: RulesType<SubjectPageFormikType> = {
     required: true,
     test: (values: SubjectPageFormikType) => {
       const element = values?.visualElement[0];
-      const data = Element.isElement(element) && element.type === TYPE_NDLA_EMBED && element.data;
+      const data = isSlateEmbed(element) && element.data;
       const badVisualElementId = data && 'resource_id' in data && data.resource_id === '';
       return badVisualElementId
         ? { translationKey: 'subjectpageForm.missingVisualElement' }

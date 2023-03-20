@@ -25,7 +25,7 @@ import { NewMessageType, useMessages } from '../../containers/Messages/MessagesP
 import { ConceptStatusStateMachineType, DraftStatusStateMachineType } from '../../interfaces';
 import ResponsibleSelect from '../../containers/FormikForm/components/ResponsibleSelect';
 import StatusSelect from '../../containers/FormikForm/components/StatusSelect';
-import { ARCHIVED, PUBLISHED, UNPUBLISHED } from '../../constants';
+import { PUBLISHED } from '../../constants';
 import PreviewDraftLightboxV2 from '../PreviewDraft/PreviewDraftLightboxV2';
 import { useDisableConverter } from '../ArticleConverterContext';
 import { useSession } from '../../containers/Session/SessionProvider';
@@ -72,8 +72,6 @@ const Wrapper = styled.div`
 const StyledFooter = styled.div`
   margin-left: auto;
 `;
-
-const STATUSES_RESET_RESPONSIBLE = [ARCHIVED, UNPUBLISHED];
 
 function EditorFooter<T extends FormValues>({
   formIsDirty,

@@ -25,7 +25,7 @@ import { NewMessageType, useMessages } from '../../containers/Messages/MessagesP
 import { ConceptStatusStateMachineType, DraftStatusStateMachineType } from '../../interfaces';
 import ResponsibleSelect from '../../containers/FormikForm/components/ResponsibleSelect';
 import StatusSelect from '../../containers/FormikForm/components/StatusSelect';
-import { PUBLISHED } from '../../constants';
+import { ARCHIVED, PUBLISHED, UNPUBLISHED } from '../../constants';
 import PreviewDraftLightboxV2 from '../PreviewDraft/PreviewDraftLightboxV2';
 import { useDisableConverter } from '../ArticleConverterContext';
 import { useSession } from '../../containers/Session/SessionProvider';
@@ -73,6 +73,8 @@ const StyledFooter = styled.div`
   margin-left: auto;
 `;
 
+const STATUSES_RESET_RESPONSIBLE = [ARCHIVED, UNPUBLISHED];
+
 function EditorFooter<T extends FormValues>({
   formIsDirty,
   savedToServer,
@@ -111,13 +113,20 @@ function EditorFooter<T extends FormValues>({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [newStatus]);
 
+  const onSave = (saveAsNewVersion?: boolean | undefined) => {
+    if (STATUSES_RESET_RESPONSIBLE.find(s => s === status?.value)) {
+      updateResponsible(null);
+    }
+    onSaveClick(saveAsNewVersion);
+  };
+
   const saveButton = (
     <SaveMultiButton
       large
       isSaving={isSubmitting}
       formIsDirty={formIsDirty}
       showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}
-      onClick={onSaveClick}
+      onClick={onSave}
       hideSecondaryButton={hideSecondaryButton}
       disabled={!!hasErrors}
     />

@@ -12,13 +12,11 @@ import { ReactEditor, RenderElementProps, useSlateStatic } from 'slate-react';
 import { ButtonV2 } from '@ndla/button';
 import { useTranslation } from 'react-i18next';
 import { parseMarkdown } from '@ndla/util';
-import { Editor } from 'slate';
+import { Editor, Path } from 'slate';
 import { getSrcSets } from '../../../../util/imageEditorUtil';
 import FigureButtons from './FigureButtons';
 import EditImage from './EditImage';
 import { ImageEmbed } from '../../../../interfaces';
-
-import { NdlaEmbedElement } from './index';
 import { isTable } from '../table/slateHelpers';
 
 interface Props {
@@ -32,7 +30,7 @@ interface Props {
   saveEmbedUpdates: (change: { [x: string]: string }) => void;
   visualElement: boolean;
   children: ReactNode;
-  element: NdlaEmbedElement;
+  pathToEmbed: Path;
 }
 
 const StyledButton = styled(ButtonV2)`
@@ -44,7 +42,7 @@ const StyledButton = styled(ButtonV2)`
 `;
 
 const StyledSlateImage = styled.div<{ embed: ImageEmbed }>`
-  ${props => (!props.embed.alt ? 'border: 2px solid rgba(209,55,46,0.3);' : '')}
+  ${(props) => (!props.embed.alt ? 'border: 2px solid rgba(209,55,46,0.3);' : '')}
 `;
 
 const StyledDiv = styled.div`
@@ -58,7 +56,7 @@ interface StyledImgProps {
 }
 
 const StyledImg = styled.img<StyledImgProps>`
-  box-shadow: ${props => (props.showOutline ? 'rgb(32, 88, 143) 0 0 0 2px' : 'none')};
+  box-shadow: ${(props) => (props.showOutline ? 'rgb(32, 88, 143) 0 0 0 2px' : 'none')};
 `;
 
 const SlateImage = ({
@@ -72,17 +70,16 @@ const SlateImage = ({
   saveEmbedUpdates,
   visualElement,
   children,
-  element,
+  pathToEmbed,
 }: Props) => {
   const { t } = useTranslation();
   const [editMode, setEditMode] = useState(false);
   const showCopyOutline = isSelectedForCopy && (!editMode || !active);
   const editor = useSlateStatic();
 
-  const imagePath = ReactEditor.findPath(editor, element);
   const [parentTable] = Editor.nodes(editor, {
-    at: imagePath,
-    match: node => isTable(node),
+    at: pathToEmbed,
+    match: (node) => isTable(node),
   });
   const inTable = !!parentTable;
 
@@ -110,7 +107,8 @@ const SlateImage = ({
       {...attributes}
       draggable={!visualElement && !editMode}
       className={constructFigureClassName()}
-      embed={embed}>
+      embed={embed}
+    >
       <FigureButtons
         tooltip={t('form.image.removeImage')}
         onRemoveClick={onRemoveClick}
@@ -132,11 +130,12 @@ const SlateImage = ({
           contentEditable={false}
           variant="stripped"
           data-label={t('imageEditor.editImage')}
-          onClick={evt => {
+          onClick={(evt) => {
             evt.preventDefault();
             evt.stopPropagation();
             setEditMode(true);
-          }}>
+          }}
+        >
           <figure {...figureClass}>
             <StyledImg
               alt={embed.alt}

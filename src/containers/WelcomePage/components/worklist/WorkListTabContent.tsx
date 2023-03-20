@@ -7,7 +7,7 @@
  */
 
 import { Calendar } from '@ndla/icons/editor';
-import { SingleValue, Option } from '@ndla/select';
+import { SingleValue } from '@ndla/select';
 import { IMultiSearchResult } from '@ndla/types-search-api';
 import { useTranslation } from 'react-i18next';
 import { useMemo } from 'react';
@@ -28,7 +28,6 @@ interface Props {
   error: string | undefined;
   setFilterSubject: (fs: SingleValue) => void;
   ndlaId?: string;
-  favoriteSubjects: Option[];
 }
 
 const WorkListTabContent = ({
@@ -40,14 +39,13 @@ const WorkListTabContent = ({
   error,
   setFilterSubject,
   ndlaId,
-  favoriteSubjects,
 }: Props) => {
   const { t } = useTranslation();
 
   const tableData: FieldElement[][] = useMemo(
     () =>
       data
-        ? data.results.map(res => [
+        ? data.results.map((res) => [
             {
               id: `title_${res.id}`,
               data: (
@@ -65,11 +63,11 @@ const WorkListTabContent = ({
               data:
                 res.learningResourceType === 'topic-article'
                   ? 'Emne'
-                  : res.contexts?.[0]?.resourceTypes?.map(context => context.name).join(' - '),
+                  : res.contexts?.[0]?.resourceTypes?.map((context) => context.name).join(' - '),
             },
             {
               id: `primarySubject_${res.id}`,
-              data: res.contexts.find(context => context.isPrimaryConnection)?.subject ?? '',
+              data: res.contexts.find((context) => context.isPrimaryConnection)?.subject ?? '',
             },
             {
               id: `topic_${res.id}`,
@@ -104,11 +102,7 @@ const WorkListTabContent = ({
           Icon={Calendar}
         />
         <ControlWrapperDashboard>
-          <SubjectDropdown
-            filterSubject={filterSubject}
-            setFilterSubject={setFilterSubject}
-            favoriteSubjects={favoriteSubjects}
-          />
+          <SubjectDropdown filterSubject={filterSubject} setFilterSubject={setFilterSubject} />
           <GoToSearch ndlaId={ndlaId} filterSubject={filterSubject} searchEnv={'content'} />
         </ControlWrapperDashboard>
       </StyledTopRowDashboardInfo>

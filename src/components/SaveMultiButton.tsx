@@ -89,7 +89,8 @@ const SaveMultiButton = ({
                 ]
           }
           large
-          {...rest}>
+          {...rest}
+        >
           <StyledSpan>
             {t(`form.${modifier}`)}
             {showSaved && <StyledCheck />}

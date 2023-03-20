@@ -61,7 +61,7 @@ exports[`EditorErrorMessage renders 1`] = `
 }
 
 .emotion-1:hover,
-.emotion-1:focus {
+.emotion-1:focus-visible {
   color: #fff;
   background-color: #d1372e;
   border-color: #d1372e;
@@ -76,7 +76,7 @@ exports[`EditorErrorMessage renders 1`] = `
 
 .emotion-1:hover,
 .emotion-1:active,
-.emotion-1:focus {
+.emotion-1:focus-visible {
   color: #fff;
   background: #d1372e;
   border-color: #d1372e;

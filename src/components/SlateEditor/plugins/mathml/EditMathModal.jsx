@@ -60,8 +60,9 @@ const EditMathModal = ({
       size="large"
       backgroundColor="white"
       onClose={handleExit}
-      minHeight="90vh">
-      {onCloseModal => (
+      minHeight="90vh"
+    >
+      {(onCloseModal) => (
         <>
           <ModalHeader>
             <ModalCloseButton title={t('dialog.close')} onClick={onCloseModal} />

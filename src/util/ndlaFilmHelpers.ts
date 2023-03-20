@@ -19,14 +19,15 @@ import { LOCALE_VALUES } from '../constants';
 import { LocaleType } from '../interfaces';
 import { FilmFormikType } from '../containers/NdlaFilm/components/NdlaFilmForm';
 import { ThemeNames } from '../containers/NdlaFilm/components/ThemeEditor';
-import { TYPE_NDLA_EMBED } from '../components/SlateEditor/plugins/embed/types';
+import { TYPE_EMBED_BRIGHTCOVE } from '../components/SlateEditor/plugins/embed/types';
+import { defineTypeOfEmbed, isSlateEmbed } from '../components/SlateEditor/plugins/embed/utils';
 
 export const getInitialValues = (
   filmFrontpage: IFilmFrontPageData,
   selectedLanguage: string,
 ): FilmFormikType => {
-  const supportedLanguages = filmFrontpage.about.map(about => about.language);
-  const languageAbout = filmFrontpage.about.find(about => about.language === selectedLanguage);
+  const supportedLanguages = filmFrontpage.about.map((about) => about.language);
+  const languageAbout = filmFrontpage.about.find((about) => about.language === selectedLanguage);
   const about = languageAbout ?? filmFrontpage.about?.[0];
 
   const visualElement = about?.visualElement && convertVisualElement(about?.visualElement);
@@ -50,7 +51,7 @@ export const convertVisualElement = (visualElement: IVisualElement): Descendant[
       slatejsx(
         'element',
         {
-          type: TYPE_NDLA_EMBED,
+          type: defineTypeOfEmbed(visualElement.type),
           data: {
             url: visualElement.url,
             resource: visualElement.type,
@@ -74,7 +75,7 @@ export const convertVisualElement = (visualElement: IVisualElement): Descendant[
     slatejsx(
       'element',
       {
-        type: TYPE_NDLA_EMBED,
+        type: TYPE_EMBED_BRIGHTCOVE,
         data: {
           url: visualElement.url,
           resource: visualElement.type,
@@ -106,10 +107,7 @@ export const getNdlaFilmFromSlate = (
   selectedLanguage: string,
 ): INewOrUpdatedFilmFrontPageData => {
   const slateVisualElement = newFrontpage.visualElement?.[0];
-  const data =
-    Element.isElement(slateVisualElement) && slateVisualElement.type === TYPE_NDLA_EMBED
-      ? slateVisualElement.data
-      : undefined;
+  const data = isSlateEmbed(slateVisualElement) ? slateVisualElement.data : undefined;
 
   const editedAbout = {
     description: editorValueToPlainText(newFrontpage.description),
@@ -124,7 +122,7 @@ export const getNdlaFilmFromSlate = (
 
   let newLanguage = true;
 
-  const newAbout = initialFrontpage.about.map(about => {
+  const newAbout = initialFrontpage.about.map((about) => {
     if (about.language === selectedLanguage) {
       newLanguage = false;
       return editedAbout;
@@ -142,7 +140,7 @@ export const getNdlaFilmFromSlate = (
     newAbout.push(editedAbout);
   }
   const newSlideShow = newFrontpage.slideShow;
-  const newThemes = newFrontpage.themes.map(theme => {
+  const newThemes = newFrontpage.themes.map((theme) => {
     return {
       name: theme.name,
       movies: theme.movies,
@@ -179,8 +177,8 @@ export const findName = (
   }[],
   language: string,
 ) => {
-  const filteredName = themeNames.filter(name => name.language === language);
-  return filteredName.length > 0 ? filteredName.map(name => name.name).join() : '';
+  const filteredName = themeNames.filter((name) => name.language === language);
+  return filteredName.length > 0 ? filteredName.map((name) => name.name).join() : '';
 };
 
 export interface ConvertedThemeName {
@@ -189,7 +187,7 @@ export interface ConvertedThemeName {
 }
 
 export const convertThemeNames = (names: ThemeNames): ConvertedThemeName[] => {
-  return LOCALE_VALUES.map(lang => ({
+  return LOCALE_VALUES.map((lang) => ({
     language: lang,
     name: names.name[lang],
   }));

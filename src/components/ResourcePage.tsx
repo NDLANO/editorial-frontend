@@ -97,7 +97,7 @@ const EditResourceRedirect = <T extends BaseResource>({
   if (isInitialLoading) return <Spinner />;
   if (error || !data || !parsedId) return <NotFoundPage />;
   const supportedLanguage =
-    data.supportedLanguages.find(l => l === locale) ?? data.supportedLanguages[0];
+    data.supportedLanguages.find((l) => l === locale) ?? data.supportedLanguages[0];
 
   return (
     <Routes>

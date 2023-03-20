@@ -100,7 +100,7 @@ const createDeleteResourceTypes = async ({
   });
 
   await Promise.all(
-    createItems.map(item =>
+    createItems.map((item) =>
       createResourceResourceType({
         body: {
           resourceTypeId: item.id,
@@ -111,7 +111,7 @@ const createDeleteResourceTypes = async ({
     ),
   );
 
-  deleteItems.forEach(item => {
+  deleteItems.forEach((item) => {
     deleteResourceResourceType({ id: item.connectionId, taxonomyVersion });
   });
 };

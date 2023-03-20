@@ -53,7 +53,8 @@ const ToggleExplanationSubject = ({ customFields, updateFields }: Props) => {
           onClick={() => {
             delete customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT];
             updateFields({ ...customFields });
-          }}>
+          }}
+        >
           <DeleteForever />
         </StyledCustomFieldButton>
       </StyledMenuItemEditField>

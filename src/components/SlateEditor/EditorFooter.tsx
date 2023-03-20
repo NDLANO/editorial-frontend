@@ -25,11 +25,11 @@ import { NewMessageType, useMessages } from '../../containers/Messages/MessagesP
 import { ConceptStatusStateMachineType, DraftStatusStateMachineType } from '../../interfaces';
 import ResponsibleSelect from '../../containers/FormikForm/components/ResponsibleSelect';
 import StatusSelect from '../../containers/FormikForm/components/StatusSelect';
-import { requiredFieldsT } from '../../util/yupHelpers';
-import { ARCHIVED, PUBLISHED, UNPUBLISHED } from '../../constants';
+import { PUBLISHED } from '../../constants';
 import PreviewDraftLightboxV2 from '../PreviewDraft/PreviewDraftLightboxV2';
 import { useDisableConverter } from '../ArticleConverterContext';
 import AddCommentModal from '../../containers/ArticlePage/components/AddCommentModal';
+import { useSession } from '../../containers/Session/SessionProvider';
 
 interface Props {
   formIsDirty: boolean;
@@ -74,8 +74,6 @@ const StyledFooter = styled.div`
   margin-left: auto;
 `;
 
-const STATUSES_RESPONSIBLE_NOT_REQUIRED = [PUBLISHED, ARCHIVED, UNPUBLISHED];
-
 function EditorFooter<T extends FormValues>({
   formIsDirty,
   savedToServer,
@@ -97,6 +95,7 @@ function EditorFooter<T extends FormValues>({
   const [responsible, setResponsible] = useState<SingleValue>(null);
   const [showAddCommentModal, setShowAddCommentModal] = useState(false);
 
+  const { ndlaId } = useSession();
   const { t } = useTranslation();
   const { values, setFieldValue, isSubmitting } = useFormikContext<T>();
   const { createMessage, formatErrorMessage } = useMessages();
@@ -107,36 +106,19 @@ function EditorFooter<T extends FormValues>({
   const articleOrConcept = isArticle || isConcept;
 
   useEffect(() => {
-    if (newStatus && newStatus.value === PUBLISHED) {
-      onSave();
+    if (newStatus?.value === PUBLISHED) {
+      onSaveClick();
       setNewStatus(null);
-      setResponsible(null);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [newStatus]);
-
-  const onSave = (saveAsNewVersion?: boolean) => {
-    if (
-      !responsible &&
-      STATUSES_RESPONSIBLE_NOT_REQUIRED.every(s => s !== newStatus?.value) &&
-      articleOrConcept
-    ) {
-      createMessage({
-        message: requiredFieldsT('form.responsible.label', t),
-        timeToLive: 0,
-      });
-      return;
-    }
-    onSaveClick(saveAsNewVersion);
-  };
-
   const saveButton = (
     <SaveMultiButton
       large
       isSaving={isSubmitting}
       formIsDirty={formIsDirty}
       showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}
-      onClick={onSave}
+      onClick={onSaveClick}
       hideSecondaryButton={hideSecondaryButton}
       disabled={!!hasErrors}
     />
@@ -196,7 +178,6 @@ function EditorFooter<T extends FormValues>({
       catchError(error, createMessage);
     }
   };
-
   if (showSimpleFooter) {
     return (
       <Footer>
@@ -207,7 +188,7 @@ function EditorFooter<T extends FormValues>({
                 responsible={responsible}
                 setResponsible={setResponsible}
                 onSave={updateResponsible}
-                responsibleId={responsibleId}
+                responsibleId={ndlaId}
               />
             </Wrapper>
           )}
@@ -239,7 +220,8 @@ function EditorFooter<T extends FormValues>({
           {values.id && isArticle && (
             <FooterLinkButton
               bold
-              onClick={() => window.open(toPreviewDraft(values.id, values.language))}>
+              onClick={() => window.open(toPreviewDraft(values.id, values.language))}
+            >
               {t('form.preview.button')}
               <Launch />
             </FooterLinkButton>

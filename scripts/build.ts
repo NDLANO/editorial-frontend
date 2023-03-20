@@ -42,7 +42,7 @@ const build = async (config: Configuration, type: 'client' | 'server'): Promise<
             warnings: messages?.warnings ?? [],
           });
         },
-        err => reject(err),
+        (err) => reject(err),
       );
     });
 

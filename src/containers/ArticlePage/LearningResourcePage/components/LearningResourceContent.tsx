@@ -63,6 +63,16 @@ import { TYPE_FOOTNOTE } from '../../../../components/SlateEditor/plugins/footno
 import { conceptListPlugin } from '../../../../components/SlateEditor/plugins/conceptList';
 import { inlineConceptPlugin } from '../../../../components/SlateEditor/plugins/concept/inline';
 import { blockConceptPlugin } from '../../../../components/SlateEditor/plugins/concept/block';
+import {
+  TYPE_EMBED_AUDIO,
+  TYPE_EMBED_BRIGHTCOVE,
+  TYPE_EMBED_EXTERNAL,
+  TYPE_EMBED_H5P,
+  TYPE_EMBED_IMAGE,
+} from '../../../../components/SlateEditor/plugins/embed/types';
+import { TYPE_TABLE } from '../../../../components/SlateEditor/plugins/table/types';
+import { TYPE_CODEBLOCK } from '../../../../components/SlateEditor/plugins/codeBlock/types';
+import { TYPE_FILE } from '../../../../components/SlateEditor/plugins/file/types';
 
 const StyledFormikField = styled(FormikField)`
   display: flex;
@@ -89,16 +99,24 @@ const StyledContentDiv = styled(FormikField)`
 `;
 
 const MarkdownButton = styled(IconButtonV2)<{ active: boolean }>`
-  color: ${p => (p.active ? colors.brand.primary : colors.brand.light)};
+  color: ${(p) => (p.active ? colors.brand.primary : colors.brand.light)};
 `;
 
 const findFootnotes = (content: Descendant[]): FootnoteType[] =>
   findNodesByType(content, TYPE_FOOTNOTE)
-    .map(e => e as FootnoteElement)
-    .filter(footnote => Object.keys(footnote.data).length > 0)
-    .map(footnoteElement => footnoteElement.data);
+    .map((e) => e as FootnoteElement)
+    .filter((footnote) => Object.keys(footnote.data).length > 0)
+    .map((footnoteElement) => footnoteElement.data);
 
-const actions = ['table', 'ndlaembed', 'code-block', 'file', 'h5p'];
+const visualElements = [
+  TYPE_EMBED_H5P,
+  TYPE_EMBED_BRIGHTCOVE,
+  TYPE_EMBED_AUDIO,
+  TYPE_EMBED_EXTERNAL,
+  TYPE_EMBED_IMAGE,
+];
+
+const actions = [TYPE_TABLE, TYPE_CODEBLOCK, TYPE_FILE].concat(visualElements);
 const actionsToShowInAreas = {
   details: actions,
   aside: actions,
@@ -184,7 +202,7 @@ const LearningResourceContent = ({
               creators={creators}
               published={published}
               allowEdit={true}
-              onChange={date => {
+              onChange={(date) => {
                 form.setFieldValue(field.name, date);
               }}
             />
@@ -195,7 +213,8 @@ const LearningResourceContent = ({
                   variant="stripped"
                   colorTheme="light"
                   active={preview}
-                  onClick={() => setPreview(!preview)}>
+                  onClick={() => setPreview(!preview)}
+                >
                   <Eye />
                 </MarkdownButton>
               </Tooltip>
@@ -226,7 +245,7 @@ const LearningResourceContent = ({
               submitted={isSubmitting}
               plugins={plugins(articleLanguage ?? '', i18n.language, handleSubmitRef)}
               data-cy="learning-resource-content"
-              onChange={value => {
+              onChange={(value) => {
                 onChange({
                   target: {
                     value,

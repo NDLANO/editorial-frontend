@@ -50,7 +50,6 @@ const EditConcept = ({ isNewlyCreated }: Props) => {
     conceptChanged,
     subjects,
     updateConcept,
-    updateConceptAndStatus,
   } = useFetchConceptData(conceptId, selectedLanguage!);
 
   const { shouldTranslate, translate, translating } = useTranslateToNN();
@@ -83,8 +82,7 @@ const EditConcept = ({ isNewlyCreated }: Props) => {
         fetchConceptTags={fetchSearchTags}
         isNewlyCreated={isNewlyCreated}
         upsertProps={{
-          onUpdate: concept => updateConcept(conceptId, concept),
-          updateConceptAndStatus: updateConceptAndStatus,
+          onUpdate: (concept) => updateConcept(conceptId, concept),
         }}
         language={selectedLanguage!}
         subjects={subjects}

@@ -76,7 +76,7 @@ const VerticalCenter = styled.div`
 
 const AddRevisionDateField = ({ formikField, showError }: Props) => {
   const { t } = useTranslation();
-  type RevisionMetaType = typeof formikField.value[number];
+  type RevisionMetaType = (typeof formikField.value)[number];
   const onRevisionChange = (newMetas: RevisionMetaFormType) => {
     formikField.onChange({
       target: {
@@ -127,7 +127,7 @@ const AddRevisionDateField = ({ formikField, showError }: Props) => {
                   value={revisionMeta.note}
                   data-testid="revisionInput"
                   onChange={(e: FormEvent<HTMLInputElement>) => {
-                    editRevision(old => ({ ...old, note: e.currentTarget.value }));
+                    editRevision((old) => ({ ...old, note: e.currentTarget.value }));
                   }}
                   white
                 />
@@ -138,8 +138,8 @@ const AddRevisionDateField = ({ formikField, showError }: Props) => {
                     <InlineDatePicker
                       value={revisionMeta.revisionDate}
                       name={`revision_date_${index}`}
-                      onChange={date =>
-                        editRevision(old => ({ ...old, revisionDate: date.currentTarget.value }))
+                      onChange={(date) =>
+                        editRevision((old) => ({ ...old, revisionDate: date.currentTarget.value }))
                       }
                     />
                   </StyledDatePickerWrapper>
@@ -148,9 +148,9 @@ const AddRevisionDateField = ({ formikField, showError }: Props) => {
                   <div>
                     <StyledSwitch
                       checked={revisionMeta.status === 'revised'}
-                      onChange={c => {
+                      onChange={(c) => {
                         const status = c ? 'revised' : 'needs-revision';
-                        editRevision(old => ({ ...old, status }));
+                        editRevision((old) => ({ ...old, status }));
                         if (status === 'revised') {
                           createMessage({
                             translationKey: 'form.revisions.reminder',

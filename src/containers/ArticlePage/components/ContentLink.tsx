@@ -59,7 +59,8 @@ const ContentLink = ({ onAddLink, onClose, initialTitle = '', initialUrl = '' }:
     <TaxonomyLightbox
       title={t('form.content.relatedArticle.searchExternal')}
       onSelect={handleSubmit}
-      onClose={onClose}>
+      onClose={onClose}
+    >
       <StyledContent>
         <Input
           warningText={

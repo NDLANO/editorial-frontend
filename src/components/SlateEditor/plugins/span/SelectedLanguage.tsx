@@ -18,7 +18,7 @@ interface Props {
 }
 
 const StyledLanguagePicker = styled.div<{ selected: boolean }>`
-  display: ${p => (p.selected ? 'block' : 'none')};
+  display: ${(p) => (p.selected ? 'block' : 'none')};
   position: absolute;
   font-family: monospace;
   transform: translateY(100%);
@@ -41,7 +41,8 @@ const SelectedLanguage = ({ language, onClick }: Props) => {
       selected={selected}
       className="selected-language"
       onClick={onClick}
-      contentEditable={false}>
+      contentEditable={false}
+    >
       {language}
     </StyledLanguagePicker>
   );

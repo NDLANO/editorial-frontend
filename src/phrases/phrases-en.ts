@@ -1439,8 +1439,7 @@ const phrases = {
       delete: 'Remove {{grepCode}}',
     },
     copyRevisionDates: {
-      text:
-        'Are you sure you want to copy this revision date? This will apply for all nodes and resources underneath this node',
+      text: 'Are you sure you want to copy this revision date? This will apply for all nodes and resources underneath this node',
       buttonText: 'Copy revision date',
       error: 'An error occurred when copying the revision date',
     },
@@ -1590,6 +1589,7 @@ const phrases = {
       'Are you sure you want to remove all publish requests? This action cannot be undone.',
     errors: {
       noPublishedVersion: 'Failed to find a published version',
+      noVersions: 'Failed to find other versions',
     },
     numberRequests: 'Number of publication request',
   },

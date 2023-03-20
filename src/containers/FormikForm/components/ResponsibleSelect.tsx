@@ -46,7 +46,7 @@ const ResponsibleSelect = ({ responsible, setResponsible, onSave, responsibleId 
       setResponsible(initialResponsible);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [users]);
+  }, [users, responsibleId]);
 
   useEffect(() => {
     // Enable required styling after responsible is updated first time

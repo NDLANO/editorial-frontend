@@ -103,6 +103,7 @@ const diffAndGroupChildren = <T extends NodeType = NodeType>(
     const resourcesDiff = doDiff(child.original?.resources, child.other?.resources, {
       path: true,
       paths: true,
+      breadcrumbs: true,
     });
     const diffedChildren = diffAndGroupChildren(child, other);
     const childrenDiffType = diffedChildren.some(
@@ -169,6 +170,7 @@ const diffChildren = (
       const diffedResources = doDiff(original?.resources, other?.resources, {
         path: true,
         paths: true,
+        breadcrumbs: true,
       });
       return {
         ...diffObject(original, other, {
@@ -222,6 +224,7 @@ export const diffTrees = (
   const rootResourcesDiff = doDiff(originalRoot?.resources, otherRoot?.resources, {
     path: true,
     paths: true,
+    breadcrumbs: true,
   });
   const childrenDiff = diffChildren(
     { original: originalRoot, other: otherRoot },

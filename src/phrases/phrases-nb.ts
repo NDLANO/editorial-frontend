@@ -557,7 +557,7 @@ const phrases = {
     sup: 'Hevet\n({{ctrl}}+alt+h)',
     twoColumnList: 'To-kolonners liste',
     underlined: 'Understreket',
-    definitionList: 'Definisjons liste\n({{ctrl}}+alt+d)',
+    definitionList: 'Definisjonsliste\n({{ctrl}}+alt+d)',
   },
   editorBlockpicker: {
     heading: 'Legg til',

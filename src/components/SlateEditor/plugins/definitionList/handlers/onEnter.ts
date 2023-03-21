@@ -29,7 +29,7 @@ const onEnter = (
   }
 
   Transforms.unsetNodes(editor, 'serializeAsText', {
-    match: node =>
+    match: (node) =>
       Element.isElement(node) &&
       (node.type === TYPE_DEFINTION_DESCRIPTION || node.type === TYPE_DEFINTION_TERM),
     mode: 'lowest',
@@ -109,7 +109,7 @@ const onEnter = (
 
     // Split current listItem at selection.
     Transforms.splitNodes(editor, {
-      match: node => Element.isElement(node) && node.type === TYPE_DEFINTION_TERM,
+      match: (node) => Element.isElement(node) && node.type === TYPE_DEFINTION_TERM,
       mode: 'lowest',
     });
   }

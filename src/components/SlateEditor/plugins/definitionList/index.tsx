@@ -138,7 +138,7 @@ export const definitionListPlugin = (editor: Editor) => {
     return undefined;
   };
 
-  editor.normalizeNode = entry => {
+  editor.normalizeNode = (entry) => {
     const [node, nodepath] = entry;
 
     if (Element.isElement(node) && node.type === TYPE_DEFINTION_LIST) {

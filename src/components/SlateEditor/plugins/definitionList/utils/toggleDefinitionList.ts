@@ -43,7 +43,7 @@ export const toggleDefinitionList = (editor: Editor) => {
         editor,
         { type: TYPE_DEFINTION_LIST },
         {
-          match: node => Element.isElement(node) && firstTextBlockElement.includes(node.type),
+          match: (node) => Element.isElement(node) && firstTextBlockElement.includes(node.type),
           at: Editor.unhangRange(editor, editor.selection),
           mode: 'lowest',
         },

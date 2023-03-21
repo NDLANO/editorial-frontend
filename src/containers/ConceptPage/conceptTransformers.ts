@@ -56,7 +56,7 @@ export const conceptApiTypeToFormType = (
     articles,
     visualElement: embedTagToEditorValue(concept?.visualElement?.visualElement ?? ''),
     origin: concept?.copyright?.origin,
-    responsibleId: concept?.responsible?.responsibleId || ndlaId,
+    responsibleId: concept === undefined ? ndlaId : concept?.responsible?.responsibleId,
   };
 };
 

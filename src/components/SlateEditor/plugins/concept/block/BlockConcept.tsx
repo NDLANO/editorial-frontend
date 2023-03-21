@@ -44,7 +44,7 @@ const StyledWrapper = styled.div<{ isSelected: boolean }>`
     margin-top: 0;
   }
   padding: 5px;
-  border: ${p =>
+  border: ${(p) =>
     p.isSelected ? `2px solid ${colors.brand.primary}` : `2px dashed ${colors.brand.greyLighter}`};
 `;
 
@@ -81,7 +81,7 @@ const BlockConcept = ({ element, locale, editor, attributes, children }: Props) 
           { data: data.data },
           {
             at: path,
-            match: node => Element.isElement(node) && node.type === TYPE_CONCEPT_BLOCK,
+            match: (node) => Element.isElement(node) && node.type === TYPE_CONCEPT_BLOCK,
           },
         );
 
@@ -98,7 +98,7 @@ const BlockConcept = ({ element, locale, editor, attributes, children }: Props) 
       const path = ReactEditor.findPath(editor, element);
       Transforms.removeNodes(editor, {
         at: path,
-        match: node => Element.isElement(node) && node.type === TYPE_CONCEPT_BLOCK,
+        match: (node) => Element.isElement(node) && node.type === TYPE_CONCEPT_BLOCK,
       });
     }, 0);
   };

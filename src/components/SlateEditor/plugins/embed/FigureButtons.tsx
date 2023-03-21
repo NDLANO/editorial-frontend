@@ -39,12 +39,12 @@ const StyledFigureButtons = styled('div')`
 
   ${(p: StyledFigureButtonsProps) =>
     p.align !== 'left' && p.align !== 'right' && rightAdjustedStyle}
-  ${p => p.align === 'right' && rightAdjustedStyle}
-  ${p => p.align === 'left' && leftAdjustedStyle}
+  ${(p) => p.align === 'right' && rightAdjustedStyle}
+  ${(p) => p.align === 'left' && leftAdjustedStyle}
   > * {
     margin-bottom: ${spacing.xsmall};
   }
-  ${p =>
+  ${(p) =>
     p.withMargin &&
     css`
       margin: ${spacing.small};

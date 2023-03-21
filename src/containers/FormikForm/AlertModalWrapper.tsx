@@ -59,10 +59,10 @@ const AlertModalWrapper = ({ text, severity, isSubmitting, formIsDirty, onContin
     }
   }, [shouldBlock, nextLocation, navigate]);
 
-  useBlocker(transition => {
+  useBlocker((transition) => {
     if (shouldBlock) {
       // transition does not respect basename. Filter out basename until it is fixed.
-      const pathRegex = new RegExp(supportedLanguages.map(l => `/${l}/`).join('|'));
+      const pathRegex = new RegExp(supportedLanguages.map((l) => `/${l}/`).join('|'));
       const pathname = transition.location.pathname.replace(pathRegex, '/');
       setOpenModal(true);
       setNextLocation({ ...transition.location, pathname });

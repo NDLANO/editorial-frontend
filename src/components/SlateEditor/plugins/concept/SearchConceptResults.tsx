@@ -75,7 +75,7 @@ const SearchConceptResults = ({ results, searchObject, addConcept, searching = t
       {results.length === 0 ? (
         <p>{t(`searchPage.conceptNoHits`, { query: searchObject.query })}</p>
       ) : null}
-      {results.map(result => (
+      {results.map((result) => (
         <StyledConceptResult key={result.id}>
           <StyledConcept className="c-icon--large" />
           <StyledConceptResultHeader>
@@ -93,7 +93,7 @@ const SearchConceptResults = ({ results, searchObject, addConcept, searching = t
             {convertFieldWithFallback(result, 'content', t('conceptSearch.noContent'))}
           </StyledConceptContent>
           <StyledButton
-            onClick={evt => {
+            onClick={(evt) => {
               evt.stopPropagation();
               addConcept(result);
             }}

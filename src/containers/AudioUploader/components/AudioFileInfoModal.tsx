@@ -20,7 +20,7 @@ const AudioFileInfoModal = () => {
     <Modal
       label={t('form.audio.modal.header')}
       backgroundColor="white"
-      wrapperFunctionForButton={btn => (
+      wrapperFunctionForButton={(btn) => (
         <Tooltip tooltip={t('form.audio.modal.label')}>{btn}</Tooltip>
       )}
       activateButton={

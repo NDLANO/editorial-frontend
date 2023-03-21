@@ -27,7 +27,7 @@ interface StickyDivProps {
 }
 
 const StickyDiv = styled.div<StickyDivProps>`
-  background-color: ${props => props.color};
+  background-color: ${(props) => props.color};
   display: flex;
   position: sticky;
   bottom: ${spacing.normal};
@@ -49,13 +49,13 @@ const StickyVersionSelector = () => {
   const qc = useQueryClient();
 
   if (!data) return <></>;
-  const currentVersion = data.find(version => version.hash === taxonomyVersion);
+  const currentVersion = data.find((version) => version.hash === taxonomyVersion);
 
   const onVersionChanged = (newVersionHash: string) => {
     const oldVersion = taxonomyVersion;
     changeVersion(newVersionHash);
     qc.removeQueries({
-      predicate: query => {
+      predicate: (query) => {
         const qk = query.queryKey as [string, Record<string, any>];
         return qk[1]?.taxonomyVersion === oldVersion;
       },

@@ -81,7 +81,7 @@ const StructureButtons = ({ isSubject, id, closeModal, activeTopics, addTopic }:
     return null;
   }
 
-  const currentIndex = activeTopics.findIndex(topic => topic.id === id);
+  const currentIndex = activeTopics.findIndex((topic) => topic.id === id);
 
   return (
     <StyledButtonWrapper>

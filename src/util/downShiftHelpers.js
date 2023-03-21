@@ -7,7 +7,7 @@
 import get from 'lodash/get';
 
 export const downShiftSorter = (list, val, textField) =>
-  list.filter(item => {
+  list.filter((item) => {
     const textValue = item instanceof Object ? item[textField] : item;
     return !textValue || textValue.toLowerCase().startsWith(val.toLowerCase());
   });

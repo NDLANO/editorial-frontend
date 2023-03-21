@@ -61,7 +61,7 @@ const ImageMetaData = ({ imageTags, imageLanguage }: Props) => {
               <RadioButtonGroup
                 selected={field.value ?? defaultValue}
                 uniqeIds
-                options={options.map(value => ({
+                options={options.map((value) => ({
                   title: t(`form.modelReleased.${value}`),
                   value,
                 }))}

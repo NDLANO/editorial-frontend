@@ -11,7 +11,7 @@ const ContributorsField = ({ contributorTypes, width }: Props) => {
   const { t } = useTranslation();
   return (
     <>
-      {contributorTypes.map(contributorType => {
+      {contributorTypes.map((contributorType) => {
         const label = t(`form.${contributorType}.label`);
         return (
           <FormikField

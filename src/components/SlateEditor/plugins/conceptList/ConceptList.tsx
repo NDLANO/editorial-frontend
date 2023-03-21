@@ -30,7 +30,7 @@ interface Props {
 const StyledWrapper = styled.div<{ isSelected: boolean }>`
   position: relative;
   padding: 5px;
-  border: ${p =>
+  border: ${(p) =>
     p.isSelected ? `2px solid ${colors.brand.primary}` : `2px dashed ${colors.brand.greyLighter}`};
 
   & > h2 {
@@ -60,13 +60,13 @@ const ConceptList = ({ element, language, editor, attributes, children }: Props)
   const onClose = () => {
     ReactEditor.focus(editor);
     if (element.isFirstEdit) {
-      Transforms.removeNodes(editor, { at: [], match: node => element === node });
+      Transforms.removeNodes(editor, { at: [], match: (node) => element === node });
     }
     setEditMode(false);
   };
 
   const onRemoveClick = () => {
-    Transforms.removeNodes(editor, { at: [], match: node => element === node });
+    Transforms.removeNodes(editor, { at: [], match: (node) => element === node });
   };
 
   const onEditClick = () => {

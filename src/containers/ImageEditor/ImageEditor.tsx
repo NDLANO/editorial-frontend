@@ -158,7 +158,7 @@ const ImageEditor = ({ embed, onUpdatedImageSettings, imageUpdates, language }: 
       <StyledImageEditorEditMode>
         <div>
           <StyledImageEditorMenu>
-            {alignments.map(alignment => (
+            {alignments.map((alignment) => (
               <ImageAlignButton
                 key={`align_${alignment}`}
                 alignType={alignment}
@@ -169,7 +169,7 @@ const ImageEditor = ({ embed, onUpdatedImageSettings, imageUpdates, language }: 
           </StyledImageEditorMenu>
           {imageUpdates?.align === 'left' || imageUpdates?.align === 'right' ? (
             <StyledImageEditorMenu>
-              {sizes.map(size => (
+              {sizes.map((size) => (
                 <ImageSizeButton
                   key={`size_${size}`}
                   size={size}
@@ -183,7 +183,7 @@ const ImageEditor = ({ embed, onUpdatedImageSettings, imageUpdates, language }: 
           )}
           {imageUpdates?.size?.startsWith('full') || imageUpdates?.size?.startsWith('medium') ? (
             <StyledImageEditorMenu>
-              {bylineOptions.map(option => (
+              {bylineOptions.map((option) => (
                 <ShowBylineButton
                   key={option}
                   show={option === 'show'}

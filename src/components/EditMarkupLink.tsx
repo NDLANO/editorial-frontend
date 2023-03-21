@@ -25,9 +25,9 @@ const shouldForwardProp = (prop: string) => prop !== 'inHeader';
 
 const StyledLink = styled(Link, { shouldForwardProp })<StyledLinkProps>`
   box-shadow: none;
-  width: ${props => props.inHeader && '25px;'};
-  padding-left: ${props => props.inHeader && '0.4em'};
-  padding-right: ${props => props.inHeader && '1.2em'};
+  width: ${(props) => props.inHeader && '25px;'};
+  padding-left: ${(props) => props.inHeader && '0.4em'};
+  padding-right: ${(props) => props.inHeader && '1.2em'};
   &:hover svg,
   &:focus svg {
     border-color: ${colors.brand.primary};
@@ -37,8 +37,8 @@ const StyledLink = styled(Link, { shouldForwardProp })<StyledLinkProps>`
     }
   }
   svg {
-    width: ${props => (props.inHeader ? '18px' : spacing.normal)};
-    height: ${props => (props.inHeader ? '18px' : spacing.normal)};
+    width: ${(props) => (props.inHeader ? '18px' : spacing.normal)};
+    height: ${(props) => (props.inHeader ? '18px' : spacing.normal)};
     padding: 2px;
     border-radius: 50%;
     border: 2px solid ${colors.brand.light};
@@ -48,7 +48,7 @@ const StyledLink = styled(Link, { shouldForwardProp })<StyledLinkProps>`
       fill: ${colors.brand.light};
     }
 
-    margin-bottom: ${props => props.inHeader && '0.18em'};
+    margin-bottom: ${(props) => props.inHeader && '0.18em'};
   }
 `;
 

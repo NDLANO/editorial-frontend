@@ -48,7 +48,7 @@ const WorkListTabContent = ({
   const tableData: FieldElement[][] = useMemo(
     () =>
       data
-        ? data.results.map(res => [
+        ? data.results.map((res) => [
             {
               id: `title_${res.id}`,
               data: (
@@ -66,11 +66,11 @@ const WorkListTabContent = ({
               data:
                 res.learningResourceType === 'topic-article'
                   ? 'Emne'
-                  : res.contexts?.[0]?.resourceTypes?.map(context => context.name).join(' - '),
+                  : res.contexts?.[0]?.resourceTypes?.map((context) => context.name).join(' - '),
             },
             {
               id: `primarySubject_${res.id}`,
-              data: res.contexts.find(context => context.isPrimaryConnection)?.subject ?? '',
+              data: res.contexts.find((context) => context.isPrimaryConnection)?.subject ?? '',
             },
             {
               id: `topic_${res.id}`,
@@ -124,7 +124,7 @@ const WorkListTabContent = ({
         page={data?.page ?? 1}
         lastPage={lastPage}
         query={{}}
-        onClick={el => setPage(el.page)}
+        onClick={(el) => setPage(el.page)}
         small
         colorTheme="lighter"
         pageItemComponentClass="button"

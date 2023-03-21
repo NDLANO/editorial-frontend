@@ -38,7 +38,7 @@ const DisplayExternalModal = ({
         selectedResource={allowedProvider.name}
         selectedResourceUrl={src}
         selectedResourceType={type}
-        handleVisualElementChange={rt => (isEmbed(rt) ? onEditEmbed(rt) : null)}
+        handleVisualElementChange={(rt) => (isEmbed(rt) ? onEditEmbed(rt) : null)}
         closeModal={onClose}
         embed={embed}
       />

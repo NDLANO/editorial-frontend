@@ -15,7 +15,7 @@ import IntlWrapper from '../../../util/__tests__/IntlWrapper';
 
 const noop = () => {};
 
-const wrapper = component => (
+const wrapper = (component) => (
   <MemoryRouter>
     <IntlWrapper>{component}</IntlWrapper>
   </MemoryRouter>
@@ -65,9 +65,7 @@ test('MastheadSearchForm redirects on old ndla url paste with new id', () => {
     push: jest.fn(),
   };
 
-  nock('http://ndla-api')
-    .get('/draft-api/v1/drafts/external_id/4737')
-    .reply(200, { id: '123' });
+  nock('http://ndla-api').get('/draft-api/v1/drafts/external_id/4737').reply(200, { id: '123' });
 
   const { container } = render(
     wrapper(
@@ -106,9 +104,7 @@ test('MastheadSearchForm redirects on ndla node id pasted', () => {
   const historyMock = {
     push: jest.fn(),
   };
-  nock('http://ndla-api')
-    .get('/draft-api/v1/drafts/external_id/4737')
-    .reply(200, { id: '123' });
+  nock('http://ndla-api').get('/draft-api/v1/drafts/external_id/4737').reply(200, { id: '123' });
 
   const { container } = render(
     wrapper(<MastheadSearchForm query="#4737" onSearchQuerySubmit={noop} />),

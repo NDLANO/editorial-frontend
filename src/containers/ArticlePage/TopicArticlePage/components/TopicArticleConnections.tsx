@@ -65,7 +65,7 @@ const TopicArticleConnections = ({
   };
 
   const getFavoriteSubjects = (subjects: SubjectType[], favoriteSubjectIds: string[]) => {
-    return subjects.filter(e => favoriteSubjectIds.includes(e.id));
+    return subjects.filter((e) => favoriteSubjectIds.includes(e.id));
   };
 
   const handleOpenToggle = async ({

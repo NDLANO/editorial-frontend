@@ -34,7 +34,7 @@ let token = '';
 /* eslint no-await-in-loop: 0 */
 
 function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 async function fetchSystemAccessToken() {
@@ -108,9 +108,9 @@ async function fetchAllArticles(url) {
   }
 
   const articleIds = [];
-  const results = await Promise.all(requestQueries.map(reqQuery => fetchArticles(url, reqQuery)));
-  results.forEach(result => {
-    const articles = result && result.results ? result.results.map(article => article.id) : [];
+  const results = await Promise.all(requestQueries.map((reqQuery) => fetchArticles(url, reqQuery)));
+  results.forEach((result) => {
+    const articles = result && result.results ? result.results.map((article) => article.id) : [];
     articleIds.push(...articles);
   });
   console.log(`fetched ${articleIds.length} number of article IDS`);
@@ -145,9 +145,9 @@ function testArticle(article) {
 }
 
 function printResults(articles, results) {
-  const errors = results.filter(result => result.hasError);
-  const diffs = results.filter(result => result.hasDiff);
-  const passed = results.filter(result => !result.hasDiff && !result.hasError);
+  const errors = results.filter((result) => result.hasError);
+  const diffs = results.filter((result) => result.hasDiff);
+  const passed = results.filter((result) => !result.hasDiff && !result.hasError);
   const passedString = chalk.bold.green(` ${passed.length} passed`) + ',';
   const errString = errors.length > 0 ? chalk.bold.red(` ${errors.length} failed`) + ',' : '';
   const diffString = diffs.length > 0 ? chalk.bold.yellow(` ${diffs.length} diffs`) + ',' : '';

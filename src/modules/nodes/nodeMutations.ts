@@ -66,7 +66,7 @@ export const useAddNodeMutation = () => {
         queryClient.setQueryData<NodeType[]>(key, [...previousNodes, optimisticNode]);
         return previousNodes;
       },
-      onError: e => handleError(e),
+      onError: (e) => handleError(e),
       onSettled: (_, __, { taxonomyVersion }) =>
         queryClient.invalidateQueries(nodesQueryKey({ taxonomyVersion })),
     },
@@ -96,7 +96,7 @@ export const useUpdateNodeMetadataMutation = () => {
           : nodesQueryKey({ isRoot: true, taxonomyVersion });
         await qc.cancelQueries(key);
         const prevNodes = qc.getQueryData<NodeType[]>(key) ?? [];
-        const newNodes = prevNodes.map(node => {
+        const newNodes = prevNodes.map((node) => {
           if (node.id === id) {
             return { ...node, metadata: { ...node.metadata, ...metadata } };
           } else return node;
@@ -138,7 +138,7 @@ export const useDeleteNodeMutation = () => {
           : nodesQueryKey({ taxonomyVersion, isRoot: true });
         await qc.cancelQueries(key);
         const prevNodes = qc.getQueryData<NodeType[]>(key) ?? [];
-        const withoutDeleted = prevNodes.filter(s => s.id !== id);
+        const withoutDeleted = prevNodes.filter((s) => s.id !== id);
         qc.setQueryData<NodeType[]>(key, withoutDeleted);
       },
       onSettled: (_, __, { rootId, taxonomyVersion }) => {
@@ -278,14 +278,14 @@ type UsePutNodeMutation = PutNodeParams;
 export const usePutNodeMutation = (
   options?: UseMutationOptions<void, unknown, UsePutNodeMutation>,
 ) => {
-  return useMutation<void, unknown, UsePutNodeMutation>(params => putNode(params), options);
+  return useMutation<void, unknown, UsePutNodeMutation>((params) => putNode(params), options);
 };
 
 export const usePutResourcesPrimaryMutation = (
   options?: UseMutationOptions<void, unknown, PutResourcesPrimaryParams>,
 ) => {
   return useMutation<void, unknown, PutResourcesPrimaryParams>(
-    params => putResourcesPrimary(params),
+    (params) => putResourcesPrimary(params),
     options,
   );
 };

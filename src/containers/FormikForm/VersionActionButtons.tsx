@@ -47,7 +47,7 @@ const VersionActionButtons = ({
           type="version"
           article={version}
           language={currentLanguage}
-          wrapperFunctionForButton={btn => (
+          wrapperFunctionForButton={(btn) => (
             <Tooltip tooltip={t('form.previewVersion')}>{btn}</Tooltip>
           )}
           activateButton={

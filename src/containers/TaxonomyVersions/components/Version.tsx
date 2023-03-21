@@ -36,7 +36,7 @@ interface VersionWrapperProps {
 const VersionWrapper = styled.div<VersionWrapperProps>`
   display: flex;
   flex-direction: column;
-  border: 1.5px solid ${props => props.color};
+  border: 1.5px solid ${(props) => props.color};
   border-radius: 10px;
   padding: ${spacing.small};
 `;
@@ -65,7 +65,7 @@ const statusColorMap: Record<VersionStatusType, string> = {
 const StatusWrapper = styled.div<StatusWrapperProps>`
   border: 1px black;
   border-radius: 100px;
-  background-color: ${props => props.color};
+  background-color: ${(props) => props.color};
   padding: 2px ${spacing.normal};
   margin-right: ${spacing.small};
 `;
@@ -115,7 +115,7 @@ const Version = ({ version }: Props) => {
       setError(undefined);
       await qc.cancelQueries(key);
       const existingVersions = qc.getQueryData<VersionType[]>(key) ?? [];
-      const withoutDeleted = existingVersions.filter(version => version.id !== id);
+      const withoutDeleted = existingVersions.filter((version) => version.id !== id);
       qc.setQueryData<VersionType[]>(key, withoutDeleted);
     },
     onSuccess: () => qc.invalidateQueries(key),
@@ -163,7 +163,7 @@ const Version = ({ version }: Props) => {
                 variant="ghost"
                 colorTheme="lighter"
                 aria-label={t('taxonomyVersions.editVersionTooltip')}
-                onClick={() => setIsEditing(prev => !prev)}
+                onClick={() => setIsEditing((prev) => !prev)}
               >
                 <Pencil />
               </IconButtonV2>

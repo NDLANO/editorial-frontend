@@ -128,7 +128,7 @@ const PodcastSeriesForm = ({
       coverPhotoId: values.coverPhotoId,
       coverPhotoAltText: values.metaImageAlt,
       language: values.language,
-      episodes: values.episodes.map(ep => ep.id),
+      episodes: values.episodes.map((ep) => ep.id),
     };
 
     await onUpdate(newPodcastSeries);
@@ -156,14 +156,14 @@ const PodcastSeriesForm = ({
       onSubmit={handleSubmit}
       validateOnMount
       enableReinitialize
-      validate={values => {
+      validate={(values) => {
         const errors = validateFormik(values, podcastRules, t);
         const metaImageErrors = size.current ? validateMetaImage(size.current) : {};
         return { ...errors, ...metaImageErrors };
       }}
       initialStatus={{ warnings: initialWarnings }}
     >
-      {formikProps => {
+      {(formikProps) => {
         const { values, dirty, isSubmitting, errors, submitForm, validateForm } = formikProps;
         const formIsDirty = isFormikFormDirty({
           values,
@@ -191,7 +191,9 @@ const PodcastSeriesForm = ({
                 id="podcast-series-podcastmeta"
                 title={t('form.podcastSeriesSection')}
                 className="u-4/6@desktop u-push-1/6@desktop"
-                hasError={['title', 'coverPhotoId', 'metaImageAlt'].some(field => field in errors)}
+                hasError={['title', 'coverPhotoId', 'metaImageAlt'].some(
+                  (field) => field in errors,
+                )}
               >
                 <PodcastSeriesMetaData
                   language={language}
@@ -205,7 +207,9 @@ const PodcastSeriesForm = ({
                 id="podcast-series-podcastepisodes"
                 title={t('form.podcastEpisodesSection')}
                 className="u-4/6@desktop u-push-1/6@desktop"
-                hasError={['title', 'coverPhotoId', 'metaImageAlt'].some(field => field in errors)}
+                hasError={['title', 'coverPhotoId', 'metaImageAlt'].some(
+                  (field) => field in errors,
+                )}
               >
                 <PodcastEpisodes />
               </AccordionSection>
@@ -220,7 +224,7 @@ const PodcastSeriesForm = ({
                 showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}
                 formIsDirty={formIsDirty}
                 type={!inModal ? 'submit' : 'button'}
-                onClick={evt => {
+                onClick={(evt) => {
                   evt.preventDefault();
                   submitForm();
                 }}

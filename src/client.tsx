@@ -48,7 +48,7 @@ window.errorReporter = ErrorReporter.getInstance({
 });
 
 const constructNewPath = (newLocale?: LocaleType) => {
-  const regex = new RegExp(supportedLanguages.map(l => `/${l}/`).join('|'));
+  const regex = new RegExp(supportedLanguages.map((l) => `/${l}/`).join('|'));
   const path = window.location.pathname.replace(regex, '');
   const fullPath = path.startsWith('/') ? path : `/${path}`;
   const localePrefix = newLocale ? `/${newLocale}` : '';

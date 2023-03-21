@@ -42,7 +42,7 @@ const ConceptMetaData = ({ subjects, fetchTags, inModal, language }: Props) => {
               setFieldTouched={form.setFieldTouched}
               showRemoveButton
               showCheckbox={true}
-              checkboxAction={image => onSaveAsVisualElement(image, formikContext)}
+              checkboxAction={(image) => onSaveAsVisualElement(image, formikContext)}
               language={language}
               {...field}
             />

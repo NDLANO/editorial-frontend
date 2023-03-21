@@ -88,7 +88,7 @@ const TaxonomyLightbox = ({ children, title, onSelect, loading, onClose, wide = 
       label={title}
       size={wide ? 'large' : 'normal'}
     >
-      {onCloseModal => (
+      {(onCloseModal) => (
         <>
           <StyledHeader>
             <StyledTitleWrapper>

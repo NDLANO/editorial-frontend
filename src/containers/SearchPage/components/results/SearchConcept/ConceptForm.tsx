@@ -136,7 +136,7 @@ const ConceptForm = ({ initialValues, status, language, onSubmit, allSubjects, c
           }}
         >
           {!values.license && <option>{t('form.license.choose')}</option>}
-          {licensesWithTranslations.map(license => (
+          {licensesWithTranslations.map((license) => (
             <option value={license.license} key={license.license}>
               {license.title}
             </option>
@@ -177,7 +177,7 @@ const ConceptForm = ({ initialValues, status, language, onSubmit, allSubjects, c
         </ButtonV2>
         <MultiButton
           disabled={!hasChanges || Object.keys(errors).length > 0}
-          onClick={value => handleClick(value)}
+          onClick={(value) => handleClick(value)}
           mainButton={{ value: 'save', label: t(`form.save`) }}
           secondaryButtons={secondaryButtons}
         />

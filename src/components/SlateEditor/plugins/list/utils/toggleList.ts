@@ -20,7 +20,7 @@ export const toggleList = (editor: Editor, type: string) => {
   if (isIdentical) {
     // List normalizer removes empty list blocks afterwards.
     return Transforms.liftNodes(editor, {
-      match: node =>
+      match: (node) =>
         Element.isElement(node) && node.type === TYPE_LIST_ITEM && isListItemSelected(editor, node),
       mode: 'all',
     });
@@ -31,7 +31,7 @@ export const toggleList = (editor: Editor, type: string) => {
       editor,
       { changeTo: listType },
       {
-        match: node => {
+        match: (node) => {
           if (
             !Element.isElement(node) ||
             node.type !== TYPE_LIST_ITEM ||
@@ -57,7 +57,7 @@ export const toggleList = (editor: Editor, type: string) => {
 
     const nodes = [
       ...Editor.nodes(editor, {
-        match: node => Element.isElement(node) && firstTextBlockElement.includes(node.type),
+        match: (node) => Element.isElement(node) && firstTextBlockElement.includes(node.type),
         at: Editor.unhangRange(editor, editor.selection),
       }),
     ];

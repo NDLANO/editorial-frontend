@@ -31,7 +31,7 @@ import './html.contribution';
 import { createFormatAction, createSaveAction } from './editorActions';
 
 const StyledDiv = styled.div`
-  height: ${(props) => props.height || '75vh'};
+  height: ${props => props.height || '75vh'};
   margin: ${spacing.normal};
   border: 1px solid ${colors.brand.greyLight};
 `;
@@ -65,7 +65,7 @@ export function MonacoEditor({ value, onChange, onSave, height }) {
       language: 'html',
     });
 
-    editor.onDidChangeModelContent((event) => {
+    editor.onDidChangeModelContent(event => {
       const value = editor.getValue();
       onChange(value, event);
     });

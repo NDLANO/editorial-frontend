@@ -90,7 +90,7 @@ const rules: RulesType<AudioFormikType, IAudioMetaInformation> = {
   },
   license: {
     required: true,
-    test: (values) => {
+    test: values => {
       const authors = values.creators.concat(values.rightsholders).concat(values.processors);
       if (authors.length > 0) return undefined;
       return { translationKey: 'validation.noLicenseWithoutCopyrightHolder' };
@@ -143,8 +143,7 @@ const AudioForm = ({
         tags: values.tags,
         audioType: 'standard',
         copyright: {
-          license:
-            licenses?.find((license) => license.license === values.license) ?? DEFAULT_LICENSE,
+          license: licenses?.find(license => license.license === values.license) ?? DEFAULT_LICENSE,
           origin: values.origin,
           creators: values.creators,
           processors: values.processors,
@@ -180,10 +179,10 @@ const AudioForm = ({
       enableReinitialize
       validateOnMount
       initialErrors={initialErrors}
-      validate={(values) => validateFormik(values, rules, t)}
+      validate={values => validateFormik(values, rules, t)}
       initialStatus={{ warnings: initialWarnings }}
     >
-      {(formikProps) => {
+      {formikProps => {
         const { values, dirty, isSubmitting, submitForm, errors } = formikProps;
         const formIsDirty = isFormikFormDirty({
           values,
@@ -193,7 +192,7 @@ const AudioForm = ({
         });
 
         const hasError = (errFields: (keyof AudioFormikType)[]): boolean => {
-          return errFields.some((field) => !!errors[field]);
+          return errFields.some(field => !!errors[field]);
         };
         return (
           <FormWrapper>
@@ -221,7 +220,7 @@ const AudioForm = ({
                 id="podcast-upload-podcastmanus"
                 title={t('podcastForm.fields.manuscript')}
                 className="u-4/6@desktop u-push-1/6@desktop"
-                hasError={[].some((field) => field in errors)}
+                hasError={[].some(field => field in errors)}
               >
                 <AudioManuscript />
               </AccordionSection>
@@ -242,7 +241,7 @@ const AudioForm = ({
                 isSaving={isSubmitting}
                 formIsDirty={formIsDirty}
                 showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}
-                onClick={(evt) => {
+                onClick={evt => {
                   evt.preventDefault();
                   submitForm();
                 }}

@@ -29,7 +29,7 @@ export const StyledField = styled.div<StyledFieldProps>`
   & label {
     font-size: 1.5rem;
   }
-  ${(p) =>
+  ${p =>
     p.noBorder &&
     css`
       & input {
@@ -39,13 +39,13 @@ export const StyledField = styled.div<StyledFieldProps>`
         outline: none;
       }
     `};
-  ${(p) =>
+  ${p =>
     p.right &&
     css`
       text-align: right;
       margin-right: ${spacing.small};
     `};
-  ${(p) =>
+  ${p =>
     p.isTitle &&
     css`
       & input {

@@ -52,7 +52,7 @@ export const StyledButton = styled.button<StyledButtonProps>`
     transition: all 200ms ease;
   }
 
-  ${(props) =>
+  ${props =>
     !props.isDisabled &&
     css`
       &:hover,

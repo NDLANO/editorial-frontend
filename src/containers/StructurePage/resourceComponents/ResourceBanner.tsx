@@ -47,7 +47,7 @@ const RightContent = styled(Content)`
 
 const getPublishedCount = (contentMeta: Dictionary<NodeResourceMeta>) => {
   const contentMetaList = Object.values(contentMeta);
-  const publishedCount = contentMetaList.filter((c) => c.status?.current === 'PUBLISHED').length;
+  const publishedCount = contentMetaList.filter(c => c.status?.current === 'PUBLISHED').length;
   return publishedCount;
 };
 
@@ -73,7 +73,7 @@ const ResourceBanner = ({
   const publishedCount = useMemo(() => getPublishedCount(contentMeta), [contentMeta]);
   const { t } = useTranslation();
   const allRevisions = useMemo(() => {
-    const resourceRevisions = resources.map((r) => r.contentMeta?.revisions).filter((r) => !!r);
+    const resourceRevisions = resources.map(r => r.contentMeta?.revisions).filter(r => !!r);
     const currentNodeRevision = currentNode.contentUri
       ? contentMeta[currentNode.contentUri]?.revisions
       : undefined;
@@ -101,7 +101,7 @@ const ResourceBanner = ({
             {currentNode && currentNode.id && (
               <GroupResourceSwitch
                 node={currentNode}
-                onChanged={(partialMeta) => {
+                onChanged={partialMeta => {
                   onCurrentNodeChanged({
                     ...currentNode,
                     metadata: { ...currentNode.metadata, ...partialMeta },

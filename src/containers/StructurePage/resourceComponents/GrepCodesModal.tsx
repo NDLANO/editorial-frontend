@@ -65,7 +65,7 @@ const GrepCodesModal = ({ codes, contentType, contentUri, revision, currentNodeI
         <StyledButton size="xsmall" colorTheme="lighter">{`GREP (${codes.length})`}</StyledButton>
       }
     >
-      {(close) => (
+      {close => (
         <ModalContent
           codes={codes}
           revision={revision}
@@ -98,10 +98,10 @@ const ModalContent = ({
   const updateDraft = useUpdateDraftMutation();
   const { t, i18n } = useTranslation();
   const qc = useQueryClient();
-  const key = useMemo(
-    () => draftQueryKey({ id: draftId, language: i18n.language }),
-    [i18n.language, draftId],
-  );
+  const key = useMemo(() => draftQueryKey({ id: draftId, language: i18n.language }), [
+    i18n.language,
+    draftId,
+  ]);
   const nodeKey = useMemo(
     () => nodeResourceMetasQueryKey({ nodeId: currentNodeId, language: i18n.language }),
     [i18n.language, currentNodeId],
@@ -112,12 +112,12 @@ const ModalContent = ({
       await updateDraft.mutateAsync(
         { id: draftId, body: { grepCodes, revision } },
         {
-          onSuccess: (data) => {
+          onSuccess: data => {
             qc.cancelQueries(key);
             qc.setQueryData<IArticle>(key, data);
             qc.invalidateQueries(key);
-            qc.setQueriesData<NodeResourceMeta[]>({ queryKey: nodeKey }, (data) =>
-              data?.map((meta) => (meta.contentUri === contentUri ? { ...meta, grepCodes } : meta)),
+            qc.setQueriesData<NodeResourceMeta[]>({ queryKey: nodeKey }, data =>
+              data?.map(meta => (meta.contentUri === contentUri ? { ...meta, grepCodes } : meta)),
             );
           },
         },

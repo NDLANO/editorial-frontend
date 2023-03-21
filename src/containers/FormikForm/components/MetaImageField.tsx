@@ -39,7 +39,7 @@ interface Props {
 
 const MetaImageField = ({ image, onImageRemove, onImageLoad }: Props) => {
   const { t } = useTranslation();
-  const copyright = image.copyright.creators.map((creator) => creator.name).join(', ');
+  const copyright = image.copyright.creators.map(creator => creator.name).join(', ');
   const title = convertFieldWithFallback<'title'>(image, 'title', '');
   const alt = convertFieldWithFallback<'alttext'>(image, 'alttext', '');
   const imageAction = (

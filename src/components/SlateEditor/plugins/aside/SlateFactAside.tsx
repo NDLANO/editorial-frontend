@@ -40,11 +40,11 @@ interface ExpandProps {
 const StyledDiv = styled.div<ExpandProps>`
   border: 1px solid ${colors.brand.greyLight};
   padding: ${spacing.small};
-  overflow: ${(props) => (props.expanded ? 'visible' : 'hidden')};
+  overflow: ${props => (props.expanded ? 'visible' : 'hidden')};
 `;
 
 const StyledAside = styled.aside<ExpandProps>`
-  overflow: ${(props) => (props.expanded ? 'visible' : 'hidden')};
+  overflow: ${props => (props.expanded ? 'visible' : 'hidden')};
 `;
 
 const ButtonContainer = styled.div`
@@ -64,9 +64,9 @@ const SlateFactAside = ({ children, onRemoveClick, attributes, onMoveContent }: 
   const [expanded, setExpanded] = useState(true);
   const { t } = useTranslation();
 
-  const toggleExpanded = useCallback((evt) => {
+  const toggleExpanded = useCallback(evt => {
     evt.preventDefault();
-    setExpanded((p) => !p);
+    setExpanded(p => !p);
   }, []);
 
   return (

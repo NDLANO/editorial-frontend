@@ -76,7 +76,7 @@ const StructureContainer = () => {
   const nodesQuery = useNodes(
     { language: i18n.language, isRoot: true, taxonomyVersion },
     {
-      select: (nodes) => nodes.sort((a, b) => a.name?.localeCompare(b.name)),
+      select: nodes => nodes.sort((a, b) => a.name?.localeCompare(b.name)),
       placeholderData: [],
     },
   );
@@ -103,7 +103,7 @@ const StructureContainer = () => {
   };
 
   const getFavoriteNodes = (nodes: NodeType[] = [], favoriteNodeIds: string[] = []) => {
-    return nodes.filter((node) => favoriteNodeIds.includes(node.id));
+    return nodes.filter(node => favoriteNodeIds.includes(node.id));
   };
 
   const nodes = showFavorites
@@ -128,7 +128,7 @@ const StructureContainer = () => {
                 <Spinner />
               ) : (
                 <StructureWrapper data-cy="structure">
-                  {nodes!.map((node) => (
+                  {nodes!.map(node => (
                     <RootNode
                       renderBeforeTitle={StructureErrorIcon}
                       openedPaths={getPathsFromUrl(location.pathname)}

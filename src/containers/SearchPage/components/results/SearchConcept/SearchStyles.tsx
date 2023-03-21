@@ -27,8 +27,8 @@ export const StyledConceptView = styled.div<StyledConceptViewProps>`
   align-self: center;
   padding: 0.7rem 1.3rem;
   margin: 0.3rem 0;
-  border: ${(props) => (props.border ? '1px solid black' : 'none')};
-  background-color: ${(props) => (props.border ? colors.brand.light : 'auto')};
+  border: ${props => (props.border ? '1px solid black' : 'none')};
+  background-color: ${props => (props.border ? colors.brand.light : 'auto')};
 
   h2 {
     font-size: 1.2rem;
@@ -75,9 +75,9 @@ export const StyledLink = styled(Link)<StyledLinkProps>`
     color: ${colors.brand.primary};
   }
 
-  box-shadow: ${(props) => (props.noShadow ? 'none' : 'inset 0 -1px')};
+  box-shadow: ${props => (props.noShadow ? 'none' : 'inset 0 -1px')};
 
-  ${(props) =>
+  ${props =>
     props.other
       ? css`
           &:not(:last-child) {
@@ -113,7 +113,7 @@ interface InputFieldProps {
 }
 
 export const InputField = styled.div<InputFieldProps>`
-  flex-grow: ${(props) => (props.ratio ? props.ratio : 1)};
+  flex-grow: ${props => (props.ratio ? props.ratio : 1)};
 
   label,
   p {

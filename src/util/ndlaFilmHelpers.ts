@@ -26,8 +26,8 @@ export const getInitialValues = (
   filmFrontpage: IFilmFrontPageData,
   selectedLanguage: string,
 ): FilmFormikType => {
-  const supportedLanguages = filmFrontpage.about.map((about) => about.language);
-  const languageAbout = filmFrontpage.about.find((about) => about.language === selectedLanguage);
+  const supportedLanguages = filmFrontpage.about.map(about => about.language);
+  const languageAbout = filmFrontpage.about.find(about => about.language === selectedLanguage);
   const about = languageAbout ?? filmFrontpage.about?.[0];
 
   const visualElement = about?.visualElement && convertVisualElement(about?.visualElement);
@@ -122,7 +122,7 @@ export const getNdlaFilmFromSlate = (
 
   let newLanguage = true;
 
-  const newAbout = initialFrontpage.about.map((about) => {
+  const newAbout = initialFrontpage.about.map(about => {
     if (about.language === selectedLanguage) {
       newLanguage = false;
       return editedAbout;
@@ -140,7 +140,7 @@ export const getNdlaFilmFromSlate = (
     newAbout.push(editedAbout);
   }
   const newSlideShow = newFrontpage.slideShow;
-  const newThemes = newFrontpage.themes.map((theme) => {
+  const newThemes = newFrontpage.themes.map(theme => {
     return {
       name: theme.name,
       movies: theme.movies,
@@ -177,8 +177,8 @@ export const findName = (
   }[],
   language: string,
 ) => {
-  const filteredName = themeNames.filter((name) => name.language === language);
-  return filteredName.length > 0 ? filteredName.map((name) => name.name).join() : '';
+  const filteredName = themeNames.filter(name => name.language === language);
+  return filteredName.length > 0 ? filteredName.map(name => name.name).join() : '';
 };
 
 export interface ConvertedThemeName {
@@ -187,7 +187,7 @@ export interface ConvertedThemeName {
 }
 
 export const convertThemeNames = (names: ThemeNames): ConvertedThemeName[] => {
-  return LOCALE_VALUES.map((lang) => ({
+  return LOCALE_VALUES.map(lang => ({
     language: lang,
     name: names.name[lang],
   }));

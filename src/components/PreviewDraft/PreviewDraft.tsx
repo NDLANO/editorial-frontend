@@ -58,7 +58,7 @@ class PreviewDraft extends Component<Props, {}> {
       <ContentTypeBadge type={contentType} background size="large" />
     ) : null;
 
-    const requiredLibraries = article.requiredLibraries?.map((lib) => {
+    const requiredLibraries = article.requiredLibraries?.map(lib => {
       if (lib.url.startsWith('http://')) {
         return { ...lib, url: lib.url.replace('http://', 'https://') };
       } else return lib;

@@ -27,7 +27,7 @@ export type DraftStatusStateMachineType = Record<DraftStatusType, DraftStatusTyp
 export type ConceptStatusType = string;
 export type ConceptStatusStateMachineType = Record<ConceptStatusType, ConceptStatusType[]>;
 
-export type LocaleType = (typeof LOCALE_VALUES)[number];
+export type LocaleType = typeof LOCALE_VALUES[number];
 
 export type PartialRecord<K extends keyof any, T> = {
   [P in K]?: T;
@@ -207,7 +207,7 @@ export interface H5POembed {
   title: string;
 }
 
-export type SearchType = (typeof SearchTypeValues)[number];
+export type SearchType = typeof SearchTypeValues[number];
 
 export interface ReturnType<TType, TReturnType> {
   type: TType;

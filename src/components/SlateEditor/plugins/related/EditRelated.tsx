@@ -104,7 +104,7 @@ const EditRelated = ({
   const [title, setTitle] = useState('');
 
   const toggleAddExternal = () => {
-    setShowAddExternal((prevState) => !prevState);
+    setShowAddExternal(prevState => !prevState);
   };
 
   const searchForArticles = async (query: string, page: number | undefined) => {
@@ -139,7 +139,7 @@ const EditRelated = ({
   const deleteRelatedArticle = (e: MouseEvent<HTMLButtonElement>, articleKey: string) => {
     e.stopPropagation();
 
-    const newArticles = articles.filter((filterArticle) =>
+    const newArticles = articles.filter(filterArticle =>
       'url' in filterArticle
         ? filterArticle.tempId !== articleKey
         : filterArticle.id !== articleKey,
@@ -150,7 +150,7 @@ const EditRelated = ({
   const onAddExternal = (title: string, url: string) => {
     if (tempId) {
       updateArticles(
-        articles.map((a) => ('url' in a && a.tempId === tempId ? { ...a, url, title } : a)),
+        articles.map(a => ('url' in a && a.tempId === tempId ? { ...a, url, title } : a)),
       );
       setTempId(undefined);
       setUrl('');
@@ -232,7 +232,7 @@ const EditRelated = ({
                                     aria-label={t('form.content.relatedArticle.removeExternal')}
                                     variant="ghost"
                                     colorTheme="danger"
-                                    onClick={(e) => deleteRelatedArticle(e, articleKey)}
+                                    onClick={e => deleteRelatedArticle(e, articleKey)}
                                   >
                                     <DeleteForever />
                                   </IconButtonV2>
@@ -256,8 +256,8 @@ const EditRelated = ({
             labelField="title"
             placeholder={t('form.content.relatedArticle.placeholder')}
             apiAction={searchForArticles}
-            onClick={(e) => e.stopPropagation()}
-            onChange={(selected) => selected && onInsertBlock(selected.id.toString())}
+            onClick={e => e.stopPropagation()}
+            onChange={selected => selected && onInsertBlock(selected.id.toString())}
             positionAbsolute
             showPagination
           />

@@ -46,9 +46,9 @@ const VisualElementField = ({ types }: Props) => {
           </div>
         )}
       </FormikField>
-      {extraErrorFields.map((extraErrorField) => (
+      {extraErrorFields.map(extraErrorField => (
         <ErrorMessage key={`topic_article_visualelement_${extraErrorField}`} name={extraErrorField}>
-          {(error) => (
+          {error => (
             <FormikFieldHelp error>
               <StyledErrorPreLine>{error}</StyledErrorPreLine>
             </FormikFieldHelp>

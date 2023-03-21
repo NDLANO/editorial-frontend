@@ -10,7 +10,7 @@ export const createGuard = <T, S = T>(prop: keyof S, options?: GuardOptions) => 
 };
 
 export const createArrayGuard = <T, S = T>(prop: keyof S, options?: GuardOptions) => {
-  return (value: any[]): value is T[] => value.every((v) => isType(prop, v, options));
+  return (value: any[]): value is T[] => value.every(v => isType(prop, v, options));
 };
 
 export const createReturnTypeGuard = <T, S = T>(prop: keyof S, options?: GuardOptions) => {

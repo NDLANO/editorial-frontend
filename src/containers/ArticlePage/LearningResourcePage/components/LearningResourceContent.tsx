@@ -99,14 +99,14 @@ const StyledContentDiv = styled(FormikField)`
 `;
 
 const MarkdownButton = styled(IconButtonV2)<{ active: boolean }>`
-  color: ${(p) => (p.active ? colors.brand.primary : colors.brand.light)};
+  color: ${p => (p.active ? colors.brand.primary : colors.brand.light)};
 `;
 
 const findFootnotes = (content: Descendant[]): FootnoteType[] =>
   findNodesByType(content, TYPE_FOOTNOTE)
-    .map((e) => e as FootnoteElement)
-    .filter((footnote) => Object.keys(footnote.data).length > 0)
-    .map((footnoteElement) => footnoteElement.data);
+    .map(e => e as FootnoteElement)
+    .filter(footnote => Object.keys(footnote.data).length > 0)
+    .map(footnoteElement => footnoteElement.data);
 
 const visualElements = [
   TYPE_EMBED_H5P,
@@ -202,7 +202,7 @@ const LearningResourceContent = ({
               creators={creators}
               published={published}
               allowEdit={true}
-              onChange={(date) => {
+              onChange={date => {
                 form.setFieldValue(field.name, date);
               }}
             />
@@ -245,7 +245,7 @@ const LearningResourceContent = ({
               submitted={isSubmitting}
               plugins={plugins(articleLanguage ?? '', i18n.language, handleSubmitRef)}
               data-cy="learning-resource-content"
-              onChange={(value) => {
+              onChange={value => {
                 onChange({
                   target: {
                     value,

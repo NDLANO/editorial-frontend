@@ -104,7 +104,7 @@ const AlertModal = ({
 
   return (
     <ModalV2 controlled isOpen={!!show} onClose={onCancel} label={label}>
-      {(close) => (
+      {close => (
         <StyledModalBody css={severities[severity]}>
           <Header>
             {title && <Heading>{title}</Heading>}
@@ -113,7 +113,7 @@ const AlertModal = ({
               variant="ghost"
               aria-label={t('close')}
               colorTheme="lighter"
-              onClick={(e) => {
+              onClick={e => {
                 e.preventDefault();
                 close();
               }}

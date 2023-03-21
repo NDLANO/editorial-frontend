@@ -120,7 +120,7 @@ const RichTextEditor = ({
       if (editor.lastSelectedBlock) {
         const [target] = Editor.nodes(editor, {
           at: Editor.range(editor, [0]),
-          match: (node) => {
+          match: node => {
             return isEqual(node, editor.lastSelectedBlock);
           },
         });

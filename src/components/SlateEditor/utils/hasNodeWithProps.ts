@@ -13,7 +13,7 @@ const hasNodeWithProps = (editor: Editor, props: Partial<Element>) => {
     return false;
   }
   const [match] = Editor.nodes(editor, {
-    match: (node) => {
+    match: node => {
       return Element.isElement(node) && Element.matches(node, props);
     },
     at: Editor.unhangRange(editor, editor.selection),

@@ -73,7 +73,7 @@ export const relatedSerializer: SlateSerializer = {
     return (
       <div data-type="related-content">
         {node.data.nodes &&
-          node.data.nodes.map((child) => {
+          node.data.nodes.map(child => {
             return createEmbedTag(child);
           })}
       </div>
@@ -107,14 +107,14 @@ export const relatedPlugin = (editor: Editor) => {
     return renderElement && renderElement({ attributes, children, element });
   };
 
-  editor.isVoid = (element) => {
+  editor.isVoid = element => {
     if (element.type === 'related') {
       return true;
     }
     return isVoid(element);
   };
 
-  editor.normalizeNode = (entry) => {
+  editor.normalizeNode = entry => {
     const [node] = entry;
 
     if (Element.isElement(node) && node.type === TYPE_RELATED) {

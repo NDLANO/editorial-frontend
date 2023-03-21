@@ -41,7 +41,7 @@ const LanguagePicker = ({ emptyLanguages, editUrl }: Props) => {
             }}
           >
             <StyledDropdownOverlay withArrow>
-              {emptyLanguages.map((language) => (
+              {emptyLanguages.map(language => (
                 <StyledLink
                   key={language.key}
                   to={editUrl(language.key)}

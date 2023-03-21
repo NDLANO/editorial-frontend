@@ -47,9 +47,9 @@ const ResourceTypeSelect = ({
         onChange={onChangeSelectedResource}
       >
         <option value="">{t('taxonomy.resourceTypes.placeholder')}</option>
-        {availableResourceTypes.map((resourceType) =>
+        {availableResourceTypes.map(resourceType =>
           resourceType.subtypes ? (
-            resourceType.subtypes.map((subtype) => (
+            resourceType.subtypes.map(subtype => (
               <option value={`${resourceType.id},${subtype.id}`} key={subtype.id}>
                 {resourceType.name} - {subtype.name}
               </option>

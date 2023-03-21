@@ -21,7 +21,7 @@ const VersionSourceField = ({ existingVersions }: Props) => {
   const { t } = useTranslation();
   const { setFieldValue } = useFormikContext();
 
-  const findCurrentlySelected = (hash: string) => existingVersions.find((v) => v.hash === hash);
+  const findCurrentlySelected = (hash: string) => existingVersions.find(v => v.hash === hash);
 
   return (
     <>
@@ -34,7 +34,7 @@ const VersionSourceField = ({ existingVersions }: Props) => {
           <OptGroupVersionSelector
             versions={existingVersions}
             currentVersion={field.value}
-            onVersionChanged={(val) => setFieldValue('sourceId', findCurrentlySelected(val)?.id)}
+            onVersionChanged={val => setFieldValue('sourceId', findCurrentlySelected(val)?.id)}
           />
         )}
       </FormikField>

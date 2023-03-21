@@ -25,7 +25,7 @@ interface Props {
 }
 
 const getCurrentTaxVersion = (versions: VersionType[], oldTaxVersion: string): SingleValue => {
-  const currentVersion = versions?.find((version) => version.hash === oldTaxVersion);
+  const currentVersion = versions?.find(version => version.hash === oldTaxVersion);
   return currentVersion ? { value: currentVersion.hash, label: currentVersion.name } : null;
 };
 
@@ -44,7 +44,7 @@ const VersionSelect = ({ versions = [], onVersionChanged }: Props) => {
   const currentVersion = getCurrentTaxVersion(versions, taxonomyVersion) ?? fakeDefault;
   const options = useMemo(
     () =>
-      versions.map((version) => ({
+      versions.map(version => ({
         id: version.hash,
         name: version.name,
         type: version.versionType,
@@ -54,9 +54,9 @@ const VersionSelect = ({ versions = [], onVersionChanged }: Props) => {
   const optGroups = useMemo(
     () =>
       [{ label: '', options: [fakeDefault] }].concat(
-        generateOptionGroups(options, t).map((g) => ({
+        generateOptionGroups(options, t).map(g => ({
           label: g.label,
-          options: g.options.map((o) => ({ value: o.id, label: o.name })),
+          options: g.options.map(o => ({ value: o.id, label: o.name })),
         })),
       ),
     [fakeDefault, options, t],

@@ -64,7 +64,7 @@ const DeletePublishRequests = ({ nodes }: Props) => {
         </ButtonV2>
       }
     >
-      {(close) => (
+      {close => (
         <>
           <ModalHeaderV2>
             <h1>{t('publishRequests.deleteAll')}</h1>

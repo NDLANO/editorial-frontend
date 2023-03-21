@@ -59,18 +59,19 @@ const LearningResourceForm = ({
   const { data: licenses } = useLicenses({ placeholderData: [] });
   const statusStateMachine = useDraftStatusStateMachine({ articleId: article?.id });
 
-  const { savedToServer, formikRef, initialValues, handleSubmit } =
-    useArticleFormHooks<LearningResourceFormType>({
-      getInitialValues: draftApiTypeToLearningResourceFormType,
-      article,
-      t,
-      articleStatus,
-      updateArticle,
-      getArticleFromSlate: learningResourceFormTypeToDraftApiType,
-      articleLanguage,
-      rules: learningResourceRules,
-      ndlaId,
-    });
+  const { savedToServer, formikRef, initialValues, handleSubmit } = useArticleFormHooks<
+    LearningResourceFormType
+  >({
+    getInitialValues: draftApiTypeToLearningResourceFormType,
+    article,
+    t,
+    articleStatus,
+    updateArticle,
+    getArticleFromSlate: learningResourceFormTypeToDraftApiType,
+    articleLanguage,
+    rules: learningResourceRules,
+    ndlaId,
+  });
 
   const initialHTML = useMemo(() => blockContentToHTML(initialValues.content), [initialValues]);
 
@@ -142,10 +143,10 @@ const LearningResourceForm = ({
   };
 
   const initialWarnings = getWarnings(initialValues, learningResourceRules, t, article);
-  const initialErrors = useMemo(
-    () => validateFormik(initialValues, learningResourceRules, t),
-    [initialValues, t],
-  );
+  const initialErrors = useMemo(() => validateFormik(initialValues, learningResourceRules, t), [
+    initialValues,
+    t,
+  ]);
 
   return (
     <Formik
@@ -156,7 +157,7 @@ const LearningResourceForm = ({
       validateOnBlur={false}
       validateOnMount
       onSubmit={handleSubmit}
-      validate={(values) => validateFormik(values, learningResourceRules, t)}
+      validate={values => validateFormik(values, learningResourceRules, t)}
       initialStatus={{ warnings: initialWarnings }}
     >
       {FormikChild}

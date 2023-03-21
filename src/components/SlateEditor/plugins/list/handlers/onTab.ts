@@ -26,7 +26,7 @@ const onTab = (event: KeyboardEvent, editor: Editor, next?: (event: KeyboardEven
   const [currentListNode, currentListPath] = listEntry;
   const [currentItemNode, currentItemPath] = listItemEntry;
   const [[currentTextBlockNode, currentTextBlockPath]] = Editor.nodes(editor, {
-    match: (n) => Element.isElement(n) && firstTextBlockElement.includes(n.type),
+    match: n => Element.isElement(n) && firstTextBlockElement.includes(n.type),
     mode: 'lowest',
   });
 
@@ -97,7 +97,7 @@ const onTab = (event: KeyboardEvent, editor: Editor, next?: (event: KeyboardEven
                     }
                     // move any following list-items of selected list to the child list.
                     Transforms.moveNodes(editor, {
-                      match: (node) => Element.isElement(node) && node.type === TYPE_LIST_ITEM,
+                      match: node => Element.isElement(node) && node.type === TYPE_LIST_ITEM,
                       mode: 'lowest',
                       at: {
                         anchor,
@@ -113,7 +113,7 @@ const onTab = (event: KeyboardEvent, editor: Editor, next?: (event: KeyboardEven
                     // If a child list does not exist and following items exist, wrap following items in list and move it
                     // inside selected item
                     Transforms.wrapNodes(editor, defaultListBlock(currentListNode.listType), {
-                      match: (node) => {
+                      match: node => {
                         if (!(Element.isElement(node) && node.type === TYPE_LIST_ITEM)) {
                           return false;
                         }
@@ -138,7 +138,7 @@ const onTab = (event: KeyboardEvent, editor: Editor, next?: (event: KeyboardEven
               // If current list is followed by more blocks, move the blocks to the selected list item
               if (Editor.hasPath(editor, Path.next(currentListPath))) {
                 Transforms.moveNodes(editor, {
-                  match: (node) => Element.isElement(node) && node.type === TYPE_LIST,
+                  match: node => Element.isElement(node) && node.type === TYPE_LIST,
                   at: {
                     anchor: Editor.start(editor, Path.next(currentListPath)),
                     focus: Editor.end(editor, [...parentPath, parentNode.children.length - 1]),

@@ -39,7 +39,12 @@ class DateTimeWrapper extends Component {
     const selectedDateValue = selectedDates[0] || null;
     if (selectedDateValue && selectedDateValue !== value) {
       selectedDateValue.setHours(12);
-      onChange(selectedDateValue.toISOString().split('.').shift() + 'Z');
+      onChange(
+        selectedDateValue
+          .toISOString()
+          .split('.')
+          .shift() + 'Z',
+      );
     }
   }
 
@@ -73,7 +78,7 @@ class DateTimeWrapper extends Component {
         value={value}
         name={name}
         placeholder={placeholder}
-        ref={(node) => {
+        ref={node => {
           this.node = node;
         }}
       >

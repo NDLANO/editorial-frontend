@@ -19,7 +19,7 @@ test('taxonomy/flattenResourceTypesAndAddContextTypes flattening', () => {
     'contextTypes.topic': 'Emne',
     'contextTypes.frontpage': 'Forsideartikkel',
   };
-  const t = (key) => types[key];
+  const t = key => types[key];
   expect(flattenResourceTypesAndAddContextTypes(resourceTypesMock, t)).toEqual(
     flattenedResourceTypes,
   );
@@ -180,7 +180,7 @@ test('getCurrentTopic', () => {
 
 test('pathToUrnArray', () => {
   const array = pathToUrnArray('/bla/blabla');
-  array.forEach((path) => {
+  array.forEach(path => {
     expect(path.startsWith('urn:')).toBe(true);
   });
 });

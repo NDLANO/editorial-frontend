@@ -53,7 +53,7 @@ const doFetch = (name: string, element: ApiTranslateType): Promise<ResponseType>
       method: 'POST',
       headers,
     })
-      .then((res) => res.json())
+      .then(res => res.json())
       .then((json: TextResponse) => {
         const translated = json.responseData.translatedText;
         const content = element.isArray ? translated.split('|') : translated;
@@ -71,9 +71,9 @@ const doFetch = (name: string, element: ApiTranslateType): Promise<ResponseType>
       body: formData,
       headers,
     })
-      .then((res) => res.blob())
-      .then((res) => res.text())
-      .then(async (res) => {
+      .then(res => res.blob())
+      .then(res => res.text())
+      .then(async res => {
         const strippedResponse = res.replace('<html>', '').replace('</html>', '');
         return { key: name, value: strippedResponse };
       });
@@ -82,9 +82,7 @@ const doFetch = (name: string, element: ApiTranslateType): Promise<ResponseType>
 
 export const translateDocument = async (document: Record<string, ApiTranslateType>) => {
   try {
-    const translations = await Promise.all(
-      Object.keys(document).map((k) => doFetch(k, document[k])),
-    );
+    const translations = await Promise.all(Object.keys(document).map(k => doFetch(k, document[k])));
     return translations.reduce<Record<string, string | string[]>>((acc, { key, value }) => {
       acc[key] = value;
       return acc;

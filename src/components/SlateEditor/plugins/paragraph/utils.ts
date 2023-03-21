@@ -21,7 +21,7 @@ export const isParagraph = (node: Node | undefined): node is ParagraphElement =>
 export const getCurrentParagraph = (editor: Editor) => {
   if (!editor.selection?.anchor) return null;
   const [entry] = Editor.nodes(editor, {
-    match: (node) => Element.isElement(node) && !editor.isInline(node),
+    match: node => Element.isElement(node) && !editor.isInline(node),
     mode: 'lowest',
   });
 

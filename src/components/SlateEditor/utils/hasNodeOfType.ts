@@ -11,7 +11,7 @@ import { Range, Editor, Element, Path } from 'slate';
 const hasNodeOfType = (editor: Editor, type: string, path?: Path) => {
   if (path) {
     const [match] = Editor.nodes(editor, {
-      match: (node) => Element.isElement(node) && node.type === type,
+      match: node => Element.isElement(node) && node.type === type,
       at: path,
     });
     return !!match;
@@ -21,7 +21,7 @@ const hasNodeOfType = (editor: Editor, type: string, path?: Path) => {
     return false;
   }
   const [match] = Editor.nodes(editor, {
-    match: (node) => Element.isElement(node) && node.type === type,
+    match: node => Element.isElement(node) && node.type === type,
     at: Editor.unhangRange(editor, editor.selection),
   });
   return !!match;

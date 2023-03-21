@@ -22,7 +22,7 @@ import { PUBLISHED } from '../../constants';
 const getFilePathsFromHtml = (htmlString: string): string[] => {
   const parsed = new DOMParser().parseFromString(htmlString, 'text/html');
   const fileNodesArr = Array.from(parsed.querySelectorAll('embed[data-resource=file]'));
-  const paths = fileNodesArr.map((e) => e.getAttribute('data-path'));
+  const paths = fileNodesArr.map(e => e.getAttribute('data-path'));
   return paths.filter((x): x is string => x !== null);
 };
 
@@ -30,8 +30,8 @@ const deleteRemovedFiles = async (oldArticleContent: string, newArticleContent: 
   const oldFilePaths = getFilePathsFromHtml(oldArticleContent);
   const newFilePaths = getFilePathsFromHtml(newArticleContent);
 
-  const pathsToDelete = oldFilePaths.filter((op) => !newFilePaths.some((np) => op === np));
-  return Promise.all(pathsToDelete.map((path) => deleteFile(path)));
+  const pathsToDelete = oldFilePaths.filter(op => !newFilePaths.some(np => op === np));
+  return Promise.all(pathsToDelete.map(path => deleteFile(path)));
 };
 
 export interface ArticleFormType {

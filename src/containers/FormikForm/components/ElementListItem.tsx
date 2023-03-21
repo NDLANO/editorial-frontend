@@ -103,7 +103,7 @@ const ElementListItem = ({
                   aria-label={messages?.dragElement || ''}
                   variant="ghost"
                   colorTheme="light"
-                  onMouseDown={(e) => onDragStart(e, index)}
+                  onMouseDown={e => onDragStart(e, index)}
                   onMouseUp={onDragEnd}
                 >
                   <DragHorizontal />
@@ -114,7 +114,7 @@ const ElementListItem = ({
                 aria-label={messages?.dragElement || ''}
                 variant="ghost"
                 colorTheme="light"
-                onMouseDown={(e) => onDragStart(e, index)}
+                onMouseDown={e => onDragStart(e, index)}
                 onMouseUp={onDragEnd}
               >
                 <DragHorizontal />
@@ -160,7 +160,7 @@ export const StyledListItem = styled.li<StyledProps>`
       padding-left: ${spacing.xsmall};
     }
   }
-  ${(props) =>
+  ${props =>
     props.delete &&
     css`
       ${animations.fadeOut()}

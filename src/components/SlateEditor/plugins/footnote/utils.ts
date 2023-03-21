@@ -5,7 +5,7 @@ import hasNodeOfType from '../../utils/hasNodeOfType';
 export const insertFootnote = (editor: Editor) => {
   if (hasNodeOfType(editor, 'footnote')) {
     Transforms.removeNodes(editor, {
-      match: (node) => Element.isElement(node) && node.type === 'footnote',
+      match: node => Element.isElement(node) && node.type === 'footnote',
       voids: true,
     });
     return;

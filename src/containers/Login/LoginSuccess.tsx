@@ -15,7 +15,7 @@ export const LoginSuccess = () => {
   const location = useLocation();
   const { login } = useSession();
   useEffect(() => {
-    parseHash(location.hash).then((authResult) => login(authResult));
+    parseHash(location.hash).then(authResult => login(authResult));
   }, []); //  eslint-disable-line
 
   return null;

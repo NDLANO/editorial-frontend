@@ -48,11 +48,11 @@ const DropdownSearch = ({
   return (
     <AsyncDropdown
       idField="id"
-      onChange={(element) => {
+      onChange={element => {
         onChange(element);
       }}
-      apiAction={(input) => queryResources(input)}
-      selectedItems={selectedElements.map((element) => ({
+      apiAction={input => queryResources(input)}
+      selectedItems={selectedElements.map(element => ({
         ...element,
         title: element.title ? element.title.title : '',
       }))}

@@ -15,7 +15,7 @@ export const insertMathml = (editor: Editor) => {
 
   if (hasNodeOfType(editor, 'mathml')) {
     Transforms.unwrapNodes(editor, {
-      match: (node) => Element.isElement(node) && node.type === 'mathml',
+      match: node => Element.isElement(node) && node.type === 'mathml',
       voids: true,
     });
     return;

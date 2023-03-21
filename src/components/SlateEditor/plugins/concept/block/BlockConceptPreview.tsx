@@ -45,7 +45,7 @@ const FigureButtonsContainer = styled.span<{ isBlockView?: boolean }>`
   top: 0;
   z-index: 1;
   right: 0;
-  ${(p) => (p.isBlockView ? 'transform: translateX(100%);' : '')}
+  ${p => (p.isBlockView ? 'transform: translateX(100%);' : '')}
   margin-top: ${spacing.xsmall};
 
   > * {

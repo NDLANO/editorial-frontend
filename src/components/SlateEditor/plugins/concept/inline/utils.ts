@@ -14,7 +14,7 @@ import { TYPE_CONCEPT_INLINE } from './types';
 export const insertInlineConcept = (editor: Editor) => {
   if (hasNodeOfType(editor, TYPE_CONCEPT_INLINE)) {
     Transforms.unwrapNodes(editor, {
-      match: (node) => Element.isElement(node) && node.type === TYPE_CONCEPT_INLINE,
+      match: node => Element.isElement(node) && node.type === TYPE_CONCEPT_INLINE,
       voids: true,
     });
     return;

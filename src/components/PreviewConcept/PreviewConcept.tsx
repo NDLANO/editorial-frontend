@@ -133,7 +133,7 @@ const PreviewConcept = ({ concept, visualElement }: Props) => {
   useEffect(() => {
     const getSubjects = async () => {
       const subjects = await Promise.all(
-        concept.subjectIds?.map((id) => fetchSubject({ id, taxonomyVersion })) ?? [],
+        concept.subjectIds?.map(id => fetchSubject({ id, taxonomyVersion })) ?? [],
       );
       setSubjects(subjects);
     };
@@ -209,7 +209,7 @@ const PreviewConcept = ({ concept, visualElement }: Props) => {
           <TagWrapper>
             <div className="tags">
               <span>{t('form.categories.label')}:</span>
-              {concept?.tags?.tags?.map((tag) => (
+              {concept?.tags?.tags?.map(tag => (
                 <span className="tag" key={`key-${tag}`}>
                   {tag}
                 </span>
@@ -219,8 +219,8 @@ const PreviewConcept = ({ concept, visualElement }: Props) => {
         )}
         <NotionDialogTags
           tags={subjects
-            .filter((subject) => concept.subjectIds?.includes(subject.id))
-            .map((s) => s.name)}
+            .filter(subject => concept.subjectIds?.includes(subject.id))
+            .map(s => s.name)}
         />
         <NotionDialogLicenses
           license={concept.copyright?.license?.license}
@@ -231,7 +231,7 @@ const PreviewConcept = ({ concept, visualElement }: Props) => {
               }}
             />
           }
-          authors={concept.copyright?.creators.map((creator) => creator.name)}
+          authors={concept.copyright?.creators.map(creator => creator.name)}
         />
       </StyledBody>
     </>

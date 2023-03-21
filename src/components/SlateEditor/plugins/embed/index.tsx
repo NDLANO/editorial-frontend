@@ -93,52 +93,53 @@ export const embedSerializer: SlateSerializer = {
   },
 };
 
-export const embedPlugin =
-  (language: string, locale?: LocaleType, disableNormalize?: boolean) => (editor: Editor) => {
-    const {
-      renderElement: nextRenderElement,
-      normalizeNode: nextNormalizeNode,
-      isVoid: nextIsVoid,
-    } = editor;
+export const embedPlugin = (language: string, locale?: LocaleType, disableNormalize?: boolean) => (
+  editor: Editor,
+) => {
+  const {
+    renderElement: nextRenderElement,
+    normalizeNode: nextNormalizeNode,
+    isVoid: nextIsVoid,
+  } = editor;
 
-    editor.renderElement = ({ attributes, children, element }: RenderElementProps) => {
-      if (isSlateEmbedElement(element)) {
-        return (
-          <SlateFigure
-            attributes={attributes}
-            editor={editor}
-            element={element}
-            language={language}
-            locale={locale}
-          >
-            {children}
-          </SlateFigure>
-        );
-      } else if (nextRenderElement) {
-        return nextRenderElement({ attributes, children, element });
+  editor.renderElement = ({ attributes, children, element }: RenderElementProps) => {
+    if (isSlateEmbedElement(element)) {
+      return (
+        <SlateFigure
+          attributes={attributes}
+          editor={editor}
+          element={element}
+          language={language}
+          locale={locale}
+        >
+          {children}
+        </SlateFigure>
+      );
+    } else if (nextRenderElement) {
+      return nextRenderElement({ attributes, children, element });
+    }
+    return undefined;
+  };
+
+  editor.normalizeNode = entry => {
+    const [node] = entry;
+
+    if (isSlateEmbed(node)) {
+      if (!disableNormalize && defaultBlockNormalizer(editor, entry, normalizerConfig)) {
+        return;
       }
       return undefined;
-    };
+    }
 
-    editor.normalizeNode = (entry) => {
-      const [node] = entry;
-
-      if (isSlateEmbed(node)) {
-        if (!disableNormalize && defaultBlockNormalizer(editor, entry, normalizerConfig)) {
-          return;
-        }
-        return undefined;
-      }
-
-      nextNormalizeNode(entry);
-    };
-
-    editor.isVoid = (element: Element) => {
-      if (isSlateEmbedElement(element)) {
-        return true;
-      }
-      return nextIsVoid(element);
-    };
-
-    return editor;
+    nextNormalizeNode(entry);
   };
+
+  editor.isVoid = (element: Element) => {
+    if (isSlateEmbedElement(element)) {
+      return true;
+    }
+    return nextIsVoid(element);
+  };
+
+  return editor;
+};

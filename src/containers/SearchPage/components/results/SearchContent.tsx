@@ -132,7 +132,7 @@ const SearchContent = ({ content, locale }: Props) => {
               {EditMarkup}
             </Title>
           </FlexBoxWrapper>
-          {content.supportedLanguages.map((lang) => (
+          {content.supportedLanguages.map(lang => (
             <SearchContentLanguage
               //@ts-ignore
               style={{ display: 'flex' }}
@@ -150,7 +150,7 @@ const SearchContent = ({ content, locale }: Props) => {
         <StyledSearchDescription>{metaDescription}</StyledSearchDescription>
         <StyledSearchBreadcrumbs style={{ marginTop: '-25px' }}>
           {contexts && contexts.length > 0 && contexts[0].breadcrumbs ? (
-            contexts[0].breadcrumbs.map((breadcrumb) => (
+            contexts[0].breadcrumbs.map(breadcrumb => (
               <StyledSearchBreadcrumb
                 key={breadcrumb}
                 style={{ marginTop: 'auto', marginBottom: 'auto' }}

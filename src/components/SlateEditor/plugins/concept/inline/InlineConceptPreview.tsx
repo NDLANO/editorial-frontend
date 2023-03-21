@@ -31,7 +31,7 @@ const StyledFigureButtons = styled('span')<{ isBlockView?: boolean }>`
   top: 0;
   z-index: 1;
   right: 0;
-  ${(p) => (p.isBlockView ? 'transform: translateX(100%);' : '')}
+  ${p => (p.isBlockView ? 'transform: translateX(100%);' : '')}
   margin-top: ${spacing.xsmall};
   > * {
     margin-bottom: ${spacing.xsmall};
@@ -135,7 +135,7 @@ const InlineConceptPreview = ({ concept, handleRemove, id, isBlockView }: Props)
             }}
           />
         }
-        authors={concept.copyright?.creators.map((creator) => creator.name)}
+        authors={concept.copyright?.creators.map(creator => creator.name)}
       />
 
       <StyledFigureButtons isBlockView={isBlockView}>

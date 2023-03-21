@@ -49,7 +49,7 @@ const RootNode = ({
     { id: node.id, language: locale, taxonomyVersion },
     {
       enabled: openedPaths[0] === node.id,
-      select: (childNodes) => groupChildNodes(childNodes),
+      select: childNodes => groupChildNodes(childNodes),
     },
   );
   const compKey = childNodesWithArticleTypeQueryKey({
@@ -64,9 +64,9 @@ const RootNode = ({
   const onUpdateRank = async (id: string, newRank: number) => {
     await qc.cancelQueries(compKey);
     const prevData = qc.getQueryData<ChildNodeType[]>(compKey);
-    const [toUpdate, other] = partition(prevData, (t) => t.connectionId === id);
+    const [toUpdate, other] = partition(prevData, t => t.connectionId === id);
     const updatedNode: ChildNodeType = { ...toUpdate[0], rank: newRank };
-    const updated = other.map((t) => (t.rank >= updatedNode.rank ? { ...t, rank: t.rank + 1 } : t));
+    const updated = other.map(t => (t.rank >= updatedNode.rank ? { ...t, rank: t.rank + 1 } : t));
     const newArr = sortBy([...updated, updatedNode], 'rank');
     qc.setQueryData<ChildNodeType[]>(compKey, newArr);
     return prevData;
@@ -98,7 +98,7 @@ const RootNode = ({
   const toggleFavorite = () => {
     const favorites = qc.getQueryData<IUserData>(userDataQueryKey())?.favoriteSubjects ?? [];
     const updatedFavs = favorites.includes(node.id)
-      ? favorites.filter((s) => s !== node.id)
+      ? favorites.filter(s => s !== node.id)
       : favorites.concat(node.id);
     updateUserDataMutation.mutate({ favoriteSubjects: updatedFavs });
   };

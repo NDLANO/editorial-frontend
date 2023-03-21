@@ -51,8 +51,8 @@ export const fetchConcept = async (
   locale?: string,
 ): Promise<IConcept> => {
   const languageParam = locale ? `language=${locale}&` : '';
-  return fetchAuthorized(`${draftConceptUrl}/${conceptId}?${languageParam}fallback=true`).then(
-    (r) => resolveJsonOrRejectWithError<IConcept>(r),
+  return fetchAuthorized(`${draftConceptUrl}/${conceptId}?${languageParam}fallback=true`).then(r =>
+    resolveJsonOrRejectWithError<IConcept>(r),
   );
 };
 
@@ -60,13 +60,13 @@ export const addConcept = async (concept: INewConcept): Promise<IConcept> =>
   fetchAuthorized(`${draftConceptUrl}/`, {
     method: 'POST',
     body: JSON.stringify(concept),
-  }).then((r) => resolveJsonOrRejectWithError<IConcept>(r));
+  }).then(r => resolveJsonOrRejectWithError<IConcept>(r));
 
 export const updateConcept = async (id: number, concept: IUpdatedConcept): Promise<IConcept> =>
   fetchAuthorized(`${draftConceptUrl}/${id}`, {
     method: 'PATCH',
     body: JSON.stringify(concept),
-  }).then((r) => resolveJsonOrRejectWithError<IConcept>(r));
+  }).then(r => resolveJsonOrRejectWithError<IConcept>(r));
 
 export const deleteLanguageVersionConcept = async (
   conceptId: number,
@@ -74,19 +74,19 @@ export const deleteLanguageVersionConcept = async (
 ): Promise<IConcept> =>
   fetchAuthorized(`${draftConceptUrl}/${conceptId}?language=${language}`, {
     method: 'DELETE',
-  }).then((r) => resolveJsonOrRejectWithError<IConcept>(r));
+  }).then(r => resolveJsonOrRejectWithError<IConcept>(r));
 
 export const fetchStatusStateMachine = async (): Promise<ConceptStatusStateMachineType> =>
-  fetchAuthorized(`${draftConceptUrl}/status-state-machine/`).then((r) =>
+  fetchAuthorized(`${draftConceptUrl}/status-state-machine/`).then(r =>
     resolveJsonOrRejectWithError<ConceptStatusStateMachineType>(r),
   );
 
 export const updateConceptStatus = async (id: number, status: string): Promise<IConcept> =>
   fetchAuthorized(`${draftConceptUrl}/${id}/status/${status}`, {
     method: 'PUT',
-  }).then((r) => resolveJsonOrRejectWithError<IConcept>(r));
+  }).then(r => resolveJsonOrRejectWithError<IConcept>(r));
 
 export const searchConcepts = async (query: ConceptQuery): Promise<IConceptSearchResult> =>
-  fetchAuthorized(`${draftConceptUrl}/?${queryString.stringify(query)}`).then((r) =>
+  fetchAuthorized(`${draftConceptUrl}/?${queryString.stringify(query)}`).then(r =>
     resolveJsonOrRejectWithError<IConceptSearchResult>(r),
   );

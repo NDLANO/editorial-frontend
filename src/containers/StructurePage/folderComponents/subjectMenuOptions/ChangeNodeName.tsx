@@ -105,14 +105,10 @@ const ChangeNodeNameModal = ({ onClose, node }: ModalProps) => {
   const { taxonomyVersion } = useTaxonomyVersion();
   const { id, name } = node;
 
-  const {
-    data: translations,
-    isInitialLoading: loading,
-    refetch,
-  } = useNodeTranslations(
+  const { data: translations, isInitialLoading: loading, refetch } = useNodeTranslations(
     { id, taxonomyVersion },
     {
-      onError: (e) => {
+      onError: e => {
         handleError(e);
         setLoadError(t('taxonomy.changeName.loadError'));
       },
@@ -207,14 +203,14 @@ const ChangeNodeNameModal = ({ onClose, node }: ModalProps) => {
               validationSchema={schema}
               enableReinitialize={true}
             >
-              {(formik) => {
+              {formik => {
                 const { values, dirty, isSubmitting, isValid } = formik;
                 const takenLanguages = values.translations.reduce(
                   (prev, curr) => ({ ...prev, [curr.language]: '' }),
                   {},
                 );
                 const availableLanguages = subjectpageLanguages.filter(
-                  (trans) => !Object.prototype.hasOwnProperty.call(takenLanguages, trans),
+                  trans => !Object.prototype.hasOwnProperty.call(takenLanguages, trans),
                 );
                 const formIsDirty: boolean = isFormikFormDirty({
                   values,

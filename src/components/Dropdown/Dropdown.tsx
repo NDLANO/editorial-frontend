@@ -33,7 +33,7 @@ const Dropdown = ({ onSelect, selectedTag, onReset, items, placeholder }: Props)
   const [input, setInput] = useState('');
 
   const filteredItems = items
-    .filter((item) => {
+    .filter(item => {
       return item.name.toLowerCase().includes(input.toLowerCase());
     })
     .sort();
@@ -80,7 +80,7 @@ const Dropdown = ({ onSelect, selectedTag, onReset, items, placeholder }: Props)
       isOpen={dropdownOpen}
       onSelect={onSelectItem}
       onStateChange={onStateChange}
-      itemToString={(item) => {
+      itemToString={item => {
         return item?.name;
       }}
     >

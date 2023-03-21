@@ -138,7 +138,7 @@ export function toStructure(path: string) {
   const urnPath = path
     .split('/')
     .slice(1)
-    .map((part) => `urn:${part}`)
+    .map(part => `urn:${part}`)
     .join('/');
   return `/structure/${urnPath}`;
 }
@@ -147,7 +147,7 @@ export const toStructureOld = (path: string) => {
   const urnPath = path
     .split('/')
     .slice(1)
-    .map((part) => `urn:${part}`)
+    .map(part => `urn:${part}`)
     .join('/');
   return `/structureOld/${urnPath}`;
 };
@@ -186,8 +186,17 @@ export const removeLastItemFromUrl = (url: string) =>
 export const getPathsFromUrl = (url: string) => {
   return url
     .split('/')
-    .filter((item) => item.includes('urn:'))
-    .reduce((acc: string[], curr) => [...acc, acc.slice(-1).concat(curr).join('/')], []);
+    .filter(item => item.includes('urn:'))
+    .reduce(
+      (acc: string[], curr) => [
+        ...acc,
+        acc
+          .slice(-1)
+          .concat(curr)
+          .join('/'),
+      ],
+      [],
+    );
 };
 
 export const usePreviousLocation = () => {

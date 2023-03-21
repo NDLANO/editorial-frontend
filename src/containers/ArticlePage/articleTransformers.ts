@@ -154,7 +154,7 @@ export const learningResourceFormTypeToDraftApiType = (
     articleType: 'standard',
     content: blockContentToHTML(article.content),
     copyright: {
-      license: licenses.find((lic) => lic.license === article.license),
+      license: licenses.find(lic => lic.license === article.license),
       origin: article.origin,
       creators: article.creators,
       processors: article.processors,
@@ -192,7 +192,7 @@ export const frontpageArticleFormTypeToDraftApiType = (
     articleType: 'frontpage-article',
     content: blockContentToHTML(article.content),
     copyright: {
-      license: licenses.find((lic) => lic.license === article.license),
+      license: licenses.find(lic => lic.license === article.license),
       creators: article.creators,
       processors: article.processors,
       rightsholders: article.rightsholders,
@@ -225,7 +225,7 @@ export const topicArticleFormTypeToDraftApiType = (
     : nullOrUndefined(article.metaImageId);
 
   const copyright = {
-    license: licenses.find((l) => l.license === article.license),
+    license: licenses.find(l => l.license === article.license),
     creators: article.creators,
     processors: article.processors,
     rightsholders: article.rightsholders,
@@ -299,9 +299,9 @@ export const getExpirationDate = (article?: { revisions: IRevisionMeta[] }): str
   if (!article) return undefined;
 
   const withParsed =
-    article.revisions?.map((r) => {
+    article.revisions?.map(r => {
       return { parsed: new Date(r.revisionDate), ...r };
     }) ?? [];
   const sorted = withParsed.sort((a, b) => a.parsed.getTime() - b.parsed.getTime());
-  return sorted.find((r) => r.status !== 'revised')?.revisionDate;
+  return sorted.find(r => r.status !== 'revised')?.revisionDate;
 };

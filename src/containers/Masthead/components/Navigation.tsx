@@ -39,12 +39,12 @@ interface StyledNavigationWrapperProps {
 const StyledNavigationWrapper = styled.div<StyledNavigationWrapperProps>`
   position: absolute;
 
-  z-index: ${(props) => props.open && '3'};
+  z-index: ${props => props.open && '3'};
   top: 0;
   left: 0;
   right: 0;
   padding: ${spacing.xsmall};
-  background: ${(props) => props.backgroundColor};
+  background: ${props => props.backgroundColor};
 `;
 
 const StyledHeaderItems = styled.div`
@@ -98,7 +98,7 @@ const Navigation = () => {
   }, [t]);
 
   const toggleOpen = () => {
-    setOpen((prevState) => !prevState);
+    setOpen(prevState => !prevState);
   };
 
   const closeMenu = () => {

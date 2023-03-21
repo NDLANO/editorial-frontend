@@ -50,7 +50,7 @@ const ImageCropEdit = ({ embed, language, onCropComplete, transformData }: Props
       src={src}
       onComplete={onCropComplete}
       crop={crop}
-      onChange={(crop) => setCrop(crop)}
+      onChange={crop => setCrop(crop)}
     />
   );
 };

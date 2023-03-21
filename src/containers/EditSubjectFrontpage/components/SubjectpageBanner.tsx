@@ -55,12 +55,12 @@ const SubjectpageBanner = ({ title, fieldName }: Props) => {
       )}
 
       <ModalV2 controlled isOpen={showImageSelect} onClose={onImageSelectClose} size="large">
-        {(close) => (
+        {close => (
           <ModalBody>
             <VisualElementSearch
               selectedResource={'image'}
               closeModal={close}
-              handleVisualElementChange={(rt) => isEmbed(rt) && onImageChange(rt)}
+              handleVisualElementChange={rt => isEmbed(rt) && onImageChange(rt)}
             />
           </ModalBody>
         )}

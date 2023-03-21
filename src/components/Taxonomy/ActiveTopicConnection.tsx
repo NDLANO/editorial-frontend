@@ -83,7 +83,7 @@ const ActiveTopicConnection = ({
         <StyledFlexWrapper>
           <RelevanceOption
             relevanceId={topic.relevanceId}
-            onChange={(relevanceId) => setRelevance && setRelevance(topic.id, relevanceId)}
+            onChange={relevanceId => setRelevance && setRelevance(topic.id, relevanceId)}
           />
           <RemoveButton onClick={() => removeConnection && removeConnection(topic.id)} />
         </StyledFlexWrapper>

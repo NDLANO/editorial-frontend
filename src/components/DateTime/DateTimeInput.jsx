@@ -93,7 +93,7 @@ class DateTimeInput extends Component {
           value={value}
           name={name}
           placeholder={placeholder}
-          ref={(node) => {
+          ref={node => {
             this.node = node;
           }}
         />

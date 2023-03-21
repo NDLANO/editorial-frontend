@@ -35,21 +35,21 @@ export const handleTableKeydown = (
   if (editor.selection) {
     const [cellEntry] = Editor.nodes(editor, {
       at: editor.selection.anchor.path,
-      match: (node) => isTableCell(node),
+      match: node => isTableCell(node),
     });
     if (!cellEntry) {
       return;
     }
     const [rowEntry] = Editor.nodes(editor, {
       at: editor.selection.anchor.path,
-      match: (node) => isTableRow(node),
+      match: node => isTableRow(node),
     });
     if (!rowEntry) {
       return;
     }
     const [bodyEntry] = Editor.nodes(editor, {
       at: editor.selection.anchor.path,
-      match: (node) => isTableHead(node) || isTableBody(node),
+      match: node => isTableHead(node) || isTableBody(node),
     });
     if (!bodyEntry) {
       return;

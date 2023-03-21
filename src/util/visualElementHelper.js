@@ -7,15 +7,15 @@ export function getVisualElementInformation(element, type) {
         title: convertFieldWithFallback(element, 'title', ''),
         copyright:
           element.copyright && element.copyright.creators
-            ? element.copyright.creators.map((creator) => creator.name).join(', ')
+            ? element.copyright.creators.map(creator => creator.name).join(', ')
             : undefined,
       };
     case 'brightcove': {
       const copyrightsKeys = element.custom_fields
-        ? Object.keys(element.custom_fields).filter((key) => key.includes('licenseinfo'))
+        ? Object.keys(element.custom_fields).filter(key => key.includes('licenseinfo'))
         : [];
       const copyrights = copyrightsKeys
-        .map((key) => {
+        .map(key => {
           const licenseinfo = element.custom_fields[key];
           return licenseinfo.includes(':') ? licenseinfo.split(':')[1] : licenseinfo;
         })
@@ -33,7 +33,7 @@ export function getVisualElementInformation(element, type) {
   }
 }
 
-export const imageToVisualElement = (image) => {
+export const imageToVisualElement = image => {
   return {
     resource: 'image',
     resource_id: image.id,

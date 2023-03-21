@@ -223,7 +223,8 @@ export const nodeTreeWithDirectChildren: NodeTree = {
       name: 'Verktøy for utforskning',
       contentUri: 'urn:article:20136',
       parent: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-      path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
+      path:
+        '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
       paths: [
         '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
       ],
@@ -257,7 +258,8 @@ export const nodeTreeWithDirectChildren: NodeTree = {
       name: 'Sosialisering, identitet og livsmestring',
       contentUri: 'urn:article:20126',
       parent: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-      path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:d208bf2d-836c-43fe-977b-de4af1771396',
+      path:
+        '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:d208bf2d-836c-43fe-977b-de4af1771396',
       paths: [
         '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:d208bf2d-836c-43fe-977b-de4af1771396',
       ],
@@ -330,7 +332,8 @@ export const nodeTreeWithDirectChildrenUpdated: NodeTree = {
       name: 'Verktøy for utforskning',
       contentUri: 'urn:article:20136',
       parent: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-      path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
+      path:
+        '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
       paths: [
         '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
       ],
@@ -364,7 +367,8 @@ export const nodeTreeWithDirectChildrenUpdated: NodeTree = {
       name: 'Ulikheter og utenforskap',
       contentUri: 'urn:article:20138',
       parent: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-      path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:00018b29-3b51-478d-a691-20732e0601fd',
+      path:
+        '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:00018b29-3b51-478d-a691-20732e0601fd',
       paths: [
         '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:00018b29-3b51-478d-a691-20732e0601fd',
       ],
@@ -899,7 +903,8 @@ export const nodeTreeWithDirectChildrenAndResources: NodeTree = {
       name: 'Verktøy for utforskning',
       contentUri: 'urn:article:20136',
       parent: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-      path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
+      path:
+        '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
       paths: [
         '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
       ],
@@ -933,7 +938,8 @@ export const nodeTreeWithDirectChildrenAndResources: NodeTree = {
       name: 'Sosialisering, identitet og livsmestring',
       contentUri: 'urn:article:20126',
       parent: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-      path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:d208bf2d-836c-43fe-977b-de4af1771396',
+      path:
+        '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:d208bf2d-836c-43fe-977b-de4af1771396',
       paths: [
         '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:d208bf2d-836c-43fe-977b-de4af1771396',
       ],
@@ -1006,7 +1012,8 @@ export const nodeTreeWithNestedChildren: NodeTree = {
       name: 'Verktøy for utforskning',
       contentUri: 'urn:article:20136',
       parent: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-      path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
+      path:
+        '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
       paths: [
         '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
       ],
@@ -1040,7 +1047,8 @@ export const nodeTreeWithNestedChildren: NodeTree = {
       name: 'Samfunnsfaglige metoder',
       contentUri: 'urn:article:20161',
       parent: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
-      path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
+      path:
+        '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
       paths: [
         '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
       ],
@@ -1074,7 +1082,8 @@ export const nodeTreeWithNestedChildren: NodeTree = {
       name: 'Kildebruk og kildekritikk oppdatert',
       contentUri: 'urn:article:20162',
       parent: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
-      path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
+      path:
+        '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
       paths: [
         '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
       ],
@@ -1147,7 +1156,8 @@ export const nodeTreeWithNestedChildrenUpdated: NodeTree = {
       name: 'Verktøy for utforskning',
       contentUri: 'urn:article:20136',
       parent: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-      path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
+      path:
+        '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
       paths: [
         '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
       ],
@@ -1181,7 +1191,8 @@ export const nodeTreeWithNestedChildrenUpdated: NodeTree = {
       name: 'Samfunnsfaglige metoder',
       contentUri: 'urn:article:20161',
       parent: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
-      path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
+      path:
+        '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
       paths: [
         '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
       ],
@@ -1215,7 +1226,8 @@ export const nodeTreeWithNestedChildrenUpdated: NodeTree = {
       name: 'Kildebruk og kildekritikk oppdatert',
       contentUri: 'urn:article:20162',
       parent: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
-      path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
+      path:
+        '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
       paths: [
         '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
       ],
@@ -1962,7 +1974,8 @@ export const nodeTreeWithNestedChildrenAndResources: NodeTree = {
       name: 'Verktøy for utforskning',
       contentUri: 'urn:article:20136',
       parent: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-      path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
+      path:
+        '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
       paths: [
         '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
       ],
@@ -1996,7 +2009,8 @@ export const nodeTreeWithNestedChildrenAndResources: NodeTree = {
       name: 'Samfunnsfaglige metoder',
       contentUri: 'urn:article:20161',
       parent: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
-      path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
+      path:
+        '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
       paths: [
         '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
       ],
@@ -2026,7 +2040,8 @@ export const nodeTreeWithNestedChildrenAndResources: NodeTree = {
           id: 'urn:resource:1:168358',
           name: 'Ulike metoder',
           contentUri: 'urn:article:7',
-          path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:35efa357-acc7-4828-b241-cad5467d1dc6/resource:1:168358',
+          path:
+            '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:35efa357-acc7-4828-b241-cad5467d1dc6/resource:1:168358',
           metadata: {
             grepCodes: [],
             visible: true,
@@ -2093,7 +2108,8 @@ export const nodeTreeWithNestedChildrenAndResources: NodeTree = {
       name: 'Kildebruk og kildekritikk oppdatert',
       contentUri: 'urn:article:20162',
       parent: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
-      path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
+      path:
+        '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
       paths: [
         '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
       ],
@@ -2166,7 +2182,8 @@ export const nodeTreeWithNestedChildrenAndResourcesUpdated: NodeTree = {
       name: 'Verktøy for utforskning',
       contentUri: 'urn:article:20136',
       parent: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-      path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
+      path:
+        '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
       paths: [
         '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
       ],
@@ -2200,7 +2217,8 @@ export const nodeTreeWithNestedChildrenAndResourcesUpdated: NodeTree = {
       name: 'Samfunnsfaglige metoder',
       contentUri: 'urn:article:20161',
       parent: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
-      path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
+      path:
+        '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
       paths: [
         '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
       ],
@@ -2230,7 +2248,8 @@ export const nodeTreeWithNestedChildrenAndResourcesUpdated: NodeTree = {
           id: 'urn:resource:1:168358',
           name: 'Ulike metoder oppdatert',
           contentUri: 'urn:article:7',
-          path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:35efa357-acc7-4828-b241-cad5467d1dc6/resource:1:168358',
+          path:
+            '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:35efa357-acc7-4828-b241-cad5467d1dc6/resource:1:168358',
           metadata: {
             grepCodes: [],
             visible: true,
@@ -2297,7 +2316,8 @@ export const nodeTreeWithNestedChildrenAndResourcesUpdated: NodeTree = {
       name: 'Kildebruk og kildekritikk oppdatert',
       contentUri: 'urn:article:20162',
       parent: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
-      path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
+      path:
+        '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
       paths: [
         '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
       ],

@@ -43,14 +43,14 @@ const StyledRoundIcon = styled.div<Omit<Props, 'icon'>>`
     color: ${colors.brand.greyLightest};
   }
 
-  ${(props) =>
+  ${props =>
     props.open &&
     css`
       background-color: ${colors.brand.greyDark};
       color: ${colors.brand.greyLightest};
     `}
 
-  ${(props) =>
+  ${props =>
     props.small &&
     css`
       height: 18px;
@@ -59,7 +59,7 @@ const StyledRoundIcon = styled.div<Omit<Props, 'icon'>>`
       margin-right: calc(${spacing.small} / 2);
     `}
 
-  ${(props) =>
+  ${props =>
     props.smallIcon &&
     css`
       > svg {
@@ -68,7 +68,7 @@ const StyledRoundIcon = styled.div<Omit<Props, 'icon'>>`
       }
     `}
 
-  ${(props) =>
+  ${props =>
     props.margin &&
     css`
       margin: 0 calc(${spacing.small} / 2);

@@ -72,7 +72,7 @@ export const isApproachingRevision = (revisions?: IRevisionMeta[]) => {
 
 const ApproachingRevisionDate = ({ revisions }: Props) => {
   const approachingRevision = useMemo(
-    () => revisions.map((r) => isApproachingRevision(r)).filter((a) => !!a).length,
+    () => revisions.map(r => isApproachingRevision(r)).filter(a => !!a).length,
     [revisions],
   );
 

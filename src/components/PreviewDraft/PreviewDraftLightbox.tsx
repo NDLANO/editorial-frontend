@@ -40,7 +40,7 @@ interface StyledProps {
 }
 
 const StyledPreviewDraft = styled.div<StyledProps>`
-  ${(p) => (p.typeOfPreview === 'preview' ? 'text-align: left;' : '')};
+  ${p => (p.typeOfPreview === 'preview' ? 'text-align: left;' : '')};
 `;
 
 const lightboxContentStyle = (typeOfPreview: TypeOfPreview) =>
@@ -62,7 +62,7 @@ const lightboxContentStyle = (typeOfPreview: TypeOfPreview) =>
       `;
 
 const StyledCloseButton = styled(StyledButton)<{ previewType: TypeOfPreview }>`
-  ${(props) => props.previewType !== 'preview' && twoArticlesCloseButtonStyle};
+  ${props => props.previewType !== 'preview' && twoArticlesCloseButtonStyle};
   margin-right: 0;
   margin-top: -15px;
 `;
@@ -132,7 +132,7 @@ const PreviewDraftLightbox = ({
     const allSupportedLanguages = uniq(supportedLanguages.concat(article.supportedLanguages ?? []));
 
     const secondArticleLanguage =
-      allSupportedLanguages?.find((l) => l !== currentArticleLanguage) ?? currentArticleLanguage;
+      allSupportedLanguages?.find(l => l !== currentArticleLanguage) ?? currentArticleLanguage;
 
     const types: PartialRecord<TypeOfPreview, () => Promise<ArticleConverterApiType>> = {
       previewLanguageArticle: () => previewLanguageArticle(articleId, secondArticleLanguage),

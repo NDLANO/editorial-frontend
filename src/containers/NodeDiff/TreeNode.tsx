@@ -75,8 +75,8 @@ interface StyledChangedPillProps {
 }
 const StyledChangedPill = styled.div<StyledChangedPillProps>`
   padding: 0 ${spacing.small};
-  background-color: ${(props) => props.color};
-  color: ${(props) => props.textColor};
+  background-color: ${props => props.color};
+  color: ${props => props.textColor};
   border-radius: 5px;
 `;
 
@@ -173,7 +173,7 @@ export const TreeNode = ({
       </StyledItem>
       {hasChildNodes &&
         nodes &&
-        nodes.map((node) => (
+        nodes.map(node => (
           <StructureWrapper key={`${path}/${node.id.other ?? node.id.original}`}>
             <Fade show={true} fadeType="fadeInTop">
               <TreeNode

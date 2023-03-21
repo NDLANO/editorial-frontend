@@ -69,7 +69,7 @@ const DeleteLanguageVersion = ({ values, type, disabled }: Props) => {
     const { id, supportedLanguages, language, articleType } = values;
     if (id && supportedLanguages.includes(language)) {
       toggleShowDeleteWarning();
-      const otherSupportedLanguage = supportedLanguages.find((lang) => lang !== language);
+      const otherSupportedLanguage = supportedLanguages.find(lang => lang !== language);
 
       const newAfterLanguageDeletion = supportedLanguages.length <= 1;
 

@@ -83,7 +83,7 @@ export const mathmlPlugin = (editor: Editor) => {
     return nextIsVoid(element);
   };
 
-  editor.onKeyDown = (e) => {
+  editor.onKeyDown = e => {
     if (e.key === KEY_ARROW_UP) {
       onArrowUp(e, editor, onKeyDown);
     } else if (e.key === KEY_ARROW_DOWN) {

@@ -94,11 +94,11 @@ export const useUserData = (options?: UseQueryOptions<IUserData>) =>
 export const useUpdateUserDataMutation = () => {
   const queryClient = useQueryClient();
   return useMutation<IUserData, unknown, IUpdatedUserData, IUserData>(
-    (data) => {
+    data => {
       return updateUserData(data);
     },
     {
-      onMutate: async (newUserData) => {
+      onMutate: async newUserData => {
         const key = userDataQueryKey();
         await queryClient.cancelQueries(key);
         const previousUserData = queryClient.getQueryData<IUserData>(key);

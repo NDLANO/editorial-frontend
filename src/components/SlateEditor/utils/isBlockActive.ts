@@ -10,7 +10,7 @@ import { Editor, Element } from 'slate';
 
 const isBlockActive = (editor: Editor, type: string) => {
   const [match] = Editor.nodes(editor, {
-    match: (n) => !Editor.isEditor(n) && Element.isElement(n) && n.type === type,
+    match: n => !Editor.isEditor(n) && Element.isElement(n) && n.type === type,
   });
 
   return !!match;

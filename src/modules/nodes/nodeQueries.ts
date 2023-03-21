@@ -66,7 +66,7 @@ export const useNode = (params: UseNodeParams, options?: UseQueryOptions<NodeTyp
       .getQueryData<NodeType[]>(
         nodesQueryKey({ taxonomyVersion: params.taxonomyVersion, language: params.language }),
       )
-      ?.find((s) => s.id === params.id),
+      ?.find(s => s.id === params.id),
     ...options,
   });
 };
@@ -111,7 +111,7 @@ interface ContentUriPartition {
 
 const partitionByContentUri = (contentUris: (string | undefined)[]) => {
   return contentUris
-    .filter((uri) => !!uri)
+    .filter(uri => !!uri)
     .reduce<ContentUriPartition>(
       (acc, curr) => {
         const split = curr!.split(':');
@@ -152,7 +152,7 @@ const fetchNodeResourceMetas = async (
       notes,
     }),
   );
-  const transformedLearningpaths: NodeResourceMeta[] = learningpaths.map((lp) => ({
+  const transformedLearningpaths: NodeResourceMeta[] = learningpaths.map(lp => ({
     status: { current: lp.status, other: [] },
     contentUri: `urn:learningpath:${lp.id}`,
   }));
@@ -171,12 +171,10 @@ const fetchChildNodesWithArticleType = async ({
   language,
   nodeType,
   taxonomyVersion,
-}: ChildNodesWithArticleTypeParams): Promise<
-  (ChildNodeType & {
-    articleType?: string;
-    isPublished?: boolean;
-  })[]
-> => {
+}: ChildNodesWithArticleTypeParams): Promise<(ChildNodeType & {
+  articleType?: string;
+  isPublished?: boolean;
+})[]> => {
   const childNodes = await fetchChildNodes({
     id,
     taxonomyVersion,
@@ -186,14 +184,12 @@ const fetchChildNodesWithArticleType = async ({
   });
   if (childNodes.length === 0) return [];
 
-  const childIds = childNodes
-    .map((n) => Number(n.contentUri?.split(':').pop()))
-    .filter((id) => !!id);
+  const childIds = childNodes.map(n => Number(n.contentUri?.split(':').pop())).filter(id => !!id);
 
   const chunks = chunk(childIds, 250);
-  const searchRes = await Promise.all(chunks.map((chunk) => fetchDrafts(chunk)));
+  const searchRes = await Promise.all(chunks.map(chunk => fetchDrafts(chunk)));
 
-  const flattenedUniqueSeachRes = uniqBy(searchRes.flat(), (s) => s.id);
+  const flattenedUniqueSeachRes = uniqBy(searchRes.flat(), s => s.id);
   const articleTypeMap = flattenedUniqueSeachRes.reduce<Record<number, string>>((acc, curr) => {
     acc[curr.id] = curr.articleType;
     return acc;
@@ -204,7 +200,7 @@ const fetchChildNodesWithArticleType = async ({
     return acc;
   }, {});
 
-  return childNodes.map((node) => {
+  return childNodes.map(node => {
     const draftId = Number(node.contentUri?.split(':').pop());
     const articleType = articleTypeMap[draftId];
     const isPublished = isPublishedMap[draftId];
@@ -245,9 +241,9 @@ const fetchNodeTree = async ({
     }),
   ]);
 
-  const rootFromChildren: ChildNodeType | undefined = children.find((child) => child.id === id);
+  const rootFromChildren: ChildNodeType | undefined = children.find(child => child.id === id);
   const childOrRegularRoot = rootFromChildren ?? root;
-  const allResources = children.filter((n) => n.nodeType === RESOURCE_NODE);
+  const allResources = children.filter(n => n.nodeType === RESOURCE_NODE);
   const resourcesForNodeIdMap = allResources.reduce<Record<string, ChildNodeType[]>>(
     (acc, curr) => {
       if (!curr.parent) return acc;
@@ -264,8 +260,8 @@ const fetchNodeTree = async ({
   );
 
   const childrenWithResources = children
-    .filter((x) => x.nodeType !== RESOURCE_NODE)
-    .map((child) => ({
+    .filter(x => x.nodeType !== RESOURCE_NODE)
+    .map(child => ({
       ...child,
       resources: resourcesForNodeIdMap[child.id] ?? [],
     }));

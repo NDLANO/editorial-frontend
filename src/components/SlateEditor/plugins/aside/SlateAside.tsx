@@ -28,7 +28,7 @@ const SlateAside = (props: Props) => {
     const path = ReactEditor.findPath(editor, element);
     Transforms.removeNodes(editor, {
       at: path,
-      match: (node) => Element.isElement(node) && node.type === TYPE_ASIDE,
+      match: node => Element.isElement(node) && node.type === TYPE_ASIDE,
     });
     setTimeout(() => {
       ReactEditor.focus(editor);
@@ -41,7 +41,7 @@ const SlateAside = (props: Props) => {
     const path = ReactEditor.findPath(editor, element);
     Transforms.unwrapNodes(editor, {
       at: path,
-      match: (node) => Element.isElement(node) && node.type === TYPE_ASIDE,
+      match: node => Element.isElement(node) && node.type === TYPE_ASIDE,
       voids: true,
     });
     setTimeout(() => {

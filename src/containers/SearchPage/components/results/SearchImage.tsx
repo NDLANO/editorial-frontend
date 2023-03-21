@@ -37,7 +37,7 @@ interface Props {
 const SearchImage = ({ image, locale }: Props) => {
   const { t } = useTranslation();
   const { data: licenses } = useLicenses();
-  const license = licenses && licenses.find((l) => image.copyright.license.license === l.license);
+  const license = licenses && licenses.find(l => image.copyright.license.license === l.license);
 
   return (
     <StyledSearchResult>
@@ -50,7 +50,7 @@ const SearchImage = ({ image, locale }: Props) => {
         </Link>
         <StyledSearchDescription>
           {`${t('searchPage.language')}: `}
-          {image.supportedLanguages?.map((lang) => (
+          {image.supportedLanguages?.map(lang => (
             <StyledOtherLink key={lang}>{t(`language.${lang}`)}</StyledOtherLink>
           ))}
         </StyledSearchDescription>

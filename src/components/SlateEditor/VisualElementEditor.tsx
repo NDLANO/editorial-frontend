@@ -70,7 +70,7 @@ const VisualElementEditor = ({ name, value, plugins, onChange, types, language }
         <Editable
           readOnly={true}
           renderElement={renderElement}
-          onDragStart={(e) => {
+          onDragStart={e => {
             e.stopPropagation();
           }}
         />

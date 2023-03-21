@@ -27,7 +27,7 @@ interface Props {
 
 const HelpMessage = ({ children, t }: Props & CustomWithTranslation) => (
   <Modal
-    wrapperFunctionForButton={(btn) => (
+    wrapperFunctionForButton={btn => (
       <Tooltip tooltip={t('editMarkup.helpMessage.tooltip')}>{btn}</Tooltip>
     )}
     activateButton={

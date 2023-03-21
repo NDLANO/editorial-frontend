@@ -31,7 +31,7 @@ const SlateBodybox = (props: Props & RenderElementProps) => {
     const path = ReactEditor.findPath(editor, element);
     Transforms.removeNodes(editor, {
       at: path,
-      match: (node) => Element.isElement(node) && node.type === TYPE_BODYBOX,
+      match: node => Element.isElement(node) && node.type === TYPE_BODYBOX,
     });
     setTimeout(() => {
       ReactEditor.focus(editor);
@@ -44,7 +44,7 @@ const SlateBodybox = (props: Props & RenderElementProps) => {
     const path = ReactEditor.findPath(editor, element);
     Transforms.unwrapNodes(editor, {
       at: path,
-      match: (node) => Element.isElement(node) && node.type === TYPE_BODYBOX,
+      match: node => Element.isElement(node) && node.type === TYPE_BODYBOX,
       voids: true,
     });
     setTimeout(() => {

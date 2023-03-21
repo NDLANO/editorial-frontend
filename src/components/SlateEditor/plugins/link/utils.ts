@@ -19,7 +19,7 @@ export const insertLink = (editor: Editor) => {
 
 const isLinkActive = (editor: Editor) => {
   const [link] = Editor.nodes(editor, {
-    match: (n) =>
+    match: n =>
       !Editor.isEditor(n) &&
       Element.isElement(n) &&
       (n.type === 'link' || n.type === 'content-link'),
@@ -29,7 +29,7 @@ const isLinkActive = (editor: Editor) => {
 
 const unwrapLink = (editor: Editor) => {
   Transforms.unwrapNodes(editor, {
-    match: (n) =>
+    match: n =>
       !Editor.isEditor(n) &&
       Element.isElement(n) &&
       (n.type === 'link' || n.type === 'content-link'),

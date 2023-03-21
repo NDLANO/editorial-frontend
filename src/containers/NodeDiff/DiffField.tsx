@@ -45,7 +45,7 @@ const StyledDiffInnerField = styled.div<StyledDiffInnerFieldProps>`
   display: flex;
   flex-direction: row;
   align-items: center;
-  background-color: ${(props) => diffTypePositionColorMap[props.type][props.position]};
+  background-color: ${props => diffTypePositionColorMap[props.type][props.position]};
 `;
 export const DiffInnerField = ({ children, type, left }: Props) => {
   return (

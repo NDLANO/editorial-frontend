@@ -61,8 +61,7 @@ const getTitlesObject = (titles: Tekst | Title[] | undefined): Title[] => {
 
 // Uses nob, but falls back to default if missing.
 const getTitle = (titles: Title[]): string | undefined => {
-  const title =
-    titles.find((t) => t.spraak === 'nob') || titles.find((t) => t.spraak === 'default');
+  const title = titles.find(t => t.spraak === 'nob') || titles.find(t => t.spraak === 'default');
   return title?.verdi;
 };
 

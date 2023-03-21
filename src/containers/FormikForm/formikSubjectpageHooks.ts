@@ -39,7 +39,7 @@ export function useFetchSubjectpageData(
 
   const fetchElementList = async (taxonomyUrns: string[], taxonomyVersion: string) => {
     const taxonomyElements = await Promise.all<Topic | Resource>(
-      taxonomyUrns.map((urn) =>
+      taxonomyUrns.map(urn =>
         urn.split(':')[1] === 'topic'
           ? fetchTopic({ id: urn, taxonomyVersion })
           : fetchResource({ id: urn, taxonomyVersion }),
@@ -47,10 +47,10 @@ export function useFetchSubjectpageData(
     );
 
     const elementIds = taxonomyElements
-      .map((element) => element.contentUri?.split(':') ?? [])
-      .filter((uri) => uri.length > 0 && Number([uri.length - 1]));
+      .map(element => element.contentUri?.split(':') ?? [])
+      .filter(uri => uri.length > 0 && Number([uri.length - 1]));
 
-    const promises = elementIds.map(async (elementId) => {
+    const promises = elementIds.map(async elementId => {
       const f = elementId[1] === 'learningpath' ? fetchLearningpath : fetchDraft;
       return await f(parseInt(elementId.pop()!));
     });

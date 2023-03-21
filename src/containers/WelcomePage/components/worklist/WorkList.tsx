@@ -39,6 +39,7 @@ const WorkList = ({ ndlaId }: Props) => {
       sort: sortOption ? sortOption : '-responsibleLastUpdated',
       ...(filterSubject ? { subjects: filterSubject.value } : {}),
       page: page,
+      'page-size': 6,
     },
     {
       enabled: !!ndlaId,
@@ -53,6 +54,7 @@ const WorkList = ({ ndlaId }: Props) => {
       sort: sortOptionConcepts,
       ...(filterConceptSubject ? { subjects: filterConceptSubject.value } : {}),
       page: pageConcept,
+      'page-size': 6,
     },
     {
       enabled: !!ndlaId,

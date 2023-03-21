@@ -28,6 +28,13 @@ const onEnter = (
     return nextOnKeyDown?.(e);
   }
 
+  Transforms.unsetNodes(editor, 'serializeAsText', {
+    match: node =>
+      Element.isElement(node) &&
+      (node.type === TYPE_DEFINTION_DESCRIPTION || node.type === TYPE_DEFINTION_TERM),
+    mode: 'lowest',
+  });
+
   if (
     Element.isElement(selectedDefinitionItem) &&
     selectedDefinitionItem.type === TYPE_DEFINTION_TERM
@@ -94,13 +101,9 @@ const onEnter = (
       Point.equals(listItemEnd, editor.selection.anchor)
     ) {
       const nextPath = Path.next(descriptionPath);
-      Editor.withoutNormalizing(editor, () => {
-        Transforms.insertNodes(editor, definitionTerm, { at: nextPath });
-        Transforms.select(editor, Editor.start(editor, nextPath));
-      });
-
+      Transforms.insertNodes(editor, definitionTerm, { at: nextPath });
+      Transforms.select(editor, Editor.start(editor, nextPath));
       e.preventDefault();
-
       return;
     }
 

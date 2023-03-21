@@ -36,23 +36,15 @@ const onBackspace = (
     const [, firstItemNodePath] = Editor.node(editor, [...selectedTermPath, 0]);
     // If cursor is placed at start of first item child
     if (
-      Point.equals(Range.start(editor.selection), Editor.start(editor, firstItemNodePath)) &&
-      !Path.hasPrevious(selectedTermPath)
+      (Point.equals(Range.start(editor.selection), Editor.start(editor, firstItemNodePath)) &&
+        !Path.hasPrevious(selectedTermPath)) ||
+      (Range.start(editor.selection) && Node.string(selectedTerm) === '')
     ) {
       e.preventDefault();
       Editor.withoutNormalizing(editor, () => {
         Transforms.removeNodes(editor, { at: Path.next(selectedTermPath) });
         Transforms.liftNodes(editor, { at: selectedTermPath });
       });
-      return;
-    } else if (Range.start(editor.selection) && Node.string(selectedTerm) === '') {
-      e.preventDefault();
-      Transforms.select(editor, Editor.end(editor, Path.previous(selectedTermPath)));
-      Editor.withoutNormalizing(editor, () => {
-        Transforms.removeNodes(editor, { at: Path.next(selectedTermPath) });
-        Transforms.removeNodes(editor, { at: selectedTermPath });
-      });
-
       return;
     }
   } else if (

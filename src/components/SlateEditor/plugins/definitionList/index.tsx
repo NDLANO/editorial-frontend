@@ -17,6 +17,7 @@ import { KEY_BACKSPACE, KEY_ENTER } from '../../utils/keys';
 import onBackspace from './handlers/onBackspace';
 import onEnter from './handlers/onEnter';
 import { TYPE_DEFINTION_LIST, TYPE_DEFINTION_DESCRIPTION, TYPE_DEFINTION_TERM } from './types';
+import { TYPE_SECTION } from '../section/types';
 
 export interface DefinitionListElement {
   type: 'definition-list';
@@ -154,17 +155,24 @@ export const definitionListPlugin = (editor: Editor) => {
         }
       }
 
+      if (Editor.hasPath(editor, Path.parent(nodepath))) {
+        const [parentNode, parentPath] = Editor.node(editor, Path.parent(nodepath));
+        if (Element.isElement(parentNode) && parentNode.type !== TYPE_SECTION) {
+          Transforms.liftNodes(editor, { at: parentPath });
+        }
+      }
+
       if (defaultBlockNormalizer(editor, entry, normalizerDLConfig)) {
         return;
       }
-    } else if (
-      Element.isElement(node) &&
-      ((node.type === TYPE_DEFINTION_DESCRIPTION &&
-        defaultBlockNormalizer(editor, entry, normalizerDDConfig)) ||
-        (node.type === TYPE_DEFINTION_TERM &&
-          defaultBlockNormalizer(editor, entry, normalizerDTConfig)))
-    ) {
-      return;
+    } else if (Element.isElement(node) && node.type === TYPE_DEFINTION_DESCRIPTION) {
+      if (defaultBlockNormalizer(editor, entry, normalizerDDConfig)) {
+        return;
+      }
+    } else if (Element.isElement(node) && node.type === TYPE_DEFINTION_TERM) {
+      if (defaultBlockNormalizer(editor, entry, normalizerDTConfig)) {
+        return;
+      }
     }
     nextNormalizeNode(entry);
   };

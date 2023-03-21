@@ -14,6 +14,7 @@ import { createProps, reduceElementDataAttributes } from '../../../../util/embed
 import { SlateSerializer } from '../../interfaces';
 import { defaultBlockNormalizer, NormalizerConfig } from '../../utils/defaultNormalizer';
 import { TYPE_QUOTE } from '../blockquote/types';
+import { TYPE_DEFINTION_DESCRIPTION, TYPE_DEFINTION_TERM } from '../definitionList/types';
 import { TYPE_HEADING } from '../heading/types';
 
 import { TYPE_LIST_ITEM } from '../list/types';
@@ -33,7 +34,15 @@ export interface SpanElement {
 
 const normalizerConfig: NormalizerConfig = {
   parent: {
-    allowed: [TYPE_HEADING, TYPE_PARAGRAPH, TYPE_QUOTE, TYPE_TABLE_CELL, TYPE_LIST_ITEM],
+    allowed: [
+      TYPE_HEADING,
+      TYPE_PARAGRAPH,
+      TYPE_QUOTE,
+      TYPE_TABLE_CELL,
+      TYPE_LIST_ITEM,
+      TYPE_DEFINTION_TERM,
+      TYPE_DEFINTION_DESCRIPTION,
+    ],
   },
 };
 

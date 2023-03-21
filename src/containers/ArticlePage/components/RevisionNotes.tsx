@@ -21,7 +21,8 @@ const RevisionNotes = () => {
       name="revisionMeta"
       label={t('form.name.revisions')}
       description={t('form.revisions.description')}
-      showError={false}>
+      showError={false}
+    >
       {({ field, form: { errors } }) => {
         return (
           <>

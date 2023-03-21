@@ -65,7 +65,7 @@ const TopicArticleConnections = ({
   };
 
   const getFavoriteSubjects = (subjects: SubjectType[], favoriteSubjectIds: string[]) => {
-    return subjects.filter(e => favoriteSubjectIds.includes(e.id));
+    return subjects.filter((e) => favoriteSubjectIds.includes(e.id));
   };
 
   const handleOpenToggle = async ({
@@ -105,7 +105,8 @@ const TopicArticleConnections = ({
     <>
       <FieldHeader
         title={t('taxonomy.topics.topicPlacement')}
-        subTitle={t('taxonomy.topics.subTitleTopic')}>
+        subTitle={t('taxonomy.topics.subTitleTopic')}
+      >
         <HowToHelper pageId="TaxonomyTopicConnections" tooltip={t('taxonomy.topics.helpLabel')} />
       </FieldHeader>
       <ActiveTopicConnections activeTopics={activeTopics} type="topic-article" />
@@ -116,7 +117,8 @@ const TopicArticleConnections = ({
         size="large"
         narrow
         minHeight="85vh"
-        activateButton={<ButtonV2>{t(`taxonomy.topics.${'chooseTaxonomyPlacement'}`)}</ButtonV2>}>
+        activateButton={<ButtonV2>{t(`taxonomy.topics.${'chooseTaxonomyPlacement'}`)}</ButtonV2>}
+      >
         {(closeModal: () => void) => (
           <>
             <ModalHeader>

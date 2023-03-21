@@ -18,7 +18,7 @@ export const grepCodeQueryKey = (params?: Partial<{ grepCode: string }>) => [GRE
 
 export const useGrepCodes = (grepCodes: string[], enabled = true) => {
   return useQueries({
-    queries: grepCodes.map(grepCode => ({
+    queries: grepCodes.map((grepCode) => ({
       queryKey: grepCodeQueryKey({ grepCode }),
       queryFn: () => fetchGrepCodeTitle(grepCode),
       select: (title: string | undefined) => grepToGrepCodeObject(grepCode, title),

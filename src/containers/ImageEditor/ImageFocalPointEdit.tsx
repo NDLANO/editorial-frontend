@@ -120,7 +120,7 @@ const ImageFocalPointEdit = ({ embed, language, onFocalPointChange, transformDat
             style={{ minWidth: 'inherit' }}
             alt={embed.alt}
             ref={focalImgRef}
-            onLoad={e => setXandY(e.target as HTMLImageElement)}
+            onLoad={(e) => setXandY(e.target as HTMLImageElement)}
             srcSet={getSrcSets(embed.resource_id, transformData, language)}
           />
         </StyledFocalPointButton>

@@ -2,7 +2,8 @@ import styled from '@emotion/styled';
 import { spacing, colors, fonts } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
 import { OneColumn } from '@ndla/ui';
-import { Fragment, useState } from 'react';
+import { Fragment, useMemo, useState } from 'react';
+import sortBy from 'lodash/sortBy';
 import { useTranslation } from 'react-i18next';
 import isBefore from 'date-fns/isBefore';
 import { SafeLinkButton } from '@ndla/safelink';
@@ -62,6 +63,7 @@ const StyledBreadCrumb = styled('div')`
   flex-grow: 1;
   flex-direction: row;
   font-style: italic;
+  font-size: ${fonts.sizes(16)};
 `;
 
 const PublishRequestsContainer = () => {
@@ -73,10 +75,15 @@ const PublishRequestsContainer = () => {
     value: 'true',
   });
 
+  const sorted = useMemo(
+    () => sortBy(nodesQuery?.data, (n) => n.breadcrumbs?.join('')),
+    [nodesQuery],
+  );
+
   const versionsQuery = useVersions(
     {},
     {
-      onSuccess: data => {
+      onSuccess: (data) => {
         if (!data[0]) {
           setError('publishRequests.errors.noVersions');
         }
@@ -84,9 +91,9 @@ const PublishRequestsContainer = () => {
     },
   );
 
-  const publishedVersion = versionsQuery.data?.filter(v => v.versionType === 'PUBLISHED')?.[0];
+  const publishedVersion = versionsQuery.data?.filter((v) => v.versionType === 'PUBLISHED')?.[0];
   const betaVersions = versionsQuery.data
-    ?.filter(v => v.versionType === 'BETA')
+    ?.filter((v) => v.versionType === 'BETA')
     .sort((a, b) => (isBefore(new Date(a.created), new Date(b.created)) ? 1 : -1));
 
   const otherVersion = betaVersions?.[0] || publishedVersion || versionsQuery.data?.[0];
@@ -104,12 +111,22 @@ const PublishRequestsContainer = () => {
       <OneColumn>
         <h1>{t('publishRequests.title')}</h1>
         {error && <ErrorMessage>{t(error)}</ErrorMessage>}
-        <h3>{`${t('publishRequests.numberRequests')}: ${nodesQuery.data?.length ?? 0}`}</h3>
+        <h3>{`${t('publishRequests.numberRequests')}: ${sorted?.length ?? 0}`}</h3>
         <StyledRequestList>
-          {nodesQuery.data?.map((node, i) => (
+          {sorted?.map((node, i) => (
             <StyledNodeContainer key={`node-request-${i}`}>
               <StyledTitleRow>
                 <StyledTitleColumn>
+                  <StyledBreadCrumb>
+                    {node?.breadcrumbs?.map((path, index, arr) => {
+                      return (
+                        <Fragment key={`${path}_${index}`}>
+                          {path}
+                          {index + 1 !== arr.length && <ChevronRight />}
+                        </Fragment>
+                      );
+                    })}
+                  </StyledBreadCrumb>
                   <StyledTitleRow>
                     <NodeIconType node={node} />
                     {node.metadata.customFields[TAXONOMY_CUSTOM_FIELD_IS_PUBLISHING] === 'true' && (
@@ -117,16 +134,6 @@ const PublishRequestsContainer = () => {
                     )}
                     {node.name}
                   </StyledTitleRow>
-                  <StyledBreadCrumb>
-                    {node?.breadcrumbs?.map((path, index) => {
-                      return (
-                        <Fragment key={`${path}_${index}`}>
-                          {path}
-                          {index + 1 !== node?.breadcrumbs?.length && <ChevronRight />}
-                        </Fragment>
-                      );
-                    })}
-                  </StyledBreadCrumb>
                 </StyledTitleColumn>
               </StyledTitleRow>
               <StyledButtonRow>

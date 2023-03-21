@@ -42,7 +42,7 @@ declare global {
 }
 
 window.MonacoEnvironment = {
-  getWorkerUrl: function(moduleId: string, label: string) {
+  getWorkerUrl: function (moduleId: string, label: string) {
     if (label === 'html') {
       return process.env.NODE_ENV !== 'production'
         ? '/static/js/html.worker.js'
@@ -65,7 +65,7 @@ const MonacoEditor = lazy(() => import('../../components/MonacoEditor'));
 function standardizeContent(content: string): string {
   const trimmedContent = content
     .split(/>\r?\n/)
-    .map(s => s.trim())
+    .map((s) => s.trim())
     .join('>');
   const converted = blockContentToEditorValue(trimmedContent);
   return blockContentToHTML(converted);
@@ -261,7 +261,8 @@ const EditMarkupPage = () => {
               to={
                 locationState?.backUrl ||
                 `/subject-matter/learning-resource/${draftId}/edit/${language}`
-              }>
+              }
+            >
               {t('editMarkup.back')}
             </Link>
             <SaveButton

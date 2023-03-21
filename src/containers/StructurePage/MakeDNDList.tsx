@@ -60,7 +60,8 @@ const MakeDndList = ({ disableDND, children, onDragEnd, dragHandle }: Props) => 
                   <Draggable
                     key={child.props.id}
                     draggableId={child.props.connectionId}
-                    index={index}>
+                    index={index}
+                  >
                     {(providedInner: DraggableProvided, snapshotInner: DraggableStateSnapshot) => (
                       <div
                         ref={providedInner.innerRef}
@@ -69,7 +70,8 @@ const MakeDndList = ({ disableDND, children, onDragEnd, dragHandle }: Props) => 
                         css={[
                           dragHandleWrapperStyle,
                           ...[snapshotInner.isDragging ? [draggingStyle] : []],
-                        ]}>
+                        ]}
+                      >
                         {dragHandle && (
                           <div style={{ position: 'absolute' }} {...providedInner.dragHandleProps}>
                             <DragHorizontal />

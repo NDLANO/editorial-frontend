@@ -58,7 +58,8 @@ const ElementListLink = ({
   return (
     <StyledListItem
       delete={deleteIndex === index}
-      onAnimationEnd={deleteIndex === index ? executeDeleteFile : undefined}>
+      onAnimationEnd={deleteIndex === index ? executeDeleteFile : undefined}
+    >
       <div>
         <StyledLinkContainer>
           <Link />
@@ -78,8 +79,9 @@ const ElementListLink = ({
                   aria-label={messages?.dragElement || ''}
                   variant="ghost"
                   colorTheme="light"
-                  onMouseDown={e => onDragStart(e, index)}
-                  onMouseUp={onDragEnd}>
+                  onMouseDown={(e) => onDragStart(e, index)}
+                  onMouseUp={onDragEnd}
+                >
                   <DragHorizontal />
                 </DraggableIconButton>
               </Tooltip>
@@ -88,8 +90,9 @@ const ElementListLink = ({
                 aria-label={messages?.dragElement || ''}
                 variant="ghost"
                 colorTheme="light"
-                onMouseDown={e => onDragStart(e, index)}
-                onMouseUp={onDragEnd}>
+                onMouseDown={(e) => onDragStart(e, index)}
+                onMouseUp={onDragEnd}
+              >
                 <DragHorizontal />
               </DraggableIconButton>
             )
@@ -99,7 +102,8 @@ const ElementListLink = ({
               aria-label={messages?.removeElement || ''}
               variant="ghost"
               colorTheme="danger"
-              onClick={() => deleteFile(index)}>
+              onClick={() => deleteFile(index)}
+            >
               <DeleteForever />
             </IconButtonV2>
           </Tooltip>

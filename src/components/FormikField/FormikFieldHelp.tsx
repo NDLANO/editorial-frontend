@@ -20,15 +20,15 @@ interface Props {
 export const StyledHelpMessage = styled.span<Props>`
   display: block;
   font-size: ${fonts.sizes(14, 1.2)};
-  color: ${p => (p.error ? colors.support.red : 'black')};
-  float: ${p => p.float || 'none'};
+  color: ${(p) => (p.error ? colors.support.red : 'black')};
+  float: ${(p) => p.float || 'none'};
 `;
 
 const StyledWarningMessage = styled.span<Props>`
   display: block;
   font-size: ${fonts.sizes(14, 1.2)};
-  color: ${p => (p.warning ? '#8c8c00' : 'black')};
-  float: ${p => p.float || 'none'};
+  color: ${(p) => (p.warning ? '#8c8c00' : 'black')};
+  float: ${(p) => p.float || 'none'};
 `;
 
 const FormikFieldHelp = ({ error, warning, float, children }: Props) =>

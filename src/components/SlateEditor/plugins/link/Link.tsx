@@ -28,8 +28,8 @@ interface StyledLinkMenuProps {
 
 const StyledLinkMenu = styled('span')<StyledLinkMenuProps>`
   position: absolute;
-  top: ${p => p.top}px;
-  left: ${p => p.left}px;
+  top: ${(p) => p.top}px;
+  left: ${(p) => p.left}px;
   padding: calc(${spacing.small} / 2);
   background-color: #fff;
   background-clip: padding-box;
@@ -101,7 +101,7 @@ const Link = (props: Props) => {
   };
 
   const toggleEditMode = () => {
-    setEditMode(prev => !prev);
+    setEditMode((prev) => !prev);
   };
 
   useEffect(() => {
@@ -150,8 +150,9 @@ const Link = (props: Props) => {
             controlled
             isOpen={editMode}
             onClose={toggleEditMode}
-            label={t(`form.content.link.${model?.href ? 'changeTitle' : 'addTitle'}`)}>
-            {close => (
+            label={t(`form.content.link.${model?.href ? 'changeTitle' : 'addTitle'}`)}
+          >
+            {(close) => (
               <EditLink {...props} model={model} closeEditMode={close} onChange={onChange} />
             )}
           </ModalV2>

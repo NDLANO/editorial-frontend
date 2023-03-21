@@ -32,8 +32,8 @@ const TaxonomyInfoDiv = styled.div`
 `;
 
 const StyledId = styled.span<{ isVisible: boolean }>`
-  font-style: ${props => !props.isVisible && 'italic'};
-  ${props => (!props.isVisible ? `color: ${colors.brand.grey}` : '')}
+  font-style: ${(props) => !props.isVisible && 'italic'};
+  ${(props) => (!props.isVisible ? `color: ${colors.brand.grey}` : '')}
 `;
 
 interface Props {
@@ -95,14 +95,15 @@ const TaxonomyConnectionErrors = ({ taxonomy, articleType }: Props) => {
     <>
       <FieldHeader
         title={t('taxonomy.info.wrongConnections')}
-        subTitle={t('taxonomy.info.wrongConnectionsSubTitle')}>
+        subTitle={t('taxonomy.info.wrongConnectionsSubTitle')}
+      >
         <Tooltip tooltip={t('taxonomy.info.canBeFixedInDatabase')}>
           <div>
             <HelpIcon />
           </div>
         </Tooltip>
       </FieldHeader>
-      {wrongConnections.map(taxonomyElement => {
+      {wrongConnections.map((taxonomyElement) => {
         const visibility = taxonomyElement.metadata ? taxonomyElement.metadata.visible : true;
         const errorElement = ` - ${taxonomyElement.id} (${taxonomyElement.name})`;
 

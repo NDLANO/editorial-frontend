@@ -42,7 +42,7 @@ interface SlateAudioWrapperProps {
 const SlateAudioWrapper = styled.div<SlateAudioWrapperProps>`
   border-style: solid;
   border-width: 2px;
-  border-color: ${p =>
+  border-color: ${(p) =>
     p.showCopyOutline ? colors.brand.primary : p.hasError ? colors.support.red : 'transparent'};
 `;
 
@@ -103,8 +103,9 @@ const SlateAudio = ({
         backgroundColor="white"
         isOpen={editMode}
         labelledBy={'editAudioEmbed'}
-        onClose={() => setEditMode(false)}>
-        {close => (
+        onClose={() => setEditMode(false)}
+      >
+        {(close) => (
           <EditAudio
             saveEmbedUpdates={saveEmbedUpdates}
             setHasError={setHasError}
@@ -135,7 +136,8 @@ const SlateAudio = ({
             className="c-placeholder-editmode"
             tabIndex={0}
             onKeyPress={toggleEdit}
-            onClick={toggleEdit}>
+            onClick={toggleEdit}
+          >
             {audio.id && <AudioPlayerMounter audio={audio} locale={locale} speech={speech} />}
           </SlateAudioWrapper>
         </Figure>

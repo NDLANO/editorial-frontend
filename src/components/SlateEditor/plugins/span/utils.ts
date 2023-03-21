@@ -18,7 +18,7 @@ export const defaultSpanBlock = () =>
 export const toggleSpan = (editor: Editor) => {
   if (hasNodeOfType(editor, TYPE_SPAN)) {
     Transforms.unwrapNodes(editor, {
-      match: node => Element.isElement(node) && node.type === TYPE_SPAN,
+      match: (node) => Element.isElement(node) && node.type === TYPE_SPAN,
     });
     return;
   }

@@ -85,7 +85,7 @@ const httpResolve = <Type>({
   return fetchAuthorized(url, {
     ...config,
     headers: { ...defaultHeaders, VersionHash: taxonomyVersion, ...headers },
-  }).then(r => {
+  }).then((r) => {
     return alternateResolve?.(r) ?? resolveJsonOrRejectWithError(r);
   });
 };
@@ -115,7 +115,9 @@ export const fetchReAuthorized = async (url: string, config: FetchConfigType = {
   fetchWithAuthorization(url, config, true);
 
 export const fetchBrightcoveAccessToken = () =>
-  fetch('/get_brightcove_token').then(r => resolveJsonOrRejectWithError<BrightcoveAccessToken>(r));
+  fetch('/get_brightcove_token').then((r) =>
+    resolveJsonOrRejectWithError<BrightcoveAccessToken>(r),
+  );
 
 export const setBrightcoveAccessTokenInLocalStorage = (
   brightcoveAccessToken: BrightcoveAccessToken,
@@ -133,7 +135,7 @@ export const fetchWithBrightCoveToken = (url: string) => {
     ? JSON.parse(localStorage.getItem('brightcove_access_token_expires_at')!)
     : 0;
   if (new Date().getTime() > expiresAt || !expiresAt) {
-    return fetchBrightcoveAccessToken().then(res => {
+    return fetchBrightcoveAccessToken().then((res) => {
       setBrightcoveAccessTokenInLocalStorage(res);
       return fetch(url, {
         headers: { Authorization: `Bearer ${res.access_token}` },

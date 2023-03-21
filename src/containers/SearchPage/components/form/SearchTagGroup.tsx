@@ -17,7 +17,7 @@ interface Props {
 const SearchTagGroup = ({ tagTypes, onRemoveItem }: Props) => {
   return (
     <>
-      {tagTypes.map(tag => {
+      {tagTypes.map((tag) => {
         if (!tag.value) return null;
         return (
           <SearchTag key={`searchtag_${tag.parameterName}`} onRemoveItem={onRemoveItem} tag={tag} />

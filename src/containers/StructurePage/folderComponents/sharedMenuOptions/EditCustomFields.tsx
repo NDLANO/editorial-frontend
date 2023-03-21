@@ -27,7 +27,8 @@ const EditCustomFields = ({ node, toggleEditMode, editMode, onCurrentNodeChanged
     <div>
       <MenuItemButton
         data-testid="editCustomFieldsButton"
-        onClick={() => toggleEditMode('openCustomFields')}>
+        onClick={() => toggleEditMode('openCustomFields')}
+      >
         <RoundIcon small open={editMode === 'openCustomFields'} icon={<Pencil />} />
         {t('taxonomy.metadata.customFields.alterFields')}
       </MenuItemButton>

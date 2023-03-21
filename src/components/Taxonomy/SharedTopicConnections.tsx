@@ -28,8 +28,8 @@ export const SharedTopicConnections = ({ topic, type }: Props) => {
   return (
     <>
       {topic.paths
-        .filter(path => path !== topic.path)
-        .map(path => {
+        .filter((path) => path !== topic.path)
+        .map((path) => {
           return (
             <StyledConnections shared key={path}>
               <StyledDuplicateConnectionLabel>

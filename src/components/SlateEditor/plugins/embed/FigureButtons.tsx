@@ -39,12 +39,12 @@ const StyledFigureButtons = styled('div')`
 
   ${(p: StyledFigureButtonsProps) =>
     p.align !== 'left' && p.align !== 'right' && rightAdjustedStyle}
-    ${p => p.align === 'right' && rightAdjustedStyle}
-  ${p => p.align === 'left' && leftAdjustedStyle}
+  ${(p) => p.align === 'right' && rightAdjustedStyle}
+  ${(p) => p.align === 'left' && leftAdjustedStyle}
   > * {
     margin-bottom: ${spacing.xsmall};
   }
-  ${p =>
+  ${(p) =>
     p.withMargin &&
     css`
       margin: ${spacing.small};
@@ -104,14 +104,16 @@ const FigureButtons = ({
       align={'align' in embed && !!embed.align ? embed.align : ''}
       theme={{}}
       withMargin={withMargin}
-      contentEditable={false}>
+      contentEditable={false}
+    >
       <Tooltip tooltip={tooltip}>
         <IconButtonV2
           aria-label={tooltip}
           colorTheme="danger"
           variant="ghost"
           onClick={onRemoveClick}
-          data-cy="remove-element">
+          data-cy="remove-element"
+        >
           <DeleteForever />
         </IconButtonV2>
       </Tooltip>
@@ -124,7 +126,8 @@ const FigureButtons = ({
               to={`${url[figureType].path}/${embed.resource_id}/edit/${language}`}
               target="_blank"
               title={url[figureType].editTitle}
-              tabIndex={-1}>
+              tabIndex={-1}
+            >
               <LinkIcon />
             </SafeLinkIconButton>
           </Tooltip>
@@ -133,12 +136,14 @@ const FigureButtons = ({
         <Tooltip
           tooltip={t('form.external.edit', {
             type: providerName || t('form.external.title'),
-          })}>
+          })}
+        >
           <IconButtonV2
             aria-label={t('form.external.edit', { type: providerName || t('form.external.title') })}
             variant="ghost"
             colorTheme="light"
-            onClick={onEdit}>
+            onClick={onEdit}
+          >
             <LinkIcon />
           </IconButtonV2>
         </Tooltip>
@@ -153,7 +158,8 @@ const FigureButtons = ({
               to={`https://studio.brightcove.com/products/videocloud/media/videos/${
                 embed.videoid.split('&t=')[0]
               }`}
-              target="_blank">
+              target="_blank"
+            >
               <LinkIcon />
             </SafeLinkIconButton>
           </Tooltip>
@@ -162,14 +168,16 @@ const FigureButtons = ({
       )}
       {(figureType === 'video' || figureType === 'image') && (
         <Tooltip
-          tooltip={figureType === 'video' ? t('form.video.editVideo') : t('form.image.editImage')}>
+          tooltip={figureType === 'video' ? t('form.video.editVideo') : t('form.image.editImage')}
+        >
           <IconButtonV2
             aria-label={
               figureType === 'video' ? t('form.video.editVideo') : t('form.image.editImage')
             }
             variant="ghost"
             colorTheme="light"
-            onClick={onEdit}>
+            onClick={onEdit}
+          >
             <Pencil />
           </IconButtonV2>
         </Tooltip>

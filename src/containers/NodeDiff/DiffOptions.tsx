@@ -66,7 +66,7 @@ const DiffOption = ({
       <strong>{label}</strong>
       <ObjectSelector
         emptyField={emptyField}
-        onClick={e => e.stopPropagation()}
+        onClick={(e) => e.stopPropagation()}
         options={options}
         onChange={onChange}
         name={name}
@@ -85,10 +85,10 @@ const DiffOptions = ({ originalHash, otherHash }: Props) => {
   const { userPermissions } = useSession();
   const taxonomyVersions = useVersions();
   const originalVersion = originalHash
-    ? taxonomyVersions.data?.find(v => v.hash === originalHash)
+    ? taxonomyVersions.data?.find((v) => v.hash === originalHash)
     : undefined;
   const otherVersion = otherHash
-    ? taxonomyVersions.data?.find(v => v.hash === otherHash)
+    ? taxonomyVersions.data?.find((v) => v.hash === otherHash)
     : undefined;
 
   const nodeViewOptions = [
@@ -162,12 +162,12 @@ const DiffOptions = ({ originalHash, otherHash }: Props) => {
           <OptGroupVersionSelector
             versions={taxonomyVersions.data ?? []}
             currentVersion={otherVersion}
-            onVersionChanged={val => onParamChange('otherHash', val.length ? val : 'default')}
+            onVersionChanged={(val) => onParamChange('otherHash', val.length ? val : 'default')}
           />
         </StyledDiffOption>
         <DiffOption
           options={viewOptions}
-          onChange={event => onParamChange('view', event.currentTarget.value)}
+          onChange={(event) => onParamChange('view', event.currentTarget.value)}
           name="view"
           label={t('diff.options.viewLabel')}
           value={currentViewOption}
@@ -176,14 +176,14 @@ const DiffOptions = ({ originalHash, otherHash }: Props) => {
       <StyledOptionRow>
         <DiffOption
           options={nodeViewOptions}
-          onChange={event => onParamChange('nodeView', event.currentTarget.value)}
+          onChange={(event) => onParamChange('nodeView', event.currentTarget.value)}
           name="nodeView"
           label={t('diff.options.nodeViewLabel')}
           value={currentNodeViewOption}
         />
         <DiffOption
           options={nodeFieldOptions}
-          onChange={event => onParamChange('fieldView', event.currentTarget.value)}
+          onChange={(event) => onParamChange('fieldView', event.currentTarget.value)}
           name="fieldView"
           label={t('diff.options.fieldViewLabel')}
           value={currentNodeFieldOption}

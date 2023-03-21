@@ -43,8 +43,8 @@ const SearchImageForm = ({
   const { t } = useTranslation();
   const [queryInput, setQueryInput] = useState(search.query ?? '');
   const { data: licenses } = useLicenses({
-    select: licenses =>
-      getLicensesWithTranslations(licenses, locale).map(license => ({
+    select: (licenses) =>
+      getLicensesWithTranslations(licenses, locale).map((license) => ({
         id: license.license,
         name: license.title,
       })),

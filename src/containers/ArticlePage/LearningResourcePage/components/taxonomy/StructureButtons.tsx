@@ -26,16 +26,16 @@ const StyledButton = styled(ButtonV2)`
 `;
 
 const StyledChecked = styled('div')`
-  ${fonts.sizes(16, 1.1)} 
-  
+  ${fonts.sizes(16, 1.1)}
+
   font-weight: ${fonts.weight.semibold};
   display: flex;
   align-items: center;
-  
+
   span {
     margin: 0 ${spacing.xsmall};
   }
-  
+
   svg {
     fill: ${colors.support.green};
   }
@@ -81,7 +81,7 @@ const StructureButtons = ({ isSubject, id, closeModal, activeTopics, addTopic }:
     return null;
   }
 
-  const currentIndex = activeTopics.findIndex(topic => topic.id === id);
+  const currentIndex = activeTopics.findIndex((topic) => topic.id === id);
 
   return (
     <StyledButtonWrapper>

@@ -15,9 +15,9 @@ const onEnter = (
   e: KeyboardEvent,
   nextOnKeyDown: ((e: KeyboardEvent) => void) | undefined,
 ) => {
-  if (e.shiftKey && nextOnKeyDown) return nextOnKeyDown(e);
-  if (!editor.selection && nextOnKeyDown) return nextOnKeyDown(e);
-  else if (!editor.selection) return undefined;
+  if ((e.shiftKey && nextOnKeyDown) || (!editor.selection && nextOnKeyDown)) {
+    return nextOnKeyDown(e);
+  } else if (!editor.selection) return undefined;
 
   const [selectedDefinitionItem, selectedDefinitionItemPath] = Editor.parent(
     editor,

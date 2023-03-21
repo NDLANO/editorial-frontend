@@ -556,6 +556,7 @@ const phrases = {
     sup: 'Superscript\n({{ctrl}}+alt+h)',
     twoColumnList: 'Two-column list',
     underlined: 'Underlined',
+    definitionList: 'Definition list\n({{ctrl}}+alt+d)',
   },
   editorBlockpicker: {
     heading: 'Add',

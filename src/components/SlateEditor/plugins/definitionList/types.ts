@@ -6,8 +6,6 @@
  *
  */
 
-import { jsx as slatejsx } from 'slate-hyperscript';
-
 export const TYPE_DEFINTION_LIST = 'definition-list';
 export const TYPE_DEFINTION_DESCRIPTION = 'definition-description';
 export const TYPE_DEFINTION_TERM = 'definition-term';

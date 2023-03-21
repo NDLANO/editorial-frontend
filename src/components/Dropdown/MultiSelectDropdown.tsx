@@ -118,7 +118,8 @@ export const MultiSelectDropdown = <T extends { id: string }>({
       isOpen={isOpen}
       inputValue={inputValue}
       onStateChange={handleStateChange}
-      itemToString={item => itemToString(item, labelField)}>
+      itemToString={(item) => itemToString(item, labelField)}
+    >
       {({ getInputProps, ...downshiftProps }) => (
         <div style={{ position: 'relative' }}>
           <DropdownInput

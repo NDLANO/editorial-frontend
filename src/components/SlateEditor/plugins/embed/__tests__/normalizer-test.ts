@@ -13,7 +13,7 @@ import withPlugins from '../../../utils/withPlugins';
 import { plugins } from '../../../../../containers/ArticlePage/LearningResourcePage/components/LearningResourceContent';
 import { TYPE_PARAGRAPH } from '../../paragraph/types';
 import { TYPE_SECTION } from '../../section/types';
-import { TYPE_NDLA_EMBED } from '../types';
+import { TYPE_EMBED_AUDIO, TYPE_EMBED_H5P, TYPE_EMBED_IMAGE } from '../types';
 
 const editor = withHistory(
   withReact(withPlugins(createEditor(), plugins('nb', 'nb', { current: () => {} }))),
@@ -26,7 +26,7 @@ describe('embed normalizer tests', () => {
         type: TYPE_SECTION,
         children: [
           {
-            type: TYPE_NDLA_EMBED,
+            type: TYPE_EMBED_IMAGE,
             children: [
               {
                 text: '',
@@ -43,7 +43,7 @@ describe('embed normalizer tests', () => {
             },
           },
           {
-            type: TYPE_NDLA_EMBED,
+            type: TYPE_EMBED_H5P,
             children: [
               {
                 text: '',
@@ -56,7 +56,7 @@ describe('embed normalizer tests', () => {
             },
           },
           {
-            type: TYPE_NDLA_EMBED,
+            type: TYPE_EMBED_AUDIO,
             children: [
               {
                 text: '',
@@ -82,7 +82,7 @@ describe('embed normalizer tests', () => {
             children: [{ text: '' }],
           },
           {
-            type: TYPE_NDLA_EMBED,
+            type: TYPE_EMBED_IMAGE,
             children: [
               {
                 text: '',
@@ -103,7 +103,7 @@ describe('embed normalizer tests', () => {
             children: [{ text: '' }],
           },
           {
-            type: TYPE_NDLA_EMBED,
+            type: TYPE_EMBED_H5P,
             children: [
               {
                 text: '',
@@ -120,7 +120,7 @@ describe('embed normalizer tests', () => {
             children: [{ text: '' }],
           },
           {
-            type: TYPE_NDLA_EMBED,
+            type: TYPE_EMBED_AUDIO,
             children: [
               {
                 text: '',

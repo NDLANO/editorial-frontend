@@ -97,7 +97,7 @@ const TopicArticleTaxonomy = ({ article, setIsOpen, updateNotes, taxonomy }: Pro
 
   const { data: topics } = useNodes({
     language: i18n.language,
-    contentURI: taxonomy.topics[0].contentUri,
+    contentURI: taxonomy.topics[0]?.contentUri || '',
     taxonomyVersion,
   });
 
@@ -106,12 +106,12 @@ const TopicArticleTaxonomy = ({ article, setIsOpen, updateNotes, taxonomy }: Pro
       try {
         const subjects = await fetchSubjects({ language: i18n.language, taxonomyVersion });
 
-        const sortedSubjects = subjects.filter(subject => subject.name).sort(sortByName);
-        const activeTopics = topics?.filter(t => t.path) ?? [];
+        const sortedSubjects = subjects.filter((subject) => subject.name).sort(sortByName);
+        const activeTopics = topics?.filter((t) => t.path) ?? [];
         const sortedTopics = activeTopics.sort((a, b) => (a.id < b.id ? -1 : 1));
 
         const topicConnections = await Promise.all(
-          sortedTopics.map(topic => fetchTopicConnections({ id: topic.id, taxonomyVersion })),
+          sortedTopics.map((topic) => fetchTopicConnections({ id: topic.id, taxonomyVersion })),
         );
 
         const topicsWithConnections = sortedTopics.map(async (topic, index) => {
@@ -139,7 +139,7 @@ const TopicArticleTaxonomy = ({ article, setIsOpen, updateNotes, taxonomy }: Pro
   }, [i18n.language, taxonomyVersion, topics]);
 
   const getSubjectTopics = async (subjectId: string, locale: LocaleType) => {
-    if (structure.some(subject => subject.id === subjectId && subject.topics)) {
+    if (structure.some((subject) => subject.id === subjectId && subject.topics)) {
       return;
     }
     try {
@@ -172,14 +172,14 @@ const TopicArticleTaxonomy = ({ article, setIsOpen, updateNotes, taxonomy }: Pro
       };
 
       setIsDirty(true);
-      setStagedTopicChanges(prev => [...prev, newTopic]);
+      setStagedTopicChanges((prev) => [...prev, newTopic]);
     }
   };
 
   const addNewTopic = async (stagedNewTopics: StagedTopic[], locale?: LocaleType) => {
-    const existingTopics = stagedTopicChanges.filter(t => !stagedNewTopics.includes(t));
+    const existingTopics = stagedTopicChanges.filter((t) => !stagedNewTopics.includes(t));
     const newTopics = await Promise.all(
-      stagedNewTopics.map(topic => createAndPlaceTopic(topic, article.id, locale)),
+      stagedNewTopics.map((topic) => createAndPlaceTopic(topic, article.id, locale)),
     );
     setIsDirty(false);
     setStagedTopicChanges(existingTopics.concat(newTopics));
@@ -190,7 +190,7 @@ const TopicArticleTaxonomy = ({ article, setIsOpen, updateNotes, taxonomy }: Pro
     evt.preventDefault();
     setStatus('loading');
 
-    const stagedNewTopics = stagedTopicChanges.filter(topic => topic.id === 'staged');
+    const stagedNewTopics = stagedTopicChanges.filter((topic) => topic.id === 'staged');
     try {
       if (stagedNewTopics.length > 0) {
         await addNewTopic(stagedNewTopics, i18n.language);
@@ -208,7 +208,7 @@ const TopicArticleTaxonomy = ({ article, setIsOpen, updateNotes, taxonomy }: Pro
   };
 
   const updateSubject = (subjectid: string, newSubject?: Partial<StructureSubject>) => {
-    const newStructure = structure.map(subject => {
+    const newStructure = structure.map((subject) => {
       if (subject.id === subjectid) {
         return { ...subject, ...newSubject };
       } else return subject;
@@ -288,7 +288,7 @@ const TopicArticleTaxonomy = ({ article, setIsOpen, updateNotes, taxonomy }: Pro
       setIsDirty(false);
       changeVersion(newVersion.value);
       qc.removeQueries({
-        predicate: query => {
+        predicate: (query) => {
           const qk = query.queryKey as [string, Record<string, any>];
           return qk[1]?.taxonomyVersion === oldVersion;
         },

@@ -68,7 +68,7 @@ const toolbarIcon = (t: TFunction): Record<string, JSX.Element | undefined> => (
 
 const StyledToolbarButton = styled.button<{ isActive: boolean }>`
   display: inline-block;
-  background: ${props => (props.isActive ? colors.brand.lightest : colors.white)};
+  background: ${(props) => (props.isActive ? colors.brand.lightest : colors.white)};
   cursor: pointer;
   padding: 8px 0.5rem 8px 0.5rem;
   border-width: 0px;
@@ -76,8 +76,8 @@ const StyledToolbarButton = styled.button<{ isActive: boolean }>`
   border-bottom-width: 1px;
   border-left-width: 1px;
   border-style: solid;
-  border-color: ${props => (props.isActive ? colors.brand.tertiary : colors.brand.greyLighter)};
-  ${props => props.isActive && 'border-width: 1px;'};
+  border-color: ${(props) => (props.isActive ? colors.brand.tertiary : colors.brand.greyLighter)};
+  ${(props) => props.isActive && 'border-width: 1px;'};
 
   :first-of-type {
     border-left-width: 1px;
@@ -121,7 +121,8 @@ const ToolbarButton = ({ isActive, type, kind, handleOnClick }: Props) => {
       onMouseDown={onMouseDown}
       data-testid={`toolbar-button-${type}`}
       data-active={isActive}
-      isActive={isActive}>
+      isActive={isActive}
+    >
       <ToolbarIcon>{toolbarIcon(t)[type]}</ToolbarIcon>
     </StyledToolbarButton>
   );

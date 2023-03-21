@@ -50,15 +50,8 @@ const EditLearningResource = ({ isNewlyCreated }: Props) => {
   const params = useParams<'selectedLanguage' | 'id'>();
   const selectedLanguage = params.selectedLanguage as LocaleType;
   const articleId = Number(params.id!) || undefined;
-  const {
-    loading,
-    article,
-    taxonomy,
-    setArticle,
-    articleChanged,
-    updateArticle,
-    updateArticleAndStatus,
-  } = useFetchArticleData(articleId, selectedLanguage);
+  const { loading, article, taxonomy, setArticle, articleChanged, updateArticle } =
+    useFetchArticleData(articleId, selectedLanguage);
 
   const { translate, shouldTranslate, translating } = useTranslateToNN();
 
@@ -94,7 +87,6 @@ const EditLearningResource = ({ isNewlyCreated }: Props) => {
         articleChanged={articleChanged || newLanguage}
         isNewlyCreated={!!isNewlyCreated}
         updateArticle={updateArticle}
-        updateArticleAndStatus={updateArticleAndStatus}
       />
     </>
   );

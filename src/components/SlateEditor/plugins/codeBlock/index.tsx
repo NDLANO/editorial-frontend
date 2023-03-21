@@ -16,6 +16,7 @@ import { createEmbedTag, reduceElementDataAttributes } from '../../../../util/em
 import { defaultBlockNormalizer, NormalizerConfig } from '../../utils/defaultNormalizer';
 import { TYPE_CODEBLOCK } from './types';
 import { TYPE_PARAGRAPH } from '../paragraph/types';
+import { TYPE_NDLA_EMBED } from '../embed/types';
 
 export interface CodeblockElement {
   type: 'code-block';
@@ -47,7 +48,7 @@ const normalizerConfig: NormalizerConfig = {
 
 export const codeblockSerializer: SlateSerializer = {
   deserialize(el: HTMLElement) {
-    if (!el.tagName.toLowerCase().startsWith('ndlaembed')) return;
+    if (el.tagName.toLowerCase() !== TYPE_NDLA_EMBED) return;
     const embed = el as HTMLEmbedElement;
     const embedAttributes = reduceElementDataAttributes(embed);
     if (embedAttributes.resource !== 'code-block') return;
@@ -92,7 +93,7 @@ export const codeblockPlugin = (editor: Editor) => {
     return undefined;
   };
 
-  editor.normalizeNode = entry => {
+  editor.normalizeNode = (entry) => {
     const [node] = entry;
 
     if (Element.isElement(node) && node.type === TYPE_CODEBLOCK) {
@@ -103,7 +104,7 @@ export const codeblockPlugin = (editor: Editor) => {
     nextNormalizeNode(entry);
   };
 
-  editor.isVoid = element => {
+  editor.isVoid = (element) => {
     if (Element.isElement(element) && element.type === TYPE_CODEBLOCK) {
       return true;
     } else {

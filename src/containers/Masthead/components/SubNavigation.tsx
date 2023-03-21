@@ -46,8 +46,8 @@ const StyledSpan = styled.span<StyledSpanProps>`
   border: 2px solid ${colors.brand.primary};
   text-transform: uppercase;
   margin-top: 1rem;
-  color: ${p => (p.isActive ? colors.white : colors.brand.primary)};
-  background-color: ${p => (p.isActive ? colors.brand.primary : colors.white)};
+  color: ${(p) => (p.isActive ? colors.white : colors.brand.primary)};
+  background-color: ${(p) => (p.isActive ? colors.brand.primary : colors.white)};
 `;
 
 const StyledNavLink = styled(NavLink)`
@@ -80,7 +80,7 @@ interface Props {
 const SubNavigation = ({ subtypes }: Props) => (
   <Container>
     <ItemsWrapper>
-      {subtypes.map(subtype => (
+      {subtypes.map((subtype) => (
         <StyledNavLink key={`typemenu_${subtype.type}`} id={subtype.type} to={subtype.url}>
           {({ isActive }) => (
             <>

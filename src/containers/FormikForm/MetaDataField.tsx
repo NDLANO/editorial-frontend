@@ -35,7 +35,8 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
         name="tags"
         label={t('form.tags.label')}
         showError
-        description={t('form.tags.description')}>
+        description={t('form.tags.description')}
+      >
         {({ field, form }) => (
           <AsyncSearchTags
             multiSelect
@@ -57,7 +58,8 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
         maxLength={155}
         showMaxLength
         label={t('form.metaDescription.label')}
-        description={t('form.metaDescription.description')}>
+        description={t('form.metaDescription.description')}
+      >
         {({ field }) => (
           <PlainTextEditor
             id={field.name}

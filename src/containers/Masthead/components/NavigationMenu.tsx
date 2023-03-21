@@ -120,7 +120,8 @@ const OpenMenu = ({ close }: Props) => {
                 href={config.brightcoveUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                onClick={close}>
+                onClick={close}
+              >
                 <span>
                   <Video /> {t('subNavigation.brightcoveLink')} <Launch />
                 </span>
@@ -130,7 +131,8 @@ const OpenMenu = ({ close }: Props) => {
               href={config.learningpathFrontendDomain}
               target="_blank"
               rel="noopener noreferrer"
-              onClick={close}>
+              onClick={close}
+            >
               <span>
                 <ContentTypeBadge type={contentTypes.LEARNING_PATH} background size="xx-small" />{' '}
                 {t('subNavigation.learningPathLink')} <Launch />

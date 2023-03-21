@@ -100,7 +100,7 @@ const SwapTopicArticle = ({
         draft.id,
         {
           revision: draft.revision,
-          notes: draft.notes.map(n => n.note).concat('Artikkel satt som nytt emne'),
+          notes: draft.notes.map((n) => n.note).concat('Artikkel satt som nytt emne'),
         },
         taxonomyVersion,
       );
@@ -118,10 +118,10 @@ const SwapTopicArticle = ({
           onChange={handleSubmit}
           placeholder={t('taxonomy.swapTopicArticle.placeholder')}
           params={{ 'context-types': 'topic-article', language: i18n.language }}
-          transform={res => {
+          transform={(res) => {
             return {
               ...res,
-              results: res.results.map(r => ({
+              results: res.results.map((r) => ({
                 originalItem: r,
                 name: r.title.title,
                 id: r.id,

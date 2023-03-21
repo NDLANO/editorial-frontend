@@ -25,10 +25,10 @@ import { NewMessageType, useMessages } from '../../containers/Messages/MessagesP
 import { ConceptStatusStateMachineType, DraftStatusStateMachineType } from '../../interfaces';
 import ResponsibleSelect from '../../containers/FormikForm/components/ResponsibleSelect';
 import StatusSelect from '../../containers/FormikForm/components/StatusSelect';
-import { requiredFieldsT } from '../../util/yupHelpers';
 import { ARCHIVED, PUBLISHED, UNPUBLISHED } from '../../constants';
 import PreviewDraftLightboxV2 from '../PreviewDraft/PreviewDraftLightboxV2';
 import { useDisableConverter } from '../ArticleConverterContext';
+import { useSession } from '../../containers/Session/SessionProvider';
 
 interface Props {
   formIsDirty: boolean;
@@ -73,7 +73,7 @@ const StyledFooter = styled.div`
   margin-left: auto;
 `;
 
-const STATUSES_RESPONSIBLE_NOT_REQUIRED = [PUBLISHED, ARCHIVED, UNPUBLISHED];
+const STATUSES_RESET_RESPONSIBLE = [ARCHIVED, UNPUBLISHED];
 
 function EditorFooter<T extends FormValues>({
   formIsDirty,
@@ -95,6 +95,7 @@ function EditorFooter<T extends FormValues>({
   const [status, setStatus] = useState<SingleValue>(null);
   const [responsible, setResponsible] = useState<SingleValue>(null);
 
+  const { ndlaId } = useSession();
   const { t } = useTranslation();
   const { values, setFieldValue, isSubmitting } = useFormikContext<T>();
   const { createMessage, formatErrorMessage } = useMessages();
@@ -105,25 +106,16 @@ function EditorFooter<T extends FormValues>({
   const articleOrConcept = isArticle || isConcept;
 
   useEffect(() => {
-    if (newStatus && newStatus.value === PUBLISHED) {
-      onSave();
+    if (newStatus?.value === PUBLISHED) {
+      onSaveClick();
       setNewStatus(null);
-      setResponsible(null);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [newStatus]);
 
-  const onSave = (saveAsNewVersion?: boolean) => {
-    if (
-      !responsible &&
-      STATUSES_RESPONSIBLE_NOT_REQUIRED.every(s => s !== newStatus?.value) &&
-      articleOrConcept
-    ) {
-      createMessage({
-        message: requiredFieldsT('form.responsible.label', t),
-        timeToLive: 0,
-      });
-      return;
+  const onSave = (saveAsNewVersion?: boolean | undefined) => {
+    if (STATUSES_RESET_RESPONSIBLE.find((s) => s === status?.value)) {
+      updateResponsible(null);
     }
     onSaveClick(saveAsNewVersion);
   };
@@ -185,11 +177,6 @@ function EditorFooter<T extends FormValues>({
         setStatus(status);
       }
       setFieldValue('status', { current: status?.value });
-
-      // When status changes user should also update responsible
-      if (responsible && responsible.value === responsibleId) {
-        updateResponsible(null);
-      }
     } catch (error) {
       catchError(error, createMessage);
     }
@@ -205,7 +192,7 @@ function EditorFooter<T extends FormValues>({
                 responsible={responsible}
                 setResponsible={setResponsible}
                 onSave={updateResponsible}
-                responsibleId={responsibleId}
+                responsibleId={ndlaId}
               />
             </Wrapper>
           )}
@@ -237,7 +224,8 @@ function EditorFooter<T extends FormValues>({
           {values.id && isArticle && (
             <FooterLinkButton
               bold
-              onClick={() => window.open(toPreviewDraft(values.id, values.language))}>
+              onClick={() => window.open(toPreviewDraft(values.id, values.language))}
+            >
               {t('form.preview.button')}
               <Launch />
             </FooterLinkButton>

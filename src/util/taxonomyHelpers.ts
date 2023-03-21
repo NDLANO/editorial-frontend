@@ -48,9 +48,9 @@ const flattenResourceTypesAndAddContextTypes = (
   t: (key: string) => string,
 ) => {
   const resourceTypes: FlattenedResourceType[] = [];
-  data.forEach(type => {
+  data.forEach((type) => {
     if (type.subtypes) {
-      type.subtypes.forEach(subtype =>
+      type.subtypes.forEach((subtype) =>
         resourceTypes.push({
           typeName: type.name,
           typeId: type.id,
@@ -85,8 +85,8 @@ export const groupResourcesByType = (
   }, {});
 
   const typeToResourcesMapping = resources
-    .flatMap(res =>
-      res.resourceTypes.map<[string, ResourceWithNodeConnectionAndMeta]>(rt => [rt.id, res]),
+    .flatMap((res) =>
+      res.resourceTypes.map<[string, ResourceWithNodeConnectionAndMeta]>((rt) => [rt.id, res]),
     )
     .reduce<Record<string, { parent: string; resources: ResourceWithNodeConnectionAndMeta[] }>>(
       (acc, [id, curr]) => {
@@ -103,14 +103,14 @@ export const groupResourcesByType = (
       {},
     );
 
-  const groupedValues = groupBy(Object.values(typeToResourcesMapping), t => t.parent);
+  const groupedValues = groupBy(Object.values(typeToResourcesMapping), (t) => t.parent);
 
   const unique = Object.entries(groupedValues).reduce<
     Record<string, ResourceWithNodeConnectionAndMeta[]>
   >((acc, [id, val]) => {
     const uniqueValues = uniqBy(
-      val.flatMap(v => v.resources),
-      r => r.id,
+      val.flatMap((v) => v.resources),
+      (r) => r.id,
     );
 
     acc[id] = uniqueValues;
@@ -118,12 +118,12 @@ export const groupResourcesByType = (
   }, {});
 
   return resourceTypes
-    .map(rt => ({
+    .map((rt) => ({
       ...rt,
-      resources: sortBy(unique[rt.id], res => res.rank) ?? [],
+      resources: sortBy(unique[rt.id], (res) => res.rank) ?? [],
       contentType: getContentTypeFromResourceTypes([rt]).contentType,
     }))
-    .filter(rt => rt.resources.length > 0);
+    .filter((rt) => rt.resources.length > 0);
 };
 
 const sortIntoCreateDeleteUpdate = <T extends { id: string }>({
@@ -137,14 +137,16 @@ const sortIntoCreateDeleteUpdate = <T extends { id: string }>({
 }) => {
   const updateItems: T[] = [];
   const createItems: T[] = [];
-  const deleteItems = originalItems.filter(item => {
-    const originalItemInChangedItem = changedItems.find(changedItem => changedItem.id === item.id);
+  const deleteItems = originalItems.filter((item) => {
+    const originalItemInChangedItem = changedItems.find(
+      (changedItem) => changedItem.id === item.id,
+    );
     return !originalItemInChangedItem;
   });
-  changedItems.forEach(changedItem => {
-    const foundItem = originalItems.find(item => item.id === changedItem.id);
+  changedItems.forEach((changedItem) => {
+    const foundItem = originalItems.find((item) => item.id === changedItem.id);
     if (foundItem) {
-      updateProperties.forEach(updateProperty => {
+      updateProperties.forEach((updateProperty) => {
         if (foundItem[updateProperty] !== changedItem[updateProperty]) {
           updateItems.push({
             ...foundItem,
@@ -166,7 +168,7 @@ const getResourcesGroupedByResourceTypes = (
   resourcesByTopic: TopicResource[],
 ): Record<string, TopicResource[]> => {
   return resourcesByTopic.reduce<Record<string, TopicResource[]>>((obj, resource) => {
-    const resourceTypesWithResources = resource.resourceTypes.map(type => {
+    const resourceTypesWithResources = resource.resourceTypes.map((type) => {
       const existing = obj[type.id] ?? [];
       return { ...type, resources: [...existing, resource] };
     });
@@ -184,11 +186,11 @@ const getTopicResourcesByType = (
   groupedResourceListItem: Record<string, TopicResource[]>,
 ): (ResourceType & { resources: TopicResource[] })[] => {
   return resourceTypes
-    .map(type => {
+    .map((type) => {
       const resources: TopicResource[] = groupedResourceListItem[type.id] ?? [];
       return { ...type, resources };
     })
-    .filter(type => type.resources.length > 0);
+    .filter((type) => type.resources.length > 0);
 };
 
 const topicResourcesByTypeWithMetaData = (
@@ -196,7 +198,7 @@ const topicResourcesByTypeWithMetaData = (
     resources: TopicResource[];
   })[],
 ) => {
-  return resorceTypesByTopic.map(type => ({
+  return resorceTypesByTopic.map((type) => ({
     ...type,
     contentType: getContentTypeFromResourceTypes([type]).contentType,
   }));
@@ -219,7 +221,7 @@ export const safeConcat = <T>(toAdd: T, existing?: T[]) =>
   existing ? existing.concat(toAdd) : [toAdd];
 
 const insertSubTopic = (topics: SubjectTopic[], subTopic: SubjectTopic): SubjectTopic[] => {
-  return topics.map(topic => {
+  return topics.map((topic) => {
     if (topic.id === subTopic.parent) {
       return { ...topic, subtopics: safeConcat(subTopic, topic.subtopics) };
     }
@@ -230,7 +232,7 @@ const insertSubTopic = (topics: SubjectTopic[], subTopic: SubjectTopic): Subject
   });
 };
 const insertChild = (childNodes: ChildNodeType[], childNode: ChildNodeType): ChildNodeType[] => {
-  return childNodes.map(node => {
+  return childNodes.map((node) => {
     if (node.id === childNode.parent) {
       return { ...node, childNodes: safeConcat(childNode, node.childNodes) };
     }
@@ -244,7 +246,7 @@ const insertChild = (childNodes: ChildNodeType[], childNode: ChildNodeType): Chi
 const groupChildNodes = (childNodes: ChildNodeType[]) =>
   childNodes.reduce((acc, curr) => {
     if (curr.parent.includes('subject')) return acc;
-    const withoutCurrent = acc.filter(node => node.id !== curr.id);
+    const withoutCurrent = acc.filter((node) => node.id !== curr.id);
     return insertChild(withoutCurrent, curr);
   }, childNodes);
 
@@ -253,7 +255,7 @@ const groupTopics = (allTopics: SubjectTopic[]) =>
     const mainTopic = curr.parent.includes('subject');
     if (mainTopic) return acc;
     return insertSubTopic(
-      acc.filter(topic => topic.id !== curr.id),
+      acc.filter((topic) => topic.id !== curr.id),
       curr,
     );
   }, allTopics);
@@ -272,22 +274,22 @@ const getCurrentTopic = ({
   const topics = subtopics?.split('/');
   if (topics && topics.length > 0) {
     const lastTopic = topics.slice(-1)[0];
-    return allTopics.find(t => t.id === lastTopic);
+    return allTopics.find((t) => t.id === lastTopic);
   }
   if (topic) {
-    return allTopics.find(t => t.id === topic);
+    return allTopics.find((t) => t.id === topic);
   }
 };
 
 const getSubtopics = (topicId: string, allTopics: SubjectTopic[]) => {
-  return allTopics.filter(t => t.parent === topicId);
+  return allTopics.filter((t) => t.parent === topicId);
 };
 
 const selectedResourceTypeValue = (resourceTypes: { id: string; parentId?: string }[]): string => {
   if (resourceTypes.length === 0) {
     return '';
   }
-  const withParentId = resourceTypes.find(resourceType => resourceType.parentId);
+  const withParentId = resourceTypes.find((resourceType) => resourceType.parentId);
   if (withParentId) {
     return `${withParentId.parentId},${withParentId.id}`;
   }
@@ -299,7 +301,7 @@ const pathToUrnArray = (path: string) =>
   path
     .split('/')
     .splice(1)
-    .map(url => `urn:${url}`);
+    .map((url) => `urn:${url}`);
 
 const updateRelevanceId = (
   connectionId: string,
@@ -331,9 +333,9 @@ const getBreadcrumbFromPath = async (
   const [subjectPath, ...topicPaths] = pathToUrnArray(path);
   const subjectAndTopics = await Promise.all([
     fetchSubject({ id: subjectPath, language, taxonomyVersion }),
-    ...topicPaths.map(id => fetchTopic({ id, language, taxonomyVersion })),
+    ...topicPaths.map((id) => fetchTopic({ id, language, taxonomyVersion })),
   ]);
-  return subjectAndTopics.map(element => ({
+  return subjectAndTopics.map((element) => ({
     id: element.id,
     name: element.name,
     metadata: element.metadata,

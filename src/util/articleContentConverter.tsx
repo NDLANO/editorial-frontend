@@ -34,12 +34,11 @@ import { relatedSerializer } from '../components/SlateEditor/plugins/related';
 import { embedSerializer } from '../components/SlateEditor/plugins/embed';
 import { codeblockSerializer } from '../components/SlateEditor/plugins/codeBlock';
 import { noEmbedSerializer } from '../components/SlateEditor/plugins/noEmbed';
-import { defaultEmbedBlock } from '../components/SlateEditor/plugins/embed/utils';
+import { defaultEmbedBlock, isSlateEmbed } from '../components/SlateEditor/plugins/embed/utils';
 import { parseEmbedTag, createEmbedTag } from './embedTagHelpers';
 import { Embed } from '../interfaces';
 import { divSerializer } from '../components/SlateEditor/plugins/div';
 import { spanSerializer } from '../components/SlateEditor/plugins/span';
-import { TYPE_NDLA_EMBED } from '../components/SlateEditor/plugins/embed/types';
 import { TYPE_PARAGRAPH } from '../components/SlateEditor/plugins/paragraph/types';
 import { TYPE_SECTION } from '../components/SlateEditor/plugins/section/types';
 import { conceptListSerializer } from '../components/SlateEditor/plugins/conceptList';
@@ -176,10 +175,8 @@ const articleContentToEditorValue = (html: string, rules: SlateSerializer[]) => 
       if (!rule.deserialize) {
         continue;
       }
-
       // Already checked that nodeType === 1 -> el must be of type HTMLElement.
       const ret = rule.deserialize(el as HTMLElement, children);
-
       if (ret === undefined) {
         continue;
       } else {
@@ -192,7 +189,7 @@ const articleContentToEditorValue = (html: string, rules: SlateSerializer[]) => 
 
   const document = new DOMParser().parseFromString(html, 'text/html');
   const nodes = toArray(document.body.children).map(deserialize);
-  const normalizedNodes = compact(nodes.map(n => convertFromHTML(Node.isNodeList(n) ? n[0] : n)));
+  const normalizedNodes = compact(nodes.map((n) => convertFromHTML(Node.isNodeList(n) ? n[0] : n)));
   return normalizedNodes;
 };
 
@@ -231,7 +228,8 @@ export function embedTagToEditorValue(embedTag: string) {
 
 export function editorValueToEmbed(editorValue?: Descendant[]) {
   const embed = editorValue && editorValue[0];
-  if (Element.isElement(embed) && embed.type === TYPE_NDLA_EMBED) return embed?.data;
+  if (embed && isSlateEmbed(embed)) return embed.data;
+  else return undefined;
 }
 
 export function editorValueToEmbedTag(editorValue?: Descendant[]) {

@@ -126,7 +126,7 @@ const LearningResourceTaxonomy = ({ article, taxonomy, updateNotes, setIsOpen }:
   const onChangeSelectedResource = (evt: FormEvent<HTMLSelectElement>) => {
     const options = evt.currentTarget?.value?.split(',');
     const selectedResource = availableResourceTypes.find(
-      resourceType => resourceType.id === options[0],
+      (resourceType) => resourceType.id === options[0],
     );
 
     if (selectedResource) {
@@ -140,7 +140,7 @@ const LearningResourceTaxonomy = ({ article, taxonomy, updateNotes, setIsOpen }:
       ];
 
       if (options.length > 1) {
-        const subType = selectedResource.subtypes?.find(subtype => subtype.id === options[1]);
+        const subType = selectedResource.subtypes?.find((subtype) => subtype.id === options[1]);
         if (subType)
           resourceTypes.push({
             id: subType.id,
@@ -154,7 +154,7 @@ const LearningResourceTaxonomy = ({ article, taxonomy, updateNotes, setIsOpen }:
   };
 
   const getSubjectTopics = async (subjectid: string) => {
-    if (structure.some(subject => subject.id === subjectid && subject.topics)) {
+    if (structure.some((subject) => subject.id === subjectid && subject.topics)) {
       return;
     }
     try {
@@ -174,7 +174,7 @@ const LearningResourceTaxonomy = ({ article, taxonomy, updateNotes, setIsOpen }:
     const { topics } = taxonomyChanges;
 
     stageTaxonomyChanges({
-      topics: topics?.map(topic => ({
+      topics: topics?.map((topic) => ({
         ...topic,
         primary: topic.id === id,
       })),
@@ -185,7 +185,7 @@ const LearningResourceTaxonomy = ({ article, taxonomy, updateNotes, setIsOpen }:
     const { topics } = taxonomyChanges;
 
     stageTaxonomyChanges({
-      topics: topics?.map(topic => ({
+      topics: topics?.map((topic) => ({
         ...topic,
         ...(topic.id === topicId && {
           relevanceId,
@@ -232,9 +232,9 @@ const LearningResourceTaxonomy = ({ article, taxonomy, updateNotes, setIsOpen }:
         fetchSubjects({ language: i18n.language, taxonomyVersion }),
       ]);
 
-      const sortedSubjects = subjects.filter(subject => subject.name).sort(sortByName);
+      const sortedSubjects = subjects.filter((subject) => subject.name).sort(sortByName);
       if (!error) {
-        setAvailableResourceTypes(allResourceTypes.filter(resourceType => resourceType.name));
+        setAvailableResourceTypes(allResourceTypes.filter((resourceType) => resourceType.name));
         setStructure(sortedSubjects);
       }
     } catch (e) {
@@ -291,7 +291,7 @@ const LearningResourceTaxonomy = ({ article, taxonomy, updateNotes, setIsOpen }:
   };
 
   const silentlyRefetchResourceTaxonomy = async () => {
-    await new Promise(resolve => {
+    await new Promise((resolve) => {
       setTimeout(resolve, 5000);
     });
     const resourceTaxonomy = await fetchFullResource(resourceId, i18n.language ?? '');
@@ -307,17 +307,18 @@ const LearningResourceTaxonomy = ({ article, taxonomy, updateNotes, setIsOpen }:
       language: locale,
       taxonomyVersion,
     });
-    const sortedParents = parents.filter(pt => pt.path).sort((a, b) => (a.id < b.id ? -1 : 1));
+    const sortedParents = parents.filter((pt) => pt.path).sort((a, b) => (a.id < b.id ? -1 : 1));
 
     const topicConnections = await Promise.all(
-      sortedParents.map(topic => fetchTopicConnections({ id: topic.id, taxonomyVersion })),
+      sortedParents.map((topic) => fetchTopicConnections({ id: topic.id, taxonomyVersion })),
     );
     const topicResources = await Promise.all(
-      sortedParents.map(topic => fetchTopicResources({ topicUrn: topic.id, taxonomyVersion })),
+      sortedParents.map((topic) => fetchTopicResources({ topicUrn: topic.id, taxonomyVersion })),
     );
     const topicsWithConnectionsAndRelevanceId = sortedParents.map(async (topic, index) => {
-      const foundRelevanceId = topicResources[index]?.find(resource => resource.id === resourceId)
-        ?.relevanceId;
+      const foundRelevanceId = topicResources[index]?.find(
+        (resource) => resource.id === resourceId,
+      )?.relevanceId;
       const breadcrumb = await getBreadcrumbFromPath(topic.path, taxonomyVersion, locale);
       return {
         ...topic,
@@ -338,7 +339,7 @@ const LearningResourceTaxonomy = ({ article, taxonomy, updateNotes, setIsOpen }:
 
   const updateSubject = (subjectId: string, newSubject: Partial<LearningResourceSubjectType>) => {
     setStructure(
-      structure.map(subject =>
+      structure.map((subject) =>
         subject.id === subjectId ? { ...subject, ...newSubject } : subject,
       ),
     );
@@ -346,7 +347,7 @@ const LearningResourceTaxonomy = ({ article, taxonomy, updateNotes, setIsOpen }:
 
   const removeConnection = (id: string) => {
     const { topics } = taxonomyChanges;
-    const updatedTopics = topics?.filter(topic => topic.id !== id);
+    const updatedTopics = topics?.filter((topic) => topic.id !== id);
 
     // Auto set primary of only one connection.
     if (updatedTopics?.length === 1) {
@@ -388,7 +389,7 @@ const LearningResourceTaxonomy = ({ article, taxonomy, updateNotes, setIsOpen }:
       setIsDirty(false);
       changeVersion(newVersion.value);
       qc.removeQueries({
-        predicate: query => {
+        predicate: (query) => {
           const qk = query.queryKey as [string, Record<string, any>];
           return qk[1]?.taxonomyVersion === oldVersion;
         },
@@ -416,11 +417,11 @@ const LearningResourceTaxonomy = ({ article, taxonomy, updateNotes, setIsOpen }:
   const filteredResourceTypes = useMemo(
     () =>
       availableResourceTypes
-        .filter(rt => !blacklistedResourceTypes.includes(rt.id))
-        .map(rt => ({
+        .filter((rt) => !blacklistedResourceTypes.includes(rt.id))
+        .map((rt) => ({
           ...rt,
           subtype:
-            rt.subtypes && rt.subtypes.filter(st => !blacklistedResourceTypes.includes(st.id)),
+            rt.subtypes && rt.subtypes.filter((st) => !blacklistedResourceTypes.includes(st.id)),
         })),
     [availableResourceTypes],
   );

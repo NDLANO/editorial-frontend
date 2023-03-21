@@ -68,7 +68,8 @@ const SettingsMenu = ({ node, rootNodeId, onCurrentNodeChanged, nodeChildren }: 
           variant="stripped"
           data-cy="settings-button"
           aria-label={t(`taxonomy.${nodeType.toLowerCase()}Settings`)}
-          colorTheme="primary">
+          colorTheme="primary"
+        >
           <Settings />
         </StyledIconButton>
       </Trigger>

@@ -39,7 +39,7 @@ const VisualElementModalWrapper = ({ resource, children, onClose, isOpen, label 
   if (resource === 'h5p') {
     return (
       <StyledModal controlled isOpen={isOpen} size="large" onClose={onClose}>
-        {_ => <StyledModalBody>{children}</StyledModalBody>}
+        {(_) => <StyledModalBody>{children}</StyledModalBody>}
       </StyledModal>
     );
   }
@@ -49,7 +49,8 @@ const VisualElementModalWrapper = ({ resource, children, onClose, isOpen, label 
       label={label}
       isOpen={isOpen}
       size="large"
-      onClose={onClose}>
+      onClose={onClose}
+    >
       {(onCloseModal: () => void) => (
         <>
           <ModalHeader>

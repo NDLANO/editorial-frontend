@@ -21,8 +21,8 @@ const StyledBreadCrumb = styled('div')`
 `;
 
 const StyledLink = styled(SafeLink)<StyleProps>`
-  font-style: ${props => !props.isVisible && 'italic'};
-  color: ${props => (!props.isVisible ? colors.brand.grey : colors.brand.primary)};
+  font-style: ${(props) => !props.isVisible && 'italic'};
+  color: ${(props) => (!props.isVisible ? colors.brand.grey : colors.brand.primary)};
 `;
 
 const StyledSpan = styled.span`

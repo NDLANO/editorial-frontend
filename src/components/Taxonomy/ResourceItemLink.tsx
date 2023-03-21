@@ -12,8 +12,8 @@ import { colors, mq, breakpoints } from '@ndla/core';
 import { toEditArticle, toLearningpathFull } from '../../util/routeHelpers';
 
 const StyledH1 = styled.h1<{ isVisible?: boolean }>`
-  font-style: ${props => !props.isVisible && 'italic'};
-  color: ${props => (!props.isVisible ? colors.brand.grey : colors.brand.primary)};
+  font-style: ${(props) => !props.isVisible && 'italic'};
+  color: ${(props) => (!props.isVisible ? colors.brand.grey : colors.brand.primary)};
   text-transform: none;
   letter-spacing: 0;
   margin: 0;
@@ -57,7 +57,8 @@ const ResourceItemLink = ({ contentType, contentUri, locale, name, isVisible = t
       <Link
         to={toEditArticle(parseInt(linkTo), contentType!)}
         target="_blank"
-        rel="noopener noreferrer">
+        rel="noopener noreferrer"
+      >
         <StyledH1 isVisible={isVisible}>{name}</StyledH1>
       </Link>
     );

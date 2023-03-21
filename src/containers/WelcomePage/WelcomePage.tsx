@@ -37,9 +37,10 @@ export const WelcomePage = () => {
     enabled: isValid(getAccessToken()) && getAccessTokenPersonal(),
   });
   const { ndlaId } = useSession();
-  const lastUsed = useMemo(() => data?.latestEditedArticles?.map(l => Number(l)) ?? [], [
-    data?.latestEditedArticles,
-  ]);
+  const lastUsed = useMemo(
+    () => data?.latestEditedArticles?.map((l) => Number(l)) ?? [],
+    [data?.latestEditedArticles],
+  );
 
   localStorage.setItem('lastPath', '');
 
@@ -50,7 +51,7 @@ export const WelcomePage = () => {
         <MainArea>
           <WelcomeHeader />
         </MainArea>
-        <MainArea>{ndlaId && <WorkList ndlaId={ndlaId} userData={data} />}</MainArea>
+        <MainArea>{ndlaId && <WorkList ndlaId={ndlaId} />}</MainArea>
         <LeftColumn colStart={2}>{ndlaId && <LastUsedItems lastUsed={lastUsed} />}</LeftColumn>
         <RightColumn colEnd={12}>
           <StyledColumnHeader>

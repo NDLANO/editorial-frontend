@@ -75,8 +75,8 @@ interface StyledChangedPillProps {
 }
 const StyledChangedPill = styled.div<StyledChangedPillProps>`
   padding: 0 ${spacing.small};
-  background-color: ${props => props.color};
-  color: ${props => props.textColor};
+  background-color: ${(props) => props.color};
+  color: ${(props) => props.textColor};
   border-radius: 5px;
 `;
 
@@ -139,7 +139,8 @@ export const TreeNode = ({
       connectionId={connectionId}
       id={node.id.other ?? node.id.original}
       key={path}
-      greyedOut={!parentActive && !isActive}>
+      greyedOut={!parentActive && !isActive}
+    >
       <StyledItem level={level} highlight={isActive}>
         <ItemTitleButton
           type="button"
@@ -149,7 +150,8 @@ export const TreeNode = ({
           lastItemClickable={true}
           arrowDirection={90}
           onClick={onItemClick}
-          isVisible={node.metadata?.visible.other ?? node.metadata?.visible.original}>
+          isVisible={node.metadata?.visible.other ?? node.metadata?.visible.original}
+        >
           {node.name.other ?? node.name.original}
         </ItemTitleButton>
         <DiffPills>
@@ -171,7 +173,7 @@ export const TreeNode = ({
       </StyledItem>
       {hasChildNodes &&
         nodes &&
-        nodes.map(node => (
+        nodes.map((node) => (
           <StructureWrapper key={`${path}/${node.id.other ?? node.id.original}`}>
             <Fade show={true} fadeType="fadeInTop">
               <TreeNode

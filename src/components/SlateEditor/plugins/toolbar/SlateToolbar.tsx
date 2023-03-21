@@ -145,7 +145,7 @@ const SlateToolbar = (props: Props) => {
     ? learningResourceElements
     : topicArticleElements;
 
-  const markButtons = toolbarElements.mark.map(type => (
+  const markButtons = toolbarElements.mark.map((type) => (
     <ToolbarButton
       key={type}
       type={type}
@@ -157,7 +157,7 @@ const SlateToolbar = (props: Props) => {
     />
   ));
 
-  const blockButtons = toolbarElements.block.map(type => (
+  const blockButtons = toolbarElements.block.map((type) => (
     <ToolbarButton
       key={type}
       type={type}
@@ -172,7 +172,7 @@ const SlateToolbar = (props: Props) => {
       }}
     />
   ));
-  const inlineButtons = toolbarElements.inline.map(type => (
+  const inlineButtons = toolbarElements.inline.map((type) => (
     <ToolbarButton
       key={type}
       type={type}

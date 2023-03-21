@@ -100,7 +100,7 @@ const MenuItemCustomField = ({ node, onCurrentNodeChanged }: Props) => {
     <>
       <GroupTopicResources
         node={node}
-        onChanged={partialMeta =>
+        onChanged={(partialMeta) =>
           onCurrentNodeChanged({ ...node, metadata: { ...node.metadata, ...partialMeta } })
         }
       />
@@ -147,7 +147,8 @@ const MenuItemCustomField = ({ node, onCurrentNodeChanged }: Props) => {
             variant="link"
             colorTheme="greyLighter"
             data-testid="addCustomFieldButton"
-            onClick={() => setOpen(true)}>
+            onClick={() => setOpen(true)}
+          >
             <Plus />
             {t('taxonomy.metadata.customFields.addField')}
           </StyledButton>

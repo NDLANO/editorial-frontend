@@ -12,7 +12,7 @@ import { ButtonV2 } from '@ndla/button';
 
 const EditButton = styled(ButtonV2)<{ isActive: boolean }>`
   transition: color 200ms ease;
-  color: ${props => (props.isActive ? '#fff' : colors.brand.grey)};
+  color: ${(props) => (props.isActive ? '#fff' : colors.brand.grey)};
   padding: ${spacing.xsmall};
   display: flex;
   align-items: center;

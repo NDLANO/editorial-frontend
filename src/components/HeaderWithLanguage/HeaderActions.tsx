@@ -82,7 +82,8 @@ const PreviewLightBox = ({
           label={t(`articleType.${articleType!}`)}
           typeOfPreview="previewLanguageArticle"
           supportedLanguages={supportedLanguages}
-          getArticle={_ => getEntity() as IUpdatedArticle}>
+          getArticle={(_) => getEntity() as IUpdatedArticle}
+        >
           {(openPreview: () => void) => (
             <StyledFilledButton type="button" onClick={openPreview}>
               <FileCompare />
@@ -153,7 +154,7 @@ const HeaderActions = ({
     { key: 'ukr', title: t('language.ukr'), include: true },
   ];
   const emptyLanguages = languages.filter(
-    lang => lang.key !== language && !supportedLanguages.includes(lang.key) && lang.include,
+    (lang) => lang.key !== language && !supportedLanguages.includes(lang.key) && lang.include,
   );
   const translatableTypes = [
     'audio',

@@ -56,6 +56,16 @@ import { conceptListPlugin } from '../../../../components/SlateEditor/plugins/co
 import { inlineConceptPlugin } from '../../../../components/SlateEditor/plugins/concept/inline';
 import { blockConceptPlugin } from '../../../../components/SlateEditor/plugins/concept/block';
 import { definitionListPlugin } from '../../../../components/SlateEditor/plugins/definitionList';
+import { TYPE_TABLE } from '../../../../components/SlateEditor/plugins/table/types';
+import { TYPE_CODEBLOCK } from '../../../../components/SlateEditor/plugins/codeBlock/types';
+import {
+  TYPE_EMBED_H5P,
+  TYPE_EMBED_BRIGHTCOVE,
+  TYPE_EMBED_AUDIO,
+  TYPE_EMBED_EXTERNAL,
+  TYPE_EMBED_IMAGE,
+} from '../../../../components/SlateEditor/plugins/embed/types';
+import { TYPE_FILE } from '../../../../components/SlateEditor/plugins/file/types';
 
 const StyledFormikField = styled(FormikField)`
   display: flex;
@@ -87,8 +97,15 @@ const MarkdownButton = styled(IconButtonV2)<{ active: boolean }>`
 const SlugButton = styled(IconButtonV2)<{ active: boolean }>`
   color: ${p => (p.active ? colors.brand.primary : colors.brand.light)};
 `;
+const visualElements = [
+  TYPE_EMBED_H5P,
+  TYPE_EMBED_BRIGHTCOVE,
+  TYPE_EMBED_AUDIO,
+  TYPE_EMBED_EXTERNAL,
+  TYPE_EMBED_IMAGE,
+];
 
-const actions = ['table', 'ndlaembed', 'code-block', 'file'];
+const actions = [TYPE_TABLE, TYPE_CODEBLOCK, TYPE_FILE].concat(visualElements);
 const actionsToShowInAreas = {
   details: actions,
   aside: actions,
@@ -193,7 +210,8 @@ const FrontpageArticleFormContent = ({
                     variant="stripped"
                     colorTheme="light"
                     active={editSlug}
-                    onClick={() => setEditSlug(!editSlug)}>
+                    onClick={() => setEditSlug(!editSlug)}
+                  >
                     <Link />
                   </SlugButton>
                 </Tooltip>
@@ -204,7 +222,8 @@ const FrontpageArticleFormContent = ({
                   variant="stripped"
                   colorTheme="light"
                   active={preview}
-                  onClick={() => setPreview(!preview)}>
+                  onClick={() => setPreview(!preview)}
+                >
                   <Eye />
                 </MarkdownButton>
               </Tooltip>

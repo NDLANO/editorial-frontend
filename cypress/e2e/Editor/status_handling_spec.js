@@ -16,28 +16,13 @@ describe('Status changes', () => {
   beforeEach(() => {
     setToken();
     editorRoutes(ARTICLE_ID);
-    cy.apiroute(
-      'PUT',
-      `**/draft-api/v1/drafts/${ARTICLE_ID}/status/IN_PROGRESS`,
-      `statusChangeToInProgress`,
-    );
-    cy.apiroute(
-      'PUT',
-      `**/draft-api/v1/drafts/${ARTICLE_ID}/status/INTERNAL_REVIEW`,
-      `statusChangeToQueuePublish`,
-    );
-    cy.apiroute(
-      'PUT',
-      `**/draft-api/v1/drafts/${ARTICLE_ID}/status/PUBLISHED`,
-      `statusChangeToPublish`,
-    );
 
     cy.visit(`/subject-matter/learning-resource/${ARTICLE_ID}/edit/nb`);
     cy.apiwait(['@licenses', `@draft-${ARTICLE_ID}`]);
   });
 
   it('Can change status corretly', () => {
-    // change from published to proposal
+    // change from published to in progress
     cy.get('[data-cy=footerStatus]')
       .contains('Publisert')
       .click();
@@ -52,8 +37,10 @@ describe('Status changes', () => {
       .type('Ed test {enter}');
     cy.contains('Lagre').click();
     cy.get('[data-testid=saveLearningResourceButtonWrapper]').contains('Lagrer');
-    cy.apiwait(`@statusChangeToInProgress`);
+    cy.apiwait(`@updateDraft-${ARTICLE_ID}`);
     cy.get('[data-testid=saveLearningResourceButtonWrapper]').contains('Lagret');
+
+    cy.apiroute('PATCH', `/draft-api/v1/drafts/${ARTICLE_ID}`, `updatedDraft-${ARTICLE_ID}`);
 
     cy.get('[data-cy="learning-resource-title"]')
       .click()
@@ -67,9 +54,10 @@ describe('Status changes', () => {
       .type('Ed test {enter}');
     cy.contains('Lagre').click();
     cy.get('[data-testid=saveLearningResourceButtonWrapper]').contains('Lagrer');
-    cy.apiwait(`@updateDraft-${ARTICLE_ID}`);
-    cy.apiwait(`@statusChangeToQueuePublish`);
+    cy.apiwait(`@updatedDraft-${ARTICLE_ID}`);
+
     cy.get('[data-testid=saveLearningResourceButtonWrapper]').contains('Lagret');
+    cy.apiroute('PATCH', `/draft-api/v1/drafts/${ARTICLE_ID}`, `finalDraft-${ARTICLE_ID}`);
 
     cy.get('[data-cy=footerStatus]')
       .contains('Sisteblikk')
@@ -77,7 +65,7 @@ describe('Status changes', () => {
     cy.contains('Publiser').click();
 
     cy.get('[data-testid=saveLearningResourceButtonWrapper]').contains('Lagrer');
-    cy.apiwait(`@statusChangeToPublish`);
+    cy.apiwait(`@finalDraft-${ARTICLE_ID}`);
     cy.get('[data-testid=saveLearningResourceButtonWrapper]').contains('Lagret');
   });
 });

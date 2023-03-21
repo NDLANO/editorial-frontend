@@ -80,7 +80,7 @@ const TopicConnections = ({
   };
 
   const getFavoriteSubjects = (subjects: SubjectType[], favoriteSubjectIds: string[]) =>
-    subjects.filter(e => favoriteSubjectIds.includes(e.id));
+    subjects.filter((e) => favoriteSubjectIds.includes(e.id));
 
   const handleOpenToggle = ({
     path,
@@ -147,7 +147,8 @@ const TopicConnections = ({
         size="large"
         narrow
         minHeight="85vh"
-        activateButton={<ButtonV2>{t('taxonomy.topics.filestructureButton')}</ButtonV2>}>
+        activateButton={<ButtonV2>{t('taxonomy.topics.filestructureButton')}</ButtonV2>}
+      >
         {(closeModal: () => void) => (
           <>
             <ModalHeader>

@@ -23,7 +23,7 @@ export const StyledOverlay = styled.div<StyledOverlayProps>`
   border-radius: ${misc.borderRadius};
   animation-duration: 400ms;
   animation-name: fadeInOverlay;
-  ${props =>
+  ${(props) =>
     props.withArrow
       ? css`
           &:before {

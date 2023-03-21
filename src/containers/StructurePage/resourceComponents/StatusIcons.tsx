@@ -95,7 +95,8 @@ const PublishedWrapper = ({ path, children }: { path?: string; children: ReactEl
   return (
     <StyledLink
       target="_blank"
-      to={`${config.ndlaFrontendDomain}${path}?versionHash=${taxonomyVersion}`}>
+      to={`${config.ndlaFrontendDomain}${path}?versionHash=${taxonomyVersion}`}
+    >
       {children}
     </StyledLink>
   );

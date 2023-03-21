@@ -1,17 +1,17 @@
 {
   "id": 533,
   "oldNdlaUrl": "//red.ndla.no/node/153041",
-  "revision": 35,
+  "revision": 37,
   "status": {
-    "current": "PUBLISHED",
-    "other": ["IMPORTED"]
+    "current": "INTERNAL_REVIEW",
+    "other": ["IMPORTED", "PUBLISHED"]
   },
   "title": {
-    "title": "Gassinjeksjon i Some change",
+    "title": "Gassinjeksjon i Some changeSome change",
     "language": "nb"
   },
   "content": {
-    "content": "<section><p> Cypress Test </p></section>",
+    "content": "<section><p>TEST</p></section>",
     "language": "nb"
   },
   "copyright": {
@@ -41,11 +41,11 @@
   },
   "requiredLibraries": [],
   "introduction": {
-    "introduction": "cypress test",
+    "introduction": "Test.",
     "language": "nb"
   },
   "metaDescription": {
-    "metaDescription": "cypress test",
+    "metaDescription": "Test.",
     "language": "nb"
   },
   "metaImage": {
@@ -54,12 +54,22 @@
     "language": "nb"
   },
   "created": "2015-11-24T16:12:51Z",
-  "updated": "2021-03-23T08:17:31Z",
+  "updated": "2021-03-23T08:23:55Z",
   "updatedBy": "XVtdp6Ik4kdLDjMTQE2CIxnGB6Gvhr2n",
   "published": "2018-06-29T08:13:49Z",
   "articleType": "standard",
   "supportedLanguages": ["nb"],
-  "notes": [],
+  "notes": [
+    {
+      "note": "Status endret",
+      "user": "XVtdp6Ik4kdLDjMTQE2CIxnGB6Gvhr2n",
+      "status": {
+        "current": "PROPOSAL",
+        "other": ["IMPORTED", "PUBLISHED"]
+      },
+      "timestamp": "2021-03-23T08:23:46Z"
+    }
+  ],
   "editorLabels": [],
   "grepCodes": [],
   "conceptIds": [],
@@ -67,10 +77,21 @@
   "relatedContent": [],
   "revisions": [
     {
-      "id": "90cca8e3-a2eb-48b4-bc52-2330ad5f5f3f",
       "revisionDate": "2030-01-01T00:00:00Z",
       "note": "Automatisk revisjonsdato satt av systemet.",
       "status": "needs-revision"
+    },
+    {
+      "note": "Status endret",
+      "user": "XVtdp6Ik4kdLDjMTQE2CIxnGB6Gvhr2n",
+      "status": { "current": "IN_PROGRESS", "other": ["PUBLISHED"] },
+      "timestamp": "2023-03-10T16:18:15Z"
+    },
+    {
+      "note": "Status endret",
+      "user": "XVtdp6Ik4kdLDjMTQE2CIxnGB6Gvhr2n",
+      "status": { "current": "INTERNAL_REVIEW", "other": ["PUBLISHED", "IN_PROGRESS"] },
+      "timestamp": "2023-03-10T16:18:20Z"
     }
   ]
 }

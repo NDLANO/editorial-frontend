@@ -69,7 +69,8 @@ const FolderItem = ({
         <StyledResourceButton
           variant="outline"
           disabled={resourcesLoading}
-          onClick={() => jumpToResources?.()}>
+          onClick={() => jumpToResources?.()}
+        >
           <Row>
             {t('taxonomy.jumpToResources')}
             {!!resourcesLoading && <Spinner appearance="small" />}

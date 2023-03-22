@@ -55,7 +55,7 @@ export const useMessages = () => {
 
   const errorMessageFromError = (error: MessageError): string => {
     const jsonMessage = error?.json?.messages
-      ?.map(message => `${message.field}: ${message.message}`)
+      ?.map((message) => `${message.field}: ${message.message}`)
       .join(', ');
     if (jsonMessage !== undefined) return jsonMessage;
 
@@ -74,16 +74,16 @@ export const useMessages = () => {
 
   const createMessage = (newMessage: NewMessageType) => {
     const message = formatNewMessage(newMessage);
-    setMessages(messages => [...messages, message]);
+    setMessages((messages) => [...messages, message]);
   };
 
   const createMessages = (newMessages: NewMessageType[]) => {
-    const formattedMessages = newMessages.map(newMessage => formatNewMessage(newMessage));
-    setMessages(messages => [...messages, ...formattedMessages]);
+    const formattedMessages = newMessages.map((newMessage) => formatNewMessage(newMessage));
+    setMessages((messages) => [...messages, ...formattedMessages]);
   };
 
   const applicationError = (error: MessageError) => {
-    const maybeMessages: MessageType[] | undefined = error.json?.messages?.map(m => ({
+    const maybeMessages: MessageType[] | undefined = error.json?.messages?.map((m) => ({
       id: uuid(),
       message: `${m.field}: ${m.message}`,
       severity: 'danger',
@@ -99,7 +99,7 @@ export const useMessages = () => {
     }
   };
 
-  const clearMessage = (id: string) => setMessages(prev => prev.filter(m => m.id !== id));
+  const clearMessage = (id: string) => setMessages((prev) => prev.filter((m) => m.id !== id));
   const clearMessages = () => setMessages([]);
 
   return {

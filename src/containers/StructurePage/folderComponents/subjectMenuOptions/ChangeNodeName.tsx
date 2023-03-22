@@ -80,7 +80,8 @@ const ChangeNodeName = ({ editModeHandler: { editMode, toggleEditMode }, node }:
     <>
       <MenuItemButton
         data-testid="changeNodeNameButton"
-        onClick={() => toggleEditMode('changeSubjectName')}>
+        onClick={() => toggleEditMode('changeSubjectName')}
+      >
         <RoundIcon small icon={<Pencil />} />
         {t('taxonomy.changeName.buttonTitle')}
       </MenuItemButton>
@@ -104,10 +105,14 @@ const ChangeNodeNameModal = ({ onClose, node }: ModalProps) => {
   const { taxonomyVersion } = useTaxonomyVersion();
   const { id, name } = node;
 
-  const { data: translations, isInitialLoading: loading, refetch } = useNodeTranslations(
+  const {
+    data: translations,
+    isInitialLoading: loading,
+    refetch,
+  } = useNodeTranslations(
     { id, taxonomyVersion },
     {
-      onError: e => {
+      onError: (e) => {
         handleError(e);
         setLoadError(t('taxonomy.changeName.loadError'));
       },
@@ -188,7 +193,8 @@ const ChangeNodeNameModal = ({ onClose, node }: ModalProps) => {
       controllable
       isOpen
       backgroundColor="white"
-      onClose={() => onClose()}>
+      onClose={() => onClose()}
+    >
       {(onCloseModal: () => void) => (
         <>
           <ModalHeader>
@@ -199,15 +205,16 @@ const ChangeNodeNameModal = ({ onClose, node }: ModalProps) => {
               initialValues={initialValues}
               onSubmit={(_, __) => {}}
               validationSchema={schema}
-              enableReinitialize={true}>
-              {formik => {
+              enableReinitialize={true}
+            >
+              {(formik) => {
                 const { values, dirty, isSubmitting, isValid } = formik;
                 const takenLanguages = values.translations.reduce(
                   (prev, curr) => ({ ...prev, [curr.language]: '' }),
                   {},
                 );
                 const availableLanguages = subjectpageLanguages.filter(
-                  trans => !Object.prototype.hasOwnProperty.call(takenLanguages, trans),
+                  (trans) => !Object.prototype.hasOwnProperty.call(takenLanguages, trans),
                 );
                 const formIsDirty: boolean = isFormikFormDirty({
                   values,
@@ -232,7 +239,8 @@ const ChangeNodeNameModal = ({ onClose, node }: ModalProps) => {
                             <Row key={i}>
                               <StyledFormikField
                                 name={`translations.${i}.name`}
-                                label={t(`language.${trans.language}`)}>
+                                label={t(`language.${trans.language}`)}
+                              >
                                 {({ field }) => (
                                   <Row>
                                     <Input

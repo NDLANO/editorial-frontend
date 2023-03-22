@@ -25,8 +25,8 @@ export const calcSecondsFromHMS = (hms: string) => {
   return hms
     .split(':')
     .reverse()
-    .map(numberString => parseInt(numberString, 10))
-    .filter(value => !Number.isNaN(value))
+    .map((numberString) => parseInt(numberString, 10))
+    .filter((value) => !Number.isNaN(value))
     .reduce((accumulator, number, index) => accumulator + number * Math.pow(60, index), 0);
 };
 

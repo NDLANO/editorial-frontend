@@ -45,7 +45,7 @@ const FigureButtonsContainer = styled.span<{ isBlockView?: boolean }>`
   top: 0;
   z-index: 1;
   right: 0;
-  ${p => (p.isBlockView ? 'transform: translateX(100%);' : '')}
+  ${(p) => (p.isBlockView ? 'transform: translateX(100%);' : '')}
   margin-top: ${spacing.xsmall};
 
   > * {
@@ -149,7 +149,8 @@ const BlockConceptPreview = ({ concept, handleRemove, id, isBlockView }: Props) 
             aria-label={t('form.concept.removeConcept')}
             variant="ghost"
             colorTheme="danger"
-            onClick={handleRemove}>
+            onClick={handleRemove}
+          >
             <DeleteForever />
           </IconButtonV2>
         </Tooltip>
@@ -159,7 +160,8 @@ const BlockConceptPreview = ({ concept, handleRemove, id, isBlockView }: Props) 
             variant="ghost"
             colorTheme="light"
             to={`/concept/${id}/edit/${concept.content?.language ?? i18n.language}`}
-            target="_blank">
+            target="_blank"
+          >
             <LinkIcon />
           </SafeLinkIconButton>
         </Tooltip>
@@ -174,7 +176,8 @@ const BlockConceptPreview = ({ concept, handleRemove, id, isBlockView }: Props) 
           <Tooltip
             tooltip={t('form.workflow.currentStatus', {
               status: t(`form.status.${concept?.status.current.toLowerCase()}`),
-            })}>
+            })}
+          >
             <div>
               <StyledWarnIcon />
             </div>

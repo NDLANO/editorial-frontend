@@ -26,7 +26,7 @@ interface StyledListProps {
 const StyledList = styled.ul<StyledListProps>`
   overflow: visible;
   margin: 0 0
-    ${props => (props.draggingIndex === -1 ? 0 : `${ELEMENT_HEIGHT + spacingUnit * 0.75}px`)};
+    ${(props) => (props.draggingIndex === -1 ? 0 : `${ELEMENT_HEIGHT + spacingUnit * 0.75}px`)};
   padding: 0;
   position: relative;
   list-style: none;
@@ -125,7 +125,7 @@ class ElementList extends Component<Props, State> {
       },
       () => {
         // Add transitions
-        childNodes?.forEach(node => {
+        childNodes?.forEach((node) => {
           node.style.transition = 'transform 100ms ease';
         });
         if (this.DraggingFile) {
@@ -155,7 +155,7 @@ class ElementList extends Component<Props, State> {
     this.deleteFile(-1);
 
     const childNodes = this.wrapperRef.current?.childNodes as NodeListOf<HTMLLIElement> | undefined;
-    childNodes?.forEach(node => {
+    childNodes?.forEach((node) => {
       node.style.transition = 'none';
       node.style.transform = 'none';
     });
@@ -180,7 +180,7 @@ class ElementList extends Component<Props, State> {
       this.DraggingFile.style.transform = `translateY(${this.mouseMovement + ELEMENT_HEIGHT}px)`;
     }
     this.updateTransforms(dragIndex + addToPosition);
-    this.setState(prevState => {
+    this.setState((prevState) => {
       if (prevState.draggingIndex !== dragIndex) {
         return {
           ...prevState,
@@ -197,7 +197,7 @@ class ElementList extends Component<Props, State> {
       <StyledWrapper>
         <StyledList ref={this.wrapperRef} draggingIndex={draggingIndex}>
           {elements
-            .filter(element => !!element)
+            .filter((element) => !!element)
             .map((element, index) => {
               if ('id' in element) {
                 return (

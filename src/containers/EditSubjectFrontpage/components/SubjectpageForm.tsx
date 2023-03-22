@@ -6,7 +6,6 @@
  */
 
 import { useState } from 'react';
-import { Element } from 'slate';
 import { Formik, FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
 import {
@@ -35,10 +34,10 @@ import {
 import { useMessages } from '../../Messages/MessagesProvider';
 import { queryLearningPathResource, queryResources, queryTopics } from '../../../modules/taxonomy';
 import { Resource, Topic } from '../../../modules/taxonomy/taxonomyApiInterfaces';
-import { TYPE_NDLA_EMBED } from '../../../components/SlateEditor/plugins/embed/types';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 import StyledForm from '../../../components/StyledFormComponents';
 import { NdlaErrorPayload } from '../../../util/resolveJsonOrRejectWithError';
+import { isSlateEmbed } from '../../../components/SlateEditor/plugins/embed/utils';
 
 interface Props {
   subjectpage?: ISubjectPageData;
@@ -67,7 +66,7 @@ const subjectpageRules: RulesType<SubjectPageFormikType> = {
     required: true,
     test: (values: SubjectPageFormikType) => {
       const element = values?.visualElement[0];
-      const data = Element.isElement(element) && element.type === TYPE_NDLA_EMBED && element.data;
+      const data = isSlateEmbed(element) && element.data;
       const badVisualElementId = data && 'resource_id' in data && data.resource_id === '';
       return badVisualElementId
         ? { translationKey: 'subjectpageForm.missingVisualElement' }
@@ -111,7 +110,7 @@ const SubjectpageForm = ({
 
   const fetchTaxonomyUrns = async (choices: (IArticle | ILearningPathV2)[], language: string) => {
     const fetched = await Promise.all<Topic[] | ILearningPathV2[] | Resource[]>(
-      choices.map(choice => {
+      choices.map((choice) => {
         if ('articleType' in choice && choice.articleType === 'topic-article') {
           return queryTopics({ contentId: choice.id, language, taxonomyVersion });
         } else if ('learningsteps' in choice && typeof choice.id === 'number') {
@@ -121,7 +120,7 @@ const SubjectpageForm = ({
       }),
     );
 
-    return fetched.map(resource => resource?.[0]?.id?.toString()).filter(e => e !== undefined);
+    return fetched.map((resource) => resource?.[0]?.id?.toString()).filter((e) => e !== undefined);
   };
 
   const handleSubmit = async (formik: FormikProps<SubjectPageFormikType>) => {
@@ -158,7 +157,8 @@ const SubjectpageForm = ({
       initialErrors={initialErrors}
       onSubmit={() => {}}
       enableReinitialize
-      validate={values => validateFormik(values, subjectpageRules, t)}>
+      validate={(values) => validateFormik(values, subjectpageRules, t)}
+    >
       {(formik: FormikProps<SubjectPageFormikType>) => {
         const { values, dirty, isSubmitting, errors, isValid } = formik;
 

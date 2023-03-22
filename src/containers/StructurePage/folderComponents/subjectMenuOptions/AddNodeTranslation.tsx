@@ -48,7 +48,7 @@ const AddNodeTranslation = ({ onAddTranslation, availableLanguages, defaultName 
     const { values, resetForm } = formik;
     const newObj = { name: values.name!, language: values.language! };
     onAddTranslation(newObj);
-    const next = availableLanguages.find(l => l !== values.language) ?? availableLanguages[0];
+    const next = availableLanguages.find((l) => l !== values.language) ?? availableLanguages[0];
     resetForm({ values: { language: next, name: defaultName } });
   };
 
@@ -65,11 +65,12 @@ const AddNodeTranslation = ({ onAddTranslation, availableLanguages, defaultName 
   return (
     <Formik
       initialValues={{ language: availableLanguages[0], name: defaultName }}
-      validate={values => validateFormik(values, rules, t, 'taxonomy.changeName')}
+      validate={(values) => validateFormik(values, rules, t, 'taxonomy.changeName')}
       validateOnBlur={false}
       enableReinitialize
-      onSubmit={_ => {}}>
-      {formik => {
+      onSubmit={(_) => {}}
+    >
+      {(formik) => {
         const { isValid } = formik;
         return (
           <StyledForm>
@@ -79,7 +80,7 @@ const AddNodeTranslation = ({ onAddTranslation, availableLanguages, defaultName 
                 {({ field }: FieldProps) => {
                   return (
                     <Select {...field}>
-                      {availableLanguages.map(lang => (
+                      {availableLanguages.map((lang) => (
                         <option value={lang} key={lang}>
                           {t(`language.${lang}`)}
                         </option>
@@ -100,7 +101,8 @@ const AddNodeTranslation = ({ onAddTranslation, availableLanguages, defaultName 
                     <ButtonV2
                       data-testid="addNodeNameTranslationButton"
                       onClick={() => handleAddTranslation(formik)}
-                      disabled={!isValid}>
+                      disabled={!isValid}
+                    >
                       {t('taxonomy.changeName.add')}
                     </ButtonV2>
                   </Row>

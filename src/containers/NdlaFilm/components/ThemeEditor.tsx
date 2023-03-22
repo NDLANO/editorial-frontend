@@ -96,11 +96,12 @@ const ThemeEditor = ({ onUpdateMovieTheme, selectedLanguage }: Props) => {
             <FieldHeader
               title={findName(theme.name, selectedLanguage)}
               subTitle={theme.name
-                .filter(name => name.language !== selectedLanguage)
-                .map(name => ` | ${name.name}`)
-                .join('')}>
+                .filter((name) => name.language !== selectedLanguage)
+                .map((name) => ` | ${name.name}`)
+                .join('')}
+            >
               <ThemeNameModal
-                onSaveTheme={theme => onSaveThemeName(theme, index)}
+                onSaveTheme={(theme) => onSaveThemeName(theme, index)}
                 initialTheme={{
                   name: {
                     nb: findName(theme.name, 'nb'),
@@ -115,7 +116,8 @@ const ThemeEditor = ({ onUpdateMovieTheme, selectedLanguage }: Props) => {
                     aria-label={t('ndlaFilm.editor.editMovieGroupName')}
                     variant="ghost"
                     colorTheme="lighter"
-                    onClick={(e: MouseEvent<HTMLButtonElement>) => e.preventDefault()}>
+                    onClick={(e: MouseEvent<HTMLButtonElement>) => e.preventDefault()}
+                  >
                     <Pencil />
                   </IconButtonV2>
                 }
@@ -132,13 +134,15 @@ const ThemeEditor = ({ onUpdateMovieTheme, selectedLanguage }: Props) => {
               />
               <Tooltip
                 tooltip={t('ndlaFilm.editor.deleteMovieGroup', {
-                  name: theme.name.find(name => name.language === selectedLanguage)?.name || '',
-                })}>
+                  name: theme.name.find((name) => name.language === selectedLanguage)?.name || '',
+                })}
+              >
                 <IconButtonV2
                   aria-label={t('ndlaFilm.editor.deleteMovieGroup')}
                   variant="ghost"
                   colorTheme="danger"
-                  onClick={() => onDeleteTheme(index)}>
+                  onClick={() => onDeleteTheme(index)}
+                >
                   <DeleteForever />
                 </IconButtonV2>
               </Tooltip>
@@ -150,7 +154,8 @@ const ThemeEditor = ({ onUpdateMovieTheme, selectedLanguage }: Props) => {
                   onClick={(e: MouseEvent<HTMLButtonElement>) => {
                     onMoveTheme(index, -1);
                     e.preventDefault();
-                  }}>
+                  }}
+                >
                   <ChevronUp />
                 </IconButtonV2>
               </Tooltip>
@@ -162,14 +167,15 @@ const ThemeEditor = ({ onUpdateMovieTheme, selectedLanguage }: Props) => {
                   onClick={(e: MouseEvent<HTMLButtonElement>) => {
                     onMoveTheme(index, 1);
                     e.preventDefault();
-                  }}>
+                  }}
+                >
                   <ChevronDown />
                 </IconButtonV2>
               </Tooltip>
             </FieldHeader>
             <ThemeMovies
               movies={theme.movies}
-              onMoviesUpdated={movies => onAddMovieToTheme(movies, index)}
+              onMoviesUpdated={(movies) => onAddMovieToTheme(movies, index)}
               placeholder={t('ndlaFilm.editor.addMovieToGroup', {
                 name: findName(theme.name, selectedLanguage),
               })}

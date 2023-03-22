@@ -119,7 +119,8 @@ const TableIconButton = ({ operation, onClick, children }: TableIconButtonProps)
       type="button"
       data-cy={operation}
       aria-label={t(`form.content.table.${operation}`)}
-      onMouseDown={(e: MouseEvent<HTMLButtonElement>) => onClick(e, operation)}>
+      onMouseDown={(e: MouseEvent<HTMLButtonElement>) => onClick(e, operation)}
+    >
       {children}
     </IconButtonV2>
   );
@@ -204,7 +205,8 @@ const TableActions = ({ editor, element }: Props) => {
             data-cy={'edit-colgroups'}
             variant="stripped"
             title={t('form.content.table.edit-colgroups')}
-            onMouseDown={(e: MouseEvent<HTMLButtonElement>) => handleOnClick(e, 'edit-colgroups')}>
+            onMouseDown={(e: MouseEvent<HTMLButtonElement>) => handleOnClick(e, 'edit-colgroups')}
+          >
             {t('form.content.table.colgroups')}
             <Pencil />
           </ButtonV2>
@@ -225,7 +227,8 @@ const TableActions = ({ editor, element }: Props) => {
                 data-cy={'head-add'}
                 variant="stripped"
                 title={t(`form.content.table.addHeader`)}
-                onMouseDown={(e: MouseEvent<HTMLButtonElement>) => handleOnClick(e, 'head-add')}>
+                onMouseDown={(e: MouseEvent<HTMLButtonElement>) => handleOnClick(e, 'head-add')}
+              >
                 {t(`form.content.table.addHeader`)}
               </ButtonV2>
             )}
@@ -249,7 +252,8 @@ const TableActions = ({ editor, element }: Props) => {
               `form.content.table.${
                 isTable(table) && table.rowHeaders ? 'disable-header' : 'enable-header'
               }`,
-            )}>
+            )}
+          >
             {t(
               `form.content.table.${
                 isTable(table) && table.rowHeaders ? 'disable-header' : 'enable-header'

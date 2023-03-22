@@ -50,7 +50,8 @@ const Section = ({ attributes, children, element, editor }: Props) => {
               onClick={() => {
                 const path = ReactEditor.findPath(editor, element);
                 Transforms.removeNodes(editor, { at: path });
-              }}>
+              }}
+            >
               <DeleteForever />
             </ButtonV2>
           </Tooltip>

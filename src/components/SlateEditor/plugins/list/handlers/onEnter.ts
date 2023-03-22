@@ -57,7 +57,7 @@ const onEnter = (event: KeyboardEvent, editor: Editor, next?: (event: KeyboardEv
   }
 
   Transforms.unsetNodes(editor, 'serializeAsText', {
-    match: node => Element.isElement(node) && node.type === TYPE_PARAGRAPH,
+    match: (node) => Element.isElement(node) && node.type === TYPE_PARAGRAPH,
     mode: 'lowest',
   });
 
@@ -80,7 +80,7 @@ const onEnter = (event: KeyboardEvent, editor: Editor, next?: (event: KeyboardEv
 
   // Split current listItem at selection.
   Transforms.splitNodes(editor, {
-    match: node => Element.isElement(node) && node.type === TYPE_LIST_ITEM,
+    match: (node) => Element.isElement(node) && node.type === TYPE_LIST_ITEM,
     mode: 'lowest',
   });
 };

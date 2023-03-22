@@ -45,10 +45,10 @@ const StyledButton = styled(ButtonV2, { shouldForwardProp })<StyledButtonProps>`
   border: none;
   flex: 2;
 
-  background-color: ${props =>
+  background-color: ${(props) =>
     props.isPublished ? colors.subjectMaterial.light : colors.learningPath.light};
   &:hover {
-    background-color: ${props =>
+    background-color: ${(props) =>
       props.isPublished ? colors.subjectMaterial.dark : colors.learningPath.dark};
   }
 `;
@@ -76,11 +76,13 @@ const VersionHistory = ({ resource, contentType }: Props) => {
           colorTheme="light"
           size="xsmall"
           disabled={contentType === 'learning-path'}
-          isPublished={resource.contentMeta.status.current.toLowerCase() === 'published'}>
+          isPublished={resource.contentMeta.status.current.toLowerCase() === 'published'}
+        >
           {t(`form.status.${resource.contentMeta.status.current.toLowerCase()}`)}
         </StyledButton>
-      }>
-      {close => <ModalContent onClose={close} contentType={contentType} resource={resource} />}
+      }
+    >
+      {(close) => <ModalContent onClose={close} contentType={contentType} resource={resource} />}
     </ModalV2>
   );
 };
@@ -108,7 +110,7 @@ const ModalContent = ({ onClose, contentType, resource }: ModalContentProps) => 
       notes.map((note, index) => ({
         id: index,
         note: note.note,
-        author: users.find(user => user.app_metadata.ndla_id === note.user)?.name || '',
+        author: users.find((user) => user.app_metadata.ndla_id === note.user)?.name || '',
         date: formatDate(note.timestamp),
         status: t(`form.status.${note.status.current.toLowerCase()}`),
       }));
@@ -117,7 +119,7 @@ const ModalContent = ({ onClose, contentType, resource }: ModalContentProps) => 
       const versions = await fetchDraftHistory(id);
       const notes: IEditorNote[] = versions?.[0]?.notes;
       if (notes?.length) {
-        const userIds = notes.map(note => note.user).filter(user => user !== 'System');
+        const userIds = notes.map((note) => note.user).filter((user) => user !== 'System');
         const uniqueUserIds = Array.from(new Set(userIds)).join(',');
         const users = await fetchAuth0Users(uniqueUserIds);
         setNotes(cleanupNotes(notes, users));

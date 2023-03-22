@@ -78,18 +78,15 @@ async function createDeleteUpdateTopicResources({
   originalTopics,
   taxonomyVersion,
 }: CreateDeleteUpdateTopicResourceParams): Promise<void> {
-  const [
-    createItems,
-    deleteItems,
-    updateItems,
-  ]: ParentTopicWithRelevanceAndConnections[][] = sortIntoCreateDeleteUpdate({
-    changedItems: topics,
-    originalItems: originalTopics,
-    updateProperties: ['primary', 'relevanceId'],
-  });
+  const [createItems, deleteItems, updateItems]: ParentTopicWithRelevanceAndConnections[][] =
+    sortIntoCreateDeleteUpdate({
+      changedItems: topics,
+      originalItems: originalTopics,
+      updateProperties: ['primary', 'relevanceId'],
+    });
 
   await Promise.all(
-    createItems.map(item =>
+    createItems.map((item) =>
       createTopicResource({
         body: {
           topicid: item.id,
@@ -102,13 +99,14 @@ async function createDeleteUpdateTopicResources({
     ),
   );
   await Promise.all(
-    deleteItems.map(item => deleteTopicResource({ id: item.connectionId, taxonomyVersion })),
+    deleteItems.map((item) => deleteTopicResource({ id: item.connectionId, taxonomyVersion })),
   );
-  updateItems.forEach(item => {
+  updateItems.forEach((item) => {
     // only update if changed to primary, previous primary is automatically unset
     const update = {
       ...(item.primary && { primary: item.primary }),
-      ...((originalTopics.find(topic => topic.id === item.id)?.relevanceId !== item.relevanceId && {
+      ...((originalTopics.find((topic) => topic.id === item.id)?.relevanceId !==
+        item.relevanceId && {
         relevanceId: item.relevanceId,
       }) ??
         []),

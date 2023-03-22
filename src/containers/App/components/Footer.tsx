@@ -26,7 +26,7 @@ const FooterWrapper = ({ showLocaleSelector }: Props) => {
   const location = useLocation();
   const { t, i18n } = useTranslation();
   const languageSelector = showLocaleSelector ? (
-    <LanguageSelector locales={supportedLanguages} onSelect={i18n.changeLanguage} />
+    <LanguageSelector locales={supportedLanguages} onSelect={i18n.changeLanguage} inverted />
   ) : null;
 
   return (

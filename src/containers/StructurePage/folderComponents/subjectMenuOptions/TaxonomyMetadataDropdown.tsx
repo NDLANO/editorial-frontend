@@ -47,14 +47,15 @@ const TaxonomyMetadataDropdown = ({
       <RoundIcon open small />
       <StyledMenuItemInputField placeholder={messages['title']} disabled />
       <StyledSelect
-        onChange={e => {
+        onChange={(e) => {
           e.persist();
           updateCustomFields({
             ...customFields,
             [field]: e.target.value,
           });
         }}
-        value={customFields[field]}>
+        value={customFields[field]}
+      >
         {selectedValue || (
           <option selected disabled hidden>
             {messages['selected']}
@@ -70,7 +71,8 @@ const TaxonomyMetadataDropdown = ({
         onClick={() => {
           delete customFields[field];
           updateCustomFields({ ...customFields });
-        }}>
+        }}
+      >
         <DeleteForever />
       </StyledCustomFieldButton>
     </StyledMenuItemEditField>

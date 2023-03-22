@@ -104,7 +104,7 @@ const EditRelated = ({
   const [title, setTitle] = useState('');
 
   const toggleAddExternal = () => {
-    setShowAddExternal(prevState => !prevState);
+    setShowAddExternal((prevState) => !prevState);
   };
 
   const searchForArticles = async (query: string, page: number | undefined) => {
@@ -139,7 +139,7 @@ const EditRelated = ({
   const deleteRelatedArticle = (e: MouseEvent<HTMLButtonElement>, articleKey: string) => {
     e.stopPropagation();
 
-    const newArticles = articles.filter(filterArticle =>
+    const newArticles = articles.filter((filterArticle) =>
       'url' in filterArticle
         ? filterArticle.tempId !== articleKey
         : filterArticle.id !== articleKey,
@@ -150,7 +150,7 @@ const EditRelated = ({
   const onAddExternal = (title: string, url: string) => {
     if (tempId) {
       updateArticles(
-        articles.map(a => ('url' in a && a.tempId === tempId ? { ...a, url, title } : a)),
+        articles.map((a) => ('url' in a && a.tempId === tempId ? { ...a, url, title } : a)),
       );
       setTempId(undefined);
       setUrl('');
@@ -181,7 +181,8 @@ const EditRelated = ({
               aria-label={t('form.remove')}
               variant="ghost"
               colorTheme="danger"
-              onClick={onRemoveClick}>
+              onClick={onRemoveClick}
+            >
               <DeleteForever />
             </IconButtonV2>
           </Tooltip>
@@ -193,7 +194,8 @@ const EditRelated = ({
               {(provided, snapshot) => (
                 <StyledDropZone
                   ref={provided.innerRef}
-                  className={snapshot.isDraggingOver ? 'drop-zone dragging' : 'drop-zone'}>
+                  className={snapshot.isDraggingOver ? 'drop-zone dragging' : 'drop-zone'}
+                >
                   {articles.map((article, index) => {
                     if (!article) {
                       return null;
@@ -206,18 +208,21 @@ const EditRelated = ({
                             className="drag-item"
                             ref={providedInner.innerRef}
                             {...providedInner.dragHandleProps}
-                            {...providedInner.draggableProps}>
+                            {...providedInner.draggableProps}
+                          >
                             <StyledArticle key={article.id}>
                               <RelatedArticle item={article} />
                               <ButtonWrapper>
                                 {'url' in article && (
                                   <Tooltip
-                                    tooltip={t('form.content.relatedArticle.changeExternal')}>
+                                    tooltip={t('form.content.relatedArticle.changeExternal')}
+                                  >
                                     <IconButtonV2
                                       aria-label={t('form.content.relatedArticle.changeExternal')}
                                       variant="ghost"
                                       colorTheme="light"
-                                      onClick={() => openExternalEdit(article)}>
+                                      onClick={() => openExternalEdit(article)}
+                                    >
                                       <Pencil />
                                     </IconButtonV2>
                                   </Tooltip>
@@ -227,7 +232,8 @@ const EditRelated = ({
                                     aria-label={t('form.content.relatedArticle.removeExternal')}
                                     variant="ghost"
                                     colorTheme="danger"
-                                    onClick={e => deleteRelatedArticle(e, articleKey)}>
+                                    onClick={(e) => deleteRelatedArticle(e, articleKey)}
+                                  >
                                     <DeleteForever />
                                   </IconButtonV2>
                                 </Tooltip>
@@ -250,8 +256,8 @@ const EditRelated = ({
             labelField="title"
             placeholder={t('form.content.relatedArticle.placeholder')}
             apiAction={searchForArticles}
-            onClick={e => e.stopPropagation()}
-            onChange={selected => selected && onInsertBlock(selected.id.toString())}
+            onClick={(e) => e.stopPropagation()}
+            onChange={(selected) => selected && onInsertBlock(selected.id.toString())}
             positionAbsolute
             showPagination
           />

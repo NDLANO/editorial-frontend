@@ -32,7 +32,7 @@ const Footnote = (props: Props) => {
   const focused = useFocused();
 
   const toggleEditMode = useCallback(() => {
-    setEditMode(prev => !prev);
+    setEditMode((prev) => !prev);
   }, []);
 
   return (
@@ -44,7 +44,8 @@ const Footnote = (props: Props) => {
         {...attributes}
         role="link"
         tabIndex={0}
-        onClick={toggleEditMode}>
+        onClick={toggleEditMode}
+      >
         <sup contentEditable={false} style={{ userSelect: 'none' }}>
           [#]
         </sup>
@@ -56,8 +57,9 @@ const Footnote = (props: Props) => {
         onClose={toggleEditMode}
         label={t(
           `form.content.footnote.${element.data.title !== undefined ? 'editTitle' : 'addTitle'}`,
-        )}>
-        {close => (
+        )}
+      >
+        {(close) => (
           <EditFootnote
             editor={editor}
             node={element}

@@ -7,7 +7,7 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { SingleValue } from '@ndla/select';
 import { TabsV2 } from '@ndla/tabs';
 import { useSearch } from '../../../../modules/search/searchQueries';
@@ -23,20 +23,23 @@ const WorkList = ({ ndlaId }: Props) => {
   const [sortOption, setSortOption] = useState<string>('-responsibleLastUpdated');
   const [filterSubject, setFilterSubject] = useState<SingleValue | undefined>(undefined);
   const [error, setError] = useState<string | undefined>(undefined);
+  const [page, setPage] = useState(1);
 
   const [sortOptionConcepts, setSortOptionConcepts] = useState('-responsibleLastUpdated');
   const [filterConceptSubject, setFilterConceptSubject] = useState<SingleValue | undefined>(
     undefined,
   );
   const [errorConceptList, setErrorConceptList] = useState<string | undefined>(undefined);
+  const [pageConcept, setPageConcept] = useState(1);
 
   const { t } = useTranslation();
   const { data, isInitialLoading } = useSearch(
     {
       'responsible-ids': ndlaId,
       sort: sortOption ? sortOption : '-responsibleLastUpdated',
-      'page-size': 100,
       ...(filterSubject ? { subjects: filterSubject.value } : {}),
+      page: page,
+      'page-size': 6,
     },
     {
       enabled: !!ndlaId,
@@ -50,6 +53,8 @@ const WorkList = ({ ndlaId }: Props) => {
       'responsible-ids': ndlaId,
       sort: sortOptionConcepts,
       ...(filterConceptSubject ? { subjects: filterConceptSubject.value } : {}),
+      page: pageConcept,
+      'page-size': 6,
     },
     {
       enabled: !!ndlaId,
@@ -57,6 +62,14 @@ const WorkList = ({ ndlaId }: Props) => {
       onSuccess: () => setErrorConceptList(undefined),
     },
   );
+
+  useEffect(() => {
+    setPage(1);
+  }, [filterSubject]);
+
+  useEffect(() => {
+    setPageConcept(1);
+  }, [filterConceptSubject]);
 
   return (
     <TabsV2
@@ -74,6 +87,7 @@ const WorkList = ({ ndlaId }: Props) => {
               error={error}
               sortOption={sortOption}
               ndlaId={ndlaId}
+              setPage={setPage}
             />
           ),
         },
@@ -89,6 +103,7 @@ const WorkList = ({ ndlaId }: Props) => {
               filterSubject={filterConceptSubject}
               setFilterSubject={setFilterConceptSubject}
               ndlaId={ndlaId}
+              setPageConcept={setPageConcept}
             />
           ),
         },

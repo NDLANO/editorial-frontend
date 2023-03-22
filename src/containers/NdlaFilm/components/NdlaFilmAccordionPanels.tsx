@@ -44,15 +44,17 @@ const SubjectpageAccordionPanels = ({ errors, selectedLanguage }: ComponentProps
         id="about"
         title={t('subjectpageForm.about')}
         className="u-4/6@desktop u-push-1/6@desktop"
-        hasError={['title', 'description', 'visualElement'].some(field => field in errors)}>
+        hasError={['title', 'description', 'visualElement'].some((field) => field in errors)}
+      >
         <SubjectpageAbout selectedLanguage={selectedLanguage} />
       </AccordionSection>
       <AccordionSection
         id="slideshow"
         title={t('ndlaFilm.editor.slideshowHeader')}
         className="u-6/6"
-        hasError={['metaDescription', 'mobileBannerId'].some(field => field in errors)}
-        startOpen>
+        hasError={['metaDescription', 'mobileBannerId'].some((field) => field in errors)}
+        startOpen
+      >
         <FormikField name={'slideShow'}>
           {() => <SlideshowEditor onUpdateSlideshow={onUpdateMovieList} fieldName={'slideShow'} />}
         </FormikField>
@@ -61,8 +63,9 @@ const SubjectpageAccordionPanels = ({ errors, selectedLanguage }: ComponentProps
         id="themes"
         title={t('ndlaFilm.editor.movieGroupHeader')}
         className="u-6/6"
-        hasError={['editorsChoices'].some(field => field in errors)}
-        startOpen>
+        hasError={['editorsChoices'].some((field) => field in errors)}
+        startOpen
+      >
         <FormikField name={'themes'}>
           {() => (
             <ThemeEditor

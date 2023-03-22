@@ -59,7 +59,7 @@ const compareArray = (arr1: File[], arr2: File[]) => {
 };
 
 let okToRevert = false;
-document.addEventListener('keydown', event => {
+document.addEventListener('keydown', (event) => {
   okToRevert = (event.ctrlKey || event.metaKey) && event.key === 'z';
 });
 
@@ -83,18 +83,18 @@ class FileList extends Component<Props, State> {
     super(props);
     this.checkForRemoteFiles.bind(this);
     const { element, t } = this.props;
-    const files = element.data.map(file => formatFile(file, t));
+    const files = element.data.map((file) => formatFile(file, t));
     this.state = { files, missingFilePaths: [], showFileUploader: false };
     this.checkForRemoteFiles(files);
   }
 
   checkForRemoteFiles = async (files: File[]) => {
-    const missingFiles = files.map(async file => {
+    const missingFiles = files.map(async (file) => {
       const exists = await headFileAtRemote(file.url);
       return { ...file, exists: !!exists };
     });
     const resolvedFiles = await Promise.all(missingFiles);
-    const missingFilePaths = resolvedFiles.filter(f => !f.exists).map(f => f.path);
+    const missingFilePaths = resolvedFiles.filter((f) => !f.exists).map((f) => f.path);
     this.setState({ missingFilePaths });
   };
 
@@ -139,7 +139,7 @@ class FileList extends Component<Props, State> {
     ReactEditor.focus(editor);
     Transforms.removeNodes(editor, {
       at: path,
-      match: node => Element.isElement(node) && node.type === TYPE_FILE,
+      match: (node) => Element.isElement(node) && node.type === TYPE_FILE,
     });
   };
 
@@ -148,7 +148,7 @@ class FileList extends Component<Props, State> {
     if (files.length === 1) {
       this.removeFileList();
     } else {
-      this.setState(prevState => {
+      this.setState((prevState) => {
         const newNodes = prevState.files.filter((_, i) => i !== indexToDelete);
         return { files: newNodes };
       }, this.updateFilesToEditor);
@@ -160,11 +160,11 @@ class FileList extends Component<Props, State> {
     this.setState({
       showFileUploader: false,
     });
-    const newFiles = files.map(file => {
+    const newFiles = files.map((file) => {
       return formatFile({ ...file, url: config.ndlaApiUrl + file.path, resource: 'file' }, t);
     });
     this.setState(
-      prevState => ({
+      (prevState) => ({
         files: prevState.files.concat(newFiles),
       }),
       this.updateFilesToEditor,
@@ -173,14 +173,14 @@ class FileList extends Component<Props, State> {
 
   onMovedFile = (fromIndex: number, toIndex: number) => {
     this.setState(
-      prevState => ({ files: arrMove(prevState.files, fromIndex, toIndex) }),
+      (prevState) => ({ files: arrMove(prevState.files, fromIndex, toIndex) }),
       this.updateFilesToEditor,
     );
   };
 
   onToggleRenderInline = (index: number) => {
     this.setState(
-      prevState => ({
+      (prevState) => ({
         files: prevState.files.map((file, i) =>
           index === i ? { ...file, display: file.display === 'block' ? 'inline' : 'block' } : file,
         ),

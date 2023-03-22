@@ -22,7 +22,8 @@ const Paragraph = ({ attributes, children, element }: Props) => {
   return (
     <StyledParagraph
       className={element.data?.align === 'center' ? 'u-text-center' : ''}
-      {...attributes}>
+      {...attributes}
+    >
       {children}
     </StyledParagraph>
   );

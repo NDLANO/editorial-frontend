@@ -6,7 +6,7 @@ import { isListItemPathSelected } from './isListItemSelected';
 const hasListItem = (editor: Editor, type?: string) => {
   // For all selected list elements
   for (const [, path] of Editor.nodes(editor, {
-    match: node => Element.isElement(node) && node.type === TYPE_LIST_ITEM,
+    match: (node) => Element.isElement(node) && node.type === TYPE_LIST_ITEM,
   })) {
     if (type) {
       const itemListType = getListItemType(editor, path);

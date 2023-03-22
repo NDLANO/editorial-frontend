@@ -63,7 +63,8 @@ const IngressField = ({
         label={t('form.introduction.label')}
         name={name}
         showMaxLength
-        maxLength={maxLength}>
+        maxLength={maxLength}
+      >
         {({ field, form: { isSubmitting } }) =>
           preview ? (
             <div className="article_introduction">

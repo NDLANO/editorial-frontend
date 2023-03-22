@@ -44,7 +44,8 @@ const Fade = ({ show = true, fadeType, children }: Props) => {
       css={css`
         ${animation(animations.durations.fast)}
       `}
-      onAnimationEnd={onAnimationEnd}>
+      onAnimationEnd={onAnimationEnd}
+    >
       {children}
     </div>
   );

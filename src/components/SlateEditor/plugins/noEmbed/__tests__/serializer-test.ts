@@ -11,7 +11,7 @@ import {
   inlineContentToEditorValue,
   inlineContentToHTML,
 } from '../../../../../util/articleContentConverter';
-import { TYPE_NDLA_EMBED } from '../../embed/types';
+import { TYPE_EMBED_IMAGE } from '../../embed/types';
 import { TYPE_PARAGRAPH } from '../../paragraph/types';
 import { TYPE_SECTION } from '../../section/types';
 
@@ -21,7 +21,7 @@ const editor: Descendant[] = [
     children: [
       { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
       {
-        type: TYPE_NDLA_EMBED,
+        type: TYPE_EMBED_IMAGE,
         children: [
           {
             text: '',

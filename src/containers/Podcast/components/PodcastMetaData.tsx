@@ -30,7 +30,8 @@ const PodcastMetaData = ({ language, onImageLoad }: Props) => {
         label={t('podcastForm.fields.introduction')}
         name="introduction"
         maxLength={1000}
-        showMaxLength>
+        showMaxLength
+      >
         {({ field }) => (
           <PlainTextEditor
             id={field.name}

@@ -38,13 +38,15 @@ const LanguagePicker = ({ emptyLanguages, editUrl }: Props) => {
               },
               clickOutsideDeactivates: true,
               escapeDeactivates: true,
-            }}>
+            }}
+          >
             <StyledDropdownOverlay withArrow>
-              {emptyLanguages.map(language => (
+              {emptyLanguages.map((language) => (
                 <StyledLink
                   key={language.key}
                   to={editUrl(language.key)}
-                  onClick={() => setDisplay(false)}>
+                  onClick={() => setDisplay(false)}
+                >
                   {language.title}
                 </StyledLink>
               ))}

@@ -6,9 +6,8 @@
  *
  */
 
-import { taxonomyApi } from '../../../src/config';
 import { setToken } from '../../support/e2e';
-import phrases from '../../../src/phrases/phrases-nb';
+const taxonomyApi = `/taxonomy/v1`;
 
 const selectSubject = 'urn:subject:20';
 const selectTopic = 'urn:topic:1:186732';
@@ -42,9 +41,7 @@ describe('Topic editing', () => {
     cy.apiroute('PUT', `${taxonomyApi}/nodes/${selectTopic}/metadata`, 'invisibleMetadata');
 
     cy.get('[data-cy=settings-button]').click();
-    cy.get('button')
-      .contains(phrases.metadata.changeVisibility)
-      .click();
+    cy.get('button').contains('Endre synlighet').click();
     cy.get('button[id="switch-visible"]').click({ force: true });
     cy.wait('@invisibleMetadata');
   });

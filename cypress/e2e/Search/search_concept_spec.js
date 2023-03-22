@@ -6,15 +6,19 @@
  *
  */
 
-import { taxonomyApi } from '../../../src/config';
 import { setToken } from '../../support/e2e';
+const taxonomyApi = `/taxonomy/v1`;
 
 describe('Search concepts', () => {
   beforeEach(() => {
     setToken();
     cy.apiroute('GET', `${taxonomyApi}/subjects?language=nb`, 'allSubjects');
     cy.apiroute('GET', '/concept-api/v1/drafts/status-state-machine/', 'conceptStatusMachine');
-    cy.apiroute('GET', '/concept-api/v1/drafts/?exclude-revision-log=false&fallback=false&include-other-statuses=false&page*', 'searchConcepts');
+    cy.apiroute(
+      'GET',
+      '/concept-api/v1/drafts/?exclude-revision-log=false&fallback=false&include-other-statuses=false&page*',
+      'searchConcepts',
+    );
     cy.apiroute('GET', '/draft-api/v1/drafts/licenses/', 'licenses');
     cy.intercept('GET', '/get_editors*', [
       {
@@ -26,28 +30,26 @@ describe('Search concepts', () => {
     ]);
     cy.apiroute('GET', '/get_zendesk_token', 'zendeskToken');
     cy.visit('/search/concept?page=1&page-size=10&sort=-lastUpdated');
-    cy.apiwait(['@searchConcepts', '@licenses', '@allSubjects', '@conceptStatusMachine', '@zendeskToken']);
+    cy.apiwait([
+      '@searchConcepts',
+      '@licenses',
+      '@allSubjects',
+      '@conceptStatusMachine',
+      '@zendeskToken',
+    ]);
   });
 
   it('Can use text input', () => {
     cy.apiroute('GET', '**/concept-api/v1/drafts/?*query=Test*', 'searchConceptQuery');
-    cy.get('input[name="query"]')
-      .type('Test')
-      .blur();
+    cy.get('input[name="query"]').type('Test').blur();
     cy.apiwait('@searchConceptQuery');
     cy.get('span[data-cy="totalCount"').contains(/^Antall søketreff: \d+/);
     cy.get('input[name="query"]').clear();
   });
 
   it('Can use status dropdown', () => {
-    cy.apiroute(
-      'GET',
-      '/concept-api/v1/drafts/?*status=LANGUAGE*',
-      'searchConceptStatus',
-    );
-    cy.get('select[name="status"]')
-      .select('Språk')
-      .blur();
+    cy.apiroute('GET', '/concept-api/v1/drafts/?*status=LANGUAGE*', 'searchConceptStatus');
+    cy.get('select[name="status"]').select('Språk').blur();
     cy.apiwait('@searchConceptStatus');
     cy.get('span[data-cy="totalCount"').contains(/^Antall søketreff: \d+/);
     cy.get('select[name="status"]').select('Velg status');
@@ -69,9 +71,7 @@ describe('Search concepts', () => {
       '/concept-api/v1/drafts/?*subjects=urn%3Asubject%3A*',
       'searchConceptSubject',
     );
-    cy.get('select[name="subjects"]')
-      .select('Biologi')
-      .blur();
+    cy.get('select[name="subjects"]').select('Biologi').blur();
     cy.apiwait('@searchConceptSubject');
     cy.get('span[data-cy="totalCount"').contains(/^Antall søketreff: \d+/);
     cy.get('select[name="subjects"]').select('Velg fag');

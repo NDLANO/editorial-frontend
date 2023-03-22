@@ -71,7 +71,7 @@ const RemoveResource = ({ deleteResource, nodeId, onClose }: Props) => {
     [i18n.language, nodeId, taxonomyVersion],
   );
 
-  const { data, isLoading } = useQuery(
+  const { data, isInitialLoading } = useQuery(
     ['contains-article', articleId],
     () => fetchLearningpathsWithArticle(articleId!),
     {
@@ -118,13 +118,17 @@ const RemoveResource = ({ deleteResource, nodeId, onClose }: Props) => {
         <CloseButton onClick={onClose} />
       </ModalHeaderV2>
       <ModalBody>
-        {isLoading ? <Spinner /> : deleteText}
+        {isInitialLoading ? <Spinner /> : deleteText}
         <RightAlign>
           <ButtonWrapper>
             <ButtonV2 variant="outline" onClick={onClose}>
               {t('form.abort')}
             </ButtonV2>
-            <ButtonV2 colorTheme="danger" disabled={isLoading || isDeleting} onClick={onDelete}>
+            <ButtonV2
+              colorTheme="danger"
+              disabled={isInitialLoading || isDeleting}
+              onClick={onDelete}
+            >
               {isDeleting ? <Spinner /> : t('form.remove')}
             </ButtonV2>
           </ButtonWrapper>

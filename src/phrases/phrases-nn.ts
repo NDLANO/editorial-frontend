@@ -1032,7 +1032,6 @@ const phrases = {
       noResults: 'Ingen treff',
       noResponible: 'Ingen ansvarleg',
       revisionDate: 'Antall som nærmar seg revisjonsdato',
-      revisionDateSingle: 'Nærmar seg revisjonsdato',
       error: 'Noe gjekk gale ved oppdatering av ansvarleg.',
     },
     origin: {

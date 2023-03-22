@@ -14,6 +14,9 @@ import Tooltip from '@ndla/tooltip';
 import { TextAreaV2 } from '@ndla/forms';
 import { ChangeEvent, useEffect, useMemo, useState } from 'react';
 import { css } from '@emotion/react';
+import { useFormikContext } from 'formik';
+import { CommentType } from '../../../interfaces';
+import AlertModal from '../../../components/AlertModal';
 
 export const textAreaStyles = css`
   width: 100%;
@@ -84,21 +87,42 @@ const StyledTrashIcon = styled(TrashCanOutline)`
 `;
 
 interface Props {
-  comment?: string;
+  comment?: CommentType;
   showInput?: boolean;
   allOpen?: boolean;
+  comments: CommentType[];
+  setComments: (comment: CommentType[]) => void;
+  savedComment?: any; // update type from api
+  onDelete?: (index: number) => void;
+  index?: number;
+  setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => void;
 }
 
-const Comment = ({ comment, showInput = false, allOpen = false }: Props) => {
+const Comment = ({
+  comment,
+  showInput = false,
+  allOpen = false,
+  comments,
+  setComments,
+  savedComment,
+  onDelete,
+  index,
+  setFieldValue,
+}: Props) => {
   const { t } = useTranslation();
-  const [inputValue, setInputValue] = useState(comment);
+  const [inputValue, setInputValue] = useState(comment?.content);
   const [open, setOpen] = useState(true);
+  const [modalOpen, setModalOpen] = useState(false);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const displayEditButtons = useMemo(() => inputValue !== comment, [inputValue]);
+  const [displayEditButtons, setDisplayEditButtons] = useState(false);
 
   useEffect(() => {
-    comment && setInputValue(comment);
+    setDisplayEditButtons(inputValue !== comment?.content);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [inputValue]);
+
+  useEffect(() => {
+    comment && setInputValue(comment.content);
   }, [comment]);
 
   useEffect(() => {
@@ -107,6 +131,26 @@ const Comment = ({ comment, showInput = false, allOpen = false }: Props) => {
 
   const handleInputChange = (e: ChangeEvent<HTMLTextAreaElement>): void => {
     setInputValue(e.target.value);
+  };
+
+  const handleSubmit = (indexPosition?: number) => {
+    if (inputValue) {
+      const updatedComments =
+        indexPosition !== undefined
+          ? comments.map((c, index) =>
+              indexPosition === index ? { ...savedComment, content: inputValue } : c,
+            )
+          : [{ content: inputValue }, ...comments];
+      setComments(updatedComments);
+      setFieldValue('comments', updatedComments);
+      setDisplayEditButtons(false);
+    }
+  };
+
+  const handleDelete = () => {
+    if (index === undefined) return;
+    onDelete?.(index);
+    setModalOpen(false);
   };
 
   return (
@@ -139,7 +183,10 @@ const Comment = ({ comment, showInput = false, allOpen = false }: Props) => {
               size="xsmall"
               flex={2}
               disabled={!inputValue}
-              onClick={() => console.log('clicked comment')}
+              onClick={() => {
+                handleSubmit();
+                setInputValue('');
+              }}
             >
               {t('form.comment')}
             </StyledButton>
@@ -149,19 +196,20 @@ const Comment = ({ comment, showInput = false, allOpen = false }: Props) => {
       {comment && (
         <InputAndButtons>
           <CardContent>
-            <Tooltip tooltip={open ? t('form.hideComment') : t('form.showComment')}>
-              <IconButtonV2
-                variant="ghost"
-                size="xsmall"
-                aria-label={open ? t('form.hideComment') : t('form.showComment')}
-                onMouseDown={() => setOpen(!open)}
-                aria-expanded={open}
-                aria-controls="comment-section"
-              >
-                <> {open ? <ExpandMore /> : <RightArrow />}</>
-              </IconButtonV2>
-            </Tooltip>
-
+            {!displayEditButtons && (
+              <Tooltip tooltip={open ? t('form.hideComment') : t('form.showComment')}>
+                <IconButtonV2
+                  variant="ghost"
+                  size="xsmall"
+                  aria-label={open ? t('form.hideComment') : t('form.showComment')}
+                  onMouseDown={() => setOpen(!open)}
+                  aria-expanded={open}
+                  aria-controls="comment-section"
+                >
+                  <> {open ? <ExpandMore /> : <RightArrow />}</>
+                </IconButtonV2>
+              </Tooltip>
+            )}
             {open ? (
               <StyledClickableTextArea
                 value={inputValue}
@@ -175,16 +223,18 @@ const Comment = ({ comment, showInput = false, allOpen = false }: Props) => {
               <ClosedTextField id="comment-section">{inputValue}</ClosedTextField>
             )}
 
-            <Tooltip tooltip={t('form.trash')}>
-              <IconButtonV2
-                variant="ghost"
-                size="xsmall"
-                aria-label={t('form.trash')}
-                onMouseDown={() => console.log('clicked delete')}
-              >
-                <StyledTrashIcon />
-              </IconButtonV2>
-            </Tooltip>
+            {!displayEditButtons && (
+              <Tooltip tooltip={t('form.trash')}>
+                <IconButtonV2
+                  variant="ghost"
+                  size="xsmall"
+                  aria-label={t('form.trash')}
+                  onMouseDown={() => setModalOpen(true)}
+                >
+                  <StyledTrashIcon />
+                </IconButtonV2>
+              </Tooltip>
+            )}
           </CardContent>
           {displayEditButtons && (
             <ButtonWrapper>
@@ -194,7 +244,10 @@ const Comment = ({ comment, showInput = false, allOpen = false }: Props) => {
                 colorTheme="danger"
                 flex={1}
                 disabled={!inputValue}
-                onClick={() => setInputValue(comment)}
+                onClick={() => {
+                  setInputValue(comment.content);
+                  setDisplayEditButtons(false);
+                }}
               >
                 {t('form.abort')}
               </StyledButton>
@@ -204,7 +257,7 @@ const Comment = ({ comment, showInput = false, allOpen = false }: Props) => {
                 size="xsmall"
                 flex={1}
                 disabled={!inputValue}
-                onClick={() => console.log('clicked comment')}
+                onClick={() => handleSubmit(index)}
               >
                 {t('form.save')}
               </StyledButton>
@@ -212,6 +265,24 @@ const Comment = ({ comment, showInput = false, allOpen = false }: Props) => {
           )}
         </InputAndButtons>
       )}
+
+      <AlertModal
+        title={t('form.workflow.deleteComment.title')}
+        label={t('form.workflow.deleteComment.title')}
+        show={modalOpen}
+        text={t('form.workflow.deleteComment.modal')}
+        actions={[
+          {
+            text: t('form.abort'),
+            onClick: () => setModalOpen(!modalOpen),
+          },
+          {
+            text: t('form.workflow.deleteComment.button'),
+            onClick: handleDelete,
+          },
+        ]}
+        onCancel={() => setModalOpen(!modalOpen)}
+      />
     </CommentCard>
   );
 };

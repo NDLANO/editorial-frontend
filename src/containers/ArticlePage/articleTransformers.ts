@@ -87,6 +87,7 @@ const draftApiTypeToArticleFormType = (
     revisionMeta: article?.revisions ?? [],
     slug: article?.slug,
     responsibleId: article === undefined ? ndlaId : article?.responsible?.responsibleId,
+    comments: article.comments,
   };
 };
 
@@ -174,6 +175,7 @@ export const learningResourceFormTypeToDraftApiType = (
     relatedContent: article.relatedContent,
     revisionMeta: article.revisionMeta,
     responsibleId: article.responsibleId,
+    comments: article.comments,
   };
 };
 
@@ -211,6 +213,7 @@ export const frontpageArticleFormTypeToDraftApiType = (
     relatedContent: article.relatedContent,
     revisionMeta: article.revisionMeta,
     responsibleId: article.responsibleId,
+    comments: article.comments,
   };
 };
 
@@ -251,6 +254,7 @@ export const topicArticleFormTypeToDraftApiType = (
     relatedContent: article.relatedContent,
     revisionMeta: article.revisionMeta,
     responsibleId: article.responsibleId,
+    comments: article.comments,
   };
 };
 
@@ -292,6 +296,7 @@ export const updatedDraftApiTypeToDraftApiType = (
     availability: article.availability ?? 'everyone',
     relatedContent: article.relatedContent ?? [],
     revisions: article.revisionMeta ?? [],
+    comments: article.comments,
   };
 };
 

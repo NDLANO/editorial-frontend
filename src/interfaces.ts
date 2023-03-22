@@ -94,6 +94,8 @@ export type RelatedContent = IRelatedContentLink | number;
 
 export type ConvertedRelatedContent = RelatedContent | IArticle;
 
+export type CommentType = { content: string };
+
 export type MessageSeverity = 'danger' | 'info' | 'success' | 'warning';
 export interface ImageEmbed {
   resource: 'image';

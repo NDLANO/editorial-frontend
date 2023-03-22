@@ -12,7 +12,7 @@ import { FormikHelpers } from 'formik';
 import { Descendant } from 'slate';
 import { IArticle, ILicense, IStatus, IUpdatedArticle, IAuthor } from '@ndla/types-draft-api';
 import { deleteFile } from '../../modules/draft/draftApi';
-import { RelatedContent } from '../../interfaces';
+import { RelatedContent, Comment } from '../../interfaces';
 import { useMessages } from '../Messages/MessagesProvider';
 import { useLicenses } from '../../modules/draft/draftQueries';
 import { getWarnings, RulesType } from '../../components/formikValidationSchema';
@@ -71,6 +71,7 @@ export interface ArticleFormType {
   // This field is only used for error checking in revisions
   revisionError?: string;
   slug?: string;
+  comments?: Comment[];
 }
 
 export interface LearningResourceFormType extends ArticleFormType {

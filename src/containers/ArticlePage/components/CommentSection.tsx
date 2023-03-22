@@ -8,8 +8,10 @@
 import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
 import { spacing, fonts } from '@ndla/core';
-import { useState } from 'react';
+import { useFormikContext } from 'formik';
+import { useState, MouseEvent } from 'react';
 import { useTranslation } from 'react-i18next';
+import { CommentType } from '../../../interfaces';
 import Comment from './Comment';
 
 const CommentWrapper = styled.ul`
@@ -28,22 +30,48 @@ const StyledOpenCloseAll = styled.li`
 `;
 
 interface Props {
-  comments: string[];
+  comments: CommentType[];
+  savedComments?: any; //TODO: update to api type!
 }
-
-const CommentSection = ({ comments = [] }: Props) => {
+//TODO: update any type!
+const CommentSection = <T extends any>({ comments = [], savedComments }: Props) => {
+  const [commentList, setCommentList] = useState<CommentType[]>(comments);
   const [allOpen, setAllOpen] = useState(false);
   const { t } = useTranslation();
+  const { setFieldValue } = useFormikContext<T>();
+
+  const onDelete = (index: number) => {
+    const updatedList = commentList.filter((c, i) => i !== index);
+    setCommentList(updatedList);
+    setFieldValue('comments', updatedList);
+  };
   return (
     <CommentWrapper>
-      <Comment showInput />
-      <StyledOpenCloseAll>
-        <ButtonV2 variant="stripped" onClick={() => setAllOpen(!allOpen)}>
-          {allOpen ? t('form.hideAll') : t('form.openAll')}
-        </ButtonV2>
-      </StyledOpenCloseAll>
-      {comments.map((comment) => (
-        <Comment key={comment} comment={comment} allOpen={allOpen} />
+      <Comment
+        showInput
+        setComments={setCommentList}
+        comments={commentList}
+        setFieldValue={setFieldValue}
+      />
+      {comments.length ? (
+        <StyledOpenCloseAll>
+          <ButtonV2 variant="stripped" onClick={() => setAllOpen(!allOpen)}>
+            {allOpen ? t('form.hideAll') : t('form.openAll')}
+          </ButtonV2>
+        </StyledOpenCloseAll>
+      ) : null}
+      {commentList.map((comment, index) => (
+        <Comment
+          key={`${comment}_${index}`}
+          comment={comment}
+          setComments={setCommentList}
+          comments={commentList}
+          allOpen={allOpen}
+          savedComment={savedComments?.[index]}
+          onDelete={onDelete}
+          index={index}
+          setFieldValue={setFieldValue}
+        />
       ))}
     </CommentWrapper>
   );

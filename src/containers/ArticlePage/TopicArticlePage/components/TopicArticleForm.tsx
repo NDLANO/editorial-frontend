@@ -115,6 +115,7 @@ const TopicArticleForm = ({
             article={article}
             getArticle={getArticle}
             handleSubmit={async () => handleSubmit(values, formik)}
+            comments={article.comments}
           />
         </TaxonomyVersionProvider>
         <EditorFooter

@@ -806,6 +806,11 @@ const phrases = {
         warn: 'One of the revisions expires soon (Must be revised before {{date}}).',
         expired: 'One of the revisions has expired (Expired {{date}}).',
       },
+      deleteComment: {
+        title: 'Delete comment',
+        modal: 'Are you sure you want to delete this comment? It can`t be restored.',
+        button: 'Delete',
+      },
     },
     status: {
       new: 'New - unsaved',

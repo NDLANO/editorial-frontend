@@ -807,6 +807,11 @@ const phrases = {
         warn: 'En av revisjonene utløper snart (Må revideres innen {{date}}).',
         expired: 'En av revisjonene har utløpt (Utløpte {{date}}).',
       },
+      deleteComment: {
+        title: 'Slett kommentar',
+        modal: 'Vil du slette denne kommentaren? Det er ikke mulig å gjenopprette kommentaren.',
+        button: 'Slett',
+      },
     },
     status: {
       new: 'Ny - Ikke lagret',

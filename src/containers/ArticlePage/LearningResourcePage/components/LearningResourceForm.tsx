@@ -58,7 +58,7 @@ const LearningResourceForm = ({
   const { ndlaId } = useSession();
   const { data: licenses } = useLicenses({ placeholderData: [] });
   const statusStateMachine = useDraftStatusStateMachine({ articleId: article?.id });
-
+  console.log(article);
   const { savedToServer, formikRef, initialValues, handleSubmit } =
     useArticleFormHooks<LearningResourceFormType>({
       getInitialValues: draftApiTypeToLearningResourceFormType,
@@ -112,6 +112,7 @@ const LearningResourceForm = ({
             updateNotes={updateArticle}
             getArticle={getArticle}
             handleSubmit={handleSubmit}
+            comments={article.comments}
           />
         </TaxonomyVersionProvider>
         <EditorFooter

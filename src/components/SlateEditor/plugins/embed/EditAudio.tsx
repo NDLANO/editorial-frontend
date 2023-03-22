@@ -13,7 +13,7 @@ import { FieldProps, Form, Formik, FormikProps } from 'formik';
 import { AudioPlayer } from '@ndla/ui';
 import { spacing } from '@ndla/core';
 import { ModalBody, ModalHeader } from '@ndla/modal';
-import Button from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 import { Input } from '@ndla/forms';
 import ObjectSelector from '../../../ObjectSelector';
 import { SlateAudio, AudioEmbed } from '../../../../interfaces';
@@ -74,11 +74,12 @@ const EditAudio = ({ embed, onExit, type, audio, setHasError, saveEmbedUpdates }
       <ModalBody>
         <Formik
           initialValues={initialValues}
-          validate={values => validateFormik(values, audioEmbedFormRules, t)}
+          validate={(values) => validateFormik(values, audioEmbedFormRules, t)}
           enableReinitialize
           validateOnMount
-          onSubmit={handleSubmit}>
-          {formik => (
+          onSubmit={handleSubmit}
+        >
+          {(formik) => (
             <AudioEmbedForm audio={audio} {...formik} setHasError={setHasError} close={onExit} />
           )}
         </Formik>
@@ -159,10 +160,10 @@ const AudioEmbedForm = ({
         )}
       </StyledFormikField>
       <ButtonWrapper>
-        <Button onClick={onClose}>{t('form.abort')}</Button>
-        <Button disabled={!isValid || !dirty} type="submit">
+        <ButtonV2 onClick={onClose}>{t('form.abort')}</ButtonV2>
+        <ButtonV2 disabled={!isValid || !dirty} type="submit">
           {t('form.save')}
-        </Button>
+        </ButtonV2>
       </ButtonWrapper>
     </Form>
   );

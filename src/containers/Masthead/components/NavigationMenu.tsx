@@ -21,7 +21,7 @@ import {
   toCreateFrontPageArticle,
 } from '../../../util/routeHelpers';
 import { useSession } from '../../Session/SessionProvider';
-import { DRAFT_ADMIN_SCOPE, TAXONOMY_ADMIN_SCOPE } from '../../../constants';
+import { AUDIO_ADMIN_SCOPE, DRAFT_ADMIN_SCOPE, TAXONOMY_ADMIN_SCOPE } from '../../../constants';
 
 interface Props {
   close: () => void;
@@ -76,11 +76,13 @@ const OpenMenu = ({ close }: Props) => {
                 <Podcast /> {t('subNavigation.podcast')}
               </span>
             </StyledLink>
-            <StyledLink to={toCreatePodcastSeries()} onClick={close}>
-              <span>
-                <List /> {t('subNavigation.podcastSeries')}
-              </span>
-            </StyledLink>
+            {userPermissions?.includes(AUDIO_ADMIN_SCOPE) && (
+              <StyledLink to={toCreatePodcastSeries()} onClick={close}>
+                <span>
+                  <List /> {t('subNavigation.podcastSeries')}
+                </span>
+              </StyledLink>
+            )}
           </div>
           <div>
             <StyledLink to="/structure" onClick={close}>
@@ -118,7 +120,8 @@ const OpenMenu = ({ close }: Props) => {
                 href={config.brightcoveUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                onClick={close}>
+                onClick={close}
+              >
                 <span>
                   <Video /> {t('subNavigation.brightcoveLink')} <Launch />
                 </span>
@@ -128,7 +131,8 @@ const OpenMenu = ({ close }: Props) => {
               href={config.learningpathFrontendDomain}
               target="_blank"
               rel="noopener noreferrer"
-              onClick={close}>
+              onClick={close}
+            >
               <span>
                 <ContentTypeBadge type={contentTypes.LEARNING_PATH} background size="xx-small" />{' '}
                 {t('subNavigation.learningPathLink')} <Launch />

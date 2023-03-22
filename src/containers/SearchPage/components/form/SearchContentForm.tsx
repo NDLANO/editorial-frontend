@@ -9,6 +9,7 @@
 import { useEffect, useMemo, useState } from 'react';
 
 import { useTranslation } from 'react-i18next';
+import sortBy from 'lodash/sortBy';
 import { flattenResourceTypesAndAddContextTypes } from '../../../../util/taxonomyHelpers';
 import { getResourceLanguages } from '../../../../util/resourceHelpers';
 import { getTagName } from '../../../../util/formHelper';
@@ -20,7 +21,7 @@ import {
 } from '../../../../constants';
 import config from '../../../../config';
 import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
-import { useAuth0Editors } from '../../../../modules/auth0/auth0Queries';
+import { useAuth0Editors, useAuth0Responsibles } from '../../../../modules/auth0/auth0Queries';
 import { useAllResourceTypes } from '../../../../modules/taxonomy/resourcetypes/resourceTypesQueries';
 import { useDraftStatusStateMachine } from '../../../../modules/draft/draftQueries';
 import GenericSearchForm, { OnFieldChangeFunction } from './GenericSearchForm';
@@ -44,7 +45,22 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
   const { data: users } = useAuth0Editors(
     { permission: DRAFT_WRITE_SCOPE },
     {
-      select: users => users.map(u => ({ id: `${u.app_metadata.ndla_id}`, name: u.name })),
+      select: (users) => users.map((u) => ({ id: `${u.app_metadata.ndla_id}`, name: u.name })),
+      placeholderData: [],
+    },
+  );
+
+  const { data: responsibles } = useAuth0Responsibles(
+    { permission: DRAFT_WRITE_SCOPE },
+    {
+      select: (users) =>
+        sortBy(
+          users.map((u) => ({
+            id: `${u.app_metadata.ndla_id}`,
+            name: u.name,
+          })),
+          (u) => u.name,
+        ),
       placeholderData: [],
     },
   );
@@ -52,7 +68,7 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
   const { data: resourceTypes } = useAllResourceTypes(
     { language: locale, taxonomyVersion },
     {
-      select: resourceTypes => flattenResourceTypesAndAddContextTypes(resourceTypes, t),
+      select: (resourceTypes) => flattenResourceTypesAndAddContextTypes(resourceTypes, t),
       placeholderData: [],
     },
   );
@@ -106,6 +122,7 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
       'revision-date-from': '',
       'revision-date-to': '',
       'exclude-revision-log': false,
+      'responsible-ids': '',
     });
   };
 
@@ -113,7 +130,7 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
 
   const getDraftStatuses = (): { id: string; name: string }[] => {
     return [
-      ...Object.keys(statuses || []).map(s => {
+      ...Object.keys(statuses || []).map((s) => {
         return { id: s, name: t(`form.status.${s.toLowerCase()}`) };
       }),
       { id: 'HAS_PUBLISHED', name: t(`form.status.has_published`) },
@@ -138,7 +155,7 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
       },
     };
     const filteredAndSortedSubjects = subjects
-      .filter(s => s.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] !== 'true')
+      .filter((s) => s.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] !== 'true')
       .sort(sortByProperty('name'));
     return [favoriteSubject].concat(filteredAndSortedSubjects);
   }, [subjects, t]);
@@ -147,8 +164,15 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
     {
       value: getTagName(search.subjects, sortedSubjects),
       parameterName: 'subjects',
-      width: config.revisiondateEnabled === 'true' ? 50 : 25,
+      width: 25,
       options: sortedSubjects,
+      formElementType: 'dropdown',
+    },
+    {
+      value: getTagName(search['responsible-ids'], responsibles),
+      parameterName: 'responsible-ids',
+      width: 25,
+      options: responsibles!,
       formElementType: 'dropdown',
     },
     {
@@ -190,22 +214,20 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
     },
   ];
 
-  if (config.revisiondateEnabled === 'true') {
-    selectors.push(
-      {
-        value: search['revision-date-from'],
-        parameterName: 'revision-date-from',
-        width: 25,
-        formElementType: 'date-picker',
-      },
-      {
-        value: search['revision-date-to'],
-        parameterName: 'revision-date-to',
-        width: 25,
-        formElementType: 'date-picker',
-      },
-    );
-  }
+  selectors.push(
+    {
+      value: search['revision-date-from'],
+      parameterName: 'revision-date-from',
+      width: 25,
+      formElementType: 'date-picker',
+    },
+    {
+      value: search['revision-date-to'],
+      parameterName: 'revision-date-to',
+      width: 25,
+      formElementType: 'date-picker',
+    },
+  );
 
   return (
     <GenericSearchForm

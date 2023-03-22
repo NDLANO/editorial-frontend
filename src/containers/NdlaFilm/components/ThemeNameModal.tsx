@@ -15,11 +15,15 @@ const blankTheme = {
     nb: '',
     nn: '',
     en: '',
+    se: '',
+    sma: '',
   },
   warnings: {
     nb: false,
     nn: false,
     en: false,
+    se: false,
+    sma: false,
   },
 };
 
@@ -56,7 +60,8 @@ const ThemeNameModal = ({
     <Modal
       narrow
       activateButton={activateButton}
-      wrapperFunctionForButton={wrapperFunctionForButton}>
+      wrapperFunctionForButton={wrapperFunctionForButton}
+    >
       {(onCloseModal: () => void) => (
         <NdlaFilmThemeEditorModal
           onClose={() => {

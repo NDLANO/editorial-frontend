@@ -8,6 +8,7 @@
 
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { ButtonV2 } from '@ndla/button';
 import { spacing } from '@ndla/core';
 import { IArticle, IUpdatedArticle } from '@ndla/types-draft-api';
 import { ErrorMessage, OneColumn } from '@ndla/ui';
@@ -15,7 +16,6 @@ import uniq from 'lodash/uniq';
 import { ReactElement, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { updatedDraftApiTypeToDraftApiType } from '../../containers/ArticlePage/articleTransformers';
-import { ActionButton } from '../../containers/FormikForm';
 import { LocaleType, PartialRecord, TypeOfPreview } from '../../interfaces';
 import {
   getArticleFromArticleConverter,
@@ -40,7 +40,7 @@ interface StyledProps {
 }
 
 const StyledPreviewDraft = styled.div<StyledProps>`
-  ${p => (p.typeOfPreview === 'preview' ? 'text-align: left;' : '')};
+  ${(p) => (p.typeOfPreview === 'preview' ? 'text-align: left;' : '')};
 `;
 
 const lightboxContentStyle = (typeOfPreview: TypeOfPreview) =>
@@ -62,7 +62,7 @@ const lightboxContentStyle = (typeOfPreview: TypeOfPreview) =>
       `;
 
 const StyledCloseButton = styled(StyledButton)<{ previewType: TypeOfPreview }>`
-  ${props => props.previewType !== 'preview' && twoArticlesCloseButtonStyle};
+  ${(props) => props.previewType !== 'preview' && twoArticlesCloseButtonStyle};
   margin-right: 0;
   margin-top: -15px;
 `;
@@ -132,7 +132,7 @@ const PreviewDraftLightbox = ({
     const allSupportedLanguages = uniq(supportedLanguages.concat(article.supportedLanguages ?? []));
 
     const secondArticleLanguage =
-      allSupportedLanguages?.find(l => l !== currentArticleLanguage) ?? currentArticleLanguage;
+      allSupportedLanguages?.find((l) => l !== currentArticleLanguage) ?? currentArticleLanguage;
 
     const types: PartialRecord<TypeOfPreview, () => Promise<ArticleConverterApiType>> = {
       previewLanguageArticle: () => previewLanguageArticle(articleId, secondArticleLanguage),
@@ -169,19 +169,20 @@ const PreviewDraftLightbox = ({
       return children(openPreview);
     }
     return (
-      <ActionButton onClick={openPreview} disabled={loading} link data-testid={typeOfPreview}>
+      <ButtonV2 onClick={openPreview} disabled={loading} variant="link" data-testid={typeOfPreview}>
         {loading && <StyledSpinner appearance="small" />}
         {t(`form.${typeOfPreview}.button`)}
-      </ActionButton>
+      </ButtonV2>
     );
   }
 
   const closeButton = (
     <StyledCloseButton
       previewType={typeOfPreview}
-      stripped
+      variant="stripped"
       data-testid="closePreview"
-      onClick={onClosePreview}>
+      onClick={onClosePreview}
+    >
       <StyledCross />
     </StyledCloseButton>
   );
@@ -196,7 +197,8 @@ const PreviewDraftLightbox = ({
             display
             onClose={onClosePreview}
             closeButton={closeButton}
-            contentCss={lightboxContentStyle(typeOfPreview)}>
+            contentCss={lightboxContentStyle(typeOfPreview)}
+          >
             <PreviewLightboxContent
               firstEntity={firstArticle!}
               secondEntity={secondArticle!}

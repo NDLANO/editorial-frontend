@@ -51,14 +51,16 @@ const TopicArticleAccordionPanels = ({
         title={t('form.contentSection')}
         className={'u-4/6@desktop u-push-1/6@desktop'}
         hasError={!!(errors.title || errors.introduction || errors.content || errors.visualElement)}
-        startOpen>
+        startOpen
+      >
         <TopicArticleContent handleSubmit={handleSubmit} values={values} />
       </AccordionSection>
       {article && taxonomy && !!userPermissions?.includes(TAXONOMY_WRITE_SCOPE) && (
         <AccordionSection
           id={'topic-article-taxonomy'}
           title={t('form.taxonomySection')}
-          className={'u-6/6'}>
+          className={'u-6/6'}
+        >
           <TopicArticleTaxonomy article={article} updateNotes={updateNotes} taxonomy={taxonomy} />
         </AccordionSection>
       )}
@@ -68,25 +70,28 @@ const TopicArticleAccordionPanels = ({
         className={'u-6/6'}
         hasError={
           !!(errors.creators || errors.rightsholders || errors.processors || errors.license)
-        }>
+        }
+      >
         <CopyrightFieldGroup values={values} enableLicenseNA />
       </AccordionSection>
       <AccordionSection
         id={'topic-article-metadata'}
         title={t('form.metadataSection')}
         className={'u-6/6'}
-        hasError={!!(errors.metaDescription || errors.tags)}>
+        hasError={!!(errors.metaDescription || errors.tags)}
+      >
         <MetaDataField
           articleLanguage={articleLanguage}
           showCheckbox={true}
-          checkboxAction={image => onSaveAsVisualElement(image, formikContext)}
+          checkboxAction={(image) => onSaveAsVisualElement(image, formikContext)}
         />
       </AccordionSection>
       <AccordionSection
         id={'topic-article-grepCodes'}
         title={t('form.name.grepCodes')}
         className={'u-6/6'}
-        hasError={!!errors.grepCodes}>
+        hasError={!!errors.grepCodes}
+      >
         <GrepCodesField />
       </AccordionSection>
       {config.ndlaEnvironment === 'test' && (
@@ -94,25 +99,26 @@ const TopicArticleAccordionPanels = ({
           id={'learning-resource-related'}
           title={t('form.name.relatedContent')}
           className={'u-6/6'}
-          hasError={!!(errors.conceptIds || errors.relatedContent)}>
+          hasError={!!(errors.conceptIds || errors.relatedContent)}
+        >
           <RelatedContentFieldGroup />
         </AccordionSection>
       )}
-      {config.revisiondateEnabled === 'true' && (
-        <AccordionSection
-          id={'topic-article-revisions'}
-          title={t('form.name.revisions')}
-          className={'u-6/6'}
-          hasError={!!errors.revisionMeta || !!errors.revisionError}>
-          <RevisionNotes />
-        </AccordionSection>
-      )}
+      <AccordionSection
+        id={'topic-article-revisions'}
+        title={t('form.name.revisions')}
+        className={'u-6/6'}
+        hasError={!!errors.revisionMeta || !!errors.revisionError}
+      >
+        <RevisionNotes />
+      </AccordionSection>
       {article && (
         <AccordionSection
           id={'topic-article-workflow'}
           title={t('form.workflowSection')}
           className={'u-6/6'}
-          hasError={!!errors.notes}>
+          hasError={!!errors.notes}
+        >
           <VersionAndNotesPanel
             article={article}
             getArticle={getArticle}

@@ -63,7 +63,7 @@ export function useFetchConceptData(conceptId: number | undefined, locale: strin
   }, [locale, taxonomyVersion]);
 
   const fetchElementList = async (articleIds?: number[]): Promise<IArticle[]> => {
-    const promises = articleIds?.map(id => fetchDraft(id)) ?? [];
+    const promises = articleIds?.map((id) => fetchDraft(id)) ?? [];
     return await Promise.all(promises);
   };
 
@@ -85,27 +85,6 @@ export function useFetchConceptData(conceptId: number | undefined, locale: strin
     return savedConcept;
   };
 
-  const updateConceptAndStatus = async (
-    id: number,
-    conceptPatch: IUpdatedConcept,
-    newStatus: ConceptStatusType,
-    dirty: boolean,
-  ): Promise<IConcept> => {
-    const newConcept = dirty
-      ? await conceptApi.updateConcept(id, conceptPatch)
-      : await conceptApi.fetchConcept(id, conceptPatch.language);
-    const convertedArticles = await fetchElementList(newConcept.articleIds);
-    const conceptChangedStatus = await conceptApi.updateConceptStatus(id, newStatus);
-    const updatedConcept = {
-      ...newConcept,
-      status: conceptChangedStatus.status,
-    };
-    setConcept(updatedConcept);
-    setConceptArticles(convertedArticles);
-    setConceptChanged(false);
-    return updatedConcept;
-  };
-
   return {
     concept,
     createConcept,
@@ -119,6 +98,5 @@ export function useFetchConceptData(conceptId: number | undefined, locale: strin
     subjects,
     conceptArticles,
     updateConcept,
-    updateConceptAndStatus,
   };
 }

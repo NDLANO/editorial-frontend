@@ -49,15 +49,8 @@ const EditTopicArticle = ({ isNewlyCreated }: Props) => {
   const articleId = Number(params.id!) || undefined;
   const selectedLanguage = params.selectedLanguage as LocaleType;
   const { t } = useTranslation();
-  const {
-    loading,
-    article,
-    taxonomy,
-    setArticle,
-    articleChanged,
-    updateArticle,
-    updateArticleAndStatus,
-  } = useFetchArticleData(articleId, selectedLanguage);
+  const { loading, article, taxonomy, setArticle, articleChanged, updateArticle } =
+    useFetchArticleData(articleId, selectedLanguage);
 
   const { shouldTranslate, translate, translating } = useTranslateToNN();
 
@@ -93,7 +86,6 @@ const EditTopicArticle = ({ isNewlyCreated }: Props) => {
         article={article}
         isNewlyCreated={!!isNewlyCreated}
         updateArticle={updateArticle}
-        updateArticleAndStatus={updateArticleAndStatus}
       />
     </>
   );

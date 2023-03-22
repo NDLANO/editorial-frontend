@@ -6,18 +6,21 @@
  *
  */
 
-import Button from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
+import { spacing } from '@ndla/core';
 import { Formik, Form, FormikHelpers } from 'formik';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
-import Field from '../../../Field';
 import MultiSelectDropdown from '../../../Dropdown/MultiSelectDropdown';
 import FormikField from '../../../FormikField';
 import validateFormik from '../../../formikValidationSchema';
 import { FootnoteElement } from '.';
 
-const StyledButton = styled(Button)`
-  margin-left: 0.2rem;
+const ButtonContainer = styled.div`
+  margin-top: ${spacing.small};
+  display: flex;
+  gap: ${spacing.xsmall};
+  justify-content: flex-end;
 `;
 
 const rules = {
@@ -30,7 +33,7 @@ const getInitialValues = (footnote: FootnoteElement['data'] | undefined): Footno
   title: footnote?.title || '',
   year: footnote?.year || '',
   resource: footnote?.resource || 'footnote',
-  authors: footnote?.authors?.map(author => ({ id: author })) || [],
+  authors: footnote?.authors?.map((author) => ({ id: author })) || [],
   edition: footnote?.edition || '',
   publisher: footnote?.publisher || '',
   type: footnote?.type || '',
@@ -63,7 +66,7 @@ const FootnoteForm = ({ isEdit, footnote, onRemove, onClose, onSave }: Props) =>
   ) => {
     const { setSubmitting } = actions;
     setSubmitting(true);
-    await onSave({ ...values, authors: values.authors.map(auth => auth.id) });
+    await onSave({ ...values, authors: values.authors.map((auth) => auth.id) });
     setSubmitting(false);
   };
 
@@ -71,7 +74,8 @@ const FootnoteForm = ({ isEdit, footnote, onRemove, onClose, onSave }: Props) =>
     <Formik
       initialValues={getInitialValues(footnote)}
       onSubmit={handleSave}
-      validate={values => validateFormik(values, rules, t, 'footnoteForm')}>
+      validate={(values) => validateFormik(values, rules, t, 'footnoteForm')}
+    >
       {({ submitForm }) => (
         <Form>
           <FormikField name="title" label={t('form.content.footnote.title')} />
@@ -81,7 +85,7 @@ const FootnoteForm = ({ isEdit, footnote, onRemove, onClose, onSave }: Props) =>
               <MultiSelectDropdown
                 labelField={'id'}
                 showCreateOption
-                shouldCreate={(allValues, newValue) => !allValues.some(v => v.id === newValue.id)}
+                shouldCreate={(allValues, newValue) => !allValues.some((v) => v.id === newValue.id)}
                 {...field}
               />
             )}
@@ -89,17 +93,17 @@ const FootnoteForm = ({ isEdit, footnote, onRemove, onClose, onSave }: Props) =>
           <FormikField name="edition" label={t('form.content.footnote.edition')} />
 
           <FormikField name="publisher" label={t('form.content.footnote.publisher')} />
-          <Field right>
+          <ButtonContainer>
             {isEdit && (
-              <Button onClick={onRemove}>{t('form.content.footnote.removeFootnote')}</Button>
+              <ButtonV2 onClick={onRemove}>{t('form.content.footnote.removeFootnote')}</ButtonV2>
             )}
-            <StyledButton outline onClick={onClose}>
+            <ButtonV2 variant="outline" onClick={onClose}>
               {t('form.abort')}
-            </StyledButton>
-            <StyledButton data-cy="save_footnote" type="button" onClick={submitForm}>
+            </ButtonV2>
+            <ButtonV2 data-cy="save_footnote" onClick={submitForm}>
               {t('form.save')}
-            </StyledButton>
-          </Field>
+            </ButtonV2>
+          </ButtonContainer>
         </Form>
       )}
     </Formik>

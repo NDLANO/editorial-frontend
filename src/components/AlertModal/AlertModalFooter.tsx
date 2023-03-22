@@ -7,12 +7,11 @@
  */
 
 import { MouseEvent, ReactElement } from 'react';
-import Button from '@ndla/button';
-import { uuid } from '@ndla/util';
+import { ButtonV2 } from '@ndla/button';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 
-const StyledButton = styled(Button)`
+const StyledButton = styled(ButtonV2)`
   background-color: white;
   margin-left: 0;
 `;
@@ -38,10 +37,10 @@ const AlertModalFooter = ({ component, actions = [] }: Props) =>
     <>{component}</>
   ) : (
     <StyledFooter>
-      {actions.map(action => {
+      {actions.map((action, id) => {
         const { text, ...rest } = action;
         return (
-          <StyledButton key={uuid()} outline {...rest}>
+          <StyledButton key={id} variant="outline" {...rest}>
             {text}
           </StyledButton>
         );

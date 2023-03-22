@@ -7,17 +7,16 @@
  */
 
 import styled from '@emotion/styled';
-import Button from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 import { breakpoints, colors, mq, spacing } from '@ndla/core';
 import { ExpandLess, ExpandMore } from '@ndla/icons/action';
 import { ReactNode } from 'react';
 import AccordionButtonLine from './AccordionButtonLine';
 
-const StyledButton = styled(Button)`
-  color: ${colors.brand.greyDark};
+const StyledButton = styled(ButtonV2)`
+  justify-content: flex-start;
   width: 100%;
   height: 100%;
-  text-align: left;
 `;
 
 const StyledArrowButton = styled(StyledButton)`
@@ -32,13 +31,13 @@ interface StyledAccordionTitleProps {
 const StyledAccordionTitle = styled.span<StyledAccordionTitleProps>`
   padding-left: ${spacing.normal};
   font-size: 1.25rem;
-  color: ${p => (p.type === 'taxonomy' ? 'white' : 'rgb(102, 102, 102);')};
+  color: ${(p) => (p.type === 'taxonomy' ? 'white' : 'rgb(102, 102, 102);')};
   align-items: center;
   display: flex;
   align-self: center;
   & > svg {
     margin-right: 10px;
-    color: ${p => p.type === 'resourceGroup' && 'rgb(102, 102, 102)'};
+    color: ${(p) => p.type === 'resourceGroup' && 'rgb(102, 102, 102)'};
   }
 `;
 
@@ -49,8 +48,8 @@ interface StyledExpandProps {
 const StyledExpandMore = styled(ExpandMore)<StyledExpandProps>`
   width: 45px;
   height: 45px;
-  color: ${p => (p.type === 'resourceGroup' ? 'rgb(136,136,136)' : 'white')};
-  margin-right: ${p => p.type === 'resourceGroup' && '4px'};
+  color: ${(p) => (p.type === 'resourceGroup' ? 'rgb(136,136,136)' : 'white')};
+  margin-right: ${(p) => p.type === 'resourceGroup' && '4px'};
 `;
 const StyledExpandLess = StyledExpandMore.withComponent(ExpandLess);
 
@@ -63,10 +62,10 @@ const StyledContent = styled.div<StyledContentProps>`
     padding-left: ${spacing.small};
     padding-right: ${spacing.xsmall};
   }
-  padding-bottom: ${p => !p.hidden && '3rem'};
-  display: ${p => p.hidden && 'none'};
-  margin-left: ${p => p.type === 'taxonomy' && spacing.normal};
-  margin-bottom: ${p => p.type === 'resourceGroup' && '-1.8em'};
+  padding-bottom: ${(p) => !p.hidden && '3rem'};
+  display: ${(p) => p.hidden && 'none'};
+  margin-left: ${(p) => p.type === 'taxonomy' && spacing.normal};
+  margin-bottom: ${(p) => p.type === 'resourceGroup' && '-1.8em'};
 `;
 
 export type AccordionType = 'resourceGroup' | 'taxonomy';
@@ -106,12 +105,12 @@ const Accordion = ({
     <div {...rest}>
       {addButton ? (
         <AccordionButtonLine appearance={appearance}>
-          <StyledButton stripped onClick={handleToggle}>
+          <StyledButton variant="stripped" onClick={handleToggle}>
             {title}
           </StyledButton>
           <>{toggleSwitch}</>
           <>{addButton}</>
-          <StyledArrowButton stripped onClick={handleToggle}>
+          <StyledArrowButton variant="stripped" onClick={handleToggle}>
             {arrow}
           </StyledArrowButton>
         </AccordionButtonLine>

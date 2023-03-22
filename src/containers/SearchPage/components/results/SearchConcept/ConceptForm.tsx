@@ -13,7 +13,7 @@ import styled from '@emotion/styled';
 import { colors } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
 import { Select } from '@ndla/forms';
-import Button, { MultiButton } from '@ndla/button';
+import { MultiButton, ButtonV2 } from '@ndla/button';
 import { fetchSearchTags } from '../../../../../modules/concept/conceptApi';
 import AsyncSearchTags from '../../../../../components/Dropdown/asyncDropdown/AsyncSearchTags';
 import { MultiSelectDropdown } from '../../../../../components/Dropdown/MultiSelectDropdown';
@@ -133,9 +133,10 @@ const ConceptForm = ({ initialValues, status, language, onSubmit, allSubjects, c
               ...values,
               license: value,
             });
-          }}>
+          }}
+        >
           {!values.license && <option>{t('form.license.choose')}</option>}
-          {licensesWithTranslations.map(license => (
+          {licensesWithTranslations.map((license) => (
             <option value={license.license} key={license.license}>
               {license.title}
             </option>
@@ -171,12 +172,12 @@ const ConceptForm = ({ initialValues, status, language, onSubmit, allSubjects, c
         />
       </InputField>
       <div className="buttons">
-        <Button className="form-button secondary" onClick={cancel}>
+        <ButtonV2 className="form-button secondary" onClick={cancel}>
           {t('editorFooter.cancelLabel')}
-        </Button>
+        </ButtonV2>
         <MultiButton
           disabled={!hasChanges || Object.keys(errors).length > 0}
-          onClick={value => handleClick(value)}
+          onClick={(value) => handleClick(value)}
           mainButton={{ value: 'save', label: t(`form.save`) }}
           secondaryButtons={secondaryButtons}
         />

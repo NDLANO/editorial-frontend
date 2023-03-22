@@ -8,6 +8,7 @@
 
 import { Editor, Element, Transforms } from 'slate';
 import { ReactEditor, RenderElementProps } from 'slate-react';
+import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import DeleteButton from '../../../DeleteButton';
 import MoveContentButton from '../../../MoveContentButton';
@@ -24,12 +25,13 @@ interface Props {
 
 const SlateBodybox = (props: Props & RenderElementProps) => {
   const { element, editor, attributes, children } = props;
+  const { t } = useTranslation();
 
   const onRemoveClick = () => {
     const path = ReactEditor.findPath(editor, element);
     Transforms.removeNodes(editor, {
       at: path,
-      match: node => Element.isElement(node) && node.type === TYPE_BODYBOX,
+      match: (node) => Element.isElement(node) && node.type === TYPE_BODYBOX,
     });
     setTimeout(() => {
       ReactEditor.focus(editor);
@@ -42,7 +44,7 @@ const SlateBodybox = (props: Props & RenderElementProps) => {
     const path = ReactEditor.findPath(editor, element);
     Transforms.unwrapNodes(editor, {
       at: path,
-      match: node => Element.isElement(node) && node.type === TYPE_BODYBOX,
+      match: (node) => Element.isElement(node) && node.type === TYPE_BODYBOX,
       voids: true,
     });
     setTimeout(() => {
@@ -55,7 +57,13 @@ const SlateBodybox = (props: Props & RenderElementProps) => {
   return (
     <StyledBodybox draggable className="c-bodybox" {...attributes}>
       {children}
-      <DeleteButton tabIndex="-1" data-cy="remove-bodybox" stripped onMouseDown={onRemoveClick} />
+      <DeleteButton
+        aria-label={t('form.remove')}
+        tabIndex={-1}
+        data-cy="remove-bodybox"
+        variant="stripped"
+        onMouseDown={onRemoveClick}
+      />
       <MoveContentButton onMouseDown={onMoveContent} />
     </StyledBodybox>
   );

@@ -15,7 +15,7 @@ import { ILearningPathV2 } from '@ndla/types-learningpath-api';
 import partition from 'lodash/partition';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useQueryClient } from 'react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import AlertModal from '../../../../components/AlertModal';
 import RoundIcon from '../../../../components/RoundIcon';
 import { fetchDrafts, updateStatusDraft } from '../../../../modules/draft/draftApi';
@@ -86,44 +86,46 @@ const PublishChildNodeResources = ({ node }: Props) => {
     setPublishedCount(0);
     const nodeResources = await fetchNodeResources({ id: node.id, language, taxonomyVersion });
     const allResources = [{ name: node.name, contentUri: node.contentUri }, ...nodeResources];
-    const withContentUri = allResources.filter(res => !!res.contentUri);
+    const withContentUri = allResources.filter((res) => !!res.contentUri);
     setPublishableCount(allResources.length);
     setShowDisplay(true);
-    const [draftResources, learningpathResources] = partition(withContentUri, res => {
+    const [draftResources, learningpathResources] = partition(withContentUri, (res) => {
       const [, resourceType] = res.contentUri!.split(':');
       return resourceType === 'article';
     });
-    const draftIds = draftResources.map(res => Number(res.contentUri!.split(':')[2]));
-    const learningpathIds = learningpathResources.map(res => Number(res.contentUri!.split(':')[2]));
+    const draftIds = draftResources.map((res) => Number(res.contentUri!.split(':')[2]));
+    const learningpathIds = learningpathResources.map((res) =>
+      Number(res.contentUri!.split(':')[2]),
+    );
     const [drafts, learningpaths]: [IArticle[], ILearningPathV2[]] = await Promise.all([
       fetchDrafts(draftIds),
       fetchLearningpaths(learningpathIds),
     ]);
     const [unpublishedDrafts, publishedDrafts] = partition(
       drafts,
-      draft => draft.status.current !== PUBLISHED,
+      (draft) => draft.status.current !== PUBLISHED,
     );
     const [unpublishedLearningpaths, publishedLearningpaths] = partition(
       learningpaths,
-      lp => lp.status !== PUBLISHED,
+      (lp) => lp.status !== PUBLISHED,
     );
 
-    setPublishedCount(prev => prev + publishedDrafts.length + publishedLearningpaths.length);
+    setPublishedCount((prev) => prev + publishedDrafts.length + publishedLearningpaths.length);
 
-    const draftPromises = unpublishedDrafts.map(draft =>
+    const draftPromises = unpublishedDrafts.map((draft) =>
       updateStatusDraft(draft.id, PUBLISHED)
-        .then(_ => setPublishedCount(c => c + 1))
-        .catch(_ =>
-          setFailedResources(prev =>
+        .then((_) => setPublishedCount((c) => c + 1))
+        .catch((_) =>
+          setFailedResources((prev) =>
             prev.concat({ name: draft.title?.title ?? '', contentUri: `url:article:${draft.id}` }),
           ),
         ),
     );
-    const learningpathPromises = unpublishedLearningpaths.map(lp =>
+    const learningpathPromises = unpublishedLearningpaths.map((lp) =>
       updateStatusLearningpath(lp.id, PUBLISHED)
-        .then(_ => setPublishedCount(c => c + 1))
-        .catch(_ =>
-          setFailedResources(prev =>
+        .then((_) => setPublishedCount((c) => c + 1))
+        .catch((_) =>
+          setFailedResources((prev) =>
             prev.concat({ name: lp.title.title, contentUri: `url:learningpath:${lp.id}` }),
           ),
         ),
@@ -148,6 +150,8 @@ const PublishChildNodeResources = ({ node }: Props) => {
         </StyledDiv>
       )}
       <AlertModal
+        title={t('errorMessage.description')}
+        label={t('errorMessage.description')}
         show={showAlert}
         onCancel={() => setShowAlert(false)}
         text={t('taxonomy.publish.error')}
@@ -164,6 +168,8 @@ const PublishChildNodeResources = ({ node }: Props) => {
         ))}
       />
       <AlertModal
+        title={t('taxonomy.publish.button')}
+        label={t('taxonomy.publish.button')}
         show={showConfirmation}
         actions={[
           {

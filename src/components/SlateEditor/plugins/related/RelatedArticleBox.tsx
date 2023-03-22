@@ -74,7 +74,7 @@ const RelatedArticleBox = ({ attributes, editor, element, onRemoveClick, childre
     const { data } = element;
     if (data && data.nodes) {
       const articleNodes = data.nodes;
-      fetchArticles(articleNodes).then(articles => setArticles(compact(articles)));
+      fetchArticles(articleNodes).then((articles) => setArticles(compact(articles)));
     } else {
       setEditMode(true);
     }
@@ -110,7 +110,7 @@ const RelatedArticleBox = ({ attributes, editor, element, onRemoveClick, childre
       if (!nodes) {
         return;
       }
-      const articleList = nodes.map(node => {
+      const articleList = nodes.map((node) => {
         if ('article-id' in node) {
           return fetchArticle(Number(node['article-id']));
         } else {
@@ -124,7 +124,7 @@ const RelatedArticleBox = ({ attributes, editor, element, onRemoveClick, childre
 
   useEffect(() => {
     const articleNodes = element.data.nodes;
-    fetchArticles(articleNodes).then(articles => setArticles(compact(articles)));
+    fetchArticles(articleNodes).then((articles) => setArticles(compact(articles)));
   }, [element.data.nodes, fetchArticles]);
 
   const insertExternal = async (url: string, title: string) => {
@@ -135,9 +135,9 @@ const RelatedArticleBox = ({ attributes, editor, element, onRemoveClick, childre
   };
 
   const onInsertBlock = (newArticle: string) => {
-    if (!articles.find(it => 'id' in it && it.id === newArticle) && Number(newArticle)) {
+    if (!articles.find((it) => 'id' in it && it.id === newArticle) && Number(newArticle)) {
       // get resource and add to state
-      fetchArticle(Number(newArticle)).then(article => {
+      fetchArticle(Number(newArticle)).then((article) => {
         if (article) {
           const newArticles = [...articles, article];
           setArticles(newArticles);
@@ -153,7 +153,7 @@ const RelatedArticleBox = ({ attributes, editor, element, onRemoveClick, childre
       editor,
       {
         data: {
-          nodes: newArticles.map(article => {
+          nodes: newArticles.map((article) => {
             if ('url' in article) {
               return {
                 resource: 'related-content',
@@ -181,7 +181,7 @@ const RelatedArticleBox = ({ attributes, editor, element, onRemoveClick, childre
   };
 
   const updateArticles = (newArticles: RelatedArticleType[]) => {
-    setArticles(newArticles.filter(a => !!a));
+    setArticles(newArticles.filter((a) => !!a));
     setNodeData(newArticles);
   };
 
@@ -211,7 +211,8 @@ const RelatedArticleBox = ({ attributes, editor, element, onRemoveClick, childre
         data-testid="relatedWrapper"
         onClick={openEditMode}
         onKeyPress={openEditMode}
-        {...attributes}>
+        {...attributes}
+      >
         <RelatedArticleList
           headingLevel="h3"
           messages={{
@@ -219,7 +220,8 @@ const RelatedArticleBox = ({ attributes, editor, element, onRemoveClick, childre
             showMore: t('form.related.showMore'),
             showLess: t('form.related.showLess'),
           }}
-          articleCount={articles.length}>
+          articleCount={articles.length}
+        >
           <>
             {articles.map((item, i) =>
               !('id' in item) ? (

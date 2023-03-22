@@ -31,7 +31,6 @@ const CreateLearningResource = () => {
       <HelmetWithTracker title={t('htmlTitles.createLearningResourcePage')} />
       <LearningResourceForm
         updateArticle={createArticleAndPushRoute}
-        updateArticleAndStatus={inp => createArticleAndPushRoute(inp.updatedArticle)}
         articleChanged={false}
         isNewlyCreated={false}
         articleLanguage={i18n.language}

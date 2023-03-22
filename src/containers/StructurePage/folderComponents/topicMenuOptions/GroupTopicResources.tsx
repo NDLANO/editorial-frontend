@@ -7,16 +7,16 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { useQueryClient } from 'react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import Tooltip from '@ndla/tooltip';
 import styled from '@emotion/styled';
+import { Switch } from '@ndla/switch';
 import {
   TAXONOMY_CUSTOM_FIELD_GROUPED_RESOURCE,
   TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES,
   TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE,
 } from '../../../../constants';
 import RoundIcon from '../../../../components/RoundIcon';
-import ToggleSwitch from '../../../../components/ToggleSwitch';
 import { StyledMenuItemEditField, StyledMenuItemInputField } from '../styles';
 import { TaxonomyMetadata } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { NodeType } from '../../../../modules/nodes/nodeApiTypes';
@@ -80,11 +80,12 @@ const GroupTopicResources = ({ node, hideIcon, onChanged }: Props) => {
       />
       <StyledTooltip tooltip={t('taxonomy.metadata.customFields.RGTooltip')}>
         <div>
-          <ToggleSwitch
-            on={isGrouped}
-            labelOff={'U'}
-            labelOn={'G'}
-            onClick={() => updateMetadata()}
+          <Switch
+            id="group-topic-resources"
+            checked={isGrouped}
+            label=""
+            onChange={updateMetadata}
+            thumbCharacter={isGrouped ? 'G' : 'U'}
           />
         </div>
       </StyledTooltip>

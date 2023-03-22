@@ -8,7 +8,7 @@
 
 import { MouseEvent, useEffect, useState } from 'react';
 import { IImageMetaInformationV3 } from '@ndla/types-image-api';
-import Button from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 import { colors } from '@ndla/core';
 import styled from '@emotion/styled';
 import { Crop, FocalPoint } from '@ndla/icons/editor';
@@ -158,7 +158,7 @@ const ImageEditor = ({ embed, onUpdatedImageSettings, imageUpdates, language }: 
       <StyledImageEditorEditMode>
         <div>
           <StyledImageEditorMenu>
-            {alignments.map(alignment => (
+            {alignments.map((alignment) => (
               <ImageAlignButton
                 key={`align_${alignment}`}
                 alignType={alignment}
@@ -169,7 +169,7 @@ const ImageEditor = ({ embed, onUpdatedImageSettings, imageUpdates, language }: 
           </StyledImageEditorMenu>
           {imageUpdates?.align === 'left' || imageUpdates?.align === 'right' ? (
             <StyledImageEditorMenu>
-              {sizes.map(size => (
+              {sizes.map((size) => (
                 <ImageSizeButton
                   key={`size_${size}`}
                   size={size}
@@ -183,7 +183,7 @@ const ImageEditor = ({ embed, onUpdatedImageSettings, imageUpdates, language }: 
           )}
           {imageUpdates?.size?.startsWith('full') || imageUpdates?.size?.startsWith('medium') ? (
             <StyledImageEditorMenu>
-              {bylineOptions.map(option => (
+              {bylineOptions.map((option) => (
                 <ShowBylineButton
                   key={option}
                   show={option === 'show'}
@@ -210,26 +210,27 @@ const ImageEditor = ({ embed, onUpdatedImageSettings, imageUpdates, language }: 
               <ImageEditorButton
                 tabIndex={-1}
                 isActive={embed['focal-x'] !== undefined}
-                onClick={(evt: MouseEvent<HTMLButtonElement>) =>
-                  onEditorTypeSet(evt, 'focalPoint')
-                }>
+                onClick={(evt: MouseEvent<HTMLButtonElement>) => onEditorTypeSet(evt, 'focalPoint')}
+              >
                 <FocalPoint />
               </ImageEditorButton>
             </Tooltip>
           )}
           {imageCancelButtonNeeded && (
-            <Button
+            <ButtonV2
               onClick={(evt: MouseEvent<HTMLButtonElement>) => onRemoveData(evt, editType)}
-              stripped>
+              variant="stripped"
+            >
               {t(`imageEditor.remove.${editType}`)}
-            </Button>
+            </ButtonV2>
           )}
           {isModifiable() && (
             <Tooltip tooltip={t('form.image.crop')}>
               <ImageEditorButton
                 isActive={embed['upper-left-x'] !== undefined}
                 onClick={(evt: MouseEvent<HTMLButtonElement>) => onEditorTypeSet(evt, 'crop')}
-                tabIndex={-1}>
+                tabIndex={-1}
+              >
                 <Crop />
               </ImageEditorButton>
             </Tooltip>

@@ -10,6 +10,7 @@ import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import { Footer, FooterLinkButton } from '@ndla/editor';
 import { colors, spacing } from '@ndla/core';
+import { ButtonV2 } from '@ndla/button';
 import { Launch } from '@ndla/icons/common';
 import { IConcept, IStatus as ConceptStatus } from '@ndla/types-concept-api';
 import { IUpdatedArticle, IStatus as DraftStatus } from '@ndla/types-draft-api';
@@ -24,8 +25,10 @@ import { NewMessageType, useMessages } from '../../containers/Messages/MessagesP
 import { ConceptStatusStateMachineType, DraftStatusStateMachineType } from '../../interfaces';
 import ResponsibleSelect from '../../containers/FormikForm/components/ResponsibleSelect';
 import StatusSelect from '../../containers/FormikForm/components/StatusSelect';
-import { requiredFieldsT } from '../../util/yupHelpers';
-import { PUBLISHED } from '../../constants';
+import { ARCHIVED, PUBLISHED, UNPUBLISHED } from '../../constants';
+import PreviewDraftLightboxV2 from '../PreviewDraft/PreviewDraftLightboxV2';
+import { useDisableConverter } from '../ArticleConverterContext';
+import { useSession } from '../../containers/Session/SessionProvider';
 
 interface Props {
   formIsDirty: boolean;
@@ -70,6 +73,8 @@ const StyledFooter = styled.div`
   margin-left: auto;
 `;
 
+const STATUSES_RESET_RESPONSIBLE = [ARCHIVED, UNPUBLISHED];
+
 function EditorFooter<T extends FormValues>({
   formIsDirty,
   savedToServer,
@@ -86,9 +91,11 @@ function EditorFooter<T extends FormValues>({
   hasErrors,
   responsibleId,
 }: Props) {
+  const disableConverter = useDisableConverter();
   const [status, setStatus] = useState<SingleValue>(null);
   const [responsible, setResponsible] = useState<SingleValue>(null);
 
+  const { ndlaId } = useSession();
   const { t } = useTranslation();
   const { values, setFieldValue, isSubmitting } = useFormikContext<T>();
   const { createMessage, formatErrorMessage } = useMessages();
@@ -96,22 +103,19 @@ function EditorFooter<T extends FormValues>({
   // Wait for newStatus to be set to trigger since formik doesn't update fields instantly
   const [newStatus, setNewStatus] = useState<SingleValue>(null);
 
+  const articleOrConcept = isArticle || isConcept;
+
   useEffect(() => {
-    if (newStatus && newStatus.value === PUBLISHED) {
-      onSave();
+    if (newStatus?.value === PUBLISHED) {
+      onSaveClick();
       setNewStatus(null);
-      setResponsible(null);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [newStatus]);
 
-  const onSave = (saveAsNewVersion?: boolean) => {
-    if (!responsible && newStatus?.value !== PUBLISHED && isArticle) {
-      createMessage({
-        message: requiredFieldsT('form.responsible.label', t),
-        timeToLive: 0,
-      });
-      return;
+  const onSave = (saveAsNewVersion?: boolean | undefined) => {
+    if (STATUSES_RESET_RESPONSIBLE.find((s) => s === status?.value)) {
+      updateResponsible(null);
     }
     onSaveClick(saveAsNewVersion);
   };
@@ -173,11 +177,6 @@ function EditorFooter<T extends FormValues>({
         setStatus(status);
       }
       setFieldValue('status', { current: status?.value });
-
-      // When status changes user should also update responsible
-      if (responsible && responsible.value === responsibleId) {
-        updateResponsible(null);
-      }
     } catch (error) {
       catchError(error, createMessage);
     }
@@ -187,13 +186,13 @@ function EditorFooter<T extends FormValues>({
     return (
       <Footer>
         <StyledFooter>
-          {isArticle && (
+          {articleOrConcept && (
             <Wrapper>
               <ResponsibleSelect
                 responsible={responsible}
                 setResponsible={setResponsible}
                 onSave={updateResponsible}
-                responsibleId={responsibleId}
+                responsibleId={ndlaId}
               />
             </Wrapper>
           )}
@@ -209,13 +208,24 @@ function EditorFooter<T extends FormValues>({
     <Footer>
       <>
         <div data-cy="footerPreviewAndValidate">
-          {values.id && isConcept && getEntity && isConceptType(getEntity) && (
-            <PreviewConceptLightbox getConcept={getEntity} typeOfPreview={'preview'} />
-          )}
+          {values.id &&
+            isConcept &&
+            getEntity &&
+            isConceptType(getEntity) &&
+            (!disableConverter ? (
+              <PreviewConceptLightbox getConcept={getEntity} typeOfPreview={'preview'} />
+            ) : (
+              <PreviewDraftLightboxV2
+                type="concept"
+                language={values.language}
+                activateButton={<ButtonV2 variant="link">{t('form.preview.button')}</ButtonV2>}
+              />
+            ))}
           {values.id && isArticle && (
             <FooterLinkButton
               bold
-              onClick={() => window.open(toPreviewDraft(values.id, values.language))}>
+              onClick={() => window.open(toPreviewDraft(values.id, values.language))}
+            >
               {t('form.preview.button')}
               <Launch />
             </FooterLinkButton>
@@ -229,7 +239,7 @@ function EditorFooter<T extends FormValues>({
         </div>
 
         <div data-cy="footerStatus">
-          {isArticle && (
+          {articleOrConcept && (
             <Wrapper>
               <ResponsibleSelect
                 responsible={responsible}

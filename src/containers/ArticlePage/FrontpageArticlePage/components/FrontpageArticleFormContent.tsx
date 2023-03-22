@@ -50,12 +50,21 @@ import { FrontpageArticleFormType } from '../../../FormikForm/articleFormHooks';
 import { dndPlugin } from '../../../../components/SlateEditor/plugins/DND';
 import { SlatePlugin } from '../../../../components/SlateEditor/interfaces';
 import { useSession } from '../../../Session/SessionProvider';
-import withSession from '../../../Session/withSession';
 import RichTextEditor from '../../../../components/SlateEditor/RichTextEditor';
 import { spanPlugin } from '../../../../components/SlateEditor/plugins/span';
 import { conceptListPlugin } from '../../../../components/SlateEditor/plugins/conceptList';
 import { inlineConceptPlugin } from '../../../../components/SlateEditor/plugins/concept/inline';
 import { blockConceptPlugin } from '../../../../components/SlateEditor/plugins/concept/block';
+import { TYPE_TABLE } from '../../../../components/SlateEditor/plugins/table/types';
+import { TYPE_CODEBLOCK } from '../../../../components/SlateEditor/plugins/codeBlock/types';
+import {
+  TYPE_EMBED_H5P,
+  TYPE_EMBED_BRIGHTCOVE,
+  TYPE_EMBED_AUDIO,
+  TYPE_EMBED_EXTERNAL,
+  TYPE_EMBED_IMAGE,
+} from '../../../../components/SlateEditor/plugins/embed/types';
+import { TYPE_FILE } from '../../../../components/SlateEditor/plugins/file/types';
 
 const StyledFormikField = styled(FormikField)`
   display: flex;
@@ -81,14 +90,21 @@ const StyledContentDiv = styled(FormikField)`
 `;
 
 const MarkdownButton = styled(IconButtonV2)<{ active: boolean }>`
-  color: ${p => (p.active ? colors.brand.primary : colors.brand.light)};
+  color: ${(p) => (p.active ? colors.brand.primary : colors.brand.light)};
 `;
 
 const SlugButton = styled(IconButtonV2)<{ active: boolean }>`
-  color: ${p => (p.active ? colors.brand.primary : colors.brand.light)};
+  color: ${(p) => (p.active ? colors.brand.primary : colors.brand.light)};
 `;
+const visualElements = [
+  TYPE_EMBED_H5P,
+  TYPE_EMBED_BRIGHTCOVE,
+  TYPE_EMBED_AUDIO,
+  TYPE_EMBED_EXTERNAL,
+  TYPE_EMBED_IMAGE,
+];
 
-const actions = ['table', 'ndlaembed', 'code-block', 'file'];
+const actions = [TYPE_TABLE, TYPE_CODEBLOCK, TYPE_FILE].concat(visualElements);
 const actionsToShowInAreas = {
   details: actions,
   aside: actions,
@@ -180,7 +196,7 @@ const FrontpageArticleFormContent = ({
               creators={creators}
               published={published}
               allowEdit={true}
-              onChange={date => {
+              onChange={(date) => {
                 form.setFieldValue(field.name, date);
               }}
             />
@@ -192,7 +208,8 @@ const FrontpageArticleFormContent = ({
                     variant="stripped"
                     colorTheme="light"
                     active={editSlug}
-                    onClick={() => setEditSlug(!editSlug)}>
+                    onClick={() => setEditSlug(!editSlug)}
+                  >
                     <Link />
                   </SlugButton>
                 </Tooltip>
@@ -203,7 +220,8 @@ const FrontpageArticleFormContent = ({
                   variant="stripped"
                   colorTheme="light"
                   active={preview}
-                  onClick={() => setPreview(!preview)}>
+                  onClick={() => setPreview(!preview)}
+                >
                   <Eye />
                 </MarkdownButton>
               </Tooltip>
@@ -235,7 +253,7 @@ const FrontpageArticleFormContent = ({
               submitted={isSubmitting}
               plugins={plugins(articleLanguage ?? '', i18n.language, handleSubmitRef)}
               data-cy="frontpage-article-content"
-              onChange={value => {
+              onChange={(value) => {
                 onChange({
                   target: {
                     value,

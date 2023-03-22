@@ -6,9 +6,11 @@
  *
  */
 
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { Editor } from 'slate';
 import { RenderElementProps, useFocused, useSelected } from 'slate-react';
+import { useTranslation } from 'react-i18next';
+import { ModalV2 } from '@ndla/modal';
 import { colors } from '@ndla/core';
 import EditFootnote from './EditFootnote';
 import { FootnoteElement } from '.';
@@ -23,14 +25,15 @@ interface Props extends RenderElementProps {
 
 const Footnote = (props: Props) => {
   const { attributes, children, editor, element } = props;
+  const { t } = useTranslation();
 
   const [editMode, setEditMode] = useState(!element.data.title);
   const selected = useSelected();
   const focused = useFocused();
 
-  const toggleEditMode = () => {
-    setEditMode(prev => !prev);
-  };
+  const toggleEditMode = useCallback(() => {
+    setEditMode((prev) => !prev);
+  }, []);
 
   return (
     <>
@@ -41,21 +44,31 @@ const Footnote = (props: Props) => {
         {...attributes}
         role="link"
         tabIndex={0}
-        onClick={toggleEditMode}>
+        onClick={toggleEditMode}
+      >
         <sup contentEditable={false} style={{ userSelect: 'none' }}>
           [#]
         </sup>
         {children}
       </a>
-      {editMode && (
-        <EditFootnote
-          editor={editor}
-          node={element}
-          existingFootnote={element.data}
-          closeDialog={toggleEditMode}
-          onChange={editor.onChange}
-        />
-      )}
+      <ModalV2
+        controlled
+        isOpen={editMode}
+        onClose={toggleEditMode}
+        label={t(
+          `form.content.footnote.${element.data.title !== undefined ? 'editTitle' : 'addTitle'}`,
+        )}
+      >
+        {(close) => (
+          <EditFootnote
+            editor={editor}
+            node={element}
+            existingFootnote={element.data}
+            closeDialog={close}
+            onChange={editor.onChange}
+          />
+        )}
+      </ModalV2>
     </>
   );
 };

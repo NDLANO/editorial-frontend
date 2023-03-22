@@ -114,25 +114,32 @@ const phrases = {
     addSearch: 'Legg til nytt søk',
     deleteSavedSearch: 'Slett lagret søk',
     deleteSearch: 'Slett søk',
-    emptyLastUsed: 'Ingen sist redigerte',
+    noArticles: 'Ingen artikler ...',
+    emptyLastUsed: 'Ingen sist redigerte ...',
+    emptyConcepts: 'Ingen forklaringer ...',
     emptySavedSearch: 'Ingen lagrede søk',
     guidelines: 'Retningslinjer',
     mustBeSearch: 'Lenken må være til et søk',
     lastUsed: 'Sist redigert',
+    lastUsedDescription: 'Artikler du har redigert nylig',
     savedSearch: 'Lagrede søk',
     saveSearch: 'Lagre søk',
     chooseSubject: 'Velg fag',
     chooseTopic: 'Velg emner',
     errorMessage: 'Innhenting av data feilet',
+    goToSearch: 'Gå til søk',
     workList: {
       title: 'Mine arbeidsoppgaver',
-      description: 'Artikler hvor jeg står i ansvarlig-feltet',
+      description: 'Artikler hvor du står som ansvarlig',
       name: 'Navn',
       status: 'Status',
       contentType: 'Innholdstype',
       primarySubject: 'Primærfag',
       topicRelation: 'Emnetilhørighet',
       date: 'Tildelningsdato',
+      ariaLabel: 'Oversikt over mine arbeidsoppgaver og forklaringer',
+      conceptDescription: 'Forklaringer hvor du står som ansvarlig',
+      conceptSubject: 'Forklaringsfag',
     },
     welcomeBack: 'Velkommen tilbake',
   },
@@ -244,6 +251,7 @@ const phrases = {
       'revision-date-from': 'Revisjonsdato fra',
       'revision-date-to': 'Revisjonsdato til',
       'exclude-revision-log': 'Ekskluder endringslogg',
+      'responsible-ids': 'Velg ansvarlig',
     },
     tagType: {
       query: 'Innhold',
@@ -259,6 +267,7 @@ const phrases = {
       'revision-date-from': 'Revisjonsdato fra',
       'revision-date-to': 'Revisjonsdato til',
       'exclude-revision-log': 'Endringslogg ekskludert',
+      'responsible-ids': 'Ansvarlig',
     },
     btn: 'Søk',
     empty: 'Tøm',
@@ -469,6 +478,7 @@ const phrases = {
     alreadyPartOfSeries: 'Del av en annen serie',
     description: 'Beskrivelse',
     rss: 'Rss-feed',
+    adminError: 'Du har ikke tilgang til å opprette eller endre podkastserier.',
   },
   podcastForm: {
     title: 'Podkastepisode',
@@ -1024,7 +1034,6 @@ const phrases = {
       revisionDate: 'Antall som nærmer seg revisjonsdato',
       revisionDateSingle: 'Nærmer seg revisjonsdato',
       error: 'Noe gikk galt ved oppdatering av ansvarlig.',
-      noArticles: 'Ingen artikler ...',
     },
     origin: {
       label: 'Opphav',
@@ -1261,6 +1270,7 @@ const phrases = {
     invalidUrl: 'Ugyldig url',
     noArticleInProd: 'Ingen artikkel funnet i prod',
     taxonomy: 'Det var et problem ved lasting av taksonomi',
+    versionSelect: 'Artikkelen finnes ikke i valgt versjon',
     errorWhenFetchingTaxonomyArticle:
       'Det var et problem ved lasting av den underliggende artikkelen',
     unsavedTaxonomy: 'Du har ulagrede endringer. Trykk avbryt igjen hvis du ønsker å fortsette.',
@@ -1296,7 +1306,7 @@ const phrases = {
     editStructure: 'Rediger struktur',
     editSubjectpage: 'Rediger fagforside',
     deleteSubject: 'Slett fag',
-    addSubject: 'Legg til nytt fag',
+    addSubject: 'Legg til fag',
     subjectName: 'Navn på nytt fag',
     addExistingTopic: 'Flytt eksisterende emne hit',
     addExistingLoading: 'Flytter emne',
@@ -1308,8 +1318,10 @@ const phrases = {
     subjectSettings: 'Faginnstillinger',
     topicSettings: 'Emneinnstillinger',
     currentVersion: 'Nåværende versjon',
-    deleteNode: 'Slett',
+    deleteNode: 'Slett node',
+    deleteResource: 'Slett ressurs',
     confirmDelete: 'Er du sikker på at du vil slette denne noden?',
+    version: 'Versjon',
     changeName: {
       loadError: 'Klarte ikke hente oversettelser',
       updateError: 'Klarte ikke oppdatere oversettelser',
@@ -1366,8 +1378,7 @@ const phrases = {
     publish: {
       button: 'Publiser alle ressurser',
       waiting: 'Publiserer ressurser',
-      info:
-        'Er du sikker på at du ønsker å publisere alle ressurser som er knyttet til denne noden?',
+      info: 'Er du sikker på at du ønsker å publisere alle ressurser som er knyttet til denne noden?',
       done: 'Ressurser er publisert',
       error: 'Følgende ressurser ble ikke publisert:',
     },
@@ -1421,16 +1432,15 @@ const phrases = {
       edit: 'Endre læreplankobling',
       empty: 'Ingen registerte koder',
       addNew: 'Legg til ny læreplankobling',
+      delete: 'Fjern {{grepCode}}',
     },
     copyRevisionDates: {
-      text:
-        'Er du helt sikker på at du ønsker å kopiere revisjonsdatoen? Dette vil sette alle revisjonsdatoer fra denne noden til alle undernoder og ressurser.',
+      text: 'Er du helt sikker på at du ønsker å kopiere revisjonsdatoen? Dette vil sette alle revisjonsdatoer fra denne noden til alle undernoder og ressurser.',
       buttonText: 'Kopier revisjonsdato',
       error: 'En feil oppstod under kopiering',
     },
     resourcesPrimary: {
-      text:
-        'Er du helt sikker på at du ønsker å gjøre alle tilhørende ressurser om til primærkoblinger?',
+      text: 'Er du helt sikker på at du ønsker å gjøre alle tilhørende ressurser om til primærkoblinger?',
       recursiveText:
         'Er du helt sikker på at du ønsker å gjøre alle tilhørende ressurser og underressurser om til primærkoblinger?',
       buttonText: 'Gjør alle ressurser om til primærkoblinger',
@@ -1534,6 +1544,7 @@ const phrases = {
     newVersionTitle: 'Opprett ny versjon',
     newVersionButton: 'Ny versjon',
     editVersionTitle: 'Rediger versjon',
+    publishTitle: 'Publiser versjon',
     publishButton: 'Publiser',
     publishWarning:
       'Er du sikker på at du ønsker å publisere denne versjonen? Den nåværende versjonen vil bli arkivert, og alle nye endringer i denne versjonen vil umiddelbart være tilgjengelige på ndla.no',
@@ -1569,8 +1580,12 @@ const phrases = {
     nodePublished: 'Noden har blitt publisert!',
     showInStructure: 'Vis i struktur',
     compare: 'Sammenlign',
+    deleteAll: 'Slett publiseringsforespørsler',
+    deleteAllInfo:
+      'Er du sikker på at du ønsker å slette alle publiseringsforespørsler? Denne handlingen kan ikke angres.',
     errors: {
       noPublishedVersion: 'Klarte ikke finne publisert versjon',
+      noVersions: 'Klarte ikke finne versjoner',
     },
     numberRequests: 'Antall publiseringsforespørsler',
   },
@@ -1718,6 +1733,16 @@ const phrases = {
     ti: 'Tigrinja',
     zh: 'Kinesisk',
   },
+  unsavedChanges: 'Ulagrede endringer',
+  messages: {
+    severity: {
+      info: 'Informasjon',
+      warning: 'Advarsel',
+      success: 'Alt OK!',
+      danger: 'Pass på!',
+    },
+  },
+  delete: 'Slett',
 };
 
 export default phrases;

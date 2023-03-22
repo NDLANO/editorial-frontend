@@ -12,7 +12,7 @@ import { colors, spacing } from '@ndla/core';
 import { ModalBody, ModalHeaderV2 } from '@ndla/modal';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useQuery, useQueryClient } from 'react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import Spinner from '../../../components/Spinner';
 import { PUBLISHED, UNPUBLISHED } from '../../../constants';
 import { updateStatusDraft } from '../../../modules/draft/draftApi';
@@ -83,7 +83,7 @@ const RemoveResource = ({ deleteResource, nodeId, onClose }: Props) => {
     onMutate: async ({ id }) => {
       await qc.cancelQueries(compKey);
       const prevData = qc.getQueryData<ResourceWithNodeConnection[]>(compKey) ?? [];
-      const withoutDeleted = prevData.filter(res => res.connectionId !== id);
+      const withoutDeleted = prevData.filter((res) => res.connectionId !== id);
       qc.setQueryData<ResourceWithNodeConnection[]>(compKey, withoutDeleted);
       return prevData;
     },

@@ -12,7 +12,7 @@ import styled from '@emotion/styled';
 import { Structure } from '@ndla/editor';
 import { FieldHeader } from '@ndla/forms';
 import { colors } from '@ndla/core';
-import Button from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 import { useTranslation } from 'react-i18next';
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import { Switch } from '@ndla/switch';
@@ -65,7 +65,7 @@ const TopicArticleConnections = ({
   };
 
   const getFavoriteSubjects = (subjects: SubjectType[], favoriteSubjectIds: string[]) => {
-    return subjects.filter(e => favoriteSubjectIds.includes(e.id));
+    return subjects.filter((e) => favoriteSubjectIds.includes(e.id));
   };
 
   const handleOpenToggle = async ({
@@ -105,7 +105,8 @@ const TopicArticleConnections = ({
     <>
       <FieldHeader
         title={t('taxonomy.topics.topicPlacement')}
-        subTitle={t('taxonomy.topics.subTitleTopic')}>
+        subTitle={t('taxonomy.topics.subTitleTopic')}
+      >
         <HowToHelper pageId="TaxonomyTopicConnections" tooltip={t('taxonomy.topics.helpLabel')} />
       </FieldHeader>
       <ActiveTopicConnections activeTopics={activeTopics} type="topic-article" />
@@ -116,7 +117,8 @@ const TopicArticleConnections = ({
         size="large"
         narrow
         minHeight="85vh"
-        activateButton={<Button>{t(`taxonomy.topics.${'chooseTaxonomyPlacement'}`)}</Button>}>
+        activateButton={<ButtonV2>{t(`taxonomy.topics.${'chooseTaxonomyPlacement'}`)}</ButtonV2>}
+      >
         {(closeModal: () => void) => (
           <>
             <ModalHeader>

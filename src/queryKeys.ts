@@ -27,6 +27,7 @@ export const AUDIO = 'audio';
 export const PODCAST_SERIES = 'podcastSeries';
 
 export const DRAFT = 'draft';
+export const SEARCH_DRAFTS = 'searchDrafts';
 export const LICENSES = 'licenses';
 export const USER_DATA = 'userData';
 export const DRAFT_STATUS_STATE_MACHINE = 'draftStatusStateMachine';

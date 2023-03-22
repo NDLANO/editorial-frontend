@@ -7,7 +7,6 @@
  */
 
 import { useRef, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import { Remarkable } from 'remarkable';
 import parse from 'html-react-parser';
 import { useTranslation } from 'react-i18next';
@@ -23,21 +22,31 @@ import { Plain } from '../../util/slatePlainSerializer';
 const markdown = new Remarkable({ breaks: true });
 markdown.inline.ruler.enable(['sub', 'sup']);
 
-const renderMarkdown = (text, concept) => {
+const renderMarkdown = (text: string, concept: boolean) => {
   if (!concept) {
     markdown.block.ruler.disable(['list']);
   }
   return markdown.render(text);
 };
 
+interface Props {
+  name?: string;
+  maxLength?: number;
+  type?: string;
+  placeholder?: string;
+  preview?: boolean;
+  concept?: boolean;
+  handleSubmit: () => void;
+}
+
 const IngressField = ({
-  name,
-  maxLength,
+  name = 'introduction',
+  maxLength = 300,
   placeholder,
   handleSubmit,
   preview = false,
   concept = false,
-}) => {
+}: Props) => {
   const handleSubmitRef = useRef(handleSubmit);
 
   useEffect(() => {
@@ -54,7 +63,8 @@ const IngressField = ({
         label={t('form.introduction.label')}
         name={name}
         showMaxLength
-        maxLength={maxLength}>
+        maxLength={maxLength}
+      >
         {({ field, form: { isSubmitting } }) =>
           preview ? (
             <div className="article_introduction">
@@ -76,22 +86,6 @@ const IngressField = ({
       </FormikField>
     </StyledFormContainer>
   );
-};
-
-IngressField.defaultProps = {
-  name: 'introduction',
-  maxLength: 300,
-  type: 'ingress',
-};
-
-IngressField.propTypes = {
-  name: PropTypes.string,
-  maxLength: PropTypes.number,
-  type: PropTypes.string,
-  placeholder: PropTypes.string,
-  preview: PropTypes.bool,
-  concept: PropTypes.bool,
-  handleSubmit: PropTypes.func.isRequired,
 };
 
 export default IngressField;

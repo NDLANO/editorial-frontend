@@ -7,26 +7,28 @@
  */
 
 import styled from '@emotion/styled';
-import Button from '@ndla/button';
-import { colors } from '@ndla/core';
+import { ButtonV2 } from '@ndla/button';
+import { colors, spacing } from '@ndla/core';
 import { Cross, Plus } from '@ndla/icons/action';
 import { Camera, H5P, Link, Video } from '@ndla/icons/editor';
 import { useState } from 'react';
 
-const StyledButton = styled(Button)`
+const StyledButton = styled(ButtonV2)`
+  border-radius: 100%;
   height: 40px;
   width: 40px;
-  border: 1px solid ${colors.brand.grey};
-  border-radius: 25px;
-  margin-right: 0.3rem;
+  border: 1px solid ${colors.brand.greyMedium};
   color: ${colors.brand.grey};
-
-  &:focus,
-  &:hover {
-    color: ${colors.brand.grey};
-    border: 1px solid ${colors.brand.grey};
-    border-radius: 25px;
+  svg {
+    min-width: 20px;
+    width: 20px;
+    height: 20px;
   }
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  gap: ${spacing.xsmall};
 `;
 
 interface StyledDivProps {
@@ -34,7 +36,7 @@ interface StyledDivProps {
 }
 
 const DisplayContainer = styled.div<StyledDivProps>`
-  display: ${p => (p.hidden ? 'none' : 'inline-block')};
+  display: ${(p) => (p.hidden ? 'none' : 'inline-block')};
 `;
 
 interface Props {
@@ -73,22 +75,26 @@ const VisualElementMenu = ({ onSelect, types = ['image', 'video', 'h5p', 'url'] 
   ];
 
   return (
-    <div>
-      <StyledButton stripped onClick={toggleIsOpen}>
+    <ButtonContainer>
+      <StyledButton variant="outline" onClick={toggleIsOpen} colorTheme="lighter">
         {isOpen ? <Cross /> : <Plus />}
       </StyledButton>
-      <DisplayContainer hidden={!isOpen}>
-        {visualElementButtons
-          .filter(button => types.find(type => type === button.type))
-          .map(button => {
+      {isOpen &&
+        visualElementButtons
+          .filter((button) => types.find((type) => type === button.type))
+          .map((button) => {
             return (
-              <StyledButton key={button.type} stripped onClick={() => handleSelect(button.type)}>
+              <StyledButton
+                key={button.type}
+                variant="outline"
+                colorTheme="lighter"
+                onClick={() => handleSelect(button.type)}
+              >
                 {button.component}
               </StyledButton>
             );
           })}
-      </DisplayContainer>
-    </div>
+    </ButtonContainer>
   );
 };
 

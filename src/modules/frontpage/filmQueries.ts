@@ -8,7 +8,7 @@
 
 import sortBy from 'lodash/sortBy';
 import { useTranslation } from 'react-i18next';
-import { useQuery, UseQueryOptions } from 'react-query';
+import { useQuery, UseQueryOptions } from '@tanstack/react-query';
 import { IFilmFrontPageData } from '@ndla/types-frontpage-api';
 import { IMultiSearchResult } from '@ndla/types-search-api';
 import { fetchFilmFrontpage } from './frontpageApi';
@@ -41,14 +41,16 @@ export const useMoviesQuery = (
   options: UseQueryOptions<IMultiSearchResult> = {},
 ) => {
   const { i18n } = useTranslation();
-  const movieIds = params.movieUrns.map(urn => Number(getIdFromUrn(urn))).filter(id => !isNaN(id));
+  const movieIds = params.movieUrns
+    .map((urn) => Number(getIdFromUrn(urn)))
+    .filter((id) => !isNaN(id));
   const ids = sortBy(movieIds).join(',');
 
   return useQuery<IMultiSearchResult>(
     [FILM_SLIDESHOW, params],
     () => searchResources({ ...slideshowArticlesQueryObject, ids: ids }),
     {
-      select: res => ({ ...res, results: sortMoviesByIdList(movieIds, res.results, i18n) }),
+      select: (res) => ({ ...res, results: sortMoviesByIdList(movieIds, res.results, i18n) }),
       ...options,
     },
   );

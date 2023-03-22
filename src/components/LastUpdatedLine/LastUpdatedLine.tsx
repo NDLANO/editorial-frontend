@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { colors } from '@ndla/core';
@@ -44,7 +43,7 @@ const LastUpdatedLine = ({
   const { t } = useTranslation();
   return (
     <StyledLastUpdatedLine>
-      {creators.map(creator => creator.name).join(', ')}
+      {creators.map((creator) => creator.name).join(', ')}
       {published ? ` - ${t('topicArticleForm.info.lastUpdated')}` : ''}
       {published &&
         (allowEdit ? (
@@ -54,17 +53,6 @@ const LastUpdatedLine = ({
         ))}
     </StyledLastUpdatedLine>
   );
-};
-
-LastUpdatedLine.propTypes = {
-  creators: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      type: PropTypes.string.isRequired,
-    }).isRequired,
-  ).isRequired,
-  published: PropTypes.string,
-  allowEdit: PropTypes.bool,
 };
 
 export default LastUpdatedLine;

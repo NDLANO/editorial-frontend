@@ -91,10 +91,10 @@ export const tableSerializer: SlateSerializer = {
       const childNodes = Array.from(el.childNodes) as HTMLElement[];
       const colgroups =
         childNodes
-          .filter(child =>
+          .filter((child) =>
             ['colgroup', 'col'].includes((child as HTMLElement).tagName?.toLowerCase()),
           )
-          .map(col => col.outerHTML)
+          .map((col) => col.outerHTML)
           .join('') || '';
       return slatejsx(
         'element',
@@ -104,7 +104,7 @@ export const tableSerializer: SlateSerializer = {
           rowHeaders,
         },
         children.filter(
-          child =>
+          (child) =>
             Element.isElement(child) &&
             [TYPE_TABLE_HEAD, TYPE_TABLE_BODY, TYPE_TABLE_CAPTION].includes(child.type),
         ),
@@ -195,15 +195,17 @@ export const tableSerializer: SlateSerializer = {
               __html:
                 renderToStaticMarkup(caption) +
                 node.colgroups +
-                rest.map(e => renderToStaticMarkup(e)).join(''),
-            }}></table>
+                rest.map((e) => renderToStaticMarkup(e)).join(''),
+            }}
+          ></table>
         );
       }
       return (
         <table
           dangerouslySetInnerHTML={{
-            __html: node.colgroups + children.map(e => renderToStaticMarkup(e)).join(''),
-          }}></table>
+            __html: node.colgroups + children.map((e) => renderToStaticMarkup(e)).join(''),
+          }}
+        ></table>
       );
     }
     if (node.type === TYPE_TABLE_ROW) {
@@ -254,16 +256,17 @@ export const tablePlugin = (editor: Editor) => {
         return <tr {...attributes}>{children}</tr>;
       case TYPE_TABLE_CELL: {
         const align = element.data.align || '';
-        const parsedAlign = (['left', 'center', 'right'].includes(align)
-          ? align
-          : undefined) as TdHTMLAttributes<HTMLTableCellElement>['align'];
+        const parsedAlign = (
+          ['left', 'center', 'right'].includes(align) ? align : undefined
+        ) as TdHTMLAttributes<HTMLTableCellElement>['align'];
         return (
           <td
             className={element.data.isHeader ? 'table_header' : ''}
             rowSpan={element.data.rowspan}
             colSpan={element.data.colspan}
             align={parsedAlign}
-            {...attributes}>
+            {...attributes}
+          >
             {children}
           </td>
         );
@@ -296,7 +299,7 @@ export const tablePlugin = (editor: Editor) => {
     return renderLeaf && renderLeaf(props);
   };
 
-  editor.normalizeNode = entry => {
+  editor.normalizeNode = (entry) => {
     const [node, path] = entry;
     // A. Table normalizer
     if (isTable(node)) {
@@ -368,7 +371,7 @@ export const tablePlugin = (editor: Editor) => {
           { ...defaultParagraphBlock(), serializeAsText: true },
           {
             at: path,
-            match: n => n !== node,
+            match: (n) => n !== node,
           },
         );
       }
@@ -430,7 +433,7 @@ export const tablePlugin = (editor: Editor) => {
         ) {
           Transforms.unsetNodes(editor, ['bold', 'code', 'italic', 'sub', 'sup', 'underlined'], {
             at: path,
-            match: node => Text.isText(node),
+            match: (node) => Text.isText(node),
           });
           return;
         }
@@ -440,7 +443,7 @@ export const tablePlugin = (editor: Editor) => {
     normalizeNode(entry);
   };
 
-  editor.onKeyDown = event => {
+  editor.onKeyDown = (event) => {
     // Navigation with arrows and tab
     if (validKeys.includes(event.key)) {
       const entry = getCurrentBlock(editor, TYPE_TABLE);
@@ -456,9 +459,10 @@ export const tablePlugin = (editor: Editor) => {
         Path.isDescendant(editor.selection.anchor.path, tablePath)
       ) {
         if (tableNode) {
-          return handleTableKeydown(event, editor, [tableNode, tablePath] as NodeEntry<
-            TableElement
-          >);
+          return handleTableKeydown(event, editor, [
+            tableNode,
+            tablePath,
+          ] as NodeEntry<TableElement>);
         }
       }
     }

@@ -6,7 +6,6 @@
  *
  */
 
-import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { RadioButtonGroup } from '@ndla/ui';
 import { FieldInputProps, FieldProps } from 'formik';
@@ -30,7 +29,8 @@ const ImageMetaData = ({ imageTags, imageLanguage }: Props) => {
         name="tags"
         label={t('form.tags.label')}
         obligatory
-        description={t('form.tags.description')}>
+        description={t('form.tags.description')}
+      >
         {({ field, form }: FieldProps<string[], string[]>) => (
           <AsyncSearchTags
             multiSelect
@@ -51,7 +51,8 @@ const ImageMetaData = ({ imageTags, imageLanguage }: Props) => {
       <FormikField
         name="modelReleased"
         label={t('form.modelReleased.label')}
-        description={t('form.modelReleased.description')}>
+        description={t('form.modelReleased.description')}
+      >
         {({ field }: { field: FieldInputProps<string> }) => {
           const options = ['yes', 'not-applicable', 'no', 'not-set'];
           const defaultValue = 'not-set';
@@ -60,7 +61,10 @@ const ImageMetaData = ({ imageTags, imageLanguage }: Props) => {
               <RadioButtonGroup
                 selected={field.value ?? defaultValue}
                 uniqeIds
-                options={options.map(value => ({ title: t(`form.modelReleased.${value}`), value }))}
+                options={options.map((value) => ({
+                  title: t(`form.modelReleased.${value}`),
+                  value,
+                }))}
                 onChange={(value: string) =>
                   field.onChange({
                     target: {
@@ -76,11 +80,6 @@ const ImageMetaData = ({ imageTags, imageLanguage }: Props) => {
       </FormikField>
     </>
   );
-};
-
-ImageMetaData.propTypes = {
-  imageTags: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
-  imageLanguage: PropTypes.string,
 };
 
 export default ImageMetaData;

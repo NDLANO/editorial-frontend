@@ -6,7 +6,7 @@
  *
  */
 
-import { useQuery, UseQueryOptions } from 'react-query';
+import { useQuery, UseQueryOptions } from '@tanstack/react-query';
 import { VERSION, VERSIONS } from '../../../queryKeys';
 import { fetchVersion, fetchVersions } from './versionApi';
 import { GetVersionsParams, VersionType } from './versionApiTypes';

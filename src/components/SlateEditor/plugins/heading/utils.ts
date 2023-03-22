@@ -27,26 +27,26 @@ export const toggleHeading = (editor: Editor, level: HeadingElement['level']) =>
         return;
       }
       Transforms.unsetNodes(editor, ['level'], {
-        match: node => Element.isElement(node) && node.type === 'heading',
+        match: (node) => Element.isElement(node) && node.type === 'heading',
         at: Editor.unhangRange(editor, editor.selection),
       });
       Transforms.setNodes(
         editor,
         { type: 'paragraph' },
         {
-          match: node => Element.isElement(node) && node.type === 'heading',
+          match: (node) => Element.isElement(node) && node.type === 'heading',
           at: Editor.unhangRange(editor, editor.selection),
         },
       );
     });
   } else if (isHeading) {
     Transforms.setNodes(editor, newHeadingProps, {
-      match: node => Element.isElement(node) && node.type === 'heading',
+      match: (node) => Element.isElement(node) && node.type === 'heading',
       hanging: false,
     });
   } else {
     Transforms.setNodes(editor, newHeadingProps, {
-      match: node => Element.isElement(node) && node.type === 'paragraph',
+      match: (node) => Element.isElement(node) && node.type === 'paragraph',
       at: Editor.unhangRange(editor, editor.selection),
     });
   }

@@ -57,6 +57,8 @@ const SetResourcesPrimary = ({
           : t('taxonomy.resourcesPrimary.buttonText')}
       </MenuItemButton>
       <AlertModal
+        title={t('taxonomy.resourcesPrimary.buttonText')}
+        label={t('taxonomy.resourcesPrimary.buttonText')}
         show={editMode === 'setResourcesPrimary'}
         actions={[
           {

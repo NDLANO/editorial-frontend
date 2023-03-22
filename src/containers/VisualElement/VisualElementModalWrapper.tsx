@@ -1,25 +1,25 @@
 import { useTranslation } from 'react-i18next';
-import { ReactElement, useState } from 'react';
-
-import { css } from '@emotion/react';
+import { ReactElement } from 'react';
 import styled from '@emotion/styled';
-import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
-import Lightbox from '../../components/Lightbox';
+import { ModalHeader, ModalBody, ModalCloseButton, ModalV2 } from '@ndla/modal';
 
 interface Props {
   resource: string;
   onClose: () => void;
   isOpen: boolean;
-  children: (setH5pFetchFail: (failed: boolean) => void) => ReactElement;
+  children: ReactElement;
   label?: string;
 }
 
-const h5pContentCss = css`
+const StyledModal = styled(ModalV2)`
   padding: 0;
+  width: 100%;
+  height: 100%;
+  max-height: 95%;
+  overflow: hidden;
 `;
 
-const StyledVisualElementModal = styled(Modal)`
-  overflow: hidden;
+const StyledVisualElementModal = styled(ModalV2)`
   .modal-body {
     height: 90%;
     h2 {
@@ -28,37 +28,35 @@ const StyledVisualElementModal = styled(Modal)`
   }
 `;
 
+const StyledModalBody = styled.div`
+  display: flex;
+  flex: 1;
+`;
+
 const VisualElementModalWrapper = ({ resource, children, onClose, isOpen, label }: Props) => {
   const { t } = useTranslation();
-  const [h5pFetchFail, setH5pFetchFail] = useState(false);
 
   if (resource === 'h5p') {
     return (
-      <Lightbox
-        display={isOpen}
-        appearance={'fullscreen'}
-        onClose={onClose}
-        hideCloseButton={!h5pFetchFail}
-        contentCss={!h5pFetchFail ? h5pContentCss : undefined}>
-        {children(setH5pFetchFail)}
-      </Lightbox>
+      <StyledModal controlled isOpen={isOpen} size="large" onClose={onClose}>
+        {(_) => <StyledModalBody>{children}</StyledModalBody>}
+      </StyledModal>
     );
   }
   return (
     <StyledVisualElementModal
+      controlled
       label={label}
-      narrow
-      controllable
       isOpen={isOpen}
       size="large"
-      backgroundColor="white"
-      onClose={onClose}>
+      onClose={onClose}
+    >
       {(onCloseModal: () => void) => (
         <>
           <ModalHeader>
             <ModalCloseButton title={t('dialog.close')} onClick={onCloseModal} />
           </ModalHeader>
-          <ModalBody>{children(setH5pFetchFail)}</ModalBody>
+          <ModalBody>{children}</ModalBody>
         </>
       )}
     </StyledVisualElementModal>

@@ -46,7 +46,7 @@ const FileUploader = ({ onFileSave }: Props) => {
     try {
       const files = Array.from(filesList);
       setSaving(true);
-      const newFiles = await Promise.all(files.map(file => saveFile(file)));
+      const newFiles = await Promise.all(files.map((file) => saveFile(file)));
       onFileSave(
         newFiles.map((file, i) => ({
           path: file.path,
@@ -77,7 +77,8 @@ const FileUploader = ({ onFileSave }: Props) => {
         onAddedFiles={onSave}
         multiple
         loading={saving}
-        ariaLabel={t('form.file.dragdrop.ariaLabel')}>
+        ariaLabel={t('form.file.dragdrop.ariaLabel')}
+      >
         <strong>{t('form.file.dragdrop.main')}</strong> {t('form.file.dragdrop.sub')}
       </UploadDropZone>
     </FileUploaderWrapper>

@@ -8,10 +8,10 @@
 
 import { useEffect } from 'react';
 
-const usePreventWindowUnload = preventDefault => {
+const usePreventWindowUnload = (preventDefault: boolean) => {
   useEffect(() => {
     if (preventDefault) {
-      const handleBeforeUnload = event => {
+      const handleBeforeUnload = (event: BeforeUnloadEvent) => {
         event.preventDefault();
         return (event.returnValue = '');
       };

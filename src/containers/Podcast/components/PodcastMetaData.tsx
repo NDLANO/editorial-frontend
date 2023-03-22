@@ -16,7 +16,7 @@ import { MetaImageSearch } from '../../FormikForm';
 
 interface Props {
   language?: string;
-  onImageLoad?: (event: SyntheticEvent<HTMLImageElement, Event>) => void;
+  onImageLoad?: (width: number, height: number) => void;
 }
 
 const plugins = [textTransformPlugin];
@@ -30,7 +30,8 @@ const PodcastMetaData = ({ language, onImageLoad }: Props) => {
         label={t('podcastForm.fields.introduction')}
         name="introduction"
         maxLength={1000}
-        showMaxLength>
+        showMaxLength
+      >
         {({ field }) => (
           <PlainTextEditor
             id={field.name}

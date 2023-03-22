@@ -11,7 +11,7 @@ import { useState, useEffect, ReactNode, useMemo } from 'react';
 import { Editor, Element, Node, Transforms, Path } from 'slate';
 import { ReactEditor, RenderElementProps } from 'slate-react';
 import uniqueId from 'lodash/uniqueId';
-import { IConcept } from '@ndla/types-concept-api';
+import { IConcept, IConceptSummary } from '@ndla/types-concept-api';
 import { ConceptInlineElement } from '../inline/interfaces';
 import ConceptModal from '../ConceptModal';
 import { useFetchConceptData } from '../../../../../containers/FormikForm/formikConceptHooks';
@@ -47,15 +47,8 @@ const InlineConcept = (props: Props) => {
     setShowConcept(!showConcept);
   };
 
-  const {
-    concept,
-    subjects,
-    fetchSearchTags,
-    conceptArticles,
-    createConcept,
-    updateConcept,
-    updateConceptAndStatus,
-  } = useFetchConceptData(parseInt(element.data['content-id']), locale);
+  const { concept, subjects, fetchSearchTags, conceptArticles, createConcept, updateConcept } =
+    useFetchConceptData(parseInt(element.data['content-id']), locale);
 
   const handleSelectionChange = (isNewConcept: boolean) => {
     ReactEditor.focus(editor);
@@ -67,7 +60,7 @@ const InlineConcept = (props: Props) => {
     }
   };
 
-  const addConcept = (addedConcept: IConcept) => {
+  const addConcept = (addedConcept: IConceptSummary | IConcept) => {
     toggleConceptModal();
     setTimeout(() => {
       handleSelectionChange(true);
@@ -80,7 +73,10 @@ const InlineConcept = (props: Props) => {
         Transforms.setNodes(
           editor,
           { data: data.data },
-          { at: path, match: node => Element.isElement(node) && node.type === TYPE_CONCEPT_INLINE },
+          {
+            at: path,
+            match: (node) => Element.isElement(node) && node.type === TYPE_CONCEPT_INLINE,
+          },
         );
       }
     }, 0);
@@ -93,7 +89,7 @@ const InlineConcept = (props: Props) => {
       const path = ReactEditor.findPath(editor, element);
       Transforms.unwrapNodes(editor, {
         at: path,
-        match: node => Element.isElement(node) && node.type === TYPE_CONCEPT_INLINE,
+        match: (node) => Element.isElement(node) && node.type === TYPE_CONCEPT_INLINE,
       });
     }, 0);
   };
@@ -131,7 +127,6 @@ const InlineConcept = (props: Props) => {
         createConcept={createConcept}
         updateConcept={updateConcept}
         conceptArticles={conceptArticles}
-        updateConceptAndStatus={updateConceptAndStatus}
       />
     </>
   );

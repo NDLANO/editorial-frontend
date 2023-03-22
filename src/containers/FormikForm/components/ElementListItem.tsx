@@ -75,7 +75,8 @@ const ElementListItem = ({
     <StyledListItem
       data-cy="elementListItem"
       delete={deleteIndex === index}
-      onAnimationEnd={deleteIndex === index ? executeDeleteFile : undefined}>
+      onAnimationEnd={deleteIndex === index ? executeDeleteFile : undefined}
+    >
       <div>
         <StyledElementImage
           src={
@@ -102,8 +103,9 @@ const ElementListItem = ({
                   aria-label={messages?.dragElement || ''}
                   variant="ghost"
                   colorTheme="light"
-                  onMouseDown={e => onDragStart(e, index)}
-                  onMouseUp={onDragEnd}>
+                  onMouseDown={(e) => onDragStart(e, index)}
+                  onMouseUp={onDragEnd}
+                >
                   <DragHorizontal />
                 </DraggableIconButton>
               </Tooltip>
@@ -112,8 +114,9 @@ const ElementListItem = ({
                 aria-label={messages?.dragElement || ''}
                 variant="ghost"
                 colorTheme="light"
-                onMouseDown={e => onDragStart(e, index)}
-                onMouseUp={onDragEnd}>
+                onMouseDown={(e) => onDragStart(e, index)}
+                onMouseUp={onDragEnd}
+              >
                 <DragHorizontal />
               </DraggableIconButton>
             )
@@ -124,7 +127,8 @@ const ElementListItem = ({
               variant="ghost"
               colorTheme="danger"
               data-cy="elementListItemDeleteButton"
-              onClick={() => deleteFile(index)}>
+              onClick={() => deleteFile(index)}
+            >
               <DeleteForever />
             </IconButtonV2>
           </Tooltip>
@@ -156,7 +160,7 @@ export const StyledListItem = styled.li<StyledProps>`
       padding-left: ${spacing.xsmall};
     }
   }
-  ${props =>
+  ${(props) =>
     props.delete &&
     css`
       ${animations.fadeOut()}

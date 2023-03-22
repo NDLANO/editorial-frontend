@@ -13,7 +13,7 @@ interface StyledDropZoneProps {
 }
 
 const StyledDropZone = styled.div<StyledDropZoneProps>`
-  background-color: ${p => p.dragging && '#ddd'};
+  background-color: ${(p) => p.dragging && '#ddd'};
 `;
 
 interface Props {
@@ -42,7 +42,8 @@ const MakeDndList = ({ disableDnd, children, onDragEnd, dragHandle }: Props) => 
                     <div
                       ref={providedInner.innerRef}
                       {...providedInner.draggableProps}
-                      {...(dragHandle ? {} : providedInner.dragHandleProps)}>
+                      {...(dragHandle ? {} : providedInner.dragHandleProps)}
+                    >
                       {cloneElement(child, {
                         isDragging: snapshotInner.isDragging,
                         dragHandleProps: providedInner.dragHandleProps,

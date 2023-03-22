@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { FieldHeader } from '@ndla/forms';
-import Button from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 import { IArticle, IArticleSummary, IRelatedContentLink } from '@ndla/types-draft-api';
 import { FieldInputProps, FormikHelpers } from 'formik';
 import { fetchDraft, searchDrafts } from '../../../modules/draft/draftApi';
@@ -34,7 +34,7 @@ const ContentField = ({ field, form }: Props) => {
   useEffect(() => {
     (async () => {
       const promises = field.value.map<Promise<ConvertedRelatedContent> | IRelatedContentLink>(
-        element => {
+        (element) => {
           if (typeof element === 'number') {
             return fetchDraft(element);
           } else return element;
@@ -66,7 +66,7 @@ const ContentField = ({ field, form }: Props) => {
 
   const updateFormik = (formikField: Props['field'], newData: ConvertedRelatedContent[]) => {
     form.setFieldTouched('relatedContent', true, false);
-    const newRc: RelatedContent[] = newData.map(rc => (isDraftApiType(rc) ? rc.id : rc));
+    const newRc: RelatedContent[] = newData.map((rc) => (isDraftApiType(rc) ? rc.id : rc));
     formikField.onChange({
       target: {
         name: formikField.name,
@@ -122,9 +122,9 @@ const ContentField = ({ field, form }: Props) => {
         showPagination
       />
       <StyledButtonWrapper>
-        <Button onClick={() => setShowAddExternal(true)}>
+        <ButtonV2 onClick={() => setShowAddExternal(true)}>
           {t('form.relatedContent.addExternal')}
-        </Button>
+        </ButtonV2>
       </StyledButtonWrapper>
       {showAddExternal && (
         <ContentLink onAddLink={addExternalLink} onClose={() => setShowAddExternal(false)} />

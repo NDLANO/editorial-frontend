@@ -10,26 +10,14 @@ import { IAuthor } from '@ndla/types-draft-api';
 import config from '../../config';
 import { fetchReAuthorized, resolveJsonOrRejectWithError } from '../../util/apiHelpers';
 
-export interface H5PData {
-  authors: IAuthor[];
-  contentType: string;
-  license: string;
-  licenseExtras: string;
-  licenseVersion: string;
-  source: string;
-  thumbnail: string;
-  title: string;
-  yearFrom: string;
-  yearTo: string;
-}
-export interface H5PMetadata {
-  assets: H5PData[];
-  h5p: H5PData;
+export interface H5PInfo {
   h5pLibrary: {
     majorVersion: number;
     minorVersion: number;
     name: string;
   };
+  published: boolean;
+  title: string;
 }
 
 export const fetchH5PiframeUrl = (
@@ -44,7 +32,7 @@ export const fetchH5PiframeUrl = (
       method: 'POST',
       headers: { Authorization: `Bearer JWT-token` },
     },
-  ).then(r => resolveJsonOrRejectWithError(r));
+  ).then((r) => resolveJsonOrRejectWithError(r));
 };
 
 export const editH5PiframeUrl = (url: string, locale: string = ''): Promise<{ url: string }> => {
@@ -55,14 +43,14 @@ export const editH5PiframeUrl = (url: string, locale: string = ''): Promise<{ ur
     },
     method: 'POST',
     body: `url=${encodeURIComponent(url)}`,
-  }).then(r => resolveJsonOrRejectWithError(r));
+  }).then((r) => resolveJsonOrRejectWithError(r));
 };
 
 export const getH5pLocale = (language: string) => {
   return language === 'en' ? 'en-gb' : 'nn' === language ? 'nn-no' : 'nb-no';
 };
 
-export const fetchH5PMetadata = async (resourceId: string): Promise<H5PMetadata> => {
-  const url = `${config.h5pApiUrl}/v1/resource/${resourceId}/copyright`;
-  return fetch(url).then(r => resolveJsonOrRejectWithError(r));
+export const fetchH5PInfo = async (resourceId: string): Promise<H5PInfo> => {
+  const url = `${config.h5pApiUrl}/v1/resource/${resourceId}/info`;
+  return fetch(url).then((r) => resolveJsonOrRejectWithError(r));
 };

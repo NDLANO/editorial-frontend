@@ -11,13 +11,14 @@ const ContributorsField = ({ contributorTypes, width }: Props) => {
   const { t } = useTranslation();
   return (
     <>
-      {contributorTypes.map(contributorType => {
+      {contributorTypes.map((contributorType) => {
         const label = t(`form.${contributorType}.label`);
         return (
           <FormikField
             showError={false}
             key={`formik_contributor_${contributorType}`}
-            name={contributorType}>
+            name={contributorType}
+          >
             {({ field, form }) => {
               const { errors } = form;
               const error = errors[field.name] || '';

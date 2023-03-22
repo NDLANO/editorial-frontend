@@ -34,12 +34,12 @@ interface Props {
   onImageSelectOpen: () => void;
   onImageRemove: () => void;
   showRemoveButton: boolean;
-  onImageLoad?: (event: SyntheticEvent<HTMLImageElement, Event>) => void;
+  onImageLoad?: (width: number, height: number) => void;
 }
 
 const MetaImageField = ({ image, onImageRemove, onImageLoad }: Props) => {
   const { t } = useTranslation();
-  const copyright = image.copyright.creators.map(creator => creator.name).join(', ');
+  const copyright = image.copyright.creators.map((creator) => creator.name).join(', ');
   const title = convertFieldWithFallback<'title'>(image, 'title', '');
   const alt = convertFieldWithFallback<'alttext'>(image, 'alttext', '');
   const imageAction = (
@@ -51,7 +51,8 @@ const MetaImageField = ({ image, onImageRemove, onImageLoad }: Props) => {
           variant="ghost"
           onClick={onImageRemove}
           tabIndex={-1}
-          data-cy="remove-element">
+          data-cy="remove-element"
+        >
           <DeleteForever />
         </IconButtonV2>
       </Tooltip>
@@ -61,7 +62,8 @@ const MetaImageField = ({ image, onImageRemove, onImageLoad }: Props) => {
           colorTheme="light"
           shape="pill"
           to={`/media/image-upload/${image.id}/edit/${image.title.language}`}
-          target="_blank">
+          target="_blank"
+        >
           <Link />
         </SafeLinkButton>
       </Tooltip>
@@ -71,10 +73,15 @@ const MetaImageField = ({ image, onImageRemove, onImageLoad }: Props) => {
     title: t('form.metaImage.imageTitle'),
     copyright: t('form.metaImage.copyright'),
   };
+  const imageUrl = `${image.image.imageUrl}?width=400`;
+  const { width, height } = image.image?.dimensions || { width: 0, height: 0 };
+  const onLoad = (_: SyntheticEvent<HTMLImageElement, Event>) => {
+    onImageLoad?.(width, height);
+  };
   return (
     <>
       <MetaImageContainer>
-        <StyledImage src={image.image.imageUrl} alt={alt} onLoad={onImageLoad} />
+        <StyledImage src={imageUrl} alt={alt} onLoad={onLoad} />
         <MetaInformation
           title={title}
           copyright={copyright}

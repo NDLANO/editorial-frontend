@@ -7,7 +7,7 @@
 import { memo, MutableRefObject } from 'react';
 import { useTranslation } from 'react-i18next';
 import { DropResult } from 'react-beautiful-dnd';
-import { useQueryClient } from 'react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import isEqual from 'lodash/isEqual';
 import partition from 'lodash/partition';
 import sortBy from 'lodash/sortBy';
@@ -30,7 +30,6 @@ interface Props {
   isFavorite: boolean;
   onNodeSelected: (node?: NodeType) => void;
   resourceSectionRef: MutableRefObject<HTMLDivElement | null>;
-  allRootNodes: NodeType[];
   renderBeforeTitle?: RenderBeforeFunction;
 }
 
@@ -41,7 +40,6 @@ const RootNode = ({
   toggleOpen,
   onNodeSelected,
   resourceSectionRef,
-  allRootNodes,
   renderBeforeTitle,
 }: Props) => {
   const { i18n } = useTranslation();
@@ -51,7 +49,7 @@ const RootNode = ({
     { id: node.id, language: locale, taxonomyVersion },
     {
       enabled: openedPaths[0] === node.id,
-      select: childNodes => groupChildNodes(childNodes),
+      select: (childNodes) => groupChildNodes(childNodes),
     },
   );
   const compKey = childNodesWithArticleTypeQueryKey({
@@ -66,9 +64,9 @@ const RootNode = ({
   const onUpdateRank = async (id: string, newRank: number) => {
     await qc.cancelQueries(compKey);
     const prevData = qc.getQueryData<ChildNodeType[]>(compKey);
-    const [toUpdate, other] = partition(prevData, t => t.connectionId === id);
+    const [toUpdate, other] = partition(prevData, (t) => t.connectionId === id);
     const updatedNode: ChildNodeType = { ...toUpdate[0], rank: newRank };
-    const updated = other.map(t => (t.rank >= updatedNode.rank ? { ...t, rank: t.rank + 1 } : t));
+    const updated = other.map((t) => (t.rank >= updatedNode.rank ? { ...t, rank: t.rank + 1 } : t));
     const newArr = sortBy([...updated, updatedNode], 'rank');
     qc.setQueryData<ChildNodeType[]>(compKey, newArr);
     return prevData;
@@ -88,7 +86,11 @@ const RootNode = ({
     const newRank = currentRank > destinationRank ? destinationRank : destinationRank + 1;
     await updateNodeConnection({
       id: draggableId,
-      body: { rank: newRank },
+      body: {
+        rank: newRank,
+        relevanceId: nodes[source.index].relevanceId,
+        primary: nodes[source.index].primary,
+      },
       taxonomyVersion,
     });
   };
@@ -96,7 +98,7 @@ const RootNode = ({
   const toggleFavorite = () => {
     const favorites = qc.getQueryData<IUserData>(userDataQueryKey())?.favoriteSubjects ?? [];
     const updatedFavs = favorites.includes(node.id)
-      ? favorites.filter(s => s !== node.id)
+      ? favorites.filter((s) => s !== node.id)
       : favorites.concat(node.id);
     updateUserDataMutation.mutate({ favoriteSubjects: updatedFavs });
   };
@@ -117,10 +119,9 @@ const RootNode = ({
       onDragEnd={onDragEnd}
       connectionId={''}
       parentActive={true}
-      allRootNodes={allRootNodes}
       isRoot={true}
       isFavorite={isFavorite}
-      isLoading={childNodesQuery.isLoading}
+      isLoading={childNodesQuery.isInitialLoading}
     />
   );
 };

@@ -6,7 +6,7 @@
  *
  */
 
-import { useMutation, UseMutationOptions } from 'react-query';
+import { useMutation, UseMutationOptions } from '@tanstack/react-query';
 import { deleteVersion, postVersion, publishVersion, putVersion } from './versionApi';
 import { VersionPostBody, VersionPutBody } from './versionApiTypes';
 

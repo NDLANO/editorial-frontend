@@ -6,7 +6,7 @@
  *
  */
 
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Formik, FormikProps } from 'formik';
 import { IUpdatedArticle, IArticle, IStatus } from '@ndla/types-draft-api';
@@ -18,7 +18,6 @@ import HeaderWithLanguage from '../../../../components/HeaderWithLanguage';
 import EditorFooter from '../../../../components/SlateEditor/EditorFooter';
 import { TopicArticleFormType, useArticleFormHooks } from '../../../FormikForm/articleFormHooks';
 import usePreventWindowUnload from '../../../FormikForm/preventWindowUnloadHook';
-import Spinner from '../../../../components/Spinner';
 import { useLicenses, useDraftStatusStateMachine } from '../../../../modules/draft/draftQueries';
 import {
   draftApiTypeToTopicArticleFormType,
@@ -29,8 +28,9 @@ import { validateDraft } from '../../../../modules/draft/draftApi';
 import { isFormikFormDirty, topicArticleRules } from '../../../../util/formHelper';
 import { ArticleTaxonomy } from '../../../FormikForm/formikDraftHooks';
 import { blockContentToHTML } from '../../../../util/articleContentConverter';
-import { DraftStatusType } from '../../../../interfaces';
 import StyledForm from '../../../../components/StyledFormComponents';
+import { TaxonomyVersionProvider } from '../../../StructureVersion/TaxonomyVersionProvider';
+import { useSession } from '../../../../containers/Session/SessionProvider';
 
 interface Props {
   article?: IArticle;
@@ -39,11 +39,6 @@ interface Props {
   updateArticle: (art: IUpdatedArticle) => Promise<IArticle>;
   articleStatus?: IStatus;
   articleChanged: boolean;
-  updateArticleAndStatus?: (input: {
-    updatedArticle: IUpdatedArticle;
-    newStatus: DraftStatusType;
-    dirty: boolean;
-  }) => Promise<IArticle>;
   isNewlyCreated: boolean;
   articleLanguage: string;
 }
@@ -56,27 +51,25 @@ const TopicArticleForm = ({
   isNewlyCreated,
   articleLanguage,
   articleStatus,
-  updateArticleAndStatus,
 }: Props) => {
   const { data: licenses } = useLicenses({ placeholderData: [] });
   const statusStateMachine = useDraftStatusStateMachine({ articleId: article?.id });
 
   const { t } = useTranslation();
-
-  const { savedToServer, formikRef, initialValues, handleSubmit } = useArticleFormHooks<
-    TopicArticleFormType
-  >({
-    getInitialValues: draftApiTypeToTopicArticleFormType,
-    article,
-    t,
-    articleStatus,
-    updateArticle,
-    updateArticleAndStatus,
-    licenses,
-    getArticleFromSlate: topicArticleFormTypeToDraftApiType,
-    articleLanguage,
-    rules: topicArticleRules,
-  });
+  const { ndlaId } = useSession();
+  const { savedToServer, formikRef, initialValues, handleSubmit } =
+    useArticleFormHooks<TopicArticleFormType>({
+      getInitialValues: draftApiTypeToTopicArticleFormType,
+      article,
+      t,
+      articleStatus,
+      updateArticle,
+      licenses,
+      getArticleFromSlate: topicArticleFormTypeToDraftApiType,
+      articleLanguage,
+      rules: topicArticleRules,
+      ndlaId,
+    });
 
   const initialHTML = useMemo(() => blockContentToHTML(initialValues.content), [initialValues]);
 
@@ -100,6 +93,7 @@ const TopicArticleForm = ({
       <StyledForm>
         <HeaderWithLanguage
           taxonomy={articleTaxonomy}
+          article={article}
           values={values}
           content={{
             ...article,
@@ -113,20 +107,22 @@ const TopicArticleForm = ({
           type="topic-article"
           expirationDate={getExpirationDate(article)}
         />
-        <TopicArticleAccordionPanels
-          taxonomy={articleTaxonomy}
-          articleLanguage={articleLanguage}
-          updateNotes={updateArticle}
-          article={article}
-          getArticle={getArticle}
-          handleSubmit={async () => handleSubmit(values, formik)}
-        />
+        <TaxonomyVersionProvider>
+          <TopicArticleAccordionPanels
+            taxonomy={articleTaxonomy}
+            articleLanguage={articleLanguage}
+            updateNotes={updateArticle}
+            article={article}
+            getArticle={getArticle}
+            handleSubmit={async () => handleSubmit(values, formik)}
+          />
+        </TaxonomyVersionProvider>
         <EditorFooter
           showSimpleFooter={!article?.id}
           formIsDirty={formIsDirty}
           savedToServer={savedToServer}
           getEntity={getArticle}
-          onSaveClick={saveAsNewVersion => {
+          onSaveClick={(saveAsNewVersion) => {
             handleSubmit(values, formik, saveAsNewVersion ?? false);
           }}
           entityStatus={article?.status}
@@ -149,10 +145,10 @@ const TopicArticleForm = ({
   };
 
   const initialWarnings = getWarnings(initialValues, topicArticleRules, t, article);
-  const initialErrors = useMemo(() => validateFormik(initialValues, topicArticleRules, t), [
-    initialValues,
-    t,
-  ]);
+  const initialErrors = useMemo(
+    () => validateFormik(initialValues, topicArticleRules, t),
+    [initialValues, t],
+  );
 
   return (
     <Formik
@@ -162,8 +158,9 @@ const TopicArticleForm = ({
       validateOnBlur={false}
       innerRef={formikRef}
       onSubmit={handleSubmit}
-      validate={values => validateFormik(values, topicArticleRules, t)}
-      initialStatus={{ warnings: initialWarnings }}>
+      validate={(values) => validateFormik(values, topicArticleRules, t)}
+      initialStatus={{ warnings: initialWarnings }}
+    >
       {FormikChild}
     </Formik>
   );

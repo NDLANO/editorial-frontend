@@ -7,7 +7,7 @@
  */
 
 import { useEffect, useState } from 'react';
-import { useQueryClient } from 'react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { spacing, colors } from '@ndla/core';
@@ -92,7 +92,7 @@ const AddExistingToNode = ({
     toggleEditModeFunc();
     try {
       const connections = await fetchConnectionsForNode({ id: node.id, taxonomyVersion });
-      const parentConnection = connections.find(conn => conn.type === 'parent-topic');
+      const parentConnection = connections.find((conn) => conn.type === 'parent-topic');
       if (!parentConnection) {
         setError('taxonomy.errorMessage');
         return;
@@ -129,10 +129,10 @@ const AddExistingToNode = ({
           placeholder={t('taxonomy.existingTopic')}
           onChange={handleSubmit}
           searchNodeType={'TOPIC'}
-          filter={node => {
+          filter={(node) => {
             return (
               !!node.path &&
-              !node.paths?.some(p => {
+              !node.paths?.some((p) => {
                 const split = p.replace('/', '').split('/');
                 return split[split.length - 2] === currentNode.id.replace('urn:', '');
               })

@@ -70,6 +70,7 @@ const RichTextEditor = ({
 
   useEffect(() => {
     Editor.normalize(editor, { force: true });
+    editor.history = { redos: [], undos: [] };
     setIsFirstNormalize(false);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -119,7 +120,7 @@ const RichTextEditor = ({
       if (editor.lastSelectedBlock) {
         const [target] = Editor.nodes(editor, {
           at: Editor.range(editor, [0]),
-          match: node => {
+          match: (node) => {
             return isEqual(node, editor.lastSelectedBlock);
           },
         });

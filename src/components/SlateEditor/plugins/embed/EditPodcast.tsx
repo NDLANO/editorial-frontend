@@ -11,7 +11,7 @@ import { Form, Formik, FormikProps } from 'formik';
 import { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { spacing } from '@ndla/core';
-import Button from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 import { Input } from '@ndla/forms';
 import { ModalBody, ModalCloseButton, ModalHeader } from '@ndla/modal';
 import { AudioEmbed, LocaleType, SlateAudio } from '../../../../interfaces';
@@ -72,11 +72,12 @@ const EditPodcast = ({
         <AudioPlayerMounter audio={podcast} locale={locale} speech={false} />
         <Formik
           initialValues={initialValues}
-          validate={values => validateFormik(values, podcastEmbedFormRules, t)}
+          validate={(values) => validateFormik(values, podcastEmbedFormRules, t)}
           validateOnMount
           enableReinitialize
-          onSubmit={handleSubmit}>
-          {formik => <SlatePodcastForm {...formik} setHasError={setHasError} close={close} />}
+          onSubmit={handleSubmit}
+        >
+          {(formik) => <SlatePodcastForm {...formik} setHasError={setHasError} close={close} />}
         </Formik>
       </ModalBody>
     </>
@@ -119,10 +120,10 @@ const SlatePodcastForm = ({ setHasError, isValid, dirty, close }: SlatePodcastFo
         )}
       </StyledFormikField>
       <ButtonWrapper>
-        <Button onClick={close}>{t('form.abort')}</Button>
-        <Button disabled={!isValid || !dirty} type="submit">
+        <ButtonV2 onClick={close}>{t('form.abort')}</ButtonV2>
+        <ButtonV2 disabled={!isValid || !dirty} type="submit">
           {t('form.save')}
-        </Button>
+        </ButtonV2>
       </ButtonWrapper>
     </Form>
   );

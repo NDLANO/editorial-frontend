@@ -3,8 +3,9 @@ import styled from '@emotion/styled';
 import { Editor, Path, Transforms } from 'slate';
 import { ReactEditor, RenderElementProps } from 'slate-react';
 import he from 'he';
+import { useTranslation } from 'react-i18next';
 
-import Button from '@ndla/button';
+import { IconButtonV2 } from '@ndla/button';
 import { DeleteForever } from '@ndla/icons/editor';
 import { Codeblock } from '@ndla/code';
 
@@ -26,10 +27,16 @@ interface RemoveCodeBlockProps {
 }
 
 const RemoveCodeBlock = ({ handleRemove }: RemoveCodeBlockProps) => {
+  const { t } = useTranslation();
   return (
-    <Button stripped onClick={handleRemove}>
+    <IconButtonV2
+      variant="ghost"
+      colorTheme="danger"
+      aria-label={t('form.remove')}
+      onClick={handleRemove}
+    >
       <DeleteForever />
-    </Button>
+    </IconButtonV2>
   );
 };
 
@@ -107,7 +114,8 @@ const CodeBlock = ({ attributes, editor, element, children }: Props) => {
       draggable={!editMode}
       onClick={toggleEditMode}
       role="button"
-      {...attributes}>
+      {...attributes}
+    >
       <Codeblock
         actionButton={<RemoveCodeBlock handleRemove={handleRemove} />}
         code={model.code}

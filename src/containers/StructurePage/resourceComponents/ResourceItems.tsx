@@ -8,7 +8,7 @@
 
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useQueryClient } from 'react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import { DropResult } from 'react-beautiful-dnd';
 import sortBy from 'lodash/sortBy';
 import styled from '@emotion/styled';
@@ -24,7 +24,7 @@ import {
   resourcesWithNodeConnectionQueryKey,
 } from '../../../modules/nodes/nodeQueries';
 import { ResourceWithNodeConnectionAndMeta } from './StructureResources';
-import { Dictionary } from '../../../interfaces';
+import { Auth0UserData, Dictionary } from '../../../interfaces';
 import RemoveResource from './RemoveResource';
 
 const StyledResourceItems = styled.ul`
@@ -37,14 +37,22 @@ interface Props {
   resources: ResourceWithNodeConnectionAndMeta[];
   currentNodeId: string;
   contentMeta: Dictionary<NodeResourceMeta>;
+  contentMetaLoading: boolean;
+  users?: Dictionary<Auth0UserData>;
 }
 
-const ResourceItems = ({ resources, currentNodeId, contentMeta }: Props) => {
+const ResourceItems = ({
+  resources,
+  currentNodeId,
+  contentMeta,
+  contentMetaLoading,
+  users,
+}: Props) => {
   const { i18n } = useTranslation();
+  const { taxonomyVersion } = useTaxonomyVersion();
   const [deleteResource, setDeleteResource] = useState<
     ResourceWithNodeConnectionAndMeta | undefined
   >(undefined);
-  const { taxonomyVersion } = useTaxonomyVersion();
 
   const qc = useQueryClient();
   const compKey = resourcesWithNodeConnectionQueryKey({
@@ -56,7 +64,7 @@ const ResourceItems = ({ resources, currentNodeId, contentMeta }: Props) => {
   const onUpdateRank = async (id: string, newRank: number) => {
     await qc.cancelQueries(compKey);
     const prevData = qc.getQueryData<ResourceWithNodeConnection[]>(compKey) ?? [];
-    const updated = prevData.map(r => {
+    const updated = prevData.map((r) => {
       if (r.connectionId === id) {
         return { ...r, rank: newRank };
       } else if (r.rank < newRank) {
@@ -69,7 +77,7 @@ const ResourceItems = ({ resources, currentNodeId, contentMeta }: Props) => {
 
   const { mutateAsync: updateNodeResource } = usePutResourceForNodeMutation({
     onMutate: ({ id, body }) => onUpdateRank(id, body.rank as number),
-    onError: e => handleError(e),
+    onError: (e) => handleError(e),
     onSuccess: () => qc.invalidateQueries(compKey),
   });
 
@@ -91,18 +99,19 @@ const ResourceItems = ({ resources, currentNodeId, contentMeta }: Props) => {
     });
   };
 
-  const toggleDelete = (resource: ResourceWithNodeConnection) => {
-    setDeleteResource({
-      ...resource,
-      contentMeta: resource.contentUri ? contentMeta[resource.contentUri] : undefined,
-    });
+  const toggleDelete = (resource: ResourceWithNodeConnectionAndMeta) => {
+    setDeleteResource(resource);
   };
 
   return (
     <StyledResourceItems>
       <MakeDndList onDragEnd={onDragEnd} dragHandle disableDnd={false}>
-        {resources.map(resource => (
+        {resources.map((resource) => (
           <Resource
+            responsible={
+              users?.[contentMeta[resource.contentUri ?? '']?.responsible?.responsibleId ?? '']
+                ?.name
+            }
             currentNodeId={currentNodeId}
             id={resource.id}
             connectionId={resource.connectionId}
@@ -112,15 +121,16 @@ const ResourceItems = ({ resources, currentNodeId, contentMeta }: Props) => {
             }}
             key={resource.id}
             onDelete={() => toggleDelete(resource)}
+            contentMetaLoading={contentMetaLoading}
           />
         ))}
       </MakeDndList>
       <ModalV2 controlled isOpen={!!deleteResource} onClose={() => setDeleteResource(undefined)}>
-        {close =>
+        {(close) =>
           deleteResource && (
             <RemoveResource
               key={deleteResource.id}
-              deleteResource={deleteResource!}
+              deleteResource={deleteResource}
               nodeId={currentNodeId}
               onClose={close}
             />

@@ -69,7 +69,7 @@ const DeleteLanguageVersion = ({ values, type, disabled }: Props) => {
     const { id, supportedLanguages, language, articleType } = values;
     if (id && supportedLanguages.includes(language)) {
       toggleShowDeleteWarning();
-      const otherSupportedLanguage = supportedLanguages.find(lang => lang !== language);
+      const otherSupportedLanguage = supportedLanguages.find((lang) => lang !== language);
 
       const newAfterLanguageDeletion = supportedLanguages.length <= 1;
 
@@ -139,13 +139,16 @@ const DeleteLanguageVersion = ({ values, type, disabled }: Props) => {
         type="button"
         disabled={disabled}
         deletable
-        onClick={toggleShowDeleteWarning}>
+        onClick={toggleShowDeleteWarning}
+      >
         <DeleteForever />
         {t('form.workflow.deleteLanguageVersion.button', {
           languageVersion: t(`language.${language}`).toLowerCase(),
         })}
       </StyledFilledButton>
       <AlertModal
+        title={t('form.workflow.deleteLanguageVersion.title')}
+        label={t('form.workflow.deleteLanguageVersion.title')}
         show={showDeleteWarning}
         text={t('form.workflow.deleteLanguageVersion.modal')}
         actions={[

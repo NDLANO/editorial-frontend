@@ -41,7 +41,8 @@ const SubjectpageAbout = ({ selectedLanguage }: Props) => {
         label={t('subjectpageForm.description')}
         name="description"
         showMaxLength
-        maxLength={300}>
+        maxLength={300}
+      >
         {({ field, form: { isSubmitting } }: FieldProps<Descendant[]>) => (
           <PlainTextEditor
             id={field.name}

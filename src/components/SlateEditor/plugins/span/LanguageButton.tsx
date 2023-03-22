@@ -19,8 +19,8 @@ interface Props {
 const StyledLanguageButton = styled.button<{ isActive: boolean }>`
   font-family: monospace;
   cursor: pointer;
-  background: ${p => (p.isActive ? colors.brand.lightest : colors.white)};
-  color: ${p => (p.isActive ? colors.brand.primary : colors.text.primary)};
+  background: ${(p) => (p.isActive ? colors.brand.lightest : colors.white)};
+  color: ${(p) => (p.isActive ? colors.brand.primary : colors.text.primary)};
 
   padding: 8px 0.5rem 8px 0.5rem;
   border: none;
@@ -37,7 +37,8 @@ const LanguageButton = ({ language, onClick, isActive }: Props) => {
       isActive={isActive}
       type="button"
       onClick={() => onClick(language)}
-      title={t(`languages.${language}`)}>
+      title={t(`languages.${language}`)}
+    >
       {language}
     </StyledLanguageButton>
   );

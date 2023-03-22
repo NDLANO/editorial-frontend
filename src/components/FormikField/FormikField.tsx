@@ -8,19 +8,10 @@
 
 import { ReactElement } from 'react';
 import get from 'lodash/get';
-import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import {
-  Field,
-  connect,
-  FormikContextType,
-  FieldAttributes,
-  FormikValues,
-  FieldProps,
-} from 'formik';
+import { Field, FieldAttributes, FormikValues, FieldProps, useFormikContext } from 'formik';
 import { Node } from 'slate';
 import styled from '@emotion/styled';
-import { FormikShape } from '../../shapes';
 import FormikFieldLabel from './FormikFieldLabel';
 import FormikFieldDescription from './FormikFieldDescription';
 import FormikFieldHelp from './FormikFieldHelp';
@@ -55,16 +46,16 @@ const FormikField = ({
   label,
   name,
   maxLength,
-  showMaxLength,
+  showMaxLength = false,
   noBorder = false,
   title = false,
   right = false,
   description,
   obligatory,
   showError = true,
-  formik: { values, handleBlur, errors, status },
   ...rest
-}: Props & { formik: FormikContextType<FormikValues> }) => {
+}: Props) => {
+  const { values, handleBlur, errors, status } = useFormikContext<FormikValues>();
   const { t } = useTranslation();
   const isSlateValue = Node.isNodeList(values[name]);
   const fieldActions: FieldAttributes<any> = !isSlateValue
@@ -114,25 +105,4 @@ const FormikField = ({
   );
 };
 
-FormikField.propTypes = {
-  noBorder: PropTypes.bool,
-  right: PropTypes.bool,
-  title: PropTypes.bool,
-  name: PropTypes.string.isRequired,
-  label: PropTypes.string,
-  showError: PropTypes.bool,
-  obligatory: PropTypes.bool,
-  description: PropTypes.string,
-  formik: FormikShape,
-  maxLength: PropTypes.number,
-  showMaxLength: PropTypes.bool,
-  children: PropTypes.func,
-};
-
-FormikField.defaultProps = {
-  noBorder: false,
-  showError: true,
-  showMaxLength: false,
-};
-
-export default connect<Props, any>(FormikField);
+export default FormikField;

@@ -60,7 +60,8 @@ const LanguagePill = ({
     <Component
       disabled={isSubmitting}
       css={[languagePillStyle, !current ? currentStyle : '']}
-      {...rest}>
+      {...rest}
+    >
       {children}
     </Component>
   );

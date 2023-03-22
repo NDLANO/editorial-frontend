@@ -8,16 +8,18 @@
 import { useState, useRef, useCallback, useMemo } from 'react';
 import { Formik, FormikHelpers, FormikErrors } from 'formik';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import {
   IAudioMetaInformation,
   IUpdatedAudioMetaInformation,
   INewAudioMetaInformation,
 } from '@ndla/types-audio-api';
+import { ButtonV2 } from '@ndla/button';
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import AudioContent from '../../AudioUploader/components/AudioContent';
 import AudioMetaData from '../../AudioUploader/components/AudioMetaData';
 import AudioManuscript from '../../AudioUploader/components/AudioManuscript';
-import { AbortButton, AlertModalWrapper } from '../../FormikForm';
+import { AlertModalWrapper } from '../../FormikForm';
 import PodcastMetaData from './PodcastMetaData';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
 import validateFormik, { getWarnings, RulesType } from '../../../components/formikValidationSchema';
@@ -77,7 +79,7 @@ const podcastRules: RulesType<PodcastFormValues, IAudioMetaInformation> = {
   },
   license: {
     required: true,
-    test: values => {
+    test: (values) => {
       const authors = values.creators.concat(values.rightsholders).concat(values.processors);
       if (authors.length > 0) return undefined;
       return { translationKey: 'validation.noLicenseWithoutCopyrightHolder' };
@@ -119,12 +121,13 @@ const PodcastForm = ({
   const { t } = useTranslation();
   const [savedToServer, setSavedToServer] = useState(false);
   const size = useRef<[number, number] | undefined>(undefined);
+  const navigate = useNavigate();
 
   const handleSubmit = async (
     values: PodcastFormValues,
     actions: FormikHelpers<PodcastFormValues>,
   ) => {
-    const license = licenses!.find(license => license.license === values.license);
+    const license = licenses!.find((license) => license.license === values.license);
 
     if (
       license === undefined ||
@@ -208,10 +211,10 @@ const PodcastForm = ({
 
   const initialValues = audioApiTypeToPodcastFormType(audio, language);
   const initialWarnings = getWarnings(initialValues, podcastRules, t, audio);
-  const initialErrors = useMemo(() => validateFunction(initialValues), [
-    initialValues,
-    validateFunction,
-  ]);
+  const initialErrors = useMemo(
+    () => validateFunction(initialValues),
+    [initialValues, validateFunction],
+  );
 
   return (
     <Formik
@@ -221,8 +224,9 @@ const PodcastForm = ({
       initialErrors={initialErrors}
       enableReinitialize
       validate={validateFunction}
-      initialStatus={{ warnings: initialWarnings }}>
-      {formikProps => {
+      initialStatus={{ warnings: initialWarnings }}
+    >
+      {(formikProps) => {
         const { values, dirty, isSubmitting, errors, submitForm, validateForm } = formikProps;
         const formIsDirty = isFormikFormDirty({
           values,
@@ -250,15 +254,17 @@ const PodcastForm = ({
                   id="podcast-upload-content"
                   title={t('form.contentSection')}
                   className="u-4/6@desktop u-push-1/6@desktop"
-                  hasError={['title', 'audioFile'].some(field => field in errors)}
-                  startOpen>
+                  hasError={['title', 'audioFile'].some((field) => field in errors)}
+                  startOpen
+                >
                   <AudioContent />
                 </AccordionSection>
                 <AccordionSection
                   id="podcast-upload-podcastmanus"
                   title={t('podcastForm.fields.manuscript')}
                   className="u-4/6@desktop u-push-1/6@desktop"
-                  hasError={[].some(field => field in errors)}>
+                  hasError={[].some((field) => field in errors)}
+                >
                   <AudioManuscript />
                 </AccordionSection>
                 <AccordionSection
@@ -266,15 +272,13 @@ const PodcastForm = ({
                   title={t('form.podcastSection')}
                   className="u-4/6@desktop u-push-1/6@desktop"
                   hasError={['introduction', 'coverPhotoId', 'metaImageAlt'].some(
-                    field => field in errors,
-                  )}>
+                    (field) => field in errors,
+                  )}
+                >
                   <PodcastMetaData
                     language={language}
-                    onImageLoad={el => {
-                      size.current = [
-                        el.currentTarget.naturalWidth,
-                        el.currentTarget.naturalHeight,
-                      ];
+                    onImageLoad={(width, height) => {
+                      size.current = [width, height];
                       validateForm();
                     }}
                   />
@@ -286,23 +290,24 @@ const PodcastForm = ({
                   title={t('form.metadataSection')}
                   className="u-4/6@desktop u-push-1/6@desktop"
                   hasError={['tags', 'creators', 'rightsholders', 'processors', 'license'].some(
-                    field => field in errors,
-                  )}>
+                    (field) => field in errors,
+                  )}
+                >
                   <AudioMetaData />
                 </AccordionSection>
               </Accordions>
             )}
 
             <Field right>
-              <AbortButton outline disabled={isSubmitting}>
+              <ButtonV2 variant="outline" disabled={isSubmitting} onClick={() => navigate(-1)}>
                 {t('form.abort')}
-              </AbortButton>
+              </ButtonV2>
               <SaveButton
+                type={!inModal ? 'submit' : 'button'}
                 isSaving={isSubmitting}
                 showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}
                 formIsDirty={formIsDirty}
-                submit={!inModal}
-                onClick={evt => {
+                onClick={(evt) => {
                   evt.preventDefault();
                   submitForm();
                 }}

@@ -6,6 +6,7 @@
  *
  */
 
+import React from 'react';
 import { act, findByTestId, fireEvent, render } from '@testing-library/react';
 import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
@@ -31,9 +32,9 @@ const wrapper = (messages: MessageType[]) => (
 describe('Messages', () => {
   test('A single message renders correctly', () => {
     const messages: MessageType[] = [{ id: uuid(), message: 'Testmessage' }];
-    const { container } = render(wrapper(messages));
+    const { baseElement } = render(wrapper(messages));
 
-    expect(container).toMatchSnapshot();
+    expect(baseElement).toMatchSnapshot();
   });
 
   test('Several messages renders correctly', () => {
@@ -41,33 +42,33 @@ describe('Messages', () => {
       { id: uuid(), message: 'Testmessage' },
       { id: uuid(), message: 'Testmessage2' },
     ];
-    const { container } = render(wrapper(messages));
-
-    expect(container).toMatchSnapshot();
+    const { baseElement } = render(wrapper(messages));
+    expect(baseElement).toMatchSnapshot();
   });
 
   test('A message is removed if the modal is closed', async () => {
     const messages: MessageType[] = [{ id: uuid(), message: 'Testmessage', timeToLive: 10000 }];
-    const { container } = render(wrapper(messages));
-    expect(container).toMatchSnapshot();
-    const closeButton = await findByTestId(container, 'closeAlert');
+    const { container, baseElement } = render(wrapper(messages));
+    const portal = baseElement.querySelector('reach-portal') as HTMLElement;
+    expect(baseElement).toMatchSnapshot();
+    const closeButton = await findByTestId(portal, 'closeAlert');
     await act(async () => {
       fireEvent.click(closeButton);
     });
-    expect(container).toMatchSnapshot();
+    expect(baseElement).toMatchSnapshot();
   });
 
   it('auth0 messages provides a cancel button', async () => {
     const messages: MessageType[] = [
       { id: uuid(), message: 'Testmessage', timeToLive: 10000, type: 'auth0' },
     ];
-    const { container, findByText } = render(wrapper(messages));
-    expect(container).toMatchSnapshot();
+    const { baseElement, findByText } = render(wrapper(messages));
+    expect(baseElement).toMatchSnapshot();
     const cancelButton = await findByText('Avbryt');
     act(() => {
       fireEvent.click(cancelButton);
     });
-    expect(container).toMatchSnapshot();
+    expect(baseElement).toMatchSnapshot();
   });
 
   it('auth0 messages allows the user to log in again', async () => {

@@ -7,13 +7,14 @@
  */
 
 import styled from '@emotion/styled';
-import Button from '@ndla/button';
-import { spacing } from '@ndla/core';
+import { ButtonV2 } from '@ndla/button';
+import { spacing, fonts } from '@ndla/core';
 import { ContentLoader, MessageBox } from '@ndla/ui';
+import { ChevronRight } from '@ndla/icons/lib/common';
 import isEqual from 'lodash/isEqual';
-import { ReactNode, useEffect, useState } from 'react';
+import { Fragment, ReactNode, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useQueryClient } from 'react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import { useSearchParams } from 'react-router-dom';
 import AlertModal from '../../components/AlertModal';
 import { TAXONOMY_ADMIN_SCOPE } from '../../constants';
@@ -44,7 +45,7 @@ const DiffContainer = styled.div`
   gap: ${spacing.small};
 `;
 
-const PublishButton = styled(Button)`
+const PublishButton = styled(ButtonV2)`
   align-self: flex-end;
   margin-right: ${spacing.small};
 `;
@@ -54,11 +55,18 @@ interface NodeOptions {
   fieldView: string | null;
 }
 
+const StyledBreadCrumb = styled('div')`
+  flex-grow: 1;
+  flex-direction: row;
+  font-style: italic;
+  font-size: ${fonts.sizes(16)};
+`;
+
 const filterNodes = <T,>(diff: DiffType<T>[], options: NodeOptions): DiffType<T>[] => {
   const afterNodeOption =
     options.nodeView !== 'changed'
       ? diff
-      : diff.filter(d => d.changed.diffType !== 'NONE' ?? d.childrenChanged?.diffType !== 'NONE');
+      : diff.filter((d) => d.changed.diffType !== 'NONE' ?? d.childrenChanged?.diffType !== 'NONE');
 
   return afterNodeOption;
 };
@@ -110,7 +118,11 @@ const NodeDiffcontainer = ({ originalHash, otherHash, nodeId }: Props) => {
   );
 
   useEffect(() => {
-    if (defaultQuery.isLoading || otherQuery.isLoading || (defaultQuery.data && otherQuery.data)) {
+    if (
+      defaultQuery.isInitialLoading ||
+      otherQuery.isInitialLoading ||
+      (defaultQuery.data && otherQuery.data)
+    ) {
       setError(undefined);
       return;
     }
@@ -121,7 +133,12 @@ const NodeDiffcontainer = ({ originalHash, otherHash, nodeId }: Props) => {
     } else {
       setError('diff.error.onlyExistsInOriginal');
     }
-  }, [defaultQuery.data, defaultQuery.isLoading, otherQuery.data, otherQuery.isLoading]);
+  }, [
+    defaultQuery.data,
+    defaultQuery.isInitialLoading,
+    otherQuery.data,
+    otherQuery.isInitialLoading,
+  ]);
 
   const onPublish = async (node: NodeType) => {
     setHasPublished(false);
@@ -160,7 +177,7 @@ const NodeDiffcontainer = ({ originalHash, otherHash, nodeId }: Props) => {
     (otherQuery.data?.children.length ?? 0) + 1,
   );
 
-  if (defaultQuery.isLoading || otherQuery.isLoading) {
+  if (defaultQuery.isInitialLoading || otherQuery.isInitialLoading) {
     const rows: ReactNode[] = [];
     for (let i = 0; i < shownNodes; i++) {
       rows.push(
@@ -206,6 +223,16 @@ const NodeDiffcontainer = ({ originalHash, otherHash, nodeId }: Props) => {
           {t(`diff.${isPublishing ? 'publishing' : 'publish'}`)}
         </PublishButton>
       )}
+      <StyledBreadCrumb>
+        {defaultQuery.data?.root?.breadcrumbs?.map((path, index, arr) => {
+          return (
+            <Fragment key={`${path}_${index}`}>
+              {path}
+              {index + 1 !== arr.length && <ChevronRight />}
+            </Fragment>
+          );
+        })}
+      </StyledBreadCrumb>
       {hasPublished && <MessageBox>{t('diff.published')}</MessageBox>}
       {equal && <MessageBox>{t('diff.equalNodes')}</MessageBox>}
       {error && <MessageBox>{t(error)}</MessageBox>}
@@ -222,12 +249,14 @@ const NodeDiffcontainer = ({ originalHash, otherHash, nodeId }: Props) => {
             key={diff.root.id.original ?? diff.root.id.other!}
             isRoot={true}
           />
-          {nodes.map(node => (
+          {nodes.map((node) => (
             <NodeDiff node={node} key={node.id.original ?? node.id.other} />
           ))}
         </StyledNodeList>
       )}
       <AlertModal
+        title={t('diff.publish')}
+        label={t('diff.publish')}
         show={showAlertModal}
         text={t('diff.publishWarning')}
         actions={[

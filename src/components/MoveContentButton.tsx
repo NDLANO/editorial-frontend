@@ -6,40 +6,27 @@
  *
  */
 
-import styled from '@emotion/styled';
-import Button from '@ndla/button';
-import { colors } from '@ndla/core';
+import { IconButtonV2 } from '@ndla/button';
 import { ChevronLeft } from '@ndla/icons/common';
-import { darken } from 'polished';
+import { MouseEventHandler } from 'react';
 import { useTranslation } from 'react-i18next';
 
-const StyledMoveContentButton = styled(Button)`
-  position: absolute;
-  top: 0.1rem;
-  right: 1.2rem;
-  color: ${colors.support.green};
-
-  &:hover,
-  &:focus {
-    color: ${darken(0.2, colors.support.green)};
-  }
-`;
-
 interface Props {
-  onMouseDown: () => void;
+  onMouseDown?: MouseEventHandler;
 }
 
 const MoveContentButton = ({ onMouseDown }: Props) => {
   const { t } = useTranslation();
   return (
-    <StyledMoveContentButton
+    <IconButtonV2
       contentEditable={false}
       tabIndex={-1}
-      title={t('learningResourceForm.fields.rightAside.moveContent')}
-      stripped
-      onMouseDown={onMouseDown}>
+      aria-label={t('learningResourceForm.fields.rightAside.moveContent')}
+      variant="ghost"
+      onMouseDown={onMouseDown}
+    >
       <ChevronLeft />
-    </StyledMoveContentButton>
+    </IconButtonV2>
   );
 };
 

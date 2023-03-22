@@ -8,11 +8,10 @@
 
 import { useTranslation } from 'react-i18next';
 import { Formik, Form, FormikHelpers } from 'formik';
-import Button from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 import { css } from '@emotion/react';
-import { colors } from '@ndla/core';
+import { colors, spacing } from '@ndla/core';
 import styled from '@emotion/styled';
-import Field from '../../../Field';
 import config from '../../../../config';
 import validateFormik from '../../../formikValidationSchema';
 import FormikField from '../../../FormikField';
@@ -27,8 +26,10 @@ import {
 import { isUrl } from '../../../validators';
 import { Model } from './Link';
 
-const StyledButton = styled(Button)`
-  margin-left: 0.2rem;
+const StyledField = styled.div`
+  gap: ${spacing.xsmall};
+  display: flex;
+  justify-content: flex-end;
 `;
 
 const linkValidationRules = {
@@ -99,7 +100,8 @@ const LinkForm = ({ onSave, link, isEdit, onRemove, onClose }: Props) => {
     <Formik
       initialValues={getInitialValues(link)}
       onSubmit={handleSave}
-      validate={values => validateFormik(values, linkValidationRules, t, 'linkForm')}>
+      validate={(values) => validateFormik(values, linkValidationRules, t, 'linkForm')}
+    >
       {({ submitForm, values }) => (
         <Form data-cy="link_form">
           <FormikField
@@ -119,15 +121,15 @@ const LinkForm = ({ onSave, link, isEdit, onRemove, onClose }: Props) => {
             css={getLinkFieldStyle(values.href)}
           />
           <Checkbox name="checkbox" label={t('form.content.link.newTab')} />
-          <Field right>
-            {isEdit ? <Button onClick={onRemove}>{t('form.content.link.remove')}</Button> : ''}
-            <StyledButton outline onClick={onClose}>
+          <StyledField>
+            {isEdit ? <ButtonV2 onClick={onRemove}>{t('form.content.link.remove')}</ButtonV2> : ''}
+            <ButtonV2 variant="outline" onClick={onClose}>
               {t('form.abort')}
-            </StyledButton>
-            <StyledButton onClick={submitForm}>
+            </ButtonV2>
+            <ButtonV2 onClick={submitForm}>
               {isEdit ? t('form.content.link.update') : t('form.content.link.insert')}
-            </StyledButton>
-          </Field>
+            </ButtonV2>
+          </StyledField>
         </Form>
       )}
     </Formik>

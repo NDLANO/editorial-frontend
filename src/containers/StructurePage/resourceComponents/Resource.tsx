@@ -6,19 +6,16 @@
  *
  */
 
-import React, { ReactElement, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { ContentTypeBadge } from '@ndla/ui';
 import { ButtonV2 } from '@ndla/button';
 import { colors, spacing, breakpoints, fonts } from '@ndla/core';
-import { AlertCircle, Check, DragVertical } from '@ndla/icons/editor';
+import { DragVertical } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
-import SafeLink from '@ndla/safelink';
-import { useQueryClient } from 'react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import { DraggableProvidedDragHandleProps } from 'react-beautiful-dnd';
-import isEqual from 'lodash/isEqual';
 import {
   NodeConnectionPutType,
   ResourceWithNodeConnection,
@@ -28,22 +25,14 @@ import {
   useUpdateNodeConnectionMutation,
 } from '../../../modules/nodes/nodeMutations';
 import { getContentTypeFromResourceTypes } from '../../../util/resourceHelpers';
-import config from '../../../config';
-import { getIdFromUrn } from '../../../util/taxonomyHelpers';
-import VersionHistoryLightbox from '../../../components/VersionHistoryLightbox';
-import { PUBLISHED } from '../../../constants';
 import RelevanceOption from '../../../components/Taxonomy/RelevanceOption';
 import ResourceItemLink from './ResourceItemLink';
-import GrepCodesModal from './GrepCodesModal';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
-import {
-  NodeResourceMeta,
-  nodeResourceMetasQueryKey,
-  resourcesWithNodeConnectionQueryKey,
-} from '../../../modules/nodes/nodeQueries';
+import { resourcesWithNodeConnectionQueryKey } from '../../../modules/nodes/nodeQueries';
 import { ResourceWithNodeConnectionAndMeta } from './StructureResources';
-import { useDraft, useResponsibleUserData } from '../../../modules/draft/draftQueries';
-import { getCountApproachingRevision, RevisionDateIcon } from './ApproachingRevisionDate';
+import StatusIcons from './StatusIcons';
+import GrepCodesModal from './GrepCodesModal';
+import VersionHistory from './VersionHistory';
 
 const Wrapper = styled.div`
   display: flex;
@@ -56,18 +45,6 @@ const StyledCard = styled.div`
   width: 100%;
   padding: 5px;
   display: flex;
-`;
-
-const StyledCheckIcon = styled(Check)`
-  height: 24px;
-  width: 24px;
-  fill: ${colors.support.green};
-`;
-
-const StyledWarnIcon = styled(AlertCircle)`
-  height: 24px;
-  width: 24px;
-  fill: ${colors.support.red};
 `;
 
 const StyledResourceIcon = styled.div`
@@ -96,10 +73,6 @@ const StyledText = styled.div`
   align-items: center;
 `;
 
-const StyledLink = styled(SafeLink)`
-  box-shadow: inset 0 0;
-`;
-
 const ButtonRow = styled.div`
   display: flex;
   justify-content: space-between;
@@ -115,7 +88,7 @@ const ContentWrapper = styled.div`
 `;
 
 const StyledDndIconWrapper = styled.div<{ isVisible: boolean }>`
-  visibility: ${p => (p.isVisible ? 'visible' : 'hidden')};
+  visibility: ${(p) => (p.isVisible ? 'visible' : 'hidden')};
   display: flex;
   align-items: center;
 `;
@@ -126,27 +99,10 @@ const StyledDndIcon = styled(DragVertical)`
   color: ${colors.brand.greyMedium};
 `;
 
-const GrepButton = styled(ButtonV2)`
-  flex: 1;
-`;
 const RemoveButton = styled(ButtonV2)`
   flex: 0;
 `;
 
-const StatusButton = styled(ButtonV2)<{ isPublished: boolean }>`
-  border: none;
-  flex: 1;
-  background-color: ${props =>
-    props.isPublished ? colors.subjectMaterial.light : colors.learningPath.light};
-  &:hover {
-    background-color: ${props =>
-      props.isPublished ? colors.subjectMaterial.dark : colors.learningPath.dark};
-  }
-`;
-
-const CheckedWrapper = styled.div`
-  display: flex;
-`;
 const StyledResponsibleBadge = styled.div`
   height: ${spacing.normal};
   border-radius: 4px;
@@ -162,27 +118,28 @@ const BoldFont = styled.span`
   font-weight: ${fonts.weight.semibold};
 `;
 
-const getArticleTypeFromId = (id?: string) => {
-  if (id?.startsWith('urn:topic:')) return 'topic-article';
-  else if (id?.startsWith('urn:resource:')) return 'standard';
-  return undefined;
-};
-
 interface Props {
   currentNodeId: string;
   connectionId?: string; // required for MakeDndList, otherwise ignored
   id?: string; // required for MakeDndList, otherwise ignored
+  responsible?: string;
   resource: ResourceWithNodeConnectionAndMeta;
   onDelete?: () => void;
   updateResource?: (resource: ResourceWithNodeConnection) => void;
   dragHandleProps?: DraggableProvidedDragHandleProps;
+  contentMetaLoading: boolean;
 }
 
-const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props) => {
+const Resource = ({
+  resource,
+  onDelete,
+  dragHandleProps,
+  currentNodeId,
+  contentMetaLoading,
+  responsible,
+}: Props) => {
   const { t, i18n } = useTranslation();
   const location = useLocation();
-  const [showVersionHistory, setShowVersionHistory] = useState(false);
-  const [showGrepCodes, setShowGrepCodes] = useState(false);
 
   const qc = useQueryClient();
   const { taxonomyVersion } = useTaxonomyVersion();
@@ -195,7 +152,7 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
     await qc.cancelQueries(compKey);
     const resources = qc.getQueryData<ResourceWithNodeConnection[]>(compKey) ?? [];
     if (relevanceId) {
-      const newResources = resources.map(res => {
+      const newResources = resources.map((res) => {
         if (res.id === id) {
           return { ...res, relevanceId: relevanceId };
         } else return res;
@@ -214,19 +171,6 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
     onSettled: () => qc.invalidateQueries(compKey),
   });
 
-  const id = getIdFromUrn(resource?.contentMeta?.contentUri);
-  const { data: article } = useDraft({ id: id! }, { enabled: !!id });
-  const { data: userData } = useResponsibleUserData(article);
-
-  const isApproachingRevision = useMemo(() => {
-    if (!article) return false;
-    return !!getCountApproachingRevision([article]);
-  }, [article]);
-
-  const responsible = useMemo(() => {
-    return userData?.[0]?.name;
-  }, [userData]);
-
   const contentType =
     resource.resourceTypes.length > 0
       ? getContentTypeFromResourceTypes(resource.resourceTypes).contentType
@@ -240,28 +184,13 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
   const iconType = contentType === 'topic-article' ? 'topic' : contentType;
 
   const structurePaths: string[] = location.pathname.replace('/structure', '').split('/');
-  const currentPath = structurePaths.map(p => p.replace('urn:', '')).join('/');
-  const path = resource.paths.find(p => {
+  const currentPath = structurePaths.map((p) => p.replace('urn:', '')).join('/');
+  const path = resource.paths.find((p) => {
     const pArr = p.split('/');
     const isResource = pArr[pArr.length - 1].startsWith('resource');
     const pathWithoutResource = pArr.slice(0, pArr.length - (isResource ? 1 : 0)).join('/');
     return pathWithoutResource === currentPath;
   });
-
-  const onGrepModalClosed = async (newGrepCodes?: string[]) => {
-    setShowGrepCodes(false);
-    if (!newGrepCodes || isEqual(newGrepCodes, resource.contentMeta?.grepCodes)) return;
-    const compKey = nodeResourceMetasQueryKey({ nodeId: currentNodeId, language: i18n.language });
-    const metas = qc.getQueryData<NodeResourceMeta[]>(compKey) ?? [];
-    const newMetas = metas.map(meta =>
-      meta.contentUri === resource.contentMeta?.contentUri
-        ? { ...meta, grepCodes: newGrepCodes }
-        : meta,
-    );
-    qc.setQueryData(compKey, newMetas);
-    qc.cancelQueries(compKey);
-    await qc.invalidateQueries(compKey);
-  };
 
   const updateRelevanceId = async (relevanceId: string) => {
     const { connectionId, primary, rank } = resource;
@@ -278,8 +207,9 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
   return (
     <Wrapper>
       <StyledDndIconWrapper
-        isVisible={resource.contentMeta?.articleType !== 'topic-article'}
-        {...dragHandleProps}>
+        isVisible={!contentMetaLoading && resource.contentMeta?.articleType !== 'topic-article'}
+        {...dragHandleProps}
+      >
         <StyledDndIcon />
       </StyledDndIconWrapper>
 
@@ -304,55 +234,22 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
                 size="small"
               />
             </StyledResourceBody>
-            {isApproachingRevision ? (
-              <RevisionDateIcon text="!" phrasesKey="form.responsible.revisionDateSingle" />
-            ) : null}
-            <WrongTypeError resource={resource} articleType={resource.contentMeta?.articleType} />
-            {(resource.contentMeta?.status?.current === PUBLISHED ||
-              resource.contentMeta?.status?.other?.includes(PUBLISHED)) && (
-              <PublishedWrapper path={path}>
-                <Tooltip tooltip={t('form.workflow.published')}>
-                  <CheckedWrapper>
-                    <StyledCheckIcon />
-                  </CheckedWrapper>
-                </Tooltip>
-              </PublishedWrapper>
-            )}
+            <StatusIcons contentMetaLoading={contentMetaLoading} resource={resource} path={path} />
             <RelevanceOption relevanceId={resource.relevanceId} onChange={updateRelevanceId} />
-            {showVersionHistory && (
-              <VersionHistoryLightbox
-                onClose={() => setShowVersionHistory(false)}
-                contentUri={resource.contentUri}
-                contentType={contentType}
-                name={resource.name}
-                isVisible={resource.metadata?.visible}
-                locale={i18n.language}
-              />
-            )}
-            {showGrepCodes && resource.contentUri && (
-              <GrepCodesModal onClose={onGrepModalClosed} contentUri={resource.contentUri} />
-            )}
           </StyledText>
           <ButtonRow>
             <StyledResponsibleBadge>
               <BoldFont>{`${t('form.responsible.label')}: `}</BoldFont>
               {responsible ?? t('form.responsible.noResponible')}
             </StyledResponsibleBadge>
-            {contentType !== 'learning-path' && (
-              <GrepButton size="xsmall" colorTheme="lighter" onClick={() => setShowGrepCodes(true)}>
-                {`GREP (${resource.contentMeta?.grepCodes?.length || 0})`}
-              </GrepButton>
-            )}
-            {resource.contentMeta?.status?.current && (
-              <StatusButton
-                size="xsmall"
-                colorTheme="light"
-                isPublished={resource.contentMeta?.status?.current.toLowerCase() === 'published'}
-                onClick={() => setShowVersionHistory(true)}
-                disabled={contentType === 'learning-path'}>
-                {t(`form.status.${resource.contentMeta.status.current.toLowerCase()}`)}
-              </StatusButton>
-            )}
+            <GrepCodesModal
+              codes={resource.contentMeta?.grepCodes ?? []}
+              contentType={contentType}
+              contentUri={resource.contentUri}
+              revision={resource.contentMeta?.revision}
+              currentNodeId={currentNodeId}
+            />
+            <VersionHistory resource={resource} contentType={contentType} />
             <RemoveButton onClick={onDelete} size="xsmall" colorTheme="danger" disabled={!onDelete}>
               {t('form.remove')}
             </RemoveButton>
@@ -360,54 +257,6 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
         </ContentWrapper>
       </StyledCard>
     </Wrapper>
-  );
-};
-
-const PublishedWrapper = ({ path, children }: { path?: string; children: ReactElement }) => {
-  const { taxonomyVersion } = useTaxonomyVersion();
-  if (!path) {
-    return children;
-  }
-  return (
-    <StyledLink
-      target="_blank"
-      to={`${config.ndlaFrontendDomain}${path}?versionHash=${taxonomyVersion}`}>
-      {children}
-    </StyledLink>
-  );
-};
-
-const WrongTypeError = ({
-  resource,
-  articleType,
-}: {
-  resource: ResourceWithNodeConnection;
-  articleType?: string;
-}) => {
-  const { t } = useTranslation();
-  const isArticle = resource.contentUri?.startsWith('urn:article');
-  if (!isArticle) return null;
-
-  const expectedArticleType = getArticleTypeFromId(resource.id);
-  if (expectedArticleType === articleType) return null;
-
-  const missingArticleTypeError = t('taxonomy.info.missingArticleType', {
-    id: getIdFromUrn(resource.contentUri),
-  });
-
-  const wrongArticleTypeError = t('taxonomy.info.wrongArticleType', {
-    placedAs: t(`articleType.${expectedArticleType}`),
-    isType: t(`articleType.${articleType}`),
-  });
-
-  const errorText = articleType ? wrongArticleTypeError : missingArticleTypeError;
-
-  return (
-    <Tooltip tooltip={errorText}>
-      <div>
-        <StyledWarnIcon title={undefined} />
-      </div>
-    </Tooltip>
   );
 };
 

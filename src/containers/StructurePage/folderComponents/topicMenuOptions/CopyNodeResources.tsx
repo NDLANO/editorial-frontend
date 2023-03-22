@@ -8,7 +8,7 @@
 
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useQueryClient } from 'react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import styled from '@emotion/styled';
 import { Copy } from '@ndla/icons/action';
 import { spacing, colors } from '@ndla/core';
@@ -106,7 +106,7 @@ const CopyNodeResources = ({
     const resources = await fetchNodeResources({ id: node.id, taxonomyVersion, language });
     setTotalAmount(resources.length);
     const action = type === 'cloneResources' ? clone : copy;
-    await Promise.all(resources.map(async res => await doAction(res, action)));
+    await Promise.all(resources.map(async (res) => await doAction(res, action)));
     setDone(true);
     qc.invalidateQueries(
       resourcesWithNodeConnectionQueryKey({ id: currentNode.id, taxonomyVersion }),
@@ -119,10 +119,10 @@ const CopyNodeResources = ({
   ) => {
     try {
       const result = await action(res);
-      setCount(count => count + 1);
+      setCount((count) => count + 1);
       return result;
     } catch (e) {
-      setFailedResources(prev => prev.concat(res));
+      setFailedResources((prev) => prev.concat(res));
       return e;
     }
   };
@@ -165,12 +165,12 @@ const CopyNodeResources = ({
         <RoundIcon open small smallIcon icon={<Copy />} />
         <NodeSearchDropdown
           placeholder={t('taxonomy.existingTopic')}
-          onChange={node => cloneOrCopyResources(node, type)}
+          onChange={(node) => cloneOrCopyResources(node, type)}
           searchNodeType={'TOPIC'}
-          filter={node => {
+          filter={(node) => {
             return (
               !!node.path &&
-              !node.paths?.some(p => {
+              !node.paths?.some((p) => {
                 const split = p.replace('/', '').split('/');
                 return split[split.length - 2] === currentNode.id.replace('urn:', '');
               })
@@ -196,6 +196,8 @@ const CopyNodeResources = ({
         </StyledDiv>
       )}
       <AlertModal
+        title={t('errorMessage.description')}
+        label={t('errorMessage.description')}
         show={showAlert}
         onCancel={() => setShowAlert(false)}
         text={t(`taxonomy.${type}.error`)}

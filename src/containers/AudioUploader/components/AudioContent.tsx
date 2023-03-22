@@ -84,7 +84,8 @@ const AudioContent = ({ formik }: Props) => {
                     colorTheme="danger"
                     aria-label={t('form.audio.remove')}
                     onClick={() => setFieldValue('audioFile', {})}
-                    tabIndex={-1}>
+                    tabIndex={-1}
+                  >
                     <DeleteForever />
                   </IconButtonV2>
                 </Tooltip>
@@ -99,7 +100,8 @@ const AudioContent = ({ formik }: Props) => {
                   const newFile = file && filepath ? { file, filepath } : undefined;
                   setFieldValue('audioFile', { newFile });
                 }}
-                ariaLabel={t('form.audio.dragdrop.ariaLabel')}>
+                ariaLabel={t('form.audio.dragdrop.ariaLabel')}
+              >
                 <strong>{t('form.audio.dragdrop.main')}</strong>
                 {t('form.audio.dragdrop.sub')}
               </UploadDropZone>

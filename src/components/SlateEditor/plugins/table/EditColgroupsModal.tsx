@@ -8,7 +8,7 @@
 
 import { lazy, Suspense, useState } from 'react';
 import { Spinner } from '@ndla/icons';
-import Button from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 import Modal, { ModalBody, ModalCloseButton, ModalHeader } from '@ndla/modal';
 import { fonts } from '@ndla/core';
 import { useSlateStatic } from 'slate-react';
@@ -19,7 +19,7 @@ import { TableElement } from './interfaces';
 import { Portal } from '../../../Portal';
 
 window.MonacoEnvironment = {
-  getWorkerUrl: function(moduleId: string, label: string) {
+  getWorkerUrl: function (moduleId: string, label: string) {
     if (label === 'html') {
       return process.env.NODE_ENV !== 'production'
         ? '/static/js/html.worker.js'
@@ -56,7 +56,7 @@ const EditColgroupsModal = ({ element }: Props) => {
       editor,
       { showEditColgroups: false },
       {
-        match: node => node === element,
+        match: (node) => node === element,
       },
     );
   };
@@ -66,7 +66,7 @@ const EditColgroupsModal = ({ element }: Props) => {
       editor,
       { showEditColgroups: false, colgroups: content },
       {
-        match: node => node === element,
+        match: (node) => node === element,
       },
     );
   };
@@ -80,7 +80,8 @@ const EditColgroupsModal = ({ element }: Props) => {
         onClose={onClose}
         size={'large'}
         backgroundColor="white"
-        minHeight="90vh">
+        minHeight="90vh"
+      >
         {() => (
           <div>
             <ModalHeader>
@@ -102,7 +103,7 @@ const EditColgroupsModal = ({ element }: Props) => {
                   height={'50vh'}
                 />
               </Suspense>
-              <Button onClick={() => onSave(colgroups)}>{t('form.save')}</Button>
+              <ButtonV2 onClick={() => onSave(colgroups)}>{t('form.save')}</ButtonV2>
             </ModalBody>
           </div>
         )}

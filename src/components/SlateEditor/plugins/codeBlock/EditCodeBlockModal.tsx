@@ -39,7 +39,8 @@ const EditCodeBlockModal = ({
       size="large"
       backgroundColor="white"
       onClose={handleExit}
-      minHeight="90vh">
+      minHeight="90vh"
+    >
       {(onCloseModal: any) => (
         <>
           <ModalHeader>
@@ -49,6 +50,8 @@ const EditCodeBlockModal = ({
             <CodeBlockEditor content={model} onSave={handleSave} onAbort={handleExit} />
 
             <AlertModal
+              title={t('unsavedChanges')}
+              label={t('unsavedChanges')}
               show={openDiscardModal}
               text={t('code.continue')}
               actions={[

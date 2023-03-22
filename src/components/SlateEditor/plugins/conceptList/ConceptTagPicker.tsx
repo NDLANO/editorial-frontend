@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import Button from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 import { Transforms } from 'slate';
 import { spacing } from '@ndla/core';
 import { ReactEditor, useSlateStatic } from 'slate-react';
@@ -34,10 +34,6 @@ const FormInput = styled.div`
   flex-direction: column;
   gap: ${spacing.small};
   flex: 1;
-`;
-
-const StyledButton = styled(Button)`
-  flex: 0;
 `;
 
 interface Props {
@@ -78,7 +74,7 @@ const ConceptTagPicker = ({ element, onClose, language }: Props) => {
         isFirstEdit: false,
       },
       {
-        match: node => node === element,
+        match: (node) => node === element,
         at: [],
       },
     );
@@ -94,7 +90,7 @@ const ConceptTagPicker = ({ element, onClose, language }: Props) => {
           language,
           taxonomyVersion: 'default',
         })
-          .then(subject => {
+          .then((subject) => {
             setSelectedSubject({ name: subject.name, id: subject.id });
           })
           .catch(() => {
@@ -107,20 +103,22 @@ const ConceptTagPicker = ({ element, onClose, language }: Props) => {
           });
       }
 
-      fetchAllTags(language).then(tags => {
+      fetchAllTags(language).then((tags) => {
         const items = tags
-          .map(tag => ({ name: tag, id: tag }))
+          .map((tag) => ({ name: tag, id: tag }))
           .sort((a, b) => a.name.localeCompare(b.name));
         setTags(items);
       });
 
       const subjectIds: string[] = await fetchAllSubjects();
       const subjectResults = await Promise.allSettled(
-        subjectIds.map(id => fetchSubject({ id, language, taxonomyVersion: 'default' })),
+        subjectIds.map((id) => fetchSubject({ id, language, taxonomyVersion: 'default' })),
       );
-      const subjects = (subjectResults.filter(result => result.status === 'fulfilled') as Array<
-        PromiseFulfilledResult<SubjectType>
-      >).map(res => {
+      const subjects = (
+        subjectResults.filter((result) => result.status === 'fulfilled') as Array<
+          PromiseFulfilledResult<SubjectType>
+        >
+      ).map((res) => {
         const subject = res.value;
         return { name: subject.name, id: subject.id };
       });
@@ -138,7 +136,8 @@ const ConceptTagPicker = ({ element, onClose, language }: Props) => {
         onClose={onClose}
         size="large"
         backgroundColor="white"
-        minHeight="90vh">
+        minHeight="90vh"
+      >
         {() => (
           <div>
             <ModalHeader>
@@ -173,9 +172,9 @@ const ConceptTagPicker = ({ element, onClose, language }: Props) => {
                     showResultCount
                   />
                 </FormInput>
-                <StyledButton type="button" onClick={onSave} disabled={!selectedTag}>
+                <ButtonV2 onClick={onSave} disabled={!selectedTag}>
                   {t('form.save')}
-                </StyledButton>
+                </ButtonV2>
               </TwoColumn>
             </ModalBody>
           </div>

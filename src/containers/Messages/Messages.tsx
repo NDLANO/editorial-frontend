@@ -78,6 +78,8 @@ const Message = ({ message }: MessageProps) => {
 
   return (
     <AlertModal
+      title={t(`messages.severity.${message.severity ?? 'danger'}`)}
+      label={t(`messages.severity.${message.severity ?? 'danger'}`)}
       show
       text={
         message.translationKey
@@ -95,10 +97,10 @@ const Messages = () => {
   const { messages, clearMessage } = useMessages();
   const isHidden = messages.length === 0;
   const timeout = (item: MessageType) => setTimeout(() => clearMessage(item.id), item.timeToLive);
-  messages.filter(m => (m.timeToLive ?? 1) > 0).forEach(item => timeout(item));
+  messages.filter((m) => (m.timeToLive ?? 1) > 0).forEach((item) => timeout(item));
   return (
     <StyledMessageAlertOverlay appearance={isHidden ? 'hidden' : ''}>
-      {messages.map(message => (
+      {messages.map((message) => (
         <Message key={message.id} message={message} />
       ))}
     </StyledMessageAlertOverlay>

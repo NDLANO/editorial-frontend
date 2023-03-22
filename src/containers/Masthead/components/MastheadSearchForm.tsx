@@ -8,7 +8,7 @@
 
 import { FormEvent, useState } from 'react';
 
-import Button from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 import { useNavigate } from 'react-router-dom';
 import { colors, misc, spacing, fonts } from '@ndla/core';
 import { Search } from '@ndla/icons/common';
@@ -124,7 +124,7 @@ export const MastheadSearchForm = ({ query: initQuery = '', onSearchQuerySubmit 
     if (
       !urlId.includes('urn:topic') &&
       Number.isNaN(parseFloat(urlId)) &&
-      !splittedNdlaUrl.find(e => e.match(/subject:*/)) === undefined
+      !splittedNdlaUrl.find((e) => e.match(/subject:*/)) === undefined
     ) {
       return;
     }
@@ -133,7 +133,7 @@ export const MastheadSearchForm = ({ query: initQuery = '', onSearchQuerySubmit 
       handleTopicUrl(urlId);
     } else if (splittedNdlaUrl.includes('node')) {
       handleNodeId(parseInt(urlId));
-    } else if (splittedNdlaUrl.find(e => e.match(/subject:*/))) {
+    } else if (splittedNdlaUrl.find((e) => e.match(/subject:*/))) {
       handleFrontendUrl(cleanUrl);
     } else {
       navigate(toEditArticle(parseInt(urlId), 'standard'));
@@ -197,9 +197,9 @@ export const MastheadSearchForm = ({ query: initQuery = '', onSearchQuerySubmit 
         value={query}
         placeholder={t('searchForm.placeholder')}
       />
-      <Button submit stripped>
+      <ButtonV2 type="submit" variant="stripped">
         <Search className="c-icon--medium" />
-      </Button>
+      </ButtonV2>
     </StyledForm>
   );
 };

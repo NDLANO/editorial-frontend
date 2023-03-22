@@ -9,8 +9,9 @@
 import { Editor, Transforms, Element } from 'slate';
 import { ReactEditor } from 'slate-react';
 import { useTranslation } from 'react-i18next';
-import { Portal } from '../../../Portal';
-import Lightbox from '../../../Lightbox';
+import styled from '@emotion/styled';
+import { ModalBody, ModalHeaderV2 } from '@ndla/modal';
+import { CloseButton } from '@ndla/button';
 import { LinkElement, ContentLinkElement } from '.';
 import LinkForm from './LinkForm';
 import { Model } from './Link';
@@ -27,6 +28,14 @@ const newTabAttributes = {
   target: '_blank',
   rel: 'noopener noreferrer',
 };
+
+const ModalHeader = styled(ModalHeaderV2)`
+  padding-bottom: 0;
+`;
+
+const StyledModalBody = styled(ModalBody)`
+  padding-top: 0;
+`;
 
 const createContentLinkData = (
   id: string,
@@ -119,7 +128,7 @@ const EditLink = (props: Props) => {
         { ...data },
         {
           at: path,
-          match: node =>
+          match: (node) =>
             Element.isElement(node) && (node.type === TYPE_LINK || node.type === TYPE_CONTENT_LINK),
         },
       );
@@ -133,7 +142,7 @@ const EditLink = (props: Props) => {
 
     Transforms.unwrapNodes(editor, {
       at: path,
-      match: node =>
+      match: (node) =>
         Element.isElement(node) && (node.type === TYPE_LINK || node.type === TYPE_CONTENT_LINK),
     });
 
@@ -152,20 +161,21 @@ const EditLink = (props: Props) => {
   const isEdit = model && model.href !== undefined;
 
   return (
-    <Portal isOpened>
-      <Lightbox display appearance="big" onClose={onClose}>
-        <div>
-          <h2>{t(`form.content.link.${isEdit ? 'changeTitle' : 'addTitle'}`)}</h2>
-          <LinkForm
-            onClose={onClose}
-            link={model}
-            isEdit={isEdit}
-            onRemove={handleRemove}
-            onSave={handleSave}
-          />
-        </div>
-      </Lightbox>
-    </Portal>
+    <>
+      <ModalHeader>
+        <h1>{t(`form.content.link.${isEdit ? 'changeTitle' : 'addTitle'}`)}</h1>
+        <CloseButton onClick={onClose} />
+      </ModalHeader>
+      <StyledModalBody>
+        <LinkForm
+          onClose={onClose}
+          link={model}
+          isEdit={isEdit}
+          onRemove={handleRemove}
+          onSave={handleSave}
+        />
+      </StyledModalBody>
+    </>
   );
 };
 

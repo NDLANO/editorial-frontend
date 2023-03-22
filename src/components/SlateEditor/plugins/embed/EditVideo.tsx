@@ -13,7 +13,7 @@ import { useTranslation } from 'react-i18next';
 import { FieldProps, Form, Formik, FormikProps } from 'formik';
 import { Input, TextArea } from '@ndla/forms';
 import { spacing } from '@ndla/core';
-import Button from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 import { ModalBody, ModalCloseButton, ModalHeader } from '@ndla/modal';
 import { BrightcoveEmbed, ExternalEmbed } from '../../../../interfaces';
 import {
@@ -117,13 +117,14 @@ const EditVideo = ({ embed, saveEmbedUpdates, activeSrc, close, setHasError }: P
           initialValues={initialValues}
           validate={
             embed.resource === 'brightcove'
-              ? values => validateFormik(values, brightcoveEmbedFormRules, t)
+              ? (values) => validateFormik(values, brightcoveEmbedFormRules, t)
               : undefined
           }
           validateOnBlur={false}
           validateOnMount
-          onSubmit={handleSave}>
-          {formik => (
+          onSubmit={handleSave}
+        >
+          {(formik) => (
             <VideoEmbedForm {...formik} setHasError={setHasError} close={close} embed={embed} />
           )}
         </Formik>
@@ -210,10 +211,10 @@ const VideoEmbedForm = ({ setHasError, close, embed, isValid, dirty }: VideoEmbe
         )}
       </StyledInputTimeWrapper>
       <ButtonWrapper>
-        <Button onClick={close}>{t('form.abort')}</Button>
-        <Button disabled={!isValid || !dirty} type="submit">
+        <ButtonV2 onClick={close}>{t('form.abort')}</ButtonV2>
+        <ButtonV2 disabled={!isValid || !dirty} type="submit">
           {t('form.save')}
-        </Button>
+        </ButtonV2>
       </ButtonWrapper>
     </Form>
   );

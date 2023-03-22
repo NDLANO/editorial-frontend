@@ -7,7 +7,7 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import Button from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 import { getLicenseByAbbreviation } from '@ndla/licenses';
 import { LicenseByline } from '@ndla/notion';
 import { colors } from '@ndla/core';
@@ -38,7 +38,8 @@ interface Props {
   editing: boolean;
 }
 
-const StyledButton = styled(Button)`
+const StyledButton = styled(ButtonV2)`
+  min-height: 24px;
   line-height: 1;
   font-size: 0.7rem;
   padding: 4px 6px;
@@ -56,7 +57,7 @@ const ContentView = ({
 }: Props) => {
   const { t } = useTranslation();
   const { data: licenses } = useLicenses();
-  const license = licenses && licenses.find(l => concept.license === l.license);
+  const license = licenses && licenses.find((l) => concept.license === l.license);
 
   return (
     <StyledConceptView>
@@ -64,18 +65,19 @@ const ContentView = ({
         <StyledLink noShadow to={toEditConcept(concept.id)}>
           {title}
         </StyledLink>
-        {!editing && <StyledButton onClick={setShowForm}>{t('form.edit')}</StyledButton>}
+        {false && !editing && <StyledButton onClick={setShowForm}>{t('form.edit')}</StyledButton>}
       </h2>
       <StyledInfo>
         {`${t('topicArticleForm.info.lastUpdated')} ${formatDate(concept.lastUpdated)}`}
       </StyledInfo>
       <div>
-        {concept.supportedLanguages.map(lang => {
+        {concept.supportedLanguages.map((lang) => {
           return lang !== locale ? (
             <StyledLink
               other
               key={`language_${lang}_${concept.id}`}
-              to={toEditConcept(concept.id, lang)}>
+              to={toEditConcept(concept.id, lang)}
+            >
               {t(`language.${lang}`)}
             </StyledLink>
           ) : (
@@ -92,7 +94,7 @@ const ContentView = ({
         />
       )}
       <StyledBreadcrumbs>
-        {breadcrumbs?.map(breadcrumb => <Crumb key={breadcrumb.id}>{breadcrumb.name}</Crumb>) || (
+        {breadcrumbs?.map((breadcrumb) => <Crumb key={breadcrumb.id}>{breadcrumb.name}</Crumb>) || (
           <Crumb />
         )}
         <HeaderStatusInformation

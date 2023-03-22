@@ -8,9 +8,9 @@
 
 import { useRef, useEffect, RefObject, useState } from 'react';
 import { Descendant } from 'slate';
-import { withTranslation, CustomWithTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
+import { useTranslation } from 'react-i18next';
 import { FormikContextType } from 'formik';
+import styled from '@emotion/styled';
 import { FieldHeader } from '@ndla/forms';
 import Tooltip from '@ndla/tooltip';
 import { Eye } from '@ndla/icons/editor';
@@ -56,14 +56,23 @@ import { LocaleType } from '../../../../interfaces';
 import { LearningResourceFormType } from '../../../FormikForm/articleFormHooks';
 import { dndPlugin } from '../../../../components/SlateEditor/plugins/DND';
 import { SlatePlugin } from '../../../../components/SlateEditor/interfaces';
-import { SessionProps } from '../../../Session/SessionProvider';
-import withSession from '../../../Session/withSession';
+import { useSession } from '../../../Session/SessionProvider';
 import RichTextEditor from '../../../../components/SlateEditor/RichTextEditor';
 import { spanPlugin } from '../../../../components/SlateEditor/plugins/span';
 import { TYPE_FOOTNOTE } from '../../../../components/SlateEditor/plugins/footnote/types';
 import { conceptListPlugin } from '../../../../components/SlateEditor/plugins/conceptList';
 import { inlineConceptPlugin } from '../../../../components/SlateEditor/plugins/concept/inline';
 import { blockConceptPlugin } from '../../../../components/SlateEditor/plugins/concept/block';
+import {
+  TYPE_EMBED_AUDIO,
+  TYPE_EMBED_BRIGHTCOVE,
+  TYPE_EMBED_EXTERNAL,
+  TYPE_EMBED_H5P,
+  TYPE_EMBED_IMAGE,
+} from '../../../../components/SlateEditor/plugins/embed/types';
+import { TYPE_TABLE } from '../../../../components/SlateEditor/plugins/table/types';
+import { TYPE_CODEBLOCK } from '../../../../components/SlateEditor/plugins/codeBlock/types';
+import { TYPE_FILE } from '../../../../components/SlateEditor/plugins/file/types';
 
 const StyledFormikField = styled(FormikField)`
   display: flex;
@@ -90,16 +99,24 @@ const StyledContentDiv = styled(FormikField)`
 `;
 
 const MarkdownButton = styled(IconButtonV2)<{ active: boolean }>`
-  color: ${p => (p.active ? colors.brand.primary : colors.brand.light)};
+  color: ${(p) => (p.active ? colors.brand.primary : colors.brand.light)};
 `;
 
 const findFootnotes = (content: Descendant[]): FootnoteType[] =>
   findNodesByType(content, TYPE_FOOTNOTE)
-    .map(e => e as FootnoteElement)
-    .filter(footnote => Object.keys(footnote.data).length > 0)
-    .map(footnoteElement => footnoteElement.data);
+    .map((e) => e as FootnoteElement)
+    .filter((footnote) => Object.keys(footnote.data).length > 0)
+    .map((footnoteElement) => footnoteElement.data);
 
-const actions = ['table', 'ndlaembed', 'code-block', 'file', 'h5p'];
+const visualElements = [
+  TYPE_EMBED_H5P,
+  TYPE_EMBED_BRIGHTCOVE,
+  TYPE_EMBED_AUDIO,
+  TYPE_EMBED_EXTERNAL,
+  TYPE_EMBED_IMAGE,
+];
+
+const actions = [TYPE_TABLE, TYPE_CODEBLOCK, TYPE_FILE].concat(visualElements);
 const actionsToShowInAreas = {
   details: actions,
   aside: actions,
@@ -151,23 +168,21 @@ export const plugins = (
     listPlugin,
   ];
 };
-type Props = {
+interface Props {
   articleLanguage: string;
   handleBlur: (evt: { target: { name: string } }) => void;
   values: LearningResourceFormType;
   handleSubmit: () => Promise<void>;
-} & CustomWithTranslation & {
-    formik: FormikContextType<LearningResourceFormType>;
-  } & SessionProps;
+  formik: FormikContextType<LearningResourceFormType>;
+}
 
 const LearningResourceContent = ({
-  t,
-  userPermissions,
   articleLanguage,
   values: { id, language, creators, published },
   handleSubmit,
-  i18n,
 }: Props) => {
+  const { t, i18n } = useTranslation();
+  const { userPermissions } = useSession();
   const handleSubmitRef = useRef(handleSubmit);
 
   const [preview, setPreview] = useState(false);
@@ -187,7 +202,7 @@ const LearningResourceContent = ({
               creators={creators}
               published={published}
               allowEdit={true}
-              onChange={date => {
+              onChange={(date) => {
                 form.setFieldValue(field.name, date);
               }}
             />
@@ -198,7 +213,8 @@ const LearningResourceContent = ({
                   variant="stripped"
                   colorTheme="light"
                   active={preview}
-                  onClick={() => setPreview(!preview)}>
+                  onClick={() => setPreview(!preview)}
+                >
                   <Eye />
                 </MarkdownButton>
               </Tooltip>
@@ -229,7 +245,7 @@ const LearningResourceContent = ({
               submitted={isSubmitting}
               plugins={plugins(articleLanguage ?? '', i18n.language, handleSubmitRef)}
               data-cy="learning-resource-content"
-              onChange={value => {
+              onChange={(value) => {
                 onChange({
                   target: {
                     value,
@@ -246,4 +262,4 @@ const LearningResourceContent = ({
   );
 };
 
-export default withTranslation()(withSession(LearningResourceContent));
+export default LearningResourceContent;

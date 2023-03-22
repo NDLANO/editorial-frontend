@@ -7,11 +7,12 @@
  */
 
 import styled from '@emotion/styled';
-import Button from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
+import { spacing } from '@ndla/core';
 import { Formik, FormikHelpers } from 'formik';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useQueryClient } from 'react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import { Row } from '../../../components';
 import AlertModal from '../../../components/AlertModal';
 import Field from '../../../components/Field';
@@ -24,7 +25,6 @@ import {
   usePutVersionMutation,
 } from '../../../modules/taxonomy/versions/versionMutations';
 import { versionsQueryKey } from '../../../modules/taxonomy/versions/versionQueries';
-import { ActionButton } from '../../FormikForm';
 import { StyledErrorMessage } from './StyledErrorMessage';
 import Fade from '../../../components/Taxonomy/Fade';
 import {
@@ -54,6 +54,12 @@ const StyledTitle = styled.h2`
   margin: 0;
 `;
 
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  gap: ${spacing.xsmall};
+`;
+
 const VersionForm = ({ version, existingVersions, onClose }: Props) => {
   const { t } = useTranslation();
   const [showAlertModal, setShowAlertModal] = useState(false);
@@ -72,6 +78,7 @@ const VersionForm = ({ version, existingVersions, onClose }: Props) => {
         name: body.name,
         hash: '',
         locked: !!body.locked,
+        created: '',
       };
       const existingVersions = qc.getQueryData<VersionType[]>(versionsKey) ?? [];
       qc.setQueryData<VersionType[]>(versionsKey, existingVersions.concat(optimisticVersion));
@@ -85,7 +92,7 @@ const VersionForm = ({ version, existingVersions, onClose }: Props) => {
       setError(undefined);
       await qc.cancelQueries(versionsKey);
       const existingVersions = qc.getQueryData<VersionType[]>(versionsKey) ?? [];
-      const newVersions = existingVersions.map(version => {
+      const newVersions = existingVersions.map((version) => {
         if (version.id === id) {
           return {
             ...version,
@@ -105,7 +112,7 @@ const VersionForm = ({ version, existingVersions, onClose }: Props) => {
       setError(undefined);
       await qc.cancelQueries(versionsKey);
       const existingVersions = qc.getQueryData<VersionType[]>(versionsKey) ?? [];
-      const updatedVersions: VersionType[] = existingVersions.map(version => {
+      const updatedVersions: VersionType[] = existingVersions.map((version) => {
         if (version.id === id) {
           return { ...version, versionType: 'PUBLISHED' };
         } else return version;
@@ -144,7 +151,8 @@ const VersionForm = ({ version, existingVersions, onClose }: Props) => {
         initialValues={initialValues}
         validateOnMount={true}
         onSubmit={(values, helpers) => onSubmit(values, helpers)}
-        validate={values => validateFormik(values, versionFormRules, t)}>
+        validate={(values) => validateFormik(values, versionFormRules, t)}
+      >
         {({ isSubmitting, isValid, dirty, handleSubmit }) => {
           return (
             <>
@@ -158,24 +166,26 @@ const VersionForm = ({ version, existingVersions, onClose }: Props) => {
               <Row>
                 <Field>
                   {version && version.versionType === 'BETA' && (
-                    <Button disabled={dirty} onClick={() => setShowAlertModal(true)}>
+                    <ButtonV2 disabled={dirty} onClick={() => setShowAlertModal(true)}>
                       {t('taxonomyVersions.publishButton')}
-                    </Button>
+                    </ButtonV2>
                   )}
                 </Field>
-                <Field right>
-                  <ActionButton outline onClick={onClose}>
+                <ButtonContainer>
+                  <ButtonV2 variant="outline" onClick={onClose}>
                     {t('form.abort')}
-                  </ActionButton>
+                  </ButtonV2>
                   <SaveButton
                     isSaving={isSubmitting}
                     disabled={!dirty || !isValid}
                     onClick={() => handleSubmit()}
                     formIsDirty={dirty}
                   />
-                </Field>
+                </ButtonContainer>
               </Row>
               <AlertModal
+                title={t('taxonomyVersions.publishTitle')}
+                label={t('taxonomyVersions.publishTitle')}
                 show={showAlertModal}
                 text={t('taxonomyVersions.publishWarning')}
                 actions={[

@@ -10,7 +10,6 @@ import { useTranslation } from 'react-i18next';
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import { FormikHelpers, useFormikContext } from 'formik';
 import { IUpdatedArticle, IArticle } from '@ndla/types-draft-api';
-import config from '../../../../config';
 import { CopyrightFieldGroup, VersionAndNotesPanel, MetaDataField } from '../../../FormikForm';
 import { FrontpageArticleFormType } from '../../../FormikForm/articleFormHooks';
 import RevisionNotes from '../../components/RevisionNotes';
@@ -38,7 +37,8 @@ const FrontpageArticlePanels = ({ article, getArticle, handleSubmit, articleLang
         title={t('form.contentSection')}
         className={'u-4/6@desktop u-push-1/6@desktop'}
         hasError={!!(errors.title || errors.introduction || errors.content)}
-        startOpen>
+        startOpen
+      >
         <FrontpageArticleFormContent
           articleLanguage={articleLanguage}
           formik={formikContext}
@@ -53,31 +53,34 @@ const FrontpageArticlePanels = ({ article, getArticle, handleSubmit, articleLang
         className={'u-6/6'}
         hasError={
           !!(errors.creators || errors.rightsholders || errors.processors || errors.license)
-        }>
+        }
+      >
         <CopyrightFieldGroup values={values} />
       </AccordionSection>
       <AccordionSection
         id={'frontpage-article-metadata'}
         title={t('form.metadataSection')}
         className={'u-6/6'}
-        hasError={!!(errors.metaDescription || errors.metaImageAlt || errors.tags)}>
+        hasError={!!(errors.metaDescription || errors.metaImageAlt || errors.tags)}
+      >
         <MetaDataField articleLanguage={articleLanguage} />
       </AccordionSection>
-      {config.revisiondateEnabled === 'true' && (
-        <AccordionSection
-          id={'frontpage-article-revisions'}
-          title={t('form.name.revisions')}
-          className={'u-6/6'}
-          hasError={!!errors.revisionMeta || !!errors.revisionError}>
-          <RevisionNotes />
-        </AccordionSection>
-      )}
+      <AccordionSection
+        id={'frontpage-article-revisions'}
+        title={t('form.name.revisions')}
+        className={'u-6/6'}
+        hasError={!!errors.revisionMeta || !!errors.revisionError}
+      >
+        <RevisionNotes />
+      </AccordionSection>
+
       {article && (
         <AccordionSection
           id={'frontpage-article-workflow'}
           title={t('form.workflowSection')}
           className={'u-6/6'}
-          hasError={!!errors.notes}>
+          hasError={!!errors.notes}
+        >
           <VersionAndNotesPanel
             article={article}
             getArticle={getArticle}

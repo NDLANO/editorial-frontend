@@ -6,21 +6,24 @@
  */
 
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Formik, FormikHelpers } from 'formik';
+import styled from '@emotion/styled';
 import {
   IImageMetaInformationV3,
   INewImageMetaInformationV2,
   ILicense,
 } from '@ndla/types-image-api';
 import { Accordions, AccordionSection } from '@ndla/accordion';
-import Field from '../../../components/Field';
+import { ButtonV2 } from '@ndla/button';
+import { spacing } from '@ndla/core';
 import SaveButton from '../../../components/SaveButton';
 import { isFormikFormDirty } from '../../../util/formHelper';
 import validateFormik, { RulesType, getWarnings } from '../../../components/formikValidationSchema';
 import ImageMetaData from './ImageMetaData';
 import ImageContent from './ImageContent';
-import { ActionButton, AbortButton, AlertModalWrapper } from '../../FormikForm';
+import { AlertModalWrapper } from '../../FormikForm';
 import { toCreateImage, toEditImage } from '../../../util/routeHelpers';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage/HeaderWithLanguage';
 import ImageVersionNotes from './ImageVersionNotes';
@@ -28,6 +31,13 @@ import { MAX_IMAGE_UPLOAD_SIZE } from '../../../constants';
 import { imageApiTypeToFormType, ImageFormikType } from '../imageTransformers';
 import { editorValueToPlainText } from '../../../util/articleContentConverter';
 import FormWrapper from '../../../components/FormWrapper';
+
+const ButtonContainer = styled.div`
+  margin-top: ${spacing.small};
+  display: flex;
+  justify-content: flex-end;
+  gap: ${spacing.xsmall};
+`;
 
 const imageRules: RulesType<ImageFormikType, IImageMetaInformationV3> = {
   title: {
@@ -65,7 +75,7 @@ const imageRules: RulesType<ImageFormikType, IImageMetaInformationV3> = {
   },
   license: {
     required: true,
-    test: values => {
+    test: (values) => {
       const authors = values.creators.concat(values.rightsholders).concat(values.processors);
       if (!values.license || authors.length > 0) return undefined;
       return { translationKey: 'validation.noLicenseWithoutCopyrightHolder' };
@@ -109,9 +119,10 @@ const ImageForm = ({
 }: Props) => {
   const { t } = useTranslation();
   const [savedToServer, setSavedToServer] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = async (values: ImageFormikType, actions: FormikHelpers<ImageFormikType>) => {
-    const license = licenses.find(license => license.license === values.license);
+    const license = licenses.find((license) => license.license === values.license);
 
     if (
       license === undefined ||
@@ -164,8 +175,9 @@ const ImageForm = ({
       onSubmit={handleSubmit}
       validateOnMount
       enableReinitialize
-      validate={values => validateFormik(values, imageRules, t)}
-      initialStatus={{ warnings: initialWarnings }}>
+      validate={(values) => validateFormik(values, imageRules, t)}
+      initialStatus={{ warnings: initialWarnings }}
+    >
       {({ values, dirty, errors, isSubmitting, submitForm, isValid }) => {
         const formIsDirty = isFormikFormDirty({
           values,
@@ -174,7 +186,7 @@ const ImageForm = ({
           changed: isNewLanguage,
         });
         const hasError = (errorFields: ImageFormErrorFields[]): boolean =>
-          errorFields.some(field => !!errors[field]);
+          errorFields.some((field) => !!errors[field]);
         return (
           <FormWrapper inModal={inModal}>
             <HeaderWithLanguage
@@ -198,47 +210,54 @@ const ImageForm = ({
                 title={t('form.contentSection')}
                 className="u-4/6@desktop u-push-1/6@desktop"
                 hasError={hasError(['title', 'imageFile', 'caption', 'alttext'])}
-                startOpen>
+                startOpen
+              >
                 <ImageContent />
               </AccordionSection>
               <AccordionSection
                 id="image-upload-metadataSection"
                 title={t('form.metadataSection')}
                 className="u-4/6@desktop u-push-1/6@desktop"
-                hasError={hasError(['tags', 'rightsholders', 'creators', 'processors', 'license'])}>
+                hasError={hasError(['tags', 'rightsholders', 'creators', 'processors', 'license'])}
+              >
                 <ImageMetaData imageLanguage={language} imageTags={values.tags} />
               </AccordionSection>
               <AccordionSection
                 id="image-upload-version-history"
                 title={t('form.workflowSection')}
-                className="u-4/6@desktop u-push-1/6@desktop">
+                className="u-4/6@desktop u-push-1/6@desktop"
+              >
                 <ImageVersionNotes image={image} />
               </AccordionSection>
             </Accordions>
-            <Field right>
+            <ButtonContainer>
               {inModal ? (
-                <ActionButton outline onClick={closeModal}>
+                <ButtonV2 variant="outline" onClick={closeModal}>
                   {t('form.abort')}
-                </ActionButton>
+                </ButtonV2>
               ) : (
-                <AbortButton outline disabled={isSubmitting || isSaving}>
+                <ButtonV2
+                  variant="outline"
+                  disabled={isSubmitting || isSaving}
+                  onClick={() => navigate(-1)}
+                >
                   {t('form.abort')}
-                </AbortButton>
+                </ButtonV2>
               )}
               <SaveButton
+                type={!inModal ? 'submit' : 'button'}
                 isSaving={isSubmitting || isSaving}
                 disabled={!isValid}
                 showSaved={!dirty && (isNewlyCreated || savedToServer)}
                 formIsDirty={formIsDirty}
-                submit={!inModal}
-                onClick={evt => {
+                onClick={(evt) => {
                   if (inModal) {
                     evt.preventDefault();
                     submitForm();
                   }
                 }}
               />
-            </Field>
+            </ButtonContainer>
             <AlertModalWrapper
               isSubmitting={isSubmitting}
               severity="danger"

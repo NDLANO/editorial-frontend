@@ -31,7 +31,8 @@ const AddFileToList = ({ showFileUploader, onClose, onFileSave }: Props) => {
         isOpen={showFileUploader}
         size="medium"
         onClose={onClose}
-        backgroundColor="white">
+        backgroundColor="white"
+      >
         {(onCloseModal: () => void) => (
           <>
             <ModalHeader>

@@ -19,8 +19,8 @@ import SimpleLanguageHeader from '../../../components/HeaderWithLanguage/SimpleL
 import { toEditNdlaFilm } from '../../../util/routeHelpers';
 import NdlaFilmAccordionPanels from './NdlaFilmAccordionPanels';
 import SaveButton from '../../../components/SaveButton';
-import { TYPE_NDLA_EMBED } from '../../../components/SlateEditor/plugins/embed/types';
 import StyledForm from '../../../components/StyledFormComponents';
+import { isSlateEmbed } from '../../../components/SlateEditor/plugins/embed/utils';
 
 interface Props {
   filmFrontpage: IFilmFrontPageData;
@@ -51,7 +51,7 @@ const ndlaFilmRules: RulesType<FilmFormikType> = {
     required: true,
     test: (values: FilmFormikType) => {
       const element = values?.visualElement[0];
-      const data = Element.isElement(element) && element.type === TYPE_NDLA_EMBED && element.data;
+      const data = isSlateEmbed(element) && element.data;
       const badVisualElementId = data && 'resource_id' in data && data.resource_id === '';
       return badVisualElementId
         ? { translationKey: 'subjectpageForm.missingVisualElement' }
@@ -73,9 +73,10 @@ const NdlaFilmForm = ({ filmFrontpage, selectedLanguage }: Props) => {
     <Formik
       initialValues={initialValues}
       onSubmit={() => {}}
-      validate={values => validateFormik(values, ndlaFilmRules, t)}
-      enableReinitialize={true}>
-      {formik => {
+      validate={(values) => validateFormik(values, ndlaFilmRules, t)}
+      enableReinitialize={true}
+    >
+      {(formik) => {
         const { values, dirty, isSubmitting, errors, isValid } = formik;
         const formIsDirty: boolean = isFormikFormDirty({
           values,
@@ -101,7 +102,7 @@ const NdlaFilmForm = ({ filmFrontpage, selectedLanguage }: Props) => {
             />
             <Field right>
               <SaveButton
-                large
+                size="large"
                 isSaving={isSubmitting}
                 showSaved={!formIsDirty && savedToServer}
                 formIsDirty={formIsDirty}

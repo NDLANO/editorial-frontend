@@ -6,7 +6,7 @@
  *
  */
 
-import { useQueryClient } from 'react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import { Input } from '@ndla/forms';
 import styled from '@emotion/styled';
 import { ChangeEvent, useState } from 'react';
@@ -103,7 +103,7 @@ const AddResourceModal = ({
   const { taxonomyVersion } = useTaxonomyVersion();
   const compKey = resourcesWithNodeConnectionQueryKey({ id: nodeId, language: i18n.language });
   const { mutateAsync: createNodeResource } = usePostResourceForNodeMutation({
-    onSuccess: _ => qc.invalidateQueries(compKey),
+    onSuccess: (_) => qc.invalidateQueries(compKey),
   });
   const canPaste = allowPaste || selectedType !== RESOURCE_TYPE_LEARNING_PATH;
 
@@ -140,8 +140,8 @@ const AddResourceModal = ({
     }
 
     await createNodeResource({ body: { resourceId, nodeId }, taxonomyVersion })
-      .then(_ => onClose())
-      .catch(err => setError('taxonomy.resource.creationFailed'));
+      .then((_) => onClose())
+      .catch((err) => setError('taxonomy.resource.creationFailed'));
     setLoading(false);
   };
 
@@ -211,12 +211,13 @@ const AddResourceModal = ({
       title={t('taxonomy.searchResource')}
       onSelect={onAddResource}
       loading={loading}
-      onClose={onClose}>
+      onClose={onClose}
+    >
       <StyledContent>
         {!type && (
           <ResourceTypeSelect
             availableResourceTypes={resourceTypes ?? []}
-            onChangeSelectedResource={e => setSelectedType(e.currentTarget.value)}
+            onChangeSelectedResource={(e) => setSelectedType(e.currentTarget.value)}
           />
         )}
         {canPaste && selectedType && (
@@ -236,7 +237,7 @@ const AddResourceModal = ({
               labelField="title"
               placeholder={t('form.content.relatedArticle.placeholder')}
               apiAction={(query, page) => onSearch(query, page)}
-              onChange={res => setContent(toContent(res))}
+              onChange={(res) => setContent(toContent(res))}
               startOpen
               showPagination
             />
@@ -245,10 +246,11 @@ const AddResourceModal = ({
         {content && <ArticlePreview article={content} />}
         {error && (
           <AlertModal
+            title={t('errorMessage.description')}
+            label={t('errorMessage.description')}
             show={!!error}
             text={error}
             onCancel={() => setError('')}
-            severity={'danger'}
           />
         )}
       </StyledContent>

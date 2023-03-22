@@ -6,19 +6,25 @@
  *
  */
 
-import PropTypes from 'prop-types';
+import { ComponentProps, CSSProperties, ReactNode } from 'react';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import FormikField from '../../../components/FormikField';
 
-const StyledInputCheckbox = styled.input`
+interface InputCheckboxProps {
+  display: CSSProperties['display'];
+}
+const StyledInputCheckbox = styled.input<InputCheckboxProps>`
   appearance: checkbox !important;
   margin-right: ${spacing.small};
-  display: ${p => p.display};
+  display: ${(p) => p.display};
   width: auto;
 `;
 
-const Checkbox = ({ display, children, ...rest }) => {
+interface Props extends ComponentProps<typeof FormikField> {
+  display?: CSSProperties['display'];
+}
+const Checkbox = ({ display = 'block', children, ...rest }: Props) => {
   return (
     <FormikField {...rest}>
       {({ field }) => (
@@ -29,15 +35,6 @@ const Checkbox = ({ display, children, ...rest }) => {
       )}
     </FormikField>
   );
-};
-
-Checkbox.defaultProps = {
-  display: 'block',
-};
-
-Checkbox.propTypes = {
-  name: PropTypes.string.isRequired,
-  display: PropTypes.string,
 };
 
 export default Checkbox;

@@ -148,20 +148,16 @@ export type ConfigType = {
   redirectPort: string | undefined;
   host: string | undefined;
   componentName: string | undefined;
-  googleSearchEngineId: string | undefined;
   isNdlaProdEnvironment: boolean;
   versioningEnabled: string;
-  revisiondateEnabled: string;
   ndlaEnvironment: string;
   learningpathFrontendDomain: string;
-  googleSearchApiKey: string | undefined;
   localConverter: boolean;
   brightcoveApiUrl: string;
   brightcoveUrl: string;
   logglyApiKey: string | undefined;
   taxonomyApi: string;
   h5pApiUrl: string | undefined;
-  googleSearchApiUrl: string | undefined;
   port: string | undefined;
   ndlaPersonalClientId: string | undefined;
   zendeskWidgetKey: string | undefined;
@@ -170,6 +166,9 @@ export type ConfigType = {
   brightcoveCopyrightPlayerId: string | undefined;
   disableCSP: string | undefined;
   usernamePasswordEnabled: boolean;
+  disableConverter: boolean;
+  translateServiceUser: string;
+  translateServiceToken: string;
 };
 
 const config: ConfigType = {
@@ -183,7 +182,6 @@ const config: ConfigType = {
   logglyApiKey: getEnvironmentVariabel('LOGGLY_API_KEY'),
   isNdlaProdEnvironment: ndlaEnvironment === 'prod',
   versioningEnabled: getEnvironmentVariabel('ENABLE_VERSIONING', 'true'),
-  revisiondateEnabled: getEnvironmentVariabel('ENABLE_REVISIONDATE', 'true'),
   ndlaApiUrl: getEnvironmentVariabel('NDLA_API_URL', getNdlaApiUrl(ndlaEnvironment)),
   ndlaBaseUrl: ndlaBaseUrl(),
   ndlaFrontendDomain: getEnvironmentVariabel('FRONTEND_DOMAIN', ndlaFrontendDomain()),
@@ -201,19 +199,19 @@ const config: ConfigType = {
   brightcoveApiUrl: 'https://cms.api.brightcove.com',
   brightcoveUrl: 'https://studio.brightcove.com/products/videocloud/home',
   h5pApiUrl: getEnvironmentVariabel('H5P_API_URL', h5pApiUrl()),
-  googleSearchApiUrl: getEnvironmentVariabel('NDLA_GOOGLE_API_URL', 'https://www.googleapis.com'),
-  googleSearchApiKey: getEnvironmentVariabel('NDLA_GOOGLE_API_KEY'),
-  googleSearchEngineId: getEnvironmentVariabel('NDLA_GOOGLE_SEARCH_ENGINE_ID'),
   localConverter: getEnvironmentVariabel('LOCAL_CONVERTER', 'false') === 'true',
   checkArticleScript: getEnvironmentVariabel('CHECK_ARTICLE_SCRIPT', 'false') === 'true',
   googleTagManagerId: getEnvironmentVariabel('NDLA_GOOGLE_TAG_MANAGER_ID'),
   gaTrackingId: getEnvironmentVariabel('GA_TRACKING_ID', gaTrackingId()),
   zendeskWidgetKey: getEnvironmentVariabel('NDLA_ED_ZENDESK_WIDGET_KEY'),
   disableCSP: getEnvironmentVariabel('DISABLE_CSP', 'false'),
+  disableConverter: getEnvironmentVariabel('USE_ARTICLE_CONVERTER', 'false') === 'true',
   usernamePasswordEnabled: getEnvironmentVariabel(
     'USERNAME_PASSWORD_ENABLED',
     usernamePasswordEnabled(),
   ),
+  translateServiceUser: getEnvironmentVariabel('NDKM_USER', ''),
+  translateServiceToken: getEnvironmentVariabel('NDKM_TOKEN', ''),
 };
 
 export function getUniversalConfig(): ConfigType {

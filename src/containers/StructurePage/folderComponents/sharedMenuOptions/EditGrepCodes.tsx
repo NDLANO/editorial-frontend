@@ -8,7 +8,7 @@
 
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import Button from '@ndla/button';
+import { ButtonV2, IconButtonV2 } from '@ndla/button';
 import { Plus, Pencil } from '@ndla/icons/action';
 import { DeleteForever } from '@ndla/icons/editor';
 import styled from '@emotion/styled';
@@ -29,6 +29,11 @@ interface Props {
   node: NodeType;
 }
 
+const StyledIconButton = styled(IconButtonV2)`
+  width: 40px;
+  height: 40px;
+`;
+
 export const DropDownWrapper = styled('div')`
   font-size: 0.9rem;
   background-color: white;
@@ -37,6 +42,7 @@ export const DropDownWrapper = styled('div')`
 
 const StyledGrepItem = styled('div')`
   display: flex;
+  align-items: center;
   justify-content: space-between;
   margin: calc(var(--spacing--small) / 2);
 `;
@@ -65,13 +71,13 @@ const EditGrepCodes = ({ node, editModeHandler: { editMode, toggleEditMode } }: 
 
   const addGrepCode = async (code: string) => updateMetadata([...grepCodes, code.toUpperCase()]);
 
-  const deleteGrepCode = (code: string) => updateMetadata(grepCodes.filter(c => c !== code));
+  const deleteGrepCode = (code: string) => updateMetadata(grepCodes.filter((c) => c !== code));
 
   const grepCodesList = (
     <DropDownWrapper>
       {grepCodesWithName?.length > 0 ? (
         grepCodesWithName.map((grepCode, index) => {
-          if (grepCode.isLoading) {
+          if (grepCode.isInitialLoading) {
             return <Spinner key={index} />;
           }
           if (!grepCode.data) {
@@ -80,12 +86,15 @@ const EditGrepCodes = ({ node, editModeHandler: { editMode, toggleEditMode } }: 
           return (
             <StyledGrepItem key={index}>
               {grepCode.data.title}
-              <Button
-                stripped
+              <StyledIconButton
+                colorTheme="danger"
+                variant="ghost"
+                aria-label={t('taxonomy.grepCodes.delete', { grepCode: grepCode.data.title })}
                 data-testid="deleteGrepCode"
-                onClick={() => deleteGrepCode(grepCode.data.code)}>
-                <RoundIcon small icon={<DeleteForever />} />
-              </Button>
+                onClick={() => deleteGrepCode(grepCode.data.code)}
+              >
+                <DeleteForever />
+              </StyledIconButton>
             </StyledGrepItem>
           );
         })
@@ -104,13 +113,14 @@ const EditGrepCodes = ({ node, editModeHandler: { editMode, toggleEditMode } }: 
           placeholder={t('form.grepCodes.placeholder')}
         />
       ) : (
-        <Button
-          stripped
+        <ButtonV2
+          variant="link"
           data-testid="addFilterButton"
-          onClick={() => setAddingNewGrepCode(!addingNewGrepCode)}>
+          onClick={() => setAddingNewGrepCode(!addingNewGrepCode)}
+        >
           <Plus />
           {t('taxonomy.grepCodes.addNew')}
-        </Button>
+        </ButtonV2>
       )}
     </DropDownWrapper>
   );

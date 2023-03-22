@@ -22,30 +22,33 @@ interface Props {
 const ResponsibleSelect = ({ responsible, setResponsible, onSave, responsibleId }: Props) => {
   const { t } = useTranslation();
 
-  const { data: users, isLoading } = useAuth0Responsibles(
+  const { data: users, isInitialLoading } = useAuth0Responsibles(
     { permission: DRAFT_WRITE_SCOPE },
     {
-      select: users =>
+      select: (users) =>
         sortBy(
-          users.map(u => ({
+          users.map((u) => ({
             value: `${u.app_metadata.ndla_id}`,
             label: u.name,
           })),
-          u => u.label,
+          (u) => u.label,
         ),
       placeholderData: [],
     },
   );
+  const optionsWithGroupTitle = [{ label: t('form.responsible.label'), options: users ?? [] }];
 
   const [enableRequired, setEnableRequired] = useState(false);
 
   useEffect(() => {
     if (users && responsibleId) {
-      const initialResponsible = users.find(user => user.value === responsibleId) ?? null;
+      const initialResponsible = users.find((user) => user.value === responsibleId) ?? null;
       setResponsible(initialResponsible);
+    } else {
+      setResponsible(null);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [users]);
+  }, [users, responsibleId]);
 
   useEffect(() => {
     // Enable required styling after responsible is updated first time
@@ -54,8 +57,6 @@ const ResponsibleSelect = ({ responsible, setResponsible, onSave, responsibleId 
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [responsible]);
-
-  const optionsWithGroupTitle = [{ label: t('form.responsible.label'), options: users ?? [] }];
 
   const updateResponsible = async (responsible: SingleValue) => {
     onSave(responsible);
@@ -68,7 +69,7 @@ const ResponsibleSelect = ({ responsible, setResponsible, onSave, responsibleId 
         placeholder={t('form.responsible.choose')}
         value={responsible}
         onChange={updateResponsible}
-        isLoading={isLoading}
+        isLoading={isInitialLoading}
         noOptionsMessage={() => t('form.responsible.noResults')}
         isSearchable
         isClearable

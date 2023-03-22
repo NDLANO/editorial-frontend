@@ -7,7 +7,6 @@
  */
 
 import { FormEvent, MouseEvent } from 'react';
-import PropTypes from 'prop-types';
 import { FieldSection, FieldSplitter, Input, Select, FieldRemoveButton } from '@ndla/forms';
 import { ContributorType, ContributorFieldName } from './types';
 
@@ -60,13 +59,14 @@ const Contributor = ({
           placeholder={placeholder}
           disabled={disabled}
           value={contributor.name}
-          onChange={e => handleContributorChange(e, 'name', index)}
+          onChange={(e) => handleContributorChange(e, 'name', index)}
         />
         <Select
           value={contributor.type}
-          onChange={e => handleContributorChange(e, 'type', index)}
-          onBlur={e => handleContributorChange(e, 'type', index)}
-          data-cy="contributor-selector">
+          onChange={(e) => handleContributorChange(e, 'type', index)}
+          onBlur={(e) => handleContributorChange(e, 'type', index)}
+          data-cy="contributor-selector"
+        >
           <option value="" />
           {contributorTypeItems.map((item: ContributorTypeItem) => (
             <option value={item.type} key={item.type}>
@@ -77,33 +77,11 @@ const Contributor = ({
       </FieldSplitter>
     </div>
     <div>
-      <FieldRemoveButton onClick={evt => removeContributor(evt, index)}>
+      <FieldRemoveButton onClick={(evt) => removeContributor(evt, index)}>
         {labelRemove}
       </FieldRemoveButton>
     </div>
   </FieldSection>
 );
-
-Contributor.propTypes = {
-  showError: PropTypes.bool.isRequired,
-  placeholder: PropTypes.string,
-  disabled: PropTypes.bool,
-  labelRemove: PropTypes.string,
-  contributor: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-    focusOnMount: PropTypes.bool,
-  }).isRequired,
-  handleContributorChange: PropTypes.func.isRequired,
-  removeContributor: PropTypes.func.isRequired,
-  contributorTypeItems: PropTypes.arrayOf(
-    PropTypes.shape({
-      translation: PropTypes.string,
-      type: PropTypes.string,
-    }),
-  ).isRequired,
-  index: PropTypes.number.isRequired,
-  errorMessages: PropTypes.arrayOf(PropTypes.string),
-};
 
 export default Contributor;

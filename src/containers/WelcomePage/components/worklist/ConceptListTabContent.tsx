@@ -7,6 +7,7 @@
  */
 
 import { Calendar } from '@ndla/icons/editor';
+import Pager from '@ndla/pager';
 import { Select, SingleValue } from '@ndla/select';
 import { IConceptSearchResult, IConceptSummary } from '@ndla/types-concept-api';
 import uniqBy from 'lodash/uniqBy';
@@ -35,6 +36,7 @@ interface Props {
   error: string | undefined;
   setFilterSubject: (fs: SingleValue) => void;
   ndlaId?: string;
+  setPageConcept: (page: number) => void;
 }
 
 interface Concept {
@@ -78,6 +80,7 @@ const ConceptListTabContent = ({
   error,
   setFilterSubject,
   ndlaId,
+  setPageConcept,
 }: Props) => {
   const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
@@ -129,6 +132,8 @@ const ConceptListTabContent = ({
     { title: t('welcomePage.workList.date'), sortableField: 'responsibleLastUpdated' },
   ];
 
+  const lastPage = data?.totalCount ? Math.ceil(data?.totalCount / (data.pageSize ?? 1)) : 1;
+
   return (
     <>
       <StyledTopRowDashboardInfo>
@@ -164,6 +169,15 @@ const ConceptListTabContent = ({
         sortOption={sortOption}
         error={error}
         noResultsText={t('welcomePage.emptyConcepts')}
+      />
+      <Pager
+        page={data?.page ?? 1}
+        lastPage={lastPage}
+        query={{}}
+        onClick={(el) => setPageConcept(el.page)}
+        small
+        colorTheme="lighter"
+        pageItemComponentClass="button"
       />
     </>
   );

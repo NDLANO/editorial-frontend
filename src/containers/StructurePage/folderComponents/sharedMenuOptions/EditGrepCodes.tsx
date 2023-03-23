@@ -71,7 +71,7 @@ const EditGrepCodes = ({ node, editModeHandler: { editMode, toggleEditMode } }: 
 
   const addGrepCode = async (code: string) => updateMetadata([...grepCodes, code.toUpperCase()]);
 
-  const deleteGrepCode = (code: string) => updateMetadata(grepCodes.filter(c => c !== code));
+  const deleteGrepCode = (code: string) => updateMetadata(grepCodes.filter((c) => c !== code));
 
   const grepCodesList = (
     <DropDownWrapper>
@@ -91,7 +91,8 @@ const EditGrepCodes = ({ node, editModeHandler: { editMode, toggleEditMode } }: 
                 variant="ghost"
                 aria-label={t('taxonomy.grepCodes.delete', { grepCode: grepCode.data.title })}
                 data-testid="deleteGrepCode"
-                onClick={() => deleteGrepCode(grepCode.data.code)}>
+                onClick={() => deleteGrepCode(grepCode.data.code)}
+              >
                 <DeleteForever />
               </StyledIconButton>
             </StyledGrepItem>
@@ -115,7 +116,8 @@ const EditGrepCodes = ({ node, editModeHandler: { editMode, toggleEditMode } }: 
         <ButtonV2
           variant="link"
           data-testid="addFilterButton"
-          onClick={() => setAddingNewGrepCode(!addingNewGrepCode)}>
+          onClick={() => setAddingNewGrepCode(!addingNewGrepCode)}
+        >
           <Plus />
           {t('taxonomy.grepCodes.addNew')}
         </ButtonV2>

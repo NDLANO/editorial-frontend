@@ -72,7 +72,7 @@ const EditPodcast = ({ isNewlyCreated }: Props) => {
   useEffect(() => {
     (async () => {
       if (shouldTranslate && podcast) {
-        await translate(podcast, translateFields, podcast => setPodcastWithFlag(podcast, true));
+        await translate(podcast, translateFields, (podcast) => setPodcastWithFlag(podcast, true));
       }
     })();
   }, [podcast, shouldTranslate, translate]);

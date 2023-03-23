@@ -81,7 +81,7 @@ export const asidePlugin = (editor: Editor) => {
     return undefined;
   };
 
-  editor.normalizeNode = entry => {
+  editor.normalizeNode = (entry) => {
     const [node] = entry;
 
     if (Element.isElement(node) && node.type === TYPE_ASIDE) {

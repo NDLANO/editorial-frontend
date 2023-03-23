@@ -40,13 +40,13 @@ const SearchHighlight = ({ content, locale }: Props) => {
   }
 
   const highlightsInLocale = content.highlights.filter(
-    highlight => highlight.field.split('.')[1] === locale,
+    (highlight) => highlight.field.split('.')[1] === locale,
   );
 
   const highlightsToSearch = highlightsInLocale.length ? highlightsInLocale : content.highlights;
 
   const selectHighlights = (field: string) =>
-    highlightsToSearch.find(highlight => highlight.field.split('.')[0] === field);
+    highlightsToSearch.find((highlight) => highlight.field.split('.')[0] === field);
 
   const selectedHighlights =
     selectHighlights('content') ||

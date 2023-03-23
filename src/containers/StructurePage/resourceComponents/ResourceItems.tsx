@@ -27,7 +27,7 @@ import {
   resourcesWithNodeConnectionQueryKey,
 } from '../../../modules/nodes/nodeQueries';
 import { ResourceWithNodeConnectionAndMeta } from './StructureResources';
-import { Dictionary } from '../../../interfaces';
+import { Auth0UserData, Dictionary } from '../../../interfaces';
 
 const StyledResourceItems = styled.ul`
   list-style: none;
@@ -45,11 +45,18 @@ interface Props {
   currentNodeId: string;
   contentMeta: Dictionary<NodeResourceMeta>;
   contentMetaLoading: boolean;
+  users?: Dictionary<Auth0UserData>;
 }
 
 const isError = (error: unknown): error is Error => (error as Error).message !== undefined;
 
-const ResourceItems = ({ resources, currentNodeId, contentMeta, contentMetaLoading }: Props) => {
+const ResourceItems = ({
+  resources,
+  currentNodeId,
+  contentMeta,
+  contentMetaLoading,
+  users,
+}: Props) => {
   const { t, i18n } = useTranslation();
   const [deleteId, setDeleteId] = useState<string>('');
   const { taxonomyVersion } = useTaxonomyVersion();
@@ -64,7 +71,7 @@ const ResourceItems = ({ resources, currentNodeId, contentMeta, contentMetaLoadi
     onMutate: async ({ id }) => {
       await qc.cancelQueries(compKey);
       const prevData = qc.getQueryData<ResourceWithNodeConnection[]>(compKey) ?? [];
-      const withoutDeleted = prevData.filter(res => res.connectionId !== id);
+      const withoutDeleted = prevData.filter((res) => res.connectionId !== id);
       qc.setQueryData<ResourceWithNodeConnection[]>(compKey, withoutDeleted);
       return prevData;
     },
@@ -73,7 +80,7 @@ const ResourceItems = ({ resources, currentNodeId, contentMeta, contentMetaLoadi
   const onUpdateRank = async (id: string, newRank: number) => {
     await qc.cancelQueries(compKey);
     const prevData = qc.getQueryData<ResourceWithNodeConnection[]>(compKey) ?? [];
-    const updated = prevData.map(r => {
+    const updated = prevData.map((r) => {
       if (r.connectionId === id) {
         return { ...r, rank: newRank };
       } else if (r.rank < newRank) {
@@ -86,7 +93,7 @@ const ResourceItems = ({ resources, currentNodeId, contentMeta, contentMetaLoadi
 
   const { mutateAsync: updateNodeResource } = usePutResourceForNodeMutation({
     onMutate: ({ id, body }) => onUpdateRank(id, body.rank as number),
-    onError: e => handleError(e),
+    onError: (e) => handleError(e),
     onSuccess: () => qc.invalidateQueries(compKey),
   });
 
@@ -123,8 +130,12 @@ const ResourceItems = ({ resources, currentNodeId, contentMeta, contentMetaLoadi
   return (
     <StyledResourceItems>
       <MakeDndList onDragEnd={onDragEnd} dragHandle disableDnd={false}>
-        {resources.map(resource => (
+        {resources.map((resource) => (
           <Resource
+            responsible={
+              users?.[contentMeta[resource.contentUri ?? '']?.responsible?.responsibleId ?? '']
+                ?.name
+            }
             currentNodeId={currentNodeId}
             id={resource.id}
             connectionId={resource.connectionId}

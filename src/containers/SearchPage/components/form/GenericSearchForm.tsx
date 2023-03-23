@@ -69,7 +69,7 @@ const ButtonContainer = styled.div`
 const StyledField = styled.div<StyledFieldProps>`
   align-self: center;
   padding: 0 0.4rem 0.5rem 0.4rem;
-  width: ${p => p.width && `${p.width}%`};
+  width: ${(p) => p.width && `${p.width}%`};
 `;
 
 const StyledTagline = styled.div`
@@ -96,15 +96,17 @@ const GenericSearchForm = ({
 
   return (
     <StyledForm
-      onSubmit={e => {
+      onSubmit={(e) => {
         e.preventDefault();
         e.stopPropagation();
-      }}>
-      {selectors.map(selector => {
+      }}
+    >
+      {selectors.map((selector) => {
         return (
           <StyledField
             key={`search-form-field-${selector.parameterName}`}
-            width={selector.width ?? 50}>
+            width={selector.width ?? 50}
+          >
             <Selector
               searchObject={searchObject}
               selector={selector}
@@ -118,7 +120,9 @@ const GenericSearchForm = ({
         <StyledButton onClick={emptySearch} variant="outline">
           {t('searchForm.empty')}
         </StyledButton>
-        <StyledButton onClick={onSubmit}>{t('searchForm.btn')}</StyledButton>
+        <StyledButton type="submit" onClick={onSubmit}>
+          {t('searchForm.btn')}
+        </StyledButton>
       </ButtonContainer>
       <StyledTagline>
         <SearchTagGroup onRemoveItem={removeTag} tagTypes={selectors} />

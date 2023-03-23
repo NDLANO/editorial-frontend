@@ -18,9 +18,8 @@ import {
 import { IArticle } from '@ndla/types-draft-api';
 import { Formik, FormikProps, FormikHelpers } from 'formik';
 import { useTranslation } from 'react-i18next';
-import { isFormikFormDirty } from '../../../util/formHelper';
 import { toEditConcept } from '../../../util/routeHelpers';
-import { UNPUBLISHED } from '../../../constants';
+import { ARCHIVED, PUBLISHED, UNPUBLISHED } from '../../../constants';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
 import validateFormik, { getWarnings, RulesType } from '../../../components/formikValidationSchema';
 import {
@@ -35,17 +34,13 @@ import { SubjectType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import ConceptFormFooter from './ConceptFormFooter';
 import { MessageError, useMessages } from '../../Messages/MessagesProvider';
 import { useLicenses } from '../../../modules/draft/draftQueries';
-import { ConceptStatusType } from '../../../interfaces';
 import FormWrapper from '../../../components/FormWrapper';
+import { useSession } from '../../../containers/Session/SessionProvider';
+
+const STATUSES_RESPONSIBLE_NOT_REQUIRED = [PUBLISHED, ARCHIVED, UNPUBLISHED];
 
 interface UpdateProps {
   onUpdate: (updatedConcept: IUpdatedConcept, revision?: number) => Promise<IConcept>;
-  updateConceptAndStatus: (
-    id: number,
-    updatedConcept: IUpdatedConcept,
-    newStatus: ConceptStatusType,
-    dirty: boolean,
-  ) => Promise<IConcept>;
 }
 
 interface CreateProps {
@@ -107,7 +102,7 @@ const conceptFormRules: RulesType<ConceptFormValues, IConcept> = {
   },
   license: {
     required: false,
-    test: values => {
+    test: (values) => {
       const authors = values.creators.concat(values.rightsholders).concat(values.processors);
       if (!values.license || values.license === 'N/A' || authors.length > 0) return undefined;
       return { translationKey: 'validation.noLicenseWithoutCopyrightHolder' };
@@ -115,6 +110,8 @@ const conceptFormRules: RulesType<ConceptFormValues, IConcept> = {
   },
   responsibleId: {
     required: true,
+    onlyValidateIf: (values: ConceptFormValues) =>
+      STATUSES_RESPONSIBLE_NOT_REQUIRED.every((status) => values.status?.current !== status),
   },
 };
 
@@ -136,6 +133,7 @@ const ConceptForm = ({
   const { t } = useTranslation();
   const { applicationError } = useMessages();
   const { data: licenses = [] } = useLicenses({ placeholderData: [] });
+  const { ndlaId } = useSession();
 
   useEffect(() => {
     setSavedToServer(false);
@@ -156,24 +154,15 @@ const ConceptForm = ({
       let savedConcept: IConcept;
       if ('onCreate' in upsertProps) {
         savedConcept = await upsertProps.onCreate(getNewConceptType(values, licenses));
-      } else if (statusChange && concept?.id) {
-        // if editor is not dirty, OR we are unpublishing, we don't save before changing status
-        const formikDirty = isFormikFormDirty({ values, initialValues, dirty: true });
-        const skipSaving = newStatus === UNPUBLISHED || !formikDirty;
-        savedConcept = await upsertProps.updateConceptAndStatus(
-          concept.id,
-          getUpdatedConceptType(values, licenses),
-          newStatus!,
-          !skipSaving,
-        );
       } else {
-        savedConcept = await upsertProps.onUpdate(
-          getUpdatedConceptType(values, licenses),
-          revision!,
-        );
+        const conceptWithStatus = {
+          ...getUpdatedConceptType(values, licenses),
+          ...(statusChange ? { status: newStatus } : {}),
+        };
+        savedConcept = await upsertProps.onUpdate(conceptWithStatus, revision!);
       }
       formikHelpers.resetForm({
-        values: conceptApiTypeToFormType(savedConcept, language, subjects, conceptArticles),
+        values: conceptApiTypeToFormType(savedConcept, language, subjects, conceptArticles, ndlaId),
       });
       formikHelpers.setSubmitting(false);
       setSavedToServer(true);
@@ -190,13 +179,14 @@ const ConceptForm = ({
     language,
     subjects,
     conceptArticles,
+    ndlaId,
     initialTitle,
   );
   const initialWarnings = getWarnings(initialValues, conceptFormRules, t, concept);
-  const initialErrors = useMemo(() => validateFormik(initialValues, conceptFormRules, t), [
-    initialValues,
-    t,
-  ]);
+  const initialErrors = useMemo(
+    () => validateFormik(initialValues, conceptFormRules, t),
+    [initialValues, t],
+  );
 
   return (
     <Formik
@@ -205,9 +195,10 @@ const ConceptForm = ({
       onSubmit={handleSubmit}
       enableReinitialize
       validateOnMount
-      validate={values => validateFormik(values, conceptFormRules, t)}
-      initialStatus={{ warnings: initialWarnings }}>
-      {formikProps => {
+      validate={(values) => validateFormik(values, conceptFormRules, t)}
+      initialStatus={{ warnings: initialWarnings }}
+    >
+      {(formikProps) => {
         const { values, errors }: FormikProps<ConceptFormValues> = formikProps;
         const { id, revision, status, created, updated } = values;
         const requirements = id && revision && status && created && updated;
@@ -231,14 +222,16 @@ const ConceptForm = ({
                 title={t('form.contentSection')}
                 className="u-4/6@desktop u-push-1/6@desktop"
                 hasError={!!(errors.title || errors.conceptContent)}
-                startOpen>
+                startOpen
+              >
                 <ConceptContent />
               </AccordionSection>
               <AccordionSection
                 id="concept-copyright"
                 title={t('form.copyrightSection')}
                 className="u-6/6"
-                hasError={!!(errors.creators || errors.license)}>
+                hasError={!!(errors.creators || errors.license)}
+              >
                 <ConceptCopyright
                   disableAgreements
                   label={t('form.concept.source')}
@@ -249,7 +242,8 @@ const ConceptForm = ({
                 id="concept-metadataSection"
                 title={t('form.metadataSection')}
                 className="u-6/6"
-                hasError={!!(errors.tags || errors.metaImageAlt || errors.subjects)}>
+                hasError={!!(errors.tags || errors.metaImageAlt || errors.subjects)}
+              >
                 <ConceptMetaData
                   fetchTags={fetchConceptTags}
                   subjects={subjects}
@@ -261,7 +255,8 @@ const ConceptForm = ({
                 id="concept-articles"
                 title={t('form.articleSection')}
                 className="u-6/6"
-                hasError={!!errors.articles}>
+                hasError={!!errors.articles}
+              >
                 <ConceptArticles />
               </AccordionSection>
             </Accordions>

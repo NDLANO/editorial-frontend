@@ -29,7 +29,7 @@ const localStorageMock = (function createLocalStorage() {
   };
 })();
 
-const prettify = content =>
+const prettify = (content) =>
   prettier.format(`${content}`, {
     parser: 'html',
     plugins: [parseHTML],

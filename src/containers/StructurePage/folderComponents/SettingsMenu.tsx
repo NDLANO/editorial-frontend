@@ -6,7 +6,6 @@
  *
  */
 
-import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Root, Trigger, Close, Content, Portal } from '@radix-ui/react-popover';
 import { CloseButton, IconButtonV2 } from '@ndla/button';
@@ -54,23 +53,13 @@ const StyledIconButton = styled(IconButtonV2)`
 interface Props {
   node: NodeType;
   rootNodeId: string;
-  structure: NodeType[];
   nodeChildren: NodeType[];
   onCurrentNodeChanged: (node: NodeType) => void;
 }
 
-const SettingsMenu = ({
-  node,
-  rootNodeId,
-  structure,
-  onCurrentNodeChanged,
-  nodeChildren,
-}: Props) => {
-  const [open, setOpen] = useState(false);
+const SettingsMenu = ({ node, rootNodeId, onCurrentNodeChanged, nodeChildren }: Props) => {
   const { t } = useTranslation();
   const nodeType = getNodeTypeFromNodeId(node.id);
-
-  const toggleOpenMenu = () => setOpen(!open);
 
   return (
     <Root>
@@ -79,7 +68,8 @@ const SettingsMenu = ({
           variant="stripped"
           data-cy="settings-button"
           aria-label={t(`taxonomy.${nodeType.toLowerCase()}Settings`)}
-          colorTheme="primary">
+          colorTheme="primary"
+        >
           <Settings />
         </StyledIconButton>
       </Trigger>
@@ -98,9 +88,7 @@ const SettingsMenu = ({
               </Header>
               <SettingsMenuDropdownType
                 node={node}
-                onClose={toggleOpenMenu}
                 rootNodeId={rootNodeId}
-                structure={structure}
                 onCurrentNodeChanged={onCurrentNodeChanged}
                 nodeChildren={nodeChildren}
               />

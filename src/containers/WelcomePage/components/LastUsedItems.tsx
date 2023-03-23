@@ -6,11 +6,10 @@
  *
  */
 
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pencil } from '@ndla/icons/action';
 import orderBy from 'lodash/orderBy';
-import { IArticleSummary } from '@ndla/types-draft-api';
 import { StyledDashboardInfo, StyledLink } from '../styles';
 import TableComponent, { FieldElement, TitleElement } from './TableComponent';
 import TableTitle from './TableTitle';
@@ -31,7 +30,6 @@ const LastUsedItems = ({ lastUsed = [] }: Props) => {
   ];
   const [sortOption, setSortOption] = useState<string>('-lastUpdated');
   const [error, setError] = useState<string | undefined>(undefined);
-  const [sortedData, setSortedData] = useState<IArticleSummary[]>([]);
 
   const { data, isInitialLoading } = useSearchDrafts(
     {
@@ -46,36 +44,25 @@ const LastUsedItems = ({ lastUsed = [] }: Props) => {
     },
   );
 
-  useEffect(() => {
-    if (data?.results) {
-      setSortedData(data.results);
-    }
-  }, [data?.results]);
+  const sortedData = useMemo(() => {
+    if (!data?.results) return [];
+    const sortDesc = sortOption.charAt(0) === '-';
+    return orderBy(
+      data.results,
+      (t) => (sortOption.includes('title') ? t.title?.title : t.updated),
+      [sortDesc ? 'desc' : 'asc'],
+    );
+  }, [data?.results, sortOption]);
 
   const tableData: FieldElement[][] = useMemo(
     () =>
-      sortedData?.map(a => [
+      sortedData?.map((a) => [
         {
           id: `title_${a.id}`,
           data: <StyledLink to={toEditArticle(a.id, a.articleType)}>{a.title?.title}</StyledLink>,
         },
         { id: `lastUpdated_${a.id}`, data: formatDate(a.updated) },
       ]) ?? [[]],
-    [sortedData],
-  );
-
-  const updateSortOption = useCallback(
-    (sortableField: string) => {
-      const sortDesc = sortableField.charAt(0) === '-';
-      const sorted = orderBy(
-        sortedData,
-        t => (sortableField.includes('title') ? t.title?.title : t.updated),
-        [sortDesc ? 'desc' : 'asc'],
-      );
-
-      setSortedData(sorted);
-      setSortOption(sortableField);
-    },
     [sortedData],
   );
 
@@ -90,7 +77,7 @@ const LastUsedItems = ({ lastUsed = [] }: Props) => {
         isLoading={isInitialLoading}
         tableTitleList={tableTitles}
         tableData={tableData}
-        setSortOption={updateSortOption}
+        setSortOption={setSortOption}
         sortOption={sortOption}
         error={error}
         noResultsText={t('welcomePage.emptyLastUsed')}

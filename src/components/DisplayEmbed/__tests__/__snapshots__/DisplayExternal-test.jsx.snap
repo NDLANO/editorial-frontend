@@ -115,7 +115,7 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
 }
 
 .emotion-1:hover,
-.emotion-1:focus {
+.emotion-1:focus-visible {
   color: #fff;
   background-color: #d1372e;
   border-color: #d1372e;
@@ -130,7 +130,7 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
 
 .emotion-1:hover,
 .emotion-1:active,
-.emotion-1:focus {
+.emotion-1:focus-visible {
   color: #fff;
   background: #d1372e;
   border-color: #d1372e;
@@ -195,7 +195,7 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
 }
 
 .emotion-2:hover,
-.emotion-2:focus {
+.emotion-2:focus-visible {
   color: #fff;
   background-color: #184673;
   border-color: #184673;
@@ -210,7 +210,7 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
 
 .emotion-2:hover,
 .emotion-2:active,
-.emotion-2:focus {
+.emotion-2:focus-visible {
   color: #20588f;
   background: #ceddea;
   border-color: #ceddea;

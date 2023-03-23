@@ -8,10 +8,10 @@
 
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import keyBy from 'lodash/keyBy';
 import styled from '@emotion/styled';
 import { Plus } from '@ndla/icons/action';
 import Tooltip from '@ndla/tooltip';
-import compact from 'lodash/compact';
 import { Spinner } from '@ndla/icons';
 import { IconButtonV2 } from '@ndla/button';
 import { breakpoints, mq } from '@ndla/core';
@@ -24,8 +24,10 @@ import Resource from './Resource';
 import { NodeResourceMeta, useNodes } from '../../../modules/nodes/nodeQueries';
 import ResourceBanner from './ResourceBanner';
 import { Dictionary } from '../../../interfaces';
-import { getIdFromUrn, groupResourcesByType } from '../../../util/taxonomyHelpers';
+import { groupResourcesByType } from '../../../util/taxonomyHelpers';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
+import { useAuth0Responsibles } from '../../../modules/auth0/auth0Queries';
+import { DRAFT_WRITE_SCOPE } from '../../../constants';
 
 const ResourceWrapper = styled.div`
   overflow-y: auto;
@@ -56,43 +58,41 @@ const ResourcesContainer = ({
   const { t } = useTranslation();
   const [showAddModal, setShowAddModal] = useState(false);
   const resourceTypesWithoutMissing = useMemo(
-    () => resourceTypes.filter(rt => rt.id !== 'missing').map(rt => ({ id: rt.id, name: rt.name })),
+    () =>
+      resourceTypes.filter((rt) => rt.id !== 'missing').map((rt) => ({ id: rt.id, name: rt.name })),
     [resourceTypes],
   );
   const { taxonomyVersion } = useTaxonomyVersion();
   const currentNodeId = currentNode.id;
+
+  const { data: users } = useAuth0Responsibles(
+    { permission: DRAFT_WRITE_SCOPE },
+    { select: (users) => keyBy(users, (u) => u.app_metadata.ndla_id) },
+  );
 
   const { data } = useNodes(
     { contentURI: currentNode.contentUri!, taxonomyVersion },
     { enabled: !!currentNode.contentUri },
   );
 
-  const paths = useMemo(() => data?.map(d => d.path).filter(d => !!d) ?? [], [data]);
-
-  const articleIds = useMemo(
-    () =>
-      compact(
-        [currentNode.contentUri, nodeResources.map(n => n.contentUri)]
-          .flat()
-          .map(id => getIdFromUrn(id)),
-      ),
-    [currentNode, nodeResources],
-  );
+  const paths = useMemo(() => data?.map((d) => d.path).filter((d) => !!d) ?? [], [data]);
 
   const nodeResourcesWithMeta: ResourceWithNodeConnectionAndMeta[] =
     useMemo(
       () =>
-        nodeResources?.map(res => ({
+        nodeResources?.map((res) => ({
           ...res,
           contentMeta: res.contentUri ? contentMeta[res.contentUri] : undefined,
         })),
       [contentMeta, nodeResources],
     ) ?? [];
   const mapping = groupResourcesByType(nodeResourcesWithMeta ?? [], resourceTypes ?? []);
+  const currentMeta = currentNode.contentUri ? contentMeta[currentNode.contentUri] : undefined;
 
   return (
     <>
       <ResourceBanner
+        resources={nodeResourcesWithMeta}
         title={currentNode.name}
         contentMeta={contentMeta}
         currentNode={currentNode}
@@ -100,15 +100,15 @@ const ResourcesContainer = ({
         addButton={
           <Tooltip tooltip={t('taxonomy.addResource')}>
             <IconButtonV2
-              onClick={() => setShowAddModal(prev => !prev)}
+              onClick={() => setShowAddModal((prev) => !prev)}
               size="xsmall"
               variant="stripped"
-              aria-label={t('taxonomy.addResource')}>
+              aria-label={t('taxonomy.addResource')}
+            >
               <Plus />
             </IconButtonV2>
           </Tooltip>
         }
-        articleIds={articleIds}
       />
       <ResourceWrapper>
         {showAddModal && (
@@ -116,17 +116,22 @@ const ResourcesContainer = ({
             resourceTypes={resourceTypesWithoutMissing}
             nodeId={currentNodeId}
             onClose={() => setShowAddModal(false)}
-            existingResourceIds={nodeResources.map(r => r.id)}
+            existingResourceIds={nodeResources.map((r) => r.id)}
           />
         )}
         {currentNode.name && (
           <Resource
             currentNodeId={currentNode.id}
+            responsible={
+              currentMeta?.responsible
+                ? users?.[currentMeta.responsible.responsibleId]?.name
+                : undefined
+            }
             resource={{
               ...currentNode,
               paths,
               nodeId: '',
-              contentMeta: currentNode.contentUri ? contentMeta[currentNode.contentUri] : undefined,
+              contentMeta: currentMeta,
               resourceTypes: [],
               relevanceId: currentNode.relevanceId,
             }}
@@ -138,13 +143,14 @@ const ResourcesContainer = ({
         ) : (
           <>
             {grouped ? (
-              mapping?.map(resource => (
+              mapping?.map((resource) => (
                 <ResourceItems
                   key={resource.id}
                   resources={resource.resources}
                   currentNodeId={currentNodeId}
                   contentMeta={contentMeta}
                   contentMetaLoading={contentMetaLoading}
+                  users={users}
                 />
               ))
             ) : (
@@ -153,6 +159,7 @@ const ResourcesContainer = ({
                 currentNodeId={currentNodeId}
                 contentMeta={contentMeta}
                 contentMetaLoading={contentMetaLoading}
+                users={users}
               />
             )}
           </>

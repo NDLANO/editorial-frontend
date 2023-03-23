@@ -31,7 +31,7 @@ interface Props {
   onChange: FormikHandlers['handleChange'];
   name: string;
   setFieldTouched: (field: string, isTouched?: boolean, shouldValidate?: boolean) => void;
-  onImageLoad?: (event: SyntheticEvent<HTMLImageElement, Event>) => void;
+  onImageLoad?: (width: number, height: number) => void;
   showRemoveButton: boolean;
   showCheckbox: boolean;
   checkboxAction: (image: IImageMetaInformationV3) => void;
@@ -57,7 +57,7 @@ const MetaImageSearch = ({
 
   useEffect(() => {
     if (metaImageId) {
-      fetchImage(parseInt(metaImageId), language).then(image => setImage(image));
+      fetchImage(parseInt(metaImageId), language).then((image) => setImage(image));
     } else {
       setImage(undefined);
     }
@@ -125,7 +125,8 @@ const MetaImageSearch = ({
         onClose={onImageSelectClose}
         size="large"
         backgroundColor="white"
-        minHeight="90vh">
+        minHeight="90vh"
+      >
         {() => (
           <>
             <ModalHeader>
@@ -138,7 +139,7 @@ const MetaImageSearch = ({
                 locale={locale}
                 language={language}
                 closeModal={onImageSelectClose}
-                fetchImage={id => fetchImage(id, language)}
+                fetchImage={(id) => fetchImage(id, language)}
                 searchImages={searchImages}
                 onError={onError}
                 updateImage={onImageUpdate}

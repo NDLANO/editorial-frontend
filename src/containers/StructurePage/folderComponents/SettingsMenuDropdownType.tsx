@@ -31,8 +31,6 @@ import SetResourcesPrimary from './topicMenuOptions/SetResourcesPrimary';
 interface Props {
   rootNodeId: string;
   node: NodeType;
-  onClose: () => void;
-  structure: NodeType[];
   nodeChildren: NodeType[];
   onCurrentNodeChanged: (node: NodeType) => void;
 }
@@ -45,15 +43,13 @@ export interface EditModeHandler {
 const SettingsMenuDropdownType = ({
   rootNodeId,
   node,
-  onClose,
-  structure,
   onCurrentNodeChanged,
   nodeChildren,
 }: Props) => {
   const { userPermissions } = useSession();
   const [editMode, setEditMode] = useState<EditMode>('');
   const nodeType = getNodeTypeFromNodeId(node.id);
-  const toggleEditMode = (mode: EditMode) => setEditMode(prev => (mode === prev ? '' : mode));
+  const toggleEditMode = (mode: EditMode) => setEditMode((prev) => (mode === prev ? '' : mode));
   const editModeHandler = { editMode, toggleEditMode };
 
   const isTaxonomyAdmin = userPermissions?.includes(TAXONOMY_ADMIN_SCOPE);

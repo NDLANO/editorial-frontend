@@ -51,7 +51,7 @@ const onBackspace = (
   if (editor.selection) {
     // Find the closest ancestor <section>-element
     const section = Editor.above(editor, {
-      match: node => Element.isElement(node) && node.type === 'section',
+      match: (node) => Element.isElement(node) && node.type === 'section',
       mode: 'lowest',
     })?.[0];
     if (
@@ -103,7 +103,7 @@ export const sectionPlugin = (editor: Editor) => {
     }
   };
 
-  editor.normalizeNode = entry => {
+  editor.normalizeNode = (entry) => {
     const [node, path] = entry;
 
     if (Element.isElement(node) && node.type === 'section') {

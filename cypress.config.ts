@@ -2,7 +2,7 @@ import { defineConfig } from 'cypress';
 import { writeFileSync } from 'fs';
 import { join } from 'path';
 
-const fixturesDir = join(__dirname, '..', 'fixtures');
+const fixturesDir = join(__dirname, 'cypress/fixtures');
 
 export default defineConfig({
   chromeWebSecurity: false,

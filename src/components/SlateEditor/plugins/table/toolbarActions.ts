@@ -60,7 +60,7 @@ export const editColgroups = (editor: Editor, path: Path) => {
 export const removeRow = (editor: Editor, path: Path) => {
   const [tableBodyEntry] = Editor.nodes(editor, {
     at: path,
-    match: node => isTableHead(node) || isTableBody(node),
+    match: (node) => isTableHead(node) || isTableBody(node),
   });
 
   if (!tableBodyEntry) {
@@ -84,7 +84,7 @@ export const removeRow = (editor: Editor, path: Path) => {
 
   const [cellEntry] = Editor.nodes(editor, {
     at: path,
-    match: node => isTableCell(node),
+    match: (node) => isTableCell(node),
   });
   const [selectedCell, selectedCellPath] = cellEntry;
 
@@ -134,8 +134,8 @@ export const removeRow = (editor: Editor, path: Path) => {
               // Find out how much of the cell height is within the rows that will be removed.
               const reductionAmount = matrix
                 .slice(selectedRowIndex, selectedRowIndex + cell.data.rowspan)
-                .map(e => e[columnIndex])
-                .filter(c => c === cell).length;
+                .map((e) => e[columnIndex])
+                .filter((c) => c === cell).length;
 
               updateCell(editor, cell, {
                 rowspan: cell.data.rowspan - reductionAmount,
@@ -150,8 +150,8 @@ export const removeRow = (editor: Editor, path: Path) => {
               // i. Find out how much of the cell height is within the rows that will be removed.
               const reductionAmount = matrix
                 .slice(selectedRowIndex, selectedRowIndex + selectedCell.data.rowspan)
-                .map(e => e[columnIndex])
-                .filter(c => c === cell).length;
+                .map((e) => e[columnIndex])
+                .filter((c) => c === cell).length;
 
               // ii. Find the new target path below the deleted rows.
               const targetPath =
@@ -208,7 +208,7 @@ export const insertTableHead = (editor: Editor) => {
         children: [
           {
             ...defaultTableRowBlock(0),
-            children: rowElement.children.map(cell => {
+            children: rowElement.children.map((cell) => {
               if (Element.isElement(cell) && cell.type === TYPE_TABLE_CELL) {
                 return {
                   ...defaultTableCellBlock(),
@@ -238,7 +238,7 @@ export const insertTableHead = (editor: Editor) => {
 export const insertRow = (editor: Editor, tableElement: TableElement, path: Path) => {
   const [tableBodyEntry] = Editor.nodes(editor, {
     at: path,
-    match: node => isTableHead(node) || isTableRow(node),
+    match: (node) => isTableHead(node) || isTableRow(node),
   });
 
   if (!tableBodyEntry) {
@@ -262,7 +262,7 @@ export const insertRow = (editor: Editor, tableElement: TableElement, path: Path
               editor,
               {
                 ...defaultTableRowBlock(0),
-                children: firstRow.children.map(cell => {
+                children: firstRow.children.map((cell) => {
                   const cellData = isTableCell(cell) ? cell.data : {};
                   const defaultCell = defaultTableCellBlock();
                   return {
@@ -312,7 +312,7 @@ export const insertRow = (editor: Editor, tableElement: TableElement, path: Path
 
   const [cellEntry] = Editor.nodes(editor, {
     at: path,
-    match: node => isTableCell(node),
+    match: (node) => isTableCell(node),
   });
   const [cell, cellPath] = cellEntry;
 
@@ -384,7 +384,7 @@ export const insertRow = (editor: Editor, tableElement: TableElement, path: Path
 export const insertColumn = (editor: Editor, tableElement: TableElement, path: Path) => {
   const [tableBodyEntry] = Editor.nodes(editor, {
     at: path,
-    match: node => isTableHead(node) || isTableRow(node),
+    match: (node) => isTableHead(node) || isTableRow(node),
   });
 
   if (!tableBodyEntry) {
@@ -393,7 +393,7 @@ export const insertColumn = (editor: Editor, tableElement: TableElement, path: P
 
   const [cellEntry] = Editor.nodes(editor, {
     at: path,
-    match: node => isTableCell(node),
+    match: (node) => isTableCell(node),
   });
   const [cell] = cellEntry;
 
@@ -449,7 +449,7 @@ export const insertColumn = (editor: Editor, tableElement: TableElement, path: P
 export const removeColumn = (editor: Editor, tableElement: TableElement, path: Path) => {
   const [tableBodyEntry] = Editor.nodes(editor, {
     at: path,
-    match: node => isTableHead(node) || isTableRow(node),
+    match: (node) => isTableHead(node) || isTableRow(node),
   });
 
   if (!tableBodyEntry) {
@@ -458,7 +458,7 @@ export const removeColumn = (editor: Editor, tableElement: TableElement, path: P
 
   const [cellEntry] = Editor.nodes(editor, {
     at: path,
-    match: node => isTableCell(node),
+    match: (node) => isTableCell(node),
   });
   const [cell] = cellEntry;
 

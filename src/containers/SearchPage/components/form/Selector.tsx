@@ -66,7 +66,7 @@ const Selector = ({ formType, selector, onFieldChange, searchObject }: SelectorP
           name={selector.parameterName}
           placeholder={t(`searchForm.types.${formType}Query`)}
           value={selector.value}
-          onChange={e => onFieldChange(selector.parameterName, e.currentTarget.value, e)}
+          onChange={(e) => onFieldChange(selector.parameterName, e.currentTarget.value, e)}
         />
       );
     case 'date-picker': {
@@ -74,7 +74,7 @@ const Selector = ({ formType, selector, onFieldChange, searchObject }: SelectorP
       return (
         <InlineDatePicker
           name={selector.parameterName}
-          onChange={e => onFieldChange(selector.parameterName, e.currentTarget.value, e)}
+          onChange={(e) => onFieldChange(selector.parameterName, e.currentTarget.value, e)}
           placeholder={t(`searchForm.types.${selector.parameterName}`)}
           value={datePickerValue ?? ''}
         />
@@ -86,7 +86,7 @@ const Selector = ({ formType, selector, onFieldChange, searchObject }: SelectorP
         <CheckboxSelector
           name={selector.parameterName}
           checked={checkboxValue ?? false}
-          onChange={e => onFieldChange(selector.parameterName, e.currentTarget.checked, e)}
+          onChange={(e) => onFieldChange(selector.parameterName, e.currentTarget.checked, e)}
         />
       );
     }
@@ -100,7 +100,7 @@ const Selector = ({ formType, selector, onFieldChange, searchObject }: SelectorP
           idKey="id"
           labelKey="name"
           emptyField
-          onChange={e => onFieldChange(selector.parameterName, e.currentTarget.value, e)}
+          onChange={(e) => onFieldChange(selector.parameterName, e.currentTarget.value, e)}
           placeholder={t(`searchForm.types.${selector.parameterName}`)}
         />
       );

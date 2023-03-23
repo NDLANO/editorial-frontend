@@ -38,7 +38,7 @@ import { translateDocument } from './translate';
 type NdlaUser = (Express.User | undefined) & {
   'https://ndla.no/user_email'?: string;
   'https://ndla.no/user_name'?: string;
-  scope?: string[];
+  permissions?: string[];
 };
 
 const app = express();
@@ -63,7 +63,7 @@ app.use(
 
 app.use(
   bodyParser.json({
-    type: req => {
+    type: (req) => {
       const contentType = req.headers['content-type'];
       if (typeof contentType === 'string') return allowedBodyContentTypes.includes(contentType);
       else return false;
@@ -113,10 +113,10 @@ app.post('/format-html', (req, res) => {
 
 app.get('/get_brightcove_token', (req, res) => {
   getBrightcoveToken()
-    .then(token => {
+    .then((token) => {
       res.send(token);
     })
-    .catch(err => res.status(INTERNAL_SERVER_ERROR).send(err.message));
+    .catch((err) => res.status(INTERNAL_SERVER_ERROR).send(err.message));
 });
 
 app.get(
@@ -160,8 +160,9 @@ app.get(
 
     const hasWriteAccess =
       user &&
-      user.scope &&
-      (user.scope.includes(DRAFT_WRITE_SCOPE) || user.scope.includes(DRAFT_PUBLISH_SCOPE));
+      user.permissions &&
+      (user.permissions.includes(DRAFT_WRITE_SCOPE) ||
+        user.permissions.includes(DRAFT_PUBLISH_SCOPE));
 
     if (!hasWriteAccess) {
       res.status(FORBIDDEN).json({ status: FORBIDDEN, text: 'No access allowed' });

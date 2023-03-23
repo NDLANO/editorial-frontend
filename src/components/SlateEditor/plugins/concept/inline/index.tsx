@@ -15,10 +15,11 @@ import InlineConcept from './InlineConcept';
 import { KEY_BACKSPACE } from '../../../utils/keys';
 import { SlateSerializer } from '../../../interfaces';
 import { TYPE_CONCEPT_INLINE } from './types';
+import { TYPE_NDLA_EMBED } from '../../embed/types';
 
 export const inlineConceptSerializer: SlateSerializer = {
   deserialize(el: HTMLElement, children: Descendant[]) {
-    if (el.tagName.toLowerCase() !== 'ndlaembed') return;
+    if (el.tagName.toLowerCase() !== TYPE_NDLA_EMBED) return;
     const embed = el as HTMLEmbedElement;
     const embedAttributes = reduceElementDataAttributes(embed);
     if (embedAttributes.resource === 'concept' && embedAttributes.type === 'inline') {
@@ -67,7 +68,7 @@ const onBackspace = (
         e.preventDefault();
         editor.deleteBackward('character');
         Transforms.unwrapNodes(editor, {
-          match: node => Element.isElement(node) && node.type === TYPE_CONCEPT_INLINE,
+          match: (node) => Element.isElement(node) && node.type === TYPE_CONCEPT_INLINE,
         });
         return;
       }

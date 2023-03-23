@@ -28,7 +28,7 @@ const VersionList = ({ versions }: Props) => {
   }
   return (
     <StyledVersionList>
-      {versions.map(version => (
+      {versions.map((version) => (
         <Version version={version} key={version.id} />
       ))}
     </StyledVersionList>

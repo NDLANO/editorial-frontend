@@ -62,7 +62,6 @@ interface Props {
   onDragEnd: (result: DropResult, childNodes: ChildNodeType[]) => Promise<void>;
   connectionId: string;
   parentActive: boolean;
-  allRootNodes: NodeType[];
   isRoot?: boolean;
   isFavorite: boolean;
   toggleFavorite?: () => void;
@@ -81,7 +80,6 @@ const NodeItem = ({
   resourceSectionRef,
   onDragEnd,
   parentActive,
-  allRootNodes,
   isRoot,
   isFavorite,
   toggleFavorite,
@@ -116,7 +114,8 @@ const NodeItem = ({
       connectionId={connectionId}
       id={item.id}
       key={path}
-      greyedOut={!parentActive && !isActive}>
+      greyedOut={!parentActive && !isActive}
+    >
       <StyledItemBar level={level} highlight={isActive}>
         {isRoot && (
           <RoundIcon
@@ -132,7 +131,8 @@ const NodeItem = ({
           lastItemClickable={true}
           arrowDirection={isOpen ? 90 : 0}
           onClick={onItemClick}
-          isVisible={item.metadata?.visible}>
+          isVisible={item.metadata?.visible}
+        >
           {renderBeforeTitle?.(item, !!isRoot, isTaxonomyAdmin, articleType, isPublished)}
           {item.name}
         </ItemTitleButton>
@@ -142,8 +142,7 @@ const NodeItem = ({
             rootNodeId={rootNodeId}
             key={item.id}
             isMainActive={isOpen}
-            structure={allRootNodes}
-            onCurrentNodeChanged={node => onNodeSelected(node)}
+            onCurrentNodeChanged={(node) => onNodeSelected(node)}
             jumpToResources={() => resourceSectionRef?.current?.scrollIntoView()}
             nodeChildren={nodes ?? []}
           />
@@ -160,13 +159,13 @@ const NodeItem = ({
             <MakeDndList
               disableDND={!isActive || nodes.length < 2}
               dragHandle
-              onDragEnd={res => onDragEnd(res, nodes!)}>
-              {nodes.map(t => (
+              onDragEnd={(res) => onDragEnd(res, nodes!)}
+            >
+              {nodes.map((t) => (
                 <NodeItem
                   isFavorite={false}
                   renderBeforeTitle={renderBeforeTitle}
                   key={`${path}/${t.id}`}
-                  allRootNodes={allRootNodes}
                   parentActive={isActive}
                   connectionId={t.connectionId}
                   id={t.id}

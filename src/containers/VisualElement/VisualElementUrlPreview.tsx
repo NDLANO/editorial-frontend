@@ -33,15 +33,14 @@ import { EXTERNAL_WHITELIST_PROVIDERS, DRAFT_ADMIN_SCOPE } from '../../constants
 import { useSession } from '../Session/SessionProvider';
 import { HelpIcon, normalPaddingCSS } from '../../components/HowTo';
 import { urlTransformers } from './urlTransformers';
-import { VisualElementChangeReturnType } from './VisualElementSearch';
-import { ExternalEmbed } from '../../interfaces';
+import { Embed, ExternalEmbed } from '../../interfaces';
 import ImageSearchAndUploader from '../../components/ImageSearchAndUploader';
 import { fetchImage, searchImages } from '../../modules/image/imageApi';
 import { onError } from '../../util/resolveJsonOrRejectWithError';
 
 const filterWhiteListedURL = (url: string) => {
   const domain = urlDomain(url);
-  const [isWhiteListedURL] = EXTERNAL_WHITELIST_PROVIDERS.filter(filteredProvider =>
+  const [isWhiteListedURL] = EXTERNAL_WHITELIST_PROVIDERS.filter((filteredProvider) =>
     filteredProvider.url.includes(domain),
   );
   return isWhiteListedURL;
@@ -110,7 +109,7 @@ interface Props {
   selectedResourceType?: string;
   articleLanguage?: string;
   resource?: string;
-  onUrlSave: (returnType: VisualElementChangeReturnType) => void;
+  onUrlSave: (returnType: Embed) => void;
   embed?: ExternalEmbed;
 }
 const StyledPreviewItem = styled('div')`
@@ -189,12 +188,9 @@ const VisualElementUrlPreview = ({
                 title,
               };
           onUrlSave({
-            value: {
-              ...data,
-              resource: 'external',
-              url: src || undefined,
-            } as ExternalEmbed,
-            type: 'ndlaembed',
+            ...data,
+            resource: 'iframe',
+            url: src || '',
           });
         }
       } catch (err) {
@@ -216,12 +212,9 @@ const VisualElementUrlPreview = ({
                 type: 'iframe',
               };
           onUrlSave({
-            type: 'ndlaembed',
-            value: {
-              ...data,
-              resource: 'iframe',
-              url,
-            } as ExternalEmbed,
+            ...data,
+            resource: 'iframe',
+            url: url || '',
           });
         }
       }
@@ -286,7 +279,7 @@ const VisualElementUrlPreview = ({
 
   useEffect(() => {
     if (embed?.imageid) {
-      fetchImage(embed.imageid, articleLanguage).then(image => {
+      fetchImage(embed.imageid, articleLanguage).then((image) => {
         setImage(image);
       });
     }
@@ -300,7 +293,8 @@ const VisualElementUrlPreview = ({
             ? t('form.content.link.newUrlResource')
             : t('form.content.link.changeUrlResource', { type: selectedResourceType })
         }
-        subTitle={getSubTitle()}>
+        subTitle={getSubTitle()}
+      >
         <Modal
           label={t('form.content.link.validDomains')}
           backgroundColor="white"
@@ -310,7 +304,8 @@ const VisualElementUrlPreview = ({
                 <HelpIcon css={normalPaddingCSS} />
               </Tooltip>
             </div>
-          }>
+          }
+        >
           {(onClose: () => void) => (
             <>
               <ModalHeader>
@@ -348,7 +343,7 @@ const VisualElementUrlPreview = ({
           value={title}
           type="text"
           placeholder={t('form.name.title')}
-          onChange={e => setTitle(e.currentTarget.value)}
+          onChange={(e) => setTitle(e.currentTarget.value)}
         />
       </FieldSection>
       {!showFullscreen && (
@@ -356,7 +351,8 @@ const VisualElementUrlPreview = ({
           <ButtonV2
             disabled={url === selectedResourceUrl || url === ''}
             variant="outline"
-            onClick={() => handleSaveUrl(true)}>
+            onClick={() => handleSaveUrl(true)}
+          >
             {t('form.content.link.preview')}
           </ButtonV2>
           <ButtonV2 disabled={!canSave()} variant="outline" onClick={() => handleSaveUrl()}>
@@ -368,7 +364,7 @@ const VisualElementUrlPreview = ({
         <CheckboxWrapper>
           <CheckboxItem
             checked={showFullscreen}
-            onChange={() => setShowFullscreen(prev => !prev)}
+            onChange={() => setShowFullscreen((prev) => !prev)}
             label={t('form.content.link.fullscreen')}
           />
         </CheckboxWrapper>
@@ -387,7 +383,8 @@ const VisualElementUrlPreview = ({
                       variant="ghost"
                       colorTheme="danger"
                       onClick={() => setImage(undefined)}
-                      data-cy="remove-element">
+                      data-cy="remove-element"
+                    >
                       <DeleteForever />
                     </IconButtonV2>
                   </Tooltip>
@@ -397,7 +394,8 @@ const VisualElementUrlPreview = ({
                       colorTheme="light"
                       to={`/media/image-upload/${image.id}/edit/${language}`}
                       target="_blank"
-                      aria-label={t('form.editOriginalImage')}>
+                      aria-label={t('form.editOriginalImage')}
+                    >
                       <LinkIcon />
                     </SafeLinkIconButton>
                   </Tooltip>
@@ -413,7 +411,7 @@ const VisualElementUrlPreview = ({
               value={description}
               type="text"
               placeholder={t('form.name.description')}
-              onChange={e => setDescription(e.currentTarget.value)}
+              onChange={(e) => setDescription(e.currentTarget.value)}
             />
             <UpdateButton disabled={!canSave()} variant="outline" onClick={() => handleSaveUrl()}>
               {urlChanged ? t('form.content.link.insert') : t('form.content.link.update')}
@@ -435,7 +433,8 @@ const VisualElementUrlPreview = ({
         onClose={() => setImageModalOpen(false)}
         size="large"
         backgroundColor="white"
-        minHeight="90vh">
+        minHeight="90vh"
+      >
         {() => (
           <>
             <ModalHeader>
@@ -450,10 +449,10 @@ const VisualElementUrlPreview = ({
                 locale={language}
                 language={language}
                 closeModal={() => {}}
-                fetchImage={id => fetchImage(id, articleLanguage)}
+                fetchImage={(id) => fetchImage(id, articleLanguage)}
                 searchImages={searchImages}
                 onError={onError}
-                onImageSelect={image => {
+                onImageSelect={(image) => {
                   setImage(image);
                   setImageModalOpen(false);
                 }}

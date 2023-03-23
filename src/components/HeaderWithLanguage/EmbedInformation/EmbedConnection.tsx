@@ -62,11 +62,11 @@ const EmbedConnection = ({ id, type, articles, setArticles, concepts, setConcept
   useEffect(() => {
     let shouldUpdateState = true;
     if (id) {
-      searchArticles(searchObjects(id, type)).then(result => {
+      searchArticles(searchObjects(id, type)).then((result) => {
         if (shouldUpdateState) setArticles(result.results);
       });
       type === 'image' &&
-        searchConcepts(searchObjects(id, type)).then(result => {
+        searchConcepts(searchObjects(id, type)).then((result) => {
           if (shouldUpdateState) setConcepts?.(result.results);
         });
     }
@@ -91,7 +91,8 @@ const EmbedConnection = ({ id, type, articles, setArticles, concepts, setConcept
         <ButtonV2 variant="stripped">
           <ImageInformationIcon css={normalPaddingCSS} />
         </ButtonV2>
-      }>
+      }
+    >
       {(onClose: () => void) => (
         <>
           <ModalHeader>
@@ -112,7 +113,7 @@ const EmbedConnection = ({ id, type, articles, setArticles, concepts, setConcept
               </em>
             </p>
             <ElementList
-              elements={articles?.map(obj => ({
+              elements={articles?.map((obj) => ({
                 ...obj,
                 articleType: obj.learningResourceType,
               }))}
@@ -134,7 +135,7 @@ const EmbedConnection = ({ id, type, articles, setArticles, concepts, setConcept
                   </em>
                 </p>
                 <ElementList
-                  elements={concepts?.map(obj => ({ ...obj, articleType: 'concept' })) ?? []}
+                  elements={concepts?.map((obj) => ({ ...obj, articleType: 'concept' })) ?? []}
                   isEditable={false}
                 />
               </>

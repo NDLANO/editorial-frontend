@@ -13,12 +13,11 @@ import { colors } from '@ndla/core';
 import { AlertCircle, Check } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
 import SafeLink from '@ndla/safelink';
-import { IArticle } from '@ndla/types-draft-api';
 import config from '../../../config';
 import { PUBLISHED } from '../../../constants';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 import { ResourceWithNodeConnectionAndMeta } from './StructureResources';
-import { getCountApproachingRevision, RevisionDateIcon } from './ApproachingRevisionDate';
+import { isApproachingRevision, RevisionDateIcon } from './ApproachingRevisionDate';
 import WrongTypeError from './WrongTypeError';
 
 const StyledCheckIcon = styled(Check)`
@@ -43,27 +42,24 @@ const CheckedWrapper = styled.div`
 
 export const IconWrapper = styled.div`
   display: flex;
-  flex-align: center;
 `;
 
 interface Props {
-  article: IArticle | undefined;
   contentMetaLoading: boolean;
   resource: ResourceWithNodeConnectionAndMeta;
   path?: string;
 }
 
-const StatusIcons = ({ article, contentMetaLoading, resource, path }: Props) => {
+const StatusIcons = ({ contentMetaLoading, resource, path }: Props) => {
   const { t } = useTranslation();
-
-  const isApproachingRevision = useMemo(() => {
-    if (!article) return false;
-    return !!getCountApproachingRevision([article]);
-  }, [article]);
+  const approachingRevision = useMemo(
+    () => isApproachingRevision(resource.contentMeta?.revisions),
+    [resource.contentMeta?.revisions],
+  );
 
   return (
     <IconWrapper>
-      {isApproachingRevision ? (
+      {approachingRevision ? (
         <RevisionDateIcon phrasesKey="form.responsible.revisionDateSingle" />
       ) : null}
       {!contentMetaLoading && (
@@ -99,7 +95,8 @@ const PublishedWrapper = ({ path, children }: { path?: string; children: ReactEl
   return (
     <StyledLink
       target="_blank"
-      to={`${config.ndlaFrontendDomain}${path}?versionHash=${taxonomyVersion}`}>
+      to={`${config.ndlaFrontendDomain}${path}?versionHash=${taxonomyVersion}`}
+    >
       {children}
     </StyledLink>
   );

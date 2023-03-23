@@ -16,6 +16,7 @@ import { ResourceGroupBanner, StyledShareIcon } from '../styles';
 import ApproachingRevisionDate from './ApproachingRevisionDate';
 import { ChildNodeType } from '../../../modules/nodes/nodeApiTypes';
 import GroupResourceSwitch from './GroupResourcesSwitch';
+import { ResourceWithNodeConnectionAndMeta } from './StructureResources';
 
 const PublishedText = styled.div`
   font-weight: ${fonts.weight.normal};
@@ -46,7 +47,7 @@ const RightContent = styled(Content)`
 
 const getPublishedCount = (contentMeta: Dictionary<NodeResourceMeta>) => {
   const contentMetaList = Object.values(contentMeta);
-  const publishedCount = contentMetaList.filter(c => c.status?.current === 'PUBLISHED').length;
+  const publishedCount = contentMetaList.filter((c) => c.status?.current === 'PUBLISHED').length;
   return publishedCount;
 };
 
@@ -56,6 +57,7 @@ interface Props {
   currentNode: ChildNodeType;
   onCurrentNodeChanged: (changedNode: ChildNodeType) => void;
   addButton?: ReactNode;
+  resources: ResourceWithNodeConnectionAndMeta[];
   articleIds?: number[];
 }
 
@@ -65,11 +67,18 @@ const ResourceBanner = ({
   currentNode,
   onCurrentNodeChanged,
   addButton,
-  articleIds,
+  resources,
 }: Props) => {
   const elementCount = Object.values(contentMeta).length;
   const publishedCount = useMemo(() => getPublishedCount(contentMeta), [contentMeta]);
   const { t } = useTranslation();
+  const allRevisions = useMemo(() => {
+    const resourceRevisions = resources.map((r) => r.contentMeta?.revisions).filter((r) => !!r);
+    const currentNodeRevision = currentNode.contentUri
+      ? contentMeta[currentNode.contentUri]?.revisions
+      : undefined;
+    return resourceRevisions.concat([currentNodeRevision]);
+  }, [contentMeta, currentNode.contentUri, resources]);
 
   return (
     <ResourceGroupBanner>
@@ -80,18 +89,19 @@ const ResourceBanner = ({
             variant="outline"
             onClick={() =>
               document.getElementById(currentNode.id)?.scrollIntoView({ block: 'center' })
-            }>
+            }
+          >
             {t('taxonomy.jumpToStructure')}
           </ButtonV2>
           <ControlWrapper>
             <PublishedText>{`${publishedCount}/${elementCount} ${t(
               'form.notes.published',
             ).toLowerCase()}`}</PublishedText>
-            <ApproachingRevisionDate articleIds={articleIds} />
+            <ApproachingRevisionDate revisions={allRevisions} />
             {currentNode && currentNode.id && (
               <GroupResourceSwitch
                 node={currentNode}
-                onChanged={partialMeta => {
+                onChanged={(partialMeta) => {
                   onCurrentNodeChanged({
                     ...currentNode,
                     metadata: { ...currentNode.metadata, ...partialMeta },

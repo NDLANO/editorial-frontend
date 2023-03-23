@@ -68,11 +68,11 @@ const MathEditor = ({ element, children, attributes, editor }: Props & RenderEle
   const toggleMenu = (event: MouseEvent | Event) => {
     event.preventDefault();
     event.stopPropagation();
-    setShowMenu(prev => !prev);
+    setShowMenu((prev) => !prev);
   };
 
   const toggleEdit = () => {
-    setEditMode(prev => !prev);
+    setEditMode((prev) => !prev);
   };
 
   const onExit = () => {
@@ -112,7 +112,7 @@ const MathEditor = ({ element, children, attributes, editor }: Props & RenderEle
         Transforms.setNodes(editor, properties, {
           at: path,
           voids: true,
-          match: node => node === element,
+          match: (node) => node === element,
         });
 
         const mathAsString = new DOMParser().parseFromString(mathML, 'text/xml').firstChild
@@ -129,7 +129,7 @@ const MathEditor = ({ element, children, attributes, editor }: Props & RenderEle
         Transforms.setNodes(editor, properties, {
           at: path,
           voids: true,
-          match: node => node === element,
+          match: (node) => node === element,
         });
       }
       Transforms.select(editor, {
@@ -146,7 +146,7 @@ const MathEditor = ({ element, children, attributes, editor }: Props & RenderEle
 
     Transforms.unwrapNodes(editor, {
       at: path,
-      match: node => node === element,
+      match: (node) => node === element,
       voids: true,
     });
   };
@@ -166,7 +166,8 @@ const MathEditor = ({ element, children, attributes, editor }: Props & RenderEle
       onClick={toggleMenu}
       contentEditable={false}
       style={{ boxShadow: selected && focused ? `0 0 0 1px ${colors.brand.tertiary}` : 'none' }}
-      {...attributes}>
+      {...attributes}
+    >
       <MathML model={nodeInfo.model} editor={editor} element={element} onDoubleClick={toggleEdit} />
       <Portal isOpened={showMenu}>
         <BlockMenu

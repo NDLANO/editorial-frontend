@@ -5,8 +5,8 @@ global.requestAnimationFrame = function raf(callback) {
 function polyfill() {
   return {
     matches: false,
-    addListener: function() {}, // eslint-disable-line
-    removeListener: function() {}, // eslint-disable-line
+    addListener: function () {}, // eslint-disable-line
+    removeListener: function () {}, // eslint-disable-line
   };
 }
 

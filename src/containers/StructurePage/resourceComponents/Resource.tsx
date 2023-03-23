@@ -6,7 +6,6 @@
  *
  */
 
-import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import styled from '@emotion/styled';
@@ -26,13 +25,11 @@ import {
   useUpdateNodeConnectionMutation,
 } from '../../../modules/nodes/nodeMutations';
 import { getContentTypeFromResourceTypes } from '../../../util/resourceHelpers';
-import { getIdFromUrn } from '../../../util/taxonomyHelpers';
 import RelevanceOption from '../../../components/Taxonomy/RelevanceOption';
 import ResourceItemLink from './ResourceItemLink';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 import { resourcesWithNodeConnectionQueryKey } from '../../../modules/nodes/nodeQueries';
 import { ResourceWithNodeConnectionAndMeta } from './StructureResources';
-import { useDraft, useResponsibleUserData } from '../../../modules/draft/draftQueries';
 import StatusIcons from './StatusIcons';
 import GrepCodesModal from './GrepCodesModal';
 import VersionHistory from './VersionHistory';
@@ -91,7 +88,7 @@ const ContentWrapper = styled.div`
 `;
 
 const StyledDndIconWrapper = styled.div<{ isVisible: boolean }>`
-  visibility: ${p => (p.isVisible ? 'visible' : 'hidden')};
+  visibility: ${(p) => (p.isVisible ? 'visible' : 'hidden')};
   display: flex;
   align-items: center;
 `;
@@ -125,6 +122,7 @@ interface Props {
   currentNodeId: string;
   connectionId?: string; // required for MakeDndList, otherwise ignored
   id?: string; // required for MakeDndList, otherwise ignored
+  responsible?: string;
   resource: ResourceWithNodeConnectionAndMeta;
   onDelete?: (connectionId: string) => void;
   updateResource?: (resource: ResourceWithNodeConnection) => void;
@@ -138,6 +136,7 @@ const Resource = ({
   dragHandleProps,
   currentNodeId,
   contentMetaLoading,
+  responsible,
 }: Props) => {
   const { t, i18n } = useTranslation();
   const location = useLocation();
@@ -153,7 +152,7 @@ const Resource = ({
     await qc.cancelQueries(compKey);
     const resources = qc.getQueryData<ResourceWithNodeConnection[]>(compKey) ?? [];
     if (relevanceId) {
-      const newResources = resources.map(res => {
+      const newResources = resources.map((res) => {
         if (res.id === id) {
           return { ...res, relevanceId: relevanceId };
         } else return res;
@@ -172,14 +171,6 @@ const Resource = ({
     onSettled: () => qc.invalidateQueries(compKey),
   });
 
-  const id = getIdFromUrn(resource?.contentMeta?.contentUri);
-  const { data: article } = useDraft({ id: id! }, { enabled: !!id });
-  const { data: userData } = useResponsibleUserData(article);
-
-  const responsible = useMemo(() => {
-    return userData?.[0]?.name;
-  }, [userData]);
-
   const contentType =
     resource.resourceTypes.length > 0
       ? getContentTypeFromResourceTypes(resource.resourceTypes).contentType
@@ -193,8 +184,8 @@ const Resource = ({
   const iconType = contentType === 'topic-article' ? 'topic' : contentType;
 
   const structurePaths: string[] = location.pathname.replace('/structure', '').split('/');
-  const currentPath = structurePaths.map(p => p.replace('urn:', '')).join('/');
-  const path = resource.paths.find(p => {
+  const currentPath = structurePaths.map((p) => p.replace('urn:', '')).join('/');
+  const path = resource.paths.find((p) => {
     const pArr = p.split('/');
     const isResource = pArr[pArr.length - 1].startsWith('resource');
     const pathWithoutResource = pArr.slice(0, pArr.length - (isResource ? 1 : 0)).join('/');
@@ -217,7 +208,8 @@ const Resource = ({
     <Wrapper>
       <StyledDndIconWrapper
         isVisible={!contentMetaLoading && resource.contentMeta?.articleType !== 'topic-article'}
-        {...dragHandleProps}>
+        {...dragHandleProps}
+      >
         <StyledDndIcon />
       </StyledDndIconWrapper>
 
@@ -242,12 +234,7 @@ const Resource = ({
                 size="small"
               />
             </StyledResourceBody>
-            <StatusIcons
-              article={article}
-              contentMetaLoading={contentMetaLoading}
-              resource={resource}
-              path={path}
-            />
+            <StatusIcons contentMetaLoading={contentMetaLoading} resource={resource} path={path} />
             <RelevanceOption relevanceId={resource.relevanceId} onChange={updateRelevanceId} />
           </StyledText>
           <ButtonRow>
@@ -267,7 +254,8 @@ const Resource = ({
               onClick={() => (onDelete ? onDelete(resource.connectionId) : null)}
               size="xsmall"
               colorTheme="danger"
-              disabled={!onDelete}>
+              disabled={!onDelete}
+            >
               {t('form.remove')}
             </RemoveButton>
           </ButtonRow>

@@ -10,8 +10,13 @@ import fetch from 'node-fetch';
 import queryString from 'query-string';
 import FormData from 'form-data';
 import { ApiTranslateType } from '../interfaces';
+import config from '../config';
 
-const baseUrl = 'https://ndla.norskrobot.no:3443';
+// 4443 has token-based auth, and 3443 has ip-based.
+// Falls back to ip until secrets are updated in every environment
+const baseUrl = config.translateServiceUser
+  ? 'https://ndla.norskrobot.no:4443'
+  : 'https://ndla.norskrobot.no:3443';
 const textUrl = `${baseUrl}/translateText`;
 const htmlUrl = `${baseUrl}/translateNHtml`;
 
@@ -29,6 +34,13 @@ interface ResponseType {
 }
 
 const stilmal = 'Intern nynorsk 4';
+// Only header if props available
+const headers = config.translateServiceUser
+  ? {
+      'x-user': config.translateServiceUser,
+      'x-api-key': config.translateServiceToken,
+    }
+  : undefined;
 
 const doFetch = (name: string, element: ApiTranslateType): Promise<ResponseType> => {
   if (element.type === 'text') {
@@ -39,8 +51,9 @@ const doFetch = (name: string, element: ApiTranslateType): Promise<ResponseType>
     };
     return fetch(`${textUrl}?${queryString.stringify(params)}`, {
       method: 'POST',
+      headers,
     })
-      .then(res => res.json())
+      .then((res) => res.json())
       .then((json: TextResponse) => {
         const translated = json.responseData.translatedText;
         const content = element.isArray ? translated.split('|') : translated;
@@ -56,10 +69,11 @@ const doFetch = (name: string, element: ApiTranslateType): Promise<ResponseType>
     return fetch(`${htmlUrl}?${queryString.stringify(params)}`, {
       method: 'POST',
       body: formData,
+      headers,
     })
-      .then(res => res.blob())
-      .then(res => res.text())
-      .then(async res => {
+      .then((res) => res.blob())
+      .then((res) => res.text())
+      .then(async (res) => {
         const strippedResponse = res.replace('<html>', '').replace('</html>', '');
         return { key: name, value: strippedResponse };
       });
@@ -68,7 +82,9 @@ const doFetch = (name: string, element: ApiTranslateType): Promise<ResponseType>
 
 export const translateDocument = async (document: Record<string, ApiTranslateType>) => {
   try {
-    const translations = await Promise.all(Object.keys(document).map(k => doFetch(k, document[k])));
+    const translations = await Promise.all(
+      Object.keys(document).map((k) => doFetch(k, document[k])),
+    );
     return translations.reduce<Record<string, string | string[]>>((acc, { key, value }) => {
       acc[key] = value;
       return acc;

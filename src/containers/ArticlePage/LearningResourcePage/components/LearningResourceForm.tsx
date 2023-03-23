@@ -31,9 +31,9 @@ import {
 } from '../../articleTransformers';
 import { ArticleTaxonomy } from '../../../FormikForm/formikDraftHooks';
 import { blockContentToHTML } from '../../../../util/articleContentConverter';
-import { DraftStatusType } from '../../../../interfaces';
 import StyledForm from '../../../../components/StyledFormComponents';
 import { TaxonomyVersionProvider } from '../../../StructureVersion/TaxonomyVersionProvider';
+import { useSession } from '../../../../containers/Session/SessionProvider';
 
 interface Props {
   article?: IArticle;
@@ -42,11 +42,6 @@ interface Props {
   isNewlyCreated: boolean;
   articleChanged: boolean;
   updateArticle: (updatedArticle: IUpdatedArticle) => Promise<IArticle>;
-  updateArticleAndStatus: (input: {
-    updatedArticle: IUpdatedArticle;
-    newStatus: DraftStatusType;
-    dirty: boolean;
-  }) => Promise<IArticle>;
   articleLanguage: string;
 }
 
@@ -56,28 +51,26 @@ const LearningResourceForm = ({
   articleStatus,
   isNewlyCreated = false,
   updateArticle,
-  updateArticleAndStatus,
   articleChanged,
   articleLanguage,
 }: Props) => {
   const { t } = useTranslation();
-
+  const { ndlaId } = useSession();
   const { data: licenses } = useLicenses({ placeholderData: [] });
   const statusStateMachine = useDraftStatusStateMachine({ articleId: article?.id });
 
-  const { savedToServer, formikRef, initialValues, handleSubmit } = useArticleFormHooks<
-    LearningResourceFormType
-  >({
-    getInitialValues: draftApiTypeToLearningResourceFormType,
-    article,
-    t,
-    articleStatus,
-    updateArticle,
-    updateArticleAndStatus,
-    getArticleFromSlate: learningResourceFormTypeToDraftApiType,
-    articleLanguage,
-    rules: learningResourceRules,
-  });
+  const { savedToServer, formikRef, initialValues, handleSubmit } =
+    useArticleFormHooks<LearningResourceFormType>({
+      getInitialValues: draftApiTypeToLearningResourceFormType,
+      article,
+      t,
+      articleStatus,
+      updateArticle,
+      getArticleFromSlate: learningResourceFormTypeToDraftApiType,
+      articleLanguage,
+      rules: learningResourceRules,
+      ndlaId,
+    });
 
   const initialHTML = useMemo(() => blockContentToHTML(initialValues.content), [initialValues]);
 
@@ -149,10 +142,10 @@ const LearningResourceForm = ({
   };
 
   const initialWarnings = getWarnings(initialValues, learningResourceRules, t, article);
-  const initialErrors = useMemo(() => validateFormik(initialValues, learningResourceRules, t), [
-    initialValues,
-    t,
-  ]);
+  const initialErrors = useMemo(
+    () => validateFormik(initialValues, learningResourceRules, t),
+    [initialValues, t],
+  );
 
   return (
     <Formik
@@ -163,8 +156,9 @@ const LearningResourceForm = ({
       validateOnBlur={false}
       validateOnMount
       onSubmit={handleSubmit}
-      validate={values => validateFormik(values, learningResourceRules, t)}
-      initialStatus={{ warnings: initialWarnings }}>
+      validate={(values) => validateFormik(values, learningResourceRules, t)}
+      initialStatus={{ warnings: initialWarnings }}
+    >
       {FormikChild}
     </Formik>
   );

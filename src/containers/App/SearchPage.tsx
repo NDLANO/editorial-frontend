@@ -103,7 +103,7 @@ const SearchPage = () => {
     <>
       <SubNavigation subtypes={supportedTypes} />
       <Routes>
-        {supportedTypes.map(type => {
+        {supportedTypes.map((type) => {
           return (
             <Route
               key={type.type}

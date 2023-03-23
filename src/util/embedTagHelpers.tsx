@@ -6,6 +6,7 @@
  *
  */
 import isObject from 'lodash/fp/isObject';
+import { TYPE_NDLA_EMBED } from '../components/SlateEditor/plugins/embed/types';
 import { isEmpty } from '../components/validators';
 import { Dictionary, Embed } from '../interfaces';
 
@@ -25,9 +26,9 @@ export const reduceElementDataAttributes = (
 ): { [key: string]: string } => {
   if (!el.attributes) return {};
   let attrs: Attr[] = [].slice.call(el.attributes);
-  attrs = attrs.filter(a => a.name !== 'style');
+  attrs = attrs.filter((a) => a.name !== 'style');
 
-  if (filter) attrs = attrs.filter(a => filter.includes(a.name));
+  if (filter) attrs = attrs.filter((a) => filter.includes(a.name));
   const obj = attrs.reduce(
     (all, attr) => Object.assign({}, all, { [attr.name.replace('data-', '')]: attr.value }),
     {},
@@ -37,7 +38,7 @@ export const reduceElementDataAttributes = (
 
 export const reduceChildElements = (el: HTMLElement, type: string) => {
   const children: object[] = [];
-  el.childNodes.forEach(node => {
+  el.childNodes.forEach((node) => {
     const childElement = node as HTMLElement;
     if (type === 'file') {
       children.push({
@@ -69,12 +70,12 @@ export const reduceChildElements = (el: HTMLElement, type: string) => {
 
 export const createDataProps = (obj: Dictionary<string>) =>
   Object.keys(obj)
-    .filter(key => obj[key] !== undefined && !isObject(obj[key]))
+    .filter((key) => obj[key] !== undefined && !isObject(obj[key]))
     .reduce((acc, key) => ({ ...acc, [`data-${key}`]: obj[key] }), {});
 
 export const createProps = (obj: Dictionary<string>) =>
   Object.keys(obj)
-    .filter(key => obj[key] !== undefined && !isObject(obj[key]))
+    .filter((key) => obj[key] !== undefined && !isObject(obj[key]))
     .reduce((acc, key) => ({ ...acc, [key]: obj[key] }), {});
 
 export const parseEmbedTag = (embedTag?: string): Embed | undefined => {
@@ -83,7 +84,7 @@ export const parseEmbedTag = (embedTag?: string): Embed | undefined => {
   }
   const el = document.createElement('html');
   el.innerHTML = embedTag;
-  const embedElements = el.getElementsByTagName('ndlaembed');
+  const embedElements = el.getElementsByTagName(TYPE_NDLA_EMBED);
 
   if (embedElements.length !== 1) {
     return undefined;
@@ -91,7 +92,7 @@ export const parseEmbedTag = (embedTag?: string): Embed | undefined => {
 
   const obj = reduceElementDataAttributes(embedElements[0]);
   delete obj.id;
-  return (obj as unknown) as Embed;
+  return obj as unknown as Embed;
 };
 
 export const createEmbedTag = (data: { [key: string]: any }) => {
@@ -100,8 +101,8 @@ export const createEmbedTag = (data: { [key: string]: any }) => {
   }
   const props: Dictionary<string> = {};
   Object.keys(data)
-    .filter(key => data[key] !== undefined && !isObject(data[key]))
-    .forEach(key => (props[`data-${key}`] = data[key]));
+    .filter((key) => data[key] !== undefined && !isObject(data[key]))
+    .forEach((key) => (props[`data-${key}`] = data[key]));
 
   return <ndlaembed {...props}></ndlaembed>;
 };

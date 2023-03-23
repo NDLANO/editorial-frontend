@@ -65,6 +65,7 @@ const StructureContainer = () => {
   );
 
   const resourceSection = useRef<HTMLDivElement>(null);
+  const firstRender = useRef(true);
 
   const userDataQuery = useUserData();
   const favoriteNodes =
@@ -89,7 +90,11 @@ const StructureContainer = () => {
   }, [currentNode, shouldScroll]);
 
   useEffect(() => {
-    setCurrentNode(undefined);
+    if (firstRender.current) {
+      firstRender.current = false;
+    } else {
+      setCurrentNode(undefined);
+    }
     setShouldScroll(true);
   }, [taxonomyVersion]);
 

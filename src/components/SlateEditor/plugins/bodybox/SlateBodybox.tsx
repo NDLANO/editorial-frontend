@@ -10,13 +10,26 @@ import { Editor, Element, Transforms } from 'slate';
 import { ReactEditor, RenderElementProps } from 'slate-react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
+import { spacing } from '@ndla/core';
 import DeleteButton from '../../../DeleteButton';
 import MoveContentButton from '../../../MoveContentButton';
 import { TYPE_BODYBOX } from './types';
 
 const StyledBodybox = styled.div`
-  position: relative;
-  overflow: visible;
+  display: flex;
+  flex-direction: column;
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  padding: ${spacing.xsmall};
+  justify-content: flex-end;
+  flex: 0;
+`;
+
+const ChildrenWrapper = styled.div`
+  flex: 1;
+  padding: 0 ${spacing.medium} ${spacing.medium} ${spacing.medium};
 `;
 
 interface Props {
@@ -56,15 +69,17 @@ const SlateBodybox = (props: Props & RenderElementProps) => {
 
   return (
     <StyledBodybox draggable className="c-bodybox" {...attributes}>
-      {children}
-      <DeleteButton
-        aria-label={t('form.remove')}
-        tabIndex={-1}
-        data-cy="remove-bodybox"
-        variant="stripped"
-        onMouseDown={onRemoveClick}
-      />
-      <MoveContentButton onMouseDown={onMoveContent} />
+      <ButtonContainer>
+        <DeleteButton
+          aria-label={t('form.remove')}
+          tabIndex={-1}
+          data-cy="remove-bodybox"
+          colorTheme="danger"
+          onMouseDown={onRemoveClick}
+        />
+        <MoveContentButton onMouseDown={onMoveContent} />
+      </ButtonContainer>
+      <ChildrenWrapper>{children}</ChildrenWrapper>
     </StyledBodybox>
   );
 };

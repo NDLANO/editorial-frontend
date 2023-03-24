@@ -70,6 +70,7 @@ const SlateBodybox = (props: Props & RenderElementProps) => {
   return (
     <StyledBodybox draggable className="c-bodybox" {...attributes}>
       <ButtonContainer>
+        <MoveContentButton onMouseDown={onMoveContent} />
         <DeleteButton
           aria-label={t('form.remove')}
           tabIndex={-1}
@@ -77,7 +78,6 @@ const SlateBodybox = (props: Props & RenderElementProps) => {
           colorTheme="danger"
           onMouseDown={onRemoveClick}
         />
-        <MoveContentButton onMouseDown={onMoveContent} />
       </ButtonContainer>
       <ChildrenWrapper>{children}</ChildrenWrapper>
     </StyledBodybox>

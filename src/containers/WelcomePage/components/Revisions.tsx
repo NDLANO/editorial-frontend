@@ -30,6 +30,7 @@ import { getExpirationDate } from '../../ArticlePage/articleTransformers';
 import GoToSearch from './GoToSearch';
 import { fetchSubject } from '../../../modules/taxonomy';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
+import { SubjectType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 
 interface Props {
   userData: IUserData | undefined;
@@ -71,11 +72,16 @@ const Revisions = ({ userData, ndlaId }: Props) => {
 
   useEffect(() => {
     (async () => {
-      const favoriteSubjects =
-        (await Promise.all(
-          userData?.favoriteSubjects?.map(id => fetchSubject({ id, taxonomyVersion })) ?? [],
-        )) ?? [];
-      setFavoriteSubjects(favoriteSubjects.map(fs => ({ value: fs.id, label: fs.name })));
+      const favoriteSubjects = await Promise.allSettled(
+        userData?.favoriteSubjects?.map(id => fetchSubject({ id, taxonomyVersion })) ?? [],
+      );
+      const filteredSubjects = (favoriteSubjects.filter(fs => fs.status === 'fulfilled') as Array<
+        PromiseFulfilledResult<SubjectType>
+      >).map(result => ({
+        value: result.value.id,
+        label: result.value.name,
+      }));
+      setFavoriteSubjects(filteredSubjects);
     })();
   }, [taxonomyVersion, userData?.favoriteSubjects]);
 

@@ -22,7 +22,7 @@ import WorkList from './components/worklist/WorkList';
 import WelcomeHeader from './components/WelcomeHeader';
 import { GridContainer, MainArea, LeftColumn, RightColumn } from '../../components/Layout/Layout';
 import { useSession } from '../Session/SessionProvider';
-import Revision from './components/Revision';
+import Revisions from './components/Revisions';
 
 export const Wrapper = styled.div`
   display: flex;
@@ -37,9 +37,10 @@ export const WelcomePage = () => {
     enabled: isValid(getAccessToken()) && getAccessTokenPersonal(),
   });
   const { ndlaId } = useSession();
-  const lastUsed = useMemo(() => data?.latestEditedArticles?.map(l => Number(l)) ?? [], [
-    data?.latestEditedArticles,
-  ]);
+  const lastUsed = useMemo(
+    () => data?.latestEditedArticles?.map((l) => Number(l)) ?? [],
+    [data?.latestEditedArticles],
+  );
 
   localStorage.setItem('lastPath', '');
 
@@ -52,7 +53,7 @@ export const WelcomePage = () => {
         </MainArea>
         <MainArea>{ndlaId && <WorkList ndlaId={ndlaId} />}</MainArea>
         <LeftColumn colStart={2} colEnd={8}>
-          {ndlaId && <Revision ndlaId={ndlaId} userData={data} />}
+          {ndlaId && <Revisions ndlaId={ndlaId} userData={data} />}
           <StyledColumnHeader>
             <SearchFolder className="c-icon--medium" />
             <span>{t('welcomePage.savedSearch')}</span>

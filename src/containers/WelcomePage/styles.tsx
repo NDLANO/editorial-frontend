@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2023-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
 import styled from '@emotion/styled';
 import { spacing, colors, mq, breakpoints } from '@ndla/core';
 import SafeLink from '@ndla/safelink';
@@ -38,7 +45,7 @@ export const DropdownWrapper = styled.div`
 export const ControlWrapperDashboard = styled.div`
   display: flex;
   gap: ${spacing.small};
-  ${mq.range({ from: '0px', until: breakpoints.desktop })} {
+  ${mq.range({ until: breakpoints.desktop })} {
     flex-direction: column;
   }
 `;

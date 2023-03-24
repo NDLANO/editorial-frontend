@@ -36,7 +36,7 @@ interface Props {
   ndlaId: string | undefined;
 }
 
-const Revision = ({ userData, ndlaId }: Props) => {
+const Revisions = ({ userData, ndlaId }: Props) => {
   const [favoriteSubjects, setFavoriteSubjects] = useState<Option[]>([]);
   const [filterSubject, setFilterSubject] = useState<SingleValue | undefined>(undefined);
   const [sortOption, setSortOption] = useState<string>('-revisionDate');
@@ -69,9 +69,25 @@ const Revision = ({ userData, ndlaId }: Props) => {
     },
   );
 
+  useEffect(() => {
+    (async () => {
+      const favoriteSubjects =
+        (await Promise.all(
+          userData?.favoriteSubjects?.map((id) => fetchSubject({ id, taxonomyVersion })) ?? [],
+        )) ?? [];
+      setFavoriteSubjects(favoriteSubjects.map((fs) => ({ value: fs.id, label: fs.name })));
+    })();
+  }, [taxonomyVersion, userData?.favoriteSubjects]);
+
+  const lastPage = data?.totalCount ? Math.ceil(data?.totalCount / (data.pageSize ?? 1)) : 1;
+
+  useEffect(() => {
+    setPage(1);
+  }, [filterSubject]);
+
   const tableData: FieldElement[][] = useMemo(
     () =>
-      data?.results?.map(a => [
+      data?.results?.map((a) => [
         {
           id: `title_${a.id}`,
           data: (
@@ -86,7 +102,7 @@ const Revision = ({ userData, ndlaId }: Props) => {
         },
         {
           id: `primarySubject_${a.id}`,
-          data: a.contexts.find(context => context.isPrimaryConnection)?.subject ?? '',
+          data: a.contexts.find((context) => context.isPrimaryConnection)?.subject ?? '',
         },
         {
           id: `lastUpdated_${a.id}`,
@@ -95,22 +111,6 @@ const Revision = ({ userData, ndlaId }: Props) => {
       ]) ?? [[]],
     [data?.results, t],
   );
-
-  useEffect(() => {
-    (async () => {
-      const favoriteSubjects =
-        (await Promise.all(
-          userData?.favoriteSubjects?.map(id => fetchSubject({ id, taxonomyVersion })) ?? [],
-        )) ?? [];
-      setFavoriteSubjects(favoriteSubjects.map(fs => ({ value: fs.id, label: fs.name })));
-    })();
-  }, [taxonomyVersion, userData?.favoriteSubjects]);
-
-  const lastPage = data?.totalCount ? Math.ceil(data?.totalCount / (data.pageSize ?? 1)) : 1;
-
-  useEffect(() => {
-    setPage(1);
-  }, [filterSubject]);
 
   return (
     <StyledDashboardInfo>
@@ -155,7 +155,7 @@ const Revision = ({ userData, ndlaId }: Props) => {
         page={data?.page ?? 1}
         lastPage={lastPage}
         query={{}}
-        onClick={el => setPage(el.page)}
+        onClick={(el) => setPage(el.page)}
         small
         colorTheme="lighter"
         pageItemComponentClass="button"
@@ -164,4 +164,4 @@ const Revision = ({ userData, ndlaId }: Props) => {
   );
 };
 
-export default memo(Revision);
+export default memo(Revisions);

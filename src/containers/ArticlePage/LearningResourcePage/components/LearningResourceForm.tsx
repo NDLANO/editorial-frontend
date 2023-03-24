@@ -34,6 +34,7 @@ import { blockContentToHTML } from '../../../../util/articleContentConverter';
 import StyledForm from '../../../../components/StyledFormComponents';
 import { TaxonomyVersionProvider } from '../../../StructureVersion/TaxonomyVersionProvider';
 import { useSession } from '../../../../containers/Session/SessionProvider';
+import { CommentsProvider } from '../../../../components/SlateEditor/CommentsProvider';
 
 interface Props {
   article?: IArticle;
@@ -58,7 +59,7 @@ const LearningResourceForm = ({
   const { ndlaId } = useSession();
   const { data: licenses } = useLicenses({ placeholderData: [] });
   const statusStateMachine = useDraftStatusStateMachine({ articleId: article?.id });
-  console.log(article);
+
   const { savedToServer, formikRef, initialValues, handleSubmit } =
     useArticleFormHooks<LearningResourceFormType>({
       getInitialValues: draftApiTypeToLearningResourceFormType,
@@ -104,34 +105,35 @@ const LearningResourceForm = ({
           type="standard"
           expirationDate={getExpirationDate(article)}
         />
-        <TaxonomyVersionProvider>
-          <LearningResourcePanels
-            articleLanguage={articleLanguage}
-            article={article}
-            taxonomy={articleTaxonomy}
-            updateNotes={updateArticle}
-            getArticle={getArticle}
-            handleSubmit={handleSubmit}
-            comments={article.comments}
+        <CommentsProvider>
+          <TaxonomyVersionProvider>
+            <LearningResourcePanels
+              articleLanguage={articleLanguage}
+              article={article}
+              taxonomy={articleTaxonomy}
+              updateNotes={updateArticle}
+              getArticle={getArticle}
+              handleSubmit={handleSubmit}
+            />
+          </TaxonomyVersionProvider>
+          <EditorFooter
+            showSimpleFooter={!article}
+            formIsDirty={formIsDirty}
+            savedToServer={savedToServer}
+            getEntity={getArticle}
+            onSaveClick={(saveAsNewVersion?: boolean) => {
+              handleSubmit(values, formik, saveAsNewVersion || false);
+            }}
+            entityStatus={article?.status}
+            statusStateMachine={statusStateMachine.data}
+            validateEntity={validateDraft}
+            isArticle
+            isNewlyCreated={isNewlyCreated}
+            isConcept={false}
+            hideSecondaryButton={false}
+            responsibleId={article?.responsible?.responsibleId}
           />
-        </TaxonomyVersionProvider>
-        <EditorFooter
-          showSimpleFooter={!article}
-          formIsDirty={formIsDirty}
-          savedToServer={savedToServer}
-          getEntity={getArticle}
-          onSaveClick={(saveAsNewVersion?: boolean) => {
-            handleSubmit(values, formik, saveAsNewVersion || false);
-          }}
-          entityStatus={article?.status}
-          statusStateMachine={statusStateMachine.data}
-          validateEntity={validateDraft}
-          isArticle
-          isNewlyCreated={isNewlyCreated}
-          isConcept={false}
-          hideSecondaryButton={false}
-          responsibleId={article?.responsible?.responsibleId}
-        />
+        </CommentsProvider>
         <AlertModalWrapper
           isSubmitting={isSubmitting}
           formIsDirty={formIsDirty}

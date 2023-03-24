@@ -12,11 +12,13 @@ import { ButtonV2, IconButtonV2 } from '@ndla/button';
 import { useTranslation } from 'react-i18next';
 import Tooltip from '@ndla/tooltip';
 import { TextAreaV2 } from '@ndla/forms';
-import { ChangeEvent, useEffect, useMemo, useState } from 'react';
+import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { css } from '@emotion/react';
-import { useFormikContext } from 'formik';
-import { CommentType } from '../../../interfaces';
+import { CommentType } from '../../../components/SlateEditor/CommentsProvider';
 import AlertModal from '../../../components/AlertModal';
+import CancelButton from './CancelButton';
+import SaveButton from './SaveButton';
+import { useSession } from '../../Session/SessionProvider';
 
 export const textAreaStyles = css`
   width: 100%;
@@ -27,7 +29,7 @@ export const textAreaStyles = css`
   textarea {
     ${fonts.sizes('16px')};
     margin: 0px;
-    padding: ${spacing.xxsmall};
+    padding: 0 ${spacing.xxsmall};
     font-weight: 300;
   }
 `;
@@ -51,18 +53,17 @@ const ClosedTextField = styled.div`
   width: 100%;
 `;
 
-const ButtonWrapper = styled.div`
+export const ButtonWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   gap: ${spacing.xsmall};
 `;
 
-const StyledButton = styled(ButtonV2)<{ flex: number }>`
+export const StyledButton = styled(ButtonV2)<{ flex: number }>`
   flex: ${(p) => p.flex};
 `;
 
 const CommentCard = styled.li`
-  display: flex;
   width: 200px;
   border: 1px solid ${colors.brand.neutral7};
   border-radius: 5px;
@@ -75,7 +76,7 @@ const CardContent = styled.div`
   display: flex;
 `;
 
-const InputAndButtons = styled.div`
+export const InputAndButtons = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${spacing.xsmall};
@@ -87,39 +88,55 @@ const StyledTrashIcon = styled(TrashCanOutline)`
 `;
 
 interface Props {
-  comment?: CommentType;
-  showInput?: boolean;
-  allOpen?: boolean;
+  comment: CommentType;
+  allOpen: boolean;
   comments: CommentType[];
-  setComments: (comment: CommentType[]) => void;
-  savedComment?: any; // update type from api
-  onDelete?: (index: number) => void;
-  index?: number;
+  setComments: (c: CommentType[]) => void;
+  onDelete: (index: number) => void;
+  index: number;
   setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => void;
 }
 
 const Comment = ({
   comment,
-  showInput = false,
   allOpen = false,
   comments,
   setComments,
-  savedComment,
   onDelete,
   index,
   setFieldValue,
 }: Props) => {
   const { t } = useTranslation();
+  const { userName } = useSession();
   const [inputValue, setInputValue] = useState(comment?.content);
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
 
-  const [displayEditButtons, setDisplayEditButtons] = useState(false);
+  const [editMode, setEditMode] = useState(false);
+
+  const closedComment = useRef<HTMLDivElement>(null);
+  const openComment = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
-    setDisplayEditButtons(inputValue !== comment?.content);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [inputValue]);
+    const closedClicked = () => {
+      setOpen(true);
+      openComment.current?.focus();
+      setEditMode(true);
+    };
+    const openClicked = () => {
+      setEditMode(true);
+    };
+
+    const closed = closedComment?.current;
+    const open = openComment?.current;
+    if (closed) closed.addEventListener('click', closedClicked);
+    if (open) open.addEventListener('click', openClicked);
+
+    return () => {
+      closed?.removeEventListener('click', closedClicked);
+      open?.removeEventListener('click', openClicked);
+    };
+  }, [open]);
 
   useEffect(() => {
     comment && setInputValue(comment.content);
@@ -133,18 +150,13 @@ const Comment = ({
     setInputValue(e.target.value);
   };
 
-  const handleSubmit = (indexPosition?: number) => {
-    if (inputValue) {
-      const updatedComments =
-        indexPosition !== undefined
-          ? comments.map((c, index) =>
-              indexPosition === index ? { ...savedComment, content: inputValue } : c,
-            )
-          : [{ content: inputValue }, ...comments];
-      setComments(updatedComments);
-      setFieldValue('comments', updatedComments);
-      setDisplayEditButtons(false);
-    }
+  const updateComment = (indexPosition: number) => {
+    const updatedComments = comments.map((c, index) =>
+      indexPosition === index ? { ...c, content: inputValue } : c,
+    );
+    setComments(updatedComments);
+    setFieldValue('comments', updatedComments);
+    setEditMode(false);
   };
 
   const handleDelete = () => {
@@ -155,116 +167,61 @@ const Comment = ({
 
   return (
     <CommentCard>
-      {showInput && (
-        <InputAndButtons>
-          <TextAreaV2
-            css={textAreaStyles}
-            label={t('form.commentField')}
-            name={t('form.commentField')}
-            placeholder={`${t('form.comment')}...`}
-            labelHidden
-            value={inputValue}
-            onChange={handleInputChange}
-          />
+      <InputAndButtons>
+        <CardContent>
+          {!editMode && (
+            <Tooltip tooltip={open ? t('form.hideComment') : t('form.showComment')}>
+              <IconButtonV2
+                variant="ghost"
+                size="xsmall"
+                aria-label={open ? t('form.hideComment') : t('form.showComment')}
+                onMouseDown={() => setOpen(!open)}
+                aria-expanded={open}
+                aria-controls="comment-section"
+              >
+                <> {open ? <ExpandMore /> : <RightArrow />}</>
+              </IconButtonV2>
+            </Tooltip>
+          )}
+          {open ? (
+            <StyledClickableTextArea
+              value={inputValue}
+              label={t('form.commentField')}
+              name={t('form.commentField')}
+              labelHidden
+              onChange={handleInputChange}
+              ref={openComment}
+            />
+          ) : (
+            <ClosedTextField ref={closedComment}>{inputValue}</ClosedTextField>
+          )}
+
+          {!editMode && (
+            <Tooltip tooltip={t('form.trash')}>
+              <IconButtonV2
+                variant="ghost"
+                size="xsmall"
+                aria-label={t('form.trash')}
+                onMouseDown={() => setModalOpen(true)}
+              >
+                <StyledTrashIcon />
+              </IconButtonV2>
+            </Tooltip>
+          )}
+        </CardContent>
+        {editMode && (
           <ButtonWrapper>
-            <StyledButton
-              shape="pill"
-              size="xsmall"
-              colorTheme="danger"
-              flex={1}
-              disabled={!inputValue}
-              onClick={() => setInputValue('')}
-            >
-              {t('form.abort')}
-            </StyledButton>
-            <StyledButton
-              variant="outline"
-              shape="pill"
-              size="xsmall"
-              flex={2}
+            <CancelButton
               disabled={!inputValue}
               onClick={() => {
-                handleSubmit();
-                setInputValue('');
+                setInputValue(comment.content);
+                setEditMode(false);
               }}
-            >
-              {t('form.comment')}
-            </StyledButton>
+            />
+            <SaveButton disabled={!inputValue} onClick={() => updateComment(index)} />
           </ButtonWrapper>
-        </InputAndButtons>
-      )}
-      {comment && (
-        <InputAndButtons>
-          <CardContent>
-            {!displayEditButtons && (
-              <Tooltip tooltip={open ? t('form.hideComment') : t('form.showComment')}>
-                <IconButtonV2
-                  variant="ghost"
-                  size="xsmall"
-                  aria-label={open ? t('form.hideComment') : t('form.showComment')}
-                  onMouseDown={() => setOpen(!open)}
-                  aria-expanded={open}
-                  aria-controls="comment-section"
-                >
-                  <> {open ? <ExpandMore /> : <RightArrow />}</>
-                </IconButtonV2>
-              </Tooltip>
-            )}
-            {open ? (
-              <StyledClickableTextArea
-                value={inputValue}
-                label={t('form.commentField')}
-                name={t('form.commentField')}
-                labelHidden
-                onChange={handleInputChange}
-                id="comment-section"
-              />
-            ) : (
-              <ClosedTextField id="comment-section">{inputValue}</ClosedTextField>
-            )}
-
-            {!displayEditButtons && (
-              <Tooltip tooltip={t('form.trash')}>
-                <IconButtonV2
-                  variant="ghost"
-                  size="xsmall"
-                  aria-label={t('form.trash')}
-                  onMouseDown={() => setModalOpen(true)}
-                >
-                  <StyledTrashIcon />
-                </IconButtonV2>
-              </Tooltip>
-            )}
-          </CardContent>
-          {displayEditButtons && (
-            <ButtonWrapper>
-              <StyledButton
-                shape="pill"
-                size="xsmall"
-                colorTheme="danger"
-                flex={1}
-                disabled={!inputValue}
-                onClick={() => {
-                  setInputValue(comment.content);
-                  setDisplayEditButtons(false);
-                }}
-              >
-                {t('form.abort')}
-              </StyledButton>
-              <StyledButton
-                variant="outline"
-                shape="pill"
-                size="xsmall"
-                flex={1}
-                disabled={!inputValue}
-                onClick={() => handleSubmit(index)}
-              >
-                {t('form.save')}
-              </StyledButton>
-            </ButtonWrapper>
-          )}
-        </InputAndButtons>
-      )}
+        )}
+      </InputAndButtons>
 
       <AlertModal
         title={t('form.workflow.deleteComment.title')}

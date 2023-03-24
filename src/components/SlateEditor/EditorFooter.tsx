@@ -90,16 +90,17 @@ function EditorFooter<T extends FormValues>({
   hasErrors,
   responsibleId,
 }: Props) {
+  const { t } = useTranslation();
   const disableConverter = useDisableConverter();
   const [status, setStatus] = useState<SingleValue>(null);
   const [responsible, setResponsible] = useState<SingleValue>(null);
   const [showAddCommentModal, setShowAddCommentModal] = useState(false);
+  const [inputValue, setInputValue] = useState('');
+  const [saveAsNewVersion, setSaveAsNewVersion] = useState(false);
 
   const { ndlaId } = useSession();
-  const { t } = useTranslation();
   const { values, setFieldValue, isSubmitting } = useFormikContext<T>();
   const { createMessage, formatErrorMessage } = useMessages();
-
   // Wait for newStatus to be set to trigger since formik doesn't update fields instantly
   const [newStatus, setNewStatus] = useState<SingleValue>(null);
 
@@ -112,13 +113,25 @@ function EditorFooter<T extends FormValues>({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [newStatus]);
+
+  const onSave = (saveAsNewVersion?: boolean | undefined, comment?: string) => {
+    if (isArticle && responsible && responsible.value !== responsibleId) {
+      setInputValue(`${t('form.workflow.addComment.to')} ${responsible.label.split(' ')[0]}: \n`);
+      setShowAddCommentModal(true);
+      setSaveAsNewVersion(saveAsNewVersion ?? false);
+      onSaveClick(saveAsNewVersion);
+    } else {
+      onSaveClick(saveAsNewVersion);
+    }
+  };
+
   const saveButton = (
     <SaveMultiButton
       large
       isSaving={isSubmitting}
       formIsDirty={formIsDirty}
       showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}
-      onClick={onSaveClick}
+      onClick={onSave}
       hideSecondaryButton={hideSecondaryButton}
       disabled={!!hasErrors}
     />
@@ -257,7 +270,14 @@ function EditorFooter<T extends FormValues>({
           {saveButton}
         </div>
         {isArticle && showAddCommentModal && (
-          <AddCommentModal onClose={() => setShowAddCommentModal(false)} />
+          <AddCommentModal
+            onClose={() => setShowAddCommentModal(false)}
+            inputValue={inputValue}
+            setInputValue={setInputValue}
+            onSaveClick={onSaveClick}
+            saveAsNewVersion={saveAsNewVersion}
+            setFieldValue={setFieldValue}
+          />
         )}
       </>
     </Footer>

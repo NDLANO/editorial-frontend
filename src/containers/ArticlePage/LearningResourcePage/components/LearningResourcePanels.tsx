@@ -23,7 +23,6 @@ import { ArticleTaxonomy } from '../../../FormikForm/formikDraftHooks';
 import RevisionNotes from '../../components/RevisionNotes';
 import { FlexWrapper, MainContent } from '../../styles';
 import CommentSection from '../../components/CommentSection';
-import { CommentType } from '../../../../interfaces';
 
 interface Props {
   handleSubmit: (
@@ -35,7 +34,6 @@ interface Props {
   updateNotes: (art: IUpdatedArticle) => Promise<IArticle>;
   getArticle: (preview: boolean) => IUpdatedArticle;
   articleLanguage: string;
-  comments: CommentType[];
 }
 
 const LearningResourcePanels = ({
@@ -45,7 +43,6 @@ const LearningResourcePanels = ({
   getArticle,
   handleSubmit,
   articleLanguage,
-  comments,
 }: Props) => {
   const { t } = useTranslation();
   const { userPermissions } = useSession();
@@ -145,7 +142,7 @@ const LearningResourcePanels = ({
           )}
         </Accordions>
       </MainContent>
-      <CommentSection comments={comments} savedComments={article.comments} />
+      <CommentSection savedComments={article?.comments} savedStatus={article?.status} />
     </FlexWrapper>
   );
 };

@@ -11,6 +11,7 @@ import { spacing } from '@ndla/core';
 import { TextAreaV2 } from '@ndla/forms';
 import { ChangeEvent, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useCommentsContext } from '../../../components/SlateEditor/CommentsProvider';
 import TaxonomyLightbox from '../../../components/Taxonomy/TaxonomyLightbox';
 import { textAreaStyles } from './Comment';
 
@@ -28,33 +29,59 @@ const ButtonWrapper = styled.div`
 `;
 interface Props {
   onClose: () => void;
+  inputValue: string;
+  setInputValue: (input: string) => void;
+  onSaveClick: (saveAsNewVersion?: boolean | undefined) => void;
+  saveAsNewVersion: boolean;
+  setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => void;
 }
 
-const AddCommentModal = ({ onClose }: Props) => {
+const AddCommentModal = ({
+  onClose,
+  inputValue,
+  setInputValue,
+  onSaveClick,
+  saveAsNewVersion,
+  setFieldValue,
+}: Props) => {
   const { t } = useTranslation();
-  const [inputValue, setInputValue] = useState('Til Fornavn Etternavn: \n');
+  const { comments, setComments } = useCommentsContext();
 
   const handleInputChange = (e: ChangeEvent<HTMLTextAreaElement>): void => {
     setInputValue(e.target.value);
   };
 
+  const handleSave = () => {
+    onSaveClick(saveAsNewVersion);
+    onClose();
+  };
+  const handleSaveWithComment = async () => {
+    const updatedComments = [{ content: inputValue }, ...comments];
+    setFieldValue('comments', updatedComments);
+    setComments(updatedComments);
+    onClose();
+  };
   return (
-    <TaxonomyLightbox onClose={onClose} title={t('form.addComment')} position="center">
+    <TaxonomyLightbox
+      onClose={onClose}
+      title={t('form.workflow.addComment.title')}
+      position="center"
+    >
       <ModalContent>
         <TextAreaV2
           css={textAreaStyles}
-          label={t('form.commentField')}
-          name={t('form.commentField')}
+          label={t('form.workflow.addComment.title')}
+          name={t('form.workflow.addComment.title')}
           placeholder={`${t('form.comment')}...`}
           labelHidden
           value={inputValue}
           onChange={handleInputChange}
         />
         <ButtonWrapper>
-          <ButtonV2 shape="pill" colorTheme="greyLighter">
-            {t('form.saveWithoutComment')}
+          <ButtonV2 shape="pill" colorTheme="greyLighter" onClick={handleSave}>
+            {t('form.workflow.addComment.button')}
           </ButtonV2>
-          <ButtonV2 shape="pill" variant="outline">
+          <ButtonV2 shape="pill" variant="outline" onClick={handleSaveWithComment}>
             {t('form.save')}
           </ButtonV2>
         </ButtonWrapper>

@@ -610,8 +610,6 @@ const phrases = {
     showComment: 'Vis kommentar',
     openAll: 'Åpne alle',
     hideAll: 'Lukk alle',
-    addComment: 'Legg til kommentar',
-    saveWithoutComment: 'Lagre uten kommentar',
     commentField: 'Kommentarfelt',
     preview: {
       button: 'Forhandsvis',
@@ -811,6 +809,12 @@ const phrases = {
         title: 'Slett kommentar',
         modal: 'Vil du slette denne kommentaren? Det er ikkje mogleg å gjenopprette kommentaren.',
         button: 'Slett',
+      },
+      addComment: {
+        title: 'Legg til kommentar',
+        button: 'Lagre uten kommentar',
+        to: 'Til',
+        from: 'Fra',
       },
     },
     status: {

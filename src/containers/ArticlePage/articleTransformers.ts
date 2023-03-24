@@ -87,7 +87,7 @@ const draftApiTypeToArticleFormType = (
     revisionMeta: article?.revisions ?? [],
     slug: article?.slug,
     responsibleId: article === undefined ? ndlaId : article?.responsible?.responsibleId,
-    comments: article.comments,
+    comments: article?.comments ?? [],
   };
 };
 

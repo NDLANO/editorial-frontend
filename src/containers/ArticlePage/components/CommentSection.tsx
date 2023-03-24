@@ -8,72 +8,110 @@
 import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
 import { spacing, fonts } from '@ndla/core';
+import { IStatus } from '@ndla/types-draft-api';
 import { useFormikContext } from 'formik';
-import { useState, MouseEvent } from 'react';
+import uniqueId from 'lodash/uniqueId';
+import { useState, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { CommentType } from '../../../interfaces';
+import { useCommentsContext } from '../../../components/SlateEditor/CommentsProvider';
+import { ARCHIVED, PUBLISHED, UNPUBLISHED } from '../../../constants';
+import { ArticleFormType } from '../../FormikForm/articleFormHooks';
 import Comment from './Comment';
+import InputComment from './InputComment';
 
-const CommentWrapper = styled.ul`
-  list-style: none;
-  margin-top: 32px;
+const CommentColumn = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
+  margin-top: 32px;
   margin-left: ${spacing.nsmall};
 `;
 
-const StyledOpenCloseAll = styled.li`
+const StyledList = styled.ul`
+  list-style: none;
+  padding: 0;
+  margin-top: 0;
+`;
+
+const StyledOpenCloseAll = styled(ButtonV2)`
   ${fonts.sizes('16px')};
   font-weight: ${fonts.weight.semibold};
   margin: 0;
   margin-left: auto;
 `;
 
+const RESET_COMMENTS_STATUSES = [PUBLISHED, ARCHIVED, UNPUBLISHED];
+
 interface Props {
-  comments: CommentType[];
+  savedStatus?: IStatus;
   savedComments?: any; //TODO: update to api type!
 }
-//TODO: update any type!
-const CommentSection = <T extends any>({ comments = [], savedComments }: Props) => {
-  const [commentList, setCommentList] = useState<CommentType[]>(comments);
+const CommentSection = ({ savedComments = [], savedStatus }: Props) => {
+  const { comments, setComments } = useCommentsContext();
   const [allOpen, setAllOpen] = useState(false);
+
+  const commentsWithId = useMemo(() => {
+    return comments.map((c) => {
+      if (c.uid) return c;
+      else {
+        const uid = uniqueId();
+
+        return { ...c, uid: uid };
+      }
+    });
+  }, [comments]);
+
   const { t } = useTranslation();
-  const { setFieldValue } = useFormikContext<T>();
+  const { setFieldValue } = useFormikContext<ArticleFormType>();
+
+  useEffect(() => {
+    // TODO: Se på denne logikken og hvordan commentWithId settes!!!!!
+    setComments(savedComments);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (RESET_COMMENTS_STATUSES.find((s) => s === savedStatus?.current)) {
+      setComments([]);
+    }
+  }, [savedStatus, setComments]);
 
   const onDelete = (index: number) => {
-    const updatedList = commentList.filter((c, i) => i !== index);
-    setCommentList(updatedList);
+    const updatedList = comments.filter((c, i) => i !== index);
+    setComments(updatedList);
     setFieldValue('comments', updatedList);
   };
   return (
-    <CommentWrapper>
-      <Comment
-        showInput
-        setComments={setCommentList}
-        comments={commentList}
-        setFieldValue={setFieldValue}
-      />
-      {comments.length ? (
-        <StyledOpenCloseAll>
-          <ButtonV2 variant="stripped" onClick={() => setAllOpen(!allOpen)}>
-            {allOpen ? t('form.hideAll') : t('form.openAll')}
-          </ButtonV2>
-        </StyledOpenCloseAll>
-      ) : null}
-      {commentList.map((comment, index) => (
-        <Comment
-          key={`${comment}_${index}`}
-          comment={comment}
-          setComments={setCommentList}
-          comments={commentList}
-          allOpen={allOpen}
-          savedComment={savedComments?.[index]}
-          onDelete={onDelete}
-          index={index}
-          setFieldValue={setFieldValue}
-        />
-      ))}
-    </CommentWrapper>
+    <>
+      {RESET_COMMENTS_STATUSES.every((s) => s !== savedStatus?.current) && (
+        <CommentColumn>
+          <InputComment
+            comments={commentsWithId}
+            setComments={setComments}
+            setFieldValue={setFieldValue}
+          />
+          {commentsWithId.length ? (
+            <StyledOpenCloseAll variant="stripped" onClick={() => setAllOpen(!allOpen)}>
+              {allOpen ? t('form.hideAll') : t('form.openAll')}
+            </StyledOpenCloseAll>
+          ) : null}
+          <StyledList>
+            {commentsWithId.map((comment, index) => (
+              <Comment
+                key={comment.uid}
+                comment={comment}
+                setComments={setComments}
+                comments={commentsWithId}
+                allOpen={allOpen}
+                onDelete={onDelete}
+                index={index}
+                setFieldValue={setFieldValue}
+              />
+            ))}
+          </StyledList>
+        </CommentColumn>
+      )}
+    </>
   );
 };
 

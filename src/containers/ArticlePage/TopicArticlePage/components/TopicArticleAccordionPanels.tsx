@@ -24,7 +24,6 @@ import { ArticleTaxonomy } from '../../../FormikForm/formikDraftHooks';
 import RevisionNotes from '../../components/RevisionNotes';
 import { FlexWrapper, MainContent } from '../../styles';
 import CommentSection from '../../components/CommentSection';
-import { CommentType } from '../../../../interfaces';
 
 interface Props {
   handleSubmit: () => Promise<void>;
@@ -33,7 +32,6 @@ interface Props {
   updateNotes: (art: IUpdatedArticle) => Promise<IArticle>;
   getArticle: () => IUpdatedArticle;
   articleLanguage: string;
-  comments: CommentType[];
 }
 
 const TopicArticleAccordionPanels = ({
@@ -43,7 +41,6 @@ const TopicArticleAccordionPanels = ({
   getArticle,
   articleLanguage,
   taxonomy,
-  comments,
 }: Props) => {
   const { t } = useTranslation();
   const { userPermissions } = useSession();
@@ -142,7 +139,7 @@ const TopicArticleAccordionPanels = ({
           )}
         </Accordions>
       </MainContent>
-      <CommentSection comments={comments} savedComments={article?.comments} />
+      <CommentSection savedComments={article?.comments} savedStatus={article?.status} />
     </FlexWrapper>
   );
 };

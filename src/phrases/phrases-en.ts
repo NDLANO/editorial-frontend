@@ -609,8 +609,6 @@ const phrases = {
     showComment: 'Show comment',
     openAll: 'Open all',
     hideAll: 'Hide all',
-    addComment: 'Add comment',
-    saveWithoutComment: 'Save without comment',
     commentField: 'Comment field',
     preview: {
       button: 'Preview',
@@ -810,6 +808,12 @@ const phrases = {
         title: 'Delete comment',
         modal: 'Are you sure you want to delete this comment? It can`t be restored.',
         button: 'Delete',
+      },
+      addComment: {
+        addComment: 'Add comment',
+        saveWithoutComment: 'Save without comment',
+        to: 'To',
+        from: 'From',
       },
     },
     status: {

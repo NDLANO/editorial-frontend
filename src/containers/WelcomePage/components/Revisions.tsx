@@ -73,9 +73,9 @@ const Revisions = ({ userData, ndlaId }: Props) => {
     (async () => {
       const favoriteSubjects =
         (await Promise.all(
-          userData?.favoriteSubjects?.map((id) => fetchSubject({ id, taxonomyVersion })) ?? [],
+          userData?.favoriteSubjects?.map(id => fetchSubject({ id, taxonomyVersion })) ?? [],
         )) ?? [];
-      setFavoriteSubjects(favoriteSubjects.map((fs) => ({ value: fs.id, label: fs.name })));
+      setFavoriteSubjects(favoriteSubjects.map(fs => ({ value: fs.id, label: fs.name })));
     })();
   }, [taxonomyVersion, userData?.favoriteSubjects]);
 
@@ -87,7 +87,7 @@ const Revisions = ({ userData, ndlaId }: Props) => {
 
   const tableData: FieldElement[][] = useMemo(
     () =>
-      data?.results?.map((a) => [
+      data?.results?.map(a => [
         {
           id: `title_${a.id}`,
           data: (
@@ -102,7 +102,7 @@ const Revisions = ({ userData, ndlaId }: Props) => {
         },
         {
           id: `primarySubject_${a.id}`,
-          data: a.contexts.find((context) => context.isPrimaryConnection)?.subject ?? '',
+          data: a.contexts.find(context => context.isPrimaryConnection)?.subject ?? '',
         },
         {
           id: `lastUpdated_${a.id}`,
@@ -155,7 +155,7 @@ const Revisions = ({ userData, ndlaId }: Props) => {
         page={data?.page ?? 1}
         lastPage={lastPage}
         query={{}}
-        onClick={(el) => setPage(el.page)}
+        onClick={el => setPage(el.page)}
         small
         colorTheme="lighter"
         pageItemComponentClass="button"

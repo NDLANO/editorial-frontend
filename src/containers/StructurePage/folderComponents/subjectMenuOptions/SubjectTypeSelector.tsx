@@ -20,7 +20,7 @@ const SubjectTypeSelector = ({ customFields, updateCustomFields }: Props) => {
   const { t } = useTranslation();
   const { subjectTypes } = constants;
   const types = [subjectTypes.SUBJECT, subjectTypes.BETA_SUBJECT, subjectTypes.RESOURCE_COLLECTION];
-  const options = types.map(type => ({
+  const options = types.map((type) => ({
     key: type,
     value: t(`subjectTypes.${type}`),
   }));

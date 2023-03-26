@@ -47,7 +47,8 @@ const ObjectSelector = ({
       disabled={disabled}
       name={name}
       className={className}
-      onClick={onClick}>
+      onClick={onClick}
+    >
       {emptyField ? (
         <option key="emptyField" value="">
           {placeholder}
@@ -55,14 +56,14 @@ const ObjectSelector = ({
       ) : (
         ''
       )}
-      {options?.map(option => (
+      {options?.map((option) => (
         <option key={option[idKey] ? option[idKey] : uuid()} value={option[idKey]}>
           {option[labelKey]}
         </option>
       ))}
-      {optGroups?.map(group => (
+      {optGroups?.map((group) => (
         <optgroup label={group.label} key={group.label}>
-          {group.options.map(option => (
+          {group.options.map((option) => (
             <option key={option[idKey] ?? uuid()} value={option[idKey]}>
               {option[labelKey]}
             </option>

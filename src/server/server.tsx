@@ -55,6 +55,7 @@ app.get('*', (req, res, next) => {
 });
 
 app.use(compression());
+app.use(express.json({ limit: '1mb' }));
 app.use(
   express.static(process.env.RAZZLE_PUBLIC_DIR as string, {
     maxAge: 1000 * 60 * 60 * 24 * 365, // One year
@@ -63,7 +64,7 @@ app.use(
 
 app.use(
   bodyParser.json({
-    type: req => {
+    type: (req) => {
       const contentType = req.headers['content-type'];
       if (typeof contentType === 'string') return allowedBodyContentTypes.includes(contentType);
       else return false;
@@ -113,10 +114,10 @@ app.post('/format-html', (req, res) => {
 
 app.get('/get_brightcove_token', (req, res) => {
   getBrightcoveToken()
-    .then(token => {
+    .then((token) => {
       res.send(token);
     })
-    .catch(err => res.status(INTERNAL_SERVER_ERROR).send(err.message));
+    .catch((err) => res.status(INTERNAL_SERVER_ERROR).send(err.message));
 });
 
 app.get(

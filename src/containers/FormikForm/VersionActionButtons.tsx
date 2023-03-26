@@ -47,7 +47,7 @@ const VersionActionButtons = ({
           type="version"
           article={version}
           language={currentLanguage}
-          wrapperFunctionForButton={btn => (
+          wrapperFunctionForButton={(btn) => (
             <Tooltip tooltip={t('form.previewVersion')}>{btn}</Tooltip>
           )}
           activateButton={
@@ -63,13 +63,15 @@ const VersionActionButtons = ({
           label={t(`articleType.${article.articleType}`)}
           typeOfPreview={showFromArticleApi ? 'previewProductionArticle' : 'previewVersion'}
           getArticle={getArticle}
-          version={version}>
+          version={version}
+        >
           {(openPreview: VoidFunction) => (
             <Tooltip tooltip={t('form.previewVersion')}>
               <StyledAccordionsPanelIconButton
                 type="button"
                 data-testid="previewVersion"
-                onClick={openPreview}>
+                onClick={openPreview}
+              >
                 <Eye />
               </StyledAccordionsPanelIconButton>
             </Tooltip>
@@ -81,7 +83,8 @@ const VersionActionButtons = ({
         <StyledAccordionsPanelIconButton
           type="button"
           data-testid="resetToVersion"
-          onClick={() => resetVersion(version, article.title!.language, showFromArticleApi)}>
+          onClick={() => resetVersion(version, article.title!.language, showFromArticleApi)}
+        >
           <Restore />
         </StyledAccordionsPanelIconButton>
       </Tooltip>

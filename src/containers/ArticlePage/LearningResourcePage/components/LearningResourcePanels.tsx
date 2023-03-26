@@ -54,7 +54,8 @@ const LearningResourcePanels = ({
         title={t('form.contentSection')}
         className={'u-4/6@desktop u-push-1/6@desktop'}
         hasError={!!(errors.title || errors.introduction || errors.content)}
-        startOpen>
+        startOpen
+      >
         <LearningResourceContent
           articleLanguage={articleLanguage}
           formik={formikContext}
@@ -67,7 +68,8 @@ const LearningResourcePanels = ({
         <AccordionSection
           id={'learning-resource-taxonomy'}
           title={t('form.taxonomySection')}
-          className={'u-6/6'}>
+          className={'u-6/6'}
+        >
           <LearningResourceTaxonomy
             article={article}
             updateNotes={updateNotes}
@@ -81,21 +83,24 @@ const LearningResourcePanels = ({
         className={'u-6/6'}
         hasError={
           !!(errors.creators || errors.rightsholders || errors.processors || errors.license)
-        }>
+        }
+      >
         <CopyrightFieldGroup values={values} />
       </AccordionSection>
       <AccordionSection
         id={'learning-resource-metadata'}
         title={t('form.metadataSection')}
         className={'u-6/6'}
-        hasError={!!(errors.metaDescription || errors.metaImageAlt || errors.tags)}>
+        hasError={!!(errors.metaDescription || errors.metaImageAlt || errors.tags)}
+      >
         <MetaDataField articleLanguage={articleLanguage} />
       </AccordionSection>
       <AccordionSection
         id={'learning-resource-grepCodes'}
         title={t('form.name.grepCodes')}
         className={'u-6/6'}
-        hasError={!!errors.grepCodes}>
+        hasError={!!errors.grepCodes}
+      >
         <GrepCodesField />
       </AccordionSection>
       {config.ndlaEnvironment === 'test' && (
@@ -103,7 +108,8 @@ const LearningResourcePanels = ({
           id={'learning-resource-related'}
           title={t('form.name.relatedContent')}
           className={'u-6/6'}
-          hasError={!!(errors.conceptIds || errors.relatedContent)}>
+          hasError={!!(errors.conceptIds || errors.relatedContent)}
+        >
           <RelatedContentFieldGroup />
         </AccordionSection>
       )}
@@ -111,7 +117,8 @@ const LearningResourcePanels = ({
         id={'learning-resource-revisions'}
         title={t('form.name.revisions')}
         className={'u-6/6'}
-        hasError={!!errors.revisionMeta || !!errors.revisionError}>
+        hasError={!!errors.revisionMeta || !!errors.revisionError}
+      >
         <RevisionNotes />
       </AccordionSection>
       {article && (
@@ -119,7 +126,8 @@ const LearningResourcePanels = ({
           id={'learning-resource-workflow'}
           title={t('form.workflowSection')}
           className={'u-6/6'}
-          hasError={!!errors.notes}>
+          hasError={!!errors.notes}
+        >
           <VersionAndNotesPanel
             article={article}
             getArticle={getArticle}

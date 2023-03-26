@@ -62,8 +62,9 @@ const DeletePublishRequests = ({ nodes }: Props) => {
         <ButtonV2 size="small" colorTheme="danger">
           {t('delete')}
         </ButtonV2>
-      }>
-      {close => (
+      }
+    >
+      {(close) => (
         <>
           <ModalHeaderV2>
             <h1>{t('publishRequests.deleteAll')}</h1>
@@ -79,7 +80,8 @@ const DeletePublishRequests = ({ nodes }: Props) => {
                 variant="outline"
                 colorTheme="danger"
                 onClick={() => onDelete(nodes)}
-                disabled={isLoading}>
+                disabled={isLoading}
+              >
                 {isLoading && <Spinner margin="0" size="small" />}
                 {t('delete')}
               </ButtonV2>

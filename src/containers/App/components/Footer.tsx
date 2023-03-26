@@ -23,7 +23,7 @@ interface Props {
 const FooterWrapper = ({ showLocaleSelector }: Props) => {
   const { t, i18n } = useTranslation();
   const languageSelector = showLocaleSelector ? (
-    <LanguageSelector locales={supportedLanguages} onSelect={i18n.changeLanguage} />
+    <LanguageSelector locales={supportedLanguages} onSelect={i18n.changeLanguage} inverted />
   ) : null;
 
   return (

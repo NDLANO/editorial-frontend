@@ -36,7 +36,7 @@ interface GrepCode {
 
 export const convertGrepCodesToObject = async (grepCodes: string[]) => {
   return Promise.all(
-    grepCodes.map(async c => {
+    grepCodes.map(async (c) => {
       const grepCodeTitle = await fetchGrepCodeTitle(c);
       return {
         code: c,
@@ -78,14 +78,14 @@ const GrepCodesFieldContent = ({ field, form }: Props) => {
     const newGrepCodeNames = [];
     for (const grepCode of newGrepCodes) {
       const grepCodeTitle = await fetchGrepCodeTitle(grepCode);
-      const savedGrepCode = grepCodes.filter(c => c.code === grepCode).length;
+      const savedGrepCode = grepCodes.filter((c) => c.code === grepCode).length;
       if (grepCodeTitle && !savedGrepCode && isGrepCodeValid(grepCode)) {
         newGrepCodeNames.push({
           code: grepCode,
           title: `${grepCode} - ${grepCodeTitle}`,
         });
       } else if (!savedGrepCode) {
-        setFailedGrepCodes(prevState => [...prevState, grepCode]);
+        setFailedGrepCodes((prevState) => [...prevState, grepCode]);
       }
     }
     return newGrepCodeNames;
@@ -97,14 +97,14 @@ const GrepCodesFieldContent = ({ field, form }: Props) => {
       ? input
           .toUpperCase()
           .split(',')
-          .map(grepCode => grepCode.trim())
+          .map((grepCode) => grepCode.trim())
       : [];
     const newGrepCodeNames = await fetchGrepCodeTitles(newGrepCodes);
     const temp = [...grepCodes].concat(newGrepCodeNames);
     setGrepCodes(temp);
     updateFormik(
       field,
-      temp.map(c => c.code),
+      temp.map((c) => c.code),
     );
     form.setFieldTouched('grepCodes', true, true);
   };
@@ -114,7 +114,7 @@ const GrepCodesFieldContent = ({ field, form }: Props) => {
     setGrepCodes(reduced_array);
     updateFormik(
       field,
-      reduced_array.map(c => c.code),
+      reduced_array.map((c) => c.code),
     );
     form.setFieldTouched('grepCodes', true, true);
   };

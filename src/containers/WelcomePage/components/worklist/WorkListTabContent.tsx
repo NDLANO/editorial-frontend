@@ -11,6 +11,7 @@ import { SingleValue } from '@ndla/select';
 import { IMultiSearchResult } from '@ndla/types-search-api';
 import { useTranslation } from 'react-i18next';
 import { useMemo } from 'react';
+import Pager from '@ndla/pager';
 import formatDate from '../../../../util/formatDate';
 import { toEditArticle } from '../../../../util/routeHelpers';
 import { ControlWrapperDashboard, StyledLink, StyledTopRowDashboardInfo } from '../../styles';
@@ -28,6 +29,7 @@ interface Props {
   error: string | undefined;
   setFilterSubject: (fs: SingleValue) => void;
   ndlaId?: string;
+  setPage: (page: number) => void;
 }
 
 const WorkListTabContent = ({
@@ -39,13 +41,14 @@ const WorkListTabContent = ({
   error,
   setFilterSubject,
   ndlaId,
+  setPage,
 }: Props) => {
   const { t } = useTranslation();
 
   const tableData: FieldElement[][] = useMemo(
     () =>
       data
-        ? data.results.map(res => [
+        ? data.results.map((res) => [
             {
               id: `title_${res.id}`,
               data: (
@@ -63,11 +66,11 @@ const WorkListTabContent = ({
               data:
                 res.learningResourceType === 'topic-article'
                   ? 'Emne'
-                  : res.contexts?.[0]?.resourceTypes?.map(context => context.name).join(' - '),
+                  : res.contexts?.[0]?.resourceTypes?.map((context) => context.name).join(' - '),
             },
             {
               id: `primarySubject_${res.id}`,
-              data: res.contexts.find(context => context.isPrimaryConnection)?.subject ?? '',
+              data: res.contexts.find((context) => context.isPrimaryConnection)?.subject ?? '',
             },
             {
               id: `topic_${res.id}`,
@@ -93,6 +96,8 @@ const WorkListTabContent = ({
     { title: t('welcomePage.workList.date'), sortableField: 'responsibleLastUpdated' },
   ];
 
+  const lastPage = data?.totalCount ? Math.ceil(data?.totalCount / (data.pageSize ?? 1)) : 1;
+
   return (
     <>
       <StyledTopRowDashboardInfo>
@@ -114,6 +119,15 @@ const WorkListTabContent = ({
         sortOption={sortOption}
         error={error}
         noResultsText={t('welcomePage.noArticles')}
+      />
+      <Pager
+        page={data?.page ?? 1}
+        lastPage={lastPage}
+        query={{}}
+        onClick={(el) => setPage(el.page)}
+        small
+        colorTheme="lighter"
+        pageItemComponentClass="button"
       />
     </>
   );

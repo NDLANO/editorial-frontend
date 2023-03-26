@@ -67,7 +67,7 @@ const ConstantMetaField = ({
         placeholder={valuePlaceholder}
         value={currentVal ?? initialVal}
         data-testid={dataTestid}
-        onChange={e => setCurrentVal(e.target.value)}
+        onChange={(e) => setCurrentVal(e.target.value)}
         onKeyDown={handleKeyPress}
       />
       <CustomFieldButton onClick={handleSubmit} data-testid={'CustomFieldSaveButton'}>

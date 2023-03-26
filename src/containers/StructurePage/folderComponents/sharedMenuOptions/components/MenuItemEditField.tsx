@@ -80,7 +80,7 @@ const MenuItemEditField = ({
           placeholder={placeholder}
           value={value}
           data-testid={dataTestid}
-          onChange={e => setInput(e.target.value)}
+          onChange={(e) => setInput(e.target.value)}
           onKeyDown={handleKeyPress}
           // eslint-disable-next-line jsx-a11y/no-autofocus
           autoFocus={autoFocus}
@@ -88,7 +88,8 @@ const MenuItemEditField = ({
         <CustomFieldButton
           data-testid="inlineEditSaveButton"
           disabled={status === 'loading'}
-          onClick={handleSubmit}>
+          onClick={handleSubmit}
+        >
           {status === 'loading' ? (
             <Spinner appearance="small" data-testid="inlineEditSpinner" />
           ) : (

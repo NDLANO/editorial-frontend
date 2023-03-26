@@ -23,7 +23,7 @@ import {
 const baseUrl = apiResourceUrl('/frontpage-api/v1');
 
 export const fetchFilmFrontpage = () =>
-  fetchAuthorized(`${baseUrl}/filmfrontpage/`).then(r =>
+  fetchAuthorized(`${baseUrl}/filmfrontpage/`).then((r) =>
     resolveJsonOrRejectWithError<IFilmFrontPageData>(r),
   );
 
@@ -33,7 +33,7 @@ export const updateFilmFrontpage = (
   return fetchAuthorized(`${baseUrl}/filmfrontpage/`, {
     method: 'POST',
     body: JSON.stringify(filmfrontpage),
-  }).then(r => resolveJsonOrRejectWithError<IFilmFrontPageData>(r));
+  }).then((r) => resolveJsonOrRejectWithError<IFilmFrontPageData>(r));
 };
 
 export const fetchSubjectpage = (
@@ -43,7 +43,7 @@ export const fetchSubjectpage = (
   const query = queryString.stringify({ language });
   const url = `${baseUrl}/subjectpage/${id}`;
   const urlLang = language ? url + `?${query}&fallback=true` : url;
-  return fetchAuthorized(urlLang).then(r => resolveJsonOrRejectWithError(r));
+  return fetchAuthorized(urlLang).then((r) => resolveJsonOrRejectWithError(r));
 };
 
 export const updateSubjectpage = (
@@ -55,7 +55,7 @@ export const updateSubjectpage = (
   return fetchAuthorized(`${baseUrl}/subjectpage/${subjectpageId}?${query}`, {
     method: 'PATCH',
     body: JSON.stringify(subjectpage),
-  }).then(r => resolveJsonOrRejectWithError(r));
+  }).then((r) => resolveJsonOrRejectWithError(r));
 };
 
 export const createSubjectpage = (
@@ -64,4 +64,4 @@ export const createSubjectpage = (
   fetchAuthorized(`${baseUrl}/subjectpage/`, {
     method: 'POST',
     body: JSON.stringify(subjectpage),
-  }).then(r => resolveJsonOrRejectWithError(r));
+  }).then((r) => resolveJsonOrRejectWithError(r));

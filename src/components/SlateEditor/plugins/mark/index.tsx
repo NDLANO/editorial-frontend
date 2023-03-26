@@ -47,7 +47,7 @@ const StyledCode = styled.code`
 export const markSerializer: SlateSerializer = {
   deserialize(el: HTMLElement, children: Descendant[]) {
     if (!Object.keys(marks).includes(el.tagName.toLowerCase())) return;
-    return children.map(child =>
+    return children.map((child) =>
       Text.isText(child)
         ? slatejsx('text', { [marks[el.tagName.toLowerCase()]]: true }, child)
         : child,
@@ -119,7 +119,7 @@ export const markPlugin = (editor: Editor) => {
     return undefined;
   };
 
-  editor.normalizeNode = entry => {
+  editor.normalizeNode = (entry) => {
     const [node, path] = entry;
     if (Text.isText(node) && node.text === '') {
       if (node.bold || node.code || node.italic || node.sub || node.sup || node.underlined) {

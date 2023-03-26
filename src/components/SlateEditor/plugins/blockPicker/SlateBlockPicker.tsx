@@ -30,6 +30,22 @@ import { TYPE_PARAGRAPH } from '../paragraph/types';
 import { isParagraph } from '../paragraph/utils';
 import { isTableCell } from '../table/slateHelpers';
 import { defaultTableBlock } from '../table/defaultBlocks';
+import { TYPE_BODYBOX } from '../bodybox/types';
+import { TYPE_DETAILS } from '../details/types';
+import { TYPE_TABLE } from '../table/types';
+import { TYPE_ASIDE } from '../aside/types';
+import { TYPE_FILE } from '../file/types';
+import {
+  TYPE_EMBED_AUDIO,
+  TYPE_EMBED_BRIGHTCOVE,
+  TYPE_EMBED_ERROR,
+  TYPE_EMBED_EXTERNAL,
+  TYPE_EMBED_H5P,
+  TYPE_EMBED_IMAGE,
+} from '../embed/types';
+import { TYPE_RELATED } from '../related/types';
+import { TYPE_CODEBLOCK } from '../codeBlock/types';
+import { TYPE_CONCEPT_LIST } from '../conceptList/types';
 
 interface Props {
   editor: Editor;
@@ -151,38 +167,42 @@ const SlateBlockPicker = ({
 
   const onElementAdd = (data: ActionData) => {
     switch (data.type) {
-      case 'bodybox': {
+      case TYPE_BODYBOX: {
         onInsertBlock(defaultBodyboxBlock(), true);
         break;
       }
-      case 'details': {
+      case TYPE_DETAILS: {
         onInsertBlock(defaultDetailsBlock(), true);
         break;
       }
-      case 'table': {
+      case TYPE_TABLE: {
         onInsertBlock(defaultTableBlock(2, 2), true);
         break;
       }
-      case 'aside': {
+      case TYPE_ASIDE: {
         onInsertBlock(defaultAsideBlock(data.object), true);
         break;
       }
-      case 'h5p':
-      case 'file':
-      case 'ndlaembed': {
+      case TYPE_FILE:
+      case TYPE_EMBED_H5P:
+      case TYPE_EMBED_AUDIO:
+      case TYPE_EMBED_IMAGE:
+      case TYPE_EMBED_ERROR:
+      case TYPE_EMBED_EXTERNAL:
+      case TYPE_EMBED_BRIGHTCOVE: {
         setVisualElementPickerOpen(true);
         setType(data.object);
         break;
       }
-      case 'related': {
+      case TYPE_RELATED: {
         onInsertBlock(defaultRelatedBlock());
         break;
       }
-      case 'code-block': {
+      case TYPE_CODEBLOCK: {
         onInsertBlock(defaultCodeblockBlock());
         break;
       }
-      case 'concept-list': {
+      case TYPE_CONCEPT_LIST: {
         onInsertBlock({ ...defaultConceptListBlock(), isFirstEdit: true });
         break;
       }
@@ -198,12 +218,12 @@ const SlateBlockPicker = ({
 
   const shouldShowMenuPicker = () => {
     const [node] = Editor.nodes(editor, {
-      match: node => Element.isElement(node) && !editor.isInline(node),
+      match: (node) => Element.isElement(node) && !editor.isInline(node),
       mode: 'lowest',
     });
 
     const [illegalBlock] = Editor.nodes(editor, {
-      match: node => Element.isElement(node) && illegalAreas.includes(node.type),
+      match: (node) => Element.isElement(node) && illegalAreas.includes(node.type),
     });
 
     return (
@@ -229,7 +249,7 @@ const SlateBlockPicker = ({
     }
 
     const nodes = Editor.levels(editor, {
-      match: node => Element.isElement(node) && !editor.isInline(node),
+      match: (node) => Element.isElement(node) && !editor.isInline(node),
       at: Editor.unhangRange(editor, lastActiveSelection),
       reverse: true,
     });
@@ -242,7 +262,7 @@ const SlateBlockPicker = ({
       }
       if (actionsToShowInAreas[node.type]) {
         return actions.filter(
-          action =>
+          (action) =>
             actionsToShowInAreas[node.type].includes(action.data.type) ||
             actionsToShowInAreas[node.type].includes(action.data.object),
         );
@@ -273,14 +293,14 @@ const SlateBlockPicker = ({
             isOpen={blockPickerOpen}
             heading={t('editorBlockpicker.heading')}
             actions={getActionsForArea()
-              .filter(action => {
+              .filter((action) => {
                 return !action.requiredScope || userPermissions?.includes(action.requiredScope);
               })
-              .map(action => ({
+              .map((action) => ({
                 ...action,
                 label: t(`editorBlockpicker.actions.${action.data.object}`),
               }))}
-            onToggleOpen={open => {
+            onToggleOpen={(open) => {
               ReactEditor.focus(editor);
               setBlockPickerOpen(open);
             }}

@@ -3,7 +3,14 @@ import { TYPE_BODYBOX } from './plugins/bodybox/types';
 import { TYPE_CODEBLOCK } from './plugins/codeBlock/types';
 import { TYPE_CONCEPT_INLINE } from './plugins/concept/inline/types';
 import { TYPE_DETAILS } from './plugins/details/types';
-import { TYPE_NDLA_EMBED } from './plugins/embed/types';
+import {
+  TYPE_EMBED_AUDIO,
+  TYPE_EMBED_BRIGHTCOVE,
+  TYPE_EMBED_ERROR,
+  TYPE_EMBED_EXTERNAL,
+  TYPE_EMBED_H5P,
+  TYPE_EMBED_IMAGE,
+} from './plugins/embed/types';
 import { TYPE_FILE } from './plugins/file/types';
 import { TYPE_FOOTNOTE } from './plugins/footnote/types';
 import { TYPE_LINK, TYPE_CONTENT_LINK } from './plugins/link/types';
@@ -26,7 +33,12 @@ export const blocks = [
   TYPE_BODYBOX,
   TYPE_CODEBLOCK,
   TYPE_DETAILS,
-  TYPE_NDLA_EMBED,
+  TYPE_EMBED_AUDIO,
+  TYPE_EMBED_BRIGHTCOVE,
+  TYPE_EMBED_ERROR,
+  TYPE_EMBED_EXTERNAL,
+  TYPE_EMBED_H5P,
+  TYPE_EMBED_IMAGE,
   TYPE_FILE,
   TYPE_RELATED,
   TYPE_TABLE,

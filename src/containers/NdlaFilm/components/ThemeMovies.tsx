@@ -31,12 +31,12 @@ export const ThemeMovies = ({ movies, onMoviesUpdated, placeholder }: Props) => 
     { movieUrns: movies },
     {
       enabled: !isEqual(movies, localMovies),
-      onSuccess: movies => setApiMovies(movies.results),
+      onSuccess: (movies) => setApiMovies(movies.results),
     },
   );
 
   const onUpdateMovies = (updates: IMultiSearchSummary[]) => {
-    const updated = updates.map(u => getUrnFromId(u.id));
+    const updated = updates.map((u) => getUrnFromId(u.id));
     setApiMovies(updates);
     setLocalMovies(updated);
     onMoviesUpdated(updated);
@@ -44,7 +44,7 @@ export const ThemeMovies = ({ movies, onMoviesUpdated, placeholder }: Props) => 
 
   const onAddMovieToTheme = (movie: IMultiSearchSummary) => {
     setLocalMovies([...movies, getUrnFromId(movie.id)]);
-    setApiMovies(prevMovies => [...prevMovies, movie]);
+    setApiMovies((prevMovies) => [...prevMovies, movie]);
     onMoviesUpdated([...movies, getUrnFromId(movie.id)]);
   };
 

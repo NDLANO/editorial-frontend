@@ -39,7 +39,8 @@ const EditCodeBlockModal = ({
       size="large"
       backgroundColor="white"
       onClose={handleExit}
-      minHeight="90vh">
+      minHeight="90vh"
+    >
       {(onCloseModal: any) => (
         <>
           <ModalHeader>

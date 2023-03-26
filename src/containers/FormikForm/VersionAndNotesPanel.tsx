@@ -31,6 +31,7 @@ import * as articleApi from '../../modules/article/articleApi';
 import Spinner from '../../components/Spinner';
 import { FormikStatus } from '../../interfaces';
 import { useMessages } from '../Messages/MessagesProvider';
+import { useSession } from '../../containers/Session/SessionProvider';
 import {
   draftApiTypeToLearningResourceFormType,
   draftApiTypeToTopicArticleFormType,
@@ -42,7 +43,7 @@ const StyledAccordionPanel = styled(AccordionPanel)`
 `;
 
 const getUser = (userId: string, allUsers: SimpleUserType[]) => {
-  const user = allUsers.find(user => user.id === userId);
+  const user = allUsers.find((user) => user.id === userId);
   return user?.name || '';
 };
 
@@ -55,6 +56,7 @@ interface Props {
 
 const VersionAndNotesPanel = ({ article, getArticle, type, currentLanguage }: Props) => {
   const { t } = useTranslation();
+  const { ndlaId } = useSession();
   const [versions, setVersions] = useState<IArticle[]>([]);
   const [loading, setLoading] = useState(false);
   const [users, setUsers] = useState<SimpleUserType[]>([]);
@@ -79,7 +81,7 @@ const VersionAndNotesPanel = ({ article, getArticle, type, currentLanguage }: Pr
   useEffect(() => {
     if (versions.length) {
       const notes = versions.reduce((acc: IEditorNote[], v) => [...acc, ...v.notes], []);
-      const userIds = notes.map(note => note.user).filter(user => user !== 'System');
+      const userIds = notes.map((note) => note.user).filter((user) => user !== 'System');
       fetchAuth0UsersFromUserIds(userIds, setUsers);
     }
   }, [versions]);
@@ -114,6 +116,7 @@ const VersionAndNotesPanel = ({ article, getArticle, type, currentLanguage }: Pr
       const newValues = transform(
         { ...newArticle, status: version.status, responsible: article.responsible },
         language,
+        ndlaId,
       );
 
       setValues(newValues);
@@ -153,7 +156,7 @@ const VersionAndNotesPanel = ({ article, getArticle, type, currentLanguage }: Pr
                 notes,
               } = version;
               const isLatestVersion = index === 0;
-              const published = current === 'PUBLISHED' || other.some(s => s === 'PUBLISHED');
+              const published = current === 'PUBLISHED' || other.some((s) => s === 'PUBLISHED');
               const showFromArticleApi = versions.length === 1 && published;
               const _panelProps = getPanelProps(index);
               const panelProps = { ..._panelProps, id: _panelProps.id.toString() };

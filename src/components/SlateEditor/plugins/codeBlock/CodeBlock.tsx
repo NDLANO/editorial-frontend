@@ -33,7 +33,8 @@ const RemoveCodeBlock = ({ handleRemove }: RemoveCodeBlockProps) => {
       variant="ghost"
       colorTheme="danger"
       aria-label={t('form.remove')}
-      onClick={handleRemove}>
+      onClick={handleRemove}
+    >
       <DeleteForever />
     </IconButtonV2>
   );
@@ -113,7 +114,8 @@ const CodeBlock = ({ attributes, editor, element, children }: Props) => {
       draggable={!editMode}
       onClick={toggleEditMode}
       role="button"
-      {...attributes}>
+      {...attributes}
+    >
       <Codeblock
         actionButton={<RemoveCodeBlock handleRemove={handleRemove} />}
         code={model.code}

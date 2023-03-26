@@ -117,13 +117,14 @@ const EditVideo = ({ embed, saveEmbedUpdates, activeSrc, close, setHasError }: P
           initialValues={initialValues}
           validate={
             embed.resource === 'brightcove'
-              ? values => validateFormik(values, brightcoveEmbedFormRules, t)
+              ? (values) => validateFormik(values, brightcoveEmbedFormRules, t)
               : undefined
           }
           validateOnBlur={false}
           validateOnMount
-          onSubmit={handleSave}>
-          {formik => (
+          onSubmit={handleSave}
+        >
+          {(formik) => (
             <VideoEmbedForm {...formik} setHasError={setHasError} close={close} embed={embed} />
           )}
         </Formik>

@@ -19,7 +19,7 @@ interface StyledConnectionsProps {
 const StyledConnections = styled.div<StyledConnectionsProps>`
   ${flexButtonCenterAlignStyle}
   justify-content: space-between;
-  background: ${(props) => (props.error ? `${colors.support.red}11` : colors.brand.greyLightest)};
+  background: ${props => (props.error ? `${colors.support.red}11` : colors.brand.greyLightest)};
   padding: ${spacing.xsmall};
   margin-bottom: 2px;
   border-radius: ${misc.borderRadius};
@@ -29,7 +29,7 @@ const StyledConnections = styled.div<StyledConnectionsProps>`
       font-weight: ${fonts.weight.semibold};
     }
   }
-  ${(props) =>
+  ${props =>
     props.shared &&
     css`
       background: none;
@@ -68,7 +68,7 @@ const StyledErrorLabel = styled.div<StyledErrorLabelProps>`
   text-transform: uppercase;
   color: #fff;
   ${fonts.sizes(14, 1.1)} font-weight: ${fonts.weight.semibold};
-  ${(props) =>
+  ${props =>
     props.primary &&
     css`
       opacity: 1;
@@ -97,7 +97,7 @@ const StyledPrimaryConnectionButton = styled.button<StyledPrimaryConnectionButto
   &:focus {
     opacity: 1;
   }
-  ${(props) =>
+  ${props =>
     props.primary &&
     css`
       opacity: 1;

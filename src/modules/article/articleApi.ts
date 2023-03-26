@@ -20,7 +20,7 @@ import { LocaleType } from '../../interfaces';
 const articleUrl = apiResourceUrl('/article-api/v2/articles');
 
 export const searchArticles = (locale: string, queryString = ''): Promise<ISearchResultV2> =>
-  fetchAuthorized(`${articleUrl}/?language=${locale}&fallback=true${queryString}`).then((r) =>
+  fetchAuthorized(`${articleUrl}/?language=${locale}&fallback=true${queryString}`).then(r =>
     resolveJsonOrRejectWithError<ISearchResultV2>(r),
   );
 
@@ -29,13 +29,13 @@ export const searchRelatedArticles = async (
   locale: LocaleType,
   contentType: string,
 ): Promise<ISearchResultV2> => {
-  await new Promise((resolve) => setTimeout(resolve, 50));
+  await new Promise(resolve => setTimeout(resolve, 50));
   const query = `&type=articles&query=${input}${contentType ? `&content-type=${contentType}` : ''}`;
   return await searchArticles(locale, query);
 };
 
 export const getArticle = (id: number, locale: string = 'nb'): Promise<IArticleV2> =>
-  fetchAuthorized(`${articleUrl}/${id}?language=${locale}&fallback=true`).then((r) =>
+  fetchAuthorized(`${articleUrl}/${id}?language=${locale}&fallback=true`).then(r =>
     resolveJsonOrRejectWithError<IArticleV2>(r),
   );
 
@@ -47,7 +47,7 @@ export const getArticleFromArticleConverter = (
   id: number,
   language: string,
 ): Promise<ArticleConverterApiType> =>
-  fetchAuthorized(`${articleConverterUrl}/json/${language}/${id}`).then((r) =>
+  fetchAuthorized(`${articleConverterUrl}/json/${language}/${id}`).then(r =>
     resolveJsonOrRejectWithError<ArticleConverterApiType>(r),
   );
 

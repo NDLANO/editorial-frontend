@@ -17,7 +17,7 @@ interface InputCheckboxProps {
 const StyledInputCheckbox = styled.input<InputCheckboxProps>`
   appearance: checkbox !important;
   margin-right: ${spacing.small};
-  display: ${(p) => p.display};
+  display: ${p => p.display};
   width: auto;
 `;
 

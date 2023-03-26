@@ -32,7 +32,7 @@ const appearances: Record<string, SerializedStyles> = {
 
 const getAllAppearances = (modifiers: string | string[]) => {
   if (Array.isArray(modifiers)) {
-    return modifiers.map((modifier) => appearances[modifier]);
+    return modifiers.map(modifier => appearances[modifier]);
   }
   return appearances[modifiers];
 };
@@ -47,7 +47,7 @@ const StyledOverlay = styled.div<{ modifiers: string | string[] }>`
   background: rgba(0, 0, 0, 0.3);
 
   ${animations.fadeIn()}
-  ${(p) => getAllAppearances(p.modifiers)}
+  ${p => getAllAppearances(p.modifiers)}
 `;
 
 interface Props {

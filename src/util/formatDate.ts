@@ -23,5 +23,10 @@ export default function formatDate(date: string | number): string {
 }
 
 export function formatDateForBackend(date: Date): string {
-  return date.toISOString().split('.').shift() + 'Z';
+  return (
+    date
+      .toISOString()
+      .split('.')
+      .shift() + 'Z'
+  );
 }

@@ -1383,7 +1383,8 @@ const phrases = {
     publish: {
       button: 'Publiser alle ressursar',
       waiting: 'Publiserar ressurser',
-      info: 'Er du sikker på at du ønskjar å publisere alle ressursane som er knytta til denne noden?',
+      info:
+        'Er du sikker på at du ønskjar å publisere alle ressursane som er knytta til denne noden?',
       done: 'Ressurser er publisert',
       error: 'Følgande ressurser blei ikkje publisert:',
     },
@@ -1438,12 +1439,14 @@ const phrases = {
       delete: 'Fjern {{grepCode}}',
     },
     copyRevisionDates: {
-      text: 'Er du heilt sikker på at du ønsker å kopiere denne revisjonsdatoen? Dette vil sette alle revisjonsdatoar frå denne noden til alle undernoder og ressursar.',
+      text:
+        'Er du heilt sikker på at du ønsker å kopiere denne revisjonsdatoen? Dette vil sette alle revisjonsdatoar frå denne noden til alle undernoder og ressursar.',
       buttonText: 'Kopier revisjonsdato',
       error: 'Ein feil oppstod under kopiering',
     },
     resourcesPrimary: {
-      text: 'Er du heilt sikker på at du ønsker å gjere alle tilhøyrande ressursar om til primærkoblingar?',
+      text:
+        'Er du heilt sikker på at du ønsker å gjere alle tilhøyrande ressursar om til primærkoblingar?',
       recursiveText:
         'Er du heilt sikker på at du ønsker å gjere alle tilhøyrande ressursar og underressursar om til primærkoblingar?',
       buttonText: 'Gjer alle ressursar om til primærkoblingar',

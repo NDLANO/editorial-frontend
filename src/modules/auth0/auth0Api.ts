@@ -10,7 +10,7 @@ import { Auth0UserData, ZendeskToken } from '../../interfaces';
 import { resolveJsonOrRejectWithError, fetchAuthorized } from '../../util/apiHelpers';
 
 export const fetchAuth0Users = (uniqueUserIds: string): Promise<Auth0UserData[]> =>
-  fetchAuthorized(`/get_note_users?userIds=${uniqueUserIds}`).then((r) =>
+  fetchAuthorized(`/get_note_users?userIds=${uniqueUserIds}`).then(r =>
     resolveJsonOrRejectWithError<Auth0UserData[]>(r),
   );
 
@@ -27,21 +27,21 @@ export const fetchAuth0UsersFromUserIds = async (
   const response = await fetchAuth0Users(uniqueUserIds);
   const systemUser = { id: 'System', name: 'System' };
   const users = response
-    ? [...response.map((user) => ({ id: user.app_metadata.ndla_id, name: user.name })), systemUser]
+    ? [...response.map(user => ({ id: user.app_metadata.ndla_id, name: user.name })), systemUser]
     : [systemUser];
   setUsers(users);
   return users;
 };
 
 export const fetchAuth0Editors = (permission: string): Promise<Auth0UserData[]> =>
-  fetchAuthorized(`/get_editors?permission=${permission}`).then((r) =>
+  fetchAuthorized(`/get_editors?permission=${permission}`).then(r =>
     resolveJsonOrRejectWithError<Auth0UserData[]>(r),
   );
 
 export const fetchAuth0Responsibles = (permission: string): Promise<Auth0UserData[]> =>
-  fetchAuthorized(`/get_responsibles?permission=${permission}`).then((r) =>
+  fetchAuthorized(`/get_responsibles?permission=${permission}`).then(r =>
     resolveJsonOrRejectWithError<Auth0UserData[]>(r),
   );
 
 export const fetchZendeskToken = (): Promise<ZendeskToken> =>
-  fetchAuthorized('/get_zendesk_token').then((r) => resolveJsonOrRejectWithError<ZendeskToken>(r));
+  fetchAuthorized('/get_zendesk_token').then(r => resolveJsonOrRejectWithError<ZendeskToken>(r));

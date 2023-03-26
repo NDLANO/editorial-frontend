@@ -128,7 +128,7 @@ const EditLink = (props: Props) => {
         { ...data },
         {
           at: path,
-          match: (node) =>
+          match: node =>
             Element.isElement(node) && (node.type === TYPE_LINK || node.type === TYPE_CONTENT_LINK),
         },
       );
@@ -142,7 +142,7 @@ const EditLink = (props: Props) => {
 
     Transforms.unwrapNodes(editor, {
       at: path,
-      match: (node) =>
+      match: node =>
         Element.isElement(node) && (node.type === TYPE_LINK || node.type === TYPE_CONTENT_LINK),
     });
 

@@ -20,7 +20,7 @@ interface Props {
 
 const ActiveTopicConnections = ({ activeTopics, ...rest }: Props) => (
   <StyledConnectionsWrapper>
-    {activeTopics.map((topic) => (
+    {activeTopics.map(topic => (
       <ActiveTopicConnection key={topic.id} topic={topic} {...rest} />
     ))}
   </StyledConnectionsWrapper>

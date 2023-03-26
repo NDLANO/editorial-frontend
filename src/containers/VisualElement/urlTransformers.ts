@@ -26,7 +26,7 @@ const nrkTransformer: UrlTransformer = {
     }
     return false;
   },
-  transform: async (url) => {
+  transform: async url => {
     const aTag = urlAsATag(url);
     const oldMediaId = queryString.parse(aTag.search).mediaId;
     const newMediaId = Number(aTag.pathname.split('/skole-deling/')[1]);
@@ -64,7 +64,7 @@ const kahootTransformer: UrlTransformer = {
     }
     return false;
   },
-  transform: async (url) => {
+  transform: async url => {
     const kahootID = url.split('/').pop();
     if (kahootID?.match(/\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b/)) {
       return `https://embed.kahoot.it/${kahootID}`;
@@ -84,7 +84,7 @@ const tedTransformer: UrlTransformer = {
     }
     return true;
   },
-  transform: async (url) => {
+  transform: async url => {
     const obj = new URL(url);
     obj.host = obj.host.replace(/www/, 'embed');
     return obj.href;
@@ -105,7 +105,7 @@ const codepenTransformer: UrlTransformer = {
     }
     return true;
   },
-  transform: async (url) => {
+  transform: async url => {
     const obj = new URL(url);
     obj.pathname = obj.pathname.replace(/pen/, 'embed');
     const penID = obj.pathname.split('/').pop();
@@ -130,9 +130,9 @@ const flourishTransformer: UrlTransformer = {
     }
     return true;
   },
-  transform: async (url) => {
+  transform: async url => {
     const obj = new URL(url);
-    const parts = obj.pathname.split('/').filter((n) => n);
+    const parts = obj.pathname.split('/').filter(n => n);
     parts.push('embed');
     obj.pathname = parts.join('/');
     return obj.href;
@@ -153,12 +153,12 @@ const sketchupTransformer: UrlTransformer = {
     }
     return true;
   },
-  transform: async (url) => {
+  transform: async url => {
     const obj = new URL(url);
     obj.pathname = obj.pathname.replace(/model/, 'embed');
     const parts = obj.pathname.split('/');
     const index =
-      parts.findIndex((part) =>
+      parts.findIndex(part =>
         part.match(/\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b/),
       ) ?? parts.length;
     obj.pathname = parts.slice(0, index + 1).join('/');
@@ -179,7 +179,7 @@ const sketcfabTransformer: UrlTransformer = {
     }
     return true;
   },
-  transform: async (url) => {
+  transform: async url => {
     const embedId = url.split('-').pop();
     if (embedId?.match(/\b[0-9a-f]{32}/)) {
       return `https://sketchfab.com/models/${embedId}/embed`;
@@ -201,7 +201,7 @@ const jeopardyLabTransformer: UrlTransformer = {
     }
     return true;
   },
-  transform: async (url) => {
+  transform: async url => {
     if (url.endsWith('?embed=1')) {
       return url;
     }

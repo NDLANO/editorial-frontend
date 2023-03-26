@@ -50,7 +50,7 @@ const SessionContainer = ({ close }: Props) => {
   const [open, setOpen] = useState(false);
   const { userName, authenticated } = useSession();
 
-  const toggleOpen = (newOpen?: boolean) => setOpen((prevOpen) => newOpen ?? !prevOpen);
+  const toggleOpen = (newOpen?: boolean) => setOpen(prevOpen => newOpen ?? !prevOpen);
 
   const isAccessTokenPersonal = getAccessTokenPersonal();
 

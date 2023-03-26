@@ -53,7 +53,7 @@ export const isTableCell = (node?: Node): node is TableCellElement => {
 export const hasCellAlignOfType = (editor: Editor, type: string) => {
   // For all selected table cells
   for (const [cell] of Editor.nodes<TableCellElement>(editor, {
-    match: (node) => isTableCell(node),
+    match: node => isTableCell(node),
   })) {
     if (cell.data.align === type) {
       return true;
@@ -64,7 +64,7 @@ export const hasCellAlignOfType = (editor: Editor, type: string) => {
 
 export const countCells = (row: TableRowElement, stop?: number) => {
   return row.children
-    .map((child) => {
+    .map(child => {
       if (!isTableCell(child)) {
         return 0;
       }
@@ -90,7 +90,7 @@ export const createIdenticalRow = (element: TableRowElement) => {
   return slatejsx(
     'element',
     { type: TYPE_TABLE_ROW },
-    element.children.map((child) => {
+    element.children.map(child => {
       if (isTableCell(child)) {
         return {
           ...defaultTableCellBlock(),

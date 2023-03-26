@@ -41,7 +41,7 @@ const SlatePodcastWrapper = styled.div<SlatePodcastWrapperProps>`
   cursor: pointer;
   border-style: solid;
   border-width: 2px;
-  border-color: ${(p) =>
+  border-color: ${p =>
     p.showCopyOutline ? colors.brand.primary : p.hasError ? colors.support.red : 'transparent'};
 `;
 
@@ -97,7 +97,7 @@ const SlatePodcast = ({
         labelledBy={'editPodcastEmbed'}
         onClose={() => setEditing(false)}
       >
-        {(close) => (
+        {close => (
           <EditPodcast
             close={close}
             embed={embed}

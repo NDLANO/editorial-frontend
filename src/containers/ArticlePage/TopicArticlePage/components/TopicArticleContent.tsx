@@ -68,7 +68,7 @@ const StyledDiv = styled.div`
 `;
 
 const MarkdownButton = styled(IconButtonV2)<{ active: boolean }>`
-  color: ${(p) => (p.active ? colors.brand.primary : colors.brand.light)};
+  color: ${p => (p.active ? colors.brand.primary : colors.brand.light)};
 `;
 
 const createPlugins = (language: string, handleSubmitRef: RefObject<() => void>): SlatePlugin[] => {
@@ -130,7 +130,7 @@ const TopicArticleContent = (props: Props) => {
               creators={creators}
               published={published}
               allowEdit={true}
-              onChange={(date) => {
+              onChange={date => {
                 form.setFieldValue(field.name, date);
               }}
             />
@@ -167,7 +167,7 @@ const TopicArticleContent = (props: Props) => {
               value={value}
               submitted={isSubmitting}
               plugins={plugins}
-              onChange={(value) => {
+              onChange={value => {
                 onChange({
                   target: {
                     value,

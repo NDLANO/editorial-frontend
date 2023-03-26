@@ -47,7 +47,7 @@ export const toggleCellAlign = (editor: Editor, type: string) => {
 
   Editor.withoutNormalizing(editor, () => {
     for (const [cell] of Editor.nodes<TableCellElement>(editor, {
-      match: (node) => isTableCell(node),
+      match: node => isTableCell(node),
     })) {
       updateCell(editor, cell, { align: newAlign });
     }
@@ -69,7 +69,7 @@ export const updateCell = (
       },
     },
     {
-      match: (node) => node === cell,
+      match: node => node === cell,
       // If performance is slow, send in path of table, row or cell to narrow the search.
       at: [],
     },
@@ -94,7 +94,7 @@ export const alignColumn = (editor: Editor, tablePath: Path, align: string) => {
   if (currentPosition) {
     const column = getMatrixColumn(matrix, currentPosition[1]);
     Editor.withoutNormalizing(editor, () => {
-      column.forEach((cell) => {
+      column.forEach(cell => {
         updateCell(editor, cell, {
           align: align === 'left' ? undefined : align,
         });
@@ -106,6 +106,6 @@ export const alignColumn = (editor: Editor, tablePath: Path, align: string) => {
 export const removeTable = (editor: Editor, element: TableElement) => {
   Transforms.removeNodes(editor, {
     at: [],
-    match: (node) => node === element,
+    match: node => node === element,
   });
 };

@@ -31,7 +31,7 @@ const SlateResourceBox = ({ embed, language }: Props) => {
 
   useEffect(() => {
     if (embed.imageid) {
-      fetchImage(embed.imageid, language).then((data) => {
+      fetchImage(embed.imageid, language).then(data => {
         setImageMeta(data);
       });
     }

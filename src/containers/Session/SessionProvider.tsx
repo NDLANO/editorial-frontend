@@ -87,10 +87,10 @@ export const useSession = (): SessionProps => {
   const [session, setSession] = sessionContext;
   const navigate = useNavigate();
 
-  const setAuthenticated = (authenticated: boolean) => setSession((s) => ({ ...s, authenticated }));
+  const setAuthenticated = (authenticated: boolean) => setSession(s => ({ ...s, authenticated }));
   const setUserNotRegistered = (userNotRegistered: boolean) =>
-    setSession((s) => ({ ...s, userNotRegistered }));
-  const setUserData = (user: UserData) => setSession((s) => ({ ...s, user }));
+    setSession(s => ({ ...s, userNotRegistered }));
+  const setUserData = (user: UserData) => setSession(s => ({ ...s, user }));
 
   const login = (authResult: Auth0DecodedHash) => {
     try {
@@ -102,7 +102,7 @@ export const useSession = (): SessionProps => {
       const combinedPermissions = [...permissions, ...scope.split(' ')];
       const uniquePermissions = [...new Set(combinedPermissions)];
 
-      if (decoded && uniquePermissions.some((permission) => permission.includes(':'))) {
+      if (decoded && uniquePermissions.some(permission => permission.includes(':'))) {
         if (authResult.state) window.location.href = authResult.state;
         setAuthenticated(true);
         setUserData({

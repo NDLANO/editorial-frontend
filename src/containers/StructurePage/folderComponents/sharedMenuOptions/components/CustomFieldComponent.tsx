@@ -81,7 +81,7 @@ const CustomFieldComponent = ({
           placeholder={placeholder}
           value={currentKey ?? initialKey}
           data-testid={dataTestid}
-          onChange={(e) => setCurrentKey(e.target.value)}
+          onChange={e => setCurrentKey(e.target.value)}
           onKeyDown={handleKeyPress}
         />
         <StyledMenuItemInputField
@@ -89,7 +89,7 @@ const CustomFieldComponent = ({
           placeholder={placeholder}
           value={currentVal ?? initialVal}
           data-testid={dataTestid}
-          onChange={(e) => setCurrentVal(e.target.value)}
+          onChange={e => setCurrentVal(e.target.value)}
           onKeyDown={handleKeyPress}
         />
         <CustomFieldButton onClick={handleSubmit} data-testid={'CustomFieldSaveButton'}>

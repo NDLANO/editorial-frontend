@@ -72,9 +72,7 @@ const PreviewConceptLightbox = ({ getConcept, typeOfPreview }: Props) => {
     const concept = getConcept();
     const parsedVisualElement = await getVisualElement(concept?.visualElement?.visualElement);
     setFirstConcept({ ...concept, parsedVisualElement });
-    const secondConceptLang = concept.supportedLanguages.find(
-      (l) => l !== concept.content?.language,
-    );
+    const secondConceptLang = concept.supportedLanguages.find(l => l !== concept.content?.language);
     onChangePreviewLanguage(secondConceptLang ?? concept?.content?.language!);
     setShowPreview(true);
   };
@@ -159,7 +157,7 @@ const PreviewConceptLightbox = ({ getConcept, typeOfPreview }: Props) => {
           typeOfPreview={typeOfPreview}
           contentType="concept"
           label=""
-          getEntityPreview={(concept) => {
+          getEntityPreview={concept => {
             if (isConceptPreviewType(concept)) {
               return (
                 <PreviewConcept concept={concept} visualElement={concept.parsedVisualElement} />

@@ -26,10 +26,10 @@ const NodeSearchDropdown = ({ placeholder, filter, onChange, searchNodeType = 'T
       placeholder={placeholder}
       useQuery={useSearchNodes}
       params={{ taxonomyVersion, nodeType: searchNodeType }}
-      transform={(res) => {
+      transform={res => {
         return {
           ...res,
-          results: res.results.map((r) => ({
+          results: res.results.map(r => ({
             originalItem: r,
             id: r.id,
             name: r.name,

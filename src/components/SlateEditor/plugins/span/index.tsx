@@ -76,14 +76,14 @@ export const spanPlugin = (editor: Editor) => {
     return undefined;
   };
 
-  editor.isInline = (element) => {
+  editor.isInline = element => {
     if (element.type === TYPE_SPAN) {
       return true;
     }
     return isInline(element);
   };
 
-  editor.normalizeNode = (entry) => {
+  editor.normalizeNode = entry => {
     const [node, path] = entry;
 
     if (Element.isElement(node) && node.type === TYPE_SPAN) {

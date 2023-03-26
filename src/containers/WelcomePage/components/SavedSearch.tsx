@@ -90,7 +90,7 @@ const SavedSearch = ({ deleteSearch, search, index, userData }: Props) => {
 
     const resultHitsString =
       data.searchResult !== undefined ? ` (${data.searchResult.totalCount})` : '';
-    const joinedResults = results.filter((e) => e).join(' + ');
+    const joinedResults = results.filter(e => e).join(' + ');
     return `${joinedResults}${resultHitsString}`;
   };
 

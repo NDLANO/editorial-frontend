@@ -72,12 +72,12 @@ const EditPodcast = ({
         <AudioPlayerMounter audio={podcast} locale={locale} speech={false} />
         <Formik
           initialValues={initialValues}
-          validate={(values) => validateFormik(values, podcastEmbedFormRules, t)}
+          validate={values => validateFormik(values, podcastEmbedFormRules, t)}
           validateOnMount
           enableReinitialize
           onSubmit={handleSubmit}
         >
-          {(formik) => <SlatePodcastForm {...formik} setHasError={setHasError} close={close} />}
+          {formik => <SlatePodcastForm {...formik} setHasError={setHasError} close={close} />}
         </Formik>
       </ModalBody>
     </>

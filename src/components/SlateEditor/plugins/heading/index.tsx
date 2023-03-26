@@ -81,7 +81,7 @@ const onBackspace = (
           Editor.string(editor, editor.selection.anchor.path) === ''
         ) {
           Transforms.unwrapNodes(editor, {
-            match: (node) => Element.isElement(node) && node.type === 'heading',
+            match: node => Element.isElement(node) && node.type === 'heading',
           });
           return;
         }
@@ -95,7 +95,7 @@ const onBackspace = (
         e.preventDefault();
         editor.deleteBackward('character');
         Transforms.unwrapNodes(editor, {
-          match: (node) => Element.isElement(node) && node.type === TYPE_HEADING,
+          match: node => Element.isElement(node) && node.type === TYPE_HEADING,
         });
         return;
       }
@@ -136,7 +136,7 @@ export const headingPlugin = (editor: Editor) => {
     return undefined;
   };
 
-  editor.normalizeNode = (entry) => {
+  editor.normalizeNode = entry => {
     const [node, path] = entry;
 
     if (Element.isElement(node) && node.type === TYPE_HEADING) {

@@ -58,8 +58,7 @@ const ResourcesContainer = ({
   const { t } = useTranslation();
   const [showAddModal, setShowAddModal] = useState(false);
   const resourceTypesWithoutMissing = useMemo(
-    () =>
-      resourceTypes.filter((rt) => rt.id !== 'missing').map((rt) => ({ id: rt.id, name: rt.name })),
+    () => resourceTypes.filter(rt => rt.id !== 'missing').map(rt => ({ id: rt.id, name: rt.name })),
     [resourceTypes],
   );
   const { taxonomyVersion } = useTaxonomyVersion();
@@ -67,7 +66,7 @@ const ResourcesContainer = ({
 
   const { data: users } = useAuth0Responsibles(
     { permission: DRAFT_WRITE_SCOPE },
-    { select: (users) => keyBy(users, (u) => u.app_metadata.ndla_id) },
+    { select: users => keyBy(users, u => u.app_metadata.ndla_id) },
   );
 
   const { data } = useNodes(
@@ -75,12 +74,12 @@ const ResourcesContainer = ({
     { enabled: !!currentNode.contentUri },
   );
 
-  const paths = useMemo(() => data?.map((d) => d.path).filter((d) => !!d) ?? [], [data]);
+  const paths = useMemo(() => data?.map(d => d.path).filter(d => !!d) ?? [], [data]);
 
   const nodeResourcesWithMeta: ResourceWithNodeConnectionAndMeta[] =
     useMemo(
       () =>
-        nodeResources?.map((res) => ({
+        nodeResources?.map(res => ({
           ...res,
           contentMeta: res.contentUri ? contentMeta[res.contentUri] : undefined,
         })),
@@ -100,7 +99,7 @@ const ResourcesContainer = ({
         addButton={
           <Tooltip tooltip={t('taxonomy.addResource')}>
             <IconButtonV2
-              onClick={() => setShowAddModal((prev) => !prev)}
+              onClick={() => setShowAddModal(prev => !prev)}
               size="xsmall"
               variant="stripped"
               aria-label={t('taxonomy.addResource')}
@@ -116,7 +115,7 @@ const ResourcesContainer = ({
             resourceTypes={resourceTypesWithoutMissing}
             nodeId={currentNodeId}
             onClose={() => setShowAddModal(false)}
-            existingResourceIds={nodeResources.map((r) => r.id)}
+            existingResourceIds={nodeResources.map(r => r.id)}
           />
         )}
         {currentNode.name && (
@@ -143,7 +142,7 @@ const ResourcesContainer = ({
         ) : (
           <>
             {grouped ? (
-              mapping?.map((resource) => (
+              mapping?.map(resource => (
                 <ResourceItems
                   key={resource.id}
                   resources={resource.resources}

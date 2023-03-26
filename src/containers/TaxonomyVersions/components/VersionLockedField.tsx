@@ -32,7 +32,7 @@ const VersionLockedField = () => {
           selected={field.value.toString()}
           uniqeIds
           options={options}
-          onChange={(value) =>
+          onChange={value =>
             field.onChange({
               target: {
                 name: field.name,

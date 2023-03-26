@@ -110,7 +110,7 @@ const SubjectpageForm = ({
 
   const fetchTaxonomyUrns = async (choices: (IArticle | ILearningPathV2)[], language: string) => {
     const fetched = await Promise.all<Topic[] | ILearningPathV2[] | Resource[]>(
-      choices.map((choice) => {
+      choices.map(choice => {
         if ('articleType' in choice && choice.articleType === 'topic-article') {
           return queryTopics({ contentId: choice.id, language, taxonomyVersion });
         } else if ('learningsteps' in choice && typeof choice.id === 'number') {
@@ -120,7 +120,7 @@ const SubjectpageForm = ({
       }),
     );
 
-    return fetched.map((resource) => resource?.[0]?.id?.toString()).filter((e) => e !== undefined);
+    return fetched.map(resource => resource?.[0]?.id?.toString()).filter(e => e !== undefined);
   };
 
   const handleSubmit = async (formik: FormikProps<SubjectPageFormikType>) => {
@@ -157,7 +157,7 @@ const SubjectpageForm = ({
       initialErrors={initialErrors}
       onSubmit={() => {}}
       enableReinitialize
-      validate={(values) => validateFormik(values, subjectpageRules, t)}
+      validate={values => validateFormik(values, subjectpageRules, t)}
     >
       {(formik: FormikProps<SubjectPageFormikType>) => {
         const { values, dirty, isSubmitting, errors, isValid } = formik;

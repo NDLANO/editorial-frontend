@@ -14,7 +14,7 @@ import { filmFrontpageQueryKey } from './filmQueries';
 export const useUpdateFilmFrontpageMutation = () => {
   const queryClient = useQueryClient();
   return useMutation<IFilmFrontPageData, unknown, INewOrUpdatedFilmFrontPageData>(
-    (data) => {
+    data => {
       return updateFilmFrontpage(data);
     },
     {

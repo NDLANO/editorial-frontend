@@ -82,7 +82,7 @@ const EditConcept = ({ isNewlyCreated }: Props) => {
         fetchConceptTags={fetchSearchTags}
         isNewlyCreated={isNewlyCreated}
         upsertProps={{
-          onUpdate: (concept) => updateConcept(conceptId, concept),
+          onUpdate: concept => updateConcept(conceptId, concept),
         }}
         language={selectedLanguage!}
         subjects={subjects}

@@ -66,7 +66,7 @@ const filterNodes = <T,>(diff: DiffType<T>[], options: NodeOptions): DiffType<T>
   const afterNodeOption =
     options.nodeView !== 'changed'
       ? diff
-      : diff.filter((d) => d.changed.diffType !== 'NONE' ?? d.childrenChanged?.diffType !== 'NONE');
+      : diff.filter(d => d.changed.diffType !== 'NONE' ?? d.childrenChanged?.diffType !== 'NONE');
 
   return afterNodeOption;
 };
@@ -249,7 +249,7 @@ const NodeDiffcontainer = ({ originalHash, otherHash, nodeId }: Props) => {
             key={diff.root.id.original ?? diff.root.id.other!}
             isRoot={true}
           />
-          {nodes.map((node) => (
+          {nodes.map(node => (
             <NodeDiff node={node} key={node.id.original ?? node.id.other} />
           ))}
         </StyledNodeList>

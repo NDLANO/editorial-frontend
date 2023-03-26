@@ -45,7 +45,7 @@ const SearchConcept = ({ concept, locale, subjects, editingState }: Props) => {
     'content',
     t('conceptSearch.noContent'),
   );
-  const breadcrumbs = subjects.filter((s) => localConcept.subjectIds?.includes(s.id));
+  const breadcrumbs = subjects.filter(s => localConcept.subjectIds?.includes(s.id));
 
   const updateLocalConcept = (newConcept: IConcept): void => {
     const localConcept: IConceptSummary = {

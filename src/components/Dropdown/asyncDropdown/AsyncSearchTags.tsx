@@ -16,7 +16,7 @@ import { SearchResultBase } from '../../../interfaces';
 
 export const formatTagToList = (newTag: string, existingTags: string[]): string[] => {
   if (newTag.includes(',')) {
-    const tagList = newTag.split(',').map((tag) => tag.trim());
+    const tagList = newTag.split(',').map(tag => tag.trim());
     const temp = [...existingTags, ...tagList];
     // Return unique list
     return [...new Set(temp)];
@@ -50,7 +50,7 @@ const AsyncSearchTags = ({
 }: Props) => {
   const { t } = useTranslation();
   const convertToTagsWithTitle = (tagsWithoutTitle: string[]) => {
-    return tagsWithoutTitle.map((tag) => ({ title: tag }));
+    return tagsWithoutTitle.map(tag => ({ title: tag }));
   };
 
   const [tags, setTags] = useState<string[]>(initialTags);
@@ -90,7 +90,7 @@ const AsyncSearchTags = ({
   };
 
   const removeTag = (tag: string) => {
-    const reduced_array = tags.filter((t) => t !== tag);
+    const reduced_array = tags.filter(t => t !== tag);
     setTags(reduced_array);
     updateField(reduced_array);
   };

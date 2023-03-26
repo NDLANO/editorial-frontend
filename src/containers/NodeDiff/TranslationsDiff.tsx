@@ -27,9 +27,9 @@ type DiffedTranslations = Record<string, DiffResult<string>>;
 const TranslationsDiff = ({ translations }: Props) => {
   const { t } = useTranslation();
   const originalTranslations: TranslationWithType[] =
-    translations.original?.map((t) => ({ ...t, type: 'original' })) ?? [];
+    translations.original?.map(t => ({ ...t, type: 'original' })) ?? [];
   const otherTranslations: TranslationWithType[] =
-    translations.other?.map((t) => ({ ...t, type: 'other' })) ?? [];
+    translations.other?.map(t => ({ ...t, type: 'other' })) ?? [];
   const keyedTranslations = originalTranslations
     .concat(otherTranslations)
     .reduce<KeyedTranslations>((acc, curr) => {

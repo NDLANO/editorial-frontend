@@ -128,7 +128,8 @@ const Revisions = ({ userData, ndlaId }: Props) => {
         />
         <ControlWrapperDashboard>
           <Tooltip
-            tooltip={filterSubject ? filterSubject.label : t('welcomePage.chooseFavoriteSubject')}>
+            tooltip={filterSubject ? filterSubject.label : t('welcomePage.chooseFavoriteSubject')}
+          >
             <DropdownWrapper>
               <Select<false>
                 options={favoriteSubjects}

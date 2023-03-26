@@ -93,7 +93,7 @@ function isEmptyTag(tag) {
 function regiserTagCompletion(tags) {
   _monaco.languages.registerCompletionItemProvider('html', {
     provideCompletionItems: () => {
-      let suggestions = tags.map((tag) => ({
+      let suggestions = tags.map(tag => ({
         label: tag,
         kind: _monaco.languages.CompletionItemKind.Keyword,
         insertText: isEmptyTag(tag) ? `<${tag}/>` : `<${tag}>$0<${tag}/>`,

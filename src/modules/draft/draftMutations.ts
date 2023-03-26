@@ -14,7 +14,7 @@ export const useUpdateDraftMutation = (
   options?: UseMutationOptions<IArticle, unknown, { id: number; body: IUpdatedArticle }>,
 ) => {
   return useMutation<IArticle, undefined, { id: number; body: IUpdatedArticle }>(
-    (vars) => updateDraft(vars.id, vars.body),
+    vars => updateDraft(vars.id, vars.body),
     options,
   );
 };
@@ -23,7 +23,7 @@ export const useCopyRevisionDates = (
   options?: UseMutationOptions<void, unknown, { nodeId: string }>,
 ) => {
   return useMutation<void, unknown, { nodeId: string }>(
-    (vars) => copyRevisionDates(vars.nodeId),
+    vars => copyRevisionDates(vars.nodeId),
     options,
   );
 };

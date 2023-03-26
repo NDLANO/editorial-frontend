@@ -64,7 +64,7 @@ const validateFormik = <FormikValuesType>(
 ) => {
   const errors: Record<string, string> = {};
   try {
-    Object.keys(rules).forEach((ruleKey) => {
+    Object.keys(rules).forEach(ruleKey => {
       const value = get(ruleKey, values);
       const translationKey = rules[ruleKey]?.translationKey;
       const label = translationKey
@@ -199,7 +199,7 @@ export const getWarnings = <FormikValuesType, ApiType>(
 ) => {
   let warnings: Record<string, string> = {};
   try {
-    Object.keys(rules).forEach((ruleKey) => {
+    Object.keys(rules).forEach(ruleKey => {
       if (rules[ruleKey].warnings) {
         const warningRules = rules[ruleKey].warnings;
         if (warningRules?.languageMatch) {

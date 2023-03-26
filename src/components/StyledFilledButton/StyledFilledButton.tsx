@@ -33,7 +33,7 @@ const StyledFilledButton = styled.button<StyledFilledButtonProps>`
     width: 16px;
     height: 16px;
     margin: 0 3px 0 -3px;
-    ${(props) =>
+    ${props =>
       props.deletable &&
       css`
         color: ${colors.support.red};
@@ -43,7 +43,7 @@ const StyledFilledButton = styled.button<StyledFilledButtonProps>`
   &:hover {
     color: #fff;
     background: ${colors.brand.primary};
-    ${(props) =>
+    ${props =>
       props.deletable &&
       !props.disabled &&
       css`

@@ -14,8 +14,8 @@ const StyledMenu = styled('span')<{ top: number; left: number }>`
   border: 1px solid rgba(0, 0, 0, 0.2);
   border: 1px solid ${colors.brand.greyLight};
   z-index: 1;
-  ${(p) => (p.left ? `left: ${p.left}px;` : '')};
-  ${(p) => (p.top ? `top: ${p.top}px;` : '')};
+  ${p => (p.left ? `left: ${p.left}px;` : '')};
+  ${p => (p.top ? `top: ${p.top}px;` : '')};
 `;
 
 interface Props {
@@ -45,7 +45,7 @@ class BlockMenu extends PureComponent<Props & CustomWithTranslation> {
   render() {
     const { t, top, left, handleRemove, toggleEdit } = this.props;
     return (
-      <StyledMenu top={top} left={left} ref={(node) => (this.modal = node)}>
+      <StyledMenu top={top} left={left} ref={node => (this.modal = node)}>
         <ButtonV2 variant="link" onClick={toggleEdit}>
           {t('form.edit')}
         </ButtonV2>

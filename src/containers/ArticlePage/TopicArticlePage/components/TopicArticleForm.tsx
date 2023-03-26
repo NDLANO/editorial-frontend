@@ -57,19 +57,20 @@ const TopicArticleForm = ({
 
   const { t } = useTranslation();
   const { ndlaId } = useSession();
-  const { savedToServer, formikRef, initialValues, handleSubmit } =
-    useArticleFormHooks<TopicArticleFormType>({
-      getInitialValues: draftApiTypeToTopicArticleFormType,
-      article,
-      t,
-      articleStatus,
-      updateArticle,
-      licenses,
-      getArticleFromSlate: topicArticleFormTypeToDraftApiType,
-      articleLanguage,
-      rules: topicArticleRules,
-      ndlaId,
-    });
+  const { savedToServer, formikRef, initialValues, handleSubmit } = useArticleFormHooks<
+    TopicArticleFormType
+  >({
+    getInitialValues: draftApiTypeToTopicArticleFormType,
+    article,
+    t,
+    articleStatus,
+    updateArticle,
+    licenses,
+    getArticleFromSlate: topicArticleFormTypeToDraftApiType,
+    articleLanguage,
+    rules: topicArticleRules,
+    ndlaId,
+  });
 
   const initialHTML = useMemo(() => blockContentToHTML(initialValues.content), [initialValues]);
 
@@ -122,7 +123,7 @@ const TopicArticleForm = ({
           formIsDirty={formIsDirty}
           savedToServer={savedToServer}
           getEntity={getArticle}
-          onSaveClick={(saveAsNewVersion) => {
+          onSaveClick={saveAsNewVersion => {
             handleSubmit(values, formik, saveAsNewVersion ?? false);
           }}
           entityStatus={article?.status}
@@ -145,10 +146,10 @@ const TopicArticleForm = ({
   };
 
   const initialWarnings = getWarnings(initialValues, topicArticleRules, t, article);
-  const initialErrors = useMemo(
-    () => validateFormik(initialValues, topicArticleRules, t),
-    [initialValues, t],
-  );
+  const initialErrors = useMemo(() => validateFormik(initialValues, topicArticleRules, t), [
+    initialValues,
+    t,
+  ]);
 
   return (
     <Formik
@@ -158,7 +159,7 @@ const TopicArticleForm = ({
       validateOnBlur={false}
       innerRef={formikRef}
       onSubmit={handleSubmit}
-      validate={(values) => validateFormik(values, topicArticleRules, t)}
+      validate={values => validateFormik(values, topicArticleRules, t)}
       initialStatus={{ warnings: initialWarnings }}
     >
       {FormikChild}

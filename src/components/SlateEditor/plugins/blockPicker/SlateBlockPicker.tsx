@@ -218,12 +218,12 @@ const SlateBlockPicker = ({
 
   const shouldShowMenuPicker = () => {
     const [node] = Editor.nodes(editor, {
-      match: (node) => Element.isElement(node) && !editor.isInline(node),
+      match: node => Element.isElement(node) && !editor.isInline(node),
       mode: 'lowest',
     });
 
     const [illegalBlock] = Editor.nodes(editor, {
-      match: (node) => Element.isElement(node) && illegalAreas.includes(node.type),
+      match: node => Element.isElement(node) && illegalAreas.includes(node.type),
     });
 
     return (
@@ -249,7 +249,7 @@ const SlateBlockPicker = ({
     }
 
     const nodes = Editor.levels(editor, {
-      match: (node) => Element.isElement(node) && !editor.isInline(node),
+      match: node => Element.isElement(node) && !editor.isInline(node),
       at: Editor.unhangRange(editor, lastActiveSelection),
       reverse: true,
     });
@@ -262,7 +262,7 @@ const SlateBlockPicker = ({
       }
       if (actionsToShowInAreas[node.type]) {
         return actions.filter(
-          (action) =>
+          action =>
             actionsToShowInAreas[node.type].includes(action.data.type) ||
             actionsToShowInAreas[node.type].includes(action.data.object),
         );
@@ -293,14 +293,14 @@ const SlateBlockPicker = ({
             isOpen={blockPickerOpen}
             heading={t('editorBlockpicker.heading')}
             actions={getActionsForArea()
-              .filter((action) => {
+              .filter(action => {
                 return !action.requiredScope || userPermissions?.includes(action.requiredScope);
               })
-              .map((action) => ({
+              .map(action => ({
                 ...action,
                 label: t(`editorBlockpicker.actions.${action.data.object}`),
               }))}
-            onToggleOpen={(open) => {
+            onToggleOpen={open => {
               ReactEditor.focus(editor);
               setBlockPickerOpen(open);
             }}

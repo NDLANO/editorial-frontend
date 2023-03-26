@@ -154,7 +154,7 @@ export const formikCommonArticleRules: RulesType<ArticleFormType, IArticle> = {
   },
   license: {
     required: false,
-    test: (values) => {
+    test: values => {
       const authors = values.creators.concat(values.rightsholders).concat(values.processors);
       if (values.license === 'N/A' || authors.length > 0) return undefined;
       return { translationKey: 'validation.noLicenseWithoutCopyrightHolder' };
@@ -162,8 +162,8 @@ export const formikCommonArticleRules: RulesType<ArticleFormType, IArticle> = {
   },
   notes: {
     required: false,
-    test: (values) => {
-      const emptyNote = values.notes?.find((note) => note.length === 0);
+    test: values => {
+      const emptyNote = values.notes?.find(note => note.length === 0);
       if (emptyNote !== undefined) {
         return { translationKey: 'validation.noEmptyNote' };
       }
@@ -172,14 +172,14 @@ export const formikCommonArticleRules: RulesType<ArticleFormType, IArticle> = {
   },
   grepCodes: {
     required: false,
-    test: (values) => {
-      const wrongFormat = !!values?.grepCodes?.find((value) => !isGrepCodeValid(value));
+    test: values => {
+      const wrongFormat = !!values?.grepCodes?.find(value => !isGrepCodeValid(value));
       return wrongFormat ? { translationKey: 'validation.grepCodes' } : undefined;
     },
   },
   revisionMeta: {
-    test: (values) => {
-      const emptyNote = values.revisionMeta?.find((meta) => meta.note.length === 0);
+    test: values => {
+      const emptyNote = values.revisionMeta?.find(meta => meta.note.length === 0);
       if (emptyNote !== undefined) {
         return { translationKey: 'validation.noEmptyRevision' };
       }
@@ -187,12 +187,12 @@ export const formikCommonArticleRules: RulesType<ArticleFormType, IArticle> = {
     },
   },
   revisionError: {
-    test: (values) => {
+    test: values => {
       const revisionItems = values.revisionMeta.length ?? 0;
       if (!revisionItems) {
         return { translationKey: 'validation.missingRevision' };
       }
-      const unfinishedRevision = values.revisionMeta.some((rev) => rev.status === 'needs-revision');
+      const unfinishedRevision = values.revisionMeta.some(rev => rev.status === 'needs-revision');
       if (!unfinishedRevision) {
         return { translationKey: 'validation.unfinishedRevision' };
       }
@@ -208,7 +208,7 @@ export const learningResourceRules: RulesType<LearningResourceFormType, IArticle
   ...formikCommonArticleRules,
   metaImageAlt: {
     required: true,
-    onlyValidateIf: (values) => !!values.metaImageId,
+    onlyValidateIf: values => !!values.metaImageId,
     warnings: {
       languageMatch: true,
       apiField: 'metaImage',
@@ -216,7 +216,7 @@ export const learningResourceRules: RulesType<LearningResourceFormType, IArticle
   },
   content: {
     required: true,
-    test: (values) => {
+    test: values => {
       const embeds = findNodesByType(
         values.content ?? [],
         'image-embed',
@@ -225,8 +225,8 @@ export const learningResourceRules: RulesType<LearningResourceFormType, IArticle
         'audio-embed',
         'error-embed',
         'external-embed',
-      ).map((node) => (node as EmbedElements).data);
-      const notValidEmbeds = embeds.filter((embed) => !isUserProvidedEmbedDataValid(embed));
+      ).map(node => (node as EmbedElements).data);
+      const notValidEmbeds = embeds.filter(embed => !isUserProvidedEmbedDataValid(embed));
       const embedsHasErrors = notValidEmbeds.length > 0;
 
       return embedsHasErrors
@@ -243,8 +243,8 @@ export const frontPageArticleRules: RulesType<FrontpageArticleFormType, IArticle
   ...learningResourceRules,
   slug: {
     required: true,
-    onlyValidateIf: (values) => values.slug !== undefined,
-    test: (values) => {
+    onlyValidateIf: values => values.slug !== undefined,
+    test: values => {
       const containsIllegalCharacters =
         values.slug?.replace(/[^a-zA-Z0-9-]/g, '').length !== values.slug?.length;
       return containsIllegalCharacters
@@ -261,12 +261,12 @@ export const topicArticleRules: RulesType<TopicArticleFormType, IArticle> = {
   ...formikCommonArticleRules,
   visualElementAlt: {
     required: false,
-    onlyValidateIf: (values) =>
+    onlyValidateIf: values =>
       isSlateEmbed(values.visualElement[0]) && values.visualElement[0].data.resource === 'image',
   },
   visualElementCaption: {
     required: false,
-    onlyValidateIf: (values) =>
+    onlyValidateIf: values =>
       isSlateEmbed(values.visualElement[0]) &&
       (values.visualElement[0].data.resource === 'image' ||
         values.visualElement[0].data.resource === 'brightcove'),
@@ -277,14 +277,14 @@ export const topicArticleRules: RulesType<TopicArticleFormType, IArticle> = {
   },
   visualElement: {
     required: false,
-    test: (values) =>
+    test: values =>
       isSlateEmbed(values.visualElement[0]) && values.visualElement[0].data.resource !== 'image'
         ? { translationKey: 'topicArticleForm.validation.illegalResource' }
         : undefined,
   },
   content: {
     required: false,
-    test: (values) =>
+    test: values =>
       Node.string(values.content[0]) !== '' || values.content.length > 1
         ? { translationKey: 'topicArticleForm.validation.containsContent' }
         : undefined,
@@ -310,5 +310,5 @@ export const parseImageUrl = (metaImage?: IArticleMetaImage) => {
 };
 
 export const getTagName = (id: string | undefined, data: { id: string; name: string }[] = []) => {
-  return id ? data.find((entry) => entry.id === id)?.name : undefined;
+  return id ? data.find(entry => entry.id === id)?.name : undefined;
 };

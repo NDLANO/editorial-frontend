@@ -36,7 +36,7 @@ export const getToken = (audience = 'ndla_system') =>
       client_secret: `${editorialFrontendClientSecret}`,
       audience,
     }),
-  }).then((res) => res.json());
+  }).then(res => res.json());
 
 export const getBrightcoveToken = () => {
   const bightCoveUrl = 'https://oauth.brightcove.com/v3/access_token';
@@ -50,7 +50,7 @@ export const getBrightcoveToken = () => {
       Authorization: `Basic ${b64EncodeUnicode(clientIdSecret)}`,
     },
     body: 'grant_type=client_credentials',
-  }).then((res) => res.json());
+  }).then(res => res.json());
 };
 
 type ManagementToken = { access_token: string };
@@ -58,7 +58,7 @@ type ManagementToken = { access_token: string };
 export const fetchAuth0UsersById = (managementToken: ManagementToken, userIds: string) => {
   const query = userIds
     .split(',')
-    .map((userId) => `"${userId}"`)
+    .map(userId => `"${userId}"`)
     .join(' OR ');
   return fetch(
     `https://${getUniversalConfig().auth0Domain}/api/v2/users?q=app_metadata.ndla_id:(${query})`,
@@ -68,7 +68,7 @@ export const fetchAuth0UsersById = (managementToken: ManagementToken, userIds: s
         Authorization: `Bearer ${managementToken.access_token}`,
       },
     },
-  ).then((res) => res.json());
+  ).then(res => res.json());
 };
 
 async function fetchAuth0UsersByQuery(token: string, query: string, page: number) {
@@ -77,7 +77,7 @@ async function fetchAuth0UsersByQuery(token: string, query: string, page: number
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
     },
-  }).then((res) => res.json());
+  }).then(res => res.json());
 }
 
 export const getEditors = async (managementToken: ManagementToken, permission: string) => {

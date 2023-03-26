@@ -13,7 +13,7 @@ interface StyledDropZoneProps {
 }
 
 const StyledDropZone = styled.div<StyledDropZoneProps>`
-  background-color: ${(p) => p.dragging && '#ddd'};
+  background-color: ${p => p.dragging && '#ddd'};
 `;
 
 interface Props {

@@ -47,8 +47,14 @@ const InlineConcept = (props: Props) => {
     setShowConcept(!showConcept);
   };
 
-  const { concept, subjects, fetchSearchTags, conceptArticles, createConcept, updateConcept } =
-    useFetchConceptData(parseInt(element.data['content-id']), locale);
+  const {
+    concept,
+    subjects,
+    fetchSearchTags,
+    conceptArticles,
+    createConcept,
+    updateConcept,
+  } = useFetchConceptData(parseInt(element.data['content-id']), locale);
 
   const handleSelectionChange = (isNewConcept: boolean) => {
     ReactEditor.focus(editor);
@@ -75,7 +81,7 @@ const InlineConcept = (props: Props) => {
           { data: data.data },
           {
             at: path,
-            match: (node) => Element.isElement(node) && node.type === TYPE_CONCEPT_INLINE,
+            match: node => Element.isElement(node) && node.type === TYPE_CONCEPT_INLINE,
           },
         );
       }
@@ -89,7 +95,7 @@ const InlineConcept = (props: Props) => {
       const path = ReactEditor.findPath(editor, element);
       Transforms.unwrapNodes(editor, {
         at: path,
-        match: (node) => Element.isElement(node) && node.type === TYPE_CONCEPT_INLINE,
+        match: node => Element.isElement(node) && node.type === TYPE_CONCEPT_INLINE,
       });
     }, 0);
   };

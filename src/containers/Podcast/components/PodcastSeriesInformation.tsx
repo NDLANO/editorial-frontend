@@ -70,7 +70,7 @@ const PodcastSeriesInformation = () => {
       query: input,
       language: language,
     });
-    const results = searchResult.results.map((result) => {
+    const results = searchResult.results.map(result => {
       return {
         ...result,
         revision: 1,

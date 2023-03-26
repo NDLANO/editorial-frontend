@@ -144,7 +144,7 @@ const ConceptModal = ({
                         </h2>
                         <SearchForm
                           type={type}
-                          search={(params) => {
+                          search={params => {
                             updateSearchObject(params);
                             debouncedSearchConcept(params);
                           }}

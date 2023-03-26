@@ -26,7 +26,7 @@ const StyledDetailsDiv = styled.div`
 `;
 
 const StyledContent = styled.div<{ isOpen: boolean }>`
-  display: ${(p) => (p.isOpen ? '' : 'none')};
+  display: ${p => (p.isOpen ? '' : 'none')};
   margin-top: calc(${spacing.small} * 1.5);
   padding-left: ${spacing.normal};
 `;
@@ -48,7 +48,7 @@ const StyledChevron = styled.div<{ isOpen: boolean }>`
     border-style: solid;
     border-width: 0.35em 0 0.35em 0.45em;
     display: block;
-    transform: ${(p) => p.isOpen && 'rotate(90deg)'};
+    transform: ${p => p.isOpen && 'rotate(90deg)'};
   }
 `;
 
@@ -93,7 +93,7 @@ const Details = ({ children, editor, element, attributes }: Props & RenderElemen
     const path = ReactEditor.findPath(editor, element);
     Transforms.removeNodes(editor, {
       at: path,
-      match: (node) => Element.isElement(node) && node.type === TYPE_DETAILS,
+      match: node => Element.isElement(node) && node.type === TYPE_DETAILS,
     });
     setTimeout(() => {
       ReactEditor.focus(editor);
@@ -106,7 +106,7 @@ const Details = ({ children, editor, element, attributes }: Props & RenderElemen
     const path = ReactEditor.findPath(editor, element);
     Transforms.unwrapNodes(editor, {
       at: path,
-      match: (node) => Element.isElement(node) && node.type === TYPE_DETAILS,
+      match: node => Element.isElement(node) && node.type === TYPE_DETAILS,
       voids: true,
     });
     setTimeout(() => {

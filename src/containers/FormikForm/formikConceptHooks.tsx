@@ -63,7 +63,7 @@ export function useFetchConceptData(conceptId: number | undefined, locale: strin
   }, [locale, taxonomyVersion]);
 
   const fetchElementList = async (articleIds?: number[]): Promise<IArticle[]> => {
-    const promises = articleIds?.map((id) => fetchDraft(id)) ?? [];
+    const promises = articleIds?.map(id => fetchDraft(id)) ?? [];
     return await Promise.all(promises);
   };
 

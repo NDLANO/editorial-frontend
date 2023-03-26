@@ -17,7 +17,7 @@ export const createFormData = (
     | INewAudioMetaInformation
     | IUpdatedAudioMetaInformation,
 ): Promise<FormData> =>
-  new Promise((resolve) => {
+  new Promise(resolve => {
     const form = new FormData();
     if (metadata) {
       form.append('metadata', JSON.stringify(metadata));

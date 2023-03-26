@@ -69,7 +69,7 @@ export const getResourceLanguages = (t: TFunction) => [
 ];
 
 export const getContentTypeFromResourceTypes = (resourceTypes: ResourceType[]): ContentTypeType => {
-  const resourceType = resourceTypes.find((type) => !!mapping[type.id]);
+  const resourceType = resourceTypes.find(type => !!mapping[type.id]);
   if (resourceType) {
     return mapping[resourceType.id];
   }
@@ -100,7 +100,7 @@ export const resourceToLinkProps = (
     };
   }
 
-  const foundSupportedLanguage = content.supportedLanguages?.find((l) => l === locale);
+  const foundSupportedLanguage = content.supportedLanguages?.find(l => l === locale);
   const languageOrDefault = foundSupportedLanguage ?? content.supportedLanguages?.[0] ?? 'nb';
 
   if (isConceptType(contentType)) {

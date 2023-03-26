@@ -124,7 +124,7 @@ export const MastheadSearchForm = ({ query: initQuery = '', onSearchQuerySubmit 
     if (
       !urlId.includes('urn:topic') &&
       Number.isNaN(parseFloat(urlId)) &&
-      !splittedNdlaUrl.find((e) => e.match(/subject:*/)) === undefined
+      !splittedNdlaUrl.find(e => e.match(/subject:*/)) === undefined
     ) {
       return;
     }
@@ -133,7 +133,7 @@ export const MastheadSearchForm = ({ query: initQuery = '', onSearchQuerySubmit 
       handleTopicUrl(urlId);
     } else if (splittedNdlaUrl.includes('node')) {
       handleNodeId(parseInt(urlId));
-    } else if (splittedNdlaUrl.find((e) => e.match(/subject:*/))) {
+    } else if (splittedNdlaUrl.find(e => e.match(/subject:*/))) {
       handleFrontendUrl(cleanUrl);
     } else {
       navigate(toEditArticle(parseInt(urlId), 'standard'));

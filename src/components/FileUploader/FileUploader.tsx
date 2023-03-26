@@ -46,7 +46,7 @@ const FileUploader = ({ onFileSave }: Props) => {
     try {
       const files = Array.from(filesList);
       setSaving(true);
-      const newFiles = await Promise.all(files.map((file) => saveFile(file)));
+      const newFiles = await Promise.all(files.map(file => saveFile(file)));
       onFileSave(
         newFiles.map((file, i) => ({
           path: file.path,

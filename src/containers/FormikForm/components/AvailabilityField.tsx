@@ -23,7 +23,7 @@ const AvailabilityField = ({ field }: Props) => {
       label={t('form.availability.description')}
       selected={field.value}
       uniqeIds
-      options={availabilityValues.map((value) => ({
+      options={availabilityValues.map(value => ({
         title: t(`form.availability.${value}`),
         value: value,
       }))}

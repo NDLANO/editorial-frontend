@@ -30,7 +30,7 @@ const MastheadSearch = ({ close }: Props) => {
   const query = queryString.parse(location.search).query;
 
   const onSearchQuerySubmit = (searchQuery: string) => {
-    const matched = location.pathname.split('/').find((v) => !!pathToTypeMapping[v]);
+    const matched = location.pathname.split('/').find(v => !!pathToTypeMapping[v]);
     const type = matched ? pathToTypeMapping[matched] : pathToTypeMapping.default;
 
     let oldParams;

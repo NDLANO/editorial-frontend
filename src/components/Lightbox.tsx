@@ -60,7 +60,7 @@ const StyledLightbox = styled.div<{ appearance?: string }>`
   background-color: rgba(0, 0, 0, 0.8);
   z-index: 1000;
   overflow-x: auto;
-  ${(p) =>
+  ${p =>
     p.appearance === 'fullscreen' &&
     css`
       display: flex;
@@ -89,10 +89,10 @@ const StyledContent = styled.div<StyledContentProps>`
   background-color: white;
   margin: 52px auto 52px;
   padding: 1em 2em 3em;
-  max-width: ${(p) => p.maxWidth || '400px'};
+  max-width: ${p => p.maxWidth || '400px'};
   border-radius: 5px;
-  ${(p) => (p.appearance ? appearances[p.appearance] : null)}
-  ${(p) => (p.severity ? severities[p.severity] : null)};
+  ${p => (p.appearance ? appearances[p.appearance] : null)}
+  ${p => (p.severity ? severities[p.severity] : null)};
 `;
 
 export const StyledButton = styled(ButtonV2)`
@@ -109,7 +109,7 @@ export const StyledCross = styled(Cross)<{ severity?: string }>`
   width: 24px;
   margin-right: 7px;
   color: ${colors.brand.grey};
-  ${(p) => (p.severity ? severities[p.severity] : null)};
+  ${p => (p.severity ? severities[p.severity] : null)};
 `;
 
 const ChildWrapper = styled.div`
@@ -153,8 +153,15 @@ class Lightbox extends PureComponent<Props, State> {
   }
 
   render() {
-    const { children, closeButton, width, appearance, severity, contentCss, hideCloseButton } =
-      this.props;
+    const {
+      children,
+      closeButton,
+      width,
+      appearance,
+      severity,
+      contentCss,
+      hideCloseButton,
+    } = this.props;
 
     return this.state.display ? (
       <StyledLightbox appearance={appearance}>

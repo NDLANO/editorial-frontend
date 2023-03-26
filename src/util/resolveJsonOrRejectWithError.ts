@@ -59,7 +59,7 @@ export const resolveVoidOrRejectWithError = (res: Response): Promise<void> => {
     }
     return res
       .json()
-      .then((json) => {
+      .then(json => {
         reject(throwErrorPayload(res.status, json.messages ?? res.statusText, json));
       })
       .catch(reject);
@@ -86,7 +86,7 @@ export const resolveJsonOrRejectWithError = <T>(
 
     return res
       .json()
-      .then((json) => {
+      .then(json => {
         reject(
           throwErrorPayload(res.status, json.messages ?? json.description ?? res.statusText, json),
         );

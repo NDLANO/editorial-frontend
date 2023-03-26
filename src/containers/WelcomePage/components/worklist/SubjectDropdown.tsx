@@ -33,9 +33,9 @@ const SubjectDropdown = ({ filterSubject, setFilterSubject }: Props) => {
     if (data?.results.length) {
       return uniqBy(
         data.results
-          .map((r) => r.contexts.map((c) => ({ value: c.subjectId, label: c.subject })))
+          .map(r => r.contexts.map(c => ({ value: c.subjectId, label: c.subject })))
           .flat(),
-        (r) => r.value,
+        r => r.value,
       );
     } else return [];
   }, [data?.results]);

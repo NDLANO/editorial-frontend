@@ -71,7 +71,7 @@ const ResourceItems = ({
     onMutate: async ({ id }) => {
       await qc.cancelQueries(compKey);
       const prevData = qc.getQueryData<ResourceWithNodeConnection[]>(compKey) ?? [];
-      const withoutDeleted = prevData.filter((res) => res.connectionId !== id);
+      const withoutDeleted = prevData.filter(res => res.connectionId !== id);
       qc.setQueryData<ResourceWithNodeConnection[]>(compKey, withoutDeleted);
       return prevData;
     },
@@ -80,7 +80,7 @@ const ResourceItems = ({
   const onUpdateRank = async (id: string, newRank: number) => {
     await qc.cancelQueries(compKey);
     const prevData = qc.getQueryData<ResourceWithNodeConnection[]>(compKey) ?? [];
-    const updated = prevData.map((r) => {
+    const updated = prevData.map(r => {
       if (r.connectionId === id) {
         return { ...r, rank: newRank };
       } else if (r.rank < newRank) {
@@ -93,7 +93,7 @@ const ResourceItems = ({
 
   const { mutateAsync: updateNodeResource } = usePutResourceForNodeMutation({
     onMutate: ({ id, body }) => onUpdateRank(id, body.rank as number),
-    onError: (e) => handleError(e),
+    onError: e => handleError(e),
     onSuccess: () => qc.invalidateQueries(compKey),
   });
 
@@ -130,7 +130,7 @@ const ResourceItems = ({
   return (
     <StyledResourceItems>
       <MakeDndList onDragEnd={onDragEnd} dragHandle disableDnd={false}>
-        {resources.map((resource) => (
+        {resources.map(resource => (
           <Resource
             responsible={
               users?.[contentMeta[resource.contentUri ?? '']?.responsible?.responsibleId ?? '']

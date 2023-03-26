@@ -15,8 +15,8 @@ export const getLicensesWithTranslations = (
   enableLicenseNA: boolean = false,
 ) =>
   licenses
-    .filter((license) => license.license !== 'N/A' || enableLicenseNA)
-    .map((license) => ({
+    .filter(license => license.license !== 'N/A' || enableLicenseNA)
+    .map(license => ({
       ...license,
       ...getLicenseByAbbreviation(license.license, language),
     }));

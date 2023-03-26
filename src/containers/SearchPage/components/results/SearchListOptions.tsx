@@ -53,7 +53,7 @@ const SearchListOptions = ({
           {t('searchPage.totalCount')}: <b>{totalCount}</b>
         </StyledOptionSpan>
         <select onChange={handlePageSizeChange} value={pageSize}>
-          {pageSizeOptions.map((size) => (
+          {pageSizeOptions.map(size => (
             <option key={`pageSize_${size}`} value={size}>
               {t('searchPage.pageSize', { pageSize: size })}
             </option>

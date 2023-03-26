@@ -73,10 +73,10 @@ const PreviewLanguage = ({
           </h2>
           <select
             className="u-4/6@desktop u-push-1/6@desktop"
-            onChange={(evt) => onChangePreviewLanguage(evt.target.value)}
+            onChange={evt => onChangePreviewLanguage(evt.target.value)}
             value={previewLanguage}
           >
-            {secondEntity.supportedLanguages.map((language) => (
+            {secondEntity.supportedLanguages.map(language => (
               <option key={language} value={language}>
                 {t(`language.${language}`)}
               </option>

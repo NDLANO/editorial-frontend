@@ -33,15 +33,13 @@ const StatusSelect = ({ status, setStatus, onSave, statusStateMachine, entitySta
 
   useEffect(() => {
     if (entityStatus && statusStateMachine) {
-      const statuses =
-        statusStateMachine[entityStatus.current]?.map((s) => transformStatus(s)) ?? [];
+      const statuses = statusStateMachine[entityStatus.current]?.map(s => transformStatus(s)) ?? [];
       setOptions(statuses);
       if (entityStatus.current === PUBLISHED) {
         setStatus({ label: t(`form.status.published`), value: PUBLISHED });
       } else {
         const initialStatus =
-          statuses.find((s) => s.value.toLowerCase() === entityStatus.current.toLowerCase()) ??
-          null;
+          statuses.find(s => s.value.toLowerCase() === entityStatus.current.toLowerCase()) ?? null;
 
         setStatus(initialStatus);
       }

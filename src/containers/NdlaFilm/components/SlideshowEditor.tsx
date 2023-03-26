@@ -29,7 +29,7 @@ const SlideshowEditor = ({ onUpdateSlideshow, fieldName }: Props) => {
       />
       <ThemeMovies
         movies={slideshowMovies}
-        onMoviesUpdated={(movies) => onUpdateSlideshow(field, form, movies)}
+        onMoviesUpdated={movies => onUpdateSlideshow(field, form, movies)}
         placeholder={t('ndlaFilm.editor.addMovieToSlideshow')}
       />
     </>

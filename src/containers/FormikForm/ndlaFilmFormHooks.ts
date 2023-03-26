@@ -29,7 +29,7 @@ export function useNdlaFilmFormHooks(filmFrontpage: IFilmFrontPageData, selected
     try {
       await updateFilmFrontpage.mutateAsync(newNdlaFilm);
 
-      Object.keys(formik.values).map((fieldName) => formik.setFieldTouched(fieldName, true, true));
+      Object.keys(formik.values).map(fieldName => formik.setFieldTouched(fieldName, true, true));
 
       formik.resetForm();
       setSavedToServer(true);

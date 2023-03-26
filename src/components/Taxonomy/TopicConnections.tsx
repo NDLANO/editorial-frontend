@@ -80,7 +80,7 @@ const TopicConnections = ({
   };
 
   const getFavoriteSubjects = (subjects: SubjectType[], favoriteSubjectIds: string[]) =>
-    subjects.filter((e) => favoriteSubjectIds.includes(e.id));
+    subjects.filter(e => favoriteSubjectIds.includes(e.id));
 
   const handleOpenToggle = ({
     path,

@@ -38,7 +38,7 @@ const IconContainer = styled.div`
 `;
 
 const PreviewButton = styled(IconButtonV2)<{ active: boolean }>`
-  color: ${(p) => (p.active ? colors.brand.primary : colors.brand.light)};
+  color: ${p => (p.active ? colors.brand.primary : colors.brand.light)};
 `;
 
 const ConceptContent = () => {

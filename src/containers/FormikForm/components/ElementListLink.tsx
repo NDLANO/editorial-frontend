@@ -79,7 +79,7 @@ const ElementListLink = ({
                   aria-label={messages?.dragElement || ''}
                   variant="ghost"
                   colorTheme="light"
-                  onMouseDown={(e) => onDragStart(e, index)}
+                  onMouseDown={e => onDragStart(e, index)}
                   onMouseUp={onDragEnd}
                 >
                   <DragHorizontal />
@@ -90,7 +90,7 @@ const ElementListLink = ({
                 aria-label={messages?.dragElement || ''}
                 variant="ghost"
                 colorTheme="light"
-                onMouseDown={(e) => onDragStart(e, index)}
+                onMouseDown={e => onDragStart(e, index)}
                 onMouseUp={onDragEnd}
               >
                 <DragHorizontal />

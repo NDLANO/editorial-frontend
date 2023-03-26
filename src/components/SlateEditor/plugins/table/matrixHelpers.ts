@@ -30,13 +30,13 @@ export const findCellCoordinate = (
 };
 
 export const getMatrixColumn = (matrix: TableMatrix, index: number) => {
-  const column = matrix.map((row) => row[index]);
+  const column = matrix.map(row => row[index]);
   return uniq(column);
 };
 
 // Find the amount of cells in a matrix row.
 export const countMatrixRowCells = (matrix: TableMatrix, rowIndex: number): number => {
-  return compact([...new Set(matrix[rowIndex])]).filter((cell) =>
+  return compact([...new Set(matrix[rowIndex])]).filter(cell =>
     rowIndex > 0 ? !matrix[rowIndex - 1].includes(cell) : true,
   ).length;
 };

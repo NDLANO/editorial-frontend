@@ -56,7 +56,7 @@ class AgreementConnectionField extends Component {
           value: fetchedAgreement.copyright.rightsholders,
         },
       ];
-      onChangeFields.forEach((field) =>
+      onChangeFields.forEach(field =>
         onChange({ target: { name: field.name, value: field.value } }),
       );
     } else {
@@ -77,7 +77,7 @@ class AgreementConnectionField extends Component {
             {({ field }) => (
               <AsyncDropdown
                 {...field}
-                onChange={(val) =>
+                onChange={val =>
                   field.onChange({
                     target: {
                       name: field.name,

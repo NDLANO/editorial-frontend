@@ -55,8 +55,8 @@ const StyledSaveButton = styled(ButtonV2, { shouldForwardProp })`
   &:disabled {
     color: white;
     transition: all 0.5s ease;
-    background-color: ${(p) => p.color};
-    border-color: ${(p) => p.color};
+    background-color: ${p => p.color};
+    border-color: ${p => p.color};
   }
 `;
 

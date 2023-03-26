@@ -89,7 +89,7 @@ const SearchSort = ({
     <StyledSortContainer>
       <StyledLabel>{t('searchForm.sorting')}</StyledLabel>
       <StyledSelect onChange={handleSortChange} value={sort}>
-        {sortOptions.map((option) => (
+        {sortOptions.map(option => (
           <option key={`sortoptions_${option}`} value={option}>
             {t(`searchForm.sort.${option}`)}
           </option>
@@ -97,7 +97,7 @@ const SearchSort = ({
       </StyledSelect>
       <StyledLabel>{t('searchForm.order')}</StyledLabel>
       <StyledSelect onChange={handleOrderChange} value={order}>
-        {orderOptions.map((option) => (
+        {orderOptions.map(option => (
           <option key={`orderoptions_${option}`} value={option}>
             {t(`searchForm.${option}`)}
           </option>

@@ -49,7 +49,7 @@ const SettingsMenuDropdownType = ({
   const { userPermissions } = useSession();
   const [editMode, setEditMode] = useState<EditMode>('');
   const nodeType = getNodeTypeFromNodeId(node.id);
-  const toggleEditMode = (mode: EditMode) => setEditMode((prev) => (mode === prev ? '' : mode));
+  const toggleEditMode = (mode: EditMode) => setEditMode(prev => (mode === prev ? '' : mode));
   const editModeHandler = { editMode, toggleEditMode };
 
   const isTaxonomyAdmin = userPermissions?.includes(TAXONOMY_ADMIN_SCOPE);

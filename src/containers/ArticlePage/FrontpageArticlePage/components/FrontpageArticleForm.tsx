@@ -55,18 +55,19 @@ const FrontpageArticleForm = ({
   const { data: licenses } = useLicenses({ placeholderData: [] });
   const statusStateMachine = useDraftStatusStateMachine({ articleId: article?.id });
   const { ndlaId } = useSession();
-  const { savedToServer, formikRef, initialValues, handleSubmit } =
-    useArticleFormHooks<FrontpageArticleFormType>({
-      getInitialValues: draftApiTypeToFrontpageArticleFormType,
-      article,
-      t,
-      articleStatus,
-      updateArticle,
-      getArticleFromSlate: frontpageArticleFormTypeToDraftApiType,
-      articleLanguage,
-      rules: frontPageArticleRules,
-      ndlaId,
-    });
+  const { savedToServer, formikRef, initialValues, handleSubmit } = useArticleFormHooks<
+    FrontpageArticleFormType
+  >({
+    getInitialValues: draftApiTypeToFrontpageArticleFormType,
+    article,
+    t,
+    articleStatus,
+    updateArticle,
+    getArticleFromSlate: frontpageArticleFormTypeToDraftApiType,
+    articleLanguage,
+    rules: frontPageArticleRules,
+    ndlaId,
+  });
 
   const initialHTML = useMemo(() => blockContentToHTML(initialValues.content), [initialValues]);
 
@@ -131,10 +132,10 @@ const FrontpageArticleForm = ({
   };
 
   const initialWarnings = getWarnings(initialValues, frontPageArticleRules, t, article);
-  const initialErrors = useMemo(
-    () => validateFormik(initialValues, frontPageArticleRules, t),
-    [initialValues, t],
-  );
+  const initialErrors = useMemo(() => validateFormik(initialValues, frontPageArticleRules, t), [
+    initialValues,
+    t,
+  ]);
 
   return (
     <Formik
@@ -144,7 +145,7 @@ const FrontpageArticleForm = ({
       validateOnBlur={false}
       validateOnMount
       onSubmit={handleSubmit}
-      validate={(values) => validateFormik(values, frontPageArticleRules, t)}
+      validate={values => validateFormik(values, frontPageArticleRules, t)}
       initialStatus={{ warnings: initialWarnings }}
     >
       {FormikChild}

@@ -83,7 +83,7 @@ const TopicArticleAccordionPanels = ({
         <MetaDataField
           articleLanguage={articleLanguage}
           showCheckbox={true}
-          checkboxAction={(image) => onSaveAsVisualElement(image, formikContext)}
+          checkboxAction={image => onSaveAsVisualElement(image, formikContext)}
         />
       </AccordionSection>
       <AccordionSection

@@ -56,7 +56,7 @@ const DangerZone = styled.div`
 const getPublishedAndOther = (
   versions: VersionType[],
 ): { published: VersionType | undefined; other: VersionType[] } => {
-  const [published, other] = partition(versions, (v) => v.versionType === 'PUBLISHED');
+  const [published, other] = partition(versions, v => v.versionType === 'PUBLISHED');
   return {
     published: published[0],
     other,
@@ -83,7 +83,7 @@ const TaxonomyVersionsPage = () => {
         <h1>{t('taxonomyVersions.title')}</h1>
         <Row alignItems="center">
           <p>{t('taxonomyVersions.about')}</p>
-          <ButtonV2 onClick={() => setShowNewForm((prev) => !prev)}>
+          <ButtonV2 onClick={() => setShowNewForm(prev => !prev)}>
             {t('taxonomyVersions.newVersionButton')}
           </ButtonV2>
         </Row>

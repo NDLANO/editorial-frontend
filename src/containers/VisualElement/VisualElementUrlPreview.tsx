@@ -40,7 +40,7 @@ import { onError } from '../../util/resolveJsonOrRejectWithError';
 
 const filterWhiteListedURL = (url: string) => {
   const domain = urlDomain(url);
-  const [isWhiteListedURL] = EXTERNAL_WHITELIST_PROVIDERS.filter((filteredProvider) =>
+  const [isWhiteListedURL] = EXTERNAL_WHITELIST_PROVIDERS.filter(filteredProvider =>
     filteredProvider.url.includes(domain),
   );
   return isWhiteListedURL;
@@ -279,7 +279,7 @@ const VisualElementUrlPreview = ({
 
   useEffect(() => {
     if (embed?.imageid) {
-      fetchImage(embed.imageid, articleLanguage).then((image) => {
+      fetchImage(embed.imageid, articleLanguage).then(image => {
         setImage(image);
       });
     }
@@ -343,7 +343,7 @@ const VisualElementUrlPreview = ({
           value={title}
           type="text"
           placeholder={t('form.name.title')}
-          onChange={(e) => setTitle(e.currentTarget.value)}
+          onChange={e => setTitle(e.currentTarget.value)}
         />
       </FieldSection>
       {!showFullscreen && (
@@ -364,7 +364,7 @@ const VisualElementUrlPreview = ({
         <CheckboxWrapper>
           <CheckboxItem
             checked={showFullscreen}
-            onChange={() => setShowFullscreen((prev) => !prev)}
+            onChange={() => setShowFullscreen(prev => !prev)}
             label={t('form.content.link.fullscreen')}
           />
         </CheckboxWrapper>
@@ -411,7 +411,7 @@ const VisualElementUrlPreview = ({
               value={description}
               type="text"
               placeholder={t('form.name.description')}
-              onChange={(e) => setDescription(e.currentTarget.value)}
+              onChange={e => setDescription(e.currentTarget.value)}
             />
             <UpdateButton disabled={!canSave()} variant="outline" onClick={() => handleSaveUrl()}>
               {urlChanged ? t('form.content.link.insert') : t('form.content.link.update')}
@@ -449,10 +449,10 @@ const VisualElementUrlPreview = ({
                 locale={language}
                 language={language}
                 closeModal={() => {}}
-                fetchImage={(id) => fetchImage(id, articleLanguage)}
+                fetchImage={id => fetchImage(id, articleLanguage)}
                 searchImages={searchImages}
                 onError={onError}
-                onImageSelect={(image) => {
+                onImageSelect={image => {
                   setImage(image);
                   setImageModalOpen(false);
                 }}

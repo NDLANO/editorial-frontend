@@ -32,7 +32,7 @@ export const fetchH5PiframeUrl = (
       method: 'POST',
       headers: { Authorization: `Bearer JWT-token` },
     },
-  ).then((r) => resolveJsonOrRejectWithError(r));
+  ).then(r => resolveJsonOrRejectWithError(r));
 };
 
 export const editH5PiframeUrl = (url: string, locale: string = ''): Promise<{ url: string }> => {
@@ -43,7 +43,7 @@ export const editH5PiframeUrl = (url: string, locale: string = ''): Promise<{ ur
     },
     method: 'POST',
     body: `url=${encodeURIComponent(url)}`,
-  }).then((r) => resolveJsonOrRejectWithError(r));
+  }).then(r => resolveJsonOrRejectWithError(r));
 };
 
 export const getH5pLocale = (language: string) => {
@@ -52,5 +52,5 @@ export const getH5pLocale = (language: string) => {
 
 export const fetchH5PInfo = async (resourceId: string): Promise<H5PInfo> => {
   const url = `${config.h5pApiUrl}/v1/resource/${resourceId}/info`;
-  return fetch(url).then((r) => resolveJsonOrRejectWithError(r));
+  return fetch(url).then(r => resolveJsonOrRejectWithError(r));
 };

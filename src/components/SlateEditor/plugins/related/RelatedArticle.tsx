@@ -18,7 +18,7 @@ const resourceTypeProps = (item: RelatedArticleType, numberInList?: number) => {
   if ('resource' in item) {
     const resourceType =
       item.resource[0]?.resourceTypes.find(
-        (resourceType) => iconMapping(numberInList)[resourceType.id],
+        resourceType => iconMapping(numberInList)[resourceType.id],
       )?.id || 'default';
     return iconMapping(numberInList)[resourceType];
   }

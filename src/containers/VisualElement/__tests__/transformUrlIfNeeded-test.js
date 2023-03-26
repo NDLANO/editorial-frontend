@@ -7,7 +7,7 @@
 import nock from 'nock';
 import { urlTransformers } from '../urlTransformers';
 
-const transformUrlIfNeeded = async (url) => {
+const transformUrlIfNeeded = async url => {
   for (const rule of urlTransformers) {
     if (rule.shouldTransform(url, rule.domains)) {
       return await rule.transform(url);
@@ -17,27 +17,35 @@ const transformUrlIfNeeded = async (url) => {
 };
 
 test('transformUrlIfNeeded returns static nrk url if correct nrk url is used', async () => {
-  nock('http://nrk-api').get('/skole/api/media/23618').reply(200, { psId: '33' });
+  nock('http://nrk-api')
+    .get('/skole/api/media/23618')
+    .reply(200, { psId: '33' });
   const url = await transformUrlIfNeeded('https://www.nrk.no/skole-deling/23618');
 
   expect(url).toMatchSnapshot();
 });
 
 test('transformUrlIfNeeded returns url sent in if nrk api should return undefined', async () => {
-  nock('http://nrk-api').get('/skole/api/media/23618').reply(200);
+  nock('http://nrk-api')
+    .get('/skole/api/media/23618')
+    .reply(200);
   const url = await transformUrlIfNeeded('https://www.nrk.no/skole-deling/23618');
 
   expect(url).toMatchSnapshot();
 });
 
 test('transformurlifNeeded returns static nrk url for old nrk embed format', async () => {
-  nock('http://nrk-api').get('/skole/api/media/23618').reply(200, { psId: '33' });
+  nock('http://nrk-api')
+    .get('/skole/api/media/23618')
+    .reply(200, { psId: '33' });
   const url = await transformUrlIfNeeded('https://www.nrk.no/skole/?mediaId=23618');
   expect(url).toMatchSnapshot();
 });
 
 test('transformUrlIfNeeded returns url sent in if nrk api should return something else', async () => {
-  nock('http://nrk-api').get('/skole/api/media/23618').reply(200, { somethingElse: 'test' });
+  nock('http://nrk-api')
+    .get('/skole/api/media/23618')
+    .reply(200, { somethingElse: 'test' });
   const url = await transformUrlIfNeeded('https://www.nrk.no/skole/?mediaId=23618');
 
   expect(url).toMatchSnapshot();

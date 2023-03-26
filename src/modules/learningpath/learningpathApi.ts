@@ -19,7 +19,7 @@ const baseUrl = apiResourceUrl('/learningpath-api/v2/learningpaths');
 
 export const fetchLearningpath = (id: number, locale?: string): Promise<ILearningPathV2> => {
   const language = locale ? `?language=${locale}&fallback=true` : '';
-  return fetchAuthorized(`${baseUrl}/${id}${language}`).then((res) =>
+  return fetchAuthorized(`${baseUrl}/${id}${language}`).then(res =>
     resolveJsonOrRejectWithError<ILearningPathV2>(res),
   );
 };
@@ -36,11 +36,11 @@ export const fetchLearningpaths = (
   });
   return fetchAuthorized(`${baseUrl}/ids/?${query}`, {
     method: 'GET',
-  }).then((r) => resolveJsonOrRejectWithError<ILearningPathV2[]>(r));
+  }).then(r => resolveJsonOrRejectWithError<ILearningPathV2[]>(r));
 };
 
 export const fetchLearningpathsWithArticle = (id: number): Promise<ILearningPathV2[]> =>
-  fetchAuthorized(`${baseUrl}/contains-article/${id}`).then((r) =>
+  fetchAuthorized(`${baseUrl}/contains-article/${id}`).then(r =>
     resolveJsonOrRejectWithError<ILearningPathV2[]>(r),
   );
 
@@ -55,7 +55,7 @@ export const updateStatusLearningpath = (
       status,
       message,
     }),
-  }).then((r) => resolveJsonOrRejectWithError<ILearningPathV2>(r));
+  }).then(r => resolveJsonOrRejectWithError<ILearningPathV2>(r));
 
 export const updateLearningPathTaxonomy = (
   id: number,
@@ -63,7 +63,7 @@ export const updateLearningPathTaxonomy = (
 ): Promise<ILearningPathV2> =>
   fetchAuthorized(`${baseUrl}/${id}/update-taxonomy/?create-if-missing=${createIfMissing}`, {
     method: 'POST',
-  }).then((r) => resolveJsonOrRejectWithError<ILearningPathV2>(r));
+  }).then(r => resolveJsonOrRejectWithError<ILearningPathV2>(r));
 
 export const learningpathSearch = async (
   query: SearchBody & { ids?: number[] },
@@ -80,7 +80,7 @@ export const learningpathSearch = async (
   return fetchAuthorized(`${baseUrl}/search/`, {
     method: 'POST',
     body: JSON.stringify(query),
-  }).then((r) => resolveJsonOrRejectWithError<ISearchResultV2>(r));
+  }).then(r => resolveJsonOrRejectWithError<ISearchResultV2>(r));
 };
 
 export const learningpathCopy = (
@@ -90,4 +90,4 @@ export const learningpathCopy = (
   fetchAuthorized(`${baseUrl}/${id}/copy/`, {
     method: 'POST',
     body: JSON.stringify(query),
-  }).then((r) => resolveJsonOrRejectWithError<ILearningPathV2>(r));
+  }).then(r => resolveJsonOrRejectWithError<ILearningPathV2>(r));

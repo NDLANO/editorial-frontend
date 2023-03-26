@@ -15,7 +15,7 @@ const retrieveBreadCrumbs = ({ topicPath, structure, allTopics, title }: Input):
   try {
     const [subjectPath, ...topicPaths] = pathToUrnArray(topicPath);
 
-    const subject = structure.find((structureSubject) => structureSubject.id === subjectPath);
+    const subject = structure.find(structureSubject => structureSubject.id === subjectPath);
     if (!subject) return [];
     const returnPaths = [
       {
@@ -25,7 +25,7 @@ const retrieveBreadCrumbs = ({ topicPath, structure, allTopics, title }: Input):
       },
     ];
     topicPaths.forEach((pathId: string) => {
-      const path = allTopics.find((subtopic) => subtopic.id === pathId);
+      const path = allTopics.find(subtopic => subtopic.id === pathId);
       if (path) {
         returnPaths.push({
           name: path.name,

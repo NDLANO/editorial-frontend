@@ -91,9 +91,9 @@ const ConceptSearchResult = ({ tag, language, showResultCount, subjectId }: Prop
 
   const search = async (query: ConceptQuery) => {
     searchConcepts(query)
-      .then((data) => {
+      .then(data => {
         const { results, totalCount } = data;
-        const parsedConcepts = results.map((concept) => {
+        const parsedConcepts = results.map(concept => {
           const embed = concept.visualElement?.visualElement;
           const embedData = parseEmbedTag(embed);
           const visualElement = embedData ? getVisualElement(embedData) : {};
@@ -150,7 +150,7 @@ const ConceptSearchResult = ({ tag, language, showResultCount, subjectId }: Prop
             <div>{`${t('searchPage.totalCount')}: ${resultCount}`}</div>
           )}
           <ul>
-            {concepts.map((concept) => {
+            {concepts.map(concept => {
               return (
                 <ConceptSearchResultListItem key={concept.id}>
                   <ConceptNotion

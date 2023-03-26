@@ -59,7 +59,7 @@ const ImageContent = ({ formik }: Props) => {
               target.files?.[0] ? URL.createObjectURL(target.files[0]) : undefined,
             );
             Promise.resolve(
-              createImageBitmap(target.files?.[0] as Blob).then((image) => {
+              createImageBitmap(target.files?.[0] as Blob).then(image => {
                 setFieldValue('imageDimensions', image);
               }),
             );
@@ -100,7 +100,7 @@ const ImageContent = ({ formik }: Props) => {
         </>
       )}
       <FormikField name="imageFile.size" showError={true}>
-        {(_) => <></>}
+        {_ => <></>}
       </FormikField>
       <FormikField name="caption" showError={false}>
         {({ field }: FieldProps) => (

@@ -10,7 +10,7 @@ import { useEffect, useRef, useState } from 'react';
 import { TFunction } from 'i18next';
 import { FormikHelpers } from 'formik';
 import { Descendant } from 'slate';
-import { IArticle, ILicense, IStatus, IUpdatedArticle, IAuthor } from '@ndla/types-draft-api';
+import { IArticle, ILicense, IStatus, IUpdatedArticle, IAuthor } from '@ndla/types-backend/draft-api';
 import { deleteFile } from '../../modules/draft/draftApi';
 import { RelatedContent } from '../../interfaces';
 import { useMessages } from '../Messages/MessagesProvider';

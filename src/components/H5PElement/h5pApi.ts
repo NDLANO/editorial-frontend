@@ -6,7 +6,7 @@
  *
  */
 
-import { IAuthor } from '@ndla/types-draft-api';
+import { IAuthor } from '@ndla/types-backend/draft-api';
 import config from '../../config';
 import { fetchReAuthorized, resolveJsonOrRejectWithError } from '../../util/apiHelpers';
 

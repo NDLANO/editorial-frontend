@@ -7,7 +7,7 @@
  */
 
 import { getLicenseByAbbreviation } from '@ndla/licenses';
-import { ILicense } from '@ndla/types-draft-api';
+import { ILicense } from '@ndla/types-backend/draft-api';
 
 export const getLicensesWithTranslations = (
   licenses: ILicense[],

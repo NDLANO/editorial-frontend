@@ -7,7 +7,7 @@
  */
 
 import { FormikContextType } from 'formik';
-import { IImageMetaInformationV3 } from '@ndla/types-image-api';
+import { IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
 import { defaultEmbedBlock } from '../../components/SlateEditor/plugins/embed/utils';
 import { ImageEmbed } from '../../interfaces';
 import { convertFieldWithFallback } from '../../util/convertFieldWithFallback';

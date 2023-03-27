@@ -17,8 +17,14 @@ import config from '../../../config';
 import { PUBLISHED } from '../../../constants';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 import { ResourceWithNodeConnectionAndMeta } from './StructureResources';
-import { isApproachingRevision, RevisionDateIcon } from './ApproachingRevisionDate';
+import { isApproachingRevision } from './ApproachingRevisionDate';
 import WrongTypeError from './WrongTypeError';
+import {
+  getWarnStatus,
+  StyledTimeIcon,
+} from '../../../components/HeaderWithLanguage/HeaderStatusInformation';
+import { getExpirationDate } from '../../ArticlePage/articleTransformers';
+import formatDate from '../../../util/formatDate';
 
 const StyledCheckIcon = styled(Check)`
   height: 24px;
@@ -39,6 +45,11 @@ const StyledLink = styled(SafeLink)`
 const CheckedWrapper = styled.div`
   display: flex;
 `;
+const TimeIconWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
 export const IconWrapper = styled.div`
   display: flex;
@@ -56,11 +67,27 @@ const StatusIcons = ({ contentMetaLoading, resource, path }: Props) => {
     () => isApproachingRevision(resource.contentMeta?.revisions),
     [resource.contentMeta?.revisions],
   );
+  const expirationDate = getExpirationDate({
+    revisions: resource.contentMeta?.revisions?.filter((r) => !!r)!,
+  });
+  const expirationColor = getWarnStatus(expirationDate);
 
   return (
     <IconWrapper>
       {approachingRevision ? (
-        <RevisionDateIcon phrasesKey="form.responsible.revisionDateSingle" />
+        <>
+          {expirationColor && expirationDate && (
+            <Tooltip
+              tooltip={t(`form.workflow.expiration.${expirationColor}`, {
+                date: formatDate(expirationDate),
+              })}
+            >
+              <TimeIconWrapper>
+                <StyledTimeIcon status={expirationColor} width="24px" height="24px" />
+              </TimeIconWrapper>
+            </Tooltip>
+          )}
+        </>
       ) : null}
       {!contentMetaLoading && (
         <WrongTypeError resource={resource} articleType={resource.contentMeta?.articleType} />
@@ -72,7 +99,6 @@ const StatusIcons = ({ contentMetaLoading, resource, path }: Props) => {
           </IconWrapper>
         </Tooltip>
       )}
-
       {(resource.contentMeta?.status?.current === PUBLISHED ||
         resource.contentMeta?.status?.other?.includes(PUBLISHED)) && (
         <PublishedWrapper path={path}>

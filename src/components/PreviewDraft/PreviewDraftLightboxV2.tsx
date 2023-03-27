@@ -149,7 +149,7 @@ const PreviewTitleWrapper = styled.div`
 
 const PreviewCompare = ({ article, language }: ComparePreviewProps) => {
   const [previewLanguage, setPreviewLanguage] = useState<string>(
-    article.supportedLanguages.find(l => l !== language) ?? article.supportedLanguages[0]!,
+    article.supportedLanguages.find((l) => l !== language) ?? article.supportedLanguages[0]!,
   );
   const draft = useDraft({ id: article.id, language: previewLanguage });
   const { t } = useTranslation();
@@ -192,8 +192,8 @@ const PreviewCompare = ({ article, language }: ComparePreviewProps) => {
               language: t(`language.${previewLanguage}`).toLowerCase(),
             })}
           </h2>
-          <select onChange={evt => setPreviewLanguage(evt.target.value)} value={previewLanguage}>
-            {article.supportedLanguages.map(language => (
+          <select onChange={(evt) => setPreviewLanguage(evt.target.value)} value={previewLanguage}>
+            {article.supportedLanguages.map((language) => (
               <option key={language} value={language}>
                 {t(`language.${language}`)}
               </option>
@@ -223,7 +223,7 @@ const PreviewHeading = styled.h2`
 
 const PreviewConceptCompare = ({ concept, language }: CompareConceptPreviewProps) => {
   const [previewLanguage, setPreviewLanguage] = useState<string>(
-    concept.supportedLanguages.find(l => l !== language) ?? concept.supportedLanguages[0]!,
+    concept.supportedLanguages.find((l) => l !== language) ?? concept.supportedLanguages[0]!,
   );
   const apiConcept = useConcept({ id: concept.id, language: previewLanguage });
   const { data: licenses } = useLicenses({ placeholderData: [] });
@@ -252,8 +252,8 @@ const PreviewConceptCompare = ({ concept, language }: CompareConceptPreviewProps
               language: t(`language.${previewLanguage}`).toLowerCase(),
             })}
           </PreviewHeading>
-          <select onChange={evt => setPreviewLanguage(evt.target.value)} value={previewLanguage}>
-            {concept.supportedLanguages.map(language => (
+          <select onChange={(evt) => setPreviewLanguage(evt.target.value)} value={previewLanguage}>
+            {concept.supportedLanguages.map((language) => (
               <option key={language} value={language}>
                 {t(`language.${language}`)}
               </option>
@@ -272,10 +272,10 @@ const PreviewConcept = ({ language }: ConceptPreviewProps) => {
   const { data: licenses } = useLicenses({ placeholderData: [] });
   const { t } = useTranslation();
   const { values } = useFormikContext<ConceptFormValues>();
-  const formConcept = useMemo(() => conceptFormTypeToApiType(values, licenses!), [
-    values,
-    licenses,
-  ]);
+  const formConcept = useMemo(
+    () => conceptFormTypeToApiType(values, licenses!),
+    [values, licenses],
+  );
 
   return (
     <ConceptWrapper>
@@ -304,7 +304,7 @@ const PreviewDraftLightboxV2 = (props: Props) => {
       activateButton={props.activateButton}
       wrapperFunctionForButton={props.wrapperFunctionForButton}
     >
-      {onClose => (
+      {(onClose) => (
         <>
           <ModalHeaderV2>
             <ModalCloseButton onClick={onClose} />

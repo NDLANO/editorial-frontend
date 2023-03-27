@@ -35,7 +35,7 @@ const SearchConceptForm = ({ search: doSearch, searchObject: search, subjects }:
   const { data: users } = useAuth0Editors(
     { permission: CONCEPT_WRITE_SCOPE },
     {
-      select: users => users.map(u => ({ id: `${u.app_metadata.ndla_id}`, name: u.name })),
+      select: (users) => users.map((u) => ({ id: `${u.app_metadata.ndla_id}`, name: u.name })),
       placeholderData: [],
     },
   );
@@ -43,13 +43,13 @@ const SearchConceptForm = ({ search: doSearch, searchObject: search, subjects }:
   const { data: responsibles } = useAuth0Responsibles(
     { permission: CONCEPT_WRITE_SCOPE },
     {
-      select: users =>
+      select: (users) =>
         sortBy(
-          users.map(u => ({
+          users.map((u) => ({
             id: `${u.app_metadata.ndla_id}`,
             name: u.name,
           })),
-          u => u.name,
+          (u) => u.name,
         ),
       placeholderData: [],
     },
@@ -70,7 +70,7 @@ const SearchConceptForm = ({ search: doSearch, searchObject: search, subjects }:
   const { data: statuses } = useConceptStateMachine();
 
   const getConceptStatuses = () => {
-    return Object.keys(statuses || []).map(s => {
+    return Object.keys(statuses || []).map((s) => {
       return { id: s, name: t(`form.status.${s.toLowerCase()}`) };
     });
   };
@@ -99,7 +99,7 @@ const SearchConceptForm = ({ search: doSearch, searchObject: search, subjects }:
   const sortByProperty = (property: string) => {
     type Sortable = { [key: string]: any };
 
-    return function(a: Sortable, b: Sortable) {
+    return function (a: Sortable, b: Sortable) {
       return a[property]?.localeCompare(b[property]);
     };
   };
@@ -109,7 +109,9 @@ const SearchConceptForm = ({ search: doSearch, searchObject: search, subjects }:
       parameterName: 'subjects',
       value: getTagName(search.subjects, subjects),
       options: subjects
-        .filter(s => s.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] === 'true')
+        .filter(
+          (s) => s.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] === 'true',
+        )
         .sort(sortByProperty('name')),
       formElementType: 'dropdown',
       width: 25,

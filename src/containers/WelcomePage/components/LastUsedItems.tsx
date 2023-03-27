@@ -47,14 +47,16 @@ const LastUsedItems = ({ lastUsed = [] }: Props) => {
   const sortedData = useMemo(() => {
     if (!data?.results) return [];
     const sortDesc = sortOption.charAt(0) === '-';
-    return orderBy(data.results, t => (sortOption.includes('title') ? t.title?.title : t.updated), [
-      sortDesc ? 'desc' : 'asc',
-    ]);
+    return orderBy(
+      data.results,
+      (t) => (sortOption.includes('title') ? t.title?.title : t.updated),
+      [sortDesc ? 'desc' : 'asc'],
+    );
   }, [data?.results, sortOption]);
 
   const tableData: FieldElement[][] = useMemo(
     () =>
-      sortedData?.map(a => [
+      sortedData?.map((a) => [
         {
           id: `title_${a.id}`,
           data: <StyledLink to={toEditArticle(a.id, a.articleType)}>{a.title?.title}</StyledLink>,

@@ -186,7 +186,7 @@ const articleContentToEditorValue = (html: string, rules: SlateSerializer[]) => 
 
   const document = new DOMParser().parseFromString(html, 'text/html');
   const nodes = toArray(document.body.children).map(deserialize);
-  const normalizedNodes = compact(nodes.map(n => convertFromHTML(Node.isNodeList(n) ? n[0] : n)));
+  const normalizedNodes = compact(nodes.map((n) => convertFromHTML(Node.isNodeList(n) ? n[0] : n)));
   return normalizedNodes;
 };
 

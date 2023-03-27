@@ -37,7 +37,7 @@ const HeaderSupportedLanguages = ({
   const { t } = useTranslation();
   return (
     <>
-      {supportedLanguages.map(supportedLanguage =>
+      {supportedLanguages.map((supportedLanguage) =>
         language === supportedLanguage ? (
           <HeaderLanguagePill current key={`types_${supportedLanguage}`}>
             <Check />

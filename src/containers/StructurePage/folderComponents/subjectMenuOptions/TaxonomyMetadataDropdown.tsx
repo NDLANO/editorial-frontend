@@ -47,7 +47,7 @@ const TaxonomyMetadataDropdown = ({
       <RoundIcon open small />
       <StyledMenuItemInputField placeholder={messages['title']} disabled />
       <StyledSelect
-        onChange={e => {
+        onChange={(e) => {
           e.persist();
           updateCustomFields({
             ...customFields,

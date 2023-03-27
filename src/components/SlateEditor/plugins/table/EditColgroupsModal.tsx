@@ -19,7 +19,7 @@ import { TableElement } from './interfaces';
 import { Portal } from '../../../Portal';
 
 window.MonacoEnvironment = {
-  getWorkerUrl: function(moduleId: string, label: string) {
+  getWorkerUrl: function (moduleId: string, label: string) {
     if (label === 'html') {
       return process.env.NODE_ENV !== 'production'
         ? '/static/js/html.worker.js'
@@ -56,7 +56,7 @@ const EditColgroupsModal = ({ element }: Props) => {
       editor,
       { showEditColgroups: false },
       {
-        match: node => node === element,
+        match: (node) => node === element,
       },
     );
   };
@@ -66,7 +66,7 @@ const EditColgroupsModal = ({ element }: Props) => {
       editor,
       { showEditColgroups: false, colgroups: content },
       {
-        match: node => node === element,
+        match: (node) => node === element,
       },
     );
   };

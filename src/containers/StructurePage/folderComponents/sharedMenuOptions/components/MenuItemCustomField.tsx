@@ -100,7 +100,7 @@ const MenuItemCustomField = ({ node, onCurrentNodeChanged }: Props) => {
     <>
       <GroupTopicResources
         node={node}
-        onChanged={partialMeta =>
+        onChanged={(partialMeta) =>
           onCurrentNodeChanged({ ...node, metadata: { ...node.metadata, ...partialMeta } })
         }
       />

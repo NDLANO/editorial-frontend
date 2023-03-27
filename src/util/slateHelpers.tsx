@@ -10,8 +10,8 @@ import { Descendant, Node, Element } from 'slate';
 
 export const findNodesByType = (descendants: Descendant[], ...type: Element['type'][]) => {
   const ret = descendants
-    .flatMap(descendant => Array.from(Node.elements(descendant)))
+    .flatMap((descendant) => Array.from(Node.elements(descendant)))
     .map(([node]) => node)
-    .filter(node => type.includes(node.type));
+    .filter((node) => type.includes(node.type));
   return ret;
 };

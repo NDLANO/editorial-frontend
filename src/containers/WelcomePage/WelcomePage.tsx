@@ -37,9 +37,10 @@ export const WelcomePage = () => {
     enabled: isValid(getAccessToken()) && getAccessTokenPersonal(),
   });
   const { ndlaId } = useSession();
-  const lastUsed = useMemo(() => data?.latestEditedArticles?.map(l => Number(l)) ?? [], [
-    data?.latestEditedArticles,
-  ]);
+  const lastUsed = useMemo(
+    () => data?.latestEditedArticles?.map((l) => Number(l)) ?? [],
+    [data?.latestEditedArticles],
+  );
 
   localStorage.setItem('lastPath', '');
 

@@ -75,14 +75,15 @@ const PublishRequestsContainer = () => {
     value: 'true',
   });
 
-  const sorted = useMemo(() => sortBy(nodesQuery?.data, n => n.breadcrumbs?.join('')), [
-    nodesQuery,
-  ]);
+  const sorted = useMemo(
+    () => sortBy(nodesQuery?.data, (n) => n.breadcrumbs?.join('')),
+    [nodesQuery],
+  );
 
   const versionsQuery = useVersions(
     {},
     {
-      onSuccess: data => {
+      onSuccess: (data) => {
         if (!data[0]) {
           setError('publishRequests.errors.noVersions');
         }
@@ -90,9 +91,9 @@ const PublishRequestsContainer = () => {
     },
   );
 
-  const publishedVersion = versionsQuery.data?.filter(v => v.versionType === 'PUBLISHED')?.[0];
+  const publishedVersion = versionsQuery.data?.filter((v) => v.versionType === 'PUBLISHED')?.[0];
   const betaVersions = versionsQuery.data
-    ?.filter(v => v.versionType === 'BETA')
+    ?.filter((v) => v.versionType === 'BETA')
     .sort((a, b) => (isBefore(new Date(a.created), new Date(b.created)) ? 1 : -1));
 
   const otherVersion = betaVersions?.[0] || publishedVersion || versionsQuery.data?.[0];

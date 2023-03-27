@@ -68,7 +68,7 @@ const onBackspace = (
         e.preventDefault();
         editor.deleteBackward('character');
         Transforms.unwrapNodes(editor, {
-          match: node => Element.isElement(node) && node.type === TYPE_CONCEPT_INLINE,
+          match: (node) => Element.isElement(node) && node.type === TYPE_CONCEPT_INLINE,
         });
         return;
       }

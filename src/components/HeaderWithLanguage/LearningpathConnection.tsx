@@ -49,7 +49,7 @@ const LearningpathConnection = ({ id, learningpaths, setLearningpaths }: Props) 
       label={t('form.learningpathConnections.title')}
       backgroundColor="white"
       narrow
-      wrapperFunctionForButton={button => (
+      wrapperFunctionForButton={(button) => (
         <Tooltip tooltip={t('form.learningpathConnections.sectionTitle')}>{button}</Tooltip>
       )}
       activateButton={

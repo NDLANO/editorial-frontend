@@ -15,17 +15,17 @@ import { toEditArticle, toLearningpathFull } from '../../../util/routeHelpers';
 type FontSizeType = 'small' | 'medium';
 
 const StyledH1 = styled.h1<{ isVisible?: boolean; size?: FontSizeType }>`
-  font-style: ${props => !props.isVisible && 'italic'};
-  color: ${props => (!props.isVisible ? colors.brand.grey : colors.brand.primary)};
+  font-style: ${(props) => !props.isVisible && 'italic'};
+  color: ${(props) => (!props.isVisible ? colors.brand.grey : colors.brand.primary)};
   text-transform: none;
   letter-spacing: 0;
   margin: 0;
   display: inline;
-  ${props => fonts.sizes(props.size === 'small' ? '16px' : '18px')};
+  ${(props) => fonts.sizes(props.size === 'small' ? '16px' : '18px')};
   font-weight: ${fonts.weight.normal};
 
   ${mq.range({ from: breakpoints.desktop })} {
-    ${props => fonts.sizes(props.size === 'small' ? '18px' : '20px')};
+    ${(props) => fonts.sizes(props.size === 'small' ? '18px' : '20px')};
   }
 `;
 

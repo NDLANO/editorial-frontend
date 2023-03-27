@@ -75,7 +75,7 @@ const imageRules: RulesType<ImageFormikType, IImageMetaInformationV3> = {
   },
   license: {
     required: true,
-    test: values => {
+    test: (values) => {
       const authors = values.creators.concat(values.rightsholders).concat(values.processors);
       if (!values.license || authors.length > 0) return undefined;
       return { translationKey: 'validation.noLicenseWithoutCopyrightHolder' };
@@ -122,7 +122,7 @@ const ImageForm = ({
   const navigate = useNavigate();
 
   const handleSubmit = async (values: ImageFormikType, actions: FormikHelpers<ImageFormikType>) => {
-    const license = licenses.find(license => license.license === values.license);
+    const license = licenses.find((license) => license.license === values.license);
 
     if (
       license === undefined ||
@@ -175,7 +175,7 @@ const ImageForm = ({
       onSubmit={handleSubmit}
       validateOnMount
       enableReinitialize
-      validate={values => validateFormik(values, imageRules, t)}
+      validate={(values) => validateFormik(values, imageRules, t)}
       initialStatus={{ warnings: initialWarnings }}
     >
       {({ values, dirty, errors, isSubmitting, submitForm, isValid }) => {
@@ -186,7 +186,7 @@ const ImageForm = ({
           changed: isNewLanguage,
         });
         const hasError = (errorFields: ImageFormErrorFields[]): boolean =>
-          errorFields.some(field => !!errors[field]);
+          errorFields.some((field) => !!errors[field]);
         return (
           <FormWrapper inModal={inModal}>
             <HeaderWithLanguage
@@ -250,7 +250,7 @@ const ImageForm = ({
                 disabled={!isValid}
                 showSaved={!dirty && (isNewlyCreated || savedToServer)}
                 formIsDirty={formIsDirty}
-                onClick={evt => {
+                onClick={(evt) => {
                   if (inModal) {
                     evt.preventDefault();
                     submitForm();

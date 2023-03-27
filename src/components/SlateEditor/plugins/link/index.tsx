@@ -119,7 +119,7 @@ export const linkPlugin = (language: string) => (editor: Editor) => {
     return undefined;
   };
 
-  editor.normalizeNode = entry => {
+  editor.normalizeNode = (entry) => {
     const [node, path] = entry;
     if (Element.isElement(node)) {
       if (node.type === 'content-link' || node.type === 'link') {

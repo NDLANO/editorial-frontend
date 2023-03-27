@@ -103,7 +103,7 @@ const AddResourceModal = ({
   const { taxonomyVersion } = useTaxonomyVersion();
   const compKey = resourcesWithNodeConnectionQueryKey({ id: nodeId, language: i18n.language });
   const { mutateAsync: createNodeResource } = usePostResourceForNodeMutation({
-    onSuccess: _ => qc.invalidateQueries(compKey),
+    onSuccess: (_) => qc.invalidateQueries(compKey),
   });
   const canPaste = allowPaste || selectedType !== RESOURCE_TYPE_LEARNING_PATH;
 
@@ -140,8 +140,8 @@ const AddResourceModal = ({
     }
 
     await createNodeResource({ body: { resourceId, nodeId }, taxonomyVersion })
-      .then(_ => onClose())
-      .catch(err => setError('taxonomy.resource.creationFailed'));
+      .then((_) => onClose())
+      .catch((err) => setError('taxonomy.resource.creationFailed'));
     setLoading(false);
   };
 
@@ -217,7 +217,7 @@ const AddResourceModal = ({
         {!type && (
           <ResourceTypeSelect
             availableResourceTypes={resourceTypes ?? []}
-            onChangeSelectedResource={e => setSelectedType(e.currentTarget.value)}
+            onChangeSelectedResource={(e) => setSelectedType(e.currentTarget.value)}
           />
         )}
         {canPaste && selectedType && (
@@ -237,7 +237,7 @@ const AddResourceModal = ({
               labelField="title"
               placeholder={t('form.content.relatedArticle.placeholder')}
               apiAction={(query, page) => onSearch(query, page)}
-              onChange={res => setContent(toContent(res))}
+              onChange={(res) => setContent(toContent(res))}
               startOpen
               showPagination
             />

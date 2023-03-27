@@ -31,7 +31,7 @@ const ImageSizeButton = ({ currentSize = 'fullwidth', size, onFieldChange }: Pro
       <ImageEditorButton
         isActive={currentSize.startsWith(size)}
         tabIndex={-1}
-        onClick={evt => onFieldChange(evt, 'size', size)}
+        onClick={(evt) => onFieldChange(evt, 'size', size)}
       >
         {icon[size]}
       </ImageEditorButton>

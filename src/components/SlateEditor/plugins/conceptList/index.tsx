@@ -86,7 +86,7 @@ export const conceptListPlugin = (language: string) => (editor: Editor) => {
     return isVoid(element);
   };
 
-  editor.normalizeNode = entry => {
+  editor.normalizeNode = (entry) => {
     const [node] = entry;
 
     if (Element.isElement(node) && node.type === TYPE_CONCEPT_LIST) {

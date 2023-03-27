@@ -67,7 +67,8 @@ const fetchConceptData = async (
     title: concept.title?.title,
     status: concept.status?.current,
     lastUpdated: concept.responsible ? formatDate(concept.responsible.lastUpdated) : '',
-    subjects: subjects?.results.map(subject => ({ value: subject.id, label: subject.name })) ?? [],
+    subjects:
+      subjects?.results.map((subject) => ({ value: subject.id, label: subject.name })) ?? [],
   };
 };
 
@@ -91,7 +92,7 @@ const ConceptListTabContent = ({
     (async () => {
       if (!data?.results) return;
       const _data = await Promise.all(
-        data.results.map(c => fetchConceptData(c, taxonomyVersion, i18n.language)),
+        data.results.map((c) => fetchConceptData(c, taxonomyVersion, i18n.language)),
       );
       setConceptData(_data);
     })();
@@ -99,7 +100,7 @@ const ConceptListTabContent = ({
 
   const tableData: FieldElement[][] = useMemo(
     () =>
-      conceptData.map(res => [
+      conceptData.map((res) => [
         {
           id: `title_${res.id}`,
           data: <StyledLink to={toEditConcept(res.id)}>{res.title}</StyledLink>,
@@ -110,7 +111,7 @@ const ConceptListTabContent = ({
         },
         {
           id: `concept_subject_${res.id}`,
-          data: res.subjects.map(s => s.label).join(' - '),
+          data: res.subjects.map((s) => s.label).join(' - '),
         },
         {
           id: `date_${res.id}`,
@@ -120,9 +121,10 @@ const ConceptListTabContent = ({
     [conceptData, t],
   );
 
-  const subjectList = useMemo(() => uniqBy(conceptData.map(c => c.subjects).flat(), c => c.value), [
-    conceptData,
-  ]);
+  const subjectList = useMemo(
+    () => uniqBy(conceptData.map((c) => c.subjects).flat(), (c) => c.value),
+    [conceptData],
+  );
 
   const tableTitles: TitleElement[] = [
     { title: t('welcomePage.workList.name'), sortableField: 'title' },
@@ -175,7 +177,7 @@ const ConceptListTabContent = ({
         page={data?.page ?? 1}
         lastPage={lastPage}
         query={{}}
-        onClick={el => setPageConcept(el.page)}
+        onClick={(el) => setPageConcept(el.page)}
         small
         colorTheme="lighter"
         pageItemComponentClass="button"

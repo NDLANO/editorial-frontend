@@ -142,7 +142,7 @@ const NodeItem = ({
             rootNodeId={rootNodeId}
             key={item.id}
             isMainActive={isOpen}
-            onCurrentNodeChanged={node => onNodeSelected(node)}
+            onCurrentNodeChanged={(node) => onNodeSelected(node)}
             jumpToResources={() => resourceSectionRef?.current?.scrollIntoView()}
             nodeChildren={nodes ?? []}
           />
@@ -159,9 +159,9 @@ const NodeItem = ({
             <MakeDndList
               disableDND={!isActive || nodes.length < 2}
               dragHandle
-              onDragEnd={res => onDragEnd(res, nodes!)}
+              onDragEnd={(res) => onDragEnd(res, nodes!)}
             >
-              {nodes.map(t => (
+              {nodes.map((t) => (
                 <NodeItem
                   isFavorite={false}
                   renderBeforeTitle={renderBeforeTitle}

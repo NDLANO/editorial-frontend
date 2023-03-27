@@ -74,7 +74,7 @@ const SlateFigure = ({ attributes, editor, element, language, locale = 'nb', chi
     ReactEditor.focus(editor);
     Transforms.removeNodes(editor, {
       at: pathToEmbed,
-      match: node => isSlateEmbed(node),
+      match: (node) => isSlateEmbed(node),
     });
   };
 

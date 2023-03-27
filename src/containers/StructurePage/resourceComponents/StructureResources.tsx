@@ -72,8 +72,9 @@ const StructureResources = ({ currentChildNode, resourceRef, setCurrentNode }: P
   const { data: nodeResources } = useResourcesWithNodeConnection(
     { id: currentChildNode.id, language: i18n.language, taxonomyVersion },
     {
-      select: resources => resources.map(r => (r.resourceTypes.length > 0 ? r : withMissing(r))),
-      onError: e => handleError(e),
+      select: (resources) =>
+        resources.map((r) => (r.resourceTypes.length > 0 ? r : withMissing(r))),
+      onError: (e) => handleError(e),
       placeholderData: [],
     },
   );
@@ -83,7 +84,7 @@ const StructureResources = ({ currentChildNode, resourceRef, setCurrentNode }: P
       nodeId: currentChildNode.id,
       ids:
         nodeResources
-          ?.map(r => r.contentUri)
+          ?.map((r) => r.contentUri)
           .concat(currentChildNode.contentUri)
           .filter<string>((uri): uri is string => !!uri) ?? [],
       language: i18n.language,
@@ -91,13 +92,13 @@ const StructureResources = ({ currentChildNode, resourceRef, setCurrentNode }: P
     { enabled: !!currentChildNode.contentUri || !!nodeResources?.length },
   );
 
-  const keyedMetas = keyBy(nodeResourceMetas, m => m.contentUri);
+  const keyedMetas = keyBy(nodeResourceMetas, (m) => m.contentUri);
 
   const { data: resourceTypes } = useAllResourceTypes(
     { language: i18n.language, taxonomyVersion },
     {
-      select: resourceTypes => resourceTypes.concat(getMissingResourceType(t)),
-      onError: e => handleError(e),
+      select: (resourceTypes) => resourceTypes.concat(getMissingResourceType(t)),
+      onError: (e) => handleError(e),
     },
   );
 

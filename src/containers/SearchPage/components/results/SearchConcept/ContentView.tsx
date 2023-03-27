@@ -57,7 +57,7 @@ const ContentView = ({
 }: Props) => {
   const { t } = useTranslation();
   const { data: licenses } = useLicenses();
-  const license = licenses && licenses.find(l => concept.license === l.license);
+  const license = licenses && licenses.find((l) => concept.license === l.license);
 
   return (
     <StyledConceptView>
@@ -71,7 +71,7 @@ const ContentView = ({
         {`${t('topicArticleForm.info.lastUpdated')} ${formatDate(concept.lastUpdated)}`}
       </StyledInfo>
       <div>
-        {concept.supportedLanguages.map(lang => {
+        {concept.supportedLanguages.map((lang) => {
           return lang !== locale ? (
             <StyledLink
               other
@@ -94,7 +94,7 @@ const ContentView = ({
         />
       )}
       <StyledBreadcrumbs>
-        {breadcrumbs?.map(breadcrumb => <Crumb key={breadcrumb.id}>{breadcrumb.name}</Crumb>) || (
+        {breadcrumbs?.map((breadcrumb) => <Crumb key={breadcrumb.id}>{breadcrumb.name}</Crumb>) || (
           <Crumb />
         )}
         <HeaderStatusInformation

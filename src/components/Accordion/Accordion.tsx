@@ -31,13 +31,13 @@ interface StyledAccordionTitleProps {
 const StyledAccordionTitle = styled.span<StyledAccordionTitleProps>`
   padding-left: ${spacing.normal};
   font-size: 1.25rem;
-  color: ${p => (p.type === 'taxonomy' ? 'white' : 'rgb(102, 102, 102);')};
+  color: ${(p) => (p.type === 'taxonomy' ? 'white' : 'rgb(102, 102, 102);')};
   align-items: center;
   display: flex;
   align-self: center;
   & > svg {
     margin-right: 10px;
-    color: ${p => p.type === 'resourceGroup' && 'rgb(102, 102, 102)'};
+    color: ${(p) => p.type === 'resourceGroup' && 'rgb(102, 102, 102)'};
   }
 `;
 
@@ -48,8 +48,8 @@ interface StyledExpandProps {
 const StyledExpandMore = styled(ExpandMore)<StyledExpandProps>`
   width: 45px;
   height: 45px;
-  color: ${p => (p.type === 'resourceGroup' ? 'rgb(136,136,136)' : 'white')};
-  margin-right: ${p => p.type === 'resourceGroup' && '4px'};
+  color: ${(p) => (p.type === 'resourceGroup' ? 'rgb(136,136,136)' : 'white')};
+  margin-right: ${(p) => p.type === 'resourceGroup' && '4px'};
 `;
 const StyledExpandLess = StyledExpandMore.withComponent(ExpandLess);
 
@@ -62,10 +62,10 @@ const StyledContent = styled.div<StyledContentProps>`
     padding-left: ${spacing.small};
     padding-right: ${spacing.xsmall};
   }
-  padding-bottom: ${p => !p.hidden && '3rem'};
-  display: ${p => p.hidden && 'none'};
-  margin-left: ${p => p.type === 'taxonomy' && spacing.normal};
-  margin-bottom: ${p => p.type === 'resourceGroup' && '-1.8em'};
+  padding-bottom: ${(p) => !p.hidden && '3rem'};
+  display: ${(p) => p.hidden && 'none'};
+  margin-left: ${(p) => p.type === 'taxonomy' && spacing.normal};
+  margin-bottom: ${(p) => p.type === 'resourceGroup' && '-1.8em'};
 `;
 
 export type AccordionType = 'resourceGroup' | 'taxonomy';

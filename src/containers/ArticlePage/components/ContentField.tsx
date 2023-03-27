@@ -34,7 +34,7 @@ const ContentField = ({ field, form }: Props) => {
   useEffect(() => {
     (async () => {
       const promises = field.value.map<Promise<ConvertedRelatedContent> | IRelatedContentLink>(
-        element => {
+        (element) => {
           if (typeof element === 'number') {
             return fetchDraft(element);
           } else return element;
@@ -66,7 +66,7 @@ const ContentField = ({ field, form }: Props) => {
 
   const updateFormik = (formikField: Props['field'], newData: ConvertedRelatedContent[]) => {
     form.setFieldTouched('relatedContent', true, false);
-    const newRc: RelatedContent[] = newData.map(rc => (isDraftApiType(rc) ? rc.id : rc));
+    const newRc: RelatedContent[] = newData.map((rc) => (isDraftApiType(rc) ? rc.id : rc));
     formikField.onChange({
       target: {
         name: formikField.name,

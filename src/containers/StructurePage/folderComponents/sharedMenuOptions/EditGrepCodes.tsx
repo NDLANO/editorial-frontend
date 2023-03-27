@@ -71,7 +71,7 @@ const EditGrepCodes = ({ node, editModeHandler: { editMode, toggleEditMode } }: 
 
   const addGrepCode = async (code: string) => updateMetadata([...grepCodes, code.toUpperCase()]);
 
-  const deleteGrepCode = (code: string) => updateMetadata(grepCodes.filter(c => c !== code));
+  const deleteGrepCode = (code: string) => updateMetadata(grepCodes.filter((c) => c !== code));
 
   const grepCodesList = (
     <DropDownWrapper>

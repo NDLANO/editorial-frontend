@@ -36,7 +36,7 @@ interface StyledDivProps {
 }
 
 const DisplayContainer = styled.div<StyledDivProps>`
-  display: ${p => (p.hidden ? 'none' : 'inline-block')};
+  display: ${(p) => (p.hidden ? 'none' : 'inline-block')};
 `;
 
 interface Props {
@@ -81,8 +81,8 @@ const VisualElementMenu = ({ onSelect, types = ['image', 'video', 'h5p', 'url'] 
       </StyledButton>
       {isOpen &&
         visualElementButtons
-          .filter(button => types.find(type => type === button.type))
-          .map(button => {
+          .filter((button) => types.find((type) => type === button.type))
+          .map((button) => {
             return (
               <StyledButton
                 key={button.type}

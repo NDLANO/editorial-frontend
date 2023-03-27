@@ -25,13 +25,13 @@ const ResponsibleSelect = ({ responsible, setResponsible, onSave, responsibleId 
   const { data: users, isInitialLoading } = useAuth0Responsibles(
     { permission: DRAFT_WRITE_SCOPE },
     {
-      select: users =>
+      select: (users) =>
         sortBy(
-          users.map(u => ({
+          users.map((u) => ({
             value: `${u.app_metadata.ndla_id}`,
             label: u.name,
           })),
-          u => u.label,
+          (u) => u.label,
         ),
       placeholderData: [],
     },
@@ -42,7 +42,7 @@ const ResponsibleSelect = ({ responsible, setResponsible, onSave, responsibleId 
 
   useEffect(() => {
     if (users && responsibleId) {
-      const initialResponsible = users.find(user => user.value === responsibleId) ?? null;
+      const initialResponsible = users.find((user) => user.value === responsibleId) ?? null;
       setResponsible(initialResponsible);
     } else {
       setResponsible(null);

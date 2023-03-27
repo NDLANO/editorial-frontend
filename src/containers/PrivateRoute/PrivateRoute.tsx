@@ -15,7 +15,7 @@ const PrivateRoute = ({ component }: Props) => {
   if (
     !authenticated &&
     window.location.pathname &&
-    !okPaths.find(okPath => window.location.pathname.includes(okPath))
+    !okPaths.find((okPath) => window.location.pathname.includes(okPath))
   ) {
     const lastPath = `${window.location.pathname}${window.location.search ?? ''}`;
     localStorage.setItem('lastPath', lastPath);

@@ -88,7 +88,7 @@ const ContentWrapper = styled.div`
 `;
 
 const StyledDndIconWrapper = styled.div<{ isVisible: boolean }>`
-  visibility: ${p => (p.isVisible ? 'visible' : 'hidden')};
+  visibility: ${(p) => (p.isVisible ? 'visible' : 'hidden')};
   display: flex;
   align-items: center;
 `;
@@ -152,7 +152,7 @@ const Resource = ({
     await qc.cancelQueries(compKey);
     const resources = qc.getQueryData<ResourceWithNodeConnection[]>(compKey) ?? [];
     if (relevanceId) {
-      const newResources = resources.map(res => {
+      const newResources = resources.map((res) => {
         if (res.id === id) {
           return { ...res, relevanceId: relevanceId };
         } else return res;
@@ -184,8 +184,8 @@ const Resource = ({
   const iconType = contentType === 'topic-article' ? 'topic' : contentType;
 
   const structurePaths: string[] = location.pathname.replace('/structure', '').split('/');
-  const currentPath = structurePaths.map(p => p.replace('urn:', '')).join('/');
-  const path = resource.paths.find(p => {
+  const currentPath = structurePaths.map((p) => p.replace('urn:', '')).join('/');
+  const path = resource.paths.find((p) => {
     const pArr = p.split('/');
     const isResource = pArr[pArr.length - 1].startsWith('resource');
     const pathWithoutResource = pArr.slice(0, pArr.length - (isResource ? 1 : 0)).join('/');

@@ -57,7 +57,7 @@ const MetaImageSearch = ({
 
   useEffect(() => {
     if (metaImageId) {
-      fetchImage(parseInt(metaImageId), language).then(image => setImage(image));
+      fetchImage(parseInt(metaImageId), language).then((image) => setImage(image));
     } else {
       setImage(undefined);
     }
@@ -139,7 +139,7 @@ const MetaImageSearch = ({
                 locale={locale}
                 language={language}
                 closeModal={onImageSelectClose}
-                fetchImage={id => fetchImage(id, language)}
+                fetchImage={(id) => fetchImage(id, language)}
                 searchImages={searchImages}
                 onError={onError}
                 updateImage={onImageUpdate}

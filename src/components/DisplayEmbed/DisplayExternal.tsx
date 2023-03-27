@@ -25,7 +25,7 @@ import { Embed, ExternalEmbed, H5pEmbed } from '../../interfaces';
 import SlateResourceBox from './SlateResourceBox';
 
 const ApplyBoxshadow = styled('div')<{ showCopyOutline: boolean }>`
-  box-shadow: ${props => props.showCopyOutline && 'rgb(32, 88, 143) 0 0 0 2px'};
+  box-shadow: ${(props) => props.showCopyOutline && 'rgb(32, 88, 143) 0 0 0 2px'};
 `;
 
 const ExpandableButton = styled.div`
@@ -189,7 +189,7 @@ const DisplayExternal = ({
   // H5P does not provide its name
   const providerName = properties.domain?.includes('h5p') ? 'H5P' : properties.provider;
 
-  const [allowedProvider] = EXTERNAL_WHITELIST_PROVIDERS.filter(whitelistProvider =>
+  const [allowedProvider] = EXTERNAL_WHITELIST_PROVIDERS.filter((whitelistProvider) =>
     properties.type === 'iframe' && properties.domain
       ? whitelistProvider.url.includes(properties.domain)
       : whitelistProvider.name === providerName,
@@ -251,7 +251,7 @@ const DisplayExternal = ({
         figureType="external"
         onEdit={
           allowedProvider.name
-            ? evt => {
+            ? (evt) => {
                 evt.preventDefault();
                 evt.stopPropagation();
                 openEditEmbed(evt);

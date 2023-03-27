@@ -96,12 +96,12 @@ const ThemeEditor = ({ onUpdateMovieTheme, selectedLanguage }: Props) => {
             <FieldHeader
               title={findName(theme.name, selectedLanguage)}
               subTitle={theme.name
-                .filter(name => name.language !== selectedLanguage)
-                .map(name => ` | ${name.name}`)
+                .filter((name) => name.language !== selectedLanguage)
+                .map((name) => ` | ${name.name}`)
                 .join('')}
             >
               <ThemeNameModal
-                onSaveTheme={theme => onSaveThemeName(theme, index)}
+                onSaveTheme={(theme) => onSaveThemeName(theme, index)}
                 initialTheme={{
                   name: {
                     nb: findName(theme.name, 'nb'),
@@ -134,7 +134,7 @@ const ThemeEditor = ({ onUpdateMovieTheme, selectedLanguage }: Props) => {
               />
               <Tooltip
                 tooltip={t('ndlaFilm.editor.deleteMovieGroup', {
-                  name: theme.name.find(name => name.language === selectedLanguage)?.name || '',
+                  name: theme.name.find((name) => name.language === selectedLanguage)?.name || '',
                 })}
               >
                 <IconButtonV2
@@ -175,7 +175,7 @@ const ThemeEditor = ({ onUpdateMovieTheme, selectedLanguage }: Props) => {
             </FieldHeader>
             <ThemeMovies
               movies={theme.movies}
-              onMoviesUpdated={movies => onAddMovieToTheme(movies, index)}
+              onMoviesUpdated={(movies) => onAddMovieToTheme(movies, index)}
               placeholder={t('ndlaFilm.editor.addMovieToGroup', {
                 name: findName(theme.name, selectedLanguage),
               })}

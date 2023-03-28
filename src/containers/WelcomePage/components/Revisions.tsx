@@ -13,7 +13,6 @@ import { Alarm } from '@ndla/icons/common';
 import addYears from 'date-fns/addYears';
 import { Select, Option, SingleValue } from '@ndla/select';
 import Pager from '@ndla/pager';
-import Tooltip from '@ndla/tooltip';
 import {
   ControlWrapperDashboard,
   DropdownWrapper,
@@ -129,25 +128,23 @@ const Revisions = ({ userData, ndlaId }: Props) => {
           Icon={Alarm}
         />
         <ControlWrapperDashboard>
-          <Tooltip
-            tooltip={filterSubject ? filterSubject.label : t('welcomePage.chooseFavoriteSubject')}
-          >
-            <DropdownWrapper>
-              <Select<false>
-                options={favoriteSubjects}
-                placeholder={t('welcomePage.chooseFavoriteSubject')}
-                value={filterSubject}
-                onChange={setFilterSubject}
-                menuPlacement="bottom"
-                small
-                outline
-                isLoading={isInitialLoading}
-                isSearchable
-                noOptionsMessage={() => t('form.responsible.noResults')}
-                isClearable
-              />
-            </DropdownWrapper>
-          </Tooltip>
+          <DropdownWrapper>
+            <Select<false>
+              label={t('welcomePage.chooseFavoriteSubject')}
+              options={favoriteSubjects}
+              placeholder={t('welcomePage.chooseFavoriteSubject')}
+              value={filterSubject}
+              onChange={setFilterSubject}
+              menuPlacement="bottom"
+              small
+              outline
+              isLoading={isInitialLoading}
+              isSearchable
+              noOptionsMessage={() => t('form.responsible.noResults')}
+              isClearable
+            />
+          </DropdownWrapper>
+
           <GoToSearch ndlaId={ndlaId} filterSubject={filterSubject} searchEnv="content" />
         </ControlWrapperDashboard>
       </StyledTopRowDashboardInfo>

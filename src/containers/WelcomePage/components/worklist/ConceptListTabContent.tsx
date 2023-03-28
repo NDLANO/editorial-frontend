@@ -9,7 +9,6 @@
 import { Calendar } from '@ndla/icons/editor';
 import Pager from '@ndla/pager';
 import { Select, SingleValue } from '@ndla/select';
-import Tooltip from '@ndla/tooltip';
 import { IConceptSearchResult, IConceptSummary } from '@ndla/types-concept-api';
 import uniqBy from 'lodash/uniqBy';
 import { useEffect, useMemo, useState } from 'react';
@@ -143,26 +142,25 @@ const ConceptListTabContent = ({
           description={t('welcomePage.workList.conceptDescription')}
           Icon={Calendar}
         />
-        <Tooltip tooltip={filterSubject ? filterSubject.label : t('welcomePage.chooseSubject')}>
-          <ControlWrapperDashboard>
-            <DropdownWrapper>
-              <Select<false>
-                options={subjectList}
-                placeholder={t('welcomePage.chooseSubject')}
-                value={filterSubject}
-                onChange={setFilterSubject}
-                menuPlacement="bottom"
-                small
-                outline
-                isLoading={isLoading}
-                isSearchable
-                noOptionsMessage={() => t('form.responsible.noResults')}
-                isClearable
-              />
-            </DropdownWrapper>
-            <GoToSearch ndlaId={ndlaId} filterSubject={filterSubject} searchEnv={'concept'} />
-          </ControlWrapperDashboard>
-        </Tooltip>
+        <ControlWrapperDashboard>
+          <DropdownWrapper>
+            <Select<false>
+              label={t('welcomePage.chooseSubject')}
+              options={subjectList}
+              placeholder={t('welcomePage.chooseSubject')}
+              value={filterSubject}
+              onChange={setFilterSubject}
+              menuPlacement="bottom"
+              small
+              outline
+              isLoading={isLoading}
+              isSearchable
+              noOptionsMessage={() => t('form.responsible.noResults')}
+              isClearable
+            />
+          </DropdownWrapper>
+          <GoToSearch ndlaId={ndlaId} filterSubject={filterSubject} searchEnv={'concept'} />
+        </ControlWrapperDashboard>
       </StyledTopRowDashboardInfo>
       <TableComponent
         isLoading={isLoading}

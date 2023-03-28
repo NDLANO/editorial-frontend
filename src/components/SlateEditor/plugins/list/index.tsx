@@ -4,6 +4,7 @@ import { jsx as slatejsx } from 'slate-hyperscript';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { SlateSerializer } from '../../interfaces';
+import { OrderedList, UnorderedList } from '@ndla/ui';
 import onEnter from './handlers/onEnter';
 import { firstTextBlockElement } from '../../utils/normalizationHelpers';
 import { defaultListBlock } from './utils/defaultBlocks';
@@ -41,7 +42,7 @@ const BlockListItem = styled.li`
   margin-left: 3.2em;
 `;
 
-const BulletedList = styled.ul`
+const BulletedList = styled(UnorderedList)`
   margin: 16px 0;
   padding: 0;
 `;
@@ -169,26 +170,26 @@ export const listPlugin = (editor: Editor) => {
         return <BulletedList {...attributes}>{children}</BulletedList>;
       } else if (element.listType === 'numbered-list') {
         const { start } = element.data;
-
         return (
-          <ol {...attributes} className={start ? `ol-reset-${start}` : ''}>
+          <OrderedList start={start ? parseInt(start) : undefined} {...attributes}>
             {children}
-          </ol>
+          </OrderedList>
         );
       } else if (element.listType === 'letter-list') {
         const { start } = element.data;
         return (
-          <ol
+          <OrderedList
+            start={start ? parseInt(start) : undefined}
             data-type="letters"
             className={`ol-list--roman ${start ? `ol-reset-${start}` : ''}`}
             {...attributes}
           >
             {children}
-          </ol>
+          </OrderedList>
         );
       }
     } else if (element.type === TYPE_LIST_ITEM) {
-      return <BlockListItem {...attributes}>{children}</BlockListItem>;
+      return <li {...attributes}>{children}</li>;
     } else if (renderElement) {
       return renderElement({ attributes, children, element });
     }

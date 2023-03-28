@@ -8,7 +8,7 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
-import { ISeries, INewSeries } from '@ndla/types-audio-api';
+import { ISeries, INewSeries } from '@ndla/types-backend/audio-api';
 
 import { fetchSeries, updateSeries } from '../../modules/audio/audioApi';
 import Spinner from '../../components/Spinner';

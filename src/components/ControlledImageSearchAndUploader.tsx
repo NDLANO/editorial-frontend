@@ -16,7 +16,7 @@ import {
   IImageMetaInformationV3,
   IUpdateImageMetaInformation,
   ISearchResultV3,
-} from '@ndla/types-image-api';
+} from '@ndla/types-backend/image-api';
 import { useTranslation } from 'react-i18next';
 import ImageForm from '../containers/ImageUploader/components/ImageForm';
 import { ImageSearchQuery } from '../modules/image/imageApiInterfaces';

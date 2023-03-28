@@ -14,7 +14,7 @@ import {
   IImageMetaInformationV3,
   INewImageMetaInformationV2,
   ILicense,
-} from '@ndla/types-image-api';
+} from '@ndla/types-backend/image-api';
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import { ButtonV2 } from '@ndla/button';
 import { spacing } from '@ndla/core';

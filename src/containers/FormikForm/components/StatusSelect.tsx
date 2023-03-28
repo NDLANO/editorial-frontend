@@ -8,7 +8,7 @@
 import { useTranslation } from 'react-i18next';
 import { Select, SingleValue, Option } from '@ndla/select';
 import { useEffect, useState } from 'react';
-import { IStatus as DraftStatus } from '@ndla/types-draft-api';
+import { IStatus as DraftStatus } from '@ndla/types-backend/draft-api';
 import { ConceptStatusStateMachineType, DraftStatusStateMachineType } from '../../../interfaces';
 import { PUBLISHED } from '../../../constants';
 

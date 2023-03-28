@@ -6,7 +6,7 @@
  *
  */
 
-import { IArticleSummaryV2 } from '@ndla/types-article-api';
+import { IArticleSummaryV2 } from '@ndla/types-backend/article-api';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 

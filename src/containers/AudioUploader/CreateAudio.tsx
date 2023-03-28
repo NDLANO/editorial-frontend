@@ -7,7 +7,7 @@
 
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { INewAudioMetaInformation } from '@ndla/types-audio-api';
+import { INewAudioMetaInformation } from '@ndla/types-backend/audio-api';
 import AudioForm from './components/AudioForm';
 import { postAudio } from '../../modules/audio/audioApi';
 import { createFormData } from '../../util/formDataHelper';

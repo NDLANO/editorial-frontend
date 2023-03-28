@@ -11,7 +11,7 @@ import styled from '@emotion/styled';
 import { Spinner } from '@ndla/icons';
 import { spacing } from '@ndla/core';
 import { ErrorMessage } from '@ndla/ui';
-import { IUpdatedArticle, IArticle } from '@ndla/types-draft-api';
+import { IUpdatedArticle, IArticle } from '@ndla/types-backend/draft-api';
 import { useQueryClient } from '@tanstack/react-query';
 import { SingleValue } from '@ndla/select';
 import { ButtonV2 } from '@ndla/button';

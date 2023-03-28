@@ -12,7 +12,7 @@ import {
   IUpdateImageMetaInformation,
   ISearchResultV3,
   ITagsSearchResult,
-} from '@ndla/types-image-api';
+} from '@ndla/types-backend/image-api';
 import {
   resolveJsonOrRejectWithError,
   apiResourceUrl,

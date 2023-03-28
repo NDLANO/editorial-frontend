@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import { ButtonV2 } from '@ndla/button';
 import { spacing, colors } from '@ndla/core';
-import { IArticle } from '@ndla/types-draft-api';
+import { IArticle } from '@ndla/types-backend/draft-api';
 import styled from '@emotion/styled';
 import { FieldHeader } from '@ndla/forms';
 import { Spinner } from '@ndla/icons';

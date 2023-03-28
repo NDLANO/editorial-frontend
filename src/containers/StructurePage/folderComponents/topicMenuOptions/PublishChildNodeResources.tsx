@@ -10,7 +10,7 @@ import styled from '@emotion/styled';
 import { colors } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
 import { Done } from '@ndla/icons/editor';
-import { IArticle } from '@ndla/types-draft-api';
+import { IArticle } from '@ndla/types-backend/draft-api';
 import { ILearningPathV2 } from '@ndla/types-learningpath-api';
 import partition from 'lodash/partition';
 import { useEffect, useState } from 'react';

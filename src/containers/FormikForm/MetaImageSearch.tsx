@@ -9,7 +9,10 @@
 import { useState, useEffect, SyntheticEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FieldHeader } from '@ndla/forms';
-import { IImageMetaInformationV3, IUpdateImageMetaInformation } from '@ndla/types-image-api';
+import {
+  IImageMetaInformationV3,
+  IUpdateImageMetaInformation,
+} from '@ndla/types-backend/image-api';
 import { ButtonV2 } from '@ndla/button';
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import { FormikHandlers, useFormikContext } from 'formik';

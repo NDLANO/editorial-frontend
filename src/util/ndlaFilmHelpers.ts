@@ -12,7 +12,7 @@ import {
   IMovieTheme,
   INewOrUpdatedFilmFrontPageData,
   IVisualElement,
-} from '@ndla/types-frontpage-api';
+} from '@ndla/types-backend/frontpage-api';
 import { jsx as slatejsx } from 'slate-hyperscript';
 import { editorValueToPlainText, plainTextToEditorValue } from './articleContentConverter';
 import { LOCALE_VALUES } from '../constants';

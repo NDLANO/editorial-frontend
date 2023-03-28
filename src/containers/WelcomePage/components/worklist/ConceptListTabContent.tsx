@@ -9,7 +9,7 @@
 import { Calendar } from '@ndla/icons/editor';
 import Pager from '@ndla/pager';
 import { Select, SingleValue } from '@ndla/select';
-import { IConceptSearchResult, IConceptSummary } from '@ndla/types-concept-api';
+import { IConceptSearchResult, IConceptSummary } from '@ndla/types-backend/concept-api';
 import uniqBy from 'lodash/uniqBy';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';

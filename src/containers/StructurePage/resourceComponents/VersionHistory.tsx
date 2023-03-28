@@ -12,7 +12,7 @@ import styled from '@emotion/styled';
 import { spacing, colors } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
 import { VersionHistory as UIVersionHistory } from '@ndla/editor';
-import { IEditorNote } from '@ndla/types-draft-api';
+import { IEditorNote } from '@ndla/types-backend/draft-api';
 import { ButtonV2, CloseButton } from '@ndla/button';
 import { ModalBody, ModalHeaderV2, ModalV2 } from '@ndla/modal';
 import { ContentTypeBadge } from '@ndla/ui';

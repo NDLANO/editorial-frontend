@@ -9,8 +9,8 @@
 import sortBy from 'lodash/sortBy';
 import { useTranslation } from 'react-i18next';
 import { useQuery, UseQueryOptions } from '@tanstack/react-query';
-import { IFilmFrontPageData } from '@ndla/types-frontpage-api';
-import { IMultiSearchResult } from '@ndla/types-search-api';
+import { IFilmFrontPageData } from '@ndla/types-backend/frontpage-api';
+import { IMultiSearchResult } from '@ndla/types-backend/search-api';
 import { fetchFilmFrontpage } from './frontpageApi';
 import { searchResources } from '../search/searchApi';
 import { FILM_FRONTPAGE_QUERY, FILM_SLIDESHOW } from '../../queryKeys';

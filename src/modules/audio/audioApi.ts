@@ -14,7 +14,7 @@ import {
   ISeries,
   INewSeries,
   ITagsSearchResult,
-} from '@ndla/types-audio-api';
+} from '@ndla/types-backend/audio-api';
 import { resolveJsonOrVoidOrRejectWithError } from '../../util/resolveJsonOrRejectWithError';
 import {
   apiResourceUrl,

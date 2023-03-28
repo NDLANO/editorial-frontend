@@ -45,6 +45,7 @@ import { dndPlugin } from '../../../../components/SlateEditor/plugins/DND';
 import { SlatePlugin } from '../../../../components/SlateEditor/interfaces';
 import { useSession } from '../../../Session/SessionProvider';
 import { spanPlugin } from '../../../../components/SlateEditor/plugins/span';
+import { blogPostPlugin } from '../../../../components/SlateEditor/plugins/blogPost';
 
 const StyledByLineFormikField = styled(FormikField)`
   display: flex;
@@ -93,6 +94,7 @@ const createPlugins = (language: string, handleSubmitRef: RefObject<() => void>)
     toolbarPlugin,
     textTransformPlugin,
     breakPlugin,
+    blogPostPlugin,
     saveHotkeyPlugin(() => handleSubmitRef.current && handleSubmitRef.current()),
   ];
 };

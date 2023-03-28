@@ -5,7 +5,7 @@
   "scripts": {
     "build": "cross-env NODE_OPTIONS='--max-old-space-size=2048' ts-node scripts/build",
     "postbuild": "cp build/assets.json build/public/assets.json",
-    "clean": "rimraf ./build ./cache",
+    "clean": "rimraf ./build ./node_modules/.cache",
     "check-all": "yarn lint && yarn tsc --noEmit && yarn test-ci",
     "lint": "yarn lint-css && yarn format-check && yarn lint-es",
     "lint-css": "stylelint src/style/**/*.css",

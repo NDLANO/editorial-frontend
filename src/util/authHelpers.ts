@@ -138,6 +138,7 @@ export const renewPersonalAuth = () =>
           resolve(authResult.accessToken);
         } else {
           createMessageRef?.({
+            id: 'errorMessage.auth0.renewal',
             type: 'auth0',
             translationKey: 'errorMessage.auth0',
             translationObject: {

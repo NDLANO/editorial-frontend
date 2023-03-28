@@ -30,7 +30,9 @@ export interface MessageError extends Partial<Error> {
   };
 }
 
-export interface NewMessageType extends Omit<MessageType, 'id'> {}
+export interface NewMessageType extends Omit<MessageType, 'id'> {
+  id?: string;
+}
 
 export const MessagesProvider = ({ children, initialValues = [] }: Props) => {
   const messagesState = useState<MessageType[]>(initialValues);
@@ -48,7 +50,7 @@ export const useMessages = () => {
   const formatNewMessage = (newMessage: NewMessageType): MessageType => {
     return {
       ...newMessage,
-      id: uuid(),
+      id: newMessage.id ?? uuid(),
       timeToLive: typeof newMessage.timeToLive === 'undefined' ? 1500 : newMessage.timeToLive,
     };
   };
@@ -74,7 +76,13 @@ export const useMessages = () => {
 
   const createMessage = (newMessage: NewMessageType) => {
     const message = formatNewMessage(newMessage);
-    setMessages((messages) => [...messages, message]);
+    setMessages((messages) => {
+      if (!messages.some((msg) => msg.id === message.id)) {
+        return messages.concat(message);
+      } else {
+        return messages;
+      }
+    });
   };
 
   const createMessages = (newMessages: NewMessageType[]) => {

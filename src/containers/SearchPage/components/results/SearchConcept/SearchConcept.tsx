@@ -10,7 +10,7 @@ import { Dispatch, SetStateAction, useState } from 'react';
 
 import { useTranslation } from 'react-i18next';
 import { Concept } from '@ndla/icons/editor';
-import { IConcept, IConceptSummary } from '@ndla/types-concept-api';
+import { IConcept, IConceptSummary } from '@ndla/types-backend/concept-api';
 import { convertFieldWithFallback } from '../../../../../util/convertFieldWithFallback';
 import ContentView from './ContentView';
 import FormView from './FormView';

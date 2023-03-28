@@ -7,7 +7,7 @@
 
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { INewSeries } from '@ndla/types-audio-api';
+import { INewSeries } from '@ndla/types-backend/audio-api';
 import { postSeries } from '../../modules/audio/audioApi';
 import { toEditPodcastSeries } from '../../util/routeHelpers';
 import PodcastSeriesForm from './components/PodcastSeriesForm';

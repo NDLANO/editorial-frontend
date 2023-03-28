@@ -42,7 +42,7 @@ const StyledTable = styled.table`
   tr {
     height: 30px;
   }
-  tr:nth-of-type(odd) {
+  tr:nth-of-type(even) {
     background: ${colors.brand.lightest};
   }
   thead tr th {
@@ -61,11 +61,6 @@ const SortArrowWrapper = styled.div`
 const TableTitleComponent = styled.div`
   display: flex;
   flex-direction: row;
-`;
-
-const ScrollableTableWrapper = styled.div`
-  max-height: 250px;
-  overflow-y: auto;
 `;
 
 const StyledError = styled.p`
@@ -123,50 +118,47 @@ const TableComponent = ({
 
   return (
     <>
-      <ScrollableTableWrapper>
-        <StyledTable>
-          <thead>
-            <tr>
-              {tableTitleList.map((tableTitle, index) => (
-                <th key={`${index}_${tableTitle.title}`}>
-                  <TableTitleComponent>
-                    <div>{tableTitle.title}</div>
+      <StyledTable>
+        <thead>
+          <tr>
+            {tableTitleList.map((tableTitle, index) => (
+              <th key={`${index}_${tableTitle.title}`}>
+                <TableTitleComponent>
+                  <div>{tableTitle.title}</div>
 
-                    <SortArrowWrapper>
-                      <ExpandLess
-                        role="button"
-                        onClick={() => setSortOption(`${tableTitle.sortableField}`)}
-                        css={orderButtonStyle(
-                          !tableTitle.sortableField || sortOption === tableTitle.sortableField,
-                        )}
-                      />
-                      <ExpandMore
-                        role="button"
-                        onClick={() => setSortOption(`-${tableTitle.sortableField}`)}
-                        css={orderButtonStyle(
-                          !tableTitle.sortableField ||
-                            sortOption === `-${tableTitle.sortableField}`,
-                        )}
-                      />
-                    </SortArrowWrapper>
-                  </TableTitleComponent>
-                </th>
-              ))}
-            </tr>
-          </thead>
-          {!isLoading ? (
-            <tbody>
-              {tableData.map((contentRow, index) => (
-                <tr key={`tablerow_${contentRow?.[0]?.id}_${index}`}>
-                  {contentRow.map((field) => (
-                    <td key={field.id}>{field.data}</td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-          ) : null}
-        </StyledTable>
-      </ScrollableTableWrapper>
+                  <SortArrowWrapper>
+                    <ExpandLess
+                      role="button"
+                      onClick={() => setSortOption(`${tableTitle.sortableField}`)}
+                      css={orderButtonStyle(
+                        !tableTitle.sortableField || sortOption === tableTitle.sortableField,
+                      )}
+                    />
+                    <ExpandMore
+                      role="button"
+                      onClick={() => setSortOption(`-${tableTitle.sortableField}`)}
+                      css={orderButtonStyle(
+                        !tableTitle.sortableField || sortOption === `-${tableTitle.sortableField}`,
+                      )}
+                    />
+                  </SortArrowWrapper>
+                </TableTitleComponent>
+              </th>
+            ))}
+          </tr>
+        </thead>
+        {!isLoading ? (
+          <tbody>
+            {tableData.map((contentRow, index) => (
+              <tr key={`tablerow_${contentRow?.[0]?.id}_${index}`}>
+                {contentRow.map((field) => (
+                  <td key={field.id}>{field.data}</td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        ) : null}
+      </StyledTable>
       {isLoading ? (
         <SpinnerWrapper>
           <Spinner appearance="small" />

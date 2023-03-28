@@ -9,7 +9,7 @@
 import { useTranslation } from 'react-i18next';
 import { useFormikContext } from 'formik';
 import styled from '@emotion/styled';
-import { IConcept, IStatus } from '@ndla/types-concept-api';
+import { IConcept, IStatus } from '@ndla/types-backend/concept-api';
 import { spacing } from '@ndla/core';
 import { ButtonV2 } from '@ndla/button';
 import { isFormikFormDirty } from '../../../util/formHelper';

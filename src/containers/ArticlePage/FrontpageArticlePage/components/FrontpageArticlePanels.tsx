@@ -9,7 +9,7 @@
 import { useTranslation } from 'react-i18next';
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import { FormikHelpers, useFormikContext } from 'formik';
-import { IUpdatedArticle, IArticle } from '@ndla/types-draft-api';
+import { IUpdatedArticle, IArticle } from '@ndla/types-backend/draft-api';
 import { CopyrightFieldGroup, VersionAndNotesPanel, MetaDataField } from '../../../FormikForm';
 import { FrontpageArticleFormType } from '../../../FormikForm/articleFormHooks';
 import RevisionNotes from '../../components/RevisionNotes';

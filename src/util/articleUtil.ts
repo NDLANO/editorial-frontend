@@ -6,7 +6,7 @@
  *
  */
 
-import { INewArticle, IUpdatedArticle } from '@ndla/types-draft-api';
+import { INewArticle, IUpdatedArticle } from '@ndla/types-backend/draft-api';
 
 export const convertUpdateToNewDraft = (article: IUpdatedArticle): INewArticle => {
   if (!article.language || !article.title || !article.articleType) {

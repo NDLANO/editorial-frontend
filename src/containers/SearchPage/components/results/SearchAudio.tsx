@@ -12,7 +12,7 @@ import { getLicenseByAbbreviation } from '@ndla/licenses';
 import { LicenseByline } from '@ndla/notion';
 import { colors } from '@ndla/core';
 import { Audio, Podcast } from '@ndla/icons/common';
-import { IAudioSummary } from '@ndla/types-audio-api';
+import { IAudioSummary } from '@ndla/types-backend/audio-api';
 import { toEditAudio, toEditPodcast } from '../../../../util/routeHelpers';
 import { useLicenses } from '../../../../modules/draft/draftQueries';
 import {

@@ -9,7 +9,7 @@
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Formik, FormikProps } from 'formik';
-import { IArticle, IUpdatedArticle, IStatus } from '@ndla/types-draft-api';
+import { IArticle, IUpdatedArticle, IStatus } from '@ndla/types-backend/draft-api';
 import { AlertModalWrapper } from '../../../FormikForm';
 import validateFormik, { getWarnings } from '../../../../components/formikValidationSchema';
 import { frontPageArticleRules, isFormikFormDirty } from '../../../../util/formHelper';

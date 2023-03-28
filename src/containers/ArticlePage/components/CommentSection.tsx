@@ -8,7 +8,7 @@
 import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
 import { spacing, fonts } from '@ndla/core';
-import { IStatus } from '@ndla/types-draft-api';
+import { IStatus } from '@ndla/types-backend/draft-api';
 import { useFormikContext } from 'formik';
 import uniqueId from 'lodash/uniqueId';
 import { useState, useEffect, useMemo } from 'react';

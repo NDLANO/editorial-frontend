@@ -7,7 +7,7 @@
  */
 
 import { MouseEvent, useEffect, useState } from 'react';
-import { IImageMetaInformationV3 } from '@ndla/types-image-api';
+import { IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
 import { ButtonV2 } from '@ndla/button';
 import { colors } from '@ndla/core';
 import styled from '@emotion/styled';

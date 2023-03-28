@@ -12,8 +12,8 @@ import { Footer, FooterLinkButton } from '@ndla/editor';
 import { colors, spacing } from '@ndla/core';
 import { ButtonV2 } from '@ndla/button';
 import { Launch } from '@ndla/icons/common';
-import { IConcept, IStatus as ConceptStatus } from '@ndla/types-concept-api';
-import { IUpdatedArticle, IStatus as DraftStatus } from '@ndla/types-draft-api';
+import { IConcept, IStatus as ConceptStatus } from '@ndla/types-backend/concept-api';
+import { IUpdatedArticle, IStatus as DraftStatus } from '@ndla/types-backend/draft-api';
 import { useFormikContext } from 'formik';
 import { useEffect, useState } from 'react';
 import { SingleValue } from '@ndla/select';
@@ -25,7 +25,7 @@ import { NewMessageType, useMessages } from '../../containers/Messages/MessagesP
 import { ConceptStatusStateMachineType, DraftStatusStateMachineType } from '../../interfaces';
 import ResponsibleSelect from '../../containers/FormikForm/components/ResponsibleSelect';
 import StatusSelect from '../../containers/FormikForm/components/StatusSelect';
-import { PUBLISHED } from '../../constants';
+import { ARCHIVED, PUBLISHED, UNPUBLISHED } from '../../constants';
 import PreviewDraftLightboxV2 from '../PreviewDraft/PreviewDraftLightboxV2';
 import { useDisableConverter } from '../ArticleConverterContext';
 import AddCommentModal from '../../containers/ArticlePage/components/AddCommentModal';
@@ -74,6 +74,8 @@ const StyledFooter = styled.div`
   margin-left: auto;
 `;
 
+const STATUSES_RESET_RESPONSIBLE = [ARCHIVED, UNPUBLISHED];
+
 function EditorFooter<T extends FormValues>({
   formIsDirty,
   savedToServer,
@@ -114,7 +116,28 @@ function EditorFooter<T extends FormValues>({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [newStatus]);
 
-  const onSave = (saveAsNewVersion?: boolean | undefined, comment?: string) => {
+  const catchError = (error: any, createMessage: (message: NewMessageType) => void) => {
+    if (error?.json?.messages) {
+      createMessage(formatErrorMessage(error));
+    } else {
+      createMessage(error);
+    }
+  };
+
+  const updateResponsible = async (responsible: SingleValue) => {
+    try {
+      setResponsible(responsible);
+      setFieldValue('responsibleId', responsible ? responsible.value : null);
+    } catch (error) {
+      catchError(error, createMessage);
+    }
+  };
+
+  const onSave = (saveAsNewVersion?: boolean | undefined) => {
+    if (STATUSES_RESET_RESPONSIBLE.find((s) => s === status?.value)) {
+      updateResponsible(null);
+    }
+
     if (isArticle && responsible && responsible.value !== responsibleId) {
       setInputValue(`${t('form.workflow.addComment.to')} ${responsible.label.split(' ')[0]}: \n`);
       setShowAddCommentModal(true);
@@ -124,7 +147,6 @@ function EditorFooter<T extends FormValues>({
       onSaveClick(saveAsNewVersion);
     }
   };
-
   const saveButton = (
     <SaveMultiButton
       large
@@ -136,14 +158,6 @@ function EditorFooter<T extends FormValues>({
       disabled={!!hasErrors}
     />
   );
-
-  const catchError = (error: any, createMessage: (message: NewMessageType) => void) => {
-    if (error?.json?.messages) {
-      createMessage(formatErrorMessage(error));
-    } else {
-      createMessage(error);
-    }
-  };
 
   const isDraftApiType = createGuard<IUpdatedArticle, IConcept>('subjectIds', {
     lacksProp: true,
@@ -165,14 +179,6 @@ function EditorFooter<T extends FormValues>({
       catchError(error, createMessage);
     }
   };
-  const updateResponsible = async (responsible: SingleValue) => {
-    try {
-      setResponsible(responsible);
-      setFieldValue('responsibleId', responsible ? responsible.value : null);
-    } catch (error) {
-      catchError(error, createMessage);
-    }
-  };
 
   const updateStatus = async (status: SingleValue) => {
     try {
@@ -182,15 +188,11 @@ function EditorFooter<T extends FormValues>({
         setStatus(status);
       }
       setFieldValue('status', { current: status?.value });
-
-      // When status changes user should also update responsible
-      if (responsible && responsible.value === responsibleId) {
-        updateResponsible(null);
-      }
     } catch (error) {
       catchError(error, createMessage);
     }
   };
+
   if (showSimpleFooter) {
     return (
       <Footer>

@@ -11,7 +11,7 @@ import { HelmetWithTracker } from '@ndla/tracker';
 import { useTranslation } from 'react-i18next';
 import { OneColumn } from '@ndla/ui';
 import loadable from '@loadable/component';
-import { IUpdatedAgreement, INewAgreement } from '@ndla/types-draft-api';
+import { IUpdatedAgreement, INewAgreement } from '@ndla/types-backend/draft-api';
 import { createAgreement, updateAgreement } from '../../modules/draft/draftApi';
 import { toEditAgreement } from '../../util/routeHelpers';
 import Footer from '../App/components/Footer';

@@ -16,8 +16,8 @@ import {
   IUpdatedConcept,
   ITagsSearchResult,
   IConceptSummary,
-} from '@ndla/types-concept-api';
-import { IArticle } from '@ndla/types-draft-api';
+} from '@ndla/types-backend/concept-api';
+import { IArticle } from '@ndla/types-backend/draft-api';
 import { useTranslation } from 'react-i18next';
 import { ButtonV2 } from '@ndla/button';
 import Tabs from '@ndla/tabs';

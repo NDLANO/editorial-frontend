@@ -7,7 +7,7 @@
  */
 
 import { useQuery, UseQueryOptions } from '@tanstack/react-query';
-import { IMultiSearchResult } from '@ndla/types-search-api';
+import { IMultiSearchResult } from '@ndla/types-backend/search-api';
 import { SEARCH } from '../../queryKeys';
 import { search } from './searchApi';
 import { MultiSearchApiQuery } from './searchApiInterfaces';

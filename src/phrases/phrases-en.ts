@@ -1049,7 +1049,6 @@ const phrases = {
       noResults: 'No results',
       noResponible: 'No responsible',
       revisionDate: 'Amount approaching revision date',
-      revisionDateSingle: 'Approaching revision date',
       error: 'Something went wrong when updating responsible',
     },
     origin: {

@@ -12,7 +12,7 @@ import { Concept, Check } from '@ndla/icons/editor';
 import { spacing, colors } from '@ndla/core';
 import { ButtonV2 } from '@ndla/button';
 import Tooltip from '@ndla/tooltip';
-import { IConceptSummary } from '@ndla/types-concept-api';
+import { IConceptSummary } from '@ndla/types-backend/concept-api';
 import { convertFieldWithFallback } from '../../../../util/convertFieldWithFallback';
 import Spinner from '../../../Spinner';
 import { ConceptQuery } from '../../../../modules/concept/conceptApiInterfaces';

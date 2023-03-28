@@ -22,7 +22,7 @@ import {
   IUpdatedAgreement,
   INewAgreement,
   IUploadedFile,
-} from '@ndla/types-draft-api';
+} from '@ndla/types-backend/draft-api';
 import {
   resolveJsonOrRejectWithError,
   apiResourceUrl,

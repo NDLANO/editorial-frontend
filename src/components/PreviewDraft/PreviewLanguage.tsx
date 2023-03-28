@@ -9,7 +9,7 @@
 import { ReactNode } from 'react';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
-import { IConcept } from '@ndla/types-concept-api';
+import { IConcept } from '@ndla/types-backend/concept-api';
 import StyledPreviewTwoArticles from './StyledPreviewTwoArticles';
 import { createGuard } from '../../util/guards';
 import { ArticleConverterApiType } from '../../modules/article/articleApiInterfaces';

@@ -10,7 +10,7 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { FooterLinkButton } from '@ndla/editor';
 import { FileCompare } from '@ndla/icons/action';
-import { IConcept } from '@ndla/types-concept-api';
+import { IConcept } from '@ndla/types-backend/concept-api';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import config from '../../config';

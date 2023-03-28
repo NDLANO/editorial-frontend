@@ -6,8 +6,14 @@
  *
  */
 
-import { INewImageMetaInformationV2, IUpdateImageMetaInformation } from '@ndla/types-image-api';
-import { INewAudioMetaInformation, IUpdatedAudioMetaInformation } from '@ndla/types-audio-api';
+import {
+  INewImageMetaInformationV2,
+  IUpdateImageMetaInformation,
+} from '@ndla/types-backend/image-api';
+import {
+  INewAudioMetaInformation,
+  IUpdatedAudioMetaInformation,
+} from '@ndla/types-backend/audio-api';
 
 export const createFormData = (
   file?: string | Blob,

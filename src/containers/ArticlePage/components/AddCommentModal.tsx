@@ -9,7 +9,7 @@ import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
 import { spacing } from '@ndla/core';
 import { TextAreaV2 } from '@ndla/forms';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useCommentsContext } from '../../../components/SlateEditor/CommentsProvider';
 import TaxonomyLightbox from '../../../components/Taxonomy/TaxonomyLightbox';

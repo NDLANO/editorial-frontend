@@ -9,7 +9,10 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { unstable_batchedUpdates } from 'react-dom';
-import { IImageMetaInformationV3, IUpdateImageMetaInformation } from '@ndla/types-image-api';
+import {
+  IImageMetaInformationV3,
+  IUpdateImageMetaInformation,
+} from '@ndla/types-backend/image-api';
 import ImageForm from './components/ImageForm';
 import { fetchImage, updateImage } from '../../modules/image/imageApi';
 import { useLicenses } from '../../modules/draft/draftQueries';

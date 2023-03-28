@@ -7,8 +7,8 @@
  */
 
 import { useState, useEffect } from 'react';
-import { IConcept, INewConcept, IUpdatedConcept } from '@ndla/types-concept-api';
-import { IArticle } from '@ndla/types-draft-api';
+import { IConcept, INewConcept, IUpdatedConcept } from '@ndla/types-backend/concept-api';
+import { IArticle } from '@ndla/types-backend/draft-api';
 import * as conceptApi from '../../modules/concept/conceptApi';
 import * as taxonomyApi from '../../modules/taxonomy';
 import { fetchSearchTags } from '../../modules/concept/conceptApi';

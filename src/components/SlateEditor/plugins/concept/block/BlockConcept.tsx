@@ -11,7 +11,7 @@ import { colors } from '@ndla/core';
 import { Editor, Element, Transforms, Path } from 'slate';
 import { ReactEditor, RenderElementProps, useSelected } from 'slate-react';
 import styled from '@emotion/styled';
-import { IConcept, IConceptSummary } from '@ndla/types-concept-api';
+import { IConcept, IConceptSummary } from '@ndla/types-backend/concept-api';
 import ConceptModal from '../ConceptModal';
 import { useFetchConceptData } from '../../../../../containers/FormikForm/formikConceptHooks';
 import mergeLastUndos from '../../../utils/mergeLastUndos';

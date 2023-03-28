@@ -7,7 +7,7 @@
 
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { IUpdatedAgreement, INewAgreement } from '@ndla/types-draft-api';
+import { IUpdatedAgreement, INewAgreement } from '@ndla/types-backend/draft-api';
 import AgreementForm from './components/AgreementForm';
 import { fetchAgreement } from '../../modules/draft/draftApi';
 import { MessageError, useMessages } from '../Messages/MessagesProvider';

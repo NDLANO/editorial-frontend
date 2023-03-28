@@ -9,7 +9,7 @@
 import { Component, useCallback, useEffect, useMemo } from 'react';
 import { Remarkable } from 'remarkable';
 import { ContentTypeBadge, Article } from '@ndla/ui';
-import { IArticle, ICopyright } from '@ndla/types-draft-api';
+import { IArticle, ICopyright } from '@ndla/types-backend/draft-api';
 import { transform } from '@ndla/article-converter';
 import { LocaleType } from '../../interfaces';
 import '../DisplayEmbed/helpers/h5pResizer';

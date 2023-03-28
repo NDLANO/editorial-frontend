@@ -23,7 +23,7 @@ import { spacing } from '@ndla/core';
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import Tooltip from '@ndla/tooltip';
 import { SafeLinkIconButton } from '@ndla/safelink';
-import { IImageMetaInformationV3 } from '@ndla/types-image-api';
+import { IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
 import { DeleteForever } from '@ndla/icons/editor';
 
 import UrlAllowList from './UrlAllowList';

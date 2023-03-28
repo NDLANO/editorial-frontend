@@ -9,7 +9,7 @@
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { HelmetWithTracker } from '@ndla/tracker';
-import { INewConcept } from '@ndla/types-concept-api';
+import { INewConcept } from '@ndla/types-backend/concept-api';
 import { useFetchConceptData } from '../FormikForm/formikConceptHooks';
 import { toEditConcept } from '../../util/routeHelpers';
 import ConceptForm from './ConceptForm/ConceptForm';

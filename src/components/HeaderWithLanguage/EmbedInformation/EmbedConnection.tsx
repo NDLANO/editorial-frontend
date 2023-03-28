@@ -14,8 +14,8 @@ import { SubjectMaterial } from '@ndla/icons/contentType';
 import Modal, { ModalHeader, ModalCloseButton, ModalBody } from '@ndla/modal';
 import Tooltip from '@ndla/tooltip';
 import { ButtonV2 } from '@ndla/button';
-import { IConceptSummary } from '@ndla/types-concept-api';
-import { IMultiSearchSummary } from '@ndla/types-search-api';
+import { IConceptSummary } from '@ndla/types-backend/concept-api';
+import { IMultiSearchSummary } from '@ndla/types-backend/search-api';
 
 import { normalPaddingCSS } from '../../HowTo';
 import { searchConcepts } from '../../../modules/concept/conceptApi';

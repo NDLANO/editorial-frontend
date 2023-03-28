@@ -10,7 +10,7 @@ import { useEffect, useState } from 'react';
 import { useFormikContext } from 'formik';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
-import { IImageMetaInformationV3 } from '@ndla/types-image-api';
+import { IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
 import { useTranslation } from 'react-i18next';
 import { ButtonV2 } from '@ndla/button';
 import ImageSearch from '@ndla/image-search';

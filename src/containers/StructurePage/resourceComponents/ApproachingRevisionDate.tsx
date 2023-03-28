@@ -10,7 +10,7 @@ import { useMemo } from 'react';
 import styled from '@emotion/styled';
 import addYears from 'date-fns/addYears';
 import isBefore from 'date-fns/isBefore';
-import { IRevisionMeta } from '@ndla/types-draft-api';
+import { IRevisionMeta } from '@ndla/types-backend/draft-api';
 import Tooltip from '@ndla/tooltip';
 import { useTranslation } from 'react-i18next';
 import { Time } from '@ndla/icons/common';

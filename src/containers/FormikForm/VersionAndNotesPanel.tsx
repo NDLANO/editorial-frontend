@@ -18,7 +18,7 @@ import Accordion, {
   AccordionBar,
 } from '@ndla/accordion';
 import { VersionLogTag, VersionHistory } from '@ndla/editor';
-import { IUpdatedArticle, IArticle, IEditorNote } from '@ndla/types-draft-api';
+import { IUpdatedArticle, IArticle, IEditorNote } from '@ndla/types-backend/draft-api';
 
 import FormikField from '../../components/FormikField';
 import { fetchDraftHistory } from '../../modules/draft/draftApi';

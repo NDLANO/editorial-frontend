@@ -10,7 +10,7 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
 import { spacing } from '@ndla/core';
-import { IArticle, IUpdatedArticle } from '@ndla/types-draft-api';
+import { IArticle, IUpdatedArticle } from '@ndla/types-backend/draft-api';
 import { ErrorMessage, OneColumn } from '@ndla/ui';
 import uniq from 'lodash/uniq';
 import { ReactElement, useState } from 'react';

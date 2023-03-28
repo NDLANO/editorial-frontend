@@ -8,7 +8,7 @@
 
 import { Editor, Element } from 'slate';
 import { FormikContextType, useFormikContext } from 'formik';
-import { IImageMetaInformationV3 } from '@ndla/types-image-api';
+import { IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
 import { useSlateStatic } from 'slate-react';
 import { defaultEmbedBlock } from '../embed/utils';
 import { defaultFileBlock } from '../file/utils';

@@ -14,8 +14,8 @@
 // ***********************************************************
 
 // Import commands.js using ES2015 syntax:
+import decode from 'jwt-decode';
 import './commands';
-import { expiresIn } from '../../src/util/jwtHelper';
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
@@ -24,6 +24,12 @@ import { expiresIn } from '../../src/util/jwtHelper';
     win.fetch = null; //eslint-disable-line
   },
 };*/
+
+export function expiresIn(token) {
+  const decoded = decode(token);
+  if (!(decoded.exp && decoded.iat)) return 0;
+  return decoded.exp - decoded.iat - 60; // Add 60 second buffer
+}
 
 let token = '';
 
@@ -40,7 +46,7 @@ export const setToken = () => {
       },
       json: true,
     };
-    cy.request(options).then(res => {
+    cy.request(options).then((res) => {
       localStorage.setItem('access_token', res.body.access_token);
       localStorage.setItem(
         'access_token_expires_at',
@@ -57,17 +63,6 @@ export const setToken = () => {
 };
 
 // Prevents promts to fix electron hanging: https://github.com/cypress-io/cypress/issues/2118
-Cypress.on('window:before:load', function(win) {
-  const original = win.EventTarget.prototype.addEventListener;
-  win.EventTarget.prototype.addEventListener = function() {
-    if (arguments && arguments[0] === 'beforeunload') {
-      return;
-    }
-    return original.apply(this, arguments);
-  };
-
-  Object.defineProperty(win, 'onbeforeunload', {
-    get: function() {},
-    set: function() {},
-  });
+Cypress.on('window:before:unload', (e) => {
+  e.stopImmediatePropagation();
 });

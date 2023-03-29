@@ -14,7 +14,7 @@ import Tooltip from '@ndla/tooltip';
 import { IconButtonV2 } from '@ndla/button';
 import { Link } from '@ndla/icons/common';
 import { SafeLinkButton } from '@ndla/safelink';
-import { IImageMetaInformationV3 } from '@ndla/types-image-api';
+import { IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
 import { convertFieldWithFallback } from '../../../util/convertFieldWithFallback';
 import MetaInformation from '../../../components/MetaInformation';
 import FormikField from '../../../components/FormikField';

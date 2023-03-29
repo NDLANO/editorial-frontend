@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import { IUpdatedAgreement, INewAgreement } from '@ndla/types-draft-api';
+import { IUpdatedAgreement, INewAgreement } from '@ndla/types-backend/draft-api';
 import AgreementForm from './components/AgreementForm';
 
 interface Props {

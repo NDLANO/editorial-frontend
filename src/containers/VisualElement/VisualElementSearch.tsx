@@ -9,8 +9,8 @@
 import { TFunction, useTranslation } from 'react-i18next';
 import VideoSearch from '@ndla/video-search';
 import AudioSearch from '@ndla/audio-search';
-import { IAudioSummary } from '@ndla/types-audio-api';
-import { IImageMetaInformationV3 } from '@ndla/types-image-api';
+import { IAudioSummary } from '@ndla/types-backend/audio-api';
+import { IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
 import config from '../../config';
 import H5PElement from '../../components/H5PElement/H5PElement';
 import { EXTERNAL_WHITELIST_PROVIDERS } from '../../constants';

@@ -8,7 +8,7 @@
 
 import { Calendar } from '@ndla/icons/editor';
 import { SingleValue } from '@ndla/select';
-import { IMultiSearchResult } from '@ndla/types-search-api';
+import { IMultiSearchResult } from '@ndla/types-backend/search-api';
 import { useTranslation } from 'react-i18next';
 import { useMemo } from 'react';
 import Pager from '@ndla/pager';

@@ -10,7 +10,7 @@ import { createRef, Component, MutableRefObject, MouseEvent as ReactMouseEvent }
 import { CustomWithTranslation, withTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { spacing, spacingUnit, shadows } from '@ndla/core';
-import { IRelatedContentLink } from '@ndla/types-draft-api';
+import { IRelatedContentLink } from '@ndla/types-backend/draft-api';
 import ElementListItem from './ElementListItem';
 import ElementListLink from './ElementListLink';
 

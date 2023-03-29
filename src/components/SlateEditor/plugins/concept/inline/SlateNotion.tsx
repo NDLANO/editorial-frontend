@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { colors, spacing } from '@ndla/core';
 import { NotionDialog } from '@ndla/notion';
-import { IConcept } from '@ndla/types-concept-api';
+import { IConcept } from '@ndla/types-backend/concept-api';
 import { ReactNode } from 'react';
 import { RenderElementProps } from 'slate-react';
 import { useTranslation } from 'react-i18next';

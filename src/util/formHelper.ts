@@ -7,7 +7,7 @@
 
 import isEqual from 'lodash/fp/isEqual';
 import { Descendant, Node } from 'slate';
-import { IArticle, ILicense, IArticleMetaImage } from '@ndla/types-draft-api';
+import { IArticle, ILicense, IArticleMetaImage } from '@ndla/types-backend/draft-api';
 import { isUserProvidedEmbedDataValid } from './embedTagHelpers';
 import { findNodesByType } from './slateHelpers';
 import { blockContentToHTML, inlineContentToHTML } from './articleContentConverter';

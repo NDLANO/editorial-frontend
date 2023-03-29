@@ -10,7 +10,7 @@ import { useState } from 'react';
 import isEqual from 'lodash/isEqual';
 import { useTranslation } from 'react-i18next';
 import { Spinner } from '@ndla/icons';
-import { IMultiSearchSummary } from '@ndla/types-search-api';
+import { IMultiSearchSummary } from '@ndla/types-backend/search-api';
 import ElementList from '../../FormikForm/components/ElementList';
 import { getUrnFromId } from '../../../util/ndlaFilmHelpers';
 import DropdownSearch from './DropdownSearch';

@@ -7,7 +7,7 @@
  */
 
 import queryString from 'query-string';
-import { ILearningPathV2, ISearchResultV2 } from '@ndla/types-learningpath-api';
+import { ILearningPathV2, ISearchResultV2 } from '@ndla/types-backend/learningpath-api';
 import {
   resolveJsonOrRejectWithError,
   apiResourceUrl,

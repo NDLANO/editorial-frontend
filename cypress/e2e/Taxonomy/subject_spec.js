@@ -6,9 +6,8 @@
  *
  */
 
-import { taxonomyApi } from '../../../src/config';
 import { setToken } from '../../support/e2e';
-import phrases from '../../../src/phrases/phrases-nb';
+const taxonomyApi = `/taxonomy/v1`;
 
 const selectSubject = 'urn:subject:20';
 
@@ -65,37 +64,25 @@ describe('Subject editing', () => {
     );
     cy.apiroute('PUT', `${taxonomyApi}/nodes/${selectSubject}/metadata`, 'invisibleMetadata');
 
-    cy.get('[data-cy=settings-button]')
-      .first()
-      .click();
+    cy.get('[data-cy=settings-button]').first().click();
     cy.get('[data-testid=changeNodeNameButton]').click();
     cy.wait('@subjectTranslations');
     cy.intercept('GET', `${taxonomyApi}/nodes/${selectSubject}/translations`, [
       { name: 'NDLA filmTEST', language: 'nb' },
     ]).as('subjectTranslations');
     cy.get('[data-testid=addNodeNameTranslation]').type('TEST{enter}');
-    cy.get('[data-testid=saveNodeTranslationsButton]')
-      .first()
-      .click();
+    cy.get('[data-testid=saveNodeTranslationsButton]').first().click();
     cy.wait(['@newSubjectName', '@subjectTranslations']);
     cy.get('[data-testid=saveNodeTranslationsButton]').contains('Lagret');
 
-    cy.get('[data-testid=subjectName_nb_delete]')
-      .first()
-      .click();
-    cy.get('[data-testid=saveNodeTranslationsButton]')
-      .first()
-      .click();
+    cy.get('[data-testid=subjectName_nb_delete]').first().click();
+    cy.get('[data-testid=saveNodeTranslationsButton]').first().click();
     cy.wait('@deleteSubjectTranslation');
     cy.get('[data-testid=saveNodeTranslationsButton]').contains('Lagret');
 
-    cy.get('[data-cy=close-modal-button]')
-      .first()
-      .click();
+    cy.get('[data-cy=close-modal-button]').first().click();
 
-    cy.get('button')
-      .contains(phrases.metadata.changeVisibility)
-      .click({ force: true });
+    cy.get('button').contains('Endre synlighet').click({ force: true });
     cy.get('button[id="switch-visible"]').click({ force: true });
     cy.wait('@invisibleMetadata');
   });

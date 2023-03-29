@@ -6,7 +6,7 @@
  *
  */
 
-import { ICopyright } from '@ndla/types-learningpath-api';
+import { ICopyright } from '@ndla/types-backend/learningpath-api';
 
 export interface SearchBody {
   query?: string;

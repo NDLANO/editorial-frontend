@@ -12,7 +12,12 @@ import styled from '@emotion/styled';
 import { Agreement } from '@ndla/icons/editor';
 import { colors } from '@ndla/core';
 import { ButtonV2 } from '@ndla/button';
-import { IAgreement, IUpdatedAgreement, INewAgreement, IAuthor } from '@ndla/types-draft-api';
+import {
+  IAgreement,
+  IUpdatedAgreement,
+  INewAgreement,
+  IAuthor,
+} from '@ndla/types-backend/draft-api';
 import Field from '../../../components/Field';
 import { DEFAULT_LICENSE } from '../../../util/formHelper';
 import AgreementFields from './AgreementFields';

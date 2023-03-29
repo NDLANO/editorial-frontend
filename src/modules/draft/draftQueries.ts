@@ -13,7 +13,7 @@ import {
   IUserData,
   IUpdatedUserData,
   ISearchResult,
-} from '@ndla/types-draft-api';
+} from '@ndla/types-backend/draft-api';
 import {
   DRAFT,
   DRAFT_STATUS_STATE_MACHINE,

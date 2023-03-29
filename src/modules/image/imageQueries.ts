@@ -6,7 +6,11 @@
  *
  */
 
-import { ISearchResultV3, ISearchParams, IImageMetaInformationV3 } from '@ndla/types-image-api';
+import {
+  ISearchResultV3,
+  ISearchParams,
+  IImageMetaInformationV3,
+} from '@ndla/types-backend/image-api';
 import { useQuery, UseQueryOptions } from '@tanstack/react-query';
 import { IMAGE, SEARCH_IMAGES } from '../../queryKeys';
 import { fetchImage, searchImages } from './imageApi';

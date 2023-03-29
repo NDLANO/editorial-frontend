@@ -7,7 +7,7 @@
  */
 
 import { Descendant } from 'slate';
-import { ISeries } from '@ndla/types-audio-api';
+import { ISeries } from '@ndla/types-backend/audio-api';
 import { AudioFormikType } from '../../containers/AudioUploader/components/AudioForm';
 
 export interface PodcastFormValues extends AudioFormikType {

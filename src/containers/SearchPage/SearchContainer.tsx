@@ -10,10 +10,13 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { UseQueryResult } from '@tanstack/react-query';
 import styled from '@emotion/styled';
-import { ISearchResultV3 } from '@ndla/types-image-api';
-import { IAudioSummarySearchResult, ISeriesSummarySearchResult } from '@ndla/types-audio-api';
-import { IConceptSearchResult } from '@ndla/types-concept-api';
-import { IMultiSearchResult } from '@ndla/types-search-api';
+import { ISearchResultV3 } from '@ndla/types-backend/image-api';
+import {
+  IAudioSummarySearchResult,
+  ISeriesSummarySearchResult,
+} from '@ndla/types-backend/audio-api';
+import { IConceptSearchResult } from '@ndla/types-backend/concept-api';
+import { IMultiSearchResult } from '@ndla/types-backend/search-api';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { OneColumn } from '@ndla/ui';
 import Pager from '@ndla/pager';

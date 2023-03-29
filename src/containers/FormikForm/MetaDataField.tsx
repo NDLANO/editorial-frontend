@@ -7,7 +7,7 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { IImageMetaInformationV3 } from '@ndla/types-image-api';
+import { IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
 import FormikField from '../../components/FormikField';
 import PlainTextEditor from '../../components/SlateEditor/PlainTextEditor';
 import { textTransformPlugin } from '../../components/SlateEditor/plugins/textTransform';

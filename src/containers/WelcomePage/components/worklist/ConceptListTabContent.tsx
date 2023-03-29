@@ -24,7 +24,7 @@ import {
   StyledTopRowDashboardInfo,
 } from '../../styles';
 import GoToSearch from '../GoToSearch';
-import TableComponent, { FieldElement, TitleElement } from '../TableComponent';
+import TableComponent, { FieldElement, Prefix, TitleElement } from '../TableComponent';
 import TableTitle from '../TableTitle';
 import { SortOption } from './WorkList';
 
@@ -32,7 +32,7 @@ interface Props {
   data?: IConceptSearchResult;
   filterSubject?: SingleValue;
   isLoading: boolean;
-  setSortOption: (o: SortOption) => void;
+  setSortOption: (o: Prefix<'-', SortOption>) => void;
   sortOption: string;
   error: string | undefined;
   setFilterSubject: (fs: SingleValue) => void;
@@ -126,7 +126,7 @@ const ConceptListTabContent = ({
     [conceptData],
   );
 
-  const tableTitles: TitleElement[] = [
+  const tableTitles: TitleElement<SortOption>[] = [
     { title: t('welcomePage.workList.name'), sortableField: 'title' },
     { title: t('welcomePage.workList.status') },
     { title: t('welcomePage.workList.conceptSubject') },
@@ -163,7 +163,7 @@ const ConceptListTabContent = ({
           <GoToSearch ndlaId={ndlaId} filterSubject={filterSubject} searchEnv={'concept'} />
         </ControlWrapperDashboard>
       </StyledTopRowDashboardInfo>
-      <TableComponent<SortOption>
+      <TableComponent
         isLoading={isLoading}
         tableTitleList={tableTitles}
         tableData={tableData}

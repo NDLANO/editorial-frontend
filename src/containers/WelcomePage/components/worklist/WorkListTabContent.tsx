@@ -16,7 +16,7 @@ import formatDate from '../../../../util/formatDate';
 import { toEditArticle } from '../../../../util/routeHelpers';
 import { ControlWrapperDashboard, StyledLink, StyledTopRowDashboardInfo } from '../../styles';
 import SubjectDropdown from './SubjectDropdown';
-import TableComponent, { FieldElement, TitleElement } from '../TableComponent';
+import TableComponent, { FieldElement, Prefix, TitleElement } from '../TableComponent';
 import TableTitle from '../TableTitle';
 import GoToSearch from '../GoToSearch';
 import { SortOption } from './WorkList';
@@ -25,7 +25,7 @@ interface Props {
   data?: IMultiSearchResult;
   filterSubject?: SingleValue;
   isLoading: boolean;
-  setSortOption: (o: SortOption) => void;
+  setSortOption: (o: Prefix<'-', SortOption>) => void;
   sortOption: string;
   error: string | undefined;
   setFilterSubject: (fs: SingleValue) => void;
@@ -88,7 +88,7 @@ const WorkListTabContent = ({
     [data, t],
   );
 
-  const tableTitles: TitleElement[] = [
+  const tableTitles: TitleElement<SortOption>[] = [
     { title: t('welcomePage.workList.name'), sortableField: 'title' },
     { title: t('welcomePage.workList.status') },
     { title: t('welcomePage.workList.contentType') },
@@ -112,7 +112,7 @@ const WorkListTabContent = ({
           <GoToSearch ndlaId={ndlaId} filterSubject={filterSubject} searchEnv={'content'} />
         </ControlWrapperDashboard>
       </StyledTopRowDashboardInfo>
-      <TableComponent<SortOption>
+      <TableComponent
         isLoading={isLoading}
         tableTitleList={tableTitles}
         tableData={tableData}

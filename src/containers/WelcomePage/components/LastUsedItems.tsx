@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { Pencil } from '@ndla/icons/action';
 import orderBy from 'lodash/orderBy';
 import { StyledDashboardInfo, StyledLink } from '../styles';
-import TableComponent, { FieldElement, TitleElement } from './TableComponent';
+import TableComponent, { FieldElement, Prefix, TitleElement } from './TableComponent';
 import TableTitle from './TableTitle';
 import formatDate from '../../../util/formatDate';
 import { toEditArticle } from '../../../util/routeHelpers';
@@ -21,17 +21,16 @@ interface Props {
   lastUsed?: number[];
 }
 
-export type SortOptionFieldLastUsed = 'title' | 'lastUpdated';
-export type SortOptionLastUsed = SortOptionFieldLastUsed | '-title' | '-lastUpdated';
+type SortOptionLastUsed = 'title' | 'lastUpdated';
 
 const LastUsedItems = ({ lastUsed = [] }: Props) => {
   const { t, i18n } = useTranslation();
 
-  const tableTitles: TitleElement[] = [
+  const tableTitles: TitleElement<SortOptionLastUsed>[] = [
     { title: t('form.article.label'), sortableField: 'title' },
     { title: t('searchForm.sort.lastUpdated'), sortableField: 'lastUpdated' },
   ];
-  const [sortOption, setSortOption] = useState<SortOptionLastUsed>('-lastUpdated');
+  const [sortOption, setSortOption] = useState<Prefix<'-', SortOptionLastUsed>>('-lastUpdated');
   const [error, setError] = useState<string | undefined>(undefined);
 
   const { data, isInitialLoading } = useSearchDrafts(
@@ -76,7 +75,7 @@ const LastUsedItems = ({ lastUsed = [] }: Props) => {
         description={t('welcomePage.lastUsedDescription')}
         Icon={Pencil}
       />
-      <TableComponent<SortOptionLastUsed>
+      <TableComponent
         isLoading={isInitialLoading}
         tableTitleList={tableTitles}
         tableData={tableData}

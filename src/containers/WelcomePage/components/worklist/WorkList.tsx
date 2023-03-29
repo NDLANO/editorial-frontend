@@ -14,22 +14,22 @@ import { useSearch } from '../../../../modules/search/searchQueries';
 import WorkListTabContent from './WorkListTabContent';
 import { useSearchConcepts } from '../../../../modules/concept/conceptQueries';
 import ConceptListTabContent from './ConceptListTabContent';
+import { Prefix } from '../TableComponent';
 
 interface Props {
   ndlaId: string;
 }
 
-export type SortOptionFields = 'title' | 'responsibleLastUpdated';
-export type SortOption = SortOptionFields | '-title' | '-responsibleLastUpdated';
+export type SortOption = 'title' | 'responsibleLastUpdated';
 
 const WorkList = ({ ndlaId }: Props) => {
-  const [sortOption, setSortOption] = useState<SortOption>('-responsibleLastUpdated');
+  const [sortOption, setSortOption] = useState<Prefix<'-', SortOption>>('-responsibleLastUpdated');
   const [filterSubject, setFilterSubject] = useState<SingleValue | undefined>(undefined);
   const [error, setError] = useState<string | undefined>(undefined);
   const [page, setPage] = useState(1);
 
   const [sortOptionConcepts, setSortOptionConcepts] =
-    useState<SortOption>('-responsibleLastUpdated');
+    useState<Prefix<'-', SortOption>>('-responsibleLastUpdated');
   const [filterConceptSubject, setFilterConceptSubject] = useState<SingleValue | undefined>(
     undefined,
   );

@@ -20,7 +20,7 @@ import {
   StyledLink,
   StyledTopRowDashboardInfo,
 } from '../styles';
-import TableComponent, { FieldElement, TitleElement } from './TableComponent';
+import TableComponent, { FieldElement, Prefix, TitleElement } from './TableComponent';
 import TableTitle from './TableTitle';
 import formatDate, { formatDateForBackend } from '../../../util/formatDate';
 import { toEditArticle } from '../../../util/routeHelpers';
@@ -36,19 +36,18 @@ interface Props {
   ndlaId: string | undefined;
 }
 
-export type SortOptionFieldsRevision = 'title' | 'revisionDate';
-export type SortOptionRevision = SortOptionFieldsRevision | '-title' | '-revisionDate';
+type SortOptionRevision = 'title' | 'revisionDate';
 
 const Revisions = ({ userData, ndlaId }: Props) => {
   const [filterSubject, setFilterSubject] = useState<SingleValue | undefined>(undefined);
-  const [sortOption, setSortOption] = useState<SortOptionRevision>('-revisionDate');
+  const [sortOption, setSortOption] = useState<Prefix<'-', SortOptionRevision>>('-revisionDate');
   const [error, setError] = useState<string | undefined>(undefined);
   const [page, setPage] = useState(1);
 
   const { t } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
 
-  const tableTitles: TitleElement[] = [
+  const tableTitles: TitleElement<SortOptionRevision>[] = [
     { title: t('form.article.label'), sortableField: 'title' },
     { title: t('welcomePage.workList.status') },
     { title: t('welcomePage.workList.primarySubject') },
@@ -150,7 +149,7 @@ const Revisions = ({ userData, ndlaId }: Props) => {
           <GoToSearch ndlaId={ndlaId} filterSubject={filterSubject} searchEnv="content" />
         </ControlWrapperDashboard>
       </StyledTopRowDashboardInfo>
-      <TableComponent<SortOptionRevision>
+      <TableComponent
         isLoading={isInitialLoading}
         tableTitleList={tableTitles}
         tableData={tableData}

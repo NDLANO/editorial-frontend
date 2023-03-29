@@ -13,9 +13,6 @@ import { ExpandLess, ExpandMore } from '@ndla/icons/action';
 import { css } from '@emotion/react';
 import isEmpty from 'lodash/isEmpty';
 import Spinner from '../../../components/Spinner';
-import { SortOptionRevision, SortOptionFieldsRevision } from './Revisions';
-import { SortOption, SortOptionFields } from './worklist/WorkList';
-import { SortOptionFieldLastUsed, SortOptionLastUsed } from './LastUsedItems';
 
 const StyledTable = styled.table`
   font-family: arial, sans-serif;
@@ -93,22 +90,24 @@ export interface FieldElement {
   data: ReactNode;
 }
 
-export interface TitleElement {
+export type Prefix<P extends string, S extends string> = `${P}${S}` | S;
+
+export interface TitleElement<T extends string> {
   title: string;
-  sortableField?: SortOptionFieldsRevision | SortOptionFields | SortOptionFieldLastUsed;
+  sortableField?: T;
 }
 
-interface Props<T> {
-  tableTitleList: TitleElement[];
+interface Props<T extends string> {
+  tableTitleList: TitleElement<T>[];
   tableData: FieldElement[][];
   isLoading: boolean;
-  setSortOption: (o: T) => void;
+  setSortOption: (o: Prefix<'-', T>) => void;
   noResultsText?: string;
   sortOption?: string;
   error?: string;
 }
 
-const TableComponent = <T extends SortOption | SortOptionRevision | SortOptionLastUsed>({
+const TableComponent = <T extends string>({
   tableTitleList,
   tableData = [[]],
   isLoading,
@@ -132,14 +131,14 @@ const TableComponent = <T extends SortOption | SortOptionRevision | SortOptionLa
                   <SortArrowWrapper>
                     <ExpandLess
                       role="button"
-                      onClick={() => setSortOption(tableTitle.sortableField! as T)}
+                      onClick={() => setSortOption(tableTitle.sortableField!)}
                       css={orderButtonStyle(
                         !tableTitle.sortableField || sortOption === tableTitle.sortableField,
                       )}
                     />
                     <ExpandMore
                       role="button"
-                      onClick={() => setSortOption(`-${tableTitle.sortableField!}` as T)}
+                      onClick={() => setSortOption(`-${tableTitle.sortableField!}`!)}
                       css={orderButtonStyle(
                         !tableTitle.sortableField || sortOption === `-${tableTitle.sortableField}`,
                       )}

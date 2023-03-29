@@ -19,13 +19,17 @@ interface Props {
   ndlaId: string;
 }
 
+export type SortOptionFields = 'title' | 'responsibleLastUpdated';
+export type SortOption = SortOptionFields | '-title' | '-responsibleLastUpdated';
+
 const WorkList = ({ ndlaId }: Props) => {
-  const [sortOption, setSortOption] = useState<string>('-responsibleLastUpdated');
+  const [sortOption, setSortOption] = useState<SortOption>('-responsibleLastUpdated');
   const [filterSubject, setFilterSubject] = useState<SingleValue | undefined>(undefined);
   const [error, setError] = useState<string | undefined>(undefined);
   const [page, setPage] = useState(1);
 
-  const [sortOptionConcepts, setSortOptionConcepts] = useState('-responsibleLastUpdated');
+  const [sortOptionConcepts, setSortOptionConcepts] =
+    useState<SortOption>('-responsibleLastUpdated');
   const [filterConceptSubject, setFilterConceptSubject] = useState<SingleValue | undefined>(
     undefined,
   );

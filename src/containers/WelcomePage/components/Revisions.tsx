@@ -36,10 +36,13 @@ interface Props {
   ndlaId: string | undefined;
 }
 
+export type SortOptionFieldsRevision = 'title' | 'revisionDate';
+export type SortOptionRevision = SortOptionFieldsRevision | '-title' | '-revisionDate';
+
 const Revisions = ({ userData, ndlaId }: Props) => {
   const [favoriteSubjects, setFavoriteSubjects] = useState<Option[]>([]);
   const [filterSubject, setFilterSubject] = useState<SingleValue | undefined>(undefined);
-  const [sortOption, setSortOption] = useState<string>('-revisionDate');
+  const [sortOption, setSortOption] = useState<SortOptionRevision>('-revisionDate');
   const [error, setError] = useState<string | undefined>(undefined);
   const [page, setPage] = useState(1);
 
@@ -148,7 +151,7 @@ const Revisions = ({ userData, ndlaId }: Props) => {
           <GoToSearch ndlaId={ndlaId} filterSubject={filterSubject} searchEnv="content" />
         </ControlWrapperDashboard>
       </StyledTopRowDashboardInfo>
-      <TableComponent
+      <TableComponent<SortOptionRevision>
         isLoading={isInitialLoading}
         tableTitleList={tableTitles}
         tableData={tableData}

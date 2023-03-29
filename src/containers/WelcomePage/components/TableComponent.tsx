@@ -13,6 +13,8 @@ import { ExpandLess, ExpandMore } from '@ndla/icons/action';
 import { css } from '@emotion/react';
 import isEmpty from 'lodash/isEmpty';
 import Spinner from '../../../components/Spinner';
+import { SortOptionRevision, SortOptionFieldsRevision } from './Revisions';
+import { SortOption, SortOptionFields } from './worklist/WorkList';
 
 const StyledTable = styled.table`
   font-family: arial, sans-serif;
@@ -92,20 +94,20 @@ export interface FieldElement {
 
 export interface TitleElement {
   title: string;
-  sortableField?: string;
+  sortableField?: SortOptionFieldsRevision | SortOptionFields;
 }
 
-interface Props {
+interface Props<T> {
   tableTitleList: TitleElement[];
   tableData: FieldElement[][];
   isLoading: boolean;
-  setSortOption: (o: string) => void;
+  setSortOption: (o: T) => void;
   noResultsText?: string;
   sortOption?: string;
   error?: string;
 }
 
-const TableComponent = ({
+const TableComponent = <T extends SortOption | SortOptionRevision>({
   tableTitleList,
   tableData = [[]],
   isLoading,
@@ -113,7 +115,7 @@ const TableComponent = ({
   noResultsText,
   sortOption,
   error,
-}: Props) => {
+}: Props<T>) => {
   if (error) return <StyledError>{error}</StyledError>;
 
   return (
@@ -129,14 +131,14 @@ const TableComponent = ({
                   <SortArrowWrapper>
                     <ExpandLess
                       role="button"
-                      onClick={() => setSortOption(`${tableTitle.sortableField}`)}
+                      onClick={() => setSortOption(tableTitle.sortableField! as T)}
                       css={orderButtonStyle(
                         !tableTitle.sortableField || sortOption === tableTitle.sortableField,
                       )}
                     />
                     <ExpandMore
                       role="button"
-                      onClick={() => setSortOption(`-${tableTitle.sortableField}`)}
+                      onClick={() => setSortOption(`-${tableTitle.sortableField!}` as T)}
                       css={orderButtonStyle(
                         !tableTitle.sortableField || sortOption === `-${tableTitle.sortableField}`,
                       )}

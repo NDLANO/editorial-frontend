@@ -26,12 +26,13 @@ import {
 import GoToSearch from '../GoToSearch';
 import TableComponent, { FieldElement, TitleElement } from '../TableComponent';
 import TableTitle from '../TableTitle';
+import { SortOption } from './WorkList';
 
 interface Props {
   data?: IConceptSearchResult;
   filterSubject?: SingleValue;
   isLoading: boolean;
-  setSortOption: (o: string) => void;
+  setSortOption: (o: SortOption) => void;
   sortOption: string;
   error: string | undefined;
   setFilterSubject: (fs: SingleValue) => void;
@@ -162,7 +163,7 @@ const ConceptListTabContent = ({
           <GoToSearch ndlaId={ndlaId} filterSubject={filterSubject} searchEnv={'concept'} />
         </ControlWrapperDashboard>
       </StyledTopRowDashboardInfo>
-      <TableComponent
+      <TableComponent<SortOption>
         isLoading={isLoading}
         tableTitleList={tableTitles}
         tableData={tableData}

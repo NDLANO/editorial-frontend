@@ -12,6 +12,8 @@ import { ReactNode } from 'react';
 import { ExpandLess, ExpandMore } from '@ndla/icons/action';
 import { css } from '@emotion/react';
 import isEmpty from 'lodash/isEmpty';
+import Tooltip from '@ndla/tooltip';
+import { useTranslation } from 'react-i18next';
 import Spinner from '../../../components/Spinner';
 
 const StyledTable = styled.table`
@@ -79,6 +81,11 @@ const NoResultsText = styled.div`
   margin-bottom: ${spacing.nsmall};
 `;
 
+const ContentWrapper = styled.div`
+  height: ${spacing.nsmall};
+  display: flex;
+`;
+
 const orderButtonStyle = (isHidden: boolean) => css`
   cursor: pointer;
   color: ${colors.text.primary};
@@ -116,6 +123,7 @@ const TableComponent = <T extends string>({
   sortOption,
   error,
 }: Props<T>) => {
+  const { t } = useTranslation();
   if (error) return <StyledError>{error}</StyledError>;
 
   return (
@@ -129,20 +137,29 @@ const TableComponent = <T extends string>({
                   <div>{tableTitle.title}</div>
 
                   <SortArrowWrapper>
-                    <ExpandLess
-                      role="button"
-                      onClick={() => setSortOption(tableTitle.sortableField!)}
-                      css={orderButtonStyle(
-                        !tableTitle.sortableField || sortOption === tableTitle.sortableField,
-                      )}
-                    />
-                    <ExpandMore
-                      role="button"
-                      onClick={() => setSortOption(`-${tableTitle.sortableField!}`!)}
-                      css={orderButtonStyle(
-                        !tableTitle.sortableField || sortOption === `-${tableTitle.sortableField}`,
-                      )}
-                    />
+                    <Tooltip tooltip={t('welcomePage.workList.sortAsc')}>
+                      <ContentWrapper>
+                        <ExpandLess
+                          role="button"
+                          onClick={() => setSortOption(tableTitle.sortableField!)}
+                          css={orderButtonStyle(
+                            !tableTitle.sortableField || sortOption === tableTitle.sortableField,
+                          )}
+                        />
+                      </ContentWrapper>
+                    </Tooltip>
+                    <Tooltip tooltip={t('welcomePage.workList.sortDesc')}>
+                      <ContentWrapper>
+                        <ExpandMore
+                          role="button"
+                          onClick={() => setSortOption(`-${tableTitle.sortableField!}`!)}
+                          css={orderButtonStyle(
+                            !tableTitle.sortableField ||
+                              sortOption === `-${tableTitle.sortableField}`,
+                          )}
+                        />
+                      </ContentWrapper>
+                    </Tooltip>
                   </SortArrowWrapper>
                 </TableTitleComponent>
               </th>

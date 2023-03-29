@@ -144,6 +144,8 @@ const phrases = {
       ariaLabel: 'Overview of my tasks and concepts',
       conceptDescription: 'Concepts where you are responsible',
       conceptSubject: 'Concept subject',
+      sortAsc: 'Sort ascending',
+      sortDesc: 'Sort descending',
     },
     welcomeBack: 'Welcome back',
   },

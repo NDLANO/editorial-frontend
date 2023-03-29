@@ -145,6 +145,8 @@ const phrases = {
       ariaLabel: 'Oversikt over mine arbeidsoppgaver og forklaringer',
       conceptDescription: 'Forklaringer hvor du står som ansvarlig',
       conceptSubject: 'Forklaringsfag',
+      sortAsc: 'Sorter stigende',
+      sortDesc: 'Sorter synkende',
     },
     welcomeBack: 'Velkommen tilbake',
   },

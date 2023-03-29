@@ -1,6 +1,6 @@
-import { taxonomyApi } from '../../../src/config';
+const taxonomyApi = `/taxonomy/v1`;
 
-const editorRoutes = ARTICLE_ID => {
+const editorRoutes = (ARTICLE_ID) => {
   if (ARTICLE_ID) {
     cy.apiroute('GET', `/draft-api/v1/drafts/${ARTICLE_ID}*`, `draft-${ARTICLE_ID}`);
     cy.apiroute('PATCH', `/draft-api/v1/drafts/${ARTICLE_ID}`, `updateDraft-${ARTICLE_ID}`);

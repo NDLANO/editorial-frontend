@@ -116,7 +116,9 @@ const Revisions = ({ userData, ndlaId }: Props) => {
         },
         {
           id: `lastUpdated_${a.id}`,
-          data: a.revisions.length && formatDate(getExpirationDate({ revisions: a.revisions })!),
+          data: a.revisions.length
+            ? formatDate(getExpirationDate({ revisions: a.revisions })!)
+            : null,
         },
       ]) ?? [[]],
     [data?.results, t],

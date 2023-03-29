@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import { IImageMetaInformationV3, IAuthor, IImageDimensions } from '@ndla/types-image-api';
+import { IImageMetaInformationV3, IAuthor, IImageDimensions } from '@ndla/types-backend/image-api';
 import { Descendant } from 'slate';
 import { plainTextToEditorValue } from '../../util/articleContentConverter';
 

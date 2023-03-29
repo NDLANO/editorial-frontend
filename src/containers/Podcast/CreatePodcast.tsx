@@ -7,7 +7,7 @@
 
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { INewAudioMetaInformation } from '@ndla/types-audio-api';
+import { INewAudioMetaInformation } from '@ndla/types-backend/audio-api';
 import { postAudio } from '../../modules/audio/audioApi';
 import { createFormData } from '../../util/formDataHelper';
 import { toEditPodcast } from '../../util/routeHelpers';

@@ -8,7 +8,7 @@
 
 import { useTranslation } from 'react-i18next';
 import { useFormikContext } from 'formik';
-import { ITagsSearchResult } from '@ndla/types-concept-api';
+import { ITagsSearchResult } from '@ndla/types-backend/concept-api';
 import FormikField from '../../../components/FormikField';
 import AsyncSearchTags from '../../../components/Dropdown/asyncDropdown/AsyncSearchTags';
 import { MetaImageSearch } from '../../FormikForm';

@@ -13,7 +13,7 @@ import {
   IAudioMetaInformation,
   IUpdatedAudioMetaInformation,
   INewAudioMetaInformation,
-} from '@ndla/types-audio-api';
+} from '@ndla/types-backend/audio-api';
 import { ButtonV2 } from '@ndla/button';
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import AudioContent from '../../AudioUploader/components/AudioContent';

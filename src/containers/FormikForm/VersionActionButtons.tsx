@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 import Tooltip from '@ndla/tooltip';
 import { Eye, Restore } from '@ndla/icons/editor';
 import { StyledAccordionsPanelIconButton } from '@ndla/accordion';
-import { IUpdatedArticle, IArticle } from '@ndla/types-draft-api';
+import { IUpdatedArticle, IArticle } from '@ndla/types-backend/draft-api';
 
 import { PreviewDraftLightbox } from '../../components';
 import PreviewDraftLightboxV2 from '../../components/PreviewDraft/PreviewDraftLightboxV2';

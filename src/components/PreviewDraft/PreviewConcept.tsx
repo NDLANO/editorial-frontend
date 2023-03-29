@@ -7,7 +7,7 @@
  */
 
 import { extractEmbedMeta } from '@ndla/article-converter';
-import { IConcept } from '@ndla/types-concept-api';
+import { IConcept } from '@ndla/types-backend/concept-api';
 import { ConceptVisualElementMeta } from '@ndla/types-embed';
 import { ConceptNotionV2 } from '@ndla/ui';
 import { useTaxonomyVersion } from '../../containers/StructureVersion/TaxonomyVersionProvider';

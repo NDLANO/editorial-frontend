@@ -6,8 +6,8 @@
  *
  */
 
-import { IArticle } from '@ndla/types-draft-api';
-import { IArticleV2, ISearchResultV2 } from '@ndla/types-article-api';
+import { IArticle } from '@ndla/types-backend/draft-api';
+import { IArticleV2, ISearchResultV2 } from '@ndla/types-backend/article-api';
 import {
   resolveJsonOrRejectWithError,
   apiResourceUrl,

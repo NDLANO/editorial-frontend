@@ -6,7 +6,7 @@
  *
  */
 
-import { IArticleV2 } from '@ndla/types-article-api';
+import { IArticleV2 } from '@ndla/types-backend/article-api';
 
 type TransformedFields = 'title' | 'content' | 'tags' | 'introduction' | 'metaDescription';
 export interface ArticleConverterApiType extends Omit<IArticleV2, TransformedFields> {

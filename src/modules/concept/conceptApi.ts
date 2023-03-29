@@ -13,7 +13,7 @@ import {
   INewConcept,
   ITagsSearchResult,
   IUpdatedConcept,
-} from '@ndla/types-concept-api';
+} from '@ndla/types-backend/concept-api';
 import {
   resolveJsonOrRejectWithError,
   apiResourceUrl,

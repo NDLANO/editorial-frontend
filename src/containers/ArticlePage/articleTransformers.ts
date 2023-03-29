@@ -8,7 +8,7 @@
 
 import isEmpty from 'lodash/isEmpty';
 import { Descendant } from 'slate';
-import { ILicense, IUpdatedArticle, IArticle, IRevisionMeta } from '@ndla/types-draft-api';
+import { ILicense, IUpdatedArticle, IArticle, IRevisionMeta } from '@ndla/types-backend/draft-api';
 import {
   editorValueToEmbedTag,
   editorValueToPlainText,

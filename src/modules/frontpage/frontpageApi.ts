@@ -12,7 +12,7 @@ import {
   INewSubjectFrontPageData,
   IUpdatedSubjectFrontPageData,
   INewOrUpdatedFilmFrontPageData,
-} from '@ndla/types-frontpage-api';
+} from '@ndla/types-backend/frontpage-api';
 import { LocaleType } from '../../interfaces';
 import {
   resolveJsonOrRejectWithError,

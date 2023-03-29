@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
 import { Formik } from 'formik';
 import { Descendant, Element } from 'slate';
-import { IFilmFrontPageData, IMovieTheme } from '@ndla/types-frontpage-api';
+import { IFilmFrontPageData, IMovieTheme } from '@ndla/types-backend/frontpage-api';
 import { useNdlaFilmFormHooks } from '../../FormikForm/ndlaFilmFormHooks';
 import usePreventWindowUnload from '../../FormikForm/preventWindowUnloadHook';
 import Field from '../../../components/Field';

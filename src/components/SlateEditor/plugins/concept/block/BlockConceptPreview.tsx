@@ -14,7 +14,7 @@ import { colors, spacing } from '@ndla/core';
 import { DeleteForever, AlertCircle, Check } from '@ndla/icons/editor';
 import { Link as LinkIcon } from '@ndla/icons/common';
 import { ConceptNotion } from '@ndla/ui';
-import { IConcept } from '@ndla/types-concept-api';
+import { IConcept } from '@ndla/types-backend/concept-api';
 import { useTranslation } from 'react-i18next';
 import Tooltip from '@ndla/tooltip';
 import { SafeLinkIconButton } from '@ndla/safelink';

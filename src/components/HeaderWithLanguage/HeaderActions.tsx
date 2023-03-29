@@ -9,8 +9,8 @@
 import { Check } from '@ndla/icons/editor';
 import { FileCompare } from '@ndla/icons/action';
 import { useTranslation } from 'react-i18next';
-import { IConcept } from '@ndla/types-concept-api';
-import { IArticle, IUpdatedArticle } from '@ndla/types-draft-api';
+import { IConcept } from '@ndla/types-backend/concept-api';
+import { IArticle, IUpdatedArticle } from '@ndla/types-backend/draft-api';
 import StyledFilledButton from '../StyledFilledButton';
 import PreviewDraftLightbox from '../PreviewDraft/PreviewDraftLightbox';
 import { StyledSplitter } from './HeaderInformation';

@@ -8,10 +8,10 @@
 
 import { Dispatch, SetStateAction } from 'react';
 import { useTranslation } from 'react-i18next';
-import { IAudioSummary, ISeriesSummary } from '@ndla/types-audio-api';
-import { IConceptSummary } from '@ndla/types-concept-api';
-import { IImageMetaSummary } from '@ndla/types-image-api';
-import { IMultiSearchSummary } from '@ndla/types-search-api';
+import { IAudioSummary, ISeriesSummary } from '@ndla/types-backend/audio-api';
+import { IConceptSummary } from '@ndla/types-backend/concept-api';
+import { IImageMetaSummary } from '@ndla/types-backend/image-api';
+import { IMultiSearchSummary } from '@ndla/types-backend/search-api';
 import SearchContent from './SearchContent';
 import SearchConcept from './SearchConcept';
 import SearchImage from './SearchImage';

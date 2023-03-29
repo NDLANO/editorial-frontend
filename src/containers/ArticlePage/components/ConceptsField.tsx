@@ -8,7 +8,7 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FieldHeader } from '@ndla/forms';
-import { IConcept, IConceptSummary } from '@ndla/types-concept-api';
+import { IConcept, IConceptSummary } from '@ndla/types-backend/concept-api';
 import { FieldInputProps, FormikHelpers } from 'formik';
 import ElementList from '../../FormikForm/components/ElementList';
 import handleError from '../../../util/handleError';

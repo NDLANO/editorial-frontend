@@ -11,7 +11,7 @@ import { memo, useEffect, useMemo, useState } from 'react';
 import { IUserData } from '@ndla/types-draft-api';
 import { Alarm } from '@ndla/icons/common';
 import addYears from 'date-fns/addYears';
-import { Select, Option, SingleValue } from '@ndla/select';
+import { Select, SingleValue } from '@ndla/select';
 import Pager from '@ndla/pager';
 import {
   ControlWrapperDashboard,
@@ -27,9 +27,9 @@ import { toEditArticle } from '../../../util/routeHelpers';
 import { useSearch } from '../../../modules/search/searchQueries';
 import { getExpirationDate } from '../../ArticlePage/articleTransformers';
 import GoToSearch from './GoToSearch';
-import { fetchSubject } from '../../../modules/taxonomy';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
-import { SubjectType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
+import { useSearchNodes } from '../../../modules/nodes/nodeQueries';
+import { SUBJECT_NODE } from '../../../modules/nodes/nodeApiTypes';
 
 interface Props {
   userData: IUserData | undefined;
@@ -40,7 +40,6 @@ export type SortOptionFieldsRevision = 'title' | 'revisionDate';
 export type SortOptionRevision = SortOptionFieldsRevision | '-title' | '-revisionDate';
 
 const Revisions = ({ userData, ndlaId }: Props) => {
-  const [favoriteSubjects, setFavoriteSubjects] = useState<Option[]>([]);
   const [filterSubject, setFilterSubject] = useState<SingleValue | undefined>(undefined);
   const [sortOption, setSortOption] = useState<SortOptionRevision>('-revisionDate');
   const [error, setError] = useState<string | undefined>(undefined);
@@ -64,6 +63,7 @@ const Revisions = ({ userData, ndlaId }: Props) => {
       'revision-date-to': currentDateAddYear,
       sort: sortOption,
       page: page,
+      'page-size': 6,
     },
     {
       enabled: !!userData?.favoriteSubjects,
@@ -72,22 +72,19 @@ const Revisions = ({ userData, ndlaId }: Props) => {
     },
   );
 
-  useEffect(() => {
-    (async () => {
-      const favoriteSubjects = await Promise.allSettled(
-        userData?.favoriteSubjects?.map((id) => fetchSubject({ id, taxonomyVersion })) ?? [],
-      );
-      const filteredSubjects = (
-        favoriteSubjects.filter((fs) => fs.status === 'fulfilled') as Array<
-          PromiseFulfilledResult<SubjectType>
-        >
-      ).map((result) => ({
-        value: result.value.id,
-        label: result.value.name,
-      }));
-      setFavoriteSubjects(filteredSubjects);
-    })();
-  }, [taxonomyVersion, userData?.favoriteSubjects]);
+  const { data: subjectData } = useSearchNodes(
+    {
+      nodeType: SUBJECT_NODE,
+      taxonomyVersion,
+      ids: userData?.favoriteSubjects,
+    },
+    { enabled: !!userData?.favoriteSubjects?.length },
+  );
+
+  const favoriteSubjects = useMemo(
+    () => subjectData?.results.map((s) => ({ label: s.name, value: s.id })),
+    [subjectData],
+  );
 
   const lastPage = data?.totalCount ? Math.ceil(data?.totalCount / (data.pageSize ?? 1)) : 1;
 
@@ -136,7 +133,7 @@ const Revisions = ({ userData, ndlaId }: Props) => {
           <DropdownWrapper>
             <Select<false>
               label={t('welcomePage.chooseFavoriteSubject')}
-              options={favoriteSubjects}
+              options={favoriteSubjects ?? []}
               placeholder={t('welcomePage.chooseFavoriteSubject')}
               value={filterSubject}
               onChange={setFilterSubject}

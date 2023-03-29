@@ -15,6 +15,7 @@ import isEmpty from 'lodash/isEmpty';
 import Spinner from '../../../components/Spinner';
 import { SortOptionRevision, SortOptionFieldsRevision } from './Revisions';
 import { SortOption, SortOptionFields } from './worklist/WorkList';
+import { SortOptionFieldLastUsed, SortOptionLastUsed } from './LastUsedItems';
 
 const StyledTable = styled.table`
   font-family: arial, sans-serif;
@@ -94,7 +95,7 @@ export interface FieldElement {
 
 export interface TitleElement {
   title: string;
-  sortableField?: SortOptionFieldsRevision | SortOptionFields;
+  sortableField?: SortOptionFieldsRevision | SortOptionFields | SortOptionFieldLastUsed;
 }
 
 interface Props<T> {
@@ -107,7 +108,7 @@ interface Props<T> {
   error?: string;
 }
 
-const TableComponent = <T extends SortOption | SortOptionRevision>({
+const TableComponent = <T extends SortOption | SortOptionRevision | SortOptionLastUsed>({
   tableTitleList,
   tableData = [[]],
   isLoading,

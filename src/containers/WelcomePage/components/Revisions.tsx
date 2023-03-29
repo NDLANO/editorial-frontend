@@ -71,7 +71,7 @@ const Revisions = ({ userData, ndlaId }: Props) => {
     },
   );
 
-  const { data: subjectData } = useSearchNodes(
+  const { data: subjectData, isInitialLoading: isInitialLoadingSubjects } = useSearchNodes(
     {
       nodeType: SUBJECT_NODE,
       taxonomyVersion,
@@ -139,7 +139,7 @@ const Revisions = ({ userData, ndlaId }: Props) => {
               menuPlacement="bottom"
               small
               outline
-              isLoading={isInitialLoading}
+              isLoading={isInitialLoadingSubjects}
               isSearchable
               noOptionsMessage={() => t('form.responsible.noResults')}
               isClearable

@@ -160,7 +160,7 @@ describe('definition normalizing tests', () => {
     ]);
   });
 
-  test('If definition list is empty, add term and description', () => {
+  test('expect to add term and description in empty description list', () => {
     const editorValue: Descendant[] = [
       {
         type: TYPE_SECTION,
@@ -206,5 +206,50 @@ describe('definition normalizing tests', () => {
     editor.children = editorValue;
     Editor.normalize(editor, { force: true });
     expect(editor.children).toEqual(expectedValue);
+  });
+
+  test('if definition list does something weird fix it', () => {
+    const editorValue: Descendant[] = [
+      {
+        type: TYPE_SECTION,
+        children: [
+          {
+            type: TYPE_PARAGRAPH,
+            children: [{ text: '' }],
+          },
+          {
+            type: TYPE_DEFINTION_LIST,
+            children: [],
+          },
+          {
+            type: TYPE_PARAGRAPH,
+            children: [{ text: '' }],
+          },
+        ],
+      },
+    ];
+
+    const expectedValue: Descendant[] = [
+      {
+        type: TYPE_SECTION,
+        children: [
+          {
+            type: TYPE_PARAGRAPH,
+            children: [{ text: '' }],
+          },
+          {
+            type: TYPE_DEFINTION_LIST,
+            children: [
+              { type: TYPE_DEFINTION_TERM, children: [] },
+              { type: TYPE_DEFINTION_DESCRIPTION, children: [{ text: '' }] },
+            ],
+          },
+          {
+            type: TYPE_PARAGRAPH,
+            children: [{ text: '' }],
+          },
+        ],
+      },
+    ];
   });
 });

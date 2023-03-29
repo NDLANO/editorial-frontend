@@ -21,8 +21,8 @@ import hasListItem from '../list/utils/hasListItem';
 import getCurrentBlock from '../../utils/getCurrentBlock';
 import { TYPE_TABLE_CELL } from '../table/types';
 import { hasCellAlignOfType } from '../table/slateHelpers';
-import { isDefinitionListItem } from '../definitionList/utils/isDefinitionListItem';
 import { TYPE_DEFINTION_LIST } from '../definitionList/types';
+import hasDefinitionListItem from '../definitionList/utils/hasDefinitionListItem';
 
 const topicArticleElements: { [key: string]: string[] } = {
   mark: ['bold', 'italic', 'code', 'sub', 'sup'],
@@ -93,7 +93,7 @@ const SlateToolbar = (props: Props) => {
     if (type === 'definition-list') {
       const path = getCurrentBlock(editor, TYPE_DEFINTION_LIST)?.[1];
       if (path) {
-        return isDefinitionListItem(editor, path);
+        return hasDefinitionListItem(editor);
       }
       return false;
     }

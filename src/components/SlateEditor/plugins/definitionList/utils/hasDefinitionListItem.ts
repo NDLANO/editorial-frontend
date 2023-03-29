@@ -10,7 +10,7 @@ import { Editor, Element } from 'slate';
 import { TYPE_DEFINTION_DESCRIPTION, TYPE_DEFINTION_TERM } from '../types';
 import { isDefinitionListItem } from './isDefinitionListItem';
 
-const hasListItem = (editor: Editor, type?: string) => {
+const hasDefinitionListItem = (editor: Editor) => {
   // For all selected list elements
   for (const [, path] of Editor.nodes(editor, {
     match: (node) =>
@@ -23,6 +23,7 @@ const hasListItem = (editor: Editor, type?: string) => {
 
     return false;
   }
+  return false;
 };
 
-export default hasListItem;
+export default hasDefinitionListItem;

@@ -8,7 +8,7 @@
 
 import { useTranslation } from 'react-i18next';
 import { memo, useEffect, useMemo, useState } from 'react';
-import { IUserData } from '@ndla/types-draft-api';
+import { IUserData } from '@ndla/types-backend/draft-api';
 import { Alarm } from '@ndla/icons/common';
 import addYears from 'date-fns/addYears';
 import { Select, SingleValue } from '@ndla/select';

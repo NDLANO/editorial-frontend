@@ -65,7 +65,7 @@ const Revisions = ({ userData, ndlaId }: Props) => {
       'page-size': 6,
     },
     {
-      enabled: !!userData?.favoriteSubjects,
+      enabled: !!userData?.favoriteSubjects?.length,
       onError: () => setError(t('welcomePage.errorMessage')),
       onSuccess: () => setError(undefined),
     },

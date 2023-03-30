@@ -1,16 +1,25 @@
+/**
+ * Copyright (c) 2023-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
 import styled from '@emotion/styled';
-import { spacing, colors } from '@ndla/core';
+import { spacing, colors, mq, breakpoints } from '@ndla/core';
 import SafeLink from '@ndla/safelink';
 
 export const StyledColumnHeader = styled.div`
   display: flex;
   align-items: center;
   font-size: 1.2rem;
+  margin-top: ${spacing.medium};
   & > span {
     text-transform: uppercase;
     margin-left: ${spacing.small};
   }
 `;
+
 export const StyledDashboardInfo = styled.div`
   background-color: ${colors.brand.lighter};
   border-radius: 10px;
@@ -30,10 +39,13 @@ export const StyledLink = styled(SafeLink)`
 `;
 
 export const DropdownWrapper = styled.div`
-  width: 200px;
+  max-width: 200px;
 `;
 
 export const ControlWrapperDashboard = styled.div`
   display: flex;
   gap: ${spacing.small};
+  ${mq.range({ until: breakpoints.desktop })} {
+    flex-direction: column;
+  }
 `;

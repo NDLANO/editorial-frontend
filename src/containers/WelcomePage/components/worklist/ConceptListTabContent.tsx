@@ -24,14 +24,15 @@ import {
   StyledTopRowDashboardInfo,
 } from '../../styles';
 import GoToSearch from '../GoToSearch';
-import TableComponent, { FieldElement, TitleElement } from '../TableComponent';
+import TableComponent, { FieldElement, Prefix, TitleElement } from '../TableComponent';
 import TableTitle from '../TableTitle';
+import { SortOption } from './WorkList';
 
 interface Props {
   data?: IConceptSearchResult;
   filterSubject?: SingleValue;
   isLoading: boolean;
-  setSortOption: (o: string) => void;
+  setSortOption: (o: Prefix<'-', SortOption>) => void;
   sortOption: string;
   error: string | undefined;
   setFilterSubject: (fs: SingleValue) => void;
@@ -125,7 +126,7 @@ const ConceptListTabContent = ({
     [conceptData],
   );
 
-  const tableTitles: TitleElement[] = [
+  const tableTitles: TitleElement<SortOption>[] = [
     { title: t('welcomePage.workList.name'), sortableField: 'title' },
     { title: t('welcomePage.workList.status') },
     { title: t('welcomePage.workList.conceptSubject') },
@@ -145,6 +146,7 @@ const ConceptListTabContent = ({
         <ControlWrapperDashboard>
           <DropdownWrapper>
             <Select<false>
+              label={t('welcomePage.chooseSubject')}
               options={subjectList}
               placeholder={t('welcomePage.chooseSubject')}
               value={filterSubject}

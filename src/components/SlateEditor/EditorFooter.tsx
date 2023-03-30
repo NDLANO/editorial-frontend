@@ -15,7 +15,7 @@ import { Launch } from '@ndla/icons/common';
 import { IConcept, IStatus as ConceptStatus } from '@ndla/types-backend/concept-api';
 import { IUpdatedArticle, IStatus as DraftStatus, IComment } from '@ndla/types-backend/draft-api';
 import { useFormikContext } from 'formik';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { SingleValue } from '@ndla/select';
 import sortBy from 'lodash/sortBy';
 import isEqual from 'lodash/isEqual';
@@ -102,6 +102,7 @@ function EditorFooter<T extends FormValues>({
   const [status, setStatus] = useState<SingleValue>(null);
   const [responsible, setResponsible] = useState<SingleValue>(null);
   const [showWarningModal, setShowWarningModal] = useState(false);
+  const modalShown = useRef(false);
 
   const { comments: commentsFromContex } = useCommentsContext();
   const { ndlaId } = useSession();
@@ -143,9 +144,16 @@ function EditorFooter<T extends FormValues>({
     }
     const commentsChanged = !isEqual(sortBy(comments), sortBy(commentsFromContex));
     // Show warning modal when responsible is updated and comments have not changed
-    if (isArticle && responsible && responsible.value !== responsibleId && !commentsChanged) {
+    if (
+      isArticle &&
+      responsible &&
+      responsible.value !== responsibleId &&
+      !commentsChanged &&
+      !modalShown.current
+    ) {
       setShowWarningModal(true);
     } else {
+      modalShown.current = false;
       onSaveClick(saveAsNewVersion);
     }
   };
@@ -282,7 +290,10 @@ function EditorFooter<T extends FormValues>({
             actions={[
               {
                 text: 'Ok',
-                onClick: () => setShowWarningModal(!showWarningModal),
+                onClick: () => {
+                  setShowWarningModal(!showWarningModal);
+                  modalShown.current = true;
+                },
               },
             ]}
             onCancel={() => setShowWarningModal(!showWarningModal)}

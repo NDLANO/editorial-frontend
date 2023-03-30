@@ -14,7 +14,7 @@ import { Check, AlertCircle } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
 import { IConceptSummary } from '@ndla/types-backend/concept-api';
 import { IMultiSearchSummary } from '@ndla/types-backend/search-api';
-import { ILearningPathV2 } from '@ndla/types-learningpath-api';
+import { ILearningPathV2 } from '@ndla/types-backend/learningpath-api';
 import config from '../../config';
 import LearningpathConnection from './LearningpathConnection';
 import EmbedConnection from './EmbedInformation/EmbedConnection';

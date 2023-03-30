@@ -10,7 +10,10 @@ import { Descendant, Editor, Element, Node, Range, Transforms } from 'slate';
 import { jsx as slatejsx } from 'slate-hyperscript';
 import { RenderElementProps } from 'slate-react';
 import hasNodeOfType from '../../../utils/hasNodeOfType';
-import { createEmbedTag, reduceElementDataAttributes } from '../../../../../util/embedTagHelpers';
+import {
+  createEmbedTagV2,
+  reduceElementDataAttributesV2,
+} from '../../../../../util/embedTagHelpers';
 import InlineConcept from './InlineConcept';
 import { KEY_BACKSPACE } from '../../../utils/keys';
 import { SlateSerializer } from '../../../interfaces';
@@ -18,10 +21,10 @@ import { TYPE_CONCEPT_INLINE } from './types';
 import { TYPE_NDLA_EMBED } from '../../embed/types';
 
 export const inlineConceptSerializer: SlateSerializer = {
-  deserialize(el: HTMLElement, children: Descendant[]) {
+  deserialize(el: HTMLElement) {
     if (el.tagName.toLowerCase() !== TYPE_NDLA_EMBED) return;
     const embed = el as HTMLEmbedElement;
-    const embedAttributes = reduceElementDataAttributes(embed);
+    const embedAttributes = reduceElementDataAttributesV2(embed);
     if (embedAttributes.resource === 'concept' && embedAttributes.type === 'inline') {
       return slatejsx(
         'element',
@@ -31,24 +34,21 @@ export const inlineConceptSerializer: SlateSerializer = {
         },
         [
           {
-            text: embedAttributes['link-text']
-              ? embedAttributes['link-text']
-              : 'Ukjent forklaringstekst',
+            text: embedAttributes.linkText ? embedAttributes.linkText : 'Ukjent forklaringstekst',
           },
         ],
       );
     }
   },
   serialize(node: Descendant) {
-    if (!Element.isElement(node)) return;
-    if (node.type !== TYPE_CONCEPT_INLINE) return;
+    if (!Element.isElement(node) || node.type !== TYPE_CONCEPT_INLINE) return;
 
     const data = {
       ...node.data,
-      'link-text': Node.string(node),
+      linkText: Node.string(node),
     };
 
-    return createEmbedTag(data);
+    return createEmbedTagV2(data);
   },
 };
 

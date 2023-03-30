@@ -14,7 +14,7 @@ import {
   IUpdatedSubjectFrontPageData,
 } from '@ndla/types-backend/frontpage-api';
 import { IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
-import { ILearningPathV2 } from '@ndla/types-learningpath-api';
+import { ILearningPathV2 } from '@ndla/types-backend/learningpath-api';
 import { IArticle } from '@ndla/types-backend/draft-api';
 import Field from '../../../components/Field';
 import SimpleLanguageHeader from '../../../components/HeaderWithLanguage/SimpleLanguageHeader';

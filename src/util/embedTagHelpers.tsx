@@ -20,6 +20,29 @@ export const removeEmptyElementDataAttributes = (obj: Dictionary<any>) => {
   return newObject;
 };
 
+const reduceDataRegexp = /^data-/g;
+const reduceRegexp = /-[a-z]/g;
+
+export const reduceElementDataAttributesV2 = (
+  el: Element,
+  filter?: string[],
+): Record<string, string> => {
+  let attributes: Attr[] = [].slice.call(el.attributes) ?? [];
+  attributes = attributes.filter((a) => a.name !== 'style');
+  const filteredAttributes = filter?.length
+    ? attributes.filter((a) => filter.includes(a.name))
+    : attributes;
+  return filteredAttributes.reduce<Record<string, string>>((acc, attr) => {
+    const key = attr.name
+      // replace data-
+      .replace(reduceDataRegexp, '')
+      // convert "-a" with "A". image-id becomes imageId
+      .replace(reduceRegexp, (m) => m.charAt(1).toUpperCase());
+    acc[key] = attr.value;
+    return acc;
+  }, {});
+};
+
 export const reduceElementDataAttributes = (
   el: Element,
   filter?: string[],
@@ -105,6 +128,21 @@ export const createEmbedTag = (data: { [key: string]: any }) => {
     .forEach((key) => (props[`data-${key}`] = data[key]));
 
   return <ndlaembed {...props}></ndlaembed>;
+};
+
+const attributeRegex = /[A-Z]/g;
+
+export const createEmbedTagV2 = (data: Record<string, any>) => {
+  if (Object.keys(data).length === 0) {
+    return undefined;
+  }
+  const dataSet = Object.entries(data).reduce<Record<string, any>>((acc, [key, value]) => {
+    const newKey = key.replace(attributeRegex, (m) => `-${m.toLowerCase()}`);
+    acc[`data-${newKey}`] = value;
+    return acc;
+  }, {});
+
+  return <ndlaembed {...dataSet}></ndlaembed>;
 };
 
 export const isUserProvidedEmbedDataValid = (embed: Embed) => {

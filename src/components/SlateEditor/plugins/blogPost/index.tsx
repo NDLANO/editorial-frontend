@@ -16,7 +16,7 @@ import { defaultBlockNormalizer, NormalizerConfig } from '../../utils/defaultNor
 import { afterOrBeforeTextBlockElement } from '../../utils/normalizationHelpers';
 import { SlateSerializer } from '../../interfaces';
 import { TYPE_NDLA_EMBED } from '../embed/types';
-import { reduceElementDataAttributes, createEmbedTag } from '../../../../util/embedTagHelpers';
+import { createEmbedTagV2, reduceElementDataAttributesV2 } from '../../../../util/embedTagHelpers';
 
 const normalizerConfig: NormalizerConfig = {
   previous: {
@@ -33,22 +33,16 @@ export const blogPostSerializer: SlateSerializer = {
   deserialize(el: HTMLElement) {
     if (el.tagName.toLowerCase() !== TYPE_NDLA_EMBED) return;
     const embed = el as HTMLEmbedElement;
-    const embedAttributes = reduceElementDataAttributes(embed);
+    const embedAttributes = reduceElementDataAttributesV2(embed);
     if (embedAttributes.resource !== 'blog-post') return;
-    return slatejsx(
-      'element',
-      { type: TYPE_BLOGPOST, data: { ...embedAttributes }, isFirstEdit: false },
-      [{ text: '' }],
-    );
+    return slatejsx('element', {
+      type: TYPE_BLOGPOST,
+      data: embedAttributes,
+    });
   },
   serialize(node: Descendant) {
-    if (!Element.isElement(node) || node.type !== 'blog-post') return;
-
-    const { data } = node;
-    const props = {
-      resource: 'blog-post',
-    };
-    return createEmbedTag(props);
+    if (!Element.isElement(node) || node.type !== 'blog-post' || !node.data) return;
+    return createEmbedTagV2(node.data);
   },
 };
 

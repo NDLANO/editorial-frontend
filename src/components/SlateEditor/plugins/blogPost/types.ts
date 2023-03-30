@@ -14,6 +14,6 @@ export const TYPE_BLOGPOST = 'blog-post';
 export interface BlogPostElement {
   type: 'blog-post';
   data?: BlogPostEmbedData;
-  isFirstEdit: boolean;
+  isFirstEdit?: boolean;
   children: Descendant[];
 }

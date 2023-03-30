@@ -59,7 +59,7 @@ const toInitialValues = (initialData?: BlogPostEmbedData): BlogPostFormValues =>
   return {
     resource: 'blog-post',
     title: initialData?.title ?? '',
-    metaImageId: initialData?.imageId,
+    metaImageId: initialData?.imageId ? parseInt(initialData.imageId) : undefined,
     size: initialData?.size ?? 'normal',
     language: initialData?.language ?? 'nb',
     link: initialData?.url ?? '',
@@ -71,10 +71,6 @@ const ButtonContainer = styled.div`
   display: flex;
   justify-content: flex-end;
   gap: ${spacing.small};
-`;
-
-const headerCss = css`
-  margin-top: 0px;
 `;
 
 interface Props {
@@ -105,7 +101,7 @@ const BlogPostForm = ({ initialData, onSave, onCancel }: Props) => {
 
       const newData: BlogPostEmbedData = {
         resource: 'blog-post',
-        imageId: values.metaImageId,
+        imageId: values.metaImageId.toString(),
         language: values.language,
         title: values.title,
         size: values.size,
@@ -163,7 +159,7 @@ const BlogPostForm = ({ initialData, onSave, onCancel }: Props) => {
           <StyledFormikField name="size" showError>
             {({ field }: FieldProps) => <SizeField field={field} />}
           </StyledFormikField>
-          <InlineImageSearch name={'metaImageId'} headerCss={headerCss} />
+          <InlineImageSearch name={'metaImageId'} />
           <ButtonContainer>
             <ButtonV2 variant="outline" onClick={onCancel}>
               {t('cancel')}

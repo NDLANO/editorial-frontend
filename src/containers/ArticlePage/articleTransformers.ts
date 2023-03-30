@@ -296,7 +296,8 @@ export const updatedDraftApiTypeToDraftApiType = (
     availability: article.availability ?? 'everyone',
     relatedContent: article.relatedContent ?? [],
     revisions: article.revisionMeta ?? [],
-    comments: article.comments,
+    comments:
+      article.comments?.map((c) => ({ ...c, id: c.id ?? '', created: '', updated: '' })) ?? [],
   };
 };
 

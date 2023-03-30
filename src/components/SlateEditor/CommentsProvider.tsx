@@ -6,9 +6,13 @@
  *
  */
 
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { createContext, useContext, useState, ReactNode } from 'react';
+import { IComment } from '@ndla/types-backend/draft-api';
 
-export type CommentType = { uid: string; content: string };
+// Comment generated on frontend, we will use id from draft-api once comment is generated
+type Comment = { generatedId?: string; content: string };
+
+export type CommentType = Comment | IComment;
 
 interface Props {
   children: ReactNode;

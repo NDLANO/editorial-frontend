@@ -13,10 +13,12 @@ import { colors, spacing } from '@ndla/core';
 import { ButtonV2 } from '@ndla/button';
 import { Launch } from '@ndla/icons/common';
 import { IConcept, IStatus as ConceptStatus } from '@ndla/types-backend/concept-api';
-import { IUpdatedArticle, IStatus as DraftStatus } from '@ndla/types-backend/draft-api';
+import { IUpdatedArticle, IStatus as DraftStatus, IComment } from '@ndla/types-backend/draft-api';
 import { useFormikContext } from 'formik';
 import { useEffect, useState } from 'react';
 import { SingleValue } from '@ndla/select';
+import sortBy from 'lodash/sortBy';
+import isEqual from 'lodash/isEqual';
 import { toPreviewDraft } from '../../util/routeHelpers';
 import PreviewConceptLightbox from '../PreviewConcept/PreviewConceptLightbox';
 import SaveMultiButton from '../SaveMultiButton';
@@ -28,8 +30,9 @@ import StatusSelect from '../../containers/FormikForm/components/StatusSelect';
 import { ARCHIVED, PUBLISHED, UNPUBLISHED } from '../../constants';
 import PreviewDraftLightboxV2 from '../PreviewDraft/PreviewDraftLightboxV2';
 import { useDisableConverter } from '../ArticleConverterContext';
-import AddCommentModal from '../../containers/ArticlePage/components/AddCommentModal';
 import { useSession } from '../../containers/Session/SessionProvider';
+import AlertModal from '../AlertModal';
+import { useCommentsContext } from './CommentsProvider';
 
 interface Props {
   formIsDirty: boolean;
@@ -46,6 +49,7 @@ interface Props {
   isNewlyCreated: boolean;
   hasErrors?: boolean;
   responsibleId?: string;
+  comments?: IComment[];
 }
 
 interface FormValues {
@@ -91,15 +95,15 @@ function EditorFooter<T extends FormValues>({
   isNewlyCreated,
   hasErrors,
   responsibleId,
+  comments,
 }: Props) {
   const { t } = useTranslation();
   const disableConverter = useDisableConverter();
   const [status, setStatus] = useState<SingleValue>(null);
   const [responsible, setResponsible] = useState<SingleValue>(null);
-  const [showAddCommentModal, setShowAddCommentModal] = useState(false);
-  const [inputValue, setInputValue] = useState('');
-  const [saveAsNewVersion, setSaveAsNewVersion] = useState(false);
+  const [showWarningModal, setShowWarningModal] = useState(false);
 
+  const { comments: commentsFromContex } = useCommentsContext();
   const { ndlaId } = useSession();
   const { values, setFieldValue, isSubmitting } = useFormikContext<T>();
   const { createMessage, formatErrorMessage } = useMessages();
@@ -137,12 +141,10 @@ function EditorFooter<T extends FormValues>({
     if (STATUSES_RESET_RESPONSIBLE.find((s) => s === status?.value)) {
       updateResponsible(null);
     }
-
-    if (isArticle && responsible && responsible.value !== responsibleId) {
-      setInputValue(`${t('form.workflow.addComment.to')} ${responsible.label.split(' ')[0]}: \n`);
-      setShowAddCommentModal(true);
-      setSaveAsNewVersion(saveAsNewVersion ?? false);
-      onSaveClick(saveAsNewVersion);
+    const commentsChanged = !isEqual(sortBy(comments), sortBy(commentsFromContex));
+    // Show warning modal when responsible is updated and comments have not changed
+    if (isArticle && responsible && responsible.value !== responsibleId && !commentsChanged) {
+      setShowWarningModal(true);
     } else {
       onSaveClick(saveAsNewVersion);
     }
@@ -271,14 +273,19 @@ function EditorFooter<T extends FormValues>({
           </Wrapper>
           {saveButton}
         </div>
-        {isArticle && showAddCommentModal && (
-          <AddCommentModal
-            onClose={() => setShowAddCommentModal(false)}
-            inputValue={inputValue}
-            setInputValue={setInputValue}
-            onSaveClick={onSaveClick}
-            saveAsNewVersion={saveAsNewVersion}
-            setFieldValue={setFieldValue}
+        {isArticle && (
+          <AlertModal
+            title={t('form.workflow.addComment.warn')}
+            label={t('form.workflow.addComment.warn')}
+            show={showWarningModal}
+            text={t('form.workflow.addComment.description')}
+            actions={[
+              {
+                text: 'Ok',
+                onClick: () => setShowWarningModal(!showWarningModal),
+              },
+            ]}
+            onCancel={() => setShowWarningModal(!showWarningModal)}
           />
         )}
       </>

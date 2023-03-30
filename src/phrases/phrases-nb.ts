@@ -811,10 +811,9 @@ const phrases = {
         button: 'Slett',
       },
       addComment: {
-        title: 'Legg til kommentar',
-        button: 'Lagre uten kommentar',
-        to: 'Til',
         from: 'Fra',
+        warn: 'Husk å legge til kommentar',
+        description: 'Du har endret ansvarlig uten å legge til kommentar!',
       },
     },
     status: {

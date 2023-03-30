@@ -10,6 +10,7 @@ import { colors, fonts } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
 import { TextAreaV2 } from '@ndla/forms';
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
+import uniqueId from 'lodash/uniqueId';
 import { CommentType } from '../../../components/SlateEditor/CommentsProvider';
 import CancelButton from './CancelButton';
 import SaveButton from './SaveButton';
@@ -55,8 +56,10 @@ const InputComment = ({ comments, setComments, setFieldValue }: Props) => {
     setInputValue(e.target.value);
   };
 
-  const updateComment = () => {
-    const updatedComments = [{ content: inputValue }, ...comments];
+  const addComment = () => {
+    // We need a temporary unique id in frontend before id is generated in draft-api when comment is created
+    const uid = uniqueId();
+    const updatedComments = [{ generatedId: uid, content: inputValue }, ...comments];
     setComments(updatedComments);
     setFieldValue('comments', updatedComments);
   };
@@ -80,7 +83,7 @@ const InputComment = ({ comments, setComments, setFieldValue }: Props) => {
             flex={2}
             disabled={!inputValue}
             onClick={() => {
-              updateComment();
+              addComment();
               setInputValue('');
             }}
             text={t('form.comment')}

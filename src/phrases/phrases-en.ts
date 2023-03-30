@@ -810,10 +810,9 @@ const phrases = {
         button: 'Delete',
       },
       addComment: {
-        addComment: 'Add comment',
-        saveWithoutComment: 'Save without comment',
-        to: 'To',
         from: 'From',
+        warn: 'Remember to add a comment',
+        description: 'You have changed responsible without adding a comment!',
       },
     },
     status: {

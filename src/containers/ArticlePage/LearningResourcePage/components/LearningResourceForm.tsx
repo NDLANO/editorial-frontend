@@ -132,6 +132,7 @@ const LearningResourceForm = ({
             isConcept={false}
             hideSecondaryButton={false}
             responsibleId={article?.responsible?.responsibleId}
+            comments={article?.comments}
           />
         </CommentsProvider>
         <AlertModalWrapper

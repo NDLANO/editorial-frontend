@@ -18,7 +18,6 @@ import { CommentType } from '../../../components/SlateEditor/CommentsProvider';
 import AlertModal from '../../../components/AlertModal';
 import CancelButton from './CancelButton';
 import SaveButton from './SaveButton';
-import { useSession } from '../../Session/SessionProvider';
 
 export const textAreaStyles = css`
   width: 100%;
@@ -107,7 +106,6 @@ const Comment = ({
   setFieldValue,
 }: Props) => {
   const { t } = useTranslation();
-  const { userName } = useSession();
   const [inputValue, setInputValue] = useState(comment?.content);
   const [open, setOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);

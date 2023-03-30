@@ -47,6 +47,7 @@ const WorkList = ({ ndlaId }: Props) => {
       onSuccess: () => setError(undefined),
     },
   );
+
   const { data: concepts, isInitialLoading: conceptsLoading } = useSearchConcepts(
     {
       'responsible-ids': ndlaId,

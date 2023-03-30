@@ -16,9 +16,9 @@ const StyledButton = styled(ButtonV2)`
   margin-left: 0;
 `;
 
-const StyledFooter = styled.div`
+const StyledFooter = styled.div<{ buttonCount: number }>`
   display: flex;
-  justify-content: space-between;
+  justify-content: ${(p) => (p.buttonCount === 1 ? 'flex-end' : 'space-between')};
   align-items: flex-end;
   margin-top: ${spacing.small};
 `;
@@ -36,7 +36,7 @@ const AlertModalFooter = ({ component, actions = [] }: Props) =>
   component ? (
     <>{component}</>
   ) : (
-    <StyledFooter>
+    <StyledFooter buttonCount={actions.length ?? 0}>
       {actions.map((action, id) => {
         const { text, ...rest } = action;
         return (

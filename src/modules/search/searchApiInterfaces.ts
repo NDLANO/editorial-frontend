@@ -42,4 +42,6 @@ export interface MultiSearchApiQuery {
   'embed-resource'?: string;
   'responsible-ids'?: CommaSeparatedList;
   'aggregate-paths'?: CommaSeparatedList;
+  'revision-date-from'?: string;
+  'revision-date-to'?: string;
 }

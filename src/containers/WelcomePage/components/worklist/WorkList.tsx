@@ -7,25 +7,29 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { useEffect, useState } from 'react';
 import { SingleValue } from '@ndla/select';
+import { useEffect, useState } from 'react';
 import { TabsV2 } from '@ndla/tabs';
 import { useSearch } from '../../../../modules/search/searchQueries';
 import WorkListTabContent from './WorkListTabContent';
 import { useSearchConcepts } from '../../../../modules/concept/conceptQueries';
 import ConceptListTabContent from './ConceptListTabContent';
+import { Prefix } from '../TableComponent';
 
 interface Props {
   ndlaId: string;
 }
 
+export type SortOption = 'title' | 'responsibleLastUpdated';
+
 const WorkList = ({ ndlaId }: Props) => {
-  const [sortOption, setSortOption] = useState<string>('-responsibleLastUpdated');
+  const [sortOption, setSortOption] = useState<Prefix<'-', SortOption>>('-responsibleLastUpdated');
   const [filterSubject, setFilterSubject] = useState<SingleValue | undefined>(undefined);
   const [error, setError] = useState<string | undefined>(undefined);
   const [page, setPage] = useState(1);
 
-  const [sortOptionConcepts, setSortOptionConcepts] = useState('-responsibleLastUpdated');
+  const [sortOptionConcepts, setSortOptionConcepts] =
+    useState<Prefix<'-', SortOption>>('-responsibleLastUpdated');
   const [filterConceptSubject, setFilterConceptSubject] = useState<SingleValue | undefined>(
     undefined,
   );
@@ -36,7 +40,7 @@ const WorkList = ({ ndlaId }: Props) => {
   const { data, isInitialLoading } = useSearch(
     {
       'responsible-ids': ndlaId,
-      sort: sortOption ? sortOption : '-responsibleLastUpdated',
+      sort: sortOption,
       ...(filterSubject ? { subjects: filterSubject.value } : {}),
       page: page,
       'page-size': 6,

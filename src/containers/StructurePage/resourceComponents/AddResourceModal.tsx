@@ -11,7 +11,7 @@ import { Input } from '@ndla/forms';
 import styled from '@emotion/styled';
 import { ChangeEvent, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ILearningPathSummaryV2 } from '@ndla/types-learningpath-api';
+import { ILearningPathSummaryV2 } from '@ndla/types-backend/learningpath-api';
 import { IGroupSearchResult, IMultiSearchSummary } from '@ndla/types-backend/search-api';
 import { IArticleV2 } from '@ndla/types-backend/article-api';
 import TaxonomyLightbox from '../../../components/Taxonomy/TaxonomyLightbox';

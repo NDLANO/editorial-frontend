@@ -23,7 +23,7 @@ import { Dictionary } from '../../../../../interfaces';
 const getConceptDataAttributes = ({ id }: Dictionary<any>) => ({
   type: TYPE_CONCEPT_BLOCK,
   data: {
-    'content-id': id,
+    contentId: id,
     resource: 'concept',
     type: 'block',
   },
@@ -54,7 +54,7 @@ const BlockConcept = ({ element, locale, editor, attributes, children }: Props) 
   const [showConcept, setShowConcept] = useState(false);
 
   const { concept, subjects, ...conceptHooks } = useFetchConceptData(
-    parseInt(element.data['content-id']),
+    parseInt(element.data.contentId),
     locale,
   );
   const conceptId = concept && concept.id ? concept.id : undefined;
@@ -104,7 +104,7 @@ const BlockConcept = ({ element, locale, editor, attributes, children }: Props) 
   };
 
   const onClose = () => {
-    if (!element.data['content-id']) {
+    if (!element.data.contentId) {
       handleRemove();
     } else {
       setShowConcept(false);
@@ -113,7 +113,7 @@ const BlockConcept = ({ element, locale, editor, attributes, children }: Props) 
   };
 
   useEffect(() => {
-    if (!element.data['content-id']) {
+    if (!element.data.contentId) {
       setShowConcept(true);
     }
   }, [element]);

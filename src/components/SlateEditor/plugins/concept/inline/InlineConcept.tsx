@@ -22,8 +22,8 @@ import { Dictionary } from '../../../../../interfaces';
 const getConceptDataAttributes = ({ id, title: { title } }: Dictionary<any>) => ({
   type: TYPE_CONCEPT_INLINE,
   data: {
-    'content-id': id,
-    'link-text': title,
+    contentId: id,
+    linkText: title,
     resource: 'concept',
     type: 'inline',
   },
@@ -48,7 +48,7 @@ const InlineConcept = (props: Props) => {
   };
 
   const { concept, subjects, fetchSearchTags, conceptArticles, createConcept, updateConcept } =
-    useFetchConceptData(parseInt(element.data['content-id']), locale);
+    useFetchConceptData(parseInt(element.data.contentId), locale);
 
   const handleSelectionChange = (isNewConcept: boolean) => {
     ReactEditor.focus(editor);
@@ -95,7 +95,7 @@ const InlineConcept = (props: Props) => {
   };
 
   const onClose = () => {
-    if (!element.data['content-id']) {
+    if (!element.data.contentId) {
       handleRemove();
     } else {
       toggleConceptModal();
@@ -104,7 +104,7 @@ const InlineConcept = (props: Props) => {
   };
 
   useEffect(() => {
-    if (!element.data['content-id']) {
+    if (!element.data.contentId) {
       setShowConcept(true);
     }
   }, [element]);

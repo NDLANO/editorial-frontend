@@ -614,7 +614,7 @@ const phrases = {
     comment: 'Kommenter',
     hideComment: 'Skjul kommentar',
     showComment: 'Vis kommentar',
-    openAll: 'Åpne alle',
+    openAll: 'Opne alle',
     hideAll: 'Lukk alle',
     commentField: 'Kommentarfelt',
     preview: {

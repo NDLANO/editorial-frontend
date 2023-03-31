@@ -12,21 +12,19 @@ import { Editor, Element, Transforms, Path } from 'slate';
 import { ReactEditor, RenderElementProps, useSelected } from 'slate-react';
 import styled from '@emotion/styled';
 import { IConcept, IConceptSummary } from '@ndla/types-backend/concept-api';
+import { ConceptEmbedData } from '@ndla/types-embed';
 import ConceptModal from '../ConceptModal';
 import { useFetchConceptData } from '../../../../../containers/FormikForm/formikConceptHooks';
 import mergeLastUndos from '../../../utils/mergeLastUndos';
 import { TYPE_CONCEPT_BLOCK } from './types';
 import { ConceptBlockElement } from './interfaces';
 import BlockConceptPreview from './BlockConceptPreview';
-import { Dictionary } from '../../../../../interfaces';
 
-const getConceptDataAttributes = ({ id }: Dictionary<any>) => ({
-  type: TYPE_CONCEPT_BLOCK,
-  data: {
-    contentId: id,
-    resource: 'concept',
-    type: 'block',
-  },
+const getConceptDataAttributes = ({ id }: IConceptSummary | IConcept): ConceptEmbedData => ({
+  contentId: id.toString(),
+  resource: 'concept',
+  type: 'block',
+  linkText: '',
 });
 
 interface Props {
@@ -78,7 +76,7 @@ const BlockConcept = ({ element, locale, editor, attributes, children }: Props) 
         const path = ReactEditor.findPath(editor, element);
         Transforms.setNodes(
           editor,
-          { data: data.data },
+          { data },
           {
             at: path,
             match: (node) => Element.isElement(node) && node.type === TYPE_CONCEPT_BLOCK,

@@ -10,7 +10,7 @@ import { createContext, useContext, useState, ReactNode } from 'react';
 import { IComment } from '@ndla/types-backend/draft-api';
 
 // Comment generated on frontend, we will use id from draft-api once comment is generated
-type Comment = { generatedId?: string; content: string };
+type Comment = { generatedId?: string; content: string; isOpen: boolean };
 
 export type CommentType = Comment | IComment;
 

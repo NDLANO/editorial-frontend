@@ -59,7 +59,7 @@ const InputComment = ({ comments, setComments, setFieldValue }: Props) => {
   const addComment = () => {
     // We need a temporary unique id in frontend before id is generated in draft-api when comment is created
     const uid = uniqueId();
-    const updatedComments = [{ generatedId: uid, content: inputValue }, ...comments];
+    const updatedComments = [{ generatedId: uid, content: inputValue, isOpen: true }, ...comments];
     setComments(updatedComments);
     setFieldValue('comments', updatedComments);
   };

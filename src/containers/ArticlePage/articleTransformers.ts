@@ -297,7 +297,13 @@ export const updatedDraftApiTypeToDraftApiType = (
     relatedContent: article.relatedContent ?? [],
     revisions: article.revisionMeta ?? [],
     comments:
-      article.comments?.map((c) => ({ ...c, id: c.id ?? '', created: '', updated: '' })) ?? [],
+      article.comments?.map((c) => ({
+        ...c,
+        id: c.id ?? '',
+        created: '',
+        updated: '',
+        isOpen: c.isOpen ?? false,
+      })) ?? [],
   };
 };
 

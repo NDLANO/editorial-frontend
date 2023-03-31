@@ -107,13 +107,14 @@ const Comment = ({
 }: Props) => {
   const { t } = useTranslation();
   const [inputValue, setInputValue] = useState(comment?.content);
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(comment?.isOpen !== undefined ? comment?.isOpen : true);
   const [modalOpen, setModalOpen] = useState(false);
-
   const [editMode, setEditMode] = useState(false);
 
   const closedComment = useRef<HTMLDivElement>(null);
   const openComment = useRef<HTMLTextAreaElement>(null);
+
+  const rendered = useRef(false);
 
   useEffect(() => {
     const closedClicked = () => {
@@ -141,7 +142,12 @@ const Comment = ({
   }, [comment]);
 
   useEffect(() => {
-    setOpen(allOpen);
+    if (rendered.current) {
+      toggleOpen(allOpen);
+    } else {
+      rendered.current = true;
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [allOpen]);
 
   const handleInputChange = (e: ChangeEvent<HTMLTextAreaElement>): void => {
@@ -163,6 +169,14 @@ const Comment = ({
     setModalOpen(false);
   };
 
+  const toggleOpen = (value?: boolean) => {
+    const _open = value !== undefined ? value : !open;
+    setOpen(_open);
+    const updatedComments = comments.map((c, i) => (index === i ? { ...c, isOpen: _open } : c));
+    setComments(updatedComments);
+    setFieldValue('comments', updatedComments);
+  };
+
   return (
     <CommentCard>
       <InputAndButtons>
@@ -173,7 +187,7 @@ const Comment = ({
                 variant="ghost"
                 size="xsmall"
                 aria-label={open ? t('form.hideComment') : t('form.showComment')}
-                onMouseDown={() => setOpen(!open)}
+                onMouseDown={() => toggleOpen()}
                 aria-expanded={open}
                 aria-controls="comment-section"
               >

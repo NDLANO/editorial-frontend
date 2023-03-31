@@ -813,7 +813,7 @@ const phrases = {
       },
       deleteComment: {
         title: 'Slett kommentar',
-        modal: 'Vil du slette denne kommentaren? Det er ikkje mogleg å gjenopprette kommentaren.',
+        modal: 'Vil du slette denne kommentaren? Det er ikkje mogleg å gjenopprette han.',
         button: 'Slett',
       },
       addComment: {

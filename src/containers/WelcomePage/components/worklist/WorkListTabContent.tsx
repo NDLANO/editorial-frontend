@@ -12,6 +12,9 @@ import { IMultiSearchResult } from '@ndla/types-backend/search-api';
 import { useTranslation } from 'react-i18next';
 import { useMemo } from 'react';
 import Pager from '@ndla/pager';
+import { Comment } from '@ndla/icons/common';
+import Tooltip from '@ndla/tooltip';
+import styled from '@emotion/styled';
 import formatDate from '../../../../util/formatDate';
 import { toEditArticle } from '../../../../util/routeHelpers';
 import { ControlWrapperDashboard, StyledLink, StyledTopRowDashboardInfo } from '../../styles';
@@ -19,6 +22,12 @@ import SubjectDropdown from './SubjectDropdown';
 import TableComponent, { FieldElement, TitleElement } from '../TableComponent';
 import TableTitle from '../TableTitle';
 import GoToSearch from '../GoToSearch';
+
+const TitleCell = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
 
 interface Props {
   data?: IMultiSearchResult;
@@ -52,9 +61,18 @@ const WorkListTabContent = ({
             {
               id: `title_${res.id}`,
               data: (
-                <StyledLink to={toEditArticle(res.id, res.learningResourceType)}>
-                  {res.title?.title}
-                </StyledLink>
+                <TitleCell>
+                  <StyledLink to={toEditArticle(res.id, res.learningResourceType)}>
+                    {res.title?.title}
+                  </StyledLink>
+                  {res.comments?.length ? (
+                    <Tooltip tooltip={res.comments[0]?.content.substring(0, 50)}>
+                      <div>
+                        <Comment />
+                      </div>
+                    </Tooltip>
+                  ) : null}
+                </TitleCell>
               ),
             },
             {
@@ -86,7 +104,6 @@ const WorkListTabContent = ({
         : [[]],
     [data, t],
   );
-
   const tableTitles: TitleElement[] = [
     { title: t('welcomePage.workList.name'), sortableField: 'title' },
     { title: t('welcomePage.workList.status') },

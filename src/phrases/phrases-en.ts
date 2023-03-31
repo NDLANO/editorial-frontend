@@ -610,7 +610,6 @@ const phrases = {
     feil: 'There are still errors.',
     copy: 'copy',
     saveAsCopySuccess: 'New article saved',
-    trash: 'Delete comment',
     comment: 'Comment',
     hideComment: 'Hide comment',
     showComment: 'Show comment',

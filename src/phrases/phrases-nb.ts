@@ -612,7 +612,6 @@ const phrases = {
     copy: 'kopi',
     mustSaveFirst: 'Du må lagre endringene dine først',
     saveAsCopySuccess: 'Ny artikkel lagret',
-    trash: 'Slett kommentar',
     comment: 'Kommenter',
     hideComment: 'Skjul kommentar',
     showComment: 'Vis kommentar',

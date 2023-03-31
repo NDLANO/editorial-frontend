@@ -611,7 +611,6 @@ const phrases = {
     feil: 'Det er fortsatt flere feil i skjemaet',
     copy: 'kopi',
     saveAsCopySuccess: 'Ny artikkel lagret',
-    trash: 'Slett kommentar',
     comment: 'Kommenter',
     hideComment: 'Skjul kommentar',
     showComment: 'Vis kommentar',

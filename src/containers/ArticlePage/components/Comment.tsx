@@ -209,11 +209,11 @@ const Comment = ({
           )}
 
           {!editMode && (
-            <Tooltip tooltip={t('form.trash')}>
+            <Tooltip tooltip={t('form.workflow.deleteComment.title')}>
               <IconButtonV2
                 variant="ghost"
                 size="xsmall"
-                aria-label={t('form.trash')}
+                aria-label={t('form.workflow.deleteComment.title')}
                 onMouseDown={() => setModalOpen(true)}
               >
                 <StyledTrashIcon />

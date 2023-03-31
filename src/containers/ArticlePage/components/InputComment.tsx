@@ -11,11 +11,13 @@ import { useTranslation } from 'react-i18next';
 import { TextAreaV2 } from '@ndla/forms';
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import uniqueId from 'lodash/uniqueId';
+import { format } from 'date-fns';
 import { CommentType } from '../../../components/SlateEditor/CommentsProvider';
 import CancelButton from './CancelButton';
 import SaveButton from './SaveButton';
 import { useSession } from '../../Session/SessionProvider';
 import { ButtonWrapper, InputAndButtons, textAreaStyles } from './Comment';
+import formatDate, { formatDateForBackend } from '../../../util/formatDate';
 
 const CommentCard = styled.div`
   width: 200px;
@@ -41,7 +43,16 @@ const InputComment = ({ comments, setComments, setFieldValue }: Props) => {
 
   useEffect(() => {
     const clicked = () => {
-      setInputValue(`\n ${t('form.workflow.addComment.from')} ${userName?.split(' ')[0]}`);
+      const currentDate = new Date();
+      const dateTime = formatDateForBackend(currentDate);
+      const formattedDate = formatDate(dateTime);
+      const formattedTime = format(currentDate, 'HH:mm');
+
+      setInputValue(
+        `\n ${t('form.workflow.addComment.from')} ${
+          userName?.split(' ')[0]
+        } (${formattedDate} - ${formattedTime})`,
+      );
 
       createComment.current?.setSelectionRange(0, 0);
     };

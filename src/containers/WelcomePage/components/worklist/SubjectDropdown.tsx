@@ -42,6 +42,7 @@ const SubjectDropdown = ({ filterSubject, setFilterSubject }: Props) => {
   return (
     <DropdownWrapper>
       <Select<false>
+        label={t('welcomePage.chooseSubject')}
         options={subjectContexts}
         placeholder={t('welcomePage.chooseSubject')}
         value={filterSubject}

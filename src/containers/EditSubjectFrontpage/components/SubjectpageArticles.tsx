@@ -8,7 +8,7 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FieldHeader } from '@ndla/forms';
-import { ILearningPathV2 } from '@ndla/types-learningpath-api';
+import { ILearningPathV2 } from '@ndla/types-backend/learningpath-api';
 import { IMultiSearchSummary } from '@ndla/types-backend/search-api';
 import { IArticle } from '@ndla/types-backend/draft-api';
 import { useField, useFormikContext } from 'formik';

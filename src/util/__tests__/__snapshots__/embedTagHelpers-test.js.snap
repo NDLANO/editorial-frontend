@@ -29,6 +29,30 @@ exports[`createEmbedTag creates image embed tag from object 1`] = `
 />
 `;
 
+exports[`createEmbedTagV2 converts camel-case to kebab-case 1`] = `
+<ndlaembed
+  data-resource="audio"
+  data-resource-id="123"
+  data-type="standard"
+  data-url="https://api.test.ndla.no/audio-api/v1/audio/3000"
+/>
+`;
+
+exports[`createEmbedTagV2 creates h5p embed tag from object 1`] = `
+<ndlaembed
+  data-resource="h5p"
+  data-url="https://h5p-test.ndla.no/resource/3ab6850d/oembed"
+/>
+`;
+
+exports[`createEmbedTagV2 filters out null and undefined values, but not false values 1`] = `
+<ndlaembed
+  data-auto-play="false"
+  data-resource="unknown"
+  data-videoid="123"
+/>
+`;
+
 exports[`deserializing related-content works 1`] = `
 [
   {

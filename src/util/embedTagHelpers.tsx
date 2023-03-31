@@ -20,25 +20,27 @@ export const removeEmptyElementDataAttributes = (obj: Dictionary<any>) => {
   return newObject;
 };
 
-const reduceDataRegexp = /^data-/g;
 const reduceRegexp = /-[a-z]/g;
 
 export const reduceElementDataAttributesV2 = (
-  el: Element,
+  attributes: Attr[],
   filter?: string[],
 ): Record<string, string> => {
-  let attributes: Attr[] = [].slice.call(el.attributes) ?? [];
-  attributes = attributes.filter((a) => a.name !== 'style');
+  const _attributes = attributes.filter((a) => a.name !== 'style');
   const filteredAttributes = filter?.length
-    ? attributes.filter((a) => filter.includes(a.name))
-    : attributes;
+    ? _attributes.filter((a) => filter.includes(a.name))
+    : _attributes;
   return filteredAttributes.reduce<Record<string, string>>((acc, attr) => {
-    const key = attr.name
-      // replace data-
-      .replace(reduceDataRegexp, '')
-      // convert "-a" with "A". image-id becomes imageId
-      .replace(reduceRegexp, (m) => m.charAt(1).toUpperCase());
-    acc[key] = attr.value;
+    if (attr.name.startsWith('data-')) {
+      const key = attr.name
+        .replace('data-', '')
+        // convert "-a" with "A". image-id becomes imageId
+        .replace(reduceRegexp, (m) => m.charAt(1).toUpperCase());
+      acc[key] = attr.value;
+    } else {
+      // Handle regular dash attributes like aria-label.
+      acc[attr.name] = attr.value;
+    }
     return acc;
   }, {});
 };
@@ -90,11 +92,6 @@ export const reduceChildElements = (el: HTMLElement, type: string) => {
 
   return { nodes: children };
 };
-
-export const createDataProps = (obj: Dictionary<string>) =>
-  Object.keys(obj)
-    .filter((key) => obj[key] !== undefined && !isObject(obj[key]))
-    .reduce((acc, key) => ({ ...acc, [`data-${key}`]: obj[key] }), {});
 
 export const createProps = (obj: Dictionary<string>) =>
   Object.keys(obj)

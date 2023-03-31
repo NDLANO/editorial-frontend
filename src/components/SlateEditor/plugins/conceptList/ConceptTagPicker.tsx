@@ -70,7 +70,12 @@ const ConceptTagPicker = ({ element, onClose, language }: Props) => {
     Transforms.setNodes<ConceptListElement>(
       editor,
       {
-        data: { tag: selectedTag?.id, title: titleInput, subjectId: selectedSubject?.id },
+        data: {
+          resource: 'concept-list',
+          tag: selectedTag?.id ?? '',
+          title: titleInput,
+          subjectId: selectedSubject?.id ?? '',
+        },
         isFirstEdit: false,
       },
       {

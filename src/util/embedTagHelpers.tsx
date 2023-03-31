@@ -124,7 +124,7 @@ type EmbedProps<T extends object> = {
 export const createEmbedTagV2 = <T extends object>(
   data: EmbedProps<T>,
 ): JSX.Element | undefined => {
-  const entries = Object.entries(data);
+  const entries = Object.entries(data ?? {});
   if (entries.length === 0) {
     return undefined;
   }

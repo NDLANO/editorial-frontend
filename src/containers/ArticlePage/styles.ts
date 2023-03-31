@@ -6,7 +6,6 @@
  */
 
 import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
 
 export const FlexWrapper = styled.div`
   display: flex;

@@ -120,13 +120,22 @@ export const parseEmbedTag = (embedTag?: string): Embed | undefined => {
 
 const attributeRegex = /[A-Z]/g;
 
-export const createEmbedTagV2 = (data: Record<string, any>) => {
-  if (Object.keys(data).length === 0) {
+type EmbedProps<T extends object> = {
+  [Key in keyof T]: string | undefined;
+};
+
+export const createEmbedTagV2 = <T extends object>(
+  data: EmbedProps<T>,
+): JSX.Element | undefined => {
+  const entries = Object.entries(data);
+  if (entries.length === 0) {
     return undefined;
   }
-  const dataSet = Object.entries(data).reduce<Record<string, any>>((acc, [key, value]) => {
+  const dataSet = entries.reduce<Record<string, string>>((acc, [key, value]) => {
     const newKey = key.replace(attributeRegex, (m) => `-${m.toLowerCase()}`);
-    acc[`data-${newKey}`] = value;
+    if (value != null && typeof value === 'string') {
+      acc[`data-${newKey}`] = value.toString();
+    }
     return acc;
   }, {});
 

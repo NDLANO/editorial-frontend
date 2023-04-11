@@ -13,7 +13,7 @@ import { colors } from '@ndla/core';
 import { getLicenseByAbbreviation } from '@ndla/licenses';
 import { LicenseByline } from '@ndla/notion';
 import { ImageMeta } from '@ndla/image-search';
-import { IImageMetaInformationV3 } from '@ndla/types-image-api';
+import { IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
 import { toEditImage } from '../../../../util/routeHelpers';
 import { useLicenses } from '../../../../modules/draft/draftQueries';
 import {

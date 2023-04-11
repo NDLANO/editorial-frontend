@@ -12,9 +12,9 @@ import { colors, fonts, spacing } from '@ndla/core';
 import { RssFeed, Time } from '@ndla/icons/common';
 import { Check, AlertCircle } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
-import { IConceptSummary } from '@ndla/types-concept-api';
-import { IMultiSearchSummary } from '@ndla/types-search-api';
-import { ILearningPathV2 } from '@ndla/types-learningpath-api';
+import { IConceptSummary } from '@ndla/types-backend/concept-api';
+import { IMultiSearchSummary } from '@ndla/types-backend/search-api';
+import { ILearningPathV2 } from '@ndla/types-backend/learningpath-api';
 import config from '../../config';
 import LearningpathConnection from './LearningpathConnection';
 import EmbedConnection from './EmbedInformation/EmbedConnection';
@@ -53,6 +53,38 @@ const Splitter = ({
     </>
   );
 };
+
+export const getWarnStatus = (date?: string): 'warn' | 'expired' | undefined => {
+  if (!date) return undefined;
+  const parsedDate = new Date(date);
+
+  const daysToWarn = 365;
+  const errorDate = new Date();
+  const warnDate = new Date();
+  warnDate.setDate(errorDate.getDate() + daysToWarn);
+
+  if (errorDate > parsedDate) return 'expired';
+  if (warnDate > parsedDate) return 'warn';
+};
+
+export const StyledTimeIcon = styled(Time)<{
+  status: 'warn' | 'expired';
+  height?: string;
+  width?: string;
+}>`
+  height: ${(p) => (p.height ? p.height : spacing.normal)};
+  width: ${(p) => (p.width ? p.width : spacing.normal)};
+  fill: ${(p) => {
+    switch (p.status) {
+      case 'warn':
+        return '#c77623';
+      case 'expired':
+        return colors.support.red;
+      default:
+        unreachable(p.status);
+    }
+  }};
+`;
 
 interface Props {
   noStatus?: boolean;
@@ -128,34 +160,6 @@ const HeaderStatusInformation = ({
 
   const StyledLink = styled(SafeLink)`
     box-shadow: inset 0 0;
-  `;
-
-  const getWarnStatus = (date?: string): 'warn' | 'expired' | undefined => {
-    if (!date) return undefined;
-    const parsedDate = new Date(date);
-
-    const daysToWarn = 365;
-    const errorDate = new Date();
-    const warnDate = new Date();
-    warnDate.setDate(errorDate.getDate() + daysToWarn);
-
-    if (errorDate > parsedDate) return 'expired';
-    if (warnDate > parsedDate) return 'warn';
-  };
-
-  const StyledTimeIcon = styled(Time)<{ status: 'warn' | 'expired' }>`
-    height: ${spacing.normal};
-    width: ${spacing.normal};
-    fill: ${(p) => {
-      switch (p.status) {
-        case 'warn':
-          return colors.support.yellow;
-        case 'expired':
-          return colors.support.red;
-        default:
-          unreachable(p.status);
-      }
-    }};
   `;
 
   const expirationColor = getWarnStatus(expirationDate);

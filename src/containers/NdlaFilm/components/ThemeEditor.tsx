@@ -7,7 +7,7 @@
 
 import { MouseEvent, ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import { IMovieTheme } from '@ndla/types-frontpage-api';
+import { IMovieTheme } from '@ndla/types-backend/frontpage-api';
 import { ButtonV2, IconButtonV2 } from '@ndla/button';
 import { FieldHeader } from '@ndla/forms';
 import styled from '@emotion/styled';

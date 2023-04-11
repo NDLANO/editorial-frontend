@@ -9,10 +9,16 @@
 import { Descendant, Editor, Element } from 'slate';
 import { RenderElementProps } from 'slate-react';
 import { jsx as slatejsx } from 'slate-hyperscript';
+import { CodeEmbedData } from '@ndla/types-embed';
 import CodeBlock from './CodeBlock';
 import { SlateSerializer } from '../../interfaces';
 import { afterOrBeforeTextBlockElement } from '../../utils/normalizationHelpers';
-import { createEmbedTag, reduceElementDataAttributes } from '../../../../util/embedTagHelpers';
+import {
+  createEmbedTag,
+  createEmbedTagV2,
+  reduceElementDataAttributes,
+  reduceElementDataAttributesV2,
+} from '../../../../util/embedTagHelpers';
 import { defaultBlockNormalizer, NormalizerConfig } from '../../utils/defaultNormalizer';
 import { TYPE_CODEBLOCK } from './types';
 import { TYPE_PARAGRAPH } from '../paragraph/types';
@@ -20,17 +26,7 @@ import { TYPE_NDLA_EMBED } from '../embed/types';
 
 export interface CodeblockElement {
   type: 'code-block';
-  data: {
-    'code-block'?: {
-      code?: string;
-      format?: string;
-      title?: string;
-    };
-    'code-format': string;
-    'code-content': string;
-    resource: string;
-    title: string;
-  };
+  data: CodeEmbedData;
   isFirstEdit: boolean;
   children: Descendant[];
 }
@@ -50,26 +46,17 @@ export const codeblockSerializer: SlateSerializer = {
   deserialize(el: HTMLElement) {
     if (el.tagName.toLowerCase() !== TYPE_NDLA_EMBED) return;
     const embed = el as HTMLEmbedElement;
-    const embedAttributes = reduceElementDataAttributes(embed);
+    const embedAttributes = reduceElementDataAttributesV2(Array.from(embed.attributes));
     if (embedAttributes.resource !== 'code-block') return;
     return slatejsx(
       'element',
-      { type: TYPE_CODEBLOCK, data: { ...embedAttributes }, isFirstEdit: false },
+      { type: TYPE_CODEBLOCK, data: embedAttributes, isFirstEdit: false },
       [{ text: '' }],
     );
   },
   serialize(node: Descendant) {
     if (!Element.isElement(node) || node.type !== 'code-block') return;
-
-    const { data } = node;
-    const props = {
-      resource: 'code-block',
-      'code-content': data['code-block']?.code || data['code-content'],
-      'code-format': data['code-block']?.format || data['code-format'],
-      title: data['code-block']?.title || data.title,
-    };
-
-    return createEmbedTag(props);
+    return createEmbedTagV2(node.data);
   },
 };
 

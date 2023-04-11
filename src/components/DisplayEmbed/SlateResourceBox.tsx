@@ -7,7 +7,7 @@
  */
 
 import styled from '@emotion/styled';
-import { IImageMetaInformationV3 } from '@ndla/types-image-api';
+import { IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
 import { ResourceBox } from '@ndla/ui';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';

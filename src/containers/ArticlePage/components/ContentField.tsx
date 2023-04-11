@@ -11,7 +11,7 @@ import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { FieldHeader } from '@ndla/forms';
 import { ButtonV2 } from '@ndla/button';
-import { IArticle, IArticleSummary, IRelatedContentLink } from '@ndla/types-draft-api';
+import { IArticle, IArticleSummary, IRelatedContentLink } from '@ndla/types-backend/draft-api';
 import { FieldInputProps, FormikHelpers } from 'formik';
 import { fetchDraft, searchDrafts } from '../../../modules/draft/draftApi';
 import ElementList from '../../FormikForm/components/ElementList';

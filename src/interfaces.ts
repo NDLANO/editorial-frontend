@@ -4,8 +4,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import { IAudioMetaInformation } from '@ndla/types-audio-api';
-import { IArticle, IRelatedContentLink } from '@ndla/types-draft-api';
+import { IAudioMetaInformation } from '@ndla/types-backend/audio-api';
+import { IArticle, IRelatedContentLink } from '@ndla/types-backend/draft-api';
 import { SearchTypeValues, LOCALE_VALUES } from './constants';
 
 export interface FormikStatus {

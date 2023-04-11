@@ -8,7 +8,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import uniq from 'lodash/uniq';
-import { INewArticle, IUpdatedArticle, IArticle } from '@ndla/types-draft-api';
+import { INewArticle, IUpdatedArticle, IArticle } from '@ndla/types-backend/draft-api';
 import {
   fetchDraft,
   updateDraft,

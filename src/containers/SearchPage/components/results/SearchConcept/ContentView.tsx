@@ -12,7 +12,7 @@ import { getLicenseByAbbreviation } from '@ndla/licenses';
 import { LicenseByline } from '@ndla/notion';
 import { colors } from '@ndla/core';
 import styled from '@emotion/styled';
-import { IConceptSummary } from '@ndla/types-concept-api';
+import { IConceptSummary } from '@ndla/types-backend/concept-api';
 import {
   StyledInfo,
   StyledConceptView,

@@ -7,23 +7,13 @@
  */
 
 import { jsx as slatejsx } from 'slate-hyperscript';
+import { ConceptListEmbedData } from '@ndla/types-embed';
 import { ConceptListElement } from '.';
 import { TYPE_CONCEPT_LIST } from './types';
 
-export const defaultConceptListBlock = (
-  tag?: string,
-  title?: string,
-  subjectId?: string,
-): ConceptListElement =>
+export const defaultConceptListBlock = (data?: ConceptListEmbedData): ConceptListElement =>
   slatejsx(
     'element',
-    {
-      type: TYPE_CONCEPT_LIST,
-      data: {
-        tag,
-        title,
-        subjectId,
-      },
-    },
+    { type: TYPE_CONCEPT_LIST, data: data ?? {} },
     { text: '' },
   ) as ConceptListElement;

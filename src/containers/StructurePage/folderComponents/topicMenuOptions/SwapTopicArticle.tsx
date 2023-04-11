@@ -11,7 +11,7 @@ import { spacing, colors } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
 import { SubjectMaterial } from '@ndla/icons/contentType';
 import { Done } from '@ndla/icons/editor';
-import { IMultiSearchSummary } from '@ndla/types-search-api';
+import { IMultiSearchSummary } from '@ndla/types-backend/search-api';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from '@tanstack/react-query';

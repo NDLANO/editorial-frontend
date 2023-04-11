@@ -10,7 +10,7 @@ import groupBy from 'lodash/groupBy';
 import merge from 'lodash/merge';
 import sortBy from 'lodash/sortBy';
 import uniqBy from 'lodash/uniqBy';
-import { IStatus } from '@ndla/types-draft-api';
+import { IStatus } from '@ndla/types-backend/draft-api';
 import { FlattenedResourceType } from '../interfaces';
 import {
   ResourceType,

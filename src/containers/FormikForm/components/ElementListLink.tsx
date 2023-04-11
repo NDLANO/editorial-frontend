@@ -13,7 +13,7 @@ import { Link } from '@ndla/icons/common';
 import Tooltip from '@ndla/tooltip';
 import { IconButtonV2 } from '@ndla/button';
 import { DragHorizontal, DeleteForever } from '@ndla/icons/editor';
-import { IRelatedContentLink } from '@ndla/types-draft-api';
+import { IRelatedContentLink } from '@ndla/types-backend/draft-api';
 import { StyledListItem } from './ElementListItem';
 
 const ELEMENT_HEIGHT = 69;

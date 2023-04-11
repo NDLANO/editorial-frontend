@@ -23,7 +23,7 @@ import { spacing } from '@ndla/core';
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import Tooltip from '@ndla/tooltip';
 import { SafeLinkIconButton } from '@ndla/safelink';
-import { IImageMetaInformationV3 } from '@ndla/types-image-api';
+import { IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
 import { DeleteForever } from '@ndla/icons/editor';
 
 import UrlAllowList from './UrlAllowList';
@@ -37,7 +37,6 @@ import { Embed, ExternalEmbed } from '../../interfaces';
 import ImageSearchAndUploader from '../../components/ImageSearchAndUploader';
 import { fetchImage, searchImages } from '../../modules/image/imageApi';
 import { onError } from '../../util/resolveJsonOrRejectWithError';
-import { TYPE_EMBED_EXTERNAL } from '../../components/SlateEditor/plugins/embed/types';
 
 const filterWhiteListedURL = (url: string) => {
   const domain = urlDomain(url);
@@ -186,6 +185,7 @@ const VisualElementUrlPreview = ({
               }
             : {
                 type: 'iframe',
+                title,
               };
           onUrlSave({
             ...data,
@@ -207,6 +207,7 @@ const VisualElementUrlPreview = ({
               }
             : {
                 width: '708px',
+                title,
                 height: whiteListedUrl.height || '486px',
                 type: 'iframe',
               };
@@ -269,7 +270,7 @@ const VisualElementUrlPreview = ({
       }
     }
 
-    if (urlChanged || typeChanged) {
+    if (urlChanged || typeChanged || titleChanged) {
       return true;
     }
 
@@ -336,6 +337,15 @@ const VisualElementUrlPreview = ({
           </FieldRemoveButton>
         </RemoveButtonWrapper>
       </FieldSection>
+      <FieldHeader title={t('form.name.title')} />
+      <FieldSection>
+        <Input
+          value={title}
+          type="text"
+          placeholder={t('form.name.title')}
+          onChange={(e) => setTitle(e.currentTarget.value)}
+        />
+      </FieldSection>
       {!showFullscreen && (
         <StyledButtonWrapper>
           <ButtonV2
@@ -396,13 +406,6 @@ const VisualElementUrlPreview = ({
             )}
           </ImageInputWrapper>
           <ContentInputWrapper>
-            <h3>{t('form.name.title')}</h3>
-            <Input
-              value={title}
-              type="text"
-              placeholder={t('form.name.title')}
-              onChange={(e) => setTitle(e.currentTarget.value)}
-            />
             <h3>{t('form.name.description')}</h3>
             <TextArea
               value={description}

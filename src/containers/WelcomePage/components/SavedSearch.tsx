@@ -10,7 +10,7 @@ import { useMemo } from 'react';
 import queryString from 'query-string';
 import { useTranslation } from 'react-i18next';
 import { DeleteForever } from '@ndla/icons/editor';
-import { IUserData } from '@ndla/types-draft-api';
+import { IUserData } from '@ndla/types-backend/draft-api';
 import Tooltip from '@ndla/tooltip';
 import { IconButtonV2 } from '@ndla/button';
 import styled from '@emotion/styled';
@@ -72,6 +72,7 @@ const SavedSearch = ({ deleteSearch, search, index, userData }: Props) => {
     const audioType = searchObject['audio-type'] || undefined;
     const license = searchObject['license'] || undefined;
     const modelReleased = searchObject['model-released'] || undefined;
+    const responsible = searchObject['responsible-ids'] || undefined;
 
     const results = [];
     results.push(type && t(`searchTypes.${type}`));
@@ -85,6 +86,8 @@ const SavedSearch = ({ deleteSearch, search, index, userData }: Props) => {
     results.push(data?.user?.[0].name);
     results.push(license);
     results.push(modelReleased && t(`imageSearch.modelReleased.${modelReleased}`));
+    results.push(responsible && t(`searchForm.tagType.responsible-ids`));
+
     const resultHitsString =
       data.searchResult !== undefined ? ` (${data.searchResult.totalCount})` : '';
     const joinedResults = results.filter((e) => e).join(' + ');

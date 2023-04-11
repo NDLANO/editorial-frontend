@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { colors } from '@ndla/core';
-import { IMultiSearchSummary } from '@ndla/types-search-api';
+import { IMultiSearchSummary } from '@ndla/types-backend/search-api';
 import { resourceToLinkProps } from '../../../../util/resourceHelpers';
 import { StyledOtherLink } from '../form/StyledSearchComponents';
 

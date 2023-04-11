@@ -7,7 +7,7 @@
  */
 
 import { useQuery, useQueryClient, UseQueryOptions } from '@tanstack/react-query';
-import { IDraftResponsible, IEditorNote, IRevisionMeta } from '@ndla/types-draft-api';
+import { IDraftResponsible, IEditorNote, IRevisionMeta } from '@ndla/types-backend/draft-api';
 import chunk from 'lodash/chunk';
 import uniqBy from 'lodash/uniqBy';
 import { NodeTree } from '../../containers/NodeDiff/diffUtils';

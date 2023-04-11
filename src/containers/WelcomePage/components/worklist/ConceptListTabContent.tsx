@@ -7,8 +7,9 @@
  */
 
 import { Calendar } from '@ndla/icons/editor';
+import Pager from '@ndla/pager';
 import { Select, SingleValue } from '@ndla/select';
-import { IConceptSearchResult, IConceptSummary } from '@ndla/types-concept-api';
+import { IConceptSearchResult, IConceptSummary } from '@ndla/types-backend/concept-api';
 import uniqBy from 'lodash/uniqBy';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -23,18 +24,20 @@ import {
   StyledTopRowDashboardInfo,
 } from '../../styles';
 import GoToSearch from '../GoToSearch';
-import TableComponent, { FieldElement, TitleElement } from '../TableComponent';
+import TableComponent, { FieldElement, Prefix, TitleElement } from '../TableComponent';
 import TableTitle from '../TableTitle';
+import { SortOption } from './WorkList';
 
 interface Props {
   data?: IConceptSearchResult;
   filterSubject?: SingleValue;
   isLoading: boolean;
-  setSortOption: (o: string) => void;
+  setSortOption: (o: Prefix<'-', SortOption>) => void;
   sortOption: string;
   error: string | undefined;
   setFilterSubject: (fs: SingleValue) => void;
   ndlaId?: string;
+  setPageConcept: (page: number) => void;
 }
 
 interface Concept {
@@ -78,6 +81,7 @@ const ConceptListTabContent = ({
   error,
   setFilterSubject,
   ndlaId,
+  setPageConcept,
 }: Props) => {
   const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
@@ -122,12 +126,14 @@ const ConceptListTabContent = ({
     [conceptData],
   );
 
-  const tableTitles: TitleElement[] = [
+  const tableTitles: TitleElement<SortOption>[] = [
     { title: t('welcomePage.workList.name'), sortableField: 'title' },
     { title: t('welcomePage.workList.status') },
     { title: t('welcomePage.workList.conceptSubject') },
     { title: t('welcomePage.workList.date'), sortableField: 'responsibleLastUpdated' },
   ];
+
+  const lastPage = data?.totalCount ? Math.ceil(data?.totalCount / (data.pageSize ?? 1)) : 1;
 
   return (
     <>
@@ -140,6 +146,7 @@ const ConceptListTabContent = ({
         <ControlWrapperDashboard>
           <DropdownWrapper>
             <Select<false>
+              label={t('welcomePage.chooseSubject')}
               options={subjectList}
               placeholder={t('welcomePage.chooseSubject')}
               value={filterSubject}
@@ -164,6 +171,15 @@ const ConceptListTabContent = ({
         sortOption={sortOption}
         error={error}
         noResultsText={t('welcomePage.emptyConcepts')}
+      />
+      <Pager
+        page={data?.page ?? 1}
+        lastPage={lastPage}
+        query={{}}
+        onClick={(el) => setPageConcept(el.page)}
+        small
+        colorTheme="lighter"
+        pageItemComponentClass="button"
       />
     </>
   );

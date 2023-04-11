@@ -11,10 +11,10 @@ import {
   ISubjectPageData,
   INewSubjectFrontPageData,
   IUpdatedSubjectFrontPageData,
-} from '@ndla/types-frontpage-api';
-import { IImageMetaInformationV3 } from '@ndla/types-image-api';
-import { ILearningPathV2 } from '@ndla/types-learningpath-api';
-import { IArticle } from '@ndla/types-draft-api';
+} from '@ndla/types-backend/frontpage-api';
+import { IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
+import { ILearningPathV2 } from '@ndla/types-backend/learningpath-api';
+import { IArticle } from '@ndla/types-backend/draft-api';
 import { BrightcoveEmbed, ImageEmbed } from '../interfaces';
 import {
   editorValueToEmbed,
@@ -22,7 +22,6 @@ import {
   plainTextToEditorValue,
 } from './articleContentConverter';
 import { convertVisualElement } from './ndlaFilmHelpers';
-import { imageToVisualElement } from './visualElementHelper';
 
 export const getIdFromUrn = (urnId: string | undefined) => urnId?.replace('urn:frontpage:', '');
 
@@ -100,6 +99,19 @@ export const subjectpageFormikTypeToPostType = (
     name: values.name,
     topical: values.topical,
     twitter: values.twitter,
+  };
+};
+
+const imageToVisualElement = (image: IImageMetaInformationV3): ImageEmbed => {
+  return {
+    resource: 'image',
+    resource_id: image.id,
+    size: image.image.size.toString(),
+    align: '',
+    alt: image.alttext.alttext ?? '',
+    caption: image.caption.caption ?? '',
+    url: image.image.imageUrl,
+    metaData: image,
   };
 };
 

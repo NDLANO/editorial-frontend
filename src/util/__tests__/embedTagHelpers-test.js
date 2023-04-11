@@ -7,7 +7,13 @@
  */
 
 import { blockContentToEditorValue } from '../articleContentConverter';
-import { parseEmbedTag, createEmbedTag, isUserProvidedEmbedDataValid } from '../embedTagHelpers';
+import {
+  parseEmbedTag,
+  createEmbedTag,
+  isUserProvidedEmbedDataValid,
+  createEmbedTagV2,
+  reduceElementDataAttributesV2,
+} from '../embedTagHelpers';
 
 test('parseEmbedTag parses image embed tag to object', () => {
   const obj = parseEmbedTag(
@@ -70,12 +76,50 @@ test('createEmbedTag creates image embed tag from object', () => {
   expect(tag).toMatchSnapshot();
 });
 
+test('createEmbedTagV2 creates image embed tag from object', () => {
+  const data = {
+    align: '',
+    alt: 'Guinness sign',
+    caption: 'Guinness is good for you',
+    metaData: {},
+    resource: 'image',
+    resource_id: '42159',
+    size: 'full',
+    url: 'https://api.ndla.no/image-api/v3/images/42159',
+  };
+  expect(createEmbedTag(data)).toEqual(createEmbedTagV2(data));
+});
+
 test('createEmbedTag creates h5p embed tag from object', () => {
   const tag = createEmbedTag({
     metaData: {},
     resource: 'h5p',
     url: 'https://h5p-test.ndla.no/resource/3ab6850d/oembed',
   });
+
+  expect(tag).toMatchSnapshot();
+});
+
+test('createEmbedTagV2 creates h5p embed tag from object', () => {
+  const data = {
+    resource: 'h5p',
+    url: 'https://h5p-test.ndla.no/resource/3ab6850d/oembed',
+  };
+
+  const tag = createEmbedTagV2(data);
+  expect(tag).toMatchSnapshot();
+});
+
+test('createEmbedTagV2 filters out null and undefined values, but not false values', () => {
+  const data = {
+    resource: 'unknown',
+    caption: undefined,
+    player: null,
+    autoPlay: 'false',
+    videoid: '123',
+  };
+
+  const tag = createEmbedTagV2(data);
 
   expect(tag).toMatchSnapshot();
 });
@@ -93,8 +137,38 @@ test('createEmbedTag creates brightcove embed tag from object', () => {
   expect(tag).toMatchSnapshot();
 });
 
+test('createEmbedTagV2 converts camel-case to kebab-case', () => {
+  const data = {
+    resource: 'audio',
+    resourceId: '123',
+    type: 'standard',
+    url: 'https://api.test.ndla.no/audio-api/v1/audio/3000',
+  };
+
+  const tag = createEmbedTagV2(data);
+  expect(tag).toMatchSnapshot();
+});
+
+test('createEmbedTagV2 creates brightcove embed tag from object', () => {
+  const data = {
+    account: '4806596774001',
+    caption: 'Intervju med Hallvard',
+    metaData: {},
+    player: 'BkLm8fT',
+    resource: 'brightcove',
+    videoid: 'ref:106952',
+  };
+  const tag = createEmbedTagV2(data);
+
+  expect(tag).toEqual(createEmbedTag(data));
+});
+
 test('createEmbedTag returns undefined if the object contains no keys', () => {
   expect(createEmbedTag({})).toBe(undefined);
+});
+
+test('createEmbedTagV2 returns undefined if the object contains no keys', () => {
+  expect(createEmbedTagV2({})).toBe(undefined);
 });
 
 test('isUserProvidedEmbedDataValid for image', () => {
@@ -152,4 +226,44 @@ test('deserializing related-content works', () => {
   );
 
   expect(deserialized).toMatchSnapshot();
+});
+
+test('reduceElementDataAttributesV2 removes styled attribute', () => {
+  const attributes = [{ name: 'style', value: '{display: flex;}' }];
+  const res = reduceElementDataAttributesV2(attributes);
+  expect(Object.keys(res).length).toBe(0);
+});
+
+test('reduceElementDataAttributesV2 correctly parses data attributes', () => {
+  const attributes = [
+    { name: 'style', value: '{display: flex;}' },
+    { name: 'data-align', value: 'center' },
+    { name: 'data-image-id', value: '123' },
+  ];
+  const expected = { imageId: '123', align: 'center' };
+  const res = reduceElementDataAttributesV2(attributes);
+  expect(res).toEqual(expected);
+});
+
+test('reduceElementDataAttributesV2 leaves weird parameters alone', () => {
+  const attributes = [
+    { name: 'style', value: '{display: flex;}' },
+    { name: 'aria-label', value: 'Test' },
+    { name: 'data-imageid', value: '1234' },
+    { name: 'data-resource_id', value: '123' },
+  ];
+  const expected = { imageid: '1234', resource_id: '123', 'aria-label': 'Test' };
+  const res = reduceElementDataAttributesV2(attributes);
+  expect(res).toEqual(expected);
+});
+
+test('reduceElementDataAttributesV2 only returns filter values', () => {
+  const attributes = [
+    { name: 'style', value: '{display: flex;}' },
+    { name: 'src', value: 'https://ndla.no' },
+    { name: 'data-image-id', value: '123' },
+  ];
+  const expected = { src: 'https://ndla.no', imageId: '123' };
+  const res = reduceElementDataAttributesV2(attributes, ['src', 'data-image-id']);
+  expect(res).toEqual(expected);
 });

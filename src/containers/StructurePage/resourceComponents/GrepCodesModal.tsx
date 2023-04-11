@@ -11,7 +11,7 @@ import { ButtonV2, CloseButton } from '@ndla/button';
 import { BookOpen } from '@ndla/icons/common';
 import { spacing, colors } from '@ndla/core';
 import { ModalBody, ModalHeaderV2, ModalV2 } from '@ndla/modal';
-import { IArticle } from '@ndla/types-draft-api';
+import { IArticle } from '@ndla/types-backend/draft-api';
 import { useQueryClient } from '@tanstack/react-query';
 import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';

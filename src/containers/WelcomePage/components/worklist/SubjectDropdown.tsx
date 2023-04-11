@@ -9,10 +9,12 @@
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Select, SingleValue } from '@ndla/select';
-import uniqBy from 'lodash/uniqBy';
+import uniq from 'lodash/uniq';
 import { useSearch } from '../../../../modules/search/searchQueries';
 import { useSession } from '../../../Session/SessionProvider';
 import { DropdownWrapper } from '../../styles';
+import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
+import { useSearchNodes } from '../../../../modules/nodes/nodeQueries';
 
 interface Props {
   filterSubject: SingleValue | undefined;
@@ -20,24 +22,41 @@ interface Props {
 }
 
 const SubjectDropdown = ({ filterSubject, setFilterSubject }: Props) => {
-  const { t } = useTranslation();
+  const {
+    t,
+    i18n: { language },
+  } = useTranslation();
   const { ndlaId } = useSession();
+  const { taxonomyVersion } = useTaxonomyVersion();
 
   const { data, isInitialLoading } = useSearch({
     'responsible-ids': ndlaId,
     'aggregate-paths': 'contexts.subjectId',
   });
 
+  const subjectIds = uniq(data?.results.map((r) => r.contexts.map((c) => c.subjectId)).flat());
+
+  const { data: unarchivedSubjects } = useSearchNodes(
+    {
+      ids: subjectIds,
+      taxonomyVersion,
+      nodeType: 'SUBJECT',
+      pageSize: subjectIds.length,
+      language,
+    },
+    {
+      select: (data) => ({
+        ...data,
+        results: data.results.filter((d) => d.metadata.customFields.subjectCategory !== 'archive'),
+      }),
+      enabled: !!data?.results?.length,
+    },
+  );
   const subjectContexts = useMemo(() => {
-    if (data?.results.length) {
-      return uniqBy(
-        data.results
-          .map((r) => r.contexts.map((c) => ({ value: c.subjectId, label: c.subject })))
-          .flat(),
-        (r) => r.value,
-      );
+    if (unarchivedSubjects?.results.length) {
+      return unarchivedSubjects!.results.map((r) => ({ value: r.id, label: r.name }));
     } else return [];
-  }, [data?.results]);
+  }, [unarchivedSubjects]);
 
   return (
     <DropdownWrapper>

@@ -22,7 +22,6 @@ import {
   plainTextToEditorValue,
 } from './articleContentConverter';
 import { convertVisualElement } from './ndlaFilmHelpers';
-import { imageToVisualElement } from './visualElementHelper';
 
 export const getIdFromUrn = (urnId: string | undefined) => urnId?.replace('urn:frontpage:', '');
 
@@ -100,6 +99,19 @@ export const subjectpageFormikTypeToPostType = (
     name: values.name,
     topical: values.topical,
     twitter: values.twitter,
+  };
+};
+
+const imageToVisualElement = (image: IImageMetaInformationV3): ImageEmbed => {
+  return {
+    resource: 'image',
+    resource_id: image.id,
+    size: image.image.size.toString(),
+    align: '',
+    alt: image.alttext.alttext ?? '',
+    caption: image.caption.caption ?? '',
+    url: image.image.imageUrl,
+    metaData: image,
   };
 };
 

@@ -35,6 +35,7 @@ const StyledTable = styled.table`
     padding: 0px ${spacing.xsmall};
     border-bottom: 1px solid ${colors.text.primary};
     background-color: ${colors.brand.lighter};
+    overflow-wrap: anywhere;
   }
   th:not(:first-of-type) {
     border-left: 1px solid ${colors.text.primary};

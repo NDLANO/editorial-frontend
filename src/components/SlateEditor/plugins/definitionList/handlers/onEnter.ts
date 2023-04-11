@@ -66,6 +66,11 @@ const onEnter = (
       anchor: Editor.point(editor, Path.next(termPath), { edge: 'end' }),
       focus: Editor.point(editor, Path.next(termPath), { edge: 'end' }),
     });
+    // Split current listItem at selection.
+    Transforms.splitNodes(editor, {
+      match: (node) => Element.isElement(node) && node.type === TYPE_DEFINTION_TERM,
+      mode: 'lowest',
+    });
     e.preventDefault();
     return;
   } else if (

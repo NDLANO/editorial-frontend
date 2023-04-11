@@ -43,7 +43,7 @@ const onBackspace = (
       e.preventDefault();
       Editor.withoutNormalizing(editor, () => {
         Transforms.removeNodes(editor, { at: Path.next(selectedTermPath) });
-        Transforms.liftNodes(editor, { at: selectedTermPath });
+        Transforms.removeNodes(editor, { at: selectedTermPath });
       });
       return;
     }

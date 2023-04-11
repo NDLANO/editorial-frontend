@@ -78,7 +78,7 @@ const toolbarPlugin = (editor: Editor) => {
     } else if (isSpanHotKey(e)) {
       inline = 'span';
     } else if (isDefinitionListHotkey(e)) {
-      mark = 'definition-list';
+      block = 'definition-list';
     }
 
     if ((mark || block || inline) && !editor.shouldShowToolbar()) {

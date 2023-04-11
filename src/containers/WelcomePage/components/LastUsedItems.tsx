@@ -10,6 +10,7 @@ import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pencil } from '@ndla/icons/action';
 import orderBy from 'lodash/orderBy';
+import Pager from '@ndla/pager';
 import { StyledDashboardInfo, StyledLink } from '../styles';
 import TableComponent, { FieldElement, Prefix, TitleElement } from './TableComponent';
 import TableTitle from './TableTitle';
@@ -32,6 +33,7 @@ const LastUsedItems = ({ lastUsed = [] }: Props) => {
   ];
   const [sortOption, setSortOption] = useState<Prefix<'-', SortOptionLastUsed>>('-lastUpdated');
   const [error, setError] = useState<string | undefined>(undefined);
+  const [page, setPage] = useState(1);
 
   const { data, isInitialLoading } = useSearchDrafts(
     {
@@ -49,12 +51,15 @@ const LastUsedItems = ({ lastUsed = [] }: Props) => {
   const sortedData = useMemo(() => {
     if (!data?.results) return [];
     const sortDesc = sortOption.charAt(0) === '-';
+    const startIndex = page > 1 ? (page - 1) * 6 : 0;
+    const currentPageElements = data?.results.slice(startIndex, startIndex + 6);
+
     return orderBy(
-      data.results,
+      currentPageElements,
       (t) => (sortOption.includes('title') ? t.title?.title : t.updated),
       [sortDesc ? 'desc' : 'asc'],
     );
-  }, [data?.results, sortOption]);
+  }, [data?.results, sortOption, page]);
 
   const tableData: FieldElement[][] = useMemo(
     () =>
@@ -67,7 +72,6 @@ const LastUsedItems = ({ lastUsed = [] }: Props) => {
       ]) ?? [[]],
     [sortedData],
   );
-
   return (
     <StyledDashboardInfo>
       <TableTitle
@@ -83,6 +87,15 @@ const LastUsedItems = ({ lastUsed = [] }: Props) => {
         sortOption={sortOption}
         error={error}
         noResultsText={t('welcomePage.emptyLastUsed')}
+      />
+      <Pager
+        page={page ?? 1}
+        lastPage={2}
+        query={{}}
+        onClick={(el) => setPage(el.page)}
+        small
+        colorTheme="lighter"
+        pageItemComponentClass="button"
       />
     </StyledDashboardInfo>
   );

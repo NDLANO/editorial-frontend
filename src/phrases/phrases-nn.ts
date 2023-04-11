@@ -513,6 +513,9 @@ const phrases = {
   imageForm: {
     title: 'Bilde ',
   },
+  contactBlockForm: {
+    title: 'Kontaktblokk',
+  },
   frontpageArticleForm: {
     title: 'Innholdsartikkel',
     validation: {

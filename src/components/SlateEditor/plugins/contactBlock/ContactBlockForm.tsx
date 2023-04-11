@@ -1,0 +1,241 @@
+/*
+ * Copyright (c) 2023-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import { ButtonV2 } from '@ndla/button';
+import { useCallback, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
+import { spacing, fonts, spacingUnit } from '@ndla/core';
+import { ContactBlockEmbedData } from '@ndla/types-embed';
+import { FieldProps, Formik } from 'formik';
+import { InputV2, TextAreaV2 } from '@ndla/forms';
+import FormikField from '../../../FormikField';
+import { supportedLanguages } from '../../../../i18n2';
+import validateFormik, { RulesType } from '../../../formikValidationSchema';
+import InlineImageSearch from '../../../../containers/ConceptPage/components/InlineImageSearch';
+interface Props {
+  initialData?: ContactBlockEmbedData;
+  onSave: (data: ContactBlockEmbedData) => void;
+  onCancel: () => void;
+}
+
+interface ContactBlockFormValues {
+  resource: 'contact-block';
+  description: string;
+  jobTitle: string;
+  name: string;
+  email: string;
+  blobColor?: 'pink' | 'green';
+  blob?: 'pointy' | 'round';
+  metaImageId?: string;
+}
+
+const rules: RulesType<ContactBlockFormValues> = {
+  jobTitle: {
+    required: true,
+  },
+  description: {
+    required: true,
+  },
+  name: {
+    required: true,
+  },
+  email: {
+    required: true,
+  },
+  metaImageId: {
+    required: true,
+  },
+};
+
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  gap: ${spacing.small};
+`;
+
+interface Props {
+  initialData?: ContactBlockEmbedData;
+  onSave: (data: ContactBlockEmbedData) => void;
+  onCancel: () => void;
+}
+
+const inputStyle = css`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+`;
+
+const inputContentStyle = css`
+  ${inputStyle};
+  height: 130px;
+`;
+
+const StyledFormikField = styled(FormikField)`
+  margin: 0px;
+  padding-bottom: ${spacing.small};
+`;
+
+const StyledSelect = styled.select`
+  background-color: transparent;
+  border: none;
+`;
+const StyledBlobSelect = styled.select`
+  background-color: transparent;
+  border: none;
+  margin-top: ${spacing.small};
+`;
+const SelectWrapper = styled.div`
+  display: flex;
+  gap: ${spacing.small};
+`;
+
+const StyledLabel = styled.label`
+  width: ${spacingUnit * 7}px;
+  max-width: ${spacingUnit * 7}px;
+  padding: ${spacing.small} 0 ${spacing.small} 0;
+  font-weight: ${fonts.weight.semibold};
+  ${fonts.sizes(14, 1.1)};
+  font-size: 1.5rem;
+`;
+
+const toInitialValues = (initialData?: ContactBlockEmbedData): ContactBlockFormValues => {
+  return {
+    resource: 'contact-block',
+    jobTitle: initialData?.jobTitle ?? '',
+    blobColor: initialData?.blobColor ?? 'green',
+    description: initialData?.description ?? '',
+    blob: initialData?.blob ?? 'pointy',
+    metaImageId: initialData?.metaImageId,
+    name: initialData?.name ?? '',
+    email: initialData?.email ?? '',
+  };
+};
+
+const ContactBlockForm = ({ initialData, onSave, onCancel }: Props) => {
+  const { t } = useTranslation();
+  const initialValues = useMemo(() => toInitialValues(initialData), [initialData]);
+  const initialErrors = useMemo(() => validateFormik(initialValues, rules, t), [initialValues, t]);
+
+  const blobTypes = ['pointy', 'round'];
+  const blobColors = ['pink', 'green'];
+
+  const onSubmit = useCallback(
+    (values: ContactBlockFormValues) => {
+      if (!values.metaImageId) {
+        return;
+      }
+      const newData: ContactBlockEmbedData = {
+        resource: 'contact-block',
+        metaImageId: values.metaImageId,
+        jobTitle: values.jobTitle,
+        description: values.description,
+        name: values.name,
+        blob: values.blob,
+        blobColor: values.blobColor,
+        email: values.email,
+      };
+      onSave(newData);
+    },
+    [onSave],
+  );
+
+  return (
+    <Formik
+      initialValues={initialValues}
+      initialErrors={initialErrors}
+      onSubmit={onSubmit}
+      validateOnMount
+      validate={(values) => validateFormik(values, rules, t)}
+    >
+      {({ dirty, isValid, handleSubmit }) => (
+        <>
+          <StyledFormikField name="name" showError>
+            {({ field }: FieldProps) => (
+              <InputV2
+                label={t('form.name.name')}
+                {...field}
+                after={
+                  <StyledFormikField name="language">
+                    {({ field }: FieldProps) => (
+                      <StyledSelect {...field}>
+                        {supportedLanguages.map((lang) => (
+                          <option value={lang} key={lang}>
+                            {t(`languages.${lang}`)}
+                          </option>
+                        ))}
+                      </StyledSelect>
+                    )}
+                  </StyledFormikField>
+                }
+              />
+            )}
+          </StyledFormikField>
+          <StyledFormikField name="jobTitle" showError>
+            {({ field }: FieldProps) => (
+              <InputV2 css={inputStyle} label={t('form.name.jobTitle')} {...field} />
+            )}
+          </StyledFormikField>
+          <StyledFormikField name="email" showError>
+            {({ field }: FieldProps) => (
+              <InputV2 css={inputStyle} label={t('form.name.email')} {...field} />
+            )}
+          </StyledFormikField>
+          <StyledFormikField name="description" showError>
+            {({ field }: FieldProps) => (
+              <TextAreaV2 css={inputContentStyle} label={t('form.name.description')} {...field} />
+            )}
+          </StyledFormikField>
+          <SelectWrapper>
+            <StyledLabel>{t('form.name.blob')}</StyledLabel>
+            <StyledFormikField name="blobTypes" showError>
+              {({ field }) => (
+                <StyledBlobSelect {...field}>
+                  {blobTypes.map((type) => (
+                    <option value={type} key={type}>
+                      {type}
+                    </option>
+                  ))}
+                </StyledBlobSelect>
+              )}
+            </StyledFormikField>
+            <StyledLabel>{t('form.name.blobColor')}</StyledLabel>
+            <StyledFormikField name="blobColor">
+              {({ field }) => (
+                <StyledBlobSelect {...field} showError>
+                  {blobColors.map((color) => (
+                    <option value={color} key={color}>
+                      {color}
+                    </option>
+                  ))}
+                </StyledBlobSelect>
+              )}
+            </StyledFormikField>
+          </SelectWrapper>
+          <InlineImageSearch name={'metaImageId'} />
+          <ButtonContainer>
+            <ButtonV2 variant="outline" onClick={onCancel}>
+              {t('cancel')}
+            </ButtonV2>
+            <ButtonV2
+              variant="solid"
+              disabled={!dirty || !isValid}
+              type="submit"
+              onClick={() => handleSubmit()}
+            >
+              {t('save')}
+            </ButtonV2>
+          </ButtonContainer>
+        </>
+      )}
+    </Formik>
+  );
+};
+
+export default ContactBlockForm;

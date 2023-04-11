@@ -512,6 +512,9 @@ const phrases = {
   imageForm: {
     title: 'Image',
   },
+  contactBlockForm: {
+    title: 'Contactblock',
+  },
   frontpageArticleForm: {
     title: 'Content article',
     validation: {

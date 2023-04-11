@@ -32,6 +32,7 @@ import { TYPE_FILE } from '../file/types';
 import { TYPE_RELATED } from '../related/types';
 import { TYPE_CODEBLOCK } from '../codeBlock/types';
 import { TYPE_CONCEPT_LIST } from '../conceptList/types';
+import { TYPE_CONTACT_BLOCK } from '../contactBlock/types';
 
 const renderArticleInModal = (pageId: string) => <HowToHelper pageId={pageId} extraIconPadding />;
 
@@ -123,6 +124,11 @@ const actions: Action[] = [
     icon: <List />,
     helpIcon: renderArticleInModal('ConceptList'),
     requiredScope: DRAFT_ADMIN_SCOPE,
+  },
+  {
+    data: { type: TYPE_CONTACT_BLOCK, object: 'contactBlock' },
+    icon: <List />,
+    helpIcon: renderArticleInModal('ContactBlock'),
   },
 ];
 

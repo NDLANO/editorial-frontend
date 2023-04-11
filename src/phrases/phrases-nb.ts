@@ -513,6 +513,9 @@ const phrases = {
   imageForm: {
     title: 'Bilde',
   },
+  contactBlockForm: {
+    title: 'Kontaktblokk',
+  },
   frontpageArticleForm: {
     title: 'Innholdsartikkel',
     validation: {
@@ -584,6 +587,7 @@ const phrases = {
       podcast: 'Podkastepisode',
       conceptList: 'Forklaringsliste',
       concept: 'Forklaring',
+      contactBlock: 'Kontaktblokk',
     },
   },
   form: {
@@ -657,6 +661,10 @@ const phrases = {
       coverPhotoId: 'Metabilde',
       revisions: 'Revisjoner',
       name: 'Navn',
+      email: 'E-post',
+      blob: 'Velg type blob',
+      blobColor: 'Farge av blob',
+      jobTitle: 'Arbeids-tittel',
     },
     previewProductionArticle: {
       button: 'Sammenlign gjeldende versjon med gammel versjon',

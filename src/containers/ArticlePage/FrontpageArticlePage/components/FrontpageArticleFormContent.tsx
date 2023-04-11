@@ -65,6 +65,8 @@ import {
   TYPE_EMBED_IMAGE,
 } from '../../../../components/SlateEditor/plugins/embed/types';
 import { TYPE_FILE } from '../../../../components/SlateEditor/plugins/file/types';
+import { contactBlockPlugin } from '../../../../components/SlateEditor/plugins/contactBlock';
+import { TYPE_CONTACT_BLOCK } from '../../../../components/SlateEditor/plugins/contactBlock/types';
 
 const StyledFormikField = styled(FormikField)`
   display: flex;
@@ -104,7 +106,7 @@ const visualElements = [
   TYPE_EMBED_IMAGE,
 ];
 
-const actions = [TYPE_TABLE, TYPE_CODEBLOCK, TYPE_FILE].concat(visualElements);
+const actions = [TYPE_TABLE, TYPE_CODEBLOCK, TYPE_FILE, TYPE_CONTACT_BLOCK].concat(visualElements);
 const actionsToShowInAreas = {
   details: actions,
   aside: actions,
@@ -145,6 +147,7 @@ export const plugins = (
     relatedPlugin,
     filePlugin,
     mathmlPlugin,
+    contactBlockPlugin,
     codeblockPlugin,
     blockPickerPlugin,
     dndPlugin,

@@ -44,9 +44,12 @@ const editor: Descendant[] = [
           { text: '' },
           {
             type: TYPE_CONTENT_LINK,
-            'content-id': '123',
-            'content-type': 'article',
-            'open-in': 'new-context',
+            data: {
+              resource: TYPE_CONTENT_LINK,
+              contentId: '123',
+              contentType: 'article',
+              openIn: 'new-context',
+            },
             children: [
               {
                 text: 'content-link',

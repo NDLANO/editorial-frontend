@@ -12,11 +12,10 @@ import { TextAreaV2 } from '@ndla/forms';
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import uniqueId from 'lodash/uniqueId';
 import { format } from 'date-fns';
-import { CommentType } from '../../../components/SlateEditor/CommentsProvider';
 import CancelButton from './CancelButton';
 import SaveButton from './SaveButton';
 import { useSession } from '../../Session/SessionProvider';
-import { ButtonWrapper, InputAndButtons, textAreaStyles } from './Comment';
+import { ButtonWrapper, CommentType, InputAndButtons, textAreaStyles } from './Comment';
 import formatDate, { formatDateForBackend } from '../../../util/formatDate';
 
 const CommentCard = styled.div`

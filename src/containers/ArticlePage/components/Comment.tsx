@@ -14,7 +14,7 @@ import Tooltip from '@ndla/tooltip';
 import { TextAreaV2 } from '@ndla/forms';
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { css } from '@emotion/react';
-import { CommentType } from '../../../components/SlateEditor/CommentsProvider';
+import { IComment } from '@ndla/types-backend/build/draft-api';
 import AlertModal from '../../../components/AlertModal';
 import CancelButton from './CancelButton';
 import SaveButton from './SaveButton';
@@ -85,6 +85,9 @@ export const InputAndButtons = styled.div`
 const StyledTrashIcon = styled(TrashCanOutline)`
   color: ${colors.support.red};
 `;
+
+// Comment generated on frontend, we will use id from draft-api once comment is generated
+export type CommentType = { generatedId?: string; content: string; isOpen: boolean } | IComment;
 
 interface Props {
   comment: CommentType;

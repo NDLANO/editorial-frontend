@@ -32,7 +32,7 @@ import PreviewDraftLightboxV2 from '../PreviewDraft/PreviewDraftLightboxV2';
 import { useDisableConverter } from '../ArticleConverterContext';
 import { useSession } from '../../containers/Session/SessionProvider';
 import AlertModal from '../AlertModal';
-import { useCommentsContext } from './CommentsProvider';
+import { CommentType } from '../../containers/ArticlePage/components/Comment';
 
 interface Props {
   formIsDirty: boolean;
@@ -57,6 +57,7 @@ interface FormValues {
   language: string;
   revision?: number;
   status: ConceptStatus;
+  comments: CommentType[];
 }
 
 const StyledLine = styled.hr`
@@ -104,7 +105,6 @@ function EditorFooter<T extends FormValues>({
   const [showWarningModal, setShowWarningModal] = useState(false);
   const modalShown = useRef(false);
 
-  const { comments: commentsFromContex } = useCommentsContext();
   const { ndlaId } = useSession();
   const { values, setFieldValue, isSubmitting } = useFormikContext<T>();
   const { createMessage, formatErrorMessage } = useMessages();
@@ -142,7 +142,7 @@ function EditorFooter<T extends FormValues>({
     if (STATUSES_RESET_RESPONSIBLE.find((s) => s === status?.value)) {
       updateResponsible(null);
     }
-    const commentsChanged = !isEqual(sortBy(comments), sortBy(commentsFromContex));
+    const commentsChanged = !isEqual(sortBy(comments), sortBy(values?.comments));
     // Show warning modal when responsible is updated and comments have not changed
     if (
       isArticle &&

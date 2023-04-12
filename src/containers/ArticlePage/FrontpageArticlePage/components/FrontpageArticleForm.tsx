@@ -32,7 +32,6 @@ import { blockContentToHTML } from '../../../../util/articleContentConverter';
 import StyledForm from '../../../../components/StyledFormComponents';
 import FrontpageArticlePanels from './FrontpageArticlePanels';
 import { useSession } from '../../../../containers/Session/SessionProvider';
-import { CommentsProvider } from '../../../../components/SlateEditor/CommentsProvider';
 
 interface Props {
   article?: IArticle;
@@ -98,32 +97,30 @@ const FrontpageArticleForm = ({
           type="frontpage-article"
           expirationDate={getExpirationDate(article)}
         />
-        <CommentsProvider>
-          <FrontpageArticlePanels
-            articleLanguage={articleLanguage}
-            article={article}
-            getArticle={getArticle}
-            handleSubmit={handleSubmit}
-          />
-          <EditorFooter
-            showSimpleFooter={!article}
-            formIsDirty={formIsDirty}
-            savedToServer={savedToServer}
-            getEntity={getArticle}
-            onSaveClick={(saveAsNewVersion?: boolean) => {
-              handleSubmit(values, formik, saveAsNewVersion || false);
-            }}
-            entityStatus={article?.status}
-            statusStateMachine={statusStateMachine.data}
-            validateEntity={validateDraft}
-            isArticle
-            isNewlyCreated={isNewlyCreated}
-            isConcept={false}
-            hideSecondaryButton={false}
-            responsibleId={article?.responsible?.responsibleId}
-            comments={article?.comments}
-          />
-        </CommentsProvider>
+        <FrontpageArticlePanels
+          articleLanguage={articleLanguage}
+          article={article}
+          getArticle={getArticle}
+          handleSubmit={handleSubmit}
+        />
+        <EditorFooter
+          showSimpleFooter={!article}
+          formIsDirty={formIsDirty}
+          savedToServer={savedToServer}
+          getEntity={getArticle}
+          onSaveClick={(saveAsNewVersion?: boolean) => {
+            handleSubmit(values, formik, saveAsNewVersion || false);
+          }}
+          entityStatus={article?.status}
+          statusStateMachine={statusStateMachine.data}
+          validateEntity={validateDraft}
+          isArticle
+          isNewlyCreated={isNewlyCreated}
+          isConcept={false}
+          hideSecondaryButton={false}
+          responsibleId={article?.responsible?.responsibleId}
+          comments={article?.comments}
+        />
         <AlertModalWrapper
           isSubmitting={isSubmitting}
           formIsDirty={formIsDirty}

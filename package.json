@@ -44,7 +44,7 @@
     "@emotion/eslint-plugin": "11.10.0",
     "@emotion/jest": "11.10.0",
     "@loadable/babel-plugin": "^5.13.2",
-    "@ndla/scripts": "^1.0.2",
+    "@ndla/scripts": "^1.0.4",
     "@ndla/types-embed": "^1.0.9",
     "@ndla/types-backend": "^0.2.2",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.10",

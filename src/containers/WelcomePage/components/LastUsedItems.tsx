@@ -24,6 +24,8 @@ interface Props {
 
 type SortOptionLastUsed = 'title' | 'lastUpdated';
 
+const PAGE_SIZE = 6;
+
 const LastUsedItems = ({ lastUsed = [] }: Props) => {
   const { t, i18n } = useTranslation();
 
@@ -51,8 +53,10 @@ const LastUsedItems = ({ lastUsed = [] }: Props) => {
   const sortedData = useMemo(() => {
     if (!data?.results) return [];
     const sortDesc = sortOption.charAt(0) === '-';
-    const startIndex = page > 1 ? (page - 1) * 6 : 0;
-    const currentPageElements = data?.results.slice(startIndex, startIndex + 6);
+    // Pagination logic. startIndex indicates start position in data.results for current page
+    // currentPageElements is data to be displayed at current page
+    const startIndex = page > 1 ? (page - 1) * PAGE_SIZE : 0;
+    const currentPageElements = data?.results.slice(startIndex, startIndex + PAGE_SIZE);
 
     return orderBy(
       currentPageElements,
@@ -72,6 +76,12 @@ const LastUsedItems = ({ lastUsed = [] }: Props) => {
       ]) ?? [[]],
     [sortedData],
   );
+
+  const lastPage = useMemo(
+    () => (data?.results.length ? Math.ceil(data.results.length / (PAGE_SIZE ?? 1)) : 1),
+    [data?.results],
+  );
+
   return (
     <StyledDashboardInfo>
       <TableTitle
@@ -89,8 +99,8 @@ const LastUsedItems = ({ lastUsed = [] }: Props) => {
         noResultsText={t('welcomePage.emptyLastUsed')}
       />
       <Pager
-        page={page ?? 1}
-        lastPage={2}
+        page={page}
+        lastPage={lastPage}
         query={{}}
         onClick={(el) => setPage(el.page)}
         small

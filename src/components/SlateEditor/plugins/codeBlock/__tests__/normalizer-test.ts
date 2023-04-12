@@ -28,8 +28,8 @@ describe('codeblock normalizer tests', () => {
           {
             type: TYPE_CODEBLOCK,
             data: {
-              'code-content': 'print(1)',
-              'code-format': 'python',
+              codeContent: 'print(1)',
+              codeFormat: 'python',
               resource: 'code-block',
               title: 'tittel',
             },
@@ -39,8 +39,8 @@ describe('codeblock normalizer tests', () => {
           {
             type: TYPE_CODEBLOCK,
             data: {
-              'code-content': 'print(1)',
-              'code-format': 'python',
+              codeContent: 'print(1)',
+              codeFormat: 'python',
               resource: 'code-block',
               title: 'tittel',
             },
@@ -50,8 +50,8 @@ describe('codeblock normalizer tests', () => {
           {
             type: TYPE_CODEBLOCK,
             data: {
-              'code-content': 'print(1)',
-              'code-format': 'python',
+              codeContent: 'print(1)',
+              codeFormat: 'python',
               resource: 'code-block',
               title: 'tittel',
             },
@@ -70,8 +70,8 @@ describe('codeblock normalizer tests', () => {
           {
             type: TYPE_CODEBLOCK,
             data: {
-              'code-content': 'print(1)',
-              'code-format': 'python',
+              codeContent: 'print(1)',
+              codeFormat: 'python',
               resource: 'code-block',
               title: 'tittel',
             },
@@ -82,8 +82,8 @@ describe('codeblock normalizer tests', () => {
           {
             type: TYPE_CODEBLOCK,
             data: {
-              'code-content': 'print(1)',
-              'code-format': 'python',
+              codeContent: 'print(1)',
+              codeFormat: 'python',
               resource: 'code-block',
               title: 'tittel',
             },
@@ -94,8 +94,8 @@ describe('codeblock normalizer tests', () => {
           {
             type: TYPE_CODEBLOCK,
             data: {
-              'code-content': 'print(1)',
-              'code-format': 'python',
+              codeContent: 'print(1)',
+              codeFormat: 'python',
               resource: 'code-block',
               title: 'tittel',
             },

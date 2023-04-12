@@ -44,7 +44,10 @@ const Revisions = ({ userData, ndlaId }: Props) => {
   const [error, setError] = useState<string | undefined>(undefined);
   const [page, setPage] = useState(1);
 
-  const { t } = useTranslation();
+  const {
+    t,
+    i18n: { language },
+  } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
 
   const tableTitles: TitleElement<SortOptionRevision>[] = [
@@ -63,6 +66,8 @@ const Revisions = ({ userData, ndlaId }: Props) => {
       sort: sortOption,
       page: page,
       'page-size': 6,
+      language,
+      fallback: true,
     },
     {
       enabled: !!userData?.favoriteSubjects?.length,
@@ -76,6 +81,7 @@ const Revisions = ({ userData, ndlaId }: Props) => {
       nodeType: SUBJECT_NODE,
       taxonomyVersion,
       ids: userData?.favoriteSubjects,
+      language,
     },
     { enabled: !!userData?.favoriteSubjects?.length },
   );

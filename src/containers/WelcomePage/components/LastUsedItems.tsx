@@ -24,7 +24,10 @@ interface Props {
 type SortOptionLastUsed = 'title' | 'lastUpdated';
 
 const LastUsedItems = ({ lastUsed = [] }: Props) => {
-  const { t, i18n } = useTranslation();
+  const {
+    t,
+    i18n: { language },
+  } = useTranslation();
 
   const tableTitles: TitleElement<SortOptionLastUsed>[] = [
     { title: t('form.article.label'), sortableField: 'title' },
@@ -36,8 +39,8 @@ const LastUsedItems = ({ lastUsed = [] }: Props) => {
   const { data, isInitialLoading } = useSearchDrafts(
     {
       ids: lastUsed!,
-      language: i18n.language,
       sort: '-lastUpdated',
+      language,
     },
     {
       enabled: !!lastUsed.length,

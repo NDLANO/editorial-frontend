@@ -36,7 +36,10 @@ const WorkList = ({ ndlaId }: Props) => {
   const [errorConceptList, setErrorConceptList] = useState<string | undefined>(undefined);
   const [pageConcept, setPageConcept] = useState(1);
 
-  const { t } = useTranslation();
+  const {
+    t,
+    i18n: { language },
+  } = useTranslation();
   const { data, isInitialLoading } = useSearch(
     {
       'responsible-ids': ndlaId,
@@ -44,6 +47,8 @@ const WorkList = ({ ndlaId }: Props) => {
       ...(filterSubject ? { subjects: filterSubject.value } : {}),
       page: page,
       'page-size': 6,
+      language,
+      fallback: true,
     },
     {
       enabled: !!ndlaId,
@@ -59,6 +64,8 @@ const WorkList = ({ ndlaId }: Props) => {
       ...(filterConceptSubject ? { subjects: filterConceptSubject.value } : {}),
       page: pageConcept,
       'page-size': 6,
+      language,
+      fallback: true,
     },
     {
       enabled: !!ndlaId,

@@ -90,6 +90,7 @@ export const searchAllDrafts = async (
     page: 1,
     'page-size': ids.length,
     sort,
+    fallback: true,
   });
 
   return fetchAuthorized(`${baseUrl}/?${query}`, {

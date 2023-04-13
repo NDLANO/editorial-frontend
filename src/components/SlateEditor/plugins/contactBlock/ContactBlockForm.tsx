@@ -112,7 +112,7 @@ const toInitialValues = (initialData?: ContactBlockEmbedData): ContactBlockFormV
     blobColor: initialData?.blobColor ?? 'green',
     description: initialData?.description ?? '',
     blob: initialData?.blob ?? 'pointy',
-    metaImageId: initialData?.metaImageId,
+    metaImageId: initialData?.imageId,
     name: initialData?.name ?? '',
     email: initialData?.email ?? '',
   };
@@ -133,7 +133,7 @@ const ContactBlockForm = ({ initialData, onSave, onCancel }: Props) => {
       }
       const newData: ContactBlockEmbedData = {
         resource: 'contact-block',
-        metaImageId: values.metaImageId,
+        imageId: values.metaImageId,
         jobTitle: values.jobTitle,
         description: values.description,
         name: values.name,

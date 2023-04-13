@@ -614,6 +614,10 @@ const phrases = {
     saved: 'Lagret ',
     feil: 'Det er fortsatt flere feil i skjemaet',
     copy: 'kopi',
+    email: 'E-post',
+    blob: 'Velg type blob',
+    blobColor: 'Farge av blob',
+    jobTitle: 'Arbeids-tittel',
     mustSaveFirst: 'Du må lagre endringene dine først',
     saveAsCopySuccess: 'Ny artikkel lagret',
     preview: {

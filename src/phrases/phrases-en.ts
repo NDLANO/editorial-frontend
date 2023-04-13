@@ -612,6 +612,10 @@ const phrases = {
     saved: 'Saved ',
     feil: 'There are still errors.',
     copy: 'copy',
+    email: 'E-post',
+    blob: 'Type of blob',
+    blobColor: 'Color of blob',
+    jobTitle: 'Job title',
     saveAsCopySuccess: 'New article saved',
     preview: {
       button: 'Preview',

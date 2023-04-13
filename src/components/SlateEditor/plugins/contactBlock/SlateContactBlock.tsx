@@ -70,14 +70,14 @@ const SlateContactBlock = ({ element, editor }: Props) => {
     (data: ContactBlockEmbedData) => {
       setContactBlock(data);
       setIsEditing(false);
-      fetchImage(data?.metaImageId).then((img) => setImage(img));
+      fetchImage(data?.imageId).then((img) => setImage(img));
     },
     [setContactBlock, setIsEditing],
   );
 
   useEffect(() => {
     if (contactBlock) {
-      fetchImage(contactBlock?.metaImageId).then((img) => setImage(img));
+      fetchImage(contactBlock?.imageId).then((img) => setImage(img));
     }
   }, [contactBlock, setImage]);
 

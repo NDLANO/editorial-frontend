@@ -16,6 +16,7 @@ const FrontpageArticlePage = () => (
     EditComponent={EditFrontpageArticle}
     useHook={useDraft}
     createUrl="/subject-matter/frontpage-article/new"
+    isArticle={true}
   />
 );
 

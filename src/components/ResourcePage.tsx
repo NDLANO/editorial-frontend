@@ -6,7 +6,7 @@
  *
  */
 
-import { ComponentType } from 'react';
+import { ComponentType, ReactNode } from 'react';
 import loadable from '@loadable/component';
 import { useTranslation } from 'react-i18next';
 import { Navigate, Route, Routes, useLocation, useParams } from 'react-router-dom';
@@ -17,7 +17,26 @@ import { usePreviousLocation } from '../util/routeHelpers';
 import Footer from '../containers/App/components/Footer';
 import Spinner from './Spinner';
 import { NynorskTranslateProvider } from './NynorskTranslateProvider';
+import { GridContainer, MainArea } from './Layout/Layout';
+
 const NotFoundPage = loadable(() => import('../containers/NotFoundPage/NotFoundPage'));
+
+interface ResourcePageWrapperProps {
+  children: ReactNode;
+  isArticle: boolean;
+}
+
+const ResourcePageWrapper = ({ children, isArticle }: ResourcePageWrapperProps) => (
+  <>
+    {isArticle ? (
+      <GridContainer>
+        <MainArea>{children}</MainArea>
+      </GridContainer>
+    ) : (
+      <OneColumn>{children}</OneColumn>
+    )}
+  </>
+);
 
 interface ResourceComponentProps {
   isNewlyCreated?: boolean;
@@ -36,6 +55,7 @@ interface Props<T extends BaseResource> {
   ) => UseQueryResult<T>;
   createUrl: string;
   titleTranslationKey?: string;
+  isArticle?: boolean;
 }
 
 const ResourcePage = <T extends BaseResource>({
@@ -44,12 +64,13 @@ const ResourcePage = <T extends BaseResource>({
   useHook,
   createUrl,
   titleTranslationKey,
+  isArticle = false,
 }: Props<T>) => {
   const { t } = useTranslation();
   const previousLocation = usePreviousLocation();
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
-      <OneColumn>
+      <ResourcePageWrapper isArticle={isArticle}>
         {titleTranslationKey && <HelmetWithTracker title={t(titleTranslationKey)} />}
         <Routes>
           <Route path="new" element={<CreateComponent />} />
@@ -65,7 +86,7 @@ const ResourcePage = <T extends BaseResource>({
           />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
-      </OneColumn>
+      </ResourcePageWrapper>
       <Footer showLocaleSelector={false} />
     </div>
   );

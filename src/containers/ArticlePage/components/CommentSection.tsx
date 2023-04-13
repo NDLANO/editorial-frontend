@@ -8,7 +8,7 @@
 import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
 import { spacing, fonts } from '@ndla/core';
-import { IStatus, IComment } from '@ndla/types-backend/draft-api';
+import { IStatus } from '@ndla/types-backend/draft-api';
 import { useField } from 'formik';
 import { useState, useEffect, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -41,9 +41,8 @@ const RESET_COMMENTS_STATUSES = [PUBLISHED, ARCHIVED, UNPUBLISHED];
 
 interface Props {
   savedStatus?: IStatus;
-  savedComments?: IComment[];
 }
-const CommentSection = ({ savedComments = [], savedStatus }: Props) => {
+const CommentSection = ({ savedStatus }: Props) => {
   const [allOpen, setAllOpen] = useState(false);
 
   const { t } = useTranslation();
@@ -91,7 +90,6 @@ const CommentSection = ({ savedComments = [], savedStatus }: Props) => {
                 allOpen={allOpen}
                 onDelete={onDelete}
                 index={index}
-                setFieldValue={onChange}
               />
             ))}
           </StyledList>

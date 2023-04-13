@@ -93,23 +93,15 @@ interface Props {
   setComments: (c: CommentType[]) => void;
   onDelete: (index: number) => void;
   index: number;
-  setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => void;
 }
 
-const Comment = ({
-  comment,
-  allOpen = false,
-  comments,
-  setComments,
-  onDelete,
-  index,
-  setFieldValue,
-}: Props) => {
+const Comment = ({ comment, allOpen = false, comments, setComments, onDelete, index }: Props) => {
   const { t } = useTranslation();
   const [inputValue, setInputValue] = useState(comment?.content);
   const [open, setOpen] = useState(comment?.isOpen !== undefined ? comment?.isOpen : true);
   const [modalOpen, setModalOpen] = useState(false);
-  const [editMode, setEditMode] = useState(false);
+
+  const [focused, setFocused] = useState(false);
 
   const closedComment = useRef<HTMLDivElement>(null);
   const openComment = useRef<HTMLTextAreaElement>(null);
@@ -120,20 +112,13 @@ const Comment = ({
     const closedClicked = () => {
       setOpen(true);
       openComment.current?.focus();
-      setEditMode(true);
-    };
-    const openClicked = () => {
-      setEditMode(true);
     };
 
     const closed = closedComment?.current;
-    const open = openComment?.current;
     if (closed) closed.addEventListener('click', closedClicked);
-    if (open) open.addEventListener('click', openClicked);
 
     return () => {
       closed?.removeEventListener('click', closedClicked);
-      open?.removeEventListener('click', openClicked);
     };
   }, [open]);
 
@@ -150,17 +135,18 @@ const Comment = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [allOpen]);
 
+  useEffect(() => {
+    if (!focused) {
+      const updatedComments = comments.map((c, i) =>
+        i === index ? { ...c, content: inputValue } : c,
+      );
+      setComments(updatedComments);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [focused]);
+
   const handleInputChange = (e: ChangeEvent<HTMLTextAreaElement>): void => {
     setInputValue(e.target.value);
-  };
-
-  const updateComment = (indexPosition: number) => {
-    const updatedComments = comments.map((c, index) =>
-      indexPosition === index ? { ...c, content: inputValue } : c,
-    );
-    setComments(updatedComments);
-    setFieldValue('comments', updatedComments);
-    setEditMode(false);
   };
 
   const handleDelete = () => {
@@ -174,7 +160,6 @@ const Comment = ({
     setOpen(_open);
     const updatedComments = comments.map((c, i) => (index === i ? { ...c, isOpen: _open } : c));
     setComments(updatedComments);
-    setFieldValue('comments', updatedComments);
   };
 
   return (
@@ -213,6 +198,8 @@ const Comment = ({
             labelHidden
             onChange={handleInputChange}
             ref={openComment}
+            onFocus={() => setFocused(true)}
+            onBlur={() => setFocused(false)}
           />
         ) : (
           <ClosedTextField ref={closedComment}>{inputValue}</ClosedTextField>

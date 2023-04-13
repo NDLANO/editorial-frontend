@@ -139,7 +139,7 @@ const TopicArticleAccordionPanels = ({
           )}
         </Accordions>
       </MainContent>
-      <CommentSection savedComments={article?.comments} savedStatus={article?.status} />
+      <CommentSection savedStatus={article?.status} />
     </FlexWrapper>
   );
 };

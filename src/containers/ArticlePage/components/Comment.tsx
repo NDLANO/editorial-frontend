@@ -16,8 +16,6 @@ import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { css } from '@emotion/react';
 import { IComment } from '@ndla/types-backend/build/draft-api';
 import AlertModal from '../../../components/AlertModal';
-import CancelButton from './CancelButton';
-import SaveButton from './SaveButton';
 
 export const textAreaStyles = css`
   width: 100%;
@@ -73,13 +71,12 @@ const CommentCard = styled.li`
 
 const CardContent = styled.div`
   display: flex;
+  flex-direction: column;
 `;
 
-export const InputAndButtons = styled.div`
+const TopButtonRow = styled.div`
   display: flex;
-  flex-direction: column;
-  gap: ${spacing.xsmall};
-  width: 100%;
+  justify-content: space-between;
 `;
 
 const StyledTrashIcon = styled(TrashCanOutline)`
@@ -182,61 +179,45 @@ const Comment = ({
 
   return (
     <CommentCard>
-      <InputAndButtons>
-        <CardContent>
-          {!editMode && (
-            <Tooltip tooltip={open ? t('form.hideComment') : t('form.showComment')}>
-              <IconButtonV2
-                variant="ghost"
-                size="xsmall"
-                aria-label={open ? t('form.hideComment') : t('form.showComment')}
-                onMouseDown={() => toggleOpen()}
-                aria-expanded={open}
-                aria-controls="comment-section"
-              >
-                <> {open ? <ExpandMore /> : <RightArrow />}</>
-              </IconButtonV2>
-            </Tooltip>
-          )}
-          {open ? (
-            <StyledClickableTextArea
-              value={inputValue}
-              label={t('form.commentField')}
-              name={t('form.commentField')}
-              labelHidden
-              onChange={handleInputChange}
-              ref={openComment}
-            />
-          ) : (
-            <ClosedTextField ref={closedComment}>{inputValue}</ClosedTextField>
-          )}
+      <CardContent>
+        <TopButtonRow>
+          <Tooltip tooltip={open ? t('form.hideComment') : t('form.showComment')}>
+            <IconButtonV2
+              variant="ghost"
+              size="xsmall"
+              aria-label={open ? t('form.hideComment') : t('form.showComment')}
+              onMouseDown={() => toggleOpen()}
+              aria-expanded={open}
+              aria-controls="comment-section"
+            >
+              <> {open ? <ExpandMore /> : <RightArrow />}</>
+            </IconButtonV2>
+          </Tooltip>
 
-          {!editMode && (
-            <Tooltip tooltip={t('form.workflow.deleteComment.title')}>
-              <IconButtonV2
-                variant="ghost"
-                size="xsmall"
-                aria-label={t('form.workflow.deleteComment.title')}
-                onMouseDown={() => setModalOpen(true)}
-              >
-                <StyledTrashIcon />
-              </IconButtonV2>
-            </Tooltip>
-          )}
-        </CardContent>
-        {editMode && (
-          <ButtonWrapper>
-            <CancelButton
-              disabled={!inputValue}
-              onClick={() => {
-                setInputValue(comment.content);
-                setEditMode(false);
-              }}
-            />
-            <SaveButton disabled={!inputValue} onClick={() => updateComment(index)} />
-          </ButtonWrapper>
+          <Tooltip tooltip={t('form.workflow.deleteComment.title')}>
+            <IconButtonV2
+              variant="ghost"
+              size="xsmall"
+              aria-label={t('form.workflow.deleteComment.title')}
+              onMouseDown={() => setModalOpen(true)}
+            >
+              <StyledTrashIcon />
+            </IconButtonV2>
+          </Tooltip>
+        </TopButtonRow>
+        {open ? (
+          <StyledClickableTextArea
+            value={inputValue}
+            label={t('form.commentField')}
+            name={t('form.commentField')}
+            labelHidden
+            onChange={handleInputChange}
+            ref={openComment}
+          />
+        ) : (
+          <ClosedTextField ref={closedComment}>{inputValue}</ClosedTextField>
         )}
-      </InputAndButtons>
+      </CardContent>
 
       <AlertModal
         title={t('form.workflow.deleteComment.title')}

@@ -6,16 +6,14 @@
  */
 
 import styled from '@emotion/styled';
-import { colors, fonts } from '@ndla/core';
+import { colors, fonts, spacing } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
 import { TextAreaV2 } from '@ndla/forms';
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import uniqueId from 'lodash/uniqueId';
 import { format } from 'date-fns';
-import CancelButton from './CancelButton';
-import SaveButton from './SaveButton';
 import { useSession } from '../../Session/SessionProvider';
-import { ButtonWrapper, CommentType, InputAndButtons, textAreaStyles } from './Comment';
+import { ButtonWrapper, CommentType, StyledButton, textAreaStyles } from './Comment';
 import formatDate, { formatDateForBackend } from '../../../util/formatDate';
 
 const CommentCard = styled.div`
@@ -25,6 +23,13 @@ const CommentCard = styled.div`
   padding: 10px;
   ${fonts.sizes('16px')};
   font-weight: 300;
+`;
+
+const WrapperColumn = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${spacing.xsmall};
+  width: 100%;
 `;
 
 interface Props {
@@ -76,7 +81,7 @@ const InputComment = ({ comments, setComments, setFieldValue }: Props) => {
 
   return (
     <CommentCard>
-      <InputAndButtons>
+      <WrapperColumn>
         <TextAreaV2
           css={textAreaStyles}
           label={t('form.commentField')}
@@ -88,18 +93,31 @@ const InputComment = ({ comments, setComments, setFieldValue }: Props) => {
           ref={createComment}
         />
         <ButtonWrapper>
-          <CancelButton onClick={() => setInputValue('')} disabled={!inputValue} />
-          <SaveButton
+          <StyledButton
+            shape="pill"
+            size="xsmall"
+            colorTheme="danger"
+            flex={1}
+            disabled={!inputValue}
+            onClick={() => setInputValue('')}
+          >
+            {t('form.abort')}
+          </StyledButton>
+          <StyledButton
+            variant="outline"
+            shape="pill"
+            size="xsmall"
             flex={2}
             disabled={!inputValue}
             onClick={() => {
               addComment();
               setInputValue('');
             }}
-            text={t('form.comment')}
-          />
+          >
+            {t('form.comment')}
+          </StyledButton>
         </ButtonWrapper>
-      </InputAndButtons>
+      </WrapperColumn>
     </CommentCard>
   );
 };

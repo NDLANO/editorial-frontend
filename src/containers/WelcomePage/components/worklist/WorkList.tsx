@@ -20,7 +20,7 @@ interface Props {
   ndlaId: string;
 }
 
-export type SortOption = 'title' | 'responsibleLastUpdated';
+export type SortOption = 'title' | 'responsibleLastUpdated' | 'status';
 
 const WorkList = ({ ndlaId }: Props) => {
   const [sortOption, setSortOption] = useState<Prefix<'-', SortOption>>('-responsibleLastUpdated');

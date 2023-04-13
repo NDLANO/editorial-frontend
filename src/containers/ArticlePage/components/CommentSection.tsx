@@ -37,7 +37,7 @@ const StyledOpenCloseAll = styled(ButtonV2)`
   margin-left: auto;
 `;
 
-const RESET_COMMENTS_STATUSES = [PUBLISHED, ARCHIVED, UNPUBLISHED];
+export const RESET_COMMENTS_STATUSES = [PUBLISHED, ARCHIVED, UNPUBLISHED];
 
 interface Props {
   savedStatus?: IStatus;

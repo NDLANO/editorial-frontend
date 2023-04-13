@@ -33,6 +33,7 @@ import { useDisableConverter } from '../ArticleConverterContext';
 import { useSession } from '../../containers/Session/SessionProvider';
 import AlertModal from '../AlertModal';
 import { CommentType } from '../../containers/ArticlePage/components/Comment';
+import { RESET_COMMENTS_STATUSES } from '../../containers/ArticlePage/components/CommentSection';
 
 interface Props {
   formIsDirty: boolean;
@@ -146,10 +147,10 @@ function EditorFooter<T extends FormValues>({
     // Show warning modal when responsible is updated and comments have not changed
     if (
       isArticle &&
-      responsible &&
-      responsible.value !== responsibleId &&
+      responsible?.value !== responsibleId &&
       !commentsChanged &&
-      !modalShown.current
+      !modalShown.current &&
+      RESET_COMMENTS_STATUSES.every((s) => s !== values.status?.current)
     ) {
       setShowWarningModal(true);
     } else {

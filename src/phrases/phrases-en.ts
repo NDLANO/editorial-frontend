@@ -586,6 +586,7 @@ const phrases = {
       podcast: 'Podcast episode',
       conceptList: 'Concept list',
       concept: 'Concept',
+      contactBlock: 'Contactblock',
     },
   },
   form: {
@@ -612,10 +613,6 @@ const phrases = {
     saved: 'Saved ',
     feil: 'There are still errors.',
     copy: 'copy',
-    email: 'E-post',
-    blob: 'Type of blob',
-    blobColor: 'Color of blob',
-    jobTitle: 'Job title',
     saveAsCopySuccess: 'New article saved',
     preview: {
       button: 'Preview',
@@ -662,6 +659,10 @@ const phrases = {
       coverPhotoId: 'Meta image',
       revisions: 'Revisions',
       name: 'Name',
+      email: 'E-post',
+      blob: 'Type of blob',
+      blobColor: 'Color of blob',
+      jobTitle: 'Job title',
     },
     previewProductionArticle: {
       button: 'Compare current version with old version',

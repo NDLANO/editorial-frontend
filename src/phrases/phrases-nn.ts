@@ -587,6 +587,7 @@ const phrases = {
       podcast: 'Podkastepisode',
       conceptList: 'Forklaringsliste',
       concept: 'Forklaring',
+      contactBlock: 'Kontaktblokk',
     },
   },
   form: {
@@ -659,6 +660,10 @@ const phrases = {
       coverPhotoId: 'Metabilde',
       revisions: 'Revisjonar',
       name: 'Namn',
+      email: 'E-post',
+      blob: 'Velg type blob',
+      blobColor: 'Farge av blob',
+      jobTitle: 'Arbeids-tittel',
     },
     previewProductionArticle: {
       button: 'Samanlikn gjeldande versjon med gamal versjon',

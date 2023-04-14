@@ -22,7 +22,7 @@ const editor = withHistory(
 
 describe('definition normalizing tests', () => {
   test('expect list with 1 definition pair not to change', () => {
-    const editorValue: Descendant[] = [definitionList];
+    const editorValue: Descendant[] = [definitionList()];
     editor.children = editorValue;
     Editor.normalize(editor, { force: true });
 

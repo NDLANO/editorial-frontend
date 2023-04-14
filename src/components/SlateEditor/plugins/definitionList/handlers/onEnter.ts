@@ -77,6 +77,7 @@ const onEnter = (
     Element.isElement(selectedDefinitionItem) &&
     selectedDefinitionItem.type === TYPE_DEFINTION_DESCRIPTION
   ) {
+    e.preventDefault();
     const [description, descriptionPath] = [selectedDefinitionItem, selectedDefinitionItemPath];
 
     if (Range.isExpanded(editor.selection)) {
@@ -106,7 +107,7 @@ const onEnter = (
       Point.equals(listItemEnd, editor.selection.anchor)
     ) {
       const nextPath = Path.next(descriptionPath);
-      Transforms.insertNodes(editor, definitionTerm, { at: nextPath });
+      Transforms.insertNodes(editor, definitionTerm(), { at: nextPath });
       Transforms.select(editor, Editor.start(editor, nextPath));
       e.preventDefault();
       return;

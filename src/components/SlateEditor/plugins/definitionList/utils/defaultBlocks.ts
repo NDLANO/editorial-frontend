@@ -9,11 +9,9 @@
 import { jsx as slatejsx } from 'slate-hyperscript';
 import { TYPE_DEFINTION_TERM, TYPE_DEFINTION_DESCRIPTION, TYPE_DEFINTION_LIST } from '../types';
 
-export const definitionTerm = slatejsx('element', { type: TYPE_DEFINTION_TERM }, [{ text: '' }]);
-export const definitionDescription = slatejsx('element', { type: TYPE_DEFINTION_DESCRIPTION }, [
-  { text: '' },
-]);
-export const definitionList = slatejsx('element', { type: TYPE_DEFINTION_LIST }, [
-  definitionTerm,
-  definitionDescription,
-]);
+export const definitionTerm = () =>
+  slatejsx('element', { type: TYPE_DEFINTION_TERM }, [{ text: '' }]);
+export const definitionDescription = () =>
+  slatejsx('element', { type: TYPE_DEFINTION_DESCRIPTION }, [{ text: '' }]);
+export const definitionList = () =>
+  slatejsx('element', { type: TYPE_DEFINTION_LIST }, [definitionTerm(), definitionDescription()]);

@@ -16,7 +16,6 @@ const TopicArticlePage = () => (
     EditComponent={EditTopicArticle}
     useHook={useDraft}
     createUrl="/subject-matter/topic-article/new"
-    isArticle={true}
   />
 );
 

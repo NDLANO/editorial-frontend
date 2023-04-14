@@ -11,7 +11,6 @@ import loadable from '@loadable/component';
 import { useTranslation } from 'react-i18next';
 import { Navigate, Route, Routes, useLocation, useParams } from 'react-router-dom';
 import { UseQueryOptions, UseQueryResult } from '@tanstack/react-query';
-import { OneColumn } from '@ndla/ui';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { usePreviousLocation } from '../util/routeHelpers';
 import Footer from '../containers/App/components/Footer';
@@ -25,18 +24,6 @@ interface ResourcePageWrapperProps {
   children: ReactNode;
   isArticle: boolean;
 }
-
-const ResourcePageWrapper = ({ children, isArticle }: ResourcePageWrapperProps) => (
-  <>
-    {isArticle ? (
-      <GridContainer>
-        <MainArea>{children}</MainArea>
-      </GridContainer>
-    ) : (
-      <OneColumn>{children}</OneColumn>
-    )}
-  </>
-);
 
 interface ResourceComponentProps {
   isNewlyCreated?: boolean;
@@ -55,7 +42,6 @@ interface Props<T extends BaseResource> {
   ) => UseQueryResult<T>;
   createUrl: string;
   titleTranslationKey?: string;
-  isArticle?: boolean;
 }
 
 const ResourcePage = <T extends BaseResource>({
@@ -64,29 +50,30 @@ const ResourcePage = <T extends BaseResource>({
   useHook,
   createUrl,
   titleTranslationKey,
-  isArticle = false,
 }: Props<T>) => {
   const { t } = useTranslation();
   const previousLocation = usePreviousLocation();
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
-      <ResourcePageWrapper isArticle={isArticle}>
-        {titleTranslationKey && <HelmetWithTracker title={t(titleTranslationKey)} />}
-        <Routes>
-          <Route path="new" element={<CreateComponent />} />
-          <Route
-            path=":id/edit/*"
-            element={
-              <EditResourceRedirect
-                Component={EditComponent}
-                useHook={useHook}
-                isNewlyCreated={previousLocation === createUrl}
-              />
-            }
-          />
-          <Route path="*" element={<NotFoundPage />} />
-        </Routes>
-      </ResourcePageWrapper>
+      <GridContainer>
+        <MainArea>
+          {titleTranslationKey && <HelmetWithTracker title={t(titleTranslationKey)} />}
+          <Routes>
+            <Route path="new" element={<CreateComponent />} />
+            <Route
+              path=":id/edit/*"
+              element={
+                <EditResourceRedirect
+                  Component={EditComponent}
+                  useHook={useHook}
+                  isNewlyCreated={previousLocation === createUrl}
+                />
+              }
+            />
+            <Route path="*" element={<NotFoundPage />} />
+          </Routes>
+        </MainArea>
+      </GridContainer>
       <Footer showLocaleSelector={false} />
     </div>
   );

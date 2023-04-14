@@ -6,7 +6,7 @@
  *
  */
 
-import { ComponentType, ReactNode } from 'react';
+import { ComponentType } from 'react';
 import loadable from '@loadable/component';
 import { useTranslation } from 'react-i18next';
 import { Navigate, Route, Routes, useLocation, useParams } from 'react-router-dom';
@@ -19,11 +19,6 @@ import { NynorskTranslateProvider } from './NynorskTranslateProvider';
 import { GridContainer, MainArea } from './Layout/Layout';
 
 const NotFoundPage = loadable(() => import('../containers/NotFoundPage/NotFoundPage'));
-
-interface ResourcePageWrapperProps {
-  children: ReactNode;
-  isArticle: boolean;
-}
 
 interface ResourceComponentProps {
   isNewlyCreated?: boolean;

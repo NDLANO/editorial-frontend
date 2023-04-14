@@ -70,11 +70,7 @@ const CommentSection = ({ savedStatus }: Props) => {
     <>
       {RESET_COMMENTS_STATUSES.every((s) => s !== savedStatus?.current) && (
         <CommentColumn>
-          <InputComment
-            comments={value ?? []}
-            setComments={updateComments}
-            setFieldValue={onChange}
-          />
+          <InputComment comments={value ?? []} setComments={updateComments} />
           {value.length ? (
             <StyledOpenCloseAll variant="stripped" onClick={() => setAllOpen(!allOpen)}>
               {allOpen ? t('form.hideAll') : t('form.openAll')}

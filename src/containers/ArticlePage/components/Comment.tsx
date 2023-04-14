@@ -100,7 +100,6 @@ const Comment = ({ comment, allOpen = false, comments, setComments, onDelete, in
   const [inputValue, setInputValue] = useState(comment?.content);
   const [open, setOpen] = useState(comment?.isOpen !== undefined ? comment?.isOpen : true);
   const [modalOpen, setModalOpen] = useState(false);
-
   const [focused, setFocused] = useState(false);
 
   const closedComment = useRef<HTMLDivElement>(null);

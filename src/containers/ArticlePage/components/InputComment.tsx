@@ -35,10 +35,9 @@ const WrapperColumn = styled.div`
 interface Props {
   comments: CommentType[];
   setComments: (c: CommentType[]) => void;
-  setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => void;
 }
 
-const InputComment = ({ comments, setComments, setFieldValue }: Props) => {
+const InputComment = ({ comments, setComments }: Props) => {
   const { t } = useTranslation();
   const { userName } = useSession();
   const [inputValue, setInputValue] = useState('');
@@ -76,7 +75,6 @@ const InputComment = ({ comments, setComments, setFieldValue }: Props) => {
     const uid = uniqueId();
     const updatedComments = [{ generatedId: uid, content: inputValue, isOpen: true }, ...comments];
     setComments(updatedComments);
-    setFieldValue('comments', updatedComments);
   };
 
   return (

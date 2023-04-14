@@ -90,7 +90,7 @@ const WorkListTabContent = ({
 
   const tableTitles: TitleElement<SortOption>[] = [
     { title: t('welcomePage.workList.name'), sortableField: 'title' },
-    { title: t('welcomePage.workList.status') },
+    { title: t('welcomePage.workList.status'), sortableField: 'status' },
     { title: t('welcomePage.workList.contentType') },
     { title: t('welcomePage.workList.primarySubject') },
     { title: t('welcomePage.workList.topicRelation') },

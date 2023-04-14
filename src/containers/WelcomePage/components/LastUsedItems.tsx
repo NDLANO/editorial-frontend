@@ -78,7 +78,7 @@ const LastUsedItems = ({ lastUsed = [] }: Props) => {
   );
 
   const lastPage = useMemo(
-    () => (data?.results.length ? Math.ceil(data.results.length / (PAGE_SIZE ?? 1)) : 1),
+    () => (data?.results.length ? Math.ceil(data.results.length / PAGE_SIZE) : 1),
     [data?.results],
   );
 

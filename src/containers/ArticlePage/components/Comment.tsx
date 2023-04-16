@@ -20,7 +20,7 @@ import AlertModal from '../../../components/AlertModal';
 export const textAreaStyles = css`
   width: 100%;
   border: 1px solid ${colors.brand.neutral7};
-  min-height: 30px;
+  min-height: 25px;
 
   input,
   textarea {
@@ -45,7 +45,7 @@ const ClosedTextField = styled.div`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  padding: ${spacing.xxsmall};
+  padding: 0 ${spacing.xxsmall};
   border: 1px solid transparent;
   width: 100%;
 `;

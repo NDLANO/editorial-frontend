@@ -150,7 +150,7 @@ function EditorFooter<T extends FormValues>({
       responsible?.value !== responsibleId &&
       !commentsChanged &&
       !modalShown.current &&
-      RESET_COMMENTS_STATUSES.every((s) => s !== values.status?.current)
+      RESET_COMMENTS_STATUSES.every((s) => s !== entityStatus?.current)
     ) {
       setShowWarningModal(true);
     } else {

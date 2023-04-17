@@ -66,7 +66,7 @@ const CommentCard = styled.li`
   border-radius: ${misc.borderRadius};
   padding: ${spacing.xsmall};
   ${fonts.sizes('16px')};
-  font-weight: 300;
+  font-weight: ${fonts.weight.light};
 `;
 
 const CardContent = styled.div`
@@ -77,10 +77,6 @@ const CardContent = styled.div`
 const TopButtonRow = styled.div`
   display: flex;
   justify-content: space-between;
-`;
-
-const StyledTrashIcon = styled(TrashCanOutline)`
-  color: ${colors.support.red};
 `;
 
 // Comment generated on frontend, we will use id from draft-api once comment is generated
@@ -174,7 +170,7 @@ const Comment = ({ comment, allOpen = false, comments, setComments, onDelete, in
               aria-expanded={open}
               aria-controls="comment-section"
             >
-              <> {open ? <ExpandMore /> : <RightArrow />}</>
+              {open ? <ExpandMore /> : <RightArrow />}
             </IconButtonV2>
           </Tooltip>
 
@@ -184,8 +180,9 @@ const Comment = ({ comment, allOpen = false, comments, setComments, onDelete, in
               size="xsmall"
               aria-label={t('form.workflow.deleteComment.title')}
               onMouseDown={() => setModalOpen(true)}
+              colorTheme="danger"
             >
-              <StyledTrashIcon />
+              <TrashCanOutline />
             </IconButtonV2>
           </Tooltip>
         </TopButtonRow>

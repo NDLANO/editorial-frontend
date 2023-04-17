@@ -27,13 +27,11 @@ const CommentColumn = styled.div`
 const StyledList = styled.ul`
   list-style: none;
   padding: 0;
-  margin-top: 0;
+  margin: 0;
 `;
 
 const StyledOpenCloseAll = styled(ButtonV2)`
   ${fonts.sizes('16px')};
-  font-weight: ${fonts.weight.semibold};
-  margin: 0;
   margin-left: auto;
 `;
 
@@ -72,7 +70,11 @@ const CommentSection = ({ savedStatus }: Props) => {
         <CommentColumn>
           <InputComment comments={value ?? []} setComments={updateComments} />
           {value.length ? (
-            <StyledOpenCloseAll variant="stripped" onClick={() => setAllOpen(!allOpen)}>
+            <StyledOpenCloseAll
+              variant="stripped"
+              onClick={() => setAllOpen(!allOpen)}
+              fontWeight="semibold"
+            >
               {allOpen ? t('form.hideAll') : t('form.openAll')}
             </StyledOpenCloseAll>
           ) : null}

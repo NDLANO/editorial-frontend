@@ -103,7 +103,11 @@ const ConceptListTabContent = ({
       conceptData.map((res) => [
         {
           id: `title_${res.id}`,
-          data: <StyledLink to={toEditConcept(res.id)}>{res.title}</StyledLink>,
+          data: (
+            <StyledLink to={toEditConcept(res.id)} title={res.title}>
+              {res.title}
+            </StyledLink>
+          ),
         },
         {
           id: `status_${res.id}`,

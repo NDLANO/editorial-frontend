@@ -6,7 +6,7 @@
  */
 
 import styled from '@emotion/styled';
-import { colors, spacing, fonts } from '@ndla/core';
+import { colors, spacing, fonts, misc } from '@ndla/core';
 import { TrashCanOutline, RightArrow, ExpandMore } from '@ndla/icons/action';
 import { ButtonV2, IconButtonV2 } from '@ndla/button';
 import { useTranslation } from 'react-i18next';
@@ -27,7 +27,7 @@ export const textAreaStyles = css`
     ${fonts.sizes('16px')};
     margin: 0px;
     padding: 0 ${spacing.xxsmall};
-    font-weight: 300;
+    font-weight: ${fonts.weight.light};
   }
 `;
 
@@ -63,8 +63,8 @@ export const StyledButton = styled(ButtonV2)<{ flex: number }>`
 const CommentCard = styled.li`
   width: 200px;
   border: 1px solid ${colors.brand.neutral7};
-  border-radius: 5px;
-  padding: 10px;
+  border-radius: ${misc.borderRadius};
+  padding: ${spacing.xsmall};
   ${fonts.sizes('16px')};
   font-weight: 300;
 `;

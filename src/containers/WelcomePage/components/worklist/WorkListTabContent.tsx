@@ -63,7 +63,10 @@ const WorkListTabContent = ({
               id: `title_${res.id}`,
               data: (
                 <TitleCell>
-                  <StyledLink to={toEditArticle(res.id, res.learningResourceType)}>
+                  <StyledLink
+                    to={toEditArticle(res.id, res.learningResourceType)}
+                    title={res.title?.title}
+                  >
                     {res.title?.title}
                   </StyledLink>
                   {res.comments?.length ? (

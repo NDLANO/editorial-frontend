@@ -6,7 +6,7 @@
  */
 
 import styled from '@emotion/styled';
-import { colors, fonts, spacing } from '@ndla/core';
+import { colors, fonts, spacing, misc } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
 import { TextAreaV2 } from '@ndla/forms';
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
@@ -19,17 +19,15 @@ import formatDate, { formatDateForBackend } from '../../../util/formatDate';
 const CommentCard = styled.div`
   width: 200px;
   border: 1px solid ${colors.brand.neutral7};
-  border-radius: 5px;
-  padding: 10px;
-  ${fonts.sizes('16px')};
-  font-weight: 300;
+  border-radius: ${misc.borderRadius};
+  padding: ${spacing.xsmall};
+  font-weight: ${fonts.weight.light};
 `;
 
 const WrapperColumn = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${spacing.xsmall};
-  width: 100%;
 `;
 
 interface Props {

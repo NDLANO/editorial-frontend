@@ -14,11 +14,14 @@ import { spacing } from '@ndla/core';
 const StyledButton = styled(ButtonV2)`
   background-color: white;
   margin-left: 0;
+  &:only-child {
+    margin-left: auto;
+  }
 `;
 
-const StyledFooter = styled.div<{ buttonCount: number }>`
+const StyledFooter = styled.div`
   display: flex;
-  justify-content: ${(p) => (p.buttonCount === 1 ? 'flex-end' : 'space-between')};
+  justify-content: space-between;
   align-items: flex-end;
   margin-top: ${spacing.small};
 `;
@@ -36,7 +39,7 @@ const AlertModalFooter = ({ component, actions = [] }: Props) =>
   component ? (
     <>{component}</>
   ) : (
-    <StyledFooter buttonCount={actions.length ?? 0}>
+    <StyledFooter>
       {actions.map((action, id) => {
         const { text, ...rest } = action;
         return (

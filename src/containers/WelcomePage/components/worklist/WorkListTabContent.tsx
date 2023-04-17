@@ -67,7 +67,7 @@ const WorkListTabContent = ({
                     {res.title?.title}
                   </StyledLink>
                   {res.comments?.length ? (
-                    <Tooltip tooltip={res.comments[0]?.content.substring(0, 50)}>
+                    <Tooltip tooltip={res.comments[0]?.content}>
                       <div>
                         <Comment />
                       </div>

@@ -30,8 +30,6 @@ describe('Status changes', () => {
     cy.apiwait('@getUsersResponsible');
     cy.get('[data-cy=responsible-select]').click().type('Ed test {enter}');
     cy.contains('Lagre').click();
-    cy.contains('button', 'Ok').click();
-    cy.contains('Lagre').click();
     cy.get('[data-testid=saveLearningResourceButtonWrapper]').contains('Lagrer');
     cy.apiwait(`@updateDraft-${ARTICLE_ID}`);
     cy.get('[data-testid=saveLearningResourceButtonWrapper]').contains('Lagret');

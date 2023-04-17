@@ -74,6 +74,8 @@ interface Props {
   allowPaste?: boolean;
   nodeId: string;
   existingResourceIds: string[];
+  setShowAddModal: (v: boolean) => void;
+  setShowPlannedResourceModal: (v: boolean) => void;
 }
 
 interface Content extends Pick<IMultiSearchSummary, 'id' | 'title' | 'metaDescription'> {
@@ -92,6 +94,8 @@ const AddResourceModal = ({
   resourceTypes,
   existingResourceIds,
   nodeId,
+  setShowAddModal,
+  setShowPlannedResourceModal,
 }: Props) => {
   const { t, i18n } = useTranslation();
   const [content, setContent] = useState<Content | undefined>(undefined);
@@ -209,9 +213,22 @@ const AddResourceModal = ({
   return (
     <TaxonomyLightbox
       title={t('taxonomy.searchResource')}
-      onSelect={onAddResource}
-      loading={loading}
       onClose={onClose}
+      actions={[
+        {
+          text: t('taxonomy.createResource'),
+          onClick: () => {
+            setShowAddModal(false);
+            setShowPlannedResourceModal(true);
+          },
+        },
+        {
+          text: t('form.save'),
+          onClick: onAddResource,
+          'data-testid': 'taxonomyLightboxCloseButton',
+          loading: loading,
+        },
+      ]}
     >
       <StyledContent>
         {!type && (

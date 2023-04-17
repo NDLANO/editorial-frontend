@@ -1328,6 +1328,8 @@ const phrases = {
     deleteResource: 'Slett ressurs',
     confirmDelete: 'Er du sikker på at du vil slette denne noden?',
     version: 'Versjon',
+    createResource: 'Opprett ny ressurs',
+    addNewPlannedResource: 'Opprett ny planlagt ressurs',
     changeName: {
       loadError: 'Klarte ikkje hente omsetjingar',
       updateError: 'Klarte ikkje oppdatere omsetjingar',

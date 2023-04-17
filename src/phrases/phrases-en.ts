@@ -1326,6 +1326,8 @@ const phrases = {
     deleteResource: 'Delete resource',
     confirmDelete: 'Are you sure you want to delete this node?',
     version: 'Version',
+    createResource: 'Create new resource',
+    addNewPlannedResource: 'Create planned resourse',
     changeName: {
       loadError: 'Could not fetch translations',
       updateError: 'Could not update translations',

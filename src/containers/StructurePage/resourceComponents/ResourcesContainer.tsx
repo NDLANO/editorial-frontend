@@ -28,6 +28,7 @@ import { groupResourcesByType } from '../../../util/taxonomyHelpers';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 import { useAuth0Responsibles } from '../../../modules/auth0/auth0Queries';
 import { DRAFT_WRITE_SCOPE } from '../../../constants';
+import AddPlannedResource from '../AddPlannedResource';
 
 const ResourceWrapper = styled.div`
   overflow-y: auto;
@@ -57,6 +58,7 @@ const ResourcesContainer = ({
 }: Props) => {
   const { t } = useTranslation();
   const [showAddModal, setShowAddModal] = useState(false);
+  const [showPlannedResourceModal, setShowPlannedResourceModal] = useState(false);
   const resourceTypesWithoutMissing = useMemo(
     () =>
       resourceTypes.filter((rt) => rt.id !== 'missing').map((rt) => ({ id: rt.id, name: rt.name })),
@@ -117,7 +119,12 @@ const ResourcesContainer = ({
             nodeId={currentNodeId}
             onClose={() => setShowAddModal(false)}
             existingResourceIds={nodeResources.map((r) => r.id)}
+            setShowAddModal={setShowAddModal}
+            setShowPlannedResourceModal={setShowPlannedResourceModal}
           />
+        )}
+        {showPlannedResourceModal && (
+          <AddPlannedResource onClose={() => setShowPlannedResourceModal(false)} />
         )}
         {currentNode.name && (
           <Resource

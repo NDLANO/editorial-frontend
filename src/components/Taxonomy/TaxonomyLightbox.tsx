@@ -59,6 +59,8 @@ const StyledMenuBook = styled(BookOpen)`
 
 const StyledWrapper = styled.div`
   padding: ${spacing.small} 0px;
+  display: flex;
+  gap: ${spacing.xsmall};
 `;
 
 const StyledTitle = styled.h2`
@@ -70,13 +72,17 @@ const StyledTitle = styled.h2`
 interface Props {
   children: JSX.Element;
   onClose: () => void;
-  loading?: boolean;
   title: string;
-  onSelect?: () => void;
+  actions?: {
+    text: string;
+    onClick: () => void;
+    'data-testid'?: string;
+    loading?: boolean;
+  }[];
   wide?: boolean;
 }
 
-const TaxonomyLightbox = ({ children, title, onSelect, loading, onClose, wide = false }: Props) => {
+const TaxonomyLightbox = ({ children, title, onClose, wide = false, actions = [] }: Props) => {
   const { t } = useTranslation();
 
   return (
@@ -101,13 +107,13 @@ const TaxonomyLightbox = ({ children, title, onSelect, loading, onClose, wide = 
           </StyledHeader>
           <StyledContent>
             {children}
-            {onSelect && (
-              <StyledWrapper>
-                <ButtonV2 onClick={onSelect} data-testid="taxonomyLightboxButton">
-                  {loading ? <Spinner appearance="small" /> : t('form.save')}
+            <StyledWrapper>
+              {actions.map((a, i) => (
+                <ButtonV2 onClick={a.onClick} key={i}>
+                  {a.loading ? <Spinner appearance="small" /> : a.text}
                 </ButtonV2>
-              </StyledWrapper>
-            )}
+              ))}
+            </StyledWrapper>
           </StyledContent>
         </>
       )}

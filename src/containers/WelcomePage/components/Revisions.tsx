@@ -36,7 +36,7 @@ interface Props {
   ndlaId: string | undefined;
 }
 
-type SortOptionRevision = 'title' | 'revisionDate';
+type SortOptionRevision = 'title' | 'revisionDate' | 'status';
 
 const Revisions = ({ userData, ndlaId }: Props) => {
   const [filterSubject, setFilterSubject] = useState<SingleValue | undefined>(undefined);
@@ -52,7 +52,7 @@ const Revisions = ({ userData, ndlaId }: Props) => {
 
   const tableTitles: TitleElement<SortOptionRevision>[] = [
     { title: t('form.article.label'), sortableField: 'title' },
-    { title: t('welcomePage.workList.status') },
+    { title: t('welcomePage.workList.status'), sortableField: 'status' },
     { title: t('welcomePage.workList.primarySubject') },
     { title: t('welcomePage.revisionDate'), sortableField: 'revisionDate' },
   ];

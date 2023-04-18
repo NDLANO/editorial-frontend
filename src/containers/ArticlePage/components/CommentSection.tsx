@@ -46,7 +46,6 @@ const CommentSection = ({ savedStatus }: Props) => {
   const { t } = useTranslation();
 
   const [comments] = useField<CommentType[]>('comments');
-  const { value } = comments;
 
   const updateComments = useCallback(
     (c: CommentType[]) => comments.onChange({ target: { name: 'comments', value: c } }),
@@ -57,10 +56,11 @@ const CommentSection = ({ savedStatus }: Props) => {
     if (RESET_COMMENTS_STATUSES.find((s) => s === savedStatus?.current)) {
       comments.onChange({ target: { name: 'comments', value: [] } });
     }
-  }, [comments, savedStatus]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [savedStatus]);
 
   const onDelete = (index: number) => {
-    const updatedList = value?.filter((c, i) => i !== index);
+    const updatedList = comments.value?.filter((c, i) => i !== index);
 
     updateComments(updatedList);
   };
@@ -76,8 +76,8 @@ const CommentSection = ({ savedStatus }: Props) => {
     <>
       {RESET_COMMENTS_STATUSES.every((s) => s !== savedStatus?.current) && (
         <CommentColumn>
-          <InputComment comments={value ?? []} setComments={updateComments} />
-          {value.length ? (
+          <InputComment comments={comments.value ?? []} setComments={updateComments} />
+          {comments.value.length ? (
             <StyledOpenCloseAll
               variant="stripped"
               onClick={() => toggleAllOpen(allOpen !== undefined ? !allOpen : true)}
@@ -87,12 +87,12 @@ const CommentSection = ({ savedStatus }: Props) => {
             </StyledOpenCloseAll>
           ) : null}
           <StyledList>
-            {value.map((comment, index) => (
+            {comments.value.map((comment, index) => (
               <Comment
                 key={'id' in comment ? comment.id : comment.generatedId}
                 comment={comment}
                 setComments={updateComments}
-                comments={value ?? []}
+                comments={comments.value ?? []}
                 allOpen={allOpen}
                 onDelete={onDelete}
                 index={index}

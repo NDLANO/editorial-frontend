@@ -33,7 +33,7 @@ export const blogPostSerializer: SlateSerializer = {
   deserialize(el: HTMLElement) {
     if (el.tagName.toLowerCase() !== TYPE_NDLA_EMBED) return;
     const embed = el as HTMLEmbedElement;
-    const embedAttributes = reduceElementDataAttributesV2(embed);
+    const embedAttributes = reduceElementDataAttributesV2(Array.from(embed.attributes));
     if (embedAttributes.resource !== 'blog-post') return;
     return slatejsx('element', {
       type: TYPE_BLOGPOST,

@@ -31,7 +31,7 @@ export const textAreaStyles = css`
   }
 `;
 
-const StyledClickableTextArea = styled(TextAreaV2)<{ open: boolean }>`
+const StyledClickableTextArea = styled(TextAreaV2)`
   ${textAreaStyles};
   border: 1px solid transparent;
 
@@ -39,18 +39,13 @@ const StyledClickableTextArea = styled(TextAreaV2)<{ open: boolean }>`
   &:focus-visible {
     border: 1px solid ${colors.brand.primary};
   }
-  & textarea {
-    ${(p) =>
-      !p.open &&
-      css`
-        max-height: 30px;
-        white-space: nowrap;
-        display: -webkit-box;
-        -webkit-line-clamp: 1;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      `}
+  textarea {
+    &[data-open='false'] {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: block;
+    }
   }
 `;
 
@@ -175,7 +170,7 @@ const Comment = ({
           }}
           onBlur={() => focusUpdate(false)}
           id={commentId}
-          open={open}
+          data-open={open}
         />
       </CardContent>
 

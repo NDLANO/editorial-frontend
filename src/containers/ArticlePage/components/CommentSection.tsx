@@ -41,27 +41,35 @@ interface Props {
   savedStatus?: IStatus;
 }
 const CommentSection = ({ savedStatus }: Props) => {
-  const [allOpen, setAllOpen] = useState(false);
+  const [allOpen, setAllOpen] = useState<boolean | undefined>(undefined);
 
   const { t } = useTranslation();
 
   const [comments] = useField<CommentType[]>('comments');
-  const { onChange, value } = comments;
+  const { value } = comments;
 
   const updateComments = useCallback(
-    (c: CommentType[]) => onChange({ target: { name: 'comments', value: c } }),
-    [onChange],
+    (c: CommentType[]) => comments.onChange({ target: { name: 'comments', value: c } }),
+    [comments],
   );
+
   useEffect(() => {
     if (RESET_COMMENTS_STATUSES.find((s) => s === savedStatus?.current)) {
-      updateComments([]);
+      comments.onChange({ target: { name: 'comments', value: [] } });
     }
-  }, [savedStatus, updateComments]);
+  }, [comments, savedStatus]);
 
   const onDelete = (index: number) => {
     const updatedList = value?.filter((c, i) => i !== index);
 
     updateComments(updatedList);
+  };
+
+  const toggleAllOpen = (allOpen: boolean) => {
+    setAllOpen(allOpen);
+    comments.onChange({
+      target: { name: 'comments', value: comments.value.map((c) => ({ ...c, isOpen: allOpen })) },
+    });
   };
 
   return (
@@ -72,9 +80,8 @@ const CommentSection = ({ savedStatus }: Props) => {
           {value.length ? (
             <StyledOpenCloseAll
               variant="stripped"
-              onClick={() => setAllOpen(!allOpen)}
+              onClick={() => toggleAllOpen(allOpen !== undefined ? !allOpen : true)}
               fontWeight="semibold"
-              aria-controls="comment-section"
             >
               {allOpen ? t('form.hideAll') : t('form.openAll')}
             </StyledOpenCloseAll>
@@ -89,6 +96,7 @@ const CommentSection = ({ savedStatus }: Props) => {
                 allOpen={allOpen}
                 onDelete={onDelete}
                 index={index}
+                setAllOpen={setAllOpen}
               />
             ))}
           </StyledList>

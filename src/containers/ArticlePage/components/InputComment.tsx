@@ -9,7 +9,7 @@ import styled from '@emotion/styled';
 import { colors, fonts, spacing, misc } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
 import { TextAreaV2 } from '@ndla/forms';
-import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
+import { ChangeEvent, useCallback, useState } from 'react';
 import uniqueId from 'lodash/uniqueId';
 import { format } from 'date-fns';
 import { ButtonV2 } from '@ndla/button';
@@ -54,30 +54,6 @@ const InputComment = ({ comments, setComments }: Props) => {
   const { userName } = useSession();
   const [inputValue, setInputValue] = useState('');
 
-  const createComment = useRef<HTMLTextAreaElement>(null);
-
-  useEffect(() => {
-    const clicked = () => {
-      const currentDate = new Date();
-      const dateTime = formatDateForBackend(currentDate);
-      const formattedDate = formatDate(dateTime);
-      const formattedTime = format(currentDate, 'HH:mm');
-
-      setInputValue(
-        `\n${t('form.workflow.addComment.from')} ${
-          userName?.split(' ')[0]
-        } (${formattedDate} - ${formattedTime})`,
-      );
-
-      createComment.current?.setSelectionRange(0, 0);
-    };
-
-    const create = createComment?.current;
-    if (create) create.addEventListener('click', clicked);
-
-    return () => create?.removeEventListener('click', clicked);
-  }, [t, userName]);
-
   const handleInputChange = useCallback((e: ChangeEvent<HTMLTextAreaElement>): void => {
     setInputValue(e.target.value);
   }, []);
@@ -87,6 +63,19 @@ const InputComment = ({ comments, setComments }: Props) => {
     const uid = uniqueId();
     const updatedComments = [{ generatedId: uid, content: inputValue, isOpen: true }, ...comments];
     setComments(updatedComments);
+  };
+
+  const handleFocus = () => {
+    const currentDate = new Date();
+    const dateTime = formatDateForBackend(currentDate);
+    const formattedDate = formatDate(dateTime);
+    const formattedTime = format(currentDate, 'HH:mm');
+
+    setInputValue(
+      `\n${t('form.workflow.addComment.from')} ${
+        userName?.split(' ')[0]
+      } (${formattedDate} - ${formattedTime})`,
+    );
   };
 
   return (
@@ -100,7 +89,7 @@ const InputComment = ({ comments, setComments }: Props) => {
           labelHidden
           value={inputValue}
           onChange={handleInputChange}
-          ref={createComment}
+          onFocus={() => handleFocus()}
         />
         <ButtonWrapper>
           <StyledButtonSmall

@@ -12,7 +12,7 @@ import { IconButtonV2 } from '@ndla/button';
 import { useTranslation } from 'react-i18next';
 import Tooltip from '@ndla/tooltip';
 import { TextAreaV2 } from '@ndla/forms';
-import { ChangeEvent, useEffect, useRef, useState } from 'react';
+import { ChangeEvent, useMemo, useState } from 'react';
 import { css } from '@emotion/react';
 import { IComment } from '@ndla/types-backend/build/draft-api';
 import AlertModal from '../../../components/AlertModal';
@@ -31,7 +31,7 @@ export const textAreaStyles = css`
   }
 `;
 
-const StyledClickableTextArea = styled(TextAreaV2)`
+const StyledClickableTextArea = styled(TextAreaV2)<{ open: boolean }>`
   ${textAreaStyles};
   border: 1px solid transparent;
 
@@ -39,14 +39,19 @@ const StyledClickableTextArea = styled(TextAreaV2)`
   &:focus-visible {
     border: 1px solid ${colors.brand.primary};
   }
-`;
-const ClosedTextField = styled.div`
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  padding: 0 ${spacing.xxsmall};
-  border: 1px solid transparent;
-  width: 100%;
+  & textarea {
+    ${(p) =>
+      !p.open &&
+      css`
+        max-height: 30px;
+        white-space: nowrap;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      `}
+  }
 `;
 
 const CommentCard = styled.li`
@@ -73,61 +78,32 @@ export type CommentType = { generatedId?: string; content: string; isOpen: boole
 
 interface Props {
   comment: CommentType;
-  allOpen: boolean;
+  allOpen: boolean | undefined;
+  setAllOpen: (v: boolean | undefined) => void;
   comments: CommentType[];
   setComments: (c: CommentType[]) => void;
   onDelete: (index: number) => void;
   index: number;
 }
 
-const Comment = ({ comment, allOpen = false, comments, setComments, onDelete, index }: Props) => {
+const Comment = ({
+  comment,
+  allOpen,
+  setAllOpen,
+  comments,
+  setComments,
+  onDelete,
+  index,
+}: Props) => {
   const { t } = useTranslation();
   const [inputValue, setInputValue] = useState(comment?.content);
-  const [open, setOpen] = useState(comment?.isOpen !== undefined ? comment?.isOpen : true);
+
+  const open = useMemo(
+    () => (allOpen !== undefined ? allOpen : comment.isOpen),
+    [allOpen, comment.isOpen],
+  );
+
   const [modalOpen, setModalOpen] = useState(false);
-  const [focused, setFocused] = useState(false);
-
-  const closedComment = useRef<HTMLDivElement>(null);
-  const openComment = useRef<HTMLTextAreaElement>(null);
-
-  const rendered = useRef(false);
-
-  useEffect(() => {
-    const closedClicked = () => {
-      setOpen(true);
-      openComment.current?.focus();
-    };
-
-    const closed = closedComment?.current;
-    if (closed) closed.addEventListener('click', closedClicked);
-
-    return () => {
-      closed?.removeEventListener('click', closedClicked);
-    };
-  }, [open]);
-
-  useEffect(() => {
-    comment && setInputValue(comment.content);
-  }, [comment]);
-
-  useEffect(() => {
-    if (rendered.current) {
-      toggleOpen(allOpen);
-    } else {
-      rendered.current = true;
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [allOpen]);
-
-  useEffect(() => {
-    if (!focused) {
-      const updatedComments = comments.map((c, i) =>
-        i === index ? { ...c, content: inputValue } : c,
-      );
-      setComments(updatedComments);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [focused]);
 
   const handleInputChange = (e: ChangeEvent<HTMLTextAreaElement>): void => {
     setInputValue(e.target.value);
@@ -140,13 +116,23 @@ const Comment = ({ comment, allOpen = false, comments, setComments, onDelete, in
   };
 
   const toggleOpen = (value?: boolean) => {
+    setAllOpen(undefined);
     const _open = value !== undefined ? value : !open;
-    setOpen(_open);
     const updatedComments = comments.map((c, i) => (index === i ? { ...c, isOpen: _open } : c));
     setComments(updatedComments);
   };
 
+  const focusUpdate = (focus: boolean) => {
+    if (!focus) {
+      const updatedComments = comments.map((c, i) =>
+        i === index ? { ...c, content: inputValue } : c,
+      );
+      setComments(updatedComments);
+    }
+  };
+
   const tooltipText = open ? t('form.hideComment') : t('form.showComment');
+  const commentId = `${'id' in comment ? comment.id : comment.generatedId}-comment-section`;
 
   return (
     <CommentCard>
@@ -159,7 +145,7 @@ const Comment = ({ comment, allOpen = false, comments, setComments, onDelete, in
               aria-label={tooltipText}
               onClick={() => toggleOpen()}
               aria-expanded={open}
-              aria-controls="comment-section"
+              aria-controls={commentId}
             >
               {open ? <ExpandMore /> : <RightArrow />}
             </IconButtonV2>
@@ -177,23 +163,20 @@ const Comment = ({ comment, allOpen = false, comments, setComments, onDelete, in
             </IconButtonV2>
           </Tooltip>
         </TopButtonRow>
-        {open ? (
-          <StyledClickableTextArea
-            value={inputValue}
-            label={t('form.commentField')}
-            name={t('form.commentField')}
-            labelHidden
-            onChange={handleInputChange}
-            ref={openComment}
-            onFocus={() => setFocused(true)}
-            onBlur={() => setFocused(false)}
-            id="comment-section"
-          />
-        ) : (
-          <ClosedTextField ref={closedComment} id="comment-section">
-            {inputValue}
-          </ClosedTextField>
-        )}
+        <StyledClickableTextArea
+          value={inputValue}
+          label={t('form.commentField')}
+          name={t('form.commentField')}
+          labelHidden
+          onChange={handleInputChange}
+          onFocus={() => {
+            focusUpdate(true);
+            toggleOpen(true);
+          }}
+          onBlur={() => focusUpdate(false)}
+          id={commentId}
+          open={open}
+        />
       </CardContent>
 
       <AlertModal

@@ -74,6 +74,7 @@ const CommentSection = ({ savedStatus }: Props) => {
               variant="stripped"
               onClick={() => setAllOpen(!allOpen)}
               fontWeight="semibold"
+              aria-controls="comment-section"
             >
               {allOpen ? t('form.hideAll') : t('form.openAll')}
             </StyledOpenCloseAll>

@@ -8,7 +8,7 @@
 import styled from '@emotion/styled';
 import { colors, spacing, fonts, misc } from '@ndla/core';
 import { TrashCanOutline, RightArrow, ExpandMore } from '@ndla/icons/action';
-import { ButtonV2, IconButtonV2 } from '@ndla/button';
+import { IconButtonV2 } from '@ndla/button';
 import { useTranslation } from 'react-i18next';
 import Tooltip from '@ndla/tooltip';
 import { TextAreaV2 } from '@ndla/forms';
@@ -36,8 +36,7 @@ const StyledClickableTextArea = styled(TextAreaV2)`
   border: 1px solid transparent;
 
   &:active,
-  &:focus,
-  &:focus-within {
+  &:focus-visible {
     border: 1px solid ${colors.brand.primary};
   }
 `;
@@ -48,16 +47,6 @@ const ClosedTextField = styled.div`
   padding: 0 ${spacing.xxsmall};
   border: 1px solid transparent;
   width: 100%;
-`;
-
-export const ButtonWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  gap: ${spacing.xsmall};
-`;
-
-export const StyledButton = styled(ButtonV2)<{ flex: number }>`
-  flex: ${(p) => p.flex};
 `;
 
 const CommentCard = styled.li`
@@ -157,16 +146,18 @@ const Comment = ({ comment, allOpen = false, comments, setComments, onDelete, in
     setComments(updatedComments);
   };
 
+  const tooltipText = open ? t('form.hideComment') : t('form.showComment');
+
   return (
     <CommentCard>
       <CardContent>
         <TopButtonRow>
-          <Tooltip tooltip={open ? t('form.hideComment') : t('form.showComment')}>
+          <Tooltip tooltip={tooltipText}>
             <IconButtonV2
               variant="ghost"
               size="xsmall"
-              aria-label={open ? t('form.hideComment') : t('form.showComment')}
-              onMouseDown={() => toggleOpen()}
+              aria-label={tooltipText}
+              onClick={() => toggleOpen()}
               aria-expanded={open}
               aria-controls="comment-section"
             >
@@ -179,7 +170,7 @@ const Comment = ({ comment, allOpen = false, comments, setComments, onDelete, in
               variant="ghost"
               size="xsmall"
               aria-label={t('form.workflow.deleteComment.title')}
-              onMouseDown={() => setModalOpen(true)}
+              onClick={() => setModalOpen(true)}
               colorTheme="danger"
             >
               <TrashCanOutline />
@@ -196,9 +187,12 @@ const Comment = ({ comment, allOpen = false, comments, setComments, onDelete, in
             ref={openComment}
             onFocus={() => setFocused(true)}
             onBlur={() => setFocused(false)}
+            id="comment-section"
           />
         ) : (
-          <ClosedTextField ref={closedComment}>{inputValue}</ClosedTextField>
+          <ClosedTextField ref={closedComment} id="comment-section">
+            {inputValue}
+          </ClosedTextField>
         )}
       </CardContent>
 

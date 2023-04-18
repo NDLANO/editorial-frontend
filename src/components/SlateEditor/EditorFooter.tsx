@@ -143,7 +143,10 @@ function EditorFooter<T extends FormValues>({
     if (STATUSES_RESET_RESPONSIBLE.find((s) => s === status?.value)) {
       updateResponsible(null);
     }
-    const commentsChanged = !isEqual(sortBy(comments), sortBy(values?.comments));
+    const commentsChanged = !isEqual(
+      sortBy(comments, (c) => c.content),
+      sortBy(values?.comments, (c) => c.content),
+    );
     // Show warning modal when responsible is updated and comments have not changed
     if (
       isArticle &&

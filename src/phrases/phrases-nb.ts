@@ -543,6 +543,9 @@ const phrases = {
       },
     },
   },
+  keyNumberForm: {
+    title: 'Nøkkeltall',
+  },
   editorToolbar: {
     bold: 'Fet\n({{ctrl}}+b)',
     bulletedList: 'Punktliste\n({{ctrl}}+l)',
@@ -584,6 +587,7 @@ const phrases = {
       podcast: 'Podkastepisode',
       conceptList: 'Forklaringsliste',
       concept: 'Forklaring',
+      keyNumber: 'Nykkeltall',
     },
   },
   form: {
@@ -657,6 +661,8 @@ const phrases = {
       coverPhotoId: 'Metabilde',
       revisions: 'Revisjoner',
       name: 'Navn',
+      subTitle: 'Undertittel',
+      language: 'Språk',
     },
     previewProductionArticle: {
       button: 'Sammenlign gjeldende versjon med gammel versjon',

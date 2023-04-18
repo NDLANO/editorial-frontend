@@ -65,6 +65,8 @@ import {
   TYPE_EMBED_IMAGE,
 } from '../../../../components/SlateEditor/plugins/embed/types';
 import { TYPE_FILE } from '../../../../components/SlateEditor/plugins/file/types';
+import { keyNumberPlugin } from '../../../../components/SlateEditor/plugins/keyNumber';
+import { TYPE_KEY_NUMBER } from '../../../../components/SlateEditor/plugins/keyNumber/types';
 
 const StyledFormikField = styled(FormikField)`
   display: flex;
@@ -104,7 +106,7 @@ const visualElements = [
   TYPE_EMBED_IMAGE,
 ];
 
-const actions = [TYPE_TABLE, TYPE_CODEBLOCK, TYPE_FILE].concat(visualElements);
+const actions = [TYPE_TABLE, TYPE_CODEBLOCK, TYPE_KEY_NUMBER, TYPE_FILE].concat(visualElements);
 const actionsToShowInAreas = {
   details: actions,
   aside: actions,
@@ -146,6 +148,7 @@ export const plugins = (
     filePlugin,
     mathmlPlugin,
     codeblockPlugin,
+    keyNumberPlugin,
     blockPickerPlugin,
     dndPlugin,
     toolbarPlugin,

@@ -46,6 +46,8 @@ import {
 import { TYPE_RELATED } from '../related/types';
 import { TYPE_CODEBLOCK } from '../codeBlock/types';
 import { TYPE_CONCEPT_LIST } from '../conceptList/types';
+import { TYPE_KEY_NUMBER } from '../keyNumber/types';
+import { defaultKeyNumberBlock } from '../keyNumber/utils';
 
 interface Props {
   editor: Editor;
@@ -208,6 +210,10 @@ const SlateBlockPicker = ({
       }
       case TYPE_CONCEPT_BLOCK: {
         onInsertBlock(defaultConceptBlock());
+        break;
+      }
+      case TYPE_KEY_NUMBER: {
+        onInsertBlock(defaultKeyNumberBlock());
         break;
       }
       default:

@@ -12,7 +12,7 @@ import {
   RelatedArticle,
   TableMaterial,
 } from '@ndla/icons/editor';
-import { Download, Podcast, VolumeUp } from '@ndla/icons/common';
+import { Download, HelpCircle, Podcast, VolumeUp } from '@ndla/icons/common';
 import { List } from '@ndla/icons/action';
 import HowToHelper from '../../../HowTo/HowToHelper';
 import { TYPE_CONCEPT_BLOCK } from '../concept/block/types';
@@ -32,6 +32,7 @@ import { TYPE_FILE } from '../file/types';
 import { TYPE_RELATED } from '../related/types';
 import { TYPE_CODEBLOCK } from '../codeBlock/types';
 import { TYPE_CONCEPT_LIST } from '../conceptList/types';
+import { TYPE_KEY_NUMBER } from '../keyNumber/types';
 
 const renderArticleInModal = (pageId: string) => <HowToHelper pageId={pageId} extraIconPadding />;
 
@@ -123,6 +124,11 @@ const actions: Action[] = [
     icon: <List />,
     helpIcon: renderArticleInModal('ConceptList'),
     requiredScope: DRAFT_ADMIN_SCOPE,
+  },
+  {
+    data: { type: TYPE_KEY_NUMBER, object: 'keyNumber' },
+    icon: <HelpCircle />,
+    helpIcon: renderArticleInModal('H5P'),
   },
 ];
 

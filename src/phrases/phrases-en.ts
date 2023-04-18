@@ -542,6 +542,9 @@ const phrases = {
       },
     },
   },
+  keyNumberForm: {
+    title: 'Key numbers',
+  },
   editorToolbar: {
     bold: 'Bold\n({{ctrl}}+b)',
     bulletedList: 'Bulleted list\n({{ctrl}}+l)',
@@ -583,6 +586,7 @@ const phrases = {
       podcast: 'Podcast episode',
       conceptList: 'Concept list',
       concept: 'Concept',
+      keyNumber: 'Key number',
     },
   },
   form: {
@@ -655,6 +659,8 @@ const phrases = {
       coverPhotoId: 'Meta image',
       revisions: 'Revisions',
       name: 'Name',
+      subTitle: 'Sub-title',
+      language: 'Language',
     },
     previewProductionArticle: {
       button: 'Compare current version with old version',

@@ -521,7 +521,7 @@ const phrases = {
     },
   },
   blogPostForm: {
-    title: 'Rediger Bloggpost',
+    title: 'Rediger bloggpost',
     sizes: {
       normal: 'Normal',
       large: 'Stor',

@@ -9,6 +9,7 @@
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import { useTranslation } from 'react-i18next';
 import { CodeBlockEditor } from '@ndla/code';
+import { CodeEmbedData } from '@ndla/types-embed';
 import AlertModal from '../../../AlertModal';
 import { CodeBlockType } from '../../../../interfaces';
 
@@ -17,7 +18,7 @@ interface Props {
   handleContinue: () => void;
   handleExit: () => void;
   handleSave: (code: CodeBlockType) => void;
-  model: CodeBlockType;
+  embedData: CodeEmbedData;
   openDiscardModal: boolean;
 }
 
@@ -26,7 +27,7 @@ const EditCodeBlockModal = ({
   handleContinue,
   handleExit,
   handleSave,
-  model,
+  embedData,
   openDiscardModal,
 }: Props) => {
   const { t } = useTranslation();
@@ -47,7 +48,15 @@ const EditCodeBlockModal = ({
             <ModalCloseButton title={t('dialog.close')} onClick={onCloseModal} />
           </ModalHeader>
           <ModalBody>
-            <CodeBlockEditor content={model} onSave={handleSave} onAbort={handleExit} />
+            <CodeBlockEditor
+              content={{
+                code: embedData.codeContent,
+                format: embedData.codeFormat,
+                title: embedData.title || '',
+              }}
+              onSave={handleSave}
+              onAbort={handleExit}
+            />
 
             <AlertModal
               title={t('unsavedChanges')}

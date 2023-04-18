@@ -6,10 +6,11 @@
  *
  */
 
+import { ConceptEmbedData } from '@ndla/types-embed';
 import { Descendant } from 'slate';
 
 export interface ConceptInlineElement {
   type: 'concept-inline';
-  data: { [key: string]: string };
+  data: ConceptEmbedData;
   children: Descendant[];
 }

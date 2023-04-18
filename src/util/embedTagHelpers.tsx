@@ -20,6 +20,7 @@ export const removeEmptyElementDataAttributes = (obj: Dictionary<any>) => {
   return newObject;
 };
 
+<<<<<<< HEAD
 const reduceDataRegexp = /^data-/g;
 const reduceRegexp = /-[a-z]/g;
 
@@ -43,6 +44,34 @@ export const reduceElementDataAttributesV2 = (
   }, {});
 };
 
+||||||| f96027c6f
+=======
+const reduceRegexp = /-[a-z]/g;
+
+export const reduceElementDataAttributesV2 = (
+  attributes: Attr[],
+  filter?: string[],
+): Record<string, string> => {
+  const _attributes = attributes.filter((a) => a.name !== 'style');
+  const filteredAttributes = filter?.length
+    ? _attributes.filter((a) => filter.includes(a.name))
+    : _attributes;
+  return filteredAttributes.reduce<Record<string, string>>((acc, attr) => {
+    if (attr.name.startsWith('data-')) {
+      const key = attr.name
+        .replace('data-', '')
+        // convert "-a" with "A". image-id becomes imageId
+        .replace(reduceRegexp, (m) => m.charAt(1).toUpperCase());
+      acc[key] = attr.value;
+    } else {
+      // Handle regular dash attributes like aria-label.
+      acc[attr.name] = attr.value;
+    }
+    return acc;
+  }, {});
+};
+
+>>>>>>> 42b0513b0b91962b49d5c3a818064528213729e2
 export const reduceElementDataAttributes = (
   el: Element,
   filter?: string[],
@@ -91,11 +120,6 @@ export const reduceChildElements = (el: HTMLElement, type: string) => {
   return { nodes: children };
 };
 
-export const createDataProps = (obj: Dictionary<string>) =>
-  Object.keys(obj)
-    .filter((key) => obj[key] !== undefined && !isObject(obj[key]))
-    .reduce((acc, key) => ({ ...acc, [`data-${key}`]: obj[key] }), {});
-
 export const createProps = (obj: Dictionary<string>) =>
   Object.keys(obj)
     .filter((key) => obj[key] !== undefined && !isObject(obj[key]))
@@ -116,6 +140,30 @@ export const parseEmbedTag = (embedTag?: string): Embed | undefined => {
   const obj = reduceElementDataAttributes(embedElements[0]);
   delete obj.id;
   return obj as unknown as Embed;
+};
+
+const attributeRegex = /[A-Z]/g;
+
+type EmbedProps<T extends object> = {
+  [Key in keyof T]: string | undefined;
+};
+
+export const createEmbedTagV2 = <T extends object>(
+  data: EmbedProps<T>,
+): JSX.Element | undefined => {
+  const entries = Object.entries(data ?? {});
+  if (entries.length === 0) {
+    return undefined;
+  }
+  const dataSet = entries.reduce<Record<string, string>>((acc, [key, value]) => {
+    const newKey = key.replace(attributeRegex, (m) => `-${m.toLowerCase()}`);
+    if (value != null && typeof value === 'string') {
+      acc[`data-${newKey}`] = value.toString();
+    }
+    return acc;
+  }, {});
+
+  return <ndlaembed {...dataSet}></ndlaembed>;
 };
 
 export const createEmbedTag = (data: { [key: string]: any }) => {

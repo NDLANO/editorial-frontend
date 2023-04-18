@@ -9,7 +9,7 @@ import styled from '@emotion/styled';
 import { colors, fonts, spacing, misc } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
 import { TextAreaV2 } from '@ndla/forms';
-import { ChangeEvent, useCallback, useState } from 'react';
+import { ChangeEvent, useCallback, useRef, useState } from 'react';
 import uniqueId from 'lodash/uniqueId';
 import { format } from 'date-fns';
 import { ButtonV2 } from '@ndla/button';
@@ -64,6 +64,7 @@ const InputComment = ({ comments, setComments }: Props) => {
     const updatedComments = [{ generatedId: uid, content: inputValue, isOpen: true }, ...comments];
     setComments(updatedComments);
   };
+  const createComment = useRef<HTMLTextAreaElement>(null);
 
   const handleFocus = () => {
     const currentDate = new Date();
@@ -76,6 +77,7 @@ const InputComment = ({ comments, setComments }: Props) => {
         userName?.split(' ')[0]
       } (${formattedDate} - ${formattedTime})`,
     );
+    createComment.current?.setSelectionRange(0, 0);
   };
 
   return (
@@ -90,6 +92,7 @@ const InputComment = ({ comments, setComments }: Props) => {
           value={inputValue}
           onChange={handleInputChange}
           onFocus={() => handleFocus()}
+          ref={createComment}
         />
         <ButtonWrapper>
           <StyledButtonSmall

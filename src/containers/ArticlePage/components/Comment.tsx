@@ -44,7 +44,10 @@ const StyledClickableTextArea = styled(TextAreaV2)`
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      display: block;
+      max-height: 30px;
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
     }
   }
 `;

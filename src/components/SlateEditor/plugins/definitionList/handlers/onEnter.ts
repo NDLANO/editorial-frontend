@@ -62,10 +62,12 @@ const onEnter = (
       }
     }
 
-    Transforms.select(editor, {
-      anchor: Editor.point(editor, Path.next(termPath), { edge: 'end' }),
-      focus: Editor.point(editor, Path.next(termPath), { edge: 'end' }),
-    });
+    if (Editor.isEnd(editor, editor.selection.focus, termPath)) {
+      Transforms.select(editor, {
+        anchor: Editor.point(editor, Path.next(termPath), { edge: 'end' }),
+        focus: Editor.point(editor, Path.next(termPath), { edge: 'end' }),
+      });
+    }
     // Split current listItem at selection.
     Transforms.splitNodes(editor, {
       match: (node) => Element.isElement(node) && node.type === TYPE_DEFINTION_TERM,
@@ -115,9 +117,10 @@ const onEnter = (
 
     // Split current listItem at selection.
     Transforms.splitNodes(editor, {
-      match: (node) => Element.isElement(node) && node.type === TYPE_DEFINTION_TERM,
+      match: (node) => Element.isElement(node) && node.type === TYPE_DEFINTION_DESCRIPTION,
       mode: 'lowest',
     });
+    return;
   }
   return nextOnKeyDown?.(e);
 };

@@ -32,7 +32,6 @@ const onBackspace = (
     selectedDefinitionItem.type === TYPE_DEFINTION_TERM
   ) {
     const [selectedTerm, selectedTermPath] = [selectedDefinitionItem, selectedDefinitionItemPath];
-
     const [, firstItemNodePath] = Editor.node(editor, [...selectedTermPath, 0]);
     // If cursor is placed at start of first item child
     if (
@@ -40,13 +39,13 @@ const onBackspace = (
         !Path.hasPrevious(selectedTermPath)) ||
       (Range.start(editor.selection) && Node.string(selectedTerm) === '')
     ) {
-      e.preventDefault();
       Editor.withoutNormalizing(editor, () => {
         Transforms.removeNodes(editor, { at: Path.next(selectedTermPath) });
-        Transforms.removeNodes(editor, { at: selectedTermPath });
+        Transforms.liftNodes(editor, { at: selectedTermPath });
       });
       return;
     }
+    return;
   } else if (
     Element.isElement(selectedDefinitionItem) &&
     selectedDefinitionItem.type === TYPE_DEFINTION_DESCRIPTION
@@ -61,7 +60,6 @@ const onBackspace = (
       Path.hasPrevious(selectedDescriptionPath)
     ) {
       Transforms.select(editor, Editor.end(editor, Path.previous(selectedDescriptionPath)));
-      e.preventDefault();
       return;
     }
   }

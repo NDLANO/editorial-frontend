@@ -27,7 +27,7 @@ import {
 } from '../FormikForm/articleFormHooks';
 import { DEFAULT_LICENSE, parseImageUrl } from '../../util/formHelper';
 import { getSlugFromTitle, nullOrUndefined } from '../../util/articleUtil';
-import { PLANNED } from '../../constants';
+import { ARCHIVED, PLANNED, PUBLISHED, UNPUBLISHED } from '../../constants';
 
 const getPublishedDate = (
   values: ArticleFormType,
@@ -47,6 +47,8 @@ const getPublishedDate = (
   }
   return undefined;
 };
+
+export const RESET_COMMENTS_STATUSES = [PUBLISHED, ARCHIVED, UNPUBLISHED];
 
 const draftApiTypeToArticleFormType = (
   article: IArticle | undefined,
@@ -87,7 +89,11 @@ const draftApiTypeToArticleFormType = (
     revisionMeta: article?.revisions ?? [],
     slug: article?.slug,
     responsibleId: article === undefined ? ndlaId : article?.responsible?.responsibleId,
-    comments: article?.comments ?? [],
+    comments:
+      !article?.comments ||
+      (article?.status.current && RESET_COMMENTS_STATUSES.includes(article?.status.current))
+        ? []
+        : article.comments,
   };
 };
 

@@ -10,7 +10,7 @@ import { ButtonV2 } from '@ndla/button';
 import { spacing, fonts } from '@ndla/core';
 import { IStatus } from '@ndla/types-backend/draft-api';
 import { useField } from 'formik';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ARCHIVED, PUBLISHED, UNPUBLISHED } from '../../../constants';
 import Comment, { CommentType } from './Comment';
@@ -52,15 +52,8 @@ const CommentSection = ({ savedStatus }: Props) => {
     [comments],
   );
 
-  useEffect(() => {
-    if (RESET_COMMENTS_STATUSES.find((s) => s === savedStatus?.current)) {
-      comments.onChange({ target: { name: 'comments', value: [] } });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [savedStatus]);
-
   const onDelete = (index: number) => {
-    const updatedList = comments.value?.filter((c, i) => i !== index);
+    const updatedList = comments.value?.filter((_c, i) => i !== index);
 
     updateComments(updatedList);
   };

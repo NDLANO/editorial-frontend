@@ -84,9 +84,9 @@ export const valueWithInlineFootnotesAndContentLinks = {
         },
         {
           data: {
-            'content-id': '1031',
+            contentId: '1031',
             resource: 'content-link',
-            'link-text': 'dolore',
+            linkText: 'dolore',
           },
           type: 'content-link',
           children: [
@@ -119,9 +119,9 @@ export const valueWithInlineFootnotesAndContentLinks = {
         },
         {
           data: {
-            'content-id': '1031',
+            contentId: '1031',
             resource: 'content-link',
-            'link-text': 'laborum',
+            linkText: 'laborum',
           },
           type: 'content-link',
           children: [

@@ -46,8 +46,8 @@ import {
 import { TYPE_RELATED } from '../related/types';
 import { TYPE_CODEBLOCK } from '../codeBlock/types';
 import { TYPE_CONCEPT_LIST } from '../conceptList/types';
-import { TYPE_KEY_NUMBER } from '../keyNumber/types';
-import { defaultKeyNumberBlock } from '../keyNumber/utils';
+import { TYPE_KEY_PERFORMANCE_INDICATOR } from '../keyPerformanceIndicator/types';
+import { defaultKeyNumberBlock } from '../keyPerformanceIndicator/utils';
 
 interface Props {
   editor: Editor;
@@ -212,7 +212,7 @@ const SlateBlockPicker = ({
         onInsertBlock(defaultConceptBlock());
         break;
       }
-      case TYPE_KEY_NUMBER: {
+      case TYPE_KEY_PERFORMANCE_INDICATOR: {
         onInsertBlock(defaultKeyNumberBlock());
         break;
       }

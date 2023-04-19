@@ -6,7 +6,7 @@
  *
  */
 
-import { EmbedData, KeyNumberEmbedData } from '@ndla/types-embed';
+import { EmbedData, KeyPerformanceIndicatorEmbedData } from '@ndla/types-embed';
 import { Descendant, Editor, Element } from 'slate';
 import { jsx as slatejsx } from 'slate-hyperscript';
 import { RenderElementProps } from 'slate-react';
@@ -16,12 +16,12 @@ import { defaultBlockNormalizer, NormalizerConfig } from '../../utils/defaultNor
 import { afterOrBeforeTextBlockElement } from '../../utils/normalizationHelpers';
 import { TYPE_NDLA_EMBED } from '../embed/types';
 import { TYPE_PARAGRAPH } from '../paragraph/types';
-import { TYPE_KEY_NUMBER } from './types';
-import SlateKeyNumber from './SlateKeyNumber';
+import { TYPE_KEY_PERFORMANCE_INDICATOR } from './types';
+import SlateKeyNumber from './SlateKeyPerformanceIndicator';
 
 export interface KeyNumberElement {
-  type: 'key-number';
-  data: KeyNumberEmbedData;
+  type: 'key-performance-indicator';
+  data: KeyPerformanceIndicatorEmbedData;
   isFirstEdit?: boolean;
   children: Descendant[];
 }
@@ -37,18 +37,18 @@ const normalizerConfig: NormalizerConfig = {
   },
 };
 
-export const keyNumberSerializer: SlateSerializer = {
+export const keyPerformanceIndicatorSerializer: SlateSerializer = {
   deserialize(el: HTMLElement) {
     if (el.tagName.toLowerCase() !== TYPE_NDLA_EMBED) return;
     const embed = el as HTMLEmbedElement;
     const embedAttributes = reduceElementDataAttributesV2(
       Array.from(embed.attributes),
     ) as EmbedData;
-    if (embedAttributes.resource !== 'key-number') return;
-    return slatejsx('element', { type: TYPE_KEY_NUMBER, data: embedAttributes });
+    if (embedAttributes.resource !== 'key-performance-indicator') return;
+    return slatejsx('element', { type: TYPE_KEY_PERFORMANCE_INDICATOR, data: embedAttributes });
   },
   serialize(node: Descendant) {
-    if (!Element.isElement(node) || node.type !== TYPE_KEY_NUMBER) return;
+    if (!Element.isElement(node) || node.type !== TYPE_KEY_PERFORMANCE_INDICATOR) return;
     return createEmbedTagV2(node.data);
   },
 };
@@ -58,7 +58,7 @@ export const keyNumberPlugin = (editor: Editor) => {
 
   editor.renderElement = (props: RenderElementProps) => {
     const { element, attributes, children } = props;
-    if (element.type === TYPE_KEY_NUMBER) {
+    if (element.type === TYPE_KEY_PERFORMANCE_INDICATOR) {
       return (
         <SlateKeyNumber element={element} editor={editor} attributes={attributes}>
           {children}
@@ -69,7 +69,7 @@ export const keyNumberPlugin = (editor: Editor) => {
   };
 
   editor.isVoid = (element: Element) => {
-    if (element.type === TYPE_KEY_NUMBER) {
+    if (element.type === TYPE_KEY_PERFORMANCE_INDICATOR) {
       return true;
     }
     return isVoid(element);
@@ -77,7 +77,7 @@ export const keyNumberPlugin = (editor: Editor) => {
 
   editor.normalizeNode = (entry) => {
     const [node] = entry;
-    if (Element.isElement(node) && node.type === TYPE_KEY_NUMBER) {
+    if (Element.isElement(node) && node.type === TYPE_KEY_PERFORMANCE_INDICATOR) {
       if (!defaultBlockNormalizer(editor, entry, normalizerConfig)) {
         return normalizeNode(entry);
       }

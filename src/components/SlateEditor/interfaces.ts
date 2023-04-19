@@ -47,7 +47,7 @@ import { DivElement } from './plugins/div';
 import { SpanElement } from './plugins/span';
 import { ConceptListElement } from './plugins/conceptList';
 import { ConceptBlockElement } from './plugins/concept/block/interfaces';
-import { KeyNumberElement } from './plugins/keyNumber';
+import { KeyNumberElement } from './plugins/keyPerformanceIndicator';
 
 export type SlatePlugin = (editor: Editor) => Editor;
 

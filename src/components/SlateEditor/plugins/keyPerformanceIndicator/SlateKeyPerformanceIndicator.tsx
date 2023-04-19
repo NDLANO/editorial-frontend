@@ -11,9 +11,9 @@ import { IconButtonV2 } from '@ndla/button';
 import { Pencil } from '@ndla/icons/lib/action';
 import { ModalBody, ModalCloseButton, ModalHeaderV2, ModalV2 } from '@ndla/modal';
 import { IImageMetaInformationV3 } from '@ndla/types-backend/build/image-api';
-import { KeyNumberEmbedData } from '@ndla/types-embed';
-import { KeyNumber } from '@ndla/ui';
-import { useCallback, useEffect, useState } from 'react';
+import { KeyPerformanceIndicatorEmbedData } from '@ndla/types-embed';
+import { KeyPerformanceIndicator } from '@ndla/ui';
+import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Editor, Path, Transforms } from 'slate';
 import { ReactEditor, RenderElementProps } from 'slate-react';
@@ -51,7 +51,7 @@ const StyledModalBody = styled(ModalBody)`
 `;
 
 const SlateKeyNumber = ({ element, editor }: Props) => {
-  const [keyNumber, setKeyNumber] = useState<KeyNumberEmbedData>(element.data);
+  const [keyNumber, setKeyNumber] = useState<KeyPerformanceIndicatorEmbedData>(element.data);
   const [isEditing, setIsEditing] = useState<boolean | undefined>(element.isFirstEdit);
   const [image, setImage] = useState<IImageMetaInformationV3 | undefined>(undefined);
   const { t } = useTranslation();
@@ -75,7 +75,7 @@ const SlateKeyNumber = ({ element, editor }: Props) => {
   };
 
   const onSave = useCallback(
-    (data: KeyNumberEmbedData) => {
+    (data: KeyPerformanceIndicatorEmbedData) => {
       setKeyNumber(data);
       setIsEditing(false);
       fetchImage(data.imageId).then((image) => setImage(image));
@@ -93,7 +93,11 @@ const SlateKeyNumber = ({ element, editor }: Props) => {
             </IconButtonV2>
             <DeleteButton aria-label={t('delete')} onClick={handleRemove} />
           </ButtonContainer>
-          <KeyNumber title={keyNumber.title} subTitle={keyNumber.subTitle} image={image} />
+          <KeyPerformanceIndicator
+            title={keyNumber.title}
+            subTitle={keyNumber.subTitle}
+            image={image}
+          />
         </KeyNumberWrapper>
       )}
       {isEditing && (

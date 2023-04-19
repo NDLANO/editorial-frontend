@@ -9,8 +9,8 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
-import { InputV2, TextArea } from '@ndla/forms';
-import { KeyNumberEmbedData } from '@ndla/types-embed';
+import { InputV2 } from '@ndla/forms';
+import { KeyPerformanceIndicatorEmbedData } from '@ndla/types-embed';
 import { spacing } from '@ndla/core';
 import { FieldProps, Formik } from 'formik';
 import { useCallback, useMemo } from 'react';
@@ -21,28 +21,30 @@ import FormikField from '../../../FormikField';
 import validateFormik, { RulesType } from '../../../formikValidationSchema';
 
 interface Props {
-  onSave: (data: KeyNumberEmbedData) => void;
-  initialData: KeyNumberEmbedData;
+  onSave: (data: KeyPerformanceIndicatorEmbedData) => void;
+  initialData: KeyPerformanceIndicatorEmbedData;
   onCancel: () => void;
 }
 
-interface KeyNumberFormValue {
-  resource: 'key-number';
+interface KeyPerformanceIndicatorFormValue {
+  resource: 'key-performance-indicator';
   metaImageId: string;
   language: string;
   title: string;
   subTitle: string;
 }
 
-const toInitialValues = (initialData: KeyNumberEmbedData): KeyNumberFormValue => ({
-  resource: initialData?.resource ?? 'key-number',
+const toInitialValues = (
+  initialData: KeyPerformanceIndicatorEmbedData,
+): KeyPerformanceIndicatorFormValue => ({
+  resource: initialData?.resource ?? 'key-performance-indicator',
   metaImageId: initialData?.imageId ?? '',
   title: initialData?.title ?? '',
   subTitle: initialData?.subTitle ?? '',
   language: initialData?.language ?? 'nb',
 });
 
-const rules: RulesType<KeyNumberFormValue> = {
+const rules: RulesType<KeyPerformanceIndicatorFormValue> = {
   title: {
     required: true,
   },
@@ -80,9 +82,9 @@ const KeyNumberForm = ({ onSave, initialData, onCancel }: Props) => {
   const initialErrors = useMemo(() => validateFormik(initialValues, rules, t), [initialValues, t]);
 
   const onSubmit = useCallback(
-    (values: KeyNumberFormValue) => {
-      const newData: KeyNumberEmbedData = {
-        resource: 'key-number',
+    (values: KeyPerformanceIndicatorFormValue) => {
+      const newData: KeyPerformanceIndicatorEmbedData = {
+        resource: 'key-performance-indicator',
         imageId: values.metaImageId,
         title: values.title,
         subTitle: values.subTitle,

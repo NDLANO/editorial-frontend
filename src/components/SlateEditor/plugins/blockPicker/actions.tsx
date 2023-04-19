@@ -32,7 +32,7 @@ import { TYPE_FILE } from '../file/types';
 import { TYPE_RELATED } from '../related/types';
 import { TYPE_CODEBLOCK } from '../codeBlock/types';
 import { TYPE_CONCEPT_LIST } from '../conceptList/types';
-import { TYPE_KEY_NUMBER } from '../keyNumber/types';
+import { TYPE_KEY_PERFORMANCE_INDICATOR } from '../keyPerformanceIndicator/types';
 
 const renderArticleInModal = (pageId: string) => <HowToHelper pageId={pageId} extraIconPadding />;
 
@@ -126,7 +126,7 @@ const actions: Action[] = [
     requiredScope: DRAFT_ADMIN_SCOPE,
   },
   {
-    data: { type: TYPE_KEY_NUMBER, object: 'keyNumber' },
+    data: { type: TYPE_KEY_PERFORMANCE_INDICATOR, object: 'keyNumber' },
     icon: <HelpCircle />,
     helpIcon: renderArticleInModal('H5P'),
   },

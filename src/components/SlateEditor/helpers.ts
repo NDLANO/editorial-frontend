@@ -13,7 +13,7 @@ import {
 } from './plugins/embed/types';
 import { TYPE_FILE } from './plugins/file/types';
 import { TYPE_FOOTNOTE } from './plugins/footnote/types';
-import { TYPE_KEY_NUMBER } from './plugins/keyNumber/types';
+import { TYPE_KEY_PERFORMANCE_INDICATOR } from './plugins/keyPerformanceIndicator/types';
 import { TYPE_LINK, TYPE_CONTENT_LINK } from './plugins/link/types';
 import { TYPE_MATHML } from './plugins/mathml/types';
 import { TYPE_RELATED } from './plugins/related/types';
@@ -43,5 +43,5 @@ export const blocks = [
   TYPE_FILE,
   TYPE_RELATED,
   TYPE_TABLE,
-  TYPE_KEY_NUMBER,
+  TYPE_KEY_PERFORMANCE_INDICATOR,
 ];

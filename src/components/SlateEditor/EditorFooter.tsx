@@ -13,12 +13,10 @@ import { colors, spacing } from '@ndla/core';
 import { ButtonV2 } from '@ndla/button';
 import { Launch } from '@ndla/icons/common';
 import { IConcept, IStatus as ConceptStatus } from '@ndla/types-backend/concept-api';
-import { IUpdatedArticle, IStatus as DraftStatus, IComment } from '@ndla/types-backend/draft-api';
+import { IUpdatedArticle, IStatus as DraftStatus } from '@ndla/types-backend/draft-api';
 import { useFormikContext } from 'formik';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { SingleValue } from '@ndla/select';
-import sortBy from 'lodash/sortBy';
-import isEqual from 'lodash/isEqual';
 import { toPreviewDraft } from '../../util/routeHelpers';
 import PreviewConceptLightbox from '../PreviewConcept/PreviewConceptLightbox';
 import SaveMultiButton from '../SaveMultiButton';
@@ -31,9 +29,6 @@ import { ARCHIVED, PUBLISHED, UNPUBLISHED } from '../../constants';
 import PreviewDraftLightboxV2 from '../PreviewDraft/PreviewDraftLightboxV2';
 import { useDisableConverter } from '../ArticleConverterContext';
 import { useSession } from '../../containers/Session/SessionProvider';
-import AlertModal from '../AlertModal';
-import { CommentType } from '../../containers/ArticlePage/components/Comment';
-import { RESET_COMMENTS_STATUSES } from '../../containers/ArticlePage/components/CommentSection';
 
 interface Props {
   formIsDirty: boolean;
@@ -50,7 +45,6 @@ interface Props {
   isNewlyCreated: boolean;
   hasErrors?: boolean;
   responsibleId?: string;
-  comments?: IComment[];
 }
 
 interface FormValues {
@@ -58,7 +52,6 @@ interface FormValues {
   language: string;
   revision?: number;
   status: ConceptStatus;
-  comments: CommentType[];
 }
 
 const StyledLine = styled.hr`
@@ -97,18 +90,16 @@ function EditorFooter<T extends FormValues>({
   isNewlyCreated,
   hasErrors,
   responsibleId,
-  comments,
 }: Props) {
-  const { t } = useTranslation();
   const disableConverter = useDisableConverter();
   const [status, setStatus] = useState<SingleValue>(null);
   const [responsible, setResponsible] = useState<SingleValue>(null);
-  const [showWarningModal, setShowWarningModal] = useState(false);
-  const modalShown = useRef(false);
 
   const { ndlaId } = useSession();
+  const { t } = useTranslation();
   const { values, setFieldValue, isSubmitting } = useFormikContext<T>();
   const { createMessage, formatErrorMessage } = useMessages();
+
   // Wait for newStatus to be set to trigger since formik doesn't update fields instantly
   const [newStatus, setNewStatus] = useState<SingleValue>(null);
 
@@ -122,45 +113,13 @@ function EditorFooter<T extends FormValues>({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [newStatus]);
 
-  const catchError = (error: any, createMessage: (message: NewMessageType) => void) => {
-    if (error?.json?.messages) {
-      createMessage(formatErrorMessage(error));
-    } else {
-      createMessage(error);
-    }
-  };
-
-  const updateResponsible = async (responsible: SingleValue) => {
-    try {
-      setResponsible(responsible);
-      setFieldValue('responsibleId', responsible ? responsible.value : null);
-    } catch (error) {
-      catchError(error, createMessage);
-    }
-  };
-
   const onSave = (saveAsNewVersion?: boolean | undefined) => {
     if (STATUSES_RESET_RESPONSIBLE.find((s) => s === status?.value)) {
       updateResponsible(null);
     }
-    const commentsChanged = !isEqual(
-      sortBy(comments, (c) => c.content),
-      sortBy(values?.comments, (c) => c.content),
-    );
-    // Show warning modal when responsible is updated and comments have not changed
-    if (
-      isArticle &&
-      responsible?.value !== responsibleId &&
-      !commentsChanged &&
-      !modalShown.current &&
-      RESET_COMMENTS_STATUSES.every((s) => s !== entityStatus?.current)
-    ) {
-      setShowWarningModal(true);
-    } else {
-      modalShown.current = false;
-      onSaveClick(saveAsNewVersion);
-    }
+    onSaveClick(saveAsNewVersion);
   };
+
   const saveButton = (
     <SaveMultiButton
       large
@@ -172,6 +131,14 @@ function EditorFooter<T extends FormValues>({
       disabled={!!hasErrors}
     />
   );
+
+  const catchError = (error: any, createMessage: (message: NewMessageType) => void) => {
+    if (error?.json?.messages) {
+      createMessage(formatErrorMessage(error));
+    } else {
+      createMessage(error);
+    }
+  };
 
   const isDraftApiType = createGuard<IUpdatedArticle, IConcept>('subjectIds', {
     lacksProp: true,
@@ -189,6 +156,14 @@ function EditorFooter<T extends FormValues>({
         translationKey: 'form.validationOk',
         severity: 'success',
       });
+    } catch (error) {
+      catchError(error, createMessage);
+    }
+  };
+  const updateResponsible = async (responsible: SingleValue) => {
+    try {
+      setResponsible(responsible);
+      setFieldValue('responsibleId', responsible ? responsible.value : null);
     } catch (error) {
       catchError(error, createMessage);
     }
@@ -285,24 +260,6 @@ function EditorFooter<T extends FormValues>({
           </Wrapper>
           {saveButton}
         </div>
-        {isArticle && (
-          <AlertModal
-            title={t('form.workflow.addComment.warn')}
-            label={t('form.workflow.addComment.warn')}
-            show={showWarningModal}
-            text={t('form.workflow.addComment.description')}
-            actions={[
-              {
-                text: 'Ok',
-                onClick: () => {
-                  setShowWarningModal(!showWarningModal);
-                  modalShown.current = true;
-                },
-              },
-            ]}
-            onCancel={() => setShowWarningModal(!showWarningModal)}
-          />
-        )}
       </>
     </Footer>
   );

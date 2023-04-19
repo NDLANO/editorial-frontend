@@ -73,7 +73,7 @@ const InputComment = ({ comments, setComments }: Props) => {
     const formattedTime = format(currentDate, 'HH:mm');
 
     setInputValue(
-      `\n${t('form.workflow.addComment.from')} ${
+      `\n${t('form.workflow.addComment.createdBy')} ${
         userName?.split(' ')[0]
       } (${formattedDate} - ${formattedTime})`,
     );

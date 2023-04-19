@@ -126,7 +126,6 @@ const FrontpageArticleForm = ({
           isConcept={false}
           hideSecondaryButton={false}
           responsibleId={article?.responsible?.responsibleId}
-          comments={article?.comments}
         />
         <AlertModalWrapper
           isSubmitting={isSubmitting}

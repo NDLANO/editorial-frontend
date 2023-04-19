@@ -817,7 +817,7 @@ const phrases = {
         button: 'Slett',
       },
       addComment: {
-        from: 'Fra',
+        createdBy: 'Oppretta av',
         warn: 'Hugs å legge til kommentar',
         description: 'Du har endra ansvarleg uten å legge til kommentar!',
       },

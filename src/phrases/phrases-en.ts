@@ -816,7 +816,7 @@ const phrases = {
         button: 'Delete',
       },
       addComment: {
-        from: 'From',
+        createdBy: 'Created by',
         warn: 'Remember to add a comment',
         description: 'You have changed responsible without adding a comment!',
       },

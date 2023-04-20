@@ -58,7 +58,7 @@ const CommentSection = ({ savedStatus }: Props) => {
 
   const updateComments = useCallback(
     (c: CommentType[]) => comments.onChange({ target: { name: 'comments', value: c } }),
-    [comments],
+    [comments.onChange],
   );
 
   const onDelete = (index: number) => {

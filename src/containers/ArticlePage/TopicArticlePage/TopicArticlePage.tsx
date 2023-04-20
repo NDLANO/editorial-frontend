@@ -9,6 +9,7 @@ import CreateTopicArticle from './CreateTopicArticle';
 import EditTopicArticle from './EditTopicArticle';
 import { useDraft } from '../../../modules/draft/draftQueries';
 import ResourcePage from '../../../components/ResourcePage';
+import { MAX_WIDTH_WITH_COMMENTS } from '../styles';
 
 const TopicArticlePage = () => (
   <ResourcePage
@@ -16,6 +17,7 @@ const TopicArticlePage = () => (
     EditComponent={EditTopicArticle}
     useHook={useDraft}
     createUrl="/subject-matter/topic-article/new"
+    maxWidth={MAX_WIDTH_WITH_COMMENTS}
   />
 );
 

@@ -9,6 +9,7 @@ import CreateLearningResource from './CreateLearningResource';
 import EditLearningResource from './EditLearningResource';
 import { useDraft } from '../../../modules/draft/draftQueries';
 import ResourcePage from '../../../components/ResourcePage';
+import { MAX_WIDTH_WITH_COMMENTS } from '../styles';
 
 const LearningResourcePage = () => (
   <ResourcePage
@@ -16,6 +17,7 @@ const LearningResourcePage = () => (
     EditComponent={EditLearningResource}
     useHook={useDraft}
     createUrl="/subject-matter/learning-resource/new"
+    maxWidth={MAX_WIDTH_WITH_COMMENTS}
   />
 );
 

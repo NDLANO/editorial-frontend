@@ -18,7 +18,8 @@ import { CommentType, textAreaStyles } from './Comment';
 import formatDate, { formatDateForBackend } from '../../../util/formatDate';
 
 const CommentCard = styled.div`
-  width: 200px;
+  max-width: inherit;
+  width: 100%;
   border: 1px solid ${colors.brand.neutral7};
   border-radius: ${misc.borderRadius};
   padding: ${spacing.xsmall};

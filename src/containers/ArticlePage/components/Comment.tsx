@@ -53,7 +53,6 @@ const StyledClickableTextArea = styled(TextAreaV2)`
 `;
 
 const CommentCard = styled.li`
-  width: 200px;
   border: 1px solid ${colors.brand.neutral7};
   border-radius: ${misc.borderRadius};
   padding: ${spacing.xsmall};

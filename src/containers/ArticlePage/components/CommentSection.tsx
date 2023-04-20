@@ -16,15 +16,23 @@ import { ARCHIVED, PUBLISHED, UNPUBLISHED } from '../../../constants';
 import Comment, { CommentType } from './Comment';
 import InputComment from './InputComment';
 
+export const RESET_COMMENTS_STATUSES = [PUBLISHED, ARCHIVED, UNPUBLISHED];
+export const COMMENT_WIDTH = 220;
+export const SPACING_COMMENT = Number(spacing.small.replace('px', ''));
+
 const CommentColumn = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-top: 32px;
-  margin-left: ${spacing.nsmall};
+  margin-left: ${SPACING_COMMENT}px;
+  width: 100%;
+  max-width: ${COMMENT_WIDTH}px;
 `;
 
 const StyledList = styled.ul`
+  max-width: ${COMMENT_WIDTH}px;
+  width: 100%;
   list-style: none;
   padding: 0;
   margin: 0;
@@ -34,8 +42,6 @@ const StyledOpenCloseAll = styled(ButtonV2)`
   ${fonts.sizes('16px')};
   margin-left: auto;
 `;
-
-export const RESET_COMMENTS_STATUSES = [PUBLISHED, ARCHIVED, UNPUBLISHED];
 
 interface Props {
   savedStatus?: IStatus;

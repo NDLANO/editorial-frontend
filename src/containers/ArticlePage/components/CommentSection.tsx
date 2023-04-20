@@ -28,6 +28,10 @@ const CommentColumn = styled.div`
   margin-left: ${SPACING_COMMENT}px;
   width: 100%;
   max-width: ${COMMENT_WIDTH}px;
+
+  &[data-hidden='true'] {
+    visibility: hidden;
+  }
 `;
 
 const StyledList = styled.ul`
@@ -48,7 +52,6 @@ interface Props {
 }
 const CommentSection = ({ savedStatus }: Props) => {
   const [allOpen, setAllOpen] = useState<boolean | undefined>(undefined);
-
   const { t } = useTranslation();
 
   const [comments] = useField<CommentType[]>('comments');
@@ -70,37 +73,36 @@ const CommentSection = ({ savedStatus }: Props) => {
       target: { name: 'comments', value: comments.value.map((c) => ({ ...c, isOpen: allOpen })) },
     });
   };
+  const commentsHidden = RESET_COMMENTS_STATUSES.some((s) => s === savedStatus?.current);
 
   return (
     <>
-      {RESET_COMMENTS_STATUSES.every((s) => s !== savedStatus?.current) && (
-        <CommentColumn>
-          <InputComment comments={comments.value ?? []} setComments={updateComments} />
-          {comments.value.length ? (
-            <StyledOpenCloseAll
-              variant="stripped"
-              onClick={() => toggleAllOpen(allOpen !== undefined ? !allOpen : true)}
-              fontWeight="semibold"
-            >
-              {allOpen ? t('form.hideAll') : t('form.openAll')}
-            </StyledOpenCloseAll>
-          ) : null}
-          <StyledList>
-            {comments.value.map((comment, index) => (
-              <Comment
-                key={'id' in comment ? comment.id : comment.generatedId}
-                comment={comment}
-                setComments={updateComments}
-                comments={comments.value ?? []}
-                allOpen={allOpen}
-                onDelete={onDelete}
-                index={index}
-                setAllOpen={setAllOpen}
-              />
-            ))}
-          </StyledList>
-        </CommentColumn>
-      )}
+      <CommentColumn data-hidden={commentsHidden} aria-hidden={commentsHidden}>
+        <InputComment comments={comments.value ?? []} setComments={updateComments} />
+        {comments.value.length ? (
+          <StyledOpenCloseAll
+            variant="stripped"
+            onClick={() => toggleAllOpen(allOpen !== undefined ? !allOpen : true)}
+            fontWeight="semibold"
+          >
+            {allOpen ? t('form.hideAll') : t('form.openAll')}
+          </StyledOpenCloseAll>
+        ) : null}
+        <StyledList>
+          {comments.value.map((comment, index) => (
+            <Comment
+              key={'id' in comment ? comment.id : comment.generatedId}
+              comment={comment}
+              setComments={updateComments}
+              comments={comments.value ?? []}
+              allOpen={allOpen}
+              onDelete={onDelete}
+              index={index}
+              setAllOpen={setAllOpen}
+            />
+          ))}
+        </StyledList>
+      </CommentColumn>
     </>
   );
 };

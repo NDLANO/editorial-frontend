@@ -16,5 +16,6 @@ export const FlexWrapper = styled.div`
 `;
 
 export const MainContent = styled.div`
+  flex: 1;
   max-width: 1024px;
 `;

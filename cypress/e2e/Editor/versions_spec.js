@@ -32,8 +32,6 @@ describe('Workflow features', () => {
     cy.get('[data-testid=notesInput]').click().should('have.focus').type('Test merknad');
     cy.get('[data-cy=responsible-select]').click().type('Ed test {enter}');
     cy.get('[data-testid=saveLearningResourceButtonWrapper] button').first().click();
-    cy.contains('button', 'Ok').click();
-    cy.contains('Lagre').click();
     cy.apiwait('@patchUserData');
     cy.get('[data-testid=notesInput]').should('not.exist');
     cy.get('section[id=learning-resource-workflow]').find('tr').its('length').should('eq', 10);
@@ -56,8 +54,6 @@ describe('Workflow features', () => {
     cy.apiwait('@getUsersResponsible');
     cy.get('[data-cy=responsible-select]').click().type('Ed test {enter}');
     cy.get('[data-testid=saveLearningResourceButtonWrapper] button').first().click();
-    cy.contains('button', 'Ok').click();
-    cy.contains('Lagre').click();
     cy.apiwait([
       `@article-${ARTICLE_ID}`,
       `@updateDraft-${ARTICLE_ID}`,

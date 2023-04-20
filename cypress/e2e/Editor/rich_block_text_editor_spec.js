@@ -34,8 +34,6 @@ describe('Learning resource editing', () => {
     cy.apiwait('@getUsersResponsible');
     cy.get('[data-cy=responsible-select]').click().type('Ed test {enter}');
     cy.get('[data-testid=saveLearningResourceButtonWrapper] button').first().click();
-    cy.contains('button', 'Ok').click();
-    cy.contains('Lagre').click();
     cy.apiwait('@patchUserData');
     cy.get('[data-testid=saveLearningResourceButtonWrapper] button').contains('Lagret');
   });

@@ -25,13 +25,13 @@ const Wrapper = styled.div`
   flex-direction: column;
 `;
 
-const PageContent = styled.div<{ maxWidth: number }>`
+const PageContent = styled.div`
   width: 100%;
   margin-left: auto;
   margin-right: auto;
   padding-left: 24px;
   padding-right: 24px;
-  max-width: ${(p) => p.maxWidth}px;
+  max-width: 1024px;
 `;
 interface ResourceComponentProps {
   isNewlyCreated?: boolean;
@@ -44,13 +44,13 @@ interface BaseResource {
 interface Props<T extends BaseResource> {
   CreateComponent: ComponentType;
   EditComponent: ComponentType<ResourceComponentProps>;
+  className?: string;
   useHook: (
     params: { id: number; language?: string },
     options?: UseQueryOptions<T>,
   ) => UseQueryResult<T>;
   createUrl: string;
   titleTranslationKey?: string;
-  maxWidth?: number;
 }
 
 const ResourcePage = <T extends BaseResource>({
@@ -59,14 +59,14 @@ const ResourcePage = <T extends BaseResource>({
   useHook,
   createUrl,
   titleTranslationKey,
-  maxWidth = 1024,
+  className,
 }: Props<T>) => {
   const { t } = useTranslation();
   const previousLocation = usePreviousLocation();
 
   return (
     <Wrapper>
-      <PageContent maxWidth={maxWidth}>
+      <PageContent className={className}>
         {titleTranslationKey && <HelmetWithTracker title={t(titleTranslationKey)} />}
         <Routes>
           <Route path="new" element={<CreateComponent />} />

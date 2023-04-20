@@ -9,7 +9,7 @@ import { useDraft } from '../../../modules/draft/draftQueries';
 import ResourcePage from '../../../components/ResourcePage';
 import CreateFrontpageArticle from './CreateFrontpageArticle';
 import EditFrontpageArticle from './EditFrontpageArticle';
-import { MAX_WIDTH_WITH_COMMENTS } from '../styles';
+import { articleResourcePageStyle } from '../styles';
 
 const FrontpageArticlePage = () => (
   <ResourcePage
@@ -17,7 +17,7 @@ const FrontpageArticlePage = () => (
     EditComponent={EditFrontpageArticle}
     useHook={useDraft}
     createUrl="/subject-matter/frontpage-article/new"
-    maxWidth={MAX_WIDTH_WITH_COMMENTS}
+    css={articleResourcePageStyle}
   />
 );
 

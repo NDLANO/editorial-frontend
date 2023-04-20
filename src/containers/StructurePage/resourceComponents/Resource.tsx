@@ -124,7 +124,7 @@ interface Props {
   id?: string; // required for MakeDndList, otherwise ignored
   responsible?: string;
   resource: ResourceWithNodeConnectionAndMeta;
-  onDelete?: (connectionId: string) => void;
+  onDelete?: () => void;
   updateResource?: (resource: ResourceWithNodeConnection) => void;
   dragHandleProps?: DraggableProvidedDragHandleProps;
   contentMetaLoading: boolean;
@@ -250,12 +250,7 @@ const Resource = ({
               currentNodeId={currentNodeId}
             />
             <VersionHistory resource={resource} contentType={contentType} />
-            <RemoveButton
-              onClick={() => (onDelete ? onDelete(resource.connectionId) : null)}
-              size="xsmall"
-              colorTheme="danger"
-              disabled={!onDelete}
-            >
+            <RemoveButton onClick={onDelete} size="xsmall" colorTheme="danger" disabled={!onDelete}>
               {t('form.remove')}
             </RemoveButton>
           </ButtonRow>

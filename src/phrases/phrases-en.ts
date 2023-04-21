@@ -521,6 +521,7 @@ const phrases = {
   },
   blogPostForm: {
     title: 'Edit blog post',
+    languageExplanation: 'Choose language for screen readers',
     sizes: {
       normal: 'Normal',
       large: 'Large',

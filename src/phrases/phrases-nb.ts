@@ -522,6 +522,7 @@ const phrases = {
   },
   blogPostForm: {
     title: 'Rediger bloggpost',
+    languageExplanation: 'Velg språk for skjermleser',
     sizes: {
       normal: 'Normal',
       large: 'Stor',

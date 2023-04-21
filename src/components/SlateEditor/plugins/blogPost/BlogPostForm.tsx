@@ -133,7 +133,7 @@ const BlogPostForm = ({ initialData, onSave, onCancel }: Props) => {
                 after={
                   <StyledFormikField name="language">
                     {({ field }: FieldProps) => (
-                      <StyledSelect {...field}>
+                      <StyledSelect {...field} title={t('blogPostForm.languageExplanation')}>
                         {supportedLanguages.map((lang) => (
                           <option value={lang} key={lang}>
                             {t(`languages.${lang}`)}

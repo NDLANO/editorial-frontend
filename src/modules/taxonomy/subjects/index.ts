@@ -111,24 +111,6 @@ const addSubjectTopic = ({ body, taxonomyVersion }: SubjectTopicPostParams): Pro
   });
 };
 
-interface SubjectTopicPutParams extends WithTaxonomyVersion {
-  connectionId: string;
-  body: SubjectTopicPutBody;
-}
-
-const updateSubjectTopic = ({
-  connectionId,
-  taxonomyVersion,
-  body,
-}: SubjectTopicPutParams): Promise<void> => {
-  return putAndResolve({
-    url: `${subjectTopicsUrl}/${connectionId}`,
-    taxonomyVersion,
-    body: JSON.stringify(body),
-    alternateResolve: resolveVoidOrRejectWithError,
-  });
-};
-
 interface SubjectPutParams extends WithTaxonomyVersion {
   id: string;
   body: SubjectPutBody;
@@ -226,7 +208,6 @@ export {
   fetchSubjectTopics,
   addSubject,
   addSubjectTopic,
-  updateSubjectTopic,
   updateSubjectMetadata,
   updateSubject,
   deleteSubject,

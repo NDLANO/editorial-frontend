@@ -99,7 +99,6 @@ const LearningResourceForm = ({
           taxonomy={articleTaxonomy}
           content={{ ...article, title: article?.title?.title, language: articleLanguage }}
           editUrl={editUrl}
-          getEntity={getArticle}
           isSubmitting={isSubmitting}
           type="standard"
           expirationDate={getExpirationDate(article)}
@@ -110,7 +109,6 @@ const LearningResourceForm = ({
             article={article}
             taxonomy={articleTaxonomy}
             updateNotes={updateArticle}
-            getArticle={getArticle}
             handleSubmit={handleSubmit}
           />
         </TaxonomyVersionProvider>

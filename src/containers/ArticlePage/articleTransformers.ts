@@ -27,7 +27,6 @@ import {
 } from '../FormikForm/articleFormHooks';
 import { DEFAULT_LICENSE, parseImageUrl } from '../../util/formHelper';
 import { getSlugFromTitle, nullOrUndefined } from '../../util/articleUtil';
-import { PLANNED } from '../../constants';
 
 const getPublishedDate = (
   values: ArticleFormType,
@@ -251,47 +250,6 @@ export const topicArticleFormTypeToDraftApiType = (
     relatedContent: article.relatedContent,
     revisionMeta: article.revisionMeta,
     responsibleId: article.responsibleId,
-  };
-};
-
-export const updatedDraftApiTypeToDraftApiType = (
-  article: IUpdatedArticle,
-  id: number,
-): IArticle => {
-  const language = article.language!;
-
-  return {
-    id: id,
-    revision: article.revision,
-    status: { current: article.status ?? PLANNED, other: [] },
-    title: article.title ? { title: article.title, language } : undefined,
-    content: article.content ? { content: article.content, language } : undefined,
-    copyright: article.copyright,
-    tags: article.tags ? { tags: article.tags, language } : undefined,
-    requiredLibraries: article.requiredLibraries ?? [],
-    visualElement: article.visualElement
-      ? { visualElement: article.visualElement, language }
-      : undefined,
-    introduction: article.introduction
-      ? { introduction: article.introduction, language }
-      : undefined,
-    metaDescription: article.metaDescription
-      ? { metaDescription: article.metaDescription, language }
-      : undefined,
-    metaImage: article.metaImage ? { ...article.metaImage, language, url: '' } : undefined,
-    created: '',
-    updated: '',
-    updatedBy: '',
-    published: article.published ?? '',
-    articleType: article.articleType ?? 'topic-article',
-    supportedLanguages: [],
-    notes: [],
-    editorLabels: article.editorLabels ?? [],
-    grepCodes: article.grepCodes ?? [],
-    conceptIds: article.conceptIds ?? [],
-    availability: article.availability ?? 'everyone',
-    relatedContent: article.relatedContent ?? [],
-    revisions: article.revisionMeta ?? [],
   };
 };
 

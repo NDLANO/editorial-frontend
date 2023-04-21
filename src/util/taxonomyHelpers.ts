@@ -10,21 +10,13 @@ import groupBy from 'lodash/groupBy';
 import merge from 'lodash/merge';
 import sortBy from 'lodash/sortBy';
 import uniqBy from 'lodash/uniqBy';
-import { IStatus } from '@ndla/types-backend/draft-api';
 import { FlattenedResourceType } from '../interfaces';
 import {
   ResourceType,
-  ResourceWithTopicConnection,
   SubjectTopic,
   TaxonomyElement,
 } from '../modules/taxonomy/taxonomyApiInterfaces';
-import {
-  updateTopicResource,
-  updateTopicSubtopic,
-  updateSubjectTopic,
-  fetchTopic,
-  fetchSubject,
-} from '../modules/taxonomy';
+import { fetchTopic, fetchSubject } from '../modules/taxonomy';
 import { getContentTypeFromResourceTypes } from './resourceHelpers';
 import { ChildNodeType } from '../modules/nodes/nodeApiTypes';
 import { ResourceWithNodeConnectionAndMeta } from '../containers/StructurePage/resourceComponents/StructureResources';
@@ -162,61 +154,6 @@ const sortIntoCreateDeleteUpdate = <T extends { id: string }>({
   return [createItems, deleteItems, updateItems];
 };
 
-// Same structuring used from ndla-frontend
-
-const getResourcesGroupedByResourceTypes = (
-  resourcesByTopic: TopicResource[],
-): Record<string, TopicResource[]> => {
-  return resourcesByTopic.reduce<Record<string, TopicResource[]>>((obj, resource) => {
-    const resourceTypesWithResources = resource.resourceTypes.map((type) => {
-      const existing = obj[type.id] ?? [];
-      return { ...type, resources: [...existing, resource] };
-    });
-    const reduced = resourceTypesWithResources.reduce(
-      (acc, type) => ({ ...acc, [type.id]: type.resources }),
-      {},
-    );
-    return { ...obj, ...reduced };
-  }, {});
-};
-
-// Same structuring used from ndla-frontend
-const getTopicResourcesByType = (
-  resourceTypes: ResourceType[],
-  groupedResourceListItem: Record<string, TopicResource[]>,
-): (ResourceType & { resources: TopicResource[] })[] => {
-  return resourceTypes
-    .map((type) => {
-      const resources: TopicResource[] = groupedResourceListItem[type.id] ?? [];
-      return { ...type, resources };
-    })
-    .filter((type) => type.resources.length > 0);
-};
-
-const topicResourcesByTypeWithMetaData = (
-  resorceTypesByTopic: (ResourceType & {
-    resources: TopicResource[];
-  })[],
-) => {
-  return resorceTypesByTopic.map((type) => ({
-    ...type,
-    contentType: getContentTypeFromResourceTypes([type]).contentType,
-  }));
-};
-
-interface TopicResource extends ResourceWithTopicConnection {
-  articleType?: string;
-  status?: IStatus;
-}
-const groupSortResourceTypesFromTopicResources = (
-  resourceTypes: ResourceType[],
-  topicResources: TopicResource[],
-) => {
-  const sortedResourceTypes = getResourcesGroupedByResourceTypes(topicResources);
-  const resorceTypesByTopic = getTopicResourcesByType(resourceTypes, sortedResourceTypes);
-  return topicResourcesByTypeWithMetaData(resorceTypesByTopic);
-};
-
 export const safeConcat = <T>(toAdd: T, existing?: T[]) =>
   existing ? existing.concat(toAdd) : [toAdd];
 
@@ -260,31 +197,6 @@ const groupTopics = (allTopics: SubjectTopic[]) =>
     );
   }, allTopics);
 
-const getCurrentTopic = ({
-  params,
-  allTopics = [],
-}: {
-  params: {
-    topic?: string;
-    subtopics?: string;
-  };
-  allTopics: SubjectTopic[];
-}) => {
-  const { topic, subtopics } = params;
-  const topics = subtopics?.split('/');
-  if (topics && topics.length > 0) {
-    const lastTopic = topics.slice(-1)[0];
-    return allTopics.find((t) => t.id === lastTopic);
-  }
-  if (topic) {
-    return allTopics.find((t) => t.id === topic);
-  }
-};
-
-const getSubtopics = (topicId: string, allTopics: SubjectTopic[]) => {
-  return allTopics.filter((t) => t.parent === topicId);
-};
-
 const selectedResourceTypeValue = (resourceTypes: { id: string; parentId?: string }[]): string => {
   if (resourceTypes.length === 0) {
     return '';
@@ -302,28 +214,6 @@ const pathToUrnArray = (path: string) =>
     .split('/')
     .splice(1)
     .map((url) => `urn:${url}`);
-
-const updateRelevanceId = (
-  connectionId: string,
-  body: {
-    relevanceId?: string;
-    primary?: boolean;
-    rank?: number;
-  },
-  taxonomyVersion: string,
-): Promise<void> => {
-  const [, connectionType] = connectionId.split(':');
-  switch (connectionType) {
-    case 'topic-resource':
-      return updateTopicResource({ id: connectionId, body, taxonomyVersion });
-    case 'topic-subtopic':
-      return updateTopicSubtopic({ connectionId, body, taxonomyVersion });
-    case 'subject-topic':
-      return updateSubjectTopic({ connectionId, body, taxonomyVersion });
-    default:
-      return new Promise(() => {});
-  }
-};
 
 const getBreadcrumbFromPath = async (
   path: string,
@@ -348,16 +238,9 @@ export {
   groupChildNodes,
   flattenResourceTypesAndAddContextTypes,
   sortIntoCreateDeleteUpdate,
-  getResourcesGroupedByResourceTypes,
-  getTopicResourcesByType,
-  topicResourcesByTypeWithMetaData,
-  groupSortResourceTypesFromTopicResources,
   groupTopics,
-  getCurrentTopic,
-  getSubtopics,
   sortByName,
   selectedResourceTypeValue,
   pathToUrnArray,
-  updateRelevanceId,
   getBreadcrumbFromPath,
 };

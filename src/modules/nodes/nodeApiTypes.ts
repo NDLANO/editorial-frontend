@@ -50,6 +50,13 @@ export interface GetNodeResourcesParams {
   type?: string;
 }
 
+export interface NodeContext {
+  publicId: string;
+  rootId: string;
+  contextId: string;
+  path: string;
+}
+
 export interface NodeType {
   contentUri?: string;
   id: string;
@@ -62,6 +69,7 @@ export interface NodeType {
   translations: NodeTranslation[];
   supportedLanguages: string[];
   nodeType: NodeTypeValue;
+  contexts: NodeContext[];
   resourceTypes: {
     id: string;
     name: string;
@@ -88,6 +96,7 @@ export interface ResourceWithNodeConnection {
   translations: NodeTranslation[];
   supportedLanguages: string[];
   nodeType: NodeTypeValue;
+  contexts: NodeContext[];
   resourceTypes: {
     id: string;
     name: string;

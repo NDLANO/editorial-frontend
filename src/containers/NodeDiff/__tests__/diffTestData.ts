@@ -1,3 +1,4 @@
+import { tr } from 'date-fns/locale';
 import { DiffTree, NodeTree } from '../diffUtils';
 
 export const nodeTreeWithNoChildren: NodeTree = {
@@ -34,6 +35,14 @@ export const nodeTreeWithNoChildren: NodeTree = {
     resources: [],
     resourceTypes: [],
     nodeType: 'SUBJECT',
+    contexts: [
+      {
+        publicId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+        rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+        path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+        contextId: 'sub',
+      },
+    ],
   },
   children: [],
 };
@@ -68,6 +77,14 @@ export const nodeTreeWithNoChildrenUpdated: NodeTree = {
     supportedLanguages: ['nb', 'nn'],
     resources: [],
     resourceTypes: [],
+    contexts: [
+      {
+        publicId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+        rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+        path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+        contextId: 'sub',
+      },
+    ],
     nodeType: 'SUBJECT',
   },
   children: [],
@@ -177,6 +194,26 @@ export const nodeTreeWithNoChildrenDiff: DiffTree = {
       diffType: 'NONE',
     },
     resourceTypes: { diffType: 'NONE', original: [], other: [] },
+    contexts: {
+      diffType: 'NONE',
+      ignored: true,
+      original: [
+        {
+          publicId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+          rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+          path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+          contextId: 'sub',
+        },
+      ],
+      other: [
+        {
+          publicId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+          rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+          path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+          contextId: 'sub',
+        },
+      ],
+    },
     nodeType: { diffType: 'NONE', original: 'SUBJECT', other: 'SUBJECT' },
   },
   children: [],
@@ -215,6 +252,14 @@ export const nodeTreeWithDirectChildren: NodeTree = {
     supportedLanguages: ['en', 'nb', 'nn'],
     resources: [],
     resourceTypes: [],
+    contexts: [
+      {
+        publicId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+        rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+        path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+        contextId: 'sub',
+      },
+    ],
     nodeType: 'SUBJECT',
   },
   children: [
@@ -251,6 +296,14 @@ export const nodeTreeWithDirectChildren: NodeTree = {
       resources: [],
       nodeType: 'TOPIC',
       resourceTypes: [],
+      contexts: [
+        {
+          publicId: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
+          rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+          path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
+          contextId: 'top1',
+        },
+      ],
     },
     {
       id: 'urn:topic:1:d208bf2d-836c-43fe-977b-de4af1771396',
@@ -285,6 +338,14 @@ export const nodeTreeWithDirectChildren: NodeTree = {
       resources: [],
       nodeType: 'TOPIC',
       resourceTypes: [],
+      contexts: [
+        {
+          publicId: 'urn:topic:1:d208bf2d-836c-43fe-977b-de4af1771396',
+          rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+          path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:d208bf2d-836c-43fe-977b-de4af1771396',
+          contextId: 'top2',
+        },
+      ],
     },
   ],
 };
@@ -323,6 +384,14 @@ export const nodeTreeWithDirectChildrenUpdated: NodeTree = {
     resources: [],
     nodeType: 'SUBJECT',
     resourceTypes: [],
+    contexts: [
+      {
+        publicId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+        rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+        path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+        contextId: 'sub',
+      },
+    ],
   },
   children: [
     {
@@ -358,6 +427,14 @@ export const nodeTreeWithDirectChildrenUpdated: NodeTree = {
       resources: [],
       nodeType: 'TOPIC',
       resourceTypes: [],
+      contexts: [
+        {
+          publicId: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
+          rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+          path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
+          contextId: 'top1',
+        },
+      ],
     },
     {
       id: 'urn:topic:1:00018b29-3b51-478d-a691-20732e0601fd',
@@ -392,6 +469,14 @@ export const nodeTreeWithDirectChildrenUpdated: NodeTree = {
       resources: [],
       nodeType: 'TOPIC',
       resourceTypes: [],
+      contexts: [
+        {
+          publicId: 'urn:topic:1:00018b29-3b51-478d-a691-20732e0601fd',
+          rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+          path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:00018b29-3b51-478d-a691-20732e0601fd',
+          contextId: 'top2',
+        },
+      ],
     },
   ],
 };
@@ -498,6 +583,26 @@ export const nodeTreeWithDirectChildrenDiff: DiffTree = {
     resourcesChanged: { diffType: 'NONE' },
     resourceTypes: { diffType: 'NONE', original: [], other: [] },
     nodeType: { diffType: 'NONE', original: 'SUBJECT', other: 'SUBJECT' },
+    contexts: {
+      diffType: 'NONE',
+      ignored: true,
+      original: [
+        {
+          publicId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+          rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+          path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+          contextId: 'sub',
+        },
+      ],
+      other: [
+        {
+          publicId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+          rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+          path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+          contextId: 'sub',
+        },
+      ],
+    },
   },
   children: [
     {
@@ -625,6 +730,26 @@ export const nodeTreeWithDirectChildrenDiff: DiffTree = {
         other: [],
         diffType: 'NONE',
       },
+      contexts: {
+        diffType: 'NONE',
+        ignored: true,
+        original: [
+          {
+            publicId: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
+            rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+            path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
+            contextId: 'top1',
+          },
+        ],
+        other: [
+          {
+            publicId: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
+            rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+            path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
+            contextId: 'top1',
+          },
+        ],
+      },
     },
     {
       changed: { diffType: 'DELETED' },
@@ -703,7 +828,6 @@ export const nodeTreeWithDirectChildrenDiff: DiffTree = {
         other: undefined,
         diffType: 'DELETED',
       },
-
       supportedLanguages: {
         original: ['nb', 'nn'],
         other: undefined,
@@ -739,6 +863,19 @@ export const nodeTreeWithDirectChildrenDiff: DiffTree = {
         original: [],
         other: undefined,
         diffType: 'DELETED',
+      },
+      contexts: {
+        diffType: 'DELETED',
+        ignored: true,
+        original: [
+          {
+            publicId: 'urn:topic:1:d208bf2d-836c-43fe-977b-de4af1771396',
+            rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+            path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:d208bf2d-836c-43fe-977b-de4af1771396',
+            contextId: 'top2',
+          },
+        ],
+        other: undefined,
       },
     },
     {
@@ -854,6 +991,19 @@ export const nodeTreeWithDirectChildrenDiff: DiffTree = {
         other: [],
         diffType: 'ADDED',
       },
+      contexts: {
+        diffType: 'ADDED',
+        ignored: true,
+        original: undefined,
+        other: [
+          {
+            publicId: 'urn:topic:1:00018b29-3b51-478d-a691-20732e0601fd',
+            rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+            path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:00018b29-3b51-478d-a691-20732e0601fd',
+            contextId: 'top2',
+          },
+        ],
+      },
     },
   ],
 };
@@ -892,6 +1042,14 @@ export const nodeTreeWithDirectChildrenAndResources: NodeTree = {
     resources: [],
     nodeType: 'SUBJECT',
     resourceTypes: [],
+    contexts: [
+      {
+        publicId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+        rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+        path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+        contextId: 'sub',
+      },
+    ],
   },
   children: [
     {
@@ -927,6 +1085,14 @@ export const nodeTreeWithDirectChildrenAndResources: NodeTree = {
       resources: [],
       nodeType: 'TOPIC',
       resourceTypes: [],
+      contexts: [
+        {
+          publicId: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
+          rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+          path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
+          contextId: 'top',
+        },
+      ],
     },
     {
       id: 'urn:topic:1:d208bf2d-836c-43fe-977b-de4af1771396',
@@ -961,6 +1127,14 @@ export const nodeTreeWithDirectChildrenAndResources: NodeTree = {
       resources: [],
       nodeType: 'TOPIC',
       resourceTypes: [],
+      contexts: [
+        {
+          publicId: 'urn:topic:1:d208bf2d-836c-43fe-977b-de4af1771396',
+          rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+          path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:d208bf2d-836c-43fe-977b-de4af1771396',
+          contextId: 'top',
+        },
+      ],
     },
   ],
 };
@@ -999,6 +1173,14 @@ export const nodeTreeWithNestedChildren: NodeTree = {
     resources: [],
     nodeType: 'SUBJECT',
     resourceTypes: [],
+    contexts: [
+      {
+        publicId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+        rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+        path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+        contextId: 'sub',
+      },
+    ],
   },
   children: [
     {
@@ -1034,6 +1216,14 @@ export const nodeTreeWithNestedChildren: NodeTree = {
       resources: [],
       nodeType: 'TOPIC',
       resourceTypes: [],
+      contexts: [
+        {
+          publicId: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
+          rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+          path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
+          contextId: 'top',
+        },
+      ],
     },
     {
       id: 'urn:topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
@@ -1068,6 +1258,14 @@ export const nodeTreeWithNestedChildren: NodeTree = {
       resources: [],
       nodeType: 'TOPIC',
       resourceTypes: [],
+      contexts: [
+        {
+          publicId: 'urn:topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
+          rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+          path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
+          contextId: 'top',
+        },
+      ],
     },
     {
       id: 'urn:topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
@@ -1102,6 +1300,14 @@ export const nodeTreeWithNestedChildren: NodeTree = {
       resources: [],
       nodeType: 'TOPIC',
       resourceTypes: [],
+      contexts: [
+        {
+          publicId: 'urn:topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
+          rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+          path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
+          contextId: 'top',
+        },
+      ],
     },
   ],
 };
@@ -1140,6 +1346,14 @@ export const nodeTreeWithNestedChildrenUpdated: NodeTree = {
     resources: [],
     nodeType: 'SUBJECT',
     resourceTypes: [],
+    contexts: [
+      {
+        publicId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+        rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+        path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+        contextId: 'sub',
+      },
+    ],
   },
   children: [
     {
@@ -1175,6 +1389,14 @@ export const nodeTreeWithNestedChildrenUpdated: NodeTree = {
       resources: [],
       nodeType: 'TOPIC',
       resourceTypes: [],
+      contexts: [
+        {
+          publicId: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
+          rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+          path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
+          contextId: 'top',
+        },
+      ],
     },
     {
       id: 'urn:topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
@@ -1209,6 +1431,14 @@ export const nodeTreeWithNestedChildrenUpdated: NodeTree = {
       resources: [],
       nodeType: 'TOPIC',
       resourceTypes: [],
+      contexts: [
+        {
+          publicId: 'urn:topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
+          rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+          path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
+          contextId: 'top',
+        },
+      ],
     },
     {
       id: 'urn:topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
@@ -1243,6 +1473,14 @@ export const nodeTreeWithNestedChildrenUpdated: NodeTree = {
       resources: [],
       nodeType: 'TOPIC',
       resourceTypes: [],
+      contexts: [
+        {
+          publicId: 'urn:topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
+          rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+          path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
+          contextId: 'top',
+        },
+      ],
     },
   ],
 };
@@ -1358,6 +1596,26 @@ export const nodeTreeWithNestedChildrenDiff: DiffTree = {
       original: 'SUBJECT',
       other: 'SUBJECT',
       diffType: 'NONE',
+    },
+    contexts: {
+      diffType: 'NONE',
+      ignored: true,
+      original: [
+        {
+          publicId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+          rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+          path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+          contextId: 'sub',
+        },
+      ],
+      other: [
+        {
+          publicId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+          rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+          path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+          contextId: 'sub',
+        },
+      ],
     },
   },
   children: [
@@ -1593,6 +1851,26 @@ export const nodeTreeWithNestedChildrenDiff: DiffTree = {
           children: [],
           resourceTypes: { diffType: 'NONE', original: [], other: [] },
           nodeType: { diffType: 'NONE', original: 'TOPIC', other: 'TOPIC' },
+          contexts: {
+            diffType: 'NONE',
+            ignored: true,
+            original: [
+              {
+                publicId: 'urn:topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
+                rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+                path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
+                contextId: 'top',
+              },
+            ],
+            other: [
+              {
+                publicId: 'urn:topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
+                rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+                path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
+                contextId: 'top',
+              },
+            ],
+          },
         },
         {
           changed: { diffType: 'NONE' },
@@ -1719,6 +1997,26 @@ export const nodeTreeWithNestedChildrenDiff: DiffTree = {
             other: 'TOPIC',
             diffType: 'NONE',
           },
+          contexts: {
+            diffType: 'NONE',
+            ignored: true,
+            original: [
+              {
+                publicId: 'urn:topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
+                rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+                path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
+                contextId: 'top',
+              },
+            ],
+            other: [
+              {
+                publicId: 'urn:topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
+                rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+                path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
+                contextId: 'top',
+              },
+            ],
+          },
         },
       ],
       resourceTypes: {
@@ -1730,6 +2028,26 @@ export const nodeTreeWithNestedChildrenDiff: DiffTree = {
         original: 'TOPIC',
         other: 'TOPIC',
         diffType: 'NONE',
+      },
+      contexts: {
+        diffType: 'NONE',
+        ignored: true,
+        original: [
+          {
+            publicId: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
+            rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+            path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
+            contextId: 'top',
+          },
+        ],
+        other: [
+          {
+            publicId: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
+            rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+            path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
+            contextId: 'top',
+          },
+        ],
       },
     },
   ],
@@ -1824,6 +2142,19 @@ export const nodeTreeInOriginalVersionDiff: DiffTree = {
     resourcesChanged: { diffType: 'NONE' },
     resourceTypes: { diffType: 'DELETED', original: [], other: undefined },
     nodeType: { diffType: 'DELETED', original: 'SUBJECT', other: undefined },
+    contexts: {
+      diffType: 'DELETED',
+      ignored: true,
+      original: [
+        {
+          publicId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+          rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+          path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+          contextId: 'sub',
+        },
+      ],
+      other: undefined,
+    },
   },
   children: [],
 };
@@ -1917,6 +2248,19 @@ export const nodeTreeInOtherVersionDiff: DiffTree = {
     resourcesChanged: { diffType: 'NONE' },
     resourceTypes: { diffType: 'ADDED', original: undefined, other: [] },
     nodeType: { diffType: 'ADDED', original: undefined, other: 'SUBJECT' },
+    contexts: {
+      diffType: 'ADDED',
+      ignored: true,
+      original: undefined,
+      other: [
+        {
+          publicId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+          rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+          path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+          contextId: 'sub',
+        },
+      ],
+    },
   },
   children: [],
 };
@@ -1955,6 +2299,14 @@ export const nodeTreeWithNestedChildrenAndResources: NodeTree = {
     resources: [],
     resourceTypes: [],
     nodeType: 'SUBJECT',
+    contexts: [
+      {
+        publicId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+        rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+        path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+        contextId: 'sub',
+      },
+    ],
   },
   children: [
     {
@@ -1990,6 +2342,14 @@ export const nodeTreeWithNestedChildrenAndResources: NodeTree = {
       resources: [],
       resourceTypes: [],
       nodeType: 'TOPIC',
+      contexts: [
+        {
+          publicId: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
+          rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+          path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
+          contextId: 'top',
+        },
+      ],
     },
     {
       id: 'urn:topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
@@ -2083,10 +2443,26 @@ export const nodeTreeWithNestedChildrenAndResources: NodeTree = {
           relevanceId: 'urn:relevance:core',
           isPrimary: true,
           nodeType: 'RESOURCE',
+          contexts: [
+            {
+              publicId: 'urn:resource:1:168358',
+              rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+              path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:35efa357-acc7-4828-b241-cad5467d1dc6/resource:1:168358',
+              contextId: 'res',
+            },
+          ],
         },
       ],
       resourceTypes: [],
       nodeType: 'TOPIC',
+      contexts: [
+        {
+          publicId: 'urn:topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
+          rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+          path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
+          contextId: 'top',
+        },
+      ],
     },
     {
       id: 'urn:topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
@@ -2121,6 +2497,14 @@ export const nodeTreeWithNestedChildrenAndResources: NodeTree = {
       resources: [],
       resourceTypes: [],
       nodeType: 'TOPIC',
+      contexts: [
+        {
+          publicId: 'urn:topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
+          rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+          path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
+          contextId: 'top',
+        },
+      ],
     },
   ],
 };
@@ -2159,6 +2543,14 @@ export const nodeTreeWithNestedChildrenAndResourcesUpdated: NodeTree = {
     resources: [],
     resourceTypes: [],
     nodeType: 'SUBJECT',
+    contexts: [
+      {
+        publicId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+        rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+        path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+        contextId: 'sub',
+      },
+    ],
   },
   children: [
     {
@@ -2194,6 +2586,14 @@ export const nodeTreeWithNestedChildrenAndResourcesUpdated: NodeTree = {
       resources: [],
       resourceTypes: [],
       nodeType: 'TOPIC',
+      contexts: [
+        {
+          publicId: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
+          rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+          path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
+          contextId: 'top',
+        },
+      ],
     },
     {
       id: 'urn:topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
@@ -2225,6 +2625,14 @@ export const nodeTreeWithNestedChildrenAndResourcesUpdated: NodeTree = {
         customFields: {},
       },
       primary: true,
+      contexts: [
+        {
+          publicId: 'urn:topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
+          rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+          path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
+          contextId: 'top',
+        },
+      ],
       resources: [
         {
           id: 'urn:resource:1:168358',
@@ -2286,6 +2694,14 @@ export const nodeTreeWithNestedChildrenAndResourcesUpdated: NodeTree = {
           primary: true,
           relevanceId: 'urn:relevance:core',
           nodeType: 'RESOURCE',
+          contexts: [
+            {
+              publicId: 'urn:resource:1:168358',
+              rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+              path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:35efa357-acc7-4828-b241-cad5467d1dc6/resource:1:168358',
+              contextId: 'res',
+            },
+          ],
           isPrimary: true,
         },
       ],
@@ -2325,6 +2741,14 @@ export const nodeTreeWithNestedChildrenAndResourcesUpdated: NodeTree = {
       resources: [],
       nodeType: 'TOPIC',
       resourceTypes: [],
+      contexts: [
+        {
+          publicId: 'urn:topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
+          rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+          path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
+          contextId: 'top',
+        },
+      ],
     },
   ],
 };
@@ -2431,6 +2855,26 @@ export const nodeTreeWithNestedChildrenAndResourcesDiff: DiffTree = {
     resourcesChanged: { diffType: 'NONE' },
     resourceTypes: { diffType: 'NONE', original: [], other: [] },
     nodeType: { diffType: 'NONE', original: 'SUBJECT', other: 'SUBJECT' },
+    contexts: {
+      diffType: 'NONE',
+      ignored: true,
+      original: [
+        {
+          publicId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+          rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+          path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+          contextId: 'sub',
+        },
+      ],
+      other: [
+        {
+          publicId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+          rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+          path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+          contextId: 'sub',
+        },
+      ],
+    },
   },
   children: [
     {
@@ -2832,8 +3276,48 @@ export const nodeTreeWithNestedChildrenAndResourcesDiff: DiffTree = {
                 other: 'RESOURCE',
                 diffType: 'NONE',
               },
+              contexts: {
+                diffType: 'NONE',
+                ignored: true,
+                original: [
+                  {
+                    publicId: 'urn:resource:1:168358',
+                    rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+                    path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:35efa357-acc7-4828-b241-cad5467d1dc6/resource:1:168358',
+                    contextId: 'res',
+                  },
+                ],
+                other: [
+                  {
+                    publicId: 'urn:resource:1:168358',
+                    rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+                    path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:35efa357-acc7-4828-b241-cad5467d1dc6/resource:1:168358',
+                    contextId: 'res',
+                  },
+                ],
+              },
             },
           ],
+          contexts: {
+            diffType: 'NONE',
+            ignored: true,
+            original: [
+              {
+                publicId: 'urn:topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
+                rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+                path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
+                contextId: 'top',
+              },
+            ],
+            other: [
+              {
+                publicId: 'urn:topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
+                rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+                path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
+                contextId: 'top',
+              },
+            ],
+          },
         },
         {
           changed: { diffType: 'NONE' },
@@ -2952,10 +3436,50 @@ export const nodeTreeWithNestedChildrenAndResourcesDiff: DiffTree = {
           },
           resourceTypes: { diffType: 'NONE', original: [], other: [] },
           nodeType: { diffType: 'NONE', original: 'TOPIC', other: 'TOPIC' },
+          contexts: {
+            diffType: 'NONE',
+            ignored: true,
+            original: [
+              {
+                publicId: 'urn:topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
+                rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+                path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
+                contextId: 'top',
+              },
+            ],
+            other: [
+              {
+                publicId: 'urn:topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
+                rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+                path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
+                contextId: 'top',
+              },
+            ],
+          },
         },
       ],
       resourceTypes: { diffType: 'NONE', original: [], other: [] },
       nodeType: { diffType: 'NONE', original: 'TOPIC', other: 'TOPIC' },
+      contexts: {
+        diffType: 'NONE',
+        ignored: true,
+        original: [
+          {
+            publicId: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
+            rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+            path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
+            contextId: 'top',
+          },
+        ],
+        other: [
+          {
+            publicId: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
+            rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+            path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
+            contextId: 'top',
+          },
+        ],
+      },
     },
   ],
 };

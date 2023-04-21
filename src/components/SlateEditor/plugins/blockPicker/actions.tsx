@@ -48,7 +48,7 @@ export interface Action {
   requiredScope?: string;
 }
 
-const actions: Action[] = [
+export const commonActions: Action[] = [
   {
     data: { type: TYPE_ASIDE, object: 'factAside' },
     icon: <FactBoxMaterial />,
@@ -115,11 +115,6 @@ const actions: Action[] = [
     helpIcon: renderArticleInModal('CodeBlock'),
   },
   {
-    data: { type: TYPE_BLOGPOST, object: 'blogPost' },
-    icon: <HelpCircle />,
-    helpIcon: renderArticleInModal('BlogPost'),
-  },
-  {
     data: { type: TYPE_CONCEPT_BLOCK, object: 'concept' },
     icon: <Concept />,
     helpIcon: renderArticleInModal('Concept'),
@@ -132,4 +127,8 @@ const actions: Action[] = [
   },
 ];
 
-export default actions;
+export const frontpageActions = commonActions.concat({
+  data: { type: TYPE_BLOGPOST, object: 'blogPost' },
+  icon: <HelpCircle />,
+  helpIcon: renderArticleInModal('BlogPost'),
+});

@@ -14,7 +14,7 @@ import { SlateBlockMenu } from '@ndla/editor';
 import styled from '@emotion/styled';
 import { Portal } from '../../../Portal';
 import SlateVisualElementPicker from './SlateVisualElementPicker';
-import actions, { ActionData } from './actions';
+import { Action, ActionData } from './actions';
 import { defaultAsideBlock } from '../aside/utils';
 import { defaultDetailsBlock } from '../details/utils';
 import { defaultBodyboxBlock } from '../bodybox/utils';
@@ -51,6 +51,7 @@ import { defaultBlogPostBlock } from '../blogPost/utils';
 
 interface Props {
   editor: Editor;
+  actions: Action[];
   allowedPickAreas: Element['type'][];
   illegalAreas: Element['type'][];
   actionsToShowInAreas: { [key: string]: string[] };
@@ -68,6 +69,7 @@ const SlateBlockPicker = ({
   articleLanguage,
   illegalAreas,
   allowedPickAreas,
+  actions,
 }: Props) => {
   const [blockPickerOpen, setBlockPickerOpen] = useState(false);
   const [lastActiveSelection, setLastActiveSelection] = useState<Range>();

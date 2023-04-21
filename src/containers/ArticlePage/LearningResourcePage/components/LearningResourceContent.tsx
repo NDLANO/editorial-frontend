@@ -150,7 +150,6 @@ export const plugins = (
     inlineConceptPlugin(articleLanguage),
     blockConceptPlugin(articleLanguage),
     headingPlugin,
-    blogPostPlugin,
     // // Paragraph-, blockquote- and editList-plugin listens for Enter press on empty lines.
     // // Blockquote and editList actions need to be triggered before paragraph action, else
     // // unwrapping (jumping out of block) will not work.

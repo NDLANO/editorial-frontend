@@ -94,7 +94,6 @@ const createPlugins = (language: string, handleSubmitRef: RefObject<() => void>)
     toolbarPlugin,
     textTransformPlugin,
     breakPlugin,
-    blogPostPlugin,
     saveHotkeyPlugin(() => handleSubmitRef.current && handleSubmitRef.current()),
   ];
 };

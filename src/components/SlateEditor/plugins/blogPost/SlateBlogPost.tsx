@@ -40,16 +40,17 @@ const ButtonContainer = styled.div`
 const imageUrl = `${config.ndlaApiUrl}/image-api/raw/id/`;
 
 const SlateBlogPost = ({ element, editor }: Props) => {
+  const { t } = useTranslation();
   const [isEditing, setIsEditing] = useState(element.isFirstEdit);
-  const [blogPost, setBlogPost] = useState<BlogPostEmbedData | undefined>(element.data);
+  const { data } = element;
 
   const handleRemove = () => {
     Transforms.removeNodes(editor, { at: ReactEditor.findPath(editor, element), voids: true });
   };
 
   const onClose = () => {
-    ReactEditor.focus(editor);
     setIsEditing(false);
+    ReactEditor.focus(editor);
     if (element.isFirstEdit) {
       Transforms.removeNodes(editor, { at: ReactEditor.findPath(editor, element), voids: true });
     }
@@ -61,10 +62,24 @@ const SlateBlogPost = ({ element, editor }: Props) => {
     }
   };
 
-  const onSave = useCallback((data: BlogPostEmbedData) => {
-    setBlogPost(data);
-    setIsEditing(false);
-  }, []);
+  const onSave = useCallback(
+    (data: BlogPostEmbedData) => {
+      setIsEditing(false);
+      const properties = {
+        data,
+        isFirstEdit: false,
+      };
+      ReactEditor.focus(editor);
+      const path = ReactEditor.findPath(editor, element);
+      Transforms.setNodes(editor, properties, { at: path });
+      if (Editor.hasPath(editor, Path.next(path))) {
+        setTimeout(() => {
+          Transforms.select(editor, Path.next(path));
+        }, 0);
+      }
+    },
+    [editor, element],
+  );
 
   const StyledModalHeader = styled(ModalHeaderV2)`
     padding-bottom: 0px;
@@ -77,10 +92,9 @@ const SlateBlogPost = ({ element, editor }: Props) => {
     }
   `;
 
-  const { t } = useTranslation();
   return (
     <>
-      {blogPost && (
+      {data && (
         <BlogPostWrapper contentEditable={false}>
           <ButtonContainer>
             <IconButtonV2 variant="ghost" onClick={() => setIsEditing(true)} aria-label="Rediger">
@@ -89,12 +103,12 @@ const SlateBlogPost = ({ element, editor }: Props) => {
             <DeleteButton aria-label={t('delete')} onClick={handleRemove} />
           </ButtonContainer>
           <BlogPostV2
-            title={{ title: blogPost.title, language: blogPost.language }}
-            author={blogPost.author}
-            size={blogPost.size}
-            url={blogPost.url}
+            title={{ title: data.title, language: data.language }}
+            author={data.author}
+            size={data.size}
+            url={data.url}
             metaImage={{
-              url: `${imageUrl}/${blogPost.imageId}`,
+              url: `${imageUrl}/${data.imageId}`,
               alt: '',
             }}
           />
@@ -115,7 +129,7 @@ const SlateBlogPost = ({ element, editor }: Props) => {
                 <ModalCloseButton onClick={close} />
               </StyledModalHeader>
               <StyledModalBody>
-                <BlogPostForm onSave={onSave} initialData={blogPost} onCancel={close} />
+                <BlogPostForm onSave={onSave} initialData={data} onCancel={close} />
               </StyledModalBody>
             </>
           )}

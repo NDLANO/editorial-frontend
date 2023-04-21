@@ -35,10 +35,14 @@ export const blogPostSerializer: SlateSerializer = {
     const embed = el as HTMLEmbedElement;
     const embedAttributes = reduceElementDataAttributesV2(Array.from(embed.attributes));
     if (embedAttributes.resource !== 'blog-post') return;
-    return slatejsx('element', {
-      type: TYPE_BLOGPOST,
-      data: embedAttributes,
-    });
+    return slatejsx(
+      'element',
+      {
+        type: TYPE_BLOGPOST,
+        data: embedAttributes,
+      },
+      { text: '' },
+    );
   },
   serialize(node: Descendant) {
     if (!Element.isElement(node) || node.type !== 'blog-post' || !node.data) return;

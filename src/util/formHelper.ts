@@ -36,7 +36,8 @@ const checkIfContentHasChanged = (
   initialHTML?: string,
 ) => {
   if (currentValue.length !== initialContent.length) return true;
-  const toHTMLFunction = type === 'standard' ? blockContentToHTML : inlineContentToHTML;
+  const toHTMLFunction =
+    type === 'standard' || type === 'frontpage-article' ? blockContentToHTML : inlineContentToHTML;
   const newHTML = toHTMLFunction(currentValue);
 
   const diff = diffHTML(newHTML, initialHTML || toHTMLFunction(initialContent));

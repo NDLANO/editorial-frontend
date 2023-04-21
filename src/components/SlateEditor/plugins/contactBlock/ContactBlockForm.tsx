@@ -117,14 +117,13 @@ const toInitialValues = (initialData?: ContactBlockEmbedData): ContactBlockFormV
     email: initialData?.email ?? '',
   };
 };
+const blobTypes = ['pointy', 'round'];
+const blobColors = ['pink', 'green'];
 
 const ContactBlockForm = ({ initialData, onSave, onCancel }: Props) => {
   const { t } = useTranslation();
   const initialValues = useMemo(() => toInitialValues(initialData), [initialData]);
   const initialErrors = useMemo(() => validateFormik(initialValues, rules, t), [initialValues, t]);
-
-  const blobTypes = ['pointy', 'round'];
-  const blobColors = ['pink', 'green'];
 
   const onSubmit = useCallback(
     (values: ContactBlockFormValues) => {

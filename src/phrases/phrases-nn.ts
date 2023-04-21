@@ -663,7 +663,7 @@ const phrases = {
       email: 'E-post',
       blob: 'Velg type blob',
       blobColor: 'Farge av blob',
-      jobTitle: 'Arbeids-tittel',
+      jobTitle: 'Stilling',
     },
     previewProductionArticle: {
       button: 'Samanlikn gjeldande versjon med gamal versjon',

@@ -513,7 +513,7 @@ const phrases = {
     title: 'Image',
   },
   contactBlockForm: {
-    title: 'Contactblock',
+    title: 'Contact block',
   },
   frontpageArticleForm: {
     title: 'Content article',
@@ -586,7 +586,7 @@ const phrases = {
       podcast: 'Podcast episode',
       conceptList: 'Concept list',
       concept: 'Concept',
-      contactBlock: 'Contactblock',
+      contactBlock: 'Contact block',
     },
   },
   form: {
@@ -659,9 +659,9 @@ const phrases = {
       coverPhotoId: 'Meta image',
       revisions: 'Revisions',
       name: 'Name',
-      email: 'E-post',
+      email: 'Email',
       blob: 'Type of blob',
-      blobColor: 'Color of blob',
+      blobColor: 'Blob color',
       jobTitle: 'Job title',
     },
     previewProductionArticle: {

@@ -27,7 +27,8 @@ interface Props extends RenderElementProps {
   editor: Editor;
 }
 const ContactBlockWrapper = styled.div`
-  margin-left: -16.6%;
+  display: flex;
+  flex-direction: column;
 `;
 
 const ButtonContainer = styled.div`
@@ -50,7 +51,7 @@ const StyledModalBody = styled(ModalBody)`
 const SlateContactBlock = ({ element, editor }: Props) => {
   const { t } = useTranslation();
   const [isEditing, setIsEditing] = useState(element.isFirstEdit);
-  const [contactBlock, setContactBlock] = useState(element.data);
+  const contactBlock = element.data;
   const [image, setImage] = useState<IImageMetaInformationV3 | undefined>(undefined);
 
   const onClose = () => {
@@ -68,11 +69,25 @@ const SlateContactBlock = ({ element, editor }: Props) => {
   };
   const onSave = useCallback(
     (data: ContactBlockEmbedData) => {
-      setContactBlock(data);
       setIsEditing(false);
       fetchImage(data?.imageId).then((img) => setImage(img));
+
+      const properties = {
+        data: data,
+        isFirstEdit: false,
+      };
+
+      ReactEditor.focus(editor);
+      const path = ReactEditor.findPath(editor, element);
+      Transforms.setNodes(editor, properties, { at: path });
+
+      if (Editor.hasPath(editor, Path.next(path))) {
+        setTimeout(() => {
+          Transforms.select(editor, Path.next(path));
+        }, 0);
+      }
     },
-    [setContactBlock, setIsEditing],
+    [setIsEditing],
   );
 
   useEffect(() => {
@@ -85,7 +100,7 @@ const SlateContactBlock = ({ element, editor }: Props) => {
     Transforms.removeNodes(editor, { at: ReactEditor.findPath(editor, element), voids: true });
 
   return (
-    <>
+    <div className="c-figure">
       {contactBlock && image && (
         <ContactBlockWrapper>
           <ButtonContainer>
@@ -126,7 +141,7 @@ const SlateContactBlock = ({ element, editor }: Props) => {
           </ModalV2>
         </>
       )}
-    </>
+    </div>
   );
 };
 

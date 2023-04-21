@@ -80,6 +80,7 @@ const FrontpageArticleForm = ({
       changed: articleChanged,
       initialHTML,
     });
+
     usePreventWindowUnload(formIsDirty);
     const getArticle = () =>
       frontpageArticleFormTypeToDraftApiType(values, initialValues, licenses!, false);

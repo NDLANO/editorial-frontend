@@ -29,7 +29,7 @@ const editor: Descendant[] = [
           author: 'Ola Nordmann',
           url: 'https://ndla.no',
         },
-        children: [],
+        children: [{ text: '' }],
       },
     ],
   },

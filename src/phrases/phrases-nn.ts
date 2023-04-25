@@ -117,7 +117,7 @@ const phrases = {
     noArticles: 'Ingen artiklar ...',
     emptyLastUsed: 'Ingen sist redigerte ...',
     emptyConcepts: 'Ingen forklaringar ...',
-    emptyRevision: 'Ingen artiklar i favorittfag som nærmar seg revisjonsdato ...',
+    emptyRevision: 'Ingen artiklar i favorittfag som treng revisjon ...',
     emptySavedSearch: 'Ingen lagra søk',
     guidelines: 'Retningslinjer',
     mustBeSearch: 'Lenka må være til eit søk',
@@ -131,7 +131,7 @@ const phrases = {
     errorMessage: 'Innhenting av data feila',
     goToSearch: 'Gå til søk',
     revision: 'Revisjon',
-    revisionDescription: 'Artiklar i favorittfag som nærmar seg revisjonsdato',
+    revisionDescription: 'Artiklar i favorittfag som treng revisjon',
     revisionDate: 'Revisjonsdato',
     workList: {
       title: 'Mine arbeidsoppgåver',

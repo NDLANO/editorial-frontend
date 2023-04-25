@@ -26,21 +26,14 @@ describe('Learning resource editing', () => {
       .click()
       .should('have.focus')
       .type('This is a test title.');
-    cy.get('[data-cy=learning-resource-ingress]')
-      .click()
-      .should('have.focus')
-      .type('Test ingress');
+    cy.get('[data-cy=learning-resource-ingress]').click().should('have.focus').type('Test ingress');
     cy.get('[data-cy=slate-editor] [data-slate-editor=true]')
       .click()
       .should('have.focus')
       .type('This is test content {enter}');
     cy.apiwait('@getUsersResponsible');
-    cy.get('[data-cy=responsible-select]')
-      .click()
-      .type('Ed test {enter}');
-    cy.get('[data-testid=saveLearningResourceButtonWrapper] button')
-      .first()
-      .click();
+    cy.get('[data-cy=responsible-select]').click().type('Ed test {enter}');
+    cy.get('[data-testid=saveLearningResourceButtonWrapper] button').first().click();
     cy.apiwait('@patchUserData');
     cy.get('[data-testid=saveLearningResourceButtonWrapper] button').contains('Lagret');
   });
@@ -52,43 +45,29 @@ describe('Learning resource editing', () => {
       .contains('Opphavsperson')
       .parent()
       .parent()
-      .within(_ => {
+      .within((_) => {
         cy.get('[data-cy=addContributor]').click();
-        cy.get('input[type="text"]')
-          .last()
-          .type('Ola Nordmann')
-          .blur();
-        cy.get('[data-cy="contributor-selector"]')
-          .last()
-          .select('originator');
-        cy.get('[data-cy="contributor-selector"]')
-          .first()
-          .should('have.value', 'writer');
+        cy.get('input[type="text"]').last().type('Ola Nordmann').blur();
+        cy.get('[data-cy="contributor-selector"]').last().select('originator');
+        cy.get('[data-cy="contributor-selector"]').first().should('have.value', 'writer');
       });
     cy.get('h2')
       .contains('Rettighetshaver')
       .parent()
       .parent()
-      .within(_ => {
+      .within((_) => {
         cy.get('[data-cy=addContributor]').click();
-        cy.get('input[type="text"]')
-          .type('Ola Nordmann')
-          .blur();
+        cy.get('input[type="text"]').type('Ola Nordmann').blur();
         cy.get('[data-cy="contributor-selector"]').select('rightsholder');
       });
     cy.get('h2')
       .contains('Bearbeider')
       .parent()
       .parent()
-      .within(_ => {
+      .within((_) => {
         cy.get('[data-cy=addContributor]').click();
-        cy.get('input[type="text"]')
-          .last()
-          .type('Ola Nordmann')
-          .blur();
-        cy.get('[data-cy="contributor-selector"]')
-          .last()
-          .select('processor');
+        cy.get('input[type="text"]').last().type('Ola Nordmann').blur();
+        cy.get('[data-cy="contributor-selector"]').last().select('processor');
       });
   });
 });

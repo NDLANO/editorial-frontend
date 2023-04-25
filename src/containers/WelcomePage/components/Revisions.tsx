@@ -103,7 +103,7 @@ const Revisions = ({ userData, ndlaId }: Props) => {
         {
           id: `title_${a.id}`,
           data: (
-            <StyledLink to={toEditArticle(a.id, a.learningResourceType)}>
+            <StyledLink to={toEditArticle(a.id, a.learningResourceType)} title={a.title?.title}>
               {a.title?.title}
             </StyledLink>
           ),

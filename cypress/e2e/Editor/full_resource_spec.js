@@ -18,41 +18,24 @@ describe('Edit article with everything', () => {
     cy.visit(`/subject-matter/learning-resource/${ARTICLE_ID}/edit/nb`);
     cy.get('[data-cy="slate-editor"]');
     cy.apiwait([`@draft-${ARTICLE_ID}`, '@statusMachine', '@licenses', '@taxonomyTopics']);
-    cy.get('article span')
-      .contains('Cypress test')
-      .should('exist');
+    cy.get('article span').contains('Cypress test').should('exist');
   });
 
   it('Can change language and fetch the new article', () => {
     cy.apiroute('GET', `/draft-api/v1/drafts/${ARTICLE_ID}?language=en&fallback=true`, 'draftEN');
-    cy.get('header button')
-      .contains('Legg til språk')
-      .click()
-      .wait(200);
-    cy.get('header a')
-      .contains('Engelsk')
-      .click();
+    cy.get('header button').contains('Legg til språk').click().wait(200);
+    cy.get('header a').contains('Engelsk').click();
     cy.apiwait(['@draftEN', '@statusMachine', '@taxonomyTopics', '@taxonomyResources']);
-    cy.get('article span')
-      .contains('Water english')
-      .should('exist');
+    cy.get('article span').contains('Water english').should('exist');
   });
 
   it('Can edit the published date', () => {
     // check that article is not dirty
-    cy.get('[data-testid=saveLearningResourceButtonWrapper] button')
-      .first()
-      .should('be.disabled');
+    cy.get('[data-testid=saveLearningResourceButtonWrapper] button').first().should('be.disabled');
     cy.get('span[name=published] > button').click();
-    cy.get('.flatpickr-day ')
-      .first()
-      .click();
-    cy.get('[data-cy=responsible-select]')
-      .click()
-      .type('Ed test {enter}');
-    cy.get('[data-testid=saveLearningResourceButtonWrapper] button')
-      .first()
-      .click();
+    cy.get('.flatpickr-day ').first().click();
+    cy.get('[data-cy=responsible-select]').click().type('Ed test {enter}');
+    cy.get('[data-testid=saveLearningResourceButtonWrapper] button').first().click();
     cy.apiwait(['@getUserData', '@patchUserData']);
   });
 

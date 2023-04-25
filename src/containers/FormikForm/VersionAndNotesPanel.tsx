@@ -106,6 +106,7 @@ const VersionAndNotesPanel = ({ article, type, currentLanguage }: Props) => {
           relatedContent: [],
           revisions: [],
           status: { current: 'PUBLISHED', other: [] },
+          comments: [],
         };
       }
       const transform =

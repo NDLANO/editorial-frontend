@@ -9,7 +9,7 @@
 import { Calendar } from '@ndla/icons/editor';
 import Pager from '@ndla/pager';
 import { Select, SingleValue } from '@ndla/select';
-import { IConceptSearchResult, IConceptSummary } from '@ndla/types-backend/concept-api';
+import { IConceptSearchResult, IConceptSummary, IStatus } from '@ndla/types-backend/concept-api';
 import uniqBy from 'lodash/uniqBy';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -27,6 +27,8 @@ import GoToSearch from '../GoToSearch';
 import TableComponent, { FieldElement, Prefix, TitleElement } from '../TableComponent';
 import TableTitle from '../TableTitle';
 import { SortOption } from './WorkList';
+import { CellWrapper } from './WorkListTabContent';
+import PublishedStatus from './PublishedStatus';
 
 interface Props {
   data?: IConceptSearchResult;
@@ -43,7 +45,7 @@ interface Props {
 interface Concept {
   id: number;
   title: string;
-  status: string;
+  status: IStatus;
   lastUpdated: string;
   subjects: { value: string; label: string }[];
 }
@@ -65,7 +67,7 @@ const fetchConceptData = async (
   return {
     id: concept.id,
     title: concept.title?.title,
-    status: concept.status?.current,
+    status: concept.status,
     lastUpdated: concept.responsible ? formatDate(concept.responsible.lastUpdated) : '',
     subjects:
       subjects?.results.map((subject) => ({ value: subject.id, label: subject.name })) ?? [],
@@ -111,7 +113,12 @@ const ConceptListTabContent = ({
         },
         {
           id: `status_${res.id}`,
-          data: res.status ? t(`form.status.${res.status.toLowerCase()}`) : '',
+          data: (
+            <CellWrapper>
+              <>{res.status?.current ? t(`form.status.${res.status.current.toLowerCase()}`) : ''}</>
+              <PublishedStatus status={res.status} />
+            </CellWrapper>
+          ),
         },
         {
           id: `concept_subject_${res.id}`,

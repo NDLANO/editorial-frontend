@@ -23,8 +23,9 @@ import TableComponent, { FieldElement, Prefix, TitleElement } from '../TableComp
 import TableTitle from '../TableTitle';
 import GoToSearch from '../GoToSearch';
 import { SortOption } from './WorkList';
+import PublishedStatus from './PublishedStatus';
 
-const TitleCell = styled.div`
+export const CellWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -62,7 +63,7 @@ const WorkListTabContent = ({
             {
               id: `title_${res.id}`,
               data: (
-                <TitleCell>
+                <CellWrapper>
                   <StyledLink
                     to={toEditArticle(res.id, res.learningResourceType)}
                     title={res.title?.title}
@@ -76,12 +77,21 @@ const WorkListTabContent = ({
                       </div>
                     </Tooltip>
                   ) : null}
-                </TitleCell>
+                </CellWrapper>
               ),
             },
             {
               id: `status_${res.id}`,
-              data: res.status?.current ? t(`form.status.${res.status.current.toLowerCase()}`) : '',
+              data: (
+                <CellWrapper>
+                  <>
+                    {res.status?.current
+                      ? t(`form.status.${res.status.current.toLowerCase()}`)
+                      : ''}
+                  </>
+                  <PublishedStatus status={res.status} />
+                </CellWrapper>
+              ),
             },
             {
               id: `contentType_${res.id}`,

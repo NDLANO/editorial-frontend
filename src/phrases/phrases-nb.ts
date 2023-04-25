@@ -520,6 +520,14 @@ const phrases = {
         'Bruk av ulovlige tegn i permalenken! Tillatte tegn er alle tall og bokstaver, og bindestrek',
     },
   },
+  blogPostForm: {
+    title: 'Rediger bloggpost',
+    languageExplanation: 'Velg språk for skjermleser',
+    sizes: {
+      normal: 'Normal',
+      large: 'Stor',
+    },
+  },
   learningResourceForm: {
     metaImage: {
       title: 'Bildetittel',
@@ -584,6 +592,7 @@ const phrases = {
       podcast: 'Podkastepisode',
       conceptList: 'Forklaringsliste',
       concept: 'Forklaring',
+      blogPost: 'Bloggpost',
     },
   },
   form: {
@@ -663,6 +672,10 @@ const phrases = {
       coverPhotoId: 'Metabilde',
       revisions: 'Revisjoner',
       name: 'Navn',
+      author: 'Forfatter',
+      language: 'Språk',
+      link: 'Lenke',
+      size: 'Størrelse',
     },
     previewProductionArticle: {
       button: 'Sammenlign gjeldende versjon med gammel versjon',

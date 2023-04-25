@@ -519,6 +519,14 @@ const phrases = {
         'Use of illegal characters in permalink! Legal characters are numbers and letters, plus dashes.',
     },
   },
+  blogPostForm: {
+    title: 'Edit blog post',
+    languageExplanation: 'Choose language for screen readers',
+    sizes: {
+      normal: 'Normal',
+      large: 'Large',
+    },
+  },
   learningResourceForm: {
     metaImage: {
       title: 'Image title',
@@ -583,6 +591,7 @@ const phrases = {
       podcast: 'Podcast episode',
       conceptList: 'Concept list',
       concept: 'Concept',
+      blogPost: 'Blog post',
     },
   },
   form: {
@@ -661,6 +670,10 @@ const phrases = {
       coverPhotoId: 'Meta image',
       revisions: 'Revisions',
       name: 'Name',
+      author: 'Author',
+      language: 'Language',
+      link: 'Link',
+      size: 'Size',
     },
     previewProductionArticle: {
       button: 'Compare current version with old version',

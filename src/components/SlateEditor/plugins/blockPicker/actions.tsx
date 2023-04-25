@@ -12,7 +12,7 @@ import {
   RelatedArticle,
   TableMaterial,
 } from '@ndla/icons/editor';
-import { Download, Podcast, VolumeUp } from '@ndla/icons/common';
+import { Download, HelpCircle, Podcast, VolumeUp } from '@ndla/icons/common';
 import { List } from '@ndla/icons/action';
 import HowToHelper from '../../../HowTo/HowToHelper';
 import { TYPE_CONCEPT_BLOCK } from '../concept/block/types';
@@ -32,6 +32,7 @@ import { TYPE_FILE } from '../file/types';
 import { TYPE_RELATED } from '../related/types';
 import { TYPE_CODEBLOCK } from '../codeBlock/types';
 import { TYPE_CONCEPT_LIST } from '../conceptList/types';
+import { TYPE_BLOGPOST } from '../blogPost/types';
 
 const renderArticleInModal = (pageId: string) => <HowToHelper pageId={pageId} extraIconPadding />;
 
@@ -47,7 +48,7 @@ export interface Action {
   requiredScope?: string;
 }
 
-const actions: Action[] = [
+export const commonActions: Action[] = [
   {
     data: { type: TYPE_ASIDE, object: 'factAside' },
     icon: <FactBoxMaterial />,
@@ -126,4 +127,8 @@ const actions: Action[] = [
   },
 ];
 
-export default actions;
+export const frontpageActions = commonActions.concat({
+  data: { type: TYPE_BLOGPOST, object: 'blogPost' },
+  icon: <HelpCircle />,
+  helpIcon: renderArticleInModal('BlogPost'),
+});

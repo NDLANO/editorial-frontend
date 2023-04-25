@@ -28,7 +28,15 @@ interface Props {
 const PublishedStatus = ({ status }: Props) => {
   const published = status?.current === 'PUBLISHED' || status?.other?.includes('PUBLISHED');
 
-  return <IconWrapper>{published && <StyledCheckIcon />}</IconWrapper>;
+  return (
+    <>
+      {published && (
+        <IconWrapper>
+          <StyledCheckIcon />
+        </IconWrapper>
+      )}
+    </>
+  );
 };
 
 export default PublishedStatus;

@@ -10,9 +10,9 @@ import { IStatus } from '@ndla/types-backend/search-api';
 import styled from '@emotion/styled';
 import { Check } from '@ndla/icons/editor';
 import { spacing, colors } from '@ndla/core';
+import Tooltip from '@ndla/tooltip';
 import { useTranslation } from 'react-i18next';
 import { CellWrapper } from './WorkListTabContent';
-import Tooltip from '@ndla/tooltip';
 
 const IconWrapper = styled.div`
   overflow: hidden;

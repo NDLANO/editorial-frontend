@@ -67,13 +67,11 @@ export const getWarnStatus = (date?: string): 'warn' | 'expired' | undefined => 
   if (warnDate > parsedDate) return 'warn';
 };
 
-interface StyledTimeIconProps {
+export const StyledTimeIcon = styled(Time)<{
   status: 'warn' | 'expired';
   height?: string;
   width?: string;
-}
-
-export const StyledTimeIcon = styled(Time)<StyledTimeIconProps>`
+}>`
   height: ${(p) => (p.height ? p.height : spacing.normal)};
   width: ${(p) => (p.width ? p.width : spacing.normal)};
   fill: ${(p) => {
@@ -88,27 +86,6 @@ export const StyledTimeIcon = styled(Time)<StyledTimeIconProps>`
   }};
 `;
 
-export const StyledCheckIcon = styled(Check)`
-  height: ${spacing.normal};
-  width: ${spacing.normal};
-  fill: ${colors.support.green};
-`;
-
-const StyledWarnIcon = styled(AlertCircle)`
-  height: ${spacing.normal};
-  width: ${spacing.normal};
-  fill: ${colors.support.yellow};
-`;
-
-const StyledRssIcon = styled(RssFeed)`
-  height: ${spacing.normal};
-  width: ${spacing.normal};
-  fill: ${colors.support.green};
-`;
-
-const StyledLink = styled(SafeLink)`
-  box-shadow: inset 0 0;
-`;
 interface Props {
   noStatus?: boolean;
   statusText?: string;
@@ -161,6 +138,28 @@ const HeaderStatusInformation = ({
     ${fonts.sizes((fontSize && fontSize - 1) || 14, 1.1)};
     font-weight: ${fonts.weight.light};
     text-transform: uppercase;
+  `;
+
+  const StyledCheckIcon = styled(Check)`
+    height: ${spacing.normal};
+    width: ${spacing.normal};
+    fill: ${colors.support.green};
+  `;
+
+  const StyledWarnIcon = styled(AlertCircle)`
+    height: ${spacing.normal};
+    width: ${spacing.normal};
+    fill: ${colors.support.yellow};
+  `;
+
+  const StyledRssIcon = styled(RssFeed)`
+    height: ${spacing.normal};
+    width: ${spacing.normal};
+    fill: ${colors.support.green};
+  `;
+
+  const StyledLink = styled(SafeLink)`
+    box-shadow: inset 0 0;
   `;
 
   const expirationColor = getWarnStatus(expirationDate);

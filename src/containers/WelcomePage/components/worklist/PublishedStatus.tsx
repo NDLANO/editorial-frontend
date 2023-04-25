@@ -7,7 +7,19 @@
  */
 
 import { IStatus } from '@ndla/types-backend/search-api';
-import { StyledCheckIcon } from '../../../../components/HeaderWithLanguage/HeaderStatusInformation';
+import styled from '@emotion/styled';
+import { Check } from '@ndla/icons/editor';
+import { spacing, colors } from '@ndla/core';
+
+const IconWrapper = styled.div`
+  overflow: hidden;
+`;
+
+const StyledCheckIcon = styled(Check)`
+  height: ${spacing.nsmall};
+  width: ${spacing.nsmall};
+  fill: ${colors.support.green};
+`;
 
 interface Props {
   status: IStatus | undefined;
@@ -16,7 +28,7 @@ interface Props {
 const PublishedStatus = ({ status }: Props) => {
   const published = status?.current === 'PUBLISHED' || status?.other?.includes('PUBLISHED');
 
-  return <>{published && <StyledCheckIcon />}</>;
+  return <IconWrapper>{published && <StyledCheckIcon />}</IconWrapper>;
 };
 
 export default PublishedStatus;

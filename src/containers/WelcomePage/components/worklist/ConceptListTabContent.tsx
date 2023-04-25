@@ -27,7 +27,7 @@ import GoToSearch from '../GoToSearch';
 import TableComponent, { FieldElement, Prefix, TitleElement } from '../TableComponent';
 import TableTitle from '../TableTitle';
 import { SortOption } from './WorkList';
-import { CellWrapper } from './WorkListTabContent';
+import { CellWrapper, TextWrapper } from './WorkListTabContent';
 import PublishedStatus from './PublishedStatus';
 
 interface Props {
@@ -115,7 +115,9 @@ const ConceptListTabContent = ({
           id: `status_${res.id}`,
           data: (
             <CellWrapper>
-              <>{res.status?.current ? t(`form.status.${res.status.current.toLowerCase()}`) : ''}</>
+              <TextWrapper>
+                {res.status?.current ? t(`form.status.${res.status.current.toLowerCase()}`) : ''}
+              </TextWrapper>
               <PublishedStatus status={res.status} />
             </CellWrapper>
           ),

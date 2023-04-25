@@ -25,6 +25,12 @@ import GoToSearch from '../GoToSearch';
 import { SortOption } from './WorkList';
 import PublishedStatus from './PublishedStatus';
 
+export const TextWrapper = styled.div`
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+`;
+
 export const CellWrapper = styled.div`
   display: flex;
   justify-content: space-between;
@@ -84,11 +90,11 @@ const WorkListTabContent = ({
               id: `status_${res.id}`,
               data: (
                 <CellWrapper>
-                  <>
+                  <TextWrapper>
                     {res.status?.current
                       ? t(`form.status.${res.status.current.toLowerCase()}`)
                       : ''}
-                  </>
+                  </TextWrapper>
                   <PublishedStatus status={res.status} />
                 </CellWrapper>
               ),

@@ -116,7 +116,7 @@ const phrases = {
     noArticles: 'Empty article list ...',
     emptyLastUsed: 'Empty last edited list ...',
     emptyConcepts: 'Empty concept list ...',
-    emptyRevision: 'No articles in favorite subjects approaching revision date ...',
+    emptyRevision: 'No articles in favorite subjects that need revision ...',
     emptySavedSearch: 'No saved searches',
     guidelines: 'Guidelines',
     mustBeSearch: 'Link must be a search url',
@@ -130,7 +130,7 @@ const phrases = {
     errorMessage: 'Failed to retrieve data',
     goToSearch: 'Go to search',
     revision: 'Revisjon',
-    revisionDescription: 'Articles in favorite subjects approaching revision date',
+    revisionDescription: 'Articles in favorite subjects that need revision',
     revisionDate: 'Revision date',
     workList: {
       title: 'My tasks',

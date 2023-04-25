@@ -23,13 +23,7 @@ import TableComponent, { FieldElement, Prefix, TitleElement } from '../TableComp
 import TableTitle from '../TableTitle';
 import GoToSearch from '../GoToSearch';
 import { SortOption } from './WorkList';
-import PublishedStatus from './PublishedStatus';
-
-export const TextWrapper = styled.div`
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
-`;
+import StatusCell from './StatusCell';
 
 export const CellWrapper = styled.div`
   display: flex;
@@ -88,16 +82,7 @@ const WorkListTabContent = ({
             },
             {
               id: `status_${res.id}`,
-              data: (
-                <CellWrapper>
-                  <TextWrapper>
-                    {res.status?.current
-                      ? t(`form.status.${res.status.current.toLowerCase()}`)
-                      : ''}
-                  </TextWrapper>
-                  <PublishedStatus status={res.status} />
-                </CellWrapper>
-              ),
+              data: <StatusCell status={res.status} />,
             },
             {
               id: `contentType_${res.id}`,

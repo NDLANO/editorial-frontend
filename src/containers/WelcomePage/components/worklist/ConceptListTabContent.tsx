@@ -27,8 +27,7 @@ import GoToSearch from '../GoToSearch';
 import TableComponent, { FieldElement, Prefix, TitleElement } from '../TableComponent';
 import TableTitle from '../TableTitle';
 import { SortOption } from './WorkList';
-import { CellWrapper, TextWrapper } from './WorkListTabContent';
-import PublishedStatus from './PublishedStatus';
+import StatusCell from './StatusCell';
 
 interface Props {
   data?: IConceptSearchResult;
@@ -113,14 +112,7 @@ const ConceptListTabContent = ({
         },
         {
           id: `status_${res.id}`,
-          data: (
-            <CellWrapper>
-              <TextWrapper>
-                {res.status?.current ? t(`form.status.${res.status.current.toLowerCase()}`) : ''}
-              </TextWrapper>
-              <PublishedStatus status={res.status} />
-            </CellWrapper>
-          ),
+          data: <StatusCell status={res.status} />,
         },
         {
           id: `concept_subject_${res.id}`,

@@ -10,9 +10,17 @@ import { IStatus } from '@ndla/types-backend/search-api';
 import styled from '@emotion/styled';
 import { Check } from '@ndla/icons/editor';
 import { spacing, colors } from '@ndla/core';
+import { useTranslation } from 'react-i18next';
+import { CellWrapper } from './WorkListTabContent';
 
 const IconWrapper = styled.div`
   overflow: hidden;
+`;
+
+const TextWrapper = styled.div`
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 `;
 
 const StyledCheckIcon = styled(Check)`
@@ -25,18 +33,22 @@ interface Props {
   status: IStatus | undefined;
 }
 
-const PublishedStatus = ({ status }: Props) => {
+const StatusCell = ({ status }: Props) => {
+  const { t } = useTranslation();
   const published = status?.current === 'PUBLISHED' || status?.other?.includes('PUBLISHED');
 
   return (
-    <>
+    <CellWrapper>
+      <TextWrapper>
+        {status?.current ? t(`form.status.${status.current.toLowerCase()}`) : ''}
+      </TextWrapper>
       {published && (
         <IconWrapper>
           <StyledCheckIcon />
         </IconWrapper>
       )}
-    </>
+    </CellWrapper>
   );
 };
 
-export default PublishedStatus;
+export default StatusCell;

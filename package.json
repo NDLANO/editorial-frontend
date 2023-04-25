@@ -169,7 +169,7 @@
     "formik": "^2.2.9",
     "fuse.js": "^3.4.5",
     "graphql": "^16.6.0",
-    "graphql-request": "^5.1.0",
+    "graphql-request": "^6.0.0",
     "he": "^1.2.0",
     "helmet": "^3.20.0",
     "history": "^5.1.0",

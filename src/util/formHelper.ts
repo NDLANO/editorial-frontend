@@ -203,6 +203,9 @@ export const formikCommonArticleRules: RulesType<ArticleFormType, IArticle> = {
   responsibleId: {
     required: false,
   },
+  comments: {
+    required: false,
+  },
 };
 
 export const learningResourceRules: RulesType<LearningResourceFormType, IArticle> = {

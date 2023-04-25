@@ -14,6 +14,9 @@ import { spacing } from '@ndla/core';
 const StyledButton = styled(ButtonV2)`
   background-color: white;
   margin-left: 0;
+  &:only-child {
+    margin-left: auto;
+  }
 `;
 
 const StyledFooter = styled.div`

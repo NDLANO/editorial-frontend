@@ -61,6 +61,7 @@ export const useAddNodeMutation = () => {
           translations: [],
           supportedLanguages: [],
           resourceTypes: [],
+          contexts: [],
           metadata: { visible: true, grepCodes: [], customFields: {} },
         };
         queryClient.setQueryData<NodeType[]>(key, [...previousNodes, optimisticNode]);

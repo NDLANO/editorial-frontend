@@ -117,7 +117,7 @@ const phrases = {
     noArticles: 'Ingen artiklar ...',
     emptyLastUsed: 'Ingen sist redigerte ...',
     emptyConcepts: 'Ingen forklaringar ...',
-    emptyRevision: 'Ingen artiklar i favorittfag som nærmar seg revisjonsdato ...',
+    emptyRevision: 'Ingen artiklar i favorittfag som treng revisjon ...',
     emptySavedSearch: 'Ingen lagra søk',
     guidelines: 'Retningslinjer',
     mustBeSearch: 'Lenka må være til eit søk',
@@ -131,7 +131,7 @@ const phrases = {
     errorMessage: 'Innhenting av data feila',
     goToSearch: 'Gå til søk',
     revision: 'Revisjon',
-    revisionDescription: 'Artiklar i favorittfag som nærmar seg revisjonsdato',
+    revisionDescription: 'Artiklar i favorittfag som treng revisjon',
     revisionDate: 'Revisjonsdato',
     workList: {
       title: 'Mine arbeidsoppgåver',
@@ -620,6 +620,12 @@ const phrases = {
     feil: 'Det er fortsatt flere feil i skjemaet',
     copy: 'kopi',
     saveAsCopySuccess: 'Ny artikkel lagret',
+    comment: 'Kommenter',
+    hideComment: 'Skjul kommentar',
+    showComment: 'Vis kommentar',
+    openAll: 'Opne alle',
+    hideAll: 'Lukk alle',
+    commentField: 'Kommentarfelt',
     preview: {
       button: 'Forhandsvis',
     },
@@ -817,6 +823,16 @@ const phrases = {
       expiration: {
         warn: 'Ein av revisjonane utløper snart (Må revideras innen {{date}}).',
         expired: 'Ein av revisjonane har utløpt (Utløpte {{date}}).',
+      },
+      deleteComment: {
+        title: 'Slett kommentar',
+        modal: 'Vil du slette denne kommentaren? Det er ikkje mogleg å gjenopprette han.',
+        button: 'Slett',
+      },
+      addComment: {
+        createdBy: 'Oppretta av',
+        warn: 'Hugs å legge til kommentar',
+        description: 'Du har endra ansvarleg uten å legge til kommentar!',
       },
     },
     status: {

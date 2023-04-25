@@ -93,6 +93,7 @@ const diffAndGroupChildren = <T extends NodeType = NodeType>(
       path: true,
       paths: true,
       resources: true,
+      contexts: true,
       metadata: {
         customFields: {
           requestPublish: true,
@@ -103,6 +104,7 @@ const diffAndGroupChildren = <T extends NodeType = NodeType>(
     const resourcesDiff = doDiff(child.original?.resources, child.other?.resources, {
       path: true,
       paths: true,
+      contexts: true,
       breadcrumbs: true,
     });
     const diffedChildren = diffAndGroupChildren(child, other);
@@ -170,6 +172,7 @@ const diffChildren = (
       const diffedResources = doDiff(original?.resources, other?.resources, {
         path: true,
         paths: true,
+        contexts: true,
         breadcrumbs: true,
       });
       return {
@@ -177,6 +180,7 @@ const diffChildren = (
           path: true,
           paths: true,
           resources: true,
+          contexts: true,
           metadata: {
             customFields: {
               requestPublish: true,
@@ -214,6 +218,7 @@ export const diffTrees = (
     path: true,
     paths: true,
     resources: true,
+    contexts: true,
     metadata: {
       customFields: {
         requestPublish: true,
@@ -224,6 +229,7 @@ export const diffTrees = (
   const rootResourcesDiff = doDiff(originalRoot?.resources, otherRoot?.resources, {
     path: true,
     paths: true,
+    contexts: true,
     breadcrumbs: true,
   });
   const childrenDiff = diffChildren(

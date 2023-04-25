@@ -28,7 +28,6 @@ interface Props {
   article?: IArticle;
   taxonomy?: ArticleTaxonomy;
   updateNotes: (art: IUpdatedArticle) => Promise<IArticle>;
-  getArticle: () => IUpdatedArticle;
   articleLanguage: string;
 }
 
@@ -36,7 +35,6 @@ const TopicArticleAccordionPanels = ({
   handleSubmit,
   article,
   updateNotes,
-  getArticle,
   articleLanguage,
   taxonomy,
 }: Props) => {
@@ -121,7 +119,6 @@ const TopicArticleAccordionPanels = ({
         >
           <VersionAndNotesPanel
             article={article}
-            getArticle={getArticle}
             type="topic-article"
             currentLanguage={values.language}
           />

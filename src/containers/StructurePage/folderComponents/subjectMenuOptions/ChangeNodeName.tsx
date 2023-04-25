@@ -10,7 +10,6 @@ import { useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { FieldArray, Formik, FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
-import * as yup from 'yup';
 import styled from '@emotion/styled';
 
 import { ButtonV2 } from '@ndla/button';
@@ -36,7 +35,6 @@ import {
 import Spinner from '../../../../components/Spinner';
 import { StyledErrorMessage } from '../styles';
 import { subjectpageLanguages } from '../../../../i18n2';
-import { requiredField } from '../../../../util/yupValidators';
 import { isFormikFormDirty } from '../../../../util/formHelper';
 import { Row } from '../../../../components';
 import FormikField from '../../../../components/FormikField';
@@ -46,6 +44,7 @@ import SaveButton from '../../../../components/SaveButton';
 import UIField from '../../../../components/Field';
 import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
 import StyledForm from '../../../../components/StyledFormComponents';
+import validateFormik, { RulesType } from '../../../../components/formikValidationSchema';
 
 const StyledDeleteButton = styled(DeleteButton)`
   flex-grow: 1;
@@ -73,6 +72,15 @@ interface Props {
   node: NodeType;
   editModeHandler: EditModeHandler;
 }
+
+const rules: RulesType<NodeTranslation, NodeTranslation> = {
+  name: {
+    required: true,
+  },
+  language: {
+    required: true,
+  },
+};
 
 const ChangeNodeName = ({ editModeHandler: { editMode, toggleEditMode }, node }: Props) => {
   const { t } = useTranslation();
@@ -173,15 +181,6 @@ const ChangeNodeNameModal = ({ onClose, node }: ModalProps) => {
 
   const initialValues = { translations: translations?.slice() ?? [] };
 
-  const schema = yup.object().shape({
-    translations: yup.array().of(
-      yup.object().shape({
-        name: requiredField('taxonomy.changeName.name', t),
-        language: requiredField('taxonomy.changeName.language', t),
-      }),
-    ),
-  });
-
   if (loadError) {
     return <StyledErrorMessage>{loadError}</StyledErrorMessage>;
   }
@@ -204,7 +203,12 @@ const ChangeNodeNameModal = ({ onClose, node }: ModalProps) => {
             <Formik
               initialValues={initialValues}
               onSubmit={(_, __) => {}}
-              validationSchema={schema}
+              validate={(values) => {
+                const errors = values.translations.map((translation) =>
+                  validateFormik(translation, rules, t),
+                );
+                return { translations: errors };
+              }}
               enableReinitialize={true}
             >
               {(formik) => {

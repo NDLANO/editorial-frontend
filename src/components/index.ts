@@ -7,4 +7,3 @@
  */
 
 export { Row } from './Row';
-export { default as PreviewDraftLightbox } from './PreviewDraft/PreviewDraftLightbox';

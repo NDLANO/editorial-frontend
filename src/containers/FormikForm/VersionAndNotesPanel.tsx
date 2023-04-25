@@ -18,7 +18,7 @@ import Accordion, {
   AccordionBar,
 } from '@ndla/accordion';
 import { VersionLogTag, VersionHistory } from '@ndla/editor';
-import { IUpdatedArticle, IArticle, IEditorNote } from '@ndla/types-backend/draft-api';
+import { IArticle, IEditorNote } from '@ndla/types-backend/draft-api';
 
 import FormikField from '../../components/FormikField';
 import { fetchDraftHistory } from '../../modules/draft/draftApi';
@@ -49,12 +49,11 @@ const getUser = (userId: string, allUsers: SimpleUserType[]) => {
 
 interface Props {
   article: IArticle;
-  getArticle: (preview: boolean) => IUpdatedArticle;
   type: 'standard' | 'topic-article';
   currentLanguage: string;
 }
 
-const VersionAndNotesPanel = ({ article, getArticle, type, currentLanguage }: Props) => {
+const VersionAndNotesPanel = ({ article, type, currentLanguage }: Props) => {
   const { t } = useTranslation();
   const { ndlaId } = useSession();
   const [versions, setVersions] = useState<IArticle[]>([]);
@@ -173,7 +172,6 @@ const VersionAndNotesPanel = ({ article, getArticle, type, currentLanguage }: Pr
                           version={version}
                           resetVersion={resetVersion}
                           article={article}
-                          getArticle={getArticle}
                           currentLanguage={currentLanguage}
                         />
                         {isLatestVersion && (

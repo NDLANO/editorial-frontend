@@ -17,7 +17,7 @@ import { FieldHeader } from '@ndla/forms';
 import { Spinner } from '@ndla/icons';
 import { fetchDraft, updateDraft } from '../../modules/draft/draftApi';
 import handleError from '../../util/handleError';
-import { Row, PreviewDraftLightbox } from '../../components';
+import { Row } from '../../components';
 import { blockContentToEditorValue, blockContentToHTML } from '../../util/articleContentConverter';
 import { DRAFT_HTML_SCOPE } from '../../constants';
 import { getSessionStateFromLocalStorage } from '../Session/SessionProvider';
@@ -30,7 +30,6 @@ import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { useMessages } from '../Messages/MessagesProvider';
 import { NdlaErrorPayload } from '../../util/resolveJsonOrRejectWithError';
 import PreviewDraftLightboxV2 from '../../components/PreviewDraft/PreviewDraftLightboxV2';
-import { useDisableConverter } from '../../components/ArticleConverterContext';
 
 declare global {
   interface Window {
@@ -134,7 +133,6 @@ type Status = 'initial' | 'edit' | 'fetch-error' | 'access-error' | 'saving' | '
 const EditMarkupPage = () => {
   const { t } = useTranslation();
   const params = useParams<'draftId' | 'language'>();
-  const disableConverter = useDisableConverter();
   const draftId = Number(params.draftId) || undefined;
   const language = params.language!;
   const [status, setStatus] = useState<Status>('initial');
@@ -232,28 +230,12 @@ const EditMarkupPage = () => {
           onSave={saveChanges}
         />
         <StyledRow>
-          {disableConverter && draft ? (
+          {!!draft && (
             <PreviewDraftLightboxV2
               type="markup"
               language={language}
               article={draft}
               activateButton={<ButtonV2 variant="link">{t('form.preview.button')}</ButtonV2>}
-            />
-          ) : (
-            <PreviewDraftLightbox
-              label={t('form.previewProductionArticle.article')}
-              typeOfPreview="preview"
-              articleId={draft?.id}
-              currentArticleLanguage={language}
-              getArticle={() => {
-                const content = standardizeContent(draft?.content?.content ?? '');
-                const update = updateContentInDraft(draft, content)!;
-                return {
-                  ...update,
-                  tags: { tags: [], language },
-                  language,
-                };
-              }}
             />
           )}
           <Row justifyContent="end" alignItems="baseline">

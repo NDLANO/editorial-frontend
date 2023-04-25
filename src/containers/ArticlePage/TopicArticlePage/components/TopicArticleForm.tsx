@@ -103,7 +103,6 @@ const TopicArticleForm = ({
             language: articleLanguage,
             supportedLanguages: values.supportedLanguages,
           }}
-          getEntity={getArticle}
           editUrl={editUrl}
           isSubmitting={isSubmitting}
           type="topic-article"
@@ -117,7 +116,6 @@ const TopicArticleForm = ({
                 articleLanguage={articleLanguage}
                 updateNotes={updateArticle}
                 article={article}
-                getArticle={getArticle}
                 handleSubmit={async () => handleSubmit(values, formik)}
               />
             </MainContent>

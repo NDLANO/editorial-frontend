@@ -38,12 +38,11 @@ describe('Workflow features', () => {
   });
 
   it('Open previews', () => {
-    cy.apiroute('POST', `/article-converter/json/nb/*`, `converted-article-${ARTICLE_ID}`);
-    cy.apiroute('GET', `/article-converter/json/nb/*`, `converted-article-${ARTICLE_ID}`);
+    cy.apiroute('POST', `/graphql-api/graphql`, `converted-article-${ARTICLE_ID}`);
     cy.get('[data-testid=previewVersion]').first().click();
     cy.apiwait(`@converted-article-${ARTICLE_ID}`);
     cy.get(`article[id=${ARTICLE_ID}]`).should('exist');
-    cy.get('[data-testid=closePreview]').should('exist').click();
+    cy.get('[data-cy=close-modal-button]').should('exist').click();
   });
 
   it('Can reset to prod', () => {

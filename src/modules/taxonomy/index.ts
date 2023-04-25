@@ -40,7 +40,6 @@ export {
   updateSubject,
   deleteSubject,
   addSubjectTopic,
-  updateSubjectTopic,
   updateSubjectMetadata,
   fetchSubjectNameTranslations,
   updateSubjectNameTranslation,
@@ -57,7 +56,6 @@ export {
   deleteSubTopicConnection,
   fetchTopicResources,
   fetchTopicConnections,
-  updateTopicSubtopic,
   deleteTopic,
   updateTopicMetadata,
 } from './topics';

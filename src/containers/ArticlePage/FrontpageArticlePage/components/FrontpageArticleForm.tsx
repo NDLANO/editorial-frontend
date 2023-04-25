@@ -94,7 +94,6 @@ const FrontpageArticleForm = ({
           values={values}
           content={{ ...article, title: article?.title?.title, language: articleLanguage }}
           editUrl={editUrl}
-          getEntity={getArticle}
           isSubmitting={isSubmitting}
           type="frontpage-article"
           expirationDate={getExpirationDate(article)}
@@ -104,7 +103,6 @@ const FrontpageArticleForm = ({
             <FrontpageArticlePanels
               articleLanguage={articleLanguage}
               article={article}
-              getArticle={getArticle}
               handleSubmit={handleSubmit}
             />
           </MainContent>

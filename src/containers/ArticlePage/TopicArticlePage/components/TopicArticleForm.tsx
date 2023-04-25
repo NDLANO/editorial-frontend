@@ -31,6 +31,8 @@ import { blockContentToHTML } from '../../../../util/articleContentConverter';
 import StyledForm from '../../../../components/StyledFormComponents';
 import { TaxonomyVersionProvider } from '../../../StructureVersion/TaxonomyVersionProvider';
 import { useSession } from '../../../../containers/Session/SessionProvider';
+import { FlexWrapper, MainContent } from '../../styles';
+import CommentSection from '../../components/CommentSection';
 
 interface Props {
   article?: IArticle;
@@ -108,14 +110,19 @@ const TopicArticleForm = ({
           expirationDate={getExpirationDate(article)}
         />
         <TaxonomyVersionProvider>
-          <TopicArticleAccordionPanels
-            taxonomy={articleTaxonomy}
-            articleLanguage={articleLanguage}
-            updateNotes={updateArticle}
-            article={article}
-            getArticle={getArticle}
-            handleSubmit={async () => handleSubmit(values, formik)}
-          />
+          <FlexWrapper>
+            <MainContent>
+              <TopicArticleAccordionPanels
+                taxonomy={articleTaxonomy}
+                articleLanguage={articleLanguage}
+                updateNotes={updateArticle}
+                article={article}
+                getArticle={getArticle}
+                handleSubmit={async () => handleSubmit(values, formik)}
+              />
+            </MainContent>
+            <CommentSection savedStatus={article?.status} />
+          </FlexWrapper>
         </TaxonomyVersionProvider>
         <EditorFooter
           showSimpleFooter={!article?.id}

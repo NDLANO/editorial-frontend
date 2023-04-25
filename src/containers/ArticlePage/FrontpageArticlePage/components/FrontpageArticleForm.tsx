@@ -32,6 +32,8 @@ import { blockContentToHTML } from '../../../../util/articleContentConverter';
 import StyledForm from '../../../../components/StyledFormComponents';
 import FrontpageArticlePanels from './FrontpageArticlePanels';
 import { useSession } from '../../../../containers/Session/SessionProvider';
+import CommentSection from '../../components/CommentSection';
+import { FlexWrapper, MainContent } from '../../styles';
 
 interface Props {
   article?: IArticle;
@@ -97,12 +99,17 @@ const FrontpageArticleForm = ({
           type="frontpage-article"
           expirationDate={getExpirationDate(article)}
         />
-        <FrontpageArticlePanels
-          articleLanguage={articleLanguage}
-          article={article}
-          getArticle={getArticle}
-          handleSubmit={handleSubmit}
-        />
+        <FlexWrapper>
+          <MainContent>
+            <FrontpageArticlePanels
+              articleLanguage={articleLanguage}
+              article={article}
+              getArticle={getArticle}
+              handleSubmit={handleSubmit}
+            />
+          </MainContent>
+          <CommentSection savedStatus={article?.status} />
+        </FlexWrapper>
         <EditorFooter
           showSimpleFooter={!article}
           formIsDirty={formIsDirty}

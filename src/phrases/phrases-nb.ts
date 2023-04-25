@@ -612,6 +612,12 @@ const phrases = {
     copy: 'kopi',
     mustSaveFirst: 'Du må lagre endringene dine først',
     saveAsCopySuccess: 'Ny artikkel lagret',
+    comment: 'Kommenter',
+    hideComment: 'Skjul kommentar',
+    showComment: 'Vis kommentar',
+    openAll: 'Åpne alle',
+    hideAll: 'Lukk alle',
+    commentField: 'Kommentarfelt',
     preview: {
       button: 'Forhåndsvis',
     },
@@ -804,6 +810,16 @@ const phrases = {
       expiration: {
         warn: 'En av revisjonene utløper snart (Må revideres innen {{date}}).',
         expired: 'En av revisjonene har utløpt (Utløpte {{date}}).',
+      },
+      deleteComment: {
+        title: 'Slett kommentar',
+        modal: 'Vil du slette denne kommentaren? Det er ikke mulig å gjenopprette den.',
+        button: 'Slett',
+      },
+      addComment: {
+        createdBy: 'Opprettet av',
+        warn: 'Husk å legge til kommentar',
+        description: 'Du har endret ansvarlig uten å legge til kommentar!',
       },
     },
     status: {

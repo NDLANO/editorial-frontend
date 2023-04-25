@@ -12,6 +12,7 @@ import { Check } from '@ndla/icons/editor';
 import { spacing, colors } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
 import { CellWrapper } from './WorkListTabContent';
+import Tooltip from '@ndla/tooltip';
 
 const IconWrapper = styled.div`
   overflow: hidden;
@@ -43,9 +44,11 @@ const StatusCell = ({ status }: Props) => {
         {status?.current ? t(`form.status.${status.current.toLowerCase()}`) : ''}
       </TextWrapper>
       {published && (
-        <IconWrapper>
-          <StyledCheckIcon />
-        </IconWrapper>
+        <Tooltip tooltip={t('form.workflow.published')}>
+          <IconWrapper>
+            <StyledCheckIcon />
+          </IconWrapper>
+        </Tooltip>
       )}
     </CellWrapper>
   );

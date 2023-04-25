@@ -123,7 +123,7 @@ const ConceptListTabContent = ({
           data: res.lastUpdated,
         },
       ]),
-    [conceptData, t],
+    [conceptData],
   );
 
   const subjectList = useMemo(

@@ -107,7 +107,7 @@ const WorkListTabContent = ({
             },
           ])
         : [[]],
-    [data, t],
+    [data],
   );
 
   const tableTitles: TitleElement<SortOption>[] = [

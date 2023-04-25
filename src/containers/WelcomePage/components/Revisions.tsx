@@ -124,7 +124,7 @@ const Revisions = ({ userData, ndlaId }: Props) => {
             : null,
         },
       ]) ?? [[]],
-    [data?.results, t],
+    [data?.results],
   );
 
   return (

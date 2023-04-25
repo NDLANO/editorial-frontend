@@ -97,7 +97,11 @@ const SlateBlogPost = ({ element, editor }: Props) => {
       {data && (
         <BlogPostWrapper contentEditable={false}>
           <ButtonContainer>
-            <IconButtonV2 variant="ghost" onClick={() => setIsEditing(true)} aria-label="Rediger">
+            <IconButtonV2
+              variant="ghost"
+              onClick={() => setIsEditing(true)}
+              aria-label={t('blogPostForm.title')}
+            >
               <Pencil />
             </IconButtonV2>
             <DeleteButton aria-label={t('delete')} onClick={handleRemove} />

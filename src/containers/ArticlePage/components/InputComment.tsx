@@ -14,7 +14,7 @@ import uniqueId from 'lodash/uniqueId';
 import { format } from 'date-fns';
 import { ButtonV2 } from '@ndla/button';
 import { useSession } from '../../Session/SessionProvider';
-import { CommentType, textAreaStyles } from './Comment';
+import { COMMENT_COLOR, CommentType, textAreaStyles } from './Comment';
 import formatDate, { formatDateForBackend } from '../../../util/formatDate';
 
 const CommentCard = styled.div`
@@ -24,6 +24,7 @@ const CommentCard = styled.div`
   border-radius: ${misc.borderRadius};
   padding: ${spacing.xsmall};
   font-weight: ${fonts.weight.light};
+  background-color: ${COMMENT_COLOR};
 `;
 
 const WrapperColumn = styled.div`

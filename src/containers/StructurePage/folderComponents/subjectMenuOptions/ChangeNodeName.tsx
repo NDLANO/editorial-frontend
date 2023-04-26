@@ -207,7 +207,9 @@ const ChangeNodeNameModal = ({ onClose, node }: ModalProps) => {
                 const errors = values.translations.map((translation) =>
                   validateFormik(translation, rules, t),
                 );
-                return { translations: errors };
+                if (errors.some((err) => Object.keys(err).length > 0)) {
+                  return { translations: errors };
+                }
               }}
               enableReinitialize={true}
             >
@@ -225,6 +227,7 @@ const ChangeNodeNameModal = ({ onClose, node }: ModalProps) => {
                   initialValues,
                   dirty,
                 });
+
                 if (formIsDirty) {
                   setUpdateError('');
                   setSaved(false);

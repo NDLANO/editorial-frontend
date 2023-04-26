@@ -33,7 +33,7 @@ afterEach(cleanup);
 
 const relatedElement: Descendant = {
   type: TYPE_RELATED,
-  data: {},
+  data: [],
   children: [
     {
       text: '',

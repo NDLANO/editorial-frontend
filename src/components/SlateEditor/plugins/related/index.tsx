@@ -20,7 +20,7 @@ import { TYPE_PARAGRAPH } from '../paragraph/types';
 import { TYPE_RELATED } from './types';
 
 export const defaultRelatedBlock = () => {
-  return slatejsx('element', { type: TYPE_RELATED, data: {} }, { text: '' });
+  return slatejsx('element', { type: TYPE_RELATED, data: [] }, { text: '' });
 };
 
 const normalizerConfig: NormalizerConfig = {

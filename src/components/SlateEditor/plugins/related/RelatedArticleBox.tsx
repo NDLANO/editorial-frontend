@@ -127,7 +127,7 @@ const RelatedArticleBox = ({ attributes, editor, element, onRemoveClick, childre
     if (!firstRender.current) {
       return;
     }
-    if (element?.data && firstRender.current) {
+    if (!!element?.data?.length && firstRender.current) {
       embedsToMeta(element.data, i18n.language, taxonomyVersion).then(setEmbeds);
       firstRender.current = false;
     } else {

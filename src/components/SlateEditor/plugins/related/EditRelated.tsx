@@ -56,7 +56,7 @@ const RelatedArticleWrapper = styled.div`
   display: flex;
   gap: ${spacing.xxsmall};
   width: 100%;
-  & > :first-child {
+  & > article {
     flex: 1;
     max-width: 100%;
   }

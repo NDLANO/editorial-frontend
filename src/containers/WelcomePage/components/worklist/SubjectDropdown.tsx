@@ -34,7 +34,7 @@ const SubjectDropdown = ({ filterSubject, setFilterSubject }: Props) => {
 
   const subjectIds = uniq(data?.results.map((r) => r.contexts.map((c) => c.subjectId)).flat());
 
-  const { data: unarchivedSubjects } = useSearchNodes(
+  const { data: subjects } = useSearchNodes(
     {
       ids: subjectIds,
       taxonomyVersion,
@@ -51,10 +51,10 @@ const SubjectDropdown = ({ filterSubject, setFilterSubject }: Props) => {
     },
   );
   const subjectContexts = useMemo(() => {
-    if (unarchivedSubjects?.results.length) {
-      return unarchivedSubjects!.results.map((r) => ({ value: r.id, label: r.name }));
+    if (subjects?.results.length) {
+      return subjects!.results.map((r) => ({ value: r.id, label: r.name }));
     } else return [];
-  }, [unarchivedSubjects]);
+  }, [subjects]);
 
   return (
     <DropdownWrapper>

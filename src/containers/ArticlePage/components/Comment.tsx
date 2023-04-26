@@ -17,10 +17,13 @@ import { css } from '@emotion/react';
 import { IComment } from '@ndla/types-backend/build/draft-api';
 import AlertModal from '../../../components/AlertModal';
 
+export const COMMENT_COLOR = colors.support.yellowLight;
+
 export const textAreaStyles = css`
   width: 100%;
   border: 1px solid ${colors.brand.neutral7};
   min-height: 25px;
+  background-color: ${COMMENT_COLOR};
 
   input,
   textarea {
@@ -58,6 +61,7 @@ const CommentCard = styled.li`
   padding: ${spacing.xsmall};
   ${fonts.sizes('16px')};
   font-weight: ${fonts.weight.light};
+  background-color: ${COMMENT_COLOR};
 `;
 
 const CardContent = styled.div`

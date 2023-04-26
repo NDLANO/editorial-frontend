@@ -19,9 +19,8 @@ import { afterOrBeforeTextBlockElement } from '../../utils/normalizationHelpers'
 import { TYPE_PARAGRAPH } from '../paragraph/types';
 import { TYPE_RELATED } from './types';
 
-export const defaultRelatedBlock = () => {
-  return slatejsx('element', { type: TYPE_RELATED, data: [] }, { text: '' });
-};
+export const defaultRelatedBlock = () =>
+  slatejsx('element', { type: TYPE_RELATED, data: [] }, [{ text: '' }]);
 
 const normalizerConfig: NormalizerConfig = {
   previous: {
@@ -54,7 +53,7 @@ export const relatedSerializer: SlateSerializer = {
           reduceElementDataAttributesV2(Array.from(el.attributes)),
         ),
       },
-      { text: '' },
+      [{ text: '' }],
     );
   },
   serialize(node: Descendant) {

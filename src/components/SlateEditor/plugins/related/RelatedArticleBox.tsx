@@ -182,7 +182,7 @@ const RelatedArticleBox = ({ attributes, editor, element, onRemoveClick, childre
   };
 
   return (
-    <>
+    <div contentEditable={false} {...attributes}>
       {editMode && (
         <EditRelated
           data-testid="editRelated"
@@ -195,9 +195,6 @@ const RelatedArticleBox = ({ attributes, editor, element, onRemoveClick, childre
         />
       )}
       <RelatedArticleListV2
-        role="button"
-        contentEditable={false}
-        tabIndex={0}
         data-testid="relatedWrapper"
         headingButtons={
           <div>
@@ -223,7 +220,8 @@ const RelatedArticleBox = ({ attributes, editor, element, onRemoveClick, childre
           <RelatedContentEmbed key={`related-${embed.seq}`} embed={embed} />
         ))}
       </RelatedArticleListV2>
-    </>
+      {children}
+    </div>
   );
 };
 

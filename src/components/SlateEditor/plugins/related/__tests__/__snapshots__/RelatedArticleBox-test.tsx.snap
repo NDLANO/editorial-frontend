@@ -515,34 +515,138 @@ exports[`it goes in and out of edit mode 1`] = `
     </div>
   </div>
   <div
-    class="emotion-0"
     contenteditable="false"
   >
     <div
-      aria-hidden="true"
-      class="emotion-1"
-    />
-    <div
-      class="emotion-2"
+      class="emotion-0"
+      contenteditable="false"
     >
       <div
-        class="emotion-3"
+        aria-hidden="true"
+        class="emotion-1"
+      />
+      <div
+        class="emotion-2"
+      >
+        <div
+          class="emotion-3"
+        >
+          <h3
+            class="c-related-articles__component-title emotion-4"
+          >
+            Relatert innhold
+          </h3>
+          <div
+            data-tooltip="Fjern"
+            data-tooltip-container="true"
+          >
+            <button
+              aria-label="Fjern"
+              class="emotion-5"
+              data-cy="close-related-button"
+              data-state="closed"
+              data-trigger="true"
+              type="button"
+            >
+              <svg
+                aria-hidden="true"
+                class="c-icon"
+                data-license="Apache License 2.0"
+                data-source="Material Design"
+                fill="currentColor"
+                height="1em"
+                preserveAspectRatio="xMidYMid meet"
+                style="vertical-align: middle;"
+                viewBox="0 0 24 24"
+                width="1em"
+              >
+                <g>
+                  <path
+                    d="M0 0h24v24H0V0z"
+                    fill="none"
+                  />
+                  <path
+                    d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z"
+                  />
+                  <path
+                    d="M0 0h24v24H0z"
+                    fill="none"
+                  />
+                </g>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <p>
+          Dra artikkel for å endre rekkefølge
+        </p>
+        <div
+          class="drop-zone"
+        />
+        <div
+          data-cy="styled-article-modal"
+        >
+          <div
+            aria-expanded="false"
+            aria-haspopup="listbox"
+            aria-labelledby="downshift-0-label"
+            role="combobox"
+            style="position: relative;"
+          >
+            <div>
+              <div
+                class="emotion-6 emotion-7"
+              >
+                <div
+                  class="emotion-8 emotion-9"
+                >
+                  <input
+                    aria-autocomplete="list"
+                    aria-labelledby="downshift-0-label"
+                    autocomplete="off"
+                    data-testid="dropdownInput"
+                    id="downshift-0-input"
+                    placeholder="Søk på tittel"
+                    value=""
+                  />
+                  <div
+                    class="emotion-10 emotion-11"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="emotion-12"
+          >
+            Eller
+          </div>
+          <button
+            class="emotion-13"
+            data-testid="showAddExternal"
+            type="button"
+          >
+            Legg til ekstern artikkel
+          </button>
+        </div>
+      </div>
+    </div>
+    <section
+      class="c-related-articles"
+      data-testid="relatedWrapper"
+    >
+      <div
+        class="emotion-14 emotion-15"
       >
         <h3
           class="c-related-articles__component-title emotion-4"
         >
           Relatert innhold
         </h3>
-        <div
-          data-tooltip="Fjern"
-          data-tooltip-container="true"
-        >
+        <div>
           <button
-            aria-label="Fjern"
-            class="emotion-5"
-            data-cy="close-related-button"
-            data-state="closed"
-            data-trigger="true"
+            aria-label="Rediger"
+            class="emotion-17"
             type="button"
           >
             <svg
@@ -559,11 +663,7 @@ exports[`it goes in and out of edit mode 1`] = `
             >
               <g>
                 <path
-                  d="M0 0h24v24H0V0z"
-                  fill="none"
-                />
-                <path
-                  d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z"
+                  d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
                 />
                 <path
                   d="M0 0h24v24H0z"
@@ -572,137 +672,38 @@ exports[`it goes in and out of edit mode 1`] = `
               </g>
             </svg>
           </button>
-        </div>
-      </div>
-      <p>
-        Dra artikkel for å endre rekkefølge
-      </p>
-      <div
-        class="drop-zone"
-      />
-      <div
-        data-cy="styled-article-modal"
-      >
-        <div
-          aria-expanded="false"
-          aria-haspopup="listbox"
-          aria-labelledby="downshift-0-label"
-          role="combobox"
-          style="position: relative;"
-        >
-          <div>
-            <div
-              class="emotion-6 emotion-7"
+          <button
+            aria-label="Slett"
+            class="emotion-18"
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              class="c-icon"
+              data-license="Apache License 2.0"
+              data-source="Material Design"
+              fill="currentColor"
+              height="1em"
+              preserveAspectRatio="xMidYMid meet"
+              style="vertical-align: middle;"
+              viewBox="0 0 24 24"
+              width="1em"
             >
-              <div
-                class="emotion-8 emotion-9"
-              >
-                <input
-                  aria-autocomplete="list"
-                  aria-labelledby="downshift-0-label"
-                  autocomplete="off"
-                  data-testid="dropdownInput"
-                  id="downshift-0-input"
-                  placeholder="Søk på tittel"
-                  value=""
+              <g>
+                <path
+                  d="M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z"
+                  fill="currentColor"
                 />
-                <div
-                  class="emotion-10 emotion-11"
-                />
-              </div>
-            </div>
-          </div>
+              </g>
+            </svg>
+          </button>
         </div>
-        <div
-          class="emotion-12"
-        >
-          Eller
-        </div>
-        <button
-          class="emotion-13"
-          data-testid="showAddExternal"
-          type="button"
-        >
-          Legg til ekstern artikkel
-        </button>
       </div>
-    </div>
+      <div
+        class="c-related-articles__articles"
+      />
+    </section>
   </div>
-  <section
-    class="c-related-articles"
-    contenteditable="false"
-    data-testid="relatedWrapper"
-    role="button"
-    tabindex="0"
-  >
-    <div
-      class="emotion-14 emotion-15"
-    >
-      <h3
-        class="c-related-articles__component-title emotion-4"
-      >
-        Relatert innhold
-      </h3>
-      <div>
-        <button
-          aria-label="Rediger"
-          class="emotion-17"
-          type="button"
-        >
-          <svg
-            aria-hidden="true"
-            class="c-icon"
-            data-license="Apache License 2.0"
-            data-source="Material Design"
-            fill="currentColor"
-            height="1em"
-            preserveAspectRatio="xMidYMid meet"
-            style="vertical-align: middle;"
-            viewBox="0 0 24 24"
-            width="1em"
-          >
-            <g>
-              <path
-                d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
-              />
-              <path
-                d="M0 0h24v24H0z"
-                fill="none"
-              />
-            </g>
-          </svg>
-        </button>
-        <button
-          aria-label="Slett"
-          class="emotion-18"
-          type="button"
-        >
-          <svg
-            aria-hidden="true"
-            class="c-icon"
-            data-license="Apache License 2.0"
-            data-source="Material Design"
-            fill="currentColor"
-            height="1em"
-            preserveAspectRatio="xMidYMid meet"
-            style="vertical-align: middle;"
-            viewBox="0 0 24 24"
-            width="1em"
-          >
-            <g>
-              <path
-                d="M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z"
-                fill="currentColor"
-              />
-            </g>
-          </svg>
-        </button>
-      </div>
-    </div>
-    <div
-      class="c-related-articles__articles"
-    />
-  </section>
 </div>
 `;
 
@@ -1313,34 +1314,313 @@ exports[`it goes in and out of edit mode 2`] = `
     </div>
   </div>
   <div
-    class="emotion-0"
     contenteditable="false"
   >
     <div
-      aria-hidden="true"
-      class="emotion-1"
-    />
-    <div
-      class="emotion-2"
+      class="emotion-0"
+      contenteditable="false"
     >
       <div
-        class="emotion-3"
+        aria-hidden="true"
+        class="emotion-1"
+      />
+      <div
+        class="emotion-2"
+      >
+        <div
+          class="emotion-3"
+        >
+          <h3
+            class="c-related-articles__component-title emotion-4"
+          >
+            Relatert innhold
+          </h3>
+          <div
+            data-tooltip="Fjern"
+            data-tooltip-container="true"
+          >
+            <button
+              aria-label="Fjern"
+              class="emotion-5"
+              data-cy="close-related-button"
+              data-state="closed"
+              data-trigger="true"
+              type="button"
+            >
+              <svg
+                aria-hidden="true"
+                class="c-icon"
+                data-license="Apache License 2.0"
+                data-source="Material Design"
+                fill="currentColor"
+                height="1em"
+                preserveAspectRatio="xMidYMid meet"
+                style="vertical-align: middle;"
+                viewBox="0 0 24 24"
+                width="1em"
+              >
+                <g>
+                  <path
+                    d="M0 0h24v24H0V0z"
+                    fill="none"
+                  />
+                  <path
+                    d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z"
+                  />
+                  <path
+                    d="M0 0h24v24H0z"
+                    fill="none"
+                  />
+                </g>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <p>
+          Dra artikkel for å endre rekkefølge
+        </p>
+        <div
+          class="drop-zone"
+        >
+          <div
+            aria-describedby="rbd-hidden-text-0-hidden-text-0"
+            data-rbd-drag-handle-context-id="0"
+            data-rbd-drag-handle-draggable-id="embed-1"
+            data-rbd-draggable-context-id="0"
+            data-rbd-draggable-id="embed-1"
+            draggable="false"
+            role="button"
+            tabindex="0"
+          >
+            <div
+              class="emotion-6"
+            >
+              <article
+                class="c-related-articles__item c-related-articles__item--external-learning-resources"
+              >
+                <h3
+                  class="c-related-articles__title"
+                >
+                  <div
+                    class="c-content-type-badge c-content-type-badge--external-learning-resources c-content-type-badge--small c-content-type-badge--background c-content-type-badge--border"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="c-icon"
+                      data-license="Apache License 2.0"
+                      data-source="Material Design"
+                      fill="currentColor"
+                      height="1em"
+                      preserveAspectRatio="xMidYMid meet"
+                      style="vertical-align: middle;"
+                      viewBox="0 0 24 24"
+                      width="1em"
+                    >
+                      <g>
+                        <g
+                          fill="none"
+                          fill-rule="evenodd"
+                          stroke="none"
+                          stroke-width="1"
+                        >
+                          <g>
+                            <g>
+                              <polygon
+                                points="0 0 24 0 24 24 0 24"
+                              />
+                              <path
+                                d="M3.9,12 C3.9,10.29 5.29,8.9 7,8.9 L11,8.9 L11,7 L7,7 C4.24,7 2,9.24 2,12 C2,14.76 4.24,17 7,17 L11,17 L11,15.1 L7,15.1 C5.29,15.1 3.9,13.71 3.9,12 Z M8,13 L16,13 L16,11 L8,11 L8,13 Z M17,7 L13,7 L13,8.9 L17,8.9 C18.71,8.9 20.1,10.29 20.1,12 C20.1,13.71 18.71,15.1 17,15.1 L13,15.1 L13,17 L17,17 C19.76,17 22,14.76 22,12 C22,9.24 19.76,7 17,7 Z"
+                                fill="currentColor"
+                                fill-rule="nonzero"
+                              />
+                            </g>
+                          </g>
+                        </g>
+                      </g>
+                    </svg>
+                  </div>
+                  <span
+                    class="c-related-articles__link-wrapper"
+                  >
+                    <a
+                      class="c-related-articles__link"
+                      href="https://www.vg.no"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      Verdens gang
+                    </a>
+                  </span>
+                </h3>
+                <p
+                  class="c-related-articles__description"
+                />
+                <p
+                  class="c-related-articles__link-info"
+                >
+                  Nettside hos vg.no
+                </p>
+              </article>
+              <div
+                class="emotion-7"
+              >
+                <div
+                  data-tooltip="Endre ekstern artikkel"
+                  data-tooltip-container="true"
+                >
+                  <button
+                    aria-label="Endre ekstern artikkel"
+                    class="emotion-8"
+                    data-state="closed"
+                    data-trigger="true"
+                    type="button"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="c-icon"
+                      data-license="Apache License 2.0"
+                      data-source="Material Design"
+                      fill="currentColor"
+                      height="1em"
+                      preserveAspectRatio="xMidYMid meet"
+                      style="vertical-align: middle;"
+                      viewBox="0 0 24 24"
+                      width="1em"
+                    >
+                      <g>
+                        <path
+                          d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
+                        />
+                        <path
+                          d="M0 0h24v24H0z"
+                          fill="none"
+                        />
+                      </g>
+                    </svg>
+                  </button>
+                </div>
+                <div
+                  data-tooltip="Slett ekstern artikkel"
+                  data-tooltip-container="true"
+                >
+                  <button
+                    aria-label="Slett ekstern artikkel"
+                    class="emotion-5"
+                    data-state="closed"
+                    data-trigger="true"
+                    type="button"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="c-icon"
+                      data-license="Apache License 2.0"
+                      data-source="Material Design"
+                      fill="currentColor"
+                      height="1em"
+                      preserveAspectRatio="xMidYMid meet"
+                      style="vertical-align: middle;"
+                      viewBox="0 0 24 24"
+                      width="1em"
+                    >
+                      <g>
+                        <path
+                          d="M0 0h24v24H0V0z"
+                          fill="none"
+                        />
+                        <path
+                          d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z"
+                        />
+                        <path
+                          d="M0 0h24v24H0z"
+                          fill="none"
+                        />
+                      </g>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          data-cy="styled-article-modal"
+        >
+          <div
+            aria-expanded="false"
+            aria-haspopup="listbox"
+            aria-labelledby="downshift-0-label"
+            role="combobox"
+            style="position: relative;"
+          >
+            <div>
+              <div
+                class="emotion-10 emotion-11"
+              >
+                <div
+                  class="emotion-12 emotion-13"
+                >
+                  <input
+                    aria-autocomplete="list"
+                    aria-labelledby="downshift-0-label"
+                    autocomplete="off"
+                    data-testid="dropdownInput"
+                    id="downshift-0-input"
+                    placeholder="Søk på tittel"
+                    value=""
+                  />
+                  <svg
+                    aria-hidden="true"
+                    class="c-icon"
+                    data-license="Apache License 2.0"
+                    data-source="Material Design"
+                    fill="currentColor"
+                    height="1em"
+                    preserveAspectRatio="xMidYMid meet"
+                    style="vertical-align: middle;"
+                    viewBox="0 0 48 48"
+                    width="1em"
+                  >
+                    <g>
+                      <path
+                        d="M31 28h-1.59l-.55-.55C30.82 25.18 32 22.23 32 19c0-7.18-5.82-13-13-13S6 11.82 6 19s5.82 13 13 13c3.23 0 6.18-1.18 8.45-3.13l.55.55V31l10 9.98L40.98 38 31 28zm-12 0c-4.97 0-9-4.03-9-9s4.03-9 9-9 9 4.03 9 9-4.03 9-9 9z"
+                      />
+                    </g>
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="emotion-14"
+          >
+            Eller
+          </div>
+          <button
+            class="emotion-15"
+            data-testid="showAddExternal"
+            type="button"
+          >
+            Legg til ekstern artikkel
+          </button>
+        </div>
+      </div>
+    </div>
+    <section
+      class="c-related-articles"
+      data-testid="relatedWrapper"
+    >
+      <div
+        class="emotion-16 emotion-17"
       >
         <h3
           class="c-related-articles__component-title emotion-4"
         >
           Relatert innhold
         </h3>
-        <div
-          data-tooltip="Fjern"
-          data-tooltip-container="true"
-        >
+        <div>
           <button
-            aria-label="Fjern"
-            class="emotion-5"
-            data-cy="close-related-button"
-            data-state="closed"
-            data-trigger="true"
+            aria-label="Rediger"
+            class="emotion-19"
             type="button"
           >
             <svg
@@ -1357,11 +1637,7 @@ exports[`it goes in and out of edit mode 2`] = `
             >
               <g>
                 <path
-                  d="M0 0h24v24H0V0z"
-                  fill="none"
-                />
-                <path
-                  d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z"
+                  d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
                 />
                 <path
                   d="M0 0h24v24H0z"
@@ -1370,319 +1646,10 @@ exports[`it goes in and out of edit mode 2`] = `
               </g>
             </svg>
           </button>
-        </div>
-      </div>
-      <p>
-        Dra artikkel for å endre rekkefølge
-      </p>
-      <div
-        class="drop-zone"
-      >
-        <div
-          aria-describedby="rbd-hidden-text-0-hidden-text-0"
-          data-rbd-drag-handle-context-id="0"
-          data-rbd-drag-handle-draggable-id="embed-1"
-          data-rbd-draggable-context-id="0"
-          data-rbd-draggable-id="embed-1"
-          draggable="false"
-          role="button"
-          tabindex="0"
-        >
-          <div
-            class="emotion-6"
-          >
-            <article
-              class="c-related-articles__item c-related-articles__item--external-learning-resources"
-            >
-              <h3
-                class="c-related-articles__title"
-              >
-                <div
-                  class="c-content-type-badge c-content-type-badge--external-learning-resources c-content-type-badge--small c-content-type-badge--background c-content-type-badge--border"
-                >
-                  <svg
-                    aria-hidden="true"
-                    class="c-icon"
-                    data-license="Apache License 2.0"
-                    data-source="Material Design"
-                    fill="currentColor"
-                    height="1em"
-                    preserveAspectRatio="xMidYMid meet"
-                    style="vertical-align: middle;"
-                    viewBox="0 0 24 24"
-                    width="1em"
-                  >
-                    <g>
-                      <g
-                        fill="none"
-                        fill-rule="evenodd"
-                        stroke="none"
-                        stroke-width="1"
-                      >
-                        <g>
-                          <g>
-                            <polygon
-                              points="0 0 24 0 24 24 0 24"
-                            />
-                            <path
-                              d="M3.9,12 C3.9,10.29 5.29,8.9 7,8.9 L11,8.9 L11,7 L7,7 C4.24,7 2,9.24 2,12 C2,14.76 4.24,17 7,17 L11,17 L11,15.1 L7,15.1 C5.29,15.1 3.9,13.71 3.9,12 Z M8,13 L16,13 L16,11 L8,11 L8,13 Z M17,7 L13,7 L13,8.9 L17,8.9 C18.71,8.9 20.1,10.29 20.1,12 C20.1,13.71 18.71,15.1 17,15.1 L13,15.1 L13,17 L17,17 C19.76,17 22,14.76 22,12 C22,9.24 19.76,7 17,7 Z"
-                              fill="currentColor"
-                              fill-rule="nonzero"
-                            />
-                          </g>
-                        </g>
-                      </g>
-                    </g>
-                  </svg>
-                </div>
-                <span
-                  class="c-related-articles__link-wrapper"
-                >
-                  <a
-                    class="c-related-articles__link"
-                    href="https://www.vg.no"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    Verdens gang
-                  </a>
-                </span>
-              </h3>
-              <p
-                class="c-related-articles__description"
-              />
-              <p
-                class="c-related-articles__link-info"
-              >
-                Nettside hos vg.no
-              </p>
-            </article>
-            <div
-              class="emotion-7"
-            >
-              <div
-                data-tooltip="Endre ekstern artikkel"
-                data-tooltip-container="true"
-              >
-                <button
-                  aria-label="Endre ekstern artikkel"
-                  class="emotion-8"
-                  data-state="closed"
-                  data-trigger="true"
-                  type="button"
-                >
-                  <svg
-                    aria-hidden="true"
-                    class="c-icon"
-                    data-license="Apache License 2.0"
-                    data-source="Material Design"
-                    fill="currentColor"
-                    height="1em"
-                    preserveAspectRatio="xMidYMid meet"
-                    style="vertical-align: middle;"
-                    viewBox="0 0 24 24"
-                    width="1em"
-                  >
-                    <g>
-                      <path
-                        d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
-                      />
-                      <path
-                        d="M0 0h24v24H0z"
-                        fill="none"
-                      />
-                    </g>
-                  </svg>
-                </button>
-              </div>
-              <div
-                data-tooltip="Slett ekstern artikkel"
-                data-tooltip-container="true"
-              >
-                <button
-                  aria-label="Slett ekstern artikkel"
-                  class="emotion-5"
-                  data-state="closed"
-                  data-trigger="true"
-                  type="button"
-                >
-                  <svg
-                    aria-hidden="true"
-                    class="c-icon"
-                    data-license="Apache License 2.0"
-                    data-source="Material Design"
-                    fill="currentColor"
-                    height="1em"
-                    preserveAspectRatio="xMidYMid meet"
-                    style="vertical-align: middle;"
-                    viewBox="0 0 24 24"
-                    width="1em"
-                  >
-                    <g>
-                      <path
-                        d="M0 0h24v24H0V0z"
-                        fill="none"
-                      />
-                      <path
-                        d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z"
-                      />
-                      <path
-                        d="M0 0h24v24H0z"
-                        fill="none"
-                      />
-                    </g>
-                  </svg>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div
-        data-cy="styled-article-modal"
-      >
-        <div
-          aria-expanded="false"
-          aria-haspopup="listbox"
-          aria-labelledby="downshift-0-label"
-          role="combobox"
-          style="position: relative;"
-        >
-          <div>
-            <div
-              class="emotion-10 emotion-11"
-            >
-              <div
-                class="emotion-12 emotion-13"
-              >
-                <input
-                  aria-autocomplete="list"
-                  aria-labelledby="downshift-0-label"
-                  autocomplete="off"
-                  data-testid="dropdownInput"
-                  id="downshift-0-input"
-                  placeholder="Søk på tittel"
-                  value=""
-                />
-                <svg
-                  aria-hidden="true"
-                  class="c-icon"
-                  data-license="Apache License 2.0"
-                  data-source="Material Design"
-                  fill="currentColor"
-                  height="1em"
-                  preserveAspectRatio="xMidYMid meet"
-                  style="vertical-align: middle;"
-                  viewBox="0 0 48 48"
-                  width="1em"
-                >
-                  <g>
-                    <path
-                      d="M31 28h-1.59l-.55-.55C30.82 25.18 32 22.23 32 19c0-7.18-5.82-13-13-13S6 11.82 6 19s5.82 13 13 13c3.23 0 6.18-1.18 8.45-3.13l.55.55V31l10 9.98L40.98 38 31 28zm-12 0c-4.97 0-9-4.03-9-9s4.03-9 9-9 9 4.03 9 9-4.03 9-9 9z"
-                    />
-                  </g>
-                </svg>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div
-          class="emotion-14"
-        >
-          Eller
-        </div>
-        <button
-          class="emotion-15"
-          data-testid="showAddExternal"
-          type="button"
-        >
-          Legg til ekstern artikkel
-        </button>
-      </div>
-    </div>
-  </div>
-  <section
-    class="c-related-articles"
-    contenteditable="false"
-    data-testid="relatedWrapper"
-    role="button"
-    tabindex="0"
-  >
-    <div
-      class="emotion-16 emotion-17"
-    >
-      <h3
-        class="c-related-articles__component-title emotion-4"
-      >
-        Relatert innhold
-      </h3>
-      <div>
-        <button
-          aria-label="Rediger"
-          class="emotion-19"
-          type="button"
-        >
-          <svg
-            aria-hidden="true"
-            class="c-icon"
-            data-license="Apache License 2.0"
-            data-source="Material Design"
-            fill="currentColor"
-            height="1em"
-            preserveAspectRatio="xMidYMid meet"
-            style="vertical-align: middle;"
-            viewBox="0 0 24 24"
-            width="1em"
-          >
-            <g>
-              <path
-                d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
-              />
-              <path
-                d="M0 0h24v24H0z"
-                fill="none"
-              />
-            </g>
-          </svg>
-        </button>
-        <button
-          aria-label="Slett"
-          class="emotion-20"
-          type="button"
-        >
-          <svg
-            aria-hidden="true"
-            class="c-icon"
-            data-license="Apache License 2.0"
-            data-source="Material Design"
-            fill="currentColor"
-            height="1em"
-            preserveAspectRatio="xMidYMid meet"
-            style="vertical-align: middle;"
-            viewBox="0 0 24 24"
-            width="1em"
-          >
-            <g>
-              <path
-                d="M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z"
-                fill="currentColor"
-              />
-            </g>
-          </svg>
-        </button>
-      </div>
-    </div>
-    <div
-      class="c-related-articles__articles"
-    >
-      <article
-        class="c-related-articles__item c-related-articles__item--external-learning-resources"
-      >
-        <h3
-          class="c-related-articles__title"
-        >
-          <div
-            class="c-content-type-badge c-content-type-badge--external-learning-resources c-content-type-badge--small c-content-type-badge--background c-content-type-badge--border"
+          <button
+            aria-label="Slett"
+            class="emotion-20"
+            type="button"
           >
             <svg
               aria-hidden="true"
@@ -1697,51 +1664,86 @@ exports[`it goes in and out of edit mode 2`] = `
               width="1em"
             >
               <g>
-                <g
-                  fill="none"
-                  fill-rule="evenodd"
-                  stroke="none"
-                  stroke-width="1"
-                >
-                  <g>
+                <path
+                  d="M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z"
+                  fill="currentColor"
+                />
+              </g>
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div
+        class="c-related-articles__articles"
+      >
+        <article
+          class="c-related-articles__item c-related-articles__item--external-learning-resources"
+        >
+          <h3
+            class="c-related-articles__title"
+          >
+            <div
+              class="c-content-type-badge c-content-type-badge--external-learning-resources c-content-type-badge--small c-content-type-badge--background c-content-type-badge--border"
+            >
+              <svg
+                aria-hidden="true"
+                class="c-icon"
+                data-license="Apache License 2.0"
+                data-source="Material Design"
+                fill="currentColor"
+                height="1em"
+                preserveAspectRatio="xMidYMid meet"
+                style="vertical-align: middle;"
+                viewBox="0 0 24 24"
+                width="1em"
+              >
+                <g>
+                  <g
+                    fill="none"
+                    fill-rule="evenodd"
+                    stroke="none"
+                    stroke-width="1"
+                  >
                     <g>
-                      <polygon
-                        points="0 0 24 0 24 24 0 24"
-                      />
-                      <path
-                        d="M3.9,12 C3.9,10.29 5.29,8.9 7,8.9 L11,8.9 L11,7 L7,7 C4.24,7 2,9.24 2,12 C2,14.76 4.24,17 7,17 L11,17 L11,15.1 L7,15.1 C5.29,15.1 3.9,13.71 3.9,12 Z M8,13 L16,13 L16,11 L8,11 L8,13 Z M17,7 L13,7 L13,8.9 L17,8.9 C18.71,8.9 20.1,10.29 20.1,12 C20.1,13.71 18.71,15.1 17,15.1 L13,15.1 L13,17 L17,17 C19.76,17 22,14.76 22,12 C22,9.24 19.76,7 17,7 Z"
-                        fill="currentColor"
-                        fill-rule="nonzero"
-                      />
+                      <g>
+                        <polygon
+                          points="0 0 24 0 24 24 0 24"
+                        />
+                        <path
+                          d="M3.9,12 C3.9,10.29 5.29,8.9 7,8.9 L11,8.9 L11,7 L7,7 C4.24,7 2,9.24 2,12 C2,14.76 4.24,17 7,17 L11,17 L11,15.1 L7,15.1 C5.29,15.1 3.9,13.71 3.9,12 Z M8,13 L16,13 L16,11 L8,11 L8,13 Z M17,7 L13,7 L13,8.9 L17,8.9 C18.71,8.9 20.1,10.29 20.1,12 C20.1,13.71 18.71,15.1 17,15.1 L13,15.1 L13,17 L17,17 C19.76,17 22,14.76 22,12 C22,9.24 19.76,7 17,7 Z"
+                          fill="currentColor"
+                          fill-rule="nonzero"
+                        />
+                      </g>
                     </g>
                   </g>
                 </g>
-              </g>
-            </svg>
-          </div>
-          <span
-            class="c-related-articles__link-wrapper"
-          >
-            <a
-              class="c-related-articles__link"
-              href="https://www.vg.no"
-              rel="noopener noreferrer"
-              target="_blank"
+              </svg>
+            </div>
+            <span
+              class="c-related-articles__link-wrapper"
             >
-              Verdens gang
-            </a>
-          </span>
-        </h3>
-        <p
-          class="c-related-articles__description"
-        />
-        <p
-          class="c-related-articles__link-info"
-        >
-          Nettside hos vg.no
-        </p>
-      </article>
-    </div>
-  </section>
+              <a
+                class="c-related-articles__link"
+                href="https://www.vg.no"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                Verdens gang
+              </a>
+            </span>
+          </h3>
+          <p
+            class="c-related-articles__description"
+          />
+          <p
+            class="c-related-articles__link-info"
+          >
+            Nettside hos vg.no
+          </p>
+        </article>
+      </div>
+    </section>
+  </div>
 </div>
 `;

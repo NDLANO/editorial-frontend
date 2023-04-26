@@ -9,10 +9,11 @@
 import { MouseEvent } from 'react';
 import { Descendant, Editor, Element, Transforms } from 'slate';
 import { ReactEditor, RenderElementProps } from 'slate-react';
+import { RelatedContentEmbedData } from '@ndla/types-embed';
 import { jsx as slatejsx } from 'slate-hyperscript';
 import RelatedArticleBox from './RelatedArticleBox';
 import { SlateSerializer } from '../../interfaces';
-import { createEmbedTag, reduceChildElements } from '../../../../util/embedTagHelpers';
+import { reduceElementDataAttributesV2, createEmbedTagV2 } from '../../../../util/embedTagHelpers';
 import { NormalizerConfig, defaultBlockNormalizer } from '../../utils/defaultNormalizer';
 import { afterOrBeforeTextBlockElement } from '../../utils/normalizationHelpers';
 import { TYPE_PARAGRAPH } from '../paragraph/types';
@@ -21,17 +22,6 @@ import { TYPE_RELATED } from './types';
 export const defaultRelatedBlock = () => {
   return slatejsx('element', { type: TYPE_RELATED, data: {} }, { text: '' });
 };
-
-interface RelatedInternalArticle {
-  resource: string;
-  'article-id': string;
-}
-
-interface RelatedExternalArticle {
-  resource: string;
-  url: string;
-  title: string;
-}
 
 const normalizerConfig: NormalizerConfig = {
   previous: {
@@ -46,14 +36,12 @@ const normalizerConfig: NormalizerConfig = {
 
 export interface RelatedElement {
   type: 'related';
-  data: {
-    nodes?: (RelatedInternalArticle | RelatedExternalArticle)[];
-  };
+  data: RelatedContentEmbedData[];
   children: Descendant[];
 }
 
 export const relatedSerializer: SlateSerializer = {
-  deserialize(el: HTMLElement, children: (Descendant | null)[]) {
+  deserialize(el: HTMLElement) {
     if (el.tagName.toLowerCase() !== 'div') return;
     const { type } = el.dataset;
     if (type !== 'related-content') return;
@@ -62,7 +50,9 @@ export const relatedSerializer: SlateSerializer = {
       'element',
       {
         type: TYPE_RELATED,
-        data: reduceChildElements(el, type),
+        data: Array.from(el.children ?? []).map((el) =>
+          reduceElementDataAttributesV2(Array.from(el.attributes)),
+        ),
       },
       { text: '' },
     );
@@ -71,12 +61,7 @@ export const relatedSerializer: SlateSerializer = {
     if (!Element.isElement(node) || node.type !== TYPE_RELATED) return;
 
     return (
-      <div data-type="related-content">
-        {node.data.nodes &&
-          node.data.nodes.map((child) => {
-            return createEmbedTag(child);
-          })}
-      </div>
+      <div data-type="related-content">{node.data.map((child) => createEmbedTagV2(child))}</div>
     );
   },
 };

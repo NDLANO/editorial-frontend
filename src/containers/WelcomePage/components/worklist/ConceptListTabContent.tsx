@@ -122,7 +122,11 @@ const ConceptListTabContent = ({
   );
 
   const subjectList = useMemo(
-    () => uniqBy(conceptData.map((c) => c.subjects).flat(), (c) => c.value),
+    () =>
+      uniqBy(
+        conceptData.flatMap((c) => c.subjects),
+        (c) => c.value,
+      ),
     [conceptData],
   );
 

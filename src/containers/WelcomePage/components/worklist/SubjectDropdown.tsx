@@ -10,6 +10,7 @@ import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Select, SingleValue } from '@ndla/select';
 import uniq from 'lodash/uniq';
+import sortBy from 'lodash/sortBy';
 import { useSearch } from '../../../../modules/search/searchQueries';
 import { useSession } from '../../../Session/SessionProvider';
 import { DropdownWrapper } from '../../styles';
@@ -22,10 +23,7 @@ interface Props {
 }
 
 const SubjectDropdown = ({ filterSubject, setFilterSubject }: Props) => {
-  const {
-    t,
-    i18n: { language },
-  } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { ndlaId } = useSession();
   const { taxonomyVersion } = useTaxonomyVersion();
 
@@ -42,12 +40,12 @@ const SubjectDropdown = ({ filterSubject, setFilterSubject }: Props) => {
       taxonomyVersion,
       nodeType: 'SUBJECT',
       pageSize: subjectIds.length,
-      language,
+      language: i18n.language,
     },
     {
-      select: (data) => ({
-        ...data,
-        results: data.results.filter((d) => d.metadata.customFields.subjectCategory !== 'archive'),
+      select: (res) => ({
+        ...res,
+        results: sortBy(res.results, (r) => r.metadata.customFields.subjectCategory === 'archive'),
       }),
       enabled: !!data?.results?.length,
     },

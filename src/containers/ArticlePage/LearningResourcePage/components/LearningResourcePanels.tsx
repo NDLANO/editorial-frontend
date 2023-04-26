@@ -30,7 +30,6 @@ interface Props {
   article?: IArticle;
   taxonomy?: ArticleTaxonomy;
   updateNotes: (art: IUpdatedArticle) => Promise<IArticle>;
-  getArticle: (preview: boolean) => IUpdatedArticle;
   articleLanguage: string;
 }
 
@@ -38,7 +37,6 @@ const LearningResourcePanels = ({
   article,
   taxonomy,
   updateNotes,
-  getArticle,
   handleSubmit,
   articleLanguage,
 }: Props) => {
@@ -130,7 +128,6 @@ const LearningResourcePanels = ({
         >
           <VersionAndNotesPanel
             article={article}
-            getArticle={getArticle}
             type="standard"
             currentLanguage={values.language}
           />

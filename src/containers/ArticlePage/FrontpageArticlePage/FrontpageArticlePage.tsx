@@ -9,6 +9,7 @@ import { useDraft } from '../../../modules/draft/draftQueries';
 import ResourcePage from '../../../components/ResourcePage';
 import CreateFrontpageArticle from './CreateFrontpageArticle';
 import EditFrontpageArticle from './EditFrontpageArticle';
+import { articleResourcePageStyle } from '../styles';
 
 const FrontpageArticlePage = () => (
   <ResourcePage
@@ -16,6 +17,7 @@ const FrontpageArticlePage = () => (
     EditComponent={EditFrontpageArticle}
     useHook={useDraft}
     createUrl="/subject-matter/frontpage-article/new"
+    css={articleResourcePageStyle}
   />
 );
 

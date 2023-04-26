@@ -117,7 +117,7 @@ const phrases = {
     noArticles: 'Ingen artikler ...',
     emptyLastUsed: 'Ingen sist redigerte ...',
     emptyConcepts: 'Ingen forklaringer ...',
-    emptyRevision: 'Ingen artikler i favorittfag som nærmer seg revisjonsdato ...',
+    emptyRevision: 'Ingen artikler i favorittfag som trenger revisjon ...',
     emptySavedSearch: 'Ingen lagrede søk',
     guidelines: 'Retningslinjer',
     mustBeSearch: 'Lenken må være til et søk',
@@ -131,7 +131,7 @@ const phrases = {
     errorMessage: 'Innhenting av data feilet',
     goToSearch: 'Gå til søk',
     revision: 'Revisjon',
-    revisionDescription: 'Artikler i favorittfag som nærmer seg revisjonsdato',
+    revisionDescription: 'Artikler i favorittfag som trenger revisjon',
     revisionDate: 'Revisjonsdato',
     workList: {
       title: 'Mine arbeidsoppgaver',
@@ -520,6 +520,14 @@ const phrases = {
         'Bruk av ulovlige tegn i permalenken! Tillatte tegn er alle tall og bokstaver, og bindestrek',
     },
   },
+  blogPostForm: {
+    title: 'Rediger bloggpost',
+    languageExplanation: 'Velg språk for skjermleser',
+    sizes: {
+      normal: 'Normal',
+      large: 'Stor',
+    },
+  },
   learningResourceForm: {
     metaImage: {
       title: 'Bildetittel',
@@ -584,6 +592,7 @@ const phrases = {
       podcast: 'Podkastepisode',
       conceptList: 'Forklaringsliste',
       concept: 'Forklaring',
+      blogPost: 'Bloggpost',
     },
   },
   form: {
@@ -612,6 +621,12 @@ const phrases = {
     copy: 'kopi',
     mustSaveFirst: 'Du må lagre endringene dine først',
     saveAsCopySuccess: 'Ny artikkel lagret',
+    comment: 'Kommenter',
+    hideComment: 'Skjul kommentar',
+    showComment: 'Vis kommentar',
+    openAll: 'Åpne alle',
+    hideAll: 'Lukk alle',
+    commentField: 'Kommentarfelt',
     preview: {
       button: 'Forhåndsvis',
     },
@@ -657,6 +672,10 @@ const phrases = {
       coverPhotoId: 'Metabilde',
       revisions: 'Revisjoner',
       name: 'Navn',
+      author: 'Forfatter',
+      language: 'Språk',
+      link: 'Lenke',
+      size: 'Størrelse',
     },
     previewProductionArticle: {
       button: 'Sammenlign gjeldende versjon med gammel versjon',
@@ -804,6 +823,16 @@ const phrases = {
       expiration: {
         warn: 'En av revisjonene utløper snart (Må revideres innen {{date}}).',
         expired: 'En av revisjonene har utløpt (Utløpte {{date}}).',
+      },
+      deleteComment: {
+        title: 'Slett kommentar',
+        modal: 'Vil du slette denne kommentaren? Det er ikke mulig å gjenopprette den.',
+        button: 'Slett',
+      },
+      addComment: {
+        createdBy: 'Opprettet av',
+        warn: 'Husk å legge til kommentar',
+        description: 'Du har endret ansvarlig uten å legge til kommentar!',
       },
     },
     status: {

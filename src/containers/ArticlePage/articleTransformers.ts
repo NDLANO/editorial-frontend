@@ -27,7 +27,7 @@ import {
 } from '../FormikForm/articleFormHooks';
 import { DEFAULT_LICENSE, parseImageUrl } from '../../util/formHelper';
 import { getSlugFromTitle, nullOrUndefined } from '../../util/articleUtil';
-import { PLANNED } from '../../constants';
+import { ARCHIVED, PUBLISHED, UNPUBLISHED } from '../../constants';
 
 const getPublishedDate = (
   values: ArticleFormType,
@@ -47,6 +47,8 @@ const getPublishedDate = (
   }
   return undefined;
 };
+
+export const RESET_COMMENTS_STATUSES = [PUBLISHED, ARCHIVED, UNPUBLISHED];
 
 const draftApiTypeToArticleFormType = (
   article: IArticle | undefined,
@@ -87,6 +89,11 @@ const draftApiTypeToArticleFormType = (
     revisionMeta: article?.revisions ?? [],
     slug: article?.slug,
     responsibleId: article === undefined ? ndlaId : article?.responsible?.responsibleId,
+    comments:
+      !article?.comments ||
+      (article?.status.current && RESET_COMMENTS_STATUSES.includes(article?.status.current))
+        ? []
+        : article.comments,
   };
 };
 
@@ -174,6 +181,7 @@ export const learningResourceFormTypeToDraftApiType = (
     relatedContent: article.relatedContent,
     revisionMeta: article.revisionMeta,
     responsibleId: article.responsibleId,
+    comments: article.comments,
   };
 };
 
@@ -211,6 +219,7 @@ export const frontpageArticleFormTypeToDraftApiType = (
     relatedContent: article.relatedContent,
     revisionMeta: article.revisionMeta,
     responsibleId: article.responsibleId,
+    comments: article.comments,
   };
 };
 
@@ -251,47 +260,7 @@ export const topicArticleFormTypeToDraftApiType = (
     relatedContent: article.relatedContent,
     revisionMeta: article.revisionMeta,
     responsibleId: article.responsibleId,
-  };
-};
-
-export const updatedDraftApiTypeToDraftApiType = (
-  article: IUpdatedArticle,
-  id: number,
-): IArticle => {
-  const language = article.language!;
-
-  return {
-    id: id,
-    revision: article.revision,
-    status: { current: article.status ?? PLANNED, other: [] },
-    title: article.title ? { title: article.title, language } : undefined,
-    content: article.content ? { content: article.content, language } : undefined,
-    copyright: article.copyright,
-    tags: article.tags ? { tags: article.tags, language } : undefined,
-    requiredLibraries: article.requiredLibraries ?? [],
-    visualElement: article.visualElement
-      ? { visualElement: article.visualElement, language }
-      : undefined,
-    introduction: article.introduction
-      ? { introduction: article.introduction, language }
-      : undefined,
-    metaDescription: article.metaDescription
-      ? { metaDescription: article.metaDescription, language }
-      : undefined,
-    metaImage: article.metaImage ? { ...article.metaImage, language, url: '' } : undefined,
-    created: '',
-    updated: '',
-    updatedBy: '',
-    published: article.published ?? '',
-    articleType: article.articleType ?? 'topic-article',
-    supportedLanguages: [],
-    notes: [],
-    editorLabels: article.editorLabels ?? [],
-    grepCodes: article.grepCodes ?? [],
-    conceptIds: article.conceptIds ?? [],
-    availability: article.availability ?? 'everyone',
-    relatedContent: article.relatedContent ?? [],
-    revisions: article.revisionMeta ?? [],
+    comments: article.comments,
   };
 };
 

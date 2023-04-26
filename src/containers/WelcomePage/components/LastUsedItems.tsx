@@ -73,7 +73,11 @@ const LastUsedItems = ({ lastUsed = [] }: Props) => {
       sortedData?.map((a) => [
         {
           id: `title_${a.id}`,
-          data: <StyledLink to={toEditArticle(a.id, a.articleType)}>{a.title?.title}</StyledLink>,
+          data: (
+            <StyledLink to={toEditArticle(a.id, a.articleType)} title={a.title?.title}>
+              {a.title?.title}
+            </StyledLink>
+          ),
         },
         { id: `lastUpdated_${a.id}`, data: formatDate(a.updated) },
       ]) ?? [[]],

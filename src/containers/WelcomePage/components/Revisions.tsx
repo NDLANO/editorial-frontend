@@ -30,6 +30,7 @@ import GoToSearch from './GoToSearch';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 import { useSearchNodes } from '../../../modules/nodes/nodeQueries';
 import { SUBJECT_NODE } from '../../../modules/nodes/nodeApiTypes';
+import StatusCell from './worklist/StatusCell';
 
 interface Props {
   userData: IUserData | undefined;
@@ -103,14 +104,14 @@ const Revisions = ({ userData, ndlaId }: Props) => {
         {
           id: `title_${a.id}`,
           data: (
-            <StyledLink to={toEditArticle(a.id, a.learningResourceType)}>
+            <StyledLink to={toEditArticle(a.id, a.learningResourceType)} title={a.title?.title}>
               {a.title?.title}
             </StyledLink>
           ),
         },
         {
           id: `status_${a.id}`,
-          data: a.status?.current ? t(`form.status.${a.status.current.toLowerCase()}`) : '',
+          data: <StatusCell status={a.status} />,
         },
         {
           id: `primarySubject_${a.id}`,
@@ -123,7 +124,7 @@ const Revisions = ({ userData, ndlaId }: Props) => {
             : null,
         },
       ]) ?? [[]],
-    [data?.results, t],
+    [data?.results],
   );
 
   return (

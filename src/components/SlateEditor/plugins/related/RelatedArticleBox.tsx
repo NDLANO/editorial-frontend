@@ -6,7 +6,7 @@
  *
  */
 
-import { MouseEvent, ReactNode, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, MouseEvent, ReactNode } from 'react';
 import { Editor, Transforms } from 'slate';
 import { ReactEditor, RenderElementProps } from 'slate-react';
 import { useTranslation } from 'react-i18next';
@@ -15,11 +15,9 @@ import { RelatedContentEmbedData, RelatedContentMetaData } from '@ndla/types-emb
 import { RelatedArticleListV2, RelatedContentEmbed } from '@ndla/ui';
 import { IconButtonV2 } from '@ndla/button';
 import { Pencil, TrashCanOutline } from '@ndla/icons/action';
-import { IArticle } from '@ndla/types-backend/draft-api';
 import { fetchDraft } from '../../../../modules/draft/draftApi';
 import EditRelated from './EditRelated';
 import { RelatedElement } from '.';
-import { Resource } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { useTaxonomyVersion } from '../../../../containers/StructureVersion/TaxonomyVersionProvider';
 import { fetchNodes } from '../../../../modules/nodes/nodeApi';
 
@@ -27,26 +25,9 @@ interface Props {
   attributes: RenderElementProps['attributes'];
   editor: Editor;
   element: RelatedElement;
-  locale?: string;
   onRemoveClick: (e: MouseEvent<HTMLButtonElement>) => void;
   children: ReactNode;
 }
-
-export interface ExternalArticle {
-  id: 'external-learning-resources';
-  tempId: string;
-  url: string;
-  title: string;
-  description: string;
-}
-
-interface InternalArticle extends Omit<IArticle, 'title' | 'id'> {
-  resource: Resource[];
-  id: string;
-  title: string;
-}
-
-export type RelatedArticleType = InternalArticle | ExternalArticle;
 
 const externalEmbedToMeta = async (
   embedData: RelatedContentEmbedData,

@@ -192,8 +192,7 @@
     "slate-history": "^0.86.0",
     "slate-hyperscript": "^0.77.0",
     "slate-react": "0.91.2",
-    "source-map-support": "^0.5.13",
-    "yup": "^0.32.9"
+    "source-map-support": "^0.5.13"
   },
   "repository": {
     "type": "git",

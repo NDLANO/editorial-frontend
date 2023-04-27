@@ -142,7 +142,7 @@ const AddResourceModal = ({
       setContent(undefined);
       return;
     }
-
+    console.log(resourceId);
     await createNodeResource({ body: { resourceId, nodeId }, taxonomyVersion })
       .then((_) => onClose())
       .catch((err) => setError('taxonomy.resource.creationFailed'));

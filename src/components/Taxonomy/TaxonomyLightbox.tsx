@@ -8,11 +8,12 @@
 
 import { ButtonV2 } from '@ndla/button';
 import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
+import styled, { Interpolation } from '@emotion/styled';
 import { spacing, colors, fonts } from '@ndla/core';
 import { BookOpen } from '@ndla/icons/common';
 import { ModalV2, ModalCloseButton, ModalPosition } from '@ndla/modal';
 import Spinner from '../Spinner';
+import { Theme } from '@emotion/react';
 
 const StyledHeader = styled.div`
   background: ${colors.brand.lighter};
@@ -81,6 +82,7 @@ interface Props {
   }[];
   wide?: boolean;
   position?: ModalPosition;
+  cssStyles?: Interpolation<Theme>;
 }
 
 const TaxonomyLightbox = ({
@@ -90,6 +92,7 @@ const TaxonomyLightbox = ({
   wide = false,
   actions = [],
   position = 'top',
+  cssStyles,
 }: Props) => {
   const { t } = useTranslation();
 
@@ -101,6 +104,7 @@ const TaxonomyLightbox = ({
       position={position}
       label={title}
       size={wide ? 'large' : 'normal'}
+      css={cssStyles}
     >
       {(onCloseModal) => (
         <>

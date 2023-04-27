@@ -28,7 +28,7 @@ import { groupResourcesByType } from '../../../util/taxonomyHelpers';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 import { useAuth0Responsibles } from '../../../modules/auth0/auth0Queries';
 import { DRAFT_WRITE_SCOPE } from '../../../constants';
-import AddPlannedResource from '../AddPlannedResource';
+import PlannedResourceFormModal from '../plannedResource/PlannedResourceFormModal';
 
 const ResourceWrapper = styled.div`
   overflow-y: auto;
@@ -46,7 +46,6 @@ interface Props {
   setCurrentNode: (changedNode: ChildNodeType) => void;
   contentMetaLoading: boolean;
 }
-
 const ResourcesContainer = ({
   resourceTypes,
   nodeResources,
@@ -124,7 +123,11 @@ const ResourcesContainer = ({
           />
         )}
         {showPlannedResourceModal && (
-          <AddPlannedResource onClose={() => setShowPlannedResourceModal(false)} />
+          <PlannedResourceFormModal
+            onClose={() => setShowPlannedResourceModal(false)}
+            articleType="standard"
+            nodeId={currentNodeId}
+          />
         )}
         {currentNode.name && (
           <Resource

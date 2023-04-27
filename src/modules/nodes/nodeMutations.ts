@@ -39,6 +39,10 @@ import {
   NodeType,
 } from './nodeApiTypes';
 import { childNodesWithArticleTypeQueryKey, nodesQueryKey } from './nodeQueries';
+import {
+  createResourceResourceType,
+  ResourceResourceTypePostParams,
+} from '../taxonomy/resourcetypes';
 
 interface UseAddNodeMutation extends WithTaxonomyVersion {
   body: NodePostPatchType;
@@ -228,6 +232,15 @@ export const usePostResourceForNodeMutation = (
 ) => {
   return useMutation<string, unknown, UsePostResourceForNodeMutation>(
     ({ body, taxonomyVersion }) => postResourceForNode({ body, taxonomyVersion }),
+    options,
+  );
+};
+
+export const useCreateResourceResourceTypeMutation = (
+  options?: UseMutationOptions<string, unknown, ResourceResourceTypePostParams>,
+) => {
+  return useMutation<string, unknown, ResourceResourceTypePostParams>(
+    ({ body, taxonomyVersion }) => createResourceResourceType({ body, taxonomyVersion }),
     options,
   );
 };

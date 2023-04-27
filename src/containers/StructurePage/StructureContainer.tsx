@@ -28,6 +28,8 @@ import config from '../../config';
 import { createGuard } from '../../util/guards';
 import { GridContainer, LeftColumn, RightColumn } from '../../components/Layout/Layout';
 import StructureBanner from './StructureBanner';
+import AddTopicModal from './resourceComponents/AddTopicModal';
+import PlannedResourceFormModal from './plannedResource/PlannedResourceFormModal';
 
 const StructureWrapper = styled.ul`
   margin: 0;
@@ -63,6 +65,8 @@ const StructureContainer = () => {
   const [showFavorites, setShowFavorites] = useState(
     window.localStorage.getItem(REMEMBER_FAVORITE_NODES) === 'true',
   );
+  const [showAddTopicModal, setShowAddTopicModal] = useState(false);
+  const [showPlannedTopicModal, setShowPlannedTopicModal] = useState(false);
 
   const resourceSection = useRef<HTMLDivElement>(null);
   const firstRender = useRef(true);
@@ -143,6 +147,7 @@ const StructureContainer = () => {
                       key={node.id}
                       node={node}
                       toggleOpen={handleStructureToggle}
+                      setShowAddTopicModal={setShowAddTopicModal}
                     />
                   ))}
                 </StructureWrapper>
@@ -159,6 +164,20 @@ const StructureContainer = () => {
             )}
           </RightColumn>
         </GridContainer>
+        {showAddTopicModal && (
+          <AddTopicModal
+            onClose={() => setShowAddTopicModal(false)}
+            setShowPlannedTopicModal={setShowPlannedTopicModal}
+            currentNode={currentNode}
+          />
+        )}
+        {showPlannedTopicModal && (
+          <PlannedResourceFormModal
+            onClose={() => setShowPlannedTopicModal(false)}
+            articleType="topic-article"
+            nodeId={currentNode?.id ?? ''}
+          />
+        )}
         {config.versioningEnabled === 'true' && isTaxonomyAdmin && <StickyVersionSelector />}
         <Footer showLocaleSelector />
       </Wrapper>

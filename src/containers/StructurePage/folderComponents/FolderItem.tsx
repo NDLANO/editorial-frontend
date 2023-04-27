@@ -7,13 +7,16 @@
  */
 
 import { spacing, fonts, mq, breakpoints } from '@ndla/core';
-import { ButtonV2 } from '@ndla/button';
+import { ButtonV2, IconButtonV2 } from '@ndla/button';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { NodeType } from '../../../modules/nodes/nodeApiTypes';
 import { Row } from '../../../components';
 import Spinner from '../../../components/Spinner';
 import SettingsMenu from './SettingsMenu';
+import Tooltip from '@ndla/tooltip';
+import { Plus } from '@ndla/icons/action';
+import { css } from '@emotion/react';
 
 const StyledResourceButton = styled(ButtonV2)`
   min-height: unset;
@@ -29,8 +32,20 @@ const StyledFolderWrapper = styled.div`
   display: flex;
   flex-grow: 1;
   justify-content: space-between;
-  align-items: center;
   gap: ${spacing.small};
+`;
+
+const verticalAlignStyled = css`
+  display: flex;
+  align-items: center;
+`;
+
+const ControlButtonsWrapper = styled.div`
+  ${verticalAlignStyled}
+`;
+
+const StyledTooltip = styled(Tooltip)`
+  ${verticalAlignStyled}
 `;
 
 interface Props {
@@ -41,6 +56,7 @@ interface Props {
   rootNodeId: string;
   onCurrentNodeChanged: (node: NodeType) => void;
   nodeChildren: NodeType[];
+  setShowAddTopicModal: (value: boolean) => void;
 }
 
 const FolderItem = ({
@@ -51,6 +67,7 @@ const FolderItem = ({
   rootNodeId,
   onCurrentNodeChanged,
   nodeChildren,
+  setShowAddTopicModal,
 }: Props) => {
   const { t } = useTranslation();
   const showJumpToResources = isMainActive && node.id.includes('topic');
@@ -58,12 +75,24 @@ const FolderItem = ({
   return (
     <StyledFolderWrapper data-cy="folderWrapper">
       {isMainActive && (
-        <SettingsMenu
-          node={node}
-          rootNodeId={rootNodeId}
-          onCurrentNodeChanged={onCurrentNodeChanged}
-          nodeChildren={nodeChildren}
-        />
+        <ControlButtonsWrapper>
+          <SettingsMenu
+            node={node}
+            rootNodeId={rootNodeId}
+            onCurrentNodeChanged={onCurrentNodeChanged}
+            nodeChildren={nodeChildren}
+          />
+          <StyledTooltip tooltip={t('taxonomy.addTopicHeader')}>
+            <IconButtonV2
+              onClick={() => setShowAddTopicModal(true)}
+              size="xsmall"
+              variant="stripped"
+              aria-label={t('taxonomy.addTopicHeader')}
+            >
+              <Plus />
+            </IconButtonV2>
+          </StyledTooltip>
+        </ControlButtonsWrapper>
       )}
       {showJumpToResources && (
         <StyledResourceButton

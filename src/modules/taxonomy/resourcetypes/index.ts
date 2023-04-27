@@ -51,7 +51,7 @@ const fetchResourceType = ({
   });
 };
 
-interface ResourceResourceTypePostParams extends WithTaxonomyVersion {
+export interface ResourceResourceTypePostParams extends WithTaxonomyVersion {
   body: ResourceResourceTypePostBody;
 }
 

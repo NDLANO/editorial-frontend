@@ -9,6 +9,7 @@ import { DropResult } from 'react-beautiful-dnd';
 import { colors } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
 import { Star } from '@ndla/icons/editor';
+import { useTranslation } from 'react-i18next';
 import Fade from '../../components/Taxonomy/Fade';
 import MakeDndList from './MakeDNDList';
 import { createGuard } from '../../util/guards';
@@ -68,6 +69,7 @@ interface Props {
   nodes?: ChildNodeType[];
   isLoading?: boolean;
   renderBeforeTitle?: RenderBeforeFunction;
+  setShowAddTopicModal: (value: boolean) => void;
 }
 
 const NodeItem = ({
@@ -86,7 +88,9 @@ const NodeItem = ({
   isLoading,
   nodes,
   renderBeforeTitle,
+  setShowAddTopicModal,
 }: Props) => {
+  const { t } = useTranslation();
   const { userPermissions } = useSession();
   const isTaxonomyAdmin = userPermissions?.includes(TAXONOMY_ADMIN_SCOPE) || false;
   const path = nodePathToUrnPath(item.path);
@@ -145,6 +149,7 @@ const NodeItem = ({
             onCurrentNodeChanged={(node) => onNodeSelected(node)}
             jumpToResources={() => resourceSectionRef?.current?.scrollIntoView()}
             nodeChildren={nodes ?? []}
+            setShowAddTopicModal={setShowAddTopicModal}
           />
         )}
         {isLoading && (
@@ -178,6 +183,7 @@ const NodeItem = ({
                   toggleOpen={toggleOpen}
                   level={level + 1}
                   onDragEnd={onDragEnd}
+                  setShowAddTopicModal={setShowAddTopicModal}
                 />
               ))}
             </MakeDndList>

@@ -10,8 +10,6 @@ import { ContentTypeBadge, constants } from '@ndla/ui';
 import StyledListButton from '../../../components/StyledListButton';
 import config from '../../../config';
 import {
-  toCreateLearningResource,
-  toCreateTopicArticle,
   toCreateConcept,
   toCreateImage,
   toCreateAudioFile,
@@ -38,18 +36,6 @@ const OpenMenu = ({ close }: Props) => {
       <div>
         <nav>
           <div>
-            <StyledLink to={toCreateLearningResource()} onClick={close}>
-              <span>
-                <ContentTypeBadge type={contentTypes.SUBJECT_MATERIAL} background size="xx-small" />{' '}
-                {t('subNavigation.subjectMatter')}
-              </span>
-            </StyledLink>
-            <StyledLink to={toCreateTopicArticle()} onClick={close}>
-              <span>
-                <ContentTypeBadge type={contentTypes.TOPIC} background size="xx-small" />{' '}
-                {t('subNavigation.topicArticle')}
-              </span>
-            </StyledLink>
             <StyledLink to={toCreateConcept()} onClick={close}>
               <span>
                 <Concept /> {t('subNavigation.newConcept')}
@@ -57,7 +43,7 @@ const OpenMenu = ({ close }: Props) => {
             </StyledLink>
             <StyledLink to={toCreateFrontPageArticle()} onClick={close}>
               <span>
-                <ContentTypeBadge type={contentTypes.SUBJECT_MATERIAL} background size="xx-small" />{' '}
+                <ContentTypeBadge type={contentTypes.SUBJECT_MATERIAL} background size="xx-small" />
                 {t('subNavigation.newFrontpageArticle')}
               </span>
             </StyledLink>

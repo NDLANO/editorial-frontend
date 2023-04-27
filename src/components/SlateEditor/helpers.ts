@@ -1,4 +1,5 @@
 import { TYPE_ASIDE } from './plugins/aside/types';
+import { TYPE_BLOGPOST } from './plugins/blogPost/types';
 import { TYPE_BODYBOX } from './plugins/bodybox/types';
 import { TYPE_CODEBLOCK } from './plugins/codeBlock/types';
 import { TYPE_CONCEPT_INLINE } from './plugins/concept/inline/types';
@@ -42,4 +43,6 @@ export const blocks = [
   TYPE_FILE,
   TYPE_RELATED,
   TYPE_TABLE,
+  TYPE_BLOGPOST,
+  TYPE_GRID,
 ];

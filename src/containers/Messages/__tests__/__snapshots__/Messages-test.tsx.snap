@@ -2000,6 +2000,10 @@ exports[`Messages auth0 messages provides a cancel button 1`] = `
   cursor: not-allowed;
 }
 
+.emotion-13:only-child {
+  margin-left: auto;
+}
+
 <body>
   <div
     aria-hidden="true"

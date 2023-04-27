@@ -16,6 +16,7 @@ import {
   IStatus,
   IUpdatedArticle,
   IAuthor,
+  IComment,
 } from '@ndla/types-backend/draft-api';
 import { deleteFile } from '../../modules/draft/draftApi';
 import { RelatedContent } from '../../interfaces';
@@ -77,6 +78,7 @@ export interface ArticleFormType {
   // This field is only used for error checking in revisions
   revisionError?: string;
   slug?: string;
+  comments?: IComment[];
 }
 
 export interface LearningResourceFormType extends ArticleFormType {

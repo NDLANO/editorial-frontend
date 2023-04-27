@@ -5,7 +5,7 @@
  */
 
 import { IAudioMetaInformation } from '@ndla/types-backend/audio-api';
-import { IArticle, IRelatedContentLink } from '@ndla/types-backend/draft-api';
+import { IArticle, IRelatedContentLink, IComment } from '@ndla/types-backend/draft-api';
 import { SearchTypeValues, LOCALE_VALUES } from './constants';
 
 export interface FormikStatus {

@@ -19,12 +19,7 @@ import {
   TopicConnections,
 } from '../taxonomyApiInterfaces';
 import { WithTaxonomyVersion } from '../../../interfaces';
-import {
-  TopicPostBody,
-  TopicPutBody,
-  TopicSubtopicPostBody,
-  TopicSubtopicPutBody,
-} from './topicApiInterfaces';
+import { TopicPostBody, TopicPutBody, TopicSubtopicPostBody } from './topicApiInterfaces';
 
 const baseUrl = apiResourceUrl(`${taxonomyApi}/topics`);
 const baseTopicSubtopicUrl = apiResourceUrl(`${taxonomyApi}/topic-subtopics`);
@@ -123,24 +118,6 @@ const addTopicToTopic = ({ body, taxonomyVersion }: TopicSubtopicPostParams): Pr
   });
 };
 
-interface TopicSubtopicPutParams extends WithTaxonomyVersion {
-  connectionId: string;
-  body: TopicSubtopicPutBody;
-}
-
-const updateTopicSubtopic = ({
-  connectionId,
-  body,
-  taxonomyVersion,
-}: TopicSubtopicPutParams): Promise<void> => {
-  return putAndResolve({
-    url: `${baseTopicSubtopicUrl}/${connectionId}`,
-    taxonomyVersion,
-    body: JSON.stringify(body),
-    alternateResolve: resolveVoidOrRejectWithError,
-  });
-};
-
 interface TopicConnectionDeleteParams extends WithTaxonomyVersion {
   id: string;
 }
@@ -210,6 +187,5 @@ export {
   deleteSubTopicConnection,
   fetchTopicResources,
   fetchTopicConnections,
-  updateTopicSubtopic,
   updateTopicMetadata,
 };

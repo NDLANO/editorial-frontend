@@ -15,7 +15,7 @@ import { ModalCloseButton, ModalHeaderV2, ModalSizeType, ModalV2 } from '@ndla/m
 import { IArticle } from '@ndla/types-backend/draft-api';
 import { OneColumn } from '@ndla/ui';
 import { ReactElement, useMemo, useState, ElementType } from 'react';
-import { PreviewDraftV2 } from './PreviewDraft';
+import PreviewDraft from './PreviewDraft';
 import { useDraft, useLicenses } from '../../modules/draft/draftQueries';
 import { learningResourceFormTypeToDraftApiType } from '../../containers/ArticlePage/articleTransformers';
 import { LearningResourceFormType } from '../../containers/FormikForm/articleFormHooks';
@@ -77,7 +77,7 @@ const PreviewMarkup = ({ article, language }: MarkupPreviewProps) => {
   return (
     <StyledPreviewWrapper>
       <OneColumn>
-        <PreviewDraftV2
+        <PreviewDraft
           type="article"
           draft={article}
           language={language}
@@ -121,7 +121,7 @@ const PreviewVersion = ({ article, language }: VersionPreviewProps) => {
         <div className="u-4/6@desktop u-push-1/6@desktop">
           <h2>{t('form.previewProductionArticle.current')}</h2>
         </div>
-        <PreviewDraftV2
+        <PreviewDraft
           type="formArticle"
           draft={formArticle}
           language={language}
@@ -132,7 +132,7 @@ const PreviewVersion = ({ article, language }: VersionPreviewProps) => {
         <div className="u-4/6@desktop u-push-1/6@desktop">
           <h2>{t('form.previewProductionArticle.version', { revision: article.revision })}</h2>
         </div>
-        <PreviewDraftV2
+        <PreviewDraft
           type="article"
           draft={article}
           language={language}
@@ -178,7 +178,7 @@ const PreviewCompare = ({ article, language }: ComparePreviewProps) => {
             })}
           </h2>
         </PreviewTitleWrapper>
-        <PreviewDraftV2
+        <PreviewDraft
           type="formArticle"
           draft={formArticle}
           language={language}
@@ -201,7 +201,7 @@ const PreviewCompare = ({ article, language }: ComparePreviewProps) => {
           </select>
         </PreviewTitleWrapper>
         {draft.data && (
-          <PreviewDraftV2
+          <PreviewDraft
             type="article"
             draft={draft.data}
             language={language}
@@ -270,7 +270,6 @@ const PreviewConceptCompare = ({ concept, language }: CompareConceptPreviewProps
 
 const PreviewConcept = ({ language }: ConceptPreviewProps) => {
   const { data: licenses } = useLicenses({ placeholderData: [] });
-  const { t } = useTranslation();
   const { values } = useFormikContext<ConceptFormValues>();
   const formConcept = useMemo(
     () => conceptFormTypeToApiType(values, licenses!),

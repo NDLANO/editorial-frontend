@@ -351,7 +351,7 @@ const LearningResourceTaxonomy = ({ article, taxonomy, updateNotes, setIsOpen }:
 
     // Auto set primary of only one connection.
     if (updatedTopics?.length === 1) {
-      updatedTopics[0].primary = true;
+      updatedTopics[0].isPrimary = true;
     }
     stageTaxonomyChanges({
       topics: updatedTopics,

@@ -143,7 +143,11 @@ const NodeDiff = ({ node, isRoot }: Props) => {
             />
           )}
           {filteredNode.parentId && (
-            <FieldDiff fieldName="parentId" result={filteredNode.parentId} toDisplayValue={(v) => v} />
+            <FieldDiff
+              fieldName="parentId"
+              result={filteredNode.parentId}
+              toDisplayValue={(v) => v}
+            />
           )}
         </>
       )}

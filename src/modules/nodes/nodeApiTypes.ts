@@ -90,6 +90,7 @@ export interface ResourceWithNodeConnection {
   path: string;
   parentId?: string;
   paths: string[];
+  isPrimary: boolean;
   rank: number;
   relevanceId?: string;
   translations: NodeTranslation[];

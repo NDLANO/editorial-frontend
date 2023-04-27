@@ -82,7 +82,7 @@ async function createDeleteUpdateTopicResources({
     sortIntoCreateDeleteUpdate({
       changedItems: topics,
       originalItems: originalTopics,
-      updateProperties: ['primary', 'relevanceId'],
+      updateProperties: ['isPrimary', 'relevanceId'],
     });
 
   await Promise.all(
@@ -90,7 +90,7 @@ async function createDeleteUpdateTopicResources({
       createTopicResource({
         body: {
           topicid: item.id,
-          primary: item.primary,
+          primary: item.isPrimary,
           relevanceId: item.relevanceId,
           resourceId, // Not consistent!
         },
@@ -104,7 +104,7 @@ async function createDeleteUpdateTopicResources({
   updateItems.forEach((item) => {
     // only update if changed to primary, previous primary is automatically unset
     const update = {
-      ...(item.primary && { primary: item.primary }),
+      ...(item.isPrimary && { primary: item.isPrimary }),
       ...((originalTopics.find((topic) => topic.id === item.id)?.relevanceId !==
         item.relevanceId && {
         relevanceId: item.relevanceId,

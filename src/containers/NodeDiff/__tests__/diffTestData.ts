@@ -1461,7 +1461,7 @@ export const nodeTreeWithNestedChildrenUpdated: NodeTree = {
 export const nodeTreeWithNestedChildrenDiff: DiffTree = {
   root: {
     changed: { diffType: 'NONE' },
-    childrenChanged: { diffType: 'MODIFIED' },
+    childrenChanged: { diffType: 'NONE' },
     id: {
       original: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
       other: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
@@ -1594,7 +1594,7 @@ export const nodeTreeWithNestedChildrenDiff: DiffTree = {
   children: [
     {
       changed: { diffType: 'NONE' },
-      childrenChanged: { diffType: 'MODIFIED' },
+      childrenChanged: { diffType: 'NONE' },
       id: {
         original: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
         other: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
@@ -1703,7 +1703,7 @@ export const nodeTreeWithNestedChildrenDiff: DiffTree = {
       },
       children: [
         {
-          changed: { diffType: 'MODIFIED' },
+          changed: { diffType: 'NONE' },
           childrenChanged: { diffType: 'NONE' },
           id: {
             original: 'urn:topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',

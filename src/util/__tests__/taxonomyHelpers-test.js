@@ -6,10 +6,7 @@
  *
  */
 
-import {
-  flattenResourceTypesAndAddContextTypes,
-  pathToUrnArray,
-} from '../taxonomyHelpers';
+import { flattenResourceTypesAndAddContextTypes, pathToUrnArray } from '../taxonomyHelpers';
 import { resourceTypesMock, flattenedResourceTypes } from './taxonomyMocks';
 
 test('taxonomy/flattenResourceTypesAndAddContextTypes flattening', () => {

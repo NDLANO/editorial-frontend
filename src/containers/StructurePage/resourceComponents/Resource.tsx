@@ -193,13 +193,13 @@ const Resource = ({
   });
 
   const updateRelevanceId = async (relevanceId: string) => {
-    const { connectionId, primary, rank } = resource;
+    const { connectionId, isPrimary, rank } = resource;
     const func = connectionId.includes('-resource')
       ? updateResourceConnection
       : updateNodeConnection;
     await func({
       id: connectionId,
-      body: { relevanceId, primary, rank: rank },
+      body: { relevanceId, primary: isPrimary, rank: rank },
       taxonomyVersion,
     });
   };

@@ -84,7 +84,7 @@ const diffAndGroupChildren = <T extends NodeType = NodeType>(
   remainingChildren: Grouping<ChildNodeTypeWithResources>[],
 ): DiffTypeWithChildren[] => {
   const [children, other] = partition(remainingChildren, (child) => {
-    const parent = child.original?.parent ?? child.other?.parent;
+    const parent = child.original?.parentId ?? child.other?.parentId;
     const parentId = parentNode.original?.id ?? parentNode.other?.id;
     return !!parent && parent === parentId;
   });

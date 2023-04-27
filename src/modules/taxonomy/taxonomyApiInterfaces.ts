@@ -16,7 +16,7 @@ export interface SubjectTopic extends TaxonomyElement {
   contentUri: string;
   isPrimary: boolean;
   relevanceId?: string;
-  parent: string;
+  parentId: string;
   path: string;
   paths: string[];
   connectionId: string;
@@ -45,16 +45,9 @@ export interface Resource extends TaxonomyElement {
   path: string;
   paths: string[];
   rank: number;
-  parent?: string;
+  parentId?: string;
   resourceTypes: ResourceResourceType[];
-  topicId: string;
   grepCodes: string[];
-}
-
-export interface TopicResourceType {
-  id: string;
-  resourceTypeId: string;
-  topicId: string;
 }
 
 export interface ResourceWithParentTopics extends Resource {
@@ -70,7 +63,6 @@ export interface ParentTopic extends TaxonomyElement {
   name: string;
   contentUri: string;
   path: string;
-  primary: boolean;
   isPrimary: boolean;
   connectionId: string;
   paths: string[];
@@ -87,16 +79,9 @@ export interface ResourceTranslation {
   language: string;
 }
 
-export interface TopicWithResourceConnection {
-  connectionId: string;
-  isPrimary: boolean;
-  rank: number;
-}
-
 export interface TopicConnections {
   isPrimary: boolean;
   connectionId: string;
-  primary: boolean;
   paths: string[];
   targetId: string;
   type: string;
@@ -121,15 +106,6 @@ export interface ResourceType {
 export interface ResourceWithTopicConnection extends Resource {
   primary: boolean;
   relevanceId: string;
-}
-
-export interface TopicSubtopic {
-  id: string;
-  primary: boolean;
-  rank: number;
-  relevanceId: string;
-  subtopicid: string;
-  topicid: string;
 }
 
 export interface SubjectType extends TaxonomyElement {

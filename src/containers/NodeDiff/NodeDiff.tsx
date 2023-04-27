@@ -73,7 +73,7 @@ const DetailsContent = styled.div`
 
 const isChildNode = (
   node: Partial<DiffType<NodeType | ChildNodeType>>,
-): node is DiffTypeWithChildren => 'parent' in node;
+): node is DiffTypeWithChildren => 'parentId' in node;
 
 const NodeDiff = ({ node, isRoot }: Props) => {
   const [params] = useSearchParams();
@@ -128,13 +128,6 @@ const NodeDiff = ({ node, isRoot }: Props) => {
               toDisplayValue={(v) => v}
             />
           )}
-          {filteredNode.primary && (
-            <FieldDiff
-              fieldName="primary"
-              result={filteredNode.primary}
-              toDisplayValue={(v) => t(`diff.fields.primary.${v ? 'isOn' : 'isOff'}`)}
-            />
-          )}
           {filteredNode.isPrimary && (
             <FieldDiff
               fieldName="isPrimary"
@@ -149,8 +142,8 @@ const NodeDiff = ({ node, isRoot }: Props) => {
               toDisplayValue={(v) => v.toString()}
             />
           )}
-          {filteredNode.parent && (
-            <FieldDiff fieldName="parent" result={filteredNode.parent} toDisplayValue={(v) => v} />
+          {filteredNode.parentId && (
+            <FieldDiff fieldName="parentId" result={filteredNode.parentId} toDisplayValue={(v) => v} />
           )}
         </>
       )}
@@ -284,14 +277,14 @@ const ResourceDiff = ({ resource, fieldView }: ResourceDiffProps) => {
         )}
         {res.id && <FieldDiff fieldName="id" result={res.id} toDisplayValue={(v) => v} />}
         {res.name && <FieldDiff fieldName="name" result={res.name} toDisplayValue={(v) => v} />}
-        {res.parent && (
-          <FieldDiff fieldName="parent" result={res.parent} toDisplayValue={(v) => v} />
+        {res.parentId && (
+          <FieldDiff fieldName="parentId" result={res.parentId} toDisplayValue={(v) => v} />
         )}
-        {res.primary && (
+        {res.isPrimary && (
           <FieldDiff
-            fieldName="primary"
-            result={res.primary}
-            toDisplayValue={(v) => t(`diff.fields.primary.${v ? 'isOn' : 'isOff'}`)}
+            fieldName="isPrimary"
+            result={res.isPrimary}
+            toDisplayValue={(v) => t(`diff.fields.isPrimary.${v ? 'isOn' : 'isOff'}`)}
           />
         )}
         {res.rank && (

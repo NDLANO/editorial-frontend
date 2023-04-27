@@ -90,7 +90,6 @@ export interface ResourceWithNodeConnection {
   path: string;
   parentId?: string;
   paths: string[];
-  primary: boolean;
   rank: number;
   relevanceId?: string;
   translations: NodeTranslation[];
@@ -110,10 +109,9 @@ export interface ResourceWithNodeConnection {
 export interface ChildNodeType extends NodeType {
   connectionId: string;
   isPrimary: boolean;
-  primary: boolean;
   rank: number;
   childNodes?: ChildNodeType[];
-  parent: string;
+  parentId: string;
 }
 
 export interface NodePostPatchType {
@@ -129,7 +127,6 @@ export interface ConnectionForNode {
   connectionId: string;
   isPrimary: boolean;
   paths: string[];
-  primary: boolean;
   targetId: string;
   type: string;
 }

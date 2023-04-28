@@ -30,7 +30,9 @@
     "e2e-use-fixtures": "cross-env CYPRESS_USE_FIXTURES=true BABEL_ENV=test cypress open",
     "e2e-record-fixtures": "cross-env CYPRESS_RECORD_FIXTURES=true BABEL_ENV=test cypress run",
     "e2e-ci-record": "cross-env CYPRESS_USE_FIXTURES=true BABEL_ENV=test cypress run --record",
-    "check-translations": "cross-env BABEL_ENV=test NODE_ENV=unittest jest src/phrases/__tests__/"
+    "check-translations": "cross-env BABEL_ENV=test NODE_ENV=unittest jest src/phrases/__tests__/",
+    "generate-taxonomy-types": "cross-env openapi-typescript https://api.test.ndla.no/taxonomy/api-docs --output ./src/types/taxonomy.ts",
+    "generate-taxonomy-types-local": "cross-env openapi-typescript http://localhost:5000/api-docs --output ./src/types/taxonomy.ts"
   },
   "engines": {
     "node": ">=18.12.0",
@@ -43,8 +45,8 @@
     "@emotion/jest": "11.10.0",
     "@loadable/babel-plugin": "^5.13.2",
     "@ndla/scripts": "^1.0.4",
-    "@ndla/types-embed": "^1.1.0",
     "@ndla/types-backend": "^0.2.5",
+    "@ndla/types-embed": "^1.1.0",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.10",
     "@tanstack/react-query-devtools": "^4.24.6",
     "@testing-library/jest-dom": "^5.15.0",
@@ -83,6 +85,7 @@
     "jsdom": "^20.0.3",
     "mini-css-extract-plugin": "^2.7.2",
     "nock": "^13.2.9",
+    "openapi-typescript": "^6.2.4",
     "postcss": "^8.4.19",
     "postcss-focus": "^5.0.1",
     "postcss-import": "^15.0.0",

@@ -63,7 +63,7 @@ const ContentLink = ({ onAddLink, onClose, initialTitle = '', initialUrl = '' }:
         {
           text: t('form.save'),
           onClick: handleSubmit,
-          'data-testid': 'taxonomyLightboxCloseButton',
+          'data-testid': 'taxonomyLightboxButton',
         },
       ]}
     >

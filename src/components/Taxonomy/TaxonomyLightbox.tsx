@@ -7,7 +7,6 @@
  */
 
 import { ButtonV2 } from '@ndla/button';
-import { useTranslation } from 'react-i18next';
 import styled, { Interpolation } from '@emotion/styled';
 import { spacing, colors, fonts } from '@ndla/core';
 import { BookOpen } from '@ndla/icons/common';
@@ -94,8 +93,6 @@ const TaxonomyLightbox = ({
   position = 'top',
   cssStyles,
 }: Props) => {
-  const { t } = useTranslation();
-
   return (
     <ModalV2
       onClose={onClose}
@@ -121,7 +118,7 @@ const TaxonomyLightbox = ({
             {children}
             <StyledWrapper>
               {actions.map((a, i) => (
-                <ButtonV2 onClick={a.onClick} key={i}>
+                <ButtonV2 key={i} {...a}>
                   {a.loading ? <Spinner appearance="small" /> : a.text}
                 </ButtonV2>
               ))}

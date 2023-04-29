@@ -225,7 +225,7 @@ const AddResourceModal = ({
         {
           text: t('form.save'),
           onClick: onAddResource,
-          'data-testid': 'taxonomyLightboxCloseButton',
+          'data-testid': 'taxonomyLightboxButton',
           loading: loading,
         },
       ]}

@@ -10,6 +10,8 @@ import { useQueryClient } from '@tanstack/react-query';
 import styled from '@emotion/styled';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { fonts } from '@ndla/core';
+import { css } from '@emotion/react';
 import TaxonomyLightbox from '../../../components/Taxonomy/TaxonomyLightbox';
 import {
   useDeleteNodeConnectionMutation,
@@ -19,8 +21,6 @@ import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvid
 import { childNodesWithArticleTypeQueryKey } from '../../../modules/nodes/nodeQueries';
 import { NodeType } from '../../../modules/nodes/nodeApiTypes';
 import NodeSearchDropdown from '../folderComponents/sharedMenuOptions/components/NodeSearchDropdown';
-import { fonts } from '@ndla/core';
-import { css } from '@emotion/react';
 import { StyledErrorMessage } from '../folderComponents/styles';
 import { fetchConnectionsForNode } from '../../../modules/nodes/nodeApi';
 
@@ -66,7 +66,6 @@ const AddTopicModal = ({ onClose, setShowPlannedTopicModal, currentNode }: Props
     setError(undefined);
 
     try {
-      console.log(currentNode, node);
       const connections = await fetchConnectionsForNode({ id: node.id, taxonomyVersion });
       const parentConnection = connections.find((conn) => conn.type === 'parent-topic');
 

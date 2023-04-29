@@ -10,13 +10,13 @@ import { spacing, fonts, mq, breakpoints } from '@ndla/core';
 import { ButtonV2, IconButtonV2 } from '@ndla/button';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
+import Tooltip from '@ndla/tooltip';
+import { Plus } from '@ndla/icons/action';
+import { css } from '@emotion/react';
 import { NodeType } from '../../../modules/nodes/nodeApiTypes';
 import { Row } from '../../../components';
 import Spinner from '../../../components/Spinner';
 import SettingsMenu from './SettingsMenu';
-import Tooltip from '@ndla/tooltip';
-import { Plus } from '@ndla/icons/action';
-import { css } from '@emotion/react';
 
 const StyledResourceButton = styled(ButtonV2)`
   min-height: unset;

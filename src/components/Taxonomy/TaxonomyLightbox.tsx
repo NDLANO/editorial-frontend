@@ -12,8 +12,8 @@ import styled, { Interpolation } from '@emotion/styled';
 import { spacing, colors, fonts } from '@ndla/core';
 import { BookOpen } from '@ndla/icons/common';
 import { ModalV2, ModalCloseButton, ModalPosition } from '@ndla/modal';
-import Spinner from '../Spinner';
 import { Theme } from '@emotion/react';
+import Spinner from '../Spinner';
 
 const StyledHeader = styled.div`
   background: ${colors.brand.lighter};

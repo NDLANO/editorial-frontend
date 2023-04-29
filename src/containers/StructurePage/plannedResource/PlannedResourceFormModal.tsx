@@ -14,6 +14,7 @@ import { ButtonV2 } from '@ndla/button';
 import { InputV2 } from '@ndla/forms';
 import { Option } from '@ndla/select';
 import sortBy from 'lodash/sortBy';
+import { IUpdatedArticle } from '@ndla/types-backend/build/draft-api';
 import validateFormik, { RulesType } from '../../../components/formikValidationSchema';
 import { useSession } from '../../Session/SessionProvider';
 import { useFetchArticleData } from '../../FormikForm/formikDraftHooks';
@@ -34,7 +35,6 @@ import TaxonomyLightbox from '../../../components/Taxonomy/TaxonomyLightbox';
 import { DRAFT_WRITE_SCOPE, RESOURCE_FILTER_CORE } from '../../../constants';
 import { useAuth0Responsibles } from '../../../modules/auth0/auth0Queries';
 import { useAllResourceTypes } from '../../../modules/taxonomy/resourcetypes/resourceTypesQueries';
-import { IUpdatedArticle } from '@ndla/types-backend/build/draft-api';
 import { ErrorMessage } from '../resourceComponents/AddTopicModal';
 import PlannedResourceSelect from './PlannedResourceSelect';
 import RelevanceOption from '../../../components/Taxonomy/RelevanceOption';
@@ -131,7 +131,7 @@ const PlannedResourceFormModal = ({ articleType, nodeId, onClose }: Props) => {
   const { mutateAsync: createResourceResourceType } = useCreateResourceResourceTypeMutation({
     onSuccess: (_) => qc.invalidateQueries(compKey),
   });
-  const initialValues = useMemo(() => toInitialValues(ndlaId, articleType), [ndlaId]);
+  const initialValues = useMemo(() => toInitialValues(ndlaId, articleType), [ndlaId, articleType]);
   const isTopicArticle = articleType === 'topic-article';
 
   const { data: users } = useAuth0Responsibles(

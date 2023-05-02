@@ -229,7 +229,6 @@ export const learningResourceRules: RulesType<LearningResourceFormType, IArticle
         'audio-embed',
         'error-embed',
         'external-embed',
-        'contact-block',
       ).map((node) => (node as EmbedElements).data);
       const notValidEmbeds = embeds.filter((embed) => !isUserProvidedEmbedDataValid(embed));
       const embedsHasErrors = notValidEmbeds.length > 0;

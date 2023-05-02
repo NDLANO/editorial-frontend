@@ -514,6 +514,14 @@ const phrases = {
   },
   contactBlockForm: {
     title: 'Contact block',
+    blobColor: {
+      green: 'Green',
+      pink: 'Pink',
+    },
+    blob: {
+      pointy: 'Pointy',
+      round: 'Round',
+    },
   },
   frontpageArticleForm: {
     title: 'Content article',
@@ -675,7 +683,7 @@ const phrases = {
       revisions: 'Revisions',
       name: 'Name',
       email: 'Email',
-      blob: 'Type of blob',
+      blob: 'Blob type',
       blobColor: 'Blob color',
       jobTitle: 'Job title',
       author: 'Author',

@@ -67,6 +67,7 @@ const SlateContactBlock = ({ element, editor }: Props) => {
       }, 0);
     }
   };
+
   const onSave = useCallback(
     (data: ContactBlockEmbedData) => {
       setIsEditing(false);
@@ -100,7 +101,7 @@ const SlateContactBlock = ({ element, editor }: Props) => {
     Transforms.removeNodes(editor, { at: ReactEditor.findPath(editor, element), voids: true });
 
   return (
-    <div className="c-figure">
+    <>
       {contactBlock && image && (
         <ContactBlockWrapper contentEditable={false}>
           <ButtonContainer>
@@ -125,23 +126,21 @@ const SlateContactBlock = ({ element, editor }: Props) => {
         </ContactBlockWrapper>
       )}
       {isEditing && (
-        <>
-          <ModalV2 controlled isOpen aria-label={t('contactBlockForm.title')} onClose={onClose}>
-            {(close) => (
-              <>
-                <StyledModalHeader>
-                  <h1>{t('contactBlockForm.title')}</h1>
-                  <ModalCloseButton onClick={close} />
-                </StyledModalHeader>
-                <StyledModalBody>
-                  <ContactBlockForm initialData={contactBlock} onSave={onSave} onCancel={close} />
-                </StyledModalBody>
-              </>
-            )}
-          </ModalV2>
-        </>
+        <ModalV2 controlled isOpen aria-label={t('contactBlockForm.title')} onClose={onClose}>
+          {(close) => (
+            <>
+              <StyledModalHeader>
+                <h1>{t('contactBlockForm.title')}</h1>
+                <ModalCloseButton onClick={close} />
+              </StyledModalHeader>
+              <StyledModalBody>
+                <ContactBlockForm initialData={contactBlock} onSave={onSave} onCancel={close} />
+              </StyledModalBody>
+            </>
+          )}
+        </ModalV2>
       )}
-    </div>
+    </>
   );
 };
 

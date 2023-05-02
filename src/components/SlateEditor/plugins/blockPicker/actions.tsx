@@ -1,6 +1,7 @@
 import { Element } from 'slate';
 import {
   ArrowExpand,
+  BlogPost,
   Camera,
   Code,
   Concept,
@@ -12,7 +13,7 @@ import {
   RelatedArticle,
   TableMaterial,
 } from '@ndla/icons/editor';
-import { Download, HelpCircle, Podcast, VolumeUp } from '@ndla/icons/common';
+import { Download, HelpCircle, Person, Podcast, VolumeUp } from '@ndla/icons/common';
 import { List } from '@ndla/icons/action';
 import HowToHelper from '../../../HowTo/HowToHelper';
 import { TYPE_CONCEPT_BLOCK } from '../concept/block/types';
@@ -131,12 +132,12 @@ export const commonActions: Action[] = [
 export const frontpageActions = commonActions.concat(
   {
     data: { type: TYPE_BLOGPOST, object: 'blogPost' },
-    icon: <HelpCircle />,
+    icon: <BlogPost />,
     helpIcon: renderArticleInModal('BlogPost'),
   },
   {
     data: { type: TYPE_CONTACT_BLOCK, object: 'contactBlock' },
-    icon: <List />,
+    icon: <Person />,
     helpIcon: renderArticleInModal('ContactBlock'),
   },
 );

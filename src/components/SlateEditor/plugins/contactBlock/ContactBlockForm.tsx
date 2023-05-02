@@ -6,6 +6,7 @@
  *
  */
 
+import { RadioButtonGroup } from '@ndla/ui';
 import { ButtonV2 } from '@ndla/button';
 import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -16,7 +17,6 @@ import { ContactBlockEmbedData } from '@ndla/types-embed';
 import { FieldProps, Formik } from 'formik';
 import { InputV2, TextAreaV2 } from '@ndla/forms';
 import FormikField from '../../../FormikField';
-import { supportedLanguages } from '../../../../i18n2';
 import validateFormik, { RulesType } from '../../../formikValidationSchema';
 import InlineImageSearch from '../../../../containers/ConceptPage/components/InlineImageSearch';
 interface Props {
@@ -82,15 +82,6 @@ const StyledFormikField = styled(FormikField)`
   padding-bottom: ${spacing.small};
 `;
 
-const StyledSelect = styled.select`
-  background-color: transparent;
-  border: none;
-`;
-const StyledBlobSelect = styled.select`
-  background-color: transparent;
-  border: none;
-  margin-top: ${spacing.small};
-`;
 const SelectWrapper = styled.div`
   display: flex;
   gap: ${spacing.small};
@@ -99,10 +90,9 @@ const SelectWrapper = styled.div`
 const StyledLabel = styled.label`
   width: ${spacingUnit * 7}px;
   max-width: ${spacingUnit * 7}px;
-  padding: ${spacing.small} 0 ${spacing.small} 0;
+  padding: ${spacing.small} 0;
   font-weight: ${fonts.weight.semibold};
-  ${fonts.sizes(14, 1.1)};
-  font-size: 1.5rem;
+  ${fonts.sizes('14px', '16px')};
 `;
 
 const toInitialValues = (initialData?: ContactBlockEmbedData): ContactBlockFormValues => {
@@ -156,25 +146,7 @@ const ContactBlockForm = ({ initialData, onSave, onCancel }: Props) => {
       {({ dirty, isValid, handleSubmit }) => (
         <>
           <StyledFormikField name="name" showError>
-            {({ field }: FieldProps) => (
-              <InputV2
-                label={t('form.name.name')}
-                {...field}
-                after={
-                  <StyledFormikField name="language">
-                    {({ field }: FieldProps) => (
-                      <StyledSelect {...field}>
-                        {supportedLanguages.map((lang) => (
-                          <option value={lang} key={lang}>
-                            {t(`languages.${lang}`)}
-                          </option>
-                        ))}
-                      </StyledSelect>
-                    )}
-                  </StyledFormikField>
-                }
-              />
-            )}
+            {({ field }: FieldProps) => <InputV2 label={t('form.name.name')} {...field} />}
           </StyledFormikField>
           <StyledFormikField name="jobTitle" showError>
             {({ field }: FieldProps) => (
@@ -191,32 +163,38 @@ const ContactBlockForm = ({ initialData, onSave, onCancel }: Props) => {
               <TextAreaV2 css={inputContentStyle} label={t('form.name.description')} {...field} />
             )}
           </StyledFormikField>
-          <SelectWrapper>
-            <StyledLabel>{t('form.name.blob')}</StyledLabel>
-            <StyledFormikField name="blobTypes" showError>
-              {({ field }) => (
-                <StyledBlobSelect {...field}>
-                  {blobTypes.map((type) => (
-                    <option value={type} key={type}>
-                      {type}
-                    </option>
-                  ))}
-                </StyledBlobSelect>
-              )}
-            </StyledFormikField>
-            <StyledLabel>{t('form.name.blobColor')}</StyledLabel>
-            <StyledFormikField name="blobColor">
-              {({ field }) => (
-                <StyledBlobSelect {...field} showError>
-                  {blobColors.map((color) => (
-                    <option value={color} key={color}>
-                      {color}
-                    </option>
-                  ))}
-                </StyledBlobSelect>
-              )}
-            </StyledFormikField>
-          </SelectWrapper>
+          <StyledFormikField name="blob">
+            {({ field }) => (
+              <RadioButtonGroup
+                label={t('form.name.blob')}
+                selected={field.value}
+                uniqeIds
+                options={blobTypes.map((value) => ({
+                  title: t(`contactBlockForm.blob.${value}`),
+                  value: value,
+                }))}
+                onChange={(value: string) =>
+                  field.onChange({ target: { name: field.name, value: value } })
+                }
+              />
+            )}
+          </StyledFormikField>
+          <StyledFormikField name="blobColor">
+            {({ field }) => (
+              <RadioButtonGroup
+                label={t('form.name.blobColor')}
+                selected={field.value}
+                uniqeIds
+                options={blobColors.map((value) => ({
+                  title: t(`contactBlockForm.blobColor.${value}`),
+                  value: value,
+                }))}
+                onChange={(value: string) =>
+                  field.onChange({ target: { name: field.name, value: value } })
+                }
+              />
+            )}
+          </StyledFormikField>
           <InlineImageSearch name={'metaImageId'} />
           <ButtonContainer>
             <ButtonV2 variant="outline" onClick={onCancel}>

@@ -515,6 +515,14 @@ const phrases = {
   },
   contactBlockForm: {
     title: 'Kontaktblokk',
+    blobColor: {
+      green: 'Grønn',
+      pink: 'Rosa',
+    },
+    blob: {
+      pointy: 'Spiss',
+      round: 'Rund',
+    },
   },
   frontpageArticleForm: {
     title: 'Innholdsartikkel',
@@ -676,8 +684,8 @@ const phrases = {
       revisions: 'Revisjonar',
       name: 'Namn',
       email: 'E-post',
-      blob: 'Velg type blob',
-      blobColor: 'Farge av blob',
+      blob: 'Blob-type',
+      blobColor: 'Blob-farge',
       jobTitle: 'Stilling',
       author: 'Forfattar',
       language: 'Språk',

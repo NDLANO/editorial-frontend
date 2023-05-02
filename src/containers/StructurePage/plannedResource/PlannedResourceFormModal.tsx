@@ -187,7 +187,6 @@ const PlannedResourceFormModal = ({ articleType, nodeId, onClose }: Props) => {
       });
 
       const resourceId = resourceUrl.replace('/v1/nodes/', '');
-      // TODO: RelevanceId not updated correctly!
       await createNodeResource({
         body: { resourceId: resourceId, nodeId, relevanceId: values.relevance },
         taxonomyVersion,

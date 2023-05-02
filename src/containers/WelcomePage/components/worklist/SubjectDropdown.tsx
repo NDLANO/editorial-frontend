@@ -32,7 +32,7 @@ const SubjectDropdown = ({ filterSubject, setFilterSubject }: Props) => {
     'aggregate-paths': 'contexts.subjectId',
   });
 
-  const subjectIds = uniq(data?.results.map((r) => r.contexts.map((c) => c.subjectId)).flat());
+  const subjectIds = uniq(data?.results.flatMap((r) => r.contexts.map((c) => c.subjectId)));
 
   const { data: subjects } = useSearchNodes(
     {

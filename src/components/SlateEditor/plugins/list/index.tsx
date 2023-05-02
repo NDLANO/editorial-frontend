@@ -2,9 +2,8 @@ import { Editor, Node, Element, Descendant, Transforms, Text, Path } from 'slate
 import { RenderElementProps } from 'slate-react';
 import { jsx as slatejsx } from 'slate-hyperscript';
 import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
 import { SlateSerializer } from '../../interfaces';
-import { OrderedList, UnorderedList } from '@ndla/ui';
+import { OrderedList, UnOrderedList } from '@ndla/ui';
 import onEnter from './handlers/onEnter';
 import { firstTextBlockElement } from '../../utils/normalizationHelpers';
 import { defaultListBlock } from './utils/defaultBlocks';
@@ -35,14 +34,7 @@ export interface ListItemElement {
   moveDown?: boolean;
 }
 
-const BlockListItem = styled.li`
-  line-height: 1.7em;
-  margin-bottom: ${spacing.small};
-  direction: ltr;
-  margin-left: 3.2em;
-`;
-
-const BulletedList = styled(UnorderedList)`
+const BulletedList = styled(UnOrderedList)`
   margin: 16px 0;
   padding: 0;
 `;
@@ -94,18 +86,14 @@ export const listSerializer: SlateSerializer = {
     }, [] as Descendant[]);
 
     if (tag === 'ul') {
-      return slatejsx(
-        'element',
-        { type: TYPE_LIST, listType: 'bulleted-list', data: {} },
-        children,
-      );
+      return slatejsx('element', { type: TYPE_LIST, listType: 'bulleted-list' }, children);
     }
     if (tag === 'ol') {
       const start = el.getAttribute('start');
       if (el.getAttribute('data-type') === 'letters') {
         return slatejsx(
           'element',
-          { type: TYPE_LIST, listType: 'letter-list', data: { start: start ? start : undefined } },
+          { type: TYPE_LIST, listType: 'letter-list', data: { start: start ?? 1 } },
           children,
         );
       }
@@ -116,7 +104,7 @@ export const listSerializer: SlateSerializer = {
           {
             type: TYPE_LIST,
             listType: 'numbered-list',
-            data: { start: start ? start : undefined },
+            data: { start: start ?? 1 },
           },
           children,
         );
@@ -135,13 +123,12 @@ export const listSerializer: SlateSerializer = {
       }
       if (node.listType === 'numbered-list') {
         const { start } = node.data;
-
-        return <ol start={start ? parseInt(start) : undefined}>{children}</ol>;
+        return <ol start={start ? parseInt(start) : 1}>{children}</ol>;
       }
       if (node.listType === 'letter-list') {
         const { start } = node.data;
         return (
-          <ol data-type="letters" start={start ? parseInt(start) : undefined}>
+          <ol data-type="letters" start={start ? parseInt(start) : 1}>
             {children}
           </ol>
         );
@@ -171,7 +158,7 @@ export const listPlugin = (editor: Editor) => {
       } else if (element.listType === 'numbered-list') {
         const { start } = element.data;
         return (
-          <OrderedList start={start ? parseInt(start) : undefined} {...attributes}>
+          <OrderedList start={start ? parseInt(start) : 1} {...attributes}>
             {children}
           </OrderedList>
         );
@@ -179,7 +166,7 @@ export const listPlugin = (editor: Editor) => {
         const { start } = element.data;
         return (
           <OrderedList
-            start={start ? parseInt(start) : undefined}
+            start={start ? parseInt(start) : 1}
             data-type="letters"
             className={`ol-list--roman ${start ? `ol-reset-${start}` : ''}`}
             {...attributes}

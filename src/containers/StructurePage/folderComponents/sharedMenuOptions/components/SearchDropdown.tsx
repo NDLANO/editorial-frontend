@@ -47,7 +47,7 @@ interface Props<ParamType extends BaseParams, InnerType, ApiType, Type = ApiType
   transform: (value: Type) => SearchResultBase<DropdownItem<InnerType>>;
   placeholder: string;
   preload?: boolean;
-  id: string;
+  id?: string;
 }
 
 const SearchDropdown = <ParamType extends BaseParams, InnerType, ApiType, Type>({

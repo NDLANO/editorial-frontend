@@ -13,6 +13,7 @@ import { Alarm } from '@ndla/icons/common';
 import addYears from 'date-fns/addYears';
 import { Select, SingleValue } from '@ndla/select';
 import Pager from '@ndla/pager';
+import sortBy from 'lodash/sortBy';
 import {
   ControlWrapperDashboard,
   DropdownWrapper,
@@ -83,7 +84,13 @@ const Revisions = ({ userData, ndlaId }: Props) => {
       ids: userData?.favoriteSubjects,
       language,
     },
-    { enabled: !!userData?.favoriteSubjects?.length },
+    {
+      select: (res) => ({
+        ...res,
+        results: sortBy(res.results, (r) => r.metadata.customFields.subjectCategory === 'archive'),
+      }),
+      enabled: !!userData?.favoriteSubjects?.length,
+    },
   );
 
   const favoriteSubjects = useMemo(

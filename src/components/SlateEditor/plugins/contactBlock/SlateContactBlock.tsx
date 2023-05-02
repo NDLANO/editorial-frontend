@@ -102,7 +102,7 @@ const SlateContactBlock = ({ element, editor }: Props) => {
   return (
     <div className="c-figure">
       {contactBlock && image && (
-        <ContactBlockWrapper>
+        <ContactBlockWrapper contentEditable={false}>
           <ButtonContainer>
             <IconButtonV2
               variant={'ghost'}

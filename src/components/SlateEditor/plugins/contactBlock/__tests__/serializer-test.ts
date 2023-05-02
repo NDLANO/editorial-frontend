@@ -31,7 +31,7 @@ const editor: Descendant[] = [
           blobColor: 'green',
           blob: 'pointy',
         },
-        children: [],
+        children: [{ text: '' }],
       },
     ],
   },

@@ -43,7 +43,7 @@ export const contactBlockSerializer: SlateSerializer = {
     const embed = el as HTMLEmbedElement;
     const embedAttributes = reduceElementDataAttributesV2(Array.from(embed.attributes));
     if (embedAttributes.resource !== TYPE_CONTACT_BLOCK) return;
-    return slatejsx('element', { type: TYPE_CONTACT_BLOCK, data: embedAttributes });
+    return slatejsx('element', { type: TYPE_CONTACT_BLOCK, data: embedAttributes }, { text: '' });
   },
   serialize(node: Descendant) {
     if (!Element.isElement(node) || node.type !== TYPE_CONTACT_BLOCK || !node.data) return;

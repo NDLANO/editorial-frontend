@@ -76,7 +76,7 @@ const ButtonContainer = styled.div`
   gap: ${spacing.small};
 `;
 
-const KeyNumberForm = ({ onSave, initialData, onCancel }: Props) => {
+const KeyPerformanceIndicatorForm = ({ onSave, initialData, onCancel }: Props) => {
   const { t } = useTranslation();
   const initialValues = useMemo(() => toInitialValues(initialData), [initialData]);
   const initialErrors = useMemo(() => validateFormik(initialValues, rules, t), [initialValues, t]);
@@ -151,4 +151,4 @@ const KeyNumberForm = ({ onSave, initialData, onCancel }: Props) => {
   );
 };
 
-export default KeyNumberForm;
+export default KeyPerformanceIndicatorForm;

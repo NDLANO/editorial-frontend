@@ -551,7 +551,7 @@ const phrases = {
       },
     },
   },
-  keyNumberForm: {
+  keyPerformanceIndicatorForm: {
     title: 'Nøkkeltall',
   },
   editorToolbar: {
@@ -595,7 +595,7 @@ const phrases = {
       podcast: 'Podkastepisode',
       conceptList: 'Forklaringsliste',
       concept: 'Forklaring',
-      keyNumber: 'Nykkeltall',
+      keyPerformanceIndicator: 'Nykkeltall',
       blogPost: 'Bloggpost',
     },
   },

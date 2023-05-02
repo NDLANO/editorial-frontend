@@ -20,7 +20,7 @@ import { ReactEditor, RenderElementProps } from 'slate-react';
 import { KeyNumberElement } from '.';
 import { fetchImage } from '../../../../modules/image/imageApi';
 import DeleteButton from '../../../DeleteButton';
-import KeyNumberForm from './KeyNumberForm';
+import KeyPerformanceIndicatorForm from './KeyPerformanceIndicatorForm';
 
 interface Props extends RenderElementProps {
   element: KeyNumberElement;
@@ -105,17 +105,21 @@ const SlateKeyNumber = ({ element, editor }: Props) => {
           controlled
           isOpen
           size="small"
-          aria-label={t('keyNumberForm.title')}
+          aria-label={t('keyPerformanceIndicator.title')}
           onClose={onClose}
         >
           {(close) => (
             <>
               <StyledModalHeader>
-                <h1>{t('keyNumberForm.title')}</h1>
+                <h1>{t('keyPerformanceIndicator.title')}</h1>
                 <ModalCloseButton onClick={close} />
               </StyledModalHeader>
               <StyledModalBody>
-                <KeyNumberForm onSave={onSave} initialData={keyNumber} onCancel={close} />
+                <KeyPerformanceIndicatorForm
+                  onSave={onSave}
+                  initialData={keyNumber}
+                  onCancel={close}
+                />
               </StyledModalBody>
             </>
           )}

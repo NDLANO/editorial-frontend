@@ -550,7 +550,7 @@ const phrases = {
       },
     },
   },
-  keyNumberForm: {
+  keyPerformanceIndicator: {
     title: 'Key numbers',
   },
   editorToolbar: {

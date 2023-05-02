@@ -53,7 +53,7 @@ export const keyPerformanceIndicatorSerializer: SlateSerializer = {
   },
 };
 
-export const keyNumberPlugin = (editor: Editor) => {
+export const keyPerformanceIndicatorPlugin = (editor: Editor) => {
   const { renderElement, isVoid, normalizeNode } = editor;
 
   editor.renderElement = (props: RenderElementProps) => {

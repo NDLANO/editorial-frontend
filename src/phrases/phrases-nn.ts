@@ -551,7 +551,7 @@ const phrases = {
       },
     },
   },
-  keyNumberForm: {
+  keyPerformanceIndicatorForm: {
     title: 'Nykkeltall',
   },
   editorToolbar: {

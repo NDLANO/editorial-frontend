@@ -65,11 +65,11 @@ import {
   TYPE_EMBED_IMAGE,
 } from '../../../../components/SlateEditor/plugins/embed/types';
 import { TYPE_FILE } from '../../../../components/SlateEditor/plugins/file/types';
-import { keyNumberPlugin } from '../../../../components/SlateEditor/plugins/keyNumber';
 import { TYPE_KEY_PERFORMANCE_INDICATOR } from '../../../../components/SlateEditor/plugins/keyPerformanceIndicator/types';
 import { blogPostPlugin } from '../../../../components/SlateEditor/plugins/blogPost';
 import { TYPE_BLOGPOST } from '../../../../components/SlateEditor/plugins/blogPost/types';
 import { frontpageActions } from '../../../../components/SlateEditor/plugins/blockPicker/actions';
+import { keyPerformanceIndicatorPlugin } from '../../../../components/SlateEditor/plugins/keyPerformanceIndicator';
 
 const StyledFormikField = styled(FormikField)`
   display: flex;
@@ -157,7 +157,7 @@ export const plugins = (
     filePlugin,
     mathmlPlugin,
     codeblockPlugin,
-    keyNumberPlugin,
+    keyPerformanceIndicatorPlugin,
     blockPickerPlugin,
     dndPlugin,
     toolbarPlugin,

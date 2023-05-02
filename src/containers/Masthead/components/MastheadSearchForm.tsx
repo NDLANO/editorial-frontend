@@ -7,7 +7,6 @@
  */
 
 import { FormEvent, useState } from 'react';
-
 import { ButtonV2 } from '@ndla/button';
 import { useNavigate } from 'react-router-dom';
 import { colors, misc, spacing, fonts } from '@ndla/core';
@@ -17,22 +16,26 @@ import styled from '@emotion/styled';
 import { isValidLocale } from '../../../i18n';
 import { toEditArticle, to404 } from '../../../util/routeHelpers';
 import { isNDLAFrontendUrl } from '../../../util/htmlHelpers';
-
 import { fetchResource, fetchTopic } from '../../../modules/taxonomy';
-
 import { fetchNewArticleId } from '../../../modules/draft/draftApi';
 import { resolveUrls } from '../../../modules/taxonomy/taxonomyApi';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 
-const StyledForm = styled.form`
+const StyledForm = styled.form<{ color: string }>`
   display: flex;
-  background: ${colors.brand.greyLightest};
+  flex-grow: 1;
+  background: ${(props) => props.color};
   border-radius: ${misc.borderRadius};
   border: 1px solid transparent;
-  ${fonts.sizes(16, 1.2)} font-weight: ${fonts.weight.semibold};
+  ${fonts.sizes(16, 1.2)};
   padding: ${spacing.xsmall};
-  padding-left: ${spacing.small};
-  transition: all 200ms ease;
+  height: 48px;
+  align-items: center;
+  transition: all 100ms ease-in-out;
+
+  &:focus-within {
+    background: ${colors.white};
+  }
 
   input {
     padding: ${spacing.xsmall};
@@ -40,11 +43,14 @@ const StyledForm = styled.form`
     border: 0;
     outline: none;
     color: ${colors.brand.primary};
-    transition: width 200ms ease 100ms;
-    width: 200px;
+    transition: all 300ms ease-in-out;
 
-    &:focus {
-      width: 400px;
+    &:not(:focus-within) {
+      ::placeholder {
+        color: ${colors.brand.primary};
+        font-weight: ${fonts.weight.semibold};
+        opacity: 1;
+      }
     }
   }
 
@@ -57,7 +63,7 @@ const StyledForm = styled.form`
   }
 
   &:focus-within {
-    border: 1px solid ${colors.brand.primary};
+    border: 1px solid ${colors.brand.tertiary};
 
     .c-icon {
       color: ${colors.brand.primary};
@@ -68,8 +74,7 @@ const StyledForm = styled.form`
   &:focus {
     &:not(:focus-within) {
       cursor: pointer;
-      background: ${colors.brand.greyLighter};
-      border: 1px solid ${colors.brand.greyLight};
+      border: 1px solid ${colors.brand.tertiary};
     }
   }
 `;
@@ -77,9 +82,14 @@ const StyledForm = styled.form`
 interface Props {
   query?: string;
   onSearchQuerySubmit: (query: string) => void;
+  color: string;
 }
 
-export const MastheadSearchForm = ({ query: initQuery = '', onSearchQuerySubmit }: Props) => {
+export const MastheadSearchForm = ({
+  query: initQuery = '',
+  onSearchQuerySubmit,
+  color,
+}: Props) => {
   const [query, setQuery] = useState(initQuery);
   const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
@@ -188,18 +198,22 @@ export const MastheadSearchForm = ({ query: initQuery = '', onSearchQuerySubmit 
       onSearchQuerySubmit(query);
     }
   };
+  const [focused, setFocused] = useState(false);
 
   return (
-    <StyledForm onSubmit={handleSubmit}>
+    <StyledForm onSubmit={handleSubmit} color={color}>
+      <ButtonV2 type="submit" variant="stripped">
+        <Search color={colors.brand.primary} className="c-icon--medium" />
+      </ButtonV2>
+
       <input
         type="text"
         onChange={handleQueryChange}
         value={query}
-        placeholder={t('searchForm.placeholder')}
+        placeholder={focused ? t('searchForm.placeholder') : t('searchPage.searchButton')}
+        onFocus={() => setFocused(true)}
+        onBlur={() => setFocused(false)}
       />
-      <ButtonV2 type="submit" variant="stripped">
-        <Search className="c-icon--medium" />
-      </ButtonV2>
     </StyledForm>
   );
 };

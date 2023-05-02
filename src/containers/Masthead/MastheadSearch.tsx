@@ -14,6 +14,7 @@ import { parseSearchParams } from '../SearchPage/components/form/SearchForm';
 
 interface Props {
   close: () => void;
+  color: string;
 }
 
 const pathToTypeMapping: Record<string, string> = {
@@ -24,7 +25,7 @@ const pathToTypeMapping: Record<string, string> = {
   default: 'content',
 };
 
-const MastheadSearch = ({ close }: Props) => {
+const MastheadSearch = ({ close, color }: Props) => {
   const location = useLocation();
   const navigate = useNavigate();
   const query = queryString.parse(location.search).query;
@@ -58,6 +59,7 @@ const MastheadSearch = ({ close }: Props) => {
     <MastheadSearchForm
       query={query}
       onSearchQuerySubmit={(searchQuery: string) => onSearchQuerySubmit(searchQuery)}
+      color={color}
     />
   );
 };

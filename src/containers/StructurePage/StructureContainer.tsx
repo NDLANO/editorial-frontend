@@ -26,7 +26,7 @@ import { useTaxonomyVersion } from '../StructureVersion/TaxonomyVersionProvider'
 import StickyVersionSelector from './StickyVersionSelector';
 import config from '../../config';
 import { createGuard } from '../../util/guards';
-import { GridContainer, LeftColumn, RightColumn } from '../../components/Layout/Layout';
+import { GridContainer, Column } from '../../components/Layout/Layout';
 import StructureBanner from './StructureBanner';
 
 const StructureWrapper = styled.ul`
@@ -126,7 +126,7 @@ const StructureContainer = () => {
     <ErrorBoundary>
       <Wrapper>
         <GridContainer breakpoint={breakpoints.desktop}>
-          <LeftColumn colStart={1}>
+          <Column colStart={1} colEnd={7}>
             <StructureBanner onChange={toggleShowFavorites} checked={showFavorites} />
             <StyledStructureContainer>
               {userDataQuery.isInitialLoading || nodesQuery.isInitialLoading ? (
@@ -148,8 +148,8 @@ const StructureContainer = () => {
                 </StructureWrapper>
               )}
             </StyledStructureContainer>
-          </LeftColumn>
-          <RightColumn colEnd={13}>
+          </Column>
+          <Column colStart={7} colEnd={13}>
             {currentNode && isChildNode(currentNode) && (
               <StructureResources
                 currentChildNode={currentNode}
@@ -157,7 +157,7 @@ const StructureContainer = () => {
                 resourceRef={resourceSection}
               />
             )}
-          </RightColumn>
+          </Column>
         </GridContainer>
         {config.versioningEnabled === 'true' && isTaxonomyAdmin && <StickyVersionSelector />}
         <Footer showLocaleSelector />

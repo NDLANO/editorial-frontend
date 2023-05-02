@@ -14,7 +14,7 @@ import { SlateBlockMenu } from '@ndla/editor';
 import styled from '@emotion/styled';
 import { Portal } from '../../../Portal';
 import SlateVisualElementPicker from './SlateVisualElementPicker';
-import actions, { ActionData } from './actions';
+import { Action, ActionData } from './actions';
 import { defaultAsideBlock } from '../aside/utils';
 import { defaultDetailsBlock } from '../details/utils';
 import { defaultBodyboxBlock } from '../bodybox/utils';
@@ -47,10 +47,13 @@ import { TYPE_RELATED } from '../related/types';
 import { TYPE_CODEBLOCK } from '../codeBlock/types';
 import { TYPE_CONCEPT_LIST } from '../conceptList/types';
 import { TYPE_CONTACT_BLOCK } from '../contactBlock/types';
+import { TYPE_BLOGPOST } from '../blogPost/types';
+import { defaultBlogPostBlock } from '../blogPost/utils';
 import { defaultContactBlock } from '../contactBlock/utils';
 
 interface Props {
   editor: Editor;
+  actions: Action[];
   allowedPickAreas: Element['type'][];
   illegalAreas: Element['type'][];
   actionsToShowInAreas: { [key: string]: string[] };
@@ -68,6 +71,7 @@ const SlateBlockPicker = ({
   articleLanguage,
   illegalAreas,
   allowedPickAreas,
+  actions,
 }: Props) => {
   const [blockPickerOpen, setBlockPickerOpen] = useState(false);
   const [lastActiveSelection, setLastActiveSelection] = useState<Range>();
@@ -204,6 +208,9 @@ const SlateBlockPicker = ({
         onInsertBlock(defaultCodeblockBlock());
         break;
       }
+      case TYPE_BLOGPOST:
+        onInsertBlock(defaultBlogPostBlock());
+        break;
       case TYPE_CONCEPT_LIST: {
         onInsertBlock({ ...defaultConceptListBlock(), isFirstEdit: true });
         break;

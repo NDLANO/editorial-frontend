@@ -18,7 +18,6 @@ import { useFormikContext } from 'formik';
 import { useEffect, useState } from 'react';
 import { SingleValue } from '@ndla/select';
 import { toPreviewDraft } from '../../util/routeHelpers';
-import PreviewConceptLightbox from '../PreviewConcept/PreviewConceptLightbox';
 import SaveMultiButton from '../SaveMultiButton';
 import { createGuard, createReturnTypeGuard } from '../../util/guards';
 import { NewMessageType, useMessages } from '../../containers/Messages/MessagesProvider';
@@ -27,7 +26,6 @@ import ResponsibleSelect from '../../containers/FormikForm/components/Responsibl
 import StatusSelect from '../../containers/FormikForm/components/StatusSelect';
 import { ARCHIVED, PUBLISHED, UNPUBLISHED } from '../../constants';
 import PreviewDraftLightboxV2 from '../PreviewDraft/PreviewDraftLightboxV2';
-import { useDisableConverter } from '../ArticleConverterContext';
 import { useSession } from '../../containers/Session/SessionProvider';
 
 interface Props {
@@ -91,7 +89,6 @@ function EditorFooter<T extends FormValues>({
   hasErrors,
   responsibleId,
 }: Props) {
-  const disableConverter = useDisableConverter();
   const [status, setStatus] = useState<SingleValue>(null);
   const [responsible, setResponsible] = useState<SingleValue>(null);
 
@@ -208,19 +205,13 @@ function EditorFooter<T extends FormValues>({
     <Footer>
       <>
         <div data-cy="footerPreviewAndValidate">
-          {values.id &&
-            isConcept &&
-            getEntity &&
-            isConceptType(getEntity) &&
-            (!disableConverter ? (
-              <PreviewConceptLightbox getConcept={getEntity} typeOfPreview={'preview'} />
-            ) : (
-              <PreviewDraftLightboxV2
-                type="concept"
-                language={values.language}
-                activateButton={<ButtonV2 variant="link">{t('form.preview.button')}</ButtonV2>}
-              />
-            ))}
+          {values.id && isConcept && getEntity && isConceptType(getEntity) && (
+            <PreviewDraftLightboxV2
+              type="concept"
+              language={values.language}
+              activateButton={<ButtonV2 variant="link">{t('form.preview.button')}</ButtonV2>}
+            />
+          )}
           {values.id && isArticle && (
             <FooterLinkButton
               bold

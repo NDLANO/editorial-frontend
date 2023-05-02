@@ -36,11 +36,11 @@ interface Props {
   ndlaId: string | undefined;
 }
 
-type SortOptionRevision = 'title' | 'revisionDate';
+type SortOptionRevision = 'title' | 'revisionDate' | 'status';
 
 const Revisions = ({ userData, ndlaId }: Props) => {
   const [filterSubject, setFilterSubject] = useState<SingleValue | undefined>(undefined);
-  const [sortOption, setSortOption] = useState<Prefix<'-', SortOptionRevision>>('-revisionDate');
+  const [sortOption, setSortOption] = useState<Prefix<'-', SortOptionRevision>>('revisionDate');
   const [error, setError] = useState<string | undefined>(undefined);
   const [page, setPage] = useState(1);
 
@@ -52,7 +52,7 @@ const Revisions = ({ userData, ndlaId }: Props) => {
 
   const tableTitles: TitleElement<SortOptionRevision>[] = [
     { title: t('form.article.label'), sortableField: 'title' },
-    { title: t('welcomePage.workList.status') },
+    { title: t('welcomePage.workList.status'), sortableField: 'status' },
     { title: t('welcomePage.workList.primarySubject') },
     { title: t('welcomePage.revisionDate'), sortableField: 'revisionDate' },
   ];
@@ -103,7 +103,7 @@ const Revisions = ({ userData, ndlaId }: Props) => {
         {
           id: `title_${a.id}`,
           data: (
-            <StyledLink to={toEditArticle(a.id, a.learningResourceType)}>
+            <StyledLink to={toEditArticle(a.id, a.learningResourceType)} title={a.title?.title}>
               {a.title?.title}
             </StyledLink>
           ),

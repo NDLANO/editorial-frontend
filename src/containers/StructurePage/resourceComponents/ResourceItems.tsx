@@ -107,7 +107,7 @@ const ResourceItems = ({
 
   const onDragEnd = async ({ destination, source }: DropResult) => {
     if (!destination) return;
-    const { connectionId, primary, relevanceId, rank: currentRank } = resources[source.index];
+    const { connectionId, isPrimary, relevanceId, rank: currentRank } = resources[source.index];
     const { rank } = resources[destination.index];
     if (currentRank === rank) {
       return;
@@ -115,7 +115,7 @@ const ResourceItems = ({
     await updateNodeResource({
       id: connectionId,
       body: {
-        primary,
+        primary: isPrimary,
         rank: currentRank > rank ? rank : rank + 1,
         relevanceId,
       },

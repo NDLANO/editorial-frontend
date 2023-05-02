@@ -6,7 +6,7 @@
  *
  */
 
-import { request, gql } from 'graphql-request';
+import { request, gql, Variables } from 'graphql-request';
 import { useQuery, UseQueryOptions, UseQueryResult } from '@tanstack/react-query';
 import config from '../../config';
 import { apiResourceUrl } from '../../util/apiHelpers';
@@ -15,7 +15,7 @@ const gqlEndpoint = config.localConverter
   ? 'http://localhost:4000/graphql-api/graphql'
   : apiResourceUrl('/graphql-api/graphql');
 
-interface UseTransformArticle {
+interface UseTransformArticle extends Variables {
   content: string;
   language: string;
   visualElement?: string;
@@ -69,6 +69,10 @@ const transformArticleMutation = gql`
   }
 `;
 
+interface ReturnData {
+  transformArticleContent: string;
+}
+
 export const useTransformArticle = (
   params: UseTransformArticle,
   options?: UseQueryOptions<string>,
@@ -76,9 +80,14 @@ export const useTransformArticle = (
   return useQuery<string>(
     ['TRANSFORM_ARTICLE', params],
     async (): Promise<string> => {
-      const res = await request(gqlEndpoint, transformArticleMutation, params, {
-        'Accept-Language': params.language,
-      });
+      const res = await request<ReturnData, UseTransformArticle>(
+        gqlEndpoint,
+        transformArticleMutation,
+        params,
+        {
+          'Accept-Language': params.language,
+        },
+      );
       return res.transformArticleContent;
     },
     options,

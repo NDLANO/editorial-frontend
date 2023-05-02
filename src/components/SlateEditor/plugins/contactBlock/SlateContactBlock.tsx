@@ -87,7 +87,7 @@ const SlateContactBlock = ({ element, editor }: Props) => {
         }, 0);
       }
     },
-    [setIsEditing],
+    [setIsEditing, editor, element],
   );
 
   useEffect(() => {

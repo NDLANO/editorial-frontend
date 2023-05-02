@@ -168,7 +168,7 @@ const PlannedResourceFormModal = ({ articleType, nodeId, onClose }: Props) => {
       setError(undefined);
       const plannedResource: IUpdatedArticle = {
         title: values.title,
-        comments: [{ content: values.comments, isOpen: true }],
+        comments: values.comments.length ? [{ content: values.comments, isOpen: true }] : [],
         language: i18n.language,
         articleType: values.articleType,
         responsibleId: values.responsible,

@@ -33,6 +33,7 @@ import { tableSerializer } from '../components/SlateEditor/plugins/table';
 import { relatedSerializer } from '../components/SlateEditor/plugins/related';
 import { embedSerializer } from '../components/SlateEditor/plugins/embed';
 import { codeblockSerializer } from '../components/SlateEditor/plugins/codeBlock';
+import { blogPostSerializer } from '../components/SlateEditor/plugins/blogPost';
 import { noEmbedSerializer } from '../components/SlateEditor/plugins/noEmbed';
 import { defaultEmbedBlock, isSlateEmbed } from '../components/SlateEditor/plugins/embed/utils';
 import { parseEmbedTag, createEmbedTag } from './embedTagHelpers';
@@ -92,6 +93,7 @@ const extendedRules: SlateSerializer[] = [
   detailsSerializer,
   tableSerializer,
   relatedSerializer,
+  blogPostSerializer,
   codeblockSerializer,
   keyPerformanceIndicatorSerializer,
   embedSerializer,

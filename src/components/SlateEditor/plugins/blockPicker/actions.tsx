@@ -33,6 +33,7 @@ import { TYPE_RELATED } from '../related/types';
 import { TYPE_CODEBLOCK } from '../codeBlock/types';
 import { TYPE_CONCEPT_LIST } from '../conceptList/types';
 import { TYPE_KEY_PERFORMANCE_INDICATOR } from '../keyPerformanceIndicator/types';
+import { TYPE_BLOGPOST } from '../blogPost/types';
 
 const renderArticleInModal = (pageId: string) => <HowToHelper pageId={pageId} extraIconPadding />;
 
@@ -48,7 +49,7 @@ export interface Action {
   requiredScope?: string;
 }
 
-const actions: Action[] = [
+export const commonActions: Action[] = [
   {
     data: { type: TYPE_ASIDE, object: 'factAside' },
     icon: <FactBoxMaterial />,
@@ -125,11 +126,17 @@ const actions: Action[] = [
     helpIcon: renderArticleInModal('ConceptList'),
     requiredScope: DRAFT_ADMIN_SCOPE,
   },
+];
+
+export const frontpageActions = commonActions.concat(
+  {
+    data: { type: TYPE_BLOGPOST, object: 'blogPost' },
+    icon: <HelpCircle />,
+    helpIcon: renderArticleInModal('BlogPost'),
+  },
   {
     data: { type: TYPE_KEY_PERFORMANCE_INDICATOR, object: 'keyNumber' },
     icon: <HelpCircle />,
     helpIcon: renderArticleInModal('H5P'),
   },
-];
-
-export default actions;
+);

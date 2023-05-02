@@ -7,7 +7,7 @@
  */
 
 import { useRef, useEffect, RefObject, useState } from 'react';
-import { withTranslation, CustomWithTranslation, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { FormikContextType } from 'formik';
 import { FieldHeader } from '@ndla/forms';
@@ -66,7 +66,10 @@ import {
 } from '../../../../components/SlateEditor/plugins/embed/types';
 import { TYPE_FILE } from '../../../../components/SlateEditor/plugins/file/types';
 import { keyNumberPlugin } from '../../../../components/SlateEditor/plugins/keyNumber';
-import { TYPE_KEY_NUMBER } from '../../../../components/SlateEditor/plugins/keyNumber/types';
+import { TYPE_KEY_PERFORMANCE_INDICATOR } from '../../../../components/SlateEditor/plugins/keyPerformanceIndicator/types';
+import { blogPostPlugin } from '../../../../components/SlateEditor/plugins/blogPost';
+import { TYPE_BLOGPOST } from '../../../../components/SlateEditor/plugins/blogPost/types';
+import { frontpageActions } from '../../../../components/SlateEditor/plugins/blockPicker/actions';
 
 const StyledFormikField = styled(FormikField)`
   display: flex;
@@ -106,7 +109,13 @@ const visualElements = [
   TYPE_EMBED_IMAGE,
 ];
 
-const actions = [TYPE_TABLE, TYPE_CODEBLOCK, TYPE_KEY_NUMBER, TYPE_FILE].concat(visualElements);
+const actions = [
+  TYPE_TABLE,
+  TYPE_CODEBLOCK,
+  TYPE_FILE,
+  TYPE_BLOGPOST,
+  TYPE_KEY_PERFORMANCE_INDICATOR,
+].concat(visualElements);
 const actionsToShowInAreas = {
   details: actions,
   aside: actions,
@@ -157,6 +166,7 @@ export const plugins = (
     saveHotkeyPlugin(() => handleSubmitRef.current && handleSubmitRef.current()),
     markPlugin,
     listPlugin,
+    blogPostPlugin,
   ];
 };
 type Props = {
@@ -236,7 +246,7 @@ const FrontpageArticleFormContent = ({
 
       <IngressField preview={preview} handleSubmit={handleSubmit} />
       <StyledContentDiv name="content" label={t('form.content.label')} noBorder>
-        {({ field: { value, name, onChange }, form: { isSubmitting, setFieldValue } }) => (
+        {({ field: { value, name, onChange }, form: { isSubmitting } }) => (
           <>
             <FieldHeader title={t('form.content.label')}>
               {id && userPermissions?.includes(DRAFT_HTML_SCOPE) && (
@@ -248,6 +258,7 @@ const FrontpageArticleFormContent = ({
             </FieldHeader>
             <RichTextEditor
               language={articleLanguage}
+              actions={frontpageActions}
               blockpickerOptions={{
                 actionsToShowInAreas,
               }}

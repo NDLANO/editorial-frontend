@@ -33,8 +33,6 @@ const StyledButton = styled(ButtonV2)`
   flex: 2;
 `;
 
-const StyledMenuBook = styled(BookOpen)``;
-
 const StyledIconWrapper = styled.div`
   padding: ${spacing.small};
   border-radius: 50%;
@@ -92,6 +90,7 @@ const ModalContent = ({
   codes,
   draftId,
   revision,
+  onClose,
   currentNodeId,
   contentUri,
 }: ModalContentProps) => {
@@ -132,7 +131,7 @@ const ModalContent = ({
           <BookOpen />
         </StyledIconWrapper>
         <h1>{t('form.name.grepCodes')}</h1>
-        <CloseButton />
+        <CloseButton onClick={onClose} />
       </ModalHeader>
       <ModalBody>
         <GrepCodesForm codes={codes} onUpdate={onUpdateGrepCodes} />

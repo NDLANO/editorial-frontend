@@ -29,51 +29,30 @@ describe('Workflow features', () => {
 
   it('Can add notes and responsible then save', () => {
     cy.get('[data-testid=addNote]').click();
-    cy.get('[data-testid=notesInput]')
-      .click()
-      .should('have.focus')
-      .type('Test merknad');
-    cy.get('[data-cy=responsible-select]')
-      .click()
-      .type('Ed test {enter}');
-    cy.get('[data-testid=saveLearningResourceButtonWrapper] button')
-      .first()
-      .click();
+    cy.get('[data-testid=notesInput]').click().should('have.focus').type('Test merknad');
+    cy.get('[data-cy=responsible-select]').click().type('Ed test {enter}');
+    cy.get('[data-testid=saveLearningResourceButtonWrapper] button').first().click();
     cy.apiwait('@patchUserData');
     cy.get('[data-testid=notesInput]').should('not.exist');
-    cy.get('section[id=learning-resource-workflow]')
-      .find('tr')
-      .its('length')
-      .should('eq', 10);
+    cy.get('section[id=learning-resource-workflow]').find('tr').its('length').should('eq', 10);
   });
 
   it('Open previews', () => {
-    cy.apiroute('POST', `/article-converter/json/nb/*`, `converted-article-${ARTICLE_ID}`);
-    cy.apiroute('GET', `/article-converter/json/nb/*`, `converted-article-${ARTICLE_ID}`);
-    cy.get('[data-testid=previewVersion]')
-      .first()
-      .click();
+    cy.apiroute('POST', `/graphql-api/graphql`, `converted-article-${ARTICLE_ID}`);
+    cy.get('[data-testid=previewVersion]').first().click();
     cy.apiwait(`@converted-article-${ARTICLE_ID}`);
     cy.get(`article[id=${ARTICLE_ID}]`).should('exist');
-    cy.get('[data-testid=closePreview]')
-      .should('exist')
-      .click();
+    cy.get('[data-cy=close-modal-button]').should('exist').click();
   });
 
   it('Can reset to prod', () => {
     // This operation is slow, and even slower on older/limited hardware, hence the additional 5s
     cy.apiroute('GET', `/article-api/v2/articles/${ARTICLE_ID}*`, `article-${ARTICLE_ID}`);
-    cy.get('[data-testid=resetToVersion]')
-      .first()
-      .click();
+    cy.get('[data-testid=resetToVersion]').first().click();
     cy.contains('Innhold er tilbakestilt');
     cy.apiwait('@getUsersResponsible');
-    cy.get('[data-cy=responsible-select]')
-      .click()
-      .type('Ed test {enter}');
-    cy.get('[data-testid=saveLearningResourceButtonWrapper] button')
-      .first()
-      .click();
+    cy.get('[data-cy=responsible-select]').click().type('Ed test {enter}');
+    cy.get('[data-testid=saveLearningResourceButtonWrapper] button').first().click();
     cy.apiwait([
       `@article-${ARTICLE_ID}`,
       `@updateDraft-${ARTICLE_ID}`,

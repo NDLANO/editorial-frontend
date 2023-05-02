@@ -116,7 +116,7 @@ const phrases = {
     noArticles: 'Empty article list ...',
     emptyLastUsed: 'Empty last edited list ...',
     emptyConcepts: 'Empty concept list ...',
-    emptyRevision: 'No articles in favorite subjects approaching revision date ...',
+    emptyRevision: 'No articles in favorite subjects that need revision ...',
     emptySavedSearch: 'No saved searches',
     guidelines: 'Guidelines',
     mustBeSearch: 'Link must be a search url',
@@ -130,7 +130,7 @@ const phrases = {
     errorMessage: 'Failed to retrieve data',
     goToSearch: 'Go to search',
     revision: 'Revisjon',
-    revisionDescription: 'Articles in favorite subjects approaching revision date',
+    revisionDescription: 'Articles in favorite subjects that need revision',
     revisionDate: 'Revision date',
     workList: {
       title: 'My tasks',
@@ -519,6 +519,14 @@ const phrases = {
         'Use of illegal characters in permalink! Legal characters are numbers and letters, plus dashes.',
     },
   },
+  blogPostForm: {
+    title: 'Edit blog post',
+    languageExplanation: 'Choose language for screen readers',
+    sizes: {
+      normal: 'Normal',
+      large: 'Large',
+    },
+  },
   learningResourceForm: {
     metaImage: {
       title: 'Image title',
@@ -587,6 +595,7 @@ const phrases = {
       conceptList: 'Concept list',
       concept: 'Concept',
       keyNumber: 'Key number',
+      blogPost: 'Blog post',
     },
   },
   form: {
@@ -614,6 +623,12 @@ const phrases = {
     feil: 'There are still errors.',
     copy: 'copy',
     saveAsCopySuccess: 'New article saved',
+    comment: 'Comment',
+    hideComment: 'Hide comment',
+    showComment: 'Show comment',
+    openAll: 'Open all',
+    hideAll: 'Hide all',
+    commentField: 'Comment field',
     preview: {
       button: 'Preview',
     },
@@ -661,6 +676,9 @@ const phrases = {
       name: 'Name',
       subTitle: 'Sub-title',
       language: 'Language',
+      author: 'Author',
+      link: 'Link',
+      size: 'Size',
     },
     previewProductionArticle: {
       button: 'Compare current version with old version',
@@ -809,6 +827,16 @@ const phrases = {
       expiration: {
         warn: 'One of the revisions expires soon (Must be revised before {{date}}).',
         expired: 'One of the revisions has expired (Expired {{date}}).',
+      },
+      deleteComment: {
+        title: 'Delete comment',
+        modal: 'Are you sure you want to delete this comment? It can`t be restored.',
+        button: 'Delete',
+      },
+      addComment: {
+        createdBy: 'Created by',
+        warn: 'Remember to add a comment',
+        description: 'You have changed responsible without adding a comment!',
       },
     },
     status: {
@@ -1652,7 +1680,7 @@ const phrases = {
       contentUri: {
         title: 'Content URI',
       },
-      parent: {
+      parentId: {
         title: 'Parent',
       },
       path: {
@@ -1666,11 +1694,6 @@ const phrases = {
       },
       isPrimary: {
         title: 'Is Primary',
-        isOn: 'This node is currently a primary resource',
-        isOff: 'This node is not currently a primary resource',
-      },
-      primary: {
-        title: 'Primary',
         isOn: 'This node is currently a primary resource',
         isOff: 'This node is not currently a primary resource',
       },

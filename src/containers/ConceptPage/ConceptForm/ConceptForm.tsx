@@ -212,7 +212,6 @@ const ConceptForm = ({
               concept={concept}
               content={{ ...concept, title: concept?.title?.title, language }}
               editUrl={editUrl}
-              getEntity={getEntity}
               type="concept"
               values={values}
             />

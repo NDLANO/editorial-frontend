@@ -106,7 +106,7 @@ const SlateKeyNumber = ({ element, editor }: Props) => {
   return (
     <>
       {data && image && (
-        <KeyNumberWrapper>
+        <KeyNumberWrapper contentEditable={false}>
           <ButtonContainer>
             <IconButtonV2 variant="ghost" onClick={() => setIsEditing(true)} aria-label={t('edit')}>
               <Pencil />

@@ -23,8 +23,8 @@ const editor: Descendant[] = [
       {
         type: TYPE_CODEBLOCK,
         data: {
-          'code-content': 'print(1)',
-          'code-format': 'python',
+          codeContent: 'print(1)',
+          codeFormat: 'python',
           resource: 'code-block',
           title: 'tittel',
         },
@@ -37,7 +37,7 @@ const editor: Descendant[] = [
 ];
 
 const html =
-  '<section><ndlaembed data-resource="code-block" data-code-content="print(1)" data-code-format="python" data-title="tittel"></ndlaembed></section>';
+  '<section><ndlaembed data-code-content="print(1)" data-code-format="python" data-resource="code-block" data-title="tittel"></ndlaembed></section>';
 
 describe('codeblock serializing tests', () => {
   test('serializing', () => {

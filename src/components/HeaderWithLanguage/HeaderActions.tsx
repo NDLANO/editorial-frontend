@@ -9,55 +9,35 @@
 import { Check } from '@ndla/icons/editor';
 import { FileCompare } from '@ndla/icons/action';
 import { useTranslation } from 'react-i18next';
-import { IConcept } from '@ndla/types-concept-api';
-import { IArticle, IUpdatedArticle } from '@ndla/types-draft-api';
+import { IConcept } from '@ndla/types-backend/concept-api';
+import { IArticle } from '@ndla/types-backend/draft-api';
 import StyledFilledButton from '../StyledFilledButton';
-import PreviewDraftLightbox from '../PreviewDraft/PreviewDraftLightbox';
 import { StyledSplitter } from './HeaderInformation';
 import HeaderLanguagePicker from './HeaderLanguagePicker';
 import TranslateNbToNn from './TranslateNbToNn';
 import DeleteLanguageVersion from './DeleteLanguageVersion';
 import HeaderSupportedLanguages from './HeaderSupportedLanguages';
 import HeaderLanguagePill from './HeaderLanguagePill';
-import PreviewConceptLightbox from '../PreviewConcept/PreviewConceptLightbox';
 import { useIsTranslatableToNN } from '../NynorskTranslateProvider';
 import PreviewDraftLightboxV2 from '../PreviewDraft/PreviewDraftLightboxV2';
-import { useDisableConverter } from '../ArticleConverterContext';
-
-type PreviewTypes = IConcept | IUpdatedArticle;
 
 interface PreviewLightBoxProps {
-  articleId: number;
   article?: IArticle;
   concept?: IConcept;
   type: string;
-  getEntity: () => PreviewTypes;
-  articleType?: string;
   supportedLanguages?: string[];
   currentLanguage: string;
 }
 
 const PreviewLightBox = ({
   type,
-  getEntity,
-  articleType,
   supportedLanguages = [],
   currentLanguage,
-  articleId,
   article,
   concept,
 }: PreviewLightBoxProps) => {
   const { t } = useTranslation();
-  const disableConverter = useDisableConverter();
   if (type === 'concept' && concept && supportedLanguages.length > 1) {
-    if (!disableConverter) {
-      return (
-        <PreviewConceptLightbox
-          typeOfPreview="previewLanguageArticle"
-          getConcept={getEntity as () => IConcept}
-        />
-      );
-    }
     return (
       <PreviewDraftLightboxV2
         type="conceptCompare"
@@ -74,43 +54,23 @@ const PreviewLightBox = ({
     (type === 'standard' || type === 'topic-article' || type === 'frontpage-article') &&
     article
   ) {
-    if (!disableConverter) {
-      return (
-        <PreviewDraftLightbox
-          articleId={articleId}
-          currentArticleLanguage={currentLanguage}
-          label={t(`articleType.${articleType!}`)}
-          typeOfPreview="previewLanguageArticle"
-          supportedLanguages={supportedLanguages}
-          getArticle={(_) => getEntity() as IUpdatedArticle}
-        >
-          {(openPreview: () => void) => (
-            <StyledFilledButton type="button" onClick={openPreview}>
-              <FileCompare />
-              {t(`form.previewLanguageArticle.button`)}
-            </StyledFilledButton>
-          )}
-        </PreviewDraftLightbox>
-      );
-    } else
-      return (
-        <PreviewDraftLightboxV2
-          type="compare"
-          article={article}
-          language={currentLanguage}
-          activateButton={
-            <StyledFilledButton type="button">
-              <FileCompare /> {t('form.previewLanguageArticle.button')}
-            </StyledFilledButton>
-          }
-        />
-      );
+    return (
+      <PreviewDraftLightboxV2
+        type="compare"
+        article={article}
+        language={currentLanguage}
+        activateButton={
+          <StyledFilledButton type="button">
+            <FileCompare /> {t('form.previewLanguageArticle.button')}
+          </StyledFilledButton>
+        }
+      />
+    );
   } else return null;
 };
 
 interface Props {
   editUrl?: (url: string) => string;
-  getEntity?: () => PreviewTypes;
   isNewLanguage: boolean;
   article?: IArticle;
   concept?: IConcept;
@@ -128,7 +88,6 @@ interface Props {
 
 const HeaderActions = ({
   editUrl,
-  getEntity,
   isNewLanguage,
   isSubmitting,
   noStatus,
@@ -140,7 +99,7 @@ const HeaderActions = ({
 }: Props) => {
   const { t } = useTranslation();
   const showTranslate = useIsTranslatableToNN();
-  const { articleType, id, language, supportedLanguages = [] } = values;
+  const { id, language, supportedLanguages = [] } = values;
 
   const languages = [
     { key: 'nn', title: t('language.nn'), include: true },
@@ -183,15 +142,12 @@ const HeaderActions = ({
           </HeaderLanguagePill>
         )}
         <StyledSplitter />
-        {!noStatus && getEntity && values.id && (
+        {!noStatus && (
           <>
             <PreviewLightBox
               article={article}
               concept={concept}
-              articleId={values.id}
               type={type}
-              getEntity={getEntity!}
-              articleType={articleType}
               supportedLanguages={supportedLanguages}
               currentLanguage={values.language}
             />

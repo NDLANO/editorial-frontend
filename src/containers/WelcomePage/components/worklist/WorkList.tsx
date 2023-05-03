@@ -7,36 +7,48 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { useState } from 'react';
 import { SingleValue } from '@ndla/select';
+import { useEffect, useState } from 'react';
 import { TabsV2 } from '@ndla/tabs';
 import { useSearch } from '../../../../modules/search/searchQueries';
 import WorkListTabContent from './WorkListTabContent';
 import { useSearchConcepts } from '../../../../modules/concept/conceptQueries';
 import ConceptListTabContent from './ConceptListTabContent';
+import { Prefix } from '../TableComponent';
 
 interface Props {
   ndlaId: string;
 }
 
+export type SortOption = 'title' | 'responsibleLastUpdated' | 'status';
+
 const WorkList = ({ ndlaId }: Props) => {
-  const [sortOption, setSortOption] = useState<string>('-responsibleLastUpdated');
+  const [sortOption, setSortOption] = useState<Prefix<'-', SortOption>>('-responsibleLastUpdated');
   const [filterSubject, setFilterSubject] = useState<SingleValue | undefined>(undefined);
   const [error, setError] = useState<string | undefined>(undefined);
+  const [page, setPage] = useState(1);
 
-  const [sortOptionConcepts, setSortOptionConcepts] = useState('-responsibleLastUpdated');
+  const [sortOptionConcepts, setSortOptionConcepts] =
+    useState<Prefix<'-', SortOption>>('-responsibleLastUpdated');
   const [filterConceptSubject, setFilterConceptSubject] = useState<SingleValue | undefined>(
     undefined,
   );
   const [errorConceptList, setErrorConceptList] = useState<string | undefined>(undefined);
+  const [pageConcept, setPageConcept] = useState(1);
 
-  const { t } = useTranslation();
+  const {
+    t,
+    i18n: { language },
+  } = useTranslation();
   const { data, isInitialLoading } = useSearch(
     {
       'responsible-ids': ndlaId,
-      sort: sortOption ? sortOption : '-responsibleLastUpdated',
-      'page-size': 100,
+      sort: sortOption,
       ...(filterSubject ? { subjects: filterSubject.value } : {}),
+      page: page,
+      'page-size': 6,
+      language,
+      fallback: true,
     },
     {
       enabled: !!ndlaId,
@@ -50,6 +62,10 @@ const WorkList = ({ ndlaId }: Props) => {
       'responsible-ids': ndlaId,
       sort: sortOptionConcepts,
       ...(filterConceptSubject ? { subjects: filterConceptSubject.value } : {}),
+      page: pageConcept,
+      'page-size': 6,
+      language,
+      fallback: true,
     },
     {
       enabled: !!ndlaId,
@@ -57,6 +73,14 @@ const WorkList = ({ ndlaId }: Props) => {
       onSuccess: () => setErrorConceptList(undefined),
     },
   );
+
+  useEffect(() => {
+    setPage(1);
+  }, [filterSubject]);
+
+  useEffect(() => {
+    setPageConcept(1);
+  }, [filterConceptSubject]);
 
   return (
     <TabsV2
@@ -74,6 +98,7 @@ const WorkList = ({ ndlaId }: Props) => {
               error={error}
               sortOption={sortOption}
               ndlaId={ndlaId}
+              setPage={setPage}
             />
           ),
         },
@@ -89,6 +114,7 @@ const WorkList = ({ ndlaId }: Props) => {
               filterSubject={filterConceptSubject}
               setFilterSubject={setFilterConceptSubject}
               ndlaId={ndlaId}
+              setPageConcept={setPageConcept}
             />
           ),
         },

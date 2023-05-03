@@ -10,10 +10,9 @@ import { useMemo } from 'react';
 import styled from '@emotion/styled';
 import addYears from 'date-fns/addYears';
 import isBefore from 'date-fns/isBefore';
-import { IRevisionMeta } from '@ndla/types-draft-api';
+import { IRevisionMeta } from '@ndla/types-backend/draft-api';
 import Tooltip from '@ndla/tooltip';
 import { useTranslation } from 'react-i18next';
-import { Time } from '@ndla/icons/common';
 import { getExpirationDate } from '../../ArticlePage/articleTransformers';
 
 const Wrapper = styled.div`
@@ -37,27 +36,6 @@ const StyledIcon = styled.div`
   color: #c77623;
 `;
 
-const StyledTimeIcon = styled(Time)`
-  width: 24px;
-  height: 24px;
-  color: #c77623;
-`;
-
-interface RevisionDateProps {
-  text?: string | number;
-  phrasesKey: string;
-}
-
-export const RevisionDateIcon = ({ text, phrasesKey }: RevisionDateProps) => {
-  const { t } = useTranslation();
-
-  return (
-    <Tooltip tooltip={t(phrasesKey)}>
-      <Wrapper>{text || text === 0 ? <StyledIcon>{text}</StyledIcon> : <StyledTimeIcon />}</Wrapper>
-    </Tooltip>
-  );
-};
-
 interface Props {
   revisions: (IRevisionMeta[] | undefined)[];
 }
@@ -71,13 +49,19 @@ export const isApproachingRevision = (revisions?: IRevisionMeta[]) => {
 };
 
 const ApproachingRevisionDate = ({ revisions }: Props) => {
+  const { t } = useTranslation();
+
   const approachingRevision = useMemo(
     () => revisions.map((r) => isApproachingRevision(r)).filter((a) => !!a).length,
     [revisions],
   );
 
   return (
-    <RevisionDateIcon text={approachingRevision} phrasesKey={'form.responsible.revisionDate'} />
+    <Tooltip tooltip={t('form.responsible.revisionDate')}>
+      <Wrapper>
+        <StyledIcon>{approachingRevision}</StyledIcon>
+      </Wrapper>
+    </Tooltip>
   );
 };
 

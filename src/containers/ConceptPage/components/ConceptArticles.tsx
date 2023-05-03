@@ -8,7 +8,7 @@
 import { useTranslation } from 'react-i18next';
 import { FieldHeader } from '@ndla/forms';
 import { useFormikContext } from 'formik';
-import { IArticle, IArticleSummary } from '@ndla/types-draft-api';
+import { IArticle, IArticleSummary } from '@ndla/types-backend/draft-api';
 import ElementList from '../../FormikForm/components/ElementList';
 import handleError from '../../../util/handleError';
 import { fetchDraft, searchDrafts } from '../../../modules/draft/draftApi';

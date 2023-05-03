@@ -13,7 +13,7 @@ import { Spinner } from '@ndla/icons';
 import { ErrorMessage } from '@ndla/ui';
 import { ButtonV2 } from '@ndla/button';
 import { spacing } from '@ndla/core';
-import { IUpdatedArticle, IArticle } from '@ndla/types-draft-api';
+import { IUpdatedArticle, IArticle } from '@ndla/types-backend/draft-api';
 import { SingleValue } from '@ndla/select';
 import { useQueryClient } from '@tanstack/react-query';
 import {

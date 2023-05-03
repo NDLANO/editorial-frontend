@@ -7,7 +7,7 @@
 
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { IImageMetaInformationV3, INewImageMetaInformationV2 } from '@ndla/types-image-api';
+import { IImageMetaInformationV3, INewImageMetaInformationV2 } from '@ndla/types-backend/image-api';
 import ImageForm from './components/ImageForm';
 import { createFormData } from '../../util/formDataHelper';
 import { postImage } from '../../modules/image/imageApi';

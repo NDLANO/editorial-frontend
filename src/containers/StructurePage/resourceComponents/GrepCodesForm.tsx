@@ -6,7 +6,7 @@
  *
  */
 
-import { IArticle } from '@ndla/types-draft-api';
+import { IArticle } from '@ndla/types-backend/draft-api';
 import { Form, Formik, FormikHelpers } from 'formik';
 import { useState } from 'react';
 import SaveMultiButton from '../../../components/SaveMultiButton';

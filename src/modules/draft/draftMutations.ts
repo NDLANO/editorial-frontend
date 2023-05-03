@@ -6,7 +6,7 @@
  *
  */
 
-import { IArticle, IUpdatedArticle } from '@ndla/types-draft-api';
+import { IArticle, IUpdatedArticle } from '@ndla/types-backend/draft-api';
 import { useMutation, UseMutationOptions } from '@tanstack/react-query';
 import { copyRevisionDates, updateDraft } from './draftApi';
 

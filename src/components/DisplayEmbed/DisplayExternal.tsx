@@ -94,7 +94,7 @@ const DisplayExternal = ({
           setHeight(0);
           setProperties({
             ...properties,
-            title: data.title,
+            title: embed.title?.length ? embed.title : data.title,
             src,
             type: data.type,
             provider: data.providerName,
@@ -117,7 +117,7 @@ const DisplayExternal = ({
       }
       setProperties({
         ...properties,
-        title: domain,
+        title: embed.title?.length ? embed.title : domain,
         src: embed.url,
         type: embed.resource,
         height: embed.height,
@@ -146,6 +146,8 @@ const DisplayExternal = ({
       (prevEmbedElement.resource === 'external' || prevEmbedElement.resource === 'iframe') &&
       embed.url !== prevEmbedElement.url
     ) {
+      getPropsFromEmbed();
+    } else if (embed.title !== prevEmbedElement.title) {
       getPropsFromEmbed();
     }
     prevEmbed.current = embed;

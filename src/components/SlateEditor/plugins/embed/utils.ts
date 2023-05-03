@@ -56,7 +56,7 @@ export const defineTypeOfEmbed = (type?: string) => {
     return TYPE_EMBED_AUDIO;
   } else if (type === 'video' || type === 'brightcove') {
     return TYPE_EMBED_BRIGHTCOVE;
-  } else if (type === 'external') {
+  } else if (type === 'external' || type === 'iframe') {
     return TYPE_EMBED_EXTERNAL;
   } else if (type === 'h5p') {
     return TYPE_EMBED_H5P;

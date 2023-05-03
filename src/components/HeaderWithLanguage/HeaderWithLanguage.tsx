@@ -9,8 +9,8 @@
 import { useState } from 'react';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
-import { IConcept } from '@ndla/types-concept-api';
-import { IArticle, IUpdatedArticle } from '@ndla/types-draft-api';
+import { IConcept } from '@ndla/types-backend/concept-api';
+import { IArticle } from '@ndla/types-backend/draft-api';
 import { useTranslation } from 'react-i18next';
 import HeaderInformation from './HeaderInformation';
 import HeaderActions from './HeaderActions';
@@ -47,7 +47,6 @@ interface Props {
   };
   taxonomy?: ArticleTaxonomy;
   editUrl?: (url: string) => string;
-  getEntity?: () => IConcept | IUpdatedArticle;
   isSubmitting?: boolean;
   noStatus?: boolean;
   article?: IArticle;
@@ -81,7 +80,7 @@ const HeaderWithLanguage = ({
   article,
   concept,
   expirationDate,
-  ...rest
+  editUrl,
 }: Props) => {
   const { t, i18n } = useTranslation();
   const { articleType } = values;
@@ -116,7 +115,6 @@ const HeaderWithLanguage = ({
         taxonomyPaths={taxonomyPaths}
         setHasConnections={setHasConnections}
         expirationDate={expirationDate}
-        {...rest}
       />
       <StyledLanguageWrapper>
         <HeaderActions
@@ -128,7 +126,7 @@ const HeaderWithLanguage = ({
           isNewLanguage={isNewLanguage}
           type={multiType}
           isSubmitting={isSubmitting}
-          {...rest}
+          editUrl={editUrl}
         />
       </StyledLanguageWrapper>
     </header>

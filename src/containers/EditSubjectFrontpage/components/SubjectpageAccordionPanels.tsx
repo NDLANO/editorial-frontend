@@ -7,8 +7,8 @@
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import { useTranslation } from 'react-i18next';
 import { FormikErrors } from 'formik';
-import { IArticle } from '@ndla/types-draft-api';
-import { ILearningPathV2 } from '@ndla/types-learningpath-api';
+import { IArticle } from '@ndla/types-backend/draft-api';
+import { ILearningPathV2 } from '@ndla/types-backend/learningpath-api';
 import SubjectpageAbout from './SubjectpageAbout';
 import SubjectpageMetadata from './SubjectpageMetadata';
 import SubjectpageArticles from './SubjectpageArticles';

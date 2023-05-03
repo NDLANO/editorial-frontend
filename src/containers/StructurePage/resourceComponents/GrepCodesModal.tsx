@@ -11,7 +11,7 @@ import { ButtonV2, CloseButton } from '@ndla/button';
 import { BookOpen } from '@ndla/icons/common';
 import { spacing, colors } from '@ndla/core';
 import { ModalBody, ModalHeaderV2, ModalV2 } from '@ndla/modal';
-import { IArticle } from '@ndla/types-draft-api';
+import { IArticle } from '@ndla/types-backend/draft-api';
 import { useQueryClient } from '@tanstack/react-query';
 import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -32,8 +32,6 @@ interface Props {
 const StyledButton = styled(ButtonV2)`
   flex: 2;
 `;
-
-const StyledMenuBook = styled(BookOpen)``;
 
 const StyledIconWrapper = styled.div`
   padding: ${spacing.small};
@@ -92,6 +90,7 @@ const ModalContent = ({
   codes,
   draftId,
   revision,
+  onClose,
   currentNodeId,
   contentUri,
 }: ModalContentProps) => {
@@ -132,7 +131,7 @@ const ModalContent = ({
           <BookOpen />
         </StyledIconWrapper>
         <h1>{t('form.name.grepCodes')}</h1>
-        <CloseButton />
+        <CloseButton onClick={onClose} />
       </ModalHeader>
       <ModalBody>
         <GrepCodesForm codes={codes} onUpdate={onUpdateGrepCodes} />

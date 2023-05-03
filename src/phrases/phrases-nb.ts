@@ -117,6 +117,7 @@ const phrases = {
     noArticles: 'Ingen artikler ...',
     emptyLastUsed: 'Ingen sist redigerte ...',
     emptyConcepts: 'Ingen forklaringer ...',
+    emptyRevision: 'Ingen artikler i favorittfag som trenger revisjon ...',
     emptySavedSearch: 'Ingen lagrede søk',
     guidelines: 'Retningslinjer',
     mustBeSearch: 'Lenken må være til et søk',
@@ -125,9 +126,13 @@ const phrases = {
     savedSearch: 'Lagrede søk',
     saveSearch: 'Lagre søk',
     chooseSubject: 'Velg fag',
+    chooseFavoriteSubject: 'Velg favorittfag',
     chooseTopic: 'Velg emner',
     errorMessage: 'Innhenting av data feilet',
     goToSearch: 'Gå til søk',
+    revision: 'Revisjon',
+    revisionDescription: 'Artikler i favorittfag som trenger revisjon',
+    revisionDate: 'Revisjonsdato',
     workList: {
       title: 'Mine arbeidsoppgaver',
       description: 'Artikler hvor du står som ansvarlig',
@@ -140,6 +145,8 @@ const phrases = {
       ariaLabel: 'Oversikt over mine arbeidsoppgaver og forklaringer',
       conceptDescription: 'Forklaringer hvor du står som ansvarlig',
       conceptSubject: 'Forklaringsfag',
+      sortAsc: 'Sorter stigende',
+      sortDesc: 'Sorter synkende',
     },
     welcomeBack: 'Velkommen tilbake',
   },
@@ -513,6 +520,14 @@ const phrases = {
         'Bruk av ulovlige tegn i permalenken! Tillatte tegn er alle tall og bokstaver, og bindestrek',
     },
   },
+  blogPostForm: {
+    title: 'Rediger bloggpost',
+    languageExplanation: 'Velg språk for skjermleser',
+    sizes: {
+      normal: 'Normal',
+      large: 'Stor',
+    },
+  },
   learningResourceForm: {
     metaImage: {
       title: 'Bildetittel',
@@ -577,6 +592,7 @@ const phrases = {
       podcast: 'Podkastepisode',
       conceptList: 'Forklaringsliste',
       concept: 'Forklaring',
+      blogPost: 'Bloggpost',
     },
   },
   form: {
@@ -605,6 +621,12 @@ const phrases = {
     copy: 'kopi',
     mustSaveFirst: 'Du må lagre endringene dine først',
     saveAsCopySuccess: 'Ny artikkel lagret',
+    comment: 'Kommenter',
+    hideComment: 'Skjul kommentar',
+    showComment: 'Vis kommentar',
+    openAll: 'Åpne alle',
+    hideAll: 'Lukk alle',
+    commentField: 'Kommentarfelt',
     preview: {
       button: 'Forhåndsvis',
     },
@@ -650,6 +672,10 @@ const phrases = {
       coverPhotoId: 'Metabilde',
       revisions: 'Revisjoner',
       name: 'Navn',
+      author: 'Forfatter',
+      language: 'Språk',
+      link: 'Lenke',
+      size: 'Størrelse',
     },
     previewProductionArticle: {
       button: 'Sammenlign gjeldende versjon med gammel versjon',
@@ -797,6 +823,16 @@ const phrases = {
       expiration: {
         warn: 'En av revisjonene utløper snart (Må revideres innen {{date}}).',
         expired: 'En av revisjonene har utløpt (Utløpte {{date}}).',
+      },
+      deleteComment: {
+        title: 'Slett kommentar',
+        modal: 'Vil du slette denne kommentaren? Det er ikke mulig å gjenopprette den.',
+        button: 'Slett',
+      },
+      addComment: {
+        createdBy: 'Opprettet av',
+        warn: 'Husk å legge til kommentar',
+        description: 'Du har endret ansvarlig uten å legge til kommentar!',
       },
     },
     status: {
@@ -1032,7 +1068,6 @@ const phrases = {
       noResults: 'Ingen treff',
       noResponible: 'Ingen ansvarlig',
       revisionDate: 'Antall som nærmer seg revisjonsdato',
-      revisionDateSingle: 'Nærmer seg revisjonsdato',
       error: 'Noe gikk galt ved oppdatering av ansvarlig.',
     },
     origin: {
@@ -1643,7 +1678,7 @@ const phrases = {
       contentUri: {
         title: 'Innholds-URI',
       },
-      parent: {
+      parentId: {
         title: 'Forelder',
       },
       path: {
@@ -1656,11 +1691,6 @@ const phrases = {
         title: 'Koblings-ID',
       },
       isPrimary: {
-        title: 'Er primær',
-        isOn: 'Denne noden er en primærressurs',
-        isOff: 'Denne noden er ikke en primærressurs',
-      },
-      primary: {
         title: 'Er primær',
         isOn: 'Denne noden er en primærressurs',
         isOff: 'Denne noden er ikke en primærressurs',

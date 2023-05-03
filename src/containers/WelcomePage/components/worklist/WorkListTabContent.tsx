@@ -8,26 +8,39 @@
 
 import { Calendar } from '@ndla/icons/editor';
 import { SingleValue } from '@ndla/select';
-import { IMultiSearchResult } from '@ndla/types-search-api';
+import { IMultiSearchResult } from '@ndla/types-backend/search-api';
 import { useTranslation } from 'react-i18next';
 import { useMemo } from 'react';
+import Pager from '@ndla/pager';
+import { Comment } from '@ndla/icons/common';
+import Tooltip from '@ndla/tooltip';
+import styled from '@emotion/styled';
 import formatDate from '../../../../util/formatDate';
 import { toEditArticle } from '../../../../util/routeHelpers';
 import { ControlWrapperDashboard, StyledLink, StyledTopRowDashboardInfo } from '../../styles';
 import SubjectDropdown from './SubjectDropdown';
-import TableComponent, { FieldElement, TitleElement } from '../TableComponent';
+import TableComponent, { FieldElement, Prefix, TitleElement } from '../TableComponent';
 import TableTitle from '../TableTitle';
 import GoToSearch from '../GoToSearch';
+import { SortOption } from './WorkList';
+import StatusCell from './StatusCell';
+
+export const CellWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
 
 interface Props {
   data?: IMultiSearchResult;
   filterSubject?: SingleValue;
   isLoading: boolean;
-  setSortOption: (o: string) => void;
+  setSortOption: (o: Prefix<'-', SortOption>) => void;
   sortOption: string;
   error: string | undefined;
   setFilterSubject: (fs: SingleValue) => void;
   ndlaId?: string;
+  setPage: (page: number) => void;
 }
 
 const WorkListTabContent = ({
@@ -39,6 +52,7 @@ const WorkListTabContent = ({
   error,
   setFilterSubject,
   ndlaId,
+  setPage,
 }: Props) => {
   const { t } = useTranslation();
 
@@ -49,14 +63,26 @@ const WorkListTabContent = ({
             {
               id: `title_${res.id}`,
               data: (
-                <StyledLink to={toEditArticle(res.id, res.learningResourceType)}>
-                  {res.title?.title}
-                </StyledLink>
+                <CellWrapper>
+                  <StyledLink
+                    to={toEditArticle(res.id, res.learningResourceType)}
+                    title={res.title?.title}
+                  >
+                    {res.title?.title}
+                  </StyledLink>
+                  {res.comments?.length ? (
+                    <Tooltip tooltip={res.comments[0]?.content}>
+                      <div>
+                        <Comment />
+                      </div>
+                    </Tooltip>
+                  ) : null}
+                </CellWrapper>
               ),
             },
             {
               id: `status_${res.id}`,
-              data: res.status?.current ? t(`form.status.${res.status.current.toLowerCase()}`) : '',
+              data: <StatusCell status={res.status} />,
             },
             {
               id: `contentType_${res.id}`,
@@ -81,17 +107,19 @@ const WorkListTabContent = ({
             },
           ])
         : [[]],
-    [data, t],
+    [data],
   );
 
-  const tableTitles: TitleElement[] = [
+  const tableTitles: TitleElement<SortOption>[] = [
     { title: t('welcomePage.workList.name'), sortableField: 'title' },
-    { title: t('welcomePage.workList.status') },
+    { title: t('welcomePage.workList.status'), sortableField: 'status' },
     { title: t('welcomePage.workList.contentType') },
     { title: t('welcomePage.workList.primarySubject') },
     { title: t('welcomePage.workList.topicRelation') },
     { title: t('welcomePage.workList.date'), sortableField: 'responsibleLastUpdated' },
   ];
+
+  const lastPage = data?.totalCount ? Math.ceil(data?.totalCount / (data.pageSize ?? 1)) : 1;
 
   return (
     <>
@@ -114,6 +142,15 @@ const WorkListTabContent = ({
         sortOption={sortOption}
         error={error}
         noResultsText={t('welcomePage.noArticles')}
+      />
+      <Pager
+        page={data?.page ?? 1}
+        lastPage={lastPage}
+        query={{}}
+        onClick={(el) => setPage(el.page)}
+        small
+        colorTheme="lighter"
+        pageItemComponentClass="button"
       />
     </>
   );

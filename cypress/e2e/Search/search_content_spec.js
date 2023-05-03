@@ -6,9 +6,9 @@
  *
  */
 
-import { taxonomyApi } from '../../../src/config';
 import { setToken } from '../../support/e2e';
 
+const taxonomyApi = `/taxonomy/v1`;
 describe('Search content', () => {
   beforeEach(() => {
     setToken();
@@ -31,9 +31,7 @@ describe('Search content', () => {
 
   it('Can use text input', () => {
     cy.apiroute('GET', '/search-api/v1/search/editorial/?*query=Test*', 'searchQuery');
-    cy.get('input[name="query"]')
-      .type('Test')
-      .blur();
+    cy.get('input[name="query"]').type('Test').blur();
     cy.apiwait('@searchQuery');
     cy.get('span[data-cy="totalCount"').contains(/^Antall søketreff: \d+/);
     cy.get('input[name="query"]').clear();
@@ -41,10 +39,12 @@ describe('Search content', () => {
   });
 
   it('Can use status dropdown', () => {
-    cy.apiroute('GET', '/search-api/v1/search/editorial/?*draft-status=EXTERNAL_REVIEW*', 'searchStatus');
-    cy.get('select[name="draft-status"]')
-      .select('Eksternt gjennomsyn')
-      .blur();
+    cy.apiroute(
+      'GET',
+      '/search-api/v1/search/editorial/?*draft-status=EXTERNAL_REVIEW*',
+      'searchStatus',
+    );
+    cy.get('select[name="draft-status"]').select('Eksternt gjennomsyn').blur();
     cy.apiwait('@searchStatus');
     cy.get('span[data-cy="totalCount"').contains(/^Antall søketreff: \d+/);
     cy.get('select[name="draft-status"]').select('Velg status');
@@ -57,9 +57,7 @@ describe('Search content', () => {
       '/search-api/v1/search/editorial/?draft-status=PUBLISHED&exclude-revision-log=false&fallback=false&include-other-statuses=true&language=nb&page=2&page-size=10&sort=-relevance*',
       'searchOther',
     );
-    cy.get('select[name="draft-status"]')
-      .select('Har publisert versjon')
-      .blur();
+    cy.get('select[name="draft-status"]').select('Har publisert versjon').blur();
     cy.apiwait('@searchOther');
     cy.get('span[data-cy="totalCount"').contains(/^Antall søketreff: \d+/);
     cy.get('select[name="draft-status"]').select('Velg status');
@@ -72,9 +70,7 @@ describe('Search content', () => {
       '/search-api/v1/search/editorial/?*resource-types=urn%3Aresourcetype%3AacademicArticle*',
       'searchType',
     );
-    cy.get('select[name="resource-types"]')
-      .select('Fagartikkel')
-      .blur();
+    cy.get('select[name="resource-types"]').select('Fagartikkel').blur();
     cy.apiwait('@searchType');
     cy.get('span[data-cy="totalCount"').contains(/^Antall søketreff: \d+/);
     cy.get('select[name="resource-types"]').select('Velg innholdstype');
@@ -87,9 +83,7 @@ describe('Search content', () => {
       '/search-api/v1/search/editorial/?*subjects=urn%3Asubject%3A*',
       'searchSubject',
     );
-    cy.get('select[name="subjects"]')
-      .select('Mediesamfunnet 1')
-      .blur();
+    cy.get('select[name="subjects"]').select('Mediesamfunnet 1').blur();
     cy.apiwait('@searchSubject');
     cy.get('span[data-cy="totalCount"').contains(/^Antall søketreff: \d+/);
     cy.get('select[name="subjects"]').select('Velg fag');
@@ -102,9 +96,7 @@ describe('Search content', () => {
       '/search-api/v1/search/editorial/?*users=%22PrcePFwCDOsb2_g0Kcb-maN0%22*',
       'searchUser',
     );
-    cy.get('select[name="users"]')
-      .select('Ed Test')
-      .blur();
+    cy.get('select[name="users"]').select('Ed Test').blur();
     cy.get('span[data-cy="totalCount"').contains(/^Antall søketreff: \d+/);
     cy.get('select[name="users"]').select('Velg bruker');
     cy.apiwait('@search');

@@ -6,8 +6,8 @@
  *
  */
 
-import { IConcept, ILicense, INewConcept, IUpdatedConcept } from '@ndla/types-concept-api';
-import { IArticle } from '@ndla/types-draft-api';
+import { IConcept, ILicense, INewConcept, IUpdatedConcept } from '@ndla/types-backend/concept-api';
+import { IArticle } from '@ndla/types-backend/draft-api';
 import {
   plainTextToEditorValue,
   editorValueToPlainText,

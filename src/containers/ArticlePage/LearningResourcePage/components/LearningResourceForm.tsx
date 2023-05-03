@@ -9,7 +9,7 @@
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Formik, FormikProps } from 'formik';
-import { IArticle, IUpdatedArticle, IStatus } from '@ndla/types-draft-api';
+import { IArticle, IUpdatedArticle, IStatus } from '@ndla/types-backend/draft-api';
 import { AlertModalWrapper } from '../../../FormikForm';
 import validateFormik, { getWarnings } from '../../../../components/formikValidationSchema';
 import LearningResourcePanels from './LearningResourcePanels';
@@ -34,6 +34,8 @@ import { blockContentToHTML } from '../../../../util/articleContentConverter';
 import StyledForm from '../../../../components/StyledFormComponents';
 import { TaxonomyVersionProvider } from '../../../StructureVersion/TaxonomyVersionProvider';
 import { useSession } from '../../../../containers/Session/SessionProvider';
+import { FlexWrapper, MainContent } from '../../styles';
+import CommentSection from '../../components/CommentSection';
 
 interface Props {
   article?: IArticle;
@@ -99,20 +101,23 @@ const LearningResourceForm = ({
           taxonomy={articleTaxonomy}
           content={{ ...article, title: article?.title?.title, language: articleLanguage }}
           editUrl={editUrl}
-          getEntity={getArticle}
           isSubmitting={isSubmitting}
           type="standard"
           expirationDate={getExpirationDate(article)}
         />
         <TaxonomyVersionProvider>
-          <LearningResourcePanels
-            articleLanguage={articleLanguage}
-            article={article}
-            taxonomy={articleTaxonomy}
-            updateNotes={updateArticle}
-            getArticle={getArticle}
-            handleSubmit={handleSubmit}
-          />
+          <FlexWrapper>
+            <MainContent>
+              <LearningResourcePanels
+                articleLanguage={articleLanguage}
+                article={article}
+                taxonomy={articleTaxonomy}
+                updateNotes={updateArticle}
+                handleSubmit={handleSubmit}
+              />
+            </MainContent>
+            <CommentSection savedStatus={article?.status} />
+          </FlexWrapper>
         </TaxonomyVersionProvider>
         <EditorFooter
           showSimpleFooter={!article}

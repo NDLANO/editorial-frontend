@@ -14,8 +14,8 @@ import {
   IUpdatedConcept,
   ITagsSearchResult,
   IConceptSummary,
-} from '@ndla/types-concept-api';
-import { IArticle } from '@ndla/types-draft-api';
+} from '@ndla/types-backend/concept-api';
+import { IArticle } from '@ndla/types-backend/draft-api';
 import { Formik, FormikProps, FormikHelpers } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { toEditConcept } from '../../../util/routeHelpers';
@@ -212,7 +212,6 @@ const ConceptForm = ({
               concept={concept}
               content={{ ...concept, title: concept?.title?.title, language }}
               editUrl={editUrl}
-              getEntity={getEntity}
               type="concept"
               values={values}
             />

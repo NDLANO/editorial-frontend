@@ -9,7 +9,7 @@
 import { useTranslation } from 'react-i18next';
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import { FormikHelpers, useFormikContext } from 'formik';
-import { IUpdatedArticle, IArticle } from '@ndla/types-draft-api';
+import { IArticle } from '@ndla/types-backend/draft-api';
 import { CopyrightFieldGroup, VersionAndNotesPanel, MetaDataField } from '../../../FormikForm';
 import { FrontpageArticleFormType } from '../../../FormikForm/articleFormHooks';
 import RevisionNotes from '../../components/RevisionNotes';
@@ -21,11 +21,10 @@ interface Props {
     formikHelpers: FormikHelpers<FrontpageArticleFormType>,
   ) => Promise<void>;
   article?: IArticle;
-  getArticle: (preview: boolean) => IUpdatedArticle;
   articleLanguage: string;
 }
 
-const FrontpageArticlePanels = ({ article, getArticle, handleSubmit, articleLanguage }: Props) => {
+const FrontpageArticlePanels = ({ article, handleSubmit, articleLanguage }: Props) => {
   const { t } = useTranslation();
   const formikContext = useFormikContext<FrontpageArticleFormType>();
   const { values, errors, handleBlur } = formikContext;
@@ -83,7 +82,6 @@ const FrontpageArticlePanels = ({ article, getArticle, handleSubmit, articleLang
         >
           <VersionAndNotesPanel
             article={article}
-            getArticle={getArticle}
             type="standard"
             currentLanguage={values.language}
           />

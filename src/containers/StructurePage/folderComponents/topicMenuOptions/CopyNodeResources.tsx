@@ -127,10 +127,10 @@ const CopyNodeResources = ({
     }
   };
 
-  const copy = async ({ primary, id, rank }: ResourceWithNodeConnection): Promise<string> =>
+  const copy = async ({ isPrimary, id, rank }: ResourceWithNodeConnection): Promise<string> =>
     await postResourceForNode({
       taxonomyVersion,
-      body: { primary, rank, resourceId: id, nodeId: currentNode.id },
+      body: { primary: isPrimary, rank, resourceId: id, nodeId: currentNode.id },
     });
 
   const clone = async (resource: ResourceWithNodeConnection): Promise<string> => {

@@ -11,7 +11,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import isEqual from 'lodash/isEqual';
 import partition from 'lodash/partition';
 import sortBy from 'lodash/sortBy';
-import { IUserData } from '@ndla/types-draft-api';
+import { IUserData } from '@ndla/types-backend/draft-api';
 import { ChildNodeType, NodeType } from '../../modules/nodes/nodeApiTypes';
 import {
   childNodesWithArticleTypeQueryKey,
@@ -89,7 +89,7 @@ const RootNode = ({
       body: {
         rank: newRank,
         relevanceId: nodes[source.index].relevanceId,
-        primary: nodes[source.index].primary,
+        primary: nodes[source.index].isPrimary,
       },
       taxonomyVersion,
     });

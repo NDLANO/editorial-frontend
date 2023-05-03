@@ -7,7 +7,7 @@
  */
 
 import { i18n } from 'i18next';
-import { IMultiSearchSummary } from '@ndla/types-search-api';
+import { IMultiSearchSummary } from '@ndla/types-backend/search-api';
 
 export const sortMoviesByIdList = (
   idList: number[],

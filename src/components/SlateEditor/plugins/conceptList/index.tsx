@@ -8,7 +8,8 @@
 
 import { Descendant, Editor, Element } from 'slate';
 import { RenderElementProps } from 'slate-react';
-import { createEmbedTag, reduceElementDataAttributes } from '../../../../util/embedTagHelpers';
+import { ConceptListEmbedData, EmbedData } from '@ndla/types-embed';
+import { createEmbedTagV2, reduceElementDataAttributesV2 } from '../../../../util/embedTagHelpers';
 import { SlateSerializer } from '../../interfaces';
 import { defaultBlockNormalizer, NormalizerConfig } from '../../utils/defaultNormalizer';
 import { afterOrBeforeTextBlockElement } from '../../utils/normalizationHelpers';
@@ -20,11 +21,7 @@ import { defaultConceptListBlock } from './utils';
 
 export interface ConceptListElement {
   type: 'concept-list';
-  data: {
-    tag?: string;
-    title?: string;
-    subjectId?: string;
-  };
+  data: ConceptListEmbedData;
   isFirstEdit?: boolean;
   children: Descendant[];
 }
@@ -41,26 +38,19 @@ const normalizerConfig: NormalizerConfig = {
 };
 
 export const conceptListSerializer: SlateSerializer = {
-  deserialize(el: HTMLElement, children: Descendant[]) {
+  deserialize(el: HTMLElement) {
     if (el.tagName.toLowerCase() !== TYPE_NDLA_EMBED) return;
     const embed = el as HTMLEmbedElement;
-    const embedAttributes = reduceElementDataAttributes(embed);
+    const embedAttributes = reduceElementDataAttributesV2(
+      Array.from(embed.attributes),
+    ) as EmbedData;
     if (embedAttributes.resource !== 'concept-list') return;
-    const tag = embedAttributes.tag || '';
-    const title = embedAttributes.title || '';
-    const subjectId = embedAttributes['subject-id'] || '';
-    return defaultConceptListBlock(tag, title, subjectId);
+    return defaultConceptListBlock(embedAttributes);
   },
   serialize(node: Descendant) {
     if (!Element.isElement(node)) return;
     if (node.type !== TYPE_CONCEPT_LIST) return;
-
-    const data = {
-      ...node.data,
-      'subject-id': node.data.subjectId,
-      resource: 'concept-list',
-    };
-    return createEmbedTag(data);
+    return createEmbedTagV2(node.data);
   },
 };
 
@@ -76,7 +66,7 @@ export const conceptListPlugin = (language: string) => (editor: Editor) => {
         </ConceptList>
       );
     }
-    return renderElement && renderElement(props);
+    return renderElement?.(props);
   };
 
   editor.isVoid = (element: Element) => {

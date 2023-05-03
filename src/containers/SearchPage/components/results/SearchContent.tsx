@@ -11,7 +11,7 @@ import { fonts } from '@ndla/core';
 import { ContentTypeBadge } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
-import { IMultiSearchSummary } from '@ndla/types-search-api';
+import { IMultiSearchSummary } from '@ndla/types-backend/search-api';
 import {
   getContentTypeFromResourceTypes,
   resourceToLinkProps,

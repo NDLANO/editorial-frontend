@@ -14,7 +14,7 @@ import styled from '@emotion/styled';
 import compact from 'lodash/compact';
 import { RelatedArticleList } from '@ndla/ui';
 import { toggleRelatedArticles } from '@ndla/article-scripts';
-import { IArticle } from '@ndla/types-draft-api';
+import { IArticle } from '@ndla/types-backend/draft-api';
 import { convertFieldWithFallback } from '../../../../util/convertFieldWithFallback';
 import { fetchDraft } from '../../../../modules/draft/draftApi';
 import { queryResources } from '../../../../modules/taxonomy';

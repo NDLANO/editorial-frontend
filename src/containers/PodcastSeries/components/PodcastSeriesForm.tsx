@@ -14,7 +14,7 @@ import { Descendant } from 'slate';
 import styled from '@emotion/styled';
 import { colors } from '@ndla/core';
 import { ButtonV2 } from '@ndla/button';
-import { IAudioMetaInformation, INewSeries, ISeries } from '@ndla/types-audio-api';
+import { IAudioMetaInformation, INewSeries, ISeries } from '@ndla/types-backend/audio-api';
 import { AlertModalWrapper } from '../../FormikForm';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
 import validateFormik, { getWarnings, RulesType } from '../../../components/formikValidationSchema';

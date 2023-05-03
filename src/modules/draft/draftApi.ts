@@ -22,7 +22,7 @@ import {
   IUpdatedAgreement,
   INewAgreement,
   IUploadedFile,
-} from '@ndla/types-draft-api';
+} from '@ndla/types-backend/draft-api';
 import {
   resolveJsonOrRejectWithError,
   apiResourceUrl,
@@ -90,6 +90,7 @@ export const searchAllDrafts = async (
     page: 1,
     'page-size': ids.length,
     sort,
+    fallback: true,
   });
 
   return fetchAuthorized(`${baseUrl}/?${query}`, {

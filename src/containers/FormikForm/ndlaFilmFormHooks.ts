@@ -7,7 +7,7 @@
 import { FormikProps } from 'formik';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { IFilmFrontPageData } from '@ndla/types-frontpage-api';
+import { IFilmFrontPageData } from '@ndla/types-backend/frontpage-api';
 import { getInitialValues, getNdlaFilmFromSlate } from '../../util/ndlaFilmHelpers';
 import { FilmFormikType } from '../../containers/NdlaFilm/components/NdlaFilmForm';
 import { useMessages } from '../Messages/MessagesProvider';

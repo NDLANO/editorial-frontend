@@ -50,6 +50,13 @@ export interface GetNodeResourcesParams {
   type?: string;
 }
 
+export interface NodeContext {
+  publicId: string;
+  rootId: string;
+  contextId: string;
+  path: string;
+}
+
 export interface NodeType {
   contentUri?: string;
   id: string;
@@ -62,6 +69,7 @@ export interface NodeType {
   translations: NodeTranslation[];
   supportedLanguages: string[];
   nodeType: NodeTypeValue;
+  contexts: NodeContext[];
   resourceTypes: {
     id: string;
     name: string;
@@ -82,12 +90,13 @@ export interface ResourceWithNodeConnection {
   path: string;
   parentId?: string;
   paths: string[];
-  primary: boolean;
+  isPrimary: boolean;
   rank: number;
   relevanceId?: string;
   translations: NodeTranslation[];
   supportedLanguages: string[];
   nodeType: NodeTypeValue;
+  contexts: NodeContext[];
   resourceTypes: {
     id: string;
     name: string;
@@ -101,10 +110,9 @@ export interface ResourceWithNodeConnection {
 export interface ChildNodeType extends NodeType {
   connectionId: string;
   isPrimary: boolean;
-  primary: boolean;
   rank: number;
   childNodes?: ChildNodeType[];
-  parent: string;
+  parentId: string;
 }
 
 export interface NodePostPatchType {
@@ -120,7 +128,6 @@ export interface ConnectionForNode {
   connectionId: string;
   isPrimary: boolean;
   paths: string[];
-  primary: boolean;
   targetId: string;
   type: string;
 }

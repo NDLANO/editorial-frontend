@@ -6,7 +6,7 @@
  */
 import { useTranslation } from 'react-i18next';
 import { HelmetWithTracker } from '@ndla/tracker';
-import { INewSubjectFrontPageData } from '@ndla/types-frontpage-api';
+import { INewSubjectFrontPageData } from '@ndla/types-backend/frontpage-api';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { LocaleType } from '../../interfaces';
 import SubjectpageForm from './components/SubjectpageForm';

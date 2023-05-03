@@ -11,22 +11,22 @@ import { useState, useEffect, ReactNode, useMemo } from 'react';
 import { Editor, Element, Node, Transforms, Path } from 'slate';
 import { ReactEditor, RenderElementProps } from 'slate-react';
 import uniqueId from 'lodash/uniqueId';
-import { IConcept, IConceptSummary } from '@ndla/types-concept-api';
+import { IConcept, IConceptSummary } from '@ndla/types-backend/concept-api';
+import { ConceptEmbedData } from '@ndla/types-embed';
 import { ConceptInlineElement } from '../inline/interfaces';
 import ConceptModal from '../ConceptModal';
 import { useFetchConceptData } from '../../../../../containers/FormikForm/formikConceptHooks';
 import { TYPE_CONCEPT_INLINE } from './types';
 import SlateNotion from './SlateNotion';
-import { Dictionary } from '../../../../../interfaces';
 
-const getConceptDataAttributes = ({ id, title: { title } }: Dictionary<any>) => ({
-  type: TYPE_CONCEPT_INLINE,
-  data: {
-    'content-id': id,
-    'link-text': title,
-    resource: 'concept',
-    type: 'inline',
-  },
+const getConceptDataAttributes = (
+  concept: IConcept | IConceptSummary,
+  title: string,
+): ConceptEmbedData => ({
+  contentId: concept.id.toString(),
+  linkText: title,
+  resource: 'concept',
+  type: 'inline',
 });
 
 interface Props {
@@ -48,7 +48,7 @@ const InlineConcept = (props: Props) => {
   };
 
   const { concept, subjects, fetchSearchTags, conceptArticles, createConcept, updateConcept } =
-    useFetchConceptData(parseInt(element.data['content-id']), locale);
+    useFetchConceptData(parseInt(element.data.contentId), locale);
 
   const handleSelectionChange = (isNewConcept: boolean) => {
     ReactEditor.focus(editor);
@@ -64,15 +64,12 @@ const InlineConcept = (props: Props) => {
     toggleConceptModal();
     setTimeout(() => {
       handleSelectionChange(true);
-      const data = getConceptDataAttributes({
-        ...addedConcept,
-        title: { title: nodeText },
-      });
+      const data = getConceptDataAttributes(addedConcept, nodeText);
       if (element) {
         const path = ReactEditor.findPath(editor, element);
         Transforms.setNodes(
           editor,
-          { data: data.data },
+          { data },
           {
             at: path,
             match: (node) => Element.isElement(node) && node.type === TYPE_CONCEPT_INLINE,
@@ -95,7 +92,7 @@ const InlineConcept = (props: Props) => {
   };
 
   const onClose = () => {
-    if (!element.data['content-id']) {
+    if (!element.data.contentId) {
       handleRemove();
     } else {
       toggleConceptModal();
@@ -104,7 +101,7 @@ const InlineConcept = (props: Props) => {
   };
 
   useEffect(() => {
-    if (!element.data['content-id']) {
+    if (!element.data.contentId) {
       setShowConcept(true);
     }
   }, [element]);

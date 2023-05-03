@@ -81,9 +81,12 @@ describe('link normalizer tests', () => {
               { text: '' },
               {
                 type: TYPE_CONTENT_LINK,
-                'content-id': '123',
-                'content-type': 'article',
-                'open-in': 'current-context',
+                data: {
+                  resource: TYPE_CONTENT_LINK,
+                  contentId: '123',
+                  contentType: 'article',
+                  openIn: 'current-context',
+                },
                 children: [{ bold: true, italic: true, text: 'content' }],
               },
               { text: '' },
@@ -103,9 +106,12 @@ describe('link normalizer tests', () => {
               { text: '' },
               {
                 type: TYPE_CONTENT_LINK,
-                'content-id': '123',
-                'content-type': 'article',
-                'open-in': 'current-context',
+                data: {
+                  resource: TYPE_CONTENT_LINK,
+                  contentId: '123',
+                  contentType: 'article',
+                  openIn: 'current-context',
+                },
                 children: [{ bold: true, italic: true, text: 'content' }],
               },
               { text: '' },
@@ -140,9 +146,12 @@ describe('link normalizer tests', () => {
               { text: '' },
               {
                 type: TYPE_CONTENT_LINK,
-                'content-type': 'test',
-                'content-id': '123',
-                'open-in': 'test',
+                data: {
+                  resource: TYPE_CONTENT_LINK,
+                  contentType: 'test',
+                  contentId: '123',
+                  openIn: 'test',
+                },
                 children: [
                   {
                     text: '',

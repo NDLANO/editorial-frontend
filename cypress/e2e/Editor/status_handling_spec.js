@@ -23,18 +23,12 @@ describe('Status changes', () => {
 
   it('Can change status corretly', () => {
     // change from published to in progress
-    cy.get('[data-cy=footerStatus]')
-      .contains('Publisert')
-      .click();
+    cy.get('[data-cy=footerStatus]').contains('Publisert').click();
 
-    cy.get('*[id^="react-select-3-option"]')
-      .contains('I arbeid')
-      .click();
+    cy.get('*[id^="react-select-3-option"]').contains('I arbeid').click();
 
     cy.apiwait('@getUsersResponsible');
-    cy.get('[data-cy=responsible-select]')
-      .click()
-      .type('Ed test {enter}');
+    cy.get('[data-cy=responsible-select]').click().type('Ed test {enter}');
     cy.contains('Lagre').click();
     cy.get('[data-testid=saveLearningResourceButtonWrapper]').contains('Lagrer');
     cy.apiwait(`@updateDraft-${ARTICLE_ID}`);
@@ -42,16 +36,10 @@ describe('Status changes', () => {
 
     cy.apiroute('PATCH', `/draft-api/v1/drafts/${ARTICLE_ID}`, `updatedDraft-${ARTICLE_ID}`);
 
-    cy.get('[data-cy="learning-resource-title"]')
-      .click()
-      .type('Some change');
-    cy.get('[data-cy=footerStatus]')
-      .contains('I arbeid')
-      .click();
+    cy.get('[data-cy="learning-resource-title"]').click().type('Some change');
+    cy.get('[data-cy=footerStatus]').contains('I arbeid').click();
     cy.contains('Sisteblikk').click();
-    cy.get('[data-cy=responsible-select]')
-      .click()
-      .type('Ed test {enter}');
+    cy.get('[data-cy=responsible-select]').click().type('Ed test {enter}');
     cy.contains('Lagre').click();
     cy.get('[data-testid=saveLearningResourceButtonWrapper]').contains('Lagrer');
     cy.apiwait(`@updatedDraft-${ARTICLE_ID}`);
@@ -59,9 +47,7 @@ describe('Status changes', () => {
     cy.get('[data-testid=saveLearningResourceButtonWrapper]').contains('Lagret');
     cy.apiroute('PATCH', `/draft-api/v1/drafts/${ARTICLE_ID}`, `finalDraft-${ARTICLE_ID}`);
 
-    cy.get('[data-cy=footerStatus]')
-      .contains('Sisteblikk')
-      .click();
+    cy.get('[data-cy=footerStatus]').contains('Sisteblikk').click();
     cy.contains('Publiser').click();
 
     cy.get('[data-testid=saveLearningResourceButtonWrapper]').contains('Lagrer');

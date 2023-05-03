@@ -135,7 +135,7 @@ const usernamePasswordEnabled = () => {
 };
 
 export type ConfigType = {
-  brightCoveAccountId: string | undefined;
+  brightcoveAccountId: string | undefined;
   checkArticleScript: boolean;
   logEnvironment: string | undefined;
   ndlaApiUrl: string | undefined;
@@ -161,6 +161,7 @@ export type ConfigType = {
   port: string | undefined;
   ndlaPersonalClientId: string | undefined;
   zendeskWidgetKey: string | undefined;
+  brightcoveEdPlayerId: string | undefined;
   brightcovePlayerId: string | undefined;
   brightcove360PlayerId: string | undefined;
   brightcoveCopyrightPlayerId: string | undefined;
@@ -191,7 +192,8 @@ const config: ConfigType = {
   ),
   ndlaPersonalClientId: getEnvironmentVariabel('NDLA_PERSONAL_CLIENT_ID', ''),
   auth0Domain: getEnvironmentVariabel('AUTH0_DOMAIN', getAuth0Hostname()),
-  brightCoveAccountId: getEnvironmentVariabel('BRIGHTCOVE_ACCOUNT_ID', '123456789'),
+  brightcoveAccountId: getEnvironmentVariabel('BRIGHTCOVE_ACCOUNT_ID', '123456789'),
+  brightcoveEdPlayerId: getEnvironmentVariabel('BRIGHTCOVE_PLAYER_ED_ID', 'Ab1234'),
   brightcovePlayerId: getEnvironmentVariabel('BRIGHTCOVE_PLAYER_ID', 'Ab1234'),
   brightcove360PlayerId: getEnvironmentVariabel('BRIGHTCOVE_PLAYER_360_ID', 'Ab1234'),
   brightcoveCopyrightPlayerId: getEnvironmentVariabel('BRIGHTCOVE_PLAYER_COPYRIGHT_ID', 'Ab1234'),

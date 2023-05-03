@@ -13,7 +13,7 @@ import {
 } from '../../util/apiHelpers';
 
 const baseBrightCoveUrlV3 = brightcoveApiResourceUrl(
-  `/v1/accounts/${config.brightCoveAccountId}/videos`,
+  `/v1/accounts/${config.brightcoveAccountId}/videos`,
 );
 
 interface BrightcoveQueryParams {

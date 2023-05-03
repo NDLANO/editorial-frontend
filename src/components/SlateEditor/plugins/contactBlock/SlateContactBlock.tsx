@@ -92,10 +92,10 @@ const SlateContactBlock = ({ element, editor }: Props) => {
   );
 
   useEffect(() => {
-    if (contactBlock) {
+    if (contactBlock?.imageId) {
       fetchImage(contactBlock?.imageId).then((img) => setImage(img));
     }
-  }, [contactBlock, setImage]);
+  }, [contactBlock?.imageId, setImage]);
 
   const handleRemove = () =>
     Transforms.removeNodes(editor, { at: ReactEditor.findPath(editor, element), voids: true });

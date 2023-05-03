@@ -82,19 +82,6 @@ const StyledFormikField = styled(FormikField)`
   padding-bottom: ${spacing.small};
 `;
 
-const SelectWrapper = styled.div`
-  display: flex;
-  gap: ${spacing.small};
-`;
-
-const StyledLabel = styled.label`
-  width: ${spacingUnit * 7}px;
-  max-width: ${spacingUnit * 7}px;
-  padding: ${spacing.small} 0;
-  font-weight: ${fonts.weight.semibold};
-  ${fonts.sizes('14px', '16px')};
-`;
-
 const toInitialValues = (initialData?: ContactBlockEmbedData): ContactBlockFormValues => {
   return {
     resource: 'contact-block',
@@ -108,7 +95,7 @@ const toInitialValues = (initialData?: ContactBlockEmbedData): ContactBlockFormV
   };
 };
 const blobTypes = ['pointy', 'round'];
-const blobColors = ['pink', 'green'];
+const blobColors = ['green', 'pink'];
 
 const ContactBlockForm = ({ initialData, onSave, onCancel }: Props) => {
   const { t } = useTranslation();

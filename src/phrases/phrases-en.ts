@@ -550,7 +550,7 @@ const phrases = {
       },
     },
   },
-  keyPerformanceIndicator: {
+  keyPerformanceIndicatorForm: {
     title: 'Key numbers',
   },
   editorToolbar: {
@@ -594,7 +594,7 @@ const phrases = {
       podcast: 'Podcast episode',
       conceptList: 'Concept list',
       concept: 'Concept',
-      keyNumber: 'Key number',
+      keyPerformanceIndicator: 'Key performance indicator',
       blogPost: 'Blog post',
     },
   },

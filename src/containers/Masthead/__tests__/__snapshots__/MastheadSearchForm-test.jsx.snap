@@ -156,6 +156,12 @@ exports[`MastheadSearchForm invalid id at the end of the url 1`] = `
   outline-width: medium;
 }
 
+.emotion-2 {
+  margin: 0 13px;
+  width: 24px;
+  height: 24px;
+}
+
 <div>
   <form
     class="emotion-0"
@@ -166,7 +172,7 @@ exports[`MastheadSearchForm invalid id at the end of the url 1`] = `
     >
       <svg
         aria-hidden="true"
-        class="c-icon c-icon--medium"
+        class="c-icon emotion-2"
         data-license="Apache License 2.0"
         data-source="Material Design"
         fill="currentColor"
@@ -348,6 +354,12 @@ exports[`MastheadSearchForm redirects on ndla node id pasted 1`] = `
   outline-width: medium;
 }
 
+.emotion-2 {
+  margin: 0 13px;
+  width: 24px;
+  height: 24px;
+}
+
 <div>
   <form
     class="emotion-0"
@@ -358,7 +370,7 @@ exports[`MastheadSearchForm redirects on ndla node id pasted 1`] = `
     >
       <svg
         aria-hidden="true"
-        class="c-icon c-icon--medium"
+        class="c-icon emotion-2"
         data-license="Apache License 2.0"
         data-source="Material Design"
         fill="currentColor"
@@ -540,6 +552,12 @@ exports[`MastheadSearchForm redirects on ndla url paste with id at the end 1`] =
   outline-width: medium;
 }
 
+.emotion-2 {
+  margin: 0 13px;
+  width: 24px;
+  height: 24px;
+}
+
 <div>
   <form
     class="emotion-0"
@@ -550,7 +568,7 @@ exports[`MastheadSearchForm redirects on ndla url paste with id at the end 1`] =
     >
       <svg
         aria-hidden="true"
-        class="c-icon c-icon--medium"
+        class="c-icon emotion-2"
         data-license="Apache License 2.0"
         data-source="Material Design"
         fill="currentColor"
@@ -732,6 +750,12 @@ exports[`MastheadSearchForm redirects on ndla url paste with taxonomy id at the 
   outline-width: medium;
 }
 
+.emotion-2 {
+  margin: 0 13px;
+  width: 24px;
+  height: 24px;
+}
+
 <div>
   <form
     class="emotion-0"
@@ -742,7 +766,7 @@ exports[`MastheadSearchForm redirects on ndla url paste with taxonomy id at the 
     >
       <svg
         aria-hidden="true"
-        class="c-icon c-icon--medium"
+        class="c-icon emotion-2"
         data-license="Apache License 2.0"
         data-source="Material Design"
         fill="currentColor"
@@ -924,6 +948,12 @@ exports[`MastheadSearchForm redirects on old ndla url paste with new id 1`] = `
   outline-width: medium;
 }
 
+.emotion-2 {
+  margin: 0 13px;
+  width: 24px;
+  height: 24px;
+}
+
 <div>
   <form
     class="emotion-0"
@@ -934,7 +964,7 @@ exports[`MastheadSearchForm redirects on old ndla url paste with new id 1`] = `
     >
       <svg
         aria-hidden="true"
-        class="c-icon c-icon--medium"
+        class="c-icon emotion-2"
         data-license="Apache License 2.0"
         data-source="Material Design"
         fill="currentColor"

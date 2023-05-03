@@ -21,6 +21,12 @@ import {
 import { useSession } from '../../Session/SessionProvider';
 import { AUDIO_ADMIN_SCOPE, DRAFT_ADMIN_SCOPE, TAXONOMY_ADMIN_SCOPE } from '../../../constants';
 
+const StyledMenuItem = styled.span`
+  display: flex;
+  gap: ${spacing.xxsmall};
+  align-items: center;
+`;
+
 interface Props {
   close: () => void;
 }
@@ -37,69 +43,77 @@ const OpenMenu = ({ close }: Props) => {
         <nav>
           <div>
             <StyledLink to={toCreateConcept()} onClick={close}>
-              <span>
+              <StyledMenuItem>
                 <Concept /> {t('subNavigation.newConcept')}
-              </span>
+              </StyledMenuItem>
             </StyledLink>
             <StyledLink to={toCreateFrontPageArticle()} onClick={close}>
-              <span>
+              <StyledMenuItem>
                 <ContentTypeBadge type={contentTypes.SUBJECT_MATERIAL} background size="xx-small" />
                 {t('subNavigation.newFrontpageArticle')}
-              </span>
+              </StyledMenuItem>
             </StyledLink>
             <StyledLink to={toCreateImage()} onClick={close}>
-              <span>
-                <Camera /> {t('subNavigation.image')}
-              </span>
+              <StyledMenuItem>
+                <Camera />
+                {t('subNavigation.image')}
+              </StyledMenuItem>
             </StyledLink>
             <StyledLink to={toCreateAudioFile()} onClick={close}>
-              <span>
-                <Audio /> {t('subNavigation.audio')}
-              </span>
+              <StyledMenuItem>
+                <Audio />
+                {t('subNavigation.audio')}
+              </StyledMenuItem>
             </StyledLink>
             <StyledLink to={toCreatePodcastFile()} onClick={close}>
-              <span>
-                <Podcast /> {t('subNavigation.podcast')}
-              </span>
+              <StyledMenuItem>
+                <Podcast />
+                {t('subNavigation.podcast')}
+              </StyledMenuItem>
             </StyledLink>
             {userPermissions?.includes(AUDIO_ADMIN_SCOPE) && (
               <StyledLink to={toCreatePodcastSeries()} onClick={close}>
-                <span>
-                  <List /> {t('subNavigation.podcastSeries')}
-                </span>
+                <StyledMenuItem>
+                  <List />
+                  {t('subNavigation.podcastSeries')}
+                </StyledMenuItem>
               </StyledLink>
             )}
           </div>
           <div>
             <StyledLink to="/structure" onClick={close}>
-              <span>
-                <Taxonomy /> {t('subNavigation.structure')}
-              </span>
+              <StyledMenuItem>
+                <Taxonomy />
+                {t('subNavigation.structure')}
+              </StyledMenuItem>
             </StyledLink>
             {userPermissions?.includes(TAXONOMY_ADMIN_SCOPE) && config.versioningEnabled && (
               <StyledLink to="/taxonomyVersions" onClick={close}>
-                <span>
-                  <Taxonomy /> {t('subNavigation.taxonomyVersions')}
-                </span>
+                <StyledMenuItem>
+                  <Taxonomy />
+                  {t('subNavigation.taxonomyVersions')}
+                </StyledMenuItem>
               </StyledLink>
             )}
             {config.versioningEnabled === 'true' && (
               <StyledLink to="publishRequests" onClick={close}>
-                <span>
-                  <Taxonomy /> {t('subNavigation.publishRequests')}
-                </span>
+                <StyledMenuItem>
+                  <Taxonomy />
+                  {t('subNavigation.publishRequests')}
+                </StyledMenuItem>
               </StyledLink>
             )}
             <StyledLink to={toEditNdlaFilm()} onClick={close}>
-              <span>
-                <ContentTypeBadge type={contentTypes.SUBJECT} background size="xx-small" />{' '}
+              <StyledMenuItem>
+                <ContentTypeBadge type={contentTypes.SUBJECT} background size="xx-small" />
                 {t('subNavigation.film')}
-              </span>
+              </StyledMenuItem>
             </StyledLink>
             <StyledLink to="/h5p" onClick={close}>
-              <span>
-                <H5P /> {t('subNavigation.h5p')}
-              </span>
+              <StyledMenuItem>
+                <H5P />
+                {t('subNavigation.h5p')}
+              </StyledMenuItem>
             </StyledLink>
             {userPermissions?.includes(DRAFT_ADMIN_SCOPE) && (
               <StyledHrefLink
@@ -108,9 +122,11 @@ const OpenMenu = ({ close }: Props) => {
                 rel="noopener noreferrer"
                 onClick={close}
               >
-                <span>
-                  <Video /> {t('subNavigation.brightcoveLink')} <Launch />
-                </span>
+                <StyledMenuItem>
+                  <Video />
+                  {t('subNavigation.brightcoveLink')}
+                  <Launch />
+                </StyledMenuItem>
               </StyledHrefLink>
             )}
             <StyledHrefLink
@@ -119,10 +135,11 @@ const OpenMenu = ({ close }: Props) => {
               rel="noopener noreferrer"
               onClick={close}
             >
-              <span>
-                <ContentTypeBadge type={contentTypes.LEARNING_PATH} background size="xx-small" />{' '}
-                {t('subNavigation.learningPathLink')} <Launch />
-              </span>
+              <StyledMenuItem>
+                <ContentTypeBadge type={contentTypes.LEARNING_PATH} background size="xx-small" />
+                {t('subNavigation.learningPathLink')}
+                <Launch />
+              </StyledMenuItem>
             </StyledHrefLink>
           </div>
         </nav>

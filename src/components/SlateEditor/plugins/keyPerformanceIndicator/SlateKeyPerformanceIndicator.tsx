@@ -13,7 +13,7 @@ import { ModalBody, ModalCloseButton, ModalHeaderV2, ModalV2 } from '@ndla/modal
 import { IImageMetaInformationV3 } from '@ndla/types-backend/build/image-api';
 import { KeyPerformanceIndicatorEmbedData } from '@ndla/types-embed';
 import { KeyPerformanceIndicator } from '@ndla/ui';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Editor, Path, Transforms } from 'slate';
 import { ReactEditor, RenderElementProps } from 'slate-react';
@@ -51,10 +51,11 @@ const StyledModalBody = styled(ModalBody)`
 `;
 
 const SlateKeyNumber = ({ element, editor }: Props) => {
-  const [keyNumber, setKeyNumber] = useState<KeyPerformanceIndicatorEmbedData>(element.data);
   const [isEditing, setIsEditing] = useState<boolean | undefined>(element.isFirstEdit);
   const [image, setImage] = useState<IImageMetaInformationV3 | undefined>(undefined);
   const { t } = useTranslation();
+
+  const { data } = element;
 
   const handleRemove = () => {
     Transforms.removeNodes(editor, { at: ReactEditor.findPath(editor, element), voids: true });
@@ -76,16 +77,35 @@ const SlateKeyNumber = ({ element, editor }: Props) => {
 
   const onSave = useCallback(
     (data: KeyPerformanceIndicatorEmbedData) => {
-      setKeyNumber(data);
       setIsEditing(false);
       fetchImage(data.imageId).then((image) => setImage(image));
+
+      const properties = {
+        data,
+        isFirstEdit: false,
+      };
+
+      ReactEditor.focus(editor);
+      const path = ReactEditor.findPath(editor, element);
+      Transforms.setNodes(editor, properties, { at: path });
+      if (Editor.hasPath(editor, Path.next(path))) {
+        setTimeout(() => {
+          Transforms.select(editor, Path.next(path));
+        }, 0);
+      }
     },
-    [setImage],
+    [element, editor, setImage],
   );
+
+  useEffect(() => {
+    if (data?.imageId) {
+      fetchImage(data?.imageId).then((image) => setImage(image));
+    }
+  }, [data?.imageId, setImage]);
 
   return (
     <>
-      {keyNumber && (
+      {data && image && (
         <KeyNumberWrapper>
           <ButtonContainer>
             <IconButtonV2 variant="ghost" onClick={() => setIsEditing(true)} aria-label={t('edit')}>
@@ -93,11 +113,7 @@ const SlateKeyNumber = ({ element, editor }: Props) => {
             </IconButtonV2>
             <DeleteButton aria-label={t('delete')} onClick={handleRemove} />
           </ButtonContainer>
-          <KeyPerformanceIndicator
-            title={keyNumber.title}
-            subTitle={keyNumber.subTitle}
-            image={image}
-          />
+          <KeyPerformanceIndicator title={data.title} subTitle={data.subTitle} image={image} />
         </KeyNumberWrapper>
       )}
       {isEditing && (
@@ -115,11 +131,7 @@ const SlateKeyNumber = ({ element, editor }: Props) => {
                 <ModalCloseButton onClick={close} />
               </StyledModalHeader>
               <StyledModalBody>
-                <KeyPerformanceIndicatorForm
-                  onSave={onSave}
-                  initialData={keyNumber}
-                  onCancel={close}
-                />
+                <KeyPerformanceIndicatorForm onSave={onSave} initialData={data} onCancel={close} />
               </StyledModalBody>
             </>
           )}

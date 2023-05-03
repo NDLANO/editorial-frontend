@@ -65,11 +65,6 @@ const inputStyle = css`
   flex-direction: column;
 `;
 
-const StyledSelect = styled.select`
-  background-color: transparent;
-  border: none;
-`;
-
 const ButtonContainer = styled.div`
   display: flex;
   justify-content: flex-end;
@@ -106,24 +101,7 @@ const KeyPerformanceIndicatorForm = ({ onSave, initialData, onCancel }: Props) =
         <>
           <StyledFormikField name="title" showError>
             {({ field }: FieldProps) => (
-              <InputV2
-                customCss={inputStyle}
-                label={t('form.name.title')}
-                {...field}
-                after={
-                  <StyledFormikField name="language">
-                    {({ field }: FieldProps) => (
-                      <StyledSelect {...field}>
-                        {supportedLanguages.map((lang) => (
-                          <option key={lang} value={lang}>
-                            {t(`languages.${lang}`)}
-                          </option>
-                        ))}
-                      </StyledSelect>
-                    )}
-                  </StyledFormikField>
-                }
-              />
+              <InputV2 customCss={inputStyle} label={t('form.name.title')} {...field} />
             )}
           </StyledFormikField>
           <StyledFormikField name="subTitle" showError>

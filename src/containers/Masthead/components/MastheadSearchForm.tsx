@@ -79,6 +79,12 @@ const StyledForm = styled.form<{ color: string }>`
   }
 `;
 
+const StyledSearch = styled(Search)`
+  margin: 0 ${spacing.small};
+  width: 24px;
+  height: 24px;
+`;
+
 interface Props {
   query?: string;
   onSearchQuerySubmit: (query: string) => void;
@@ -203,7 +209,7 @@ export const MastheadSearchForm = ({
   return (
     <StyledForm onSubmit={handleSubmit} color={color}>
       <ButtonV2 type="submit" variant="stripped">
-        <Search color={colors.brand.primary} className="c-icon--medium" />
+        <StyledSearch color={colors.brand.primary} />
       </ButtonV2>
 
       <input

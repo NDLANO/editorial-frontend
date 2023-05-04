@@ -13,6 +13,7 @@ import { Alarm } from '@ndla/icons/common';
 import addYears from 'date-fns/addYears';
 import { Select, SingleValue } from '@ndla/select';
 import Pager from '@ndla/pager';
+import sortBy from 'lodash/sortBy';
 import {
   ControlWrapperDashboard,
   DropdownWrapper,
@@ -30,7 +31,6 @@ import GoToSearch from './GoToSearch';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 import { useSearchNodes } from '../../../modules/nodes/nodeQueries';
 import { SUBJECT_NODE } from '../../../modules/nodes/nodeApiTypes';
-import StatusCell from './worklist/StatusCell';
 
 interface Props {
   userData: IUserData | undefined;
@@ -41,7 +41,7 @@ type SortOptionRevision = 'title' | 'revisionDate' | 'status';
 
 const Revisions = ({ userData, ndlaId }: Props) => {
   const [filterSubject, setFilterSubject] = useState<SingleValue | undefined>(undefined);
-  const [sortOption, setSortOption] = useState<Prefix<'-', SortOptionRevision>>('-revisionDate');
+  const [sortOption, setSortOption] = useState<Prefix<'-', SortOptionRevision>>('revisionDate');
   const [error, setError] = useState<string | undefined>(undefined);
   const [page, setPage] = useState(1);
 
@@ -84,7 +84,13 @@ const Revisions = ({ userData, ndlaId }: Props) => {
       ids: userData?.favoriteSubjects,
       language,
     },
-    { enabled: !!userData?.favoriteSubjects?.length },
+    {
+      select: (res) => ({
+        ...res,
+        results: sortBy(res.results, (r) => r.metadata.customFields.subjectCategory === 'archive'),
+      }),
+      enabled: !!userData?.favoriteSubjects?.length,
+    },
   );
 
   const favoriteSubjects = useMemo(
@@ -111,7 +117,7 @@ const Revisions = ({ userData, ndlaId }: Props) => {
         },
         {
           id: `status_${a.id}`,
-          data: <StatusCell status={a.status} />,
+          data: a.status?.current ? t(`form.status.${a.status.current.toLowerCase()}`) : '',
         },
         {
           id: `primarySubject_${a.id}`,
@@ -124,7 +130,7 @@ const Revisions = ({ userData, ndlaId }: Props) => {
             : null,
         },
       ]) ?? [[]],
-    [data?.results],
+    [data?.results, t],
   );
 
   return (

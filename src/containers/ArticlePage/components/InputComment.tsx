@@ -14,16 +14,17 @@ import uniqueId from 'lodash/uniqueId';
 import { format } from 'date-fns';
 import { ButtonV2 } from '@ndla/button';
 import { useSession } from '../../Session/SessionProvider';
-import { CommentType, textAreaStyles } from './Comment';
+import { COMMENT_COLOR, CommentType, textAreaStyles } from './Comment';
 import formatDate, { formatDateForBackend } from '../../../util/formatDate';
 
 const CommentCard = styled.div`
   max-width: inherit;
   width: 100%;
-  border: 1px solid ${colors.brand.neutral7};
+  border: 1px solid ${colors.brand.greyMedium};
   border-radius: ${misc.borderRadius};
   padding: ${spacing.xsmall};
   font-weight: ${fonts.weight.light};
+  background-color: ${COMMENT_COLOR};
 `;
 
 const WrapperColumn = styled.div`
@@ -37,6 +38,11 @@ const StyledButtonSmall = styled(ButtonV2)`
 `;
 const StyledButtonMedium = styled(ButtonV2)`
   flex: 2;
+  background-color: ${colors.white};
+
+  &[disabled] {
+    background-color: ${colors.brand.neutral7};
+  }
 `;
 
 const ButtonWrapper = styled.div`
@@ -78,7 +84,7 @@ const InputComment = ({ comments, setComments }: Props) => {
         userName?.split(' ')[0]
       } (${formattedDate} - ${formattedTime})`,
     );
-    createComment.current?.setSelectionRange(0, 0);
+    setTimeout(() => createComment.current?.setSelectionRange(0, 0), 0);
   };
 
   return (

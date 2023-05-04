@@ -56,12 +56,7 @@ const wrapper = () => {
           <Editable />
         </Slate>
         {/* @ts-ignore */}
-        <RelatedArticleBox
-          editor={editor}
-          locale="nb"
-          element={relatedElement}
-          onRemoveClick={() => {}}
-        >
+        <RelatedArticleBox editor={editor} element={relatedElement} onRemoveClick={() => {}}>
           <></>
         </RelatedArticleBox>
       </div>

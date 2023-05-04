@@ -221,6 +221,7 @@ const EditRelated = ({
         </DragDropContext>
         <div data-cy="styled-article-modal">
           <AsyncDropdown
+            clearInputField
             idField="id"
             labelField="title"
             placeholder={t('form.content.relatedArticle.placeholder')}

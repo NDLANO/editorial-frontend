@@ -2,8 +2,8 @@ import { Editor, Node, Element, Descendant, Transforms, Text, Path } from 'slate
 import { RenderElementProps } from 'slate-react';
 import { jsx as slatejsx } from 'slate-hyperscript';
 import styled from '@emotion/styled';
-import { SlateSerializer } from '../../interfaces';
 import { OrderedList, UnOrderedList } from '@ndla/ui';
+import { SlateSerializer } from '../../interfaces';
 import onEnter from './handlers/onEnter';
 import { firstTextBlockElement } from '../../utils/normalizationHelpers';
 import { defaultListBlock } from './utils/defaultBlocks';
@@ -86,14 +86,18 @@ export const listSerializer: SlateSerializer = {
     }, [] as Descendant[]);
 
     if (tag === 'ul') {
-      return slatejsx('element', { type: TYPE_LIST, listType: 'bulleted-list' }, children);
+      return slatejsx(
+        'element',
+        { type: TYPE_LIST, listType: 'bulleted-list', data: {} },
+        children,
+      );
     }
     if (tag === 'ol') {
       const start = el.getAttribute('start');
       if (el.getAttribute('data-type') === 'letters') {
         return slatejsx(
           'element',
-          { type: TYPE_LIST, listType: 'letter-list', data: { start: start ?? 1 } },
+          { type: TYPE_LIST, listType: 'letter-list', data: { start: start ? start : undefined } },
           children,
         );
       }
@@ -104,7 +108,7 @@ export const listSerializer: SlateSerializer = {
           {
             type: TYPE_LIST,
             listType: 'numbered-list',
-            data: { start: start ?? 1 },
+            data: { start: start ? start : undefined },
           },
           children,
         );
@@ -123,12 +127,12 @@ export const listSerializer: SlateSerializer = {
       }
       if (node.listType === 'numbered-list') {
         const { start } = node.data;
-        return <ol start={start ? parseInt(start) : 1}>{children}</ol>;
+        return <ol start={start ? parseInt(start) : undefined}>{children}</ol>;
       }
       if (node.listType === 'letter-list') {
         const { start } = node.data;
         return (
-          <ol data-type="letters" start={start ? parseInt(start) : 1}>
+          <ol data-type="letters" start={start ? parseInt(start) : undefined}>
             {children}
           </ol>
         );
@@ -158,7 +162,7 @@ export const listPlugin = (editor: Editor) => {
       } else if (element.listType === 'numbered-list') {
         const { start } = element.data;
         return (
-          <OrderedList start={start ? parseInt(start) : 1} {...attributes}>
+          <OrderedList start={start ? parseInt(start) : undefined} {...attributes}>
             {children}
           </OrderedList>
         );
@@ -166,7 +170,7 @@ export const listPlugin = (editor: Editor) => {
         const { start } = element.data;
         return (
           <OrderedList
-            start={start ? parseInt(start) : 1}
+            start={start ? parseInt(start) : undefined}
             data-type="letters"
             className={`ol-list--roman ${start ? `ol-reset-${start}` : ''}`}
             {...attributes}

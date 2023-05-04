@@ -30,6 +30,7 @@ import { ArticleFormType } from '../../containers/FormikForm/articleFormHooks';
 import { FormikStatus } from '../../interfaces';
 import SlateBlockPicker from './plugins/blockPicker/SlateBlockPicker';
 import { BlockPickerOptions, createBlockpickerOptions } from './plugins/blockPicker/options';
+import { Action, commonActions } from './plugins/blockPicker/actions';
 
 const StyledSlateWrapper = styled.div`
   position: relative;
@@ -46,6 +47,7 @@ interface Props {
   plugins?: SlatePlugin[];
   submitted: boolean;
   language: string;
+  actions?: Action[];
   blockpickerOptions?: Partial<BlockPickerOptions>;
 }
 
@@ -54,6 +56,7 @@ const RichTextEditor = ({
   plugins,
   value,
   onChange,
+  actions = commonActions,
   submitted,
   language,
   blockpickerOptions = {},
@@ -192,6 +195,7 @@ const RichTextEditor = ({
                 <SlateToolbar editor={editor} />
                 <SlateBlockPicker
                   editor={editor}
+                  actions={actions}
                   articleLanguage={language}
                   {...createBlockpickerOptions(blockpickerOptions)}
                 />

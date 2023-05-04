@@ -37,8 +37,8 @@ const StyledLinkMenu = styled('span')<StyledLinkMenuProps>`
   z-index: 1;
 `;
 
-const fetchResourcePath = (data: ContentLinkElement, language: string, contentType: string) => {
-  const id = data['content-id'];
+const fetchResourcePath = (node: ContentLinkElement, language: string, contentType: string) => {
+  const id = node.data.contentId;
   return contentType === 'learningpath'
     ? toLearningpathFull(id, language)
     : `${config.editorialFrontendDomain}${toEditGenericArticle(id)}`;
@@ -46,7 +46,7 @@ const fetchResourcePath = (data: ContentLinkElement, language: string, contentTy
 
 function hasHrefOrContentId(node: LinkElement | ContentLinkElement) {
   if (node.type === 'content-link') {
-    return !!node['content-id'];
+    return !!node.data.contentId;
   } else {
     return !!node.href;
   }
@@ -109,9 +109,9 @@ const Link = (props: Props) => {
       let href;
       let checkbox;
       if (element.type === 'content-link') {
-        const contentType = element['content-type'] || 'article';
+        const contentType = element.data.contentType || 'article';
         href = `${fetchResourcePath(element, language, contentType)}`;
-        checkbox = element['open-in'] === 'new-context';
+        checkbox = element.data.openIn === 'new-context';
       } else {
         href = element.href;
         checkbox = element.target === '_blank';

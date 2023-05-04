@@ -8,8 +8,6 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { render } from 'react-dom';
-//@ts-ignore
-import qs from 'query-string';
 import { HelmetProvider } from 'react-helmet-async';
 import { BrowserRouter } from 'react-router-dom';
 import { I18nextProvider, useTranslation } from 'react-i18next';
@@ -24,7 +22,6 @@ import { initializeI18n, supportedLanguages } from './i18n2';
 import { STORED_LANGUAGE_KEY } from './constants';
 import Spinner from './components/Spinner';
 import { LocaleType } from './interfaces';
-import { ArticleConverterProvider } from './components/ArticleConverterContext';
 
 declare global {
   interface Window {
@@ -117,24 +114,16 @@ const queryClient = new QueryClient({
   },
 });
 
-const { disableConverter } = qs.parse(window.location.search);
-
-const disableConverterValue = disableConverter?.length
-  ? disableConverter === 'true'
-  : config.disableConverter;
-
 const renderApp = () => {
   render(
-    <ArticleConverterProvider value={disableConverterValue}>
-      <HelmetProvider>
-        <QueryClientProvider client={queryClient}>
-          <I18nextProvider i18n={i18nInstance}>
-            <AppWrapper basename={basename} />
-          </I18nextProvider>
-          <ReactQueryDevtools />
-        </QueryClientProvider>
-      </HelmetProvider>
-    </ArticleConverterProvider>,
+    <HelmetProvider>
+      <QueryClientProvider client={queryClient}>
+        <I18nextProvider i18n={i18nInstance}>
+          <AppWrapper basename={basename} />
+        </I18nextProvider>
+        <ReactQueryDevtools />
+      </QueryClientProvider>
+    </HelmetProvider>,
     document.getElementById('root'),
   );
 };

@@ -16,6 +16,10 @@ import Tooltip from '@ndla/tooltip';
 import { useTranslation } from 'react-i18next';
 import Spinner from '../../../components/Spinner';
 
+const TableWrapper = styled.div`
+  height: 250px;
+`;
+
 const StyledTable = styled.table`
   font-family: arial, sans-serif;
   border-collapse: separate;
@@ -25,11 +29,13 @@ const StyledTable = styled.table`
   margin-bottom: 0px;
   table-layout: fixed;
   display: inline-table;
+  overflow: hidden;
   th {
     font-weight: ${fonts.weight.bold};
     padding: 0px ${spacing.xsmall};
     border-bottom: 1px solid ${colors.text.primary};
     background-color: ${colors.brand.lighter};
+    overflow-wrap: anywhere;
   }
   th:not(:first-of-type) {
     border-left: 1px solid ${colors.text.primary};
@@ -40,9 +46,6 @@ const StyledTable = styled.table`
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-  }
-  tr {
-    height: 30px;
   }
   tr:nth-of-type(even) {
     background: ${colors.brand.lightest};
@@ -127,7 +130,7 @@ const TableComponent = <T extends string>({
   if (error) return <StyledError>{error}</StyledError>;
 
   return (
-    <>
+    <TableWrapper>
       <StyledTable>
         <thead>
           <tr>
@@ -185,7 +188,7 @@ const TableComponent = <T extends string>({
       ) : noResultsText && isEmpty(tableData.flat()) ? (
         <NoResultsText>{noResultsText}</NoResultsText>
       ) : null}
-    </>
+    </TableWrapper>
   );
 };
 

@@ -11,14 +11,28 @@ import loadable from '@loadable/component';
 import { useTranslation } from 'react-i18next';
 import { Navigate, Route, Routes, useLocation, useParams } from 'react-router-dom';
 import { UseQueryOptions, UseQueryResult } from '@tanstack/react-query';
-import { OneColumn } from '@ndla/ui';
 import { HelmetWithTracker } from '@ndla/tracker';
+import styled from '@emotion/styled';
 import { usePreviousLocation } from '../util/routeHelpers';
 import Footer from '../containers/App/components/Footer';
 import Spinner from './Spinner';
 import { NynorskTranslateProvider } from './NynorskTranslateProvider';
+
 const NotFoundPage = loadable(() => import('../containers/NotFoundPage/NotFoundPage'));
 
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const PageContent = styled.div`
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 24px;
+  padding-right: 24px;
+  max-width: 1024px;
+`;
 interface ResourceComponentProps {
   isNewlyCreated?: boolean;
 }
@@ -30,6 +44,7 @@ interface BaseResource {
 interface Props<T extends BaseResource> {
   CreateComponent: ComponentType;
   EditComponent: ComponentType<ResourceComponentProps>;
+  className?: string;
   useHook: (
     params: { id: number; language?: string },
     options?: UseQueryOptions<T>,
@@ -44,12 +59,14 @@ const ResourcePage = <T extends BaseResource>({
   useHook,
   createUrl,
   titleTranslationKey,
+  className,
 }: Props<T>) => {
   const { t } = useTranslation();
   const previousLocation = usePreviousLocation();
+
   return (
-    <div style={{ display: 'flex', flexDirection: 'column' }}>
-      <OneColumn>
+    <Wrapper>
+      <PageContent className={className}>
         {titleTranslationKey && <HelmetWithTracker title={t(titleTranslationKey)} />}
         <Routes>
           <Route path="new" element={<CreateComponent />} />
@@ -65,9 +82,9 @@ const ResourcePage = <T extends BaseResource>({
           />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
-      </OneColumn>
+      </PageContent>
       <Footer showLocaleSelector={false} />
-    </div>
+    </Wrapper>
   );
 };
 

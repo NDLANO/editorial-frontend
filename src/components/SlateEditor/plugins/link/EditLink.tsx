@@ -40,13 +40,16 @@ const StyledModalBody = styled(ModalBody)`
 const createContentLinkData = (
   id: string,
   resourceType: string | undefined,
-  targetRel: { 'open-in': string },
+  openIn: string,
 ): Partial<ContentLinkElement> => {
   return {
     type: TYPE_CONTENT_LINK,
-    'content-id': id,
-    'content-type': resourceType || 'article',
-    ...targetRel,
+    data: {
+      resource: TYPE_CONTENT_LINK,
+      contentId: id,
+      contentType: resourceType || 'article',
+      openIn,
+    },
   };
 };
 
@@ -112,7 +115,7 @@ const EditLink = (props: Props) => {
 
     const { resourceId, resourceType } = await getIdAndTypeFromUrl(href);
 
-    const targetRel = checkbox ? { 'open-in': 'new-context' } : { 'open-in': 'current-context' };
+    const targetRel = checkbox ? 'new-context' : 'current-context';
 
     const data = resourceId
       ? createContentLinkData(resourceId, resourceType, targetRel)

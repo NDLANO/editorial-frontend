@@ -52,6 +52,7 @@ import {
   DefinitionListElement,
   DefinitionTermElement,
 } from './plugins/definitionList';
+import { BlogPostElement } from './plugins/blogPost/types';
 
 export type SlatePlugin = (editor: Editor) => Editor;
 
@@ -114,7 +115,8 @@ declare module 'slate' {
       | ConceptListElement
       | DefinitionListElement
       | DefinitionDescriptionElement
-      | DefinitionTermElement;
+      | DefinitionTermElement
+      | BlogPostElement;
     Text: CustomTextWithMarks;
   }
 }

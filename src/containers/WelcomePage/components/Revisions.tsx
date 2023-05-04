@@ -13,6 +13,7 @@ import { Alarm } from '@ndla/icons/common';
 import addYears from 'date-fns/addYears';
 import { Select, SingleValue } from '@ndla/select';
 import Pager from '@ndla/pager';
+import sortBy from 'lodash/sortBy';
 import {
   ControlWrapperDashboard,
   DropdownWrapper,
@@ -36,20 +37,23 @@ interface Props {
   ndlaId: string | undefined;
 }
 
-type SortOptionRevision = 'title' | 'revisionDate';
+type SortOptionRevision = 'title' | 'revisionDate' | 'status';
 
 const Revisions = ({ userData, ndlaId }: Props) => {
   const [filterSubject, setFilterSubject] = useState<SingleValue | undefined>(undefined);
-  const [sortOption, setSortOption] = useState<Prefix<'-', SortOptionRevision>>('-revisionDate');
+  const [sortOption, setSortOption] = useState<Prefix<'-', SortOptionRevision>>('revisionDate');
   const [error, setError] = useState<string | undefined>(undefined);
   const [page, setPage] = useState(1);
 
-  const { t } = useTranslation();
+  const {
+    t,
+    i18n: { language },
+  } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
 
   const tableTitles: TitleElement<SortOptionRevision>[] = [
     { title: t('form.article.label'), sortableField: 'title' },
-    { title: t('welcomePage.workList.status') },
+    { title: t('welcomePage.workList.status'), sortableField: 'status' },
     { title: t('welcomePage.workList.primarySubject') },
     { title: t('welcomePage.revisionDate'), sortableField: 'revisionDate' },
   ];
@@ -63,6 +67,8 @@ const Revisions = ({ userData, ndlaId }: Props) => {
       sort: sortOption,
       page: page,
       'page-size': 6,
+      language,
+      fallback: true,
     },
     {
       enabled: !!userData?.favoriteSubjects?.length,
@@ -76,8 +82,15 @@ const Revisions = ({ userData, ndlaId }: Props) => {
       nodeType: SUBJECT_NODE,
       taxonomyVersion,
       ids: userData?.favoriteSubjects,
+      language,
     },
-    { enabled: !!userData?.favoriteSubjects?.length },
+    {
+      select: (res) => ({
+        ...res,
+        results: sortBy(res.results, (r) => r.metadata.customFields.subjectCategory === 'archive'),
+      }),
+      enabled: !!userData?.favoriteSubjects?.length,
+    },
   );
 
   const favoriteSubjects = useMemo(
@@ -97,7 +110,7 @@ const Revisions = ({ userData, ndlaId }: Props) => {
         {
           id: `title_${a.id}`,
           data: (
-            <StyledLink to={toEditArticle(a.id, a.learningResourceType)}>
+            <StyledLink to={toEditArticle(a.id, a.learningResourceType)} title={a.title?.title}>
               {a.title?.title}
             </StyledLink>
           ),

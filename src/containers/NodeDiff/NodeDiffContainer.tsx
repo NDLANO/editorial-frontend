@@ -23,7 +23,7 @@ import { usePublishNodeMutation } from '../../modules/nodes/nodeMutations';
 import { nodeTreeQueryKeys, useNodeTree } from '../../modules/nodes/nodeQueries';
 import { fetchVersions } from '../../modules/taxonomy/versions/versionApi';
 import { useSession } from '../Session/SessionProvider';
-import { diffTrees, DiffType } from './diffUtils';
+import { diffTrees, DiffType, DiffTypeWithChildren, RootDiffType } from './diffUtils';
 import NodeDiff from './NodeDiff';
 import { RootNode } from './TreeNode';
 
@@ -75,7 +75,9 @@ const NodeDiffcontainer = ({ originalHash, otherHash, nodeId }: Props) => {
   const [params] = useSearchParams();
   const view = params.get('view') === 'flat' ? 'flat' : 'tree';
   const { t, i18n } = useTranslation();
-  const [selectedNode, setSelectedNode] = useState<DiffType<NodeType> | undefined>(undefined);
+  const [selectedNode, setSelectedNode] = useState<RootDiffType | DiffTypeWithChildren | undefined>(
+    undefined,
+  );
   const [error, setError] = useState<string | undefined>(undefined);
   const [showAlertModal, setShowAlertModal] = useState(false);
   const [hasPublished, setHasPublished] = useState(false);

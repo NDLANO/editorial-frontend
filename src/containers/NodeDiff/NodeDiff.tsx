@@ -10,9 +10,16 @@ import styled from '@emotion/styled';
 import { spacing, colors } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router-dom';
-import { ChildNodeType, NodeType } from '../../modules/nodes/nodeApiTypes';
+import { ChildNodeType } from '../../modules/nodes/nodeApiTypes';
 import ArrayDiffField from './ArrayDiffField';
-import { diffField, DiffType, DiffTypeWithChildren, removeType } from './diffUtils';
+import {
+  diffField,
+  DiffType,
+  DiffTypeWithChildren,
+  NodeTypeWithResources,
+  removeType,
+  RootDiffType,
+} from './diffUtils';
 import { DiffTypePill } from './TreeNode';
 import FieldDiff from './FieldDiff';
 import TranslationsDiff from './TranslationsDiff';
@@ -26,7 +33,7 @@ import {
 import NodeIconType from '../../components/NodeIconType';
 
 interface Props {
-  node: DiffType<NodeType> | DiffTypeWithChildren;
+  node: RootDiffType | DiffTypeWithChildren;
   isRoot?: boolean;
 }
 
@@ -71,17 +78,19 @@ const DetailsContent = styled.div`
   gap: ${spacing.small};
 `;
 
-const isChildNode = (
-  node: Partial<DiffType<NodeType | ChildNodeType>>,
-): node is DiffTypeWithChildren => 'parentId' in node;
-
 const NodeDiff = ({ node, isRoot }: Props) => {
   const [params] = useSearchParams();
   const { t } = useTranslation();
 
   const fieldFilter = params.get('fieldView') ?? 'changed';
-  const filteredNode: Partial<DiffType<ChildNodeType>> =
-    fieldFilter === 'changed' ? removeType(node, 'NONE') : node;
+
+  const filteredNode =
+    fieldFilter === 'changed'
+      ? removeType<Omit<ChildNodeType, 'resources'> | Omit<NodeTypeWithResources, 'resources'>>(
+          node,
+          'NONE',
+        )
+      : node;
   const metadata = filteredNode.metadata;
   const customFields = metadata?.customFields;
 
@@ -119,37 +128,29 @@ const NodeDiff = ({ node, isRoot }: Props) => {
           toDisplayValue={(v) => v}
         />
       )}
-      {isChildNode(node) && (
-        <>
-          {filteredNode.connectionId && (
-            <FieldDiff
-              fieldName="connectionId"
-              result={filteredNode.connectionId}
-              toDisplayValue={(v) => v}
-            />
-          )}
-          {filteredNode.isPrimary && (
-            <FieldDiff
-              fieldName="isPrimary"
-              result={filteredNode.isPrimary}
-              toDisplayValue={(v) => t(`diff.fields.isPrimary.${v ? 'isOn' : 'isOff'}`)}
-            />
-          )}
-          {filteredNode.rank && (
-            <FieldDiff
-              fieldName="rank"
-              result={filteredNode.rank}
-              toDisplayValue={(v) => v.toString()}
-            />
-          )}
-          {filteredNode.parentId && (
-            <FieldDiff
-              fieldName="parentId"
-              result={filteredNode.parentId}
-              toDisplayValue={(v) => v}
-            />
-          )}
-        </>
+      {'connectionId' in filteredNode && filteredNode.connectionId && (
+        <FieldDiff
+          fieldName="connectionId"
+          result={filteredNode.connectionId}
+          toDisplayValue={(v) => v}
+        />
+      )}
+      {'isPrimary' in filteredNode && filteredNode.isPrimary && (
+        <FieldDiff
+          fieldName="isPrimary"
+          result={filteredNode.isPrimary}
+          toDisplayValue={(v) => t(`diff.fields.isPrimary.${v ? 'isOn' : 'isOff'}`)}
+        />
+      )}
+      {'rank' in filteredNode && filteredNode.rank && (
+        <FieldDiff
+          fieldName="rank"
+          result={filteredNode.rank}
+          toDisplayValue={(v) => v.toString()}
+        />
+      )}
+      {'parentId' in filteredNode && filteredNode.parentId && (
+        <FieldDiff fieldName="parentId" result={filteredNode.parentId} toDisplayValue={(v) => v} />
       )}
       {metadata && (
         <>
@@ -217,7 +218,7 @@ const NodeDiff = ({ node, isRoot }: Props) => {
           )}
         </>
       )}
-      {isChildNode(node) && (
+      {!!node.resources && (
         <ResourceDiffList resources={node.resources} fieldFilter={fieldFilter} />
       )}
     </DiffContainer>

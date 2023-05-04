@@ -37,11 +37,11 @@ export const WelcomePage = () => {
     enabled: isValid(getAccessToken()) && getAccessTokenPersonal(),
   });
   const { ndlaId } = useSession();
-  const lastUsed = useMemo(
-    () => data?.latestEditedArticles?.map((l) => Number(l)) ?? [],
+
+  const lastUsedResources = useMemo(
+    () => data?.latestEditedArticles?.map((a) => Number(a)) ?? [],
     [data?.latestEditedArticles],
   );
-
   localStorage.setItem('lastPath', '');
 
   return (
@@ -52,16 +52,21 @@ export const WelcomePage = () => {
           <WelcomeHeader />
         </MainArea>
         <MainArea>{ndlaId && <WorkList ndlaId={ndlaId} />}</MainArea>
-        <LeftColumn colStart={2} colEnd={8}>
-          {ndlaId && <Revisions ndlaId={ndlaId} userData={data} />}
+        <LeftColumn colStart={2} colEnd={6}>
+          {ndlaId && (
+            <LastUsedItems
+              lastUsedResources={lastUsedResources}
+              lastUsedConcepts={data?.latestEditedConcepts}
+            />
+          )}
           <StyledColumnHeader>
             <SearchFolder className="c-icon--medium" />
             <span>{t('welcomePage.savedSearch')}</span>
           </StyledColumnHeader>
           <SaveSearchUrl />
         </LeftColumn>
-        <RightColumn colStart={8} colEnd={12}>
-          {ndlaId && <LastUsedItems lastUsed={lastUsed} />}
+        <RightColumn colStart={6} colEnd={12}>
+          {ndlaId && <Revisions ndlaId={ndlaId} userData={data} />}
         </RightColumn>
       </GridContainer>
 

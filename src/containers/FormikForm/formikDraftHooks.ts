@@ -55,13 +55,19 @@ export function useFetchArticleData(articleId: number | undefined, language: str
     fetchArticle();
   }, [articleId, language, taxonomyVersion]);
 
-  const updateUserData = useCallback(async (articleId: number) => {
-    const stringId = articleId.toString();
-    const result = await fetchUserData();
-    const latest = uniq([stringId].concat(result.latestEditedArticles ?? []));
-    const latestEditedArticles = latest.slice(0, 10);
-    apiUpdateUserData({ latestEditedArticles });
-  }, []);
+  const updateUserData = useCallback(
+    async (
+      id: number,
+      latestEdited: 'latestEditedArticles' | 'latestEditedConcepts' = 'latestEditedArticles',
+    ) => {
+      const stringId = id.toString();
+      const result = await fetchUserData();
+      const latest = uniq([stringId].concat(result[latestEdited] ?? []));
+      const latestEditedList = latest.slice(0, 10);
+      apiUpdateUserData({ [latestEdited]: latestEditedList });
+    },
+    [],
+  );
 
   const updateArticle = useCallback(
     async (updatedArticle: IUpdatedArticle): Promise<IArticle> => {
@@ -99,5 +105,6 @@ export function useFetchArticleData(articleId: number | undefined, language: str
     updateArticle,
     createArticle,
     loading,
+    updateUserData,
   };
 }

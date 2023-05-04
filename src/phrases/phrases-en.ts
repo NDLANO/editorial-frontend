@@ -122,6 +122,7 @@ const phrases = {
     mustBeSearch: 'Link must be a search url',
     lastUsed: 'Last edited',
     lastUsedDescription: 'Your recently edited articles',
+    lastUsedConcepts: 'Your recently edited concepts',
     savedSearch: 'Saved searches',
     saveSearch: 'Save search',
     chooseSubject: 'Choose subjects',

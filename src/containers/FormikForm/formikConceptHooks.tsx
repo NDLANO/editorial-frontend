@@ -16,8 +16,8 @@ import { fetchDraft } from '../../modules/draft/draftApi';
 import handleError from '../../util/handleError';
 import { SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from '../../constants';
-import { ConceptStatusType } from '../../interfaces';
 import { useTaxonomyVersion } from '../StructureVersion/TaxonomyVersionProvider';
+import { useFetchArticleData } from './formikDraftHooks';
 
 export function useFetchConceptData(conceptId: number | undefined, locale: string) {
   const [concept, setConcept] = useState<IConcept>();
@@ -26,6 +26,7 @@ export function useFetchConceptData(conceptId: number | undefined, locale: strin
   const [loading, setLoading] = useState(true);
   const [subjects, setSubjects] = useState<SubjectType[]>([]);
   const { taxonomyVersion } = useTaxonomyVersion();
+  const { updateUserData } = useFetchArticleData(conceptId, locale);
 
   useEffect(() => {
     const fetchConcept = async (): Promise<void> => {
@@ -73,6 +74,7 @@ export function useFetchConceptData(conceptId: number | undefined, locale: strin
     setConcept(savedConcept);
     setConceptArticles(convertedArticles);
     setConceptChanged(false);
+    updateUserData(id, 'latestEditedConcepts');
     return savedConcept;
   };
 
@@ -82,6 +84,7 @@ export function useFetchConceptData(conceptId: number | undefined, locale: strin
     setConcept(savedConcept);
     setConceptArticles(convertedArticles);
     setConceptChanged(false);
+    updateUserData(savedConcept.id, 'latestEditedConcepts');
     return savedConcept;
   };
 

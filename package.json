@@ -44,7 +44,7 @@
     "@loadable/babel-plugin": "^5.13.2",
     "@ndla/scripts": "^1.0.4",
     "@ndla/types-embed": "^1.1.0",
-    "@ndla/types-backend": "^0.2.5",
+    "@ndla/types-backend": "^0.2.8",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.10",
     "@tanstack/react-query-devtools": "^4.24.6",
     "@testing-library/jest-dom": "^5.15.0",

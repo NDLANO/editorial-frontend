@@ -16,6 +16,7 @@ import { useTranslation } from 'react-i18next';
 import Tooltip from '@ndla/tooltip';
 import { colors, spacing, fonts, mq } from '@ndla/core';
 import Modal from '@ndla/modal';
+import config from '../../../../config';
 import { isNumeric } from '../../../validators';
 import FigureButtons from './FigureButtons';
 import EditVideo, { toVideoEmbedFormValues, brightcoveEmbedFormRules } from './EditVideo';
@@ -161,14 +162,14 @@ const SlateVideo = ({
 
   const getUrl = (getLinkedVideo: boolean) => {
     if (embed.resource === 'brightcove') {
-      const { account, videoid, player = 'default' } = embed;
+      const { account, videoid } = embed;
 
       const startTime = getBrightCoveStartTime(videoid);
       const id =
         getLinkedVideo && linkedVideoId
           ? addBrightCoveTimeStampVideoid(linkedVideoId, startTime)
           : videoid;
-      return `https://players.brightcove.net/${account}/${player}_default/index.html?videoId=${id}`;
+      return `https://players.brightcove.net/${account}/${config.brightcoveEdPlayerId}_default/index.html?videoId=${id}`;
     } else if (embed.resource === 'external') {
       const { url } = embed;
       return url.includes('embed') ? url : getYoutubeEmbedUrl(url);

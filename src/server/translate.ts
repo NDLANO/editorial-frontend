@@ -12,11 +12,7 @@ import FormData from 'form-data';
 import { ApiTranslateType } from '../interfaces';
 import config from '../config';
 
-// 4443 has token-based auth, and 3443 has ip-based.
-// Falls back to ip until secrets are updated in every environment
-const baseUrl = config.translateServiceUser
-  ? 'https://ndla.norskrobot.no:4443'
-  : 'https://ndla.norskrobot.no:3443';
+const baseUrl = config.translateServiceUrl;
 const textUrl = `${baseUrl}/translateText`;
 const htmlUrl = `${baseUrl}/translateNHtml`;
 

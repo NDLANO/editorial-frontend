@@ -312,6 +312,14 @@ exports[`it goes in and out of edit mode 1`] = `
 }
 
 .emotion-17 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 6.5px;
+}
+
+.emotion-18 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -358,42 +366,42 @@ exports[`it goes in and out of edit mode 1`] = `
   height: 40px;
 }
 
-.emotion-17:hover,
-.emotion-17:focus-visible {
+.emotion-18:hover,
+.emotion-18:focus-visible {
   color: #20588f;
   background-color: #ceddea;
   border-color: #ceddea;
 }
 
-.emotion-17[disabled] {
+.emotion-18[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-17:hover,
-.emotion-17:active,
-.emotion-17:focus-visible {
+.emotion-18:hover,
+.emotion-18:active,
+.emotion-18:focus-visible {
   color: #fff;
   background: #20588f;
   border-color: #20588f;
 }
 
-.emotion-17[disabled] {
+.emotion-18[disabled] {
   color: #777777;
   background-color: transparent;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-17 svg {
+.emotion-18 svg {
   width: 26px;
   height: 26px;
   margin: 0;
 }
 
-.emotion-18 {
+.emotion-19 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -440,36 +448,36 @@ exports[`it goes in and out of edit mode 1`] = `
   height: 40px;
 }
 
-.emotion-18:hover,
-.emotion-18:focus-visible {
+.emotion-19:hover,
+.emotion-19:focus-visible {
   color: #fff;
   background-color: #d1372e;
   border-color: #d1372e;
 }
 
-.emotion-18[disabled] {
+.emotion-19[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-18:hover,
-.emotion-18:active,
-.emotion-18:focus-visible {
+.emotion-19:hover,
+.emotion-19:active,
+.emotion-19:focus-visible {
   color: #fff;
   background: #d1372e;
   border-color: #d1372e;
 }
 
-.emotion-18[disabled] {
+.emotion-19[disabled] {
   color: #777777;
   background-color: transparent;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-18 svg {
+.emotion-19 svg {
   width: 26px;
   height: 26px;
   margin: 0;
@@ -643,60 +651,83 @@ exports[`it goes in and out of edit mode 1`] = `
         >
           Relatert innhold
         </h3>
-        <div>
-          <button
-            aria-label="Rediger"
-            class="emotion-17"
-            type="button"
+        <div
+          class="emotion-17"
+        >
+          <div
+            data-tooltip="Rediger"
+            data-tooltip-container="true"
           >
-            <svg
-              aria-hidden="true"
-              class="c-icon"
-              data-license="Apache License 2.0"
-              data-source="Material Design"
-              fill="currentColor"
-              height="1em"
-              preserveAspectRatio="xMidYMid meet"
-              style="vertical-align: middle;"
-              viewBox="0 0 24 24"
-              width="1em"
+            <button
+              aria-label="Rediger"
+              class="emotion-18"
+              data-state="closed"
+              data-trigger="true"
+              type="button"
             >
-              <g>
-                <path
-                  d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
-                />
-                <path
-                  d="M0 0h24v24H0z"
-                  fill="none"
-                />
-              </g>
-            </svg>
-          </button>
-          <button
-            aria-label="Slett"
-            class="emotion-18"
-            type="button"
+              <svg
+                aria-hidden="true"
+                class="c-icon"
+                data-license="Apache License 2.0"
+                data-source="Material Design"
+                fill="currentColor"
+                height="1em"
+                preserveAspectRatio="xMidYMid meet"
+                style="vertical-align: middle;"
+                viewBox="0 0 24 24"
+                width="1em"
+              >
+                <g>
+                  <path
+                    d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
+                  />
+                  <path
+                    d="M0 0h24v24H0z"
+                    fill="none"
+                  />
+                </g>
+              </svg>
+            </button>
+          </div>
+          <div
+            data-tooltip="Slett"
+            data-tooltip-container="true"
           >
-            <svg
-              aria-hidden="true"
-              class="c-icon"
-              data-license="Apache License 2.0"
-              data-source="Material Design"
-              fill="currentColor"
-              height="1em"
-              preserveAspectRatio="xMidYMid meet"
-              style="vertical-align: middle;"
-              viewBox="0 0 24 24"
-              width="1em"
+            <button
+              aria-label="Slett"
+              class="emotion-19"
+              data-state="closed"
+              data-trigger="true"
+              type="button"
             >
-              <g>
-                <path
-                  d="M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z"
-                  fill="currentColor"
-                />
-              </g>
-            </svg>
-          </button>
+              <svg
+                aria-hidden="true"
+                class="c-icon"
+                data-license="Apache License 2.0"
+                data-source="Material Design"
+                fill="currentColor"
+                height="1em"
+                preserveAspectRatio="xMidYMid meet"
+                style="vertical-align: middle;"
+                viewBox="0 0 24 24"
+                width="1em"
+              >
+                <g>
+                  <path
+                    d="M0 0h24v24H0V0z"
+                    fill="none"
+                  />
+                  <path
+                    d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z"
+                  />
+                  <path
+                    d="M0 0h24v24H0z"
+                    fill="none"
+                  />
+                </g>
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
       <div
@@ -1111,6 +1142,14 @@ exports[`it goes in and out of edit mode 2`] = `
 }
 
 .emotion-19 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 6.5px;
+}
+
+.emotion-20 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -1157,42 +1196,42 @@ exports[`it goes in and out of edit mode 2`] = `
   height: 40px;
 }
 
-.emotion-19:hover,
-.emotion-19:focus-visible {
+.emotion-20:hover,
+.emotion-20:focus-visible {
   color: #20588f;
   background-color: #ceddea;
   border-color: #ceddea;
 }
 
-.emotion-19[disabled] {
+.emotion-20[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-19:hover,
-.emotion-19:active,
-.emotion-19:focus-visible {
+.emotion-20:hover,
+.emotion-20:active,
+.emotion-20:focus-visible {
   color: #fff;
   background: #20588f;
   border-color: #20588f;
 }
 
-.emotion-19[disabled] {
+.emotion-20[disabled] {
   color: #777777;
   background-color: transparent;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-19 svg {
+.emotion-20 svg {
   width: 26px;
   height: 26px;
   margin: 0;
 }
 
-.emotion-20 {
+.emotion-21 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -1239,36 +1278,36 @@ exports[`it goes in and out of edit mode 2`] = `
   height: 40px;
 }
 
-.emotion-20:hover,
-.emotion-20:focus-visible {
+.emotion-21:hover,
+.emotion-21:focus-visible {
   color: #fff;
   background-color: #d1372e;
   border-color: #d1372e;
 }
 
-.emotion-20[disabled] {
+.emotion-21[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-20:hover,
-.emotion-20:active,
-.emotion-20:focus-visible {
+.emotion-21:hover,
+.emotion-21:active,
+.emotion-21:focus-visible {
   color: #fff;
   background: #d1372e;
   border-color: #d1372e;
 }
 
-.emotion-20[disabled] {
+.emotion-21[disabled] {
   color: #777777;
   background-color: transparent;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-20 svg {
+.emotion-21 svg {
   width: 26px;
   height: 26px;
   margin: 0;
@@ -1617,60 +1656,83 @@ exports[`it goes in and out of edit mode 2`] = `
         >
           Relatert innhold
         </h3>
-        <div>
-          <button
-            aria-label="Rediger"
-            class="emotion-19"
-            type="button"
+        <div
+          class="emotion-19"
+        >
+          <div
+            data-tooltip="Rediger"
+            data-tooltip-container="true"
           >
-            <svg
-              aria-hidden="true"
-              class="c-icon"
-              data-license="Apache License 2.0"
-              data-source="Material Design"
-              fill="currentColor"
-              height="1em"
-              preserveAspectRatio="xMidYMid meet"
-              style="vertical-align: middle;"
-              viewBox="0 0 24 24"
-              width="1em"
+            <button
+              aria-label="Rediger"
+              class="emotion-20"
+              data-state="closed"
+              data-trigger="true"
+              type="button"
             >
-              <g>
-                <path
-                  d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
-                />
-                <path
-                  d="M0 0h24v24H0z"
-                  fill="none"
-                />
-              </g>
-            </svg>
-          </button>
-          <button
-            aria-label="Slett"
-            class="emotion-20"
-            type="button"
+              <svg
+                aria-hidden="true"
+                class="c-icon"
+                data-license="Apache License 2.0"
+                data-source="Material Design"
+                fill="currentColor"
+                height="1em"
+                preserveAspectRatio="xMidYMid meet"
+                style="vertical-align: middle;"
+                viewBox="0 0 24 24"
+                width="1em"
+              >
+                <g>
+                  <path
+                    d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
+                  />
+                  <path
+                    d="M0 0h24v24H0z"
+                    fill="none"
+                  />
+                </g>
+              </svg>
+            </button>
+          </div>
+          <div
+            data-tooltip="Slett"
+            data-tooltip-container="true"
           >
-            <svg
-              aria-hidden="true"
-              class="c-icon"
-              data-license="Apache License 2.0"
-              data-source="Material Design"
-              fill="currentColor"
-              height="1em"
-              preserveAspectRatio="xMidYMid meet"
-              style="vertical-align: middle;"
-              viewBox="0 0 24 24"
-              width="1em"
+            <button
+              aria-label="Slett"
+              class="emotion-21"
+              data-state="closed"
+              data-trigger="true"
+              type="button"
             >
-              <g>
-                <path
-                  d="M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z"
-                  fill="currentColor"
-                />
-              </g>
-            </svg>
-          </button>
+              <svg
+                aria-hidden="true"
+                class="c-icon"
+                data-license="Apache License 2.0"
+                data-source="Material Design"
+                fill="currentColor"
+                height="1em"
+                preserveAspectRatio="xMidYMid meet"
+                style="vertical-align: middle;"
+                viewBox="0 0 24 24"
+                width="1em"
+              >
+                <g>
+                  <path
+                    d="M0 0h24v24H0V0z"
+                    fill="none"
+                  />
+                  <path
+                    d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z"
+                  />
+                  <path
+                    d="M0 0h24v24H0z"
+                    fill="none"
+                  />
+                </g>
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
       <div

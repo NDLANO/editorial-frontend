@@ -12,9 +12,12 @@ import { ReactEditor, RenderElementProps } from 'slate-react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { RelatedContentEmbedData, RelatedContentMetaData } from '@ndla/types-embed';
+import { spacing } from '@ndla/core';
 import { RelatedArticleListV2, RelatedContentEmbed } from '@ndla/ui';
 import { IconButtonV2 } from '@ndla/button';
-import { Pencil, TrashCanOutline } from '@ndla/icons/action';
+import Tooltip from '@ndla/tooltip';
+import { Pencil } from '@ndla/icons/action';
+import { DeleteForever } from '@ndla/icons/editor';
 import { fetchDraft } from '../../../../modules/draft/draftApi';
 import EditRelated from './EditRelated';
 import { RelatedElement } from '.';
@@ -28,6 +31,11 @@ interface Props {
   onRemoveClick: (e: MouseEvent<HTMLButtonElement>) => void;
   children: ReactNode;
 }
+
+const ButtonWrapper = styled.div`
+  display: flex;
+  gap: ${spacing.xsmall};
+`;
 
 const externalEmbedToMeta = async (
   embedData: RelatedContentEmbedData,
@@ -178,23 +186,27 @@ const RelatedArticleBox = ({ attributes, editor, element, onRemoveClick, childre
       <RelatedArticleListV2
         data-testid="relatedWrapper"
         headingButtons={
-          <div>
-            <StyledIconButton
-              onClick={() => setEditMode(true)}
-              aria-label={t('form.edit')}
-              variant="ghost"
-            >
-              <Pencil />
-            </StyledIconButton>
-            <StyledIconButton
-              onClick={deleteElement}
-              aria-label={t('delete')}
-              variant="ghost"
-              colorTheme="danger"
-            >
-              <TrashCanOutline />
-            </StyledIconButton>
-          </div>
+          <ButtonWrapper>
+            <Tooltip tooltip={t('form.edit')}>
+              <StyledIconButton
+                onClick={() => setEditMode(true)}
+                aria-label={t('form.edit')}
+                variant="ghost"
+              >
+                <Pencil />
+              </StyledIconButton>
+            </Tooltip>
+            <Tooltip tooltip={t('delete')}>
+              <StyledIconButton
+                onClick={deleteElement}
+                aria-label={t('delete')}
+                variant="ghost"
+                colorTheme="danger"
+              >
+                <DeleteForever />
+              </StyledIconButton>
+            </Tooltip>
+          </ButtonWrapper>
         }
       >
         {embeds.map((embed) => (

@@ -12,18 +12,13 @@ import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { spacing, fonts, spacingUnit } from '@ndla/core';
+import { spacing } from '@ndla/core';
 import { ContactBlockEmbedData } from '@ndla/types-embed';
 import { FieldProps, Formik } from 'formik';
 import { InputV2, TextAreaV2 } from '@ndla/forms';
 import FormikField from '../../../FormikField';
 import validateFormik, { RulesType } from '../../../formikValidationSchema';
 import InlineImageSearch from '../../../../containers/ConceptPage/components/InlineImageSearch';
-interface Props {
-  initialData?: ContactBlockEmbedData;
-  onSave: (data: ContactBlockEmbedData) => void;
-  onCancel: () => void;
-}
 
 interface ContactBlockFormValues {
   resource: 'contact-block';
@@ -140,7 +135,7 @@ const ContactBlockForm = ({ initialData, onSave, onCancel }: Props) => {
               <InputV2 css={inputStyle} label={t('form.name.jobTitle')} {...field} />
             )}
           </StyledFormikField>
-          <StyledFormikField name="email" showError>
+          <StyledFormikField name="email" type="email" showError>
             {({ field }: FieldProps) => (
               <InputV2 css={inputStyle} label={t('form.name.email')} {...field} />
             )}

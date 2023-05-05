@@ -106,8 +106,8 @@ const SlateContactBlock = ({ element, editor }: Props) => {
         <ContactBlockWrapper contentEditable={false}>
           <ButtonContainer>
             <IconButtonV2
-              variant={'ghost'}
-              aria-label={t('edit')}
+              variant="ghost"
+              aria-label={t('contactBlockForm.edit')}
               onClick={() => setIsEditing(true)}
             >
               <Pencil />

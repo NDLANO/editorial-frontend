@@ -514,6 +514,7 @@ const phrases = {
   },
   contactBlockForm: {
     title: 'Contact block',
+    edit: 'Edit contact block',
     blobColor: {
       green: 'Green',
       pink: 'Pink',

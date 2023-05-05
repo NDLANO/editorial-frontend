@@ -98,7 +98,7 @@ const StyledIconButton = styled(IconButtonV2)`
 `;
 
 const RelatedArticleBox = ({ attributes, editor, element, onRemoveClick, children }: Props) => {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
   const [editMode, setEditMode] = useState(false);
   const [embeds, setEmbeds] = useState<RelatedContentMetaData[]>([]);
@@ -181,14 +181,14 @@ const RelatedArticleBox = ({ attributes, editor, element, onRemoveClick, childre
           <div>
             <StyledIconButton
               onClick={() => setEditMode(true)}
-              aria-label="Rediger"
+              aria-label={t('form.edit')}
               variant="ghost"
             >
               <Pencil />
             </StyledIconButton>
             <StyledIconButton
               onClick={deleteElement}
-              aria-label="Slett"
+              aria-label={t('delete')}
               variant="ghost"
               colorTheme="danger"
             >

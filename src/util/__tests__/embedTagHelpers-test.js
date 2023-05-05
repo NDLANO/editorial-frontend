@@ -222,7 +222,7 @@ test('isUserProvidedEmbedDataValid for audio', () => {
 
 test('deserializing related-content works', () => {
   const deserialized = blockContentToEditorValue(
-    '<div data-type="related-content"><ndlaembed data-url="www.vg.no" data-title="Forsiden vg"></ndlaembed><ndlaembed data-article-id="54"></ndlaembed></div>',
+    '<div data-type="related-content"><ndlaembed data-url="www.vg.no" data-resource="related-content" data-title="Forsiden vg"></ndlaembed><ndlaembed data-resource="related-content" data-article-id="54"></ndlaembed></div>',
   );
 
   expect(deserialized).toMatchSnapshot();

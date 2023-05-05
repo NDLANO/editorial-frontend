@@ -551,7 +551,8 @@ const phrases = {
       },
     },
   },
-  keyPerformanceIndicatorForm: {
+  keyFigureForm: {
+    edit: 'Rediger Nøkkeltall',
     title: 'Nøkkeltall',
   },
   editorToolbar: {
@@ -595,7 +596,7 @@ const phrases = {
       podcast: 'Podkastepisode',
       conceptList: 'Forklaringsliste',
       concept: 'Forklaring',
-      keyPerformanceIndicator: 'Nykkeltall',
+      keyFigure: 'Nykkeltall',
       blogPost: 'Bloggpost',
     },
   },
@@ -676,7 +677,7 @@ const phrases = {
       coverPhotoId: 'Metabilde',
       revisions: 'Revisjoner',
       name: 'Navn',
-      subTitle: 'Undertittel',
+      subtitle: 'Undertittel',
       language: 'Språk',
       author: 'Forfatter',
       link: 'Lenke',

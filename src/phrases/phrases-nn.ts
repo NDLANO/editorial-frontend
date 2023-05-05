@@ -551,8 +551,9 @@ const phrases = {
       },
     },
   },
-  keyPerformanceIndicatorForm: {
+  keyFigureForm: {
     title: 'Nykkeltall',
+    edit: 'Rediger nykkeltall',
   },
   editorToolbar: {
     bold: 'Feit\n({{ctrl}}+b)',
@@ -595,7 +596,7 @@ const phrases = {
       podcast: 'Podkastepisode',
       conceptList: 'Forklaringsliste',
       concept: 'Forklaring',
-      keyPerformanceIndicator: 'Nykkeltall',
+      keyFigure: 'Nykkeltall',
       blogPost: 'Bloggpost',
     },
   },
@@ -675,7 +676,7 @@ const phrases = {
       coverPhotoId: 'Metabilde',
       revisions: 'Revisjonar',
       name: 'Namn',
-      subTitle: 'Undertittel',
+      subtitle: 'Undertittel',
       language: 'Språk',
       author: 'Forfattar',
       link: 'Lenke',

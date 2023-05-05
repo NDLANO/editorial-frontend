@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2021-present, NDLA.
+ * Copyright (c) 2023-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
@@ -13,10 +13,10 @@ import {
 } from '../../../../../util/articleContentConverter';
 import { TYPE_PARAGRAPH } from '../../paragraph/types';
 import { TYPE_SECTION } from '../../section/types';
-import { TYPE_KEY_PERFORMANCE_INDICATOR } from '../types';
+import { TYPE_KEY_FIGURE } from '../types';
 
 const html =
-  '<section><ndlaembed data-resource="key-performance-indicator" data-image-id="65790" data-title="Her erre en test folkens" data-sub-title="Her erre en test folkens" data-language="nb"></ndlaembed></section>';
+  '<section><ndlaembed data-resource="key-figure" data-image-id="65790" data-title="Her erre en test folkens" data-subtitle="Her erre en test folkens" data-language="nb"></ndlaembed></section>';
 
 const editor: Descendant[] = [
   {
@@ -24,12 +24,12 @@ const editor: Descendant[] = [
     children: [
       { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
       {
-        type: TYPE_KEY_PERFORMANCE_INDICATOR,
+        type: TYPE_KEY_FIGURE,
         data: {
-          resource: 'key-performance-indicator',
+          resource: 'key-figure',
           imageId: '65790',
           title: 'Her erre en test folkens',
-          subTitle: 'Her erre en test folkens',
+          subtitle: 'Her erre en test folkens',
           language: 'nb',
         },
         children: [],

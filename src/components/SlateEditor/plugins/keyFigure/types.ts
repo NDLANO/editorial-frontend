@@ -6,4 +6,4 @@
  *
  */
 
-export const TYPE_KEY_PERFORMANCE_INDICATOR = 'key-performance-indicator';
+export const TYPE_KEY_FIGURE = 'key-figure';

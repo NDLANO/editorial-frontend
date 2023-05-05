@@ -32,7 +32,7 @@ import { TYPE_FILE } from '../file/types';
 import { TYPE_RELATED } from '../related/types';
 import { TYPE_CODEBLOCK } from '../codeBlock/types';
 import { TYPE_CONCEPT_LIST } from '../conceptList/types';
-import { TYPE_KEY_PERFORMANCE_INDICATOR } from '../keyPerformanceIndicator/types';
+import { TYPE_KEY_FIGURE } from '../keyFigure/types';
 import { TYPE_BLOGPOST } from '../blogPost/types';
 
 const renderArticleInModal = (pageId: string) => <HowToHelper pageId={pageId} extraIconPadding />;
@@ -135,7 +135,7 @@ export const frontpageActions = commonActions.concat(
     helpIcon: renderArticleInModal('BlogPost'),
   },
   {
-    data: { type: TYPE_KEY_PERFORMANCE_INDICATOR, object: 'keyNumber' },
+    data: { type: TYPE_KEY_FIGURE, object: 'keyFigure' },
     icon: <HelpCircle />,
     helpIcon: renderArticleInModal('H5P'),
   },

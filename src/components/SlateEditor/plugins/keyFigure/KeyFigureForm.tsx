@@ -10,45 +10,43 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
 import { InputV2 } from '@ndla/forms';
-import { KeyPerformanceIndicatorEmbedData } from '@ndla/types-embed';
+import { KeyFigureEmbedData } from '@ndla/types-embed';
 import { spacing } from '@ndla/core';
 import { FieldProps, Formik } from 'formik';
 import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import InlineImageSearch from '../../../../containers/ConceptPage/components/InlineImageSearch';
-import { supportedLanguages } from '../../../../i18n2';
 import FormikField from '../../../FormikField';
 import validateFormik, { RulesType } from '../../../formikValidationSchema';
+import { TYPE_KEY_FIGURE } from './types';
 
 interface Props {
-  onSave: (data: KeyPerformanceIndicatorEmbedData) => void;
-  initialData: KeyPerformanceIndicatorEmbedData;
+  onSave: (data: KeyFigureEmbedData) => void;
+  initialData: KeyFigureEmbedData;
   onCancel: () => void;
 }
 
-interface KeyPerformanceIndicatorFormValue {
-  resource: 'key-performance-indicator';
+interface KeyFigureFormValue {
+  resource: 'key-figure';
   metaImageId: string;
   language: string;
   title: string;
-  subTitle: string;
+  subtitle: string;
 }
 
-const toInitialValues = (
-  initialData: KeyPerformanceIndicatorEmbedData,
-): KeyPerformanceIndicatorFormValue => ({
-  resource: initialData?.resource ?? 'key-performance-indicator',
+const toInitialValues = (initialData: KeyFigureEmbedData): KeyFigureFormValue => ({
+  resource: TYPE_KEY_FIGURE,
   metaImageId: initialData?.imageId ?? '',
   title: initialData?.title ?? '',
-  subTitle: initialData?.subTitle ?? '',
+  subtitle: initialData?.subtitle ?? '',
   language: initialData?.language ?? 'nb',
 });
 
-const rules: RulesType<KeyPerformanceIndicatorFormValue> = {
+const rules: RulesType<KeyFigureFormValue> = {
   title: {
     required: true,
   },
-  subTitle: {
+  subtitle: {
     required: true,
   },
   language: {
@@ -71,18 +69,18 @@ const ButtonContainer = styled.div`
   gap: ${spacing.small};
 `;
 
-const KeyPerformanceIndicatorForm = ({ onSave, initialData, onCancel }: Props) => {
+const KeyFigureForm = ({ onSave, initialData, onCancel }: Props) => {
   const { t } = useTranslation();
   const initialValues = useMemo(() => toInitialValues(initialData), [initialData]);
   const initialErrors = useMemo(() => validateFormik(initialValues, rules, t), [initialValues, t]);
 
   const onSubmit = useCallback(
-    (values: KeyPerformanceIndicatorFormValue) => {
-      const newData: KeyPerformanceIndicatorEmbedData = {
-        resource: 'key-performance-indicator',
+    (values: KeyFigureFormValue) => {
+      const newData: KeyFigureEmbedData = {
+        resource: TYPE_KEY_FIGURE,
         imageId: values.metaImageId,
         title: values.title,
-        subTitle: values.subTitle,
+        subtitle: values.subtitle,
         language: values.language,
       };
       onSave(newData);
@@ -104,9 +102,9 @@ const KeyPerformanceIndicatorForm = ({ onSave, initialData, onCancel }: Props) =
               <InputV2 customCss={inputStyle} label={t('form.name.title')} {...field} />
             )}
           </StyledFormikField>
-          <StyledFormikField name="subTitle" showError>
+          <StyledFormikField name="subtitle" showError>
             {({ field }: FieldProps) => (
-              <InputV2 customCss={inputStyle} label={t('form.name.subTitle')} {...field} />
+              <InputV2 customCss={inputStyle} label={t('form.name.subtitle')} {...field} />
             )}
           </StyledFormikField>
           <InlineImageSearch name={'metaImageId'} />
@@ -129,4 +127,4 @@ const KeyPerformanceIndicatorForm = ({ onSave, initialData, onCancel }: Props) =
   );
 };
 
-export default KeyPerformanceIndicatorForm;
+export default KeyFigureForm;

@@ -550,8 +550,9 @@ const phrases = {
       },
     },
   },
-  keyPerformanceIndicatorForm: {
-    title: 'Key numbers',
+  keyFigureForm: {
+    title: 'Key figure',
+    edit: 'Edit key figure',
   },
   editorToolbar: {
     bold: 'Bold\n({{ctrl}}+b)',
@@ -594,7 +595,7 @@ const phrases = {
       podcast: 'Podcast episode',
       conceptList: 'Concept list',
       concept: 'Concept',
-      keyPerformanceIndicator: 'Key performance indicator',
+      keyFigure: 'Key figure',
       blogPost: 'Blog post',
     },
   },
@@ -674,7 +675,7 @@ const phrases = {
       coverPhotoId: 'Meta image',
       revisions: 'Revisions',
       name: 'Name',
-      subTitle: 'Sub-title',
+      subtitle: 'Subtitle',
       language: 'Language',
       author: 'Author',
       link: 'Link',

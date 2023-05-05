@@ -7,7 +7,7 @@
  */
 
 import { jsx as slatejsx } from 'slate-hyperscript';
-import { TYPE_KEY_PERFORMANCE_INDICATOR } from './types';
+import { TYPE_KEY_FIGURE } from './types';
 
-export const defaultKeyNumberBlock = () =>
-  slatejsx('element', { type: TYPE_KEY_PERFORMANCE_INDICATOR, isFirstEdit: true });
+export const defaultKeyFigureBlock = () =>
+  slatejsx('element', { type: TYPE_KEY_FIGURE, isFirstEdit: true });

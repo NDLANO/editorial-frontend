@@ -46,8 +46,8 @@ import {
 import { TYPE_RELATED } from '../related/types';
 import { TYPE_CODEBLOCK } from '../codeBlock/types';
 import { TYPE_CONCEPT_LIST } from '../conceptList/types';
-import { TYPE_KEY_PERFORMANCE_INDICATOR } from '../keyPerformanceIndicator/types';
-import { defaultKeyNumberBlock } from '../keyPerformanceIndicator/utils';
+import { TYPE_KEY_FIGURE } from '../keyFigure/types';
+import { defaultKeyFigureBlock } from '../keyFigure/utils';
 import { TYPE_BLOGPOST } from '../blogPost/types';
 import { defaultBlogPostBlock } from '../blogPost/utils';
 
@@ -219,8 +219,8 @@ const SlateBlockPicker = ({
         onInsertBlock(defaultConceptBlock());
         break;
       }
-      case TYPE_KEY_PERFORMANCE_INDICATOR: {
-        onInsertBlock(defaultKeyNumberBlock());
+      case TYPE_KEY_FIGURE: {
+        onInsertBlock(defaultKeyFigureBlock());
         break;
       }
       default:

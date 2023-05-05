@@ -65,11 +65,11 @@ import {
   TYPE_EMBED_IMAGE,
 } from '../../../../components/SlateEditor/plugins/embed/types';
 import { TYPE_FILE } from '../../../../components/SlateEditor/plugins/file/types';
-import { TYPE_KEY_PERFORMANCE_INDICATOR } from '../../../../components/SlateEditor/plugins/keyPerformanceIndicator/types';
 import { blogPostPlugin } from '../../../../components/SlateEditor/plugins/blogPost';
 import { TYPE_BLOGPOST } from '../../../../components/SlateEditor/plugins/blogPost/types';
 import { frontpageActions } from '../../../../components/SlateEditor/plugins/blockPicker/actions';
-import { keyPerformanceIndicatorPlugin } from '../../../../components/SlateEditor/plugins/keyPerformanceIndicator';
+import { TYPE_KEY_FIGURE } from '../../../../components/SlateEditor/plugins/keyFigure/types';
+import { keyFigurePlugin } from '../../../../components/SlateEditor/plugins/keyFigure';
 
 const StyledFormikField = styled(FormikField)`
   display: flex;
@@ -109,13 +109,9 @@ const visualElements = [
   TYPE_EMBED_IMAGE,
 ];
 
-const actions = [
-  TYPE_TABLE,
-  TYPE_CODEBLOCK,
-  TYPE_FILE,
-  TYPE_BLOGPOST,
-  TYPE_KEY_PERFORMANCE_INDICATOR,
-].concat(visualElements);
+const actions = [TYPE_TABLE, TYPE_CODEBLOCK, TYPE_FILE, TYPE_BLOGPOST, TYPE_KEY_FIGURE].concat(
+  visualElements,
+);
 const actionsToShowInAreas = {
   details: actions,
   aside: actions,
@@ -157,7 +153,7 @@ export const plugins = (
     filePlugin,
     mathmlPlugin,
     codeblockPlugin,
-    keyPerformanceIndicatorPlugin,
+    keyFigurePlugin,
     blockPickerPlugin,
     dndPlugin,
     toolbarPlugin,

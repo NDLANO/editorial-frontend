@@ -11,23 +11,23 @@ import { IconButtonV2 } from '@ndla/button';
 import { Pencil } from '@ndla/icons/lib/action';
 import { ModalBody, ModalCloseButton, ModalHeaderV2, ModalV2 } from '@ndla/modal';
 import { IImageMetaInformationV3 } from '@ndla/types-backend/build/image-api';
-import { KeyPerformanceIndicatorEmbedData } from '@ndla/types-embed';
-import { KeyPerformanceIndicator } from '@ndla/ui';
+import { KeyFigureEmbedData } from '@ndla/types-embed';
+import { KeyFigure } from '@ndla/ui';
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Editor, Path, Transforms } from 'slate';
 import { ReactEditor, RenderElementProps } from 'slate-react';
-import { KeyNumberElement } from '.';
+import { KeyFigureElement } from '.';
 import { fetchImage } from '../../../../modules/image/imageApi';
 import DeleteButton from '../../../DeleteButton';
-import KeyPerformanceIndicatorForm from './KeyPerformanceIndicatorForm';
+import KeyFigureForm from './KeyFigureForm';
 
 interface Props extends RenderElementProps {
-  element: KeyNumberElement;
+  element: KeyFigureElement;
   editor: Editor;
 }
 
-const KeyNumberWrapper = styled.div`
+const KeyFigureWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -50,7 +50,7 @@ const StyledModalBody = styled(ModalBody)`
   }
 `;
 
-const SlateKeyNumber = ({ element, editor }: Props) => {
+const SlateKeyFigure = ({ element, editor }: Props) => {
   const [isEditing, setIsEditing] = useState<boolean | undefined>(element.isFirstEdit);
   const [image, setImage] = useState<IImageMetaInformationV3 | undefined>(undefined);
   const { t } = useTranslation();
@@ -76,7 +76,7 @@ const SlateKeyNumber = ({ element, editor }: Props) => {
   };
 
   const onSave = useCallback(
-    (data: KeyPerformanceIndicatorEmbedData) => {
+    (data: KeyFigureEmbedData) => {
       setIsEditing(false);
       fetchImage(data.imageId).then((image) => setImage(image));
 
@@ -106,32 +106,40 @@ const SlateKeyNumber = ({ element, editor }: Props) => {
   return (
     <>
       {data && image && (
-        <KeyNumberWrapper contentEditable={false}>
+        <KeyFigureWrapper contentEditable={false}>
           <ButtonContainer>
-            <IconButtonV2 variant="ghost" onClick={() => setIsEditing(true)} aria-label={t('edit')}>
+            <IconButtonV2
+              variant="ghost"
+              onClick={() => setIsEditing(true)}
+              aria-label={t('keyFigureForm.edit')}
+            >
               <Pencil />
             </IconButtonV2>
             <DeleteButton aria-label={t('delete')} onClick={handleRemove} />
           </ButtonContainer>
-          <KeyPerformanceIndicator title={data.title} subTitle={data.subTitle} image={image} />
-        </KeyNumberWrapper>
+          <KeyFigure
+            title={data.title}
+            subtitle={data.subtitle}
+            image={{ src: image.image.imageUrl, alt: image.alttext.alttext }}
+          />
+        </KeyFigureWrapper>
       )}
       {isEditing && (
         <ModalV2
           controlled
           isOpen
           size="small"
-          aria-label={t('keyPerformanceIndicator.title')}
+          aria-label={t('keyFigureForm.title')}
           onClose={onClose}
         >
           {(close) => (
             <>
               <StyledModalHeader>
-                <h1>{t('keyPerformanceIndicator.title')}</h1>
+                <h1>{t('keyFigureForm.title')}</h1>
                 <ModalCloseButton onClick={close} />
               </StyledModalHeader>
               <StyledModalBody>
-                <KeyPerformanceIndicatorForm onSave={onSave} initialData={data} onCancel={close} />
+                <KeyFigureForm onSave={onSave} initialData={data} onCancel={close} />
               </StyledModalBody>
             </>
           )}
@@ -141,4 +149,4 @@ const SlateKeyNumber = ({ element, editor }: Props) => {
   );
 };
 
-export default SlateKeyNumber;
+export default SlateKeyFigure;

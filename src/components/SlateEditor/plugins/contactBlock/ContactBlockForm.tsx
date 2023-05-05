@@ -27,8 +27,8 @@ interface ContactBlockFormValues {
   jobTitle: string;
   name: string;
   email: string;
-  blobColor?: 'pink' | 'green';
-  blob?: 'pointy' | 'round';
+  blobColor?: (typeof blobColors)[number];
+  blob?: (typeof blobTypes)[number];
   metaImageId?: string;
 }
 
@@ -90,8 +90,8 @@ const toInitialValues = (initialData?: ContactBlockEmbedData): ContactBlockFormV
     email: initialData?.email ?? '',
   };
 };
-const blobTypes = ['pointy', 'round'];
-const blobColors = ['green', 'pink'];
+const blobTypes = ['pointy', 'round'] as const;
+const blobColors = ['green', 'pink'] as const;
 
 const ContactBlockForm = ({ initialData, onSave, onCancel }: Props) => {
   const { t } = useTranslation();

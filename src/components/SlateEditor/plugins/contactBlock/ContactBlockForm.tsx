@@ -19,6 +19,7 @@ import { InputV2, TextAreaV2 } from '@ndla/forms';
 import FormikField from '../../../FormikField';
 import validateFormik, { RulesType } from '../../../formikValidationSchema';
 import InlineImageSearch from '../../../../containers/ConceptPage/components/InlineImageSearch';
+import { TYPE_CONTACT_BLOCK } from './types';
 
 interface ContactBlockFormValues {
   resource: 'contact-block';
@@ -79,7 +80,7 @@ const StyledFormikField = styled(FormikField)`
 
 const toInitialValues = (initialData?: ContactBlockEmbedData): ContactBlockFormValues => {
   return {
-    resource: 'contact-block',
+    resource: TYPE_CONTACT_BLOCK,
     jobTitle: initialData?.jobTitle ?? '',
     blobColor: initialData?.blobColor ?? 'green',
     description: initialData?.description ?? '',
@@ -103,7 +104,7 @@ const ContactBlockForm = ({ initialData, onSave, onCancel }: Props) => {
         return;
       }
       const newData: ContactBlockEmbedData = {
-        resource: 'contact-block',
+        resource: TYPE_CONTACT_BLOCK,
         imageId: values.metaImageId,
         jobTitle: values.jobTitle,
         description: values.description,

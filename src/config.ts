@@ -114,6 +114,17 @@ export const getAuth0Hostname = () => {
   }
 };
 
+const getTranslateServiceUrl = () => {
+  switch (ndlaEnvironment) {
+    case 'test':
+    case 'local':
+    case 'dev':
+      return 'https://preprod.norskrobot.no:4443';
+    default:
+      return 'https://ndla.norskrobot.no:4443';
+  }
+};
+
 export const taxonomyApi = `/taxonomy/v1`;
 
 export const getZendeskWidgetSecret = () => {
@@ -169,6 +180,7 @@ export type ConfigType = {
   usernamePasswordEnabled: boolean;
   translateServiceUser: string;
   translateServiceToken: string;
+  translateServiceUrl: string;
 };
 
 const config: ConfigType = {
@@ -212,6 +224,7 @@ const config: ConfigType = {
   ),
   translateServiceUser: getEnvironmentVariabel('NDKM_USER', ''),
   translateServiceToken: getEnvironmentVariabel('NDKM_TOKEN', ''),
+  translateServiceUrl: getEnvironmentVariabel('NDKM_URL', getTranslateServiceUrl()),
 };
 
 export function getUniversalConfig(): ConfigType {

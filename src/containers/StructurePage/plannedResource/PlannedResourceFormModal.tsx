@@ -162,50 +162,62 @@ const PlannedResourceFormModal = ({ articleType, nodeId, onClose }: Props) => {
       enabled: !isTopicArticle,
     },
   );
-  const onSubmit = useCallback(async (values: PlannedResourceFormikType) => {
-    try {
-      setError(undefined);
-      const plannedResource: IUpdatedArticle = {
-        title: values.title,
-        comments: values.comments.length ? [{ content: values.comments, isOpen: true }] : [],
-        language: i18n.language,
-        articleType: values.articleType,
-        responsibleId: values.responsible,
-        revision: 0,
-      };
+  const onSubmit = useCallback(
+    async (values: PlannedResourceFormikType) => {
+      try {
+        setError(undefined);
+        const plannedResource: IUpdatedArticle = {
+          title: values.title,
+          comments: values.comments.length ? [{ content: values.comments, isOpen: true }] : [],
+          language: i18n.language,
+          articleType: values.articleType,
+          responsibleId: values.responsible,
+          revision: 0,
+        };
 
-      const createdArticle = await createArticle(convertUpdateToNewDraft(plannedResource));
-      const resourceUrl = await addNodeMutation.mutateAsync({
-        body: {
-          name: values.title,
-          contentUri: `urn:article:${createdArticle.id}`,
-          nodeType: isTopicArticle ? TOPIC_NODE : RESOURCE_NODE,
-          root: false,
-        },
-        taxonomyVersion,
-      });
-
-      const resourceId = resourceUrl.replace('/v1/nodes/', '');
-      await createNodeResource({
-        body: { resourceId: resourceId, nodeId, relevanceId: values.relevance },
-        taxonomyVersion,
-      });
-
-      if (!isTopicArticle) {
-        await createResourceResourceType({
+        const createdArticle = await createArticle(convertUpdateToNewDraft(plannedResource));
+        const resourceUrl = await addNodeMutation.mutateAsync({
           body: {
-            resourceId: resourceId,
-            resourceTypeId: values.contentType,
+            name: values.title,
+            contentUri: `urn:article:${createdArticle.id}`,
+            nodeType: isTopicArticle ? TOPIC_NODE : RESOURCE_NODE,
+            root: false,
           },
           taxonomyVersion,
         });
-        onClose();
+
+        const resourceId = resourceUrl.replace('/v1/nodes/', '');
+        await createNodeResource({
+          body: { resourceId: resourceId, nodeId, relevanceId: values.relevance },
+          taxonomyVersion,
+        });
+
+        if (!isTopicArticle) {
+          await createResourceResourceType({
+            body: {
+              resourceId: resourceId,
+              resourceTypeId: values.contentType,
+            },
+            taxonomyVersion,
+          });
+          onClose();
+        }
+      } catch (e) {
+        setError('taxonomy.errorMessage');
       }
-    } catch (e) {
-      setError('taxonomy.errorMessage');
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    },
+    [
+      addNodeMutation,
+      createArticle,
+      createNodeResource,
+      createResourceResourceType,
+      i18n.language,
+      isTopicArticle,
+      nodeId,
+      onClose,
+      taxonomyVersion,
+    ],
+  );
 
   return (
     <TaxonomyLightbox

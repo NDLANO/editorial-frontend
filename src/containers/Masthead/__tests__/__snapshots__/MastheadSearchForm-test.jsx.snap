@@ -16,7 +16,7 @@ exports[`MastheadSearchForm invalid id at the end of the url 1`] = `
   font-size: 0.8888888888888888rem;
   line-height: 1.2;
   padding: 6.5px;
-  height: 48px;
+  height: 52px;
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
@@ -27,6 +27,12 @@ exports[`MastheadSearchForm invalid id at the end of the url 1`] = `
 
 .emotion-0:focus-within {
   background: #fff;
+  border: 1px solid #a5bcd3;
+}
+
+.emotion-0:hover {
+  cursor: pointer;
+  border: 1px solid #a5bcd3;
 }
 
 .emotion-0 input {
@@ -65,24 +71,6 @@ exports[`MastheadSearchForm invalid id at the end of the url 1`] = `
 
 .emotion-0>button {
   color: #777777;
-}
-
-.emotion-0 .c-icon {
-  margin: 0 13px;
-}
-
-.emotion-0:focus-within {
-  border: 1px solid #a5bcd3;
-}
-
-.emotion-0:focus-within .c-icon {
-  color: #20588f;
-}
-
-.emotion-0:hover:not(:focus-within),
-.emotion-0:focus:not(:focus-within) {
-  cursor: pointer;
-  border: 1px solid #a5bcd3;
 }
 
 .emotion-1 {
@@ -214,7 +202,7 @@ exports[`MastheadSearchForm redirects on ndla node id pasted 1`] = `
   font-size: 0.8888888888888888rem;
   line-height: 1.2;
   padding: 6.5px;
-  height: 48px;
+  height: 52px;
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
@@ -225,6 +213,12 @@ exports[`MastheadSearchForm redirects on ndla node id pasted 1`] = `
 
 .emotion-0:focus-within {
   background: #fff;
+  border: 1px solid #a5bcd3;
+}
+
+.emotion-0:hover {
+  cursor: pointer;
+  border: 1px solid #a5bcd3;
 }
 
 .emotion-0 input {
@@ -263,24 +257,6 @@ exports[`MastheadSearchForm redirects on ndla node id pasted 1`] = `
 
 .emotion-0>button {
   color: #777777;
-}
-
-.emotion-0 .c-icon {
-  margin: 0 13px;
-}
-
-.emotion-0:focus-within {
-  border: 1px solid #a5bcd3;
-}
-
-.emotion-0:focus-within .c-icon {
-  color: #20588f;
-}
-
-.emotion-0:hover:not(:focus-within),
-.emotion-0:focus:not(:focus-within) {
-  cursor: pointer;
-  border: 1px solid #a5bcd3;
 }
 
 .emotion-1 {
@@ -412,7 +388,7 @@ exports[`MastheadSearchForm redirects on ndla url paste with id at the end 1`] =
   font-size: 0.8888888888888888rem;
   line-height: 1.2;
   padding: 6.5px;
-  height: 48px;
+  height: 52px;
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
@@ -423,6 +399,12 @@ exports[`MastheadSearchForm redirects on ndla url paste with id at the end 1`] =
 
 .emotion-0:focus-within {
   background: #fff;
+  border: 1px solid #a5bcd3;
+}
+
+.emotion-0:hover {
+  cursor: pointer;
+  border: 1px solid #a5bcd3;
 }
 
 .emotion-0 input {
@@ -461,24 +443,6 @@ exports[`MastheadSearchForm redirects on ndla url paste with id at the end 1`] =
 
 .emotion-0>button {
   color: #777777;
-}
-
-.emotion-0 .c-icon {
-  margin: 0 13px;
-}
-
-.emotion-0:focus-within {
-  border: 1px solid #a5bcd3;
-}
-
-.emotion-0:focus-within .c-icon {
-  color: #20588f;
-}
-
-.emotion-0:hover:not(:focus-within),
-.emotion-0:focus:not(:focus-within) {
-  cursor: pointer;
-  border: 1px solid #a5bcd3;
 }
 
 .emotion-1 {
@@ -610,7 +574,7 @@ exports[`MastheadSearchForm redirects on ndla url paste with taxonomy id at the 
   font-size: 0.8888888888888888rem;
   line-height: 1.2;
   padding: 6.5px;
-  height: 48px;
+  height: 52px;
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
@@ -621,6 +585,12 @@ exports[`MastheadSearchForm redirects on ndla url paste with taxonomy id at the 
 
 .emotion-0:focus-within {
   background: #fff;
+  border: 1px solid #a5bcd3;
+}
+
+.emotion-0:hover {
+  cursor: pointer;
+  border: 1px solid #a5bcd3;
 }
 
 .emotion-0 input {
@@ -659,24 +629,6 @@ exports[`MastheadSearchForm redirects on ndla url paste with taxonomy id at the 
 
 .emotion-0>button {
   color: #777777;
-}
-
-.emotion-0 .c-icon {
-  margin: 0 13px;
-}
-
-.emotion-0:focus-within {
-  border: 1px solid #a5bcd3;
-}
-
-.emotion-0:focus-within .c-icon {
-  color: #20588f;
-}
-
-.emotion-0:hover:not(:focus-within),
-.emotion-0:focus:not(:focus-within) {
-  cursor: pointer;
-  border: 1px solid #a5bcd3;
 }
 
 .emotion-1 {
@@ -808,7 +760,7 @@ exports[`MastheadSearchForm redirects on old ndla url paste with new id 1`] = `
   font-size: 0.8888888888888888rem;
   line-height: 1.2;
   padding: 6.5px;
-  height: 48px;
+  height: 52px;
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
@@ -819,6 +771,12 @@ exports[`MastheadSearchForm redirects on old ndla url paste with new id 1`] = `
 
 .emotion-0:focus-within {
   background: #fff;
+  border: 1px solid #a5bcd3;
+}
+
+.emotion-0:hover {
+  cursor: pointer;
+  border: 1px solid #a5bcd3;
 }
 
 .emotion-0 input {
@@ -857,24 +815,6 @@ exports[`MastheadSearchForm redirects on old ndla url paste with new id 1`] = `
 
 .emotion-0>button {
   color: #777777;
-}
-
-.emotion-0 .c-icon {
-  margin: 0 13px;
-}
-
-.emotion-0:focus-within {
-  border: 1px solid #a5bcd3;
-}
-
-.emotion-0:focus-within .c-icon {
-  color: #20588f;
-}
-
-.emotion-0:hover:not(:focus-within),
-.emotion-0:focus:not(:focus-within) {
-  cursor: pointer;
-  border: 1px solid #a5bcd3;
 }
 
 .emotion-1 {

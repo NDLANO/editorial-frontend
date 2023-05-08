@@ -34,23 +34,22 @@ const OpenAllButton = styled(ButtonV2)`
 const FormAccordions = ({ defaultOpen, children }: Props) => {
   const { t } = useTranslation();
   const [openAccordions, setOpenAccordions] = useState<string[]>(defaultOpen);
-  const allOpen = useMemo(() => {
-    const allOpen = Children.map(children, (child) => (!child ? false : child?.props?.id))?.filter(
-      Boolean,
-    );
-    return allOpen?.length === openAccordions.length;
-  }, [children, openAccordions.length]);
+  const accordionChildren = useMemo(
+    () => Children.map(children, (c) => (!c ? false : c?.props?.id))?.filter(Boolean) ?? [],
+    [children],
+  );
+  const allOpen = useMemo(
+    () => accordionChildren.length === openAccordions.length,
+    [accordionChildren, openAccordions.length],
+  );
 
   const onChangeAll = useCallback(() => {
     if (allOpen) {
       setOpenAccordions([]);
     } else {
-      setOpenAccordions(
-        Children.map(children, (child) => (!child ? false : child?.props?.id))?.filter(Boolean) ??
-          [],
-      );
+      setOpenAccordions(accordionChildren);
     }
-  }, [allOpen, children]);
+  }, [allOpen, accordionChildren]);
 
   return (
     <AccordionsWrapper>

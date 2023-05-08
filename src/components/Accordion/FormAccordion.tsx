@@ -50,7 +50,6 @@ const StyledItem = styled(AccordionItem)`
 const HeaderWrapper = styled.div`
   display: flex;
   align-items: center;
-
   gap: ${spacing.small};
   svg {
     color: ${colors.white};

@@ -21,10 +21,9 @@ import { fetchNewArticleId } from '../../../modules/draft/draftApi';
 import { resolveUrls } from '../../../modules/taxonomy/taxonomyApi';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 
-const StyledForm = styled.form<{ color: string }>`
+const StyledForm = styled.form`
   display: flex;
   flex-grow: 1;
-  background: ${(props) => props.color};
   border-radius: ${misc.borderRadius};
   border: 1px solid transparent;
   ${fonts.sizes(16, 1.2)};
@@ -74,14 +73,9 @@ const StyledSearch = styled(Search)`
 interface Props {
   query?: string;
   onSearchQuerySubmit: (query: string) => void;
-  color: string;
 }
 
-export const MastheadSearchForm = ({
-  query: initQuery = '',
-  onSearchQuerySubmit,
-  color,
-}: Props) => {
+export const MastheadSearchForm = ({ query: initQuery = '', onSearchQuerySubmit }: Props) => {
   const [query, setQuery] = useState(initQuery);
   const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
@@ -193,7 +187,7 @@ export const MastheadSearchForm = ({
   const [focused, setFocused] = useState(false);
 
   return (
-    <StyledForm onSubmit={handleSubmit} color={color}>
+    <StyledForm onSubmit={handleSubmit}>
       <ButtonV2 type="submit" variant="stripped">
         <StyledSearch color={colors.brand.primary} />
       </ButtonV2>

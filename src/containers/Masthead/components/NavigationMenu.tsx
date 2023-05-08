@@ -34,7 +34,7 @@ import { AUDIO_ADMIN_SCOPE, DRAFT_ADMIN_SCOPE, TAXONOMY_ADMIN_SCOPE } from '../.
 const StyledMenuContainer = styled.div`
   right: 0;
   left: 0;
-  transform: translateY(6px);
+  transform: translateY(${spacing.xsmall});
   ${animations.fadeIn(animations.durations.superFast)};
 
   > div {

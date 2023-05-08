@@ -29,12 +29,18 @@ const StyledForm = styled.form<{ color: string }>`
   border: 1px solid transparent;
   ${fonts.sizes(16, 1.2)};
   padding: ${spacing.xsmall};
-  height: 48px;
+  height: ${spacing.large};
   align-items: center;
   transition: all 100ms ease-in-out;
 
   &:focus-within {
     background: ${colors.white};
+    border: 1px solid ${colors.brand.tertiary};
+  }
+
+  &:hover {
+    cursor: pointer;
+    border: 1px solid ${colors.brand.tertiary};
   }
 
   input {
@@ -56,26 +62,6 @@ const StyledForm = styled.form<{ color: string }>`
 
   & > button {
     color: ${colors.brand.grey};
-  }
-
-  .c-icon {
-    margin: 0 ${spacing.small};
-  }
-
-  &:focus-within {
-    border: 1px solid ${colors.brand.tertiary};
-
-    .c-icon {
-      color: ${colors.brand.primary};
-    }
-  }
-
-  &:hover,
-  &:focus {
-    &:not(:focus-within) {
-      cursor: pointer;
-      border: 1px solid ${colors.brand.tertiary};
-    }
   }
 `;
 

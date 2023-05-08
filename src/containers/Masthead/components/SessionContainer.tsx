@@ -32,7 +32,8 @@ const StyledUserButton = styled(ButtonV2)`
   font-weight: ${fonts.weight.semibold};
   color: ${colors.brand.primary};
 
-  &:hover {
+  &:hover,
+  &:focus-visible {
     color: ${colors.black};
   }
 `;

@@ -135,7 +135,7 @@ const VersionAndNotesPanel = ({ article, type, currentLanguage }: Props) => {
   return (
     <>
       <FormikField name="notes" showError={false}>
-        {({ field, form: { errors, touched } }) => (
+        {({ field, form: { errors } }) => (
           <AddNotesField
             showError={!!errors[field.name]}
             labelAddNote={t('form.notes.add')}

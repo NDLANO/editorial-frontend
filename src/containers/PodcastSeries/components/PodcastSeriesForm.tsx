@@ -9,7 +9,6 @@ import { useState, useRef } from 'react';
 import { Formik, FormikProps, FormikHelpers, FormikErrors } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { Accordions, AccordionSection } from '@ndla/accordion';
 import { Descendant } from 'slate';
 import styled from '@emotion/styled';
 import { colors } from '@ndla/core';
@@ -33,6 +32,8 @@ import {
 import { podcastSeriesTypeToFormType } from '../../../util/audioHelpers';
 import FormWrapper from '../../../components/FormWrapper';
 import { useSession } from '../../Session/SessionProvider';
+import FormAccordions from '../../../components/Accordion/FormAccordions';
+import FormAccordion from '../../../components/Accordion/FormAccordion';
 
 const podcastRules: RulesType<PodcastSeriesFormikType, ISeries> = {
   title: {
@@ -185,9 +186,8 @@ const PodcastSeriesForm = ({
                 else return toCreatePodcastSeries();
               }}
             />
-            <Accordions>
-              <AccordionSection
-                startOpen
+            <FormAccordions defaultOpen={['podcast-series-podcastmeta']}>
+              <FormAccordion
                 id="podcast-series-podcastmeta"
                 title={t('form.podcastSeriesSection')}
                 className="u-4/6@desktop u-push-1/6@desktop"
@@ -202,8 +202,8 @@ const PodcastSeriesForm = ({
                     validateForm();
                   }}
                 />
-              </AccordionSection>
-              <AccordionSection
+              </FormAccordion>
+              <FormAccordion
                 id="podcast-series-podcastepisodes"
                 title={t('form.podcastEpisodesSection')}
                 className="u-4/6@desktop u-push-1/6@desktop"
@@ -212,8 +212,8 @@ const PodcastSeriesForm = ({
                 )}
               >
                 <PodcastEpisodes />
-              </AccordionSection>
-            </Accordions>
+              </FormAccordion>
+            </FormAccordions>
             <Field right>
               <ButtonV2 variant="outline" disabled={isSubmitting} onClick={() => navigate(-1)}>
                 {t('form.abort')}

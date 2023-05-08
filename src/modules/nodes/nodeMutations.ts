@@ -58,6 +58,7 @@ export const useAddNodeMutation = () => {
           contentUri: newNode.contentUri ?? '',
           id: newNode.id ?? '',
           path: '',
+          paths: [],
           translations: [],
           supportedLanguages: [],
           resourceTypes: [],

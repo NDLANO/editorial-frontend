@@ -7,13 +7,14 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { Accordions, AccordionSection } from '@ndla/accordion';
 import { FormikHelpers, useFormikContext } from 'formik';
 import { IArticle } from '@ndla/types-backend/draft-api';
 import { CopyrightFieldGroup, VersionAndNotesPanel, MetaDataField } from '../../../FormikForm';
 import { FrontpageArticleFormType } from '../../../FormikForm/articleFormHooks';
 import RevisionNotes from '../../components/RevisionNotes';
 import FrontpageArticleFormContent from './FrontpageArticleFormContent';
+import FormAccordions from '../../../../components/Accordion/FormAccordions';
+import FormAccordion from '../../../../components/Accordion/FormAccordion';
 
 interface Props {
   handleSubmit: (
@@ -30,13 +31,12 @@ const FrontpageArticlePanels = ({ article, handleSubmit, articleLanguage }: Prop
   const { values, errors, handleBlur } = formikContext;
 
   return (
-    <Accordions>
-      <AccordionSection
+    <FormAccordions defaultOpen={['frontpage-article-content']}>
+      <FormAccordion
         id={'frontpage-article-content'}
         title={t('form.contentSection')}
         className={'u-4/6@desktop u-push-1/6@desktop'}
         hasError={!!(errors.title || errors.introduction || errors.content)}
-        startOpen
       >
         <FrontpageArticleFormContent
           articleLanguage={articleLanguage}
@@ -45,8 +45,8 @@ const FrontpageArticlePanels = ({ article, handleSubmit, articleLanguage }: Prop
           handleBlur={handleBlur}
           values={values}
         />
-      </AccordionSection>
-      <AccordionSection
+      </FormAccordion>
+      <FormAccordion
         id={'frontpage-article-copyright'}
         title={t('form.copyrightSection')}
         className={'u-6/6'}
@@ -55,26 +55,26 @@ const FrontpageArticlePanels = ({ article, handleSubmit, articleLanguage }: Prop
         }
       >
         <CopyrightFieldGroup values={values} />
-      </AccordionSection>
-      <AccordionSection
+      </FormAccordion>
+      <FormAccordion
         id={'frontpage-article-metadata'}
         title={t('form.metadataSection')}
         className={'u-6/6'}
         hasError={!!(errors.metaDescription || errors.metaImageAlt || errors.tags)}
       >
         <MetaDataField articleLanguage={articleLanguage} />
-      </AccordionSection>
-      <AccordionSection
+      </FormAccordion>
+      <FormAccordion
         id={'frontpage-article-revisions'}
         title={t('form.name.revisions')}
         className={'u-6/6'}
         hasError={!!errors.revisionMeta || !!errors.revisionError}
       >
         <RevisionNotes />
-      </AccordionSection>
+      </FormAccordion>
 
       {article && (
-        <AccordionSection
+        <FormAccordion
           id={'frontpage-article-workflow'}
           title={t('form.workflowSection')}
           className={'u-6/6'}
@@ -85,9 +85,9 @@ const FrontpageArticlePanels = ({ article, handleSubmit, articleLanguage }: Prop
             type="standard"
             currentLanguage={values.language}
           />
-        </AccordionSection>
+        </FormAccordion>
       )}
-    </Accordions>
+    </FormAccordions>
   );
 };
 

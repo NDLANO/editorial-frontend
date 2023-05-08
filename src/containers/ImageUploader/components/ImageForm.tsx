@@ -15,7 +15,6 @@ import {
   INewImageMetaInformationV2,
   ILicense,
 } from '@ndla/types-backend/image-api';
-import { Accordions, AccordionSection } from '@ndla/accordion';
 import { ButtonV2 } from '@ndla/button';
 import { spacing } from '@ndla/core';
 import SaveButton from '../../../components/SaveButton';
@@ -31,6 +30,8 @@ import { MAX_IMAGE_UPLOAD_SIZE } from '../../../constants';
 import { imageApiTypeToFormType, ImageFormikType } from '../imageTransformers';
 import { editorValueToPlainText } from '../../../util/articleContentConverter';
 import FormWrapper from '../../../components/FormWrapper';
+import FormAccordions from '../../../components/Accordion/FormAccordions';
+import FormAccordion from '../../../components/Accordion/FormAccordion';
 
 const ButtonContainer = styled.div`
   margin-top: ${spacing.small};
@@ -204,32 +205,32 @@ const ImageForm = ({
                 else return toCreateImage();
               }}
             />
-            <Accordions>
-              <AccordionSection
-                id="image-upload-content"
+            <FormAccordions defaultOpen={['content']}>
+              <FormAccordion
+                id="content"
                 title={t('form.contentSection')}
                 className="u-4/6@desktop u-push-1/6@desktop"
                 hasError={hasError(['title', 'imageFile', 'caption', 'alttext'])}
-                startOpen
               >
                 <ImageContent />
-              </AccordionSection>
-              <AccordionSection
-                id="image-upload-metadataSection"
+              </FormAccordion>
+              <FormAccordion
+                id="metadata"
                 title={t('form.metadataSection')}
                 className="u-4/6@desktop u-push-1/6@desktop"
                 hasError={hasError(['tags', 'rightsholders', 'creators', 'processors', 'license'])}
               >
                 <ImageMetaData imageLanguage={language} imageTags={values.tags} />
-              </AccordionSection>
-              <AccordionSection
+              </FormAccordion>
+              <FormAccordion
                 id="image-upload-version-history"
                 title={t('form.workflowSection')}
                 className="u-4/6@desktop u-push-1/6@desktop"
+                hasError={false}
               >
                 <ImageVersionNotes image={image} />
-              </AccordionSection>
-            </Accordions>
+              </FormAccordion>
+            </FormAccordions>
             <ButtonContainer>
               {inModal ? (
                 <ButtonV2 variant="outline" onClick={closeModal}>

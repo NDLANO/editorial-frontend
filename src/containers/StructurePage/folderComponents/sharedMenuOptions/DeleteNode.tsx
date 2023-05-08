@@ -48,11 +48,11 @@ const DeleteNode = ({
     setError(undefined);
     toggleDelete();
     try {
-      if ('parent' in node) {
+      if ('parentId' in node) {
         await deleteNodeConnectionMutation.mutateAsync({ id: node.connectionId, taxonomyVersion });
       }
       const articleId = Number(node.contentUri?.split(':')[2]);
-      if ('parent' in node && articleId) {
+      if ('parentId' in node && articleId) {
         const topicPlacements = await queryTopics({
           contentId: articleId,
           language: i18n.language,
@@ -67,7 +67,7 @@ const DeleteNode = ({
         {
           id: node.id,
           taxonomyVersion,
-          rootId: 'parent' in node ? rootNodeId : undefined,
+          rootId: 'parentId' in node ? rootNodeId : undefined,
         },
         { onSuccess: () => setLoading(false) },
       );

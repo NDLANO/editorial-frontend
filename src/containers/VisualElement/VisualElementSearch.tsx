@@ -132,7 +132,7 @@ const VisualElementSearch = ({
                 resource: type,
                 videoid: video.id,
                 caption: '',
-                account: config.brightCoveAccountId!,
+                account: config.brightcoveAccountId!,
                 player:
                   video.projection === 'equirectangular'
                     ? config.brightcove360PlayerId!

@@ -1675,7 +1675,7 @@ const phrases = {
       contentUri: {
         title: 'Content URI',
       },
-      parent: {
+      parentId: {
         title: 'Parent',
       },
       path: {
@@ -1689,11 +1689,6 @@ const phrases = {
       },
       isPrimary: {
         title: 'Is Primary',
-        isOn: 'This node is currently a primary resource',
-        isOff: 'This node is not currently a primary resource',
-      },
-      primary: {
-        title: 'Primary',
         isOn: 'This node is currently a primary resource',
         isOff: 'This node is not currently a primary resource',
       },

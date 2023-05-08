@@ -71,7 +71,9 @@ const FormAccordion = ({
       <StyledHeader data-error={hasError}>
         <HeaderWrapper data-error={hasError}>{title}</HeaderWrapper>
       </StyledHeader>
-      <AccordionContent className={className}>{children}</AccordionContent>
+      <AccordionContent id={id} className={className}>
+        {children}
+      </AccordionContent>
     </StyledItem>
   );
 };

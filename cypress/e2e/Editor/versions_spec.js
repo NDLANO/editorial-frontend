@@ -34,7 +34,7 @@ describe('Workflow features', () => {
     cy.get('[data-testid=saveLearningResourceButtonWrapper] button').first().click();
     cy.apiwait('@patchUserData');
     cy.get('[data-testid=notesInput]').should('not.exist');
-    cy.get('section[id=learning-resource-workflow]').find('tr').its('length').should('eq', 10);
+    cy.get('[id=learning-resource-workflow]').find('tr').its('length').should('eq', 10);
   });
 
   it('Open previews', () => {

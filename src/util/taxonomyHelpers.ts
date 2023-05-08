@@ -80,13 +80,13 @@ export const groupResourcesByType = (
     .flatMap((res) =>
       res.resourceTypes.map<[string, ResourceWithNodeConnectionAndMeta]>((rt) => [rt.id, res]),
     )
-    .reduce<Record<string, { parent: string; resources: ResourceWithNodeConnectionAndMeta[] }>>(
+    .reduce<Record<string, { parentId: string; resources: ResourceWithNodeConnectionAndMeta[] }>>(
       (acc, [id, curr]) => {
         if (acc[id]) {
           acc[id]['resources'] = acc[id]['resources'].concat(curr);
         } else {
           acc[id] = {
-            parent: types[id],
+            parentId: types[id],
             resources: [curr],
           };
         }
@@ -95,7 +95,7 @@ export const groupResourcesByType = (
       {},
     );
 
-  const groupedValues = groupBy(Object.values(typeToResourcesMapping), (t) => t.parent);
+  const groupedValues = groupBy(Object.values(typeToResourcesMapping), (t) => t.parentId);
 
   const unique = Object.entries(groupedValues).reduce<
     Record<string, ResourceWithNodeConnectionAndMeta[]>
@@ -159,7 +159,7 @@ export const safeConcat = <T>(toAdd: T, existing?: T[]) =>
 
 const insertSubTopic = (topics: SubjectTopic[], subTopic: SubjectTopic): SubjectTopic[] => {
   return topics.map((topic) => {
-    if (topic.id === subTopic.parent) {
+    if (topic.id === subTopic.parentId) {
       return { ...topic, subtopics: safeConcat(subTopic, topic.subtopics) };
     }
     if (topic.subtopics) {
@@ -170,7 +170,7 @@ const insertSubTopic = (topics: SubjectTopic[], subTopic: SubjectTopic): Subject
 };
 const insertChild = (childNodes: ChildNodeType[], childNode: ChildNodeType): ChildNodeType[] => {
   return childNodes.map((node) => {
-    if (node.id === childNode.parent) {
+    if (node.id === childNode.parentId) {
       return { ...node, childNodes: safeConcat(childNode, node.childNodes) };
     }
     if (node.childNodes) {
@@ -182,14 +182,14 @@ const insertChild = (childNodes: ChildNodeType[], childNode: ChildNodeType): Chi
 
 const groupChildNodes = (childNodes: ChildNodeType[]) =>
   childNodes.reduce((acc, curr) => {
-    if (curr.parent.includes('subject')) return acc;
+    if (curr.parentId.includes('subject')) return acc;
     const withoutCurrent = acc.filter((node) => node.id !== curr.id);
     return insertChild(withoutCurrent, curr);
   }, childNodes);
 
 const groupTopics = (allTopics: SubjectTopic[]) =>
   allTopics.reduce((acc, curr) => {
-    const mainTopic = curr.parent.includes('subject');
+    const mainTopic = curr.parentId.includes('subject');
     if (mainTopic) return acc;
     return insertSubTopic(
       acc.filter((topic) => topic.id !== curr.id),

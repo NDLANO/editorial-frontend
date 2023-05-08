@@ -92,7 +92,7 @@ const InlineConceptPreview = ({ concept, handleRemove, id, isBlockView }: Props)
         return (
           <iframe
             title={visualElement?.title}
-            src={`https://players.brightcove.net/${config.brightCoveAccountId}/${config.brightcovePlayerId}_default/index.html?videoId=${visualElement?.videoid}`}
+            src={`https://players.brightcove.net/${config.brightcoveAccountId}/${config.brightcoveEdPlayerId}_default/index.html?videoId=${visualElement?.videoid}`}
             frameBorder="0"
             scrolling="no"
             height={400}

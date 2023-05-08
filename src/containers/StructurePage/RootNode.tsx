@@ -91,7 +91,7 @@ const RootNode = ({
       body: {
         rank: newRank,
         relevanceId: nodes[source.index].relevanceId,
-        primary: nodes[source.index].primary,
+        primary: nodes[source.index].isPrimary,
       },
       taxonomyVersion,
     });

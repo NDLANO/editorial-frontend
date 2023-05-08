@@ -1690,7 +1690,7 @@ const phrases = {
       contentUri: {
         title: 'Innholds-URI',
       },
-      parent: {
+      parentId: {
         title: 'Forelder',
       },
       path: {
@@ -1703,11 +1703,6 @@ const phrases = {
         title: 'Koblings-ID',
       },
       isPrimary: {
-        title: 'Er primær',
-        isOn: 'Denne noden er en primærressurs',
-        isOff: 'Denne noden er ikke en primærressurs',
-      },
-      primary: {
         title: 'Er primær',
         isOn: 'Denne noden er en primærressurs',
         isOff: 'Denne noden er ikke en primærressurs',

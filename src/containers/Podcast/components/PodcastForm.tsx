@@ -15,7 +15,6 @@ import {
   INewAudioMetaInformation,
 } from '@ndla/types-backend/audio-api';
 import { ButtonV2 } from '@ndla/button';
-import { Accordions, AccordionSection } from '@ndla/accordion';
 import AudioContent from '../../AudioUploader/components/AudioContent';
 import AudioMetaData from '../../AudioUploader/components/AudioMetaData';
 import AudioManuscript from '../../AudioUploader/components/AudioManuscript';
@@ -35,6 +34,8 @@ import handleError from '../../../util/handleError';
 import { audioApiTypeToPodcastFormType } from '../../../util/audioHelpers';
 import { useLicenses } from '../../../modules/draft/draftQueries';
 import FormWrapper from '../../../components/FormWrapper';
+import FormAccordions from '../../../components/Accordion/FormAccordions';
+import FormAccordion from '../../../components/Accordion/FormAccordion';
 
 const podcastRules: RulesType<PodcastFormValues, IAudioMetaInformation> = {
   title: {
@@ -249,25 +250,24 @@ const PodcastForm = ({
             {translating ? (
               <Spinner withWrapper />
             ) : (
-              <Accordions>
-                <AccordionSection
+              <FormAccordions defaultOpen={['podcast-upload-content']}>
+                <FormAccordion
                   id="podcast-upload-content"
                   title={t('form.contentSection')}
                   className="u-4/6@desktop u-push-1/6@desktop"
                   hasError={['title', 'audioFile'].some((field) => field in errors)}
-                  startOpen
                 >
                   <AudioContent />
-                </AccordionSection>
-                <AccordionSection
+                </FormAccordion>
+                <FormAccordion
                   id="podcast-upload-podcastmanus"
                   title={t('podcastForm.fields.manuscript')}
                   className="u-4/6@desktop u-push-1/6@desktop"
                   hasError={[].some((field) => field in errors)}
                 >
                   <AudioManuscript />
-                </AccordionSection>
-                <AccordionSection
+                </FormAccordion>
+                <FormAccordion
                   id="podcast-upload-podcastmeta"
                   title={t('form.podcastSection')}
                   className="u-4/6@desktop u-push-1/6@desktop"
@@ -283,9 +283,9 @@ const PodcastForm = ({
                     }}
                   />
                   <PodcastSeriesInformation />
-                </AccordionSection>
+                </FormAccordion>
 
-                <AccordionSection
+                <FormAccordion
                   id="podcast-upload-metadata"
                   title={t('form.metadataSection')}
                   className="u-4/6@desktop u-push-1/6@desktop"
@@ -294,8 +294,8 @@ const PodcastForm = ({
                   )}
                 >
                   <AudioMetaData />
-                </AccordionSection>
-              </Accordions>
+                </FormAccordion>
+              </FormAccordions>
             )}
 
             <Field right>

@@ -22,19 +22,17 @@ const editor: Descendant[] = [
       { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
       {
         type: TYPE_RELATED,
-        data: {
-          nodes: [
-            {
-              resource: 'related-content',
-              'article-id': '123',
-            },
-            {
-              resource: 'related-content',
-              url: 'http://google.com',
-              title: 'test-title',
-            },
-          ],
-        },
+        data: [
+          {
+            resource: 'related-content',
+            articleId: '123',
+          },
+          {
+            resource: 'related-content',
+            url: 'http://google.com',
+            title: 'test-title',
+          },
+        ],
         children: [
           {
             text: '',

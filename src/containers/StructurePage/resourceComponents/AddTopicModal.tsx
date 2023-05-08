@@ -11,7 +11,6 @@ import styled from '@emotion/styled';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { fonts } from '@ndla/core';
-import { css } from '@emotion/react';
 import TaxonomyLightbox from '../../../components/Taxonomy/TaxonomyLightbox';
 import {
   useDeleteNodeConnectionMutation,
@@ -23,14 +22,6 @@ import { NodeType } from '../../../modules/nodes/nodeApiTypes';
 import NodeSearchDropdown from '../folderComponents/sharedMenuOptions/components/NodeSearchDropdown';
 import { StyledErrorMessage } from '../folderComponents/styles';
 import { fetchConnectionsForNode } from '../../../modules/nodes/nodeApi';
-
-const visibleOverflowStyles = css`
-  overflow: visible;
-`;
-
-const StyledModal = styled(TaxonomyLightbox)`
-  overflow: visible;
-`;
 
 const Wrapper = styled.div`
   width: 100%;
@@ -93,7 +84,7 @@ const AddTopicModal = ({ onClose, setShowPlannedTopicModal, currentNode }: Props
     }
   };
   return (
-    <StyledModal
+    <TaxonomyLightbox
       title={t('taxonomy.addExistingTopic')}
       onClose={onClose}
       actions={[
@@ -110,7 +101,6 @@ const AddTopicModal = ({ onClose, setShowPlannedTopicModal, currentNode }: Props
           loading: isLoading,
         },
       ]}
-      cssStyles={visibleOverflowStyles}
     >
       <Wrapper>
         {currentNode && (
@@ -135,7 +125,7 @@ const AddTopicModal = ({ onClose, setShowPlannedTopicModal, currentNode }: Props
         )}
         {error && <ErrorMessage>{t(error)}</ErrorMessage>}
       </Wrapper>
-    </StyledModal>
+    </TaxonomyLightbox>
   );
 };
 

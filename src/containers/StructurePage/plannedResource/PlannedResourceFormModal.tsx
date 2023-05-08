@@ -15,7 +15,7 @@ import { ButtonV2 } from '@ndla/button';
 import { InputV2 } from '@ndla/forms';
 import { Option } from '@ndla/select';
 import sortBy from 'lodash/sortBy';
-import { IUpdatedArticle } from '@ndla/types-backend/build/draft-api';
+import { IUpdatedArticle } from '@ndla/types-backend/draft-api';
 import validateFormik, { RulesType } from '../../../components/formikValidationSchema';
 import { useSession } from '../../Session/SessionProvider';
 import { useFetchArticleData } from '../../FormikForm/formikDraftHooks';
@@ -40,8 +40,7 @@ import { ErrorMessage } from '../resourceComponents/AddTopicModal';
 import PlannedResourceSelect from './PlannedResourceSelect';
 import RelevanceOption from '../../../components/Taxonomy/RelevanceOption';
 
-const StyledForm = styled.div`
-  margin-right: auto;
+const StyledForm = styled.form`
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -54,7 +53,7 @@ export const StyledLabel = styled.label`
 
 export const StyledFormikField = styled(FormikField)`
   margin: 0px;
-  & label {
+  label {
     ${fonts.sizes('16px')}
   }
 `;
@@ -150,15 +149,14 @@ const PlannedResourceFormModal = ({ articleType, nodeId, onClose }: Props) => {
     },
   );
 
-  const { data: contentType } = useAllResourceTypes(
+  const { data: contentTypes } = useAllResourceTypes(
     { language: i18n.language, taxonomyVersion },
     {
       select: (res) =>
         res
-          .flatMap((r) => {
-            const prefix = r.name;
-            return r.subtypes?.map((s) => ({ label: `${prefix} - ${s.name}`, value: s.id }));
-          })
+          .flatMap((parent) =>
+            parent.subtypes?.map((s) => ({ label: `${parent.name} - ${s.name}`, value: s.id })),
+          )
           .filter((r) => !!r) as Option[],
       placeholderData: [],
       enabled: !isTopicArticle,
@@ -194,7 +192,7 @@ const PlannedResourceFormModal = ({ articleType, nodeId, onClose }: Props) => {
       });
 
       if (!isTopicArticle) {
-        createResourceResourceType({
+        await createResourceResourceType({
           body: {
             resourceId: resourceId,
             resourceTypeId: values.contentType,
@@ -256,7 +254,7 @@ const PlannedResourceFormModal = ({ articleType, nodeId, onClose }: Props) => {
                 fieldName="contentType"
                 id="select-contentType"
                 placeholder="taxonomy.contentTypePlaceholder"
-                options={contentType?.length ? contentType : []}
+                options={contentTypes?.length ? contentTypes : []}
               />
             )}
             <PlannedResourceSelect
@@ -271,15 +269,15 @@ const PlannedResourceFormModal = ({ articleType, nodeId, onClose }: Props) => {
               <StyledFormikField name="relevance">
                 {({ field }: FieldProps) => (
                   <SwitchWrapper>
+                    <StyledLabel htmlFor="toggleRelevanceId">
+                      {t('taxonomy.resourceType')}
+                    </StyledLabel>
                     <RelevanceOption
-                      relevanceId={undefined}
+                      relevanceId={field.value}
                       onChange={(id: string) => {
                         field.onChange({ target: { name: field.name, value: id } });
                       }}
                     />
-                    <StyledLabel htmlFor="toggleRelevanceId">
-                      {t('taxonomy.resourceType')}
-                    </StyledLabel>
                   </SwitchWrapper>
                 )}
               </StyledFormikField>

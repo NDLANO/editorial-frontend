@@ -9,7 +9,6 @@ import { DropResult } from 'react-beautiful-dnd';
 import { colors } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
 import { Star } from '@ndla/icons/editor';
-import { useTranslation } from 'react-i18next';
 import Fade from '../../components/Taxonomy/Fade';
 import MakeDndList from './MakeDNDList';
 import { createGuard } from '../../util/guards';
@@ -90,7 +89,6 @@ const NodeItem = ({
   renderBeforeTitle,
   setShowAddTopicModal,
 }: Props) => {
-  const { t } = useTranslation();
   const { userPermissions } = useSession();
   const isTaxonomyAdmin = userPermissions?.includes(TAXONOMY_ADMIN_SCOPE) || false;
   const path = nodePathToUrnPath(item.path);

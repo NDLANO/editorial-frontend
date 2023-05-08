@@ -12,7 +12,6 @@ import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import Tooltip from '@ndla/tooltip';
 import { Plus } from '@ndla/icons/action';
-import { css } from '@emotion/react';
 import { NodeType } from '../../../modules/nodes/nodeApiTypes';
 import { Row } from '../../../components';
 import Spinner from '../../../components/Spinner';
@@ -35,17 +34,9 @@ const StyledFolderWrapper = styled.div`
   gap: ${spacing.small};
 `;
 
-const verticalAlignStyled = css`
+const ControlButtonsWrapper = styled.div`
   display: flex;
   align-items: center;
-`;
-
-const ControlButtonsWrapper = styled.div`
-  ${verticalAlignStyled}
-`;
-
-const StyledTooltip = styled(Tooltip)`
-  ${verticalAlignStyled}
 `;
 
 interface Props {
@@ -82,7 +73,7 @@ const FolderItem = ({
             onCurrentNodeChanged={onCurrentNodeChanged}
             nodeChildren={nodeChildren}
           />
-          <StyledTooltip tooltip={t('taxonomy.addTopicHeader')}>
+          <Tooltip tooltip={t('taxonomy.addTopicHeader')}>
             <IconButtonV2
               onClick={() => setShowAddTopicModal(true)}
               size="xsmall"
@@ -91,7 +82,7 @@ const FolderItem = ({
             >
               <Plus />
             </IconButtonV2>
-          </StyledTooltip>
+          </Tooltip>
         </ControlButtonsWrapper>
       )}
       {showJumpToResources && (

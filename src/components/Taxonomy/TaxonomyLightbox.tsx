@@ -7,11 +7,11 @@
  */
 
 import { ButtonV2 } from '@ndla/button';
-import styled, { Interpolation } from '@emotion/styled';
+import styled from '@emotion/styled';
 import { spacing, colors, fonts } from '@ndla/core';
 import { BookOpen } from '@ndla/icons/common';
 import { ModalV2, ModalCloseButton, ModalPosition } from '@ndla/modal';
-import { Theme } from '@emotion/react';
+import pick from 'lodash/pick';
 import Spinner from '../Spinner';
 
 const StyledHeader = styled.div`
@@ -81,7 +81,6 @@ interface Props {
   }[];
   wide?: boolean;
   position?: ModalPosition;
-  cssStyles?: Interpolation<Theme>;
 }
 
 const TaxonomyLightbox = ({
@@ -91,7 +90,6 @@ const TaxonomyLightbox = ({
   wide = false,
   actions = [],
   position = 'top',
-  cssStyles,
 }: Props) => {
   return (
     <ModalV2
@@ -101,7 +99,6 @@ const TaxonomyLightbox = ({
       position={position}
       label={title}
       size={wide ? 'large' : 'normal'}
-      css={cssStyles}
     >
       {(onCloseModal) => (
         <>
@@ -118,7 +115,7 @@ const TaxonomyLightbox = ({
             {children}
             <StyledWrapper>
               {actions.map((a, i) => (
-                <ButtonV2 key={i} {...a}>
+                <ButtonV2 key={i} {...pick(a, 'onClick', 'data-testid')}>
                   {a.loading ? <Spinner appearance="small" /> : a.text}
                 </ButtonV2>
               ))}

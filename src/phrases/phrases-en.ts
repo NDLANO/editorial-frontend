@@ -1381,7 +1381,7 @@ const phrases = {
     },
     addTopicHeader: 'Add topic',
     createTopic: 'Create new topic',
-    searchExistingTopic: 'Serach for existing topic',
+    searchExistingTopic: 'Search for existing topic',
     topicSettings: 'Topic settings',
     subjectSettings: 'Subject settings',
     linkSettings: 'Link',

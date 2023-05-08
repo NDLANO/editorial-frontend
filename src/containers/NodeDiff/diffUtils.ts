@@ -9,11 +9,7 @@
 import isEqual from 'lodash/isEqual';
 import partition from 'lodash/partition';
 import isObjectLike from 'lodash/fp/isObjectLike';
-import {
-  ChildNodeType,
-  NodeType,
-  ResourceWithNodeConnection,
-} from '../../modules/nodes/nodeApiTypes';
+import { ChildNodeType, NodeType } from '../../modules/nodes/nodeApiTypes';
 
 export type DiffResultType = 'NONE' | 'MODIFIED' | 'ADDED' | 'DELETED';
 export interface DiffResult<TType> {

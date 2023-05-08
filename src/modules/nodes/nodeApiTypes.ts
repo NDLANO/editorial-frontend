@@ -64,7 +64,7 @@ export interface NodeType {
   breadcrumbs?: string[];
   name: string;
   path: string;
-  paths?: string[];
+  paths: string[];
   relevanceId?: string;
   translations: NodeTranslation[];
   supportedLanguages: string[];

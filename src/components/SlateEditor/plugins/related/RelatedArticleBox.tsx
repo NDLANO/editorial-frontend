@@ -6,235 +6,215 @@
  *
  */
 
-import { MouseEvent, ReactNode, SyntheticEvent, useCallback, useEffect, useState } from 'react';
+import { useEffect, useRef, useState, MouseEvent, ReactNode } from 'react';
 import { Editor, Transforms } from 'slate';
 import { ReactEditor, RenderElementProps } from 'slate-react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
-import compact from 'lodash/compact';
-import { RelatedArticleList } from '@ndla/ui';
-import { toggleRelatedArticles } from '@ndla/article-scripts';
-import { IArticle } from '@ndla/types-backend/draft-api';
-import { convertFieldWithFallback } from '../../../../util/convertFieldWithFallback';
+import { RelatedContentEmbedData, RelatedContentMetaData } from '@ndla/types-embed';
+import { spacing } from '@ndla/core';
+import { RelatedArticleListV2, RelatedContentEmbed } from '@ndla/ui';
+import { IconButtonV2 } from '@ndla/button';
+import Tooltip from '@ndla/tooltip';
+import { Pencil } from '@ndla/icons/action';
+import { DeleteForever } from '@ndla/icons/editor';
 import { fetchDraft } from '../../../../modules/draft/draftApi';
-import { queryResources } from '../../../../modules/taxonomy';
 import EditRelated from './EditRelated';
-import handleError from '../../../../util/handleError';
-import RelatedArticle from './RelatedArticle';
 import { RelatedElement } from '.';
-import { Resource } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
-import { ARTICLE_EXTERNAL } from '../../../../constants';
 import { useTaxonomyVersion } from '../../../../containers/StructureVersion/TaxonomyVersionProvider';
+import { fetchNodes } from '../../../../modules/nodes/nodeApi';
 
 interface Props {
   attributes: RenderElementProps['attributes'];
   editor: Editor;
   element: RelatedElement;
-  locale?: string;
   onRemoveClick: (e: MouseEvent<HTMLButtonElement>) => void;
   children: ReactNode;
 }
 
-const StyledDiv = styled.div`
-  & article > p {
-    font-family: Source Sans Pro !important;
-  }
+const ButtonWrapper = styled.div`
+  display: flex;
+  gap: ${spacing.xsmall};
 `;
 
-export interface ExternalArticle {
-  id: 'external-learning-resources';
-  tempId: string;
-  url: string;
-  title: string;
-  description: string;
-}
+const externalEmbedToMeta = async (
+  embedData: RelatedContentEmbedData,
+  seq: number,
+): Promise<RelatedContentMetaData> => {
+  return {
+    resource: 'related-content',
+    embedData,
+    seq,
+    status: 'success',
+    data: undefined,
+  };
+};
 
-interface InternalArticle extends Omit<IArticle, 'title' | 'id'> {
-  resource: Resource[];
-  id: string;
-  title: string;
-}
+const internalEmbedToMeta = async (
+  embedData: RelatedContentEmbedData,
+  seq: number,
+  language: string,
+  taxonomyVersion: string,
+): Promise<RelatedContentMetaData> => {
+  const article = await fetchDraft(embedData.articleId!, language).catch(() => undefined);
+  const nodes = await fetchNodes({
+    taxonomyVersion,
+    contentURI: `urn:article:${embedData.articleId}`,
+    language: language,
+  }).catch(() => undefined);
 
-export type RelatedArticleType = InternalArticle | ExternalArticle;
+  if (!!article && !!nodes?.length) {
+    return {
+      resource: 'related-content',
+      seq,
+      embedData,
+      status: 'success',
+      data: {
+        article,
+        resource: nodes[0]!,
+      },
+    };
+  } else {
+    return {
+      resource: 'related-content',
+      seq,
+      embedData,
+      status: 'error',
+      message: 'Failed to fetch data',
+    };
+  }
+};
 
-const mapRelatedArticle = (article: IArticle, resource: Resource[]): InternalArticle => ({
-  ...article,
-  resource,
-  id: article.id.toString(),
-  title: convertFieldWithFallback(article as object, 'title', article.title?.title) || '',
-});
+const embedsToMeta = async (
+  embeds: RelatedContentEmbedData[],
+  language: string,
+  taxonomyVersion: string,
+) => {
+  const promises = embeds.map((embed, i) => {
+    if (embed.articleId) {
+      return internalEmbedToMeta(embed, i, language, taxonomyVersion);
+    } else {
+      return externalEmbedToMeta(embed, i);
+    }
+  });
+  return await Promise.all(promises);
+};
+
+const StyledIconButton = styled(IconButtonV2)`
+  width: 40px;
+  height: 40px;
+`;
 
 const RelatedArticleBox = ({ attributes, editor, element, onRemoveClick, children }: Props) => {
   const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
-  const [articles, setArticles] = useState<RelatedArticleType[]>([]);
   const [editMode, setEditMode] = useState(false);
+  const [embeds, setEmbeds] = useState<RelatedContentMetaData[]>([]);
+  const firstRender = useRef(true);
 
   useEffect(() => {
-    const { data } = element;
-    if (data && data.nodes) {
-      const articleNodes = data.nodes;
-      fetchArticles(articleNodes).then((articles) => setArticles(compact(articles)));
+    if (!firstRender.current) {
+      return;
+    }
+    if (!!element?.data?.length && firstRender.current) {
+      embedsToMeta(element.data, i18n.language, taxonomyVersion).then(setEmbeds);
+      firstRender.current = false;
     } else {
       setEditMode(true);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [element.data, i18n.language, taxonomyVersion]);
 
-  useEffect(() => {
-    // need to re-add eventhandler on button
-    if (!editMode && articles.length > 2) {
-      toggleRelatedArticles();
-    }
-  }, [editMode, articles]);
-
-  const fetchArticle = useCallback(
-    async (id: number) => {
-      try {
-        const [article, resource] = await Promise.all([
-          fetchDraft(id, i18n.language),
-          queryResources({ contentId: id, language: i18n.language, taxonomyVersion }),
-        ]);
-        if (article) {
-          return mapRelatedArticle(article, resource);
-        }
-      } catch (error) {
-        handleError(error);
-      }
-    },
-    [i18n.language, taxonomyVersion],
-  );
-
-  const fetchArticles = useCallback(
-    async (nodes: RelatedElement['data']['nodes']) => {
-      if (!nodes) {
-        return;
-      }
-      const articleList = nodes.map((node) => {
-        if ('article-id' in node) {
-          return fetchArticle(Number(node['article-id']));
-        } else {
-          return Promise.resolve(structureExternal(node.url, node.title));
-        }
-      });
-      return Promise.all<RelatedArticleType | undefined>(articleList);
-    },
-    [fetchArticle],
-  );
-
-  useEffect(() => {
-    const articleNodes = element.data.nodes;
-    fetchArticles(articleNodes).then((articles) => setArticles(compact(articles)));
-  }, [element.data.nodes, fetchArticles]);
-
-  const insertExternal = async (url: string, title: string) => {
-    // await get description meta data
-    const newArticles = [...articles, structureExternal(url, title)];
-    setArticles(newArticles);
-    setNodeData(newArticles);
-  };
-
-  const onInsertBlock = (newArticle: string) => {
-    if (!articles.find((it) => 'id' in it && it.id === newArticle) && Number(newArticle)) {
-      // get resource and add to state
-      fetchArticle(Number(newArticle)).then((article) => {
-        if (article) {
-          const newArticles = [...articles, article];
-          setArticles(newArticles);
-          setNodeData(newArticles);
-        }
-      });
-    }
-  };
-
-  const setNodeData = (newArticles: RelatedArticleType[]) => {
-    const path = ReactEditor.findPath(editor, element);
-    Transforms.setNodes(
-      editor,
-      {
-        data: {
-          nodes: newArticles.map((article) => {
-            if ('url' in article) {
-              return {
-                resource: 'related-content',
-                url: article.url,
-                title: article.title,
-              };
-            } else {
-              return { resource: 'related-content', 'article-id': article.id.toString() };
-            }
-          }),
-        },
-      },
-      { at: path, voids: true },
-    );
-  };
-
-  const structureExternal = (url: string, title: string): ExternalArticle => {
-    return {
-      id: ARTICLE_EXTERNAL,
-      tempId: url,
-      url,
+  const insertExternal = async (title: string, url: string) => {
+    const newEmbed: RelatedContentEmbedData = {
+      resource: 'related-content',
       title,
-      description: '',
+      url,
     };
+    const nodeData = (element.data ?? []).concat(newEmbed);
+    setNodeData(nodeData);
+    const newMetaData = await externalEmbedToMeta(newEmbed, embeds.length + 1);
+    setEmbeds((embeds) => embeds.concat(newMetaData));
   };
 
-  const updateArticles = (newArticles: RelatedArticleType[]) => {
-    setArticles(newArticles.filter((a) => !!a));
-    setNodeData(newArticles);
+  const insertInternal = async (articleId: string) => {
+    const existingNodes = element.data;
+    const exists = existingNodes.some((embed) => embed.articleId === articleId);
+    if (exists) {
+      return;
+    }
+    const newEmbed: RelatedContentEmbedData = { resource: 'related-content', articleId };
+    const embed = await internalEmbedToMeta(
+      { resource: 'related-content', articleId },
+      existingNodes.length + 1,
+      i18n.language,
+      taxonomyVersion,
+    );
+    setEmbeds((embeds) => embeds.concat(embed));
+    setNodeData(existingNodes.concat(newEmbed));
   };
 
-  const openEditMode = (e: SyntheticEvent) => {
-    e.stopPropagation();
-    setEditMode(true);
+  const setNodeData = (data: RelatedContentEmbedData[]) => {
+    const path = ReactEditor.findPath(editor, element);
+    Transforms.setNodes<RelatedElement>(editor, { data }, { at: path, voids: true });
+  };
+
+  const deleteElement = () => {
+    const path = ReactEditor.findPath(editor, element);
+    ReactEditor.focus(editor);
+    Transforms.select(editor, path);
+    Transforms.removeNodes(editor, { at: path });
+  };
+
+  const updateArticles = (newEmbeds: RelatedContentMetaData[]) => {
+    setEmbeds(newEmbeds.filter((a) => !!a));
+    setNodeData(newEmbeds.map((embed) => embed.embedData));
   };
 
   return (
-    <>
+    <div contentEditable={false} {...attributes}>
       {editMode && (
         <EditRelated
           data-testid="editRelated"
           onRemoveClick={onRemoveClick}
-          articles={articles}
+          embeds={embeds}
           insertExternal={insertExternal}
-          onInsertBlock={onInsertBlock}
+          onInsertBlock={insertInternal}
           onExit={() => setEditMode(false)}
           updateArticles={updateArticles}
         />
       )}
-      <StyledDiv
-        role="button"
-        draggable
-        contentEditable={false}
-        tabIndex={0}
+      <RelatedArticleListV2
         data-testid="relatedWrapper"
-        onClick={openEditMode}
-        onKeyPress={openEditMode}
-        {...attributes}
+        headingButtons={
+          <ButtonWrapper>
+            <Tooltip tooltip={t('form.edit')}>
+              <StyledIconButton
+                onClick={() => setEditMode(true)}
+                aria-label={t('form.edit')}
+                variant="ghost"
+              >
+                <Pencil />
+              </StyledIconButton>
+            </Tooltip>
+            <Tooltip tooltip={t('delete')}>
+              <StyledIconButton
+                onClick={deleteElement}
+                aria-label={t('delete')}
+                variant="ghost"
+                colorTheme="danger"
+              >
+                <DeleteForever />
+              </StyledIconButton>
+            </Tooltip>
+          </ButtonWrapper>
+        }
       >
-        <RelatedArticleList
-          headingLevel="h3"
-          messages={{
-            title: t('form.related.title'),
-            showMore: t('form.related.showMore'),
-            showLess: t('form.related.showLess'),
-          }}
-          articleCount={articles.length}
-        >
-          <>
-            {articles.map((item, i) =>
-              !('id' in item) ? (
-                t('form.content.relatedArticle.invalidArticle')
-              ) : (
-                <RelatedArticle key={i} numberInList={i} item={item} />
-              ),
-            )}
-          </>
-        </RelatedArticleList>
-        {children}
-      </StyledDiv>
-    </>
+        {embeds.map((embed) => (
+          <RelatedContentEmbed key={`related-${embed.seq}`} embed={embed} />
+        ))}
+      </RelatedArticleListV2>
+      {children}
+    </div>
   );
 };
 

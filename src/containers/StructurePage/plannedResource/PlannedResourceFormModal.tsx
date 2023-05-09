@@ -16,6 +16,7 @@ import { InputV2 } from '@ndla/forms';
 import { Option } from '@ndla/select';
 import sortBy from 'lodash/sortBy';
 import { IUpdatedArticle } from '@ndla/types-backend/draft-api';
+import { css } from '@emotion/react';
 import validateFormik, { RulesType } from '../../../components/formikValidationSchema';
 import { useSession } from '../../Session/SessionProvider';
 import { useFetchArticleData } from '../../FormikForm/formikDraftHooks';
@@ -56,6 +57,11 @@ export const StyledFormikField = styled(FormikField)`
   label {
     ${fonts.sizes('16px')}
   }
+`;
+
+const inputWrapperStyles = css`
+  flex-direction: column;
+  padding: 0;
 `;
 
 const ButtonWrapper = styled.div`
@@ -234,30 +240,24 @@ const PlannedResourceFormModal = ({ articleType, nodeId, onClose }: Props) => {
           <StyledForm>
             <StyledFormikField name="title">
               {({ field }: FieldProps) => (
-                <>
-                  <StyledLabel htmlFor="input-title">{t('taxonomy.title')}</StyledLabel>
-                  <InputV2
-                    label={t('taxonomy.title')}
-                    labelHidden={true}
-                    placeholder={t('taxonomy.title')}
-                    white
-                    {...field}
-                  />
-                </>
+                <InputV2
+                  customCss={inputWrapperStyles}
+                  label={t('taxonomy.title')}
+                  placeholder={t('taxonomy.title')}
+                  white
+                  {...field}
+                />
               )}
             </StyledFormikField>
             <StyledFormikField name="comments">
               {({ field }: FieldProps) => (
-                <>
-                  <StyledLabel htmlFor="input-title">{t('taxonomy.comment')}</StyledLabel>
-                  <InputV2
-                    label={t('taxonomy.comment')}
-                    labelHidden={true}
-                    placeholder={t('taxonomy.commentPlaceholder')}
-                    white
-                    {...field}
-                  />
-                </>
+                <InputV2
+                  customCss={inputWrapperStyles}
+                  label={t('taxonomy.comment')}
+                  placeholder={t('taxonomy.commentPlaceholder')}
+                  white
+                  {...field}
+                />
               )}
             </StyledFormikField>
             {!isTopicArticle && (

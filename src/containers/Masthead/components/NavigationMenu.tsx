@@ -1,8 +1,16 @@
+/**
+ * Copyright (c) 2019-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Launch, Audio, Podcast } from '@ndla/icons/common';
 import styled from '@emotion/styled';
-import { colors, spacing, animations } from '@ndla/core';
+import { spacing, animations } from '@ndla/core';
 import { Camera, Concept, H5P, Taxonomy, Video } from '@ndla/icons/editor';
 import { List } from '@ndla/icons/action';
 //@ts-ignore
@@ -22,6 +30,29 @@ import {
 } from '../../../util/routeHelpers';
 import { useSession } from '../../Session/SessionProvider';
 import { AUDIO_ADMIN_SCOPE, DRAFT_ADMIN_SCOPE, TAXONOMY_ADMIN_SCOPE } from '../../../constants';
+
+const StyledMenuContainer = styled.div`
+  right: 0;
+  left: 0;
+  transform: translateY(${spacing.xsmall});
+  ${animations.fadeIn(animations.durations.superFast)};
+
+  > div {
+    max-width: 660px;
+    margin: ${spacing.large} auto;
+  }
+
+  nav {
+    display: flex;
+    justify-content: space-between;
+
+    > div {
+      display: flex;
+      flex-direction: column;
+      width: calc(50% - ${spacing.normal});
+    }
+  }
+`;
 
 interface Props {
   close: () => void;
@@ -144,30 +175,5 @@ const OpenMenu = ({ close }: Props) => {
     </StyledMenuContainer>
   );
 };
-
-const StyledMenuContainer = styled.div`
-  background: ${colors.brand.greyLightest};
-  position: absolute;
-  right: 0;
-  left: 0;
-  transform: translateY(6px);
-  ${animations.fadeIn(animations.durations.superFast)};
-
-  > div {
-    max-width: 660px;
-    margin: ${spacing.large} auto;
-  }
-
-  nav {
-    display: flex;
-    justify-content: space-between;
-
-    > div {
-      display: flex;
-      flex-direction: column;
-      width: calc(50% - ${spacing.normal});
-    }
-  }
-`;
 
 export default OpenMenu;

@@ -23,7 +23,6 @@ import { useSession } from '../../Session/SessionProvider';
 
 const StyledUserIcon = styled(PersonOutlined)`
   color: ${colors.brand.primary};
-  margin-right: ${spacing.xsmall};
   width: ${spacing.normal};
   height: ${spacing.normal};
 `;
@@ -36,12 +35,6 @@ const StyledUserButton = styled(ButtonV2)`
   &:focus-visible {
     color: ${colors.black};
   }
-`;
-
-const UserWrapper = styled.div`
-  white-space: nowrap;
-  display: flex;
-  align-items: center;
 `;
 
 const StyledLink = StyledListButton.withComponent(Link);
@@ -94,18 +87,18 @@ const SessionContainer = ({ close }: Props) => {
         </>
       )}
       {authenticated && isAccessTokenPersonal ? (
-        <UserWrapper>
+        <StyledUserButton
+          onClick={() => {
+            toggleOpen();
+            close();
+          }}
+          variant="ghost"
+          colorTheme="lighter"
+          shape="pill"
+        >
           <StyledUserIcon />
-          <StyledUserButton
-            onClick={() => {
-              toggleOpen();
-              close();
-            }}
-            variant="stripped"
-          >
-            {userName?.split(' ')[0]}
-          </StyledUserButton>
-        </UserWrapper>
+          {userName?.split(' ')[0]}
+        </StyledUserButton>
       ) : (
         <Link to={toLogin()}>{t('siteNav.login')}</Link>
       )}

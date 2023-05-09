@@ -15,11 +15,11 @@ import Tooltip from '@ndla/tooltip';
 import { Spinner } from '@ndla/icons';
 import { IconButtonV2 } from '@ndla/button';
 import { breakpoints, mq } from '@ndla/core';
+import { NodeChild } from '@ndla/types-taxonomy';
 import { ResourceWithNodeConnectionAndMeta } from './StructureResources';
 import { ResourceType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import ResourceItems from './ResourceItems';
 import AddResourceModal from './AddResourceModal';
-import { ChildNodeType } from '../../../modules/nodes/nodeApiTypes';
 import Resource from './Resource';
 import { NodeResourceMeta, useNodes } from '../../../modules/nodes/nodeQueries';
 import ResourceBanner from './ResourceBanner';
@@ -39,10 +39,10 @@ const ResourceWrapper = styled.div`
 interface Props {
   nodeResources: ResourceWithNodeConnectionAndMeta[];
   resourceTypes: ResourceType[];
-  currentNode: ChildNodeType;
+  currentNode: NodeChild;
   contentMeta: Dictionary<NodeResourceMeta>;
   grouped: boolean;
-  setCurrentNode: (changedNode: ChildNodeType) => void;
+  setCurrentNode: (changedNode: NodeChild) => void;
   contentMetaLoading: boolean;
 }
 
@@ -130,7 +130,6 @@ const ResourcesContainer = ({
             resource={{
               ...currentNode,
               paths,
-              nodeId: '',
               contentMeta: currentMeta,
               resourceTypes: [],
               relevanceId: currentNode.relevanceId,

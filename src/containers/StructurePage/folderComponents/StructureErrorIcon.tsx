@@ -11,8 +11,8 @@ import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { AlertCircle } from '@ndla/icons/editor';
 import { spacing, colors } from '@ndla/core';
+import { Node } from '@ndla/types-taxonomy';
 import { getIdFromUrn } from '../../../util/taxonomyHelpers';
-import { NodeType } from '../../../modules/nodes/nodeApiTypes';
 
 const StyledWarnIcon = styled(AlertCircle)`
   height: ${spacing.nsmall};
@@ -27,7 +27,7 @@ const StyledAlertIcon = styled(AlertCircle)`
 `;
 
 const StructureErrorIcon = (
-  item: NodeType,
+  item: Node,
   isRoot: boolean,
   isTaxonomyAdmin: boolean,
   articleType?: string,

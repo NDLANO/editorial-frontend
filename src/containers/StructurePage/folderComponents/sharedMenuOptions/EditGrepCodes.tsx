@@ -13,8 +13,8 @@ import { Plus, Pencil } from '@ndla/icons/action';
 import { DeleteForever } from '@ndla/icons/editor';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
+import { Node } from '@ndla/types-taxonomy';
 import { EditModeHandler } from '../SettingsMenuDropdownType';
-import { NodeType } from '../../../../modules/nodes/nodeApiTypes';
 import { useUpdateNodeMetadataMutation } from '../../../../modules/nodes/nodeMutations';
 import Spinner from '../../../../components/Spinner';
 import RoundIcon from '../../../../components/RoundIcon';
@@ -26,7 +26,7 @@ import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionPro
 
 interface Props {
   editModeHandler: EditModeHandler;
-  node: NodeType;
+  node: Node;
 }
 
 const StyledIconButton = styled(IconButtonV2)`

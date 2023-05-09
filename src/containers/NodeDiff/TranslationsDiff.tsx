@@ -7,18 +7,18 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { NodeTranslation } from '../../modules/nodes/nodeApiTypes';
+import { Translation } from '@ndla/types-taxonomy';
 import { DiffField, DiffInnerField } from './DiffField';
 import { diffField, DiffResult } from './diffUtils';
 import FieldWithTitle from './FieldWithTitle';
 
 interface Props {
-  translations: DiffResult<NodeTranslation[]>;
+  translations: DiffResult<Translation[]>;
 }
 
 type TagType = 'original' | 'other';
 type KeyedTranslations = Record<string, { original?: string; other?: string }>;
-interface TranslationWithType extends NodeTranslation {
+interface TranslationWithType extends Translation {
   type: TagType;
 }
 

@@ -295,7 +295,15 @@ const PlannedResourceFormModal = ({ articleType, nodeId, onClose }: Props) => {
               </StyledFormikField>
             )}
             <ButtonWrapper>
-              <ButtonV2 onClick={() => handleSubmit()} disabled={!dirty || !isValid} type="submit">
+              <ButtonV2
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleSubmit();
+                  onClose();
+                }}
+                disabled={!dirty || !isValid}
+                type="submit"
+              >
                 {t('form.save')}
               </ButtonV2>
             </ButtonWrapper>

@@ -27,8 +27,8 @@ interface ContactBlockFormValues {
   jobTitle: string;
   name: string;
   email: string;
-  blobColor?: (typeof blobColors)[number];
-  blob?: (typeof blobTypes)[number];
+  blobColor?: ContactBlockEmbedData['blobColor'];
+  blob?: ContactBlockEmbedData['blob'];
   metaImageId?: string;
 }
 
@@ -62,14 +62,16 @@ interface Props {
   onCancel: () => void;
 }
 
-const inputStyle = css`
+const StyledInput = styled(InputV2)`
   display: flex;
   flex-direction: column;
   width: 100%;
 `;
 
-const inputContentStyle = css`
-  ${inputStyle};
+const StyledTextArea = styled(TextAreaV2)`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
   height: 130px;
 `;
 
@@ -90,8 +92,8 @@ const toInitialValues = (initialData?: ContactBlockEmbedData): ContactBlockFormV
     email: initialData?.email ?? '',
   };
 };
-const blobTypes = ['pointy', 'round'] as const;
-const blobColors = ['green', 'pink'] as const;
+const blobTypes = ['pointy', 'round'];
+const blobColors = ['green', 'pink'];
 
 const ContactBlockForm = ({ initialData, onSave, onCancel }: Props) => {
   const { t } = useTranslation();
@@ -132,18 +134,14 @@ const ContactBlockForm = ({ initialData, onSave, onCancel }: Props) => {
             {({ field }: FieldProps) => <InputV2 label={t('form.name.name')} {...field} />}
           </StyledFormikField>
           <StyledFormikField name="jobTitle" showError>
-            {({ field }: FieldProps) => (
-              <InputV2 css={inputStyle} label={t('form.name.jobTitle')} {...field} />
-            )}
+            {({ field }: FieldProps) => <StyledInput label={t('form.name.jobTitle')} {...field} />}
           </StyledFormikField>
           <StyledFormikField name="email" type="email" showError>
-            {({ field }: FieldProps) => (
-              <InputV2 css={inputStyle} label={t('form.name.email')} {...field} />
-            )}
+            {({ field }: FieldProps) => <StyledInput label={t('form.name.email')} {...field} />}
           </StyledFormikField>
           <StyledFormikField name="description" showError>
             {({ field }: FieldProps) => (
-              <TextAreaV2 css={inputContentStyle} label={t('form.name.description')} {...field} />
+              <StyledTextArea label={t('form.name.description')} {...field} />
             )}
           </StyledFormikField>
           <StyledFormikField name="blob">

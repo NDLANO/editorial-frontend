@@ -68,6 +68,8 @@ import { TYPE_FILE } from '../../../../components/SlateEditor/plugins/file/types
 import { blogPostPlugin } from '../../../../components/SlateEditor/plugins/blogPost';
 import { TYPE_BLOGPOST } from '../../../../components/SlateEditor/plugins/blogPost/types';
 import { frontpageActions } from '../../../../components/SlateEditor/plugins/blockPicker/actions';
+import { gridPlugin } from '../../../../components/SlateEditor/plugins/grid';
+import { TYPE_GRID } from '../../../../components/SlateEditor/plugins/grid/types';
 
 const StyledFormikField = styled(FormikField)`
   display: flex;
@@ -107,7 +109,9 @@ const visualElements = [
   TYPE_EMBED_IMAGE,
 ];
 
-const actions = [TYPE_TABLE, TYPE_CODEBLOCK, TYPE_FILE, TYPE_BLOGPOST].concat(visualElements);
+const actions = [TYPE_TABLE, TYPE_CODEBLOCK, TYPE_FILE, TYPE_BLOGPOST, TYPE_GRID].concat(
+  visualElements,
+);
 const actionsToShowInAreas = {
   details: actions,
   aside: actions,
@@ -133,6 +137,7 @@ export const plugins = (
     footnotePlugin,
     embedPlugin(articleLanguage, locale),
     bodyboxPlugin,
+    gridPlugin,
     asidePlugin,
     detailsPlugin,
     blockQuotePlugin,

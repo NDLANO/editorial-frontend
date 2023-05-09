@@ -6,4 +6,4 @@
  *
  */
 
-const TYPE_GRID = 'grid';
+export const TYPE_GRID = 'grid';

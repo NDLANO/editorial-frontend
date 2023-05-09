@@ -15,12 +15,15 @@ import { SlateGrid } from './SlateGrid';
 import { defaultBlockNormalizer, NormalizerConfig } from '../../utils/defaultNormalizer';
 import { afterOrBeforeTextBlockElement } from '../../utils/normalizationHelpers';
 import { TYPE_PARAGRAPH } from '../paragraph/types';
+import { TYPE_GRID } from './types';
 
 export interface GridElement {
   type: 'grid';
-  size?: 'small' | 'medium' | 'large';
-  columns?: 2 | 4;
   isFirstEdit: boolean;
+  data: {
+    columns?: 2 | 4;
+    size?: 'small' | 'medium' | 'large';
+  };
   children: Descendant[];
 }
 
@@ -36,27 +39,23 @@ const normalizerConfig: NormalizerConfig = {
 };
 export const gridSerializer: SlateSerializer = {
   deserialize(el: HTMLElement, children: Descendant[]) {
-    const tag = el.tagName.toLowerCase();
-    if (tag === TYPE_GRID) {
+    if (el.tagName.toLowerCase() === 'div') {
       const grid = el as HTMLDivElement;
       const attributes = reduceElementDataAttributesV2(Array.from(grid.attributes));
       return slatejsx(
         'element',
         {
           type: TYPE_GRID,
-          size: attributes['size'],
-          columns: attributes['columns'],
+          data: attributes,
         },
         children,
       );
     }
-    return;
   },
   serialize(node: Descendant, children: JSX.Element[]) {
-    if (!Element.isElement(node)) return;
-    if (node.type === TYPE_GRID) {
+    if (Element.isElement(node) && node.type === TYPE_GRID) {
       return (
-        <div data-type={TYPE_GRID} data-size={node.size} data-columns={node.columns}>
+        <div data-type={TYPE_GRID} data-size={node.data.size} data-columns={node.data.columns}>
           {children}
         </div>
       );
@@ -65,12 +64,7 @@ export const gridSerializer: SlateSerializer = {
 };
 
 export const gridPlugin = (editor: Editor) => {
-  const {
-    renderElement: nextRenderElement,
-    normalizeNode: nextNormalizeNode,
-    isVoid: nextIsVoid,
-  } = editor;
-
+  const { renderElement: nextRenderElement, normalizeNode: nextNormalizeNode } = editor;
   editor.renderElement = ({ attributes, children, element }: RenderElementProps) => {
     if (element.type === TYPE_GRID) {
       return (
@@ -78,10 +72,8 @@ export const gridPlugin = (editor: Editor) => {
           {children}
         </SlateGrid>
       );
-    } else if (nextRenderElement) {
-      return nextRenderElement({ attributes, children, element });
     }
-    return undefined;
+    return nextRenderElement?.({ attributes, children, element });
   };
 
   editor.normalizeNode = (entry) => {
@@ -91,15 +83,8 @@ export const gridPlugin = (editor: Editor) => {
       if (defaultBlockNormalizer(editor, entry, normalizerConfig)) {
         return;
       }
-      nextNormalizeNode(entry);
     }
-  };
-
-  editor.isVoid = (element) => {
-    if (element.type === TYPE_GRID) {
-      return true;
-    }
-    return nextIsVoid(element);
+    nextNormalizeNode(entry);
   };
 
   return editor;

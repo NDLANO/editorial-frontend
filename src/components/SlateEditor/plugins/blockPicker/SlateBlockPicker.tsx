@@ -48,6 +48,8 @@ import { TYPE_CODEBLOCK } from '../codeBlock/types';
 import { TYPE_CONCEPT_LIST } from '../conceptList/types';
 import { TYPE_BLOGPOST } from '../blogPost/types';
 import { defaultBlogPostBlock } from '../blogPost/utils';
+import { TYPE_GRID } from '../grid/types';
+import { defaultGridBlock } from '../grid/utils';
 
 interface Props {
   editor: Editor;
@@ -206,15 +208,20 @@ const SlateBlockPicker = ({
         onInsertBlock(defaultCodeblockBlock());
         break;
       }
-      case TYPE_BLOGPOST:
+      case TYPE_BLOGPOST: {
         onInsertBlock(defaultBlogPostBlock());
         break;
+      }
       case TYPE_CONCEPT_LIST: {
         onInsertBlock({ ...defaultConceptListBlock(), isFirstEdit: true });
         break;
       }
       case TYPE_CONCEPT_BLOCK: {
         onInsertBlock(defaultConceptBlock());
+        break;
+      }
+      case TYPE_GRID: {
+        onInsertBlock(defaultGridBlock());
         break;
       }
       default:

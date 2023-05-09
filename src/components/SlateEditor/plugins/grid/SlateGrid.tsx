@@ -27,7 +27,7 @@ interface Props extends RenderElementProps {
 export const SlateGrid = ({ element, editor, children }: Props) => {
   const { t } = useTranslation();
   const [isEditing, setIsEditing] = useState(element.isFirstEdit);
-  const { size, columns } = element;
+  const { size, columns } = element.data;
 
   const handleRemove = () => {
     Transforms.removeNodes(editor, { at: ReactEditor.findPath(editor, element), voids: true });
@@ -49,7 +49,7 @@ export const SlateGrid = ({ element, editor, children }: Props) => {
     (data: GridEmbedData) => {
       setIsEditing(false);
       const properties = {
-        ...data,
+        data: data,
         isFirstEdit: false,
       };
       ReactEditor.focus(editor);
@@ -87,7 +87,7 @@ export const SlateGrid = ({ element, editor, children }: Props) => {
   return (
     <>
       {size && columns && (
-        <GridWrapper contentEditable={false}>
+        <GridWrapper>
           <ButtonContainer>
             <IconButtonV2
               variant="ghost"

@@ -66,7 +66,7 @@ const StyledFormikField = styled(FormikField)`
 `;
 
 const sizes = ['small', 'medium', 'large'];
-const columns = [1, 2];
+const columns = [2, 4];
 
 const GridForm = ({ initialData, onSave, onCancel }: Props) => {
   const { t } = useTranslation();

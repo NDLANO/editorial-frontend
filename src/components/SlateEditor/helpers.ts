@@ -14,6 +14,7 @@ import {
 } from './plugins/embed/types';
 import { TYPE_FILE } from './plugins/file/types';
 import { TYPE_FOOTNOTE } from './plugins/footnote/types';
+import { TYPE_GRID } from './plugins/grid/types';
 import { TYPE_LINK, TYPE_CONTENT_LINK } from './plugins/link/types';
 import { TYPE_MATHML } from './plugins/mathml/types';
 import { TYPE_RELATED } from './plugins/related/types';

@@ -10,6 +10,7 @@ import groupBy from 'lodash/groupBy';
 import merge from 'lodash/merge';
 import sortBy from 'lodash/sortBy';
 import uniqBy from 'lodash/uniqBy';
+import { NodeChild } from '@ndla/types-taxonomy';
 import { FlattenedResourceType } from '../interfaces';
 import {
   ResourceType,
@@ -18,8 +19,8 @@ import {
 } from '../modules/taxonomy/taxonomyApiInterfaces';
 import { fetchTopic, fetchSubject } from '../modules/taxonomy';
 import { getContentTypeFromResourceTypes } from './resourceHelpers';
-import { ChildNodeType } from '../modules/nodes/nodeApiTypes';
 import { ResourceWithNodeConnectionAndMeta } from '../containers/StructurePage/resourceComponents/StructureResources';
+import { NodeChildWithChildren } from '../modules/nodes/nodeQueries';
 
 // Kan hende at id i contentUri fra taxonomy inneholder '#xxx' (revision)
 export const getIdFromUrn = (urn?: string) => {
@@ -168,7 +169,10 @@ const insertSubTopic = (topics: SubjectTopic[], subTopic: SubjectTopic): Subject
     return topic;
   });
 };
-const insertChild = (childNodes: ChildNodeType[], childNode: ChildNodeType): ChildNodeType[] => {
+const insertChild = (
+  childNodes: NodeChildWithChildren[],
+  childNode: NodeChildWithChildren,
+): NodeChildWithChildren[] => {
   return childNodes.map((node) => {
     if (node.id === childNode.parentId) {
       return { ...node, childNodes: safeConcat(childNode, node.childNodes) };
@@ -180,7 +184,7 @@ const insertChild = (childNodes: ChildNodeType[], childNode: ChildNodeType): Chi
   });
 };
 
-const groupChildNodes = (childNodes: ChildNodeType[]) =>
+const groupChildNodes = (childNodes: NodeChild[]) =>
   childNodes.reduce((acc, curr) => {
     if (curr.parentId.includes('subject')) return acc;
     const withoutCurrent = acc.filter((node) => node.id !== curr.id);

@@ -12,10 +12,10 @@ import { CloseButton, IconButtonV2 } from '@ndla/button';
 import { colors, spacing, animations } from '@ndla/core';
 import { Settings } from '@ndla/icons/editor';
 import styled from '@emotion/styled';
+import { Node } from '@ndla/types-taxonomy';
 import { getNodeTypeFromNodeId } from '../../../modules/nodes/nodeUtil';
 import RoundIcon from '../../../components/RoundIcon';
 import Overlay from '../../../components/Overlay';
-import { NodeType } from '../../../modules/nodes/nodeApiTypes';
 import SettingsMenuDropdownType from './SettingsMenuDropdownType';
 
 const TitleWrapper = styled.div`
@@ -51,10 +51,10 @@ const StyledIconButton = styled(IconButtonV2)`
 `;
 
 interface Props {
-  node: NodeType;
+  node: Node;
   rootNodeId: string;
-  nodeChildren: NodeType[];
-  onCurrentNodeChanged: (node: NodeType) => void;
+  nodeChildren: Node[];
+  onCurrentNodeChanged: (node: Node) => void;
 }
 
 const SettingsMenu = ({ node, rootNodeId, onCurrentNodeChanged, nodeChildren }: Props) => {

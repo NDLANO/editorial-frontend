@@ -4,8 +4,9 @@ import { MenuBook } from '@ndla/icons/action';
 import { Subject } from '@ndla/icons/contentType';
 import Tooltip from '@ndla/tooltip';
 import { useTranslation } from 'react-i18next';
+import { Node } from '@ndla/types-taxonomy';
 import { DiffType } from '../containers/NodeDiff/diffUtils';
-import { NodeType, SUBJECT_NODE } from '../modules/nodes/nodeApiTypes';
+import { SUBJECT_NODE } from '../modules/nodes/nodeApiTypes';
 import { getNodeTypeFromNodeId } from '../modules/nodes/nodeUtil';
 
 const StyledMenuBook = styled(MenuBook)`
@@ -17,7 +18,7 @@ const StyledMenuBook = styled(MenuBook)`
 const StyledSubject = StyledMenuBook.withComponent(Subject);
 
 interface Props {
-  node: DiffType<NodeType> | NodeType;
+  node: DiffType<Node> | Node;
 }
 
 const NodeIconType = ({ node }: Props) => {

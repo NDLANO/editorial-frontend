@@ -56,11 +56,15 @@ export const WelcomePage = () => {
         <Column>{ndlaId && <WorkList ndlaId={ndlaId} />}</Column>
         <Column colStart={2} colEnd={8}>
           {ndlaId && <Revisions ndlaId={ndlaId} userData={data} />}
-          <StyledColumnHeader>
-            <SearchFolder className="c-icon--medium" />
-            <span>{t('welcomePage.savedSearch')}</span>
-          </StyledColumnHeader>
-          <SaveSearchUrl />
+          {ndlaId && (
+            <>
+              <StyledColumnHeader>
+                <SearchFolder className="c-icon--medium" />
+                <span>{t('welcomePage.savedSearch')}</span>
+              </StyledColumnHeader>
+              <SaveSearchUrl />
+            </>
+          )}
         </Column>
         <Column colStart={8} colEnd={12}>
           {ndlaId && <LastUsedItems lastUsed={lastUsed} />}

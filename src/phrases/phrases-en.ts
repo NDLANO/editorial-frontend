@@ -132,6 +132,7 @@ const phrases = {
     revision: 'Revisjon',
     revisionDescription: 'Articles in favorite subjects that need revision',
     revisionDate: 'Revision date',
+    productionSystem: 'to production system',
     workList: {
       title: 'My tasks',
       description: 'Articles where you are responsible',

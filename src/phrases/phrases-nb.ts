@@ -133,6 +133,7 @@ const phrases = {
     revision: 'Revisjon',
     revisionDescription: 'Artikler i favorittfag som trenger revisjon',
     revisionDate: 'Revisjonsdato',
+    productionSystem: 'til produksjonssystem',
     workList: {
       title: 'Mine arbeidsoppgaver',
       description: 'Artikler hvor du står som ansvarlig',

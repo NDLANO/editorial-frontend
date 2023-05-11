@@ -8,7 +8,8 @@
 
 import { useState, useEffect } from 'react';
 import { IConcept, INewConcept, IUpdatedConcept } from '@ndla/types-backend/concept-api';
-import { IArticle } from '@ndla/types-backend/draft-api';
+import { IArticle, IUserData } from '@ndla/types-backend/draft-api';
+import uniq from 'lodash/uniq';
 import * as conceptApi from '../../modules/concept/conceptApi';
 import * as taxonomyApi from '../../modules/taxonomy';
 import { fetchSearchTags } from '../../modules/concept/conceptApi';
@@ -16,8 +17,8 @@ import { fetchDraft } from '../../modules/draft/draftApi';
 import handleError from '../../util/handleError';
 import { SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from '../../constants';
-import { ConceptStatusType } from '../../interfaces';
 import { useTaxonomyVersion } from '../StructureVersion/TaxonomyVersionProvider';
+import { useUpdateUserDataMutation, useUserData } from '../../modules/draft/draftQueries';
 
 export function useFetchConceptData(conceptId: number | undefined, locale: string) {
   const [concept, setConcept] = useState<IConcept>();
@@ -26,6 +27,8 @@ export function useFetchConceptData(conceptId: number | undefined, locale: strin
   const [loading, setLoading] = useState(true);
   const [subjects, setSubjects] = useState<SubjectType[]>([]);
   const { taxonomyVersion } = useTaxonomyVersion();
+  const { mutateAsync } = useUpdateUserDataMutation();
+  const { data } = useUserData();
 
   useEffect(() => {
     const fetchConcept = async (): Promise<void> => {
@@ -67,12 +70,20 @@ export function useFetchConceptData(conceptId: number | undefined, locale: strin
     return await Promise.all(promises);
   };
 
+  const updateUserData = async (userData?: IUserData) => {
+    if (!userData || !conceptId) return;
+    const latestEdited = uniq([conceptId?.toString()].concat(userData?.latestEditedConcepts ?? []));
+    const latestEditedConcepts = latestEdited.slice(0, 10);
+    mutateAsync({ latestEditedConcepts });
+  };
+
   const updateConcept = async (id: number, updatedConcept: IUpdatedConcept): Promise<IConcept> => {
     const savedConcept = await conceptApi.updateConcept(id, updatedConcept);
     const convertedArticles = await fetchElementList(savedConcept.articleIds);
     setConcept(savedConcept);
     setConceptArticles(convertedArticles);
     setConceptChanged(false);
+    updateUserData(data);
     return savedConcept;
   };
 
@@ -82,6 +93,8 @@ export function useFetchConceptData(conceptId: number | undefined, locale: strin
     setConcept(savedConcept);
     setConceptArticles(convertedArticles);
     setConceptChanged(false);
+    updateUserData(data);
+
     return savedConcept;
   };
 

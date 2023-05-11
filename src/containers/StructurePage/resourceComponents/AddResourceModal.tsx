@@ -69,12 +69,10 @@ const emptySearchResults: IGroupSearchResult = {
 
 interface Props {
   onClose: () => void;
-  type?: string;
   resourceTypes?: {
     id: string;
     name: string;
   }[];
-  allowPaste?: boolean;
   nodeId: string;
   existingResourceIds: string[];
 }
@@ -88,14 +86,7 @@ type ArticleWithPaths = IArticleV2 & { paths: string[] | undefined };
 
 type PossibleResources = ArticleWithPaths | ILearningPathSummaryV2 | IMultiSearchSummary;
 
-const AddResourceModal = ({
-  onClose,
-  type,
-  allowPaste = false,
-  resourceTypes,
-  existingResourceIds,
-  nodeId,
-}: Props) => {
+const AddResourceModal = ({ onClose, resourceTypes, existingResourceIds, nodeId }: Props) => {
   const { t, i18n } = useTranslation();
   const [content, setContent] = useState<Content | undefined>(undefined);
   const [error, setError] = useState('');
@@ -108,7 +99,7 @@ const AddResourceModal = ({
   const { mutateAsync: createNodeResource } = usePostResourceForNodeMutation({
     onSuccess: (_) => qc.invalidateQueries(compKey),
   });
-  const canPaste = allowPaste || selectedType !== RESOURCE_TYPE_LEARNING_PATH;
+  const canPaste = selectedType !== RESOURCE_TYPE_LEARNING_PATH;
 
   const toContent = (resource: PossibleResources): Content => {
     if ('metaUrl' in resource) {
@@ -217,15 +208,13 @@ const AddResourceModal = ({
       onClose={onClose}
     >
       <StyledContent>
-        {!type && (
-          <ResourceTypeSelect
-            availableResourceTypes={resourceTypes ?? []}
-            onChangeSelectedResource={(value) => {
-              if (value) setSelectedType(value?.value);
-            }}
-            selectedType={selectedType}
-          />
-        )}
+        <ResourceTypeSelect
+          availableResourceTypes={resourceTypes ?? []}
+          onChangeSelectedResource={(value) => {
+            if (value) setSelectedType(value?.value);
+          }}
+          selectedType={selectedType}
+        />
         {canPaste && selectedType && (
           <Input
             type="text"

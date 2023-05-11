@@ -132,6 +132,7 @@ const phrases = {
     revision: 'Revisjon',
     revisionDescription: 'Articles in favorite subjects that need revision',
     revisionDate: 'Revision date',
+    revisionInfo: 'Choose your favorite subjects by marking them with a star in structure editing',
     workList: {
       title: 'My tasks',
       description: 'Articles where you are responsible',

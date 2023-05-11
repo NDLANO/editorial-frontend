@@ -16,6 +16,7 @@ import { Spinner } from '@ndla/icons';
 import { IconButtonV2 } from '@ndla/button';
 import { breakpoints, mq } from '@ndla/core';
 import { NodeChild } from '@ndla/types-taxonomy';
+import { IUserData } from '@ndla/types-backend/build/draft-api';
 import { ResourceWithNodeConnectionAndMeta } from './StructureResources';
 import { ResourceType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import ResourceItems from './ResourceItems';
@@ -45,6 +46,7 @@ interface Props {
   grouped: boolean;
   setCurrentNode: (changedNode: NodeChild) => void;
   contentMetaLoading: boolean;
+  userData: IUserData | undefined;
 }
 const ResourcesContainer = ({
   resourceTypes,
@@ -54,6 +56,7 @@ const ResourcesContainer = ({
   grouped,
   setCurrentNode,
   contentMetaLoading,
+  userData,
 }: Props) => {
   const { t } = useTranslation();
   const [showAddModal, setShowAddModal] = useState(false);
@@ -127,6 +130,7 @@ const ResourcesContainer = ({
             onClose={() => setShowPlannedResourceModal(false)}
             articleType="standard"
             nodeId={currentNodeId}
+            userData={userData}
           />
         )}
         {currentNode.name && (

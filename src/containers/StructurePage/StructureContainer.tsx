@@ -159,6 +159,7 @@ const StructureContainer = () => {
                 currentChildNode={currentNode}
                 setCurrentNode={setCurrentNode}
                 resourceRef={resourceSection}
+                userData={userDataQuery.data}
               />
             )}
           </Column>

@@ -148,7 +148,7 @@ const phrases = {
       sortAsc: 'Sort ascending',
       sortDesc: 'Sort descending',
     },
-    welcomeBack: 'Welcome back',
+    welcomeBack: 'Welcome',
   },
   searchPage: {
     header: {

@@ -149,7 +149,7 @@ const phrases = {
       sortAsc: 'Sorter stigande',
       sortDesc: 'Sorter synkande',
     },
-    welcomeBack: 'Velkommen tilbake',
+    welcomeBack: 'Velkommen',
   },
   searchPage: {
     header: {

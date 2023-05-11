@@ -168,6 +168,7 @@ const StructureContainer = () => {
             onClose={() => setShowAddTopicModal(false)}
             articleType="topic-article"
             nodeId={currentNode?.id ?? ''}
+            userData={userDataQuery.data}
           />
         )}
         {config.versioningEnabled === 'true' && isTaxonomyAdmin && <StickyVersionSelector />}

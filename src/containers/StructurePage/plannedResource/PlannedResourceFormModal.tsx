@@ -15,11 +15,11 @@ import { ButtonV2 } from '@ndla/button';
 import { InputV2 } from '@ndla/forms';
 import { Option } from '@ndla/select';
 import sortBy from 'lodash/sortBy';
-import { IUpdatedArticle } from '@ndla/types-backend/draft-api';
+import { IUpdatedArticle, IUserData } from '@ndla/types-backend/draft-api';
 import { css } from '@emotion/react';
+import uniq from 'lodash/uniq';
 import validateFormik, { RulesType } from '../../../components/formikValidationSchema';
 import { useSession } from '../../Session/SessionProvider';
-import { useFetchArticleData } from '../../FormikForm/formikDraftHooks';
 import {
   useAddNodeMutation,
   useCreateResourceResourceTypeMutation,
@@ -41,6 +41,7 @@ import PlannedResourceSelect from './PlannedResourceSelect';
 import RelevanceOption from '../../../components/Taxonomy/RelevanceOption';
 import { StyledErrorMessage } from '../folderComponents/styles';
 import { Auth0UserData } from '../../../interfaces';
+import { createDraft, updateUserData } from '../../../modules/draft/draftApi';
 
 const StyledForm = styled.form`
   width: 100%;
@@ -117,13 +118,13 @@ interface Props {
   articleType: string;
   nodeId: string;
   onClose: () => void;
+  userData: IUserData | undefined;
 }
 
-const PlannedResourceFormModal = ({ articleType, nodeId, onClose }: Props) => {
+const PlannedResourceFormModal = ({ articleType, nodeId, onClose, userData }: Props) => {
   const [error, setError] = useState<string | undefined>(undefined);
   const { t, i18n } = useTranslation();
   const { ndlaId, userName } = useSession();
-  const { createArticle } = useFetchArticleData(undefined, i18n.language);
   const addNodeMutation = useAddNodeMutation();
   const { taxonomyVersion } = useTaxonomyVersion();
   const qc = useQueryClient();
@@ -184,8 +185,15 @@ const PlannedResourceFormModal = ({ articleType, nodeId, onClose }: Props) => {
           responsibleId: values.responsible,
           revision: 0,
         };
+        const createdArticle = await createDraft(convertUpdateToNewDraft(plannedResource));
 
-        const createdArticle = await createArticle(convertUpdateToNewDraft(plannedResource));
+        // Add created article to latest edited
+        const latestEdited = uniq(
+          [createdArticle.id.toString()].concat(userData?.latestEditedArticles ?? []),
+        );
+        await updateUserData({ latestEditedArticles: latestEdited.slice(0, 10) });
+
+        // Create node in taxonomy
         const resourceUrl = await addNodeMutation.mutateAsync({
           body: {
             name: values.title,
@@ -196,6 +204,7 @@ const PlannedResourceFormModal = ({ articleType, nodeId, onClose }: Props) => {
           taxonomyVersion,
         });
 
+        // Position node in taxonomy
         const resourceId = resourceUrl.replace('/v1/nodes/', '');
         await createNodeResource({
           body: { resourceId: resourceId, nodeId, relevanceId: values.relevance },
@@ -218,7 +227,6 @@ const PlannedResourceFormModal = ({ articleType, nodeId, onClose }: Props) => {
     },
     [
       addNodeMutation,
-      createArticle,
       createNodeResource,
       createResourceResourceType,
       i18n.language,
@@ -226,6 +234,7 @@ const PlannedResourceFormModal = ({ articleType, nodeId, onClose }: Props) => {
       nodeId,
       onClose,
       taxonomyVersion,
+      userData?.latestEditedArticles,
     ],
   );
 

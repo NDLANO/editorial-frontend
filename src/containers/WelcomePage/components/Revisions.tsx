@@ -14,6 +14,8 @@ import addYears from 'date-fns/addYears';
 import { Select, SingleValue } from '@ndla/select';
 import Pager from '@ndla/pager';
 import sortBy from 'lodash/sortBy';
+import styled from '@emotion/styled';
+import { mq, breakpoints } from '@ndla/core';
 import {
   ControlWrapperDashboard,
   DropdownWrapper,
@@ -31,6 +33,12 @@ import GoToSearch from './GoToSearch';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 import { useSearchNodes } from '../../../modules/nodes/nodeQueries';
 import { SUBJECT_NODE } from '../../../modules/nodes/nodeApiTypes';
+
+const RevisionsWrapper = styled.div`
+  ${mq.range({ from: breakpoints.tabletWide })} {
+    margin-top: 25px;
+  }
+`;
 
 interface Props {
   userData: IUserData | undefined;
@@ -134,54 +142,55 @@ const Revisions = ({ userData, ndlaId }: Props) => {
   );
 
   return (
-    <StyledDashboardInfo>
-      <StyledTopRowDashboardInfo>
-        <TableTitle
-          title={t('welcomePage.revision')}
-          description={t('welcomePage.revisionDescription')}
-          Icon={Alarm}
-          infoText={t('welcomePage.revisionInfo')}
+    <RevisionsWrapper>
+      <StyledDashboardInfo>
+        <StyledTopRowDashboardInfo>
+          <TableTitle
+            title={t('welcomePage.revision')}
+            description={t('welcomePage.revisionDescription')}
+            Icon={Alarm}
+            infoText={t('welcomePage.revisionInfo')}
+          />
+          <ControlWrapperDashboard>
+            <DropdownWrapper>
+              <Select<false>
+                label={t('welcomePage.chooseFavoriteSubject')}
+                options={favoriteSubjects ?? []}
+                placeholder={t('welcomePage.chooseFavoriteSubject')}
+                value={filterSubject}
+                onChange={setFilterSubject}
+                menuPlacement="bottom"
+                small
+                outline
+                isLoading={isInitialLoadingSubjects}
+                isSearchable
+                noOptionsMessage={() => t('form.responsible.noResults')}
+                isClearable
+              />
+            </DropdownWrapper>
+            <GoToSearch ndlaId={ndlaId} filterSubject={filterSubject} searchEnv="content" />
+          </ControlWrapperDashboard>
+        </StyledTopRowDashboardInfo>
+        <TableComponent
+          isLoading={isInitialLoading}
+          tableTitleList={tableTitles}
+          tableData={tableData}
+          setSortOption={setSortOption}
+          sortOption={sortOption}
+          error={error}
+          noResultsText={t('welcomePage.emptyRevision')}
         />
-        <ControlWrapperDashboard>
-          <DropdownWrapper>
-            <Select<false>
-              label={t('welcomePage.chooseFavoriteSubject')}
-              options={favoriteSubjects ?? []}
-              placeholder={t('welcomePage.chooseFavoriteSubject')}
-              value={filterSubject}
-              onChange={setFilterSubject}
-              menuPlacement="bottom"
-              small
-              outline
-              isLoading={isInitialLoadingSubjects}
-              isSearchable
-              noOptionsMessage={() => t('form.responsible.noResults')}
-              isClearable
-            />
-          </DropdownWrapper>
-
-          <GoToSearch ndlaId={ndlaId} filterSubject={filterSubject} searchEnv="content" />
-        </ControlWrapperDashboard>
-      </StyledTopRowDashboardInfo>
-      <TableComponent
-        isLoading={isInitialLoading}
-        tableTitleList={tableTitles}
-        tableData={tableData}
-        setSortOption={setSortOption}
-        sortOption={sortOption}
-        error={error}
-        noResultsText={t('welcomePage.emptyRevision')}
-      />
-      <Pager
-        page={data?.page ?? 1}
-        lastPage={lastPage}
-        query={{}}
-        onClick={(el) => setPage(el.page)}
-        small
-        colorTheme="lighter"
-        pageItemComponentClass="button"
-      />
-    </StyledDashboardInfo>
+        <Pager
+          page={data?.page ?? 1}
+          lastPage={lastPage}
+          query={{}}
+          onClick={(el) => setPage(el.page)}
+          small
+          colorTheme="lighter"
+          pageItemComponentClass="button"
+        />
+      </StyledDashboardInfo>
+    </RevisionsWrapper>
   );
 };
 

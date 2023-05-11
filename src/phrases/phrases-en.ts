@@ -133,6 +133,7 @@ const phrases = {
     revision: 'Revisjon',
     revisionDescription: 'Articles in favorite subjects that need revision',
     revisionDate: 'Revision date',
+    productionSystem: 'to production system',
     revisionInfo: 'Choose your favorite subjects by marking them with a star in structure editing',
     workList: {
       title: 'My tasks',
@@ -149,7 +150,7 @@ const phrases = {
       sortAsc: 'Sort ascending',
       sortDesc: 'Sort descending',
     },
-    welcomeBack: 'Welcome back',
+    welcomeBack: 'Welcome',
   },
   searchPage: {
     header: {

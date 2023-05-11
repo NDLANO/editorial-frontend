@@ -14,8 +14,9 @@ import { useTranslation } from 'react-i18next';
 import { ILearningPathSummaryV2 } from '@ndla/types-backend/learningpath-api';
 import { IGroupSearchResult, IMultiSearchSummary } from '@ndla/types-backend/search-api';
 import { IArticleV2 } from '@ndla/types-backend/article-api';
+import { spacing } from '@ndla/core';
 import TaxonomyLightbox from '../../../components/Taxonomy/TaxonomyLightbox';
-import { RESOURCE_TYPE_LEARNING_PATH } from '../../../constants';
+import { RESOURCE_TYPE_LEARNING_PATH, RESOURCE_TYPE_SUBJECT_MATERIAL } from '../../../constants';
 import ResourceTypeSelect from '../../ArticlePage/components/ResourceTypeSelect';
 import { getResourceIdFromPath } from '../../../util/routeHelpers';
 import {
@@ -40,11 +41,13 @@ import { resourcesWithNodeConnectionQueryKey } from '../../../modules/nodes/node
 const StyledOrDivider = styled.div`
   display: flex;
   justify-content: center;
-  margin: 20px 0;
 `;
 
 const StyledContent = styled.div`
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: ${spacing.small};
   > * {
     width: 100%;
   }
@@ -66,12 +69,10 @@ const emptySearchResults: IGroupSearchResult = {
 
 interface Props {
   onClose: () => void;
-  type?: string;
   resourceTypes?: {
     id: string;
     name: string;
   }[];
-  allowPaste?: boolean;
   nodeId: string;
   existingResourceIds: string[];
 }
@@ -85,19 +86,12 @@ type ArticleWithPaths = IArticleV2 & { paths: string[] | undefined };
 
 type PossibleResources = ArticleWithPaths | ILearningPathSummaryV2 | IMultiSearchSummary;
 
-const AddResourceModal = ({
-  onClose,
-  type,
-  allowPaste = false,
-  resourceTypes,
-  existingResourceIds,
-  nodeId,
-}: Props) => {
+const AddResourceModal = ({ onClose, resourceTypes, existingResourceIds, nodeId }: Props) => {
   const { t, i18n } = useTranslation();
   const [content, setContent] = useState<Content | undefined>(undefined);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const [selectedType, setSelectedType] = useState(type);
+  const [selectedType, setSelectedType] = useState(RESOURCE_TYPE_SUBJECT_MATERIAL);
   const [pastedUrl, setPastedUrl] = useState('');
   const qc = useQueryClient();
   const { taxonomyVersion } = useTaxonomyVersion();
@@ -105,7 +99,7 @@ const AddResourceModal = ({
   const { mutateAsync: createNodeResource } = usePostResourceForNodeMutation({
     onSuccess: (_) => qc.invalidateQueries(compKey),
   });
-  const canPaste = allowPaste || selectedType !== RESOURCE_TYPE_LEARNING_PATH;
+  const canPaste = selectedType !== RESOURCE_TYPE_LEARNING_PATH;
 
   const toContent = (resource: PossibleResources): Content => {
     if ('metaUrl' in resource) {
@@ -214,12 +208,13 @@ const AddResourceModal = ({
       onClose={onClose}
     >
       <StyledContent>
-        {!type && (
-          <ResourceTypeSelect
-            availableResourceTypes={resourceTypes ?? []}
-            onChangeSelectedResource={(e) => setSelectedType(e.currentTarget.value)}
-          />
-        )}
+        <ResourceTypeSelect
+          availableResourceTypes={resourceTypes ?? []}
+          onChangeSelectedResource={(value) => {
+            if (value) setSelectedType(value?.value);
+          }}
+          isClearable
+        />
         {canPaste && selectedType && (
           <Input
             type="text"
@@ -238,8 +233,9 @@ const AddResourceModal = ({
               placeholder={t('form.content.relatedArticle.placeholder')}
               apiAction={(query, page) => onSearch(query, page)}
               onChange={(res) => setContent(toContent(res))}
-              startOpen
+              startOpen={false}
               showPagination
+              initialSearch={false}
             />
           </>
         )}

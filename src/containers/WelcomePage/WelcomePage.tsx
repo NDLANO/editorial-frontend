@@ -29,6 +29,7 @@ export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  flex: 1;
 `;
 
 export const WelcomePage = () => {
@@ -60,11 +61,15 @@ export const WelcomePage = () => {
               lastUsedConcepts={data?.latestEditedConcepts}
             />
           )}
-          <StyledColumnHeader>
-            <SearchFolder className="c-icon--medium" />
-            <span>{t('welcomePage.savedSearch')}</span>
-          </StyledColumnHeader>
-          <SaveSearchUrl />
+          {ndlaId && (
+            <>
+              <StyledColumnHeader>
+                <SearchFolder className="c-icon--medium" />
+                <span>{t('welcomePage.savedSearch')}</span>
+              </StyledColumnHeader>
+              <SaveSearchUrl />
+            </>
+          )}
         </Column>
         <Column colStart={6} colEnd={12}>
           {ndlaId && <Revisions ndlaId={ndlaId} userData={data} />}

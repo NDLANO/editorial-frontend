@@ -25,10 +25,11 @@ import { ReactElement, useContext, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import loadable from '@loadable/component';
 import { History } from 'history';
-import { Content, PageContainer } from '@ndla/ui';
+import { PageContainer } from '@ndla/ui';
 import { configureTracker } from '@ndla/tracker';
 import { Route, Routes, UNSAFE_NavigationContext } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import styled from '@emotion/styled';
 import Navigation from '../Masthead/components/Navigation';
 import ErrorBoundary from '../../components/ErrorBoundary';
 import { scheduleRenewal } from '../../util/authHelpers';
@@ -58,6 +59,12 @@ const TaxonomyVersionsPage = loadable(() => import('../TaxonomyVersions/Taxonomy
 const PublishRequestsPage = loadable(() => import('../PublishRequests/PublishRequestsPage'));
 const NodeDiffPage = loadable(() => import('../NodeDiff/NodeDiffPage'));
 
+const StyledContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+`;
+
 interface Props {
   isClient?: boolean;
 }
@@ -86,7 +93,7 @@ const App = ({ isClient }: Props) => {
             <PageContainer>
               <Zendesk />
               <Helmet meta={[{ name: 'description', content: t('meta.description') }]} />
-              <Content>
+              <StyledContent>
                 <Navigation />
                 <Routes>
                   <Route path="/" element={<WelcomePage />} />
@@ -138,7 +145,7 @@ const App = ({ isClient }: Props) => {
                   <Route path="/forbidden" element={<ForbiddenPage />} />
                   <Route path="*" element={<NotFoundPage />} />
                 </Routes>
-              </Content>
+              </StyledContent>
               <Messages />
             </PageContainer>
           </AuthInitializer>

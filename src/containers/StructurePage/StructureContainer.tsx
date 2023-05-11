@@ -28,7 +28,6 @@ import config from '../../config';
 import { createGuard } from '../../util/guards';
 import { GridContainer, LeftColumn, RightColumn } from '../../components/Layout/Layout';
 import StructureBanner from './StructureBanner';
-import AddTopicModal from './resourceComponents/AddTopicModal';
 import PlannedResourceFormModal from './plannedResource/PlannedResourceFormModal';
 
 const StructureWrapper = styled.ul`
@@ -66,7 +65,6 @@ const StructureContainer = () => {
     window.localStorage.getItem(REMEMBER_FAVORITE_NODES) === 'true',
   );
   const [showAddTopicModal, setShowAddTopicModal] = useState(false);
-  const [showPlannedTopicModal, setShowPlannedTopicModal] = useState(false);
 
   const resourceSection = useRef<HTMLDivElement>(null);
   const firstRender = useRef(true);
@@ -165,15 +163,8 @@ const StructureContainer = () => {
           </RightColumn>
         </GridContainer>
         {showAddTopicModal && (
-          <AddTopicModal
-            onClose={() => setShowAddTopicModal(false)}
-            setShowPlannedTopicModal={setShowPlannedTopicModal}
-            currentNode={currentNode}
-          />
-        )}
-        {showPlannedTopicModal && (
           <PlannedResourceFormModal
-            onClose={() => setShowPlannedTopicModal(false)}
+            onClose={() => setShowAddTopicModal(false)}
             articleType="topic-article"
             nodeId={currentNode?.id ?? ''}
           />

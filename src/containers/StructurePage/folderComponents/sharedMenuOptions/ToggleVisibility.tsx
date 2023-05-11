@@ -12,7 +12,7 @@ import { Eye } from '@ndla/icons/editor';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { Switch } from '@ndla/switch';
-import { NodeType } from '../../../../modules/nodes/nodeApiTypes';
+import { Node } from '@ndla/types-taxonomy';
 import { EditModeHandler } from '../SettingsMenuDropdownType';
 import { useUpdateNodeMetadataMutation } from '../../../../modules/nodes/nodeMutations';
 import RoundIcon from '../../../../components/RoundIcon';
@@ -20,7 +20,7 @@ import MenuItemButton from './components/MenuItemButton';
 import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
 
 interface Props {
-  node: NodeType;
+  node: Node;
   editModeHandler: EditModeHandler;
   rootNodeId: string;
 }

@@ -9,7 +9,6 @@ import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { ButtonV2 } from '@ndla/button';
-import { Accordions, AccordionSection } from '@ndla/accordion';
 import {
   IAudio,
   IAuthor,
@@ -34,6 +33,8 @@ import { audioApiTypeToFormType } from '../../../util/audioHelpers';
 import { MessageError, useMessages } from '../../Messages/MessagesProvider';
 import { useLicenses } from '../../../modules/draft/draftQueries';
 import FormWrapper from '../../../components/FormWrapper';
+import FormAccordions from '../../../components/Accordion/FormAccordions';
+import FormAccordion from '../../../components/Accordion/FormAccordion';
 
 export interface AudioFormikType {
   id?: number;
@@ -207,33 +208,32 @@ const AudioForm = ({
                 else return toCreateAudioFile();
               }}
             />
-            <Accordions>
-              <AccordionSection
+            <FormAccordions defaultOpen={['audio-upload-content']}>
+              <FormAccordion
                 id="audio-upload-content"
                 className="u-4/6@desktop u-push-1/6@desktop"
                 title={t('form.contentSection')}
                 hasError={hasError(['title', 'audioFile'])}
-                startOpen
               >
                 <AudioContent />
-              </AccordionSection>
-              <AccordionSection
+              </FormAccordion>
+              <FormAccordion
                 id="podcast-upload-podcastmanus"
                 title={t('podcastForm.fields.manuscript')}
                 className="u-4/6@desktop u-push-1/6@desktop"
                 hasError={[].some((field) => field in errors)}
               >
                 <AudioManuscript />
-              </AccordionSection>
-              <AccordionSection
+              </FormAccordion>
+              <FormAccordion
                 id="audio-upload-metadataSection"
                 className="u-4/6@desktop u-push-1/6@desktop"
                 title={t('form.metadataSection')}
                 hasError={hasError(['tags', 'creators', 'rightsholders', 'processors', 'license'])}
               >
                 <AudioMetaData />
-              </AccordionSection>
-            </Accordions>
+              </FormAccordion>
+            </FormAccordions>
             <Field right>
               <ButtonV2 variant="outline" disabled={isSubmitting} onClick={() => navigate(-1)}>
                 {t('form.abort')}

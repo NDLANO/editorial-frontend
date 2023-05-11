@@ -1,4 +1,3 @@
-import { tr } from 'date-fns/locale';
 import { DiffTree, NodeTree } from '../diffUtils';
 
 export const nodeTreeWithNoChildren: NodeTree = {
@@ -35,14 +34,8 @@ export const nodeTreeWithNoChildren: NodeTree = {
     resources: [],
     resourceTypes: [],
     nodeType: 'SUBJECT',
-    contexts: [
-      {
-        publicId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-        rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-        path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-        contextId: 'sub',
-      },
-    ],
+    contexts: [],
+    breadcrumbs: [],
   },
   children: [],
 };
@@ -77,14 +70,8 @@ export const nodeTreeWithNoChildrenUpdated: NodeTree = {
     supportedLanguages: ['nb', 'nn'],
     resources: [],
     resourceTypes: [],
-    contexts: [
-      {
-        publicId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-        rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-        path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-        contextId: 'sub',
-      },
-    ],
+    contexts: [],
+    breadcrumbs: [],
     nodeType: 'SUBJECT',
   },
   children: [],
@@ -197,22 +184,14 @@ export const nodeTreeWithNoChildrenDiff: DiffTree = {
     contexts: {
       diffType: 'NONE',
       ignored: true,
-      original: [
-        {
-          publicId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-          rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-          path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-          contextId: 'sub',
-        },
-      ],
-      other: [
-        {
-          publicId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-          rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-          path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-          contextId: 'sub',
-        },
-      ],
+      original: [],
+      other: [],
+    },
+    breadcrumbs: {
+      diffType: 'NONE',
+      ignored: true,
+      original: [],
+      other: [],
     },
     nodeType: { diffType: 'NONE', original: 'SUBJECT', other: 'SUBJECT' },
   },
@@ -252,14 +231,8 @@ export const nodeTreeWithDirectChildren: NodeTree = {
     supportedLanguages: ['en', 'nb', 'nn'],
     resources: [],
     resourceTypes: [],
-    contexts: [
-      {
-        publicId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-        rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-        path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-        contextId: 'sub',
-      },
-    ],
+    contexts: [],
+    breadcrumbs: [],
     nodeType: 'SUBJECT',
   },
   children: [
@@ -268,6 +241,7 @@ export const nodeTreeWithDirectChildren: NodeTree = {
       name: 'Verktøy for utforskning',
       contentUri: 'urn:article:20136',
       parentId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+      parent: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
       path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
       paths: [
         '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
@@ -295,20 +269,15 @@ export const nodeTreeWithDirectChildren: NodeTree = {
       resources: [],
       nodeType: 'TOPIC',
       resourceTypes: [],
-      contexts: [
-        {
-          publicId: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
-          rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-          path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
-          contextId: 'top1',
-        },
-      ],
+      contexts: [],
+      breadcrumbs: [],
     },
     {
       id: 'urn:topic:1:d208bf2d-836c-43fe-977b-de4af1771396',
       name: 'Sosialisering, identitet og livsmestring',
       contentUri: 'urn:article:20126',
       parentId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+      parent: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
       path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:d208bf2d-836c-43fe-977b-de4af1771396',
       paths: [
         '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:d208bf2d-836c-43fe-977b-de4af1771396',
@@ -336,14 +305,8 @@ export const nodeTreeWithDirectChildren: NodeTree = {
       resources: [],
       nodeType: 'TOPIC',
       resourceTypes: [],
-      contexts: [
-        {
-          publicId: 'urn:topic:1:d208bf2d-836c-43fe-977b-de4af1771396',
-          rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-          path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:d208bf2d-836c-43fe-977b-de4af1771396',
-          contextId: 'top2',
-        },
-      ],
+      contexts: [],
+      breadcrumbs: [],
     },
   ],
 };
@@ -382,14 +345,8 @@ export const nodeTreeWithDirectChildrenUpdated: NodeTree = {
     resources: [],
     nodeType: 'SUBJECT',
     resourceTypes: [],
-    contexts: [
-      {
-        publicId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-        rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-        path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-        contextId: 'sub',
-      },
-    ],
+    contexts: [],
+    breadcrumbs: [],
   },
   children: [
     {
@@ -397,6 +354,7 @@ export const nodeTreeWithDirectChildrenUpdated: NodeTree = {
       name: 'Verktøy for utforskning',
       contentUri: 'urn:article:20136',
       parentId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+      parent: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
       path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
       paths: [
         '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
@@ -424,20 +382,15 @@ export const nodeTreeWithDirectChildrenUpdated: NodeTree = {
       resources: [],
       nodeType: 'TOPIC',
       resourceTypes: [],
-      contexts: [
-        {
-          publicId: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
-          rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-          path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
-          contextId: 'top1',
-        },
-      ],
+      contexts: [],
+      breadcrumbs: [],
     },
     {
       id: 'urn:topic:1:00018b29-3b51-478d-a691-20732e0601fd',
       name: 'Ulikheter og utenforskap',
       contentUri: 'urn:article:20138',
       parentId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+      parent: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
       path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:00018b29-3b51-478d-a691-20732e0601fd',
       paths: [
         '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:00018b29-3b51-478d-a691-20732e0601fd',
@@ -465,14 +418,8 @@ export const nodeTreeWithDirectChildrenUpdated: NodeTree = {
       resources: [],
       nodeType: 'TOPIC',
       resourceTypes: [],
-      contexts: [
-        {
-          publicId: 'urn:topic:1:00018b29-3b51-478d-a691-20732e0601fd',
-          rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-          path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:00018b29-3b51-478d-a691-20732e0601fd',
-          contextId: 'top2',
-        },
-      ],
+      contexts: [],
+      breadcrumbs: [],
     },
   ],
 };
@@ -582,22 +529,14 @@ export const nodeTreeWithDirectChildrenDiff: DiffTree = {
     contexts: {
       diffType: 'NONE',
       ignored: true,
-      original: [
-        {
-          publicId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-          rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-          path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-          contextId: 'sub',
-        },
-      ],
-      other: [
-        {
-          publicId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-          rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-          path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-          contextId: 'sub',
-        },
-      ],
+      original: [],
+      other: [],
+    },
+    breadcrumbs: {
+      diffType: 'NONE',
+      ignored: true,
+      original: [],
+      other: [],
     },
   },
   children: [
@@ -621,6 +560,11 @@ export const nodeTreeWithDirectChildrenDiff: DiffTree = {
         diffType: 'NONE',
       },
       parentId: {
+        original: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+        other: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+        diffType: 'NONE',
+      },
+      parent: {
         original: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
         other: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
         diffType: 'NONE',
@@ -724,22 +668,14 @@ export const nodeTreeWithDirectChildrenDiff: DiffTree = {
       contexts: {
         diffType: 'NONE',
         ignored: true,
-        original: [
-          {
-            publicId: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
-            rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-            path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
-            contextId: 'top1',
-          },
-        ],
-        other: [
-          {
-            publicId: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
-            rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-            path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
-            contextId: 'top1',
-          },
-        ],
+        original: [],
+        other: [],
+      },
+      breadcrumbs: {
+        diffType: 'NONE',
+        ignored: true,
+        original: [],
+        other: [],
       },
     },
     {
@@ -762,6 +698,11 @@ export const nodeTreeWithDirectChildrenDiff: DiffTree = {
         diffType: 'DELETED',
       },
       parentId: {
+        original: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+        other: undefined,
+        diffType: 'DELETED',
+      },
+      parent: {
         original: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
         other: undefined,
         diffType: 'DELETED',
@@ -853,14 +794,13 @@ export const nodeTreeWithDirectChildrenDiff: DiffTree = {
       contexts: {
         diffType: 'DELETED',
         ignored: true,
-        original: [
-          {
-            publicId: 'urn:topic:1:d208bf2d-836c-43fe-977b-de4af1771396',
-            rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-            path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:d208bf2d-836c-43fe-977b-de4af1771396',
-            contextId: 'top2',
-          },
-        ],
+        original: [],
+        other: undefined,
+      },
+      breadcrumbs: {
+        diffType: 'DELETED',
+        ignored: true,
+        original: [],
         other: undefined,
       },
     },
@@ -884,6 +824,11 @@ export const nodeTreeWithDirectChildrenDiff: DiffTree = {
         diffType: 'ADDED',
       },
       parentId: {
+        original: undefined,
+        other: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+        diffType: 'ADDED',
+      },
+      parent: {
         original: undefined,
         other: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
         diffType: 'ADDED',
@@ -976,14 +921,13 @@ export const nodeTreeWithDirectChildrenDiff: DiffTree = {
         diffType: 'ADDED',
         ignored: true,
         original: undefined,
-        other: [
-          {
-            publicId: 'urn:topic:1:00018b29-3b51-478d-a691-20732e0601fd',
-            rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-            path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:00018b29-3b51-478d-a691-20732e0601fd',
-            contextId: 'top2',
-          },
-        ],
+        other: [],
+      },
+      breadcrumbs: {
+        diffType: 'ADDED',
+        ignored: true,
+        original: undefined,
+        other: [],
       },
     },
   ],
@@ -1023,14 +967,8 @@ export const nodeTreeWithDirectChildrenAndResources: NodeTree = {
     resources: [],
     nodeType: 'SUBJECT',
     resourceTypes: [],
-    contexts: [
-      {
-        publicId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-        rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-        path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-        contextId: 'sub',
-      },
-    ],
+    contexts: [],
+    breadcrumbs: [],
   },
   children: [
     {
@@ -1038,6 +976,7 @@ export const nodeTreeWithDirectChildrenAndResources: NodeTree = {
       name: 'Verktøy for utforskning',
       contentUri: 'urn:article:20136',
       parentId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+      parent: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
       path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
       paths: [
         '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
@@ -1065,20 +1004,15 @@ export const nodeTreeWithDirectChildrenAndResources: NodeTree = {
       resources: [],
       nodeType: 'TOPIC',
       resourceTypes: [],
-      contexts: [
-        {
-          publicId: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
-          rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-          path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
-          contextId: 'top',
-        },
-      ],
+      contexts: [],
+      breadcrumbs: [],
     },
     {
       id: 'urn:topic:1:d208bf2d-836c-43fe-977b-de4af1771396',
       name: 'Sosialisering, identitet og livsmestring',
       contentUri: 'urn:article:20126',
       parentId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+      parent: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
       path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:d208bf2d-836c-43fe-977b-de4af1771396',
       paths: [
         '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:d208bf2d-836c-43fe-977b-de4af1771396',
@@ -1106,14 +1040,8 @@ export const nodeTreeWithDirectChildrenAndResources: NodeTree = {
       resources: [],
       nodeType: 'TOPIC',
       resourceTypes: [],
-      contexts: [
-        {
-          publicId: 'urn:topic:1:d208bf2d-836c-43fe-977b-de4af1771396',
-          rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-          path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:d208bf2d-836c-43fe-977b-de4af1771396',
-          contextId: 'top',
-        },
-      ],
+      contexts: [],
+      breadcrumbs: [],
     },
   ],
 };
@@ -1152,14 +1080,8 @@ export const nodeTreeWithNestedChildren: NodeTree = {
     resources: [],
     nodeType: 'SUBJECT',
     resourceTypes: [],
-    contexts: [
-      {
-        publicId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-        rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-        path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-        contextId: 'sub',
-      },
-    ],
+    contexts: [],
+    breadcrumbs: [],
   },
   children: [
     {
@@ -1167,6 +1089,7 @@ export const nodeTreeWithNestedChildren: NodeTree = {
       name: 'Verktøy for utforskning',
       contentUri: 'urn:article:20136',
       parentId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+      parent: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
       path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
       paths: [
         '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
@@ -1194,20 +1117,15 @@ export const nodeTreeWithNestedChildren: NodeTree = {
       resources: [],
       nodeType: 'TOPIC',
       resourceTypes: [],
-      contexts: [
-        {
-          publicId: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
-          rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-          path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
-          contextId: 'top',
-        },
-      ],
+      contexts: [],
+      breadcrumbs: [],
     },
     {
       id: 'urn:topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
       name: 'Samfunnsfaglige metoder',
       contentUri: 'urn:article:20161',
       parentId: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
+      parent: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
       path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
       paths: [
         '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
@@ -1235,20 +1153,15 @@ export const nodeTreeWithNestedChildren: NodeTree = {
       resources: [],
       nodeType: 'TOPIC',
       resourceTypes: [],
-      contexts: [
-        {
-          publicId: 'urn:topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
-          rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-          path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
-          contextId: 'top',
-        },
-      ],
+      contexts: [],
+      breadcrumbs: [],
     },
     {
       id: 'urn:topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
       name: 'Kildebruk og kildekritikk oppdatert',
       contentUri: 'urn:article:20162',
       parentId: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
+      parent: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
       path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
       paths: [
         '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
@@ -1276,14 +1189,8 @@ export const nodeTreeWithNestedChildren: NodeTree = {
       resources: [],
       nodeType: 'TOPIC',
       resourceTypes: [],
-      contexts: [
-        {
-          publicId: 'urn:topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
-          rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-          path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
-          contextId: 'top',
-        },
-      ],
+      contexts: [],
+      breadcrumbs: [],
     },
   ],
 };
@@ -1322,14 +1229,8 @@ export const nodeTreeWithNestedChildrenUpdated: NodeTree = {
     resources: [],
     nodeType: 'SUBJECT',
     resourceTypes: [],
-    contexts: [
-      {
-        publicId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-        rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-        path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-        contextId: 'sub',
-      },
-    ],
+    contexts: [],
+    breadcrumbs: [],
   },
   children: [
     {
@@ -1337,6 +1238,7 @@ export const nodeTreeWithNestedChildrenUpdated: NodeTree = {
       name: 'Verktøy for utforskning',
       contentUri: 'urn:article:20136',
       parentId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+      parent: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
       path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
       paths: [
         '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
@@ -1364,20 +1266,15 @@ export const nodeTreeWithNestedChildrenUpdated: NodeTree = {
       resources: [],
       nodeType: 'TOPIC',
       resourceTypes: [],
-      contexts: [
-        {
-          publicId: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
-          rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-          path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
-          contextId: 'top',
-        },
-      ],
+      contexts: [],
+      breadcrumbs: [],
     },
     {
       id: 'urn:topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
       name: 'Samfunnsfaglige metoder',
       contentUri: 'urn:article:20161',
       parentId: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
+      parent: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
       path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
       paths: [
         '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
@@ -1405,20 +1302,15 @@ export const nodeTreeWithNestedChildrenUpdated: NodeTree = {
       resources: [],
       nodeType: 'TOPIC',
       resourceTypes: [],
-      contexts: [
-        {
-          publicId: 'urn:topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
-          rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-          path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
-          contextId: 'top',
-        },
-      ],
+      contexts: [],
+      breadcrumbs: [],
     },
     {
       id: 'urn:topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
       name: 'Kildebruk og kildekritikk oppdatert',
       contentUri: 'urn:article:20162',
       parentId: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
+      parent: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
       path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
       paths: [
         '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
@@ -1446,14 +1338,8 @@ export const nodeTreeWithNestedChildrenUpdated: NodeTree = {
       resources: [],
       nodeType: 'TOPIC',
       resourceTypes: [],
-      contexts: [
-        {
-          publicId: 'urn:topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
-          rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-          path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
-          contextId: 'top',
-        },
-      ],
+      contexts: [],
+      breadcrumbs: [],
     },
   ],
 };
@@ -1573,22 +1459,14 @@ export const nodeTreeWithNestedChildrenDiff: DiffTree = {
     contexts: {
       diffType: 'NONE',
       ignored: true,
-      original: [
-        {
-          publicId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-          rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-          path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-          contextId: 'sub',
-        },
-      ],
-      other: [
-        {
-          publicId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-          rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-          path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-          contextId: 'sub',
-        },
-      ],
+      original: [],
+      other: [],
+    },
+    breadcrumbs: {
+      diffType: 'NONE',
+      ignored: true,
+      original: [],
+      other: [],
     },
   },
   children: [
@@ -1611,6 +1489,11 @@ export const nodeTreeWithNestedChildrenDiff: DiffTree = {
         diffType: 'NONE',
       },
       parentId: {
+        original: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+        other: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+        diffType: 'NONE',
+      },
+      parent: {
         original: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
         other: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
         diffType: 'NONE',
@@ -1725,6 +1608,11 @@ export const nodeTreeWithNestedChildrenDiff: DiffTree = {
             other: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
             diffType: 'NONE',
           },
+          parent: {
+            original: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
+            other: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
+            diffType: 'NONE',
+          },
           path: {
             original:
               '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
@@ -1817,22 +1705,14 @@ export const nodeTreeWithNestedChildrenDiff: DiffTree = {
           contexts: {
             diffType: 'NONE',
             ignored: true,
-            original: [
-              {
-                publicId: 'urn:topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
-                rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-                path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
-                contextId: 'top',
-              },
-            ],
-            other: [
-              {
-                publicId: 'urn:topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
-                rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-                path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
-                contextId: 'top',
-              },
-            ],
+            original: [],
+            other: [],
+          },
+          breadcrumbs: {
+            diffType: 'NONE',
+            ignored: true,
+            original: [],
+            other: [],
           },
         },
         {
@@ -1854,6 +1734,11 @@ export const nodeTreeWithNestedChildrenDiff: DiffTree = {
             diffType: 'NONE',
           },
           parentId: {
+            original: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
+            other: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
+            diffType: 'NONE',
+          },
+          parent: {
             original: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
             other: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
             diffType: 'NONE',
@@ -1958,22 +1843,14 @@ export const nodeTreeWithNestedChildrenDiff: DiffTree = {
           contexts: {
             diffType: 'NONE',
             ignored: true,
-            original: [
-              {
-                publicId: 'urn:topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
-                rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-                path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
-                contextId: 'top',
-              },
-            ],
-            other: [
-              {
-                publicId: 'urn:topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
-                rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-                path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
-                contextId: 'top',
-              },
-            ],
+            original: [],
+            other: [],
+          },
+          breadcrumbs: {
+            diffType: 'NONE',
+            ignored: true,
+            original: [],
+            other: [],
           },
         },
       ],
@@ -1990,22 +1867,14 @@ export const nodeTreeWithNestedChildrenDiff: DiffTree = {
       contexts: {
         diffType: 'NONE',
         ignored: true,
-        original: [
-          {
-            publicId: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
-            rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-            path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
-            contextId: 'top',
-          },
-        ],
-        other: [
-          {
-            publicId: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
-            rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-            path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
-            contextId: 'top',
-          },
-        ],
+        original: [],
+        other: [],
+      },
+      breadcrumbs: {
+        diffType: 'NONE',
+        ignored: true,
+        original: [],
+        other: [],
       },
     },
   ],
@@ -2103,14 +1972,13 @@ export const nodeTreeInOriginalVersionDiff: DiffTree = {
     contexts: {
       diffType: 'DELETED',
       ignored: true,
-      original: [
-        {
-          publicId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-          rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-          path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-          contextId: 'sub',
-        },
-      ],
+      original: [],
+      other: undefined,
+    },
+    breadcrumbs: {
+      diffType: 'DELETED',
+      ignored: true,
+      original: [],
       other: undefined,
     },
   },
@@ -2210,14 +2078,13 @@ export const nodeTreeInOtherVersionDiff: DiffTree = {
       diffType: 'ADDED',
       ignored: true,
       original: undefined,
-      other: [
-        {
-          publicId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-          rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-          path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-          contextId: 'sub',
-        },
-      ],
+      other: [],
+    },
+    breadcrumbs: {
+      diffType: 'ADDED',
+      ignored: true,
+      original: undefined,
+      other: [],
     },
   },
   children: [],
@@ -2257,14 +2124,8 @@ export const nodeTreeWithNestedChildrenAndResources: NodeTree = {
     resources: [],
     resourceTypes: [],
     nodeType: 'SUBJECT',
-    contexts: [
-      {
-        publicId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-        rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-        path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-        contextId: 'sub',
-      },
-    ],
+    contexts: [],
+    breadcrumbs: [],
   },
   children: [
     {
@@ -2272,6 +2133,7 @@ export const nodeTreeWithNestedChildrenAndResources: NodeTree = {
       name: 'Verktøy for utforskning',
       contentUri: 'urn:article:20136',
       parentId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+      parent: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
       path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
       paths: [
         '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
@@ -2299,20 +2161,15 @@ export const nodeTreeWithNestedChildrenAndResources: NodeTree = {
       resources: [],
       resourceTypes: [],
       nodeType: 'TOPIC',
-      contexts: [
-        {
-          publicId: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
-          rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-          path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
-          contextId: 'top',
-        },
-      ],
+      contexts: [],
+      breadcrumbs: [],
     },
     {
       id: 'urn:topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
       name: 'Samfunnsfaglige metoder',
       contentUri: 'urn:article:20161',
       parentId: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
+      parent: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
       path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
       paths: [
         '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
@@ -2393,37 +2250,27 @@ export const nodeTreeWithNestedChildrenAndResources: NodeTree = {
           ],
           supportedLanguages: ['nb', 'nn'],
           parentId: 'urn:topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
+          parent: 'urn:topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
           connectionId: 'urn:topic-resource:4e8305fa-7aac-4c08-97dc-9630becdb83a',
           rank: 2,
           relevanceId: 'urn:relevance:core',
           isPrimary: true,
           nodeType: 'RESOURCE',
-          contexts: [
-            {
-              publicId: 'urn:resource:1:168358',
-              rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-              path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:35efa357-acc7-4828-b241-cad5467d1dc6/resource:1:168358',
-              contextId: 'res',
-            },
-          ],
+          contexts: [],
+          breadcrumbs: [],
         },
       ],
       resourceTypes: [],
       nodeType: 'TOPIC',
-      contexts: [
-        {
-          publicId: 'urn:topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
-          rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-          path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
-          contextId: 'top',
-        },
-      ],
+      contexts: [],
+      breadcrumbs: [],
     },
     {
       id: 'urn:topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
       name: 'Kildebruk og kildekritikk oppdatert',
       contentUri: 'urn:article:20162',
       parentId: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
+      parent: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
       path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
       paths: [
         '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
@@ -2451,14 +2298,8 @@ export const nodeTreeWithNestedChildrenAndResources: NodeTree = {
       resources: [],
       resourceTypes: [],
       nodeType: 'TOPIC',
-      contexts: [
-        {
-          publicId: 'urn:topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
-          rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-          path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
-          contextId: 'top',
-        },
-      ],
+      contexts: [],
+      breadcrumbs: [],
     },
   ],
 };
@@ -2497,14 +2338,8 @@ export const nodeTreeWithNestedChildrenAndResourcesUpdated: NodeTree = {
     resources: [],
     resourceTypes: [],
     nodeType: 'SUBJECT',
-    contexts: [
-      {
-        publicId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-        rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-        path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-        contextId: 'sub',
-      },
-    ],
+    contexts: [],
+    breadcrumbs: [],
   },
   children: [
     {
@@ -2512,6 +2347,7 @@ export const nodeTreeWithNestedChildrenAndResourcesUpdated: NodeTree = {
       name: 'Verktøy for utforskning',
       contentUri: 'urn:article:20136',
       parentId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+      parent: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
       path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
       paths: [
         '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
@@ -2539,20 +2375,15 @@ export const nodeTreeWithNestedChildrenAndResourcesUpdated: NodeTree = {
       resources: [],
       resourceTypes: [],
       nodeType: 'TOPIC',
-      contexts: [
-        {
-          publicId: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
-          rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-          path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
-          contextId: 'top',
-        },
-      ],
+      contexts: [],
+      breadcrumbs: [],
     },
     {
       id: 'urn:topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
       name: 'Samfunnsfaglige metoder',
       contentUri: 'urn:article:20161',
       parentId: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
+      parent: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
       path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
       paths: [
         '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
@@ -2577,14 +2408,8 @@ export const nodeTreeWithNestedChildrenAndResourcesUpdated: NodeTree = {
         visible: true,
         customFields: {},
       },
-      contexts: [
-        {
-          publicId: 'urn:topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
-          rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-          path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
-          contextId: 'top',
-        },
-      ],
+      contexts: [],
+      breadcrumbs: [],
       resources: [
         {
           id: 'urn:resource:1:168358',
@@ -2641,18 +2466,13 @@ export const nodeTreeWithNestedChildrenAndResourcesUpdated: NodeTree = {
           ],
           supportedLanguages: ['nb', 'nn'],
           parentId: 'urn:topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
+          parent: 'urn:topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
           connectionId: 'urn:topic-resource:4e8305fa-7aac-4c08-97dc-9630becdb83a',
           rank: 2,
           relevanceId: 'urn:relevance:core',
           nodeType: 'RESOURCE',
-          contexts: [
-            {
-              publicId: 'urn:resource:1:168358',
-              rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-              path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:35efa357-acc7-4828-b241-cad5467d1dc6/resource:1:168358',
-              contextId: 'res',
-            },
-          ],
+          contexts: [],
+          breadcrumbs: [],
           isPrimary: true,
         },
       ],
@@ -2664,6 +2484,7 @@ export const nodeTreeWithNestedChildrenAndResourcesUpdated: NodeTree = {
       name: 'Kildebruk og kildekritikk oppdatert',
       contentUri: 'urn:article:20162',
       parentId: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
+      parent: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
       path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
       paths: [
         '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
@@ -2691,14 +2512,8 @@ export const nodeTreeWithNestedChildrenAndResourcesUpdated: NodeTree = {
       resources: [],
       nodeType: 'TOPIC',
       resourceTypes: [],
-      contexts: [
-        {
-          publicId: 'urn:topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
-          rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-          path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
-          contextId: 'top',
-        },
-      ],
+      contexts: [],
+      breadcrumbs: [],
     },
   ],
 };
@@ -2808,22 +2623,14 @@ export const nodeTreeWithNestedChildrenAndResourcesDiff: DiffTree = {
     contexts: {
       diffType: 'NONE',
       ignored: true,
-      original: [
-        {
-          publicId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-          rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-          path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-          contextId: 'sub',
-        },
-      ],
-      other: [
-        {
-          publicId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-          rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-          path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-          contextId: 'sub',
-        },
-      ],
+      original: [],
+      other: [],
+    },
+    breadcrumbs: {
+      diffType: 'NONE',
+      ignored: true,
+      original: [],
+      other: [],
     },
   },
   children: [
@@ -2845,6 +2652,11 @@ export const nodeTreeWithNestedChildrenAndResourcesDiff: DiffTree = {
         diffType: 'NONE',
       },
       parentId: {
+        original: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+        other: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+        diffType: 'NONE',
+      },
+      parent: {
         original: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
         other: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
         diffType: 'NONE',
@@ -2955,6 +2767,11 @@ export const nodeTreeWithNestedChildrenAndResourcesDiff: DiffTree = {
             diffType: 'NONE',
           },
           parentId: {
+            original: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
+            other: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
+            diffType: 'NONE',
+          },
+          parent: {
             original: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
             other: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
             diffType: 'NONE',
@@ -3186,6 +3003,11 @@ export const nodeTreeWithNestedChildrenAndResourcesDiff: DiffTree = {
                 other: 'urn:topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
                 diffType: 'NONE',
               },
+              parent: {
+                original: 'urn:topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
+                other: 'urn:topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
+                diffType: 'NONE',
+              },
               connectionId: {
                 original: 'urn:topic-resource:4e8305fa-7aac-4c08-97dc-9630becdb83a',
                 other: 'urn:topic-resource:4e8305fa-7aac-4c08-97dc-9630becdb83a',
@@ -3214,44 +3036,28 @@ export const nodeTreeWithNestedChildrenAndResourcesDiff: DiffTree = {
               contexts: {
                 diffType: 'NONE',
                 ignored: true,
-                original: [
-                  {
-                    publicId: 'urn:resource:1:168358',
-                    rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-                    path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:35efa357-acc7-4828-b241-cad5467d1dc6/resource:1:168358',
-                    contextId: 'res',
-                  },
-                ],
-                other: [
-                  {
-                    publicId: 'urn:resource:1:168358',
-                    rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-                    path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:35efa357-acc7-4828-b241-cad5467d1dc6/resource:1:168358',
-                    contextId: 'res',
-                  },
-                ],
+                original: [],
+                other: [],
+              },
+              breadcrumbs: {
+                diffType: 'NONE',
+                ignored: true,
+                original: [],
+                other: [],
               },
             },
           ],
           contexts: {
             diffType: 'NONE',
             ignored: true,
-            original: [
-              {
-                publicId: 'urn:topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
-                rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-                path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
-                contextId: 'top',
-              },
-            ],
-            other: [
-              {
-                publicId: 'urn:topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
-                rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-                path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
-                contextId: 'top',
-              },
-            ],
+            original: [],
+            other: [],
+          },
+          breadcrumbs: {
+            diffType: 'NONE',
+            ignored: true,
+            original: [],
+            other: [],
           },
         },
         {
@@ -3272,6 +3078,11 @@ export const nodeTreeWithNestedChildrenAndResourcesDiff: DiffTree = {
             diffType: 'NONE',
           },
           parentId: {
+            original: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
+            other: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
+            diffType: 'NONE',
+          },
+          parent: {
             original: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
             other: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
             diffType: 'NONE',
@@ -3369,22 +3180,14 @@ export const nodeTreeWithNestedChildrenAndResourcesDiff: DiffTree = {
           contexts: {
             diffType: 'NONE',
             ignored: true,
-            original: [
-              {
-                publicId: 'urn:topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
-                rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-                path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
-                contextId: 'top',
-              },
-            ],
-            other: [
-              {
-                publicId: 'urn:topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
-                rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-                path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
-                contextId: 'top',
-              },
-            ],
+            original: [],
+            other: [],
+          },
+          breadcrumbs: {
+            diffType: 'NONE',
+            ignored: true,
+            original: [],
+            other: [],
           },
         },
       ],
@@ -3393,22 +3196,14 @@ export const nodeTreeWithNestedChildrenAndResourcesDiff: DiffTree = {
       contexts: {
         diffType: 'NONE',
         ignored: true,
-        original: [
-          {
-            publicId: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
-            rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-            path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
-            contextId: 'top',
-          },
-        ],
-        other: [
-          {
-            publicId: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
-            rootId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-            path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
-            contextId: 'top',
-          },
-        ],
+        original: [],
+        other: [],
+      },
+      breadcrumbs: {
+        diffType: 'NONE',
+        ignored: true,
+        original: [],
+        other: [],
       },
     },
   ],

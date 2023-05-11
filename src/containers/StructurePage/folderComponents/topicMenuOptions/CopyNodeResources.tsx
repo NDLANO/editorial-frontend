@@ -14,8 +14,8 @@ import { Copy } from '@ndla/icons/action';
 import { spacing, colors } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
 import { Done } from '@ndla/icons/editor';
+import { Node, NodeChild } from '@ndla/types-taxonomy';
 import RoundIcon from '../../../../components/RoundIcon';
-import { NodeType, ResourceWithNodeConnection } from '../../../../modules/nodes/nodeApiTypes';
 import { EditModeHandler } from '../SettingsMenuDropdownType';
 import MenuItemButton from '../sharedMenuOptions/components/MenuItemButton';
 import NodeSearchDropdown from '../sharedMenuOptions/components/NodeSearchDropdown';
@@ -31,7 +31,7 @@ import { resourcesWithNodeConnectionQueryKey } from '../../../../modules/nodes/n
 
 type ActionType = Extract<EditMode, 'copyResources' | 'cloneResources'>;
 interface Props {
-  currentNode: NodeType;
+  currentNode: Node;
   editModeHandler: EditModeHandler;
   type: ActionType;
 }
@@ -81,7 +81,7 @@ const CopyNodeResources = ({
   const qc = useQueryClient();
   const [totalAmount, setTotalAmount] = useState<number>(0);
   const [count, setCount] = useState<number>(0);
-  const [failedResources, setFailedResources] = useState<ResourceWithNodeConnection[]>([]);
+  const [failedResources, setFailedResources] = useState<NodeChild[]>([]);
   const [showDisplay, setShowDisplay] = useState(false);
   const [done, setDone] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
@@ -101,7 +101,7 @@ const CopyNodeResources = ({
     toggleEditModeFunc();
   };
 
-  const cloneOrCopyResources = async (node: NodeType, type: ActionType) => {
+  const cloneOrCopyResources = async (node: Node, type: ActionType) => {
     prepareForAction();
     const resources = await fetchNodeResources({ id: node.id, taxonomyVersion, language });
     setTotalAmount(resources.length);
@@ -113,10 +113,7 @@ const CopyNodeResources = ({
     );
   };
 
-  const doAction = async (
-    res: ResourceWithNodeConnection,
-    action: (res: ResourceWithNodeConnection) => Promise<string>,
-  ) => {
+  const doAction = async (res: NodeChild, action: (res: NodeChild) => Promise<string>) => {
     try {
       const result = await action(res);
       setCount((count) => count + 1);
@@ -127,18 +124,18 @@ const CopyNodeResources = ({
     }
   };
 
-  const copy = async ({ isPrimary, id, rank }: ResourceWithNodeConnection): Promise<string> =>
+  const copy = async ({ isPrimary, id, rank }: NodeChild): Promise<string> =>
     await postResourceForNode({
       taxonomyVersion,
       body: { primary: isPrimary, rank, resourceId: id, nodeId: currentNode.id },
     });
 
-  const clone = async (resource: ResourceWithNodeConnection): Promise<string> => {
+  const clone = async (resource: NodeChild): Promise<string> => {
     const newLocation = await _clone(resource);
     return await copy({ ...resource, id: newLocation.replace('/v1/resources/', '') });
   };
 
-  const _clone = async (resource: ResourceWithNodeConnection): Promise<string> => {
+  const _clone = async (resource: NodeChild): Promise<string> => {
     const [, resourceType, idString] = resource.contentUri?.split(':') ?? [];
     const id = Number(idString);
     if (resourceType === 'article' && id) {

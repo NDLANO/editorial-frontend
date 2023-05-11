@@ -8,17 +8,17 @@
 
 import { useTranslation } from 'react-i18next';
 import { Pencil } from '@ndla/icons/action';
+import { Node } from '@ndla/types-taxonomy';
 import RoundIcon from '../../../../components/RoundIcon';
 import MenuItemButton from './components/MenuItemButton';
 import { EditMode } from '../../../../interfaces';
-import { NodeType } from '../../../../modules/nodes/nodeApiTypes';
 import MenuItemCustomField from './components/MenuItemCustomField';
 
 interface Props {
-  node: NodeType;
+  node: Node;
   toggleEditMode: (state: EditMode) => void;
   editMode: string;
-  onCurrentNodeChanged: (node: NodeType) => void;
+  onCurrentNodeChanged: (node: Node) => void;
 }
 
 const EditCustomFields = ({ node, toggleEditMode, editMode, onCurrentNodeChanged }: Props) => {

@@ -7,10 +7,11 @@
  */
 
 import { useState } from 'react';
+import { Node } from '@ndla/types-taxonomy';
 import config from '../../../config';
 import { TAXONOMY_ADMIN_SCOPE } from '../../../constants';
 import { EditMode } from '../../../interfaces';
-import { NodeType, SUBJECT_NODE, TOPIC_NODE } from '../../../modules/nodes/nodeApiTypes';
+import { SUBJECT_NODE, TOPIC_NODE } from '../../../modules/nodes/nodeApiTypes';
 import { getNodeTypeFromNodeId } from '../../../modules/nodes/nodeUtil';
 import { useSession } from '../../Session/SessionProvider';
 import DeleteNode from './sharedMenuOptions/DeleteNode';
@@ -30,9 +31,9 @@ import SetResourcesPrimary from './topicMenuOptions/SetResourcesPrimary';
 
 interface Props {
   rootNodeId: string;
-  node: NodeType;
-  nodeChildren: NodeType[];
-  onCurrentNodeChanged: (node: NodeType) => void;
+  node: Node;
+  nodeChildren: Node[];
+  onCurrentNodeChanged: (node: Node) => void;
 }
 
 export interface EditModeHandler {

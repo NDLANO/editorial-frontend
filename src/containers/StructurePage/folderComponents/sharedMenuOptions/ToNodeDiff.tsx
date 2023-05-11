@@ -11,14 +11,14 @@ import { colors } from '@ndla/core';
 import { Taxonomy } from '@ndla/icons/editor';
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
-import { NodeType } from '../../../../modules/nodes/nodeApiTypes';
+import { Node } from '@ndla/types-taxonomy';
 import MenuItemButton from './components/MenuItemButton';
 import RoundIcon from '../../../../components/RoundIcon';
 import { toNodeDiff } from '../../../../util/routeHelpers';
 import { useTaxonomyVersion } from '../../../../containers/StructureVersion/TaxonomyVersionProvider';
 
 interface Props {
-  node: NodeType;
+  node: Node;
 }
 
 const StyledLink = styled(Link)`

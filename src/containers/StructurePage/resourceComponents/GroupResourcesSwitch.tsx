@@ -5,19 +5,19 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { Switch } from '@ndla/switch';
 import Tooltip from '@ndla/tooltip';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from '@tanstack/react-query';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
+import { Node } from '@ndla/types-taxonomy';
 import {
   TAXONOMY_CUSTOM_FIELD_GROUPED_RESOURCE,
   TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES,
   TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE,
 } from '../../../constants';
-import { NodeType } from '../../../modules/nodes/nodeApiTypes';
 import { useUpdateNodeMetadataMutation } from '../../../modules/nodes/nodeMutations';
 import { childNodesWithArticleTypeQueryKey } from '../../../modules/nodes/nodeQueries';
 import { getRootIdForNode, isRootNode } from '../../../modules/nodes/nodeUtil';
@@ -29,11 +29,11 @@ const StyledSwitch = styled(Switch)`
 `;
 
 interface Props {
-  node: NodeType;
+  node: Node;
   onChanged: (newMeta: Partial<TaxonomyMetadata>) => void;
 }
 
-const isGrouped = (node: NodeType): boolean =>
+const isGrouped = (node: Node): boolean =>
   node.metadata?.customFields[TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES] !==
   TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE;
 

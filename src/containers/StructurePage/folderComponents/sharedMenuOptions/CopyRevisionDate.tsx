@@ -9,19 +9,19 @@
 import { Time } from '@ndla/icons/common';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Node } from '@ndla/types-taxonomy';
 import AlertModal from '../../../../components/AlertModal';
 import Overlay from '../../../../components/Overlay';
 import RoundIcon from '../../../../components/RoundIcon';
 import Spinner from '../../../../components/Spinner';
 import { useCopyRevisionDates } from '../../../../modules/draft/draftMutations';
-import { NodeType } from '../../../../modules/nodes/nodeApiTypes';
 import { EditModeHandler } from '../SettingsMenuDropdownType';
 import { StyledErrorMessage } from '../styles';
 import MenuItemButton from './components/MenuItemButton';
 
 interface Props {
   editModeHandler: EditModeHandler;
-  node: NodeType;
+  node: Node;
 }
 
 const CopyRevisionDate = ({ node, editModeHandler: { editMode, toggleEditMode } }: Props) => {

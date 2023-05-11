@@ -83,7 +83,7 @@ const App = ({ isClient }: Props) => {
       <MessagesProvider>
         <SessionProvider initialValue={getSessionStateFromLocalStorage()}>
           <AuthInitializer>
-            <PageContainer background>
+            <PageContainer>
               <Zendesk />
               <Helmet meta={[{ name: 'description', content: t('meta.description') }]} />
               <Content>

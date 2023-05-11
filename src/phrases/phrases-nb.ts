@@ -133,6 +133,7 @@ const phrases = {
     revision: 'Revisjon',
     revisionDescription: 'Artikler i favorittfag som trenger revisjon',
     revisionDate: 'Revisjonsdato',
+    revisionInfo: 'Velg favorittfag ved å stjernemarkere i strukturredigering',
     workList: {
       title: 'Mine arbeidsoppgaver',
       description: 'Artikler hvor du står som ansvarlig',

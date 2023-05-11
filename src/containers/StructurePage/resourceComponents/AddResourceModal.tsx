@@ -213,7 +213,7 @@ const AddResourceModal = ({ onClose, resourceTypes, existingResourceIds, nodeId 
           onChangeSelectedResource={(value) => {
             if (value) setSelectedType(value?.value);
           }}
-          selectedType={selectedType}
+          isClearable
         />
         {canPaste && selectedType && (
           <Input

@@ -25,13 +25,13 @@ interface Props {
   onChangeSelectedResource: (value: SingleValue) => void;
   resourceTypes?: ResourceType[];
   availableResourceTypes: ResourceTypeWithSubtypes[];
-  selectedType?: string;
+  isClearable?: boolean;
 }
 const ResourceTypeSelect = ({
   availableResourceTypes,
   resourceTypes,
   onChangeSelectedResource,
-  selectedType,
+  isClearable = false,
 }: Props) => {
   const { t } = useTranslation();
 
@@ -52,10 +52,8 @@ const ResourceTypeSelect = ({
     () =>
       resourceTypes?.length
         ? options.find((o) => o.value === selectedResourceTypeValue(resourceTypes))
-        : selectedType
-        ? options.find((o) => o.value === selectedType)
         : undefined,
-    [options, resourceTypes, selectedType],
+    [options, resourceTypes],
   );
 
   return (
@@ -77,6 +75,7 @@ const ResourceTypeSelect = ({
         value={value}
         noOptionsMessage={() => t('form.responsible.noResults')}
         isSearchable
+        isClearable={isClearable}
       />
     </>
   );

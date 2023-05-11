@@ -4,9 +4,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import { FieldHeader, Select } from '@ndla/forms';
-import { FormEvent } from 'react';
+import { FieldHeader } from '@ndla/forms';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Option, Select, SingleValue } from '@ndla/select';
 import HowToHelper from '../../../components/HowTo/HowToHelper';
 import { selectedResourceTypeValue } from '../../../util/taxonomyHelpers';
 
@@ -21,16 +22,42 @@ interface ResourceTypeWithSubtypes extends ResourceType {
 }
 
 interface Props {
-  onChangeSelectedResource: (e: FormEvent<HTMLSelectElement>) => void;
+  onChangeSelectedResource: (value: SingleValue) => void;
   resourceTypes?: ResourceType[];
   availableResourceTypes: ResourceTypeWithSubtypes[];
+  selectedType?: string;
 }
 const ResourceTypeSelect = ({
   availableResourceTypes,
-  onChangeSelectedResource,
   resourceTypes,
+  onChangeSelectedResource,
+  selectedType,
 }: Props) => {
   const { t } = useTranslation();
+
+  const options: Option[] = useMemo(
+    () =>
+      availableResourceTypes.flatMap((resourceType) =>
+        resourceType.subtypes
+          ? resourceType.subtypes.map((subtype) => ({
+              label: `${resourceType.name} - ${subtype.name}`,
+              value: `${resourceType.id},${subtype.id}`,
+            }))
+          : { label: resourceType.name, value: resourceType.id },
+      ),
+    [availableResourceTypes],
+  );
+
+  const value = useMemo(
+    () =>
+      resourceTypes?.length
+        ? options.find((o) => o.value === selectedResourceTypeValue(resourceTypes))
+        : selectedType
+        ? options.find((o) => o.value === selectedType)
+        : undefined,
+    [options, resourceTypes, selectedType],
+  );
+
   return (
     <>
       <FieldHeader
@@ -43,24 +70,14 @@ const ResourceTypeSelect = ({
         />
       </FieldHeader>
       <Select
-        value={selectedResourceTypeValue(resourceTypes ?? [])}
+        placeholder={t('taxonomy.resourceTypes.placeholder')}
+        options={options}
         onChange={onChangeSelectedResource}
-      >
-        <option value="">{t('taxonomy.resourceTypes.placeholder')}</option>
-        {availableResourceTypes.map((resourceType) =>
-          resourceType.subtypes ? (
-            resourceType.subtypes.map((subtype) => (
-              <option value={`${resourceType.id},${subtype.id}`} key={subtype.id}>
-                {resourceType.name} - {subtype.name}
-              </option>
-            ))
-          ) : (
-            <option key={resourceType.id} value={resourceType.id}>
-              {resourceType.name}
-            </option>
-          ),
-        )}
-      </Select>
+        isMulti={false}
+        value={value}
+        noOptionsMessage={() => t('form.responsible.noResults')}
+        isSearchable
+      />
     </>
   );
 };

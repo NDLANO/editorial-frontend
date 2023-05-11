@@ -140,6 +140,7 @@ const Revisions = ({ userData, ndlaId }: Props) => {
           title={t('welcomePage.revision')}
           description={t('welcomePage.revisionDescription')}
           Icon={Alarm}
+          infoText={t('welcomePage.revisionInfo')}
         />
         <ControlWrapperDashboard>
           <DropdownWrapper>

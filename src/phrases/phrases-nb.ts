@@ -133,6 +133,8 @@ const phrases = {
     revision: 'Revisjon',
     revisionDescription: 'Artikler i favorittfag som trenger revisjon',
     revisionDate: 'Revisjonsdato',
+    productionSystem: 'til produksjonssystem',
+    revisionInfo: 'Velg favorittfag ved å stjernemarkere i strukturredigering',
     workList: {
       title: 'Mine arbeidsoppgaver',
       description: 'Artikler hvor du står som ansvarlig',
@@ -148,7 +150,7 @@ const phrases = {
       sortAsc: 'Sorter stigende',
       sortDesc: 'Sorter synkende',
     },
-    welcomeBack: 'Velkommen tilbake',
+    welcomeBack: 'Velkommen',
   },
   searchPage: {
     header: {

@@ -12,7 +12,7 @@ import isEqual from 'lodash/isEqual';
 import partition from 'lodash/partition';
 import sortBy from 'lodash/sortBy';
 import { IUserData } from '@ndla/types-backend/draft-api';
-import { ChildNodeType, NodeType } from '../../modules/nodes/nodeApiTypes';
+import { NodeChild, Node } from '@ndla/types-taxonomy';
 import {
   childNodesWithArticleTypeQueryKey,
   useChildNodesWithArticleType,
@@ -24,11 +24,11 @@ import { useTaxonomyVersion } from '../StructureVersion/TaxonomyVersionProvider'
 import { userDataQueryKey, useUpdateUserDataMutation } from '../../modules/draft/draftQueries';
 
 interface Props {
-  node: NodeType;
+  node: Node;
   toggleOpen: (path: string) => void;
   openedPaths: string[];
   isFavorite: boolean;
-  onNodeSelected: (node?: NodeType) => void;
+  onNodeSelected: (node?: Node) => void;
   resourceSectionRef: MutableRefObject<HTMLDivElement | null>;
   renderBeforeTitle?: RenderBeforeFunction;
   setShowAddTopicModal: (value: boolean) => void;
@@ -65,12 +65,12 @@ const RootNode = ({
 
   const onUpdateRank = async (id: string, newRank: number) => {
     await qc.cancelQueries(compKey);
-    const prevData = qc.getQueryData<ChildNodeType[]>(compKey);
+    const prevData = qc.getQueryData<NodeChild[]>(compKey);
     const [toUpdate, other] = partition(prevData, (t) => t.connectionId === id);
-    const updatedNode: ChildNodeType = { ...toUpdate[0], rank: newRank };
+    const updatedNode: NodeChild = { ...toUpdate[0], rank: newRank };
     const updated = other.map((t) => (t.rank >= updatedNode.rank ? { ...t, rank: t.rank + 1 } : t));
     const newArr = sortBy([...updated, updatedNode], 'rank');
-    qc.setQueryData<ChildNodeType[]>(compKey, newArr);
+    qc.setQueryData<NodeChild[]>(compKey, newArr);
     return prevData;
   };
 
@@ -79,7 +79,7 @@ const RootNode = ({
     onSettled: () => qc.invalidateQueries(compKey),
   });
 
-  const onDragEnd = async (dropResult: DropResult, nodes: ChildNodeType[]) => {
+  const onDragEnd = async (dropResult: DropResult, nodes: NodeChild[]) => {
     const { draggableId, source, destination } = dropResult;
     if (!destination) return;
     const currentRank = nodes[source.index].rank;

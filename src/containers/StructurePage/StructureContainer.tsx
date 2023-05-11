@@ -11,12 +11,12 @@ import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { breakpoints } from '@ndla/core';
+import { NodeChild, Node } from '@ndla/types-taxonomy';
 import ErrorBoundary from '../../components/ErrorBoundary';
 import { REMEMBER_FAVORITE_NODES, TAXONOMY_ADMIN_SCOPE } from '../../constants';
 import { useSession } from '../Session/SessionProvider';
 import { useUserData } from '../../modules/draft/draftQueries';
 import { useNodes } from '../../modules/nodes/nodeQueries';
-import { ChildNodeType, NodeType } from '../../modules/nodes/nodeApiTypes';
 import RootNode from './RootNode';
 import { getPathsFromUrl, removeLastItemFromUrl } from '../../util/routeHelpers';
 import StructureErrorIcon from './folderComponents/StructureErrorIcon';
@@ -26,7 +26,7 @@ import { useTaxonomyVersion } from '../StructureVersion/TaxonomyVersionProvider'
 import StickyVersionSelector from './StickyVersionSelector';
 import config from '../../config';
 import { createGuard } from '../../util/guards';
-import { GridContainer, LeftColumn, RightColumn } from '../../components/Layout/Layout';
+import { GridContainer, Column } from '../../components/Layout/Layout';
 import StructureBanner from './StructureBanner';
 import PlannedResourceFormModal from './plannedResource/PlannedResourceFormModal';
 
@@ -35,7 +35,7 @@ const StructureWrapper = styled.ul`
   padding: 0;
 `;
 
-const isChildNode = createGuard<ChildNodeType>('connectionId');
+const isChildNode = createGuard<NodeChild>('connectionId');
 
 const StyledStructureContainer = styled.div`
   position: relative;
@@ -45,6 +45,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  flex: 1;
 `;
 
 const StructureContainer = () => {
@@ -57,7 +58,7 @@ const StructureContainer = () => {
   const navigate = useNavigate();
   const { i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
-  const [currentNode, setCurrentNode] = useState<NodeType | undefined>(undefined);
+  const [currentNode, setCurrentNode] = useState<Node | undefined>(undefined);
   const [shouldScroll, setShouldScroll] = useState(!!paths.length);
 
   const { userPermissions } = useSession();
@@ -109,7 +110,7 @@ const StructureContainer = () => {
     navigate(`/structure/${newPath.concat(deleteSearch ? '' : search)}`);
   };
 
-  const getFavoriteNodes = (nodes: NodeType[] = [], favoriteNodeIds: string[] = []) => {
+  const getFavoriteNodes = (nodes: Node[] = [], favoriteNodeIds: string[] = []) => {
     return nodes.filter((node) => favoriteNodeIds.includes(node.id));
   };
 
@@ -128,7 +129,7 @@ const StructureContainer = () => {
     <ErrorBoundary>
       <Wrapper>
         <GridContainer breakpoint={breakpoints.desktop}>
-          <LeftColumn colStart={1}>
+          <Column colStart={1} colEnd={7}>
             <StructureBanner onChange={toggleShowFavorites} checked={showFavorites} />
             <StyledStructureContainer>
               {userDataQuery.isInitialLoading || nodesQuery.isInitialLoading ? (
@@ -151,8 +152,8 @@ const StructureContainer = () => {
                 </StructureWrapper>
               )}
             </StyledStructureContainer>
-          </LeftColumn>
-          <RightColumn colEnd={13}>
+          </Column>
+          <Column colStart={7} colEnd={13}>
             {currentNode && isChildNode(currentNode) && (
               <StructureResources
                 currentChildNode={currentNode}
@@ -160,7 +161,7 @@ const StructureContainer = () => {
                 resourceRef={resourceSection}
               />
             )}
-          </RightColumn>
+          </Column>
         </GridContainer>
         {showAddTopicModal && (
           <PlannedResourceFormModal

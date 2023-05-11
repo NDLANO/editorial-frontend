@@ -6,16 +6,16 @@
  *
  */
 
-import { NodeType, NodeTypeValue } from '../../../../../modules/nodes/nodeApiTypes';
+import { Node, NodeType } from '@ndla/types-taxonomy';
 import { useTaxonomyVersion } from '../../../../StructureVersion/TaxonomyVersionProvider';
 import { useSearchNodes } from '../../../../../modules/nodes/nodeQueries';
 import SearchDropdown from './SearchDropdown';
 
 interface Props {
   placeholder: string;
-  filter?: (node: NodeType) => boolean;
-  onChange: (node: NodeType) => void;
-  searchNodeType?: NodeTypeValue;
+  filter?: (node: Node) => boolean;
+  onChange: (node: Node) => void;
+  searchNodeType?: NodeType;
   id?: string;
 }
 const NodeSearchDropdown = ({

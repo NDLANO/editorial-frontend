@@ -7,12 +7,12 @@ import sortBy from 'lodash/sortBy';
 import { useTranslation } from 'react-i18next';
 import isBefore from 'date-fns/isBefore';
 import { SafeLinkButton } from '@ndla/safelink';
-import { ChevronRight } from '@ndla/icons/lib/common';
+import { ChevronRight } from '@ndla/icons/common';
+import { Node } from '@ndla/types-taxonomy';
 import {
   TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH,
   TAXONOMY_CUSTOM_FIELD_IS_PUBLISHING,
 } from '../../constants';
-import { NodeType } from '../../modules/nodes/nodeApiTypes';
 import { useNodes } from '../../modules/nodes/nodeQueries';
 import { useVersions } from '../../modules/taxonomy/versions/versionQueries';
 import { toNodeDiff, toStructure } from '../../util/routeHelpers';
@@ -98,7 +98,7 @@ const PublishRequestsContainer = () => {
 
   const otherVersion = betaVersions?.[0] || publishedVersion || versionsQuery.data?.[0];
 
-  const onCompare = (node: NodeType) => {
+  const onCompare = (node: Node) => {
     if (!otherVersion) {
       setError('publishRequests.errors.noVersions');
       return '';

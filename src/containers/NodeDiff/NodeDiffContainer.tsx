@@ -16,9 +16,9 @@ import { Fragment, ReactNode, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from '@tanstack/react-query';
 import { useSearchParams } from 'react-router-dom';
+import { NodeChild, Node } from '@ndla/types-taxonomy';
 import AlertModal from '../../components/AlertModal';
 import { TAXONOMY_ADMIN_SCOPE } from '../../constants';
-import { ChildNodeType, NodeType } from '../../modules/nodes/nodeApiTypes';
 import { usePublishNodeMutation } from '../../modules/nodes/nodeMutations';
 import { nodeTreeQueryKeys, useNodeTree } from '../../modules/nodes/nodeQueries';
 import { fetchVersions } from '../../modules/taxonomy/versions/versionApi';
@@ -142,7 +142,7 @@ const NodeDiffcontainer = ({ originalHash, otherHash, nodeId }: Props) => {
     otherQuery.isInitialLoading,
   ]);
 
-  const onPublish = async (node: NodeType) => {
+  const onPublish = async (node: Node) => {
     setHasPublished(false);
     if (!userPermissions?.includes(TAXONOMY_ADMIN_SCOPE) || originalHash === 'default') {
       setIsLoading(false);
@@ -202,7 +202,7 @@ const NodeDiffcontainer = ({ originalHash, otherHash, nodeId }: Props) => {
   }
 
   const diff = diffTrees(defaultQuery.data!, otherQuery.data!, view);
-  const children: DiffType<ChildNodeType>[] = diff.children;
+  const children: DiffType<NodeChild>[] = diff.children;
 
   const nodes = filterNodes(children, {
     nodeView: params.get('nodeView') ?? 'changed',

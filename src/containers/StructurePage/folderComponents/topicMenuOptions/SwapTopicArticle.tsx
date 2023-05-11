@@ -12,12 +12,13 @@ import { Spinner } from '@ndla/icons';
 import { SubjectMaterial } from '@ndla/icons/contentType';
 import { Done } from '@ndla/icons/editor';
 import { IMultiSearchSummary } from '@ndla/types-backend/search-api';
+import { Node } from '@ndla/types-taxonomy';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from '@tanstack/react-query';
 import RoundIcon from '../../../../components/RoundIcon';
 import { fetchDraft, updateDraft } from '../../../../modules/draft/draftApi';
-import { NodeType, TOPIC_NODE } from '../../../../modules/nodes/nodeApiTypes';
+import { TOPIC_NODE } from '../../../../modules/nodes/nodeApiTypes';
 import { usePutNodeMutation } from '../../../../modules/nodes/nodeMutations';
 import { childNodesWithArticleTypeQueryKey } from '../../../../modules/nodes/nodeQueries';
 import { useSearch } from '../../../../modules/search/searchQueries';
@@ -28,7 +29,7 @@ import SearchDropdown from '../sharedMenuOptions/components/SearchDropdown';
 import { StyledErrorMessage } from '../styles';
 
 interface Props {
-  node: NodeType;
+  node: Node;
   rootNodeId: string;
   editModeHandler: EditModeHandler;
 }

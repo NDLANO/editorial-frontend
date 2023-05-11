@@ -6,13 +6,14 @@
  *
  */
 
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ButtonV2 } from '@ndla/button';
 import { spacing, colors } from '@ndla/core';
 import { Plus } from '@ndla/icons/action';
 import styled from '@emotion/styled';
-import { NodeType, SUBJECT_NODE } from '../../../../../modules/nodes/nodeApiTypes';
+import { Node } from '@ndla/types-taxonomy';
+import { SUBJECT_NODE } from '../../../../../modules/nodes/nodeApiTypes';
 import {
   getNodeTypeFromNodeId,
   getRootIdForNode,
@@ -39,8 +40,8 @@ import CustomFieldComponent from './CustomFieldComponent';
 import { useTaxonomyVersion } from '../../../../StructureVersion/TaxonomyVersionProvider';
 
 interface Props {
-  node: NodeType;
-  onCurrentNodeChanged: (node: NodeType) => void;
+  node: Node;
+  onCurrentNodeChanged: (node: Node) => void;
 }
 
 const StyledFilterWrapper = styled.div`

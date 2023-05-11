@@ -11,6 +11,7 @@ import { HelmetWithTracker } from '@ndla/tracker';
 import { SearchFolder } from '@ndla/icons/editor';
 import styled from '@emotion/styled';
 import { useMemo } from 'react';
+import { breakpoints } from '@ndla/core';
 import { getAccessToken, getAccessTokenPersonal } from '../../util/authHelpers';
 import SaveSearchUrl from './components/SaveSearchUrl';
 import { isValid } from '../../util/jwtHelper';
@@ -20,7 +21,7 @@ import { StyledColumnHeader } from './styles';
 import { useUserData } from '../../modules/draft/draftQueries';
 import WorkList from './components/worklist/WorkList';
 import WelcomeHeader from './components/WelcomeHeader';
-import { GridContainer, MainArea, LeftColumn, RightColumn } from '../../components/Layout/Layout';
+import { GridContainer, Column } from '../../components/Layout/Layout';
 import { useSession } from '../Session/SessionProvider';
 import Revisions from './components/Revisions';
 
@@ -28,6 +29,7 @@ export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  flex: 1;
 `;
 
 export const WelcomePage = () => {
@@ -46,23 +48,27 @@ export const WelcomePage = () => {
 
   return (
     <Wrapper>
-      <GridContainer>
+      <GridContainer breakpoint={breakpoints.desktop}>
         <HelmetWithTracker title={t('htmlTitles.welcomePage')} />
-        <MainArea>
+        <Column>
           <WelcomeHeader />
-        </MainArea>
-        <MainArea>{ndlaId && <WorkList ndlaId={ndlaId} />}</MainArea>
-        <LeftColumn colStart={2} colEnd={8}>
+        </Column>
+        <Column>{ndlaId && <WorkList ndlaId={ndlaId} />}</Column>
+        <Column colStart={2} colEnd={8}>
           {ndlaId && <Revisions ndlaId={ndlaId} userData={data} />}
-          <StyledColumnHeader>
-            <SearchFolder className="c-icon--medium" />
-            <span>{t('welcomePage.savedSearch')}</span>
-          </StyledColumnHeader>
-          <SaveSearchUrl />
-        </LeftColumn>
-        <RightColumn colStart={8} colEnd={12}>
+          {ndlaId && (
+            <>
+              <StyledColumnHeader>
+                <SearchFolder className="c-icon--medium" />
+                <span>{t('welcomePage.savedSearch')}</span>
+              </StyledColumnHeader>
+              <SaveSearchUrl />
+            </>
+          )}
+        </Column>
+        <Column colStart={8} colEnd={12}>
           {ndlaId && <LastUsedItems lastUsed={lastUsed} />}
-        </RightColumn>
+        </Column>
       </GridContainer>
 
       <Footer showLocaleSelector />

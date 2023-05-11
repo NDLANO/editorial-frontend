@@ -9,10 +9,10 @@ import { DropResult } from 'react-beautiful-dnd';
 import { colors } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
 import { Star } from '@ndla/icons/editor';
+import { NodeChild, Node } from '@ndla/types-taxonomy';
 import Fade from '../../components/Taxonomy/Fade';
 import MakeDndList from './MakeDNDList';
 import { createGuard } from '../../util/guards';
-import { ChildNodeType, NodeType } from '../../modules/nodes/nodeApiTypes';
 import { nodePathToUrnPath } from '../../util/taxonomyHelpers';
 import FolderItem from './folderComponents/FolderItem';
 import { useSession } from '../Session/SessionProvider';
@@ -24,9 +24,10 @@ import {
   StyledItemBar,
   StyledStructureItem,
 } from '../../components/Taxonomy/nodeStyles';
+import { NodeChildWithChildren } from '../../modules/nodes/nodeQueries';
 
 export type RenderBeforeFunction = (
-  input: ChildNodeType | NodeType,
+  input: NodeChild | Node,
   isRoot: boolean,
   isTaxonomyAdmin: boolean,
   articleType?: string,
@@ -46,26 +47,26 @@ const RoundIcon = ({
   <StyledIcon {...rest}>{smallIcon}</StyledIcon>
 );
 
-const isChildNode = createGuard<ChildNodeType & { articleType?: string; isPublished?: boolean }>(
+const isChildNode = createGuard<NodeChild & { articleType?: string; isPublished?: boolean }>(
   'connectionId',
 );
 
 interface Props {
   id: string;
-  item: (ChildNodeType & { articleType?: string; isPublished?: boolean }) | NodeType;
+  item: (NodeChild & { articleType?: string; isPublished?: boolean }) | Node;
   openedPaths: string[];
   toggleOpen: (nodeId: string) => void;
   level: number;
-  onNodeSelected: (node?: NodeType) => void;
+  onNodeSelected: (node?: Node) => void;
   resourceSectionRef: MutableRefObject<HTMLDivElement | null>;
   rootNodeId: string;
-  onDragEnd: (result: DropResult, childNodes: ChildNodeType[]) => Promise<void>;
+  onDragEnd: (result: DropResult, childNodes: NodeChild[]) => Promise<void>;
   connectionId: string;
   parentActive: boolean;
   isRoot?: boolean;
   isFavorite: boolean;
   toggleFavorite?: () => void;
-  nodes?: ChildNodeType[];
+  nodes?: NodeChildWithChildren[];
   isLoading?: boolean;
   renderBeforeTitle?: RenderBeforeFunction;
   setShowAddTopicModal: (value: boolean) => void;

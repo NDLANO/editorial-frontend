@@ -5,16 +5,16 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import React, { ReactNode, useMemo } from 'react';
+import { ReactNode, useMemo } from 'react';
 import styled from '@emotion/styled';
 import { spacing, fonts } from '@ndla/core';
 import { ButtonV2 } from '@ndla/button';
+import { NodeChild } from '@ndla/types-taxonomy';
 import { useTranslation } from 'react-i18next';
 import { Dictionary } from '../../../interfaces';
 import { NodeResourceMeta } from '../../../modules/nodes/nodeQueries';
 import { ResourceGroupBanner, StyledShareIcon } from '../styles';
 import ApproachingRevisionDate from './ApproachingRevisionDate';
-import { ChildNodeType } from '../../../modules/nodes/nodeApiTypes';
 import GroupResourceSwitch from './GroupResourcesSwitch';
 import { ResourceWithNodeConnectionAndMeta } from './StructureResources';
 
@@ -54,8 +54,8 @@ const getPublishedCount = (contentMeta: Dictionary<NodeResourceMeta>) => {
 interface Props {
   title: string;
   contentMeta: Dictionary<NodeResourceMeta>;
-  currentNode: ChildNodeType;
-  onCurrentNodeChanged: (changedNode: ChildNodeType) => void;
+  currentNode: NodeChild;
+  onCurrentNodeChanged: (changedNode: NodeChild) => void;
   addButton?: ReactNode;
   resources: ResourceWithNodeConnectionAndMeta[];
   articleIds?: number[];

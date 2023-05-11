@@ -37,9 +37,10 @@ import TaxonomyLightbox from '../../../components/Taxonomy/TaxonomyLightbox';
 import { DRAFT_WRITE_SCOPE, RESOURCE_FILTER_CORE } from '../../../constants';
 import { useAuth0Responsibles } from '../../../modules/auth0/auth0Queries';
 import { useAllResourceTypes } from '../../../modules/taxonomy/resourcetypes/resourceTypesQueries';
-import { ErrorMessage } from '../resourceComponents/AddTopicModal';
 import PlannedResourceSelect from './PlannedResourceSelect';
 import RelevanceOption from '../../../components/Taxonomy/RelevanceOption';
+import { StyledErrorMessage } from '../folderComponents/styles';
+import { Auth0UserData } from '../../../interfaces';
 
 const StyledForm = styled.form`
   width: 100%;
@@ -57,6 +58,10 @@ export const StyledFormikField = styled(FormikField)`
   label {
     ${fonts.sizes('16px')}
   }
+`;
+
+export const ErrorMessage = styled(StyledErrorMessage)`
+  width: fit-content;
 `;
 
 const inputWrapperStyles = css`
@@ -140,17 +145,16 @@ const PlannedResourceFormModal = ({ articleType, nodeId, onClose }: Props) => {
   const initialValues = useMemo(() => toInitialValues(ndlaId, articleType), [ndlaId, articleType]);
   const isTopicArticle = articleType === 'topic-article';
 
+  const formatUserList = (users: Auth0UserData[]) =>
+    users.map((u) => ({
+      value: `${u.app_metadata.ndla_id}`,
+      label: u.name,
+    }));
+
   const { data: users } = useAuth0Responsibles(
     { permission: DRAFT_WRITE_SCOPE },
     {
-      select: (users) =>
-        sortBy(
-          users.map((u) => ({
-            value: `${u.app_metadata.ndla_id}`,
-            label: u.name,
-          })),
-          (u) => u.label,
-        ),
+      select: (users) => sortBy(formatUserList(users), (u) => u.label),
       placeholderData: [],
     },
   );
@@ -277,23 +281,21 @@ const PlannedResourceFormModal = ({ articleType, nodeId, onClose }: Props) => {
               options={users ?? []}
               defaultValue={ndlaId && userName ? { value: ndlaId, label: userName } : undefined}
             />
-            {!isTopicArticle && (
-              <StyledFormikField name="relevance">
-                {({ field }: FieldProps) => (
-                  <SwitchWrapper>
-                    <StyledLabel htmlFor="toggleRelevanceId">
-                      {t('taxonomy.resourceType')}
-                    </StyledLabel>
-                    <RelevanceOption
-                      relevanceId={field.value}
-                      onChange={(id: string) => {
-                        field.onChange({ target: { name: field.name, value: id } });
-                      }}
-                    />
-                  </SwitchWrapper>
-                )}
-              </StyledFormikField>
-            )}
+            <StyledFormikField name="relevance">
+              {({ field }: FieldProps) => (
+                <SwitchWrapper>
+                  <StyledLabel htmlFor="toggleRelevanceId">
+                    {t('taxonomy.resourceType')}
+                  </StyledLabel>
+                  <RelevanceOption
+                    relevanceId={field.value}
+                    onChange={(id: string) => {
+                      field.onChange({ target: { name: field.name, value: id } });
+                    }}
+                  />
+                </SwitchWrapper>
+              )}
+            </StyledFormikField>
             <ButtonWrapper>
               <ButtonV2
                 onClick={(e) => {

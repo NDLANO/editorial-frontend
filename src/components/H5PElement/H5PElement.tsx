@@ -14,15 +14,14 @@ import handleError from '../../util/handleError';
 import { fetchH5PiframeUrl, editH5PiframeUrl, fetchH5PInfo } from './h5pApi';
 
 const FlexWrapper = styled.div`
-  width: 100%;
-  height: 100%;
-  flex: 1;
   display: flex;
+  flex: 1;
+  width: 100%;
 `;
 
 const StyledIFrame = styled.iframe`
-  height: 100%;
   flex: 1;
+  overflow: hidden;
 `;
 
 interface OnSelectObject {
@@ -101,7 +100,7 @@ const H5PElement = ({ h5pUrl, onSelect, onClose, locale, canReturnResources }: P
   };
 
   return (
-    <FlexWrapper data-cy="h5p-editor" id="h5p-editor">
+    <FlexWrapper data-cy="h5p-editor">
       {fetchFailed && (
         <ErrorMessage
           illustration={{

@@ -1,23 +1,21 @@
-import { Global } from '@emotion/react';
+import styled from '@emotion/styled';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import H5PElement from '../../components/H5PElement/H5PElement';
+
+const H5PWrapper = styled.div`
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+`;
 
 const H5PPage = () => {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const locale = i18n.language;
   return (
-    <>
-      <Global
-        styles={{
-          '#h5p-editor': {
-            display: 'flex',
-            flexDirection: 'column',
-          },
-        }}
-      />
+    <H5PWrapper>
       <HelmetWithTracker title={t('htmlTitles.h5pPage')} />
       <H5PElement
         canReturnResources={false}
@@ -27,7 +25,7 @@ const H5PPage = () => {
         }}
         locale={locale}
       />
-    </>
+    </H5PWrapper>
   );
 };
 

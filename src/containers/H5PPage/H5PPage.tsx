@@ -13,7 +13,6 @@ const H5PPage = () => {
       <Global
         styles={{
           '#h5p-editor': {
-            height: '93vh',
             display: 'flex',
             flexDirection: 'column',
           },

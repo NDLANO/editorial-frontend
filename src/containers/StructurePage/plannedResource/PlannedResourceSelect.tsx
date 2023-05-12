@@ -7,7 +7,7 @@
 import { useTranslation } from 'react-i18next';
 import { FieldProps } from 'formik';
 import { Select, SingleValue, Option } from '@ndla/select';
-import { StyledFormikField, StyledLabel } from './PlannedResourceFormModal';
+import { StyledFormikField, StyledLabel } from './PlannedResourceForm';
 
 interface Props {
   label: string;

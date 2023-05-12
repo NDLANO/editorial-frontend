@@ -1369,6 +1369,9 @@ const phrases = {
     commentPlaceholder: 'Feks. innhald, læremål eller grep',
     contentType: 'Innhaldstype',
     contentTypePlaceholder: 'Velg innhaldstype',
+    create: 'Opprett',
+    get: 'Hent',
+    getExisting: 'Eller hent eksisterande ressurs',
     changeName: {
       loadError: 'Klarte ikkje hente omsetjingar',
       updateError: 'Klarte ikkje oppdatere omsetjingar',

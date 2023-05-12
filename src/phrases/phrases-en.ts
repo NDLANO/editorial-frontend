@@ -1367,6 +1367,9 @@ const phrases = {
     commentPlaceholder: 'E.g. content, learning objective or grep',
     contentType: 'Content type',
     contentTypePlaceholder: 'Choose content type',
+    create: 'Create',
+    get: 'Get',
+    getExisting: 'Or get existing resource',
     changeName: {
       loadError: 'Could not fetch translations',
       updateError: 'Could not update translations',

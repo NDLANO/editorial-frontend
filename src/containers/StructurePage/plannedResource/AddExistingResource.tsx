@@ -7,15 +7,15 @@
  */
 
 import { useQueryClient } from '@tanstack/react-query';
-import { Input } from '@ndla/forms';
+import { InputV2 } from '@ndla/forms';
 import styled from '@emotion/styled';
 import { ChangeEvent, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ILearningPathSummaryV2 } from '@ndla/types-backend/learningpath-api';
 import { IGroupSearchResult, IMultiSearchSummary } from '@ndla/types-backend/search-api';
 import { IArticleV2 } from '@ndla/types-backend/article-api';
+import { ButtonV2 } from '@ndla/button';
 import { spacing } from '@ndla/core';
-import TaxonomyLightbox from '../../../components/Taxonomy/TaxonomyLightbox';
 import { RESOURCE_TYPE_LEARNING_PATH, RESOURCE_TYPE_SUBJECT_MATERIAL } from '../../../constants';
 import ResourceTypeSelect from '../../ArticlePage/components/ResourceTypeSelect';
 import { getResourceIdFromPath } from '../../../util/routeHelpers';
@@ -37,23 +37,15 @@ import handleError from '../../../util/handleError';
 import { usePostResourceForNodeMutation } from '../../../modules/nodes/nodeMutations';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 import { resourcesWithNodeConnectionQueryKey } from '../../../modules/nodes/nodeQueries';
+import Spinner from '../../../components/Spinner';
+import { ButtonWrapper, StyledLabel, inputWrapperStyles } from './PlannedResourceForm';
 
 const StyledOrDivider = styled.div`
   display: flex;
   justify-content: center;
 `;
-
-const StyledContent = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.small};
-  > * {
-    width: 100%;
-  }
-  & form {
-    background-color: white;
-  }
+const ContentWrapper = styled.div`
+  padding-left: ${spacing.medium};
 `;
 
 const emptySearchResults: IGroupSearchResult = {
@@ -75,8 +67,6 @@ interface Props {
   }[];
   nodeId: string;
   existingResourceIds: string[];
-  setShowAddModal: (v: boolean) => void;
-  setShowPlannedResourceModal: (v: boolean) => void;
 }
 
 interface Content extends Pick<IMultiSearchSummary, 'id' | 'title' | 'metaDescription'> {
@@ -88,14 +78,7 @@ type ArticleWithPaths = IArticleV2 & { paths: string[] | undefined };
 
 type PossibleResources = ArticleWithPaths | ILearningPathSummaryV2 | IMultiSearchSummary;
 
-const AddResourceModal = ({
-  onClose,
-  resourceTypes,
-  existingResourceIds,
-  nodeId,
-  setShowAddModal,
-  setShowPlannedResourceModal,
-}: Props) => {
+const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, nodeId }: Props) => {
   const { t, i18n } = useTranslation();
   const [content, setContent] = useState<Content | undefined>(undefined);
   const [error, setError] = useState('');
@@ -210,39 +193,25 @@ const AddResourceModal = ({
   };
 
   return (
-    <TaxonomyLightbox
-      title={t('taxonomy.searchResource')}
-      onClose={onClose}
-      actions={[
-        {
-          text: t('taxonomy.createResource'),
-          onClick: () => {
-            setShowAddModal(false);
-            setShowPlannedResourceModal(true);
-          },
-        },
-        {
-          text: t('form.save'),
-          onClick: onAddResource,
-          'data-testid': 'taxonomyLightboxButton',
-          loading: loading,
-        },
-      ]}
-    >
-      <StyledContent>
-        <ResourceTypeSelect
-          availableResourceTypes={resourceTypes ?? []}
-          onChangeSelectedResource={(value) => {
-            if (value) setSelectedType(value?.value);
-          }}
-          isClearable
-        />
+    <>
+      <ContentWrapper>
+        <div>
+          <StyledLabel htmlFor="select-resource-type">{t('taxonomy.contentType')}</StyledLabel>
+          <ResourceTypeSelect
+            availableResourceTypes={resourceTypes ?? []}
+            onChangeSelectedResource={(value) => {
+              if (value) setSelectedType(value?.value);
+            }}
+            isClearable
+          />
+        </div>
         {canPaste && selectedType && (
-          <Input
-            type="text"
-            data-testid="addResourceUrlInput"
-            value={pastedUrl}
+          <InputV2
+            customCss={inputWrapperStyles}
+            label={t('taxonomy.urlPlaceholder')}
+            white
             onChange={onPaste}
+            name="pasteUrlInput"
             placeholder={t('taxonomy.urlPlaceholder')}
           />
         )}
@@ -258,6 +227,7 @@ const AddResourceModal = ({
               startOpen={false}
               showPagination
               initialSearch={false}
+              label={t('form.content.relatedArticle.placeholder')}
             />
           </>
         )}
@@ -271,9 +241,14 @@ const AddResourceModal = ({
             onCancel={() => setError('')}
           />
         )}
-      </StyledContent>
-    </TaxonomyLightbox>
+      </ContentWrapper>
+      <ButtonWrapper>
+        <ButtonV2 onClick={onAddResource} type="submit">
+          {loading ? <Spinner appearance="small" /> : t('taxonomy.get')}
+        </ButtonV2>
+      </ButtonWrapper>
+    </>
   );
 };
 
-export default AddResourceModal;
+export default AddExistingResource;

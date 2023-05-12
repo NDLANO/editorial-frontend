@@ -28,7 +28,8 @@ import config from '../../config';
 import { createGuard } from '../../util/guards';
 import { GridContainer, Column } from '../../components/Layout/Layout';
 import StructureBanner from './StructureBanner';
-import PlannedResourceFormModal from './plannedResource/PlannedResourceFormModal';
+import PlannedResourceForm from './plannedResource/PlannedResourceForm';
+import AddResourceModal from './plannedResource/AddResourceModal';
 
 const StructureWrapper = styled.ul`
   margin: 0;
@@ -56,7 +57,7 @@ const StructureContainer = () => {
   const subtopics = joinedRest.length > 0 ? joinedRest : undefined;
   const params = { subject, topic, subtopics };
   const navigate = useNavigate();
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
   const [currentNode, setCurrentNode] = useState<Node | undefined>(undefined);
   const [shouldScroll, setShouldScroll] = useState(!!paths.length);
@@ -165,12 +166,17 @@ const StructureContainer = () => {
           </Column>
         </GridContainer>
         {showAddTopicModal && (
-          <PlannedResourceFormModal
+          <AddResourceModal
             onClose={() => setShowAddTopicModal(false)}
-            articleType="topic-article"
-            nodeId={currentNode?.id ?? ''}
-            userData={userDataQuery.data}
-          />
+            title={t('taxonomy.addTopicHeader')}
+          >
+            <PlannedResourceForm
+              onClose={() => setShowAddTopicModal(false)}
+              articleType="topic-article"
+              node={currentNode}
+              userData={userDataQuery.data}
+            />
+          </AddResourceModal>
         )}
         {config.versioningEnabled === 'true' && isTaxonomyAdmin && <StickyVersionSelector />}
         <Footer showLocaleSelector />

@@ -18,6 +18,7 @@ import sortBy from 'lodash/sortBy';
 import { IUpdatedArticle, IUserData } from '@ndla/types-backend/draft-api';
 import { css } from '@emotion/react';
 import uniq from 'lodash/uniq';
+import { Node } from '@ndla/types-taxonomy';
 import validateFormik, { RulesType } from '../../../components/formikValidationSchema';
 import { useSession } from '../../Session/SessionProvider';
 import {
@@ -33,7 +34,6 @@ import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvid
 import { RESOURCE_NODE, TOPIC_NODE } from '../../../modules/nodes/nodeApiTypes';
 import FormikField from '../../../components/FormikField';
 import { convertUpdateToNewDraft } from '../../../util/articleUtil';
-import TaxonomyLightbox from '../../../components/Taxonomy/TaxonomyLightbox';
 import { DRAFT_WRITE_SCOPE, RESOURCE_FILTER_CORE } from '../../../constants';
 import { useAuth0Responsibles } from '../../../modules/auth0/auth0Queries';
 import { useAllResourceTypes } from '../../../modules/taxonomy/resourcetypes/resourceTypesQueries';
@@ -42,16 +42,19 @@ import RelevanceOption from '../../../components/Taxonomy/RelevanceOption';
 import { StyledErrorMessage } from '../folderComponents/styles';
 import { Auth0UserData } from '../../../interfaces';
 import { createDraft, updateUserData } from '../../../modules/draft/draftApi';
+import { getRootIdForNode } from '../../../modules/nodes/nodeUtil';
 
 const StyledForm = styled.form`
   width: 100%;
   display: flex;
   flex-direction: column;
   gap: ${spacing.nsmall};
+  padding-left: ${spacing.medium};
 `;
 
 export const StyledLabel = styled.label`
   font-weight: ${fonts.weight.semibold};
+  ${fonts.sizes('16px')}
 `;
 
 export const StyledFormikField = styled(FormikField)`
@@ -65,12 +68,16 @@ export const ErrorMessage = styled(StyledErrorMessage)`
   width: fit-content;
 `;
 
-const inputWrapperStyles = css`
+export const inputWrapperStyles = css`
   flex-direction: column;
-  padding: 0;
+  label {
+    padding: 0;
+    ${fonts.sizes('16px')};
+    white-space: nowrap;
+  }
 `;
 
-const ButtonWrapper = styled.div`
+export const ButtonWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
 `;
@@ -116,19 +123,20 @@ const toInitialValues = (responsible?: string, articleType?: string): PlannedRes
 
 interface Props {
   articleType: string;
-  nodeId: string;
+  node: Node | undefined;
   onClose: () => void;
   userData: IUserData | undefined;
 }
 
-const PlannedResourceFormModal = ({ articleType, nodeId, onClose, userData }: Props) => {
+const PlannedResourceForm = ({ articleType, node, onClose, userData }: Props) => {
   const [error, setError] = useState<string | undefined>(undefined);
   const { t, i18n } = useTranslation();
   const { ndlaId, userName } = useSession();
   const addNodeMutation = useAddNodeMutation();
   const { taxonomyVersion } = useTaxonomyVersion();
   const qc = useQueryClient();
-  const compKey = resourcesWithNodeConnectionQueryKey({ id: nodeId, language: i18n.language });
+  const nodeId = useMemo(() => node && getRootIdForNode(node), [node]);
+  const compKey = resourcesWithNodeConnectionQueryKey({ id: node?.id, language: i18n.language });
   const compKeyChildNodes = childNodesWithArticleTypeQueryKey({
     taxonomyVersion,
     id: nodeId,
@@ -207,7 +215,7 @@ const PlannedResourceFormModal = ({ articleType, nodeId, onClose, userData }: Pr
         // Position node in taxonomy
         const resourceId = resourceUrl.replace('/v1/nodes/', '');
         await createNodeResource({
-          body: { resourceId: resourceId, nodeId, relevanceId: values.relevance },
+          body: { resourceId: resourceId, nodeId: node?.id ?? '', relevanceId: values.relevance },
           taxonomyVersion,
         });
 
@@ -231,7 +239,7 @@ const PlannedResourceFormModal = ({ articleType, nodeId, onClose, userData }: Pr
       createResourceResourceType,
       i18n.language,
       isTopicArticle,
-      nodeId,
+      node?.id,
       onClose,
       taxonomyVersion,
       userData?.latestEditedArticles,
@@ -239,91 +247,84 @@ const PlannedResourceFormModal = ({ articleType, nodeId, onClose, userData }: Pr
   );
 
   return (
-    <TaxonomyLightbox
-      title={isTopicArticle ? t('taxonomy.addTopic') : t('taxonomy.addNewPlannedResource')}
-      onClose={onClose}
+    <Formik
+      initialValues={initialValues}
+      onSubmit={onSubmit}
+      validate={(values) => validateFormik(values, plannedResourceRules, t)}
+      validateOnMount
     >
-      <Formik
-        initialValues={initialValues}
-        onSubmit={onSubmit}
-        validate={(values) => validateFormik(values, plannedResourceRules, t)}
-        validateOnMount
-      >
-        {({ dirty, isValid, handleSubmit }) => (
-          <StyledForm>
-            <StyledFormikField name="title">
-              {({ field }: FieldProps) => (
-                <InputV2
-                  customCss={inputWrapperStyles}
-                  label={t('taxonomy.title')}
-                  placeholder={t('taxonomy.title')}
-                  white
-                  {...field}
-                />
-              )}
-            </StyledFormikField>
-            <StyledFormikField name="comments">
-              {({ field }: FieldProps) => (
-                <InputV2
-                  customCss={inputWrapperStyles}
-                  label={t('taxonomy.comment')}
-                  placeholder={t('taxonomy.commentPlaceholder')}
-                  white
-                  {...field}
-                />
-              )}
-            </StyledFormikField>
-            {!isTopicArticle && (
-              <PlannedResourceSelect
-                label="taxonomy.contentType"
-                fieldName="contentType"
-                id="select-contentType"
-                placeholder="taxonomy.contentTypePlaceholder"
-                options={contentTypes?.length ? contentTypes : []}
+      {({ dirty, isValid, handleSubmit }) => (
+        <StyledForm id="planned-resource-form">
+          <StyledFormikField name="title">
+            {({ field }: FieldProps) => (
+              <InputV2
+                customCss={inputWrapperStyles}
+                label={t('taxonomy.title')}
+                placeholder={t('taxonomy.title')}
+                white
+                {...field}
               />
             )}
+          </StyledFormikField>
+          <StyledFormikField name="comments">
+            {({ field }: FieldProps) => (
+              <InputV2
+                customCss={inputWrapperStyles}
+                label={t('taxonomy.comment')}
+                placeholder={t('taxonomy.commentPlaceholder')}
+                white
+                {...field}
+              />
+            )}
+          </StyledFormikField>
+          {!isTopicArticle && (
             <PlannedResourceSelect
-              label="form.responsible.label"
-              fieldName="responsible"
-              id="select-responsible"
-              placeholder="form.responsible.label"
-              options={users ?? []}
-              defaultValue={ndlaId && userName ? { value: ndlaId, label: userName } : undefined}
+              label="taxonomy.contentType"
+              fieldName="contentType"
+              id="select-contentType"
+              placeholder="taxonomy.contentTypePlaceholder"
+              options={contentTypes?.length ? contentTypes : []}
             />
-            <StyledFormikField name="relevance">
-              {({ field }: FieldProps) => (
-                <SwitchWrapper>
-                  <StyledLabel htmlFor="toggleRelevanceId">
-                    {t('taxonomy.resourceType')}
-                  </StyledLabel>
-                  <RelevanceOption
-                    relevanceId={field.value}
-                    onChange={(id: string) => {
-                      field.onChange({ target: { name: field.name, value: id } });
-                    }}
-                  />
-                </SwitchWrapper>
-              )}
-            </StyledFormikField>
-            <ButtonWrapper>
-              <ButtonV2
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleSubmit();
-                  onClose();
-                }}
-                disabled={!dirty || !isValid}
-                type="submit"
-              >
-                {t('form.save')}
-              </ButtonV2>
-            </ButtonWrapper>
-            {error && <ErrorMessage>{t(error)}</ErrorMessage>}
-          </StyledForm>
-        )}
-      </Formik>
-    </TaxonomyLightbox>
+          )}
+          <PlannedResourceSelect
+            label="form.responsible.label"
+            fieldName="responsible"
+            id="select-responsible"
+            placeholder="form.responsible.label"
+            options={users ?? []}
+            defaultValue={ndlaId && userName ? { value: ndlaId, label: userName } : undefined}
+          />
+          <StyledFormikField name="relevance">
+            {({ field }: FieldProps) => (
+              <SwitchWrapper>
+                <StyledLabel htmlFor="toggleRelevanceId">{t('taxonomy.resourceType')}</StyledLabel>
+                <RelevanceOption
+                  relevanceId={field.value}
+                  onChange={(id: string) => {
+                    field.onChange({ target: { name: field.name, value: id } });
+                  }}
+                />
+              </SwitchWrapper>
+            )}
+          </StyledFormikField>
+          <ButtonWrapper>
+            <ButtonV2
+              onClick={(e) => {
+                e.preventDefault();
+                handleSubmit();
+                onClose();
+              }}
+              disabled={!dirty || !isValid}
+              type="submit"
+            >
+              {t('taxonomy.create')}
+            </ButtonV2>
+          </ButtonWrapper>
+          {error && <ErrorMessage>{t(error)}</ErrorMessage>}
+        </StyledForm>
+      )}
+    </Formik>
   );
 };
 
-export default PlannedResourceFormModal;
+export default PlannedResourceForm;

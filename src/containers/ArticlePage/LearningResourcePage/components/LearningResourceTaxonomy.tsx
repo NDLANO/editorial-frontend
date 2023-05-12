@@ -176,7 +176,7 @@ const LearningResourceTaxonomy = ({ article, taxonomy, updateNotes, setIsOpen }:
     stageTaxonomyChanges({
       topics: topics?.map((topic) => ({
         ...topic,
-        primary: topic.id === id,
+        isPrimary: topic.id === id,
       })),
     });
   };

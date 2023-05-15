@@ -1366,7 +1366,7 @@ const phrases = {
     resourceType: 'Kjernestoff eller tilleggstoff',
     title: 'Tittel',
     comment: 'Kommentar',
-    commentPlaceholder: 'Feks. innhold, læremål eller grep',
+    commentPlaceholder: 'F.eks. innhold, læremål eller grep',
     contentType: 'Innholdstype',
     contentTypePlaceholder: 'Velg innholdstype',
     create: 'Opprett',

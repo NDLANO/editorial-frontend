@@ -12,7 +12,7 @@ import { spacing } from '@ndla/core';
 import styled from '@emotion/styled';
 import { TFunction } from 'i18next';
 import keyBy from 'lodash/keyBy';
-import { ChildNodeType, ResourceWithNodeConnection } from '../../../modules/nodes/nodeApiTypes';
+import { NodeChild } from '@ndla/types-taxonomy';
 import { ResourceType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import {
   NodeResourceMeta,
@@ -24,26 +24,19 @@ import handleError from '../../../util/handleError';
 import ResourcesContainer from './ResourcesContainer';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const StyledDiv = styled('div')`
-  width: calc(${spacing.large} * 5);
-  margin-left: auto;
-  margin-right: calc(${spacing.nsmall});
-`;
-
 const StickyContainer = styled.div`
   position: sticky;
   top: ${spacing.small};
 `;
 
-export interface ResourceWithNodeConnectionAndMeta extends ResourceWithNodeConnection {
+export interface ResourceWithNodeConnectionAndMeta extends NodeChild {
   contentMeta?: NodeResourceMeta;
 }
 
 interface Props {
-  currentChildNode: ChildNodeType;
+  currentChildNode: NodeChild;
   resourceRef: RefObject<HTMLDivElement>;
-  setCurrentNode: (changedNode: ChildNodeType) => void;
+  setCurrentNode: (changedNode: NodeChild) => void;
 }
 
 const getMissingResourceType = (t: TFunction): ResourceType & { disabled?: boolean } => ({
@@ -56,10 +49,11 @@ const missingObject = {
   id: 'missing',
   name: '',
   connectionId: '',
+  parentId: '',
   supportedLanguages: [],
   translations: [],
 };
-const withMissing = (r: ResourceWithNodeConnection): ResourceWithNodeConnection => ({
+const withMissing = (r: NodeChild): NodeChild => ({
   ...r,
   resourceTypes: [missingObject],
 });

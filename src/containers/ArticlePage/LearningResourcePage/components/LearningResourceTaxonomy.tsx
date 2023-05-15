@@ -6,7 +6,7 @@
  *
  */
 
-import { FormEvent, MouseEvent, useState, useEffect, useMemo, useRef } from 'react';
+import { MouseEvent, useState, useEffect, useMemo, useRef } from 'react';
 import styled from '@emotion/styled';
 import { Spinner } from '@ndla/icons';
 import { spacing } from '@ndla/core';
@@ -123,8 +123,8 @@ const LearningResourceTaxonomy = ({ article, taxonomy, updateNotes, setIsOpen }:
   const qc = useQueryClient();
   const prevTaxVersion = useRef(taxonomyVersion);
 
-  const onChangeSelectedResource = (evt: FormEvent<HTMLSelectElement>) => {
-    const options = evt.currentTarget?.value?.split(',');
+  const onChangeSelectedResource = (value: SingleValue) => {
+    const options = value?.value?.split(',') ?? [];
     const selectedResource = availableResourceTypes.find(
       (resourceType) => resourceType.id === options[0],
     );

@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { ButtonV2 } from '@ndla/button';
 import { Select, Input } from '@ndla/forms';
 import styled from '@emotion/styled';
-import { NodeTranslation } from '../../../../modules/nodes/nodeApiTypes';
+import { Translation } from '@ndla/types-taxonomy';
 import { LocaleType } from '../../../../interfaces';
 import { Row } from '../../../../components';
 import FormikField from '../../../../components/FormikField';
@@ -26,7 +26,7 @@ const StyledForm = styled(Form)`
 `;
 
 interface Props {
-  onAddTranslation: (translation: NodeTranslation) => void;
+  onAddTranslation: (translation: Translation) => void;
   availableLanguages: LocaleType[];
   defaultName: string;
 }

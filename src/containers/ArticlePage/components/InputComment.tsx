@@ -22,7 +22,7 @@ const CommentCard = styled.div`
   width: 100%;
   border: 1px solid ${colors.brand.greyMedium};
   border-radius: ${misc.borderRadius};
-  padding: ${spacing.xsmall};
+  padding: ${spacing.small};
   font-weight: ${fonts.weight.light};
   background-color: ${COMMENT_COLOR};
 `;
@@ -60,6 +60,7 @@ const InputComment = ({ comments, setComments }: Props) => {
   const { t } = useTranslation();
   const { userName } = useSession();
   const [inputValue, setInputValue] = useState('');
+  const [clickedInputField, setClickedInputField] = useState(false);
 
   const handleInputChange = useCallback((e: ChangeEvent<HTMLTextAreaElement>): void => {
     setInputValue(e.target.value);
@@ -79,12 +80,16 @@ const InputComment = ({ comments, setComments }: Props) => {
     const formattedDate = formatDate(dateTime);
     const formattedTime = format(currentDate, 'HH:mm');
 
-    setInputValue(
-      `\n${t('form.workflow.addComment.createdBy')} ${
-        userName?.split(' ')[0]
-      } (${formattedDate} - ${formattedTime})`,
-    );
-    setTimeout(() => createComment.current?.setSelectionRange(0, 0), 0);
+    if (!clickedInputField) {
+      setInputValue(
+        `${inputValue}\n${t('form.workflow.addComment.createdBy')} ${
+          userName?.split(' ')[0]
+        } (${formattedDate} - ${formattedTime})`,
+      );
+      setTimeout(() => createComment.current?.setSelectionRange(0, 0), 0);
+    }
+
+    setClickedInputField(true);
   };
 
   return (
@@ -107,7 +112,10 @@ const InputComment = ({ comments, setComments }: Props) => {
             size="xsmall"
             colorTheme="danger"
             disabled={!inputValue}
-            onClick={() => setInputValue('')}
+            onClick={() => {
+              setInputValue('');
+              setClickedInputField(false);
+            }}
           >
             {t('form.abort')}
           </StyledButtonSmall>
@@ -119,6 +127,7 @@ const InputComment = ({ comments, setComments }: Props) => {
             onClick={() => {
               addComment();
               setInputValue('');
+              setClickedInputField(false);
             }}
           >
             {t('form.comment')}

@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { DeleteForever } from '@ndla/icons/editor';
+import { Node, NodeChild } from '@ndla/types-taxonomy';
 import AlertModal from '../../../../components/AlertModal';
 import RoundIcon from '../../../../components/RoundIcon';
 import { updateStatusDraft } from '../../../../modules/draft/draftApi';
-import { ChildNodeType, NodeType } from '../../../../modules/nodes/nodeApiTypes';
 import {
   useDeleteNodeConnectionMutation,
   useDeleteNodeMutation,
@@ -19,8 +19,8 @@ import Overlay from '../../../../components/Overlay';
 import { StyledErrorMessage } from '../styles';
 
 interface Props {
-  node: NodeType | ChildNodeType;
-  nodeChildren: NodeType[];
+  node: Node | NodeChild;
+  nodeChildren: Node[];
   editModeHandler: EditModeHandler;
   rootNodeId?: string;
 }

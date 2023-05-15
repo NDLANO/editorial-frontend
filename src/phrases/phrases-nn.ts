@@ -123,6 +123,7 @@ const phrases = {
     mustBeSearch: 'Lenka må være til eit søk',
     lastUsed: 'Sist redigert',
     lastUsedDescription: 'Artiklar du har redigert nyleg',
+    lastUsedConcepts: 'Forklaringar du har redigert nyleg',
     savedSearch: 'Lagra søk',
     saveSearch: 'Lagre søk',
     chooseSubject: 'Velg fag',
@@ -133,6 +134,8 @@ const phrases = {
     revision: 'Revisjon',
     revisionDescription: 'Artiklar i favorittfag som treng revisjon',
     revisionDate: 'Revisjonsdato',
+    productionSystem: 'til produksjonssystem',
+    revisionInfo: 'Vel favorittfag ved å stjernemarkere i strukturredigering',
     workList: {
       title: 'Mine arbeidsoppgåver',
       description: 'Artiklar der du står som ansvarleg',
@@ -143,12 +146,12 @@ const phrases = {
       topicRelation: 'Emnetilknytting',
       date: 'Tildelingsdato',
       ariaLabel: 'Oversikt over arbeidsoppgåvene og forklaringane mine',
-      conceptDescription: 'Forklaringer der du står som ansvarleg',
+      conceptDescription: 'Forklaringar der du står som ansvarleg',
       conceptSubject: 'Forklaringsfag',
       sortAsc: 'Sorter stigande',
       sortDesc: 'Sorter synkande',
     },
-    welcomeBack: 'Velkommen tilbake',
+    welcomeBack: 'Velkommen',
   },
   searchPage: {
     header: {

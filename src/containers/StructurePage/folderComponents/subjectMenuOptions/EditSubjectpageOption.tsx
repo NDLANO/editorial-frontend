@@ -11,15 +11,15 @@ import { Link } from 'react-router-dom';
 import { Home } from '@ndla/icons/common';
 import { colors } from '@ndla/core';
 import styled from '@emotion/styled';
+import { Node } from '@ndla/types-taxonomy';
 
-import { NodeType } from '../../../../modules/nodes/nodeApiTypes';
 import { toCreateSubjectpage, toEditSubjectpage } from '../../../../util/routeHelpers';
 import { getIdFromUrn } from '../../../../util/subjectHelpers';
 import MenuItemButton from '../sharedMenuOptions/components/MenuItemButton';
 import RoundIcon from '../../../../components/RoundIcon';
 
 interface Props {
-  node: NodeType;
+  node: Node;
 }
 
 const StyledLink = styled(Link)`

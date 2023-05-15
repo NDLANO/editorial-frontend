@@ -184,12 +184,12 @@ const VisualElementUrlPreview = ({
                 type: 'fullscreen',
               }
             : {
-                type: 'iframe',
+                type: 'external',
                 title,
               };
           onUrlSave({
             ...data,
-            resource: 'iframe',
+            resource: 'external',
             url: src || '',
           });
         }

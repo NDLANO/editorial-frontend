@@ -1,45 +1,65 @@
 /**
- * Copyright (c) 2016-present, NDLA.
+ * Copyright (c) 2023-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
  *
  */
-
-import { useMemo } from 'react';
 import queryString from 'query-string';
-import { useTranslation } from 'react-i18next';
-import { DeleteForever } from '@ndla/icons/editor';
-import { IUserData } from '@ndla/types-backend/draft-api';
-import Tooltip from '@ndla/tooltip';
-import { IconButtonV2 } from '@ndla/button';
 import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
-import { transformQuery } from '../../../util/searchHelpers';
-import { useSavedSearchUrl } from '../hooks/savedSearchHook';
+import { colors, fonts, spacing } from '@ndla/core';
+import { Search } from '@ndla/icons/common';
+import { TrashCanOutline } from '@ndla/icons/action';
+import { useTranslation } from 'react-i18next';
+import { useMemo } from 'react';
+import { IUserData } from '@ndla/types-backend/draft-api';
+import { IconButtonV2 } from '@ndla/button';
+import Tooltip from '@ndla/tooltip';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
-import { NoShadowLink } from './NoShadowLink';
+import { transformQuery } from '../../../util/searchHelpers';
+import { useSavedSearchUrl } from '../../WelcomePage/hooks/savedSearchHook';
 import { FAVOURITES_SUBJECT_ID } from '../../../constants';
+import { NoShadowLink } from '../../WelcomePage/components/NoShadowLink';
 
-interface Props {
-  deleteSearch: Function;
-  search: string;
-  index: number;
-  userData: IUserData;
-}
-
-const StyledSearch = styled.div`
+const StyledItem = styled.li`
+  ${fonts.sizes('16px')};
+  color: ${colors.brand.primary};
+  cursor: pointer;
+  padding: ${spacing.xsmall} 0;
+  margin: 0;
+  border-top: 1px solid ${colors.brand.neutral7};
+`;
+const StyledContent = styled.div`
   display: flex;
-  gap: ${spacing.xsmall};
   align-items: center;
 `;
 
-const SavedSearch = ({ deleteSearch, search, index, userData }: Props) => {
+const StyledNoShadowLink = styled(NoShadowLink)`
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+`;
+const StyledSearch = styled(Search)`
+  width: 24px;
+  height: 24px;
+  margin-right: ${spacing.small};
+`;
+const StyledTrashCanOutline = styled(TrashCanOutline)`
+  width: 24px;
+  height: 24px;
+`;
+interface Props {
+  searchText: string;
+  userData: IUserData;
+  deleteSearch: (item: number) => void;
+  index: number;
+}
+const SavedSearchItem = ({ searchText, userData, deleteSearch, index, ...rest }: Props) => {
   const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
   const locale = i18n.language;
-  const [searchUrl, searchParams] = search.split('?');
-
+  const [searchUrl, searchParams] = searchText.split('?');
   const [searchObject, isFavorite] = useMemo(() => {
     const searchObject = transformQuery(queryString.parse(searchParams));
     const isFavorite = searchObject.subjects === FAVOURITES_SUBJECT_ID;
@@ -56,8 +76,8 @@ const SavedSearch = ({ deleteSearch, search, index, userData }: Props) => {
   searchObject['type'] = searchUrl.replace('/search/', '');
   const localizedSearch =
     searchObject['type'] === 'content'
-      ? search.replace(`language=${searchObject['language']}`, `language=${locale}`)
-      : search;
+      ? searchText.replace(`language=${searchObject['language']}`, `language=${locale}`)
+      : searchText;
   if (searchObject['type'] === 'content' && searchObject['language']) {
     searchObject['language'] = locale;
   }
@@ -97,24 +117,29 @@ const SavedSearch = ({ deleteSearch, search, index, userData }: Props) => {
   if (loading) {
     return null;
   }
-
   return (
-    <StyledSearch key={index}>
-      <Tooltip tooltip={t('welcomePage.deleteSavedSearch')}>
-        <IconButtonV2
-          aria-label={t('welcomePage.deleteSavedSearch')}
-          colorTheme="danger"
-          variant="ghost"
-          type="button"
-          onClick={() => deleteSearch(index)}
-          data-cy="remove-element"
-        >
-          <DeleteForever />
-        </IconButtonV2>
-      </Tooltip>
-      <NoShadowLink to={localizedSearch}>{linkText(searchObject)}</NoShadowLink>
-    </StyledSearch>
+    <StyledItem {...rest}>
+      <StyledContent>
+        <StyledNoShadowLink to={localizedSearch}>
+          <StyledSearch />
+          {linkText(searchObject)}
+        </StyledNoShadowLink>
+        <Tooltip tooltip={t('welcomePage.deleteSavedSearch')}>
+          <IconButtonV2
+            aria-label={t('welcomePage.deleteSavedSearch')}
+            variant="ghost"
+            onClick={(e) => {
+              deleteSearch(index);
+              e.stopPropagation();
+            }}
+            size="xsmall"
+          >
+            <StyledTrashCanOutline />
+          </IconButtonV2>
+        </Tooltip>
+      </StyledContent>
+    </StyledItem>
   );
 };
 
-export default SavedSearch;
+export default SavedSearchItem;

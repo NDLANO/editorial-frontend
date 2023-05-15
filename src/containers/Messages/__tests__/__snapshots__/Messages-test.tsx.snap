@@ -149,6 +149,13 @@ exports[`Messages A message is removed if the modal is closed 1`] = `
   color: #444;
 }
 
+.emotion-6 h1[lang='zh'],
+.emotion-6 h1[lang='zh-Hans'],
+.emotion-6 h1[lang='zh-Hant'] {
+  font-size: calc(22px * 1.11);
+  font-size: calc(1.2222222222222223rem * 1.11);
+}
+
 .emotion-6 h1 {
   color: #fff;
 }
@@ -221,6 +228,13 @@ exports[`Messages A message is removed if the modal is closed 1`] = `
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
+}
+
+.emotion-9[lang='zh'],
+.emotion-9[lang='zh-Hans'],
+.emotion-9[lang='zh-Hant'] {
+  font-size: calc(14px * 1.11);
+  font-size: calc(0.7777777777777778rem * 1.11);
 }
 
 .emotion-9:hover,
@@ -537,6 +551,13 @@ exports[`Messages A message is removed if the modal is closed 2`] = `
   color: #444;
 }
 
+.emotion-6 h1[lang='zh'],
+.emotion-6 h1[lang='zh-Hans'],
+.emotion-6 h1[lang='zh-Hant'] {
+  font-size: calc(22px * 1.11);
+  font-size: calc(1.2222222222222223rem * 1.11);
+}
+
 .emotion-6 h1 {
   color: #fff;
 }
@@ -609,6 +630,13 @@ exports[`Messages A message is removed if the modal is closed 2`] = `
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
+}
+
+.emotion-9[lang='zh'],
+.emotion-9[lang='zh-Hans'],
+.emotion-9[lang='zh-Hant'] {
+  font-size: calc(14px * 1.11);
+  font-size: calc(0.7777777777777778rem * 1.11);
 }
 
 .emotion-9:hover,
@@ -925,6 +953,13 @@ exports[`Messages A single message renders correctly 1`] = `
   color: #444;
 }
 
+.emotion-6 h1[lang='zh'],
+.emotion-6 h1[lang='zh-Hans'],
+.emotion-6 h1[lang='zh-Hant'] {
+  font-size: calc(22px * 1.11);
+  font-size: calc(1.2222222222222223rem * 1.11);
+}
+
 .emotion-6 h1 {
   color: #fff;
 }
@@ -997,6 +1032,13 @@ exports[`Messages A single message renders correctly 1`] = `
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
+}
+
+.emotion-9[lang='zh'],
+.emotion-9[lang='zh-Hans'],
+.emotion-9[lang='zh-Hant'] {
+  font-size: calc(14px * 1.11);
+  font-size: calc(0.7777777777777778rem * 1.11);
 }
 
 .emotion-9:hover,
@@ -1313,6 +1355,13 @@ exports[`Messages Several messages renders correctly 1`] = `
   color: #444;
 }
 
+.emotion-6 h1[lang='zh'],
+.emotion-6 h1[lang='zh-Hans'],
+.emotion-6 h1[lang='zh-Hant'] {
+  font-size: calc(22px * 1.11);
+  font-size: calc(1.2222222222222223rem * 1.11);
+}
+
 .emotion-6 h1 {
   color: #fff;
 }
@@ -1385,6 +1434,13 @@ exports[`Messages Several messages renders correctly 1`] = `
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
+}
+
+.emotion-9[lang='zh'],
+.emotion-9[lang='zh-Hans'],
+.emotion-9[lang='zh-Hant'] {
+  font-size: calc(14px * 1.11);
+  font-size: calc(0.7777777777777778rem * 1.11);
 }
 
 .emotion-9:hover,
@@ -1810,6 +1866,13 @@ exports[`Messages auth0 messages provides a cancel button 1`] = `
   color: #444;
 }
 
+.emotion-6 h1[lang='zh'],
+.emotion-6 h1[lang='zh-Hans'],
+.emotion-6 h1[lang='zh-Hant'] {
+  font-size: calc(22px * 1.11);
+  font-size: calc(1.2222222222222223rem * 1.11);
+}
+
 .emotion-6 h1 {
   color: #fff;
 }
@@ -1882,6 +1945,13 @@ exports[`Messages auth0 messages provides a cancel button 1`] = `
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
+}
+
+.emotion-9[lang='zh'],
+.emotion-9[lang='zh-Hans'],
+.emotion-9[lang='zh-Hant'] {
+  font-size: calc(14px * 1.11);
+  font-size: calc(0.7777777777777778rem * 1.11);
 }
 
 .emotion-9:hover,
@@ -1985,6 +2055,13 @@ exports[`Messages auth0 messages provides a cancel button 1`] = `
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
+}
+
+.emotion-13[lang='zh'],
+.emotion-13[lang='zh-Hans'],
+.emotion-13[lang='zh-Hant'] {
+  font-size: calc(16px * 1.11);
+  font-size: calc(0.8888888888888888rem * 1.11);
 }
 
 .emotion-13:hover {

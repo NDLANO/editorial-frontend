@@ -1362,7 +1362,7 @@ const phrases = {
     confirmDelete: 'Er du sikker på at du vil slette denne noden?',
     version: 'Versjon',
     createResource: 'Opprett ny ressurs',
-    addNewPlannedResource: 'Opprett ny planlagt ressurs',
+    addNewPlannedResource: 'Opprett ny planlagd ressurs',
     resourceType: 'Kjernestoff eller tilleggstoff',
     title: 'Tittel',
     comment: 'Kommentar',

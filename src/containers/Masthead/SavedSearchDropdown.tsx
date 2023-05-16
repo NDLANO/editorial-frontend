@@ -50,11 +50,9 @@ const StyledNoHits = styled.div`
 `;
 
 const StyledSavedSearchItem = styled(SavedSearchItem)`
+  background-color: ${colors.white};
   &[data-highlighted='true'] {
     background-color: ${colors.brand.light};
-  }
-  &[data-highlighted='false'] {
-    background-color: ${colors.white};
   }
 `;
 

@@ -79,6 +79,7 @@ const SearchDropdown = ({ onClose }: Props) => {
   const location = useLocation();
   const navigate = useNavigate();
   const queryFromUrl = queryString.parse(location.search).query ?? '';
+  const input = document.getElementById('masthead-search-input');
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [query, setQuery] = useState(queryFromUrl);
@@ -124,11 +125,16 @@ const SearchDropdown = ({ onClose }: Props) => {
     setQuery(evt.currentTarget.value);
   };
 
+  const onElementClick = () => {
+    setMenuOpen(false);
+    if (input) input.blur();
+  };
+
   return (
     <Downshift
       itemToString={(item) => (item ? item.value : '')}
       isOpen={menuOpen}
-      onSelect={() => setMenuOpen(false)}
+      onSelect={onElementClick}
     >
       {({ getInputProps, getItemProps, getMenuProps, isOpen, highlightedIndex, getRootProps }) => {
         return (

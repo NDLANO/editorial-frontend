@@ -196,6 +196,7 @@ export const MastheadSearchForm = forwardRef<HTMLInputElement, MastheadSearchFor
 
         <input
           {...rest}
+          id="masthead-search-input"
           ref={ref}
           type="text"
           value={query}

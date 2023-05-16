@@ -133,7 +133,7 @@ const phrases = {
     revision: 'Revisjon',
     revisionDescription: 'Articles in favorite subjects that need revision',
     revisionDate: 'Revision date',
-    productionSystem: 'to production system',
+    welomeText: 'to ED',
     revisionInfo: 'Choose your favorite subjects by marking them with a star in structure editing',
     workList: {
       title: 'My tasks',

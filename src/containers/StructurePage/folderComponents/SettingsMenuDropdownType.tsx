@@ -33,7 +33,7 @@ interface Props {
   rootNodeId: string;
   node: Node;
   nodeChildren: Node[];
-  onCurrentNodeChanged: (node: Node) => void;
+  onCurrentNodeChanged: (node?: Node) => void;
 }
 
 export interface EditModeHandler {
@@ -87,6 +87,7 @@ const SettingsMenuDropdownType = ({
             nodeChildren={nodeChildren}
             editModeHandler={editModeHandler}
             rootNodeId={rootNodeId}
+            onCurrentNodeChanged={onCurrentNodeChanged}
           />
         )}
       </>
@@ -125,6 +126,7 @@ const SettingsMenuDropdownType = ({
             nodeChildren={nodeChildren}
             editModeHandler={editModeHandler}
             rootNodeId={rootNodeId}
+            onCurrentNodeChanged={onCurrentNodeChanged}
           />
         )}
         <CopyNodeResources

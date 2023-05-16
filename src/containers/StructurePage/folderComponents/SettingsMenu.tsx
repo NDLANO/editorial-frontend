@@ -54,7 +54,7 @@ interface Props {
   node: Node;
   rootNodeId: string;
   nodeChildren: Node[];
-  onCurrentNodeChanged: (node: Node) => void;
+  onCurrentNodeChanged: (node?: Node) => void;
 }
 
 const SettingsMenu = ({ node, rootNodeId, onCurrentNodeChanged, nodeChildren }: Props) => {

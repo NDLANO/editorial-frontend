@@ -11,11 +11,16 @@ import { OneColumn } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
 import { HelmetWithTracker } from '@ndla/tracker';
 import loadable from '@loadable/component';
+import styled from '@emotion/styled';
 import LoginProviders from './LoginProviders';
 import Footer from '../App/components/Footer';
 import { useSession } from '../Session/SessionProvider';
 const LoginFailure = loadable(() => import('./LoginFailure'));
 const LoginSuccess = loadable(() => import('./LoginSuccess'));
+
+const StyledOneColumn = styled(OneColumn)`
+  flex: 1;
+`;
 
 export const Login = () => {
   const { t } = useTranslation();
@@ -31,7 +36,7 @@ export const Login = () => {
   return (
     <>
       <HelmetWithTracker title={t('htmlTitles.loginPage')} />
-      <OneColumn cssModifier="clear">
+      <StyledOneColumn cssModifier="clear">
         <div className="u-2/3@desktop u-push-1/3@desktop">
           <Routes>
             <Route path="success/*" element={<LoginSuccess />} />
@@ -39,7 +44,7 @@ export const Login = () => {
             <Route path="/" element={<LoginProviders />} />
           </Routes>
         </div>
-      </OneColumn>
+      </StyledOneColumn>
       <Footer showLocaleSelector />
     </>
   );

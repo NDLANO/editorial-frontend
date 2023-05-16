@@ -123,6 +123,7 @@ const phrases = {
     mustBeSearch: 'Lenken må være til et søk',
     lastUsed: 'Sist redigert',
     lastUsedDescription: 'Artikler du har redigert nylig',
+    lastUsedConcepts: 'Forklaringer du har redigert nylig',
     savedSearch: 'Lagrede søk',
     saveSearch: 'Lagre søk',
     chooseSubject: 'Velg fag',
@@ -133,6 +134,8 @@ const phrases = {
     revision: 'Revisjon',
     revisionDescription: 'Artikler i favorittfag som trenger revisjon',
     revisionDate: 'Revisjonsdato',
+    productionSystem: 'til produksjonssystem',
+    revisionInfo: 'Velg favorittfag ved å stjernemarkere i strukturredigering',
     workList: {
       title: 'Mine arbeidsoppgaver',
       description: 'Artikler hvor du står som ansvarlig',
@@ -148,7 +151,7 @@ const phrases = {
       sortAsc: 'Sorter stigende',
       sortDesc: 'Sorter synkende',
     },
-    welcomeBack: 'Velkommen tilbake',
+    welcomeBack: 'Velkommen',
   },
   searchPage: {
     header: {

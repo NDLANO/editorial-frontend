@@ -122,6 +122,7 @@ const phrases = {
     mustBeSearch: 'Link must be a search url',
     lastUsed: 'Last edited',
     lastUsedDescription: 'Your recently edited articles',
+    lastUsedConcepts: 'Your recently edited concepts',
     savedSearch: 'Saved searches',
     saveSearch: 'Save search',
     chooseSubject: 'Choose subjects',
@@ -132,6 +133,8 @@ const phrases = {
     revision: 'Revisjon',
     revisionDescription: 'Articles in favorite subjects that need revision',
     revisionDate: 'Revision date',
+    productionSystem: 'to production system',
+    revisionInfo: 'Choose your favorite subjects by marking them with a star in structure editing',
     workList: {
       title: 'My tasks',
       description: 'Articles where you are responsible',
@@ -147,7 +150,7 @@ const phrases = {
       sortAsc: 'Sort ascending',
       sortDesc: 'Sort descending',
     },
-    welcomeBack: 'Welcome back',
+    welcomeBack: 'Welcome',
   },
   searchPage: {
     header: {

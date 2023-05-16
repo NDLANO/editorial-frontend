@@ -27,6 +27,7 @@ export const Wrapper = styled.div`
   flex-direction: column;
   justify-content: space-between;
   gap: ${spacing.small};
+  flex: 1;
 `;
 
 export const WelcomePage = () => {
@@ -36,11 +37,11 @@ export const WelcomePage = () => {
     enabled: isValid(getAccessToken()) && getAccessTokenPersonal(),
   });
   const { ndlaId } = useSession();
-  const lastUsed = useMemo(
-    () => data?.latestEditedArticles?.map((l) => Number(l)) ?? [],
+
+  const lastUsedResources = useMemo(
+    () => data?.latestEditedArticles?.map((a) => Number(a)) ?? [],
     [data?.latestEditedArticles],
   );
-
   localStorage.setItem('lastPath', '');
 
   return (
@@ -51,11 +52,16 @@ export const WelcomePage = () => {
           <WelcomeHeader />
         </Column>
         <Column>{ndlaId && <WorkList ndlaId={ndlaId} />}</Column>
-        <Column colStart={2} colEnd={8}>
-          {ndlaId && <Revisions ndlaId={ndlaId} userData={data} />}
+        <Column colStart={2} colEnd={6}>
+          {ndlaId && (
+            <LastUsedItems
+              lastUsedResources={lastUsedResources}
+              lastUsedConcepts={data?.latestEditedConcepts}
+            />
+          )}
         </Column>
-        <Column colStart={8} colEnd={12}>
-          {ndlaId && <LastUsedItems lastUsed={lastUsed} />}
+        <Column colStart={6} colEnd={12}>
+          {ndlaId && <Revisions ndlaId={ndlaId} userData={data} />}
         </Column>
       </GridContainer>
 

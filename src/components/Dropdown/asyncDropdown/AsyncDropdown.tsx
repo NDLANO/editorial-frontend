@@ -44,6 +44,7 @@ interface Props<ApiType> {
   showPagination?: boolean;
   onBlur?: (event: Event) => void;
   removeItem?: (id: string) => void;
+  initialSearch?: boolean;
 }
 
 interface ApiTypeValues {
@@ -84,6 +85,7 @@ export const AsyncDropdown = <ApiType extends ApiTypeValues>({
   onChange,
   onBlur,
   removeItem,
+  initialSearch = true,
 }: Props<ApiType>) => {
   const [items, setItems] = useState<ItemValues<ApiType>[]>([]);
   const [selectedItem, setSelectedItem] = useState<ItemValues<ApiType> | null>(null);
@@ -95,7 +97,7 @@ export const AsyncDropdown = <ApiType extends ApiTypeValues>({
   const [totalCount, setTotalCount] = useState<number>(1);
 
   useEffect(() => {
-    handleSearch('', page);
+    initialSearch && handleSearch('', page);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleSearch = useCallback(

@@ -178,6 +178,7 @@ exports[`MastheadSearchForm invalid id at the end of the url 1`] = `
       </svg>
     </button>
     <input
+      id="masthead-search-input"
       placeholder="Søk"
       type="text"
       value="https://ndla-frontend.test.api.ndla.no/article/urn:subject:100/urn:topic:1:179373/urn:resource:1:16838"
@@ -364,6 +365,7 @@ exports[`MastheadSearchForm redirects on ndla node id pasted 1`] = `
       </svg>
     </button>
     <input
+      id="masthead-search-input"
       placeholder="Søk"
       type="text"
       value="#4737"
@@ -550,6 +552,7 @@ exports[`MastheadSearchForm redirects on ndla url paste with id at the end 1`] =
       </svg>
     </button>
     <input
+      id="masthead-search-input"
       placeholder="Søk"
       type="text"
       value=""
@@ -736,6 +739,7 @@ exports[`MastheadSearchForm redirects on ndla url paste with taxonomy id at the 
       </svg>
     </button>
     <input
+      id="masthead-search-input"
       placeholder="Søk"
       type="text"
       value="https://ndla-frontend.test.api.ndla.no/article/urn:subject:100/urn:topic:1:179373"
@@ -922,6 +926,7 @@ exports[`MastheadSearchForm redirects on old ndla url paste with new id 1`] = `
       </svg>
     </button>
     <input
+      id="masthead-search-input"
       placeholder="Søk"
       type="text"
       value="https://ndla.no/nb/node/4737?fag=36"

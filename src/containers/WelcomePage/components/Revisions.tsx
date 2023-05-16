@@ -33,6 +33,7 @@ import GoToSearch from './GoToSearch';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 import { useSearchNodes } from '../../../modules/nodes/nodeQueries';
 import { SUBJECT_NODE } from '../../../modules/nodes/nodeApiTypes';
+import { FAVOURITES_SUBJECT_ID } from '../../../constants';
 
 const RevisionsWrapper = styled.div`
   ${mq.range({ from: breakpoints.tabletWide })} {
@@ -168,7 +169,11 @@ const Revisions = ({ userData, ndlaId }: Props) => {
                 isClearable
               />
             </DropdownWrapper>
-            <GoToSearch ndlaId={ndlaId} filterSubject={filterSubject} searchEnv="content" />
+            <GoToSearch
+              filterSubject={filterSubject?.value ?? FAVOURITES_SUBJECT_ID}
+              searchEnv="content"
+              revisionDateTo={currentDateAddYear}
+            />
           </ControlWrapperDashboard>
         </StyledTopRowDashboardInfo>
         <TableComponent

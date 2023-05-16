@@ -42,7 +42,7 @@ const StyledDropdown = styled.ul`
 
 const StyledTitle = styled.h3`
   font-weight: ${fonts.weight.semibold};
-  font-size: ${fonts.sizes('16ox')};
+  font-size: ${fonts.sizes('16px')};
   margin: 0;
 `;
 const StyledNoHits = styled.div`

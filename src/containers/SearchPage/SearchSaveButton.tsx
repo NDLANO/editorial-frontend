@@ -81,7 +81,7 @@ const SearchSaveButton = () => {
     }
 
     const newSearch = createSearchString(window.location);
-    const newSearchList = [...oldSearchList, getSavedSearchRelativeUrl(newSearch)];
+    const newSearchList = [getSavedSearchRelativeUrl(newSearch), ...oldSearchList];
     if (!oldSearchList.find((s) => s === getSavedSearchRelativeUrl(newSearch))) {
       mutateAsync({ savedSearches: newSearchList })
         .then(() => handleSuccess())

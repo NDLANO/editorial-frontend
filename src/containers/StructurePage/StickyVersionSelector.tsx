@@ -10,12 +10,12 @@ import styled from '@emotion/styled';
 import { spacing, colors } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from '@tanstack/react-query';
+import { VersionType } from '@ndla/types-taxonomy';
 import OptGroupVersionSelector from '../../components/Taxonomy/OptGroupVersionSelector';
-import { VersionStatusType } from '../../modules/taxonomy/versions/versionApiTypes';
 import { useVersions } from '../../modules/taxonomy/versions/versionQueries';
 import { useTaxonomyVersion } from '../StructureVersion/TaxonomyVersionProvider';
 
-const versionTypeToColorMap: Record<VersionStatusType | 'default', string> = {
+const versionTypeToColorMap: Record<VersionType | 'default', string> = {
   default: colors.brand.primary,
   PUBLISHED: colors.support.green,
   BETA: colors.support.yellow,

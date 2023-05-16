@@ -2096,10 +2096,10 @@
   resolved "https://registry.yarnpkg.com/@ndla/types-embed/-/types-embed-1.1.1.tgz#76e6d09a6eeab3b3b912edad8ea96b49f98146ac"
   integrity sha512-9418Ur9Ii/d+VqW1r2CLIoXzuqg3oRtpggAsGJETzT6w/8/6BQ2NBf/3tU8+0ISunYdemfgxyP+WwM/IGiWjzA==
 
-"@ndla/types-taxonomy@^1.0.13":
-  version "1.0.13"
-  resolved "https://registry.yarnpkg.com/@ndla/types-taxonomy/-/types-taxonomy-1.0.13.tgz#0df3e97b8611ca3d52b067bd8a8746f65fbc5c3e"
-  integrity sha512-u5ruGujwWwdyhJCHrPU+xwQyPG8lq9cmL4YhXLYDC5pyAUXO9y3tfz1YR205X6VoghIVrKznpuBxl4JqG9kzaA==
+"@ndla/types-taxonomy@^1.0.15":
+  version "1.0.15"
+  resolved "https://registry.yarnpkg.com/@ndla/types-taxonomy/-/types-taxonomy-1.0.15.tgz#642581ce5410c06389de03ce0141d16983fcb926"
+  integrity sha512-Y5Zx+rkkQ7oCWY3nnUDo52say6RY6BbLxfiKvB2VICXoCBo7QdLP9078elXIXBngDhYimPIAgl/DyTvLqDUPPw==
 
 "@ndla/ui@^36.0.2":
   version "36.0.2"

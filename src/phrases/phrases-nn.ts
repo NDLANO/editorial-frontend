@@ -134,7 +134,7 @@ const phrases = {
     revision: 'Revisjon',
     revisionDescription: 'Artiklar i favorittfag som treng revisjon',
     revisionDate: 'Revisjonsdato',
-    productionSystem: 'til produksjonssystem',
+    welcomeText: 'til ED',
     revisionInfo: 'Vel favorittfag ved å stjernemarkere i strukturredigering',
     workList: {
       title: 'Mine arbeidsoppgåver',

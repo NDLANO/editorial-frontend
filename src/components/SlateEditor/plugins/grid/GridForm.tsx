@@ -5,10 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
 import { spacing } from '@ndla/core';
+import { RadioButtonGroup } from '@ndla/ui';
 import { Formik, FieldProps } from 'formik';
 import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -17,35 +17,24 @@ import validateFormik, { RulesType } from '../../../formikValidationSchema';
 
 interface GridFormValues {
   resource: 'grid';
-  size?: 'small' | 'medium' | 'large';
-  columns?: 2 | 4;
+  columns: '2' | '4';
 }
 
 export interface GridEmbedData {
   resource: 'grid';
-  size?: 'small' | 'medium' | 'large';
-  columns?: 2 | 4;
+  columns: '2' | '4';
 }
 
 const rules: RulesType<GridFormValues> = {
   columns: {
     required: true,
   },
-  size: {
-    required: true,
-  },
 };
-
-const StyledSelect = styled.select`
-  background-color: transparent;
-  border: none;
-`;
 
 const toInitialValues = (initialData?: GridEmbedData): GridFormValues => {
   return {
     resource: 'grid',
-    size: initialData?.size ?? 'medium',
-    columns: initialData?.columns ?? 2,
+    columns: initialData?.columns ?? '2',
   };
 };
 
@@ -65,8 +54,7 @@ const StyledFormikField = styled(FormikField)`
   margin: 0px;
 `;
 
-const sizes = ['small', 'medium', 'large'];
-const columns = [2, 4];
+const columns = ['2', '4'];
 
 const GridForm = ({ initialData, onSave, onCancel }: Props) => {
   const { t } = useTranslation();
@@ -77,10 +65,8 @@ const GridForm = ({ initialData, onSave, onCancel }: Props) => {
     (values: GridFormValues) => {
       const newData: GridEmbedData = {
         resource: 'grid',
-        size: values.size ?? 'medium',
-        columns: values.columns ?? 2,
+        columns: values.columns ?? '2',
       };
-
       onSave(newData);
     },
     [onSave],
@@ -96,26 +82,25 @@ const GridForm = ({ initialData, onSave, onCancel }: Props) => {
     >
       {({ dirty, isValid, handleSubmit }) => (
         <>
-          <StyledFormikField name="size">
-            {({ field }: FieldProps) => (
-              <StyledSelect {...field} title={t('gridform.size')}>
-                {sizes.map((size) => (
-                  <option value={size} key={size}>
-                    {t(`gridform.sizes.${size}`)}
-                  </option>
-                ))}
-              </StyledSelect>
-            )}
-          </StyledFormikField>
           <StyledFormikField name="columns">
             {({ field }: FieldProps) => (
-              <StyledSelect {...field} title={t('gridform.columns')}>
-                {columns.map((column) => (
-                  <option value={column} key={column}>
-                    {column}
-                  </option>
-                ))}
-              </StyledSelect>
+              <RadioButtonGroup
+                label={t('form.name.columns')}
+                selected={field.value ?? '2'}
+                uniqeIds
+                options={columns.map((value) => ({
+                  title: value,
+                  value: value,
+                }))}
+                onChange={(value: string) =>
+                  field.onChange({
+                    target: {
+                      name: field.name,
+                      value: value,
+                    },
+                  })
+                }
+              />
             )}
           </StyledFormikField>
           <ButtonContainer>

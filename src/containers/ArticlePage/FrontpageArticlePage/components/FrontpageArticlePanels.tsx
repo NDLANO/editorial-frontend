@@ -37,6 +37,7 @@ const FrontpageArticlePanels = ({ article, handleSubmit, articleLanguage }: Prop
         title={t('form.contentSection')}
         className={'u-4/6@desktop u-push-1/6@desktop'}
         hasError={!!(errors.title || errors.introduction || errors.content)}
+        isFrontpageArticle={true}
       >
         <FrontpageArticleFormContent
           articleLanguage={articleLanguage}

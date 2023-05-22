@@ -8,6 +8,7 @@
 
 import styled from '@emotion/styled';
 import { IconButtonV2 } from '@ndla/button';
+import { spacing } from '@ndla/core';
 import { Pencil } from '@ndla/icons/lib/action';
 import { ModalBody, ModalCloseButton, ModalHeaderV2, ModalV2 } from '@ndla/modal';
 import { Grid } from '@ndla/ui';
@@ -26,8 +27,8 @@ interface Props extends RenderElementProps {
 
 export const SlateGrid = ({ element, editor, children }: Props) => {
   const { t } = useTranslation();
-  const [isEditing, setIsEditing] = useState(element.isFirstEdit);
-  const { size, columns } = element.data;
+  const [isEditing, setIsEditing] = useState(false);
+  const { columns } = element.data;
 
   const handleRemove = () => {
     Transforms.removeNodes(editor, { at: ReactEditor.findPath(editor, element), voids: true });
@@ -36,9 +37,6 @@ export const SlateGrid = ({ element, editor, children }: Props) => {
   const onClose = () => {
     setIsEditing(false);
     ReactEditor.focus(editor);
-    if (element.isFirstEdit) {
-      Transforms.removeNodes(editor, { at: ReactEditor.findPath(editor, element), voids: true });
-    }
     const path = ReactEditor.findPath(editor, element);
     if (Editor.hasPath(editor, Path.next(path))) {
       setTimeout(() => Transforms.select(editor, Path.next(path)), 0);
@@ -50,7 +48,6 @@ export const SlateGrid = ({ element, editor, children }: Props) => {
       setIsEditing(false);
       const properties = {
         data: data,
-        isFirstEdit: false,
       };
       ReactEditor.focus(editor);
       const path = ReactEditor.findPath(editor, element);
@@ -79,14 +76,15 @@ export const SlateGrid = ({ element, editor, children }: Props) => {
   `;
 
   const ButtonContainer = styled.div`
-    display: flex;
+    padding: ${spacing.nsmall};
     justify-content: flex-end;
+    display: flex;
     width: 100%;
   `;
 
   return (
     <>
-      {size && columns && (
+      {columns && (
         <GridWrapper>
           <ButtonContainer>
             <IconButtonV2
@@ -98,7 +96,7 @@ export const SlateGrid = ({ element, editor, children }: Props) => {
             </IconButtonV2>
             <DeleteButton aria-label={t('delete')} onClick={handleRemove} />
           </ButtonContainer>
-          <Grid size={size} columns={columns}>
+          <Grid columns={columns} border={true}>
             {children}
           </Grid>
         </GridWrapper>
@@ -113,7 +111,7 @@ export const SlateGrid = ({ element, editor, children }: Props) => {
               <StyledModalBody>
                 <GridForm
                   onCancel={close}
-                  initialData={{ resource: 'grid', size: size, columns: columns }}
+                  initialData={{ resource: 'grid', columns: columns ?? '2' }}
                   onSave={onSave}
                 />
               </StyledModalBody>

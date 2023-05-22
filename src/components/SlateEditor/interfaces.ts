@@ -48,7 +48,7 @@ import { SpanElement } from './plugins/span';
 import { ConceptListElement } from './plugins/conceptList';
 import { ConceptBlockElement } from './plugins/concept/block/interfaces';
 import { BlogPostElement } from './plugins/blogPost/types';
-import { GridElement } from './plugins/grid';
+import { GridCellElement, GridElement } from './plugins/grid';
 
 export type SlatePlugin = (editor: Editor) => Editor;
 
@@ -110,7 +110,8 @@ declare module 'slate' {
       | SpanElement
       | ConceptListElement
       | BlogPostElement
-      | GridElement;
+      | GridElement
+      | GridCellElement;
     Text: CustomTextWithMarks;
   }
 }

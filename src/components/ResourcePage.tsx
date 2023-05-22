@@ -32,6 +32,10 @@ const PageContent = styled.div`
   padding-left: 24px;
   padding-right: 24px;
   max-width: 1024px;
+
+  &[data-wide='true'] {
+    max-width: 1700px;
+  }
 `;
 interface ResourceComponentProps {
   isNewlyCreated?: boolean;
@@ -51,6 +55,7 @@ interface Props<T extends BaseResource> {
   ) => UseQueryResult<T>;
   createUrl: string;
   titleTranslationKey?: string;
+  isFrontPageContent?: boolean;
 }
 
 const ResourcePage = <T extends BaseResource>({
@@ -60,13 +65,14 @@ const ResourcePage = <T extends BaseResource>({
   createUrl,
   titleTranslationKey,
   className,
+  isFrontPageContent,
 }: Props<T>) => {
   const { t } = useTranslation();
   const previousLocation = usePreviousLocation();
 
   return (
     <Wrapper>
-      <PageContent className={className}>
+      <PageContent className={className} data-wide={isFrontPageContent}>
         {titleTranslationKey && <HelmetWithTracker title={t(titleTranslationKey)} />}
         <Routes>
           <Route path="new" element={<CreateComponent />} />

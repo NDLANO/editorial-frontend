@@ -70,6 +70,7 @@ import { TYPE_BLOGPOST } from '../../../../components/SlateEditor/plugins/blogPo
 import { frontpageActions } from '../../../../components/SlateEditor/plugins/blockPicker/actions';
 import { gridPlugin } from '../../../../components/SlateEditor/plugins/grid';
 import { TYPE_GRID } from '../../../../components/SlateEditor/plugins/grid/types';
+import { TYPE_PARAGRAPH } from '../../../../components/SlateEditor/plugins/paragraph/types';
 
 const StyledFormikField = styled(FormikField)`
   display: flex;
@@ -109,9 +110,14 @@ const visualElements = [
   TYPE_EMBED_IMAGE,
 ];
 
-const actions = [TYPE_TABLE, TYPE_CODEBLOCK, TYPE_FILE, TYPE_BLOGPOST, TYPE_GRID].concat(
-  visualElements,
-);
+const actions = [
+  TYPE_TABLE,
+  TYPE_CODEBLOCK,
+  TYPE_FILE,
+  TYPE_BLOGPOST,
+  TYPE_GRID,
+  TYPE_PARAGRAPH,
+].concat(visualElements);
 const actionsToShowInAreas = {
   details: actions,
   aside: actions,

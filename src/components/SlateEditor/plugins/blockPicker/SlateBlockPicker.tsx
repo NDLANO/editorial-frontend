@@ -96,6 +96,10 @@ const SlateBlockPicker = ({
     if (isTableCell(parent)) {
       return 100;
     }
+    if (Element.isElement(parent) && parent.type === TYPE_GRID) {
+      return -100;
+    }
+
     return 78;
   };
 

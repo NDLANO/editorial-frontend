@@ -99,7 +99,7 @@ const FrontpageArticleForm = ({
           expirationDate={getExpirationDate(article)}
         />
         <FlexWrapper>
-          <MainContent>
+          <MainContent data-wide={true}>
             <FrontpageArticlePanels
               articleLanguage={articleLanguage}
               article={article}

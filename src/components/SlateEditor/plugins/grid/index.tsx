@@ -7,25 +7,34 @@
  */
 
 import { Descendant, Editor, Element } from 'slate';
-import { SlateSerializer } from '../../interfaces';
+import { colors } from '@ndla/core';
+import { RenderElementProps } from 'slate-react';
+import styled from '@emotion/styled';
 import { jsx as slatejsx } from 'slate-hyperscript';
 import { reduceElementDataAttributesV2 } from '../../../../util/embedTagHelpers';
-import { RenderElementProps } from 'slate-react';
 import { SlateGrid } from './SlateGrid';
 import { defaultBlockNormalizer, NormalizerConfig } from '../../utils/defaultNormalizer';
+import { SlateSerializer } from '../../interfaces';
 import { afterOrBeforeTextBlockElement } from '../../utils/normalizationHelpers';
 import { TYPE_PARAGRAPH } from '../paragraph/types';
-import { TYPE_GRID } from './types';
+import { TYPE_GRID, TYPE_GRID_CELL } from './types';
 
 export interface GridElement {
   type: 'grid';
-  isFirstEdit: boolean;
   data: {
-    columns?: 2 | 4;
-    size?: 'small' | 'medium' | 'large';
+    columns?: '2' | '4';
   };
   children: Descendant[];
 }
+
+export interface GridCellElement {
+  type: 'grid-cell';
+  children: Descendant[];
+}
+
+const StyledGridCell = styled.div`
+  border: 1px solid ${colors.brand.light};￼
+`;
 
 const normalizerConfig: NormalizerConfig = {
   previous: {
@@ -37,9 +46,11 @@ const normalizerConfig: NormalizerConfig = {
     defaultType: TYPE_PARAGRAPH,
   },
 };
+
 export const gridSerializer: SlateSerializer = {
   deserialize(el: HTMLElement, children: Descendant[]) {
-    if (el.tagName.toLowerCase() === 'div') {
+    if (el.tagName.toLowerCase() !== 'div') return;
+    if (el.dataset.type === TYPE_GRID) {
       const grid = el as HTMLDivElement;
       const attributes = reduceElementDataAttributesV2(Array.from(grid.attributes));
       return slatejsx(
@@ -50,15 +61,19 @@ export const gridSerializer: SlateSerializer = {
         },
         children,
       );
+    } else if (el.dataset.type === TYPE_GRID_CELL) {
+      return slatejsx('element', { type: TYPE_GRID_CELL }, children);
     }
   },
   serialize(node: Descendant, children: JSX.Element[]) {
     if (Element.isElement(node) && node.type === TYPE_GRID) {
       return (
-        <div data-type={TYPE_GRID} data-size={node.data.size} data-columns={node.data.columns}>
+        <div data-type={TYPE_GRID} data-columns={node.data.columns}>
           {children}
         </div>
       );
+    } else if (Element.isElement(node) && node.type === TYPE_GRID_CELL) {
+      return <div data-type={TYPE_GRID_CELL}>{children}</div>;
     }
   },
 };
@@ -72,13 +87,14 @@ export const gridPlugin = (editor: Editor) => {
           {children}
         </SlateGrid>
       );
+    } else if (element.type === TYPE_GRID_CELL) {
+      return <StyledGridCell {...attributes}>{children}</StyledGridCell>;
     }
     return nextRenderElement?.({ attributes, children, element });
   };
 
   editor.normalizeNode = (entry) => {
     const [node] = entry;
-
     if (Element.isElement(node) && node.type === TYPE_GRID) {
       if (defaultBlockNormalizer(editor, entry, normalizerConfig)) {
         return;

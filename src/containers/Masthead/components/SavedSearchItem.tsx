@@ -72,6 +72,7 @@ const SavedSearchItem = ({ searchText, userData, deleteSearch, index, ...rest }:
   }, [searchParams, userData?.favoriteSubjects]);
 
   const resourceType = searchObject['resource-types'] || '';
+  const articleType = searchObject['article-types'] || '';
 
   searchObject['type'] = searchUrl.replace('/search/', '');
   const localizedSearch =
@@ -102,6 +103,7 @@ const SavedSearchItem = ({ searchText, userData, deleteSearch, index, ...rest }:
     results.push(status && t(`form.status.${status.toLowerCase()}`));
     results.push(isFavorite ? t('searchForm.favourites') : data?.subject?.name);
     results.push(resourceType && data?.resourceType?.name);
+    results.push(articleType && t(`articleType.${articleType}`));
     results.push(contextType && t(`contextTypes.topic`));
     results.push(data?.user?.[0].name);
     results.push(license);

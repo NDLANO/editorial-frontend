@@ -120,6 +120,24 @@ const ContactBlockForm = ({ initialData, onSave, onCancel }: Props) => {
     [onSave],
   );
 
+  const memoizedBlobTypes = useMemo(
+    () =>
+      blobTypes.map((value) => ({
+        title: t(`contactBlockForm.blob.${value}`),
+        value: value,
+      })),
+    [t],
+  );
+
+  const memoizedBlobColors = useMemo(
+    () =>
+      blobColors.map((value) => ({
+        title: t(`contactBlockForm.blobColor.${value}`),
+        value: value,
+      })),
+    [t],
+  );
+
   return (
     <Formik
       initialValues={initialValues}
@@ -150,10 +168,7 @@ const ContactBlockForm = ({ initialData, onSave, onCancel }: Props) => {
                 label={t('form.name.blob')}
                 selected={field.value}
                 uniqeIds
-                options={blobTypes.map((value) => ({
-                  title: t(`contactBlockForm.blob.${value}`),
-                  value: value,
-                }))}
+                options={memoizedBlobTypes}
                 onChange={(value: string) =>
                   field.onChange({ target: { name: field.name, value: value } })
                 }
@@ -166,10 +181,7 @@ const ContactBlockForm = ({ initialData, onSave, onCancel }: Props) => {
                 label={t('form.name.blobColor')}
                 selected={field.value}
                 uniqeIds
-                options={blobColors.map((value) => ({
-                  title: t(`contactBlockForm.blobColor.${value}`),
-                  value: value,
-                }))}
+                options={memoizedBlobColors}
                 onChange={(value: string) =>
                   field.onChange({ target: { name: field.name, value: value } })
                 }

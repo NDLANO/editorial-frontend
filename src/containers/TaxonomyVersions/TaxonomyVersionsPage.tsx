@@ -14,10 +14,10 @@ import { OneColumn } from '@ndla/ui';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Version } from '@ndla/types-taxonomy';
 import { Row } from '../../components';
-import { VersionType } from '../../modules/taxonomy/versions/versionApiTypes';
 import Footer from '../App/components/Footer';
-import Version from './components/Version';
+import UIVersion from './components/Version';
 import VersionForm from './components/VersionForm';
 import VersionList from './components/VersionList';
 import { useVersions } from '../../modules/taxonomy/versions/versionQueries';
@@ -35,16 +35,6 @@ const FormSpacingWrapper = styled.div`
   padding-top: ${spacing.normal};
 `;
 
-const ButtonContainer = styled.div`
-  justify-content: flex-start;
-  display: flex;
-  padding-top: ${spacing.normal};
-  flex: 1;
-  height: 100%;
-  flex-direction: column;
-  gap: ${spacing.small};
-`;
-
 const DangerZone = styled.div`
   display: flex;
   padding: ${spacing.normal};
@@ -54,8 +44,8 @@ const DangerZone = styled.div`
 `;
 
 const getPublishedAndOther = (
-  versions: VersionType[],
-): { published: VersionType | undefined; other: VersionType[] } => {
+  versions: Version[],
+): { published: Version | undefined; other: Version[] } => {
   const [published, other] = partition(versions, (v) => v.versionType === 'PUBLISHED');
   return {
     published: published[0],
@@ -95,7 +85,7 @@ const TaxonomyVersionsPage = () => {
           </FormSpacingWrapper>
         )}
         <h3>{t('taxonomyVersions.publishedVersion')}</h3>
-        {published ? <Version version={published} /> : t('taxonomyVersions.noPublished')}
+        {published ? <UIVersion version={published} /> : t('taxonomyVersions.noPublished')}
         <h3>{t('taxonomyVersions.otherVersions')}</h3>
         <VersionList versions={other} />
         {publishRequests?.length ? (

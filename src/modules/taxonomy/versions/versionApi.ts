@@ -6,13 +6,14 @@
  *
  */
 
+import { VersionPostPut, Version } from '@ndla/types-taxonomy';
 import { taxonomyApi } from '../../../config';
 import { apiResourceUrl, httpFunctions, stringifyQuery } from '../../../util/apiHelpers';
 import {
   resolveLocation,
   resolveVoidOrRejectWithError,
 } from '../../../util/resolveJsonOrRejectWithError';
-import { GetVersionsParams, VersionPostBody, VersionPutBody, VersionType } from './versionApiTypes';
+import { GetVersionsParams } from './versionApiTypes';
 
 const baseUrl = apiResourceUrl(`${taxonomyApi}/versions`);
 
@@ -20,7 +21,7 @@ const { fetchAndResolve, postAndResolve, putAndResolve, deleteAndResolve } = htt
 
 interface VersionGetParams extends GetVersionsParams {}
 
-export const fetchVersions = ({ type, hash }: VersionGetParams): Promise<VersionType[]> => {
+export const fetchVersions = ({ type, hash }: VersionGetParams): Promise<Version[]> => {
   return fetchAndResolve({ url: baseUrl, queryParams: { type, hash } });
 };
 
@@ -28,12 +29,12 @@ interface VersionGetParam {
   id: string;
 }
 
-export const fetchVersion = ({ id }: VersionGetParam): Promise<VersionType> => {
+export const fetchVersion = ({ id }: VersionGetParam): Promise<Version> => {
   return fetchAndResolve({ url: `${baseUrl}/${id}` });
 };
 
 interface VersionPostParams {
-  body: VersionPostBody;
+  body: VersionPostPut;
   sourceId?: string;
 }
 
@@ -47,7 +48,7 @@ export const postVersion = ({ body, sourceId }: VersionPostParams): Promise<stri
 
 interface VersionPutParams {
   id: string;
-  body: VersionPutBody;
+  body: VersionPostPut;
 }
 
 export const putVersion = ({ id, body }: VersionPutParams): Promise<void> => {

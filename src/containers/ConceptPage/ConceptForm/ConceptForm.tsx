@@ -7,7 +7,6 @@
  */
 
 import { useState, useEffect, useMemo } from 'react';
-import { Accordions, AccordionSection } from '@ndla/accordion';
 import {
   IConcept,
   INewConcept,
@@ -36,6 +35,8 @@ import { MessageError, useMessages } from '../../Messages/MessagesProvider';
 import { useLicenses } from '../../../modules/draft/draftQueries';
 import FormWrapper from '../../../components/FormWrapper';
 import { useSession } from '../../../containers/Session/SessionProvider';
+import FormAccordion from '../../../components/Accordion/FormAccordion';
+import FormAccordions from '../../../components/Accordion/FormAccordions';
 
 const STATUSES_RESPONSIBLE_NOT_REQUIRED = [PUBLISHED, ARCHIVED, UNPUBLISHED];
 
@@ -215,20 +216,18 @@ const ConceptForm = ({
               type="concept"
               values={values}
             />
-            <Accordions>
-              <AccordionSection
-                id="concept-content"
-                title={t('form.contentSection')}
+            <FormAccordions defaultOpen={['content']}>
+              <FormAccordion
+                id="content"
                 className="u-4/6@desktop u-push-1/6@desktop"
+                title={t('form.contentSection')}
                 hasError={!!(errors.title || errors.conceptContent)}
-                startOpen
               >
                 <ConceptContent />
-              </AccordionSection>
-              <AccordionSection
-                id="concept-copyright"
+              </FormAccordion>
+              <FormAccordion
+                id="copyright"
                 title={t('form.copyrightSection')}
-                className="u-6/6"
                 hasError={!!(errors.creators || errors.license)}
               >
                 <ConceptCopyright
@@ -236,11 +235,10 @@ const ConceptForm = ({
                   label={t('form.concept.source')}
                   description={t('form.concept.markdown')}
                 />
-              </AccordionSection>
-              <AccordionSection
-                id="concept-metadataSection"
+              </FormAccordion>
+              <FormAccordion
+                id="metadata"
                 title={t('form.metadataSection')}
-                className="u-6/6"
                 hasError={!!(errors.tags || errors.metaImageAlt || errors.subjects)}
               >
                 <ConceptMetaData
@@ -249,16 +247,15 @@ const ConceptForm = ({
                   inModal={inModal}
                   language={language}
                 />
-              </AccordionSection>
-              <AccordionSection
-                id="concept-articles"
+              </FormAccordion>
+              <FormAccordion
+                id="articles"
                 title={t('form.articleSection')}
-                className="u-6/6"
                 hasError={!!errors.articles}
               >
                 <ConceptArticles />
-              </AccordionSection>
-            </Accordions>
+              </FormAccordion>
+            </FormAccordions>
             <ConceptFormFooter
               entityStatus={concept?.status}
               conceptChanged={!!conceptChanged}

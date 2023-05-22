@@ -6,30 +6,9 @@
  *
  */
 
-export interface VersionType {
-  id: string;
-  versionType: VersionStatusType;
-  name: string;
-  hash: string;
-  locked: boolean;
-  created: string;
-  published?: string;
-  archived?: string;
-}
-
-export interface VersionPostBody {
-  name: string;
-  locked?: boolean;
-}
-
-export interface VersionPutBody {
-  name?: string;
-  locked?: boolean;
-}
+import { VersionType } from '@ndla/types-taxonomy';
 
 export interface GetVersionsParams {
-  type?: VersionStatusType;
+  type?: VersionType;
   hash?: string;
 }
-
-export type VersionStatusType = 'BETA' | 'ARCHIVED' | 'PUBLISHED';

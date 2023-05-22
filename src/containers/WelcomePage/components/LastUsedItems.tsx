@@ -8,113 +8,142 @@
 
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Pencil } from '@ndla/icons/action';
 import orderBy from 'lodash/orderBy';
-import Pager from '@ndla/pager';
-import { StyledDashboardInfo, StyledLink } from '../styles';
-import TableComponent, { FieldElement, Prefix, TitleElement } from './TableComponent';
-import TableTitle from './TableTitle';
-import formatDate from '../../../util/formatDate';
-import { toEditArticle } from '../../../util/routeHelpers';
+import { TabsV2 } from '@ndla/tabs';
+import { IConceptSearchResult, IConceptSummary } from '@ndla/types-backend/concept-api';
+import { IArticleSummary, ISearchResult } from '@ndla/types-backend/draft-api';
+import { Prefix, TitleElement } from './TableComponent';
 import { useSearchDrafts } from '../../../modules/draft/draftQueries';
+import LastUsedResources from './LastUsedResources';
+import LastUsedConcepts from './LastUsedConcepts';
+import { useSearchConcepts } from '../../../modules/concept/conceptQueries';
 
-interface Props {
-  lastUsed?: number[];
-}
-
-type SortOptionLastUsed = 'title' | 'lastUpdated';
+export type SortOptionLastUsed = 'title' | 'lastUpdated';
 
 const PAGE_SIZE = 6;
 
-const LastUsedItems = ({ lastUsed = [] }: Props) => {
+const getLastPage = (res?: ISearchResult | IConceptSearchResult) =>
+  res?.results.length ? Math.ceil(res.results.length / PAGE_SIZE) : 1;
+
+type SortOptionType = Prefix<'-', SortOptionLastUsed>;
+
+const getSortedPaginationData = <T extends IConceptSummary | IArticleSummary>(
+  page: number,
+  sortOption: SortOptionType,
+  data: T[],
+): T[] => {
+  const sortDesc = sortOption.charAt(0) === '-';
+  // Pagination logic. startIndex indicates start position in data.results for current page
+  // currentPageElements is data to be displayed at current page
+  const startIndex = page > 1 ? (page - 1) * PAGE_SIZE : 0;
+  const currentPageElements = data.slice(startIndex, startIndex + PAGE_SIZE);
+
+  return orderBy(
+    currentPageElements,
+    (e) =>
+      sortOption.includes('title') ? e.title?.title : 'updated' in e ? e.updated : e.lastUpdated,
+    [sortDesc ? 'desc' : 'asc'],
+  );
+};
+interface Props {
+  lastUsedResources?: number[];
+  lastUsedConcepts?: string[];
+}
+
+const LastUsedItems = ({ lastUsedResources = [], lastUsedConcepts = [] }: Props) => {
   const {
     t,
     i18n: { language },
   } = useTranslation();
 
-  const tableTitles: TitleElement<SortOptionLastUsed>[] = [
-    { title: t('form.article.label'), sortableField: 'title' },
-    { title: t('searchForm.sort.lastUpdated'), sortableField: 'lastUpdated' },
-  ];
-  const [sortOption, setSortOption] = useState<Prefix<'-', SortOptionLastUsed>>('-lastUpdated');
+  const [sortOption, setSortOption] = useState<SortOptionType>('-lastUpdated');
   const [error, setError] = useState<string | undefined>(undefined);
   const [page, setPage] = useState(1);
 
+  const [sortOptionConcept, setSortOptionConcept] = useState<SortOptionType>('-lastUpdated');
+  const [errorConcept, setErrorConcept] = useState<string | undefined>(undefined);
+  const [pageConcept, setPageConcept] = useState(1);
+
   const { data, isInitialLoading } = useSearchDrafts(
     {
-      ids: lastUsed!,
+      ids: lastUsedResources!,
       sort: '-lastUpdated',
       language,
     },
     {
-      enabled: !!lastUsed.length,
+      enabled: !!lastUsedResources.length,
       onError: () => setError(t('welcomePage.errorMessage')),
       onSuccess: () => setError(undefined),
     },
   );
 
-  const sortedData = useMemo(() => {
-    if (!data?.results) return [];
-    const sortDesc = sortOption.charAt(0) === '-';
-    // Pagination logic. startIndex indicates start position in data.results for current page
-    // currentPageElements is data to be displayed at current page
-    const startIndex = page > 1 ? (page - 1) * PAGE_SIZE : 0;
-    const currentPageElements = data?.results.slice(startIndex, startIndex + PAGE_SIZE);
+  const { data: conceptsData, isInitialLoading: isLoadingConcepts } = useSearchConcepts(
+    { ids: lastUsedConcepts.join(',')!, sort: '-lastUpdated', language },
+    {
+      enabled: !!lastUsedConcepts.length,
+      onError: () => setErrorConcept(t('welcomePage.errorMessage')),
+      onSuccess: () => setErrorConcept(undefined),
+    },
+  );
+  const sortedData = useMemo(
+    () => (data?.results ? getSortedPaginationData(page, sortOption, data.results) : []),
+    [data, page, sortOption],
+  );
 
-    return orderBy(
-      currentPageElements,
-      (t) => (sortOption.includes('title') ? t.title?.title : t.updated),
-      [sortDesc ? 'desc' : 'asc'],
-    );
-  }, [data?.results, sortOption, page]);
-
-  const tableData: FieldElement[][] = useMemo(
+  const sortedConceptsData = useMemo(
     () =>
-      sortedData?.map((a) => [
-        {
-          id: `title_${a.id}`,
-          data: (
-            <StyledLink to={toEditArticle(a.id, a.articleType)} title={a.title?.title}>
-              {a.title?.title}
-            </StyledLink>
-          ),
-        },
-        { id: `lastUpdated_${a.id}`, data: formatDate(a.updated) },
-      ]) ?? [[]],
-    [sortedData],
+      conceptsData?.results
+        ? getSortedPaginationData(pageConcept, sortOptionConcept, conceptsData.results)
+        : [],
+    [conceptsData, pageConcept, sortOptionConcept],
   );
 
-  const lastPage = useMemo(
-    () => (data?.results.length ? Math.ceil(data.results.length / PAGE_SIZE) : 1),
-    [data?.results],
-  );
+  const lastPage = useMemo(() => getLastPage(data), [data]);
+  const lastPageConcepts = useMemo(() => getLastPage(conceptsData), [conceptsData]);
+
+  const tableTitles: TitleElement<SortOptionLastUsed>[] = [
+    { title: t('form.article.label'), sortableField: 'title' },
+    { title: t('searchForm.sort.lastUpdated'), sortableField: 'lastUpdated' },
+  ];
 
   return (
-    <StyledDashboardInfo>
-      <TableTitle
-        title={t('welcomePage.lastUsed')}
-        description={t('welcomePage.lastUsedDescription')}
-        Icon={Pencil}
-      />
-      <TableComponent
-        isLoading={isInitialLoading}
-        tableTitleList={tableTitles}
-        tableData={tableData}
-        setSortOption={setSortOption}
-        sortOption={sortOption}
-        error={error}
-        noResultsText={t('welcomePage.emptyLastUsed')}
-      />
-      <Pager
-        page={page}
-        lastPage={lastPage}
-        query={{}}
-        onClick={(el) => setPage(el.page)}
-        small
-        colorTheme="lighter"
-        pageItemComponentClass="button"
-      />
-    </StyledDashboardInfo>
+    <TabsV2
+      ariaLabel={t('welcomePage.lastUsed')}
+      tabs={[
+        {
+          title: `${t('form.articleSection')} (${data?.totalCount ?? 0})`,
+          content: (
+            <LastUsedResources
+              data={sortedData}
+              isLoading={isInitialLoading}
+              page={page}
+              setPage={setPage}
+              lastPage={lastPage}
+              sortOption={sortOption}
+              setSortOption={setSortOption}
+              error={error}
+              titles={tableTitles}
+            />
+          ),
+        },
+        {
+          title: `${t('form.name.concepts')} (${conceptsData?.totalCount ?? 0})`,
+          content: (
+            <LastUsedConcepts
+              data={sortedConceptsData}
+              isLoading={isLoadingConcepts}
+              page={pageConcept}
+              setPage={setPageConcept}
+              sortOption={sortOptionConcept}
+              setSortOption={setSortOptionConcept}
+              error={errorConcept}
+              lastPage={lastPageConcepts}
+              titles={tableTitles}
+            />
+          ),
+        },
+      ]}
+    />
   );
 };
 

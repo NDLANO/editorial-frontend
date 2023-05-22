@@ -131,7 +131,7 @@ const WorkListTabContent = ({
         />
         <ControlWrapperDashboard>
           <SubjectDropdown filterSubject={filterSubject} setFilterSubject={setFilterSubject} />
-          <GoToSearch ndlaId={ndlaId} filterSubject={filterSubject} searchEnv={'content'} />
+          <GoToSearch ndlaId={ndlaId} filterSubject={filterSubject?.value} searchEnv={'content'} />
         </ControlWrapperDashboard>
       </StyledTopRowDashboardInfo>
       <TableComponent

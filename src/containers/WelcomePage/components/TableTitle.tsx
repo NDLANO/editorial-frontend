@@ -10,10 +10,13 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { spacing, colors, fonts } from '@ndla/core';
 import { ElementType } from 'react';
+import { InformationOutline } from '@ndla/icons/common';
+import Tooltip from '@ndla/tooltip';
 
-const TableComponentWrapper = styled.div`
+const ComponentWrapper = styled.div`
   display: flex;
   flex-direction: row;
+  gap: ${spacing.xsmall};
 `;
 const TextWrapper = styled.div`
   display: flex;
@@ -42,7 +45,7 @@ const StyledIconWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-right: ${spacing.normal};
+  margin-right: ${spacing.small};
 `;
 
 const iconStyles = css`
@@ -55,19 +58,29 @@ interface Props {
   title: string;
   description: string;
   Icon: ElementType;
+  infoText?: string;
 }
 
-const TableComponent = ({ title, description, Icon }: Props) => {
+const TableComponent = ({ title, description, Icon, infoText }: Props) => {
   return (
-    <TableComponentWrapper>
+    <ComponentWrapper>
       <StyledIconWrapper>
         <Icon css={iconStyles} />
       </StyledIconWrapper>
       <TextWrapper>
-        <StyledTitle>{title}</StyledTitle>
+        <ComponentWrapper>
+          <StyledTitle>{title}</StyledTitle>
+          {infoText && (
+            <Tooltip tooltip={infoText}>
+              <div>
+                <InformationOutline />
+              </div>
+            </Tooltip>
+          )}
+        </ComponentWrapper>
         <StyledDescription>{description}</StyledDescription>
       </TextWrapper>
-    </TableComponentWrapper>
+    </ComponentWrapper>
   );
 };
 

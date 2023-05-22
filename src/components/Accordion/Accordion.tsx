@@ -8,7 +8,7 @@
 
 import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
-import { breakpoints, colors, mq, spacing } from '@ndla/core';
+import { breakpoints, mq, spacing } from '@ndla/core';
 import { ExpandLess, ExpandMore } from '@ndla/icons/action';
 import { ReactNode } from 'react';
 import AccordionButtonLine from './AccordionButtonLine';

@@ -10,7 +10,7 @@ import styled from '@emotion/styled';
 import { spacing, colors } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router-dom';
-import { ChildNodeType } from '../../modules/nodes/nodeApiTypes';
+import { NodeChild } from '@ndla/types-taxonomy';
 import ArrayDiffField from './ArrayDiffField';
 import {
   diffField,
@@ -86,7 +86,7 @@ const NodeDiff = ({ node, isRoot }: Props) => {
 
   const filteredNode =
     fieldFilter === 'changed'
-      ? removeType<Omit<ChildNodeType, 'resources'> | Omit<NodeTypeWithResources, 'resources'>>(
+      ? removeType<Omit<NodeChild, 'resources'> | Omit<NodeTypeWithResources, 'resources'>>(
           node,
           'NONE',
         )
@@ -226,7 +226,7 @@ const NodeDiff = ({ node, isRoot }: Props) => {
 };
 
 interface ResourceDiffListProps {
-  resources?: DiffType<ChildNodeType>[];
+  resources?: DiffType<NodeChild>[];
   fieldFilter: string;
 }
 
@@ -248,7 +248,7 @@ const ResourceDiffList = ({ resources, fieldFilter }: ResourceDiffListProps) => 
 };
 
 interface ResourceDiffProps {
-  resource: DiffType<ChildNodeType>;
+  resource: DiffType<NodeChild>;
   fieldView: string;
 }
 

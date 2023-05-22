@@ -7,7 +7,6 @@
  */
 
 import { FormEvent, useState } from 'react';
-
 import { ButtonV2 } from '@ndla/button';
 import { useNavigate } from 'react-router-dom';
 import { colors, misc, spacing, fonts } from '@ndla/core';
@@ -17,22 +16,31 @@ import styled from '@emotion/styled';
 import { isValidLocale } from '../../../i18n';
 import { toEditArticle, to404 } from '../../../util/routeHelpers';
 import { isNDLAFrontendUrl } from '../../../util/htmlHelpers';
-
 import { fetchResource, fetchTopic } from '../../../modules/taxonomy';
-
 import { fetchNewArticleId } from '../../../modules/draft/draftApi';
 import { resolveUrls } from '../../../modules/taxonomy/taxonomyApi';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 
 const StyledForm = styled.form`
   display: flex;
-  background: ${colors.brand.greyLightest};
+  flex-grow: 1;
   border-radius: ${misc.borderRadius};
   border: 1px solid transparent;
-  ${fonts.sizes(16, 1.2)} font-weight: ${fonts.weight.semibold};
+  ${fonts.sizes(16, 1.2)};
   padding: ${spacing.xsmall};
-  padding-left: ${spacing.small};
-  transition: all 200ms ease;
+  height: ${spacing.large};
+  align-items: center;
+  transition: all 100ms ease-in-out;
+
+  &:focus-within {
+    background: ${colors.white};
+    border: 1px solid ${colors.brand.tertiary};
+  }
+
+  &:hover {
+    cursor: pointer;
+    border: 1px solid ${colors.brand.tertiary};
+  }
 
   input {
     padding: ${spacing.xsmall};
@@ -40,38 +48,26 @@ const StyledForm = styled.form`
     border: 0;
     outline: none;
     color: ${colors.brand.primary};
-    transition: width 200ms ease 100ms;
-    width: 200px;
+    transition: all 300ms ease-in-out;
 
-    &:focus {
-      width: 400px;
+    &:not(:focus-within) {
+      ::placeholder {
+        color: ${colors.brand.primary};
+        font-weight: ${fonts.weight.semibold};
+        opacity: 1;
+      }
     }
   }
 
   & > button {
     color: ${colors.brand.grey};
   }
+`;
 
-  .c-icon {
-    margin: 0 ${spacing.small};
-  }
-
-  &:focus-within {
-    border: 1px solid ${colors.brand.primary};
-
-    .c-icon {
-      color: ${colors.brand.primary};
-    }
-  }
-
-  &:hover,
-  &:focus {
-    &:not(:focus-within) {
-      cursor: pointer;
-      background: ${colors.brand.greyLighter};
-      border: 1px solid ${colors.brand.greyLight};
-    }
-  }
+const StyledSearch = styled(Search)`
+  margin: 0 ${spacing.small};
+  width: 24px;
+  height: 24px;
 `;
 
 interface Props {
@@ -188,18 +184,22 @@ export const MastheadSearchForm = ({ query: initQuery = '', onSearchQuerySubmit 
       onSearchQuerySubmit(query);
     }
   };
+  const [focused, setFocused] = useState(false);
 
   return (
     <StyledForm onSubmit={handleSubmit}>
+      <ButtonV2 type="submit" variant="stripped">
+        <StyledSearch color={colors.brand.primary} />
+      </ButtonV2>
+
       <input
         type="text"
         onChange={handleQueryChange}
         value={query}
-        placeholder={t('searchForm.placeholder')}
+        placeholder={focused ? t('searchForm.placeholder') : t('searchPage.searchButton')}
+        onFocus={() => setFocused(true)}
+        onBlur={() => setFocused(false)}
       />
-      <ButtonV2 type="submit" variant="stripped">
-        <Search className="c-icon--medium" />
-      </ButtonV2>
     </StyledForm>
   );
 };

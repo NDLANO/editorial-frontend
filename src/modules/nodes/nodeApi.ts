@@ -6,6 +6,20 @@
  *
  */
 
+import {
+  Node,
+  NodePostPut,
+  NodeChild,
+  Translation,
+  TranslationPUT,
+  NodeConnectionPUT,
+  NodeConnectionPOST,
+  NodeResourcePOST,
+  NodeResourcePUT,
+  NodeType,
+  Connection,
+  Metadata,
+} from '@ndla/types-taxonomy';
 import { taxonomyApi } from '../../config';
 import { SearchResultBase, WithTaxonomyVersion } from '../../interfaces';
 import { apiResourceUrl, httpFunctions, stringifyQuery } from '../../util/apiHelpers';
@@ -13,24 +27,7 @@ import {
   resolveLocation,
   resolveVoidOrRejectWithError,
 } from '../../util/resolveJsonOrRejectWithError';
-import { TaxonomyMetadata } from '../taxonomy/taxonomyApiInterfaces';
-import {
-  NodeType,
-  NodePostPatchType,
-  NodeTranslation,
-  NodeTranslationPutType,
-  ChildNodeType,
-  NodeConnectionPutType,
-  NodeConnectionPostType,
-  ConnectionForNode,
-  NodeResourcePostType,
-  NodeResourcePutType,
-  ResourceWithNodeConnection,
-  GetNodeParams,
-  GetChildNodesParams,
-  GetNodeResourcesParams,
-  NodeTypeValue,
-} from './nodeApiTypes';
+import { GetChildNodesParams, GetNodeParams, GetNodeResourcesParams } from './nodeApiTypes';
 
 const baseUrl = apiResourceUrl(`${taxonomyApi}/nodes`);
 const connUrl = apiResourceUrl(`${taxonomyApi}/node-connections`);
@@ -43,7 +40,7 @@ interface NodeGetParams extends WithTaxonomyVersion {
   language?: string;
 }
 
-export const fetchNode = ({ id, language, taxonomyVersion }: NodeGetParams): Promise<NodeType> => {
+export const fetchNode = ({ id, language, taxonomyVersion }: NodeGetParams): Promise<Node> => {
   return fetchAndResolve({
     url: `${baseUrl}/${id}`,
     taxonomyVersion,
@@ -53,14 +50,11 @@ export const fetchNode = ({ id, language, taxonomyVersion }: NodeGetParams): Pro
 
 interface NodesGetParams extends WithTaxonomyVersion, GetNodeParams {}
 
-export const fetchNodes = ({
-  taxonomyVersion,
-  ...queryParams
-}: NodesGetParams): Promise<NodeType[]> =>
+export const fetchNodes = ({ taxonomyVersion, ...queryParams }: NodesGetParams): Promise<Node[]> =>
   fetchAndResolve({ url: baseUrl, taxonomyVersion, queryParams });
 
 interface NodePostParams extends WithTaxonomyVersion {
-  body: NodePostPatchType;
+  body: NodePostPut;
 }
 
 export const postNode = ({ body, taxonomyVersion }: NodePostParams): Promise<string> =>
@@ -78,7 +72,7 @@ interface ConnectionsForNodeGetParams extends WithTaxonomyVersion {
 export const fetchConnectionsForNode = ({
   id,
   taxonomyVersion,
-}: ConnectionsForNodeGetParams): Promise<ConnectionForNode[]> =>
+}: ConnectionsForNodeGetParams): Promise<Connection[]> =>
   fetchAndResolve({
     url: `${baseUrl}/${id}/connections`,
     taxonomyVersion,
@@ -96,13 +90,13 @@ export const deleteNode = ({ id, taxonomyVersion }: NodeDeleteParams): Promise<v
 
 interface NodeMetadataPutParams extends WithTaxonomyVersion {
   id: string;
-  meta: Partial<TaxonomyMetadata>;
+  meta: Partial<Metadata>;
 }
 export const putNodeMetadata = ({
   id,
   meta,
   taxonomyVersion,
-}: NodeMetadataPutParams): Promise<TaxonomyMetadata> =>
+}: NodeMetadataPutParams): Promise<Metadata> =>
   putAndResolve({
     body: JSON.stringify(meta),
     url: `${baseUrl}/${id}/metadata`,
@@ -118,7 +112,7 @@ export const fetchChildNodes = ({
   nodeType,
   language,
   taxonomyVersion,
-}: ChildNodesGetParams): Promise<ChildNodeType[]> =>
+}: ChildNodesGetParams): Promise<NodeChild[]> =>
   fetchAndResolve({
     url: `${baseUrl}/${id}/nodes`,
     taxonomyVersion,
@@ -132,7 +126,7 @@ interface NodeTranslationsGetParams extends WithTaxonomyVersion {
 export const fetchNodeTranslations = ({
   id,
   taxonomyVersion,
-}: NodeTranslationsGetParams): Promise<NodeTranslation[]> =>
+}: NodeTranslationsGetParams): Promise<Translation[]> =>
   fetchAndResolve({ url: `${baseUrl}/${id}/translations`, taxonomyVersion });
 
 interface NodeTranslationDeleteParams extends WithTaxonomyVersion {
@@ -155,7 +149,7 @@ export const deleteNodeTranslation = ({
 interface NodeTranslationPutParams extends WithTaxonomyVersion {
   id: string;
   language: string;
-  body: NodeTranslationPutType;
+  body: TranslationPUT;
 }
 
 export const putNodeTranslation = ({
@@ -179,7 +173,7 @@ export const fetchNodeResources = ({
   id,
   taxonomyVersion,
   ...queryParams
-}: NodeResourcesGetParams): Promise<ResourceWithNodeConnection[]> => {
+}: NodeResourcesGetParams): Promise<NodeChild[]> => {
   return fetchAndResolve({ url: `${baseUrl}/${id}/resources`, taxonomyVersion, queryParams });
 };
 
@@ -199,7 +193,7 @@ export const deleteNodeConnection = ({
 
 interface NodeConnectionPutParams extends WithTaxonomyVersion {
   id: string;
-  body: NodeConnectionPutType;
+  body: NodeConnectionPUT;
 }
 
 export const putNodeConnection = ({
@@ -215,7 +209,7 @@ export const putNodeConnection = ({
   });
 
 interface NodeConnectionPostParams extends WithTaxonomyVersion {
-  body: NodeConnectionPostType;
+  body: NodeConnectionPOST;
 }
 
 export const postNodeConnection = ({
@@ -230,7 +224,7 @@ export const postNodeConnection = ({
   });
 
 interface NodeResourcePostParams extends WithTaxonomyVersion {
-  body: NodeResourcePostType;
+  body: NodeResourcePOST;
 }
 
 export const postResourceForNode = ({
@@ -259,7 +253,7 @@ export const deleteResourceForNode = ({
 
 interface NodeResourcePutParams extends WithTaxonomyVersion {
   id: string;
-  body: NodeResourcePutType;
+  body: NodeResourcePUT;
 }
 
 export const putResourceForNode = ({
@@ -292,7 +286,7 @@ export const publishNode = ({ id, targetId, sourceId }: PublishNodeParams) => {
 interface SearchNodes extends WithTaxonomyVersion {
   ids?: string[];
   language?: string;
-  nodeType?: NodeTypeValue;
+  nodeType?: NodeType;
   page?: number;
   pageSize?: number;
   query?: string;
@@ -301,7 +295,7 @@ interface SearchNodes extends WithTaxonomyVersion {
 export const searchNodes = ({
   taxonomyVersion,
   ...queryParams
-}: SearchNodes): Promise<SearchResultBase<NodeType>> => {
+}: SearchNodes): Promise<SearchResultBase<Node>> => {
   return fetchAndResolve({
     url: `${baseUrl}/search`,
     taxonomyVersion,
@@ -314,7 +308,7 @@ export interface PutNodeParams extends WithTaxonomyVersion {
   contentUri?: string;
   name?: string;
   nodeId?: string;
-  nodeType?: NodeTypeValue;
+  nodeType?: NodeType;
   root?: boolean;
 }
 

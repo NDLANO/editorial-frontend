@@ -17,7 +17,7 @@ import { DeleteForever, Keyhole } from '@ndla/icons/editor';
 import { Pencil } from '@ndla/icons/action';
 import { Launch } from '@ndla/icons/common';
 import { IconButtonV2 } from '@ndla/button';
-import { VersionStatusType, VersionType } from '../../../modules/taxonomy/versions/versionApiTypes';
+import { Version as TaxVersion, VersionType } from '@ndla/types-taxonomy';
 import VersionForm from './VersionForm';
 import { useDeleteVersionMutation } from '../../../modules/taxonomy/versions/versionMutations';
 import AlertModal from '../../../components/AlertModal';
@@ -26,7 +26,7 @@ import { versionsQueryKey } from '../../../modules/taxonomy/versions/versionQuer
 import { StyledErrorMessage } from './StyledErrorMessage';
 
 interface Props {
-  version: VersionType;
+  version: TaxVersion;
 }
 
 interface VersionWrapperProps {
@@ -56,7 +56,7 @@ interface StatusWrapperProps {
   color: string;
 }
 
-const statusColorMap: Record<VersionStatusType, string> = {
+const statusColorMap: Record<VersionType, string> = {
   PUBLISHED: colors.support.green,
   BETA: colors.favoriteColor,
   ARCHIVED: colors.brand.grey,
@@ -114,9 +114,9 @@ const Version = ({ version }: Props) => {
     onMutate: async ({ id }) => {
       setError(undefined);
       await qc.cancelQueries(key);
-      const existingVersions = qc.getQueryData<VersionType[]>(key) ?? [];
+      const existingVersions = qc.getQueryData<TaxVersion[]>(key) ?? [];
       const withoutDeleted = existingVersions.filter((version) => version.id !== id);
-      qc.setQueryData<VersionType[]>(key, withoutDeleted);
+      qc.setQueryData<TaxVersion[]>(key, withoutDeleted);
     },
     onSuccess: () => qc.invalidateQueries(key),
     onError: () => setError(t('taxonomyVersions.deleteError')),

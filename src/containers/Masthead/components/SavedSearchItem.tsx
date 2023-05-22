@@ -97,7 +97,7 @@ const SavedSearchItem = ({ searchText, userData, deleteSearch, index, ...rest }:
 
     const results = [];
     results.push(type && t(`searchTypes.${type}`));
-    results.push(query);
+    results.push(query && `"${query}"`);
     results.push(language && t(`language.${language}`));
     results.push(audioType);
     results.push(status && t(`form.status.${status.toLowerCase()}`));

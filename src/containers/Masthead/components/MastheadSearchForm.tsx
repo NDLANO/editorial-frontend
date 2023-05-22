@@ -16,10 +16,11 @@ import styled from '@emotion/styled';
 import { isValidLocale } from '../../../i18n';
 import { toEditArticle, to404 } from '../../../util/routeHelpers';
 import { isNDLAFrontendUrl } from '../../../util/htmlHelpers';
-import { fetchResource, fetchTopic } from '../../../modules/taxonomy';
+import { fetchTopic } from '../../../modules/taxonomy';
 import { fetchNewArticleId } from '../../../modules/draft/draftApi';
 import { resolveUrls } from '../../../modules/taxonomy/taxonomyApi';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
+import { fetchNode } from '../../../modules/nodes/nodeApi';
 
 const StyledForm = styled.form`
   display: flex;
@@ -95,9 +96,8 @@ export const MastheadSearchForm = forwardRef<HTMLInputElement, MastheadSearchFor
     };
 
     const handleTaxonomyId = async (taxId: string) => {
-      const taxonomyFunction = taxId.includes('urn:resource:') ? fetchResource : fetchTopic;
       try {
-        const taxElement = await taxonomyFunction({ id: taxId, taxonomyVersion });
+        const taxElement = await fetchNode({ id: taxId, taxonomyVersion });
         const arr = taxElement.contentUri?.split(':');
         if (arr) {
           const id = arr[arr.length - 1];

@@ -44,7 +44,7 @@ export const keyFigureSerializer: SlateSerializer = {
     const embedAttributes = reduceElementDataAttributesV2(
       Array.from(embed.attributes),
     ) as EmbedData;
-    if (embedAttributes.resource !== 'key-figure') return;
+    if (embedAttributes.resource !== TYPE_KEY_FIGURE) return;
     return slatejsx('element', { type: TYPE_KEY_FIGURE, data: embedAttributes });
   },
   serialize(node: Descendant) {

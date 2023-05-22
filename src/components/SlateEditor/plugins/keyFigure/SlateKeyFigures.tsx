@@ -128,7 +128,7 @@ const SlateKeyFigure = ({ element, editor }: Props) => {
         <ModalV2
           controlled
           isOpen
-          size="small"
+          size="normal"
           aria-label={t('keyFigureForm.title')}
           onClose={onClose}
         >

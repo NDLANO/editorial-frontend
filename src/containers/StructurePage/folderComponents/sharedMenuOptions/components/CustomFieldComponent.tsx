@@ -9,11 +9,11 @@
 import { useState, KeyboardEvent } from 'react';
 import { DeleteForever, Done } from '@ndla/icons/editor';
 import { spacing } from '@ndla/core';
+import { Metadata } from '@ndla/types-taxonomy';
 import styled from '@emotion/styled';
 import RoundIcon from '../../../../../components/RoundIcon';
 import CustomFieldButton from './CustomFieldButton';
 import { StyledMenuItemEditField, StyledMenuItemInputField } from '../../styles';
-import { TaxonomyMetadata } from '../../../../../modules/taxonomy/taxonomyApiInterfaces';
 
 interface Props {
   onSubmit: (prevState: any) => void;
@@ -43,20 +43,20 @@ const CustomFieldComponent = ({
     const newPair: Record<string, string> = {};
     if (initialKey !== currentKey && currentKey != null) {
       newPair[currentKey] = currentVal ?? initialVal;
-      onSubmit((prevState: TaxonomyMetadata['customFields']) => {
+      onSubmit((prevState: Metadata['customFields']) => {
         delete prevState[initialKey];
         return { ...prevState, ...newPair };
       });
     } else if (initialVal !== currentVal && currentVal != null) {
       newPair[initialKey] = currentVal;
-      onSubmit((prevState: TaxonomyMetadata['customFields']) => ({ ...prevState, ...newPair }));
+      onSubmit((prevState: Metadata['customFields']) => ({ ...prevState, ...newPair }));
     }
     onClose?.();
   };
 
   const handleDelete = () => {
     if (initialKey !== '') {
-      onSubmit((prevState: TaxonomyMetadata['customFields']) => {
+      onSubmit((prevState: Metadata['customFields']) => {
         delete prevState[initialKey];
         return { ...prevState };
       });

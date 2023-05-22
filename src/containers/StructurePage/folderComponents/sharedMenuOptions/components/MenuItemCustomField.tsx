@@ -12,14 +12,13 @@ import { ButtonV2 } from '@ndla/button';
 import { spacing, colors } from '@ndla/core';
 import { Plus } from '@ndla/icons/action';
 import styled from '@emotion/styled';
-import { Node } from '@ndla/types-taxonomy';
+import { Node, Metadata } from '@ndla/types-taxonomy';
 import { SUBJECT_NODE } from '../../../../../modules/nodes/nodeApiTypes';
 import {
   getNodeTypeFromNodeId,
   getRootIdForNode,
   isRootNode,
 } from '../../../../../modules/nodes/nodeUtil';
-import { TaxonomyMetadata } from '../../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { useUpdateNodeMetadataMutation } from '../../../../../modules/nodes/nodeMutations';
 import {
   TAXONOMY_CUSTOM_FIELD_LANGUAGE,
@@ -60,9 +59,7 @@ const MenuItemCustomField = ({ node, onCurrentNodeChanged }: Props) => {
   const nodeType = getNodeTypeFromNodeId(id);
   const [isOpen, setOpen] = useState<boolean>(false);
   const { taxonomyVersion } = useTaxonomyVersion();
-  const [customFields, setCustomFields] = useState<TaxonomyMetadata['customFields']>(
-    metadata.customFields,
-  );
+  const [customFields, setCustomFields] = useState<Metadata['customFields']>(metadata.customFields);
 
   const { mutateAsync: updateMetadata } = useUpdateNodeMetadataMutation();
 

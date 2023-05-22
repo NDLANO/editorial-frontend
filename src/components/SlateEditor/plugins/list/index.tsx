@@ -2,7 +2,7 @@ import { Editor, Node, Element, Descendant, Transforms, Text, Path } from 'slate
 import { RenderElementProps } from 'slate-react';
 import { jsx as slatejsx } from 'slate-hyperscript';
 import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
+import { OrderedList, UnOrderedList } from '@ndla/ui';
 import { SlateSerializer } from '../../interfaces';
 import onEnter from './handlers/onEnter';
 import { firstTextBlockElement } from '../../utils/normalizationHelpers';
@@ -34,14 +34,7 @@ export interface ListItemElement {
   moveDown?: boolean;
 }
 
-const BlockListItem = styled.li`
-  line-height: 1.7em;
-  margin-bottom: ${spacing.small};
-  direction: ltr;
-  margin-left: 3.2em;
-`;
-
-const BulletedList = styled.ul`
+const BulletedList = styled(UnOrderedList)`
   margin: 16px 0;
   padding: 0;
 `;
@@ -134,7 +127,6 @@ export const listSerializer: SlateSerializer = {
       }
       if (node.listType === 'numbered-list') {
         const { start } = node.data;
-
         return <ol start={start ? parseInt(start) : undefined}>{children}</ol>;
       }
       if (node.listType === 'letter-list') {
@@ -169,26 +161,26 @@ export const listPlugin = (editor: Editor) => {
         return <BulletedList {...attributes}>{children}</BulletedList>;
       } else if (element.listType === 'numbered-list') {
         const { start } = element.data;
-
         return (
-          <ol {...attributes} className={start ? `ol-reset-${start}` : ''}>
+          <OrderedList start={start ? parseInt(start) : undefined} {...attributes}>
             {children}
-          </ol>
+          </OrderedList>
         );
       } else if (element.listType === 'letter-list') {
         const { start } = element.data;
         return (
-          <ol
+          <OrderedList
+            start={start ? parseInt(start) : undefined}
             data-type="letters"
             className={`ol-list--roman ${start ? `ol-reset-${start}` : ''}`}
             {...attributes}
           >
             {children}
-          </ol>
+          </OrderedList>
         );
       }
     } else if (element.type === TYPE_LIST_ITEM) {
-      return <BlockListItem {...attributes}>{children}</BlockListItem>;
+      return <li {...attributes}>{children}</li>;
     } else if (renderElement) {
       return renderElement({ attributes, children, element });
     }

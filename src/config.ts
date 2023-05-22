@@ -178,8 +178,6 @@ export type ConfigType = {
   brightcoveCopyrightPlayerId: string | undefined;
   disableCSP: string | undefined;
   usernamePasswordEnabled: boolean;
-  translateServiceUser: string;
-  translateServiceToken: string;
   translateServiceUrl: string;
 };
 
@@ -222,8 +220,6 @@ const config: ConfigType = {
     'USERNAME_PASSWORD_ENABLED',
     usernamePasswordEnabled(),
   ),
-  translateServiceUser: getEnvironmentVariabel('NDKM_USER', ''),
-  translateServiceToken: getEnvironmentVariabel('NDKM_TOKEN', ''),
   translateServiceUrl: getEnvironmentVariabel('NDKM_URL', getTranslateServiceUrl()),
 };
 

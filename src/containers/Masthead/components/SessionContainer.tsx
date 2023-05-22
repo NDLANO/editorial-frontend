@@ -9,10 +9,10 @@
 import { useState } from 'react';
 import FocusTrapReact from 'focus-trap-react';
 import styled from '@emotion/styled';
-import { User } from '@ndla/icons/common';
+import { PersonOutlined } from '@ndla/icons/common';
 import { ButtonV2 } from '@ndla/button';
 import { useTranslation } from 'react-i18next';
-import { colors, spacing } from '@ndla/core';
+import { colors, spacing, fonts } from '@ndla/core';
 import { Link } from 'react-router-dom';
 import { toLogoutSession, toLogin } from '../../../util/routeHelpers';
 import { getAccessTokenPersonal } from '../../../util/authHelpers';
@@ -21,9 +21,20 @@ import Overlay from '../../../components/Overlay';
 import { StyledDropdownOverlay } from '../../../components/Dropdown';
 import { useSession } from '../../Session/SessionProvider';
 
-const StyledUserIcon = styled(User)`
-  color: ${colors.brand.grey};
-  margin-right: ${spacing.xsmall};
+const StyledUserIcon = styled(PersonOutlined)`
+  color: ${colors.brand.primary};
+  width: ${spacing.normal};
+  height: ${spacing.normal};
+`;
+
+const StyledUserButton = styled(ButtonV2)`
+  font-weight: ${fonts.weight.semibold};
+  color: ${colors.brand.primary};
+
+  &:hover,
+  &:focus-visible {
+    color: ${colors.black};
+  }
 `;
 
 const StyledLink = StyledListButton.withComponent(Link);
@@ -56,22 +67,6 @@ const SessionContainer = ({ close }: Props) => {
 
   return (
     <div>
-      {authenticated && isAccessTokenPersonal ? (
-        <div>
-          <StyledUserIcon className="c-icon--22" />
-          <ButtonV2
-            onClick={() => {
-              toggleOpen();
-              close();
-            }}
-            variant="link"
-          >
-            {userName}
-          </ButtonV2>
-        </div>
-      ) : (
-        <Link to={toLogin()}>{t('siteNav.login')}</Link>
-      )}
       {open && (
         <>
           <FocusTrapReact
@@ -90,6 +85,22 @@ const SessionContainer = ({ close }: Props) => {
           </FocusTrapReact>
           <Overlay />
         </>
+      )}
+      {authenticated && isAccessTokenPersonal ? (
+        <StyledUserButton
+          onClick={() => {
+            toggleOpen();
+            close();
+          }}
+          variant="ghost"
+          colorTheme="lighter"
+          shape="pill"
+        >
+          <StyledUserIcon />
+          {userName?.split(' ')[0]}
+        </StyledUserButton>
+      ) : (
+        <Link to={toLogin()}>{t('siteNav.login')}</Link>
       )}
     </div>
   );

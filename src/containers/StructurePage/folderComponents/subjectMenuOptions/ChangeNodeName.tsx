@@ -17,7 +17,7 @@ import { spacing } from '@ndla/core';
 import { Input } from '@ndla/forms';
 import { Pencil } from '@ndla/icons/action';
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
-import { NodeTranslation, NodeType } from '../../../../modules/nodes/nodeApiTypes';
+import { Translation, Node } from '@ndla/types-taxonomy';
 import { EditModeHandler } from '../SettingsMenuDropdownType';
 import MenuItemButton from '../sharedMenuOptions/components/MenuItemButton';
 import RoundIcon from '../../../../components/RoundIcon';
@@ -65,15 +65,15 @@ const StyledFormikField = styled(FormikField)`
 `;
 
 interface FormikTranslationFormValues {
-  translations: NodeTranslation[];
+  translations: Translation[];
 }
 
 interface Props {
-  node: NodeType;
+  node: Node;
   editModeHandler: EditModeHandler;
 }
 
-const rules: RulesType<NodeTranslation, NodeTranslation> = {
+const rules: RulesType<Translation, Translation> = {
   name: {
     required: true,
   },
@@ -102,7 +102,7 @@ const ChangeNodeName = ({ editModeHandler: { editMode, toggleEditMode }, node }:
 
 interface ModalProps {
   onClose: () => void;
-  node: NodeType;
+  node: Node;
 }
 
 const ChangeNodeNameModal = ({ onClose, node }: ModalProps) => {
@@ -130,7 +130,7 @@ const ChangeNodeNameModal = ({ onClose, node }: ModalProps) => {
   const { mutateAsync: updateNodeTranslation } = useUpdateNodeTranslationMutation();
   const qc = useQueryClient();
 
-  const toRecord = (translations: NodeTranslation[]): Record<string, NodeTranslation> =>
+  const toRecord = (translations: Translation[]): Record<string, Translation> =>
     translations.reduce((prev, curr) => ({ ...prev, [curr.language]: curr }), {});
 
   const onSubmit = async (formik: FormikProps<FormikTranslationFormValues>) => {

@@ -14,12 +14,12 @@ import { spacing, colors } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
 import { Plus } from '@ndla/icons/action';
 import { Done } from '@ndla/icons/editor';
+import { Node } from '@ndla/types-taxonomy';
 import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
 import {
   useDeleteNodeConnectionMutation,
   usePostNodeConnectionMutation,
 } from '../../../../modules/nodes/nodeMutations';
-import { NodeType } from '../../../../modules/nodes/nodeApiTypes';
 import { fetchConnectionsForNode } from '../../../../modules/nodes/nodeApi';
 import { childNodesWithArticleTypeQueryKey } from '../../../../modules/nodes/nodeQueries';
 import RoundIcon from '../../../../components/RoundIcon';
@@ -29,7 +29,7 @@ import { EditModeHandler } from '../SettingsMenuDropdownType';
 
 interface Props {
   editModeHandler: EditModeHandler;
-  currentNode: NodeType;
+  currentNode: Node;
 }
 
 const StyledSuccessIcon = styled(Done)`
@@ -86,7 +86,7 @@ const AddExistingToNode = ({
 
   const toggleEditModeFunc = () => toggleEditMode('addExistingTopic');
 
-  const handleSubmit = async (node: NodeType) => {
+  const handleSubmit = async (node: Node) => {
     setLoading(true);
     setError(undefined);
     toggleEditModeFunc();

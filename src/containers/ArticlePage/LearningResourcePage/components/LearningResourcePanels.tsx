@@ -7,7 +7,6 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { Accordions, AccordionSection } from '@ndla/accordion';
 import { FormikHelpers, useFormikContext } from 'formik';
 import { IUpdatedArticle, IArticle } from '@ndla/types-backend/draft-api';
 import config from '../../../../config';
@@ -21,6 +20,8 @@ import { LearningResourceFormType } from '../../../FormikForm/articleFormHooks';
 import { useSession } from '../../../Session/SessionProvider';
 import { ArticleTaxonomy } from '../../../FormikForm/formikDraftHooks';
 import RevisionNotes from '../../components/RevisionNotes';
+import FormAccordions from '../../../../components/Accordion/FormAccordions';
+import FormAccordion from '../../../../components/Accordion/FormAccordion';
 
 interface Props {
   handleSubmit: (
@@ -46,13 +47,12 @@ const LearningResourcePanels = ({
   const { values, errors, handleBlur } = formikContext;
 
   return (
-    <Accordions>
-      <AccordionSection
+    <FormAccordions defaultOpen={['learning-resource-content']}>
+      <FormAccordion
         id={'learning-resource-content'}
         title={t('form.contentSection')}
         className={'u-4/6@desktop u-push-1/6@desktop'}
         hasError={!!(errors.title || errors.introduction || errors.content)}
-        startOpen
       >
         <LearningResourceContent
           articleLanguage={articleLanguage}
@@ -61,21 +61,22 @@ const LearningResourcePanels = ({
           handleBlur={handleBlur}
           values={values}
         />
-      </AccordionSection>
+      </FormAccordion>
       {article && taxonomy && !!userPermissions?.includes(TAXONOMY_WRITE_SCOPE) && (
-        <AccordionSection
+        <FormAccordion
           id={'learning-resource-taxonomy'}
           title={t('form.taxonomySection')}
           className={'u-6/6'}
+          hasError={false}
         >
           <LearningResourceTaxonomy
             article={article}
             updateNotes={updateNotes}
             taxonomy={taxonomy}
           />
-        </AccordionSection>
+        </FormAccordion>
       )}
-      <AccordionSection
+      <FormAccordion
         id={'learning-resource-copyright'}
         title={t('form.copyrightSection')}
         className={'u-6/6'}
@@ -84,43 +85,43 @@ const LearningResourcePanels = ({
         }
       >
         <CopyrightFieldGroup values={values} />
-      </AccordionSection>
-      <AccordionSection
+      </FormAccordion>
+      <FormAccordion
         id={'learning-resource-metadata'}
         title={t('form.metadataSection')}
         className={'u-6/6'}
         hasError={!!(errors.metaDescription || errors.metaImageAlt || errors.tags)}
       >
         <MetaDataField articleLanguage={articleLanguage} />
-      </AccordionSection>
-      <AccordionSection
+      </FormAccordion>
+      <FormAccordion
         id={'learning-resource-grepCodes'}
         title={t('form.name.grepCodes')}
         className={'u-6/6'}
         hasError={!!errors.grepCodes}
       >
         <GrepCodesField />
-      </AccordionSection>
+      </FormAccordion>
       {config.ndlaEnvironment === 'test' && (
-        <AccordionSection
+        <FormAccordion
           id={'learning-resource-related'}
           title={t('form.name.relatedContent')}
           className={'u-6/6'}
           hasError={!!(errors.conceptIds || errors.relatedContent)}
         >
           <RelatedContentFieldGroup />
-        </AccordionSection>
+        </FormAccordion>
       )}
-      <AccordionSection
+      <FormAccordion
         id={'learning-resource-revisions'}
         title={t('form.name.revisions')}
         className={'u-6/6'}
         hasError={!!errors.revisionMeta || !!errors.revisionError}
       >
         <RevisionNotes />
-      </AccordionSection>
+      </FormAccordion>
       {article && (
-        <AccordionSection
+        <FormAccordion
           id={'learning-resource-workflow'}
           title={t('form.workflowSection')}
           className={'u-6/6'}
@@ -131,9 +132,9 @@ const LearningResourcePanels = ({
             type="standard"
             currentLanguage={values.language}
           />
-        </AccordionSection>
+        </FormAccordion>
       )}
-    </Accordions>
+    </FormAccordions>
   );
 };
 

@@ -14,7 +14,7 @@ import Tooltip from '@ndla/tooltip';
 import { TextAreaV2 } from '@ndla/forms';
 import { ChangeEvent, useMemo, useState } from 'react';
 import { css } from '@emotion/react';
-import { IComment } from '@ndla/types-backend/build/draft-api';
+import { IComment } from '@ndla/types-backend/draft-api';
 import AlertModal from '../../../components/AlertModal';
 
 export const COMMENT_COLOR = colors.support.yellowLight;
@@ -56,7 +56,7 @@ const StyledClickableTextArea = styled(TextAreaV2)`
 `;
 
 const CommentCard = styled.li`
-  border: 1px solid ${colors.brand.neutral7};
+  border: 1px solid ${colors.brand.greyMedium};
   border-radius: ${misc.borderRadius};
   padding: ${spacing.xsmall};
   ${fonts.sizes('16px')};

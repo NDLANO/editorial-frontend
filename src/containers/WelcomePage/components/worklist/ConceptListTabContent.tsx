@@ -127,7 +127,11 @@ const ConceptListTabContent = ({
   );
 
   const subjectList = useMemo(
-    () => uniqBy(conceptData.map((c) => c.subjects).flat(), (c) => c.value),
+    () =>
+      uniqBy(
+        conceptData.flatMap((c) => c.subjects),
+        (c) => c.value,
+      ),
     [conceptData],
   );
 
@@ -165,7 +169,7 @@ const ConceptListTabContent = ({
               isClearable
             />
           </DropdownWrapper>
-          <GoToSearch ndlaId={ndlaId} filterSubject={filterSubject} searchEnv={'concept'} />
+          <GoToSearch ndlaId={ndlaId} filterSubject={filterSubject?.value} searchEnv={'concept'} />
         </ControlWrapperDashboard>
       </StyledTopRowDashboardInfo>
       <TableComponent

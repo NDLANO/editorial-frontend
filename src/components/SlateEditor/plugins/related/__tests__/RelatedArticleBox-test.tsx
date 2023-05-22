@@ -33,7 +33,7 @@ afterEach(cleanup);
 
 const relatedElement: Descendant = {
   type: TYPE_RELATED,
-  data: {},
+  data: [],
   children: [
     {
       text: '',
@@ -56,12 +56,7 @@ const wrapper = () => {
           <Editable />
         </Slate>
         {/* @ts-ignore */}
-        <RelatedArticleBox
-          editor={editor}
-          locale="nb"
-          element={relatedElement}
-          onRemoveClick={() => {}}
-        >
+        <RelatedArticleBox editor={editor} element={relatedElement} onRemoveClick={() => {}}>
           <></>
         </RelatedArticleBox>
       </div>

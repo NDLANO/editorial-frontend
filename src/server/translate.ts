@@ -10,13 +10,11 @@ import fetch from 'node-fetch';
 import queryString from 'query-string';
 import FormData from 'form-data';
 import { ApiTranslateType } from '../interfaces';
-import config from '../config';
+import config, { getEnvironmentVariabel } from '../config';
 
-// 4443 has token-based auth, and 3443 has ip-based.
-// Falls back to ip until secrets are updated in every environment
-const baseUrl = config.translateServiceUser
-  ? 'https://ndla.norskrobot.no:4443'
-  : 'https://ndla.norskrobot.no:3443';
+const baseUrl = config.translateServiceUrl;
+const user = getEnvironmentVariabel('NDKM_USER', '');
+const token = getEnvironmentVariabel('NDKM_TOKEN', '');
 const textUrl = `${baseUrl}/translateText`;
 const htmlUrl = `${baseUrl}/translateNHtml`;
 
@@ -35,10 +33,10 @@ interface ResponseType {
 
 const stilmal = 'Intern nynorsk 4';
 // Only header if props available
-const headers = config.translateServiceUser
+const headers = user
   ? {
-      'x-user': config.translateServiceUser,
-      'x-api-key': config.translateServiceToken,
+      'x-user': user,
+      'x-api-key': token,
     }
   : undefined;
 

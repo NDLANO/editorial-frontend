@@ -24,7 +24,7 @@ const CommentColumn = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 32px;
+  margin-top: 53px;
   margin-left: ${SPACING_COMMENT}px;
   width: 100%;
   max-width: ${COMMENT_WIDTH}px;

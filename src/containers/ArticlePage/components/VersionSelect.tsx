@@ -10,7 +10,7 @@ import { Select, SingleValue } from '@ndla/select';
 import { useTranslation } from 'react-i18next';
 import { spacing } from '@ndla/core';
 import { useMemo } from 'react';
-import { VersionType } from '../../../modules/taxonomy/versions/versionApiTypes';
+import { Version } from '@ndla/types-taxonomy';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 import { generateOptionGroups } from '../../../components/Taxonomy/OptGroupVersionSelector';
 
@@ -21,10 +21,10 @@ const Wrapper = styled.div`
 
 interface Props {
   onVersionChanged: (value: SingleValue) => void;
-  versions?: VersionType[];
+  versions?: Version[];
 }
 
-const getCurrentTaxVersion = (versions: VersionType[], oldTaxVersion: string): SingleValue => {
+const getCurrentTaxVersion = (versions: Version[], oldTaxVersion: string): SingleValue => {
   const currentVersion = versions?.find((version) => version.hash === oldTaxVersion);
   return currentVersion ? { value: currentVersion.hash, label: currentVersion.name } : null;
 };

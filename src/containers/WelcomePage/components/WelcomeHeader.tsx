@@ -6,7 +6,7 @@
  *
  */
 
-import { colors, spacing, fonts } from '@ndla/core';
+import { colors, spacing, fonts, mq, breakpoints } from '@ndla/core';
 import styled from '@emotion/styled';
 import { SafeLinkButton } from '@ndla/safelink';
 import { css } from '@emotion/react';
@@ -22,6 +22,13 @@ const StyledHeader = styled.div`
   justify-content: space-evenly;
   padding: ${spacing.xsmall};
   border-radius: 10px;
+
+  ${mq.range({ until: breakpoints.mobileWide, from: '0px' })} {
+    flex-direction: column;
+    justify-content: center;
+    gap: ${spacing.xsmall};
+  }
+
   position: relative;
 `;
 
@@ -66,6 +73,7 @@ const RightShape = styled.div`
 
 const ContentWrapper = styled.div`
   z-index: 1;
+  text-align: center;
 `;
 
 export const WelcomeHeader = () => {
@@ -77,7 +85,9 @@ export const WelcomeHeader = () => {
       <LeftShape />
       <ContentWrapper>
         <StyledTitle>
-          {`${t('welcomePage.welcomeBack')} ${userName ? `${userName}!` : ''}`}
+          {`${t('welcomePage.welcomeBack')} ${
+            userName ? `${userName}!` : t('welcomePage.welcomeText')
+          }`}
         </StyledTitle>
       </ContentWrapper>
       <ButtonWrapper>

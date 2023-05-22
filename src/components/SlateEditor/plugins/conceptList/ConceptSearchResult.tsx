@@ -37,7 +37,7 @@ const getVisualElement = (embed: Embed) => {
   if (embed.resource === 'brightcove') {
     return {
       resource: embed.resource,
-      url: `https://players.brightcove.net/${config.brightCoveAccountId}/${config.brightcovePlayerId}_default/index.html?videoId=${embed.videoid}`,
+      url: `https://players.brightcove.net/${config.brightcoveAccountId}/${config.brightcoveEdPlayerId}_default/index.html?videoId=${embed.videoid}`,
       title: embed.title,
     };
   }

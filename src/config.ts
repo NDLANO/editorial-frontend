@@ -114,6 +114,17 @@ export const getAuth0Hostname = () => {
   }
 };
 
+const getTranslateServiceUrl = () => {
+  switch (ndlaEnvironment) {
+    case 'test':
+    case 'local':
+    case 'dev':
+      return 'https://preprod.norskrobot.no:4443';
+    default:
+      return 'https://ndla.norskrobot.no:4443';
+  }
+};
+
 export const taxonomyApi = `/taxonomy/v1`;
 
 export const getZendeskWidgetSecret = () => {
@@ -135,7 +146,7 @@ const usernamePasswordEnabled = () => {
 };
 
 export type ConfigType = {
-  brightCoveAccountId: string | undefined;
+  brightcoveAccountId: string | undefined;
   checkArticleScript: boolean;
   logEnvironment: string | undefined;
   ndlaApiUrl: string | undefined;
@@ -161,13 +172,13 @@ export type ConfigType = {
   port: string | undefined;
   ndlaPersonalClientId: string | undefined;
   zendeskWidgetKey: string | undefined;
+  brightcoveEdPlayerId: string | undefined;
   brightcovePlayerId: string | undefined;
   brightcove360PlayerId: string | undefined;
   brightcoveCopyrightPlayerId: string | undefined;
   disableCSP: string | undefined;
   usernamePasswordEnabled: boolean;
-  translateServiceUser: string;
-  translateServiceToken: string;
+  translateServiceUrl: string;
 };
 
 const config: ConfigType = {
@@ -191,7 +202,8 @@ const config: ConfigType = {
   ),
   ndlaPersonalClientId: getEnvironmentVariabel('NDLA_PERSONAL_CLIENT_ID', ''),
   auth0Domain: getEnvironmentVariabel('AUTH0_DOMAIN', getAuth0Hostname()),
-  brightCoveAccountId: getEnvironmentVariabel('BRIGHTCOVE_ACCOUNT_ID', '123456789'),
+  brightcoveAccountId: getEnvironmentVariabel('BRIGHTCOVE_ACCOUNT_ID', '123456789'),
+  brightcoveEdPlayerId: getEnvironmentVariabel('BRIGHTCOVE_PLAYER_ED_ID', 'Ab1234'),
   brightcovePlayerId: getEnvironmentVariabel('BRIGHTCOVE_PLAYER_ID', 'Ab1234'),
   brightcove360PlayerId: getEnvironmentVariabel('BRIGHTCOVE_PLAYER_360_ID', 'Ab1234'),
   brightcoveCopyrightPlayerId: getEnvironmentVariabel('BRIGHTCOVE_PLAYER_COPYRIGHT_ID', 'Ab1234'),
@@ -208,8 +220,7 @@ const config: ConfigType = {
     'USERNAME_PASSWORD_ENABLED',
     usernamePasswordEnabled(),
   ),
-  translateServiceUser: getEnvironmentVariabel('NDKM_USER', ''),
-  translateServiceToken: getEnvironmentVariabel('NDKM_TOKEN', ''),
+  translateServiceUrl: getEnvironmentVariabel('NDKM_URL', getTranslateServiceUrl()),
 };
 
 export function getUniversalConfig(): ConfigType {

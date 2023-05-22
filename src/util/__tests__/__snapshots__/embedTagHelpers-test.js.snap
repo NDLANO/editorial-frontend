@@ -61,17 +61,17 @@ exports[`deserializing related-content works 1`] = `
         "text": "",
       },
     ],
-    "data": {
-      "nodes": [
-        {
-          "title": "Forsiden vg",
-          "url": "www.vg.no",
-        },
-        {
-          "article-id": "54",
-        },
-      ],
-    },
+    "data": [
+      {
+        "resource": "related-content",
+        "title": "Forsiden vg",
+        "url": "www.vg.no",
+      },
+      {
+        "articleId": "54",
+        "resource": "related-content",
+      },
+    ],
     "type": "related",
   },
 ]

@@ -32,9 +32,7 @@ describe('related normalizer tests', () => {
                 text: '',
               },
             ],
-            data: {
-              nodes: [],
-            },
+            data: [],
           },
           {
             type: TYPE_RELATED,
@@ -43,9 +41,7 @@ describe('related normalizer tests', () => {
                 text: '',
               },
             ],
-            data: {
-              nodes: [],
-            },
+            data: [],
           },
           {
             type: TYPE_RELATED,
@@ -54,9 +50,7 @@ describe('related normalizer tests', () => {
                 text: '',
               },
             ],
-            data: {
-              nodes: [],
-            },
+            data: [],
           },
         ],
       },
@@ -77,9 +71,7 @@ describe('related normalizer tests', () => {
                 text: '',
               },
             ],
-            data: {
-              nodes: [],
-            },
+            data: [],
           },
           {
             type: TYPE_PARAGRAPH,
@@ -92,9 +84,7 @@ describe('related normalizer tests', () => {
                 text: '',
               },
             ],
-            data: {
-              nodes: [],
-            },
+            data: [],
           },
           {
             type: TYPE_PARAGRAPH,
@@ -107,9 +97,7 @@ describe('related normalizer tests', () => {
                 text: '',
               },
             ],
-            data: {
-              nodes: [],
-            },
+            data: [],
           },
           {
             type: TYPE_PARAGRAPH,

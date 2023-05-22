@@ -9,10 +9,13 @@
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Select, SingleValue } from '@ndla/select';
-import uniqBy from 'lodash/uniqBy';
+import uniq from 'lodash/uniq';
+import sortBy from 'lodash/sortBy';
 import { useSearch } from '../../../../modules/search/searchQueries';
 import { useSession } from '../../../Session/SessionProvider';
 import { DropdownWrapper } from '../../styles';
+import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
+import { useSearchNodes } from '../../../../modules/nodes/nodeQueries';
 
 interface Props {
   filterSubject: SingleValue | undefined;
@@ -20,24 +23,43 @@ interface Props {
 }
 
 const SubjectDropdown = ({ filterSubject, setFilterSubject }: Props) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { ndlaId } = useSession();
+  const { taxonomyVersion } = useTaxonomyVersion();
 
   const { data, isInitialLoading } = useSearch({
     'responsible-ids': ndlaId,
     'aggregate-paths': 'contexts.subjectId',
+    'page-size': 100,
   });
 
+  const subjectIds = uniq(data?.results.flatMap((r) => r.contexts.map((c) => c.subjectId)));
+
+  const { data: subjects } = useSearchNodes(
+    {
+      ids: subjectIds,
+      taxonomyVersion,
+      nodeType: 'SUBJECT',
+      pageSize: subjectIds.length,
+      language: i18n.language,
+    },
+    {
+      select: (res) => ({
+        ...res,
+        results: sortBy(res.results, (r) => r.name),
+      }),
+      enabled: !!data?.results?.length,
+    },
+  );
   const subjectContexts = useMemo(() => {
-    if (data?.results.length) {
-      return uniqBy(
-        data.results
-          .map((r) => r.contexts.map((c) => ({ value: c.subjectId, label: c.subject })))
-          .flat(),
-        (r) => r.value,
+    if (subjects?.results.length) {
+      const archivedAtBottom = sortBy(
+        subjects.results,
+        (r) => r.metadata.customFields.subjectCategory === 'archive',
       );
+      return archivedAtBottom.map((r) => ({ value: r.id, label: r.name }));
     } else return [];
-  }, [data?.results]);
+  }, [subjects]);
 
   return (
     <DropdownWrapper>

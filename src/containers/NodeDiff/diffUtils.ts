@@ -9,11 +9,7 @@
 import isEqual from 'lodash/isEqual';
 import partition from 'lodash/partition';
 import isObjectLike from 'lodash/fp/isObjectLike';
-import {
-  ChildNodeType,
-  NodeType,
-  ResourceWithNodeConnection,
-} from '../../modules/nodes/nodeApiTypes';
+import { NodeChild, Node } from '@ndla/types-taxonomy';
 
 export type DiffResultType = 'NONE' | 'MODIFIED' | 'ADDED' | 'DELETED';
 export interface DiffResult<TType> {
@@ -50,12 +46,12 @@ export interface NodeTree {
   children: ChildNodeTypeWithResources[];
 }
 
-export interface NodeTypeWithResources extends NodeType {
-  resources: ChildNodeType[];
+export interface NodeTypeWithResources extends Node {
+  resources: NodeChild[];
 }
 
-export interface ChildNodeTypeWithResources extends ChildNodeType {
-  resources: ChildNodeType[];
+export interface ChildNodeTypeWithResources extends NodeChild {
+  resources: NodeChild[];
 }
 
 type TagType = 'original' | 'other';
@@ -70,16 +66,16 @@ interface Grouping<T> {
   other?: T;
 }
 
-export interface DiffTypeWithChildren extends DiffType<Omit<ChildNodeType, 'resources'>> {
+export interface DiffTypeWithChildren extends DiffType<Omit<NodeChild, 'resources'>> {
   children?: DiffTypeWithChildren[];
-  resources?: DiffType<ChildNodeType>[];
+  resources?: DiffType<NodeChild>[];
 }
 
 export interface RootDiffType extends DiffType<Omit<NodeTypeWithResources, 'resources'>> {
-  resources?: DiffType<ChildNodeType>[];
+  resources?: DiffType<NodeChild>[];
 }
 
-const diffAndGroupChildren = <T extends NodeType = NodeType>(
+const diffAndGroupChildren = <T extends Node = Node>(
   parentNode: Grouping<T>,
   remainingChildren: Grouping<ChildNodeTypeWithResources>[],
 ): DiffTypeWithChildren[] => {
@@ -94,6 +90,7 @@ const diffAndGroupChildren = <T extends NodeType = NodeType>(
       paths: true,
       resources: true,
       contexts: true,
+      breadcrumbs: true,
       metadata: {
         customFields: {
           requestPublish: true,
@@ -162,7 +159,7 @@ const createTagGroupings = <Value extends { id: string }>(
 };
 
 const diffChildren = (
-  rootDiff: Grouping<NodeType>,
+  rootDiff: Grouping<Node>,
   children: Grouping<ChildNodeTypeWithResources>[],
   viewType: 'flat' | 'tree',
 ): DiffTypeWithChildren[] => {
@@ -219,6 +216,7 @@ export const diffTrees = (
     paths: true,
     resources: true,
     contexts: true,
+    breadcrumbs: true,
     metadata: {
       customFields: {
         requestPublish: true,

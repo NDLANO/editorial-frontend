@@ -1,35 +1,35 @@
 import { useMemo } from 'react';
 import { TFunction, useTranslation } from 'react-i18next';
-import { VersionStatusType, VersionType } from '../../modules/taxonomy/versions/versionApiTypes';
+import { Version, VersionType } from '@ndla/types-taxonomy';
 import ObjectSelector from '../ObjectSelector';
 
 interface Props {
-  versions: VersionType[];
-  currentVersion?: VersionType;
+  versions: Version[];
+  currentVersion?: Version;
   onVersionChanged: (version: string) => void;
 }
 
 type OptGroups = {
-  [key in Lowercase<VersionStatusType>]: { id: string; name: string }[];
+  [key in Lowercase<VersionType>]: { id: string; name: string }[];
 };
 
-interface VersionTypeWithDefault extends Omit<VersionType, 'versionType'> {
+interface VersionTypeWithDefault extends Omit<Version, 'versionType'> {
   versionType: PossibleVersionTypes;
 }
 
-type PossibleVersionTypes = VersionStatusType | 'default';
+type PossibleVersionTypes = VersionType | 'default';
 
 export const generateOptionGroups = (
   options: {
     id: string;
     name: string;
-    type: VersionStatusType;
+    type: VersionType;
   }[],
   t: TFunction,
 ) => {
   const { published, beta, archived } = options.reduce<OptGroups>(
     (acc, curr) => {
-      const type = curr.type.toLowerCase() as Lowercase<VersionStatusType>;
+      const type = curr.type.toLowerCase() as Lowercase<VersionType>;
       acc[type].push(curr);
       return acc;
     },

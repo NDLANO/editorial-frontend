@@ -9,12 +9,12 @@
 import { FieldHeader } from '@ndla/forms';
 import { FieldProps, useFormikContext } from 'formik';
 import { useTranslation } from 'react-i18next';
+import { Version } from '@ndla/types-taxonomy';
 import FormikField from '../../../components/FormikField';
 import OptGroupVersionSelector from '../../../components/Taxonomy/OptGroupVersionSelector';
-import { VersionType } from '../../../modules/taxonomy/versions/versionApiTypes';
 
 interface Props {
-  existingVersions: VersionType[];
+  existingVersions: Version[];
 }
 
 const VersionSourceField = ({ existingVersions }: Props) => {

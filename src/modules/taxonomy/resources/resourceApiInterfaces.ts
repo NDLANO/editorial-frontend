@@ -3,7 +3,3 @@ export interface ResourcePostBody {
   contentUri?: string;
   name: string;
 }
-
-export interface ResourceTranslationPostBody {
-  name: string;
-}

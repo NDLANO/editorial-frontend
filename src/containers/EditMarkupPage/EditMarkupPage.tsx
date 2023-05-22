@@ -19,8 +19,8 @@ import { fetchDraft, updateDraft } from '../../modules/draft/draftApi';
 import handleError from '../../util/handleError';
 import { Row } from '../../components';
 import { blockContentToEditorValue, blockContentToHTML } from '../../util/articleContentConverter';
-import { DRAFT_HTML_SCOPE } from '../../constants';
-import { getSessionStateFromLocalStorage } from '../Session/SessionProvider';
+import { DRAFT_HTML_SCOPE, PUBLISHED } from '../../constants';
+import { getSessionStateFromLocalStorage, useSession } from '../Session/SessionProvider';
 import HeaderSupportedLanguages from '../../components/HeaderWithLanguage/HeaderSupportedLanguages';
 import { toEditMarkup } from '../../util/routeHelpers';
 import { AlertModalWrapper } from '../FormikForm';
@@ -141,6 +141,7 @@ const EditMarkupPage = () => {
   const location = useLocation();
   const locationState = location.state as LocationState | undefined;
   const { createMessage, formatErrorMessage } = useMessages();
+  const { ndlaId } = useSession();
 
   useEffect(() => {
     const session = getSessionStateFromLocalStorage();
@@ -175,10 +176,12 @@ const EditMarkupPage = () => {
         content,
         revision: draft?.revision ?? -1,
         language,
+        ...(draft?.status.current === PUBLISHED ? { responsibleId: ndlaId } : {}),
       });
       setDraft(updatedDraft);
       setStatus('saved');
     } catch (e) {
+      setStatus('initial');
       const err = e as NdlaErrorPayload;
       createMessage(formatErrorMessage(err));
       handleError(e);

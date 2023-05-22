@@ -68,7 +68,7 @@ export const PreviewDraft = ({ type, draft: draftProp, label, contentType, langu
     if (window.MathJax) {
       window.MathJax.typesetPromise();
     }
-  }, [draft.content]);
+  }, [transformedContent]);
 
   const markdown = useMemo(() => {
     const markdown = new Remarkable({ breaks: true });

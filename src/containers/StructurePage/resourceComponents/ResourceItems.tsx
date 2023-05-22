@@ -12,13 +12,13 @@ import { useQueryClient } from '@tanstack/react-query';
 import { DropResult } from 'react-beautiful-dnd';
 import sortBy from 'lodash/sortBy';
 import styled from '@emotion/styled';
+import { NodeChild } from '@ndla/types-taxonomy';
 import Resource from './Resource';
 import handleError from '../../../util/handleError';
 import {
   useDeleteResourceForNodeMutation,
   usePutResourceForNodeMutation,
 } from '../../../modules/nodes/nodeMutations';
-import { ResourceWithNodeConnection } from '../../../modules/nodes/nodeApiTypes';
 import AlertModal from '../../../components/AlertModal';
 import MakeDndList from '../../../components/MakeDndList';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
@@ -70,16 +70,16 @@ const ResourceItems = ({
   const deleteNodeResource = useDeleteResourceForNodeMutation({
     onMutate: async ({ id }) => {
       await qc.cancelQueries(compKey);
-      const prevData = qc.getQueryData<ResourceWithNodeConnection[]>(compKey) ?? [];
+      const prevData = qc.getQueryData<NodeChild[]>(compKey) ?? [];
       const withoutDeleted = prevData.filter((res) => res.connectionId !== id);
-      qc.setQueryData<ResourceWithNodeConnection[]>(compKey, withoutDeleted);
+      qc.setQueryData<NodeChild[]>(compKey, withoutDeleted);
       return prevData;
     },
   });
 
   const onUpdateRank = async (id: string, newRank: number) => {
     await qc.cancelQueries(compKey);
-    const prevData = qc.getQueryData<ResourceWithNodeConnection[]>(compKey) ?? [];
+    const prevData = qc.getQueryData<NodeChild[]>(compKey) ?? [];
     const updated = prevData.map((r) => {
       if (r.connectionId === id) {
         return { ...r, rank: newRank };
@@ -87,7 +87,7 @@ const ResourceItems = ({
         return r;
       } else return { ...r, rank: r.rank + 1 };
     });
-    qc.setQueryData<ResourceWithNodeConnection[]>(compKey, sortBy(updated, ['rank']));
+    qc.setQueryData<NodeChild[]>(compKey, sortBy(updated, ['rank']));
     return resources;
   };
 

@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { DeleteForever } from '@ndla/icons/editor';
+import { Node, NodeChild } from '@ndla/types-taxonomy';
 import AlertModal from '../../../../components/AlertModal';
 import RoundIcon from '../../../../components/RoundIcon';
 import { updateStatusDraft } from '../../../../modules/draft/draftApi';
-import { ChildNodeType, NodeType } from '../../../../modules/nodes/nodeApiTypes';
 import {
   useDeleteNodeConnectionMutation,
   useDeleteNodeMutation,
@@ -19,9 +20,10 @@ import Overlay from '../../../../components/Overlay';
 import { StyledErrorMessage } from '../styles';
 
 interface Props {
-  node: NodeType | ChildNodeType;
-  nodeChildren: NodeType[];
+  node: Node | NodeChild;
+  nodeChildren: Node[];
   editModeHandler: EditModeHandler;
+  onCurrentNodeChanged: (node?: Node) => void;
   rootNodeId?: string;
 }
 
@@ -29,12 +31,15 @@ const DeleteNode = ({
   node,
   nodeChildren,
   editModeHandler: { editMode, toggleEditMode },
+  onCurrentNodeChanged,
   rootNodeId,
 }: Props) => {
   const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | undefined>(undefined);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const disabled = nodeChildren && nodeChildren.length !== 0;
 
@@ -71,6 +76,8 @@ const DeleteNode = ({
         },
         { onSuccess: () => setLoading(false) },
       );
+      navigate(location.pathname.split(node.id)[0], { replace: true });
+      onCurrentNodeChanged(undefined);
     } catch (error) {
       const e = error as Error;
       setError(`${t('taxonomy.errorMessage')}${e.message ? `:${e.message}` : ''}`);

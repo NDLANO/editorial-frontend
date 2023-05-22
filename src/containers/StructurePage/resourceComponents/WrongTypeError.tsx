@@ -6,13 +6,12 @@
  *
  */
 
-import React from 'react';
 import { useTranslation } from 'react-i18next';
 import Tooltip from '@ndla/tooltip';
 import { AlertCircle } from '@ndla/icons/editor';
 import styled from '@emotion/styled';
 import { colors } from '@ndla/core';
-import { ResourceWithNodeConnection } from '../../../modules/nodes/nodeApiTypes';
+import { NodeChild } from '@ndla/types-taxonomy';
 import { getIdFromUrn } from '../../../util/taxonomyHelpers';
 import { IconWrapper } from './StatusIcons';
 
@@ -29,7 +28,7 @@ const getArticleTypeFromId = (id?: string) => {
 };
 
 interface Props {
-  resource: ResourceWithNodeConnection;
+  resource: NodeChild;
   articleType?: string;
 }
 

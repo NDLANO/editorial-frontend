@@ -128,6 +128,13 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
   cursor: not-allowed;
 }
 
+.emotion-1[lang='zh'],
+.emotion-1[lang='zh-Hans'],
+.emotion-1[lang='zh-Hant'] {
+  font-size: calc(14px * 1.11);
+  font-size: calc(0.7777777777777778rem * 1.11);
+}
+
 .emotion-1:hover,
 .emotion-1:active,
 .emotion-1:focus-visible {
@@ -206,6 +213,13 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
+}
+
+.emotion-2[lang='zh'],
+.emotion-2[lang='zh-Hans'],
+.emotion-2[lang='zh-Hant'] {
+  font-size: calc(14px * 1.11);
+  font-size: calc(0.7777777777777778rem * 1.11);
 }
 
 .emotion-2:hover,

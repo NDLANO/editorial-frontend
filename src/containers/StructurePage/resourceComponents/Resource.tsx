@@ -16,10 +16,7 @@ import { DragVertical } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
 import { useQueryClient } from '@tanstack/react-query';
 import { DraggableProvidedDragHandleProps } from 'react-beautiful-dnd';
-import {
-  NodeConnectionPutType,
-  ResourceWithNodeConnection,
-} from '../../../modules/nodes/nodeApiTypes';
+import { NodeConnectionPUT, NodeChild } from '@ndla/types-taxonomy';
 import {
   usePutResourceForNodeMutation,
   useUpdateNodeConnectionMutation,
@@ -125,7 +122,7 @@ interface Props {
   responsible?: string;
   resource: ResourceWithNodeConnectionAndMeta;
   onDelete?: (connectionId: string) => void;
-  updateResource?: (resource: ResourceWithNodeConnection) => void;
+  updateResource?: (resource: NodeChild) => void;
   dragHandleProps?: DraggableProvidedDragHandleProps;
   contentMetaLoading: boolean;
 }
@@ -148,16 +145,16 @@ const Resource = ({
     language: i18n.language,
   });
 
-  const onUpdateConnection = async (id: string, { relevanceId }: NodeConnectionPutType) => {
+  const onUpdateConnection = async (id: string, { relevanceId }: NodeConnectionPUT) => {
     await qc.cancelQueries(compKey);
-    const resources = qc.getQueryData<ResourceWithNodeConnection[]>(compKey) ?? [];
+    const resources = qc.getQueryData<NodeChild[]>(compKey) ?? [];
     if (relevanceId) {
       const newResources = resources.map((res) => {
         if (res.id === id) {
           return { ...res, relevanceId: relevanceId };
         } else return res;
       });
-      qc.setQueryData<ResourceWithNodeConnection[]>(compKey, newResources);
+      qc.setQueryData<NodeChild[]>(compKey, newResources);
     }
     return resources;
   };

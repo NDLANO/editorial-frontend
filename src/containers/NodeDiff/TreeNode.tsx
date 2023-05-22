@@ -10,7 +10,7 @@ import styled from '@emotion/styled';
 import { useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { spacing, colors } from '@ndla/core';
-import { NodeType } from '../../modules/nodes/nodeApiTypes';
+import { Node } from '@ndla/types-taxonomy';
 import { createGuard } from '../../util/guards';
 import { nodePathToUrnPath } from '../../util/taxonomyHelpers';
 import Fade from '../../components/Taxonomy/Fade';
@@ -29,18 +29,18 @@ import {
 } from './diffUtils';
 
 interface Props {
-  node: DiffType<NodeType> | DiffTypeWithChildren;
+  node: DiffType<Node> | DiffTypeWithChildren;
   level: number;
-  onNodeSelected: (node?: DiffType<NodeType>) => void;
-  selectedNode?: DiffType<NodeType> | DiffTypeWithChildren;
+  onNodeSelected: (node?: DiffType<Node>) => void;
+  selectedNode?: DiffType<Node> | DiffTypeWithChildren;
   parentActive: boolean;
   nodes?: DiffTypeWithChildren[];
 }
 
 interface RootNodeProps {
   tree: DiffTree;
-  onNodeSelected: (node?: DiffType<NodeType>) => void;
-  selectedNode?: DiffType<NodeType> | DiffTypeWithChildren;
+  onNodeSelected: (node?: DiffType<Node>) => void;
+  selectedNode?: DiffType<Node> | DiffTypeWithChildren;
 }
 
 export const RootNode = ({ tree, onNodeSelected, selectedNode }: RootNodeProps) => {

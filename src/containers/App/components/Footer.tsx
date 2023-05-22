@@ -7,14 +7,8 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { colors } from '@ndla/core';
 import { Footer, LanguageSelector, FooterText, EditorName } from '@ndla/ui';
-import styled from '@emotion/styled';
 import { supportedLanguages } from '../../../i18n2';
-
-const StyledFooterWrapper = styled.div`
-  background-color: ${colors.brand.greyLightest};
-`;
 
 interface Props {
   showLocaleSelector?: boolean;
@@ -27,14 +21,12 @@ const FooterWrapper = ({ showLocaleSelector }: Props) => {
   ) : null;
 
   return (
-    <StyledFooterWrapper>
-      <Footer lang={i18n.language} languageSelector={languageSelector}>
-        <FooterText>
-          <EditorName title={t('footer.editorInChief')} name="Sigurd Trageton" />
-          {t('footer.info')}
-        </FooterText>
-      </Footer>
-    </StyledFooterWrapper>
+    <Footer lang={i18n.language} languageSelector={languageSelector}>
+      <FooterText>
+        <EditorName title={t('footer.editorInChief')} name="Sigurd Trageton" />
+        {t('footer.info')}
+      </FooterText>
+    </Footer>
   );
 };
 

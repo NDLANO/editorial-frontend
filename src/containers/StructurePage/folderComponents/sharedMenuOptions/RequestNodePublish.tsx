@@ -2,16 +2,16 @@ import { Check } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Node } from '@ndla/types-taxonomy';
 import RoundIcon from '../../../../components/RoundIcon';
 import { TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH } from '../../../../constants';
-import { NodeType } from '../../../../modules/nodes/nodeApiTypes';
 import { useUpdateNodeMetadataMutation } from '../../../../modules/nodes/nodeMutations';
 import MenuItemButton from './components/MenuItemButton';
 import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
 import { EditModeHandler } from '../SettingsMenuDropdownType';
 
 interface Props {
-  node: NodeType;
+  node: Node;
   editModeHandler: EditModeHandler;
   rootNodeId: string;
 }

@@ -54,10 +54,6 @@ export interface ResourceWithParentTopics extends Resource {
   parents: ParentTopic[];
 }
 
-export interface TaxNameTranslation {
-  name: string;
-  language: LocaleType;
-}
 export interface ParentTopic extends TaxonomyElement {
   id: string;
   name: string;
@@ -73,11 +69,6 @@ export type ParentTopicWithRelevanceAndConnections = ParentTopic & {
   relevanceId: string;
   breadcrumb: TaxonomyElement[];
 };
-
-export interface ResourceTranslation {
-  name: string;
-  language: string;
-}
 
 export interface TopicConnections {
   isPrimary: boolean;

@@ -92,6 +92,7 @@ const StyledErrorMessage = styled.p`
 const Container = styled.div`
   margin: 0 auto;
   max-width: 1000px;
+  width: 100%;
 `;
 
 const LanguageWrapper = styled.div`

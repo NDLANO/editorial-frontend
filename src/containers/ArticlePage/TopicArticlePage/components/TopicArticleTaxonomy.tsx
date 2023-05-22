@@ -71,7 +71,6 @@ export interface StagedTopic extends TaxonomyElement {
   paths?: string[];
   breadcrumb?: TaxonomyElement[];
   topicConnections?: TopicConnections[];
-  primary?: boolean;
   relevanceId?: string;
   isPrimary?: boolean;
   metadata: TaxonomyMetadata;

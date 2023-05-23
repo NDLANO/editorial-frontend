@@ -137,6 +137,6 @@ export const frontpageActions = commonActions.concat(
   {
     data: { type: TYPE_KEY_FIGURE, object: 'keyFigure' },
     icon: <Insights />,
-    helpIcon: renderArticleInModal('H5P'),
+    helpIcon: renderArticleInModal('KeyFigure'),
   },
 );

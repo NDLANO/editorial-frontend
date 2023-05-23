@@ -48,7 +48,7 @@ export const keyFigureSerializer: SlateSerializer = {
     return slatejsx('element', { type: TYPE_KEY_FIGURE, data: embedAttributes });
   },
   serialize(node: Descendant) {
-    if (!Element.isElement(node) || node.type !== TYPE_KEY_FIGURE) return;
+    if (!Element.isElement(node) || node.type !== TYPE_KEY_FIGURE || !node.data) return;
     return createEmbedTagV2(node.data);
   },
 };
@@ -84,8 +84,6 @@ export const keyFigurePlugin = (editor: Editor) => {
     } else {
       normalizeNode(entry);
     }
-
-    return editor;
   };
   return editor;
 };

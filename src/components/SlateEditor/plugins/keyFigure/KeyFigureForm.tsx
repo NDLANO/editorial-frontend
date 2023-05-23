@@ -29,7 +29,6 @@ interface Props {
 interface KeyFigureFormValue {
   resource: 'key-figure';
   metaImageId: string;
-  language: string;
   title: string;
   subtitle: string;
 }
@@ -39,7 +38,6 @@ const toInitialValues = (initialData: KeyFigureEmbedData): KeyFigureFormValue =>
   metaImageId: initialData?.imageId ?? '',
   title: initialData?.title ?? '',
   subtitle: initialData?.subtitle ?? '',
-  language: initialData?.language ?? 'nb',
 });
 
 const rules: RulesType<KeyFigureFormValue> = {
@@ -49,7 +47,7 @@ const rules: RulesType<KeyFigureFormValue> = {
   subtitle: {
     required: true,
   },
-  language: {
+  metaImageId: {
     required: true,
   },
 };
@@ -81,7 +79,6 @@ const KeyFigureForm = ({ onSave, initialData, onCancel }: Props) => {
         imageId: values.metaImageId,
         title: values.title,
         subtitle: values.subtitle,
-        language: values.language,
       };
       onSave(newData);
     },

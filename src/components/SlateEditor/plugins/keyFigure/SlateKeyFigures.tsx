@@ -99,7 +99,7 @@ const SlateKeyFigure = ({ element, editor }: Props) => {
 
   useEffect(() => {
     if (data?.imageId) {
-      fetchImage(data?.imageId).then((image) => setImage(image));
+      fetchImage(data.imageId).then((image) => setImage(image));
     }
   }, [data?.imageId, setImage]);
 

@@ -54,13 +54,13 @@ const StyledForm = styled.form`
 
 export const StyledLabel = styled.label`
   font-weight: ${fonts.weight.semibold};
-  ${fonts.sizes('16px')}
+  ${fonts.sizes('16px')};
 `;
 
 export const StyledFormikField = styled(FormikField)`
   margin: 0px;
   label {
-    ${fonts.sizes('16px')}
+    ${fonts.sizes('16px')};
   }
 `;
 
@@ -121,6 +121,12 @@ const toInitialValues = (responsible?: string, articleType?: string): PlannedRes
   };
 };
 
+const formatUserList = (users: Auth0UserData[]) =>
+  users.map((u) => ({
+    value: `${u.app_metadata.ndla_id}`,
+    label: u.name,
+  }));
+
 interface Props {
   articleType: string;
   node: Node | undefined;
@@ -153,12 +159,6 @@ const PlannedResourceForm = ({ articleType, node, onClose, userData }: Props) =>
   });
   const initialValues = useMemo(() => toInitialValues(ndlaId, articleType), [ndlaId, articleType]);
   const isTopicArticle = articleType === 'topic-article';
-
-  const formatUserList = (users: Auth0UserData[]) =>
-    users.map((u) => ({
-      value: `${u.app_metadata.ndla_id}`,
-      label: u.name,
-    }));
 
   const { data: users } = useAuth0Responsibles(
     { permission: DRAFT_WRITE_SCOPE },

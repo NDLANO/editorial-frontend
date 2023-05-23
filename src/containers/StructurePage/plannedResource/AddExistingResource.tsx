@@ -195,16 +195,14 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
   return (
     <>
       <ContentWrapper>
-        <div>
-          <StyledLabel htmlFor="select-resource-type">{t('taxonomy.contentType')}</StyledLabel>
-          <ResourceTypeSelect
-            availableResourceTypes={resourceTypes ?? []}
-            onChangeSelectedResource={(value) => {
-              if (value) setSelectedType(value?.value);
-            }}
-            isClearable
-          />
-        </div>
+        <StyledLabel htmlFor="select-resource-type">{t('taxonomy.contentType')}</StyledLabel>
+        <ResourceTypeSelect
+          availableResourceTypes={resourceTypes ?? []}
+          onChangeSelectedResource={(value) => {
+            if (value) setSelectedType(value?.value);
+          }}
+          isClearable
+        />
         {canPaste && selectedType && (
           <InputV2
             customCss={inputWrapperStyles}

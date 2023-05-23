@@ -8,7 +8,6 @@
 
 import styled from '@emotion/styled';
 import { ReactNode } from 'react';
-import { useTranslation } from 'react-i18next';
 import { spacing } from '@ndla/core';
 import TaxonomyLightbox from '../../../components/Taxonomy/TaxonomyLightbox';
 
@@ -32,7 +31,6 @@ interface Props {
 }
 
 const AddResourceModal = ({ children, onClose, title }: Props) => {
-  const { t } = useTranslation();
   return (
     <TaxonomyLightbox title={title} onClose={onClose}>
       <StyledContent>{children}</StyledContent>

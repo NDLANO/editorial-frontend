@@ -71,16 +71,14 @@ const StyledSearch = styled(Search)`
   height: 24px;
 `;
 
-interface Props {
+interface Props extends InputHTMLAttributes<HTMLInputElement> {
   onSearchQuerySubmit: (query: string) => void;
   setQuery: (query: string) => void;
   query: string;
   setMenuOpen: (value: boolean) => void;
 }
 
-type MastheadSearchFormProps = Props & InputHTMLAttributes<HTMLInputElement>;
-
-export const MastheadSearchForm = forwardRef<HTMLInputElement, MastheadSearchFormProps>(
+const MastheadSearchForm = forwardRef<HTMLInputElement, Props>(
   ({ onSearchQuerySubmit, setQuery, query, setMenuOpen, ...rest }, ref) => {
     const { t, i18n } = useTranslation();
     const { taxonomyVersion } = useTaxonomyVersion();

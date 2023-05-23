@@ -24,12 +24,9 @@ import { NoShadowLink } from '../../WelcomePage/components/NoShadowLink';
 const StyledItem = styled.li`
   ${fonts.sizes('16px')};
   color: ${colors.brand.primary};
-  cursor: pointer;
   padding: ${spacing.xsmall} 0;
   margin: 0;
   border-top: 1px solid ${colors.brand.neutral7};
-`;
-const StyledContent = styled.div`
   display: flex;
   align-items: center;
 `;
@@ -121,25 +118,23 @@ const SavedSearchItem = ({ searchText, userData, deleteSearch, index, ...rest }:
   }
   return (
     <StyledItem {...rest}>
-      <StyledContent>
-        <StyledNoShadowLink to={localizedSearch}>
-          <StyledSearch />
-          {linkText(searchObject)}
-        </StyledNoShadowLink>
-        <Tooltip tooltip={t('welcomePage.deleteSavedSearch')}>
-          <IconButtonV2
-            aria-label={t('welcomePage.deleteSavedSearch')}
-            variant="ghost"
-            onClick={(e) => {
-              deleteSearch(index);
-              e.stopPropagation();
-            }}
-            size="xsmall"
-          >
-            <StyledTrashCanOutline />
-          </IconButtonV2>
-        </Tooltip>
-      </StyledContent>
+      <StyledNoShadowLink to={localizedSearch}>
+        <StyledSearch />
+        {linkText(searchObject)}
+      </StyledNoShadowLink>
+      <Tooltip tooltip={t('welcomePage.deleteSavedSearch')}>
+        <IconButtonV2
+          aria-label={t('welcomePage.deleteSavedSearch')}
+          variant="ghost"
+          onClick={(e) => {
+            deleteSearch(index);
+            e.stopPropagation();
+          }}
+          size="xsmall"
+        >
+          <StyledTrashCanOutline />
+        </IconButtonV2>
+      </Tooltip>
     </StyledItem>
   );
 };

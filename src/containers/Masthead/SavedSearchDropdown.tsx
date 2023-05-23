@@ -53,6 +53,7 @@ const StyledSavedSearchItem = styled(SavedSearchItem)`
   background-color: ${colors.white};
   &[data-highlighted='true'] {
     background-color: ${colors.brand.light};
+    border-radius: ${misc.borderRadius};
   }
 `;
 

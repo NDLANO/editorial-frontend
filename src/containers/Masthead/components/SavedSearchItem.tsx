@@ -24,9 +24,8 @@ import { NoShadowLink } from '../../WelcomePage/components/NoShadowLink';
 const StyledItem = styled.li`
   ${fonts.sizes('16px')};
   color: ${colors.brand.primary};
-  padding: ${spacing.xsmall} 0;
+  padding: ${spacing.xsmall} ${spacing.xsmall};
   margin: 0;
-  border-top: 1px solid ${colors.brand.neutral7};
   display: flex;
   align-items: center;
 `;

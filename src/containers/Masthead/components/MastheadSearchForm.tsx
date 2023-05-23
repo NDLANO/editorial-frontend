@@ -32,6 +32,7 @@ const StyledForm = styled.form`
   height: ${spacing.large};
   align-items: center;
   transition: all 100ms ease-in-out;
+  min-width: 180px;
 
   &:focus-within {
     background: ${colors.white};

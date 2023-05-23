@@ -23,6 +23,7 @@ exports[`MastheadSearchForm invalid id at the end of the url 1`] = `
   align-items: center;
   -webkit-transition: all 100ms ease-in-out;
   transition: all 100ms ease-in-out;
+  min-width: 180px;
 }
 
 .emotion-0:focus-within {
@@ -210,6 +211,7 @@ exports[`MastheadSearchForm redirects on ndla node id pasted 1`] = `
   align-items: center;
   -webkit-transition: all 100ms ease-in-out;
   transition: all 100ms ease-in-out;
+  min-width: 180px;
 }
 
 .emotion-0:focus-within {
@@ -397,6 +399,7 @@ exports[`MastheadSearchForm redirects on ndla url paste with id at the end 1`] =
   align-items: center;
   -webkit-transition: all 100ms ease-in-out;
   transition: all 100ms ease-in-out;
+  min-width: 180px;
 }
 
 .emotion-0:focus-within {
@@ -584,6 +587,7 @@ exports[`MastheadSearchForm redirects on ndla url paste with taxonomy id at the 
   align-items: center;
   -webkit-transition: all 100ms ease-in-out;
   transition: all 100ms ease-in-out;
+  min-width: 180px;
 }
 
 .emotion-0:focus-within {
@@ -771,6 +775,7 @@ exports[`MastheadSearchForm redirects on old ndla url paste with new id 1`] = `
   align-items: center;
   -webkit-transition: all 100ms ease-in-out;
   transition: all 100ms ease-in-out;
+  min-width: 180px;
 }
 
 .emotion-0:focus-within {

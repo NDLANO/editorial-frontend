@@ -79,7 +79,7 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
   setMenuOpen: (value: boolean) => void;
 }
 
-const MastheadSearchForm = forwardRef<HTMLInputElement, Props>(
+export const MastheadSearchForm = forwardRef<HTMLInputElement, Props>(
   ({ onSearchQuerySubmit, setQuery, query, setMenuOpen, ...rest }, ref) => {
     const { t, i18n } = useTranslation();
     const { taxonomyVersion } = useTaxonomyVersion();

@@ -12,7 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { useQueryClient } from '@tanstack/react-query';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
-import { Node } from '@ndla/types-taxonomy';
+import { Node, Metadata } from '@ndla/types-taxonomy';
 import {
   TAXONOMY_CUSTOM_FIELD_GROUPED_RESOURCE,
   TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES,
@@ -21,7 +21,6 @@ import {
 import { useUpdateNodeMetadataMutation } from '../../../modules/nodes/nodeMutations';
 import { childNodesWithArticleTypeQueryKey } from '../../../modules/nodes/nodeQueries';
 import { getRootIdForNode, isRootNode } from '../../../modules/nodes/nodeUtil';
-import { TaxonomyMetadata } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 
 const StyledSwitch = styled(Switch)`
@@ -30,7 +29,7 @@ const StyledSwitch = styled(Switch)`
 
 interface Props {
   node: Node;
-  onChanged: (newMeta: Partial<TaxonomyMetadata>) => void;
+  onChanged: (newMeta: Partial<Metadata>) => void;
 }
 
 const isGrouped = (node: Node): boolean =>

@@ -6,6 +6,7 @@
  *
  */
 
+import { ResourceType, Metadata, ResolvedUrl } from '@ndla/types-taxonomy';
 import { apiResourceUrl, httpFunctions } from '../../util/apiHelpers';
 import { updateResourceMetadata } from './resources';
 import { createDeleteResourceTypes } from './resourcetypes';
@@ -13,10 +14,7 @@ import { createDeleteUpdateTopicResources } from './topicresouces';
 import { taxonomyApi } from '../../config';
 import {
   ParentTopicWithRelevanceAndConnections,
-  ResolvedUrl,
   ResourceResourceType,
-  ResourceType,
-  TaxonomyMetadata,
 } from './taxonomyApiInterfaces';
 import { WithTaxonomyVersion } from '../../interfaces';
 
@@ -62,7 +60,7 @@ interface UpdateTaxonomyParams extends WithTaxonomyVersion {
   taxonomyChanges: {
     resourceTypes: ResourceResourceType[];
     topics: ParentTopicWithRelevanceAndConnections[];
-    metadata?: TaxonomyMetadata;
+    metadata?: Metadata;
   };
 }
 

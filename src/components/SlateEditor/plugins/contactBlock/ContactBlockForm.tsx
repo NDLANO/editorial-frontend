@@ -92,8 +92,8 @@ const toInitialValues = (initialData?: ContactBlockEmbedData): ContactBlockFormV
     email: initialData?.email ?? '',
   };
 };
-const blobTypes = ['pointy', 'round'];
-const blobColors = ['green', 'pink'];
+const types = ['pointy', 'round'];
+const colors = ['green', 'pink'];
 
 const ContactBlockForm = ({ initialData, onSave, onCancel }: Props) => {
   const { t } = useTranslation();
@@ -120,18 +120,18 @@ const ContactBlockForm = ({ initialData, onSave, onCancel }: Props) => {
     [onSave],
   );
 
-  const memoizedBlobTypes = useMemo(
+  const blobTypes = useMemo(
     () =>
-      blobTypes.map((value) => ({
+      types.map((value) => ({
         title: t(`contactBlockForm.blob.${value}`),
         value: value,
       })),
     [t],
   );
 
-  const memoizedBlobColors = useMemo(
+  const blobColors = useMemo(
     () =>
-      blobColors.map((value) => ({
+      colors.map((value) => ({
         title: t(`contactBlockForm.blobColor.${value}`),
         value: value,
       })),
@@ -168,7 +168,7 @@ const ContactBlockForm = ({ initialData, onSave, onCancel }: Props) => {
                 label={t('form.name.blob')}
                 selected={field.value}
                 uniqeIds
-                options={memoizedBlobTypes}
+                options={blobTypes}
                 onChange={(value: string) =>
                   field.onChange({ target: { name: field.name, value: value } })
                 }
@@ -181,7 +181,7 @@ const ContactBlockForm = ({ initialData, onSave, onCancel }: Props) => {
                 label={t('form.name.blobColor')}
                 selected={field.value}
                 uniqeIds
-                options={memoizedBlobColors}
+                options={blobColors}
                 onChange={(value: string) =>
                   field.onChange({ target: { name: field.name, value: value } })
                 }

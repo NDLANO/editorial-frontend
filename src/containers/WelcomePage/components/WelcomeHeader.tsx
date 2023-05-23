@@ -86,7 +86,7 @@ export const WelcomeHeader = () => {
       <ContentWrapper>
         <StyledTitle>
           {`${t('welcomePage.welcomeBack')} ${
-            userName ? `${userName}!` : t('welcomePage.productionSystem')
+            userName ? `${userName}!` : t('welcomePage.welcomeText')
           }`}
         </StyledTitle>
       </ContentWrapper>

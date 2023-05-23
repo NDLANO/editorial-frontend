@@ -53,11 +53,25 @@ exports[`it goes in and out of edit mode 1`] = `
   line-height: 24px;
 }
 
+.emotion-4[lang='zh'],
+.emotion-4[lang='zh-Hans'],
+.emotion-4[lang='zh-Hant'] {
+  font-size: calc(18px * 1.11);
+  font-size: calc(1rem * 1.11);
+}
+
 @media (min-width: 37.5625em) {
   .emotion-4 {
     font-size: 20px;
     font-size: 1.1111111111111112rem;
     line-height: 26px;
+  }
+
+  .emotion-4[lang='zh'],
+  .emotion-4[lang='zh-Hans'],
+  .emotion-4[lang='zh-Hant'] {
+    font-size: calc(20px * 1.11);
+    font-size: calc(1.1111111111111112rem * 1.11);
   }
 }
 
@@ -120,6 +134,13 @@ exports[`it goes in and out of edit mode 1`] = `
   cursor: not-allowed;
 }
 
+.emotion-5[lang='zh'],
+.emotion-5[lang='zh-Hans'],
+.emotion-5[lang='zh-Hant'] {
+  font-size: calc(14px * 1.11);
+  font-size: calc(0.7777777777777778rem * 1.11);
+}
+
 .emotion-5:hover,
 .emotion-5:active,
 .emotion-5:focus-visible {
@@ -162,6 +183,13 @@ exports[`it goes in and out of edit mode 1`] = `
   white-space: nowrap;
 }
 
+.emotion-6 label[lang='zh'],
+.emotion-6 label[lang='zh-Hans'],
+.emotion-6 label[lang='zh-Hant'] {
+  font-size: calc(16px * 1.11);
+  font-size: calc(0.8888888888888888rem * 1.11);
+}
+
 .emotion-8 {
   width: 104px;
   max-width: 104px;
@@ -178,6 +206,13 @@ exports[`it goes in and out of edit mode 1`] = `
   padding: 0;
   position: absolute;
   width: 1px;
+}
+
+.emotion-8[lang='zh'],
+.emotion-8[lang='zh-Hans'],
+.emotion-8[lang='zh-Hant'] {
+  font-size: calc(14 * 1.11);
+  font-size: calc(0.7777777777777778rem * 1.11);
 }
 
 .emotion-10 {
@@ -241,6 +276,16 @@ exports[`it goes in and out of edit mode 1`] = `
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
   flex-grow: 1;
+}
+
+.emotion-12 input[lang='zh'],
+.emotion-12 textarea[lang='zh'],
+.emotion-12 input[lang='zh-Hans'],
+.emotion-12 textarea[lang='zh-Hans'],
+.emotion-12 input[lang='zh-Hant'],
+.emotion-12 textarea[lang='zh-Hant'] {
+  font-size: calc(18 * 1.11);
+  font-size: calc(1rem * 1.11);
 }
 
 .emotion-12 input:focus,
@@ -333,6 +378,13 @@ exports[`it goes in and out of edit mode 1`] = `
   cursor: not-allowed;
 }
 
+.emotion-18[lang='zh'],
+.emotion-18[lang='zh-Hans'],
+.emotion-18[lang='zh-Hant'] {
+  font-size: calc(16px * 1.11);
+  font-size: calc(0.8888888888888888rem * 1.11);
+}
+
 .emotion-19 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -416,6 +468,13 @@ exports[`it goes in and out of edit mode 1`] = `
   cursor: not-allowed;
 }
 
+.emotion-23[lang='zh'],
+.emotion-23[lang='zh-Hans'],
+.emotion-23[lang='zh-Hant'] {
+  font-size: calc(14px * 1.11);
+  font-size: calc(0.7777777777777778rem * 1.11);
+}
+
 .emotion-23:hover,
 .emotion-23:active,
 .emotion-23:focus-visible {
@@ -496,6 +555,13 @@ exports[`it goes in and out of edit mode 1`] = `
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
+}
+
+.emotion-24[lang='zh'],
+.emotion-24[lang='zh-Hans'],
+.emotion-24[lang='zh-Hant'] {
+  font-size: calc(14px * 1.11);
+  font-size: calc(0.7777777777777778rem * 1.11);
 }
 
 .emotion-24:hover,
@@ -842,11 +908,25 @@ exports[`it goes in and out of edit mode 2`] = `
   line-height: 24px;
 }
 
+.emotion-4[lang='zh'],
+.emotion-4[lang='zh-Hans'],
+.emotion-4[lang='zh-Hant'] {
+  font-size: calc(18px * 1.11);
+  font-size: calc(1rem * 1.11);
+}
+
 @media (min-width: 37.5625em) {
   .emotion-4 {
     font-size: 20px;
     font-size: 1.1111111111111112rem;
     line-height: 26px;
+  }
+
+  .emotion-4[lang='zh'],
+  .emotion-4[lang='zh-Hans'],
+  .emotion-4[lang='zh-Hant'] {
+    font-size: calc(20px * 1.11);
+    font-size: calc(1.1111111111111112rem * 1.11);
   }
 }
 
@@ -907,6 +987,13 @@ exports[`it goes in and out of edit mode 2`] = `
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
+}
+
+.emotion-5[lang='zh'],
+.emotion-5[lang='zh-Hans'],
+.emotion-5[lang='zh-Hant'] {
+  font-size: calc(14px * 1.11);
+  font-size: calc(0.7777777777777778rem * 1.11);
 }
 
 .emotion-5:hover,
@@ -1013,6 +1100,13 @@ exports[`it goes in and out of edit mode 2`] = `
   cursor: not-allowed;
 }
 
+.emotion-8[lang='zh'],
+.emotion-8[lang='zh-Hans'],
+.emotion-8[lang='zh-Hant'] {
+  font-size: calc(14px * 1.11);
+  font-size: calc(0.7777777777777778rem * 1.11);
+}
+
 .emotion-8:hover,
 .emotion-8:active,
 .emotion-8:focus-visible {
@@ -1055,6 +1149,13 @@ exports[`it goes in and out of edit mode 2`] = `
   white-space: nowrap;
 }
 
+.emotion-10 label[lang='zh'],
+.emotion-10 label[lang='zh-Hans'],
+.emotion-10 label[lang='zh-Hant'] {
+  font-size: calc(16px * 1.11);
+  font-size: calc(0.8888888888888888rem * 1.11);
+}
+
 .emotion-12 {
   width: 104px;
   max-width: 104px;
@@ -1071,6 +1172,13 @@ exports[`it goes in and out of edit mode 2`] = `
   padding: 0;
   position: absolute;
   width: 1px;
+}
+
+.emotion-12[lang='zh'],
+.emotion-12[lang='zh-Hans'],
+.emotion-12[lang='zh-Hant'] {
+  font-size: calc(14 * 1.11);
+  font-size: calc(0.7777777777777778rem * 1.11);
 }
 
 .emotion-14 {
@@ -1134,6 +1242,16 @@ exports[`it goes in and out of edit mode 2`] = `
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
   flex-grow: 1;
+}
+
+.emotion-16 input[lang='zh'],
+.emotion-16 textarea[lang='zh'],
+.emotion-16 input[lang='zh-Hans'],
+.emotion-16 textarea[lang='zh-Hans'],
+.emotion-16 input[lang='zh-Hant'],
+.emotion-16 textarea[lang='zh-Hant'] {
+  font-size: calc(18 * 1.11);
+  font-size: calc(1rem * 1.11);
 }
 
 .emotion-16 input:focus,
@@ -1212,6 +1330,13 @@ exports[`it goes in and out of edit mode 2`] = `
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
+}
+
+.emotion-20[lang='zh'],
+.emotion-20[lang='zh-Hans'],
+.emotion-20[lang='zh-Hant'] {
+  font-size: calc(16px * 1.11);
+  font-size: calc(0.8888888888888888rem * 1.11);
 }
 
 .emotion-21 {
@@ -1297,6 +1422,13 @@ exports[`it goes in and out of edit mode 2`] = `
   cursor: not-allowed;
 }
 
+.emotion-25[lang='zh'],
+.emotion-25[lang='zh-Hans'],
+.emotion-25[lang='zh-Hant'] {
+  font-size: calc(14px * 1.11);
+  font-size: calc(0.7777777777777778rem * 1.11);
+}
+
 .emotion-25:hover,
 .emotion-25:active,
 .emotion-25:focus-visible {
@@ -1377,6 +1509,13 @@ exports[`it goes in and out of edit mode 2`] = `
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
+}
+
+.emotion-26[lang='zh'],
+.emotion-26[lang='zh-Hans'],
+.emotion-26[lang='zh-Hant'] {
+  font-size: calc(14px * 1.11);
+  font-size: calc(0.7777777777777778rem * 1.11);
 }
 
 .emotion-26:hover,

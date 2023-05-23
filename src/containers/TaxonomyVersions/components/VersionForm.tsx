@@ -13,12 +13,12 @@ import { Formik, FormikHelpers } from 'formik';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from '@tanstack/react-query';
+import { Version } from '@ndla/types-taxonomy';
 import { Row } from '../../../components';
 import AlertModal from '../../../components/AlertModal';
 import Field from '../../../components/Field';
 import validateFormik, { RulesType } from '../../../components/formikValidationSchema';
 import SaveButton from '../../../components/SaveButton';
-import { VersionType } from '../../../modules/taxonomy/versions/versionApiTypes';
 import {
   usePostVersionMutation,
   usePublishVersionMutation,
@@ -38,8 +38,8 @@ import VersionNameField from './VersionNameField';
 import VersionSourceField from './VersionSourceField';
 
 interface Props {
-  version?: VersionType;
-  existingVersions: VersionType[];
+  version?: Version;
+  existingVersions: Version[];
   onClose: () => void;
 }
 
@@ -72,7 +72,7 @@ const VersionForm = ({ version, existingVersions, onClose }: Props) => {
     onMutate: async ({ body }) => {
       setError(undefined);
       await qc.cancelQueries(versionsKey);
-      const optimisticVersion: VersionType = {
+      const optimisticVersion: Version = {
         id: '',
         versionType: 'BETA',
         name: body.name,
@@ -80,8 +80,8 @@ const VersionForm = ({ version, existingVersions, onClose }: Props) => {
         locked: !!body.locked,
         created: '',
       };
-      const existingVersions = qc.getQueryData<VersionType[]>(versionsKey) ?? [];
-      qc.setQueryData<VersionType[]>(versionsKey, existingVersions.concat(optimisticVersion));
+      const existingVersions = qc.getQueryData<Version[]>(versionsKey) ?? [];
+      qc.setQueryData<Version[]>(versionsKey, existingVersions.concat(optimisticVersion));
     },
     onSuccess: () => qc.invalidateQueries(versionsKey),
     onError: () => setError(t('taxonomyVersions.postError')),
@@ -91,7 +91,7 @@ const VersionForm = ({ version, existingVersions, onClose }: Props) => {
     onMutate: async ({ id, body }) => {
       setError(undefined);
       await qc.cancelQueries(versionsKey);
-      const existingVersions = qc.getQueryData<VersionType[]>(versionsKey) ?? [];
+      const existingVersions = qc.getQueryData<Version[]>(versionsKey) ?? [];
       const newVersions = existingVersions.map((version) => {
         if (version.id === id) {
           return {
@@ -101,7 +101,7 @@ const VersionForm = ({ version, existingVersions, onClose }: Props) => {
           };
         } else return version;
       });
-      qc.setQueryData<VersionType[]>(versionsKey, newVersions);
+      qc.setQueryData<Version[]>(versionsKey, newVersions);
     },
     onSuccess: () => qc.invalidateQueries(versionsKey),
     onError: () => setError(t('taxonomyVersions.putError')),
@@ -111,13 +111,13 @@ const VersionForm = ({ version, existingVersions, onClose }: Props) => {
     onMutate: async ({ id }) => {
       setError(undefined);
       await qc.cancelQueries(versionsKey);
-      const existingVersions = qc.getQueryData<VersionType[]>(versionsKey) ?? [];
-      const updatedVersions: VersionType[] = existingVersions.map((version) => {
+      const existingVersions = qc.getQueryData<Version[]>(versionsKey) ?? [];
+      const updatedVersions: Version[] = existingVersions.map((version) => {
         if (version.id === id) {
           return { ...version, versionType: 'PUBLISHED' };
         } else return version;
       });
-      qc.setQueryData<VersionType[]>(versionsKey, updatedVersions);
+      qc.setQueryData<Version[]>(versionsKey, updatedVersions);
     },
     onSuccess: () => qc.invalidateQueries(versionsKey),
     onError: () => setError(t('taxonomyVersions.publishError')),

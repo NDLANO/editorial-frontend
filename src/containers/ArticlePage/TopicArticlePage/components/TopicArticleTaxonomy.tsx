@@ -16,6 +16,7 @@ import { spacing } from '@ndla/core';
 import { IUpdatedArticle, IArticle } from '@ndla/types-backend/draft-api';
 import { SingleValue } from '@ndla/select';
 import { useQueryClient } from '@tanstack/react-query';
+import { Metadata } from '@ndla/types-taxonomy';
 import {
   fetchSubjects,
   fetchSubjectTopics,
@@ -41,7 +42,6 @@ import {
   SubjectTopic,
   SubjectType,
   TaxonomyElement,
-  TaxonomyMetadata,
   TopicConnections,
 } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import TaxonomyConnectionErrors from '../../components/TaxonomyConnectionErrors';
@@ -71,10 +71,9 @@ export interface StagedTopic extends TaxonomyElement {
   paths?: string[];
   breadcrumb?: TaxonomyElement[];
   topicConnections?: TopicConnections[];
-  primary?: boolean;
   relevanceId?: string;
   isPrimary?: boolean;
-  metadata: TaxonomyMetadata;
+  metadata: Metadata;
 }
 
 const ButtonContainer = styled.div`

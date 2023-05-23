@@ -19,17 +19,19 @@ const StyledSafeLinkButton = styled(SafeLinkButton)`
 
 interface Props {
   ndlaId?: string;
-  filterSubject?: SingleValue;
+  filterSubject?: string;
   searchEnv: 'content' | 'concept';
+  revisionDateTo?: string;
 }
 
-const GoToSearch = ({ ndlaId, filterSubject, searchEnv }: Props) => {
+const GoToSearch = ({ ndlaId, filterSubject, searchEnv, revisionDateTo }: Props) => {
   const { t } = useTranslation();
 
   const onSearch = () => {
     const query = queryString.stringify({
-      subjects: filterSubject?.value,
-      'responsible-ids': ndlaId,
+      subjects: filterSubject,
+      ...(ndlaId ? { 'responsible-ids': ndlaId } : {}),
+      ...(revisionDateTo ? { 'revision-date-to': revisionDateTo } : {}),
     });
 
     return `/search/${searchEnv}?${query}`;

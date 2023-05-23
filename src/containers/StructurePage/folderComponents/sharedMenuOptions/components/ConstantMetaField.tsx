@@ -8,9 +8,9 @@ import { useState, KeyboardEvent } from 'react';
 import { spacing } from '@ndla/core';
 import { DeleteForever, Done } from '@ndla/icons/editor';
 import styled from '@emotion/styled';
+import { Metadata } from '@ndla/types-taxonomy';
 import { StyledMenuItemEditField, StyledMenuItemInputField } from '../../styles';
 import RoundIcon from '../../../../../components/RoundIcon';
-import { TaxonomyMetadata } from '../../../../../modules/taxonomy/taxonomyApiInterfaces';
 import CustomFieldButton from './CustomFieldButton';
 
 interface Props {
@@ -40,12 +40,12 @@ const ConstantMetaField = ({
     const newPair: Record<string, string> = {};
     if (initialVal !== currentVal && !!currentVal) {
       newPair[fieldKey] = currentVal;
-      onSubmit((prevState: TaxonomyMetadata['customFields']) => ({ ...prevState, ...newPair }));
+      onSubmit((prevState: Metadata['customFields']) => ({ ...prevState, ...newPair }));
     }
   };
 
   const handleDelete = () => {
-    onSubmit((prevState: TaxonomyMetadata['customFields']) => {
+    onSubmit((prevState: Metadata['customFields']) => {
       delete prevState[fieldKey];
       return { ...prevState };
     });

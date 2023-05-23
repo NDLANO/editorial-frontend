@@ -4,8 +4,8 @@
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree. *
  */
-import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
-import Downshift, { StateChangeOptions } from 'downshift';
+import React, { ChangeEvent, Ref, useCallback, useEffect, useState } from 'react';
+import Downshift, { GetInputPropsOptions, StateChangeOptions } from 'downshift';
 import debounce from 'lodash/debounce';
 //@ts-ignore
 import { DropdownMenu, InputV2 } from '@ndla/forms';
@@ -21,6 +21,9 @@ import { inputWrapperStyles } from '../../../containers/StructurePage/plannedRes
 const IconWrapper = styled.div`
   padding: 0 ${spacing.small};
 `;
+interface InputPropsOptionsRef extends GetInputPropsOptions {
+  ref?: Ref<HTMLInputElement>;
+}
 
 interface Props<ApiType> {
   onChange: (value: ApiType) => Promise<void> | void;
@@ -52,6 +55,7 @@ interface Props<ApiType> {
   removeItem?: (id: string) => void;
   initialSearch?: boolean;
   label?: string;
+  white?: boolean;
 }
 
 interface ApiTypeValues {
@@ -94,6 +98,7 @@ export const AsyncDropdown = <ApiType extends ApiTypeValues>({
   removeItem,
   initialSearch = true,
   label,
+  white = false,
 }: Props<ApiType>) => {
   const [items, setItems] = useState<ItemValues<ApiType>[]>([]);
   const [selectedItem, setSelectedItem] = useState<ItemValues<ApiType> | null>(null);
@@ -215,7 +220,6 @@ export const AsyncDropdown = <ApiType extends ApiTypeValues>({
       {({ getInputProps, openMenu, ...downshiftProps }) => {
         const inpProps = getInputProps({
           ...inputProps,
-          ref: null,
           onKeyDown: getOnKeydown(saveOnEnter && downshiftProps.highlightedIndex === null),
         });
 
@@ -225,7 +229,7 @@ export const AsyncDropdown = <ApiType extends ApiTypeValues>({
               children({ selectedItems, removeItem, ...inpProps })
             ) : (
               <InputV2
-                {...inpProps}
+                {...(inpProps as InputPropsOptionsRef)}
                 customCss={inputWrapperStyles}
                 name="search-input-field"
                 label={label ?? placeholder}
@@ -236,7 +240,7 @@ export const AsyncDropdown = <ApiType extends ApiTypeValues>({
                     {loading ? <Spinner size="normal" margin="0" /> : <Search />}
                   </IconWrapper>
                 }
-                white
+                white={white}
               />
             )}
             <DropdownMenu

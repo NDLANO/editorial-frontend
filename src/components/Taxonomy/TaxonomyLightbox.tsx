@@ -11,7 +11,6 @@ import styled from '@emotion/styled';
 import { spacing, colors, fonts } from '@ndla/core';
 import { BookOpen } from '@ndla/icons/common';
 import { ModalV2, ModalCloseButton, ModalPosition } from '@ndla/modal';
-import pick from 'lodash/pick';
 import Spinner from '../Spinner';
 
 const StyledHeader = styled.div`
@@ -115,7 +114,7 @@ const TaxonomyLightbox = ({
             {children}
             <StyledWrapper>
               {actions.map((a, i) => (
-                <ButtonV2 key={i} {...pick(a, 'onClick', 'data-testid')}>
+                <ButtonV2 key={i} onClick={a.onClick} data-testid={a['data-testid']}>
                   {a.loading ? <Spinner appearance="small" /> : a.text}
                 </ButtonV2>
               ))}

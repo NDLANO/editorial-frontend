@@ -1072,6 +1072,7 @@ const phrases = {
       noResponible: 'Ingen ansvarleg',
       revisionDate: 'Antall som nærmar seg revisjonsdato',
       error: 'Noe gjekk gale ved oppdatering av ansvarleg.',
+      notUpdated: 'Ikkje lagra',
     },
     origin: {
       label: 'Opphav',

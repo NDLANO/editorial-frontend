@@ -1071,6 +1071,7 @@ const phrases = {
       noResponible: 'No responsible',
       revisionDate: 'Amount approaching revision date',
       error: 'Something went wrong when updating responsible',
+      notUpdated: 'Not saved',
     },
     origin: {
       label: 'Origin',

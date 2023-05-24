@@ -43,9 +43,16 @@ import { ButtonWrapper, StyledLabel, inputWrapperStyles } from './PlannedResourc
 const StyledOrDivider = styled.div`
   display: flex;
   justify-content: center;
+  padding: ${spacing.small} 0 0 0;
 `;
 const ContentWrapper = styled.div`
   padding-left: ${spacing.medium};
+`;
+
+const StyledSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${spacing.small};
 `;
 
 const emptySearchResults: IGroupSearchResult = {
@@ -195,41 +202,47 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
   return (
     <>
       <ContentWrapper>
-        <StyledLabel htmlFor="select-resource-type">{t('taxonomy.contentType')}</StyledLabel>
-        <ResourceTypeSelect
-          availableResourceTypes={resourceTypes ?? []}
-          onChangeSelectedResource={(value) => {
-            if (value) setSelectedType(value?.value);
-          }}
-          isClearable
-        />
         {canPaste && selectedType && (
-          <InputV2
-            customCss={inputWrapperStyles}
-            label={t('taxonomy.urlPlaceholder')}
-            white
-            onChange={onPaste}
-            name="pasteUrlInput"
-            placeholder={t('taxonomy.urlPlaceholder')}
-          />
-        )}
-        {!pastedUrl && selectedType && (
           <>
-            {canPaste && <StyledOrDivider>{t('taxonomy.or')}</StyledOrDivider>}
-            <AsyncDropdown<ILearningPathSummaryV2 | IMultiSearchSummary>
-              idField="id"
-              labelField="title"
-              placeholder={t('form.content.relatedArticle.placeholder')}
-              apiAction={(query, page) => onSearch(query, page)}
-              onChange={(res) => setContent(toContent(res))}
-              startOpen={false}
-              showPagination
-              initialSearch={false}
-              label={t('form.content.relatedArticle.placeholder')}
+            <InputV2
+              customCss={inputWrapperStyles}
+              label={t('taxonomy.urlPlaceholder')}
               white
+              onChange={onPaste}
+              name="pasteUrlInput"
+              placeholder={t('taxonomy.urlPlaceholder')}
             />
+            {canPaste && <StyledOrDivider>{t('taxonomy.or')}</StyledOrDivider>}
           </>
         )}
+        <StyledSection>
+          <div>
+            <StyledLabel htmlFor="select-resource-type">{t('taxonomy.contentType')}</StyledLabel>
+            <ResourceTypeSelect
+              availableResourceTypes={resourceTypes ?? []}
+              onChangeSelectedResource={(value) => {
+                if (value) setSelectedType(value?.value);
+              }}
+              isClearable
+            />
+          </div>
+          {!pastedUrl && selectedType && (
+            <>
+              <AsyncDropdown<ILearningPathSummaryV2 | IMultiSearchSummary>
+                idField="id"
+                labelField="title"
+                placeholder={t('form.content.relatedArticle.placeholder')}
+                apiAction={(query, page) => onSearch(query, page)}
+                onChange={(res) => setContent(toContent(res))}
+                startOpen={false}
+                showPagination
+                initialSearch={false}
+                label={t('form.content.relatedArticle.placeholder')}
+                white
+              />
+            </>
+          )}
+        </StyledSection>
         {content && <ArticlePreview article={content} />}
         {error && (
           <AlertModal

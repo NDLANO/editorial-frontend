@@ -6,7 +6,7 @@
  *
  */
 
-import { useState, useEffect, SyntheticEvent } from 'react';
+import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FieldHeader } from '@ndla/forms';
 import {
@@ -14,7 +14,7 @@ import {
   IUpdateImageMetaInformation,
 } from '@ndla/types-backend/image-api';
 import { ButtonV2 } from '@ndla/button';
-import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
+import { ModalBody, ModalCloseButton, Modal, ModalHeader } from '@ndla/modal';
 import { FormikHandlers, useFormikContext } from 'formik';
 import { createFormData } from '../../util/formDataHelper';
 import {
@@ -122,13 +122,11 @@ const MetaImageSearch = ({
         <HowToHelper pageId="MetaImage" tooltip={t('form.metaImage.helpLabel')} />
       </FieldHeader>
       <Modal
+        controlled
         labelledBy={buttonId}
-        controllable
         isOpen={showImageSelect}
         onClose={onImageSelectClose}
         size="large"
-        backgroundColor="white"
-        minHeight="90vh"
       >
         {() => (
           <>

@@ -10,7 +10,7 @@ import { Editor, Transforms, Element } from 'slate';
 import { ReactEditor } from 'slate-react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
-import { ModalBody, ModalHeaderV2 } from '@ndla/modal';
+import { ModalBody, ModalHeader } from '@ndla/modal';
 import { CloseButton } from '@ndla/button';
 import { LinkElement, ContentLinkElement } from '.';
 import LinkForm from './LinkForm';
@@ -29,7 +29,7 @@ const newTabAttributes = {
   rel: 'noopener noreferrer',
 };
 
-const ModalHeader = styled(ModalHeaderV2)`
+const StyledModalHeader = styled(ModalHeader)`
   padding-bottom: 0;
 `;
 
@@ -165,10 +165,10 @@ const EditLink = (props: Props) => {
 
   return (
     <>
-      <ModalHeader>
+      <StyledModalHeader>
         <h1>{t(`form.content.link.${isEdit ? 'changeTitle' : 'addTitle'}`)}</h1>
         <CloseButton onClick={onClose} />
-      </ModalHeader>
+      </StyledModalHeader>
       <StyledModalBody>
         <LinkForm
           onClose={onClose}

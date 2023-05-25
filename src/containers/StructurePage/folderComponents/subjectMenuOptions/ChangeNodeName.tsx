@@ -16,7 +16,7 @@ import { ButtonV2 } from '@ndla/button';
 import { spacing } from '@ndla/core';
 import { Input } from '@ndla/forms';
 import { Pencil } from '@ndla/icons/action';
-import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
+import { ModalHeader, ModalBody, ModalCloseButton, Modal, ModalTitle } from '@ndla/modal';
 import { Translation, Node } from '@ndla/types-taxonomy';
 import { EditModeHandler } from '../SettingsMenuDropdownType';
 import MenuItemButton from '../sharedMenuOptions/components/MenuItemButton';
@@ -50,6 +50,10 @@ const StyledDeleteButton = styled(DeleteButton)`
   flex-grow: 1;
   text-align: center;
   align-items: center;
+`;
+
+const StyledModalBody = styled(ModalBody)`
+  padding-top: 0;
 `;
 
 const StyledCancelButton = styled(ButtonV2)`
@@ -186,20 +190,14 @@ const ChangeNodeNameModal = ({ onClose, node }: ModalProps) => {
   }
 
   return (
-    <Modal
-      label={t('taxonomy.changeName.title')}
-      narrow
-      controllable
-      isOpen
-      backgroundColor="white"
-      onClose={() => onClose()}
-    >
+    <Modal label={t('taxonomy.changeName.title')} controlled isOpen onClose={() => onClose()}>
       {(onCloseModal: () => void) => (
         <>
           <ModalHeader>
+            <ModalTitle>{t('taxonomy.changeName.title')}</ModalTitle>
             <ModalCloseButton title={t('dialog.close')} onClick={onCloseModal} />
           </ModalHeader>
-          <ModalBody>
+          <StyledModalBody>
             <Formik
               initialValues={initialValues}
               onSubmit={(_, __) => {}}
@@ -234,7 +232,6 @@ const ChangeNodeNameModal = ({ onClose, node }: ModalProps) => {
                 }
                 return (
                   <StyledForm>
-                    <h1>{t('taxonomy.changeName.title')}</h1>
                     <p>{`${t('taxonomy.changeName.defaultName')}: ${name}`}</p>
                     {values.translations.length === 0 && (
                       <>{t('taxonomy.changeName.noTranslations')}</>
@@ -293,7 +290,7 @@ const ChangeNodeNameModal = ({ onClose, node }: ModalProps) => {
                 );
               }}
             </Formik>
-          </ModalBody>
+          </StyledModalBody>
         </>
       )}
     </Modal>

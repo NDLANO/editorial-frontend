@@ -7,7 +7,7 @@
  */
 
 import { IconButtonV2 } from '@ndla/button';
-import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
+import { ModalBody, ModalCloseButton, ModalTitle, ModalHeader, Modal } from '@ndla/modal';
 import Tooltip from '@ndla/tooltip';
 
 import { useTranslation } from 'react-i18next';
@@ -18,8 +18,6 @@ const AudioFileInfoModal = () => {
 
   return (
     <Modal
-      label={t('form.audio.modal.header')}
-      backgroundColor="white"
       wrapperFunctionForButton={(btn) => (
         <Tooltip tooltip={t('form.audio.modal.label')}>{btn}</Tooltip>
       )}
@@ -36,10 +34,10 @@ const AudioFileInfoModal = () => {
       {(onClose: () => void) => (
         <>
           <ModalHeader>
+            <ModalTitle>{t('form.audio.modal.header')}</ModalTitle>
             <ModalCloseButton title={t('dialog.close')} onClick={onClose} />
           </ModalHeader>
           <ModalBody>
-            <h1>{t('form.audio.modal.header')}</h1>
             <ul>
               <li>{t('form.audio.info.multipleFiles')}</li>
               <li>{t('form.audio.info.changeFile')}</li>

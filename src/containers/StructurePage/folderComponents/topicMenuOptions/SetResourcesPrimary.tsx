@@ -9,11 +9,11 @@
 import { Pencil } from '@ndla/icons/action';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Node } from '@ndla/types-taxonomy';
 import AlertModal from '../../../../components/AlertModal';
 import Overlay from '../../../../components/Overlay';
 import RoundIcon from '../../../../components/RoundIcon';
 import Spinner from '../../../../components/Spinner';
-import { NodeType } from '../../../../modules/nodes/nodeApiTypes';
 import { EditModeHandler } from '../SettingsMenuDropdownType';
 import { StyledErrorMessage } from '../styles';
 import MenuItemButton from '../sharedMenuOptions/components/MenuItemButton';
@@ -21,7 +21,7 @@ import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionPro
 import { usePutResourcesPrimaryMutation } from '../../../../modules/nodes/nodeMutations';
 
 interface Props {
-  node: NodeType;
+  node: Node;
   recursive?: boolean;
   editModeHandler: EditModeHandler;
 }

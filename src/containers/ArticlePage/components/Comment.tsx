@@ -14,7 +14,7 @@ import Tooltip from '@ndla/tooltip';
 import { TextAreaV2 } from '@ndla/forms';
 import { ChangeEvent, useMemo, useState } from 'react';
 import { css } from '@emotion/react';
-import { IComment } from '@ndla/types-backend/build/draft-api';
+import { IComment } from '@ndla/types-backend/draft-api';
 import AlertModal from '../../../components/AlertModal';
 
 export const COMMENT_COLOR = colors.support.yellowLight;

@@ -8,9 +8,18 @@
 
 import { useTranslation } from 'react-i18next';
 import { useMutation, UseMutationOptions, useQueryClient } from '@tanstack/react-query';
+import {
+  Node,
+  NodeConnectionPOST,
+  NodeConnectionPUT,
+  NodePostPut,
+  NodeResourcePOST,
+  NodeResourcePUT,
+  TranslationPUT,
+  Metadata,
+} from '@ndla/types-taxonomy';
 import { WithTaxonomyVersion } from '../../interfaces';
 import handleError from '../../util/handleError';
-import { TaxonomyMetadata } from '../taxonomy/taxonomyApiInterfaces';
 import {
   deleteNode,
   deleteNodeConnection,
@@ -29,19 +38,10 @@ import {
   putResourcesPrimary,
   PutResourcesPrimaryParams,
 } from './nodeApi';
-import {
-  NodeConnectionPostType,
-  NodeConnectionPutType,
-  NodePostPatchType,
-  NodeResourcePostType,
-  NodeResourcePutType,
-  NodeTranslationPutType,
-  NodeType,
-} from './nodeApiTypes';
 import { childNodesWithArticleTypeQueryKey, nodesQueryKey } from './nodeQueries';
 
 interface UseAddNodeMutation extends WithTaxonomyVersion {
-  body: NodePostPatchType;
+  body: NodePostPut;
 }
 
 export const useAddNodeMutation = () => {
@@ -52,11 +52,12 @@ export const useAddNodeMutation = () => {
       onMutate: async ({ body: newNode, taxonomyVersion }) => {
         const key = nodesQueryKey({ taxonomyVersion, isRoot: true });
         await queryClient.cancelQueries(key);
-        const previousNodes = queryClient.getQueryData<NodeType[]>(key) ?? [];
-        const optimisticNode: NodeType = {
+        const previousNodes = queryClient.getQueryData<Node[]>(key) ?? [];
+        const optimisticNode: Node = {
           ...newNode,
+          name: newNode.name ?? '',
           contentUri: newNode.contentUri ?? '',
-          id: newNode.id ?? '',
+          id: newNode.nodeId ?? '',
           path: '',
           paths: [],
           translations: [],
@@ -64,8 +65,9 @@ export const useAddNodeMutation = () => {
           resourceTypes: [],
           contexts: [],
           metadata: { visible: true, grepCodes: [], customFields: {} },
+          breadcrumbs: [],
         };
-        queryClient.setQueryData<NodeType[]>(key, [...previousNodes, optimisticNode]);
+        queryClient.setQueryData<Node[]>(key, [...previousNodes, optimisticNode]);
         return previousNodes;
       },
       onError: (e) => handleError(e),
@@ -77,14 +79,14 @@ export const useAddNodeMutation = () => {
 
 interface UseUpdateNodeMetadataMutation extends WithTaxonomyVersion {
   id: string;
-  metadata: Partial<TaxonomyMetadata>;
+  metadata: Partial<Metadata>;
   rootId?: string;
 }
 
 export const useUpdateNodeMetadataMutation = () => {
   const qc = useQueryClient();
   const { i18n } = useTranslation();
-  return useMutation<TaxonomyMetadata, unknown, UseUpdateNodeMetadataMutation>(
+  return useMutation<Metadata, unknown, UseUpdateNodeMetadataMutation>(
     ({ id, metadata, taxonomyVersion }) =>
       putNodeMetadata({ id: id, meta: metadata, taxonomyVersion }),
     {
@@ -97,13 +99,13 @@ export const useUpdateNodeMetadataMutation = () => {
             })
           : nodesQueryKey({ isRoot: true, taxonomyVersion });
         await qc.cancelQueries(key);
-        const prevNodes = qc.getQueryData<NodeType[]>(key) ?? [];
+        const prevNodes = qc.getQueryData<Node[]>(key) ?? [];
         const newNodes = prevNodes.map((node) => {
           if (node.id === id) {
             return { ...node, metadata: { ...node.metadata, ...metadata } };
           } else return node;
         });
-        qc.setQueryData<NodeType[]>(key, newNodes);
+        qc.setQueryData<Node[]>(key, newNodes);
       },
       onSettled: (_, __, { rootId, taxonomyVersion }) => {
         const key = rootId
@@ -139,9 +141,9 @@ export const useDeleteNodeMutation = () => {
             })
           : nodesQueryKey({ taxonomyVersion, isRoot: true });
         await qc.cancelQueries(key);
-        const prevNodes = qc.getQueryData<NodeType[]>(key) ?? [];
+        const prevNodes = qc.getQueryData<Node[]>(key) ?? [];
         const withoutDeleted = prevNodes.filter((s) => s.id !== id);
-        qc.setQueryData<NodeType[]>(key, withoutDeleted);
+        qc.setQueryData<Node[]>(key, withoutDeleted);
       },
       onSettled: (_, __, { rootId, taxonomyVersion }) => {
         const key = rootId
@@ -171,7 +173,7 @@ export const useDeleteNodeTranslationMutation = () => {
 interface UseUpdateNodeTranslationMutation extends WithTaxonomyVersion {
   id: string;
   language: string;
-  body: NodeTranslationPutType;
+  body: TranslationPUT;
 }
 
 export const useUpdateNodeTranslationMutation = () => {
@@ -196,7 +198,7 @@ export const useDeleteNodeConnectionMutation = (
 
 interface UseUpdateNodeConnectionMutation extends WithTaxonomyVersion {
   id: string;
-  body: NodeConnectionPutType;
+  body: NodeConnectionPUT;
 }
 
 export const useUpdateNodeConnectionMutation = (
@@ -209,7 +211,7 @@ export const useUpdateNodeConnectionMutation = (
 };
 
 interface UsePostNodeConnectionMutation extends WithTaxonomyVersion {
-  body: NodeConnectionPostType;
+  body: NodeConnectionPOST;
 }
 export const usePostNodeConnectionMutation = (
   options?: UseMutationOptions<string, unknown, UsePostNodeConnectionMutation>,
@@ -221,7 +223,7 @@ export const usePostNodeConnectionMutation = (
 };
 
 interface UsePostResourceForNodeMutation extends WithTaxonomyVersion {
-  body: NodeResourcePostType;
+  body: NodeResourcePOST;
 }
 
 export const usePostResourceForNodeMutation = (
@@ -248,7 +250,7 @@ export const useDeleteResourceForNodeMutation = (
 
 interface UsePutResourceForNodeMutation extends WithTaxonomyVersion {
   id: string;
-  body: NodeResourcePutType;
+  body: NodeResourcePUT;
 }
 
 export const usePutResourceForNodeMutation = (

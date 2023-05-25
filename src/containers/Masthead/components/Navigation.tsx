@@ -12,23 +12,18 @@ import { colors, spacing, fonts } from '@ndla/core';
 import { Logo } from '@ndla/ui';
 import FocusTrapReact from 'focus-trap-react';
 import styled from '@emotion/styled';
-import MastheadButton from './MastheadButton';
+import { IconButtonV2 } from '@ndla/button';
+import { Menu } from '@ndla/icons/common';
 import MastheadSearch from '../MastheadSearch';
 import SessionContainer from './SessionContainer';
 import NavigationMenu from './NavigationMenu';
 import Overlay from '../../../components/Overlay';
 import config from '../../../config';
 import { NAVIGATION_HEADER_MARGIN } from '../../../constants';
+import { Column, GridContainer } from '../../../components/Layout/Layout';
 
 const StyledLogoDiv = styled.div`
   transform: translateY(3px);
-`;
-
-const StyledSplitter = styled.div`
-  height: ${spacing.medium};
-  width: 1px;
-  background: ${colors.brand.greyLighter};
-  margin: 0 ${spacing.normal};
 `;
 
 interface StyledNavigationWrapperProps {
@@ -38,21 +33,18 @@ interface StyledNavigationWrapperProps {
 
 const StyledNavigationWrapper = styled.div<StyledNavigationWrapperProps>`
   position: absolute;
-
-  z-index: ${(props) => props.open && '3'};
+  z-index: ${(props) => props.open && '4'};
   top: 0;
   left: 0;
   right: 0;
-  padding: ${spacing.xsmall};
   background: ${(props) => props.backgroundColor};
 `;
 
 const StyledHeaderItems = styled.div`
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  max-width: 972px;
-  flex: 4;
+  gap: ${spacing.medium};
+  padding: ${spacing.small} 0;
+  border-bottom: 1px solid ${colors.brand.neutral7};
   > div {
     display: flex;
     align-items: center;
@@ -65,16 +57,29 @@ const StyledWrapper = styled.div`
 const StyledEnvironmentText = styled.p`
   font-weight: ${fonts.weight.semibold};
   color: ${colors.brand.primary};
-  margin: 0px 0px 0px ${spacing.small};
+  margin: 0px;
 `;
 
 const FlexWrapper = styled.div`
   display: flex;
+  justify-content: center;
+  flex: 1;
 `;
 
-const OuterContent = styled(FlexWrapper)`
+const LeftContent = styled.div`
+  display: flex;
+  gap: ${spacing.normal};
   flex: 1;
+`;
+
+const EnvText = styled(FlexWrapper)`
   align-items: center;
+  justify-content: flex-start;
+  padding-left: ${spacing.small};
+`;
+
+const HiddenEnvText = styled(EnvText)`
+  visibility: hidden;
 `;
 
 interface EnvironmentSettings {
@@ -117,24 +122,33 @@ const Navigation = () => {
       >
         <StyledNavigationWrapper open={open} backgroundColor={envSettings?.color}>
           <FlexWrapper>
-            <OuterContent>
+            <EnvText>
               <StyledEnvironmentText>{envSettings.name}</StyledEnvironmentText>
-            </OuterContent>
-            <StyledHeaderItems>
-              <div>
-                <MastheadButton onClick={toggleOpen} open={open} />
-                <StyledSplitter />
-                <MastheadSearch close={closeMenu} />
-              </div>
-              <div>
-                <SessionContainer close={closeMenu} />
-                <StyledSplitter />
-                <StyledLogoDiv>
-                  <Logo to="/" label={t('logo.altText')} />
-                </StyledLogoDiv>
-              </div>
-            </StyledHeaderItems>
-            <OuterContent />
+            </EnvText>
+            <GridContainer>
+              <Column colStart={1} colEnd={13}>
+                <StyledHeaderItems>
+                  <LeftContent>
+                    <IconButtonV2
+                      aria-label={t('menu.title')}
+                      aria-expanded={open}
+                      colorTheme="light"
+                      onClick={toggleOpen}
+                    >
+                      <Menu />
+                    </IconButtonV2>
+                    <StyledLogoDiv>
+                      <Logo to="/" label={t('logo.altText')} />
+                    </StyledLogoDiv>
+                    <MastheadSearch close={closeMenu} />
+                  </LeftContent>
+                  <SessionContainer close={closeMenu} />
+                </StyledHeaderItems>
+              </Column>
+            </GridContainer>
+            <HiddenEnvText aria-hidden>
+              <StyledEnvironmentText>{envSettings.name}</StyledEnvironmentText>
+            </HiddenEnvText>
           </FlexWrapper>
           {open && <NavigationMenu close={closeMenu} />}
         </StyledNavigationWrapper>

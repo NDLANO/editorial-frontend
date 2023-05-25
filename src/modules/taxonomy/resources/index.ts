@@ -6,22 +6,13 @@
  *
  */
 
+import { ResourceResourceType, Metadata } from '@ndla/types-taxonomy';
 import { apiResourceUrl, httpFunctions } from '../../../util/apiHelpers';
 import { taxonomyApi } from '../../../config';
-import {
-  Resource,
-  ResourceResourceType,
-  ResourceTranslation,
-  ResourceWithParentTopics,
-  TaxonomyMetadata,
-  Topic,
-} from '../taxonomyApiInterfaces';
-import {
-  resolveLocation,
-  resolveVoidOrRejectWithError,
-} from '../../../util/resolveJsonOrRejectWithError';
+import { Resource, ResourceWithParentTopics, Topic } from '../taxonomyApiInterfaces';
+import { resolveLocation } from '../../../util/resolveJsonOrRejectWithError';
 import { WithTaxonomyVersion } from '../../../interfaces';
-import { ResourcePostBody, ResourceTranslationPostBody } from './resourceApiInterfaces';
+import { ResourcePostBody } from './resourceApiInterfaces';
 
 const baseUrl = apiResourceUrl(taxonomyApi);
 const resourcesUrl = apiResourceUrl(`${taxonomyApi}/resources`);
@@ -93,14 +84,14 @@ export const fetchResourceResourceType = ({
 
 interface ResourceMetadataPutParams extends WithTaxonomyVersion {
   resourceId: string;
-  body: Partial<TaxonomyMetadata>;
+  body: Partial<Metadata>;
 }
 
 export const updateResourceMetadata = ({
   resourceId,
   body,
   taxonomyVersion,
-}: ResourceMetadataPutParams): Promise<TaxonomyMetadata> => {
+}: ResourceMetadataPutParams): Promise<Metadata> => {
   return putAndResolve({
     url: `${resourcesUrl}/${resourceId}/metadata`,
     body: JSON.stringify(body),
@@ -186,64 +177,6 @@ export const queryLearningPathResource = ({
     queryParams: {
       contentURI: `urn:learningpath:${learningpathId}`,
     },
-  });
-};
-
-interface QueryContentParams extends WithTaxonomyVersion {
-  contentId: number;
-  language: string;
-  contentType?: string;
-}
-
-export async function queryContent({
-  contentId,
-  language,
-  contentType,
-  taxonomyVersion,
-}: QueryContentParams) {
-  const resources = await queryResources({ contentId, language, contentType, taxonomyVersion });
-
-  if (resources[0]) {
-    return resources[0];
-  }
-
-  const topics = await queryTopics({ contentId, language, contentType, taxonomyVersion });
-
-  if (topics[0]) {
-    // Add resourceType so that content type is correct
-    return { ...topics[0], resourceTypes: [{ id: 'subject' }] };
-  }
-  return undefined;
-}
-
-interface ResourceTranslationsGetParams extends WithTaxonomyVersion {
-  id: string;
-}
-
-export const fetchResourceTranslations = ({
-  id,
-  taxonomyVersion,
-}: ResourceTranslationsGetParams): Promise<ResourceTranslation[]> => {
-  return fetchAndResolve({ url: `${resourcesUrl}/${id}/translations`, taxonomyVersion });
-};
-
-interface ResourceTranslationPutParams extends WithTaxonomyVersion {
-  id: string;
-  language: string;
-  body: ResourceTranslationPostBody;
-}
-
-export const setResourceTranslation = ({
-  id,
-  language,
-  body,
-  taxonomyVersion,
-}: ResourceTranslationPutParams): Promise<void> => {
-  return putAndResolve({
-    url: `${resourcesUrl}/${id}/translations/${language}`,
-    taxonomyVersion,
-    body: JSON.stringify(body),
-    alternateResolve: resolveVoidOrRejectWithError,
   });
 };
 

@@ -10,7 +10,7 @@ import { spacing, fonts, mq, breakpoints } from '@ndla/core';
 import { ButtonV2 } from '@ndla/button';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
-import { NodeType } from '../../../modules/nodes/nodeApiTypes';
+import { Node } from '@ndla/types-taxonomy';
 import { Row } from '../../../components';
 import Spinner from '../../../components/Spinner';
 import SettingsMenu from './SettingsMenu';
@@ -34,13 +34,13 @@ const StyledFolderWrapper = styled.div`
 `;
 
 interface Props {
-  node: NodeType;
+  node: Node;
   jumpToResources?: () => void;
   isMainActive?: boolean;
   resourcesLoading?: boolean;
   rootNodeId: string;
-  onCurrentNodeChanged: (node: NodeType) => void;
-  nodeChildren: NodeType[];
+  onCurrentNodeChanged: (node?: Node) => void;
+  nodeChildren: Node[];
 }
 
 const FolderItem = ({

@@ -14,12 +14,14 @@ import handleError from '../../util/handleError';
 import { fetchH5PiframeUrl, editH5PiframeUrl, fetchH5PInfo } from './h5pApi';
 
 const FlexWrapper = styled.div`
+  display: flex;
+  flex: 1;
   width: 100%;
-  height: 100%;
 `;
 
 const StyledIFrame = styled.iframe`
-  height: 100%;
+  flex: 1;
+  overflow: hidden;
 `;
 
 interface OnSelectObject {

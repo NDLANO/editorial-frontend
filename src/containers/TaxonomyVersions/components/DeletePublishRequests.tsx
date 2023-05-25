@@ -14,13 +14,13 @@ import { ButtonV2, CloseButton } from '@ndla/button';
 import { spacing } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
 import { ModalBody, ModalHeaderV2, ModalV2 } from '@ndla/modal';
+import { Node } from '@ndla/types-taxonomy';
 import { TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH } from '../../../constants';
-import { NodeType } from '../../../modules/nodes/nodeApiTypes';
 import { useUpdateNodeMetadataMutation } from '../../../modules/nodes/nodeMutations';
 import { nodesQueryKey } from '../../../modules/nodes/nodeQueries';
 
 interface Props {
-  nodes: NodeType[];
+  nodes: Node[];
 }
 
 const queryKey = nodesQueryKey({
@@ -42,7 +42,7 @@ const DeletePublishRequests = ({ nodes }: Props) => {
   const qc = useQueryClient();
 
   const onDelete = useCallback(
-    async (nodes: NodeType[]) => {
+    async (nodes: Node[]) => {
       const promises = nodes.map(async ({ id, metadata }) => {
         const newMeta = { ...metadata, customFields: { ...metadata.customFields } };
         delete newMeta.customFields[TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH];

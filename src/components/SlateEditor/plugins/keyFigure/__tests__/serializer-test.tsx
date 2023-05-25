@@ -16,7 +16,7 @@ import { TYPE_SECTION } from '../../section/types';
 import { TYPE_KEY_FIGURE } from '../types';
 
 const html =
-  '<section><ndlaembed data-resource="key-figure" data-image-id="65790" data-title="Her erre en test folkens" data-subtitle="Her erre en test folkens" data-language="nb"></ndlaembed></section>';
+  '<section><ndlaembed data-resource="key-figure" data-image-id="65790" data-title="Her erre en test folkens" data-subtitle="Her erre en test folkens"></ndlaembed></section>';
 
 const editor: Descendant[] = [
   {
@@ -30,7 +30,6 @@ const editor: Descendant[] = [
           imageId: '65790',
           title: 'Her erre en test folkens',
           subtitle: 'Her erre en test folkens',
-          language: 'nb',
         },
         children: [],
       },

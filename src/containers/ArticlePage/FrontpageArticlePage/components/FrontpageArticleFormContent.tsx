@@ -110,14 +110,9 @@ const visualElements = [
   TYPE_EMBED_IMAGE,
 ];
 
-const actions = [
-  TYPE_TABLE,
-  TYPE_CODEBLOCK,
-  TYPE_FILE,
-  TYPE_BLOGPOST,
-  TYPE_GRID,
-  TYPE_PARAGRAPH,
-].concat(visualElements);
+const actions = [TYPE_TABLE, TYPE_CODEBLOCK, TYPE_FILE, TYPE_BLOGPOST, TYPE_GRID].concat(
+  visualElements,
+);
 const actionsToShowInAreas = {
   details: actions,
   aside: actions,

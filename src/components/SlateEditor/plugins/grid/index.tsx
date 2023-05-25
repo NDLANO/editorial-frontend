@@ -9,6 +9,7 @@
 import { Descendant, Editor, Element } from 'slate';
 import { colors, spacing } from '@ndla/core';
 import { RenderElementProps } from 'slate-react';
+import { GridType } from '@ndla/ui';
 import styled from '@emotion/styled';
 import { jsx as slatejsx } from 'slate-hyperscript';
 import { reduceElementDataAttributesV2 } from '../../../../util/embedTagHelpers';
@@ -21,7 +22,6 @@ import { TYPE_GRID, TYPE_GRID_CELL } from './types';
 import { defaultGridCellBlock } from './utils';
 import { TYPE_EMBED_IMAGE } from '../embed/types';
 import { TYPE_BLOGPOST } from '../blogPost/types';
-import { GridType } from '@ndla/ui';
 
 export interface GridElement {
   type: 'grid';
@@ -100,11 +100,7 @@ export const gridSerializer: SlateSerializer = {
 };
 
 export const gridPlugin = (editor: Editor) => {
-  const {
-    renderElement: nextRenderElement,
-    normalizeNode: nextNormalizeNode,
-    isVoid: nextIsVoid,
-  } = editor;
+  const { renderElement: nextRenderElement, normalizeNode: nextNormalizeNode } = editor;
 
   editor.renderElement = ({ attributes, children, element }: RenderElementProps) => {
     if (element.type === TYPE_GRID) {
@@ -133,8 +129,6 @@ export const gridPlugin = (editor: Editor) => {
 
     nextNormalizeNode(entry);
   };
-
-  editor.isVoid = (element: Element) => (element.type === TYPE_GRID ? true : nextIsVoid(element));
 
   return editor;
 };

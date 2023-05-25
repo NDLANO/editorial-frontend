@@ -143,7 +143,6 @@ export const plugins = (
     footnotePlugin,
     embedPlugin(articleLanguage, locale),
     bodyboxPlugin,
-    gridPlugin,
     asidePlugin,
     detailsPlugin,
     blockQuotePlugin,
@@ -168,6 +167,7 @@ export const plugins = (
     saveHotkeyPlugin(() => handleSubmitRef.current && handleSubmitRef.current()),
     markPlugin,
     listPlugin,
+    gridPlugin,
     blogPostPlugin,
   ];
 };

@@ -73,6 +73,8 @@ export const SlateGrid = ({ element, editor, children }: Props) => {
   const GridWrapper = styled.div`
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
   `;
 
   const ButtonContainer = styled.div`

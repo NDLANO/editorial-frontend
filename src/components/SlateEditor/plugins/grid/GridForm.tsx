@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2020-present, NDLA.
+ * Copyright (c) 2023-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
@@ -8,7 +8,7 @@
 import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
 import { spacing } from '@ndla/core';
-import { RadioButtonGroup } from '@ndla/ui';
+import { RadioButtonGroup, GridType } from '@ndla/ui';
 import { Formik, FieldProps } from 'formik';
 import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -16,12 +16,6 @@ import FormikField from '../../../FormikField';
 import validateFormik, { RulesType } from '../../../formikValidationSchema';
 
 interface GridFormValues {
-  resource: 'grid';
-  columns: '2' | '4';
-}
-
-export interface GridEmbedData {
-  resource: 'grid';
   columns: '2' | '4';
 }
 
@@ -31,9 +25,8 @@ const rules: RulesType<GridFormValues> = {
   },
 };
 
-const toInitialValues = (initialData?: GridEmbedData): GridFormValues => {
+const toInitialValues = (initialData?: GridType): GridFormValues => {
   return {
-    resource: 'grid',
     columns: initialData?.columns ?? '2',
   };
 };
@@ -45,7 +38,7 @@ const ButtonContainer = styled.div`
 `;
 
 interface Props {
-  initialData?: GridEmbedData;
+  initialData?: GridType;
   onSave: (data: GridFormValues) => void;
   onCancel: () => void;
 }
@@ -63,8 +56,7 @@ const GridForm = ({ initialData, onSave, onCancel }: Props) => {
 
   const onSubmit = useCallback(
     (values: GridFormValues) => {
-      const newData: GridEmbedData = {
-        resource: 'grid',
+      const newData: GridType = {
         columns: values.columns ?? '2',
       };
       onSave(newData);

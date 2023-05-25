@@ -15,29 +15,7 @@ import { TYPE_PARAGRAPH } from '../../paragraph/types';
 import { TYPE_SECTION } from '../../section/types';
 import { TYPE_GRID, TYPE_GRID_CELL } from '../types';
 
-const editorSerialize: Descendant[] = [
-  {
-    type: TYPE_SECTION,
-    children: [
-      { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
-      {
-        type: TYPE_GRID,
-        data: {
-          columns: '2',
-        },
-        children: [
-          { type: TYPE_GRID_CELL, children: [{ type: TYPE_PARAGRAPH, children: [{ text: 'a' }] }] },
-          { type: TYPE_GRID_CELL, children: [{ type: TYPE_PARAGRAPH, children: [{ text: 'a' }] }] },
-          { type: TYPE_GRID_CELL, children: [{ type: TYPE_PARAGRAPH, children: [{ text: '' }] }] },
-          { type: TYPE_GRID_CELL, children: [{ type: TYPE_PARAGRAPH, children: [{ text: '' }] }] },
-        ],
-      },
-      { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
-    ],
-  },
-];
-
-const editorDeserialize: Descendant[] = [
+const editor: Descendant[] = [
   {
     type: TYPE_SECTION,
     children: [
@@ -63,12 +41,12 @@ const html = '<section><div data-type="grid" data-columns="2"><p>a</p><p>a</p></
 
 describe('file serializing tests', () => {
   test('serializing', () => {
-    const res = blockContentToHTML(editorSerialize);
+    const res = blockContentToHTML(editor);
     expect(res).toMatch(html);
   });
 
   test('deserializing', () => {
     const res = blockContentToEditorValue(html);
-    expect(res).toMatchObject(editorDeserialize);
+    expect(res).toMatchObject(editor);
   });
 });

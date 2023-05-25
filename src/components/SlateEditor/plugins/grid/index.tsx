@@ -1,12 +1,12 @@
 /**
- * Copyright (c) 2020-present, NDLA.
+ * Copyright (c) 2023-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
  *
  */
 
-import { Descendant, Editor, Element, Transforms } from 'slate';
+import { Descendant, Editor, Element } from 'slate';
 import { colors, spacing } from '@ndla/core';
 import { RenderElementProps } from 'slate-react';
 import styled from '@emotion/styled';
@@ -21,12 +21,11 @@ import { TYPE_GRID, TYPE_GRID_CELL } from './types';
 import { defaultGridCellBlock } from './utils';
 import { TYPE_EMBED_IMAGE } from '../embed/types';
 import { TYPE_BLOGPOST } from '../blogPost/types';
+import { GridType } from '@ndla/ui';
 
 export interface GridElement {
   type: 'grid';
-  data: {
-    columns?: '2' | '4';
-  };
+  data: GridType;
   children: Descendant[];
 }
 
@@ -101,7 +100,12 @@ export const gridSerializer: SlateSerializer = {
 };
 
 export const gridPlugin = (editor: Editor) => {
-  const { renderElement: nextRenderElement, normalizeNode: nextNormalizeNode } = editor;
+  const {
+    renderElement: nextRenderElement,
+    normalizeNode: nextNormalizeNode,
+    isVoid: nextIsVoid,
+  } = editor;
+
   editor.renderElement = ({ attributes, children, element }: RenderElementProps) => {
     if (element.type === TYPE_GRID) {
       return (
@@ -129,6 +133,8 @@ export const gridPlugin = (editor: Editor) => {
 
     nextNormalizeNode(entry);
   };
+
+  editor.isVoid = (element: Element) => (element.type === TYPE_GRID ? true : nextIsVoid(element));
 
   return editor;
 };

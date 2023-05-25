@@ -523,6 +523,9 @@ const phrases = {
         'Bruk av ulovlige tegn i permalenken! Tillatte tegn er alle tall og bokstaver, og bindestrek',
     },
   },
+  gridForm: {
+    title: 'Grid',
+  },
   blogPostForm: {
     title: 'Rediger bloggpost',
     languageExplanation: 'Vel språk for skjermlesar',
@@ -596,6 +599,7 @@ const phrases = {
       conceptList: 'Forklaringsliste',
       concept: 'Forklaring',
       blogPost: 'Bloggpost',
+      grid: 'Grid',
     },
   },
   form: {
@@ -678,6 +682,7 @@ const phrases = {
       language: 'Språk',
       link: 'Lenke',
       size: 'Storleik',
+      columns: 'Kolonnar',
     },
     previewProductionArticle: {
       button: 'Samanlikn gjeldande versjon med gamal versjon',

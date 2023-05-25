@@ -522,6 +522,9 @@ const phrases = {
         'Use of illegal characters in permalink! Legal characters are numbers and letters, plus dashes.',
     },
   },
+  gridForm: {
+    title: 'Grid',
+  },
   blogPostForm: {
     title: 'Edit blog post',
     languageExplanation: 'Choose language for screen readers',
@@ -595,6 +598,7 @@ const phrases = {
       conceptList: 'Concept list',
       concept: 'Concept',
       blogPost: 'Blog post',
+      grid: 'Grid',
     },
   },
   form: {
@@ -677,6 +681,7 @@ const phrases = {
       language: 'Language',
       link: 'Link',
       size: 'Size',
+      columns: 'Columns',
     },
     previewProductionArticle: {
       button: 'Compare current version with old version',

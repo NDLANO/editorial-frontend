@@ -59,7 +59,7 @@ const HeaderWrapper = styled.div`
   }
 `;
 
-const StyledAccordianContent = styled(AccordionContent)`
+const StyledAccordionContent = styled(AccordionContent)`
   &[data-wide='true'] {
     display: flex;
     flex-flow: column;
@@ -86,9 +86,9 @@ const FormAccordion = ({
       <StyledHeader data-error={hasError}>
         <HeaderWrapper data-error={hasError}>{title}</HeaderWrapper>
       </StyledHeader>
-      <StyledAccordianContent data-wide={isFrontpageArticle} id={id} className={className}>
+      <StyledAccordionContent data-wide={isFrontpageArticle} id={id} className={className}>
         {children}
-      </StyledAccordianContent>
+      </StyledAccordionContent>
     </StyledItem>
   );
 };

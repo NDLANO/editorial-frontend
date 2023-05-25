@@ -58,11 +58,11 @@ const StyledSelect = styled.select`
 const toInitialValues = (initialData?: BlogPostEmbedData): BlogPostFormValues => {
   return {
     resource: 'blog-post',
-    title: initialData?.title ?? 'Snesene liten guttkvelp',
+    title: initialData?.title ?? '',
     metaImageId: initialData?.imageId ? parseInt(initialData.imageId) : undefined,
     size: initialData?.size ?? 'normal',
     language: initialData?.language ?? 'nb',
-    link: initialData?.url ?? 'https://vg.no',
+    link: initialData?.url ?? '',
     author: initialData?.author ?? '',
   };
 };

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2020-present, NDLA.
+ * Copyright (c) 2023-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
@@ -11,14 +11,14 @@ import { IconButtonV2 } from '@ndla/button';
 import { spacing } from '@ndla/core';
 import { Pencil } from '@ndla/icons/lib/action';
 import { ModalBody, ModalCloseButton, ModalHeaderV2, ModalV2 } from '@ndla/modal';
-import { Grid } from '@ndla/ui';
+import { Grid, GridType } from '@ndla/ui';
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Editor, Path, Transforms } from 'slate';
 import { ReactEditor, RenderElementProps } from 'slate-react';
 import { GridElement } from '.';
 import DeleteButton from '../../../DeleteButton';
-import GridForm, { GridEmbedData } from './GridForm';
+import GridForm from './GridForm';
 
 interface Props extends RenderElementProps {
   element: GridElement;
@@ -44,7 +44,7 @@ export const SlateGrid = ({ element, editor, children }: Props) => {
   };
 
   const onSave = useCallback(
-    (data: GridEmbedData) => {
+    (data: GridType) => {
       setIsEditing(false);
       const properties = {
         data: data,
@@ -113,7 +113,7 @@ export const SlateGrid = ({ element, editor, children }: Props) => {
               <StyledModalBody>
                 <GridForm
                   onCancel={close}
-                  initialData={{ resource: 'grid', columns: columns ?? '2' }}
+                  initialData={{ columns: columns ?? '2' }}
                   onSave={onSave}
                 />
               </StyledModalBody>

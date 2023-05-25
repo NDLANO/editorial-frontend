@@ -16,7 +16,6 @@ import styled from '@emotion/styled';
 import { isValidLocale } from '../../../i18n';
 import { toEditArticle, to404 } from '../../../util/routeHelpers';
 import { isNDLAFrontendUrl } from '../../../util/htmlHelpers';
-import { fetchTopic } from '../../../modules/taxonomy';
 import { fetchNewArticleId } from '../../../modules/draft/draftApi';
 import { resolveUrls } from '../../../modules/taxonomy/taxonomyApi';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
@@ -139,12 +138,12 @@ export const MastheadSearchForm = forwardRef<HTMLInputElement, Props>(
 
     const handleTopicUrl = async (urlId: string) => {
       try {
-        const topicArticle = await fetchTopic({
+        const topicArticle = await fetchNode({
           id: urlId,
           language: i18n.language,
           taxonomyVersion,
         });
-        const arr = topicArticle.contentUri.split(':');
+        const arr = topicArticle.contentUri?.split(':') ?? [];
         const id = arr[arr.length - 1];
         navigate(toEditArticle(parseInt(id), 'topic-article'));
       } catch {

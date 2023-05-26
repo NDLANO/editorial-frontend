@@ -33,7 +33,7 @@ interface StyledNavigationWrapperProps {
 
 const StyledNavigationWrapper = styled.div<StyledNavigationWrapperProps>`
   position: absolute;
-  z-index: ${(props) => props.open && '3'};
+  z-index: ${(props) => props.open && '4'};
   top: 0;
   left: 0;
   right: 0;

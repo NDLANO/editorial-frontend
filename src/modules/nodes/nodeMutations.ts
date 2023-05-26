@@ -16,10 +16,10 @@ import {
   NodeResourcePOST,
   NodeResourcePUT,
   TranslationPUT,
+  Metadata,
 } from '@ndla/types-taxonomy';
 import { WithTaxonomyVersion } from '../../interfaces';
 import handleError from '../../util/handleError';
-import { TaxonomyMetadata } from '../taxonomy/taxonomyApiInterfaces';
 import {
   deleteNode,
   deleteNodeConnection,
@@ -79,14 +79,14 @@ export const useAddNodeMutation = () => {
 
 interface UseUpdateNodeMetadataMutation extends WithTaxonomyVersion {
   id: string;
-  metadata: Partial<TaxonomyMetadata>;
+  metadata: Partial<Metadata>;
   rootId?: string;
 }
 
 export const useUpdateNodeMetadataMutation = () => {
   const qc = useQueryClient();
   const { i18n } = useTranslation();
-  return useMutation<TaxonomyMetadata, unknown, UseUpdateNodeMetadataMutation>(
+  return useMutation<Metadata, unknown, UseUpdateNodeMetadataMutation>(
     ({ id, metadata, taxonomyVersion }) =>
       putNodeMetadata({ id: id, meta: metadata, taxonomyVersion }),
     {

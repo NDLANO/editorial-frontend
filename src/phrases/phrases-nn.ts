@@ -682,7 +682,7 @@ const phrases = {
       language: 'Språk',
       link: 'Lenke',
       size: 'Storleik',
-      columns: 'Kolonnar',
+      columns: 'Kolonner',
     },
     previewProductionArticle: {
       button: 'Samanlikn gjeldande versjon med gamal versjon',

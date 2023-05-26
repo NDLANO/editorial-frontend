@@ -26,7 +26,7 @@ const appearances: Record<string, SerializedStyles> = {
   `,
   lighter: css`
     background: rgba(1, 1, 1, 0.3);
-    z-index: 2;
+    z-index: 3;
   `,
 };
 

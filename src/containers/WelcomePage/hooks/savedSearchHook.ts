@@ -6,11 +6,12 @@
  *
  */
 
+import { ResourceType } from '@ndla/types-taxonomy';
 import { Auth0UserData, SearchResultBase } from '../../../interfaces';
 import { useAuth0Users } from '../../../modules/auth0/auth0Queries';
 import { useResourceType } from '../../../modules/taxonomy/resourcetypes';
 import { useSubject } from '../../../modules/taxonomy/subjects';
-import { ResourceType, SubjectType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
+import { SubjectType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import { getSearchHookFromType } from '../../../util/searchHelpers';
 
 interface SearchUrlData {

@@ -76,7 +76,7 @@ const SearchContent = ({ content, locale }: Props) => {
   if ((contexts[0]?.resourceTypes?.length ?? 0) > 0) {
     resourceType = getContentTypeFromResourceTypes(contexts[0].resourceTypes);
   } else if (isLearningpath(content.url)) {
-    resourceType = getContentTypeFromResourceTypes([{ id: RESOURCE_TYPE_LEARNING_PATH, name: '' }]);
+    resourceType = getContentTypeFromResourceTypes([{ id: RESOURCE_TYPE_LEARNING_PATH }]);
   }
 
   const linkProps = resourceToLinkProps(content, resourceType?.contentType, locale);

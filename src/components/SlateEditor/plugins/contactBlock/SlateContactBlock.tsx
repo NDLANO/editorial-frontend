@@ -93,7 +93,7 @@ const SlateContactBlock = ({ element, editor, attributes }: Props) => {
 
   useEffect(() => {
     if (contactBlock?.imageId) {
-      fetchImage(contactBlock?.imageId).then((img) => setImage(img));
+      fetchImage(contactBlock.imageId).then((img) => setImage(img));
     }
   }, [contactBlock?.imageId, setImage]);
 
@@ -101,9 +101,9 @@ const SlateContactBlock = ({ element, editor, attributes }: Props) => {
     Transforms.removeNodes(editor, { at: ReactEditor.findPath(editor, element), voids: true });
 
   return (
-    <div {...attributes}>
+    <>
       {contactBlock && image && (
-        <ContactBlockWrapper contentEditable={false}>
+        <ContactBlockWrapper contentEditable={false} {...attributes}>
           <ButtonContainer>
             <IconButtonV2
               variant="ghost"
@@ -140,7 +140,7 @@ const SlateContactBlock = ({ element, editor, attributes }: Props) => {
           )}
         </ModalV2>
       )}
-    </div>
+    </>
   );
 };
 

@@ -17,7 +17,7 @@ import { afterOrBeforeTextBlockElement } from '../../utils/normalizationHelpers'
 import { TYPE_NDLA_EMBED } from '../embed/types';
 import { TYPE_PARAGRAPH } from '../paragraph/types';
 import { TYPE_KEY_FIGURE } from './types';
-import SlateKeyFigure from './SlateKeyFigures';
+import SlateKeyFigure from './SlateKeyFigure';
 
 export interface KeyFigureElement {
   type: 'key-figure';

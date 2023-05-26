@@ -123,7 +123,7 @@ const MetaImageSearch = ({
       </FieldHeader>
       <Modal
         controlled
-        labelledBy={buttonId}
+        aria-labelledby={buttonId}
         isOpen={showImageSelect}
         onClose={onImageSelectClose}
         size="large"

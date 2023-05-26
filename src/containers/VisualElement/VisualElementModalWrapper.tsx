@@ -43,7 +43,7 @@ const VisualElementModalWrapper = ({ resource, children, onClose, isOpen, label 
   return (
     <StyledVisualElementModal
       controlled
-      label={label}
+      aria-label={label}
       isOpen={isOpen}
       size="large"
       onClose={onClose}

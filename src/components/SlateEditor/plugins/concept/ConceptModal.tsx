@@ -113,7 +113,7 @@ const ConceptModal = ({
   return (
     <Portal isOpened>
       <Modal
-        label={t('conceptform.title')}
+        aria-label={t('conceptform.title')}
         controlled
         isOpen={isOpen}
         onClose={onClose}

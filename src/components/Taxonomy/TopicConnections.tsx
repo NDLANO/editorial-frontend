@@ -129,7 +129,7 @@ const TopicConnections = ({
         type="topicarticle"
       />
       <Modal
-        label={t('taxonomy.topics.filestructureHeading')}
+        aria-label={t('taxonomy.topics.filestructureHeading')}
         animation="subtle"
         size={{ width: 'large', height: 'large' }}
         activateButton={<ButtonV2>{t('taxonomy.topics.filestructureButton')}</ButtonV2>}

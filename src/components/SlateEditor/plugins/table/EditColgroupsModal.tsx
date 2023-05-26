@@ -72,7 +72,7 @@ const EditColgroupsModal = ({ element }: Props) => {
 
   return (
     <Modal
-      label={t('form.content.table.colgroupTitle')}
+      aria-label={t('form.content.table.colgroupTitle')}
       controlled
       isOpen={!!showEditColgroups}
       onClose={onClose}

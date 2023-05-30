@@ -16,7 +16,7 @@ import FormikField from '../../../FormikField';
 import validateFormik, { RulesType } from '../../../formikValidationSchema';
 
 interface GridFormValues {
-  columns: '2' | '4';
+  columns: 2 | 4;
 }
 
 const rules: RulesType<GridFormValues> = {
@@ -27,7 +27,7 @@ const rules: RulesType<GridFormValues> = {
 
 const toInitialValues = (initialData?: GridType): GridFormValues => {
   return {
-    columns: initialData?.columns ?? '2',
+    columns: initialData?.columns ?? 2,
   };
 };
 
@@ -57,7 +57,7 @@ const GridForm = ({ initialData, onSave, onCancel }: Props) => {
   const onSubmit = useCallback(
     (values: GridFormValues) => {
       const newData: GridType = {
-        columns: values.columns ?? '2',
+        columns: values.columns ?? 2,
       };
       onSave(newData);
     },

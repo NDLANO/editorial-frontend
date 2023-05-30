@@ -6,7 +6,7 @@
  *
  */
 
-import { Descendant, Editor, Element } from 'slate';
+import { Descendant, Editor, Element, Transforms } from 'slate';
 import { colors, spacing } from '@ndla/core';
 import { RenderElementProps } from 'slate-react';
 import { GridType } from '@ndla/ui';
@@ -36,8 +36,9 @@ export interface GridCellElement {
 
 const StyledGridCell = styled.div`
   border: 1px solid ${colors.brand.light};
-  width: 100%;
   min-width: 200px;
+  height: 100%;
+  width: 100%;
 
   > p {
     padding: 0 ${spacing.xxsmall};
@@ -77,12 +78,11 @@ export const gridSerializer: SlateSerializer = {
         'element',
         {
           type: TYPE_GRID,
-          data: attributes,
+          data: {
+            columns: Number.parseInt(attributes['columns']) ?? 2,
+          },
         },
-        children
-          .map((child) => slatejsx('element', { type: TYPE_GRID_CELL }, child))
-          .concat(Array(4 - children.length).fill(defaultGridCellBlock()))
-          .slice(0, 4),
+        children.map((child) => slatejsx('element', { type: TYPE_GRID_CELL }, child)),
       );
     }
   },
@@ -116,8 +116,26 @@ export const gridPlugin = (editor: Editor) => {
   };
 
   editor.normalizeNode = (entry) => {
-    const [node] = entry;
+    const [node, path] = entry;
     if (Element.isElement(node) && node.type === TYPE_GRID) {
+      if (node.children.length < node.data.columns) {
+        Transforms.insertNodes(
+          editor,
+          Array(node.data.columns - node.children.length)
+            .fill(undefined)
+            .map(() => defaultGridCellBlock()),
+          { at: [...path, node.children.length] },
+        );
+      } else if (node.children.length > node.data.columns) {
+        Editor.withoutNormalizing(editor, () => {
+          Array(node.children.length - node.data.columns)
+            .fill(undefined)
+            .forEach((_, index) =>
+              Transforms.removeNodes(editor, { at: [...path, node.children.length - 1 - index] }),
+            );
+        });
+      }
+
       if (defaultBlockNormalizer(editor, entry, normalizerConfig)) {
         return;
       }

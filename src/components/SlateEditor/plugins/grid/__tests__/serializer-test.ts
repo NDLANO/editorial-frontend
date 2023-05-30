@@ -23,13 +23,11 @@ const editor: Descendant[] = [
       {
         type: TYPE_GRID,
         data: {
-          columns: '2',
+          columns: 2,
         },
         children: [
           { type: TYPE_GRID_CELL, children: [{ type: TYPE_PARAGRAPH, children: [{ text: 'a' }] }] },
           { type: TYPE_GRID_CELL, children: [{ type: TYPE_PARAGRAPH, children: [{ text: 'a' }] }] },
-          { type: TYPE_GRID_CELL, children: [{ type: TYPE_PARAGRAPH, children: [{ text: '' }] }] },
-          { type: TYPE_GRID_CELL, children: [{ type: TYPE_PARAGRAPH, children: [{ text: '' }] }] },
         ],
       },
       { type: TYPE_PARAGRAPH, children: [{ text: '' }] },

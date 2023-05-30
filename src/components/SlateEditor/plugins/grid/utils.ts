@@ -16,7 +16,7 @@ export const defaultGridCellBlock = () => {
     {
       type: TYPE_GRID_CELL,
     },
-    [defaultParagraphBlock()],
+    defaultParagraphBlock(),
   );
 };
 
@@ -25,14 +25,15 @@ export const defaultGridBlock = () => {
     'element',
     {
       type: TYPE_GRID,
-      data: { columns: '2' },
+      data: { columns: 2 },
       isFirstEdit: true,
     },
     [
-      defaultGridCellBlock(),
-      defaultGridCellBlock(),
-      defaultGridCellBlock(),
-      defaultGridCellBlock(),
+      [
+        Array(2)
+          .fill(undefined)
+          .map(() => defaultGridCellBlock()),
+      ],
     ],
   );
 };

@@ -43,7 +43,7 @@ import { ButtonWrapper, StyledLabel, inputWrapperStyles } from './PlannedResourc
 const StyledOrDivider = styled.div`
   display: flex;
   justify-content: center;
-  padding: ${spacing.small} 0 0 0;
+  padding: ${spacing.small} 0 0;
 `;
 const ContentWrapper = styled.div`
   padding-left: ${spacing.medium};

@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next';
 import { FieldProps, Formik } from 'formik';
 import { useCallback, useMemo, useState } from 'react';
 import styled from '@emotion/styled';
-import { fonts, spacing } from '@ndla/core';
+import { fonts, spacing, colors } from '@ndla/core';
 import { useQueryClient } from '@tanstack/react-query';
 import { ButtonV2 } from '@ndla/button';
 import { InputV2 } from '@ndla/forms';
@@ -39,7 +39,6 @@ import { useAuth0Responsibles } from '../../../modules/auth0/auth0Queries';
 import { useAllResourceTypes } from '../../../modules/taxonomy/resourcetypes/resourceTypesQueries';
 import PlannedResourceSelect from './PlannedResourceSelect';
 import RelevanceOption from '../../../components/Taxonomy/RelevanceOption';
-import { StyledErrorMessage } from '../folderComponents/styles';
 import { Auth0UserData } from '../../../interfaces';
 import { createDraft, updateUserData } from '../../../modules/draft/draftApi';
 import { getRootIdForNode } from '../../../modules/nodes/nodeUtil';
@@ -64,8 +63,8 @@ export const StyledFormikField = styled(FormikField)`
   }
 `;
 
-export const ErrorMessage = styled(StyledErrorMessage)`
-  width: fit-content;
+const ErrorMessage = styled.div`
+  color: ${colors.support.red};
 `;
 
 export const inputWrapperStyles = css`
@@ -312,7 +311,6 @@ const PlannedResourceForm = ({ articleType, node, onClose, userData }: Props) =>
               onClick={(e) => {
                 e.preventDefault();
                 handleSubmit();
-                onClose();
               }}
               disabled={!dirty || !isValid}
               type="submit"

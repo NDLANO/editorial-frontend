@@ -8,9 +8,9 @@
 
 import styled from '@emotion/styled';
 import { IconButtonV2 } from '@ndla/button';
-import { Pencil } from '@ndla/icons/lib/action';
+import { Pencil } from '@ndla/icons/action';
 import { ModalBody, ModalCloseButton, ModalHeaderV2, ModalV2 } from '@ndla/modal';
-import { IImageMetaInformationV3 } from '@ndla/types-backend/build/image-api';
+import { IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
 import { KeyFigureEmbedData } from '@ndla/types-embed';
 import { KeyFigure } from '@ndla/ui';
 import { useCallback, useEffect, useState } from 'react';
@@ -101,9 +101,9 @@ const SlateKeyFigure = ({ element, editor, attributes }: Props) => {
   }, [data?.imageId, setImage]);
 
   return (
-    <div {...attributes}>
+    <>
       {data && image && (
-        <KeyFigureWrapper contentEditable={false}>
+        <KeyFigureWrapper {...attributes} contentEditable={false}>
           <ButtonContainer>
             <IconButtonV2
               variant="ghost"
@@ -142,7 +142,7 @@ const SlateKeyFigure = ({ element, editor, attributes }: Props) => {
           )}
         </ModalV2>
       )}
-    </div>
+    </>
   );
 };
 

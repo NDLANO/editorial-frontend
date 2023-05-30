@@ -555,8 +555,8 @@ const phrases = {
     },
   },
   keyFigureForm: {
-    title: 'Nykkeltall',
-    edit: 'Rediger nykkeltall',
+    title: 'Nykeltall',
+    edit: 'Rediger nykeltall',
   },
   editorToolbar: {
     bold: 'Feit\n({{ctrl}}+b)',

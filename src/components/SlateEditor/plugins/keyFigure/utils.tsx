@@ -10,4 +10,4 @@ import { jsx as slatejsx } from 'slate-hyperscript';
 import { TYPE_KEY_FIGURE } from './types';
 
 export const defaultKeyFigureBlock = () =>
-  slatejsx('element', { type: TYPE_KEY_FIGURE, isFirstEdit: true });
+  slatejsx('element', { type: TYPE_KEY_FIGURE, isFirstEdit: true }, { text: '' });

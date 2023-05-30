@@ -68,13 +68,6 @@ export const keyFigurePlugin = (editor: Editor) => {
     return renderElement?.(props);
   };
 
-  editor.isVoid = (element: Element) => {
-    if (element.type === TYPE_KEY_FIGURE) {
-      return true;
-    }
-    return isVoid(element);
-  };
-
   editor.normalizeNode = (entry) => {
     const [node] = entry;
     if (Element.isElement(node) && node.type === TYPE_KEY_FIGURE) {

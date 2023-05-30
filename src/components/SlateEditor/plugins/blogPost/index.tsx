@@ -51,11 +51,7 @@ export const blogPostSerializer: SlateSerializer = {
 };
 
 export const blogPostPlugin = (editor: Editor) => {
-  const {
-    renderElement: nextRenderElement,
-    normalizeNode: nextNormalizeNode,
-    isVoid: nextIsVoid,
-  } = editor;
+  const { renderElement: nextRenderElement, normalizeNode: nextNormalizeNode } = editor;
 
   editor.renderElement = ({ attributes, children, element }: RenderElementProps) => {
     if (element.type === TYPE_BLOGPOST) {
@@ -78,12 +74,5 @@ export const blogPostPlugin = (editor: Editor) => {
     nextNormalizeNode(entry);
   };
 
-  editor.isVoid = (element) => {
-    if (Element.isElement(element) && element.type === TYPE_BLOGPOST) {
-      return true;
-    } else {
-      return nextIsVoid(element);
-    }
-  };
   return editor;
 };

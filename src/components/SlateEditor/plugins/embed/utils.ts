@@ -27,9 +27,8 @@ import {
   ImageEmbedElement,
 } from '.';
 
-export const defaultEmbedBlock = (data: Partial<Embed>) => {
-  return slatejsx('element', { type: defineTypeOfEmbed(data?.resource), data }, { text: '' });
-};
+export const defaultEmbedBlock = (data: Partial<Embed>) =>
+  slatejsx('element', { type: defineTypeOfEmbed(data?.resource), data }, { text: '' });
 
 export const isSlateEmbed = (
   node: Node,

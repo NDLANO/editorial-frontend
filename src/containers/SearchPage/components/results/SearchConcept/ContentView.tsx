@@ -104,6 +104,7 @@ const ContentView = ({
           }
           indentLeft
           fontSize={10}
+          responsibleId={concept.responsible?.responsibleId}
         />
       </StyledBreadcrumbs>
     </StyledConceptView>

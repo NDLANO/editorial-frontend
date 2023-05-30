@@ -265,7 +265,7 @@ const HeaderStatusInformation = ({
   const ResponsibleInfo = (
     <div>
       <StyledSmallText>{`${t('form.responsible.label')}:`}</StyledSmallText>
-      {responsibleName || t('form.responsible.notUpdated')}
+      {responsibleName || t('form.responsible.noResponsible')}
     </div>
   );
 

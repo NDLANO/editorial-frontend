@@ -173,6 +173,7 @@ const SearchContent = ({ content, locale }: Props) => {
             fontSize={10}
             expirationDate={expirationDate}
             type={content.learningResourceType}
+            responsibleId={content.responsible?.responsibleId}
           />
         </StyledSearchBreadcrumbs>
       </StyledSearchContent>

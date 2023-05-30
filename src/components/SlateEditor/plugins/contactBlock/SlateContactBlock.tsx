@@ -48,7 +48,7 @@ const StyledModalBody = styled(ModalBody)`
   }
 `;
 
-const SlateContactBlock = ({ element, editor, attributes }: Props) => {
+const SlateContactBlock = ({ element, editor, attributes, children }: Props) => {
   const { t } = useTranslation();
   const [isEditing, setIsEditing] = useState(element.isFirstEdit);
   const contactBlock = element.data;
@@ -101,9 +101,9 @@ const SlateContactBlock = ({ element, editor, attributes }: Props) => {
     Transforms.removeNodes(editor, { at: ReactEditor.findPath(editor, element), voids: true });
 
   return (
-    <>
+    <div {...attributes}>
       {contactBlock && image && (
-        <ContactBlockWrapper contentEditable={false} {...attributes}>
+        <ContactBlockWrapper contentEditable={false}>
           <ButtonContainer>
             <IconButtonV2
               variant="ghost"
@@ -140,7 +140,8 @@ const SlateContactBlock = ({ element, editor, attributes }: Props) => {
           )}
         </ModalV2>
       )}
-    </>
+      {children}
+    </div>
   );
 };
 

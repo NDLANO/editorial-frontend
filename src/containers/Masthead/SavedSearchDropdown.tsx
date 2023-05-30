@@ -10,7 +10,7 @@ import styled from '@emotion/styled';
 import { spacing, misc, colors, fonts } from '@ndla/core';
 import Downshift from 'downshift';
 import { useTranslation } from 'react-i18next';
-import { FormEvent, useCallback, useState } from 'react';
+import { FormEvent, useCallback, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import queryString from 'query-string';
 import SavedSearchItem from './components/SavedSearchItem';
@@ -78,7 +78,7 @@ const SearchDropdown = ({ onClose }: Props) => {
   const location = useLocation();
   const navigate = useNavigate();
   const queryFromUrl = queryString.parse(location.search).query ?? '';
-  const input = document.getElementById('masthead-search-input');
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [query, setQuery] = useState(queryFromUrl);
@@ -122,7 +122,7 @@ const SearchDropdown = ({ onClose }: Props) => {
 
   const onElementClick = () => {
     setMenuOpen(false);
-    if (input) input.blur();
+    if (inputRef.current) inputRef.current.blur();
   };
 
   return (
@@ -137,7 +137,7 @@ const SearchDropdown = ({ onClose }: Props) => {
             <MastheadSearchForm
               {...getInputProps({
                 onChange: handleQueryChange,
-                ref: null,
+                ref: inputRef,
               })}
               onSearchQuerySubmit={(searchQuery: string) => onSearchQuerySubmit(searchQuery)}
               query={query}

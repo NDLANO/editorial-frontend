@@ -122,7 +122,7 @@ const SearchDropdown = ({ onClose }: Props) => {
 
   const onElementClick = () => {
     setMenuOpen(false);
-    if (inputRef.current) inputRef.current.blur();
+    inputRef?.current?.blur();
   };
 
   return (

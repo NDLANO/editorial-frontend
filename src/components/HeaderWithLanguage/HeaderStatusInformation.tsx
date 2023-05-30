@@ -20,7 +20,6 @@ import LearningpathConnection from './LearningpathConnection';
 import EmbedConnection from './EmbedInformation/EmbedConnection';
 import { unreachable } from '../../util/guards';
 import formatDate from '../../util/formatDate';
-import { fetchAuth0Users } from '../../modules/auth0/auth0Api';
 
 export const StyledSplitter = styled.div`
   width: 1px;
@@ -99,7 +98,7 @@ interface Props {
   id?: number;
   setHasConnections?: (hasConnections: boolean) => void;
   expirationDate?: string;
-  responsibleId?: string;
+  responsibleName?: string;
 }
 
 const HeaderStatusInformation = ({
@@ -114,21 +113,12 @@ const HeaderStatusInformation = ({
   id,
   setHasConnections,
   expirationDate,
-  responsibleId,
+  responsibleName,
 }: Props) => {
   const { t } = useTranslation();
   const [learningpaths, setLearningpaths] = useState<ILearningPathV2[]>([]);
   const [articles, setArticles] = useState<IMultiSearchSummary[]>([]);
   const [concepts, setConcepts] = useState<IConceptSummary[]>([]);
-  const [responsibleName, setResponsibleName] = useState<string | undefined>(undefined);
-
-  useEffect(() => {
-    (async () => {
-      if (!responsibleId) return;
-      const userData = await fetchAuth0Users(responsibleId);
-      userData.length && setResponsibleName(userData[0].name);
-    })();
-  }, [responsibleId]);
 
   useEffect(() => {
     const allConnections = [...learningpaths, ...articles, ...concepts];

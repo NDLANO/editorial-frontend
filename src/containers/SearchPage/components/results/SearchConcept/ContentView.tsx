@@ -36,6 +36,7 @@ interface Props {
   breadcrumbs: SubjectType[];
   setShowForm: () => void;
   editing: boolean;
+  responsibleName?: string;
 }
 
 const StyledButton = styled(ButtonV2)`
@@ -54,6 +55,7 @@ const ContentView = ({
   breadcrumbs,
   setShowForm,
   editing,
+  responsibleName,
 }: Props) => {
   const { t } = useTranslation();
   const { data: licenses } = useLicenses();
@@ -104,7 +106,7 @@ const ContentView = ({
           }
           indentLeft
           fontSize={10}
-          responsibleId={concept.responsible?.responsibleId}
+          responsibleName={responsibleName}
         />
       </StyledBreadcrumbs>
     </StyledConceptView>

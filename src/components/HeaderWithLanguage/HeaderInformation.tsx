@@ -6,7 +6,7 @@
  *
  */
 
-import { ReactChild, useState } from 'react';
+import { ReactChild, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useFormikContext } from 'formik';
@@ -25,6 +25,7 @@ import handleError from '../../util/handleError';
 import { useMessages } from '../../containers/Messages/MessagesProvider';
 import { ArticleFormType } from '../../containers/FormikForm/articleFormHooks';
 import { ConceptFormValues } from '../../containers/ConceptPage/conceptInterfaces';
+import { fetchAuth0Users } from '../../modules/auth0/auth0Api';
 
 export const StyledSplitter = styled.div`
   width: 1px;
@@ -138,6 +139,15 @@ const HeaderInformation = ({
   const { createMessage } = useMessages();
   const navigate = useNavigate();
   const { values } = useFormikContext<ArticleFormType | ConceptFormValues>();
+  const [responsibleName, setResponsibleName] = useState<string | undefined>(undefined);
+
+  useEffect(() => {
+    (async () => {
+      if (!responsibleId) return;
+      const userData = await fetchAuth0Users(responsibleId);
+      userData.length && setResponsibleName(userData[0].name);
+    })();
+  }, [responsibleId]);
 
   const onSaveAsNew = async () => {
     if (!values.id) return;
@@ -184,7 +194,7 @@ const HeaderInformation = ({
         id={id}
         setHasConnections={setHasConnections}
         expirationDate={expirationDate}
-        responsibleId={responsibleId}
+        responsibleName={responsibleName}
       />
     </StyledHeader>
   );

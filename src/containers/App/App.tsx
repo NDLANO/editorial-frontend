@@ -78,7 +78,7 @@ const App = ({ isClient }: Props) => {
     if (isClient) {
       configureTracker({
         listen: navigator.listen,
-        gaTrackingId: config.gaTrackingId,
+        gaTrackingId: undefined,
         googleTagManagerId: config.googleTagManagerId,
       });
     }

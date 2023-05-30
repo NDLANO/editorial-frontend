@@ -50,7 +50,7 @@ const StyledModalBody = styled(ModalBody)`
   }
 `;
 
-const SlateKeyFigure = ({ element, editor }: Props) => {
+const SlateKeyFigure = ({ element, editor, attributes }: Props) => {
   const [isEditing, setIsEditing] = useState<boolean | undefined>(element.isFirstEdit);
   const [image, setImage] = useState<IImageMetaInformationV3 | undefined>(undefined);
   const { t } = useTranslation();
@@ -78,13 +78,10 @@ const SlateKeyFigure = ({ element, editor }: Props) => {
   const onSave = useCallback(
     (data: KeyFigureEmbedData) => {
       setIsEditing(false);
-      fetchImage(data.imageId).then((image) => setImage(image));
-
       const properties = {
         data,
         isFirstEdit: false,
       };
-
       ReactEditor.focus(editor);
       const path = ReactEditor.findPath(editor, element);
       Transforms.setNodes(editor, properties, { at: path });
@@ -94,7 +91,7 @@ const SlateKeyFigure = ({ element, editor }: Props) => {
         }, 0);
       }
     },
-    [element, editor, setImage],
+    [element, editor],
   );
 
   useEffect(() => {
@@ -104,7 +101,7 @@ const SlateKeyFigure = ({ element, editor }: Props) => {
   }, [data?.imageId, setImage]);
 
   return (
-    <>
+    <div {...attributes}>
       {data && image && (
         <KeyFigureWrapper contentEditable={false}>
           <ButtonContainer>
@@ -145,7 +142,7 @@ const SlateKeyFigure = ({ element, editor }: Props) => {
           )}
         </ModalV2>
       )}
-    </>
+    </div>
   );
 };
 

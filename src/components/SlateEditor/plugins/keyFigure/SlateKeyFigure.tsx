@@ -50,7 +50,7 @@ const StyledModalBody = styled(ModalBody)`
   }
 `;
 
-const SlateKeyFigure = ({ element, editor, attributes }: Props) => {
+const SlateKeyFigure = ({ element, editor, attributes, children }: Props) => {
   const [isEditing, setIsEditing] = useState<boolean | undefined>(element.isFirstEdit);
   const [image, setImage] = useState<IImageMetaInformationV3 | undefined>(undefined);
   const { t } = useTranslation();
@@ -101,9 +101,9 @@ const SlateKeyFigure = ({ element, editor, attributes }: Props) => {
   }, [data?.imageId, setImage]);
 
   return (
-    <>
+    <div {...attributes}>
       {data && image && (
-        <KeyFigureWrapper {...attributes} contentEditable={false}>
+        <KeyFigureWrapper contentEditable={false}>
           <ButtonContainer>
             <IconButtonV2
               variant="ghost"
@@ -142,7 +142,8 @@ const SlateKeyFigure = ({ element, editor, attributes }: Props) => {
           )}
         </ModalV2>
       )}
-    </>
+      {children}
+    </div>
   );
 };
 

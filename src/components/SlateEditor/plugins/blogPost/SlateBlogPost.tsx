@@ -39,7 +39,7 @@ const ButtonContainer = styled.div`
 
 const imageUrl = `${config.ndlaApiUrl}/image-api/raw/id/`;
 
-const SlateBlogPost = ({ element, editor, attributes }: Props) => {
+const SlateBlogPost = ({ element, editor, attributes, children }: Props) => {
   const { t } = useTranslation();
   const [isEditing, setIsEditing] = useState(element.isFirstEdit);
   const { data } = element;
@@ -139,6 +139,7 @@ const SlateBlogPost = ({ element, editor, attributes }: Props) => {
           )}
         </ModalV2>
       )}
+      {children}
     </div>
   );
 };

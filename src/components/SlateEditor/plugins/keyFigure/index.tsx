@@ -54,7 +54,7 @@ export const keyFigureSerializer: SlateSerializer = {
 };
 
 export const keyFigurePlugin = (editor: Editor) => {
-  const { renderElement, isVoid, normalizeNode } = editor;
+  const { renderElement, normalizeNode, isVoid: nextIsVoid } = editor;
 
   editor.renderElement = (props: RenderElementProps) => {
     const { element, attributes, children } = props;
@@ -78,5 +78,8 @@ export const keyFigurePlugin = (editor: Editor) => {
       normalizeNode(entry);
     }
   };
+
+  editor.isVoid = (element) => (element.type === TYPE_KEY_FIGURE ? true : nextIsVoid(element));
+
   return editor;
 };

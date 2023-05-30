@@ -217,7 +217,7 @@ const HeaderStatusInformation = ({
   );
 
   const learningpathConnections =
-    type === 'standard' || type === 'topic-article' ? (
+    (type === 'standard' || type === 'topic-article') && learningpaths.length ? (
       <LearningpathConnection
         id={id}
         learningpaths={learningpaths}
@@ -225,7 +225,7 @@ const HeaderStatusInformation = ({
       />
     ) : null;
 
-  const imageConnections = type === 'image' && (
+  const imageConnections = type === 'image ' && (articles.length || concepts.length) && (
     <EmbedConnection
       id={id}
       type="image"
@@ -236,15 +236,15 @@ const HeaderStatusInformation = ({
     />
   );
   const audioConnections =
-    type === 'audio' || type === 'podcast' ? (
+    (type === 'audio' || type === 'podcast') && articles.length ? (
       <EmbedConnection id={id} type="audio" articles={articles} setArticles={setArticles} />
     ) : null;
   const conceptConnecions =
-    type === 'concept' ? (
+    type === 'concept' && articles.length ? (
       <EmbedConnection id={id} type="concept" articles={articles} setArticles={setArticles} />
     ) : null;
   const articleConnections =
-    type === 'standard' || type === 'topic-article' ? (
+    (type === 'standard' || type === 'topic-article') && articles.length ? (
       <EmbedConnection id={id} type="article" articles={articles} setArticles={setArticles} />
     ) : null;
 
@@ -273,23 +273,27 @@ const HeaderStatusInformation = ({
     return (
       <StyledStatusWrapper>
         {StatusIcons}
-        <StyledStatus>
-          {ResponsibleInfo}
-          {t('form.status.new_language')}
-        </StyledStatus>
+        <Splitter>
+          <StyledStatus>
+            {ResponsibleInfo}
+            {t('form.status.new_language')}
+          </StyledStatus>
+        </Splitter>
       </StyledStatusWrapper>
     );
   } else if (!noStatus) {
     return (
       <StyledStatusWrapper>
         {StatusIcons}
-        <StyledStatus>
-          <div>
-            <StyledSmallText>{t('form.workflow.statusLabel')}:</StyledSmallText>
-            {isNewLanguage ? t('form.status.new_language') : statusText || t('form.status.new')}
-          </div>
-          {ResponsibleInfo}
-        </StyledStatus>
+        <Splitter>
+          <StyledStatus>
+            {ResponsibleInfo}
+            <div>
+              <StyledSmallText>{t('form.workflow.statusLabel')}:</StyledSmallText>
+              {isNewLanguage ? t('form.status.new_language') : statusText || t('form.status.new')}
+            </div>
+          </StyledStatus>
+        </Splitter>
       </StyledStatusWrapper>
     );
   } else if (type === 'image') {

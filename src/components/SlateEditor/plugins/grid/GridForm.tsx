@@ -47,7 +47,7 @@ const StyledFormikField = styled(FormikField)`
   margin: 0px;
 `;
 
-const columns = ['2', '4'];
+const columns: GridType['columns'][] = [2, 4];
 
 const GridForm = ({ initialData, onSave, onCancel }: Props) => {
   const { t } = useTranslation();
@@ -64,6 +64,15 @@ const GridForm = ({ initialData, onSave, onCancel }: Props) => {
     [onSave],
   );
 
+  const columnsOptions = useMemo(
+    () =>
+      columns.map((value) => ({
+        title: value.toString(),
+        value: value.toString(),
+      })),
+    [],
+  );
+
   return (
     <Formik
       initialValues={initialValues}
@@ -78,17 +87,14 @@ const GridForm = ({ initialData, onSave, onCancel }: Props) => {
             {({ field }: FieldProps) => (
               <RadioButtonGroup
                 label={t('form.name.columns')}
-                selected={field.value ?? '2'}
+                selected={field.value.toString() ?? '2'}
                 uniqeIds
-                options={columns.map((value) => ({
-                  title: value,
-                  value: value,
-                }))}
+                options={columnsOptions}
                 onChange={(value: string) =>
                   field.onChange({
                     target: {
                       name: field.name,
-                      value: value,
+                      value: value.toString(),
                     },
                   })
                 }

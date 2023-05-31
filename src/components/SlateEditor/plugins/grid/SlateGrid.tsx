@@ -9,7 +9,7 @@
 import styled from '@emotion/styled';
 import { IconButtonV2 } from '@ndla/button';
 import { spacing } from '@ndla/core';
-import { Pencil } from '@ndla/icons/lib/action';
+import { Pencil } from '@ndla/icons/action';
 import { ModalBody, ModalCloseButton, ModalHeaderV2, ModalV2 } from '@ndla/modal';
 import { Grid, GridType } from '@ndla/ui';
 import { useCallback, useState } from 'react';

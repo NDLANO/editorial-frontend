@@ -42,6 +42,7 @@ import RelevanceOption from '../../../components/Taxonomy/RelevanceOption';
 import { Auth0UserData } from '../../../interfaces';
 import { createDraft, updateUserData } from '../../../modules/draft/draftApi';
 import { getRootIdForNode } from '../../../modules/nodes/nodeUtil';
+import Spinner from '../../../components/Spinner';
 
 const StyledForm = styled.form`
   width: 100%;
@@ -63,7 +64,7 @@ export const StyledFormikField = styled(FormikField)`
   }
 `;
 
-const ErrorMessage = styled.div`
+export const ErrorMessage = styled.div`
   color: ${colors.support.red};
 `;
 
@@ -137,7 +138,7 @@ const PlannedResourceForm = ({ articleType, node, onClose, userData }: Props) =>
   const [error, setError] = useState<string | undefined>(undefined);
   const { t, i18n } = useTranslation();
   const { ndlaId, userName } = useSession();
-  const addNodeMutation = useAddNodeMutation();
+  const { mutateAsync: addNodeMutation, isLoading: addNodeMutationLoading } = useAddNodeMutation();
   const { taxonomyVersion } = useTaxonomyVersion();
   const qc = useQueryClient();
   const nodeId = useMemo(() => node && getRootIdForNode(node), [node]);
@@ -147,15 +148,17 @@ const PlannedResourceForm = ({ articleType, node, onClose, userData }: Props) =>
     id: nodeId,
     language: i18n.language,
   });
-  const { mutateAsync: createNodeResource } = usePostResourceForNodeMutation({
-    onSuccess: (_) => {
-      qc.invalidateQueries(compKey);
-      qc.invalidateQueries(compKeyChildNodes);
-    },
-  });
-  const { mutateAsync: createResourceResourceType } = useCreateResourceResourceTypeMutation({
-    onSuccess: (_) => qc.invalidateQueries(compKey),
-  });
+  const { mutateAsync: createNodeResource, isLoading: postResourceLoading } =
+    usePostResourceForNodeMutation({
+      onSuccess: (_) => {
+        qc.invalidateQueries(compKey);
+        qc.invalidateQueries(compKeyChildNodes);
+      },
+    });
+  const { mutateAsync: createResourceResourceType, isLoading: createResourceTypeLoading } =
+    useCreateResourceResourceTypeMutation({
+      onSuccess: (_) => qc.invalidateQueries(compKey),
+    });
   const initialValues = useMemo(() => toInitialValues(ndlaId, articleType), [ndlaId, articleType]);
   const isTopicArticle = articleType === 'topic-article';
 
@@ -201,7 +204,7 @@ const PlannedResourceForm = ({ articleType, node, onClose, userData }: Props) =>
         await updateUserData({ latestEditedArticles: latestEdited.slice(0, 10) });
 
         // Create node in taxonomy
-        const resourceUrl = await addNodeMutation.mutateAsync({
+        const resourceUrl = await addNodeMutation({
           body: {
             name: values.title,
             contentUri: `urn:article:${createdArticle.id}`,
@@ -226,6 +229,8 @@ const PlannedResourceForm = ({ articleType, node, onClose, userData }: Props) =>
             },
             taxonomyVersion,
           });
+        }
+        if (!(addNodeMutationLoading || postResourceLoading || createResourceTypeLoading)) {
           onClose();
         }
       } catch (e) {
@@ -316,6 +321,9 @@ const PlannedResourceForm = ({ articleType, node, onClose, userData }: Props) =>
               type="submit"
             >
               {t('taxonomy.create')}
+              {(addNodeMutationLoading || postResourceLoading || createResourceTypeLoading) && (
+                <Spinner appearance="small" />
+              )}
             </ButtonV2>
           </ButtonWrapper>
           {error && <ErrorMessage>{t(error)}</ErrorMessage>}

@@ -30,7 +30,6 @@ import {
   updateLearningPathTaxonomy,
 } from '../../../modules/learningpath/learningpathApi';
 import { groupSearch } from '../../../modules/search/searchApi';
-import AlertModal from '../../../components/AlertModal';
 import ArticlePreview from '../../../components/ArticlePreview';
 import { getArticle } from '../../../modules/article/articleApi';
 import handleError from '../../../util/handleError';
@@ -38,7 +37,12 @@ import { usePostResourceForNodeMutation } from '../../../modules/nodes/nodeMutat
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 import { resourcesWithNodeConnectionQueryKey } from '../../../modules/nodes/nodeQueries';
 import Spinner from '../../../components/Spinner';
-import { ButtonWrapper, StyledLabel, inputWrapperStyles } from './PlannedResourceForm';
+import {
+  ButtonWrapper,
+  ErrorMessage,
+  StyledLabel,
+  inputWrapperStyles,
+} from './PlannedResourceForm';
 
 const StyledOrDivider = styled.div`
   display: flex;
@@ -244,21 +248,13 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
           )}
         </StyledSection>
         {content && <ArticlePreview article={content} />}
-        {error && (
-          <AlertModal
-            title={t('errorMessage.description')}
-            label={t('errorMessage.description')}
-            show={!!error}
-            text={error}
-            onCancel={() => setError('')}
-          />
-        )}
       </ContentWrapper>
       <ButtonWrapper>
         <ButtonV2 onClick={onAddResource} type="submit">
-          {loading ? <Spinner appearance="small" /> : t('taxonomy.get')}
+          {t('taxonomy.get')} {loading && <Spinner appearance="small" />}
         </ButtonV2>
       </ButtonWrapper>
+      {error && <ErrorMessage>{t(error)}</ErrorMessage>}
     </>
   );
 };

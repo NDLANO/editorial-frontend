@@ -599,7 +599,7 @@ const phrases = {
       podcast: 'Podkastepisode',
       conceptList: 'Forklaringsliste',
       concept: 'Forklaring',
-      keyFigure: 'Nykkeltall',
+      keyFigure: 'Nøkkeltall',
       blogPost: 'Bloggpost',
     },
   },

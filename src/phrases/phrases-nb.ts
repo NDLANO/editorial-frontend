@@ -136,6 +136,7 @@ const phrases = {
     revisionDate: 'Revisjonsdato',
     welcomeText: 'til ED',
     revisionInfo: 'Velg favorittfag ved å stjernemarkere i strukturredigering',
+    primaryConnection: 'Vis kun ressurser med primærkobling til mine favorittfag',
     workList: {
       title: 'Mine arbeidsoppgaver',
       description: 'Artikler hvor du står som ansvarlig',

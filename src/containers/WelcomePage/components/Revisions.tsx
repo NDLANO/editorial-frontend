@@ -15,7 +15,10 @@ import { Select, SingleValue } from '@ndla/select';
 import Pager from '@ndla/pager';
 import sortBy from 'lodash/sortBy';
 import styled from '@emotion/styled';
-import { mq, breakpoints } from '@ndla/core';
+import { mq, breakpoints, spacing } from '@ndla/core';
+import { IMultiSearchSummary } from '@ndla/types-backend/search-api';
+import { Switch } from '@ndla/switch';
+import Tooltip from '@ndla/tooltip';
 import {
   ControlWrapperDashboard,
   DropdownWrapper,
@@ -41,18 +44,26 @@ const RevisionsWrapper = styled.div`
   }
 `;
 
+const SwitchWrapper = styled.div`
+  float: right;
+  margin-top: ${spacing.xxsmall};
+`;
+
+const getLastPage = (totalCount: number, pageSize: number) =>
+  Math.ceil(totalCount / (pageSize ?? 1));
+
 interface Props {
   userData: IUserData | undefined;
-  ndlaId: string | undefined;
 }
 
 type SortOptionRevision = 'title' | 'revisionDate' | 'status';
 
-const Revisions = ({ userData, ndlaId }: Props) => {
+const Revisions = ({ userData }: Props) => {
   const [filterSubject, setFilterSubject] = useState<SingleValue | undefined>(undefined);
   const [sortOption, setSortOption] = useState<Prefix<'-', SortOptionRevision>>('revisionDate');
   const [error, setError] = useState<string | undefined>(undefined);
   const [page, setPage] = useState(1);
+  const [checked, setChecked] = useState(false);
 
   const {
     t,
@@ -107,7 +118,33 @@ const Revisions = ({ userData, ndlaId }: Props) => {
     [subjectData],
   );
 
-  const lastPage = data?.totalCount ? Math.ceil(data?.totalCount / (data.pageSize ?? 1)) : 1;
+  const filteredData = useMemo(
+    () =>
+      checked
+        ? data?.results
+            ?.map((r) => {
+              const primarySubject = r.contexts.find((c) => c.isPrimary);
+              const isFavorite = userData?.favoriteSubjects?.some(
+                (fs) => fs === primarySubject?.subjectId,
+              );
+              return isFavorite ? r : undefined;
+            })
+            .filter((fd): fd is IMultiSearchSummary => !!fd)
+        : data?.results,
+    [checked, data?.results, userData?.favoriteSubjects],
+  );
+
+  const lastPage = useMemo(
+    () =>
+      checked
+        ? filteredData?.length
+          ? getLastPage(filteredData.length, 6)
+          : 1
+        : data?.totalCount
+        ? getLastPage(data?.totalCount, data.pageSize)
+        : 1,
+    [checked, data?.pageSize, data?.totalCount, filteredData?.length],
+  );
 
   useEffect(() => {
     setPage(1);
@@ -115,7 +152,7 @@ const Revisions = ({ userData, ndlaId }: Props) => {
 
   const tableData: FieldElement[][] = useMemo(
     () =>
-      data?.results?.map((a) => [
+      filteredData?.map((a) => [
         {
           id: `title_${a.id}`,
           data: (
@@ -139,7 +176,7 @@ const Revisions = ({ userData, ndlaId }: Props) => {
             : null,
         },
       ]) ?? [[]],
-    [data?.results, t],
+    [filteredData, t],
   );
 
   return (
@@ -153,6 +190,18 @@ const Revisions = ({ userData, ndlaId }: Props) => {
             infoText={t('welcomePage.revisionInfo')}
           />
           <ControlWrapperDashboard>
+            <Tooltip tooltip={t('welcomePage.primaryConnection')}>
+              <SwitchWrapper>
+                <Switch
+                  checked={checked}
+                  onChange={() => setChecked(!checked)}
+                  label={''}
+                  id={'filter-primary-connection-switch'}
+                  aria-label={t('welcomePage.primaryConnection')}
+                  thumbCharacter="P"
+                />
+              </SwitchWrapper>
+            </Tooltip>
             <DropdownWrapper>
               <Select<false>
                 label={t('welcomePage.chooseFavoriteSubject')}

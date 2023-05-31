@@ -72,7 +72,7 @@ export const WelcomePage = () => {
           )}
         </Column>
         <Column colStart={6} colEnd={12}>
-          {ndlaId && <Revisions ndlaId={ndlaId} userData={data} />}
+          {ndlaId && <Revisions userData={data} />}
         </Column>
       </GridContainer>
 

@@ -26,13 +26,6 @@ exports[`MastheadSearchForm invalid id at the end of the url 1`] = `
   min-width: 180px;
 }
 
-.emotion-0[lang='zh'],
-.emotion-0[lang='zh-Hans'],
-.emotion-0[lang='zh-Hant'] {
-  font-size: calc(16 * 1.11);
-  font-size: calc(0.8888888888888888rem * 1.11);
-}
-
 .emotion-0:focus-within {
   background: #fff;
   border: 1px solid #a5bcd3;
@@ -136,13 +129,6 @@ exports[`MastheadSearchForm invalid id at the end of the url 1`] = `
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
-}
-
-.emotion-1[lang='zh'],
-.emotion-1[lang='zh-Hans'],
-.emotion-1[lang='zh-Hant'] {
-  font-size: calc(16px * 1.11);
-  font-size: calc(0.8888888888888888rem * 1.11);
 }
 
 .emotion-1:hover,
@@ -227,13 +213,6 @@ exports[`MastheadSearchForm redirects on ndla node id pasted 1`] = `
   min-width: 180px;
 }
 
-.emotion-0[lang='zh'],
-.emotion-0[lang='zh-Hans'],
-.emotion-0[lang='zh-Hant'] {
-  font-size: calc(16 * 1.11);
-  font-size: calc(0.8888888888888888rem * 1.11);
-}
-
 .emotion-0:focus-within {
   background: #fff;
   border: 1px solid #a5bcd3;
@@ -337,13 +316,6 @@ exports[`MastheadSearchForm redirects on ndla node id pasted 1`] = `
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
-}
-
-.emotion-1[lang='zh'],
-.emotion-1[lang='zh-Hans'],
-.emotion-1[lang='zh-Hant'] {
-  font-size: calc(16px * 1.11);
-  font-size: calc(0.8888888888888888rem * 1.11);
 }
 
 .emotion-1:hover,
@@ -428,13 +400,6 @@ exports[`MastheadSearchForm redirects on ndla url paste with id at the end 1`] =
   min-width: 180px;
 }
 
-.emotion-0[lang='zh'],
-.emotion-0[lang='zh-Hans'],
-.emotion-0[lang='zh-Hant'] {
-  font-size: calc(16 * 1.11);
-  font-size: calc(0.8888888888888888rem * 1.11);
-}
-
 .emotion-0:focus-within {
   background: #fff;
   border: 1px solid #a5bcd3;
@@ -538,13 +503,6 @@ exports[`MastheadSearchForm redirects on ndla url paste with id at the end 1`] =
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
-}
-
-.emotion-1[lang='zh'],
-.emotion-1[lang='zh-Hans'],
-.emotion-1[lang='zh-Hant'] {
-  font-size: calc(16px * 1.11);
-  font-size: calc(0.8888888888888888rem * 1.11);
 }
 
 .emotion-1:hover,
@@ -629,13 +587,6 @@ exports[`MastheadSearchForm redirects on ndla url paste with taxonomy id at the 
   min-width: 180px;
 }
 
-.emotion-0[lang='zh'],
-.emotion-0[lang='zh-Hans'],
-.emotion-0[lang='zh-Hant'] {
-  font-size: calc(16 * 1.11);
-  font-size: calc(0.8888888888888888rem * 1.11);
-}
-
 .emotion-0:focus-within {
   background: #fff;
   border: 1px solid #a5bcd3;
@@ -739,13 +690,6 @@ exports[`MastheadSearchForm redirects on ndla url paste with taxonomy id at the 
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
-}
-
-.emotion-1[lang='zh'],
-.emotion-1[lang='zh-Hans'],
-.emotion-1[lang='zh-Hant'] {
-  font-size: calc(16px * 1.11);
-  font-size: calc(0.8888888888888888rem * 1.11);
 }
 
 .emotion-1:hover,
@@ -830,13 +774,6 @@ exports[`MastheadSearchForm redirects on old ndla url paste with new id 1`] = `
   min-width: 180px;
 }
 
-.emotion-0[lang='zh'],
-.emotion-0[lang='zh-Hans'],
-.emotion-0[lang='zh-Hant'] {
-  font-size: calc(16 * 1.11);
-  font-size: calc(0.8888888888888888rem * 1.11);
-}
-
 .emotion-0:focus-within {
   background: #fff;
   border: 1px solid #a5bcd3;
@@ -940,13 +877,6 @@ exports[`MastheadSearchForm redirects on old ndla url paste with new id 1`] = `
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
-}
-
-.emotion-1[lang='zh'],
-.emotion-1[lang='zh-Hans'],
-.emotion-1[lang='zh-Hant'] {
-  font-size: calc(16px * 1.11);
-  font-size: calc(0.8888888888888888rem * 1.11);
 }
 
 .emotion-1:hover,

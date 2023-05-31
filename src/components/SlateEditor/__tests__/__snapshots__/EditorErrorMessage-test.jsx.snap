@@ -74,13 +74,6 @@ exports[`EditorErrorMessage renders 1`] = `
   cursor: not-allowed;
 }
 
-.emotion-1[lang='zh'],
-.emotion-1[lang='zh-Hans'],
-.emotion-1[lang='zh-Hant'] {
-  font-size: calc(14px * 1.11);
-  font-size: calc(0.7777777777777778rem * 1.11);
-}
-
 .emotion-1:hover,
 .emotion-1:active,
 .emotion-1:focus-visible {

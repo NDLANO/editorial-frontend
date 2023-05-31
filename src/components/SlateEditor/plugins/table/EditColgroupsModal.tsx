@@ -76,7 +76,7 @@ const EditColgroupsModal = ({ element }: Props) => {
       controlled
       isOpen={!!showEditColgroups}
       onClose={onClose}
-      size={'large'}
+      size="large"
     >
       {() => (
         <div>

@@ -42,6 +42,14 @@ const StyledGridCell = styled.div`
 
   > p {
     padding: 0 ${spacing.xxsmall};
+    word-break: break-word;
+  }
+
+  > div,
+  > figure,
+  > iframe {
+    width: 100% !important;
+    inset: 0;
   }
 `;
 

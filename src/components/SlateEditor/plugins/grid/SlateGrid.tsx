@@ -98,9 +98,7 @@ export const SlateGrid = ({ element, editor, children }: Props) => {
             </IconButtonV2>
             <DeleteButton aria-label={t('delete')} onClick={handleRemove} />
           </ButtonContainer>
-          <Grid columns={columns} border={true}>
-            {children}
-          </Grid>
+          <Grid columns={columns}>{children}</Grid>
         </GridWrapper>
       )}
       {isEditing && (

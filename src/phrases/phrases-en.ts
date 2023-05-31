@@ -1555,6 +1555,7 @@ const phrases = {
     statusLabel: 'Status:',
     changeHeader: 'Changes',
     saveAsNew: 'Save as copy',
+    prioritized: 'Prioritized',
   },
   taxonomyVersions: {
     title: 'Taxonomy Versions',

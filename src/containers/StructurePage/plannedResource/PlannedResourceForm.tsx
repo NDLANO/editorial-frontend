@@ -247,6 +247,9 @@ const PlannedResourceForm = ({ articleType, node, onClose, userData }: Props) =>
       onClose,
       taxonomyVersion,
       userData?.latestEditedArticles,
+      addNodeMutationLoading,
+      postResourceLoading,
+      createResourceTypeLoading,
     ],
   );
 

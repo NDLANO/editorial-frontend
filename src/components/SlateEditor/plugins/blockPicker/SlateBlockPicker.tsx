@@ -262,16 +262,17 @@ const SlateBlockPicker = ({
     });
 
     for (const entry of nodes) {
-      const [node] = entry;
+      const [node, path] = entry;
       if (!Element.isElement(node)) return actions;
       if (node.type === 'section') {
         return actions;
       }
-      if (actionsToShowInAreas[node.type]) {
+      const [parent] = Editor.parent(editor, path);
+      if (Element.isElement(parent) && actionsToShowInAreas[parent.type]) {
         return actions.filter(
           (action) =>
-            actionsToShowInAreas[node.type].includes(action.data.type) ||
-            actionsToShowInAreas[node.type].includes(action.data.object),
+            actionsToShowInAreas[parent.type].includes(action.data.type) ||
+            actionsToShowInAreas[parent.type].includes(action.data.object),
         );
       }
     }

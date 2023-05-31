@@ -109,14 +109,8 @@ const visualElements = [
 
 const actions = [TYPE_TABLE, TYPE_CODEBLOCK, TYPE_FILE, TYPE_BLOGPOST].concat(visualElements);
 const actionsToShowInAreas = {
-  details: actions,
-  aside: actions,
-  bodybox: actions,
-  summary: actions,
-  list: actions,
-  'list-item': actions,
   table: ['image'],
-  paragraph: actions,
+  section: actions,
 };
 
 // Plugins are checked from last to first

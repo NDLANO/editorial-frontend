@@ -146,12 +146,7 @@ const Link = (props: Props) => {
               </a>
             </StyledLinkMenu>
           </Portal>
-          <Modal
-            controlled
-            isOpen={editMode}
-            onClose={toggleEditMode}
-            aria-label={t(`form.content.link.${model?.href ? 'changeTitle' : 'addTitle'}`)}
-          >
+          <Modal controlled isOpen={editMode} onClose={toggleEditMode}>
             {(close) => (
               <EditLink {...props} model={model} closeEditMode={close} onChange={onChange} />
             )}

@@ -10,7 +10,7 @@ import { Editor, Transforms, Element } from 'slate';
 import { ReactEditor } from 'slate-react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
-import { ModalBody, ModalHeader } from '@ndla/modal';
+import { ModalBody, ModalHeader, ModalTitle } from '@ndla/modal';
 import { CloseButton } from '@ndla/button';
 import { LinkElement, ContentLinkElement } from '.';
 import LinkForm from './LinkForm';
@@ -166,7 +166,7 @@ const EditLink = (props: Props) => {
   return (
     <>
       <StyledModalHeader>
-        <h1>{t(`form.content.link.${isEdit ? 'changeTitle' : 'addTitle'}`)}</h1>
+        <ModalTitle>{t(`form.content.link.${isEdit ? 'changeTitle' : 'addTitle'}`)}</ModalTitle>
         <CloseButton onClick={onClose} />
       </StyledModalHeader>
       <StyledModalBody>

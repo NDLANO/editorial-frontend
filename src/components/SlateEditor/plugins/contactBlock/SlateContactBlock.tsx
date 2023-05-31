@@ -71,7 +71,6 @@ const SlateContactBlock = ({ element, editor, attributes, children }: Props) => 
   const onSave = useCallback(
     (data: ContactBlockEmbedData) => {
       setIsEditing(false);
-      fetchImage(data?.imageId).then((img) => setImage(img));
 
       const properties = {
         data: data,

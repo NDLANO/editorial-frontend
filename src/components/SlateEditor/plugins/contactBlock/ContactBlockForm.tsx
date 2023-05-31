@@ -27,8 +27,8 @@ interface ContactBlockFormValues {
   jobTitle: string;
   name: string;
   email: string;
-  blobColor?: ContactBlockEmbedData['blobColor'];
-  blob?: ContactBlockEmbedData['blob'];
+  blobColor: ContactBlockEmbedData['blobColor'];
+  blob: ContactBlockEmbedData['blob'];
   metaImageId?: string;
 }
 
@@ -46,6 +46,12 @@ const rules: RulesType<ContactBlockFormValues> = {
     required: true,
   },
   metaImageId: {
+    required: true,
+  },
+  blobColor: {
+    required: true,
+  },
+  blob: {
     required: true,
   },
 };
@@ -92,8 +98,8 @@ const toInitialValues = (initialData?: ContactBlockEmbedData): ContactBlockFormV
     email: initialData?.email ?? '',
   };
 };
-const types = ['pointy', 'round'];
-const colors = ['green', 'pink'];
+const types: ContactBlockEmbedData['blob'][] = ['pointy', 'round'];
+const colors: ContactBlockEmbedData['blobColor'][] = ['green', 'pink'];
 
 const ContactBlockForm = ({ initialData, onSave, onCancel }: Props) => {
   const { t } = useTranslation();
@@ -124,7 +130,7 @@ const ContactBlockForm = ({ initialData, onSave, onCancel }: Props) => {
     () =>
       types.map((value) => ({
         title: t(`contactBlockForm.blob.${value}`),
-        value: value,
+        value: value!,
       })),
     [t],
   );
@@ -133,7 +139,7 @@ const ContactBlockForm = ({ initialData, onSave, onCancel }: Props) => {
     () =>
       colors.map((value) => ({
         title: t(`contactBlockForm.blobColor.${value}`),
-        value: value,
+        value: value!,
       })),
     [t],
   );

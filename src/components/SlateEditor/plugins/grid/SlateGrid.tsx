@@ -25,6 +25,31 @@ interface Props extends RenderElementProps {
   editor: Editor;
 }
 
+const StyledModalHeader = styled(ModalHeaderV2)`
+  padding-bottom: 0px;
+`;
+
+const StyledModalBody = styled(ModalBody)`
+  padding-top: 0px;
+  h2 {
+    margin: 0px;
+  }
+`;
+
+const GridWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+const ButtonContainer = styled.div`
+  padding: ${spacing.nsmall};
+  justify-content: flex-end;
+  display: flex;
+  width: 100%;
+`;
+
 export const SlateGrid = ({ element, editor, children }: Props) => {
   const { t } = useTranslation();
   const [isEditing, setIsEditing] = useState(false);
@@ -59,31 +84,6 @@ export const SlateGrid = ({ element, editor, children }: Props) => {
     [editor, element],
   );
 
-  const StyledModalHeader = styled(ModalHeaderV2)`
-    padding-bottom: 0px;
-  `;
-
-  const StyledModalBody = styled(ModalBody)`
-    padding-top: 0px;
-    h2 {
-      margin: 0px;
-    }
-  `;
-
-  const GridWrapper = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  `;
-
-  const ButtonContainer = styled.div`
-    padding: ${spacing.nsmall};
-    justify-content: flex-end;
-    display: flex;
-    width: 100%;
-  `;
-
   return (
     <>
       {columns && (
@@ -109,11 +109,7 @@ export const SlateGrid = ({ element, editor, children }: Props) => {
                 <h1>{t('gridForm.title')}</h1> <ModalCloseButton onClick={close} />
               </StyledModalHeader>
               <StyledModalBody>
-                <GridForm
-                  onCancel={close}
-                  initialData={{ columns: columns ?? '2' }}
-                  onSave={onSave}
-                />
+                <GridForm onCancel={close} initialData={element.data} onSave={onSave} />
               </StyledModalBody>
             </>
           )}

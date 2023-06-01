@@ -10,13 +10,13 @@ import { createEditor, Descendant, Editor } from 'slate';
 import { withHistory } from 'slate-history';
 import { withReact } from 'slate-react';
 import withPlugins from '../../../utils/withPlugins';
-import { plugins } from '../../../../../containers/ArticlePage/LearningResourcePage/components/LearningResourceContent';
+import { plugins } from '../../../../../containers/ArticlePage/FrontpageArticlePage/components/FrontpageArticleFormContent';
 import { TYPE_SECTION } from '../../section/types';
 import { TYPE_GRID, TYPE_GRID_CELL } from '../types';
 import { TYPE_PARAGRAPH } from '../../paragraph/types';
 
 const editor = withHistory(
-  withReact(withPlugins(createEditor(), plugins('nb', 'nb', { current: () => {} }))),
+  withReact(withPlugins(createEditor(), plugins('nb', 'nn', { current: () => {} }))),
 );
 
 describe('normalizing grid tests', () => {

@@ -55,7 +55,7 @@ interface Props<T extends BaseResource> {
   ) => UseQueryResult<T>;
   createUrl: string;
   titleTranslationKey?: string;
-  isFrontPageContent?: boolean;
+  isWide?: boolean;
 }
 
 const ResourcePage = <T extends BaseResource>({
@@ -65,14 +65,14 @@ const ResourcePage = <T extends BaseResource>({
   createUrl,
   titleTranslationKey,
   className,
-  isFrontPageContent,
+  isWide,
 }: Props<T>) => {
   const { t } = useTranslation();
   const previousLocation = usePreviousLocation();
 
   return (
     <Wrapper>
-      <PageContent className={className} data-wide={isFrontPageContent}>
+      <PageContent className={className} data-wide={isWide}>
         {titleTranslationKey && <HelmetWithTracker title={t(titleTranslationKey)} />}
         <Routes>
           <Route path="new" element={<CreateComponent />} />

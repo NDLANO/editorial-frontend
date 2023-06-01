@@ -19,9 +19,7 @@ import { useDraft } from '../../modules/draft/draftQueries';
 import { useNodes } from '../../modules/nodes/nodeQueries';
 
 const StyledOneColumn = styled(OneColumn)`
-  max-width: 1700px;
-
-  &[data-frontpage='true'] {
+  &[data-wide='true'] {
     max-width: 1700px;
   }
 `;
@@ -55,7 +53,7 @@ const PreviewDraftPage = () => {
         <LanguageSelector supportedLanguages={draft.data?.supportedLanguages ?? []} />
       </Hero>
       <HelmetWithTracker title={`${draft.data?.title?.title} ${t('htmlTitles.titleTemplate')}`} />
-      <StyledOneColumn data-frontpage={draft.data?.articleType === 'frontpage-article'}>
+      <StyledOneColumn data-wide={draft.data?.articleType === 'frontpage-article'}>
         <PreviewDraft
           type="article"
           draft={draft.data!}

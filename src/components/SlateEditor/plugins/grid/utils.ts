@@ -26,14 +26,7 @@ export const defaultGridBlock = () => {
     {
       type: TYPE_GRID,
       data: { columns: 2 },
-      isFirstEdit: true,
     },
-    [
-      [
-        Array(2)
-          .fill(undefined)
-          .map(() => defaultGridCellBlock()),
-      ],
-    ],
+    [[defaultGridCellBlock(), defaultGridCellBlock()]],
   );
 };

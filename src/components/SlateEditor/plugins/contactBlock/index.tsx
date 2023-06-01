@@ -7,16 +7,24 @@
  */
 
 import { Descendant, Editor, Element } from 'slate';
-import { RenderElementProps } from 'slate-react';
 import { jsx as slatejsx } from 'slate-hyperscript';
-import { TYPE_PARAGRAPH } from '../paragraph/types';
-import SlateBlogPost from './SlateBlogPost';
-import { TYPE_BLOGPOST } from './types';
-import { defaultBlockNormalizer, NormalizerConfig } from '../../utils/defaultNormalizer';
-import { afterOrBeforeTextBlockElement } from '../../utils/normalizationHelpers';
+import { RenderElementProps } from 'slate-react';
+import { ContactBlockEmbedData } from '@ndla/types-embed';
+import { createEmbedTagV2, reduceElementDataAttributesV2 } from '../../../../util/embedTagHelpers';
 import { SlateSerializer } from '../../interfaces';
 import { TYPE_NDLA_EMBED } from '../embed/types';
-import { createEmbedTagV2, reduceElementDataAttributesV2 } from '../../../../util/embedTagHelpers';
+import { TYPE_CONTACT_BLOCK } from './types';
+import SlateContactBlock from './SlateContactBlock';
+import { defaultBlockNormalizer, NormalizerConfig } from '../../utils/defaultNormalizer';
+import { afterOrBeforeTextBlockElement } from '../../utils/normalizationHelpers';
+import { TYPE_PARAGRAPH } from '../paragraph/types';
+
+export interface ContactBlockElement {
+  type: 'contact-block';
+  data?: ContactBlockEmbedData;
+  isFirstEdit?: boolean;
+  children: Descendant[];
+}
 
 const normalizerConfig: NormalizerConfig = {
   previous: {
@@ -29,28 +37,21 @@ const normalizerConfig: NormalizerConfig = {
   },
 };
 
-export const blogPostSerializer: SlateSerializer = {
+export const contactBlockSerializer: SlateSerializer = {
   deserialize(el: HTMLElement) {
     if (el.tagName.toLowerCase() !== TYPE_NDLA_EMBED) return;
     const embed = el as HTMLEmbedElement;
     const embedAttributes = reduceElementDataAttributesV2(Array.from(embed.attributes));
-    if (embedAttributes.resource !== TYPE_BLOGPOST) return;
-    return slatejsx(
-      'element',
-      {
-        type: TYPE_BLOGPOST,
-        data: embedAttributes,
-      },
-      { text: '' },
-    );
+    if (embedAttributes.resource !== TYPE_CONTACT_BLOCK) return;
+    return slatejsx('element', { type: TYPE_CONTACT_BLOCK, data: embedAttributes }, { text: '' });
   },
   serialize(node: Descendant) {
-    if (!Element.isElement(node) || node.type !== TYPE_BLOGPOST || !node.data) return;
+    if (!Element.isElement(node) || node.type !== TYPE_CONTACT_BLOCK || !node.data) return;
     return createEmbedTagV2(node.data);
   },
 };
 
-export const blogPostPlugin = (editor: Editor) => {
+export const contactBlockPlugin = (editor: Editor) => {
   const {
     renderElement: nextRenderElement,
     normalizeNode: nextNormalizeNode,
@@ -58,11 +59,11 @@ export const blogPostPlugin = (editor: Editor) => {
   } = editor;
 
   editor.renderElement = ({ attributes, children, element }: RenderElementProps) => {
-    if (element.type === TYPE_BLOGPOST) {
+    if (element.type === TYPE_CONTACT_BLOCK) {
       return (
-        <SlateBlogPost editor={editor} element={element} attributes={attributes}>
+        <SlateContactBlock editor={editor} element={element} attributes={attributes}>
           {children}
-        </SlateBlogPost>
+        </SlateContactBlock>
       );
     }
     return nextRenderElement?.({ attributes, children, element });
@@ -70,7 +71,7 @@ export const blogPostPlugin = (editor: Editor) => {
 
   editor.normalizeNode = (entry) => {
     const [node] = entry;
-    if (Element.isElement(node) && node.type === TYPE_BLOGPOST) {
+    if (Element.isElement(node) && node.type === TYPE_CONTACT_BLOCK) {
       if (defaultBlockNormalizer(editor, entry, normalizerConfig)) {
         return;
       }
@@ -78,7 +79,7 @@ export const blogPostPlugin = (editor: Editor) => {
     nextNormalizeNode(entry);
   };
 
-  editor.isVoid = (element) => (element.type === TYPE_BLOGPOST ? true : nextIsVoid(element));
+  editor.isVoid = (element) => (element.type === TYPE_CONTACT_BLOCK ? true : nextIsVoid(element));
 
   return editor;
 };

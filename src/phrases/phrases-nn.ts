@@ -516,6 +516,18 @@ const phrases = {
   imageForm: {
     title: 'Bilde ',
   },
+  contactBlockForm: {
+    title: 'Kontaktblokk',
+    edit: 'Rediger kontaktblokk',
+    blobColor: {
+      green: 'Grønn',
+      pink: 'Rosa',
+    },
+    blob: {
+      pointy: 'Spiss',
+      round: 'Rund',
+    },
+  },
   frontpageArticleForm: {
     title: 'Innholdsartikkel',
     validation: {
@@ -600,6 +612,7 @@ const phrases = {
       conceptList: 'Forklaringsliste',
       concept: 'Forklaring',
       keyFigure: 'Nykeltal',
+      contactBlock: 'Kontaktblokk',
       blogPost: 'Bloggpost',
     },
   },
@@ -680,6 +693,10 @@ const phrases = {
       revisions: 'Revisjonar',
       name: 'Namn',
       subtitle: 'Undertittel',
+      email: 'E-post',
+      blob: 'Blob-type',
+      blobColor: 'Blob-farge',
+      jobTitle: 'Stilling',
       language: 'Språk',
       author: 'Forfattar',
       link: 'Lenke',

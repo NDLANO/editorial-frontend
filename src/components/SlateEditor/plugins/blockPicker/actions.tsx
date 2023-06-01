@@ -1,6 +1,7 @@
 import { Element } from 'slate';
 import {
   ArrowExpand,
+  BlogPost,
   Camera,
   Code,
   Concept,
@@ -12,7 +13,7 @@ import {
   RelatedArticle,
   TableMaterial,
 } from '@ndla/icons/editor';
-import { Download, HelpCircle, Insights, Podcast, VolumeUp } from '@ndla/icons/common';
+import { Download, HelpCircle, Insights, Person, Podcast, VolumeUp } from '@ndla/icons/common';
 import { List } from '@ndla/icons/action';
 import HowToHelper from '../../../HowTo/HowToHelper';
 import { TYPE_CONCEPT_BLOCK } from '../concept/block/types';
@@ -33,6 +34,7 @@ import { TYPE_RELATED } from '../related/types';
 import { TYPE_CODEBLOCK } from '../codeBlock/types';
 import { TYPE_CONCEPT_LIST } from '../conceptList/types';
 import { TYPE_KEY_FIGURE } from '../keyFigure/types';
+import { TYPE_CONTACT_BLOCK } from '../contactBlock/types';
 import { TYPE_BLOGPOST } from '../blogPost/types';
 
 const renderArticleInModal = (pageId: string) => <HowToHelper pageId={pageId} extraIconPadding />;
@@ -131,12 +133,17 @@ export const commonActions: Action[] = [
 export const frontpageActions = commonActions.concat(
   {
     data: { type: TYPE_BLOGPOST, object: 'blogPost' },
-    icon: <HelpCircle />,
+    icon: <BlogPost />,
     helpIcon: renderArticleInModal('BlogPost'),
   },
   {
     data: { type: TYPE_KEY_FIGURE, object: 'keyFigure' },
     icon: <Insights />,
     helpIcon: renderArticleInModal('KeyFigure'),
+  },
+  {
+    data: { type: TYPE_CONTACT_BLOCK, object: 'contactBlock' },
+    icon: <Person />,
+    helpIcon: renderArticleInModal('ContactBlock'),
   },
 );

@@ -515,6 +515,18 @@ const phrases = {
   imageForm: {
     title: 'Image',
   },
+  contactBlockForm: {
+    title: 'Contact block',
+    edit: 'Edit contact block',
+    blobColor: {
+      green: 'Green',
+      pink: 'Pink',
+    },
+    blob: {
+      pointy: 'Pointy',
+      round: 'Round',
+    },
+  },
   frontpageArticleForm: {
     title: 'Content article',
     validation: {
@@ -599,6 +611,7 @@ const phrases = {
       conceptList: 'Concept list',
       concept: 'Concept',
       keyFigure: 'Key figure',
+      contactBlock: 'Contact block',
       blogPost: 'Blog post',
     },
   },
@@ -679,8 +692,12 @@ const phrases = {
       revisions: 'Revisions',
       name: 'Name',
       subtitle: 'Subtitle',
-      language: 'Language',
+      email: 'Email',
+      blob: 'Blob type',
+      blobColor: 'Blob color',
+      jobTitle: 'Job title',
       author: 'Author',
+      language: 'Language',
       link: 'Link',
       size: 'Size',
     },

@@ -8,7 +8,7 @@
 
 import { IconButtonV2 } from '@ndla/button';
 import { Pencil } from '@ndla/icons/action';
-import { ModalBody, ModalCloseButton, ModalHeaderV2, ModalV2 } from '@ndla/modal';
+import { Modal, ModalBody, ModalCloseButton, ModalHeader, ModalTitle } from '@ndla/modal';
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Editor, Path, Transforms } from 'slate';
@@ -37,7 +37,7 @@ const ButtonContainer = styled.div`
   width: 100%;
 `;
 
-const StyledModalHeader = styled(ModalHeaderV2)`
+const StyledModalHeader = styled(ModalHeader)`
   padding-bottom: 0px;
 `;
 
@@ -125,11 +125,11 @@ const SlateContactBlock = ({ element, editor, attributes, children }: Props) => 
         </ContactBlockWrapper>
       )}
       {isEditing && (
-        <ModalV2 controlled isOpen aria-label={t('contactBlockForm.title')} onClose={onClose}>
+        <Modal controlled isOpen onClose={onClose}>
           {(close) => (
             <>
               <StyledModalHeader>
-                <h1>{t('contactBlockForm.title')}</h1>
+                <ModalTitle>{t('contactBlockForm.title')}</ModalTitle>
                 <ModalCloseButton onClick={close} />
               </StyledModalHeader>
               <StyledModalBody>
@@ -137,7 +137,7 @@ const SlateContactBlock = ({ element, editor, attributes, children }: Props) => 
               </StyledModalBody>
             </>
           )}
-        </ModalV2>
+        </Modal>
       )}
       {children}
     </div>

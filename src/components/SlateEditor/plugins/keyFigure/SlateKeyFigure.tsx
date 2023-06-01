@@ -9,7 +9,7 @@
 import styled from '@emotion/styled';
 import { IconButtonV2 } from '@ndla/button';
 import { Pencil } from '@ndla/icons/action';
-import { ModalBody, ModalCloseButton, ModalHeaderV2, ModalV2 } from '@ndla/modal';
+import { Modal, ModalBody, ModalCloseButton, ModalHeader, ModalTitle } from '@ndla/modal';
 import { IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
 import { KeyFigureEmbedData } from '@ndla/types-embed';
 import { KeyFigure } from '@ndla/ui';
@@ -39,7 +39,7 @@ const ButtonContainer = styled.div`
   width: 100%;
 `;
 
-const StyledModalHeader = styled(ModalHeaderV2)`
+const StyledModalHeader = styled(ModalHeader)`
   padding-bottom: 0px;
 `;
 
@@ -122,17 +122,11 @@ const SlateKeyFigure = ({ element, editor, attributes, children }: Props) => {
         </KeyFigureWrapper>
       )}
       {isEditing && (
-        <ModalV2
-          controlled
-          isOpen
-          size="normal"
-          aria-label={t('keyFigureForm.title')}
-          onClose={onClose}
-        >
+        <Modal controlled isOpen size="normal" onClose={onClose}>
           {(close) => (
             <>
               <StyledModalHeader>
-                <h1>{t('keyFigureForm.title')}</h1>
+                <ModalTitle>{t('keyFigureForm.title')}</ModalTitle>
                 <ModalCloseButton onClick={close} />
               </StyledModalHeader>
               <StyledModalBody>
@@ -140,7 +134,7 @@ const SlateKeyFigure = ({ element, editor, attributes, children }: Props) => {
               </StyledModalBody>
             </>
           )}
-        </ModalV2>
+        </Modal>
       )}
       {children}
     </div>

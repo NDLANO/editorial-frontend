@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { useFormikContext } from 'formik';
 import { spacing } from '@ndla/core';
 import { IConcept } from '@ndla/types-backend/concept-api';
-import { ModalCloseButton, ModalHeaderV2, ModalSizeType, ModalV2 } from '@ndla/modal';
+import { ModalCloseButton, ModalHeader, ModalSizeType, Modal } from '@ndla/modal';
 import { IArticle } from '@ndla/types-backend/draft-api';
 import { OneColumn } from '@ndla/ui';
 import { ReactElement, useMemo, useState, ElementType } from 'react';
@@ -298,20 +298,20 @@ const PreviewDraftLightboxV2 = (props: Props) => {
       ? 'full'
       : { width: 'large', height: 'full' };
   return (
-    <ModalV2
+    <Modal
       size={size}
       activateButton={props.activateButton}
       wrapperFunctionForButton={props.wrapperFunctionForButton}
     >
       {(onClose) => (
         <>
-          <ModalHeaderV2>
+          <ModalHeader>
             <ModalCloseButton onClick={onClose} />
-          </ModalHeaderV2>
+          </ModalHeader>
           <Component {...props} />
         </>
       )}
-    </ModalV2>
+    </Modal>
   );
 };
 

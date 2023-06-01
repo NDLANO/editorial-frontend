@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { ReactElement } from 'react';
 import styled from '@emotion/styled';
-import { ModalHeader, ModalBody, ModalCloseButton, ModalV2 } from '@ndla/modal';
+import { ModalHeader, ModalBody, ModalCloseButton, Modal } from '@ndla/modal';
 
 interface Props {
   resource: string;
@@ -11,20 +11,17 @@ interface Props {
   label?: string;
 }
 
-const StyledModal = styled(ModalV2)`
+const StyledModal = styled(Modal)`
   padding: 0;
-  width: 100%;
+  width: 100% !important;
   height: 100%;
   max-height: 95%;
   overflow: hidden;
 `;
 
-const StyledVisualElementModal = styled(ModalV2)`
-  .modal-body {
-    height: 90%;
-    h2 {
-      margin-top: 0 !important;
-    }
+const StyledVisualElementModal = styled(Modal)`
+  h2 {
+    margin-top: 0 !important;
   }
 `;
 
@@ -46,12 +43,12 @@ const VisualElementModalWrapper = ({ resource, children, onClose, isOpen, label 
   return (
     <StyledVisualElementModal
       controlled
-      label={label}
+      aria-label={label}
       isOpen={isOpen}
       size="large"
       onClose={onClose}
     >
-      {(onCloseModal: () => void) => (
+      {(onCloseModal) => (
         <>
           <ModalHeader>
             <ModalCloseButton title={t('dialog.close')} onClick={onCloseModal} />

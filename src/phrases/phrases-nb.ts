@@ -684,7 +684,7 @@ const phrases = {
       link: 'Lenke',
       size: 'Størrelse',
       columns: 'Kolonner',
-      border: 'Border',
+      border: 'Grense',
     },
     previewProductionArticle: {
       button: 'Sammenlign gjeldende versjon med gammel versjon',
@@ -1075,7 +1075,7 @@ const phrases = {
       label: 'Ansvarlig',
       choose: 'Velg ansvarlig',
       noResults: 'Ingen treff',
-      noResponible: 'Ingen ansvarlig',
+      noResponsible: 'Ingen ansvarlig',
       revisionDate: 'Antall som nærmer seg revisjonsdato',
       error: 'Noe gikk galt ved oppdatering av ansvarlig.',
     },

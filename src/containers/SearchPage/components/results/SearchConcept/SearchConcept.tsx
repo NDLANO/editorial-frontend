@@ -23,9 +23,10 @@ interface Props {
   locale: LocaleType;
   subjects: SubjectType[];
   editingState: [boolean, Dispatch<SetStateAction<boolean>>];
+  responsibleName?: string;
 }
 
-const SearchConcept = ({ concept, locale, subjects, editingState }: Props) => {
+const SearchConcept = ({ concept, locale, subjects, editingState, responsibleName }: Props) => {
   const { t } = useTranslation();
   const [editing, setEditing] = editingState;
   const [localConcept, setLocalConcept] = useState<IConceptSummary>(concept);
@@ -97,6 +98,7 @@ const SearchConcept = ({ concept, locale, subjects, editingState }: Props) => {
           breadcrumbs={breadcrumbs}
           setShowForm={toggleShowForm}
           editing={editing}
+          responsibleName={responsibleName}
         />
       )}
     </StyledSearchResult>

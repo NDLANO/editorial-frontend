@@ -47,6 +47,8 @@ import { DivElement } from './plugins/div';
 import { SpanElement } from './plugins/span';
 import { ConceptListElement } from './plugins/conceptList';
 import { ConceptBlockElement } from './plugins/concept/block/interfaces';
+import { KeyFigureElement } from './plugins/keyFigure';
+import { ContactBlockElement } from './plugins/contactBlock';
 import { BlogPostElement } from './plugins/blogPost/types';
 import { GridCellElement, GridElement } from './plugins/grid';
 
@@ -111,7 +113,9 @@ declare module 'slate' {
       | ConceptListElement
       | BlogPostElement
       | GridElement
-      | GridCellElement;
+      | GridCellElement
+      | KeyFigureElement
+      | ContactBlockElement;
     Text: CustomTextWithMarks;
   }
 }

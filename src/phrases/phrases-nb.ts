@@ -516,6 +516,18 @@ const phrases = {
   imageForm: {
     title: 'Bilde',
   },
+  contactBlockForm: {
+    title: 'Kontaktblokk',
+    edit: 'Rediger kontaktblokk',
+    blobColor: {
+      green: 'Grønn',
+      pink: 'Rosa',
+    },
+    blob: {
+      pointy: 'Spiss',
+      round: 'Rund',
+    },
+  },
   frontpageArticleForm: {
     title: 'Innholdsartikkel',
     validation: {
@@ -556,6 +568,10 @@ const phrases = {
         publisher: 'Utgiver',
       },
     },
+  },
+  keyFigureForm: {
+    edit: 'Rediger Nøkkeltall',
+    title: 'Nøkkeltall',
   },
   editorToolbar: {
     bold: 'Fet\n({{ctrl}}+b)',
@@ -598,6 +614,8 @@ const phrases = {
       podcast: 'Podkastepisode',
       conceptList: 'Forklaringsliste',
       concept: 'Forklaring',
+      keyFigure: 'Nøkkeltall',
+      contactBlock: 'Kontaktblokk',
       blogPost: 'Bloggpost',
       grid: 'Grid',
     },
@@ -679,8 +697,13 @@ const phrases = {
       coverPhotoId: 'Metabilde',
       revisions: 'Revisjoner',
       name: 'Navn',
-      author: 'Forfatter',
+      subtitle: 'Undertittel',
+      email: 'E-post',
+      blob: 'Blob-type',
+      blobColor: 'Blob-farge',
+      jobTitle: 'Stilling',
       language: 'Språk',
+      author: 'Forfatter',
       link: 'Lenke',
       size: 'Størrelse',
       columns: 'Kolonner',

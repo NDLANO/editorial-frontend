@@ -515,6 +515,18 @@ const phrases = {
   imageForm: {
     title: 'Image',
   },
+  contactBlockForm: {
+    title: 'Contact block',
+    edit: 'Edit contact block',
+    blobColor: {
+      green: 'Green',
+      pink: 'Pink',
+    },
+    blob: {
+      pointy: 'Pointy',
+      round: 'Round',
+    },
+  },
   frontpageArticleForm: {
     title: 'Content article',
     validation: {
@@ -555,6 +567,10 @@ const phrases = {
         publisher: 'Publisher',
       },
     },
+  },
+  keyFigureForm: {
+    title: 'Key figure',
+    edit: 'Edit key figure',
   },
   editorToolbar: {
     bold: 'Bold\n({{ctrl}}+b)',
@@ -597,6 +613,8 @@ const phrases = {
       podcast: 'Podcast episode',
       conceptList: 'Concept list',
       concept: 'Concept',
+      keyFigure: 'Key figure',
+      contactBlock: 'Contact block',
       blogPost: 'Blog post',
       grid: 'Grid',
     },
@@ -677,6 +695,11 @@ const phrases = {
       coverPhotoId: 'Meta image',
       revisions: 'Revisions',
       name: 'Name',
+      subtitle: 'Subtitle',
+      email: 'Email',
+      blob: 'Blob type',
+      blobColor: 'Blob color',
+      jobTitle: 'Job title',
       author: 'Author',
       language: 'Language',
       link: 'Link',

@@ -15,6 +15,7 @@ import {
 import { TYPE_FILE } from './plugins/file/types';
 import { TYPE_FOOTNOTE } from './plugins/footnote/types';
 import { TYPE_GRID } from './plugins/grid/types';
+import { TYPE_KEY_FIGURE } from './plugins/keyFigure/types';
 import { TYPE_LINK, TYPE_CONTENT_LINK } from './plugins/link/types';
 import { TYPE_MATHML } from './plugins/mathml/types';
 import { TYPE_RELATED } from './plugins/related/types';
@@ -46,4 +47,5 @@ export const blocks = [
   TYPE_TABLE,
   TYPE_BLOGPOST,
   TYPE_GRID,
+  TYPE_KEY_FIGURE,
 ];

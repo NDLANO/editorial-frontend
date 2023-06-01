@@ -45,6 +45,7 @@ interface Props {
   isNewlyCreated: boolean;
   hasErrors?: boolean;
   responsibleId?: string;
+  prioritized?: boolean;
 }
 
 interface FormValues {
@@ -95,6 +96,7 @@ function EditorFooter<T extends FormValues>({
   isNewlyCreated,
   hasErrors,
   responsibleId,
+  prioritized,
 }: Props) {
   const [status, setStatus] = useState<SingleValue>(null);
   const [responsible, setResponsible] = useState<SingleValue>(null);
@@ -106,7 +108,7 @@ function EditorFooter<T extends FormValues>({
 
   // Wait for newStatus to be set to trigger since formik doesn't update fields instantly
   const [newStatus, setNewStatus] = useState<SingleValue>(null);
-  const [prioritized, setPrioritized] = useState<boolean>(false);
+  const [prioritizedOn, setPrioritizedOn] = useState(prioritized ?? false);
 
   const articleOrConcept = isArticle || isConcept;
 
@@ -187,12 +189,17 @@ function EditorFooter<T extends FormValues>({
     }
   };
 
+  const updatePrioritized = (prioritized: boolean) => {
+    setPrioritizedOn(prioritized);
+    setFieldValue('prioritized', prioritized);
+  };
+
   const PrioritizedToggle = (
     <Tooltip tooltip={t('editorFooter.prioritized')}>
       <div>
         <Switch
-          checked={prioritized}
-          onChange={() => setPrioritized(!prioritized)}
+          checked={prioritizedOn}
+          onChange={updatePrioritized}
           thumbCharacter={'P'}
           label=""
           aria-label={t('editorFooter.prioritized')}

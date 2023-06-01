@@ -2073,10 +2073,10 @@
     tiny-warning "^1.0.3"
     warning "^4.0.3"
 
-"@ndla/types-backend@^0.2.9":
-  version "0.2.9"
-  resolved "https://registry.yarnpkg.com/@ndla/types-backend/-/types-backend-0.2.9.tgz#a3db973dc0784a29388765dc32c0ac9b2daa653c"
-  integrity sha512-ithS3scZF8jySLnB4W79uNZRG8RIKk8tQZvuH2yXILzB9KzcbDuiY80j/XvmdU4pc0xu3EEkEfs8tr1NALgR5A==
+"@ndla/types-backend@^0.2.11":
+  version "0.2.11"
+  resolved "https://registry.yarnpkg.com/@ndla/types-backend/-/types-backend-0.2.11.tgz#4d6d5246436918d0ff1fae703fa104a2c66d9044"
+  integrity sha512-kb2DqMjeyryOpkR55kvsGpGIkxOgJWOH9h5R9irOyp6/l9ySx5Ys2inuVdV1BEPWVzLmB1DvIySKJVBvQSj9Qg==
 
 "@ndla/types-embed@^2.0.2":
   version "2.0.2"

@@ -12,7 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { FieldProps, Form, Formik, FormikProps } from 'formik';
 import { AudioPlayer } from '@ndla/ui';
 import { spacing } from '@ndla/core';
-import { ModalBody, ModalHeader } from '@ndla/modal';
+import { ModalBody, ModalHeader, ModalTitle } from '@ndla/modal';
 import { ButtonV2 } from '@ndla/button';
 import { Input } from '@ndla/forms';
 import ObjectSelector from '../../../ObjectSelector';
@@ -69,7 +69,7 @@ const EditAudio = ({ embed, onExit, type, audio, setHasError, saveEmbedUpdates }
   return (
     <>
       <ModalHeader>
-        <h1 id="editAudioEmbed">{t('form.editAudio')}</h1>
+        <ModalTitle>{t('form.editAudio')}</ModalTitle>
       </ModalHeader>
       <ModalBody>
         <Formik

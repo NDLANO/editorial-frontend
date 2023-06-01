@@ -11,7 +11,7 @@ import styled from '@emotion/styled';
 import { colors } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
 import { SubjectMaterial } from '@ndla/icons/contentType';
-import Modal, { ModalHeader, ModalCloseButton, ModalBody } from '@ndla/modal';
+import { ModalHeader, ModalCloseButton, ModalBody, Modal, ModalTitle } from '@ndla/modal';
 import Tooltip from '@ndla/tooltip';
 import { ButtonV2 } from '@ndla/button';
 import { IConceptSummary } from '@ndla/types-backend/concept-api';
@@ -77,8 +77,6 @@ const EmbedConnection = ({ id, type, articles, setArticles, concepts, setConcept
 
   return (
     <Modal
-      backgroundColor="white"
-      narrow
       wrapperFunctionForButton={(activateButton: any) => (
         <Tooltip tooltip={t(`form.embedConnections.info.${type}`)}>{activateButton}</Tooltip>
       )}
@@ -91,14 +89,14 @@ const EmbedConnection = ({ id, type, articles, setArticles, concepts, setConcept
       {(onClose: () => void) => (
         <>
           <ModalHeader>
-            <ModalCloseButton title={t('dialog.close')} onClick={onClose} />
-          </ModalHeader>
-          <ModalBody>
-            <h1>
+            <ModalTitle>
               {t('form.embedConnections.title', {
                 resource: t(`form.embedConnections.type.${type}`),
               })}
-            </h1>
+            </ModalTitle>
+            <ModalCloseButton title={t('dialog.close')} onClick={onClose} />
+          </ModalHeader>
+          <ModalBody>
             <p>
               {t('form.embedConnections.sectionTitleArticle', {
                 resource: t(`form.embedConnections.type.${type}`),

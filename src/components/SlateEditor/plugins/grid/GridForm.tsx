@@ -16,7 +16,7 @@ import FormikField from '../../../FormikField';
 import validateFormik, { RulesType } from '../../../formikValidationSchema';
 
 interface GridFormValues {
-  columns: 2 | 4;
+  columns: GridType['columns'];
 }
 
 const rules: RulesType<GridFormValues> = {

@@ -31,9 +31,6 @@ const StyledModalHeader = styled(ModalHeaderV2)`
 
 const StyledModalBody = styled(ModalBody)`
   padding-top: 0px;
-  h2 {
-    margin: 0px;
-  }
 `;
 
 const GridWrapper = styled.div`
@@ -53,7 +50,6 @@ const ButtonContainer = styled.div`
 export const SlateGrid = ({ element, editor, children }: Props) => {
   const { t } = useTranslation();
   const [isEditing, setIsEditing] = useState(false);
-  const { columns } = element.data;
 
   const handleRemove = () => {
     Transforms.removeNodes(editor, { at: ReactEditor.findPath(editor, element), voids: true });
@@ -86,21 +82,19 @@ export const SlateGrid = ({ element, editor, children }: Props) => {
 
   return (
     <>
-      {columns && (
-        <GridWrapper>
-          <ButtonContainer>
-            <IconButtonV2
-              variant="ghost"
-              onClick={() => setIsEditing(true)}
-              aria-label={t('gridForm.title')}
-            >
-              <Pencil />
-            </IconButtonV2>
-            <DeleteButton aria-label={t('delete')} onClick={handleRemove} />
-          </ButtonContainer>
-          <Grid columns={columns}>{children}</Grid>
-        </GridWrapper>
-      )}
+      <GridWrapper>
+        <ButtonContainer>
+          <IconButtonV2
+            variant="ghost"
+            onClick={() => setIsEditing(true)}
+            aria-label={t('gridForm.title')}
+          >
+            <Pencil />
+          </IconButtonV2>
+          <DeleteButton aria-label={t('delete')} onClick={handleRemove} />
+        </ButtonContainer>
+        <Grid columns={element.data.columns}>{children}</Grid>
+      </GridWrapper>
       {isEditing && (
         <ModalV2 controlled isOpen size="small" aria-label={t('gridForm.title')} onClose={onClose}>
           {(close) => (

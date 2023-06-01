@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2023-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -8,27 +8,29 @@
 
 import styled from '@emotion/styled';
 import { IconButtonV2 } from '@ndla/button';
-import { Pencil } from '@ndla/icons/lib/action';
-import { ModalBody, ModalCloseButton, ModalHeader, ModalTitle, Modal } from '@ndla/modal';
-import { BlogPostEmbedData } from '@ndla/types-embed';
-import { BlogPostV2 } from '@ndla/ui';
-import { useCallback, useState } from 'react';
+import { Pencil } from '@ndla/icons/action';
+import { Modal, ModalBody, ModalCloseButton, ModalHeader, ModalTitle } from '@ndla/modal';
+import { IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
+import { KeyFigureEmbedData } from '@ndla/types-embed';
+import { KeyFigure } from '@ndla/ui';
+import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Editor, Path, Transforms } from 'slate';
 import { ReactEditor, RenderElementProps } from 'slate-react';
-import config from '../../../../config';
+import { KeyFigureElement } from '.';
+import { fetchImage } from '../../../../modules/image/imageApi';
 import DeleteButton from '../../../DeleteButton';
-import BlogPostForm from './BlogPostForm';
-import { BlogPostElement } from './types';
+import KeyFigureForm from './KeyFigureForm';
 
 interface Props extends RenderElementProps {
-  element: BlogPostElement;
+  element: KeyFigureElement;
   editor: Editor;
 }
 
-const BlogPostWrapper = styled.div`
+const KeyFigureWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
 `;
 
 const ButtonContainer = styled.div`
@@ -37,11 +39,22 @@ const ButtonContainer = styled.div`
   width: 100%;
 `;
 
-const imageUrl = `${config.ndlaApiUrl}/image-api/raw/id/`;
+const StyledModalHeader = styled(ModalHeader)`
+  padding-bottom: 0px;
+`;
 
-const SlateBlogPost = ({ element, editor, attributes, children }: Props) => {
+const StyledModalBody = styled(ModalBody)`
+  padding-top: 0px;
+  h2 {
+    margin: 0px;
+  }
+`;
+
+const SlateKeyFigure = ({ element, editor, attributes, children }: Props) => {
+  const [isEditing, setIsEditing] = useState<boolean | undefined>(element.isFirstEdit);
+  const [image, setImage] = useState<IImageMetaInformationV3 | undefined>(undefined);
   const { t } = useTranslation();
-  const [isEditing, setIsEditing] = useState(element.isFirstEdit);
+
   const { data } = element;
 
   const handleRemove = () => {
@@ -49,8 +62,8 @@ const SlateBlogPost = ({ element, editor, attributes, children }: Props) => {
   };
 
   const onClose = () => {
-    setIsEditing(false);
     ReactEditor.focus(editor);
+    setIsEditing(false);
     if (element.isFirstEdit) {
       Transforms.removeNodes(editor, { at: ReactEditor.findPath(editor, element), voids: true });
     }
@@ -63,7 +76,7 @@ const SlateBlogPost = ({ element, editor, attributes, children }: Props) => {
   };
 
   const onSave = useCallback(
-    (data: BlogPostEmbedData) => {
+    (data: KeyFigureEmbedData) => {
       setIsEditing(false);
       const properties = {
         data,
@@ -78,56 +91,46 @@ const SlateBlogPost = ({ element, editor, attributes, children }: Props) => {
         }, 0);
       }
     },
-    [editor, element],
+    [element, editor],
   );
 
-  const StyledModalHeader = styled(ModalHeader)`
-    padding-bottom: 0px;
-  `;
-
-  const StyledModalBody = styled(ModalBody)`
-    padding-top: 0px;
-    h2 {
-      margin: 0px;
+  useEffect(() => {
+    if (data?.imageId) {
+      fetchImage(data.imageId).then((image) => setImage(image));
     }
-  `;
+  }, [data?.imageId, setImage]);
 
   return (
     <div {...attributes}>
-      {data && (
-        <BlogPostWrapper contentEditable={false}>
+      {data && image && (
+        <KeyFigureWrapper contentEditable={false}>
           <ButtonContainer>
             <IconButtonV2
               variant="ghost"
               onClick={() => setIsEditing(true)}
-              aria-label={t('blogPostForm.title')}
+              aria-label={t('keyFigureForm.edit')}
             >
               <Pencil />
             </IconButtonV2>
             <DeleteButton aria-label={t('delete')} onClick={handleRemove} />
           </ButtonContainer>
-          <BlogPostV2
-            title={{ title: data.title, language: data.language }}
-            author={data.author}
-            size={data.size}
-            url={data.url}
-            metaImage={{
-              url: `${imageUrl}/${data.imageId}`,
-              alt: '',
-            }}
+          <KeyFigure
+            title={data.title}
+            subtitle={data.subtitle}
+            image={{ src: image.image.imageUrl, alt: image.alttext.alttext }}
           />
-        </BlogPostWrapper>
+        </KeyFigureWrapper>
       )}
       {isEditing && (
-        <Modal controlled isOpen size="large" onClose={onClose}>
+        <Modal controlled isOpen size="normal" onClose={onClose}>
           {(close) => (
             <>
               <StyledModalHeader>
-                <ModalTitle>{t('blogPostForm.title')}</ModalTitle>
+                <ModalTitle>{t('keyFigureForm.title')}</ModalTitle>
                 <ModalCloseButton onClick={close} />
               </StyledModalHeader>
               <StyledModalBody>
-                <BlogPostForm onSave={onSave} initialData={data} onCancel={close} />
+                <KeyFigureForm onSave={onSave} initialData={data} onCancel={close} />
               </StyledModalBody>
             </>
           )}
@@ -138,4 +141,4 @@ const SlateBlogPost = ({ element, editor, attributes, children }: Props) => {
   );
 };
 
-export default SlateBlogPost;
+export default SlateKeyFigure;

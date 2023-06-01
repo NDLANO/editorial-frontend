@@ -47,6 +47,7 @@ import { DivElement } from './plugins/div';
 import { SpanElement } from './plugins/span';
 import { ConceptListElement } from './plugins/conceptList';
 import { ConceptBlockElement } from './plugins/concept/block/interfaces';
+import { KeyFigureElement } from './plugins/keyFigure';
 import { ContactBlockElement } from './plugins/contactBlock';
 import { BlogPostElement } from './plugins/blogPost/types';
 
@@ -109,6 +110,7 @@ declare module 'slate' {
       | DivElement
       | SpanElement
       | ConceptListElement
+      | KeyFigureElement
       | ContactBlockElement
       | BlogPostElement;
     Text: CustomTextWithMarks;

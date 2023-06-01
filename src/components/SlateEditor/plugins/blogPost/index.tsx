@@ -78,12 +78,7 @@ export const blogPostPlugin = (editor: Editor) => {
     nextNormalizeNode(entry);
   };
 
-  editor.isVoid = (element) => {
-    if (Element.isElement(element) && element.type === TYPE_BLOGPOST) {
-      return true;
-    } else {
-      return nextIsVoid(element);
-    }
-  };
+  editor.isVoid = (element) => (element.type === TYPE_BLOGPOST ? true : nextIsVoid(element));
+
   return editor;
 };

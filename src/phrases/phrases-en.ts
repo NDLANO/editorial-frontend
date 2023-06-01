@@ -565,6 +565,10 @@ const phrases = {
       },
     },
   },
+  keyFigureForm: {
+    title: 'Key figure',
+    edit: 'Edit key figure',
+  },
   editorToolbar: {
     bold: 'Bold\n({{ctrl}}+b)',
     bulletedList: 'Bulleted list\n({{ctrl}}+l)',
@@ -606,6 +610,7 @@ const phrases = {
       podcast: 'Podcast episode',
       conceptList: 'Concept list',
       concept: 'Concept',
+      keyFigure: 'Key figure',
       contactBlock: 'Contact block',
       blogPost: 'Blog post',
     },
@@ -686,6 +691,7 @@ const phrases = {
       coverPhotoId: 'Meta image',
       revisions: 'Revisions',
       name: 'Name',
+      subtitle: 'Subtitle',
       email: 'Email',
       blob: 'Blob type',
       blobColor: 'Blob color',

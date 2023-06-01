@@ -13,7 +13,7 @@ import { useTranslation } from 'react-i18next';
 import { spacing } from '@ndla/core';
 import { ButtonV2 } from '@ndla/button';
 import { Input } from '@ndla/forms';
-import { ModalBody, ModalCloseButton, ModalHeader } from '@ndla/modal';
+import { ModalBody, ModalCloseButton, ModalHeader, ModalTitle } from '@ndla/modal';
 import { AudioEmbed, LocaleType, SlateAudio } from '../../../../interfaces';
 import FormikField from '../../../FormikField';
 import validateFormik, { RulesType } from '../../../formikValidationSchema';
@@ -64,8 +64,8 @@ const EditPodcast = ({
 
   return (
     <>
-      <ModalHeader modifier="no-bottom-padding">
-        <h1 id="editPodcastEmbed">{t('form.editPodcast')}</h1>
+      <ModalHeader>
+        <ModalTitle id="editPodcastEmbed">{t('form.editPodcast')}</ModalTitle>
         <ModalCloseButton onClick={close} />
       </ModalHeader>
       <ModalBody>

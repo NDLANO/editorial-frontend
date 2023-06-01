@@ -237,7 +237,7 @@ const Resource = ({
           <ButtonRow>
             <StyledResponsibleBadge>
               <BoldFont>{`${t('form.responsible.label')}: `}</BoldFont>
-              {responsible ?? t('form.responsible.noResponible')}
+              {responsible ?? t('form.responsible.noResponsible')}
             </StyledResponsibleBadge>
             <GrepCodesModal
               codes={resource.contentMeta?.grepCodes ?? []}

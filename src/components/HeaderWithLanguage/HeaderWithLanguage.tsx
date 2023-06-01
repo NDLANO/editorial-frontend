@@ -97,6 +97,9 @@ const HeaderWithLanguage = ({
   const multiType = articleType ?? type;
   const isArticle =
     multiType === 'standard' || multiType === 'topic-article' || multiType === 'frontpage-article';
+  const responsible = isArticle
+    ? article?.responsible?.responsibleId
+    : concept?.responsible?.responsibleId;
 
   const taxonomyPaths = isArticle ? getTaxonomyPathsFromTaxonomy(taxonomy, id) : [];
 
@@ -115,6 +118,7 @@ const HeaderWithLanguage = ({
         taxonomyPaths={taxonomyPaths}
         setHasConnections={setHasConnections}
         expirationDate={expirationDate}
+        responsibleId={responsible}
       />
       <StyledLanguageWrapper>
         <HeaderActions

@@ -483,7 +483,6 @@ const LearningResourceTaxonomy = ({ article, taxonomy, updateNotes, setIsOpen }:
         stageTaxonomyChanges={stageTaxonomyChanges}
         getSubjectTopics={getSubjectTopics}
         allowMultipleSubjectsOpen={false}
-        onChangeShowFavorites={() => {}}
       />
       {showWarning && <FormikFieldHelp error>{t('errorMessage.unsavedTaxonomy')}</FormikFieldHelp>}
       <ButtonContainer>

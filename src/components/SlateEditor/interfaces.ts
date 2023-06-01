@@ -47,6 +47,7 @@ import { DivElement } from './plugins/div';
 import { SpanElement } from './plugins/span';
 import { ConceptListElement } from './plugins/conceptList';
 import { ConceptBlockElement } from './plugins/concept/block/interfaces';
+import { ContactBlockElement } from './plugins/contactBlock';
 import { BlogPostElement } from './plugins/blogPost/types';
 
 export type SlatePlugin = (editor: Editor) => Editor;
@@ -108,6 +109,7 @@ declare module 'slate' {
       | DivElement
       | SpanElement
       | ConceptListElement
+      | ContactBlockElement
       | BlogPostElement;
     Text: CustomTextWithMarks;
   }

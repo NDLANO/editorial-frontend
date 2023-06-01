@@ -10,7 +10,6 @@ import {
   IUpdatedSubjectFrontPageData,
   INewSubjectFrontPageData,
 } from '@ndla/types-backend/frontpage-api';
-import { IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
 import { ILearningPathV2 } from '@ndla/types-backend/learningpath-api';
 import { IArticle } from '@ndla/types-backend/draft-api';
 import * as frontpageApi from '../../modules/frontpage/frontpageApi';
@@ -22,7 +21,6 @@ import { updateSubject } from '../../modules/taxonomy/subjects';
 import { fetchTopic } from '../../modules/taxonomy/topics';
 import { fetchLearningpath } from '../../modules/learningpath/learningpathApi';
 import { Resource, Topic } from '../../modules/taxonomy/taxonomyApiInterfaces';
-import { fetchImage } from '../../modules/image/imageApi';
 import { useTaxonomyVersion } from '../StructureVersion/TaxonomyVersionProvider';
 
 export function useFetchSubjectpageData(
@@ -32,7 +30,6 @@ export function useFetchSubjectpageData(
 ) {
   const [subjectpage, setSubjectpage] = useState<ISubjectPageData>();
   const [editorsChoices, setEditorsChoices] = useState<(IArticle | ILearningPathV2)[]>([]);
-  const [banner, setBanner] = useState<IImageMetaInformationV3 | undefined>(undefined);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | undefined>(undefined);
   const { taxonomyVersion } = useTaxonomyVersion();
@@ -105,9 +102,7 @@ export function useFetchSubjectpageData(
             subjectpage.editorsChoices,
             taxonomyVersion,
           );
-          const banner = await fetchImage(subjectpage.banner.desktopId, selectedLanguage);
           setEditorsChoices(editorsChoices);
-          setBanner(banner);
         } catch (e) {
           setError(e as Error);
         } finally {
@@ -115,11 +110,10 @@ export function useFetchSubjectpageData(
         }
       }
     })();
-  }, [selectedLanguage, subjectpage, taxonomyVersion]);
+  }, [subjectpage, taxonomyVersion]);
 
   return {
     subjectpage,
-    banner,
     editorsChoices,
     loading,
     updateSubjectpage,

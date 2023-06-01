@@ -8,13 +8,12 @@
 
 import styled from '@emotion/styled';
 import { shadows } from '@ndla/core';
-import Modal from '@ndla/modal';
+import { Modal } from '@ndla/modal';
 import { FormikValues } from 'formik';
 import { useState } from 'react';
 import ImageEditor from '../../../../containers/ImageEditor/ImageEditor';
 import { ImageEmbed } from '../../../../interfaces';
 import { TransformData } from '../../../../util/imageEditorUtil';
-import { Portal } from '../../../Portal';
 import FigureInput from './FigureInput';
 
 const StyledEditorContent = styled.div`
@@ -27,9 +26,7 @@ const StyledEditorWrapper = styled.div`
 `;
 
 const StyledModal = styled(Modal)`
-  [data-reach-dialog-content] {
-    padding: 0;
-  }
+  padding: 0;
 `;
 
 interface Props {
@@ -121,32 +118,28 @@ const EditImage = ({ embed, saveEmbedUpdates, setEditModus, language }: Props) =
   };
 
   return (
-    <Portal isOpened key="imagePortal">
-      <StyledModal onClose={() => setEditModus(false)} isOpen controllable size="regular">
-        {() => (
-          <>
-            <StyledEditorWrapper contentEditable={false}>
-              <StyledEditorContent>
-                <ImageEditor
-                  embed={embed}
-                  onUpdatedImageSettings={onUpdatedImageSettings}
-                  imageUpdates={state.imageUpdates}
-                  language={language}
-                />
-                <FigureInput
-                  caption={state.caption}
-                  alt={state.alt}
-                  madeChanges={state.madeChanges}
-                  onChange={onChange}
-                  onAbort={onAbort}
-                  onSave={onSave}
-                />
-              </StyledEditorContent>
-            </StyledEditorWrapper>
-          </>
-        )}
-      </StyledModal>
-    </Portal>
+    <StyledModal onClose={() => setEditModus(false)} isOpen controlled size="normal">
+      {() => (
+        <StyledEditorWrapper contentEditable={false}>
+          <StyledEditorContent>
+            <ImageEditor
+              embed={embed}
+              onUpdatedImageSettings={onUpdatedImageSettings}
+              imageUpdates={state.imageUpdates}
+              language={language}
+            />
+            <FigureInput
+              caption={state.caption}
+              alt={state.alt}
+              madeChanges={state.madeChanges}
+              onChange={onChange}
+              onAbort={onAbort}
+              onSave={onSave}
+            />
+          </StyledEditorContent>
+        </StyledEditorWrapper>
+      )}
+    </StyledModal>
   );
 };
 

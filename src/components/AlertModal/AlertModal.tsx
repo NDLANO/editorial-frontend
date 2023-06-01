@@ -11,7 +11,7 @@ import { Warning } from '@ndla/icons/editor';
 import { css, SerializedStyles } from '@emotion/react';
 import styled from '@emotion/styled';
 import { spacing, colors } from '@ndla/core';
-import { ModalHeaderV2, ModalV2 } from '@ndla/modal';
+import { ModalHeader, Modal } from '@ndla/modal';
 import { IconButtonV2 } from '@ndla/button';
 import { useTranslation } from 'react-i18next';
 import { Cross } from '@ndla/icons/action';
@@ -50,7 +50,7 @@ const IconButton = styled(IconButtonV2)`
   justify-self: flex-end;
 `;
 
-const Header = styled(ModalHeaderV2)`
+const Header = styled(ModalHeader)`
   display: flex;
   padding: 0;
   justify-content: space-between;
@@ -103,7 +103,7 @@ const AlertModal = ({
   const { t } = useTranslation();
 
   return (
-    <ModalV2 controlled isOpen={!!show} onClose={onCancel} label={label}>
+    <Modal controlled isOpen={!!show} onClose={onCancel} aria-label={label}>
       {(close) => (
         <StyledModalBody css={severities[severity]}>
           <Header>
@@ -128,7 +128,7 @@ const AlertModal = ({
           <AlertModalFooter actions={actions} component={component} />
         </StyledModalBody>
       )}
-    </ModalV2>
+    </Modal>
   );
 };
 

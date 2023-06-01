@@ -1068,7 +1068,7 @@ const phrases = {
       label: 'Responsible',
       choose: 'Choose a responsible',
       noResults: 'No results',
-      noResponible: 'No responsible',
+      noResponsible: 'No responsible',
       revisionDate: 'Amount approaching revision date',
       error: 'Something went wrong when updating responsible',
     },

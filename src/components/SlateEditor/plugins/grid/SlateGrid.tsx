@@ -10,7 +10,7 @@ import styled from '@emotion/styled';
 import { IconButtonV2 } from '@ndla/button';
 import { spacing } from '@ndla/core';
 import { Pencil } from '@ndla/icons/action';
-import { ModalBody, ModalCloseButton, ModalHeaderV2, ModalV2 } from '@ndla/modal';
+import { Modal, ModalBody, ModalCloseButton, ModalHeader, ModalTitle } from '@ndla/modal';
 import { Grid, GridType } from '@ndla/ui';
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -25,7 +25,7 @@ interface Props extends RenderElementProps {
   editor: Editor;
 }
 
-const StyledModalHeader = styled(ModalHeaderV2)`
+const StyledModalHeader = styled(ModalHeader)`
   padding-bottom: 0px;
 `;
 
@@ -98,18 +98,19 @@ export const SlateGrid = ({ element, editor, children }: Props) => {
         </Grid>
       </GridWrapper>
       {isEditing && (
-        <ModalV2 controlled isOpen size="small" aria-label={t('gridForm.title')} onClose={onClose}>
+        <Modal controlled isOpen size="small" onClose={onClose}>
           {(close) => (
             <>
               <StyledModalHeader>
-                <h1>{t('gridForm.title')}</h1> <ModalCloseButton onClick={close} />
+                <ModalTitle>{t('gridForm.title')}</ModalTitle>
+                <ModalCloseButton onClick={close} />
               </StyledModalHeader>
               <StyledModalBody>
                 <GridForm onCancel={close} initialData={element.data} onSave={onSave} />
               </StyledModalBody>
             </>
           )}
-        </ModalV2>
+        </Modal>
       )}
     </>
   );

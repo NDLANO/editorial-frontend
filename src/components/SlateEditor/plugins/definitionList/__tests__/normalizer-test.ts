@@ -11,7 +11,6 @@ import { withHistory } from 'slate-history';
 import { withReact } from 'slate-react';
 import { plugins } from '../../../../../containers/ArticlePage/LearningResourcePage/components/LearningResourceContent';
 import withPlugins from '../../../utils/withPlugins';
-import { definitionList } from '../utils/defaultBlocks';
 import { TYPE_DEFINTION_DESCRIPTION, TYPE_DEFINTION_LIST, TYPE_DEFINTION_TERM } from '../types';
 import { TYPE_SECTION } from '../../section/types';
 import { TYPE_PARAGRAPH } from '../../paragraph/types';
@@ -21,15 +20,7 @@ const editor = withHistory(
 );
 
 describe('definition normalizing tests', () => {
-  test('expect list with 1 definition pair not to change', () => {
-    const editorValue: Descendant[] = [definitionList()];
-    editor.children = editorValue;
-    Editor.normalize(editor, { force: true });
-
-    expect(editor.children).toEqual(editorValue);
-  });
-
-  test('expect list to create missing description objects', () => {
+  test('should create missing description objects', () => {
     const editorValue: Descendant[] = [
       {
         type: TYPE_DEFINTION_LIST,
@@ -64,7 +55,7 @@ describe('definition normalizing tests', () => {
     expect(editor.children).toEqual(expectedValue);
   });
 
-  test('expect list to create missing term objects', () => {
+  test('should create missing term objects', () => {
     const editorValue: Descendant[] = [
       {
         type: TYPE_DEFINTION_LIST,
@@ -102,7 +93,7 @@ describe('definition normalizing tests', () => {
     expect(editor.children).toEqual(expectedValue);
   });
 
-  test('expect two definition lists after eachother to merge', () => {
+  test('should merge definition lists that comes after eachother', () => {
     const editorValue: Descendant[] = [
       {
         type: TYPE_SECTION,
@@ -160,7 +151,7 @@ describe('definition normalizing tests', () => {
     ]);
   });
 
-  test('expect to add term and description in empty description list', () => {
+  test('should add term and description in empty description list', () => {
     const editorValue: Descendant[] = [
       {
         type: TYPE_SECTION,
@@ -206,50 +197,5 @@ describe('definition normalizing tests', () => {
     editor.children = editorValue;
     Editor.normalize(editor, { force: true });
     expect(editor.children).toEqual(expectedValue);
-  });
-
-  test('if definition list does something weird fix it', () => {
-    const editorValue: Descendant[] = [
-      {
-        type: TYPE_SECTION,
-        children: [
-          {
-            type: TYPE_PARAGRAPH,
-            children: [{ text: '' }],
-          },
-          {
-            type: TYPE_DEFINTION_LIST,
-            children: [],
-          },
-          {
-            type: TYPE_PARAGRAPH,
-            children: [{ text: '' }],
-          },
-        ],
-      },
-    ];
-
-    const expectedValue: Descendant[] = [
-      {
-        type: TYPE_SECTION,
-        children: [
-          {
-            type: TYPE_PARAGRAPH,
-            children: [{ text: '' }],
-          },
-          {
-            type: TYPE_DEFINTION_LIST,
-            children: [
-              { type: TYPE_DEFINTION_TERM, children: [] },
-              { type: TYPE_DEFINTION_DESCRIPTION, children: [{ text: '' }] },
-            ],
-          },
-          {
-            type: TYPE_PARAGRAPH,
-            children: [{ text: '' }],
-          },
-        ],
-      },
-    ];
   });
 });

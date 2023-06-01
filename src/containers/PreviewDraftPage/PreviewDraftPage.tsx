@@ -17,10 +17,11 @@ import { useTaxonomyVersion } from '../StructureVersion/TaxonomyVersionProvider'
 import LanguageSelector from './LanguageSelector';
 import { useDraft } from '../../modules/draft/draftQueries';
 import { useNodes } from '../../modules/nodes/nodeQueries';
+import { FRONTPAGE_ARTICLE_WIDTH } from '../../constants';
 
 const StyledOneColumn = styled(OneColumn)`
   &[data-wide='true'] {
-    max-width: 1700px;
+    max-width: ${FRONTPAGE_ARTICLE_WIDTH};
   }
 `;
 

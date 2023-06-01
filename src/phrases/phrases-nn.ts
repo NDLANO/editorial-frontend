@@ -683,6 +683,7 @@ const phrases = {
       link: 'Lenke',
       size: 'Storleik',
       columns: 'Kolonner',
+      border: 'Grense',
     },
     previewProductionArticle: {
       button: 'Samanlikn gjeldande versjon med gamal versjon',

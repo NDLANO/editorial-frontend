@@ -682,6 +682,7 @@ const phrases = {
       link: 'Link',
       size: 'Size',
       columns: 'Columns',
+      border: 'Border',
     },
     previewProductionArticle: {
       button: 'Compare current version with old version',

@@ -24,6 +24,7 @@ const editor: Descendant[] = [
         type: TYPE_GRID,
         data: {
           columns: 2,
+          border: 'none',
         },
         children: [
           { type: TYPE_GRID_CELL, children: [{ type: TYPE_PARAGRAPH, children: [{ text: 'a' }] }] },
@@ -35,7 +36,8 @@ const editor: Descendant[] = [
   },
 ];
 
-const html = '<section><div data-type="grid" data-columns="2"><p>a</p><p>a</p></div></section>';
+const html =
+  '<section><div data-type="grid" data-columns="2" data-border="none"><p>a</p><p>a</p></div></section>';
 
 describe('file serializing tests', () => {
   test('serializing', () => {

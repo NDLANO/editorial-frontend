@@ -17,10 +17,14 @@ import validateFormik, { RulesType } from '../../../formikValidationSchema';
 
 interface GridFormValues {
   columns: GridType['columns'];
+  border: GridType['border'];
 }
 
 const rules: RulesType<GridFormValues> = {
   columns: {
+    required: true,
+  },
+  border: {
     required: true,
   },
 };
@@ -28,6 +32,7 @@ const rules: RulesType<GridFormValues> = {
 const toInitialValues = (initialData?: GridType): GridFormValues => {
   return {
     columns: initialData?.columns ?? 2,
+    border: initialData?.border ?? 'none',
   };
 };
 
@@ -48,6 +53,7 @@ const StyledFormikField = styled(FormikField)`
 `;
 
 const columns: GridType['columns'][] = [2, 4];
+const border: GridType['border'][] = ['none', 'lightBlue'];
 
 const GridForm = ({ initialData, onSave, onCancel }: Props) => {
   const { t } = useTranslation();
@@ -57,7 +63,8 @@ const GridForm = ({ initialData, onSave, onCancel }: Props) => {
   const onSubmit = useCallback(
     (values: GridFormValues) => {
       const newData: GridType = {
-        columns: values.columns ?? 2,
+        columns: values.columns,
+        border: values.border,
       };
       onSave(newData);
     },
@@ -69,6 +76,15 @@ const GridForm = ({ initialData, onSave, onCancel }: Props) => {
       columns.map((value) => ({
         title: value.toString(),
         value: value.toString(),
+      })),
+    [],
+  );
+
+  const borderOption = useMemo(
+    () =>
+      border.map((value) => ({
+        title: value,
+        value: value,
       })),
     [],
   );
@@ -95,6 +111,24 @@ const GridForm = ({ initialData, onSave, onCancel }: Props) => {
                     target: {
                       name: field.name,
                       value: value.toString(),
+                    },
+                  })
+                }
+              />
+            )}
+          </StyledFormikField>
+          <StyledFormikField name="border">
+            {({ field }: FieldProps) => (
+              <RadioButtonGroup
+                label={t('form.name.border')}
+                selected={field.value ?? 'none'}
+                uniqeIds
+                options={borderOption}
+                onChange={(value: string) =>
+                  field.onChange({
+                    target: {
+                      name: field.name,
+                      value: value,
                     },
                   })
                 }

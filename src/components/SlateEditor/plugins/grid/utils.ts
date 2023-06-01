@@ -25,7 +25,7 @@ export const defaultGridBlock = () => {
     'element',
     {
       type: TYPE_GRID,
-      data: { columns: 2 },
+      data: { columns: 2, border: 'none' },
     },
     [[defaultGridCellBlock(), defaultGridCellBlock()]],
   );

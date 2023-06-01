@@ -30,6 +30,7 @@ describe('normalizing grid tests', () => {
             type: TYPE_GRID,
             data: {
               columns: 2,
+              border: 'none',
             },
             children: [
               {
@@ -64,6 +65,7 @@ describe('normalizing grid tests', () => {
             type: TYPE_GRID,
             data: {
               columns: 2,
+              border: 'none',
             },
             children: [
               {
@@ -96,6 +98,7 @@ describe('normalizing grid tests', () => {
             type: TYPE_GRID,
             data: {
               columns: 4,
+              border: 'none',
             },
             children: [
               {
@@ -122,6 +125,7 @@ describe('normalizing grid tests', () => {
             type: TYPE_GRID,
             data: {
               columns: 4,
+              border: 'none',
             },
             children: [
               {

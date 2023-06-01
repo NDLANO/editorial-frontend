@@ -97,7 +97,7 @@ export const gridSerializer: SlateSerializer = {
   serialize(node: Descendant, children: JSX.Element[]) {
     if (Element.isElement(node) && node.type === TYPE_GRID) {
       return (
-        <div data-type={TYPE_GRID} data-columns={node.data.columns}>
+        <div data-border={node.data.border} data-type={TYPE_GRID} data-columns={node.data.columns}>
           {children}
         </div>
       );

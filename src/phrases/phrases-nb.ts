@@ -684,6 +684,7 @@ const phrases = {
       link: 'Lenke',
       size: 'Størrelse',
       columns: 'Kolonner',
+      border: 'Border',
     },
     previewProductionArticle: {
       button: 'Sammenlign gjeldende versjon med gammel versjon',

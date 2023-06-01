@@ -7,7 +7,7 @@
 
 import { ReactElement, ReactNode, useState } from 'react';
 import { NdlaFilmThemeEditorModal } from '@ndla/editor';
-import Modal from '@ndla/modal';
+import { Modal } from '@ndla/modal';
 import { ThemeNames } from './ThemeEditor';
 
 const blankTheme = {
@@ -57,12 +57,8 @@ const ThemeNameModal = ({
 }: Props) => {
   const [newTheme, setNewTheme] = useState(initialState(initialTheme));
   return (
-    <Modal
-      narrow
-      activateButton={activateButton}
-      wrapperFunctionForButton={wrapperFunctionForButton}
-    >
-      {(onCloseModal: () => void) => (
+    <Modal activateButton={activateButton} wrapperFunctionForButton={wrapperFunctionForButton}>
+      {(onCloseModal) => (
         <NdlaFilmThemeEditorModal
           onClose={() => {
             if (createTheme) setNewTheme(blankTheme);

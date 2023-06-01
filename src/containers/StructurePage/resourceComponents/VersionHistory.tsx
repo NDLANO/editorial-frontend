@@ -14,7 +14,7 @@ import { Spinner } from '@ndla/icons';
 import { VersionHistory as UIVersionHistory } from '@ndla/editor';
 import { IEditorNote } from '@ndla/types-backend/draft-api';
 import { ButtonV2, CloseButton } from '@ndla/button';
-import { ModalBody, ModalHeaderV2, ModalV2 } from '@ndla/modal';
+import { ModalBody, ModalHeader, ModalTitle, Modal } from '@ndla/modal';
 import { ContentTypeBadge } from '@ndla/ui';
 import { ResourceWithNodeConnectionAndMeta } from './StructureResources';
 import ResourceItemLink from '../../../components/Taxonomy/ResourceItemLink';
@@ -53,7 +53,7 @@ const StyledButton = styled(ButtonV2, { shouldForwardProp })<StyledButtonProps>`
   }
 `;
 
-const ModalHeader = styled(ModalHeaderV2)`
+const StyledModalHeader = styled(ModalHeader)`
   padding-bottom: 0;
 `;
 
@@ -68,8 +68,7 @@ const VersionHistory = ({ resource, contentType }: Props) => {
     return null;
   }
   return (
-    <ModalV2
-      label={t('form.workflowSection')}
+    <Modal
       position="top"
       activateButton={
         <StyledButton
@@ -83,7 +82,7 @@ const VersionHistory = ({ resource, contentType }: Props) => {
       }
     >
       {(close) => <ModalContent onClose={close} contentType={contentType} resource={resource} />}
-    </ModalV2>
+    </Modal>
   );
 };
 
@@ -135,10 +134,10 @@ const ModalContent = ({ onClose, contentType, resource }: ModalContentProps) => 
 
   return (
     <>
-      <ModalHeader>
-        <h1>{t('form.workflowSection')}</h1>
+      <StyledModalHeader>
+        <ModalTitle>{t('form.workflowSection')}</ModalTitle>
         <CloseButton onClick={onClose} />
-      </ModalHeader>
+      </StyledModalHeader>
       <StyledModalBody>
         <LinkWrapper>
           <ContentTypeBadge

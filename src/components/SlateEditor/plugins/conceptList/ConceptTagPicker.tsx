@@ -9,7 +9,7 @@ import { ButtonV2 } from '@ndla/button';
 import { Transforms } from 'slate';
 import { spacing } from '@ndla/core';
 import { ReactEditor, useSlateStatic } from 'slate-react';
-import Modal, { ModalBody, ModalCloseButton, ModalHeader } from '@ndla/modal';
+import { ModalBody, ModalCloseButton, ModalHeader, Modal } from '@ndla/modal';
 import { Input } from '@ndla/forms';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -135,14 +135,7 @@ const ConceptTagPicker = ({ element, onClose, language }: Props) => {
 
   return (
     <Portal isOpened>
-      <Modal
-        controllable
-        isOpen
-        onClose={onClose}
-        size="large"
-        backgroundColor="white"
-        minHeight="90vh"
-      >
+      <Modal controlled isOpen onClose={onClose} size={{ height: 'large', width: 'large' }}>
         {() => (
           <div>
             <ModalHeader>

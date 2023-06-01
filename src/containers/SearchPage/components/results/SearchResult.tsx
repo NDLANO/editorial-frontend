@@ -39,13 +39,16 @@ interface Props {
   locale: string;
   subjects: SubjectType[];
   editingState: [boolean, Dispatch<SetStateAction<boolean>>];
+  responsibleName?: string;
 }
 
-const SearchResult = ({ result, locale, subjects, editingState }: Props) => {
+const SearchResult = ({ result, locale, subjects, editingState, responsibleName }: Props) => {
   const { t } = useTranslation();
   switch (result.type) {
     case 'content':
-      return <SearchContent content={result.value} locale={locale} />;
+      return (
+        <SearchContent content={result.value} locale={locale} responsibleName={responsibleName} />
+      );
     case 'concept':
       return (
         <SearchConcept
@@ -53,6 +56,7 @@ const SearchResult = ({ result, locale, subjects, editingState }: Props) => {
           locale={locale as LocaleType}
           subjects={subjects}
           editingState={editingState}
+          responsibleName={responsibleName}
         />
       );
     case 'image':

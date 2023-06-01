@@ -6,7 +6,7 @@
  *
  */
 
-import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
+import { ModalHeader, ModalBody, ModalCloseButton, Modal } from '@ndla/modal';
 import { useTranslation } from 'react-i18next';
 import { CodeBlockEditor } from '@ndla/code';
 import { CodeEmbedData } from '@ndla/types-embed';
@@ -33,14 +33,11 @@ const EditCodeBlockModal = ({
   const { t } = useTranslation();
   return (
     <Modal
-      label={t('codeEditor.subtitle')}
-      narrow
-      controllable
+      aria-label={t('codeEditor.subtitle')}
+      controlled
       isOpen
-      size="large"
-      backgroundColor="white"
+      size={{ width: 'large', height: 'large' }}
       onClose={handleExit}
-      minHeight="90vh"
     >
       {(onCloseModal: any) => (
         <>

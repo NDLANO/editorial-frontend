@@ -10,6 +10,8 @@ import { FieldProps, Form, Formik, FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { ButtonV2 } from '@ndla/button';
 import { Select, Input } from '@ndla/forms';
+import { Heading } from '@ndla/ui';
+import { spacing } from '@ndla/core';
 import styled from '@emotion/styled';
 import { Translation } from '@ndla/types-taxonomy';
 import { LocaleType } from '../../../../interfaces';
@@ -22,7 +24,9 @@ const StyledFormikField = styled(FormikField)`
 `;
 
 const StyledForm = styled(Form)`
-  margin-top: 2em;
+  display: flex;
+  flex-direction: column;
+  gap: ${spacing.small};
 `;
 
 interface Props {
@@ -74,7 +78,9 @@ const AddNodeTranslation = ({ onAddTranslation, availableLanguages, defaultName 
         const { isValid } = formik;
         return (
           <StyledForm>
-            <h1>{t('taxonomy.changeName.addNewTranslation')}</h1>
+            <Heading element="h2" headingStyle="h3">
+              {t('taxonomy.changeName.addNewTranslation')}
+            </Heading>
             <Row>
               <StyledFormikField name="language" label={t('taxonomy.changeName.language')}>
                 {({ field }: FieldProps) => {

@@ -14,7 +14,7 @@ import { FieldProps, Form, Formik, FormikProps } from 'formik';
 import { Input, TextArea } from '@ndla/forms';
 import { spacing } from '@ndla/core';
 import { ButtonV2 } from '@ndla/button';
-import { ModalBody, ModalCloseButton, ModalHeader } from '@ndla/modal';
+import { ModalBody, ModalCloseButton, ModalHeader, ModalTitle } from '@ndla/modal';
 import { BrightcoveEmbed, ExternalEmbed } from '../../../../interfaces';
 import {
   addBrightCoveTimeStampVideoid,
@@ -100,8 +100,8 @@ const EditVideo = ({ embed, saveEmbedUpdates, activeSrc, close, setHasError }: P
 
   return (
     <>
-      <ModalHeader modifier="no-bottom-padding">
-        <h1 id="editVideoEmbed">{t('form.video.editVideo')}</h1>
+      <ModalHeader>
+        <ModalTitle>{t('form.video.editVideo')}</ModalTitle>
         <ModalCloseButton onClick={close} />
       </ModalHeader>
       <ModalBody>

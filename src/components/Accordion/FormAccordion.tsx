@@ -17,7 +17,6 @@ export interface FormAccordionProps {
   hasError: boolean;
   className?: string;
   id: string;
-  isFrontpageArticle?: boolean;
 }
 
 const StyledHeader = styled(AccordionHeader)`
@@ -63,12 +62,10 @@ const StyledAccordionContent = styled(AccordionContent)`
   &[data-wide='true'] {
     display: flex;
     flex-flow: column;
-    justify-content: center;
     align-items: center;
 
     > div {
       width: 1200px !important;
-      left: 0 !important;
     }
   }
 `;
@@ -79,14 +76,14 @@ const FormAccordion = ({
   hasError,
   id,
   className = 'u-6/6',
-  isFrontpageArticle,
+  ...rest
 }: FormAccordionProps) => {
   return (
     <StyledItem value={id} data-error={hasError}>
       <StyledHeader data-error={hasError}>
         <HeaderWrapper data-error={hasError}>{title}</HeaderWrapper>
       </StyledHeader>
-      <StyledAccordionContent data-wide={isFrontpageArticle} id={id} className={className}>
+      <StyledAccordionContent id={id} className={className} {...rest}>
         {children}
       </StyledAccordionContent>
     </StyledItem>

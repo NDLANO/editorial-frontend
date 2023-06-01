@@ -190,7 +190,7 @@ const ChangeNodeNameModal = ({ onClose, node }: ModalProps) => {
   }
 
   return (
-    <Modal aria-label={t('taxonomy.changeName.title')} controlled isOpen onClose={() => onClose()}>
+    <Modal controlled isOpen onClose={() => onClose()}>
       {(onCloseModal: () => void) => (
         <>
           <ModalHeader>

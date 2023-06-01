@@ -296,7 +296,6 @@ const VisualElementUrlPreview = ({
         subTitle={getSubTitle()}
       >
         <Modal
-          aria-label={t('form.content.link.validDomains')}
           activateButton={
             <div>
               <Tooltip tooltip={t('form.content.link.validDomains')}>

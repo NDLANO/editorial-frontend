@@ -22,6 +22,7 @@ import { TYPE_GRID, TYPE_GRID_CELL } from './types';
 import { defaultGridCellBlock } from './utils';
 import { TYPE_EMBED_IMAGE } from '../embed/types';
 import { TYPE_BLOGPOST } from '../blogPost/types';
+import StyledGridCell from './SlateGridCell';
 
 export interface GridElement {
   type: 'grid';
@@ -33,25 +34,6 @@ export interface GridCellElement {
   type: 'grid-cell';
   children: Descendant[];
 }
-
-const StyledGridCell = styled.div`
-  border: 1px solid ${colors.brand.light};
-  min-width: 200px;
-  height: 100%;
-  width: 100%;
-
-  > p {
-    padding: 0 ${spacing.xxsmall};
-    word-break: break-word;
-  }
-
-  > div,
-  > figure,
-  > iframe {
-    width: 100% !important;
-    inset: 0;
-  }
-`;
 
 const normalizerConfig: NormalizerConfig = {
   previous: {

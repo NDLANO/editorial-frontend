@@ -16,7 +16,6 @@ import Tooltip from '@ndla/tooltip';
 import { ButtonV2 } from '@ndla/button';
 import { IConceptSummary } from '@ndla/types-backend/concept-api';
 import { IMultiSearchSummary } from '@ndla/types-backend/search-api';
-
 import { normalPaddingCSS } from '../../HowTo';
 import { searchConcepts } from '../../../modules/concept/conceptApi';
 import { search as searchArticles } from '../../../modules/search/searchApi';
@@ -75,10 +74,6 @@ const EmbedConnection = ({ id, type, articles, setArticles, concepts, setConcept
       shouldUpdateState = false;
     };
   }, [id, type, setArticles, setConcepts]);
-
-  if (!articles?.length && !concepts?.length) {
-    return null;
-  }
 
   return (
     <Modal

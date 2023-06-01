@@ -40,10 +40,6 @@ const LearningpathConnection = ({ id, learningpaths, setLearningpaths }: Props) 
     }
   }, [id, setLearningpaths]);
 
-  if (!learningpaths.length) {
-    return null;
-  }
-
   return (
     <Modal
       label={t('form.learningpathConnections.title')}

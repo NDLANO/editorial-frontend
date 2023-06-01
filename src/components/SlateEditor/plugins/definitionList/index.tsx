@@ -18,6 +18,7 @@ import onBackspace from './handlers/onBackspace';
 import onEnter from './handlers/onEnter';
 import { TYPE_DEFINTION_LIST, TYPE_DEFINTION_DESCRIPTION, TYPE_DEFINTION_TERM } from './types';
 import { TYPE_SECTION } from '../section/types';
+import { DefinitionDescription, DefinitionTerm } from '@ndla/ui';
 
 export interface DefinitionListElement {
   type: 'definition-list';
@@ -33,18 +34,6 @@ export interface DefinitionDescriptionElement {
   type: 'definition-description';
   children: Descendant[];
 }
-
-const StyledDD = styled.dd`
-  color: ${colors.text.light};
-  font-weight: ${fonts.weight.normal};
-  ${fonts.sizes('18px', '29px')};
-`;
-
-const StyledDT = styled.dt`
-  color: ${colors.text.primary};
-  font-weight: ${fonts.weight.bold};
-  ${fonts.sizes('18px', '29px')};
-`;
 
 const normalizerDLConfig: NormalizerConfig = {
   nodes: {
@@ -129,9 +118,9 @@ export const definitionListPlugin = (editor: Editor) => {
     if (element.type === TYPE_DEFINTION_LIST) {
       return <dl {...attributes}>{children}</dl>;
     } else if (element.type === TYPE_DEFINTION_DESCRIPTION) {
-      return <StyledDD {...attributes}>{children}</StyledDD>;
+      return <DefinitionDescription {...attributes}>{children}</DefinitionDescription>;
     } else if (element.type === TYPE_DEFINTION_TERM) {
-      return <StyledDT {...attributes}>{children}</StyledDT>;
+      return <DefinitionTerm {...attributes}>{children}</DefinitionTerm>;
     } else if (nextRenderElement) {
       return nextRenderElement(props);
     }

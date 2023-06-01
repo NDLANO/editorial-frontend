@@ -13,7 +13,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { ButtonV2, CloseButton } from '@ndla/button';
 import { spacing } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
-import { ModalBody, ModalHeaderV2, ModalV2 } from '@ndla/modal';
+import { ModalBody, ModalHeader, ModalTitle, Modal } from '@ndla/modal';
 import { Node } from '@ndla/types-taxonomy';
 import { TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH } from '../../../constants';
 import { useUpdateNodeMetadataMutation } from '../../../modules/nodes/nodeMutations';
@@ -56,8 +56,7 @@ const DeletePublishRequests = ({ nodes }: Props) => {
   );
 
   return (
-    <ModalV2
-      label={t('publishRequests.deleteAll')}
+    <Modal
       activateButton={
         <ButtonV2 size="small" colorTheme="danger">
           {t('delete')}
@@ -66,10 +65,10 @@ const DeletePublishRequests = ({ nodes }: Props) => {
     >
       {(close) => (
         <>
-          <ModalHeaderV2>
-            <h1>{t('publishRequests.deleteAll')}</h1>
+          <ModalHeader>
+            <ModalTitle>{t('publishRequests.deleteAll')}</ModalTitle>
             <CloseButton onClick={close} />
-          </ModalHeaderV2>
+          </ModalHeader>
           <ModalBody>
             <p>{t('publishRequests.deleteAllInfo')}</p>
             <ButtonContainer>
@@ -89,7 +88,7 @@ const DeletePublishRequests = ({ nodes }: Props) => {
           </ModalBody>
         </>
       )}
-    </ModalV2>
+    </Modal>
   );
 };
 

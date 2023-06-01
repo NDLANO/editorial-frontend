@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { ReactEditor } from 'slate-react';
 import styled from '@emotion/styled';
 import { CloseButton } from '@ndla/button';
-import { ModalBody, ModalHeaderV2 } from '@ndla/modal';
+import { ModalBody, ModalHeader, ModalTitle } from '@ndla/modal';
 import FootnoteForm from './FootnoteForm';
 import { FootnoteElement } from '.';
 
@@ -27,7 +27,7 @@ const StyledModalBody = styled(ModalBody)`
   padding-top: 0;
 `;
 
-const StyledModalHeading = styled(ModalHeaderV2)`
+const StyledModalHeading = styled(ModalHeader)`
   padding-bottom: 0;
 `;
 
@@ -71,7 +71,7 @@ const EditFootnote = (props: Props) => {
   return (
     <>
       <StyledModalHeading>
-        <h1>{t(`form.content.footnote.${isEdit ? 'editTitle' : 'addTitle'}`)}</h1>
+        <ModalTitle>{t(`form.content.footnote.${isEdit ? 'editTitle' : 'addTitle'}`)}</ModalTitle>
         <CloseButton onClick={onClose} />
       </StyledModalHeading>
       <StyledModalBody>

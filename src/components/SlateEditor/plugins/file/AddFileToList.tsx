@@ -7,7 +7,7 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
+import { ModalHeader, ModalBody, ModalCloseButton, Modal } from '@ndla/modal';
 import { Portal } from '../../../Portal';
 import FileUploader from '../../../FileUploader';
 import { UnsavedFile } from '../../../../interfaces';
@@ -26,12 +26,11 @@ const AddFileToList = ({ showFileUploader, onClose, onFileSave }: Props) => {
   return (
     <Portal isOpened>
       <Modal
-        label={t('form.file.addFile')}
-        controllable
+        aria-label={t('form.file.addFile')}
+        controlled
         isOpen={showFileUploader}
-        size="medium"
+        size="normal"
         onClose={onClose}
-        backgroundColor="white"
       >
         {(onCloseModal: () => void) => (
           <>

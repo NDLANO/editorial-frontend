@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { spacing, colors, fonts } from '@ndla/core';
 import { BookOpen } from '@ndla/icons/common';
-import { ModalV2, ModalCloseButton, ModalPosition } from '@ndla/modal';
+import { Modal, ModalCloseButton, ModalPosition, ModalTitle } from '@ndla/modal';
 import Spinner from '../Spinner';
 
 const StyledHeader = styled.div`
@@ -61,7 +61,7 @@ const StyledWrapper = styled.div`
   padding: ${spacing.small} 0px;
 `;
 
-const StyledTitle = styled.h2`
+const StyledTitle = styled(ModalTitle)`
   font-weight: ${fonts.weight.semibold};
   margin: 0px;
   ${fonts.sizes(24)}
@@ -89,14 +89,7 @@ const TaxonomyLightbox = ({
   const { t } = useTranslation();
 
   return (
-    <ModalV2
-      onClose={onClose}
-      controlled
-      isOpen
-      position={position}
-      label={title}
-      size={wide ? 'large' : 'normal'}
-    >
+    <Modal onClose={onClose} controlled isOpen position={position} size={wide ? 'large' : 'normal'}>
       {(onCloseModal) => (
         <>
           <StyledHeader>
@@ -104,7 +97,7 @@ const TaxonomyLightbox = ({
               <StyledIconWrapper>
                 <StyledMenuBook />
               </StyledIconWrapper>
-              <StyledTitle>{title}</StyledTitle>
+              <StyledTitle as="h2">{title}</StyledTitle>
             </StyledTitleWrapper>
             <ModalCloseButton onClick={onCloseModal} data-testid="taxonomyLightboxCloseButton" />
           </StyledHeader>
@@ -120,7 +113,7 @@ const TaxonomyLightbox = ({
           </StyledContent>
         </>
       )}
-    </ModalV2>
+    </Modal>
   );
 };
 

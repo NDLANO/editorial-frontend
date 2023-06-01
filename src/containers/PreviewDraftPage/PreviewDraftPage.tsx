@@ -10,20 +10,12 @@ import { HelmetWithTracker } from '@ndla/tracker';
 import { Hero, HeroContentType, OneColumn } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
-import styled from '@emotion/styled';
 import PreviewDraft from '../../components/PreviewDraft/PreviewDraft';
 import { getContentTypeFromResourceTypes } from '../../util/resourceHelpers';
 import { useTaxonomyVersion } from '../StructureVersion/TaxonomyVersionProvider';
 import LanguageSelector from './LanguageSelector';
 import { useDraft } from '../../modules/draft/draftQueries';
 import { useNodes } from '../../modules/nodes/nodeQueries';
-import { FRONTPAGE_ARTICLE_WIDTH } from '../../constants';
-
-const StyledOneColumn = styled(OneColumn)`
-  &[data-wide='true'] {
-    max-width: ${FRONTPAGE_ARTICLE_WIDTH};
-  }
-`;
 
 const PreviewDraftPage = () => {
   const params = useParams<'draftId' | 'language'>();
@@ -54,7 +46,7 @@ const PreviewDraftPage = () => {
         <LanguageSelector supportedLanguages={draft.data?.supportedLanguages ?? []} />
       </Hero>
       <HelmetWithTracker title={`${draft.data?.title?.title} ${t('htmlTitles.titleTemplate')}`} />
-      <StyledOneColumn data-wide={draft.data?.articleType === 'frontpage-article'}>
+      <OneColumn>
         <PreviewDraft
           type="article"
           draft={draft.data!}
@@ -62,7 +54,7 @@ const PreviewDraftPage = () => {
           contentType={contentType}
           language={language}
         />
-      </StyledOneColumn>
+      </OneColumn>
     </>
   );
 };

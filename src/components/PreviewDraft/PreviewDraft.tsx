@@ -16,6 +16,7 @@ import '../DisplayEmbed/helpers/h5pResizer';
 import formatDate from '../../util/formatDate';
 import { usePreviewArticle } from '../../modules/article/articleGqlQueries';
 import config from '../../config';
+import styled from '@emotion/styled';
 
 interface BaseProps {
   label: string;

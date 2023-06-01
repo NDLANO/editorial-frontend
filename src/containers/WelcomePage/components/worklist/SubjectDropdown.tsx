@@ -29,8 +29,8 @@ const SubjectDropdown = ({ filterSubject, setFilterSubject }: Props) => {
 
   const { data, isInitialLoading } = useSearch({
     'responsible-ids': ndlaId,
-    'aggregate-paths': 'contexts.subjectId',
-    'page-size': 100,
+    'aggregate-paths': 'contexts.rootId',
+    'page-size': 6,
   });
 
   const subjectIds = uniq(data?.results.flatMap((r) => r.contexts.map((c) => c.subjectId)));

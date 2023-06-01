@@ -555,8 +555,8 @@ const phrases = {
     },
   },
   keyFigureForm: {
-    title: 'Nykeltall',
-    edit: 'Rediger nykeltall',
+    title: 'Nykeltal',
+    edit: 'Rediger nykeltal',
   },
   editorToolbar: {
     bold: 'Feit\n({{ctrl}}+b)',
@@ -599,7 +599,7 @@ const phrases = {
       podcast: 'Podkastepisode',
       conceptList: 'Forklaringsliste',
       concept: 'Forklaring',
-      keyFigure: 'Nykeltall',
+      keyFigure: 'Nykeltal',
       blogPost: 'Bloggpost',
     },
   },

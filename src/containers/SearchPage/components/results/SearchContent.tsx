@@ -57,6 +57,7 @@ const DescriptionTitle = styled.p`
 interface Props {
   content: IMultiSearchSummary;
   locale: string;
+  responsibleName?: string;
 }
 
 interface ContentType {
@@ -66,7 +67,7 @@ interface ContentType {
 const Title = StyledSearchTitle.withComponent('h2');
 const NoShadowLink = NoShadowAnchor.withComponent(Link);
 
-const SearchContent = ({ content, locale }: Props) => {
+const SearchContent = ({ content, locale, responsibleName }: Props) => {
   const { t } = useTranslation();
   const { userPermissions } = useSession();
   const { contexts, metaImage } = content;
@@ -76,7 +77,7 @@ const SearchContent = ({ content, locale }: Props) => {
   if ((contexts[0]?.resourceTypes?.length ?? 0) > 0) {
     resourceType = getContentTypeFromResourceTypes(contexts[0].resourceTypes);
   } else if (isLearningpath(content.url)) {
-    resourceType = getContentTypeFromResourceTypes([{ id: RESOURCE_TYPE_LEARNING_PATH, name: '' }]);
+    resourceType = getContentTypeFromResourceTypes([{ id: RESOURCE_TYPE_LEARNING_PATH }]);
   }
 
   const linkProps = resourceToLinkProps(content, resourceType?.contentType, locale);
@@ -173,6 +174,7 @@ const SearchContent = ({ content, locale }: Props) => {
             fontSize={10}
             expirationDate={expirationDate}
             type={content.learningResourceType}
+            responsibleName={responsibleName}
           />
         </StyledSearchBreadcrumbs>
       </StyledSearchContent>

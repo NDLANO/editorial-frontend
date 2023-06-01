@@ -12,8 +12,7 @@ import { spacing } from '@ndla/core';
 import styled from '@emotion/styled';
 import { TFunction } from 'i18next';
 import keyBy from 'lodash/keyBy';
-import { NodeChild } from '@ndla/types-taxonomy';
-import { ResourceType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
+import { NodeChild, ResourceType } from '@ndla/types-taxonomy';
 import {
   NodeResourceMeta,
   useNodeResourceMetas,
@@ -43,6 +42,9 @@ const getMissingResourceType = (t: TFunction): ResourceType & { disabled?: boole
   id: 'missing',
   name: t('taxonomy.missingResourceType'),
   disabled: true,
+  supportedLanguages: [],
+  translations: [],
+  subtypes: [],
 });
 
 const missingObject = {

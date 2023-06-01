@@ -11,7 +11,7 @@ import { Editor, Node } from 'slate';
 import { RenderElementProps } from 'slate-react';
 import { ButtonV2 } from '@ndla/button';
 import styled from '@emotion/styled';
-import { ModalV2 } from '@ndla/modal';
+import { Modal } from '@ndla/modal';
 import { useTranslation } from 'react-i18next';
 import { colors, spacing } from '@ndla/core';
 import config from '../../../../config';
@@ -146,16 +146,11 @@ const Link = (props: Props) => {
               </a>
             </StyledLinkMenu>
           </Portal>
-          <ModalV2
-            controlled
-            isOpen={editMode}
-            onClose={toggleEditMode}
-            label={t(`form.content.link.${model?.href ? 'changeTitle' : 'addTitle'}`)}
-          >
+          <Modal controlled isOpen={editMode} onClose={toggleEditMode}>
             {(close) => (
               <EditLink {...props} model={model} closeEditMode={close} onChange={onChange} />
             )}
-          </ModalV2>
+          </Modal>
         </>
       )}
     </StyledLink>

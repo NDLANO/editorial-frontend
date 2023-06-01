@@ -12,7 +12,7 @@ import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { Figure } from '@ndla/ui';
 import { colors } from '@ndla/core';
-import Modal from '@ndla/modal';
+import { Modal } from '@ndla/modal';
 
 import EditAudio, { audioEmbedFormRules, toAudioEmbedFormValues } from './EditAudio';
 import AudioPlayerMounter from './AudioPlayerMounter';
@@ -98,13 +98,7 @@ const SlateAudio = ({
 
   return (
     <>
-      <Modal
-        controllable
-        backgroundColor="white"
-        isOpen={editMode}
-        labelledBy={'editAudioEmbed'}
-        onClose={() => setEditMode(false)}
-      >
+      <Modal controlled isOpen={editMode} onClose={() => setEditMode(false)}>
         {(close) => (
           <EditAudio
             saveEmbedUpdates={saveEmbedUpdates}

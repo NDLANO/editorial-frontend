@@ -29,7 +29,8 @@ const SubjectDropdown = ({ filterSubject, setFilterSubject }: Props) => {
 
   const { data, isInitialLoading } = useSearch({
     'responsible-ids': ndlaId,
-    'aggregate-paths': 'contexts.subjectId',
+    'aggregate-paths': 'contexts.rootId',
+    'page-size': 6,
   });
 
   const subjectIds = uniq(data?.results.flatMap((r) => r.contexts.map((c) => c.subjectId)));
@@ -45,14 +46,18 @@ const SubjectDropdown = ({ filterSubject, setFilterSubject }: Props) => {
     {
       select: (res) => ({
         ...res,
-        results: sortBy(res.results, (r) => r.metadata.customFields.subjectCategory === 'archive'),
+        results: sortBy(res.results, (r) => r.name),
       }),
       enabled: !!data?.results?.length,
     },
   );
   const subjectContexts = useMemo(() => {
     if (subjects?.results.length) {
-      return subjects!.results.map((r) => ({ value: r.id, label: r.name }));
+      const archivedAtBottom = sortBy(
+        subjects.results,
+        (r) => r.metadata.customFields.subjectCategory === 'archive',
+      );
+      return archivedAtBottom.map((r) => ({ value: r.id, label: r.name }));
     } else return [];
   }, [subjects]);
 

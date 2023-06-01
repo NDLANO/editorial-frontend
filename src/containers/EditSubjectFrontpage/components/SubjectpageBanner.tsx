@@ -6,7 +6,7 @@
  */
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ModalBody, ModalV2 } from '@ndla/modal';
+import { ModalBody, Modal } from '@ndla/modal';
 import { FieldHeader } from '@ndla/forms';
 import { useField, useFormikContext } from 'formik';
 import { ButtonV2 } from '@ndla/button';
@@ -68,7 +68,7 @@ const SubjectpageBanner = ({ title, fieldName }: Props) => {
         <ButtonV2 onClick={onImageSelectOpen}>{t('subjectpageForm.addBanner')}</ButtonV2>
       )}
 
-      <ModalV2 controlled isOpen={showImageSelect} onClose={onImageSelectClose} size="large">
+      <Modal controlled isOpen={showImageSelect} onClose={onImageSelectClose} size="large">
         {(close) => (
           <ModalBody>
             <ImageSearchAndUploader
@@ -83,7 +83,7 @@ const SubjectpageBanner = ({ title, fieldName }: Props) => {
             />
           </ModalBody>
         )}
-      </ModalV2>
+      </Modal>
     </>
   );
 };

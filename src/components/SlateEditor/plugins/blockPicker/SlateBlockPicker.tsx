@@ -46,8 +46,12 @@ import {
 import { TYPE_RELATED } from '../related/types';
 import { TYPE_CODEBLOCK } from '../codeBlock/types';
 import { TYPE_CONCEPT_LIST } from '../conceptList/types';
+import { TYPE_KEY_FIGURE } from '../keyFigure/types';
+import { defaultKeyFigureBlock } from '../keyFigure/utils';
+import { TYPE_CONTACT_BLOCK } from '../contactBlock/types';
 import { TYPE_BLOGPOST } from '../blogPost/types';
 import { defaultBlogPostBlock } from '../blogPost/utils';
+import { defaultContactBlock } from '../contactBlock/utils';
 
 interface Props {
   editor: Editor;
@@ -215,6 +219,14 @@ const SlateBlockPicker = ({
       }
       case TYPE_CONCEPT_BLOCK: {
         onInsertBlock(defaultConceptBlock());
+        break;
+      }
+      case TYPE_KEY_FIGURE: {
+        onInsertBlock(defaultKeyFigureBlock());
+        break;
+      }
+      case TYPE_CONTACT_BLOCK: {
+        onInsertBlock(defaultContactBlock());
         break;
       }
       default:

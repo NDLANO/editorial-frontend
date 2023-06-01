@@ -10,13 +10,9 @@ import groupBy from 'lodash/groupBy';
 import merge from 'lodash/merge';
 import sortBy from 'lodash/sortBy';
 import uniqBy from 'lodash/uniqBy';
-import { NodeChild } from '@ndla/types-taxonomy';
+import { NodeChild, ResourceType } from '@ndla/types-taxonomy';
 import { FlattenedResourceType } from '../interfaces';
-import {
-  ResourceType,
-  SubjectTopic,
-  TaxonomyElement,
-} from '../modules/taxonomy/taxonomyApiInterfaces';
+import { SubjectTopic, TaxonomyElement } from '../modules/taxonomy/taxonomyApiInterfaces';
 import { fetchTopic, fetchSubject } from '../modules/taxonomy';
 import { getContentTypeFromResourceTypes } from './resourceHelpers';
 import { ResourceWithNodeConnectionAndMeta } from '../containers/StructurePage/resourceComponents/StructureResources';

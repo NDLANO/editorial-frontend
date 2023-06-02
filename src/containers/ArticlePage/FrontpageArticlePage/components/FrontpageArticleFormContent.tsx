@@ -109,7 +109,7 @@ const visualElements = [
 
 const actions = [TYPE_TABLE, TYPE_CODEBLOCK, TYPE_FILE, TYPE_BLOGPOST].concat(visualElements);
 const actionsToShowInAreas = {
-  table: ['image'],
+  'table-cell': ['image'],
   section: actions,
 };
 

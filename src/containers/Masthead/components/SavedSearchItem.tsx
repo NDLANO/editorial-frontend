@@ -44,6 +44,7 @@ const StyledSearch = styled(Search)`
 const StyledTrashCanOutline = styled(TrashCanOutline)`
   width: 24px;
   height: 24px;
+  color: ${colors.support.red};
 `;
 interface Props {
   searchText: string;
@@ -89,7 +90,6 @@ const SavedSearchItem = ({ searchText, userData, deleteSearch, index, ...rest }:
     const audioType = searchObject['audio-type'] || undefined;
     const license = searchObject['license'] || undefined;
     const modelReleased = searchObject['model-released'] || undefined;
-    const responsible = searchObject['responsible-ids'] || undefined;
 
     const results = [];
     results.push(type && t(`searchTypes.${type}`));
@@ -101,10 +101,13 @@ const SavedSearchItem = ({ searchText, userData, deleteSearch, index, ...rest }:
     results.push(resourceType && data?.resourceType?.name);
     results.push(articleType && t(`articleType.${articleType}`));
     results.push(contextType && t(`contextTypes.topic`));
-    results.push(data?.user?.[0].name);
+    results.push(data?.user?.name && `${t('searchForm.tagType.users')}: ${data.user.name}`);
     results.push(license);
     results.push(modelReleased && t(`imageSearch.modelReleased.${modelReleased}`));
-    results.push(responsible && t(`searchForm.tagType.responsible-ids`));
+    results.push(
+      data?.responsible?.name &&
+        `${t(`searchForm.tagType.responsible-ids`)}: ${data.responsible.name}`,
+    );
 
     const resultHitsString =
       data.searchResult !== undefined ? ` (${data.searchResult.totalCount})` : '';

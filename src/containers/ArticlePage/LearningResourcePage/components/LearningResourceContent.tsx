@@ -123,10 +123,7 @@ const actionsToShowInAreas = {
   details: actions,
   aside: actions,
   bodybox: actions,
-  summary: actions,
-  list: actions,
-  'list-item': actions,
-  table: ['image'],
+  'table-cell': ['image'],
 };
 
 // Plugins are checked from last to first

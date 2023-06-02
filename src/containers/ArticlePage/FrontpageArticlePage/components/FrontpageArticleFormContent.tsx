@@ -113,25 +113,14 @@ const visualElements = [
   TYPE_EMBED_IMAGE,
 ];
 
-const actions = [
-  TYPE_TABLE,
-  TYPE_CODEBLOCK,
-  TYPE_FILE,
-  TYPE_BLOGPOST,
-  TYPE_CONTACT_BLOCK,
-  TYPE_GRID,
-  TYPE_KEY_FIGURE,
-].concat(visualElements);
+const actions = [TYPE_TABLE, TYPE_CODEBLOCK, TYPE_FILE, TYPE_CONTACT_BLOCK, TYPE_GRID].concat(
+  visualElements,
+);
 
 const actionsToShowInAreas = {
-  details: actions,
-  aside: actions,
-  bodybox: actions,
-  summary: actions,
-  list: actions,
-  'list-item': actions,
-  table: ['image'],
-  paragraph: actions,
+  'table-cell': [TYPE_EMBED_IMAGE],
+  section: actions,
+  'grid-cell': [TYPE_EMBED_IMAGE, TYPE_KEY_FIGURE, TYPE_BLOGPOST],
 };
 
 // Plugins are checked from last to first

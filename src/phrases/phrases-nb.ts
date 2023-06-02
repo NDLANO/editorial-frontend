@@ -134,7 +134,7 @@ const phrases = {
     revision: 'Revisjon',
     revisionDescription: 'Artikler i favorittfag som trenger revisjon',
     revisionDate: 'Revisjonsdato',
-    productionSystem: 'til produksjonssystem',
+    welcomeText: 'til ED',
     revisionInfo: 'Velg favorittfag ved å stjernemarkere i strukturredigering',
     workList: {
       title: 'Mine arbeidsoppgaver',
@@ -517,6 +517,18 @@ const phrases = {
   imageForm: {
     title: 'Bilde',
   },
+  contactBlockForm: {
+    title: 'Kontaktblokk',
+    edit: 'Rediger kontaktblokk',
+    blobColor: {
+      green: 'Grønn',
+      pink: 'Rosa',
+    },
+    blob: {
+      pointy: 'Spiss',
+      round: 'Rund',
+    },
+  },
   frontpageArticleForm: {
     title: 'Innholdsartikkel',
     validation: {
@@ -554,6 +566,10 @@ const phrases = {
         publisher: 'Utgiver',
       },
     },
+  },
+  keyFigureForm: {
+    edit: 'Rediger Nøkkeltall',
+    title: 'Nøkkeltall',
   },
   editorToolbar: {
     bold: 'Fet\n({{ctrl}}+b)',
@@ -596,6 +612,8 @@ const phrases = {
       podcast: 'Podkastepisode',
       conceptList: 'Forklaringsliste',
       concept: 'Forklaring',
+      keyFigure: 'Nøkkeltall',
+      contactBlock: 'Kontaktblokk',
       blogPost: 'Bloggpost',
     },
   },
@@ -666,8 +684,8 @@ const phrases = {
       description: 'Innhold',
       conceptContent: 'Beskrivelse',
       grepCodes: 'Læreplankobling',
-      desktopBanner: 'Banner til desktop',
-      mobileBanner: 'Banner til mobil',
+      desktopBannerId: 'Banner til desktop',
+      mobileBannerId: 'Banner til mobil',
       concepts: 'Forklaringer',
       relatedContent: 'Relatert innhold',
       subjects: 'Fag',
@@ -676,8 +694,13 @@ const phrases = {
       coverPhotoId: 'Metabilde',
       revisions: 'Revisjoner',
       name: 'Navn',
-      author: 'Forfatter',
+      subtitle: 'Undertittel',
+      email: 'E-post',
+      blob: 'Blob-type',
+      blobColor: 'Blob-farge',
+      jobTitle: 'Stilling',
       language: 'Språk',
+      author: 'Forfatter',
       link: 'Lenke',
       size: 'Størrelse',
     },
@@ -1070,7 +1093,7 @@ const phrases = {
       label: 'Ansvarlig',
       choose: 'Velg ansvarlig',
       noResults: 'Ingen treff',
-      noResponible: 'Ingen ansvarlig',
+      noResponsible: 'Ingen ansvarlig',
       revisionDate: 'Antall som nærmer seg revisjonsdato',
       error: 'Noe gikk galt ved oppdatering av ansvarlig.',
     },

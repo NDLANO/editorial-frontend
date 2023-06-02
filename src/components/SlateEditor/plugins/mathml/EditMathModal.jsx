@@ -8,7 +8,7 @@
 
 import { useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
+import { Modal, ModalHeader, ModalBody, ModalCloseButton, ModalTitle } from '@ndla/modal';
 import { useTranslation } from 'react-i18next';
 import uniqueId from 'lodash/uniqueId';
 import styled from '@emotion/styled';
@@ -52,23 +52,14 @@ const EditMathModal = ({
     if (node && window.MathJax) window.MathJax.typesetPromise([node]);
   }, [uuid, renderMathML]);
   return (
-    <Modal
-      label={t('mathEditor.editMath')}
-      narrow
-      controllable
-      isOpen
-      size="large"
-      backgroundColor="white"
-      onClose={handleExit}
-      minHeight="90vh"
-    >
+    <Modal controlled isOpen size={{ width: 'large', height: 'large' }} onClose={handleExit}>
       {(onCloseModal) => (
         <>
           <ModalHeader>
+            <ModalTitle>{t('mathEditor.editMath')}</ModalTitle>
             <ModalCloseButton title={t('dialog.close')} onClick={onCloseModal} />
           </ModalHeader>
           <ModalBody>
-            <h1>{t('mathEditor.editMath')}</h1>
             <hr />
             <StyledMathEditorWrapper id={`mathEditorContainer-${id}`} />
             <StyledButtonWrapper>

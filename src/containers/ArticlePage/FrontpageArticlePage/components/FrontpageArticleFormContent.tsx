@@ -65,9 +65,13 @@ import {
   TYPE_EMBED_IMAGE,
 } from '../../../../components/SlateEditor/plugins/embed/types';
 import { TYPE_FILE } from '../../../../components/SlateEditor/plugins/file/types';
+import { contactBlockPlugin } from '../../../../components/SlateEditor/plugins/contactBlock';
+import { TYPE_CONTACT_BLOCK } from '../../../../components/SlateEditor/plugins/contactBlock/types';
 import { blogPostPlugin } from '../../../../components/SlateEditor/plugins/blogPost';
 import { TYPE_BLOGPOST } from '../../../../components/SlateEditor/plugins/blogPost/types';
 import { frontpageActions } from '../../../../components/SlateEditor/plugins/blockPicker/actions';
+import { TYPE_KEY_FIGURE } from '../../../../components/SlateEditor/plugins/keyFigure/types';
+import { keyFigurePlugin } from '../../../../components/SlateEditor/plugins/keyFigure';
 
 const StyledFormikField = styled(FormikField)`
   display: flex;
@@ -107,7 +111,15 @@ const visualElements = [
   TYPE_EMBED_IMAGE,
 ];
 
-const actions = [TYPE_TABLE, TYPE_CODEBLOCK, TYPE_FILE, TYPE_BLOGPOST].concat(visualElements);
+const actions = [
+  TYPE_TABLE,
+  TYPE_CODEBLOCK,
+  TYPE_FILE,
+  TYPE_BLOGPOST,
+  TYPE_CONTACT_BLOCK,
+  TYPE_KEY_FIGURE,
+].concat(visualElements);
+
 const actionsToShowInAreas = {
   details: actions,
   aside: actions,
@@ -148,7 +160,9 @@ export const plugins = (
     relatedPlugin,
     filePlugin,
     mathmlPlugin,
+    contactBlockPlugin,
     codeblockPlugin,
+    keyFigurePlugin,
     blockPickerPlugin,
     dndPlugin,
     toolbarPlugin,

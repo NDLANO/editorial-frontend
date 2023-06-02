@@ -8,7 +8,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import debounce from 'lodash/debounce';
-import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
+import { ModalHeader, ModalBody, ModalCloseButton, Modal } from '@ndla/modal';
 import {
   IConcept,
   IConceptSearchResult,
@@ -113,13 +113,11 @@ const ConceptModal = ({
   return (
     <Portal isOpened>
       <Modal
-        label={t('conceptform.title')}
-        controllable
+        aria-label={t('conceptform.title')}
+        controlled
         isOpen={isOpen}
         onClose={onClose}
-        size="large"
-        backgroundColor="white"
-        minHeight="90vh"
+        size={{ width: 'large', height: 'large' }}
       >
         {() => (
           <div>

@@ -64,21 +64,6 @@ const editorialFrontendDomain = () => {
   }
 };
 
-const gaTrackingId = () => {
-  if (process.env.NODE_ENV !== 'production') {
-    return '';
-  }
-
-  switch (ndlaEnvironment) {
-    case 'prod':
-      return 'UA-9036010-36';
-    case 'staging':
-      return 'UA-9036010-36';
-    default:
-      return '';
-  }
-};
-
 const learningpathFrontendDomain = () => {
   switch (ndlaEnvironment) {
     case 'local':
@@ -151,7 +136,6 @@ export type ConfigType = {
   logEnvironment: string | undefined;
   ndlaApiUrl: string | undefined;
   ndlaBaseUrl: string;
-  gaTrackingId: string;
   editorialFrontendDomain: string;
   googleTagManagerId: string | undefined;
   ndlaFrontendDomain: string;
@@ -178,8 +162,6 @@ export type ConfigType = {
   brightcoveCopyrightPlayerId: string | undefined;
   disableCSP: string | undefined;
   usernamePasswordEnabled: boolean;
-  translateServiceUser: string;
-  translateServiceToken: string;
   translateServiceUrl: string;
 };
 
@@ -215,15 +197,12 @@ const config: ConfigType = {
   localConverter: getEnvironmentVariabel('LOCAL_CONVERTER', 'false') === 'true',
   checkArticleScript: getEnvironmentVariabel('CHECK_ARTICLE_SCRIPT', 'false') === 'true',
   googleTagManagerId: getEnvironmentVariabel('NDLA_GOOGLE_TAG_MANAGER_ID'),
-  gaTrackingId: getEnvironmentVariabel('GA_TRACKING_ID', gaTrackingId()),
   zendeskWidgetKey: getEnvironmentVariabel('NDLA_ED_ZENDESK_WIDGET_KEY'),
   disableCSP: getEnvironmentVariabel('DISABLE_CSP', 'false'),
   usernamePasswordEnabled: getEnvironmentVariabel(
     'USERNAME_PASSWORD_ENABLED',
     usernamePasswordEnabled(),
   ),
-  translateServiceUser: getEnvironmentVariabel('NDKM_USER', ''),
-  translateServiceToken: getEnvironmentVariabel('NDKM_TOKEN', ''),
   translateServiceUrl: getEnvironmentVariabel('NDKM_URL', getTranslateServiceUrl()),
 };
 

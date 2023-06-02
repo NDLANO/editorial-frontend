@@ -169,7 +169,7 @@ const ConceptListTabContent = ({
               isClearable
             />
           </DropdownWrapper>
-          <GoToSearch ndlaId={ndlaId} filterSubject={filterSubject} searchEnv={'concept'} />
+          <GoToSearch ndlaId={ndlaId} filterSubject={filterSubject?.value} searchEnv={'concept'} />
         </ControlWrapperDashboard>
       </StyledTopRowDashboardInfo>
       <TableComponent

@@ -11,7 +11,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import Tooltip from '@ndla/tooltip';
 import styled from '@emotion/styled';
 import { Switch } from '@ndla/switch';
-import { Node } from '@ndla/types-taxonomy';
+import { Node, Metadata } from '@ndla/types-taxonomy';
 import {
   TAXONOMY_CUSTOM_FIELD_GROUPED_RESOURCE,
   TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES,
@@ -19,7 +19,6 @@ import {
 } from '../../../../constants';
 import RoundIcon from '../../../../components/RoundIcon';
 import { StyledMenuItemEditField, StyledMenuItemInputField } from '../styles';
-import { TaxonomyMetadata } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { useUpdateNodeMetadataMutation } from '../../../../modules/nodes/nodeMutations';
 import { getRootIdForNode, isRootNode } from '../../../../modules/nodes/nodeUtil';
 import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
@@ -28,7 +27,7 @@ import { childNodesWithArticleTypeQueryKey } from '../../../../modules/nodes/nod
 interface Props {
   node: Node;
   hideIcon?: boolean;
-  onChanged?: (newMeta: Partial<TaxonomyMetadata>) => void;
+  onChanged?: (newMeta: Partial<Metadata>) => void;
 }
 
 const StyledTooltip = styled(Tooltip)`

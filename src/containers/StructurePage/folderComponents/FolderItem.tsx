@@ -39,7 +39,7 @@ interface Props {
   isMainActive?: boolean;
   resourcesLoading?: boolean;
   rootNodeId: string;
-  onCurrentNodeChanged: (node: Node) => void;
+  onCurrentNodeChanged: (node?: Node) => void;
   nodeChildren: Node[];
 }
 

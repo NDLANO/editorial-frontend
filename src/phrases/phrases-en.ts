@@ -133,7 +133,7 @@ const phrases = {
     revision: 'Revisjon',
     revisionDescription: 'Articles in favorite subjects that need revision',
     revisionDate: 'Revision date',
-    productionSystem: 'to production system',
+    welcomeText: 'to ED',
     revisionInfo: 'Choose your favorite subjects by marking them with a star in structure editing',
     workList: {
       title: 'My tasks',
@@ -516,6 +516,18 @@ const phrases = {
   imageForm: {
     title: 'Image',
   },
+  contactBlockForm: {
+    title: 'Contact block',
+    edit: 'Edit contact block',
+    blobColor: {
+      green: 'Green',
+      pink: 'Pink',
+    },
+    blob: {
+      pointy: 'Pointy',
+      round: 'Round',
+    },
+  },
   frontpageArticleForm: {
     title: 'Content article',
     validation: {
@@ -553,6 +565,10 @@ const phrases = {
         publisher: 'Publisher',
       },
     },
+  },
+  keyFigureForm: {
+    title: 'Key figure',
+    edit: 'Edit key figure',
   },
   editorToolbar: {
     bold: 'Bold\n({{ctrl}}+b)',
@@ -595,6 +611,8 @@ const phrases = {
       podcast: 'Podcast episode',
       conceptList: 'Concept list',
       concept: 'Concept',
+      keyFigure: 'Key figure',
+      contactBlock: 'Contact block',
       blogPost: 'Blog post',
     },
   },
@@ -664,8 +682,8 @@ const phrases = {
       description: 'Content',
       conceptContent: 'Description',
       grepCodes: 'Curriculum connection',
-      desktopBanner: 'Desktop banner',
-      mobileBanner: 'Mobile banner',
+      desktopBannerId: 'Desktop banner',
+      mobileBannerId: 'Mobile banner',
       concepts: 'Concepts',
       relatedContent: 'Related content',
       subjects: 'Subject',
@@ -674,6 +692,11 @@ const phrases = {
       coverPhotoId: 'Meta image',
       revisions: 'Revisions',
       name: 'Name',
+      subtitle: 'Subtitle',
+      email: 'Email',
+      blob: 'Blob type',
+      blobColor: 'Blob color',
+      jobTitle: 'Job title',
       author: 'Author',
       language: 'Language',
       link: 'Link',
@@ -1069,7 +1092,7 @@ const phrases = {
       label: 'Responsible',
       choose: 'Choose a responsible',
       noResults: 'No results',
-      noResponible: 'No responsible',
+      noResponsible: 'No responsible',
       revisionDate: 'Amount approaching revision date',
       error: 'Something went wrong when updating responsible',
     },

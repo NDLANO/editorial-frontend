@@ -15,7 +15,7 @@ import { breakpoints, parseMarkdown } from '@ndla/util';
 import { useTranslation } from 'react-i18next';
 import Tooltip from '@ndla/tooltip';
 import { colors, spacing, fonts, mq } from '@ndla/core';
-import Modal from '@ndla/modal';
+import { Modal } from '@ndla/modal';
 import config from '../../../../config';
 import { isNumeric } from '../../../validators';
 import FigureButtons from './FigureButtons';
@@ -193,13 +193,7 @@ const SlateVideo = ({
 
   return (
     <>
-      <Modal
-        controllable
-        backgroundColor="white"
-        isOpen={editMode}
-        labelledBy={'editVideoEmbed'}
-        onClose={() => setEditMode(false)}
-      >
+      <Modal controlled isOpen={editMode} onClose={() => setEditMode(false)}>
         {(close) => (
           <EditVideo
             embed={embed}

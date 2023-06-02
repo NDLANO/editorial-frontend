@@ -72,7 +72,7 @@ const ActiveTopicConnection = ({
       <StyledConnections>
         <StyledFlexWrapper>
           <StyledPrimaryConnectionButton
-            primary={topic.primary}
+            primary={topic.isPrimary}
             type="button"
             onClick={() => setPrimaryConnection?.(topic.id)}
           >

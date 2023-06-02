@@ -69,8 +69,8 @@ export const gridSerializer: SlateSerializer = {
         {
           type: TYPE_GRID,
           data: {
-            columns: Number.parseInt(attributes['columns']) ?? 2,
-            border: attributes['border'] ?? 'none',
+            columns: Number.parseInt(attributes['columns']),
+            border: attributes['border'],
           },
         },
         children.map((child) => slatejsx('element', { type: TYPE_GRID_CELL }, child)),

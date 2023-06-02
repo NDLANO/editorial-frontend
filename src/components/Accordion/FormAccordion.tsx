@@ -65,7 +65,7 @@ const StyledAccordionContent = styled(AccordionContent)`
     align-items: center;
 
     > div {
-      width: 1200px !important;
+      width: 1100px !important;
     }
   }
 `;

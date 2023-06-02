@@ -104,7 +104,7 @@ const GridForm = ({ initialData, onSave, onCancel }: Props) => {
             {({ field }: FieldProps) => (
               <RadioButtonGroup
                 label={t('form.name.columns')}
-                selected={field.value.toString() ?? '2'}
+                selected={field.value.toString()}
                 uniqeIds
                 options={columnsOptions}
                 onChange={(value: string) =>
@@ -122,7 +122,7 @@ const GridForm = ({ initialData, onSave, onCancel }: Props) => {
             {({ field }: FieldProps) => (
               <RadioButtonGroup
                 label={t('form.name.border')}
-                selected={field.value ?? 'none'}
+                selected={field.value}
                 uniqeIds
                 options={borderOption}
                 onChange={(value: string) =>

@@ -6,7 +6,7 @@
  *
  */
 
-import { Descendant, Element } from 'slate';
+import { Descendant } from 'slate';
 import {
   blockContentToEditorValue,
   blockContentToHTML,
@@ -15,7 +15,7 @@ import { TYPE_PARAGRAPH } from '../../paragraph/types';
 import { TYPE_SECTION } from '../../section/types';
 import { TYPE_GRID, TYPE_GRID_CELL } from '../types';
 
-const editor: Descendant[] = [
+const editor2: Descendant[] = [
   {
     type: TYPE_SECTION,
     children: [
@@ -36,17 +36,53 @@ const editor: Descendant[] = [
   },
 ];
 
-const html =
+const html2 =
   '<section><div data-type="grid" data-columns="2" data-border="none"><p>a</p><p>a</p></div></section>';
 
-describe('file serializing tests', () => {
-  test('serializing', () => {
-    const res = blockContentToHTML(editor);
-    expect(res).toMatch(html);
+const editor4: Descendant[] = [
+  {
+    type: TYPE_SECTION,
+    children: [
+      { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
+      {
+        type: TYPE_GRID,
+        data: {
+          columns: 4,
+          border: 'none',
+        },
+        children: [
+          { type: TYPE_GRID_CELL, children: [{ type: TYPE_PARAGRAPH, children: [{ text: 'a' }] }] },
+          { type: TYPE_GRID_CELL, children: [{ type: TYPE_PARAGRAPH, children: [{ text: 'a' }] }] },
+          { type: TYPE_GRID_CELL, children: [{ type: TYPE_PARAGRAPH, children: [{ text: 'a' }] }] },
+          { type: TYPE_GRID_CELL, children: [{ type: TYPE_PARAGRAPH, children: [{ text: 'a' }] }] },
+        ],
+      },
+      { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
+    ],
+  },
+];
+
+const html4 =
+  '<section><div data-type="grid" data-columns="4" data-border="none"><p>a</p><p>a</p><p>a</p><p>a</p></div></section>';
+
+describe('grid serializing tests', () => {
+  test('serializing 2x1 grid', () => {
+    const res = blockContentToHTML(editor2);
+    expect(res).toMatch(html2);
   });
 
-  test('deserializing', () => {
-    const res = blockContentToEditorValue(html);
-    expect(res).toMatchObject(editor);
+  test('deserializing 2x1 grid', () => {
+    const res = blockContentToEditorValue(html2);
+    expect(res).toMatchObject(editor2);
+  });
+
+  test('serializing 4x1 grid', () => {
+    const res = blockContentToHTML(editor4);
+    expect(res).toMatch(html4);
+  });
+
+  test('deserializing 4x1 grid', () => {
+    const res = blockContentToEditorValue(html4);
+    expect(res).toMatchObject(editor4);
   });
 });

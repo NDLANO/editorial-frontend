@@ -113,9 +113,15 @@ const visualElements = [
   TYPE_EMBED_IMAGE,
 ];
 
-const actions = [TYPE_TABLE, TYPE_CODEBLOCK, TYPE_FILE, TYPE_CONTACT_BLOCK, TYPE_GRID].concat(
-  visualElements,
-);
+const actions = [
+  TYPE_TABLE,
+  TYPE_CODEBLOCK,
+  TYPE_FILE,
+  TYPE_CONTACT_BLOCK,
+  TYPE_GRID,
+  TYPE_BLOGPOST,
+  TYPE_KEY_FIGURE,
+].concat(visualElements);
 
 const actionsToShowInAreas = {
   'table-cell': [TYPE_EMBED_IMAGE],

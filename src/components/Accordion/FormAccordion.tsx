@@ -61,11 +61,14 @@ const HeaderWrapper = styled.div`
 const StyledAccordionContent = styled(AccordionContent)`
   &[data-wide='true'] {
     display: flex;
-    flex-flow: column;
     align-items: center;
-
+    flex-flow: column;
+    width: 100% !important;
+    left: unset !important;
+    right: unset !important;
+    background-color: #f7fafd;
     > div {
-      width: 1100px !important;
+      width: 1100px;
     }
   }
 `;

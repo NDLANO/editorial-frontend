@@ -69,7 +69,7 @@ export const gridSerializer: SlateSerializer = {
         {
           type: TYPE_GRID,
           data: {
-            columns: Number.parseInt(attributes['columns']),
+            columns: parseInt(attributes['columns']),
             border: attributes['border'],
           },
         },

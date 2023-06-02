@@ -121,14 +121,8 @@ const actions = [
 ].concat(visualElements);
 
 const actionsToShowInAreas = {
-  details: actions,
-  aside: actions,
-  bodybox: actions,
-  summary: actions,
-  list: actions,
-  'list-item': actions,
-  table: ['image'],
-  paragraph: actions,
+  'table-cell': ['image'],
+  section: actions,
 };
 
 // Plugins are checked from last to first

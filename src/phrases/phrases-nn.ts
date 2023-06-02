@@ -706,7 +706,7 @@ const phrases = {
       link: 'Lenke',
       size: 'Storleik',
       columns: 'Kolonner',
-      border: 'Grense',
+      border: 'Ramme',
     },
     previewProductionArticle: {
       button: 'Samanlikn gjeldande versjon med gamal versjon',

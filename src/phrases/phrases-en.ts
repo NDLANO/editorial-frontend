@@ -705,7 +705,7 @@ const phrases = {
       link: 'Link',
       size: 'Size',
       columns: 'Columns',
-      border: 'Border',
+      border: 'Show border',
     },
     previewProductionArticle: {
       button: 'Compare current version with old version',

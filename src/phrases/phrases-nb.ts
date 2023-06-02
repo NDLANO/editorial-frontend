@@ -707,7 +707,7 @@ const phrases = {
       link: 'Lenke',
       size: 'Størrelse',
       columns: 'Kolonner',
-      border: 'Ramme',
+      border: 'Vis ramme',
     },
     previewProductionArticle: {
       button: 'Sammenlign gjeldende versjon med gammel versjon',

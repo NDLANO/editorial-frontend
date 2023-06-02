@@ -9,6 +9,7 @@
 import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
 import { spacing } from '@ndla/core';
+import { CheckboxItem } from '@ndla/forms';
 import { RadioButtonGroup, GridType } from '@ndla/ui';
 import { Formik, FieldProps } from 'formik';
 import { useCallback, useMemo } from 'react';
@@ -18,14 +19,11 @@ import validateFormik, { RulesType } from '../../../formikValidationSchema';
 
 interface GridFormValues {
   columns: GridType['columns'];
-  border: GridType['border'];
+  border: boolean;
 }
 
 const rules: RulesType<GridFormValues> = {
   columns: {
-    required: true,
-  },
-  border: {
     required: true,
   },
 };
@@ -33,7 +31,7 @@ const rules: RulesType<GridFormValues> = {
 const toInitialValues = (initialData?: GridType): GridFormValues => {
   return {
     columns: initialData?.columns ?? 2,
-    border: initialData?.border ?? 'none',
+    border: initialData?.border === 'lightBlue' ? true : false,
   };
 };
 
@@ -45,7 +43,7 @@ const ButtonContainer = styled.div`
 
 interface Props {
   initialData?: GridType;
-  onSave: (data: GridFormValues) => void;
+  onSave: (data: GridType) => void;
   onCancel: () => void;
 }
 
@@ -54,7 +52,6 @@ const StyledFormikField = styled(FormikField)`
 `;
 
 const columns: GridType['columns'][] = [2, 4];
-const border: GridType['border'][] = ['none', 'lightBlue'];
 
 const GridForm = ({ initialData, onSave, onCancel }: Props) => {
   const { t } = useTranslation();
@@ -65,7 +62,7 @@ const GridForm = ({ initialData, onSave, onCancel }: Props) => {
     (values: GridFormValues) => {
       const newData: GridType = {
         columns: values.columns,
-        border: values.border,
+        border: values.border ? 'lightBlue' : 'none',
       };
       onSave(newData);
     },
@@ -77,15 +74,6 @@ const GridForm = ({ initialData, onSave, onCancel }: Props) => {
       columns.map((value) => ({
         title: value.toString(),
         value: value.toString(),
-      })),
-    [],
-  );
-
-  const borderOption = useMemo(
-    () =>
-      border.map((value) => ({
-        title: value,
-        value: value,
       })),
     [],
   );
@@ -120,16 +108,14 @@ const GridForm = ({ initialData, onSave, onCancel }: Props) => {
           </StyledFormikField>
           <StyledFormikField name="border">
             {({ field }: FieldProps) => (
-              <RadioButtonGroup
+              <CheckboxItem
                 label={t('form.name.border')}
-                selected={field.value}
-                uniqeIds
-                options={borderOption}
-                onChange={(value: string) =>
+                checked={field.value}
+                onChange={() =>
                   field.onChange({
                     target: {
                       name: field.name,
-                      value: value,
+                      value: !field.value,
                     },
                   })
                 }

@@ -23,6 +23,7 @@ import { defaultGridCellBlock } from './utils';
 import { TYPE_EMBED_IMAGE } from '../embed/types';
 import { TYPE_BLOGPOST } from '../blogPost/types';
 import StyledGridCell from './SlateGridCell';
+import { defaultParagraphBlock } from '../paragraph/utils';
 
 export interface GridElement {
   type: 'grid';
@@ -73,7 +74,10 @@ export const gridSerializer: SlateSerializer = {
             border: attributes['border'],
           },
         },
-        children.map((child) => slatejsx('element', { type: TYPE_GRID_CELL }, child)),
+        children.map((child) => {
+          const children = Element.isElement(child) ? child.children : defaultParagraphBlock();
+          return slatejsx('element', { type: TYPE_GRID_CELL }, children);
+        }),
       );
     }
   },
@@ -85,7 +89,7 @@ export const gridSerializer: SlateSerializer = {
         </div>
       );
     } else if (Element.isElement(node) && node.type === TYPE_GRID_CELL) {
-      return <>{children}</>;
+      return <div>{children}</div>;
     }
   },
 };

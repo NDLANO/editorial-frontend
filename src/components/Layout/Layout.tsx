@@ -34,5 +34,5 @@ interface ColumnSize {
 }
 
 export const Column = styled.div<ColumnSize>`
-  grid-column: ${(props) => `${props.colStart ?? 2} / ${props.colEnd ?? 12}`};
+  grid-column: ${(props) => `${props.colStart ?? 1} / ${props.colEnd ?? 13}`};
 `;

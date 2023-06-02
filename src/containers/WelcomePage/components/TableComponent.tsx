@@ -17,7 +17,7 @@ import { useTranslation } from 'react-i18next';
 import Spinner from '../../../components/Spinner';
 
 const TableWrapper = styled.div`
-  height: 250px;
+  overflow-x: auto;
 `;
 
 const StyledTable = styled.table`
@@ -27,15 +27,12 @@ const StyledTable = styled.table`
   border-spacing: 0;
   font-family: ${fonts.sans};
   margin-bottom: 0px;
-  table-layout: fixed;
   display: inline-table;
-  overflow: hidden;
   th {
     font-weight: ${fonts.weight.bold};
     padding: 0px ${spacing.xsmall};
     border-bottom: 1px solid ${colors.text.primary};
     background-color: ${colors.brand.lighter};
-    overflow-wrap: anywhere;
   }
   th:not(:first-of-type) {
     border-left: 1px solid ${colors.text.primary};
@@ -43,9 +40,6 @@ const StyledTable = styled.table`
   td {
     ${fonts.sizes(16, 1.1)};
     padding: ${spacing.xsmall};
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
   }
   tr:nth-of-type(even) {
     background: ${colors.brand.lightest};

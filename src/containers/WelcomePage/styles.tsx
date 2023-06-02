@@ -33,11 +33,14 @@ export const StyledTopRowDashboardInfo = styled.div`
 
 export const StyledLink = styled(SafeLink)`
   line-height: 1.5em;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  box-shadow: none;
   &:any-link {
     color: ${colors.brand.primary};
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+    &:hover {
+      text-decoration: none;
+    }
   }
 `;
 

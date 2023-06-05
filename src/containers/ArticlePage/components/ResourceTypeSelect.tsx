@@ -4,11 +4,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import { FieldHeader } from '@ndla/forms';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Option, Select, SingleValue } from '@ndla/select';
-import HowToHelper from '../../../components/HowTo/HowToHelper';
 import { selectedResourceTypeValue } from '../../../util/taxonomyHelpers';
 
 interface ResourceType {
@@ -57,27 +55,17 @@ const ResourceTypeSelect = ({
   );
 
   return (
-    <>
-      <FieldHeader
-        title={t('taxonomy.resourceTypes.title')}
-        subTitle={t('taxonomy.resourceTypes.subTitle')}
-      >
-        <HowToHelper
-          pageId="TaxonomyContentTypes"
-          tooltip={t('taxonomy.resourceTypes.helpLabel')}
-        />
-      </FieldHeader>
-      <Select
-        placeholder={t('taxonomy.resourceTypes.placeholder')}
-        options={options}
-        onChange={onChangeSelectedResource}
-        isMulti={false}
-        value={value}
-        noOptionsMessage={() => t('form.responsible.noResults')}
-        isSearchable
-        isClearable={isClearable}
-      />
-    </>
+    <Select
+      placeholder={t('taxonomy.resourceTypes.placeholder')}
+      options={options}
+      onChange={onChangeSelectedResource}
+      isMulti={false}
+      value={value}
+      noOptionsMessage={() => t('form.responsible.noResults')}
+      isSearchable
+      isClearable={isClearable}
+      id="select-resource-type"
+    />
   );
 };
 

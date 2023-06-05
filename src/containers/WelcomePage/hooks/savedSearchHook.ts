@@ -52,7 +52,10 @@ export const useSavedSearchUrl = (
   );
   const { data: userData, isInitialLoading: auth0UsersLoading } = useAuth0Users(
     { uniqueUserIds: `${uniq([userId, responsibleId]).join(',')}` },
-    { enabled: !!userId },
+    {
+      enabled: !!userId || !!responsibleId,
+      select: (result) => result?.sort((a, b) => (a.app_metadata.ndla_id === userId ? -1 : 1)),
+    },
   );
   const { data: searchResultData, isInitialLoading: resultsLoading } = searchHook(searchObject);
 
@@ -65,8 +68,8 @@ export const useSavedSearchUrl = (
     data: {
       subject: subjectData,
       resourceType: resourceTypeData,
-      user: user,
-      responsible: userId === responsibleId ? user : responsible,
+      user: userId && user,
+      responsible: responsibleId && (!userId ? user : responsible),
       searchResult: searchResultData,
     },
   };

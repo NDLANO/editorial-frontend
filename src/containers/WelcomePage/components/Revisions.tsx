@@ -45,7 +45,6 @@ const RevisionsWrapper = styled.div`
 `;
 
 const SwitchWrapper = styled.div`
-  float: right;
   margin-top: ${spacing.xxsmall};
 `;
 
@@ -125,7 +124,7 @@ const Revisions = ({ userData }: Props) => {
             ?.map((r) => {
               const primarySubject = r.contexts.find((c) => c.isPrimary);
               const isFavorite = userData?.favoriteSubjects?.some(
-                (fs) => fs === primarySubject?.subjectId,
+                (fs) => fs === primarySubject?.rootId,
               );
               return isFavorite ? r : undefined;
             })

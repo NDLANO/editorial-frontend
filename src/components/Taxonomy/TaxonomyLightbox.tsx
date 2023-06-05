@@ -7,7 +7,6 @@
  */
 
 import { ButtonV2 } from '@ndla/button';
-import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { spacing, colors, fonts } from '@ndla/core';
 import { BookOpen } from '@ndla/icons/common';
@@ -59,6 +58,8 @@ const StyledMenuBook = styled(BookOpen)`
 
 const StyledWrapper = styled.div`
   padding: ${spacing.small} 0px;
+  display: flex;
+  gap: ${spacing.xsmall};
 `;
 
 const StyledTitle = styled(ModalTitle)`
@@ -70,9 +71,13 @@ const StyledTitle = styled(ModalTitle)`
 interface Props {
   children: JSX.Element;
   onClose: () => void;
-  loading?: boolean;
   title: string;
-  onSelect?: () => void;
+  actions?: {
+    text: string;
+    onClick: () => void;
+    'data-testid'?: string;
+    loading?: boolean;
+  }[];
   wide?: boolean;
   position?: ModalPosition;
 }
@@ -80,14 +85,11 @@ interface Props {
 const TaxonomyLightbox = ({
   children,
   title,
-  onSelect,
-  loading,
   onClose,
   wide = false,
+  actions = [],
   position = 'top',
 }: Props) => {
-  const { t } = useTranslation();
-
   return (
     <Modal onClose={onClose} controlled isOpen position={position} size={wide ? 'large' : 'normal'}>
       {(onCloseModal) => (
@@ -103,13 +105,13 @@ const TaxonomyLightbox = ({
           </StyledHeader>
           <StyledContent>
             {children}
-            {onSelect && (
-              <StyledWrapper>
-                <ButtonV2 onClick={onSelect} data-testid="taxonomyLightboxButton">
-                  {loading ? <Spinner appearance="small" /> : t('form.save')}
+            <StyledWrapper>
+              {actions.map((a, i) => (
+                <ButtonV2 key={i} onClick={a.onClick} data-testid={a['data-testid']}>
+                  {a.loading ? <Spinner appearance="small" /> : a.text}
                 </ButtonV2>
-              </StyledWrapper>
-            )}
+              ))}
+            </StyledWrapper>
           </StyledContent>
         </>
       )}

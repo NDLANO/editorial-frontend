@@ -25,19 +25,12 @@ interface PreviewLightBoxProps {
   article?: IArticle;
   concept?: IConcept;
   type: string;
-  supportedLanguages?: string[];
   currentLanguage: string;
 }
 
-const PreviewLightBox = ({
-  type,
-  supportedLanguages = [],
-  currentLanguage,
-  article,
-  concept,
-}: PreviewLightBoxProps) => {
+const PreviewLightBox = ({ type, currentLanguage, article, concept }: PreviewLightBoxProps) => {
   const { t } = useTranslation();
-  if (type === 'concept' && concept && supportedLanguages.length > 1) {
+  if (type === 'concept' && concept) {
     return (
       <PreviewDraftLightboxV2
         type="conceptCompare"
@@ -148,7 +141,6 @@ const HeaderActions = ({
               article={article}
               concept={concept}
               type={type}
-              supportedLanguages={supportedLanguages}
               currentLanguage={values.language}
             />
             <StyledSplitter />

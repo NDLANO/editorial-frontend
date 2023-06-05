@@ -29,7 +29,7 @@ interface Props extends RenderElementProps {
 const BlogPostWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  width: fit-content;
+  align-items: center;
 `;
 
 const ButtonContainer = styled.div`

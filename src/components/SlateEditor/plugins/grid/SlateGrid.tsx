@@ -47,6 +47,10 @@ const ButtonContainer = styled.div`
   width: 100%;
 `;
 
+const StyledGrid = styled(Grid)`
+  width: 100%;
+`;
+
 export const SlateGrid = ({ element, editor, children }: Props) => {
   const { t } = useTranslation();
   const [isEditing, setIsEditing] = useState(false);
@@ -93,9 +97,13 @@ export const SlateGrid = ({ element, editor, children }: Props) => {
           </IconButtonV2>
           <DeleteButton aria-label={t('delete')} onClick={handleRemove} />
         </ButtonContainer>
-        <Grid border={'none'} columns={element.data.columns}>
+        <StyledGrid
+          border={'none'}
+          columns={element.data.columns}
+          background={element.data.background}
+        >
           {children}
-        </Grid>
+        </StyledGrid>
       </GridWrapper>
       {isEditing && (
         <Modal controlled isOpen size="small" onClose={onClose}>

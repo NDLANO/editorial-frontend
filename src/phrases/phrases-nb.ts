@@ -537,6 +537,10 @@ const phrases = {
   },
   gridForm: {
     title: 'Grid',
+    background: {
+      white: 'Hvit',
+      transparent: 'Transparent',
+    },
   },
   blogPostForm: {
     title: 'Rediger bloggpost',
@@ -708,6 +712,7 @@ const phrases = {
       size: 'Størrelse',
       columns: 'Kolonner',
       border: 'Vis ramme',
+      background: 'Bakgrunn',
     },
     previewProductionArticle: {
       button: 'Sammenlign gjeldende versjon med gammel versjon',

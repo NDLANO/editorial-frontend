@@ -536,6 +536,10 @@ const phrases = {
   },
   gridForm: {
     title: 'Grid',
+    background: {
+      white: 'White',
+      transparent: 'Transparent',
+    },
   },
   blogPostForm: {
     title: 'Edit blog post',
@@ -706,6 +710,7 @@ const phrases = {
       size: 'Size',
       columns: 'Columns',
       border: 'Show border',
+      background: 'Background',
     },
     previewProductionArticle: {
       button: 'Compare current version with old version',

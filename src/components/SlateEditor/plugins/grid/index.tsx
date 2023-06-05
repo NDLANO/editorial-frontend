@@ -7,10 +7,8 @@
  */
 
 import { Descendant, Editor, Element, Transforms } from 'slate';
-import { colors, spacing } from '@ndla/core';
 import { RenderElementProps } from 'slate-react';
 import { GridType } from '@ndla/ui';
-import styled from '@emotion/styled';
 import { jsx as slatejsx } from 'slate-hyperscript';
 import { reduceElementDataAttributesV2 } from '../../../../util/embedTagHelpers';
 import { SlateGrid } from './SlateGrid';
@@ -72,6 +70,7 @@ export const gridSerializer: SlateSerializer = {
           data: {
             columns: parseInt(attributes['columns']),
             border: attributes['border'],
+            background: attributes['background'],
           },
         },
         children.map((child) => {
@@ -84,7 +83,12 @@ export const gridSerializer: SlateSerializer = {
   serialize(node: Descendant, children: JSX.Element[]) {
     if (Element.isElement(node) && node.type === TYPE_GRID) {
       return (
-        <div data-type={TYPE_GRID} data-columns={node.data.columns} data-border={node.data.border}>
+        <div
+          data-type={TYPE_GRID}
+          data-columns={node.data.columns}
+          data-border={node.data.border}
+          data-background={node.data.background}
+        >
           {children}
         </div>
       );

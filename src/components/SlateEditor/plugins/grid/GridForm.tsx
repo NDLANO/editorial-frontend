@@ -19,11 +19,15 @@ import validateFormik, { RulesType } from '../../../formikValidationSchema';
 
 interface GridFormValues {
   columns: GridType['columns'];
+  background: GridType['background'];
   border: boolean;
 }
 
 const rules: RulesType<GridFormValues> = {
   columns: {
+    required: true,
+  },
+  background: {
     required: true,
   },
 };
@@ -32,6 +36,7 @@ const toInitialValues = (initialData?: GridType): GridFormValues => {
   return {
     columns: initialData?.columns ?? 2,
     border: initialData?.border === 'lightBlue' ? true : false,
+    background: initialData?.background ?? 'transparent',
   };
 };
 
@@ -52,6 +57,7 @@ const StyledFormikField = styled(FormikField)`
 `;
 
 const columns: GridType['columns'][] = [2, 4];
+const backgrounds: GridType['background'][] = ['transparent', 'white'];
 
 const GridForm = ({ initialData, onSave, onCancel }: Props) => {
   const { t } = useTranslation();
@@ -63,6 +69,7 @@ const GridForm = ({ initialData, onSave, onCancel }: Props) => {
       const newData: GridType = {
         columns: values.columns,
         border: values.border ? 'lightBlue' : 'none',
+        background: values.background,
       };
       onSave(newData);
     },
@@ -76,6 +83,15 @@ const GridForm = ({ initialData, onSave, onCancel }: Props) => {
         value: value.toString(),
       })),
     [],
+  );
+
+  const backgroundOptions = useMemo(
+    () =>
+      backgrounds.map((value) => ({
+        title: t(`gridForm.background.${value}`),
+        value: value!,
+      })),
+    [t],
   );
 
   return (
@@ -100,6 +116,24 @@ const GridForm = ({ initialData, onSave, onCancel }: Props) => {
                     target: {
                       name: field.name,
                       value: value.toString(),
+                    },
+                  })
+                }
+              />
+            )}
+          </StyledFormikField>
+          <StyledFormikField name="background">
+            {({ field }: FieldProps) => (
+              <RadioButtonGroup
+                label={t('form.name.background')}
+                selected={field.value}
+                uniqeIds
+                options={backgroundOptions}
+                onChange={(value: string) =>
+                  field.onChange({
+                    target: {
+                      name: field.name,
+                      value: value,
                     },
                   })
                 }

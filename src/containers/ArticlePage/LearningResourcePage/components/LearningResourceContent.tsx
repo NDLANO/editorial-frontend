@@ -73,8 +73,6 @@ import {
 import { TYPE_TABLE } from '../../../../components/SlateEditor/plugins/table/types';
 import { TYPE_CODEBLOCK } from '../../../../components/SlateEditor/plugins/codeBlock/types';
 import { TYPE_FILE } from '../../../../components/SlateEditor/plugins/file/types';
-import { TYPE_GRID } from '../../../../components/SlateEditor/plugins/grid/types';
-import { gridPlugin } from '../../../../components/SlateEditor/plugins/grid';
 
 const StyledFormikField = styled(FormikField)`
   display: flex;
@@ -118,7 +116,7 @@ const visualElements = [
   TYPE_EMBED_IMAGE,
 ];
 
-const actions = [TYPE_TABLE, TYPE_CODEBLOCK, TYPE_FILE, TYPE_GRID].concat(visualElements);
+const actions = [TYPE_TABLE, TYPE_CODEBLOCK, TYPE_FILE].concat(visualElements);
 const actionsToShowInAreas = {
   details: actions,
   aside: actions,
@@ -148,7 +146,6 @@ export const plugins = (
     inlineConceptPlugin(articleLanguage),
     blockConceptPlugin(articleLanguage),
     headingPlugin,
-    gridPlugin,
     // // Paragraph-, blockquote- and editList-plugin listens for Enter press on empty lines.
     // // Blockquote and editList actions need to be triggered before paragraph action, else
     // // unwrapping (jumping out of block) will not work.

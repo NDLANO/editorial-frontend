@@ -58,37 +58,21 @@ const HeaderWrapper = styled.div`
   }
 `;
 
-const StyledAccordionContent = styled(AccordionContent)`
-  &[data-wide='true'] {
-    display: flex;
-    align-items: center;
-    flex-flow: column;
-    width: 100% !important;
-    left: unset !important;
-    right: unset !important;
-    background-color: #f7fafd;
-    > div {
-      width: 1100px;
-    }
-  }
-`;
-
 const FormAccordion = ({
   children,
   title,
   hasError,
   id,
   className = 'u-6/6',
-  ...rest
 }: FormAccordionProps) => {
   return (
     <StyledItem value={id} data-error={hasError}>
       <StyledHeader data-error={hasError}>
         <HeaderWrapper data-error={hasError}>{title}</HeaderWrapper>
       </StyledHeader>
-      <StyledAccordionContent id={id} className={className} {...rest}>
+      <AccordionContent id={id} className={className}>
         {children}
-      </StyledAccordionContent>
+      </AccordionContent>
     </StyledItem>
   );
 };

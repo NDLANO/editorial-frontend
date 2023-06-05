@@ -18,7 +18,6 @@ const FrontpageArticlePage = () => (
     useHook={useDraft}
     createUrl="/subject-matter/frontpage-article/new"
     css={articleResourcePageStyle}
-    isWide={true}
   />
 );
 

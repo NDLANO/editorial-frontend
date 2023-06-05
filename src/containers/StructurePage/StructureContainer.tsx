@@ -76,7 +76,7 @@ const StructureContainer = () => {
     }, {}) ?? {};
   const favoriteNodeIds = Object.keys(favoriteNodes);
   const nodesQuery = useNodes(
-    { language: i18n.language, nodeType: 'SUBJECT' , taxonomyVersion },
+    { language: i18n.language, nodeType: 'SUBJECT', taxonomyVersion },
     {
       select: (nodes) => nodes.sort((a, b) => a.name?.localeCompare(b.name)),
       placeholderData: [],

@@ -46,6 +46,9 @@ const RevisionsWrapper = styled.div`
 
 const SwitchWrapper = styled.div`
   margin-top: ${spacing.xxsmall};
+  & button {
+    margin-left: auto;
+  }
 `;
 
 const getLastPage = (totalCount: number, pageSize: number) =>

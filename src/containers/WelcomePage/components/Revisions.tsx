@@ -7,7 +7,7 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { memo, useEffect, useMemo, useState } from 'react';
+import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { IUserData } from '@ndla/types-backend/draft-api';
 import { Alarm } from '@ndla/icons/common';
 import addYears from 'date-fns/addYears';
@@ -117,32 +117,35 @@ const Revisions = ({ userData }: Props) => {
     [subjectData],
   );
 
+  const getDataPrimaryConnectionToFavorite = useCallback(
+    (results: IMultiSearchSummary[] | undefined) => {
+      const filteredResult = results
+        ?.map((r) => {
+          const primarySubject = r.contexts.find((c) => c.isPrimary);
+          const isFavorite = userData?.favoriteSubjects?.some(
+            (fs) => fs === primarySubject?.rootId,
+          );
+          return isFavorite ? r : undefined;
+        })
+        .filter((fd): fd is IMultiSearchSummary => !!fd);
+
+      return { results: filteredResult, totalCount: filteredResult?.length ?? 0, pageSize: 6 };
+    },
+    [userData?.favoriteSubjects],
+  );
+
   const filteredData = useMemo(
     () =>
       checked
-        ? data?.results
-            ?.map((r) => {
-              const primarySubject = r.contexts.find((c) => c.isPrimary);
-              const isFavorite = userData?.favoriteSubjects?.some(
-                (fs) => fs === primarySubject?.rootId,
-              );
-              return isFavorite ? r : undefined;
-            })
-            .filter((fd): fd is IMultiSearchSummary => !!fd)
-        : data?.results,
-    [checked, data?.results, userData?.favoriteSubjects],
+        ? getDataPrimaryConnectionToFavorite(data?.results)
+        : { results: data?.results, totalCount: data?.totalCount, pageSize: data?.pageSize ?? 6 },
+    [checked, data?.pageSize, data?.results, data?.totalCount, getDataPrimaryConnectionToFavorite],
   );
 
   const lastPage = useMemo(
     () =>
-      checked
-        ? filteredData?.length
-          ? getLastPage(filteredData.length, 6)
-          : 1
-        : data?.totalCount
-        ? getLastPage(data?.totalCount, data.pageSize)
-        : 1,
-    [checked, data?.pageSize, data?.totalCount, filteredData?.length],
+      filteredData.totalCount ? getLastPage(filteredData.totalCount, filteredData.pageSize) : 1,
+    [filteredData.pageSize, filteredData.totalCount],
   );
 
   useEffect(() => {
@@ -151,7 +154,7 @@ const Revisions = ({ userData }: Props) => {
 
   const tableData: FieldElement[][] = useMemo(
     () =>
-      filteredData?.map((a) => [
+      filteredData.results?.map((a) => [
         {
           id: `title_${a.id}`,
           data: (
@@ -193,7 +196,10 @@ const Revisions = ({ userData }: Props) => {
               <SwitchWrapper>
                 <Switch
                   checked={checked}
-                  onChange={() => setChecked(!checked)}
+                  onChange={() => {
+                    setChecked(!checked);
+                    setPage(1);
+                  }}
                   label={''}
                   id={'filter-primary-connection-switch'}
                   aria-label={t('welcomePage.primaryConnection')}

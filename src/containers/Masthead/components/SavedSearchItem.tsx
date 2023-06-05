@@ -44,7 +44,6 @@ const StyledSearch = styled(Search)`
 const StyledTrashCanOutline = styled(TrashCanOutline)`
   width: 24px;
   height: 24px;
-  color: ${colors.support.red};
 `;
 interface Props {
   searchText: string;
@@ -133,6 +132,7 @@ const SavedSearchItem = ({ searchText, userData, deleteSearch, index, ...rest }:
             e.stopPropagation();
           }}
           size="xsmall"
+          colorTheme="danger"
         >
           <StyledTrashCanOutline />
         </IconButtonV2>

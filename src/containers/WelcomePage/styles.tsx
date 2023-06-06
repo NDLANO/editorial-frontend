@@ -37,7 +37,7 @@ export const StyledLink = styled(SafeLink)`
   &:any-link {
     color: ${colors.brand.primary};
     text-decoration: underline;
-    text-underline-offset: 0.2em;
+    text-underline-offset: 0.25em;
     &:hover {
       text-decoration: none;
     }

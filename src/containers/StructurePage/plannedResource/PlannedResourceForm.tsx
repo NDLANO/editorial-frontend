@@ -34,7 +34,7 @@ import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvid
 import { RESOURCE_NODE, TOPIC_NODE } from '../../../modules/nodes/nodeApiTypes';
 import FormikField from '../../../components/FormikField';
 import { convertUpdateToNewDraft } from '../../../util/articleUtil';
-import { DRAFT_WRITE_SCOPE, RESOURCE_FILTER_CORE } from '../../../constants';
+import { DRAFT_RESPONSIBLE, RESOURCE_FILTER_CORE } from '../../../constants';
 import { useAuth0Responsibles } from '../../../modules/auth0/auth0Queries';
 import { useAllResourceTypes } from '../../../modules/taxonomy/resourcetypes/resourceTypesQueries';
 import PlannedResourceSelect from './PlannedResourceSelect';
@@ -163,7 +163,7 @@ const PlannedResourceForm = ({ articleType, node, onClose, userData }: Props) =>
   const isTopicArticle = articleType === 'topic-article';
 
   const { data: users } = useAuth0Responsibles(
-    { permission: DRAFT_WRITE_SCOPE },
+    { permission: DRAFT_RESPONSIBLE },
     {
       select: (users) => sortBy(formatUserList(users), (u) => u.label),
       placeholderData: [],

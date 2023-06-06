@@ -15,11 +15,11 @@ import { getResourceLanguages } from '../../../../util/resourceHelpers';
 import { getTagName } from '../../../../util/formHelper';
 import { SearchParams } from './SearchForm';
 import {
+  DRAFT_RESPONSIBLE,
   DRAFT_WRITE_SCOPE,
   FAVOURITES_SUBJECT_ID,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
 } from '../../../../constants';
-import config from '../../../../config';
 import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { useAuth0Editors, useAuth0Responsibles } from '../../../../modules/auth0/auth0Queries';
 import { useAllResourceTypes } from '../../../../modules/taxonomy/resourcetypes/resourceTypesQueries';
@@ -51,7 +51,7 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
   );
 
   const { data: responsibles } = useAuth0Responsibles(
-    { permission: DRAFT_WRITE_SCOPE },
+    { permission: DRAFT_RESPONSIBLE },
     {
       select: (users) =>
         sortBy(

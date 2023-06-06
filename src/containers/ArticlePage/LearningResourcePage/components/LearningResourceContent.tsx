@@ -73,7 +73,6 @@ import {
 import { TYPE_TABLE } from '../../../../components/SlateEditor/plugins/table/types';
 import { TYPE_CODEBLOCK } from '../../../../components/SlateEditor/plugins/codeBlock/types';
 import { TYPE_FILE } from '../../../../components/SlateEditor/plugins/file/types';
-import { TYPE_SUMMARY } from '../../../../components/SlateEditor/plugins/details/types';
 
 const StyledFormikField = styled(FormikField)`
   display: flex;

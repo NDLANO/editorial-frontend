@@ -72,7 +72,6 @@ const FrontpageArticlePanels = ({ article, handleSubmit, articleLanguage }: Prop
       >
         <RevisionNotes />
       </FormAccordion>
-
       {article && (
         <FormAccordion
           id={'frontpage-article-workflow'}

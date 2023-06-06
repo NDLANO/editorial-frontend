@@ -61,7 +61,7 @@ const StyledMenuContainer = styled.div`
   }
 `;
 
-const DisabledLink = styled(StyledListButton.withComponent(Link))`
+const DisabledHrefLink = styled(StyledListButton.withComponent('a'))`
   cursor: default;
 `;
 
@@ -80,7 +80,7 @@ const OpenMenu = ({ close }: Props) => {
       <div>
         <nav>
           <div>
-            <DisabledLink aria-disabled={true} to="#">
+            <DisabledHrefLink aria-disabled={true} role="link">
               <Tooltip tooltip={t('subNavigation.creationMovedInfo')}>
                 <StyledMenuItem>
                   <ContentTypeBadge
@@ -91,15 +91,15 @@ const OpenMenu = ({ close }: Props) => {
                   {t('subNavigation.subjectMatter')}
                 </StyledMenuItem>
               </Tooltip>
-            </DisabledLink>
-            <DisabledLink aria-disabled={true} to="#">
+            </DisabledHrefLink>
+            <DisabledHrefLink aria-disabled={true} role="link">
               <Tooltip tooltip={t('subNavigation.creationMovedInfo')}>
                 <StyledMenuItem>
                   <ContentTypeBadge type={contentTypes.TOPIC} background size="xx-small" />
                   {t('subNavigation.topicArticle')}
                 </StyledMenuItem>
               </Tooltip>
-            </DisabledLink>
+            </DisabledHrefLink>
             <StyledLink to={toCreateConcept()} onClick={close}>
               <StyledMenuItem>
                 <Concept /> {t('subNavigation.newConcept')}

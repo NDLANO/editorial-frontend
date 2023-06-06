@@ -11,6 +11,7 @@ import { COMMENT_WIDTH, SPACING_COMMENT } from './components/CommentSection';
 
 // Calculate the max width of edit resource page with comments displayed
 export const MAX_WIDTH_WITH_COMMENTS = 1024 + COMMENT_WIDTH + SPACING_COMMENT;
+export const FRONTPAGE_ARTICLE_WIDTH = 1700;
 
 export const articleResourcePageStyle = css`
   max-width: ${MAX_WIDTH_WITH_COMMENTS}px;
@@ -23,4 +24,8 @@ export const FlexWrapper = styled.div`
 export const MainContent = styled.div`
   flex: 1;
   max-width: 1024px;
+
+  &[data-wide='true'] {
+    max-width: ${FRONTPAGE_ARTICLE_WIDTH}px;
+  }
 `;

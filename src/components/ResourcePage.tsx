@@ -17,6 +17,8 @@ import { usePreviousLocation } from '../util/routeHelpers';
 import Footer from '../containers/App/components/Footer';
 import Spinner from './Spinner';
 import { NynorskTranslateProvider } from './NynorskTranslateProvider';
+import { useFrontpageArticle } from '../containers/ArticlePage/FrontpageArticlePage/components/FrontpageArticleProvider';
+import { FRONTPAGE_ARTICLE_WIDTH } from '../containers/ArticlePage/styles';
 
 const NotFoundPage = loadable(() => import('../containers/NotFoundPage/NotFoundPage'));
 
@@ -32,6 +34,10 @@ const PageContent = styled.div`
   padding-left: 24px;
   padding-right: 24px;
   max-width: 1024px;
+
+  &[data-wide='true'] {
+    max-width: ${FRONTPAGE_ARTICLE_WIDTH}px;
+  }
 `;
 interface ResourceComponentProps {
   isNewlyCreated?: boolean;
@@ -63,10 +69,11 @@ const ResourcePage = <T extends BaseResource>({
 }: Props<T>) => {
   const { t } = useTranslation();
   const previousLocation = usePreviousLocation();
+  const { isFrontpageArticle } = useFrontpageArticle();
 
   return (
     <Wrapper>
-      <PageContent className={className}>
+      <PageContent className={className} data-wide={isFrontpageArticle}>
         {titleTranslationKey && <HelmetWithTracker title={t(titleTranslationKey)} />}
         <Routes>
           <Route path="new" element={<CreateComponent />} />

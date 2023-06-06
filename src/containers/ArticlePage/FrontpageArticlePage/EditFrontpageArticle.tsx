@@ -17,6 +17,7 @@ import Spinner from '../../../components/Spinner';
 import { LocaleType } from '../../../interfaces';
 import NotFound from '../../NotFoundPage/NotFoundPage';
 import { TranslateType, useTranslateToNN } from '../../../components/NynorskTranslateProvider';
+import { useFrontpageArticle } from './components/FrontpageArticleProvider';
 
 const translateFields: TranslateType[] = [
   {
@@ -54,6 +55,7 @@ const EditFrontpageArticle = ({ isNewlyCreated }: Props) => {
     selectedLanguage,
   );
   const { translate, shouldTranslate, translating } = useTranslateToNN();
+  const { articleIsFrontpageArticle, setFrontpageArticle } = useFrontpageArticle();
 
   useEffect(() => {
     (async () => {
@@ -76,6 +78,11 @@ const EditFrontpageArticle = ({ isNewlyCreated }: Props) => {
     return <Navigate replace to={replaceUrl} />;
   }
   const newLanguage = !article.supportedLanguages.includes(selectedLanguage);
+
+  if (articleIsFrontpageArticle(article.id)) {
+    setFrontpageArticle(true);
+  }
+
   return (
     <>
       <HelmetWithTracker title={`${article.title?.title} ${t('htmlTitles.titleTemplate')}`} />

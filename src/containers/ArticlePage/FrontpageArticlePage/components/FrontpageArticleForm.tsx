@@ -34,6 +34,7 @@ import FrontpageArticlePanels from './FrontpageArticlePanels';
 import { useSession } from '../../../../containers/Session/SessionProvider';
 import CommentSection from '../../components/CommentSection';
 import { FlexWrapper, MainContent } from '../../styles';
+import { useFrontpageArticle } from './FrontpageArticleProvider';
 
 interface Props {
   article?: IArticle;
@@ -53,7 +54,7 @@ const FrontpageArticleForm = ({
   articleLanguage,
 }: Props) => {
   const { t } = useTranslation();
-
+  const { isFrontpageArticle } = useFrontpageArticle();
   const { data: licenses } = useLicenses({ placeholderData: [] });
   const statusStateMachine = useDraftStatusStateMachine({ articleId: article?.id });
   const { ndlaId } = useSession();
@@ -99,7 +100,7 @@ const FrontpageArticleForm = ({
           expirationDate={getExpirationDate(article)}
         />
         <FlexWrapper>
-          <MainContent>
+          <MainContent data-wide={isFrontpageArticle}>
             <FrontpageArticlePanels
               articleLanguage={articleLanguage}
               article={article}

@@ -8,6 +8,9 @@
 
 import { useTranslation } from 'react-i18next';
 import { IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
+import { Switch } from '@ndla/switch';
+import styled from '@emotion/styled';
+import { colors, fonts } from '@ndla/core';
 import FormikField from '../../components/FormikField';
 import PlainTextEditor from '../../components/SlateEditor/PlainTextEditor';
 import { textTransformPlugin } from '../../components/SlateEditor/plugins/textTransform';
@@ -17,18 +20,34 @@ import AvailabilityField from './components/AvailabilityField';
 import { DRAFT_ADMIN_SCOPE } from '../../constants';
 import { useSession } from '../Session/SessionProvider';
 import { fetchSearchTags } from '../../modules/draft/draftApi';
-
+import { useFrontpageArticle } from '../ArticlePage/FrontpageArticlePage/components/FrontpageArticleProvider';
 interface Props {
   articleLanguage: string;
   showCheckbox?: boolean;
   checkboxAction?: (image: IImageMetaInformationV3) => void;
+  articleType?: string;
+  articleId?: number;
 }
 
-const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props) => {
+const StyledSwitch = styled(Switch)`
+  > label {
+    ${fonts.sizes('16px', '20px')};
+    font-weight: ${fonts.weight.semibold};
+    color: ${colors.text.primary};
+  }
+`;
+
+const MetaDataField = ({
+  articleLanguage,
+  showCheckbox,
+  checkboxAction,
+  articleType,
+  articleId,
+}: Props) => {
   const { t } = useTranslation();
   const { userPermissions } = useSession();
   const plugins = [textTransformPlugin];
-
+  const { isFrontpageArticle, toggleFrontpageArticle } = useFrontpageArticle();
   return (
     <>
       <FormikField
@@ -82,6 +101,22 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
           />
         )}
       </FormikField>
+      {articleType === 'frontpage-article' && (
+        <FormikField
+          name="frontpageArticle"
+          label="Forside artikkel"
+          description="Her styrer du om artikkelen som skal vises er forside artikkel"
+        >
+          {() => (
+            <StyledSwitch
+              id={1}
+              label={'Forside artikkel'}
+              checked={isFrontpageArticle}
+              onChange={() => toggleFrontpageArticle(articleId!)}
+            />
+          )}
+        </FormikField>
+      )}
     </>
   );
 };

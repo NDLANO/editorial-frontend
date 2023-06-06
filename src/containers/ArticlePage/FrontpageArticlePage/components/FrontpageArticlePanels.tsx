@@ -15,6 +15,7 @@ import RevisionNotes from '../../components/RevisionNotes';
 import FrontpageArticleFormContent from './FrontpageArticleFormContent';
 import FormAccordions from '../../../../components/Accordion/FormAccordions';
 import FormAccordion from '../../../../components/Accordion/FormAccordion';
+import { useFrontpageArticle } from './FrontpageArticleProvider';
 
 interface Props {
   handleSubmit: (
@@ -29,6 +30,7 @@ const FrontpageArticlePanels = ({ article, handleSubmit, articleLanguage }: Prop
   const { t } = useTranslation();
   const formikContext = useFormikContext<FrontpageArticleFormType>();
   const { values, errors, handleBlur } = formikContext;
+  const { isFrontpageArticle } = useFrontpageArticle();
 
   return (
     <FormAccordions defaultOpen={['frontpage-article-content']}>
@@ -37,6 +39,7 @@ const FrontpageArticlePanels = ({ article, handleSubmit, articleLanguage }: Prop
         title={t('form.contentSection')}
         className={'u-4/6@desktop u-push-1/6@desktop'}
         hasError={!!(errors.title || errors.introduction || errors.content)}
+        data-wide={isFrontpageArticle}
       >
         <FrontpageArticleFormContent
           articleLanguage={articleLanguage}
@@ -62,7 +65,11 @@ const FrontpageArticlePanels = ({ article, handleSubmit, articleLanguage }: Prop
         className={'u-6/6'}
         hasError={!!(errors.metaDescription || errors.metaImageAlt || errors.tags)}
       >
-        <MetaDataField articleLanguage={articleLanguage} />
+        <MetaDataField
+          articleLanguage={articleLanguage}
+          articleType={article?.articleType}
+          articleId={article?.id}
+        />
       </FormAccordion>
       <FormAccordion
         id={'frontpage-article-revisions'}

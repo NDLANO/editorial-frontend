@@ -10,15 +10,18 @@ import ResourcePage from '../../../components/ResourcePage';
 import CreateFrontpageArticle from './CreateFrontpageArticle';
 import EditFrontpageArticle from './EditFrontpageArticle';
 import { articleResourcePageStyle } from '../styles';
+import { FrontpageArticleProvider } from './components/FrontpageArticleProvider';
 
 const FrontpageArticlePage = () => (
-  <ResourcePage
-    CreateComponent={CreateFrontpageArticle}
-    EditComponent={EditFrontpageArticle}
-    useHook={useDraft}
-    createUrl="/subject-matter/frontpage-article/new"
-    css={articleResourcePageStyle}
-  />
+  <FrontpageArticleProvider initialValue={false}>
+    <ResourcePage
+      CreateComponent={CreateFrontpageArticle}
+      EditComponent={EditFrontpageArticle}
+      useHook={useDraft}
+      createUrl="/subject-matter/frontpage-article/new"
+      css={articleResourcePageStyle}
+    />
+  </FrontpageArticleProvider>
 );
 
 export default FrontpageArticlePage;

@@ -187,6 +187,7 @@ const phrases = {
   },
   articleType: {
     'topic-article': 'Topic',
+    'frontpage-article': 'Content article',
     standard: 'Subject matter',
   },
   subNavigation: {

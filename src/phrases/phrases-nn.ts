@@ -188,6 +188,7 @@ const phrases = {
   },
   articleType: {
     'topic-article': 'Emne',
+    'frontpage-article': 'Innhaldsartikkel',
     standard: 'Læringsressurs',
   },
   subNavigation: {

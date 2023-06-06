@@ -188,6 +188,7 @@ const phrases = {
   },
   articleType: {
     'topic-article': 'Emne',
+    'frontpage-article': 'Innhaldsartikkel',
     standard: 'Læringsressurs',
   },
   subNavigation: {
@@ -516,6 +517,18 @@ const phrases = {
   imageForm: {
     title: 'Bilde ',
   },
+  contactBlockForm: {
+    title: 'Kontaktblokk',
+    edit: 'Rediger kontaktblokk',
+    blobColor: {
+      green: 'Grønn',
+      pink: 'Rosa',
+    },
+    blob: {
+      pointy: 'Spiss',
+      round: 'Rund',
+    },
+  },
   frontpageArticleForm: {
     title: 'Innholdsartikkel',
     validation: {
@@ -553,6 +566,10 @@ const phrases = {
         publisher: 'Utgjevar',
       },
     },
+  },
+  keyFigureForm: {
+    title: 'Nykeltal',
+    edit: 'Rediger nykeltal',
   },
   editorToolbar: {
     bold: 'Feit\n({{ctrl}}+b)',
@@ -595,6 +612,8 @@ const phrases = {
       podcast: 'Podkastepisode',
       conceptList: 'Forklaringsliste',
       concept: 'Forklaring',
+      keyFigure: 'Nykeltal',
+      contactBlock: 'Kontaktblokk',
       blogPost: 'Bloggpost',
     },
   },
@@ -664,8 +683,8 @@ const phrases = {
       description: 'Innhald',
       conceptContent: 'Skildring',
       grepCodes: 'Læreplankobling',
-      desktopBanner: 'Banner til desktop',
-      mobileBanner: 'Banner til mobil',
+      desktopBannerId: 'Banner til desktop',
+      mobileBannerId: 'Banner til mobil',
       concepts: 'Forklaringar',
       relatedContent: 'Relaterte forklaringar',
       subjects: 'Fag',
@@ -674,10 +693,16 @@ const phrases = {
       coverPhotoId: 'Metabilde',
       revisions: 'Revisjonar',
       name: 'Namn',
-      author: 'Forfattar',
+      subtitle: 'Undertittel',
+      email: 'E-post',
+      blob: 'Blob-type',
+      blobColor: 'Blob-farge',
+      jobTitle: 'Stilling',
       language: 'Språk',
+      author: 'Forfattar',
       link: 'Lenke',
       size: 'Storleik',
+      contentType: 'Innhaldstype',
     },
     previewProductionArticle: {
       button: 'Samanlikn gjeldande versjon med gamal versjon',
@@ -1360,6 +1385,17 @@ const phrases = {
     deleteResource: 'Slett ressurs',
     confirmDelete: 'Er du sikker på at du vil slette denne noden?',
     version: 'Versjon',
+    createResource: 'Opprett ny ressurs',
+    addNewPlannedResource: 'Opprett ny planlagd ressurs',
+    resourceType: 'Kjernestoff eller tilleggstoff',
+    title: 'Tittel',
+    comment: 'Kommentar',
+    commentPlaceholder: 'F.eks. innhald, læremål eller grep',
+    contentType: 'Innhaldstype',
+    contentTypePlaceholder: 'Velg innhaldstype',
+    create: 'Opprett',
+    get: 'Hent',
+    getExisting: 'Eller hent eksisterande ressurs',
     changeName: {
       loadError: 'Klarte ikkje hente omsetjingar',
       updateError: 'Klarte ikkje oppdatere omsetjingar',
@@ -1377,6 +1413,9 @@ const phrases = {
         'Ingen omsetjingar tilgjengeleg! Standardnamn vil brukes inntil dette er lagt inn.',
     },
     addTopic: 'Legg til nytt emne',
+    addTopicHeader: 'Legg til emne',
+    createTopic: 'Opprett nytt emne',
+    searchExistingTopic: 'Søk etter eksisterande emne',
     errorMessage: 'Ein feil oppsto',
     confirmDeleteTopic: 'Er du sikker på at du vil slette emnet?',
     confirmDeleteSubject: 'Er du sikker på at du vil slette faget?',

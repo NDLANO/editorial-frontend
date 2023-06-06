@@ -48,7 +48,9 @@ const SubjectpageAccordionPanels = ({ editorsChoices, elementId, errors }: Props
         id="metadata"
         title={t('subjectpageForm.metadata')}
         className="u-6/6"
-        hasError={['metaDescription', 'mobileBannerId'].some((field) => field in errors)}
+        hasError={['metaDescription', 'desktopBannerId', 'mobileBannerId'].some(
+          (field) => field in errors,
+        )}
       >
         <SubjectpageMetadata />
       </FormAccordion>

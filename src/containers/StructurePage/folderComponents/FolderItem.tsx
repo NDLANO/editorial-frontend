@@ -7,9 +7,11 @@
  */
 
 import { spacing, fonts, mq, breakpoints } from '@ndla/core';
-import { ButtonV2 } from '@ndla/button';
+import { ButtonV2, IconButtonV2 } from '@ndla/button';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
+import Tooltip from '@ndla/tooltip';
+import { Plus } from '@ndla/icons/action';
 import { Node } from '@ndla/types-taxonomy';
 import { Row } from '../../../components';
 import Spinner from '../../../components/Spinner';
@@ -29,8 +31,12 @@ const StyledFolderWrapper = styled.div`
   display: flex;
   flex-grow: 1;
   justify-content: space-between;
-  align-items: center;
   gap: ${spacing.small};
+`;
+
+const ControlButtonsWrapper = styled.div`
+  display: flex;
+  align-items: center;
 `;
 
 interface Props {
@@ -41,6 +47,7 @@ interface Props {
   rootNodeId: string;
   onCurrentNodeChanged: (node?: Node) => void;
   nodeChildren: Node[];
+  setShowAddTopicModal: (value: boolean) => void;
 }
 
 const FolderItem = ({
@@ -51,6 +58,7 @@ const FolderItem = ({
   rootNodeId,
   onCurrentNodeChanged,
   nodeChildren,
+  setShowAddTopicModal,
 }: Props) => {
   const { t } = useTranslation();
   const showJumpToResources = isMainActive && node.id.includes('topic');
@@ -58,12 +66,24 @@ const FolderItem = ({
   return (
     <StyledFolderWrapper data-cy="folderWrapper">
       {isMainActive && (
-        <SettingsMenu
-          node={node}
-          rootNodeId={rootNodeId}
-          onCurrentNodeChanged={onCurrentNodeChanged}
-          nodeChildren={nodeChildren}
-        />
+        <ControlButtonsWrapper>
+          <SettingsMenu
+            node={node}
+            rootNodeId={rootNodeId}
+            onCurrentNodeChanged={onCurrentNodeChanged}
+            nodeChildren={nodeChildren}
+          />
+          <Tooltip tooltip={t('taxonomy.addTopicHeader')}>
+            <IconButtonV2
+              onClick={() => setShowAddTopicModal(true)}
+              size="xsmall"
+              variant="stripped"
+              aria-label={t('taxonomy.addTopicHeader')}
+            >
+              <Plus />
+            </IconButtonV2>
+          </Tooltip>
+        </ControlButtonsWrapper>
       )}
       {showJumpToResources && (
         <StyledResourceButton

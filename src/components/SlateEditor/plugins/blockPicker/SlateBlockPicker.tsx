@@ -46,8 +46,12 @@ import {
 import { TYPE_RELATED } from '../related/types';
 import { TYPE_CODEBLOCK } from '../codeBlock/types';
 import { TYPE_CONCEPT_LIST } from '../conceptList/types';
+import { TYPE_KEY_FIGURE } from '../keyFigure/types';
+import { defaultKeyFigureBlock } from '../keyFigure/utils';
+import { TYPE_CONTACT_BLOCK } from '../contactBlock/types';
 import { TYPE_BLOGPOST } from '../blogPost/types';
 import { defaultBlogPostBlock } from '../blogPost/utils';
+import { defaultContactBlock } from '../contactBlock/utils';
 
 interface Props {
   editor: Editor;
@@ -217,6 +221,14 @@ const SlateBlockPicker = ({
         onInsertBlock(defaultConceptBlock());
         break;
       }
+      case TYPE_KEY_FIGURE: {
+        onInsertBlock(defaultKeyFigureBlock());
+        break;
+      }
+      case TYPE_CONTACT_BLOCK: {
+        onInsertBlock(defaultContactBlock());
+        break;
+      }
       default:
         setBlockPickerOpen(false);
         break;
@@ -262,16 +274,17 @@ const SlateBlockPicker = ({
     });
 
     for (const entry of nodes) {
-      const [node] = entry;
+      const [node, path] = entry;
       if (!Element.isElement(node)) return actions;
       if (node.type === 'section') {
         return actions;
       }
-      if (actionsToShowInAreas[node.type]) {
+      const [parent] = Editor.parent(editor, path);
+      if (Element.isElement(parent) && actionsToShowInAreas[parent.type]) {
         return actions.filter(
           (action) =>
-            actionsToShowInAreas[node.type].includes(action.data.type) ||
-            actionsToShowInAreas[node.type].includes(action.data.object),
+            actionsToShowInAreas[parent.type].includes(action.data.type) ||
+            actionsToShowInAreas[parent.type].includes(action.data.object),
         );
       }
     }

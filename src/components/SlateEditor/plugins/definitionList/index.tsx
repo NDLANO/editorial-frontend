@@ -6,11 +6,10 @@
  *
  */
 
-import styled from '@emotion/styled';
 import { Descendant, Editor, Element, Path, Transforms, Node } from 'slate';
 import { jsx as slatejsx } from 'slate-hyperscript';
 import { RenderElementProps } from 'slate-react';
-import { colors, fonts } from '@ndla/core';
+import { DefinitionDescription, DefinitionTerm } from '@ndla/ui';
 import { SlateSerializer } from '../../interfaces';
 import { defaultBlockNormalizer, NormalizerConfig } from '../../utils/defaultNormalizer';
 import { KEY_BACKSPACE, KEY_ENTER } from '../../utils/keys';
@@ -18,7 +17,6 @@ import onBackspace from './handlers/onBackspace';
 import onEnter from './handlers/onEnter';
 import { TYPE_DEFINTION_LIST, TYPE_DEFINTION_DESCRIPTION, TYPE_DEFINTION_TERM } from './types';
 import { TYPE_SECTION } from '../section/types';
-import { DefinitionDescription, DefinitionTerm } from '@ndla/ui';
 
 export interface DefinitionListElement {
   type: 'definition-list';

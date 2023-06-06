@@ -536,6 +536,13 @@ const phrases = {
         'Bruk av ulovlige tegn i permalenken! Tillatte tegn er alle tall og bokstaver, og bindestrek',
     },
   },
+  gridForm: {
+    title: 'Grid',
+    background: {
+      white: 'Kvit',
+      transparent: 'Transparent',
+    },
+  },
   blogPostForm: {
     title: 'Rediger bloggpost',
     languageExplanation: 'Vel språk for skjermlesar',
@@ -615,6 +622,7 @@ const phrases = {
       keyFigure: 'Nykeltal',
       contactBlock: 'Kontaktblokk',
       blogPost: 'Bloggpost',
+      grid: 'Grid',
     },
   },
   form: {
@@ -702,6 +710,9 @@ const phrases = {
       author: 'Forfattar',
       link: 'Lenke',
       size: 'Storleik',
+      columns: 'Kolonner',
+      border: 'Vis ramme',
+      background: 'Bakgrunn',
       contentType: 'Innhaldstype',
     },
     previewProductionArticle: {

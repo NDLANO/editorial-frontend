@@ -50,6 +50,7 @@ import { ConceptBlockElement } from './plugins/concept/block/interfaces';
 import { KeyFigureElement } from './plugins/keyFigure';
 import { ContactBlockElement } from './plugins/contactBlock';
 import { BlogPostElement } from './plugins/blogPost/types';
+import { GridCellElement, GridElement } from './plugins/grid';
 
 export type SlatePlugin = (editor: Editor) => Editor;
 
@@ -110,9 +111,11 @@ declare module 'slate' {
       | DivElement
       | SpanElement
       | ConceptListElement
+      | BlogPostElement
+      | GridElement
+      | GridCellElement
       | KeyFigureElement
-      | ContactBlockElement
-      | BlogPostElement;
+      | ContactBlockElement;
     Text: CustomTextWithMarks;
   }
 }

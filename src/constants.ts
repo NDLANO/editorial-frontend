@@ -10,7 +10,6 @@ import config from './config';
 import { WhitelistProvider } from './interfaces';
 
 export const NAVIGATION_HEADER_MARGIN = '95px';
-export const FRONTPAGE_ARTICLE_WIDTH = '1700px';
 
 export const RESOURCE_TYPE_LEARNING_PATH = 'urn:resourcetype:learningPath';
 export const RESOURCE_TYPE_SUBJECT_MATERIAL = 'urn:resourcetype:subjectMaterial';

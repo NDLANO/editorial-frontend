@@ -187,6 +187,7 @@ const phrases = {
   },
   articleType: {
     'topic-article': 'Topic',
+    'frontpage-article': 'Content article',
     standard: 'Subject matter',
   },
   subNavigation: {
@@ -515,11 +516,30 @@ const phrases = {
   imageForm: {
     title: 'Image',
   },
+  contactBlockForm: {
+    title: 'Contact block',
+    edit: 'Edit contact block',
+    blobColor: {
+      green: 'Green',
+      pink: 'Pink',
+    },
+    blob: {
+      pointy: 'Pointy',
+      round: 'Round',
+    },
+  },
   frontpageArticleForm: {
     title: 'Content article',
     validation: {
       illegalSlug:
         'Use of illegal characters in permalink! Legal characters are numbers and letters, plus dashes.',
+    },
+  },
+  gridForm: {
+    title: 'Grid',
+    background: {
+      white: 'White',
+      transparent: 'Transparent',
     },
   },
   blogPostForm: {
@@ -552,6 +572,10 @@ const phrases = {
         publisher: 'Publisher',
       },
     },
+  },
+  keyFigureForm: {
+    title: 'Key figure',
+    edit: 'Edit key figure',
   },
   editorToolbar: {
     bold: 'Bold\n({{ctrl}}+b)',
@@ -595,7 +619,10 @@ const phrases = {
       podcast: 'Podcast episode',
       conceptList: 'Concept list',
       concept: 'Concept',
+      keyFigure: 'Key figure',
+      contactBlock: 'Contact block',
       blogPost: 'Blog post',
+      grid: 'Grid',
     },
   },
   form: {
@@ -664,8 +691,8 @@ const phrases = {
       description: 'Content',
       conceptContent: 'Description',
       grepCodes: 'Curriculum connection',
-      desktopBanner: 'Desktop banner',
-      mobileBanner: 'Mobile banner',
+      desktopBannerId: 'Desktop banner',
+      mobileBannerId: 'Mobile banner',
       concepts: 'Concepts',
       relatedContent: 'Related content',
       subjects: 'Subject',
@@ -674,10 +701,19 @@ const phrases = {
       coverPhotoId: 'Meta image',
       revisions: 'Revisions',
       name: 'Name',
+      subtitle: 'Subtitle',
+      email: 'Email',
+      blob: 'Blob type',
+      blobColor: 'Blob color',
+      jobTitle: 'Job title',
       author: 'Author',
       language: 'Language',
       link: 'Link',
       size: 'Size',
+      columns: 'Columns',
+      border: 'Show border',
+      background: 'Background',
+      contentType: 'Content type',
     },
     previewProductionArticle: {
       button: 'Compare current version with old version',
@@ -1069,7 +1105,7 @@ const phrases = {
       label: 'Responsible',
       choose: 'Choose a responsible',
       noResults: 'No results',
-      noResponible: 'No responsible',
+      noResponsible: 'No responsible',
       revisionDate: 'Amount approaching revision date',
       error: 'Something went wrong when updating responsible',
     },
@@ -1359,6 +1395,17 @@ const phrases = {
     deleteResource: 'Delete resource',
     confirmDelete: 'Are you sure you want to delete this node?',
     version: 'Version',
+    createResource: 'Create new resource',
+    addNewPlannedResource: 'Create planned resourse',
+    resourceType: 'Core(K) or supplementary(T)',
+    title: 'Title',
+    comment: 'Comment',
+    commentPlaceholder: 'E.g. content, learning objective or grep',
+    contentType: 'Content type',
+    contentTypePlaceholder: 'Choose content type',
+    create: 'Create',
+    get: 'Get',
+    getExisting: 'Or get existing resource',
     changeName: {
       loadError: 'Could not fetch translations',
       updateError: 'Could not update translations',
@@ -1374,6 +1421,9 @@ const phrases = {
       add: 'Add',
       noTranslations: 'No translations available! Using default name as fallback.',
     },
+    addTopicHeader: 'Add topic',
+    createTopic: 'Create new topic',
+    searchExistingTopic: 'Search for existing topic',
     topicSettings: 'Topic settings',
     subjectSettings: 'Subject settings',
     linkSettings: 'Link',

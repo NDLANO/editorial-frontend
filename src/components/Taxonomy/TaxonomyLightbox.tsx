@@ -7,11 +7,10 @@
  */
 
 import { ButtonV2 } from '@ndla/button';
-import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { spacing, colors, fonts } from '@ndla/core';
 import { BookOpen } from '@ndla/icons/common';
-import { ModalV2, ModalCloseButton, ModalPosition } from '@ndla/modal';
+import { Modal, ModalCloseButton, ModalPosition, ModalTitle } from '@ndla/modal';
 import Spinner from '../Spinner';
 
 const StyledHeader = styled.div`
@@ -59,9 +58,11 @@ const StyledMenuBook = styled(BookOpen)`
 
 const StyledWrapper = styled.div`
   padding: ${spacing.small} 0px;
+  display: flex;
+  gap: ${spacing.xsmall};
 `;
 
-const StyledTitle = styled.h2`
+const StyledTitle = styled(ModalTitle)`
   font-weight: ${fonts.weight.semibold};
   margin: 0px;
   ${fonts.sizes(24)}
@@ -70,9 +71,13 @@ const StyledTitle = styled.h2`
 interface Props {
   children: JSX.Element;
   onClose: () => void;
-  loading?: boolean;
   title: string;
-  onSelect?: () => void;
+  actions?: {
+    text: string;
+    onClick: () => void;
+    'data-testid'?: string;
+    loading?: boolean;
+  }[];
   wide?: boolean;
   position?: ModalPosition;
 }
@@ -80,23 +85,13 @@ interface Props {
 const TaxonomyLightbox = ({
   children,
   title,
-  onSelect,
-  loading,
   onClose,
   wide = false,
+  actions = [],
   position = 'top',
 }: Props) => {
-  const { t } = useTranslation();
-
   return (
-    <ModalV2
-      onClose={onClose}
-      controlled
-      isOpen
-      position={position}
-      label={title}
-      size={wide ? 'large' : 'normal'}
-    >
+    <Modal onClose={onClose} controlled isOpen position={position} size={wide ? 'large' : 'normal'}>
       {(onCloseModal) => (
         <>
           <StyledHeader>
@@ -104,23 +99,23 @@ const TaxonomyLightbox = ({
               <StyledIconWrapper>
                 <StyledMenuBook />
               </StyledIconWrapper>
-              <StyledTitle>{title}</StyledTitle>
+              <StyledTitle as="h2">{title}</StyledTitle>
             </StyledTitleWrapper>
             <ModalCloseButton onClick={onCloseModal} data-testid="taxonomyLightboxCloseButton" />
           </StyledHeader>
           <StyledContent>
             {children}
-            {onSelect && (
-              <StyledWrapper>
-                <ButtonV2 onClick={onSelect} data-testid="taxonomyLightboxButton">
-                  {loading ? <Spinner appearance="small" /> : t('form.save')}
+            <StyledWrapper>
+              {actions.map((a, i) => (
+                <ButtonV2 key={i} onClick={a.onClick} data-testid={a['data-testid']}>
+                  {a.loading ? <Spinner appearance="small" /> : a.text}
                 </ButtonV2>
-              </StyledWrapper>
-            )}
+              ))}
+            </StyledWrapper>
           </StyledContent>
         </>
       )}
-    </ModalV2>
+    </Modal>
   );
 };
 

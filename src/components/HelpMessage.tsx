@@ -9,7 +9,7 @@
 import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
 import { spacing } from '@ndla/core';
-import Modal, { ModalBody, ModalCloseButton, ModalHeader } from '@ndla/modal';
+import { ModalBody, ModalCloseButton, ModalHeader, ModalTitle, Modal } from '@ndla/modal';
 import Tooltip from '@ndla/tooltip';
 import { ReactNode } from 'react';
 import { CustomWithTranslation, withTranslation } from 'react-i18next';
@@ -39,6 +39,7 @@ const HelpMessage = ({ children, t }: Props & CustomWithTranslation) => (
     {(onClose: () => void) => (
       <>
         <ModalHeader>
+          <ModalTitle>{t('editMarkup.helpMessage.tooltip')}</ModalTitle>
           <ModalCloseButton onClick={onClose} title={t('dialog.close')} />
         </ModalHeader>
         <ModalBody>{children}</ModalBody>

@@ -12,7 +12,7 @@ import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import { Figure } from '@ndla/ui';
 import { colors } from '@ndla/core';
-import Modal from '@ndla/modal';
+import { Modal } from '@ndla/modal';
 import { fetchAudio } from '../../../../modules/audio/audioApi';
 import { NdlaErrorPayload, onError } from '../../../../util/resolveJsonOrRejectWithError';
 import AudioPlayerMounter from './AudioPlayerMounter';
@@ -90,13 +90,7 @@ const SlatePodcast = ({
 
   return (
     <>
-      <Modal
-        controllable
-        backgroundColor="white"
-        isOpen={editing}
-        labelledBy={'editPodcastEmbed'}
-        onClose={() => setEditing(false)}
-      >
+      <Modal controlled isOpen={editing} onClose={() => setEditing(false)}>
         {(close) => (
           <EditPodcast
             close={close}

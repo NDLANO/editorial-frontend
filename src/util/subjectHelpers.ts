@@ -43,10 +43,10 @@ export interface SubjectPageFormikType {
   articleType: string;
   description?: Descendant[];
   metaDescription?: Descendant[];
-  desktopBanner?: ImageEmbed;
+  desktopBannerId?: number;
+  mobileBannerId?: number;
   editorsChoices: (ILearningPathV2 | IArticle)[];
   language: string;
-  mobileBanner?: number;
   elementId: string;
   title: Descendant[];
 }
@@ -79,8 +79,8 @@ export const subjectpageFormikTypeToPostType = (
       },
     ],
     banner: {
-      mobileImageId: values.mobileBanner,
-      desktopImageId: parseInt(values.desktopBanner!.resource_id),
+      mobileImageId: values.mobileBannerId,
+      desktopImageId: values.desktopBannerId!,
     },
     editorsChoices: editorsChoicesUrns,
     facebook: values.facebook,
@@ -102,29 +102,14 @@ export const subjectpageFormikTypeToPostType = (
   };
 };
 
-const imageToVisualElement = (image: IImageMetaInformationV3): ImageEmbed => {
-  return {
-    resource: 'image',
-    resource_id: image.id,
-    size: image.image.size.toString(),
-    align: '',
-    alt: image.alttext.alttext ?? '',
-    caption: image.caption.caption ?? '',
-    url: image.image.imageUrl,
-    metaData: image,
-  };
-};
-
 export const subjectpageApiTypeToFormikType = (
   subjectpage: ISubjectPageData | undefined,
   elementName: string | undefined,
   elementId: string,
   selectedLanguage: string,
   editorsChoices?: (ILearningPathV2 | IArticle)[],
-  banner?: IImageMetaInformationV3, // maybe undefined?
 ): SubjectPageFormikType => {
   const visualElement = subjectpage?.about?.visualElement;
-  const desktopBanner = banner ? imageToVisualElement(banner) : undefined;
 
   const embed = visualElement
     ? convertVisualElement({ ...visualElement, alt: visualElement.alt ?? '' })
@@ -135,8 +120,8 @@ export const subjectpageApiTypeToFormikType = (
     language: selectedLanguage,
     description: plainTextToEditorValue(subjectpage?.about?.description ?? ''),
     title: plainTextToEditorValue(subjectpage?.about?.title ?? ''),
-    mobileBanner: subjectpage?.banner?.mobileId,
-    desktopBanner,
+    mobileBannerId: subjectpage?.banner.mobileId,
+    desktopBannerId: subjectpage?.banner.desktopId,
     visualElement: embed ?? [],
     editorsChoices: editorsChoices ?? [],
     facebook: subjectpage?.facebook,

@@ -6,15 +6,10 @@
  *
  */
 
+import { ResourceResourceType, Metadata } from '@ndla/types-taxonomy';
 import { apiResourceUrl, httpFunctions } from '../../../util/apiHelpers';
 import { taxonomyApi } from '../../../config';
-import {
-  Resource,
-  ResourceResourceType,
-  ResourceWithParentTopics,
-  TaxonomyMetadata,
-  Topic,
-} from '../taxonomyApiInterfaces';
+import { Resource, ResourceWithParentTopics, Topic } from '../taxonomyApiInterfaces';
 import { resolveLocation } from '../../../util/resolveJsonOrRejectWithError';
 import { WithTaxonomyVersion } from '../../../interfaces';
 import { ResourcePostBody } from './resourceApiInterfaces';
@@ -89,14 +84,14 @@ export const fetchResourceResourceType = ({
 
 interface ResourceMetadataPutParams extends WithTaxonomyVersion {
   resourceId: string;
-  body: Partial<TaxonomyMetadata>;
+  body: Partial<Metadata>;
 }
 
 export const updateResourceMetadata = ({
   resourceId,
   body,
   taxonomyVersion,
-}: ResourceMetadataPutParams): Promise<TaxonomyMetadata> => {
+}: ResourceMetadataPutParams): Promise<Metadata> => {
   return putAndResolve({
     url: `${resourcesUrl}/${resourceId}/metadata`,
     body: JSON.stringify(body),

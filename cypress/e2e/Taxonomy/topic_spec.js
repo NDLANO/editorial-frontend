@@ -17,7 +17,7 @@ describe('Topic editing', () => {
     setToken();
 
     cy.apiroute('GET', `${taxonomyApi}/versions`, 'allVersions');
-    cy.apiroute('GET', `${taxonomyApi}/nodes?isRoot=true&language=nb`, 'allSubjects');
+    cy.apiroute('GET', `${taxonomyApi}/nodes?language=nb&nodeType=SUBJECT`, 'allSubjects');
     cy.apiroute(
       'GET',
       `${taxonomyApi}/nodes/${selectSubject}/nodes?language=nb&recursive=true`,

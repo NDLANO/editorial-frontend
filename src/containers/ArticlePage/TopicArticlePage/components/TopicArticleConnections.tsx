@@ -8,13 +8,11 @@
 
 import { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
-//@ts-ignore
 import { Structure } from '@ndla/editor';
 import { FieldHeader } from '@ndla/forms';
-import { colors } from '@ndla/core';
 import { ButtonV2 } from '@ndla/button';
 import { useTranslation } from 'react-i18next';
-import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
+import { ModalHeader, ModalBody, ModalCloseButton, Modal, ModalTitle } from '@ndla/modal';
 import { Switch } from '@ndla/switch';
 import { fetchUserData } from '../../../../modules/draft/draftApi';
 import { HowToHelper } from '../../../../components/HowTo';
@@ -24,6 +22,10 @@ import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces'
 import { LocaleType } from '../../../../interfaces';
 import { StagedTopic } from './TopicArticleTaxonomy';
 
+const StyledModalHeader = styled(ModalHeader)`
+  padding-bottom: 0;
+`;
+
 interface Props {
   structure: SubjectType[];
   activeTopics: StagedTopic[];
@@ -31,16 +33,6 @@ interface Props {
   stageTaxonomyChanges: ({ path, locale }: { path: string; locale?: LocaleType }) => void;
   getSubjectTopics: (subjectId: string, locale: LocaleType) => Promise<void>;
 }
-
-const StyledTitleModal = styled('h1')`
-  color: ${colors.text.primary};
-`;
-
-const ModalTitleRow = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`;
 
 const TopicArticleConnections = ({
   structure,
@@ -111,32 +103,26 @@ const TopicArticleConnections = ({
       </FieldHeader>
       <ActiveTopicConnections activeTopics={activeTopics} type="topic-article" />
       <Modal
-        label={t('taxonomy.topics.filestructureHeading')}
-        backgroundColor="white"
         animation="subtle"
-        size="large"
-        narrow
-        minHeight="85vh"
+        size={{ width: 'large', height: 'large' }}
         activateButton={<ButtonV2>{t(`taxonomy.topics.${'chooseTaxonomyPlacement'}`)}</ButtonV2>}
       >
         {(closeModal: () => void) => (
           <>
-            <ModalHeader>
+            <StyledModalHeader>
+              <ModalTitle>{t('taxonomy.topics.filestructureHeading')}</ModalTitle>
+              <Switch
+                onChange={toggleShowFavorites}
+                checked={showFavorites}
+                label={t('taxonomy.favorites')}
+                id={'favorites'}
+              />
               <ModalCloseButton
                 title={t('taxonomy.topics.filestructureClose')}
                 onClick={closeModal}
               />
-            </ModalHeader>
+            </StyledModalHeader>
             <ModalBody>
-              <ModalTitleRow>
-                <StyledTitleModal>{t('taxonomy.topics.filestructureHeading')}:</StyledTitleModal>
-                <Switch
-                  onChange={toggleShowFavorites}
-                  checked={showFavorites}
-                  label={t('taxonomy.favorites')}
-                  id={'favorites'}
-                />
-              </ModalTitleRow>
               <hr />
               <Structure
                 openedPaths={openedPaths}

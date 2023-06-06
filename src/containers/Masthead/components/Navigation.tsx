@@ -14,13 +14,13 @@ import FocusTrapReact from 'focus-trap-react';
 import styled from '@emotion/styled';
 import { IconButtonV2 } from '@ndla/button';
 import { Menu } from '@ndla/icons/common';
-import MastheadSearch from '../MastheadSearch';
 import SessionContainer from './SessionContainer';
 import NavigationMenu from './NavigationMenu';
 import Overlay from '../../../components/Overlay';
 import config from '../../../config';
 import { NAVIGATION_HEADER_MARGIN } from '../../../constants';
 import { Column, GridContainer } from '../../../components/Layout/Layout';
+import SavedSearchDropdown from '../SavedSearchDropdown';
 
 const StyledLogoDiv = styled.div`
   transform: translateY(3px);
@@ -33,7 +33,7 @@ interface StyledNavigationWrapperProps {
 
 const StyledNavigationWrapper = styled.div<StyledNavigationWrapperProps>`
   position: absolute;
-  z-index: ${(props) => props.open && '3'};
+  z-index: ${(props) => props.open && '4'};
   top: 0;
   left: 0;
   right: 0;
@@ -140,7 +140,7 @@ const Navigation = () => {
                     <StyledLogoDiv>
                       <Logo to="/" label={t('logo.altText')} />
                     </StyledLogoDiv>
-                    <MastheadSearch close={closeMenu} />
+                    <SavedSearchDropdown onClose={closeMenu} />
                   </LeftContent>
                   <SessionContainer close={closeMenu} />
                 </StyledHeaderItems>

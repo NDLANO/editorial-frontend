@@ -7,15 +7,15 @@
  */
 
 import { useQueryClient } from '@tanstack/react-query';
-import { Input } from '@ndla/forms';
+import { InputV2 } from '@ndla/forms';
 import styled from '@emotion/styled';
 import { ChangeEvent, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ILearningPathSummaryV2 } from '@ndla/types-backend/learningpath-api';
 import { IGroupSearchResult, IMultiSearchSummary } from '@ndla/types-backend/search-api';
 import { IArticleV2 } from '@ndla/types-backend/article-api';
+import { ButtonV2 } from '@ndla/button';
 import { spacing } from '@ndla/core';
-import TaxonomyLightbox from '../../../components/Taxonomy/TaxonomyLightbox';
 import { RESOURCE_TYPE_LEARNING_PATH, RESOURCE_TYPE_SUBJECT_MATERIAL } from '../../../constants';
 import ResourceTypeSelect from '../../ArticlePage/components/ResourceTypeSelect';
 import { getResourceIdFromPath } from '../../../util/routeHelpers';
@@ -30,30 +30,33 @@ import {
   updateLearningPathTaxonomy,
 } from '../../../modules/learningpath/learningpathApi';
 import { groupSearch } from '../../../modules/search/searchApi';
-import AlertModal from '../../../components/AlertModal';
 import ArticlePreview from '../../../components/ArticlePreview';
 import { getArticle } from '../../../modules/article/articleApi';
 import handleError from '../../../util/handleError';
 import { usePostResourceForNodeMutation } from '../../../modules/nodes/nodeMutations';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 import { resourcesWithNodeConnectionQueryKey } from '../../../modules/nodes/nodeQueries';
+import Spinner from '../../../components/Spinner';
+import {
+  ButtonWrapper,
+  ErrorMessage,
+  StyledLabel,
+  inputWrapperStyles,
+} from './PlannedResourceForm';
 
 const StyledOrDivider = styled.div`
   display: flex;
   justify-content: center;
+  padding: ${spacing.small} 0 0;
+`;
+const ContentWrapper = styled.div`
+  padding-left: ${spacing.medium};
 `;
 
-const StyledContent = styled.div`
-  width: 100%;
+const StyledSection = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${spacing.small};
-  > * {
-    width: 100%;
-  }
-  & form {
-    background-color: white;
-  }
 `;
 
 const emptySearchResults: IGroupSearchResult = {
@@ -86,7 +89,7 @@ type ArticleWithPaths = IArticleV2 & { paths: string[] | undefined };
 
 type PossibleResources = ArticleWithPaths | ILearningPathSummaryV2 | IMultiSearchSummary;
 
-const AddResourceModal = ({ onClose, resourceTypes, existingResourceIds, nodeId }: Props) => {
+const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, nodeId }: Props) => {
   const { t, i18n } = useTranslation();
   const [content, setContent] = useState<Content | undefined>(undefined);
   const [error, setError] = useState('');
@@ -201,57 +204,59 @@ const AddResourceModal = ({ onClose, resourceTypes, existingResourceIds, nodeId 
   };
 
   return (
-    <TaxonomyLightbox
-      title={t('taxonomy.searchResource')}
-      onSelect={onAddResource}
-      loading={loading}
-      onClose={onClose}
-    >
-      <StyledContent>
-        <ResourceTypeSelect
-          availableResourceTypes={resourceTypes ?? []}
-          onChangeSelectedResource={(value) => {
-            if (value) setSelectedType(value?.value);
-          }}
-          isClearable
-        />
+    <>
+      <ContentWrapper>
         {canPaste && selectedType && (
-          <Input
-            type="text"
-            data-testid="addResourceUrlInput"
-            value={pastedUrl}
-            onChange={onPaste}
-            placeholder={t('taxonomy.urlPlaceholder')}
-          />
-        )}
-        {!pastedUrl && selectedType && (
           <>
-            {canPaste && <StyledOrDivider>{t('taxonomy.or')}</StyledOrDivider>}
-            <AsyncDropdown<ILearningPathSummaryV2 | IMultiSearchSummary>
-              idField="id"
-              labelField="title"
-              placeholder={t('form.content.relatedArticle.placeholder')}
-              apiAction={(query, page) => onSearch(query, page)}
-              onChange={(res) => setContent(toContent(res))}
-              startOpen={false}
-              showPagination
-              initialSearch={false}
+            <InputV2
+              customCss={inputWrapperStyles}
+              label={t('taxonomy.urlPlaceholder')}
+              white
+              onChange={onPaste}
+              name="pasteUrlInput"
+              placeholder={t('taxonomy.urlPlaceholder')}
             />
+            {canPaste && <StyledOrDivider>{t('taxonomy.or')}</StyledOrDivider>}
           </>
         )}
+        <StyledSection>
+          <div>
+            <StyledLabel htmlFor="select-resource-type">{t('taxonomy.contentType')}</StyledLabel>
+            <ResourceTypeSelect
+              availableResourceTypes={resourceTypes ?? []}
+              onChangeSelectedResource={(value) => {
+                if (value) setSelectedType(value?.value);
+              }}
+              isClearable
+            />
+          </div>
+          {!pastedUrl && selectedType && (
+            <>
+              <AsyncDropdown<ILearningPathSummaryV2 | IMultiSearchSummary>
+                idField="id"
+                labelField="title"
+                placeholder={t('form.content.relatedArticle.placeholder')}
+                apiAction={(query, page) => onSearch(query, page)}
+                onChange={(res) => setContent(toContent(res))}
+                startOpen={false}
+                showPagination
+                initialSearch={false}
+                label={t('form.content.relatedArticle.placeholder')}
+                white
+              />
+            </>
+          )}
+        </StyledSection>
         {content && <ArticlePreview article={content} />}
-        {error && (
-          <AlertModal
-            title={t('errorMessage.description')}
-            label={t('errorMessage.description')}
-            show={!!error}
-            text={error}
-            onCancel={() => setError('')}
-          />
-        )}
-      </StyledContent>
-    </TaxonomyLightbox>
+      </ContentWrapper>
+      <ButtonWrapper>
+        <ButtonV2 onClick={onAddResource} type="submit">
+          {t('taxonomy.get')} {loading && <Spinner appearance="small" />}
+        </ButtonV2>
+      </ButtonWrapper>
+      {error && <ErrorMessage>{t(error)}</ErrorMessage>}
+    </>
   );
 };
 
-export default AddResourceModal;
+export default AddExistingResource;

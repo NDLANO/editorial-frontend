@@ -8,6 +8,7 @@
 
 import { constants } from '@ndla/ui';
 import { TFunction } from 'react-i18next';
+import { ResourceType } from '@ndla/types-taxonomy';
 import {
   toEditArticle,
   toEditAudio,
@@ -24,7 +25,6 @@ import {
   RESOURCE_TYPE_EXTERNAL_LEARNING_RESOURCES,
   RESOURCE_TYPE_SOURCE_MATERIAL,
 } from '../constants';
-import { ResourceType } from '../modules/taxonomy/taxonomyApiInterfaces';
 
 const { contentTypes } = constants;
 
@@ -68,7 +68,9 @@ export const getResourceLanguages = (t: TFunction) => [
   { id: 'es', name: t('language.es') },
 ];
 
-export const getContentTypeFromResourceTypes = (resourceTypes: ResourceType[]): ContentTypeType => {
+export const getContentTypeFromResourceTypes = (
+  resourceTypes: Pick<ResourceType, 'id'>[],
+): ContentTypeType => {
   const resourceType = resourceTypes.find((type) => !!mapping[type.id]);
   if (resourceType) {
     return mapping[resourceType.id];

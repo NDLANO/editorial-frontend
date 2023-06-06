@@ -16,6 +16,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { SingleValue } from '@ndla/select';
 import { ButtonV2 } from '@ndla/button';
 import { useTranslation } from 'react-i18next';
+import { ResourceType, Metadata } from '@ndla/types-taxonomy';
 import {
   fetchResourceTypes,
   fetchSubjects,
@@ -40,8 +41,6 @@ import {
 } from '../../../../constants';
 import { FormikFieldHelp } from '../../../../components/FormikField';
 import {
-  TaxonomyMetadata,
-  ResourceType,
   ResourceResourceType,
   SubjectType,
   SubjectTopic,
@@ -67,7 +66,7 @@ interface FullResource {
   name: string;
   resourceTypes: ResourceResourceType[];
   topics: ParentTopicWithRelevanceAndConnections[];
-  metadata?: TaxonomyMetadata;
+  metadata?: Metadata;
 }
 
 interface LearningResourceSubjectType extends SubjectType {
@@ -79,13 +78,13 @@ interface ResourceTaxonomy {
   topics: ParentTopicWithRelevanceAndConnections[];
   id?: string;
   name?: string;
-  metadata?: TaxonomyMetadata;
+  metadata?: Metadata;
 }
 
 interface TaxonomyChanges {
   resourceTypes: ResourceResourceType[];
   topics: ParentTopicWithRelevanceAndConnections[];
-  metadata?: TaxonomyMetadata;
+  metadata?: Metadata;
 }
 
 interface Props {
@@ -484,7 +483,6 @@ const LearningResourceTaxonomy = ({ article, taxonomy, updateNotes, setIsOpen }:
         stageTaxonomyChanges={stageTaxonomyChanges}
         getSubjectTopics={getSubjectTopics}
         allowMultipleSubjectsOpen={false}
-        onChangeShowFavorites={() => {}}
       />
       {showWarning && <FormikFieldHelp error>{t('errorMessage.unsavedTaxonomy')}</FormikFieldHelp>}
       <ButtonContainer>

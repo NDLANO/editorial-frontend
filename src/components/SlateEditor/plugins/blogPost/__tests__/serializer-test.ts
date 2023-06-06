@@ -13,11 +13,13 @@ import {
   blockContentToEditorValue,
   blockContentToHTML,
 } from '../../../../../util/articleContentConverter';
+import { TYPE_PARAGRAPH } from '../../paragraph/types';
 
 const editor: Descendant[] = [
   {
     type: TYPE_SECTION,
     children: [
+      { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
       {
         type: TYPE_BLOGPOST,
         data: {
@@ -31,6 +33,7 @@ const editor: Descendant[] = [
         },
         children: [{ text: '' }],
       },
+      { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
     ],
   },
 ];

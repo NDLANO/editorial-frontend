@@ -34,7 +34,7 @@ export const blogPostSerializer: SlateSerializer = {
     if (el.tagName.toLowerCase() !== TYPE_NDLA_EMBED) return;
     const embed = el as HTMLEmbedElement;
     const embedAttributes = reduceElementDataAttributesV2(Array.from(embed.attributes));
-    if (embedAttributes.resource !== 'blog-post') return;
+    if (embedAttributes.resource !== TYPE_BLOGPOST) return;
     return slatejsx(
       'element',
       {
@@ -45,7 +45,7 @@ export const blogPostSerializer: SlateSerializer = {
     );
   },
   serialize(node: Descendant) {
-    if (!Element.isElement(node) || node.type !== 'blog-post' || !node.data) return;
+    if (!Element.isElement(node) || node.type !== TYPE_BLOGPOST || !node.data) return;
     return createEmbedTagV2(node.data);
   },
 };
@@ -78,12 +78,7 @@ export const blogPostPlugin = (editor: Editor) => {
     nextNormalizeNode(entry);
   };
 
-  editor.isVoid = (element) => {
-    if (Element.isElement(element) && element.type === TYPE_BLOGPOST) {
-      return true;
-    } else {
-      return nextIsVoid(element);
-    }
-  };
+  editor.isVoid = (element) => (element.type === TYPE_BLOGPOST ? true : nextIsVoid(element));
+
   return editor;
 };

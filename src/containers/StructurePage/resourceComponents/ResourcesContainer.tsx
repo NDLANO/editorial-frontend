@@ -15,11 +15,12 @@ import Tooltip from '@ndla/tooltip';
 import { Spinner } from '@ndla/icons';
 import { IconButtonV2 } from '@ndla/button';
 import { breakpoints, mq } from '@ndla/core';
-import { NodeChild } from '@ndla/types-taxonomy';
+import { IUserData } from '@ndla/types-backend/build/draft-api';
+import { FieldHeader } from '@ndla/forms';
+import { NodeChild, ResourceType } from '@ndla/types-taxonomy';
 import { ResourceWithNodeConnectionAndMeta } from './StructureResources';
-import { ResourceType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import ResourceItems from './ResourceItems';
-import AddResourceModal from './AddResourceModal';
+import AddResourceModal from '../plannedResource/AddResourceModal';
 import Resource from './Resource';
 import { NodeResourceMeta, useNodes } from '../../../modules/nodes/nodeQueries';
 import ResourceBanner from './ResourceBanner';
@@ -28,6 +29,8 @@ import { groupResourcesByType } from '../../../util/taxonomyHelpers';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 import { useAuth0Responsibles } from '../../../modules/auth0/auth0Queries';
 import { DRAFT_WRITE_SCOPE } from '../../../constants';
+import PlannedResourceForm from '../plannedResource/PlannedResourceForm';
+import AddExistingResource from '../plannedResource/AddExistingResource';
 
 const ResourceWrapper = styled.div`
   overflow-y: auto;
@@ -44,8 +47,8 @@ interface Props {
   grouped: boolean;
   setCurrentNode: (changedNode: NodeChild) => void;
   contentMetaLoading: boolean;
+  userData: IUserData | undefined;
 }
-
 const ResourcesContainer = ({
   resourceTypes,
   nodeResources,
@@ -54,9 +57,10 @@ const ResourcesContainer = ({
   grouped,
   setCurrentNode,
   contentMetaLoading,
+  userData,
 }: Props) => {
   const { t } = useTranslation();
-  const [showAddModal, setShowAddModal] = useState(false);
+  const [showAddResourceModal, setShowAddResourceModal] = useState(false);
   const resourceTypesWithoutMissing = useMemo(
     () =>
       resourceTypes.filter((rt) => rt.id !== 'missing').map((rt) => ({ id: rt.id, name: rt.name })),
@@ -100,7 +104,7 @@ const ResourcesContainer = ({
         addButton={
           <Tooltip tooltip={t('taxonomy.addResource')}>
             <IconButtonV2
-              onClick={() => setShowAddModal((prev) => !prev)}
+              onClick={() => setShowAddResourceModal((prev) => !prev)}
               size="xsmall"
               variant="stripped"
               aria-label={t('taxonomy.addResource')}
@@ -111,13 +115,26 @@ const ResourcesContainer = ({
         }
       />
       <ResourceWrapper>
-        {showAddModal && (
+        {showAddResourceModal && (
           <AddResourceModal
-            resourceTypes={resourceTypesWithoutMissing}
-            nodeId={currentNodeId}
-            onClose={() => setShowAddModal(false)}
-            existingResourceIds={nodeResources.map((r) => r.id)}
-          />
+            onClose={() => setShowAddResourceModal(false)}
+            title={t('taxonomy.addResource')}
+          >
+            <FieldHeader title={t('taxonomy.createResource')} />
+            <PlannedResourceForm
+              onClose={() => setShowAddResourceModal(false)}
+              articleType="standard"
+              node={currentNode}
+              userData={userData}
+            />
+            <FieldHeader title={t('taxonomy.getExisting')} />
+            <AddExistingResource
+              resourceTypes={resourceTypesWithoutMissing}
+              nodeId={currentNodeId}
+              onClose={() => setShowAddResourceModal(false)}
+              existingResourceIds={nodeResources.map((r) => r.id)}
+            />
+          </AddResourceModal>
         )}
         {currentNode.name && (
           <Resource

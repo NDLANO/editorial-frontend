@@ -23,7 +23,7 @@ const EditSubjectpage = ({ isNewlyCreated }: Props) => {
   const { elementId, subjectpageId, selectedLanguage } = useParams<
     'elementId' | 'subjectpageId' | 'selectedLanguage'
   >();
-  const { loading, subjectpage, updateSubjectpage, error, editorsChoices, banner } =
+  const { loading, subjectpage, updateSubjectpage, error, editorsChoices } =
     useFetchSubjectpageData(elementId!, selectedLanguage as LocaleType, subjectpageId);
 
   if (error !== undefined) {
@@ -39,7 +39,6 @@ const EditSubjectpage = ({ isNewlyCreated }: Props) => {
       <HelmetWithTracker title={`${subjectpage?.about?.title} ${t('htmlTitles.titleTemplate')}`} />
       <SubjectpageForm
         editorsChoices={editorsChoices}
-        banner={banner}
         elementId={elementId!}
         subjectpage={subjectpage}
         selectedLanguage={selectedLanguage!}

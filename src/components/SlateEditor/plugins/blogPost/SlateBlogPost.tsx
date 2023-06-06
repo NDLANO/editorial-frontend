@@ -9,7 +9,7 @@
 import styled from '@emotion/styled';
 import { IconButtonV2 } from '@ndla/button';
 import { Pencil } from '@ndla/icons/lib/action';
-import { ModalBody, ModalCloseButton, ModalHeaderV2, ModalV2 } from '@ndla/modal';
+import { ModalBody, ModalCloseButton, ModalHeader, ModalTitle, Modal } from '@ndla/modal';
 import { BlogPostEmbedData } from '@ndla/types-embed';
 import { BlogPostV2 } from '@ndla/ui';
 import { useCallback, useState } from 'react';
@@ -29,6 +29,7 @@ interface Props extends RenderElementProps {
 const BlogPostWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
 `;
 
 const ButtonContainer = styled.div`
@@ -39,7 +40,7 @@ const ButtonContainer = styled.div`
 
 const imageUrl = `${config.ndlaApiUrl}/image-api/raw/id/`;
 
-const SlateBlogPost = ({ element, editor }: Props) => {
+const SlateBlogPost = ({ element, editor, attributes, children }: Props) => {
   const { t } = useTranslation();
   const [isEditing, setIsEditing] = useState(element.isFirstEdit);
   const { data } = element;
@@ -81,7 +82,7 @@ const SlateBlogPost = ({ element, editor }: Props) => {
     [editor, element],
   );
 
-  const StyledModalHeader = styled(ModalHeaderV2)`
+  const StyledModalHeader = styled(ModalHeader)`
     padding-bottom: 0px;
   `;
 
@@ -93,7 +94,7 @@ const SlateBlogPost = ({ element, editor }: Props) => {
   `;
 
   return (
-    <>
+    <div {...attributes}>
       {data && (
         <BlogPostWrapper contentEditable={false}>
           <ButtonContainer>
@@ -119,17 +120,11 @@ const SlateBlogPost = ({ element, editor }: Props) => {
         </BlogPostWrapper>
       )}
       {isEditing && (
-        <ModalV2
-          controlled
-          isOpen
-          size="large"
-          aria-label={t('blogPostForm.title')}
-          onClose={onClose}
-        >
+        <Modal controlled isOpen size="large" onClose={onClose}>
           {(close) => (
             <>
               <StyledModalHeader>
-                <h1>{t('blogPostForm.title')}</h1>
+                <ModalTitle>{t('blogPostForm.title')}</ModalTitle>
                 <ModalCloseButton onClick={close} />
               </StyledModalHeader>
               <StyledModalBody>
@@ -137,9 +132,10 @@ const SlateBlogPost = ({ element, editor }: Props) => {
               </StyledModalBody>
             </>
           )}
-        </ModalV2>
+        </Modal>
       )}
-    </>
+      {children}
+    </div>
   );
 };
 

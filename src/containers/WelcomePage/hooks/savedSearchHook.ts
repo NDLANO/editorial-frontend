@@ -6,17 +6,20 @@
  *
  */
 
+import uniq from 'lodash/uniq';
+import { ResourceType } from '@ndla/types-taxonomy';
 import { Auth0UserData, SearchResultBase } from '../../../interfaces';
 import { useAuth0Users } from '../../../modules/auth0/auth0Queries';
 import { useResourceType } from '../../../modules/taxonomy/resourcetypes';
 import { useSubject } from '../../../modules/taxonomy/subjects';
-import { ResourceType, SubjectType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
+import { SubjectType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import { getSearchHookFromType } from '../../../util/searchHelpers';
 
 interface SearchUrlData {
   subject?: SubjectType;
   resourceType?: ResourceType;
-  user?: Auth0UserData[];
+  user?: Auth0UserData;
+  responsible?: Auth0UserData;
   searchResult?: SearchResultBase<any>;
 }
 
@@ -36,6 +39,8 @@ export const useSavedSearchUrl = (
     searchObject['users'] = searchObject['users'].replaceAll('"', '');
   }
   const userId = searchObject['users'] || '';
+  const responsibleId = searchObject['responsible-ids'];
+
   const searchHook = getSearchHookFromType(searchObject['type']);
   const { data: subjectData, isInitialLoading: subjectLoading } = useSubject(
     { id: subject, language: locale, taxonomyVersion },
@@ -46,19 +51,25 @@ export const useSavedSearchUrl = (
     { enabled: !!resourceType },
   );
   const { data: userData, isInitialLoading: auth0UsersLoading } = useAuth0Users(
-    { uniqueUserIds: userId },
-    { enabled: !!userId },
+    { uniqueUserIds: `${uniq([userId, responsibleId]).join(',')}` },
+    {
+      enabled: !!userId || !!responsibleId,
+      select: (result) => result?.sort((a, b) => (a.app_metadata.ndla_id === userId ? -1 : 1)),
+    },
   );
   const { data: searchResultData, isInitialLoading: resultsLoading } = searchHook(searchObject);
 
   const loading = subjectLoading && resourceTypeLoading && auth0UsersLoading && resultsLoading;
+
+  const [user, responsible] = userData ?? [];
 
   return {
     loading,
     data: {
       subject: subjectData,
       resourceType: resourceTypeData,
-      user: userData,
+      user: userId && user,
+      responsible: responsibleId && (!userId ? user : responsible),
       searchResult: searchResultData,
     },
   };

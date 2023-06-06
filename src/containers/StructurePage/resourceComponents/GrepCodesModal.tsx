@@ -10,7 +10,7 @@ import styled from '@emotion/styled';
 import { ButtonV2, CloseButton } from '@ndla/button';
 import { BookOpen } from '@ndla/icons/common';
 import { spacing, colors } from '@ndla/core';
-import { ModalBody, ModalHeaderV2, ModalV2 } from '@ndla/modal';
+import { ModalBody, ModalHeader, Modal, ModalTitle } from '@ndla/modal';
 import { IArticle } from '@ndla/types-backend/draft-api';
 import { useQueryClient } from '@tanstack/react-query';
 import { useCallback, useMemo } from 'react';
@@ -47,7 +47,7 @@ const StyledIconWrapper = styled.div`
   }
 `;
 
-const ModalHeader = styled(ModalHeaderV2)`
+const StyledModalHeader = styled(ModalHeader)`
   display: flex;
   align-items: center;
   background-color: ${colors.brand.light};
@@ -57,7 +57,7 @@ const GrepCodesModal = ({ codes, contentType, contentUri, revision, currentNodeI
   const draftId = Number(getIdFromUrn(contentUri));
   if (contentType === 'learning-path' || !draftId || !revision) return null;
   return (
-    <ModalV2
+    <Modal
       size="large"
       activateButton={
         <StyledButton size="xsmall" colorTheme="lighter">{`GREP (${codes.length})`}</StyledButton>
@@ -73,7 +73,7 @@ const GrepCodesModal = ({ codes, contentType, contentUri, revision, currentNodeI
           contentUri={contentUri!}
         />
       )}
-    </ModalV2>
+    </Modal>
   );
 };
 
@@ -126,13 +126,13 @@ const ModalContent = ({
   );
   return (
     <>
-      <ModalHeader>
+      <StyledModalHeader>
         <StyledIconWrapper>
           <BookOpen />
         </StyledIconWrapper>
-        <h1>{t('form.name.grepCodes')}</h1>
+        <ModalTitle>{t('form.name.grepCodes')}</ModalTitle>
         <CloseButton onClick={onClose} />
-      </ModalHeader>
+      </StyledModalHeader>
       <ModalBody>
         <GrepCodesForm codes={codes} onUpdate={onUpdateGrepCodes} />
       </ModalBody>

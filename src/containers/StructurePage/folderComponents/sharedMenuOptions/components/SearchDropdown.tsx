@@ -19,7 +19,7 @@ import useDebounce from '../../../../../util/useDebounce';
 
 const DropdownWrapper = styled.div`
   position: relative;
-  width: 90%;
+  width: 100%;
 `;
 
 interface DropdownItem<Type> {
@@ -47,6 +47,7 @@ interface Props<ParamType extends BaseParams, InnerType, ApiType, Type = ApiType
   transform: (value: Type) => SearchResultBase<DropdownItem<InnerType>>;
   placeholder: string;
   preload?: boolean;
+  id?: string;
 }
 
 const SearchDropdown = <ParamType extends BaseParams, InnerType, ApiType, Type>({
@@ -57,6 +58,7 @@ const SearchDropdown = <ParamType extends BaseParams, InnerType, ApiType, Type>(
   transform,
   placeholder,
   preload = true,
+  id,
 }: Props<ParamType, InnerType, ApiType, Type>) => {
   const [query, setQuery] = useState('');
   const [page, setPage] = useState<number>(1);
@@ -95,6 +97,7 @@ const SearchDropdown = <ParamType extends BaseParams, InnerType, ApiType, Type>(
             <Input
               {...getInputProps({ placeholder })}
               white
+              id={id}
               data-testid="inlineDropdownInput"
               iconRight={
                 searchQuery.isInitialLoading ? <Spinner size="normal" margin="0" /> : <Search />

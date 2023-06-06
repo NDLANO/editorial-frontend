@@ -16,10 +16,10 @@ import {
   NodeResourcePOST,
   NodeResourcePUT,
   TranslationPUT,
+  Metadata,
 } from '@ndla/types-taxonomy';
 import { WithTaxonomyVersion } from '../../interfaces';
 import handleError from '../../util/handleError';
-import { TaxonomyMetadata } from '../taxonomy/taxonomyApiInterfaces';
 import {
   deleteNode,
   deleteNodeConnection,
@@ -39,6 +39,10 @@ import {
   PutResourcesPrimaryParams,
 } from './nodeApi';
 import { childNodesWithArticleTypeQueryKey, nodesQueryKey } from './nodeQueries';
+import {
+  createResourceResourceType,
+  ResourceResourceTypePostParams,
+} from '../taxonomy/resourcetypes';
 
 interface UseAddNodeMutation extends WithTaxonomyVersion {
   body: NodePostPut;
@@ -79,14 +83,14 @@ export const useAddNodeMutation = () => {
 
 interface UseUpdateNodeMetadataMutation extends WithTaxonomyVersion {
   id: string;
-  metadata: Partial<TaxonomyMetadata>;
+  metadata: Partial<Metadata>;
   rootId?: string;
 }
 
 export const useUpdateNodeMetadataMutation = () => {
   const qc = useQueryClient();
   const { i18n } = useTranslation();
-  return useMutation<TaxonomyMetadata, unknown, UseUpdateNodeMetadataMutation>(
+  return useMutation<Metadata, unknown, UseUpdateNodeMetadataMutation>(
     ({ id, metadata, taxonomyVersion }) =>
       putNodeMetadata({ id: id, meta: metadata, taxonomyVersion }),
     {
@@ -231,6 +235,15 @@ export const usePostResourceForNodeMutation = (
 ) => {
   return useMutation<string, unknown, UsePostResourceForNodeMutation>(
     ({ body, taxonomyVersion }) => postResourceForNode({ body, taxonomyVersion }),
+    options,
+  );
+};
+
+export const useCreateResourceResourceTypeMutation = (
+  options?: UseMutationOptions<string, unknown, ResourceResourceTypePostParams>,
+) => {
+  return useMutation<string, unknown, ResourceResourceTypePostParams>(
+    ({ body, taxonomyVersion }) => createResourceResourceType({ body, taxonomyVersion }),
     options,
   );
 };

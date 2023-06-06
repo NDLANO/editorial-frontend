@@ -20,7 +20,7 @@ import {
 import { Link as LinkIcon } from '@ndla/icons/common';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
-import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
+import { ModalBody, ModalCloseButton, Modal, ModalHeader, ModalTitle } from '@ndla/modal';
 import Tooltip from '@ndla/tooltip';
 import { SafeLinkIconButton } from '@ndla/safelink';
 import { IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
@@ -296,8 +296,6 @@ const VisualElementUrlPreview = ({
         subTitle={getSubTitle()}
       >
         <Modal
-          label={t('form.content.link.validDomains')}
-          backgroundColor="white"
           activateButton={
             <div>
               <Tooltip tooltip={t('form.content.link.validDomains')}>
@@ -309,10 +307,10 @@ const VisualElementUrlPreview = ({
           {(onClose: () => void) => (
             <>
               <ModalHeader>
+                <ModalTitle>{t('form.content.link.validDomains')}</ModalTitle>
                 <ModalCloseButton title={t('dialog.close')} onClick={onClose} />
               </ModalHeader>
               <ModalBody>
-                <h1>{t('form.content.link.validDomains')}</h1>
                 <UrlAllowList allowList={EXTERNAL_WHITELIST_PROVIDERS} />
               </ModalBody>
             </>
@@ -428,12 +426,10 @@ const VisualElementUrlPreview = ({
         )
       )}
       <Modal
-        controllable
+        controlled
         isOpen={imageModalOpen}
         onClose={() => setImageModalOpen(false)}
         size="large"
-        backgroundColor="white"
-        minHeight="90vh"
       >
         {() => (
           <>

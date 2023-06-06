@@ -6,10 +6,11 @@
  *
  */
 
+import { ResourceType } from '@ndla/types-taxonomy';
 import { apiResourceUrl, httpFunctions } from '../../../util/apiHelpers';
 import { sortIntoCreateDeleteUpdate } from '../../../util/taxonomyHelpers';
 import { taxonomyApi } from '../../../config';
-import { ResourceResourceType, ResourceType } from '../taxonomyApiInterfaces';
+import { ResourceResourceType } from '../taxonomyApiInterfaces';
 import {
   resolveLocation,
   resolveVoidOrRejectWithError,
@@ -51,7 +52,7 @@ const fetchResourceType = ({
   });
 };
 
-interface ResourceResourceTypePostParams extends WithTaxonomyVersion {
+export interface ResourceResourceTypePostParams extends WithTaxonomyVersion {
   body: ResourceResourceTypePostBody;
 }
 

@@ -52,7 +52,10 @@ import {
   DefinitionListElement,
   DefinitionTermElement,
 } from './plugins/definitionList';
+import { KeyFigureElement } from './plugins/keyFigure';
+import { ContactBlockElement } from './plugins/contactBlock';
 import { BlogPostElement } from './plugins/blogPost/types';
+import { GridCellElement, GridElement } from './plugins/grid';
 
 export type SlatePlugin = (editor: Editor) => Editor;
 
@@ -116,7 +119,11 @@ declare module 'slate' {
       | DefinitionListElement
       | DefinitionDescriptionElement
       | DefinitionTermElement
-      | BlogPostElement;
+      | BlogPostElement
+      | GridElement
+      | GridCellElement
+      | KeyFigureElement
+      | ContactBlockElement;
     Text: CustomTextWithMarks;
   }
 }

@@ -12,7 +12,7 @@ import { IMultiSearchResult } from '@ndla/types-backend/search-api';
 import { useTranslation } from 'react-i18next';
 import { useMemo } from 'react';
 import Pager from '@ndla/pager';
-import { Comment } from '@ndla/icons/common';
+import { Comment, ExclamationMark } from '@ndla/icons/common';
 import Tooltip from '@ndla/tooltip';
 import styled from '@emotion/styled';
 import formatDate from '../../../../util/formatDate';
@@ -60,6 +60,16 @@ const WorkListTabContent = ({
     () =>
       data
         ? data.results.map((res) => [
+            {
+              id: `prioritized_${res.id}`,
+              data: res?.prioritized ? (
+                <Tooltip tooltip={t('editorFooter.prioritized')}>
+                  <div>
+                    <ExclamationMark />
+                  </div>
+                </Tooltip>
+              ) : null,
+            },
             {
               id: `title_${res.id}`,
               data: (
@@ -111,6 +121,7 @@ const WorkListTabContent = ({
   );
 
   const tableTitles: TitleElement<SortOption>[] = [
+    { title: '', sortableField: 'prioritized' },
     { title: t('welcomePage.workList.name'), sortableField: 'title' },
     { title: t('welcomePage.workList.status'), sortableField: 'status' },
     { title: t('welcomePage.workList.contentType') },

@@ -15,6 +15,7 @@ import { Camera, Concept, H5P, Taxonomy, Video } from '@ndla/icons/editor';
 import { List } from '@ndla/icons/action';
 //@ts-ignore
 import { ContentTypeBadge, constants } from '@ndla/ui';
+import Tooltip from '@ndla/tooltip';
 import StyledListButton from '../../../components/StyledListButton';
 import config from '../../../config';
 import {
@@ -25,6 +26,8 @@ import {
   toCreatePodcastSeries,
   toEditNdlaFilm,
   toCreateFrontPageArticle,
+  toCreateLearningResource,
+  toCreateTopicArticle,
 } from '../../../util/routeHelpers';
 import { useSession } from '../../Session/SessionProvider';
 import { AUDIO_ADMIN_SCOPE, DRAFT_ADMIN_SCOPE, TAXONOMY_ADMIN_SCOPE } from '../../../constants';
@@ -58,6 +61,10 @@ const StyledMenuContainer = styled.div`
   }
 `;
 
+const DisabledLink = styled(StyledListButton.withComponent(Link))`
+  cursor: default;
+`;
+
 interface Props {
   close: () => void;
 }
@@ -73,6 +80,26 @@ const OpenMenu = ({ close }: Props) => {
       <div>
         <nav>
           <div>
+            <DisabledLink aria-disabled={true} to="#">
+              <Tooltip tooltip={t('subNavigation.creationMovedInfo')}>
+                <StyledMenuItem>
+                  <ContentTypeBadge
+                    type={contentTypes.SUBJECT_MATERIAL}
+                    background
+                    size="xx-small"
+                  />
+                  {t('subNavigation.subjectMatter')}
+                </StyledMenuItem>
+              </Tooltip>
+            </DisabledLink>
+            <DisabledLink aria-disabled={true} to="#">
+              <Tooltip tooltip={t('subNavigation.creationMovedInfo')}>
+                <StyledMenuItem>
+                  <ContentTypeBadge type={contentTypes.TOPIC} background size="xx-small" />
+                  {t('subNavigation.topicArticle')}
+                </StyledMenuItem>
+              </Tooltip>
+            </DisabledLink>
             <StyledLink to={toCreateConcept()} onClick={close}>
               <StyledMenuItem>
                 <Concept /> {t('subNavigation.newConcept')}

@@ -9,7 +9,7 @@
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import orderBy from 'lodash/orderBy';
-import { TabsV2 } from '@ndla/tabs';
+import Tabs from '@ndla/tabs';
 import { IConceptSearchResult, IConceptSummary } from '@ndla/types-backend/concept-api';
 import { IArticleSummary, ISearchResult } from '@ndla/types-backend/draft-api';
 import { Prefix, TitleElement } from './TableComponent';
@@ -107,11 +107,13 @@ const LastUsedItems = ({ lastUsedResources = [], lastUsedConcepts = [] }: Props)
   ];
 
   return (
-    <TabsV2
-      ariaLabel={t('welcomePage.lastUsed')}
+    <Tabs
+      variant="rounded"
+      aria-label={t('welcomePage.lastUsed')}
       tabs={[
         {
           title: `${t('form.articleSection')} (${data?.totalCount ?? 0})`,
+          id: 'articles',
           content: (
             <LastUsedResources
               data={sortedData}
@@ -128,6 +130,7 @@ const LastUsedItems = ({ lastUsedResources = [], lastUsedConcepts = [] }: Props)
         },
         {
           title: `${t('form.name.concepts')} (${conceptsData?.totalCount ?? 0})`,
+          id: 'concepts',
           content: (
             <LastUsedConcepts
               data={sortedConceptsData}

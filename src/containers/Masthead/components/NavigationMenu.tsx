@@ -16,7 +16,7 @@ import { List } from '@ndla/icons/action';
 //@ts-ignore
 import { ContentTypeBadge, constants } from '@ndla/ui';
 import Tooltip from '@ndla/tooltip';
-import StyledListButton from '../../../components/StyledListButton';
+import { styledListElement } from '../../../components/StyledListElement/StyledListElement';
 import config from '../../../config';
 import {
   toCreateConcept,
@@ -59,7 +59,7 @@ const StyledMenuContainer = styled.div`
   }
 `;
 
-const DisabledHrefLink = styled(StyledListButton.withComponent('a'))`
+const DisabledButton = styled.button`
   cursor: not-allowed;
 `;
 
@@ -69,16 +69,24 @@ interface Props {
 
 const OpenMenu = ({ close }: Props) => {
   const { t } = useTranslation();
-  const StyledLink = StyledListButton.withComponent(Link);
-  const StyledHrefLink = StyledListButton.withComponent('a');
   const { contentTypes } = constants;
   const { userPermissions } = useSession();
+
+  const ariaLabelDisabled = `${t('subNavigation.subjectMatter')}. ${t(
+    'subNavigation.creationMovedInfo',
+  )}`;
   return (
     <StyledMenuContainer>
       <div>
         <nav>
           <div>
-            <DisabledHrefLink aria-disabled={true} role="link">
+            <DisabledButton
+              css={styledListElement}
+              aria-disabled={true}
+              disabled
+              role="link"
+              aria-label={ariaLabelDisabled}
+            >
               <Tooltip tooltip={t('subNavigation.creationMovedInfo')}>
                 <StyledMenuItem>
                   <ContentTypeBadge
@@ -89,90 +97,97 @@ const OpenMenu = ({ close }: Props) => {
                   {t('subNavigation.subjectMatter')}
                 </StyledMenuItem>
               </Tooltip>
-            </DisabledHrefLink>
-            <DisabledHrefLink aria-disabled={true} role="link">
+            </DisabledButton>
+            <DisabledButton
+              css={styledListElement}
+              aria-disabled={true}
+              disabled
+              role="link"
+              aria-label={ariaLabelDisabled}
+            >
               <Tooltip tooltip={t('subNavigation.creationMovedInfo')}>
                 <StyledMenuItem>
                   <ContentTypeBadge type={contentTypes.TOPIC} background size="xx-small" />
                   {t('subNavigation.topicArticle')}
                 </StyledMenuItem>
               </Tooltip>
-            </DisabledHrefLink>
-            <StyledLink to={toCreateConcept()} onClick={close}>
+            </DisabledButton>
+            <Link css={styledListElement} to={toCreateConcept()} onClick={close}>
               <StyledMenuItem>
                 <Concept /> {t('subNavigation.newConcept')}
               </StyledMenuItem>
-            </StyledLink>
-            <StyledLink to={toCreateFrontPageArticle()} onClick={close}>
+            </Link>
+            <Link css={styledListElement} to={toCreateFrontPageArticle()} onClick={close}>
               <StyledMenuItem>
                 <ContentTypeBadge type={contentTypes.SUBJECT_MATERIAL} background size="xx-small" />
                 {t('subNavigation.newFrontpageArticle')}
               </StyledMenuItem>
-            </StyledLink>
-            <StyledLink to={toCreateImage()} onClick={close}>
+            </Link>
+            <Link css={styledListElement} to={toCreateImage()} onClick={close}>
               <StyledMenuItem>
                 <Camera />
                 {t('subNavigation.image')}
               </StyledMenuItem>
-            </StyledLink>
-            <StyledLink to={toCreateAudioFile()} onClick={close}>
+            </Link>
+            <Link css={styledListElement} to={toCreateAudioFile()} onClick={close}>
               <StyledMenuItem>
                 <Audio />
                 {t('subNavigation.audio')}
               </StyledMenuItem>
-            </StyledLink>
-            <StyledLink to={toCreatePodcastFile()} onClick={close}>
+            </Link>
+            <Link css={styledListElement} to={toCreatePodcastFile()} onClick={close}>
               <StyledMenuItem>
                 <Podcast />
                 {t('subNavigation.podcast')}
               </StyledMenuItem>
-            </StyledLink>
+            </Link>
             {userPermissions?.includes(AUDIO_ADMIN_SCOPE) && (
-              <StyledLink to={toCreatePodcastSeries()} onClick={close}>
+              <Link css={styledListElement} to={toCreatePodcastSeries()} onClick={close}>
                 <StyledMenuItem>
                   <List />
                   {t('subNavigation.podcastSeries')}
                 </StyledMenuItem>
-              </StyledLink>
+              </Link>
             )}
           </div>
           <div>
-            <StyledLink to="/structure" onClick={close}>
+            <Link css={styledListElement} to="/structure" onClick={close}>
               <StyledMenuItem>
                 <Taxonomy />
                 {t('subNavigation.structure')}
               </StyledMenuItem>
-            </StyledLink>
+            </Link>
             {userPermissions?.includes(TAXONOMY_ADMIN_SCOPE) && config.versioningEnabled && (
-              <StyledLink to="/taxonomyVersions" onClick={close}>
+              <Link css={styledListElement} to="/taxonomyVersions" onClick={close}>
                 <StyledMenuItem>
                   <Taxonomy />
                   {t('subNavigation.taxonomyVersions')}
                 </StyledMenuItem>
-              </StyledLink>
+              </Link>
             )}
             {config.versioningEnabled === 'true' && (
-              <StyledLink to="publishRequests" onClick={close}>
+              <Link css={styledListElement} to="publishRequests" onClick={close}>
                 <StyledMenuItem>
                   <Taxonomy />
                   {t('subNavigation.publishRequests')}
                 </StyledMenuItem>
-              </StyledLink>
+              </Link>
             )}
-            <StyledLink to={toEditNdlaFilm()} onClick={close}>
+            <Link css={styledListElement} to={toEditNdlaFilm()} onClick={close}>
               <StyledMenuItem>
                 <ContentTypeBadge type={contentTypes.SUBJECT} background size="xx-small" />
                 {t('subNavigation.film')}
               </StyledMenuItem>
-            </StyledLink>
-            <StyledLink to="/h5p" onClick={close}>
+            </Link>
+            <Link css={styledListElement} to="/h5p" onClick={close}>
               <StyledMenuItem>
                 <H5P />
                 {t('subNavigation.h5p')}
               </StyledMenuItem>
-            </StyledLink>
+            </Link>
             {userPermissions?.includes(DRAFT_ADMIN_SCOPE) && (
-              <StyledHrefLink
+              <a
+                css={styledListElement}
                 href={config.brightcoveUrl}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -183,9 +198,10 @@ const OpenMenu = ({ close }: Props) => {
                   {t('subNavigation.brightcoveLink')}
                   <Launch />
                 </StyledMenuItem>
-              </StyledHrefLink>
+              </a>
             )}
-            <StyledHrefLink
+            <a
+              css={styledListElement}
               href={config.learningpathFrontendDomain}
               target="_blank"
               rel="noopener noreferrer"
@@ -196,7 +212,7 @@ const OpenMenu = ({ close }: Props) => {
                 {t('subNavigation.learningPathLink')}
                 <Launch />
               </StyledMenuItem>
-            </StyledHrefLink>
+            </a>
           </div>
         </nav>
       </div>

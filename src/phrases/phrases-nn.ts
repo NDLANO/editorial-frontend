@@ -218,7 +218,7 @@ const phrases = {
     newConcept: 'Opprett forklaring',
     newSubject: 'Opprett fag',
     newFrontpageArticle: 'Opprett innholdsartikkel',
-    creationMovedInfo: 'Emner og ressursar må opprettes fra strukturredigeringa',
+    creationMovedInfo: 'Emner og ressursar må opprettast frå strukturredigeringa',
   },
   logo: {
     altText: 'Nasjonal digital læringsarena',

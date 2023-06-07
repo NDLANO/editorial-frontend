@@ -217,7 +217,7 @@ const phrases = {
     newConcept: 'Create new concept',
     newSubject: 'Create new subject',
     newFrontpageArticle: 'Create new content article',
-    creationMovedInfo: 'Topics and resources need to be created from structural edit',
+    creationMovedInfo: 'Topics and resources need to be created from structure',
   },
   logo: {
     altText: 'The Norwegian Digital Learning Arena',

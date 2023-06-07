@@ -26,8 +26,6 @@ import {
   toCreatePodcastSeries,
   toEditNdlaFilm,
   toCreateFrontPageArticle,
-  toCreateLearningResource,
-  toCreateTopicArticle,
 } from '../../../util/routeHelpers';
 import { useSession } from '../../Session/SessionProvider';
 import { AUDIO_ADMIN_SCOPE, DRAFT_ADMIN_SCOPE, TAXONOMY_ADMIN_SCOPE } from '../../../constants';
@@ -62,7 +60,7 @@ const StyledMenuContainer = styled.div`
 `;
 
 const DisabledHrefLink = styled(StyledListButton.withComponent('a'))`
-  cursor: default;
+  cursor: not-allowed;
 `;
 
 interface Props {

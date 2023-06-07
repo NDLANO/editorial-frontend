@@ -28,7 +28,7 @@ exports[`EditorErrorMessage renders 1`] = `
   -ms-flex-pack: center;
   -webkit-justify-content: center;
   justify-content: center;
-  gap: 6.5px;
+  gap: 6px;
   color: #fff;
   background: #d1372e;
   border: 2px solid #d1372e;
@@ -43,7 +43,7 @@ exports[`EditorErrorMessage renders 1`] = `
   transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
   box-shadow: none;
   text-align: center;
-  padding: 4.333333333333333px 6.5px;
+  padding: 4px 6px;
   font-size: 14px;
   font-size: 0.7777777777777778rem;
   line-height: 18px;
@@ -54,7 +54,7 @@ exports[`EditorErrorMessage renders 1`] = `
   background: transparent;
   border-color: transparent;
   border-radius: 100%;
-  padding: 6.5px;
+  padding: 6px;
   line-height: 1;
   border-color: transparent;
   min-height: unset;
@@ -97,8 +97,8 @@ exports[`EditorErrorMessage renders 1`] = `
 }
 
 .emotion-1 svg {
-  width: 26px;
-  height: 26px;
+  width: 24px;
+  height: 24px;
   margin: 0;
 }
 

@@ -51,6 +51,8 @@ import { defaultKeyFigureBlock } from '../keyFigure/utils';
 import { TYPE_CONTACT_BLOCK } from '../contactBlock/types';
 import { TYPE_BLOGPOST } from '../blogPost/types';
 import { defaultBlogPostBlock } from '../blogPost/utils';
+import { TYPE_GRID } from '../grid/types';
+import { defaultGridBlock } from '../grid/utils';
 import { defaultContactBlock } from '../contactBlock/utils';
 
 interface Props {
@@ -98,6 +100,10 @@ const SlateBlockPicker = ({
     if (isTableCell(parent)) {
       return 100;
     }
+    if (Element.isElement(parent) && parent.type === TYPE_GRID) {
+      return -100;
+    }
+
     return 78;
   };
 
@@ -210,15 +216,20 @@ const SlateBlockPicker = ({
         onInsertBlock(defaultCodeblockBlock());
         break;
       }
-      case TYPE_BLOGPOST:
+      case TYPE_BLOGPOST: {
         onInsertBlock(defaultBlogPostBlock());
         break;
+      }
       case TYPE_CONCEPT_LIST: {
         onInsertBlock({ ...defaultConceptListBlock(), isFirstEdit: true });
         break;
       }
       case TYPE_CONCEPT_BLOCK: {
         onInsertBlock(defaultConceptBlock());
+        break;
+      }
+      case TYPE_GRID: {
+        onInsertBlock(defaultGridBlock());
         break;
       }
       case TYPE_KEY_FIGURE: {
@@ -274,16 +285,17 @@ const SlateBlockPicker = ({
     });
 
     for (const entry of nodes) {
-      const [node] = entry;
+      const [node, path] = entry;
       if (!Element.isElement(node)) return actions;
       if (node.type === 'section') {
         return actions;
       }
-      if (actionsToShowInAreas[node.type]) {
+      const [parent] = Editor.parent(editor, path);
+      if (Element.isElement(parent) && actionsToShowInAreas[parent.type]) {
         return actions.filter(
           (action) =>
-            actionsToShowInAreas[node.type].includes(action.data.type) ||
-            actionsToShowInAreas[node.type].includes(action.data.object),
+            actionsToShowInAreas[parent.type].includes(action.data.type) ||
+            actionsToShowInAreas[parent.type].includes(action.data.object),
         );
       }
     }

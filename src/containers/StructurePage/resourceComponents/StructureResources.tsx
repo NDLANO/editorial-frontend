@@ -12,6 +12,7 @@ import { spacing } from '@ndla/core';
 import styled from '@emotion/styled';
 import { TFunction } from 'i18next';
 import keyBy from 'lodash/keyBy';
+import { IUserData } from '@ndla/types-backend/draft-api';
 import { NodeChild, ResourceType } from '@ndla/types-taxonomy';
 import {
   NodeResourceMeta,
@@ -36,6 +37,7 @@ interface Props {
   currentChildNode: NodeChild;
   resourceRef: RefObject<HTMLDivElement>;
   setCurrentNode: (changedNode: NodeChild) => void;
+  userData: IUserData | undefined;
 }
 
 const getMissingResourceType = (t: TFunction): ResourceType & { disabled?: boolean } => ({
@@ -60,7 +62,7 @@ const withMissing = (r: NodeChild): NodeChild => ({
   resourceTypes: [missingObject],
 });
 
-const StructureResources = ({ currentChildNode, resourceRef, setCurrentNode }: Props) => {
+const StructureResources = ({ currentChildNode, resourceRef, setCurrentNode, userData }: Props) => {
   const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
   const grouped = currentChildNode?.metadata?.customFields['topic-resources'] ?? 'grouped';
@@ -109,6 +111,7 @@ const StructureResources = ({ currentChildNode, resourceRef, setCurrentNode }: P
         grouped={grouped === 'grouped'}
         setCurrentNode={setCurrentNode}
         contentMetaLoading={contentMetaLoading}
+        userData={userData}
       />
     </StickyContainer>
   );

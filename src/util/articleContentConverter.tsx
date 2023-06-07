@@ -44,6 +44,7 @@ import { TYPE_PARAGRAPH } from '../components/SlateEditor/plugins/paragraph/type
 import { TYPE_SECTION } from '../components/SlateEditor/plugins/section/types';
 import { conceptListSerializer } from '../components/SlateEditor/plugins/conceptList';
 import { blockConceptSerializer } from '../components/SlateEditor/plugins/concept/block';
+import { gridSerializer } from '../components/SlateEditor/plugins/grid';
 import { keyFigureSerializer } from '../components/SlateEditor/plugins/keyFigure';
 import { contactBlockSerializer } from '../components/SlateEditor/plugins/contactBlock';
 
@@ -94,6 +95,7 @@ const extendedRules: SlateSerializer[] = [
   detailsSerializer,
   tableSerializer,
   relatedSerializer,
+  gridSerializer,
   blogPostSerializer,
   codeblockSerializer,
   keyFigureSerializer,

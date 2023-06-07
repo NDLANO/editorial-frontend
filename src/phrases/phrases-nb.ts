@@ -188,6 +188,7 @@ const phrases = {
   },
   articleType: {
     'topic-article': 'Emne',
+    'frontpage-article': 'Innholdsartikkel',
     standard: 'Læringsressurs',
   },
   subNavigation: {
@@ -535,6 +536,13 @@ const phrases = {
         'Bruk av ulovlige tegn i permalenken! Tillatte tegn er alle tall og bokstaver, og bindestrek',
     },
   },
+  gridForm: {
+    title: 'Grid',
+    background: {
+      white: 'Hvit',
+      transparent: 'Transparent',
+    },
+  },
   blogPostForm: {
     title: 'Rediger bloggpost',
     languageExplanation: 'Velg språk for skjermleser',
@@ -614,6 +622,7 @@ const phrases = {
       keyFigure: 'Nøkkeltall',
       contactBlock: 'Kontaktblokk',
       blogPost: 'Bloggpost',
+      grid: 'Grid',
     },
   },
   form: {
@@ -702,6 +711,10 @@ const phrases = {
       author: 'Forfatter',
       link: 'Lenke',
       size: 'Størrelse',
+      columns: 'Kolonner',
+      border: 'Vis ramme',
+      background: 'Bakgrunn',
+      contentType: 'Innholdstype',
     },
     previewProductionArticle: {
       button: 'Sammenlign gjeldende versjon med gammel versjon',
@@ -1383,6 +1396,17 @@ const phrases = {
     deleteResource: 'Slett ressurs',
     confirmDelete: 'Er du sikker på at du vil slette denne noden?',
     version: 'Versjon',
+    createResource: 'Opprett ny ressurs',
+    addNewPlannedResource: 'Opprett ny planlagt ressurs',
+    resourceType: 'Kjernestoff eller tilleggstoff',
+    title: 'Tittel',
+    comment: 'Kommentar',
+    commentPlaceholder: 'F.eks. innhold, læremål eller grep',
+    contentType: 'Innholdstype',
+    contentTypePlaceholder: 'Velg innholdstype',
+    create: 'Opprett',
+    get: 'Hent',
+    getExisting: 'Eller hent eksisterende ressurs',
     changeName: {
       loadError: 'Klarte ikke hente oversettelser',
       updateError: 'Klarte ikke oppdatere oversettelser',
@@ -1400,6 +1424,9 @@ const phrases = {
         'Ingen oversettelser tilgjengelig. Standardnavn vil brukes inntil dette er lagt inn.',
     },
     addTopic: 'Legg til nytt emne',
+    addTopicHeader: 'Legg til emne',
+    createTopic: 'Opprett nytt emne',
+    searchExistingTopic: 'Søk etter eksisterende emne',
     errorMessage: 'En feil oppsto',
     confirmDeleteTopic: 'Er du sikker på at du vil slette emnet?',
     confirmDeleteSubject: 'Er du sikker på at du vil slette faget?',

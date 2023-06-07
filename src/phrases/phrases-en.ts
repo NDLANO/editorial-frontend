@@ -187,6 +187,7 @@ const phrases = {
   },
   articleType: {
     'topic-article': 'Topic',
+    'frontpage-article': 'Content article',
     standard: 'Subject matter',
   },
   subNavigation: {
@@ -534,6 +535,13 @@ const phrases = {
         'Use of illegal characters in permalink! Legal characters are numbers and letters, plus dashes.',
     },
   },
+  gridForm: {
+    title: 'Grid',
+    background: {
+      white: 'White',
+      transparent: 'Transparent',
+    },
+  },
   blogPostForm: {
     title: 'Edit blog post',
     languageExplanation: 'Choose language for screen readers',
@@ -613,6 +621,7 @@ const phrases = {
       keyFigure: 'Key figure',
       contactBlock: 'Contact block',
       blogPost: 'Blog post',
+      grid: 'Grid',
     },
   },
   form: {
@@ -700,6 +709,10 @@ const phrases = {
       language: 'Language',
       link: 'Link',
       size: 'Size',
+      columns: 'Columns',
+      border: 'Show border',
+      background: 'Background',
+      contentType: 'Content type',
     },
     previewProductionArticle: {
       button: 'Compare current version with old version',
@@ -1381,6 +1394,17 @@ const phrases = {
     deleteResource: 'Delete resource',
     confirmDelete: 'Are you sure you want to delete this node?',
     version: 'Version',
+    createResource: 'Create new resource',
+    addNewPlannedResource: 'Create planned resourse',
+    resourceType: 'Core(K) or supplementary(T)',
+    title: 'Title',
+    comment: 'Comment',
+    commentPlaceholder: 'E.g. content, learning objective or grep',
+    contentType: 'Content type',
+    contentTypePlaceholder: 'Choose content type',
+    create: 'Create',
+    get: 'Get',
+    getExisting: 'Or get existing resource',
     changeName: {
       loadError: 'Could not fetch translations',
       updateError: 'Could not update translations',
@@ -1396,6 +1420,9 @@ const phrases = {
       add: 'Add',
       noTranslations: 'No translations available! Using default name as fallback.',
     },
+    addTopicHeader: 'Add topic',
+    createTopic: 'Create new topic',
+    searchExistingTopic: 'Search for existing topic',
     topicSettings: 'Topic settings',
     subjectSettings: 'Subject settings',
     linkSettings: 'Link',

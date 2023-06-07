@@ -69,6 +69,7 @@ interface Props {
   nodes?: NodeChildWithChildren[];
   isLoading?: boolean;
   renderBeforeTitle?: RenderBeforeFunction;
+  setShowAddTopicModal: (value: boolean) => void;
 }
 
 const NodeItem = ({
@@ -87,6 +88,7 @@ const NodeItem = ({
   isLoading,
   nodes,
   renderBeforeTitle,
+  setShowAddTopicModal,
 }: Props) => {
   const { userPermissions } = useSession();
   const isTaxonomyAdmin = userPermissions?.includes(TAXONOMY_ADMIN_SCOPE) || false;
@@ -146,6 +148,7 @@ const NodeItem = ({
             onCurrentNodeChanged={(node) => onNodeSelected(node)}
             jumpToResources={() => resourceSectionRef?.current?.scrollIntoView()}
             nodeChildren={nodes ?? []}
+            setShowAddTopicModal={setShowAddTopicModal}
           />
         )}
         {isLoading && (
@@ -179,6 +182,7 @@ const NodeItem = ({
                   toggleOpen={toggleOpen}
                   level={level + 1}
                   onDragEnd={onDragEnd}
+                  setShowAddTopicModal={setShowAddTopicModal}
                 />
               ))}
             </MakeDndList>

@@ -19,9 +19,7 @@ describe('Film editing', () => {
   });
 
   it('Can add a movie to the slideshow', () => {
-    cy.get(`input[placeholder="Legg til film i slideshow"]`)
-      .click()
-      .type('Page One');
+    cy.get(`input[placeholder="Legg til film i slideshow"]`).click().type('Page One');
     cy.wait('@allMovies');
     cy.contains('Page One: A Year Inside the New York Times').click();
     cy.get('[data-cy="elementListItem"]')

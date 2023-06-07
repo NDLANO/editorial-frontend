@@ -11,7 +11,7 @@ import { withHistory } from 'slate-history';
 import { withReact } from 'slate-react';
 import { plugins } from '../../../../../containers/ArticlePage/LearningResourcePage/components/LearningResourceContent';
 import withPlugins from '../../../utils/withPlugins';
-import { TYPE_DEFINTION_DESCRIPTION, TYPE_DEFINTION_LIST, TYPE_DEFINTION_TERM } from '../types';
+import { TYPE_DEFINITION_DESCRIPTION, TYPE_DEFINITION_LIST, TYPE_DEFINITION_TERM } from '../types';
 import { TYPE_SECTION } from '../../section/types';
 import { TYPE_PARAGRAPH } from '../../paragraph/types';
 
@@ -20,33 +20,33 @@ const editor = withHistory(
 );
 
 describe('definition normalizing tests', () => {
-  test('should create missing description objects', () => {
+  test('should not remove any description or term', () => {
     const editorValue: Descendant[] = [
       {
-        type: TYPE_DEFINTION_LIST,
+        type: TYPE_DEFINITION_LIST,
         children: [
-          { type: TYPE_DEFINTION_TERM, children: [{ text: '' }] },
-          { type: TYPE_DEFINTION_DESCRIPTION, children: [{ text: '' }] },
-          { type: TYPE_DEFINTION_TERM, children: [{ text: '' }] },
-          { type: TYPE_DEFINTION_TERM, children: [{ text: '' }] },
-          { type: TYPE_DEFINTION_DESCRIPTION, children: [{ text: '' }] },
-          { type: TYPE_DEFINTION_TERM, children: [{ text: '' }] },
+          { type: TYPE_DEFINITION_TERM, children: [{ text: '' }] },
+          { type: TYPE_DEFINITION_DESCRIPTION, children: [{ text: '' }] },
+          { type: TYPE_DEFINITION_TERM, children: [{ text: '' }] },
+          { type: TYPE_DEFINITION_TERM, children: [{ text: '' }] },
+          { type: TYPE_DEFINITION_DESCRIPTION, children: [{ text: '' }] },
+          { type: TYPE_DEFINITION_TERM, children: [{ text: '' }] },
+          { type: TYPE_DEFINITION_DESCRIPTION, children: [{ text: '' }] },
         ],
       },
     ];
 
     const expectedValue: Descendant[] = [
       {
-        type: TYPE_DEFINTION_LIST,
+        type: TYPE_DEFINITION_LIST,
         children: [
-          { type: TYPE_DEFINTION_TERM, children: [{ text: '' }] },
-          { type: TYPE_DEFINTION_DESCRIPTION, children: [{ text: '' }] },
-          { type: TYPE_DEFINTION_TERM, children: [{ text: '' }] },
-          { type: TYPE_DEFINTION_DESCRIPTION, children: [{ text: '' }] },
-          { type: TYPE_DEFINTION_TERM, children: [{ text: '' }] },
-          { type: TYPE_DEFINTION_DESCRIPTION, children: [{ text: '' }] },
-          { type: TYPE_DEFINTION_TERM, children: [{ text: '' }] },
-          { type: TYPE_DEFINTION_DESCRIPTION, children: [{ text: '' }] },
+          { type: TYPE_DEFINITION_TERM, children: [{ text: '' }] },
+          { type: TYPE_DEFINITION_DESCRIPTION, children: [{ text: '' }] },
+          { type: TYPE_DEFINITION_TERM, children: [{ text: '' }] },
+          { type: TYPE_DEFINITION_TERM, children: [{ text: '' }] },
+          { type: TYPE_DEFINITION_DESCRIPTION, children: [{ text: '' }] },
+          { type: TYPE_DEFINITION_TERM, children: [{ text: '' }] },
+          { type: TYPE_DEFINITION_DESCRIPTION, children: [{ text: '' }] },
         ],
       },
     ];
@@ -55,35 +55,35 @@ describe('definition normalizing tests', () => {
     expect(editor.children).toEqual(expectedValue);
   });
 
-  test('should create missing term objects', () => {
+  test('should only contain term and description objects', () => {
     const editorValue: Descendant[] = [
       {
-        type: TYPE_DEFINTION_LIST,
+        type: TYPE_DEFINITION_LIST,
         children: [
-          { type: TYPE_DEFINTION_DESCRIPTION, children: [{ text: '' }] },
-          { type: TYPE_DEFINTION_TERM, children: [{ text: '' }] },
-          { type: TYPE_DEFINTION_TERM, children: [{ text: '' }] },
-          { type: TYPE_DEFINTION_DESCRIPTION, children: [{ text: '' }] },
-          { type: TYPE_DEFINTION_TERM, children: [{ text: '' }] },
-          { type: TYPE_DEFINTION_TERM, children: [{ text: '' }] },
+          { type: TYPE_DEFINITION_TERM, children: [{ text: '' }] },
+          { type: TYPE_DEFINITION_DESCRIPTION, children: [{ text: '' }] },
+          { type: TYPE_DEFINITION_TERM, children: [{ text: '' }] },
+          { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
+          { type: TYPE_DEFINITION_DESCRIPTION, children: [{ text: '' }] },
+          { type: TYPE_DEFINITION_TERM, children: [{ text: '' }] },
+          { type: TYPE_DEFINITION_TERM, children: [{ text: '' }] },
+          { type: TYPE_DEFINITION_DESCRIPTION, children: [{ text: '' }] },
         ],
       },
     ];
 
     const expectedValue: Descendant[] = [
       {
-        type: TYPE_DEFINTION_LIST,
+        type: TYPE_DEFINITION_LIST,
         children: [
-          { type: TYPE_DEFINTION_TERM, children: [{ text: '' }] },
-          { type: TYPE_DEFINTION_DESCRIPTION, children: [{ text: '' }] },
-          { type: TYPE_DEFINTION_TERM, children: [{ text: '' }] },
-          { type: TYPE_DEFINTION_DESCRIPTION, children: [{ text: '' }] },
-          { type: TYPE_DEFINTION_TERM, children: [{ text: '' }] },
-          { type: TYPE_DEFINTION_DESCRIPTION, children: [{ text: '' }] },
-          { type: TYPE_DEFINTION_TERM, children: [{ text: '' }] },
-          { type: TYPE_DEFINTION_DESCRIPTION, children: [{ text: '' }] },
-          { type: TYPE_DEFINTION_TERM, children: [{ text: '' }] },
-          { type: TYPE_DEFINTION_DESCRIPTION, children: [{ text: '' }] },
+          { type: TYPE_DEFINITION_TERM, children: [{ text: '' }] },
+          { type: TYPE_DEFINITION_DESCRIPTION, children: [{ text: '' }] },
+          { type: TYPE_DEFINITION_TERM, children: [{ text: '' }] },
+          { type: TYPE_DEFINITION_TERM, children: [{ text: '' }] },
+          { type: TYPE_DEFINITION_DESCRIPTION, children: [{ text: '' }] },
+          { type: TYPE_DEFINITION_TERM, children: [{ text: '' }] },
+          { type: TYPE_DEFINITION_TERM, children: [{ text: '' }] },
+          { type: TYPE_DEFINITION_DESCRIPTION, children: [{ text: '' }] },
         ],
       },
     ];
@@ -103,17 +103,17 @@ describe('definition normalizing tests', () => {
             children: [{ text: '' }],
           },
           {
-            type: TYPE_DEFINTION_LIST,
+            type: TYPE_DEFINITION_LIST,
             children: [
-              { type: TYPE_DEFINTION_TERM, children: [{ text: '' }] },
-              { type: TYPE_DEFINTION_DESCRIPTION, children: [{ text: '' }] },
+              { type: TYPE_DEFINITION_TERM, children: [{ text: '' }] },
+              { type: TYPE_DEFINITION_DESCRIPTION, children: [{ text: '' }] },
             ],
           },
           {
-            type: TYPE_DEFINTION_LIST,
+            type: TYPE_DEFINITION_LIST,
             children: [
-              { type: TYPE_DEFINTION_TERM, children: [{ text: '' }] },
-              { type: TYPE_DEFINTION_DESCRIPTION, children: [{ text: '' }] },
+              { type: TYPE_DEFINITION_TERM, children: [{ text: '' }] },
+              { type: TYPE_DEFINITION_DESCRIPTION, children: [{ text: '' }] },
             ],
           },
           {
@@ -134,12 +134,12 @@ describe('definition normalizing tests', () => {
             children: [{ text: '' }],
           },
           {
-            type: TYPE_DEFINTION_LIST,
+            type: TYPE_DEFINITION_LIST,
             children: [
-              { type: TYPE_DEFINTION_TERM, children: [{ text: '' }] },
-              { type: TYPE_DEFINTION_DESCRIPTION, children: [{ text: '' }] },
-              { type: TYPE_DEFINTION_TERM, children: [{ text: '' }] },
-              { type: TYPE_DEFINTION_DESCRIPTION, children: [{ text: '' }] },
+              { type: TYPE_DEFINITION_TERM, children: [{ text: '' }] },
+              { type: TYPE_DEFINITION_DESCRIPTION, children: [{ text: '' }] },
+              { type: TYPE_DEFINITION_TERM, children: [{ text: '' }] },
+              { type: TYPE_DEFINITION_DESCRIPTION, children: [{ text: '' }] },
             ],
           },
           {
@@ -149,53 +149,5 @@ describe('definition normalizing tests', () => {
         ],
       },
     ]);
-  });
-
-  test('should add term and description in empty description list', () => {
-    const editorValue: Descendant[] = [
-      {
-        type: TYPE_SECTION,
-        children: [
-          {
-            type: TYPE_PARAGRAPH,
-            children: [{ text: '' }],
-          },
-          {
-            type: TYPE_DEFINTION_LIST,
-            children: [],
-          },
-          {
-            type: TYPE_PARAGRAPH,
-            children: [{ text: '' }],
-          },
-        ],
-      },
-    ];
-
-    const expectedValue: Descendant[] = [
-      {
-        type: TYPE_SECTION,
-        children: [
-          {
-            type: TYPE_PARAGRAPH,
-            children: [{ text: '' }],
-          },
-          {
-            type: TYPE_DEFINTION_LIST,
-            children: [
-              { type: TYPE_DEFINTION_TERM, children: [] },
-              { type: TYPE_DEFINTION_DESCRIPTION, children: [{ text: '' }] },
-            ],
-          },
-          {
-            type: TYPE_PARAGRAPH,
-            children: [{ text: '' }],
-          },
-        ],
-      },
-    ];
-    editor.children = editorValue;
-    Editor.normalize(editor, { force: true });
-    expect(editor.children).toEqual(expectedValue);
   });
 });

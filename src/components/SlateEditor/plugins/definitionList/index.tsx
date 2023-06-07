@@ -6,17 +6,18 @@
  *
  */
 
-import { Descendant, Editor, Element, Path, Transforms, Node } from 'slate';
+import { Descendant, Editor, Element, Path, Transforms } from 'slate';
 import { jsx as slatejsx } from 'slate-hyperscript';
 import { RenderElementProps } from 'slate-react';
 import { DefinitionDescription, DefinitionTerm } from '@ndla/ui';
 import { SlateSerializer } from '../../interfaces';
 import { defaultBlockNormalizer, NormalizerConfig } from '../../utils/defaultNormalizer';
-import { KEY_BACKSPACE, KEY_ENTER } from '../../utils/keys';
-import onBackspace from './handlers/onBackspace';
-import onEnter from './handlers/onEnter';
-import { TYPE_DEFINTION_LIST, TYPE_DEFINTION_DESCRIPTION, TYPE_DEFINTION_TERM } from './types';
+import { KEY_BACKSPACE, KEY_ENTER, KEY_TAB } from '../../utils/keys';
+import { TYPE_DEFINITION_DESCRIPTION, TYPE_DEFINITION_LIST, TYPE_DEFINITION_TERM } from './types';
 import { TYPE_SECTION } from '../section/types';
+import onEnter from './handlers/onEnter';
+import onTab from './handlers/onTab';
+import onBackspace from './handlers/onBackspace';
 
 export interface DefinitionListElement {
   type: 'definition-list';
@@ -35,35 +36,13 @@ export interface DefinitionDescriptionElement {
 
 const normalizerDLConfig: NormalizerConfig = {
   nodes: {
-    allowed: [TYPE_DEFINTION_TERM, TYPE_DEFINTION_DESCRIPTION],
-    defaultType: TYPE_DEFINTION_TERM,
-  },
-  firstNode: {
-    allowed: [TYPE_DEFINTION_TERM],
-    defaultType: TYPE_DEFINTION_TERM,
-  },
-  lastNode: {
-    allowed: [TYPE_DEFINTION_DESCRIPTION],
-    defaultType: TYPE_DEFINTION_DESCRIPTION,
+    allowed: [TYPE_DEFINITION_TERM, TYPE_DEFINITION_DESCRIPTION],
+    defaultType: TYPE_DEFINITION_TERM,
   },
 };
 const normalizerConfigCommon: NormalizerConfig = {
   parent: {
-    allowed: [TYPE_DEFINTION_LIST],
-  },
-};
-const normalizerDTConfig: NormalizerConfig = {
-  ...normalizerConfigCommon,
-  next: {
-    allowed: [TYPE_DEFINTION_DESCRIPTION],
-    defaultType: TYPE_DEFINTION_DESCRIPTION,
-  },
-};
-const normalizerDDConfig: NormalizerConfig = {
-  ...normalizerConfigCommon,
-  previous: {
-    allowed: [TYPE_DEFINTION_TERM],
-    defaultType: TYPE_DEFINTION_TERM,
+    allowed: [TYPE_DEFINITION_LIST],
   },
 };
 
@@ -71,24 +50,24 @@ export const definitionListSerializer: SlateSerializer = {
   deserialize(el: HTMLElement, children: (Descendant | null)[]) {
     const tag = el.tagName.toLowerCase();
     if (tag === 'dl') {
-      return slatejsx('element', { type: TYPE_DEFINTION_LIST }, children);
+      return slatejsx('element', { type: TYPE_DEFINITION_LIST }, children);
     }
     if (tag === 'dd') {
-      return slatejsx('element', { type: TYPE_DEFINTION_DESCRIPTION }, children);
+      return slatejsx('element', { type: TYPE_DEFINITION_DESCRIPTION }, children);
     }
     if (tag === 'dt') {
-      return slatejsx('element', { type: TYPE_DEFINTION_TERM }, children);
+      return slatejsx('element', { type: TYPE_DEFINITION_TERM }, children);
     }
   },
   serialize(node: Descendant, children: JSX.Element[]) {
     if (!Element.isElement(node)) return;
-    if (node.type === TYPE_DEFINTION_LIST) {
+    if (node.type === TYPE_DEFINITION_LIST) {
       return <dl>{children}</dl>;
     }
-    if (node.type === TYPE_DEFINTION_TERM) {
+    if (node.type === TYPE_DEFINITION_TERM) {
       return <dt>{children}</dt>;
     }
-    if (node.type === TYPE_DEFINTION_DESCRIPTION) {
+    if (node.type === TYPE_DEFINITION_DESCRIPTION) {
       return <dd>{children}</dd>;
     }
   },
@@ -103,9 +82,11 @@ export const definitionListPlugin = (editor: Editor) => {
 
   editor.onKeyDown = (e: KeyboardEvent) => {
     if (e.key === KEY_ENTER) {
-      onEnter(editor, e, nextOnKeyDown);
+      onEnter(e, editor, nextOnKeyDown);
     } else if (e.key === KEY_BACKSPACE) {
       onBackspace(e, editor, nextOnKeyDown);
+    } else if (e.key === KEY_TAB) {
+      onTab(e, editor, nextOnKeyDown);
     } else if (nextOnKeyDown) {
       nextOnKeyDown(e);
     }
@@ -113,11 +94,11 @@ export const definitionListPlugin = (editor: Editor) => {
 
   editor.renderElement = (props: RenderElementProps) => {
     const { attributes, children, element } = props;
-    if (element.type === TYPE_DEFINTION_LIST) {
+    if (element.type === TYPE_DEFINITION_LIST) {
       return <dl {...attributes}>{children}</dl>;
-    } else if (element.type === TYPE_DEFINTION_DESCRIPTION) {
+    } else if (element.type === TYPE_DEFINITION_DESCRIPTION) {
       return <DefinitionDescription {...attributes}>{children}</DefinitionDescription>;
-    } else if (element.type === TYPE_DEFINTION_TERM) {
+    } else if (element.type === TYPE_DEFINITION_TERM) {
       return <DefinitionTerm {...attributes}>{children}</DefinitionTerm>;
     } else if (nextRenderElement) {
       return nextRenderElement(props);
@@ -128,13 +109,13 @@ export const definitionListPlugin = (editor: Editor) => {
   editor.normalizeNode = (entry) => {
     const [node, nodepath] = entry;
 
-    if (Element.isElement(node) && node.type === TYPE_DEFINTION_LIST) {
+    if (Element.isElement(node) && node.type === TYPE_DEFINITION_LIST) {
       // Merge list with previous list if identical type
       if (Path.hasPrevious(nodepath)) {
         const previousPath = Path.previous(nodepath);
         if (Editor.hasPath(editor, previousPath)) {
           const [prevNode] = Editor.node(editor, previousPath);
-          if (Element.isElement(prevNode) && prevNode.type === TYPE_DEFINTION_LIST) {
+          if (Element.isElement(prevNode) && prevNode.type === TYPE_DEFINITION_LIST) {
             return Transforms.mergeNodes(editor, {
               at: nodepath,
             });
@@ -152,12 +133,11 @@ export const definitionListPlugin = (editor: Editor) => {
       if (defaultBlockNormalizer(editor, entry, normalizerDLConfig)) {
         return;
       }
-    } else if (Element.isElement(node) && node.type === TYPE_DEFINTION_DESCRIPTION) {
-      if (defaultBlockNormalizer(editor, entry, normalizerDDConfig)) {
-        return;
-      }
-    } else if (Element.isElement(node) && node.type === TYPE_DEFINTION_TERM) {
-      if (defaultBlockNormalizer(editor, entry, normalizerDTConfig)) {
+    } else if (
+      Element.isElement(node) &&
+      (node.type === TYPE_DEFINITION_DESCRIPTION || node.type === TYPE_DEFINITION_TERM)
+    ) {
+      if (defaultBlockNormalizer(editor, entry, normalizerConfigCommon)) {
         return;
       }
     }

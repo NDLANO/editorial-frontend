@@ -18,11 +18,7 @@ describe('Selecting text and using the toolbar', () => {
   });
 
   it('change the text styling', () => {
-    cy.get('[data-slate-node=element] > p')
-      .clear()
-      .should('be.visible')
-      .first()
-      .click();
+    cy.get('[data-slate-node=element] > p').clear().should('be.visible').first().click();
     cy.get('[data-cy=slate-block-picker]').should('be.visible');
     cy.get('[data-slate-node=element] > p')
       .type('This is test content{leftarrow}{leftarrow}')
@@ -38,15 +34,11 @@ describe('Selecting text and using the toolbar', () => {
     cy.get('span')
       .contains('This is test content')
       .type('{rightarrow}{enter}{enter}test new line{selectall}');
-    cy.get('blockquote')
-      .contains('test new line')
-      .should('not.exist');
+    cy.get('blockquote').contains('test new line').should('not.exist');
     cy.get('[data-cy=slate-editor] [data-slate-editor=true]')
       .last()
-      .then($el => {
-        cy.get($el)
-          .focus()
-          .type('{selectall}last line{selectall}');
+      .then(($el) => {
+        cy.get($el).focus().type('{selectall}last line{selectall}');
         cy.get('[data-testid=toolbar-button-bold]').click();
         cy.get('[data-testid=toolbar-button-bold][data-active=true]').should('exist');
         cy.get('[data-testid=toolbar-button-italic]').click();
@@ -62,9 +54,7 @@ describe('Selecting text and using the toolbar', () => {
         cy.wrap($el).type('{selectall}new heading{selectall}');
         cy.get('[data-testid=toolbar-button-heading-3]').click();
         cy.get('[data-testid=toolbar-button-heading-3][data-active=true]').should('exist');
-        cy.wrap($el)
-          .find('h3')
-          .should('have.length', 1);
+        cy.wrap($el).find('h3').should('have.length', 1);
         cy.wrap($el).type('{selectall}');
       });
   });
@@ -73,23 +63,15 @@ describe('Selecting text and using the toolbar', () => {
     cy.get('[data-cy=slate-editor] [data-slate-editor=true]')
       .first()
       .focus()
-      .then($el => {
-        cy.wrap($el)
-          .type('This is a test link{leftarrow}{leftarrow}')
-          .blur();
+      .then(($el) => {
+        cy.wrap($el).type('This is a test link{leftarrow}{leftarrow}').blur();
         cy.wrap($el).type('{selectall}');
       });
 
-    cy.get('[data-testid=toolbar-button-link]')
-      .should('be.visible')
-      .click();
-    cy.get('button')
-      .contains('Sett inn lenke')
-      .click();
+    cy.get('[data-testid=toolbar-button-link]').should('be.visible').click();
+    cy.get('button').contains('Sett inn lenke').click();
     cy.get('input[name=href]').type('http://www.vg.no');
-    cy.get('button')
-      .contains('Sett inn lenke')
-      .click();
+    cy.get('button').contains('Sett inn lenke').click();
     cy.get('a[href="http://www.vg.no"]').contains('This is a test link');
     cy.get('a[href="http://www.vg.no"]')
       .should('have.prop', 'href')
@@ -103,74 +85,51 @@ describe('Selecting text and using the toolbar', () => {
   it('All lists work properly', () => {
     cy.get('[data-cy=slate-editor] [data-slate-editor=true]')
       .first()
-      .then($el => {
-        cy.wrap($el)
-          .focus()
-          .type('First item in list');
-        cy.wrap($el)
-          .focus()
-          .type('{selectall}');
+      .then(($el) => {
+        cy.wrap($el).focus().type('First item in list');
+        cy.wrap($el).focus().type('{selectall}');
         cy.get('[data-testid=toolbar-button-numbered-list]').click();
         cy.get('[data-testid=toolbar-button-numbered-list][data-active=true]').should('exist');
         cy.get('ol > li').should('have.length', 1);
         cy.wrap($el).type('{rightarrow}{enter}Second item in list');
         cy.get('ol > li').should('have.length', 2);
-        cy.wrap($el)
-          .focus()
-          .type('{selectall}');
+        cy.wrap($el).focus().type('{selectall}');
         cy.get('[data-testid=toolbar-button-bulleted-list]').click();
         cy.get('[data-testid=toolbar-button-bulleted-list][data-active=true]').should('exist');
         cy.get('ul > li').should('have.length', 2);
-        cy.wrap($el)
-          .focus()
-          .type('{selectall}');
+        cy.wrap($el).focus().type('{selectall}');
         cy.get('[data-testid=toolbar-button-letter-list]').click();
         cy.get('[data-testid=toolbar-button-letter-list][data-active=true]').should('exist');
         cy.get('ol > li').should('have.length', 2);
-        cy.wrap($el)
-          .focus()
-          .type('{selectall}');
+        cy.wrap($el).focus().type('{selectall}');
       });
   });
 
   it('Definition list work properly', () => {
     cy.get('[data-cy=slate-editor] [data-slate-editor=true]')
       .first()
-      .then($el => {
-        cy.wrap($el)
-          .focus()
-          .type('Definition Term in list');
-        cy.wrap($el)
-          .focus()
-          .type('{selectall}');
+      .then(($el) => {
+        cy.wrap($el).focus().type('Definition Term in list');
+        cy.wrap($el).focus().type('{selectall}');
         cy.get('[data-testid=toolbar-button-definition-list]').click();
         cy.get('[data-testid=toolbar-button-definition-list][data-active=true]').should('exist');
-        cy.wrap($el).type('{rightarrow}{enter} Definition Description in list');
+        cy.wrap($el).type('{downArrow}{enter} Definition Description in list');
         cy.get('dl > dt').should('have.length', 1);
-        cy.get('dl > dd').should('have.length', 1);
-        cy.wrap($el).type('{enter} Definition Term 2 in list');
-        cy.wrap($el).type('{enter} Definition Description 2 in list');
-        cy.get('dl > dt').should('have.length', 2);
-        cy.get('dl > dd').should('have.length', 2);
-        cy.wrap($el)
-          .focus()
-          .type('{selectall}');
+        cy.wrap($el).focus().type('{selectall}');
       });
   });
 
-  it('Definition list creates two terms when selecting multiple paragraphs', () => {
+  it('selecting multiple paragraphs gives multiple terms and one description', () => {
     cy.get('[data-cy=slate-editor] [data-slate-editor=true]')
       .first()
-      .then($el => {
+      .then(($el) => {
         cy.wrap($el)
           .focus()
-          .type('Definition Term 1 {Enter} Definition Term 2');
-        cy.wrap($el)
-          .focus()
-          .type('{selectall}');
+          .type('Definition Term 1 {enter} Definition Term 2 {enter} Definition Description 1');
+        cy.wrap($el).focus().type('{selectall}');
         cy.get('[data-testid=toolbar-button-definition-list]').click();
         cy.get('[data-testid=toolbar-button-definition-list][data-active=true]').should('exist');
-        cy.get('dl > dt').should('have.length', 2);
+        cy.get('dl > dt').should('have.length', 3);
       });
   });
 

@@ -7,11 +7,13 @@
  */
 
 import { jsx as slatejsx } from 'slate-hyperscript';
-import { TYPE_DEFINTION_TERM, TYPE_DEFINTION_DESCRIPTION, TYPE_DEFINTION_LIST } from '../types';
+import { TYPE_DEFINITION_DESCRIPTION, TYPE_DEFINITION_LIST, TYPE_DEFINITION_TERM } from '../types';
 
 export const definitionTerm = () =>
-  slatejsx('element', { type: TYPE_DEFINTION_TERM }, [{ text: '' }]);
+  slatejsx('element', { type: TYPE_DEFINITION_TERM }, [{ text: '' }]);
+
 export const definitionDescription = () =>
-  slatejsx('element', { type: TYPE_DEFINTION_DESCRIPTION }, [{ text: '' }]);
+  slatejsx('element', { type: TYPE_DEFINITION_DESCRIPTION }, [{ text: '' }]);
+
 export const definitionList = () =>
-  slatejsx('element', { type: TYPE_DEFINTION_LIST }, [definitionTerm(), definitionDescription()]);
+  slatejsx('element', { type: TYPE_DEFINITION_LIST }, [definitionTerm()]);

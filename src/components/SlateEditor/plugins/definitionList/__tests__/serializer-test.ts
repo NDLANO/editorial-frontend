@@ -12,21 +12,21 @@ import {
   blockContentToHTML,
 } from '../../../../../util/articleContentConverter';
 import { TYPE_SECTION } from '../../section/types';
-import { TYPE_DEFINTION_DESCRIPTION, TYPE_DEFINTION_LIST, TYPE_DEFINTION_TERM } from '../types';
+import { TYPE_DEFINITION_DESCRIPTION, TYPE_DEFINITION_LIST, TYPE_DEFINITION_TERM } from '../types';
 
 const editor: Descendant[] = [
   {
     type: TYPE_SECTION,
     children: [
       {
-        type: TYPE_DEFINTION_LIST,
+        type: TYPE_DEFINITION_LIST,
         children: [
           {
-            type: TYPE_DEFINTION_TERM,
+            type: TYPE_DEFINITION_TERM,
             children: [{ text: 'Tester vi testesen' }],
           },
           {
-            type: TYPE_DEFINTION_DESCRIPTION,
+            type: TYPE_DEFINITION_DESCRIPTION,
             children: [
               { text: 'En test er en test vi tester for å teste om testingen gir test resultater' },
             ],

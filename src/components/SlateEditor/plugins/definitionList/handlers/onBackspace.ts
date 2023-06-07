@@ -6,9 +6,9 @@
  *
  */
 
-import { Editor, Element, Transforms, Path, Node, Range, Point } from 'slate';
+import { Editor, Element, Transforms, Range, Point } from 'slate';
 import hasNodeOfType from '../../../utils/hasNodeOfType';
-import { TYPE_DEFINTION_DESCRIPTION, TYPE_DEFINTION_LIST, TYPE_DEFINTION_TERM } from '../types';
+import { TYPE_DEFINITION_DESCRIPTION, TYPE_DEFINITION_LIST, TYPE_DEFINITION_TERM } from '../types';
 
 const onBackspace = (
   e: KeyboardEvent,
@@ -16,7 +16,7 @@ const onBackspace = (
   nextOnKeyDown: ((e: KeyboardEvent) => void) | undefined,
 ) => {
   if (!editor.selection) return nextOnKeyDown?.(e);
-  const isDefinition = hasNodeOfType(editor, TYPE_DEFINTION_LIST);
+  const isDefinition = hasNodeOfType(editor, TYPE_DEFINITION_LIST);
 
   if (!isDefinition) {
     return nextOnKeyDown?.(e);
@@ -26,43 +26,22 @@ const onBackspace = (
     editor,
     editor.selection.anchor.path,
   );
-
-  if (
-    Element.isElement(selectedDefinitionItem) &&
-    selectedDefinitionItem.type === TYPE_DEFINTION_TERM
-  ) {
-    const [selectedTerm, selectedTermPath] = [selectedDefinitionItem, selectedDefinitionItemPath];
-    const [, firstItemNodePath] = Editor.node(editor, [...selectedTermPath, 0]);
-    // If cursor is placed at start of first item child
+  if (selectedDefinitionItem) {
     if (
-      (Point.equals(Range.start(editor.selection), Editor.start(editor, firstItemNodePath)) &&
-        !Path.hasPrevious(selectedTermPath)) ||
-      (Range.start(editor.selection) && Node.string(selectedTerm) === '')
+      Element.isElement(selectedDefinitionItem) &&
+      (selectedDefinitionItem.type === TYPE_DEFINITION_DESCRIPTION ||
+        selectedDefinitionItem.type === TYPE_DEFINITION_TERM)
     ) {
-      Editor.withoutNormalizing(editor, () => {
-        Transforms.removeNodes(editor, { at: Path.next(selectedTermPath) });
-        Transforms.liftNodes(editor, { at: selectedTermPath });
-      });
-      return;
-    }
-    return;
-  } else if (
-    Element.isElement(selectedDefinitionItem) &&
-    selectedDefinitionItem.type === TYPE_DEFINTION_DESCRIPTION
-  ) {
-    const [selectedDescription, selectedDescriptionPath] = [
-      selectedDefinitionItem,
-      selectedDefinitionItemPath,
-    ];
-    if (
-      Range.start(editor.selection) &&
-      Node.string(selectedDescription) === '' &&
-      Path.hasPrevious(selectedDescriptionPath)
-    ) {
-      Transforms.select(editor, Editor.end(editor, Path.previous(selectedDescriptionPath)));
-      return;
+      if (Range.isCollapsed(editor.selection)) {
+        const [, firstItemNodePath] = Editor.node(editor, [...selectedDefinitionItemPath, 0]);
+        if (Point.equals(Range.start(editor.selection), Editor.start(editor, firstItemNodePath))) {
+          e.preventDefault();
+          return Transforms.liftNodes(editor, { at: selectedDefinitionItemPath });
+        }
+      }
     }
   }
+
   return nextOnKeyDown?.(e);
 };
 

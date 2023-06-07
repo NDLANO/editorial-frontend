@@ -7,12 +7,12 @@
  */
 
 import { Editor, Element, Path, Transforms, Node, Range, Point } from 'slate';
-import { TYPE_DEFINTION_TERM, TYPE_DEFINTION_DESCRIPTION } from '../types';
-import { definitionTerm } from '../utils/defaultBlocks';
+import { TYPE_DEFINITION_TERM, TYPE_DEFINITION_DESCRIPTION } from '../types';
+import { definitionDescription, definitionTerm } from '../utils/defaultBlocks';
 
 const onEnter = (
-  editor: Editor,
   e: KeyboardEvent,
+  editor: Editor,
   nextOnKeyDown: ((e: KeyboardEvent) => void) | undefined,
 ) => {
   if ((e.shiftKey && nextOnKeyDown) || (!editor.selection && nextOnKeyDown)) {
@@ -24,105 +24,70 @@ const onEnter = (
     editor.selection.anchor.path,
   );
 
-  if (!selectedDefinitionItem) {
+  if (
+    !selectedDefinitionItem ||
+    !Element.isElement(selectedDefinitionItem) ||
+    (selectedDefinitionItem.type !== TYPE_DEFINITION_DESCRIPTION &&
+      selectedDefinitionItem.type !== TYPE_DEFINITION_TERM)
+  ) {
     return nextOnKeyDown?.(e);
+  }
+
+  e.preventDefault();
+
+  if (Range.isExpanded(editor.selection)) {
+    Editor.deleteFragment(editor);
+  }
+
+  if (Node.string(selectedDefinitionItem) === '' && selectedDefinitionItem.children.length === 1) {
+    Editor.withoutNormalizing(editor, () => {
+      Transforms.unwrapNodes(editor, {
+        at: selectedDefinitionItemPath,
+      });
+      Transforms.liftNodes(editor, {
+        at: selectedDefinitionItemPath,
+      });
+    });
+    return;
   }
 
   Transforms.unsetNodes(editor, 'serializeAsText', {
     match: (node) =>
       Element.isElement(node) &&
-      (node.type === TYPE_DEFINTION_DESCRIPTION || node.type === TYPE_DEFINTION_TERM),
+      (node.type === TYPE_DEFINITION_DESCRIPTION || node.type === TYPE_DEFINITION_TERM),
     mode: 'lowest',
   });
 
+  const nextPoint = Editor.after(editor, Range.end(editor.selection));
+  const listItemEnd = Editor.end(editor, selectedDefinitionItemPath);
+
   if (
-    Element.isElement(selectedDefinitionItem) &&
-    selectedDefinitionItem.type === TYPE_DEFINTION_TERM
+    (nextPoint && Point.equals(listItemEnd, nextPoint)) ||
+    Point.equals(listItemEnd, editor.selection.anchor)
   ) {
-    const [term, termPath] = [selectedDefinitionItem, selectedDefinitionItemPath];
-    const maybeDescription = Editor.next(editor, { at: selectedDefinitionItemPath });
-
-    if (Range.isExpanded(editor.selection)) {
-      Editor.deleteFragment(editor);
-    }
-    if (maybeDescription) {
-      const [description] = maybeDescription;
-      if (
-        Path.hasPrevious(termPath) &&
-        Node.string(Editor.node(editor, Path.previous(termPath))[0]) === '' &&
-        Node.string(term) === '' &&
-        Node.string(description) === ''
-      ) {
-        Editor.withoutNormalizing(editor, () => {
-          Transforms.removeNodes(editor, { at: Path.next(termPath) });
-          Transforms.unwrapNodes(editor, { at: termPath });
-          Transforms.liftNodes(editor, { at: termPath });
-        });
-        return;
-      }
-    }
-
-    if (Editor.isEnd(editor, editor.selection.focus, termPath)) {
-      Transforms.select(editor, {
-        anchor: Editor.point(editor, Path.next(termPath), { edge: 'end' }),
-        focus: Editor.point(editor, Path.next(termPath), { edge: 'end' }),
-      });
-    }
-    // Split current listItem at selection.
-    Transforms.splitNodes(editor, {
-      match: (node) => Element.isElement(node) && node.type === TYPE_DEFINTION_TERM,
-      mode: 'lowest',
-    });
-    e.preventDefault();
-    return;
-  } else if (
-    Element.isElement(selectedDefinitionItem) &&
-    selectedDefinitionItem.type === TYPE_DEFINTION_DESCRIPTION
-  ) {
-    e.preventDefault();
-    const [description, descriptionPath] = [selectedDefinitionItem, selectedDefinitionItemPath];
-
-    if (Range.isExpanded(editor.selection)) {
-      Editor.deleteFragment(editor);
-    }
-
-    const maybeSelectedTerm = Editor.previous(editor, { at: selectedDefinitionItemPath });
-    if (maybeSelectedTerm) {
-      const [selectedTerm, selectedTermPath] = maybeSelectedTerm;
-      if (Node.string(description) === '' && Node.string(selectedTerm) === '') {
-        Editor.withoutNormalizing(editor, () => {
-          Transforms.removeNodes(editor, { at: descriptionPath });
-          Transforms.unwrapNodes(editor, { at: selectedTermPath });
-          Transforms.liftNodes(editor, { at: selectedTermPath });
-        });
-
-        e.preventDefault();
-        return;
-      }
-    }
-
-    // If at end of list-item, insert a new definition pair.
-    const nextPoint = Editor.after(editor, Range.end(editor.selection));
-    const listItemEnd = Editor.end(editor, descriptionPath);
+    const nextPath = Path.next(selectedDefinitionItemPath);
     if (
-      (nextPoint && Point.equals(listItemEnd, nextPoint)) ||
-      Point.equals(listItemEnd, editor.selection.anchor)
+      Element.isElement(selectedDefinitionItem) &&
+      selectedDefinitionItem.type === TYPE_DEFINITION_TERM
     ) {
-      const nextPath = Path.next(descriptionPath);
       Transforms.insertNodes(editor, definitionTerm(), { at: nextPath });
-      Transforms.select(editor, Editor.start(editor, nextPath));
-      e.preventDefault();
-      return;
+    } else if (
+      Element.isElement(selectedDefinitionItem) &&
+      selectedDefinitionItem.type === TYPE_DEFINITION_DESCRIPTION
+    ) {
+      Transforms.insertNodes(editor, definitionDescription(), { at: nextPath });
     }
-
-    // Split current listItem at selection.
-    Transforms.splitNodes(editor, {
-      match: (node) => Element.isElement(node) && node.type === TYPE_DEFINTION_DESCRIPTION,
-      mode: 'lowest',
-    });
+    Transforms.select(editor, Editor.start(editor, nextPath));
     return;
   }
-  return nextOnKeyDown?.(e);
+
+  // Split current listItem at selection.
+  Transforms.splitNodes(editor, {
+    match: (node) =>
+      Element.isElement(node) &&
+      (node.type === TYPE_DEFINITION_TERM || node.type === TYPE_DEFINITION_DESCRIPTION),
+    mode: 'lowest',
+  });
 };
 
 export default onEnter;

@@ -7,7 +7,7 @@
  */
 
 import { Editor, Element } from 'slate';
-import { TYPE_DEFINTION_DESCRIPTION, TYPE_DEFINTION_LIST, TYPE_DEFINTION_TERM } from '../types';
+import { TYPE_DEFINITION_DESCRIPTION, TYPE_DEFINITION_LIST, TYPE_DEFINITION_TERM } from '../types';
 import { isDefinitionListItem } from './isDefinitionListItem';
 
 const isOnlySelectionOfDefinitionList = (editor: Editor) => {
@@ -16,11 +16,11 @@ const isOnlySelectionOfDefinitionList = (editor: Editor) => {
   for (const [, path] of Editor.nodes(editor, {
     match: (node, path) =>
       Element.isElement(node) &&
-      (node.type === TYPE_DEFINTION_DESCRIPTION || node.type === TYPE_DEFINTION_TERM) &&
+      (node.type === TYPE_DEFINITION_DESCRIPTION || node.type === TYPE_DEFINITION_TERM) &&
       isDefinitionListItem(editor, path),
   })) {
     const [parentNode] = Editor.parent(editor, path);
-    if (Element.isElement(parentNode) && parentNode.type === TYPE_DEFINTION_LIST) {
+    if (Element.isElement(parentNode) && parentNode.type === TYPE_DEFINITION_LIST) {
       hasListItems = true;
       continue;
     }

@@ -7,7 +7,7 @@
  */
 
 import { Editor, Element } from 'slate';
-import { TYPE_DEFINTION_DESCRIPTION, TYPE_DEFINTION_TERM } from '../types';
+import { TYPE_DEFINITION_DESCRIPTION, TYPE_DEFINITION_TERM } from '../types';
 import { isDefinitionListItem } from './isDefinitionListItem';
 
 const hasDefinitionListItem = (editor: Editor) => {
@@ -15,7 +15,7 @@ const hasDefinitionListItem = (editor: Editor) => {
   for (const [, path] of Editor.nodes(editor, {
     match: (node) =>
       Element.isElement(node) &&
-      (node.type === TYPE_DEFINTION_DESCRIPTION || node.type === TYPE_DEFINTION_TERM),
+      (node.type === TYPE_DEFINITION_DESCRIPTION || node.type === TYPE_DEFINITION_TERM),
   })) {
     if (isDefinitionListItem(editor, path)) {
       return true;

@@ -9,7 +9,7 @@
 import { Editor, Range, Element, Transforms, Path } from 'slate';
 import { firstTextBlockElement } from '../../../utils/normalizationHelpers';
 import { TYPE_SECTION } from '../../section/types';
-import { TYPE_DEFINTION_DESCRIPTION, TYPE_DEFINTION_TERM, TYPE_DEFINTION_LIST } from '../types';
+import { TYPE_DEFINITION_DESCRIPTION, TYPE_DEFINITION_TERM, TYPE_DEFINITION_LIST } from '../types';
 import { isDefinitionListItem } from './isDefinitionListItem';
 import isOnlySelectionOfDefinitionList from './isOnlySelectionOfDefinitionList';
 
@@ -23,7 +23,7 @@ export const toggleDefinitionList = (editor: Editor) => {
     return Transforms.liftNodes(editor, {
       match: (node, path) =>
         Element.isElement(node) &&
-        (node.type === TYPE_DEFINTION_DESCRIPTION || node.type === TYPE_DEFINTION_TERM) &&
+        (node.type === TYPE_DEFINITION_DESCRIPTION || node.type === TYPE_DEFINITION_TERM) &&
         isDefinitionListItem(editor, path),
       mode: 'all',
     });
@@ -41,7 +41,7 @@ export const toggleDefinitionList = (editor: Editor) => {
 
       Transforms.setNodes(
         editor,
-        { type: TYPE_DEFINTION_LIST },
+        { type: TYPE_DEFINITION_LIST },
         {
           match: (node) => Element.isElement(node) && firstTextBlockElement.includes(node.type),
           at: Editor.unhangRange(editor, editor.selection),

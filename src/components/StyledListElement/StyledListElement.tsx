@@ -6,10 +6,10 @@
  *
  */
 
-import styled from '@emotion/styled';
+import { css } from '@emotion/react';
 import { colors, spacing, fonts } from '@ndla/core';
 
-const StyledListButton = styled.button`
+export const styledListElement = css`
   display: flex;
   width: 100%;
   padding: ${spacing.small};
@@ -26,5 +26,3 @@ const StyledListButton = styled.button`
     background: ${colors.brand.lighter} !important;
   }
 `;
-
-export default StyledListButton;

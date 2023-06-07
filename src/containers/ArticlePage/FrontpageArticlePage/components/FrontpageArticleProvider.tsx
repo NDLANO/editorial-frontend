@@ -8,9 +8,10 @@
 
 import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useState } from 'react';
 
-const FrontpageArticleContext = createContext<
-  [boolean, Dispatch<SetStateAction<boolean>>] | undefined
->(undefined);
+const FrontpageArticleContext = createContext<[boolean, Dispatch<SetStateAction<boolean>>]>([
+  false,
+  (val) => val,
+]);
 
 interface Props {
   children: ReactNode;
@@ -28,9 +29,6 @@ export const FrontpageArticleProvider = ({ children, initialValue = false }: Pro
 
 export const useFrontpageArticle = () => {
   const context = useContext(FrontpageArticleContext);
-  if (context === undefined) {
-    throw new Error('useFrontpageArticle can only be used within a FrontpageArticleContext');
-  }
 
   const [isFrontpageArticle, setFrontpageArticle] = context;
 

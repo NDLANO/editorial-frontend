@@ -21,6 +21,7 @@ import { DRAFT_ADMIN_SCOPE } from '../../constants';
 import { useSession } from '../Session/SessionProvider';
 import { fetchSearchTags } from '../../modules/draft/draftApi';
 import { useFrontpageArticle } from '../ArticlePage/FrontpageArticlePage/components/FrontpageArticleProvider';
+import FrontpageArticleSwitch from './FrontpageArticleSwitch';
 interface Props {
   articleLanguage: string;
   showCheckbox?: boolean;
@@ -28,14 +29,6 @@ interface Props {
   articleType?: string;
   articleId?: number;
 }
-
-const StyledSwitch = styled(Switch)`
-  > label {
-    ${fonts.sizes('16px', '20px')};
-    font-weight: ${fonts.weight.semibold};
-    color: ${colors.text.primary};
-  }
-`;
 
 const MetaDataField = ({
   articleLanguage,
@@ -47,7 +40,6 @@ const MetaDataField = ({
   const { t } = useTranslation();
   const { userPermissions } = useSession();
   const plugins = [textTransformPlugin];
-  const { isFrontpageArticle, toggleFrontpageArticle } = useFrontpageArticle();
   return (
     <>
       <FormikField
@@ -101,22 +93,9 @@ const MetaDataField = ({
           />
         )}
       </FormikField>
-      {articleType === 'frontpage-article' && (
-        <FormikField
-          name="frontpageArticle"
-          label="Forside artikkel"
-          description="Her styrer du om artikkelen som skal vises er forside artikkel"
-        >
-          {() => (
-            <StyledSwitch
-              id={1}
-              label={'Forside artikkel'}
-              checked={isFrontpageArticle}
-              onChange={() => toggleFrontpageArticle(articleId!)}
-            />
-          )}
-        </FormikField>
-      )}
+      {articleType === 'frontpage-article' ? (
+        <FrontpageArticleSwitch articleId={articleId!} />
+      ) : null}
     </>
   );
 };

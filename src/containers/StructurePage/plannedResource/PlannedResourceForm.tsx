@@ -25,6 +25,7 @@ import {
   useAddNodeMutation,
   useCreateResourceResourceTypeMutation,
   usePostResourceForNodeMutation,
+  useUpdateNodeMetadataMutation,
 } from '../../../modules/nodes/nodeMutations';
 import {
   childNodesWithArticleTypeQueryKey,
@@ -159,6 +160,7 @@ const PlannedResourceForm = ({ articleType, node, onClose, userData }: Props) =>
     useCreateResourceResourceTypeMutation({
       onSuccess: (_) => qc.invalidateQueries(compKey),
     });
+  const { mutateAsync: updateMetadata } = useUpdateNodeMetadataMutation();
   const initialValues = useMemo(() => toInitialValues(ndlaId, articleType), [ndlaId, articleType]);
   const isTopicArticle = articleType === 'topic-article';
 
@@ -229,6 +231,12 @@ const PlannedResourceForm = ({ articleType, node, onClose, userData }: Props) =>
             },
             taxonomyVersion,
           });
+        } else {
+          await updateMetadata({
+            id: resourceId,
+            metadata: { visible: false },
+            taxonomyVersion,
+          });
         }
         if (!(addNodeMutationLoading || postResourceLoading || createResourceTypeLoading)) {
           onClose();
@@ -238,18 +246,19 @@ const PlannedResourceForm = ({ articleType, node, onClose, userData }: Props) =>
       }
     },
     [
-      addNodeMutation,
-      createNodeResource,
-      createResourceResourceType,
       i18n.language,
-      isTopicArticle,
-      node?.id,
-      onClose,
-      taxonomyVersion,
       userData?.latestEditedArticles,
+      addNodeMutation,
+      isTopicArticle,
+      taxonomyVersion,
+      createNodeResource,
+      node?.id,
       addNodeMutationLoading,
       postResourceLoading,
       createResourceTypeLoading,
+      createResourceResourceType,
+      updateMetadata,
+      onClose,
     ],
   );
 

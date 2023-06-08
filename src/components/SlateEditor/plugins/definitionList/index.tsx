@@ -40,9 +40,17 @@ const normalizerDLConfig: NormalizerConfig = {
     defaultType: TYPE_DEFINITION_TERM,
   },
 };
-const normalizerConfigCommon: NormalizerConfig = {
+const normalizerDTConfig: NormalizerConfig = {
   parent: {
     allowed: [TYPE_DEFINITION_LIST],
+  },
+};
+
+const normalizerDDConfig: NormalizerConfig = {
+  ...normalizerDTConfig,
+  previous: {
+    allowed: [TYPE_DEFINITION_TERM, TYPE_DEFINITION_DESCRIPTION],
+    defaultType: TYPE_DEFINITION_TERM,
   },
 };
 
@@ -129,15 +137,15 @@ export const definitionListPlugin = (editor: Editor) => {
           Transforms.liftNodes(editor, { at: parentPath });
         }
       }
-
       if (defaultBlockNormalizer(editor, entry, normalizerDLConfig)) {
         return;
       }
-    } else if (
-      Element.isElement(node) &&
-      (node.type === TYPE_DEFINITION_DESCRIPTION || node.type === TYPE_DEFINITION_TERM)
-    ) {
-      if (defaultBlockNormalizer(editor, entry, normalizerConfigCommon)) {
+    } else if (Element.isElement(node) && node.type === TYPE_DEFINITION_TERM) {
+      if (defaultBlockNormalizer(editor, entry, normalizerDTConfig)) {
+        return;
+      }
+    } else if (Element.isElement(node) && node.type === TYPE_DEFINITION_DESCRIPTION) {
+      if (defaultBlockNormalizer(editor, entry, normalizerDDConfig)) {
         return;
       }
     }

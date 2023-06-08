@@ -80,6 +80,7 @@ describe('definition normalizing tests', () => {
           { type: TYPE_DEFINITION_DESCRIPTION, children: [{ text: '' }] },
           { type: TYPE_DEFINITION_TERM, children: [{ text: '' }] },
           { type: TYPE_DEFINITION_TERM, children: [{ text: '' }] },
+          { type: TYPE_DEFINITION_TERM, children: [{ text: '' }] },
           { type: TYPE_DEFINITION_DESCRIPTION, children: [{ text: '' }] },
           { type: TYPE_DEFINITION_TERM, children: [{ text: '' }] },
           { type: TYPE_DEFINITION_TERM, children: [{ text: '' }] },

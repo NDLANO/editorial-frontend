@@ -87,8 +87,8 @@ const createPlugins = (language: string, handleSubmitRef: RefObject<() => void>)
     // Blockquote and editList actions need to be triggered before paragraph action, else
     // unwrapping (jumping out of block) will not work.
     blockQuotePlugin,
-    listPlugin,
     definitionListPlugin,
+    listPlugin,
     inlineConceptPlugin(language),
     mathmlPlugin,
     markPlugin,

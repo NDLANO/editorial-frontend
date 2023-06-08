@@ -45,7 +45,7 @@
     "@ndla/scripts": "^1.0.4",
     "@ndla/types-backend": "^0.2.11",
     "@ndla/types-embed": "^2.0.3",
-    "@ndla/types-taxonomy": "^1.0.15",
+    "@ndla/types-taxonomy": "^1.0.16",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.10",
     "@tanstack/react-query-devtools": "^4.24.6",
     "@testing-library/jest-dom": "^5.15.0",

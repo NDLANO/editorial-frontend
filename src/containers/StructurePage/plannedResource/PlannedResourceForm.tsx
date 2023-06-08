@@ -210,6 +210,7 @@ const PlannedResourceForm = ({ articleType, node, onClose, userData }: Props) =>
             contentUri: `urn:article:${createdArticle.id}`,
             nodeType: isTopicArticle ? TOPIC_NODE : RESOURCE_NODE,
             root: false,
+            ...(isTopicArticle ? { visible: false } : {}),
           },
           taxonomyVersion,
         });
@@ -238,18 +239,18 @@ const PlannedResourceForm = ({ articleType, node, onClose, userData }: Props) =>
       }
     },
     [
-      addNodeMutation,
-      createNodeResource,
-      createResourceResourceType,
       i18n.language,
-      isTopicArticle,
-      node?.id,
-      onClose,
-      taxonomyVersion,
       userData?.latestEditedArticles,
+      addNodeMutation,
+      isTopicArticle,
+      taxonomyVersion,
+      createNodeResource,
+      node?.id,
       addNodeMutationLoading,
       postResourceLoading,
       createResourceTypeLoading,
+      createResourceResourceType,
+      onClose,
     ],
   );
 

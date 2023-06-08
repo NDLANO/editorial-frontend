@@ -2079,10 +2079,10 @@
   resolved "https://registry.yarnpkg.com/@ndla/types-embed/-/types-embed-2.0.3.tgz#4281561946135d2d248880034f6264a4fc470602"
   integrity sha512-UGEay9l8yV7LJmu72y2bgxo7e7i7w9nQhypBM/kkOWxOSKDfMXXEWcMMF+YP1cV3kBus9Lqedfd2SwJ6aEbVZA==
 
-"@ndla/types-taxonomy@^1.0.15":
-  version "1.0.15"
-  resolved "https://registry.yarnpkg.com/@ndla/types-taxonomy/-/types-taxonomy-1.0.15.tgz#642581ce5410c06389de03ce0141d16983fcb926"
-  integrity sha512-Y5Zx+rkkQ7oCWY3nnUDo52say6RY6BbLxfiKvB2VICXoCBo7QdLP9078elXIXBngDhYimPIAgl/DyTvLqDUPPw==
+"@ndla/types-taxonomy@^1.0.16":
+  version "1.0.16"
+  resolved "https://registry.yarnpkg.com/@ndla/types-taxonomy/-/types-taxonomy-1.0.16.tgz#7158bb19ed7a9d1ab1aa7ec382fd3eca4f70dfb3"
+  integrity sha512-fwiexTTk26G7DqgRcU07EVO8jOZ0zpio9b1GR8VNZ7MW4iBsEqzHVRU8SgY4ba5ZbSfz8vBUJjPJp/Rqp6Gpcw==
 
 "@ndla/ui@^41.0.0":
   version "41.0.0"

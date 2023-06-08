@@ -25,7 +25,6 @@ import {
   useAddNodeMutation,
   useCreateResourceResourceTypeMutation,
   usePostResourceForNodeMutation,
-  useUpdateNodeMetadataMutation,
 } from '../../../modules/nodes/nodeMutations';
 import {
   childNodesWithArticleTypeQueryKey,
@@ -160,7 +159,6 @@ const PlannedResourceForm = ({ articleType, node, onClose, userData }: Props) =>
     useCreateResourceResourceTypeMutation({
       onSuccess: (_) => qc.invalidateQueries(compKey),
     });
-  const { mutateAsync: updateMetadata } = useUpdateNodeMetadataMutation();
   const initialValues = useMemo(() => toInitialValues(ndlaId, articleType), [ndlaId, articleType]);
   const isTopicArticle = articleType === 'topic-article';
 
@@ -212,6 +210,7 @@ const PlannedResourceForm = ({ articleType, node, onClose, userData }: Props) =>
             contentUri: `urn:article:${createdArticle.id}`,
             nodeType: isTopicArticle ? TOPIC_NODE : RESOURCE_NODE,
             root: false,
+            ...(isTopicArticle ? { visible: false } : {}),
           },
           taxonomyVersion,
         });
@@ -229,12 +228,6 @@ const PlannedResourceForm = ({ articleType, node, onClose, userData }: Props) =>
               resourceId: resourceId,
               resourceTypeId: values.contentType,
             },
-            taxonomyVersion,
-          });
-        } else {
-          await updateMetadata({
-            id: resourceId,
-            metadata: { visible: false },
             taxonomyVersion,
           });
         }
@@ -257,7 +250,6 @@ const PlannedResourceForm = ({ articleType, node, onClose, userData }: Props) =>
       postResourceLoading,
       createResourceTypeLoading,
       createResourceResourceType,
-      updateMetadata,
       onClose,
     ],
   );

@@ -9,7 +9,7 @@
 import { connect, FieldProps, FormikContextType } from 'formik';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
-import { UploadDropZone, TextArea } from '@ndla/forms';
+import { UploadDropZone, TextArea, CheckboxItem } from '@ndla/forms';
 import SafeLink from '@ndla/safelink';
 import Tooltip from '@ndla/tooltip';
 import { DeleteForever } from '@ndla/icons/editor';
@@ -102,6 +102,22 @@ const ImageContent = ({ formik }: Props) => {
       <FormikField name="imageFile.size" showError={true}>
         {(_) => <></>}
       </FormikField>
+      <FormikField name="isdecorative">
+        {({ field }: FieldProps) => (
+          <CheckboxItem
+            label={t('form.image.isdecorative')}
+            checked={field.value}
+            onChange={() =>
+              field.onChange({
+                target: {
+                  name: field.name,
+                  value: !field.value,
+                },
+              })
+            }
+          />
+        )}
+      </FormikField>
       <FormikField name="caption" showError={false}>
         {({ field }: FieldProps) => (
           <TextArea
@@ -113,17 +129,19 @@ const ImageContent = ({ formik }: Props) => {
           />
         )}
       </FormikField>
-      <FormikField name="alttext" showError={false}>
-        {({ field }: FieldProps) => (
-          <TextArea
-            placeholder={t('form.image.alt.placeholder')}
-            label={t('form.image.alt.label')}
-            type="text"
-            warningText={errors['alttext']}
-            {...field}
-          />
-        )}
-      </FormikField>
+      {!values.isdecorative && (
+        <FormikField name="alttext" showError={false}>
+          {({ field }: FieldProps) => (
+            <TextArea
+              placeholder={t('form.image.alt.placeholder')}
+              label={t('form.image.alt.label')}
+              type="text"
+              warningText={errors['alttext']}
+              {...field}
+            />
+          )}
+        </FormikField>
+      )}
     </>
   );
 };

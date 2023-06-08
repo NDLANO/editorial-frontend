@@ -49,6 +49,9 @@ const imageRules: RulesType<ImageFormikType, IImageMetaInformationV3> = {
   },
   alttext: {
     required: true,
+    onlyValidateIf: (values) => {
+      return !values.isdecorative;
+    },
     warnings: {
       languageMatch: true,
     },
@@ -128,7 +131,8 @@ const ImageForm = ({
     if (
       license === undefined ||
       values.title === undefined ||
-      values.alttext === undefined ||
+      (values.isdecorative === undefined && values.alttext === undefined) ||
+      (!values.isdecorative && values.alttext === undefined) ||
       values.caption === undefined ||
       values.language === undefined ||
       values.tags === undefined ||
@@ -147,7 +151,7 @@ const ImageForm = ({
     actions.setSubmitting(true);
     const imageMetaData: INewImageMetaInformationV2 = {
       title: editorValueToPlainText(values.title),
-      alttext: values.alttext,
+      alttext: values.isdecorative ? '' : values.alttext,
       caption: values.caption,
       language: values.language,
       tags: values.tags,

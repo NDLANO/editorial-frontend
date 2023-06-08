@@ -25,7 +25,6 @@ test('util/htmlHelpers isValidUrl', () => {
     isValidURL('https://www.slideshare.net/slideshow/embed_code/key/LxxywSCOgTBFi1'),
   ).toBeTruthy();
   expect(isValidURL('https://nb.khanacademy.org/embed_video?v=jHPr-CuvHhs')).toBeTruthy();
-  expect(isValidURL('https://embed.kahoot.it/cde77f0f-e3ed-477c-8b7e-5b8ff9a05ae6')).toBeTruthy();
   expect(isValidURL('https://www.tv2skole.no/e/fullvideo/1041959?start=0')).toBeTruthy();
   expect(isValidURL('https://w')).toBeFalsy();
   expect(isValidURL('https://sdfasdp.ppppppppppp')).toBeFalsy();

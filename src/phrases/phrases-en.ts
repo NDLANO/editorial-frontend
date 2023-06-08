@@ -136,9 +136,9 @@ const phrases = {
     welcomeText: 'to ED',
     revisionInfo: 'Choose your favorite subjects by marking them with a star in structure editing',
     workList: {
-      title: 'My tasks',
+      heading: 'My tasks',
       description: 'Articles where you are responsible',
-      name: 'Name',
+      title: 'Title',
       status: 'Status',
       contentType: 'Content type',
       primarySubject: 'Primary subject',
@@ -217,6 +217,7 @@ const phrases = {
     newConcept: 'Create new concept',
     newSubject: 'Create new subject',
     newFrontpageArticle: 'Create new content article',
+    creationMovedInfo: 'Topics and resources need to be created from structure',
   },
   logo: {
     altText: 'The Norwegian Digital Learning Arena',

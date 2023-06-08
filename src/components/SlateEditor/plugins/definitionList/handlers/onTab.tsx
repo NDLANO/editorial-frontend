@@ -29,10 +29,6 @@ const onTab = (event: KeyboardEvent, editor: Editor, next?: (event: KeyboardEven
   const [currentItemNode, currentItemPath] = listItemEntry;
 
   if (Element.isElement(currentListNode) && currentListNode.type === TYPE_DEFINITION_LIST) {
-    event.preventDefault();
-    if (!editor.selection) {
-      return next && next(event);
-    }
     Editor.withoutNormalizing(editor, () => {
       if (
         event.shiftKey &&

@@ -32,7 +32,7 @@ interface Props {
 
 const AddResourceModal = ({ children, onClose, title }: Props) => {
   return (
-    <TaxonomyLightbox title={title} onClose={onClose}>
+    <TaxonomyLightbox title={title} onClose={onClose} height="normal">
       <StyledContent>{children}</StyledContent>
     </TaxonomyLightbox>
   );

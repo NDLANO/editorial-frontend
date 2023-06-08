@@ -188,6 +188,7 @@ const phrases = {
   },
   articleType: {
     'topic-article': 'Emne',
+    'frontpage-article': 'Innholdsartikkel',
     standard: 'Læringsressurs',
   },
   subNavigation: {
@@ -217,6 +218,7 @@ const phrases = {
     newConcept: 'Opprett forklaring',
     newSubject: 'Opprett fag',
     newFrontpageArticle: 'Opprett innholdsartikkel',
+    creationMovedInfo: 'Emner og ressurser må opprettes fra strukturredigering',
   },
   logo: {
     altText: 'Nasjonal digital læringsarena',
@@ -535,6 +537,13 @@ const phrases = {
         'Bruk av ulovlige tegn i permalenken! Tillatte tegn er alle tall og bokstaver, og bindestrek',
     },
   },
+  gridForm: {
+    title: 'Grid',
+    background: {
+      white: 'Hvit',
+      transparent: 'Transparent',
+    },
+  },
   blogPostForm: {
     title: 'Rediger bloggpost',
     languageExplanation: 'Velg språk for skjermleser',
@@ -614,6 +623,7 @@ const phrases = {
       keyFigure: 'Nøkkeltall',
       contactBlock: 'Kontaktblokk',
       blogPost: 'Bloggpost',
+      grid: 'Grid',
     },
   },
   form: {
@@ -702,6 +712,9 @@ const phrases = {
       author: 'Forfatter',
       link: 'Lenke',
       size: 'Størrelse',
+      columns: 'Kolonner',
+      border: 'Vis ramme',
+      background: 'Bakgrunn',
       contentType: 'Innholdstype',
     },
     previewProductionArticle: {

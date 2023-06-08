@@ -7,6 +7,7 @@ import {
   Concept,
   FactBoxMaterial,
   Framed,
+  Grid,
   Link as LinkIcon,
   PlayBoxOutline,
   PresentationPlay,
@@ -36,6 +37,7 @@ import { TYPE_CONCEPT_LIST } from '../conceptList/types';
 import { TYPE_KEY_FIGURE } from '../keyFigure/types';
 import { TYPE_CONTACT_BLOCK } from '../contactBlock/types';
 import { TYPE_BLOGPOST } from '../blogPost/types';
+import { TYPE_GRID } from '../grid/types';
 
 const renderArticleInModal = (pageId: string) => <HowToHelper pageId={pageId} extraIconPadding />;
 
@@ -145,5 +147,10 @@ export const frontpageActions = commonActions.concat(
     data: { type: TYPE_CONTACT_BLOCK, object: 'contactBlock' },
     icon: <Person />,
     helpIcon: renderArticleInModal('ContactBlock'),
+  },
+  {
+    data: { type: TYPE_GRID, object: 'grid' },
+    icon: <Grid />,
+    helpIcon: renderArticleInModal('Grid'),
   },
 );

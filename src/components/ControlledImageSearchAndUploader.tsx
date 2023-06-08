@@ -62,7 +62,7 @@ const ImageSearchAndUploader = ({
   checkboxAction,
 }: Props) => {
   const { t } = useTranslation();
-  const [selectedTabIndex, setSelectedTabIndex] = useState(0);
+  const [selectedTab, setSelectedTab] = useState<string | undefined>(undefined);
   const { data: licenses } = useLicenses({ placeholderData: [] });
   const searchImagesWithParameters = (query?: string, page?: number) => {
     return searchImages({ query, page, 'page-size': 16, language: language, fallback: true });
@@ -71,11 +71,12 @@ const ImageSearchAndUploader = ({
 
   return (
     <Tabs
-      onSelect={setSelectedTabIndex}
-      selectedIndex={selectedTabIndex}
+      onValueChange={setSelectedTab}
+      value={selectedTab}
       tabs={[
         {
           title: t(`form.visualElement.image`),
+          id: 'image',
           content: (
             <ImageSearch
               fetchImage={fetchImage}
@@ -92,9 +93,7 @@ const ImageSearchAndUploader = ({
                   <ButtonV2
                     type="submit"
                     variant="outline"
-                    onClick={() => {
-                      setSelectedTabIndex(1);
-                    }}
+                    onClick={() => setSelectedTab('imageUpload')}
                   >
                     {t('imageSearch.noResultsButtonText')}
                   </ButtonV2>
@@ -108,6 +107,7 @@ const ImageSearchAndUploader = ({
         },
         {
           title: t('form.visualElement.imageUpload'),
+          id: 'uploadImage',
           content: licenses ? (
             <ImageForm
               language={locale}

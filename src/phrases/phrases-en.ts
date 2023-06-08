@@ -187,6 +187,7 @@ const phrases = {
   },
   articleType: {
     'topic-article': 'Topic',
+    'frontpage-article': 'Content article',
     standard: 'Subject matter',
   },
   subNavigation: {
@@ -216,6 +217,7 @@ const phrases = {
     newConcept: 'Create new concept',
     newSubject: 'Create new subject',
     newFrontpageArticle: 'Create new content article',
+    creationMovedInfo: 'Topics and resources need to be created from structure',
   },
   logo: {
     altText: 'The Norwegian Digital Learning Arena',
@@ -534,6 +536,13 @@ const phrases = {
         'Use of illegal characters in permalink! Legal characters are numbers and letters, plus dashes.',
     },
   },
+  gridForm: {
+    title: 'Grid',
+    background: {
+      white: 'White',
+      transparent: 'Transparent',
+    },
+  },
   blogPostForm: {
     title: 'Edit blog post',
     languageExplanation: 'Choose language for screen readers',
@@ -613,6 +622,7 @@ const phrases = {
       keyFigure: 'Key figure',
       contactBlock: 'Contact block',
       blogPost: 'Blog post',
+      grid: 'Grid',
     },
   },
   form: {
@@ -700,6 +710,9 @@ const phrases = {
       language: 'Language',
       link: 'Link',
       size: 'Size',
+      columns: 'Columns',
+      border: 'Show border',
+      background: 'Background',
       contentType: 'Content type',
     },
     previewProductionArticle: {

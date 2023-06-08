@@ -137,9 +137,9 @@ const phrases = {
     welcomeText: 'til ED',
     revisionInfo: 'Vel favorittfag ved å stjernemarkere i strukturredigering',
     workList: {
-      title: 'Mine arbeidsoppgåver',
+      heading: 'Mine arbeidsoppgåver',
       description: 'Artiklar der du står som ansvarleg',
-      name: 'Namn',
+      title: 'Tittel',
       status: 'Status',
       contentType: 'Innhaldstype',
       primarySubject: 'Primærfag',

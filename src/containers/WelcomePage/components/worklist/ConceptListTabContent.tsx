@@ -136,7 +136,7 @@ const ConceptListTabContent = ({
   );
 
   const tableTitles: TitleElement<SortOption>[] = [
-    { title: t('welcomePage.workList.name'), sortableField: 'title' },
+    { title: t('welcomePage.workList.title'), sortableField: 'title' },
     { title: t('welcomePage.workList.status'), sortableField: 'status' },
     { title: t('welcomePage.workList.conceptSubject') },
     { title: t('welcomePage.workList.date'), sortableField: 'responsibleLastUpdated' },
@@ -148,7 +148,7 @@ const ConceptListTabContent = ({
     <>
       <StyledTopRowDashboardInfo>
         <TableTitle
-          title={t('welcomePage.workList.title')}
+          title={t('welcomePage.workList.heading')}
           description={t('welcomePage.workList.conceptDescription')}
           Icon={Calendar}
         />

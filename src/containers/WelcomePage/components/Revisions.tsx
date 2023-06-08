@@ -61,7 +61,7 @@ const Revisions = ({ userData, ndlaId }: Props) => {
   const { taxonomyVersion } = useTaxonomyVersion();
 
   const tableTitles: TitleElement<SortOptionRevision>[] = [
-    { title: t('form.article.label'), sortableField: 'title' },
+    { title: t('form.name.title'), sortableField: 'title' },
     { title: t('welcomePage.workList.status'), sortableField: 'status' },
     { title: t('welcomePage.workList.primarySubject') },
     { title: t('welcomePage.revisionDate'), sortableField: 'revisionDate' },

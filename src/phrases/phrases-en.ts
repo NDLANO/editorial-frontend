@@ -136,9 +136,9 @@ const phrases = {
     welcomeText: 'to ED',
     revisionInfo: 'Choose your favorite subjects by marking them with a star in structure editing',
     workList: {
-      title: 'My tasks',
+      heading: 'My tasks',
       description: 'Articles where you are responsible',
-      name: 'Name',
+      title: 'Title',
       status: 'Status',
       contentType: 'Content type',
       primarySubject: 'Primary subject',

@@ -13,11 +13,13 @@ import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { Switch } from '@ndla/switch';
 import { Node } from '@ndla/types-taxonomy';
+import { useQueryClient } from '@tanstack/react-query';
 import { EditModeHandler } from '../SettingsMenuDropdownType';
 import { useUpdateNodeMetadataMutation } from '../../../../modules/nodes/nodeMutations';
 import RoundIcon from '../../../../components/RoundIcon';
 import MenuItemButton from './components/MenuItemButton';
 import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
+import { nodesQueryKey } from '../../../../modules/nodes/nodeQueries';
 
 interface Props {
   node: Node;
@@ -38,19 +40,30 @@ const ToggleVisibility = ({
   editModeHandler: { toggleEditMode, editMode },
   rootNodeId,
 }: Props) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { name, id, metadata } = node;
   const [visible, setVisible] = useState(metadata?.visible);
+
   const { taxonomyVersion } = useTaxonomyVersion();
   const { mutateAsync: updateMetadata } = useUpdateNodeMetadataMutation();
 
+  const qc = useQueryClient();
+  const compKey = nodesQueryKey({
+    language: i18n.language,
+    nodeType: 'SUBJECT',
+    taxonomyVersion,
+  });
+
   const toggleVisibility = async () => {
-    await updateMetadata({
-      id,
-      metadata: { grepCodes: metadata.grepCodes, visible: !visible },
-      rootId: rootNodeId !== node.id ? rootNodeId : undefined,
-      taxonomyVersion,
-    });
+    await updateMetadata(
+      {
+        id,
+        metadata: { grepCodes: metadata.grepCodes, visible: !visible },
+        rootId: rootNodeId !== node.id ? rootNodeId : undefined,
+        taxonomyVersion,
+      },
+      { onSuccess: () => qc.invalidateQueries(compKey) },
+    );
     setVisible(!visible);
   };
 

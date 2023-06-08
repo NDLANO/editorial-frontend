@@ -1405,6 +1405,7 @@ const phrases = {
     create: 'Create',
     get: 'Get',
     getExisting: 'Or get existing resource',
+    addPriority: 'Set article as prioritized',
     changeName: {
       loadError: 'Could not fetch translations',
       updateError: 'Could not update translations',

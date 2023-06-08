@@ -38,7 +38,10 @@ import { DRAFT_WRITE_SCOPE, RESOURCE_FILTER_CORE } from '../../../constants';
 import { useAuth0Responsibles } from '../../../modules/auth0/auth0Queries';
 import { useAllResourceTypes } from '../../../modules/taxonomy/resourcetypes/resourceTypesQueries';
 import PlannedResourceSelect from './PlannedResourceSelect';
-import RelevanceOption from '../../../components/Taxonomy/RelevanceOption';
+import RelevanceOption, {
+  StyledSwitch,
+  StyledToggleSwitch,
+} from '../../../components/Taxonomy/RelevanceOption';
 import { Auth0UserData } from '../../../interfaces';
 import { createDraft, updateUserData } from '../../../modules/draft/draftApi';
 import { getRootIdForNode } from '../../../modules/nodes/nodeUtil';
@@ -82,19 +85,20 @@ export const ButtonWrapper = styled.div`
   justify-content: flex-end;
 `;
 
-const SwitchWrapper = styled.div`
+export const SwitchWrapper = styled.div`
   display: flex;
   align-items: center;
   gap: ${spacing.small};
 `;
 
-export interface PlannedResourceFormikType {
+interface PlannedResourceFormikType {
   title: string;
   comments: string;
   contentType: string;
   responsible: string;
   articleType: string;
   relevance: string;
+  prioritized: boolean;
 }
 
 const plannedResourceRules: RulesType<PlannedResourceFormikType> = {
@@ -108,6 +112,7 @@ const plannedResourceRules: RulesType<PlannedResourceFormikType> = {
   },
   responsible: { required: true },
   relevance: { required: true },
+  prioritized: { required: false },
 };
 
 const toInitialValues = (responsible?: string, articleType?: string): PlannedResourceFormikType => {
@@ -118,6 +123,7 @@ const toInitialValues = (responsible?: string, articleType?: string): PlannedRes
     responsible: responsible ?? '',
     articleType: articleType ?? 'standard',
     relevance: RESOURCE_FILTER_CORE,
+    prioritized: false,
   };
 };
 
@@ -136,6 +142,8 @@ interface Props {
 
 const PlannedResourceForm = ({ articleType, node, onClose, userData }: Props) => {
   const [error, setError] = useState<string | undefined>(undefined);
+  const [prioritized, setPrioritized] = useState(false);
+
   const { t, i18n } = useTranslation();
   const { ndlaId, userName } = useSession();
   const { mutateAsync: addNodeMutation, isLoading: addNodeMutationLoading } = useAddNodeMutation();
@@ -194,6 +202,7 @@ const PlannedResourceForm = ({ articleType, node, onClose, userData }: Props) =>
           articleType: values.articleType,
           responsibleId: values.responsible,
           revision: 0,
+          prioritized: values.prioritized,
         };
         const createdArticle = await createDraft(convertUpdateToNewDraft(plannedResource));
 
@@ -304,13 +313,32 @@ const PlannedResourceForm = ({ articleType, node, onClose, userData }: Props) =>
           <StyledFormikField name="relevance">
             {({ field }: FieldProps) => (
               <SwitchWrapper>
-                <StyledLabel htmlFor="toggleRelevanceId">{t('taxonomy.resourceType')}</StyledLabel>
                 <RelevanceOption
                   relevanceId={field.value}
                   onChange={(id: string) => {
                     field.onChange({ target: { name: field.name, value: id } });
                   }}
                 />
+                <StyledLabel htmlFor="toggleRelevanceId">{t('taxonomy.resourceType')}</StyledLabel>
+              </SwitchWrapper>
+            )}
+          </StyledFormikField>
+          <StyledFormikField name="prioritized">
+            {({ field, form }: FieldProps) => (
+              <SwitchWrapper>
+                <StyledToggleSwitch>
+                  <StyledSwitch
+                    checked={prioritized}
+                    label=""
+                    id="togglePrioritized"
+                    onChange={(prioritized: boolean) => {
+                      form.setFieldValue(field.name, prioritized);
+                      setPrioritized(prioritized);
+                    }}
+                    thumbCharacter="P"
+                  />
+                </StyledToggleSwitch>
+                <StyledLabel htmlFor="togglePrioritized">{t('taxonomy.addPriority')}</StyledLabel>
               </SwitchWrapper>
             )}
           </StyledFormikField>

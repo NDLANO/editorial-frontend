@@ -1407,6 +1407,7 @@ const phrases = {
     create: 'Opprett',
     get: 'Hent',
     getExisting: 'Eller hent eksisterande ressurs',
+    addPriority: 'Sett artikkel som prioritert',
     changeName: {
       loadError: 'Klarte ikkje hente omsetjingar',
       updateError: 'Klarte ikkje oppdatere omsetjingar',

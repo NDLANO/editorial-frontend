@@ -62,11 +62,11 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
 .emotion-0 {
   position: absolute;
   top: 0;
-  right: -31.2px;
+  right: -28.799999999999997px;
 }
 
 .emotion-0>* {
-  margin-bottom: 6.5px;
+  margin-bottom: 6px;
 }
 
 .emotion-1 {
@@ -82,7 +82,7 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
   -ms-flex-pack: center;
   -webkit-justify-content: center;
   justify-content: center;
-  gap: 6.5px;
+  gap: 6px;
   color: #fff;
   background: #d1372e;
   border: 2px solid #d1372e;
@@ -97,7 +97,7 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
   transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
   box-shadow: none;
   text-align: center;
-  padding: 4.333333333333333px 6.5px;
+  padding: 4px 6px;
   font-size: 14px;
   font-size: 0.7777777777777778rem;
   line-height: 18px;
@@ -108,7 +108,7 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
   background: transparent;
   border-color: transparent;
   border-radius: 100%;
-  padding: 6.5px;
+  padding: 6px;
   line-height: 1;
   border-color: transparent;
   min-height: unset;
@@ -151,8 +151,8 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
 }
 
 .emotion-1 svg {
-  width: 26px;
-  height: 26px;
+  width: 24px;
+  height: 24px;
   margin: 0;
 }
 
@@ -169,7 +169,7 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
   -ms-flex-pack: center;
   -webkit-justify-content: center;
   justify-content: center;
-  gap: 6.5px;
+  gap: 6px;
   color: #20588f;
   background: #ceddea;
   border: 2px solid #ceddea;
@@ -184,7 +184,7 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
   transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
   box-shadow: none;
   text-align: center;
-  padding: 4.333333333333333px 6.5px;
+  padding: 4px 6px;
   font-size: 14px;
   font-size: 0.7777777777777778rem;
   line-height: 18px;
@@ -195,7 +195,7 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
   background: transparent;
   border-color: transparent;
   border-radius: 100%;
-  padding: 6.5px;
+  padding: 6px;
   line-height: 1;
   border-color: transparent;
   min-height: unset;
@@ -238,8 +238,8 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
 }
 
 .emotion-2 svg {
-  width: 26px;
-  height: 26px;
+  width: 24px;
+  height: 24px;
   margin: 0;
 }
 

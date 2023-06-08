@@ -132,7 +132,6 @@ export const plugins = (
   handleSubmitRef: RefObject<() => void>,
 ): SlatePlugin[] => {
   return [
-    definitionListPlugin,
     sectionPlugin,
     spanPlugin,
     divPlugin,
@@ -164,6 +163,7 @@ export const plugins = (
     breakPlugin,
     saveHotkeyPlugin(() => handleSubmitRef.current && handleSubmitRef.current()),
     markPlugin,
+    definitionListPlugin,
     listPlugin,
   ];
 };

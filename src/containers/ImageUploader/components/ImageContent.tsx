@@ -102,10 +102,10 @@ const ImageContent = ({ formik }: Props) => {
       <FormikField name="imageFile.size" showError={true}>
         {(_) => <></>}
       </FormikField>
-      <FormikField name="isdecorative">
+      <FormikField name="isDecorative">
         {({ field }: FieldProps) => (
           <CheckboxItem
-            label={t('form.image.isdecorative')}
+            label={t('form.image.isDecorative')}
             checked={field.value}
             onChange={() =>
               field.onChange({
@@ -129,7 +129,7 @@ const ImageContent = ({ formik }: Props) => {
           />
         )}
       </FormikField>
-      {!values.isdecorative && (
+      {!values.isDecorative && (
         <FormikField name="alttext" showError={false}>
           {({ field }: FieldProps) => (
             <TextArea

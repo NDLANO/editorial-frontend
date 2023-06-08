@@ -28,7 +28,7 @@ export interface ImageFormikType {
   contentType?: string;
   fileSize?: number;
   imageDimensions?: IImageDimensions;
-  isdecorative?: boolean;
+  isDecorative?: boolean;
 }
 
 export const imageApiTypeToFormType = (

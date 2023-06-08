@@ -1973,16 +1973,6 @@
   resolved "https://registry.yarnpkg.com/@ndla/licenses/-/licenses-7.0.4.tgz#11f66025f8cfdb8cecf71f6499b17800999961e2"
   integrity sha512-Z9Q9/+YJxt6+LURWsKN3UVL7098cqqVKHEvOfgQLhQNmhJJI2poqtrtD6h3dLKueIRMolgkndOMoTl8XfydPlQ==
 
-"@ndla/modal@^3.0.3":
-  version "3.0.3"
-  resolved "https://registry.yarnpkg.com/@ndla/modal/-/modal-3.0.3.tgz#d2590a58823b1a2f02f21e151f12eb606ca5307d"
-  integrity sha512-+iEg6bqCmiTCZcOcP4AaA69Wq/Ywk4xFDbH76aoYjXr3tgESm4o3GCGlr98+VYrYZH5Bza35HSm8aIYL0HEjug==
-  dependencies:
-    "@ndla/core" "^4.1.0"
-    "@ndla/icons" "^3.0.2"
-    "@radix-ui/react-dialog" "^1.0.4"
-    framer-motion "^6.5.1"
-
 "@ndla/modal@^3.0.4":
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/@ndla/modal/-/modal-3.0.4.tgz#7a337a918290ed050f7ff7b0e93fea4d18b99093"
@@ -1993,20 +1983,7 @@
     "@radix-ui/react-dialog" "^1.0.4"
     framer-motion "^6.5.1"
 
-"@ndla/notion@^5.0.3":
-  version "5.0.3"
-  resolved "https://registry.yarnpkg.com/@ndla/notion/-/notion-5.0.3.tgz#2d28648ac0ee11a6a745ac6953cbd4b80ccfbac1"
-  integrity sha512-ruhHOvvx6ndkrPXGU36CjE55cq+COMW20KiSrlcKpLW/UEG+AlajXyrity8hg4v3lyqhTAHqjgy81LSthHp4ew==
-  dependencies:
-    "@ndla/core" "^4.1.0"
-    "@ndla/icons" "^3.0.2"
-    "@ndla/licenses" "^7.0.4"
-    "@ndla/modal" "^3.0.3"
-    "@ndla/safelink" "^4.1.6"
-    "@ndla/tooltip" "^4.1.6"
-    "@ndla/util" "^3.1.13"
-
-"@ndla/notion@^5.0.4":
+"@ndla/notion@^5.0.3", "@ndla/notion@^5.0.4":
   version "5.0.4"
   resolved "https://registry.yarnpkg.com/@ndla/notion/-/notion-5.0.4.tgz#8775aeec494fe5f7324c78760c90344851c0702c"
   integrity sha512-pzamocQsk4g74ywIVnGGLszL5BFRrsz06LiVb3PTsL8XVdxbY6bzoJPALIdrrWimVqRSsEpgxbjC2/jvl9RdPg==

@@ -44,6 +44,7 @@ const StyledTitle = styled.h1`
 `;
 
 const StyledSafeLinkButton = styled(SafeLinkButton)`
+  margin-left: ${spacing.xsmall};
   font-weight: ${fonts.weight.normal};
   ${fonts.sizes(16, 1.1)};
 `;
@@ -91,6 +92,9 @@ export const WelcomeHeader = () => {
         </StyledTitle>
       </ContentWrapper>
       <ButtonWrapper>
+        <StyledSafeLinkButton to="/search/content">
+          {t('subNavigation.searchContent')}
+        </StyledSafeLinkButton>
         <StyledSafeLinkButton to="/structure">{t('subNavigation.structure')}</StyledSafeLinkButton>
       </ButtonWrapper>
       <RightShape />

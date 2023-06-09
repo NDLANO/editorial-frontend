@@ -23,6 +23,11 @@ import Overlay from '../../../Overlay';
 import ContentLink from '../../../../containers/ArticlePage/components/ContentLink';
 import DndList from '../../../DndList';
 
+const StyledUl = styled.ul`
+  margin: 0;
+  padding: 0;
+`;
+
 const StyledContainer = styled('div')`
   position: absolute;
   width: 100%;
@@ -152,45 +157,47 @@ const EditRelated = ({
           </Tooltip>
         </HeadingWrapper>
         <p>{t('form.related.subtitle')}</p>
-        <DndList
-          items={embeds.map((embed) => ({
-            ...embed,
-            id: embed.embedData.articleId || embed.embedData.url!,
-          }))}
-          onDragEnd={onDragEnd}
-          renderItem={(embed) => (
-            <RelatedArticleWrapper>
-              <RelatedContentEmbed embed={embed} />
-              <ButtonWrapper>
-                {!embed.embedData.articleId && (
-                  <Tooltip tooltip={t('form.content.relatedArticle.changeExternal')}>
+        <StyledUl>
+          <DndList
+            items={embeds.map((embed) => ({
+              ...embed,
+              id: embed.embedData.articleId || embed.embedData.url!,
+            }))}
+            onDragEnd={onDragEnd}
+            renderItem={(embed) => (
+              <RelatedArticleWrapper>
+                <RelatedContentEmbed embed={embed} />
+                <ButtonWrapper>
+                  {!embed.embedData.articleId && (
+                    <Tooltip tooltip={t('form.content.relatedArticle.changeExternal')}>
+                      <IconButtonV2
+                        aria-label={t('form.content.relatedArticle.changeExternal')}
+                        variant="ghost"
+                        colorTheme="light"
+                        onClick={() => {
+                          setExternalToEdit(embed);
+                          setShowAddExternal(true);
+                        }}
+                      >
+                        <Pencil />
+                      </IconButtonV2>
+                    </Tooltip>
+                  )}
+                  <Tooltip tooltip={t('form.content.relatedArticle.removeExternal')}>
                     <IconButtonV2
-                      aria-label={t('form.content.relatedArticle.changeExternal')}
+                      aria-label={t('form.content.relatedArticle.removeExternal')}
                       variant="ghost"
-                      colorTheme="light"
-                      onClick={() => {
-                        setExternalToEdit(embed);
-                        setShowAddExternal(true);
-                      }}
+                      colorTheme="danger"
+                      onClick={(e) => deleteRelatedArticle(e, embed)}
                     >
-                      <Pencil />
+                      <DeleteForever />
                     </IconButtonV2>
                   </Tooltip>
-                )}
-                <Tooltip tooltip={t('form.content.relatedArticle.removeExternal')}>
-                  <IconButtonV2
-                    aria-label={t('form.content.relatedArticle.removeExternal')}
-                    variant="ghost"
-                    colorTheme="danger"
-                    onClick={(e) => deleteRelatedArticle(e, embed)}
-                  >
-                    <DeleteForever />
-                  </IconButtonV2>
-                </Tooltip>
-              </ButtonWrapper>
-            </RelatedArticleWrapper>
-          )}
-        />
+                </ButtonWrapper>
+              </RelatedArticleWrapper>
+            )}
+          />
+        </StyledUl>
         <div data-cy="styled-article-modal">
           <AsyncDropdown
             clearInputField

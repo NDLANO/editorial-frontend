@@ -587,10 +587,12 @@ exports[`it goes in and out of edit mode 1`] = `
 
 <div>
   <div
+    aria-hidden="true"
     aria-multiline="true"
     autocapitalize="false"
     autocorrect="false"
     contenteditable="true"
+    data-aria-hidden="true"
     data-slate-editor="true"
     data-slate-node="value"
     role="textbox"
@@ -634,12 +636,15 @@ exports[`it goes in and out of edit mode 1`] = `
       <div
         aria-hidden="true"
         class="emotion-1"
+        data-aria-hidden="true"
       />
       <div
         class="emotion-2"
       >
         <div
+          aria-hidden="true"
           class="emotion-3"
+          data-aria-hidden="true"
         >
           <h3
             class="c-related-articles__component-title emotion-4"
@@ -687,13 +692,34 @@ exports[`it goes in and out of edit mode 1`] = `
             </button>
           </div>
         </div>
-        <p>
+        <p
+          aria-hidden="true"
+          data-aria-hidden="true"
+        >
           Dra artikkel for å endre rekkefølge
         </p>
         <div
-          class="drop-zone"
+          aria-hidden="true"
+          data-aria-hidden="true"
+          id="DndDescribedBy-0"
+          style="display: none;"
+        >
+          
+    To pick up a draggable item, press the space bar.
+    While dragging, use the arrow keys to move the item.
+    Press space again to drop the item in its new position, or press escape to cancel.
+  
+        </div>
+        <div
+          aria-atomic="true"
+          aria-live="assertive"
+          id="DndLiveRegion-0"
+          role="status"
+          style="position: fixed; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%); white-space: nowrap;"
         />
         <div
+          aria-hidden="true"
+          data-aria-hidden="true"
           data-cy="styled-article-modal"
         >
           <div
@@ -757,7 +783,9 @@ exports[`it goes in and out of edit mode 1`] = `
       </div>
     </div>
     <section
+      aria-hidden="true"
       class="c-related-articles"
+      data-aria-hidden="true"
       data-testid="relatedWrapper"
     >
       <div
@@ -1018,19 +1046,26 @@ exports[`it goes in and out of edit mode 2`] = `
 }
 
 .emotion-6 {
+  all: unset;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  gap: 4px;
-  width: 100%;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  gap: 12px;
+  z-index: 0;
 }
 
-.emotion-6>article {
-  -webkit-flex: 1;
-  -ms-flex: 1;
-  flex: 1;
-  max-width: 100%;
+.emotion-6[data-dragging='true'] {
+  z-index: 10;
+}
+
+.emotion-6[data-has-handle='false'] {
+  cursor: -webkit-grab;
+  cursor: grab;
 }
 
 .emotion-7 {
@@ -1039,9 +1074,25 @@ exports[`it goes in and out of edit mode 2`] = `
   display: -ms-flexbox;
   display: flex;
   gap: 4px;
+  width: 100%;
+}
+
+.emotion-7>article {
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  max-width: 100%;
 }
 
 .emotion-8 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 4px;
+}
+
+.emotion-9 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -1086,49 +1137,49 @@ exports[`it goes in and out of edit mode 2`] = `
   min-height: unset;
 }
 
-.emotion-8:hover,
-.emotion-8:focus-visible {
+.emotion-9:hover,
+.emotion-9:focus-visible {
   color: #fff;
   background-color: #184673;
   border-color: #184673;
 }
 
-.emotion-8[disabled] {
+.emotion-9[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-8[lang='zh'],
-.emotion-8[lang='zh-Hans'],
-.emotion-8[lang='zh-Hant'] {
+.emotion-9[lang='zh'],
+.emotion-9[lang='zh-Hans'],
+.emotion-9[lang='zh-Hant'] {
   font-size: calc(14px * 1.11);
   font-size: calc(0.7777777777777778rem * 1.11);
 }
 
-.emotion-8:hover,
-.emotion-8:active,
-.emotion-8:focus-visible {
+.emotion-9:hover,
+.emotion-9:active,
+.emotion-9:focus-visible {
   color: #20588f;
   background: #ceddea;
   border-color: #ceddea;
 }
 
-.emotion-8[disabled] {
+.emotion-9[disabled] {
   color: #777777;
   background-color: transparent;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-8 svg {
+.emotion-9 svg {
   width: 24px;
   height: 24px;
   margin: 0;
 }
 
-.emotion-10 {
+.emotion-11 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1141,7 +1192,7 @@ exports[`it goes in and out of edit mode 2`] = `
   flex-direction: column;
 }
 
-.emotion-10 label {
+.emotion-11 label {
   padding: 0;
   font-size: 16px;
   font-size: 0.8888888888888888rem;
@@ -1149,14 +1200,14 @@ exports[`it goes in and out of edit mode 2`] = `
   white-space: nowrap;
 }
 
-.emotion-10 label[lang='zh'],
-.emotion-10 label[lang='zh-Hans'],
-.emotion-10 label[lang='zh-Hant'] {
+.emotion-11 label[lang='zh'],
+.emotion-11 label[lang='zh-Hans'],
+.emotion-11 label[lang='zh-Hant'] {
   font-size: calc(16px * 1.11);
   font-size: calc(0.8888888888888888rem * 1.11);
 }
 
-.emotion-12 {
+.emotion-13 {
   width: 96px;
   max-width: 96px;
   padding: 20px 12px 12px 0;
@@ -1174,14 +1225,14 @@ exports[`it goes in and out of edit mode 2`] = `
   width: 1px;
 }
 
-.emotion-12[lang='zh'],
-.emotion-12[lang='zh-Hans'],
-.emotion-12[lang='zh-Hant'] {
+.emotion-13[lang='zh'],
+.emotion-13[lang='zh-Hans'],
+.emotion-13[lang='zh-Hant'] {
   font-size: calc(14 * 1.11);
   font-size: calc(0.7777777777777778rem * 1.11);
 }
 
-.emotion-14 {
+.emotion-15 {
   display: grid;
   grid-template-columns: auto 1fr auto;
   -webkit-flex: 1;
@@ -1189,7 +1240,7 @@ exports[`it goes in and out of edit mode 2`] = `
   flex: 1;
 }
 
-.emotion-16 {
+.emotion-17 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1219,12 +1270,12 @@ exports[`it goes in and out of edit mode 2`] = `
   min-height: 48px;
 }
 
-.emotion-16:focus-within {
+.emotion-17:focus-within {
   border-color: #20588f;
 }
 
-.emotion-16 input,
-.emotion-16 textarea {
+.emotion-17 input,
+.emotion-17 textarea {
   padding: 0 12px;
   width: inherit;
   font-weight: 400;
@@ -1244,18 +1295,18 @@ exports[`it goes in and out of edit mode 2`] = `
   flex-grow: 1;
 }
 
-.emotion-16 input[lang='zh'],
-.emotion-16 textarea[lang='zh'],
-.emotion-16 input[lang='zh-Hans'],
-.emotion-16 textarea[lang='zh-Hans'],
-.emotion-16 input[lang='zh-Hant'],
-.emotion-16 textarea[lang='zh-Hant'] {
+.emotion-17 input[lang='zh'],
+.emotion-17 textarea[lang='zh'],
+.emotion-17 input[lang='zh-Hans'],
+.emotion-17 textarea[lang='zh-Hans'],
+.emotion-17 input[lang='zh-Hant'],
+.emotion-17 textarea[lang='zh-Hant'] {
   font-size: calc(18 * 1.11);
   font-size: calc(1rem * 1.11);
 }
 
-.emotion-16 input:focus,
-.emotion-16 textarea:focus {
+.emotion-17 input:focus,
+.emotion-17 textarea:focus {
   -webkit-appearance: none;
   -moz-appearance: none;
   -ms-appearance: none;
@@ -1263,27 +1314,27 @@ exports[`it goes in and out of edit mode 2`] = `
   outline: none;
 }
 
-.emotion-16 textarea {
+.emotion-17 textarea {
   padding: 0 12px;
   height: 20px;
   margin: 14px 0;
   resize: none;
 }
 
-.emotion-16 .c-icon {
+.emotion-17 .c-icon {
   width: 24px;
   height: 24px;
 }
 
-.emotion-18 {
+.emotion-19 {
   padding: 0 12px;
 }
 
-.emotion-19 {
+.emotion-20 {
   margin: 10px 0;
 }
 
-.emotion-20 {
+.emotion-21 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -1318,28 +1369,28 @@ exports[`it goes in and out of edit mode 2`] = `
   min-height: 40px;
 }
 
-.emotion-20:hover,
-.emotion-20:focus-visible {
+.emotion-21:hover,
+.emotion-21:focus-visible {
   color: #20588f;
   background-color: #ceddea;
   border-color: #ceddea;
 }
 
-.emotion-20[disabled] {
+.emotion-21[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-20[lang='zh'],
-.emotion-20[lang='zh-Hans'],
-.emotion-20[lang='zh-Hant'] {
+.emotion-21[lang='zh'],
+.emotion-21[lang='zh-Hans'],
+.emotion-21[lang='zh-Hant'] {
   font-size: calc(16px * 1.11);
   font-size: calc(0.8888888888888888rem * 1.11);
 }
 
-.emotion-21 {
+.emotion-22 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1353,7 +1404,7 @@ exports[`it goes in and out of edit mode 2`] = `
   align-items: center;
 }
 
-.emotion-24 {
+.emotion-25 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1361,7 +1412,7 @@ exports[`it goes in and out of edit mode 2`] = `
   gap: 6px;
 }
 
-.emotion-25 {
+.emotion-26 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -1408,49 +1459,49 @@ exports[`it goes in and out of edit mode 2`] = `
   height: 40px;
 }
 
-.emotion-25:hover,
-.emotion-25:focus-visible {
+.emotion-26:hover,
+.emotion-26:focus-visible {
   color: #20588f;
   background-color: #ceddea;
   border-color: #ceddea;
 }
 
-.emotion-25[disabled] {
+.emotion-26[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-25[lang='zh'],
-.emotion-25[lang='zh-Hans'],
-.emotion-25[lang='zh-Hant'] {
+.emotion-26[lang='zh'],
+.emotion-26[lang='zh-Hans'],
+.emotion-26[lang='zh-Hant'] {
   font-size: calc(14px * 1.11);
   font-size: calc(0.7777777777777778rem * 1.11);
 }
 
-.emotion-25:hover,
-.emotion-25:active,
-.emotion-25:focus-visible {
+.emotion-26:hover,
+.emotion-26:active,
+.emotion-26:focus-visible {
   color: #fff;
   background: #20588f;
   border-color: #20588f;
 }
 
-.emotion-25[disabled] {
+.emotion-26[disabled] {
   color: #777777;
   background-color: transparent;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-25 svg {
+.emotion-26 svg {
   width: 24px;
   height: 24px;
   margin: 0;
 }
 
-.emotion-26 {
+.emotion-27 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -1497,43 +1548,43 @@ exports[`it goes in and out of edit mode 2`] = `
   height: 40px;
 }
 
-.emotion-26:hover,
-.emotion-26:focus-visible {
+.emotion-27:hover,
+.emotion-27:focus-visible {
   color: #fff;
   background-color: #d1372e;
   border-color: #d1372e;
 }
 
-.emotion-26[disabled] {
+.emotion-27[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-26[lang='zh'],
-.emotion-26[lang='zh-Hans'],
-.emotion-26[lang='zh-Hant'] {
+.emotion-27[lang='zh'],
+.emotion-27[lang='zh-Hans'],
+.emotion-27[lang='zh-Hant'] {
   font-size: calc(14px * 1.11);
   font-size: calc(0.7777777777777778rem * 1.11);
 }
 
-.emotion-26:hover,
-.emotion-26:active,
-.emotion-26:focus-visible {
+.emotion-27:hover,
+.emotion-27:active,
+.emotion-27:focus-visible {
   color: #fff;
   background: #d1372e;
   border-color: #d1372e;
 }
 
-.emotion-26[disabled] {
+.emotion-27[disabled] {
   color: #777777;
   background-color: transparent;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-26 svg {
+.emotion-27 svg {
   width: 24px;
   height: 24px;
   margin: 0;
@@ -1644,169 +1695,182 @@ exports[`it goes in and out of edit mode 2`] = `
         <p>
           Dra artikkel for å endre rekkefølge
         </p>
-        <div
-          class="drop-zone"
+        <li
+          aria-describedby="DndDescribedBy-0"
+          aria-disabled="false"
+          aria-roledescription="sortable"
+          class="emotion-6"
+          data-dragging="false"
+          data-has-handle="false"
+          role="button"
+          tabindex="0"
         >
           <div
-            aria-describedby="rbd-hidden-text-0-hidden-text-0"
-            data-rbd-drag-handle-context-id="0"
-            data-rbd-drag-handle-draggable-id="embed-1"
-            data-rbd-draggable-context-id="0"
-            data-rbd-draggable-id="embed-1"
-            draggable="false"
-            role="button"
-            tabindex="0"
+            class="emotion-7"
           >
-            <div
-              class="emotion-6"
+            <article
+              class="c-related-articles__item c-related-articles__item--external-learning-resources"
             >
-              <article
-                class="c-related-articles__item c-related-articles__item--external-learning-resources"
+              <h3
+                class="c-related-articles__title"
               >
-                <h3
-                  class="c-related-articles__title"
+                <div
+                  class="c-content-type-badge c-content-type-badge--external-learning-resources c-content-type-badge--small c-content-type-badge--background c-content-type-badge--border"
                 >
-                  <div
-                    class="c-content-type-badge c-content-type-badge--external-learning-resources c-content-type-badge--small c-content-type-badge--background c-content-type-badge--border"
+                  <svg
+                    aria-hidden="true"
+                    class="c-icon"
+                    data-license="Apache License 2.0"
+                    data-source="Material Design"
+                    fill="currentColor"
+                    height="1em"
+                    preserveAspectRatio="xMidYMid meet"
+                    style="vertical-align: middle;"
+                    viewBox="0 0 24 24"
+                    width="1em"
                   >
-                    <svg
-                      aria-hidden="true"
-                      class="c-icon"
-                      data-license="Apache License 2.0"
-                      data-source="Material Design"
-                      fill="currentColor"
-                      height="1em"
-                      preserveAspectRatio="xMidYMid meet"
-                      style="vertical-align: middle;"
-                      viewBox="0 0 24 24"
-                      width="1em"
-                    >
-                      <g>
-                        <g
-                          fill="none"
-                          fill-rule="evenodd"
-                          stroke="none"
-                          stroke-width="1"
-                        >
+                    <g>
+                      <g
+                        fill="none"
+                        fill-rule="evenodd"
+                        stroke="none"
+                        stroke-width="1"
+                      >
+                        <g>
                           <g>
-                            <g>
-                              <polygon
-                                points="0 0 24 0 24 24 0 24"
-                              />
-                              <path
-                                d="M3.9,12 C3.9,10.29 5.29,8.9 7,8.9 L11,8.9 L11,7 L7,7 C4.24,7 2,9.24 2,12 C2,14.76 4.24,17 7,17 L11,17 L11,15.1 L7,15.1 C5.29,15.1 3.9,13.71 3.9,12 Z M8,13 L16,13 L16,11 L8,11 L8,13 Z M17,7 L13,7 L13,8.9 L17,8.9 C18.71,8.9 20.1,10.29 20.1,12 C20.1,13.71 18.71,15.1 17,15.1 L13,15.1 L13,17 L17,17 C19.76,17 22,14.76 22,12 C22,9.24 19.76,7 17,7 Z"
-                                fill="currentColor"
-                                fill-rule="nonzero"
-                              />
-                            </g>
+                            <polygon
+                              points="0 0 24 0 24 24 0 24"
+                            />
+                            <path
+                              d="M3.9,12 C3.9,10.29 5.29,8.9 7,8.9 L11,8.9 L11,7 L7,7 C4.24,7 2,9.24 2,12 C2,14.76 4.24,17 7,17 L11,17 L11,15.1 L7,15.1 C5.29,15.1 3.9,13.71 3.9,12 Z M8,13 L16,13 L16,11 L8,11 L8,13 Z M17,7 L13,7 L13,8.9 L17,8.9 C18.71,8.9 20.1,10.29 20.1,12 C20.1,13.71 18.71,15.1 17,15.1 L13,15.1 L13,17 L17,17 C19.76,17 22,14.76 22,12 C22,9.24 19.76,7 17,7 Z"
+                              fill="currentColor"
+                              fill-rule="nonzero"
+                            />
                           </g>
                         </g>
                       </g>
-                    </svg>
-                  </div>
-                  <span
-                    class="c-related-articles__link-wrapper"
-                  >
-                    <a
-                      class="c-related-articles__link"
-                      href="https://www.vg.no"
-                      rel="noopener noreferrer"
-                      target="_blank"
-                    >
-                      Verdens gang
-                    </a>
-                  </span>
-                </h3>
-                <p
-                  class="c-related-articles__description"
-                />
-                <p
-                  class="c-related-articles__link-info"
+                    </g>
+                  </svg>
+                </div>
+                <span
+                  class="c-related-articles__link-wrapper"
                 >
-                  Nettside hos vg.no
-                </p>
-              </article>
-              <div
-                class="emotion-7"
+                  <a
+                    class="c-related-articles__link"
+                    href="https://www.vg.no"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Verdens gang
+                  </a>
+                </span>
+              </h3>
+              <p
+                class="c-related-articles__description"
+              />
+              <p
+                class="c-related-articles__link-info"
               >
-                <div
-                  data-tooltip="Endre ekstern artikkel"
-                  data-tooltip-container="true"
+                Nettside hos vg.no
+              </p>
+            </article>
+            <div
+              class="emotion-8"
+            >
+              <div
+                data-tooltip="Endre ekstern artikkel"
+                data-tooltip-container="true"
+              >
+                <button
+                  aria-label="Endre ekstern artikkel"
+                  class="emotion-9"
+                  data-state="closed"
+                  data-trigger="true"
+                  type="button"
                 >
-                  <button
-                    aria-label="Endre ekstern artikkel"
-                    class="emotion-8"
-                    data-state="closed"
-                    data-trigger="true"
-                    type="button"
+                  <svg
+                    aria-hidden="true"
+                    class="c-icon"
+                    data-license="Apache License 2.0"
+                    data-source="Material Design"
+                    fill="currentColor"
+                    height="1em"
+                    preserveAspectRatio="xMidYMid meet"
+                    style="vertical-align: middle;"
+                    viewBox="0 0 24 24"
+                    width="1em"
                   >
-                    <svg
-                      aria-hidden="true"
-                      class="c-icon"
-                      data-license="Apache License 2.0"
-                      data-source="Material Design"
-                      fill="currentColor"
-                      height="1em"
-                      preserveAspectRatio="xMidYMid meet"
-                      style="vertical-align: middle;"
-                      viewBox="0 0 24 24"
-                      width="1em"
-                    >
-                      <g>
-                        <path
-                          d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
-                        />
-                        <path
-                          d="M0 0h24v24H0z"
-                          fill="none"
-                        />
-                      </g>
-                    </svg>
-                  </button>
-                </div>
-                <div
-                  data-tooltip="Slett ekstern artikkel"
-                  data-tooltip-container="true"
+                    <g>
+                      <path
+                        d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
+                      />
+                      <path
+                        d="M0 0h24v24H0z"
+                        fill="none"
+                      />
+                    </g>
+                  </svg>
+                </button>
+              </div>
+              <div
+                data-tooltip="Slett ekstern artikkel"
+                data-tooltip-container="true"
+              >
+                <button
+                  aria-label="Slett ekstern artikkel"
+                  class="emotion-5"
+                  data-state="closed"
+                  data-trigger="true"
+                  type="button"
                 >
-                  <button
-                    aria-label="Slett ekstern artikkel"
-                    class="emotion-5"
-                    data-state="closed"
-                    data-trigger="true"
-                    type="button"
+                  <svg
+                    aria-hidden="true"
+                    class="c-icon"
+                    data-license="Apache License 2.0"
+                    data-source="Material Design"
+                    fill="currentColor"
+                    height="1em"
+                    preserveAspectRatio="xMidYMid meet"
+                    style="vertical-align: middle;"
+                    viewBox="0 0 24 24"
+                    width="1em"
                   >
-                    <svg
-                      aria-hidden="true"
-                      class="c-icon"
-                      data-license="Apache License 2.0"
-                      data-source="Material Design"
-                      fill="currentColor"
-                      height="1em"
-                      preserveAspectRatio="xMidYMid meet"
-                      style="vertical-align: middle;"
-                      viewBox="0 0 24 24"
-                      width="1em"
-                    >
-                      <g>
-                        <path
-                          d="M0 0h24v24H0V0z"
-                          fill="none"
-                        />
-                        <path
-                          d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z"
-                        />
-                        <path
-                          d="M0 0h24v24H0z"
-                          fill="none"
-                        />
-                      </g>
-                    </svg>
-                  </button>
-                </div>
+                    <g>
+                      <path
+                        d="M0 0h24v24H0V0z"
+                        fill="none"
+                      />
+                      <path
+                        d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z"
+                      />
+                      <path
+                        d="M0 0h24v24H0z"
+                        fill="none"
+                      />
+                    </g>
+                  </svg>
+                </button>
               </div>
             </div>
           </div>
+        </li>
+        <div
+          id="DndDescribedBy-0"
+          style="display: none;"
+        >
+          
+    To pick up a draggable item, press the space bar.
+    While dragging, use the arrow keys to move the item.
+    Press space again to drop the item in its new position, or press escape to cancel.
+  
         </div>
+        <div
+          aria-atomic="true"
+          aria-live="assertive"
+          id="DndLiveRegion-0"
+          role="status"
+          style="position: fixed; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%); white-space: nowrap;"
+        />
         <div
           data-cy="styled-article-modal"
         >
@@ -1818,19 +1882,19 @@ exports[`it goes in and out of edit mode 2`] = `
             style="position: relative;"
           >
             <div
-              class="emotion-10 emotion-11"
+              class="emotion-11 emotion-12"
             >
               <label
-                class="emotion-12 emotion-13"
+                class="emotion-13 emotion-14"
                 for="search-input-field"
               >
                 Søk på tittel
               </label>
               <div
-                class="emotion-14 emotion-15"
+                class="emotion-15 emotion-16"
               >
                 <div
-                  class="emotion-16 emotion-17"
+                  class="emotion-17 emotion-18"
                 >
                   <input
                     aria-autocomplete="list"
@@ -1845,7 +1909,7 @@ exports[`it goes in and out of edit mode 2`] = `
                     value=""
                   />
                   <div
-                    class="emotion-18"
+                    class="emotion-19"
                   >
                     <svg
                       aria-hidden="true"
@@ -1871,12 +1935,12 @@ exports[`it goes in and out of edit mode 2`] = `
             </div>
           </div>
           <div
-            class="emotion-19"
+            class="emotion-20"
           >
             Eller
           </div>
           <button
-            class="emotion-20"
+            class="emotion-21"
             data-testid="showAddExternal"
             type="button"
           >
@@ -1890,7 +1954,7 @@ exports[`it goes in and out of edit mode 2`] = `
       data-testid="relatedWrapper"
     >
       <div
-        class="emotion-21 emotion-22"
+        class="emotion-22 emotion-23"
       >
         <h3
           class="c-related-articles__component-title emotion-4"
@@ -1898,7 +1962,7 @@ exports[`it goes in and out of edit mode 2`] = `
           Relatert innhold
         </h3>
         <div
-          class="emotion-24"
+          class="emotion-25"
         >
           <div
             data-tooltip="Rediger"
@@ -1906,7 +1970,7 @@ exports[`it goes in and out of edit mode 2`] = `
           >
             <button
               aria-label="Rediger"
-              class="emotion-25"
+              class="emotion-26"
               data-state="closed"
               data-trigger="true"
               type="button"
@@ -1941,7 +2005,7 @@ exports[`it goes in and out of edit mode 2`] = `
           >
             <button
               aria-label="Slett"
-              class="emotion-26"
+              class="emotion-27"
               data-state="closed"
               data-trigger="true"
               type="button"

@@ -309,14 +309,13 @@ const SlateBlockPicker = ({
 
   return (
     <>
-      <Portal isOpened={visualElementPickerOpen}>
-        <SlateVisualElementPicker
-          articleLanguage={articleLanguage}
-          resource={type || ''}
-          onVisualElementClose={onVisualElementClose}
-          onInsertBlock={onInsertBlock}
-        />
-      </Portal>
+      <SlateVisualElementPicker
+        isOpen={visualElementPickerOpen}
+        articleLanguage={articleLanguage}
+        resource={type || ''}
+        onVisualElementClose={onVisualElementClose}
+        onInsertBlock={onInsertBlock}
+      />
       <Portal isOpened={!visualElementPickerOpen}>
         <StyledBlockPickerWrapper ref={portalRef} data-cy="slate-block-picker-button">
           <SlateBlockMenu

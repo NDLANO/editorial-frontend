@@ -80,17 +80,9 @@ const RootNode = ({
   });
 
   const onDragEnd = async ({ active, over }: DragEndEvent, nodes: NodeChild[]) => {
-    if (!over) return;
-    const [source, destination] = [
-      nodes.find((n) => n.id === active.id),
-      nodes.find((n) => n.id === over.id),
-    ];
-    if (!source || !destination) return;
-    const currentRank = source.rank;
-    const destinationRank = destination.rank;
-    if (currentRank === destinationRank) return;
-    const newRank = currentRank > destinationRank ? destinationRank : destinationRank + 1;
-
+    const [source, dest] = [nodes[active.data.current?.index], nodes[over?.data.current?.index]];
+    if (!source || !dest || source.rank === dest.rank) return;
+    const newRank = source.rank > dest.rank ? dest.rank : dest.rank + 1;
     await updateNodeConnection({
       id: source.connectionId,
       body: {

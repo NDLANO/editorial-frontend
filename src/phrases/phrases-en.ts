@@ -136,6 +136,7 @@ const phrases = {
     welcomeText: 'to ED',
     revisionInfo: 'Choose your favorite subjects by marking them with a star in structure editing',
     primaryConnection: 'Only show resources with primary connection to my favorite subjects',
+    primaryConnectionLabel: 'Only show primary connection',
     workList: {
       title: 'My tasks',
       description: 'Articles where you are responsible',

@@ -15,7 +15,7 @@ import { Select, SingleValue } from '@ndla/select';
 import Pager from '@ndla/pager';
 import sortBy from 'lodash/sortBy';
 import styled from '@emotion/styled';
-import { mq, breakpoints, spacing } from '@ndla/core';
+import { mq, breakpoints, spacing, fonts } from '@ndla/core';
 import { IMultiSearchSummary } from '@ndla/types-backend/search-api';
 import { Switch } from '@ndla/switch';
 import Tooltip from '@ndla/tooltip';
@@ -45,10 +45,23 @@ const RevisionsWrapper = styled.div`
 `;
 
 const SwitchWrapper = styled.div`
-  margin-top: ${spacing.xxsmall};
+  margin-top: ${spacing.small};
   & button {
     margin-left: auto;
   }
+`;
+
+const StyledSwitch = styled(Switch)`
+  white-space: nowrap;
+  label {
+    font-size: ${fonts.sizes('16px')};
+    margin-left: auto;
+  }
+`;
+
+const StyledRevisionControls = styled.div`
+  display: flex;
+  flex-direction: column;
 `;
 
 const getLastPage = (totalCount: number, pageSize: number) =>
@@ -194,44 +207,46 @@ const Revisions = ({ userData }: Props) => {
             Icon={Alarm}
             infoText={t('welcomePage.revisionInfo')}
           />
-          <ControlWrapperDashboard>
+          <StyledRevisionControls>
+            <ControlWrapperDashboard>
+              <DropdownWrapper>
+                <Select<false>
+                  label={t('welcomePage.chooseFavoriteSubject')}
+                  options={favoriteSubjects ?? []}
+                  placeholder={t('welcomePage.chooseFavoriteSubject')}
+                  value={filterSubject}
+                  onChange={setFilterSubject}
+                  menuPlacement="bottom"
+                  small
+                  outline
+                  isLoading={isInitialLoadingSubjects}
+                  isSearchable
+                  noOptionsMessage={() => t('form.responsible.noResults')}
+                  isClearable
+                />
+              </DropdownWrapper>
+              <GoToSearch
+                filterSubject={filterSubject?.value ?? FAVOURITES_SUBJECT_ID}
+                searchEnv="content"
+                revisionDateTo={currentDateAddYear}
+              />
+            </ControlWrapperDashboard>
             <Tooltip tooltip={t('welcomePage.primaryConnection')}>
               <SwitchWrapper>
-                <Switch
+                <StyledSwitch
                   checked={checked}
                   onChange={() => {
                     setChecked(!checked);
                     setPage(1);
                   }}
-                  label={''}
-                  id={'filter-primary-connection-switch'}
+                  label={t('welcomePage.primaryConnectionLabel')}
+                  id="filter-primary-connection-switch"
                   aria-label={t('welcomePage.primaryConnection')}
                   thumbCharacter="P"
                 />
               </SwitchWrapper>
             </Tooltip>
-            <DropdownWrapper>
-              <Select<false>
-                label={t('welcomePage.chooseFavoriteSubject')}
-                options={favoriteSubjects ?? []}
-                placeholder={t('welcomePage.chooseFavoriteSubject')}
-                value={filterSubject}
-                onChange={setFilterSubject}
-                menuPlacement="bottom"
-                small
-                outline
-                isLoading={isInitialLoadingSubjects}
-                isSearchable
-                noOptionsMessage={() => t('form.responsible.noResults')}
-                isClearable
-              />
-            </DropdownWrapper>
-            <GoToSearch
-              filterSubject={filterSubject?.value ?? FAVOURITES_SUBJECT_ID}
-              searchEnv="content"
-              revisionDateTo={currentDateAddYear}
-            />
-          </ControlWrapperDashboard>
+          </StyledRevisionControls>
         </StyledTopRowDashboardInfo>
         <TableComponent
           isLoading={isInitialLoading}

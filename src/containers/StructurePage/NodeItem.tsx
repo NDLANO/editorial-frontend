@@ -7,7 +7,7 @@
 import { HTMLProps, MutableRefObject, ReactNode, useEffect } from 'react';
 import { colors } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
-import { DragHorizontal, DragVertical, Star } from '@ndla/icons/editor';
+import { DragVertical, Star } from '@ndla/icons/editor';
 import { NodeChild, Node } from '@ndla/types-taxonomy';
 import { DragEndEvent } from '@dnd-kit/core';
 import Fade from '../../components/Taxonomy/Fade';
@@ -159,8 +159,8 @@ const NodeItem = ({
         )}
       </StyledItemBar>
       {hasChildNodes && isOpen && nodes && (
-        <StructureWrapper>
-          <Fade show={true} fadeType="fadeInTop">
+        <Fade show={true} fadeType="fadeInTop">
+          <StructureWrapper>
             <DndList
               items={nodes}
               disabled={!isActive || nodes.length < 2}
@@ -191,8 +191,8 @@ const NodeItem = ({
                 </DragHandle>
               }
             />
-          </Fade>
-        </StructureWrapper>
+          </StructureWrapper>
+        </Fade>
       )}
     </StyledStructureItem>
   );

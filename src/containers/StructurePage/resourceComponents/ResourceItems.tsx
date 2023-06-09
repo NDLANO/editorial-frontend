@@ -9,10 +9,12 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from '@tanstack/react-query';
-import { DropResult } from 'react-beautiful-dnd';
 import sortBy from 'lodash/sortBy';
 import styled from '@emotion/styled';
 import { NodeChild } from '@ndla/types-taxonomy';
+import { colors } from '@ndla/core';
+import { DragVertical } from '@ndla/icons/editor';
+import { DragEndEvent } from '@dnd-kit/core';
 import Resource from './Resource';
 import handleError from '../../../util/handleError';
 import {
@@ -20,7 +22,6 @@ import {
   usePutResourceForNodeMutation,
 } from '../../../modules/nodes/nodeMutations';
 import AlertModal from '../../../components/AlertModal';
-import MakeDndList from '../../../components/MakeDndList';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 import {
   NodeResourceMeta,
@@ -28,6 +29,8 @@ import {
 } from '../../../modules/nodes/nodeQueries';
 import { ResourceWithNodeConnectionAndMeta } from './StructureResources';
 import { Auth0UserData, Dictionary } from '../../../interfaces';
+import DndList from '../../../components/DndList';
+import { DragHandle } from '../../../components/DraggableItem';
 
 const StyledResourceItems = styled.ul`
   list-style: none;
@@ -38,6 +41,12 @@ const StyledResourceItems = styled.ul`
 const StyledErrorMessage = styled.div`
   text-align: center;
   color: #fe5f55;
+`;
+
+const StyledDndIcon = styled(DragVertical)`
+  height: 30px;
+  width: 30px;
+  color: ${colors.brand.greyMedium};
 `;
 
 interface Props {
@@ -105,19 +114,22 @@ const ResourceItems = ({
     );
   };
 
-  const onDragEnd = async ({ destination, source }: DropResult) => {
-    if (!destination) return;
-    const { connectionId, isPrimary, relevanceId, rank: currentRank } = resources[source.index];
-    const { rank } = resources[destination.index];
-    if (currentRank === rank) {
+  const onDragEnd = async ({ active, over }: DragEndEvent) => {
+    const [source, destination] = [
+      resources.find((res) => res.id === (active.id as string)),
+      resources.find((res) => res.id === (over?.id as string)),
+    ];
+    if (!destination || !source || source?.rank === destination.rank) {
       return;
     }
+
+    if (!destination) return;
     await updateNodeResource({
-      id: connectionId,
+      id: source.connectionId,
       body: {
-        primary: isPrimary,
-        rank: currentRank > rank ? rank : rank + 1,
-        relevanceId,
+        primary: source.isPrimary,
+        rank: source.rank > destination.rank ? destination.rank : destination.rank + 1,
+        relevanceId: source.relevanceId,
       },
       taxonomyVersion,
     });
@@ -129,8 +141,15 @@ const ResourceItems = ({
 
   return (
     <StyledResourceItems>
-      <MakeDndList onDragEnd={onDragEnd} dragHandle disableDnd={false}>
-        {resources.map((resource) => (
+      <DndList
+        items={resources}
+        onDragEnd={onDragEnd}
+        dragHandle={
+          <DragHandle aria-label="Drag">
+            <StyledDndIcon />
+          </DragHandle>
+        }
+        renderItem={(resource) => (
           <Resource
             responsible={
               users?.[contentMeta[resource.contentUri ?? '']?.responsible?.responsibleId ?? '']
@@ -147,8 +166,8 @@ const ResourceItems = ({
             onDelete={toggleDelete}
             contentMetaLoading={contentMetaLoading}
           />
-        ))}
-      </MakeDndList>
+        )}
+      />
       {deleteNodeResource.error && isError(deleteNodeResource.error) && (
         <StyledErrorMessage data-testid="inlineEditErrorMessage">
           {`${t('taxonomy.errorMessage')}: ${deleteNodeResource.error.message}`}

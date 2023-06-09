@@ -6,13 +6,13 @@
 
 import { memo, MutableRefObject } from 'react';
 import { useTranslation } from 'react-i18next';
-import { DropResult } from 'react-beautiful-dnd';
 import { useQueryClient } from '@tanstack/react-query';
 import isEqual from 'lodash/isEqual';
 import partition from 'lodash/partition';
 import sortBy from 'lodash/sortBy';
 import { IUserData } from '@ndla/types-backend/draft-api';
 import { NodeChild, Node } from '@ndla/types-taxonomy';
+import { DragEndEvent } from '@dnd-kit/core';
 import {
   childNodesWithArticleTypeQueryKey,
   useChildNodesWithArticleType,
@@ -79,19 +79,24 @@ const RootNode = ({
     onSettled: () => qc.invalidateQueries(compKey),
   });
 
-  const onDragEnd = async (dropResult: DropResult, nodes: NodeChild[]) => {
-    const { draggableId, source, destination } = dropResult;
-    if (!destination) return;
-    const currentRank = nodes[source.index].rank;
-    const destinationRank = nodes[destination.index].rank;
+  const onDragEnd = async ({ active, over }: DragEndEvent, nodes: NodeChild[]) => {
+    if (!over) return;
+    const [source, destination] = [
+      nodes.find((n) => n.id === active.id),
+      nodes.find((n) => n.id === over.id),
+    ];
+    if (!source || !destination) return;
+    const currentRank = source.rank;
+    const destinationRank = destination.rank;
     if (currentRank === destinationRank) return;
     const newRank = currentRank > destinationRank ? destinationRank : destinationRank + 1;
+
     await updateNodeConnection({
-      id: draggableId,
+      id: source.connectionId,
       body: {
         rank: newRank,
-        relevanceId: nodes[source.index].relevanceId,
-        primary: nodes[source.index].isPrimary,
+        relevanceId: source.relevanceId,
+        primary: source.isPrimary,
       },
       taxonomyVersion,
     });

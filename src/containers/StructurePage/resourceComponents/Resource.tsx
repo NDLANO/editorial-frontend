@@ -12,10 +12,8 @@ import styled from '@emotion/styled';
 import { ContentTypeBadge } from '@ndla/ui';
 import { ButtonV2 } from '@ndla/button';
 import { colors, spacing, breakpoints, fonts } from '@ndla/core';
-import { DragVertical } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
 import { useQueryClient } from '@tanstack/react-query';
-import { DraggableProvidedDragHandleProps } from 'react-beautiful-dnd';
 import { NodeConnectionPUT, NodeChild } from '@ndla/types-taxonomy';
 import {
   usePutResourceForNodeMutation,
@@ -33,6 +31,7 @@ import VersionHistory from './VersionHistory';
 
 const Wrapper = styled.div`
   display: flex;
+  flex: 1;
   margin-bottom: ${spacing.xsmall};
 `;
 
@@ -84,18 +83,6 @@ const ContentWrapper = styled.div`
   width: 100%;
 `;
 
-const StyledDndIconWrapper = styled.div<{ isVisible: boolean }>`
-  visibility: ${(p) => (p.isVisible ? 'visible' : 'hidden')};
-  display: flex;
-  align-items: center;
-`;
-
-const StyledDndIcon = styled(DragVertical)`
-  height: 30px;
-  width: 30px;
-  color: ${colors.brand.greyMedium};
-`;
-
 const RemoveButton = styled(ButtonV2)`
   flex: 0;
 `;
@@ -123,17 +110,17 @@ interface Props {
   resource: ResourceWithNodeConnectionAndMeta;
   onDelete?: (connectionId: string) => void;
   updateResource?: (resource: NodeChild) => void;
-  dragHandleProps?: DraggableProvidedDragHandleProps;
   contentMetaLoading: boolean;
+  className?: string;
 }
 
 const Resource = ({
   resource,
   onDelete,
-  dragHandleProps,
   currentNodeId,
   contentMetaLoading,
   responsible,
+  className,
 }: Props) => {
   const { t, i18n } = useTranslation();
   const location = useLocation();
@@ -202,14 +189,7 @@ const Resource = ({
   };
 
   return (
-    <Wrapper>
-      <StyledDndIconWrapper
-        isVisible={!contentMetaLoading && resource.contentMeta?.articleType !== 'topic-article'}
-        {...dragHandleProps}
-      >
-        <StyledDndIcon />
-      </StyledDndIconWrapper>
-
+    <Wrapper className={className}>
       <StyledCard>
         <BadgeWrapper>
           {contentType && (

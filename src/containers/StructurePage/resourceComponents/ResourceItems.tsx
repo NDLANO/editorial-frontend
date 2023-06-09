@@ -12,7 +12,6 @@ import { useQueryClient } from '@tanstack/react-query';
 import sortBy from 'lodash/sortBy';
 import styled from '@emotion/styled';
 import { NodeChild } from '@ndla/types-taxonomy';
-import { colors } from '@ndla/core';
 import { DragVertical } from '@ndla/icons/editor';
 import { DragEndEvent } from '@dnd-kit/core';
 import Resource from './Resource';
@@ -41,12 +40,6 @@ const StyledResourceItems = styled.ul`
 const StyledErrorMessage = styled.div`
   text-align: center;
   color: #fe5f55;
-`;
-
-const StyledDndIcon = styled(DragVertical)`
-  height: 30px;
-  width: 30px;
-  color: ${colors.brand.greyMedium};
 `;
 
 interface Props {
@@ -143,7 +136,7 @@ const ResourceItems = ({
         onDragEnd={onDragEnd}
         dragHandle={
           <DragHandle aria-label="Drag">
-            <StyledDndIcon />
+            <DragVertical />
           </DragHandle>
         }
         renderItem={(resource) => (

@@ -137,7 +137,7 @@ const phrases = {
     welcomeText: 'til ED',
     revisionInfo: 'Velg favorittfag ved å stjernemarkere i strukturredigering',
     primaryConnection: 'Vis kun ressurser med primærkobling til mine favorittfag',
-    primaryConnectionLabel: 'Kun vis primærkobling',
+    primaryConnectionLabel: 'Vis kun primærkobling',
     workList: {
       title: 'Mine arbeidsoppgaver',
       description: 'Artikler hvor du står som ansvarlig',

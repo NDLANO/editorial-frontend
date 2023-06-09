@@ -137,9 +137,9 @@ const phrases = {
     welcomeText: 'til ED',
     revisionInfo: 'Vel favorittfag ved å stjernemarkere i strukturredigering',
     workList: {
-      title: 'Mine arbeidsoppgåver',
+      heading: 'Mine arbeidsoppgåver',
       description: 'Artiklar der du står som ansvarleg',
-      name: 'Namn',
+      title: 'Tittel',
       status: 'Status',
       contentType: 'Innhaldstype',
       primarySubject: 'Primærfag',
@@ -218,6 +218,7 @@ const phrases = {
     newConcept: 'Opprett forklaring',
     newSubject: 'Opprett fag',
     newFrontpageArticle: 'Opprett innholdsartikkel',
+    creationMovedInfo: 'Emner og ressursar må opprettast frå strukturredigeringa',
   },
   logo: {
     altText: 'Nasjonal digital læringsarena',
@@ -599,6 +600,7 @@ const phrases = {
     sup: 'Hevet\n({{ctrl}}+alt+h)',
     twoColumnList: 'To-kolonners liste',
     underlined: 'Understreka',
+    definitionList: 'Definisjonsliste\n({{ctrl}}+alt+d)',
   },
   editorBlockpicker: {
     heading: 'Legg til',

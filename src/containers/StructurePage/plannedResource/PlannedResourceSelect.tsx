@@ -38,6 +38,7 @@ const PlannedResourceSelect = ({
             options={options}
             placeholder={t(placeholder)}
             required
+            inModal
             isSearchable
             defaultValue={defaultValue}
             noOptionsMessage={() => t('form.responsible.noResults')}

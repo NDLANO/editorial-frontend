@@ -55,6 +55,7 @@ import { spanPlugin } from '../../../../components/SlateEditor/plugins/span';
 import { conceptListPlugin } from '../../../../components/SlateEditor/plugins/conceptList';
 import { inlineConceptPlugin } from '../../../../components/SlateEditor/plugins/concept/inline';
 import { blockConceptPlugin } from '../../../../components/SlateEditor/plugins/concept/block';
+import { definitionListPlugin } from '../../../../components/SlateEditor/plugins/definitionList';
 import { TYPE_TABLE } from '../../../../components/SlateEditor/plugins/table/types';
 import { TYPE_CODEBLOCK } from '../../../../components/SlateEditor/plugins/codeBlock/types';
 import {
@@ -168,6 +169,7 @@ export const plugins = (
     breakPlugin,
     saveHotkeyPlugin(() => handleSubmitRef.current && handleSubmitRef.current()),
     markPlugin,
+    definitionListPlugin,
     listPlugin,
     gridPlugin,
     blogPostPlugin,

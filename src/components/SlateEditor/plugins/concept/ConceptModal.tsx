@@ -78,13 +78,7 @@ const ConceptModal = ({
     results: [],
     totalCount: 0,
   });
-  const [selectedTabIndex, setSelectedTabIndex] = useState(0);
   const [searching, setSearching] = useState(false);
-
-  const updateSelectedTabIndex = (index: number) => {
-    //Added function because of hooks second argument warning.
-    setSelectedTabIndex(index);
-  };
 
   const searchConcept = useCallback(async (searchParam: ConceptQuery) => {
     if (!searching) {
@@ -129,11 +123,10 @@ const ConceptModal = ({
                 <ButtonV2 onClick={handleRemove}>{t('form.content.concept.remove')}</ButtonV2>
               )}
               <Tabs
-                onSelect={updateSelectedTabIndex}
-                selectedIndex={selectedTabIndex}
                 tabs={[
                   {
                     title: t(`searchForm.types.conceptQuery`),
+                    id: 'concepts',
                     content: (
                       <div>
                         <h2>
@@ -169,6 +162,7 @@ const ConceptModal = ({
                   },
                   {
                     title: t('form.concept.create'),
+                    id: 'newConcept',
                     content: (
                       <ConceptForm
                         onUpserted={addConcept}

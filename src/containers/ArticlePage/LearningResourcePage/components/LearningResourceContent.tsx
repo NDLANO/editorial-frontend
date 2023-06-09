@@ -63,6 +63,7 @@ import { TYPE_FOOTNOTE } from '../../../../components/SlateEditor/plugins/footno
 import { conceptListPlugin } from '../../../../components/SlateEditor/plugins/conceptList';
 import { inlineConceptPlugin } from '../../../../components/SlateEditor/plugins/concept/inline';
 import { blockConceptPlugin } from '../../../../components/SlateEditor/plugins/concept/block';
+import { definitionListPlugin } from '../../../../components/SlateEditor/plugins/definitionList';
 import {
   TYPE_EMBED_AUDIO,
   TYPE_EMBED_BRIGHTCOVE,
@@ -162,6 +163,7 @@ export const plugins = (
     breakPlugin,
     saveHotkeyPlugin(() => handleSubmitRef.current && handleSubmitRef.current()),
     markPlugin,
+    definitionListPlugin,
     listPlugin,
   ];
 };

@@ -10,7 +10,7 @@ import { ButtonV2 } from '@ndla/button';
 import styled from '@emotion/styled';
 import { spacing, colors, fonts } from '@ndla/core';
 import { BookOpen } from '@ndla/icons/common';
-import { Modal, ModalCloseButton, ModalPosition, ModalTitle } from '@ndla/modal';
+import { Modal, ModalCloseButton, ModalPosition, ModalSize, ModalTitle } from '@ndla/modal';
 import Spinner from '../Spinner';
 
 const StyledHeader = styled.div`
@@ -72,6 +72,7 @@ interface Props {
   children: JSX.Element;
   onClose: () => void;
   title: string;
+  height?: ModalSize;
   actions?: {
     text: string;
     onClick: () => void;
@@ -87,11 +88,18 @@ const TaxonomyLightbox = ({
   title,
   onClose,
   wide = false,
+  height,
   actions = [],
   position = 'top',
 }: Props) => {
   return (
-    <Modal onClose={onClose} controlled isOpen position={position} size={wide ? 'large' : 'normal'}>
+    <Modal
+      onClose={onClose}
+      controlled
+      isOpen
+      position={position}
+      size={height ? { height, width: wide ? 'large' : 'normal' } : wide ? 'large' : 'normal'}
+    >
       {(onCloseModal) => (
         <>
           <StyledHeader>

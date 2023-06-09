@@ -27,8 +27,6 @@ describe('Language handling', () => {
   });
 
   it('Can change language and fetch the new concept', () => {
-    cy.get('header button')
-      .contains('Legg til')
-      .click({ force: true });
+    cy.get('header button').contains('Legg til').click({ force: true });
   });
 });

@@ -28,30 +28,20 @@ const StyledListElement = styled.li`
   display: flex;
   align-items: center;
   gap: ${spacing.small};
-  z-index: 0;
-  &[data-dragging='true'] {
-    z-index: 10;
-  }
   &[data-has-handle='false'] {
     cursor: grab;
   }
 `;
+
 const DraggableItem = ({ id, index, children, dragHandle, disabled }: Props) => {
-  const {
-    attributes,
-    setNodeRef,
-    transform,
-    transition,
-    listeners,
-    setActivatorNodeRef,
-    isDragging,
-  } = useSortable({
-    id: id,
-    disabled,
-    data: {
-      index: index,
-    },
-  });
+  const { attributes, setNodeRef, transform, transition, listeners, setActivatorNodeRef } =
+    useSortable({
+      id: id,
+      disabled,
+      data: {
+        index: index,
+      },
+    });
 
   const style = {
     transition,
@@ -70,7 +60,6 @@ const DraggableItem = ({ id, index, children, dragHandle, disabled }: Props) => 
   return (
     <StyledListElement
       ref={setNodeRef}
-      data-dragging={isDragging}
       data-has-handle={!!dragHandle}
       style={style}
       {...attributes}

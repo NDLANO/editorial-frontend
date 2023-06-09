@@ -1071,11 +1071,6 @@ exports[`it goes in and out of edit mode 2`] = `
   -ms-flex-align: center;
   align-items: center;
   gap: 12px;
-  z-index: 0;
-}
-
-.emotion-7[data-dragging='true'] {
-  z-index: 10;
 }
 
 .emotion-7[data-has-handle='false'] {
@@ -1718,7 +1713,6 @@ exports[`it goes in and out of edit mode 2`] = `
             aria-disabled="false"
             aria-roledescription="sortable"
             class="emotion-7"
-            data-dragging="false"
             data-has-handle="false"
             role="button"
             tabindex="0"

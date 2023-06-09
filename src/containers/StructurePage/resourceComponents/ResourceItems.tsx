@@ -115,20 +115,16 @@ const ResourceItems = ({
   };
 
   const onDragEnd = async ({ active, over }: DragEndEvent) => {
-    const [source, destination] = [
-      resources.find((res) => res.id === (active.id as string)),
-      resources.find((res) => res.id === (over?.id as string)),
-    ];
-    if (!destination || !source || source?.rank === destination.rank) {
+    const [source, dest] = [resources[active.data.current?.id], resources[over?.data.current?.id]];
+    if (!dest || !source || source?.rank === dest.rank) {
       return;
     }
 
-    if (!destination) return;
     await updateNodeResource({
       id: source.connectionId,
       body: {
         primary: source.isPrimary,
-        rank: source.rank > destination.rank ? destination.rank : destination.rank + 1,
+        rank: source.rank > dest.rank ? dest.rank : dest.rank + 1,
         relevanceId: source.relevanceId,
       },
       taxonomyVersion,
@@ -143,6 +139,7 @@ const ResourceItems = ({
     <StyledResourceItems>
       <DndList
         items={resources}
+        disabled={resources.length < 2}
         onDragEnd={onDragEnd}
         dragHandle={
           <DragHandle aria-label="Drag">
@@ -156,8 +153,6 @@ const ResourceItems = ({
                 ?.name
             }
             currentNodeId={currentNodeId}
-            id={resource.id}
-            connectionId={resource.connectionId}
             resource={{
               ...resource,
               contentMeta: resource.contentUri ? contentMeta[resource.contentUri] : undefined,

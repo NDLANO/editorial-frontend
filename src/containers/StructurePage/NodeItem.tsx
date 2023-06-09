@@ -10,6 +10,7 @@ import { Spinner } from '@ndla/icons';
 import { DragVertical, Star } from '@ndla/icons/editor';
 import { NodeChild, Node } from '@ndla/types-taxonomy';
 import { DragEndEvent } from '@dnd-kit/core';
+import { useTranslation } from 'react-i18next';
 import Fade from '../../components/Taxonomy/Fade';
 import { createGuard } from '../../util/guards';
 import { nodePathToUrnPath } from '../../util/taxonomyHelpers';
@@ -91,6 +92,7 @@ const NodeItem = ({
   renderBeforeTitle,
   setShowAddTopicModal,
 }: Props) => {
+  const { t } = useTranslation();
   const { userPermissions } = useSession();
   const isTaxonomyAdmin = userPermissions?.includes(TAXONOMY_ADMIN_SCOPE) || false;
   const path = nodePathToUrnPath(item.path);
@@ -186,7 +188,7 @@ const NodeItem = ({
                 />
               )}
               dragHandle={
-                <DragHandle aria-label="Hello">
+                <DragHandle aria-label={t('dragAndDrop.handle')}>
                   <DragVertical />
                 </DragHandle>
               }

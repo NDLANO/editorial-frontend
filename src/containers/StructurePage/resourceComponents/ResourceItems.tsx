@@ -133,7 +133,7 @@ const ResourceItems = ({
         disabled={resources.length < 2}
         onDragEnd={onDragEnd}
         dragHandle={
-          <DragHandle aria-label="Drag">
+          <DragHandle aria-label={t('dragAndDrop.handle')}>
             <DragVertical />
           </DragHandle>
         }

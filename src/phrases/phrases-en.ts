@@ -1822,6 +1822,9 @@ const phrases = {
     },
   },
   delete: 'Delete',
+  dragAndDrop: {
+    handle: 'Drag handle',
+  },
 };
 
 export default phrases;

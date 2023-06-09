@@ -23,7 +23,8 @@ interface Props {
 }
 
 const StyledListElement = styled.li`
-  all: unset;
+  list-style: none;
+  margin: 0;
   display: flex;
   align-items: center;
   gap: ${spacing.small};
@@ -84,7 +85,7 @@ const DraggableItem = ({ id, index, children, dragHandle, disabled }: Props) => 
 const DragHandleButton = styled(IconButtonV2)`
   touch-action: none;
   :disabled {
-    display: none;
+    visibility: hidden;
   }
 `;
 

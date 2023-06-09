@@ -104,12 +104,9 @@ const BoldFont = styled.span`
 
 interface Props {
   currentNodeId: string;
-  connectionId?: string; // required for MakeDndList, otherwise ignored
-  id?: string; // required for MakeDndList, otherwise ignored
   responsible?: string;
   resource: ResourceWithNodeConnectionAndMeta;
   onDelete?: (connectionId: string) => void;
-  updateResource?: (resource: NodeChild) => void;
   contentMetaLoading: boolean;
   className?: string;
 }

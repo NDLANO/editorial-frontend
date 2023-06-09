@@ -99,16 +99,6 @@ const EditRelated = ({
   };
 
   const onDragEnd = (_event: DragEndEvent, items: RelatedContentMetaData[]) => {
-    // if (!over) {
-    //   return;
-    // }
-    // const toIndex = over.data.current.index;
-    // const fromIndex = active.data.current.index;
-    // const newArticles = embeds.slice();
-    //
-    // const element = newArticles[fromIndex];
-    // newArticles.splice(fromIndex, 1);
-    // newArticles.splice(toIndex, 0, element);
     updateArticles(items);
   };
 

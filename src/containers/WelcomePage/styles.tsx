@@ -34,6 +34,9 @@ export const StyledTopRowDashboardInfo = styled.div`
 export const StyledLink = styled(SafeLink)`
   line-height: 1.5em;
   box-shadow: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   &:any-link {
     color: ${colors.brand.primary};
     text-decoration: underline;

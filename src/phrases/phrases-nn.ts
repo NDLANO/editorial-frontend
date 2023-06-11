@@ -136,6 +136,7 @@ const phrases = {
     revisionDate: 'Revisjonsdato',
     welcomeText: 'til ED',
     revisionInfo: 'Vel favorittfag ved å stjernemarkere i strukturredigering',
+    updated: 'Oppdatert',
     workList: {
       title: 'Mine arbeidsoppgåver',
       description: 'Artiklar der du står som ansvarleg',
@@ -144,7 +145,7 @@ const phrases = {
       contentType: 'Innhaldstype',
       primarySubject: 'Primærfag',
       topicRelation: 'Emnetilknytting',
-      date: 'Tildelingsdato',
+      date: 'Tildelt',
       ariaLabel: 'Oversikt over arbeidsoppgåvene og forklaringane mine',
       conceptDescription: 'Forklaringar der du står som ansvarleg',
       conceptSubject: 'Forklaringsfag',

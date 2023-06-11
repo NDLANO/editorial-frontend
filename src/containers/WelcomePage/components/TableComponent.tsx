@@ -20,14 +20,17 @@ const TableWrapper = styled.div`
   overflow-x: auto;
 `;
 
-const StyledTable = styled.table`
+const StyledTable = styled.table<{ minWidth?: string }>`
   font-family: arial, sans-serif;
   border-collapse: separate;
   width: 100%;
+  min-width: ${(props) => props.minWidth};
   border-spacing: 0;
   font-family: ${fonts.sans};
   margin-bottom: 0px;
   display: inline-table;
+  table-layout: fixed;
+
   th {
     font-weight: ${fonts.weight.bold};
     padding: 0px ${spacing.xsmall};
@@ -40,6 +43,9 @@ const StyledTable = styled.table`
   td {
     ${fonts.sizes(16, 1.1)};
     padding: ${spacing.xsmall};
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
   tr:nth-of-type(even) {
     background: ${colors.brand.lightest};
@@ -99,6 +105,7 @@ export type Prefix<P extends string, S extends string> = `${P}${S}` | S;
 export interface TitleElement<T extends string> {
   title: string;
   sortableField?: T;
+  width?: string;
 }
 
 interface Props<T extends string> {
@@ -109,6 +116,7 @@ interface Props<T extends string> {
   noResultsText?: string;
   sortOption?: string;
   error?: string;
+  minWidth?: string;
 }
 
 const TableComponent = <T extends string>({
@@ -119,19 +127,20 @@ const TableComponent = <T extends string>({
   noResultsText,
   sortOption,
   error,
+  minWidth,
 }: Props<T>) => {
   const { t } = useTranslation();
   if (error) return <StyledError>{error}</StyledError>;
 
   return (
     <TableWrapper>
-      <StyledTable>
+      <StyledTable minWidth={minWidth}>
         <thead>
           <tr>
             {tableTitleList.map((tableTitle, index) => (
-              <th key={`${index}_${tableTitle.title}`}>
+              <th key={`${index}_${tableTitle.title}`} style={{ width: tableTitle.width }}>
                 <TableTitleComponent>
-                  <div>{tableTitle.title}</div>
+                  {tableTitle.title}
 
                   <SortArrowWrapper>
                     <Tooltip tooltip={t('welcomePage.workList.sortAsc')}>

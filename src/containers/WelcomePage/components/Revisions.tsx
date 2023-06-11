@@ -62,7 +62,7 @@ const Revisions = ({ userData, ndlaId }: Props) => {
 
   const tableTitles: TitleElement<SortOptionRevision>[] = [
     { title: t('form.article.label'), sortableField: 'title' },
-    { title: t('welcomePage.workList.status'), sortableField: 'status' },
+    { title: t('welcomePage.workList.status'), sortableField: 'status', width: '15%' },
     { title: t('welcomePage.workList.primarySubject') },
     { title: t('welcomePage.revisionDate'), sortableField: 'revisionDate' },
   ];

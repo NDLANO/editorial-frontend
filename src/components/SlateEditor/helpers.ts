@@ -1,5 +1,6 @@
 import { TYPE_ASIDE } from './plugins/aside/types';
 import { TYPE_BODYBOX } from './plugins/bodybox/types';
+import { TYPE_CAMPAIGN_BLOCK } from './plugins/campaignBlock/types';
 import { TYPE_CODEBLOCK } from './plugins/codeBlock/types';
 import { TYPE_CONCEPT_INLINE } from './plugins/concept/inline/types';
 import { TYPE_DETAILS } from './plugins/details/types';
@@ -44,4 +45,5 @@ export const blocks = [
   TYPE_RELATED,
   TYPE_TABLE,
   TYPE_KEY_FIGURE,
+  TYPE_CAMPAIGN_BLOCK,
 ];

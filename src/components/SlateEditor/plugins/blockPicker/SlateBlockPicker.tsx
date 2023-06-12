@@ -20,6 +20,7 @@ import { defaultDetailsBlock } from '../details/utils';
 import { defaultBodyboxBlock } from '../bodybox/utils';
 import { defaultCodeblockBlock } from '../codeBlock/utils';
 import { defaultRelatedBlock } from '../related';
+import { defaultCampaignBlock } from '../campaignBlock/utils';
 import { TYPE_LIST_ITEM } from '../list/types';
 import { defaultConceptListBlock } from '../conceptList/utils';
 import { TYPE_CONCEPT_BLOCK } from '../concept/block/types';
@@ -52,6 +53,7 @@ import { TYPE_CONTACT_BLOCK } from '../contactBlock/types';
 import { TYPE_BLOGPOST } from '../blogPost/types';
 import { defaultBlogPostBlock } from '../blogPost/utils';
 import { defaultContactBlock } from '../contactBlock/utils';
+import { TYPE_CAMPAIGN_BLOCK } from '../campaignBlock/types';
 
 interface Props {
   editor: Editor;
@@ -227,6 +229,10 @@ const SlateBlockPicker = ({
       }
       case TYPE_CONTACT_BLOCK: {
         onInsertBlock(defaultContactBlock());
+        break;
+      }
+      case TYPE_CAMPAIGN_BLOCK: {
+        onInsertBlock(defaultCampaignBlock());
         break;
       }
       default:

@@ -72,6 +72,8 @@ import { TYPE_BLOGPOST } from '../../../../components/SlateEditor/plugins/blogPo
 import { frontpageActions } from '../../../../components/SlateEditor/plugins/blockPicker/actions';
 import { TYPE_KEY_FIGURE } from '../../../../components/SlateEditor/plugins/keyFigure/types';
 import { keyFigurePlugin } from '../../../../components/SlateEditor/plugins/keyFigure';
+import { campaignBlockPlugin } from '../../../../components/SlateEditor/plugins/campaignBlock';
+import { TYPE_CAMPAIGN_BLOCK } from '../../../../components/SlateEditor/plugins/campaignBlock/types';
 
 const StyledFormikField = styled(FormikField)`
   display: flex;
@@ -118,6 +120,7 @@ const actions = [
   TYPE_BLOGPOST,
   TYPE_CONTACT_BLOCK,
   TYPE_KEY_FIGURE,
+  TYPE_CAMPAIGN_BLOCK,
 ].concat(visualElements);
 
 const actionsToShowInAreas = {
@@ -172,6 +175,7 @@ export const plugins = (
     markPlugin,
     listPlugin,
     blogPostPlugin,
+    campaignBlockPlugin,
   ];
 };
 type Props = {

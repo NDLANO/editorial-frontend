@@ -46,6 +46,7 @@ import { conceptListSerializer } from '../components/SlateEditor/plugins/concept
 import { blockConceptSerializer } from '../components/SlateEditor/plugins/concept/block';
 import { keyFigureSerializer } from '../components/SlateEditor/plugins/keyFigure';
 import { contactBlockSerializer } from '../components/SlateEditor/plugins/contactBlock';
+import { campaignBlockSerializer } from '../components/SlateEditor/plugins/campaignBlock';
 
 export const sectionSplitter = (html: string) => {
   const node = document.createElement('div');
@@ -98,6 +99,7 @@ const extendedRules: SlateSerializer[] = [
   codeblockSerializer,
   keyFigureSerializer,
   contactBlockSerializer,
+  campaignBlockSerializer,
   embedSerializer,
   bodyboxSerializer,
   divSerializer,

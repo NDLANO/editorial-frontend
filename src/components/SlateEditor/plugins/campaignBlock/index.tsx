@@ -1,5 +1,5 @@
-/**
- * Copyright (c) 2020-present, NDLA.
+/*
+ * Copyright (c) 2023-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
@@ -7,22 +7,22 @@
  */
 
 import { Descendant, Editor, Element } from 'slate';
-import { RenderElementProps } from 'slate-react';
 import { jsx as slatejsx } from 'slate-hyperscript';
-import { CodeEmbedData } from '@ndla/types-embed';
-import CodeBlock from './CodeBlock';
-import { SlateSerializer } from '../../interfaces';
-import { afterOrBeforeTextBlockElement } from '../../utils/normalizationHelpers';
+import { RenderElementProps } from 'slate-react';
+import { CampaignBlockEmbedData } from '@ndla/types-embed';
 import { createEmbedTagV2, reduceElementDataAttributesV2 } from '../../../../util/embedTagHelpers';
-import { defaultBlockNormalizer, NormalizerConfig } from '../../utils/defaultNormalizer';
-import { TYPE_CODEBLOCK } from './types';
-import { TYPE_PARAGRAPH } from '../paragraph/types';
+import { SlateSerializer } from '../../interfaces';
 import { TYPE_NDLA_EMBED } from '../embed/types';
+import { TYPE_CAMPAIGN_BLOCK } from './types';
+import { defaultBlockNormalizer, NormalizerConfig } from '../../utils/defaultNormalizer';
+import { afterOrBeforeTextBlockElement } from '../../utils/normalizationHelpers';
+import { TYPE_PARAGRAPH } from '../paragraph/types';
+import SlateCampaignBlock from './SlateCampaignBlock';
 
-export interface CodeblockElement {
-  type: 'code-block';
-  data: CodeEmbedData;
-  isFirstEdit: boolean;
+export interface CampaignBlockElement {
+  type: 'campaign-block';
+  data?: CampaignBlockEmbedData;
+  isFirstEdit?: boolean;
   children: Descendant[];
 }
 
@@ -37,25 +37,21 @@ const normalizerConfig: NormalizerConfig = {
   },
 };
 
-export const codeblockSerializer: SlateSerializer = {
+export const campaignBlockSerializer: SlateSerializer = {
   deserialize(el: HTMLElement) {
     if (el.tagName.toLowerCase() !== TYPE_NDLA_EMBED) return;
     const embed = el as HTMLEmbedElement;
     const embedAttributes = reduceElementDataAttributesV2(Array.from(embed.attributes));
-    if (embedAttributes.resource !== 'code-block') return;
-    return slatejsx(
-      'element',
-      { type: TYPE_CODEBLOCK, data: embedAttributes, isFirstEdit: false },
-      [{ text: '' }],
-    );
+    if (embedAttributes.resource !== TYPE_CAMPAIGN_BLOCK) return;
+    return slatejsx('element', { type: TYPE_CAMPAIGN_BLOCK, data: embedAttributes }, { text: '' });
   },
   serialize(node: Descendant) {
-    if (!Element.isElement(node) || node.type !== 'code-block') return;
+    if (!Element.isElement(node) || node.type !== TYPE_CAMPAIGN_BLOCK || !node.data) return;
     return createEmbedTagV2(node.data);
   },
 };
 
-export const codeblockPlugin = (editor: Editor) => {
+export const campaignBlockPlugin = (editor: Editor) => {
   const {
     renderElement: nextRenderElement,
     normalizeNode: nextNormalizeNode,
@@ -63,22 +59,19 @@ export const codeblockPlugin = (editor: Editor) => {
   } = editor;
 
   editor.renderElement = ({ attributes, children, element }: RenderElementProps) => {
-    if (element.type === TYPE_CODEBLOCK) {
+    if (element.type === TYPE_CAMPAIGN_BLOCK) {
       return (
-        <CodeBlock editor={editor} element={element} attributes={attributes}>
+        <SlateCampaignBlock editor={editor} element={element} attributes={attributes}>
           {children}
-        </CodeBlock>
+        </SlateCampaignBlock>
       );
-    } else if (nextRenderElement) {
-      return nextRenderElement({ attributes, children, element });
     }
-    return undefined;
+    return nextRenderElement?.({ attributes, children, element });
   };
 
   editor.normalizeNode = (entry) => {
     const [node] = entry;
-
-    if (Element.isElement(node) && node.type === TYPE_CODEBLOCK) {
+    if (Element.isElement(node) && node.type === TYPE_CAMPAIGN_BLOCK) {
       if (defaultBlockNormalizer(editor, entry, normalizerConfig)) {
         return;
       }
@@ -86,13 +79,7 @@ export const codeblockPlugin = (editor: Editor) => {
     nextNormalizeNode(entry);
   };
 
-  editor.isVoid = (element) => {
-    if (Element.isElement(element) && element.type === TYPE_CODEBLOCK) {
-      return true;
-    } else {
-      return nextIsVoid(element);
-    }
-  };
+  editor.isVoid = (element) => (element.type === TYPE_CAMPAIGN_BLOCK ? true : nextIsVoid(element));
 
   return editor;
 };

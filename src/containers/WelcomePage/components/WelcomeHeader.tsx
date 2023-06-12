@@ -44,7 +44,7 @@ const StyledTitle = styled.h1`
 `;
 
 const StyledSafeLinkButton = styled(SafeLinkButton)`
-  margin-left: ${spacing.xsmall};
+  margin: ${spacing.xsmall};
   font-weight: ${fonts.weight.normal};
   ${fonts.sizes(16, 1.1)};
 `;

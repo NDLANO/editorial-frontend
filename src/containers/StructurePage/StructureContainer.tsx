@@ -130,7 +130,7 @@ const StructureContainer = () => {
     <ErrorBoundary>
       <Wrapper>
         <GridContainer breakpoint={breakpoints.desktop}>
-          <Column colStart={1} colEnd={7}>
+          <Column colEnd={7}>
             <StructureBanner onChange={toggleShowFavorites} checked={showFavorites} />
             <StyledStructureContainer>
               {userDataQuery.isInitialLoading || nodesQuery.isInitialLoading ? (
@@ -154,7 +154,7 @@ const StructureContainer = () => {
               )}
             </StyledStructureContainer>
           </Column>
-          <Column colStart={7} colEnd={13}>
+          <Column colStart={7}>
             {currentNode && isChildNode(currentNode) && (
               <StructureResources
                 currentChildNode={currentNode}

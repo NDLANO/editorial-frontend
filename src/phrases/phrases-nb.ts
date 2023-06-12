@@ -136,6 +136,9 @@ const phrases = {
     revisionDate: 'Revisjonsdato',
     welcomeText: 'til ED',
     revisionInfo: 'Velg favorittfag ved å stjernemarkere i strukturredigering',
+    updated: 'Oppdatert',
+    primaryConnection: 'Vis kun ressurser med primærkobling til mine favorittfag',
+    primaryConnectionLabel: 'Vis kun primærkobling',
     workList: {
       heading: 'Mine arbeidsoppgaver',
       description: 'Artikler hvor du står som ansvarlig',
@@ -144,7 +147,7 @@ const phrases = {
       contentType: 'Innholdstype',
       primarySubject: 'Primærfag',
       topicRelation: 'Emnetilhørighet',
-      date: 'Tildelningsdato',
+      date: 'Tildelt',
       ariaLabel: 'Oversikt over mine arbeidsoppgaver og forklaringer',
       conceptDescription: 'Forklaringer hvor du står som ansvarlig',
       conceptSubject: 'Forklaringsfag',

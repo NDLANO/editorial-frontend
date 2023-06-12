@@ -8,7 +8,7 @@
 
 import styled from '@emotion/styled';
 import { spacing, colors, fonts } from '@ndla/core';
-import { ReactNode } from 'react';
+import { CSSProperties, ReactNode } from 'react';
 import { ExpandLess, ExpandMore } from '@ndla/icons/action';
 import { css } from '@emotion/react';
 import isEmpty from 'lodash/isEmpty';
@@ -20,26 +20,17 @@ const TableWrapper = styled.div`
   overflow-x: auto;
 `;
 
-const StyledTable = styled.table<{ minWidth?: string }>`
+const StyledTable = styled.table`
   font-family: arial, sans-serif;
   border-collapse: separate;
   width: 100%;
-  min-width: ${(props) => props.minWidth};
+  min-width: var(--table-min-width);
   border-spacing: 0;
   font-family: ${fonts.sans};
   margin-bottom: 0px;
   display: inline-table;
   table-layout: fixed;
 
-  th {
-    font-weight: ${fonts.weight.bold};
-    padding: 0px ${spacing.xsmall};
-    border-bottom: 1px solid ${colors.text.primary};
-    background-color: ${colors.brand.lighter};
-  }
-  th:not(:first-of-type) {
-    border-left: 1px solid ${colors.text.primary};
-  }
   td {
     ${fonts.sizes(16, 1.1)};
     padding: ${spacing.xsmall};
@@ -53,6 +44,18 @@ const StyledTable = styled.table<{ minWidth?: string }>`
   thead tr th {
     position: sticky;
     top: 0;
+  }
+`;
+
+const StyledTableHeader = styled.th`
+  font-weight: ${fonts.weight.bold};
+  padding: 0px ${spacing.xsmall};
+  border-bottom: 1px solid ${colors.text.primary};
+  background-color: ${colors.brand.lighter};
+  width: var(--header-width);
+
+  :not(:first-of-type) {
+    border-left: 1px solid ${colors.text.primary};
   }
 `;
 
@@ -138,11 +141,14 @@ const TableComponent = <T extends string>({
 
   return (
     <TableWrapper>
-      <StyledTable minWidth={minWidth}>
+      <StyledTable style={{ '--table-min-width': minWidth } as CSSProperties}>
         <thead>
           <tr>
             {tableTitleList.map((tableTitle, index) => (
-              <th key={`${index}_${tableTitle.title}`} style={{ width: tableTitle.width }}>
+              <StyledTableHeader
+                key={`${index}_${tableTitle.title}`}
+                style={{ '--header-width': tableTitle.width } as CSSProperties}
+              >
                 <TableTitleComponent>
                   {tableTitle.title}
 
@@ -172,7 +178,7 @@ const TableComponent = <T extends string>({
                     </Tooltip>
                   </SortArrowWrapper>
                 </TableTitleComponent>
-              </th>
+              </StyledTableHeader>
             ))}
           </tr>
         </thead>

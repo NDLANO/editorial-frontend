@@ -16,7 +16,7 @@ import { colors, spacing, fonts } from '@ndla/core';
 import { Link } from 'react-router-dom';
 import { toLogoutSession, toLogin } from '../../../util/routeHelpers';
 import { getAccessTokenPersonal } from '../../../util/authHelpers';
-import StyledListButton from '../../../components/StyledListButton';
+import { styledListElement } from '../../../components/StyledListElement/StyledListElement';
 import Overlay from '../../../components/Overlay';
 import { StyledDropdownOverlay } from '../../../components/Dropdown';
 import { useSession } from '../../Session/SessionProvider';
@@ -37,8 +37,6 @@ const StyledUserButton = styled(ButtonV2)`
   }
 `;
 
-const StyledLink = StyledListButton.withComponent(Link);
-
 interface AuthSiteNavItemProps {
   logoutText: string;
   onClick: () => void;
@@ -46,9 +44,9 @@ interface AuthSiteNavItemProps {
 
 const AuthSiteNavItem = ({ logoutText, onClick }: AuthSiteNavItemProps) => (
   <StyledDropdownOverlay withArrow>
-    <StyledLink to={toLogoutSession()} onClick={onClick}>
+    <Link css={styledListElement} to={toLogoutSession()} onClick={onClick}>
       {logoutText}
-    </StyledLink>
+    </Link>
   </StyledDropdownOverlay>
 );
 

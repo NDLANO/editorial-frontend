@@ -15,7 +15,7 @@ import { spacing } from '@ndla/core';
 import { RESOURCE_FILTER_CORE, RESOURCE_FILTER_SUPPLEMENTARY } from '../../constants';
 
 const StyledSwitch = styled(Switch)`
-  margin-left: -${spacing.small};
+  margin-left: -${spacing.nsmall};
 `;
 
 interface Props {

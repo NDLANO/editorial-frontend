@@ -47,10 +47,16 @@ import { DivElement } from './plugins/div';
 import { SpanElement } from './plugins/span';
 import { ConceptListElement } from './plugins/conceptList';
 import { ConceptBlockElement } from './plugins/concept/block/interfaces';
+import {
+  DefinitionDescriptionElement,
+  DefinitionListElement,
+  DefinitionTermElement,
+} from './plugins/definitionList';
 import { KeyFigureElement } from './plugins/keyFigure';
 import { ContactBlockElement } from './plugins/contactBlock';
 import { BlogPostElement } from './plugins/blogPost/types';
 import { CampaignBlockElement } from './plugins/campaignBlock';
+import { GridCellElement, GridElement } from './plugins/grid';
 
 export type SlatePlugin = (editor: Editor) => Editor;
 
@@ -111,9 +117,14 @@ declare module 'slate' {
       | DivElement
       | SpanElement
       | ConceptListElement
+      | DefinitionListElement
+      | DefinitionDescriptionElement
+      | DefinitionTermElement
+      | BlogPostElement
+      | GridElement
+      | GridCellElement
       | KeyFigureElement
       | ContactBlockElement
-      | BlogPostElement
       | CampaignBlockElement;
     Text: CustomTextWithMarks;
   }

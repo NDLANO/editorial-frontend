@@ -53,6 +53,7 @@ const LastUsedConcepts = ({
               {a.title.title}
             </StyledLink>
           ),
+          title: a.title.title,
         },
         { id: `lastUpdated_${a.id}`, data: formatDate(a.lastUpdated) },
       ]) ?? [[]],
@@ -74,6 +75,7 @@ const LastUsedConcepts = ({
         sortOption={sortOption}
         error={error}
         noResultsText={t('welcomePage.emptyLastUsed')}
+        minWidth="250px"
       />
       <Pager
         page={page}

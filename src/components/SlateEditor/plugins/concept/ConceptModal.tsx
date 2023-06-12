@@ -26,7 +26,6 @@ import Pager from '@ndla/pager';
 
 import { searchConcepts } from '../../../../modules/concept/conceptApi';
 import SearchForm from '../../../../containers/SearchPage/components/form/SearchForm';
-import { Portal } from '../../../Portal';
 import SearchConceptResults from './SearchConceptResults';
 import ConceptForm from '../../../../containers/ConceptPage/ConceptForm/ConceptForm';
 import { ConceptQuery } from '../../../../modules/concept/conceptApiInterfaces';
@@ -78,13 +77,7 @@ const ConceptModal = ({
     results: [],
     totalCount: 0,
   });
-  const [selectedTabIndex, setSelectedTabIndex] = useState(0);
   const [searching, setSearching] = useState(false);
-
-  const updateSelectedTabIndex = (index: number) => {
-    //Added function because of hooks second argument warning.
-    setSelectedTabIndex(index);
-  };
 
   const searchConcept = useCallback(async (searchParam: ConceptQuery) => {
     if (!searching) {
@@ -111,86 +104,84 @@ const ConceptModal = ({
     [searchConcept],
   );
   return (
-    <Portal isOpened>
-      <Modal
-        aria-label={t('conceptform.title')}
-        controlled
-        isOpen={isOpen}
-        onClose={onClose}
-        size={{ width: 'large', height: 'large' }}
-      >
-        {() => (
-          <div>
-            <ModalHeader>
-              <ModalCloseButton title={t('dialog.close')} onClick={onClose} />
-            </ModalHeader>
-            <ModalBody>
-              {concept?.id && (
-                <ButtonV2 onClick={handleRemove}>{t('form.content.concept.remove')}</ButtonV2>
-              )}
-              <Tabs
-                onSelect={updateSelectedTabIndex}
-                selectedIndex={selectedTabIndex}
-                tabs={[
-                  {
-                    title: t(`searchForm.types.conceptQuery`),
-                    content: (
-                      <div>
-                        <h2>
-                          <Search className="c-icon--medium" />
-                          {t(`searchPage.header.concept`)}
-                        </h2>
-                        <SearchForm
-                          type={type}
-                          search={(params) => {
-                            updateSearchObject(params);
-                            debouncedSearchConcept(params);
-                          }}
-                          searchObject={searchObject}
-                          locale={locale}
-                          subjects={subjects}
-                        />
-                        <SearchConceptResults
-                          searchObject={searchObject}
-                          results={results.results}
-                          searching={searching}
-                          addConcept={addConcept}
-                        />
-                        <Pager
-                          query={searchObject}
-                          page={results.page ?? 1}
-                          pathname=""
-                          lastPage={Math.ceil(results.totalCount / results.pageSize)}
-                          onClick={searchConcept}
-                          pageItemComponentClass="button"
-                        />
-                      </div>
-                    ),
-                  },
-                  {
-                    title: t('form.concept.create'),
-                    content: (
-                      <ConceptForm
-                        onUpserted={addConcept}
-                        inModal
-                        onClose={onClose}
+    <Modal
+      aria-label={t('conceptform.title')}
+      controlled
+      isOpen={isOpen}
+      onClose={onClose}
+      size={{ width: 'large', height: 'large' }}
+    >
+      {() => (
+        <div>
+          <ModalHeader>
+            <ModalCloseButton title={t('dialog.close')} onClick={onClose} />
+          </ModalHeader>
+          <ModalBody>
+            {concept?.id && (
+              <ButtonV2 onClick={handleRemove}>{t('form.content.concept.remove')}</ButtonV2>
+            )}
+            <Tabs
+              tabs={[
+                {
+                  title: t(`searchForm.types.conceptQuery`),
+                  id: 'concepts',
+                  content: (
+                    <div>
+                      <h2>
+                        <Search className="c-icon--medium" />
+                        {t(`searchPage.header.concept`)}
+                      </h2>
+                      <SearchForm
+                        type={type}
+                        search={(params) => {
+                          updateSearchObject(params);
+                          debouncedSearchConcept(params);
+                        }}
+                        searchObject={searchObject}
+                        locale={locale}
                         subjects={subjects}
-                        upsertProps={upsertProps}
-                        language={locale}
-                        fetchConceptTags={fetchSearchTags}
-                        concept={concept}
-                        conceptArticles={conceptArticles}
-                        initialTitle={selectedText}
                       />
-                    ),
-                  },
-                ]}
-              />
-            </ModalBody>
-          </div>
-        )}
-      </Modal>
-    </Portal>
+                      <SearchConceptResults
+                        searchObject={searchObject}
+                        results={results.results}
+                        searching={searching}
+                        addConcept={addConcept}
+                      />
+                      <Pager
+                        query={searchObject}
+                        page={results.page ?? 1}
+                        pathname=""
+                        lastPage={Math.ceil(results.totalCount / results.pageSize)}
+                        onClick={searchConcept}
+                        pageItemComponentClass="button"
+                      />
+                    </div>
+                  ),
+                },
+                {
+                  title: t('form.concept.create'),
+                  id: 'newConcept',
+                  content: (
+                    <ConceptForm
+                      onUpserted={addConcept}
+                      inModal
+                      onClose={onClose}
+                      subjects={subjects}
+                      upsertProps={upsertProps}
+                      language={locale}
+                      fetchConceptTags={fetchSearchTags}
+                      concept={concept}
+                      conceptArticles={conceptArticles}
+                      initialTitle={selectedText}
+                    />
+                  ),
+                },
+              ]}
+            />
+          </ModalBody>
+        </div>
+      )}
+    </Modal>
   );
 };
 

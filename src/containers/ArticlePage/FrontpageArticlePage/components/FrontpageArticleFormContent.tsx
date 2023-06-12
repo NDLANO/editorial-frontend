@@ -55,6 +55,7 @@ import { spanPlugin } from '../../../../components/SlateEditor/plugins/span';
 import { conceptListPlugin } from '../../../../components/SlateEditor/plugins/conceptList';
 import { inlineConceptPlugin } from '../../../../components/SlateEditor/plugins/concept/inline';
 import { blockConceptPlugin } from '../../../../components/SlateEditor/plugins/concept/block';
+import { definitionListPlugin } from '../../../../components/SlateEditor/plugins/definitionList';
 import { TYPE_TABLE } from '../../../../components/SlateEditor/plugins/table/types';
 import { TYPE_CODEBLOCK } from '../../../../components/SlateEditor/plugins/codeBlock/types';
 import {
@@ -70,6 +71,8 @@ import { TYPE_CONTACT_BLOCK } from '../../../../components/SlateEditor/plugins/c
 import { blogPostPlugin } from '../../../../components/SlateEditor/plugins/blogPost';
 import { TYPE_BLOGPOST } from '../../../../components/SlateEditor/plugins/blogPost/types';
 import { frontpageActions } from '../../../../components/SlateEditor/plugins/blockPicker/actions';
+import { gridPlugin } from '../../../../components/SlateEditor/plugins/grid';
+import { TYPE_GRID } from '../../../../components/SlateEditor/plugins/grid/types';
 import { TYPE_KEY_FIGURE } from '../../../../components/SlateEditor/plugins/keyFigure/types';
 import { keyFigurePlugin } from '../../../../components/SlateEditor/plugins/keyFigure';
 import { campaignBlockPlugin } from '../../../../components/SlateEditor/plugins/campaignBlock';
@@ -117,21 +120,17 @@ const actions = [
   TYPE_TABLE,
   TYPE_CODEBLOCK,
   TYPE_FILE,
-  TYPE_BLOGPOST,
   TYPE_CONTACT_BLOCK,
+  TYPE_GRID,
+  TYPE_BLOGPOST,
   TYPE_KEY_FIGURE,
   TYPE_CAMPAIGN_BLOCK,
 ].concat(visualElements);
 
 const actionsToShowInAreas = {
-  details: actions,
-  aside: actions,
-  bodybox: actions,
-  summary: actions,
-  list: actions,
-  'list-item': actions,
-  table: ['image'],
-  paragraph: actions,
+  'table-cell': [TYPE_EMBED_IMAGE],
+  section: actions,
+  'grid-cell': [TYPE_EMBED_IMAGE, TYPE_KEY_FIGURE, TYPE_BLOGPOST],
 };
 
 // Plugins are checked from last to first
@@ -173,7 +172,9 @@ export const plugins = (
     breakPlugin,
     saveHotkeyPlugin(() => handleSubmitRef.current && handleSubmitRef.current()),
     markPlugin,
+    definitionListPlugin,
     listPlugin,
+    gridPlugin,
     blogPostPlugin,
     campaignBlockPlugin,
   ];

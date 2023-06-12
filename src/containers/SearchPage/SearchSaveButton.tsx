@@ -14,7 +14,6 @@ import { parse, stringify } from 'query-string';
 import { getAccessToken, getAccessTokenPersonal } from '../../util/authHelpers';
 import { isValid } from '../../util/jwtHelper';
 import SaveButton from '../../components/SaveButton';
-import { getSavedSearchRelativeUrl } from '../WelcomePage/components/SaveSearchUrl';
 import { useUpdateUserDataMutation, useUserData } from '../../modules/draft/draftQueries';
 
 type Error = 'alreadyExist' | 'other' | 'fetchFailed' | '';
@@ -31,6 +30,11 @@ const WarningText = styled.div`
   ${fonts.sizes(14, 1.1)};
   margin: ${spacing.xsmall} 0;
 `;
+
+const getSavedSearchRelativeUrl = (inputValue: string) => {
+  const relativeUrl = inputValue.split('search')[1];
+  return '/search'.concat(relativeUrl);
+};
 
 const createSearchString = (location: Location) => {
   const searchObject = parse(location.search);
@@ -77,7 +81,7 @@ const SearchSaveButton = () => {
     }
 
     const newSearch = createSearchString(window.location);
-    const newSearchList = [...oldSearchList, getSavedSearchRelativeUrl(newSearch)];
+    const newSearchList = [getSavedSearchRelativeUrl(newSearch), ...oldSearchList];
     if (!oldSearchList.find((s) => s === getSavedSearchRelativeUrl(newSearch))) {
       mutateAsync({ savedSearches: newSearchList })
         .then(() => handleSuccess())

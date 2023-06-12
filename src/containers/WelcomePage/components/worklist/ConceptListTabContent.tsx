@@ -109,10 +109,12 @@ const ConceptListTabContent = ({
               {res.title}
             </StyledLink>
           ),
+          title: res.title,
         },
         {
           id: `status_${res.id}`,
           data: <StatusCell status={res.status} />,
+          title: t(`form.status.${res.status.current.toLowerCase()}`),
         },
         {
           id: `concept_subject_${res.id}`,
@@ -123,7 +125,7 @@ const ConceptListTabContent = ({
           data: res.lastUpdated,
         },
       ]),
-    [conceptData],
+    [conceptData, t],
   );
 
   const subjectList = useMemo(
@@ -136,10 +138,14 @@ const ConceptListTabContent = ({
   );
 
   const tableTitles: TitleElement<SortOption>[] = [
-    { title: t('welcomePage.workList.name'), sortableField: 'title' },
-    { title: t('welcomePage.workList.status'), sortableField: 'status' },
+    { title: t('welcomePage.workList.title'), sortableField: 'title' },
+    { title: t('welcomePage.workList.status'), sortableField: 'status', width: '20%' },
     { title: t('welcomePage.workList.conceptSubject') },
-    { title: t('welcomePage.workList.date'), sortableField: 'responsibleLastUpdated' },
+    {
+      title: t('welcomePage.workList.date'),
+      sortableField: 'responsibleLastUpdated',
+      width: '10%',
+    },
   ];
 
   const lastPage = data?.totalCount ? Math.ceil(data?.totalCount / (data.pageSize ?? 1)) : 1;
@@ -148,7 +154,7 @@ const ConceptListTabContent = ({
     <>
       <StyledTopRowDashboardInfo>
         <TableTitle
-          title={t('welcomePage.workList.title')}
+          title={t('welcomePage.workList.heading')}
           description={t('welcomePage.workList.conceptDescription')}
           Icon={Calendar}
         />

@@ -17,23 +17,17 @@ describe('Table plugin', () => {
     cy.get('[data-slate-editor=true][contentEditable=true]').should('exist');
     cy.get('[data-slate-node=element] > p').clear();
     cy.get('[data-slate-node=element] > p').should('exist');
-    cy.get('[data-slate-node=element] > p')
-      .should('be.visible')
-      .first()
-      .click()
-      .clear();
+    cy.get('[data-slate-node=element] > p').should('be.visible').first().click().clear();
     cy.get('[data-cy=slate-block-picker]').click();
     cy.get('[data-cy="slate-block-picker-menu"]').should('be.visible');
   });
 
   it('all table functions work', () => {
-    cy.get('[data-cy=create-table]')
-      .last()
-      .click({ force: true });
+    cy.get('[data-cy=create-table]').last().click({ force: true });
     cy.get('[data-cy=slate-editor] [data-slate-editor=true]')
       .first()
       .focus()
-      .then($el => {
+      .then(($el) => {
         cy.wrap($el).type(
           'TITTEL{rightarrow}{downarrow}{downarrow}TEST{uparrow}TEST2{uparrow}TEST3',
           {

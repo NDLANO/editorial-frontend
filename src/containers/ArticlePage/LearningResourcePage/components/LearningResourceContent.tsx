@@ -63,6 +63,7 @@ import { TYPE_FOOTNOTE } from '../../../../components/SlateEditor/plugins/footno
 import { conceptListPlugin } from '../../../../components/SlateEditor/plugins/conceptList';
 import { inlineConceptPlugin } from '../../../../components/SlateEditor/plugins/concept/inline';
 import { blockConceptPlugin } from '../../../../components/SlateEditor/plugins/concept/block';
+import { definitionListPlugin } from '../../../../components/SlateEditor/plugins/definitionList';
 import {
   TYPE_EMBED_AUDIO,
   TYPE_EMBED_BRIGHTCOVE,
@@ -73,7 +74,6 @@ import {
 import { TYPE_TABLE } from '../../../../components/SlateEditor/plugins/table/types';
 import { TYPE_CODEBLOCK } from '../../../../components/SlateEditor/plugins/codeBlock/types';
 import { TYPE_FILE } from '../../../../components/SlateEditor/plugins/file/types';
-import { blogPostPlugin } from '../../../../components/SlateEditor/plugins/blogPost';
 
 const StyledFormikField = styled(FormikField)`
   display: flex;
@@ -122,10 +122,7 @@ const actionsToShowInAreas = {
   details: actions,
   aside: actions,
   bodybox: actions,
-  summary: actions,
-  list: actions,
-  'list-item': actions,
-  table: ['image'],
+  'table-cell': ['image'],
 };
 
 // Plugins are checked from last to first
@@ -166,6 +163,7 @@ export const plugins = (
     breakPlugin,
     saveHotkeyPlugin(() => handleSubmitRef.current && handleSubmitRef.current()),
     markPlugin,
+    definitionListPlugin,
     listPlugin,
   ];
 };

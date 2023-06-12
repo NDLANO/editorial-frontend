@@ -29,6 +29,7 @@ interface Props extends RenderElementProps {
 const BlogPostWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
 `;
 
 const ButtonContainer = styled.div`

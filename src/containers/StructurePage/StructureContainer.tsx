@@ -28,6 +28,8 @@ import config from '../../config';
 import { createGuard } from '../../util/guards';
 import { GridContainer, Column } from '../../components/Layout/Layout';
 import StructureBanner from './StructureBanner';
+import PlannedResourceForm from './plannedResource/PlannedResourceForm';
+import AddResourceModal from './plannedResource/AddResourceModal';
 
 const StructureWrapper = styled.ul`
   margin: 0;
@@ -55,7 +57,7 @@ const StructureContainer = () => {
   const subtopics = joinedRest.length > 0 ? joinedRest : undefined;
   const params = { subject, topic, subtopics };
   const navigate = useNavigate();
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
   const [currentNode, setCurrentNode] = useState<Node | undefined>(undefined);
   const [shouldScroll, setShouldScroll] = useState(!!paths.length);
@@ -64,6 +66,7 @@ const StructureContainer = () => {
   const [showFavorites, setShowFavorites] = useState(
     window.localStorage.getItem(REMEMBER_FAVORITE_NODES) === 'true',
   );
+  const [showAddTopicModal, setShowAddTopicModal] = useState(false);
 
   const resourceSection = useRef<HTMLDivElement>(null);
   const firstRender = useRef(true);
@@ -76,7 +79,7 @@ const StructureContainer = () => {
     }, {}) ?? {};
   const favoriteNodeIds = Object.keys(favoriteNodes);
   const nodesQuery = useNodes(
-    { language: i18n.language, isRoot: true, taxonomyVersion },
+    { language: i18n.language, nodeType: 'SUBJECT', taxonomyVersion },
     {
       select: (nodes) => nodes.sort((a, b) => a.name?.localeCompare(b.name)),
       placeholderData: [],
@@ -127,7 +130,7 @@ const StructureContainer = () => {
     <ErrorBoundary>
       <Wrapper>
         <GridContainer breakpoint={breakpoints.desktop}>
-          <Column colStart={1} colEnd={7}>
+          <Column colEnd={7}>
             <StructureBanner onChange={toggleShowFavorites} checked={showFavorites} />
             <StyledStructureContainer>
               {userDataQuery.isInitialLoading || nodesQuery.isInitialLoading ? (
@@ -144,22 +147,37 @@ const StructureContainer = () => {
                       key={node.id}
                       node={node}
                       toggleOpen={handleStructureToggle}
+                      setShowAddTopicModal={setShowAddTopicModal}
                     />
                   ))}
                 </StructureWrapper>
               )}
             </StyledStructureContainer>
           </Column>
-          <Column colStart={7} colEnd={13}>
+          <Column colStart={7}>
             {currentNode && isChildNode(currentNode) && (
               <StructureResources
                 currentChildNode={currentNode}
                 setCurrentNode={setCurrentNode}
                 resourceRef={resourceSection}
+                userData={userDataQuery.data}
               />
             )}
           </Column>
         </GridContainer>
+        {showAddTopicModal && (
+          <AddResourceModal
+            onClose={() => setShowAddTopicModal(false)}
+            title={t('taxonomy.addTopicHeader')}
+          >
+            <PlannedResourceForm
+              onClose={() => setShowAddTopicModal(false)}
+              articleType="topic-article"
+              node={currentNode}
+              userData={userDataQuery.data}
+            />
+          </AddResourceModal>
+        )}
         {config.versioningEnabled === 'true' && isTaxonomyAdmin && <StickyVersionSelector />}
         <Footer showLocaleSelector />
       </Wrapper>

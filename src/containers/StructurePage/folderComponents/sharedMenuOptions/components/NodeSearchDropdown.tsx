@@ -16,12 +16,20 @@ interface Props {
   filter?: (node: Node) => boolean;
   onChange: (node: Node) => void;
   searchNodeType?: NodeType;
+  id?: string;
 }
-const NodeSearchDropdown = ({ placeholder, filter, onChange, searchNodeType = 'TOPIC' }: Props) => {
+const NodeSearchDropdown = ({
+  placeholder,
+  filter,
+  onChange,
+  searchNodeType = 'TOPIC',
+  id = 'search-dropdown',
+}: Props) => {
   const { taxonomyVersion } = useTaxonomyVersion();
 
   return (
     <SearchDropdown
+      id={id}
       onChange={onChange}
       placeholder={placeholder}
       useQuery={useSearchNodes}

@@ -29,6 +29,7 @@ interface Props extends RenderElementProps {
 const BlogPostWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
 `;
 
 const ButtonContainer = styled.div`
@@ -39,7 +40,7 @@ const ButtonContainer = styled.div`
 
 const imageUrl = `${config.ndlaApiUrl}/image-api/raw/id/`;
 
-const SlateBlogPost = ({ element, editor }: Props) => {
+const SlateBlogPost = ({ element, editor, attributes, children }: Props) => {
   const { t } = useTranslation();
   const [isEditing, setIsEditing] = useState(element.isFirstEdit);
   const { data } = element;
@@ -93,7 +94,7 @@ const SlateBlogPost = ({ element, editor }: Props) => {
   `;
 
   return (
-    <>
+    <div {...attributes}>
       {data && (
         <BlogPostWrapper contentEditable={false}>
           <ButtonContainer>
@@ -133,7 +134,8 @@ const SlateBlogPost = ({ element, editor }: Props) => {
           )}
         </Modal>
       )}
-    </>
+      {children}
+    </div>
   );
 };
 

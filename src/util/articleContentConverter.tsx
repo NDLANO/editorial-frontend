@@ -9,7 +9,7 @@ import { cloneElement } from 'react';
 import escapeHtml from 'escape-html';
 import compact from 'lodash/compact';
 import toArray from 'lodash/toArray';
-import { Descendant, Element, Node, Text } from 'slate';
+import { Descendant, Node, Text } from 'slate';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { Plain } from './slatePlainSerializer';
 import { convertFromHTML } from './convertFromHTML';
@@ -44,6 +44,9 @@ import { TYPE_PARAGRAPH } from '../components/SlateEditor/plugins/paragraph/type
 import { TYPE_SECTION } from '../components/SlateEditor/plugins/section/types';
 import { conceptListSerializer } from '../components/SlateEditor/plugins/conceptList';
 import { blockConceptSerializer } from '../components/SlateEditor/plugins/concept/block';
+import { definitionListSerializer } from '../components/SlateEditor/plugins/definitionList';
+import { gridSerializer } from '../components/SlateEditor/plugins/grid';
+import { keyFigureSerializer } from '../components/SlateEditor/plugins/keyFigure';
 import { contactBlockSerializer } from '../components/SlateEditor/plugins/contactBlock';
 
 export const sectionSplitter = (html: string) => {
@@ -83,6 +86,7 @@ const extendedRules: SlateSerializer[] = [
   blockQuoteSerializer,
   headingSerializer,
   listSerializer,
+  definitionListSerializer,
   footnoteSerializer,
   mathmlSerializer,
   conceptListSerializer,
@@ -93,8 +97,10 @@ const extendedRules: SlateSerializer[] = [
   detailsSerializer,
   tableSerializer,
   relatedSerializer,
+  gridSerializer,
   blogPostSerializer,
   codeblockSerializer,
+  keyFigureSerializer,
   contactBlockSerializer,
   embedSerializer,
   bodyboxSerializer,
@@ -112,6 +118,7 @@ const commonRules: SlateSerializer[] = [
   blockQuoteSerializer,
   headingSerializer,
   listSerializer,
+  definitionListSerializer,
   footnoteSerializer,
   mathmlSerializer,
   inlineConceptSerializer,

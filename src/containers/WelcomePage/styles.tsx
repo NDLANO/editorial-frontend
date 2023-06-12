@@ -54,7 +54,7 @@ export const DropdownWrapper = styled.div`
 export const ControlWrapperDashboard = styled.div`
   display: flex;
   gap: ${spacing.small};
-  ${mq.range({ until: breakpoints.desktop })} {
+  ${mq.range({ until: breakpoints.tablet })} {
     flex-direction: column;
   }
 `;

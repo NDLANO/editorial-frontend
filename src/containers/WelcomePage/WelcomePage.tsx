@@ -8,16 +8,13 @@
 
 import { useTranslation } from 'react-i18next';
 import { HelmetWithTracker } from '@ndla/tracker';
-import { SearchFolder } from '@ndla/icons/editor';
 import styled from '@emotion/styled';
 import { useMemo } from 'react';
-import { breakpoints } from '@ndla/core';
+import { breakpoints, spacing } from '@ndla/core';
 import { getAccessToken, getAccessTokenPersonal } from '../../util/authHelpers';
-import SaveSearchUrl from './components/SaveSearchUrl';
 import { isValid } from '../../util/jwtHelper';
 import Footer from '../App/components/Footer';
 import LastUsedItems from './components/LastUsedItems';
-import { StyledColumnHeader } from './styles';
 import { useUserData } from '../../modules/draft/draftQueries';
 import WorkList from './components/worklist/WorkList';
 import WelcomeHeader from './components/WelcomeHeader';
@@ -29,6 +26,7 @@ export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  gap: ${spacing.small};
   flex: 1;
 `;
 
@@ -61,17 +59,8 @@ export const WelcomePage = () => {
               lastUsedConcepts={data?.latestEditedConcepts}
             />
           )}
-          {ndlaId && (
-            <>
-              <StyledColumnHeader>
-                <SearchFolder className="c-icon--medium" />
-                <span>{t('welcomePage.savedSearch')}</span>
-              </StyledColumnHeader>
-              <SaveSearchUrl />
-            </>
-          )}
         </Column>
-        <Column colStart={6}>{ndlaId && <Revisions ndlaId={ndlaId} userData={data} />}</Column>
+        <Column colStart={6}>{ndlaId && <Revisions userData={data} />}</Column>
       </GridContainer>
 
       <Footer showLocaleSelector />

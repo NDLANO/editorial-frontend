@@ -7,7 +7,7 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { memo, useEffect, useMemo, useState } from 'react';
+import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { IUserData } from '@ndla/types-backend/draft-api';
 import { Alarm } from '@ndla/icons/common';
 import addYears from 'date-fns/addYears';
@@ -15,7 +15,10 @@ import { Select, SingleValue } from '@ndla/select';
 import Pager from '@ndla/pager';
 import sortBy from 'lodash/sortBy';
 import styled from '@emotion/styled';
-import { mq, breakpoints } from '@ndla/core';
+import { mq, breakpoints, spacing, fonts } from '@ndla/core';
+import { IMultiSearchSummary } from '@ndla/types-backend/search-api';
+import { Switch } from '@ndla/switch';
+import Tooltip from '@ndla/tooltip';
 import {
   ControlWrapperDashboard,
   DropdownWrapper,
@@ -41,18 +44,41 @@ const RevisionsWrapper = styled.div`
   }
 `;
 
+const SwitchWrapper = styled.div`
+  margin-top: ${spacing.small};
+  & button {
+    margin-left: auto;
+  }
+`;
+
+const StyledSwitch = styled(Switch)`
+  white-space: nowrap;
+  label {
+    font-size: ${fonts.sizes('16px')};
+    margin-left: auto;
+  }
+`;
+
+const StyledRevisionControls = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const getLastPage = (totalCount: number, pageSize: number) =>
+  Math.ceil(totalCount / (pageSize ?? 1));
+
 interface Props {
   userData: IUserData | undefined;
-  ndlaId: string | undefined;
 }
 
 type SortOptionRevision = 'title' | 'revisionDate' | 'status';
 
-const Revisions = ({ userData, ndlaId }: Props) => {
+const Revisions = ({ userData }: Props) => {
   const [filterSubject, setFilterSubject] = useState<SingleValue | undefined>(undefined);
   const [sortOption, setSortOption] = useState<Prefix<'-', SortOptionRevision>>('revisionDate');
   const [error, setError] = useState<string | undefined>(undefined);
   const [page, setPage] = useState(1);
+  const [checked, setChecked] = useState(false);
 
   const {
     t,
@@ -61,7 +87,7 @@ const Revisions = ({ userData, ndlaId }: Props) => {
   const { taxonomyVersion } = useTaxonomyVersion();
 
   const tableTitles: TitleElement<SortOptionRevision>[] = [
-    { title: t('form.article.label'), sortableField: 'title' },
+    { title: t('form.name.title'), sortableField: 'title' },
     { title: t('welcomePage.workList.status'), sortableField: 'status', width: '15%' },
     { title: t('welcomePage.workList.primarySubject') },
     { title: t('welcomePage.revisionDate'), sortableField: 'revisionDate' },
@@ -107,7 +133,36 @@ const Revisions = ({ userData, ndlaId }: Props) => {
     [subjectData],
   );
 
-  const lastPage = data?.totalCount ? Math.ceil(data?.totalCount / (data.pageSize ?? 1)) : 1;
+  const getDataPrimaryConnectionToFavorite = useCallback(
+    (results: IMultiSearchSummary[] | undefined) => {
+      const filteredResult = results
+        ?.map((r) => {
+          const primarySubject = r.contexts.find((c) => c.isPrimary);
+          const isFavorite = userData?.favoriteSubjects?.some(
+            (fs) => fs === primarySubject?.rootId,
+          );
+          return isFavorite ? r : undefined;
+        })
+        .filter((fd): fd is IMultiSearchSummary => !!fd);
+
+      return { results: filteredResult, totalCount: filteredResult?.length ?? 0, pageSize: 6 };
+    },
+    [userData?.favoriteSubjects],
+  );
+
+  const filteredData = useMemo(
+    () =>
+      checked
+        ? getDataPrimaryConnectionToFavorite(data?.results)
+        : { results: data?.results, totalCount: data?.totalCount, pageSize: data?.pageSize ?? 6 },
+    [checked, data?.pageSize, data?.results, data?.totalCount, getDataPrimaryConnectionToFavorite],
+  );
+
+  const lastPage = useMemo(
+    () =>
+      filteredData.totalCount ? getLastPage(filteredData.totalCount, filteredData.pageSize) : 1,
+    [filteredData.pageSize, filteredData.totalCount],
+  );
 
   useEffect(() => {
     setPage(1);
@@ -115,7 +170,7 @@ const Revisions = ({ userData, ndlaId }: Props) => {
 
   const tableData: FieldElement[][] = useMemo(
     () =>
-      data?.results?.map((a) => [
+      filteredData.results?.map((a) => [
         {
           id: `title_${a.id}`,
           data: (
@@ -139,7 +194,7 @@ const Revisions = ({ userData, ndlaId }: Props) => {
             : null,
         },
       ]) ?? [[]],
-    [data?.results, t],
+    [filteredData, t],
   );
 
   return (
@@ -152,29 +207,46 @@ const Revisions = ({ userData, ndlaId }: Props) => {
             Icon={Alarm}
             infoText={t('welcomePage.revisionInfo')}
           />
-          <ControlWrapperDashboard>
-            <DropdownWrapper>
-              <Select<false>
-                label={t('welcomePage.chooseFavoriteSubject')}
-                options={favoriteSubjects ?? []}
-                placeholder={t('welcomePage.chooseFavoriteSubject')}
-                value={filterSubject}
-                onChange={setFilterSubject}
-                menuPlacement="bottom"
-                small
-                outline
-                isLoading={isInitialLoadingSubjects}
-                isSearchable
-                noOptionsMessage={() => t('form.responsible.noResults')}
-                isClearable
+          <StyledRevisionControls>
+            <ControlWrapperDashboard>
+              <DropdownWrapper>
+                <Select<false>
+                  label={t('welcomePage.chooseFavoriteSubject')}
+                  options={favoriteSubjects ?? []}
+                  placeholder={t('welcomePage.chooseFavoriteSubject')}
+                  value={filterSubject}
+                  onChange={setFilterSubject}
+                  menuPlacement="bottom"
+                  small
+                  outline
+                  isLoading={isInitialLoadingSubjects}
+                  isSearchable
+                  noOptionsMessage={() => t('form.responsible.noResults')}
+                  isClearable
+                />
+              </DropdownWrapper>
+              <GoToSearch
+                filterSubject={filterSubject?.value ?? FAVOURITES_SUBJECT_ID}
+                searchEnv="content"
+                revisionDateTo={currentDateAddYear}
               />
-            </DropdownWrapper>
-            <GoToSearch
-              filterSubject={filterSubject?.value ?? FAVOURITES_SUBJECT_ID}
-              searchEnv="content"
-              revisionDateTo={currentDateAddYear}
-            />
-          </ControlWrapperDashboard>
+            </ControlWrapperDashboard>
+            <Tooltip tooltip={t('welcomePage.primaryConnection')}>
+              <SwitchWrapper>
+                <StyledSwitch
+                  checked={checked}
+                  onChange={() => {
+                    setChecked(!checked);
+                    setPage(1);
+                  }}
+                  label={t('welcomePage.primaryConnectionLabel')}
+                  id="filter-primary-connection-switch"
+                  aria-label={t('welcomePage.primaryConnection')}
+                  thumbCharacter="P"
+                />
+              </SwitchWrapper>
+            </Tooltip>
+          </StyledRevisionControls>
         </StyledTopRowDashboardInfo>
         <TableComponent
           isLoading={isInitialLoading}

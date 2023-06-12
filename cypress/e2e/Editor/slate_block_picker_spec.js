@@ -20,11 +20,7 @@ describe('can enter both element types SlateBlockPicker and SlateVisualElementPi
   beforeEach(() => {
     cy.get('[data-slate-node=element] > p').clear();
     cy.get('[data-slate-node=element] > p').should('exist');
-    cy.get('[data-slate-node=element] > p')
-      .should('be.visible')
-      .first()
-      .click()
-      .clear();
+    cy.get('[data-slate-node=element] > p').should('be.visible').first().click().clear();
     cy.get('[data-cy=slate-block-picker]').should('exist');
     cy.get('[data-cy=slate-block-picker]').should('be.visible');
     cy.get('[data-cy=slate-block-picker]').click();
@@ -75,9 +71,7 @@ describe('can enter both element types SlateBlockPicker and SlateVisualElementPi
     cy.apiroute('GET', '**/images/*?language=nb', 'editor/images/image');
     cy.get('[data-cy=create-image]').click();
     cy.apiwait('@editor/images/imageList');
-    cy.get('[data-cy="select-image-from-list"]')
-      .first()
-      .click();
+    cy.get('[data-cy="select-image-from-list"]').first().click();
     cy.apiwait('@editor/images/image');
     cy.get('[data-cy="use-image"]').click();
     cy.get('[data-cy=remove-element]').click();
@@ -99,9 +93,7 @@ describe('can enter both element types SlateBlockPicker and SlateVisualElementPi
 
     cy.get('[data-cy=create-video]').click();
     cy.apiwait(['@editor/videos/videoListBrightcove', '@editor/videos/brightcoveToken']);
-    cy.get('[data-cy="use-video"]')
-      .first()
-      .click();
+    cy.get('[data-cy="use-video"]').first().click();
     cy.get('[data-cy="remove-element"]').click();
     cy.get('[data-cy="remove-element"]').should('not.exist');
     cy.get('[data-slate-node=element] > p').clear();

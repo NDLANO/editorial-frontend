@@ -112,7 +112,7 @@ const WorkListTabContent = ({
   );
 
   const tableTitles: TitleElement<SortOption>[] = [
-    { title: t('welcomePage.workList.name'), sortableField: 'title', width: '30%' },
+    { title: t('welcomePage.workList.title'), sortableField: 'title', width: '30%' },
     { title: t('welcomePage.workList.status'), sortableField: 'status', width: '10%' },
     { title: t('welcomePage.workList.contentType') },
     { title: t('welcomePage.workList.primarySubject') },
@@ -130,7 +130,7 @@ const WorkListTabContent = ({
     <>
       <StyledTopRowDashboardInfo>
         <TableTitle
-          title={t('welcomePage.workList.title')}
+          title={t('welcomePage.workList.heading')}
           description={t('welcomePage.workList.description')}
           Icon={Calendar}
         />

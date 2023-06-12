@@ -13,7 +13,6 @@ import {
   INewSubjectFrontPageData,
   IUpdatedSubjectFrontPageData,
 } from '@ndla/types-backend/frontpage-api';
-import { IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
 import { ILearningPathV2 } from '@ndla/types-backend/learningpath-api';
 import { IArticle } from '@ndla/types-backend/draft-api';
 import Field from '../../../components/Field';
@@ -42,7 +41,6 @@ import { isSlateEmbed } from '../../../components/SlateEditor/plugins/embed/util
 interface Props {
   subjectpage?: ISubjectPageData;
   editorsChoices?: (IArticle | ILearningPathV2)[];
-  banner?: IImageMetaInformationV3;
   elementName?: string;
   createSubjectpage?: (subjectpage: INewSubjectFrontPageData) => Promise<ISubjectPageData>;
   updateSubjectpage?: (
@@ -77,7 +75,10 @@ const subjectpageRules: RulesType<SubjectPageFormikType> = {
     required: true,
     maxLength: 300,
   },
-  desktopBanner: {
+  desktopBannerId: {
+    required: true,
+  },
+  mobileBannerId: {
     required: true,
   },
 };
@@ -91,7 +92,6 @@ const SubjectpageForm = ({
   createSubjectpage,
   isNewlyCreated,
   editorsChoices,
-  banner,
 }: Props) => {
   const { t } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
@@ -103,7 +103,6 @@ const SubjectpageForm = ({
     elementId,
     selectedLanguage,
     editorsChoices,
-    banner,
   );
   const [unsaved, setUnsaved] = useState(false);
   usePreventWindowUnload(unsaved);

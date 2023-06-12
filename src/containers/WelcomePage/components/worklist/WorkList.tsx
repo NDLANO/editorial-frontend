@@ -9,7 +9,7 @@
 import { useTranslation } from 'react-i18next';
 import { SingleValue } from '@ndla/select';
 import { useEffect, useState } from 'react';
-import { TabsV2 } from '@ndla/tabs';
+import Tabs from '@ndla/tabs';
 import { useSearch } from '../../../../modules/search/searchQueries';
 import WorkListTabContent from './WorkListTabContent';
 import { useSearchConcepts } from '../../../../modules/concept/conceptQueries';
@@ -83,11 +83,13 @@ const WorkList = ({ ndlaId }: Props) => {
   }, [filterConceptSubject]);
 
   return (
-    <TabsV2
-      ariaLabel={t('welcomePage.workList.ariaLabel')}
+    <Tabs
+      variant="rounded"
+      aria-label={t('welcomePage.workList.ariaLabel')}
       tabs={[
         {
           title: `${t('form.articleSection')} (${data?.totalCount ?? 0})`,
+          id: 'articles',
           content: (
             <WorkListTabContent
               data={data}
@@ -104,6 +106,7 @@ const WorkList = ({ ndlaId }: Props) => {
         },
         {
           title: `${t('form.name.concepts')} (${concepts?.totalCount ?? 0})`,
+          id: 'concepts',
           content: (
             <ConceptListTabContent
               data={concepts}

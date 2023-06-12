@@ -88,7 +88,7 @@ const Revisions = ({ userData }: Props) => {
 
   const tableTitles: TitleElement<SortOptionRevision>[] = [
     { title: t('form.name.title'), sortableField: 'title' },
-    { title: t('welcomePage.workList.status'), sortableField: 'status' },
+    { title: t('welcomePage.workList.status'), sortableField: 'status', width: '15%' },
     { title: t('welcomePage.workList.primarySubject') },
     { title: t('welcomePage.revisionDate'), sortableField: 'revisionDate' },
   ];
@@ -178,10 +178,12 @@ const Revisions = ({ userData }: Props) => {
               {a.title?.title}
             </StyledLink>
           ),
+          title: a.title?.title,
         },
         {
           id: `status_${a.id}`,
           data: a.status?.current ? t(`form.status.${a.status.current.toLowerCase()}`) : '',
+          title: a.status?.current ? t(`form.status.${a.status.current.toLowerCase()}`) : '',
         },
         {
           id: `primarySubject_${a.id}`,
@@ -191,7 +193,7 @@ const Revisions = ({ userData }: Props) => {
           id: `lastUpdated_${a.id}`,
           data: a.revisions.length
             ? formatDate(getExpirationDate({ revisions: a.revisions })!)
-            : null,
+            : '',
         },
       ]) ?? [[]],
     [filteredData, t],
@@ -256,6 +258,7 @@ const Revisions = ({ userData }: Props) => {
           sortOption={sortOption}
           error={error}
           noResultsText={t('welcomePage.emptyRevision')}
+          minWidth="500px"
         />
         <Pager
           page={data?.page ?? 1}

@@ -79,10 +79,12 @@ const WorkListTabContent = ({
                   ) : null}
                 </CellWrapper>
               ),
+              title: res.title?.title,
             },
             {
               id: `status_${res.id}`,
               data: <StatusCell status={res.status} />,
+              title: t(`form.status.${res.status?.current.toLowerCase()}`),
             },
             {
               id: `contentType_${res.id}`,
@@ -104,19 +106,24 @@ const WorkListTabContent = ({
             {
               id: `date_${res.id}`,
               data: res.responsible ? formatDate(res.responsible.lastUpdated) : '',
+              width: '10%',
             },
           ])
         : [[]],
-    [data],
+    [data, t],
   );
 
   const tableTitles: TitleElement<SortOption>[] = [
-    { title: t('welcomePage.workList.title'), sortableField: 'title' },
-    { title: t('welcomePage.workList.status'), sortableField: 'status' },
+    { title: t('welcomePage.workList.title'), sortableField: 'title', width: '30%' },
+    { title: t('welcomePage.workList.status'), sortableField: 'status', width: '10%' },
     { title: t('welcomePage.workList.contentType') },
     { title: t('welcomePage.workList.primarySubject') },
     { title: t('welcomePage.workList.topicRelation') },
-    { title: t('welcomePage.workList.date'), sortableField: 'responsibleLastUpdated' },
+    {
+      title: t('welcomePage.workList.date'),
+      sortableField: 'responsibleLastUpdated',
+      width: '10%',
+    },
   ];
 
   const lastPage = data?.totalCount ? Math.ceil(data?.totalCount / (data.pageSize ?? 1)) : 1;
@@ -142,6 +149,7 @@ const WorkListTabContent = ({
         sortOption={sortOption}
         error={error}
         noResultsText={t('welcomePage.noArticles')}
+        minWidth="850px"
       />
       <Pager
         page={data?.page ?? 1}

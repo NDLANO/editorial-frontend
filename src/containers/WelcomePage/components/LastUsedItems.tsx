@@ -103,7 +103,7 @@ const LastUsedItems = ({ lastUsedResources = [], lastUsedConcepts = [] }: Props)
 
   const tableTitles: TitleElement<SortOptionLastUsed>[] = [
     { title: t('form.name.title'), sortableField: 'title' },
-    { title: t('searchForm.sort.lastUpdated'), sortableField: 'lastUpdated' },
+    { title: t('welcomePage.updated'), sortableField: 'lastUpdated', width: '40%' },
   ];
 
   return (

@@ -52,7 +52,7 @@ export const WelcomePage = () => {
           <WelcomeHeader />
         </Column>
         <Column>{ndlaId && <WorkList ndlaId={ndlaId} />}</Column>
-        <Column colStart={2} colEnd={6}>
+        <Column colEnd={6}>
           {ndlaId && (
             <LastUsedItems
               lastUsedResources={lastUsedResources}
@@ -60,9 +60,7 @@ export const WelcomePage = () => {
             />
           )}
         </Column>
-        <Column colStart={6} colEnd={12}>
-          {ndlaId && <Revisions userData={data} />}
-        </Column>
+        <Column colStart={6}>{ndlaId && <Revisions userData={data} />}</Column>
       </GridContainer>
 
       <Footer showLocaleSelector />

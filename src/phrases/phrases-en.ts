@@ -135,6 +135,7 @@ const phrases = {
     revisionDate: 'Revision date',
     welcomeText: 'to ED',
     revisionInfo: 'Choose your favorite subjects by marking them with a star in structure editing',
+    updated: 'Updated',
     primaryConnection: 'Only show resources with primary connection to my favorite subjects',
     primaryConnectionLabel: 'Only show primary connection',
     workList: {
@@ -145,7 +146,7 @@ const phrases = {
       contentType: 'Content type',
       primarySubject: 'Primary subject',
       topicRelation: 'Topic relation',
-      date: 'Date assigned',
+      date: 'Assigned',
       ariaLabel: 'Overview of my tasks and concepts',
       conceptDescription: 'Concepts where you are responsible',
       conceptSubject: 'Concept subject',

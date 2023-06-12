@@ -126,7 +126,7 @@ const Navigation = () => {
               <StyledEnvironmentText>{envSettings.name}</StyledEnvironmentText>
             </EnvText>
             <GridContainer>
-              <Column colStart={1} colEnd={13}>
+              <Column>
                 <StyledHeaderItems>
                   <LeftContent>
                     <IconButtonV2

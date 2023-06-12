@@ -18,7 +18,6 @@ import { useFormikContext } from 'formik';
 import { useEffect, useState } from 'react';
 import { SingleValue } from '@ndla/select';
 import { Switch } from '@ndla/switch';
-import Tooltip from '@ndla/tooltip';
 import { toPreviewDraft } from '../../util/routeHelpers';
 import SaveMultiButton from '../SaveMultiButton';
 import { createGuard, createReturnTypeGuard } from '../../util/guards';
@@ -195,18 +194,13 @@ function EditorFooter<T extends FormValues>({
   };
 
   const PrioritizedToggle = (
-    <Tooltip tooltip={t('editorFooter.prioritized')}>
-      <div>
-        <Switch
-          checked={prioritizedOn}
-          onChange={updatePrioritized}
-          thumbCharacter={'P'}
-          label=""
-          aria-label={t('editorFooter.prioritized')}
-          id="prioritized"
-        />
-      </div>
-    </Tooltip>
+    <Switch
+      checked={prioritizedOn}
+      onChange={updatePrioritized}
+      thumbCharacter={'P'}
+      label={t('editorFooter.prioritized')}
+      id="prioritized"
+    />
   );
 
   if (showSimpleFooter) {

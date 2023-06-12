@@ -131,8 +131,7 @@ const ImageForm = ({
     if (
       license === undefined ||
       values.title === undefined ||
-      (values.isDecorative === undefined && values.alttext === undefined) ||
-      (!values.isDecorative && values.alttext === undefined) ||
+      (!values.isDecorative && !values.alttext) ||
       values.caption === undefined ||
       values.language === undefined ||
       values.tags === undefined ||

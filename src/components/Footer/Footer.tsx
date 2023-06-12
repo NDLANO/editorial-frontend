@@ -9,6 +9,7 @@
 import React, { ReactNode } from 'react';
 import styled from '@emotion/styled';
 import { spacing, colors } from '@ndla/core';
+import { MAX_PAGE_WIDTH } from '../../constants';
 
 const StyledFooter = styled.footer`
   position: fixed;
@@ -23,11 +24,12 @@ const StyledFooter = styled.footer`
 `;
 
 const StyledContentWrapper = styled.div`
-  max-width: 1024px;
+  max-width: ${MAX_PAGE_WIDTH}px;
   width: 100%;
   padding: ${spacing.small};
   display: flex;
   justify-content: space-between;
+  gap: ${spacing.medium};
   > div {
     display: flex;
     align-items: center;

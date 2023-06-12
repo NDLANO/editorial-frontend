@@ -1151,7 +1151,7 @@ const phrases = {
         show: 'Show byline',
         hide: 'Hide byline',
       },
-      isDecorative: 'This image is decorative',
+      isDecorative: 'This image is decorative in this context',
     },
     video: {
       caption: {

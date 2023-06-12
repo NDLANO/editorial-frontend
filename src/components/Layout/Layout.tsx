@@ -35,4 +35,5 @@ interface ColumnSize {
 
 export const Column = styled.div<ColumnSize>`
   grid-column: ${(props) => `${props.colStart ?? 1} / ${props.colEnd ?? 13}`};
+  min-width: 400px;
 `;

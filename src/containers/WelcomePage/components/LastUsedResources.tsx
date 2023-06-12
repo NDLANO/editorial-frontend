@@ -75,6 +75,7 @@ const LastUsedResources = ({
         sortOption={sortOption}
         error={error}
         noResultsText={t('welcomePage.emptyLastUsed')}
+        minWidth="250px"
       />
       <Pager
         page={page}

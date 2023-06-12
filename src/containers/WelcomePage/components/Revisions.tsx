@@ -258,6 +258,7 @@ const Revisions = ({ userData }: Props) => {
           sortOption={sortOption}
           error={error}
           noResultsText={t('welcomePage.emptyRevision')}
+          minWidth="500px"
         />
         <Pager
           page={data?.page ?? 1}

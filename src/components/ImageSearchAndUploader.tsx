@@ -32,7 +32,7 @@ interface Props {
   fetchImage: (id: number) => Promise<IImageMetaInformationV3>;
   showCheckbox?: boolean;
   checkboxAction?: (image: IImageMetaInformationV3) => void;
-  isFrontpageArticle?: boolean;
+  isArticle?: boolean;
 }
 
 const ImageSearchAndUploader = ({
@@ -46,7 +46,7 @@ const ImageSearchAndUploader = ({
   fetchImage,
   showCheckbox,
   checkboxAction,
-  isFrontpageArticle,
+  isArticle,
 }: Props) => {
   const [selectedTab, setSelectedTab] = useState<string | undefined>(undefined);
   const { t } = useTranslation();
@@ -100,7 +100,7 @@ const ImageSearchAndUploader = ({
               editingArticle
               closeModal={closeModal}
               onImageCreated={onImageSelect}
-              isFrontpageArticle={isFrontpageArticle}
+              isArticle={isArticle}
             />
           ),
         },

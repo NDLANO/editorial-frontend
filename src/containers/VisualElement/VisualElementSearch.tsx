@@ -43,7 +43,7 @@ interface Props {
   showCheckbox?: boolean;
   checkboxAction?: (image: IImageMetaInformationV3) => void;
   embed?: H5pEmbed | ExternalEmbed;
-  isFrontpageArticle?: boolean;
+  isArticle?: boolean;
 }
 
 interface LocalAudioSearchParams extends Omit<AudioSearchParams, 'audio-type' | 'page-size'> {
@@ -75,7 +75,7 @@ const VisualElementSearch = ({
   showCheckbox: showMetaImageCheckbox,
   checkboxAction: onSaveAsMetaImage,
   embed,
-  isFrontpageArticle,
+  isArticle,
 }: Props) => {
   const { t, i18n } = useTranslation();
   const locale = i18n.language;
@@ -107,7 +107,7 @@ const VisualElementSearch = ({
           }
           showCheckbox={showMetaImageCheckbox}
           checkboxAction={onSaveAsMetaImage}
-          isFrontpageArticle={isFrontpageArticle}
+          isArticle={isArticle}
         />
       );
     case 'video': {

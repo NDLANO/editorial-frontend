@@ -97,7 +97,7 @@ interface Props {
   isSaving?: boolean;
   isNewLanguage?: boolean;
   language: string;
-  isFrontpageArticle?: boolean;
+  isArticle?: boolean;
 }
 
 export type ImageFormErrorFields =
@@ -121,7 +121,7 @@ const ImageForm = ({
   isNewlyCreated,
   isSaving,
   isNewLanguage,
-  isFrontpageArticle,
+  isArticle,
 }: Props) => {
   const { t } = useTranslation();
   const [savedToServer, setSavedToServer] = useState(false);
@@ -217,7 +217,7 @@ const ImageForm = ({
                 className="u-4/6@desktop u-push-1/6@desktop"
                 hasError={hasError(['title', 'imageFile', 'caption', 'alttext'])}
               >
-                <ImageContent isFrontpageArticle={isFrontpageArticle} />
+                <ImageContent isArticle={isArticle} />
               </FormAccordion>
               <FormAccordion
                 id="metadata"

@@ -36,10 +36,10 @@ const StyledDeleteButtonContainer = styled.div`
 
 interface Props {
   formik: FormikContextType<ImageFormikType>;
-  isFrontpageArticle: boolean;
+  isArticle: boolean;
 }
 
-const ImageContent = ({ formik, isFrontpageArticle }: Props) => {
+const ImageContent = ({ formik, isArticle }: Props) => {
   const { t } = useTranslation();
   const { values, errors, setFieldValue, submitForm } = formik;
 
@@ -104,7 +104,7 @@ const ImageContent = ({ formik, isFrontpageArticle }: Props) => {
       <FormikField name="imageFile.size" showError={true}>
         {(_) => <></>}
       </FormikField>
-      {isFrontpageArticle && (
+      {isArticle && (
         <>
           <FormikField name="isDecorative">
             {({ field }: FieldProps) => (

@@ -72,7 +72,8 @@ const SlateVisualElementPicker = ({
   const editor = useSlateStatic();
 
   const showCheckbox = values.metaImageAlt !== undefined && values.metaImageId !== undefined;
-  const isFrontpageArticle = values.articleType === 'frontpage-article';
+  const isArticle = values.articleType !== undefined;
+
   const onVisualElementAdd = (visualElement: Embed | DOMStringMap[]) => {
     if (isEmbed(visualElement)) {
       const blockToInsert = getNewEmbed(editor, visualElement);
@@ -97,7 +98,7 @@ const SlateVisualElementPicker = ({
         closeModal={onVisualElementClose}
         showCheckbox={showCheckbox}
         checkboxAction={(image: IImageMetaInformationV3) => checkboxAction(image, formikContext)}
-        isFrontpageArticle={isFrontpageArticle}
+        isArticle={isArticle}
       />
     </VisualElementModalWrapper>
   );

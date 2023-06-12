@@ -21,7 +21,7 @@ interface Props {
   onImageCreated?: (image: IImageMetaInformationV3) => void;
   closeModal?: () => void;
   inModal?: boolean;
-  isFrontpageArticle?: boolean;
+  isArticle?: boolean;
 }
 
 const CreateImage = ({
@@ -30,7 +30,7 @@ const CreateImage = ({
   onImageCreated,
   inModal,
   closeModal,
-  isFrontpageArticle,
+  isArticle,
 }: Props) => {
   const { i18n } = useTranslation();
   const locale = i18n.language;
@@ -55,7 +55,7 @@ const CreateImage = ({
       licenses={imageLicenses}
       onSubmitFunc={onCreateImage}
       closeModal={closeModal}
-      isFrontpageArticle={isFrontpageArticle}
+      isArticle={isArticle}
     />
   );
 };

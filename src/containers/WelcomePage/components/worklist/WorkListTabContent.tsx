@@ -79,10 +79,12 @@ const WorkListTabContent = ({
                   ) : null}
                 </CellWrapper>
               ),
+              title: res.title?.title,
             },
             {
               id: `status_${res.id}`,
               data: <StatusCell status={res.status} />,
+              title: t(`form.status.${res.status?.current.toLowerCase()}`),
             },
             {
               id: `contentType_${res.id}`,
@@ -108,7 +110,7 @@ const WorkListTabContent = ({
             },
           ])
         : [[]],
-    [data],
+    [data, t],
   );
 
   const tableTitles: TitleElement<SortOption>[] = [

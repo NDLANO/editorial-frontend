@@ -95,10 +95,14 @@ const orderButtonStyle = (isHidden: boolean) => css`
   visibility: ${isHidden ? 'hidden' : 'visible'};
 `;
 
-export interface FieldElement {
+type FieldElementReactNode = {
   id: string;
   data: ReactNode;
-}
+  title: string;
+};
+type FieldElementString = { id: string; data: string };
+
+export type FieldElement = FieldElementReactNode | FieldElementString;
 
 export type Prefix<P extends string, S extends string> = `${P}${S}` | S;
 
@@ -177,7 +181,16 @@ const TableComponent = <T extends string>({
             {tableData.map((contentRow, index) => (
               <tr key={`tablerow_${contentRow?.[0]?.id}_${index}`}>
                 {contentRow.map((field) => (
-                  <td key={field.id}>{field.data}</td>
+                  <td
+                    key={field.id}
+                    title={
+                      typeof field.data === 'string'
+                        ? field.data
+                        : (field as FieldElementReactNode).title
+                    }
+                  >
+                    {field.data}
+                  </td>
                 ))}
               </tr>
             ))}

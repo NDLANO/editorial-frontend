@@ -178,10 +178,12 @@ const Revisions = ({ userData }: Props) => {
               {a.title?.title}
             </StyledLink>
           ),
+          title: a.title?.title,
         },
         {
           id: `status_${a.id}`,
           data: a.status?.current ? t(`form.status.${a.status.current.toLowerCase()}`) : '',
+          title: a.status?.current ? t(`form.status.${a.status.current.toLowerCase()}`) : '',
         },
         {
           id: `primarySubject_${a.id}`,
@@ -191,7 +193,7 @@ const Revisions = ({ userData }: Props) => {
           id: `lastUpdated_${a.id}`,
           data: a.revisions.length
             ? formatDate(getExpirationDate({ revisions: a.revisions })!)
-            : null,
+            : '',
         },
       ]) ?? [[]],
     [filteredData, t],

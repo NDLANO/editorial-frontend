@@ -109,10 +109,12 @@ const ConceptListTabContent = ({
               {res.title}
             </StyledLink>
           ),
+          title: res.title,
         },
         {
           id: `status_${res.id}`,
           data: <StatusCell status={res.status} />,
+          title: t(`form.status.${res.status.current.toLowerCase()}`),
         },
         {
           id: `concept_subject_${res.id}`,
@@ -123,7 +125,7 @@ const ConceptListTabContent = ({
           data: res.lastUpdated,
         },
       ]),
-    [conceptData],
+    [conceptData, t],
   );
 
   const subjectList = useMemo(

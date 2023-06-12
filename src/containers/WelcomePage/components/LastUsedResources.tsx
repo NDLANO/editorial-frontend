@@ -41,10 +41,7 @@ const LastUsedResources = ({
   lastPage,
   titles,
 }: Props) => {
-  const {
-    t,
-    i18n: { language },
-  } = useTranslation();
+  const { t } = useTranslation();
 
   const tableData: FieldElement[][] = useMemo(
     () =>
@@ -56,6 +53,7 @@ const LastUsedResources = ({
               {a.title?.title}
             </StyledLink>
           ),
+          title: a.title?.title,
         },
         { id: `lastUpdated_${a.id}`, data: formatDate(a.updated) },
       ]) ?? [[]],

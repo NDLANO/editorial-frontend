@@ -6,7 +6,7 @@
  *
  */
 
-import { MouseEventHandler, ReactNode, useCallback, useState } from 'react';
+import { MouseEvent, MouseEventHandler, ReactNode, useCallback, useState } from 'react';
 import { RenderElementProps } from 'slate-react';
 import { useTranslation } from 'react-i18next';
 import { IconButtonV2 } from '@ndla/button';
@@ -64,7 +64,7 @@ const SlateFactAside = ({ children, onRemoveClick, attributes, onMoveContent }: 
   const [expanded, setExpanded] = useState(true);
   const { t } = useTranslation();
 
-  const toggleExpanded = useCallback((evt) => {
+  const toggleExpanded = useCallback((evt: MouseEvent<HTMLButtonElement>) => {
     evt.preventDefault();
     setExpanded((p) => !p);
   }, []);

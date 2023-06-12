@@ -13,7 +13,6 @@ import { spacing, colors } from '@ndla/core';
 import { ButtonV2 } from '@ndla/button';
 import Tooltip from '@ndla/tooltip';
 import { IConceptSummary } from '@ndla/types-backend/concept-api';
-import { convertFieldWithFallback } from '../../../../util/convertFieldWithFallback';
 import Spinner from '../../../Spinner';
 import { ConceptQuery } from '../../../../modules/concept/conceptApiInterfaces';
 
@@ -79,7 +78,7 @@ const SearchConceptResults = ({ results, searchObject, addConcept, searching = t
         <StyledConceptResult key={result.id}>
           <StyledConcept className="c-icon--large" />
           <StyledConceptResultHeader>
-            {convertFieldWithFallback(result, 'title', t('conceptSearch.noTitle'))}
+            {result.title.title ?? t('conceptSearch.noTitle')}
             {(result.status.current === 'PUBLISHED' ||
               result.status.other.includes('PUBLISHED')) && (
               <Tooltip tooltip={t('form.workflow.published')}>
@@ -90,7 +89,7 @@ const SearchConceptResults = ({ results, searchObject, addConcept, searching = t
             )}
           </StyledConceptResultHeader>
           <StyledConceptContent>
-            {convertFieldWithFallback(result, 'content', t('conceptSearch.noContent'))}
+            {result.content.content ?? t('conceptSearch.noContent')}
           </StyledConceptContent>
           <StyledButton
             onClick={(evt) => {

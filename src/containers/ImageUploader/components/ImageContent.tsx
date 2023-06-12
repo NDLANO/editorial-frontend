@@ -36,15 +36,17 @@ const StyledDeleteButtonContainer = styled.div`
 
 interface Props {
   formik: FormikContextType<ImageFormikType>;
+  isFrontpageArticle: boolean;
 }
 
-const ImageContent = ({ formik }: Props) => {
+const ImageContent = ({ formik, isFrontpageArticle }: Props) => {
   const { t } = useTranslation();
   const { values, errors, setFieldValue, submitForm } = formik;
 
   // We use the timestamp to avoid caching of the `imageFile` url in the browser
   const timestamp = new Date().getTime();
   const imgSrc = values.filepath || `${values.imageFile}?width=600&ts=${timestamp}`;
+
   return (
     <>
       <TitleField handleSubmit={submitForm} />
@@ -102,22 +104,27 @@ const ImageContent = ({ formik }: Props) => {
       <FormikField name="imageFile.size" showError={true}>
         {(_) => <></>}
       </FormikField>
-      <FormikField name="isDecorative">
-        {({ field }: FieldProps) => (
-          <CheckboxItem
-            label={t('form.image.isDecorative')}
-            checked={field.value}
-            onChange={() =>
-              field.onChange({
-                target: {
-                  name: field.name,
-                  value: !field.value,
-                },
-              })
-            }
-          />
-        )}
-      </FormikField>
+      {isFrontpageArticle && (
+        <>
+          <FormikField name="isDecorative">
+            {({ field }: FieldProps) => (
+              <CheckboxItem
+                label={t('form.image.isDecorative')}
+                checked={field.value}
+                onChange={() =>
+                  field.onChange({
+                    target: {
+                      name: field.name,
+                      value: !field.value,
+                    },
+                  })
+                }
+              />
+            )}
+          </FormikField>
+        </>
+      )}
+
       <FormikField name="caption" showError={false}>
         {({ field }: FieldProps) => (
           <TextArea

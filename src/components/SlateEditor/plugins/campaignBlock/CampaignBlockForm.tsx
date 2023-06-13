@@ -49,6 +49,7 @@ const rules: RulesType<CampaignBlockFormValues> = {
   },
   description: {
     required: true,
+    maxLength: 250,
   },
   descriptionLanguage: {
     required: true,
@@ -166,7 +167,7 @@ const CampaignBlockForm = ({ initialData, onSave, onCancel }: Props) => {
               />
             )}
           </StyledFormikField>
-          <StyledFormikField name="description" showError>
+          <StyledFormikField name="description" showError maxLength={250} showMaxLength>
             {({ field }: FieldProps) => (
               <TextAreaV2
                 customCss={inputStyle}

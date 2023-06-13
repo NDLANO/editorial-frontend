@@ -1826,7 +1826,7 @@ const phrases = {
   },
   delete: 'Slett',
   dragAndDrop: {
-    handle: 'Håndtak',
+    handle: 'Handtak',
   },
 };
 

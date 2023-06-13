@@ -273,6 +273,7 @@ const FrontpageArticleFormContent = ({
               submitted={isSubmitting}
               plugins={plugins(articleLanguage ?? '', i18n.language, handleSubmitRef)}
               data-cy="frontpage-article-content"
+              allowDecorative
               onChange={(value) => {
                 onChange({
                   target: {

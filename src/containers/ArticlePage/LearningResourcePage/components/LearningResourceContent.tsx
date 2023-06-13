@@ -248,6 +248,7 @@ const LearningResourceContent = ({
               submitted={isSubmitting}
               plugins={plugins(articleLanguage ?? '', i18n.language, handleSubmitRef)}
               data-cy="learning-resource-content"
+              allowDecorative
               onChange={(value) => {
                 onChange({
                   target: {

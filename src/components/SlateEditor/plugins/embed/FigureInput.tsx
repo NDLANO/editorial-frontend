@@ -44,13 +44,12 @@ const FigureInput = ({
   handleCheck,
 }: Props) => {
   const { t } = useTranslation();
-  const { submitted, isArticle } = useSlateContext();
+  const { submitted, allowDecorative } = useSlateContext();
 
   const isDecorative = isDecorativeString === 'true';
-
   return (
     <StyledInputWrapper>
-      {isArticle && (
+      {allowDecorative && (
         <CheckboxItem
           label={t('form.image.isDecorative')}
           checked={isDecorative}

@@ -93,7 +93,7 @@ const FormikField = ({
       )}
       {showError && get(errors, name) && (
         <FormikFieldHelp error={!!get(errors, name)}>
-          <StyledErrorPreLine>{get(errors, name)}</StyledErrorPreLine>
+          <StyledErrorPreLine>{get(errors, name) as string}</StyledErrorPreLine>
         </FormikFieldHelp>
       )}
       {status && status['warnings'] && (

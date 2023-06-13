@@ -42,7 +42,10 @@ const StyledButton = styled(ButtonV2)`
 `;
 
 const StyledSlateImage = styled.div<{ embed: ImageEmbed }>`
-  ${(props) => (!props.embed.alt ? 'border: 2px solid rgba(209,55,46,0.3);' : '')}
+  ${(props) =>
+    !props.embed['is-decorative'] && !props.embed.alt
+      ? 'border: 2px solid rgba(209,55,46,0.3);'
+      : ''}
 `;
 
 const StyledDiv = styled.div`

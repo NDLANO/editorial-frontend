@@ -39,6 +39,7 @@ interface Props {
 interface StateProps {
   alt: string;
   caption?: string;
+  'is-decorative'?: string;
   imageUpdates:
     | {
         transformData: TransformData;
@@ -53,6 +54,7 @@ const EditImage = ({ embed, saveEmbedUpdates, setEditModus, language }: Props) =
   const [state, setState] = useState<StateProps>({
     alt: embed.alt,
     caption: embed.caption,
+    'is-decorative': embed['is-decorative'],
     imageUpdates: {
       transformData: {
         'focal-x': embed['focal-x'],
@@ -94,8 +96,6 @@ const EditImage = ({ embed, saveEmbedUpdates, setEditModus, language }: Props) =
       ...state.imageUpdates?.transformData,
       align: state.imageUpdates?.align,
       size: updatedSize,
-      caption: state.caption,
-      alt: state.alt,
     });
 
     setEditModus(false);
@@ -113,6 +113,15 @@ const EditImage = ({ embed, saveEmbedUpdates, setEditModus, language }: Props) =
     setState({
       ...state,
       [e.target.name]: e.target.value,
+      madeChanges: true,
+    });
+  };
+
+  const handleCheck = (isDecorative: string) => {
+    setState({
+      ...state,
+      'is-decorative': isDecorative,
+      alt: '',
       madeChanges: true,
     });
   };
@@ -135,6 +144,8 @@ const EditImage = ({ embed, saveEmbedUpdates, setEditModus, language }: Props) =
               onChange={onChange}
               onAbort={onAbort}
               onSave={onSave}
+              isDecorative={state['is-decorative']}
+              handleCheck={handleCheck}
             />
           </StyledEditorContent>
         </StyledEditorWrapper>

@@ -185,7 +185,7 @@ const RichTextEditor = ({
 
   return (
     <article>
-      <SlateProvider isSubmitted={submitted}>
+      <SlateProvider isArticle={true} isSubmitted={submitted}>
         <StyledSlateWrapper data-cy="slate-editor">
           <Slate editor={editor} value={value} onChange={onChange}>
             {isFirstNormalize ? (

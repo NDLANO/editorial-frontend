@@ -11,15 +11,17 @@ import { createContext, useContext, useState, useEffect, ReactNode } from 'react
 interface ProviderProps {
   isSubmitted?: boolean;
   children?: ReactNode;
+  isArticle?: boolean;
 }
 interface SlateContextType {
   submitted: boolean;
   setSubmitted: (s: boolean) => void;
+  isArticle?: boolean;
 }
 
 const SlateContext = createContext<SlateContextType | undefined>(undefined);
 
-const SlateProvider = ({ isSubmitted, children }: ProviderProps) => {
+const SlateProvider = ({ isSubmitted, children, isArticle }: ProviderProps) => {
   const [submitted, setSubmitted] = useState(false);
   useEffect(() => {
     if (isSubmitted !== undefined) {
@@ -28,7 +30,9 @@ const SlateProvider = ({ isSubmitted, children }: ProviderProps) => {
   }, [isSubmitted]);
 
   return (
-    <SlateContext.Provider value={{ submitted, setSubmitted }}>{children}</SlateContext.Provider>
+    <SlateContext.Provider value={{ submitted, setSubmitted, isArticle }}>
+      {children}
+    </SlateContext.Provider>
   );
 };
 

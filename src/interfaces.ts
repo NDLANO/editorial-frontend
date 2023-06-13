@@ -110,6 +110,7 @@ export interface ImageEmbed {
   'upper-left-y'?: string;
   'upper-left-x'?: string;
   metaData?: any;
+  'is-decorative'?: string;
 }
 
 export interface BrightcoveEmbed {

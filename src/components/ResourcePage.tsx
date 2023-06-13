@@ -17,6 +17,7 @@ import { usePreviousLocation } from '../util/routeHelpers';
 import Footer from '../containers/App/components/Footer';
 import Spinner from './Spinner';
 import { NynorskTranslateProvider } from './NynorskTranslateProvider';
+import { MAX_PAGE_WIDTH } from '../constants';
 
 const NotFoundPage = loadable(() => import('../containers/NotFoundPage/NotFoundPage'));
 
@@ -31,7 +32,7 @@ const PageContent = styled.div`
   margin-right: auto;
   padding-left: 24px;
   padding-right: 24px;
-  max-width: 1024px;
+  max-width: ${MAX_PAGE_WIDTH}px;
 `;
 interface ResourceComponentProps {
   isNewlyCreated?: boolean;

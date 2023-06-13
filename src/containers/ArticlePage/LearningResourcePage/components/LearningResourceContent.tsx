@@ -64,6 +64,7 @@ import { conceptListPlugin } from '../../../../components/SlateEditor/plugins/co
 import { inlineConceptPlugin } from '../../../../components/SlateEditor/plugins/concept/inline';
 import { blockConceptPlugin } from '../../../../components/SlateEditor/plugins/concept/block';
 import { definitionListPlugin } from '../../../../components/SlateEditor/plugins/definitionList';
+import { gridPlugin } from '../../../../components/SlateEditor/plugins/grid';
 import {
   TYPE_EMBED_AUDIO,
   TYPE_EMBED_BRIGHTCOVE,
@@ -74,6 +75,7 @@ import {
 import { TYPE_TABLE } from '../../../../components/SlateEditor/plugins/table/types';
 import { TYPE_CODEBLOCK } from '../../../../components/SlateEditor/plugins/codeBlock/types';
 import { TYPE_FILE } from '../../../../components/SlateEditor/plugins/file/types';
+import { TYPE_GRID } from '../../../../components/SlateEditor/plugins/grid/types';
 
 const StyledFormikField = styled(FormikField)`
   display: flex;
@@ -117,12 +119,13 @@ const visualElements = [
   TYPE_EMBED_IMAGE,
 ];
 
-const actions = [TYPE_TABLE, TYPE_CODEBLOCK, TYPE_FILE].concat(visualElements);
+const actions = [TYPE_TABLE, TYPE_CODEBLOCK, TYPE_FILE, TYPE_GRID].concat(visualElements);
 const actionsToShowInAreas = {
   details: actions,
   aside: actions,
   bodybox: actions,
   'table-cell': ['image'],
+  'grid-cell': [TYPE_EMBED_IMAGE],
 };
 
 // Plugins are checked from last to first
@@ -165,6 +168,7 @@ export const plugins = (
     markPlugin,
     definitionListPlugin,
     listPlugin,
+    gridPlugin,
   ];
 };
 interface Props {

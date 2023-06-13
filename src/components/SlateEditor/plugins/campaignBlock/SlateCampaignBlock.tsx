@@ -135,7 +135,7 @@ const SlateCampaignBlock = ({ element, editor, attributes, children }: Props) =>
         </CampaignBlockWrapper>
       )}
       {isEditing && (
-        <Modal size="large" controlled isOpen onClose={onClose}>
+        <Modal size={{ width: 'large', height: 'full' }} controlled isOpen onClose={onClose}>
           {(close) => (
             <>
               <StyledModalHeader>

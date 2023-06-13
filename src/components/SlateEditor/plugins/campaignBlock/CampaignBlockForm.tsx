@@ -19,7 +19,7 @@ import { ButtonV2 } from '@ndla/button';
 import validateFormik, { RulesType } from '../../../formikValidationSchema';
 import { supportedLanguages } from '../../../../i18n2';
 import FormikField from '../../../FormikField';
-import InlineImageSearch from '../../../../containers/ConceptPage/components/InlineImageSearch';
+import CampaignBlockImagePicker from './CampaignBlockImagePicker';
 
 interface Props {
   initialData?: CampaignBlockEmbedData;
@@ -27,15 +27,15 @@ interface Props {
   onCancel: () => void;
 }
 
-interface CampaignBlockFormValues {
+export interface CampaignBlockFormValues {
   resource: 'campaign-block';
   title: string;
   titleLanguage: string;
   description: string;
   descriptionLanguage: string;
   headingLevel: HeadingLevel;
-  url: string;
-  urlText: string;
+  link: string;
+  linkText: string;
   imageBeforeId?: string;
   imageAfterId?: string;
 }
@@ -56,26 +56,30 @@ const rules: RulesType<CampaignBlockFormValues> = {
   headingLevel: {
     required: true,
   },
-  url: {
+  link: {
     required: true,
+    url: true,
   },
-  urlText: {
+  linkText: {
     required: true,
   },
 };
 
-const toInitialValues = (initialData?: CampaignBlockEmbedData): CampaignBlockFormValues => {
+const toInitialValues = (
+  lang: string,
+  initialData?: CampaignBlockEmbedData,
+): CampaignBlockFormValues => {
   return {
     resource: 'campaign-block',
     title: initialData?.title ?? '',
-    titleLanguage: initialData?.titleLanguage ?? '',
+    titleLanguage: initialData?.titleLanguage ?? lang,
     description: initialData?.description ?? '',
-    descriptionLanguage: initialData?.descriptionLanguage ?? '',
+    descriptionLanguage: initialData?.descriptionLanguage ?? lang,
     imageBeforeId: initialData?.imageBeforeId,
     imageAfterId: initialData?.imageAfterId,
     headingLevel: initialData?.headingLevel ?? 'h2',
-    url: initialData?.url ?? '',
-    urlText: initialData?.urlText ?? '',
+    link: initialData?.url ?? '',
+    linkText: initialData?.urlText ?? '',
   };
 };
 
@@ -88,12 +92,18 @@ const StyledFormikField = styled(FormikField)`
   margin: 0px;
 `;
 
+const StyledUrlFormikField = styled(FormikField)`
+  margin: 0px;
+  flex: 1;
+`;
+
 const StyledSelect = styled.select`
   background-color: transparent;
   border: none;
 `;
 
 const ButtonContainer = styled.div`
+  padding-top: ${spacing.small};
   display: flex;
   justify-content: flex-end;
   gap: ${spacing.small};
@@ -105,13 +115,21 @@ const UrlWrapper = styled.div`
 `;
 
 const CampaignBlockForm = ({ initialData, onSave, onCancel }: Props) => {
-  const { t } = useTranslation();
-  const initialValues = useMemo(() => toInitialValues(initialData), [initialData]);
+  const { t, i18n } = useTranslation();
+  const initialValues = useMemo(
+    () => toInitialValues(i18n.language, initialData),
+    [initialData, i18n.language],
+  );
   const initialErrors = useMemo(() => validateFormik(initialValues, rules, t), [initialValues, t]);
 
   const onSubmit = useCallback(
     (values: CampaignBlockFormValues) => {
-      onSave(values);
+      const { link, linkText, ...rest } = values;
+      onSave({
+        ...rest,
+        url: link,
+        urlText: linkText,
+      });
     },
     [onSave],
   );
@@ -171,19 +189,18 @@ const CampaignBlockForm = ({ initialData, onSave, onCancel }: Props) => {
             )}
           </StyledFormikField>
           <UrlWrapper>
-            <StyledFormikField name="url" showError>
+            <StyledUrlFormikField name="link" showError>
               {({ field }: FieldProps) => (
                 <InputV2 customCss={inputStyle} label={t('form.name.link')} {...field} />
               )}
-            </StyledFormikField>
-            <StyledFormikField name="urlText" showError>
+            </StyledUrlFormikField>
+            <StyledUrlFormikField name="linkText" showError>
               {({ field }: FieldProps) => (
                 <InputV2 customCss={inputStyle} label={t('form.name.linkText')} {...field} />
               )}
-            </StyledFormikField>
+            </StyledUrlFormikField>
           </UrlWrapper>
-          <InlineImageSearch name={'imageBeforeId'} />
-          <InlineImageSearch name={'imageAfterId'} />
+          <CampaignBlockImagePicker />
           <ButtonContainer>
             <ButtonV2 variant="outline" onClick={onCancel}>
               {t('cancel')}

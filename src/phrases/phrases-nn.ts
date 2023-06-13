@@ -536,6 +536,10 @@ const phrases = {
       illegalSlug:
         'Bruk av ulovlige tegn i permalenken! Tillatte tegn er alle tall og bokstaver, og bindestrek',
     },
+    isFrontpageArticle: {
+      description:
+        'Her styrar du om artikkelen skal visas som ein forside artikkel for deg i editoren',
+    },
   },
   gridForm: {
     title: 'Grid',

@@ -17,6 +17,8 @@ interface Props {
   children: ReactNode;
   initialValue?: boolean;
 }
+export const isFrontpageArticle = (draftId: number) =>
+  (JSON.parse(localStorage.getItem('frontpage-articles') ?? '[]') as number[]).includes(draftId);
 
 export const FrontpageArticleProvider = ({ children, initialValue = false }: Props) => {
   const isFrontpageArticle = useState<boolean>(initialValue);
@@ -44,17 +46,14 @@ export const useFrontpageArticle = () => {
     }
   };
 
-  const articleIsFrontpageArticle = (articleId: number) => getArticleIdList().includes(articleId);
-
   return {
     isFrontpageArticle,
     toggleFrontpageArticle,
-    articleIsFrontpageArticle,
     setFrontpageArticle,
   };
 };
 
-const getArticleIdList = () =>
+const getArticleIdList: () => number[] = () =>
   isNumberArray(JSON.parse(localStorage.getItem('frontpage-articles') ?? '[]'))
     .filter(Number)
     .map(Number);

@@ -8,9 +8,10 @@
 
 import { ReactNode, useState, MouseEvent } from 'react';
 import styled from '@emotion/styled';
-import { ReactEditor, RenderElementProps, useSlateStatic } from 'slate-react';
+import { RenderElementProps, useSlateStatic } from 'slate-react';
 import { ButtonV2 } from '@ndla/button';
 import { useTranslation } from 'react-i18next';
+import { Figure } from '@ndla/ui';
 import { parseMarkdown } from '@ndla/util';
 import { Editor, Path } from 'slate';
 import { getSrcSets } from '../../../../util/imageEditorUtil';
@@ -18,6 +19,7 @@ import FigureButtons from './FigureButtons';
 import EditImage from './EditImage';
 import { ImageEmbed } from '../../../../interfaces';
 import { isTable } from '../table/slateHelpers';
+import { useFrontpageArticle } from '../../../../containers/ArticlePage/FrontpageArticlePage/components/FrontpageArticleProvider';
 
 interface Props {
   active?: boolean;
@@ -41,8 +43,10 @@ const StyledButton = styled(ButtonV2)`
   }
 `;
 
-const StyledSlateImage = styled.div<{ embed: ImageEmbed }>`
-  ${(props) => (!props.embed.alt ? 'border: 2px solid rgba(209,55,46,0.3);' : '')}
+const StyledSlateImage = styled.div`
+  &[data-border='false'] {
+    border: 2px solid rgba(209, 55, 46, 0.3);
+  }
 `;
 
 const StyledDiv = styled.div`
@@ -51,12 +55,18 @@ const StyledDiv = styled.div`
   }
 `;
 
-interface StyledImgProps {
-  showOutline?: boolean;
-}
+const StyledFigure = styled.figure`
+  &[data-wide='true'] {
+    width: unset !important;
+    inset: unset !important;
+    margin: unset;
+  }
+`;
 
-const StyledImg = styled.img<StyledImgProps>`
-  box-shadow: ${(props) => (props.showOutline ? 'rgb(32, 88, 143) 0 0 0 2px' : 'none')};
+const StyledImg = styled.img`
+  &[data-outline='true'] {
+    box-shadow: 'rgb(32, 88, 143) 0 0 0 2px';
+  }
 `;
 
 const SlateImage = ({
@@ -76,6 +86,7 @@ const SlateImage = ({
   const [editMode, setEditMode] = useState(false);
   const showCopyOutline = isSelectedForCopy && (!editMode || !active);
   const editor = useSlateStatic();
+  const { isFrontpageArticle } = useFrontpageArticle();
 
   const [parentTable] = Editor.nodes(editor, {
     at: pathToEmbed,
@@ -88,7 +99,9 @@ const SlateImage = ({
     const size = embed.size && ['small', 'xsmall'].includes(embed.size) ? `-${embed.size}` : '';
     const align = embed.align && ['left', 'right'].includes(embed.align) ? `-${embed.align}` : '';
 
-    return `c-figure ${!isFullWidth ? `u-float${size}${align}` : ''}`;
+    return `${!isFrontpageArticle ? 'c-figure' : ''} ${
+      !isFullWidth ? `u-float${size}${align}` : ''
+    }`;
   };
 
   const transformData = () => {
@@ -107,16 +120,8 @@ const SlateImage = ({
       {...attributes}
       draggable={!visualElement && !editMode}
       className={constructFigureClassName()}
-      embed={embed}
+      data-border={!!embed.alt}
     >
-      <FigureButtons
-        tooltip={t('form.image.removeImage')}
-        onRemoveClick={onRemoveClick}
-        embed={embed}
-        onEdit={() => setEditMode(true)}
-        figureType="image"
-        language={language}
-      />
       {editMode && (
         <EditImage
           embed={embed}
@@ -136,7 +141,15 @@ const SlateImage = ({
             setEditMode(true);
           }}
         >
-          <figure {...figureClass}>
+          <StyledFigure data-wide={isFrontpageArticle} {...figureClass}>
+            <FigureButtons
+              tooltip={t('form.image.removeImage')}
+              onRemoveClick={onRemoveClick}
+              embed={embed}
+              onEdit={() => setEditMode(true)}
+              figureType="image"
+              language={language}
+            />
             <StyledImg
               alt={embed.alt}
               sizes={
@@ -150,14 +163,14 @@ const SlateImage = ({
                     '100vw'
               }
               srcSet={getSrcSets(embed.resource_id, transformData(), language)}
-              showOutline={showCopyOutline}
+              data-outline={showCopyOutline}
             />
             <figcaption className="c-figure__caption" contentEditable={false}>
               <StyledDiv className="c-figure__info">
                 {embed.caption && parseMarkdown(embed.caption)}
               </StyledDiv>
             </figcaption>
-          </figure>
+          </StyledFigure>
         </StyledButton>
       )}
       {children}

@@ -10,6 +10,7 @@ import { ReactNode } from 'react';
 import styled from '@emotion/styled';
 import { AccordionContent, AccordionHeader, AccordionItem } from '@ndla/accordion';
 import { colors, misc, spacing } from '@ndla/core';
+import { FRONTPAGE_ARTICLE_MAXIMUM_WIDTH } from '../../constants';
 
 export interface FormAccordionProps {
   children: ReactNode;
@@ -61,14 +62,14 @@ const HeaderWrapper = styled.div`
 const StyledAccordionContent = styled(AccordionContent)`
   &[data-wide='true'] {
     display: flex;
-    align-items: center;
     flex-flow: column;
+    padding: 0 16.6%;
     width: 100% !important;
     left: unset !important;
     right: unset !important;
     background-color: #f7fafd;
     > div {
-      width: 1100px;
+      max-width: ${FRONTPAGE_ARTICLE_MAXIMUM_WIDTH}px;
     }
   }
 `;

@@ -8,7 +8,7 @@
 
 import { useCallback, useEffect, useMemo } from 'react';
 import { Remarkable } from 'remarkable';
-import { ContentTypeBadge, Article } from '@ndla/ui';
+import { ContentTypeBadge, Article, FrontpageArticle } from '@ndla/ui';
 import { IArticle, ICopyright } from '@ndla/types-backend/draft-api';
 import { transform } from '@ndla/article-converter';
 import { LocaleType } from '../../interfaces';
@@ -16,6 +16,7 @@ import '../DisplayEmbed/helpers/h5pResizer';
 import formatDate from '../../util/formatDate';
 import { usePreviewArticle } from '../../modules/article/articleGqlQueries';
 import config from '../../config';
+import { isFrontpageArticle } from '../../containers/ArticlePage/FrontpageArticlePage/components/FrontpageArticleProvider';
 
 interface BaseProps {
   label: string;
@@ -42,6 +43,7 @@ interface FormArticle {
   visualElement?: string;
   published?: string;
   copyright?: ICopyright;
+  articleType?: string;
 }
 
 type Props = PreviewArticleV2Props | PreviewFormArticleV2Props;
@@ -96,6 +98,21 @@ export const PreviewDraft = ({ type, draft: draftProp, label, contentType, langu
 
   if (!transformedContent.data) {
     return null;
+  }
+  const isFrontpage = isFrontpageArticle(draft.id);
+
+  if (draft.articleType === 'frontpage-article') {
+    return (
+      <FrontpageArticle
+        //@ts-ignore
+        article={article!}
+        icon={contentType ? <ContentTypeBadge type={contentType} background size="large" /> : null}
+        id={draft.id.toString()}
+        messages={{ label }}
+        renderMarkdown={renderMarkdown}
+        isWide={isFrontpage}
+      />
+    );
   }
 
   return (

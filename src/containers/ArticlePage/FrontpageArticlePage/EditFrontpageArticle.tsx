@@ -17,7 +17,7 @@ import Spinner from '../../../components/Spinner';
 import { LocaleType } from '../../../interfaces';
 import NotFound from '../../NotFoundPage/NotFoundPage';
 import { TranslateType, useTranslateToNN } from '../../../components/NynorskTranslateProvider';
-import { useFrontpageArticle } from './components/FrontpageArticleProvider';
+import { isFrontpageArticle, useFrontpageArticle } from './components/FrontpageArticleProvider';
 
 const translateFields: TranslateType[] = [
   {
@@ -55,7 +55,7 @@ const EditFrontpageArticle = ({ isNewlyCreated }: Props) => {
     selectedLanguage,
   );
   const { translate, shouldTranslate, translating } = useTranslateToNN();
-  const { articleIsFrontpageArticle, setFrontpageArticle } = useFrontpageArticle();
+  const { setFrontpageArticle } = useFrontpageArticle();
 
   useEffect(() => {
     (async () => {
@@ -79,7 +79,7 @@ const EditFrontpageArticle = ({ isNewlyCreated }: Props) => {
   }
   const newLanguage = !article.supportedLanguages.includes(selectedLanguage);
 
-  if (articleIsFrontpageArticle(article.id)) {
+  if (isFrontpageArticle(article.id)) {
     setFrontpageArticle(true);
   }
 

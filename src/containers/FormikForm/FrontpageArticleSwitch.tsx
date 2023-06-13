@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-present, NDLA.
+ * Copyright (c) 2023-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
@@ -9,6 +9,7 @@
 import styled from '@emotion/styled';
 import { fonts, colors } from '@ndla/core';
 import { Switch } from '@ndla/switch';
+import { useTranslation } from 'react-i18next';
 import FormikField from '../../components/FormikField';
 import { useFrontpageArticle } from '../ArticlePage/FrontpageArticlePage/components/FrontpageArticleProvider';
 
@@ -26,16 +27,17 @@ interface Props {
 
 const FrontpageArticleSwitch = ({ articleId }: Props) => {
   const { isFrontpageArticle, toggleFrontpageArticle } = useFrontpageArticle();
+  const { t } = useTranslation();
   return (
     <FormikField
       name="frontpageArticle"
-      label="Forside artikkel"
-      description="Her styrer du om artikkelen som skal vises er forside artikkel"
+      label={t('frontpageArticleForm.title')}
+      description={t('frontpageArticleForm.isFrontpageArticle.description')}
     >
       {() => (
         <StyledSwitch
-          id={1}
-          label={'Forside artikkel'}
+          id={articleId}
+          label={t('frontpageArticleForm.title')}
           checked={isFrontpageArticle}
           onChange={() => toggleFrontpageArticle(articleId!)}
         />

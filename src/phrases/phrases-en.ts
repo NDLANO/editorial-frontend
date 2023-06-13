@@ -535,6 +535,10 @@ const phrases = {
       illegalSlug:
         'Use of illegal characters in permalink! Legal characters are numbers and letters, plus dashes.',
     },
+    isFrontpageArticle: {
+      description:
+        'Here you control if the article is to be portrayed as a frontpage article for you in the editor',
+    },
   },
   gridForm: {
     title: 'Grid',

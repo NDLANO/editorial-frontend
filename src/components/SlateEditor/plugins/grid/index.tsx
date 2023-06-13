@@ -6,7 +6,7 @@
  *
  */
 
-import { Descendant, Editor, Element, Transforms } from 'slate';
+import { Descendant, Editor, Element, Transforms, Text } from 'slate';
 import { RenderElementProps } from 'slate-react';
 import { GridType } from '@ndla/ui';
 import { jsx as slatejsx } from 'slate-hyperscript';

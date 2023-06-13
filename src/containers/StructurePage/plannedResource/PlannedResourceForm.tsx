@@ -80,6 +80,7 @@ export const inputWrapperStyles = css`
 export const ButtonWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
+  margin-bottom: ${spacing.small};
 `;
 
 const SwitchWrapper = styled.div`

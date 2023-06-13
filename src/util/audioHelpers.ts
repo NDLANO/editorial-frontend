@@ -67,5 +67,6 @@ export const podcastSeriesTypeToFormType = (
     description: plainTextToEditorValue(series?.description.description ?? ''),
     episodes: series?.episodes ?? [],
     supportedLanguages: series?.supportedLanguages ?? [language],
+    hasRSS: series?.hasRSS ?? false,
   };
 };

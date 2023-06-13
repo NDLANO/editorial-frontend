@@ -75,6 +75,7 @@ export interface PodcastSeriesFormikType {
   metaImageAlt?: string;
   episodes: IAudioMetaInformation[];
   supportedLanguages: string[];
+  hasRSS?: boolean; // TODO: check if already exists on all
 }
 
 interface Props {
@@ -112,7 +113,8 @@ const PodcastSeriesForm = ({
       values.title === undefined ||
       values.language === undefined ||
       values.coverPhotoId === undefined ||
-      values.metaImageAlt === undefined
+      values.metaImageAlt === undefined ||
+      values.hasRSS === undefined
     ) {
       actions.setSubmitting(false);
       setSavedToServer(false);
@@ -130,6 +132,7 @@ const PodcastSeriesForm = ({
       coverPhotoAltText: values.metaImageAlt,
       language: values.language,
       episodes: values.episodes.map((ep) => ep.id),
+      hasRSS: values.hasRSS,
     };
 
     await onUpdate(newPodcastSeries);

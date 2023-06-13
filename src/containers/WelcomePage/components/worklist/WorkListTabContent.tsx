@@ -47,7 +47,7 @@ const StyledTitleWrapper = styled.div`
 `;
 
 const StyledExclamationMark = styled(ExclamationMark)`
-  &[data-visible='false'] {
+  &[aria-hidden='false'] {
     visibility: hidden;
   }
 `;
@@ -98,7 +98,6 @@ const WorkListTabContent = ({
                     <Tooltip tooltip={t('editorFooter.prioritized')}>
                       <StyledIconWrapper>
                         <StyledExclamationMark
-                          data-visible={!!res?.prioritized}
                           aria-hidden={!!res?.prioritized}
                           aria-label={t('editorFooter.prioritized')}
                         />
@@ -117,9 +116,7 @@ const WorkListTabContent = ({
                         <Comment />
                       </StyledIconWrapper>
                     </Tooltip>
-                  ) : (
-                    ''
-                  )}
+                  ) : null}
                 </CellWrapper>
               ),
               title: res.title?.title,

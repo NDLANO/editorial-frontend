@@ -17,7 +17,13 @@ import Tooltip from '@ndla/tooltip';
 import styled from '@emotion/styled';
 import formatDate from '../../../../util/formatDate';
 import { toEditArticle } from '../../../../util/routeHelpers';
-import { ControlWrapperDashboard, StyledLink, StyledTopRowDashboardInfo } from '../../styles';
+import {
+  ControlWrapperDashboard,
+  StyledLink,
+  StyledSwitch,
+  StyledTopRowDashboardInfo,
+  SwitchWrapper,
+} from '../../styles';
 import SubjectDropdown from './SubjectDropdown';
 import TableComponent, { FieldElement, Prefix, TitleElement } from '../TableComponent';
 import TableTitle from '../TableTitle';
@@ -31,6 +37,27 @@ export const CellWrapper = styled.div`
   align-items: center;
 `;
 
+const StyledWorkListControls = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const StyledTitleWrapper = styled.div`
+  display: flex;
+`;
+
+const StyledExclamationMark = styled(ExclamationMark)`
+  &[data-visible='false'] {
+    visibility: hidden;
+  }
+`;
+
+const StyledIconWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  height: 100%;
+`;
+
 interface Props {
   data?: IMultiSearchResult;
   filterSubject?: SingleValue;
@@ -41,8 +68,9 @@ interface Props {
   setFilterSubject: (fs: SingleValue) => void;
   ndlaId?: string;
   setPage: (page: number) => void;
+  setPrioritized: (prioritized: boolean) => void;
+  prioritized: boolean;
 }
-
 const WorkListTabContent = ({
   data,
   filterSubject,
@@ -53,6 +81,8 @@ const WorkListTabContent = ({
   setFilterSubject,
   ndlaId,
   setPage,
+  setPrioritized,
+  prioritized,
 }: Props) => {
   const { t } = useTranslation();
 
@@ -61,27 +91,35 @@ const WorkListTabContent = ({
       data
         ? data.results.map((res) => [
             {
-              id: `prioritized_${res.id}`,
-              data: res?.prioritized ? <ExclamationMark /> : '',
-              title: t('editorFooter.prioritized'),
-            },
-            {
               id: `title_${res.id}`,
               data: (
                 <CellWrapper>
-                  <StyledLink
-                    to={toEditArticle(res.id, res.learningResourceType)}
-                    title={res.title?.title}
-                  >
-                    {res.title?.title}
-                  </StyledLink>
+                  <StyledTitleWrapper>
+                    <Tooltip tooltip={t('editorFooter.prioritized')}>
+                      <StyledIconWrapper>
+                        <StyledExclamationMark
+                          data-visible={!!res?.prioritized}
+                          aria-hidden={!!res?.prioritized}
+                          aria-label={t('editorFooter.prioritized')}
+                        />
+                      </StyledIconWrapper>
+                    </Tooltip>
+                    <StyledLink
+                      to={toEditArticle(res.id, res.learningResourceType)}
+                      title={res.title?.title}
+                    >
+                      {res.title?.title}
+                    </StyledLink>
+                  </StyledTitleWrapper>
                   {res.comments?.length ? (
                     <Tooltip tooltip={res.comments[0]?.content}>
-                      <div>
+                      <StyledIconWrapper>
                         <Comment />
-                      </div>
+                      </StyledIconWrapper>
                     </Tooltip>
-                  ) : null}
+                  ) : (
+                    ''
+                  )}
                 </CellWrapper>
               ),
               title: res.title?.title,
@@ -119,7 +157,6 @@ const WorkListTabContent = ({
   );
 
   const tableTitles: TitleElement<SortOption>[] = [
-    { title: '', sortableField: 'prioritized', width: '3%' },
     { title: t('welcomePage.workList.title'), sortableField: 'title', width: '30%' },
     { title: t('welcomePage.workList.status'), sortableField: 'status', width: '10%' },
     { title: t('welcomePage.workList.contentType') },
@@ -142,10 +179,30 @@ const WorkListTabContent = ({
           description={t('welcomePage.workList.description')}
           Icon={Calendar}
         />
-        <ControlWrapperDashboard>
-          <SubjectDropdown filterSubject={filterSubject} setFilterSubject={setFilterSubject} />
-          <GoToSearch ndlaId={ndlaId} filterSubject={filterSubject?.value} searchEnv={'content'} />
-        </ControlWrapperDashboard>
+        <StyledWorkListControls>
+          <ControlWrapperDashboard>
+            <SubjectDropdown filterSubject={filterSubject} setFilterSubject={setFilterSubject} />
+            <GoToSearch
+              ndlaId={ndlaId}
+              filterSubject={filterSubject?.value}
+              searchEnv={'content'}
+            />
+          </ControlWrapperDashboard>
+          <Tooltip tooltip={t('welcomePage.prioritizedLabel')}>
+            <SwitchWrapper>
+              <StyledSwitch
+                checked={prioritized}
+                onChange={() => {
+                  setPrioritized(!prioritized);
+                  setPage(1);
+                }}
+                label={t('welcomePage.prioritizedLabel')}
+                id="filter-prioritized-switch"
+                thumbCharacter="P"
+              />
+            </SwitchWrapper>
+          </Tooltip>
+        </StyledWorkListControls>
       </StyledTopRowDashboardInfo>
       <TableComponent
         isLoading={isLoading}

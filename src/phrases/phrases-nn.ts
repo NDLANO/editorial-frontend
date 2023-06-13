@@ -139,6 +139,7 @@ const phrases = {
     updated: 'Oppdatert',
     primaryConnection: 'Berre vis ressursar med primærkopling til mine favorittfag',
     primaryConnectionLabel: 'Berre vis primærkopling',
+    prioritizedLabel: 'Berre vis prioriterte',
     workList: {
       heading: 'Mine arbeidsoppgåver',
       description: 'Artiklar der du står som ansvarleg',

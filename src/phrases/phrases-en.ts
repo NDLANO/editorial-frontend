@@ -138,6 +138,7 @@ const phrases = {
     updated: 'Updated',
     primaryConnection: 'Only show resources with primary connection to my favorite subjects',
     primaryConnectionLabel: 'Only show primary connection',
+    prioritizedLabel: 'Only show prioritized',
     workList: {
       heading: 'My tasks',
       description: 'Articles where you are responsible',

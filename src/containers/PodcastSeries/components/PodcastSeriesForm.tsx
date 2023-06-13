@@ -176,7 +176,12 @@ const PodcastSeriesForm = ({
           changed: isNewLanguage,
         });
 
-        const content = { ...podcastSeries, title: podcastSeries?.title.title ?? '', language };
+        const content = {
+          ...podcastSeries,
+          title: podcastSeries?.title.title ?? '',
+          language,
+          hasRSS: values.hasRSS,
+        };
         return (
           <FormWrapper inModal={inModal}>
             <HeaderWithLanguage

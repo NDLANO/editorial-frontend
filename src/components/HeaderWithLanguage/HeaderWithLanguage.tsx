@@ -44,6 +44,7 @@ interface Props {
     };
     title?: string;
     supportedLanguages?: string[];
+    hasRSS?: boolean;
   };
   taxonomy?: ArticleTaxonomy;
   editUrl?: (url: string) => string;
@@ -84,7 +85,8 @@ const HeaderWithLanguage = ({
 }: Props) => {
   const { t, i18n } = useTranslation();
   const { articleType } = values;
-  const { id, title, status } = content;
+  const { id, title, status, hasRSS } = content;
+
   // true by default to disable language deletions until connections are retrieved.
   const [hasConnections, setHasConnections] = useState(true);
 
@@ -119,6 +121,7 @@ const HeaderWithLanguage = ({
         setHasConnections={setHasConnections}
         expirationDate={expirationDate}
         responsibleId={responsible}
+        hasRSS={hasRSS}
       />
       <StyledLanguageWrapper>
         <HeaderActions

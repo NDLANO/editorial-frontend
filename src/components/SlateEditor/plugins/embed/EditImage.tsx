@@ -39,7 +39,7 @@ interface Props {
 interface StateProps {
   alt: string;
   caption?: string;
-  'is-decorative'?: string;
+  isDecorative?: boolean;
   imageUpdates:
     | {
         transformData: TransformData;
@@ -54,7 +54,7 @@ const EditImage = ({ embed, saveEmbedUpdates, setEditModus, language }: Props) =
   const [state, setState] = useState<StateProps>({
     alt: embed.alt,
     caption: embed.caption,
-    'is-decorative': embed['is-decorative'],
+    isDecorative: embed['is-decorative'] === 'true',
     imageUpdates: {
       transformData: {
         'focal-x': embed['focal-x'],
@@ -96,6 +96,7 @@ const EditImage = ({ embed, saveEmbedUpdates, setEditModus, language }: Props) =
       ...state.imageUpdates?.transformData,
       align: state.imageUpdates?.align,
       size: updatedSize,
+      'is-decorative': state.isDecorative?.toString(),
     });
 
     setEditModus(false);
@@ -117,10 +118,10 @@ const EditImage = ({ embed, saveEmbedUpdates, setEditModus, language }: Props) =
     });
   };
 
-  const handleCheck = (isDecorative: string) => {
+  const handleCheck = (isDecorative: boolean) => {
     setState({
       ...state,
-      'is-decorative': isDecorative,
+      isDecorative: isDecorative,
       alt: '',
       madeChanges: true,
     });
@@ -144,7 +145,7 @@ const EditImage = ({ embed, saveEmbedUpdates, setEditModus, language }: Props) =
               onChange={onChange}
               onAbort={onAbort}
               onSave={onSave}
-              isDecorative={state['is-decorative']}
+              isDecorative={state.isDecorative}
               handleCheck={handleCheck}
             />
           </StyledEditorContent>

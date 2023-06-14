@@ -29,8 +29,8 @@ interface Props {
   onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
   onAbort: MouseEventHandler<HTMLButtonElement>;
   onSave: MouseEventHandler<HTMLButtonElement>;
-  isDecorative?: string;
-  handleCheck: (v: string) => void;
+  isDecorative?: boolean;
+  handleCheck: (b: boolean) => void;
 }
 
 const FigureInput = ({
@@ -40,13 +40,12 @@ const FigureInput = ({
   onChange,
   onAbort,
   onSave,
-  isDecorative: isDecorativeString,
+  isDecorative,
   handleCheck,
 }: Props) => {
   const { t } = useTranslation();
   const { submitted, allowDecorative } = useSlateContext();
 
-  const isDecorative = isDecorativeString === 'true';
   return (
     <StyledInputWrapper>
       {caption !== undefined && (
@@ -77,7 +76,7 @@ const FigureInput = ({
           label={t('form.image.isDecorative')}
           checked={isDecorative}
           onChange={() => {
-            handleCheck((!isDecorative).toString());
+            handleCheck(!isDecorative);
           }}
         />
       )}

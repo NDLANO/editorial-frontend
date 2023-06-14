@@ -130,6 +130,12 @@ export const commonActions: Action[] = [
     helpIcon: renderArticleInModal('ConceptList'),
     requiredScope: DRAFT_ADMIN_SCOPE,
   },
+  {
+    data: { type: TYPE_GRID, object: 'grid' },
+    icon: <Grid />,
+    helpIcon: renderArticleInModal('Grid'),
+    requiredScope: DRAFT_ADMIN_SCOPE,
+  },
 ];
 
 export const frontpageActions = commonActions.concat(
@@ -147,10 +153,5 @@ export const frontpageActions = commonActions.concat(
     data: { type: TYPE_CONTACT_BLOCK, object: 'contactBlock' },
     icon: <Person />,
     helpIcon: renderArticleInModal('ContactBlock'),
-  },
-  {
-    data: { type: TYPE_GRID, object: 'grid' },
-    icon: <Grid />,
-    helpIcon: renderArticleInModal('Grid'),
   },
 );

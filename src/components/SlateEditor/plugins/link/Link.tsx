@@ -9,6 +9,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Editor, Node } from 'slate';
 import { RenderElementProps } from 'slate-react';
+import { Portal } from '@radix-ui/react-portal';
 import { ButtonV2 } from '@ndla/button';
 import styled from '@emotion/styled';
 import { Modal } from '@ndla/modal';
@@ -16,7 +17,6 @@ import { useTranslation } from 'react-i18next';
 import { colors, spacing } from '@ndla/core';
 import config from '../../../../config';
 import { toEditGenericArticle, toLearningpathFull } from '../../../../util/routeHelpers';
-import { Portal } from '../../../Portal';
 import isNodeInCurrentSelection from '../../utils/isNodeInCurrentSelection';
 import EditLink from './EditLink';
 import { ContentLinkElement, LinkElement } from '.';
@@ -134,18 +134,20 @@ const Link = (props: Props) => {
       {children}
       {model && (
         <>
-          <Portal isOpened={isInline}>
-            <StyledLinkMenu top={top} left={left}>
-              <ButtonV2 variant="link" onClick={toggleEditMode}>
-                {t('form.content.link.change')}
-              </ButtonV2>{' '}
-              | {t('form.content.link.goTo')}{' '}
-              <a href={model?.href} target="_blank" rel="noopener noreferrer">
-                {' '}
-                {model?.href}
-              </a>
-            </StyledLinkMenu>
-          </Portal>
+          {isInline && (
+            <Portal>
+              <StyledLinkMenu top={top} left={left}>
+                <ButtonV2 variant="link" onClick={toggleEditMode}>
+                  {t('form.content.link.change')}
+                </ButtonV2>{' '}
+                | {t('form.content.link.goTo')}{' '}
+                <a href={model?.href} target="_blank" rel="noopener noreferrer">
+                  {' '}
+                  {model?.href}
+                </a>
+              </StyledLinkMenu>
+            </Portal>
+          )}
           <Modal controlled isOpen={editMode} onClose={toggleEditMode}>
             {(close) => (
               <EditLink {...props} model={model} closeEditMode={close} onChange={onChange} />

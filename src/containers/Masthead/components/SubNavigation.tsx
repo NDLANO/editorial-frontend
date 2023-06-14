@@ -6,6 +6,7 @@ import { spacing, colors } from '@ndla/core';
 import { SearchType } from '../../../interfaces';
 import { SearchParams } from '../../SearchPage/components/form/SearchForm';
 import { ResultType } from '../../SearchPage/SearchContainer';
+import { MAX_PAGE_WIDTH } from '../../../constants';
 
 interface SubType {
   title: string;
@@ -30,7 +31,7 @@ const ItemsWrapper = styled.div`
   text-align: center;
   height: 10rem;
   flex-flow: row;
-  max-width: 1024px;
+  max-width: ${MAX_PAGE_WIDTH}px;
   width: 100%;
   padding-left: ${spacing.normal};
   padding-right: ${spacing.normal};

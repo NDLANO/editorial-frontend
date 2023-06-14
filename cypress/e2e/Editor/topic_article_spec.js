@@ -22,9 +22,7 @@ describe('Language handling', () => {
   });
 
   it('Can change language and fetch the new article', () => {
-    cy.get('header button')
-      .contains('Legg til')
-      .click({ force: true });
+    cy.get('header button').contains('Legg til').click({ force: true });
   });
 
   it('Has access to the html-editor', () => {

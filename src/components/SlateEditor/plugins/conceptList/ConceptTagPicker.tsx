@@ -16,7 +16,6 @@ import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { ConceptListElement } from '.';
 import { fetchAllSubjects, fetchAllTags } from '../../../../modules/concept/conceptApi';
-import { Portal } from '../../../Portal';
 import ConceptSearchResult from './ConceptSearchResult';
 import Dropdown, { DropdownItem } from '../../../Dropdown/Dropdown';
 import { fetchSubject } from '../../../../modules/taxonomy';
@@ -134,51 +133,49 @@ const ConceptTagPicker = ({ element, onClose, language }: Props) => {
   }, [language, setTags, element.data.subjectId, t]);
 
   return (
-    <Portal isOpened>
-      <Modal controlled isOpen onClose={onClose} size={{ height: 'large', width: 'large' }}>
-        {() => (
-          <div>
-            <ModalHeader>
-              <ModalCloseButton title={t('dialog.close')} onClick={onClose} />
-            </ModalHeader>
-            <ModalBody>
-              <TwoColumn>
-                <FormInput>
-                  <Input
-                    value={titleInput}
-                    onChange={onChangeTitleInput}
-                    placeholder={t('form.name.title')}
-                  />
-                  <Dropdown
-                    items={tags}
-                    onSelect={setSelectedTag}
-                    onReset={() => setSelectedTag(undefined)}
-                    selectedTag={selectedTag}
-                    placeholder={t('form.categories.label')}
-                  />
-                  <Dropdown
-                    items={subjects}
-                    onSelect={setSelectedSubject}
-                    onReset={() => setSelectedSubject(undefined)}
-                    selectedTag={selectedSubject}
-                    placeholder={t('form.name.subjects')}
-                  />
-                  <ConceptSearchResult
-                    tag={selectedTag?.id}
-                    subjectId={selectedSubject?.id}
-                    language={language}
-                    showResultCount
-                  />
-                </FormInput>
-                <ButtonV2 onClick={onSave} disabled={!selectedTag}>
-                  {t('form.save')}
-                </ButtonV2>
-              </TwoColumn>
-            </ModalBody>
-          </div>
-        )}
-      </Modal>
-    </Portal>
+    <Modal controlled isOpen onClose={onClose} size={{ height: 'large', width: 'large' }}>
+      {() => (
+        <div>
+          <ModalHeader>
+            <ModalCloseButton title={t('dialog.close')} onClick={onClose} />
+          </ModalHeader>
+          <ModalBody>
+            <TwoColumn>
+              <FormInput>
+                <Input
+                  value={titleInput}
+                  onChange={onChangeTitleInput}
+                  placeholder={t('form.name.title')}
+                />
+                <Dropdown
+                  items={tags}
+                  onSelect={setSelectedTag}
+                  onReset={() => setSelectedTag(undefined)}
+                  selectedTag={selectedTag}
+                  placeholder={t('form.categories.label')}
+                />
+                <Dropdown
+                  items={subjects}
+                  onSelect={setSelectedSubject}
+                  onReset={() => setSelectedSubject(undefined)}
+                  selectedTag={selectedSubject}
+                  placeholder={t('form.name.subjects')}
+                />
+                <ConceptSearchResult
+                  tag={selectedTag?.id}
+                  subjectId={selectedSubject?.id}
+                  language={language}
+                  showResultCount
+                />
+              </FormInput>
+              <ButtonV2 onClick={onSave} disabled={!selectedTag}>
+                {t('form.save')}
+              </ButtonV2>
+            </TwoColumn>
+          </ModalBody>
+        </div>
+      )}
+    </Modal>
   );
 };
 

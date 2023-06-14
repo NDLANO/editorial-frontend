@@ -69,11 +69,7 @@ const FigureInput = ({
           type="text"
           placeholder={t('form.image.alt.placeholder')}
           white
-          warningText={
-            !submitted && isEmpty(alt)
-              ? t('form.image.alt.noText') + ' for bilder som ikke er dekorative'
-              : ''
-          }
+          warningText={!submitted && isEmpty(alt) ? t('form.image.alt.noText') : ''}
         />
       )}
       {allowDecorative && (

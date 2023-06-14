@@ -22,6 +22,8 @@ import { TYPE_EMBED_IMAGE } from '../embed/types';
 import { TYPE_BLOGPOST } from '../blogPost/types';
 import StyledGridCell from './SlateGridCell';
 import { defaultParagraphBlock } from '../paragraph/utils';
+import { TYPE_HEADING } from '../heading/types';
+import { TYPE_LIST } from '../list/types';
 
 export interface GridElement {
   type: 'grid';
@@ -51,7 +53,7 @@ const normalizerConfig: NormalizerConfig = {
 
 const normalizerConfigGridCell: NormalizerConfig = {
   nodes: {
-    allowed: [TYPE_BLOGPOST, TYPE_PARAGRAPH, TYPE_EMBED_IMAGE],
+    allowed: [TYPE_BLOGPOST, TYPE_PARAGRAPH, TYPE_EMBED_IMAGE, TYPE_HEADING, TYPE_LIST],
     defaultType: TYPE_PARAGRAPH,
   },
 };

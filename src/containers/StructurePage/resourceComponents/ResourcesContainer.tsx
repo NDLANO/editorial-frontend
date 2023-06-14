@@ -40,7 +40,7 @@ const ResourceWrapper = styled.div`
 `;
 
 const StyledResource = styled(Resource)`
-  margin-left: 50px;
+  margin-left: 44px;
 `;
 
 interface Props {

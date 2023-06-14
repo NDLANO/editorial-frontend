@@ -12,6 +12,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import sortBy from 'lodash/sortBy';
 import styled from '@emotion/styled';
 import { NodeChild } from '@ndla/types-taxonomy';
+import { spacing } from '@ndla/core';
 import { DragVertical } from '@ndla/icons/editor';
 import { DragEndEvent } from '@dnd-kit/core';
 import Resource from './Resource';
@@ -35,6 +36,10 @@ const StyledResourceItems = styled.ul`
   list-style: none;
   margin: 0;
   padding: 0;
+`;
+
+const StyledDragHandle = styled(DragHandle)`
+  margin-right: ${spacing.xsmall};
 `;
 
 const StyledErrorMessage = styled.div`
@@ -136,9 +141,9 @@ const ResourceItems = ({
         disabled={resources.length < 2}
         onDragEnd={onDragEnd}
         dragHandle={
-          <DragHandle aria-label={t('dragAndDrop.handle')}>
+          <StyledDragHandle aria-label={t('dragAndDrop.handle')}>
             <DragVertical />
-          </DragHandle>
+          </StyledDragHandle>
         }
         renderItem={(resource) => (
           <Resource

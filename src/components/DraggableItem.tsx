@@ -11,7 +11,6 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import styled from '@emotion/styled';
 import { IconButtonV2 } from '@ndla/button';
-import { spacing } from '@ndla/core';
 import { ComponentProps, ReactElement, ReactNode, cloneElement, forwardRef } from 'react';
 
 interface Props {
@@ -27,7 +26,6 @@ const StyledListElement = styled.li`
   margin: 0;
   display: flex;
   align-items: center;
-  gap: ${spacing.small};
   &[data-has-handle='false'] {
     cursor: grab;
   }

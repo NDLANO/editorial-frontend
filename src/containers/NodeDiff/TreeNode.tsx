@@ -42,6 +42,10 @@ interface RootNodeProps {
   selectedNode?: DiffType<Node> | DiffTypeWithChildren;
 }
 
+const StructureItem = styled(StyledStructureItem)`
+  margin-left: ${spacing.small};
+`;
+
 export const RootNode = ({ tree, onNodeSelected, selectedNode }: RootNodeProps) => {
   const root = tree.root;
   const [params] = useSearchParams();
@@ -126,7 +130,7 @@ export const TreeNode = ({ node, onNodeSelected, selectedNode, parentActive, nod
   };
 
   return (
-    <StyledStructureItem
+    <StructureItem
       connectionId={connectionId}
       id={node.id.other ?? node.id.original}
       key={path}
@@ -178,6 +182,6 @@ export const TreeNode = ({ node, onNodeSelected, selectedNode, parentActive, nod
             </Fade>
           </StructureWrapper>
         ))}
-    </StyledStructureItem>
+    </StructureItem>
   );
 };

@@ -10,7 +10,7 @@ import { createRef, MouseEvent, useEffect } from 'react';
 import { Editor, Element } from 'slate';
 import { ReactEditor } from 'slate-react';
 import styled from '@emotion/styled';
-import { Portal } from '../../../Portal';
+import { Portal } from '@radix-ui/react-portal';
 import ToolbarButton from './ToolbarButton';
 import { toggleMark } from '../mark/utils';
 import { handleClickInline, handleClickBlock, handleClickTable } from './handleMenuClicks';
@@ -200,7 +200,7 @@ const SlateToolbar = (props: Props) => {
     ));
 
   return (
-    <Portal isOpened>
+    <Portal>
       <ToolbarContainer ref={portalRef}>
         {markButtons}
         {blockButtons}

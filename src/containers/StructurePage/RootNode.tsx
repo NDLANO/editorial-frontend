@@ -109,7 +109,6 @@ const RootNode = ({
       item={node}
       nodes={childNodesQuery.data}
       openedPaths={openedPaths}
-      level={1}
       onNodeSelected={onNodeSelected}
       toggleOpen={toggleOpen}
       toggleFavorite={toggleFavorite}

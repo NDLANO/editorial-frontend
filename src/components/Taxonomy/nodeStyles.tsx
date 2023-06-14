@@ -70,7 +70,6 @@ export const ItemTitleButton = styled.button<ItemTitleButtonProps>`
 `;
 
 interface StyledItemBarProps {
-  level: number;
   highlight?: boolean;
 }
 
@@ -97,6 +96,7 @@ export const StyledStructureItem = styled.div<StyledStructureItemProps>`
   flex: 1;
   display: flex;
   flex-direction: column;
+  margin-left: ${spacing.normal};
   ${(props) =>
     props.greyedOut &&
     css`

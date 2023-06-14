@@ -58,7 +58,6 @@ interface Props {
   item: (NodeChild & { articleType?: string; isPublished?: boolean }) | Node;
   openedPaths: string[];
   toggleOpen: (nodeId: string) => void;
-  level: number;
   onNodeSelected: (node?: Node) => void;
   resourceSectionRef: MutableRefObject<HTMLDivElement | null>;
   rootNodeId: string;
@@ -78,7 +77,6 @@ const NodeItem = ({
   item,
   openedPaths,
   toggleOpen,
-  level,
   onNodeSelected,
   rootNodeId,
   resourceSectionRef,
@@ -122,7 +120,7 @@ const NodeItem = ({
       key={path}
       greyedOut={!parentActive && !isActive}
     >
-      <StyledItemBar level={level} highlight={isActive}>
+      <StyledItemBar highlight={isActive}>
         {isRoot && (
           <RoundIcon
             onClick={toggleFavorite}
@@ -182,7 +180,6 @@ const NodeItem = ({
                   item={t}
                   nodes={t.childNodes}
                   toggleOpen={toggleOpen}
-                  level={level + 1}
                   onDragEnd={onDragEnd}
                   setShowAddTopicModal={setShowAddTopicModal}
                 />

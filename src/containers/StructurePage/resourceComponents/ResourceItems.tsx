@@ -162,11 +162,11 @@ const ResourceItems = ({
           />
         )}
       />
-      {deleteNodeResource.error && isError(deleteNodeResource.error) && (
+      {deleteNodeResource.error && isError(deleteNodeResource.error) ? (
         <StyledErrorMessage data-testid="inlineEditErrorMessage">
           {`${t('taxonomy.errorMessage')}: ${deleteNodeResource.error.message}`}
         </StyledErrorMessage>
-      )}
+      ) : null}
       <AlertModal
         title={t('taxonomy.deleteResource')}
         label={t('taxonomy.deleteResource')}

@@ -7,7 +7,6 @@
  */
 
 import { useEffect, useRef, useState } from 'react';
-import { render } from 'react-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { BrowserRouter } from 'react-router-dom';
 import { I18nextProvider, useTranslation } from 'react-i18next';
@@ -15,6 +14,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import ErrorReporter from '@ndla/error-reporter';
 import { i18nInstance } from '@ndla/ui';
+import { createRoot } from 'react-dom/client';
 import config, { ConfigType, getDefaultLanguage } from './config';
 import { isValidLocale } from './i18n';
 import App from './containers/App/App';
@@ -115,7 +115,9 @@ const queryClient = new QueryClient({
 });
 
 const renderApp = () => {
-  render(
+  const container = document.getElementById('root')!;
+  const root = createRoot(container);
+  root.render(
     <HelmetProvider>
       <QueryClientProvider client={queryClient}>
         <I18nextProvider i18n={i18nInstance}>
@@ -124,7 +126,6 @@ const renderApp = () => {
         <ReactQueryDevtools />
       </QueryClientProvider>
     </HelmetProvider>,
-    document.getElementById('root'),
   );
 };
 renderApp();

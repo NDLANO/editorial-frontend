@@ -108,7 +108,10 @@ const ResourceItems = ({
   };
 
   const onDragEnd = async ({ active, over }: DragEndEvent) => {
-    const [source, dest] = [resources[active.data.current?.id], resources[over?.data.current?.id]];
+    const [source, dest] = [
+      resources[active.data.current?.index],
+      resources[over?.data.current?.index],
+    ];
     if (!dest || !source || source.rank === dest.rank) return;
 
     await updateNodeResource({

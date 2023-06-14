@@ -49,19 +49,10 @@ const FigureInput = ({
   const isDecorative = isDecorativeString === 'true';
   return (
     <StyledInputWrapper>
-      {allowDecorative && (
-        <CheckboxItem
-          label={t('form.image.isDecorative')}
-          checked={isDecorative}
-          onChange={() => {
-            handleCheck((!isDecorative).toString());
-          }}
-        />
-      )}
       {caption !== undefined && (
         <TextArea
           name="caption"
-          label={`${t('form.image.caption.label')}:`}
+          label={t('form.image.caption.label')}
           value={caption}
           onChange={onChange}
           type="text"
@@ -72,13 +63,26 @@ const FigureInput = ({
       {!isDecorative && (
         <TextArea
           name="alt"
-          label={`${t('form.image.alt.label')}:`}
+          label={t('form.image.alt.label')}
           value={alt}
           onChange={onChange}
           type="text"
           placeholder={t('form.image.alt.placeholder')}
           white
-          warningText={!submitted && isEmpty(alt) ? t('form.image.alt.noText') : ''}
+          warningText={
+            !submitted && isEmpty(alt)
+              ? t('form.image.alt.noText') + ' for bilder som ikke er dekorative'
+              : ''
+          }
+        />
+      )}
+      {allowDecorative && (
+        <CheckboxItem
+          label={t('form.image.isDecorative')}
+          checked={isDecorative}
+          onChange={() => {
+            handleCheck((!isDecorative).toString());
+          }}
         />
       )}
       <StyledButtonWrapper paddingLeft>

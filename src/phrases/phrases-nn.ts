@@ -1829,6 +1829,9 @@ const phrases = {
     },
   },
   delete: 'Slett',
+  dragAndDrop: {
+    handle: 'Handtak',
+  },
 };
 
 export default phrases;

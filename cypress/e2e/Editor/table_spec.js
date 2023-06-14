@@ -23,7 +23,7 @@ describe('Table plugin', () => {
   });
 
   it('all table functions work', () => {
-    cy.get('[data-cy=create-table]').last().click({ force: true });
+    cy.get('[data-cy=create-table]').last().click();
     cy.get('[data-cy=slate-editor] [data-slate-editor=true]')
       .first()
       .focus()
@@ -34,18 +34,18 @@ describe('Table plugin', () => {
             force: true,
           },
         );
-        cy.get('[data-cy=column-add]').click({ force: true });
+        cy.get('[data-cy=column-add]').click();
         cy.wrap($el).type('{rightarrow}Test new column');
-        cy.get('[data-cy=row-remove]').click({ force: true });
-        cy.get('[data-cy=head-add]').click({ force: true });
+        cy.get('[data-cy=row-remove]').click();
+        cy.get('[data-cy=head-add]').click();
         cy.wrap($el).type('{uparrow}Test new header{downarrow}');
-        cy.get('[data-cy=row-add]').click({ force: true });
+        cy.get('[data-cy=row-add]').click();
         cy.wrap($el).type('{downarrow}Test new row');
-        cy.get('[data-cy=toggle-row-headers]').click({ force: true });
+        cy.get('[data-cy=toggle-row-headers]').click();
       });
 
-    cy.get('[data-cy=column-remove]').click({ force: true });
-    cy.get('[data-cy=row-remove]').click({ force: true });
-    cy.get('[data-cy=table-remove]').click({ force: true });
+    cy.get('[data-cy=column-remove]').click();
+    cy.get('[data-cy=row-remove]').click();
+    cy.get('[data-cy=table-remove]').click();
   });
 });

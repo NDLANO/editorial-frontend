@@ -16,6 +16,7 @@
 // Import commands.js using ES2015 syntax:
 import decode from 'jwt-decode';
 import './commands';
+require('cypress-plugin-tab');
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')

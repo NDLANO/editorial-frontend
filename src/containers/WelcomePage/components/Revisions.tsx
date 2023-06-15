@@ -165,12 +165,10 @@ const Revisions = ({ userData }: Props) => {
               {a.title?.title}
             </StyledLink>
           ),
-          title: a.title?.title,
         },
         {
           id: `status_${a.id}`,
           data: a.status?.current ? t(`form.status.${a.status.current.toLowerCase()}`) : '',
-          title: a.status?.current ? t(`form.status.${a.status.current.toLowerCase()}`) : '',
         },
         {
           id: `primarySubject_${a.id}`,

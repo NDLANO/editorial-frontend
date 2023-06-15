@@ -44,6 +44,7 @@ const StyledWorkListControls = styled.div`
 
 const StyledTitleWrapper = styled.div`
   display: flex;
+  overflow: hidden;
 `;
 
 const StyledExclamationMark = styled(ExclamationMark)`
@@ -119,12 +120,10 @@ const WorkListTabContent = ({
                   ) : null}
                 </CellWrapper>
               ),
-              title: res.title?.title,
             },
             {
               id: `status_${res.id}`,
               data: <StatusCell status={res.status} />,
-              title: t(`form.status.${res.status?.current.toLowerCase()}`),
             },
             {
               id: `contentType_${res.id}`,

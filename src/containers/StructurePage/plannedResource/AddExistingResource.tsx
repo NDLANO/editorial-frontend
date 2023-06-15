@@ -216,20 +216,22 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
               name="pasteUrlInput"
               placeholder={t('taxonomy.urlPlaceholder')}
             />
-            {canPaste && <StyledOrDivider>{t('taxonomy.or')}</StyledOrDivider>}
+            {!pastedUrl && canPaste && <StyledOrDivider>{t('taxonomy.or')}</StyledOrDivider>}
           </>
         )}
         <StyledSection>
-          <div>
-            <StyledLabel htmlFor="select-resource-type">{t('taxonomy.contentType')}</StyledLabel>
-            <ResourceTypeSelect
-              availableResourceTypes={resourceTypes ?? []}
-              onChangeSelectedResource={(value) => {
-                if (value) setSelectedType(value?.value);
-              }}
-              isClearable
-            />
-          </div>
+          {!pastedUrl && (
+            <div>
+              <StyledLabel htmlFor="select-resource-type">{t('taxonomy.contentType')}</StyledLabel>
+              <ResourceTypeSelect
+                availableResourceTypes={resourceTypes ?? []}
+                onChangeSelectedResource={(value) => {
+                  if (value) setSelectedType(value?.value);
+                }}
+                isClearable
+              />
+            </div>
+          )}
           {!pastedUrl && selectedType && (
             <>
               <AsyncDropdown<ILearningPathSummaryV2 | IMultiSearchSummary>

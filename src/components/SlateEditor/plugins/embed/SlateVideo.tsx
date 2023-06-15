@@ -114,11 +114,6 @@ const StyledText = styled.p`
   text-align: center;
 `;
 
-export const StyledFigure = styled(Figure)`
-  width: 100% !important;
-  inset: unset !important;
-`;
-
 const SlateVideo = ({
   attributes,
   embed,
@@ -210,7 +205,7 @@ const SlateVideo = ({
         )}
       </Modal>
       <div draggable {...attributes}>
-        <StyledFigure id={'videoid' in embed ? embed.videoid : embed.url}>
+        <figure id={'videoid' in embed ? embed.videoid : embed.url}>
           <FigureButtons
             tooltip={t('form.video.remove')}
             onRemoveClick={onRemoveClick}
@@ -254,7 +249,7 @@ const SlateVideo = ({
               <FigureInfo>{parseMarkdown(embed.caption ?? '')}</FigureInfo>
             </StyledFigcaption>
           </CaptionButton>
-        </StyledFigure>
+        </figure>
         {children}
       </div>
     </>

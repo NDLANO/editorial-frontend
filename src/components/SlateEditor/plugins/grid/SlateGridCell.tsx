@@ -11,7 +11,6 @@ import { spacing, colors } from '@ndla/core';
 
 const StyledGridCell = styled.div`
   border: 1px solid ${colors.brand.light};
-  height: 100%;
 
   > p {
     padding: 0 ${spacing.xxsmall};

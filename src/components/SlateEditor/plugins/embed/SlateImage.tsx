@@ -55,14 +55,6 @@ const StyledDiv = styled.div`
   }
 `;
 
-const StyledFigure = styled.figure`
-  &[data-wide='true'] {
-    width: unset !important;
-    inset: unset !important;
-    margin: unset;
-  }
-`;
-
 const StyledImg = styled.img`
   &[data-outline='true'] {
     box-shadow: 'rgb(32, 88, 143) 0 0 0 2px';
@@ -86,7 +78,6 @@ const SlateImage = ({
   const [editMode, setEditMode] = useState(false);
   const showCopyOutline = isSelectedForCopy && (!editMode || !active);
   const editor = useSlateStatic();
-  const { isFrontpageArticle } = useFrontpageArticle();
 
   const [parentTable] = Editor.nodes(editor, {
     at: pathToEmbed,
@@ -99,9 +90,7 @@ const SlateImage = ({
     const size = embed.size && ['small', 'xsmall'].includes(embed.size) ? `-${embed.size}` : '';
     const align = embed.align && ['left', 'right'].includes(embed.align) ? `-${embed.align}` : '';
 
-    return `${!isFrontpageArticle ? 'c-figure' : ''} ${
-      !isFullWidth ? `u-float${size}${align}` : ''
-    }`;
+    return `c-figure  ${!isFullWidth ? `u-float${size}${align}` : ''}`;
   };
 
   const transformData = () => {
@@ -141,7 +130,7 @@ const SlateImage = ({
             setEditMode(true);
           }}
         >
-          <StyledFigure data-wide={isFrontpageArticle} {...figureClass}>
+          <figure {...figureClass}>
             <FigureButtons
               tooltip={t('form.image.removeImage')}
               onRemoveClick={onRemoveClick}
@@ -170,7 +159,7 @@ const SlateImage = ({
                 {embed.caption && parseMarkdown(embed.caption)}
               </StyledDiv>
             </figcaption>
-          </StyledFigure>
+          </figure>
         </StyledButton>
       )}
       {children}

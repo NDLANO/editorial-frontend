@@ -91,7 +91,14 @@ export const gridSerializer: SlateSerializer = {
           data-border={node.data.border}
           data-background={node.data.background}
         >
-          {children}
+          {children.filter(
+            (el) =>
+              Element.isElement(node.children[0]) &&
+              (node.children.length !== 1 ||
+                (node.children[0].type !== TYPE_PARAGRAPH &&
+                  Text.isText(node.children[0]) &&
+                  node.children[0].text !== '')),
+          )}
         </div>
       );
     } else if (Element.isElement(node) && node.type === TYPE_GRID_CELL) {

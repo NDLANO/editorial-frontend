@@ -12,7 +12,6 @@ import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
-import { colors } from '@ndla/core';
 import PreviewDraft from '../../components/PreviewDraft/PreviewDraft';
 import { getContentTypeFromResourceTypes } from '../../util/resourceHelpers';
 import { useTaxonomyVersion } from '../StructureVersion/TaxonomyVersionProvider';
@@ -20,17 +19,20 @@ import LanguageSelector from './LanguageSelector';
 import { useDraft } from '../../modules/draft/draftQueries';
 import { useNodes } from '../../modules/nodes/nodeQueries';
 import { isFrontpageArticle } from '../ArticlePage/FrontpageArticlePage/components/FrontpageArticleProvider';
+import { spacing } from '@ndla/core';
 
 const frontpageCss = css`
   background-color: #f7fafd;
   max-width: unset;
   width: unset;
-  inset: unset;
   margin: unset;
-  padding: 0;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  padding: 0 ${spacing.normal};
 `;
 
-const StyledHero = styled(Hero)`
+const wideHeroCss = css`
   &[data-wide='true'] {
     min-height: 256px;
     padding-bottom: 156px;
@@ -62,15 +64,17 @@ const PreviewDraftPage = () => {
     : undefined;
 
   const isFrontpage = isFrontpageArticle(draft.data?.id!);
-
   return (
     <>
-      <StyledHero data-wide={isFrontpage} contentType={contentType as HeroContentType | undefined}>
+      <Hero
+        css={isFrontpage ? wideHeroCss : undefined}
+        contentType={contentType as HeroContentType | undefined}
+      >
         <LanguageSelector
           data-wide={isFrontpage}
           supportedLanguages={draft.data?.supportedLanguages ?? []}
         />
-      </StyledHero>
+      </Hero>
       <HelmetWithTracker title={`${draft.data?.title?.title} ${t('htmlTitles.titleTemplate')}`} />
       <OneColumn css={isFrontpage ? frontpageCss : undefined}>
         <PreviewDraft

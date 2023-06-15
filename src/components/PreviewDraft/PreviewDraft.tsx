@@ -101,7 +101,7 @@ export const PreviewDraft = ({ type, draft: draftProp, label, contentType, langu
   }
   const isFrontpage = isFrontpageArticle(draft.id);
 
-  if (draft.articleType === 'frontpage-article') {
+  if (draftProp.articleType === 'frontpage-article') {
     return (
       <FrontpageArticle
         //@ts-ignore

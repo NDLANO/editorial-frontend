@@ -17,8 +17,8 @@ interface Props {
   children: ReactNode;
   initialValue?: boolean;
 }
-export const isFrontpageArticle = (draftId: number) =>
-  (JSON.parse(localStorage.getItem('frontpage-articles') ?? '[]') as number[]).includes(draftId);
+
+export const isFrontpageArticle = (draftId: number) => getArticleIdList().includes(draftId);
 
 export const FrontpageArticleProvider = ({ children, initialValue = false }: Props) => {
   const isFrontpageArticle = useState<boolean>(initialValue);
@@ -54,12 +54,9 @@ export const useFrontpageArticle = () => {
 };
 
 const getArticleIdList: () => number[] = () =>
-  isNumberArray(JSON.parse(localStorage.getItem('frontpage-articles') ?? '[]'))
+  JSON.parse(localStorage.getItem('frontpage-articles') ?? '[]')
     .filter(Number)
     .map(Number);
 
 const updateFrontpageArticleList = (articles: number[]) =>
   localStorage.setItem('frontpage-articles', JSON.stringify(articles));
-
-const isNumberArray = (value: any): string[] =>
-  Array.isArray(value) && value.every((item) => typeof item === 'number') ? value : [];

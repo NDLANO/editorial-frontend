@@ -493,7 +493,7 @@ const phrases = {
     description: 'Description',
     rss: 'Rss feed',
     adminError: "You don't have access to create or update podcast series.",
-    hasRSS: 'This podcast series has an Rss feed',
+    hasRSS: 'Activate RSS-feed for this series',
   },
   podcastForm: {
     title: 'Podcast episode',

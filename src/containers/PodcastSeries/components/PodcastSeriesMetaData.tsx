@@ -9,13 +9,12 @@
 import { SyntheticEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useFormikContext } from 'formik';
-import { Switch } from '@ndla/switch';
+import { CheckboxItem } from '@ndla/forms';
 import FormikField from '../../../components/FormikField';
 import { MetaImageSearch, TitleField } from '../../FormikForm';
 import { PodcastSeriesFormikType } from './PodcastSeriesForm';
 import PlainTextEditor from '../../../components/SlateEditor/PlainTextEditor';
 import { textTransformPlugin } from '../../../components/SlateEditor/plugins/textTransform';
-import { CheckboxItem } from '@ndla/forms';
 
 interface Props {
   language?: string;

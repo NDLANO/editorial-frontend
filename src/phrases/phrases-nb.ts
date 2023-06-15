@@ -494,6 +494,7 @@ const phrases = {
     description: 'Beskrivelse',
     rss: 'Rss-feed',
     adminError: 'Du har ikke tilgang til å opprette eller endre podkastserier.',
+    hasRSS: 'Denne podkastserien har en Rss-feed',
   },
   podcastForm: {
     title: 'Podkastepisode',

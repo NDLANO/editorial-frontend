@@ -15,6 +15,7 @@ import { MetaImageSearch, TitleField } from '../../FormikForm';
 import { PodcastSeriesFormikType } from './PodcastSeriesForm';
 import PlainTextEditor from '../../../components/SlateEditor/PlainTextEditor';
 import { textTransformPlugin } from '../../../components/SlateEditor/plugins/textTransform';
+import { CheckboxItem } from '@ndla/forms';
 
 interface Props {
   language?: string;
@@ -57,8 +58,7 @@ const PodcastSeriesMetaData = ({ language, onImageLoad }: Props) => {
 
       <FormikField name="hasRSS">
         {({ field }) => (
-          <Switch
-            id="hasRSS"
+          <CheckboxItem
             label={t('podcastSeriesForm.hasRSS')}
             checked={field.value}
             onChange={() =>

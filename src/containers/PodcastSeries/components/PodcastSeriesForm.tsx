@@ -75,7 +75,7 @@ export interface PodcastSeriesFormikType {
   metaImageAlt?: string;
   episodes: IAudioMetaInformation[];
   supportedLanguages: string[];
-  hasRSS?: boolean; // TODO: check if already exists on all
+  hasRSS?: boolean;
 }
 
 interface Props {

@@ -1439,7 +1439,7 @@ const phrases = {
     confirmDeleteTopic: 'Are you sure you want to delete this topic?',
     confirmDeleteSubject: 'Are you sure you want to delete this subject?',
     or: 'Eller',
-    urlPlaceholder: 'Lim inn lenke fra ndla.no',
+    urlPlaceholder: 'Paste a link from ndla.no or an article id',
     wrongType: 'Note! This is a different resource type: ',
     noResources: 'No resources found',
     addTopicDescription: 'Change topic description',

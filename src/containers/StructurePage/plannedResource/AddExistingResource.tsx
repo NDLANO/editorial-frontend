@@ -111,10 +111,11 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
     }
   };
 
-  // søk mot tax for resourceid
-
   const onAddResource = async () => {
-    if (!content) return;
+    if (!content) {
+      setError(t('errorMessage.invalidUrl'));
+      return;
+    }
     setLoading(true);
     const isLearningpath = selectedType === RESOURCE_TYPE_LEARNING_PATH && 'metaUrl' in content;
     const isArticleOrDraft = 'paths' in content;
@@ -164,8 +165,7 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
 
     const input = evt.target.value;
 
-    if (!input || !input.includes('ndla')) {
-      setError(t('errorMessage.invalidUrl'));
+    if (!input) {
       return;
     }
 
@@ -174,8 +174,6 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
     const articleId = articleInPathMatch ? articleInPathMatch[1] : isNumber && input;
     const resourceId = getResourceIdFromPath(evt.target.value);
 
-    // Note: behavior is so that if the link technically could have an id associated with it it'll try to fetch
-    // If fetching fails, it's not a valid id
     try {
       let id = Number(articleId);
       setPreviewLoading(true);
@@ -186,19 +184,17 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
       }
 
       if (!id) {
-        setError(t('errorMessage.invalidUrl'));
         setContent(undefined);
         setPreviewLoading(false);
         return;
       }
 
-      const article = id && (await getArticle(id));
+      const article = await getArticle(id);
       article && setContent(toContent({ ...article, paths: [evt.target.value] }));
       setPreviewLoading(false);
     } catch (e) {
       const error = e as NdlaErrorPayload;
-      setError(`${t('taxonomy.resource.noResourceId')} ${error.messages}`);
-      setContent(undefined);
+      setError(error.messages);
       setPreviewLoading(false);
       return;
     }
@@ -222,7 +218,6 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
   return (
     <>
       <ContentWrapper>
-        {error && <ErrorMessage>{t(error)}</ErrorMessage>}
         {canPaste && selectedType && (
           <>
             <InputV2
@@ -268,6 +263,7 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
         </StyledSection>
         {previewLoading ? <Spinner /> : content && <ArticlePreview article={content} />}
       </ContentWrapper>
+      {error && <ErrorMessage>{t(error)}</ErrorMessage>}
       <ButtonWrapper>
         <ButtonV2 onClick={onAddResource} type="submit">
           {t('taxonomy.get')} {loading && <Spinner appearance="small" />}

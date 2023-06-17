@@ -20,6 +20,8 @@ import { isValid } from '../../util/jwtHelper';
 import { parseSearchParams } from '../SearchPage/components/form/SearchForm';
 import { toSearch } from '../../util/routeHelpers';
 import MastheadSearchForm from './components/MastheadSearchForm';
+import { useSavedSearchUrl } from '../WelcomePage/hooks/savedSearchHook';
+import { SearchObjectType } from '../../interfaces';
 
 const DropdownWrapper = styled.div`
   position: relative;
@@ -70,8 +72,8 @@ interface Props {
 }
 
 const SearchDropdown = ({ onClose }: Props) => {
-  const { t } = useTranslation();
-  const { data } = useUserData({
+  const { t, i18n } = useTranslation();
+  const { data: userData } = useUserData({
     enabled: isValid(getAccessToken()) && getAccessTokenPersonal(),
   });
   const userDataMutation = useUpdateUserDataMutation();
@@ -91,8 +93,12 @@ const SearchDropdown = ({ onClose }: Props) => {
     [onClose],
   );
 
+  const { searchObjects, getSavedSearchData } = useSavedSearchUrl(userData);
+
+  const savedSearchData = getSavedSearchData(searchObjects);
+
   const deleteSearch = (index: number) => {
-    const reduced_array = data?.savedSearches?.filter((_, idx) => idx !== index);
+    const reduced_array = userData?.savedSearches?.filter((_, idx) => idx !== index);
     userDataMutation.mutate({ savedSearches: reduced_array });
   };
   const onSearchQuerySubmit = (searchQuery: string) => {
@@ -147,15 +153,15 @@ const SearchDropdown = ({ onClose }: Props) => {
             {isOpen ? (
               <StyledDropdown {...getMenuProps()}>
                 <StyledTitle>{t('welcomePage.savedSearch')}</StyledTitle>
-                {data?.savedSearches?.length ? (
-                  data.savedSearches.map((item, index) => (
+                {userData?.savedSearches?.length ? (
+                  savedSearchData.map((item, index) => (
                     <StyledSavedSearchItem
                       key={`${item}_${index}`}
-                      searchText={item}
-                      userData={data}
+                      searchText={item.text}
                       deleteSearch={deleteSearch}
                       index={index}
                       data-highlighted={highlightedIndex === index}
+                      url={item.url}
                       {...getItemProps({
                         index,
                         item,

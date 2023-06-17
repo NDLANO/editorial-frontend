@@ -225,6 +225,7 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
             <ResourceTypeSelect
               availableResourceTypes={resourceTypes ?? []}
               onChangeSelectedResource={(value) => {
+                console.log('setSelectedType', value);
                 if (value) setSelectedType(value?.value);
               }}
               isClearable

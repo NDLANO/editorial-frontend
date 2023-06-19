@@ -14,7 +14,7 @@ const phrases = {
     createLearningResourcePage: `Learning resource ${titleTemplate}`,
     createTopicArticlePage: `Topic ${titleTemplate}`,
     createSubjectpage: `Subjectpage ${titleTemplate}`,
-    createFrontPageArticePage: `Content article ${titleTemplate}`,
+    createFrontPageArticePage: `About-NDLA article ${titleTemplate}`,
     agreementPage: `Agreement ${titleTemplate}`,
     welcomePage: `Frontpage ${titleTemplate}`,
     structurePage: `Structure ${titleTemplate}`,
@@ -190,7 +190,7 @@ const phrases = {
   },
   articleType: {
     'topic-article': 'Topic',
-    'frontpage-article': 'Content article',
+    'frontpage-article': 'About-NDLA article',
     standard: 'Subject matter',
   },
   subNavigation: {
@@ -219,7 +219,7 @@ const phrases = {
     h5p: 'Edit H5P',
     newConcept: 'Create new concept',
     newSubject: 'Create new subject',
-    newFrontpageArticle: 'Create new content article',
+    newFrontpageArticle: 'Create new About-NDLA article',
     creationMovedInfo: 'Topics and resources need to be created from structure',
   },
   logo: {
@@ -533,7 +533,7 @@ const phrases = {
     },
   },
   frontpageArticleForm: {
-    title: 'Content article',
+    title: 'About-NDLA article',
     validation: {
       illegalSlug:
         'Use of illegal characters in permalink! Legal characters are numbers and letters, plus dashes.',
@@ -1565,7 +1565,7 @@ const phrases = {
   },
   contextTypes: {
     topic: 'Topic',
-    frontpage: 'Content article',
+    frontpage: 'About-NDLA article',
   },
   ndlaFilm: {
     editor: {

@@ -46,6 +46,7 @@ import { SlatePlugin } from '../../../../components/SlateEditor/interfaces';
 import { useSession } from '../../../Session/SessionProvider';
 import { spanPlugin } from '../../../../components/SlateEditor/plugins/span';
 import { blogPostPlugin } from '../../../../components/SlateEditor/plugins/blogPost';
+import { definitionListPlugin } from '../../../../components/SlateEditor/plugins/definitionList';
 
 const StyledByLineFormikField = styled(FormikField)`
   display: flex;
@@ -86,6 +87,7 @@ const createPlugins = (language: string, handleSubmitRef: RefObject<() => void>)
     // Blockquote and editList actions need to be triggered before paragraph action, else
     // unwrapping (jumping out of block) will not work.
     blockQuotePlugin,
+    definitionListPlugin,
     listPlugin,
     inlineConceptPlugin(language),
     mathmlPlugin,

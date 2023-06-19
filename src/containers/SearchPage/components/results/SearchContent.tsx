@@ -19,7 +19,6 @@ import {
 import { isLearningpath, toEditMarkup } from '../../../../util/routeHelpers';
 import { DRAFT_HTML_SCOPE, RESOURCE_TYPE_LEARNING_PATH } from '../../../../constants';
 import SearchContentLanguage from './SearchContentLanguage';
-import { convertFieldWithFallback } from '../../../../util/convertFieldWithFallback';
 import HeaderStatusInformation from '../../../../components/HeaderWithLanguage/HeaderStatusInformation';
 import { EditMarkupLink } from '../../../../components/EditMarkupLink';
 import SearchHighlight from './SearchHighlight';
@@ -112,7 +111,7 @@ const SearchContent = ({ content, locale, responsibleName }: Props) => {
     </>
   );
 
-  const metaDescription = convertFieldWithFallback(content, 'metaDescription', '');
+  const metaDescription = content.metaDescription.metaDescription ?? '';
   const expirationDate = getExpirationDate(content);
 
   return (

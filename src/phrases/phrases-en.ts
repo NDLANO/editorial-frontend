@@ -135,6 +135,9 @@ const phrases = {
     revisionDate: 'Revision date',
     welcomeText: 'to ED',
     revisionInfo: 'Choose your favorite subjects by marking them with a star in structure editing',
+    updated: 'Updated',
+    primaryConnection: 'Only show resources with primary connection to my favorite subjects',
+    primaryConnectionLabel: 'Only show primary connection',
     workList: {
       heading: 'My tasks',
       description: 'Articles where you are responsible',
@@ -143,7 +146,7 @@ const phrases = {
       contentType: 'Content type',
       primarySubject: 'Primary subject',
       topicRelation: 'Topic relation',
-      date: 'Date assigned',
+      date: 'Assigned',
       ariaLabel: 'Overview of my tasks and concepts',
       conceptDescription: 'Concepts where you are responsible',
       conceptSubject: 'Concept subject',
@@ -599,6 +602,7 @@ const phrases = {
     sup: 'Superscript\n({{ctrl}}+alt+h)',
     twoColumnList: 'Two-column list',
     underlined: 'Underlined',
+    definitionList: 'Definition list\n({{ctrl}}+alt+d)',
   },
   editorBlockpicker: {
     heading: 'Add',
@@ -1822,6 +1826,9 @@ const phrases = {
     },
   },
   delete: 'Delete',
+  dragAndDrop: {
+    handle: 'Drag handle',
+  },
 };
 
 export default phrases;

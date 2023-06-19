@@ -5,13 +5,13 @@
  */
 
 import { HTMLProps, MutableRefObject, ReactNode, useEffect } from 'react';
-import { DropResult } from 'react-beautiful-dnd';
 import { colors } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
-import { Star } from '@ndla/icons/editor';
+import { DragVertical, Star } from '@ndla/icons/editor';
 import { NodeChild, Node } from '@ndla/types-taxonomy';
+import { DragEndEvent } from '@dnd-kit/core';
+import { useTranslation } from 'react-i18next';
 import Fade from '../../components/Taxonomy/Fade';
-import MakeDndList from './MakeDNDList';
 import { createGuard } from '../../util/guards';
 import { nodePathToUrnPath } from '../../util/taxonomyHelpers';
 import FolderItem from './folderComponents/FolderItem';
@@ -25,6 +25,8 @@ import {
   StyledStructureItem,
 } from '../../components/Taxonomy/nodeStyles';
 import { NodeChildWithChildren } from '../../modules/nodes/nodeQueries';
+import DndList from '../../components/DndList';
+import { DragHandle } from '../../components/DraggableItem';
 
 export type RenderBeforeFunction = (
   input: NodeChild | Node,
@@ -56,11 +58,10 @@ interface Props {
   item: (NodeChild & { articleType?: string; isPublished?: boolean }) | Node;
   openedPaths: string[];
   toggleOpen: (nodeId: string) => void;
-  level: number;
   onNodeSelected: (node?: Node) => void;
   resourceSectionRef: MutableRefObject<HTMLDivElement | null>;
   rootNodeId: string;
-  onDragEnd: (result: DropResult, childNodes: NodeChild[]) => Promise<void>;
+  onDragEnd: (result: DragEndEvent, childNodes: NodeChild[]) => Promise<void>;
   connectionId: string;
   parentActive: boolean;
   isRoot?: boolean;
@@ -76,7 +77,6 @@ const NodeItem = ({
   item,
   openedPaths,
   toggleOpen,
-  level,
   onNodeSelected,
   rootNodeId,
   resourceSectionRef,
@@ -90,6 +90,7 @@ const NodeItem = ({
   renderBeforeTitle,
   setShowAddTopicModal,
 }: Props) => {
+  const { t } = useTranslation();
   const { userPermissions } = useSession();
   const isTaxonomyAdmin = userPermissions?.includes(TAXONOMY_ADMIN_SCOPE) || false;
   const path = nodePathToUrnPath(item.path);
@@ -119,7 +120,7 @@ const NodeItem = ({
       key={path}
       greyedOut={!parentActive && !isActive}
     >
-      <StyledItemBar level={level} highlight={isActive}>
+      <StyledItemBar highlight={isActive}>
         {isRoot && (
           <RoundIcon
             onClick={toggleFavorite}
@@ -158,14 +159,13 @@ const NodeItem = ({
         )}
       </StyledItemBar>
       {hasChildNodes && isOpen && nodes && (
-        <StructureWrapper>
-          <Fade show={true} fadeType="fadeInTop">
-            <MakeDndList
-              disableDND={!isActive || nodes.length < 2}
-              dragHandle
-              onDragEnd={(res) => onDragEnd(res, nodes!)}
-            >
-              {nodes.map((t) => (
+        <Fade show={true} fadeType="fadeInTop">
+          <StructureWrapper>
+            <DndList
+              items={nodes}
+              disabled={!isActive || nodes.length < 2}
+              onDragEnd={(e) => onDragEnd(e, nodes)}
+              renderItem={(t) => (
                 <NodeItem
                   isFavorite={false}
                   renderBeforeTitle={renderBeforeTitle}
@@ -180,14 +180,18 @@ const NodeItem = ({
                   item={t}
                   nodes={t.childNodes}
                   toggleOpen={toggleOpen}
-                  level={level + 1}
                   onDragEnd={onDragEnd}
                   setShowAddTopicModal={setShowAddTopicModal}
                 />
-              ))}
-            </MakeDndList>
-          </Fade>
-        </StructureWrapper>
+              )}
+              dragHandle={
+                <DragHandle aria-label={t('dragAndDrop.handle')}>
+                  <DragVertical />
+                </DragHandle>
+              }
+            />
+          </StructureWrapper>
+        </Fade>
       )}
     </StyledStructureItem>
   );

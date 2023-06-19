@@ -163,6 +163,11 @@ exports[`it goes in and out of edit mode 1`] = `
 }
 
 .emotion-6 {
+  margin: 0;
+  padding: 0;
+}
+
+.emotion-7 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -175,7 +180,7 @@ exports[`it goes in and out of edit mode 1`] = `
   flex-direction: column;
 }
 
-.emotion-6 label {
+.emotion-7 label {
   padding: 0;
   font-size: 16px;
   font-size: 0.8888888888888888rem;
@@ -183,14 +188,14 @@ exports[`it goes in and out of edit mode 1`] = `
   white-space: nowrap;
 }
 
-.emotion-6 label[lang='zh'],
-.emotion-6 label[lang='zh-Hans'],
-.emotion-6 label[lang='zh-Hant'] {
+.emotion-7 label[lang='zh'],
+.emotion-7 label[lang='zh-Hans'],
+.emotion-7 label[lang='zh-Hant'] {
   font-size: calc(16px * 1.11);
   font-size: calc(0.8888888888888888rem * 1.11);
 }
 
-.emotion-8 {
+.emotion-9 {
   width: 96px;
   max-width: 96px;
   padding: 20px 12px 12px 0;
@@ -208,14 +213,14 @@ exports[`it goes in and out of edit mode 1`] = `
   width: 1px;
 }
 
-.emotion-8[lang='zh'],
-.emotion-8[lang='zh-Hans'],
-.emotion-8[lang='zh-Hant'] {
+.emotion-9[lang='zh'],
+.emotion-9[lang='zh-Hans'],
+.emotion-9[lang='zh-Hant'] {
   font-size: calc(14 * 1.11);
   font-size: calc(0.7777777777777778rem * 1.11);
 }
 
-.emotion-10 {
+.emotion-11 {
   display: grid;
   grid-template-columns: auto 1fr auto;
   -webkit-flex: 1;
@@ -223,7 +228,7 @@ exports[`it goes in and out of edit mode 1`] = `
   flex: 1;
 }
 
-.emotion-12 {
+.emotion-13 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -253,12 +258,12 @@ exports[`it goes in and out of edit mode 1`] = `
   min-height: 48px;
 }
 
-.emotion-12:focus-within {
+.emotion-13:focus-within {
   border-color: #20588f;
 }
 
-.emotion-12 input,
-.emotion-12 textarea {
+.emotion-13 input,
+.emotion-13 textarea {
   padding: 0 12px;
   width: inherit;
   font-weight: 400;
@@ -278,18 +283,18 @@ exports[`it goes in and out of edit mode 1`] = `
   flex-grow: 1;
 }
 
-.emotion-12 input[lang='zh'],
-.emotion-12 textarea[lang='zh'],
-.emotion-12 input[lang='zh-Hans'],
-.emotion-12 textarea[lang='zh-Hans'],
-.emotion-12 input[lang='zh-Hant'],
-.emotion-12 textarea[lang='zh-Hant'] {
+.emotion-13 input[lang='zh'],
+.emotion-13 textarea[lang='zh'],
+.emotion-13 input[lang='zh-Hans'],
+.emotion-13 textarea[lang='zh-Hans'],
+.emotion-13 input[lang='zh-Hant'],
+.emotion-13 textarea[lang='zh-Hant'] {
   font-size: calc(18 * 1.11);
   font-size: calc(1rem * 1.11);
 }
 
-.emotion-12 input:focus,
-.emotion-12 textarea:focus {
+.emotion-13 input:focus,
+.emotion-13 textarea:focus {
   -webkit-appearance: none;
   -moz-appearance: none;
   -ms-appearance: none;
@@ -297,23 +302,23 @@ exports[`it goes in and out of edit mode 1`] = `
   outline: none;
 }
 
-.emotion-12 textarea {
+.emotion-13 textarea {
   padding: 0 12px;
   height: 20px;
   margin: 14px 0;
   resize: none;
 }
 
-.emotion-12 .c-icon {
+.emotion-13 .c-icon {
   width: 24px;
   height: 24px;
 }
 
-.emotion-14 {
+.emotion-15 {
   padding: 0 12px;
 }
 
-.emotion-15 {
+.emotion-16 {
   border: calc(24px / 6.5) solid rgba(0, 0, 0, 0.1);
   border-bottom-color: #20588f;
   border-radius: 50%;
@@ -325,11 +330,11 @@ exports[`it goes in and out of edit mode 1`] = `
   display: block;
 }
 
-.emotion-17 {
+.emotion-18 {
   margin: 10px 0;
 }
 
-.emotion-18 {
+.emotion-19 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -364,28 +369,28 @@ exports[`it goes in and out of edit mode 1`] = `
   min-height: 40px;
 }
 
-.emotion-18:hover,
-.emotion-18:focus-visible {
+.emotion-19:hover,
+.emotion-19:focus-visible {
   color: #20588f;
   background-color: #ceddea;
   border-color: #ceddea;
 }
 
-.emotion-18[disabled] {
+.emotion-19[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-18[lang='zh'],
-.emotion-18[lang='zh-Hans'],
-.emotion-18[lang='zh-Hant'] {
+.emotion-19[lang='zh'],
+.emotion-19[lang='zh-Hans'],
+.emotion-19[lang='zh-Hant'] {
   font-size: calc(16px * 1.11);
   font-size: calc(0.8888888888888888rem * 1.11);
 }
 
-.emotion-19 {
+.emotion-20 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -399,7 +404,7 @@ exports[`it goes in and out of edit mode 1`] = `
   align-items: center;
 }
 
-.emotion-22 {
+.emotion-23 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -407,7 +412,7 @@ exports[`it goes in and out of edit mode 1`] = `
   gap: 6px;
 }
 
-.emotion-23 {
+.emotion-24 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -454,49 +459,49 @@ exports[`it goes in and out of edit mode 1`] = `
   height: 40px;
 }
 
-.emotion-23:hover,
-.emotion-23:focus-visible {
+.emotion-24:hover,
+.emotion-24:focus-visible {
   color: #20588f;
   background-color: #ceddea;
   border-color: #ceddea;
 }
 
-.emotion-23[disabled] {
+.emotion-24[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-23[lang='zh'],
-.emotion-23[lang='zh-Hans'],
-.emotion-23[lang='zh-Hant'] {
+.emotion-24[lang='zh'],
+.emotion-24[lang='zh-Hans'],
+.emotion-24[lang='zh-Hant'] {
   font-size: calc(14px * 1.11);
   font-size: calc(0.7777777777777778rem * 1.11);
 }
 
-.emotion-23:hover,
-.emotion-23:active,
-.emotion-23:focus-visible {
+.emotion-24:hover,
+.emotion-24:active,
+.emotion-24:focus-visible {
   color: #fff;
   background: #20588f;
   border-color: #20588f;
 }
 
-.emotion-23[disabled] {
+.emotion-24[disabled] {
   color: #777777;
   background-color: transparent;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-23 svg {
+.emotion-24 svg {
   width: 24px;
   height: 24px;
   margin: 0;
 }
 
-.emotion-24 {
+.emotion-25 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -543,43 +548,43 @@ exports[`it goes in and out of edit mode 1`] = `
   height: 40px;
 }
 
-.emotion-24:hover,
-.emotion-24:focus-visible {
+.emotion-25:hover,
+.emotion-25:focus-visible {
   color: #fff;
   background-color: #d1372e;
   border-color: #d1372e;
 }
 
-.emotion-24[disabled] {
+.emotion-25[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-24[lang='zh'],
-.emotion-24[lang='zh-Hans'],
-.emotion-24[lang='zh-Hant'] {
+.emotion-25[lang='zh'],
+.emotion-25[lang='zh-Hans'],
+.emotion-25[lang='zh-Hant'] {
   font-size: calc(14px * 1.11);
   font-size: calc(0.7777777777777778rem * 1.11);
 }
 
-.emotion-24:hover,
-.emotion-24:active,
-.emotion-24:focus-visible {
+.emotion-25:hover,
+.emotion-25:active,
+.emotion-25:focus-visible {
   color: #fff;
   background: #d1372e;
   border-color: #d1372e;
 }
 
-.emotion-24[disabled] {
+.emotion-25[disabled] {
   color: #777777;
   background-color: transparent;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-24 svg {
+.emotion-25 svg {
   width: 24px;
   height: 24px;
   margin: 0;
@@ -587,10 +592,12 @@ exports[`it goes in and out of edit mode 1`] = `
 
 <div>
   <div
+    aria-hidden="true"
     aria-multiline="true"
     autocapitalize="false"
     autocorrect="false"
     contenteditable="true"
+    data-aria-hidden="true"
     data-slate-editor="true"
     data-slate-node="value"
     role="textbox"
@@ -634,12 +641,15 @@ exports[`it goes in and out of edit mode 1`] = `
       <div
         aria-hidden="true"
         class="emotion-1"
+        data-aria-hidden="true"
       />
       <div
         class="emotion-2"
       >
         <div
+          aria-hidden="true"
           class="emotion-3"
+          data-aria-hidden="true"
         >
           <h3
             class="c-related-articles__component-title emotion-4"
@@ -687,13 +697,38 @@ exports[`it goes in and out of edit mode 1`] = `
             </button>
           </div>
         </div>
-        <p>
+        <p
+          aria-hidden="true"
+          data-aria-hidden="true"
+        >
           Dra artikkel for å endre rekkefølge
         </p>
+        <ul
+          class="emotion-6"
+        >
+          <div
+            aria-hidden="true"
+            data-aria-hidden="true"
+            id="DndDescribedBy-0"
+            style="display: none;"
+          >
+            
+    To pick up a draggable item, press the space bar.
+    While dragging, use the arrow keys to move the item.
+    Press space again to drop the item in its new position, or press escape to cancel.
+  
+          </div>
+          <div
+            aria-atomic="true"
+            aria-live="assertive"
+            id="DndLiveRegion-0"
+            role="status"
+            style="position: fixed; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%); white-space: nowrap;"
+          />
+        </ul>
         <div
-          class="drop-zone"
-        />
-        <div
+          aria-hidden="true"
+          data-aria-hidden="true"
           data-cy="styled-article-modal"
         >
           <div
@@ -704,19 +739,19 @@ exports[`it goes in and out of edit mode 1`] = `
             style="position: relative;"
           >
             <div
-              class="emotion-6 emotion-7"
+              class="emotion-7 emotion-8"
             >
               <label
-                class="emotion-8 emotion-9"
+                class="emotion-9 emotion-10"
                 for="search-input-field"
               >
                 Søk på tittel
               </label>
               <div
-                class="emotion-10 emotion-11"
+                class="emotion-11 emotion-12"
               >
                 <div
-                  class="emotion-12 emotion-13"
+                  class="emotion-13 emotion-14"
                 >
                   <input
                     aria-autocomplete="list"
@@ -731,10 +766,10 @@ exports[`it goes in and out of edit mode 1`] = `
                     value=""
                   />
                   <div
-                    class="emotion-14"
+                    class="emotion-15"
                   >
                     <div
-                      class="emotion-15 emotion-16"
+                      class="emotion-16 emotion-17"
                     />
                   </div>
                 </div>
@@ -742,12 +777,12 @@ exports[`it goes in and out of edit mode 1`] = `
             </div>
           </div>
           <div
-            class="emotion-17"
+            class="emotion-18"
           >
             Eller
           </div>
           <button
-            class="emotion-18"
+            class="emotion-19"
             data-testid="showAddExternal"
             type="button"
           >
@@ -757,11 +792,13 @@ exports[`it goes in and out of edit mode 1`] = `
       </div>
     </div>
     <section
+      aria-hidden="true"
       class="c-related-articles"
+      data-aria-hidden="true"
       data-testid="relatedWrapper"
     >
       <div
-        class="emotion-19 emotion-20"
+        class="emotion-20 emotion-21"
       >
         <h3
           class="c-related-articles__component-title emotion-4"
@@ -769,7 +806,7 @@ exports[`it goes in and out of edit mode 1`] = `
           Relatert innhold
         </h3>
         <div
-          class="emotion-22"
+          class="emotion-23"
         >
           <div
             data-tooltip="Rediger"
@@ -777,7 +814,7 @@ exports[`it goes in and out of edit mode 1`] = `
           >
             <button
               aria-label="Rediger"
-              class="emotion-23"
+              class="emotion-24"
               data-state="closed"
               data-trigger="true"
               type="button"
@@ -812,7 +849,7 @@ exports[`it goes in and out of edit mode 1`] = `
           >
             <button
               aria-label="Slett"
-              class="emotion-24"
+              class="emotion-25"
               data-state="closed"
               data-trigger="true"
               type="button"
@@ -1018,6 +1055,29 @@ exports[`it goes in and out of edit mode 2`] = `
 }
 
 .emotion-6 {
+  margin: 0;
+  padding: 0;
+}
+
+.emotion-7 {
+  list-style: none;
+  margin: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.emotion-7[data-has-handle='false'] {
+  cursor: -webkit-grab;
+  cursor: grab;
+}
+
+.emotion-8 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1026,14 +1086,14 @@ exports[`it goes in and out of edit mode 2`] = `
   width: 100%;
 }
 
-.emotion-6>article {
+.emotion-8>article {
   -webkit-flex: 1;
   -ms-flex: 1;
   flex: 1;
   max-width: 100%;
 }
 
-.emotion-7 {
+.emotion-9 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1041,7 +1101,7 @@ exports[`it goes in and out of edit mode 2`] = `
   gap: 4px;
 }
 
-.emotion-8 {
+.emotion-10 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -1086,49 +1146,49 @@ exports[`it goes in and out of edit mode 2`] = `
   min-height: unset;
 }
 
-.emotion-8:hover,
-.emotion-8:focus-visible {
+.emotion-10:hover,
+.emotion-10:focus-visible {
   color: #fff;
   background-color: #184673;
   border-color: #184673;
 }
 
-.emotion-8[disabled] {
+.emotion-10[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-8[lang='zh'],
-.emotion-8[lang='zh-Hans'],
-.emotion-8[lang='zh-Hant'] {
+.emotion-10[lang='zh'],
+.emotion-10[lang='zh-Hans'],
+.emotion-10[lang='zh-Hant'] {
   font-size: calc(14px * 1.11);
   font-size: calc(0.7777777777777778rem * 1.11);
 }
 
-.emotion-8:hover,
-.emotion-8:active,
-.emotion-8:focus-visible {
+.emotion-10:hover,
+.emotion-10:active,
+.emotion-10:focus-visible {
   color: #20588f;
   background: #ceddea;
   border-color: #ceddea;
 }
 
-.emotion-8[disabled] {
+.emotion-10[disabled] {
   color: #777777;
   background-color: transparent;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-8 svg {
+.emotion-10 svg {
   width: 24px;
   height: 24px;
   margin: 0;
 }
 
-.emotion-10 {
+.emotion-12 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1141,7 +1201,7 @@ exports[`it goes in and out of edit mode 2`] = `
   flex-direction: column;
 }
 
-.emotion-10 label {
+.emotion-12 label {
   padding: 0;
   font-size: 16px;
   font-size: 0.8888888888888888rem;
@@ -1149,14 +1209,14 @@ exports[`it goes in and out of edit mode 2`] = `
   white-space: nowrap;
 }
 
-.emotion-10 label[lang='zh'],
-.emotion-10 label[lang='zh-Hans'],
-.emotion-10 label[lang='zh-Hant'] {
+.emotion-12 label[lang='zh'],
+.emotion-12 label[lang='zh-Hans'],
+.emotion-12 label[lang='zh-Hant'] {
   font-size: calc(16px * 1.11);
   font-size: calc(0.8888888888888888rem * 1.11);
 }
 
-.emotion-12 {
+.emotion-14 {
   width: 96px;
   max-width: 96px;
   padding: 20px 12px 12px 0;
@@ -1174,14 +1234,14 @@ exports[`it goes in and out of edit mode 2`] = `
   width: 1px;
 }
 
-.emotion-12[lang='zh'],
-.emotion-12[lang='zh-Hans'],
-.emotion-12[lang='zh-Hant'] {
+.emotion-14[lang='zh'],
+.emotion-14[lang='zh-Hans'],
+.emotion-14[lang='zh-Hant'] {
   font-size: calc(14 * 1.11);
   font-size: calc(0.7777777777777778rem * 1.11);
 }
 
-.emotion-14 {
+.emotion-16 {
   display: grid;
   grid-template-columns: auto 1fr auto;
   -webkit-flex: 1;
@@ -1189,7 +1249,7 @@ exports[`it goes in and out of edit mode 2`] = `
   flex: 1;
 }
 
-.emotion-16 {
+.emotion-18 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1219,12 +1279,12 @@ exports[`it goes in and out of edit mode 2`] = `
   min-height: 48px;
 }
 
-.emotion-16:focus-within {
+.emotion-18:focus-within {
   border-color: #20588f;
 }
 
-.emotion-16 input,
-.emotion-16 textarea {
+.emotion-18 input,
+.emotion-18 textarea {
   padding: 0 12px;
   width: inherit;
   font-weight: 400;
@@ -1244,18 +1304,18 @@ exports[`it goes in and out of edit mode 2`] = `
   flex-grow: 1;
 }
 
-.emotion-16 input[lang='zh'],
-.emotion-16 textarea[lang='zh'],
-.emotion-16 input[lang='zh-Hans'],
-.emotion-16 textarea[lang='zh-Hans'],
-.emotion-16 input[lang='zh-Hant'],
-.emotion-16 textarea[lang='zh-Hant'] {
+.emotion-18 input[lang='zh'],
+.emotion-18 textarea[lang='zh'],
+.emotion-18 input[lang='zh-Hans'],
+.emotion-18 textarea[lang='zh-Hans'],
+.emotion-18 input[lang='zh-Hant'],
+.emotion-18 textarea[lang='zh-Hant'] {
   font-size: calc(18 * 1.11);
   font-size: calc(1rem * 1.11);
 }
 
-.emotion-16 input:focus,
-.emotion-16 textarea:focus {
+.emotion-18 input:focus,
+.emotion-18 textarea:focus {
   -webkit-appearance: none;
   -moz-appearance: none;
   -ms-appearance: none;
@@ -1263,27 +1323,27 @@ exports[`it goes in and out of edit mode 2`] = `
   outline: none;
 }
 
-.emotion-16 textarea {
+.emotion-18 textarea {
   padding: 0 12px;
   height: 20px;
   margin: 14px 0;
   resize: none;
 }
 
-.emotion-16 .c-icon {
+.emotion-18 .c-icon {
   width: 24px;
   height: 24px;
 }
 
-.emotion-18 {
+.emotion-20 {
   padding: 0 12px;
 }
 
-.emotion-19 {
+.emotion-21 {
   margin: 10px 0;
 }
 
-.emotion-20 {
+.emotion-22 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -1318,28 +1378,28 @@ exports[`it goes in and out of edit mode 2`] = `
   min-height: 40px;
 }
 
-.emotion-20:hover,
-.emotion-20:focus-visible {
+.emotion-22:hover,
+.emotion-22:focus-visible {
   color: #20588f;
   background-color: #ceddea;
   border-color: #ceddea;
 }
 
-.emotion-20[disabled] {
+.emotion-22[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-20[lang='zh'],
-.emotion-20[lang='zh-Hans'],
-.emotion-20[lang='zh-Hant'] {
+.emotion-22[lang='zh'],
+.emotion-22[lang='zh-Hans'],
+.emotion-22[lang='zh-Hant'] {
   font-size: calc(16px * 1.11);
   font-size: calc(0.8888888888888888rem * 1.11);
 }
 
-.emotion-21 {
+.emotion-23 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1353,7 +1413,7 @@ exports[`it goes in and out of edit mode 2`] = `
   align-items: center;
 }
 
-.emotion-24 {
+.emotion-26 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1361,7 +1421,7 @@ exports[`it goes in and out of edit mode 2`] = `
   gap: 6px;
 }
 
-.emotion-25 {
+.emotion-27 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -1408,49 +1468,49 @@ exports[`it goes in and out of edit mode 2`] = `
   height: 40px;
 }
 
-.emotion-25:hover,
-.emotion-25:focus-visible {
+.emotion-27:hover,
+.emotion-27:focus-visible {
   color: #20588f;
   background-color: #ceddea;
   border-color: #ceddea;
 }
 
-.emotion-25[disabled] {
+.emotion-27[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-25[lang='zh'],
-.emotion-25[lang='zh-Hans'],
-.emotion-25[lang='zh-Hant'] {
+.emotion-27[lang='zh'],
+.emotion-27[lang='zh-Hans'],
+.emotion-27[lang='zh-Hant'] {
   font-size: calc(14px * 1.11);
   font-size: calc(0.7777777777777778rem * 1.11);
 }
 
-.emotion-25:hover,
-.emotion-25:active,
-.emotion-25:focus-visible {
+.emotion-27:hover,
+.emotion-27:active,
+.emotion-27:focus-visible {
   color: #fff;
   background: #20588f;
   border-color: #20588f;
 }
 
-.emotion-25[disabled] {
+.emotion-27[disabled] {
   color: #777777;
   background-color: transparent;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-25 svg {
+.emotion-27 svg {
   width: 24px;
   height: 24px;
   margin: 0;
 }
 
-.emotion-26 {
+.emotion-28 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -1497,43 +1557,43 @@ exports[`it goes in and out of edit mode 2`] = `
   height: 40px;
 }
 
-.emotion-26:hover,
-.emotion-26:focus-visible {
+.emotion-28:hover,
+.emotion-28:focus-visible {
   color: #fff;
   background-color: #d1372e;
   border-color: #d1372e;
 }
 
-.emotion-26[disabled] {
+.emotion-28[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-26[lang='zh'],
-.emotion-26[lang='zh-Hans'],
-.emotion-26[lang='zh-Hant'] {
+.emotion-28[lang='zh'],
+.emotion-28[lang='zh-Hans'],
+.emotion-28[lang='zh-Hant'] {
   font-size: calc(14px * 1.11);
   font-size: calc(0.7777777777777778rem * 1.11);
 }
 
-.emotion-26:hover,
-.emotion-26:active,
-.emotion-26:focus-visible {
+.emotion-28:hover,
+.emotion-28:active,
+.emotion-28:focus-visible {
   color: #fff;
   background: #d1372e;
   border-color: #d1372e;
 }
 
-.emotion-26[disabled] {
+.emotion-28[disabled] {
   color: #777777;
   background-color: transparent;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-26 svg {
+.emotion-28 svg {
   width: 24px;
   height: 24px;
   margin: 0;
@@ -1644,21 +1704,20 @@ exports[`it goes in and out of edit mode 2`] = `
         <p>
           Dra artikkel for å endre rekkefølge
         </p>
-        <div
-          class="drop-zone"
+        <ul
+          class="emotion-6"
         >
-          <div
-            aria-describedby="rbd-hidden-text-0-hidden-text-0"
-            data-rbd-drag-handle-context-id="0"
-            data-rbd-drag-handle-draggable-id="embed-1"
-            data-rbd-draggable-context-id="0"
-            data-rbd-draggable-id="embed-1"
-            draggable="false"
+          <li
+            aria-describedby="DndDescribedBy-0"
+            aria-disabled="false"
+            aria-roledescription="sortable"
+            class="emotion-7"
+            data-has-handle="false"
             role="button"
             tabindex="0"
           >
             <div
-              class="emotion-6"
+              class="emotion-8"
             >
               <article
                 class="c-related-articles__item c-related-articles__item--external-learning-resources"
@@ -1727,7 +1786,7 @@ exports[`it goes in and out of edit mode 2`] = `
                 </p>
               </article>
               <div
-                class="emotion-7"
+                class="emotion-9"
               >
                 <div
                   data-tooltip="Endre ekstern artikkel"
@@ -1735,7 +1794,7 @@ exports[`it goes in and out of edit mode 2`] = `
                 >
                   <button
                     aria-label="Endre ekstern artikkel"
-                    class="emotion-8"
+                    class="emotion-10"
                     data-state="closed"
                     data-trigger="true"
                     type="button"
@@ -1805,8 +1864,25 @@ exports[`it goes in and out of edit mode 2`] = `
                 </div>
               </div>
             </div>
+          </li>
+          <div
+            id="DndDescribedBy-0"
+            style="display: none;"
+          >
+            
+    To pick up a draggable item, press the space bar.
+    While dragging, use the arrow keys to move the item.
+    Press space again to drop the item in its new position, or press escape to cancel.
+  
           </div>
-        </div>
+          <div
+            aria-atomic="true"
+            aria-live="assertive"
+            id="DndLiveRegion-0"
+            role="status"
+            style="position: fixed; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%); white-space: nowrap;"
+          />
+        </ul>
         <div
           data-cy="styled-article-modal"
         >
@@ -1818,19 +1894,19 @@ exports[`it goes in and out of edit mode 2`] = `
             style="position: relative;"
           >
             <div
-              class="emotion-10 emotion-11"
+              class="emotion-12 emotion-13"
             >
               <label
-                class="emotion-12 emotion-13"
+                class="emotion-14 emotion-15"
                 for="search-input-field"
               >
                 Søk på tittel
               </label>
               <div
-                class="emotion-14 emotion-15"
+                class="emotion-16 emotion-17"
               >
                 <div
-                  class="emotion-16 emotion-17"
+                  class="emotion-18 emotion-19"
                 >
                   <input
                     aria-autocomplete="list"
@@ -1845,7 +1921,7 @@ exports[`it goes in and out of edit mode 2`] = `
                     value=""
                   />
                   <div
-                    class="emotion-18"
+                    class="emotion-20"
                   >
                     <svg
                       aria-hidden="true"
@@ -1871,12 +1947,12 @@ exports[`it goes in and out of edit mode 2`] = `
             </div>
           </div>
           <div
-            class="emotion-19"
+            class="emotion-21"
           >
             Eller
           </div>
           <button
-            class="emotion-20"
+            class="emotion-22"
             data-testid="showAddExternal"
             type="button"
           >
@@ -1890,7 +1966,7 @@ exports[`it goes in and out of edit mode 2`] = `
       data-testid="relatedWrapper"
     >
       <div
-        class="emotion-21 emotion-22"
+        class="emotion-23 emotion-24"
       >
         <h3
           class="c-related-articles__component-title emotion-4"
@@ -1898,7 +1974,7 @@ exports[`it goes in and out of edit mode 2`] = `
           Relatert innhold
         </h3>
         <div
-          class="emotion-24"
+          class="emotion-26"
         >
           <div
             data-tooltip="Rediger"
@@ -1906,7 +1982,7 @@ exports[`it goes in and out of edit mode 2`] = `
           >
             <button
               aria-label="Rediger"
-              class="emotion-25"
+              class="emotion-27"
               data-state="closed"
               data-trigger="true"
               type="button"
@@ -1941,7 +2017,7 @@ exports[`it goes in and out of edit mode 2`] = `
           >
             <button
               aria-label="Slett"
-              class="emotion-26"
+              class="emotion-28"
               data-state="closed"
               data-trigger="true"
               type="button"

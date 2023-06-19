@@ -30,7 +30,6 @@ import {
 
 interface Props {
   node: DiffType<Node> | DiffTypeWithChildren;
-  level: number;
   onNodeSelected: (node?: DiffType<Node>) => void;
   selectedNode?: DiffType<Node> | DiffTypeWithChildren;
   parentActive: boolean;
@@ -42,6 +41,10 @@ interface RootNodeProps {
   onNodeSelected: (node?: DiffType<Node>) => void;
   selectedNode?: DiffType<Node> | DiffTypeWithChildren;
 }
+
+const StructureItem = styled(StyledStructureItem)`
+  margin-left: ${spacing.small};
+`;
 
 export const RootNode = ({ tree, onNodeSelected, selectedNode }: RootNodeProps) => {
   const root = tree.root;
@@ -62,7 +65,6 @@ export const RootNode = ({ tree, onNodeSelected, selectedNode }: RootNodeProps) 
       selectedNode={selectedNode}
       node={root}
       nodes={children}
-      level={1}
       onNodeSelected={onNodeSelected}
       parentActive={true}
     />
@@ -113,14 +115,7 @@ const StyledItem = styled(StyledItemBar)`
 
 const isChildNode = createGuard<DiffTypeWithChildren>('children');
 
-export const TreeNode = ({
-  node,
-  onNodeSelected,
-  selectedNode,
-  parentActive,
-  nodes,
-  level,
-}: Props) => {
+export const TreeNode = ({ node, onNodeSelected, selectedNode, parentActive, nodes }: Props) => {
   const { t } = useTranslation();
   const path = nodePathToUrnPath(node.path.other ?? node.path?.original!);
   const isActive =
@@ -135,13 +130,13 @@ export const TreeNode = ({
   };
 
   return (
-    <StyledStructureItem
+    <StructureItem
       connectionId={connectionId}
       id={node.id.other ?? node.id.original}
       key={path}
       greyedOut={!parentActive && !isActive}
     >
-      <StyledItem level={level} highlight={isActive}>
+      <StyledItem highlight={isActive}>
         <ItemTitleButton
           type="button"
           id={node.id.other ?? node.id.original}
@@ -183,11 +178,10 @@ export const TreeNode = ({
                 node={node}
                 nodes={node.children}
                 selectedNode={selectedNode}
-                level={level + 1}
               />
             </Fade>
           </StructureWrapper>
         ))}
-    </StyledStructureItem>
+    </StructureItem>
   );
 };

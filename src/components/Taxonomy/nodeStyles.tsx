@@ -70,14 +70,12 @@ export const ItemTitleButton = styled.button<ItemTitleButtonProps>`
 `;
 
 interface StyledItemBarProps {
-  level: number;
   highlight?: boolean;
 }
 
 export const StyledItemBar = styled.div<StyledItemBarProps>`
   display: flex;
   align-items: center;
-  padding: 0 ${spacing.small} 0 calc(${(props) => props.level} * 17px + ${spacing.small});
   min-height: 40px;
   border-bottom: 1px solid ${colors.brand.greyLighter};
   background: ${(props) => props.highlight && colors.brand.lighter};
@@ -92,9 +90,10 @@ interface StyledStructureItemProps {
   connectionId?: string;
 }
 
-export const StyledStructureItem = styled.li<StyledStructureItemProps>`
+export const StyledStructureItem = styled.div<StyledStructureItemProps>`
   margin: 0;
   padding: 0;
+  flex: 1;
   display: flex;
   flex-direction: column;
   ${(props) =>

@@ -41,6 +41,8 @@ interface SavedSearchObjectType {
 interface SearchUrlQueryData {
   searchObjects: SearchObjectType[];
   getSavedSearchData: (searchObjects: SearchObjectType[]) => SavedSearchObjectType[];
+  loading: boolean;
+  error: boolean;
 }
 
 export const useSavedSearchUrl = (currentUserData: IUserData | undefined): SearchUrlQueryData => {
@@ -48,6 +50,12 @@ export const useSavedSearchUrl = (currentUserData: IUserData | undefined): Searc
   const { taxonomyVersion } = useTaxonomyVersion();
 
   const { savedSearches: searchText, favoriteSubjects } = currentUserData || {};
+
+  const [subjectData, setSubjectData] = useState<SubjectType[]>([]);
+  const [resourceTypeData, setResourceTypeData] = useState<ResourceType[]>([]);
+  const [searchResultData, setSearchResultData] = useState<SearchResultBase<any>[]>([]);
+  const [dataFetchLoading, setDataFetchLoading] = useState(false);
+  const [dataFetchError, setDataFetchError] = useState(false);
 
   const searchObjects = useMemo(
     () =>
@@ -68,45 +76,51 @@ export const useSavedSearchUrl = (currentUserData: IUserData | undefined): Searc
 
   useEffect(() => {
     (async () => {
-      const searchResultData = await Promise.all(
-        searchObjects.map((searchObject) => {
-          const searchFunction =
-            searchTypeToFetchMapping[searchObject['type'] ?? 'content'] ?? search;
+      try {
+        setDataFetchLoading(true);
+        setDataFetchError(false);
+        const searchResultData = await Promise.all(
+          searchObjects.map((searchObject) => {
+            const searchFunction =
+              searchTypeToFetchMapping[searchObject['type'] ?? 'content'] ?? search;
 
-          const searchObj =
-            searchObject.subjects === FAVOURITES_SUBJECT_ID
-              ? {
-                  ...searchObject,
-                  subjects: favoriteSubjects?.join(','),
-                }
-              : searchObject;
+            const searchObj =
+              searchObject.subjects === FAVOURITES_SUBJECT_ID
+                ? {
+                    ...searchObject,
+                    subjects: favoriteSubjects?.join(','),
+                  }
+                : searchObject;
 
-          const searchResult = searchFunction({ ...searchObj, 'page-size': 0 });
+            const searchResult = searchFunction({ ...searchObj, 'page-size': 0 });
 
-          return searchResult;
-        }),
-      );
-      setSearchResultData(searchResultData);
+            return searchResult;
+          }),
+        );
+        setSearchResultData(searchResultData);
+        const subjects = searchObjects
+          .map((searchObject) => searchObject['subjects'])
+          .filter((searchObject) => !searchObject?.includes(FAVOURITES_SUBJECT_ID) && searchObject);
+        const subjectData = await Promise.all(
+          subjects.map((subject) =>
+            fetchSubject({ id: subject ?? '', language: i18n.language, taxonomyVersion }),
+          ),
+        );
+        setSubjectData(subjectData);
 
-      const subjects = searchObjects
-        .map((searchObject) => searchObject['subjects'])
-        .filter((searchObject) => !searchObject?.includes(FAVOURITES_SUBJECT_ID) && searchObject);
-      const subjectData = await Promise.all(
-        subjects.map((subject) =>
-          fetchSubject({ id: subject ?? '', language: i18n.language, taxonomyVersion }),
-        ),
-      );
-      setSubjectData(subjectData);
-
-      const resourceTypes = searchObjects
-        .map((searchObject) => searchObject['resource-types'])
-        .filter((r) => r);
-      const resourceTypesData = await Promise.all(
-        resourceTypes.map((resourceType) =>
-          fetchResourceType({ id: resourceType ?? '', language: i18n.language, taxonomyVersion }),
-        ),
-      );
-      setResourceTypeData(resourceTypesData);
+        const resourceTypes = searchObjects
+          .map((searchObject) => searchObject['resource-types'])
+          .filter((r) => r);
+        const resourceTypesData = await Promise.all(
+          resourceTypes.map((resourceType) =>
+            fetchResourceType({ id: resourceType ?? '', language: i18n.language, taxonomyVersion }),
+          ),
+        );
+        setResourceTypeData(resourceTypesData);
+        setDataFetchLoading(false);
+      } catch {
+        setDataFetchError(true);
+      }
     })();
   }, [searchObjects, favoriteSubjects, taxonomyVersion, i18n.language]);
 
@@ -115,7 +129,11 @@ export const useSavedSearchUrl = (currentUserData: IUserData | undefined): Searc
     [searchObjects],
   );
 
-  const { data: userData, isInitialLoading: auth0UsersLoading } = useAuth0Users(
+  const {
+    data: userData,
+    isInitialLoading: auth0UsersLoading,
+    error: auth0UsersError,
+  } = useAuth0Users(
     { uniqueUserIds: userIds.join(',') },
     {
       enabled: !!userIds.length,
@@ -127,16 +145,25 @@ export const useSavedSearchUrl = (currentUserData: IUserData | undefined): Searc
     [searchObjects],
   );
 
-  const { data: responsibleData, isInitialLoading: auth0ResponsiblesLoading } = useAuth0Users(
+  const {
+    data: responsibleData,
+    isInitialLoading: auth0ResponsiblesLoading,
+    error: auth0ResponsiblesError,
+  } = useAuth0Users(
     { uniqueUserIds: responsibleIds.join(',') },
     {
       enabled: !!responsibleIds.length,
     },
   );
 
-  const [subjectData, setSubjectData] = useState<SubjectType[]>([]);
-  const [resourceTypeData, setResourceTypeData] = useState<ResourceType[]>([]);
-  const [searchResultData, setSearchResultData] = useState<SearchResultBase<any>[]>([]);
+  const loading = useMemo(
+    () => auth0ResponsiblesLoading || auth0UsersLoading || dataFetchLoading,
+    [auth0ResponsiblesLoading, auth0UsersLoading, dataFetchLoading],
+  );
+  const error = useMemo(
+    () => !!auth0ResponsiblesError || !!auth0UsersError || dataFetchError,
+    [auth0ResponsiblesError, auth0UsersError, dataFetchError],
+  );
 
   const filterToSearchTextMapping = (searchObject: SearchObjectType): SearchObjectType => ({
     type: searchObject.type && t(`searchTypes.${searchObject.type}`),
@@ -195,5 +222,7 @@ export const useSavedSearchUrl = (currentUserData: IUserData | undefined): Searc
   return {
     searchObjects: searchObjects,
     getSavedSearchData: getSavedSearchData,
+    loading: loading,
+    error: error,
   };
 };

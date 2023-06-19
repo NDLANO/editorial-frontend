@@ -21,7 +21,8 @@ import { parseSearchParams } from '../SearchPage/components/form/SearchForm';
 import { toSearch } from '../../util/routeHelpers';
 import MastheadSearchForm from './components/MastheadSearchForm';
 import { useSavedSearchUrl } from '../WelcomePage/hooks/savedSearchHook';
-import { SearchObjectType } from '../../interfaces';
+import Spinner from '../../components/Spinner';
+import { StyledErrorMessage } from '../TaxonomyVersions/components/StyledErrorMessage';
 
 const DropdownWrapper = styled.div`
   position: relative;
@@ -93,7 +94,7 @@ const SearchDropdown = ({ onClose }: Props) => {
     [onClose],
   );
 
-  const { searchObjects, getSavedSearchData } = useSavedSearchUrl(userData);
+  const { searchObjects, getSavedSearchData, loading, error } = useSavedSearchUrl(userData);
 
   const savedSearchData = getSavedSearchData(searchObjects);
 
@@ -153,7 +154,11 @@ const SearchDropdown = ({ onClose }: Props) => {
             {isOpen ? (
               <StyledDropdown {...getMenuProps()}>
                 <StyledTitle>{t('welcomePage.savedSearch')}</StyledTitle>
-                {userData?.savedSearches?.length ? (
+                {error ? (
+                  <StyledErrorMessage>{t('errorMessage.description')}</StyledErrorMessage>
+                ) : loading ? (
+                  <Spinner appearance="small" />
+                ) : userData?.savedSearches?.length ? (
                   savedSearchData.map((item, index) => (
                     <StyledSavedSearchItem
                       key={`${item}_${index}`}

@@ -14,7 +14,7 @@ const phrases = {
     createLearningResourcePage: `Fagstoff ${titleTemplate}`,
     createTopicArticlePage: `Emne ${titleTemplate}`,
     createSubjectpage: `Fagforside ${titleTemplate}`,
-    createFrontPageArticePage: `Innholdsartikkel ${titleTemplate}`,
+    createFrontPageArticePage: `Om-NDLA-artikkel ${titleTemplate}`,
     agreementPage: `Avtale ${titleTemplate}`,
     welcomePage: `Forside ${titleTemplate}`,
     structurePage: `Struktur ${titleTemplate}`,
@@ -191,7 +191,7 @@ const phrases = {
   },
   articleType: {
     'topic-article': 'Emne',
-    'frontpage-article': 'Innholdsartikkel',
+    'frontpage-article': 'Om-NDLA-artikkel',
     standard: 'Læringsressurs',
   },
   subNavigation: {
@@ -220,7 +220,7 @@ const phrases = {
     h5p: 'Rediger H5P',
     newConcept: 'Opprett forklaring',
     newSubject: 'Opprett fag',
-    newFrontpageArticle: 'Opprett innholdsartikkel',
+    newFrontpageArticle: 'Opprett Om-NDLA-artikkel',
     creationMovedInfo: 'Emner og ressurser må opprettes fra strukturredigering',
   },
   logo: {
@@ -534,7 +534,7 @@ const phrases = {
     },
   },
   frontpageArticleForm: {
-    title: 'Innholdsartikkel',
+    title: 'Om-NDLA-artikkel',
     validation: {
       illegalSlug:
         'Bruk av ulovlige tegn i permalenken! Tillatte tegn er alle tall og bokstaver, og bindestrek',
@@ -1568,7 +1568,7 @@ const phrases = {
   },
   contextTypes: {
     topic: 'Emne',
-    frontpage: 'Innholdsartikkel',
+    frontpage: 'Om-NDLA-artikkel',
   },
   ndlaFilm: {
     editor: {

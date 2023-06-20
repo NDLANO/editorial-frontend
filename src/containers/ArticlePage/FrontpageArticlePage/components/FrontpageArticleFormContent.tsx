@@ -80,6 +80,7 @@ const StyledFormikField = styled(FormikField)`
   margin-top: 0;
   align-items: center;
   justify-content: space-between;
+  width: 100%;
 `;
 
 const IconContainer = styled.div`

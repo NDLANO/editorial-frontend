@@ -10,6 +10,7 @@ import { HelmetWithTracker } from '@ndla/tracker';
 import { Hero, HeroContentType, OneColumn } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
+import { spacing } from '@ndla/core';
 import { css } from '@emotion/react';
 import PreviewDraft from '../../components/PreviewDraft/PreviewDraft';
 import { getContentTypeFromResourceTypes } from '../../util/resourceHelpers';
@@ -17,10 +18,8 @@ import { useTaxonomyVersion } from '../StructureVersion/TaxonomyVersionProvider'
 import LanguageSelector from './LanguageSelector';
 import { useDraft } from '../../modules/draft/draftQueries';
 import { useNodes } from '../../modules/nodes/nodeQueries';
-import { isFrontpageArticle } from '../ArticlePage/FrontpageArticlePage/components/FrontpageArticleProvider';
-import { spacing } from '@ndla/core';
 
-const frontpageBackgroundColor = css`
+const frontpageStyling = css`
   background-color: #f7fafd;
   display: flex;
   flex-flow: column;
@@ -28,10 +27,6 @@ const frontpageBackgroundColor = css`
   align-items: center;
   margin: unset;
   max-width: unset;
-`;
-
-const frontpageCss = css`
-  ${frontpageBackgroundColor};
   padding: 0 ${spacing.normal};
 `;
 
@@ -59,7 +54,6 @@ const PreviewDraftPage = () => {
     : undefined;
 
   const isFrontpage = draft.data?.articleType === 'frontpage-article';
-  const isWideFrontpage = isFrontpageArticle(draft.data?.id!);
   return (
     <>
       <Hero
@@ -71,9 +65,7 @@ const PreviewDraftPage = () => {
       </Hero>
 
       <HelmetWithTracker title={`${draft.data?.title?.title} ${t('htmlTitles.titleTemplate')}`} />
-      <OneColumn
-        css={isFrontpage ? (isWideFrontpage ? frontpageCss : frontpageBackgroundColor) : undefined}
-      >
+      <OneColumn css={isFrontpage ? frontpageStyling : undefined}>
         <PreviewDraft
           type="article"
           draft={draft.data!}

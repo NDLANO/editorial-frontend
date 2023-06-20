@@ -8,6 +8,7 @@ const StyledFormContainer = styled('div')`
   border-bottom: 1px solid white;
   clear: both;
   position: relative;
+  width: 100%;
 
   &:hover,
   &:focus {

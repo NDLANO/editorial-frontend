@@ -63,7 +63,7 @@ const StyledAccordionContent = styled(AccordionContent)`
   &[data-wide='true'] {
     display: flex;
     flex-flow: column;
-    padding: 0 16.6%;
+    align-items: center;
     width: 100% !important;
     left: unset !important;
     right: unset !important;

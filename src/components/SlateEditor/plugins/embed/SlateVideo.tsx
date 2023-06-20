@@ -205,7 +205,7 @@ const SlateVideo = ({
         )}
       </Modal>
       <div draggable {...attributes}>
-        <figure id={'videoid' in embed ? embed.videoid : embed.url}>
+        <Figure id={'videoid' in embed ? embed.videoid : embed.url}>
           <FigureButtons
             tooltip={t('form.video.remove')}
             onRemoveClick={onRemoveClick}
@@ -249,7 +249,7 @@ const SlateVideo = ({
               <FigureInfo>{parseMarkdown(embed.caption ?? '')}</FigureInfo>
             </StyledFigcaption>
           </CaptionButton>
-        </figure>
+        </Figure>
         {children}
       </div>
     </>

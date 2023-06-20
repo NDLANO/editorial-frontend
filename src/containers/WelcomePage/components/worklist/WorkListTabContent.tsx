@@ -181,7 +181,7 @@ const WorkListTabContent = ({
             <GoToSearch
               ndlaId={ndlaId}
               filterSubject={filterSubject?.value}
-              searchEnv={'content'}
+              searchEnv="content"
             />
           </ControlWrapperDashboard>
           <Tooltip tooltip={t('welcomePage.prioritizedLabel')}>

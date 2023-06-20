@@ -43,6 +43,7 @@ import { Auth0UserData } from '../../../interfaces';
 import { createDraft, updateUserData } from '../../../modules/draft/draftApi';
 import { getRootIdForNode } from '../../../modules/nodes/nodeUtil';
 import Spinner from '../../../components/Spinner';
+import { getCommentWithInfoText } from '../../ArticlePage/components/InputComment';
 
 const StyledForm = styled.form`
   width: 100%;
@@ -188,9 +189,10 @@ const PlannedResourceForm = ({ articleType, node, onClose, userData }: Props) =>
     async (values: PlannedResourceFormikType) => {
       try {
         setError(undefined);
+        const comment = values.comments && getCommentWithInfoText(values.comments, userName, t);
         const plannedResource: IUpdatedArticle = {
           title: values.title,
-          comments: values.comments.length ? [{ content: values.comments, isOpen: true }] : [],
+          comments: comment ? [{ content: comment, isOpen: true }] : [],
           language: i18n.language,
           articleType: values.articleType,
           responsibleId: values.responsible,
@@ -240,6 +242,8 @@ const PlannedResourceForm = ({ articleType, node, onClose, userData }: Props) =>
       }
     },
     [
+      userName,
+      t,
       i18n.language,
       userData?.latestEditedArticles,
       addNodeMutation,

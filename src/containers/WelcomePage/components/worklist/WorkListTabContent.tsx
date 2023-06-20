@@ -178,11 +178,7 @@ const WorkListTabContent = ({
         <StyledWorkListControls>
           <ControlWrapperDashboard>
             <SubjectDropdown filterSubject={filterSubject} setFilterSubject={setFilterSubject} />
-            <GoToSearch
-              ndlaId={ndlaId}
-              filterSubject={filterSubject?.value}
-              searchEnv="content"
-            />
+            <GoToSearch ndlaId={ndlaId} filterSubject={filterSubject?.value} searchEnv="content" />
           </ControlWrapperDashboard>
           <Tooltip tooltip={t('welcomePage.prioritizedLabel')}>
             <SwitchWrapper>

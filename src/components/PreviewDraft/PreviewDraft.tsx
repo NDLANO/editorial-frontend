@@ -87,6 +87,7 @@ export const PreviewDraft = ({ type, draft: draftProp, label, contentType, langu
       previewAlt: true,
       frontendDomain: config.ndlaFrontendDomain,
     });
+
     return {
       title: draft.title ?? '',
       introduction: draft.introduction ?? '',
@@ -105,7 +106,7 @@ export const PreviewDraft = ({ type, draft: draftProp, label, contentType, langu
     return (
       <FrontpageArticle
         //@ts-ignore
-        article={article!}
+        article={article}
         icon={contentType ? <ContentTypeBadge type={contentType} background size="large" /> : null}
         id={draft.id.toString()}
         messages={{ label }}

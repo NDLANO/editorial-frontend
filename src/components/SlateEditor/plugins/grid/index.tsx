@@ -70,7 +70,7 @@ export const gridSerializer: SlateSerializer = {
         {
           type: TYPE_GRID,
           data: {
-            columns: parseInt(attributes['columns']),
+            columns: attributes['columns'],
             border: attributes['border'],
             background: attributes['background'],
           },
@@ -92,7 +92,7 @@ export const gridSerializer: SlateSerializer = {
           data-background={node.data.background}
         >
           {children.filter(
-            (el) =>
+            () =>
               Element.isElement(node.children[0]) &&
               (node.children.length !== 1 ||
                 (node.children[0].type !== TYPE_PARAGRAPH &&
@@ -126,17 +126,18 @@ export const gridPlugin = (editor: Editor) => {
   editor.normalizeNode = (entry) => {
     const [node, path] = entry;
     if (Element.isElement(node) && node.type === TYPE_GRID) {
-      if (node.children.length < node.data.columns) {
+      const columns = node.data.columns === '2x2' ? 4 : Number(node.data.columns);
+      if (node.children.length < columns) {
         Transforms.insertNodes(
           editor,
-          Array(node.data.columns - node.children.length)
+          Array(columns - node.children.length)
             .fill(undefined)
             .map(() => defaultGridCellBlock()),
           { at: [...path, node.children.length] },
         );
-      } else if (node.children.length > node.data.columns) {
+      } else if (node.children.length > columns) {
         Editor.withoutNormalizing(editor, () => {
-          Array(node.children.length - node.data.columns)
+          Array(node.children.length - columns)
             .fill(undefined)
             .forEach((_, index) =>
               Transforms.removeNodes(editor, { at: [...path, node.children.length - 1 - index] }),

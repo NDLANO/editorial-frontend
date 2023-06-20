@@ -139,6 +139,7 @@ const phrases = {
     updated: 'Oppdatert',
     primaryConnection: 'Vis kun ressurser med primærkobling til mine favorittfag',
     primaryConnectionLabel: 'Vis kun primærkobling',
+    prioritizedLabel: 'Vis kun prioriterte',
     workList: {
       heading: 'Mine arbeidsoppgaver',
       description: 'Artikler hvor du står som ansvarlig',
@@ -1412,6 +1413,7 @@ const phrases = {
     create: 'Opprett',
     get: 'Hent',
     getExisting: 'Eller hent eksisterende ressurs',
+    addPriority: 'Sett artikkel som prioritert',
     changeName: {
       loadError: 'Klarte ikke hente oversettelser',
       updateError: 'Klarte ikke oppdatere oversettelser',
@@ -1613,6 +1615,7 @@ const phrases = {
     statusLabel: 'Status:',
     changeHeader: 'Endringer',
     saveAsNew: 'Lagre som kopi',
+    prioritized: 'Prioritert',
   },
   taxonomyVersions: {
     title: 'Taksonomiversjoner',

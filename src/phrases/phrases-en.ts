@@ -138,6 +138,7 @@ const phrases = {
     updated: 'Updated',
     primaryConnection: 'Only show resources with primary connection to my favorite subjects',
     primaryConnectionLabel: 'Only show primary connection',
+    prioritizedLabel: 'Only show prioritized',
     workList: {
       heading: 'My tasks',
       description: 'Articles where you are responsible',
@@ -1410,6 +1411,7 @@ const phrases = {
     create: 'Create',
     get: 'Get',
     getExisting: 'Or get existing resource',
+    addPriority: 'Set article as prioritized',
     changeName: {
       loadError: 'Could not fetch translations',
       updateError: 'Could not update translations',
@@ -1610,6 +1612,7 @@ const phrases = {
     statusLabel: 'Status:',
     changeHeader: 'Changes',
     saveAsNew: 'Save as copy',
+    prioritized: 'Prioritized',
   },
   taxonomyVersions: {
     title: 'Taxonomy Versions',

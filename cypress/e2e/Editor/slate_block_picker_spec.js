@@ -149,7 +149,7 @@ describe('can enter both element types SlateBlockPicker and SlateVisualElementPi
     cy.apiroute('GET', '**/search-api/v1/search/editorial/*', 'search');
 
     cy.get('[data-cy=create-related]').click();
-    cy.get('[data-cy="styled-article-modal"]').should('exist');
+    cy.get('[data-tab-panel=""]').should('exist');
     cy.apiwait('@search');
     cy.get('[data-cy="close-related-button"]').click();
   });

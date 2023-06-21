@@ -10,7 +10,7 @@ import nock from 'nock';
 import { createEditor, Descendant } from 'slate';
 import { withReact, Slate, Editable } from 'slate-react';
 import { withHistory } from 'slate-history';
-import { render, fireEvent, cleanup, act } from '@testing-library/react';
+import { render, fireEvent, cleanup, act, getByText } from '@testing-library/react';
 import RelatedArticleBox from '../RelatedArticleBox';
 import IntlWrapper from '../../../../../util/__tests__/IntlWrapper';
 import { TYPE_RELATED } from '../types';
@@ -28,6 +28,12 @@ jest.mock('slate-react', () => {
     },
   };
 });
+
+global.ResizeObserver = jest.fn().mockImplementation(() => ({
+  observe: jest.fn(),
+  unobserve: jest.fn(),
+  disconnect: jest.fn(),
+}));
 
 afterEach(cleanup);
 
@@ -63,6 +69,7 @@ const wrapper = () => {
     </IntlWrapper>,
   );
 };
+jest.useFakeTimers();
 
 test('it goes in and out of edit mode', async () => {
   nock('http://ndla-api')
@@ -70,10 +77,10 @@ test('it goes in and out of edit mode', async () => {
     .reply(200, { results: [] });
   const { getByTestId, container, findByTestId, findByText, findAllByRole, findByDisplayValue } =
     wrapper();
-  await findByText('Dra artikkel for å endre rekkefølge');
 
-  act(() => {
-    fireEvent.click(getByTestId('showAddExternal'));
+  await act(async () => {
+    const el = await findByText('Legg til ekstern artikkel');
+    fireEvent.mouseDown(el);
   });
 
   await findByTestId('addExternalTitleInput');
@@ -93,8 +100,9 @@ test('it goes in and out of edit mode', async () => {
   });
   await findByDisplayValue('Verdens gang');
 
-  act(() => {
-    fireEvent.click(getByTestId('taxonomyLightboxButton'));
+  await act(async () => {
+    const el = await findByText('Lagre');
+    fireEvent.click(el);
   });
 
   await findAllByRole('link', { name: 'Verdens gang' });

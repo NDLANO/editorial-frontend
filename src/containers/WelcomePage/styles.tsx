@@ -6,8 +6,9 @@
  *
  */
 import styled from '@emotion/styled';
-import { spacing, colors, mq, breakpoints } from '@ndla/core';
+import { spacing, colors, mq, breakpoints, fonts } from '@ndla/core';
 import SafeLink from '@ndla/safelink';
+import { Switch } from '@ndla/switch';
 
 export const StyledColumnHeader = styled.div`
   display: flex;
@@ -56,5 +57,19 @@ export const ControlWrapperDashboard = styled.div`
   gap: ${spacing.small};
   ${mq.range({ until: breakpoints.tablet })} {
     flex-direction: column;
+  }
+`;
+export const SwitchWrapper = styled.div`
+  margin-top: ${spacing.small};
+  & button {
+    margin-left: auto;
+  }
+`;
+
+export const StyledSwitch = styled(Switch)`
+  white-space: nowrap;
+  label {
+    font-size: ${fonts.sizes('16px')};
+    margin-left: auto;
   }
 `;

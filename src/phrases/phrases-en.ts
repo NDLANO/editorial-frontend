@@ -138,6 +138,7 @@ const phrases = {
     updated: 'Updated',
     primaryConnection: 'Only show resources with primary connection to my favorite subjects',
     primaryConnectionLabel: 'Only show primary connection',
+    prioritizedLabel: 'Only show prioritized',
     workList: {
       heading: 'My tasks',
       description: 'Articles where you are responsible',
@@ -1411,6 +1412,7 @@ const phrases = {
     get: 'Get',
     getExisting: 'Or get existing resource',
     inProgress: 'This article is in progress',
+    addPriority: 'Set article as prioritized',
     changeName: {
       loadError: 'Could not fetch translations',
       updateError: 'Could not update translations',
@@ -1440,7 +1442,7 @@ const phrases = {
     confirmDeleteTopic: 'Are you sure you want to delete this topic?',
     confirmDeleteSubject: 'Are you sure you want to delete this subject?',
     or: 'Eller',
-    urlPlaceholder: 'Lim inn lenke fra ndla.no',
+    urlPlaceholder: 'Paste in a link from ndla.no',
     wrongType: 'Note! This is a different resource type: ',
     noResources: 'No resources found',
     addTopicDescription: 'Change topic description',
@@ -1611,6 +1613,7 @@ const phrases = {
     statusLabel: 'Status:',
     changeHeader: 'Changes',
     saveAsNew: 'Save as copy',
+    prioritized: 'Prioritized',
   },
   taxonomyVersions: {
     title: 'Taxonomy Versions',

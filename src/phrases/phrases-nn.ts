@@ -139,6 +139,7 @@ const phrases = {
     updated: 'Oppdatert',
     primaryConnection: 'Berre vis ressursar med primærkopling til mine favorittfag',
     primaryConnectionLabel: 'Berre vis primærkopling',
+    prioritizedLabel: 'Berre vis prioriterte',
     workList: {
       heading: 'Mine arbeidsoppgåver',
       description: 'Artiklar der du står som ansvarleg',
@@ -1413,6 +1414,7 @@ const phrases = {
     get: 'Hent',
     getExisting: 'Eller hent eksisterande ressurs',
     inProgress: 'Denne artikkelen er påbyrja',
+    addPriority: 'Sett artikkel som prioritert',
     changeName: {
       loadError: 'Klarte ikkje hente omsetjingar',
       updateError: 'Klarte ikkje oppdatere omsetjingar',
@@ -1614,6 +1616,7 @@ const phrases = {
     statusLabel: 'Status:',
     changeHeader: 'Endringer',
     saveAsNew: 'Lagre som kopi',
+    prioritized: 'Prioritert',
   },
   taxonomyVersions: {
     title: 'Taksonomiversjonar',

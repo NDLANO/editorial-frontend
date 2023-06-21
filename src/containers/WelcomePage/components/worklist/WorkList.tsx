@@ -35,6 +35,7 @@ const WorkList = ({ ndlaId }: Props) => {
   );
   const [errorConceptList, setErrorConceptList] = useState<string | undefined>(undefined);
   const [pageConcept, setPageConcept] = useState(1);
+  const [prioritized, setPrioritized] = useState(false);
 
   const {
     t,
@@ -44,6 +45,7 @@ const WorkList = ({ ndlaId }: Props) => {
     {
       'responsible-ids': ndlaId,
       sort: sortOption,
+      ...(prioritized ? { prioritized: true } : {}),
       ...(filterSubject ? { subjects: filterSubject.value } : {}),
       page: page,
       'page-size': 6,
@@ -56,7 +58,6 @@ const WorkList = ({ ndlaId }: Props) => {
       onSuccess: () => setError(undefined),
     },
   );
-
   const { data: concepts, isInitialLoading: conceptsLoading } = useSearchConcepts(
     {
       'responsible-ids': ndlaId,
@@ -101,6 +102,8 @@ const WorkList = ({ ndlaId }: Props) => {
               sortOption={sortOption}
               ndlaId={ndlaId}
               setPage={setPage}
+              setPrioritized={setPrioritized}
+              prioritized={prioritized}
             />
           ),
         },

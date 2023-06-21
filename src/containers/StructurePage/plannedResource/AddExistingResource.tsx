@@ -16,14 +16,11 @@ import { IGroupSearchResult, IMultiSearchSummary } from '@ndla/types-backend/sea
 import { IArticleV2 } from '@ndla/types-backend/article-api';
 import { ButtonV2 } from '@ndla/button';
 import { spacing } from '@ndla/core';
+import { NdlaErrorPayload } from '../../../util/resolveJsonOrRejectWithError';
 import { RESOURCE_TYPE_LEARNING_PATH, RESOURCE_TYPE_SUBJECT_MATERIAL } from '../../../constants';
 import ResourceTypeSelect from '../../ArticlePage/components/ResourceTypeSelect';
 import { getResourceIdFromPath } from '../../../util/routeHelpers';
-import {
-  fetchResource,
-  fetchResourceResourceType,
-  queryLearningPathResource,
-} from '../../../modules/taxonomy';
+import { fetchResource, queryLearningPathResource } from '../../../modules/taxonomy';
 import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropdown';
 import {
   learningpathSearch,
@@ -96,6 +93,7 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
   const [loading, setLoading] = useState(false);
   const [selectedType, setSelectedType] = useState(RESOURCE_TYPE_SUBJECT_MATERIAL);
   const [pastedUrl, setPastedUrl] = useState('');
+  const [previewLoading, setPreviewLoading] = useState(false);
   const qc = useQueryClient();
   const { taxonomyVersion } = useTaxonomyVersion();
   const compKey = resourcesWithNodeConnectionQueryKey({ id: nodeId, language: i18n.language });
@@ -114,7 +112,10 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
   };
 
   const onAddResource = async () => {
-    if (!content) return;
+    if (!content) {
+      setError(t('errorMessage.invalidUrl'));
+      return;
+    }
     setLoading(true);
     const isLearningpath = selectedType === RESOURCE_TYPE_LEARNING_PATH && 'metaUrl' in content;
     const isArticleOrDraft = 'paths' in content;
@@ -158,33 +159,44 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
   };
 
   const onPaste = async (evt: ChangeEvent<HTMLInputElement>) => {
-    const resourceId = getResourceIdFromPath(evt.target.value);
+    setError('');
+    setContent(undefined);
     setPastedUrl(evt.currentTarget.value);
-    if (!evt.target.value) {
-      setError(t('errorMessage.invalidUrl'));
-      return;
-    } else if (!resourceId) {
-      setError('');
+
+    const input = evt.target.value;
+
+    if (!input) {
       return;
     }
+
+    const isNumber = /^-?\d+$/.test(input);
+    const articleInPathMatch = input.match(/article\/(\d+)/);
+    const articleId = articleInPathMatch ? articleInPathMatch[1] : isNumber && input;
+    const resourceId = getResourceIdFromPath(evt.target.value);
+
     try {
-      const [resource, resourceType] = await Promise.all([
-        fetchResource({ id: resourceId, taxonomyVersion }),
-        fetchResourceResourceType({ id: resourceId, taxonomyVersion }),
-      ]);
-      const pastedType = resourceType.length > 0 && resourceType[0].id;
-      const typeError =
-        pastedType === selectedType ? '' : `${t('taxonomy.wrongType')} ${pastedType}`;
-      setError(typeError);
-      const id = Number(resource.contentUri?.split(':').pop());
-      if (!typeError && id) {
-        const article = await getArticle(id);
-        setContent(toContent({ ...article, paths: [evt.target.value] }));
+      let id = Number(articleId);
+      setPreviewLoading(true);
+
+      if (resourceId) {
+        const resource = await fetchResource({ id: resourceId, taxonomyVersion });
+        id = Number(resource.contentUri?.split(':').pop());
       }
+
+      if (!id) {
+        setContent(undefined);
+        setPreviewLoading(false);
+        return;
+      }
+
+      const article = await getArticle(id);
+      article && setContent(toContent({ ...article, paths: [evt.target.value] }));
+      setPreviewLoading(false);
     } catch (e) {
-      const error = e as Error;
-      handleError(error);
-      setError(error.message);
+      const error = e as NdlaErrorPayload;
+      setError(error.messages);
+      setPreviewLoading(false);
+      return;
     }
   };
 
@@ -249,14 +261,14 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
             </>
           )}
         </StyledSection>
-        {content && <ArticlePreview article={content} />}
+        {previewLoading ? <Spinner /> : content && <ArticlePreview article={content} />}
       </ContentWrapper>
+      {error && <ErrorMessage>{t(error)}</ErrorMessage>}
       <ButtonWrapper>
         <ButtonV2 onClick={onAddResource} type="submit">
           {t('taxonomy.get')} {loading && <Spinner appearance="small" />}
         </ButtonV2>
       </ButtonWrapper>
-      {error && <ErrorMessage>{t(error)}</ErrorMessage>}
     </>
   );
 };

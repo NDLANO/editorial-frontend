@@ -117,6 +117,7 @@ const SavedSearchItem = ({ searchText, userData, deleteSearch, index, ...rest }:
   if (loading) {
     return null;
   }
+
   return (
     <StyledItem {...rest}>
       <StyledNoShadowLink to={localizedSearch}>

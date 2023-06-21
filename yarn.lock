@@ -1932,6 +1932,14 @@
     inuitcss "6.0.0"
     sass-mq "^5.0.1"
 
+"@ndla/core@^4.1.1":
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/@ndla/core/-/core-4.1.1.tgz#b545a563cfa3cbad877a714530cf36c9e5a5dc6c"
+  integrity sha512-9BpjBejSyocgKeUoIYeqek8a1NOEbEDTVCAYycDtKs69TdCbL+VUhN3yx22IwY5L4xBJr0lFmf/vGWYvWouvwA==
+  dependencies:
+    inuitcss "6.0.0"
+    sass-mq "^5.0.1"
+
 "@ndla/editor@^4.1.7":
   version "4.1.7"
   resolved "https://registry.yarnpkg.com/@ndla/editor/-/editor-4.1.7.tgz#1bc2b9099e125b9a922c6f8b30fe8ae7ccb1e238"
@@ -1992,6 +2000,13 @@
   integrity sha512-e2FxPSSwy8zDwfbmEOZw+6/aSh5NE6uZ3QCJIt4Ity8G1ZG/FER3cQD9ooOBHQRi0IKkha04vuDGUTn02YSP8Q==
   dependencies:
     "@ndla/core" "^4.1.0"
+
+"@ndla/icons@^3.0.3":
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/@ndla/icons/-/icons-3.0.4.tgz#0debed01ca88d77b0a181bebfde2bcd682981dac"
+  integrity sha512-KvSpcbaYpP0xGYwAUEFUw/XXUA6OslRX+1aX2CdZwrm8OezBxAp0nsOVRz8UuhnnSThbf2GEiU+100Gxy66uWw==
+  dependencies:
+    "@ndla/core" "^4.1.1"
 
 "@ndla/image-search@^6.0.21":
   version "6.0.21"
@@ -2108,10 +2123,10 @@
     tiny-warning "^1.0.3"
     warning "^4.0.3"
 
-"@ndla/types-backend@^0.2.11":
-  version "0.2.11"
-  resolved "https://registry.yarnpkg.com/@ndla/types-backend/-/types-backend-0.2.11.tgz#4d6d5246436918d0ff1fae703fa104a2c66d9044"
-  integrity sha512-kb2DqMjeyryOpkR55kvsGpGIkxOgJWOH9h5R9irOyp6/l9ySx5Ys2inuVdV1BEPWVzLmB1DvIySKJVBvQSj9Qg==
+"@ndla/types-backend@^0.2.12":
+  version "0.2.14"
+  resolved "https://registry.yarnpkg.com/@ndla/types-backend/-/types-backend-0.2.14.tgz#f54055f07e4f0128b5e70fffac2ec3dad98329ed"
+  integrity sha512-lMBWcqrR1mwecaJdx9UiMrjr0frzAd5ACe0HG28LWt6o4tNqvOaRYFs1FzxIM5aVGcdznXqBCUxnbsg30lIsPg==
 
 "@ndla/types-embed@^2.0.3":
   version "2.0.3"

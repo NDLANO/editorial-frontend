@@ -1410,6 +1410,7 @@ const phrases = {
     create: 'Create',
     get: 'Get',
     getExisting: 'Or get existing resource',
+    inProgress: 'This article is in progress',
     changeName: {
       loadError: 'Could not fetch translations',
       updateError: 'Could not update translations',

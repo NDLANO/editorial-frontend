@@ -10,7 +10,7 @@ import React, { ReactElement, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { colors } from '@ndla/core';
-import { AlertCircle, Check } from '@ndla/icons/editor';
+import { AlertCircle, Check, InProgress } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
 import SafeLink from '@ndla/safelink';
 import config from '../../../config';
@@ -36,6 +36,11 @@ const StyledWarnIcon = styled(AlertCircle)`
   height: 24px;
   width: 24px;
   fill: ${colors.support.yellow};
+`;
+
+const StyledInProgressIcon = styled(InProgress)`
+  width: 24px;
+  height: 24px;
 `;
 
 const StyledLink = styled(SafeLink)`
@@ -74,6 +79,13 @@ const StatusIcons = ({ contentMetaLoading, resource, path }: Props) => {
 
   return (
     <IconWrapper>
+      {resource.contentMeta?.started && (
+        <Tooltip tooltip={t('taxonomy.inProgress')}>
+          <IconWrapper>
+            <StyledInProgressIcon />
+          </IconWrapper>
+        </Tooltip>
+      )}
       {approachingRevision ? (
         <>
           {expirationColor && expirationDate && (

@@ -82,7 +82,7 @@ const StatusIcons = ({ contentMetaLoading, resource, path }: Props) => {
       {resource.contentMeta?.started && (
         <Tooltip tooltip={t('taxonomy.inProgress')}>
           <IconWrapper>
-            <StyledInProgressIcon />
+            <StyledInProgressIcon aria-label={t('taxonomy.inProgress')} />
           </IconWrapper>
         </Tooltip>
       )}
@@ -95,7 +95,14 @@ const StatusIcons = ({ contentMetaLoading, resource, path }: Props) => {
               })}
             >
               <TimeIconWrapper>
-                <StyledTimeIcon status={expirationColor} width="24px" height="24px" />
+                <StyledTimeIcon
+                  status={expirationColor}
+                  width="24px"
+                  height="24px"
+                  aria-label={t(`form.workflow.expiration.${expirationColor}`, {
+                    date: formatDate(expirationDate),
+                  })}
+                />
               </TimeIconWrapper>
             </Tooltip>
           )}
@@ -107,7 +114,7 @@ const StatusIcons = ({ contentMetaLoading, resource, path }: Props) => {
       {resource.paths?.length > 1 && (
         <Tooltip tooltip={t('form.workflow.multipleTaxonomy')}>
           <IconWrapper>
-            <StyledWarnIcon />
+            <StyledWarnIcon aria-label={t('form.workflow.multipleTaxonomy')} />
           </IconWrapper>
         </Tooltip>
       )}
@@ -116,7 +123,7 @@ const StatusIcons = ({ contentMetaLoading, resource, path }: Props) => {
         <PublishedWrapper path={path}>
           <Tooltip tooltip={t('form.workflow.published')}>
             <CheckedWrapper>
-              <StyledCheckIcon />
+              <StyledCheckIcon aria-label={t('form.workflow.published')} />
             </CheckedWrapper>
           </Tooltip>
         </PublishedWrapper>

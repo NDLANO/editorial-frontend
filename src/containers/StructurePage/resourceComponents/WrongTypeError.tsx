@@ -54,7 +54,7 @@ const WrongTypeError = ({ resource, articleType }: Props) => {
   return (
     <Tooltip tooltip={errorText}>
       <IconWrapper>
-        <StyledWarnIcon title={undefined} />
+        <StyledWarnIcon title={undefined} aria-label={errorText} />
       </IconWrapper>
     </Tooltip>
   );

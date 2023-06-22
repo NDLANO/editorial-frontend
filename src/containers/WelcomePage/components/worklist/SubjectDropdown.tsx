@@ -11,6 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { Select, SingleValue } from '@ndla/select';
 import uniq from 'lodash/uniq';
 import sortBy from 'lodash/sortBy';
+import styled from '@emotion/styled';
 import { useSearch } from '../../../../modules/search/searchQueries';
 import { useSession } from '../../../Session/SessionProvider';
 import { DropdownWrapper } from '../../styles';

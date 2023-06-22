@@ -89,6 +89,7 @@ const SavedSearchItem = ({ searchText, userData, deleteSearch, index, ...rest }:
     const audioType = searchObject['audio-type'] || undefined;
     const license = searchObject['license'] || undefined;
     const modelReleased = searchObject['model-released'] || undefined;
+    const filterInactive = searchObject['filter-inactive'] || undefined;
 
     const results = [];
     results.push(type && t(`searchTypes.${type}`));
@@ -107,6 +108,7 @@ const SavedSearchItem = ({ searchText, userData, deleteSearch, index, ...rest }:
       data?.responsible?.name &&
         `${t(`searchForm.tagType.responsible-ids`)}: ${data.responsible.name}`,
     );
+    results.push(filterInactive === 'false' && t('searchForm.archivedIncluded'));
 
     const resultHitsString =
       data.searchResult !== undefined ? ` (${data.searchResult.totalCount})` : '';

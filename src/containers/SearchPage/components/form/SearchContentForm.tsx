@@ -7,7 +7,6 @@
  */
 
 import { useEffect, useMemo, useState } from 'react';
-
 import { useTranslation } from 'react-i18next';
 import sortBy from 'lodash/sortBy';
 import { flattenResourceTypesAndAddContextTypes } from '../../../../util/taxonomyHelpers';
@@ -19,7 +18,6 @@ import {
   FAVOURITES_SUBJECT_ID,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
 } from '../../../../constants';
-import config from '../../../../config';
 import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { useAuth0Editors, useAuth0Responsibles } from '../../../../modules/auth0/auth0Queries';
 import { useAllResourceTypes } from '../../../../modules/taxonomy/resourcetypes/resourceTypesQueries';
@@ -123,6 +121,7 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
       'revision-date-to': '',
       'exclude-revision-log': false,
       'responsible-ids': '',
+      'filter-inactive': true,
     });
   };
 
@@ -162,6 +161,12 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
 
   const selectors: SearchFormSelector[] = [
     {
+      value: search['filter-inactive']?.toString(),
+      parameterName: 'filter-inactive',
+      width: 25,
+      formElementType: 'check-box',
+    },
+    {
       value: getTagName(search.subjects, sortedSubjects),
       parameterName: 'subjects',
       width: 25,
@@ -169,17 +174,17 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
       formElementType: 'dropdown',
     },
     {
-      value: getTagName(search['responsible-ids'], responsibles),
-      parameterName: 'responsible-ids',
-      width: 25,
-      options: responsibles!,
-      formElementType: 'dropdown',
-    },
-    {
       value: getTagName(search['resource-types'], resourceTypes),
       parameterName: 'resource-types',
       width: 25,
       options: resourceTypes!.sort(sortByProperty('name')),
+      formElementType: 'dropdown',
+    },
+    {
+      value: getTagName(search['responsible-ids'], responsibles),
+      parameterName: 'responsible-ids',
+      width: 25,
+      options: responsibles!,
       formElementType: 'dropdown',
     },
     {

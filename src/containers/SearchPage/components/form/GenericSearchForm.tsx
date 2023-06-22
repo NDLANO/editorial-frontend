@@ -90,7 +90,12 @@ const GenericSearchForm = ({
 }: Props) => {
   const { t } = useTranslation();
   const selectors: SearchFormSelector[] = [
-    { parameterName: 'query', width: 25, value: query, formElementType: 'text-input' },
+    {
+      parameterName: 'query',
+      width: type === 'content' ? 25 : 50,
+      value: query,
+      formElementType: 'text-input',
+    },
     ...baseSelectors,
   ];
 

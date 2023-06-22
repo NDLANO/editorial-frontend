@@ -268,7 +268,7 @@ const phrases = {
       'revision-date-to': 'Revisjonsdato til',
       'exclude-revision-log': 'Ekskluder endringslogg',
       'responsible-ids': 'Velg ansvarlig',
-      'filter-inactive': 'Ekskluder utgåtte fag',
+      'filter-inactive': 'Ta med utgåtte fag',
     },
     tagType: {
       query: 'Innhold',
@@ -285,7 +285,7 @@ const phrases = {
       'revision-date-to': 'Revisjonsdato til',
       'exclude-revision-log': 'Endringslogg ekskludert',
       'responsible-ids': 'Ansvarlig',
-      'filter-inactive': 'Utgåtte fag ekskludert',
+      'filter-inactive': 'Utgåtte fag inkludert',
     },
     btn: 'Søk',
     empty: 'Tøm',

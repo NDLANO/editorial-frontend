@@ -267,7 +267,7 @@ const phrases = {
       'revision-date-to': 'Revisiondate to',
       'exclude-revision-log': 'Exclude revision log',
       'responsible-ids': 'Select responsible',
-      'filter-inactive': 'Exclude archived subjects',
+      'filter-inactive': 'Include archived subjects',
     },
     tagType: {
       query: 'Query',
@@ -284,7 +284,7 @@ const phrases = {
       'revision-date-to': 'Revisiondate to',
       'exclude-revision-log': 'Revision log excluded',
       'responsible-ids': 'Responsible',
-      'filter-inactive': 'Archived subjects excluded',
+      'filter-inactive': 'Archived subjects included',
     },
     btn: 'Search',
     empty: 'Empty',

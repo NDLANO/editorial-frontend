@@ -59,7 +59,8 @@ const SearchTagContent = ({
   tagValue: string | number | boolean | undefined;
 }) => {
   const { t } = useTranslation();
-  const isCheckboxTag = tag.formElementType === 'check-box';
+  const isCheckboxTag =
+    tag.formElementType === 'check-box' || tag.formElementType === 'check-box-reverse';
 
   return (
     <>
@@ -91,6 +92,9 @@ class SearchTag extends Component<Props & CustomWithTranslation> {
         break;
       case 'check-box':
         if (selector.value === 'true') return t(`searchForm.tagType.${selector.parameterName}`);
+        break;
+      case 'check-box-reverse':
+        if (selector.value === 'false') return t(`searchForm.tagType.${selector.parameterName}`);
         break;
       case 'dropdown':
       case 'text-input':

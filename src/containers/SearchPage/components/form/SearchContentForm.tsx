@@ -164,7 +164,7 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
       value: search['filter-inactive']?.toString(),
       parameterName: 'filter-inactive',
       width: 25,
-      formElementType: 'check-box',
+      formElementType: 'check-box-reverse',
     },
     {
       value: getTagName(search.subjects, sortedSubjects),

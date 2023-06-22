@@ -11,6 +11,13 @@ import { useTranslation } from 'react-i18next';
 import { useEffect, useMemo, useState } from 'react';
 import queryString from 'query-string';
 import { IUserData } from '@ndla/types-backend/draft-api';
+import {
+  IAudioSummarySearchResult,
+  ISeriesSummarySearchResult,
+} from '@ndla/types-backend/audio-api';
+import { IConceptSearchResult } from '@ndla/types-backend/concept-api';
+import { ISearchResultV3 } from '@ndla/types-backend/image-api';
+import { IMultiSearchResult } from '@ndla/types-backend/search-api';
 import { SearchObjectType, SearchResultBase } from '../../../interfaces';
 import { useAuth0Users } from '../../../modules/auth0/auth0Queries';
 import { SubjectType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
@@ -22,8 +29,26 @@ import { search } from '../../../modules/search/searchApi';
 import { searchAudio, searchSeries } from '../../../modules/audio/audioApi';
 import { searchConcepts } from '../../../modules/concept/conceptApi';
 import { searchImages } from '../../../modules/image/imageApi';
+import { AudioSearchParams, SeriesSearchParams } from '../../../modules/audio/audioApiInterfaces';
+import { ConceptQuery } from '../../../modules/concept/conceptApiInterfaces';
+import { MultiSearchApiQuery } from '../../../modules/search/searchApiInterfaces';
+import { ImageSearchQuery } from '../../../modules/image/imageApiInterfaces';
 
-type SearchFetchType = (query: any) => Promise<any>;
+type QueryType =
+  | AudioSearchParams
+  | ConceptQuery
+  | ImageSearchQuery
+  | SeriesSearchParams
+  | MultiSearchApiQuery;
+
+type SearchFetchReturnType =
+  | IAudioSummarySearchResult
+  | IConceptSearchResult
+  | ISearchResultV3
+  | ISeriesSummarySearchResult
+  | IMultiSearchResult;
+
+type SearchFetchType = (query: QueryType) => Promise<SearchFetchReturnType>;
 
 export const searchTypeToFetchMapping: Record<string, SearchFetchType> = {
   audio: searchAudio,

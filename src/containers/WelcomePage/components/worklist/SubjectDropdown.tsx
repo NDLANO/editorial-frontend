@@ -31,10 +31,10 @@ const SubjectDropdown = ({ filterSubject, setFilterSubject }: Props) => {
   const { data, isInitialLoading } = useSearch({
     'responsible-ids': ndlaId,
     'aggregate-paths': 'contexts.rootId',
-    'page-size': 6,
+    'page-size': 0,
   });
 
-  const subjectIds = uniq(data?.results.flatMap((r) => r.contexts.map((c) => c.subjectId)));
+  const subjectIds = uniq(data?.aggregations.flatMap((a) => a.values.map((v) => v.value)));
 
   const { data: subjects } = useSearchNodes(
     {
@@ -49,7 +49,7 @@ const SubjectDropdown = ({ filterSubject, setFilterSubject }: Props) => {
         ...res,
         results: sortBy(res.results, (r) => r.name),
       }),
-      enabled: !!data?.results?.length,
+      enabled: !!data?.aggregations?.length,
     },
   );
   const subjectContexts = useMemo(() => {

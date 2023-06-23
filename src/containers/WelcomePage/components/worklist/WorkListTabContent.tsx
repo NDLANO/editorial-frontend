@@ -166,6 +166,7 @@ const WorkListTabContent = ({
   ];
 
   const lastPage = data?.totalCount ? Math.ceil(data?.totalCount / (data.pageSize ?? 1)) : 1;
+  const subjectIds = data?.aggregations.flatMap((a) => a.values.map((v) => v.value));
 
   return (
     <>
@@ -177,7 +178,11 @@ const WorkListTabContent = ({
         />
         <StyledWorkListControls>
           <ControlWrapperDashboard>
-            <SubjectDropdown filterSubject={filterSubject} setFilterSubject={setFilterSubject} />
+            <SubjectDropdown
+              subjectIds={subjectIds || []}
+              filterSubject={filterSubject}
+              setFilterSubject={setFilterSubject}
+            />
             <GoToSearch ndlaId={ndlaId} filterSubject={filterSubject?.value} searchEnv="content" />
           </ControlWrapperDashboard>
           <Tooltip tooltip={t('welcomePage.prioritizedLabel')}>

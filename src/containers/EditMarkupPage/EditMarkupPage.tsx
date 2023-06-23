@@ -7,32 +7,29 @@
  */
 
 import { lazy, Suspense, useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Link, useLocation, useParams } from 'react-router-dom';
+import { ButtonV2 } from '@ndla/button';
 import { spacing, colors } from '@ndla/core';
-import { IArticle } from '@ndla/types-draft-api';
+import { IArticle } from '@ndla/types-backend/draft-api';
 import styled from '@emotion/styled';
-import { css } from '@emotion/core';
 import { FieldHeader } from '@ndla/forms';
-import { Spinner } from '@ndla/editor';
+import { Spinner } from '@ndla/icons';
 import { fetchDraft, updateDraft } from '../../modules/draft/draftApi';
 import handleError from '../../util/handleError';
-import { Row, PreviewDraftLightbox } from '../../components';
-import {
-  learningResourceContentToEditorValue,
-  learningResourceContentToHTML,
-} from '../../util/articleContentConverter';
+import { Row } from '../../components';
+import { blockContentToEditorValue, blockContentToHTML } from '../../util/articleContentConverter';
 import { DRAFT_HTML_SCOPE } from '../../constants';
 import { getSessionStateFromLocalStorage } from '../Session/SessionProvider';
 import HeaderSupportedLanguages from '../../components/HeaderWithLanguage/HeaderSupportedLanguages';
 import { toEditMarkup } from '../../util/routeHelpers';
-import { AlertModalWrapper, formClasses } from '../FormikForm';
+import { AlertModalWrapper } from '../FormikForm';
 import SaveButton from '../../components/SaveButton';
 import HelpMessage from '../../components/HelpMessage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { useMessages } from '../Messages/MessagesProvider';
-import { formatErrorMessage } from '../../util/apiHelpers';
+import { NdlaErrorPayload } from '../../util/resolveJsonOrRejectWithError';
+import PreviewDraftLightboxV2 from '../../components/PreviewDraft/PreviewDraftLightboxV2';
 
 declare global {
   interface Window {
@@ -44,11 +41,17 @@ declare global {
 }
 
 window.MonacoEnvironment = {
-  getWorkerUrl: function(moduleId: string, label: string) {
+  getWorkerUrl: function (moduleId: string, label: string) {
     if (label === 'html') {
-      return '/static/js/html.worker.js';
+      return process.env.NODE_ENV !== 'production'
+        ? '/static/js/html.worker.js'
+        : // @ts-ignore
+          window.assets['html.worker.js'] ?? '';
     }
-    return '/static/js/editor.worker.js';
+    return process.env.NODE_ENV !== 'production'
+      ? '/static/js/editor.worker.js'
+      : // @ts-ignore
+        window.assets['editor.worker.js'] ?? '';
   },
   globalAPI: true,
 };
@@ -61,10 +64,10 @@ const MonacoEditor = lazy(() => import('../../components/MonacoEditor'));
 function standardizeContent(content: string): string {
   const trimmedContent = content
     .split(/>\r?\n/)
-    .map(s => s.trim())
+    .map((s) => s.trim())
     .join('>');
-  const converted = learningResourceContentToEditorValue(trimmedContent);
-  return learningResourceContentToHTML(converted);
+  const converted = blockContentToEditorValue(trimmedContent);
+  return blockContentToHTML(converted);
 }
 
 function updateContentInDraft(draft: IArticle | undefined, content: string): IArticle | undefined {
@@ -81,18 +84,25 @@ function updateContentInDraft(draft: IArticle | undefined, content: string): IAr
   };
 }
 
-const StyledErrorMessage = styled('p')`
+const StyledErrorMessage = styled.p`
   color: ${colors.support.red};
   text-align: center;
 `;
 
-const Container = styled('div')`
+const Container = styled.div`
   margin: 0 auto;
   max-width: 1000px;
+  width: 100%;
 `;
 
 const LanguageWrapper = styled.div`
   display: flex;
+`;
+
+const StyledRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: ${spacing.small};
 `;
 
 interface ErrorMessageProps {
@@ -115,12 +125,6 @@ const ErrorMessage = ({ draftId, language, messageId }: ErrorMessageProps) => {
   );
 };
 
-ErrorMessage.propTypes = {
-  messageId: PropTypes.string.isRequired,
-  draftId: PropTypes.string.isRequired,
-  language: PropTypes.string.isRequired,
-};
-
 interface LocationState {
   backUrl?: string;
 }
@@ -136,7 +140,7 @@ const EditMarkupPage = () => {
   const [draft, setDraft] = useState<IArticle | undefined>(undefined);
   const location = useLocation();
   const locationState = location.state as LocationState | undefined;
-  const { createMessage } = useMessages();
+  const { createMessage, formatErrorMessage } = useMessages();
 
   useEffect(() => {
     const session = getSessionStateFromLocalStorage();
@@ -175,9 +179,8 @@ const EditMarkupPage = () => {
       setDraft(updatedDraft);
       setStatus('saved');
     } catch (e) {
-      if (e.json?.messages) {
-        createMessage(formatErrorMessage(e));
-      }
+      const err = e as NdlaErrorPayload;
+      createMessage(formatErrorMessage(err));
       handleError(e);
     }
   };
@@ -227,43 +230,32 @@ const EditMarkupPage = () => {
           onChange={handleChange}
           onSave={saveChanges}
         />
-        <Row
-          justifyContent="space-between"
-          css={css`
-            margin: ${spacing.normal};
-          `}>
-          <PreviewDraftLightbox
-            label={t('form.previewProductionArticle.article')}
-            typeOfPreview="preview"
-            articleId={draft?.id}
-            currentArticleLanguage={language}
-            getArticle={() => {
-              const content = standardizeContent(draft?.content?.content ?? '');
-              const update = updateContentInDraft(draft, content)!;
-              return {
-                ...update,
-                tags: { tags: [], language },
-                language,
-              };
-            }}
-          />
+        <StyledRow>
+          {!!draft && (
+            <PreviewDraftLightboxV2
+              type="markup"
+              language={language}
+              article={draft}
+              activateButton={<ButtonV2 variant="link">{t('form.preview.button')}</ButtonV2>}
+            />
+          )}
           <Row justifyContent="end" alignItems="baseline">
             <Link
               to={
                 locationState?.backUrl ||
                 `/subject-matter/learning-resource/${draftId}/edit/${language}`
-              }>
+              }
+            >
               {t('editMarkup.back')}
             </Link>
             <SaveButton
-              {...formClasses}
               isSaving={status === 'saving'}
               formIsDirty={status === 'edit'}
               showSaved={status === 'saved'}
               onClick={() => saveChanges(draft?.content?.content ?? '')}
             />
           </Row>
-        </Row>
+        </StyledRow>
       </Suspense>
       <AlertModalWrapper
         isSubmitting={isSubmitting}

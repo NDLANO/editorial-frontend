@@ -19,6 +19,7 @@ const connectSrc = (() => {
     'https://*.zendesk.com',
     'https://ekr.zdassets.com',
     'https://static.zdassets.com',
+    'https://zendesk-eu.my.sentry.io',
     'https://*.boltdns.net',
     'https://*.google-analytics.com',
     'https://*.analytics.google.com',
@@ -26,13 +27,13 @@ const connectSrc = (() => {
     'https://house-fastly-signed-eu-west-1-prod.brightcovecdn.com',
     'https://www.wiris.net',
     'https://nrkno-skole-prod.kube.nrk.no',
-    'https://nynorsk.cloud',
     'https://data.udir.no',
     'https://cdn.jsdelivr.net',
     'https://widget-mediator.zopim.com',
     'wss://widget-mediator.zopim.com',
     'https://cors-anywhere.herokuapp.com',
     'https://trinket.io',
+    'https://*.clarity.ms',
   ];
   if (process.env.NODE_ENV === 'development') {
     return [
@@ -40,6 +41,7 @@ const connectSrc = (() => {
       'http://localhost:3001',
       'ws://localhost:3001',
       'http://localhost:3100',
+      'http://localhost:4000',
       'http://localhost',
     ];
   }
@@ -99,7 +101,10 @@ const scriptSrc = (() => {
     'http://www.google-analytics.com',
     'https://*.zendesk.com',
     'https://static.zdassets.com',
+    'https://zendesk-eu.my.sentry.io',
+    'https://*.hotjar.com',
     'widget-mediator.zopim.com',
+    'https://*.clarity.ms',
   ];
   if (process.env.NODE_ENV === 'development') {
     return [
@@ -120,6 +125,8 @@ const frameSrc = (() => {
     '*.vg.no',
     'vg.no',
     'https://www.tv2skole.no/',
+    '*.elevkanalen.no',
+    'elevkanalen.no',
     'https://www.scribd.com/',
     'https://www.youtube.com',
     'https://youtu.be',
@@ -138,9 +145,7 @@ const frameSrc = (() => {
     'prezi.com',
     '*.commoncraft.com',
     'commoncraft.com',
-    '*.embed.kahoot.it',
     '*.brightcove.net',
-    'embed.kahoot.it',
     'https://*.hotjar.com',
     'fast.wistia.com',
     'https://khanacademy.org',
@@ -148,10 +153,6 @@ const frameSrc = (() => {
     'https://*.auth0.com',
     '*.facebook.com',
     '*.twitter.com',
-    'e.issuu.com',
-    '*.livestream.com',
-    'livestream.com',
-    'channel9.msdn.com',
     'tomknudsen.no',
     'www.tomknudsen.no',
     'geogebra.org',
@@ -176,6 +177,12 @@ const frameSrc = (() => {
     'flo.uri.sh',
     'ourworldindata.org',
     '*.sketchup.com',
+    'www.gapminder.org',
+    'https://*.clarity.ms',
+    'www.facebook.com',
+    'fb.watch',
+    'sketchfab.com',
+    'jeopardylabs.com',
   ];
   if (process.env.NODE_ENV === 'development') {
     return [
@@ -196,6 +203,7 @@ const fontSrc = (() => {
     'https://tagmanager.google.com',
     'https://www.wiris.net',
     'https://cdn.jsdelivr.net',
+    'https://*.clarity.ms',
   ];
   if (process.env.NODE_ENV === 'development') {
     return defaultFontSrc.concat('http://localhost:3001');
@@ -238,6 +246,7 @@ const contentSecurityPolicy = {
       ' data:',
       'blob:',
       'https://www.wiris.net',
+      'https://*.clarity.ms',
     ],
     mediaSrc: [
       "'self'",

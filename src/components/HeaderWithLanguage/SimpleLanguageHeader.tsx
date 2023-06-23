@@ -8,10 +8,9 @@
 
 import { useTranslation } from 'react-i18next';
 import { Check } from '@ndla/icons/editor';
-import HeaderInformation from './HeaderInformation';
+import HeaderInformation, { StyledSplitter } from './HeaderInformation';
 import HeaderSupportedLanguages from './HeaderSupportedLanguages';
 import HeaderLanguagePill from './HeaderLanguagePill';
-import { StyledSplitter } from './HeaderInformation';
 import { StyledLanguageWrapper } from './HeaderWithLanguage';
 import HeaderLanguagePicker from './HeaderLanguagePicker';
 
@@ -44,11 +43,12 @@ const SimpleLanguageHeader = ({
     { key: 'sma', title: t('language.sma'), include: true },
     { key: 'se', title: t('language.se'), include: true },
     { key: 'und', title: t('language.und'), include: false },
-    { key: 'de', title: t('language.de'), include: false },
+    { key: 'de', title: t('language.de'), include: true },
+    { key: 'es', title: t('language.es'), include: true },
     { key: 'ukr', title: t('language.ukr'), include: false },
   ];
   const emptyLanguages = languages.filter(
-    lang => lang.key !== language && !supportedLanguages.includes(lang.key) && lang.include,
+    (lang) => lang.key !== language && !supportedLanguages.includes(lang.key) && lang.include,
   );
 
   return (

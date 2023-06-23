@@ -8,8 +8,8 @@
 
 import { Descendant } from 'slate';
 import {
-  learningResourceContentToEditorValue,
-  learningResourceContentToHTML,
+  blockContentToEditorValue,
+  blockContentToHTML,
 } from '../../../../../util/articleContentConverter';
 import { TYPE_PARAGRAPH } from '../../paragraph/types';
 import { TYPE_SECTION } from '../../section/types';
@@ -44,9 +44,12 @@ const editor: Descendant[] = [
           { text: '' },
           {
             type: TYPE_CONTENT_LINK,
-            'content-id': '123',
-            'content-type': 'article',
-            'open-in': 'new-context',
+            data: {
+              resource: TYPE_CONTENT_LINK,
+              contentId: '123',
+              contentType: 'article',
+              openIn: 'new-context',
+            },
             children: [
               {
                 text: 'content-link',
@@ -61,15 +64,15 @@ const editor: Descendant[] = [
 ];
 
 const html =
-  '<section><p><a href="http://test.url/">link</a></p><p><embed data-content-id="123" data-link-text="content-link" data-open-in="new-context" data-resource="content-link" data-content-type="article"/></p></section>';
+  '<section><p><a href="http://test.url/">link</a></p><p><ndlaembed data-content-id="123" data-open-in="new-context" data-resource="content-link" data-content-type="article">content-link</ndlaembed></p></section>';
 describe('link serializing tests', () => {
   test('serializing', () => {
-    const res = learningResourceContentToHTML(editor);
+    const res = blockContentToHTML(editor);
     expect(res).toMatch(html);
   });
 
   test('deserializing', () => {
-    const res = learningResourceContentToEditorValue(html);
+    const res = blockContentToEditorValue(html);
     expect(res).toMatchObject(editor);
   });
 });

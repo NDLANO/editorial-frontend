@@ -6,6 +6,7 @@ import { STORED_LANGUAGE_KEY } from './constants';
 import { LocaleType } from './interfaces';
 
 export const supportedLanguages: LocaleType[] = ['nb', 'nn', 'en'];
+export const subjectpageLanguages: LocaleType[] = ['nb', 'nn', 'en', 'se', 'sma'];
 
 export const initializeI18n = (i18n: i18n): void => {
   i18n.options.supportedLngs = supportedLanguages;
@@ -13,7 +14,7 @@ export const initializeI18n = (i18n: i18n): void => {
   i18n.addResourceBundle('nb', 'translation', nb, true, true);
   i18n.addResourceBundle('nn', 'translation', nn, true, true);
 
-  i18n.on('languageChanged', function(language) {
+  i18n.on('languageChanged', function (language) {
     if (typeof document != 'undefined') {
       document.documentElement.lang = language;
     }

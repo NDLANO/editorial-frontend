@@ -8,7 +8,7 @@
 
 import { useEffect, useState, Fragment } from 'react';
 import { spacing, colors } from '@ndla/core';
-import { css } from '@emotion/core';
+import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import { useFormikContext } from 'formik';
 import Accordion, {
@@ -18,7 +18,7 @@ import Accordion, {
   AccordionBar,
 } from '@ndla/accordion';
 import { VersionLogTag, VersionHistory } from '@ndla/editor';
-import { IUpdatedArticle, IArticle, IEditorNote } from '@ndla/types-draft-api';
+import { IArticle, IEditorNote } from '@ndla/types-backend/draft-api';
 
 import FormikField from '../../components/FormikField';
 import { fetchDraftHistory } from '../../modules/draft/draftApi';
@@ -31,30 +31,31 @@ import * as articleApi from '../../modules/article/articleApi';
 import Spinner from '../../components/Spinner';
 import { FormikStatus } from '../../interfaces';
 import { useMessages } from '../Messages/MessagesProvider';
+import { useSession } from '../../containers/Session/SessionProvider';
 import {
   draftApiTypeToLearningResourceFormType,
   draftApiTypeToTopicArticleFormType,
 } from '../ArticlePage/articleTransformers';
 
-const paddingPanelStyleInside = css`
+const StyledAccordionPanel = styled(AccordionPanel)`
   background: ${colors.brand.greyLightest};
   padding: 0 ${spacing.normal};
 `;
 
 const getUser = (userId: string, allUsers: SimpleUserType[]) => {
-  const user = allUsers.find(user => user.id === userId);
+  const user = allUsers.find((user) => user.id === userId);
   return user?.name || '';
 };
 
 interface Props {
   article: IArticle;
-  getArticle: (preview: boolean) => IUpdatedArticle;
   type: 'standard' | 'topic-article';
   currentLanguage: string;
 }
 
-const VersionAndNotesPanel = ({ article, getArticle, type, currentLanguage }: Props) => {
+const VersionAndNotesPanel = ({ article, type, currentLanguage }: Props) => {
   const { t } = useTranslation();
+  const { ndlaId } = useSession();
   const [versions, setVersions] = useState<IArticle[]>([]);
   const [loading, setLoading] = useState(false);
   const [users, setUsers] = useState<SimpleUserType[]>([]);
@@ -79,7 +80,7 @@ const VersionAndNotesPanel = ({ article, getArticle, type, currentLanguage }: Pr
   useEffect(() => {
     if (versions.length) {
       const notes = versions.reduce((acc: IEditorNote[], v) => [...acc, ...v.notes], []);
-      const userIds = notes.map(note => note.user).filter(user => user !== 'System');
+      const userIds = notes.map((note) => note.user).filter((user) => user !== 'System');
       fetchAuth0UsersFromUserIds(userIds, setUsers);
     }
   }, [versions]);
@@ -105,13 +106,20 @@ const VersionAndNotesPanel = ({ article, getArticle, type, currentLanguage }: Pr
           relatedContent: [],
           revisions: [],
           status: { current: 'PUBLISHED', other: [] },
+          comments: [],
+          prioritized: false,
         };
       }
       const transform =
         type === 'standard'
           ? draftApiTypeToLearningResourceFormType
           : draftApiTypeToTopicArticleFormType;
-      const newValues = transform({ ...newArticle, status: version.status }, language);
+      const newValues = transform(
+        { ...newArticle, status: version.status, responsible: article.responsible },
+        language,
+        ndlaId,
+      );
+
       setValues(newValues);
       setStatus((prevStatus: FormikStatus) => ({ ...prevStatus, status: 'revertVersion' }));
       createMessage({
@@ -128,7 +136,7 @@ const VersionAndNotesPanel = ({ article, getArticle, type, currentLanguage }: Pr
   return (
     <>
       <FormikField name="notes" showError={false}>
-        {({ field, form: { errors, touched } }) => (
+        {({ field, form: { errors } }) => (
           <AddNotesField
             showError={!!errors[field.name]}
             labelAddNote={t('form.notes.add')}
@@ -149,8 +157,10 @@ const VersionAndNotesPanel = ({ article, getArticle, type, currentLanguage }: Pr
                 notes,
               } = version;
               const isLatestVersion = index === 0;
-              const published = current === 'PUBLISHED' || other.some(s => s === 'PUBLISHED');
+              const published = current === 'PUBLISHED' || other.some((s) => s === 'PUBLISHED');
               const showFromArticleApi = versions.length === 1 && published;
+              const _panelProps = getPanelProps(index);
+              const panelProps = { ..._panelProps, id: _panelProps.id.toString() };
               return (
                 <Fragment key={revision}>
                   <AccordionBar {...getBarProps(index)} title={`${revision}`}>
@@ -163,7 +173,6 @@ const VersionAndNotesPanel = ({ article, getArticle, type, currentLanguage }: Pr
                           version={version}
                           resetVersion={resetVersion}
                           article={article}
-                          getArticle={getArticle}
                           currentLanguage={currentLanguage}
                         />
                         {isLatestVersion && (
@@ -175,9 +184,9 @@ const VersionAndNotesPanel = ({ article, getArticle, type, currentLanguage }: Pr
                       </div>
                     </StyledAccordionsPanelItemsWrapper>
                   </AccordionBar>
-                  <AccordionPanel {...getPanelProps(index)} css={paddingPanelStyleInside}>
+                  <StyledAccordionPanel {...panelProps}>
                     <VersionHistory notes={cleanupNotes(notes)} />
-                  </AccordionPanel>
+                  </StyledAccordionPanel>
                 </Fragment>
               );
             })}

@@ -7,29 +7,30 @@
  */
 
 import styled from '@emotion/styled';
-import Button from '@ndla/button';
-import { spacing } from '@ndla/core';
+import { ButtonV2 } from '@ndla/button';
+import { spacing, fonts } from '@ndla/core';
 import { ContentLoader, MessageBox } from '@ndla/ui';
-import { isEqual } from 'lodash';
-import { ReactNode, useEffect, useState } from 'react';
+import { ChevronRight } from '@ndla/icons/lib/common';
+import isEqual from 'lodash/isEqual';
+import { Fragment, ReactNode, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useQueryClient } from 'react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import { useSearchParams } from 'react-router-dom';
+import { NodeChild, Node } from '@ndla/types-taxonomy';
 import AlertModal from '../../components/AlertModal';
 import { TAXONOMY_ADMIN_SCOPE } from '../../constants';
-import { ChildNodeType, NodeType } from '../../modules/nodes/nodeApiTypes';
 import { usePublishNodeMutation } from '../../modules/nodes/nodeMutations';
 import { nodeTreeQueryKeys, useNodeTree } from '../../modules/nodes/nodeQueries';
 import { fetchVersions } from '../../modules/taxonomy/versions/versionApi';
 import { useSession } from '../Session/SessionProvider';
-import { diffTrees, DiffType } from './diffUtils';
+import { diffTrees, DiffType, DiffTypeWithChildren, RootDiffType } from './diffUtils';
 import NodeDiff from './NodeDiff';
 import { RootNode } from './TreeNode';
 
 interface Props {
   originalHash: string;
   nodeId: string;
-  otherHash?: string;
+  otherHash: string;
 }
 
 const StyledNodeList = styled.div`
@@ -44,7 +45,7 @@ const DiffContainer = styled.div`
   gap: ${spacing.small};
 `;
 
-const PublishButton = styled(Button)`
+const PublishButton = styled(ButtonV2)`
   align-self: flex-end;
   margin-right: ${spacing.small};
 `;
@@ -54,11 +55,18 @@ interface NodeOptions {
   fieldView: string | null;
 }
 
+const StyledBreadCrumb = styled('div')`
+  flex-grow: 1;
+  flex-direction: row;
+  font-style: italic;
+  font-size: ${fonts.sizes(16)};
+`;
+
 const filterNodes = <T,>(diff: DiffType<T>[], options: NodeOptions): DiffType<T>[] => {
   const afterNodeOption =
     options.nodeView !== 'changed'
       ? diff
-      : diff.filter(d => d.changed.diffType !== 'NONE' ?? d.childrenChanged?.diffType !== 'NONE');
+      : diff.filter((d) => d.changed.diffType !== 'NONE' ?? d.childrenChanged?.diffType !== 'NONE');
 
   return afterNodeOption;
 };
@@ -67,7 +75,9 @@ const NodeDiffcontainer = ({ originalHash, otherHash, nodeId }: Props) => {
   const [params] = useSearchParams();
   const view = params.get('view') === 'flat' ? 'flat' : 'tree';
   const { t, i18n } = useTranslation();
-  const [selectedNode, setSelectedNode] = useState<DiffType<NodeType> | undefined>(undefined);
+  const [selectedNode, setSelectedNode] = useState<RootDiffType | DiffTypeWithChildren | undefined>(
+    undefined,
+  );
   const [error, setError] = useState<string | undefined>(undefined);
   const [showAlertModal, setShowAlertModal] = useState(false);
   const [hasPublished, setHasPublished] = useState(false);
@@ -100,7 +110,7 @@ const NodeDiffcontainer = ({ originalHash, otherHash, nodeId }: Props) => {
     {
       id: nodeId,
       language: i18n.language,
-      taxonomyVersion: otherHash || originalHash,
+      taxonomyVersion: otherHash,
     },
     {
       enabled: !!nodeId && !!otherHash,
@@ -110,7 +120,11 @@ const NodeDiffcontainer = ({ originalHash, otherHash, nodeId }: Props) => {
   );
 
   useEffect(() => {
-    if (defaultQuery.isLoading || otherQuery.isLoading || (defaultQuery.data && otherQuery.data)) {
+    if (
+      defaultQuery.isInitialLoading ||
+      otherQuery.isInitialLoading ||
+      (defaultQuery.data && otherQuery.data)
+    ) {
       setError(undefined);
       return;
     }
@@ -121,9 +135,14 @@ const NodeDiffcontainer = ({ originalHash, otherHash, nodeId }: Props) => {
     } else {
       setError('diff.error.onlyExistsInOriginal');
     }
-  }, [defaultQuery.data, defaultQuery.isLoading, otherQuery.data, otherQuery.isLoading]);
+  }, [
+    defaultQuery.data,
+    defaultQuery.isInitialLoading,
+    otherQuery.data,
+    otherQuery.isInitialLoading,
+  ]);
 
-  const onPublish = async (node: NodeType) => {
+  const onPublish = async (node: Node) => {
     setHasPublished(false);
     if (!userPermissions?.includes(TAXONOMY_ADMIN_SCOPE) || originalHash === 'default') {
       setIsLoading(false);
@@ -160,7 +179,7 @@ const NodeDiffcontainer = ({ originalHash, otherHash, nodeId }: Props) => {
     (otherQuery.data?.children.length ?? 0) + 1,
   );
 
-  if (defaultQuery.isLoading || otherQuery.isLoading) {
+  if (defaultQuery.isInitialLoading || otherQuery.isInitialLoading) {
     const rows: ReactNode[] = [];
     for (let i = 0; i < shownNodes; i++) {
       rows.push(
@@ -183,7 +202,7 @@ const NodeDiffcontainer = ({ originalHash, otherHash, nodeId }: Props) => {
   }
 
   const diff = diffTrees(defaultQuery.data!, otherQuery.data!, view);
-  const children: DiffType<ChildNodeType>[] = diff.children;
+  const children: DiffType<NodeChild>[] = diff.children;
 
   const nodes = filterNodes(children, {
     nodeView: params.get('nodeView') ?? 'changed',
@@ -193,6 +212,7 @@ const NodeDiffcontainer = ({ originalHash, otherHash, nodeId }: Props) => {
   const equal =
     (defaultQuery.data || otherQuery.data) &&
     diff.root.changed.diffType === 'NONE' &&
+    diff.root.resourcesChanged?.diffType === 'NONE' &&
     diff.root.childrenChanged?.diffType === 'NONE';
   const publishable =
     !equal && userPermissions?.includes(TAXONOMY_ADMIN_SCOPE) && originalHash !== 'default';
@@ -205,6 +225,16 @@ const NodeDiffcontainer = ({ originalHash, otherHash, nodeId }: Props) => {
           {t(`diff.${isPublishing ? 'publishing' : 'publish'}`)}
         </PublishButton>
       )}
+      <StyledBreadCrumb>
+        {defaultQuery.data?.root?.breadcrumbs?.map((path, index, arr) => {
+          return (
+            <Fragment key={`${path}_${index}`}>
+              {path}
+              {index + 1 !== arr.length && <ChevronRight />}
+            </Fragment>
+          );
+        })}
+      </StyledBreadCrumb>
       {hasPublished && <MessageBox>{t('diff.published')}</MessageBox>}
       {equal && <MessageBox>{t('diff.equalNodes')}</MessageBox>}
       {error && <MessageBox>{t(error)}</MessageBox>}
@@ -221,12 +251,14 @@ const NodeDiffcontainer = ({ originalHash, otherHash, nodeId }: Props) => {
             key={diff.root.id.original ?? diff.root.id.other!}
             isRoot={true}
           />
-          {nodes.map(node => (
+          {nodes.map((node) => (
             <NodeDiff node={node} key={node.id.original ?? node.id.other} />
           ))}
         </StyledNodeList>
       )}
       <AlertModal
+        title={t('diff.publish')}
+        label={t('diff.publish')}
         show={showAlertModal}
         text={t('diff.publishWarning')}
         actions={[

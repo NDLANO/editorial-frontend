@@ -10,15 +10,15 @@ import { useRef, useEffect, RefObject, useMemo, useState } from 'react';
 import { FieldHeader } from '@ndla/forms';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'formik';
-import { css } from '@emotion/core';
 import styled from '@emotion/styled';
 import Tooltip from '@ndla/tooltip';
 import { Eye } from '@ndla/icons/editor';
+import { IconButtonV2 } from '@ndla/button';
+import { colors } from '@ndla/core';
 import { headingPlugin } from '../../../../components/SlateEditor/plugins/heading';
 import { noEmbedPlugin } from '../../../../components/SlateEditor/plugins/noEmbed';
 import VisualElementField from '../../../FormikForm/components/VisualElementField';
 import LastUpdatedLine from './../../../../components/LastUpdatedLine/LastUpdatedLine';
-import ToggleButton from '../../../../components/ToggleButton';
 import HowToHelper from '../../../../components/HowTo/HowToHelper';
 
 import { blockQuotePlugin } from '../../../../components/SlateEditor/plugins/blockquote';
@@ -45,8 +45,10 @@ import { dndPlugin } from '../../../../components/SlateEditor/plugins/DND';
 import { SlatePlugin } from '../../../../components/SlateEditor/interfaces';
 import { useSession } from '../../../Session/SessionProvider';
 import { spanPlugin } from '../../../../components/SlateEditor/plugins/span';
+import { blogPostPlugin } from '../../../../components/SlateEditor/plugins/blogPost';
+import { definitionListPlugin } from '../../../../components/SlateEditor/plugins/definitionList';
 
-const byLineStyle = css`
+const StyledByLineFormikField = styled(FormikField)`
   display: flex;
   margin-top: 0;
   align-items: center;
@@ -56,13 +58,19 @@ const byLineStyle = css`
 const IconContainer = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
   width: 64px;
 `;
 
 const StyledDiv = styled.div`
   display: flex;
   width: 100%;
+  align-items: center;
   justify-content: space-between;
+`;
+
+const MarkdownButton = styled(IconButtonV2)<{ active: boolean }>`
+  color: ${(p) => (p.active ? colors.brand.primary : colors.brand.light)};
 `;
 
 const createPlugins = (language: string, handleSubmitRef: RefObject<() => void>): SlatePlugin[] => {
@@ -79,6 +87,7 @@ const createPlugins = (language: string, handleSubmitRef: RefObject<() => void>)
     // Blockquote and editList actions need to be triggered before paragraph action, else
     // unwrapping (jumping out of block) will not work.
     blockQuotePlugin,
+    definitionListPlugin,
     listPlugin,
     inlineConceptPlugin(language),
     mathmlPlugin,
@@ -116,7 +125,7 @@ const TopicArticleContent = (props: Props) => {
   return (
     <>
       <TitleField handleSubmit={handleSubmit} />
-      <FormikField name="published" css={byLineStyle}>
+      <StyledByLineFormikField name="published">
         {({ field, form }) => (
           <StyledDiv>
             <LastUpdatedLine
@@ -124,21 +133,27 @@ const TopicArticleContent = (props: Props) => {
               creators={creators}
               published={published}
               allowEdit={true}
-              onChange={date => {
+              onChange={(date) => {
                 form.setFieldValue(field.name, date);
               }}
             />
             <IconContainer>
               <Tooltip tooltip={t('form.markdown.button')}>
-                <ToggleButton active={preview} onClick={() => setPreview(!preview)}>
+                <MarkdownButton
+                  aria-label={'form.markdown.button'}
+                  variant="stripped"
+                  colorTheme="light"
+                  active={preview}
+                  onClick={() => setPreview(!preview)}
+                >
                   <Eye />
-                </ToggleButton>
+                </MarkdownButton>
               </Tooltip>
               <HowToHelper pageId="Markdown" tooltip={t('form.markdown.helpLabel')} />
             </IconContainer>
           </StyledDiv>
         )}
-      </FormikField>
+      </StyledByLineFormikField>
       <IngressField preview={preview} handleSubmit={handleSubmit} />
       <VisualElementField />
       <FormikField name="content" label={t('form.content.label')} noBorder>
@@ -155,7 +170,7 @@ const TopicArticleContent = (props: Props) => {
               value={value}
               submitted={isSubmitting}
               plugins={plugins}
-              onChange={value => {
+              onChange={(value) => {
                 onChange({
                   target: {
                     value,

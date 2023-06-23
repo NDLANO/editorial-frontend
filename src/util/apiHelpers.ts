@@ -7,27 +7,10 @@
  */
 import fetch from 'cross-fetch';
 import queryString from 'query-string';
-import { BrightcoveAccessToken, H5POembed, MessageSeverity } from '../interfaces';
+import { BrightcoveAccessToken, H5POembed } from '../interfaces';
 import config from '../config';
 import { apiBaseUrl, getAccessToken, isAccessTokenValid, renewAuth } from './authHelpers';
-import { resolveJsonOrRejectWithError, createErrorPayload } from './resolveJsonOrRejectWithError';
-
-export const formatErrorMessage = (error: {
-  json: {
-    messages?: {
-      field: string;
-      message: string;
-    }[];
-  };
-}): {
-  message?: string;
-  severity: MessageSeverity;
-  timeToLive: number;
-} => ({
-  message: error?.json?.messages?.map(message => `${message.field}: ${message.message}`).join(', '),
-  severity: 'danger',
-  timeToLive: 0,
-});
+import { resolveJsonOrRejectWithError, throwErrorPayload } from './resolveJsonOrRejectWithError';
 
 export interface HttpHeadersType {
   'Content-Type': string;
@@ -51,10 +34,6 @@ export function grepUrl(path = '') {
 
 export function brightcoveApiResourceUrl(path: string) {
   return config.brightcoveApiUrl + path;
-}
-
-export function googleSearchApiResourceUrl(path: string) {
-  return config.googleSearchApiUrl + path;
 }
 
 export const fetchWithAuthorization = async (
@@ -106,7 +85,7 @@ const httpResolve = <Type>({
   return fetchAuthorized(url, {
     ...config,
     headers: { ...defaultHeaders, VersionHash: taxonomyVersion, ...headers },
-  }).then(r => {
+  }).then((r) => {
     return alternateResolve?.(r) ?? resolveJsonOrRejectWithError(r);
   });
 };
@@ -136,7 +115,9 @@ export const fetchReAuthorized = async (url: string, config: FetchConfigType = {
   fetchWithAuthorization(url, config, true);
 
 export const fetchBrightcoveAccessToken = () =>
-  fetch('/get_brightcove_token').then(r => resolveJsonOrRejectWithError<BrightcoveAccessToken>(r));
+  fetch('/get_brightcove_token').then((r) =>
+    resolveJsonOrRejectWithError<BrightcoveAccessToken>(r),
+  );
 
 export const setBrightcoveAccessTokenInLocalStorage = (
   brightcoveAccessToken: BrightcoveAccessToken,
@@ -154,7 +135,7 @@ export const fetchWithBrightCoveToken = (url: string) => {
     ? JSON.parse(localStorage.getItem('brightcove_access_token_expires_at')!)
     : 0;
   if (new Date().getTime() > expiresAt || !expiresAt) {
-    return fetchBrightcoveAccessToken().then(res => {
+    return fetchBrightcoveAccessToken().then((res) => {
       setBrightcoveAccessTokenInLocalStorage(res);
       return fetch(url, {
         headers: { Authorization: `Bearer ${res.access_token}` },
@@ -185,4 +166,4 @@ export const fetchExternalOembed = (url: string, options?: FetchConfigType) => {
   return fetchOembed(setOembed, options);
 };
 
-export { resolveJsonOrRejectWithError, createErrorPayload };
+export { resolveJsonOrRejectWithError, throwErrorPayload };

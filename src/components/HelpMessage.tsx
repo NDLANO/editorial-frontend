@@ -6,16 +6,16 @@
  *
  */
 
-import { ReactNode } from 'react';
-import { withTranslation, CustomWithTranslation } from 'react-i18next';
-import { css } from '@emotion/core';
+import styled from '@emotion/styled';
+import { ButtonV2 } from '@ndla/button';
 import { spacing } from '@ndla/core';
-import Button from '@ndla/button';
-import Modal, { ModalCloseButton, ModalHeader, ModalBody } from '@ndla/modal';
+import { ModalBody, ModalCloseButton, ModalHeader, ModalTitle, Modal } from '@ndla/modal';
 import Tooltip from '@ndla/tooltip';
+import { ReactNode } from 'react';
+import { CustomWithTranslation, withTranslation } from 'react-i18next';
 import { HelpIcon } from './HowTo';
 
-const iconCSS = css`
+const StyledHelpIcon = styled(HelpIcon)`
   width: ${spacing.normal};
   height: ${spacing.normal};
   padding: 0;
@@ -27,16 +27,19 @@ interface Props {
 
 const HelpMessage = ({ children, t }: Props & CustomWithTranslation) => (
   <Modal
+    wrapperFunctionForButton={(btn) => (
+      <Tooltip tooltip={t('editMarkup.helpMessage.tooltip')}>{btn}</Tooltip>
+    )}
     activateButton={
-      <Button stripped tabIndex={-1}>
-        <Tooltip tooltip={t('editMarkup.helpMessage.tooltip')}>
-          <HelpIcon css={iconCSS} />
-        </Tooltip>
-      </Button>
-    }>
+      <ButtonV2 variant="stripped">
+        <StyledHelpIcon />
+      </ButtonV2>
+    }
+  >
     {(onClose: () => void) => (
       <>
         <ModalHeader>
+          <ModalTitle>{t('editMarkup.helpMessage.tooltip')}</ModalTitle>
           <ModalCloseButton onClick={onClose} title={t('dialog.close')} />
         </ModalHeader>
         <ModalBody>{children}</ModalBody>

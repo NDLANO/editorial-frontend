@@ -7,10 +7,21 @@
 
 import { useTranslation } from 'react-i18next';
 import { FieldProps } from 'formik';
+import styled from '@emotion/styled';
+import { spacing } from '@ndla/core';
 import FormikField from '../../../components/FormikField';
 import PlainTextEditor from '../../../components/SlateEditor/PlainTextEditor';
 import { textTransformPlugin } from '../../../components/SlateEditor/plugins/textTransform';
 import SubjectpageBanner from './SubjectpageBanner';
+
+const ImageWrapper = styled.div`
+  display: flex;
+  width: 100%;
+  gap: ${spacing.normal};
+  > * {
+    flex: 1;
+  }
+`;
 
 const SubjectpageMetadata = () => {
   const { t } = useTranslation();
@@ -22,7 +33,8 @@ const SubjectpageMetadata = () => {
         maxLength={300}
         showMaxLength
         label={t('form.metaDescription.label')}
-        description={t('form.metaDescription.description')}>
+        description={t('form.metaDescription.description')}
+      >
         {({ field, form: { isSubmitting } }: FieldProps) => (
           <PlainTextEditor
             id={field.name}
@@ -33,11 +45,21 @@ const SubjectpageMetadata = () => {
           />
         )}
       </FormikField>
-      <FormikField name="desktopBanner">
-        {() => (
-          <SubjectpageBanner title={t('form.name.desktopBanner')} fieldName={'desktopBanner'} />
-        )}
-      </FormikField>
+      <ImageWrapper>
+        <FormikField name="desktopBannerId">
+          {() => (
+            <SubjectpageBanner
+              title={t('form.name.desktopBannerId')}
+              fieldName={'desktopBannerId'}
+            />
+          )}
+        </FormikField>
+        <FormikField name="mobileBannerId">
+          {() => (
+            <SubjectpageBanner title={t('form.name.mobileBannerId')} fieldName={'mobileBannerId'} />
+          )}
+        </FormikField>
+      </ImageWrapper>
     </>
   );
 };

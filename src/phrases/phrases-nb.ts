@@ -14,9 +14,11 @@ const phrases = {
     createLearningResourcePage: `Fagstoff ${titleTemplate}`,
     createTopicArticlePage: `Emne ${titleTemplate}`,
     createSubjectpage: `Fagforside ${titleTemplate}`,
+    createFrontPageArticePage: `Om-NDLA-artikkel ${titleTemplate}`,
     agreementPage: `Avtale ${titleTemplate}`,
     welcomePage: `Forside ${titleTemplate}`,
     structurePage: `Struktur ${titleTemplate}`,
+    versionsPage: `Versjoner ${titleTemplate}`,
     audioUploaderPage: `Lyd ${titleTemplate}`,
     imageUploaderPage: `Bilde ${titleTemplate}`,
     loginPage: `Logg inn ${titleTemplate}`,
@@ -97,6 +99,7 @@ const phrases = {
   },
   language: {
     en: 'Engelsk',
+    es: 'Spansk',
     nb: 'Bokmål',
     nn: 'Nynorsk',
     se: 'Nordsamisk',
@@ -111,13 +114,48 @@ const phrases = {
     addSearch: 'Legg til nytt søk',
     deleteSavedSearch: 'Slett lagret søk',
     deleteSearch: 'Slett søk',
-    emptyLastUsed: 'Ingen sist redigerte',
+    noArticles: 'Ingen artikler ...',
+    emptyLastUsed: 'Ingen sist redigerte ...',
+    emptyConcepts: 'Ingen forklaringer ...',
+    emptyRevision: 'Ingen artikler i favorittfag som trenger revisjon ...',
     emptySavedSearch: 'Ingen lagrede søk',
     guidelines: 'Retningslinjer',
     mustBeSearch: 'Lenken må være til et søk',
     lastUsed: 'Sist redigert',
+    lastUsedDescription: 'Artikler du har redigert nylig',
+    lastUsedConcepts: 'Forklaringer du har redigert nylig',
     savedSearch: 'Lagrede søk',
     saveSearch: 'Lagre søk',
+    chooseSubject: 'Velg fag',
+    chooseFavoriteSubject: 'Velg favorittfag',
+    chooseTopic: 'Velg emner',
+    errorMessage: 'Innhenting av data feilet',
+    goToSearch: 'Gå til søk',
+    revision: 'Revisjon',
+    revisionDescription: 'Artikler i favorittfag som trenger revisjon',
+    revisionDate: 'Revisjonsdato',
+    welcomeText: 'til ED',
+    revisionInfo: 'Velg favorittfag ved å stjernemarkere i strukturredigering',
+    updated: 'Oppdatert',
+    primaryConnection: 'Vis kun ressurser med primærkobling til mine favorittfag',
+    primaryConnectionLabel: 'Vis kun primærkobling',
+    prioritizedLabel: 'Vis kun prioriterte',
+    workList: {
+      heading: 'Mine arbeidsoppgaver',
+      description: 'Artikler hvor du står som ansvarlig',
+      title: 'Tittel',
+      status: 'Status',
+      contentType: 'Innholdstype',
+      primarySubject: 'Primærfag',
+      topicRelation: 'Emnetilhørighet',
+      date: 'Tildelt',
+      ariaLabel: 'Oversikt over mine arbeidsoppgaver og forklaringer',
+      conceptDescription: 'Forklaringer hvor du står som ansvarlig',
+      conceptSubject: 'Forklaringsfag',
+      sortAsc: 'Sorter stigende',
+      sortDesc: 'Sorter synkende',
+    },
+    welcomeBack: 'Velkommen',
   },
   searchPage: {
     header: {
@@ -154,6 +192,7 @@ const phrases = {
   },
   articleType: {
     'topic-article': 'Emne',
+    'frontpage-article': 'Om-NDLA-artikkel',
     standard: 'Læringsressurs',
   },
   subNavigation: {
@@ -182,6 +221,8 @@ const phrases = {
     h5p: 'Rediger H5P',
     newConcept: 'Opprett forklaring',
     newSubject: 'Opprett fag',
+    newFrontpageArticle: 'Opprett Om-NDLA-artikkel',
+    creationMovedInfo: 'Emner og ressurser må opprettes fra strukturredigering',
   },
   logo: {
     altText: 'Nasjonal digital læringsarena',
@@ -225,6 +266,8 @@ const phrases = {
       license: 'Velg lisens',
       'revision-date-from': 'Revisjonsdato fra',
       'revision-date-to': 'Revisjonsdato til',
+      'exclude-revision-log': 'Ekskluder endringslogg',
+      'responsible-ids': 'Velg ansvarlig',
     },
     tagType: {
       query: 'Innhold',
@@ -239,6 +282,8 @@ const phrases = {
       'model-released': 'Modellklarering',
       'revision-date-from': 'Revisjonsdato fra',
       'revision-date-to': 'Revisjonsdato til',
+      'exclude-revision-log': 'Endringslogg ekskludert',
+      'responsible-ids': 'Ansvarlig',
     },
     btn: 'Søk',
     empty: 'Tøm',
@@ -266,6 +311,7 @@ const phrases = {
       revisionDate: 'Neste revisjon',
     },
     resultError: 'Noe gikk feil med innlasting av type: {{type}}',
+    favourites: 'Mine favorittfag',
   },
   subjectsPage: {
     subjects: 'Fag',
@@ -409,6 +455,11 @@ const phrases = {
         placeholder: 'Alt-tekst',
       },
     },
+    validation: {
+      containsContent:
+        'Emneartikler bør kun ha tittel, ingress og visuelt element. Innhold trengs ikke i de fleste tilfeller.',
+      illegalResource: 'Emneartikler bør kun ha bilde som visuelt element.',
+    },
   },
   agreementForm: {
     title: {
@@ -443,6 +494,7 @@ const phrases = {
     alreadyPartOfSeries: 'Del av en annen serie',
     description: 'Beskrivelse',
     rss: 'Rss-feed',
+    adminError: 'Du har ikke tilgang til å opprette eller endre podkastserier.',
   },
   podcastForm: {
     title: 'Podkastepisode',
@@ -464,11 +516,45 @@ const phrases = {
     editImage: 'Rediger bildet',
     remove: {
       crop: 'Fjern utsnitt',
-      focalPoint: 'Fjern fokuspunkt',
+      focalPoint: 'Fjern fokalpunkt',
     },
   },
   imageForm: {
     title: 'Bilde',
+  },
+  contactBlockForm: {
+    title: 'Kontaktblokk',
+    edit: 'Rediger kontaktblokk',
+    blobColor: {
+      green: 'Grønn',
+      pink: 'Rosa',
+    },
+    blob: {
+      pointy: 'Spiss',
+      round: 'Rund',
+    },
+  },
+  frontpageArticleForm: {
+    title: 'Om-NDLA-artikkel',
+    validation: {
+      illegalSlug:
+        'Bruk av ulovlige tegn i permalenken! Tillatte tegn er alle tall og bokstaver, og bindestrek',
+    },
+  },
+  gridForm: {
+    title: 'Grid',
+    background: {
+      white: 'Hvit',
+      transparent: 'Transparent',
+    },
+  },
+  blogPostForm: {
+    title: 'Rediger bloggpost',
+    languageExplanation: 'Velg språk for skjermleser',
+    sizes: {
+      normal: 'Normal',
+      large: 'Stor',
+    },
   },
   learningResourceForm: {
     metaImage: {
@@ -493,6 +579,10 @@ const phrases = {
       },
     },
   },
+  keyFigureForm: {
+    edit: 'Rediger Nøkkeltall',
+    title: 'Nøkkeltall',
+  },
   editorToolbar: {
     bold: 'Fet\n({{ctrl}}+b)',
     bulletedList: 'Punktliste\n({{ctrl}}+l)',
@@ -514,6 +604,7 @@ const phrases = {
     sup: 'Hevet\n({{ctrl}}+alt+h)',
     twoColumnList: 'To-kolonners liste',
     underlined: 'Understreket',
+    definitionList: 'Definisjonsliste\n({{ctrl}}+alt+d)',
   },
   editorBlockpicker: {
     heading: 'Legg til',
@@ -532,7 +623,12 @@ const phrases = {
       file: 'Fil',
       code: 'Kodevisning',
       podcast: 'Podkastepisode',
+      conceptList: 'Forklaringsliste',
       concept: 'Forklaring',
+      keyFigure: 'Nøkkeltall',
+      contactBlock: 'Kontaktblokk',
+      blogPost: 'Bloggpost',
+      grid: 'Grid',
     },
   },
   form: {
@@ -561,12 +657,24 @@ const phrases = {
     copy: 'kopi',
     mustSaveFirst: 'Du må lagre endringene dine først',
     saveAsCopySuccess: 'Ny artikkel lagret',
+    comment: 'Kommenter',
+    hideComment: 'Skjul kommentar',
+    showComment: 'Vis kommentar',
+    openAll: 'Åpne alle',
+    hideAll: 'Lukk alle',
+    commentField: 'Kommentarfelt',
     preview: {
       button: 'Forhåndsvis',
+    },
+    resize: 'Endre størrelse',
+    slug: {
+      label: 'Permalenke',
+      edit: 'Forandre permalenke',
     },
     name: {
       title: 'Tittel',
       aboutTitle: 'Tittel',
+      slug: 'Permalenke',
       introduction: 'Ingress',
       creators: 'Opphavsperson',
       rightsholders: 'Rettighetshaver',
@@ -590,8 +698,8 @@ const phrases = {
       description: 'Innhold',
       conceptContent: 'Beskrivelse',
       grepCodes: 'Læreplankobling',
-      desktopBanner: 'Banner til desktop',
-      mobileBanner: 'Banner til mobil',
+      desktopBannerId: 'Banner til desktop',
+      mobileBannerId: 'Banner til mobil',
       concepts: 'Forklaringer',
       relatedContent: 'Relatert innhold',
       subjects: 'Fag',
@@ -600,6 +708,19 @@ const phrases = {
       coverPhotoId: 'Metabilde',
       revisions: 'Revisjoner',
       name: 'Navn',
+      subtitle: 'Undertittel',
+      email: 'E-post',
+      blob: 'Blob-type',
+      blobColor: 'Blob-farge',
+      jobTitle: 'Stilling',
+      language: 'Språk',
+      author: 'Forfatter',
+      link: 'Lenke',
+      size: 'Størrelse',
+      columns: 'Kolonner',
+      border: 'Vis ramme',
+      background: 'Bakgrunn',
+      contentType: 'Innholdstype',
     },
     previewProductionArticle: {
       button: 'Sammenlign gjeldende versjon med gammel versjon',
@@ -624,6 +745,10 @@ const phrases = {
       source: 'Kilde',
       markdown: 'Feltet støtter markdown. Bruk formatet [Tekst](https://url) for å lage lenke.',
       subjects: 'Kun fag markert som forklaringsfag vil vises i lista.',
+    },
+    conceptList: {
+      edit: 'Rediger forklaringsliste',
+      remove: 'Fjern forklaringsliste',
     },
     abort: 'Avbryt',
     edit: 'Rediger',
@@ -706,6 +831,12 @@ const phrases = {
       'not-set': 'Ikke valgt',
       description: 'Om bildet er modellklarert eller ikke:',
     },
+    visualElementPicker: {
+      h5p: 'H5P',
+      url: 'Ny ressurs',
+      video: 'Video',
+      image: 'Bilde',
+    },
     markdown: {
       button: 'Klikk for å se markdown',
       helpLabel: 'Hva er markdown?',
@@ -738,11 +869,29 @@ const phrases = {
         warn: 'En av revisjonene utløper snart (Må revideres innen {{date}}).',
         expired: 'En av revisjonene har utløpt (Utløpte {{date}}).',
       },
+      deleteComment: {
+        title: 'Slett kommentar',
+        modal: 'Vil du slette denne kommentaren? Det er ikke mulig å gjenopprette den.',
+        button: 'Slett',
+      },
+      addComment: {
+        createdBy: 'Opprettet av',
+        warn: 'Husk å legge til kommentar',
+        description: 'Du har endret ansvarlig uten å legge til kommentar!',
+      },
     },
     status: {
       new: 'Ny - Ikke lagret',
       new_language: 'Nytt språk - ikke lagret',
       created: 'Opprettet',
+      planned: 'Planlagt',
+      in_progress: 'I arbeid',
+      external_review: 'Eksternt gjennomsyn',
+      internal_review: 'Sisteblikk',
+      quality_assurance: 'Kvalitetssikring desk',
+      language: 'Språk',
+      for_approval: 'Godkjenning LMA',
+      end_control: 'Sluttkontroll',
       imported: 'Fra spoling',
       draft: 'Kladd',
       proposal: 'Utkast',
@@ -754,6 +903,7 @@ const phrases = {
       queued_for_publishing: 'Til publisering',
       quality_assured_delayed: 'Publ.klar-utsatt',
       queued_for_publishing_delayed: 'Publ-utsatt',
+      publish_delayed: 'Publ-utsatt',
       published: 'Publisert',
       has_published: 'Har publisert versjon',
       unlisted: 'Lenkedelt',
@@ -762,6 +912,14 @@ const phrases = {
       awaiting_archiving: 'Utsatt arkivering',
       archived: 'Slettet',
       actions: {
+        PLANNED: 'Planlagt',
+        IN_PROGRESS: 'I arbeid',
+        EXTERNAL_REVIEW: 'Eksternt gjennomsyn',
+        INTERNAL_REVIEW: 'Sisteblikk',
+        QUALITY_ASSURANCE: 'Kvalitetssikring desk',
+        LANGUAGE: 'Språk',
+        FOR_APPROVAL: 'Godkjenning LMA',
+        END_CONTROL: 'Sluttkontroll',
         DRAFT: 'Kladd',
         PROPOSAL: 'Utkast',
         USER_TEST: 'Brukertest',
@@ -772,6 +930,7 @@ const phrases = {
         QUEUED_FOR_PUBLISHING: 'Til publisering',
         QUALITY_ASSURED_DELAYED: 'Publ.klar-utsatt',
         QUEUED_FOR_PUBLISHING_DELAYED: 'Publ-utsatt',
+        PUBLISH_DELAYED: 'Publ-utsatt',
         PUBLISHED: 'Publiser',
         AWAITING_UNPUBLISHING: 'Til avpublisering',
         UNPUBLISHED: 'Avpubliser',
@@ -814,6 +973,9 @@ const phrases = {
         changeExternal: 'Endre ekstern artikkel',
         searchExternal: 'Skriv inn tittel og url på ekstern artikkel',
       },
+      conceptList: {
+        subjectMissing: 'Fag mangler: {{subjectId}}',
+      },
       concept: {
         remove: 'Fjern forklaring',
         choose: 'Velg forklaring',
@@ -838,6 +1000,7 @@ const phrases = {
         unSupported: 'Innholdstypen i lenken er ikke støttet',
         newUrlResource: 'Ny ressurs',
         changeUrlResource: 'Rediger ressurs: {{type}}',
+        fullscreen: 'Åpne i nytt vindu',
         description:
           'Lenker til ndla-ressurser spesialhåndteres av systemet og vises korrekt på {{url}}. Ndla-ressurser vises med blå bakgrunn og eksterne lenker med gul.',
       },
@@ -944,6 +1107,14 @@ const phrases = {
       helpLabel: 'Hva er lisenser?',
       choose: 'Velg en lisens',
     },
+    responsible: {
+      label: 'Ansvarlig',
+      choose: 'Velg ansvarlig',
+      noResults: 'Ingen treff',
+      noResponsible: 'Ingen ansvarlig',
+      revisionDate: 'Antall som nærmer seg revisjonsdato',
+      error: 'Noe gikk galt ved oppdatering av ansvarlig.',
+    },
     origin: {
       label: 'Opphav',
     },
@@ -991,6 +1162,7 @@ const phrases = {
       },
       remove: 'Fjern video',
       save: 'Lagre video',
+      editVideo: 'Rediger video',
       time: {
         start: 'Start',
         stop: 'Stopp',
@@ -1136,9 +1308,10 @@ const phrases = {
       add: 'Ny revisjon',
       remove: 'Fjern revisjon',
       description:
-        'Revisjoner krever en beskrivelse og en dato artikkelen utløper på. Bryteren bestemmer hvorvidt en revisjon er utført eller ikke. Lagrede revisjoner kan ikke slettes, bare oppdateres.',
+        'Revisjoner krever en beskrivelse og en dato artikkelen utløper på. Bryteren markerer hvorvidt en revisjon er utført eller ikke. Husk at en revidert artikkel må republiseres.',
       datePickerTooltip:
         'Dato artikkelen utløper dersom revisjonen ikke blir markert som revidert.',
+      reminder: 'Husk å sjekke om revisjonen du nå har utført krever republisering.',
       switchTooltip: 'Hvorvidt artikkelen er revidert eller ikke.',
       inputPlaceholder: 'Beskrivelse av revisjonen',
       deleteTooltip: 'Fjern denne revisjonen',
@@ -1166,6 +1339,8 @@ const phrases = {
       'Koden er på feil format. Det korrekte formatet er K(E/M) eller TT fulgt av ett eller flere siffer. Eks. KE137, KM2255, TT2',
     podcastImageShape: 'Metabilde må være like høyt som det er bredt.',
     podcastImageSize: 'Metabilde må være mellom 1400 og 3000 piksler bredt.',
+    unfinishedRevision: 'Det må være minst en planlagt revisjon.',
+    missingRevision: 'Det må være minst en revisjon.',
   },
   errorMessage: {
     title: 'Oops, noe gikk galt',
@@ -1175,6 +1350,7 @@ const phrases = {
     invalidUrl: 'Ugyldig url',
     noArticleInProd: 'Ingen artikkel funnet i prod',
     taxonomy: 'Det var et problem ved lasting av taksonomi',
+    versionSelect: 'Artikkelen finnes ikke i valgt versjon',
     errorWhenFetchingTaxonomyArticle:
       'Det var et problem ved lasting av den underliggende artikkelen',
     unsavedTaxonomy: 'Du har ulagrede endringer. Trykk avbryt igjen hvis du ønsker å fortsette.',
@@ -1184,6 +1360,8 @@ const phrases = {
       409: 'Denne artikkelen har allerede blitt oppdatert. Ta vare på det du har endret og last siden på nytt for å kunne lagre.',
     },
     grepCodes: 'Følgende koder har feil format eller eksisterer ikke, og vil ikke bli lagt til: ',
+    errorOnSave: 'Noe gikk galt under lagring av artikkelen.',
+    genericError: 'Noe gikk galt, handlingen kunne ikke utføres.',
   },
   warningMessage: {
     fieldWithWrongLanguage: 'Dette feltet er hentet fra språkkode: {{language}}',
@@ -1203,11 +1381,13 @@ const phrases = {
     confirm: 'Bekreft',
     loginAgain: 'Logg inn på nytt',
   },
+  environment: { production: '', staging: 'staging', test: 'test' },
   taxonomy: {
     editStructure: 'Rediger struktur',
     editSubjectpage: 'Rediger fagforside',
     deleteSubject: 'Slett fag',
-    addSubject: 'Legg til nytt fag',
+    addSubject: 'Legg til fag',
+    subjectName: 'Navn på nytt fag',
     addExistingTopic: 'Flytt eksisterende emne hit',
     addExistingLoading: 'Flytter emne',
     addExistingSuccess: 'Emnet har blitt flyttet!',
@@ -1218,8 +1398,22 @@ const phrases = {
     subjectSettings: 'Faginnstillinger',
     topicSettings: 'Emneinnstillinger',
     currentVersion: 'Nåværende versjon',
-    deleteNode: 'Slett',
+    deleteNode: 'Slett node',
+    deleteResource: 'Slett ressurs',
     confirmDelete: 'Er du sikker på at du vil slette denne noden?',
+    version: 'Versjon',
+    createResource: 'Opprett ny ressurs',
+    addNewPlannedResource: 'Opprett ny planlagt ressurs',
+    resourceType: 'Kjernestoff eller tilleggstoff',
+    title: 'Tittel',
+    comment: 'Kommentar',
+    commentPlaceholder: 'F.eks. innhold, læremål eller grep',
+    contentType: 'Innholdstype',
+    contentTypePlaceholder: 'Velg innholdstype',
+    create: 'Opprett',
+    get: 'Hent',
+    getExisting: 'Eller hent eksisterende ressurs',
+    addPriority: 'Sett artikkel som prioritert',
     changeName: {
       loadError: 'Klarte ikke hente oversettelser',
       updateError: 'Klarte ikke oppdatere oversettelser',
@@ -1237,6 +1431,9 @@ const phrases = {
         'Ingen oversettelser tilgjengelig. Standardnavn vil brukes inntil dette er lagt inn.',
     },
     addTopic: 'Legg til nytt emne',
+    addTopicHeader: 'Legg til emne',
+    createTopic: 'Opprett nytt emne',
+    searchExistingTopic: 'Søk etter eksisterende emne',
     errorMessage: 'En feil oppsto',
     confirmDeleteTopic: 'Er du sikker på at du vil slette emnet?',
     confirmDeleteSubject: 'Er du sikker på at du vil slette faget?',
@@ -1253,6 +1450,13 @@ const phrases = {
     addTopicDescription: 'Endre emnebeskrivelse',
     confirmSetPrimary: 'Vil du gjøre dette til hovedplassering?',
     jumpToResources: 'Hopp til ressurser',
+    jumpToStructure: 'Hopp til struktur',
+    swapTopicArticle: {
+      failed: 'Klarte ikke å bytte emneartikkel',
+      placeholder: 'Artikkel du vil bytte til',
+      info: 'Bytt emneartikkel',
+      success: 'Emneartikkelen er byttet! Last siden på nytt for å få oppdatert navn på emnet.',
+    },
     copyResources: {
       info: 'Gjenbruk ressurser fra emne',
       done: 'Ressurser ferdigkopiert!',
@@ -1269,8 +1473,7 @@ const phrases = {
     publish: {
       button: 'Publiser alle ressurser',
       waiting: 'Publiserer ressurser',
-      info:
-        'Er du sikker på at du ønsker å publisere alle ressurser som er knyttet til denne noden?',
+      info: 'Er du sikker på at du ønsker å publisere alle ressurser som er knyttet til denne noden?',
       done: 'Ressurser er publisert',
       error: 'Følgende ressurser ble ikke publisert:',
     },
@@ -1284,6 +1487,7 @@ const phrases = {
       wrongConnections: 'Feilkoblinger',
       wrongConnectionsSubTitle: 'Denne artikkelen har feilkoblinger, se listen under.',
       canBeFixedInDatabase: 'Artikkeltypen kan endres i databasen for å fikse feilen.',
+      notPublished: 'Artikkelen har ingen publisert versjon.',
     },
     resource: {
       confirmDelete:
@@ -1321,14 +1525,28 @@ const phrases = {
       edit: 'Endre læreplankobling',
       empty: 'Ingen registerte koder',
       addNew: 'Legg til ny læreplankobling',
+      delete: 'Fjern {{grepCode}}',
+    },
+    copyRevisionDates: {
+      text: 'Er du helt sikker på at du ønsker å kopiere revisjonsdatoen? Dette vil sette alle revisjonsdatoer fra denne noden til alle undernoder og ressurser.',
+      buttonText: 'Kopier revisjonsdato',
+      error: 'En feil oppstod under kopiering',
+    },
+    resourcesPrimary: {
+      text: 'Er du helt sikker på at du ønsker å gjøre alle tilhørende ressurser om til primærkoblinger?',
+      recursiveText:
+        'Er du helt sikker på at du ønsker å gjøre alle tilhørende ressurser og underressurser om til primærkoblinger?',
+      buttonText: 'Gjør alle ressurser om til primærkoblinger',
+      recursiveButtonText: 'Gjør alle ressurser og underressurser om til primærkoblinger',
+      error: 'En feil oppstod',
     },
     goTo: 'Åpne i stukturredigering',
     missingResourceType: 'Mangler ressurstype',
     metadata: {
       customFields: {
-        cancelPublishRequest: 'Avlys forespørsel om delvis publisering av struktur',
+        cancelPublishRequest: 'Avbryt forespørsel om delvis publisering av struktur',
         requestPublish: 'Be om delpublisering av struktur',
-        requestVersionError: 'Publiseringsforespørsler kan bare opprettes fra standardversjonen',
+        requestVersionError: 'Publiseringsforespørsler kan bare opprettes fra Draft',
         alterFields: 'Legg til/endre metadata',
         addField: 'Nytt metadata felt',
         languagePlaceholder: 'Visningsspråk ndla.no',
@@ -1352,6 +1570,7 @@ const phrases = {
   },
   contextTypes: {
     topic: 'Emne',
+    frontpage: 'Om-NDLA-artikkel',
   },
   ndlaFilm: {
     editor: {
@@ -1396,6 +1615,7 @@ const phrases = {
     statusLabel: 'Status:',
     changeHeader: 'Endringer',
     saveAsNew: 'Lagre som kopi',
+    prioritized: 'Prioritert',
   },
   taxonomyVersions: {
     title: 'Taksonomiversjoner',
@@ -1404,7 +1624,7 @@ const phrases = {
     deleteLocked: 'Denne versjonen kan ikke slettes fordi den er låst',
     deletePublished: 'Denne versjonen kan ikke slettes fordi den er publisert',
     delete: 'Slett versjon',
-    locked: 'Denne versjonen er låst',
+    locked: 'Denne versjonen er låst og kan ikke slettes',
     status: {
       PUBLISHED: 'Publisert',
       ARCHIVED: 'Arkivert',
@@ -1413,17 +1633,18 @@ const phrases = {
     about:
       'Denne siden brukes til å se på og administrere taksonomiversjoner. Vær varsom: Å publisere en ny taksonomiversjon vil føre til at alt innhold i den vil være umiddelbart tilgjengelig for sluttbrukere på ndla.no',
     noPublished:
-      'Det finnes ingen publisert versjon. Standard-versjonen av taksonomi brukes inntil en versjon blir publisert',
+      'Det finnes ingen publisert versjon. Draft-versjonen av taksonomi brukes inntil en versjon blir publisert',
     editVersionTooltip: 'Rediger versjon',
     newVersionTitle: 'Opprett ny versjon',
     newVersionButton: 'Ny versjon',
     editVersionTitle: 'Rediger versjon',
+    publishTitle: 'Publiser versjon',
     publishButton: 'Publiser',
     publishWarning:
       'Er du sikker på at du ønsker å publisere denne versjonen? Den nåværende versjonen vil bli arkivert, og alle nye endringer i denne versjonen vil umiddelbart være tilgjengelige på ndla.no',
     deleteWarning: 'Er du sikker på at du ønsker å slette denne versjonen?',
     deleteWarningPublished:
-      'Er du sikker på at du ønsker å slette den publiserte versjonen? Taksonomi vil revertere tilbake til standard-versjonen.',
+      'Er du sikker på at du ønsker å slette den publiserte versjonen? Taksonomi vil revertere tilbake til Draft-versjonen.',
     postError: 'Klarte ikke å opprette ny versjon',
     putError: 'Klarte ikke å oppdatere versjonen',
     publishError: 'Klarte ikke å publisere versjonen',
@@ -1438,11 +1659,11 @@ const phrases = {
       source: {
         title: 'Kildeversjon',
         subTitle: 'Velg en annen versjon å basere denne på',
-        defaultOption: 'N/A',
+        defaultOption: 'Draft',
       },
       locked: {
         title: 'Låst',
-        subTitle: 'Er versjonen låst?',
+        subTitle: 'Lås versjonen så den ikke kan slettes',
         locked: 'Låst',
         unlocked: 'Ulåst',
       },
@@ -1453,9 +1674,14 @@ const phrases = {
     nodePublished: 'Noden har blitt publisert!',
     showInStructure: 'Vis i struktur',
     compare: 'Sammenlign',
+    deleteAll: 'Slett publiseringsforespørsler',
+    deleteAllInfo:
+      'Er du sikker på at du ønsker å slette alle publiseringsforespørsler? Denne handlingen kan ikke angres.',
     errors: {
       noPublishedVersion: 'Klarte ikke finne publisert versjon',
+      noVersions: 'Klarte ikke finne versjoner',
     },
+    numberRequests: 'Antall publiseringsforespørsler',
   },
   diff: {
     published:
@@ -1463,20 +1689,23 @@ const phrases = {
     publishing: 'Publiserer node...',
     publish: 'Publiser node',
     publishWarning:
-      'Er du sikker på at du ønsker å publisere denne noden? Alle endringer vil umiddelbart bli tilgjengelige i målversjonen',
+      'Er du sikker på at du ønsker å publisere denne noden? Alle endringer vil bli tilgjengelige i målversjonen når publiseringen er ferdig',
     publishError: 'Publisering av node feilet',
     equalNodes: 'Disse nodene er like!',
-    defaultVersion: 'Standardsversjon',
+    defaultVersion: 'Draft',
     compareVersions: 'Sammenlign versjoner',
     error: {
       originalHashRequired: "originalHash-parameteret er påkrevd i URL'en!",
       doesNotExist: 'Denne noden finnes ikke i noen av versjonene!',
-      onlyExistsInOriginal: 'Denne noden finnes bare i originalversjonen',
-      onlyExistsInOther: 'Denne noden finnes bare i versjonen du sammenligner med',
+      onlyExistsInOriginal: 'Denne noden finnes bare i målversjonen',
+      onlyExistsInOther: 'Denne noden finnes bare i kildeversjonen',
     },
     options: {
-      originalHashLabel: 'Original-versjon',
-      otherHashLabel: 'Annen versjon',
+      about: 'Denne siden lar deg sammenligne et nodetre i to forskjellige versjoner.',
+      admin:
+        'Du kan publisere nodetreet mellom versjonene. Du kan publisere nye, og oppdatere eksisterende noder til målversjonen, men ikke slette dem. Sletting må skje i den enkelte versjonen. Endringer høyere oppe i strukturen tas ikke hensyn til.',
+      originalHashLabel: 'Målversjon',
+      otherHashLabel: 'Kildeversjon',
       viewLabel: 'Visningstype',
       nodeViewLabel: 'Nodevisning',
       fieldViewLabel: 'Feltvisning',
@@ -1491,7 +1720,7 @@ const phrases = {
     resourcesChanged: 'Ressurser endret',
     diffTypes: {
       ADDED: 'Lagt til',
-      DELETED: 'Slettet',
+      DELETED: 'Mangler',
       MODIFIED: 'Endret',
       NONE: 'Ingen',
     },
@@ -1510,7 +1739,7 @@ const phrases = {
       contentUri: {
         title: 'Innholds-URI',
       },
-      parent: {
+      parentId: {
         title: 'Forelder',
       },
       path: {
@@ -1523,11 +1752,6 @@ const phrases = {
         title: 'Koblings-ID',
       },
       isPrimary: {
-        title: 'Er primær',
-        isOn: 'Denne noden er en primærressurs',
-        isOff: 'Denne noden er ikke en primærressurs',
-      },
-      primary: {
         title: 'Er primær',
         isOn: 'Denne noden er en primærressurs',
         isOff: 'Denne noden er ikke en primærressurs',
@@ -1591,11 +1815,25 @@ const phrases = {
     ar: 'Arabisk',
     de: 'Tysk',
     en: 'Engelsk',
+    es: 'Spansk',
     se: 'Nordsamisk',
     sma: 'Sørsamisk',
     so: 'Somali',
     ti: 'Tigrinja',
     zh: 'Kinesisk',
+  },
+  unsavedChanges: 'Ulagrede endringer',
+  messages: {
+    severity: {
+      info: 'Informasjon',
+      warning: 'Advarsel',
+      success: 'Alt OK!',
+      danger: 'Pass på!',
+    },
+  },
+  delete: 'Slett',
+  dragAndDrop: {
+    handle: 'Håndtak',
   },
 };
 

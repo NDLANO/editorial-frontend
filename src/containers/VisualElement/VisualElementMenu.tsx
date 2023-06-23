@@ -6,28 +6,29 @@
  *
  */
 
-import { useState } from 'react';
 import styled from '@emotion/styled';
-import Button from '@ndla/button';
-import { css } from '@emotion/core';
-import { colors } from '@ndla/core';
+import { ButtonV2 } from '@ndla/button';
+import { colors, spacing } from '@ndla/core';
 import { Cross, Plus } from '@ndla/icons/action';
-import { H5P, Camera, Video, Link } from '@ndla/icons/editor';
+import { Camera, H5P, Link, Video } from '@ndla/icons/editor';
+import { useState } from 'react';
 
-const visualElementButtonStyle = css`
+const StyledButton = styled(ButtonV2)`
+  border-radius: 100%;
   height: 40px;
   width: 40px;
-  border: 1px solid ${colors.brand.grey};
-  border-radius: 25px;
-  margin-right: 0.3rem;
+  border: 1px solid ${colors.brand.greyMedium};
   color: ${colors.brand.grey};
-
-  &:focus,
-  &:hover {
-    color: ${colors.brand.grey};
-    border: 1px solid ${colors.brand.grey};
-    border-radius: 25px;
+  svg {
+    min-width: 20px;
+    width: 20px;
+    height: 20px;
   }
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  gap: ${spacing.xsmall};
 `;
 
 interface StyledDivProps {
@@ -35,7 +36,7 @@ interface StyledDivProps {
 }
 
 const DisplayContainer = styled.div<StyledDivProps>`
-  display: ${p => (p.hidden ? 'none' : 'inline-block')};
+  display: ${(p) => (p.hidden ? 'none' : 'inline-block')};
 `;
 
 interface Props {
@@ -74,26 +75,26 @@ const VisualElementMenu = ({ onSelect, types = ['image', 'video', 'h5p', 'url'] 
   ];
 
   return (
-    <div>
-      <Button stripped css={visualElementButtonStyle} onClick={toggleIsOpen}>
+    <ButtonContainer>
+      <StyledButton variant="outline" onClick={toggleIsOpen} colorTheme="lighter">
         {isOpen ? <Cross /> : <Plus />}
-      </Button>
-      <DisplayContainer hidden={!isOpen}>
-        {visualElementButtons
-          .filter(button => types.find(type => type === button.type))
-          .map(button => {
+      </StyledButton>
+      {isOpen &&
+        visualElementButtons
+          .filter((button) => types.find((type) => type === button.type))
+          .map((button) => {
             return (
-              <Button
+              <StyledButton
                 key={button.type}
-                stripped
-                css={visualElementButtonStyle}
-                onClick={() => handleSelect(button.type)}>
+                variant="outline"
+                colorTheme="lighter"
+                onClick={() => handleSelect(button.type)}
+              >
                 {button.component}
-              </Button>
+              </StyledButton>
             );
           })}
-      </DisplayContainer>
-    </div>
+    </ButtonContainer>
   );
 };
 

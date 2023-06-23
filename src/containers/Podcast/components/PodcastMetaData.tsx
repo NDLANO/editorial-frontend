@@ -15,12 +15,13 @@ import { textTransformPlugin } from '../../../components/SlateEditor/plugins/tex
 import { MetaImageSearch } from '../../FormikForm';
 
 interface Props {
-  onImageLoad?: (event: SyntheticEvent<HTMLImageElement, Event>) => void;
+  language?: string;
+  onImageLoad?: (width: number, height: number) => void;
 }
 
 const plugins = [textTransformPlugin];
 
-const PodcastMetaData = ({ onImageLoad }: Props) => {
+const PodcastMetaData = ({ language, onImageLoad }: Props) => {
   const { t } = useTranslation();
 
   return (
@@ -29,7 +30,8 @@ const PodcastMetaData = ({ onImageLoad }: Props) => {
         label={t('podcastForm.fields.introduction')}
         name="introduction"
         maxLength={1000}
-        showMaxLength>
+        showMaxLength
+      >
         {({ field }) => (
           <PlainTextEditor
             id={field.name}
@@ -48,6 +50,7 @@ const PodcastMetaData = ({ onImageLoad }: Props) => {
               setFieldTouched={form.setFieldTouched}
               showRemoveButton
               onImageLoad={onImageLoad}
+              language={language}
               {...field}
             />
           );

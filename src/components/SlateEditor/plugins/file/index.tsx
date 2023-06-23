@@ -40,8 +40,8 @@ export const fileSerializer: SlateSerializer = {
     if (el.tagName.toLowerCase() !== 'div') return;
     if (el.dataset.type !== TYPE_FILE) return;
 
-    let children: DOMStringMap[] = [];
-    el.childNodes.forEach(node => {
+    const children: DOMStringMap[] = [];
+    el.childNodes.forEach((node) => {
       children.push((node as HTMLEmbedElement).dataset);
     });
     return defaultFileBlock(children);
@@ -49,7 +49,7 @@ export const fileSerializer: SlateSerializer = {
   serialize(node: Descendant) {
     if (!Element.isElement(node)) return;
     if (node.type !== TYPE_FILE) return;
-    return <div data-type="file">{node.data.map(file => createEmbedTag(file))}</div>;
+    return <div data-type="file">{node.data.map((file) => createEmbedTag(file))}</div>;
   },
 };
 
@@ -80,7 +80,7 @@ export const filePlugin = (editor: Editor) => {
     return nextIsVoid(element);
   };
 
-  editor.normalizeNode = entry => {
+  editor.normalizeNode = (entry) => {
     const [node] = entry;
 
     if (Element.isElement(node) && node.type === TYPE_FILE) {

@@ -6,10 +6,11 @@
  *
  */
 
+import { ResourceType } from '@ndla/types-taxonomy';
 import { apiResourceUrl, httpFunctions } from '../../../util/apiHelpers';
 import { sortIntoCreateDeleteUpdate } from '../../../util/taxonomyHelpers';
 import { taxonomyApi } from '../../../config';
-import { ResourceResourceType, ResourceType } from '../taxonomyApiInterfaces';
+import { ResourceResourceType } from '../taxonomyApiInterfaces';
 import {
   resolveLocation,
   resolveVoidOrRejectWithError,
@@ -51,7 +52,7 @@ const fetchResourceType = ({
   });
 };
 
-interface ResourceResourceTypePostParams extends WithTaxonomyVersion {
+export interface ResourceResourceTypePostParams extends WithTaxonomyVersion {
   body: ResourceResourceTypePostBody;
 }
 
@@ -94,30 +95,26 @@ const createDeleteResourceTypes = async ({
   originalResourceTypes,
   taxonomyVersion,
 }: CreateDeleteResourceTypesParams): Promise<void> => {
-  try {
-    const [createItems, deleteItems]: ResourceResourceType[][] = sortIntoCreateDeleteUpdate({
-      changedItems: resourceTypes,
-      originalItems: originalResourceTypes,
-    });
+  const [createItems, deleteItems]: ResourceResourceType[][] = sortIntoCreateDeleteUpdate({
+    changedItems: resourceTypes,
+    originalItems: originalResourceTypes,
+  });
 
-    await Promise.all(
-      createItems.map(item =>
-        createResourceResourceType({
-          body: {
-            resourceTypeId: item.id,
-            resourceId,
-          },
-          taxonomyVersion,
-        }),
-      ),
-    );
+  await Promise.all(
+    createItems.map((item) =>
+      createResourceResourceType({
+        body: {
+          resourceTypeId: item.id,
+          resourceId,
+        },
+        taxonomyVersion,
+      }),
+    ),
+  );
 
-    deleteItems.forEach(item => {
-      deleteResourceResourceType({ id: item.connectionId, taxonomyVersion });
-    });
-  } catch (e) {
-    throw new Error(e);
-  }
+  deleteItems.forEach((item) => {
+    deleteResourceResourceType({ id: item.connectionId, taxonomyVersion });
+  });
 };
 
 export {

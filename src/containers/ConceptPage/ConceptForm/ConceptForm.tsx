@@ -7,17 +7,20 @@
  */
 
 import { useState, useEffect, useMemo } from 'react';
-import { Accordions, AccordionSection } from '@ndla/accordion';
-import { IConcept, INewConcept, IUpdatedConcept, ITagsSearchResult } from '@ndla/types-concept-api';
-import { IArticle } from '@ndla/types-draft-api';
+import {
+  IConcept,
+  INewConcept,
+  IUpdatedConcept,
+  ITagsSearchResult,
+  IConceptSummary,
+} from '@ndla/types-backend/concept-api';
+import { IArticle } from '@ndla/types-backend/draft-api';
 import { Formik, FormikProps, FormikHelpers } from 'formik';
 import { useTranslation } from 'react-i18next';
-import { isFormikFormDirty } from '../../../util/formHelper';
 import { toEditConcept } from '../../../util/routeHelpers';
-import * as articleStatuses from '../../../util/constants/ArticleStatus';
+import { ARCHIVED, PUBLISHED, UNPUBLISHED } from '../../../constants';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
 import validateFormik, { getWarnings, RulesType } from '../../../components/formikValidationSchema';
-import { formClasses } from '../../FormikForm';
 import {
   conceptApiTypeToFormType,
   conceptFormTypeToApiType,
@@ -25,23 +28,20 @@ import {
   getUpdatedConceptType,
 } from '../conceptTransformers';
 import { ConceptArticles, ConceptCopyright, ConceptContent, ConceptMetaData } from '../components';
-
-import FormWrapper from './FormWrapper';
 import { ConceptFormValues } from '../conceptInterfaces';
 import { SubjectType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import ConceptFormFooter from './ConceptFormFooter';
 import { MessageError, useMessages } from '../../Messages/MessagesProvider';
 import { useLicenses } from '../../../modules/draft/draftQueries';
-import { ConceptStatusType } from '../../../interfaces';
+import FormWrapper from '../../../components/FormWrapper';
+import { useSession } from '../../../containers/Session/SessionProvider';
+import FormAccordion from '../../../components/Accordion/FormAccordion';
+import FormAccordions from '../../../components/Accordion/FormAccordions';
+
+const STATUSES_RESPONSIBLE_NOT_REQUIRED = [PUBLISHED, ARCHIVED, UNPUBLISHED];
 
 interface UpdateProps {
   onUpdate: (updatedConcept: IUpdatedConcept, revision?: number) => Promise<IConcept>;
-  updateConceptAndStatus: (
-    id: number,
-    updatedConcept: IUpdatedConcept,
-    newStatus: ConceptStatusType,
-    dirty: boolean,
-  ) => Promise<IConcept>;
 }
 
 interface CreateProps {
@@ -60,8 +60,7 @@ interface Props {
   language: string;
   subjects: SubjectType[];
   initialTitle?: string;
-  translateToNN?: () => void;
-  onUpserted?: (concept: IConcept) => void;
+  onUpserted?: (concept: IConceptSummary | IConcept) => void;
 }
 
 const conceptFormRules: RulesType<ConceptFormValues, IConcept> = {
@@ -104,11 +103,16 @@ const conceptFormRules: RulesType<ConceptFormValues, IConcept> = {
   },
   license: {
     required: false,
-    test: values => {
+    test: (values) => {
       const authors = values.creators.concat(values.rightsholders).concat(values.processors);
       if (!values.license || values.license === 'N/A' || authors.length > 0) return undefined;
       return { translationKey: 'validation.noLicenseWithoutCopyrightHolder' };
     },
+  },
+  responsibleId: {
+    required: true,
+    onlyValidateIf: (values: ConceptFormValues) =>
+      STATUSES_RESPONSIBLE_NOT_REQUIRED.every((status) => values.status?.current !== status),
   },
 };
 
@@ -120,7 +124,6 @@ const ConceptForm = ({
   isNewlyCreated = false,
   onClose,
   subjects,
-  translateToNN,
   language,
   upsertProps,
   conceptArticles,
@@ -128,10 +131,10 @@ const ConceptForm = ({
   onUpserted,
 }: Props) => {
   const [savedToServer, setSavedToServer] = useState(false);
-  const [translateOnContinue, setTranslateOnContinue] = useState(false);
   const { t } = useTranslation();
   const { applicationError } = useMessages();
   const { data: licenses = [] } = useLicenses({ placeholderData: [] });
+  const { ndlaId } = useSession();
 
   useEffect(() => {
     setSavedToServer(false);
@@ -152,24 +155,15 @@ const ConceptForm = ({
       let savedConcept: IConcept;
       if ('onCreate' in upsertProps) {
         savedConcept = await upsertProps.onCreate(getNewConceptType(values, licenses));
-      } else if (statusChange && concept?.id) {
-        // if editor is not dirty, OR we are unpublishing, we don't save before changing status
-        const formikDirty = isFormikFormDirty({ values, initialValues, dirty: true });
-        const skipSaving = newStatus === articleStatuses.UNPUBLISHED || !formikDirty;
-        savedConcept = await upsertProps.updateConceptAndStatus(
-          concept.id,
-          getUpdatedConceptType(values, licenses),
-          newStatus!,
-          !skipSaving,
-        );
       } else {
-        savedConcept = await upsertProps.onUpdate(
-          getUpdatedConceptType(values, licenses),
-          revision!,
-        );
+        const conceptWithStatus = {
+          ...getUpdatedConceptType(values, licenses),
+          ...(statusChange ? { status: newStatus } : {}),
+        };
+        savedConcept = await upsertProps.onUpdate(conceptWithStatus, revision!);
       }
       formikHelpers.resetForm({
-        values: conceptApiTypeToFormType(savedConcept, language, subjects, conceptArticles),
+        values: conceptApiTypeToFormType(savedConcept, language, subjects, conceptArticles, ndlaId),
       });
       formikHelpers.setSubmitting(false);
       setSavedToServer(true);
@@ -186,13 +180,14 @@ const ConceptForm = ({
     language,
     subjects,
     conceptArticles,
+    ndlaId,
     initialTitle,
   );
   const initialWarnings = getWarnings(initialValues, conceptFormRules, t, concept);
-  const initialErrors = useMemo(() => validateFormik(initialValues, conceptFormRules, t), [
-    initialValues,
-    t,
-  ]);
+  const initialErrors = useMemo(
+    () => validateFormik(initialValues, conceptFormRules, t),
+    [initialValues, t],
+  );
 
   return (
     <Formik
@@ -201,9 +196,10 @@ const ConceptForm = ({
       onSubmit={handleSubmit}
       enableReinitialize
       validateOnMount
-      validate={values => validateFormik(values, conceptFormRules, t)}
-      initialStatus={{ warnings: initialWarnings }}>
-      {formikProps => {
+      validate={(values) => validateFormik(values, conceptFormRules, t)}
+      initialStatus={{ warnings: initialWarnings }}
+    >
+      {(formikProps) => {
         const { values, errors }: FormikProps<ConceptFormValues> = formikProps;
         const { id, revision, status, created, updated } = values;
         const requirements = id && revision && status && created && updated;
@@ -212,55 +208,54 @@ const ConceptForm = ({
           : undefined;
         const editUrl = values.id ? (lang: string) => toEditConcept(values.id!, lang) : undefined;
         return (
-          <FormWrapper inModal={inModal} {...formClasses()}>
+          <FormWrapper inModal={inModal}>
             <HeaderWithLanguage
+              concept={concept}
               content={{ ...concept, title: concept?.title?.title, language }}
               editUrl={editUrl}
-              getEntity={getEntity}
-              translateToNN={translateToNN}
               type="concept"
-              setTranslateOnContinue={setTranslateOnContinue}
               values={values}
             />
-            <Accordions>
-              <AccordionSection
-                id="concept-content"
-                title={t('form.contentSection')}
+            <FormAccordions defaultOpen={['content']}>
+              <FormAccordion
+                id="content"
                 className="u-4/6@desktop u-push-1/6@desktop"
+                title={t('form.contentSection')}
                 hasError={!!(errors.title || errors.conceptContent)}
-                startOpen>
+              >
                 <ConceptContent />
-              </AccordionSection>
-              <AccordionSection
-                id="concept-copyright"
+              </FormAccordion>
+              <FormAccordion
+                id="copyright"
                 title={t('form.copyrightSection')}
-                className="u-6/6"
-                hasError={!!(errors.creators || errors.license)}>
+                hasError={!!(errors.creators || errors.license)}
+              >
                 <ConceptCopyright
                   disableAgreements
                   label={t('form.concept.source')}
                   description={t('form.concept.markdown')}
                 />
-              </AccordionSection>
-              <AccordionSection
-                id="concept-metadataSection"
+              </FormAccordion>
+              <FormAccordion
+                id="metadata"
                 title={t('form.metadataSection')}
-                className="u-6/6"
-                hasError={!!(errors.tags || errors.metaImageAlt || errors.subjects)}>
+                hasError={!!(errors.tags || errors.metaImageAlt || errors.subjects)}
+              >
                 <ConceptMetaData
                   fetchTags={fetchConceptTags}
                   subjects={subjects}
                   inModal={inModal}
+                  language={language}
                 />
-              </AccordionSection>
-              <AccordionSection
-                id="concept-articles"
+              </FormAccordion>
+              <FormAccordion
+                id="articles"
                 title={t('form.articleSection')}
-                className="u-6/6"
-                hasError={!!errors.articles}>
+                hasError={!!errors.articles}
+              >
                 <ConceptArticles />
-              </AccordionSection>
-            </Accordions>
+              </FormAccordion>
+            </FormAccordions>
             <ConceptFormFooter
               entityStatus={concept?.status}
               conceptChanged={!!conceptChanged}
@@ -269,8 +264,8 @@ const ConceptForm = ({
               isNewlyCreated={isNewlyCreated}
               showSimpleFooter={!concept?.id}
               onClose={onClose}
-              onContinue={translateOnContinue && translateToNN ? translateToNN : () => {}}
               getApiConcept={getEntity}
+              responsibleId={concept?.responsible?.responsibleId}
             />
           </FormWrapper>
         );

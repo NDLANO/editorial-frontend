@@ -6,67 +6,41 @@
  *
  */
 
-import { ReactElement, useState } from 'react';
-
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
-import { css } from '@emotion/core';
 import styled from '@emotion/styled';
-//@ts-ignore
 import { ContentTypeBadge } from '@ndla/ui';
-import Button from '@ndla/button';
-import { colors, spacing, breakpoints } from '@ndla/core';
-import { AlertCircle, Check } from '@ndla/icons/editor';
+import { ButtonV2 } from '@ndla/button';
+import { colors, spacing, breakpoints, fonts } from '@ndla/core';
 import Tooltip from '@ndla/tooltip';
-import SafeLink from '@ndla/safelink';
-
-import { classes } from './ResourceGroup';
-import VersionHistoryLightbox from '../../../components/VersionHistoryLightbox';
-import GrepCodesModal from '../../GrepCodes/GrepCodesModal';
-import ResourceItemLink from '../../../components/Taxonomy/ResourceItemLink';
-import RemoveButton from '../../../components/Taxonomy/RemoveButton';
-import RelevanceOption from '../../../components/Taxonomy/RelevanceOption';
+import { useQueryClient } from '@tanstack/react-query';
+import { NodeConnectionPUT, NodeChild } from '@ndla/types-taxonomy';
+import {
+  usePutResourceForNodeMutation,
+  useUpdateNodeConnectionMutation,
+} from '../../../modules/nodes/nodeMutations';
 import { getContentTypeFromResourceTypes } from '../../../util/resourceHelpers';
-import { PUBLISHED } from '../../../util/constants/ArticleStatus';
-import config from '../../../config';
-import { LocaleType } from '../../../interfaces';
-import { TopicResource } from './StructureResources';
+import RelevanceOption from '../../../components/Taxonomy/RelevanceOption';
+import ResourceItemLink from './ResourceItemLink';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
+import { resourcesWithNodeConnectionQueryKey } from '../../../modules/nodes/nodeQueries';
+import { ResourceWithNodeConnectionAndMeta } from './StructureResources';
+import StatusIcons from './StatusIcons';
+import GrepCodesModal from './GrepCodesModal';
+import VersionHistory from './VersionHistory';
 
-const StyledCheckIcon = styled(Check)`
-  height: 24px;
-  width: 24px;
-  fill: ${colors.support.green};
+const Wrapper = styled.div`
+  display: flex;
+  flex: 1;
+  margin-bottom: ${spacing.xsmall};
 `;
 
-const StyledWarnIcon = styled(AlertCircle)`
-  height: 24px;
-  width: 24px;
-  fill: ${colors.support.red};
-`;
-
-const statusButtonStyle = css`
-  margin-right: ${spacing.xsmall};
-`;
-
-interface Props {
-  resource: TopicResource;
-  onDelete?: (connectionId: string) => void;
-  updateResource?: (resource: TopicResource) => void;
-  connectionId: string;
-  dragHandleProps?: object;
-  locale: LocaleType;
-  relevanceId?: string;
-  updateRelevanceId?: (
-    connectionId: string,
-    body: { primary?: boolean; rank?: number; relevanceId?: string },
-    taxonomyVersion: string,
-  ) => Promise<void>;
-  primary?: boolean;
-  rank?: number;
-}
-const grepButtonStyle = css`
-  margin-left: ${spacing.xsmall};
+const StyledCard = styled.div`
+  border: 1px solid ${colors.brand.lighter};
+  border-radius: 5px;
+  width: 100%;
+  padding: 5px;
+  display: flex;
 `;
 
 const StyledResourceIcon = styled.div`
@@ -90,168 +64,178 @@ const StyledResourceBody = styled.div`
 
 const StyledText = styled.div`
   display: flex;
-  padding: 10px;
-  margin-bottom: 6.5px;
+  margin-bottom: ${spacing.xxsmall};
   box-shadow: none;
   align-items: center;
 `;
 
-const StyledLink = styled(SafeLink)`
-  box-shadow: inset 0 0;
+const ButtonRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  gap: ${spacing.xsmall};
 `;
 
-const getArticleTypeFromId = (id?: string) => {
-  if (id?.startsWith('urn:topic:')) return 'topic-article';
-  else if (id?.startsWith('urn:resource:')) return 'standard';
-  return undefined;
-};
+const BadgeWrapper = styled.div`
+  display: flex;
+  align-items: center;
+`;
+const ContentWrapper = styled.div`
+  width: 100%;
+`;
+
+const RemoveButton = styled(ButtonV2)`
+  flex: 0;
+`;
+
+const StyledResponsibleBadge = styled.div`
+  height: ${spacing.normal};
+  border-radius: 4px;
+  color: ${colors.brand.dark};
+  ${fonts.sizes(14)};
+  flex: 6;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+`;
+
+const BoldFont = styled.span`
+  font-weight: ${fonts.weight.semibold};
+`;
+
+interface Props {
+  currentNodeId: string;
+  responsible?: string;
+  resource: ResourceWithNodeConnectionAndMeta;
+  onDelete?: (connectionId: string) => void;
+  contentMetaLoading: boolean;
+  className?: string;
+}
 
 const Resource = ({
   resource,
   onDelete,
-  connectionId,
-  dragHandleProps = {},
-  locale,
-  relevanceId,
-  updateRelevanceId,
-  primary,
-  rank,
-  updateResource,
+  currentNodeId,
+  contentMetaLoading,
+  responsible,
+  className,
 }: Props) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const location = useLocation();
+
+  const qc = useQueryClient();
   const { taxonomyVersion } = useTaxonomyVersion();
-  const [showVersionHistory, setShowVersionHistory] = useState(false);
-  const [showGrepCodes, setShowGrepCodes] = useState(false);
+  const compKey = resourcesWithNodeConnectionQueryKey({
+    id: currentNodeId,
+    language: i18n.language,
+  });
+
+  const onUpdateConnection = async (id: string, { relevanceId }: NodeConnectionPUT) => {
+    await qc.cancelQueries(compKey);
+    const resources = qc.getQueryData<NodeChild[]>(compKey) ?? [];
+    if (relevanceId) {
+      const newResources = resources.map((res) => {
+        if (res.id === id) {
+          return { ...res, relevanceId: relevanceId };
+        } else return res;
+      });
+      qc.setQueryData<NodeChild[]>(compKey, newResources);
+    }
+    return resources;
+  };
+
+  const { mutateAsync: updateNodeConnection } = useUpdateNodeConnectionMutation({
+    onMutate: async ({ id, body }) => onUpdateConnection(id, body),
+    onSettled: () => qc.invalidateQueries(compKey),
+  });
+  const { mutateAsync: updateResourceConnection } = usePutResourceForNodeMutation({
+    onMutate: async ({ id, body }) => onUpdateConnection(id, body),
+    onSettled: () => qc.invalidateQueries(compKey),
+  });
 
   const contentType =
     resource.resourceTypes.length > 0
       ? getContentTypeFromResourceTypes(resource.resourceTypes).contentType
       : 'topic-article';
 
+  const contentTypeName =
+    resource.resourceTypes.length > 0
+      ? resource.resourceTypes[resource.resourceTypes.length - 1].name
+      : t('searchForm.articleType.topicArticle');
+
   const iconType = contentType === 'topic-article' ? 'topic' : contentType;
 
   const structurePaths: string[] = location.pathname.replace('/structure', '').split('/');
-  const currentPath = structurePaths.map(p => p.replace('urn:', '')).join('/');
-  const path = resource.paths.find(p => {
+  const currentPath = structurePaths.map((p) => p.replace('urn:', '')).join('/');
+  const path = resource.paths.find((p) => {
     const pArr = p.split('/');
     const isResource = pArr[pArr.length - 1].startsWith('resource');
     const pathWithoutResource = pArr.slice(0, pArr.length - (isResource ? 1 : 0)).join('/');
     return pathWithoutResource === currentPath;
   });
 
-  const onGrepModalClosed = async (newGrepCodes?: string[]) => {
-    setShowGrepCodes(false);
-    if (newGrepCodes && updateResource) {
-      updateResource({
-        ...resource,
-        grepCodes: newGrepCodes,
-      });
-    }
-  };
-
-  const PublishedWrapper = ({ children }: { children: ReactElement }) =>
-    !path ? (
-      children
-    ) : (
-      <StyledLink target="_blank" to={`${config.ndlaFrontendDomain}${path}`}>
-        {children}
-      </StyledLink>
-    );
-
-  const WrongTypeError = () => {
-    const isArticle = resource.contentUri?.startsWith('urn:article');
-    if (!isArticle) return null;
-
-    const expectedArticleType = getArticleTypeFromId(resource.id);
-    if (expectedArticleType === resource.articleType) return null;
-
-    const errorText = t('taxonomy.info.wrongArticleType', {
-      placedAs: t(`articleType.${expectedArticleType}`),
-      isType: t(`articleType.${resource.articleType}`),
+  const updateRelevanceId = async (relevanceId: string) => {
+    const { connectionId, isPrimary, rank } = resource;
+    const func = connectionId.includes('-resource')
+      ? updateResourceConnection
+      : updateNodeConnection;
+    await func({
+      id: connectionId,
+      body: { relevanceId, primary: isPrimary, rank: rank },
+      taxonomyVersion,
     });
-
-    return (
-      <Tooltip tooltip={errorText}>
-        <StyledWarnIcon title={undefined} />
-      </Tooltip>
-    );
   };
 
   return (
-    <StyledText
-      data-testid={`resource-type-${contentType}`}
-      {...classes('text o-flag o-flag--top')}>
-      {contentType && (
-        <StyledResourceIcon key="img" {...classes('icon o-flag__img')} {...dragHandleProps}>
-          <ContentTypeBadge background type={iconType} />
-        </StyledResourceIcon>
-      )}
-      <StyledResourceBody key="body" {...classes('body o-flag__body')}>
-        <ResourceItemLink
-          contentType={contentType}
-          contentUri={resource.contentUri}
-          locale={locale}
-          name={resource.name}
-          isVisible={resource.metadata?.visible}
-        />
-      </StyledResourceBody>
-      {resource.status?.current && (
-        <Button
-          lighter
-          css={statusButtonStyle}
-          onClick={() => setShowVersionHistory(true)}
-          disabled={contentType === 'learning-path'}>
-          {t(`form.status.${resource.status.current.toLowerCase()}`)}
-        </Button>
-      )}
-      <WrongTypeError />
-      {(resource.status?.current === PUBLISHED || resource.status?.other?.includes(PUBLISHED)) && (
-        <PublishedWrapper>
-          <Tooltip tooltip={t('form.workflow.published')}>
-            <StyledCheckIcon />
-          </Tooltip>
-        </PublishedWrapper>
-      )}
-      {contentType !== 'learning-path' && (
-        <Button lighter css={grepButtonStyle} onClick={() => setShowGrepCodes(true)}>
-          {`GREP (${resource.grepCodes?.length || 0})`}
-        </Button>
-      )}
-      <RelevanceOption
-        relevanceId={relevanceId}
-        onChange={relevanceIdUpdate =>
-          updateRelevanceId?.(
-            connectionId,
-            {
-              relevanceId: relevanceIdUpdate,
-              primary,
-              rank,
-            },
-            taxonomyVersion,
-          )
-        }
-      />
-
-      {onDelete && <RemoveButton onClick={() => onDelete(connectionId)} />}
-      {showVersionHistory && (
-        <VersionHistoryLightbox
-          onClose={() => setShowVersionHistory(false)}
-          contentUri={resource.contentUri}
-          contentType={contentType}
-          name={resource.name}
-          isVisible={resource.metadata?.visible}
-          locale={locale}
-        />
-      )}
-      {showGrepCodes && (
-        <GrepCodesModal
-          onClose={onGrepModalClosed}
-          contentUri={resource.contentUri}
-          locale={locale}
-        />
-      )}
-    </StyledText>
+    <Wrapper className={className}>
+      <StyledCard>
+        <BadgeWrapper>
+          {contentType && (
+            <Tooltip tooltip={contentTypeName}>
+              <StyledResourceIcon key="img">
+                <ContentTypeBadge background type={iconType} size="x-small" />
+              </StyledResourceIcon>
+            </Tooltip>
+          )}
+        </BadgeWrapper>
+        <ContentWrapper>
+          <StyledText data-testid={`resource-type-${contentType}`}>
+            <StyledResourceBody key="body">
+              <ResourceItemLink
+                contentType={contentType}
+                contentUri={resource.contentUri}
+                name={resource.name}
+                isVisible={resource.metadata?.visible}
+                size="small"
+              />
+            </StyledResourceBody>
+            <StatusIcons contentMetaLoading={contentMetaLoading} resource={resource} path={path} />
+            <RelevanceOption relevanceId={resource.relevanceId} onChange={updateRelevanceId} />
+          </StyledText>
+          <ButtonRow>
+            <StyledResponsibleBadge>
+              <BoldFont>{`${t('form.responsible.label')}: `}</BoldFont>
+              {responsible ?? t('form.responsible.noResponsible')}
+            </StyledResponsibleBadge>
+            <GrepCodesModal
+              codes={resource.contentMeta?.grepCodes ?? []}
+              contentType={contentType}
+              contentUri={resource.contentUri}
+              revision={resource.contentMeta?.revision}
+              currentNodeId={currentNodeId}
+            />
+            <VersionHistory resource={resource} contentType={contentType} />
+            <RemoveButton
+              onClick={() => (onDelete ? onDelete(resource.connectionId) : null)}
+              size="xsmall"
+              colorTheme="danger"
+              disabled={!onDelete}
+            >
+              {t('form.remove')}
+            </RemoveButton>
+          </ButtonRow>
+        </ContentWrapper>
+      </StyledCard>
+    </Wrapper>
   );
 };
 

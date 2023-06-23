@@ -9,9 +9,8 @@
 import styled from '@emotion/styled';
 import { useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { css } from '@emotion/react';
 import { spacing, colors } from '@ndla/core';
-import { NodeType } from '../../modules/nodes/nodeApiTypes';
+import { Node } from '@ndla/types-taxonomy';
 import { createGuard } from '../../util/guards';
 import { nodePathToUrnPath } from '../../util/taxonomyHelpers';
 import Fade from '../../components/Taxonomy/Fade';
@@ -30,19 +29,22 @@ import {
 } from './diffUtils';
 
 interface Props {
-  node: DiffType<NodeType> | DiffTypeWithChildren;
-  level: number;
-  onNodeSelected: (node?: DiffType<NodeType>) => void;
-  selectedNode?: DiffType<NodeType> | DiffTypeWithChildren;
+  node: DiffType<Node> | DiffTypeWithChildren;
+  onNodeSelected: (node?: DiffType<Node>) => void;
+  selectedNode?: DiffType<Node> | DiffTypeWithChildren;
   parentActive: boolean;
   nodes?: DiffTypeWithChildren[];
 }
 
 interface RootNodeProps {
   tree: DiffTree;
-  onNodeSelected: (node?: DiffType<NodeType>) => void;
-  selectedNode?: DiffType<NodeType> | DiffTypeWithChildren;
+  onNodeSelected: (node?: DiffType<Node>) => void;
+  selectedNode?: DiffType<Node> | DiffTypeWithChildren;
 }
+
+const StructureItem = styled(StyledStructureItem)`
+  margin-left: ${spacing.small};
+`;
 
 export const RootNode = ({ tree, onNodeSelected, selectedNode }: RootNodeProps) => {
   const root = tree.root;
@@ -52,6 +54,7 @@ export const RootNode = ({ tree, onNodeSelected, selectedNode }: RootNodeProps) 
   if (
     root.changed.diffType === 'NONE' &&
     root.childrenChanged?.diffType === 'NONE' &&
+    root.resourcesChanged?.diffType === 'NONE' &&
     nodeView === 'changed'
   )
     return null;
@@ -62,7 +65,6 @@ export const RootNode = ({ tree, onNodeSelected, selectedNode }: RootNodeProps) 
       selectedNode={selectedNode}
       node={root}
       nodes={children}
-      level={1}
       onNodeSelected={onNodeSelected}
       parentActive={true}
     />
@@ -75,8 +77,8 @@ interface StyledChangedPillProps {
 }
 const StyledChangedPill = styled.div<StyledChangedPillProps>`
   padding: 0 ${spacing.small};
-  background-color: ${props => props.color};
-  color: ${props => props.textColor};
+  background-color: ${(props) => props.color};
+  color: ${(props) => props.textColor};
   border-radius: 5px;
 `;
 
@@ -107,20 +109,13 @@ export const DiffTypePill = ({ diffType }: DiffTypePillProps) => {
   );
 };
 
-const styledItemBarCss = css`
+const StyledItem = styled(StyledItemBar)`
   justify-content: space-between;
 `;
 
 const isChildNode = createGuard<DiffTypeWithChildren>('children');
 
-export const TreeNode = ({
-  node,
-  onNodeSelected,
-  selectedNode,
-  parentActive,
-  nodes,
-  level,
-}: Props) => {
+export const TreeNode = ({ node, onNodeSelected, selectedNode, parentActive, nodes }: Props) => {
   const { t } = useTranslation();
   const path = nodePathToUrnPath(node.path.other ?? node.path?.original!);
   const isActive =
@@ -135,12 +130,13 @@ export const TreeNode = ({
   };
 
   return (
-    <StyledStructureItem
+    <StructureItem
       connectionId={connectionId}
       id={node.id.other ?? node.id.original}
       key={path}
-      greyedOut={!parentActive && !isActive}>
-      <StyledItemBar level={level} highlight={isActive} css={styledItemBarCss}>
+      greyedOut={!parentActive && !isActive}
+    >
+      <StyledItem highlight={isActive}>
         <ItemTitleButton
           type="button"
           id={node.id.other ?? node.id.original}
@@ -149,7 +145,8 @@ export const TreeNode = ({
           lastItemClickable={true}
           arrowDirection={90}
           onClick={onItemClick}
-          isVisible={node.metadata?.visible.other ?? node.metadata?.visible.original}>
+          isVisible={node.metadata?.visible.other ?? node.metadata?.visible.original}
+        >
           {node.name.other ?? node.name.original}
         </ItemTitleButton>
         <DiffPills>
@@ -168,10 +165,10 @@ export const TreeNode = ({
           )}
           {node.changed.diffType !== 'NONE' && <DiffTypePill diffType={node.changed.diffType} />}
         </DiffPills>
-      </StyledItemBar>
+      </StyledItem>
       {hasChildNodes &&
         nodes &&
-        nodes.map(node => (
+        nodes.map((node) => (
           <StructureWrapper key={`${path}/${node.id.other ?? node.id.original}`}>
             <Fade show={true} fadeType="fadeInTop">
               <TreeNode
@@ -181,11 +178,10 @@ export const TreeNode = ({
                 node={node}
                 nodes={node.children}
                 selectedNode={selectedNode}
-                level={level + 1}
               />
             </Fade>
           </StructureWrapper>
         ))}
-    </StyledStructureItem>
+    </StructureItem>
   );
 };

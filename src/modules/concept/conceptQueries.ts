@@ -6,8 +6,8 @@
  *
  */
 
-import { useQuery, UseQueryOptions } from 'react-query';
-import { IConcept, IConceptSearchResult } from '@ndla/types-concept-api';
+import { useQuery, UseQueryOptions } from '@tanstack/react-query';
+import { IConcept, IConceptSearchResult } from '@ndla/types-backend/concept-api';
 import { CONCEPT, CONCEPT_STATE_MACHINE, SEARCH_CONCEPTS } from '../../queryKeys';
 import { fetchConcept, fetchStatusStateMachine, searchConcepts } from './conceptApi';
 import { ConceptQuery } from './conceptApiInterfaces';

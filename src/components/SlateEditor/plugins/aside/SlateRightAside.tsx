@@ -1,0 +1,64 @@
+/**
+ * Copyright (c) 2017-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import { ReactNode } from 'react';
+import { RenderElementProps } from 'slate-react';
+import { useTranslation } from 'react-i18next';
+import styled from '@emotion/styled';
+import { colors } from '@ndla/core';
+import DeleteButton from '../../../DeleteButton';
+import MoveContentButton from '../../../MoveContentButton';
+
+const StyledAsideType = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: ${colors.brand.greyDark};
+  color: white;
+  position: absolute;
+  width: 100%;
+  padding: 3.2px;
+`;
+
+const StyledAsideContent = styled.div`
+  padding-top: 60px;
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+`;
+
+interface Props {
+  onRemoveClick: () => void;
+  children: ReactNode;
+  onMoveContent: () => void;
+  attributes: RenderElementProps['attributes'];
+}
+
+const SlateRightAside = ({ children, onRemoveClick, onMoveContent, attributes }: Props) => {
+  const { t } = useTranslation();
+
+  return (
+    <aside className="c-aside" {...attributes}>
+      <StyledAsideType contentEditable={false}>
+        {t('learningResourceForm.fields.rightAside.title')}
+        <ButtonContainer>
+          <MoveContentButton onMouseDown={onMoveContent} />
+          <DeleteButton
+            aria-label={t('learningResourceForm.fields.rightAside.delete')}
+            variant="stripped"
+            onMouseDown={onRemoveClick}
+          />
+        </ButtonContainer>
+      </StyledAsideType>
+      <StyledAsideContent className="c-aside__content">{children}</StyledAsideContent>
+    </aside>
+  );
+};
+
+export default SlateRightAside;

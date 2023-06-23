@@ -9,9 +9,9 @@ export const valueWithTwoImageEmbeds = {
         align: '',
         alt: 'Mann med maske ved datamaskin. Foto.',
         caption: '',
-        url: 'https://test.api.ndla.no/image-api/v2/images/3',
+        url: 'https://test.api.ndla.no/image-api/v3/images/3',
       },
-      type: 'embed',
+      type: 'ndlaembed',
       children: [
         {
           text: ' ',
@@ -22,8 +22,7 @@ export const valueWithTwoImageEmbeds = {
       type: 'paragraph',
       children: [
         {
-          text:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam',
+          text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam',
         },
       ],
     },
@@ -56,7 +55,7 @@ export const valueWithTwoImageEmbeds = {
           captions: [{ caption: 'Guinness is good for you', language: 'nb' }],
         },
       },
-      type: 'embed',
+      type: 'ndlaembed',
       children: [
         {
           text: ' ',
@@ -81,14 +80,13 @@ export const valueWithInlineFootnotesAndContentLinks = {
       type: 'paragraph',
       children: [
         {
-          text:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et ',
+          text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et ',
         },
         {
           data: {
-            'content-id': '1031',
+            contentId: '1031',
             resource: 'content-link',
-            'link-text': 'dolore',
+            linkText: 'dolore',
           },
           type: 'content-link',
           children: [
@@ -98,8 +96,7 @@ export const valueWithInlineFootnotesAndContentLinks = {
           ],
         },
         {
-          text:
-            ' magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+          text: ' magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
         },
         {
           data: {
@@ -118,14 +115,13 @@ export const valueWithInlineFootnotesAndContentLinks = {
           ],
         },
         {
-          text:
-            ' Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est ',
+          text: ' Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est ',
         },
         {
           data: {
-            'content-id': '1031',
+            contentId: '1031',
             resource: 'content-link',
-            'link-text': 'laborum',
+            linkText: 'laborum',
           },
           type: 'content-link',
           children: [
@@ -143,8 +139,7 @@ export const valueWithInlineFootnotesAndContentLinks = {
       type: 'paragraph',
       children: [
         {
-          text:
-            'Lorem ipsum dolor sit amet, consectetur a dipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+          text: 'Lorem ipsum dolor sit amet, consectetur a dipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
         },
         {
           data: {

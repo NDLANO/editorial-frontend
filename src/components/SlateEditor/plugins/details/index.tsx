@@ -74,7 +74,7 @@ const onEnter = (
   if (hasNodeOfType(editor, TYPE_SUMMARY)) {
     e.preventDefault();
     Transforms.splitNodes(editor, {
-      match: node => Element.isElement(node) && node.type === TYPE_SUMMARY,
+      match: (node) => Element.isElement(node) && node.type === TYPE_SUMMARY,
       always: true,
     });
     return;
@@ -151,7 +151,7 @@ export const detailsPlugin = (editor: Editor) => {
     renderLeaf,
   } = editor;
 
-  editor.onKeyDown = event => {
+  editor.onKeyDown = (event) => {
     if (event.key === KEY_ENTER) {
       onEnter(event, editor, nextOnKeyDown);
     } else if (event.key === KEY_BACKSPACE) {
@@ -163,7 +163,7 @@ export const detailsPlugin = (editor: Editor) => {
 
   editor.shouldShowToolbar = () => {
     const [summaryEntry] = Editor.nodes(editor, {
-      match: node => Element.isElement(node) && node.type === TYPE_SUMMARY,
+      match: (node) => Element.isElement(node) && node.type === TYPE_SUMMARY,
     });
 
     if (summaryEntry && Element.isElement(summaryEntry[0])) {
@@ -177,10 +177,16 @@ export const detailsPlugin = (editor: Editor) => {
 
   editor.renderElement = ({ attributes, children, element }: RenderElementProps) => {
     if (element.type === TYPE_SUMMARY) {
-      return <Summary attributes={attributes} children={children} element={element} />;
+      return (
+        <Summary attributes={attributes} element={element}>
+          {children}
+        </Summary>
+      );
     } else if (element.type === TYPE_DETAILS) {
       return (
-        <Details attributes={attributes} children={children} editor={editor} element={element} />
+        <Details attributes={attributes} editor={editor} element={element}>
+          {children}
+        </Details>
       );
     } else if (nextRenderElement) {
       return nextRenderElement({ attributes, children, element });
@@ -202,7 +208,7 @@ export const detailsPlugin = (editor: Editor) => {
     return renderLeaf && renderLeaf(props);
   };
 
-  editor.normalizeNode = entry => {
+  editor.normalizeNode = (entry) => {
     const [node, path] = entry;
 
     if (Element.isElement(node)) {

@@ -8,7 +8,7 @@
 
 import { useEffect, useMemo } from 'react';
 import { FormikHandlers } from 'formik';
-import { isEqual } from 'lodash';
+import isEqual from 'lodash/isEqual';
 import { Descendant, createEditor } from 'slate';
 import { Slate, Editable, withReact, RenderElementProps } from 'slate-react';
 import { withHistory } from 'slate-history';
@@ -64,12 +64,13 @@ const VisualElementEditor = ({ name, value, plugins, onChange, types, language }
               value: val,
             },
           });
-        }}>
+        }}
+      >
         <VisualElementPicker editor={editor} types={types} language={language} />
         <Editable
-          readOnly={false}
+          readOnly={true}
           renderElement={renderElement}
-          onDragStart={e => {
+          onDragStart={(e) => {
             e.stopPropagation();
           }}
         />

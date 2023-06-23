@@ -17,10 +17,11 @@ import PlainTextEditor from '../../../components/SlateEditor/PlainTextEditor';
 import { textTransformPlugin } from '../../../components/SlateEditor/plugins/textTransform';
 
 interface Props {
-  onImageLoad?: (event: SyntheticEvent<HTMLImageElement, Event>) => void;
+  language?: string;
+  onImageLoad?: (width: number, height: number) => void;
 }
 
-const PodcastSeriesMetadata = ({ onImageLoad }: Props) => {
+const PodcastSeriesMetaData = ({ language, onImageLoad }: Props) => {
   const { t } = useTranslation();
   const formikContext = useFormikContext<PodcastSeriesFormikType>();
   const { submitForm } = formikContext;
@@ -47,6 +48,7 @@ const PodcastSeriesMetadata = ({ onImageLoad }: Props) => {
             metaImageId={field.value}
             setFieldTouched={form.setFieldTouched}
             showRemoveButton
+            language={language}
             {...field}
           />
         )}
@@ -55,4 +57,4 @@ const PodcastSeriesMetadata = ({ onImageLoad }: Props) => {
   );
 };
 
-export default PodcastSeriesMetadata;
+export default PodcastSeriesMetaData;

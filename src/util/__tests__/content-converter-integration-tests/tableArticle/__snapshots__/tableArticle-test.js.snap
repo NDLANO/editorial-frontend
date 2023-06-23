@@ -2,15 +2,15 @@
 
 exports[`serializing article with table tag and attributes 1`] = `
 "<section>
-  <embed
-    data-align=\\"\\"
-    data-alt=\\"Regnskap. Foto.\\"
-    data-caption=\\"\\"
-    data-resource=\\"image\\"
-    data-resource_id=\\"2935\\"
-    data-size=\\"full\\"
-    data-url=\\"https://api.ndla.no/image-api/v2/images/2935\\"
-  />
+  <ndlaembed
+    data-align=""
+    data-alt="Regnskap. Foto."
+    data-caption=""
+    data-resource="image"
+    data-resource_id="2935"
+    data-size="full"
+    data-url="https://api.ndla.no/image-api/v3/images/2935"
+  ></ndlaembed>
   <h2>Balanse</h2>
 </section>
 <section>
@@ -30,25 +30,25 @@ exports[`serializing article with table tag and attributes 1`] = `
   <table>
     <thead>
       <tr>
-        <th colspan=\\"4\\" align=\\"center\\" valign=\\"top\\">Balanse</th>
+        <th colspan="4" align="center" valign="top">Balanse</th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td colspan=\\"2\\" align=\\"center\\" valign=\\"top\\">
+        <td colspan="2" align="center" valign="top">
           <strong>Eiendeler</strong>
         </td>
-        <td colspan=\\"2\\" align=\\"center\\" valign=\\"top\\">
+        <td colspan="2" align="center" valign="top">
           <strong>Egenkapital</strong><strong><br /></strong
           ><strong> og gjeld</strong>
         </td>
       </tr>
       <tr>
-        <td colspan=\\"2\\" align=\\"left\\" valign=\\"top\\">
+        <td colspan="2" align="left" valign="top">
           Kapitalanvendelse:<br />
           hvor pengene er brukt
         </td>
-        <td colspan=\\"2\\" align=\\"left\\" valign=\\"top\\">
+        <td colspan="2" align="left" valign="top">
           Kapitalanskaffelse:<br />
           hvor pengene kommer fra
         </td>
@@ -75,34 +75,34 @@ exports[`serializing article with table tag and attributes 1`] = `
   <table>
     <thead>
       <tr>
-        <th colspan=\\"4\\" align=\\"center\\" valign=\\"top\\">Inntekter</th>
+        <th colspan="4" align="center" valign="top">Inntekter</th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td colspan=\\"2\\" align=\\"center\\" valign=\\"top\\">Debet</td>
-        <td colspan=\\"2\\" align=\\"center\\" valign=\\"top\\">Kredit</td>
+        <td colspan="2" align="center" valign="top">Debet</td>
+        <td colspan="2" align="center" valign="top">Kredit</td>
       </tr>
       <tr>
-        <td colspan=\\"2\\" align=\\"left\\" valign=\\"top\\"></td>
-        <td colspan=\\"2\\" align=\\"center\\" valign=\\"top\\">1 000</td>
+        <td colspan="2" align="left" valign="top"></td>
+        <td colspan="2" align="center" valign="top">1 000</td>
       </tr>
     </tbody>
   </table>
   <table>
     <thead>
       <tr>
-        <th colspan=\\"4\\" align=\\"center\\" valign=\\"top\\">Kontanter</th>
+        <th colspan="4" align="center" valign="top">Kontanter</th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td colspan=\\"2\\" align=\\"center\\" valign=\\"top\\">Debet</td>
-        <td colspan=\\"2\\" align=\\"center\\" valign=\\"top\\">Kredit</td>
+        <td colspan="2" align="center" valign="top">Debet</td>
+        <td colspan="2" align="center" valign="top">Kredit</td>
       </tr>
       <tr>
-        <td colspan=\\"2\\" align=\\"center\\" valign=\\"top\\">1 000</td>
-        <td colspan=\\"2\\" align=\\"center\\" valign=\\"top\\"></td>
+        <td colspan="2" align="center" valign="top">1 000</td>
+        <td colspan="2" align="center" valign="top"></td>
       </tr>
     </tbody>
   </table>
@@ -123,24 +123,24 @@ exports[`serializing article with table tag and attributes 1`] = `
   <table>
     <thead>
       <tr>
-        <th colspan=\\"4\\" align=\\"center\\" valign=\\"top\\">Balanse</th>
+        <th colspan="4" align="center" valign="top">Balanse</th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td colspan=\\"2\\" align=\\"center\\" valign=\\"top\\">
+        <td colspan="2" align="center" valign="top">
           <strong>Eiendeler</strong>
         </td>
-        <td colspan=\\"2\\" align=\\"center\\" valign=\\"top\\">
+        <td colspan="2" align="center" valign="top">
           <strong>Egenkapital</strong><strong><br /></strong
           ><strong> og gjeld</strong>
         </td>
       </tr>
       <tr>
-        <td valign=\\"top\\">Debet øker</td>
-        <td valign=\\"top\\">Kredit minker</td>
-        <td valign=\\"top\\">Debet minker</td>
-        <td valign=\\"top\\">Kredit øker</td>
+        <td valign="top">Debet øker</td>
+        <td valign="top">Kredit minker</td>
+        <td valign="top">Debet minker</td>
+        <td valign="top">Kredit øker</td>
       </tr>
     </tbody>
   </table>
@@ -151,17 +151,17 @@ exports[`serializing article with table tag and attributes 1`] = `
     gjelda ved å føre i kredit.
   </p>
   <p>Vi kan derfor sette opp disse tre reglene:</p>
-  <div class=\\"c-bodybox\\">
+  <div class="c-bodybox">
     <p><strong>Regel 1</strong></p>
     <p>Debitering av en eiendelskonto: øker verdien</p>
     <p>Kreditering av en eiendelskonto: reduserer verdien</p>
   </div>
-  <div class=\\"c-bodybox\\">
+  <div class="c-bodybox">
     <p><strong>Regel 2</strong></p>
     <p>Debitering av en gjeldskonto: reduserer gjelda</p>
     <p>Kreditering av en gjeldskonto: øker gjelda</p>
   </div>
-  <div class=\\"c-bodybox\\">
+  <div class="c-bodybox">
     <p><strong>Regel 3</strong></p>
     <p>Debitering av en egenkapitalkonto: reduserer egenkapitalen</p>
     <p>Kreditering av en egenkapitalkonto: øker egenkapitalen</p>

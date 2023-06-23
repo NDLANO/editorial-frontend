@@ -6,39 +6,18 @@
  *
  */
 
-import {
-  resolveLocation,
-  resolveVoidOrRejectWithError,
-} from '../../../util/resolveJsonOrRejectWithError';
+import { Metadata, NodeChild } from '@ndla/types-taxonomy';
+import { resolveLocation } from '../../../util/resolveJsonOrRejectWithError';
 import { apiResourceUrl, httpFunctions } from '../../../util/apiHelpers';
 import { taxonomyApi } from '../../../config';
-import {
-  ResourceWithTopicConnection,
-  TaxonomyMetadata,
-  Topic,
-  TopicConnections,
-} from '../taxonomyApiInterfaces';
+import { Topic, TopicConnections } from '../taxonomyApiInterfaces';
 import { WithTaxonomyVersion } from '../../../interfaces';
-import {
-  TopicPostBody,
-  TopicPutBody,
-  TopicSubtopicPostBody,
-  TopicSubtopicPutBody,
-} from './topicApiInterfaces';
+import { TopicPostBody, TopicSubtopicPostBody } from './topicApiInterfaces';
 
 const baseUrl = apiResourceUrl(`${taxonomyApi}/topics`);
 const baseTopicSubtopicUrl = apiResourceUrl(`${taxonomyApi}/topic-subtopics`);
-const baseSubjectTopicsUrl = apiResourceUrl(`${taxonomyApi}/subject-topics`);
 
-const { fetchAndResolve, postAndResolve, deleteAndResolve, putAndResolve } = httpFunctions;
-
-interface TopicsGetParams extends WithTaxonomyVersion {
-  language?: string;
-}
-
-const fetchTopics = ({ language, taxonomyVersion }: TopicsGetParams): Promise<Topic[]> => {
-  return fetchAndResolve({ url: baseUrl, taxonomyVersion, queryParams: { language } });
-};
+const { fetchAndResolve, postAndResolve, putAndResolve } = httpFunctions;
 
 interface TopicGetParams extends WithTaxonomyVersion {
   id: string;
@@ -63,7 +42,7 @@ const fetchTopicResources = ({
   language,
   relevance,
   taxonomyVersion,
-}: TopicResourcesGetParams): Promise<ResourceWithTopicConnection[]> => {
+}: TopicResourcesGetParams): Promise<NodeChild[]> => {
   return fetchAndResolve({
     url: `${baseUrl}/${topicUrn}/resources`,
     taxonomyVersion,
@@ -84,32 +63,6 @@ const addTopic = ({ body, taxonomyVersion }: TopicPostParams): Promise<string> =
   });
 };
 
-interface TopicPutParams extends WithTaxonomyVersion {
-  id: string;
-  body: TopicPutBody;
-}
-
-const updateTopic = ({ id, body, taxonomyVersion }: TopicPutParams): Promise<void> => {
-  return putAndResolve({
-    url: `${baseUrl}/${id}`,
-    taxonomyVersion,
-    body: JSON.stringify(body),
-    alternateResolve: resolveVoidOrRejectWithError,
-  });
-};
-
-interface TopicDeleteParams extends WithTaxonomyVersion {
-  id: string;
-}
-
-const deleteTopic = ({ id, taxonomyVersion }: TopicDeleteParams): Promise<void> => {
-  return deleteAndResolve({
-    url: `${baseUrl}/${id}`,
-    alternateResolve: resolveVoidOrRejectWithError,
-    taxonomyVersion,
-  });
-};
-
 interface TopicSubtopicPostParams extends WithTaxonomyVersion {
   body: TopicSubtopicPostBody;
 }
@@ -120,54 +73,6 @@ const addTopicToTopic = ({ body, taxonomyVersion }: TopicSubtopicPostParams): Pr
     taxonomyVersion,
     body: JSON.stringify(body),
     alternateResolve: resolveLocation,
-  });
-};
-
-interface TopicSubtopicPutParams extends WithTaxonomyVersion {
-  connectionId: string;
-  body: TopicSubtopicPutBody;
-}
-
-const updateTopicSubtopic = ({
-  connectionId,
-  body,
-  taxonomyVersion,
-}: TopicSubtopicPutParams): Promise<void> => {
-  return putAndResolve({
-    url: `${baseTopicSubtopicUrl}/${connectionId}`,
-    taxonomyVersion,
-    body: JSON.stringify(body),
-    alternateResolve: resolveVoidOrRejectWithError,
-  });
-};
-
-interface TopicConnectionDeleteParams extends WithTaxonomyVersion {
-  id: string;
-}
-
-const deleteTopicConnection = ({
-  id,
-  taxonomyVersion,
-}: TopicConnectionDeleteParams): Promise<void> => {
-  return deleteAndResolve({
-    url: `${baseSubjectTopicsUrl}/${id}`,
-    taxonomyVersion,
-    alternateResolve: resolveVoidOrRejectWithError,
-  });
-};
-
-interface TopicSubtopicConnectionDeleteParams extends WithTaxonomyVersion {
-  id: string;
-}
-
-const deleteSubTopicConnection = ({
-  id,
-  taxonomyVersion,
-}: TopicSubtopicConnectionDeleteParams): Promise<void> => {
-  return deleteAndResolve({
-    url: `${baseTopicSubtopicUrl}/${id}`,
-    taxonomyVersion,
-    alternateResolve: resolveVoidOrRejectWithError,
   });
 };
 
@@ -184,14 +89,14 @@ const fetchTopicConnections = ({
 
 interface TopicMetadataPutParams extends WithTaxonomyVersion {
   topicId: string;
-  body: Partial<TaxonomyMetadata>;
+  body: Partial<Metadata>;
 }
 
 const updateTopicMetadata = ({
   topicId,
   body,
   taxonomyVersion,
-}: TopicMetadataPutParams): Promise<TaxonomyMetadata> => {
+}: TopicMetadataPutParams): Promise<Metadata> => {
   return putAndResolve({
     url: `${baseUrl}/${topicId}/metadata`,
     taxonomyVersion,
@@ -200,16 +105,10 @@ const updateTopicMetadata = ({
 };
 
 export {
-  fetchTopics,
   fetchTopic,
   addTopic,
-  updateTopic,
-  deleteTopic,
   addTopicToTopic,
-  deleteTopicConnection,
-  deleteSubTopicConnection,
   fetchTopicResources,
   fetchTopicConnections,
-  updateTopicSubtopic,
   updateTopicMetadata,
 };

@@ -6,14 +6,11 @@
  */
 
 import isEqual from 'lodash/fp/isEqual';
-import { Descendant } from 'slate';
-import { IArticle, ILicense, IArticleMetaImage } from '@ndla/types-draft-api';
+import { Descendant, Node } from 'slate';
+import { IArticle, ILicense, IArticleMetaImage } from '@ndla/types-backend/draft-api';
 import { isUserProvidedEmbedDataValid } from './embedTagHelpers';
 import { findNodesByType } from './slateHelpers';
-import {
-  learningResourceContentToHTML,
-  topicArticleContentToHTML,
-} from './articleContentConverter';
+import { blockContentToHTML, inlineContentToHTML } from './articleContentConverter';
 import { diffHTML } from './diffHTML';
 import { isGrepCodeValid } from './articleUtil';
 import { RulesType } from '../components/formikValidationSchema';
@@ -21,9 +18,10 @@ import {
   ArticleFormType,
   LearningResourceFormType,
   TopicArticleFormType,
+  FrontpageArticleFormType,
 } from '../containers/FormikForm/articleFormHooks';
-import { isEmbed } from '../components/SlateEditor/plugins/embed/utils';
-import { EmbedElement } from '../components/SlateEditor/plugins/embed';
+import { EmbedElements } from '../components/SlateEditor/plugins/embed';
+import { isSlateEmbed } from '../components/SlateEditor/plugins/embed/utils';
 
 export const DEFAULT_LICENSE: ILicense = {
   description: 'Creative Commons Attribution-ShareAlike 4.0 International',
@@ -39,7 +37,7 @@ const checkIfContentHasChanged = (
 ) => {
   if (currentValue.length !== initialContent.length) return true;
   const toHTMLFunction =
-    type === 'standard' ? learningResourceContentToHTML : topicArticleContentToHTML;
+    type === 'standard' || type === 'frontpage-article' ? blockContentToHTML : inlineContentToHTML;
   const newHTML = toHTMLFunction(currentValue);
 
   const diff = diffHTML(newHTML, initialHTML || toHTMLFunction(initialContent));
@@ -91,7 +89,7 @@ export const isFormikFormDirty = <T extends FormikFields>({
     'manuscript',
   ];
   // and skipping fields that only changes on the server
-  const skipFields = ['revision', 'updated', 'updatePublished', 'id', 'status'];
+  const skipFields = ['revision', 'updated', 'updatePublished', 'id'];
   const dirtyFields = [];
   Object.entries(values)
     .filter(([key]) => !skipFields.includes(key))
@@ -157,7 +155,7 @@ export const formikCommonArticleRules: RulesType<ArticleFormType, IArticle> = {
   },
   license: {
     required: false,
-    test: values => {
+    test: (values) => {
       const authors = values.creators.concat(values.rightsholders).concat(values.processors);
       if (values.license === 'N/A' || authors.length > 0) return undefined;
       return { translationKey: 'validation.noLicenseWithoutCopyrightHolder' };
@@ -165,8 +163,8 @@ export const formikCommonArticleRules: RulesType<ArticleFormType, IArticle> = {
   },
   notes: {
     required: false,
-    test: values => {
-      const emptyNote = values.notes?.find(note => note.length === 0);
+    test: (values) => {
+      const emptyNote = values.notes?.find((note) => note.length === 0);
       if (emptyNote !== undefined) {
         return { translationKey: 'validation.noEmptyNote' };
       }
@@ -175,20 +173,41 @@ export const formikCommonArticleRules: RulesType<ArticleFormType, IArticle> = {
   },
   grepCodes: {
     required: false,
-    test: values => {
-      const wrongFormat = !!values?.grepCodes?.find(value => !isGrepCodeValid(value));
+    test: (values) => {
+      const wrongFormat = !!values?.grepCodes?.find((value) => !isGrepCodeValid(value));
       return wrongFormat ? { translationKey: 'validation.grepCodes' } : undefined;
     },
   },
   revisionMeta: {
-    required: false,
-    test: values => {
-      const emptyNote = values.revisionMeta?.find(meta => meta.note.length === 0);
+    test: (values) => {
+      const emptyNote = values.revisionMeta?.find((meta) => meta.note.length === 0);
       if (emptyNote !== undefined) {
         return { translationKey: 'validation.noEmptyRevision' };
       }
       return undefined;
     },
+  },
+  revisionError: {
+    test: (values) => {
+      const revisionItems = values.revisionMeta.length ?? 0;
+      if (!revisionItems) {
+        return { translationKey: 'validation.missingRevision' };
+      }
+      const unfinishedRevision = values.revisionMeta.some((rev) => rev.status === 'needs-revision');
+      if (!unfinishedRevision) {
+        return { translationKey: 'validation.unfinishedRevision' };
+      }
+      return undefined;
+    },
+  },
+  responsibleId: {
+    required: false,
+  },
+  comments: {
+    required: false,
+  },
+  prioritized: {
+    required: false,
   },
 };
 
@@ -196,7 +215,7 @@ export const learningResourceRules: RulesType<LearningResourceFormType, IArticle
   ...formikCommonArticleRules,
   metaImageAlt: {
     required: true,
-    onlyValidateIf: values => !!values.metaImageId,
+    onlyValidateIf: (values) => !!values.metaImageId,
     warnings: {
       languageMatch: true,
       apiField: 'metaImage',
@@ -204,11 +223,17 @@ export const learningResourceRules: RulesType<LearningResourceFormType, IArticle
   },
   content: {
     required: true,
-    test: values => {
-      const embeds = findNodesByType(values.content ?? [], 'embed').map(
-        node => (node as EmbedElement).data,
-      );
-      const notValidEmbeds = embeds.filter(embed => !isUserProvidedEmbedDataValid(embed));
+    test: (values) => {
+      const embeds = findNodesByType(
+        values.content ?? [],
+        'image-embed',
+        'brightcove-embed',
+        'h5p-embed',
+        'audio-embed',
+        'error-embed',
+        'external-embed',
+      ).map((node) => (node as EmbedElements).data);
+      const notValidEmbeds = embeds.filter((embed) => !isUserProvidedEmbedDataValid(embed));
       const embedsHasErrors = notValidEmbeds.length > 0;
 
       return embedsHasErrors
@@ -221,17 +246,35 @@ export const learningResourceRules: RulesType<LearningResourceFormType, IArticle
   },
 };
 
+export const frontPageArticleRules: RulesType<FrontpageArticleFormType, IArticle> = {
+  ...learningResourceRules,
+  slug: {
+    required: true,
+    onlyValidateIf: (values) => values.slug !== undefined,
+    test: (values) => {
+      const containsIllegalCharacters =
+        values.slug?.replace(/[^a-zA-Z0-9-]/g, '').length !== values.slug?.length;
+      return containsIllegalCharacters
+        ? { translationKey: 'frontpageArticleForm.validation.illegalSlug' }
+        : undefined;
+    },
+    warnings: {
+      languageMatch: true,
+    },
+  },
+};
+
 export const topicArticleRules: RulesType<TopicArticleFormType, IArticle> = {
   ...formikCommonArticleRules,
   visualElementAlt: {
     required: false,
-    onlyValidateIf: values =>
-      isEmbed(values.visualElement[0]) && values.visualElement[0].data.resource === 'image',
+    onlyValidateIf: (values) =>
+      isSlateEmbed(values.visualElement[0]) && values.visualElement[0].data.resource === 'image',
   },
   visualElementCaption: {
     required: false,
-    onlyValidateIf: values =>
-      isEmbed(values.visualElement[0]) &&
+    onlyValidateIf: (values) =>
+      isSlateEmbed(values.visualElement[0]) &&
       (values.visualElement[0].data.resource === 'image' ||
         values.visualElement[0].data.resource === 'brightcove'),
     warnings: {
@@ -239,7 +282,19 @@ export const topicArticleRules: RulesType<TopicArticleFormType, IArticle> = {
       apiField: 'visualElement',
     },
   },
+  visualElement: {
+    required: false,
+    test: (values) =>
+      isSlateEmbed(values.visualElement[0]) && values.visualElement[0].data.resource !== 'image'
+        ? { translationKey: 'topicArticleForm.validation.illegalResource' }
+        : undefined,
+  },
   content: {
+    required: false,
+    test: (values) =>
+      Node.string(values.content[0]) !== '' || values.content.length > 1
+        ? { translationKey: 'topicArticleForm.validation.containsContent' }
+        : undefined,
     warnings: {
       languageMatch: true,
     },
@@ -262,5 +317,5 @@ export const parseImageUrl = (metaImage?: IArticleMetaImage) => {
 };
 
 export const getTagName = (id: string | undefined, data: { id: string; name: string }[] = []) => {
-  return id ? data.find(entry => entry.id === id)?.name : undefined;
+  return id ? data.find((entry) => entry.id === id)?.name : undefined;
 };

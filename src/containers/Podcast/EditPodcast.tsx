@@ -8,17 +8,40 @@
 import { useEffect, useState } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { IAudioMetaInformation, IUpdatedAudioMetaInformation } from '@ndla/types-audio-api';
+import { IAudioMetaInformation, IUpdatedAudioMetaInformation } from '@ndla/types-backend/audio-api';
 import { updateAudio, fetchAudio } from '../../modules/audio/audioApi';
 import { createFormData } from '../../util/formDataHelper';
 import { toEditAudio } from '../../util/routeHelpers';
 import PodcastForm from './components/PodcastForm';
 import Spinner from '../../components/Spinner';
-import { useTranslateApi } from '../FormikForm/translateFormHooks';
+import { TranslateType, useTranslateToNN } from '../../components/NynorskTranslateProvider';
 
 interface Props {
   isNewlyCreated?: boolean;
 }
+
+const translateFields: TranslateType[] = [
+  {
+    field: 'manuscript.manuscript',
+    type: 'text',
+  },
+  {
+    field: 'title.title',
+    type: 'text',
+  },
+  {
+    field: 'podcastMeta.introduction',
+    type: 'text',
+  },
+  {
+    field: 'podcastMeta.coverPhoto.altText',
+    type: 'text',
+  },
+  {
+    field: 'tags.tags',
+    type: 'text',
+  },
+];
 
 const EditPodcast = ({ isNewlyCreated }: Props) => {
   const params = useParams<'id' | 'selectedLanguage'>();
@@ -33,27 +56,7 @@ const EditPodcast = ({ isNewlyCreated }: Props) => {
     setPodcastChanged(changed);
   };
   const [loading, setLoading] = useState<boolean>(false);
-  const { translating, translateToNN } = useTranslateApi(
-    podcast,
-    (podcast: IAudioMetaInformation) => setPodcastWithFlag(podcast, true),
-    [
-      'id',
-      'manuscript.manuscript',
-      'title.title',
-      'podcastMeta.introduction',
-      'podcastMeta.coverPhoto.altText',
-      'tags.tags',
-    ],
-  );
-
-  const onUpdate = async (
-    newPodcast: IUpdatedAudioMetaInformation,
-    podcastFile: string | Blob | undefined,
-  ) => {
-    const formData = await createFormData(podcastFile, newPodcast);
-    const updatedPodcast = await updateAudio(Number(podcastId!), formData);
-    setPodcastWithFlag(updatedPodcast, false);
-  };
+  const { shouldTranslate, translate, translating } = useTranslateToNN();
 
   useEffect(() => {
     (async () => {
@@ -65,6 +68,23 @@ const EditPodcast = ({ isNewlyCreated }: Props) => {
       }
     })();
   }, [podcastId, podcastLanguage]);
+
+  useEffect(() => {
+    (async () => {
+      if (shouldTranslate && podcast) {
+        await translate(podcast, translateFields, (podcast) => setPodcastWithFlag(podcast, true));
+      }
+    })();
+  }, [podcast, shouldTranslate, translate]);
+
+  const onUpdate = async (
+    newPodcast: IUpdatedAudioMetaInformation,
+    podcastFile: string | Blob | undefined,
+  ) => {
+    const formData = await createFormData(podcastFile, newPodcast);
+    const updatedPodcast = await updateAudio(Number(podcastId!), formData);
+    setPodcastWithFlag(updatedPodcast, false);
+  };
 
   if (podcastId && !podcast?.id) {
     return null;
@@ -87,7 +107,6 @@ const EditPodcast = ({ isNewlyCreated }: Props) => {
       onUpdatePodcast={onUpdate}
       isNewlyCreated={isNewlyCreated}
       translating={translating}
-      translateToNN={translateToNN}
     />
   );
 };

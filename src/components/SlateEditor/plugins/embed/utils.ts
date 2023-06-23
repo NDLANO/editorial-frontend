@@ -8,14 +8,72 @@
 
 import { jsx as slatejsx } from 'slate-hyperscript';
 import { Element, Node } from 'slate';
-import { EmbedElement } from '.';
 import { Embed } from '../../../../interfaces';
-import { TYPE_EMBED } from './types';
+import {
+  TYPE_EMBED_AUDIO,
+  TYPE_EMBED_BRIGHTCOVE,
+  TYPE_EMBED_ERROR,
+  TYPE_EMBED_EXTERNAL,
+  TYPE_EMBED_H5P,
+  TYPE_EMBED_IMAGE,
+} from './types';
+import {
+  AudioEmbedElement,
+  BrightcoveEmbedElement,
+  EmbedElements,
+  ErrorEmbedElement,
+  ExternalEmbedElement,
+  H5PEmbedElement,
+  ImageEmbedElement,
+} from '.';
 
-export const defaultEmbedBlock = (data: Partial<Embed>) => {
-  return slatejsx('element', { type: TYPE_EMBED, data }, { text: '' });
+export const defaultEmbedBlock = (data: Partial<Embed>) =>
+  slatejsx('element', { type: defineTypeOfEmbed(data?.resource), data }, { text: '' });
+
+export const isSlateEmbed = (
+  node: Node,
+): node is
+  | H5PEmbedElement
+  | ImageEmbedElement
+  | AudioEmbedElement
+  | ErrorEmbedElement
+  | ExternalEmbedElement
+  | BrightcoveEmbedElement => {
+  return (
+    Element.isElement(node) &&
+    (node.type === TYPE_EMBED_AUDIO ||
+      node.type === TYPE_EMBED_BRIGHTCOVE ||
+      node.type === TYPE_EMBED_ERROR ||
+      node.type === TYPE_EMBED_EXTERNAL ||
+      node.type === TYPE_EMBED_H5P ||
+      node.type === TYPE_EMBED_IMAGE)
+  );
 };
 
-export const isEmbed = (node: Node): node is EmbedElement => {
-  return Element.isElement(node) && node.type === 'embed';
+export const defineTypeOfEmbed = (type?: string) => {
+  if (type === 'audio') {
+    return TYPE_EMBED_AUDIO;
+  } else if (type === 'video' || type === 'brightcove') {
+    return TYPE_EMBED_BRIGHTCOVE;
+  } else if (type === 'external' || type === 'iframe') {
+    return TYPE_EMBED_EXTERNAL;
+  } else if (type === 'h5p') {
+    return TYPE_EMBED_H5P;
+  } else if (type === 'image') {
+    return TYPE_EMBED_IMAGE;
+  } else if (type === undefined) {
+    return TYPE_EMBED_ERROR;
+  }
+  return type;
 };
+
+export const isSlateEmbedElement = (element: Element): element is EmbedElements =>
+  isEmbedType(element.type);
+
+export const isEmbedType = (type: string) =>
+  type === TYPE_EMBED_AUDIO ||
+  type === TYPE_EMBED_BRIGHTCOVE ||
+  type === TYPE_EMBED_H5P ||
+  type === TYPE_EMBED_ERROR ||
+  type === TYPE_EMBED_IMAGE ||
+  type === TYPE_EMBED_EXTERNAL;

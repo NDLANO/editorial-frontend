@@ -10,7 +10,7 @@ import styled from '@emotion/styled';
 import { fonts } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
 import Tooltip from '@ndla/tooltip';
-import { IMultiSearchSummary } from '@ndla/types-search-api';
+import { IMultiSearchSummary } from '@ndla/types-backend/search-api';
 
 interface Props {
   content: IMultiSearchSummary;
@@ -40,13 +40,13 @@ const SearchHighlight = ({ content, locale }: Props) => {
   }
 
   const highlightsInLocale = content.highlights.filter(
-    highlight => highlight.field.split('.')[1] === locale,
+    (highlight) => highlight.field.split('.')[1] === locale,
   );
 
   const highlightsToSearch = highlightsInLocale.length ? highlightsInLocale : content.highlights;
 
   const selectHighlights = (field: string) =>
-    highlightsToSearch.find(highlight => highlight.field.split('.')[0] === field);
+    highlightsToSearch.find((highlight) => highlight.field.split('.')[0] === field);
 
   const selectedHighlights =
     selectHighlights('content') ||
@@ -58,9 +58,7 @@ const SearchHighlight = ({ content, locale }: Props) => {
   return selectedHighlights ? (
     <StyledDiv>
       <StyledHeading>{t('searchPage.highlights.title')}</StyledHeading>
-      <Tooltip
-        align={'right'}
-        tooltip={t(`searchPage.highlights.${selectedHighlights.field.split('.')[0]}`)}>
+      <Tooltip tooltip={t(`searchPage.highlights.${selectedHighlights.field.split('.')[0]}`)}>
         <StyledHighlights
           dangerouslySetInnerHTML={{ __html: selectedHighlights.matches.join(' [...] ') }}
         />

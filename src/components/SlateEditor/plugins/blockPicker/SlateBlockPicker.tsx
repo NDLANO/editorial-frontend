@@ -10,28 +10,54 @@ import { createRef, useEffect, useState } from 'react';
 import { Editor, Element, Node, Location, Range, Path, Transforms } from 'slate';
 import { useTranslation } from 'react-i18next';
 import { ReactEditor } from 'slate-react';
+import { Portal } from '@radix-ui/react-portal';
 import { SlateBlockMenu } from '@ndla/editor';
 import styled from '@emotion/styled';
-import { Portal } from '../../../Portal';
 import SlateVisualElementPicker from './SlateVisualElementPicker';
-import actions, { ActionData } from './actions';
+import { Action, ActionData } from './actions';
 import { defaultAsideBlock } from '../aside/utils';
 import { defaultDetailsBlock } from '../details/utils';
-import { defaultTableBlock } from '../table/utils';
 import { defaultBodyboxBlock } from '../bodybox/utils';
 import { defaultCodeblockBlock } from '../codeBlock/utils';
 import { defaultRelatedBlock } from '../related';
 import { TYPE_LIST_ITEM } from '../list/types';
+import { defaultConceptListBlock } from '../conceptList/utils';
 import { TYPE_CONCEPT_BLOCK } from '../concept/block/types';
 import { defaultConceptBlock } from '../concept/block/utils';
 import { useSession } from '../../../../containers/Session/SessionProvider';
 import getCurrentBlock from '../../utils/getCurrentBlock';
 import { TYPE_PARAGRAPH } from '../paragraph/types';
 import { isParagraph } from '../paragraph/utils';
-import { isTableCell } from '../table/helpers';
+import { isTableCell } from '../table/slateHelpers';
+import { defaultTableBlock } from '../table/defaultBlocks';
+import { TYPE_BODYBOX } from '../bodybox/types';
+import { TYPE_DETAILS } from '../details/types';
+import { TYPE_TABLE } from '../table/types';
+import { TYPE_ASIDE } from '../aside/types';
+import { TYPE_FILE } from '../file/types';
+import {
+  TYPE_EMBED_AUDIO,
+  TYPE_EMBED_BRIGHTCOVE,
+  TYPE_EMBED_ERROR,
+  TYPE_EMBED_EXTERNAL,
+  TYPE_EMBED_H5P,
+  TYPE_EMBED_IMAGE,
+} from '../embed/types';
+import { TYPE_RELATED } from '../related/types';
+import { TYPE_CODEBLOCK } from '../codeBlock/types';
+import { TYPE_CONCEPT_LIST } from '../conceptList/types';
+import { TYPE_KEY_FIGURE } from '../keyFigure/types';
+import { defaultKeyFigureBlock } from '../keyFigure/utils';
+import { TYPE_CONTACT_BLOCK } from '../contactBlock/types';
+import { TYPE_BLOGPOST } from '../blogPost/types';
+import { defaultBlogPostBlock } from '../blogPost/utils';
+import { TYPE_GRID } from '../grid/types';
+import { defaultGridBlock } from '../grid/utils';
+import { defaultContactBlock } from '../contactBlock/utils';
 
 interface Props {
   editor: Editor;
+  actions: Action[];
   allowedPickAreas: Element['type'][];
   illegalAreas: Element['type'][];
   actionsToShowInAreas: { [key: string]: string[] };
@@ -49,6 +75,7 @@ const SlateBlockPicker = ({
   articleLanguage,
   illegalAreas,
   allowedPickAreas,
+  actions,
 }: Props) => {
   const [blockPickerOpen, setBlockPickerOpen] = useState(false);
   const [lastActiveSelection, setLastActiveSelection] = useState<Range>();
@@ -73,6 +100,10 @@ const SlateBlockPicker = ({
     if (isTableCell(parent)) {
       return 100;
     }
+    if (Element.isElement(parent) && parent.type === TYPE_GRID) {
+      return -100;
+    }
+
     return 78;
   };
 
@@ -150,38 +181,63 @@ const SlateBlockPicker = ({
 
   const onElementAdd = (data: ActionData) => {
     switch (data.type) {
-      case 'bodybox': {
+      case TYPE_BODYBOX: {
         onInsertBlock(defaultBodyboxBlock(), true);
         break;
       }
-      case 'details': {
+      case TYPE_DETAILS: {
         onInsertBlock(defaultDetailsBlock(), true);
         break;
       }
-      case 'table': {
+      case TYPE_TABLE: {
         onInsertBlock(defaultTableBlock(2, 2), true);
         break;
       }
-      case 'aside': {
+      case TYPE_ASIDE: {
         onInsertBlock(defaultAsideBlock(data.object), true);
         break;
       }
-      case 'file':
-      case 'embed': {
+      case TYPE_FILE:
+      case TYPE_EMBED_H5P:
+      case TYPE_EMBED_AUDIO:
+      case TYPE_EMBED_IMAGE:
+      case TYPE_EMBED_ERROR:
+      case TYPE_EMBED_EXTERNAL:
+      case TYPE_EMBED_BRIGHTCOVE: {
         setVisualElementPickerOpen(true);
         setType(data.object);
         break;
       }
-      case 'related': {
+      case TYPE_RELATED: {
         onInsertBlock(defaultRelatedBlock());
         break;
       }
-      case 'code-block': {
+      case TYPE_CODEBLOCK: {
         onInsertBlock(defaultCodeblockBlock());
+        break;
+      }
+      case TYPE_BLOGPOST: {
+        onInsertBlock(defaultBlogPostBlock());
+        break;
+      }
+      case TYPE_CONCEPT_LIST: {
+        onInsertBlock({ ...defaultConceptListBlock(), isFirstEdit: true });
         break;
       }
       case TYPE_CONCEPT_BLOCK: {
         onInsertBlock(defaultConceptBlock());
+        break;
+      }
+      case TYPE_GRID: {
+        onInsertBlock(defaultGridBlock());
+        break;
+      }
+      case TYPE_KEY_FIGURE: {
+        onInsertBlock(defaultKeyFigureBlock());
+        break;
+      }
+      case TYPE_CONTACT_BLOCK: {
+        onInsertBlock(defaultContactBlock());
         break;
       }
       default:
@@ -192,12 +248,12 @@ const SlateBlockPicker = ({
 
   const shouldShowMenuPicker = () => {
     const [node] = Editor.nodes(editor, {
-      match: node => Element.isElement(node) && !editor.isInline(node),
+      match: (node) => Element.isElement(node) && !editor.isInline(node),
       mode: 'lowest',
     });
 
     const [illegalBlock] = Editor.nodes(editor, {
-      match: node => Element.isElement(node) && illegalAreas.includes(node.type),
+      match: (node) => Element.isElement(node) && illegalAreas.includes(node.type),
     });
 
     return (
@@ -223,22 +279,23 @@ const SlateBlockPicker = ({
     }
 
     const nodes = Editor.levels(editor, {
-      match: node => Element.isElement(node) && !editor.isInline(node),
+      match: (node) => Element.isElement(node) && !editor.isInline(node),
       at: Editor.unhangRange(editor, lastActiveSelection),
       reverse: true,
     });
 
     for (const entry of nodes) {
-      const [node] = entry;
+      const [node, path] = entry;
       if (!Element.isElement(node)) return actions;
       if (node.type === 'section') {
         return actions;
       }
-      if (actionsToShowInAreas[node.type]) {
+      const [parent] = Editor.parent(editor, path);
+      if (Element.isElement(parent) && actionsToShowInAreas[parent.type]) {
         return actions.filter(
-          action =>
-            actionsToShowInAreas[node.type].includes(action.data.type) ||
-            actionsToShowInAreas[node.type].includes(action.data.object),
+          (action) =>
+            actionsToShowInAreas[parent.type].includes(action.data.type) ||
+            actionsToShowInAreas[parent.type].includes(action.data.object),
         );
       }
     }
@@ -252,35 +309,39 @@ const SlateBlockPicker = ({
 
   return (
     <>
-      <Portal isOpened={visualElementPickerOpen}>
-        <SlateVisualElementPicker
-          articleLanguage={articleLanguage}
-          resource={type || ''}
-          onVisualElementClose={onVisualElementClose}
-          onInsertBlock={onInsertBlock}
-        />
-      </Portal>
-      <Portal isOpened={!visualElementPickerOpen}>
-        <StyledBlockPickerWrapper ref={portalRef} data-cy="slate-block-picker-button">
-          <SlateBlockMenu
-            cy="slate-block-picker"
-            isOpen={blockPickerOpen}
-            heading={t('editorBlockpicker.heading')}
-            actions={getActionsForArea()
-              .filter(action => {
-                return !action.requiredScope || userPermissions?.includes(action.requiredScope);
-              })
-              .map(action => ({
-                ...action,
-                label: t(`editorBlockpicker.actions.${action.data.object}`),
-              }))}
-            onToggleOpen={setBlockPickerOpen}
-            clickItem={(data: ActionData) => {
-              onElementAdd(data);
-            }}
-          />
-        </StyledBlockPickerWrapper>
-      </Portal>
+      <SlateVisualElementPicker
+        isOpen={visualElementPickerOpen}
+        articleLanguage={articleLanguage}
+        resource={type || ''}
+        onVisualElementClose={onVisualElementClose}
+        onInsertBlock={onInsertBlock}
+      />
+      {!visualElementPickerOpen && (
+        <Portal>
+          <StyledBlockPickerWrapper ref={portalRef} data-cy="slate-block-picker-button">
+            <SlateBlockMenu
+              cy="slate-block-picker"
+              isOpen={blockPickerOpen}
+              heading={t('editorBlockpicker.heading')}
+              actions={getActionsForArea()
+                .filter((action) => {
+                  return !action.requiredScope || userPermissions?.includes(action.requiredScope);
+                })
+                .map((action) => ({
+                  ...action,
+                  label: t(`editorBlockpicker.actions.${action.data.object}`),
+                }))}
+              onToggleOpen={(open) => {
+                ReactEditor.focus(editor);
+                setBlockPickerOpen(open);
+              }}
+              clickItem={(data: ActionData) => {
+                onElementAdd(data);
+              }}
+            />
+          </StyledBlockPickerWrapper>
+        </Portal>
+      )}
     </>
   );
 };

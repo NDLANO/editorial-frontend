@@ -9,23 +9,17 @@
 import { useEffect, useRef, useState } from 'react';
 import { Editor, Node } from 'slate';
 import { RenderElementProps } from 'slate-react';
-import Button from '@ndla/button';
+import { Portal } from '@radix-ui/react-portal';
+import { ButtonV2 } from '@ndla/button';
 import styled from '@emotion/styled';
+import { Modal } from '@ndla/modal';
 import { useTranslation } from 'react-i18next';
-import { css } from '@emotion/core';
 import { colors, spacing } from '@ndla/core';
 import config from '../../../../config';
 import { toEditGenericArticle, toLearningpathFull } from '../../../../util/routeHelpers';
-import { Portal } from '../../../Portal';
 import isNodeInCurrentSelection from '../../utils/isNodeInCurrentSelection';
-import { classes } from '../../RichTextEditor';
 import EditLink from './EditLink';
 import { ContentLinkElement, LinkElement } from '.';
-
-const linkMenuButtonStyle = css`
-  color: ${colors.brand.primary};
-  text-decoration: underline;
-`;
 
 interface StyledLinkMenuProps {
   top: number;
@@ -34,8 +28,8 @@ interface StyledLinkMenuProps {
 
 const StyledLinkMenu = styled('span')<StyledLinkMenuProps>`
   position: absolute;
-  top: ${p => p.top}px;
-  left: ${p => p.left}px;
+  top: ${(p) => p.top}px;
+  left: ${(p) => p.left}px;
   padding: calc(${spacing.small} / 2);
   background-color: #fff;
   background-clip: padding-box;
@@ -43,8 +37,8 @@ const StyledLinkMenu = styled('span')<StyledLinkMenuProps>`
   z-index: 1;
 `;
 
-const fetchResourcePath = (data: ContentLinkElement, language: string, contentType: string) => {
-  const id = data['content-id'];
+const fetchResourcePath = (node: ContentLinkElement, language: string, contentType: string) => {
+  const id = node.data.contentId;
   return contentType === 'learningpath'
     ? toLearningpathFull(id, language)
     : `${config.editorialFrontendDomain}${toEditGenericArticle(id)}`;
@@ -52,7 +46,7 @@ const fetchResourcePath = (data: ContentLinkElement, language: string, contentTy
 
 function hasHrefOrContentId(node: LinkElement | ContentLinkElement) {
   if (node.type === 'content-link') {
-    return !!node['content-id'];
+    return !!node.data.contentId;
   } else {
     return !!node.href;
   }
@@ -71,6 +65,11 @@ export interface Model {
   text: string;
   checkbox: boolean;
 }
+
+const StyledLink = styled.a`
+  color: ${colors.brand.primary};
+  cursor: text;
+`;
 
 const Link = (props: Props) => {
   const {
@@ -102,7 +101,7 @@ const Link = (props: Props) => {
   };
 
   const toggleEditMode = () => {
-    setEditMode(prev => !prev);
+    setEditMode((prev) => !prev);
   };
 
   useEffect(() => {
@@ -110,9 +109,9 @@ const Link = (props: Props) => {
       let href;
       let checkbox;
       if (element.type === 'content-link') {
-        const contentType = element['content-type'] || 'article';
+        const contentType = element.data.contentType || 'article';
         href = `${fetchResourcePath(element, language, contentType)}`;
-        checkbox = element['open-in'] === 'new-context';
+        checkbox = element.data.openIn === 'new-context';
       } else {
         href = element.href;
         checkbox = element.target === '_blank';
@@ -131,28 +130,32 @@ const Link = (props: Props) => {
   const isInline = isNodeInCurrentSelection(editor, element);
 
   return (
-    <a {...attributes} href={model?.href} {...classes('link')} ref={linkRef}>
+    <StyledLink {...attributes} href={model?.href} ref={linkRef}>
       {children}
       {model && (
         <>
-          <Portal isOpened={isInline}>
-            <StyledLinkMenu top={top} left={left}>
-              <Button css={linkMenuButtonStyle} stripped onClick={toggleEditMode}>
-                {t('form.content.link.change')}
-              </Button>{' '}
-              | {t('form.content.link.goTo')}{' '}
-              <a href={model?.href} target="_blank" rel="noopener noreferrer">
-                {' '}
-                {model?.href}
-              </a>
-            </StyledLinkMenu>
-          </Portal>
-          {editMode && (
-            <EditLink {...props} model={model} closeEditMode={toggleEditMode} onChange={onChange} />
+          {isInline && (
+            <Portal>
+              <StyledLinkMenu top={top} left={left}>
+                <ButtonV2 variant="link" onClick={toggleEditMode}>
+                  {t('form.content.link.change')}
+                </ButtonV2>{' '}
+                | {t('form.content.link.goTo')}{' '}
+                <a href={model?.href} target="_blank" rel="noopener noreferrer">
+                  {' '}
+                  {model?.href}
+                </a>
+              </StyledLinkMenu>
+            </Portal>
           )}
+          <Modal controlled isOpen={editMode} onClose={toggleEditMode}>
+            {(close) => (
+              <EditLink {...props} model={model} closeEditMode={close} onChange={onChange} />
+            )}
+          </Modal>
         </>
       )}
-    </a>
+    </StyledLink>
   );
 };
 

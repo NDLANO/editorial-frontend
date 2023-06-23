@@ -6,7 +6,7 @@
  *
  */
 
-import { isEmpty } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 import { Descendant, Editor, Element, Node, Transforms } from 'slate';
 import { jsx as slatejsx } from 'slate-hyperscript';
 import { RenderElementProps } from 'slate-react';
@@ -14,6 +14,7 @@ import { createProps, reduceElementDataAttributes } from '../../../../util/embed
 import { SlateSerializer } from '../../interfaces';
 import { defaultBlockNormalizer, NormalizerConfig } from '../../utils/defaultNormalizer';
 import { TYPE_QUOTE } from '../blockquote/types';
+import { TYPE_DEFINITION_DESCRIPTION, TYPE_DEFINITION_TERM } from '../definitionList/types';
 import { TYPE_HEADING } from '../heading/types';
 
 import { TYPE_LIST_ITEM } from '../list/types';
@@ -33,7 +34,15 @@ export interface SpanElement {
 
 const normalizerConfig: NormalizerConfig = {
   parent: {
-    allowed: [TYPE_HEADING, TYPE_PARAGRAPH, TYPE_QUOTE, TYPE_TABLE_CELL, TYPE_LIST_ITEM],
+    allowed: [
+      TYPE_HEADING,
+      TYPE_PARAGRAPH,
+      TYPE_QUOTE,
+      TYPE_TABLE_CELL,
+      TYPE_LIST_ITEM,
+      TYPE_DEFINITION_TERM,
+      TYPE_DEFINITION_DESCRIPTION,
+    ],
   },
 };
 
@@ -76,14 +85,14 @@ export const spanPlugin = (editor: Editor) => {
     return undefined;
   };
 
-  editor.isInline = element => {
+  editor.isInline = (element) => {
     if (element.type === TYPE_SPAN) {
       return true;
     }
     return isInline(element);
   };
 
-  editor.normalizeNode = entry => {
+  editor.normalizeNode = (entry) => {
     const [node, path] = entry;
 
     if (Element.isElement(node) && node.type === TYPE_SPAN) {

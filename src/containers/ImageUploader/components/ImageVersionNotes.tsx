@@ -8,18 +8,18 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import { VersionHistory } from '@ndla/editor';
-import { IImageMetaInformationV2, IEditorNote } from '@ndla/types-image-api';
+import { IImageMetaInformationV3, IEditorNote } from '@ndla/types-backend/image-api';
 import { fetchAuth0UsersFromUserIds, SimpleUserType } from '../../../modules/auth0/auth0Api';
 import Spinner from '../../../components/Spinner';
 import formatDate from '../../../util/formatDate';
 
 const getUser = (userId: string, allUsers: SimpleUserType[]): string => {
-  const user = allUsers.find(user => user.id === userId);
+  const user = allUsers.find((user) => user.id === userId);
   return user?.name ?? '';
 };
 
 interface Props {
-  image?: IImageMetaInformationV2;
+  image?: IImageMetaInformationV3;
 }
 
 const ImageVersionNotes = ({ image }: Props) => {
@@ -43,8 +43,8 @@ const ImageVersionNotes = ({ image }: Props) => {
     let shouldUpdate = true;
     if (numNotes > 0) {
       const notes = image?.editorNotes ?? [];
-      const userIds = notes.map(note => note.updatedBy).filter(user => user !== 'System');
-      fetchAuth0UsersFromUserIds(userIds, setUsers).then(r => {
+      const userIds = notes.map((note) => note.updatedBy).filter((user) => user !== 'System');
+      fetchAuth0UsersFromUserIds(userIds, setUsers).then((r) => {
         if (shouldUpdate) setLoading(false);
       });
     }

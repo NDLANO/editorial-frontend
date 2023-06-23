@@ -13,7 +13,6 @@ import { colors, fonts, spacing } from '@ndla/core';
 import { parse, stringify } from 'query-string';
 import { getAccessToken, getAccessTokenPersonal } from '../../util/authHelpers';
 import { isValid } from '../../util/jwtHelper';
-import { getSavedSearchRelativeUrl } from '../WelcomePage/components/SaveSearchUrl';
 import SaveButton from '../../components/SaveButton';
 import { useUpdateUserDataMutation, useUserData } from '../../modules/draft/draftQueries';
 
@@ -31,6 +30,11 @@ const WarningText = styled.div`
   ${fonts.sizes(14, 1.1)};
   margin: ${spacing.xsmall} 0;
 `;
+
+const getSavedSearchRelativeUrl = (inputValue: string) => {
+  const relativeUrl = inputValue.split('search')[1];
+  return '/search'.concat(relativeUrl);
+};
 
 const createSearchString = (location: Location) => {
   const searchObject = parse(location.search);
@@ -71,16 +75,14 @@ const SearchSaveButton = () => {
     setError('');
     setLoading(true);
     const oldSearchList = savedSearches;
-
     if (!oldSearchList) {
       handleFailure('fetchFailed');
       return;
     }
 
     const newSearch = createSearchString(window.location);
-
-    const newSearchList = [...oldSearchList, getSavedSearchRelativeUrl(newSearch)];
-    if (!oldSearchList.find(s => s === getSavedSearchRelativeUrl(newSearch))) {
+    const newSearchList = [getSavedSearchRelativeUrl(newSearch), ...oldSearchList];
+    if (!oldSearchList.find((s) => s === getSavedSearchRelativeUrl(newSearch))) {
       mutateAsync({ savedSearches: newSearchList })
         .then(() => handleSuccess())
         .catch(() => handleFailure('other'));

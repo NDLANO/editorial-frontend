@@ -12,4 +12,5 @@ export interface ImageSearchQuery {
   'page-size'?: number;
   language?: string;
   sort?: string;
+  fallback?: boolean;
 }

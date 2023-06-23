@@ -6,11 +6,11 @@
  *
  */
 
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Formik, Form, FormikProps } from 'formik';
-import { IArticle, IUpdatedArticle, IStatus } from '@ndla/types-draft-api';
-import { AlertModalWrapper, formClasses } from '../../../FormikForm';
+import { Formik, FormikProps } from 'formik';
+import { IArticle, IUpdatedArticle, IStatus } from '@ndla/types-backend/draft-api';
+import { AlertModalWrapper } from '../../../FormikForm';
 import validateFormik, { getWarnings } from '../../../../components/formikValidationSchema';
 import LearningResourcePanels from './LearningResourcePanels';
 import { isFormikFormDirty, learningResourceRules } from '../../../../util/formHelper';
@@ -22,7 +22,6 @@ import {
   useArticleFormHooks,
 } from '../../../FormikForm/articleFormHooks';
 import usePreventWindowUnload from '../../../FormikForm/preventWindowUnloadHook';
-import Spinner from '../../../../components/Spinner';
 import { useLicenses, useDraftStatusStateMachine } from '../../../../modules/draft/draftQueries';
 import { validateDraft } from '../../../../modules/draft/draftApi';
 import {
@@ -31,23 +30,20 @@ import {
   learningResourceFormTypeToDraftApiType,
 } from '../../articleTransformers';
 import { ArticleTaxonomy } from '../../../FormikForm/formikDraftHooks';
-import { learningResourceContentToHTML } from '../../../../util/articleContentConverter';
-import { DraftStatusType } from '../../../../interfaces';
+import { blockContentToHTML } from '../../../../util/articleContentConverter';
+import StyledForm from '../../../../components/StyledFormComponents';
+import { TaxonomyVersionProvider } from '../../../StructureVersion/TaxonomyVersionProvider';
+import { useSession } from '../../../../containers/Session/SessionProvider';
+import { FlexWrapper, MainContent } from '../../styles';
+import CommentSection from '../../components/CommentSection';
 
 interface Props {
   article?: IArticle;
   articleTaxonomy?: ArticleTaxonomy;
-  translating: boolean;
-  translateToNN?: () => void;
   articleStatus?: IStatus;
   isNewlyCreated: boolean;
   articleChanged: boolean;
   updateArticle: (updatedArticle: IUpdatedArticle) => Promise<IArticle>;
-  updateArticleAndStatus: (input: {
-    updatedArticle: IUpdatedArticle;
-    newStatus: DraftStatusType;
-    dirty: boolean;
-  }) => Promise<IArticle>;
   articleLanguage: string;
 }
 
@@ -56,37 +52,29 @@ const LearningResourceForm = ({
   articleTaxonomy,
   articleStatus,
   isNewlyCreated = false,
-  translateToNN,
-  translating,
   updateArticle,
-  updateArticleAndStatus,
   articleChanged,
   articleLanguage,
 }: Props) => {
   const { t } = useTranslation();
-
+  const { ndlaId } = useSession();
   const { data: licenses } = useLicenses({ placeholderData: [] });
   const statusStateMachine = useDraftStatusStateMachine({ articleId: article?.id });
 
-  const { savedToServer, formikRef, initialValues, handleSubmit } = useArticleFormHooks<
-    LearningResourceFormType
-  >({
-    getInitialValues: draftApiTypeToLearningResourceFormType,
-    article,
-    t,
-    articleStatus,
-    updateArticle,
-    updateArticleAndStatus,
-    getArticleFromSlate: learningResourceFormTypeToDraftApiType,
-    articleLanguage,
-    rules: learningResourceRules,
-  });
+  const { savedToServer, formikRef, initialValues, handleSubmit } =
+    useArticleFormHooks<LearningResourceFormType>({
+      getInitialValues: draftApiTypeToLearningResourceFormType,
+      article,
+      t,
+      articleStatus,
+      updateArticle,
+      getArticleFromSlate: learningResourceFormTypeToDraftApiType,
+      articleLanguage,
+      rules: learningResourceRules,
+      ndlaId,
+    });
 
-  const initialHTML = useMemo(() => learningResourceContentToHTML(initialValues.content), [
-    initialValues,
-  ]);
-
-  const [translateOnContinue, setTranslateOnContinue] = useState(false);
+  const initialHTML = useMemo(() => blockContentToHTML(initialValues.content), [initialValues]);
 
   const FormikChild = (formik: FormikProps<LearningResourceFormType>) => {
     // eslint doesn't allow this to be inlined when using hooks (in usePreventWindowUnload)
@@ -104,33 +92,33 @@ const LearningResourceForm = ({
     const editUrl = values.id
       ? (lang: string) => toEditArticle(values.id!, values.articleType, lang)
       : undefined;
+
     return (
-      <Form {...formClasses()}>
+      <StyledForm>
         <HeaderWithLanguage
+          article={article}
           values={values}
           taxonomy={articleTaxonomy}
           content={{ ...article, title: article?.title?.title, language: articleLanguage }}
           editUrl={editUrl}
-          getEntity={getArticle}
-          formIsDirty={formIsDirty}
           isSubmitting={isSubmitting}
-          translateToNN={translateToNN}
-          setTranslateOnContinue={setTranslateOnContinue}
           type="standard"
           expirationDate={getExpirationDate(article)}
         />
-        {translating ? (
-          <Spinner withWrapper />
-        ) : (
-          <LearningResourcePanels
-            articleLanguage={articleLanguage}
-            article={article}
-            taxonomy={articleTaxonomy}
-            updateNotes={updateArticle}
-            getArticle={getArticle}
-            handleSubmit={handleSubmit}
-          />
-        )}
+        <TaxonomyVersionProvider>
+          <FlexWrapper>
+            <MainContent>
+              <LearningResourcePanels
+                articleLanguage={articleLanguage}
+                article={article}
+                taxonomy={articleTaxonomy}
+                updateNotes={updateArticle}
+                handleSubmit={handleSubmit}
+              />
+            </MainContent>
+            <CommentSection savedStatus={article?.status} />
+          </FlexWrapper>
+        </TaxonomyVersionProvider>
         <EditorFooter
           showSimpleFooter={!article}
           formIsDirty={formIsDirty}
@@ -146,35 +134,37 @@ const LearningResourceForm = ({
           isNewlyCreated={isNewlyCreated}
           isConcept={false}
           hideSecondaryButton={false}
+          responsibleId={article?.responsible?.responsibleId}
+          prioritized={article?.prioritized}
         />
         <AlertModalWrapper
           isSubmitting={isSubmitting}
           formIsDirty={formIsDirty}
-          onContinue={translateOnContinue ? translateToNN : () => {}}
           severity="danger"
           text={t('alertModal.notSaved')}
         />
-      </Form>
+      </StyledForm>
     );
   };
 
   const initialWarnings = getWarnings(initialValues, learningResourceRules, t, article);
-  const initialErrors = useMemo(() => validateFormik(initialValues, learningResourceRules, t), [
-    initialValues,
-    t,
-  ]);
+  const initialErrors = useMemo(
+    () => validateFormik(initialValues, learningResourceRules, t),
+    [initialValues, t],
+  );
 
   return (
     <Formik
-      enableReinitialize={translating}
+      key={articleLanguage}
       initialValues={initialValues}
       initialErrors={initialErrors}
       innerRef={formikRef}
       validateOnBlur={false}
       validateOnMount
       onSubmit={handleSubmit}
-      validate={values => validateFormik(values, learningResourceRules, t)}
-      initialStatus={{ warnings: initialWarnings }}>
+      validate={(values) => validateFormik(values, learningResourceRules, t)}
+      initialStatus={{ warnings: initialWarnings }}
+    >
       {FormikChild}
     </Formik>
   );

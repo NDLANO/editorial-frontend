@@ -44,9 +44,9 @@ class EditMath extends Component {
 
     const outer = this;
 
-    const callback = function() {
+    const callback = function () {
       outer.mathEditor = window.com.wiris.jsEditor.JsEditor.newInstance({
-        language: locale,
+        language: ['nb', 'nn'].includes(locale) ? 'no' : locale,
       });
 
       outer.mathEditor.setMathML(renderMathML);

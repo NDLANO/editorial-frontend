@@ -8,34 +8,30 @@
 
 import { useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
+import { Modal, ModalHeader, ModalBody, ModalCloseButton, ModalTitle } from '@ndla/modal';
 import { useTranslation } from 'react-i18next';
-import { uniqueId } from 'lodash';
+import uniqueId from 'lodash/uniqueId';
 import styled from '@emotion/styled';
-import { css } from '@emotion/core';
-import Button from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 import { spacing } from '@ndla/core';
 import AlertModal from '../../../AlertModal';
 
-const StyledMathEditorWrapper = styled('div')`
+const StyledMathEditorWrapper = styled.div`
   padding: ${spacing.small} 0;
   height: 40vh;
 `;
 
-const StyledMathPreviewWrapper = styled('div')`
+const StyledMathPreviewWrapper = styled.div`
   padding: ${spacing.small} 0;
   display: flex;
   overflow: auto;
 `;
 
-const StyledButtonWrapper = styled('div')`
+const StyledButtonWrapper = styled.div`
+  gap: ${spacing.small};
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-`;
-
-const buttonStyle = css`
-  margin-right: ${spacing.small};
 `;
 
 const EditMathModal = ({
@@ -56,36 +52,29 @@ const EditMathModal = ({
     if (node && window.MathJax) window.MathJax.typesetPromise([node]);
   }, [uuid, renderMathML]);
   return (
-    <Modal
-      narrow
-      controllable
-      isOpen
-      size="large"
-      backgroundColor="white"
-      onClose={handleExit}
-      minHeight="90vh">
-      {onCloseModal => (
+    <Modal controlled isOpen size={{ width: 'large', height: 'large' }} onClose={handleExit}>
+      {(onCloseModal) => (
         <>
           <ModalHeader>
+            <ModalTitle>{t('mathEditor.editMath')}</ModalTitle>
             <ModalCloseButton title={t('dialog.close')} onClick={onCloseModal} />
           </ModalHeader>
           <ModalBody>
-            <h1>{t('mathEditor.editMath')}</h1>
             <hr />
             <StyledMathEditorWrapper id={`mathEditorContainer-${id}`} />
             <StyledButtonWrapper>
-              <Button outline css={buttonStyle} onClick={previewMath}>
+              <ButtonV2 variant="outline" onClick={previewMath}>
                 {t('form.preview.button')}
-              </Button>
-              <Button data-cy="save-math" outline css={buttonStyle} onClick={handleSave}>
+              </ButtonV2>
+              <ButtonV2 data-cy="save-math" variant="outline" onClick={handleSave}>
                 {t('form.save')}
-              </Button>
-              <Button outline css={buttonStyle} onClick={onCloseModal}>
+              </ButtonV2>
+              <ButtonV2 variant="outline" onClick={onCloseModal}>
                 {t('form.abort')}
-              </Button>
-              <Button outline css={buttonStyle} onClick={handleRemove}>
+              </ButtonV2>
+              <ButtonV2 variant="outline" onClick={handleRemove}>
                 {t('form.remove')}
-              </Button>
+              </ButtonV2>
             </StyledButtonWrapper>
             <h3>{t('mathEditor.preview')}</h3>
             <hr />
@@ -96,6 +85,8 @@ const EditMathModal = ({
               }}
             />
             <AlertModal
+              title={t('unsavedChanges')}
+              label={t('unsavedChanges')}
               show={openDiscardModal}
               text={t('mathEditor.continue')}
               actions={[

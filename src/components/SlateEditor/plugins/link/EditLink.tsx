@@ -9,8 +9,9 @@
 import { Editor, Transforms, Element } from 'slate';
 import { ReactEditor } from 'slate-react';
 import { useTranslation } from 'react-i18next';
-import { Portal } from '../../../Portal';
-import Lightbox from '../../../Lightbox';
+import styled from '@emotion/styled';
+import { ModalBody, ModalHeader, ModalTitle } from '@ndla/modal';
+import { CloseButton } from '@ndla/button';
 import { LinkElement, ContentLinkElement } from '.';
 import LinkForm from './LinkForm';
 import { Model } from './Link';
@@ -28,16 +29,27 @@ const newTabAttributes = {
   rel: 'noopener noreferrer',
 };
 
+const StyledModalHeader = styled(ModalHeader)`
+  padding-bottom: 0;
+`;
+
+const StyledModalBody = styled(ModalBody)`
+  padding-top: 0;
+`;
+
 const createContentLinkData = (
   id: string,
   resourceType: string | undefined,
-  targetRel: { 'open-in': string },
+  openIn: string,
 ): Partial<ContentLinkElement> => {
   return {
     type: TYPE_CONTENT_LINK,
-    'content-id': id,
-    'content-type': resourceType || 'article',
-    ...targetRel,
+    data: {
+      resource: TYPE_CONTENT_LINK,
+      contentId: id,
+      contentType: resourceType || 'article',
+      openIn,
+    },
   };
 };
 
@@ -103,7 +115,7 @@ const EditLink = (props: Props) => {
 
     const { resourceId, resourceType } = await getIdAndTypeFromUrl(href);
 
-    const targetRel = checkbox ? { 'open-in': 'new-context' } : { 'open-in': 'current-context' };
+    const targetRel = checkbox ? 'new-context' : 'current-context';
 
     const data = resourceId
       ? createContentLinkData(resourceId, resourceType, targetRel)
@@ -119,7 +131,7 @@ const EditLink = (props: Props) => {
         { ...data },
         {
           at: path,
-          match: node =>
+          match: (node) =>
             Element.isElement(node) && (node.type === TYPE_LINK || node.type === TYPE_CONTENT_LINK),
         },
       );
@@ -133,7 +145,7 @@ const EditLink = (props: Props) => {
 
     Transforms.unwrapNodes(editor, {
       at: path,
-      match: node =>
+      match: (node) =>
         Element.isElement(node) && (node.type === TYPE_LINK || node.type === TYPE_CONTENT_LINK),
     });
 
@@ -152,20 +164,21 @@ const EditLink = (props: Props) => {
   const isEdit = model && model.href !== undefined;
 
   return (
-    <Portal isOpened>
-      <Lightbox display appearance="big" onClose={onClose}>
-        <div>
-          <h2>{t(`form.content.link.${isEdit ? 'changeTitle' : 'addTitle'}`)}</h2>
-          <LinkForm
-            onClose={onClose}
-            link={model}
-            isEdit={isEdit}
-            onRemove={handleRemove}
-            onSave={handleSave}
-          />
-        </div>
-      </Lightbox>
-    </Portal>
+    <>
+      <StyledModalHeader>
+        <ModalTitle>{t(`form.content.link.${isEdit ? 'changeTitle' : 'addTitle'}`)}</ModalTitle>
+        <CloseButton onClick={onClose} />
+      </StyledModalHeader>
+      <StyledModalBody>
+        <LinkForm
+          onClose={onClose}
+          link={model}
+          isEdit={isEdit}
+          onRemove={handleRemove}
+          onSave={handleSave}
+        />
+      </StyledModalBody>
+    </>
   );
 };
 

@@ -11,12 +11,11 @@ import styled from '@emotion/styled';
 import { colors } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
 import { SubjectMaterial } from '@ndla/icons/contentType';
-import Modal, { ModalHeader, ModalCloseButton, ModalBody } from '@ndla/modal';
+import { ModalHeader, ModalCloseButton, ModalBody, Modal, ModalTitle } from '@ndla/modal';
 import Tooltip from '@ndla/tooltip';
-import Button from '@ndla/button';
-import { IConceptSummary } from '@ndla/types-concept-api';
-import { IMultiSearchSummary } from '@ndla/types-search-api';
-
+import { ButtonV2 } from '@ndla/button';
+import { IConceptSummary } from '@ndla/types-backend/concept-api';
+import { IMultiSearchSummary } from '@ndla/types-backend/search-api';
 import { normalPaddingCSS } from '../../HowTo';
 import { searchConcepts } from '../../../modules/concept/conceptApi';
 import { search as searchArticles } from '../../../modules/search/searchApi';
@@ -62,11 +61,11 @@ const EmbedConnection = ({ id, type, articles, setArticles, concepts, setConcept
   useEffect(() => {
     let shouldUpdateState = true;
     if (id) {
-      searchArticles(searchObjects(id, type)).then(result => {
+      searchArticles(searchObjects(id, type)).then((result) => {
         if (shouldUpdateState) setArticles(result.results);
       });
       type === 'image' &&
-        searchConcepts(searchObjects(id, type)).then(result => {
+        searchConcepts(searchObjects(id, type)).then((result) => {
           if (shouldUpdateState) setConcepts?.(result.results);
         });
     }
@@ -82,27 +81,26 @@ const EmbedConnection = ({ id, type, articles, setArticles, concepts, setConcept
 
   return (
     <Modal
-      backgroundColor="white"
-      narrow
       wrapperFunctionForButton={(activateButton: any) => (
         <Tooltip tooltip={t(`form.embedConnections.info.${type}`)}>{activateButton}</Tooltip>
       )}
       activateButton={
-        <Button stripped>
+        <ButtonV2 variant="stripped">
           <ImageInformationIcon css={normalPaddingCSS} />
-        </Button>
-      }>
+        </ButtonV2>
+      }
+    >
       {(onClose: () => void) => (
         <>
           <ModalHeader>
-            <ModalCloseButton title={t('dialog.close')} onClick={onClose} />
-          </ModalHeader>
-          <ModalBody>
-            <h1>
+            <ModalTitle>
               {t('form.embedConnections.title', {
                 resource: t(`form.embedConnections.type.${type}`),
               })}
-            </h1>
+            </ModalTitle>
+            <ModalCloseButton title={t('dialog.close')} onClick={onClose} />
+          </ModalHeader>
+          <ModalBody>
             <p>
               {t('form.embedConnections.sectionTitleArticle', {
                 resource: t(`form.embedConnections.type.${type}`),
@@ -112,7 +110,7 @@ const EmbedConnection = ({ id, type, articles, setArticles, concepts, setConcept
               </em>
             </p>
             <ElementList
-              elements={articles?.map(obj => ({
+              elements={articles?.map((obj) => ({
                 ...obj,
                 articleType: obj.learningResourceType,
               }))}
@@ -134,7 +132,7 @@ const EmbedConnection = ({ id, type, articles, setArticles, concepts, setConcept
                   </em>
                 </p>
                 <ElementList
-                  elements={concepts?.map(obj => ({ ...obj, articleType: 'concept' }))}
+                  elements={concepts?.map((obj) => ({ ...obj, articleType: 'concept' })) ?? []}
                   isEditable={false}
                 />
               </>

@@ -64,21 +64,6 @@ const editorialFrontendDomain = () => {
   }
 };
 
-const gaTrackingId = () => {
-  if (process.env.NODE_ENV !== 'production') {
-    return '';
-  }
-
-  switch (ndlaEnvironment) {
-    case 'prod':
-      return 'UA-9036010-36';
-    case 'staging':
-      return 'UA-9036010-36';
-    default:
-      return '';
-  }
-};
-
 const learningpathFrontendDomain = () => {
   switch (ndlaEnvironment) {
     case 'local':
@@ -114,10 +99,21 @@ export const getAuth0Hostname = () => {
   }
 };
 
+const getTranslateServiceUrl = () => {
+  switch (ndlaEnvironment) {
+    case 'test':
+    case 'local':
+    case 'dev':
+      return 'https://preprod.norskrobot.no:4443';
+    default:
+      return 'https://ndla.norskrobot.no:4443';
+  }
+};
+
 export const taxonomyApi = `/taxonomy/v1`;
 
 export const getZendeskWidgetSecret = () => {
-  return getEnvironmentVariabel('NDLA_ED_ZENDESK_WIDGET_SECRET', 'something');
+  return getEnvironmentVariabel('NDLA_ED_ZENDESK_SECRET_KEY', 'something');
 };
 
 export const getDefaultLanguage = () =>
@@ -135,12 +131,11 @@ const usernamePasswordEnabled = () => {
 };
 
 export type ConfigType = {
-  brightCoveAccountId: string | undefined;
+  brightcoveAccountId: string | undefined;
   checkArticleScript: boolean;
   logEnvironment: string | undefined;
   ndlaApiUrl: string | undefined;
   ndlaBaseUrl: string;
-  gaTrackingId: string;
   editorialFrontendDomain: string;
   googleTagManagerId: string | undefined;
   ndlaFrontendDomain: string;
@@ -148,27 +143,26 @@ export type ConfigType = {
   redirectPort: string | undefined;
   host: string | undefined;
   componentName: string | undefined;
-  googleSearchEngineId: string | undefined;
   isNdlaProdEnvironment: boolean;
   versioningEnabled: string;
   ndlaEnvironment: string;
   learningpathFrontendDomain: string;
-  googleSearchApiKey: string | undefined;
   localConverter: boolean;
   brightcoveApiUrl: string;
   brightcoveUrl: string;
   logglyApiKey: string | undefined;
   taxonomyApi: string;
   h5pApiUrl: string | undefined;
-  googleSearchApiUrl: string | undefined;
   port: string | undefined;
   ndlaPersonalClientId: string | undefined;
-  npkToken: string | undefined;
   zendeskWidgetKey: string | undefined;
+  brightcoveEdPlayerId: string | undefined;
   brightcovePlayerId: string | undefined;
   brightcove360PlayerId: string | undefined;
+  brightcoveCopyrightPlayerId: string | undefined;
   disableCSP: string | undefined;
   usernamePasswordEnabled: boolean;
+  translateServiceUrl: string;
 };
 
 const config: ConfigType = {
@@ -192,26 +186,24 @@ const config: ConfigType = {
   ),
   ndlaPersonalClientId: getEnvironmentVariabel('NDLA_PERSONAL_CLIENT_ID', ''),
   auth0Domain: getEnvironmentVariabel('AUTH0_DOMAIN', getAuth0Hostname()),
-  brightCoveAccountId: getEnvironmentVariabel('BRIGHTCOVE_ACCOUNT_ID', '123456789'),
+  brightcoveAccountId: getEnvironmentVariabel('BRIGHTCOVE_ACCOUNT_ID', '123456789'),
+  brightcoveEdPlayerId: getEnvironmentVariabel('BRIGHTCOVE_PLAYER_ED_ID', 'Ab1234'),
   brightcovePlayerId: getEnvironmentVariabel('BRIGHTCOVE_PLAYER_ID', 'Ab1234'),
   brightcove360PlayerId: getEnvironmentVariabel('BRIGHTCOVE_PLAYER_360_ID', 'Ab1234'),
+  brightcoveCopyrightPlayerId: getEnvironmentVariabel('BRIGHTCOVE_PLAYER_COPYRIGHT_ID', 'Ab1234'),
   brightcoveApiUrl: 'https://cms.api.brightcove.com',
   brightcoveUrl: 'https://studio.brightcove.com/products/videocloud/home',
   h5pApiUrl: getEnvironmentVariabel('H5P_API_URL', h5pApiUrl()),
-  googleSearchApiUrl: getEnvironmentVariabel('NDLA_GOOGLE_API_URL', 'https://www.googleapis.com'),
-  googleSearchApiKey: getEnvironmentVariabel('NDLA_GOOGLE_API_KEY'),
-  googleSearchEngineId: getEnvironmentVariabel('NDLA_GOOGLE_SEARCH_ENGINE_ID'),
   localConverter: getEnvironmentVariabel('LOCAL_CONVERTER', 'false') === 'true',
   checkArticleScript: getEnvironmentVariabel('CHECK_ARTICLE_SCRIPT', 'false') === 'true',
   googleTagManagerId: getEnvironmentVariabel('NDLA_GOOGLE_TAG_MANAGER_ID'),
-  gaTrackingId: getEnvironmentVariabel('GA_TRACKING_ID', gaTrackingId()),
-  npkToken: getEnvironmentVariabel('NPK_TOKEN'),
   zendeskWidgetKey: getEnvironmentVariabel('NDLA_ED_ZENDESK_WIDGET_KEY'),
   disableCSP: getEnvironmentVariabel('DISABLE_CSP', 'false'),
   usernamePasswordEnabled: getEnvironmentVariabel(
     'USERNAME_PASSWORD_ENABLED',
     usernamePasswordEnabled(),
   ),
+  translateServiceUrl: getEnvironmentVariabel('NDKM_URL', getTranslateServiceUrl()),
 };
 
 export function getUniversalConfig(): ConfigType {

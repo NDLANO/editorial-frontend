@@ -8,83 +8,87 @@
 
 import { SyntheticEvent } from 'react';
 import { useTranslation } from 'react-i18next';
-import { css } from '@emotion/core';
-import Button from '@ndla/button';
-import { IImageMetaInformationV2 } from '@ndla/types-image-api';
+import styled from '@emotion/styled';
+import { DeleteForever } from '@ndla/icons/editor';
+import Tooltip from '@ndla/tooltip';
+import { IconButtonV2 } from '@ndla/button';
+import { Link } from '@ndla/icons/common';
+import { SafeLinkButton } from '@ndla/safelink';
+import { IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
 import { convertFieldWithFallback } from '../../../util/convertFieldWithFallback';
-import { formClasses } from '..';
 import MetaInformation from '../../../components/MetaInformation';
 import FormikField from '../../../components/FormikField';
 
-const metaImageButtonStyle = css`
-  display: block;
-  margin: 1%;
-  min-width: 7.5rem;
+const MetaImageContainer = styled.div`
+  display: flex;
 `;
 
-const metaImageDeleteButtonStyle = css`
-  display: block;
-  margin: 1%;
-  min-width: 7.5rem;
-  min-height: 2.1rem;
-  background-color: #ba292e;
-  border: #ba292e;
-  :hover {
-    background-color: #8f2024;
-    border: 0;
-  }
-  :focus {
-    background-color: #8f2024;
-    border: 0;
-  }
+const StyledImage = styled.img`
+  align-self: flex-start;
+  max-width: 60%;
+  margin-top: 10px;
 `;
 
 interface Props {
-  image: IImageMetaInformationV2;
+  image: IImageMetaInformationV3;
   onImageSelectOpen: () => void;
   onImageRemove: () => void;
   showRemoveButton: boolean;
-  onImageLoad?: (event: SyntheticEvent<HTMLImageElement, Event>) => void;
+  onImageLoad?: (width: number, height: number) => void;
 }
 
-const MetaImageField = ({
-  image,
-  onImageSelectOpen,
-  onImageRemove,
-  showRemoveButton,
-  onImageLoad,
-}: Props) => {
+const MetaImageField = ({ image, onImageRemove, onImageLoad }: Props) => {
   const { t } = useTranslation();
-  const copyright = image.copyright.creators.map(creator => creator.name).join(', ');
+  const copyright = image.copyright.creators.map((creator) => creator.name).join(', ');
   const title = convertFieldWithFallback<'title'>(image, 'title', '');
   const alt = convertFieldWithFallback<'alttext'>(image, 'alttext', '');
   const imageAction = (
     <>
-      <Button css={metaImageButtonStyle} onClick={onImageSelectOpen}>
-        {t('form.metaImage.change')}
-      </Button>
-      {showRemoveButton && (
-        <Button css={metaImageDeleteButtonStyle} onClick={onImageRemove}>
-          {t('form.metaImage.remove')}
-        </Button>
-      )}
+      <Tooltip tooltip={t('form.image.removeImage')}>
+        <IconButtonV2
+          aria-label={t('form.image.removeImage')}
+          colorTheme="danger"
+          variant="ghost"
+          onClick={onImageRemove}
+          tabIndex={-1}
+          data-cy="remove-element"
+        >
+          <DeleteForever />
+        </IconButtonV2>
+      </Tooltip>
+      <Tooltip tooltip={t('form.image.editImage')}>
+        <SafeLinkButton
+          variant="ghost"
+          colorTheme="light"
+          shape="pill"
+          to={`/media/image-upload/${image.id}/edit/${image.title.language}`}
+          target="_blank"
+        >
+          <Link />
+        </SafeLinkButton>
+      </Tooltip>
     </>
   );
   const metaInformationTranslations = {
     title: t('form.metaImage.imageTitle'),
     copyright: t('form.metaImage.copyright'),
   };
+  const imageUrl = `${image.image.imageUrl}?width=400`;
+  const { width, height } = image.image?.dimensions || { width: 0, height: 0 };
+  const onLoad = (_: SyntheticEvent<HTMLImageElement, Event>) => {
+    onImageLoad?.(width, height);
+  };
   return (
     <>
-      <div {...formClasses('meta-image')}>
-        <img src={image.imageUrl} alt={alt} onLoad={onImageLoad} />
+      <MetaImageContainer>
+        <StyledImage src={imageUrl} alt={alt} onLoad={onLoad} />
         <MetaInformation
           title={title}
           copyright={copyright}
           action={imageAction}
           translations={metaInformationTranslations}
         />
-      </div>
+      </MetaImageContainer>
       <FormikField
         label={t('topicArticleForm.fields.alt.label')}
         name="metaImageAlt"

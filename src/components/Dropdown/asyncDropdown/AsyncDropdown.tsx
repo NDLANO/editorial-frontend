@@ -4,16 +4,26 @@
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree. *
  */
-import { ChangeEvent, useCallback, useEffect, useState } from 'react';
-
-import Downshift, { StateChangeOptions } from 'downshift';
+import React, { ChangeEvent, Ref, useCallback, useEffect, useState } from 'react';
+import Downshift, { GetInputPropsOptions, StateChangeOptions } from 'downshift';
 import debounce from 'lodash/debounce';
-import { DropdownMenu, Input } from '@ndla/forms';
+//@ts-ignore
+import { DropdownMenu, InputV2 } from '@ndla/forms';
 import { Search } from '@ndla/icons/common';
-import { Spinner } from '@ndla/editor';
+import { Spinner } from '@ndla/icons';
+import styled from '@emotion/styled';
+import { spacing } from '@ndla/core';
 import { convertFieldWithFallback } from '../../../util/convertFieldWithFallback';
 import { itemToString } from '../../../util/downShiftHelpers';
 import { SearchResultBase } from '../../../interfaces';
+import { inputWrapperStyles } from '../../../containers/StructurePage/plannedResource/PlannedResourceForm';
+
+const IconWrapper = styled.div`
+  padding: 0 ${spacing.small};
+`;
+interface InputPropsOptionsRef extends GetInputPropsOptions {
+  ref?: Ref<HTMLInputElement>;
+}
 
 interface Props<ApiType> {
   onChange: (value: ApiType) => Promise<void> | void;
@@ -43,6 +53,9 @@ interface Props<ApiType> {
   showPagination?: boolean;
   onBlur?: (event: Event) => void;
   removeItem?: (id: string) => void;
+  initialSearch?: boolean;
+  label?: string;
+  white?: boolean;
 }
 
 interface ApiTypeValues {
@@ -83,6 +96,9 @@ export const AsyncDropdown = <ApiType extends ApiTypeValues>({
   onChange,
   onBlur,
   removeItem,
+  initialSearch = true,
+  label,
+  white = false,
 }: Props<ApiType>) => {
   const [items, setItems] = useState<ItemValues<ApiType>[]>([]);
   const [selectedItem, setSelectedItem] = useState<ItemValues<ApiType> | null>(null);
@@ -94,7 +110,7 @@ export const AsyncDropdown = <ApiType extends ApiTypeValues>({
   const [totalCount, setTotalCount] = useState<number>(1);
 
   useEffect(() => {
-    handleSearch('', page);
+    initialSearch && handleSearch('', page);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleSearch = useCallback(
@@ -102,7 +118,7 @@ export const AsyncDropdown = <ApiType extends ApiTypeValues>({
       setLoading(true);
       const apiOutput = await apiAction(query, showPagination ? page : undefined);
       setTotalCount(apiOutput.totalCount ?? 1);
-      const transformedItems: ItemValues<ApiType>[] = apiOutput.results.map(item => ({
+      const transformedItems: ItemValues<ApiType>[] = apiOutput.results.map((item) => ({
         ...item,
         title: convertFieldWithFallback<'title'>(item, 'title', ''),
         description: convertFieldWithFallback<'metaDescription'>(item, 'metaDescription', ''),
@@ -191,7 +207,7 @@ export const AsyncDropdown = <ApiType extends ApiTypeValues>({
 
   return (
     <Downshift
-      itemToString={item => itemToString(item, labelField)}
+      itemToString={(item) => itemToString(item, labelField)}
       onStateChange={handleStateChange}
       onChange={handleChange}
       isOpen={keepOpen}
@@ -199,7 +215,8 @@ export const AsyncDropdown = <ApiType extends ApiTypeValues>({
       selectedItem={selectedItem}
       onOuterClick={() => {
         setKeepOpen(false);
-      }}>
+      }}
+    >
       {({ getInputProps, openMenu, ...downshiftProps }) => {
         const inpProps = getInputProps({
           ...inputProps,
@@ -211,10 +228,19 @@ export const AsyncDropdown = <ApiType extends ApiTypeValues>({
             {children ? (
               children({ selectedItems, removeItem, ...inpProps })
             ) : (
-              <Input
-                {...inpProps}
+              <InputV2
+                {...(inpProps as InputPropsOptionsRef)}
+                customCss={inputWrapperStyles}
+                name="search-input-field"
+                label={label ?? placeholder}
+                labelHidden={!label}
                 data-testid={'dropdownInput'}
-                iconRight={loading ? <Spinner size="normal" margin="0" /> : <Search />}
+                after={
+                  <IconWrapper>
+                    {loading ? <Spinner size="normal" margin="0" /> : <Search />}
+                  </IconWrapper>
+                }
+                white={white}
               />
             )}
             <DropdownMenu

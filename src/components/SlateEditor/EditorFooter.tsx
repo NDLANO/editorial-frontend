@@ -6,23 +6,30 @@
  *
  */
 
-import { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
-import { Footer, FooterStatus, FooterLinkButton } from '@ndla/editor';
+import { FooterLinkButton } from '@ndla/editor';
 import { colors, spacing } from '@ndla/core';
+import { ButtonV2 } from '@ndla/button';
 import { Launch } from '@ndla/icons/common';
-import { IConcept, IStatus as ConceptStatus } from '@ndla/types-concept-api';
-import { IUpdatedArticle, IStatus as DraftStatus } from '@ndla/types-draft-api';
+import { IConcept, IStatus as ConceptStatus } from '@ndla/types-backend/concept-api';
+import { IUpdatedArticle, IStatus as DraftStatus } from '@ndla/types-backend/draft-api';
 import { useFormikContext } from 'formik';
-
+import { useEffect, useState } from 'react';
+import { SingleValue } from '@ndla/select';
+import { Switch } from '@ndla/switch';
 import { toPreviewDraft } from '../../util/routeHelpers';
-import { formatErrorMessage } from '../../util/apiHelpers';
-import PreviewConceptLightbox from '../PreviewConcept/PreviewConceptLightbox';
 import SaveMultiButton from '../SaveMultiButton';
 import { createGuard, createReturnTypeGuard } from '../../util/guards';
 import { NewMessageType, useMessages } from '../../containers/Messages/MessagesProvider';
 import { ConceptStatusStateMachineType, DraftStatusStateMachineType } from '../../interfaces';
+import ResponsibleSelect from '../../containers/FormikForm/components/ResponsibleSelect';
+import StatusSelect from '../../containers/FormikForm/components/StatusSelect';
+import { ARCHIVED, PUBLISHED, UNPUBLISHED } from '../../constants';
+import PreviewDraftLightboxV2 from '../PreviewDraft/PreviewDraftLightboxV2';
+import { useSession } from '../../containers/Session/SessionProvider';
+import Footer from '../Footer/Footer';
+import { articleResourcePageStyle } from '../../containers/ArticlePage/styles';
 
 interface Props {
   formIsDirty: boolean;
@@ -38,6 +45,8 @@ interface Props {
   hideSecondaryButton: boolean;
   isNewlyCreated: boolean;
   hasErrors?: boolean;
+  responsibleId?: string;
+  prioritized?: boolean;
 }
 
 interface FormValues {
@@ -57,6 +66,22 @@ const StyledLine = styled.hr`
   }
 `;
 
+const Wrapper = styled.div`
+  width: 200px;
+`;
+
+const StyledFooterControls = styled.div`
+  display: flex;
+  gap: ${spacing.normal};
+  align-items: center;
+`;
+
+const StyledFooter = styled.div`
+  margin-left: auto;
+`;
+
+const STATUSES_RESET_RESPONSIBLE = [ARCHIVED, UNPUBLISHED];
+
 function EditorFooter<T extends FormValues>({
   formIsDirty,
   savedToServer,
@@ -71,18 +96,37 @@ function EditorFooter<T extends FormValues>({
   hideSecondaryButton,
   isNewlyCreated,
   hasErrors,
+  responsibleId,
+  prioritized,
 }: Props) {
+  const [status, setStatus] = useState<SingleValue>(null);
+  const [responsible, setResponsible] = useState<SingleValue>(null);
+
+  const { ndlaId } = useSession();
   const { t } = useTranslation();
   const { values, setFieldValue, isSubmitting } = useFormikContext<T>();
-  const { createMessage } = useMessages();
+  const { createMessage, formatErrorMessage } = useMessages();
+
   // Wait for newStatus to be set to trigger since formik doesn't update fields instantly
-  const [newStatus, setNewStatus] = useState<string | null>(null);
+  const [newStatus, setNewStatus] = useState<SingleValue>(null);
+  const [prioritizedOn, setPrioritizedOn] = useState(prioritized ?? false);
+
+  const articleOrConcept = isArticle || isConcept;
+
   useEffect(() => {
-    if (newStatus) {
+    if (newStatus?.value === PUBLISHED) {
       onSaveClick();
       setNewStatus(null);
     }
-  }, [newStatus, onSaveClick]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [newStatus]);
+
+  const onSave = (saveAsNewVersion?: boolean | undefined) => {
+    if (STATUSES_RESET_RESPONSIBLE.find((s) => s === status?.value)) {
+      updateResponsible(null);
+    }
+    onSaveClick(saveAsNewVersion);
+  };
 
   const saveButton = (
     <SaveMultiButton
@@ -90,7 +134,7 @@ function EditorFooter<T extends FormValues>({
       isSaving={isSubmitting}
       formIsDirty={formIsDirty}
       showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}
-      onClick={onSaveClick}
+      onClick={onSave}
       hideSecondaryButton={hideSecondaryButton}
       disabled={!!hasErrors}
     />
@@ -124,49 +168,84 @@ function EditorFooter<T extends FormValues>({
       catchError(error, createMessage);
     }
   };
-
-  if (showSimpleFooter) {
-    return (
-      <Footer>
-        <div>{saveButton}</div>
-      </Footer>
-    );
-  }
-
-  const transformStatus = (entityStatus: DraftStatus, status: string) => ({
-    name: t(`form.status.actions.${status}`),
-    id: status,
-    active: status === entityStatus.current,
-  });
-
-  const statuses =
-    statusStateMachine && entityStatus
-      ? statusStateMachine[entityStatus.current]?.map(s => transformStatus(entityStatus, s)) ?? []
-      : [];
-
-  const updateStatus = async (comment: string, status: string) => {
+  const updateResponsible = async (responsible: SingleValue) => {
     try {
-      // Set new status field and update form (which we listen for changes to in the useEffect above)
-      setNewStatus(status);
-      setFieldValue('status', { current: status });
+      setResponsible(responsible);
+      setFieldValue('responsibleId', responsible ? responsible.value : null);
     } catch (error) {
       catchError(error, createMessage);
     }
   };
 
+  const updateStatus = async (status: SingleValue) => {
+    try {
+      // Set new status field and update form (which we listen for changes to in the useEffect above)
+      setNewStatus(status);
+      if (status?.value !== PUBLISHED) {
+        setStatus(status);
+      }
+      setFieldValue('status', { current: status?.value });
+    } catch (error) {
+      catchError(error, createMessage);
+    }
+  };
+
+  const updatePrioritized = (prioritized: boolean) => {
+    setPrioritizedOn(prioritized);
+    setFieldValue('prioritized', prioritized);
+  };
+
+  const PrioritizedToggle = (
+    <Switch
+      checked={prioritizedOn}
+      onChange={updatePrioritized}
+      thumbCharacter={'P'}
+      label={t('editorFooter.prioritized')}
+      id="prioritized"
+    />
+  );
+
+  if (showSimpleFooter) {
+    return (
+      <Footer css={isArticle && articleResourcePageStyle}>
+        <StyledFooter>
+          <StyledFooterControls>
+            {isArticle && PrioritizedToggle}
+            {articleOrConcept && (
+              <Wrapper>
+                <ResponsibleSelect
+                  responsible={responsible}
+                  setResponsible={setResponsible}
+                  onSave={updateResponsible}
+                  responsibleId={ndlaId}
+                />
+              </Wrapper>
+            )}
+            {saveButton}
+          </StyledFooterControls>
+        </StyledFooter>
+      </Footer>
+    );
+  }
+
   const isConceptType = createReturnTypeGuard<IConcept>('subjectIds');
 
   return (
-    <Footer>
+    <Footer css={isArticle && articleResourcePageStyle}>
       <>
         <div data-cy="footerPreviewAndValidate">
           {values.id && isConcept && getEntity && isConceptType(getEntity) && (
-            <PreviewConceptLightbox getConcept={getEntity} typeOfPreview={'preview'} />
+            <PreviewDraftLightboxV2
+              type="concept"
+              language={values.language}
+              activateButton={<ButtonV2 variant="link">{t('form.preview.button')}</ButtonV2>}
+            />
           )}
           {values.id && isArticle && (
             <FooterLinkButton
               bold
-              onClick={() => window.open(toPreviewDraft(values.id, values.language))}>
+              onClick={() => window.open(toPreviewDraft(values.id, values.language))}
+            >
               {t('form.preview.button')}
               <Launch />
             </FooterLinkButton>
@@ -178,25 +257,30 @@ function EditorFooter<T extends FormValues>({
             </FooterLinkButton>
           )}
         </div>
-        <div data-cy="footerStatus">
-          <FooterStatus
-            onSave={updateStatus}
-            options={statuses}
-            messages={{
-              label: '',
-              changeStatus: t(`form.status.${entityStatus?.current.toLowerCase()}`),
-              back: t('editorFooter.back'),
-              inputHeader: t('editorFooter.inputHeader'),
-              inputHelperText: t('editorFooter.inputHelperText'),
-              cancelLabel: t('editorFooter.cancelLabel'),
-              saveLabel: t('editorFooter.saveLabel'),
-              warningSavedWithoutComment: t('editorFooter.warningSaveWithoutComment'),
-              newStatusPrefix: t('editorFooter.newStatusPrefix'),
-              statusLabel: t('editorFooter.statusLabel'),
-            }}
-          />
+
+        <StyledFooterControls data-cy="footerStatus">
+          {isArticle && PrioritizedToggle}
+          {articleOrConcept && (
+            <Wrapper>
+              <ResponsibleSelect
+                responsible={responsible}
+                setResponsible={setResponsible}
+                onSave={updateResponsible}
+                responsibleId={responsibleId}
+              />
+            </Wrapper>
+          )}
+          <Wrapper>
+            <StatusSelect
+              status={status}
+              setStatus={setStatus}
+              onSave={updateStatus}
+              statusStateMachine={statusStateMachine}
+              entityStatus={entityStatus}
+            />
+          </Wrapper>
           {saveButton}
-        </div>
+        </StyledFooterControls>
       </>
     </Footer>
   );

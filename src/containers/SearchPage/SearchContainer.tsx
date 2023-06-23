@@ -8,17 +8,20 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { UseQueryResult } from 'react-query';
-import { ISearchResult } from '@ndla/types-image-api';
-import { IAudioSummarySearchResult, ISeriesSummarySearchResult } from '@ndla/types-audio-api';
-import { IConceptSearchResult } from '@ndla/types-concept-api';
-import { IMultiSearchResult } from '@ndla/types-search-api';
+import { UseQueryResult } from '@tanstack/react-query';
+import styled from '@emotion/styled';
+import { ISearchResultV3 } from '@ndla/types-backend/image-api';
+import {
+  IAudioSummarySearchResult,
+  ISeriesSummarySearchResult,
+} from '@ndla/types-backend/audio-api';
+import { IConceptSearchResult } from '@ndla/types-backend/concept-api';
+import { IMultiSearchResult } from '@ndla/types-backend/search-api';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { OneColumn } from '@ndla/ui';
 import Pager from '@ndla/pager';
 import { Search } from '@ndla/icons/common';
 import debounce from 'lodash/debounce';
-import BEMHelper from 'react-bem-helper';
 import SearchList from './components/results/SearchList';
 import SearchListOptions from './components/results/SearchListOptions';
 import SearchForm, { parseSearchParams, SearchParams } from './components/form/SearchForm';
@@ -29,13 +32,15 @@ import SearchSaveButton from './SearchSaveButton';
 import { useSubjects } from '../../modules/taxonomy/subjects';
 import { useTaxonomyVersion } from '../StructureVersion/TaxonomyVersionProvider';
 
-export const searchClasses = new BEMHelper({
-  name: 'search',
-  prefix: 'c-',
-});
+const StyledSearchHeader = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  justify-content: space-between;
+`;
 
 export type ResultType =
-  | ISearchResult
+  | ISearchResultV3
   | IConceptSearchResult
   | ISeriesSummarySearchResult
   | IAudioSummarySearchResult
@@ -54,11 +59,10 @@ const SearchContainer = ({ searchHook, type }: Props) => {
   const { taxonomyVersion } = useTaxonomyVersion();
   const { data: subjectData } = useSubjects({ language: locale, taxonomyVersion });
   const [searchObject, setSearchObject] = useState(parseSearchParams(location.search));
-  const { data: results, isLoading: isSearching } = searchHook(searchObject);
+  const { data: results, isInitialLoading: isSearching } = searchHook(searchObject);
   const nextPage = (searchObject?.page ?? 1) + 1;
   // preload next page.
   searchHook({ ...searchObject, page: nextPage });
-
   useEffect(() => {
     setSearchObject(parseSearchParams(location.search));
   }, [location.search]);
@@ -96,13 +100,13 @@ const SearchContainer = ({ searchHook, type }: Props) => {
     <>
       <HelmetWithTracker title={t(`htmlTitles.search.${type}`)} />
       <OneColumn>
-        <div {...searchClasses('header')}>
+        <StyledSearchHeader>
           <h2>
             <Search className="c-icon--medium" />
             {t(`searchPage.header.${type}`)}
           </h2>
           <SearchSaveButton />
-        </div>
+        </StyledSearchHeader>
         <SearchForm
           type={type}
           search={onQueryPush}
@@ -110,7 +114,7 @@ const SearchContainer = ({ searchHook, type }: Props) => {
           locale={locale}
           subjects={subjects}
         />
-        <SearchSort type={type} location={location} onSortOrderChange={onSortOrderChange} />
+        <SearchSort type={type} onSortOrderChange={onSortOrderChange} />
         <SearchListOptions
           type={type}
           searchObject={searchObject}

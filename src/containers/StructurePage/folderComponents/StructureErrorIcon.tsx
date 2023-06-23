@@ -6,13 +6,13 @@
  *
  */
 
-import { useState, useEffect } from 'react';
 import Tooltip from '@ndla/tooltip';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { AlertCircle } from '@ndla/icons/editor';
 import { spacing, colors } from '@ndla/core';
-import { fetchDraft } from '../../../modules/draft/draftApi';
+import { Node } from '@ndla/types-taxonomy';
+import { getIdFromUrn } from '../../../util/taxonomyHelpers';
 
 const StyledWarnIcon = styled(AlertCircle)`
   height: ${spacing.nsmall};
@@ -20,57 +20,57 @@ const StyledWarnIcon = styled(AlertCircle)`
   fill: ${colors.support.red};
 `;
 
-const StructureErrorIcon = ({
-  contentUri,
-  isSubject,
-}: {
-  contentUri?: string;
-  isSubject: boolean;
-}) => {
+const StyledAlertIcon = styled(AlertCircle)`
+  height: ${spacing.nsmall};
+  width: ${spacing.nsmall};
+  fill: ${colors.brand.grey};
+`;
+
+const StructureErrorIcon = (
+  item: Node,
+  isRoot: boolean,
+  isTaxonomyAdmin: boolean,
+  articleType?: string,
+  isPublished?: boolean,
+) => {
   const { t } = useTranslation();
-  const [error, setError] = useState<string | undefined>(undefined);
+  if (isRoot) return null;
+  if (articleType === 'topic-article') {
+    if (!isPublished) {
+      const notPublishedWarning = t('taxonomy.info.notPublished');
 
-  useEffect(() => {
-    let shouldUpdateState = true;
+      return (
+        <Tooltip tooltip={notPublishedWarning}>
+          <div>
+            <StyledAlertIcon />
+          </div>
+        </Tooltip>
+      );
+    }
+    return null;
+  }
 
-    const fetchAndSetError = async (contentUri: string) => {
-      const articleId = contentUri.split(':').pop();
-      if (articleId) {
-        try {
-          const fetched = await fetchDraft(Number(articleId));
-          if (fetched.articleType !== 'topic-article') {
-            if (shouldUpdateState) {
-              const wrongTooltip = t('taxonomy.info.wrongArticleType', {
-                placedAs: t(`articleType.topic-article`),
-                isType: t(`articleType.standard`),
-              });
-              setError(wrongTooltip);
-            }
-          }
-        } catch (e) {
-          if (shouldUpdateState) {
-            if (typeof e.messages === 'string') setError(e.messages);
-            else setError(t('errorMessage.errorWhenFetchingTaxonomyArticle'));
-          }
-        }
-      }
-    };
+  if (isTaxonomyAdmin) {
+    const missingArticleTypeError = t('taxonomy.info.missingArticleType', {
+      id: getIdFromUrn(item.contentUri),
+    });
 
-    if (isSubject || !contentUri) return;
+    const wrongArticleTypeError = t('taxonomy.info.wrongArticleType', {
+      placedAs: t(`articleType.topic-article`),
+      isType: t(`articleType.standard`),
+    });
 
-    fetchAndSetError(contentUri);
-    return () => {
-      shouldUpdateState = false;
-    };
-  }, [t, isSubject, contentUri]);
+    const error = !articleType ? missingArticleTypeError : wrongArticleTypeError;
 
-  if (!error) return null;
-
-  return (
-    <Tooltip tooltip={error}>
-      <StyledWarnIcon title={error} />
-    </Tooltip>
-  );
+    return (
+      <Tooltip tooltip={error}>
+        <div>
+          <StyledWarnIcon />
+        </div>
+      </Tooltip>
+    );
+  }
+  return null;
 };
 
 export default StructureErrorIcon;

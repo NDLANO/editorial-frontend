@@ -6,11 +6,12 @@
  *
  */
 
-import { Component, ReactNode, MouseEvent } from 'react';
-import { Editor, Transforms } from 'slate';
-import { ReactEditor, RenderElementProps } from 'slate-react';
-import { withTranslation, CustomWithTranslation } from 'react-i18next';
+import { useEffect, useState, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import './helpers/h5pResizer';
+import { Transforms, Editor, Path } from 'slate';
+import styled from '@emotion/styled';
+import { Expandable } from '@ndla/icons/editor';
 import handleError from '../../util/handleError';
 import EditorErrorMessage from '../SlateEditor/EditorErrorMessage';
 import DisplayExternalModal from './helpers/DisplayExternalModal';
@@ -21,23 +22,32 @@ import FigureButtons from '../SlateEditor/plugins/embed/FigureButtons';
 import config from '../../config';
 import { getH5pLocale } from '../H5PElement/h5pApi';
 import { Embed, ExternalEmbed, H5pEmbed } from '../../interfaces';
-import { EmbedElement } from '../SlateEditor/plugins/embed';
+import SlateResourceBox from './SlateResourceBox';
 
-interface Props extends CustomWithTranslation {
-  element: EmbedElement;
+const ApplyBoxshadow = styled('div')<{ showCopyOutline: boolean }>`
+  box-shadow: ${(props) => props.showCopyOutline && 'rgb(32, 88, 143) 0 0 0 2px'};
+`;
+
+const ExpandableButton = styled.div`
+  position: absolute;
+  bottom: 0px;
+  right: 23px;
+  cursor: pointer;
+`;
+
+type EmbedType = ExternalEmbed | H5pEmbed;
+
+interface Props {
+  pathToEmbed: Path;
   editor: Editor;
-  attributes: RenderElementProps['attributes'];
-  embed: ExternalEmbed | H5pEmbed;
-  onRemoveClick: (event: MouseEvent) => void;
+  embed: EmbedType;
+  onRemoveClick: (event: React.MouseEvent) => void;
   language: string;
   active: boolean;
   isSelectedForCopy: boolean;
-  children: ReactNode;
 }
 
-interface State {
-  isEditMode: boolean;
-  error?: boolean;
+interface EmbedProperties {
   domain?: string;
   src?: string;
   title?: string;
@@ -46,65 +56,28 @@ interface State {
   provider?: string;
 }
 
-export class DisplayExternal extends Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      isEditMode: false,
-    };
-    this.onEditEmbed = this.onEditEmbed.bind(this);
-    this.openEditEmbed = this.openEditEmbed.bind(this);
-    this.closeEditEmbed = this.closeEditEmbed.bind(this);
-    this.getPropsFromEmbed = this.getPropsFromEmbed.bind(this);
-  }
+const DisplayExternal = ({
+  pathToEmbed,
+  editor,
+  embed,
+  onRemoveClick,
+  language,
+  active,
+  isSelectedForCopy,
+}: Props) => {
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [error, setError] = useState(false);
+  const [properties, setProperties] = useState<EmbedProperties>({ type: embed.resource });
+  const { t } = useTranslation();
+  const prevEmbed = useRef<EmbedType>(embed);
+  const [height, setHeight] = useState(0);
+  const [isResizing, setIsResizing] = useState(false);
+  const iframeWrapper = useRef(null);
 
-  componentDidMount() {
-    this.getPropsFromEmbed();
-  }
-
-  componentDidUpdate(prevProps: Props) {
-    const { embed } = this.props;
-    const { embed: prevEmbed } = prevProps;
-    if (prevProps.embed.resource !== embed.resource) {
-      this.getPropsFromEmbed();
-    } else if (
-      embed.resource === 'h5p' &&
-      prevEmbed.resource === 'h5p' &&
-      embed.path !== prevEmbed.path
-    ) {
-      this.getPropsFromEmbed();
-    } else if (
-      (embed.resource === 'external' || embed.resource === 'iframe') &&
-      (prevEmbed.resource === 'external' || prevEmbed.resource === 'iframe') &&
-      embed.url !== prevEmbed.url
-    ) {
-      this.getPropsFromEmbed();
-    }
-  }
-
-  onEditEmbed(properties: Embed) {
-    const { editor, element, embed } = this.props;
-    const prevUrl = embed.resource === 'external' ? embed.url : undefined;
-    const currentUrl = properties.resource === 'external' ? properties.url : undefined;
-    const prevPath = embed.resource === 'h5p' ? embed.path : undefined;
-    const currentPath = properties.resource === 'h5p' ? properties.path : undefined;
-
-    if (prevUrl !== currentUrl || prevPath !== currentPath) {
-      Transforms.setNodes(
-        editor,
-        { data: { ...properties } },
-        { at: ReactEditor.findPath(editor, element) },
-      );
-      this.closeEditEmbed();
-    }
-  }
-
-  async getPropsFromEmbed() {
-    const { embed, language } = this.props;
+  const getPropsFromEmbed = async () => {
     const origin = embed.url ? urlOrigin(embed.url) : config.h5pApiUrl;
     const domain = embed.url ? urlDomain(embed.url) : config.h5pApiUrl;
     const cssUrl = encodeURIComponent(`${config.ndlaFrontendDomain}/static/h5p-custom-css.css`);
-    this.setState({ domain });
 
     if (embed.resource === 'external' || embed.resource === 'h5p') {
       try {
@@ -118,136 +91,216 @@ export class DisplayExternal extends Component<Props, State> {
         const src = getIframeSrcFromHtmlString(data.html);
 
         if (src) {
-          this.setState({
-            title: data.title,
+          setHeight(0);
+          setProperties({
+            ...properties,
+            title: embed.title?.length ? embed.title : data.title,
             src,
             type: data.type,
             provider: data.providerName,
             height: data.height || '486px',
+            domain: domain,
           });
         } else {
-          this.setState({ error: true });
+          setError(true);
         }
       } catch (err) {
-        this.setState({ error: true });
+        setError(true);
         handleError(err);
       }
     } else {
-      this.setState({
-        title: domain,
+      // Update height if height of inserted element changes - otherwise reset height
+      if (embed.height && prevEmbed.current.url === embed.url) {
+        setHeight(Number(embed.height.replace(/\D/g, '')));
+      } else {
+        setHeight(0);
+      }
+      setProperties({
+        ...properties,
+        title: embed.title?.length ? embed.title : domain,
         src: embed.url,
         type: embed.resource,
         height: embed.height,
+        domain: domain,
       });
     }
-  }
+  };
 
-  openEditEmbed(evt: MouseEvent) {
+  useEffect(() => {
+    getPropsFromEmbed();
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    const prevEmbedElement: EmbedType = prevEmbed.current;
+
+    if (prevEmbedElement.resource !== embed.resource) {
+      getPropsFromEmbed();
+    } else if (
+      embed.resource === 'h5p' &&
+      prevEmbedElement.resource === 'h5p' &&
+      embed.path !== prevEmbedElement.path
+    ) {
+      getPropsFromEmbed();
+    } else if (
+      (embed.resource === 'external' || embed.resource === 'iframe') &&
+      (prevEmbedElement.resource === 'external' || prevEmbedElement.resource === 'iframe') &&
+      embed.url !== prevEmbedElement.url
+    ) {
+      getPropsFromEmbed();
+    } else if (embed.title !== prevEmbedElement.title) {
+      getPropsFromEmbed();
+    }
+    prevEmbed.current = embed;
+  }, [embed]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const openEditEmbed = (evt: React.MouseEvent) => {
     evt.preventDefault();
-    this.setState({ isEditMode: true });
+    setIsEditMode(true);
+  };
+
+  const closeEditEmbed = () => {
+    setIsEditMode(false);
+  };
+  const onEditEmbed = (embedUpdates: Embed) => {
+    Transforms.setNodes(editor, { data: { ...embedUpdates } }, { at: pathToEmbed });
+    closeEditEmbed();
+  };
+
+  const showCopyOutline = isSelectedForCopy && (!isEditMode || !active);
+
+  const errorHolder = () => (
+    <EditorErrorMessage
+      onRemoveClick={onRemoveClick}
+      msg={
+        error
+          ? t('displayOembed.errorMessage')
+          : t('displayOembed.notSupported', {
+              type: properties.type,
+              provider: properties.provider,
+            })
+      }
+    />
+  );
+
+  if (error) {
+    return errorHolder();
   }
 
-  closeEditEmbed() {
-    this.setState({ isEditMode: false });
+  // H5P does not provide its name
+  const providerName = properties.domain?.includes('h5p') ? 'H5P' : properties.provider;
+
+  const [allowedProvider] = EXTERNAL_WHITELIST_PROVIDERS.filter((whitelistProvider) =>
+    properties.type === 'iframe' && properties.domain
+      ? whitelistProvider.url.includes(properties.domain)
+      : whitelistProvider.name === providerName,
+  );
+
+  if (!allowedProvider) {
+    return errorHolder();
   }
 
-  render() {
-    const {
-      onRemoveClick,
-      embed,
-      t,
-      language,
-      children,
-      isSelectedForCopy,
-      active,
-      attributes,
-    } = this.props;
-    const { isEditMode, title, src, height, error, type, provider, domain } = this.state;
-    const showCopyOutline = isSelectedForCopy && (!isEditMode || !active);
+  if (!properties.src || !properties.type) {
+    return <div />;
+  }
 
-    const errorHolder = () => (
-      <EditorErrorMessage
+  const handleResize = (mouseDownEvent: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    const startSize = height;
+    const startPosition = mouseDownEvent.pageY;
+    const minHeight = 100;
+
+    setIsResizing(true);
+
+    const onMouseMove = (mouseMoveEvent: MouseEvent) => {
+      const elementHeight = startSize - startPosition + mouseMoveEvent.pageY;
+      setHeight(elementHeight > minHeight ? elementHeight : minHeight);
+    };
+
+    const onMouseUp = (mouseUpEvent: MouseEvent) => {
+      document.body.removeEventListener('mousemove', onMouseMove);
+      const elementHeight = startSize - startPosition + mouseUpEvent.pageY;
+      const updatedElementHeight = elementHeight > minHeight ? elementHeight : minHeight;
+
+      Transforms.setNodes(
+        editor,
+        {
+          data: {
+            ...prevEmbed.current,
+            height: `${updatedElementHeight}px`,
+          },
+        },
+        { at: pathToEmbed },
+      );
+      setHeight(updatedElementHeight);
+      setIsResizing(false);
+    };
+
+    document.body.addEventListener('mousemove', onMouseMove);
+    document.body.addEventListener('mouseup', onMouseUp, { once: true });
+  };
+
+  return (
+    <div className={'c-figure'}>
+      <FigureButtons
+        language={language}
+        tooltip={t('form.external.remove', {
+          type: providerName || t('form.external.title'),
+        })}
         onRemoveClick={onRemoveClick}
-        msg={
-          error
-            ? t('displayOembed.errorMessage')
-            : t('displayOembed.notSupported', {
-                type,
-                provider,
-              })
+        embed={embed}
+        providerName={providerName}
+        figureType="external"
+        onEdit={
+          allowedProvider.name
+            ? (evt) => {
+                evt.preventDefault();
+                evt.stopPropagation();
+                openEditEmbed(evt);
+              }
+            : undefined
         }
       />
-    );
+      {(embed.resource === 'iframe' || embed.resource === 'external') &&
+      embed.type === 'fullscreen' ? (
+        <ApplyBoxshadow showCopyOutline={showCopyOutline}>
+          <SlateResourceBox embed={embed} language={language} />
+        </ApplyBoxshadow>
+      ) : (
+        <ApplyBoxshadow
+          ref={iframeWrapper}
+          showCopyOutline={showCopyOutline}
+          style={{ pointerEvents: isResizing ? 'none' : 'auto' }}
+        >
+          <iframe
+            contentEditable={false}
+            src={properties.src}
+            height={height ? height : allowedProvider.height || properties.height}
+            title={properties.title}
+            scrolling={properties.type === 'iframe' ? 'no' : undefined}
+            allowFullScreen={true}
+            frameBorder="0"
+          />
+          {embed.resource === 'iframe' && (
+            <ExpandableButton
+              role="button"
+              onMouseDown={handleResize}
+              aria-label={t('form.resize')}
+            >
+              <Expandable />
+            </ExpandableButton>
+          )}
+        </ApplyBoxshadow>
+      )}
+      <DisplayExternalModal
+        embed={embed}
+        isEditMode={isEditMode}
+        src={properties.src}
+        type={properties.type}
+        onEditEmbed={onEditEmbed}
+        onClose={closeEditEmbed}
+        allowedProvider={allowedProvider}
+      />
+    </div>
+  );
+};
 
-    if (error) {
-      return errorHolder();
-    }
-
-    // H5P does not provide its name
-    const providerName = domain && domain.includes('h5p') ? 'H5P' : provider;
-
-    const [allowedProvider] = EXTERNAL_WHITELIST_PROVIDERS.filter(whitelistProvider =>
-      type === 'iframe' && domain
-        ? whitelistProvider.url.includes(domain)
-        : whitelistProvider.name === providerName,
-    );
-
-    if (!allowedProvider) {
-      return errorHolder();
-    }
-
-    if (!src || !type) {
-      return <div />;
-    }
-    return (
-      <div
-        className="c-figure"
-        css={
-          showCopyOutline && {
-            boxShadow: 'rgb(32, 88, 143) 0 0 0 2px;',
-          }
-        }
-        {...attributes}>
-        <FigureButtons
-          language={language}
-          tooltip={t('form.external.remove', {
-            type: providerName || t('form.external.title'),
-          })}
-          onRemoveClick={onRemoveClick}
-          embed={embed}
-          providerName={providerName}
-          figureType="external"
-          onEdit={
-            allowedProvider.name
-              ? evt => {
-                  evt.preventDefault();
-                  evt.stopPropagation();
-                  this.openEditEmbed(evt);
-                }
-              : undefined
-          }
-        />
-        <iframe
-          contentEditable={false}
-          src={src}
-          height={allowedProvider.height || height}
-          title={title}
-          scrolling={type === 'iframe' ? 'no' : undefined}
-          allowFullScreen={true}
-          frameBorder="0"
-        />
-        <DisplayExternalModal
-          isEditMode={isEditMode}
-          src={src}
-          type={type}
-          onEditEmbed={this.onEditEmbed}
-          onClose={this.closeEditEmbed}
-          allowedProvider={allowedProvider}
-        />
-        {children}
-      </div>
-    );
-  }
-}
-
-export default withTranslation()(DisplayExternal);
+export default DisplayExternal;

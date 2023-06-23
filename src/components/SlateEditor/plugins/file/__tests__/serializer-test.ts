@@ -8,8 +8,8 @@
 
 import { Descendant } from 'slate';
 import {
-  learningResourceContentToEditorValue,
-  learningResourceContentToHTML,
+  blockContentToEditorValue,
+  blockContentToHTML,
 } from '../../../../../util/articleContentConverter';
 import { TYPE_PARAGRAPH } from '../../paragraph/types';
 import { TYPE_SECTION } from '../../section/types';
@@ -54,16 +54,16 @@ const editor: Descendant[] = [
 ];
 
 const html =
-  '<section><div data-type="file"><embed data-resource="file" data-path="/files/resources/file1.txt" data-type="txt" data-title="test_txt" data-url="https://api.test.ndla.no/files/resources/file1.txt"/><embed data-path="/files/resources/file2.pdf" data-type="pdf" data-title="test_pdf2" data-resource="file" data-url="https://api.test.ndla.no/files/resources/file2.pdf"/><embed data-path="/files/resources/file3.pdf" data-type="pdf" data-title="test_pdf3" data-resource="file" data-display="block" data-url="https://api.test.ndla.no/files/resources/file3.pdf"/></div></section>';
+  '<section><div data-type="file"><ndlaembed data-resource="file" data-path="/files/resources/file1.txt" data-type="txt" data-title="test_txt" data-url="https://api.test.ndla.no/files/resources/file1.txt"></ndlaembed><ndlaembed data-path="/files/resources/file2.pdf" data-type="pdf" data-title="test_pdf2" data-resource="file" data-url="https://api.test.ndla.no/files/resources/file2.pdf"></ndlaembed><ndlaembed data-path="/files/resources/file3.pdf" data-type="pdf" data-title="test_pdf3" data-resource="file" data-display="block" data-url="https://api.test.ndla.no/files/resources/file3.pdf"></ndlaembed></div></section>';
 
 describe('file serializing tests', () => {
   test('serializing', () => {
-    const res = learningResourceContentToHTML(editor);
+    const res = blockContentToHTML(editor);
     expect(res).toMatch(html);
   });
 
   test('deserializing', () => {
-    const res = learningResourceContentToEditorValue(html);
+    const res = blockContentToEditorValue(html);
     expect(res).toMatchObject(editor);
   });
 });

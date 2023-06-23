@@ -6,8 +6,6 @@
  *
  */
 
-import PropTypes from 'prop-types';
-import BEMHelper from 'react-bem-helper';
 import queryString from 'query-string';
 import SearchContentForm from './SearchContentForm';
 import SearchAudioForm from './SearchAudioForm';
@@ -16,15 +14,6 @@ import SearchImageForm from './SearchImageForm';
 import SearchConceptForm from './SearchConceptForm';
 import { SearchType } from '../../../../interfaces';
 import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
-import { SearchParamsShape } from '../../../../shapes';
-import { SearchTypeValues } from '../../../../constants';
-import { datePickerTypes } from './GenericSearchForm';
-import formatDate from '../../../../util/formatDate';
-
-export const searchFormClasses = new BEMHelper({
-  name: 'search-form',
-  prefix: 'c-',
-});
 
 export interface SearchParams {
   query?: string;
@@ -45,37 +34,37 @@ export interface SearchParams {
   'model-released'?: string;
   'revision-date-from'?: string;
   'revision-date-to'?: string;
+  'exclude-revision-log'?: boolean | undefined;
+  'responsible-ids'?: string;
 }
-
-export const searchParamsFormatter = (
-  key: keyof SearchParams,
-  value?: string | number | boolean,
-): string | number | boolean | undefined => {
-  if (datePickerTypes.includes(key) && typeof value === 'string') {
-    return formatDate(value);
-  }
-  return value;
-};
 
 export const parseSearchParams = (locationSearch: string): SearchParams => {
   const queryStringObject: Record<string, string | undefined> = queryString.parse(locationSearch);
+
+  const parseBooleanParam = (key: string): boolean => {
+    const value = queryStringObject[key];
+    if (!value) return false;
+    return value === 'true';
+  };
+
+  const parseNumberParam = (key: string): number | undefined => {
+    const value = queryStringObject[key];
+    if (!value) return undefined;
+    return parseInt(value, 10);
+  };
+
   return {
     query: queryStringObject.query,
     'draft-status': queryStringObject['draft-status'],
-    'include-other-statuses':
-      queryStringObject['include-other-statuses'] !== undefined
-        ? queryStringObject['include-other-statuses'] === 'true'
-        : undefined,
+    'include-other-statuses': parseBooleanParam('include-other-statuses'),
     'resource-types': queryStringObject['resource-types'],
     'audio-type': queryStringObject['audio-type'],
     'model-released': queryStringObject['model-released'],
-    fallback: queryStringObject.fallback ? queryStringObject.fallback === 'true' : undefined,
+    fallback: parseBooleanParam('fallback'),
     language: queryStringObject.language,
     license: queryStringObject.license,
-    page: queryStringObject.page ? parseInt(queryStringObject.page, 10) : undefined,
-    'page-size': queryStringObject['page-size']
-      ? parseInt(queryStringObject['page-size'], 10)
-      : undefined,
+    page: parseNumberParam('page'),
+    'page-size': parseNumberParam('page-size'),
     sort: queryStringObject.sort,
     status: queryStringObject.status,
     subjects: queryStringObject.subjects,
@@ -83,6 +72,8 @@ export const parseSearchParams = (locationSearch: string): SearchParams => {
     users: queryStringObject.users,
     'revision-date-from': queryStringObject['revision-date-from'],
     'revision-date-to': queryStringObject['revision-date-to'],
+    'exclude-revision-log': parseBooleanParam('exclude-revision-log'),
+    'responsible-ids': queryStringObject['responsible-ids'],
   };
 };
 
@@ -109,14 +100,6 @@ const SearchForm = ({ type, searchObject, ...rest }: Props) => {
     default:
       return <p>{`This type: ${type} is not supported`}</p>;
   }
-};
-
-SearchForm.propTypes = {
-  type: PropTypes.oneOf(SearchTypeValues).isRequired,
-  searchObject: SearchParamsShape,
-  search: PropTypes.func.isRequired,
-  subjects: PropTypes.array.isRequired,
-  locale: PropTypes.string.isRequired,
 };
 
 export default SearchForm;

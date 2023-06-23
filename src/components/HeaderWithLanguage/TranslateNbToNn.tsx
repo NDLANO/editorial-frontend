@@ -8,27 +8,19 @@
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import StyledFilledButton from '../../components/StyledFilledButton';
+import { useTranslateToNN } from '../NynorskTranslateProvider';
 
 const StyledLink = StyledFilledButton.withComponent(Link);
 
 interface Props {
-  translateToNN: () => void;
   editUrl: (lang: string) => string;
-  setTranslateOnContinue?: (translateOnContinue: boolean) => void;
-  formIsDirty: boolean;
 }
 
-const TranslateNbToNn = ({
-  formIsDirty,
-  translateToNN,
-  setTranslateOnContinue,
-  editUrl,
-}: Props) => {
+const TranslateNbToNn = ({ editUrl }: Props) => {
+  const { setShouldTranslate } = useTranslateToNN();
   const { t } = useTranslation();
   return (
-    <StyledLink
-      to={editUrl('nn')}
-      onClick={() => (formIsDirty ? setTranslateOnContinue?.(true) : translateToNN())}>
+    <StyledLink to={editUrl('nn')} onClick={() => setShouldTranslate(true)}>
       {t('form.variant.translate')}
     </StyledLink>
   );

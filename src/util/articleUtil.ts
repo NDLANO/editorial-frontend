@@ -6,7 +6,7 @@
  *
  */
 
-import { INewArticle, IUpdatedArticle } from '@ndla/types-draft-api';
+import { INewArticle, IUpdatedArticle } from '@ndla/types-backend/draft-api';
 
 export const convertUpdateToNewDraft = (article: IUpdatedArticle): INewArticle => {
   if (!article.language || !article.title || !article.articleType) {
@@ -27,6 +27,9 @@ export const convertUpdateToNewDraft = (article: IUpdatedArticle): INewArticle =
     grepCodes: article.grepCodes ?? [],
     conceptIds: article.conceptIds ?? [],
     relatedContent: article.relatedContent ?? [],
+    responsibleId: article.responsibleId ?? undefined,
+    comments: article.comments ?? [],
+    prioritized: article.prioritized ?? false,
   };
 };
 
@@ -36,4 +39,14 @@ export const isGrepCodeValid = (grepCode: string) => {
 
 export const nullOrUndefined = (metaImageId?: unknown | null | undefined) => {
   return metaImageId === null ? null : undefined;
+};
+
+export const getSlugFromTitle = (title: string) => {
+  const onlySingleSpace = /\s\s+/g;
+  const noIllegalCharacters = /[^a-zA-Z0-9- ]/g;
+  return title
+    .replace(onlySingleSpace, ' ')
+    .replace(noIllegalCharacters, '')
+    .trim()
+    .replace(/\s/g, '-');
 };

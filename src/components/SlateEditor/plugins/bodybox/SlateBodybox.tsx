@@ -8,14 +8,28 @@
 
 import { Editor, Element, Transforms } from 'slate';
 import { ReactEditor, RenderElementProps } from 'slate-react';
+import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
+import { spacing } from '@ndla/core';
 import DeleteButton from '../../../DeleteButton';
 import MoveContentButton from '../../../MoveContentButton';
 import { TYPE_BODYBOX } from './types';
 
 const StyledBodybox = styled.div`
-  position: relative;
-  overflow: visible;
+  display: flex;
+  flex-direction: column;
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  padding: ${spacing.xsmall};
+  justify-content: flex-end;
+  flex: 0;
+`;
+
+const ChildrenWrapper = styled.div`
+  flex: 1;
+  padding: 0 ${spacing.medium} ${spacing.medium} ${spacing.medium};
 `;
 
 interface Props {
@@ -24,12 +38,13 @@ interface Props {
 
 const SlateBodybox = (props: Props & RenderElementProps) => {
   const { element, editor, attributes, children } = props;
+  const { t } = useTranslation();
 
   const onRemoveClick = () => {
     const path = ReactEditor.findPath(editor, element);
     Transforms.removeNodes(editor, {
       at: path,
-      match: node => Element.isElement(node) && node.type === TYPE_BODYBOX,
+      match: (node) => Element.isElement(node) && node.type === TYPE_BODYBOX,
     });
     setTimeout(() => {
       ReactEditor.focus(editor);
@@ -42,7 +57,7 @@ const SlateBodybox = (props: Props & RenderElementProps) => {
     const path = ReactEditor.findPath(editor, element);
     Transforms.unwrapNodes(editor, {
       at: path,
-      match: node => Element.isElement(node) && node.type === TYPE_BODYBOX,
+      match: (node) => Element.isElement(node) && node.type === TYPE_BODYBOX,
       voids: true,
     });
     setTimeout(() => {
@@ -54,9 +69,17 @@ const SlateBodybox = (props: Props & RenderElementProps) => {
 
   return (
     <StyledBodybox draggable className="c-bodybox" {...attributes}>
-      {children}
-      <DeleteButton tabIndex="-1" data-cy="remove-bodybox" stripped onMouseDown={onRemoveClick} />
-      <MoveContentButton onMouseDown={onMoveContent} />
+      <ButtonContainer>
+        <MoveContentButton onMouseDown={onMoveContent} />
+        <DeleteButton
+          aria-label={t('form.remove')}
+          tabIndex={-1}
+          data-cy="remove-bodybox"
+          colorTheme="danger"
+          onMouseDown={onRemoveClick}
+        />
+      </ButtonContainer>
+      <ChildrenWrapper>{children}</ChildrenWrapper>
     </StyledBodybox>
   );
 };

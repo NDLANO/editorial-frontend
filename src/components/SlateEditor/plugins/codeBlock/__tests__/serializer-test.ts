@@ -8,8 +8,8 @@
 
 import { Descendant } from 'slate';
 import {
-  learningResourceContentToEditorValue,
-  learningResourceContentToHTML,
+  blockContentToEditorValue,
+  blockContentToHTML,
 } from '../../../../../util/articleContentConverter';
 import { TYPE_PARAGRAPH } from '../../paragraph/types';
 import { TYPE_SECTION } from '../../section/types';
@@ -23,8 +23,8 @@ const editor: Descendant[] = [
       {
         type: TYPE_CODEBLOCK,
         data: {
-          'code-content': 'print(1)',
-          'code-format': 'python',
+          codeContent: 'print(1)',
+          codeFormat: 'python',
           resource: 'code-block',
           title: 'tittel',
         },
@@ -37,16 +37,16 @@ const editor: Descendant[] = [
 ];
 
 const html =
-  '<section><embed data-resource="code-block" data-code-content="print(1)" data-code-format="python" data-title="tittel"/></section>';
+  '<section><ndlaembed data-code-content="print(1)" data-code-format="python" data-resource="code-block" data-title="tittel"></ndlaembed></section>';
 
 describe('codeblock serializing tests', () => {
   test('serializing', () => {
-    const res = learningResourceContentToHTML(editor);
+    const res = blockContentToHTML(editor);
     expect(res).toMatch(html);
   });
 
   test('deserializing', () => {
-    const res = learningResourceContentToEditorValue(html);
+    const res = blockContentToEditorValue(html);
     expect(res).toEqual(editor);
   });
 });

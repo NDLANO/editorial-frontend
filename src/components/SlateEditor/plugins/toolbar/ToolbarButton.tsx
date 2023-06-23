@@ -7,15 +7,13 @@
  */
 
 import { MouseEvent } from 'react';
-import { colors } from '@ndla/core';
+import { colors, fonts } from '@ndla/core';
 import { TFunction, useTranslation } from 'react-i18next';
+import styled from '@emotion/styled';
 import {
   Bold,
   Code,
   Concept,
-  Heading3,
-  Heading2,
-  Heading1,
   Italic,
   Link,
   ListCircle,
@@ -29,13 +27,14 @@ import {
   AlignLeft,
   AlignCenter,
   AlignRight,
+  FormatList,
 } from '@ndla/icons/editor';
 
 import { Language } from '@ndla/icons/common';
 
-import { css } from '@emotion/core';
-
-import { toolbarClasses } from './SlateToolbar';
+const StyledHeadingSpan = styled.span`
+  ${fonts.sizes('14px', '14px')};
+`;
 
 // Fetched from https://github.com/ianstormtaylor/is-hotkey/blob/master/src/index.js
 const IS_MAC =
@@ -52,9 +51,11 @@ const toolbarIcon = (t: TFunction): Record<string, JSX.Element | undefined> => (
   'numbered-list': <ListNumbered title={t('editorToolbar.numberedList', options)} />,
   'bulleted-list': <ListCircle title={t('editorToolbar.bulletedList', options)} />,
   'letter-list': <ListAlphabetical title={t('editorToolbar.letterList', options)} />,
-  'heading-1': <Heading1 title={t('editorToolbar.headingOne', options)} />,
-  'heading-2': <Heading2 title={t('editorToolbar.headingTwo', options)} />,
-  'heading-3': <Heading3 title={t('editorToolbar.headingThree', options)} />,
+  'heading-1': <StyledHeadingSpan>H1</StyledHeadingSpan>,
+  'heading-2': <StyledHeadingSpan>H2</StyledHeadingSpan>,
+  'heading-3': <StyledHeadingSpan>H3</StyledHeadingSpan>,
+  'heading-4': <StyledHeadingSpan>H4</StyledHeadingSpan>,
+  'definition-list': <FormatList title={t('editorToolbar.definitionList', options)} />,
   mathml: <Math title={t('editorToolbar.mathml', options)} />,
   concept: <Concept title={t('editorToolbar.concept', options)} />,
   code: <Code title={t('editorToolbar.code', options)} />,
@@ -65,9 +66,9 @@ const toolbarIcon = (t: TFunction): Record<string, JSX.Element | undefined> => (
   right: <AlignRight title={t('editorToolbar.rightAlign', options)} />,
 });
 
-const toolbarButtonStyle = (isActive: boolean) => css`
+const StyledToolbarButton = styled.button<{ isActive: boolean }>`
   display: inline-block;
-  background: ${isActive ? colors.brand.lightest : colors.white};
+  background: ${(props) => (props.isActive ? colors.brand.lightest : colors.white)};
   cursor: pointer;
   padding: 8px 0.5rem 8px 0.5rem;
   border-width: 0px;
@@ -75,17 +76,8 @@ const toolbarButtonStyle = (isActive: boolean) => css`
   border-bottom-width: 1px;
   border-left-width: 1px;
   border-style: solid;
-  border-color: ${isActive ? colors.brand.tertiary : colors.brand.greyLighter};
-
-  .c-toolbar__button--active + & {
-    border-left-width: 0px;
-  }
-
-  ${isActive && 'border-width: 1px;'}
-
-  .c-toolbar__button--active + .c-toolbar__button--active {
-    border-left-width: 0px;
-  }
+  border-color: ${(props) => (props.isActive ? colors.brand.tertiary : colors.brand.greyLighter)};
+  ${(props) => props.isActive && 'border-width: 1px;'};
 
   :first-of-type {
     border-left-width: 1px;
@@ -103,6 +95,17 @@ const toolbarButtonStyle = (isActive: boolean) => css`
   }
 `;
 
+const ToolbarIcon = styled.span`
+  vertical-align: text-bottom;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+`;
+
 interface Props {
   isActive: boolean;
   type: string;
@@ -114,14 +117,14 @@ const ToolbarButton = ({ isActive, type, kind, handleOnClick }: Props) => {
   const { t } = useTranslation();
   const onMouseDown = (e: MouseEvent) => handleOnClick(e, kind, type);
   return (
-    <button
-      {...toolbarClasses('button', isActive ? 'active' : '')}
+    <StyledToolbarButton
       onMouseDown={onMouseDown}
       data-testid={`toolbar-button-${type}`}
       data-active={isActive}
-      css={toolbarButtonStyle(isActive)}>
-      <span {...toolbarClasses('icon', isActive ? 'active' : '')}>{toolbarIcon(t)[type]}</span>
-    </button>
+      isActive={isActive}
+    >
+      <ToolbarIcon>{toolbarIcon(t)[type]}</ToolbarIcon>
+    </StyledToolbarButton>
   );
 };
 

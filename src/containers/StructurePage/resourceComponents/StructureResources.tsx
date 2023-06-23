@@ -6,256 +6,114 @@
  *
  */
 
-import { memo, useRef, useLayoutEffect, useEffect, RefObject, useState } from 'react';
+import { memo, RefObject } from 'react';
 import { useTranslation } from 'react-i18next';
 import { spacing } from '@ndla/core';
 import styled from '@emotion/styled';
-import { IStatus } from '@ndla/types-draft-api';
-import ResourceGroup from './ResourceGroup';
-import AllResourcesGroup from './AllResourcesGroup';
-import { groupSortResourceTypesFromTopicResources } from '../../../util/taxonomyHelpers';
-import { fetchAllResourceTypes, fetchTopicResources } from '../../../modules/taxonomy';
-import handleError from '../../../util/handleError';
-import TopicDescription from './TopicDescription';
-import Spinner from '../../../components/Spinner';
-import { fetchDraft } from '../../../modules/draft/draftApi';
-import { fetchLearningpath } from '../../../modules/learningpath/learningpathApi';
-import GroupTopicResources from '../folderComponents/GroupTopicResources';
+import { TFunction } from 'i18next';
+import keyBy from 'lodash/keyBy';
+import { IUserData } from '@ndla/types-backend/draft-api';
+import { NodeChild, ResourceType } from '@ndla/types-taxonomy';
 import {
-  ResourceType,
-  ResourceWithTopicConnection,
-  SubjectTopic,
-  TaxonomyMetadata,
-} from '../../../modules/taxonomy/taxonomyApiInterfaces';
-import { LocaleType } from '../../../interfaces';
+  NodeResourceMeta,
+  useNodeResourceMetas,
+  useResourcesWithNodeConnection,
+} from '../../../modules/nodes/nodeQueries';
+import { useAllResourceTypes } from '../../../modules/taxonomy/resourcetypes/resourceTypesQueries';
+import handleError from '../../../util/handleError';
+import ResourcesContainer from './ResourcesContainer';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 
-const StyledDiv = styled('div')`
-  width: calc(${spacing.large} * 5);
-  margin-left: auto;
-  margin-right: calc(${spacing.nsmall});
+const StickyContainer = styled.div`
+  position: sticky;
+  top: ${spacing.small};
 `;
 
-export interface TopicResource extends ResourceWithTopicConnection {
-  articleType?: string;
-  status?: IStatus;
+export interface ResourceWithNodeConnectionAndMeta extends NodeChild {
+  contentMeta?: NodeResourceMeta;
 }
 
 interface Props {
-  locale: LocaleType;
-  params: { topic: string; subtopics?: string };
-  currentTopic: SubjectTopic;
-  refreshTopics: () => Promise<void>;
+  currentChildNode: NodeChild;
   resourceRef: RefObject<HTMLDivElement>;
-  setResourcesLoading: (loading: boolean) => void;
-  resourcesUpdated: boolean;
-  setResourcesUpdated: (updated: boolean) => void;
-  saveSubjectTopicItems: (topicId: string, saveItems: { metadata: TaxonomyMetadata }) => void;
-  grouped: string;
+  setCurrentNode: (changedNode: NodeChild) => void;
+  userData: IUserData | undefined;
 }
 
-const StructureResources = ({
-  locale,
-  params,
-  currentTopic,
-  refreshTopics,
-  resourceRef,
-  resourcesUpdated,
-  setResourcesUpdated,
-  saveSubjectTopicItems,
-  setResourcesLoading,
-  grouped,
-}: Props) => {
-  const { t } = useTranslation();
+const getMissingResourceType = (t: TFunction): ResourceType & { disabled?: boolean } => ({
+  id: 'missing',
+  name: t('taxonomy.missingResourceType'),
+  disabled: true,
+  supportedLanguages: [],
+  translations: [],
+  subtypes: [],
+});
+
+const missingObject = {
+  id: 'missing',
+  name: '',
+  connectionId: '',
+  parentId: '',
+  supportedLanguages: [],
+  translations: [],
+};
+const withMissing = (r: NodeChild): NodeChild => ({
+  ...r,
+  resourceTypes: [missingObject],
+});
+
+const StructureResources = ({ currentChildNode, resourceRef, setCurrentNode, userData }: Props) => {
+  const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
-  const [resourceTypes, setResourceTypes] = useState<(ResourceType & { disabled?: boolean })[]>([]);
-  const [topicResources, setTopicResources] = useState<TopicResource[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [topicStatus, setTopicStatus] = useState<IStatus | undefined>(undefined);
-  const [topicArticleType, setTopicArticleType] = useState<string | undefined>(undefined);
-  const [topicGrepCodes, setTopicGrepCodes] = useState<string[]>([]);
-  const prevCurrentTopic = useRef<SubjectTopic | null>(null);
+  const grouped = currentChildNode?.metadata?.customFields['topic-resources'] ?? 'grouped';
 
-  useEffect(() => {
-    (async () => {
-      try {
-        setLoading(true);
-        await getAllResourceTypes();
-        await getTopicResources();
-      } catch (error) {
-        handleError(error);
-      }
-      setLoading(false);
-    })();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  const { data: nodeResources } = useResourcesWithNodeConnection(
+    { id: currentChildNode.id, language: i18n.language, taxonomyVersion },
+    {
+      select: (resources) =>
+        resources.map((r) => (r.resourceTypes.length > 0 ? r : withMissing(r))),
+      onError: (e) => handleError(e),
+      placeholderData: [],
+    },
+  );
 
-  useLayoutEffect(() => {
-    (async () => {
-      if (!prevCurrentTopic.current) {
-        return;
-      }
-      if (currentTopic.id !== prevCurrentTopic.current?.id || resourcesUpdated) {
-        await getTopicResources();
-      }
-      if (resourcesUpdated) {
-        setResourcesUpdated(false);
-      }
-    })();
-    prevCurrentTopic.current = currentTopic;
-  });
+  const { data: nodeResourceMetas, isInitialLoading: contentMetaLoading } = useNodeResourceMetas(
+    {
+      nodeId: currentChildNode.id,
+      ids:
+        nodeResources
+          ?.map((r) => r.contentUri)
+          .concat(currentChildNode.contentUri)
+          .filter<string>((uri): uri is string => !!uri) ?? [],
+      language: i18n.language,
+    },
+    { enabled: !!currentChildNode.contentUri || !!nodeResources?.length },
+  );
 
-  const getAllResourceTypes = async () => {
-    try {
-      const resourceTypes = await fetchAllResourceTypes({ language: locale, taxonomyVersion });
-      setResourceTypes([
-        ...resourceTypes,
-        {
-          id: 'missing',
-          name: t('taxonomy.missingResourceType'),
-          disabled: true,
-        },
-      ]);
-    } catch (error) {
-      handleError(error);
-    }
-  };
+  const keyedMetas = keyBy(nodeResourceMetas, (m) => m.contentUri);
 
-  const onUpdateResource = (updatedRes: TopicResource) => {
-    const updated = topicResources.map(res => (res.id === updatedRes.id ? updatedRes : res));
-    setTopicResources(updated);
-  };
-
-  const getTopicResources = async () => {
-    const { id: topicId } = currentTopic;
-    setResourcesLoading(true);
-    setLoading(true);
-    if (topicId) {
-      try {
-        const initialTopicResources = await fetchTopicResources({
-          topicUrn: topicId,
-          language: locale,
-          taxonomyVersion,
-        });
-        const allTopicResources: TopicResource[] = initialTopicResources.map(r =>
-          r.resourceTypes.length > 0
-            ? r
-            : { ...r, resourceTypes: [{ id: 'missing', name: '', connectionId: '' }] },
-        );
-
-        if (currentTopic.contentUri) {
-          const article = await fetchDraft(
-            parseInt(currentTopic.contentUri.replace('urn:article:', '')),
-            locale,
-          );
-          setTopicStatus(article.status);
-          setTopicArticleType(article.articleType);
-          setTopicGrepCodes(article.grepCodes);
-        }
-        const modifiedResources = await getResourceStatusesAndGrepCodes(allTopicResources);
-
-        setTopicResources(modifiedResources);
-      } catch (error) {
-        setTopicResources([]);
-        handleError(error);
-      }
-    } else {
-      setTopicResources([]);
-    }
-    setLoading(false);
-    setResourcesLoading(false);
-  };
-
-  const onDeleteResource = (resourceId: string) => {
-    setTopicResources(topicResources.filter(r => r.connectionId !== resourceId));
-  };
-
-  const getResourceStatusesAndGrepCodes = async (allTopicResources: TopicResource[]) => {
-    const resourcePromises = allTopicResources.map(async resource => {
-      const [, resourceType, id] = resource.contentUri?.split(':') ?? [];
-      if (resourceType === 'article') {
-        const article = await fetchDraft(parseInt(id), locale);
-        return {
-          ...resource,
-          articleType: article.articleType,
-          status: article.status,
-          grepCodes: article.grepCodes,
-        };
-      } else if (resourceType === 'learningpath') {
-        const learningpath = await fetchLearningpath(parseInt(id), locale);
-        if (learningpath.status) {
-          const status = { current: learningpath.status, other: [] };
-          return { ...resource, status };
-        }
-      }
-      return resource;
-    });
-    return await Promise.all(resourcePromises);
-  };
-
-  if (loading) {
-    return <Spinner />;
-  }
-
-  const groupedTopicResources = groupSortResourceTypesFromTopicResources(
-    resourceTypes,
-    topicResources,
+  const { data: resourceTypes } = useAllResourceTypes(
+    { language: i18n.language, taxonomyVersion },
+    {
+      select: (resourceTypes) => resourceTypes.concat(getMissingResourceType(t)),
+      onError: (e) => handleError(e),
+    },
   );
 
   return (
-    <>
-      {currentTopic && currentTopic.id && (
-        <StyledDiv>
-          <GroupTopicResources
-            topicId={currentTopic.id}
-            subjectId={`urn:${currentTopic.path.split('/')[1]}`}
-            metadata={currentTopic.metadata}
-            updateLocalTopics={saveSubjectTopicItems}
-            hideIcon
-          />
-        </StyledDiv>
-      )}
-      <TopicDescription
-        onUpdateResource={r => setTopicGrepCodes(r.grepCodes)}
-        topicDescription={currentTopic.name}
-        locale={locale}
-        resourceRef={resourceRef}
-        refreshTopics={refreshTopics}
-        currentTopic={currentTopic}
-        status={topicStatus}
-        grepCodes={topicGrepCodes}
-        topicArticleType={topicArticleType}
+    <StickyContainer ref={resourceRef}>
+      <ResourcesContainer
+        key="ungrouped"
+        nodeResources={nodeResources ?? []}
+        resourceTypes={resourceTypes ?? []}
+        currentNode={currentChildNode}
+        contentMeta={keyedMetas}
+        grouped={grouped === 'grouped'}
+        setCurrentNode={setCurrentNode}
+        contentMetaLoading={contentMetaLoading}
+        userData={userData}
       />
-      {grouped === 'ungrouped' && (
-        <AllResourcesGroup
-          onDeleteResource={onDeleteResource}
-          key="ungrouped"
-          params={params}
-          topicResources={topicResources}
-          onUpdateResource={onUpdateResource}
-          refreshResources={getTopicResources}
-          locale={locale}
-          resourceTypes={resourceTypes}
-        />
-      )}
-      {grouped === 'grouped' &&
-        resourceTypes.map(resourceType => {
-          const topicResource = groupedTopicResources.find(
-            resource => resource.id === resourceType.id,
-          );
-          return (
-            <ResourceGroup
-              onDeleteResource={onDeleteResource}
-              key={resourceType.id}
-              resourceType={resourceType}
-              onUpdateResource={onUpdateResource}
-              topicResource={topicResource}
-              params={params}
-              refreshResources={getTopicResources}
-              locale={locale}
-            />
-          );
-        })}
-    </>
+    </StickyContainer>
   );
 };
 

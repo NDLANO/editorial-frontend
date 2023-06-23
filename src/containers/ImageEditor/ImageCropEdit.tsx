@@ -12,6 +12,7 @@ import { ImageEmbed } from '../../interfaces';
 
 interface Props {
   embed: ImageEmbed;
+  language: string;
   onCropComplete: (crop: ReactCrop.Crop, pixelCrop: ReactCrop.PixelCrop) => void;
   transformData?: {
     'focal-x'?: string;
@@ -23,8 +24,8 @@ interface Props {
   };
 }
 
-const ImageCropEdit = ({ embed, onCropComplete, transformData }: Props) => {
-  const src = `${config.ndlaApiUrl}/image-api/raw/id/${embed.resource_id}`;
+const ImageCropEdit = ({ embed, language, onCropComplete, transformData }: Props) => {
+  const src = `${config.ndlaApiUrl}/image-api/raw/id/${embed.resource_id}?language=${language}`;
   const [crop, setCrop] = useState<ReactCrop.Crop | undefined>(
     transformData &&
       !!transformData['upper-left-x'] &&
@@ -49,7 +50,7 @@ const ImageCropEdit = ({ embed, onCropComplete, transformData }: Props) => {
       src={src}
       onComplete={onCropComplete}
       crop={crop}
-      onChange={crop => setCrop(crop)}
+      onChange={(crop) => setCrop(crop)}
     />
   );
 };

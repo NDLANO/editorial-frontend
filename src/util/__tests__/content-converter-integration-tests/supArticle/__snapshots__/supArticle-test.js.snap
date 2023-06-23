@@ -49,7 +49,7 @@ exports[`serializing article with sup tag 1`] = `
     Nå er endringen på grunn av høyere pumperate. Her bruker vi formelen pf2 =
     pf1 (Q2/Q1)<sup>2</sup>
   </p>
-  <div class=\\"c-bodybox\\">
+  <div class="c-bodybox">
     <p>i) Ny friksjonsfaktor i ringrommet:</p>
     <p>pfr2 = 2,5 · (80/40)<sup>2 </sup>= 10 bar</p>
     <p>
@@ -87,7 +87,7 @@ exports[`serializing article with sup tag 1`] = `
     Her regner vi ut hydrostatisk trykk til casingskoen og friksjonstrykket i
     ringrommet over casingskoen.
   </p>
-  <div class=\\"c-bodybox\\">
+  <div class="c-bodybox">
     <p>phydcs = 2300 · 0,0981 · 1,25 = 282 bar</p>
     <p>
       pfrcs = pfr3 · (2300/2500) = 10 · (1,25/1,20) · (2300/2500) = 9,59 bar
@@ -124,7 +124,7 @@ exports[`serializing article with sup tag 1`] = `
     Samlet bunnhullstrykk kan uttrykkes i densitet og heter ECD når vi
     sirkulerer:
   </p>
-  <div class=\\"c-bodybox\\">
+  <div class="c-bodybox">
     <p>PBH5 = 392,4 + 3,3 · (80/40)<sup>2</sup> = 405,6 bar</p>
     <p>p = d · g · h</p>
     <p>d = p/(g · h)</p>

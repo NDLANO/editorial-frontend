@@ -7,7 +7,7 @@
  */
 
 import styled from '@emotion/styled';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, MouseEvent } from 'react';
 import { Editor } from 'slate';
 import { ReactEditor } from 'slate-react';
 import { MathmlElement } from '.';
@@ -19,11 +19,12 @@ interface Props {
   };
   editor: Editor;
   element: MathmlElement;
+  onDoubleClick?: (e: MouseEvent<HTMLSpanElement>) => void;
 }
 
 const StyledSpan = styled.span`
   mjx-stretchy-v > mjx-ext > mjx-c {
-    transform: scaleY(200) translateY(0.075em);
+    transform: scaleY(100) translateY(0.075em);
   }
 `;
 
@@ -35,7 +36,7 @@ const clearMathjax = (editor: Editor, element: MathmlElement) => {
   }
 };
 
-const MathML = ({ model, element, editor }: Props) => {
+const MathML = ({ model, element, editor, onDoubleClick }: Props) => {
   const [reRender, setReRender] = useState(false);
   const [mathjaxInitialized, setMathjaxInitialized] = useState(true);
 
@@ -81,9 +82,10 @@ const MathML = ({ model, element, editor }: Props) => {
   }
 
   return (
-    <StyledSpan data-cy="math">
+    <StyledSpan data-cy="math" onDoubleClick={onDoubleClick}>
       {/* @ts-ignore math does not exist in JSX, but this hack works by setting innerHTML manually. */}
       <math
+        // eslint-disable-next-line react/no-unknown-property
         xlmns={model.xlmns}
         dangerouslySetInnerHTML={{
           __html: model.innerHTML,

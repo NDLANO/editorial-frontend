@@ -6,19 +6,18 @@
  *
  */
 
-import { css } from '@emotion/core';
-import Button from '@ndla/button';
+import styled from '@emotion/styled';
+import { ButtonV2 } from '@ndla/button';
 import Tooltip from '@ndla/tooltip';
 import { RemoveCircle } from '@ndla/icons/action';
 import { spacing } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
 
-const deleteButtonStyle = css`
+const StyledRemoveButton = styled(ButtonV2)`
   margin-left: ${spacing.small};
-  line-height: 1;
 `;
 
-const removeCircleStyle = css`
+const StyledRemoveCircle = styled(RemoveCircle)`
   width: 24px;
   height: 24px;
   opacity: 0.6;
@@ -32,9 +31,9 @@ const RemoveButton = ({ onClick }: Props) => {
   const { t } = useTranslation();
   return (
     <Tooltip tooltip={t('taxonomy.removeResource')}>
-      <Button css={deleteButtonStyle} onClick={onClick} stripped>
-        <RemoveCircle css={removeCircleStyle} />
-      </Button>
+      <StyledRemoveButton onClick={onClick} variant="stripped">
+        <StyledRemoveCircle />
+      </StyledRemoveButton>
     </Tooltip>
   );
 };

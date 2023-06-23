@@ -6,12 +6,11 @@
  *
  */
 
-import { ReactChild, useState } from 'react';
+import { ReactChild, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useFormikContext } from 'formik';
-import { css } from '@emotion/react';
-import Button from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 import styled from '@emotion/styled';
 import { ContentTypeBadge, constants } from '@ndla/ui';
 import { colors, fonts, spacing } from '@ndla/core';
@@ -26,6 +25,7 @@ import handleError from '../../util/handleError';
 import { useMessages } from '../../containers/Messages/MessagesProvider';
 import { ArticleFormType } from '../../containers/FormikForm/articleFormHooks';
 import { ConceptFormValues } from '../../containers/ConceptPage/conceptInterfaces';
+import { fetchAuth0Users } from '../../modules/auth0/auth0Api';
 
 export const StyledSplitter = styled.div`
   width: 1px;
@@ -72,6 +72,11 @@ export const types: Record<string, { form: string; cssModifier: string; icon: Re
     cssModifier: 'article',
     icon: <ContentTypeBadge type={contentTypes.SUBJECT} background size="small" />,
   },
+  'frontpage-article': {
+    form: 'frontpageArticleForm',
+    cssModifier: 'article',
+    icon: <ContentTypeBadge type={contentTypes.SUBJECT} background size="small" />,
+  },
   image: { form: 'imageForm', cssModifier: 'multimedia', icon: <Camera /> },
   audio: {
     form: 'audioForm',
@@ -112,6 +117,7 @@ interface Props {
   id?: number;
   setHasConnections?: (hasConnections: boolean) => void;
   expirationDate?: string;
+  responsibleId?: string;
 }
 
 const HeaderInformation = ({
@@ -126,12 +132,22 @@ const HeaderInformation = ({
   taxonomyPaths,
   setHasConnections,
   expirationDate,
+  responsibleId,
 }: Props) => {
   const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
   const { createMessage } = useMessages();
   const navigate = useNavigate();
   const { values } = useFormikContext<ArticleFormType | ConceptFormValues>();
+  const [responsibleName, setResponsibleName] = useState<string | undefined>(undefined);
+
+  useEffect(() => {
+    (async () => {
+      if (!responsibleId) return;
+      const userData = await fetchAuth0Users(responsibleId);
+      userData.length && setResponsibleName(userData[0].name);
+    })();
+  }, [responsibleId]);
 
   const onSaveAsNew = async () => {
     if (!values.id) return;
@@ -162,16 +178,10 @@ const HeaderInformation = ({
           {title ? `${t(`${types[type].form}.title`)}: ${title}` : t(`${types[type].form}.title`)}
         </h1>
         {(type === 'standard' || type === 'topic-article') && (
-          <Button
-            stripped
-            css={css`
-              white-space: nowrap;
-            `}
-            onClick={onSaveAsNew}
-            data-testid="saveAsNew">
+          <ButtonV2 variant="stripped" onClick={onSaveAsNew} data-testid="saveAsNew">
             {t('form.workflow.saveAsNew')}
             {loading && <Spinner appearance="absolute" />}
-          </Button>
+          </ButtonV2>
         )}
       </StyledTitleHeaderWrapper>
       <HeaderStatusInformation
@@ -184,6 +194,7 @@ const HeaderInformation = ({
         id={id}
         setHasConnections={setHasConnections}
         expirationDate={expirationDate}
+        responsibleName={responsibleName}
       />
     </StyledHeader>
   );

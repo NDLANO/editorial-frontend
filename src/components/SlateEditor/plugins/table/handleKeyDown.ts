@@ -1,3 +1,12 @@
+/**
+ * Copyright (c) 2022-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ *
+ */
+
 import { Editor, NodeEntry, Path, Point, Range, Transforms } from 'slate';
 import { ReactEditor } from 'slate-react';
 import {
@@ -8,9 +17,15 @@ import {
   TableRowElement,
 } from './interfaces';
 import { KEY_ARROW_DOWN, KEY_ARROW_UP, KEY_BACKSPACE, KEY_DELETE, KEY_TAB } from '../../utils/keys';
-import { isTableBody, isTableCell, isTableHead, isTableRow } from './helpers';
-import { findCellCoordinate, getTableAsMatrix } from './matrix';
-import { createIdenticalRow } from './utils';
+import { getTableAsMatrix } from './matrix';
+import {
+  createIdenticalRow,
+  isTableBody,
+  isTableCell,
+  isTableHead,
+  isTableRow,
+} from './slateHelpers';
+import { findCellCoordinate } from './matrixHelpers';
 
 export const handleTableKeydown = (
   event: KeyboardEvent,
@@ -20,21 +35,21 @@ export const handleTableKeydown = (
   if (editor.selection) {
     const [cellEntry] = Editor.nodes(editor, {
       at: editor.selection.anchor.path,
-      match: node => isTableCell(node),
+      match: (node) => isTableCell(node),
     });
     if (!cellEntry) {
       return;
     }
     const [rowEntry] = Editor.nodes(editor, {
       at: editor.selection.anchor.path,
-      match: node => isTableRow(node),
+      match: (node) => isTableRow(node),
     });
     if (!rowEntry) {
       return;
     }
     const [bodyEntry] = Editor.nodes(editor, {
       at: editor.selection.anchor.path,
-      match: node => isTableHead(node) || isTableBody(node),
+      match: (node) => isTableHead(node) || isTableBody(node),
     });
     if (!bodyEntry) {
       return;

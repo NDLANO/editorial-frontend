@@ -6,18 +6,19 @@
  *
  */
 
-import { NODE, NodeType, NodeTypeValue, SUBJECT_NODE, TOPIC_NODE } from './nodeApiTypes';
+import { Node, NodeType } from '@ndla/types-taxonomy';
+import { NODE, SUBJECT_NODE, TOPIC_NODE } from './nodeApiTypes';
 
-const validNodeTypes: NodeTypeValue[] = [SUBJECT_NODE, TOPIC_NODE, NODE];
-export const getNodeTypeFromNodeId = (id: string): NodeTypeValue => {
+const validNodeTypes: NodeType[] = [SUBJECT_NODE, TOPIC_NODE, NODE];
+export const getNodeTypeFromNodeId = (id: string): NodeType => {
   const idType = id.split(':')[1].toUpperCase();
-  return validNodeTypes.find(t => t === idType) ?? NODE;
+  return validNodeTypes.find((t) => t === idType) ?? NODE;
 };
 
-export const isRootNode = (node: NodeType): boolean => {
+export const isRootNode = (node: Node): boolean => {
   return node.id.replace('urn:', '/') === node.path;
 };
 
-export const getRootIdForNode = (node: NodeType): string => {
+export const getRootIdForNode = (node: Node): string => {
   return `urn:${node.path.substring(1).split('/')[0]}`;
 };

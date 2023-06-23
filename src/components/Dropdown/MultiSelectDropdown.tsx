@@ -9,6 +9,7 @@
 import { ChangeEvent, useState } from 'react';
 
 import Downshift, { StateChangeOptions } from 'downshift';
+//@ts-ignore
 import { DropdownInput, DropdownMenu } from '@ndla/forms';
 import { FormikHandlers } from 'formik';
 import { itemToString } from '../../util/downShiftHelpers';
@@ -117,7 +118,8 @@ export const MultiSelectDropdown = <T extends { id: string }>({
       isOpen={isOpen}
       inputValue={inputValue}
       onStateChange={handleStateChange}
-      itemToString={item => itemToString(item, labelField)}>
+      itemToString={(item) => itemToString(item, labelField)}
+    >
       {({ getInputProps, ...downshiftProps }) => (
         <div style={{ position: 'relative' }}>
           <DropdownInput

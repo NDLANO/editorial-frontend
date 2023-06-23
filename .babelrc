@@ -4,22 +4,25 @@
       "razzle",
       {
         "preset-react": {
-          "runtime": "automatic"
+          "runtime": "automatic",
+          "importSource": "@emotion/react"
         }
       }
-    ],
-    "@emotion/babel-preset-css-prop"
+    ]
   ],
   "plugins": [
-    ["emotion", { "sourceMap": true }],
+    ["@emotion", { "autoLabel": "always" }],
     "@babel/plugin-proposal-optional-chaining",
-    "@loadable/babel-plugin",
-    [
-      "@babel/plugin-transform-react-jsx",
-      {
-        "runtime": "automatic",
-        "importSource": "@emotion/core"
-      }
-    ]
-  ]
+    "@loadable/babel-plugin"
+  ],
+  "env": {
+    "development": {
+      "plugins": [
+        ["@emotion", { "autoLabel": "always" }],
+        "@babel/plugin-proposal-optional-chaining",
+        "@loadable/babel-plugin",
+        "react-refresh/babel"
+      ]
+    }
+  }
 }

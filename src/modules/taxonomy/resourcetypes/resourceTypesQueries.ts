@@ -6,11 +6,11 @@
  *
  */
 
-import { useQuery, UseQueryOptions } from 'react-query';
+import { useQuery, UseQueryOptions } from '@tanstack/react-query';
+import { ResourceType } from '@ndla/types-taxonomy';
 import { fetchAllResourceTypes, fetchResourceType } from '.';
 import { WithTaxonomyVersion } from '../../../interfaces';
 import { RESOURCE_TYPE, RESOURCE_TYPES } from '../../../queryKeys';
-import { ResourceType } from '../taxonomyApiInterfaces';
 
 interface UseResourceTypeParams extends WithTaxonomyVersion {
   id: string;

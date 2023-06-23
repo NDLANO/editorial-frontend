@@ -7,7 +7,8 @@
  */
 
 import { FormEvent } from 'react';
-import Button from '@ndla/button';
+import addYears from 'date-fns/addYears';
+import { ButtonV2 } from '@ndla/button';
 import { Input, FieldRemoveButton } from '@ndla/forms';
 import { useTranslation } from 'react-i18next';
 import { FieldInputProps } from 'formik';
@@ -18,6 +19,7 @@ import Tooltip from '@ndla/tooltip';
 import { ArticleFormType } from './articleFormHooks';
 import InlineDatePicker from './components/InlineDatePicker';
 import { formatDateForBackend } from '../../util/formatDate';
+import { useMessages } from '../Messages/MessagesProvider';
 
 type RevisionMetaFormType = ArticleFormType['revisionMeta'];
 
@@ -32,6 +34,7 @@ interface Props {
 
 const Wrapper = styled.div`
   margin-bottom: ${spacing.small};
+  align-items: baseline;
   display: flex;
   > div {
     &:first-of-type {
@@ -53,11 +56,8 @@ const StyledSwitch = styled(Switch)`
   outline: none;
 `;
 
-const StyledTooltip = styled(Tooltip)<{ hide?: boolean }>`
+const StyledDatePickerWrapper = styled.div`
   height: ${spacing.large};
-  visibility: ${({ hide }) => (hide ? 'hidden' : 'visible')};
-  display: flex;
-  align-items: center;
 `;
 
 const StyledRemoveButton = styled(FieldRemoveButton)<{ visible?: boolean }>`
@@ -69,9 +69,14 @@ const StyledRemoveButton = styled(FieldRemoveButton)<{ visible?: boolean }>`
   }
 `;
 
+const VerticalCenter = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
 const AddRevisionDateField = ({ formikField, showError }: Props) => {
   const { t } = useTranslation();
-  type RevisionMetaType = typeof formikField.value[number];
+  type RevisionMetaType = (typeof formikField.value)[number];
   const onRevisionChange = (newMetas: RevisionMetaFormType) => {
     formikField.onChange({
       target: {
@@ -85,7 +90,7 @@ const AddRevisionDateField = ({ formikField, showError }: Props) => {
       ...formikField.value,
       {
         note: '',
-        revisionDate: formatDateForBackend(new Date()),
+        revisionDate: formatDateForBackend(addYears(new Date(), 5)),
         status: 'needs-revision',
         new: true,
       },
@@ -96,6 +101,8 @@ const AddRevisionDateField = ({ formikField, showError }: Props) => {
     const withoutIdx = formikField.value.filter((_, index) => index !== idx);
     onRevisionChange(withoutIdx);
   };
+
+  const { createMessage } = useMessages();
 
   return (
     <>
@@ -113,48 +120,63 @@ const AddRevisionDateField = ({ formikField, showError }: Props) => {
                   warningText={
                     showError && revisionMeta.note === '' ? t('validation.noEmptyRevision') : ''
                   }
-                  container="div"
                   placeholder={t('form.revisions.inputPlaceholder')}
                   type="text"
-                  focusOnMount
+                  // eslint-disable-next-line jsx-a11y/no-autofocus
+                  autoFocus
                   value={revisionMeta.note}
                   data-testid="revisionInput"
                   onChange={(e: FormEvent<HTMLInputElement>) => {
-                    editRevision(old => ({ ...old, note: e.currentTarget.value }));
+                    editRevision((old) => ({ ...old, note: e.currentTarget.value }));
                   }}
                   white
                 />
               </InputWrapper>
-              <StyledTooltip tooltip={t('form.revisions.datePickerTooltip')}>
-                <InlineDatePicker
-                  value={revisionMeta.revisionDate}
-                  name={`revision_date_${index}`}
-                  onChange={date => {
-                    editRevision(old => ({ ...old, revisionDate: date.target.value }));
-                  }}
-                />
-              </StyledTooltip>
-              <StyledTooltip tooltip={t('form.revisions.switchTooltip')}>
-                <StyledSwitch
-                  checked={revisionMeta.status === 'revised'}
-                  onChange={e => {
-                    const status = e.currentTarget.checked ? 'revised' : 'needs-revision';
-                    editRevision(old => ({ ...old, status }));
-                  }}
-                  label={''}
-                  id={`revision_switch_${index}`}
-                />
-              </StyledTooltip>
-              <StyledTooltip tooltip={t('form.revisions.deleteTooltip')}>
-                <StyledRemoveButton stripped visible onClick={() => removeRevision(index)} />
-              </StyledTooltip>
+              <VerticalCenter>
+                <Tooltip tooltip={t('form.revisions.datePickerTooltip')}>
+                  <StyledDatePickerWrapper>
+                    <InlineDatePicker
+                      value={revisionMeta.revisionDate}
+                      name={`revision_date_${index}`}
+                      onChange={(date) =>
+                        editRevision((old) => ({ ...old, revisionDate: date.currentTarget.value }))
+                      }
+                    />
+                  </StyledDatePickerWrapper>
+                </Tooltip>
+                <Tooltip tooltip={t('form.revisions.switchTooltip')}>
+                  <div>
+                    <StyledSwitch
+                      checked={revisionMeta.status === 'revised'}
+                      onChange={(c) => {
+                        const status = c ? 'revised' : 'needs-revision';
+                        editRevision((old) => ({ ...old, status }));
+                        if (status === 'revised') {
+                          createMessage({
+                            translationKey: 'form.revisions.reminder',
+                            severity: 'info',
+                            timeToLive: 0,
+                          });
+                        }
+                      }}
+                      label={''}
+                      id={`revision_switch_${index}`}
+                    />
+                  </div>
+                </Tooltip>
+                <Tooltip tooltip={t('form.revisions.deleteTooltip')}>
+                  <div>
+                    <StyledRemoveButton visible onClick={() => removeRevision(index)} />
+                  </div>
+                </Tooltip>
+              </VerticalCenter>
             </Wrapper>
           </div>
         );
       })}
-      <Button outline onClick={addRevision} data-testid="addRevision">
+      <ButtonV2 variant="outline" onClick={addRevision} data-testid="addRevision">
         {t('form.revisions.add')}
-      </Button>
+      </ButtonV2>
     </>
   );
 };

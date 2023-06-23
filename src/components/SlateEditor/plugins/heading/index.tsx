@@ -35,13 +35,13 @@ export const headingSerializer: SlateSerializer = {
       return slatejsx('element', { type: TYPE_HEADING, level: 3 }, children);
     }
     if (tag === 'h4') {
-      return slatejsx('element', { type: TYPE_HEADING, level: 3 }, children);
+      return slatejsx('element', { type: TYPE_HEADING, level: 4 }, children);
     }
     if (tag === 'h5') {
-      return slatejsx('element', { type: TYPE_HEADING, level: 3 }, children);
+      return slatejsx('element', { type: TYPE_HEADING, level: 4 }, children);
     }
     if (tag === 'h6') {
-      return slatejsx('element', { type: TYPE_HEADING, level: 3 }, children);
+      return slatejsx('element', { type: TYPE_HEADING, level: 4 }, children);
     }
   },
   serialize(node: Descendant, children: JSX.Element[]) {
@@ -81,7 +81,7 @@ const onBackspace = (
           Editor.string(editor, editor.selection.anchor.path) === ''
         ) {
           Transforms.unwrapNodes(editor, {
-            match: node => Element.isElement(node) && node.type === 'heading',
+            match: (node) => Element.isElement(node) && node.type === 'heading',
           });
           return;
         }
@@ -95,7 +95,7 @@ const onBackspace = (
         e.preventDefault();
         editor.deleteBackward('character');
         Transforms.unwrapNodes(editor, {
-          match: node => Element.isElement(node) && node.type === TYPE_HEADING,
+          match: (node) => Element.isElement(node) && node.type === TYPE_HEADING,
         });
         return;
       }
@@ -136,7 +136,7 @@ export const headingPlugin = (editor: Editor) => {
     return undefined;
   };
 
-  editor.normalizeNode = entry => {
+  editor.normalizeNode = (entry) => {
     const [node, path] = entry;
 
     if (Element.isElement(node) && node.type === TYPE_HEADING) {

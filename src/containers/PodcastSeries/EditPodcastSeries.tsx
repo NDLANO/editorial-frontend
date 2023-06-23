@@ -8,16 +8,23 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
-import { ISeries, INewSeries } from '@ndla/types-audio-api';
+import { ISeries, INewSeries } from '@ndla/types-backend/audio-api';
 
 import { fetchSeries, updateSeries } from '../../modules/audio/audioApi';
 import Spinner from '../../components/Spinner';
 import PodcastSeriesForm from './components/PodcastSeriesForm';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
+import { TranslateType, useTranslateToNN } from '../../components/NynorskTranslateProvider';
 
 interface Props {
   isNewlyCreated?: boolean;
 }
+
+const translateFields: TranslateType[] = [
+  { field: 'title.title', type: 'text' },
+  { field: 'description.description', type: 'text' },
+  { field: 'coverPhoto.altText', type: 'text' },
+];
 
 const EditPodcastSeries = ({ isNewlyCreated }: Props) => {
   const params = useParams<'id' | 'selectedLanguage'>();
@@ -25,6 +32,7 @@ const EditPodcastSeries = ({ isNewlyCreated }: Props) => {
   const locale = i18n.language;
   const [podcastSeries, setPodcastSeries] = useState<ISeries | undefined>(undefined);
   const [loading, setLoading] = useState<boolean>(false);
+  const { shouldTranslate, translate, translating } = useTranslateToNN();
   const seriesId = Number(params.id) || undefined;
   const seriesLanguage = params.selectedLanguage ?? locale;
 
@@ -39,7 +47,19 @@ const EditPodcastSeries = ({ isNewlyCreated }: Props) => {
     })();
   }, [seriesId, seriesLanguage]);
 
-  if (loading) {
+  useEffect(() => {
+    (async () => {
+      if (shouldTranslate && !loading) {
+        setLoading(true);
+      }
+      if (podcastSeries && !loading && shouldTranslate) {
+        await translate(podcastSeries, translateFields, setPodcastSeries);
+        setLoading(false);
+      }
+    })();
+  }, [shouldTranslate, translate, podcastSeries, loading]);
+
+  if (loading || translating) {
     return <Spinner />;
   }
 

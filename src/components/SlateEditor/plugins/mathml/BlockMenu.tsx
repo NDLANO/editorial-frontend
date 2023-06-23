@@ -1,12 +1,12 @@
 import { PureComponent } from 'react';
-import Button from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 import styled from '@emotion/styled';
 import { colors, spacing } from '@ndla/core';
-import { css } from '@emotion/core';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { CustomWithTranslation, withTranslation } from 'react-i18next';
 
 const StyledMenu = styled('span')<{ top: number; left: number }>`
-  cursor: pointer;
+  display: flex;
+  gap: ${spacing.xsmall};
   position: absolute;
   padding: ${spacing.xsmall};
   background-color: white;
@@ -14,14 +14,8 @@ const StyledMenu = styled('span')<{ top: number; left: number }>`
   border: 1px solid rgba(0, 0, 0, 0.2);
   border: 1px solid ${colors.brand.greyLight};
   z-index: 1;
-  ${p => (p.left ? `left: ${p.left}px;` : '')};
-  ${p => (p.top ? `top: ${p.top}px;` : '')};
-`;
-
-const buttonStyle = css`
-  color: ${colors.brand.primary};
-  text-decoration: underline;
-  margin: 0 ${spacing.xsmall};
+  ${(p) => (p.left ? `left: ${p.left}px;` : '')};
+  ${(p) => (p.top ? `top: ${p.top}px;` : '')};
 `;
 
 interface Props {
@@ -32,7 +26,7 @@ interface Props {
   toggleMenu: (event: Event) => void;
 }
 
-class BlockMenu extends PureComponent<Props & WithTranslation> {
+class BlockMenu extends PureComponent<Props & CustomWithTranslation> {
   modal: HTMLSpanElement | null | undefined;
   componentDidMount() {
     document.addEventListener('click', this.closeModal, false);
@@ -51,14 +45,14 @@ class BlockMenu extends PureComponent<Props & WithTranslation> {
   render() {
     const { t, top, left, handleRemove, toggleEdit } = this.props;
     return (
-      <StyledMenu top={top} left={left} ref={node => (this.modal = node)}>
-        <Button stripped css={buttonStyle} onClick={toggleEdit}>
+      <StyledMenu top={top} left={left} ref={(node) => (this.modal = node)}>
+        <ButtonV2 variant="link" onClick={toggleEdit}>
           {t('form.edit')}
-        </Button>
+        </ButtonV2>
         |
-        <Button stripped css={buttonStyle} onClick={handleRemove}>
+        <ButtonV2 variant="link" onClick={handleRemove}>
           {t('form.remove')}
-        </Button>
+        </ButtonV2>
       </StyledMenu>
     );
   }

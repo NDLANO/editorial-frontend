@@ -8,17 +8,17 @@
 
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
-import { css } from '@emotion/core';
 import { Check } from '@ndla/icons/editor';
 import { colors, spacing, fonts } from '@ndla/core';
-import Button from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 
 import { StagedTopic } from '../../../TopicArticlePage/components/TopicArticleTaxonomy';
 import { LocaleType } from '../../../../../interfaces';
 
-const buttonAdditionStyle = css`
+const StyledButton = styled(ButtonV2)`
   opacity: 0;
   height: auto;
+  min-height: 30px;
   padding: 0 ${spacing.small};
   margin: 3px ${spacing.xsmall};
   transition: background 200ms ease;
@@ -26,16 +26,16 @@ const buttonAdditionStyle = css`
 `;
 
 const StyledChecked = styled('div')`
-  ${fonts.sizes(16, 1.1)} 
-  
+  ${fonts.sizes(16, 1.1)}
+
   font-weight: ${fonts.weight.semibold};
   display: flex;
   align-items: center;
-  
+
   span {
     margin: 0 ${spacing.xsmall};
   }
-  
+
   svg {
     fill: ${colors.support.green};
   }
@@ -81,18 +81,14 @@ const StructureButtons = ({ isSubject, id, closeModal, activeTopics, addTopic }:
     return null;
   }
 
-  const currentIndex = activeTopics.findIndex(topic => topic.id === id);
+  const currentIndex = activeTopics.findIndex((topic) => topic.id === id);
 
   return (
     <StyledButtonWrapper>
       {currentIndex === -1 ? (
-        <Button
-          outline
-          css={buttonAdditionStyle}
-          type="button"
-          onClick={() => addTopic(id, closeModal, i18n.language)}>
+        <StyledButton variant="outline" onClick={() => addTopic(id, closeModal, i18n.language)}>
           {t('taxonomy.topics.filestructureButton')}
-        </Button>
+        </StyledButton>
       ) : (
         <StyledChecked>
           <Check className="c-icon--22" style={{ fill: colors.support.green }} />{' '}

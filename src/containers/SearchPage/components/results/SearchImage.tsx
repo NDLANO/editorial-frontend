@@ -6,43 +6,59 @@
  *
  */
 
-import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { LicenseByline, getLicenseByAbbreviation } from '@ndla/licenses';
+import styled from '@emotion/styled';
 import { colors } from '@ndla/core';
-import { IImageMetaSummary } from '@ndla/types-image-api';
+import { getLicenseByAbbreviation } from '@ndla/licenses';
+import { LicenseByline } from '@ndla/notion';
+import { ImageMeta } from '@ndla/image-search';
+import { IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
 import { toEditImage } from '../../../../util/routeHelpers';
-import { ImageResultShape } from '../../../../shapes';
-import { searchClasses } from '../../SearchContainer';
 import { useLicenses } from '../../../../modules/draft/draftQueries';
+import {
+  StyledOtherLink,
+  StyledSearchContent,
+  StyledSearchDescription,
+  StyledSearchImageContainer,
+  StyledSearchResult,
+  StyledSearchTitle,
+} from '../form/StyledSearchComponents';
+
+const StyledImageMeta = styled(ImageMeta)`
+  margin-bottom: 5px;
+`;
 
 interface Props {
-  image: IImageMetaSummary;
+  image: IImageMetaInformationV3;
   locale: string;
 }
 
 const SearchImage = ({ image, locale }: Props) => {
   const { t } = useTranslation();
   const { data: licenses } = useLicenses();
-  const license = licenses && licenses.find(l => image.license === l.license);
+  const license = licenses && licenses.find((l) => image.copyright.license.license === l.license);
+
   return (
-    <div {...searchClasses('result')}>
-      <div {...searchClasses('image')}>
-        <img src={image.previewUrl + '?width=200'} alt={`${image.altText?.alttext}`} />
-      </div>
-      <div {...searchClasses('content')}>
+    <StyledSearchResult>
+      <StyledSearchImageContainer>
+        <img src={image.image.imageUrl + '?width=200'} alt={`${image.alttext.alttext}`} />
+      </StyledSearchImageContainer>
+      <StyledSearchContent>
         <Link to={toEditImage(image.id, image.title.language)}>
-          <h1 {...searchClasses('title')}>{image.title.title || t('imageSearch.noTitle')}</h1>
+          <StyledSearchTitle>{image.title.title || t('imageSearch.noTitle')}</StyledSearchTitle>
         </Link>
-        <p {...searchClasses('description')}>
+        <StyledSearchDescription>
           {`${t('searchPage.language')}: `}
-          {image.supportedLanguages?.map(lang => (
-            <span key={lang} {...searchClasses('other-link')}>
-              {t(`language.${lang}`)}
-            </span>
+          {image.supportedLanguages?.map((lang) => (
+            <StyledOtherLink key={lang}>{t(`language.${lang}`)}</StyledOtherLink>
           ))}
-        </p>
+        </StyledSearchDescription>
+        <StyledImageMeta
+          contentType={image.image.contentType}
+          fileSize={image.image.size}
+          imageDimensions={image.image.dimensions}
+        />
         {license && (
           <LicenseByline
             licenseRights={getLicenseByAbbreviation(license.license, locale).rights}
@@ -50,14 +66,9 @@ const SearchImage = ({ image, locale }: Props) => {
             color={colors.brand.grey}
           />
         )}
-      </div>
-    </div>
+      </StyledSearchContent>
+    </StyledSearchResult>
   );
-};
-
-SearchImage.propTypes = {
-  image: ImageResultShape.isRequired,
-  locale: PropTypes.string.isRequired,
 };
 
 export default SearchImage;

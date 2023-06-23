@@ -1,11 +1,12 @@
 import { ReactElement } from 'react';
 import { NavLink } from 'react-router-dom';
-import { UseQueryResult } from 'react-query';
+import { UseQueryResult } from '@tanstack/react-query';
 import styled from '@emotion/styled';
 import { spacing, colors } from '@ndla/core';
 import { SearchType } from '../../../interfaces';
 import { SearchParams } from '../../SearchPage/components/form/SearchForm';
 import { ResultType } from '../../SearchPage/SearchContainer';
+import { MAX_PAGE_WIDTH } from '../../../constants';
 
 interface SubType {
   title: string;
@@ -22,7 +23,6 @@ const Container = styled.div`
   left: 0;
   width: 100%;
   z-index: 1;
-  background-color: white;
 `;
 
 const ItemsWrapper = styled.div`
@@ -31,7 +31,7 @@ const ItemsWrapper = styled.div`
   text-align: center;
   height: 10rem;
   flex-flow: row;
-  max-width: 1024px;
+  max-width: ${MAX_PAGE_WIDTH}px;
   width: 100%;
   padding-left: ${spacing.normal};
   padding-right: ${spacing.normal};
@@ -46,8 +46,8 @@ const StyledSpan = styled.span<StyledSpanProps>`
   border: 2px solid ${colors.brand.primary};
   text-transform: uppercase;
   margin-top: 1rem;
-  color: ${p => (p.isActive ? colors.white : colors.brand.primary)};
-  background-color: ${p => (p.isActive ? colors.brand.primary : colors.white)};
+  color: ${(p) => (p.isActive ? colors.white : colors.brand.primary)};
+  background-color: ${(p) => (p.isActive ? colors.brand.primary : colors.white)};
 `;
 
 const StyledNavLink = styled(NavLink)`
@@ -80,7 +80,7 @@ interface Props {
 const SubNavigation = ({ subtypes }: Props) => (
   <Container>
     <ItemsWrapper>
-      {subtypes.map(subtype => (
+      {subtypes.map((subtype) => (
         <StyledNavLink key={`typemenu_${subtype.type}`} id={subtype.type} to={subtype.url}>
           {({ isActive }) => (
             <>

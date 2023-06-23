@@ -8,9 +8,9 @@
 
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import css from '@emotion/css';
+import styled from '@emotion/styled';
 import { AudioPlayer, FigureCaption } from '@ndla/ui';
-import { IImageMetaInformationV2 } from '@ndla/types-image-api';
+import { IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
 import { getLicenseByAbbreviation } from '@ndla/licenses';
 import { SlateAudio, LocaleType } from '../../../../interfaces';
 import { fetchImage } from '../../../../modules/image/imageApi';
@@ -21,12 +21,21 @@ interface Props {
   speech: boolean;
 }
 
+const StyledDiv = styled.div`
+  p {
+    margin: 0 !important;
+  }
+  ul {
+    margin-top: 0;
+  }
+`;
+
 const ImageLicense = ({
   image,
   locale,
 }: {
   locale: LocaleType;
-  image: IImageMetaInformationV2;
+  image: IImageMetaInformationV3;
 }) => {
   const { t } = useTranslation();
   const { copyright, id } = image;
@@ -52,7 +61,7 @@ const ImageLicense = ({
 const AudioPlayerMounter = ({ audio, locale, speech }: Props) => {
   const { t } = useTranslation();
   const { copyright, podcastMeta } = audio;
-  const [image, setImage] = useState<IImageMetaInformationV2>();
+  const [image, setImage] = useState<IImageMetaInformationV3>();
 
   const license = getLicenseByAbbreviation(copyright.license?.license || '', locale);
   const figureLicenseDialogId = `audio-${audio.id}`;
@@ -64,22 +73,13 @@ const AudioPlayerMounter = ({ audio, locale, speech }: Props) => {
 
   useEffect(() => {
     if (podcastMeta?.coverPhoto.id) {
-      fetchImage(parseInt(podcastMeta?.coverPhoto.id), locale).then(res => {
+      fetchImage(parseInt(podcastMeta?.coverPhoto.id), locale).then((res) => {
         setImage(res);
       });
     }
   }, [podcastMeta?.coverPhoto.id, locale]);
-
   return (
-    <div
-      css={css`
-        p {
-          margin: 0 !important;
-        }
-        ul {
-          margin-top: 0;
-        }
-      `}>
+    <StyledDiv>
       <AudioPlayer
         src={audio.audioFile.url}
         title={audio.title}
@@ -98,7 +98,7 @@ const AudioPlayerMounter = ({ audio, locale, speech }: Props) => {
         />
       )}
       {image && <ImageLicense image={image} locale={locale} />}
-    </div>
+    </StyledDiv>
   );
 };
 

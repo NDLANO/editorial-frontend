@@ -7,8 +7,7 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
-import { Portal } from '../../../Portal';
+import { ModalHeader, ModalBody, ModalCloseButton, Modal } from '@ndla/modal';
 import FileUploader from '../../../FileUploader';
 import { UnsavedFile } from '../../../../interfaces';
 
@@ -24,25 +23,24 @@ const AddFileToList = ({ showFileUploader, onClose, onFileSave }: Props) => {
     return null;
   }
   return (
-    <Portal isOpened>
-      <Modal
-        controllable
-        isOpen={showFileUploader}
-        size="medium"
-        onClose={onClose}
-        backgroundColor="white">
-        {(onCloseModal: () => void) => (
-          <>
-            <ModalHeader>
-              <ModalCloseButton title={t('dialog.close')} onClick={onCloseModal} />
-            </ModalHeader>
-            <ModalBody>
-              <FileUploader onFileSave={onFileSave} />
-            </ModalBody>
-          </>
-        )}
-      </Modal>
-    </Portal>
+    <Modal
+      aria-label={t('form.file.addFile')}
+      controlled
+      isOpen={showFileUploader}
+      size="normal"
+      onClose={onClose}
+    >
+      {(onCloseModal: () => void) => (
+        <>
+          <ModalHeader>
+            <ModalCloseButton title={t('dialog.close')} onClick={onCloseModal} />
+          </ModalHeader>
+          <ModalBody>
+            <FileUploader onFileSave={onFileSave} />
+          </ModalBody>
+        </>
+      )}
+    </Modal>
   );
 };
 

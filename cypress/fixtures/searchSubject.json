@@ -182,27 +182,18 @@
           "language": "nb"
         }
       ],
-      "supportedLanguages": [
-        "nb",
-        "nn"
-      ],
+      "supportedLanguages": ["nb", "nn"],
       "learningResourceType": "standard",
       "status": {
         "current": "PUBLISHED",
-        "other": [
-          "IMPORTED"
-        ]
+        "other": ["IMPORTED"]
       },
       "traits": [],
       "score": 0,
       "highlights": [
         {
-          "field": "contexts.subjectId",
-          "matches": [
-            "<em>urn:subject:1</em>",
-            "<em>urn:subject:1</em>",
-            "<em>urn:subject:1</em>"
-          ]
+          "field": "contexts.rootId",
+          "matches": ["<em>urn:subject:1</em>", "<em>urn:subject:1</em>", "<em>urn:subject:1</em>"]
         }
       ],
       "paths": [
@@ -334,28 +325,18 @@
           "language": "nb"
         }
       ],
-      "supportedLanguages": [
-        "nb",
-        "nn"
-      ],
+      "supportedLanguages": ["nb", "nn"],
       "learningResourceType": "standard",
       "status": {
         "current": "PUBLISHED",
-        "other": [
-          "IMPORTED"
-        ]
+        "other": ["IMPORTED"]
       },
-      "traits": [
-        "VIDEO"
-      ],
+      "traits": ["VIDEO"],
       "score": 0,
       "highlights": [
         {
-          "field": "contexts.subjectId",
-          "matches": [
-            "<em>urn:subject:1</em>",
-            "<em>urn:subject:1</em>"
-          ]
+          "field": "contexts.rootId",
+          "matches": ["<em>urn:subject:1</em>", "<em>urn:subject:1</em>"]
         }
       ],
       "paths": [
@@ -549,27 +530,18 @@
           "language": "nb"
         }
       ],
-      "supportedLanguages": [
-        "nb",
-        "nn"
-      ],
+      "supportedLanguages": ["nb", "nn"],
       "learningResourceType": "standard",
       "status": {
         "current": "PUBLISHED",
-        "other": [
-          "IMPORTED"
-        ]
+        "other": ["IMPORTED"]
       },
       "traits": [],
       "score": 0,
       "highlights": [
         {
-          "field": "contexts.subjectId",
-          "matches": [
-            "<em>urn:subject:1</em>",
-            "<em>urn:subject:1</em>",
-            "<em>urn:subject:1</em>"
-          ]
+          "field": "contexts.rootId",
+          "matches": ["<em>urn:subject:1</em>", "<em>urn:subject:1</em>", "<em>urn:subject:1</em>"]
         }
       ],
       "paths": [
@@ -801,10 +773,7 @@
           "subject": "Mediesamfunnet og medieuttrykk Vg1",
           "subjectId": "urn:subject:b84357cc-93f8-4742-a06b-24596307e5d4",
           "path": "/subject:b84357cc-93f8-4742-a06b-24596307e5d4/topic:2de4a701-5876-453e-9ecd-3b0cc3c40556/resource:1:171839",
-          "breadcrumbs": [
-            "Mediesamfunnet og medieuttrykk Vg1",
-            "Tekst"
-          ],
+          "breadcrumbs": ["Mediesamfunnet og medieuttrykk Vg1", "Tekst"],
           "filters": [
             {
               "id": "urn:filter:090997c4-78d3-4a79-93ad-178d465cdba3",
@@ -860,28 +829,18 @@
           "language": "nb"
         }
       ],
-      "supportedLanguages": [
-        "nb",
-        "nn"
-      ],
+      "supportedLanguages": ["nb", "nn"],
       "learningResourceType": "standard",
       "status": {
         "current": "AWAITING_QUALITY_ASSURANCE",
-        "other": [
-          "IMPORTED",
-          "PUBLISHED",
-          "PROPOSAL"
-        ]
+        "other": ["IMPORTED", "PUBLISHED", "PROPOSAL"]
       },
       "traits": [],
       "score": 0,
       "highlights": [
         {
-          "field": "contexts.subjectId",
-          "matches": [
-            "<em>urn:subject:1</em>",
-            "<em>urn:subject:1</em>"
-          ]
+          "field": "contexts.rootId",
+          "matches": ["<em>urn:subject:1</em>", "<em>urn:subject:1</em>"]
         }
       ],
       "paths": [
@@ -1052,10 +1011,7 @@
           "subject": "Mediesamfunnet og medieuttrykk Vg1",
           "subjectId": "urn:subject:b84357cc-93f8-4742-a06b-24596307e5d4",
           "path": "/subject:b84357cc-93f8-4742-a06b-24596307e5d4/topic:ff7be4b3-6ff2-4583-b068-01098588899e/resource:1:182633",
-          "breadcrumbs": [
-            "Mediesamfunnet og medieuttrykk Vg1",
-            "Lydproduksjon og fortelleteknikk"
-          ],
+          "breadcrumbs": ["Mediesamfunnet og medieuttrykk Vg1", "Lydproduksjon og fortelleteknikk"],
           "filters": [
             {
               "id": "urn:filter:00a0141d-2307-4a5a-a154-0c821449f6d2",
@@ -1079,29 +1035,18 @@
           "language": "nb"
         }
       ],
-      "supportedLanguages": [
-        "nb",
-        "nn"
-      ],
+      "supportedLanguages": ["nb", "nn"],
       "learningResourceType": "standard",
       "status": {
         "current": "PUBLISHED",
-        "other": [
-          "IMPORTED"
-        ]
+        "other": ["IMPORTED"]
       },
-      "traits": [
-        "VIDEO"
-      ],
+      "traits": ["VIDEO"],
       "score": 0,
       "highlights": [
         {
-          "field": "contexts.subjectId",
-          "matches": [
-            "<em>urn:subject:1</em>",
-            "<em>urn:subject:1</em>",
-            "<em>urn:subject:1</em>"
-          ]
+          "field": "contexts.rootId",
+          "matches": ["<em>urn:subject:1</em>", "<em>urn:subject:1</em>", "<em>urn:subject:1</em>"]
         }
       ],
       "paths": [
@@ -1227,25 +1172,18 @@
           "language": "nb"
         }
       ],
-      "supportedLanguages": [
-        "nb",
-        "nn"
-      ],
+      "supportedLanguages": ["nb", "nn"],
       "learningResourceType": "topic-article",
       "status": {
         "current": "PUBLISHED",
-        "other": [
-          "IMPORTED"
-        ]
+        "other": ["IMPORTED"]
       },
       "traits": [],
       "score": 0,
       "highlights": [
         {
-          "field": "contexts.subjectId",
-          "matches": [
-            "<em>urn:subject:1</em>"
-          ]
+          "field": "contexts.rootId",
+          "matches": ["<em>urn:subject:1</em>"]
         }
       ],
       "paths": [
@@ -1407,31 +1345,18 @@
           "language": "nb"
         }
       ],
-      "supportedLanguages": [
-        "nb",
-        "nn"
-      ],
+      "supportedLanguages": ["nb", "nn"],
       "learningResourceType": "standard",
       "status": {
         "current": "AWAITING_QUALITY_ASSURANCE",
-        "other": [
-          "IMPORTED",
-          "PUBLISHED",
-          "PROPOSAL"
-        ]
+        "other": ["IMPORTED", "PUBLISHED", "PROPOSAL"]
       },
-      "traits": [
-        "VIDEO",
-        "H5P"
-      ],
+      "traits": ["VIDEO", "H5P"],
       "score": 0,
       "highlights": [
         {
-          "field": "contexts.subjectId",
-          "matches": [
-            "<em>urn:subject:1</em>",
-            "<em>urn:subject:1</em>"
-          ]
+          "field": "contexts.rootId",
+          "matches": ["<em>urn:subject:1</em>", "<em>urn:subject:1</em>"]
         }
       ],
       "paths": [
@@ -1598,11 +1523,7 @@
           "subject": "Norsk",
           "subjectId": "urn:subject:19",
           "path": "/subject:19/topic:1:195257/topic:1:195102/resource:1:46139",
-          "breadcrumbs": [
-            "Norsk",
-            "Språket som mulighet",
-            "Sammensatte tekster"
-          ],
+          "breadcrumbs": ["Norsk", "Språket som mulighet", "Sammensatte tekster"],
           "filters": [
             {
               "id": "urn:filter:f4581340-52f1-435d-8f99-d5de4e123f70",
@@ -1630,11 +1551,7 @@
           "subject": "Norsk SF Vg1",
           "subjectId": "urn:subject:80063181-61d8-4c52-9bbc-4313376175a2",
           "path": "/subject:80063181-61d8-4c52-9bbc-4313376175a2/topic:186ce415-6136-4959-967f-b3ef0b84a202/topic:b0e2a7f0-4829-4506-9090-79bfa3c8ac5f/resource:1:46139",
-          "breadcrumbs": [
-            "Norsk SF Vg1",
-            "Språket som mulighet",
-            "Sammensatte tekster"
-          ],
+          "breadcrumbs": ["Norsk SF Vg1", "Språket som mulighet", "Sammensatte tekster"],
           "filters": [
             {
               "id": "urn:filter:51a7271b-a9d5-4205-bade-1c125a8650b5",
@@ -1662,11 +1579,7 @@
           "subject": "Norsk SF Vg1",
           "subjectId": "urn:subject:80063181-61d8-4c52-9bbc-4313376175a2",
           "path": "/subject:80063181-61d8-4c52-9bbc-4313376175a2/topic:186ce415-6136-4959-967f-b3ef0b84a202/topic:b0e2a7f0-4829-4506-9090-79bfa3c8ac5f/resource:1:46139",
-          "breadcrumbs": [
-            "Norsk SF Vg1",
-            "Språket som mulighet",
-            "Sammensatte tekster"
-          ],
+          "breadcrumbs": ["Norsk SF Vg1", "Språket som mulighet", "Sammensatte tekster"],
           "filters": [
             {
               "id": "urn:filter:605d33e0-1695-4540-9255-fc5e612e996f",
@@ -1690,26 +1603,18 @@
           "language": "nb"
         }
       ],
-      "supportedLanguages": [
-        "nb",
-        "nn"
-      ],
+      "supportedLanguages": ["nb", "nn"],
       "learningResourceType": "standard",
       "status": {
         "current": "PUBLISHED",
-        "other": [
-          "IMPORTED"
-        ]
+        "other": ["IMPORTED"]
       },
       "traits": [],
       "score": 0,
       "highlights": [
         {
-          "field": "contexts.subjectId",
-          "matches": [
-            "<em>urn:subject:1</em>",
-            "<em>urn:subject:1</em>"
-          ]
+          "field": "contexts.rootId",
+          "matches": ["<em>urn:subject:1</em>", "<em>urn:subject:1</em>"]
         }
       ],
       "paths": [
@@ -1879,11 +1784,7 @@
           "subject": "Norsk",
           "subjectId": "urn:subject:19",
           "path": "/subject:19/topic:1:195257/topic:1:195102/resource:1:20801",
-          "breadcrumbs": [
-            "Norsk",
-            "Språket som mulighet",
-            "Sammensatte tekster"
-          ],
+          "breadcrumbs": ["Norsk", "Språket som mulighet", "Sammensatte tekster"],
           "filters": [
             {
               "id": "urn:filter:f4581340-52f1-435d-8f99-d5de4e123f70",
@@ -1911,11 +1812,7 @@
           "subject": "Norsk SF Vg1",
           "subjectId": "urn:subject:80063181-61d8-4c52-9bbc-4313376175a2",
           "path": "/subject:80063181-61d8-4c52-9bbc-4313376175a2/topic:186ce415-6136-4959-967f-b3ef0b84a202/topic:b0e2a7f0-4829-4506-9090-79bfa3c8ac5f/resource:1:20801",
-          "breadcrumbs": [
-            "Norsk SF Vg1",
-            "Språket som mulighet",
-            "Sammensatte tekster"
-          ],
+          "breadcrumbs": ["Norsk SF Vg1", "Språket som mulighet", "Sammensatte tekster"],
           "filters": [
             {
               "id": "urn:filter:605d33e0-1695-4540-9255-fc5e612e996f",
@@ -1943,11 +1840,7 @@
           "subject": "Norsk SF Vg1",
           "subjectId": "urn:subject:80063181-61d8-4c52-9bbc-4313376175a2",
           "path": "/subject:80063181-61d8-4c52-9bbc-4313376175a2/topic:186ce415-6136-4959-967f-b3ef0b84a202/topic:b0e2a7f0-4829-4506-9090-79bfa3c8ac5f/resource:1:20801",
-          "breadcrumbs": [
-            "Norsk SF Vg1",
-            "Språket som mulighet",
-            "Sammensatte tekster"
-          ],
+          "breadcrumbs": ["Norsk SF Vg1", "Språket som mulighet", "Sammensatte tekster"],
           "filters": [
             {
               "id": "urn:filter:51a7271b-a9d5-4205-bade-1c125a8650b5",
@@ -1971,26 +1864,18 @@
           "language": "nb"
         }
       ],
-      "supportedLanguages": [
-        "nb",
-        "nn"
-      ],
+      "supportedLanguages": ["nb", "nn"],
       "learningResourceType": "standard",
       "status": {
         "current": "PUBLISHED",
-        "other": [
-          "IMPORTED"
-        ]
+        "other": ["IMPORTED"]
       },
       "traits": [],
       "score": 0,
       "highlights": [
         {
-          "field": "contexts.subjectId",
-          "matches": [
-            "<em>urn:subject:1</em>",
-            "<em>urn:subject:1</em>"
-          ]
+          "field": "contexts.rootId",
+          "matches": ["<em>urn:subject:1</em>", "<em>urn:subject:1</em>"]
         }
       ],
       "paths": [
@@ -2160,11 +2045,7 @@
           "subject": "Norsk",
           "subjectId": "urn:subject:19",
           "path": "/subject:19/topic:1:195257/topic:1:195102/resource:1:20769",
-          "breadcrumbs": [
-            "Norsk",
-            "Språket som mulighet",
-            "Sammensatte tekster"
-          ],
+          "breadcrumbs": ["Norsk", "Språket som mulighet", "Sammensatte tekster"],
           "filters": [
             {
               "id": "urn:filter:f4581340-52f1-435d-8f99-d5de4e123f70",
@@ -2192,11 +2073,7 @@
           "subject": "Norsk SF Vg1",
           "subjectId": "urn:subject:80063181-61d8-4c52-9bbc-4313376175a2",
           "path": "/subject:80063181-61d8-4c52-9bbc-4313376175a2/topic:186ce415-6136-4959-967f-b3ef0b84a202/topic:b0e2a7f0-4829-4506-9090-79bfa3c8ac5f/resource:1:20769",
-          "breadcrumbs": [
-            "Norsk SF Vg1",
-            "Språket som mulighet",
-            "Sammensatte tekster"
-          ],
+          "breadcrumbs": ["Norsk SF Vg1", "Språket som mulighet", "Sammensatte tekster"],
           "filters": [
             {
               "id": "urn:filter:51a7271b-a9d5-4205-bade-1c125a8650b5",
@@ -2224,11 +2101,7 @@
           "subject": "Norsk SF Vg1",
           "subjectId": "urn:subject:80063181-61d8-4c52-9bbc-4313376175a2",
           "path": "/subject:80063181-61d8-4c52-9bbc-4313376175a2/topic:186ce415-6136-4959-967f-b3ef0b84a202/topic:b0e2a7f0-4829-4506-9090-79bfa3c8ac5f/resource:1:20769",
-          "breadcrumbs": [
-            "Norsk SF Vg1",
-            "Språket som mulighet",
-            "Sammensatte tekster"
-          ],
+          "breadcrumbs": ["Norsk SF Vg1", "Språket som mulighet", "Sammensatte tekster"],
           "filters": [
             {
               "id": "urn:filter:605d33e0-1695-4540-9255-fc5e612e996f",
@@ -2252,26 +2125,18 @@
           "language": "nb"
         }
       ],
-      "supportedLanguages": [
-        "nb",
-        "nn"
-      ],
+      "supportedLanguages": ["nb", "nn"],
       "learningResourceType": "standard",
       "status": {
         "current": "PUBLISHED",
-        "other": [
-          "IMPORTED"
-        ]
+        "other": ["IMPORTED"]
       },
       "traits": [],
       "score": 0,
       "highlights": [
         {
-          "field": "contexts.subjectId",
-          "matches": [
-            "<em>urn:subject:1</em>",
-            "<em>urn:subject:1</em>"
-          ]
+          "field": "contexts.rootId",
+          "matches": ["<em>urn:subject:1</em>", "<em>urn:subject:1</em>"]
         }
       ],
       "paths": [

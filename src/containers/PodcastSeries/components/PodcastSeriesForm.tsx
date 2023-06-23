@@ -5,13 +5,16 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import { useState, ReactNode, useRef } from 'react';
-import { Formik, Form, FormikProps, FormikHelpers, FormikErrors } from 'formik';
+import { useState, useRef } from 'react';
+import { Formik, FormikProps, FormikHelpers, FormikErrors } from 'formik';
 import { useTranslation } from 'react-i18next';
-import { Accordions, AccordionSection } from '@ndla/accordion';
+import { useNavigate } from 'react-router-dom';
 import { Descendant } from 'slate';
-import { IAudioMetaInformation, INewSeries, ISeries } from '@ndla/types-audio-api';
-import { formClasses, AbortButton, AlertModalWrapper } from '../../FormikForm';
+import styled from '@emotion/styled';
+import { colors } from '@ndla/core';
+import { ButtonV2 } from '@ndla/button';
+import { IAudioMetaInformation, INewSeries, ISeries } from '@ndla/types-backend/audio-api';
+import { AlertModalWrapper } from '../../FormikForm';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
 import validateFormik, { getWarnings, RulesType } from '../../../components/formikValidationSchema';
 import SaveButton from '../../../components/SaveButton';
@@ -21,8 +24,16 @@ import { toCreatePodcastSeries, toEditPodcastSeries } from '../../../util/routeH
 import { editorValueToPlainText } from '../../../util/articleContentConverter';
 import PodcastSeriesMetaData from './PodcastSeriesMetaData';
 import PodcastEpisodes from './PodcastEpisodes';
-import { ITUNES_STANDARD_MAXIMUM_WIDTH, ITUNES_STANDARD_MINIMUM_WIDTH } from '../../../constants';
+import {
+  AUDIO_ADMIN_SCOPE,
+  ITUNES_STANDARD_MAXIMUM_WIDTH,
+  ITUNES_STANDARD_MINIMUM_WIDTH,
+} from '../../../constants';
 import { podcastSeriesTypeToFormType } from '../../../util/audioHelpers';
+import FormWrapper from '../../../components/FormWrapper';
+import { useSession } from '../../Session/SessionProvider';
+import FormAccordions from '../../../components/Accordion/FormAccordions';
+import FormAccordion from '../../../components/Accordion/FormAccordion';
 
 const podcastRules: RulesType<PodcastSeriesFormikType, ISeries> = {
   title: {
@@ -46,6 +57,14 @@ const podcastRules: RulesType<PodcastSeriesFormikType, ISeries> = {
   },
 };
 
+const AdminWarningTextWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  p {
+    color: ${colors.support.red};
+  }
+`;
+
 export interface PodcastSeriesFormikType {
   id?: number;
   revision?: number;
@@ -57,13 +76,6 @@ export interface PodcastSeriesFormikType {
   episodes: IAudioMetaInformation[];
   supportedLanguages: string[];
 }
-
-const FormWrapper = ({ inModal, children }: { inModal?: boolean; children: ReactNode }) => {
-  if (inModal) {
-    return <div {...formClasses()}>{children}</div>;
-  }
-  return <Form>{children}</Form>;
-};
 
 interface Props {
   podcastSeries?: ISeries;
@@ -86,7 +98,11 @@ const PodcastSeriesForm = ({
 }: Props) => {
   const { t } = useTranslation();
   const [savedToServer, setSavedToServer] = useState(false);
+  const { userPermissions } = useSession();
+  const navigate = useNavigate();
   const size = useRef<[number, number] | undefined>(undefined);
+
+  const isAudioAdmin = !!userPermissions?.includes(AUDIO_ADMIN_SCOPE);
 
   const handleSubmit = async (
     values: PodcastSeriesFormikType,
@@ -113,7 +129,7 @@ const PodcastSeriesForm = ({
       coverPhotoId: values.coverPhotoId,
       coverPhotoAltText: values.metaImageAlt,
       language: values.language,
-      episodes: values.episodes.map(ep => ep.id),
+      episodes: values.episodes.map((ep) => ep.id),
     };
 
     await onUpdate(newPodcastSeries);
@@ -141,13 +157,14 @@ const PodcastSeriesForm = ({
       onSubmit={handleSubmit}
       validateOnMount
       enableReinitialize
-      validate={values => {
+      validate={(values) => {
         const errors = validateFormik(values, podcastRules, t);
         const metaImageErrors = size.current ? validateMetaImage(size.current) : {};
         return { ...errors, ...metaImageErrors };
       }}
-      initialStatus={{ warnings: initialWarnings }}>
-      {formikProps => {
+      initialStatus={{ warnings: initialWarnings }}
+    >
+      {(formikProps) => {
         const { values, dirty, isSubmitting, errors, submitForm, validateForm } = formikProps;
         const formIsDirty = isFormikFormDirty({
           values,
@@ -169,43 +186,55 @@ const PodcastSeriesForm = ({
                 else return toCreatePodcastSeries();
               }}
             />
-            <Accordions>
-              <AccordionSection
-                startOpen
+            <FormAccordions defaultOpen={['podcast-series-podcastmeta']}>
+              <FormAccordion
                 id="podcast-series-podcastmeta"
                 title={t('form.podcastSeriesSection')}
                 className="u-4/6@desktop u-push-1/6@desktop"
-                hasError={['title', 'coverPhotoId', 'metaImageAlt'].some(field => field in errors)}>
+                hasError={['title', 'coverPhotoId', 'metaImageAlt'].some(
+                  (field) => field in errors,
+                )}
+              >
                 <PodcastSeriesMetaData
-                  onImageLoad={el => {
-                    size.current = [el.currentTarget.naturalWidth, el.currentTarget.naturalHeight];
+                  language={language}
+                  onImageLoad={(width, height) => {
+                    size.current = [width, height];
                     validateForm();
                   }}
                 />
-              </AccordionSection>
-              <AccordionSection
+              </FormAccordion>
+              <FormAccordion
                 id="podcast-series-podcastepisodes"
                 title={t('form.podcastEpisodesSection')}
                 className="u-4/6@desktop u-push-1/6@desktop"
-                hasError={['title', 'coverPhotoId', 'metaImageAlt'].some(field => field in errors)}>
+                hasError={['title', 'coverPhotoId', 'metaImageAlt'].some(
+                  (field) => field in errors,
+                )}
+              >
                 <PodcastEpisodes />
-              </AccordionSection>
-            </Accordions>
+              </FormAccordion>
+            </FormAccordions>
             <Field right>
-              <AbortButton outline disabled={isSubmitting}>
+              <ButtonV2 variant="outline" disabled={isSubmitting} onClick={() => navigate(-1)}>
                 {t('form.abort')}
-              </AbortButton>
+              </ButtonV2>
               <SaveButton
+                disabled={!isAudioAdmin}
                 isSaving={isSubmitting}
                 showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}
                 formIsDirty={formIsDirty}
-                submit={!inModal}
-                onClick={evt => {
+                type={!inModal ? 'submit' : 'button'}
+                onClick={(evt) => {
                   evt.preventDefault();
                   submitForm();
                 }}
               />
             </Field>
+            {!isAudioAdmin ? (
+              <AdminWarningTextWrapper>
+                <p>{t('podcastSeriesForm.adminError')}</p>
+              </AdminWarningTextWrapper>
+            ) : null}
             <AlertModalWrapper
               {...formikProps}
               formIsDirty={formIsDirty}

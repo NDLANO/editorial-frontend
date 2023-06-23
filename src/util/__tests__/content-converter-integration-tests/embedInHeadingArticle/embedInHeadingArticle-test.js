@@ -6,20 +6,13 @@
  *
  */
 
-import jsdom from 'jsdom';
-
-import {
-  learningResourceContentToEditorValue,
-  learningResourceContentToHTML,
-} from '../../../articleContentConverter';
+import { blockContentToEditorValue, blockContentToHTML } from '../../../articleContentConverter';
 import { html } from './embedInHeadingArticle';
 
-const { fragment } = jsdom.JSDOM;
-
 test('serializing article with <embed> in <h3>', () => {
-  const converted = learningResourceContentToEditorValue(html, fragment);
+  const converted = blockContentToEditorValue(html);
 
-  const result = learningResourceContentToHTML(converted);
+  const result = blockContentToHTML(converted);
 
   expect(global.prettifyHTML(result)).toMatchSnapshot();
 });

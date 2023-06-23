@@ -14,9 +14,11 @@ const phrases = {
     createLearningResourcePage: `Learning resource ${titleTemplate}`,
     createTopicArticlePage: `Topic ${titleTemplate}`,
     createSubjectpage: `Subjectpage ${titleTemplate}`,
+    createFrontPageArticePage: `About-NDLA article ${titleTemplate}`,
     agreementPage: `Agreement ${titleTemplate}`,
     welcomePage: `Frontpage ${titleTemplate}`,
     structurePage: `Structure ${titleTemplate}`,
+    versionsPage: `Versions ${titleTemplate}`,
     audioUploaderPage: `Audio ${titleTemplate}`,
     imageUploaderPage: `Image ${titleTemplate}`,
     loginPage: `Login ${titleTemplate}`,
@@ -96,6 +98,7 @@ const phrases = {
   },
   language: {
     en: 'English',
+    es: 'Spanish',
     nb: 'Norwegian - Bokmål',
     nn: 'Norwegian - Nynorsk',
     se: 'Northern Sami',
@@ -110,13 +113,48 @@ const phrases = {
     addSearch: 'Add new search',
     deleteSavedSearch: 'Delete saved search',
     deleteSearch: 'Delete search',
-    emptyLastUsed: 'Empty last edited list',
+    noArticles: 'Empty article list ...',
+    emptyLastUsed: 'Empty last edited list ...',
+    emptyConcepts: 'Empty concept list ...',
+    emptyRevision: 'No articles in favorite subjects that need revision ...',
     emptySavedSearch: 'No saved searches',
     guidelines: 'Guidelines',
     mustBeSearch: 'Link must be a search url',
     lastUsed: 'Last edited',
+    lastUsedDescription: 'Your recently edited articles',
+    lastUsedConcepts: 'Your recently edited concepts',
     savedSearch: 'Saved searches',
     saveSearch: 'Save search',
+    chooseSubject: 'Choose subjects',
+    chooseFavoriteSubject: 'Choose favorite subjects',
+    chooseTopic: 'Choose topics',
+    errorMessage: 'Failed to retrieve data',
+    goToSearch: 'Go to search',
+    revision: 'Revisjon',
+    revisionDescription: 'Articles in favorite subjects that need revision',
+    revisionDate: 'Revision date',
+    welcomeText: 'to ED',
+    revisionInfo: 'Choose your favorite subjects by marking them with a star in structure editing',
+    updated: 'Updated',
+    primaryConnection: 'Only show resources with primary connection to my favorite subjects',
+    primaryConnectionLabel: 'Only show primary connection',
+    prioritizedLabel: 'Only show prioritized',
+    workList: {
+      heading: 'My tasks',
+      description: 'Articles where you are responsible',
+      title: 'Title',
+      status: 'Status',
+      contentType: 'Content type',
+      primarySubject: 'Primary subject',
+      topicRelation: 'Topic relation',
+      date: 'Assigned',
+      ariaLabel: 'Overview of my tasks and concepts',
+      conceptDescription: 'Concepts where you are responsible',
+      conceptSubject: 'Concept subject',
+      sortAsc: 'Sort ascending',
+      sortDesc: 'Sort descending',
+    },
+    welcomeBack: 'Welcome',
   },
   searchPage: {
     header: {
@@ -153,6 +191,7 @@ const phrases = {
   },
   articleType: {
     'topic-article': 'Topic',
+    'frontpage-article': 'About-NDLA article',
     standard: 'Subject matter',
   },
   subNavigation: {
@@ -181,6 +220,8 @@ const phrases = {
     h5p: 'Edit H5P',
     newConcept: 'Create new concept',
     newSubject: 'Create new subject',
+    newFrontpageArticle: 'Create new About-NDLA article',
+    creationMovedInfo: 'Topics and resources need to be created from structure',
   },
   logo: {
     altText: 'The Norwegian Digital Learning Arena',
@@ -224,6 +265,8 @@ const phrases = {
       license: 'Select license',
       'revision-date-from': 'Revisiondate from',
       'revision-date-to': 'Revisiondate to',
+      'exclude-revision-log': 'Exclude revision log',
+      'responsible-ids': 'Select responsible',
     },
     tagType: {
       query: 'Query',
@@ -238,6 +281,8 @@ const phrases = {
       'model-released': 'Model released',
       'revision-date-from': 'Revisiondate from',
       'revision-date-to': 'Revisiondate to',
+      'exclude-revision-log': 'Revision log excluded',
+      'responsible-ids': 'Responsible',
     },
     btn: 'Search',
     empty: 'Empty',
@@ -265,6 +310,7 @@ const phrases = {
       revisionDate: 'Next revision',
     },
     resultError: 'Something went wrong with type: {{type}}',
+    favourites: 'My favourite subjects',
   },
   subjectsPage: {
     subjects: 'Subjects',
@@ -408,6 +454,11 @@ const phrases = {
         placeholder: 'Alt-text',
       },
     },
+    validation: {
+      containsContent:
+        'Topic articles should only have title, introduction and visualelement. The content is in most cases not needed.',
+      illegalResource: 'Topic articles should only have image as visual element.',
+    },
   },
   agreementForm: {
     title: {
@@ -442,6 +493,7 @@ const phrases = {
     alreadyPartOfSeries: 'Part of another series',
     description: 'Description',
     rss: 'Rss feed',
+    adminError: "You don't have access to create or update podcast series.",
   },
   podcastForm: {
     title: 'Podcast episode',
@@ -469,6 +521,40 @@ const phrases = {
   imageForm: {
     title: 'Image',
   },
+  contactBlockForm: {
+    title: 'Contact block',
+    edit: 'Edit contact block',
+    blobColor: {
+      green: 'Green',
+      pink: 'Pink',
+    },
+    blob: {
+      pointy: 'Pointy',
+      round: 'Round',
+    },
+  },
+  frontpageArticleForm: {
+    title: 'About-NDLA article',
+    validation: {
+      illegalSlug:
+        'Use of illegal characters in permalink! Legal characters are numbers and letters, plus dashes.',
+    },
+  },
+  gridForm: {
+    title: 'Grid',
+    background: {
+      white: 'White',
+      transparent: 'Transparent',
+    },
+  },
+  blogPostForm: {
+    title: 'Edit blog post',
+    languageExplanation: 'Choose language for screen readers',
+    sizes: {
+      normal: 'Normal',
+      large: 'Large',
+    },
+  },
   learningResourceForm: {
     metaImage: {
       title: 'Image title',
@@ -492,6 +578,10 @@ const phrases = {
       },
     },
   },
+  keyFigureForm: {
+    title: 'Key figure',
+    edit: 'Edit key figure',
+  },
   editorToolbar: {
     bold: 'Bold\n({{ctrl}}+b)',
     bulletedList: 'Bulleted list\n({{ctrl}}+l)',
@@ -513,6 +603,7 @@ const phrases = {
     sup: 'Superscript\n({{ctrl}}+alt+h)',
     twoColumnList: 'Two-column list',
     underlined: 'Underlined',
+    definitionList: 'Definition list\n({{ctrl}}+alt+d)',
   },
   editorBlockpicker: {
     heading: 'Add',
@@ -531,7 +622,12 @@ const phrases = {
       file: 'File',
       code: 'Codeblock',
       podcast: 'Podcast episode',
+      conceptList: 'Concept list',
       concept: 'Concept',
+      keyFigure: 'Key figure',
+      contactBlock: 'Contact block',
+      blogPost: 'Blog post',
+      grid: 'Grid',
     },
   },
   form: {
@@ -559,12 +655,24 @@ const phrases = {
     feil: 'There are still errors.',
     copy: 'copy',
     saveAsCopySuccess: 'New article saved',
+    comment: 'Comment',
+    hideComment: 'Hide comment',
+    showComment: 'Show comment',
+    openAll: 'Open all',
+    hideAll: 'Hide all',
+    commentField: 'Comment field',
     preview: {
       button: 'Preview',
+    },
+    resize: 'Resize',
+    slug: {
+      label: 'Permalink',
+      edit: 'Edit permalink',
     },
     name: {
       title: 'Title',
       aboutTitle: 'Title',
+      slug: 'Permalink',
       introduction: 'Ingress',
       creators: 'Creators',
       rightsholders: 'Rightsholders',
@@ -588,8 +696,8 @@ const phrases = {
       description: 'Content',
       conceptContent: 'Description',
       grepCodes: 'Curriculum connection',
-      desktopBanner: 'Desktop banner',
-      mobileBanner: 'Mobile banner',
+      desktopBannerId: 'Desktop banner',
+      mobileBannerId: 'Mobile banner',
       concepts: 'Concepts',
       relatedContent: 'Related content',
       subjects: 'Subject',
@@ -598,6 +706,19 @@ const phrases = {
       coverPhotoId: 'Meta image',
       revisions: 'Revisions',
       name: 'Name',
+      subtitle: 'Subtitle',
+      email: 'Email',
+      blob: 'Blob type',
+      blobColor: 'Blob color',
+      jobTitle: 'Job title',
+      author: 'Author',
+      language: 'Language',
+      link: 'Link',
+      size: 'Size',
+      columns: 'Columns',
+      border: 'Show border',
+      background: 'Background',
+      contentType: 'Content type',
     },
     previewProductionArticle: {
       button: 'Compare current version with old version',
@@ -708,6 +829,12 @@ const phrases = {
       imageUpload: 'Upload image',
       h5p: 'H5P',
     },
+    visualElementPicker: {
+      h5p: 'H5P',
+      url: 'New resource',
+      video: 'Video',
+      image: 'Image',
+    },
     concept: {
       create: 'Create concept',
       addText: 'Choose a concept and press "connect to topic", or',
@@ -717,6 +844,10 @@ const phrases = {
       source: 'Source',
       markdown: 'The field supports markdown. Use the format [Text](https://url) to create a link.',
       subjects: 'Only subjects marked as explanation subjects will be displayed in the list.',
+    },
+    conceptList: {
+      edit: 'Edit concept list',
+      remove: 'Remove concept list',
     },
     workflow: {
       title: 'Status',
@@ -737,11 +868,29 @@ const phrases = {
         warn: 'One of the revisions expires soon (Must be revised before {{date}}).',
         expired: 'One of the revisions has expired (Expired {{date}}).',
       },
+      deleteComment: {
+        title: 'Delete comment',
+        modal: 'Are you sure you want to delete this comment? It can`t be restored.',
+        button: 'Delete',
+      },
+      addComment: {
+        createdBy: 'Created by',
+        warn: 'Remember to add a comment',
+        description: 'You have changed responsible without adding a comment!',
+      },
     },
     status: {
       new: 'New - unsaved',
       new_language: 'New language - unsaved',
       created: 'Created',
+      planned: 'Planned',
+      in_progress: 'In progress',
+      external_review: 'External review',
+      internal_review: 'Internal review',
+      quality_assurance: 'Quality assurance desk',
+      language: 'Language',
+      for_approval: 'For approval LMA',
+      end_control: 'End control',
       imported: 'Imported',
       draft: 'Draft',
       proposal: 'Proposal',
@@ -753,6 +902,7 @@ const phrases = {
       queued_for_publishing: 'Queued for publishing',
       quality_assured_delayed: 'Ready for publishing-delayed',
       queued_for_publishing_delayed: 'Queue for publishing-delayed',
+      publish_delayed: 'Publish-delayed',
       published: 'Published',
       has_published: 'Has published version',
       unlisted: 'Link shared',
@@ -761,6 +911,14 @@ const phrases = {
       awaiting_archiving: 'Delayed archivation',
       archived: 'Deleted',
       actions: {
+        PLANNED: 'Planned',
+        IN_PROGRESS: 'In progress',
+        EXTERNAL_REVIEW: 'External review',
+        INTERNAL_REVIEW: 'Internal review',
+        QUALITY_ASSURANCE: 'Quality assurance',
+        LANGUAGE: 'Language',
+        FOR_APPROVAL: 'For approval LMA',
+        END_CONTROL: 'End control',
         DRAFT: 'Draft',
         PROPOSAL: 'Proposal',
         USER_TEST: 'User test',
@@ -771,6 +929,7 @@ const phrases = {
         QUEUED_FOR_PUBLISHING: 'Queue for publishing',
         QUALITY_ASSURED_DELAYED: 'Ready for publishing-delayed',
         QUEUED_FOR_PUBLISHING_DELAYED: 'Queue for publishing-delayed',
+        PUBLISH_DELAYED: 'Publish-delayed',
         PUBLISHED: 'Publish',
         AWAITING_UNPUBLISHING: 'Queue for unpublishing',
         UNPUBLISHED: 'Unpublish',
@@ -813,6 +972,9 @@ const phrases = {
         changeExternal: 'Edit external article',
         searchExternal: 'Write the title and url of the external article',
       },
+      conceptList: {
+        subjectMissing: 'Subject missing: {{subjectId}}',
+      },
       concept: {
         remove: 'Remove concept',
         choose: 'Choose concept',
@@ -837,6 +999,7 @@ const phrases = {
         unSupported: 'Content in link is not supported',
         newUrlResource: 'New resource',
         changeUrlResource: 'Edit resource: {{type}}',
+        fullscreen: 'Open in new window',
         description:
           'Links to ndla-resources are handled by the system and are displayed correct on {{url}}. Ndla-resources are shown with blue background and external links with yellow.',
       },
@@ -943,6 +1106,14 @@ const phrases = {
       helpLabel: 'What is a license?',
       choose: 'Choose a license',
     },
+    responsible: {
+      label: 'Responsible',
+      choose: 'Choose a responsible',
+      noResults: 'No results',
+      noResponsible: 'No responsible',
+      revisionDate: 'Amount approaching revision date',
+      error: 'Something went wrong when updating responsible',
+    },
     origin: {
       label: 'Origin',
     },
@@ -990,6 +1161,7 @@ const phrases = {
       },
       remove: 'Remove video',
       save: 'Save video',
+      editVideo: 'Edit video',
       time: {
         start: 'Start',
         stop: 'Stop',
@@ -1135,8 +1307,9 @@ const phrases = {
       add: 'New revision',
       remove: 'Remove revision',
       description:
-        'Revisions requires a description and an expiration date for the article. The switch decides whether a revision is performed or not. Saved revisions can not be deleted, just updated.',
+        'Revisions requires a description and an expiration date for the article. The switch marks whether a revision is performed or not. Remember that a revised article must be republished.',
       datePickerTooltip: 'The date the article expires if the revision is not marked as revised.',
+      reminder: 'Remember to check if the revision you now have performed requires republishing.',
       switchTooltip: 'Whether the article is revised or not.',
       inputPlaceholder: 'Description of the revision',
       deleteTooltip: 'Remove this revision',
@@ -1164,6 +1337,8 @@ const phrases = {
       'The code format is wrong. The correct format is K(E/M) or TT followed by one or more digits. Ex. KE137, KM2255, TT2.',
     podcastImageShape: 'A meta image must have equal height and width.',
     podcastImageSize: 'A meta image must be between 1400 and 3000 pixels wide.',
+    unfinishedRevision: 'You must have at least one planned revision.',
+    missingRevision: 'There must be at least one revision.',
   },
   errorMessage: {
     title: 'Oops, something went wrong',
@@ -1173,6 +1348,7 @@ const phrases = {
     invalidUrl: 'Invalid url',
     noArticleInProd: 'No article found in prod',
     taxonomy: 'There was a problem loading taxonomy',
+    versionSelect: 'This article does not exist in the selected version',
     errorWhenFetchingTaxonomyArticle: 'There was a problem fetching the underlying article',
     unsavedTaxonomy:
       'You have unsaved changes. Press cancel again if you are sure you want to continue.',
@@ -1182,6 +1358,8 @@ const phrases = {
       409: 'This article has already been updated. Keep what you have changed and reload the page to save.',
     },
     grepCodes: 'The following codes have wrong format or does not exist, and will not be added: ',
+    errorOnSave: 'Something went wrong when saving the article.',
+    genericError: 'Something went wrong, the action could not be completed.',
   },
   warningMessage: {
     fieldWithWrongLanguage: 'This value is fetched from language code: {{language}}',
@@ -1201,11 +1379,13 @@ const phrases = {
     confirm: 'Confirm',
     loginAgain: 'Login again',
   },
+  environment: { production: '', staging: 'Staging', test: 'Test' },
   taxonomy: {
     editStructure: 'Edit structure',
     editSubjectpage: 'Edit subjectpage',
     deleteSubject: 'Delete subject',
-    addSubject: 'Add new subject',
+    addSubject: 'Add subject',
+    subjectName: 'New subject name',
     addExistingTopic: 'Move existing topic here',
     addExistingLoading: 'Moving topic',
     addExistingSuccess: 'Topic successfully moved',
@@ -1216,8 +1396,22 @@ const phrases = {
     errorMessage: 'An error occurred',
     addTopic: 'Add topic',
     currentVersion: 'Current version',
-    deleteNode: 'Delete',
+    deleteNode: 'Delete node',
+    deleteResource: 'Delete resource',
     confirmDelete: 'Are you sure you want to delete this node?',
+    version: 'Version',
+    createResource: 'Create new resource',
+    addNewPlannedResource: 'Create planned resourse',
+    resourceType: 'Core(K) or supplementary(T)',
+    title: 'Title',
+    comment: 'Comment',
+    commentPlaceholder: 'E.g. content, learning objective or grep',
+    contentType: 'Content type',
+    contentTypePlaceholder: 'Choose content type',
+    create: 'Create',
+    get: 'Get',
+    getExisting: 'Or get existing resource',
+    addPriority: 'Set article as prioritized',
     changeName: {
       loadError: 'Could not fetch translations',
       updateError: 'Could not update translations',
@@ -1233,6 +1427,9 @@ const phrases = {
       add: 'Add',
       noTranslations: 'No translations available! Using default name as fallback.',
     },
+    addTopicHeader: 'Add topic',
+    createTopic: 'Create new topic',
+    searchExistingTopic: 'Search for existing topic',
     topicSettings: 'Topic settings',
     subjectSettings: 'Subject settings',
     linkSettings: 'Link',
@@ -1244,13 +1441,20 @@ const phrases = {
     confirmDeleteTopic: 'Are you sure you want to delete this topic?',
     confirmDeleteSubject: 'Are you sure you want to delete this subject?',
     or: 'Eller',
-    urlPlaceholder: 'Lim inn lenke fra ndla.no',
+    urlPlaceholder: 'Paste in a link from ndla.no',
     wrongType: 'Note! This is a different resource type: ',
     noResources: 'No resources found',
     addTopicDescription: 'Change topic description',
     confirmSetPrimary: 'Do you want to make this the main location?',
     removeLink: 'Remove link',
     jumpToResources: 'Jump to resources',
+    jumpToStructure: 'Jump to structure',
+    swapTopicArticle: {
+      failed: 'Failed to swap article',
+      placeholder: 'Article to swap to',
+      info: 'Swap topic article',
+      success: 'Topic article swapped! Reload the page to get the updated topic name.',
+    },
     copyResources: {
       error: 'Something went wrong during copying',
       info: 'Reuse resources from topic',
@@ -1281,6 +1485,7 @@ const phrases = {
       wrongConnections: 'Bad connections',
       wrongConnectionsSubTitle: 'This article has bad connections, see the list below.',
       canBeFixedInDatabase: 'The article type can be changed in the database to fix the error.',
+      notPublished: 'The article has no published version.',
     },
     resource: {
       confirmDelete:
@@ -1317,6 +1522,20 @@ const phrases = {
       edit: 'Edit grep codes',
       empty: 'No existing grep codes',
       addNew: 'Add new grep code',
+      delete: 'Remove {{grepCode}}',
+    },
+    copyRevisionDates: {
+      text: 'Are you sure you want to copy this revision date? This will apply for all nodes and resources underneath this node',
+      buttonText: 'Copy revision date',
+      error: 'An error occurred when copying the revision date',
+    },
+    resourcesPrimary: {
+      text: 'Are you sure you want to make all connected resources primary?',
+      recursiveText:
+        'Are you sure you want to make all connected resources and sub resources primary?',
+      buttonText: 'Make resources primary',
+      recursiveButtonText: 'Make resources and sub resources primary',
+      error: 'An error occured',
     },
     goTo: 'Open in structure editor',
     missingResourceType: 'Missing resource type',
@@ -1324,7 +1543,7 @@ const phrases = {
       customFields: {
         cancelPublishRequest: 'Cancel request for partial structure publication',
         requestPublish: 'Request partial publication of structure',
-        requestVersionError: 'Publish requests can only be made from the default version',
+        requestVersionError: 'Publish requests can only be made from Draft',
         alterFields: 'Add/change metadata',
         addField: 'New metadata field',
         languagePlaceholder: 'Ndla.no interface language',
@@ -1348,6 +1567,7 @@ const phrases = {
   },
   contextTypes: {
     topic: 'Topic',
+    frontpage: 'About-NDLA article',
   },
   ndlaFilm: {
     editor: {
@@ -1392,6 +1612,7 @@ const phrases = {
     statusLabel: 'Status:',
     changeHeader: 'Changes',
     saveAsNew: 'Save as copy',
+    prioritized: 'Prioritized',
   },
   taxonomyVersions: {
     title: 'Taxonomy Versions',
@@ -1400,7 +1621,8 @@ const phrases = {
     deleteLocked: 'This version cannot be deleted because it is locked',
     deletePublished: 'This version cannot be deleted because it is published',
     delete: 'Delete version',
-    locked: 'This version is locked',
+    locked: 'This version is locked and cannot be deleted',
+    publishTitle: 'Publish version',
     publishButton: 'Publish',
     publishWarning:
       'Are you sure you want to publish this version? The currently published version will be archived, and all new changes within this version will be immediately available on ndla.no',
@@ -1412,14 +1634,14 @@ const phrases = {
     about:
       'This page is used for viewing and administering taxonomy versions. Be wary: Publishing a new version will immediately make it available for ndla.no end users.',
     noPublished:
-      'No versions have been published! The standard version of taxonomy is in use until a version is published.',
+      'No versions have been published! The Draft version of taxonomy is in use until a version is published.',
     editVersionTooltip: 'Edit version',
     newVersionTitle: 'Create new version',
     newVersionButton: 'New version',
     editVersionTitle: 'Edit version',
     deleteWarning: 'Are you sure you want to delete this version?',
     deleteWarningPublished:
-      'Are you sure you want to delete the currently published version? Taxonomy will revert back to the default version',
+      'Are you sure you want to delete the currently published version? Taxonomy will revert back to the Draft version',
     postError: 'Failed to create version',
     putError: 'Failed to update version',
     publishError: 'Failed to publish version',
@@ -1434,11 +1656,11 @@ const phrases = {
       source: {
         title: 'Source version',
         subTitle: 'Base this version on an existing version',
-        defaultOption: 'N/A',
+        defaultOption: 'Draft',
       },
       locked: {
         title: 'Locked',
-        subTitle: 'Is the version locked:',
+        subTitle: 'Lock this version to prevent deletion',
         locked: 'Locked',
         unlocked: 'Unlocked',
       },
@@ -1449,9 +1671,14 @@ const phrases = {
     nodePublished: 'The node has been published!',
     showInStructure: 'Show in structure',
     compare: 'Compare',
+    deleteAll: 'Remove publish requests',
+    deleteAllInfo:
+      'Are you sure you want to remove all publish requests? This action cannot be undone.',
     errors: {
       noPublishedVersion: 'Failed to find a published version',
+      noVersions: 'Failed to find other versions',
     },
+    numberRequests: 'Number of publication request',
   },
   diff: {
     published:
@@ -1459,20 +1686,23 @@ const phrases = {
     publishing: 'Publishing node...',
     publish: 'Publish node',
     publishWarning:
-      'Are you sure you want to publish this node? Any changes within this version will be immediately available in the targeted version',
+      'Are you sure you want to publish this node? All the changes will be available in the targeted version after the publishing have completed',
     publishError: 'Failed to publish node',
     equalNodes: 'These nodes are equal!',
-    defaultVersion: 'Default version',
+    defaultVersion: 'Draft',
     compareVersions: 'Compare versions',
     error: {
       originalHashRequired: 'The originalHash parameter has to be present in the URL!',
       doesNotExist: 'This node does not exist in any of these versions!',
-      onlyExistsInOriginal: 'This node only exists in the original version',
-      onlyExistsInOther: 'This node only exists in the version you are comparing against',
+      onlyExistsInOriginal: 'This node only exists in the target version',
+      onlyExistsInOther: 'This node only exists in the source version',
     },
     options: {
-      originalHashLabel: 'Original version',
-      otherHashLabel: 'Other version',
+      about: 'This page enables you to compare a node-tree between two different versions.',
+      admin:
+        'You can publish the node-tree between versions. You can publish new, and update existing nodes to the target version, but not delete them. Deleting nodes need to be done in the specific version. Changes further up in the structure is disregarded.',
+      originalHashLabel: 'Target version',
+      otherHashLabel: 'Source version',
       viewLabel: 'View type',
       nodeViewLabel: 'Node view',
       fieldViewLabel: 'Field view',
@@ -1487,7 +1717,7 @@ const phrases = {
     resourcesChanged: 'Resources changed',
     diffTypes: {
       ADDED: 'Added',
-      DELETED: 'Deleted',
+      DELETED: 'Missing',
       MODIFIED: 'Modified',
       NONE: 'None',
     },
@@ -1506,7 +1736,7 @@ const phrases = {
       contentUri: {
         title: 'Content URI',
       },
-      parent: {
+      parentId: {
         title: 'Parent',
       },
       path: {
@@ -1520,11 +1750,6 @@ const phrases = {
       },
       isPrimary: {
         title: 'Is Primary',
-        isOn: 'This node is currently a primary resource',
-        isOff: 'This node is not currently a primary resource',
-      },
-      primary: {
-        title: 'Primary',
         isOn: 'This node is currently a primary resource',
         isOff: 'This node is not currently a primary resource',
       },
@@ -1587,11 +1812,25 @@ const phrases = {
     ar: 'Arabic',
     de: 'German',
     en: 'English',
+    es: 'Spanish',
     se: 'Northern Sámi',
     sma: 'Southern Sámi',
     so: 'Somali',
     ti: 'Tigrinya',
     zh: 'Chinese',
+  },
+  unsavedChanges: 'Unsaved changes',
+  messages: {
+    severity: {
+      info: 'Information',
+      warning: 'Warning',
+      success: 'Everything is OK!',
+      danger: 'Watch out!',
+    },
+  },
+  delete: 'Delete',
+  dragAndDrop: {
+    handle: 'Drag handle',
   },
 };
 

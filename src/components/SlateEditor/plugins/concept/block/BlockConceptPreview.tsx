@@ -10,46 +10,51 @@ import { useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { Remarkable } from 'remarkable';
 import styled from '@emotion/styled';
-import { css } from '@emotion/core';
 import { colors, spacing } from '@ndla/core';
-import { DeleteForever } from '@ndla/icons/editor';
+import { DeleteForever, AlertCircle, Check } from '@ndla/icons/editor';
 import { Link as LinkIcon } from '@ndla/icons/common';
 import { ConceptNotion } from '@ndla/ui';
-import { IConcept } from '@ndla/types-concept-api';
+import { IConcept } from '@ndla/types-backend/concept-api';
 import { useTranslation } from 'react-i18next';
 import Tooltip from '@ndla/tooltip';
-import { AlertCircle, Check } from '@ndla/icons/lib/editor';
+import { SafeLinkIconButton } from '@ndla/safelink';
+import { IconButtonV2 } from '@ndla/button';
 import { addShowConceptDefinitionClickListeners } from '@ndla/article-scripts';
-import IconButton from '../../../../IconButton';
 import { getYoutubeEmbedUrl } from '../../../../../util/videoUtil';
 import { parseEmbedTag } from '../../../../../util/embedTagHelpers';
 import config from '../../../../../config';
 import { Embed } from '../../../../../interfaces';
-import { PUBLISHED } from '../../../../../util/constants/ConceptStatus';
+import { PUBLISHED } from '../../../../../constants';
 
 const StyledCheckIcon = styled(Check)`
   width: ${spacing.normal};
   height: ${spacing.normal};
   fill: ${colors.support.green};
+  margin-left: 8px;
 `;
 
 const StyledWarnIcon = styled(AlertCircle)`
   height: ${spacing.normal};
   width: ${spacing.normal};
   fill: ${colors.brand.grey};
+  margin-left: 8px;
 `;
 
-const StyledFigureButtons = styled('span')<{ isBlockView?: boolean }>`
+const FigureButtonsContainer = styled.span<{ isBlockView?: boolean }>`
   position: absolute;
   top: 0;
   z-index: 1;
   right: 0;
-  ${p => (p.isBlockView ? 'transform: translateX(100%);' : '')}
+  ${(p) => (p.isBlockView ? 'transform: translateX(100%);' : '')}
   margin-top: ${spacing.xsmall};
 
   > * {
     margin-bottom: ${spacing.xsmall};
   }
+`;
+
+const StyledTooltip = styled(Tooltip)`
+  margin-right: auto;
 `;
 
 interface Props {
@@ -80,7 +85,7 @@ const BlockConceptPreview = ({ concept, handleRemove, id, isBlockView }: Props) 
     const embed: Embed | undefined = parseEmbedTag(concept.visualElement?.visualElement);
     if (!embed) return;
     switch (embed?.resource) {
-      case 'image':
+      case 'image': {
         const imageUrl = `${config.ndlaApiUrl}/image-api/raw/id/${embed.resource_id}`;
         return {
           resource: embed.resource,
@@ -90,6 +95,7 @@ const BlockConceptPreview = ({ concept, handleRemove, id, isBlockView }: Props) 
             alt: embed.alt,
           },
         };
+      }
       case 'external':
       case 'iframe':
         return {
@@ -97,14 +103,14 @@ const BlockConceptPreview = ({ concept, handleRemove, id, isBlockView }: Props) 
           url: embed.url ?? '',
           title: embed.title,
         };
-      case 'brightcove':
+      case 'brightcove': {
         const videoUrl = `https://players.brightcove.net/${embed.account}/${embed.player}_default/index.html?videoId=${embed.videoid}`;
         return {
           resource: embed.resource,
           url: videoUrl,
           title: embed.title,
         };
-
+      }
       case 'video':
       case 'h5p':
         return {
@@ -132,44 +138,52 @@ const BlockConceptPreview = ({ concept, handleRemove, id, isBlockView }: Props) 
           image,
           visualElement,
         }}
+        hideIconsAndAuthors
         type={getType(visualElement?.resource)}
         disableScripts={true}
       />
 
-      <StyledFigureButtons isBlockView={isBlockView}>
-        <Tooltip tooltip={t('form.concept.removeConcept')} align="right">
-          <IconButton color="red" type="button" onClick={handleRemove} tabIndex={-1}>
+      <FigureButtonsContainer isBlockView={isBlockView}>
+        <Tooltip tooltip={t('form.concept.removeConcept')}>
+          <IconButtonV2
+            aria-label={t('form.concept.removeConcept')}
+            variant="ghost"
+            colorTheme="danger"
+            onClick={handleRemove}
+          >
             <DeleteForever />
-          </IconButton>
+          </IconButtonV2>
         </Tooltip>
-        <Tooltip tooltip={t('form.concept.edit')} align="right">
-          <IconButton
-            as={Link}
+        <Tooltip tooltip={t('form.concept.edit')}>
+          <SafeLinkIconButton
+            aria-label={t('form.concept.edit')}
+            variant="ghost"
+            colorTheme="light"
             to={`/concept/${id}/edit/${concept.content?.language ?? i18n.language}`}
             target="_blank"
-            title={t('form.concept.edit')}
-            tabIndex={-1}>
+          >
             <LinkIcon />
-          </IconButton>
+          </SafeLinkIconButton>
         </Tooltip>
         {(concept?.status.current === PUBLISHED || concept?.status.other.includes(PUBLISHED)) && (
-          <Tooltip
-            tooltip={t('form.workflow.published')}
-            css={css`
-              margin-right: auto;
-            `}>
-            <StyledCheckIcon />
-          </Tooltip>
+          <StyledTooltip tooltip={t('form.workflow.published')}>
+            <div>
+              <StyledCheckIcon />
+            </div>
+          </StyledTooltip>
         )}
         {concept?.status.current !== PUBLISHED && (
           <Tooltip
             tooltip={t('form.workflow.currentStatus', {
               status: t(`form.status.${concept?.status.current.toLowerCase()}`),
-            })}>
-            <StyledWarnIcon />
+            })}
+          >
+            <div>
+              <StyledWarnIcon />
+            </div>
           </Tooltip>
         )}
-      </StyledFigureButtons>
+      </FigureButtonsContainer>
     </>
   );
 };

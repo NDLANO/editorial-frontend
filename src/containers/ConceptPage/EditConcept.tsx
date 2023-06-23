@@ -8,13 +8,29 @@
 
 import { HelmetWithTracker } from '@ndla/tracker';
 import { useTranslation } from 'react-i18next';
+import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import ConceptForm from './ConceptForm/ConceptForm';
 import { useFetchConceptData } from '../FormikForm/formikConceptHooks';
-import { useTranslateApi } from '../FormikForm/translateFormHooks';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import Spinner from '../../components/Spinner';
 import { LocaleType } from '../../interfaces';
+import { TranslateType, useTranslateToNN } from '../../components/NynorskTranslateProvider';
+
+const translateFields: TranslateType[] = [
+  {
+    field: 'title.title',
+    type: 'text',
+  },
+  {
+    field: 'content.content',
+    type: 'text',
+  },
+  {
+    field: 'tags.tags',
+    type: 'text',
+  },
+];
 
 interface Props {
   isNewlyCreated?: boolean;
@@ -27,22 +43,24 @@ const EditConcept = ({ isNewlyCreated }: Props) => {
   const { t } = useTranslation();
   const {
     concept,
+    setConcept,
     fetchSearchTags,
     conceptArticles,
     loading,
-    setConcept,
     conceptChanged,
     subjects,
     updateConcept,
-    updateConceptAndStatus,
   } = useFetchConceptData(conceptId, selectedLanguage!);
 
-  const { translating, translateToNN } = useTranslateApi(concept, setConcept, [
-    'id',
-    'title.title',
-    'content.content',
-    'tags.tags',
-  ]);
+  const { shouldTranslate, translate, translating } = useTranslateToNN();
+
+  useEffect(() => {
+    (async () => {
+      if (concept && !loading && shouldTranslate) {
+        await translate(concept, translateFields, setConcept);
+      }
+    })();
+  }, [concept, loading, setConcept, shouldTranslate, translate]);
 
   if (loading || translating) {
     return <Spinner withWrapper />;
@@ -64,12 +82,10 @@ const EditConcept = ({ isNewlyCreated }: Props) => {
         fetchConceptTags={fetchSearchTags}
         isNewlyCreated={isNewlyCreated}
         upsertProps={{
-          onUpdate: concept => updateConcept(conceptId, concept),
-          updateConceptAndStatus: updateConceptAndStatus,
+          onUpdate: (concept) => updateConcept(conceptId, concept),
         }}
         language={selectedLanguage!}
         subjects={subjects}
-        translateToNN={translateToNN}
       />
     </>
   );

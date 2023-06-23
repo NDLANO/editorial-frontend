@@ -6,8 +6,7 @@
  *
  */
 
-import { ChangeEvent } from 'react';
-import PropTypes from 'prop-types';
+import { FormEvent, MouseEvent } from 'react';
 import { FieldSection, FieldSplitter, Input, Select, FieldRemoveButton } from '@ndla/forms';
 import { ContributorType, ContributorFieldName } from './types';
 
@@ -23,11 +22,11 @@ interface Props {
   labelRemove?: string;
   contributor: ContributorType;
   handleContributorChange: (
-    event: ChangeEvent<HTMLInputElement>,
+    event: FormEvent<HTMLSelectElement> | FormEvent<HTMLInputElement>,
     name: ContributorFieldName,
     index: number,
   ) => void;
-  removeContributor: (event: ChangeEvent<HTMLInputElement>, index: number) => void;
+  removeContributor: (event: MouseEvent<HTMLButtonElement>, index: number) => void;
   contributorTypeItems: ContributorTypeItem[];
   index: number;
   errorMessages?: string[];
@@ -52,21 +51,22 @@ const Contributor = ({
           warningText={
             showError && (contributor.name === '' || contributor.type === '')
               ? errorMessages[0]
-              : null
+              : undefined
           }
-          container="div"
           type="text"
-          focusOnMount={contributor.focusOnMount}
+          // eslint-disable-next-line jsx-a11y/no-autofocus
+          autoFocus={!!contributor.focusOnMount}
           placeholder={placeholder}
           disabled={disabled}
           value={contributor.name}
-          onChange={(e: ChangeEvent<HTMLInputElement>) => handleContributorChange(e, 'name', index)}
+          onChange={(e) => handleContributorChange(e, 'name', index)}
         />
         <Select
           value={contributor.type}
-          onChange={(e: ChangeEvent<HTMLInputElement>) => handleContributorChange(e, 'type', index)}
-          onBlur={(e: ChangeEvent<HTMLInputElement>) => handleContributorChange(e, 'type', index)}
-          data-cy="contributor-selector">
+          onChange={(e) => handleContributorChange(e, 'type', index)}
+          onBlur={(e) => handleContributorChange(e, 'type', index)}
+          data-cy="contributor-selector"
+        >
           <option value="" />
           {contributorTypeItems.map((item: ContributorTypeItem) => (
             <option value={item.type} key={item.type}>
@@ -77,34 +77,11 @@ const Contributor = ({
       </FieldSplitter>
     </div>
     <div>
-      <FieldRemoveButton
-        onClick={(evt: ChangeEvent<HTMLInputElement>) => removeContributor(evt, index)}>
+      <FieldRemoveButton onClick={(evt) => removeContributor(evt, index)}>
         {labelRemove}
       </FieldRemoveButton>
     </div>
   </FieldSection>
 );
-
-Contributor.propTypes = {
-  showError: PropTypes.bool.isRequired,
-  placeholder: PropTypes.string,
-  disabled: PropTypes.bool,
-  labelRemove: PropTypes.string,
-  contributor: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-    focusOnMount: PropTypes.bool,
-  }).isRequired,
-  handleContributorChange: PropTypes.func.isRequired,
-  removeContributor: PropTypes.func.isRequired,
-  contributorTypeItems: PropTypes.arrayOf(
-    PropTypes.shape({
-      translation: PropTypes.string,
-      type: PropTypes.string,
-    }),
-  ).isRequired,
-  index: PropTypes.number.isRequired,
-  errorMessages: PropTypes.arrayOf(PropTypes.string),
-};
 
 export default Contributor;

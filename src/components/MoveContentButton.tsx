@@ -6,41 +6,30 @@
  *
  */
 
-import darken from 'polished/lib/color/darken';
-import { css } from '@emotion/core';
-import { colors } from '@ndla/core';
-import Button from '@ndla/button';
+import { IconButtonV2 } from '@ndla/button';
 import { ChevronLeft } from '@ndla/icons/common';
+import Tooltip from '@ndla/tooltip';
+import { MouseEventHandler } from 'react';
 import { useTranslation } from 'react-i18next';
 
-const moveContentButtonStyle = css`
-  position: absolute;
-  top: 0.1rem;
-  right: 1.2rem;
-  color: ${colors.support.green};
-
-  &:hover,
-  &:focus {
-    color: ${darken(0.2, colors.support.green)};
-  }
-`;
-
 interface Props {
-  onMouseDown: () => void;
+  onMouseDown?: MouseEventHandler;
 }
 
 const MoveContentButton = ({ onMouseDown }: Props) => {
   const { t } = useTranslation();
   return (
-    <Button
-      css={moveContentButtonStyle}
-      contentEditable={false}
-      tabIndex={-1}
-      title={t('learningResourceForm.fields.rightAside.moveContent')}
-      stripped
-      onMouseDown={onMouseDown}>
-      <ChevronLeft />
-    </Button>
+    <Tooltip tooltip={t('learningResourceForm.fields.rightAside.moveContent')}>
+      <IconButtonV2
+        contentEditable={false}
+        tabIndex={-1}
+        aria-label={t('learningResourceForm.fields.rightAside.moveContent')}
+        variant="ghost"
+        onMouseDown={onMouseDown}
+      >
+        <ChevronLeft />
+      </IconButtonV2>
+    </Tooltip>
   );
 };
 

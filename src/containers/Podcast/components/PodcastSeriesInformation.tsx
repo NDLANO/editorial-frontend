@@ -9,8 +9,8 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FieldHeader } from '@ndla/forms';
-import { IArticleSummaryV2 } from '@ndla/types-article-api';
-import { ISeries } from '@ndla/types-audio-api';
+import { IArticleSummaryV2 } from '@ndla/types-backend/article-api';
+import { ISeries } from '@ndla/types-backend/audio-api';
 import { isEmptyArray, useFormikContext } from 'formik';
 import { fetchSeries, searchSeries } from '../../../modules/audio/audioApi';
 import ElementList from '../../FormikForm/components/ElementList';
@@ -70,7 +70,7 @@ const PodcastSeriesInformation = () => {
       query: input,
       language: language,
     });
-    const results = searchResult.results.map(result => {
+    const results = searchResult.results.map((result) => {
       return {
         ...result,
         revision: 1,

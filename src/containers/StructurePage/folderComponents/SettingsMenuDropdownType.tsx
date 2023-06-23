@@ -6,223 +6,147 @@
  *
  */
 
-import {
-  AddExistingToTopic,
-  AddExistingToSubjectTopic,
-  ChangeSubjectName,
-  CopyResources,
-  DeleteTopic,
-  DeleteSubjectOption,
-  EditGrepCodes,
-  PublishTopic,
-  ToggleVisibility,
-  EditSubjectpageOption,
-  EditCustomFields,
-} from './menuOptions';
-import {
-  SubjectTopic,
-  TaxonomyElement,
-  TaxonomyMetadata,
-} from '../../../modules/taxonomy/taxonomyApiInterfaces';
-import { PathArray } from '../../../util/retrieveBreadCrumbs';
+import { useState } from 'react';
+import { Node } from '@ndla/types-taxonomy';
+import config from '../../../config';
+import { TAXONOMY_ADMIN_SCOPE } from '../../../constants';
 import { EditMode } from '../../../interfaces';
-import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
+import { SUBJECT_NODE, TOPIC_NODE } from '../../../modules/nodes/nodeApiTypes';
+import { getNodeTypeFromNodeId } from '../../../modules/nodes/nodeUtil';
+import { useSession } from '../../Session/SessionProvider';
+import DeleteNode from './sharedMenuOptions/DeleteNode';
+import EditCustomFields from './sharedMenuOptions/EditCustomFields';
+import EditGrepCodes from './sharedMenuOptions/EditGrepCodes';
+import RequestNodePublish from './sharedMenuOptions/RequestNodePublish';
+import ToggleVisibility from './sharedMenuOptions/ToggleVisibility';
+import ToNodeDiff from './sharedMenuOptions/ToNodeDiff';
+import AddExistingToNode from './sharedMenuOptions/AddExistingToNode';
+import ChangeNodeName from './subjectMenuOptions/ChangeNodeName';
+import EditSubjectpageOption from './subjectMenuOptions/EditSubjectpageOption';
+import PublishChildNodeResources from './topicMenuOptions/PublishChildNodeResources';
+import CopyNodeResources from './topicMenuOptions/CopyNodeResources';
+import CopyRevisionDate from './sharedMenuOptions/CopyRevisionDate';
+import SwapTopicArticle from './topicMenuOptions/SwapTopicArticle';
+import SetResourcesPrimary from './topicMenuOptions/SetResourcesPrimary';
 
 interface Props {
-  metadata: TaxonomyMetadata;
-  saveSubjectTopicItems: (topicId: string, saveItems: Pick<TaxonomyElement, 'metadata'>) => void;
-  saveSubjectItems: (
-    subjectid: string,
-    saveItems: { topics?: SubjectTopic[]; loading?: boolean; metadata?: TaxonomyMetadata },
-  ) => void;
-  getAllSubjects: () => Promise<void>;
-  numberOfSubtopics?: number;
-  refreshTopics: () => Promise<void>;
-  subjectId: string;
-  editMode: string;
-  toggleEditMode: (mode: EditMode) => void;
-  path: string;
-  locale: string;
-  setResourcesUpdated: (updated: boolean) => void;
-  onClose: () => void;
-  id: string;
-  name: string;
-  settingsMenuType?: 'topic' | 'subject';
-  showAllOptions: boolean;
-  setShowAlertModal: (show: boolean) => void;
-  contentUri?: string;
-  structure: PathArray;
-  parent?: string;
+  rootNodeId: string;
+  node: Node;
+  nodeChildren: Node[];
+  onCurrentNodeChanged: (node?: Node) => void;
+}
+
+export interface EditModeHandler {
+  editMode: EditMode;
+  toggleEditMode: (editMode: EditMode) => void;
 }
 
 const SettingsMenuDropdownType = ({
-  metadata,
-  saveSubjectTopicItems,
-  saveSubjectItems,
-  getAllSubjects,
-  numberOfSubtopics,
-  refreshTopics,
-  subjectId,
-  editMode,
-  toggleEditMode,
-  path,
-  locale,
-  setResourcesUpdated,
-  onClose,
-  name,
-  id,
-  contentUri,
-  settingsMenuType,
-  showAllOptions,
-  setShowAlertModal,
-  structure,
-  parent,
+  rootNodeId,
+  node,
+  onCurrentNodeChanged,
+  nodeChildren,
 }: Props) => {
-  const { taxonomyVersion } = useTaxonomyVersion();
-  switch (settingsMenuType) {
-    case 'subject':
-      return showAllOptions ? (
-        <>
-          <ChangeSubjectName
-            toggleEditMode={toggleEditMode}
-            onClose={onClose}
-            editMode={editMode}
-            name={name}
-            id={id}
-            contentUri={contentUri}
-            getAllSubjects={getAllSubjects}
-            refreshTopics={refreshTopics}
-          />
+  const { userPermissions } = useSession();
+  const [editMode, setEditMode] = useState<EditMode>('');
+  const nodeType = getNodeTypeFromNodeId(node.id);
+  const toggleEditMode = (mode: EditMode) => setEditMode((prev) => (mode === prev ? '' : mode));
+  const editModeHandler = { editMode, toggleEditMode };
+
+  const isTaxonomyAdmin = userPermissions?.includes(TAXONOMY_ADMIN_SCOPE);
+
+  if (nodeType === SUBJECT_NODE) {
+    return (
+      <>
+        {isTaxonomyAdmin && <ChangeNodeName editModeHandler={editModeHandler} node={node} />}
+        {isTaxonomyAdmin && (
           <EditCustomFields
-            type={settingsMenuType}
             toggleEditMode={toggleEditMode}
             editMode={editMode}
-            saveSubjectItems={saveSubjectItems}
-            saveSubjectTopicItems={saveSubjectTopicItems}
-            subjectId={subjectId}
-            id={id}
-            name={name}
-            metadata={metadata}
+            node={node}
+            onCurrentNodeChanged={onCurrentNodeChanged}
           />
-          <AddExistingToSubjectTopic
-            path={path}
-            onClose={onClose}
-            editMode={editMode}
-            toggleEditMode={toggleEditMode}
-            locale={locale}
-            id={id}
-            refreshTopics={refreshTopics}
-            structure={structure}
-          />
-          <ToggleVisibility
-            menuType={settingsMenuType}
-            editMode={editMode}
-            getAllSubjects={getAllSubjects}
-            id={id}
-            name={name}
-            metadata={metadata}
-            refreshTopics={refreshTopics}
-            setResourcesUpdated={setResourcesUpdated}
-            toggleEditMode={toggleEditMode}
-          />
-          <EditGrepCodes
-            menuType={settingsMenuType}
-            editMode={editMode}
-            id={id}
-            name={name}
-            metadata={metadata}
-            refreshTopics={refreshTopics}
-            toggleEditMode={toggleEditMode}
-            getAllSubjects={getAllSubjects}
-          />
-          <EditSubjectpageOption id={id} locale={locale} />
-          <DeleteSubjectOption
-            id={id}
-            locale={locale}
-            editMode={editMode}
-            toggleEditMode={toggleEditMode}
-            getAllSubjects={getAllSubjects}
-          />
-        </>
-      ) : null;
-    case 'topic':
-      return (
-        <>
-          {showAllOptions && (
-            <PublishTopic locale={locale} id={id} setResourcesUpdated={setResourcesUpdated} />
-          )}
-          {showAllOptions && (
-            <>
-              <EditCustomFields
-                type={settingsMenuType}
-                toggleEditMode={toggleEditMode}
-                editMode={editMode}
-                saveSubjectItems={saveSubjectItems}
-                saveSubjectTopicItems={saveSubjectTopicItems}
-                subjectId={subjectId}
-                id={id}
-                name={name}
-                metadata={metadata}
-              />
-              <DeleteTopic
-                editMode={editMode}
-                toggleEditMode={toggleEditMode}
-                parent={parent}
-                id={id}
-                refreshTopics={refreshTopics}
-                locale={locale}
-                taxonomyVersion={taxonomyVersion}
-              />
-              <AddExistingToTopic
-                path={path}
-                onClose={onClose}
-                editMode={editMode}
-                toggleEditMode={toggleEditMode}
-                locale={locale}
-                id={id}
-                numberOfSubtopics={numberOfSubtopics}
-                structure={structure}
-                refreshTopics={refreshTopics}
-              />
-              <ToggleVisibility
-                menuType={settingsMenuType}
-                editMode={editMode}
-                getAllSubjects={getAllSubjects}
-                id={id}
-                name={name}
-                metadata={metadata}
-                refreshTopics={refreshTopics}
-                setResourcesUpdated={setResourcesUpdated}
-                toggleEditMode={toggleEditMode}
-              />
-              <EditGrepCodes
-                menuType={settingsMenuType}
-                editMode={editMode}
-                id={id}
-                name={name}
-                metadata={metadata}
-                refreshTopics={refreshTopics}
-                toggleEditMode={toggleEditMode}
-                getAllSubjects={getAllSubjects}
-              />
-            </>
-          )}
-          {showAllOptions && (
-            <CopyResources
-              locale={locale}
-              id={id}
-              setShowAlertModal={setShowAlertModal}
-              subjectId={subjectId}
-              structure={structure}
-              onClose={onClose}
-              setResourcesUpdated={setResourcesUpdated}
+        )}
+        <AddExistingToNode editModeHandler={editModeHandler} currentNode={node} />
+        <ToggleVisibility node={node} editModeHandler={editModeHandler} rootNodeId={rootNodeId} />
+        {isTaxonomyAdmin && <EditGrepCodes node={node} editModeHandler={editModeHandler} />}
+        {isTaxonomyAdmin && <EditSubjectpageOption node={node} />}
+        {config.versioningEnabled === 'true' && (
+          <>
+            <RequestNodePublish
+              node={node}
+              editModeHandler={editModeHandler}
+              rootNodeId={rootNodeId}
             />
-          )}
-        </>
-      );
-    default:
-      return null;
-  }
+            <ToNodeDiff node={node} />
+          </>
+        )}
+        {isTaxonomyAdmin && (
+          <DeleteNode
+            node={node}
+            nodeChildren={nodeChildren}
+            editModeHandler={editModeHandler}
+            rootNodeId={rootNodeId}
+            onCurrentNodeChanged={onCurrentNodeChanged}
+          />
+        )}
+      </>
+    );
+  } else if (nodeType === TOPIC_NODE) {
+    return (
+      <>
+        {isTaxonomyAdmin && <PublishChildNodeResources node={node} />}
+        {isTaxonomyAdmin && (
+          <SwapTopicArticle node={node} editModeHandler={editModeHandler} rootNodeId={rootNodeId} />
+        )}
+        {isTaxonomyAdmin && (
+          <EditCustomFields
+            toggleEditMode={toggleEditMode}
+            editMode={editMode}
+            node={node}
+            onCurrentNodeChanged={onCurrentNodeChanged}
+          />
+        )}
+        <AddExistingToNode editModeHandler={editModeHandler} currentNode={node} />
+        <ToggleVisibility node={node} editModeHandler={editModeHandler} rootNodeId={rootNodeId} />
+        {config.versioningEnabled === 'true' && (
+          <>
+            <RequestNodePublish
+              node={node}
+              editModeHandler={editModeHandler}
+              rootNodeId={rootNodeId}
+            />
+            <ToNodeDiff node={node} />
+          </>
+        )}
+        {false && <CopyRevisionDate node={node} editModeHandler={editModeHandler} />}
+        {isTaxonomyAdmin && (
+          <DeleteNode
+            node={node}
+            nodeChildren={nodeChildren}
+            editModeHandler={editModeHandler}
+            rootNodeId={rootNodeId}
+            onCurrentNodeChanged={onCurrentNodeChanged}
+          />
+        )}
+        <CopyNodeResources
+          currentNode={node}
+          editModeHandler={editModeHandler}
+          type="copyResources"
+        />
+        {isTaxonomyAdmin && (
+          <CopyNodeResources
+            currentNode={node}
+            editModeHandler={editModeHandler}
+            type="cloneResources"
+          />
+        )}
+        {isTaxonomyAdmin && (
+          <SetResourcesPrimary node={node} editModeHandler={editModeHandler} recursive />
+        )}
+      </>
+    );
+  } else return null;
 };
 
 export default SettingsMenuDropdownType;

@@ -8,9 +8,9 @@
 
 import { useState, useEffect } from 'react';
 import { RadioButtonGroup } from '@ndla/ui';
-import { IConcept, IConceptSummary, IUpdatedConcept } from '@ndla/types-concept-api';
+import { IConcept, IConceptSummary, IUpdatedConcept } from '@ndla/types-backend/concept-api';
 import { useTranslation } from 'react-i18next';
-import { Spinner } from '@ndla/editor';
+import { Spinner } from '@ndla/icons';
 import {
   fetchConcept,
   updateConcept,
@@ -31,25 +31,27 @@ interface Props {
 
 const FormView = ({ concept, cancel, subjects, updateLocalConcept }: Props) => {
   const { t, i18n } = useTranslation();
-  const languageOptions = concept.supportedLanguages.map(lan => ({
+  const languageOptions = concept.supportedLanguages.map((lan) => ({
     title: t(`language.${lan}`),
     value: lan,
   }));
 
   const [language, setLanguage] = useState<string>(
-    concept.supportedLanguages.find(l => l === i18n.language) ?? concept.supportedLanguages[0],
+    concept.supportedLanguages.find((l) => l === i18n.language) ?? concept.supportedLanguages[0],
   );
   const [fullConcept, setFullConcept] = useState<IConcept | undefined>();
-  const { data: licenses, isLoading: licensesLoading } = useLicenses({ placeholderData: [] });
+  const { data: licenses, isInitialLoading: licensesLoading } = useLicenses({
+    placeholderData: [],
+  });
 
   useEffect(() => {
-    fetchConcept(concept.id, language).then(c => setFullConcept(c));
+    fetchConcept(concept.id, language).then((c) => setFullConcept(c));
   }, [concept.id, language]);
 
   const [formValues, setFormValues] = useState<InlineFormConcept | undefined>();
 
   const conceptSubjects = subjects?.filter(
-    s => s.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] === 'true',
+    (s) => s.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] === 'true',
   );
 
   useEffect(() => {
@@ -57,9 +59,10 @@ const FormView = ({ concept, cancel, subjects, updateLocalConcept }: Props) => {
       const subjectIds = concept.subjectIds;
       setFormValues({
         title: fullConcept.title.title,
-        subjects: subjects.filter(s => subjectIds?.find(id => id === s.id)),
+        subjects: subjects.filter((s) => subjectIds?.find((id) => id === s.id)),
         license:
-          licenses!.find(l => l.license === fullConcept.copyright?.license?.license)?.license || '',
+          licenses!.find((l) => l.license === fullConcept.copyright?.license?.license)?.license ||
+          '',
         tags: fullConcept.tags?.tags || [],
       });
     }
@@ -72,16 +75,17 @@ const FormView = ({ concept, cancel, subjects, updateLocalConcept }: Props) => {
       content: fullConcept.content?.content,
       source: fullConcept.source,
       language: language,
-      subjectIds: formConcept.subjects.map(s => s.id),
+      subjectIds: formConcept.subjects.map((s) => s.id),
       tags: formConcept.tags,
       title: formConcept.title,
       copyright: {
         ...fullConcept.copyright,
         creators: fullConcept.copyright?.creators || [],
-        license: licenses!.find(l => l.license === formConcept.license),
+        license: licenses!.find((l) => l.license === formConcept.license),
         rightsholders: fullConcept.copyright?.rightsholders || [],
         processors: fullConcept.copyright?.processors || [],
       },
+      responsibleId: fullConcept?.responsible?.responsibleId,
     };
     const updatedConcept = await updateConcept(fullConcept.id, newConcept);
     if (formConcept.newStatus) {

@@ -12,11 +12,9 @@ import FocusTrapReact from 'focus-trap-react';
 import { useTranslation } from 'react-i18next';
 import { Plus } from '@ndla/icons/action';
 import StyledFilledButton from '../StyledFilledButton';
-import StyledListButton from '../StyledListButton';
+import { styledListElement } from '../StyledListElement/StyledListElement';
 import Overlay from '../Overlay';
 import { StyledDropdownOverlay } from '../Dropdown';
-
-const StyledLink = StyledListButton.withComponent(Link);
 
 const LanguagePicker = ({ emptyLanguages, editUrl }: Props) => {
   const { t } = useTranslation();
@@ -38,15 +36,18 @@ const LanguagePicker = ({ emptyLanguages, editUrl }: Props) => {
               },
               clickOutsideDeactivates: true,
               escapeDeactivates: true,
-            }}>
+            }}
+          >
             <StyledDropdownOverlay withArrow>
-              {emptyLanguages.map(language => (
-                <StyledLink
+              {emptyLanguages.map((language) => (
+                <Link
+                  css={styledListElement}
                   key={language.key}
                   to={editUrl(language.key)}
-                  onClick={() => setDisplay(false)}>
+                  onClick={() => setDisplay(false)}
+                >
                   {language.title}
-                </StyledLink>
+                </Link>
               ))}
             </StyledDropdownOverlay>
           </FocusTrapReact>

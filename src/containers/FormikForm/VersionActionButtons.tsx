@@ -10,14 +10,13 @@ import { useTranslation } from 'react-i18next';
 import Tooltip from '@ndla/tooltip';
 import { Eye, Restore } from '@ndla/icons/editor';
 import { StyledAccordionsPanelIconButton } from '@ndla/accordion';
-import { IUpdatedArticle, IArticle } from '@ndla/types-draft-api';
+import { IUpdatedArticle, IArticle } from '@ndla/types-backend/draft-api';
 
-import { PreviewDraftLightbox } from '../../components';
+import PreviewDraftLightboxV2 from '../../components/PreviewDraft/PreviewDraftLightboxV2';
 
 interface Props {
   showFromArticleApi: boolean;
   article: IArticle;
-  getArticle: (preview: boolean) => IUpdatedArticle;
   resetVersion: (version: IArticle, language: string, showFromArticleApi: boolean) => Promise<void>;
   version: IArticle;
   current: boolean;
@@ -28,7 +27,6 @@ const VersionActionButtons = ({
   showFromArticleApi,
   current,
   article,
-  getArticle,
   resetVersion,
   version,
   currentLanguage,
@@ -39,30 +37,26 @@ const VersionActionButtons = ({
   if (current && !showFromArticleApi) return null;
   return (
     <>
-      <PreviewDraftLightbox
-        articleId={article.id}
-        currentArticleLanguage={currentLanguage}
-        label={t(`articleType.${article.articleType}`)}
-        typeOfPreview={showFromArticleApi ? 'previewProductionArticle' : 'previewVersion'}
-        getArticle={getArticle}
-        version={version}>
-        {(openPreview: VoidFunction) => (
-          <Tooltip tooltip={t('form.previewVersion')}>
-            <StyledAccordionsPanelIconButton
-              type="button"
-              data-testid="previewVersion"
-              onClick={openPreview}>
-              <Eye />
-            </StyledAccordionsPanelIconButton>
-          </Tooltip>
+      <PreviewDraftLightboxV2
+        type="version"
+        article={version}
+        language={currentLanguage}
+        wrapperFunctionForButton={(btn) => (
+          <Tooltip tooltip={t('form.previewVersion')}>{btn}</Tooltip>
         )}
-      </PreviewDraftLightbox>
+        activateButton={
+          <StyledAccordionsPanelIconButton type="button" data-testid="previewVersion">
+            <Eye />
+          </StyledAccordionsPanelIconButton>
+        }
+      />
 
       <Tooltip tooltip={t('form.resetToVersion')}>
         <StyledAccordionsPanelIconButton
           type="button"
           data-testid="resetToVersion"
-          onClick={() => resetVersion(version, article.title!.language, showFromArticleApi)}>
+          onClick={() => resetVersion(version, article.title!.language, showFromArticleApi)}
+        >
           <Restore />
         </StyledAccordionsPanelIconButton>
       </Tooltip>

@@ -6,10 +6,12 @@
  *
  */
 
-import { useState } from 'react';
-import dot from 'dot-object';
-import { merge } from 'lodash';
+import { useCallback, useEffect, useState } from 'react';
+import get from 'lodash/get';
+import set from 'lodash/set';
+import merge from 'lodash/merge';
 import { fetchNnTranslation } from '../../modules/translate/translateApi';
+import { ApiTranslateType } from '../../interfaces';
 
 /**
  * The translate service requires a json-payload with one level of fields.
@@ -21,47 +23,43 @@ import { fetchNnTranslation } from '../../modules/translate/translateApi';
  * and then unwrapped after translation.
  */
 
-// Values _most likely_ not used in translated values
-const arrayIdent = 'ARRAY:';
-const separator = '~~';
+interface TranslateType {
+  field: string;
+  type: 'text' | 'html';
+}
 
 export function useTranslateApi(
   element: any,
   setElement: (element: any) => void,
-  fields: string[],
+  fields: TranslateType[],
+  disabled?: boolean,
 ) {
+  const [shouldTranslate, setShouldTranslate] = useState(false);
   const [translating, setTranslating] = useState(false);
 
-  const pick = (field: string, element: any) => {
-    const picked = dot.pick(field, element);
-    if (Array.isArray(picked)) {
-      return `${arrayIdent}${picked.join(separator)}`;
-    }
-    return picked;
-  };
+  useEffect(() => {
+    (async () => {
+      if (!shouldTranslate || disabled) return;
+      setTranslating(true);
+      const payload = fields.reduce<Record<string, ApiTranslateType>>((acc, { field, type }) => {
+        const content = get(element, field);
+        if (content) {
+          acc[field] = { content, type, isArray: Array.isArray(content) };
+        }
+        return acc;
+      }, {});
+      const document = await fetchNnTranslation(payload);
+      const cloned = JSON.parse(JSON.stringify(element));
+      Object.entries(document).forEach(([key, value]) => set(cloned, key, value));
+      setElement({ ...merge(element, cloned), language: 'nn' });
+      setTranslating(false);
+      setShouldTranslate(false);
+    })();
+  }, [shouldTranslate, disabled, fields, element, setElement]);
 
-  const unwrap = (document: JSON) => {
-    const doc = JSON.parse(JSON.stringify(document), function(key: string, value: string) {
-      if (typeof value === 'string' && value.startsWith(arrayIdent)) {
-        return value.slice(arrayIdent.length).split(separator);
-      }
-      return value;
-    });
-
-    return doc;
-  };
-
-  const translateToNN = async () => {
-    setTranslating(true);
-    const payload = fields.reduce((acc, field) => ({ ...acc, [field]: pick(field, element) }), {});
-    const translated = await fetchNnTranslation(payload);
-    const document = dot.object(unwrap(translated.document));
-    setElement({
-      ...merge(element, document),
-      language: 'nn',
-    });
-    setTranslating(false);
-  };
+  const translateToNN = useCallback(() => {
+    setShouldTranslate(true);
+  }, []);
 
   return {
     translating,

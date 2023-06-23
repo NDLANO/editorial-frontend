@@ -6,114 +6,109 @@
  *
  */
 
-import Button from '@ndla/button';
+import { useTranslation } from 'react-i18next';
+import { Root, Trigger, Close, Content, Portal } from '@radix-ui/react-popover';
+import { CloseButton, IconButtonV2 } from '@ndla/button';
+import { colors, spacing, animations } from '@ndla/core';
 import { Settings } from '@ndla/icons/editor';
 import styled from '@emotion/styled';
-import { useState } from 'react';
-import Overlay from '../../../components/Overlay';
+import { Node } from '@ndla/types-taxonomy';
+import { getNodeTypeFromNodeId } from '../../../modules/nodes/nodeUtil';
 import RoundIcon from '../../../components/RoundIcon';
-import {
-  SubjectTopic,
-  TaxonomyElement,
-  TaxonomyMetadata,
-} from '../../../modules/taxonomy/taxonomyApiInterfaces';
-import SettingsMenuDropdown from './SettingsMenuDropdown';
-import { PathArray } from '../../../util/retrieveBreadCrumbs';
-import { EditMode } from '../../../interfaces';
+import Overlay from '../../../components/Overlay';
+import SettingsMenuDropdownType from './SettingsMenuDropdownType';
 
-const StyledDivWrapper = styled('div')`
-  position: relative;
+const TitleWrapper = styled.div`
   display: flex;
+  gap: ${spacing.xsmall};
+`;
 
-  > button {
-    outline: none;
+const Header = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const StyledIconButton = styled(IconButtonV2)`
+  margin-left: ${spacing.xsmall};
+  border: 1px solid ${colors.brand.greyDark};
+  background-color: ${colors.white};
+  width: 28px;
+  padding: 0;
+  height: 28px;
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+  &:focus,
+  &:hover,
+  &:focus-within {
+    border: 1px solid ${colors.brand.greyDark};
+    background-color: ${colors.brand.greyDark};
+    svg {
+      color: ${colors.white};
+    }
   }
 `;
 
 interface Props {
-  type: string;
-  setShowAlertModal: (show: boolean) => void;
-  id: string;
-  name: string;
-  path: string;
-  showAllOptions: boolean;
-  metadata: TaxonomyMetadata;
-  locale: string;
-  getAllSubjects: () => Promise<void>;
-  refreshTopics: () => Promise<void>;
-  subjectId: string;
-  setResourcesUpdated: (updated: boolean) => void;
-  saveSubjectItems: (
-    subjectid: string,
-    saveItems: { topics?: SubjectTopic[]; loading?: boolean; metadata?: TaxonomyMetadata },
-  ) => void;
-  saveSubjectTopicItems: (topicId: string, saveItems: Pick<TaxonomyElement, 'metadata'>) => void;
-  parent?: string;
-  structure: PathArray;
+  node: Node;
+  rootNodeId: string;
+  nodeChildren: Node[];
+  onCurrentNodeChanged: (node?: Node) => void;
 }
 
-const SettingsMenu = ({
-  type,
-  setShowAlertModal,
-  id,
-  name,
-  path,
-  locale,
-  metadata,
-  showAllOptions,
-  getAllSubjects,
-  refreshTopics,
-  subjectId,
-  setResourcesUpdated,
-  saveSubjectItems,
-  saveSubjectTopicItems,
-  parent,
-  structure,
-}: Props) => {
-  const [open, setOpen] = useState(false);
-  const [editMode, setEditMode] = useState('');
-
-  const toggleEditMode = (mode: EditMode) => {
-    setEditMode(prev => (mode === prev ? '' : mode));
-  };
-
-  const toggleOpenMenu = () => {
-    setOpen(!open);
-  };
+const SettingsMenu = ({ node, rootNodeId, onCurrentNodeChanged, nodeChildren }: Props) => {
+  const { t } = useTranslation();
+  const nodeType = getNodeTypeFromNodeId(node.id);
 
   return (
-    <StyledDivWrapper>
-      <Button onClick={toggleOpenMenu} data-cy={`settings-button-${type}`} stripped>
-        <RoundIcon icon={<Settings />} margin open={open} />
-      </Button>
-      {open && (
+    <Root>
+      <Trigger asChild>
+        <StyledIconButton
+          variant="stripped"
+          data-cy="settings-button"
+          aria-label={t(`taxonomy.${nodeType.toLowerCase()}Settings`)}
+          colorTheme="primary"
+        >
+          <Settings />
+        </StyledIconButton>
+      </Trigger>
+      <Portal>
         <>
-          <Overlay modifiers={['zIndex']} onExit={toggleOpenMenu} />
-          <SettingsMenuDropdown
-            onClose={toggleOpenMenu}
-            toggleEditMode={toggleEditMode}
-            editMode={editMode}
-            setShowAlertModal={setShowAlertModal}
-            id={id}
-            name={name}
-            type={type}
-            locale={locale}
-            metadata={metadata}
-            path={path}
-            showAllOptions={showAllOptions}
-            getAllSubjects={getAllSubjects}
-            refreshTopics={refreshTopics}
-            subjectId={subjectId}
-            setResourcesUpdated={setResourcesUpdated}
-            saveSubjectItems={saveSubjectItems}
-            saveSubjectTopicItems={saveSubjectTopicItems}
-            parent={parent}
-            structure={structure}
-          />
+          <Content side="right" sideOffset={10} asChild>
+            <StyledDivWrapper>
+              <Header>
+                <TitleWrapper>
+                  <RoundIcon icon={<Settings />} open />
+                  <span>{t(`taxonomy.${nodeType.toLowerCase()}Settings`)}</span>
+                </TitleWrapper>
+                <Close asChild>
+                  <CloseButton />
+                </Close>
+              </Header>
+              <SettingsMenuDropdownType
+                node={node}
+                rootNodeId={rootNodeId}
+                onCurrentNodeChanged={onCurrentNodeChanged}
+                nodeChildren={nodeChildren}
+              />
+            </StyledDivWrapper>
+          </Content>
+          <Overlay modifiers={['zIndex']} />
         </>
-      )}
-    </StyledDivWrapper>
+      </Portal>
+    </Root>
   );
 };
+
+export const StyledDivWrapper = styled.div`
+  position: absolute;
+  ${animations.fadeIn()}
+  z-index: 2;
+  padding: ${spacing.xsmall};
+  width: 550px;
+  background-color: ${colors.brand.greyLightest};
+  box-shadow: 0 0 4px 0 rgba(78, 78, 78, 0.5);
+`;
 
 export default SettingsMenu;

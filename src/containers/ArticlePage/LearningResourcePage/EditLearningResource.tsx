@@ -8,43 +8,62 @@
 
 import { HelmetWithTracker } from '@ndla/tracker';
 import { Navigate, useParams } from 'react-router-dom';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import LearningResourceForm from './components/LearningResourceForm';
 import { toEditArticle } from '../../../util/routeHelpers';
 import { useFetchArticleData } from '../../FormikForm/formikDraftHooks';
-import { useTranslateApi } from '../../FormikForm/translateFormHooks';
 import Spinner from '../../../components/Spinner';
 import { LocaleType } from '../../../interfaces';
 import NotFound from '../../NotFoundPage/NotFoundPage';
+import { TranslateType, useTranslateToNN } from '../../../components/NynorskTranslateProvider';
 
 interface Props {
   isNewlyCreated?: boolean;
 }
+
+const translateFields: TranslateType[] = [
+  {
+    field: 'title.title',
+    type: 'text',
+  },
+  {
+    field: 'metaDescription.metaDescription',
+    type: 'text',
+  },
+  {
+    field: 'introduction.introduction',
+    type: 'text',
+  },
+  {
+    field: 'content.content',
+    type: 'html',
+  },
+  {
+    field: 'tags.tags',
+    type: 'text',
+  },
+];
 
 const EditLearningResource = ({ isNewlyCreated }: Props) => {
   const { t } = useTranslation();
   const params = useParams<'selectedLanguage' | 'id'>();
   const selectedLanguage = params.selectedLanguage as LocaleType;
   const articleId = Number(params.id!) || undefined;
-  const {
-    loading,
-    article,
-    taxonomy,
-    setArticle,
-    articleChanged,
-    updateArticle,
-    updateArticleAndStatus,
-  } = useFetchArticleData(articleId, selectedLanguage);
-  const { translating, translateToNN } = useTranslateApi(article, setArticle, [
-    'id',
-    'title.title',
-    'metaDescription.metaDescription',
-    'introduction.introduction',
-    'content.content',
-    'tags.tags',
-  ]);
+  const { loading, article, taxonomy, setArticle, articleChanged, updateArticle } =
+    useFetchArticleData(articleId, selectedLanguage);
 
-  if (loading || !article || !article.id) {
+  const { translate, shouldTranslate, translating } = useTranslateToNN();
+
+  useEffect(() => {
+    (async () => {
+      if (article && !loading && shouldTranslate) {
+        await translate(article, translateFields, setArticle);
+      }
+    })();
+  }, [article, loading, setArticle, shouldTranslate, translate]);
+
+  if (loading || translating) {
     return <Spinner withWrapper />;
   }
 
@@ -66,11 +85,8 @@ const EditLearningResource = ({ isNewlyCreated }: Props) => {
         article={article}
         articleStatus={article.status}
         articleChanged={articleChanged || newLanguage}
-        translating={translating}
-        translateToNN={translateToNN}
         isNewlyCreated={!!isNewlyCreated}
         updateArticle={updateArticle}
-        updateArticleAndStatus={updateArticleAndStatus}
       />
     </>
   );

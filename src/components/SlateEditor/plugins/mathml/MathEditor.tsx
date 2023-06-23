@@ -11,7 +11,7 @@ import { Editor, Node, Path, Transforms } from 'slate';
 import { ReactEditor, RenderElementProps, useFocused, useSelected } from 'slate-react';
 import { colors } from '@ndla/core';
 import he from 'he';
-import { Portal } from '../../../Portal';
+import { Portal } from '@radix-ui/react-portal';
 import EditMath from './EditMath';
 import MathML from './MathML';
 import BlockMenu from './BlockMenu';
@@ -68,11 +68,11 @@ const MathEditor = ({ element, children, attributes, editor }: Props & RenderEle
   const toggleMenu = (event: MouseEvent | Event) => {
     event.preventDefault();
     event.stopPropagation();
-    setShowMenu(prev => !prev);
+    setShowMenu((prev) => !prev);
   };
 
   const toggleEdit = () => {
-    setEditMode(prev => !prev);
+    setEditMode((prev) => !prev);
   };
 
   const onExit = () => {
@@ -112,7 +112,7 @@ const MathEditor = ({ element, children, attributes, editor }: Props & RenderEle
         Transforms.setNodes(editor, properties, {
           at: path,
           voids: true,
-          match: node => node === element,
+          match: (node) => node === element,
         });
 
         const mathAsString = new DOMParser().parseFromString(mathML, 'text/xml').firstChild
@@ -123,12 +123,13 @@ const MathEditor = ({ element, children, attributes, editor }: Props & RenderEle
           voids: true,
         });
 
+        // Insertion of concept consists of insert an empty mathml and then updating it with content. By merging the events we can consider them as one action and undo both with ctrl+z.
         mergeLastUndos(editor);
       } else {
         Transforms.setNodes(editor, properties, {
           at: path,
           voids: true,
-          match: node => node === element,
+          match: (node) => node === element,
         });
       }
       Transforms.select(editor, {
@@ -145,7 +146,7 @@ const MathEditor = ({ element, children, attributes, editor }: Props & RenderEle
 
     Transforms.unwrapNodes(editor, {
       at: path,
-      match: node => node === element,
+      match: (node) => node === element,
       voids: true,
     });
   };
@@ -158,23 +159,27 @@ const MathEditor = ({ element, children, attributes, editor }: Props & RenderEle
   }, []);
 
   return (
+    // eslint-disable-next-line jsx-a11y/click-events-have-key-events
     <span
       role="button"
       tabIndex={0}
       onClick={toggleMenu}
       contentEditable={false}
       style={{ boxShadow: selected && focused ? `0 0 0 1px ${colors.brand.tertiary}` : 'none' }}
-      {...attributes}>
-      <MathML model={nodeInfo.model} editor={editor} element={element} />
-      <Portal isOpened={showMenu}>
-        <BlockMenu
-          top={top}
-          left={left}
-          toggleMenu={toggleMenu}
-          handleRemove={handleRemove}
-          toggleEdit={toggleEdit}
-        />
-      </Portal>
+      {...attributes}
+    >
+      <MathML model={nodeInfo.model} editor={editor} element={element} onDoubleClick={toggleEdit} />
+      {showMenu && (
+        <Portal>
+          <BlockMenu
+            top={top}
+            left={left}
+            toggleMenu={toggleMenu}
+            handleRemove={handleRemove}
+            toggleEdit={toggleEdit}
+          />
+        </Portal>
+      )}
       {editMode && (
         <EditMath
           onExit={onExit}

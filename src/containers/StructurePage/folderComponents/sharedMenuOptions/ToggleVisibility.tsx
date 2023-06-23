@@ -1,0 +1,88 @@
+/**
+ * Copyright (c) 2017-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Eye } from '@ndla/icons/editor';
+import styled from '@emotion/styled';
+import { spacing } from '@ndla/core';
+import { Switch } from '@ndla/switch';
+import { Node } from '@ndla/types-taxonomy';
+import { useQueryClient } from '@tanstack/react-query';
+import { EditModeHandler } from '../SettingsMenuDropdownType';
+import { useUpdateNodeMetadataMutation } from '../../../../modules/nodes/nodeMutations';
+import RoundIcon from '../../../../components/RoundIcon';
+import MenuItemButton from './components/MenuItemButton';
+import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
+import { nodesQueryKey } from '../../../../modules/nodes/nodeQueries';
+
+interface Props {
+  node: Node;
+  editModeHandler: EditModeHandler;
+  rootNodeId: string;
+}
+
+export const DropDownWrapper = styled('div')`
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  background-color: white;
+  padding: calc(${spacing.small} / 2);
+`;
+
+const ToggleVisibility = ({
+  node,
+  editModeHandler: { toggleEditMode, editMode },
+  rootNodeId,
+}: Props) => {
+  const { t, i18n } = useTranslation();
+  const { name, id, metadata } = node;
+  const [visible, setVisible] = useState(metadata?.visible);
+
+  const { taxonomyVersion } = useTaxonomyVersion();
+  const { mutateAsync: updateMetadata } = useUpdateNodeMetadataMutation();
+
+  const qc = useQueryClient();
+  const compKey = nodesQueryKey({
+    language: i18n.language,
+    nodeType: 'SUBJECT',
+    taxonomyVersion,
+  });
+
+  const toggleVisibility = async () => {
+    await updateMetadata(
+      {
+        id,
+        metadata: { grepCodes: metadata.grepCodes, visible: !visible },
+        rootId: rootNodeId !== node.id ? rootNodeId : undefined,
+        taxonomyVersion,
+      },
+      { onSuccess: () => qc.invalidateQueries(compKey) },
+    );
+    setVisible(!visible);
+  };
+
+  const toggleEditModes = () => toggleEditMode('toggleMetadataVisibility');
+
+  return (
+    <>
+      <MenuItemButton data-testid="toggleVisibilityButton" onClick={toggleEditModes}>
+        <RoundIcon small icon={<Eye />} />
+        {t('metadata.changeVisibility')}
+      </MenuItemButton>
+      {editMode === 'toggleMetadataVisibility' && (
+        <DropDownWrapper>
+          {name} {t(`metadata.${visible ? 'visible' : 'notVisible'}`)}
+          <Switch onChange={toggleVisibility} checked={visible} label="" id={'visible'} />
+        </DropDownWrapper>
+      )}
+    </>
+  );
+};
+
+export default ToggleVisibility;

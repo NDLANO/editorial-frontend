@@ -8,12 +8,14 @@
 
 import { useTranslation } from 'react-i18next';
 import { useFormikContext } from 'formik';
-import { IConcept, IStatus } from '@ndla/types-concept-api';
+import styled from '@emotion/styled';
+import { IConcept, IStatus } from '@ndla/types-backend/concept-api';
+import { spacing } from '@ndla/core';
+import { ButtonV2 } from '@ndla/button';
 import { isFormikFormDirty } from '../../../util/formHelper';
 import EditorFooter from '../../../components/SlateEditor/EditorFooter';
 import SaveButton from '../../../components/SaveButton';
-import Field from '../../../components/Field';
-import { AlertModalWrapper, formClasses, ActionButton } from '../../FormikForm';
+import { AlertModalWrapper } from '../../FormikForm';
 import { ConceptFormValues } from '../conceptInterfaces';
 import { useConceptStateMachine } from '../../../modules/concept/conceptQueries';
 
@@ -25,9 +27,16 @@ interface Props {
   isNewlyCreated: boolean;
   showSimpleFooter: boolean;
   onClose?: () => void;
-  onContinue: () => void;
   getApiConcept?: () => IConcept;
+  responsibleId?: string;
 }
+
+const ButtonContainer = styled.div`
+  margin-top: ${spacing.small};
+  display: flex;
+  gap: ${spacing.xsmall};
+  justify-content: flex-end;
+`;
 
 const ConceptFormFooter = ({
   entityStatus,
@@ -37,8 +46,8 @@ const ConceptFormFooter = ({
   isNewlyCreated,
   showSimpleFooter,
   onClose,
-  onContinue,
   getApiConcept,
+  responsibleId,
 }: Props) => {
   const { t } = useTranslation();
   const formikContext = useFormikContext<ConceptFormValues>();
@@ -56,23 +65,22 @@ const ConceptFormFooter = ({
   return (
     <>
       {inModal ? (
-        <Field right>
-          <ActionButton outline onClick={onClose}>
+        <ButtonContainer>
+          <ButtonV2 variant="outline" onClick={onClose}>
             {t('form.abort')}
-          </ActionButton>
+          </ButtonV2>
           <SaveButton
-            {...formClasses}
+            type={!inModal ? 'submit' : 'button'}
             isSaving={isSubmitting}
             formIsDirty={formIsDirty}
             showSaved={savedToServer && !formIsDirty}
-            submit={!inModal}
             disabled={disableSave}
             onClick={(evt: { preventDefault: () => void }) => {
               evt.preventDefault();
               submitForm();
             }}
           />
-        </Field>
+        </ButtonContainer>
       ) : (
         <EditorFooter
           formIsDirty={formIsDirty}
@@ -86,13 +94,13 @@ const ConceptFormFooter = ({
           isConcept
           isNewlyCreated={isNewlyCreated}
           hasErrors={isSubmitting || !formIsDirty || disableSave}
+          responsibleId={responsibleId}
         />
       )}
       {!inModal && (
         <AlertModalWrapper
           formIsDirty={formIsDirty}
           isSubmitting={isSubmitting}
-          onContinue={onContinue}
           severity="danger"
           text={t('alertModal.notSaved')}
         />

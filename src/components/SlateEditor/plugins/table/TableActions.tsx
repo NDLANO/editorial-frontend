@@ -12,42 +12,27 @@ import { Editor, Path, Range } from 'slate';
 import { ReactEditor } from 'slate-react';
 import { useTranslation } from 'react-i18next';
 import { colors, fonts } from '@ndla/core';
-import { AlignCenter, AlignLeft, AlignRight } from '@ndla/icons/lib/editor';
-import Button from '@ndla/button';
-import { css } from '@emotion/core';
-import { Minus, Pencil, Plus } from '@ndla/icons/lib/action';
-import IconButton from '../../../../components/IconButton';
-import {
-  insertRow,
-  removeRow,
-  insertColumn,
-  removeColumn,
-  toggleRowHeaders,
-  insertTableHead,
-  editColgroups,
-  alignColumn,
-} from './utils';
+import { AlignCenter, AlignLeft, AlignRight } from '@ndla/icons/editor';
+import { ButtonV2, IconButtonV2 } from '@ndla/button';
+import { Minus, Pencil, Plus } from '@ndla/icons/action';
 import { TableElement } from './interfaces';
-import { isTable, isTableHead } from './helpers';
 import getCurrentBlock from '../../utils/getCurrentBlock';
 import { TYPE_TABLE_CAPTION } from './types';
 import { useSession } from '../../../../containers/Session/SessionProvider';
 import { DRAFT_HTML_SCOPE } from '../../../../constants';
+import { isTable, isTableHead } from './slateHelpers';
+import { alignColumn } from './slateActions';
+import {
+  editColgroups,
+  insertColumn,
+  insertRow,
+  insertTableHead,
+  removeColumn,
+  removeRow,
+  toggleRowHeaders,
+} from './toolbarActions';
 
-const StyledButton = styled(Button)`
-  display: flex;
-  align-items: center;
-  margin: 5px;
-  gap: 5px;
-`;
-
-const StyledIconButton = styled(IconButton)`
-  display: flex;
-  align-items: center;
-  margin: 5px;
-`;
-
-const StyledTableActions = styled('div')`
+const StyledTableActions = styled.div`
   background: ${colors.white};
   box-shadow: 1px 1px 8px 1px ${colors.brand.greyLighter};
   border-radius: 5px;
@@ -69,11 +54,11 @@ const ActionGroup = styled.div`
   align-items: center;
 `;
 
-const rightAlign = css`
+const StyledRightAlign = styled.div`
   margin-left: auto;
 `;
 
-const StyledWrapper = styled('div')`
+const StyledWrapper = styled.div`
   display: ${(p: { show: boolean }) => (p.show ? 'block;' : 'none')};
   position: relative;
   z-index: 1;
@@ -128,13 +113,16 @@ const columnActions = [
 const TableIconButton = ({ operation, onClick, children }: TableIconButtonProps) => {
   const { t } = useTranslation();
   return (
-    <StyledIconButton
+    <IconButtonV2
+      variant="ghost"
+      colorTheme="light"
       type="button"
       data-cy={operation}
-      title={t(`form.content.table.${operation}`)}
-      onMouseDown={(e: MouseEvent<HTMLButtonElement>) => onClick(e, operation)}>
+      aria-label={t(`form.content.table.${operation}`)}
+      onMouseDown={(e: MouseEvent<HTMLButtonElement>) => onClick(e, operation)}
+    >
       {children}
-    </StyledIconButton>
+    </IconButtonV2>
   );
 };
 
@@ -213,62 +201,65 @@ const TableActions = ({ editor, element }: Props) => {
     <StyledWrapper contentEditable={false} show={show}>
       <StyledTableActions>
         {showEditColgroups && (
-          <StyledButton
+          <ButtonV2
             data-cy={'edit-colgroups'}
-            stripped
+            variant="stripped"
             title={t('form.content.table.edit-colgroups')}
-            onMouseDown={(e: MouseEvent<HTMLButtonElement>) => handleOnClick(e, 'edit-colgroups')}>
+            onMouseDown={(e: MouseEvent<HTMLButtonElement>) => handleOnClick(e, 'edit-colgroups')}
+          >
             {t('form.content.table.colgroups')}
             <Pencil />
-          </StyledButton>
+          </ButtonV2>
         )}
         <ActionGrid>
           {/* Row 1 - Row actions */}
           <StyledRowTitle>{`${t('form.content.table.row')}:`}</StyledRowTitle>
           <ActionGroup>
-            {rowActions.map(action => (
-              <TableIconButton operation={action.name} onClick={handleOnClick}>
+            {rowActions.map((action, idx) => (
+              <TableIconButton key={idx} operation={action.name} onClick={handleOnClick}>
                 {action.icon}
               </TableIconButton>
             ))}
           </ActionGroup>
-          <div css={rightAlign}>
+          <StyledRightAlign>
             {showAddHeader && (
-              <StyledButton
+              <ButtonV2
                 data-cy={'head-add'}
-                stripped
+                variant="stripped"
                 title={t(`form.content.table.addHeader`)}
-                onMouseDown={(e: MouseEvent<HTMLButtonElement>) => handleOnClick(e, 'head-add')}>
+                onMouseDown={(e: MouseEvent<HTMLButtonElement>) => handleOnClick(e, 'head-add')}
+              >
                 {t(`form.content.table.addHeader`)}
-              </StyledButton>
+              </ButtonV2>
             )}
-          </div>
+          </StyledRightAlign>
           {/* Row 2  - Column actions*/}
           <StyledRowTitle>{`${t('form.content.table.column')}:`}</StyledRowTitle>
           <ActionGroup>
-            {columnActions.map(action => (
-              <TableIconButton operation={action.name} onClick={handleOnClick}>
+            {columnActions.map((action, idx) => (
+              <TableIconButton key={idx} operation={action.name} onClick={handleOnClick}>
                 {action.icon}
               </TableIconButton>
             ))}
           </ActionGroup>
-          <StyledButton
+          <ButtonV2
             data-cy={'toggle-row-headers'}
-            stripped
+            variant="stripped"
             onMouseDown={(e: MouseEvent<HTMLButtonElement>) =>
               handleOnClick(e, 'toggle-row-headers')
             }
-            title={t(
+            aria-label={t(
               `form.content.table.${
                 isTable(table) && table.rowHeaders ? 'disable-header' : 'enable-header'
               }`,
-            )}>
+            )}
+          >
             {t(
               `form.content.table.${
                 isTable(table) && table.rowHeaders ? 'disable-header' : 'enable-header'
               }`,
             )}
-          </StyledButton>
+          </ButtonV2>
         </ActionGrid>
       </StyledTableActions>
     </StyledWrapper>

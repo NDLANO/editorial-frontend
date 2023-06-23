@@ -5,19 +5,20 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import { useState, ReactNode, useRef, useCallback, useMemo } from 'react';
-import { Formik, Form, FormikHelpers, FormikErrors } from 'formik';
+import { useState, useRef, useCallback, useMemo } from 'react';
+import { Formik, FormikHelpers, FormikErrors } from 'formik';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import {
   IAudioMetaInformation,
   IUpdatedAudioMetaInformation,
   INewAudioMetaInformation,
-} from '@ndla/types-audio-api';
-import { Accordions, AccordionSection } from '@ndla/accordion';
+} from '@ndla/types-backend/audio-api';
+import { ButtonV2 } from '@ndla/button';
 import AudioContent from '../../AudioUploader/components/AudioContent';
 import AudioMetaData from '../../AudioUploader/components/AudioMetaData';
 import AudioManuscript from '../../AudioUploader/components/AudioManuscript';
-import { formClasses, AbortButton, AlertModalWrapper } from '../../FormikForm';
+import { AlertModalWrapper } from '../../FormikForm';
 import PodcastMetaData from './PodcastMetaData';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
 import validateFormik, { getWarnings, RulesType } from '../../../components/formikValidationSchema';
@@ -32,6 +33,9 @@ import PodcastSeriesInformation from './PodcastSeriesInformation';
 import handleError from '../../../util/handleError';
 import { audioApiTypeToPodcastFormType } from '../../../util/audioHelpers';
 import { useLicenses } from '../../../modules/draft/draftQueries';
+import FormWrapper from '../../../components/FormWrapper';
+import FormAccordions from '../../../components/Accordion/FormAccordions';
+import FormAccordion from '../../../components/Accordion/FormAccordion';
 
 const podcastRules: RulesType<PodcastFormValues, IAudioMetaInformation> = {
   title: {
@@ -76,7 +80,7 @@ const podcastRules: RulesType<PodcastFormValues, IAudioMetaInformation> = {
   },
   license: {
     required: true,
-    test: values => {
+    test: (values) => {
       const authors = values.creators.concat(values.rightsholders).concat(values.processors);
       if (authors.length > 0) return undefined;
       return { translationKey: 'validation.noLicenseWithoutCopyrightHolder' };
@@ -93,13 +97,6 @@ const podcastRules: RulesType<PodcastFormValues, IAudioMetaInformation> = {
   },
 };
 
-const FormWrapper = ({ inModal, children }: { inModal?: boolean; children: ReactNode }) => {
-  if (inModal) {
-    return <div {...formClasses()}>{children}</div>;
-  }
-  return <Form>{children}</Form>;
-};
-
 interface Props {
   audio?: IAudioMetaInformation;
   podcastChanged?: boolean;
@@ -109,7 +106,6 @@ interface Props {
   onCreatePodcast?: (newPodcast: INewAudioMetaInformation, file?: string | Blob) => void;
   onUpdatePodcast?: (updatedPodcast: IUpdatedAudioMetaInformation, file?: string | Blob) => void;
   translating?: boolean;
-  translateToNN?: () => void;
 }
 
 const PodcastForm = ({
@@ -121,18 +117,18 @@ const PodcastForm = ({
   onCreatePodcast,
   onUpdatePodcast,
   translating,
-  translateToNN,
 }: Props) => {
   const { data: licenses } = useLicenses({ placeholderData: [] });
   const { t } = useTranslation();
   const [savedToServer, setSavedToServer] = useState(false);
   const size = useRef<[number, number] | undefined>(undefined);
+  const navigate = useNavigate();
 
   const handleSubmit = async (
     values: PodcastFormValues,
     actions: FormikHelpers<PodcastFormValues>,
   ) => {
-    const license = licenses!.find(license => license.license === values.license);
+    const license = licenses!.find((license) => license.license === values.license);
 
     if (
       license === undefined ||
@@ -188,11 +184,16 @@ const PodcastForm = ({
   };
 
   const validateMetaImage = useCallback(
-    ([width, height]: [number, number]): FormikErrors<PodcastFormValues> => {
-      if (width !== height) {
-        return { coverPhotoId: t('validation.podcastImageShape') };
-      } else if (width < 1400 || width > 3000) {
-        return { coverPhotoId: t('validation.podcastImageSize') };
+    (
+      [width, height]: [number, number],
+      values: PodcastFormValues,
+    ): FormikErrors<PodcastFormValues> => {
+      if (values.coverPhotoId) {
+        if (width !== height) {
+          return { coverPhotoId: t('validation.podcastImageShape') };
+        } else if (width < 1400 || width > 3000) {
+          return { coverPhotoId: t('validation.podcastImageSize') };
+        }
       }
       return {};
     },
@@ -202,7 +203,7 @@ const PodcastForm = ({
   const validateFunction = useCallback(
     (values: PodcastFormValues): FormikErrors<PodcastFormValues> => {
       const errors = validateFormik(values, podcastRules, t);
-      const metaImageErrors = size.current ? validateMetaImage(size.current) : {};
+      const metaImageErrors = size.current ? validateMetaImage(size.current, values) : {};
       const resp = { ...errors, ...metaImageErrors };
       return resp;
     },
@@ -211,10 +212,10 @@ const PodcastForm = ({
 
   const initialValues = audioApiTypeToPodcastFormType(audio, language);
   const initialWarnings = getWarnings(initialValues, podcastRules, t, audio);
-  const initialErrors = useMemo(() => validateFunction(initialValues), [
-    initialValues,
-    validateFunction,
-  ]);
+  const initialErrors = useMemo(
+    () => validateFunction(initialValues),
+    [initialValues, validateFunction],
+  );
 
   return (
     <Formik
@@ -224,8 +225,9 @@ const PodcastForm = ({
       initialErrors={initialErrors}
       enableReinitialize
       validate={validateFunction}
-      initialStatus={{ warnings: initialWarnings }}>
-      {formikProps => {
+      initialStatus={{ warnings: initialWarnings }}
+    >
+      {(formikProps) => {
         const { values, dirty, isSubmitting, errors, submitForm, validateForm } = formikProps;
         const formIsDirty = isFormikFormDirty({
           values,
@@ -244,68 +246,68 @@ const PodcastForm = ({
               editUrl={(lang: string) => {
                 return values.id ? toEditPodcast(values.id, lang) : toCreatePodcastFile();
               }}
-              translateToNN={translateToNN}
             />
             {translating ? (
               <Spinner withWrapper />
             ) : (
-              <Accordions>
-                <AccordionSection
+              <FormAccordions defaultOpen={['podcast-upload-content']}>
+                <FormAccordion
                   id="podcast-upload-content"
                   title={t('form.contentSection')}
                   className="u-4/6@desktop u-push-1/6@desktop"
-                  hasError={['title', 'audioFile'].some(field => field in errors)}
-                  startOpen>
+                  hasError={['title', 'audioFile'].some((field) => field in errors)}
+                >
                   <AudioContent />
-                </AccordionSection>
-                <AccordionSection
+                </FormAccordion>
+                <FormAccordion
                   id="podcast-upload-podcastmanus"
                   title={t('podcastForm.fields.manuscript')}
                   className="u-4/6@desktop u-push-1/6@desktop"
-                  hasError={[].some(field => field in errors)}>
+                  hasError={[].some((field) => field in errors)}
+                >
                   <AudioManuscript />
-                </AccordionSection>
-                <AccordionSection
+                </FormAccordion>
+                <FormAccordion
                   id="podcast-upload-podcastmeta"
                   title={t('form.podcastSection')}
                   className="u-4/6@desktop u-push-1/6@desktop"
                   hasError={['introduction', 'coverPhotoId', 'metaImageAlt'].some(
-                    field => field in errors,
-                  )}>
+                    (field) => field in errors,
+                  )}
+                >
                   <PodcastMetaData
-                    onImageLoad={el => {
-                      size.current = [
-                        el.currentTarget.naturalWidth,
-                        el.currentTarget.naturalHeight,
-                      ];
+                    language={language}
+                    onImageLoad={(width, height) => {
+                      size.current = [width, height];
                       validateForm();
                     }}
                   />
                   <PodcastSeriesInformation />
-                </AccordionSection>
+                </FormAccordion>
 
-                <AccordionSection
+                <FormAccordion
                   id="podcast-upload-metadata"
                   title={t('form.metadataSection')}
                   className="u-4/6@desktop u-push-1/6@desktop"
                   hasError={['tags', 'creators', 'rightsholders', 'processors', 'license'].some(
-                    field => field in errors,
-                  )}>
+                    (field) => field in errors,
+                  )}
+                >
                   <AudioMetaData />
-                </AccordionSection>
-              </Accordions>
+                </FormAccordion>
+              </FormAccordions>
             )}
 
             <Field right>
-              <AbortButton outline disabled={isSubmitting}>
+              <ButtonV2 variant="outline" disabled={isSubmitting} onClick={() => navigate(-1)}>
                 {t('form.abort')}
-              </AbortButton>
+              </ButtonV2>
               <SaveButton
+                type={!inModal ? 'submit' : 'button'}
                 isSaving={isSubmitting}
                 showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}
                 formIsDirty={formIsDirty}
-                submit={!inModal}
-                onClick={evt => {
+                onClick={(evt) => {
                   evt.preventDefault();
                   submitForm();
                 }}

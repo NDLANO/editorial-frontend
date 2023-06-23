@@ -3,7 +3,7 @@
   "oldNdlaUrl": "//red.ndla.no/node/183437",
   "revision": 1,
   "status": {
-    "current": "AWAITING_QUALITY_ASSURANCE",
+    "current": "QUALITY_ASSURANCE",
     "other": [
       "IMPORTED"
     ]
@@ -41,7 +41,7 @@
   },
   "requiredLibraries": [],
   "visualElement": {
-    "visualElement": "<embed data-align=\"\" data-alt=\"Humoristisk bilde av overarbeidet kontormedarbeider. Foto.\" data-caption=\"\" data-resource=\"image\" data-resource_id=\"42743\" data-size=\"full\" data-url=\"https://test.api.ndla.no/image-api/v2/images/42743\">",
+    "visualElement": "<ndlaembed data-align=\"\" data-alt=\"Humoristisk bilde av overarbeidet kontormedarbeider. Foto.\" data-caption=\"\" data-resource=\"image\" data-resource_id=\"42743\" data-size=\"full\" data-url=\"https://test.api.ndla.no/image-api/v3/images/42743\"></ndlaembed>",
     "language": "nb"
   },
   "introduction": {

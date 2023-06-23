@@ -6,15 +6,9 @@
  *
  */
 
-import jsdom from 'jsdom';
 import filterConsole from 'filter-console';
-import {
-  learningResourceContentToEditorValue,
-  learningResourceContentToHTML,
-} from '../../../articleContentConverter';
+import { blockContentToEditorValue, blockContentToHTML } from '../../../articleContentConverter';
 import { html } from './tableArticle';
-
-const { fragment } = jsdom.JSDOM;
 
 let disableFilter;
 beforeEach(() => {
@@ -29,9 +23,9 @@ afterEach(() => {
 });
 
 test('serializing article with table tag and attributes', () => {
-  const converted = learningResourceContentToEditorValue(html, fragment);
+  const converted = blockContentToEditorValue(html);
 
-  const result = learningResourceContentToHTML(converted);
+  const result = blockContentToHTML(converted);
 
   expect(global.prettifyHTML(result)).toMatchSnapshot();
 });

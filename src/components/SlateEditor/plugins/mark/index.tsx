@@ -6,6 +6,7 @@
  *
  */
 
+import styled from '@emotion/styled';
 import { ReactElement } from 'react';
 import { Descendant, Editor, Text, Transforms } from 'slate';
 import { jsx as slatejsx } from 'slate-hyperscript';
@@ -36,10 +37,17 @@ const marks: { [key: string]: string } = {
   sub: 'sub',
 };
 
+const StyledCode = styled.code`
+  display: inline;
+  padding: 0;
+  margin: 0;
+  background-color: #eee;
+`;
+
 export const markSerializer: SlateSerializer = {
   deserialize(el: HTMLElement, children: Descendant[]) {
     if (!Object.keys(marks).includes(el.tagName.toLowerCase())) return;
-    return children.map(child =>
+    return children.map((child) =>
       Text.isText(child)
         ? slatejsx('text', { [marks[el.tagName.toLowerCase()]]: true }, child)
         : child,
@@ -100,11 +108,7 @@ export const markPlugin = (editor: Editor) => {
       ret = <u {...attributes}>{ret || children}</u>;
     }
     if (leaf.code) {
-      ret = (
-        <code className="c-inline__code" {...attributes}>
-          {ret || children}
-        </code>
-      );
+      ret = <StyledCode {...attributes}>{ret || children}</StyledCode>;
     }
     if (ret) {
       return ret;
@@ -115,7 +119,7 @@ export const markPlugin = (editor: Editor) => {
     return undefined;
   };
 
-  editor.normalizeNode = entry => {
+  editor.normalizeNode = (entry) => {
     const [node, path] = entry;
     if (Text.isText(node) && node.text === '') {
       if (node.bold || node.code || node.italic || node.sub || node.sup || node.underlined) {

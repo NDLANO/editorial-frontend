@@ -6,162 +6,217 @@
  *
  */
 
-import { createRef, useEffect, useState } from 'react';
-import { css } from '@emotion/core';
+import { useEffect, useMemo } from 'react';
+import styled from '@emotion/styled';
+import { css } from '@emotion/react';
 import { useTranslation } from 'react-i18next';
-import { Input, StyledButtonWrapper } from '@ndla/forms';
-import Button from '@ndla/button';
-import { FormikValues } from 'formik';
-import { Portal } from '../../../Portal';
-import Overlay from '../../../Overlay';
-import { StyledInputWrapper } from './FigureInput';
-import EditVideoTime from './EditVideoTime';
+import { FieldProps, Form, Formik, FormikProps } from 'formik';
+import { Input, TextArea } from '@ndla/forms';
+import { spacing } from '@ndla/core';
+import { ButtonV2 } from '@ndla/button';
+import { ModalBody, ModalCloseButton, ModalHeader, ModalTitle } from '@ndla/modal';
 import { BrightcoveEmbed, ExternalEmbed } from '../../../../interfaces';
 import {
-  addYoutubeTimeStamps,
   addBrightCoveTimeStampVideoid,
-  addBrightCovetimeStampSrc,
+  addYoutubeTimeStamps,
   getBrightCoveStartTime,
   getStartTime,
   getStopTime,
 } from '../../../../util/videoUtil';
-
-const videoStyle = css`
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  right: 0px;
-`;
+import validateFormik, { RulesType } from '../../../formikValidationSchema';
+import FormikField from '../../../FormikField';
+import { SlateVideoWrapper, StyledVideo } from './SlateVideo';
 
 interface Props {
   embed: BrightcoveEmbed | ExternalEmbed;
-  figureClass: any;
   saveEmbedUpdates: (change: { [x: string]: string }) => void;
-  src: string;
   activeSrc: string;
-  toggleEditModus: () => void;
+  close: () => void;
+  setHasError: (hasError: boolean) => void;
 }
 
-const EditVideo = ({
-  embed,
-  figureClass,
-  saveEmbedUpdates,
-  src,
-  activeSrc,
-  toggleEditModus,
-}: Props) => {
-  const [caption, setCaption] = useState(embed.caption || '');
-  const [startTime, setStartTime] = useState(
-    'videoid' in embed ? getBrightCoveStartTime(embed.videoid) : getStartTime(embed.url),
-  );
-  const [stopTime, setStopTime] = useState(
-    embed.resource === 'external' ? getStopTime(embed.url) : '',
-  );
+const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  gap: ${spacing.small};
+  padding-top: ${spacing.small};
+`;
+
+const StyledFormikField = styled(FormikField)`
+  margin-top: ${spacing.small};
+`;
+
+interface FormValues {
+  alttext: string;
+  caption: string;
+  url?: string;
+  videoid?: string;
+  startTime: string;
+  endTime: string;
+  resource: BrightcoveEmbed['resource'] | ExternalEmbed['resource'];
+}
+
+export const toVideoEmbedFormValues = (embed: BrightcoveEmbed | ExternalEmbed): FormValues => {
+  return {
+    alttext: embed.alt ?? '',
+    caption: embed.caption ?? '',
+    url: embed.resource === 'external' ? embed.url : '',
+    startTime: 'videoid' in embed ? getBrightCoveStartTime(embed.videoid) : getStartTime(embed.url),
+    endTime: embed.resource === 'external' ? getStopTime(embed.url) : '',
+    resource: embed.resource,
+  };
+};
+
+export const brightcoveEmbedFormRules: RulesType<FormValues> = {
+  alttext: {
+    required: true,
+  },
+  caption: {
+    required: true,
+    translationKey: 'form.video.caption.label',
+  },
+};
+
+const EditVideo = ({ embed, saveEmbedUpdates, activeSrc, close, setHasError }: Props) => {
   const { t } = useTranslation();
-  let placeholderElement: any = createRef();
-  let embedElement: any = createRef();
 
-  useEffect(() => {
-    const bodyRect = document.body.getBoundingClientRect();
-    const placeholderRect = placeholderElement.getBoundingClientRect();
+  const initialValues = useMemo(() => toVideoEmbedFormValues(embed), [embed]);
 
-    // Placing embed within placeholder div on mount
-    embedElement.style.position = 'absolute';
-    embedElement.style.top = `${placeholderRect.top - bodyRect.top}px`;
-    embedElement.style.left = `${placeholderRect.left}px`;
-    embedElement.style.width = `${placeholderRect.width}px`;
-
-    const embedRect = embedElement.getBoundingClientRect();
-
-    placeholderElement.style.height = `${embedRect.height}px`;
-  }, [embedElement, placeholderElement]);
-
-  const onCaptionChange = (e: FormikValues) => {
-    setCaption(e.target.value);
+  const handleSave = (values: FormValues) => {
+    if (embed.resource === 'brightcove') {
+      saveEmbedUpdates({
+        alt: values.alttext,
+        caption: values.caption,
+        videoid: addBrightCoveTimeStampVideoid(embed.videoid, values.startTime),
+      });
+    } else {
+      saveEmbedUpdates({
+        alt: values.alttext,
+        url: addYoutubeTimeStamps(embed.url!, values.startTime, values.endTime),
+      });
+    }
+    close();
   };
-
-  const onSave = () => {
-    saveEmbedUpdates({
-      caption,
-      ...(embed.resource === 'brightcove'
-        ? {
-            videoid: addBrightCoveTimeStampVideoid(embed.videoid, startTime),
-          }
-        : {}),
-    });
-    toggleEditModus();
-  };
-
-  const saveDisabled =
-    (addBrightCovetimeStampSrc(src, startTime) === src ||
-      addYoutubeTimeStamps(src, startTime, stopTime) === src) &&
-    caption === embed.caption;
 
   return (
     <>
-      <Overlay onExit={toggleEditModus} />
-      <div
-        ref={placeholderEl => {
-          placeholderElement = placeholderEl;
-        }}>
-        <Portal isOpened>
-          <div
-            ref={embedEl => {
-              embedElement = embedEl;
-            }}>
-            <figure
-              css={css`
-                padding-top: 56.25%;
-              `}
-              {...figureClass}>
-              <iframe
-                title={`Video: ${embed.metaData ? embed.metaData.name : ''}`}
-                frameBorder="0"
-                src={activeSrc}
-                allowFullScreen
-                css={videoStyle}
-              />
-            </figure>
-            <StyledInputWrapper>
-              {embed.resource === 'external' ? (
-                <EditVideoTime
-                  name="url"
-                  startTime={startTime}
-                  stopTime={stopTime}
-                  setStartTime={setStartTime}
-                  setStopTime={setStopTime}
-                />
-              ) : (
-                <>
-                  <Input
-                    name="caption"
-                    label={t('form.video.caption.label')}
-                    value={caption}
-                    onChange={onCaptionChange}
-                    container="div"
-                    type="text"
-                    autoExpand
-                    placeholder={t('form.video.caption.placeholder')}
-                    white
-                  />
-                  <EditVideoTime name="url" startTime={startTime} setStartTime={setStartTime} />
-                </>
-              )}
-              <StyledButtonWrapper paddingLeft>
-                <Button onClick={toggleEditModus} outline>
-                  {t('form.abort')}
-                </Button>
-                <Button disabled={saveDisabled} onClick={onSave}>
-                  {t('form.video.save')}
-                </Button>
-              </StyledButtonWrapper>
-            </StyledInputWrapper>
-          </div>
-        </Portal>
-      </div>
+      <ModalHeader>
+        <ModalTitle>{t('form.video.editVideo')}</ModalTitle>
+        <ModalCloseButton onClick={close} />
+      </ModalHeader>
+      <ModalBody>
+        <SlateVideoWrapper>
+          <StyledVideo
+            title={`Video: ${embed.metaData ? embed.metaData.name : ''}`}
+            frameBorder="0"
+            src={activeSrc}
+            allowFullScreen
+          />
+        </SlateVideoWrapper>
+        <Formik
+          initialValues={initialValues}
+          validate={
+            embed.resource === 'brightcove'
+              ? (values) => validateFormik(values, brightcoveEmbedFormRules, t)
+              : undefined
+          }
+          validateOnBlur={false}
+          validateOnMount
+          onSubmit={handleSave}
+        >
+          {(formik) => (
+            <VideoEmbedForm {...formik} setHasError={setHasError} close={close} embed={embed} />
+          )}
+        </Formik>
+      </ModalBody>
     </>
+  );
+};
+interface VideoEmbedFormProps extends FormikProps<FormValues> {
+  setHasError: (hasError: boolean) => void;
+  close: () => void;
+  embed: BrightcoveEmbed | ExternalEmbed;
+}
+
+const StyledInputTimeWrapper = styled.div`
+  display: flex;
+  flex-flow: row;
+`;
+
+const timeInputCss = css`
+  width: 120px;
+  margin-right: ${spacing.small};
+  label {
+    width: auto;
+  }
+`;
+
+const VideoEmbedForm = ({ setHasError, close, embed, isValid, dirty }: VideoEmbedFormProps) => {
+  const { t } = useTranslation();
+
+  useEffect(() => {
+    setHasError(!isValid);
+  }, [isValid, setHasError]);
+
+  return (
+    <Form>
+      {embed.resource === 'brightcove' && (
+        <>
+          <StyledFormikField name="alttext" showError>
+            {({ field }: FieldProps) => (
+              <Input
+                white
+                {...field}
+                placeholder={t('topicArticleForm.fields.alt.placeholder')}
+                label={t('topicArticleForm.fields.alt.label')}
+              />
+            )}
+          </StyledFormikField>
+          <StyledFormikField name="caption">
+            {({ field }) => (
+              <TextArea
+                {...field}
+                white
+                label={t('form.video.caption.label')}
+                placeholder={t('form.video.caption.placeholder')}
+              />
+            )}
+          </StyledFormikField>
+        </>
+      )}
+      <StyledInputTimeWrapper>
+        <StyledFormikField name="startTime">
+          {({ field }: FieldProps) => (
+            <Input
+              {...field}
+              label={t('form.video.time.start')}
+              placeholder={t('form.video.time.hms')}
+              white
+              customCss={timeInputCss}
+            />
+          )}
+        </StyledFormikField>
+        {embed.resource === 'external' && (
+          <StyledFormikField name="endTime">
+            {({ field }: FieldProps) => (
+              <Input
+                {...field}
+                label={t('form.video.time.stop')}
+                placeholder={t('form.video.time.hms')}
+                white
+                customCss={timeInputCss}
+              />
+            )}
+          </StyledFormikField>
+        )}
+      </StyledInputTimeWrapper>
+      <ButtonWrapper>
+        <ButtonV2 onClick={close}>{t('form.abort')}</ButtonV2>
+        <ButtonV2 disabled={!isValid || !dirty} type="submit">
+          {t('form.save')}
+        </ButtonV2>
+      </ButtonWrapper>
+    </Form>
   );
 };
 

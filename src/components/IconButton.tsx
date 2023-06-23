@@ -6,7 +6,7 @@
  *
  */
 
-import { ReactNode, MouseEvent, HTMLProps } from 'react';
+import { ReactNode, MouseEvent, HTMLProps, ElementType } from 'react';
 import styled from '@emotion/styled';
 import { colors, spacing } from '@ndla/core';
 import { css } from '@emotion/react';
@@ -52,7 +52,7 @@ export const StyledButton = styled.button<StyledButtonProps>`
     transition: all 200ms ease;
   }
 
-  ${props =>
+  ${(props) =>
     !props.isDisabled &&
     css`
       &:hover,
@@ -67,7 +67,7 @@ export const StyledButton = styled.button<StyledButtonProps>`
 `;
 
 interface Props extends Omit<HTMLProps<HTMLButtonElement>, 'as'> {
-  as?: ReactNode;
+  as?: ElementType;
   to?: string;
   target?: string;
   title?: string;

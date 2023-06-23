@@ -16,7 +16,8 @@ import { toggleList } from '../list/utils/toggleList';
 import { insertMathml } from '../mathml/utils';
 import { insertInlineConcept } from '../concept/inline/utils';
 import { toggleSpan } from '../span/utils';
-import { toggleCellAlign } from '../table/helpers';
+import { toggleCellAlign } from '../table/slateActions';
+import { toggleDefinitionList } from '../definitionList/utils/toggleDefinitionList';
 
 export function handleClickBlock(event: SyntheticEvent, editor: Editor, type: string) {
   event.preventDefault();
@@ -26,8 +27,12 @@ export function handleClickBlock(event: SyntheticEvent, editor: Editor, type: st
     toggleHeading(editor, 2);
   } else if (type === 'heading-3') {
     toggleHeading(editor, 3);
+  } else if (type === 'heading-4') {
+    toggleHeading(editor, 4);
   } else if (LIST_TYPES.includes(type)) {
     toggleList(editor, type);
+  } else if (type === 'definition-list') {
+    toggleDefinitionList(editor);
   }
 }
 

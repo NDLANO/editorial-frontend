@@ -33,12 +33,29 @@ import {
   TableRowElement,
 } from './plugins/table/interfaces';
 import { RelatedElement } from './plugins/related';
-import { EmbedElement } from './plugins/embed';
+import {
+  AudioEmbedElement,
+  BrightcoveEmbedElement,
+  ErrorEmbedElement,
+  ExternalEmbedElement,
+  H5PEmbedElement,
+  ImageEmbedElement,
+} from './plugins/embed';
 import { BodyboxElement } from './plugins/bodybox';
 import { CodeblockElement } from './plugins/codeBlock';
 import { DivElement } from './plugins/div';
 import { SpanElement } from './plugins/span';
+import { ConceptListElement } from './plugins/conceptList';
 import { ConceptBlockElement } from './plugins/concept/block/interfaces';
+import {
+  DefinitionDescriptionElement,
+  DefinitionListElement,
+  DefinitionTermElement,
+} from './plugins/definitionList';
+import { KeyFigureElement } from './plugins/keyFigure';
+import { ContactBlockElement } from './plugins/contactBlock';
+import { BlogPostElement } from './plugins/blogPost/types';
+import { GridCellElement, GridElement } from './plugins/grid';
 
 export type SlatePlugin = (editor: Editor) => Editor;
 
@@ -89,10 +106,24 @@ declare module 'slate' {
       | TableHeadElement
       | TableBodyElement
       | RelatedElement
-      | EmbedElement
+      | ImageEmbedElement
+      | BrightcoveEmbedElement
+      | AudioEmbedElement
+      | ErrorEmbedElement
+      | ExternalEmbedElement
+      | H5PEmbedElement
       | BodyboxElement
       | DivElement
-      | SpanElement;
+      | SpanElement
+      | ConceptListElement
+      | DefinitionListElement
+      | DefinitionDescriptionElement
+      | DefinitionTermElement
+      | BlogPostElement
+      | GridElement
+      | GridCellElement
+      | KeyFigureElement
+      | ContactBlockElement;
     Text: CustomTextWithMarks;
   }
 }

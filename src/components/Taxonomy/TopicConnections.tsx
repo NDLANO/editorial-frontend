@@ -8,14 +8,12 @@
 
 import { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
-//@ts-ignore
 import { Structure } from '@ndla/editor';
 import { FieldHeader } from '@ndla/forms';
 import { Switch } from '@ndla/switch';
-import { colors } from '@ndla/core';
-import Button from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 import { useTranslation } from 'react-i18next';
-import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
+import { ModalHeader, ModalBody, ModalCloseButton, Modal, ModalTitle } from '@ndla/modal';
 import { fetchUserData } from '../../modules/draft/draftApi';
 import { fetchTopic, fetchTopicConnections } from '../../modules/taxonomy';
 import ActiveTopicConnections from './ActiveTopicConnections';
@@ -27,21 +25,13 @@ import { getBreadcrumbFromPath } from '../../util/taxonomyHelpers';
 import { LocaleType } from '../../interfaces';
 import { useTaxonomyVersion } from '../../containers/StructureVersion/TaxonomyVersionProvider';
 
-const StyledTitleModal = styled('h1')`
-  color: ${colors.text.primary};
-`;
-
-const ModalTitleRow = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+const StyledModalHeader = styled(ModalHeader)`
+  padding-bottom: 0;
 `;
 
 interface Props {
   structure: SubjectType[];
   activeTopics: StagedTopic[];
-  onChangeShowFavorites: () => void;
-  // showFavorites: boolean;
   removeConnection: (id: string) => void;
   setPrimaryConnection: (id: string) => void;
   allowMultipleSubjectsOpen: boolean;
@@ -53,8 +43,6 @@ interface Props {
 const TopicConnections = ({
   structure,
   activeTopics,
-  onChangeShowFavorites,
-  // showFavorites,
   removeConnection,
   setPrimaryConnection,
   allowMultipleSubjectsOpen,
@@ -80,7 +68,7 @@ const TopicConnections = ({
   };
 
   const getFavoriteSubjects = (subjects: SubjectType[], favoriteSubjectIds: string[]) =>
-    subjects.filter(e => favoriteSubjectIds.includes(e.id));
+    subjects.filter((e) => favoriteSubjectIds.includes(e.id));
 
   const handleOpenToggle = ({
     path,
@@ -141,30 +129,27 @@ const TopicConnections = ({
         type="topicarticle"
       />
       <Modal
-        backgroundColor="white"
+        aria-label={t('taxonomy.topics.filestructureHeading')}
         animation="subtle"
-        size="large"
-        narrow
-        minHeight="85vh"
-        activateButton={<Button>{t('taxonomy.topics.filestructureButton')}</Button>}>
+        size={{ width: 'large', height: 'large' }}
+        activateButton={<ButtonV2>{t('taxonomy.topics.filestructureButton')}</ButtonV2>}
+      >
         {(closeModal: () => void) => (
           <>
-            <ModalHeader>
+            <StyledModalHeader>
+              <ModalTitle>{t('taxonomy.topics.filestructureHeading')}</ModalTitle>
+              <Switch
+                onChange={() => setShowFavorites(!showFavorites)}
+                checked={showFavorites}
+                label={t('taxonomy.favorites')}
+                id={'favorites'}
+              />
               <ModalCloseButton
                 title={t('taxonomy.topics.filestructureClose')}
                 onClick={closeModal}
               />
-            </ModalHeader>
+            </StyledModalHeader>
             <ModalBody>
-              <ModalTitleRow>
-                <StyledTitleModal>{t('taxonomy.topics.filestructureHeading')}:</StyledTitleModal>
-                <Switch
-                  onChange={() => setShowFavorites(!showFavorites)}
-                  checked={showFavorites}
-                  label={t('taxonomy.favorites')}
-                  id={'favorites'}
-                />
-              </ModalTitleRow>
               <hr />
               <Structure
                 openedPaths={openedPaths}
@@ -172,15 +157,7 @@ const TopicConnections = ({
                   showFavorites ? getFavoriteSubjects(structure, favoriteSubjectIds) : structure
                 }
                 toggleOpen={handleOpenToggle}
-                renderListItems={({
-                  isSubject,
-                  isOpen,
-                  id,
-                }: {
-                  isSubject: boolean;
-                  isOpen: boolean;
-                  id: string;
-                }) => (
+                renderListItems={({ isSubject, id }: { isSubject: boolean; id: string }) => (
                   <StructureButtons
                     id={id}
                     isSubject={isSubject}

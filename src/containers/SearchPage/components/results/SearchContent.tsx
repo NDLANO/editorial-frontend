@@ -6,27 +6,34 @@
  *
  */
 
-import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { fonts } from '@ndla/core';
 import { ContentTypeBadge } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
-import { IMultiSearchSummary } from '@ndla/types-search-api';
-import { ContentResultShape } from '../../../../shapes';
+import { IMultiSearchSummary } from '@ndla/types-backend/search-api';
 import {
   getContentTypeFromResourceTypes,
   resourceToLinkProps,
 } from '../../../../util/resourceHelpers';
 import { isLearningpath, toEditMarkup } from '../../../../util/routeHelpers';
 import { DRAFT_HTML_SCOPE, RESOURCE_TYPE_LEARNING_PATH } from '../../../../constants';
-import { searchClasses } from '../../SearchContainer';
 import SearchContentLanguage from './SearchContentLanguage';
-import { convertFieldWithFallback } from '../../../../util/convertFieldWithFallback';
 import HeaderStatusInformation from '../../../../components/HeaderWithLanguage/HeaderStatusInformation';
 import { EditMarkupLink } from '../../../../components/EditMarkupLink';
 import SearchHighlight from './SearchHighlight';
 import { useSession } from '../../../Session/SessionProvider';
 import { getExpirationDate } from '../../../ArticlePage/articleTransformers';
+import {
+  NoShadowAnchor,
+  StyledSearchBreadcrumb,
+  StyledSearchBreadcrumbs,
+  StyledSearchContent,
+  StyledSearchDescription,
+  StyledSearchImageContainer,
+  StyledSearchResult,
+  StyledSearchTitle,
+} from '../form/StyledSearchComponents';
 
 const FlexBoxWrapper = styled.div`
   display: flex;
@@ -41,26 +48,35 @@ const ContentTypeWrapper = styled.div`
   margin-top: 10px;
 `;
 
+const DescriptionTitle = styled.p`
+  margin-bottom: 0;
+  font-weight: ${fonts.weight.semibold};
+`;
+
 interface Props {
   content: IMultiSearchSummary;
   locale: string;
+  responsibleName?: string;
 }
 
 interface ContentType {
   contentType: string;
 }
 
-const SearchContent = ({ content, locale }: Props) => {
+const Title = StyledSearchTitle.withComponent('h2');
+const NoShadowLink = NoShadowAnchor.withComponent(Link);
+
+const SearchContent = ({ content, locale, responsibleName }: Props) => {
   const { t } = useTranslation();
   const { userPermissions } = useSession();
   const { contexts, metaImage } = content;
   const { url, alt } = metaImage || {};
-  const imageUrl = url ? `${url}?width=200` : '/placeholder.png';
+  const imageUrl = url ? `${url}?width=200&language=${locale}` : '/placeholder.png';
   let resourceType: ContentType | undefined;
   if ((contexts[0]?.resourceTypes?.length ?? 0) > 0) {
     resourceType = getContentTypeFromResourceTypes(contexts[0].resourceTypes);
   } else if (isLearningpath(content.url)) {
-    resourceType = getContentTypeFromResourceTypes([{ id: RESOURCE_TYPE_LEARNING_PATH, name: '' }]);
+    resourceType = getContentTypeFromResourceTypes([{ id: RESOURCE_TYPE_LEARNING_PATH }]);
   }
 
   const linkProps = resourceToLinkProps(content, resourceType?.contentType, locale);
@@ -95,32 +111,28 @@ const SearchContent = ({ content, locale }: Props) => {
     </>
   );
 
-  const metaDescription = convertFieldWithFallback(content, 'metaDescription', '');
+  const metaDescription = content.metaDescription.metaDescription ?? '';
   const expirationDate = getExpirationDate(content);
 
   return (
-    <div {...searchClasses('result')}>
-      <div {...searchClasses('image')}>
+    <StyledSearchResult>
+      <StyledSearchImageContainer>
         <img src={imageUrl} alt={alt} />
-      </div>
-      <div {...searchClasses('content')}>
-        <div {...searchClasses('heading')}>
+      </StyledSearchImageContainer>
+      <StyledSearchContent>
+        <div>
           <FlexBoxWrapper>
             {ContentType}
-            <h2 {...searchClasses('title')}>
+            <Title>
               {linkProps && linkProps.href ? (
-                <a {...searchClasses('link-no-shadow')} {...linkProps}>
-                  {content.title.title}
-                </a>
+                <NoShadowAnchor {...linkProps}>{content.title.title}</NoShadowAnchor>
               ) : (
-                <Link {...searchClasses('link-no-shadow')} to={linkProps.to ?? ''}>
-                  {content.title.title}
-                </Link>
+                <NoShadowLink to={linkProps.to ?? ''}>{content.title.title}</NoShadowLink>
               )}
               {EditMarkup}
-            </h2>
+            </Title>
           </FlexBoxWrapper>
-          {content.supportedLanguages.map(lang => (
+          {content.supportedLanguages.map((lang) => (
             <SearchContentLanguage
               //@ts-ignore
               style={{ display: 'flex' }}
@@ -133,21 +145,21 @@ const SearchContent = ({ content, locale }: Props) => {
         </div>
         <SearchHighlight content={content} locale={locale} />
         {metaDescription !== '' && (
-          <p {...searchClasses('description-title')}>{t('form.name.metaDescription')}</p>
+          <DescriptionTitle>{t('form.name.metaDescription')}</DescriptionTitle>
         )}
-        <p {...searchClasses('description')}>{metaDescription}</p>
-        <div {...searchClasses('breadcrumbs')} style={{ marginTop: '-25px' }}>
+        <StyledSearchDescription>{metaDescription}</StyledSearchDescription>
+        <StyledSearchBreadcrumbs style={{ marginTop: '-25px' }}>
           {contexts && contexts.length > 0 && contexts[0].breadcrumbs ? (
-            contexts[0].breadcrumbs.map(breadcrumb => (
-              <p
+            contexts[0].breadcrumbs.map((breadcrumb) => (
+              <StyledSearchBreadcrumb
                 key={breadcrumb}
-                {...searchClasses('breadcrumb')}
-                style={{ marginTop: 'auto', marginBottom: 'auto' }}>
+                style={{ marginTop: 'auto', marginBottom: 'auto' }}
+              >
                 {breadcrumb}
-              </p>
+              </StyledSearchBreadcrumb>
             ))
           ) : (
-            <p {...searchClasses('breadcrumb')} style={{ marginRight: 0 }} />
+            <StyledSearchBreadcrumb style={{ marginRight: 0 }} />
           )}
           <HeaderStatusInformation
             statusText={statusType()}
@@ -161,16 +173,12 @@ const SearchContent = ({ content, locale }: Props) => {
             fontSize={10}
             expirationDate={expirationDate}
             type={content.learningResourceType}
+            responsibleName={responsibleName}
           />
-        </div>
-      </div>
-    </div>
+        </StyledSearchBreadcrumbs>
+      </StyledSearchContent>
+    </StyledSearchResult>
   );
-};
-
-SearchContent.propTypes = {
-  content: ContentResultShape,
-  locale: PropTypes.string.isRequired,
 };
 
 export default SearchContent;

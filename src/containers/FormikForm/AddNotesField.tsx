@@ -6,8 +6,8 @@
  *
  */
 
-import { FormEvent } from 'react';
-import Button from '@ndla/button';
+import { FormEvent, MouseEvent } from 'react';
+import { ButtonV2 } from '@ndla/button';
 import { FieldSection, Input, FieldRemoveButton } from '@ndla/forms';
 import Field from '../../components/Field';
 
@@ -45,7 +45,7 @@ const AddNotesField = ({
     onNotesChange([...value, '']);
   };
 
-  const removeNote = (e: Event, noteIndexToRemove: number) => {
+  const removeNote = (e: MouseEvent<HTMLButtonElement>, noteIndexToRemove: number) => {
     e.preventDefault();
     onNotesChange(value.filter((_, index) => index !== noteIndexToRemove));
   };
@@ -62,9 +62,9 @@ const AddNotesField = ({
           <div>
             <Input
               warningText={showError && note === '' ? labelWarningNote : ''}
-              container="div"
               type="text"
-              focusOnMount
+              // eslint-disable-next-line jsx-a11y/no-autofocus
+              autoFocus
               placeholder={placeholder}
               value={note}
               data-testid="notesInput"
@@ -73,15 +73,15 @@ const AddNotesField = ({
             />
           </div>
           <div>
-            <FieldRemoveButton onClick={(evt: Event) => removeNote(evt, index)}>
+            <FieldRemoveButton onClick={(evt) => removeNote(evt, index)}>
               {labelRemoveNote}
             </FieldRemoveButton>
           </div>
         </FieldSection>
       ))}
-      <Button outline onClick={addNote} data-testid="addNote">
+      <ButtonV2 variant="outline" onClick={addNote} data-testid="addNote">
         {labelAddNote}
-      </Button>
+      </ButtonV2>
     </Field>
   );
 };

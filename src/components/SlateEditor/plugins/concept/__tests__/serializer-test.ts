@@ -8,8 +8,8 @@
 
 import { Descendant } from 'slate';
 import {
-  learningResourceContentToEditorValue,
-  learningResourceContentToHTML,
+  blockContentToEditorValue,
+  blockContentToHTML,
 } from '../../../../../util/articleContentConverter';
 import { TYPE_PARAGRAPH } from '../../paragraph/types';
 import { TYPE_SECTION } from '../../section/types';
@@ -26,8 +26,8 @@ const editor: Descendant[] = [
           {
             type: TYPE_CONCEPT_INLINE,
             data: {
-              'content-id': '123',
-              'link-text': 'my concept',
+              contentId: '123',
+              linkText: 'my concept',
               resource: 'concept',
               type: 'inline',
             },
@@ -41,16 +41,16 @@ const editor: Descendant[] = [
 ];
 
 const html =
-  '<section><p><embed data-content-id="123" data-link-text="my concept" data-resource="concept" data-type="inline"/></p></section>';
+  '<section><p><ndlaembed data-content-id="123" data-link-text="my concept" data-resource="concept" data-type="inline"></ndlaembed></p></section>';
 
 describe('concept serializing tests', () => {
   test('serializing', () => {
-    const res = learningResourceContentToHTML(editor);
+    const res = blockContentToHTML(editor);
     expect(res).toMatch(html);
   });
 
   test('deserializing', () => {
-    const res = learningResourceContentToEditorValue(html);
+    const res = blockContentToEditorValue(html);
     expect(res).toEqual(editor);
   });
 });

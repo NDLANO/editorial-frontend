@@ -11,8 +11,8 @@ import { render } from 'react-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { BrowserRouter } from 'react-router-dom';
 import { I18nextProvider, useTranslation } from 'react-i18next';
-import { QueryClient, QueryClientProvider } from 'react-query';
-import { ReactQueryDevtools } from 'react-query/devtools';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import ErrorReporter from '@ndla/error-reporter';
 import { i18nInstance } from '@ndla/ui';
 import config, { ConfigType, getDefaultLanguage } from './config';
@@ -45,7 +45,7 @@ window.errorReporter = ErrorReporter.getInstance({
 });
 
 const constructNewPath = (newLocale?: LocaleType) => {
-  const regex = new RegExp(supportedLanguages.map(l => `/${l}/`).join('|'));
+  const regex = new RegExp(supportedLanguages.map((l) => `/${l}/`).join('|'));
   const path = window.location.pathname.replace(regex, '');
   const fullPath = path.startsWith('/') ? path : `/${path}`;
   const localePrefix = newLocale ? `/${newLocale}` : '';

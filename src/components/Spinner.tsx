@@ -7,7 +7,7 @@
  */
 
 import styled from '@emotion/styled';
-import { keyframes, css, SerializedStyles } from '@emotion/core';
+import { keyframes, css, SerializedStyles } from '@emotion/react';
 import { colors } from '@ndla/core';
 
 const spinnerKeyframeStyle = keyframes`
@@ -29,7 +29,7 @@ const commonAbsoluteAndFixedStyle = css`
 
 export type SpinnerAppearance = 'fixed' | 'absolute' | 'small';
 
-const appeareances: { [key in SpinnerAppearance]: SerializedStyles } = {
+const appeareances: Record<SpinnerAppearance, SerializedStyles> = {
   fixed: css`
     position: fixed;
     ${commonAbsoluteAndFixedStyle}
@@ -63,7 +63,7 @@ const StyledSpinner = styled('div')<Props>`
   width: 3em;
   height: 3em;
   animation: ${spinnerKeyframeStyle} 0.7s linear infinite;
-  ${p => {
+  ${(p) => {
     if (p.appearance !== undefined) return appeareances[p.appearance];
   }}
 `;

@@ -8,7 +8,7 @@
 
 import { ReactNode } from 'react';
 import styled from '@emotion/styled';
-import { css } from '@emotion/core';
+import { css } from '@emotion/react';
 import { AlertCircle } from '@ndla/icons/editor';
 import { colors, spacing } from '@ndla/core';
 import { FieldHeader } from '@ndla/forms';
@@ -32,8 +32,8 @@ const TaxonomyInfoDiv = styled.div`
 `;
 
 const StyledId = styled.span<{ isVisible: boolean }>`
-  font-style: ${props => !props.isVisible && 'italic'};
-  ${props => (!props.isVisible ? `color: ${colors.brand.grey}` : '')}
+  font-style: ${(props) => !props.isVisible && 'italic'};
+  ${(props) => (!props.isVisible ? `color: ${colors.brand.grey}` : '')}
 `;
 
 interface Props {
@@ -73,6 +73,13 @@ const getOtherArticleType = (articleType: string): string => {
   return articleType === 'standard' ? 'topic-article' : 'standard';
 };
 
+const LinkWrapper = ({ children, path }: { children: ReactNode; path: string }) => {
+  if (!path) {
+    return <div>{children}</div>;
+  }
+  return <Link to={toStructure(path)}>{children}</Link>;
+};
+
 const TaxonomyConnectionErrors = ({ taxonomy, articleType }: Props) => {
   const { t } = useTranslation();
 
@@ -88,25 +95,22 @@ const TaxonomyConnectionErrors = ({ taxonomy, articleType }: Props) => {
     <>
       <FieldHeader
         title={t('taxonomy.info.wrongConnections')}
-        subTitle={t('taxonomy.info.wrongConnectionsSubTitle')}>
+        subTitle={t('taxonomy.info.wrongConnectionsSubTitle')}
+      >
         <Tooltip tooltip={t('taxonomy.info.canBeFixedInDatabase')}>
-          <HelpIcon />
+          <div>
+            <HelpIcon />
+          </div>
         </Tooltip>
       </FieldHeader>
-      {wrongConnections.map(taxonomyElement => {
+      {wrongConnections.map((taxonomyElement) => {
         const visibility = taxonomyElement.metadata ? taxonomyElement.metadata.visible : true;
         const errorElement = ` - ${taxonomyElement.id} (${taxonomyElement.name})`;
-        const LinkWrapper = ({ children }: { children: ReactNode }) => {
-          if (!taxonomyElement.path) {
-            return <>{children}</>;
-          }
-          return <Link to={toStructure(taxonomyElement.path)}>{children}</Link>;
-        };
 
         return (
           <TaxonomyInfoDiv key={taxonomyElement.id}>
             <Tooltip tooltip={wrongTooltip}>
-              <LinkWrapper>
+              <LinkWrapper path={taxonomyElement.path}>
                 <StyledId isVisible={visibility}>
                   <StyledWarnIcon title={wrongTooltip} />
                   {errorElement}

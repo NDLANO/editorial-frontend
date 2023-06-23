@@ -1,7 +1,8 @@
 import { Editor, Node, Element, Descendant, Transforms, Text, Path } from 'slate';
 import { RenderElementProps } from 'slate-react';
 import { jsx as slatejsx } from 'slate-hyperscript';
-import { Dictionary } from 'lodash';
+import styled from '@emotion/styled';
+import { OrderedList, UnOrderedList } from '@ndla/ui';
 import { SlateSerializer } from '../../interfaces';
 import onEnter from './handlers/onEnter';
 import { firstTextBlockElement } from '../../utils/normalizationHelpers';
@@ -16,6 +17,7 @@ import { TYPE_FOOTNOTE } from '../footnote/types';
 import { TYPE_LINK, TYPE_CONTENT_LINK } from '../link/types';
 import { TYPE_MATHML } from '../mathml/types';
 import { TYPE_PARAGRAPH } from '../paragraph/types';
+import { Dictionary } from '../../../../interfaces';
 
 export interface ListElement {
   type: 'list';
@@ -31,6 +33,11 @@ export interface ListItemElement {
   moveUp?: boolean;
   moveDown?: boolean;
 }
+
+const BulletedList = styled(UnOrderedList)`
+  margin: 16px 0;
+  padding: 0;
+`;
 
 const inlines = [TYPE_CONCEPT_INLINE, TYPE_FOOTNOTE, TYPE_LINK, TYPE_CONTENT_LINK, TYPE_MATHML];
 
@@ -120,7 +127,6 @@ export const listSerializer: SlateSerializer = {
       }
       if (node.listType === 'numbered-list') {
         const { start } = node.data;
-
         return <ol start={start ? parseInt(start) : undefined}>{children}</ol>;
       }
       if (node.listType === 'letter-list') {
@@ -152,43 +158,36 @@ export const listPlugin = (editor: Editor) => {
   editor.renderElement = ({ attributes, children, element }: RenderElementProps) => {
     if (element.type === TYPE_LIST) {
       if (element.listType === 'bulleted-list') {
-        return (
-          <ul className="c-block__bulleted-list" {...attributes}>
-            {children}
-          </ul>
-        );
+        return <BulletedList {...attributes}>{children}</BulletedList>;
       } else if (element.listType === 'numbered-list') {
         const { start } = element.data;
-
         return (
-          <ol {...attributes} className={start ? `ol-reset-${start}` : ''}>
+          <OrderedList start={start ? parseInt(start) : undefined} {...attributes}>
             {children}
-          </ol>
+          </OrderedList>
         );
       } else if (element.listType === 'letter-list') {
         const { start } = element.data;
         return (
-          <ol
+          <OrderedList
+            start={start ? parseInt(start) : undefined}
             data-type="letters"
             className={`ol-list--roman ${start ? `ol-reset-${start}` : ''}`}
-            {...attributes}>
+            {...attributes}
+          >
             {children}
-          </ol>
+          </OrderedList>
         );
       }
     } else if (element.type === TYPE_LIST_ITEM) {
-      return (
-        <li className="c-block__list-item" {...attributes}>
-          {children}
-        </li>
-      );
+      return <li {...attributes}>{children}</li>;
     } else if (renderElement) {
       return renderElement({ attributes, children, element });
     }
     return undefined;
   };
 
-  editor.normalizeNode = entry => {
+  editor.normalizeNode = (entry) => {
     const [node, path] = entry;
 
     if (Element.isElement(node) && node.type === TYPE_LIST_ITEM) {

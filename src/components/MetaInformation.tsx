@@ -7,12 +7,12 @@
  */
 
 import { ReactNode } from 'react';
-import PropTypes from 'prop-types';
 import { spacing } from '@ndla/core';
 import styled from '@emotion/styled';
 
 const StyleMetaInformation = styled.div`
-  display: inline-block;
+  display: flex;
+  gap: 2rem;
   margin-left: ${spacing.normal};
 `;
 
@@ -32,22 +32,14 @@ interface Props {
 
 const MetaInformation = ({ title, copyright, translations, action }: Props) => (
   <StyleMetaInformation>
-    <StyledStrong>{title ? translations.title : ''}</StyledStrong>
-    <span>{title}</span>
-    <StyledStrong>{copyright ? translations.copyright : ''}</StyledStrong>
-    <span>{copyright}</span>
-    {action || null}
+    <div>{action || null}</div>
+    <div>
+      <StyledStrong>{title ? translations.title : ''}</StyledStrong>
+      <span>{title}</span>
+      <StyledStrong>{copyright ? translations.copyright : ''}</StyledStrong>
+      <span>{copyright}</span>
+    </div>
   </StyleMetaInformation>
 );
-
-MetaInformation.propTypes = {
-  title: PropTypes.string,
-  copyright: PropTypes.string,
-  translations: PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    copyright: PropTypes.string.isRequired,
-  }),
-  action: PropTypes.node,
-};
 
 export default MetaInformation;

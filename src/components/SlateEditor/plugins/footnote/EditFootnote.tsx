@@ -9,9 +9,10 @@
 import { Descendant, Editor, Transforms } from 'slate';
 import { useTranslation } from 'react-i18next';
 import { ReactEditor } from 'slate-react';
+import styled from '@emotion/styled';
+import { CloseButton } from '@ndla/button';
+import { ModalBody, ModalHeader, ModalTitle } from '@ndla/modal';
 import FootnoteForm from './FootnoteForm';
-import { Portal } from '../../../Portal';
-import Lightbox from '../../../Lightbox';
 import { FootnoteElement } from '.';
 
 interface Props {
@@ -21,6 +22,14 @@ interface Props {
   existingFootnote: FootnoteElement['data'];
   node: Descendant;
 }
+
+const StyledModalBody = styled(ModalBody)`
+  padding-top: 0;
+`;
+
+const StyledModalHeading = styled(ModalHeader)`
+  padding-bottom: 0;
+`;
 
 const EditFootnote = (props: Props) => {
   const { t } = useTranslation();
@@ -60,20 +69,21 @@ const EditFootnote = (props: Props) => {
   const isEdit = existingFootnote.title !== undefined;
 
   return (
-    <Portal isOpened>
-      <Lightbox display appearance="big" onClose={onClose}>
-        <div>
-          <h2>{t(`form.content.footnote.${isEdit ? 'editTitle' : 'addTitle'}`)}</h2>
-          <FootnoteForm
-            footnote={existingFootnote}
-            onClose={onClose}
-            isEdit={isEdit}
-            onRemove={handleRemove}
-            onSave={handleSave}
-          />
-        </div>
-      </Lightbox>
-    </Portal>
+    <>
+      <StyledModalHeading>
+        <ModalTitle>{t(`form.content.footnote.${isEdit ? 'editTitle' : 'addTitle'}`)}</ModalTitle>
+        <CloseButton onClick={onClose} />
+      </StyledModalHeading>
+      <StyledModalBody>
+        <FootnoteForm
+          footnote={existingFootnote}
+          onClose={onClose}
+          isEdit={isEdit}
+          onRemove={handleRemove}
+          onSave={handleSave}
+        />
+      </StyledModalBody>
+    </>
   );
 };
 

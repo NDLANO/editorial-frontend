@@ -8,7 +8,7 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FieldHeader } from '@ndla/forms';
-import { IConcept, IConceptSummary } from '@ndla/types-concept-api';
+import { IConcept, IConceptSummary } from '@ndla/types-backend/concept-api';
 import { FieldInputProps, FormikHelpers } from 'formik';
 import ElementList from '../../FormikForm/components/ElementList';
 import handleError from '../../../util/handleError';
@@ -30,9 +30,9 @@ const ConceptsField = ({ field, form }: Props) => {
 
   useEffect(() => {
     (async () => {
-      const conceptPromises = field.value.filter(a => !!a).map(id => fetchConcept(id, ''));
+      const conceptPromises = field.value.filter((a) => !!a).map((id) => fetchConcept(id, ''));
       const fetchedConcepts = await Promise.all(conceptPromises);
-      setConcepts(fetchedConcepts.map(concept => ({ ...concept, articleType: 'concept' })));
+      setConcepts(fetchedConcepts.map((concept) => ({ ...concept, articleType: 'concept' })));
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -58,7 +58,7 @@ const ConceptsField = ({ field, form }: Props) => {
     formikField.onChange({
       target: {
         name: formikField.name,
-        value: newData.map(c => c.id) || null,
+        value: newData.map((c) => c.id) || null,
       },
     });
   };

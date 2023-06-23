@@ -6,10 +6,11 @@
  *
  */
 
-import { MouseEvent } from 'react';
+import { css, SerializedStyles } from '@emotion/react';
 import styled from '@emotion/styled';
-import { css, SerializedStyles } from '@emotion/core';
 import { animations } from '@ndla/core';
+import { MouseEvent } from 'react';
+
 const appearances: Record<string, SerializedStyles> = {
   zIndex: css`
     z-index: 1;
@@ -25,13 +26,13 @@ const appearances: Record<string, SerializedStyles> = {
   `,
   lighter: css`
     background: rgba(1, 1, 1, 0.3);
-    z-index: 2;
+    z-index: 3;
   `,
 };
 
 const getAllAppearances = (modifiers: string | string[]) => {
   if (Array.isArray(modifiers)) {
-    return modifiers.map(modifier => appearances[modifier]);
+    return modifiers.map((modifier) => appearances[modifier]);
   }
   return appearances[modifiers];
 };
@@ -42,10 +43,11 @@ const StyledOverlay = styled.div<{ modifiers: string | string[] }>`
   left: 0;
   height: 100vh;
   width: 100vw;
+  z-index: 3;
   background: rgba(0, 0, 0, 0.3);
 
   ${animations.fadeIn()}
-  ${p => getAllAppearances(p.modifiers)}
+  ${(p) => getAllAppearances(p.modifiers)}
 `;
 
 interface Props {

@@ -13,31 +13,15 @@ import { Descendant, Editor, Element, Node, NodeEntry, Path, Text, Transforms } 
 import { ReactEditor, RenderElementProps, RenderLeafProps } from 'slate-react';
 import { HistoryEditor } from 'slate-history';
 import { jsx as slatejsx } from 'slate-hyperscript';
-import { equals } from 'lodash/fp';
+import equals from 'lodash/fp/equals';
 import { SlateSerializer } from '../../interfaces';
 import {
   reduceElementDataAttributes,
   removeEmptyElementDataAttributes,
 } from '../../../../util/embedTagHelpers';
 import SlateTable from './SlateTable';
-import {
-  defaultTableBodyBlock,
-  defaultTableCaptionBlock,
-  defaultTableCellBlock,
-  defaultTableHeadBlock,
-  defaultTableRowBlock,
-} from './utils';
 import getCurrentBlock from '../../utils/getCurrentBlock';
-import { normalizeTableBodyAsMatrix } from './matrix';
 import { handleTableKeydown } from './handleKeyDown';
-import {
-  isTable,
-  isTableBody,
-  isTableCaption,
-  isTableCell,
-  isTableHead,
-  isTableRow,
-} from './helpers';
 import { defaultParagraphBlock } from '../paragraph/utils';
 import { TableElement } from './interfaces';
 import { NormalizerConfig, defaultBlockNormalizer } from '../../utils/defaultNormalizer';
@@ -61,6 +45,23 @@ import {
   TYPE_TABLE_ROW,
   TYPE_TABLE_CELL,
 } from './types';
+import {
+  isTable,
+  isTableBody,
+  isTableCaption,
+  isTableCell,
+  isTableHead,
+  isTableRow,
+} from './slateHelpers';
+import { updateCell } from './slateActions';
+import {
+  defaultTableBodyBlock,
+  defaultTableCaptionBlock,
+  defaultTableCellBlock,
+  defaultTableHeadBlock,
+  defaultTableRowBlock,
+} from './defaultBlocks';
+import { normalizeTableBodyAsMatrix } from './matrixNormalizer';
 
 const validKeys = [KEY_ARROW_UP, KEY_ARROW_DOWN, KEY_TAB, KEY_BACKSPACE, KEY_DELETE];
 
@@ -90,10 +91,10 @@ export const tableSerializer: SlateSerializer = {
       const childNodes = Array.from(el.childNodes) as HTMLElement[];
       const colgroups =
         childNodes
-          .filter(child =>
+          .filter((child) =>
             ['colgroup', 'col'].includes((child as HTMLElement).tagName?.toLowerCase()),
           )
-          .map(col => col.outerHTML)
+          .map((col) => col.outerHTML)
           .join('') || '';
       return slatejsx(
         'element',
@@ -103,7 +104,7 @@ export const tableSerializer: SlateSerializer = {
           rowHeaders,
         },
         children.filter(
-          child =>
+          (child) =>
             Element.isElement(child) &&
             [TYPE_TABLE_HEAD, TYPE_TABLE_BODY, TYPE_TABLE_CAPTION].includes(child.type),
         ),
@@ -194,15 +195,17 @@ export const tableSerializer: SlateSerializer = {
               __html:
                 renderToStaticMarkup(caption) +
                 node.colgroups +
-                rest.map(e => renderToStaticMarkup(e)).join(''),
-            }}></table>
+                rest.map((e) => renderToStaticMarkup(e)).join(''),
+            }}
+          ></table>
         );
       }
       return (
         <table
           dangerouslySetInnerHTML={{
-            __html: node.colgroups + children.map(e => renderToStaticMarkup(e)).join(''),
-          }}></table>
+            __html: node.colgroups + children.map((e) => renderToStaticMarkup(e)).join(''),
+          }}
+        ></table>
       );
     }
     if (node.type === TYPE_TABLE_ROW) {
@@ -243,7 +246,6 @@ export const tablePlugin = (editor: Editor) => {
                 contentEditable={false}
                 dangerouslySetInnerHTML={{ __html: element.colgroups || '' }}
               />
-
               {children}
             </SlateTable>
           </>
@@ -252,21 +254,23 @@ export const tablePlugin = (editor: Editor) => {
         return <caption {...attributes}>{children}</caption>;
       case TYPE_TABLE_ROW:
         return <tr {...attributes}>{children}</tr>;
-      case TYPE_TABLE_CELL:
+      case TYPE_TABLE_CELL: {
         const align = element.data.align || '';
-        const parsedAlign = (['left', 'center', 'right'].includes(align)
-          ? align
-          : undefined) as TdHTMLAttributes<HTMLTableCellElement>['align'];
+        const parsedAlign = (
+          ['left', 'center', 'right'].includes(align) ? align : undefined
+        ) as TdHTMLAttributes<HTMLTableCellElement>['align'];
         return (
           <td
-            className={element.data.isHeader ? 'c-table__header' : ''}
+            className={element.data.isHeader ? 'table_header' : ''}
             rowSpan={element.data.rowspan}
             colSpan={element.data.colspan}
             align={parsedAlign}
-            {...attributes}>
+            {...attributes}
+          >
             {children}
           </td>
         );
+      }
       case TYPE_TABLE_HEAD:
         return <thead {...attributes}>{children}</thead>;
       case TYPE_TABLE_BODY:
@@ -295,7 +299,7 @@ export const tablePlugin = (editor: Editor) => {
     return renderLeaf && renderLeaf(props);
   };
 
-  editor.normalizeNode = entry => {
+  editor.normalizeNode = (entry) => {
     const [node, path] = entry;
     // A. Table normalizer
     if (isTable(node)) {
@@ -367,7 +371,7 @@ export const tablePlugin = (editor: Editor) => {
           { ...defaultParagraphBlock(), serializeAsText: true },
           {
             at: path,
-            match: n => n !== node,
+            match: (n) => n !== node,
           },
         );
       }
@@ -388,7 +392,7 @@ export const tablePlugin = (editor: Editor) => {
       // ii. Make sure cells in TableHead are marked as isHeader.
       //     Cells in TableBody will not be altered if rowHeaders=true on Table.
       if ((isTableHead(body) || isTableBody(body)) && isTable(table)) {
-        for (const [index, cell] of node.children.entries()) {
+        for (const [, cell] of node.children.entries()) {
           if (table.rowHeaders && isTableBody(body)) {
             continue;
           }
@@ -400,17 +404,10 @@ export const tablePlugin = (editor: Editor) => {
             (cell.data.isHeader !== shouldBeHeader || expectedScope !== cell.data.scope)
           ) {
             return HistoryEditor.withoutSaving(editor, () => {
-              Transforms.setNodes(
-                editor,
-                {
-                  data: {
-                    ...cell.data,
-                    isHeader: shouldBeHeader,
-                    scope: expectedScope,
-                  },
-                },
-                { at: [...path, index] },
-              );
+              updateCell(editor, cell, {
+                isHeader: shouldBeHeader,
+                scope: expectedScope,
+              });
             });
           }
         }
@@ -436,7 +433,7 @@ export const tablePlugin = (editor: Editor) => {
         ) {
           Transforms.unsetNodes(editor, ['bold', 'code', 'italic', 'sub', 'sup', 'underlined'], {
             at: path,
-            match: node => Text.isText(node),
+            match: (node) => Text.isText(node),
           });
           return;
         }
@@ -446,7 +443,7 @@ export const tablePlugin = (editor: Editor) => {
     normalizeNode(entry);
   };
 
-  editor.onKeyDown = event => {
+  editor.onKeyDown = (event) => {
     // Navigation with arrows and tab
     if (validKeys.includes(event.key)) {
       const entry = getCurrentBlock(editor, TYPE_TABLE);
@@ -462,9 +459,10 @@ export const tablePlugin = (editor: Editor) => {
         Path.isDescendant(editor.selection.anchor.path, tablePath)
       ) {
         if (tableNode) {
-          return handleTableKeydown(event, editor, [tableNode, tablePath] as NodeEntry<
-            TableElement
-          >);
+          return handleTableKeydown(event, editor, [
+            tableNode,
+            tablePath,
+          ] as NodeEntry<TableElement>);
         }
       }
     }

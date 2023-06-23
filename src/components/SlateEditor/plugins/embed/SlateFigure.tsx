@@ -6,10 +6,9 @@
  *
  */
 
-import { FormEvent, ReactNode, useState } from 'react';
+import { ReactNode } from 'react';
 import { Editor, Transforms, Element, Path } from 'slate';
 import { RenderElementProps, ReactEditor, useSelected } from 'slate-react';
-import BEMHelper from 'react-bem-helper';
 import { useTranslation } from 'react-i18next';
 import SlateImage from './SlateImage';
 import SlateVideo from './SlateVideo';
@@ -17,19 +16,27 @@ import SlateAudio from './SlateAudio';
 import SlatePodcast from './SlatePodcast';
 import EditorErrorMessage from '../../EditorErrorMessage';
 import DisplayExternal from '../../../DisplayEmbed/DisplayExternal';
-import { EmbedElement } from '.';
+import {
+  AudioEmbedElement,
+  BrightcoveEmbedElement,
+  ErrorEmbedElement,
+  ExternalEmbedElement,
+  H5PEmbedElement,
+  ImageEmbedElement,
+} from '.';
 import { LocaleType } from '../../../../interfaces';
-import { TYPE_EMBED } from './types';
-
-export const editorClasses = new BEMHelper({
-  name: 'editor',
-  prefix: 'c-',
-});
+import { isSlateEmbed } from './utils';
 
 interface Props {
   attributes: RenderElementProps['attributes'];
   editor: Editor;
-  element: EmbedElement;
+  element:
+    | AudioEmbedElement
+    | H5PEmbedElement
+    | BrightcoveEmbedElement
+    | ErrorEmbedElement
+    | ExternalEmbedElement
+    | ImageEmbedElement;
   language: string;
   locale?: LocaleType;
   children: ReactNode;
@@ -44,16 +51,6 @@ interface ChangesProp {
 const SlateFigure = ({ attributes, editor, element, language, locale = 'nb', children }: Props) => {
   const embed = element.data;
   const { t } = useTranslation();
-  const [changes, setChanges] = useState<ChangesProp>({ caption: '' });
-
-  const onFigureInputChange = (event: FormEvent<HTMLSelectElement>) => {
-    event.preventDefault();
-    const { value, name } = event.currentTarget;
-    const change = { [name]: value };
-
-    setChanges(change);
-    saveEmbedUpdates(change);
-  };
 
   const saveEmbedUpdates = (updates: ChangesProp) => {
     Transforms.setNodes(
@@ -70,13 +67,14 @@ const SlateFigure = ({ attributes, editor, element, language, locale = 'nb', chi
 
   const isSelected = useSelected();
 
+  const pathToEmbed = ReactEditor.findPath(editor, element);
+
   const onRemoveClick = (e: any) => {
     e.stopPropagation();
-    const path = ReactEditor.findPath(editor, element);
     ReactEditor.focus(editor);
     Transforms.removeNodes(editor, {
-      at: path,
-      match: node => Element.isElement(node) && node.type === TYPE_EMBED,
+      at: pathToEmbed,
+      match: (node) => isSlateEmbed(node),
     });
   };
 
@@ -86,13 +84,14 @@ const SlateFigure = ({ attributes, editor, element, language, locale = 'nb', chi
         <SlateImage
           attributes={attributes}
           embed={embed}
-          figureClass={editorClasses('figure', isActive() ? 'active' : '')}
           language={language}
           onRemoveClick={onRemoveClick}
           saveEmbedUpdates={saveEmbedUpdates}
           visualElement={false}
           active={isActive()}
-          isSelectedForCopy={isSelected}>
+          isSelectedForCopy={isSelected}
+          pathToEmbed={pathToEmbed}
+        >
           {children}
         </SlateImage>
       );
@@ -101,12 +100,12 @@ const SlateFigure = ({ attributes, editor, element, language, locale = 'nb', chi
         <SlateVideo
           attributes={attributes}
           embed={embed}
-          figureClass={editorClasses('figure', isActive() ? 'active' : '')}
           language={language}
           onRemoveClick={onRemoveClick}
           saveEmbedUpdates={saveEmbedUpdates}
           active={isActive()}
-          isSelectedForCopy={isSelected}>
+          isSelectedForCopy={isSelected}
+        >
           {children}
         </SlateVideo>
       );
@@ -119,7 +118,9 @@ const SlateFigure = ({ attributes, editor, element, language, locale = 'nb', chi
             language={language}
             locale={locale}
             onRemoveClick={onRemoveClick}
-            isSelectedForCopy={isSelected}>
+            saveEmbedUpdates={saveEmbedUpdates}
+            isSelectedForCopy={isSelected}
+          >
             {children}
           </SlatePodcast>
         );
@@ -127,14 +128,14 @@ const SlateFigure = ({ attributes, editor, element, language, locale = 'nb', chi
       return (
         <SlateAudio
           attributes={attributes}
-          changes={changes}
           embed={embed}
           language={language}
           locale={locale}
           onRemoveClick={onRemoveClick}
-          onFigureInputChange={onFigureInputChange}
+          saveEmbedUpdates={saveEmbedUpdates}
           active={isActive()}
-          isSelectedForCopy={isSelected}>
+          isSelectedForCopy={isSelected}
+        >
           {children}
         </SlateAudio>
       );
@@ -146,35 +147,37 @@ const SlateFigure = ({ attributes, editor, element, language, locale = 'nb', chi
           <SlateVideo
             attributes={attributes}
             embed={embed}
-            figureClass={editorClasses('figure', isActive() ? 'active' : '')}
             language={language}
             onRemoveClick={onRemoveClick}
             saveEmbedUpdates={saveEmbedUpdates}
             active={isActive()}
-            isSelectedForCopy={isSelected}>
+            isSelectedForCopy={isSelected}
+          >
             {children}
           </SlateVideo>
         );
       }
       return (
-        <DisplayExternal
-          attributes={attributes}
-          onRemoveClick={onRemoveClick}
-          editor={editor}
-          element={element}
-          embed={embed}
-          language={language}
-          active={isActive()}
-          isSelectedForCopy={isSelected}>
+        <div {...attributes}>
+          <DisplayExternal
+            onRemoveClick={onRemoveClick}
+            embed={embed}
+            language={language}
+            active={isActive()}
+            isSelectedForCopy={isSelected}
+            pathToEmbed={pathToEmbed}
+            editor={editor}
+          />
           {children}
-        </DisplayExternal>
+        </div>
       );
     case 'error':
       return (
         <EditorErrorMessage
           onRemoveClick={onRemoveClick}
           attributes={attributes}
-          msg={embed.message}>
+          msg={embed.message}
+        >
           {children}
         </EditorErrorMessage>
       );
@@ -184,7 +187,8 @@ const SlateFigure = ({ attributes, editor, element, language, locale = 'nb', chi
           attributes={attributes}
           msg={t('form.content.figure.notSupported', {
             mediaType: embed.resource,
-          })}>
+          })}
+        >
           {children}
         </EditorErrorMessage>
       );

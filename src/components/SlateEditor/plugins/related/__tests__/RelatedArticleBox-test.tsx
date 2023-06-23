@@ -22,7 +22,7 @@ jest.mock('slate-react', () => {
     ...slatereact,
     ReactEditor: {
       ...slatereact.ReactEditor,
-      findPath: (editor, element) => {
+      findPath: (_editor: any, _element: any) => {
         return [0, 0, 0];
       },
     },
@@ -33,7 +33,7 @@ afterEach(cleanup);
 
 const relatedElement: Descendant = {
   type: TYPE_RELATED,
-  data: {},
+  data: [],
   children: [
     {
       text: '',
@@ -56,13 +56,9 @@ const wrapper = () => {
           <Editable />
         </Slate>
         {/* @ts-ignore */}
-        <RelatedArticleBox
-          editor={editor}
-          locale="nb"
-          element={relatedElement}
-          children={<></>}
-          onRemoveClick={() => {}}
-        />
+        <RelatedArticleBox editor={editor} element={relatedElement} onRemoveClick={() => {}}>
+          <></>
+        </RelatedArticleBox>
       </div>
     </IntlWrapper>,
   );
@@ -72,14 +68,8 @@ test('it goes in and out of edit mode', async () => {
   nock('http://ndla-api')
     .get('/search-api/v1/search/editorial/?context-types=standard%2C%20topic-article&page=1&query=')
     .reply(200, { results: [] });
-  const {
-    getByTestId,
-    container,
-    findByTestId,
-    findByText,
-    findAllByRole,
-    findByDisplayValue,
-  } = wrapper();
+  const { getByTestId, container, findByTestId, findByText, findAllByRole, findByDisplayValue } =
+    wrapper();
   await findByText('Dra artikkel for å endre rekkefølge');
 
   act(() => {

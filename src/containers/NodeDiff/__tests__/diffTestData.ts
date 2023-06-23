@@ -32,6 +32,10 @@ export const nodeTreeWithNoChildren: NodeTree = {
     ],
     supportedLanguages: ['en', 'nb', 'nn'],
     resources: [],
+    resourceTypes: [],
+    nodeType: 'SUBJECT',
+    contexts: [],
+    breadcrumbs: [],
   },
   children: [],
 };
@@ -65,6 +69,10 @@ export const nodeTreeWithNoChildrenUpdated: NodeTree = {
     ],
     supportedLanguages: ['nb', 'nn'],
     resources: [],
+    resourceTypes: [],
+    contexts: [],
+    breadcrumbs: [],
+    nodeType: 'SUBJECT',
   },
   children: [],
 };
@@ -172,6 +180,20 @@ export const nodeTreeWithNoChildrenDiff: DiffTree = {
     resourcesChanged: {
       diffType: 'NONE',
     },
+    resourceTypes: { diffType: 'NONE', original: [], other: [] },
+    contexts: {
+      diffType: 'NONE',
+      ignored: true,
+      original: [],
+      other: [],
+    },
+    breadcrumbs: {
+      diffType: 'NONE',
+      ignored: true,
+      original: [],
+      other: [],
+    },
+    nodeType: { diffType: 'NONE', original: 'SUBJECT', other: 'SUBJECT' },
   },
   children: [],
 };
@@ -208,15 +230,19 @@ export const nodeTreeWithDirectChildren: NodeTree = {
     ],
     supportedLanguages: ['en', 'nb', 'nn'],
     resources: [],
+    resourceTypes: [],
+    contexts: [],
+    breadcrumbs: [],
+    nodeType: 'SUBJECT',
   },
   children: [
     {
       id: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
       name: 'Verktøy for utforskning',
       contentUri: 'urn:article:20136',
+      parentId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
       parent: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-      path:
-        '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
+      path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
       paths: [
         '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
       ],
@@ -240,16 +266,19 @@ export const nodeTreeWithDirectChildren: NodeTree = {
         visible: true,
         customFields: {},
       },
-      primary: true,
       resources: [],
+      nodeType: 'TOPIC',
+      resourceTypes: [],
+      contexts: [],
+      breadcrumbs: [],
     },
     {
       id: 'urn:topic:1:d208bf2d-836c-43fe-977b-de4af1771396',
       name: 'Sosialisering, identitet og livsmestring',
       contentUri: 'urn:article:20126',
+      parentId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
       parent: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-      path:
-        '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:d208bf2d-836c-43fe-977b-de4af1771396',
+      path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:d208bf2d-836c-43fe-977b-de4af1771396',
       paths: [
         '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:d208bf2d-836c-43fe-977b-de4af1771396',
       ],
@@ -273,8 +302,11 @@ export const nodeTreeWithDirectChildren: NodeTree = {
         visible: true,
         customFields: {},
       },
-      primary: true,
       resources: [],
+      nodeType: 'TOPIC',
+      resourceTypes: [],
+      contexts: [],
+      breadcrumbs: [],
     },
   ],
 };
@@ -311,15 +343,19 @@ export const nodeTreeWithDirectChildrenUpdated: NodeTree = {
     ],
     supportedLanguages: ['en', 'nb', 'nn'],
     resources: [],
+    nodeType: 'SUBJECT',
+    resourceTypes: [],
+    contexts: [],
+    breadcrumbs: [],
   },
   children: [
     {
       id: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
       name: 'Verktøy for utforskning',
       contentUri: 'urn:article:20136',
+      parentId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
       parent: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-      path:
-        '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
+      path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
       paths: [
         '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
       ],
@@ -343,16 +379,19 @@ export const nodeTreeWithDirectChildrenUpdated: NodeTree = {
         visible: false,
         customFields: {},
       },
-      primary: true,
       resources: [],
+      nodeType: 'TOPIC',
+      resourceTypes: [],
+      contexts: [],
+      breadcrumbs: [],
     },
     {
       id: 'urn:topic:1:00018b29-3b51-478d-a691-20732e0601fd',
       name: 'Ulikheter og utenforskap',
       contentUri: 'urn:article:20138',
+      parentId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
       parent: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-      path:
-        '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:00018b29-3b51-478d-a691-20732e0601fd',
+      path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:00018b29-3b51-478d-a691-20732e0601fd',
       paths: [
         '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:00018b29-3b51-478d-a691-20732e0601fd',
       ],
@@ -376,8 +415,11 @@ export const nodeTreeWithDirectChildrenUpdated: NodeTree = {
         visible: true,
         customFields: {},
       },
-      primary: true,
       resources: [],
+      nodeType: 'TOPIC',
+      resourceTypes: [],
+      contexts: [],
+      breadcrumbs: [],
     },
   ],
 };
@@ -482,6 +524,20 @@ export const nodeTreeWithDirectChildrenDiff: DiffTree = {
     },
     resources: [],
     resourcesChanged: { diffType: 'NONE' },
+    resourceTypes: { diffType: 'NONE', original: [], other: [] },
+    nodeType: { diffType: 'NONE', original: 'SUBJECT', other: 'SUBJECT' },
+    contexts: {
+      diffType: 'NONE',
+      ignored: true,
+      original: [],
+      other: [],
+    },
+    breadcrumbs: {
+      diffType: 'NONE',
+      ignored: true,
+      original: [],
+      other: [],
+    },
   },
   children: [
     {
@@ -501,6 +557,11 @@ export const nodeTreeWithDirectChildrenDiff: DiffTree = {
       contentUri: {
         original: 'urn:article:20136',
         other: 'urn:article:20136',
+        diffType: 'NONE',
+      },
+      parentId: {
+        original: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+        other: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
         diffType: 'NONE',
       },
       parent: {
@@ -594,10 +655,27 @@ export const nodeTreeWithDirectChildrenDiff: DiffTree = {
           changed: { diffType: 'NONE' },
         },
       },
-      primary: {
-        original: true,
-        other: true,
+      nodeType: {
+        original: 'TOPIC',
+        other: 'TOPIC',
         diffType: 'NONE',
+      },
+      resourceTypes: {
+        original: [],
+        other: [],
+        diffType: 'NONE',
+      },
+      contexts: {
+        diffType: 'NONE',
+        ignored: true,
+        original: [],
+        other: [],
+      },
+      breadcrumbs: {
+        diffType: 'NONE',
+        ignored: true,
+        original: [],
+        other: [],
       },
     },
     {
@@ -616,6 +694,11 @@ export const nodeTreeWithDirectChildrenDiff: DiffTree = {
       },
       contentUri: {
         original: 'urn:article:20126',
+        other: undefined,
+        diffType: 'DELETED',
+      },
+      parentId: {
+        original: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
         other: undefined,
         diffType: 'DELETED',
       },
@@ -677,7 +760,6 @@ export const nodeTreeWithDirectChildrenDiff: DiffTree = {
         other: undefined,
         diffType: 'DELETED',
       },
-
       supportedLanguages: {
         original: ['nb', 'nn'],
         other: undefined,
@@ -699,10 +781,27 @@ export const nodeTreeWithDirectChildrenDiff: DiffTree = {
           changed: { diffType: 'DELETED' },
         },
       },
-      primary: {
-        original: true,
+      nodeType: {
+        original: 'TOPIC',
         other: undefined,
         diffType: 'DELETED',
+      },
+      resourceTypes: {
+        original: [],
+        other: undefined,
+        diffType: 'DELETED',
+      },
+      contexts: {
+        diffType: 'DELETED',
+        ignored: true,
+        original: [],
+        other: undefined,
+      },
+      breadcrumbs: {
+        diffType: 'DELETED',
+        ignored: true,
+        original: [],
+        other: undefined,
       },
     },
     {
@@ -722,6 +821,11 @@ export const nodeTreeWithDirectChildrenDiff: DiffTree = {
       contentUri: {
         original: undefined,
         other: 'urn:article:20138',
+        diffType: 'ADDED',
+      },
+      parentId: {
+        original: undefined,
+        other: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
         diffType: 'ADDED',
       },
       parent: {
@@ -803,10 +907,27 @@ export const nodeTreeWithDirectChildrenDiff: DiffTree = {
           changed: { diffType: 'ADDED' },
         },
       },
-      primary: {
+      nodeType: {
         original: undefined,
-        other: true,
+        other: 'TOPIC',
         diffType: 'ADDED',
+      },
+      resourceTypes: {
+        original: undefined,
+        other: [],
+        diffType: 'ADDED',
+      },
+      contexts: {
+        diffType: 'ADDED',
+        ignored: true,
+        original: undefined,
+        other: [],
+      },
+      breadcrumbs: {
+        diffType: 'ADDED',
+        ignored: true,
+        original: undefined,
+        other: [],
       },
     },
   ],
@@ -844,15 +965,19 @@ export const nodeTreeWithDirectChildrenAndResources: NodeTree = {
     ],
     supportedLanguages: ['en', 'nb', 'nn'],
     resources: [],
+    nodeType: 'SUBJECT',
+    resourceTypes: [],
+    contexts: [],
+    breadcrumbs: [],
   },
   children: [
     {
       id: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
       name: 'Verktøy for utforskning',
       contentUri: 'urn:article:20136',
+      parentId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
       parent: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-      path:
-        '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
+      path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
       paths: [
         '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
       ],
@@ -876,16 +1001,19 @@ export const nodeTreeWithDirectChildrenAndResources: NodeTree = {
         visible: true,
         customFields: {},
       },
-      primary: true,
       resources: [],
+      nodeType: 'TOPIC',
+      resourceTypes: [],
+      contexts: [],
+      breadcrumbs: [],
     },
     {
       id: 'urn:topic:1:d208bf2d-836c-43fe-977b-de4af1771396',
       name: 'Sosialisering, identitet og livsmestring',
       contentUri: 'urn:article:20126',
+      parentId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
       parent: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-      path:
-        '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:d208bf2d-836c-43fe-977b-de4af1771396',
+      path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:d208bf2d-836c-43fe-977b-de4af1771396',
       paths: [
         '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:d208bf2d-836c-43fe-977b-de4af1771396',
       ],
@@ -909,8 +1037,11 @@ export const nodeTreeWithDirectChildrenAndResources: NodeTree = {
         visible: true,
         customFields: {},
       },
-      primary: true,
       resources: [],
+      nodeType: 'TOPIC',
+      resourceTypes: [],
+      contexts: [],
+      breadcrumbs: [],
     },
   ],
 };
@@ -947,15 +1078,19 @@ export const nodeTreeWithNestedChildren: NodeTree = {
     ],
     supportedLanguages: ['en', 'nb', 'nn'],
     resources: [],
+    nodeType: 'SUBJECT',
+    resourceTypes: [],
+    contexts: [],
+    breadcrumbs: [],
   },
   children: [
     {
       id: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
       name: 'Verktøy for utforskning',
       contentUri: 'urn:article:20136',
+      parentId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
       parent: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-      path:
-        '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
+      path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
       paths: [
         '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
       ],
@@ -979,16 +1114,19 @@ export const nodeTreeWithNestedChildren: NodeTree = {
         visible: true,
         customFields: {},
       },
-      primary: true,
       resources: [],
+      nodeType: 'TOPIC',
+      resourceTypes: [],
+      contexts: [],
+      breadcrumbs: [],
     },
     {
       id: 'urn:topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
       name: 'Samfunnsfaglige metoder',
       contentUri: 'urn:article:20161',
+      parentId: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
       parent: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
-      path:
-        '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
+      path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
       paths: [
         '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
       ],
@@ -1012,16 +1150,19 @@ export const nodeTreeWithNestedChildren: NodeTree = {
         visible: true,
         customFields: {},
       },
-      primary: true,
       resources: [],
+      nodeType: 'TOPIC',
+      resourceTypes: [],
+      contexts: [],
+      breadcrumbs: [],
     },
     {
       id: 'urn:topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
       name: 'Kildebruk og kildekritikk oppdatert',
       contentUri: 'urn:article:20162',
+      parentId: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
       parent: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
-      path:
-        '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
+      path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
       paths: [
         '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
       ],
@@ -1045,8 +1186,11 @@ export const nodeTreeWithNestedChildren: NodeTree = {
         visible: true,
         customFields: {},
       },
-      primary: true,
       resources: [],
+      nodeType: 'TOPIC',
+      resourceTypes: [],
+      contexts: [],
+      breadcrumbs: [],
     },
   ],
 };
@@ -1083,15 +1227,19 @@ export const nodeTreeWithNestedChildrenUpdated: NodeTree = {
     ],
     supportedLanguages: ['en', 'nb', 'nn'],
     resources: [],
+    nodeType: 'SUBJECT',
+    resourceTypes: [],
+    contexts: [],
+    breadcrumbs: [],
   },
   children: [
     {
       id: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
       name: 'Verktøy for utforskning',
       contentUri: 'urn:article:20136',
+      parentId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
       parent: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-      path:
-        '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
+      path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
       paths: [
         '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
       ],
@@ -1115,16 +1263,19 @@ export const nodeTreeWithNestedChildrenUpdated: NodeTree = {
         visible: true,
         customFields: {},
       },
-      primary: true,
       resources: [],
+      nodeType: 'TOPIC',
+      resourceTypes: [],
+      contexts: [],
+      breadcrumbs: [],
     },
     {
       id: 'urn:topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
       name: 'Samfunnsfaglige metoder',
       contentUri: 'urn:article:20161',
+      parentId: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
       parent: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
-      path:
-        '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
+      path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
       paths: [
         '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
       ],
@@ -1148,16 +1299,19 @@ export const nodeTreeWithNestedChildrenUpdated: NodeTree = {
         visible: true,
         customFields: {},
       },
-      primary: false,
       resources: [],
+      nodeType: 'TOPIC',
+      resourceTypes: [],
+      contexts: [],
+      breadcrumbs: [],
     },
     {
       id: 'urn:topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
       name: 'Kildebruk og kildekritikk oppdatert',
       contentUri: 'urn:article:20162',
+      parentId: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
       parent: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
-      path:
-        '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
+      path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
       paths: [
         '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
       ],
@@ -1181,8 +1335,11 @@ export const nodeTreeWithNestedChildrenUpdated: NodeTree = {
         visible: true,
         customFields: {},
       },
-      primary: true,
       resources: [],
+      nodeType: 'TOPIC',
+      resourceTypes: [],
+      contexts: [],
+      breadcrumbs: [],
     },
   ],
 };
@@ -1190,7 +1347,7 @@ export const nodeTreeWithNestedChildrenUpdated: NodeTree = {
 export const nodeTreeWithNestedChildrenDiff: DiffTree = {
   root: {
     changed: { diffType: 'NONE' },
-    childrenChanged: { diffType: 'MODIFIED' },
+    childrenChanged: { diffType: 'NONE' },
     id: {
       original: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
       other: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
@@ -1289,11 +1446,33 @@ export const nodeTreeWithNestedChildrenDiff: DiffTree = {
     resourcesChanged: {
       diffType: 'NONE',
     },
+    resourceTypes: {
+      original: [],
+      other: [],
+      diffType: 'NONE',
+    },
+    nodeType: {
+      original: 'SUBJECT',
+      other: 'SUBJECT',
+      diffType: 'NONE',
+    },
+    contexts: {
+      diffType: 'NONE',
+      ignored: true,
+      original: [],
+      other: [],
+    },
+    breadcrumbs: {
+      diffType: 'NONE',
+      ignored: true,
+      original: [],
+      other: [],
+    },
   },
   children: [
     {
       changed: { diffType: 'NONE' },
-      childrenChanged: { diffType: 'MODIFIED' },
+      childrenChanged: { diffType: 'NONE' },
       id: {
         original: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
         other: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
@@ -1307,6 +1486,11 @@ export const nodeTreeWithNestedChildrenDiff: DiffTree = {
       contentUri: {
         original: 'urn:article:20136',
         other: 'urn:article:20136',
+        diffType: 'NONE',
+      },
+      parentId: {
+        original: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+        other: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
         diffType: 'NONE',
       },
       parent: {
@@ -1400,14 +1584,9 @@ export const nodeTreeWithNestedChildrenDiff: DiffTree = {
           changed: { diffType: 'NONE' },
         },
       },
-      primary: {
-        original: true,
-        other: true,
-        diffType: 'NONE',
-      },
       children: [
         {
-          changed: { diffType: 'MODIFIED' },
+          changed: { diffType: 'NONE' },
           childrenChanged: { diffType: 'NONE' },
           id: {
             original: 'urn:topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
@@ -1422,6 +1601,11 @@ export const nodeTreeWithNestedChildrenDiff: DiffTree = {
           contentUri: {
             original: 'urn:article:20161',
             other: 'urn:article:20161',
+            diffType: 'NONE',
+          },
+          parentId: {
+            original: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
+            other: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
             diffType: 'NONE',
           },
           parent: {
@@ -1515,12 +1699,21 @@ export const nodeTreeWithNestedChildrenDiff: DiffTree = {
               changed: { diffType: 'NONE' },
             },
           },
-          primary: {
-            original: true,
-            other: false,
-            diffType: 'MODIFIED',
-          },
           children: [],
+          resourceTypes: { diffType: 'NONE', original: [], other: [] },
+          nodeType: { diffType: 'NONE', original: 'TOPIC', other: 'TOPIC' },
+          contexts: {
+            diffType: 'NONE',
+            ignored: true,
+            original: [],
+            other: [],
+          },
+          breadcrumbs: {
+            diffType: 'NONE',
+            ignored: true,
+            original: [],
+            other: [],
+          },
         },
         {
           changed: { diffType: 'NONE' },
@@ -1538,6 +1731,11 @@ export const nodeTreeWithNestedChildrenDiff: DiffTree = {
           contentUri: {
             original: 'urn:article:20162',
             other: 'urn:article:20162',
+            diffType: 'NONE',
+          },
+          parentId: {
+            original: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
+            other: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
             diffType: 'NONE',
           },
           parent: {
@@ -1631,14 +1829,53 @@ export const nodeTreeWithNestedChildrenDiff: DiffTree = {
               changed: { diffType: 'NONE' },
             },
           },
-          primary: {
-            original: true,
-            other: true,
+          children: [],
+          resourceTypes: {
+            original: [],
+            other: [],
             diffType: 'NONE',
           },
-          children: [],
+          nodeType: {
+            original: 'TOPIC',
+            other: 'TOPIC',
+            diffType: 'NONE',
+          },
+          contexts: {
+            diffType: 'NONE',
+            ignored: true,
+            original: [],
+            other: [],
+          },
+          breadcrumbs: {
+            diffType: 'NONE',
+            ignored: true,
+            original: [],
+            other: [],
+          },
         },
       ],
+      resourceTypes: {
+        original: [],
+        other: [],
+        diffType: 'NONE',
+      },
+      nodeType: {
+        original: 'TOPIC',
+        other: 'TOPIC',
+        diffType: 'NONE',
+      },
+      contexts: {
+        diffType: 'NONE',
+        ignored: true,
+        original: [],
+        other: [],
+      },
+      breadcrumbs: {
+        diffType: 'NONE',
+        ignored: true,
+        original: [],
+        other: [],
+      },
     },
   ],
 };
@@ -1730,6 +1967,20 @@ export const nodeTreeInOriginalVersionDiff: DiffTree = {
     },
     resources: [],
     resourcesChanged: { diffType: 'NONE' },
+    resourceTypes: { diffType: 'DELETED', original: [], other: undefined },
+    nodeType: { diffType: 'DELETED', original: 'SUBJECT', other: undefined },
+    contexts: {
+      diffType: 'DELETED',
+      ignored: true,
+      original: [],
+      other: undefined,
+    },
+    breadcrumbs: {
+      diffType: 'DELETED',
+      ignored: true,
+      original: [],
+      other: undefined,
+    },
   },
   children: [],
 };
@@ -1821,6 +2072,20 @@ export const nodeTreeInOtherVersionDiff: DiffTree = {
     },
     resources: [],
     resourcesChanged: { diffType: 'NONE' },
+    resourceTypes: { diffType: 'ADDED', original: undefined, other: [] },
+    nodeType: { diffType: 'ADDED', original: undefined, other: 'SUBJECT' },
+    contexts: {
+      diffType: 'ADDED',
+      ignored: true,
+      original: undefined,
+      other: [],
+    },
+    breadcrumbs: {
+      diffType: 'ADDED',
+      ignored: true,
+      original: undefined,
+      other: [],
+    },
   },
   children: [],
 };
@@ -1857,15 +2122,19 @@ export const nodeTreeWithNestedChildrenAndResources: NodeTree = {
     ],
     supportedLanguages: ['en', 'nb', 'nn'],
     resources: [],
+    resourceTypes: [],
+    nodeType: 'SUBJECT',
+    contexts: [],
+    breadcrumbs: [],
   },
   children: [
     {
       id: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
       name: 'Verktøy for utforskning',
       contentUri: 'urn:article:20136',
+      parentId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
       parent: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-      path:
-        '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
+      path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
       paths: [
         '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
       ],
@@ -1889,16 +2158,19 @@ export const nodeTreeWithNestedChildrenAndResources: NodeTree = {
         visible: true,
         customFields: {},
       },
-      primary: true,
       resources: [],
+      resourceTypes: [],
+      nodeType: 'TOPIC',
+      contexts: [],
+      breadcrumbs: [],
     },
     {
       id: 'urn:topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
       name: 'Samfunnsfaglige metoder',
       contentUri: 'urn:article:20161',
+      parentId: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
       parent: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
-      path:
-        '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
+      path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
       paths: [
         '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
       ],
@@ -1922,14 +2194,12 @@ export const nodeTreeWithNestedChildrenAndResources: NodeTree = {
         visible: true,
         customFields: {},
       },
-      primary: true,
       resources: [
         {
           id: 'urn:resource:1:168358',
           name: 'Ulike metoder',
           contentUri: 'urn:article:7',
-          path:
-            '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:35efa357-acc7-4828-b241-cad5467d1dc6/resource:1:168358',
+          path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:35efa357-acc7-4828-b241-cad5467d1dc6/resource:1:168358',
           metadata: {
             grepCodes: [],
             visible: true,
@@ -1980,20 +2250,28 @@ export const nodeTreeWithNestedChildrenAndResources: NodeTree = {
           ],
           supportedLanguages: ['nb', 'nn'],
           parentId: 'urn:topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
+          parent: 'urn:topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
           connectionId: 'urn:topic-resource:4e8305fa-7aac-4c08-97dc-9630becdb83a',
           rank: 2,
-          primary: true,
           relevanceId: 'urn:relevance:core',
+          isPrimary: true,
+          nodeType: 'RESOURCE',
+          contexts: [],
+          breadcrumbs: [],
         },
       ],
+      resourceTypes: [],
+      nodeType: 'TOPIC',
+      contexts: [],
+      breadcrumbs: [],
     },
     {
       id: 'urn:topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
       name: 'Kildebruk og kildekritikk oppdatert',
       contentUri: 'urn:article:20162',
+      parentId: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
       parent: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
-      path:
-        '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
+      path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
       paths: [
         '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
       ],
@@ -2017,8 +2295,11 @@ export const nodeTreeWithNestedChildrenAndResources: NodeTree = {
         visible: true,
         customFields: {},
       },
-      primary: true,
       resources: [],
+      resourceTypes: [],
+      nodeType: 'TOPIC',
+      contexts: [],
+      breadcrumbs: [],
     },
   ],
 };
@@ -2055,15 +2336,19 @@ export const nodeTreeWithNestedChildrenAndResourcesUpdated: NodeTree = {
     ],
     supportedLanguages: ['en', 'nb', 'nn'],
     resources: [],
+    resourceTypes: [],
+    nodeType: 'SUBJECT',
+    contexts: [],
+    breadcrumbs: [],
   },
   children: [
     {
       id: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
       name: 'Verktøy for utforskning',
       contentUri: 'urn:article:20136',
+      parentId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
       parent: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-      path:
-        '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
+      path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
       paths: [
         '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
       ],
@@ -2087,16 +2372,19 @@ export const nodeTreeWithNestedChildrenAndResourcesUpdated: NodeTree = {
         visible: true,
         customFields: {},
       },
-      primary: true,
       resources: [],
+      resourceTypes: [],
+      nodeType: 'TOPIC',
+      contexts: [],
+      breadcrumbs: [],
     },
     {
       id: 'urn:topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
       name: 'Samfunnsfaglige metoder',
       contentUri: 'urn:article:20161',
+      parentId: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
       parent: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
-      path:
-        '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
+      path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
       paths: [
         '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
       ],
@@ -2120,14 +2408,14 @@ export const nodeTreeWithNestedChildrenAndResourcesUpdated: NodeTree = {
         visible: true,
         customFields: {},
       },
-      primary: true,
+      contexts: [],
+      breadcrumbs: [],
       resources: [
         {
           id: 'urn:resource:1:168358',
           name: 'Ulike metoder oppdatert',
           contentUri: 'urn:article:7',
-          path:
-            '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:35efa357-acc7-4828-b241-cad5467d1dc6/resource:1:168358',
+          path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:35efa357-acc7-4828-b241-cad5467d1dc6/resource:1:168358',
           metadata: {
             grepCodes: [],
             visible: true,
@@ -2178,20 +2466,26 @@ export const nodeTreeWithNestedChildrenAndResourcesUpdated: NodeTree = {
           ],
           supportedLanguages: ['nb', 'nn'],
           parentId: 'urn:topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
+          parent: 'urn:topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
           connectionId: 'urn:topic-resource:4e8305fa-7aac-4c08-97dc-9630becdb83a',
           rank: 2,
-          primary: true,
           relevanceId: 'urn:relevance:core',
+          nodeType: 'RESOURCE',
+          contexts: [],
+          breadcrumbs: [],
+          isPrimary: true,
         },
       ],
+      nodeType: 'TOPIC',
+      resourceTypes: [],
     },
     {
       id: 'urn:topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
       name: 'Kildebruk og kildekritikk oppdatert',
       contentUri: 'urn:article:20162',
+      parentId: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
       parent: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
-      path:
-        '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
+      path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
       paths: [
         '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
       ],
@@ -2215,8 +2509,11 @@ export const nodeTreeWithNestedChildrenAndResourcesUpdated: NodeTree = {
         visible: true,
         customFields: {},
       },
-      primary: true,
       resources: [],
+      nodeType: 'TOPIC',
+      resourceTypes: [],
+      contexts: [],
+      breadcrumbs: [],
     },
   ],
 };
@@ -2321,6 +2618,20 @@ export const nodeTreeWithNestedChildrenAndResourcesDiff: DiffTree = {
     },
     resources: [],
     resourcesChanged: { diffType: 'NONE' },
+    resourceTypes: { diffType: 'NONE', original: [], other: [] },
+    nodeType: { diffType: 'NONE', original: 'SUBJECT', other: 'SUBJECT' },
+    contexts: {
+      diffType: 'NONE',
+      ignored: true,
+      original: [],
+      other: [],
+    },
+    breadcrumbs: {
+      diffType: 'NONE',
+      ignored: true,
+      original: [],
+      other: [],
+    },
   },
   children: [
     {
@@ -2338,6 +2649,11 @@ export const nodeTreeWithNestedChildrenAndResourcesDiff: DiffTree = {
       contentUri: {
         original: 'urn:article:20136',
         other: 'urn:article:20136',
+        diffType: 'NONE',
+      },
+      parentId: {
+        original: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+        other: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
         diffType: 'NONE',
       },
       parent: {
@@ -2428,11 +2744,6 @@ export const nodeTreeWithNestedChildrenAndResourcesDiff: DiffTree = {
           changed: { diffType: 'NONE' },
         },
       },
-      primary: {
-        original: true,
-        other: true,
-        diffType: 'NONE',
-      },
       resources: [],
       resourcesChanged: { diffType: 'NONE' },
       children: [
@@ -2453,6 +2764,11 @@ export const nodeTreeWithNestedChildrenAndResourcesDiff: DiffTree = {
           contentUri: {
             original: 'urn:article:20161',
             other: 'urn:article:20161',
+            diffType: 'NONE',
+          },
+          parentId: {
+            original: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
+            other: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
             diffType: 'NONE',
           },
           parent: {
@@ -2538,14 +2854,11 @@ export const nodeTreeWithNestedChildrenAndResourcesDiff: DiffTree = {
               changed: { diffType: 'NONE' },
             },
           },
-          primary: {
-            original: true,
-            other: true,
-            diffType: 'NONE',
-          },
           resourcesChanged: {
             diffType: 'MODIFIED',
           },
+          nodeType: { diffType: 'NONE', original: 'TOPIC', other: 'TOPIC' },
+          resourceTypes: { diffType: 'NONE', original: [], other: [] },
           resources: [
             {
               changed: { diffType: 'MODIFIED' },
@@ -2690,6 +3003,11 @@ export const nodeTreeWithNestedChildrenAndResourcesDiff: DiffTree = {
                 other: 'urn:topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
                 diffType: 'NONE',
               },
+              parent: {
+                original: 'urn:topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
+                other: 'urn:topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
+                diffType: 'NONE',
+              },
               connectionId: {
                 original: 'urn:topic-resource:4e8305fa-7aac-4c08-97dc-9630becdb83a',
                 other: 'urn:topic-resource:4e8305fa-7aac-4c08-97dc-9630becdb83a',
@@ -2700,7 +3018,7 @@ export const nodeTreeWithNestedChildrenAndResourcesDiff: DiffTree = {
                 other: 2,
                 diffType: 'NONE',
               },
-              primary: {
+              isPrimary: {
                 original: true,
                 other: true,
                 diffType: 'NONE',
@@ -2710,8 +3028,37 @@ export const nodeTreeWithNestedChildrenAndResourcesDiff: DiffTree = {
                 other: 'urn:relevance:core',
                 diffType: 'NONE',
               },
+              nodeType: {
+                original: 'RESOURCE',
+                other: 'RESOURCE',
+                diffType: 'NONE',
+              },
+              contexts: {
+                diffType: 'NONE',
+                ignored: true,
+                original: [],
+                other: [],
+              },
+              breadcrumbs: {
+                diffType: 'NONE',
+                ignored: true,
+                original: [],
+                other: [],
+              },
             },
           ],
+          contexts: {
+            diffType: 'NONE',
+            ignored: true,
+            original: [],
+            other: [],
+          },
+          breadcrumbs: {
+            diffType: 'NONE',
+            ignored: true,
+            original: [],
+            other: [],
+          },
         },
         {
           changed: { diffType: 'NONE' },
@@ -2728,6 +3075,11 @@ export const nodeTreeWithNestedChildrenAndResourcesDiff: DiffTree = {
           contentUri: {
             original: 'urn:article:20162',
             other: 'urn:article:20162',
+            diffType: 'NONE',
+          },
+          parentId: {
+            original: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
+            other: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
             diffType: 'NONE',
           },
           parent: {
@@ -2819,17 +3171,40 @@ export const nodeTreeWithNestedChildrenAndResourcesDiff: DiffTree = {
               changed: { diffType: 'NONE' },
             },
           },
-          primary: {
-            original: true,
-            other: true,
-            diffType: 'NONE',
-          },
           resources: [],
           resourcesChanged: {
             diffType: 'NONE',
           },
+          resourceTypes: { diffType: 'NONE', original: [], other: [] },
+          nodeType: { diffType: 'NONE', original: 'TOPIC', other: 'TOPIC' },
+          contexts: {
+            diffType: 'NONE',
+            ignored: true,
+            original: [],
+            other: [],
+          },
+          breadcrumbs: {
+            diffType: 'NONE',
+            ignored: true,
+            original: [],
+            other: [],
+          },
         },
       ],
+      resourceTypes: { diffType: 'NONE', original: [], other: [] },
+      nodeType: { diffType: 'NONE', original: 'TOPIC', other: 'TOPIC' },
+      contexts: {
+        diffType: 'NONE',
+        ignored: true,
+        original: [],
+        other: [],
+      },
+      breadcrumbs: {
+        diffType: 'NONE',
+        ignored: true,
+        original: [],
+        other: [],
+      },
     },
   ],
 };

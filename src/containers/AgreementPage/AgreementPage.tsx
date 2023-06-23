@@ -11,11 +11,11 @@ import { HelmetWithTracker } from '@ndla/tracker';
 import { useTranslation } from 'react-i18next';
 import { OneColumn } from '@ndla/ui';
 import loadable from '@loadable/component';
-import { IUpdatedAgreement, INewAgreement } from '@ndla/types-draft-api';
+import { IUpdatedAgreement, INewAgreement } from '@ndla/types-backend/draft-api';
 import { createAgreement, updateAgreement } from '../../modules/draft/draftApi';
 import { toEditAgreement } from '../../util/routeHelpers';
 import Footer from '../App/components/Footer';
-import { useMessages } from '../Messages/MessagesProvider';
+import { MessageError, useMessages } from '../Messages/MessagesProvider';
 const EditAgreement = loadable(() => import('./EditAgreement'));
 const CreateAgreement = loadable(() => import('./CreateAgreement'));
 const NotFoundPage = loadable(() => import('../NotFoundPage/NotFoundPage'));
@@ -42,7 +42,7 @@ const AgreementPage = () => {
       });
     } catch (err) {
       setIsSaving(false);
-      applicationError(err);
+      applicationError(err as MessageError);
     }
   };
 

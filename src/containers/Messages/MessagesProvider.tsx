@@ -1,6 +1,7 @@
 import { uuid } from '@ndla/util';
 import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useState } from 'react';
 
+import { useTranslation } from 'react-i18next';
 import { MessageType } from './Messages';
 
 interface Props {
@@ -20,6 +21,7 @@ export interface MessagesFunctions {
 }
 
 export interface MessageError extends Partial<Error> {
+  messages?: string;
   json?: {
     messages?: {
       field: string;
@@ -28,7 +30,9 @@ export interface MessageError extends Partial<Error> {
   };
 }
 
-export interface NewMessageType extends Omit<MessageType, 'id'> {}
+export interface NewMessageType extends Omit<MessageType, 'id'> {
+  id?: string;
+}
 
 export const MessagesProvider = ({ children, initialValues = [] }: Props) => {
   const messagesState = useState<MessageType[]>(initialValues);
@@ -37,32 +41,73 @@ export const MessagesProvider = ({ children, initialValues = [] }: Props) => {
 
 export const useMessages = () => {
   const context = useContext(MessagesContext);
+  const { t } = useTranslation();
   if (context === undefined) {
     throw new Error('useMessages can only be used witin a MessagesContext');
   }
   const [messages, setMessages] = context;
 
-  const createMessage = (newMessage: NewMessageType) => {
-    const message: MessageType = {
+  const formatNewMessage = (newMessage: NewMessageType): MessageType => {
+    return {
       ...newMessage,
-      id: uuid(),
+      id: newMessage.id ?? uuid(),
       timeToLive: typeof newMessage.timeToLive === 'undefined' ? 1500 : newMessage.timeToLive,
     };
-    setMessages(messages => [...messages, message]);
+  };
+
+  const errorMessageFromError = (error: MessageError): string => {
+    const jsonMessage = error?.json?.messages
+      ?.map((message) => `${message.field}: ${message.message}`)
+      .join(', ');
+    if (jsonMessage !== undefined) return jsonMessage;
+
+    const errorMessages = error?.messages;
+    if (errorMessages && typeof errorMessages === 'string') return errorMessages;
+    return t('errorMessage.genericError');
+  };
+
+  const formatErrorMessage = (error: MessageError): NewMessageType => {
+    return {
+      message: errorMessageFromError(error),
+      severity: 'danger',
+      timeToLive: 0,
+    };
+  };
+
+  const createMessage = (newMessage: NewMessageType) => {
+    const message = formatNewMessage(newMessage);
+    setMessages((messages) => {
+      if (!messages.some((msg) => msg.id === message.id)) {
+        return messages.concat(message);
+      } else {
+        return messages;
+      }
+    });
+  };
+
+  const createMessages = (newMessages: NewMessageType[]) => {
+    const formattedMessages = newMessages.map((newMessage) => formatNewMessage(newMessage));
+    setMessages((messages) => [...messages, ...formattedMessages]);
   };
 
   const applicationError = (error: MessageError) => {
-    const maybeMessages: MessageType[] | undefined = error.json?.messages?.map(m => ({
+    const maybeMessages: MessageType[] | undefined = error.json?.messages?.map((m) => ({
       id: uuid(),
       message: `${m.field}: ${m.message}`,
       severity: 'danger',
       timeToLive: 0,
     }));
+
     const newMessages = maybeMessages ?? [];
-    setMessages(prevMessages => [...prevMessages, ...newMessages]);
+
+    if (newMessages.length === 0) {
+      createMessage(formatErrorMessage(error));
+    } else {
+      createMessages(newMessages);
+    }
   };
 
-  const clearMessage = (id: string) => setMessages(prev => prev.filter(m => m.id !== id));
+  const clearMessage = (id: string) => setMessages((prev) => prev.filter((m) => m.id !== id));
   const clearMessages = () => setMessages([]);
 
   return {
@@ -71,5 +116,6 @@ export const useMessages = () => {
     clearMessage,
     clearMessages,
     applicationError,
+    formatErrorMessage,
   };
 };

@@ -9,13 +9,12 @@ import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import SafeLink from '@ndla/safelink';
 import { colors, fonts, spacing } from '@ndla/core';
-import { RssFeed } from '@ndla/icons/common';
+import { RssFeed, Time } from '@ndla/icons/common';
 import { Check, AlertCircle } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
-import { IConceptSummary } from '@ndla/types-concept-api';
-import { IMultiSearchSummary } from '@ndla/types-search-api';
-import { ILearningPathV2 } from '@ndla/types-learningpath-api';
-import { Time } from '@ndla/icons/common';
+import { IConceptSummary } from '@ndla/types-backend/concept-api';
+import { IMultiSearchSummary } from '@ndla/types-backend/search-api';
+import { ILearningPathV2 } from '@ndla/types-backend/learningpath-api';
 import config from '../../config';
 import LearningpathConnection from './LearningpathConnection';
 import EmbedConnection from './EmbedInformation/EmbedConnection';
@@ -43,7 +42,7 @@ const Splitter = ({
   children?: ReactNode;
   disableSplitter?: boolean;
 }) => {
-  const validChildren = Children.toArray(children).filter(child =>
+  const validChildren = Children.toArray(children).filter((child) =>
     isValidElement(child),
   ) as ReactElement[];
   if (!Children.count(validChildren)) return null;
@@ -54,6 +53,38 @@ const Splitter = ({
     </>
   );
 };
+
+export const getWarnStatus = (date?: string): 'warn' | 'expired' | undefined => {
+  if (!date) return undefined;
+  const parsedDate = new Date(date);
+
+  const daysToWarn = 365;
+  const errorDate = new Date();
+  const warnDate = new Date();
+  warnDate.setDate(errorDate.getDate() + daysToWarn);
+
+  if (errorDate > parsedDate) return 'expired';
+  if (warnDate > parsedDate) return 'warn';
+};
+
+export const StyledTimeIcon = styled(Time)<{
+  status: 'warn' | 'expired';
+  height?: string;
+  width?: string;
+}>`
+  height: ${(p) => (p.height ? p.height : spacing.normal)};
+  width: ${(p) => (p.width ? p.width : spacing.normal)};
+  fill: ${(p) => {
+    switch (p.status) {
+      case 'warn':
+        return '#c77623';
+      case 'expired':
+        return colors.support.red;
+      default:
+        unreachable(p.status);
+    }
+  }};
+`;
 
 interface Props {
   noStatus?: boolean;
@@ -67,6 +98,7 @@ interface Props {
   id?: number;
   setHasConnections?: (hasConnections: boolean) => void;
   expirationDate?: string;
+  responsibleName?: string;
 }
 
 const HeaderStatusInformation = ({
@@ -81,6 +113,7 @@ const HeaderStatusInformation = ({
   id,
   setHasConnections,
   expirationDate,
+  responsibleName,
 }: Props) => {
   const { t } = useTranslation();
   const [learningpaths, setLearningpaths] = useState<ILearningPathV2[]>([]);
@@ -94,19 +127,19 @@ const HeaderStatusInformation = ({
   }, [learningpaths, articles, concepts]);
 
   const StyledStatus = styled.p`
-    ${fonts.sizes(fontSize || 18, 1.1)};
+    ${fonts.sizes(fontSize || 16, 1.1)};
     font-weight: ${fonts.weight.semibold};
-    text-transform: uppercase;
-    margin: 0 ${fontSize && fontSize <= 12 ? spacing.xsmall : spacing.small} 0
-      ${indentLeft ? 0 : spacing.small};
+    margin: 0 ${fontSize && fontSize <= 12 ? spacing.xsmall : spacing.small} 0;
+    ${indentLeft ? 0 : spacing.small};
+    color: ${colors.brand.primary};
   `;
 
   const StyledSmallText = styled.small`
     color: ${fontSize && fontSize <= 12 ? '#000' : colors.text.light};
     padding-right: ${spacing.xsmall};
-    ${fonts.sizes((fontSize && fontSize - 1) || 14, 1.1)};
-    font-weight: ${fonts.weight.light};
-    text-transform: uppercase;
+    ${fonts.sizes((fontSize && fontSize - 1) || 16, 1.1)};
+    font-weight: ${fonts.weight.normal};
+    color: ${colors.brand.primary};
   `;
 
   const StyledCheckIcon = styled(Check)`
@@ -131,59 +164,38 @@ const HeaderStatusInformation = ({
     box-shadow: inset 0 0;
   `;
 
-  const getWarnStatus = (date?: string): 'warn' | 'expired' | undefined => {
-    if (!date) return undefined;
-    const parsedDate = new Date(date);
-
-    const daysToWarn = 365;
-    const errorDate = new Date();
-    const warnDate = new Date();
-    warnDate.setDate(errorDate.getDate() + daysToWarn);
-
-    if (errorDate > parsedDate) return 'expired';
-    if (warnDate > parsedDate) return 'warn';
-  };
-
-  const StyledTimeIcon = styled(Time)<{ status: 'warn' | 'expired' }>`
-    height: ${spacing.normal};
-    width: ${spacing.normal};
-    fill: ${p => {
-      switch (p.status) {
-        case 'warn':
-          return colors.support.yellow;
-        case 'expired':
-          return colors.support.red;
-        default:
-          unreachable(p.status);
-      }
-    }};
-  `;
-
   const expirationColor = getWarnStatus(expirationDate);
   const revisionDateExpiration =
     (type === 'standard' || type === 'topic-article') && expirationColor && expirationDate ? (
       <Tooltip
         tooltip={t(`form.workflow.expiration.${expirationColor}`, {
           date: formatDate(expirationDate),
-        })}>
-        <StyledTimeIcon status={expirationColor} />
+        })}
+      >
+        <div>
+          <StyledTimeIcon status={expirationColor} />
+        </div>
       </Tooltip>
     ) : null;
 
   const multipleTaxonomyIcon = taxonomyPaths && taxonomyPaths?.length > 2 && (
     <Tooltip tooltip={t('form.workflow.multipleTaxonomy')}>
-      <StyledWarnIcon title={t('form.taxonomySection')} />
+      <div>
+        <StyledWarnIcon />
+      </div>
     </Tooltip>
   );
 
   const publishedIcon = (
     <Tooltip tooltip={t('form.workflow.published')}>
-      <StyledCheckIcon title={t('form.status.published')} />
+      <div>
+        <StyledCheckIcon />
+      </div>
     </Tooltip>
   );
 
   const publishedIconLink = (
-    <StyledLink target="_blank" to={`${config.ndlaFrontendDomain}${taxonomyPaths?.[0]}`}>
+    <StyledLink target="_blank" to={`${config.ndlaFrontendDomain}/article/${id}`}>
       {publishedIcon}
     </StyledLink>
   );
@@ -203,7 +215,7 @@ const HeaderStatusInformation = ({
       />
     ) : null;
 
-  const imageConnections = type === 'image' && (
+  const imageConnections = type === 'image ' && (
     <EmbedConnection
       id={id}
       type="image"
@@ -226,9 +238,15 @@ const HeaderStatusInformation = ({
       <EmbedConnection id={id} type="article" articles={articles} setArticles={setArticles} />
     ) : null;
 
+  const hideSplitter =
+    (!articleConnections || !conceptConnecions || !learningpathConnections) &&
+    !revisionDateExpiration &&
+    !published &&
+    !multipleTaxonomyIcon;
+
   const StatusIcons = (
     <>
-      <Splitter disableSplitter={indentLeft}>
+      <Splitter disableSplitter={indentLeft || hideSplitter}>
         {articleConnections}
         {conceptConnecions}
         {learningpathConnections}
@@ -240,21 +258,38 @@ const HeaderStatusInformation = ({
     </>
   );
 
+  const ResponsibleInfo = (
+    <div>
+      <StyledSmallText>{`${t('form.responsible.label')}:`}</StyledSmallText>
+      {responsibleName || t('form.responsible.noResponsible')}
+    </div>
+  );
+
   if (noStatus && isNewLanguage) {
     return (
       <StyledStatusWrapper>
         {StatusIcons}
-        <StyledStatus>{t('form.status.new_language')}</StyledStatus>
+        <Splitter>
+          <StyledStatus>
+            {ResponsibleInfo}
+            {t('form.status.new_language')}
+          </StyledStatus>
+        </Splitter>
       </StyledStatusWrapper>
     );
   } else if (!noStatus) {
     return (
       <StyledStatusWrapper>
         {StatusIcons}
-        <StyledStatus>
-          <StyledSmallText>{t('form.workflow.statusLabel')}:</StyledSmallText>
-          {isNewLanguage ? t('form.status.new_language') : statusText || t('form.status.new')}
-        </StyledStatus>
+        <Splitter>
+          <StyledStatus>
+            {ResponsibleInfo}
+            <div>
+              <StyledSmallText>{t('form.workflow.statusLabel')}:</StyledSmallText>
+              {isNewLanguage ? t('form.status.new_language') : statusText || t('form.status.new')}
+            </div>
+          </StyledStatus>
+        </Splitter>
       </StyledStatusWrapper>
     );
   } else if (type === 'image') {

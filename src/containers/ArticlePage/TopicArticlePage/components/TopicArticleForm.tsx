@@ -6,11 +6,11 @@
  *
  */
 
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Formik, Form, FormikProps } from 'formik';
-import { IUpdatedArticle, IArticle, IStatus } from '@ndla/types-draft-api';
-import { AlertModalWrapper, formClasses } from '../../../FormikForm';
+import { Formik, FormikProps } from 'formik';
+import { IUpdatedArticle, IArticle, IStatus } from '@ndla/types-backend/draft-api';
+import { AlertModalWrapper } from '../../../FormikForm';
 import { toEditArticle } from '../../../../util/routeHelpers';
 import validateFormik, { getWarnings } from '../../../../components/formikValidationSchema';
 import TopicArticleAccordionPanels from './TopicArticleAccordionPanels';
@@ -18,7 +18,6 @@ import HeaderWithLanguage from '../../../../components/HeaderWithLanguage';
 import EditorFooter from '../../../../components/SlateEditor/EditorFooter';
 import { TopicArticleFormType, useArticleFormHooks } from '../../../FormikForm/articleFormHooks';
 import usePreventWindowUnload from '../../../FormikForm/preventWindowUnloadHook';
-import Spinner from '../../../../components/Spinner';
 import { useLicenses, useDraftStatusStateMachine } from '../../../../modules/draft/draftQueries';
 import {
   draftApiTypeToTopicArticleFormType,
@@ -28,8 +27,12 @@ import {
 import { validateDraft } from '../../../../modules/draft/draftApi';
 import { isFormikFormDirty, topicArticleRules } from '../../../../util/formHelper';
 import { ArticleTaxonomy } from '../../../FormikForm/formikDraftHooks';
-import { learningResourceContentToHTML } from '../../../../util/articleContentConverter';
-import { DraftStatusType } from '../../../../interfaces';
+import { blockContentToHTML } from '../../../../util/articleContentConverter';
+import StyledForm from '../../../../components/StyledFormComponents';
+import { TaxonomyVersionProvider } from '../../../StructureVersion/TaxonomyVersionProvider';
+import { useSession } from '../../../../containers/Session/SessionProvider';
+import { FlexWrapper, MainContent } from '../../styles';
+import CommentSection from '../../components/CommentSection';
 
 interface Props {
   article?: IArticle;
@@ -38,13 +41,6 @@ interface Props {
   updateArticle: (art: IUpdatedArticle) => Promise<IArticle>;
   articleStatus?: IStatus;
   articleChanged: boolean;
-  updateArticleAndStatus?: (input: {
-    updatedArticle: IUpdatedArticle;
-    newStatus: DraftStatusType;
-    dirty: boolean;
-  }) => Promise<IArticle>;
-  translating: boolean;
-  translateToNN?: () => void;
   isNewlyCreated: boolean;
   articleLanguage: string;
 }
@@ -54,38 +50,30 @@ const TopicArticleForm = ({
   articleTaxonomy,
   updateArticle,
   articleChanged,
-  translating,
-  translateToNN,
   isNewlyCreated,
   articleLanguage,
   articleStatus,
-  updateArticleAndStatus,
 }: Props) => {
   const { data: licenses } = useLicenses({ placeholderData: [] });
   const statusStateMachine = useDraftStatusStateMachine({ articleId: article?.id });
 
   const { t } = useTranslation();
+  const { ndlaId } = useSession();
+  const { savedToServer, formikRef, initialValues, handleSubmit } =
+    useArticleFormHooks<TopicArticleFormType>({
+      getInitialValues: draftApiTypeToTopicArticleFormType,
+      article,
+      t,
+      articleStatus,
+      updateArticle,
+      licenses,
+      getArticleFromSlate: topicArticleFormTypeToDraftApiType,
+      articleLanguage,
+      rules: topicArticleRules,
+      ndlaId,
+    });
 
-  const { savedToServer, formikRef, initialValues, handleSubmit } = useArticleFormHooks<
-    TopicArticleFormType
-  >({
-    getInitialValues: draftApiTypeToTopicArticleFormType,
-    article,
-    t,
-    articleStatus,
-    updateArticle,
-    updateArticleAndStatus,
-    licenses,
-    getArticleFromSlate: topicArticleFormTypeToDraftApiType,
-    articleLanguage,
-    rules: topicArticleRules,
-  });
-
-  const initialHTML = useMemo(() => learningResourceContentToHTML(initialValues.content), [
-    initialValues,
-  ]);
-
-  const [translateOnContinue, setTranslateOnContinue] = useState(false);
+  const initialHTML = useMemo(() => blockContentToHTML(initialValues.content), [initialValues]);
 
   const FormikChild = (formik: FormikProps<TopicArticleFormType>) => {
     // eslint doesn't allow this to be inlined when using hooks (in usePreventWindowUnload)
@@ -104,9 +92,10 @@ const TopicArticleForm = ({
       : undefined;
 
     return (
-      <Form {...formClasses()}>
+      <StyledForm>
         <HeaderWithLanguage
           taxonomy={articleTaxonomy}
+          article={article}
           values={values}
           content={{
             ...article,
@@ -114,33 +103,31 @@ const TopicArticleForm = ({
             language: articleLanguage,
             supportedLanguages: values.supportedLanguages,
           }}
-          getEntity={getArticle}
           editUrl={editUrl}
-          formIsDirty={formIsDirty}
           isSubmitting={isSubmitting}
-          translateToNN={translateToNN}
-          setTranslateOnContinue={setTranslateOnContinue}
           type="topic-article"
           expirationDate={getExpirationDate(article)}
         />
-        {translating ? (
-          <Spinner withWrapper />
-        ) : (
-          <TopicArticleAccordionPanels
-            taxonomy={articleTaxonomy}
-            articleLanguage={articleLanguage}
-            updateNotes={updateArticle}
-            article={article}
-            getArticle={getArticle}
-            handleSubmit={async () => handleSubmit(values, formik)}
-          />
-        )}
+        <TaxonomyVersionProvider>
+          <FlexWrapper>
+            <MainContent>
+              <TopicArticleAccordionPanels
+                taxonomy={articleTaxonomy}
+                articleLanguage={articleLanguage}
+                updateNotes={updateArticle}
+                article={article}
+                handleSubmit={async () => handleSubmit(values, formik)}
+              />
+            </MainContent>
+            <CommentSection savedStatus={article?.status} />
+          </FlexWrapper>
+        </TaxonomyVersionProvider>
         <EditorFooter
           showSimpleFooter={!article?.id}
           formIsDirty={formIsDirty}
           savedToServer={savedToServer}
           getEntity={getArticle}
-          onSaveClick={saveAsNewVersion => {
+          onSaveClick={(saveAsNewVersion) => {
             handleSubmit(values, formik, saveAsNewVersion ?? false);
           }}
           entityStatus={article?.status}
@@ -150,35 +137,36 @@ const TopicArticleForm = ({
           isNewlyCreated={isNewlyCreated}
           isConcept={false}
           hideSecondaryButton={false}
+          responsibleId={article?.responsible?.responsibleId}
+          prioritized={article?.prioritized}
         />
         <AlertModalWrapper
           isSubmitting={isSubmitting}
           formIsDirty={formIsDirty}
-          onContinue={translateOnContinue ? translateToNN : () => {}}
           severity="danger"
           text={t('alertModal.notSaved')}
         />
-      </Form>
+      </StyledForm>
     );
   };
 
   const initialWarnings = getWarnings(initialValues, topicArticleRules, t, article);
-  const initialErrors = useMemo(() => validateFormik(initialValues, topicArticleRules, t), [
-    initialValues,
-    t,
-  ]);
+  const initialErrors = useMemo(
+    () => validateFormik(initialValues, topicArticleRules, t),
+    [initialValues, t],
+  );
 
   return (
     <Formik
-      enableReinitialize={translating}
       validateOnMount
       initialValues={initialValues}
       initialErrors={initialErrors}
       validateOnBlur={false}
       innerRef={formikRef}
       onSubmit={handleSubmit}
-      validate={values => validateFormik(values, topicArticleRules, t)}
-      initialStatus={{ warnings: initialWarnings }}>
+      validate={(values) => validateFormik(values, topicArticleRules, t)}
+      initialStatus={{ warnings: initialWarnings }}
+    >
       {FormikChild}
     </Formik>
   );

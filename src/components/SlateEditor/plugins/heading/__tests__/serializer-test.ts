@@ -8,8 +8,8 @@
 
 import { Descendant } from 'slate';
 import {
-  learningResourceContentToEditorValue,
-  learningResourceContentToHTML,
+  blockContentToEditorValue,
+  blockContentToHTML,
 } from '../../../../../util/articleContentConverter';
 import { TYPE_SECTION } from '../../section/types';
 import { TYPE_HEADING } from '../types';
@@ -33,7 +33,7 @@ const html =
 
 describe('heading serializing tests', () => {
   test('serializing', () => {
-    const res = learningResourceContentToHTML(editor);
+    const res = blockContentToHTML(editor);
     expect(res).toMatch(html);
   });
 
@@ -45,13 +45,13 @@ describe('heading serializing tests', () => {
           { type: TYPE_HEADING, level: 2, children: [{ text: 'title1' }] },
           { type: TYPE_HEADING, level: 2, children: [{ text: 'title2' }] },
           { type: TYPE_HEADING, level: 3, children: [{ text: 'title3' }] },
-          { type: TYPE_HEADING, level: 3, children: [{ text: 'title4' }] },
-          { type: TYPE_HEADING, level: 3, children: [{ text: 'title5' }] },
-          { type: TYPE_HEADING, level: 3, children: [{ text: 'title6' }] },
+          { type: TYPE_HEADING, level: 4, children: [{ text: 'title4' }] },
+          { type: TYPE_HEADING, level: 4, children: [{ text: 'title5' }] },
+          { type: TYPE_HEADING, level: 4, children: [{ text: 'title6' }] },
         ],
       },
     ];
-    const res = learningResourceContentToEditorValue(html);
+    const res = blockContentToEditorValue(html);
     expect(res).toEqual(expected);
   });
 });

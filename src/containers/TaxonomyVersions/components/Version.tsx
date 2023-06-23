@@ -6,9 +6,8 @@
  *
  */
 
-import { useQueryClient } from 'react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
-import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import { colors, spacing } from '@ndla/core';
@@ -17,8 +16,8 @@ import SafeLink from '@ndla/safelink';
 import { DeleteForever, Keyhole } from '@ndla/icons/editor';
 import { Pencil } from '@ndla/icons/action';
 import { Launch } from '@ndla/icons/common';
-import { VersionStatusType, VersionType } from '../../../modules/taxonomy/versions/versionApiTypes';
-import IconButton from '../../../components/IconButton';
+import { IconButtonV2 } from '@ndla/button';
+import { Version as TaxVersion, VersionType } from '@ndla/types-taxonomy';
 import VersionForm from './VersionForm';
 import { useDeleteVersionMutation } from '../../../modules/taxonomy/versions/versionMutations';
 import AlertModal from '../../../components/AlertModal';
@@ -27,7 +26,7 @@ import { versionsQueryKey } from '../../../modules/taxonomy/versions/versionQuer
 import { StyledErrorMessage } from './StyledErrorMessage';
 
 interface Props {
-  version: VersionType;
+  version: TaxVersion;
 }
 
 interface VersionWrapperProps {
@@ -37,7 +36,7 @@ interface VersionWrapperProps {
 const VersionWrapper = styled.div<VersionWrapperProps>`
   display: flex;
   flex-direction: column;
-  border: 1.5px solid ${props => props.color};
+  border: 1.5px solid ${(props) => props.color};
   border-radius: 10px;
   padding: ${spacing.small};
 `;
@@ -57,7 +56,7 @@ interface StatusWrapperProps {
   color: string;
 }
 
-const statusColorMap: Record<VersionStatusType, string> = {
+const statusColorMap: Record<VersionType, string> = {
   PUBLISHED: colors.support.green,
   BETA: colors.favoriteColor,
   ARCHIVED: colors.brand.grey,
@@ -66,7 +65,7 @@ const statusColorMap: Record<VersionStatusType, string> = {
 const StatusWrapper = styled.div<StatusWrapperProps>`
   border: 1px black;
   border-radius: 100px;
-  background-color: ${props => props.color};
+  background-color: ${(props) => props.color};
   padding: 2px ${spacing.normal};
   margin-right: ${spacing.small};
 `;
@@ -79,13 +78,14 @@ const ContentBlock = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+  gap: ${spacing.xsmall};
 `;
 
 const StyledLink = styled(SafeLink)`
   box-shadow: inset 0 0;
 `;
 
-const linkIconCss = css`
+const StyledLaunch = styled(Launch)`
   height: 24px;
   width: 100%;
   color: ${colors.brand.tertiary};
@@ -95,7 +95,7 @@ const linkIconCss = css`
   }
 `;
 
-const iconCss = css`
+const StyledKeyhole = styled(Keyhole)`
   margin-left: ${spacing.xxsmall};
   height: 30px;
   width: 100%;
@@ -114,9 +114,9 @@ const Version = ({ version }: Props) => {
     onMutate: async ({ id }) => {
       setError(undefined);
       await qc.cancelQueries(key);
-      const existingVersions = qc.getQueryData<VersionType[]>(key) ?? [];
-      const withoutDeleted = existingVersions.filter(version => version.id !== id);
-      qc.setQueryData<VersionType[]>(key, withoutDeleted);
+      const existingVersions = qc.getQueryData<TaxVersion[]>(key) ?? [];
+      const withoutDeleted = existingVersions.filter((version) => version.id !== id);
+      qc.setQueryData<TaxVersion[]>(key, withoutDeleted);
     },
     onSuccess: () => qc.invalidateQueries(key),
     onError: () => setError(t('taxonomyVersions.deleteError')),
@@ -143,7 +143,9 @@ const Version = ({ version }: Props) => {
             <VersionTitle>{version.name}</VersionTitle>
             {version.locked && (
               <Tooltip tooltip={t('taxonomyVersions.locked')}>
-                <Keyhole css={iconCss} />
+                <div>
+                  <StyledKeyhole />
+                </div>
               </Tooltip>
             )}
           </ContentBlock>
@@ -153,24 +155,35 @@ const Version = ({ version }: Props) => {
             </StatusWrapper>
             <Tooltip tooltip={t('taxonomyVersions.previewVersion')}>
               <StyledLink target={'_blank'} to={ndlaUrl}>
-                <Launch css={linkIconCss} />
+                <StyledLaunch />
               </StyledLink>
             </Tooltip>
             <Tooltip tooltip={t('taxonomyVersions.editVersionTooltip')}>
-              <IconButton onClick={() => setIsEditing(prev => !prev)}>
+              <IconButtonV2
+                variant="ghost"
+                colorTheme="lighter"
+                aria-label={t('taxonomyVersions.editVersionTooltip')}
+                onClick={() => setIsEditing((prev) => !prev)}
+              >
                 <Pencil />
-              </IconButton>
+              </IconButtonV2>
             </Tooltip>
             <Tooltip tooltip={deleteTooltip}>
-              <IconButton
-                isDisabled={deleteDisabled}
+              <IconButtonV2
+                variant="ghost"
+                colorTheme="danger"
+                aria-label={deleteTooltip}
+                disabled={deleteDisabled}
                 onClick={() => (deleteDisabled ? undefined : setShowAlertModal(true))}
-                color={deleteDisabled ? undefined : 'red'}>
+                color={deleteDisabled ? undefined : 'red'}
+              >
                 <DeleteForever />
-              </IconButton>
+              </IconButtonV2>
             </Tooltip>
           </ContentBlock>
           <AlertModal
+            title={t('taxonomyVersions.delete')}
+            label={t('taxonomyVersions.delete')}
             show={showAlertModal}
             text={t(
               `taxonomyVersions.deleteWarning${

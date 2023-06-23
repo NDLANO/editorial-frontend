@@ -36,7 +36,7 @@ export const getToken = (audience = 'ndla_system') =>
       client_secret: `${editorialFrontendClientSecret}`,
       audience,
     }),
-  }).then(res => res.json());
+  }).then((res) => res.json());
 
 export const getBrightcoveToken = () => {
   const bightCoveUrl = 'https://oauth.brightcove.com/v3/access_token';
@@ -50,15 +50,15 @@ export const getBrightcoveToken = () => {
       Authorization: `Basic ${b64EncodeUnicode(clientIdSecret)}`,
     },
     body: 'grant_type=client_credentials',
-  }).then(res => res.json());
+  }).then((res) => res.json());
 };
 
 type ManagementToken = { access_token: string };
 
-export const getUsers = (managementToken: ManagementToken, userIds: string) => {
+export const fetchAuth0UsersById = (managementToken: ManagementToken, userIds: string) => {
   const query = userIds
     .split(',')
-    .map(userId => `"${userId}"`)
+    .map((userId) => `"${userId}"`)
     .join(' OR ');
   return fetch(
     `https://${getUniversalConfig().auth0Domain}/api/v2/users?q=app_metadata.ndla_id:(${query})`,
@@ -68,26 +68,39 @@ export const getUsers = (managementToken: ManagementToken, userIds: string) => {
         Authorization: `Bearer ${managementToken.access_token}`,
       },
     },
-  ).then(res => res.json());
+  ).then((res) => res.json());
 };
 
-async function fetchEditors(token: string, query: string, page: number) {
+async function fetchAuth0UsersByQuery(token: string, query: string, page: number) {
   return fetch(`https://${getUniversalConfig().auth0Domain}/api/v2/users?${query}&page=${page}`, {
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
     },
-  }).then(res => res.json());
+  }).then((res) => res.json());
 }
 
 export const getEditors = async (managementToken: ManagementToken, permission: string) => {
-  const query = `include_totals=true&q=app_metadata.permissions:"${permission}"`;
+  const query = `include_totals=true&q=app_metadata.roles:"${permission}"`;
 
-  const firstPage = await fetchEditors(managementToken.access_token, query, 0);
+  const firstPage = await fetchAuth0UsersByQuery(managementToken.access_token, query, 0);
   const numberOfPages = Math.ceil(firstPage.total / firstPage.length);
   const requests = [firstPage];
   for (let i = 1; i < numberOfPages; i += 1) {
-    requests.push(fetchEditors(managementToken.access_token, query, i));
+    requests.push(fetchAuth0UsersByQuery(managementToken.access_token, query, i));
+  }
+  const results = await Promise.all(requests);
+  return results.reduce((acc, res) => [...acc, ...res.users], []);
+};
+
+export const getResponsibles = async (managementToken: ManagementToken, permission: string) => {
+  const query = `include_totals=true&q=app_metadata.permissions:"${permission}"`;
+
+  const firstPage = await fetchAuth0UsersByQuery(managementToken.access_token, query, 0);
+  const numberOfPages = Math.ceil(firstPage.total / firstPage.length);
+  const requests = [firstPage];
+  for (let i = 1; i < numberOfPages; i += 1) {
+    requests.push(fetchAuth0UsersByQuery(managementToken.access_token, query, i));
   }
   const results = await Promise.all(requests);
   return results.reduce((acc, res) => [...acc, ...res.users], []);

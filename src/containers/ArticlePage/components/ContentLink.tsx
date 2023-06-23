@@ -58,15 +58,21 @@ const ContentLink = ({ onAddLink, onClose, initialTitle = '', initialUrl = '' }:
   return (
     <TaxonomyLightbox
       title={t('form.content.relatedArticle.searchExternal')}
-      onSelect={handleSubmit}
-      onClose={onClose}>
+      onClose={onClose}
+      actions={[
+        {
+          text: t('form.save'),
+          onClick: handleSubmit,
+          'data-testid': 'taxonomyLightboxButton',
+        },
+      ]}
+    >
       <StyledContent>
         <Input
           warningText={
             showError && isEmpty(title) ? t('form.relatedContent.link.missingTitle') : undefined
           }
           data-testid="addExternalTitleInput"
-          container="div"
           type="text"
           placeholder={t('form.relatedContent.link.titlePlaceholder')}
           value={title}
@@ -77,7 +83,6 @@ const ContentLink = ({ onAddLink, onClose, initialTitle = '', initialUrl = '' }:
             showError && !isUrl(url) ? t('form.relatedContent.link.missingUrl') : undefined
           }
           data-testid="addExternalUrlInput"
-          container="div"
           type="text"
           placeholder={t('form.relatedContent.link.urlPlaceholder')}
           value={url}

@@ -7,8 +7,8 @@
  */
 
 import { constants } from '@ndla/ui';
-import { HeroContentType } from '@ndla/ui/lib/Hero';
 import { TFunction } from 'react-i18next';
+import { ResourceType } from '@ndla/types-taxonomy';
 import {
   toEditArticle,
   toEditAudio,
@@ -25,12 +25,11 @@ import {
   RESOURCE_TYPE_EXTERNAL_LEARNING_RESOURCES,
   RESOURCE_TYPE_SOURCE_MATERIAL,
 } from '../constants';
-import { ResourceType } from '../modules/taxonomy/taxonomyApiInterfaces';
 
 const { contentTypes } = constants;
 
 interface ContentTypeType {
-  contentType: HeroContentType;
+  contentType: string;
 }
 
 const mapping: Record<string, ContentTypeType> = {
@@ -65,10 +64,14 @@ export const getResourceLanguages = (t: TFunction) => [
   { id: 'se', name: t('language.se') },
   { id: 'ukr', name: t('language.ukr') },
   { id: 'und', name: t('language.und') },
+  { id: 'de', name: t('language.de') },
+  { id: 'es', name: t('language.es') },
 ];
 
-export const getContentTypeFromResourceTypes = (resourceTypes: ResourceType[]): ContentTypeType => {
-  const resourceType = resourceTypes.find(type => !!mapping[type.id]);
+export const getContentTypeFromResourceTypes = (
+  resourceTypes: Pick<ResourceType, 'id'>[],
+): ContentTypeType => {
+  const resourceType = resourceTypes.find((type) => !!mapping[type.id]);
   if (resourceType) {
     return mapping[resourceType.id];
   }
@@ -99,7 +102,7 @@ export const resourceToLinkProps = (
     };
   }
 
-  const foundSupportedLanguage = content.supportedLanguages?.find(l => l === locale);
+  const foundSupportedLanguage = content.supportedLanguages?.find((l) => l === locale);
   const languageOrDefault = foundSupportedLanguage ?? content.supportedLanguages?.[0] ?? 'nb';
 
   if (isConceptType(contentType)) {

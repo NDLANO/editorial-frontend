@@ -7,25 +7,16 @@
  */
 
 import { ReactElement } from 'react';
-import { get } from 'lodash/fp';
-import PropTypes from 'prop-types';
+import get from 'lodash/get';
 import { useTranslation } from 'react-i18next';
-import {
-  Field,
-  connect,
-  FormikContextType,
-  FieldAttributes,
-  FormikValues,
-  FieldProps,
-} from 'formik';
+import { Field, FieldAttributes, FormikValues, FieldProps, useFormikContext } from 'formik';
 import { Node } from 'slate';
 import styled from '@emotion/styled';
-import { FormikShape } from '../../shapes';
 import FormikFieldLabel from './FormikFieldLabel';
 import FormikFieldDescription from './FormikFieldDescription';
-import { classes } from './';
 import FormikFieldHelp from './FormikFieldHelp';
 import FormikRemainingCharacters from './FormikRemainingCharacters';
+import { StyledField } from '../Field';
 
 const StyledErrorPreLine = styled.span`
   white-space: pre-line;
@@ -55,16 +46,16 @@ const FormikField = ({
   label,
   name,
   maxLength,
-  showMaxLength,
+  showMaxLength = false,
   noBorder = false,
   title = false,
   right = false,
   description,
   obligatory,
   showError = true,
-  formik: { values, handleBlur, errors, status },
   ...rest
-}: Props & { formik: FormikContextType<FormikValues> }) => {
+}: Props) => {
+  const { values, handleBlur, errors, status } = useFormikContext<FormikValues>();
   const { t } = useTranslation();
   const isSlateValue = Node.isNodeList(values[name]);
   const fieldActions: FieldAttributes<any> = !isSlateValue
@@ -75,7 +66,7 @@ const FormikField = ({
       }
     : {};
   return (
-    <div {...classes('', { 'no-border': noBorder, right, title }, className)}>
+    <StyledField noBorder={noBorder} right={right} isTitle={title} className={className}>
       <FormikFieldLabel label={label} name={name} noBorder={noBorder} />
       <FormikFieldDescription description={description} obligatory={obligatory} />
       <Field name={name} maxLength={maxLength} {...rest} {...fieldActions}>
@@ -100,39 +91,18 @@ const FormikField = ({
           value={isSlateValue ? Node.string(values[name][0]) : values[name]}
         />
       )}
-      {showError && get(name, errors) && (
-        <FormikFieldHelp error={!!get(name, errors)}>
-          <StyledErrorPreLine>{get(name, errors)}</StyledErrorPreLine>
+      {showError && get(errors, name) && (
+        <FormikFieldHelp error={!!get(errors, name)}>
+          <StyledErrorPreLine>{get(errors, name) as string}</StyledErrorPreLine>
         </FormikFieldHelp>
       )}
-      {status?.hasOwnProperty('warnings') && (
-        <FormikFieldHelp warning={!!get(name, status.warnings)}>
-          <StyledErrorPreLine>{get(name, status.warnings)}</StyledErrorPreLine>
+      {status && status['warnings'] && (
+        <FormikFieldHelp warning={!!get(status.warnings, name)}>
+          <StyledErrorPreLine>{get(status.warnings, name)}</StyledErrorPreLine>
         </FormikFieldHelp>
       )}
-    </div>
+    </StyledField>
   );
 };
 
-FormikField.propTypes = {
-  noBorder: PropTypes.bool,
-  right: PropTypes.bool,
-  title: PropTypes.bool,
-  name: PropTypes.string.isRequired,
-  label: PropTypes.string,
-  showError: PropTypes.bool,
-  obligatory: PropTypes.bool,
-  description: PropTypes.string,
-  formik: FormikShape,
-  maxLength: PropTypes.number,
-  showMaxLength: PropTypes.bool,
-  children: PropTypes.func,
-};
-
-FormikField.defaultProps = {
-  noBorder: false,
-  showError: true,
-  showMaxLength: false,
-};
-
-export default connect<Props, any>(FormikField);
+export default FormikField;

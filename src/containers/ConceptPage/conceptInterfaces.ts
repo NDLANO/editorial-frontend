@@ -7,8 +7,8 @@
  */
 
 import { Descendant } from 'slate';
-import { IStatus, IAuthor } from '@ndla/types-concept-api';
-import { IArticle } from '@ndla/types-draft-api';
+import { IStatus, IAuthor } from '@ndla/types-backend/concept-api';
+import { IArticle } from '@ndla/types-backend/draft-api';
 import { SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
 
 export interface ConceptFormValues {
@@ -39,4 +39,5 @@ export interface ConceptFormValues {
   supportedLanguages: string[];
   updated?: string;
   origin?: string;
+  responsibleId?: string;
 }

@@ -12,9 +12,10 @@ import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import { Eye } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
+import { IconButtonV2 } from '@ndla/button';
+import { colors } from '@ndla/core';
 
 import { IngressField, TitleField } from '../../FormikForm';
-import ToggleButton from '../../../components/ToggleButton';
 import HowToHelper from '../../../components/HowTo/HowToHelper';
 import { StyledHelpMessage } from '../../../components/FormikField/FormikFieldHelp';
 import VisualElementField from '../../FormikForm/components/VisualElementField';
@@ -31,8 +32,13 @@ const ByLine = styled.div`
 
 const IconContainer = styled.div`
   display: flex;
+  align-items: center;
   justify-content: space-between;
   width: 64px;
+`;
+
+const PreviewButton = styled(IconButtonV2)<{ active: boolean }>`
+  color: ${(p) => (p.active ? colors.brand.primary : colors.brand.light)};
 `;
 
 const ConceptContent = () => {
@@ -67,9 +73,15 @@ const ConceptContent = () => {
         />
         <IconContainer>
           <Tooltip tooltip={t('form.markdown.button')}>
-            <ToggleButton active={preview} onClick={() => setPreview(!preview)}>
+            <PreviewButton
+              aria-label={t('form.markdown.button')}
+              variant="stripped"
+              colorTheme="light"
+              active={preview}
+              onClick={() => setPreview(!preview)}
+            >
               <Eye />
-            </ToggleButton>
+            </PreviewButton>
           </Tooltip>
           <HowToHelper pageId="Markdown" tooltip={t('form.markdown.helpLabel')} />
         </IconContainer>

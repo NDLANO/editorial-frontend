@@ -20,16 +20,25 @@ import { OK, INTERNAL_SERVER_ERROR, NOT_ACCEPTABLE, FORBIDDEN } from '../httpCod
 import getConditionalClassnames from './getConditionalClassnames';
 import { getLocaleObject } from '../i18n';
 import Html from './Html';
-import { getToken, getBrightcoveToken, getUsers, getEditors, getZendeskToken } from './auth';
+import {
+  getToken,
+  getBrightcoveToken,
+  fetchAuth0UsersById,
+  getEditors,
+  getZendeskToken,
+  getResponsibles,
+} from './auth';
 import contentSecurityPolicy from './contentSecurityPolicy';
 import errorLogger from '../util/logger';
 import config from '../config';
 import { DRAFT_PUBLISH_SCOPE, DRAFT_WRITE_SCOPE } from '../constants';
+import { NdlaError } from '../interfaces';
+import { translateDocument } from './translate';
 
 type NdlaUser = (Express.User | undefined) & {
   'https://ndla.no/user_email'?: string;
   'https://ndla.no/user_name'?: string;
-  scope?: string[];
+  permissions?: string[];
 };
 
 const app = express();
@@ -46,6 +55,7 @@ app.get('*', (req, res, next) => {
 });
 
 app.use(compression());
+app.use(express.json({ limit: '1mb' }));
 app.use(
   express.static(process.env.RAZZLE_PUBLIC_DIR as string, {
     maxAge: 1000 * 60 * 60 * 24 * 365, // One year
@@ -54,7 +64,7 @@ app.use(
 
 app.use(
   bodyParser.json({
-    type: req => {
+    type: (req) => {
       const contentType = req.headers['content-type'];
       if (typeof contentType === 'string') return allowedBodyContentTypes.includes(contentType);
       else return false;
@@ -104,10 +114,10 @@ app.post('/format-html', (req, res) => {
 
 app.get('/get_brightcove_token', (req, res) => {
   getBrightcoveToken()
-    .then(token => {
+    .then((token) => {
       res.send(token);
     })
-    .catch(err => res.status(INTERNAL_SERVER_ERROR).send(err.message));
+    .catch((err) => res.status(INTERNAL_SERVER_ERROR).send(err.message));
 });
 
 app.get(
@@ -151,18 +161,19 @@ app.get(
 
     const hasWriteAccess =
       user &&
-      user.scope &&
-      (user.scope.includes(DRAFT_WRITE_SCOPE) || user.scope.includes(DRAFT_PUBLISH_SCOPE));
+      user.permissions &&
+      (user.permissions.includes(DRAFT_WRITE_SCOPE) ||
+        user.permissions.includes(DRAFT_PUBLISH_SCOPE));
 
     if (!hasWriteAccess) {
       res.status(FORBIDDEN).json({ status: FORBIDDEN, text: 'No access allowed' });
     } else {
       try {
         const managementToken = await getToken(`https://${config.auth0Domain}/api/v2/`);
-        const users = await getUsers(managementToken, userIds);
+        const users = await fetchAuth0UsersById(managementToken, userIds as string);
         res.status(OK).json(users);
       } catch (err) {
-        res.status(INTERNAL_SERVER_ERROR).send(err.message);
+        res.status(INTERNAL_SERVER_ERROR).send((err as NdlaError).message);
       }
     }
   },
@@ -186,10 +197,36 @@ app.get(
 
     try {
       const managementToken = await getToken(`https://${config.auth0Domain}/api/v2/`);
-      const editors = await getEditors(managementToken, permission);
+      const editors = await getEditors(managementToken, permission as string);
       res.status(OK).json(editors);
     } catch (err) {
-      res.status(INTERNAL_SERVER_ERROR).send(err.message);
+      res.status(INTERNAL_SERVER_ERROR).send((err as NdlaError).message);
+    }
+  },
+);
+
+app.get(
+  '/get_responsibles',
+  jwt({
+    secret: jwksRsa.expressJwtSecret({
+      cache: true,
+      jwksUri: `https://${config.auth0Domain}/.well-known/jwks.json`,
+    }),
+    audience: 'ndla_system',
+    issuer: `https://${config.auth0Domain}/`,
+    algorithms: ['RS256'],
+  }),
+  async (req, res) => {
+    const {
+      query: { permission },
+    } = req;
+
+    try {
+      const managementToken = await getToken(`https://${config.auth0Domain}/api/v2/`);
+      const editors = await getResponsibles(managementToken, permission as string);
+      res.status(OK).json(editors);
+    } catch (err) {
+      res.status(INTERNAL_SERVER_ERROR).send((err as NdlaError).message);
     }
   },
 );
@@ -203,6 +240,17 @@ app.post('/csp-report', (req, res) => {
     res.status(OK).json({ status: OK, text: 'CSP Error recieved' });
   } else {
     res.status(NOT_ACCEPTABLE).json({ status: NOT_ACCEPTABLE, text: 'CSP Error not recieved' });
+  }
+});
+
+app.use(express.json());
+app.post('/translate', async (req, res) => {
+  const { body } = req;
+  if (body && body['document']) {
+    const translated = await translateDocument(body['document']);
+    res.status(OK).json(translated);
+  } else {
+    res.status(OK).json({ status: OK, text: 'No body' });
   }
 });
 

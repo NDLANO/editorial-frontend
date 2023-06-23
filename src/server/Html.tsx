@@ -7,7 +7,6 @@
  */
 
 import { ReactElement } from 'react';
-import PropTypes from 'prop-types';
 import { renderToString } from 'react-dom/server';
 import serialize from 'serialize-javascript';
 import config from '../config';
@@ -36,8 +35,8 @@ const Html = (props: Props) => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
         <GoogleTagMangerScript />
-        {assets.client && assets.client.css && (
-          <link rel="stylesheet" type="text/css" href={assets.client.css} />
+        {assets['client.css'] && (
+          <link rel="stylesheet" type="text/css" href={assets['client.css']} />
         )}
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
@@ -53,6 +52,7 @@ const Html = (props: Props) => {
           dangerouslySetInnerHTML={{
             __html: `
             window.dataLayer = window.dataLayer || [];
+            window._mtm = window._mtm || [];
             window.originalLocation = { originalLocation: document.location.protocol + '//' + document.location.hostname + document.location.pathname + document.location.search };
             window.dataLayer.push(window.originalLocation);`,
           }}
@@ -73,12 +73,7 @@ const Html = (props: Props) => {
             __html: `window.assets = ${serialize(assets)}`,
           }}
         />
-        <script
-          type="text/javascript"
-          src={assets.client.js}
-          defer
-          crossOrigin={(process.env.NODE_ENV !== 'production').toString()}
-        />
+        <script type="text/javascript" src={assets['client.js']} defer crossOrigin="anonymous" />
         <script
           type="text/x-mathjax-config"
           defer
@@ -111,13 +106,6 @@ const Html = (props: Props) => {
       </body>
     </html>
   );
-};
-
-Html.propTypes = {
-  lang: PropTypes.string.isRequired,
-  component: PropTypes.node,
-  state: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
-  className: PropTypes.string.isRequired,
 };
 
 export default Html;

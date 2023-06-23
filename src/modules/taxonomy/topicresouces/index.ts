@@ -78,49 +78,42 @@ async function createDeleteUpdateTopicResources({
   originalTopics,
   taxonomyVersion,
 }: CreateDeleteUpdateTopicResourceParams): Promise<void> {
-  try {
-    const [
-      createItems,
-      deleteItems,
-      updateItems,
-    ]: ParentTopicWithRelevanceAndConnections[][] = sortIntoCreateDeleteUpdate({
+  const [createItems, deleteItems, updateItems]: ParentTopicWithRelevanceAndConnections[][] =
+    sortIntoCreateDeleteUpdate({
       changedItems: topics,
       originalItems: originalTopics,
-      updateProperties: ['primary', 'relevanceId'],
+      updateProperties: ['isPrimary', 'relevanceId'],
     });
 
-    await Promise.all(
-      createItems.map(item =>
-        createTopicResource({
-          body: {
-            topicid: item.id,
-            primary: item.primary,
-            relevanceId: item.relevanceId,
-            resourceId, // Not consistent!
-          },
-          taxonomyVersion,
-        }),
-      ),
-    );
-    await Promise.all(
-      deleteItems.map(item => deleteTopicResource({ id: item.connectionId, taxonomyVersion })),
-    );
-    updateItems.forEach(item => {
-      // only update if changed to primary, previous primary is automatically unset
-      const update = {
-        ...(item.primary && { primary: item.primary }),
-        ...((originalTopics.find(topic => topic.id === item.id)?.relevanceId !==
-          item.relevanceId && {
+  await Promise.all(
+    createItems.map((item) =>
+      createTopicResource({
+        body: {
+          topicid: item.id,
+          primary: item.isPrimary,
           relevanceId: item.relevanceId,
-        }) ??
-          []),
-      };
-      if (Object.keys(update).length)
-        updateTopicResource({ id: item.connectionId, body: update, taxonomyVersion });
-    });
-  } catch (e) {
-    throw new Error(e);
-  }
+          resourceId, // Not consistent!
+        },
+        taxonomyVersion,
+      }),
+    ),
+  );
+  await Promise.all(
+    deleteItems.map((item) => deleteTopicResource({ id: item.connectionId, taxonomyVersion })),
+  );
+  updateItems.forEach((item) => {
+    // only update if changed to primary, previous primary is automatically unset
+    const update = {
+      ...(item.isPrimary && { primary: item.isPrimary }),
+      ...((originalTopics.find((topic) => topic.id === item.id)?.relevanceId !==
+        item.relevanceId && {
+        relevanceId: item.relevanceId,
+      }) ??
+        []),
+    };
+    if (Object.keys(update).length)
+      updateTopicResource({ id: item.connectionId, body: update, taxonomyVersion });
+  });
 }
 
 export {

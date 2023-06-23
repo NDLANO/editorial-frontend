@@ -9,11 +9,11 @@ registerLanguage({
   extensions: ['.html'],
   aliases: ['HTML', 'html'],
   mimetypes: ['text/html'],
-  loader: async function() {
+  loader: async function () {
     const rules = await fetchAllRules();
 
     const VALID_TAGS = [
-      'embed',
+      'ndlaembed',
       ...rules.htmlRules.tags,
       ...Object.keys(rules.htmlRules.attributes),
       ...Object.keys(rules.mathmlRules.attributes),

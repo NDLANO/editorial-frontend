@@ -9,10 +9,12 @@
 import { RenderElementProps } from 'slate-react';
 import { jsx as slatejsx } from 'slate-hyperscript';
 import { Descendant, Editor, Element, Text, Node, Transforms } from 'slate';
+import { ContentLinkEmbedData } from '@ndla/types-embed';
 import { SlateSerializer } from '../../interfaces';
 import Link from './Link';
-import { reduceElementDataAttributes } from '../../../../util/embedTagHelpers';
+import { reduceElementDataAttributesV2 } from '../../../../util/embedTagHelpers';
 import { TYPE_CONTENT_LINK, TYPE_LINK } from './types';
+import { TYPE_NDLA_EMBED } from '../embed/types';
 
 export interface LinkElement {
   type: 'link';
@@ -25,9 +27,7 @@ export interface LinkElement {
 
 export interface ContentLinkElement {
   type: 'content-link';
-  'content-type': string;
-  'content-id': string;
-  'open-in': string;
+  data: ContentLinkEmbedData;
   children: Descendant[];
 }
 
@@ -48,26 +48,17 @@ export const linkSerializer: SlateSerializer = {
         children,
       );
     }
-    if (tag === 'embed') {
+    if (tag === TYPE_NDLA_EMBED) {
       const embed = el as HTMLEmbedElement;
-      const embedAttributes = reduceElementDataAttributes(embed);
+      const embedAttributes = reduceElementDataAttributesV2(Array.from(embed.attributes));
       if (embedAttributes.resource !== 'content-link') return;
       return slatejsx(
         'element',
         {
           type: TYPE_CONTENT_LINK,
-          'content-type': embedAttributes['content-type'],
-          'open-in': embedAttributes['open-in'],
-          'content-id': embedAttributes['content-id'],
+          data: embedAttributes,
         },
-        [
-          {
-            text:
-              embedAttributes['link-text'] === ''
-                ? 'Ukjent link tekst'
-                : embedAttributes['link-text'],
-          },
-        ],
+        children,
       );
     }
     return;
@@ -83,13 +74,14 @@ export const linkSerializer: SlateSerializer = {
     }
     if (node.type === TYPE_CONTENT_LINK) {
       return (
-        <embed
-          data-content-id={node['content-id']}
-          data-link-text={Node.string(node)}
-          data-open-in={node['open-in']}
+        <ndlaembed
+          data-content-id={node.data.contentId}
+          data-open-in={node.data.openIn}
           data-resource="content-link"
-          data-content-type={node['content-type']}
-        />
+          data-content-type={node.data.contentType}
+        >
+          {children}
+        </ndlaembed>
       );
     }
   },
@@ -124,7 +116,7 @@ export const linkPlugin = (language: string) => (editor: Editor) => {
     return undefined;
   };
 
-  editor.normalizeNode = entry => {
+  editor.normalizeNode = (entry) => {
     const [node, path] = entry;
     if (Element.isElement(node)) {
       if (node.type === 'content-link' || node.type === 'link') {
@@ -135,20 +127,6 @@ export const linkPlugin = (language: string) => (editor: Editor) => {
         }
         if (Node.string(node) === '') {
           return Transforms.removeNodes(editor, { at: path });
-        }
-      }
-      if (node.type === 'content-link') {
-        for (const child of node.children) {
-          if (
-            Text.isText(child) &&
-            (child.bold || child.code || child.italic || child.sub || child.sup || child.underlined)
-          ) {
-            Transforms.unsetNodes(editor, ['bold', 'code', 'italic', 'sub', 'sup', 'underlined'], {
-              at: path,
-              match: node => Text.isText(node),
-            });
-            return;
-          }
         }
       }
     }

@@ -7,16 +7,16 @@
  */
 
 import { useState } from 'react';
-import Button from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 import { spacing } from '@ndla/core';
 import ImageSearch from '@ndla/image-search';
 import Tabs from '@ndla/tabs';
 import styled from '@emotion/styled';
 import {
-  IImageMetaInformationV2,
+  IImageMetaInformationV3,
   IUpdateImageMetaInformation,
-  ISearchResult,
-} from '@ndla/types-image-api';
+  ISearchResultV3,
+} from '@ndla/types-backend/image-api';
 import { useTranslation } from 'react-i18next';
 import ImageForm from '../containers/ImageUploader/components/ImageForm';
 import { ImageSearchQuery } from '../modules/image/imageApiInterfaces';
@@ -29,13 +29,14 @@ const StyledTitleDiv = styled.div`
 `;
 
 interface Props {
-  onImageSelect: (image: IImageMetaInformationV2) => void;
+  onImageSelect: (image: IImageMetaInformationV3) => void;
   locale: string;
+  language?: string;
   closeModal: () => void;
   onError: (err: Error & Response) => void;
-  searchImages: (queryObject: ImageSearchQuery) => Promise<ISearchResult>;
-  fetchImage: (id: number) => Promise<IImageMetaInformationV2>;
-  image?: IImageMetaInformationV2;
+  searchImages: (queryObject: ImageSearchQuery) => Promise<ISearchResultV3>;
+  fetchImage: (id: number) => Promise<IImageMetaInformationV3>;
+  image?: IImageMetaInformationV3;
   updateImage: (
     imageMetadata: IUpdateImageMetaInformation,
     file: string | Blob,
@@ -43,7 +44,7 @@ interface Props {
   ) => void;
   inModal?: boolean;
   showCheckbox?: boolean;
-  checkboxAction?: (image: IImageMetaInformationV2) => void;
+  checkboxAction?: (image: IImageMetaInformationV3) => void;
 }
 
 const ImageSearchAndUploader = ({
@@ -52,6 +53,7 @@ const ImageSearchAndUploader = ({
   onImageSelect,
   closeModal,
   locale,
+  language,
   fetchImage,
   searchImages,
   onError,
@@ -60,20 +62,21 @@ const ImageSearchAndUploader = ({
   checkboxAction,
 }: Props) => {
   const { t } = useTranslation();
-  const [selectedTabIndex, setSelectedTabIndex] = useState(0);
+  const [selectedTab, setSelectedTab] = useState<string | undefined>(undefined);
   const { data: licenses } = useLicenses({ placeholderData: [] });
   const searchImagesWithParameters = (query?: string, page?: number) => {
-    return searchImages({ query, page, 'page-size': 16 });
+    return searchImages({ query, page, 'page-size': 16, language: language, fallback: true });
   };
   const imageLicenses = draftLicensesToImageLicenses(licenses ?? []);
 
   return (
     <Tabs
-      onSelect={setSelectedTabIndex}
-      selectedIndex={selectedTabIndex}
+      onValueChange={setSelectedTab}
+      value={selectedTab}
       tabs={[
         {
           title: t(`form.visualElement.image`),
+          id: 'image',
           content: (
             <ImageSearch
               fetchImage={fetchImage}
@@ -87,14 +90,13 @@ const ImageSearchAndUploader = ({
               noResults={
                 <>
                   <StyledTitleDiv>{t('imageSearch.noResultsText')}</StyledTitleDiv>
-                  <Button
-                    submit
-                    outline
-                    onClick={() => {
-                      setSelectedTabIndex(1);
-                    }}>
+                  <ButtonV2
+                    type="submit"
+                    variant="outline"
+                    onClick={() => setSelectedTab('imageUpload')}
+                  >
                     {t('imageSearch.noResultsButtonText')}
-                  </Button>
+                  </ButtonV2>
                 </>
               }
               onError={onError}
@@ -105,6 +107,7 @@ const ImageSearchAndUploader = ({
         },
         {
           title: t('form.visualElement.imageUpload'),
+          id: 'uploadImage',
           content: licenses ? (
             <ImageForm
               language={locale}

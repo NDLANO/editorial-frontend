@@ -20,8 +20,8 @@ export const formatNestedMessages = (
   prefix: string = '',
 ): FormattedMessages => {
   const messages = formattedMessages;
-  for (let key in phrases) {
-    if (phrases.hasOwnProperty(key)) {
+  for (const key in phrases) {
+    if (Object.prototype.hasOwnProperty.call(phrases, key)) {
       const keyWithPrefix = prefix ? `${prefix}.${key}` : key;
       const value: NestedPhrases | string = phrases[key];
       if (typeof value === 'string') {
@@ -63,11 +63,11 @@ export const appLocales: LocaleObject[] = [NB, NN, EN];
 export const preferdLocales: LocaleObject[] = [NB, NN, EN];
 
 export const getLocaleObject = (localeAbbreviation: string): LocaleObject => {
-  const locale = appLocales.find(appLocale => appLocale.abbreviation === localeAbbreviation);
+  const locale = appLocales.find((appLocale) => appLocale.abbreviation === localeAbbreviation);
 
   return locale || NB; // defaults to NB
 };
 
 export const isValidLocale = (localeAbbreviation: string): boolean => {
-  return appLocales.find(l => l.abbreviation === localeAbbreviation) !== undefined;
+  return appLocales.find((l) => l.abbreviation === localeAbbreviation) !== undefined;
 };

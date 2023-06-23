@@ -6,19 +6,15 @@
  *
  */
 
-import { MouseEvent } from 'react';
-import Button from '@ndla/button';
-import { Check } from '@ndla/icons/editor';
+import { css, SerializedStyles } from '@emotion/react';
 import styled from '@emotion/styled';
-import { css, SerializedStyles } from '@emotion/core';
-import { colors, spacing, fonts } from '@ndla/core';
+import { ButtonV2 } from '@ndla/button';
+import { colors, fonts, spacing } from '@ndla/core';
+import { Check } from '@ndla/icons/editor';
+import { ComponentProps } from 'react';
 import { useTranslation } from 'react-i18next';
 
-interface AppearanceMap {
-  [index: string]: SerializedStyles;
-}
-
-export const saveButtonAppearances: AppearanceMap = {
+export const saveButtonAppearances: Record<string, SerializedStyles> = {
   saved: css`
     &,
     &:hover,
@@ -46,27 +42,29 @@ const StyledSpan = styled('span')`
   justify-content: space-evenly;
 `;
 
-const checkStyle = css`
+const StyledCheck = styled(Check)`
   width: 1.45rem;
   height: 1.45rem;
 `;
 
-const largerButtonStyle = css`
-  height: ${spacing.large};
-  padding: 0 ${spacing.normal};
-  ${fonts.sizes(18, 1.25)};
+const shouldForwardProp = (p: string) => p !== 'color';
+
+const StyledSaveButton = styled(ButtonV2, { shouldForwardProp })`
+  &,
+  &:hover,
+  &:disabled {
+    color: white;
+    transition: all 0.5s ease;
+    background-color: ${(p) => p.color};
+    border-color: ${(p) => p.color};
+  }
 `;
 
-interface Props {
+interface Props extends ComponentProps<typeof ButtonV2> {
   isSaving?: boolean;
   showSaved?: boolean;
   defaultText?: string;
   formIsDirty?: boolean;
-  large?: boolean;
-  disabled?: boolean;
-  onClick: (evt: MouseEvent<HTMLButtonElement>) => void;
-  clippedButton?: boolean;
-  submit?: boolean;
 }
 
 const SaveButton = ({
@@ -74,11 +72,7 @@ const SaveButton = ({
   showSaved,
   defaultText,
   formIsDirty = true,
-  large,
   disabled,
-  onClick,
-  clippedButton,
-  submit,
   ...rest
 }: Props) => {
   const getModifier = () => {
@@ -86,24 +80,20 @@ const SaveButton = ({
     if (showSaved) return 'saved';
     return defaultText || 'save';
   };
+
+  const color = isSaving ? colors.support.greenLight : showSaved ? colors.support.green : undefined;
   const { t } = useTranslation();
   const modifier = getModifier();
   const disabledButton = isSaving || !formIsDirty || disabled;
 
   return (
     <>
-      <Button
-        disabled={disabledButton}
-        onClick={onClick}
-        clippedButton={clippedButton}
-        submit={submit}
-        css={[large ? largerButtonStyle : null, saveButtonAppearances[modifier]]}
-        {...rest}>
+      <StyledSaveButton disabled={disabledButton} color={color} {...rest}>
         <StyledSpan>
           {t(`form.${modifier}`)}
-          {showSaved && <Check css={checkStyle} />}
+          {showSaved && <StyledCheck />}
         </StyledSpan>
-      </Button>
+      </StyledSaveButton>
     </>
   );
 };

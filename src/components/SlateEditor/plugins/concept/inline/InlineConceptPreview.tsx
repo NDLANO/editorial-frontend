@@ -15,7 +15,7 @@ import { DeleteForever } from '@ndla/icons/editor';
 import { Link as LinkIcon } from '@ndla/icons/common';
 import { ImageLink } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
-import { IConcept } from '@ndla/types-concept-api';
+import { IConcept } from '@ndla/types-backend/concept-api';
 import { NotionDialogContent, NotionDialogText, NotionDialogLicenses } from '@ndla/notion';
 import Tooltip from '@ndla/tooltip';
 import { addShowConceptDefinitionClickListeners } from '@ndla/article-scripts';
@@ -31,7 +31,7 @@ const StyledFigureButtons = styled('span')<{ isBlockView?: boolean }>`
   top: 0;
   z-index: 1;
   right: 0;
-  ${p => (p.isBlockView ? 'transform: translateX(100%);' : '')}
+  ${(p) => (p.isBlockView ? 'transform: translateX(100%);' : '')}
   margin-top: ${spacing.xsmall};
   > * {
     margin-bottom: ${spacing.xsmall};
@@ -65,7 +65,7 @@ const InlineConceptPreview = ({ concept, handleRemove, id, isBlockView }: Props)
     const visualElement: Embed | undefined = parseEmbedTag(concept.visualElement?.visualElement);
     if (!visualElement) return null;
     switch (visualElement?.resource) {
-      case 'image':
+      case 'image': {
         const wrapperUrl = `${config.ndlaApiUrl}/image-api/raw/id/${visualElement.resource_id}`;
         const srcSet = getSrcSets(visualElement.resource_id, visualElement);
         return (
@@ -73,6 +73,7 @@ const InlineConceptPreview = ({ concept, handleRemove, id, isBlockView }: Props)
             <img alt={visualElement?.alt} src={visualElement?.url} srcSet={srcSet} />
           </ImageWrapper>
         );
+      }
       case 'external':
         return (
           <iframe
@@ -91,7 +92,7 @@ const InlineConceptPreview = ({ concept, handleRemove, id, isBlockView }: Props)
         return (
           <iframe
             title={visualElement?.title}
-            src={`https://players.brightcove.net/${config.brightCoveAccountId}/${config.brightcovePlayerId}_default/index.html?videoId=${visualElement?.videoid}`}
+            src={`https://players.brightcove.net/${config.brightcoveAccountId}/${config.brightcoveEdPlayerId}_default/index.html?videoId=${visualElement?.videoid}`}
             frameBorder="0"
             scrolling="no"
             height={400}
@@ -134,24 +135,28 @@ const InlineConceptPreview = ({ concept, handleRemove, id, isBlockView }: Props)
             }}
           />
         }
-        authors={concept.copyright?.creators.map(creator => creator.name)}
+        authors={concept.copyright?.creators.map((creator) => creator.name)}
       />
 
       <StyledFigureButtons isBlockView={isBlockView}>
-        <Tooltip tooltip={t('form.concept.removeConcept')} align="right">
-          <IconButton color="red" type="button" onClick={handleRemove} tabIndex={-1}>
-            <DeleteForever />
-          </IconButton>
+        <Tooltip tooltip={t('form.concept.removeConcept')}>
+          <div>
+            <IconButton color="red" type="button" onClick={handleRemove} tabIndex={-1}>
+              <DeleteForever />
+            </IconButton>
+          </div>
         </Tooltip>
-        <Tooltip tooltip={t('form.concept.edit')} align="right">
-          <IconButton
-            as={Link}
-            to={`/concept/${id}/edit/${concept.content?.language}`}
-            target="_blank"
-            title={t('form.concept.edit')}
-            tabIndex={-1}>
-            <LinkIcon />
-          </IconButton>
+        <Tooltip tooltip={t('form.concept.edit')}>
+          <div>
+            <IconButton
+              as={Link}
+              to={`/concept/${id}/edit/${concept.content?.language}`}
+              target="_blank"
+              tabIndex={-1}
+            >
+              <LinkIcon />
+            </IconButton>
+          </div>
         </Tooltip>
       </StyledFigureButtons>
     </>

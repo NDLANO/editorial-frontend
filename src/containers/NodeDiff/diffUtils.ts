@@ -6,13 +6,10 @@
  *
  */
 
-import { isEqual, partition } from 'lodash';
-import { isObjectLike } from 'lodash/fp';
-import {
-  ChildNodeType,
-  NodeType,
-  ResourceWithNodeConnection,
-} from '../../modules/nodes/nodeApiTypes';
+import isEqual from 'lodash/isEqual';
+import partition from 'lodash/partition';
+import isObjectLike from 'lodash/fp/isObjectLike';
+import { NodeChild, Node } from '@ndla/types-taxonomy';
 
 export type DiffResultType = 'NONE' | 'MODIFIED' | 'ADDED' | 'DELETED';
 export interface DiffResult<TType> {
@@ -49,12 +46,12 @@ export interface NodeTree {
   children: ChildNodeTypeWithResources[];
 }
 
-export interface NodeTypeWithResources extends NodeType {
-  resources: ResourceWithNodeConnection[];
+export interface NodeTypeWithResources extends Node {
+  resources: NodeChild[];
 }
 
-export interface ChildNodeTypeWithResources extends ChildNodeType {
-  resources: ResourceWithNodeConnection[];
+export interface ChildNodeTypeWithResources extends NodeChild {
+  resources: NodeChild[];
 }
 
 type TagType = 'original' | 'other';
@@ -69,29 +66,31 @@ interface Grouping<T> {
   other?: T;
 }
 
-export interface DiffTypeWithChildren extends DiffType<Omit<ChildNodeType, 'resources'>> {
+export interface DiffTypeWithChildren extends DiffType<Omit<NodeChild, 'resources'>> {
   children?: DiffTypeWithChildren[];
-  resources?: DiffType<ResourceWithNodeConnection>[];
+  resources?: DiffType<NodeChild>[];
 }
 
 export interface RootDiffType extends DiffType<Omit<NodeTypeWithResources, 'resources'>> {
-  resources?: DiffType<ResourceWithNodeConnection>[];
+  resources?: DiffType<NodeChild>[];
 }
 
-const diffAndGroupChildren = <T extends NodeType = NodeType>(
+const diffAndGroupChildren = <T extends Node = Node>(
   parentNode: Grouping<T>,
   remainingChildren: Grouping<ChildNodeTypeWithResources>[],
 ): DiffTypeWithChildren[] => {
-  const [children, other] = partition(remainingChildren, child => {
-    const parent = child.original?.parent ?? child.other?.parent;
+  const [children, other] = partition(remainingChildren, (child) => {
+    const parent = child.original?.parentId ?? child.other?.parentId;
     const parentId = parentNode.original?.id ?? parentNode.other?.id;
     return !!parent && parent === parentId;
   });
-  return children.map(child => {
+  return children.map((child) => {
     const diff = diffObject(child.original, child.other, {
       path: true,
       paths: true,
       resources: true,
+      contexts: true,
+      breadcrumbs: true,
       metadata: {
         customFields: {
           requestPublish: true,
@@ -102,10 +101,12 @@ const diffAndGroupChildren = <T extends NodeType = NodeType>(
     const resourcesDiff = doDiff(child.original?.resources, child.other?.resources, {
       path: true,
       paths: true,
+      contexts: true,
+      breadcrumbs: true,
     });
     const diffedChildren = diffAndGroupChildren(child, other);
     const childrenDiffType = diffedChildren.some(
-      child =>
+      (child) =>
         child.changed.diffType !== 'NONE' ||
         child.childrenChanged?.diffType !== 'NONE' ||
         child.resourcesChanged?.diffType !== 'NONE',
@@ -132,8 +133,8 @@ const doDiff = <T extends { id: string }>(
   skipFields: SkipKeys<T>,
 ): DoDiffResult<T> => {
   const grouped = createTagGroupings(original ?? [], other ?? []);
-  const diff = Object.values(grouped).map(val => diffObject(val.original, val.other, skipFields));
-  const changed = diff.some(v => v.changed.diffType !== 'NONE');
+  const diff = Object.values(grouped).map((val) => diffObject(val.original, val.other, skipFields));
+  const changed = diff.some((v) => v.changed.diffType !== 'NONE');
   return { diff, changed: { diffType: changed ? 'MODIFIED' : 'NONE' } };
 };
 
@@ -141,8 +142,11 @@ const createTagGroupings = <Value extends { id: string }>(
   original: Value[],
   other: Value[],
 ): Record<string, Grouping<Value>> => {
-  const originalValues: TagGrouping<Value>[] = original.map(value => ({ value, tag: 'original' }));
-  const otherValues: TagGrouping<Value>[] = other.map(value => ({ value, tag: 'other' }));
+  const originalValues: TagGrouping<Value>[] = original.map((value) => ({
+    value,
+    tag: 'original',
+  }));
+  const otherValues: TagGrouping<Value>[] = other.map((value) => ({ value, tag: 'other' }));
   const allChildren = originalValues.concat(otherValues);
   return allChildren.reduce<Record<string, Grouping<Value>>>((acc, curr) => {
     if (acc[curr.value.id]) {
@@ -155,22 +159,25 @@ const createTagGroupings = <Value extends { id: string }>(
 };
 
 const diffChildren = (
-  rootDiff: Grouping<NodeType>,
+  rootDiff: Grouping<Node>,
   children: Grouping<ChildNodeTypeWithResources>[],
   viewType: 'flat' | 'tree',
 ): DiffTypeWithChildren[] => {
   if (viewType === 'flat') {
-    return children.map(child => {
+    return children.map((child) => {
       const { original, other } = child;
       const diffedResources = doDiff(original?.resources, other?.resources, {
         path: true,
         paths: true,
+        contexts: true,
+        breadcrumbs: true,
       });
       return {
         ...diffObject(original, other, {
           path: true,
           paths: true,
           resources: true,
+          contexts: true,
           metadata: {
             customFields: {
               requestPublish: true,
@@ -197,9 +204,10 @@ export const diffTrees = (
   viewType: 'flat' | 'tree',
 ): DiffTree => {
   // The root node is returned from the recursive endpoint as well, filter it out.
-  const originalChildren = originalTree?.children.filter(c => c.id !== originalTree.root.id) ?? [];
+  const originalChildren =
+    originalTree?.children.filter((c) => c.id !== originalTree.root.id) ?? [];
   const originalRoot = originalTree?.root;
-  const otherChildren = otherTree?.children.filter(c => c.id !== otherTree.root.id) ?? [];
+  const otherChildren = otherTree?.children.filter((c) => c.id !== otherTree.root.id) ?? [];
   const otherRoot = otherTree?.root;
   const grouping = createTagGroupings(originalChildren, otherChildren);
 
@@ -207,6 +215,8 @@ export const diffTrees = (
     path: true,
     paths: true,
     resources: true,
+    contexts: true,
+    breadcrumbs: true,
     metadata: {
       customFields: {
         requestPublish: true,
@@ -217,6 +227,8 @@ export const diffTrees = (
   const rootResourcesDiff = doDiff(originalRoot?.resources, otherRoot?.resources, {
     path: true,
     paths: true,
+    contexts: true,
+    breadcrumbs: true,
   });
   const childrenDiff = diffChildren(
     { original: originalRoot, other: otherRoot },
@@ -224,7 +236,7 @@ export const diffTrees = (
     viewType,
   );
   const childrenChanged = childrenDiff.some(
-    child =>
+    (child) =>
       child.childrenChanged?.diffType !== 'NONE' ||
       child.changed.diffType !== 'NONE' ||
       child.resourcesChanged?.diffType !== 'NONE',
@@ -324,12 +336,12 @@ export const removeUnchangedFromTree = (nodes: DiffTypeWithChildren[]): DiffType
     return [];
   }
   const mutatedChildren = nodes.filter(
-    node =>
+    (node) =>
       node.changed.diffType !== 'NONE' ||
       node.childrenChanged?.diffType !== 'NONE' ||
       node.resourcesChanged?.diffType !== 'NONE',
   );
-  return mutatedChildren.map(node => ({
+  return mutatedChildren.map((node) => ({
     ...node,
     children: removeUnchangedFromTree(node.children ?? []),
   }));

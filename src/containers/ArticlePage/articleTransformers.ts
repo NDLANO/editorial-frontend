@@ -6,27 +6,28 @@
  *
  */
 
-import { isEmpty } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 import { Descendant } from 'slate';
-import { ILicense, IUpdatedArticle, IArticle, IRevisionMeta } from '@ndla/types-draft-api';
+import { ILicense, IUpdatedArticle, IArticle, IRevisionMeta } from '@ndla/types-backend/draft-api';
 import {
   editorValueToEmbedTag,
   editorValueToPlainText,
   embedTagToEditorValue,
-  learningResourceContentToEditorValue,
-  learningResourceContentToHTML,
+  blockContentToEditorValue,
+  blockContentToHTML,
   plainTextToEditorValue,
-  topicArticleContentToEditorValue,
-  topicArticleContentToHTML,
+  inlineContentToEditorValue,
+  inlineContentToHTML,
 } from '../../util/articleContentConverter';
 import {
   ArticleFormType,
   LearningResourceFormType,
   TopicArticleFormType,
+  FrontpageArticleFormType,
 } from '../FormikForm/articleFormHooks';
 import { DEFAULT_LICENSE, parseImageUrl } from '../../util/formHelper';
-import { nullOrUndefined } from '../../util/articleUtil';
-import { DRAFT } from '../../util/constants/ArticleStatus';
+import { getSlugFromTitle, nullOrUndefined } from '../../util/articleUtil';
+import { ARCHIVED, PUBLISHED, UNPUBLISHED } from '../../constants';
 
 const getPublishedDate = (
   values: ArticleFormType,
@@ -47,12 +48,17 @@ const getPublishedDate = (
   return undefined;
 };
 
+export const RESET_COMMENTS_STATUSES = [PUBLISHED, ARCHIVED, UNPUBLISHED];
+
 const draftApiTypeToArticleFormType = (
   article: IArticle | undefined,
   language: string,
   articleType: string,
+  ndlaId: string | undefined,
   contentFunc: (html: string) => Descendant[],
 ): ArticleFormType => {
+  const license = article?.copyright?.license?.license;
+  const articleLicense = !license || license === 'unknown' ? DEFAULT_LICENSE.license : license;
   return {
     agreementId: article?.copyright?.agreementId,
     articleType,
@@ -61,7 +67,7 @@ const draftApiTypeToArticleFormType = (
     id: article?.id,
     introduction: plainTextToEditorValue(article?.introduction?.introduction ?? ''),
     language,
-    license: article?.copyright?.license?.license ?? DEFAULT_LICENSE.license,
+    license: articleLicense,
     metaDescription: plainTextToEditorValue(article?.metaDescription?.metaDescription ?? ''),
     metaImageAlt: article?.metaImage?.alt ?? '',
     metaImageId: parseImageUrl(article?.metaImage),
@@ -81,34 +87,62 @@ const draftApiTypeToArticleFormType = (
     availability: article?.availability ?? 'everyone',
     relatedContent: article?.relatedContent ?? [],
     revisionMeta: article?.revisions ?? [],
+    slug: article?.slug,
+    responsibleId: article === undefined ? ndlaId : article?.responsible?.responsibleId,
+    comments:
+      !article?.comments ||
+      (article?.status.current && RESET_COMMENTS_STATUSES.includes(article?.status.current))
+        ? []
+        : article.comments,
+    prioritized: article?.prioritized ?? false,
   };
 };
 
 export const draftApiTypeToLearningResourceFormType = (
   article: IArticle | undefined,
   language: string,
+  ndlaId: string | undefined,
 ): LearningResourceFormType => {
   return {
     ...draftApiTypeToArticleFormType(
       article,
       language,
       'standard',
-      learningResourceContentToEditorValue,
+      ndlaId,
+      blockContentToEditorValue,
     ),
     origin: article?.copyright?.origin,
+  };
+};
+
+export const draftApiTypeToFrontpageArticleFormType = (
+  article: IArticle | undefined,
+  language: string,
+  ndlaId: string | undefined,
+): FrontpageArticleFormType => {
+  return {
+    ...draftApiTypeToArticleFormType(
+      article,
+      language,
+      'frontpage-article',
+      ndlaId,
+      blockContentToEditorValue,
+    ),
   };
 };
 
 export const draftApiTypeToTopicArticleFormType = (
   article: IArticle | undefined,
   language: string,
+  ndlaId: string | undefined,
 ): TopicArticleFormType => {
   return {
     ...draftApiTypeToArticleFormType(
       article,
       language,
       'topic-article',
-      topicArticleContentToEditorValue,
+      ndlaId,
+      inlineContentToEditorValue,
     ),
     visualElement: embedTagToEditorValue(article?.visualElement?.visualElement ?? ''),
   };
@@ -126,9 +160,9 @@ export const learningResourceFormTypeToDraftApiType = (
   return {
     revision: 0,
     articleType: 'standard',
-    content: learningResourceContentToHTML(article.content),
+    content: blockContentToHTML(article.content),
     copyright: {
-      license: licenses.find(lic => lic.license === article.license),
+      license: licenses.find((lic) => lic.license === article.license),
       origin: article.origin,
       creators: article.creators,
       processors: article.processors,
@@ -147,6 +181,48 @@ export const learningResourceFormTypeToDraftApiType = (
     availability: article.availability,
     relatedContent: article.relatedContent,
     revisionMeta: article.revisionMeta,
+    responsibleId: article.responsibleId,
+    comments: article.comments,
+    prioritized: article.prioritized,
+  };
+};
+
+export const frontpageArticleFormTypeToDraftApiType = (
+  article: FrontpageArticleFormType,
+  initialValues: FrontpageArticleFormType,
+  licenses: ILicense[],
+  preview = false,
+): IUpdatedArticle => {
+  const metaImage = article.metaImageId
+    ? { id: article.metaImageId, alt: article.metaImageAlt ?? '' }
+    : nullOrUndefined(article.metaImageId);
+  return {
+    revision: 0,
+    slug: article.slug || getSlugFromTitle(editorValueToPlainText(article.title)),
+    articleType: 'frontpage-article',
+    content: blockContentToHTML(article.content),
+    copyright: {
+      license: licenses.find((lic) => lic.license === article.license),
+      creators: article.creators,
+      processors: article.processors,
+      rightsholders: article.rightsholders,
+    },
+    introduction: editorValueToPlainText(article.introduction),
+    language: article.language,
+    metaImage,
+    metaDescription: editorValueToPlainText(article.metaDescription),
+    notes: article.notes,
+    published: getPublishedDate(article, initialValues, preview) ?? '',
+    tags: article.tags,
+    title: editorValueToPlainText(article.title),
+    grepCodes: article.grepCodes,
+    conceptIds: article.conceptIds,
+    availability: article.availability,
+    relatedContent: article.relatedContent,
+    revisionMeta: article.revisionMeta,
+    responsibleId: article.responsibleId,
+    comments: article.comments,
+    prioritized: article.prioritized,
   };
 };
 
@@ -161,18 +237,19 @@ export const topicArticleFormTypeToDraftApiType = (
     : nullOrUndefined(article.metaImageId);
 
   const copyright = {
-    license: licenses.find(l => l.license === article.license),
+    license: licenses.find((l) => l.license === article.license),
     creators: article.creators,
     processors: article.processors,
     rightsholders: article.rightsholders,
     agreementId: article.agreementId,
   };
+
   return {
     revision: article.revision ?? 0,
     language: article.language,
     title: editorValueToPlainText(article.title),
     published: getPublishedDate(article, initialValues, preview) ?? '',
-    content: topicArticleContentToHTML(article.content),
+    content: inlineContentToHTML(article.content),
     tags: article.tags,
     introduction: editorValueToPlainText(article.introduction),
     metaDescription: editorValueToPlainText(article.metaDescription),
@@ -186,56 +263,19 @@ export const topicArticleFormTypeToDraftApiType = (
     availability: article.availability,
     relatedContent: article.relatedContent,
     revisionMeta: article.revisionMeta,
-  };
-};
-
-export const updatedDraftApiTypeToDraftApiType = (
-  article: IUpdatedArticle,
-  id: number,
-): IArticle => {
-  const language = article.language!;
-
-  return {
-    id: id,
-    revision: article.revision,
-    status: { current: article.status ?? DRAFT, other: [] },
-    title: article.title ? { title: article.title, language } : undefined,
-    content: article.content ? { content: article.content, language } : undefined,
-    copyright: article.copyright,
-    tags: article.tags ? { tags: article.tags, language } : undefined,
-    requiredLibraries: article.requiredLibraries ?? [],
-    visualElement: article.visualElement
-      ? { visualElement: article.visualElement, language }
-      : undefined,
-    introduction: article.introduction
-      ? { introduction: article.introduction, language }
-      : undefined,
-    metaDescription: article.metaDescription
-      ? { metaDescription: article.metaDescription, language }
-      : undefined,
-    metaImage: article.metaImage ? { ...article.metaImage, language, url: '' } : undefined,
-    created: '',
-    updated: '',
-    updatedBy: '',
-    published: article.published ?? '',
-    articleType: article.articleType ?? 'topic-article',
-    supportedLanguages: [],
-    notes: [],
-    editorLabels: article.editorLabels ?? [],
-    grepCodes: article.grepCodes ?? [],
-    conceptIds: article.conceptIds ?? [],
-    availability: article.availability ?? 'everyone',
-    relatedContent: article.relatedContent ?? [],
-    revisions: article.revisionMeta ?? [],
+    responsibleId: article.responsibleId,
+    comments: article.comments,
+    prioritized: article.prioritized,
   };
 };
 
 export const getExpirationDate = (article?: { revisions: IRevisionMeta[] }): string | undefined => {
   if (!article) return undefined;
 
-  const withParsed = article.revisions.map(r => {
-    return { parsed: new Date(r.revisionDate), ...r };
-  });
+  const withParsed =
+    article.revisions?.map((r) => {
+      return { parsed: new Date(r.revisionDate), ...r };
+    }) ?? [];
   const sorted = withParsed.sort((a, b) => a.parsed.getTime() - b.parsed.getTime());
-  return sorted.find(r => r.status !== 'revised')?.revisionDate;
+  return sorted.find((r) => r.status !== 'revised')?.revisionDate;
 };

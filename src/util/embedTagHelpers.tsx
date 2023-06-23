@@ -5,10 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { Dictionary } from 'lodash';
 import isObject from 'lodash/fp/isObject';
+import { TYPE_NDLA_EMBED } from '../components/SlateEditor/plugins/embed/types';
 import { isEmpty } from '../components/validators';
-import { Embed } from '../interfaces';
+import { Dictionary, Embed } from '../interfaces';
 
 export const removeEmptyElementDataAttributes = (obj: Dictionary<any>) => {
   const newObject: Dictionary<string> = {};
@@ -20,15 +20,40 @@ export const removeEmptyElementDataAttributes = (obj: Dictionary<any>) => {
   return newObject;
 };
 
+const reduceRegexp = /-[a-z]/g;
+
+export const reduceElementDataAttributesV2 = (
+  attributes: Attr[],
+  filter?: string[],
+): Record<string, string> => {
+  const _attributes = attributes.filter((a) => a.name !== 'style');
+  const filteredAttributes = filter?.length
+    ? _attributes.filter((a) => filter.includes(a.name))
+    : _attributes;
+  return filteredAttributes.reduce<Record<string, string>>((acc, attr) => {
+    if (attr.name.startsWith('data-')) {
+      const key = attr.name
+        .replace('data-', '')
+        // convert "-a" with "A". image-id becomes imageId
+        .replace(reduceRegexp, (m) => m.charAt(1).toUpperCase());
+      acc[key] = attr.value;
+    } else {
+      // Handle regular dash attributes like aria-label.
+      acc[attr.name] = attr.value;
+    }
+    return acc;
+  }, {});
+};
+
 export const reduceElementDataAttributes = (
-  el: HTMLElement,
+  el: Element,
   filter?: string[],
 ): { [key: string]: string } => {
   if (!el.attributes) return {};
   let attrs: Attr[] = [].slice.call(el.attributes);
-  attrs = attrs.filter(a => a.name !== 'style');
+  attrs = attrs.filter((a) => a.name !== 'style');
 
-  if (filter) attrs = attrs.filter(a => filter.includes(a.name));
+  if (filter) attrs = attrs.filter((a) => filter.includes(a.name));
   const obj = attrs.reduce(
     (all, attr) => Object.assign({}, all, { [attr.name.replace('data-', '')]: attr.value }),
     {},
@@ -38,7 +63,7 @@ export const reduceElementDataAttributes = (
 
 export const reduceChildElements = (el: HTMLElement, type: string) => {
   const children: object[] = [];
-  el.childNodes.forEach(node => {
+  el.childNodes.forEach((node) => {
     const childElement = node as HTMLElement;
     if (type === 'file') {
       children.push({
@@ -68,14 +93,9 @@ export const reduceChildElements = (el: HTMLElement, type: string) => {
   return { nodes: children };
 };
 
-export const createDataProps = (obj: Dictionary<string>) =>
-  Object.keys(obj)
-    .filter(key => obj[key] !== undefined && !isObject(obj[key]))
-    .reduce((acc, key) => ({ ...acc, [`data-${key}`]: obj[key] }), {});
-
 export const createProps = (obj: Dictionary<string>) =>
   Object.keys(obj)
-    .filter(key => obj[key] !== undefined && !isObject(obj[key]))
+    .filter((key) => obj[key] !== undefined && !isObject(obj[key]))
     .reduce((acc, key) => ({ ...acc, [key]: obj[key] }), {});
 
 export const parseEmbedTag = (embedTag?: string): Embed | undefined => {
@@ -84,7 +104,7 @@ export const parseEmbedTag = (embedTag?: string): Embed | undefined => {
   }
   const el = document.createElement('html');
   el.innerHTML = embedTag;
-  const embedElements = el.getElementsByTagName('embed');
+  const embedElements = el.getElementsByTagName(TYPE_NDLA_EMBED);
 
   if (embedElements.length !== 1) {
     return undefined;
@@ -92,7 +112,31 @@ export const parseEmbedTag = (embedTag?: string): Embed | undefined => {
 
   const obj = reduceElementDataAttributes(embedElements[0]);
   delete obj.id;
-  return (obj as unknown) as Embed;
+  return obj as unknown as Embed;
+};
+
+const attributeRegex = /[A-Z]/g;
+
+type EmbedProps<T extends object> = {
+  [Key in keyof T]: string | undefined;
+};
+
+export const createEmbedTagV2 = <T extends object>(
+  data: EmbedProps<T>,
+): JSX.Element | undefined => {
+  const entries = Object.entries(data ?? {});
+  if (entries.length === 0) {
+    return undefined;
+  }
+  const dataSet = entries.reduce<Record<string, string>>((acc, [key, value]) => {
+    const newKey = key.replace(attributeRegex, (m) => `-${m.toLowerCase()}`);
+    if (value != null && typeof value === 'string') {
+      acc[`data-${newKey}`] = value.toString();
+    }
+    return acc;
+  }, {});
+
+  return <ndlaembed {...dataSet}></ndlaembed>;
 };
 
 export const createEmbedTag = (data: { [key: string]: any }) => {
@@ -101,10 +145,10 @@ export const createEmbedTag = (data: { [key: string]: any }) => {
   }
   const props: Dictionary<string> = {};
   Object.keys(data)
-    .filter(key => data[key] !== undefined && !isObject(data[key]))
-    .forEach(key => (props[`data-${key}`] = data[key]));
+    .filter((key) => data[key] !== undefined && !isObject(data[key]))
+    .forEach((key) => (props[`data-${key}`] = data[key]));
 
-  return <embed {...props}></embed>;
+  return <ndlaembed {...props}></ndlaembed>;
 };
 
 export const isUserProvidedEmbedDataValid = (embed: Embed) => {

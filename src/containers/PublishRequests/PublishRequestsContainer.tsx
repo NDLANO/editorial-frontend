@@ -1,15 +1,21 @@
 import styled from '@emotion/styled';
-import Button from '@ndla/button';
-import { spacing, colors } from '@ndla/core';
+import { spacing, colors, fonts } from '@ndla/core';
+import { Spinner } from '@ndla/icons';
 import { OneColumn } from '@ndla/ui';
-import { useState } from 'react';
+import { Fragment, useMemo, useState } from 'react';
+import sortBy from 'lodash/sortBy';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router';
-import { TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH } from '../../constants';
-import { NodeType } from '../../modules/nodes/nodeApiTypes';
+import isBefore from 'date-fns/isBefore';
+import { SafeLinkButton } from '@ndla/safelink';
+import { ChevronRight } from '@ndla/icons/common';
+import { Node } from '@ndla/types-taxonomy';
+import {
+  TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH,
+  TAXONOMY_CUSTOM_FIELD_IS_PUBLISHING,
+} from '../../constants';
 import { useNodes } from '../../modules/nodes/nodeQueries';
 import { useVersions } from '../../modules/taxonomy/versions/versionQueries';
-import { toNodeDiff, toStructureBeta } from '../../util/routeHelpers';
+import { toNodeDiff, toStructure } from '../../util/routeHelpers';
 import Footer from '../App/components/Footer';
 import NodeIconType from '../../components/NodeIconType';
 
@@ -31,6 +37,7 @@ const StyledNodeContainer = styled.div`
 const StyledButtonRow = styled.div`
   display: flex;
   gap: ${spacing.small};
+  min-width: 250px;
 `;
 
 const StyledRequestList = styled.div`
@@ -47,39 +54,56 @@ const StyledTitleRow = styled.div`
   align-items: center;
 `;
 
+const StyledTitleColumn = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const StyledBreadCrumb = styled('div')`
+  flex-grow: 1;
+  flex-direction: row;
+  font-style: italic;
+  font-size: ${fonts.sizes(16)};
+`;
+
 const PublishRequestsContainer = () => {
   const [error, setError] = useState<string | undefined>();
   const { t } = useTranslation();
-  const navigate = useNavigate();
   const nodesQuery = useNodes({
     taxonomyVersion: 'default',
     key: TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH,
     value: 'true',
   });
 
+  const sorted = useMemo(
+    () => sortBy(nodesQuery?.data, (n) => n.breadcrumbs?.join('')),
+    [nodesQuery],
+  );
+
   const versionsQuery = useVersions(
-    { type: 'PUBLISHED' },
+    {},
     {
-      onSuccess: data => {
+      onSuccess: (data) => {
         if (!data[0]) {
-          setError('publishRequests.errors.noPublishedVersion');
+          setError('publishRequests.errors.noVersions');
         }
       },
     },
   );
 
-  const publishedVersion = versionsQuery.data?.[0];
+  const publishedVersion = versionsQuery.data?.filter((v) => v.versionType === 'PUBLISHED')?.[0];
+  const betaVersions = versionsQuery.data
+    ?.filter((v) => v.versionType === 'BETA')
+    .sort((a, b) => (isBefore(new Date(a.created), new Date(b.created)) ? 1 : -1));
 
-  const onShowInStructure = (node: NodeType) => {
-    navigate(toStructureBeta(node.path));
-  };
+  const otherVersion = betaVersions?.[0] || publishedVersion || versionsQuery.data?.[0];
 
-  const onCompare = (node: NodeType) => {
-    if (!publishedVersion) {
-      setError('publishRequests.errors.noPublishedVersion');
-      return;
+  const onCompare = (node: Node) => {
+    if (!otherVersion) {
+      setError('publishRequests.errors.noVersions');
+      return '';
     }
-    navigate(toNodeDiff(node.id, publishedVersion.hash, 'default'));
+    return toNodeDiff(node.id, otherVersion.hash, 'default');
   };
 
   return (
@@ -87,20 +111,38 @@ const PublishRequestsContainer = () => {
       <OneColumn>
         <h1>{t('publishRequests.title')}</h1>
         {error && <ErrorMessage>{t(error)}</ErrorMessage>}
+        <h3>{`${t('publishRequests.numberRequests')}: ${sorted?.length ?? 0}`}</h3>
         <StyledRequestList>
-          {nodesQuery.data?.map((node, i) => (
+          {sorted?.map((node, i) => (
             <StyledNodeContainer key={`node-request-${i}`}>
               <StyledTitleRow>
-                <NodeIconType node={node} />
-                {node.name}
+                <StyledTitleColumn>
+                  <StyledBreadCrumb>
+                    {node?.breadcrumbs?.map((path, index, arr) => {
+                      return (
+                        <Fragment key={`${path}_${index}`}>
+                          {path}
+                          {index + 1 !== arr.length && <ChevronRight />}
+                        </Fragment>
+                      );
+                    })}
+                  </StyledBreadCrumb>
+                  <StyledTitleRow>
+                    <NodeIconType node={node} />
+                    {node.metadata.customFields[TAXONOMY_CUSTOM_FIELD_IS_PUBLISHING] === 'true' && (
+                      <Spinner size="nsmall" margin="0" />
+                    )}
+                    {node.name}
+                  </StyledTitleRow>
+                </StyledTitleColumn>
               </StyledTitleRow>
               <StyledButtonRow>
-                <Button onClick={() => onShowInStructure(node)}>
+                <SafeLinkButton to={toStructure(node.path)}>
                   {t('publishRequests.showInStructure')}
-                </Button>
-                <Button onClick={() => onCompare(node)} disabled={!publishedVersion || !!error}>
+                </SafeLinkButton>
+                <SafeLinkButton to={onCompare(node)} disabled={!otherVersion || !!error}>
                   {t('publishRequests.compare')}
-                </Button>
+                </SafeLinkButton>
               </StyledButtonRow>
             </StyledNodeContainer>
           ))}

@@ -9,15 +9,15 @@
 import { connect, FieldProps, FormikContextType } from 'formik';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
-import { UploadDropZone, Input } from '@ndla/forms';
+import { UploadDropZone, TextArea } from '@ndla/forms';
 import SafeLink from '@ndla/safelink';
 import Tooltip from '@ndla/tooltip';
 import { DeleteForever } from '@ndla/icons/editor';
+import { ImageMeta } from '@ndla/image-search';
+import { IconButtonV2 } from '@ndla/button';
 import { animations, spacing, colors } from '@ndla/core';
-import IconButton from '../../../components/IconButton';
 import FormikField from '../../../components/FormikField';
 import { ImageFormikType } from '../imageTransformers';
-import { ImageFormErrorFields } from './ImageForm';
 import { TitleField } from '../../FormikForm';
 
 const StyledImage = styled.img`
@@ -28,7 +28,7 @@ const StyledImage = styled.img`
 
 const StyledDeleteButtonContainer = styled.div`
   position: absolute;
-  right: -${spacing.medium};
+  right: -${spacing.large};
   transform: translateY(${spacing.normal});
   display: flex;
   flex-direction: row;
@@ -41,6 +41,10 @@ interface Props {
 const ImageContent = ({ formik }: Props) => {
   const { t } = useTranslation();
   const { values, errors, setFieldValue, submitForm } = formik;
+
+  // We use the timestamp to avoid caching of the `imageFile` url in the browser
+  const timestamp = new Date().getTime();
+  const imgSrc = values.filepath || `${values.imageFile}?width=600&ts=${timestamp}`;
   return (
     <>
       <TitleField handleSubmit={submitForm} />
@@ -48,15 +52,23 @@ const ImageContent = ({ formik }: Props) => {
         <UploadDropZone
           name="imageFile"
           allowedFiles={['image/gif', 'image/png', 'image/jpeg', 'image/jpg', 'image/svg+xml']}
-          onAddedFiles={(files: FileList, evt: InputEvent) => {
-            const target = evt.target as HTMLInputElement;
+          onAddedFiles={(_, evt) => {
+            const target = evt.target;
             setFieldValue(
               'filepath',
               target.files?.[0] ? URL.createObjectURL(target.files[0]) : undefined,
             );
+            Promise.resolve(
+              createImageBitmap(target.files?.[0] as Blob).then((image) => {
+                setFieldValue('imageDimensions', image);
+              }),
+            );
             setFieldValue('imageFile', target.files?.[0]);
+            setFieldValue('contentType', target.files?.[0]?.type);
+            setFieldValue('fileSize', target.files?.[0]?.size);
           }}
-          ariaLabel={t('form.image.dragdrop.ariaLabel')}>
+          ariaLabel={t('form.image.dragdrop.ariaLabel')}
+        >
           <strong>{t('form.image.dragdrop.main')}</strong>
           {t('form.image.dragdrop.sub')}
         </UploadDropZone>
@@ -64,47 +76,50 @@ const ImageContent = ({ formik }: Props) => {
       {values.imageFile && (
         <StyledDeleteButtonContainer>
           <Tooltip tooltip={t('form.image.removeImage')}>
-            <IconButton
-              type="button"
-              onClick={() => {
-                setFieldValue('imageFile', undefined);
-              }}
-              tabIndex={-1}>
+            <IconButtonV2
+              aria-label={t('form.image.removeImage')}
+              variant="ghost"
+              colorTheme="danger"
+              onClick={() => setFieldValue('imageFile', undefined)}
+            >
               <DeleteForever />
-            </IconButton>
+            </IconButtonV2>
           </Tooltip>
         </StyledDeleteButtonContainer>
       )}
       {values.imageFile && (
-        <SafeLink target="_blank" to={values.imageFile}>
-          <StyledImage src={values.filepath || values.imageFile} alt="" />
-        </SafeLink>
+        <>
+          <SafeLink target="_blank" to={values.imageFile}>
+            <StyledImage src={imgSrc} alt="" />
+          </SafeLink>
+          <ImageMeta
+            contentType={values.contentType ?? ''}
+            fileSize={values.fileSize ?? 0}
+            imageDimensions={values.imageDimensions}
+          />
+        </>
       )}
       <FormikField name="imageFile.size" showError={true}>
-        {_ => <></>}
+        {(_) => <></>}
       </FormikField>
       <FormikField name="caption" showError={false}>
         {({ field }: FieldProps) => (
-          <Input
+          <TextArea
             placeholder={t('form.image.caption.placeholder')}
             label={t('form.image.caption.label')}
-            container="div"
             type="text"
-            autoExpand
-            warningText={errors[field.name as ImageFormErrorFields]}
+            warningText={errors['caption']}
             {...field}
           />
         )}
       </FormikField>
       <FormikField name="alttext" showError={false}>
         {({ field }: FieldProps) => (
-          <Input
+          <TextArea
             placeholder={t('form.image.alt.placeholder')}
             label={t('form.image.alt.label')}
-            container="div"
             type="text"
-            autoExpand
-            warningText={errors[field.name as ImageFormErrorFields]}
+            warningText={errors['alttext']}
             {...field}
           />
         )}

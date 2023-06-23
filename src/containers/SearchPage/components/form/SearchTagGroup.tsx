@@ -7,24 +7,21 @@
  */
 
 import SearchTag from './SearchTag';
-import { SearchParams } from './SearchForm';
-
-export interface TagType {
-  type: keyof SearchParams;
-  name?: string;
-}
+import { SearchFormSelector } from './Selector';
 
 interface Props {
-  tagTypes: TagType[];
-  onRemoveItem: (tag: TagType) => void;
+  tagTypes: SearchFormSelector[];
+  onRemoveItem: (tag: SearchFormSelector) => void;
 }
 
 const SearchTagGroup = ({ tagTypes, onRemoveItem }: Props) => {
   return (
     <>
-      {tagTypes.map((tag: TagType) => {
-        if (!tag.name) return null;
-        return <SearchTag key={`searchtag_${tag.type}`} onRemoveItem={onRemoveItem} tag={tag} />;
+      {tagTypes.map((tag) => {
+        if (!tag.value) return null;
+        return (
+          <SearchTag key={`searchtag_${tag.parameterName}`} onRemoveItem={onRemoveItem} tag={tag} />
+        );
       })}
     </>
   );

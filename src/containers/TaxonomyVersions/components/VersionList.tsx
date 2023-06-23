@@ -9,8 +9,8 @@
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
-import { VersionType } from '../../../modules/taxonomy/versions/versionApiTypes';
-import Version from './Version';
+import { Version } from '@ndla/types-taxonomy';
+import UIVersion from './Version';
 
 const StyledVersionList = styled.div`
   display: flex;
@@ -19,7 +19,7 @@ const StyledVersionList = styled.div`
 `;
 
 interface Props {
-  versions: VersionType[];
+  versions: Version[];
 }
 const VersionList = ({ versions }: Props) => {
   const { t } = useTranslation();
@@ -28,8 +28,8 @@ const VersionList = ({ versions }: Props) => {
   }
   return (
     <StyledVersionList>
-      {versions.map(version => (
-        <Version version={version} key={version.id} />
+      {versions.map((version) => (
+        <UIVersion version={version} key={version.id} />
       ))}
     </StyledVersionList>
   );

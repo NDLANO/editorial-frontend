@@ -5,14 +5,14 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import { MouseEvent, ReactNode } from 'react';
+import { forwardRef, MouseEvent, ReactNode } from 'react';
 import styled from '@emotion/styled';
 import { colors, spacing } from '@ndla/core';
-import Button, { ButtonProps } from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 
-const EditButton = styled(Button)<ButtonProps & { isActive: boolean }>`
+const EditButton = styled(ButtonV2)<{ isActive: boolean }>`
   transition: color 200ms ease;
-  color: ${props => (props.isActive ? '#fff' : colors.brand.grey)};
+  color: ${(props) => (props.isActive ? '#fff' : colors.brand.grey)};
   padding: ${spacing.xsmall};
   display: flex;
   align-items: center;
@@ -26,15 +26,16 @@ const EditButton = styled(Button)<ButtonProps & { isActive: boolean }>`
 interface Props {
   isActive?: boolean;
   children: ReactNode;
-  stripped: boolean;
   tabIndex: number;
   onClick: (evt: MouseEvent<HTMLButtonElement>) => void;
 }
 
-const ImageEditorButton = ({ isActive, children, ...rest }: Props) => (
-  <EditButton isActive={!!isActive} {...rest}>
-    {children}
-  </EditButton>
+const ImageEditorButton = forwardRef<HTMLButtonElement, Props>(
+  ({ isActive, children, ...rest }, ref) => (
+    <EditButton variant="stripped" isActive={!!isActive} ref={ref} {...rest}>
+      {children}
+    </EditButton>
+  ),
 );
 
 export default ImageEditorButton;

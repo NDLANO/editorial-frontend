@@ -7,23 +7,28 @@
  */
 
 import { lazy, Suspense, useState } from 'react';
-import { Spinner } from '@ndla/editor';
-import Button from '@ndla/button';
-import Modal, { ModalBody, ModalCloseButton, ModalHeader } from '@ndla/modal';
+import { Spinner } from '@ndla/icons';
+import { ButtonV2 } from '@ndla/button';
+import { ModalBody, ModalCloseButton, ModalHeader, ModalTitle, Modal } from '@ndla/modal';
 import { fonts } from '@ndla/core';
 import { useSlateStatic } from 'slate-react';
 import { Transforms } from 'slate';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { TableElement } from './interfaces';
-import { Portal } from '../../../Portal';
 
 window.MonacoEnvironment = {
-  getWorkerUrl: function(moduleId: string, label: string) {
+  getWorkerUrl: function (moduleId: string, label: string) {
     if (label === 'html') {
-      return '/static/js/html.worker.js';
+      return process.env.NODE_ENV !== 'production'
+        ? '/static/js/html.worker.js'
+        : // @ts-ignore
+          window.assets['html.worker.js'] ?? '';
     }
-    return '/static/js/editor.worker.js';
+    return process.env.NODE_ENV !== 'production'
+      ? '/static/js/editor.worker.js'
+      : // @ts-ignore
+        window.assets['editor.worker.js'] ?? '';
   },
   globalAPI: true,
 };
@@ -50,7 +55,7 @@ const EditColgroupsModal = ({ element }: Props) => {
       editor,
       { showEditColgroups: false },
       {
-        match: node => node === element,
+        match: (node) => node === element,
       },
     );
   };
@@ -60,47 +65,43 @@ const EditColgroupsModal = ({ element }: Props) => {
       editor,
       { showEditColgroups: false, colgroups: content },
       {
-        match: node => node === element,
+        match: (node) => node === element,
       },
     );
   };
 
   return (
-    <Portal isOpened>
-      <Modal
-        controllable
-        isOpen={showEditColgroups}
-        onClose={onClose}
-        size={'large'}
-        backgroundColor="white"
-        minHeight="90vh">
-        {() => (
-          <div>
-            <ModalHeader>
-              <ModalCloseButton title={t('dialog.close')} onClick={onClose} />
-            </ModalHeader>
-            <ModalBody>
-              <h2>{t('form.content.table.colgroupTitle')}</h2>
-              <p>
-                {t('form.content.table.colgroupInfo')}
-                <StyledCode>
-                  {'<colgroup><col><col><col style="width:200px;"></colgroup>'}
-                </StyledCode>
-              </p>
-              <Suspense fallback={<Spinner />}>
-                <MonacoEditor
-                  onChange={setColgroups}
-                  onSave={onSave}
-                  value={colgroups}
-                  height={'50vh'}
-                />
-              </Suspense>
-              <Button onClick={() => onSave(colgroups)}>{t('form.save')}</Button>
-            </ModalBody>
-          </div>
-        )}
-      </Modal>
-    </Portal>
+    <Modal
+      aria-label={t('form.content.table.colgroupTitle')}
+      controlled
+      isOpen={!!showEditColgroups}
+      onClose={onClose}
+      size="large"
+    >
+      {() => (
+        <div>
+          <ModalHeader>
+            <ModalTitle>{t('form.content.table.colgroupTitle')}</ModalTitle>
+            <ModalCloseButton title={t('dialog.close')} onClick={onClose} />
+          </ModalHeader>
+          <ModalBody>
+            <p>
+              {t('form.content.table.colgroupInfo')}
+              <StyledCode>{'<colgroup><col><col><col style="width:200px;"></colgroup>'}</StyledCode>
+            </p>
+            <Suspense fallback={<Spinner />}>
+              <MonacoEditor
+                onChange={setColgroups}
+                onSave={onSave}
+                value={colgroups}
+                height={'50vh'}
+              />
+            </Suspense>
+            <ButtonV2 onClick={() => onSave(colgroups)}>{t('form.save')}</ButtonV2>
+          </ModalBody>
+        </div>
+      )}
+    </Modal>
   );
 };
 

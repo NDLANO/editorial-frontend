@@ -33,8 +33,8 @@ import {
 } from '../../util/routeHelpers';
 import AlertModal from '../AlertModal';
 import StyledFilledButton from '../StyledFilledButton';
-import { formatErrorMessage } from '../../util/apiHelpers';
 import { useMessages } from '../../containers/Messages/MessagesProvider';
+import { NdlaErrorPayload } from '../../util/resolveJsonOrRejectWithError';
 
 const StyledWrapper = styled.div`
   flex-grow: 1;
@@ -58,7 +58,7 @@ interface Props {
 const DeleteLanguageVersion = ({ values, type, disabled }: Props) => {
   const { t } = useTranslation();
   const [showDeleteWarning, setShowDeleteWarning] = useState(false);
-  const { createMessage } = useMessages();
+  const { createMessage, formatErrorMessage } = useMessages();
   const navigate = useNavigate();
 
   const toggleShowDeleteWarning = () => {
@@ -69,7 +69,7 @@ const DeleteLanguageVersion = ({ values, type, disabled }: Props) => {
     const { id, supportedLanguages, language, articleType } = values;
     if (id && supportedLanguages.includes(language)) {
       toggleShowDeleteWarning();
-      const otherSupportedLanguage = supportedLanguages.find(lang => lang !== language);
+      const otherSupportedLanguage = supportedLanguages.find((lang) => lang !== language);
 
       const newAfterLanguageDeletion = supportedLanguages.length <= 1;
 
@@ -119,7 +119,7 @@ const DeleteLanguageVersion = ({ values, type, disabled }: Props) => {
             break;
         }
       } catch (error) {
-        createMessage(formatErrorMessage(error as any));
+        createMessage(formatErrorMessage(error as NdlaErrorPayload));
       }
     }
   };
@@ -139,13 +139,16 @@ const DeleteLanguageVersion = ({ values, type, disabled }: Props) => {
         type="button"
         disabled={disabled}
         deletable
-        onClick={toggleShowDeleteWarning}>
+        onClick={toggleShowDeleteWarning}
+      >
         <DeleteForever />
         {t('form.workflow.deleteLanguageVersion.button', {
           languageVersion: t(`language.${language}`).toLowerCase(),
         })}
       </StyledFilledButton>
       <AlertModal
+        title={t('form.workflow.deleteLanguageVersion.title')}
+        label={t('form.workflow.deleteLanguageVersion.title')}
         show={showDeleteWarning}
         text={t('form.workflow.deleteLanguageVersion.modal')}
         actions={[

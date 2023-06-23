@@ -4,65 +4,86 @@
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree. *
  */
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { ModalBody, Modal } from '@ndla/modal';
 import { FieldHeader } from '@ndla/forms';
 import { useField, useFormikContext } from 'formik';
-import Button from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
+import { IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
 import { ImageEmbed } from '../../../interfaces';
-import VisualElementSearch from '../../VisualElement/VisualElementSearch';
 import SubjectpageBannerImage from './SubjectpageBannerImage';
-import Lightbox from '../../../components/Lightbox';
+import ImageSearchAndUploader from '../../../components/ImageSearchAndUploader';
+import { fetchImage, onError, searchImages } from '../../../modules/image/imageApi';
+import { SubjectPageFormikType } from '../../../util/subjectHelpers';
 
 interface Props {
   title: string;
-  fieldName: string;
+  fieldName: 'desktopBannerId' | 'mobileBannerId';
 }
 
 const SubjectpageBanner = ({ title, fieldName }: Props) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { setFieldTouched } = useFormikContext();
+  const [image, setImage] = useState<IImageMetaInformationV3 | undefined>(undefined);
   const [FieldInputProps] = useField<ImageEmbed>(fieldName);
-  const { onChange, value: fieldValue } = FieldInputProps;
+  const { onChange } = FieldInputProps;
   const [showImageSelect, setShowImageSelect] = useState(false);
+  const { values } = useFormikContext<SubjectPageFormikType>();
 
-  const onImageChange = (image: ImageEmbed) => {
-    updateFormik(image);
+  useEffect(() => {
+    (async () => {
+      if ((!image && values[fieldName]) || (image && parseInt(image.id) !== values[fieldName])) {
+        const fetchedImage = await fetchImage(values[fieldName] as number, values.language);
+        setImage(fetchedImage);
+      }
+    })();
+  }, [image, values, fieldName]);
+
+  const onImageChange = (image: IImageMetaInformationV3) => {
+    setImage(image);
+    updateFormik(parseInt(image.id));
     onImageSelectClose();
   };
 
-  const updateFormik = (value?: ImageEmbed) => {
+  const updateFormik = (value?: number) => {
     onChange({ target: { name: fieldName, value: value } });
     setFieldTouched(fieldName, true, false);
   };
 
-  const onImageSelectClose = () => {
+  const onImageSelectClose = useCallback(() => {
     setShowImageSelect(false);
-  };
+  }, []);
 
-  const onImageSelectOpen = () => {
+  const onImageSelectOpen = useCallback(() => {
     setShowImageSelect(true);
-  };
+  }, []);
 
   return (
     <>
       <FieldHeader title={title} />
-      {showImageSelect && (
-        <Lightbox display appearance={'big'} onClose={onImageSelectClose}>
-          <VisualElementSearch
-            selectedResource={'image'}
-            handleVisualElementChange={rt =>
-              rt.type === 'embed' ? onImageChange(rt.value as ImageEmbed) : null
-            }
-            closeModal={onImageSelectClose}
-          />
-        </Lightbox>
-      )}
-      {fieldValue ? (
-        <SubjectpageBannerImage image={fieldValue} onImageSelectOpen={onImageSelectOpen} />
+      {image ? (
+        <SubjectpageBannerImage image={image} onImageSelectOpen={onImageSelectOpen} />
       ) : (
-        <Button onClick={onImageSelectOpen}>{t('subjectpageForm.addBanner')}</Button>
+        <ButtonV2 onClick={onImageSelectOpen}>{t('subjectpageForm.addBanner')}</ButtonV2>
       )}
+
+      <Modal controlled isOpen={showImageSelect} onClose={onImageSelectClose} size="large">
+        {(close) => (
+          <ModalBody>
+            <ImageSearchAndUploader
+              inModal
+              locale={i18n.language}
+              language={values.language}
+              closeModal={close}
+              fetchImage={(id) => fetchImage(id, values.language)}
+              searchImages={searchImages}
+              onError={onError}
+              onImageSelect={onImageChange}
+            />
+          </ModalBody>
+        )}
+      </Modal>
     </>
   );
 };

@@ -10,20 +10,26 @@ import { useEffect, useRef, useState } from 'react';
 import { TFunction } from 'i18next';
 import { FormikHelpers } from 'formik';
 import { Descendant } from 'slate';
-import { IArticle, ILicense, IStatus, IUpdatedArticle, IAuthor } from '@ndla/types-draft-api';
+import {
+  IArticle,
+  ILicense,
+  IStatus,
+  IUpdatedArticle,
+  IAuthor,
+  IComment,
+} from '@ndla/types-backend/draft-api';
 import { deleteFile } from '../../modules/draft/draftApi';
-import { formatErrorMessage } from '../../util/apiHelpers';
-import * as articleStatuses from '../../util/constants/ArticleStatus';
-import { isFormikFormDirty } from '../../util/formHelper';
-import { DraftStatusType, RelatedContent } from '../../interfaces';
+import { RelatedContent } from '../../interfaces';
 import { useMessages } from '../Messages/MessagesProvider';
 import { useLicenses } from '../../modules/draft/draftQueries';
 import { getWarnings, RulesType } from '../../components/formikValidationSchema';
+import { NdlaErrorPayload } from '../../util/resolveJsonOrRejectWithError';
+import { PUBLISHED } from '../../constants';
 
 const getFilePathsFromHtml = (htmlString: string): string[] => {
   const parsed = new DOMParser().parseFromString(htmlString, 'text/html');
   const fileNodesArr = Array.from(parsed.querySelectorAll('embed[data-resource=file]'));
-  const paths = fileNodesArr.map(e => e.getAttribute('data-path'));
+  const paths = fileNodesArr.map((e) => e.getAttribute('data-path'));
   return paths.filter((x): x is string => x !== null);
 };
 
@@ -31,8 +37,8 @@ const deleteRemovedFiles = async (oldArticleContent: string, newArticleContent: 
   const oldFilePaths = getFilePathsFromHtml(oldArticleContent);
   const newFilePaths = getFilePathsFromHtml(newArticleContent);
 
-  const pathsToDelete = oldFilePaths.filter(op => !newFilePaths.some(np => op === np));
-  return Promise.all(pathsToDelete.map(path => deleteFile(path)));
+  const pathsToDelete = oldFilePaths.filter((op) => !newFilePaths.some((np) => op === np));
+  return Promise.all(pathsToDelete.map((path) => deleteFile(path)));
 };
 
 export interface ArticleFormType {
@@ -68,6 +74,12 @@ export interface ArticleFormType {
     status: string;
     new?: boolean;
   }[];
+  responsibleId?: string;
+  // This field is only used for error checking in revisions
+  revisionError?: string;
+  slug?: string;
+  comments?: IComment[];
+  prioritized: boolean;
 }
 
 export interface LearningResourceFormType extends ArticleFormType {
@@ -78,17 +90,18 @@ export interface TopicArticleFormType extends ArticleFormType {
   visualElement: Descendant[];
 }
 
+export interface FrontpageArticleFormType extends ArticleFormType {}
+
 type HooksInputObject<T extends ArticleFormType> = {
-  getInitialValues: (article: IArticle | undefined, language: string) => T;
+  getInitialValues: (
+    article: IArticle | undefined,
+    language: string,
+    ndlaId: string | undefined,
+  ) => T;
   article?: IArticle;
   t: TFunction;
   articleStatus?: IStatus;
   updateArticle: (art: IUpdatedArticle) => Promise<IArticle>;
-  updateArticleAndStatus?: (input: {
-    updatedArticle: IUpdatedArticle;
-    newStatus: DraftStatusType;
-    dirty: boolean;
-  }) => Promise<IArticle>;
   licenses?: ILicense[];
   getArticleFromSlate: (
     values: T,
@@ -98,6 +111,7 @@ type HooksInputObject<T extends ArticleFormType> = {
   ) => IUpdatedArticle;
   articleLanguage: string;
   rules?: RulesType<T, IArticle>;
+  ndlaId?: string;
 };
 
 export function useArticleFormHooks<T extends ArticleFormType>({
@@ -106,17 +120,17 @@ export function useArticleFormHooks<T extends ArticleFormType>({
   t,
   articleStatus,
   updateArticle,
-  updateArticleAndStatus,
   getArticleFromSlate,
   articleLanguage,
   rules,
+  ndlaId,
 }: HooksInputObject<T>) {
   const { id, revision } = article ?? {};
   const formikRef: any = useRef<any>(null); // TODO: Formik bruker any for denne ref'en men kanskje vi skulle gjort noe kulere?
   const { createMessage, applicationError } = useMessages();
   const { data: licenses } = useLicenses({ placeholderData: [] });
   const [savedToServer, setSavedToServer] = useState(false);
-  const initialValues = getInitialValues(article, articleLanguage);
+  const initialValues = getInitialValues(article, articleLanguage, ndlaId);
 
   useEffect(() => {
     setSavedToServer(false);
@@ -142,34 +156,16 @@ export function useArticleFormHooks<T extends ArticleFormType>({
 
     let savedArticle: IArticle;
     try {
-      if (statusChange && newStatus && updateArticleAndStatus) {
-        // if editor is not dirty, OR we are unpublishing, we don't save before changing status
-        const skipSaving =
-          newStatus === articleStatuses.UNPUBLISHED ||
-          !isFormikFormDirty({
-            values,
-            initialValues,
-            dirty: true,
-          });
-        savedArticle = await updateArticleAndStatus({
-          updatedArticle: {
-            ...newArticle,
-            revision: revision || newArticle.revision,
-          },
-          newStatus,
-          dirty: !skipSaving,
-        });
-      } else {
-        savedArticle = await updateArticle({
-          ...newArticle,
-          revision: revision || newArticle.revision,
-        });
-      }
+      savedArticle = await updateArticle({
+        ...newArticle,
+        revision: revision || newArticle.revision,
+        ...(statusChange ? { status: newStatus } : {}),
+      });
 
       await deleteRemovedFiles(article?.content?.content ?? '', newArticle.content ?? '');
 
       setSavedToServer(true);
-      const newInitialValues = getInitialValues(savedArticle, articleLanguage);
+      const newInitialValues = getInitialValues(savedArticle, articleLanguage, ndlaId);
       formikHelpers.resetForm({ values: newInitialValues });
       if (rules) {
         const newInitialWarnings = getWarnings(newInitialValues, rules, t, savedArticle);
@@ -177,20 +173,20 @@ export function useArticleFormHooks<T extends ArticleFormType>({
       }
       formikHelpers.setFieldValue('notes', [], false);
     } catch (e) {
-      const err = e as any;
+      const err = e as NdlaErrorPayload;
       if (err && err.status && err.status === 409) {
         createMessage({
           message: t('alertModal.needToRefresh'),
           timeToLive: 0,
         });
-      } else if (err && err.json && err.json.messages) {
-        createMessage(formatErrorMessage(err));
       } else {
         applicationError(err);
       }
       if (statusChange) {
-        // if validation failed we need to set status back so it won't be saved as new status on next save
-        formikHelpers.setFieldValue('status', { current: initialStatus });
+        if (newStatus === PUBLISHED) {
+          // if validation failed we need to set status back so it won't be saved as new status on next save
+          formikHelpers.setFieldValue('status', { current: initialStatus });
+        }
       }
       setSavedToServer(false);
     }

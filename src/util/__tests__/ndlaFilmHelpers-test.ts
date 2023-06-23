@@ -5,7 +5,8 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import { IFilmFrontPageData } from '@ndla/types-frontpage-api';
+import { IFilmFrontPageData } from '@ndla/types-backend/frontpage-api';
+import { TYPE_EMBED_IMAGE } from '../../components/SlateEditor/plugins/embed/types';
 import { FilmFormikType } from '../../containers/NdlaFilm/components/NdlaFilmForm';
 import { getInitialValues, getIdFromUrn, getUrnFromId } from '../ndlaFilmHelpers';
 
@@ -76,7 +77,7 @@ const filmFrontPageAfterTransformation: FilmFormikType = {
   ],
   visualElement: [
     {
-      type: 'embed',
+      type: TYPE_EMBED_IMAGE,
       data: {
         alt: 'Et bilde Foto.',
         metaData: {

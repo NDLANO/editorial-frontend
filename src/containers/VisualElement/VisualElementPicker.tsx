@@ -7,6 +7,7 @@
  */
 
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { Editor, Element, Transforms } from 'slate';
 import SlateVisualElementPicker from '../../components/SlateEditor/plugins/blockPicker/SlateVisualElementPicker';
@@ -20,6 +21,7 @@ interface Props {
 }
 
 const VisualElementPicker = ({ editor, language, types }: Props) => {
+  const { t } = useTranslation();
   const onInsertBlock = (block: Element) => {
     Editor.withoutNormalizing(editor, () => {
       Transforms.insertNodes(editor, block, { at: [0] });
@@ -44,6 +46,8 @@ const VisualElementPicker = ({ editor, language, types }: Props) => {
     <div contentEditable={false}>
       {selectedResource && (
         <SlateVisualElementPicker
+          isOpen
+          label={t(`form.visualElementPicker.${selectedResource}`)}
           articleLanguage={language}
           resource={selectedResource}
           onVisualElementClose={resetSelectedResource}

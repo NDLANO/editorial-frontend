@@ -6,13 +6,13 @@
  *
  */
 
-import { useQuery, UseQueryOptions } from 'react-query';
+import { useQuery, UseQueryOptions } from '@tanstack/react-query';
 import {
   IAudioMetaInformation,
   IAudioSummarySearchResult,
   ISeriesSummarySearchResult,
   ISeries,
-} from '@ndla/types-audio-api';
+} from '@ndla/types-backend/audio-api';
 import { AUDIO, PODCAST_SERIES, SEARCH_AUDIO, SEARCH_SERIES } from '../../queryKeys';
 import { AudioSearchParams, SeriesSearchParams } from './audioApiInterfaces';
 import { fetchAudio, fetchSeries, searchAudio, searchSeries } from './audioApi';

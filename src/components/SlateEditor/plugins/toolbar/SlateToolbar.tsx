@@ -9,8 +9,8 @@
 import { createRef, MouseEvent, useEffect } from 'react';
 import { Editor, Element } from 'slate';
 import { ReactEditor } from 'slate-react';
-import BEMHelper from 'react-bem-helper';
-import { Portal } from '../../../Portal';
+import styled from '@emotion/styled';
+import { Portal } from '@radix-ui/react-portal';
 import ToolbarButton from './ToolbarButton';
 import { toggleMark } from '../mark/utils';
 import { handleClickInline, handleClickBlock, handleClickTable } from './handleMenuClicks';
@@ -19,18 +19,20 @@ import { isMarkActive } from '../mark';
 import { LIST_TYPES as listTypes } from '../list/types';
 import hasListItem from '../list/utils/hasListItem';
 import getCurrentBlock from '../../utils/getCurrentBlock';
-import { hasCellAlignOfType } from '../table/helpers';
 import { TYPE_TABLE_CELL } from '../table/types';
+import { hasCellAlignOfType } from '../table/slateHelpers';
+import { TYPE_DEFINITION_LIST } from '../definitionList/types';
+import hasDefinitionListItem from '../definitionList/utils/hasDefinitionListItem';
 
 const topicArticleElements: { [key: string]: string[] } = {
   mark: ['bold', 'italic', 'code', 'sub', 'sup'],
-  block: ['quote', 'heading-2', 'heading-3', ...listTypes],
+  block: ['quote', 'heading-2', 'heading-3', 'heading-4', 'definition-list', ...listTypes],
   inline: ['link', 'mathml', 'concept', 'span'],
 };
 
 const learningResourceElements: { [key: string]: string[] } = {
   mark: ['bold', 'italic', 'code', 'sub', 'sup'],
-  block: ['quote', 'heading-2', 'heading-3', ...listTypes],
+  block: ['quote', 'heading-2', 'heading-3', 'heading-4', 'definition-list', ...listTypes],
   inline: ['link', 'mathml', 'concept', 'span'],
   table: ['left', 'center', 'right'],
 };
@@ -44,12 +46,25 @@ const specialRules: { [key: string]: Partial<Element> } = {
     type: 'heading',
     level: 3,
   },
+  'heading-4': {
+    type: 'heading',
+    level: 4,
+  },
 };
 
-export const toolbarClasses = new BEMHelper({
-  name: 'toolbar',
-  prefix: 'c-',
-});
+const ToolbarContainer = styled.div`
+  border-radius: 4px;
+  position: absolute;
+  z-index: 11;
+  top: -10000px;
+  left: -10000px;
+  margin-top: -6px;
+  opacity: 0;
+  color: black;
+  background-color: white;
+  transition: opacity 0.75s;
+  box-shadow: 3px 3px 5px #99999959;
+`;
 
 interface Props {
   editor: Editor;
@@ -73,6 +88,17 @@ const SlateToolbar = (props: Props) => {
   useEffect(() => {
     updateMenu();
   });
+
+  const isActiveList = (editor: Editor, type: string) => {
+    if (type === 'definition-list') {
+      const path = getCurrentBlock(editor, TYPE_DEFINITION_LIST)?.[1];
+      if (path) {
+        return hasDefinitionListItem(editor);
+      }
+      return false;
+    }
+    return hasListItem(editor, type);
+  };
 
   const updateMenu = () => {
     const menu = portalRef.current;
@@ -119,7 +145,7 @@ const SlateToolbar = (props: Props) => {
     ? learningResourceElements
     : topicArticleElements;
 
-  const markButtons = toolbarElements.mark.map(type => (
+  const markButtons = toolbarElements.mark.map((type) => (
     <ToolbarButton
       key={type}
       type={type}
@@ -131,14 +157,14 @@ const SlateToolbar = (props: Props) => {
     />
   ));
 
-  const blockButtons = toolbarElements.block.map(type => (
+  const blockButtons = toolbarElements.block.map((type) => (
     <ToolbarButton
       key={type}
       type={type}
       kind={'block'}
       isActive={
         type.includes('list')
-          ? hasListItem(editor, type)
+          ? isActiveList(editor, type)
           : hasNodeWithProps(editor, specialRules[type] ?? { type })
       }
       handleOnClick={(event: MouseEvent, kind: string, type: string) => {
@@ -146,7 +172,7 @@ const SlateToolbar = (props: Props) => {
       }}
     />
   ));
-  const inlineButtons = toolbarElements.inline.map(type => (
+  const inlineButtons = toolbarElements.inline.map((type) => (
     <ToolbarButton
       key={type}
       type={type}
@@ -161,8 +187,9 @@ const SlateToolbar = (props: Props) => {
   const tableCellElement = getCurrentBlock(editor, TYPE_TABLE_CELL)?.[0];
   const tableButtons =
     !!tableCellElement &&
-    toolbarElements.table?.map(type => (
+    toolbarElements.table?.map((type, index) => (
       <ToolbarButton
+        key={index}
         type={type}
         kind={'table'}
         isActive={hasCellAlignOfType(editor, type)}
@@ -173,13 +200,13 @@ const SlateToolbar = (props: Props) => {
     ));
 
   return (
-    <Portal isOpened>
-      <div ref={portalRef} {...toolbarClasses()}>
+    <Portal>
+      <ToolbarContainer ref={portalRef}>
         {markButtons}
         {blockButtons}
         {inlineButtons}
         {tableButtons}
-      </div>
+      </ToolbarContainer>
     </Portal>
   );
 };

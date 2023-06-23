@@ -8,7 +8,7 @@
 
 import { colors, spacing, fonts } from '@ndla/core';
 import styled from '@emotion/styled';
-import { css } from '@emotion/core';
+import { css } from '@emotion/react';
 
 interface ItemTitleButtonProps {
   isVisible?: boolean;
@@ -41,7 +41,6 @@ export const itemTitleLinked = css`
     border-left: 2px solid ${colors.brand.light};
     border-bottom-left-radius: 2px;
     margin-right: ${spacing.xsmall};
-    margin-left: 7px;
   }
 `;
 
@@ -50,42 +49,39 @@ export const ItemTitleButton = styled.button<ItemTitleButtonProps>`
   font-weight: ${fonts.weight.semibold};
   border: 0;
   background: 0;
-  color: ${props => (!props.isVisible ? colors.brand.grey : colors.brand.primary)};
+  color: ${(props) => (!props.isVisible ? colors.brand.grey : colors.brand.primary)};
   display: flex;
   align-items: center;
   text-align: left;
-  white-space: nowrap;
-  font-style: ${props => !props.isVisible && 'italic'};
+  font-style: ${(props) => !props.isVisible && 'italic'};
 
-  ${props => props.hasChildNodes && itemTitleArrow};
-  ${props =>
+  ${(props) => props.hasChildNodes && itemTitleArrow};
+  ${(props) =>
     props.lastItemClickable &&
     css`
       cursor: pointer;
     `};
-  ${props => !props.hasChildNodes && !props.isRootNode && itemTitleLinked};
+  ${(props) => !props.hasChildNodes && !props.isRootNode && itemTitleLinked};
 
   &:before {
     transition: transform 200ms ease;
-    transform: rotate(${props => props.hasChildNodes && props.arrowDirection}deg);
+    transform: rotate(${(props) => props.hasChildNodes && props.arrowDirection}deg);
   }
 `;
 
 interface StyledItemBarProps {
-  level: number;
   highlight?: boolean;
 }
 
 export const StyledItemBar = styled.div<StyledItemBarProps>`
   display: flex;
   align-items: center;
-  padding: 0 ${spacing.small} 0 calc(${props => props.level} * 17px + ${spacing.small});
-  height: 40px;
+  min-height: 40px;
   border-bottom: 1px solid ${colors.brand.greyLighter};
-  background: ${props => props.highlight && colors.brand.light};
+  background: ${(props) => props.highlight && colors.brand.lighter};
 
   &:hover {
-    background: ${props => (props.highlight ? colors.brand.light : '#f1f5f8')};
+    background: ${(props) => (props.highlight ? colors.brand.light : '#f1f5f8')};
   }
 `;
 
@@ -94,12 +90,13 @@ interface StyledStructureItemProps {
   connectionId?: string;
 }
 
-export const StyledStructureItem = styled.li<StyledStructureItemProps>`
+export const StyledStructureItem = styled.div<StyledStructureItemProps>`
   margin: 0;
   padding: 0;
+  flex: 1;
   display: flex;
   flex-direction: column;
-  ${props =>
+  ${(props) =>
     props.greyedOut &&
     css`
       > div > button {

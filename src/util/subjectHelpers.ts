@@ -11,10 +11,10 @@ import {
   ISubjectPageData,
   INewSubjectFrontPageData,
   IUpdatedSubjectFrontPageData,
-} from '@ndla/types-frontpage-api';
-import { IImageMetaInformationV2 } from '@ndla/types-image-api';
-import { ILearningPathV2 } from '@ndla/types-learningpath-api';
-import { IArticle } from '@ndla/types-draft-api';
+} from '@ndla/types-backend/frontpage-api';
+import { IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
+import { ILearningPathV2 } from '@ndla/types-backend/learningpath-api';
+import { IArticle } from '@ndla/types-backend/draft-api';
 import { BrightcoveEmbed, ImageEmbed } from '../interfaces';
 import {
   editorValueToEmbed,
@@ -22,7 +22,6 @@ import {
   plainTextToEditorValue,
 } from './articleContentConverter';
 import { convertVisualElement } from './ndlaFilmHelpers';
-import { imageToVisualElement } from './visualElementHelper';
 
 export const getIdFromUrn = (urnId: string | undefined) => urnId?.replace('urn:frontpage:', '');
 
@@ -44,10 +43,10 @@ export interface SubjectPageFormikType {
   articleType: string;
   description?: Descendant[];
   metaDescription?: Descendant[];
-  desktopBanner?: ImageEmbed;
+  desktopBannerId?: number;
+  mobileBannerId?: number;
   editorsChoices: (ILearningPathV2 | IArticle)[];
   language: string;
-  mobileBanner?: number;
   elementId: string;
   title: Descendant[];
 }
@@ -80,8 +79,8 @@ export const subjectpageFormikTypeToPostType = (
       },
     ],
     banner: {
-      mobileImageId: values.mobileBanner,
-      desktopImageId: parseInt(values.desktopBanner!.resource_id),
+      mobileImageId: values.mobileBannerId,
+      desktopImageId: values.desktopBannerId!,
     },
     editorsChoices: editorsChoicesUrns,
     facebook: values.facebook,
@@ -109,10 +108,8 @@ export const subjectpageApiTypeToFormikType = (
   elementId: string,
   selectedLanguage: string,
   editorsChoices?: (ILearningPathV2 | IArticle)[],
-  banner?: IImageMetaInformationV2, // maybe undefined?
 ): SubjectPageFormikType => {
   const visualElement = subjectpage?.about?.visualElement;
-  const desktopBanner = banner ? imageToVisualElement(banner) : undefined;
 
   const embed = visualElement
     ? convertVisualElement({ ...visualElement, alt: visualElement.alt ?? '' })
@@ -123,8 +120,8 @@ export const subjectpageApiTypeToFormikType = (
     language: selectedLanguage,
     description: plainTextToEditorValue(subjectpage?.about?.description ?? ''),
     title: plainTextToEditorValue(subjectpage?.about?.title ?? ''),
-    mobileBanner: subjectpage?.banner?.mobileId,
-    desktopBanner,
+    mobileBannerId: subjectpage?.banner.mobileId,
+    desktopBannerId: subjectpage?.banner.desktopId,
     visualElement: embed ?? [],
     editorsChoices: editorsChoices ?? [],
     facebook: subjectpage?.facebook,
@@ -134,7 +131,7 @@ export const subjectpageApiTypeToFormikType = (
     layout: subjectpage?.layout ?? 'single',
     metaDescription: plainTextToEditorValue(subjectpage?.metaDescription || ''),
     mostRead: subjectpage?.mostRead ?? [],
-    name: subjectpage?.name ?? elementName ?? '',
+    name: subjectpage?.about?.title ?? elementName ?? '',
     topical: subjectpage?.topical ?? '',
     twitter: subjectpage?.twitter ?? '',
     elementId,

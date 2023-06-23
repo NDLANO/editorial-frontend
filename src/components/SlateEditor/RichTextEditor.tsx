@@ -17,9 +17,9 @@ import {
 } from 'slate-react';
 import { withHistory } from 'slate-history';
 import { useFormikContext } from 'formik';
-import { isEqual } from 'lodash';
-import BEMHelper from 'react-bem-helper';
-import { css } from '@emotion/core';
+import isEqual from 'lodash/isEqual';
+import styled from '@emotion/styled';
+import { fonts } from '@ndla/core';
 import { SlatePlugin } from './interfaces';
 import { SlateProvider } from './SlateContext';
 import { SlateToolbar } from './plugins/toolbar';
@@ -30,33 +30,33 @@ import { ArticleFormType } from '../../containers/FormikForm/articleFormHooks';
 import { FormikStatus } from '../../interfaces';
 import SlateBlockPicker from './plugins/blockPicker/SlateBlockPicker';
 import { BlockPickerOptions, createBlockpickerOptions } from './plugins/blockPicker/options';
+import { Action, commonActions } from './plugins/blockPicker/actions';
 
-export const classes = new BEMHelper({
-  name: 'editor',
-  prefix: 'c-',
-});
-
-const slateEditorDivStyle = css`
+const StyledSlateWrapper = styled.div`
   position: relative;
+`;
+
+const StyledEditable = styled(Editable)`
+  font-family: ${fonts.serif};
 `;
 
 interface Props {
   value: Descendant[];
   onChange: (descendant: Descendant[]) => void;
-  className?: string;
   placeholder?: string;
   plugins?: SlatePlugin[];
   submitted: boolean;
   language: string;
+  actions?: Action[];
   blockpickerOptions?: Partial<BlockPickerOptions>;
 }
 
 const RichTextEditor = ({
-  className,
   placeholder,
   plugins,
   value,
   onChange,
+  actions = commonActions,
   submitted,
   language,
   blockpickerOptions = {},
@@ -73,6 +73,7 @@ const RichTextEditor = ({
 
   useEffect(() => {
     Editor.normalize(editor, { force: true });
+    editor.history = { redos: [], undos: [] };
     setIsFirstNormalize(false);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -122,7 +123,7 @@ const RichTextEditor = ({
       if (editor.lastSelectedBlock) {
         const [target] = Editor.nodes(editor, {
           at: Editor.range(editor, [0]),
-          match: node => {
+          match: (node) => {
             return isEqual(node, editor.lastSelectedBlock);
           },
         });
@@ -185,7 +186,7 @@ const RichTextEditor = ({
   return (
     <article>
       <SlateProvider isSubmitted={submitted}>
-        <div data-cy="slate-editor" css={slateEditorDivStyle} {...classes()}>
+        <StyledSlateWrapper data-cy="slate-editor">
           <Slate editor={editor} value={value} onChange={onChange}>
             {isFirstNormalize ? (
               <Spinner />
@@ -194,10 +195,11 @@ const RichTextEditor = ({
                 <SlateToolbar editor={editor} />
                 <SlateBlockPicker
                   editor={editor}
+                  actions={actions}
                   articleLanguage={language}
                   {...createBlockpickerOptions(blockpickerOptions)}
                 />
-                <Editable
+                <StyledEditable
                   decorate={decorations}
                   // @ts-ignore is-hotkey and editor.onKeyDown does not have matching types
                   onKeyDown={editor.onKeyDown}
@@ -208,12 +210,11 @@ const RichTextEditor = ({
                   onDragStart={onDragStartCallback}
                   onDragOver={onDragOverCallback}
                   onDrop={onDropCallback}
-                  {...classes('content', undefined, className)}
                 />
               </>
             )}
           </Slate>
-        </div>
+        </StyledSlateWrapper>
       </SlateProvider>
     </article>
   );

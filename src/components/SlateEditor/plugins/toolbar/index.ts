@@ -17,12 +17,14 @@ const isCodeHotKey = isKeyHotkey('mod+k');
 const isConceptBlockHotKey = isCodeHotkey('mod+alt+c');
 const isH2HotKey = isKeyHotkey('mod+2');
 const isH3HotKey = isKeyHotkey('mod+3');
+const isH4HotKey = isKeyHotkey('mod+4');
 const isItalicHotKey = isKeyHotkey('mod+i');
 const isLetteredListHotKey = isCodeHotkey('mod+alt+a');
 const isLinkHotKey = isCodeHotkey('mod+alt+l');
 const isListHotKey = isKeyHotkey('mod+l');
 const isMathHotKey = isKeyHotkey('mod+m');
 const isNumberedListHotKey = isCodeHotkey('mod+alt+1');
+const isDefinitionListHotkey = isCodeHotkey('mod+alt+d');
 const isQuoteHotKey = isCodeHotkey('mod+alt+b');
 const isSubHotKey = isCodeHotkey('mod+alt+s');
 const isSupHotKey = isCodeHotkey('mod+alt+h');
@@ -53,6 +55,8 @@ const toolbarPlugin = (editor: Editor) => {
       block = 'heading-2';
     } else if (isH3HotKey(e)) {
       block = 'heading-3';
+    } else if (isH4HotKey(e)) {
+      block = 'heading-4';
     } else if (isItalicHotKey(e)) {
       mark = 'italic';
     } else if (isLetteredListHotKey(e)) {
@@ -73,6 +77,8 @@ const toolbarPlugin = (editor: Editor) => {
       mark = 'sup';
     } else if (isSpanHotKey(e)) {
       inline = 'span';
+    } else if (isDefinitionListHotkey(e)) {
+      block = 'definition-list';
     }
 
     if ((mark || block || inline) && !editor.shouldShowToolbar()) {

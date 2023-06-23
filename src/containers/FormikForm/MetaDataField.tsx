@@ -7,7 +7,7 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { IImageMetaInformationV2 } from '@ndla/types-image-api';
+import { IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
 import FormikField from '../../components/FormikField';
 import PlainTextEditor from '../../components/SlateEditor/PlainTextEditor';
 import { textTransformPlugin } from '../../components/SlateEditor/plugins/textTransform';
@@ -21,7 +21,7 @@ import { fetchSearchTags } from '../../modules/draft/draftApi';
 interface Props {
   articleLanguage: string;
   showCheckbox?: boolean;
-  checkboxAction?: (image: IImageMetaInformationV2) => void;
+  checkboxAction?: (image: IImageMetaInformationV3) => void;
 }
 
 const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props) => {
@@ -35,9 +35,11 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
         name="tags"
         label={t('form.tags.label')}
         showError
-        description={t('form.tags.description')}>
+        description={t('form.tags.description')}
+      >
         {({ field, form }) => (
           <AsyncSearchTags
+            multiSelect
             initialTags={field.value}
             language={articleLanguage}
             field={field}
@@ -56,7 +58,8 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
         maxLength={155}
         showMaxLength
         label={t('form.metaDescription.label')}
-        description={t('form.metaDescription.description')}>
+        description={t('form.metaDescription.description')}
+      >
         {({ field }) => (
           <PlainTextEditor
             id={field.name}
@@ -74,6 +77,7 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
             showRemoveButton={false}
             showCheckbox={showCheckbox}
             checkboxAction={checkboxAction}
+            language={articleLanguage}
             {...field}
           />
         )}

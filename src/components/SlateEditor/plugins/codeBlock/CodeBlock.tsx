@@ -3,10 +3,12 @@ import styled from '@emotion/styled';
 import { Editor, Path, Transforms } from 'slate';
 import { ReactEditor, RenderElementProps } from 'slate-react';
 import he from 'he';
+import { useTranslation } from 'react-i18next';
 
-import Button from '@ndla/button';
+import { IconButtonV2 } from '@ndla/button';
 import { DeleteForever } from '@ndla/icons/editor';
 import { Codeblock } from '@ndla/code';
+import { CodeEmbedData } from '@ndla/types-embed';
 
 import { CodeBlockType } from '../../../../interfaces';
 import EditCodeBlock from './EditCodeBlock';
@@ -26,45 +28,46 @@ interface RemoveCodeBlockProps {
 }
 
 const RemoveCodeBlock = ({ handleRemove }: RemoveCodeBlockProps) => {
+  const { t } = useTranslation();
   return (
-    <Button stripped onClick={handleRemove}>
+    <IconButtonV2
+      variant="ghost"
+      colorTheme="danger"
+      aria-label={t('form.remove')}
+      onClick={handleRemove}
+    >
       <DeleteForever />
-    </Button>
+    </IconButtonV2>
   );
 };
 
-const getInfoFromNode = (element: CodeblockElement) => {
+const getInfoFromNode = (element: CodeblockElement): CodeEmbedData => {
   const { data } = element;
-  const codeBlock = data['code-block'] || {};
-
-  const code = codeBlock.code || data['code-content'] || '';
-  const format = codeBlock.format || data['code-format'] || 'text';
-  const title = codeBlock.title || data['title'] || '';
-
   return {
-    model: {
-      code: he.decode(code),
-      title,
-      format,
-    },
+    resource: 'code-block',
+    codeContent: he.decode(data.codeContent || '') as string,
+    title: data.title || '',
+    codeFormat: data.codeFormat || 'text',
   };
 };
 
 const CodeBlock = ({ attributes, editor, element, children }: Props) => {
-  const { model } = getInfoFromNode(element);
-  const [editMode, setEditMode] = useState<boolean>(!model.code && !model.title);
+  const embedData = getInfoFromNode(element);
+  const [editMode, setEditMode] = useState<boolean>(!embedData.codeContent && !embedData.title);
 
   const toggleEditMode = () => {
     setEditMode(!editMode);
   };
 
   const handleSave = (codeBlock: CodeBlockType) => {
-    const { code } = codeBlock;
+    const newData: CodeEmbedData = {
+      resource: 'code-block',
+      codeFormat: codeBlock.format,
+      title: codeBlock.title,
+      codeContent: codeBlock.code,
+    };
     const properties = {
-      data: {
-        ...element.data,
-        'code-block': { ...codeBlock, code: he.encode(code) },
-      },
+      data: newData,
       isFirstEdit: false,
     };
     ReactEditor.focus(editor);
@@ -101,31 +104,34 @@ const CodeBlock = ({ attributes, editor, element, children }: Props) => {
   };
 
   return (
-    <CodeDiv
-      className="c-figure"
-      contentEditable={false}
-      draggable={!editMode}
-      onClick={toggleEditMode}
-      role="button"
-      {...attributes}>
-      <Codeblock
-        actionButton={<RemoveCodeBlock handleRemove={handleRemove} />}
-        code={model.code}
-        format={model.format}
-        title={model.title}
-      />
+    <>
+      <CodeDiv
+        className="c-figure"
+        contentEditable={false}
+        draggable={!editMode}
+        onClick={toggleEditMode}
+        role="button"
+        {...attributes}
+      >
+        <Codeblock
+          actionButton={<RemoveCodeBlock handleRemove={handleRemove} />}
+          code={embedData.codeContent}
+          format={embedData.codeFormat}
+          title={embedData.title}
+        />
+        {children}
+      </CodeDiv>
       {editMode && (
         <EditCodeBlock
           editor={editor}
           onChange={editor.onChange}
           closeDialog={onExit}
           handleSave={handleSave}
-          model={model}
+          embedData={embedData}
           onExit={onExit}
         />
       )}
-      {children}
-    </CodeDiv>
+    </>
   );
 };
 

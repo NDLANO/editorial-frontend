@@ -9,8 +9,8 @@
 import { TFunction, useTranslation } from 'react-i18next';
 import VideoSearch from '@ndla/video-search';
 import AudioSearch from '@ndla/audio-search';
-import { IAudioSummary } from '@ndla/types-audio-api';
-import { IImageMetaInformationV2 } from '@ndla/types-image-api';
+import { IAudioSummary } from '@ndla/types-backend/audio-api';
+import { IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
 import config from '../../config';
 import H5PElement from '../../components/H5PElement/H5PElement';
 import { EXTERNAL_WHITELIST_PROVIDERS } from '../../constants';
@@ -18,7 +18,7 @@ import VisualElementUrlPreview from './VisualElementUrlPreview';
 import ImageSearchAndUploader from '../../components/ImageSearchAndUploader';
 import { convertFieldWithFallback } from '../../util/convertFieldWithFallback';
 import { fetchImage, searchImages } from '../../modules/image/imageApi';
-import { fetchAudio } from '../../modules/audio/audioApi';
+import { fetchAudio, searchAudio } from '../../modules/audio/audioApi';
 import { onError } from '../../util/resolveJsonOrRejectWithError';
 import {
   BrightcoveApiType,
@@ -26,28 +26,23 @@ import {
   VideoSearchQuery,
 } from '../../modules/video/brightcoveApi';
 import { AudioSearchParams } from '../../modules/audio/audioApiInterfaces';
-import { searchAudio } from '../../modules/audio/audioApi';
-import { Embed, ReturnType } from '../../interfaces';
+import { Embed, ExternalEmbed, H5pEmbed } from '../../interfaces';
 import FileUploader from '../../components/FileUploader';
 
 const titles = (t: TFunction, resource: string) => ({
   [resource]: t(`form.visualElement.${resource.toLowerCase()}`),
 });
 
-export type EmbedReturnType = ReturnType<'embed', Embed>;
-type FileReturnType = ReturnType<'file', DOMStringMap[]>;
-export type VisualElementChangeReturnType = EmbedReturnType | FileReturnType;
-
 interface Props {
   selectedResource: string;
   selectedResourceUrl?: string;
   selectedResourceType?: string;
-  setH5pFetchFail?: (failed: boolean) => void;
-  handleVisualElementChange: (returnType: VisualElementChangeReturnType) => void;
+  handleVisualElementChange: (returnType: Embed | DOMStringMap[]) => void;
   articleLanguage?: string;
   closeModal: () => void;
   showCheckbox?: boolean;
-  checkboxAction?: (image: IImageMetaInformationV2) => void;
+  checkboxAction?: (image: IImageMetaInformationV3) => void;
+  embed?: H5pEmbed | ExternalEmbed;
 }
 
 interface LocalAudioSearchParams extends Omit<AudioSearchParams, 'audio-type' | 'page-size'> {
@@ -73,17 +68,17 @@ const VisualElementSearch = ({
   selectedResource,
   selectedResourceUrl,
   selectedResourceType,
-  setH5pFetchFail,
   handleVisualElementChange,
   articleLanguage,
   closeModal,
   showCheckbox: showMetaImageCheckbox,
   checkboxAction: onSaveAsMetaImage,
+  embed,
 }: Props) => {
   const { t, i18n } = useTranslation();
   const locale = i18n.language;
-  const [allowedUrlResource] = EXTERNAL_WHITELIST_PROVIDERS.map(provider => provider.name).filter(
-    name => name === selectedResource,
+  const [allowedUrlResource] = EXTERNAL_WHITELIST_PROVIDERS.map((provider) => provider.name).filter(
+    (name) => name === selectedResource,
   );
   switch (selectedResource) {
     case 'image':
@@ -91,24 +86,22 @@ const VisualElementSearch = ({
         <ImageSearchAndUploader
           inModal={true}
           locale={locale}
+          language={articleLanguage}
           closeModal={closeModal}
-          fetchImage={id => fetchImage(id, articleLanguage)}
+          fetchImage={(id) => fetchImage(id, articleLanguage)}
           searchImages={searchImages}
           onError={onError}
-          onImageSelect={image => {
+          onImageSelect={(image) =>
             handleVisualElementChange({
-              type: 'embed',
-              value: {
-                resource: selectedResource,
-                resource_id: image.id,
-                size: 'full',
-                align: '',
-                alt: convertFieldWithFallback<'alttext'>(image, 'alttext', ''),
-                caption: convertFieldWithFallback<'caption'>(image, 'caption', ''),
-                metaData: image,
-              },
-            });
-          }}
+              resource: selectedResource,
+              resource_id: image.id,
+              size: 'full',
+              align: '',
+              alt: convertFieldWithFallback<'alttext'>(image, 'alttext', ''),
+              caption: convertFieldWithFallback<'caption'>(image, 'caption', ''),
+              metaData: image,
+            })
+          }
           showCheckbox={showMetaImageCheckbox}
           checkboxAction={onSaveAsMetaImage}
         />
@@ -134,23 +127,22 @@ const VisualElementSearch = ({
             searchVideos={(query: VideoSearchQuery) => searchVideos(query)}
             locale={locale}
             translations={videoTranslations}
-            onVideoSelect={(video: BrightcoveApiType, type: 'brightcove') => {
+            onVideoSelect={(video: BrightcoveApiType, type: 'brightcove') =>
               handleVisualElementChange({
-                type: 'embed',
-                value: {
-                  resource: type,
-                  videoid: video.id,
-                  caption: '',
-                  account: config.brightCoveAccountId!,
-                  player:
-                    video.projection === 'equirectangular'
-                      ? config.brightcove360PlayerId!
-                      : config.brightcovePlayerId!,
-                  metaData: video,
-                  title: video.name,
-                },
-              });
-            }}
+                resource: type,
+                videoid: video.id,
+                caption: '',
+                account: config.brightcoveAccountId!,
+                player:
+                  video.projection === 'equirectangular'
+                    ? config.brightcove360PlayerId!
+                    : video.custom_fields['license'] === 'Opphavsrett'
+                    ? config.brightcoveCopyrightPlayerId!
+                    : config.brightcovePlayerId!,
+                metaData: video,
+                title: video.name,
+              })
+            }
             onError={onError}
           />
         </>
@@ -162,19 +154,15 @@ const VisualElementSearch = ({
         <H5PElement
           canReturnResources={true}
           h5pUrl={selectedResourceUrl}
-          onSelect={h5p =>
+          onSelect={(h5p) =>
             handleVisualElementChange({
-              type: 'embed',
-              value: {
-                resource: 'h5p',
-                path: h5p.path!,
-                title: h5p.title,
-              },
+              resource: 'h5p',
+              path: h5p.path!,
+              title: h5p.title,
             })
           }
           onClose={closeModal}
-          locale={locale}
-          setH5pFetchFail={setH5pFetchFail}
+          locale={articleLanguage ?? locale}
         />
       );
     }
@@ -203,13 +191,10 @@ const VisualElementSearch = ({
           searchAudios={searchAudios}
           onAudioSelect={(audio: IAudioSummary) =>
             handleVisualElementChange({
-              type: 'embed',
-              value: {
-                resource: 'audio',
-                resource_id: audio.id.toString(),
-                type: audioType,
-                url: audio.url,
-              },
+              resource: 'audio',
+              resource_id: audio.id.toString(),
+              type: audioType,
+              url: audio.url,
             })
           }
           onError={onError}
@@ -226,19 +211,21 @@ const VisualElementSearch = ({
           selectedResourceUrl={selectedResourceUrl}
           selectedResourceType={selectedResourceType}
           onUrlSave={handleVisualElementChange}
+          articleLanguage={articleLanguage}
+          embed={embed?.resource === 'external' || embed?.resource === 'iframe' ? embed : undefined}
         />
       );
     }
     case 'file':
       return (
         <FileUploader
-          onFileSave={files => {
-            const preparedFiles = files.map(file => ({
+          onFileSave={(files) => {
+            const preparedFiles = files.map((file) => ({
               url: config.ndlaApiUrl + file.path,
               resource: 'file',
               ...file,
             }));
-            handleVisualElementChange({ type: 'file', value: preparedFiles });
+            handleVisualElementChange(preparedFiles);
           }}
         />
       );

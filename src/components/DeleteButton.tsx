@@ -6,42 +6,25 @@
  *
  */
 
-import { MouseEvent, ReactNode } from 'react';
-import { css, SerializedStyles } from '@emotion/core';
-import darken from 'polished/lib/color/darken';
-import { colors } from '@ndla/core';
-import DeleteForeverButton from './DeleteForeverButton';
+import { IconButtonV2 } from '@ndla/button';
+import { DeleteForever } from '@ndla/icons/editor';
+import Tooltip from '@ndla/tooltip';
+import { ComponentProps } from 'react';
 
-const deleteButtonStyle = css`
-  position: absolute;
-  top: 0.1rem;
-  right: 0.2rem;
-  color: ${colors.support.red};
+interface Props extends ComponentProps<typeof IconButtonV2> {}
 
-  &:hover,
-  &:focus {
-    color: ${darken(0.2, colors.support.red)};
-  }
-`;
-
-interface Props {
-  style?: string | SerializedStyles;
-  children?: ReactNode;
-  stripped?: boolean;
-  onMouseDown?: (event: MouseEvent) => void;
-  'data-cy'?: string;
-  onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
-  title?: string;
-  tabIndex?: string;
-}
-
-export const DeleteButton = ({ children, style, ...rest }: Props) => (
-  <DeleteForeverButton
-    data-cy="close-related-button"
-    stripped
-    css={[deleteButtonStyle, style]}
-    {...rest}
-  />
+export const DeleteButton = ({ children, ...rest }: Props) => (
+  <Tooltip tooltip={rest['aria-label' ?? '']}>
+    <IconButtonV2
+      colorTheme="danger"
+      variant="ghost"
+      contentEditable={false}
+      data-cy="close-related-button"
+      {...rest}
+    >
+      <DeleteForever />
+    </IconButtonV2>
+  </Tooltip>
 );
 
 export default DeleteButton;

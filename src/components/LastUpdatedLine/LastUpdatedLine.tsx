@@ -5,15 +5,14 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { css } from '@emotion/core';
+import styled from '@emotion/styled';
 import { colors } from '@ndla/core';
 import formatDate from '../../util/formatDate';
 
 import DateEdit from './DateEdit';
 
-const infoCss = css`
+const StyledLastUpdatedLine = styled.div`
   color: ${colors.text.light};
   line-height: 1.4rem;
 `;
@@ -43,8 +42,8 @@ const LastUpdatedLine = ({
 }: Props) => {
   const { t } = useTranslation();
   return (
-    <div css={infoCss}>
-      {creators.map(creator => creator.name).join(', ')}
+    <StyledLastUpdatedLine>
+      {creators.map((creator) => creator.name).join(', ')}
       {published ? ` - ${t('topicArticleForm.info.lastUpdated')}` : ''}
       {published &&
         (allowEdit ? (
@@ -52,19 +51,8 @@ const LastUpdatedLine = ({
         ) : (
           formatDate(published)
         ))}
-    </div>
+    </StyledLastUpdatedLine>
   );
-};
-
-LastUpdatedLine.propTypes = {
-  creators: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      type: PropTypes.string.isRequired,
-    }).isRequired,
-  ).isRequired,
-  published: PropTypes.string,
-  allowEdit: PropTypes.bool,
 };
 
 export default LastUpdatedLine;

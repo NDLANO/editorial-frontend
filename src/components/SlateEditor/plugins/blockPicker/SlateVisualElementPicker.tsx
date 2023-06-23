@@ -8,34 +8,32 @@
 
 import { Editor, Element } from 'slate';
 import { FormikContextType, useFormikContext } from 'formik';
-import { IImageMetaInformationV2 } from '@ndla/types-image-api';
+import { IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
 import { useSlateStatic } from 'slate-react';
-import VisualElementSearch, {
-  EmbedReturnType,
-  VisualElementChangeReturnType,
-} from '../../../../containers/VisualElement/VisualElementSearch';
 import { defaultEmbedBlock } from '../embed/utils';
 import { defaultFileBlock } from '../file/utils';
 import VisualElementModalWrapper from '../../../../containers/VisualElement/VisualElementModalWrapper';
 import getCurrentBlock from '../../utils/getCurrentBlock';
 import { TYPE_TABLE_CELL } from '../table/types';
+import { Embed } from '../../../../interfaces';
+import VisualElementSearch from '../../../../containers/VisualElement/VisualElementSearch';
 
 export const checkboxAction = (
-  image: IImageMetaInformationV2,
+  image: IImageMetaInformationV3,
   formikContext: FormikContextType<{ metaImageId?: string; metaImageAlt?: string }>,
 ) => {
-  const { setFieldValue } = formikContext;
+  const { setFieldValue, setFieldTouched } = formikContext;
 
   if (setFieldValue && image) {
-    setTimeout(() => {
-      setFieldValue('metaImageId', image.id || '');
-      setFieldValue('metaImageAlt', image.alttext?.alttext || '');
-    }, 0);
+    setFieldValue('metaImageId', image.id || '', true);
+    setFieldValue('metaImageAlt', image.alttext?.alttext.trim() || '', true);
+    setFieldTouched('metaImageAlt', true, true);
+    setFieldTouched('metaImageId', true, true);
   }
 };
 
-const getNewEmbed = (editor: Editor, visualElement: EmbedReturnType) => {
-  const data = visualElement.value;
+const getNewEmbed = (editor: Editor, visualElement: Embed) => {
+  const data = visualElement;
 
   if (data.resource === 'image') {
     const tableCell = getCurrentBlock(editor, TYPE_TABLE_CELL)?.[0];
@@ -44,14 +42,19 @@ const getNewEmbed = (editor: Editor, visualElement: EmbedReturnType) => {
     }
   }
 
-  return defaultEmbedBlock(visualElement.value);
+  return defaultEmbedBlock(visualElement);
 };
+
+export const isEmbed = (visualElement: Embed | DOMStringMap[]): visualElement is Embed =>
+  (visualElement as Embed)?.resource !== undefined;
 
 interface Props {
   articleLanguage: string;
   resource: string;
   onVisualElementClose: () => void;
   onInsertBlock: (block: Element, selectBlock?: boolean) => void;
+  isOpen: boolean;
+  label?: string;
 }
 
 const SlateVisualElementPicker = ({
@@ -59,6 +62,8 @@ const SlateVisualElementPicker = ({
   resource,
   onVisualElementClose,
   onInsertBlock,
+  isOpen,
+  label,
 }: Props) => {
   const formikContext = useFormikContext<{ metaImageAlt?: string; metaImageId?: string }>();
   const { values } = formikContext;
@@ -66,29 +71,31 @@ const SlateVisualElementPicker = ({
 
   const showCheckbox = values.metaImageAlt !== undefined && values.metaImageId !== undefined;
 
-  const onVisualElementAdd = (visualElement: VisualElementChangeReturnType) => {
-    if (visualElement.type === 'embed') {
+  const onVisualElementAdd = (visualElement: Embed | DOMStringMap[]) => {
+    if (isEmbed(visualElement)) {
       const blockToInsert = getNewEmbed(editor, visualElement);
       onInsertBlock(blockToInsert);
-    } else if (visualElement.type === 'file') {
-      const blockToInsert = defaultFileBlock(visualElement.value);
+    } else {
+      const blockToInsert = defaultFileBlock(visualElement);
       onInsertBlock(blockToInsert);
     }
     onVisualElementClose();
   };
   return (
-    <VisualElementModalWrapper resource={resource} isOpen onClose={onVisualElementClose}>
-      {setH5pFetchFail => (
-        <VisualElementSearch
-          articleLanguage={articleLanguage}
-          selectedResource={resource}
-          handleVisualElementChange={onVisualElementAdd}
-          closeModal={onVisualElementClose}
-          setH5pFetchFail={setH5pFetchFail}
-          showCheckbox={showCheckbox}
-          checkboxAction={(image: IImageMetaInformationV2) => checkboxAction(image, formikContext)}
-        />
-      )}
+    <VisualElementModalWrapper
+      isOpen={isOpen}
+      label={label}
+      resource={resource}
+      onClose={onVisualElementClose}
+    >
+      <VisualElementSearch
+        articleLanguage={articleLanguage}
+        selectedResource={resource}
+        handleVisualElementChange={onVisualElementAdd}
+        closeModal={onVisualElementClose}
+        showCheckbox={showCheckbox}
+        checkboxAction={(image: IImageMetaInformationV3) => checkboxAction(image, formikContext)}
+      />
     </VisualElementModalWrapper>
   );
 };

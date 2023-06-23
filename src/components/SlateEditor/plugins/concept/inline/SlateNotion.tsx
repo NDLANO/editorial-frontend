@@ -1,15 +1,14 @@
-import { css } from '@emotion/core';
 import styled from '@emotion/styled';
+import { Portal } from '@radix-ui/react-portal';
 import { colors, spacing } from '@ndla/core';
 import { NotionDialog } from '@ndla/notion';
-import { IConcept } from '@ndla/types-concept-api';
+import { IConcept } from '@ndla/types-backend/concept-api';
 import { ReactNode } from 'react';
 import { RenderElementProps } from 'slate-react';
 import { useTranslation } from 'react-i18next';
 import Tooltip from '@ndla/tooltip';
-import { AlertCircle, Check } from '@ndla/icons/lib/editor';
-import { Portal } from '../../../../Portal';
-import { PUBLISHED } from '../../../../../util/constants/ConceptStatus';
+import { AlertCircle, Check } from '@ndla/icons/editor';
+import { PUBLISHED } from '../../../../../constants';
 import InlineConceptPreview from './InlineConceptPreview';
 
 const StyledCheckIcon = styled(Check)`
@@ -26,37 +25,49 @@ const StyledWarnIcon = styled(AlertCircle)`
   fill: ${colors.brand.grey};
 `;
 
-const NotionArrow = styled.div`
-  display: inline-block;
-  position: absolute;
-  margin: calc(1em + 4px) auto 0;
-  left: 0;
-  right: 0;
-  width: 0;
-  height: 0;
-  top: 5px;
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
-  border-top: 5px solid ${colors.brand.primary};
-  transition: transform 0.1s ease;
+const StyledDiv = styled.div`
+  display: flex;
+  flex: 1;
+  flex-direction: inherit;
 `;
 
-const NotionCSS = css`
-  display: inline;
+const StyledTooltip = styled(Tooltip)`
+  margin-right: auto;
+`;
+
+const BaselineIcon = styled.div`
+  border-bottom: 5px double currentColor;
+`;
+
+const StyledButton = styled.button`
+  background: none;
+  border: none;
   font-family: inherit;
   font-style: inherit;
   line-height: 1em;
   padding: 0 0 4px 0;
   margin-bottom: -4px;
-  border-bottom: 1px solid ${colors.brand.tertiary};
+  text-decoration: none;
   position: relative;
+  text-align: left;
+  display: inline;
+  color: ${colors.notion.dark};
   cursor: pointer;
-  &:hover,
-  &:focus {
-    border-color: ${colors.brand.primary};
+  &:focus,
+  &:hover {
+    background-color: ${colors.notion.dark};
+    color: ${colors.white};
     outline: none;
-    &:after {
-      transform: scale(1.4) translateY(1px);
+    ${BaselineIcon} {
+      border-color: transparent;
+    }
+  }
+
+  &:active {
+    color: ${colors.notion.dark};
+    background-color: ${colors.notion.light};
+    ${BaselineIcon} {
+      border-color: currentColor;
     }
   }
 `;
@@ -74,48 +85,56 @@ const SlateNotion = ({ children, attributes, id, concept, handleRemove }: Props)
 
   return (
     <span data-notion id={id}>
-      <span css={NotionCSS} data-notion-link {...attributes}>
-        <NotionArrow contentEditable={false} />
-        <Portal isOpened>
-          <NotionDialog
-            title={concept?.title.title ?? ''}
-            subTitle={t('conceptform.title')}
-            id={id}
-            customCSS={''}
-            headerContent={
-              <div
-                css={css`
-                  display: flex;
-                  flex: 1;
-                  flex-direction: inherit;
-                `}>
-                {(concept?.status.current === PUBLISHED ||
-                  concept?.status.other.includes(PUBLISHED)) && (
-                  <Tooltip
-                    tooltip={t('form.workflow.published')}
-                    css={css`
-                      margin-right: auto;
-                    `}>
-                    <StyledCheckIcon />
-                  </Tooltip>
-                )}
-                {concept?.status.current !== PUBLISHED && (
-                  <Tooltip
-                    tooltip={t('form.workflow.currentStatus', {
-                      status: t(`form.status.${concept?.status.current.toLowerCase()}`),
-                    })}>
-                    <StyledWarnIcon />
-                  </Tooltip>
-                )}
-              </div>
-            }>
-            {concept && (
-              <InlineConceptPreview concept={concept} handleRemove={handleRemove} id={concept.id} />
-            )}
-          </NotionDialog>
-        </Portal>
-        {children}
-      </span>
+      <StyledButton
+        type="button"
+        aria-label={t('concept.showDescription', { title: concept?.title.title ?? '' })}
+        {...attributes}
+        data-notion-link
+      >
+        <div>
+          {children}
+          {<BaselineIcon />}
+          <Portal>
+            <NotionDialog
+              title={concept?.title.title ?? ''}
+              subTitle={t('conceptform.title')}
+              id={id}
+              customCSS={''}
+              headerContent={
+                <StyledDiv>
+                  {(concept?.status.current === PUBLISHED ||
+                    concept?.status.other.includes(PUBLISHED)) && (
+                    <StyledTooltip tooltip={t('form.workflow.published')}>
+                      <div>
+                        <StyledCheckIcon />
+                      </div>
+                    </StyledTooltip>
+                  )}
+                  {concept?.status.current !== PUBLISHED && (
+                    <Tooltip
+                      tooltip={t('form.workflow.currentStatus', {
+                        status: t(`form.status.${concept?.status.current.toLowerCase()}`),
+                      })}
+                    >
+                      <div>
+                        <StyledWarnIcon />
+                      </div>
+                    </Tooltip>
+                  )}
+                </StyledDiv>
+              }
+            >
+              {concept && (
+                <InlineConceptPreview
+                  concept={concept}
+                  handleRemove={handleRemove}
+                  id={concept.id}
+                />
+              )}
+            </NotionDialog>
+          </Portal>
+        </div>
+      </StyledButton>
     </span>
   );
 };

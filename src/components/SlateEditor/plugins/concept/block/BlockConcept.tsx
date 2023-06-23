@@ -10,9 +10,9 @@ import { useState, useEffect, ReactNode } from 'react';
 import { colors } from '@ndla/core';
 import { Editor, Element, Transforms, Path } from 'slate';
 import { ReactEditor, RenderElementProps, useSelected } from 'slate-react';
-import { Dictionary } from 'lodash';
 import styled from '@emotion/styled';
-import { IConcept } from '@ndla/types-concept-api';
+import { IConcept, IConceptSummary } from '@ndla/types-backend/concept-api';
+import { ConceptEmbedData } from '@ndla/types-embed';
 import ConceptModal from '../ConceptModal';
 import { useFetchConceptData } from '../../../../../containers/FormikForm/formikConceptHooks';
 import mergeLastUndos from '../../../utils/mergeLastUndos';
@@ -20,13 +20,11 @@ import { TYPE_CONCEPT_BLOCK } from './types';
 import { ConceptBlockElement } from './interfaces';
 import BlockConceptPreview from './BlockConceptPreview';
 
-const getConceptDataAttributes = ({ id }: Dictionary<any>) => ({
-  type: TYPE_CONCEPT_BLOCK,
-  data: {
-    'content-id': id,
-    resource: 'concept',
-    type: 'block',
-  },
+const getConceptDataAttributes = ({ id }: IConceptSummary | IConcept): ConceptEmbedData => ({
+  contentId: id.toString(),
+  resource: 'concept',
+  type: 'block',
+  linkText: '',
 });
 
 interface Props {
@@ -44,7 +42,7 @@ const StyledWrapper = styled.div<{ isSelected: boolean }>`
     margin-top: 0;
   }
   padding: 5px;
-  border: ${p =>
+  border: ${(p) =>
     p.isSelected ? `2px solid ${colors.brand.primary}` : `2px dashed ${colors.brand.greyLighter}`};
 `;
 
@@ -54,7 +52,7 @@ const BlockConcept = ({ element, locale, editor, attributes, children }: Props) 
   const [showConcept, setShowConcept] = useState(false);
 
   const { concept, subjects, ...conceptHooks } = useFetchConceptData(
-    parseInt(element.data['content-id']),
+    parseInt(element.data.contentId),
     locale,
   );
   const conceptId = concept && concept.id ? concept.id : undefined;
@@ -69,7 +67,7 @@ const BlockConcept = ({ element, locale, editor, attributes, children }: Props) 
     }
   };
 
-  const addConcept = (addedConcept: IConcept) => {
+  const addConcept = (addedConcept: IConceptSummary | IConcept) => {
     setShowConcept(false);
     setTimeout(() => {
       handleSelectionChange(true);
@@ -78,9 +76,14 @@ const BlockConcept = ({ element, locale, editor, attributes, children }: Props) 
         const path = ReactEditor.findPath(editor, element);
         Transforms.setNodes(
           editor,
-          { data: data.data },
-          { at: path, match: node => Element.isElement(node) && node.type === TYPE_CONCEPT_BLOCK },
+          { data },
+          {
+            at: path,
+            match: (node) => Element.isElement(node) && node.type === TYPE_CONCEPT_BLOCK,
+          },
         );
+
+        // Insertion of concept consists of insert an empty concept and then updating it with an ID. By merging the events we can consider them as one action and undo both with ctrl+z.
         mergeLastUndos(editor);
       }
     }, 0);
@@ -93,13 +96,13 @@ const BlockConcept = ({ element, locale, editor, attributes, children }: Props) 
       const path = ReactEditor.findPath(editor, element);
       Transforms.removeNodes(editor, {
         at: path,
-        match: node => Element.isElement(node) && node.type === TYPE_CONCEPT_BLOCK,
+        match: (node) => Element.isElement(node) && node.type === TYPE_CONCEPT_BLOCK,
       });
     }, 0);
   };
 
   const onClose = () => {
-    if (!element.data['content-id']) {
+    if (!element.data.contentId) {
       handleRemove();
     } else {
       setShowConcept(false);
@@ -108,7 +111,7 @@ const BlockConcept = ({ element, locale, editor, attributes, children }: Props) 
   };
 
   useEffect(() => {
-    if (!element.data['content-id']) {
+    if (!element.data.contentId) {
       setShowConcept(true);
     }
   }, [element]);
@@ -116,10 +119,12 @@ const BlockConcept = ({ element, locale, editor, attributes, children }: Props) 
   return (
     <StyledWrapper
       {...attributes}
+      // eslint-disable-next-line jsx-a11y/tabindex-no-positive
       tabIndex={1}
       isSelected={isSelected}
       draggable={true}
-      className="c-figure u-float">
+      className="c-figure u-float"
+    >
       {concept && (
         <div contentEditable={false}>
           <BlockConceptPreview
@@ -131,7 +136,6 @@ const BlockConcept = ({ element, locale, editor, attributes, children }: Props) 
         </div>
       )}
       <ConceptModal
-        id={conceptId}
         isOpen={!conceptId && showConcept}
         onClose={onClose}
         addConcept={addConcept}

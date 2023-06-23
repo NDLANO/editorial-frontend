@@ -6,91 +6,131 @@
  *
  */
 
-import { useEffect, FormEvent, MouseEvent, createRef } from 'react';
-import { css } from '@emotion/core';
+import { MouseEvent, useMemo, useEffect } from 'react';
+import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
+import { FieldProps, Form, Formik, FormikProps } from 'formik';
 import { AudioPlayer } from '@ndla/ui';
+import { spacing } from '@ndla/core';
+import { ModalBody, ModalHeader, ModalTitle } from '@ndla/modal';
+import { ButtonV2 } from '@ndla/button';
+import { Input } from '@ndla/forms';
 import ObjectSelector from '../../../ObjectSelector';
-import Overlay from '../../../Overlay';
-import { Portal } from '../../../Portal';
-import FigureButtons from './FigureButtons';
 import { SlateAudio, AudioEmbed } from '../../../../interfaces';
-
-const placeholderStyle = css`
-  position: relative;
-  border: 1px solid var(--article-color);
-`;
+import validateFormik, { RulesType } from '../../../formikValidationSchema';
+import FormikField from '../../../FormikField';
 
 interface Props {
   audio: SlateAudio;
-  changes: { [x: string]: string };
   embed: AudioEmbed;
-  language: string;
-  onAudioFigureInputChange: (event: FormEvent<HTMLSelectElement>) => void;
-  onChange: (event: FormEvent<HTMLSelectElement>) => void;
-  onExit: (event: MouseEvent) => void;
-  onRemoveClick: (event: MouseEvent) => void;
-  speech: boolean;
+  onExit: () => void;
+  type: string;
+  setHasError: (error: boolean) => void;
+  saveEmbedUpdates: (updates: Record<string, string>) => void;
+}
+
+const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  gap: ${spacing.small};
+  padding: ${spacing.small} 0;
+`;
+
+interface FormValues {
+  alttext: string;
   type: string;
 }
 
-const EditAudio = ({
-  embed,
-  onChange,
-  onAudioFigureInputChange,
-  onExit,
-  onRemoveClick,
-  type,
-  language,
-  speech,
-  audio,
-  changes,
-}: Props) => {
+export const audioEmbedFormRules: RulesType<FormValues> = {
+  alttext: {
+    required: true,
+  },
+  type: {
+    required: true,
+  },
+};
+
+export const toAudioEmbedFormValues = (embed: AudioEmbed, type: string): FormValues => {
+  return {
+    alttext: embed.alt ?? '',
+    type,
+  };
+};
+
+const EditAudio = ({ embed, onExit, type, audio, setHasError, saveEmbedUpdates }: Props) => {
   const { t } = useTranslation();
-  let placeholderElement: any = createRef();
-  let embedElement: any = createRef();
-
-  useEffect(() => {
-    const bodyRect = document.body.getBoundingClientRect();
-    const embedRect = embedElement.getBoundingClientRect();
-    const placeholderRect = placeholderElement.getBoundingClientRect();
-
-    // Placing embed within placeholder div on mount
-    placeholderElement.style.height = `${embedRect.height + 120}px`;
-    embedElement.style.position = 'absolute';
-    embedElement.style.top = `${placeholderRect.top - bodyRect.top}px`;
-    embedElement.style.left = `${placeholderRect.left}px`;
-    embedElement.style.width = `${placeholderRect.width}px`;
-  }, [embedElement, placeholderElement]);
+  const initialValues = useMemo(() => toAudioEmbedFormValues(embed, type), [embed, type]);
+  const handleSubmit = ({ alttext, type }: FormValues) => {
+    saveEmbedUpdates({ alt: alttext, type });
+    setHasError(false);
+    onExit();
+  };
 
   return (
     <>
-      <Overlay onExit={onExit} key="audioOverlay" />
-      <div
-        key="audioPlaceholder"
-        css={placeholderStyle}
-        ref={placeholderEl => {
-          placeholderElement = placeholderEl;
-        }}
-      />
-      <Portal isOpened key="audioPortal">
-        <div
-          css={css`
-            padding: 50px;
-            background-color: white;
-          `}
-          ref={embedEl => {
-            embedElement = embedEl;
-          }}>
+      <ModalHeader>
+        <ModalTitle>{t('form.editAudio')}</ModalTitle>
+      </ModalHeader>
+      <ModalBody>
+        <Formik
+          initialValues={initialValues}
+          validate={(values) => validateFormik(values, audioEmbedFormRules, t)}
+          enableReinitialize
+          validateOnMount
+          onSubmit={handleSubmit}
+        >
+          {(formik) => (
+            <AudioEmbedForm audio={audio} {...formik} setHasError={setHasError} close={onExit} />
+          )}
+        </Formik>
+      </ModalBody>
+    </>
+  );
+};
+
+interface AudioEmbedFormProps extends FormikProps<FormValues> {
+  setHasError: (hasError: boolean) => void;
+  close: () => void;
+  audio: SlateAudio;
+}
+
+const StyledFormikField = styled(FormikField)`
+  margin-top: ${spacing.small};
+`;
+
+const AudioEmbedForm = ({
+  setHasError,
+  close,
+  audio,
+  isValid,
+  dirty,
+  values,
+  initialErrors,
+}: AudioEmbedFormProps) => {
+  const { t } = useTranslation();
+
+  useEffect(() => {
+    setHasError(!isValid);
+  }, [isValid, setHasError]);
+
+  const onClose = () => {
+    setHasError(!!Object.keys(initialErrors).length);
+    close();
+  };
+
+  return (
+    <Form>
+      <FormikField name="type">
+        {({ field }: FieldProps) => (
           <ObjectSelector
             onClick={(evt: MouseEvent) => evt.stopPropagation()}
-            onChange={onChange}
-            onBlur={onChange}
+            onChange={field.onChange}
+            onBlur={field.onChange}
             key="type"
             name="type"
             labelKey="label"
             idKey="id"
-            value={type}
+            value={field.value}
             options={[
               {
                 id: 'standard',
@@ -102,18 +142,30 @@ const EditAudio = ({
               },
             ]}
           />
-          <AudioPlayer src={audio.audioFile.url} title={audio.title} speech={speech} />
-          <FigureButtons
-            figureType="audio"
-            tooltip={t('form.audio.remove')}
-            onRemoveClick={onRemoveClick}
-            embed={embed}
-            language={language}
-            withMargin
+        )}
+      </FormikField>
+      <AudioPlayer
+        src={audio.audioFile.url}
+        title={audio.title}
+        speech={values.type === 'minimal'}
+      />
+      <StyledFormikField name="alttext">
+        {({ field }: FieldProps) => (
+          <Input
+            white
+            {...field}
+            label={t('form.name.alttext')}
+            placeholder={t('form.name.alttext')}
           />
-        </div>
-      </Portal>
-    </>
+        )}
+      </StyledFormikField>
+      <ButtonWrapper>
+        <ButtonV2 onClick={onClose}>{t('form.abort')}</ButtonV2>
+        <ButtonV2 disabled={!isValid || !dirty} type="submit">
+          {t('form.save')}
+        </ButtonV2>
+      </ButtonWrapper>
+    </Form>
   );
 };
 

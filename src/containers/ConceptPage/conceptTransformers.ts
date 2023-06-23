@@ -6,8 +6,8 @@
  *
  */
 
-import { IConcept, ILicense, INewConcept, IUpdatedConcept } from '@ndla/types-concept-api';
-import { IArticle } from '@ndla/types-draft-api';
+import { IConcept, ILicense, INewConcept, IUpdatedConcept } from '@ndla/types-backend/concept-api';
+import { IArticle } from '@ndla/types-backend/draft-api';
 import {
   plainTextToEditorValue,
   editorValueToPlainText,
@@ -17,16 +17,21 @@ import {
 import { ConceptFormValues } from './conceptInterfaces';
 import { SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
 import { parseImageUrl } from '../../util/formHelper';
-import { DRAFT } from '../../util/constants/ConceptStatus';
+import { IN_PROGRESS } from '../../constants';
 
 export const conceptApiTypeToFormType = (
   concept: IConcept | undefined,
   language: string,
   subjects: SubjectType[],
   articles: IArticle[],
+  ndlaId: string | undefined,
   initialTitle = '',
 ): ConceptFormValues => {
-  const conceptSubjects = subjects.filter(s => concept?.subjectIds?.find(id => id === s.id)) ?? [];
+  const conceptSubjects =
+    subjects.filter((s) => concept?.subjectIds?.find((id) => id === s.id)) ?? [];
+  const license = concept?.copyright?.license?.license;
+  const conceptLicense = license === 'unknown' ? undefined : license;
+
   // Make sure to omit the content field from concept. It will crash Slate.
   return {
     id: concept?.id,
@@ -44,13 +49,14 @@ export const conceptApiTypeToFormType = (
     rightsholders: concept?.copyright?.rightsholders ?? [],
     processors: concept?.copyright?.processors ?? [],
     source: concept?.source ?? '',
-    license: concept?.copyright?.license?.license ?? '',
+    license: conceptLicense,
     metaImageId: parseImageUrl(concept?.metaImage),
     metaImageAlt: concept?.metaImage?.alt ?? '',
     tags: concept?.tags?.tags ?? [],
     articles,
     visualElement: embedTagToEditorValue(concept?.visualElement?.visualElement ?? ''),
     origin: concept?.copyright?.origin,
+    responsibleId: concept === undefined ? ndlaId : concept?.responsible?.responsibleId,
   };
 };
 
@@ -65,7 +71,7 @@ export const getNewConceptType = (
   title: editorValueToPlainText(values.title),
   content: editorValueToPlainText(values.conceptContent),
   copyright: {
-    license: licenses.find(license => license.license === values.license),
+    license: licenses.find((license) => license.license === values.license),
     origin: values.origin,
     creators: values.creators ?? [],
     processors: values.processors ?? [],
@@ -74,9 +80,10 @@ export const getNewConceptType = (
   source: values.source,
   tags: values.tags,
   metaImage: metaImageFromForm(values),
-  subjectIds: values.subjects.map(subject => subject.id),
-  articleIds: values.articles.map(a => a.id),
+  subjectIds: values.subjects.map((subject) => subject.id),
+  articleIds: values.articles.map((a) => a.id),
   visualElement: editorValueToEmbedTag(values.visualElement),
+  responsibleId: values.responsibleId,
 });
 
 export const getUpdatedConceptType = (
@@ -95,14 +102,14 @@ export const conceptFormTypeToApiType = (
   return {
     id: values.id ?? -1,
     revision: values.revision ?? -1,
-    status: values.status ?? { current: DRAFT, other: [] },
+    status: values.status ?? { current: IN_PROGRESS, other: [] },
     visualElement: {
       visualElement: editorValueToEmbedTag(values.visualElement),
       language: values.language,
     },
     source: values.source,
     tags: { tags: values.tags, language: values.language },
-    articleIds: values.articles.map(a => a.id),
+    articleIds: values.articles.map((a) => a.id),
     title: {
       title: editorValueToPlainText(values.title),
       language: values.language,
@@ -115,12 +122,12 @@ export const conceptFormTypeToApiType = (
       alt: values.metaImageAlt,
       language: values.metaImage?.language ?? values.language,
     },
-    subjectIds: values.subjects.map(subject => subject.id),
+    subjectIds: values.subjects.map((subject) => subject.id),
 
     updatedBy,
     copyright: {
       ...values,
-      license: licenses.find(license => license.license === values.license),
+      license: licenses.find((license) => license.license === values.license),
     },
     supportedLanguages: values.supportedLanguages,
   };

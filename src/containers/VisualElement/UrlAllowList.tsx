@@ -1,4 +1,4 @@
-import { css } from '@emotion/core';
+import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 
 interface AllowListEntry {
@@ -10,6 +10,12 @@ interface Props {
   allowList: AllowListEntry[];
 }
 
+const StyledTable = styled.table`
+  display: table;
+  margin-right: auto !important;
+  margin-left: auto !important;
+`;
+
 const sortEntries = (a: AllowListEntry, b: AllowListEntry) => a.name.localeCompare(b.name);
 
 const UrlAllowList = ({ allowList }: Props) => {
@@ -17,13 +23,7 @@ const UrlAllowList = ({ allowList }: Props) => {
 
   const filteredAllowList = allowList.sort(sortEntries);
   return (
-    <table
-      className="c-table"
-      css={css`
-        display: table;
-        margin-right: auto !important;
-        margin-left: auto !important;
-      `}>
+    <StyledTable className="c-table">
       <thead>
         <tr>
           <th>{t('form.content.link.name')}</th>
@@ -31,18 +31,18 @@ const UrlAllowList = ({ allowList }: Props) => {
         </tr>
       </thead>
       <tbody>
-        {filteredAllowList.map(provider => (
-          <tr>
+        {filteredAllowList.map((provider, trIndex) => (
+          <tr key={`tr-${trIndex}`}>
             <td>{provider.name}</td>
             <td>
-              {provider.url.map(url => (
-                <div>{url}</div>
+              {provider.url.map((url, index) => (
+                <div key={`cell-${trIndex}-${index}`}>{url}</div>
               ))}
             </td>
           </tr>
         ))}
       </tbody>
-    </table>
+    </StyledTable>
   );
 };
 

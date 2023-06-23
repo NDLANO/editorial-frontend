@@ -10,23 +10,23 @@ import { useState, useEffect, ReactNode, useMemo } from 'react';
 
 import { Editor, Element, Node, Transforms, Path } from 'slate';
 import { ReactEditor, RenderElementProps } from 'slate-react';
-import { Dictionary, uniqueId } from 'lodash';
-import { IConcept } from '@ndla/types-concept-api';
+import uniqueId from 'lodash/uniqueId';
+import { IConcept, IConceptSummary } from '@ndla/types-backend/concept-api';
+import { ConceptEmbedData } from '@ndla/types-embed';
 import { ConceptInlineElement } from '../inline/interfaces';
 import ConceptModal from '../ConceptModal';
 import { useFetchConceptData } from '../../../../../containers/FormikForm/formikConceptHooks';
-import mergeLastUndos from '../../../utils/mergeLastUndos';
 import { TYPE_CONCEPT_INLINE } from './types';
 import SlateNotion from './SlateNotion';
 
-const getConceptDataAttributes = ({ id, title: { title } }: Dictionary<any>) => ({
-  type: TYPE_CONCEPT_INLINE,
-  data: {
-    'content-id': id,
-    'link-text': title,
-    resource: 'concept',
-    type: 'inline',
-  },
+const getConceptDataAttributes = (
+  concept: IConcept | IConceptSummary,
+  title: string,
+): ConceptEmbedData => ({
+  contentId: concept.id.toString(),
+  linkText: title,
+  resource: 'concept',
+  type: 'inline',
 });
 
 interface Props {
@@ -47,15 +47,8 @@ const InlineConcept = (props: Props) => {
     setShowConcept(!showConcept);
   };
 
-  const {
-    concept,
-    subjects,
-    fetchSearchTags,
-    conceptArticles,
-    createConcept,
-    updateConcept,
-    updateConceptAndStatus,
-  } = useFetchConceptData(parseInt(element.data['content-id']), locale);
+  const { concept, subjects, fetchSearchTags, conceptArticles, createConcept, updateConcept } =
+    useFetchConceptData(parseInt(element.data.contentId), locale);
 
   const handleSelectionChange = (isNewConcept: boolean) => {
     ReactEditor.focus(editor);
@@ -67,22 +60,21 @@ const InlineConcept = (props: Props) => {
     }
   };
 
-  const addConcept = (addedConcept: IConcept) => {
+  const addConcept = (addedConcept: IConceptSummary | IConcept) => {
     toggleConceptModal();
     setTimeout(() => {
       handleSelectionChange(true);
-      const data = getConceptDataAttributes({
-        ...addedConcept,
-        title: { title: nodeText },
-      });
-      if (element && true) {
+      const data = getConceptDataAttributes(addedConcept, nodeText);
+      if (element) {
         const path = ReactEditor.findPath(editor, element);
         Transforms.setNodes(
           editor,
-          { data: data.data },
-          { at: path, match: node => Element.isElement(node) && node.type === TYPE_CONCEPT_INLINE },
+          { data },
+          {
+            at: path,
+            match: (node) => Element.isElement(node) && node.type === TYPE_CONCEPT_INLINE,
+          },
         );
-        mergeLastUndos(editor);
       }
     }, 0);
   };
@@ -94,13 +86,13 @@ const InlineConcept = (props: Props) => {
       const path = ReactEditor.findPath(editor, element);
       Transforms.unwrapNodes(editor, {
         at: path,
-        match: node => Element.isElement(node) && node.type === TYPE_CONCEPT_INLINE,
+        match: (node) => Element.isElement(node) && node.type === TYPE_CONCEPT_INLINE,
       });
     }, 0);
   };
 
   const onClose = () => {
-    if (!element.data['content-id']) {
+    if (!element.data.contentId) {
       handleRemove();
     } else {
       toggleConceptModal();
@@ -109,7 +101,7 @@ const InlineConcept = (props: Props) => {
   };
 
   useEffect(() => {
-    if (!element.data['content-id']) {
+    if (!element.data.contentId) {
       setShowConcept(true);
     }
   }, [element]);
@@ -132,7 +124,6 @@ const InlineConcept = (props: Props) => {
         createConcept={createConcept}
         updateConcept={updateConcept}
         conceptArticles={conceptArticles}
-        updateConceptAndStatus={updateConceptAndStatus}
       />
     </>
   );

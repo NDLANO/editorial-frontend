@@ -7,7 +7,7 @@
 
 import { useTranslation } from 'react-i18next';
 import { FieldHeader } from '@ndla/forms';
-import { IAudioSummarySearchResult, IAudioSummary } from '@ndla/types-audio-api';
+import { IAudioSummarySearchResult, IAudioSummary } from '@ndla/types-backend/audio-api';
 import { useFormikContext } from 'formik';
 import ElementList from '../../FormikForm/components/ElementList';
 import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropdown';
@@ -47,7 +47,7 @@ const PodcastEpisodes = () => {
       'audio-type': 'podcast',
     });
 
-    const results = searchResult.results.map(result => {
+    const results = searchResult.results.map((result) => {
       const usedByOther = result.series?.id !== undefined && result.series?.id !== values.id;
       const disabledText = usedByOther ? t('podcastSeriesForm.alreadyPartOfSeries') : undefined;
       return {
@@ -61,7 +61,7 @@ const PodcastEpisodes = () => {
     return { ...searchResult, results };
   };
 
-  const elements = episodes.map(ep => ({
+  const elements = episodes.map((ep) => ({
     ...ep,
     metaImage: {
       alt: ep.podcastMeta?.coverPhoto.altText,

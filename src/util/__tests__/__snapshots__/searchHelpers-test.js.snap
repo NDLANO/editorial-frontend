@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`util/searchHelpers transformQuery 1`] = `
-Object {
+{
   "page": "1",
   "page-size": "10",
   "sort": "-relevance",
@@ -9,7 +9,7 @@ Object {
 `;
 
 exports[`util/searchHelpers transformQuery 2`] = `
-Object {
+{
   "page": "1",
   "page-size": "10",
   "resource-types": "urn:resourcetype:academicArticle",
@@ -18,8 +18,8 @@ Object {
 `;
 
 exports[`util/searchHelpers transformQuery 3`] = `
-Object {
-  "context-types": "topic-article",
+{
+  "article-types": "topic-article",
   "page": "1",
   "page-size": "10",
   "sort": "-relevance",

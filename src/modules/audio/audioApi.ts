@@ -14,7 +14,7 @@ import {
   ISeries,
   INewSeries,
   ITagsSearchResult,
-} from '@ndla/types-audio-api';
+} from '@ndla/types-backend/audio-api';
 import { resolveJsonOrVoidOrRejectWithError } from '../../util/resolveJsonOrRejectWithError';
 import {
   apiResourceUrl,
@@ -31,11 +31,11 @@ export const postAudio = (formData: FormData): Promise<IAudioMetaInformation> =>
     method: 'POST',
     headers: { 'Content-Type': undefined }, // Without this we're missing a boundary: https://stackoverflow.com/questions/39280438/fetch-missing-boundary-in-multipart-form-data-post
     body: formData,
-  }).then(r => resolveJsonOrRejectWithError<IAudioMetaInformation>(r));
+  }).then((r) => resolveJsonOrRejectWithError<IAudioMetaInformation>(r));
 
 export const fetchAudio = (id: number, locale?: string): Promise<IAudioMetaInformation> => {
   const languageParam = locale ? `?language=${locale}` : '';
-  return fetchAuthorized(`${baseUrl}/${id}${languageParam}`).then(r =>
+  return fetchAuthorized(`${baseUrl}/${id}${languageParam}`).then((r) =>
     resolveJsonOrRejectWithError<IAudioMetaInformation>(r),
   );
 };
@@ -45,10 +45,10 @@ export const updateAudio = (id: number, formData: FormData): Promise<IAudioMetaI
     method: 'PUT',
     headers: { 'Content-Type': undefined }, // Without this we're missing a boundary: https://stackoverflow.com/questions/39280438/fetch-missing-boundary-in-multipart-form-data-post
     body: formData,
-  }).then(r => resolveJsonOrRejectWithError<IAudioMetaInformation>(r));
+  }).then((r) => resolveJsonOrRejectWithError<IAudioMetaInformation>(r));
 
 export const searchAudio = (query: AudioSearchParams): Promise<IAudioSummarySearchResult> =>
-  fetchAuthorized(`${baseUrl}/?${queryString.stringify(query)}`).then(r =>
+  fetchAuthorized(`${baseUrl}/?${queryString.stringify(query)}`).then((r) =>
     resolveJsonOrRejectWithError<IAudioSummarySearchResult>(r),
   );
 
@@ -58,7 +58,7 @@ export const deleteLanguageVersionAudio = (
 ): Promise<IAudioMetaInformation | void> =>
   fetchAuthorized(`${baseUrl}/${audioId}/language/${locale}`, {
     method: 'DELETE',
-  }).then(r => resolveJsonOrVoidOrRejectWithError(r));
+  }).then((r) => resolveJsonOrVoidOrRejectWithError(r));
 
 export const deleteLanguageVersionSeries = (
   seriesId: number,
@@ -66,7 +66,7 @@ export const deleteLanguageVersionSeries = (
 ): Promise<ISeries | void> => {
   return fetchAuthorized(`${seriesBaseUrl}/${seriesId}/language/${language}`, {
     method: 'DELETE',
-  }).then(r => resolveJsonOrVoidOrRejectWithError(r));
+  }).then((r) => resolveJsonOrVoidOrRejectWithError(r));
 };
 
 export const fetchSearchTags = async (
@@ -81,7 +81,7 @@ export const fetchSearchTags = async (
 
 export const fetchSeries = (id: number, language?: string): Promise<ISeries> => {
   const languageParam = language ? `?language=${language}` : '';
-  return fetchAuthorized(`${seriesBaseUrl}/${id}${languageParam}`).then(r =>
+  return fetchAuthorized(`${seriesBaseUrl}/${id}${languageParam}`).then((r) =>
     resolveJsonOrRejectWithError<ISeries>(r),
   );
 };
@@ -90,16 +90,16 @@ export const postSeries = (newSeries: INewSeries): Promise<ISeries> =>
   fetchAuthorized(`${seriesBaseUrl}`, {
     method: 'POST',
     body: JSON.stringify(newSeries),
-  }).then(r => resolveJsonOrRejectWithError<ISeries>(r));
+  }).then((r) => resolveJsonOrRejectWithError<ISeries>(r));
 
 export const updateSeries = (id: number, newSeries: INewSeries): Promise<ISeries> =>
   fetchAuthorized(`${seriesBaseUrl}/${id}`, {
     method: 'PUT',
     body: JSON.stringify(newSeries),
-  }).then(r => resolveJsonOrRejectWithError<ISeries>(r));
+  }).then((r) => resolveJsonOrRejectWithError<ISeries>(r));
 
 export const searchSeries = (query: SeriesSearchParams): Promise<ISeriesSummarySearchResult> => {
-  return fetchAuthorized(`${seriesBaseUrl}/?${queryString.stringify(query)}`).then(r =>
+  return fetchAuthorized(`${seriesBaseUrl}/?${queryString.stringify(query)}`).then((r) =>
     resolveJsonOrRejectWithError<ISeriesSummarySearchResult>(r),
   );
 };

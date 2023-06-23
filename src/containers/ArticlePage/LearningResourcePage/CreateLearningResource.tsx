@@ -8,7 +8,7 @@
 import { HelmetWithTracker } from '@ndla/tracker';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { IUpdatedArticle } from '@ndla/types-draft-api';
+import { IUpdatedArticle } from '@ndla/types-backend/draft-api';
 import LearningResourceForm from './components/LearningResourceForm';
 import { useFetchArticleData } from '../../FormikForm/formikDraftHooks';
 import { toEditArticle } from '../../../util/routeHelpers';
@@ -31,8 +31,6 @@ const CreateLearningResource = () => {
       <HelmetWithTracker title={t('htmlTitles.createLearningResourcePage')} />
       <LearningResourceForm
         updateArticle={createArticleAndPushRoute}
-        updateArticleAndStatus={inp => createArticleAndPushRoute(inp.updatedArticle)}
-        translating={false}
         articleChanged={false}
         isNewlyCreated={false}
         articleLanguage={i18n.language}

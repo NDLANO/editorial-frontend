@@ -20,17 +20,17 @@ const nrkTransformer: UrlTransformer = {
 
     const oldMediaId = queryString.parse(aTag.search).mediaId;
     const newMediaId = Number(aTag.pathname.split('/skole-deling/')[1]);
-    const mediaId = !!newMediaId ? newMediaId : oldMediaId;
+    const mediaId = newMediaId ? newMediaId : oldMediaId;
     if (mediaId) {
       return true;
     }
     return false;
   },
-  transform: async url => {
+  transform: async (url) => {
     const aTag = urlAsATag(url);
     const oldMediaId = queryString.parse(aTag.search).mediaId;
     const newMediaId = Number(aTag.pathname.split('/skole-deling/')[1]);
-    const mediaId = !!newMediaId ? newMediaId : oldMediaId;
+    const mediaId = newMediaId ? newMediaId : oldMediaId;
     if (!mediaId) {
       return url;
     }
@@ -46,33 +46,6 @@ const nrkTransformer: UrlTransformer = {
   },
 };
 
-// Fetches kahoot-id from url and returns embed url. Ensures id is uuid.
-const kahootTransformer: UrlTransformer = {
-  domains: ['create.kahoot.it'],
-  shouldTransform: (url, domains) => {
-    const aTag = urlAsATag(url);
-
-    if (!domains.includes(aTag.hostname)) {
-      return false;
-    }
-    if (!aTag.href.includes(domains[0] + '/share/')) {
-      return false;
-    }
-    const kahootID = url.split('/').pop();
-    if (kahootID?.match(/\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b/)) {
-      return true;
-    }
-    return false;
-  },
-  transform: async url => {
-    const kahootID = url.split('/').pop();
-    if (kahootID?.match(/\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b/)) {
-      return `https://embed.kahoot.it/${kahootID}`;
-    }
-    return url;
-  },
-};
-
 // Replaces www-hostname with embed-hostname
 const tedTransformer: UrlTransformer = {
   domains: ['www.ted.com'],
@@ -84,7 +57,7 @@ const tedTransformer: UrlTransformer = {
     }
     return true;
   },
-  transform: async url => {
+  transform: async (url) => {
     const obj = new URL(url);
     obj.host = obj.host.replace(/www/, 'embed');
     return obj.href;
@@ -105,7 +78,7 @@ const codepenTransformer: UrlTransformer = {
     }
     return true;
   },
-  transform: async url => {
+  transform: async (url) => {
     const obj = new URL(url);
     obj.pathname = obj.pathname.replace(/pen/, 'embed');
     const penID = obj.pathname.split('/').pop();
@@ -130,9 +103,9 @@ const flourishTransformer: UrlTransformer = {
     }
     return true;
   },
-  transform: async url => {
+  transform: async (url) => {
     const obj = new URL(url);
-    const parts = obj.pathname.split('/').filter(n => n);
+    const parts = obj.pathname.split('/').filter((n) => n);
     parts.push('embed');
     obj.pathname = parts.join('/');
     return obj.href;
@@ -153,12 +126,12 @@ const sketchupTransformer: UrlTransformer = {
     }
     return true;
   },
-  transform: async url => {
+  transform: async (url) => {
     const obj = new URL(url);
     obj.pathname = obj.pathname.replace(/model/, 'embed');
     const parts = obj.pathname.split('/');
     const index =
-      parts.findIndex(part =>
+      parts.findIndex((part) =>
         part.match(/\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b/),
       ) ?? parts.length;
     obj.pathname = parts.slice(0, index + 1).join('/');
@@ -166,11 +139,55 @@ const sketchupTransformer: UrlTransformer = {
   },
 };
 
+const sketcfabTransformer: UrlTransformer = {
+  domains: ['sketchfab.com'],
+  shouldTransform: (url, domains) => {
+    const aTag = urlAsATag(url);
+
+    if (!domains.includes(aTag.hostname)) {
+      return false;
+    }
+    if (!aTag.href.includes('/3d-models/')) {
+      return false;
+    }
+    return true;
+  },
+  transform: async (url) => {
+    const embedId = url.split('-').pop();
+    if (embedId?.match(/\b[0-9a-f]{32}/)) {
+      return `https://sketchfab.com/models/${embedId}/embed`;
+    }
+    return url;
+  },
+};
+
+const jeopardyLabTransformer: UrlTransformer = {
+  domains: ['jeopardylabs.com'],
+  shouldTransform: (url, domains) => {
+    const aTag = urlAsATag(url);
+
+    if (!domains.includes(aTag.hostname)) {
+      return false;
+    }
+    if (!aTag.href.includes('/play/')) {
+      return false;
+    }
+    return true;
+  },
+  transform: async (url) => {
+    if (url.endsWith('?embed=1')) {
+      return url;
+    }
+    return url.concat('?embed=1');
+  },
+};
+
 export const urlTransformers: UrlTransformer[] = [
   nrkTransformer,
-  kahootTransformer,
   codepenTransformer,
   tedTransformer,
   flourishTransformer,
   sketchupTransformer,
+  sketcfabTransformer,
+  jeopardyLabTransformer,
 ];

@@ -8,7 +8,11 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
-import { IImageMetaInformationV2, IUpdateImageMetaInformation } from '@ndla/types-image-api';
+import { unstable_batchedUpdates } from 'react-dom';
+import {
+  IImageMetaInformationV3,
+  IUpdateImageMetaInformation,
+} from '@ndla/types-backend/image-api';
 import ImageForm from './components/ImageForm';
 import { fetchImage, updateImage } from '../../modules/image/imageApi';
 import { useLicenses } from '../../modules/draft/draftQueries';
@@ -17,6 +21,7 @@ import { createFormData } from '../../util/formDataHelper';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import Spinner from '../../components/Spinner';
 import { draftLicensesToImageLicenses } from '../../modules/draft/draftApiUtils';
+import { TranslateType, useTranslateToNN } from '../../components/NynorskTranslateProvider';
 
 interface Props {
   imageId?: string;
@@ -24,13 +29,33 @@ interface Props {
   isNewlyCreated?: boolean;
 }
 
+const translateFields: TranslateType[] = [
+  {
+    field: 'title.title',
+    type: 'text',
+  },
+  {
+    field: 'alttext.alttext',
+    type: 'text',
+  },
+  {
+    field: 'caption.caption',
+    type: 'text',
+  },
+  {
+    field: 'tags.tags',
+    type: 'text',
+  },
+];
+
 const EditImage = ({ isNewlyCreated }: Props) => {
   const { i18n } = useTranslation();
   const { id: imageId, selectedLanguage: imageLanguage } = useParams<'id' | 'selectedLanguage'>();
   const { data: licenses } = useLicenses({ placeholderData: [] });
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const { applicationError, createMessage } = useMessages();
-  const [image, setImage] = useState<IImageMetaInformationV2 | undefined>(undefined);
+  const [image, setImage] = useState<IImageMetaInformationV3 | undefined>(undefined);
+  const { shouldTranslate, translate, translating } = useTranslateToNN();
   const imageLicenses = draftLicensesToImageLicenses(licenses ?? []);
 
   useEffect(() => {
@@ -44,6 +69,18 @@ const EditImage = ({ isNewlyCreated }: Props) => {
     })();
   }, [imageLanguage, imageId]);
 
+  useEffect(() => {
+    (async () => {
+      if (shouldTranslate && !loading) {
+        setLoading(true);
+      }
+      if (image && !loading && shouldTranslate) {
+        await translate(image, translateFields, setImage);
+        setLoading(false);
+      }
+    })();
+  }, [shouldTranslate, translate, image, loading]);
+
   const onUpdate = async (updatedImage: IUpdateImageMetaInformation, image: string | Blob) => {
     const formData = await createFormData(image, updatedImage);
 
@@ -51,12 +88,13 @@ const EditImage = ({ isNewlyCreated }: Props) => {
       const res = await updateImage(Number(imageId), updatedImage, formData);
       setImage(res);
     } catch (e) {
-      applicationError(e);
-      createMessage(e.messages);
+      const error = e as any;
+      applicationError(error);
+      createMessage(error.messages);
     }
   };
 
-  if (loading) {
+  if (loading || translating) {
     return <Spinner withWrapper />;
   }
 

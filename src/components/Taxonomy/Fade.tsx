@@ -6,7 +6,7 @@
 
 import { useEffect, useState, ReactNode } from 'react';
 import { animations } from '@ndla/core';
-import css from '@emotion/css';
+import { css } from '@emotion/react';
 
 type Props = {
   show?: boolean;
@@ -44,7 +44,8 @@ const Fade = ({ show = true, fadeType, children }: Props) => {
       css={css`
         ${animation(animations.durations.fast)}
       `}
-      onAnimationEnd={onAnimationEnd}>
+      onAnimationEnd={onAnimationEnd}
+    >
       {children}
     </div>
   );

@@ -6,14 +6,18 @@
  *
  */
 
-import { FormEvent, useEffect } from 'react';
+import { FormEvent } from 'react';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router-dom';
 import { ContentLoader } from '@ndla/ui';
 import { spacing } from '@ndla/core';
+import { TAXONOMY_ADMIN_SCOPE } from '../../constants';
+import { Row } from '../../components';
 import ObjectSelector from '../../components/ObjectSelector';
+import { useSession } from '../Session/SessionProvider';
 import { useVersions } from '../../modules/taxonomy/versions/versionQueries';
+import OptGroupVersionSelector from '../../components/Taxonomy/OptGroupVersionSelector';
 
 const StyledDiffOptions = styled.div`
   display: flex;
@@ -62,7 +66,7 @@ const DiffOption = ({
       <strong>{label}</strong>
       <ObjectSelector
         emptyField={emptyField}
-        onClick={e => e.stopPropagation()}
+        onClick={(e) => e.stopPropagation()}
         options={options}
         onChange={onChange}
         name={name}
@@ -78,17 +82,14 @@ const DiffOption = ({
 const DiffOptions = ({ originalHash, otherHash }: Props) => {
   const [params, setParams] = useSearchParams();
   const { t } = useTranslation();
+  const { userPermissions } = useSession();
   const taxonomyVersions = useVersions();
-  const options =
-    taxonomyVersions.data?.map(version => ({ id: version.hash, label: version.name })) ?? [];
-
-  useEffect(() => {
-    if (!otherHash && taxonomyVersions.data) {
-      const publishedVersion = taxonomyVersions.data.find(v => v.versionType === 'PUBLISHED');
-      params.set('otherHash', publishedVersion?.hash ?? 'default');
-      setParams(params);
-    }
-  }, [otherHash, params, setParams, taxonomyVersions.data]);
+  const originalVersion = originalHash
+    ? taxonomyVersions.data?.find((v) => v.hash === originalHash)
+    : undefined;
+  const otherVersion = otherHash
+    ? taxonomyVersions.data?.find((v) => v.hash === otherHash)
+    : undefined;
 
   const nodeViewOptions = [
     { id: 'all', label: t('diff.options.allNodes') },
@@ -119,7 +120,7 @@ const DiffOptions = ({ originalHash, otherHash }: Props) => {
     setParams(params);
   };
 
-  if (taxonomyVersions.isLoading) {
+  if (taxonomyVersions.isInitialLoading) {
     return (
       <ContentLoader width={800} height={150}>
         <rect x="0" y="0" rx="3" ry="3" width="100" height="23" key="rect-1-2" />
@@ -139,30 +140,34 @@ const DiffOptions = ({ originalHash, otherHash }: Props) => {
 
   return (
     <StyledDiffOptions>
+      <Row alignItems="center" spacing="small">
+        <span>{t('diff.options.about')}</span>
+      </Row>
+      {!!userPermissions?.includes(TAXONOMY_ADMIN_SCOPE) && (
+        <Row alignItems="center" spacing="small">
+          <span>{t('diff.options.admin')}</span>
+        </Row>
+      )}
       <StyledOptionRow>
-        <DiffOption
-          emptyField
-          options={options}
-          onChange={event => onOriginalHashChange(event.currentTarget.value)}
-          name="originalHash"
-          label={t('diff.options.originalHashLabel')}
-          value={originalHash ?? 'default'}
-          placeholder={t('diff.defaultVersion')}
-        />
-        <DiffOption
-          emptyField
-          options={options}
-          onChange={({ currentTarget: { value } }) =>
-            onParamChange('otherHash', value.length ? value : 'default')
-          }
-          name="otherHash"
-          label={t('diff.options.otherHashLabel')}
-          value={otherHash ?? 'default'}
-          placeholder={t('diff.defaultVersion')}
-        />
+        <StyledDiffOption>
+          <strong>{t('diff.options.originalHashLabel')}</strong>
+          <OptGroupVersionSelector
+            versions={taxonomyVersions.data ?? []}
+            currentVersion={originalVersion}
+            onVersionChanged={onOriginalHashChange}
+          />
+        </StyledDiffOption>
+        <StyledDiffOption>
+          <strong>{t('diff.options.otherHashLabel')}</strong>
+          <OptGroupVersionSelector
+            versions={taxonomyVersions.data ?? []}
+            currentVersion={otherVersion}
+            onVersionChanged={(val) => onParamChange('otherHash', val.length ? val : 'default')}
+          />
+        </StyledDiffOption>
         <DiffOption
           options={viewOptions}
-          onChange={event => onParamChange('view', event.currentTarget.value)}
+          onChange={(event) => onParamChange('view', event.currentTarget.value)}
           name="view"
           label={t('diff.options.viewLabel')}
           value={currentViewOption}
@@ -171,14 +176,14 @@ const DiffOptions = ({ originalHash, otherHash }: Props) => {
       <StyledOptionRow>
         <DiffOption
           options={nodeViewOptions}
-          onChange={event => onParamChange('nodeView', event.currentTarget.value)}
+          onChange={(event) => onParamChange('nodeView', event.currentTarget.value)}
           name="nodeView"
           label={t('diff.options.nodeViewLabel')}
           value={currentNodeViewOption}
         />
         <DiffOption
           options={nodeFieldOptions}
-          onChange={event => onParamChange('fieldView', event.currentTarget.value)}
+          onChange={(event) => onParamChange('fieldView', event.currentTarget.value)}
           name="fieldView"
           label={t('diff.options.fieldViewLabel')}
           value={currentNodeFieldOption}

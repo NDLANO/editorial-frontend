@@ -9,27 +9,23 @@
 import { ReactNode, MouseEvent } from 'react';
 
 import styled from '@emotion/styled';
-import { css } from '@emotion/core';
+import { css } from '@emotion/react';
 import Tooltip from '@ndla/tooltip';
 import { spacing, spacingUnit } from '@ndla/core';
 import { Link as LinkIcon } from '@ndla/icons/common';
+import { Pencil } from '@ndla/icons/action';
 import { DeleteForever } from '@ndla/icons/editor';
 import { useTranslation } from 'react-i18next';
-import SafeLink from '@ndla/safelink';
-import { Link } from 'react-router-dom';
-import IconButton from '../../../IconButton';
+import { SafeLinkIconButton } from '@ndla/safelink';
+import { IconButtonV2 } from '@ndla/button';
 import { Embed } from '../../../../interfaces';
 
-const centerAdjustedStyle = css`
-  right: -${spacing.xsmall};
-`;
-
 const rightAdjustedStyle = css`
-  right: -${spacingUnit * 1.25}px;
+  right: -${spacingUnit * 1.2}px;
 `;
 
 const leftAdjustedStyle = css`
-  left: -${spacingUnit * 1.25}px;
+  left: -${spacingUnit * 1.2}px;
 `;
 
 interface StyledFigureButtonsProps {
@@ -40,16 +36,15 @@ interface StyledFigureButtonsProps {
 const StyledFigureButtons = styled('div')`
   position: absolute;
   top: 0;
-  z-index: 1;
 
   ${(p: StyledFigureButtonsProps) =>
-    p.align !== 'left' && p.align !== 'right' && centerAdjustedStyle}
-  ${p => p.align === 'left' && leftAdjustedStyle}
-  ${p => p.align === 'right' && rightAdjustedStyle}
+    p.align !== 'left' && p.align !== 'right' && rightAdjustedStyle}
+  ${(p) => p.align === 'right' && rightAdjustedStyle}
+  ${(p) => p.align === 'left' && leftAdjustedStyle}
   > * {
     margin-bottom: ${spacing.xsmall};
   }
-  ${p =>
+  ${(p) =>
     p.withMargin &&
     css`
       margin: ${spacing.small};
@@ -109,28 +104,32 @@ const FigureButtons = ({
       align={'align' in embed && !!embed.align ? embed.align : ''}
       theme={{}}
       withMargin={withMargin}
-      contentEditable={false}>
-      <Tooltip tooltip={tooltip} align="right">
-        <IconButton
-          color="red"
-          type="button"
+      contentEditable={false}
+    >
+      <Tooltip tooltip={tooltip}>
+        <IconButtonV2
+          aria-label={tooltip}
+          colorTheme="danger"
+          variant="ghost"
           onClick={onRemoveClick}
-          tabIndex={-1}
-          data-cy="remove-element">
+          data-cy="remove-element"
+        >
           <DeleteForever />
-        </IconButton>
+        </IconButtonV2>
       </Tooltip>
       {(figureType === 'image' || figureType === 'audio' || figureType === 'podcast') &&
         (embed.resource === 'image' || embed.resource === 'audio') && (
-          <Tooltip tooltip={url[figureType].editTitle} align="right">
-            <IconButton
-              as={Link}
+          <Tooltip tooltip={url[figureType].editTitle}>
+            <SafeLinkIconButton
+              variant="ghost"
+              colorTheme="light"
               to={`${url[figureType].path}/${embed.resource_id}/edit/${language}`}
               target="_blank"
               title={url[figureType].editTitle}
-              tabIndex={-1}>
+              tabIndex={-1}
+            >
               <LinkIcon />
-            </IconButton>
+            </SafeLinkIconButton>
           </Tooltip>
         )}
       {figureType === 'external' && onEdit && (
@@ -138,28 +137,50 @@ const FigureButtons = ({
           tooltip={t('form.external.edit', {
             type: providerName || t('form.external.title'),
           })}
-          align="right">
-          <IconButton type="button" tabIndex={-1} onClick={onEdit}>
+        >
+          <IconButtonV2
+            aria-label={t('form.external.edit', { type: providerName || t('form.external.title') })}
+            variant="ghost"
+            colorTheme="light"
+            onClick={onEdit}
+          >
             <LinkIcon />
-          </IconButton>
+          </IconButtonV2>
         </Tooltip>
       )}
       {figureType === 'video' && embed.resource === 'brightcove' && (
         <>
-          <Tooltip tooltip={t('form.video.brightcove')} align="right">
-            <IconButton
-              as={SafeLink}
+          <Tooltip tooltip={t('form.video.brightcove')}>
+            <SafeLinkIconButton
+              aria-label={t('form.video.brightcove')}
+              variant="ghost"
+              colorTheme="light"
               to={`https://studio.brightcove.com/products/videocloud/media/videos/${
                 embed.videoid.split('&t=')[0]
               }`}
               target="_blank"
-              title={t('form.video.brightcove')}
-              tabIndex={-1}>
+            >
               <LinkIcon />
-            </IconButton>
+            </SafeLinkIconButton>
           </Tooltip>
           {children}
         </>
+      )}
+      {(figureType === 'video' || figureType === 'image') && (
+        <Tooltip
+          tooltip={figureType === 'video' ? t('form.video.editVideo') : t('form.image.editImage')}
+        >
+          <IconButtonV2
+            aria-label={
+              figureType === 'video' ? t('form.video.editVideo') : t('form.image.editImage')
+            }
+            variant="ghost"
+            colorTheme="light"
+            onClick={onEdit}
+          >
+            <Pencil />
+          </IconButtonV2>
+        </Tooltip>
       )}
     </StyledFigureButtons>
   );

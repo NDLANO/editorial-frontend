@@ -6,23 +6,17 @@
  *
  */
 
-import { IStatus } from '@ndla/types-draft-api';
+import groupBy from 'lodash/groupBy';
+import merge from 'lodash/merge';
+import sortBy from 'lodash/sortBy';
+import uniqBy from 'lodash/uniqBy';
+import { NodeChild, ResourceType } from '@ndla/types-taxonomy';
 import { FlattenedResourceType } from '../interfaces';
-import {
-  ResourceType,
-  ResourceWithTopicConnection,
-  SubjectTopic,
-  TaxonomyElement,
-} from '../modules/taxonomy/taxonomyApiInterfaces';
-import {
-  updateTopicResource,
-  updateTopicSubtopic,
-  updateSubjectTopic,
-  fetchTopic,
-  fetchSubject,
-} from '../modules/taxonomy';
+import { SubjectTopic, TaxonomyElement } from '../modules/taxonomy/taxonomyApiInterfaces';
+import { fetchTopic, fetchSubject } from '../modules/taxonomy';
 import { getContentTypeFromResourceTypes } from './resourceHelpers';
-import { ChildNodeType, ResourceWithNodeConnection } from '../modules/nodes/nodeApiTypes';
+import { ResourceWithNodeConnectionAndMeta } from '../containers/StructurePage/resourceComponents/StructureResources';
+import { NodeChildWithChildren } from '../modules/nodes/nodeQueries';
 
 // Kan hende at id i contentUri fra taxonomy inneholder '#xxx' (revision)
 export const getIdFromUrn = (urn?: string) => {
@@ -43,9 +37,9 @@ const flattenResourceTypesAndAddContextTypes = (
   t: (key: string) => string,
 ) => {
   const resourceTypes: FlattenedResourceType[] = [];
-  data.forEach(type => {
+  data.forEach((type) => {
     if (type.subtypes) {
-      type.subtypes.forEach(subtype =>
+      type.subtypes.forEach((subtype) =>
         resourceTypes.push({
           typeName: type.name,
           typeId: type.id,
@@ -61,27 +55,64 @@ const flattenResourceTypesAndAddContextTypes = (
     }
   });
   resourceTypes.push({ name: t('contextTypes.topic'), id: 'topic-article' });
+  resourceTypes.push({ name: t('contextTypes.frontpage'), id: 'frontpage-article' });
   return resourceTypes;
 };
 
-const groupResourcesByResourceType = (resources: ResourceWithNodeConnection[]) => {
-  return resources
-    .flatMap(res => res.resourceTypes.map<[string, ResourceWithNodeConnection]>(rt => [rt.id, res]))
-    .reduce<Record<string, ResourceWithNodeConnection[]>>(
-      (acc, [id, cur]) => ({ ...acc, [id]: safeConcat(cur, acc[id]) }),
+export const groupResourcesByType = (
+  resources: ResourceWithNodeConnectionAndMeta[],
+  resourceTypes: ResourceType[],
+) => {
+  const types = resourceTypes.reduce<Record<string, string>>((types, rt) => {
+    const reversedMapping =
+      rt.subtypes?.reduce<Record<string, string>>((acc, curr) => {
+        acc[curr.id] = rt.id;
+        return acc;
+      }, {}) ?? {};
+    reversedMapping[rt.id] = rt.id;
+    return merge(types, reversedMapping);
+  }, {});
+
+  const typeToResourcesMapping = resources
+    .flatMap((res) =>
+      res.resourceTypes.map<[string, ResourceWithNodeConnectionAndMeta]>((rt) => [rt.id, res]),
+    )
+    .reduce<Record<string, { parentId: string; resources: ResourceWithNodeConnectionAndMeta[] }>>(
+      (acc, [id, curr]) => {
+        if (acc[id]) {
+          acc[id]['resources'] = acc[id]['resources'].concat(curr);
+        } else {
+          acc[id] = {
+            parentId: types[id],
+            resources: [curr],
+          };
+        }
+        return acc;
+      },
       {},
     );
-};
 
-const groupSortResourceTypesFromNodeResources = (
-  resourceTypes: ResourceType[],
-  topicResources: ResourceWithNodeConnection[],
-) => {
-  const groupedByResource = groupResourcesByResourceType(topicResources);
+  const groupedValues = groupBy(Object.values(typeToResourcesMapping), (t) => t.parentId);
+
+  const unique = Object.entries(groupedValues).reduce<
+    Record<string, ResourceWithNodeConnectionAndMeta[]>
+  >((acc, [id, val]) => {
+    const uniqueValues = uniqBy(
+      val.flatMap((v) => v.resources),
+      (r) => r.id,
+    );
+
+    acc[id] = uniqueValues;
+    return acc;
+  }, {});
+
   return resourceTypes
-    .map(type => ({ ...type, resources: groupedByResource[type.id] ?? [] }))
-    .filter(type => type.resources.length > 0)
-    .map(type => ({ ...type, contentType: getContentTypeFromResourceTypes([type]).contentType }));
+    .map((rt) => ({
+      ...rt,
+      resources: sortBy(unique[rt.id], (res) => res.rank) ?? [],
+      contentType: getContentTypeFromResourceTypes([rt]).contentType,
+    }))
+    .filter((rt) => rt.resources.length > 0);
 };
 
 const sortIntoCreateDeleteUpdate = <T extends { id: string }>({
@@ -95,14 +126,16 @@ const sortIntoCreateDeleteUpdate = <T extends { id: string }>({
 }) => {
   const updateItems: T[] = [];
   const createItems: T[] = [];
-  const deleteItems = originalItems.filter(item => {
-    const originalItemInChangedItem = changedItems.find(changedItem => changedItem.id === item.id);
+  const deleteItems = originalItems.filter((item) => {
+    const originalItemInChangedItem = changedItems.find(
+      (changedItem) => changedItem.id === item.id,
+    );
     return !originalItemInChangedItem;
   });
-  changedItems.forEach(changedItem => {
-    const foundItem = originalItems.find(item => item.id === changedItem.id);
+  changedItems.forEach((changedItem) => {
+    const foundItem = originalItems.find((item) => item.id === changedItem.id);
     if (foundItem) {
-      updateProperties.forEach(updateProperty => {
+      updateProperties.forEach((updateProperty) => {
         if (foundItem[updateProperty] !== changedItem[updateProperty]) {
           updateItems.push({
             ...foundItem,
@@ -118,66 +151,12 @@ const sortIntoCreateDeleteUpdate = <T extends { id: string }>({
   return [createItems, deleteItems, updateItems];
 };
 
-// Same structuring used from ndla-frontend
-
-const getResourcesGroupedByResourceTypes = (
-  resourcesByTopic: TopicResource[],
-): Record<string, TopicResource[]> => {
-  return resourcesByTopic.reduce<Record<string, TopicResource[]>>((obj, resource) => {
-    const resourceTypesWithResources = resource.resourceTypes.map(type => {
-      const existing = obj[type.id] ?? [];
-      return { ...type, resources: [...existing, resource] };
-    });
-    const reduced = resourceTypesWithResources.reduce(
-      (acc, type) => ({ ...acc, [type.id]: type.resources }),
-      {},
-    );
-    return { ...obj, ...reduced };
-  }, {});
-};
-
-// Same structuring used from ndla-frontend
-const getTopicResourcesByType = (
-  resourceTypes: ResourceType[],
-  groupedResourceListItem: Record<string, TopicResource[]>,
-): (ResourceType & { resources: TopicResource[] })[] => {
-  return resourceTypes
-    .map(type => {
-      const resources: TopicResource[] = groupedResourceListItem[type.id] ?? [];
-      return { ...type, resources };
-    })
-    .filter(type => type.resources.length > 0);
-};
-
-const topicResourcesByTypeWithMetaData = (
-  resorceTypesByTopic: (ResourceType & {
-    resources: TopicResource[];
-  })[],
-) => {
-  return resorceTypesByTopic.map(type => ({
-    ...type,
-    contentType: getContentTypeFromResourceTypes([type]).contentType,
-  }));
-};
-
-interface TopicResource extends ResourceWithTopicConnection {
-  articleType?: string;
-  status?: IStatus;
-}
-const groupSortResourceTypesFromTopicResources = (
-  resourceTypes: ResourceType[],
-  topicResources: TopicResource[],
-) => {
-  const sortedResourceTypes = getResourcesGroupedByResourceTypes(topicResources);
-  const resorceTypesByTopic = getTopicResourcesByType(resourceTypes, sortedResourceTypes);
-  return topicResourcesByTypeWithMetaData(resorceTypesByTopic);
-};
-
-const safeConcat = <T>(toAdd: T, existing?: T[]) => (existing ? existing.concat(toAdd) : [toAdd]);
+export const safeConcat = <T>(toAdd: T, existing?: T[]) =>
+  existing ? existing.concat(toAdd) : [toAdd];
 
 const insertSubTopic = (topics: SubjectTopic[], subTopic: SubjectTopic): SubjectTopic[] => {
-  return topics.map(topic => {
-    if (topic.id === subTopic.parent) {
+  return topics.map((topic) => {
+    if (topic.id === subTopic.parentId) {
       return { ...topic, subtopics: safeConcat(subTopic, topic.subtopics) };
     }
     if (topic.subtopics) {
@@ -186,9 +165,12 @@ const insertSubTopic = (topics: SubjectTopic[], subTopic: SubjectTopic): Subject
     return topic;
   });
 };
-const insertChild = (childNodes: ChildNodeType[], childNode: ChildNodeType): ChildNodeType[] => {
-  return childNodes.map(node => {
-    if (node.id === childNode.parent) {
+const insertChild = (
+  childNodes: NodeChildWithChildren[],
+  childNode: NodeChildWithChildren,
+): NodeChildWithChildren[] => {
+  return childNodes.map((node) => {
+    if (node.id === childNode.parentId) {
       return { ...node, childNodes: safeConcat(childNode, node.childNodes) };
     }
     if (node.childNodes) {
@@ -198,53 +180,28 @@ const insertChild = (childNodes: ChildNodeType[], childNode: ChildNodeType): Chi
   });
 };
 
-const groupChildNodes = (childNodes: ChildNodeType[]) =>
+const groupChildNodes = (childNodes: NodeChild[]) =>
   childNodes.reduce((acc, curr) => {
-    if (curr.parent.includes('subject')) return acc;
-    const withoutCurrent = acc.filter(node => node.id !== curr.id);
+    if (curr.parentId.includes('subject')) return acc;
+    const withoutCurrent = acc.filter((node) => node.id !== curr.id);
     return insertChild(withoutCurrent, curr);
   }, childNodes);
 
 const groupTopics = (allTopics: SubjectTopic[]) =>
   allTopics.reduce((acc, curr) => {
-    const mainTopic = curr.parent.includes('subject');
+    const mainTopic = curr.parentId.includes('subject');
     if (mainTopic) return acc;
     return insertSubTopic(
-      acc.filter(topic => topic.id !== curr.id),
+      acc.filter((topic) => topic.id !== curr.id),
       curr,
     );
   }, allTopics);
-
-const getCurrentTopic = ({
-  params,
-  allTopics = [],
-}: {
-  params: {
-    topic?: string;
-    subtopics?: string;
-  };
-  allTopics: SubjectTopic[];
-}) => {
-  const { topic, subtopics } = params;
-  const topics = subtopics?.split('/');
-  if (topics && topics.length > 0) {
-    const lastTopic = topics.slice(-1)[0];
-    return allTopics.find(t => t.id === lastTopic);
-  }
-  if (topic) {
-    return allTopics.find(t => t.id === topic);
-  }
-};
-
-const getSubtopics = (topicId: string, allTopics: SubjectTopic[]) => {
-  return allTopics.filter(t => t.parent === topicId);
-};
 
 const selectedResourceTypeValue = (resourceTypes: { id: string; parentId?: string }[]): string => {
   if (resourceTypes.length === 0) {
     return '';
   }
-  const withParentId = resourceTypes.find(resourceType => resourceType.parentId);
+  const withParentId = resourceTypes.find((resourceType) => resourceType.parentId);
   if (withParentId) {
     return `${withParentId.parentId},${withParentId.id}`;
   }
@@ -256,29 +213,7 @@ const pathToUrnArray = (path: string) =>
   path
     .split('/')
     .splice(1)
-    .map(url => `urn:${url}`);
-
-const updateRelevanceId = (
-  connectionId: string,
-  body: {
-    relevanceId?: string;
-    primary?: boolean;
-    rank?: number;
-  },
-  taxonomyVersion: string,
-): Promise<void> => {
-  const [, connectionType] = connectionId.split(':');
-  switch (connectionType) {
-    case 'topic-resource':
-      return updateTopicResource({ id: connectionId, body, taxonomyVersion });
-    case 'topic-subtopic':
-      return updateTopicSubtopic({ connectionId, body, taxonomyVersion });
-    case 'subject-topic':
-      return updateSubjectTopic({ connectionId, body, taxonomyVersion });
-    default:
-      return new Promise(() => {});
-  }
-};
+    .map((url) => `urn:${url}`);
 
 const getBreadcrumbFromPath = async (
   path: string,
@@ -288,9 +223,9 @@ const getBreadcrumbFromPath = async (
   const [subjectPath, ...topicPaths] = pathToUrnArray(path);
   const subjectAndTopics = await Promise.all([
     fetchSubject({ id: subjectPath, language, taxonomyVersion }),
-    ...topicPaths.map(id => fetchTopic({ id, language, taxonomyVersion })),
+    ...topicPaths.map((id) => fetchTopic({ id, language, taxonomyVersion })),
   ]);
-  return subjectAndTopics.map(element => ({
+  return subjectAndTopics.map((element) => ({
     id: element.id,
     name: element.name,
     metadata: element.metadata,
@@ -300,20 +235,12 @@ const getBreadcrumbFromPath = async (
 export const nodePathToUrnPath = (path: string) => path.replace(/\//g, '/urn:').substr(1);
 
 export {
-  groupSortResourceTypesFromNodeResources,
   groupChildNodes,
   flattenResourceTypesAndAddContextTypes,
   sortIntoCreateDeleteUpdate,
-  getResourcesGroupedByResourceTypes,
-  getTopicResourcesByType,
-  topicResourcesByTypeWithMetaData,
-  groupSortResourceTypesFromTopicResources,
   groupTopics,
-  getCurrentTopic,
-  getSubtopics,
   sortByName,
   selectedResourceTypeValue,
   pathToUrnArray,
-  updateRelevanceId,
   getBreadcrumbFromPath,
 };

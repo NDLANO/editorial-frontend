@@ -6,12 +6,13 @@
  *
  */
 
+import styled from '@emotion/styled';
 import { MultiButton } from '@ndla/button';
 import { Check } from '@ndla/icons/editor';
-import styled from '@emotion/styled';
-import { css } from '@emotion/core';
 import { useTranslation } from 'react-i18next';
 import { saveButtonAppearances } from './SaveButton';
+
+type SaveModifiers = 'save' | 'saving' | 'saved';
 
 const StyledSpan = styled('span')`
   display: flex;
@@ -20,13 +21,13 @@ const StyledSpan = styled('span')`
 
 const Wrapper = styled('div')`
   div > button:disabled {
-    ${(props: { modifier: string }) => {
+    ${(props: { modifier: SaveModifiers }) => {
       return saveButtonAppearances[props.modifier];
     }}
   }
 `;
 
-const checkStyle = css`
+const StyledCheck = styled(Check)`
   width: 1.45rem;
   height: 1.45rem;
 `;
@@ -52,11 +53,12 @@ const SaveMultiButton = ({
   hideSecondaryButton,
   ...rest
 }: Props) => {
-  const getModifier = () => {
+  const getModifier = (): SaveModifiers => {
     if (isSaving) return 'saving';
     if (showSaved) return 'saved';
     return 'save';
   };
+
   const { t } = useTranslation();
   const modifier = getModifier();
   const disabledButton = isSaving || !formIsDirty || disabled;
@@ -87,10 +89,11 @@ const SaveMultiButton = ({
                 ]
           }
           large
-          {...rest}>
+          {...rest}
+        >
           <StyledSpan>
             {t(`form.${modifier}`)}
-            {showSaved && <Check css={checkStyle} />}
+            {showSaved && <StyledCheck />}
           </StyledSpan>
         </MultiButton>
       </Wrapper>

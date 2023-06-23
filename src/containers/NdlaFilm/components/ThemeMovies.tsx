@@ -7,10 +7,10 @@
  */
 
 import { useState } from 'react';
-import { isEqual } from 'lodash';
+import isEqual from 'lodash/isEqual';
 import { useTranslation } from 'react-i18next';
-import { Spinner } from '@ndla/editor';
-import { IMultiSearchSummary } from '@ndla/types-search-api';
+import { Spinner } from '@ndla/icons';
+import { IMultiSearchSummary } from '@ndla/types-backend/search-api';
 import ElementList from '../../FormikForm/components/ElementList';
 import { getUrnFromId } from '../../../util/ndlaFilmHelpers';
 import DropdownSearch from './DropdownSearch';
@@ -31,12 +31,12 @@ export const ThemeMovies = ({ movies, onMoviesUpdated, placeholder }: Props) => 
     { movieUrns: movies },
     {
       enabled: !isEqual(movies, localMovies),
-      onSuccess: movies => setApiMovies(movies.results),
+      onSuccess: (movies) => setApiMovies(movies.results),
     },
   );
 
   const onUpdateMovies = (updates: IMultiSearchSummary[]) => {
-    const updated = updates.map(u => getUrnFromId(u.id));
+    const updated = updates.map((u) => getUrnFromId(u.id));
     setApiMovies(updates);
     setLocalMovies(updated);
     onMoviesUpdated(updated);
@@ -44,13 +44,13 @@ export const ThemeMovies = ({ movies, onMoviesUpdated, placeholder }: Props) => 
 
   const onAddMovieToTheme = (movie: IMultiSearchSummary) => {
     setLocalMovies([...movies, getUrnFromId(movie.id)]);
-    setApiMovies(prevMovies => [...prevMovies, movie]);
+    setApiMovies((prevMovies) => [...prevMovies, movie]);
     onMoviesUpdated([...movies, getUrnFromId(movie.id)]);
   };
 
   return (
     <>
-      {moviesQuery.status === 'loading' ? (
+      {moviesQuery.isInitialLoading ? (
         <Spinner />
       ) : (
         <ElementList

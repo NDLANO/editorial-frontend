@@ -9,10 +9,14 @@
 import { Descendant, Editor, Element } from 'slate';
 import { jsx as slatejsx } from 'slate-hyperscript';
 import { RenderElementProps } from 'slate-react';
-import { createEmbedTag, reduceElementDataAttributes } from '../../../../../util/embedTagHelpers';
+import {
+  createEmbedTagV2,
+  reduceElementDataAttributesV2,
+} from '../../../../../util/embedTagHelpers';
 import { SlateSerializer } from '../../../interfaces';
 import { defaultBlockNormalizer, NormalizerConfig } from '../../../utils/defaultNormalizer';
 import { afterOrBeforeTextBlockElement } from '../../../utils/normalizationHelpers';
+import { TYPE_NDLA_EMBED } from '../../embed/types';
 import { TYPE_PARAGRAPH } from '../../paragraph/types';
 import BlockConcept from './BlockConcept';
 import { TYPE_CONCEPT_BLOCK } from './types';
@@ -29,10 +33,10 @@ const normalizerConfig: NormalizerConfig = {
 };
 
 export const blockConceptSerializer: SlateSerializer = {
-  deserialize(el: HTMLElement, children: Descendant[]) {
-    if (el.tagName.toLowerCase() !== 'embed') return;
+  deserialize(el: HTMLElement) {
+    if (el.tagName.toLowerCase() !== TYPE_NDLA_EMBED) return;
     const embed = el as HTMLEmbedElement;
-    const embedAttributes = reduceElementDataAttributes(embed);
+    const embedAttributes = reduceElementDataAttributesV2(Array.from(embed.attributes));
     if (embedAttributes.resource === 'concept' && embedAttributes.type === 'block') {
       return slatejsx(
         'element',
@@ -45,14 +49,8 @@ export const blockConceptSerializer: SlateSerializer = {
     }
   },
   serialize(node: Descendant) {
-    if (!Element.isElement(node)) return;
-    if (node.type !== TYPE_CONCEPT_BLOCK) return;
-
-    const data = {
-      ...node.data,
-    };
-
-    return createEmbedTag(data);
+    if (!Element.isElement(node) || node.type !== TYPE_CONCEPT_BLOCK) return;
+    return createEmbedTagV2(node.data);
   },
 };
 
@@ -71,7 +69,7 @@ export const blockConceptPlugin = (locale: string) => (editor: Editor) => {
     return renderElement && renderElement(props);
   };
 
-  editor.normalizeNode = entry => {
+  editor.normalizeNode = (entry) => {
     const [node] = entry;
 
     if (Element.isElement(node) && node.type === TYPE_CONCEPT_BLOCK) {
@@ -82,7 +80,7 @@ export const blockConceptPlugin = (locale: string) => (editor: Editor) => {
     normalizeNode(entry);
   };
 
-  editor.isVoid = element => {
+  editor.isVoid = (element) => {
     if (element.type === TYPE_CONCEPT_BLOCK) {
       return true;
     }

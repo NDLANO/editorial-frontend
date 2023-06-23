@@ -7,7 +7,7 @@
  */
 
 import { i18n } from 'i18next';
-import { IMultiSearchSummary } from '@ndla/types-search-api';
+import { IMultiSearchSummary } from '@ndla/types-backend/search-api';
 
 export const sortMoviesByIdList = (
   idList: number[],
@@ -32,8 +32,8 @@ export const sortMoviesByIdList = (
     revisions: [],
   };
   return idList.map(
-    id =>
-      movieList.find(movie => movie.id === id) || {
+    (id) =>
+      movieList.find((movie) => movie.id === id) || {
         ...notFoundMovie,
         id: id,
       },

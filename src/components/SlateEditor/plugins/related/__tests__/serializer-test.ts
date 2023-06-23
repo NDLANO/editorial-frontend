@@ -8,8 +8,8 @@
 
 import { Descendant } from 'slate';
 import {
-  learningResourceContentToEditorValue,
-  learningResourceContentToHTML,
+  blockContentToEditorValue,
+  blockContentToHTML,
 } from '../../../../../util/articleContentConverter';
 import { TYPE_PARAGRAPH } from '../../paragraph/types';
 import { TYPE_SECTION } from '../../section/types';
@@ -22,19 +22,17 @@ const editor: Descendant[] = [
       { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
       {
         type: TYPE_RELATED,
-        data: {
-          nodes: [
-            {
-              resource: 'related-content',
-              'article-id': '123',
-            },
-            {
-              resource: 'related-content',
-              url: 'http://google.com',
-              title: 'test-title',
-            },
-          ],
-        },
+        data: [
+          {
+            resource: 'related-content',
+            articleId: '123',
+          },
+          {
+            resource: 'related-content',
+            url: 'http://google.com',
+            title: 'test-title',
+          },
+        ],
         children: [
           {
             text: '',
@@ -47,16 +45,16 @@ const editor: Descendant[] = [
 ];
 
 const html =
-  '<section><div data-type="related-content"><embed data-resource="related-content" data-article-id="123"/><embed data-resource="related-content" data-url="http://google.com" data-title="test-title"/></div></section>';
+  '<section><div data-type="related-content"><ndlaembed data-resource="related-content" data-article-id="123"></ndlaembed><ndlaembed data-resource="related-content" data-url="http://google.com" data-title="test-title"></ndlaembed></div></section>';
 
 describe('related serializing tests', () => {
   test('serializing', () => {
-    const res = learningResourceContentToHTML(editor);
+    const res = blockContentToHTML(editor);
     expect(res).toMatch(html);
   });
 
   test('deserializing', () => {
-    const res = learningResourceContentToEditorValue(html);
+    const res = blockContentToEditorValue(html);
     expect(res).toMatchObject(editor);
   });
 });

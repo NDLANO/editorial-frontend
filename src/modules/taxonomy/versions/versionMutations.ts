@@ -6,12 +6,12 @@
  *
  */
 
-import { useMutation, UseMutationOptions } from 'react-query';
+import { useMutation, UseMutationOptions } from '@tanstack/react-query';
+import { VersionPostPut } from '@ndla/types-taxonomy';
 import { deleteVersion, postVersion, publishVersion, putVersion } from './versionApi';
-import { VersionPostBody, VersionPutBody } from './versionApiTypes';
 
 interface UsePostVersionMutationParams {
-  body: VersionPostBody;
+  body: VersionPostPut;
   sourceId?: string;
 }
 
@@ -26,7 +26,7 @@ export const usePostVersionMutation = (
 
 interface UsePutVersionMutationParams {
   id: string;
-  body: VersionPutBody;
+  body: VersionPostPut;
 }
 
 export const usePutVersionMutation = (

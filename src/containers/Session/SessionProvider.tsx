@@ -31,6 +31,7 @@ interface Props {
 interface UserData {
   name?: string;
   permissions?: string[];
+  ndlaId?: string;
 }
 
 interface SessionState {
@@ -47,6 +48,7 @@ export const initialState: SessionState = {
 
 export interface SessionProps {
   userName?: string;
+  ndlaId: string | undefined;
   userPermissions?: string[];
   authenticated: boolean;
   userNotRegistered: boolean;
@@ -62,6 +64,7 @@ export const getSessionStateFromLocalStorage = (): SessionState => {
     return {
       user: {
         name: decodedToken?.['https://ndla.no/user_name'],
+        ndlaId: decodedToken?.['https://ndla.no/ndla_id'],
         permissions: decodedToken?.permissions,
       },
       authenticated: true,
@@ -84,10 +87,10 @@ export const useSession = (): SessionProps => {
   const [session, setSession] = sessionContext;
   const navigate = useNavigate();
 
-  const setAuthenticated = (authenticated: boolean) => setSession(s => ({ ...s, authenticated }));
+  const setAuthenticated = (authenticated: boolean) => setSession((s) => ({ ...s, authenticated }));
   const setUserNotRegistered = (userNotRegistered: boolean) =>
-    setSession(s => ({ ...s, userNotRegistered }));
-  const setUserData = (user: UserData) => setSession(s => ({ ...s, user }));
+    setSession((s) => ({ ...s, userNotRegistered }));
+  const setUserData = (user: UserData) => setSession((s) => ({ ...s, user }));
 
   const login = (authResult: Auth0DecodedHash) => {
     try {
@@ -99,7 +102,7 @@ export const useSession = (): SessionProps => {
       const combinedPermissions = [...permissions, ...scope.split(' ')];
       const uniquePermissions = [...new Set(combinedPermissions)];
 
-      if (decoded && uniquePermissions.some(permission => permission.includes(':'))) {
+      if (decoded && uniquePermissions.some((permission) => permission.includes(':'))) {
         if (authResult.state) window.location.href = authResult.state;
         setAuthenticated(true);
         setUserData({
@@ -130,6 +133,7 @@ export const useSession = (): SessionProps => {
 
   return {
     userName: session.user.name,
+    ndlaId: session.user.ndlaId,
     userPermissions: session.user.permissions,
     authenticated: !!session.authenticated,
     userNotRegistered: !!session.userNotRegistered,

@@ -7,12 +7,12 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import PropTypes from 'prop-types';
-import Button from '@ndla/button';
-import { LicenseByline, getLicenseByAbbreviation } from '@ndla/licenses';
+import { ButtonV2 } from '@ndla/button';
+import { getLicenseByAbbreviation } from '@ndla/licenses';
+import { LicenseByline } from '@ndla/notion';
 import { colors } from '@ndla/core';
-import { css } from '@emotion/core';
-import { IConceptSummary } from '@ndla/types-concept-api';
+import styled from '@emotion/styled';
+import { IConceptSummary } from '@ndla/types-backend/concept-api';
 import {
   StyledInfo,
   StyledConceptView,
@@ -36,7 +36,16 @@ interface Props {
   breadcrumbs: SubjectType[];
   setShowForm: () => void;
   editing: boolean;
+  responsibleName?: string;
 }
+
+const StyledButton = styled(ButtonV2)`
+  min-height: 24px;
+  line-height: 1;
+  font-size: 0.7rem;
+  padding: 4px 6px;
+  margin-left: 5px;
+`;
 
 const ContentView = ({
   concept,
@@ -46,10 +55,11 @@ const ContentView = ({
   breadcrumbs,
   setShowForm,
   editing,
+  responsibleName,
 }: Props) => {
   const { t } = useTranslation();
   const { data: licenses } = useLicenses();
-  const license = licenses && licenses.find(l => concept.license === l.license);
+  const license = licenses && licenses.find((l) => concept.license === l.license);
 
   return (
     <StyledConceptView>
@@ -57,29 +67,19 @@ const ContentView = ({
         <StyledLink noShadow to={toEditConcept(concept.id)}>
           {title}
         </StyledLink>
-        {!editing && (
-          <Button
-            css={css`
-              line-height: 1;
-              font-size: 0.7rem;
-              padding: 4px 6px;
-              margin-left: 5px;
-            `}
-            onClick={setShowForm}>
-            {t('form.edit')}
-          </Button>
-        )}
+        {false && !editing && <StyledButton onClick={setShowForm}>{t('form.edit')}</StyledButton>}
       </h2>
       <StyledInfo>
         {`${t('topicArticleForm.info.lastUpdated')} ${formatDate(concept.lastUpdated)}`}
       </StyledInfo>
       <div>
-        {concept.supportedLanguages.map(lang => {
+        {concept.supportedLanguages.map((lang) => {
           return lang !== locale ? (
             <StyledLink
               other
               key={`language_${lang}_${concept.id}`}
-              to={toEditConcept(concept.id, lang)}>
+              to={toEditConcept(concept.id, lang)}
+            >
               {t(`language.${lang}`)}
             </StyledLink>
           ) : (
@@ -96,7 +96,7 @@ const ContentView = ({
         />
       )}
       <StyledBreadcrumbs>
-        {breadcrumbs?.map(breadcrumb => <Crumb key={breadcrumb.id}>{breadcrumb.name}</Crumb>) || (
+        {breadcrumbs?.map((breadcrumb) => <Crumb key={breadcrumb.id}>{breadcrumb.name}</Crumb>) || (
           <Crumb />
         )}
         <HeaderStatusInformation
@@ -106,36 +106,11 @@ const ContentView = ({
           }
           indentLeft
           fontSize={10}
+          responsibleName={responsibleName}
         />
       </StyledBreadcrumbs>
     </StyledConceptView>
   );
-};
-
-ContentView.propTypes = {
-  concept: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    title: PropTypes.shape({ title: PropTypes.string, language: PropTypes.string }),
-    content: PropTypes.shape({ content: PropTypes.string, language: PropTypes.string }),
-    supportedLanguages: PropTypes.arrayOf(PropTypes.string),
-    subjectIds: PropTypes.arrayOf(PropTypes.string),
-    metaImage: PropTypes.shape({
-      alt: PropTypes.string,
-      url: PropTypes.string,
-    }),
-    lastUpdated: PropTypes.string,
-    status: PropTypes.shape({
-      current: PropTypes.string,
-      other: PropTypes.arrayOf(PropTypes.string),
-    }),
-    license: PropTypes.string,
-  }),
-  locale: PropTypes.string,
-  title: PropTypes.string,
-  content: PropTypes.string,
-  breadcrumbs: PropTypes.array,
-  setShowForm: PropTypes.func,
-  editing: PropTypes.bool,
 };
 
 export default ContentView;

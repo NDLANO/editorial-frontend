@@ -7,11 +7,15 @@
  */
 
 import PropTypes from 'prop-types';
-import { css } from '@emotion/core';
+import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import { FieldHeader, FieldRemoveButton, FieldSection } from '@ndla/forms';
 import DateTimeInput from '../../../components/DateTime/DateTimeInput';
 import Field from '../../../components/Field';
+
+const StyledFieldRemoveButton = styled(FieldRemoveButton)`
+  padding-top: 0;
+`;
 
 const DatePicker = ({ name, onReset, label, ...rest }) => {
   const { t, i18n } = useTranslation();
@@ -22,13 +26,9 @@ const DatePicker = ({ name, onReset, label, ...rest }) => {
       <FieldSection>
         <DateTimeInput name={name} locale={locale} {...rest} />
         {onReset && (
-          <FieldRemoveButton
-            onClick={onReset}
-            css={css`
-              padding-top: 0;
-            `}>
+          <StyledFieldRemoveButton onClick={onReset}>
             {t(`form.${name}.reset`)}
-          </FieldRemoveButton>
+          </StyledFieldRemoveButton>
         )}
       </FieldSection>
     </Field>

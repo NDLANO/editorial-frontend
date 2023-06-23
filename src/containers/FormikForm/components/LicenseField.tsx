@@ -42,7 +42,7 @@ const LicenseField = ({
         <div>
           <Select disabled={disabled} value={value} onChange={onChange} onBlur={onBlur} name={name}>
             {!value && <option>{t('form.license.choose')}</option>}
-            {licensesWithTranslations.map(license => (
+            {licensesWithTranslations.map((license) => (
               <option value={license.license} key={license.license}>
                 {license.title}
               </option>

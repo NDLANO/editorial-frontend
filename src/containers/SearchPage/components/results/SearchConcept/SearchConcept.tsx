@@ -8,25 +8,25 @@
 
 import { Dispatch, SetStateAction, useState } from 'react';
 
-import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Concept } from '@ndla/icons/editor';
-import { IConcept, IConceptSummary } from '@ndla/types-concept-api';
-import { searchClasses } from '../../../SearchContainer';
+import { IConcept, IConceptSummary } from '@ndla/types-backend/concept-api';
 import { convertFieldWithFallback } from '../../../../../util/convertFieldWithFallback';
 import ContentView from './ContentView';
 import FormView from './FormView';
 import { SubjectType } from '../../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { LocaleType } from '../../../../../interfaces';
+import { StyledSearchImageContainer, StyledSearchResult } from '../../form/StyledSearchComponents';
 
 interface Props {
   concept: IConceptSummary;
   locale: LocaleType;
   subjects: SubjectType[];
   editingState: [boolean, Dispatch<SetStateAction<boolean>>];
+  responsibleName?: string;
 }
 
-const SearchConcept = ({ concept, locale, subjects, editingState }: Props) => {
+const SearchConcept = ({ concept, locale, subjects, editingState, responsibleName }: Props) => {
   const { t } = useTranslation();
   const [editing, setEditing] = editingState;
   const [localConcept, setLocalConcept] = useState<IConceptSummary>(concept);
@@ -46,7 +46,7 @@ const SearchConcept = ({ concept, locale, subjects, editingState }: Props) => {
     'content',
     t('conceptSearch.noContent'),
   );
-  const breadcrumbs = subjects.filter(s => localConcept.subjectIds?.includes(s.id));
+  const breadcrumbs = subjects.filter((s) => localConcept.subjectIds?.includes(s.id));
 
   const updateLocalConcept = (newConcept: IConcept): void => {
     const localConcept: IConceptSummary = {
@@ -71,14 +71,14 @@ const SearchConcept = ({ concept, locale, subjects, editingState }: Props) => {
   };
 
   return (
-    <div {...searchClasses('result')}>
-      <div {...searchClasses('image')}>
+    <StyledSearchResult>
+      <StyledSearchImageContainer>
         {metaImageSrc ? (
-          <img src={`${metaImageSrc}?width=200`} alt={metaImageAlt} />
+          <img src={`${metaImageSrc}?width=200&language=${locale}`} alt={metaImageAlt} />
         ) : (
           <Concept className="c-icon--large" />
         )}
-      </div>
+      </StyledSearchImageContainer>
       {showForm ? (
         <FormView
           concept={localConcept}
@@ -98,32 +98,11 @@ const SearchConcept = ({ concept, locale, subjects, editingState }: Props) => {
           breadcrumbs={breadcrumbs}
           setShowForm={toggleShowForm}
           editing={editing}
+          responsibleName={responsibleName}
         />
       )}
-    </div>
+    </StyledSearchResult>
   );
-};
-
-SearchConcept.propTypes = {
-  concept: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    title: PropTypes.shape({ title: PropTypes.string, language: PropTypes.string }),
-    content: PropTypes.shape({ content: PropTypes.string, language: PropTypes.string }),
-    supportedLanguages: PropTypes.arrayOf(PropTypes.string),
-    subjectIds: PropTypes.arrayOf(PropTypes.string),
-    metaImage: PropTypes.shape({
-      alt: PropTypes.string,
-      url: PropTypes.string,
-    }),
-    lastUpdated: PropTypes.string,
-    status: PropTypes.shape({
-      current: PropTypes.string,
-      other: PropTypes.arrayOf(PropTypes.string),
-    }),
-  }),
-  locale: PropTypes.string,
-  subjects: PropTypes.array,
-  editingState: PropTypes.array,
 };
 
 export default SearchConcept;

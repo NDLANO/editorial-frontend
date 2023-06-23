@@ -6,9 +6,10 @@
  *
  */
 
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { Editor } from 'slate';
 import { RenderElementProps, useFocused, useSelected } from 'slate-react';
+import { Modal } from '@ndla/modal';
 import { colors } from '@ndla/core';
 import EditFootnote from './EditFootnote';
 import { FootnoteElement } from '.';
@@ -28,33 +29,37 @@ const Footnote = (props: Props) => {
   const selected = useSelected();
   const focused = useFocused();
 
-  const toggleEditMode = () => {
-    setEditMode(prev => !prev);
-  };
+  const toggleEditMode = useCallback(() => {
+    setEditMode((prev) => !prev);
+  }, []);
 
   return (
     <>
+      {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
       <a
         style={{ boxShadow: selected && focused ? `0 0 0 1px ${colors.brand.tertiary}` : 'none' }}
         contentEditable={false}
         {...attributes}
         role="link"
         tabIndex={0}
-        onClick={toggleEditMode}>
+        onClick={toggleEditMode}
+      >
         <sup contentEditable={false} style={{ userSelect: 'none' }}>
           [#]
         </sup>
         {children}
       </a>
-      {editMode && (
-        <EditFootnote
-          editor={editor}
-          node={element}
-          existingFootnote={element.data}
-          closeDialog={toggleEditMode}
-          onChange={editor.onChange}
-        />
-      )}
+      <Modal controlled isOpen={editMode} onClose={toggleEditMode}>
+        {(close) => (
+          <EditFootnote
+            editor={editor}
+            node={element}
+            existingFootnote={element.data}
+            closeDialog={close}
+            onChange={editor.onChange}
+          />
+        )}
+      </Modal>
     </>
   );
 };

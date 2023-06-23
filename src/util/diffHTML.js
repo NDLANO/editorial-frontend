@@ -47,7 +47,7 @@ function allowTHeadInsertion({ current, next, previous }) {
 
 // I.E "<p>some "text".</p>" -> "<p>some &quot;text&quot;.</p>"
 function allowQuotEntityReplacement({ current, next }) {
-  const result = allowedConversions.map(pair => {
+  const result = allowedConversions.map((pair) => {
     if (current === pair[1] && next === pair[0]) {
       return true;
     }
@@ -61,7 +61,7 @@ function allowQuotEntityReplacement({ current, next }) {
     }
     return false;
   });
-  return result.find(res => res);
+  return result.find((res) => res);
 }
 
 // I.E "<h6>...</h6>" -> "<h3>...</h3>"
@@ -89,12 +89,12 @@ function allowStrongRemoval({ current, next, previous }) {
     return true;
   }
   // I.E. <strong>one</strong><strong>two</strong> -> <strong>onetwo</strong>
-  if (brWrappers.some(tag => current.includes(`/${tag}><${tag}`))) {
+  if (brWrappers.some((tag) => current.includes(`/${tag}><${tag}`))) {
     return true;
   }
   return false;
 }
-function allowBrWrapping({ current, next }) {
+function allowBrWrapping({ current }) {
   if (current === 'br/') {
     return true;
   }
@@ -118,15 +118,15 @@ function isRemovalAllowed(index, diffs) {
       allowStrongRemoval,
       allowSlashRemoval,
       allowBrWrapping,
-    ].find(fn => fn(values) === true);
+    ].find((fn) => fn(values) === true);
     return result !== undefined;
   }
   return false;
 }
 
-const cleanUpHtml = newHtml =>
+const cleanUpHtml = (newHtml) =>
   brWrappers
-    .map(tag => new RegExp(`</${tag}><${tag}>`, 'g'))
+    .map((tag) => new RegExp(`</${tag}><${tag}>`, 'g'))
     .reduce((currString, currRegExp) => currString.replace(currRegExp, ''), newHtml);
 
 export function diffHTML(oldHtml, newHtml) {

@@ -9,7 +9,7 @@
 import { ResourceType, Metadata, ResolvedUrl } from '@ndla/types-taxonomy';
 import { apiResourceUrl, httpFunctions } from '../../util/apiHelpers';
 import { updateResourceMetadata } from './resources';
-import { createDeleteResourceTypes } from './resourcetypes';
+// import { createDeleteResourceTypes } from './resourcetypes';
 import { createDeleteUpdateTopicResources } from './topicresouces';
 import { taxonomyApi } from '../../config';
 import {
@@ -72,12 +72,12 @@ async function updateTaxonomy({
   taxonomyVersion,
 }: UpdateTaxonomyParams): Promise<boolean> {
   await Promise.all([
-    createDeleteResourceTypes({
-      resourceId,
-      resourceTypes: taxonomyChanges.resourceTypes,
-      originalResourceTypes: resourceTaxonomy.resourceTypes,
-      taxonomyVersion,
-    }),
+    // createDeleteResourceTypes({
+    //   resourceId,
+    //   resourceTypes: taxonomyChanges.resourceTypes,
+    //   originalResourceTypes: resourceTaxonomy.resourceTypes,
+    //   taxonomyVersion,
+    // }),
 
     taxonomyChanges.metadata &&
       updateResourceMetadata({ resourceId, body: taxonomyChanges.metadata, taxonomyVersion }),

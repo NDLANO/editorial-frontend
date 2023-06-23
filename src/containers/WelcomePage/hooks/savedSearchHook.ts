@@ -10,10 +10,10 @@ import uniq from 'lodash/uniq';
 import { ResourceType } from '@ndla/types-taxonomy';
 import { Auth0UserData, SearchResultBase } from '../../../interfaces';
 import { useAuth0Users } from '../../../modules/auth0/auth0Queries';
-import { useResourceType } from '../../../modules/taxonomy/resourcetypes';
 import { useSubject } from '../../../modules/taxonomy/subjects';
 import { SubjectType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import { getSearchHookFromType } from '../../../util/searchHelpers';
+import { useResourceType } from '../../../modules/taxonomy/resourcetypes/resourceTypesQueries';
 
 interface SearchUrlData {
   subject?: SubjectType;

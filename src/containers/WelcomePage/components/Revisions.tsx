@@ -24,7 +24,9 @@ import {
   DropdownWrapper,
   StyledDashboardInfo,
   StyledLink,
+  StyledSwitch,
   StyledTopRowDashboardInfo,
+  SwitchWrapper,
 } from '../styles';
 import TableComponent, { FieldElement, Prefix, TitleElement } from './TableComponent';
 import TableTitle from './TableTitle';
@@ -41,21 +43,6 @@ import { FAVOURITES_SUBJECT_ID } from '../../../constants';
 const RevisionsWrapper = styled.div`
   ${mq.range({ from: breakpoints.tabletWide })} {
     margin-top: 25px;
-  }
-`;
-
-const SwitchWrapper = styled.div`
-  margin-top: ${spacing.small};
-  & button {
-    margin-left: auto;
-  }
-`;
-
-const StyledSwitch = styled(Switch)`
-  white-space: nowrap;
-  label {
-    font-size: ${fonts.sizes('16px')};
-    margin-left: auto;
   }
 `;
 
@@ -178,12 +165,10 @@ const Revisions = ({ userData }: Props) => {
               {a.title?.title}
             </StyledLink>
           ),
-          title: a.title?.title,
         },
         {
           id: `status_${a.id}`,
           data: a.status?.current ? t(`form.status.${a.status.current.toLowerCase()}`) : '',
-          title: a.status?.current ? t(`form.status.${a.status.current.toLowerCase()}`) : '',
         },
         {
           id: `primarySubject_${a.id}`,
@@ -243,7 +228,6 @@ const Revisions = ({ userData }: Props) => {
                   }}
                   label={t('welcomePage.primaryConnectionLabel')}
                   id="filter-primary-connection-switch"
-                  aria-label={t('welcomePage.primaryConnection')}
                   thumbCharacter="P"
                 />
               </SwitchWrapper>

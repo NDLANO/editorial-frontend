@@ -14,7 +14,7 @@ const phrases = {
     createLearningResourcePage: `Fagstoff ${titleTemplate}`,
     createTopicArticlePage: `Emne ${titleTemplate}`,
     createSubjectpage: `Fagforside ${titleTemplate}`,
-    createFrontPageArticePage: `Innholdsartikkel ${titleTemplate}`,
+    createFrontPageArticePage: `Om-NDLA-artikkel ${titleTemplate}`,
     agreementPage: `Avtale ${titleTemplate}`,
     welcomePage: `Forside ${titleTemplate}`,
     structurePage: `Struktur ${titleTemplate}`,
@@ -139,6 +139,7 @@ const phrases = {
     updated: 'Oppdatert',
     primaryConnection: 'Berre vis ressursar med primærkopling til mine favorittfag',
     primaryConnectionLabel: 'Berre vis primærkopling',
+    prioritizedLabel: 'Berre vis prioriterte',
     workList: {
       heading: 'Mine arbeidsoppgåver',
       description: 'Artiklar der du står som ansvarleg',
@@ -191,7 +192,7 @@ const phrases = {
   },
   articleType: {
     'topic-article': 'Emne',
-    'frontpage-article': 'Innhaldsartikkel',
+    'frontpage-article': 'Om-NDLA-artikkel',
     standard: 'Læringsressurs',
   },
   subNavigation: {
@@ -220,7 +221,7 @@ const phrases = {
     h5p: 'Rediger H5P',
     newConcept: 'Opprett forklaring',
     newSubject: 'Opprett fag',
-    newFrontpageArticle: 'Opprett innholdsartikkel',
+    newFrontpageArticle: 'Opprett Om-NDLA-artikkel',
     creationMovedInfo: 'Emner og ressursar må opprettast frå strukturredigeringa',
   },
   logo: {
@@ -534,7 +535,7 @@ const phrases = {
     },
   },
   frontpageArticleForm: {
-    title: 'Innholdsartikkel',
+    title: 'Om-NDLA-artikkel',
     validation: {
       illegalSlug:
         'Bruk av ulovlige tegn i permalenken! Tillatte tegn er alle tall og bokstaver, og bindestrek',
@@ -1412,6 +1413,7 @@ const phrases = {
     create: 'Opprett',
     get: 'Hent',
     getExisting: 'Eller hent eksisterande ressurs',
+    addPriority: 'Sett artikkel som prioritert',
     changeName: {
       loadError: 'Klarte ikkje hente omsetjingar',
       updateError: 'Klarte ikkje oppdatere omsetjingar',
@@ -1568,7 +1570,7 @@ const phrases = {
   },
   contextTypes: {
     topic: 'Emne',
-    frontpage: 'Innholds artikkel',
+    frontpage: 'Om-NDLA-artikkel',
   },
   ndlaFilm: {
     editor: {
@@ -1613,6 +1615,7 @@ const phrases = {
     statusLabel: 'Status:',
     changeHeader: 'Endringer',
     saveAsNew: 'Lagre som kopi',
+    prioritized: 'Prioritert',
   },
   taxonomyVersions: {
     title: 'Taksonomiversjonar',

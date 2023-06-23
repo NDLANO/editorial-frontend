@@ -34,7 +34,7 @@ const rules: RulesType<GridFormValues> = {
 
 const toInitialValues = (initialData?: GridType): GridFormValues => {
   return {
-    columns: initialData?.columns ?? '2',
+    columns: initialData?.columns ?? 2,
     border: initialData?.border === 'lightBlue' ? true : false,
     background: initialData?.background ?? 'transparent',
   };
@@ -56,7 +56,7 @@ const StyledFormikField = styled(FormikField)`
   margin: 0px;
 `;
 
-const columns: GridType['columns'][] = ['2', '4', '2x2'];
+const columns: GridType['columns'][] = [2, 4];
 const backgrounds: GridType['background'][] = ['transparent', 'white'];
 
 const GridForm = ({ initialData, onSave, onCancel }: Props) => {

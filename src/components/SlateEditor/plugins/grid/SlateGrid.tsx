@@ -48,9 +48,7 @@ const ButtonContainer = styled.div`
 `;
 
 const StyledGrid = styled(Grid)`
-  > div {
-    width: 100%;
-  }
+  width: 100%;
 `;
 
 export const SlateGrid = ({ element, editor, children }: Props) => {

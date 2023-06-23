@@ -73,10 +73,12 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
   insertExternal: (url: string, title: string) => Promise<void>;
 }
 
+type TabType = 'internalArticle' | 'externalArticle';
+
 const EditRelated = forwardRef<HTMLDivElement, Props>(
   ({ onRemoveClick, updateArticles, insertExternal, embeds, onInsertBlock, ...rest }, ref) => {
     const { t } = useTranslation();
-    const [currentTab, setCurrentTab] = useState<string>('internalArticle');
+    const [currentTab, setCurrentTab] = useState<TabType>('internalArticle');
     const [externalToEdit, setExternalToEdit] = useState<RelatedContentMetaData | undefined>(
       undefined,
     );
@@ -89,7 +91,7 @@ const EditRelated = forwardRef<HTMLDivElement, Props>(
       });
     };
 
-    const onTabChange = useCallback((tab: string) => {
+    const onTabChange = useCallback((tab: TabType) => {
       if (tab === 'internalArticle') {
         setExternalToEdit(undefined);
       }
@@ -192,7 +194,7 @@ const EditRelated = forwardRef<HTMLDivElement, Props>(
         <StyledTabs
           variant="underlined"
           value={currentTab}
-          onValueChange={onTabChange}
+          onValueChange={(val) => onTabChange(val as TabType)}
           tabs={[
             {
               title: t('form.article.add'),

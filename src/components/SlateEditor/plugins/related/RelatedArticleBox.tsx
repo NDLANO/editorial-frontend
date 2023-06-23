@@ -179,16 +179,18 @@ const RelatedArticleBox = ({ attributes, editor, element, onRemoveClick, childre
   return (
     <div contentEditable={false} {...attributes}>
       {editMode && <Overlay />}
-      <Root open={editMode} onOpenChange={onOpenChange}>
+      <Root open={editMode} modal onOpenChange={onOpenChange}>
         <Anchor />
-        <EditRelated
-          data-testid="editRelated"
-          onRemoveClick={onRemoveClick}
-          embeds={embeds}
-          insertExternal={insertExternal}
-          onInsertBlock={insertInternal}
-          updateArticles={updateArticles}
-        />
+        <Portal>
+          <EditRelated
+            data-testid="editRelated"
+            onRemoveClick={onRemoveClick}
+            embeds={embeds}
+            insertExternal={insertExternal}
+            onInsertBlock={insertInternal}
+            updateArticles={updateArticles}
+          />
+        </Portal>
       </Root>
       <RelatedArticleListV2
         data-testid="relatedWrapper"

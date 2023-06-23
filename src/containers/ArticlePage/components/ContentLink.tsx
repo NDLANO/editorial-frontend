@@ -56,6 +56,7 @@ const ContentLink = ({ onAddLink, initialTitle = '', initialUrl = '' }: Props) =
       onAddLink(title, url);
       setTitle('');
       setUrl('');
+      setShowError(false);
     } else {
       setShowError(true);
     }

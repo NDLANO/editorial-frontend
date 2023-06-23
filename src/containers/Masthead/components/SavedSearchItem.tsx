@@ -108,7 +108,7 @@ const SavedSearchItem = ({ searchText, userData, deleteSearch, index, ...rest }:
       data?.responsible?.name &&
         `${t(`searchForm.tagType.responsible-ids`)}: ${data.responsible.name}`,
     );
-    results.push(filterInactive === 'false' && t('searchForm.archivedIncluded'));
+    if (filterInactive === 'false') results.push(t('searchForm.archivedIncluded'));
 
     const resultHitsString =
       data.searchResult !== undefined ? ` (${data.searchResult.totalCount})` : '';

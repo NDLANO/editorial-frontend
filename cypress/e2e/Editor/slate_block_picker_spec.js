@@ -57,6 +57,20 @@ describe('can enter both element types SlateBlockPicker and SlateVisualElementPi
     cy.get('[data-cy="remove-grid"]').click();
   });
 
+  it('adds and removes code-block', () => {
+    cy.get('[data-cy=create-code]').click();
+    cy.get('[data-cy="modal-header"]').should('exist');
+    cy.get('[data-cy="modal-body"]').should('exist');
+    cy.get('[data-cy="modal-body"]').within(() => {
+      cy.get('input[type=text]').first().click().type('Title');
+      cy.get('select').select('HTML');
+      cy.get('textarea').first().click().type('Some <strong>markup</strong>{enter}Newline');
+      cy.get('span').contains('Lagre').click();
+    });
+    cy.get('[data-cy="remove-code"]').should('be.visible');
+    cy.get('[data-cy="remove-code"]').click();
+  });
+
   it('opens and closes image', () => {
     cy.apiroute(
       'GET',

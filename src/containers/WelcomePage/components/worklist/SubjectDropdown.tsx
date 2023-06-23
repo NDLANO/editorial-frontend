@@ -19,22 +19,15 @@ import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionPro
 import { useSearchNodes } from '../../../../modules/nodes/nodeQueries';
 
 interface Props {
+  subjectIds: string[];
   filterSubject: SingleValue | undefined;
   setFilterSubject: (fs: SingleValue) => void;
 }
 
-const SubjectDropdown = ({ filterSubject, setFilterSubject }: Props) => {
+const SubjectDropdown = ({ subjectIds, filterSubject, setFilterSubject }: Props) => {
   const { t, i18n } = useTranslation();
   const { ndlaId } = useSession();
   const { taxonomyVersion } = useTaxonomyVersion();
-
-  const { data, isInitialLoading } = useSearch({
-    'responsible-ids': ndlaId,
-    'aggregate-paths': 'contexts.rootId',
-    'page-size': 0,
-  });
-
-  const subjectIds = uniq(data?.aggregations.flatMap((a) => a.values.map((v) => v.value)));
 
   const { data: subjects } = useSearchNodes(
     {
@@ -49,7 +42,7 @@ const SubjectDropdown = ({ filterSubject, setFilterSubject }: Props) => {
         ...res,
         results: sortBy(res.results, (r) => r.name),
       }),
-      enabled: !!data?.aggregations?.length,
+      enabled: !!subjectIds.length,
     },
   );
   const subjectContexts = useMemo(() => {
@@ -73,7 +66,6 @@ const SubjectDropdown = ({ filterSubject, setFilterSubject }: Props) => {
         menuPlacement="bottom"
         small
         outline
-        isLoading={isInitialLoading}
         isSearchable
         noOptionsMessage={() => t('form.responsible.noResults')}
         isClearable

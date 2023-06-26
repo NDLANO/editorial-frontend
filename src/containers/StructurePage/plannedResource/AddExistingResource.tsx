@@ -52,7 +52,7 @@ import { queryLearningPathResource } from '../../../modules/taxonomy';
 
 const StyledOrDivider = styled.div`
   display: flex;
-  justify-preview: center;
+  justify-content: center;
   padding: ${spacing.small} 0 0;
 `;
 const PreviewWrapper = styled.div`

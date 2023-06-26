@@ -25,6 +25,7 @@ interface Props {
     index: number,
   ) => void;
   removeTranscription: (event: MouseEvent<HTMLButtonElement>, index: number) => void;
+  value: TranscriptionType;
 }
 
 const Transcription = ({
@@ -34,25 +35,24 @@ const Transcription = ({
   index,
   handleTranscriptionChange,
   removeTranscription,
+  value,
 }: Props) => (
   <FieldSection>
-    <>
-      <FieldSplitter>
-        <Input
-          type="text"
-          // eslint-disable-next-line jsx-a11y/no-autofocus
-          placeholder={placeholder}
-          value={transcription.key}
-          onChange={(e) => handleTranscriptionChange(e, 'key', index)}
-        />
-        <Input
-          type="text"
-          value={transcription.value}
-          onChange={(e) => handleTranscriptionChange(e, 'value', index)}
-          data-cy="transcription-selector"
-        />
-      </FieldSplitter>
-    </>
+    <FieldSplitter>
+      <Input
+        type="text"
+        // eslint-disable-next-line jsx-a11y/no-autofocus
+        placeholder={placeholder}
+        value={transcription.key}
+        onChange={(e) => handleTranscriptionChange(e, 'key', index)}
+      />
+      <Input
+        type="text"
+        value={transcription.value}
+        onChange={(e) => handleTranscriptionChange(e, 'value', index)}
+        data-cy="transcription-selector"
+      />
+    </FieldSplitter>
     <div>
       <FieldRemoveButton onClick={(evt) => removeTranscription(evt, index)}>
         {labelRemove}

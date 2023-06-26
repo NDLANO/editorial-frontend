@@ -7,7 +7,7 @@
  */
 
 import { Descendant } from 'slate';
-import { IStatus, IAuthor } from '@ndla/types-backend/concept-api';
+import { IStatus, IAuthor, IGlossExample } from '@ndla/types-backend/concept-api';
 import { IArticle } from '@ndla/types-backend/draft-api';
 import { SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
 
@@ -44,5 +44,6 @@ export interface ConceptFormValues {
     transcriptions: {
       [key: string]: string;
     };
+    examples: IGlossExample[];
   };
 }

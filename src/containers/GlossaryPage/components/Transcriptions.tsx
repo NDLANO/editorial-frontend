@@ -8,21 +8,21 @@
 
 import { FormEvent, MouseEvent } from 'react';
 import { ButtonV2 } from '@ndla/button';
-import { FieldHeader } from '@ndla/forms';
+import { FieldHeader, FieldSection } from '@ndla/forms';
 import { useTranslation } from 'react-i18next';
 import Transcription, { TranscriptionType } from './Transcription';
 
 interface Props {
-  label: string;
+  name: string;
   onChange: (event: { target: { value: { [key: string]: string }; name: string } }) => void;
   errorMessages?: string[];
   showError?: boolean;
   placeholder?: string;
   disabled?: boolean;
-  values: TranscriptionType;
+  values: { [key: string]: string };
 }
 
-const Transcriptions = ({ label, onChange, values: transcriptions, ...rest }: Props) => {
+const Transcriptions = ({ name, onChange, values: transcriptions, ...rest }: Props) => {
   const { t } = useTranslation();
 
   const transcriptionsArray = Object.entries(transcriptions).map(([key, value]) => ({
@@ -38,7 +38,7 @@ const Transcriptions = ({ label, onChange, values: transcriptions, ...rest }: Pr
     onChange({
       target: {
         value: transcriptionsObject,
-        name: 'glossData.transcriptions',
+        name,
       },
     });
   };
@@ -70,13 +70,13 @@ const Transcriptions = ({ label, onChange, values: transcriptions, ...rest }: Pr
   };
 
   return (
-    <>
-      <FieldHeader title={'transcriptions placeholder'} />
+    <FieldSection>
       {transcriptionsArray.map((transcription, index) => (
         <Transcription
           key={`transcription_${index}`} // eslint-disable-line react/no-array-index-key
           index={index}
           transcription={transcription}
+          value={transcription}
           handleTranscriptionChange={handleTranscriptionChange}
           removeTranscription={removeTranscription}
           {...rest}
@@ -85,7 +85,7 @@ const Transcriptions = ({ label, onChange, values: transcriptions, ...rest }: Pr
       <ButtonV2 variant="outline" onClick={addTranscription} data-cy="addTranscription">
         {t('form.transcription.add')}
       </ButtonV2>
-    </>
+    </FieldSection>
   );
 };
 

@@ -26,17 +26,23 @@ import {
   conceptFormTypeToApiType,
   getNewConceptType,
   getUpdatedConceptType,
-} from '../conceptTransformers';
-import { ConceptArticles, ConceptCopyright, ConceptContent, ConceptMetaData } from '../components';
-import { ConceptFormValues } from '../conceptInterfaces';
+} from '../../ConceptPage/conceptTransformers';
+import {
+  ConceptArticles,
+  ConceptCopyright,
+  ConceptContent,
+  ConceptMetaData,
+} from '../../ConceptPage/components';
+import { ConceptFormValues } from '../../ConceptPage/conceptInterfaces';
 import { SubjectType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
-import ConceptFormFooter from './ConceptFormFooter';
+import GlossaryFormFooter from './GlossaryFormFooter';
 import { MessageError, useMessages } from '../../Messages/MessagesProvider';
 import { useLicenses } from '../../../modules/draft/draftQueries';
 import FormWrapper from '../../../components/FormWrapper';
-import { useSession } from '../../../containers/Session/SessionProvider';
+import { useSession } from '../../Session/SessionProvider';
 import FormAccordion from '../../../components/Accordion/FormAccordion';
 import FormAccordions from '../../../components/Accordion/FormAccordions';
+import GlossData from '../components/GlossData';
 
 const STATUSES_RESPONSIBLE_NOT_REQUIRED = [PUBLISHED, ARCHIVED, UNPUBLISHED];
 
@@ -116,7 +122,7 @@ const conceptFormRules: RulesType<ConceptFormValues, IConcept> = {
   },
 };
 
-const ConceptForm = ({
+const GlossaryForm = ({
   concept,
   conceptChanged,
   fetchConceptTags,
@@ -154,10 +160,10 @@ const ConceptForm = ({
     try {
       let savedConcept: IConcept;
       if ('onCreate' in upsertProps) {
-        savedConcept = await upsertProps.onCreate(getNewConceptType(values, licenses, 'concept'));
+        savedConcept = await upsertProps.onCreate(getNewConceptType(values, licenses, 'gloss'));
       } else {
         const conceptWithStatus = {
-          ...getUpdatedConceptType(values, licenses, 'concept'),
+          ...getUpdatedConceptType(values, licenses, 'gloss'),
           ...(statusChange ? { status: newStatus } : {}),
         };
         savedConcept = await upsertProps.onUpdate(conceptWithStatus, revision!);
@@ -204,7 +210,7 @@ const ConceptForm = ({
         const { id, revision, status, created, updated } = values;
         const requirements = id && revision && status && created && updated;
         const getEntity = requirements
-          ? () => conceptFormTypeToApiType(values, licenses, 'concept', concept?.updatedBy)
+          ? () => conceptFormTypeToApiType(values, licenses, 'glossary', concept?.updatedBy)
           : undefined;
         const editUrl = values.id ? (lang: string) => toEditConcept(values.id!, lang) : undefined;
         return (
@@ -224,6 +230,9 @@ const ConceptForm = ({
                 hasError={!!(errors.title || errors.conceptContent)}
               >
                 <ConceptContent />
+              </FormAccordion>
+              <FormAccordion id="glossData" title={t('form.glossDataSection')} hasError={false}>
+                <GlossData />
               </FormAccordion>
               <FormAccordion
                 id="copyright"
@@ -256,7 +265,7 @@ const ConceptForm = ({
                 <ConceptArticles />
               </FormAccordion>
             </FormAccordions>
-            <ConceptFormFooter
+            <GlossaryFormFooter
               entityStatus={concept?.status}
               conceptChanged={!!conceptChanged}
               inModal={inModal}
@@ -274,4 +283,4 @@ const ConceptForm = ({
   );
 };
 
-export default ConceptForm;
+export default GlossaryForm;

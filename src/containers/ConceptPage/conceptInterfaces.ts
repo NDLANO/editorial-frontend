@@ -40,4 +40,9 @@ export interface ConceptFormValues {
   updated?: string;
   origin?: string;
   responsibleId?: string;
+  glossData?: {
+    transcriptions: {
+      [key: string]: string;
+    };
+  };
 }

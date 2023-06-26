@@ -6,7 +6,13 @@
  *
  */
 
-import { IConcept, ILicense, INewConcept, IUpdatedConcept } from '@ndla/types-backend/concept-api';
+import {
+  IConcept,
+  IGlossData,
+  ILicense,
+  INewConcept,
+  IUpdatedConcept,
+} from '@ndla/types-backend/concept-api';
 import { IArticle } from '@ndla/types-backend/draft-api';
 import {
   plainTextToEditorValue,
@@ -31,6 +37,16 @@ export const conceptApiTypeToFormType = (
     subjects.filter((s) => concept?.subjectIds?.find((id) => id === s.id)) ?? [];
   const license = concept?.copyright?.license?.license;
   const conceptLicense = license === 'unknown' ? undefined : license;
+
+  const glossData =
+    concept?.glossData ??
+    ({
+      gloss: 'hi',
+      wordClass: 'hi',
+      originalLanguage: 'hi',
+      transcriptions: { fake: 'fake' },
+      examples: [],
+    } as IGlossData);
 
   // Make sure to omit the content field from concept. It will crash Slate.
   return {
@@ -57,6 +73,7 @@ export const conceptApiTypeToFormType = (
     visualElement: embedTagToEditorValue(concept?.visualElement?.visualElement ?? ''),
     origin: concept?.copyright?.origin,
     responsibleId: concept === undefined ? ndlaId : concept?.responsible?.responsibleId,
+    glossData: glossData,
   };
 };
 
@@ -66,6 +83,7 @@ const metaImageFromForm = (v: ConceptFormValues) =>
 export const getNewConceptType = (
   values: ConceptFormValues,
   licenses: ILicense[],
+  conceptType: string,
 ): INewConcept => ({
   language: values.language,
   title: editorValueToPlainText(values.title),
@@ -90,14 +108,16 @@ export const getNewConceptType = (
 export const getUpdatedConceptType = (
   values: ConceptFormValues,
   licenses: ILicense[],
+  conceptType: string,
 ): IUpdatedConcept => ({
-  ...getNewConceptType(values, licenses),
+  ...getNewConceptType(values, licenses, conceptType),
   metaImage: metaImageFromForm(values) ?? null,
 });
 
 export const conceptFormTypeToApiType = (
   values: ConceptFormValues,
   licenses: ILicense[],
+  conceptType: string,
   updatedBy?: string[],
 ): IConcept => {
   return {

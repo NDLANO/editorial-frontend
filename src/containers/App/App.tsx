@@ -53,6 +53,7 @@ const EditMarkupPage = loadable(() => import('../EditMarkupPage/EditMarkupPage')
 const PreviewDraftPage = loadable(() => import('../PreviewDraftPage/PreviewDraftPage'));
 const NdlaFilm = loadable(() => import('../NdlaFilm/NdlaFilm'));
 const ConceptPage = loadable(() => import('../ConceptPage/ConceptPage'));
+const GlossaryPage = loadable(() => import('../GlossaryPage/GlossaryPage'));
 const Subjectpage = loadable(() => import('../EditSubjectFrontpage/Subjectpage'));
 const H5PPage = loadable(() => import('../H5PPage/H5PPage'));
 const TaxonomyVersionsPage = loadable(() => import('../TaxonomyVersions/TaxonomyVersionsPage'));
@@ -93,11 +94,11 @@ const App = ({ isClient }: Props) => {
               <Zendesk />
               <Helmet meta={[{ name: 'description', content: t('meta.description') }]} />
               <StyledContent>
+                hi
                 <Navigation />
                 <Routes>
                   <Route path="/" element={<WelcomePage />} />
                   <Route path="login/*" element={<Login />} />
-                  <Route path="logout/*" element={<Logout />} />
                   <Route
                     path="/subjectpage/*"
                     element={<PrivateRoute component={<Subjectpage />} />}
@@ -112,6 +113,10 @@ const App = ({ isClient }: Props) => {
                     element={<PrivateRoute component={<EditMarkupPage />} />}
                   />
                   <Route path="/concept/*" element={<PrivateRoute component={<ConceptPage />} />} />
+                  <Route
+                    path="/glossary/*"
+                    element={<PrivateRoute component={<GlossaryPage />} />}
+                  />
                   <Route path="/preview/:draftId/:language/*" element={<PreviewDraftPage />} />
                   <Route path="/media/*" element={<PrivateRoute component={<MediaPage />} />} />
                   <Route

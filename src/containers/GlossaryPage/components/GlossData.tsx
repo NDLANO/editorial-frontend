@@ -22,12 +22,12 @@ const GlossData = () => {
   return (
     <>
       <FormikField name="glossData.gloss">
-        {({ field }) => <Input label="goo" name="glossData.gloss" type="text" value={'goo'} />}
+        {({ field }) => <Input label="Gloss" name="glossData.gloss" type="text" value={'gloss'} />}
       </FormikField>
 
       <FormikField name="glossData.wordClass">
         {({ field }) => (
-          <Select value={field.name}>
+          <Select value={field.name} label="wordClass">
             {!values.license && <option>{'choose'}</option>}
             {foo.map((type) => (
               <option value={type} key={type}>
@@ -39,7 +39,7 @@ const GlossData = () => {
       </FormikField>
 
       <FormikField name="glossData.originalLanguage">
-        {({ field }) => <Input label="originalLanguage" type="text" value={'goo'} />}
+        {({ field }) => <Input label="originalLanguage" type="text" value={'Original language'} />}
       </FormikField>
 
       <FormikField name="glossData.transcriptions">

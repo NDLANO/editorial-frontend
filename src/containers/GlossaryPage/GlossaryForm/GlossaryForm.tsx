@@ -157,7 +157,9 @@ const GlossaryForm = ({
     const newStatus = values.status?.current;
     const statusChange = initialStatus !== newStatus;
 
-    try {
+    console.log(values.glossData);
+
+    /*try {
       let savedConcept: IConcept;
       if ('onCreate' in upsertProps) {
         savedConcept = await upsertProps.onCreate(getNewConceptType(values, licenses, 'gloss'));
@@ -179,6 +181,7 @@ const GlossaryForm = ({
       formikHelpers.setSubmitting(false);
       setSavedToServer(false);
     }
+    */
   };
 
   const initialValues = conceptApiTypeToFormType(
@@ -202,7 +205,7 @@ const GlossaryForm = ({
       onSubmit={handleSubmit}
       enableReinitialize
       validateOnMount
-      validate={(values) => validateFormik(values, conceptFormRules, t)}
+      //validate={(values) => validateFormik(values, conceptFormRules, t)}
       initialStatus={{ warnings: initialWarnings }}
     >
       {(formikProps) => {

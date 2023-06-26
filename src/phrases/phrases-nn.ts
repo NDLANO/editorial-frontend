@@ -1147,7 +1147,7 @@ const phrases = {
       alt: {
         label: 'Alt-tekst',
         placeholder: 'Alt-tekst',
-        noText: 'Universal utforming krever alt-tekst for bilde som ikkje er dekorative.',
+        noText: 'Universell utforming krever alt-tekst for bilde som ikkje er dekorative.',
       },
       dragdrop: {
         main: 'Dra og slipp',

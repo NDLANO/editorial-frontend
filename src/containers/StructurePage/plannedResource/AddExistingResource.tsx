@@ -118,13 +118,13 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
       const { description, language } = resource.description;
       const url =
         'coverPhoto' in resource
-          ? resource.coverPhoto!.url
+          ? resource.coverPhoto?.url
           : 'coverPhotoUrl' in resource
           ? resource.coverPhotoUrl
           : undefined;
       return {
         ...resource,
-        metaUrl: url || undefined,
+        metaUrl: url,
         metaDescription: { metaDescription: description, language },
       };
     } else {

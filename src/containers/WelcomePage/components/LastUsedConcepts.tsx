@@ -53,7 +53,6 @@ const LastUsedConcepts = ({
               {a.title.title}
             </StyledLink>
           ),
-          title: a.title.title,
         },
         { id: `lastUpdated_${a.id}`, data: formatDate(a.lastUpdated) },
       ]) ?? [[]],

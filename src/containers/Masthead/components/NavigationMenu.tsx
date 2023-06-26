@@ -120,12 +120,6 @@ const OpenMenu = ({ close }: Props) => {
                 <Concept /> {t('subNavigation.newConcept')}
               </StyledMenuItem>
             </Link>
-            <Link css={styledListElement} to={toCreateFrontPageArticle()} onClick={close}>
-              <StyledMenuItem>
-                <ContentTypeBadge type={contentTypes.SUBJECT_MATERIAL} background size="xx-small" />
-                {t('subNavigation.newFrontpageArticle')}
-              </StyledMenuItem>
-            </Link>
             <Link css={styledListElement} to={toCreateImage()} onClick={close}>
               <StyledMenuItem>
                 <Camera />
@@ -152,6 +146,12 @@ const OpenMenu = ({ close }: Props) => {
                 </StyledMenuItem>
               </Link>
             )}
+            <Link css={styledListElement} to={toCreateFrontPageArticle()} onClick={close}>
+              <StyledMenuItem>
+                <ContentTypeBadge type={contentTypes.SUBJECT_MATERIAL} background size="xx-small" />
+                {t('subNavigation.newFrontpageArticle')}
+              </StyledMenuItem>
+            </Link>
           </div>
           <div>
             <Link css={styledListElement} to="/structure" onClick={close}>

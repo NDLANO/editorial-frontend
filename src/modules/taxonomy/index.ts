@@ -21,7 +21,6 @@ export {
   fetchAllResourceTypes,
   fetchResourceType,
   createResourceResourceType,
-  createDeleteResourceTypes,
 } from './resourcetypes';
 export {
   createTopicResource,

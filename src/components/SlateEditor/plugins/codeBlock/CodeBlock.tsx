@@ -104,20 +104,23 @@ const CodeBlock = ({ attributes, editor, element, children }: Props) => {
   };
 
   return (
-    <CodeDiv
-      className="c-figure"
-      contentEditable={false}
-      draggable={!editMode}
-      onClick={toggleEditMode}
-      role="button"
-      {...attributes}
-    >
-      <Codeblock
-        actionButton={<RemoveCodeBlock handleRemove={handleRemove} />}
-        code={embedData.codeContent}
-        format={embedData.codeFormat}
-        title={embedData.title}
-      />
+    <>
+      <CodeDiv
+        className="c-figure"
+        contentEditable={false}
+        draggable={!editMode}
+        onClick={toggleEditMode}
+        role="button"
+        {...attributes}
+      >
+        <Codeblock
+          actionButton={<RemoveCodeBlock handleRemove={handleRemove} />}
+          code={embedData.codeContent}
+          format={embedData.codeFormat}
+          title={embedData.title}
+        />
+        {children}
+      </CodeDiv>
       {editMode && (
         <EditCodeBlock
           editor={editor}
@@ -128,8 +131,7 @@ const CodeBlock = ({ attributes, editor, element, children }: Props) => {
           onExit={onExit}
         />
       )}
-      {children}
-    </CodeDiv>
+    </>
   );
 };
 

@@ -19,7 +19,7 @@ import {
 } from '@ndla/types-backend/search-api';
 import { ButtonV2 } from '@ndla/button';
 import { spacing } from '@ndla/core';
-import { IArticleV2 } from '@ndla/types-backend/build/article-api';
+import { IArticleV2 } from '@ndla/types-backend/article-api';
 import { getResourceIdFromPath } from '../../../util/routeHelpers';
 import { RESOURCE_TYPE_LEARNING_PATH, RESOURCE_TYPE_SUBJECT_MATERIAL } from '../../../constants';
 import ResourceTypeSelect from '../../ArticlePage/components/ResourceTypeSelect';

@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Launch, Audio, Podcast } from '@ndla/icons/common';
 import styled from '@emotion/styled';
-import { spacing, animations } from '@ndla/core';
+import { spacing, animations, colors } from '@ndla/core';
 import { Camera, Concept, H5P, Taxonomy, Video } from '@ndla/icons/editor';
 import { List } from '@ndla/icons/action';
 //@ts-ignore
@@ -61,6 +61,9 @@ const StyledMenuContainer = styled.div`
 
 const DisabledButton = styled.button`
   cursor: not-allowed;
+  > div {
+    color: ${colors.brand.greyMedium};
+  }
 `;
 
 interface Props {
@@ -117,12 +120,6 @@ const OpenMenu = ({ close }: Props) => {
                 <Concept /> {t('subNavigation.newConcept')}
               </StyledMenuItem>
             </Link>
-            <Link css={styledListElement} to={toCreateFrontPageArticle()} onClick={close}>
-              <StyledMenuItem>
-                <ContentTypeBadge type={contentTypes.SUBJECT_MATERIAL} background size="xx-small" />
-                {t('subNavigation.newFrontpageArticle')}
-              </StyledMenuItem>
-            </Link>
             <Link css={styledListElement} to={toCreateImage()} onClick={close}>
               <StyledMenuItem>
                 <Camera />
@@ -149,6 +146,12 @@ const OpenMenu = ({ close }: Props) => {
                 </StyledMenuItem>
               </Link>
             )}
+            <Link css={styledListElement} to={toCreateFrontPageArticle()} onClick={close}>
+              <StyledMenuItem>
+                <ContentTypeBadge type={contentTypes.SUBJECT_MATERIAL} background size="xx-small" />
+                {t('subNavigation.newFrontpageArticle')}
+              </StyledMenuItem>
+            </Link>
           </div>
           <div>
             <Link css={styledListElement} to="/structure" onClick={close}>

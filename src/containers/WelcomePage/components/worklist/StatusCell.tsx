@@ -37,12 +37,11 @@ interface Props {
 const StatusCell = ({ status }: Props) => {
   const { t } = useTranslation();
   const published = status?.current === 'PUBLISHED' || status?.other?.includes('PUBLISHED');
+  const statusTitle = status?.current ? t(`form.status.${status.current.toLowerCase()}`) : '';
 
   return (
     <CellWrapper>
-      <TextWrapper>
-        {status?.current ? t(`form.status.${status.current.toLowerCase()}`) : ''}
-      </TextWrapper>
+      <TextWrapper title={statusTitle}>{statusTitle}</TextWrapper>
       {published && (
         <Tooltip tooltip={t('form.workflow.published')}>
           <IconWrapper>

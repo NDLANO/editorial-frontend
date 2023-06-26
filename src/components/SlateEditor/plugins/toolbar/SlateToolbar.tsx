@@ -10,7 +10,7 @@ import { createRef, MouseEvent, useEffect } from 'react';
 import { Editor, Element } from 'slate';
 import { ReactEditor } from 'slate-react';
 import styled from '@emotion/styled';
-import { Portal } from '../../../Portal';
+import { Portal } from '@radix-ui/react-portal';
 import ToolbarButton from './ToolbarButton';
 import { toggleMark } from '../mark/utils';
 import { handleClickInline, handleClickBlock, handleClickTable } from './handleMenuClicks';
@@ -21,16 +21,18 @@ import hasListItem from '../list/utils/hasListItem';
 import getCurrentBlock from '../../utils/getCurrentBlock';
 import { TYPE_TABLE_CELL } from '../table/types';
 import { hasCellAlignOfType } from '../table/slateHelpers';
+import { TYPE_DEFINITION_LIST } from '../definitionList/types';
+import hasDefinitionListItem from '../definitionList/utils/hasDefinitionListItem';
 
 const topicArticleElements: { [key: string]: string[] } = {
   mark: ['bold', 'italic', 'code', 'sub', 'sup'],
-  block: ['quote', 'heading-2', 'heading-3', 'heading-4', ...listTypes],
+  block: ['quote', 'heading-2', 'heading-3', 'heading-4', 'definition-list', ...listTypes],
   inline: ['link', 'mathml', 'concept', 'span'],
 };
 
 const learningResourceElements: { [key: string]: string[] } = {
   mark: ['bold', 'italic', 'code', 'sub', 'sup'],
-  block: ['quote', 'heading-2', 'heading-3', 'heading-4', ...listTypes],
+  block: ['quote', 'heading-2', 'heading-3', 'heading-4', 'definition-list', ...listTypes],
   inline: ['link', 'mathml', 'concept', 'span'],
   table: ['left', 'center', 'right'],
 };
@@ -86,6 +88,17 @@ const SlateToolbar = (props: Props) => {
   useEffect(() => {
     updateMenu();
   });
+
+  const isActiveList = (editor: Editor, type: string) => {
+    if (type === 'definition-list') {
+      const path = getCurrentBlock(editor, TYPE_DEFINITION_LIST)?.[1];
+      if (path) {
+        return hasDefinitionListItem(editor);
+      }
+      return false;
+    }
+    return hasListItem(editor, type);
+  };
 
   const updateMenu = () => {
     const menu = portalRef.current;
@@ -151,7 +164,7 @@ const SlateToolbar = (props: Props) => {
       kind={'block'}
       isActive={
         type.includes('list')
-          ? hasListItem(editor, type)
+          ? isActiveList(editor, type)
           : hasNodeWithProps(editor, specialRules[type] ?? { type })
       }
       handleOnClick={(event: MouseEvent, kind: string, type: string) => {
@@ -187,7 +200,7 @@ const SlateToolbar = (props: Props) => {
     ));
 
   return (
-    <Portal isOpened>
+    <Portal>
       <ToolbarContainer ref={portalRef}>
         {markButtons}
         {blockButtons}

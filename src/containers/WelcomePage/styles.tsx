@@ -6,8 +6,9 @@
  *
  */
 import styled from '@emotion/styled';
-import { spacing, colors, mq, breakpoints } from '@ndla/core';
+import { spacing, colors, mq, breakpoints, fonts } from '@ndla/core';
 import SafeLink from '@ndla/safelink';
+import { Switch } from '@ndla/switch';
 
 export const StyledColumnHeader = styled.div`
   display: flex;
@@ -33,22 +34,46 @@ export const StyledTopRowDashboardInfo = styled.div`
 
 export const StyledLink = styled(SafeLink)`
   line-height: 1.5em;
+  box-shadow: none;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   &:any-link {
     color: ${colors.brand.primary};
+    text-decoration: underline;
+    text-underline-offset: 0.25em;
+    &:hover {
+      text-decoration: none;
+    }
   }
 `;
 
 export const DropdownWrapper = styled.div`
   max-width: 200px;
+  min-width: 130px;
+  ${mq.range({ until: breakpoints.tablet })} {
+    min-width: unset;
+  }
 `;
 
 export const ControlWrapperDashboard = styled.div`
   display: flex;
   gap: ${spacing.small};
-  ${mq.range({ until: breakpoints.desktop })} {
+  ${mq.range({ until: breakpoints.tablet })} {
     flex-direction: column;
+  }
+`;
+export const SwitchWrapper = styled.div`
+  margin-top: ${spacing.small};
+  & button {
+    margin-left: auto;
+  }
+`;
+
+export const StyledSwitch = styled(Switch)`
+  white-space: nowrap;
+  label {
+    font-size: ${fonts.sizes('16px')};
+    margin-left: auto;
   }
 `;

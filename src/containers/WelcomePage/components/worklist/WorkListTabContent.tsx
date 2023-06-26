@@ -12,12 +12,18 @@ import { IMultiSearchResult } from '@ndla/types-backend/search-api';
 import { useTranslation } from 'react-i18next';
 import { useMemo } from 'react';
 import Pager from '@ndla/pager';
-import { Comment } from '@ndla/icons/common';
+import { Comment, ExclamationMark } from '@ndla/icons/common';
 import Tooltip from '@ndla/tooltip';
 import styled from '@emotion/styled';
 import formatDate from '../../../../util/formatDate';
 import { toEditArticle } from '../../../../util/routeHelpers';
-import { ControlWrapperDashboard, StyledLink, StyledTopRowDashboardInfo } from '../../styles';
+import {
+  ControlWrapperDashboard,
+  StyledLink,
+  StyledSwitch,
+  StyledTopRowDashboardInfo,
+  SwitchWrapper,
+} from '../../styles';
 import SubjectDropdown from './SubjectDropdown';
 import TableComponent, { FieldElement, Prefix, TitleElement } from '../TableComponent';
 import TableTitle from '../TableTitle';
@@ -31,6 +37,28 @@ export const CellWrapper = styled.div`
   align-items: center;
 `;
 
+const StyledWorkListControls = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const StyledTitleWrapper = styled.div`
+  display: flex;
+  overflow: hidden;
+`;
+
+const StyledExclamationMark = styled(ExclamationMark)`
+  &[aria-hidden='false'] {
+    visibility: hidden;
+  }
+`;
+
+const StyledIconWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  height: 100%;
+`;
+
 interface Props {
   data?: IMultiSearchResult;
   filterSubject?: SingleValue;
@@ -41,8 +69,9 @@ interface Props {
   setFilterSubject: (fs: SingleValue) => void;
   ndlaId?: string;
   setPage: (page: number) => void;
+  setPrioritized: (prioritized: boolean) => void;
+  prioritized: boolean;
 }
-
 const WorkListTabContent = ({
   data,
   filterSubject,
@@ -53,6 +82,8 @@ const WorkListTabContent = ({
   setFilterSubject,
   ndlaId,
   setPage,
+  setPrioritized,
+  prioritized,
 }: Props) => {
   const { t } = useTranslation();
 
@@ -64,17 +95,27 @@ const WorkListTabContent = ({
               id: `title_${res.id}`,
               data: (
                 <CellWrapper>
-                  <StyledLink
-                    to={toEditArticle(res.id, res.learningResourceType)}
-                    title={res.title?.title}
-                  >
-                    {res.title?.title}
-                  </StyledLink>
+                  <StyledTitleWrapper>
+                    <Tooltip tooltip={t('editorFooter.prioritized')}>
+                      <StyledIconWrapper>
+                        <StyledExclamationMark
+                          aria-hidden={!!res?.prioritized}
+                          aria-label={t('editorFooter.prioritized')}
+                        />
+                      </StyledIconWrapper>
+                    </Tooltip>
+                    <StyledLink
+                      to={toEditArticle(res.id, res.learningResourceType)}
+                      title={res.title?.title}
+                    >
+                      {res.title?.title}
+                    </StyledLink>
+                  </StyledTitleWrapper>
                   {res.comments?.length ? (
                     <Tooltip tooltip={res.comments[0]?.content}>
-                      <div>
+                      <StyledIconWrapper>
                         <Comment />
-                      </div>
+                      </StyledIconWrapper>
                     </Tooltip>
                   ) : null}
                 </CellWrapper>
@@ -104,35 +145,61 @@ const WorkListTabContent = ({
             {
               id: `date_${res.id}`,
               data: res.responsible ? formatDate(res.responsible.lastUpdated) : '',
+              width: '10%',
             },
           ])
         : [[]],
-    [data],
+    [data, t],
   );
 
   const tableTitles: TitleElement<SortOption>[] = [
-    { title: t('welcomePage.workList.name'), sortableField: 'title' },
-    { title: t('welcomePage.workList.status'), sortableField: 'status' },
+    { title: t('welcomePage.workList.title'), sortableField: 'title', width: '30%' },
+    { title: t('welcomePage.workList.status'), sortableField: 'status', width: '10%' },
     { title: t('welcomePage.workList.contentType') },
     { title: t('welcomePage.workList.primarySubject') },
     { title: t('welcomePage.workList.topicRelation') },
-    { title: t('welcomePage.workList.date'), sortableField: 'responsibleLastUpdated' },
+    {
+      title: t('welcomePage.workList.date'),
+      sortableField: 'responsibleLastUpdated',
+      width: '10%',
+    },
   ];
 
   const lastPage = data?.totalCount ? Math.ceil(data?.totalCount / (data.pageSize ?? 1)) : 1;
+  const subjectIds = data?.aggregations.flatMap((a) => a.values.map((v) => v.value));
 
   return (
     <>
       <StyledTopRowDashboardInfo>
         <TableTitle
-          title={t('welcomePage.workList.title')}
+          title={t('welcomePage.workList.heading')}
           description={t('welcomePage.workList.description')}
           Icon={Calendar}
         />
-        <ControlWrapperDashboard>
-          <SubjectDropdown filterSubject={filterSubject} setFilterSubject={setFilterSubject} />
-          <GoToSearch ndlaId={ndlaId} filterSubject={filterSubject?.value} searchEnv={'content'} />
-        </ControlWrapperDashboard>
+        <StyledWorkListControls>
+          <ControlWrapperDashboard>
+            <SubjectDropdown
+              subjectIds={subjectIds || []}
+              filterSubject={filterSubject}
+              setFilterSubject={setFilterSubject}
+            />
+            <GoToSearch ndlaId={ndlaId} filterSubject={filterSubject?.value} searchEnv="content" />
+          </ControlWrapperDashboard>
+          <Tooltip tooltip={t('welcomePage.prioritizedLabel')}>
+            <SwitchWrapper>
+              <StyledSwitch
+                checked={prioritized}
+                onChange={() => {
+                  setPrioritized(!prioritized);
+                  setPage(1);
+                }}
+                label={t('welcomePage.prioritizedLabel')}
+                id="filter-prioritized-switch"
+                thumbCharacter="P"
+              />
+            </SwitchWrapper>
+          </Tooltip>
+        </StyledWorkListControls>
       </StyledTopRowDashboardInfo>
       <TableComponent
         isLoading={isLoading}
@@ -142,6 +209,7 @@ const WorkListTabContent = ({
         sortOption={sortOption}
         error={error}
         noResultsText={t('welcomePage.noArticles')}
+        minWidth="850px"
       />
       <Pager
         page={data?.page ?? 1}

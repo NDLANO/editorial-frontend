@@ -14,7 +14,7 @@ const phrases = {
     createLearningResourcePage: `Fagstoff ${titleTemplate}`,
     createTopicArticlePage: `Emne ${titleTemplate}`,
     createSubjectpage: `Fagforside ${titleTemplate}`,
-    createFrontPageArticePage: `Innholdsartikkel ${titleTemplate}`,
+    createFrontPageArticePage: `Om-NDLA-artikkel ${titleTemplate}`,
     agreementPage: `Avtale ${titleTemplate}`,
     welcomePage: `Forside ${titleTemplate}`,
     structurePage: `Struktur ${titleTemplate}`,
@@ -136,15 +136,19 @@ const phrases = {
     revisionDate: 'Revisjonsdato',
     welcomeText: 'til ED',
     revisionInfo: 'Velg favorittfag ved å stjernemarkere i strukturredigering',
+    updated: 'Oppdatert',
+    primaryConnection: 'Vis kun ressurser med primærkobling til mine favorittfag',
+    primaryConnectionLabel: 'Vis kun primærkobling',
+    prioritizedLabel: 'Vis kun prioriterte',
     workList: {
-      title: 'Mine arbeidsoppgaver',
+      heading: 'Mine arbeidsoppgaver',
       description: 'Artikler hvor du står som ansvarlig',
-      name: 'Navn',
+      title: 'Tittel',
       status: 'Status',
       contentType: 'Innholdstype',
       primarySubject: 'Primærfag',
       topicRelation: 'Emnetilhørighet',
-      date: 'Tildelningsdato',
+      date: 'Tildelt',
       ariaLabel: 'Oversikt over mine arbeidsoppgaver og forklaringer',
       conceptDescription: 'Forklaringer hvor du står som ansvarlig',
       conceptSubject: 'Forklaringsfag',
@@ -188,7 +192,7 @@ const phrases = {
   },
   articleType: {
     'topic-article': 'Emne',
-    'frontpage-article': 'Innholdsartikkel',
+    'frontpage-article': 'Om-NDLA-artikkel',
     standard: 'Læringsressurs',
   },
   subNavigation: {
@@ -217,7 +221,7 @@ const phrases = {
     h5p: 'Rediger H5P',
     newConcept: 'Opprett forklaring',
     newSubject: 'Opprett fag',
-    newFrontpageArticle: 'Opprett innholdsartikkel',
+    newFrontpageArticle: 'Opprett Om-NDLA-artikkel',
     creationMovedInfo: 'Emner og ressurser må opprettes fra strukturredigering',
   },
   logo: {
@@ -531,7 +535,7 @@ const phrases = {
     },
   },
   frontpageArticleForm: {
-    title: 'Innholdsartikkel',
+    title: 'Om-NDLA-artikkel',
     validation: {
       illegalSlug:
         'Bruk av ulovlige tegn i permalenken! Tillatte tegn er alle tall og bokstaver, og bindestrek',
@@ -604,6 +608,7 @@ const phrases = {
     sup: 'Hevet\n({{ctrl}}+alt+h)',
     twoColumnList: 'To-kolonners liste',
     underlined: 'Understreket',
+    definitionList: 'Definisjonsliste\n({{ctrl}}+alt+d)',
   },
   editorBlockpicker: {
     heading: 'Legg til',
@@ -1412,6 +1417,7 @@ const phrases = {
     create: 'Opprett',
     get: 'Hent',
     getExisting: 'Eller hent eksisterende ressurs',
+    addPriority: 'Sett artikkel som prioritert',
     changeName: {
       loadError: 'Klarte ikke hente oversettelser',
       updateError: 'Klarte ikke oppdatere oversettelser',
@@ -1568,7 +1574,7 @@ const phrases = {
   },
   contextTypes: {
     topic: 'Emne',
-    frontpage: 'Innholdsartikkel',
+    frontpage: 'Om-NDLA-artikkel',
   },
   ndlaFilm: {
     editor: {
@@ -1613,6 +1619,7 @@ const phrases = {
     statusLabel: 'Status:',
     changeHeader: 'Endringer',
     saveAsNew: 'Lagre som kopi',
+    prioritized: 'Prioritert',
   },
   taxonomyVersions: {
     title: 'Taksonomiversjoner',
@@ -1829,6 +1836,9 @@ const phrases = {
     },
   },
   delete: 'Slett',
+  dragAndDrop: {
+    handle: 'Håndtak',
+  },
 };
 
 export default phrases;

@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { Portal } from '@radix-ui/react-portal';
 import { colors, spacing } from '@ndla/core';
 import { NotionDialog } from '@ndla/notion';
 import { IConcept } from '@ndla/types-backend/concept-api';
@@ -7,7 +8,6 @@ import { RenderElementProps } from 'slate-react';
 import { useTranslation } from 'react-i18next';
 import Tooltip from '@ndla/tooltip';
 import { AlertCircle, Check } from '@ndla/icons/editor';
-import { Portal } from '../../../../Portal';
 import { PUBLISHED } from '../../../../../constants';
 import InlineConceptPreview from './InlineConceptPreview';
 
@@ -94,7 +94,7 @@ const SlateNotion = ({ children, attributes, id, concept, handleRemove }: Props)
         <div>
           {children}
           {<BaselineIcon />}
-          <Portal isOpened>
+          <Portal>
             <NotionDialog
               title={concept?.title.title ?? ''}
               subTitle={t('conceptform.title')}

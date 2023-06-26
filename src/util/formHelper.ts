@@ -206,6 +206,9 @@ export const formikCommonArticleRules: RulesType<ArticleFormType, IArticle> = {
   comments: {
     required: false,
   },
+  prioritized: {
+    required: false,
+  },
 };
 
 export const learningResourceRules: RulesType<LearningResourceFormType, IArticle> = {

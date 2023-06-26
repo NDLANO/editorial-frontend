@@ -10,9 +10,9 @@ import { createRef, useEffect, useState } from 'react';
 import { Editor, Element, Node, Location, Range, Path, Transforms } from 'slate';
 import { useTranslation } from 'react-i18next';
 import { ReactEditor } from 'slate-react';
+import { Portal } from '@radix-ui/react-portal';
 import { SlateBlockMenu } from '@ndla/editor';
 import styled from '@emotion/styled';
-import { Portal } from '../../../Portal';
 import SlateVisualElementPicker from './SlateVisualElementPicker';
 import { Action, ActionData } from './actions';
 import { defaultAsideBlock } from '../aside/utils';
@@ -309,38 +309,39 @@ const SlateBlockPicker = ({
 
   return (
     <>
-      <Portal isOpened={visualElementPickerOpen}>
-        <SlateVisualElementPicker
-          articleLanguage={articleLanguage}
-          resource={type || ''}
-          onVisualElementClose={onVisualElementClose}
-          onInsertBlock={onInsertBlock}
-        />
-      </Portal>
-      <Portal isOpened={!visualElementPickerOpen}>
-        <StyledBlockPickerWrapper ref={portalRef} data-cy="slate-block-picker-button">
-          <SlateBlockMenu
-            cy="slate-block-picker"
-            isOpen={blockPickerOpen}
-            heading={t('editorBlockpicker.heading')}
-            actions={getActionsForArea()
-              .filter((action) => {
-                return !action.requiredScope || userPermissions?.includes(action.requiredScope);
-              })
-              .map((action) => ({
-                ...action,
-                label: t(`editorBlockpicker.actions.${action.data.object}`),
-              }))}
-            onToggleOpen={(open) => {
-              ReactEditor.focus(editor);
-              setBlockPickerOpen(open);
-            }}
-            clickItem={(data: ActionData) => {
-              onElementAdd(data);
-            }}
-          />
-        </StyledBlockPickerWrapper>
-      </Portal>
+      <SlateVisualElementPicker
+        isOpen={visualElementPickerOpen}
+        articleLanguage={articleLanguage}
+        resource={type || ''}
+        onVisualElementClose={onVisualElementClose}
+        onInsertBlock={onInsertBlock}
+      />
+      {!visualElementPickerOpen && (
+        <Portal>
+          <StyledBlockPickerWrapper ref={portalRef} data-cy="slate-block-picker-button">
+            <SlateBlockMenu
+              cy="slate-block-picker"
+              isOpen={blockPickerOpen}
+              heading={t('editorBlockpicker.heading')}
+              actions={getActionsForArea()
+                .filter((action) => {
+                  return !action.requiredScope || userPermissions?.includes(action.requiredScope);
+                })
+                .map((action) => ({
+                  ...action,
+                  label: t(`editorBlockpicker.actions.${action.data.object}`),
+                }))}
+              onToggleOpen={(open) => {
+                ReactEditor.focus(editor);
+                setBlockPickerOpen(open);
+              }}
+              clickItem={(data: ActionData) => {
+                onElementAdd(data);
+              }}
+            />
+          </StyledBlockPickerWrapper>
+        </Portal>
+      )}
     </>
   );
 };

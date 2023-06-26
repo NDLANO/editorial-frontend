@@ -11,7 +11,7 @@ import { Editor, Node, Path, Transforms } from 'slate';
 import { ReactEditor, RenderElementProps, useFocused, useSelected } from 'slate-react';
 import { colors } from '@ndla/core';
 import he from 'he';
-import { Portal } from '../../../Portal';
+import { Portal } from '@radix-ui/react-portal';
 import EditMath from './EditMath';
 import MathML from './MathML';
 import BlockMenu from './BlockMenu';
@@ -169,15 +169,17 @@ const MathEditor = ({ element, children, attributes, editor }: Props & RenderEle
       {...attributes}
     >
       <MathML model={nodeInfo.model} editor={editor} element={element} onDoubleClick={toggleEdit} />
-      <Portal isOpened={showMenu}>
-        <BlockMenu
-          top={top}
-          left={left}
-          toggleMenu={toggleMenu}
-          handleRemove={handleRemove}
-          toggleEdit={toggleEdit}
-        />
-      </Portal>
+      {showMenu && (
+        <Portal>
+          <BlockMenu
+            top={top}
+            left={left}
+            toggleMenu={toggleMenu}
+            handleRemove={handleRemove}
+            toggleEdit={toggleEdit}
+          />
+        </Portal>
+      )}
       {editMode && (
         <EditMath
           onExit={onExit}

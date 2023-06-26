@@ -39,6 +39,10 @@ const ResourceWrapper = styled.div`
   }
 `;
 
+const StyledResource = styled(Resource)`
+  margin-left: 44px;
+`;
+
 interface Props {
   nodeResources: ResourceWithNodeConnectionAndMeta[];
   resourceTypes: ResourceType[];
@@ -137,7 +141,7 @@ const ResourcesContainer = ({
           </AddResourceModal>
         )}
         {currentNode.name && (
-          <Resource
+          <StyledResource
             currentNodeId={currentNode.id}
             responsible={
               currentMeta?.responsible

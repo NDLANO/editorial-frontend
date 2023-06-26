@@ -102,8 +102,8 @@ const LastUsedItems = ({ lastUsedResources = [], lastUsedConcepts = [] }: Props)
   const lastPageConcepts = useMemo(() => getLastPage(conceptsData), [conceptsData]);
 
   const tableTitles: TitleElement<SortOptionLastUsed>[] = [
-    { title: t('form.article.label'), sortableField: 'title' },
-    { title: t('searchForm.sort.lastUpdated'), sortableField: 'lastUpdated' },
+    { title: t('form.name.title'), sortableField: 'title' },
+    { title: t('welcomePage.updated'), sortableField: 'lastUpdated', width: '40%' },
   ];
 
   return (

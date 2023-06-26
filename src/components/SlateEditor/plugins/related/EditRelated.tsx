@@ -10,22 +10,22 @@ import { MouseEvent, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ButtonV2, IconButtonV2 } from '@ndla/button';
 import styled from '@emotion/styled';
-import { DragDropContext, Droppable, Draggable, DropResult } from 'react-beautiful-dnd';
 import { RelatedContentEmbed, SectionHeading } from '@ndla/ui';
 import Tooltip from '@ndla/tooltip';
 import { Pencil } from '@ndla/icons/action';
 import { colors, spacing } from '@ndla/core';
 import { DeleteForever } from '@ndla/icons/editor';
 import { RelatedContentEmbedData, RelatedContentMetaData } from '@ndla/types-embed';
+import { DragEndEvent } from '@dnd-kit/core';
 import { search } from '../../../../modules/search/searchApi';
 import AsyncDropdown from '../../../Dropdown/asyncDropdown/AsyncDropdown';
 import Overlay from '../../../Overlay';
 import ContentLink from '../../../../containers/ArticlePage/components/ContentLink';
+import DndList from '../../../DndList';
 
-const StyledContainer = styled('div')`
-  position: absolute;
-  width: 100%;
-  z-index: 2;
+const StyledUl = styled.ul`
+  margin: 0;
+  padding: 0;
 `;
 
 const HeadingWrapper = styled.div`
@@ -97,18 +97,8 @@ const EditRelated = ({
     });
   };
 
-  const onDragEnd = (a: DropResult) => {
-    if (!a.destination) {
-      return;
-    }
-    const toIndex = a.destination.index;
-    const fromIndex = a.source.index;
-    const newArticles = embeds.slice();
-
-    const element = newArticles[fromIndex];
-    newArticles.splice(fromIndex, 1);
-    newArticles.splice(toIndex, 0, element);
-    updateArticles(newArticles);
+  const onDragEnd = (_event: DragEndEvent, items: RelatedContentMetaData[]) => {
+    updateArticles(items);
   };
 
   const deleteRelatedArticle = (
@@ -140,7 +130,7 @@ const EditRelated = ({
   };
 
   return (
-    <StyledContainer contentEditable={false}>
+    <>
       <Overlay onExit={onExit} />
       <StyledBorderDiv>
         <HeadingWrapper>
@@ -161,64 +151,47 @@ const EditRelated = ({
           </Tooltip>
         </HeadingWrapper>
         <p>{t('form.related.subtitle')}</p>
-        <DragDropContext onDragEnd={onDragEnd}>
-          <Droppable droppableId="relatedArticleDroppable">
-            {(provided, snapshot) => (
-              <div
-                ref={provided.innerRef}
-                className={snapshot.isDraggingOver ? 'drop-zone dragging' : 'drop-zone'}
-              >
-                {embeds.map((embed, index) => (
-                  <Draggable
-                    key={`embed-${embed.seq}`}
-                    draggableId={`embed-${embed.seq}`}
-                    index={index}
-                  >
-                    {(providedInner) => (
-                      <div
-                        ref={providedInner.innerRef}
-                        {...providedInner.dragHandleProps}
-                        {...providedInner.draggableProps}
+        <StyledUl>
+          <DndList
+            items={embeds.map((embed) => ({
+              ...embed,
+              id: embed.embedData.articleId || embed.embedData.url!,
+            }))}
+            onDragEnd={onDragEnd}
+            renderItem={(embed) => (
+              <RelatedArticleWrapper>
+                <RelatedContentEmbed embed={embed} />
+                <ButtonWrapper>
+                  {!embed.embedData.articleId && (
+                    <Tooltip tooltip={t('form.content.relatedArticle.changeExternal')}>
+                      <IconButtonV2
+                        aria-label={t('form.content.relatedArticle.changeExternal')}
+                        variant="ghost"
+                        colorTheme="light"
+                        onClick={() => {
+                          setExternalToEdit(embed);
+                          setShowAddExternal(true);
+                        }}
                       >
-                        <RelatedArticleWrapper>
-                          <RelatedContentEmbed embed={embed} />
-                          <ButtonWrapper>
-                            {!embed.embedData.articleId && (
-                              <Tooltip tooltip={t('form.content.relatedArticle.changeExternal')}>
-                                <IconButtonV2
-                                  aria-label={t('form.content.relatedArticle.changeExternal')}
-                                  variant="ghost"
-                                  colorTheme="light"
-                                  onClick={() => {
-                                    setExternalToEdit(embed);
-                                    setShowAddExternal(true);
-                                  }}
-                                >
-                                  <Pencil />
-                                </IconButtonV2>
-                              </Tooltip>
-                            )}
-                            <Tooltip tooltip={t('form.content.relatedArticle.removeExternal')}>
-                              <IconButtonV2
-                                aria-label={t('form.content.relatedArticle.removeExternal')}
-                                variant="ghost"
-                                colorTheme="danger"
-                                onClick={(e) => deleteRelatedArticle(e, embed)}
-                              >
-                                <DeleteForever />
-                              </IconButtonV2>
-                            </Tooltip>
-                          </ButtonWrapper>
-                        </RelatedArticleWrapper>
-                      </div>
-                    )}
-                  </Draggable>
-                ))}
-                {provided.placeholder}
-              </div>
+                        <Pencil />
+                      </IconButtonV2>
+                    </Tooltip>
+                  )}
+                  <Tooltip tooltip={t('form.content.relatedArticle.removeExternal')}>
+                    <IconButtonV2
+                      aria-label={t('form.content.relatedArticle.removeExternal')}
+                      variant="ghost"
+                      colorTheme="danger"
+                      onClick={(e) => deleteRelatedArticle(e, embed)}
+                    >
+                      <DeleteForever />
+                    </IconButtonV2>
+                  </Tooltip>
+                </ButtonWrapper>
+              </RelatedArticleWrapper>
             )}
-          </Droppable>
-        </DragDropContext>
+          />
+        </StyledUl>
         <div data-cy="styled-article-modal">
           <AsyncDropdown
             clearInputField
@@ -228,7 +201,6 @@ const EditRelated = ({
             apiAction={searchForArticles}
             onClick={(e) => e.stopPropagation()}
             onChange={(selected) => selected && onInsertBlock(selected.id.toString())}
-            positionAbsolute
             showPagination
           />
           <StyledOr>{t('taxonomy.or')}</StyledOr>
@@ -250,7 +222,7 @@ const EditRelated = ({
           initialUrl={externalToEdit?.embedData.url}
         />
       )}
-    </StyledContainer>
+    </>
   );
 };
 

@@ -41,10 +41,7 @@ const LastUsedResources = ({
   lastPage,
   titles,
 }: Props) => {
-  const {
-    t,
-    i18n: { language },
-  } = useTranslation();
+  const { t } = useTranslation();
 
   const tableData: FieldElement[][] = useMemo(
     () =>
@@ -77,6 +74,7 @@ const LastUsedResources = ({
         sortOption={sortOption}
         error={error}
         noResultsText={t('welcomePage.emptyLastUsed')}
+        minWidth="250px"
       />
       <Pager
         page={page}

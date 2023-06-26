@@ -19,6 +19,7 @@ import Spinner from './Spinner';
 import { NynorskTranslateProvider } from './NynorskTranslateProvider';
 import { useFrontpageArticle } from '../containers/ArticlePage/FrontpageArticlePage/components/FrontpageArticleProvider';
 import { FRONTPAGE_ARTICLE_WIDTH } from '../containers/ArticlePage/styles';
+import { MAX_PAGE_WIDTH } from '../constants';
 
 const NotFoundPage = loadable(() => import('../containers/NotFoundPage/NotFoundPage'));
 
@@ -33,11 +34,11 @@ const PageContent = styled.div`
   margin-right: auto;
   padding-left: 24px;
   padding-right: 24px;
-  max-width: 1024px;
 
   &[data-wide='true'] {
     max-width: ${FRONTPAGE_ARTICLE_WIDTH}px;
   }
+  max-width: ${MAX_PAGE_WIDTH}px;
 `;
 interface ResourceComponentProps {
   isNewlyCreated?: boolean;

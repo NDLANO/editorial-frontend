@@ -86,7 +86,11 @@ interface Props {
   existingResourceIds: string[];
 }
 
-type Preview = any;
+interface Preview extends Pick<IMultiSearchSummary, 'id' | 'title' | 'metaDescription'> {
+  metaUrl?: string;
+  paths?: string[];
+}
+
 type Resourcetypes = IMultiSearchSummary | ILearningPathSummaryV2 | ILearningPathV2 | IArticleV2;
 
 const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, nodeId }: Props) => {
@@ -213,7 +217,6 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
         const inputPath = inputMatch && inputMatch[1];
 
         if (!inputPath) {
-          console.log('hi');
           resetPastedUrlStatesWithError(t('errorMessage.invalidUrl'));
           return;
         }

@@ -22,8 +22,11 @@ const GlossData = () => {
       <FormikField name="glossData.originalLanguage" />
       <FormikField name="glossData.examples" />
         */}
-      <Transcriptions values={values.glossData!.transcriptions} />
+      <FormikField name="glossData.transcriptions">
+        {({ field }) => <Transcriptions values={values.glossData!.transcriptions} {...field} />}
+      </FormikField>
     </>
   );
 };
+
 export default GlossData;

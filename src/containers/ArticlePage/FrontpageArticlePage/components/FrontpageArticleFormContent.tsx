@@ -75,6 +75,7 @@ import { gridPlugin } from '../../../../components/SlateEditor/plugins/grid';
 import { TYPE_GRID } from '../../../../components/SlateEditor/plugins/grid/types';
 import { TYPE_KEY_FIGURE } from '../../../../components/SlateEditor/plugins/keyFigure/types';
 import { keyFigurePlugin } from '../../../../components/SlateEditor/plugins/keyFigure';
+import { useFrontpageArticle } from './FrontpageArticleProvider';
 
 const StyledFormikField = styled(FormikField)`
   display: flex;
@@ -101,16 +102,19 @@ const StyledContentDiv = styled(FormikField)`
 `;
 
 const StyledContentWrapper = styled.div`
-  width: 100%;
+  &[data-wide='true'] {
+    width: 100%;
+  }
 `;
 
-const MarkdownButton = styled(IconButtonV2)<{ active: boolean }>`
-  color: ${(p) => (p.active ? colors.brand.primary : colors.brand.light)};
+const StyledIconButton = styled(IconButtonV2)`
+  color: ${colors.brand.light};
+
+  &[data-active='true'] {
+    color: ${colors.brand.primary};
+  }
 `;
 
-const SlugButton = styled(IconButtonV2)<{ active: boolean }>`
-  color: ${(p) => (p.active ? colors.brand.primary : colors.brand.light)};
-`;
 const visualElements = [
   TYPE_EMBED_H5P,
   TYPE_EMBED_BRIGHTCOVE,
@@ -196,6 +200,7 @@ const FrontpageArticleFormContent = ({
   const handleSubmitRef = useRef(handleSubmit);
   const { userPermissions } = useSession();
   const { t, i18n } = useTranslation();
+  const { isFrontpageArticle } = useFrontpageArticle();
 
   const [preview, setPreview] = useState(false);
   const [editSlug, setEditSlug] = useState(false);
@@ -205,7 +210,7 @@ const FrontpageArticleFormContent = ({
   }, [handleSubmit]);
 
   return (
-    <StyledContentWrapper>
+    <StyledContentWrapper data-wide={isFrontpageArticle}>
       {editSlug && slug !== undefined ? (
         <SlugField handleSubmit={handleSubmit} />
       ) : (
@@ -226,27 +231,27 @@ const FrontpageArticleFormContent = ({
             <IconContainer>
               {slug && (
                 <Tooltip tooltip={t('form.slug.edit')}>
-                  <SlugButton
+                  <StyledIconButton
                     aria-label={t('form.slug.edit')}
                     variant="stripped"
                     colorTheme="light"
-                    active={editSlug}
+                    data-active={editSlug}
                     onClick={() => setEditSlug(!editSlug)}
                   >
                     <Link />
-                  </SlugButton>
+                  </StyledIconButton>
                 </Tooltip>
               )}
               <Tooltip tooltip={t('form.markdown.button')}>
-                <MarkdownButton
+                <StyledIconButton
                   aria-label={t('form.markdown.button')}
                   variant="stripped"
                   colorTheme="light"
-                  active={preview}
+                  data-active={preview}
                   onClick={() => setPreview(!preview)}
                 >
                   <Eye />
-                </MarkdownButton>
+                </StyledIconButton>
               </Tooltip>
               <HowToHelper pageId="Markdown" tooltip={t('form.markdown.helpLabel')} />
             </IconContainer>

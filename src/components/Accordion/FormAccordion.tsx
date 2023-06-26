@@ -60,15 +60,19 @@ const HeaderWrapper = styled.div`
 `;
 
 const StyledAccordionContent = styled(AccordionContent)`
-  &[data-wide='true'] {
-    inset: unset !important;
-    background-color: #f7fafd;
-    display: flex;
+  &[data-frontpage='true'] {
+    background-color: ${colors.background.frontpageArticle};
     width: 100% !important;
+    inset: unset !important;
+
+    display: flex;
     align-items: center;
     justify-content: center;
-    > div {
-      max-width: ${FRONTPAGE_ARTICLE_MAXIMUM_WIDTH}px;
+
+    &[data-wide='true'] {
+      > div {
+        max-width: ${FRONTPAGE_ARTICLE_MAXIMUM_WIDTH}px;
+      }
     }
   }
 `;

@@ -1441,7 +1441,7 @@ const phrases = {
     confirmDeleteTopic: 'Are you sure you want to delete this topic?',
     confirmDeleteSubject: 'Are you sure you want to delete this subject?',
     or: 'Eller',
-    urlPlaceholder: 'Paste in a link from ndla.no',
+    urlPlaceholder: 'Paste in a link from ndla.no or the id of an article',
     wrongType: 'Note! This is a different resource type: ',
     noResources: 'No resources found',
     addTopicDescription: 'Change topic description',

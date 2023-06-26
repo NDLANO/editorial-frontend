@@ -96,6 +96,7 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
   const [loading, setLoading] = useState(false);
   const [selectedType, setSelectedType] = useState(RESOURCE_TYPE_SUBJECT_MATERIAL);
   const [pastedUrl, setPastedUrl] = useState('');
+  const [previewLoading, setPreviewLoading] = useState(false);
   const qc = useQueryClient();
   const { taxonomyVersion } = useTaxonomyVersion();
   const compKey = resourcesWithNodeConnectionQueryKey({ id: nodeId, language: i18n.language });
@@ -103,7 +104,6 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
     onSuccess: (_) => qc.invalidateQueries(compKey),
   });
   const [resourceId, setResourceId] = useState<string | undefined>(undefined);
-  const [previewLoading, setPreviewLoading] = useState(false);
 
   const toPreview = (resource: Resourcetypes): Preview => {
     if ('metaUrl' in resource) {

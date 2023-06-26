@@ -7,7 +7,7 @@
 
 import styled from '@emotion/styled';
 import { colors, fonts, spacing, misc } from '@ndla/core';
-import { useTranslation } from 'react-i18next';
+import { TFunction, useTranslation } from 'react-i18next';
 import { TextAreaV2 } from '@ndla/forms';
 import { ChangeEvent, useCallback, useRef, useState } from 'react';
 import uniqueId from 'lodash/uniqueId';
@@ -51,6 +51,21 @@ const ButtonWrapper = styled.div`
   gap: ${spacing.xsmall};
 `;
 
+export const getCommentWithInfoText = (
+  comment: string,
+  userName: string | undefined,
+  t: TFunction,
+) => {
+  const currentDate = new Date();
+  const dateTime = formatDateForBackend(currentDate);
+  const formattedDate = formatDate(dateTime);
+  const formattedTime = format(currentDate, 'HH:mm');
+
+  return `${comment}\n${t('form.workflow.addComment.createdBy')} ${
+    userName?.split(' ')[0]
+  } (${formattedDate} - ${formattedTime})`;
+};
+
 interface Props {
   comments: CommentType[];
   setComments: (c: CommentType[]) => void;
@@ -75,17 +90,9 @@ const InputComment = ({ comments, setComments }: Props) => {
   const createComment = useRef<HTMLTextAreaElement>(null);
 
   const handleFocus = () => {
-    const currentDate = new Date();
-    const dateTime = formatDateForBackend(currentDate);
-    const formattedDate = formatDate(dateTime);
-    const formattedTime = format(currentDate, 'HH:mm');
-
     if (!clickedInputField) {
-      setInputValue(
-        `${inputValue}\n${t('form.workflow.addComment.createdBy')} ${
-          userName?.split(' ')[0]
-        } (${formattedDate} - ${formattedTime})`,
-      );
+      const comment = getCommentWithInfoText(inputValue, userName, t);
+      setInputValue(comment);
       setTimeout(() => createComment.current?.setSelectionRange(0, 0), 0);
     }
 

@@ -207,7 +207,7 @@ const HeaderStatusInformation = ({
   );
 
   const learningpathConnections =
-    (type === 'standard' || type === 'topic-article') && learningpaths.length ? (
+    type === 'standard' || type === 'topic-article' ? (
       <LearningpathConnection
         id={id}
         learningpaths={learningpaths}
@@ -215,7 +215,7 @@ const HeaderStatusInformation = ({
       />
     ) : null;
 
-  const imageConnections = type === 'image ' && (articles.length || concepts.length) && (
+  const imageConnections = type === 'image ' && (
     <EmbedConnection
       id={id}
       type="image"
@@ -226,21 +226,27 @@ const HeaderStatusInformation = ({
     />
   );
   const audioConnections =
-    (type === 'audio' || type === 'podcast') && articles.length ? (
+    type === 'audio' || type === 'podcast' ? (
       <EmbedConnection id={id} type="audio" articles={articles} setArticles={setArticles} />
     ) : null;
   const conceptConnecions =
-    type === 'concept' && articles.length ? (
+    type === 'concept' ? (
       <EmbedConnection id={id} type="concept" articles={articles} setArticles={setArticles} />
     ) : null;
   const articleConnections =
-    (type === 'standard' || type === 'topic-article') && articles.length ? (
+    type === 'standard' || type === 'topic-article' ? (
       <EmbedConnection id={id} type="article" articles={articles} setArticles={setArticles} />
     ) : null;
 
+  const hideSplitter =
+    (!articleConnections || !conceptConnecions || !learningpathConnections) &&
+    !revisionDateExpiration &&
+    !published &&
+    !multipleTaxonomyIcon;
+
   const StatusIcons = (
     <>
-      <Splitter disableSplitter={indentLeft}>
+      <Splitter disableSplitter={indentLeft || hideSplitter}>
         {articleConnections}
         {conceptConnecions}
         {learningpathConnections}

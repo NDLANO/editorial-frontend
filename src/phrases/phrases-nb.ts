@@ -1411,7 +1411,7 @@ const phrases = {
     contentType: 'Innholdstype',
     contentTypePlaceholder: 'Velg innholdstype',
     create: 'Opprett',
-    get: 'Hent',
+    add: 'Legg til',
     getExisting: 'Eller hent eksisterende ressurs',
     addPriority: 'Sett artikkel som prioritert',
     changeName: {

@@ -1409,7 +1409,7 @@ const phrases = {
     contentType: 'Content type',
     contentTypePlaceholder: 'Choose content type',
     create: 'Create',
-    get: 'Get',
+    add: 'Add',
     getExisting: 'Or get existing resource',
     addPriority: 'Set article as prioritized',
     changeName: {

@@ -148,10 +148,7 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
   };
 
   const onAddResource = async () => {
-    if (!preview) {
-      setError(t('errorMessage.invalidUrl'));
-      return;
-    }
+    if (!preview) return;
 
     let id = resourceId;
 
@@ -319,8 +316,8 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
         {error && <ErrorMessage>{t(error)}</ErrorMessage>}
       </PreviewWrapper>
       <ButtonWrapper>
-        <ButtonV2 onClick={onAddResource} type="submit">
-          {t('taxonomy.get')} {loading && <Spinner appearance="small" />}
+        <ButtonV2 disabled={preview === undefined} onClick={onAddResource} type="submit">
+          {t('taxonomy.add')} {loading && <Spinner appearance="small" />}
         </ButtonV2>
       </ButtonWrapper>
     </>

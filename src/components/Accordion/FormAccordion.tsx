@@ -61,14 +61,12 @@ const HeaderWrapper = styled.div`
 
 const StyledAccordionContent = styled(AccordionContent)`
   &[data-wide='true'] {
-    width: 100% !important;
     inset: unset !important;
-    display: flex;
-    flex-flow: column;
-    flex-wrap: wrap;
-    align-content: center;
-
     background-color: #f7fafd;
+    display: flex;
+    width: 100% !important;
+    align-items: center;
+    justify-content: center;
     > div {
       max-width: ${FRONTPAGE_ARTICLE_MAXIMUM_WIDTH}px;
     }

@@ -100,6 +100,10 @@ const StyledContentDiv = styled(FormikField)`
   position: static;
 `;
 
+const StyledContentWrapper = styled.div`
+  width: 100%;
+`;
+
 const MarkdownButton = styled(IconButtonV2)<{ active: boolean }>`
   color: ${(p) => (p.active ? colors.brand.primary : colors.brand.light)};
 `;
@@ -176,14 +180,13 @@ export const plugins = (
     blogPostPlugin,
   ];
 };
-type Props = {
+interface Props {
   articleLanguage: string;
   handleBlur: (evt: { target: { name: string } }) => void;
   values: FrontpageArticleFormType;
   handleSubmit: () => Promise<void>;
-} & {
   formik: FormikContextType<FrontpageArticleFormType>;
-};
+}
 
 const FrontpageArticleFormContent = ({
   articleLanguage,
@@ -202,7 +205,7 @@ const FrontpageArticleFormContent = ({
   }, [handleSubmit]);
 
   return (
-    <>
+    <StyledContentWrapper>
       {editSlug && slug !== undefined ? (
         <SlugField handleSubmit={handleSubmit} />
       ) : (
@@ -286,7 +289,7 @@ const FrontpageArticleFormContent = ({
           </>
         )}
       </StyledContentDiv>
-    </>
+    </StyledContentWrapper>
   );
 };
 

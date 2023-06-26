@@ -141,6 +141,7 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
 
   const onAddResource = async () => {
     if (!preview) {
+      setError(t('errorMessage.invalidUrl'));
       return;
     }
 
@@ -170,7 +171,7 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
   };
 
   const resetPastedUrlStatesWithError = (error?: string) => {
-    error && setError('');
+    error && setError(error);
     setPreview(undefined);
     setPreviewLoading(false);
     setResourceId(undefined);
@@ -212,6 +213,7 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
         const inputPath = inputMatch && inputMatch[1];
 
         if (!inputPath) {
+          console.log('hi');
           resetPastedUrlStatesWithError(t('errorMessage.invalidUrl'));
           return;
         }

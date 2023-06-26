@@ -1411,6 +1411,7 @@ const phrases = {
     create: 'Create',
     get: 'Get',
     getExisting: 'Or get existing resource',
+    inProgress: 'This article is in progress',
     addPriority: 'Set article as prioritized',
     changeName: {
       loadError: 'Could not fetch translations',

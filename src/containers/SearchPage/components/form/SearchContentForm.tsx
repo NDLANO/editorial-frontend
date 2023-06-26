@@ -114,7 +114,7 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
       query: '',
       subjects: '',
       'resource-types': '',
-      status: '',
+      'draft-status': '',
       users: '',
       language: '',
       'revision-date-from': '',

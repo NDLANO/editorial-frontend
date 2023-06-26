@@ -51,6 +51,7 @@ const WorkList = ({ ndlaId }: Props) => {
       'page-size': 6,
       language,
       fallback: true,
+      'aggregate-paths': 'contexts.rootId',
     },
     {
       enabled: !!ndlaId,

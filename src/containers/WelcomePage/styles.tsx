@@ -50,6 +50,10 @@ export const StyledLink = styled(SafeLink)`
 
 export const DropdownWrapper = styled.div`
   max-width: 200px;
+  min-width: 130px;
+  ${mq.range({ until: breakpoints.tablet })} {
+    min-width: unset;
+  }
 `;
 
 export const ControlWrapperDashboard = styled.div`

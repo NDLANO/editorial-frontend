@@ -91,7 +91,11 @@ interface Preview extends Pick<IMultiSearchSummary, 'id' | 'title' | 'metaDescri
   paths?: string[];
 }
 
-type Resourcetypes = IMultiSearchSummary | ILearningPathSummaryV2 | ILearningPathV2 | IArticleV2;
+type PossibleResources =
+  | IMultiSearchSummary
+  | ILearningPathSummaryV2
+  | ILearningPathV2
+  | IArticleV2;
 
 const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, nodeId }: Props) => {
   const { t, i18n } = useTranslation();
@@ -109,7 +113,7 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
   });
   const [resourceId, setResourceId] = useState<string | undefined>(undefined);
 
-  const toPreview = (resource: Resourcetypes): Preview => {
+  const toPreview = (resource: PossibleResources): Preview => {
     if ('metaUrl' in resource) {
       const { description, language } = resource.description;
       const url =

@@ -248,6 +248,7 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
       setPreview(toPreview(preview));
       setPreviewLoading(false);
       setResourceId(resourceId);
+      setError('');
     } catch (e) {
       resetPastedUrlStatesWithError(t('taxonomy.noResources'));
     }

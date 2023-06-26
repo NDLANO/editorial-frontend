@@ -71,7 +71,7 @@ const Transcriptions = ({ label, onChange, values: transcriptions, ...rest }: Pr
 
   return (
     <>
-      <FieldHeader title={label} />
+      <FieldHeader title={'transcriptions placeholder'} />
       {transcriptionsArray.map((transcription, index) => (
         <Transcription
           key={`transcription_${index}`} // eslint-disable-line react/no-array-index-key

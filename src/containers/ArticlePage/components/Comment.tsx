@@ -114,10 +114,10 @@ const Comment = ({
 
   const toggleOpen = (value?: boolean) => {
     const _open = value !== undefined ? value : !open;
-    const commentsOpen: boolean[] = comments.map((c: CommentType, i: number) =>
-      i === index ? _open : c.isOpen,
+    const updatedCommentsOpen: boolean[] = commentsOpen?.map((c: boolean, i: number) =>
+      i === index ? _open : c,
     );
-    setCommentsOpen(commentsOpen);
+    setCommentsOpen(updatedCommentsOpen);
     const updatedComments = comments.map((c, i) => (index === i ? { ...c, isOpen: _open } : c));
     setComments(updatedComments);
   };

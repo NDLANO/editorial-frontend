@@ -215,7 +215,7 @@ const HeaderStatusInformation = ({
       />
     ) : null;
 
-  const imageConnections = type === 'image ' && (
+  const imageConnections = type === 'image' && (
     <EmbedConnection
       id={id}
       type="image"

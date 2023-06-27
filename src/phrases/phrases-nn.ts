@@ -1417,6 +1417,7 @@ const phrases = {
     create: 'Opprett',
     get: 'Hent',
     getExisting: 'Eller hent eksisterande ressurs',
+    inProgress: 'Denne artikkelen har blitt byrja på',
     addPriority: 'Sett artikkel som prioritert',
     changeName: {
       loadError: 'Klarte ikkje hente omsetjingar',

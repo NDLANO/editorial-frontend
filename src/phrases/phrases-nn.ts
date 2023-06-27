@@ -520,7 +520,7 @@ const phrases = {
     },
   },
   imageForm: {
-    title: 'bilete ',
+    title: 'Bilete ',
   },
   contactBlockForm: {
     title: 'Kontaktblokk',
@@ -687,8 +687,8 @@ const phrases = {
       metaDescription: 'Metabeskrivelse',
       metaImageAlt: 'Alt-tekst',
       alttext: 'Alt-tekst',
-      caption: 'biletetekst',
-      imageFile: 'biletefil',
+      caption: 'Biletetekst',
+      imageFile: 'Biletefil',
       visualElement: 'Visuelt element',
       visualElementCaption: 'Figur tekst',
       visualElementAlt: 'Alt tekst',
@@ -826,7 +826,7 @@ const phrases = {
       label: 'Visuelt element',
       helpLabel: 'Informasjon om visuelt element',
       video: 'Videosøk',
-      image: 'biletesøk',
+      image: 'Biletesøk',
       imageUpload: 'Last opp bilete',
       h5p: 'H5P',
     },

@@ -15,16 +15,17 @@ import { Select, SingleValue } from '@ndla/select';
 import Pager from '@ndla/pager';
 import sortBy from 'lodash/sortBy';
 import styled from '@emotion/styled';
-import { mq, breakpoints, spacing, fonts } from '@ndla/core';
+import { mq, breakpoints } from '@ndla/core';
 import { IMultiSearchSummary } from '@ndla/types-backend/search-api';
-import { Switch } from '@ndla/switch';
 import Tooltip from '@ndla/tooltip';
 import {
   ControlWrapperDashboard,
   DropdownWrapper,
   StyledDashboardInfo,
   StyledLink,
+  StyledSwitch,
   StyledTopRowDashboardInfo,
+  SwitchWrapper,
 } from '../styles';
 import TableComponent, { FieldElement, Prefix, TitleElement } from './TableComponent';
 import TableTitle from './TableTitle';
@@ -41,21 +42,6 @@ import { FAVOURITES_SUBJECT_ID } from '../../../constants';
 const RevisionsWrapper = styled.div`
   ${mq.range({ from: breakpoints.tabletWide })} {
     margin-top: 25px;
-  }
-`;
-
-const SwitchWrapper = styled.div`
-  margin-top: ${spacing.small};
-  & button {
-    margin-left: auto;
-  }
-`;
-
-const StyledSwitch = styled(Switch)`
-  white-space: nowrap;
-  label {
-    font-size: ${fonts.sizes('16px')};
-    margin-left: auto;
   }
 `;
 
@@ -87,7 +73,7 @@ const Revisions = ({ userData }: Props) => {
   const { taxonomyVersion } = useTaxonomyVersion();
 
   const tableTitles: TitleElement<SortOptionRevision>[] = [
-    { title: t('form.name.title'), sortableField: 'title' },
+    { title: t('form.name.title'), sortableField: 'title', width: '40%' },
     { title: t('welcomePage.workList.status'), sortableField: 'status', width: '15%' },
     { title: t('welcomePage.workList.primarySubject') },
     { title: t('welcomePage.revisionDate'), sortableField: 'revisionDate' },
@@ -122,16 +108,19 @@ const Revisions = ({ userData }: Props) => {
     {
       select: (res) => ({
         ...res,
-        results: sortBy(res.results, (r) => r.metadata.customFields.subjectCategory === 'archive'),
+        results: sortBy(res.results, (r) => r.name),
       }),
       enabled: !!userData?.favoriteSubjects?.length,
     },
   );
 
-  const favoriteSubjects = useMemo(
-    () => subjectData?.results.map((s) => ({ label: s.name, value: s.id })),
-    [subjectData],
-  );
+  const favoriteSubjects = useMemo(() => {
+    const archivedAtBottom = sortBy(
+      subjectData?.results,
+      (r) => r.metadata.customFields.subjectCategory === 'archive',
+    );
+    return archivedAtBottom.map((s) => ({ label: s.name, value: s.id }));
+  }, [subjectData]);
 
   const getDataPrimaryConnectionToFavorite = useCallback(
     (results: IMultiSearchSummary[] | undefined) => {
@@ -178,12 +167,10 @@ const Revisions = ({ userData }: Props) => {
               {a.title?.title}
             </StyledLink>
           ),
-          title: a.title?.title,
         },
         {
           id: `status_${a.id}`,
           data: a.status?.current ? t(`form.status.${a.status.current.toLowerCase()}`) : '',
-          title: a.status?.current ? t(`form.status.${a.status.current.toLowerCase()}`) : '',
         },
         {
           id: `primarySubject_${a.id}`,
@@ -243,7 +230,6 @@ const Revisions = ({ userData }: Props) => {
                   }}
                   label={t('welcomePage.primaryConnectionLabel')}
                   id="filter-primary-connection-switch"
-                  aria-label={t('welcomePage.primaryConnection')}
                   thumbCharacter="P"
                 />
               </SwitchWrapper>

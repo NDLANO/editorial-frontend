@@ -28,12 +28,6 @@ const StyledUl = styled.ul`
   padding: 0;
 `;
 
-const StyledContainer = styled('div')`
-  position: absolute;
-  width: 100%;
-  z-index: 2;
-`;
-
 const HeadingWrapper = styled.div`
   display: flex;
   justify-content: space-between;
@@ -136,7 +130,7 @@ const EditRelated = ({
   };
 
   return (
-    <StyledContainer contentEditable={false}>
+    <>
       <Overlay onExit={onExit} />
       <StyledBorderDiv>
         <HeadingWrapper>
@@ -207,7 +201,6 @@ const EditRelated = ({
             apiAction={searchForArticles}
             onClick={(e) => e.stopPropagation()}
             onChange={(selected) => selected && onInsertBlock(selected.id.toString())}
-            positionAbsolute
             showPagination
           />
           <StyledOr>{t('taxonomy.or')}</StyledOr>
@@ -229,7 +222,7 @@ const EditRelated = ({
           initialUrl={externalToEdit?.embedData.url}
         />
       )}
-    </StyledContainer>
+    </>
   );
 };
 

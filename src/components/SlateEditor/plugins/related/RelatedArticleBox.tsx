@@ -179,7 +179,7 @@ const RelatedArticleBox = ({ attributes, editor, element, onRemoveClick, childre
   return (
     <div contentEditable={false} {...attributes}>
       {editMode && <Overlay />}
-      <Root open={editMode} modal onOpenChange={onOpenChange}>
+      <Root open={editMode} onOpenChange={onOpenChange}>
         <Anchor />
         <Portal>
           <EditRelated

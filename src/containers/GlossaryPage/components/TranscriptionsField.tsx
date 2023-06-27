@@ -82,7 +82,9 @@ const TranscriptionsField = ({ name, onChange, values: transcriptions, ...rest }
         />
       ))}
       <ButtonV2 variant="outline" onClick={addTranscription} data-cy="addTranscription">
-        {t('form.transcription.add')}
+        {t('form.concept.glossData.add', {
+          type: t(`form.concept.glossData.transcriptions`),
+        })}
       </ButtonV2>
     </>
   );

@@ -75,7 +75,9 @@ const Examples = ({ label, onChange, values: examples, ...rest }: Props) => {
         />
       ))}
       <ButtonV2 variant="outline" onClick={addExample} data-cy="addExample">
-        {t('form.example.add')}
+        {t('form.concept.glossData.add', {
+          type: t(`form.concept.glossData.examples`),
+        })}
       </ButtonV2>
     </>
   );

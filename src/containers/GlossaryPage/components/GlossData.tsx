@@ -8,7 +8,7 @@
 
 import { useFormikContext } from 'formik';
 import { FieldHeader, Input, Select } from '@ndla/forms';
-
+import { useTranslation } from 'react-i18next';
 import FormikField from '../../../components/FormikField';
 import TranscriptionsField from './TranscriptionsField';
 import { ConceptFormValues } from '../../ConceptPage/conceptInterfaces';
@@ -18,17 +18,26 @@ const foo = ['test'];
 
 const GlossData = () => {
   const formikContext = useFormikContext<ConceptFormValues>();
-  const { values } = formikContext;
+  const { glossData } = formikContext.values;
+  const { t } = useTranslation();
+
+  if (!glossData) return <></>;
   return (
     <>
       <FormikField name="glossData.gloss">
-        {({ field }) => <Input label="Gloss" name="glossData.gloss" type="text" value={'gloss'} />}
+        {({ field }) => (
+          <Input
+            label={t('form.concept.glossData.gloss')}
+            name="glossData.gloss"
+            type="text"
+            value={glossData.gloss}
+          />
+        )}
       </FormikField>
-
       <FormikField name="glossData.wordClass">
         {({ field }) => (
-          <Select value={field.name} label="wordClass">
-            {!values.license && <option>{'choose'}</option>}
+          <Select label={t('form.concept.glossData.wordClass')} value={glossData.wordClass}>
+            {<option>{'choose'}</option>}
             {foo.map((type) => (
               <option value={type} key={type}>
                 {type}
@@ -37,24 +46,29 @@ const GlossData = () => {
           </Select>
         )}
       </FormikField>
-
       <FormikField name="glossData.originalLanguage">
-        {({ field }) => <Input label="originalLanguage" type="text" value={'Original language'} />}
+        {({ field }) => (
+          <Input
+            label={t('form.concept.glossData.originalLanguage')}
+            type="text"
+            value={glossData.originalLanguage}
+          />
+        )}
       </FormikField>
 
-      <FieldHeader title="transcription" />
+      <FieldHeader title={t('form.concept.glossData.transcriptions')} />
       <FormikField name="glossData.transcriptions">
-        {({ field }) => (
-          <TranscriptionsField values={values.glossData!.transcriptions} {...field} />
-        )}
+        {({ field }) => <TranscriptionsField values={glossData.transcriptions} {...field} />}
       </FormikField>
 
-      <FieldHeader title="Examples" />
+      <FieldHeader title={t('form.concept.glossData.examples')} />
       <FormikField name="glossData.examples">
-        {({ field }) => (
-          <Examples label="examples" values={values.glossData!.examples} {...field} />
-        )}
+        {({ field }) => <Examples label="examples" values={glossData.examples} {...field} />}
       </FormikField>
+      {/*
+   
+
+      */}
     </>
   );
 };

@@ -14,7 +14,7 @@ import TranscriptionsField from './TranscriptionsField';
 interface Props {
   placeholder?: string;
   labelRemove?: string;
-  example: IGlossExample;
+  example: IGlossExample[];
   index: number;
   handleExampleChange: (
     event: FormEvent<HTMLSelectElement> | FormEvent<HTMLInputElement> | any,
@@ -31,36 +31,39 @@ const Example = ({
   index,
   handleExampleChange,
   removeExample,
-}: Props) => (
-  <>
-    <FieldSection>
-      <>
-        <Input
-          type="text"
-          placeholder={placeholder}
-          value={example.example}
-          onChange={(e) => handleExampleChange(e, 'example', index)}
-        />
-        <Input
-          type="text"
-          placeholder={placeholder}
-          value={example.language}
-          onChange={(e) => handleExampleChange(e, 'language', index)}
-        />
-      </>
-      <>
-        <FieldRemoveButton onClick={(evt) => removeExample(evt, index)}>
-          {labelRemove}
-        </FieldRemoveButton>
-      </>
-    </FieldSection>
+}: Props) => {
+  const e = example[0];
+  return (
+    <>
+      <FieldSection>
+        <>
+          <Input
+            type="text"
+            placeholder={placeholder}
+            value={e.example}
+            onChange={(e) => handleExampleChange(e, 'example', index)}
+          />
+          <Input
+            type="text"
+            placeholder={placeholder}
+            value={e.language}
+            onChange={(e) => handleExampleChange(e, 'language', index)}
+          />
+        </>
+        <>
+          <FieldRemoveButton onClick={(evt) => removeExample(evt, index)}>
+            {labelRemove}
+          </FieldRemoveButton>
+        </>
+      </FieldSection>
 
-    <TranscriptionsField
-      name={'transcriptions'}
-      values={example.transcriptions}
-      onChange={(e) => handleExampleChange(e, 'transcriptions', index)}
-    />
-  </>
-);
+      <TranscriptionsField
+        name={'transcriptions'}
+        values={e.transcriptions}
+        onChange={(e) => handleExampleChange(e, 'transcriptions', index)}
+      />
+    </>
+  );
+};
 
 export default Example;

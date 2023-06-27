@@ -744,6 +744,14 @@ const phrases = {
       source: 'Kilde',
       markdown: 'Feltet støtter markdown. Bruk formatet [Tekst](https://url) for å lage lenke.',
       subjects: 'Kun fag markert som forklaringsfag vil vises i lista.',
+      glossData: {
+        gloss: 'Gloss',
+        originalLanguage: 'Orginalspråk',
+        wordClass: 'Ordtype',
+        transcriptions: 'Transkribering',
+        examples: 'Eksempler',
+        add: 'Legg til {{type}}',
+      },
     },
     conceptList: {
       edit: 'Rediger forklaringsliste',

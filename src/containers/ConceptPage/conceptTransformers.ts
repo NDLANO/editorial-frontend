@@ -38,15 +38,28 @@ export const conceptApiTypeToFormType = (
   const license = concept?.copyright?.license?.license;
   const conceptLicense = license === 'unknown' ? undefined : license;
 
-  const glossData =
-    concept?.glossData ??
-    ({
-      gloss: 'hi',
-      wordClass: 'hi',
-      originalLanguage: 'hi',
-      transcriptions: { fake: 'fake' },
-      examples: [],
-    } as IGlossData);
+  const example1 = [
+    {
+      example: 'Det var avbrudd i eksamen',
+      language: 'no',
+      transcriptions: { nb: 'Det var avbrudd i eksamen', nn: 'Det var avbrott i eksamen' },
+    },
+  ];
+
+  const example2 = [
+    {
+      example: 'Drive på uten avbrudd',
+      language: 'no',
+      transcriptions: { nb: 'Drive på uten avbrudd', nn: 'Drive på uten avbrot' },
+    },
+  ];
+  const testGlossData = concept?.glossData ?? {
+    gloss: 'Avbrudd',
+    wordClass: 'n',
+    originalLanguage: 'no',
+    transcriptions: { nb: 'Avbrudd', nn: 'Avrbod' },
+    examples: [example1, example2],
+  };
 
   // Make sure to omit the content field from concept. It will crash Slate.
   return {
@@ -73,7 +86,7 @@ export const conceptApiTypeToFormType = (
     visualElement: embedTagToEditorValue(concept?.visualElement?.visualElement ?? ''),
     origin: concept?.copyright?.origin,
     responsibleId: concept === undefined ? ndlaId : concept?.responsible?.responsibleId,
-    glossData: glossData,
+    glossData: concept?.glossData || testGlossData,
   };
 };
 

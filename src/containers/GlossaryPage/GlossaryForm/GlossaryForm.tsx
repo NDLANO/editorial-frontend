@@ -157,8 +157,6 @@ const GlossaryForm = ({
     const newStatus = values.status?.current;
     const statusChange = initialStatus !== newStatus;
 
-    console.log(values.glossData);
-
     /*try {
       let savedConcept: IConcept;
       if ('onCreate' in upsertProps) {

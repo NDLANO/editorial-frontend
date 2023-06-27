@@ -41,6 +41,8 @@ const StyledBorderDiv = styled(Content)`
   padding: ${spacing.large};
   padding-top: 0;
   background-color: ${colors.white};
+  max-height: 1100px;
+  overflow-y: scroll;
   z-index: 5;
 `;
 

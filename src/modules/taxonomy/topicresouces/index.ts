@@ -7,7 +7,6 @@
  */
 
 import { apiResourceUrl, httpFunctions } from '../../../util/apiHelpers';
-import { sortIntoCreateDeleteUpdate } from '../../../util/taxonomyHelpers';
 import { taxonomyApi } from '../../../config';
 import { ParentTopicWithRelevanceAndConnections } from '../taxonomyApiInterfaces';
 import {
@@ -16,6 +15,7 @@ import {
 } from '../../../util/resolveJsonOrRejectWithError';
 import { TopicResourcePostBody, TopicResourcePutBody } from './topicResourceApiInterfaces';
 import { WithTaxonomyVersion } from '../../../interfaces';
+import { sortIntoCreateDeleteUpdate } from '../resourcetypes';
 
 const baseUrl = apiResourceUrl(`${taxonomyApi}/topic-resources`);
 const { postAndResolve, putAndResolve, deleteAndResolve } = httpFunctions;

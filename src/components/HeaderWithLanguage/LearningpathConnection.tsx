@@ -40,6 +40,10 @@ const LearningpathConnection = ({ id, learningpaths, setLearningpaths }: Props) 
     }
   }, [id, setLearningpaths]);
 
+  if (!learningpaths.length) {
+    return null;
+  }
+
   return (
     <Modal
       wrapperFunctionForButton={(button) => (

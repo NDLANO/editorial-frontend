@@ -79,6 +79,7 @@ export interface ArticleFormType {
   revisionError?: string;
   slug?: string;
   comments?: IComment[];
+  prioritized: boolean;
 }
 
 export interface LearningResourceFormType extends ArticleFormType {

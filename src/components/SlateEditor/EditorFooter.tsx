@@ -17,6 +17,7 @@ import { IUpdatedArticle, IStatus as DraftStatus } from '@ndla/types-backend/dra
 import { useFormikContext } from 'formik';
 import { useEffect, useState } from 'react';
 import { SingleValue } from '@ndla/select';
+import { Switch } from '@ndla/switch';
 import { toPreviewDraft } from '../../util/routeHelpers';
 import SaveMultiButton from '../SaveMultiButton';
 import { createGuard, createReturnTypeGuard } from '../../util/guards';
@@ -45,6 +46,7 @@ interface Props {
   isNewlyCreated: boolean;
   hasErrors?: boolean;
   responsibleId?: string;
+  prioritized?: boolean;
 }
 
 interface FormValues {
@@ -65,8 +67,13 @@ const StyledLine = styled.hr`
 `;
 
 const Wrapper = styled.div`
-  margin-right: ${spacing.normal};
   width: 200px;
+`;
+
+const StyledFooterControls = styled.div`
+  display: flex;
+  gap: ${spacing.normal};
+  align-items: center;
 `;
 
 const StyledFooter = styled.div`
@@ -90,6 +97,7 @@ function EditorFooter<T extends FormValues>({
   isNewlyCreated,
   hasErrors,
   responsibleId,
+  prioritized,
 }: Props) {
   const [status, setStatus] = useState<SingleValue>(null);
   const [responsible, setResponsible] = useState<SingleValue>(null);
@@ -101,6 +109,7 @@ function EditorFooter<T extends FormValues>({
 
   // Wait for newStatus to be set to trigger since formik doesn't update fields instantly
   const [newStatus, setNewStatus] = useState<SingleValue>(null);
+  const [prioritizedOn, setPrioritizedOn] = useState(prioritized ?? false);
 
   const articleOrConcept = isArticle || isConcept;
 
@@ -181,21 +190,39 @@ function EditorFooter<T extends FormValues>({
     }
   };
 
+  const updatePrioritized = (prioritized: boolean) => {
+    setPrioritizedOn(prioritized);
+    setFieldValue('prioritized', prioritized);
+  };
+
+  const PrioritizedToggle = (
+    <Switch
+      checked={prioritizedOn}
+      onChange={updatePrioritized}
+      thumbCharacter={'P'}
+      label={t('editorFooter.prioritized')}
+      id="prioritized"
+    />
+  );
+
   if (showSimpleFooter) {
     return (
       <Footer css={isArticle && articleResourcePageStyle}>
         <StyledFooter>
-          {articleOrConcept && (
-            <Wrapper>
-              <ResponsibleSelect
-                responsible={responsible}
-                setResponsible={setResponsible}
-                onSave={updateResponsible}
-                responsibleId={ndlaId}
-              />
-            </Wrapper>
-          )}
-          {saveButton}
+          <StyledFooterControls>
+            {isArticle && PrioritizedToggle}
+            {articleOrConcept && (
+              <Wrapper>
+                <ResponsibleSelect
+                  responsible={responsible}
+                  setResponsible={setResponsible}
+                  onSave={updateResponsible}
+                  responsibleId={ndlaId}
+                />
+              </Wrapper>
+            )}
+            {saveButton}
+          </StyledFooterControls>
         </StyledFooter>
       </Footer>
     );
@@ -231,7 +258,8 @@ function EditorFooter<T extends FormValues>({
           )}
         </div>
 
-        <div data-cy="footerStatus">
+        <StyledFooterControls data-cy="footerStatus">
+          {isArticle && PrioritizedToggle}
           {articleOrConcept && (
             <Wrapper>
               <ResponsibleSelect
@@ -252,7 +280,7 @@ function EditorFooter<T extends FormValues>({
             />
           </Wrapper>
           {saveButton}
-        </div>
+        </StyledFooterControls>
       </>
     </Footer>
   );

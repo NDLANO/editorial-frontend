@@ -12,7 +12,7 @@ WORKDIR $APP_PATH
 RUN yarn
 
 # Copy necessary source files for server and client build
-COPY .babelrc tsconfig.json postcss.config.js $APP_PATH/
+COPY babel.config.js tsconfig.json postcss.config.js $APP_PATH/
 COPY webpack $APP_PATH/webpack
 COPY scripts $APP_PATH/scripts
 

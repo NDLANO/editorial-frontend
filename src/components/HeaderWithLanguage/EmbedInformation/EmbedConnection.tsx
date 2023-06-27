@@ -75,6 +75,10 @@ const EmbedConnection = ({ id, type, articles, setArticles, concepts, setConcept
     };
   }, [id, type, setArticles, setConcepts]);
 
+  if (!articles?.length && !concepts?.length) {
+    return null;
+  }
+
   return (
     <Modal
       wrapperFunctionForButton={(activateButton: any) => (

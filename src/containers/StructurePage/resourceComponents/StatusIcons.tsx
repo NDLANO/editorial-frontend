@@ -10,7 +10,7 @@ import React, { ReactElement, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { colors } from '@ndla/core';
-import { AlertCircle, Check } from '@ndla/icons/editor';
+import { AlertCircle, Check, InProgress } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
 import SafeLink from '@ndla/safelink';
 import config from '../../../config';
@@ -36,6 +36,11 @@ const StyledWarnIcon = styled(AlertCircle)`
   height: 24px;
   width: 24px;
   fill: ${colors.support.yellow};
+`;
+
+const StyledInProgressIcon = styled(InProgress)`
+  width: 24px;
+  height: 24px;
 `;
 
 const StyledLink = styled(SafeLink)`
@@ -74,6 +79,13 @@ const StatusIcons = ({ contentMetaLoading, resource, path }: Props) => {
 
   return (
     <IconWrapper>
+      {resource.contentMeta?.started && (
+        <Tooltip tooltip={t('taxonomy.inProgress')}>
+          <IconWrapper>
+            <StyledInProgressIcon aria-label={t('taxonomy.inProgress')} />
+          </IconWrapper>
+        </Tooltip>
+      )}
       {approachingRevision ? (
         <>
           {expirationColor && expirationDate && (
@@ -83,7 +95,14 @@ const StatusIcons = ({ contentMetaLoading, resource, path }: Props) => {
               })}
             >
               <TimeIconWrapper>
-                <StyledTimeIcon status={expirationColor} width="24px" height="24px" />
+                <StyledTimeIcon
+                  status={expirationColor}
+                  width="24px"
+                  height="24px"
+                  aria-label={t(`form.workflow.expiration.${expirationColor}`, {
+                    date: formatDate(expirationDate),
+                  })}
+                />
               </TimeIconWrapper>
             </Tooltip>
           )}
@@ -95,7 +114,7 @@ const StatusIcons = ({ contentMetaLoading, resource, path }: Props) => {
       {resource.paths?.length > 1 && (
         <Tooltip tooltip={t('form.workflow.multipleTaxonomy')}>
           <IconWrapper>
-            <StyledWarnIcon />
+            <StyledWarnIcon aria-label={t('form.workflow.multipleTaxonomy')} />
           </IconWrapper>
         </Tooltip>
       )}
@@ -104,7 +123,7 @@ const StatusIcons = ({ contentMetaLoading, resource, path }: Props) => {
         <PublishedWrapper path={path}>
           <Tooltip tooltip={t('form.workflow.published')}>
             <CheckedWrapper>
-              <StyledCheckIcon />
+              <StyledCheckIcon aria-label={t('form.workflow.published')} />
             </CheckedWrapper>
           </Tooltip>
         </PublishedWrapper>

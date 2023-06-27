@@ -243,3 +243,22 @@ interface ApiTranslateTypeArray extends BaseApiTranslateType {
 }
 
 export type ApiTranslateType = ApiTranslateTypeSingle | ApiTranslateTypeArray;
+
+type Keys =
+  | 'type'
+  | 'query'
+  | 'language'
+  | 'audio-type'
+  | 'draft-status'
+  | 'resource-types'
+  | 'article-types'
+  | 'context-type'
+  | 'users'
+  | 'license'
+  | 'model-released'
+  | 'responsible-ids'
+  | 'subjects';
+
+export type SearchObjectType = {
+  [K in Keys]?: string;
+};

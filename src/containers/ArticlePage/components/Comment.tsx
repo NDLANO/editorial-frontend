@@ -78,33 +78,29 @@ const TopButtonRow = styled.div`
 export type CommentType = { generatedId?: string; content: string; isOpen: boolean } | IComment;
 
 interface Props {
-  comment: CommentType;
-  allOpen: boolean | undefined;
-  setAllOpen: (v: boolean | undefined) => void;
   comments: CommentType[];
   setComments: (c: CommentType[]) => void;
   onDelete: (index: number) => void;
   index: number;
+  setCommentsOpen: (commentsOpen: boolean[]) => void;
+  commentsOpen: boolean[];
 }
 
 const Comment = ({
-  comment,
-  allOpen,
-  setAllOpen,
   comments,
   setComments,
   onDelete,
   index,
+  setCommentsOpen,
+  commentsOpen,
 }: Props) => {
   const { t } = useTranslation();
+  const comment = comments[index];
+
   const [inputValue, setInputValue] = useState(comment?.content);
-
-  const open = useMemo(
-    () => (allOpen !== undefined ? allOpen : comment.isOpen),
-    [allOpen, comment.isOpen],
-  );
-
   const [modalOpen, setModalOpen] = useState(false);
+
+  const open = useMemo(() => commentsOpen[index], [commentsOpen, index]);
 
   const handleInputChange = (e: ChangeEvent<HTMLTextAreaElement>): void => {
     setInputValue(e.target.value);
@@ -117,8 +113,11 @@ const Comment = ({
   };
 
   const toggleOpen = (value?: boolean) => {
-    setAllOpen(undefined);
     const _open = value !== undefined ? value : !open;
+    const commentsOpen: boolean[] = comments.map((c: CommentType, i: number) =>
+      i === index ? _open : c.isOpen,
+    );
+    setCommentsOpen(commentsOpen);
     const updatedComments = comments.map((c, i) => (index === i ? { ...c, isOpen: _open } : c));
     setComments(updatedComments);
   };

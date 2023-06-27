@@ -6,7 +6,8 @@
  *
  */
 
-import { Descendant, Editor, Element, Transforms, Text } from 'slate';
+import React from 'react';
+import { Descendant, Editor, Element, Transforms } from 'slate';
 import { RenderElementProps } from 'slate-react';
 import { GridType } from '@ndla/ui';
 import { jsx as slatejsx } from 'slate-hyperscript';
@@ -91,14 +92,7 @@ export const gridSerializer: SlateSerializer = {
           data-border={node.data.border}
           data-background={node.data.background}
         >
-          {children.filter(
-            () =>
-              Element.isElement(node.children[0]) &&
-              (node.children.length !== 1 ||
-                (node.children[0].type !== TYPE_PARAGRAPH &&
-                  Text.isText(node.children[0]) &&
-                  node.children[0].text !== '')),
-          )}
+          {children.filter((child) => React.Children.count(child.props?.['children']) > 0)}
         </div>
       );
     } else if (Element.isElement(node) && node.type === TYPE_GRID_CELL) {

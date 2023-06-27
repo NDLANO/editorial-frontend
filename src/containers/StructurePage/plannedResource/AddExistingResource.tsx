@@ -12,11 +12,7 @@ import styled from '@emotion/styled';
 import { ChangeEvent, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ILearningPathSummaryV2, ILearningPathV2 } from '@ndla/types-backend/learningpath-api';
-import {
-  IGroupSearchResult,
-  IMultiSearchResult,
-  IMultiSearchSummary,
-} from '@ndla/types-backend/search-api';
+import { IGroupSearchResult, IMultiSearchSummary } from '@ndla/types-backend/search-api';
 import { ButtonV2 } from '@ndla/button';
 import { spacing } from '@ndla/core';
 import { IArticleV2 } from '@ndla/types-backend/article-api';
@@ -25,10 +21,11 @@ import { RESOURCE_TYPE_LEARNING_PATH, RESOURCE_TYPE_SUBJECT_MATERIAL } from '../
 import ResourceTypeSelect from '../../ArticlePage/components/ResourceTypeSelect';
 import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropdown';
 import {
+  fetchLearningpaths,
   learningpathSearch,
   updateLearningPathTaxonomy,
 } from '../../../modules/learningpath/learningpathApi';
-import { groupSearch } from '../../../modules/search/searchApi';
+import { groupSearch, searchResources } from '../../../modules/search/searchApi';
 import ArticlePreview from '../../../components/ArticlePreview';
 import { getArticle } from '../../../modules/article/articleApi';
 import handleError from '../../../util/handleError';
@@ -43,11 +40,6 @@ import {
   inputWrapperStyles,
 } from './PlannedResourceForm';
 import { resolveUrls } from '../../../modules/taxonomy/taxonomyApi';
-import {
-  apiResourceUrl,
-  fetchAuthorized,
-  resolveJsonOrRejectWithError,
-} from '../../../util/apiHelpers';
 import { queryLearningPathResource } from '../../../modules/taxonomy';
 
 const StyledOrDivider = styled.div`
@@ -201,14 +193,10 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
     try {
       if (articleIdInInput) {
         const article = await getArticle(Number(articleIdInInput));
-        const baseUrl = apiResourceUrl('/search-api/v1/search/');
-        const res = await fetchAuthorized(
-          `${baseUrl}?context-types=standard&ids=${article.id}`,
-        ).then((r: any) => resolveJsonOrRejectWithError<IMultiSearchResult>(r));
-
+        const res = await searchResources({ ids: String(article.id), 'article-types': 'standard' });
         if (res.results.length) {
           preview = res.results[0];
-          resourceId = preview.contexts[0].id;
+          resourceId = preview.contexts.length ? preview.contexts[0].id : undefined;
         } else {
           resetPastedUrlStatesWithError();
           return;
@@ -228,17 +216,15 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
 
         if (previewUri.includes('learningpath')) {
           const learningpathId = resolvedUrl.contentUri.split('learningpath:')[1];
-          const learningPathUrl = apiResourceUrl('/learningpath-api/v2/learningpaths/');
-          preview = await fetchAuthorized(`${learningPathUrl}/${learningpathId}`, {
-            method: 'GET',
-          }).then((r: any) => resolveJsonOrRejectWithError<ILearningPathV2>(r));
+          const results = await fetchLearningpaths([Number(learningpathId)]);
+          preview = results.length && results[0];
         } else {
           const previewId = resolvedUrl.contentUri.split('article:')[1];
           preview = await getArticle(Number(previewId));
         }
       }
 
-      if (!preview || !resourceId) {
+      if (!preview) {
         return;
       }
 

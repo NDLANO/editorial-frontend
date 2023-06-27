@@ -9,7 +9,7 @@
 import { FormEvent, MouseEvent } from 'react';
 import { FieldSection, FieldSplitter, Input, FieldRemoveButton } from '@ndla/forms';
 import { IGlossExample } from '@ndla/types-backend/build/concept-api';
-import Transcriptions from './Transcriptions';
+import TranscriptionsField from './TranscriptionsField';
 
 interface Props {
   placeholder?: string;
@@ -34,32 +34,32 @@ const Example = ({
 }: Props) => (
   <>
     <FieldSection>
-      <Input
-        type="text"
-        placeholder={placeholder}
-        value={example.example}
-        onChange={(e) => handleExampleChange(e, 'example', index)}
-      />
-      <Input
-        type="text"
-        placeholder={placeholder}
-        value={example.language}
-        onChange={(e) => handleExampleChange(e, 'language', index)}
-      />
-    </FieldSection>
-
-    <FieldSection>
-      <Transcriptions
-        name={'transcriptions'}
-        values={example.transcriptions}
-        onChange={(e) => handleExampleChange(e, 'transcriptions', index)}
-      />
+      <>
+        <Input
+          type="text"
+          placeholder={placeholder}
+          value={example.example}
+          onChange={(e) => handleExampleChange(e, 'example', index)}
+        />
+        <Input
+          type="text"
+          placeholder={placeholder}
+          value={example.language}
+          onChange={(e) => handleExampleChange(e, 'language', index)}
+        />
+      </>
       <>
         <FieldRemoveButton onClick={(evt) => removeExample(evt, index)}>
           {labelRemove}
         </FieldRemoveButton>
       </>
     </FieldSection>
+
+    <TranscriptionsField
+      name={'transcriptions'}
+      values={example.transcriptions}
+      onChange={(e) => handleExampleChange(e, 'transcriptions', index)}
+    />
   </>
 );
 

@@ -7,10 +7,10 @@
  */
 
 import { useFormikContext } from 'formik';
-import { Input, Select } from '@ndla/forms';
+import { FieldHeader, Input, Select } from '@ndla/forms';
 
 import FormikField from '../../../components/FormikField';
-import Transcriptions from './Transcriptions';
+import TranscriptionsField from './TranscriptionsField';
 import { ConceptFormValues } from '../../ConceptPage/conceptInterfaces';
 import Examples from './Examples';
 
@@ -42,10 +42,14 @@ const GlossData = () => {
         {({ field }) => <Input label="originalLanguage" type="text" value={'Original language'} />}
       </FormikField>
 
+      <FieldHeader title="transcription" />
       <FormikField name="glossData.transcriptions">
-        {({ field }) => <Transcriptions values={values.glossData!.transcriptions} {...field} />}
+        {({ field }) => (
+          <TranscriptionsField values={values.glossData!.transcriptions} {...field} />
+        )}
       </FormikField>
 
+      <FieldHeader title="Examples" />
       <FormikField name="glossData.examples">
         {({ field }) => (
           <Examples label="examples" values={values.glossData!.examples} {...field} />

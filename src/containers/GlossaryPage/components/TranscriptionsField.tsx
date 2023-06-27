@@ -8,7 +8,6 @@
 
 import { FormEvent, MouseEvent } from 'react';
 import { ButtonV2 } from '@ndla/button';
-import { FieldHeader, FieldSection } from '@ndla/forms';
 import { useTranslation } from 'react-i18next';
 import Transcription, { TranscriptionType } from './Transcription';
 
@@ -22,7 +21,7 @@ interface Props {
   values: { [key: string]: string };
 }
 
-const Transcriptions = ({ name, onChange, values: transcriptions, ...rest }: Props) => {
+const TranscriptionsField = ({ name, onChange, values: transcriptions, ...rest }: Props) => {
   const { t } = useTranslation();
 
   const transcriptionsArray = Object.entries(transcriptions).map(([key, value]) => ({
@@ -70,7 +69,7 @@ const Transcriptions = ({ name, onChange, values: transcriptions, ...rest }: Pro
   };
 
   return (
-    <FieldSection>
+    <>
       {transcriptionsArray.map((transcription, index) => (
         <Transcription
           key={`transcription_${index}`} // eslint-disable-line react/no-array-index-key
@@ -85,8 +84,8 @@ const Transcriptions = ({ name, onChange, values: transcriptions, ...rest }: Pro
       <ButtonV2 variant="outline" onClick={addTranscription} data-cy="addTranscription">
         {t('form.transcription.add')}
       </ButtonV2>
-    </FieldSection>
+    </>
   );
 };
 
-export default Transcriptions;
+export default TranscriptionsField;

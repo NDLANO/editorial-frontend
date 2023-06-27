@@ -64,7 +64,6 @@ const Examples = ({ label, onChange, values: examples, ...rest }: Props) => {
 
   return (
     <>
-      <FieldHeader title={'examples placeholder'} />
       {examples.map((example, index) => (
         <Example
           key={`example_${index}`} // eslint-disable-line react/no-array-index-key

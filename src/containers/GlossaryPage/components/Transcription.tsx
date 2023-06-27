@@ -7,7 +7,7 @@
  */
 
 import { FormEvent, MouseEvent } from 'react';
-import { FieldSection, FieldSplitter, Input, FieldRemoveButton } from '@ndla/forms';
+import { FieldSection, Input, FieldRemoveButton, FieldSplitter } from '@ndla/forms';
 
 export interface TranscriptionType {
   key: string;
@@ -53,11 +53,11 @@ const Transcription = ({
         data-cy="transcription-selector"
       />
     </FieldSplitter>
-    <div>
+    <>
       <FieldRemoveButton onClick={(evt) => removeTranscription(evt, index)}>
         {labelRemove}
       </FieldRemoveButton>
-    </div>
+    </>
   </FieldSection>
 );
 

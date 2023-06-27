@@ -1444,7 +1444,7 @@ const phrases = {
     searchResource: 'Søk etter ressurs',
     searchArticle: 'Søk etter emneartikkel',
     or: 'Eller',
-    urlPlaceholder: 'Lim inn lenke fra ndla.no eller id på ein artikkel',
+    urlPlaceholder: 'Lim inn lenke fra ndla.no eller ein artikkel-id',
     wrongType: 'Obs! Denne ressursen er ein anna type',
     noResources: 'Ingen ressurser funnet',
     addTopicDescription: 'Endre emnebeskrivelse',

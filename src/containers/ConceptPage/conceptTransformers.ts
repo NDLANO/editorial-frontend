@@ -84,6 +84,7 @@ export const getNewConceptType = (
   articleIds: values.articles.map((a) => a.id),
   visualElement: editorValueToEmbedTag(values.visualElement),
   responsibleId: values.responsibleId,
+  conceptType: 'concept',
 });
 
 export const getUpdatedConceptType = (
@@ -130,5 +131,6 @@ export const conceptFormTypeToApiType = (
       license: licenses.find((license) => license.license === values.license),
     },
     supportedLanguages: values.supportedLanguages,
+    conceptType: 'concept',
   };
 };

@@ -13,12 +13,7 @@ import { CodeEmbedData } from '@ndla/types-embed';
 import CodeBlock from './CodeBlock';
 import { SlateSerializer } from '../../interfaces';
 import { afterOrBeforeTextBlockElement } from '../../utils/normalizationHelpers';
-import {
-  createEmbedTag,
-  createEmbedTagV2,
-  reduceElementDataAttributes,
-  reduceElementDataAttributesV2,
-} from '../../../../util/embedTagHelpers';
+import { createEmbedTagV2, reduceElementDataAttributesV2 } from '../../../../util/embedTagHelpers';
 import { defaultBlockNormalizer, NormalizerConfig } from '../../utils/defaultNormalizer';
 import { TYPE_CODEBLOCK } from './types';
 import { TYPE_PARAGRAPH } from '../paragraph/types';

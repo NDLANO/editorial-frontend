@@ -1413,6 +1413,7 @@ const phrases = {
     create: 'Opprett',
     get: 'Hent',
     getExisting: 'Eller hent eksisterende ressurs',
+    inProgress: 'Denne artikkelen er påbegynt',
     addPriority: 'Sett artikkel som prioritert',
     changeName: {
       loadError: 'Klarte ikke hente oversettelser',

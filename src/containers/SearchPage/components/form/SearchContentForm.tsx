@@ -161,12 +161,6 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
 
   const selectors: SearchFormSelector[] = [
     {
-      value: search['filter-inactive']?.toString(),
-      parameterName: 'filter-inactive',
-      width: 25,
-      formElementType: 'check-box-reverse',
-    },
-    {
       value: getTagName(search.subjects, sortedSubjects),
       parameterName: 'subjects',
       width: 25,
@@ -210,6 +204,12 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
       width: 25,
       options: getResourceLanguages(t),
       formElementType: 'dropdown',
+    },
+    {
+      value: search['filter-inactive']?.toString(),
+      parameterName: 'filter-inactive',
+      width: 25,
+      formElementType: 'check-box-reverse',
     },
     {
       value: search['exclude-revision-log']?.toString(),

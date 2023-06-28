@@ -9,7 +9,7 @@
 import { setToken } from '../../support/e2e';
 
 describe('Film editing', () => {
-  before(() => {
+  beforeEach(() => {
     setToken();
     cy.apiroute('GET', '**/frontpage-api/v1/filmfrontpage', 'filmFrontpage');
     cy.apiroute('GET', '**/search-api/v1/search/*', 'allMovies');
@@ -31,13 +31,13 @@ describe('Film editing', () => {
 
   it('Can remove movie from slideshow', () => {
     cy.get('[data-cy="elementListItem"]')
-      .contains('Page One')
+      .contains('Citizen')
       .parent()
       .parent()
       .find('button[data-cy="elementListItemDeleteButton"]')
       .click();
     cy.get('[data-cy="elementListItem"]')
-      .contains('Page One: A Year Inside the New York Times')
+      .contains('Citizen Kane')
       .should('not.exist');
   });
 

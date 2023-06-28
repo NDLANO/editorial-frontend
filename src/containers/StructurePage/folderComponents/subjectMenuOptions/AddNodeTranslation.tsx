@@ -62,6 +62,7 @@ const AddNodeTranslation = ({ onAddTranslation, availableLanguages, defaultName 
 
   const onKeyDown = (event: KeyboardEvent, formik: FormikProps<FormValues>) => {
     if (event.key === 'Enter' && formik.isValid && !formik.isSubmitting) {
+      event.preventDefault();
       handleAddTranslation(formik);
     }
   };

@@ -6,8 +6,8 @@
  *
  */
 
-import { ReactNode } from 'react';
-import { act, renderHook } from '@testing-library/react-hooks';
+import { ElementType, ReactNode } from 'react';
+import { act, renderHook } from '@testing-library/react';
 import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 import { getSessionStateFromLocalStorage, SessionProvider, useSession } from '../SessionProvider';
@@ -23,11 +23,17 @@ afterEach(() => {
 
 const history = createMemoryHistory();
 
-const baseWrapper = ({ children, initialValues }: { children?: ReactNode; initialValues: any }) => (
-  <Router location={history.location} navigator={history}>
-    <SessionProvider initialValue={initialValues}>{children}</SessionProvider>
-  </Router>
-);
+interface Props {
+  initialValue?: any;
+}
+
+const createWrapper = (Wrapper: ElementType, props: Props) => {
+  return ({ children }: { children?: ReactNode }) => (
+    <Router location={history.location} navigator={history}>
+      <Wrapper {...props}>{children}</Wrapper>
+    </Router>
+  );
+};
 
 describe('getSessionStateFromLocalStorage', () => {
   it('returns a default initial state if token is not available in localStorage', () => {
@@ -54,7 +60,9 @@ describe('useSession', () => {
   test('correctly sets access token and access_token_personal on successful login', async () => {
     const replaceSpy = jest.spyOn(history, 'replace');
     const expected = { hash: '', pathname: '/', search: '' };
-    const { result } = renderHook(() => useSession(), { wrapper: baseWrapper });
+    const { result } = renderHook(() => useSession(), {
+      wrapper: createWrapper(SessionProvider, {}),
+    });
     act(() => {
       result.current.login(authResult);
     });
@@ -65,7 +73,9 @@ describe('useSession', () => {
   });
 
   test('returns initial state when called without initial values', () => {
-    const { result } = renderHook(() => useSession(), { wrapper: baseWrapper });
+    const { result } = renderHook(() => useSession(), {
+      wrapper: createWrapper(SessionProvider, {}),
+    });
     expect(result.current).toMatchSnapshot();
   });
 
@@ -73,17 +83,16 @@ describe('useSession', () => {
     localStorage.setItem('access_token', authResult.accessToken);
     localStorage.setItem('access_token_personal', 'true');
     const { result } = renderHook(() => useSession(), {
-      wrapper: baseWrapper,
-      initialProps: {
-        initialValues: getSessionStateFromLocalStorage(),
-      },
+      wrapper: createWrapper(SessionProvider, { initialValue: getSessionStateFromLocalStorage() }),
     });
 
     expect(result.current).toMatchSnapshot();
   });
 
   test('nulls all values when logout is called', () => {
-    const { result } = renderHook(() => useSession(), { wrapper: baseWrapper });
+    const { result } = renderHook(() => useSession(), {
+      wrapper: createWrapper(SessionProvider, {}),
+    });
     act(() => {
       result.current.login(authResult);
     });

@@ -10,7 +10,7 @@ import { Select, SingleValue } from '@ndla/select';
 import { useState, useEffect } from 'react';
 import sortBy from 'lodash/sortBy';
 import { useAuth0Responsibles } from '../../../modules/auth0/auth0Queries';
-import { DRAFT_WRITE_SCOPE } from '../../../constants';
+import { DRAFT_RESPONSIBLE } from '../../../constants';
 
 interface Props {
   responsible: SingleValue;
@@ -23,7 +23,7 @@ const ResponsibleSelect = ({ responsible, setResponsible, onSave, responsibleId 
   const { t } = useTranslation();
 
   const { data: users, isInitialLoading } = useAuth0Responsibles(
-    { permission: DRAFT_WRITE_SCOPE },
+    { permission: DRAFT_RESPONSIBLE },
     {
       select: (users) =>
         sortBy(

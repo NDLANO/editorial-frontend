@@ -31,6 +31,7 @@ interface Props {
   onSave: MouseEventHandler<HTMLButtonElement>;
   isDecorative?: boolean;
   handleCheck: (b: boolean) => void;
+  allowDecorative: boolean;
 }
 
 const FigureInput = ({
@@ -42,6 +43,7 @@ const FigureInput = ({
   onSave,
   isDecorative,
   handleCheck,
+  allowDecorative,
 }: Props) => {
   const { t } = useTranslation();
   const { submitted } = useSlateContext();
@@ -71,11 +73,14 @@ const FigureInput = ({
           warningText={!submitted && isEmpty(alt) ? t('form.image.alt.noText') : ''}
         />
       )}
-      <CheckboxItem
-        label={t('form.image.isDecorative')}
-        checked={isDecorative}
-        onChange={() => handleCheck(!isDecorative)}
-      />
+      {allowDecorative && (
+        <CheckboxItem
+          label={t('form.image.isDecorative')}
+          checked={isDecorative}
+          onChange={() => handleCheck(!isDecorative)}
+        />
+      )}
+
       <StyledButtonWrapper paddingLeft>
         <ButtonV2 onClick={onAbort} variant="outline">
           {t('form.abort')}

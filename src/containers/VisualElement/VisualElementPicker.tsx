@@ -52,6 +52,7 @@ const VisualElementPicker = ({ editor, language, types }: Props) => {
           resource={selectedResource}
           onVisualElementClose={resetSelectedResource}
           onInsertBlock={onInsertBlock}
+          allowDecorative={false}
         />
       )}
       <VisualElementMenu onSelect={onSelect} types={types} />

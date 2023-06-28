@@ -118,6 +118,7 @@ interface Props {
   setHasConnections?: (hasConnections: boolean) => void;
   expirationDate?: string;
   responsibleId?: string;
+  hasRSS?: boolean;
 }
 
 const HeaderInformation = ({
@@ -133,6 +134,7 @@ const HeaderInformation = ({
   setHasConnections,
   expirationDate,
   responsibleId,
+  hasRSS,
 }: Props) => {
   const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
@@ -195,6 +197,7 @@ const HeaderInformation = ({
         setHasConnections={setHasConnections}
         expirationDate={expirationDate}
         responsibleName={responsibleName}
+        hasRSS={hasRSS}
       />
     </StyledHeader>
   );

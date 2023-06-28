@@ -1947,14 +1947,6 @@
     react-simple-code-editor "^0.13.0"
     react-syntax-highlighter "^15.5.0"
 
-"@ndla/core@^4.1.0":
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/@ndla/core/-/core-4.1.0.tgz#817796728d0a0f67b0d17b61a40f3a1006998268"
-  integrity sha512-eYQExSUzssvj4k+ZS42peQeGNn4EhVXcV0d0lZnjrnx3MLVTEZv5yNo/n2bqZ/S8BLS0K7xMc9wJQVaJM8Bc7Q==
-  dependencies:
-    inuitcss "6.0.0"
-    sass-mq "^5.0.1"
-
 "@ndla/core@^4.1.2":
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/@ndla/core/-/core-4.1.2.tgz#3b01a62bb4aa6525abd49c4188360468ad78f3fc"
@@ -2103,14 +2095,6 @@
     "@ndla/icons" "^3.0.5"
     react-select "^5.7.0"
 
-"@ndla/switch@^1.1.4":
-  version "1.1.4"
-  resolved "https://registry.yarnpkg.com/@ndla/switch/-/switch-1.1.4.tgz#3fa108e555e7af0e34479178c77d36d9f2591aa4"
-  integrity sha512-M+L58A9LxeUW0Q3U5ilzJqUnZFqvMU+a7IkDaM54SP9VK6hZb3icVfz+ON9FJyCF31EaZUYWas5MYaRIMK7PNA==
-  dependencies:
-    "@ndla/core" "^4.1.0"
-    "@radix-ui/react-switch" "^1.0.3"
-
 "@ndla/switch@^1.1.6":
   version "1.1.6"
   resolved "https://registry.yarnpkg.com/@ndla/switch/-/switch-1.1.6.tgz#b7c478e67b81fb23acfc60f1113d36a86e5ed063"
@@ -2146,10 +2130,10 @@
     hoist-non-react-statics "^3.3.2"
     tiny-warning "^1.0.3"
 
-"@ndla/types-backend@^0.2.15":
-  version "0.2.15"
-  resolved "https://registry.yarnpkg.com/@ndla/types-backend/-/types-backend-0.2.15.tgz#7ee42baf81f4a0cd9b88844608db6ff2f40fe0a9"
-  integrity sha512-pi30pPF2+UtcByvus0IQMgmHxuU7/82U2f440DNk57ol13Zsh85+3xWMZRfQje75uJrNhmJbnBG1lSboC227LA==
+"@ndla/types-backend@^0.2.16":
+  version "0.2.16"
+  resolved "https://registry.yarnpkg.com/@ndla/types-backend/-/types-backend-0.2.16.tgz#d59191fa4b73c69013652f05729fd0ab8cf92018"
+  integrity sha512-E8nCfDfmhc9C4SWXQ4ruRQkDfYaj1jtVlxMt0fOpqZM9P3FoEaED1SFe/xwXZGhvySCNe1ksWNJTL8xrarj1Vw==
 
 "@ndla/types-embed@^2.0.5":
   version "2.0.5"
@@ -10655,7 +10639,7 @@ react-router@6.3.0:
   dependencies:
     history "^5.2.0"
 
-react-select@^5.7.0:
+react-select@^5.7.0, "react-select@^5.7.0, T":
   version "5.7.0"
   resolved "https://registry.yarnpkg.com/react-select/-/react-select-5.7.0.tgz#82921b38f1fcf1471a0b62304da01f2896cd8ce6"
   integrity sha512-lJGiMxCa3cqnUr2Jjtg9YHsaytiZqeNOKeibv6WF5zbK/fPegZ1hg3y/9P1RZVLhqBTs0PfqQLKuAACednYGhQ==

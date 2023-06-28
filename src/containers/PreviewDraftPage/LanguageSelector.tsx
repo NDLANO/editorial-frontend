@@ -8,7 +8,6 @@
 
 import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { HTMLAttributes } from 'react';
 import styled from '@emotion/styled';
 import { toPreviewDraft } from '../../util/routeHelpers';
 import { FRONTPAGE_ARTICLE_MAXIMUM_WIDTH } from '../../constants';
@@ -24,11 +23,11 @@ const StyledSelect = styled.select`
   }
 `;
 
-interface Props extends HTMLAttributes<HTMLSelectElement> {
+interface Props {
   supportedLanguages: string[];
 }
 
-const LanguageSelector = ({ supportedLanguages, ...rest }: Props) => {
+const LanguageSelector = ({ supportedLanguages }: Props) => {
   const { t } = useTranslation();
   const { draftId, language } = useParams<'draftId' | 'language'>();
   const navigate = useNavigate();
@@ -39,7 +38,6 @@ const LanguageSelector = ({ supportedLanguages, ...rest }: Props) => {
     <StyledSelect
       onChange={(evt) => navigate(toPreviewDraft(Number(draftId), evt.target.value))}
       value={language}
-      {...rest}
     >
       {supportedLanguages.map((supportedLanguage) => (
         <option key={supportedLanguage} value={supportedLanguage}>

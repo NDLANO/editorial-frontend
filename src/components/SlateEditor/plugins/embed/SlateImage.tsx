@@ -11,7 +11,6 @@ import styled from '@emotion/styled';
 import { RenderElementProps, useSlateStatic } from 'slate-react';
 import { ButtonV2 } from '@ndla/button';
 import { useTranslation } from 'react-i18next';
-import { Figure } from '@ndla/ui';
 import { parseMarkdown } from '@ndla/util';
 import { Editor, Path } from 'slate';
 import { getSrcSets } from '../../../../util/imageEditorUtil';
@@ -19,7 +18,6 @@ import FigureButtons from './FigureButtons';
 import EditImage from './EditImage';
 import { ImageEmbed } from '../../../../interfaces';
 import { isTable } from '../table/slateHelpers';
-import { useFrontpageArticle } from '../../../../containers/ArticlePage/FrontpageArticlePage/components/FrontpageArticleProvider';
 
 interface Props {
   active?: boolean;
@@ -90,7 +88,7 @@ const SlateImage = ({
     const size = embed.size && ['small', 'xsmall'].includes(embed.size) ? `-${embed.size}` : '';
     const align = embed.align && ['left', 'right'].includes(embed.align) ? `-${embed.align}` : '';
 
-    return `c-figure  ${!isFullWidth ? `u-float${size}${align}` : ''}`;
+    return `c-figure ${!isFullWidth ? `u-float${size}${align}` : ''}`;
   };
 
   const transformData = () => {

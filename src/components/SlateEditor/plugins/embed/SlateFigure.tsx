@@ -7,7 +7,6 @@
  */
 
 import { ReactNode } from 'react';
-import styled from '@emotion/styled';
 import { Editor, Transforms, Path } from 'slate';
 import { RenderElementProps, ReactEditor, useSelected } from 'slate-react';
 import { useTranslation } from 'react-i18next';
@@ -27,7 +26,6 @@ import {
 } from '.';
 import { LocaleType } from '../../../../interfaces';
 import { isSlateEmbed } from './utils';
-import { useFrontpageArticle } from '../../../../containers/ArticlePage/FrontpageArticlePage/components/FrontpageArticleProvider';
 
 interface Props {
   attributes: RenderElementProps['attributes'];
@@ -50,22 +48,9 @@ interface ChangesProp {
   [x: string]: string;
 }
 
-const FigureWrapper = styled.div`
-  &[data-wide='true'] {
-    figure,
-    > iframe,
-    > div {
-      width: 100% !important;
-      inset: unset !important;
-      padding: unset !important;
-    }
-  }
-`;
-
 const SlateFigure = ({ attributes, editor, element, language, locale = 'nb', children }: Props) => {
   const embed = element.data;
   const { t } = useTranslation();
-  const { isFrontpageArticle } = useFrontpageArticle();
 
   const saveEmbedUpdates = (updates: ChangesProp) => {
     Transforms.setNodes(
@@ -93,25 +78,71 @@ const SlateFigure = ({ attributes, editor, element, language, locale = 'nb', chi
     });
   };
 
-  const getFigure = () => {
-    switch (embed.resource) {
-      case 'image':
+  switch (embed.resource) {
+    case 'image':
+      return (
+        <SlateImage
+          attributes={attributes}
+          embed={embed}
+          language={language}
+          onRemoveClick={onRemoveClick}
+          saveEmbedUpdates={saveEmbedUpdates}
+          visualElement={false}
+          active={isActive()}
+          isSelectedForCopy={isSelected}
+          pathToEmbed={pathToEmbed}
+        >
+          {children}
+        </SlateImage>
+      );
+    case 'brightcove':
+      return (
+        <SlateVideo
+          attributes={attributes}
+          embed={embed}
+          language={language}
+          onRemoveClick={onRemoveClick}
+          saveEmbedUpdates={saveEmbedUpdates}
+          active={isActive()}
+          isSelectedForCopy={isSelected}
+        >
+          {children}
+        </SlateVideo>
+      );
+    case 'audio':
+      if (embed.type === 'podcast') {
         return (
-          <SlateImage
+          <SlatePodcast
             attributes={attributes}
             embed={embed}
             language={language}
+            locale={locale}
             onRemoveClick={onRemoveClick}
             saveEmbedUpdates={saveEmbedUpdates}
-            visualElement={false}
-            active={isActive()}
             isSelectedForCopy={isSelected}
-            pathToEmbed={pathToEmbed}
           >
             {children}
-          </SlateImage>
+          </SlatePodcast>
         );
-      case 'brightcove':
+      }
+      return (
+        <SlateAudio
+          attributes={attributes}
+          embed={embed}
+          language={language}
+          locale={locale}
+          onRemoveClick={onRemoveClick}
+          saveEmbedUpdates={saveEmbedUpdates}
+          active={isActive()}
+          isSelectedForCopy={isSelected}
+        >
+          {children}
+        </SlateAudio>
+      );
+    case 'external':
+    case 'iframe':
+    case 'h5p':
+      if (embed.resource !== 'h5p' && embed.url?.includes('youtu')) {
         return (
           <SlateVideo
             attributes={attributes}
@@ -125,92 +156,42 @@ const SlateFigure = ({ attributes, editor, element, language, locale = 'nb', chi
             {children}
           </SlateVideo>
         );
-      case 'audio':
-        if (embed.type === 'podcast') {
-          return (
-            <SlatePodcast
-              attributes={attributes}
-              embed={embed}
-              language={language}
-              locale={locale}
-              onRemoveClick={onRemoveClick}
-              saveEmbedUpdates={saveEmbedUpdates}
-              isSelectedForCopy={isSelected}
-            >
-              {children}
-            </SlatePodcast>
-          );
-        }
-        return (
-          <SlateAudio
-            attributes={attributes}
-            embed={embed}
-            language={language}
-            locale={locale}
-            onRemoveClick={onRemoveClick}
-            saveEmbedUpdates={saveEmbedUpdates}
-            active={isActive()}
-            isSelectedForCopy={isSelected}
-          >
-            {children}
-          </SlateAudio>
-        );
-      case 'external':
-      case 'iframe':
-      case 'h5p':
-        if (embed.resource !== 'h5p' && embed.url?.includes('youtu')) {
-          return (
-            <SlateVideo
-              attributes={attributes}
-              embed={embed}
-              language={language}
-              onRemoveClick={onRemoveClick}
-              saveEmbedUpdates={saveEmbedUpdates}
-              active={isActive()}
-              isSelectedForCopy={isSelected}
-            >
-              {children}
-            </SlateVideo>
-          );
-        }
-        return (
-          <DisplayExternal
-            onRemoveClick={onRemoveClick}
-            embed={embed}
-            language={language}
-            active={isActive()}
-            isSelectedForCopy={isSelected}
-            pathToEmbed={pathToEmbed}
-            editor={editor}
-          >
-            {children}
-          </DisplayExternal>
-        );
-      case 'error':
-        return (
-          <EditorErrorMessage
-            onRemoveClick={onRemoveClick}
-            attributes={attributes}
-            msg={embed.message}
-          >
-            {children}
-          </EditorErrorMessage>
-        );
-      default:
-        return (
-          <EditorErrorMessage
-            attributes={attributes}
-            msg={t('form.content.figure.notSupported', {
-              mediaType: embed.resource,
-            })}
-          >
-            {children}
-          </EditorErrorMessage>
-        );
-    }
-  };
-
-  return <FigureWrapper data-wide={isFrontpageArticle}>{getFigure()}</FigureWrapper>;
+      }
+      return (
+        <DisplayExternal
+          onRemoveClick={onRemoveClick}
+          embed={embed}
+          language={language}
+          active={isActive()}
+          isSelectedForCopy={isSelected}
+          pathToEmbed={pathToEmbed}
+          editor={editor}
+        >
+          {children}
+        </DisplayExternal>
+      );
+    case 'error':
+      return (
+        <EditorErrorMessage
+          onRemoveClick={onRemoveClick}
+          attributes={attributes}
+          msg={embed.message}
+        >
+          {children}
+        </EditorErrorMessage>
+      );
+    default:
+      return (
+        <EditorErrorMessage
+          attributes={attributes}
+          msg={t('form.content.figure.notSupported', {
+            mediaType: embed.resource,
+          })}
+        >
+          {children}
+        </EditorErrorMessage>
+      );
+  }
 };
 
 export default SlateFigure;

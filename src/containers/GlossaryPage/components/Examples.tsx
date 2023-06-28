@@ -7,12 +7,12 @@
  */
 
 import { IGlossExample } from '@ndla/types-backend/build/concept-api';
-
+import { FieldRemoveButton } from '@ndla/forms';
 import { FormEvent, MouseEvent, useState } from 'react';
 import { ButtonV2 } from '@ndla/button';
 import { useTranslation } from 'react-i18next';
+
 import Example from './Example';
-import { FieldRemoveButton } from '@ndla/forms';
 interface Props {
   label: string;
   onChange: (event: { target: { value: IGlossExample[][]; name: string } }) => void;
@@ -60,6 +60,7 @@ const ExampleList = ({ examples, index }: ExampleListProps) => {
 
   return (
     <div key={index}>
+      Example #{index + 1}
       {examples.map((example, index) => {
         return (
           <>
@@ -71,7 +72,7 @@ const ExampleList = ({ examples, index }: ExampleListProps) => {
               removeExample={removeExample}
             />
             <FieldRemoveButton onClick={(evt) => removeExample(evt, index)}>
-              {'Remove this example'}
+              {'Remove this transcription'}
             </FieldRemoveButton>
           </>
         );
@@ -113,7 +114,7 @@ const Examples = ({ label, onChange, values: examples, ...rest }: Props) => {
         <>
           <ExampleList examples={e} index={i} key={i} />
           <FieldRemoveButton onClick={(evt) => removeExampleList(evt, i)}>
-            {'Remove list'}
+            {'Remove this example'}
           </FieldRemoveButton>
         </>
       ))}

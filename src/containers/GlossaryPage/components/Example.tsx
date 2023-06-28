@@ -34,7 +34,6 @@ const Example = ({
 }: Props) => {
   return (
     <>
-      Example #{index + 1}
       <FieldSection>
         <>
           <Input
@@ -52,7 +51,7 @@ const Example = ({
         </>
         <>
           <FieldRemoveButton onClick={(evt) => removeExample(evt, index)}>
-            {labelRemove}
+            {'Remove this transcription'}
           </FieldRemoveButton>
         </>
       </FieldSection>

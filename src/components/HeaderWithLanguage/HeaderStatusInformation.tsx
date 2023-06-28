@@ -99,6 +99,7 @@ interface Props {
   setHasConnections?: (hasConnections: boolean) => void;
   expirationDate?: string;
   responsibleName?: string;
+  hasRSS?: boolean;
 }
 
 const HeaderStatusInformation = ({
@@ -114,6 +115,7 @@ const HeaderStatusInformation = ({
   setHasConnections,
   expirationDate,
   responsibleName,
+  hasRSS,
 }: Props) => {
   const { t } = useTranslation();
   const [learningpaths, setLearningpaths] = useState<ILearningPathV2[]>([]);
@@ -200,7 +202,7 @@ const HeaderStatusInformation = ({
     </StyledLink>
   );
 
-  const rssLink = type === 'podcast-series' && id !== undefined && (
+  const rssLink = hasRSS && id !== undefined && (
     <StyledLink target="_blank" to={`${config.ndlaFrontendDomain}/podkast/${id}/feed.xml`}>
       <StyledRssIcon title={t('podcastSeriesForm.rss')} />
     </StyledLink>

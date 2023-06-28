@@ -15,7 +15,7 @@ import { defaultFileBlock } from '../file/utils';
 import VisualElementModalWrapper from '../../../../containers/VisualElement/VisualElementModalWrapper';
 import getCurrentBlock from '../../utils/getCurrentBlock';
 import { TYPE_TABLE_CELL } from '../table/types';
-import { Embed, ImageEmbed } from '../../../../interfaces';
+import { Embed } from '../../../../interfaces';
 import VisualElementSearch from '../../../../containers/VisualElement/VisualElementSearch';
 
 export const checkboxAction = (
@@ -32,21 +32,22 @@ export const checkboxAction = (
   }
 };
 
-const getNewEmbed = (editor: Editor, visualElement: Embed) => {
+const getNewEmbed = (editor: Editor, visualElement: Embed, allowDecorative: boolean) => {
   const data = visualElement;
-
   if (data.resource === 'image') {
     const tableCell = getCurrentBlock(editor, TYPE_TABLE_CELL)?.[0];
     if (tableCell) {
-      return defaultEmbedBlock({
-        ...data,
-        size: 'xsmall',
-        align: 'left',
-      });
+      return defaultEmbedBlock(
+        {
+          ...data,
+          size: 'xsmall',
+          align: 'left',
+        },
+        allowDecorative,
+      );
     }
   }
-
-  return defaultEmbedBlock(visualElement);
+  return defaultEmbedBlock(visualElement, allowDecorative);
 };
 
 export const isEmbed = (visualElement: Embed | DOMStringMap[]): visualElement is Embed =>
@@ -79,9 +80,7 @@ const SlateVisualElementPicker = ({
 
   const onVisualElementAdd = (visualElement: Embed | DOMStringMap[]) => {
     if (isEmbed(visualElement)) {
-      const v = visualElement as ImageEmbed;
-      v.allowDecorative = allowDecorative;
-      const blockToInsert = getNewEmbed(editor, visualElement);
+      const blockToInsert = getNewEmbed(editor, visualElement, allowDecorative);
       onInsertBlock(blockToInsert);
     } else {
       const blockToInsert = defaultFileBlock(visualElement);

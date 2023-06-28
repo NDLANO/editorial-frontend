@@ -7,7 +7,7 @@
  */
 
 import { ReactNode } from 'react';
-import { Editor, Transforms, Element, Path } from 'slate';
+import { Editor, Transforms, Path } from 'slate';
 import { RenderElementProps, ReactEditor, useSelected } from 'slate-react';
 import { useTranslation } from 'react-i18next';
 import SlateImage from './SlateImage';
@@ -79,7 +79,8 @@ const SlateFigure = ({ attributes, editor, element, language, locale = 'nb', chi
   };
 
   switch (embed.resource) {
-    case 'image':
+    case 'image': {
+      const el = element as ImageEmbedElement;
       return (
         <SlateImage
           attributes={attributes}
@@ -91,10 +92,12 @@ const SlateFigure = ({ attributes, editor, element, language, locale = 'nb', chi
           active={isActive()}
           isSelectedForCopy={isSelected}
           pathToEmbed={pathToEmbed}
+          allowDecorative={el.allowDecorative}
         >
           {children}
         </SlateImage>
       );
+    }
     case 'brightcove':
       return (
         <SlateVideo

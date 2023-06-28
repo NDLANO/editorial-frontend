@@ -31,6 +31,7 @@ interface Props {
   visualElement: boolean;
   children: ReactNode;
   pathToEmbed: Path;
+  allowDecorative: boolean;
 }
 
 const StyledButton = styled(ButtonV2)`
@@ -74,6 +75,7 @@ const SlateImage = ({
   visualElement,
   children,
   pathToEmbed,
+  allowDecorative,
 }: Props) => {
   const { t } = useTranslation();
   const [editMode, setEditMode] = useState(false);
@@ -126,6 +128,7 @@ const SlateImage = ({
           saveEmbedUpdates={saveEmbedUpdates}
           setEditModus={setEditMode}
           language={language}
+          allowDecorative={allowDecorative}
         />
       )}
       {!(visualElement && editMode) && (

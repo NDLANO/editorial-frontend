@@ -31,7 +31,7 @@ interface Props {
   onSave: MouseEventHandler<HTMLButtonElement>;
   isDecorative?: boolean;
   handleCheck: (b: boolean) => void;
-  allowDecorative?: boolean;
+  allowDecorative: boolean;
 }
 
 const FigureInput = ({

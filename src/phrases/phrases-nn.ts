@@ -20,7 +20,7 @@ const phrases = {
     structurePage: `Struktur ${titleTemplate}`,
     versionsPage: `Versjonar ${titleTemplate}`,
     audioUploaderPage: `Lyd ${titleTemplate}`,
-    imageUploaderPage: `Bilde ${titleTemplate}`,
+    imageUploaderPage: `Bilete ${titleTemplate}`,
     loginPage: `Logg inn ${titleTemplate}`,
     logoutPage: `Logg ut ${titleTemplate}`,
     ndlaFilmPage: `NDLA Film ${titleTemplate}`,
@@ -34,7 +34,7 @@ const phrases = {
       audio: `Søk lydfiler ${titleTemplate}`,
       concept: `Søk forklaringer ${titleTemplate}`,
       content: `Søk innhold ${titleTemplate}`,
-      image: `Søk bilder ${titleTemplate}`,
+      image: `Søk bilete ${titleTemplate}`,
     },
   },
   dropdown: {
@@ -69,14 +69,14 @@ const phrases = {
     download: 'Last ned',
     tabs: {
       text: 'Tekst',
-      images: 'Bilde',
+      images: 'Bilete',
       audio: 'Lyd',
       video: 'Video',
     },
     images: {
-      heading: 'Slik bruker du bilder frå artikkelen',
-      description: 'Hugs å kopiera teksten som skal leggjast ved bildet der du bruker det.',
-      rules: 'Regler for bruk av bildet:',
+      heading: 'Slik bruker du bilete frå artikkelen',
+      description: 'Hugs å kopiera teksten som skal leggjast ved biletet der du bruker det.',
+      rules: 'Regler for bruk av biletet:',
       source: 'Kjelde',
       title: 'Tittel',
     },
@@ -161,7 +161,7 @@ const phrases = {
     header: {
       content: 'Søk etter innhald',
       audio: 'Søk etter lydfiler',
-      image: 'Søk etter bilder',
+      image: 'Søk etter bilete',
       concept: 'Søk etter forklaringar',
       'podcast-series': 'Søk etter podkastserier',
     },
@@ -173,7 +173,7 @@ const phrases = {
     conceptNoHits: 'Ingen forklaringar samsvarte med søket ditt på: {{query}}',
     'podcast-seriesNoHits': 'Ingen serier samsvarte med søket ditt på: {{query}}',
     audioNoHits: 'Ingen lydfiler samsvarte med søket ditt på: {{query}}',
-    imageNoHits: 'Ingen bilder samsvarte med søket ditt på: {{query}}',
+    imageNoHits: 'Ingen bilete samsvarte med søket ditt på: {{query}}',
     pageSize: '{{pageSize}} treff per side',
     totalCount: 'Antall søketreff',
     highlights: {
@@ -204,7 +204,7 @@ const phrases = {
     detailSearch: 'Detaljsøk',
     topicArticle: 'Opprett emne',
     learningResource: 'Læringsressurs',
-    image: 'Nytt bilde',
+    image: 'Nytt bilete',
     audio: 'Ny lydfil',
     podcast: 'Ny podkastepisode',
     podcastSeries: 'Ny podkastserie',
@@ -215,7 +215,7 @@ const phrases = {
     searchContent: 'Søk innhald',
     searchAudio: 'Søk lyd',
     searchPodcastSeries: 'Søk serie',
-    searchImage: 'Søk bilde',
+    searchImage: 'Søk bilete',
     searchConcepts: 'Søk forklaring',
     film: 'Rediger NDLA film',
     h5p: 'Rediger H5P',
@@ -254,7 +254,7 @@ const phrases = {
       contentQuery: 'Søk på innhald',
       audioQuery: 'Søk på lydfiler',
       podcastSeriesQuery: 'Søk på podkastserier',
-      imageQuery: 'Søk på bilder',
+      imageQuery: 'Søk på bilete',
       language: 'Velg språk',
       users: 'Velg bruker',
       'model-released': 'Velg modellklarering',
@@ -292,7 +292,7 @@ const phrases = {
       standard: 'Standard',
       learningResource: 'Læringsressurs',
       topicArticle: 'Emnebeskrivelse',
-      image: 'Bilde',
+      image: 'Bilete',
       audio: 'Lyd',
     },
     audioType: {
@@ -336,14 +336,14 @@ const phrases = {
     },
   },
   imageSearch: {
-    placeholder: 'Søk i bilder',
+    placeholder: 'Søk i bilete',
     buttonTitle: 'Søk',
-    useImage: 'Bruk bildet',
-    metaImageCheckboxLabel: 'Sett som metabilde',
+    useImage: 'Bruk biletet',
+    metaImageCheckboxLabel: 'Sett som metabilete',
     visualElementCheckboxLabel: 'Sett som visuelt element',
     noTitle: 'Ingen tittel',
-    noResultsText: 'Fann ingen bilder på søk. Ønskjer du å laste opp eit nytt bilde?',
-    noResultsButtonText: 'Last opp bilde',
+    noResultsText: 'Fann ingen bilete på søk. Ønskjer du å laste opp eit nytt bilete?',
+    noResultsButtonText: 'Last opp bilete',
     modelReleased: {
       yes: 'Modellklarert',
       no: 'Ikkje modellklarert',
@@ -394,7 +394,7 @@ const phrases = {
   searchTypes: {
     content: 'Innhald',
     audio: 'Lyd',
-    image: 'Bilde',
+    image: 'Bilete',
     concept: 'Forklaring',
     'podcast-series': 'Serie',
   },
@@ -425,7 +425,7 @@ const phrases = {
   },
   topicArticleForm: {
     visualElementTitle: {
-      image: 'Bildetittel',
+      image: 'Biletetittel',
       video: 'Videotittel',
       h5p: 'H5P-tittel',
       brightcove: 'Videotittel',
@@ -440,12 +440,12 @@ const phrases = {
     fields: {
       caption: {
         label: {
-          image: 'Bildetekst',
+          image: 'Biletetekst',
           brightcove: 'Videotekst',
           external: 'Innhaldstekst',
         },
         placeholder: {
-          image: 'Bildetekst',
+          image: 'Biletetekst',
           brightcove: 'Videotekst',
           external: 'Innhaldstekst',
         },
@@ -458,7 +458,7 @@ const phrases = {
     validation: {
       containsContent:
         'Emneartiklar bør kun ha tittel, ingress og visuelt element. Innhold trengs ikkje i dei fleste tilfeller.',
-      illegalResource: 'Emneartiklar bør kun ha bilde som visuelt element.',
+      illegalResource: 'Emneartiklar bør kun ha bilete som visuelt element.',
     },
   },
   agreementForm: {
@@ -495,13 +495,14 @@ const phrases = {
     description: 'Beskrivelse',
     rss: 'Rss-feed',
     adminError: 'Du har ikkje tilgang til å opprette eller endre podkastserier.',
+    hasRSS: 'Aktiver RSS-feed for denne serien',
   },
   podcastForm: {
     title: 'Podkastepisode',
     fields: {
       header: 'Overskrift',
       introduction: 'Introduksjon',
-      coverPhoto: 'Bilde',
+      coverPhoto: 'Bilete',
       coverPhotoAltText: 'Alt-tekst',
       manuscript: 'Tekstversjon',
       series: 'Serie',
@@ -513,14 +514,14 @@ const phrases = {
     },
   },
   imageEditor: {
-    editImage: 'Rediger bildet',
+    editImage: 'Rediger biletet',
     remove: {
       crop: 'Fjern utsnitt',
       focalPoint: 'Fjern fokalpunkt',
     },
   },
   imageForm: {
-    title: 'Bilde ',
+    title: 'Bilete ',
   },
   contactBlockForm: {
     title: 'Kontaktblokk',
@@ -558,14 +559,14 @@ const phrases = {
   },
   learningResourceForm: {
     metaImage: {
-      title: 'Bildetittel',
+      title: 'Biletetittel',
       copyright: 'Opphav',
-      change: 'Bytt metabilde',
+      change: 'Bytt metabilete',
     },
     title: 'Læringsressurs',
     validation: {
       missingEmbedData:
-        'Ein eller fleire inkluderte lyd-, bilde-, eller videoelementer mangler beskrivende tekst eller alternativ tekst.',
+        'Ein eller fleire inkluderte lyd-, bilete-, eller videoelementer mangler beskrivende tekst eller alternativ tekst.',
     },
     fields: {
       rightAside: {
@@ -614,7 +615,7 @@ const phrases = {
       table: 'Tabell',
       bodybox: 'Tekst i ramme',
       details: 'Ekspanderande boks',
-      image: 'Bilde',
+      image: 'Bilete',
       video: 'Video',
       audio: 'Lyd',
       h5p: 'H5P',
@@ -687,8 +688,8 @@ const phrases = {
       metaDescription: 'Metabeskrivelse',
       metaImageAlt: 'Alt-tekst',
       alttext: 'Alt-tekst',
-      caption: 'Bildetekst',
-      imageFile: 'Bildefil',
+      caption: 'Biletetekst',
+      imageFile: 'Biletefil',
       visualElement: 'Visuelt element',
       visualElementCaption: 'Figur tekst',
       visualElementAlt: 'Alt tekst',
@@ -697,14 +698,14 @@ const phrases = {
       description: 'Innhald',
       conceptContent: 'Skildring',
       grepCodes: 'Læreplankobling',
-      desktopBannerId: 'Banner til desktop',
-      mobileBannerId: 'Banner til mobil',
+      desktopBannerId: 'Breitt fagsidebilete',
+      mobileBannerId: 'Smalt fagsidebilete',
       concepts: 'Forklaringar',
       relatedContent: 'Relaterte forklaringar',
       subjects: 'Fag',
       header: 'Overskrift',
       manuscript: 'Tekstversjon',
-      coverPhotoId: 'Metabilde',
+      coverPhotoId: 'Metabilete',
       revisions: 'Revisjonar',
       name: 'Namn',
       subtitle: 'Undertittel',
@@ -744,7 +745,7 @@ const phrases = {
     publishedOk: 'Publisert OK',
     validationOk: 'Ingen valideringsfeil funnet',
     createdOk: 'Oppretta OK',
-    addNewImage: 'Legg til nytt bilde',
+    addNewImage: 'Legg til nytt bilete',
     mustSaveFirst: 'Du må lagre endringene dine først',
     addNewAudio: 'Legg til ny lyd',
     notes: {
@@ -771,8 +772,8 @@ const phrases = {
       reset: 'Resett dato',
     },
     updatePublished: 'Endre publisert dato',
-    editImage: 'Endre bilde',
-    editOriginalImage: 'Rediger original bilde',
+    editImage: 'Endre bilete',
+    editOriginalImage: 'Rediger original bilete',
     editAudio: 'Endre lyd',
     editPodcast: 'Endre podkast',
     resetToProd: {
@@ -794,14 +795,14 @@ const phrases = {
       label: 'Ingress',
     },
     metaImage: {
-      title: 'Metabilde',
-      label: 'Metabilde',
-      imageTitle: 'Bildetittel',
-      helpLabel: 'Kva er eit metabilde?',
+      title: 'Metabilete',
+      label: 'Metabilete',
+      imageTitle: 'Biletetittel',
+      helpLabel: 'Kva er eit metabilete?',
       copyright: 'Opphav',
-      change: 'Bytt metabilde',
-      add: 'Velg metabilde',
-      remove: 'Fjern metabilde',
+      change: 'Bytt metabilete',
+      add: 'Velg metabilete',
+      remove: 'Fjern metabilete',
     },
     availability: {
       everyone: 'Alle',
@@ -815,7 +816,7 @@ const phrases = {
       no: 'Nei',
       'not-applicable': 'Ikkje relevant',
       'not-set': 'Ikkje valgt',
-      description: 'Om bildet er modellklarert eller ikkje:',
+      description: 'Om biletet er modellklarert eller ikkje:',
     },
     markdown: {
       button: 'Klikk for å se markdown',
@@ -826,8 +827,8 @@ const phrases = {
       label: 'Visuelt element',
       helpLabel: 'Informasjon om visuelt element',
       video: 'Videosøk',
-      image: 'Bildesøk',
-      imageUpload: 'Last opp bilde',
+      image: 'Biletesøk',
+      imageUpload: 'Last opp bilete',
       h5p: 'H5P',
     },
     visualElementPicker: {
@@ -1119,10 +1120,10 @@ const phrases = {
       label: 'Opphav',
     },
     image: {
-      file: 'Bilde',
-      save: 'Lagre bilde',
-      editImage: 'Rediger bilde',
-      removeImage: 'Ta bort bilde',
+      file: 'Bilete',
+      save: 'Lagre bilete',
+      editImage: 'Rediger bilete',
+      removeImage: 'Ta bort bilete',
       alignment: {
         left: 'Justering: Venstrestilt',
         right: 'Justering: Høgrestilt',
@@ -1134,11 +1135,11 @@ const phrases = {
         medium: 'Størrelse: Middels',
         fullwidth: 'Størrelse: Stort',
       },
-      crop: 'Lag utsnitt av bildet',
+      crop: 'Lag utsnitt av biletet',
       focalPoint: 'Sett fokalpunkt',
       caption: {
-        label: 'Bildetekst',
-        placeholder: 'Bildetekst',
+        label: 'Biletetekst',
+        placeholder: 'Biletetekst',
       },
       alt: {
         label: 'Alt-tekst',
@@ -1147,8 +1148,8 @@ const phrases = {
       },
       dragdrop: {
         main: 'Dra og slipp',
-        sub: 'eller trykk for å laste opp bilde',
-        ariaLabel: 'Dra og slipp eller trykk for å laste opp bilde',
+        sub: 'eller trykk for å laste opp bilete',
+        ariaLabel: 'Dra og slipp eller trykk for å laste opp bilete',
       },
       byline: {
         show: 'Vis byline',
@@ -1262,7 +1263,7 @@ const phrases = {
     },
     embedConnections: {
       type: {
-        image: 'bildet',
+        image: 'biletet',
         audio: 'lydfilen',
         concept: 'forklaringa',
         article: 'artikkelen',
@@ -1271,7 +1272,7 @@ const phrases = {
       sectionTitleConcept: 'Forklaringar som bruker {{resource}}',
       title: 'Bruk av {{resource}}',
       info: {
-        image: 'Bruk av bildet i artiklar og/eller forklaringar',
+        image: 'Bruk av biletet i artiklar og/eller forklaringar',
         audio: 'Bruk av lydfilen i artikler',
         concept: 'Bruk av forklaringa i artikler',
         article: 'Bruk av artikkelen i andre artiklar',
@@ -1337,8 +1338,8 @@ const phrases = {
       'Filen du forsøkar å laste opp er for stor. Maksstorleik: {{maxSize}} MB. Filstorleik: {{fileSize}} MB.',
     grepCodes:
       'Koden er på feil format. Det korrekte formatet er K(E/M) eller TT fulgt av eit eller fleire siffer. Eks. KE137, KM2255, TT2.',
-    podcastImageShape: 'Metabilde må være like høgt som det er breitt.',
-    podcastImageSize: 'Metabilde må være mellom 1400 og 3000 pikslar breitt.',
+    podcastImageShape: 'Metabilete må være like høgt som det er breitt.',
+    podcastImageSize: 'Metabilete må være mellom 1400 og 3000 pikslar breitt.',
     unfinishedRevision: 'Det må være minst ein planlagd revisjon.',
     missingRevision: 'Det må være minst ein revisjon.',
   },
@@ -1413,6 +1414,7 @@ const phrases = {
     create: 'Opprett',
     get: 'Hent',
     getExisting: 'Eller hent eksisterande ressurs',
+    inProgress: 'Denne artikkelen har blitt byrja på',
     addPriority: 'Sett artikkel som prioritert',
     changeName: {
       loadError: 'Klarte ikkje hente omsetjingar',

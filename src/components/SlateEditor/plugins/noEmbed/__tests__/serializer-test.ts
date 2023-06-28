@@ -36,6 +36,7 @@ const editor: Descendant[] = [
           size: 'fullbredde',
           url: 'https://test123.no',
         },
+        allowDecorative: false,
       },
       { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
     ],

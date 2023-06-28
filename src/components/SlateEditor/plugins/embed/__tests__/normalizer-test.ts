@@ -41,6 +41,7 @@ describe('embed normalizer tests', () => {
               caption: 'test-caption',
               url: 'https://test.url',
             },
+            allowDecorative: false,
           },
           {
             type: TYPE_EMBED_H5P,
@@ -97,6 +98,7 @@ describe('embed normalizer tests', () => {
               caption: 'test-caption',
               url: 'https://test.url',
             },
+            allowDecorative: false,
           },
           {
             type: TYPE_PARAGRAPH,

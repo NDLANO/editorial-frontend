@@ -47,24 +47,29 @@ export const getInitialValues = (
 export const convertVisualElement = (visualElement: IVisualElement): Descendant[] => {
   const id = getVisualElementId(visualElement);
   if (visualElement.type !== 'brightcove') {
-    return [
-      slatejsx(
-        'element',
-        {
-          type: defineTypeOfEmbed(visualElement.type),
-          data: {
-            url: visualElement.url,
-            resource: visualElement.type,
-            resource_id: id,
-            alt: visualElement.alt,
-            metaData: {
-              id: id,
+    const convertNonBrightCove = (): Descendant[] => {
+      return [
+        slatejsx(
+          'element',
+          {
+            type: defineTypeOfEmbed(visualElement.type),
+            allowDecorative: false,
+            data: {
+              url: visualElement.url,
+              resource: visualElement.type,
+              resource_id: id,
+              alt: visualElement.alt,
+              metaData: {
+                id: id,
+              },
             },
           },
-        },
-        { text: '' },
-      ),
-    ];
+          { text: '' },
+        ),
+      ];
+    };
+
+    return convertNonBrightCove();
   }
 
   const splittedUrl = visualElement.url.split('/');

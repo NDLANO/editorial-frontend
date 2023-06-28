@@ -32,22 +32,17 @@ export const checkboxAction = (
   }
 };
 
-const getNewEmbed = (editor: Editor, visualElement: Embed, allowDecorative: boolean) => {
+const getNewEmbed = (editor: Editor, visualElement: Embed) => {
   const data = visualElement;
+
   if (data.resource === 'image') {
     const tableCell = getCurrentBlock(editor, TYPE_TABLE_CELL)?.[0];
     if (tableCell) {
-      return defaultEmbedBlock(
-        {
-          ...data,
-          size: 'xsmall',
-          align: 'left',
-        },
-        allowDecorative,
-      );
+      return defaultEmbedBlock({ ...data, size: 'xsmall', align: 'left' });
     }
   }
-  return defaultEmbedBlock(visualElement, allowDecorative);
+
+  return defaultEmbedBlock(visualElement);
 };
 
 export const isEmbed = (visualElement: Embed | DOMStringMap[]): visualElement is Embed =>
@@ -60,7 +55,6 @@ interface Props {
   onInsertBlock: (block: Element, selectBlock?: boolean) => void;
   isOpen: boolean;
   label?: string;
-  allowDecorative?: boolean;
 }
 
 const SlateVisualElementPicker = ({
@@ -70,7 +64,6 @@ const SlateVisualElementPicker = ({
   onInsertBlock,
   isOpen,
   label,
-  allowDecorative = true,
 }: Props) => {
   const formikContext = useFormikContext<{ metaImageAlt?: string; metaImageId?: string }>();
   const { values } = formikContext;
@@ -80,7 +73,7 @@ const SlateVisualElementPicker = ({
 
   const onVisualElementAdd = (visualElement: Embed | DOMStringMap[]) => {
     if (isEmbed(visualElement)) {
-      const blockToInsert = getNewEmbed(editor, visualElement, allowDecorative);
+      const blockToInsert = getNewEmbed(editor, visualElement);
       onInsertBlock(blockToInsert);
     } else {
       const blockToInsert = defaultFileBlock(visualElement);

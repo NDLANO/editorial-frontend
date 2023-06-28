@@ -44,7 +44,6 @@ describe('embed image serializing tests', () => {
             caption: 'test-caption',
             url: 'https://test.url',
           },
-          allowDecorative: false,
         },
         { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
       ],

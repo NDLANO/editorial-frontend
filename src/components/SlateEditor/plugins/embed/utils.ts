@@ -27,17 +27,8 @@ import {
   ImageEmbedElement,
 } from '.';
 
-export const defaultEmbedBlock = (data: Partial<Embed>, allowDecorative?: boolean) => {
-  const block = slatejsx(
-    'element',
-    { type: defineTypeOfEmbed(data?.resource), data },
-    { text: '' },
-  );
-  if (block.type === 'image-embed') {
-    block.allowDecorative = allowDecorative !== false;
-  }
-  return block;
-};
+export const defaultEmbedBlock = (data: Partial<Embed>) =>
+  slatejsx('element', { type: defineTypeOfEmbed(data?.resource), data }, { text: '' });
 
 export const isSlateEmbed = (
   node: Node,

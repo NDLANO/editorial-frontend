@@ -92,7 +92,6 @@ const filmFrontPageAfterTransformation: FilmFormikType = {
           text: '',
         },
       ],
-      allowDecorative: false,
     },
   ],
 };

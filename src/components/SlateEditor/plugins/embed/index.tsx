@@ -31,7 +31,6 @@ export interface ImageEmbedElement {
   type: 'image-embed';
   data: ImageEmbed;
   children: Descendant[];
-  allowDecorative: boolean;
 }
 
 export interface H5PEmbedElement {

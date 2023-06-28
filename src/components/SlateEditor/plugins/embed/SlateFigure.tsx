@@ -79,8 +79,7 @@ const SlateFigure = ({ attributes, editor, element, language, locale = 'nb', chi
   };
 
   switch (embed.resource) {
-    case 'image': {
-      const el = element as ImageEmbedElement;
+    case 'image':
       return (
         <SlateImage
           attributes={attributes}
@@ -92,12 +91,10 @@ const SlateFigure = ({ attributes, editor, element, language, locale = 'nb', chi
           active={isActive()}
           isSelectedForCopy={isSelected}
           pathToEmbed={pathToEmbed}
-          allowDecorative={el.allowDecorative}
         >
           {children}
         </SlateImage>
       );
-    }
     case 'brightcove':
       return (
         <SlateVideo

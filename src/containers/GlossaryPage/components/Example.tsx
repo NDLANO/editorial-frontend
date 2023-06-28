@@ -7,14 +7,14 @@
  */
 
 import { FormEvent, MouseEvent } from 'react';
-import { FieldSection, FieldSplitter, Input, FieldRemoveButton } from '@ndla/forms';
+import { FieldSection, Input, FieldRemoveButton } from '@ndla/forms';
 import { IGlossExample } from '@ndla/types-backend/build/concept-api';
 import TranscriptionsField from './TranscriptionsField';
 
 interface Props {
   placeholder?: string;
   labelRemove?: string;
-  example: IGlossExample[];
+  example: IGlossExample;
   index: number;
   handleExampleChange: (
     event: FormEvent<HTMLSelectElement> | FormEvent<HTMLInputElement> | any,
@@ -32,22 +32,22 @@ const Example = ({
   handleExampleChange,
   removeExample,
 }: Props) => {
-  const e = example[0];
   return (
     <>
+      Example #{index + 1}
       <FieldSection>
         <>
           <Input
             type="text"
             placeholder={placeholder}
-            value={e.example}
-            onChange={(e) => handleExampleChange(e, 'example', index)}
+            value={example.example}
+            onChange={(e) => handleExampleChange(example, 'example', index)}
           />
           <Input
             type="text"
             placeholder={placeholder}
-            value={e.language}
-            onChange={(e) => handleExampleChange(e, 'language', index)}
+            value={example.language}
+            onChange={(e) => handleExampleChange(example, 'language', index)}
           />
         </>
         <>
@@ -56,10 +56,9 @@ const Example = ({
           </FieldRemoveButton>
         </>
       </FieldSection>
-
       <TranscriptionsField
         name={'transcriptions'}
-        values={e.transcriptions}
+        values={example.transcriptions}
         onChange={(e) => handleExampleChange(e, 'transcriptions', index)}
       />
     </>

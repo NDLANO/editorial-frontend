@@ -13,8 +13,7 @@ import FormikField from '../../../components/FormikField';
 import TranscriptionsField from './TranscriptionsField';
 import { ConceptFormValues } from '../../ConceptPage/conceptInterfaces';
 import Examples from './Examples';
-
-const foo = ['test'];
+import { WordClasses } from '../glossaryData';
 
 const GlossData = () => {
   const formikContext = useFormikContext<ConceptFormValues>();
@@ -34,13 +33,17 @@ const GlossData = () => {
           />
         )}
       </FormikField>
+
       <FormikField name="glossData.wordClass">
         {({ field }) => (
-          <Select label={t('form.concept.glossData.wordClass')} value={glossData.wordClass}>
-            {<option>{'choose'}</option>}
-            {foo.map((type) => (
-              <option value={type} key={type}>
-                {type}
+          <Select
+            label={t('form.concept.glossData.wordClass')}
+            value={glossData.wordClass}
+            {...field}
+          >
+            {Object.entries(WordClasses).map((entry) => (
+              <option value={entry[0]} key={entry[0]}>
+                {entry[1]}
               </option>
             ))}
           </Select>

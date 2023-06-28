@@ -6,6 +6,7 @@
  *
  */
 
+import React from 'react';
 import { Descendant, Editor, Element, Transforms } from 'slate';
 import { RenderElementProps } from 'slate-react';
 import { GridType } from '@ndla/ui';
@@ -22,6 +23,8 @@ import { TYPE_EMBED_IMAGE } from '../embed/types';
 import { TYPE_BLOGPOST } from '../blogPost/types';
 import StyledGridCell from './SlateGridCell';
 import { defaultParagraphBlock } from '../paragraph/utils';
+import { TYPE_HEADING } from '../heading/types';
+import { TYPE_LIST } from '../list/types';
 
 export interface GridElement {
   type: 'grid';
@@ -51,7 +54,7 @@ const normalizerConfig: NormalizerConfig = {
 
 const normalizerConfigGridCell: NormalizerConfig = {
   nodes: {
-    allowed: [TYPE_BLOGPOST, TYPE_PARAGRAPH, TYPE_EMBED_IMAGE],
+    allowed: [TYPE_BLOGPOST, TYPE_PARAGRAPH, TYPE_EMBED_IMAGE, TYPE_HEADING, TYPE_LIST],
     defaultType: TYPE_PARAGRAPH,
   },
 };
@@ -68,7 +71,7 @@ export const gridSerializer: SlateSerializer = {
         {
           type: TYPE_GRID,
           data: {
-            columns: parseInt(attributes['columns']),
+            columns: attributes['columns'],
             border: attributes['border'],
             background: attributes['background'],
           },
@@ -89,7 +92,7 @@ export const gridSerializer: SlateSerializer = {
           data-border={node.data.border}
           data-background={node.data.background}
         >
-          {children}
+          {children.filter((child) => React.Children.count(child.props?.['children']) > 0)}
         </div>
       );
     } else if (Element.isElement(node) && node.type === TYPE_GRID_CELL) {
@@ -117,17 +120,18 @@ export const gridPlugin = (editor: Editor) => {
   editor.normalizeNode = (entry) => {
     const [node, path] = entry;
     if (Element.isElement(node) && node.type === TYPE_GRID) {
-      if (node.children.length < node.data.columns) {
+      const columns = node.data.columns === '2x2' ? 4 : Number(node.data.columns);
+      if (node.children.length < columns) {
         Transforms.insertNodes(
           editor,
-          Array(node.data.columns - node.children.length)
+          Array(columns - node.children.length)
             .fill(undefined)
             .map(() => defaultGridCellBlock()),
           { at: [...path, node.children.length] },
         );
-      } else if (node.children.length > node.data.columns) {
+      } else if (node.children.length > columns) {
         Editor.withoutNormalizing(editor, () => {
-          Array(node.children.length - node.data.columns)
+          Array(node.children.length - columns)
             .fill(undefined)
             .forEach((_, index) =>
               Transforms.removeNodes(editor, { at: [...path, node.children.length - 1 - index] }),

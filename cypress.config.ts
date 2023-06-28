@@ -6,6 +6,7 @@ const fixturesDir = join(__dirname, 'cypress/fixtures');
 
 export default defineConfig({
   chromeWebSecurity: false,
+  includeShadowDom: true,
   fixturesFolder: 'cypress/fixtures',
   video: true,
   videoUploadOnPasses: false,
@@ -30,5 +31,6 @@ export default defineConfig({
     },
     baseUrl: 'http://localhost:3000',
     specPattern: 'cypress/e2e/**/*.{js,jsx,ts,tsx}',
+    experimentalRunAllSpecs: true,
   },
 });

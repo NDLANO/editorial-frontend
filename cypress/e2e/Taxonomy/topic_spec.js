@@ -13,7 +13,7 @@ const selectSubject = 'urn:subject:20';
 const selectTopic = 'urn:topic:1:186732';
 
 describe('Topic editing', () => {
-  before(() => {
+  beforeEach(() => {
     setToken();
 
     cy.apiroute('GET', `${taxonomyApi}/versions`, 'allVersions');
@@ -36,10 +36,6 @@ describe('Topic editing', () => {
 
     cy.visit(`/structure/${selectSubject}/${selectTopic}`);
     cy.apiwait(['@allVersions', '@allSubjects', '@allSubjectTopics']);
-  });
-
-  beforeEach(() => {
-    setToken();
   });
 
   it('should have a settings menu where everything works', () => {

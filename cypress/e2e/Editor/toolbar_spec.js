@@ -126,7 +126,7 @@ describe('Selecting text and using the toolbar', () => {
         cy.get('[data-testid=toolbar-button-definition-list]').click();
         cy.get('[data-testid=toolbar-button-definition-list][data-active=true]').should('exist');
         cy.get('dl > dt').should('have.length', 1);
-        cy.wrap($el).type('{enter}').tab().type(' Definition description');
+        cy.wrap($el).type('{end}{enter}').tab().type(' Definition description');
         cy.get('dl > dd').should('have.length', 1);
       });
   });

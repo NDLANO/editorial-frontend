@@ -49,7 +49,6 @@ interface Props {
   language: string;
   actions?: Action[];
   blockpickerOptions?: Partial<BlockPickerOptions>;
-  allowDecorative?: boolean;
 }
 
 const RichTextEditor = ({
@@ -61,7 +60,6 @@ const RichTextEditor = ({
   submitted,
   language,
   blockpickerOptions = {},
-  allowDecorative,
 }: Props) => {
   const editor = useMemo(
     () => withReact(withHistory(withPlugins(createEditor(), plugins))),
@@ -187,7 +185,7 @@ const RichTextEditor = ({
 
   return (
     <article>
-      <SlateProvider allowDecorative={allowDecorative} isSubmitted={submitted}>
+      <SlateProvider isSubmitted={submitted}>
         <StyledSlateWrapper data-cy="slate-editor">
           <Slate editor={editor} value={value} onChange={onChange}>
             {isFirstNormalize ? (

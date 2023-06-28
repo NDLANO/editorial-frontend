@@ -8,14 +8,12 @@
 
 import { ResourceType } from '@ndla/types-taxonomy';
 import { apiResourceUrl, httpFunctions } from '../../../util/apiHelpers';
-import { sortIntoCreateDeleteUpdate } from '../../../util/taxonomyHelpers';
 import { taxonomyApi } from '../../../config';
 import { ResourceResourceType } from '../taxonomyApiInterfaces';
 import {
   resolveLocation,
   resolveVoidOrRejectWithError,
 } from '../../../util/resolveJsonOrRejectWithError';
-import { useResourceType } from './resourceTypesQueries';
 import { WithTaxonomyVersion } from '../../../interfaces';
 import { ResourceResourceTypePostBody } from './resourceTypesApiInterfaces';
 
@@ -28,7 +26,7 @@ interface ResourceTypesGetParams extends WithTaxonomyVersion {
   language: string;
 }
 
-const fetchAllResourceTypes = ({
+export const fetchAllResourceTypes = ({
   language,
   taxonomyVersion,
 }: ResourceTypesGetParams): Promise<ResourceType[]> => {
@@ -40,7 +38,7 @@ interface ResourceTypeGetParams extends WithTaxonomyVersion {
   language: string;
 }
 
-const fetchResourceType = ({
+export const fetchResourceType = ({
   id,
   language,
   taxonomyVersion,
@@ -56,7 +54,7 @@ export interface ResourceResourceTypePostParams extends WithTaxonomyVersion {
   body: ResourceResourceTypePostBody;
 }
 
-const createResourceResourceType = ({
+export const createResourceResourceType = ({
   body,
   taxonomyVersion,
 }: ResourceResourceTypePostParams): Promise<string> => {
@@ -89,7 +87,43 @@ interface CreateDeleteResourceTypesParams extends WithTaxonomyVersion {
   originalResourceTypes: ResourceResourceType[];
 }
 
-const createDeleteResourceTypes = async ({
+export const sortIntoCreateDeleteUpdate = <T extends { id: string }>({
+  changedItems,
+  originalItems,
+  updateProperties = [],
+}: {
+  changedItems: T[];
+  originalItems: T[];
+  updateProperties?: Array<keyof T>;
+}) => {
+  const updateItems: T[] = [];
+  const createItems: T[] = [];
+  const deleteItems = originalItems.filter((item) => {
+    const originalItemInChangedItem = changedItems.find(
+      (changedItem) => changedItem.id === item.id,
+    );
+    return !originalItemInChangedItem;
+  });
+  changedItems.forEach((changedItem) => {
+    const foundItem = originalItems.find((item) => item.id === changedItem.id);
+    if (foundItem) {
+      updateProperties.forEach((updateProperty) => {
+        if (foundItem[updateProperty] !== changedItem[updateProperty]) {
+          updateItems.push({
+            ...foundItem,
+            [updateProperty]: changedItem[updateProperty],
+          });
+        }
+      });
+    } else {
+      createItems.push(changedItem);
+    }
+  });
+
+  return [createItems, deleteItems, updateItems];
+};
+
+export const createDeleteResourceTypes = async ({
   resourceId,
   resourceTypes,
   originalResourceTypes,
@@ -99,7 +133,6 @@ const createDeleteResourceTypes = async ({
     changedItems: resourceTypes,
     originalItems: originalResourceTypes,
   });
-
   await Promise.all(
     createItems.map((item) =>
       createResourceResourceType({
@@ -111,16 +144,7 @@ const createDeleteResourceTypes = async ({
       }),
     ),
   );
-
   deleteItems.forEach((item) => {
     deleteResourceResourceType({ id: item.connectionId, taxonomyVersion });
   });
-};
-
-export {
-  fetchAllResourceTypes,
-  fetchResourceType,
-  createResourceResourceType,
-  createDeleteResourceTypes,
-  useResourceType,
 };

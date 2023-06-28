@@ -23,7 +23,7 @@ const editor2: Descendant[] = [
       {
         type: TYPE_GRID,
         data: {
-          columns: 2,
+          columns: '2',
           border: 'none',
         },
         children: [
@@ -47,7 +47,7 @@ const editor4: Descendant[] = [
       {
         type: TYPE_GRID,
         data: {
-          columns: 4,
+          columns: '4',
           border: 'none',
         },
         children: [
@@ -73,7 +73,7 @@ const editorMultipleChildrenGridCell: Descendant[] = [
       {
         type: TYPE_GRID,
         data: {
-          columns: 4,
+          columns: '4',
           border: 'none',
         },
         children: [

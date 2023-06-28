@@ -495,6 +495,7 @@ const phrases = {
     description: 'Beskrivelse',
     rss: 'Rss-feed',
     adminError: 'Du har ikke tilgang til å opprette eller endre podkastserier.',
+    hasRSS: 'Aktiver RSS-feed for denne serien',
   },
   podcastForm: {
     title: 'Podkastepisode',
@@ -698,8 +699,8 @@ const phrases = {
       description: 'Innhold',
       conceptContent: 'Beskrivelse',
       grepCodes: 'Læreplankobling',
-      desktopBannerId: 'Banner til desktop',
-      mobileBannerId: 'Banner til mobil',
+      desktopBannerId: 'Bredt fagsidebilde',
+      mobileBannerId: 'Smalt fagsidebilde',
       concepts: 'Forklaringer',
       relatedContent: 'Relatert innhold',
       subjects: 'Fag',
@@ -1413,6 +1414,7 @@ const phrases = {
     create: 'Opprett',
     get: 'Hent',
     getExisting: 'Eller hent eksisterende ressurs',
+    inProgress: 'Denne artikkelen er påbegynt',
     addPriority: 'Sett artikkel som prioritert',
     changeName: {
       loadError: 'Klarte ikke hente oversettelser',

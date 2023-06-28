@@ -11,6 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { Select, SingleValue } from '@ndla/select';
 import uniq from 'lodash/uniq';
 import sortBy from 'lodash/sortBy';
+import styled from '@emotion/styled';
 import { useSearch } from '../../../../modules/search/searchQueries';
 import { useSession } from '../../../Session/SessionProvider';
 import { DropdownWrapper } from '../../styles';
@@ -18,22 +19,15 @@ import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionPro
 import { useSearchNodes } from '../../../../modules/nodes/nodeQueries';
 
 interface Props {
+  subjectIds: string[];
   filterSubject: SingleValue | undefined;
   setFilterSubject: (fs: SingleValue) => void;
 }
 
-const SubjectDropdown = ({ filterSubject, setFilterSubject }: Props) => {
+const SubjectDropdown = ({ subjectIds, filterSubject, setFilterSubject }: Props) => {
   const { t, i18n } = useTranslation();
   const { ndlaId } = useSession();
   const { taxonomyVersion } = useTaxonomyVersion();
-
-  const { data, isInitialLoading } = useSearch({
-    'responsible-ids': ndlaId,
-    'aggregate-paths': 'contexts.rootId',
-    'page-size': 6,
-  });
-
-  const subjectIds = uniq(data?.results.flatMap((r) => r.contexts.map((c) => c.subjectId)));
 
   const { data: subjects } = useSearchNodes(
     {
@@ -48,7 +42,7 @@ const SubjectDropdown = ({ filterSubject, setFilterSubject }: Props) => {
         ...res,
         results: sortBy(res.results, (r) => r.name),
       }),
-      enabled: !!data?.results?.length,
+      enabled: !!subjectIds.length,
     },
   );
   const subjectContexts = useMemo(() => {
@@ -72,7 +66,6 @@ const SubjectDropdown = ({ filterSubject, setFilterSubject }: Props) => {
         menuPlacement="bottom"
         small
         outline
-        isLoading={isInitialLoading}
         isSearchable
         noOptionsMessage={() => t('form.responsible.noResults')}
         isClearable

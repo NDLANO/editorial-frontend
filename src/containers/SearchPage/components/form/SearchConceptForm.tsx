@@ -13,6 +13,7 @@ import { getResourceLanguages } from '../../../../util/resourceHelpers';
 import { getTagName } from '../../../../util/formHelper';
 import { SearchParams } from './SearchForm';
 import {
+  CONCEPT_RESPONSIBLE,
   CONCEPT_WRITE_SCOPE,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
 } from '../../../../constants';
@@ -41,7 +42,7 @@ const SearchConceptForm = ({ search: doSearch, searchObject: search, subjects }:
   );
 
   const { data: responsibles } = useAuth0Responsibles(
-    { permission: CONCEPT_WRITE_SCOPE },
+    { permission: CONCEPT_RESPONSIBLE },
     {
       select: (users) =>
         sortBy(

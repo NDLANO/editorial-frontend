@@ -10,7 +10,7 @@ import nock from 'nock';
 import { createEditor, Descendant } from 'slate';
 import { withReact, Slate, Editable } from 'slate-react';
 import { withHistory } from 'slate-history';
-import { render, fireEvent, cleanup, act, getByText } from '@testing-library/react';
+import { render, fireEvent, cleanup, act } from '@testing-library/react';
 import RelatedArticleBox from '../RelatedArticleBox';
 import IntlWrapper from '../../../../../util/__tests__/IntlWrapper';
 import { TYPE_RELATED } from '../types';
@@ -35,7 +35,14 @@ global.ResizeObserver = jest.fn().mockImplementation(() => ({
   disconnect: jest.fn(),
 }));
 
-afterEach(cleanup);
+beforeEach(() => {
+  jest.useFakeTimers();
+});
+
+afterEach(() => {
+  cleanup();
+  jest.useRealTimers();
+});
 
 const relatedElement: Descendant = {
   type: TYPE_RELATED,
@@ -77,6 +84,10 @@ test('it goes in and out of edit mode', async () => {
     .reply(200, { results: [] });
   const { getByTestId, container, findByTestId, findByText, findAllByRole, findByDisplayValue } =
     wrapper();
+
+  act(() => {
+    jest.runAllTimers();
+  });
 
   await act(async () => {
     const el = await findByText('Legg til ekstern artikkel');

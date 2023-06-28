@@ -12,7 +12,7 @@ const taxonomyApi = `/taxonomy/v1`;
 const selectSubject = 'urn:subject:20';
 
 describe('Subject editing', () => {
-  before(() => {
+  beforeEach(() => {
     setToken();
 
     cy.apiroute('GET', `${taxonomyApi}/versions`, 'allVersions');
@@ -30,10 +30,6 @@ describe('Subject editing', () => {
 
     cy.visit(`/structure/${selectSubject}`);
     cy.apiwait(['@allVersions', '@allSubjects', '@allSubjectTopics']);
-  });
-
-  beforeEach(() => {
-    setToken();
   });
 
   it('should add a new subject', () => {

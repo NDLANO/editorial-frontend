@@ -14,38 +14,32 @@ describe('Table plugin', () => {
     setToken();
     editorRoutes();
     cy.visit('/subject-matter/learning-resource/new');
+    cy.apiwait(['@zendeskToken','@getUserData','@getUsersResponsible','@licenses','@statusMachine']);
     cy.get('[data-slate-editor=true][contentEditable=true]').should('exist');
-    cy.get('[data-slate-node=element] > p').clear();
-    cy.get('[data-slate-node=element] > p').should('exist');
-    cy.get('[data-slate-node=element] > p').should('be.visible').first().click().clear();
+    cy.get('[data-cy=slate-editor] [data-slate-editor=true]').first().focus();
+    cy.get('[data-slate-node=element] > p').should('be.visible').click();
+    cy.get('[data-cy=slate-block-picker]').should('exist');
+    cy.get('[data-cy=slate-block-picker]').should('be.visible');
     cy.get('[data-cy=slate-block-picker]').click();
+    cy.get('[data-cy="slate-block-picker-menu"]').should('exist');
     cy.get('[data-cy="slate-block-picker-menu"]').should('be.visible');
   });
 
   it('all table functions work', () => {
-    cy.get('[data-cy=create-table]').last().click({ force: true });
-    cy.get('[data-cy=slate-editor] [data-slate-editor=true]')
-      .first()
-      .focus()
-      .then(($el) => {
-        cy.wrap($el).type(
-          'TITTEL{rightarrow}{downarrow}{downarrow}TEST{uparrow}TEST2{uparrow}TEST3',
-          {
-            force: true,
-          },
-        );
-        cy.get('[data-cy=column-add]').click({ force: true });
-        cy.wrap($el).type('{rightarrow}Test new column');
-        cy.get('[data-cy=row-remove]').click({ force: true });
-        cy.get('[data-cy=head-add]').click({ force: true });
-        cy.wrap($el).type('{uparrow}Test new header{downarrow}');
-        cy.get('[data-cy=row-add]').click({ force: true });
-        cy.wrap($el).type('{downarrow}Test new row');
-        cy.get('[data-cy=toggle-row-headers]').click({ force: true });
-      });
-
-    cy.get('[data-cy=column-remove]').click({ force: true });
-    cy.get('[data-cy=row-remove]').click({ force: true });
-    cy.get('[data-cy=table-remove]').click({ force: true });
+    cy.get('[data-cy=create-table]').click();
+    cy.get('[data-cy=slate-editor] [data-slate-editor=true]').first().focus().type('TITTEL');
+    cy.get('tbody > tr > td').first().type('Cell');
+    cy.get('thead > tr > td').first().type('Header 1 {rightArrow} Header 2');
+    cy.get('[data-cy=column-add]').click();
+    cy.get('thead > tr > td').last().type('Test new column');
+    cy.get('[data-cy=row-remove]').click();
+    cy.get('[data-cy=head-add]').click();
+    cy.get('thead > tr > td').first().type('Test new header {downArrow}');
+    cy.get('[data-cy=row-add]').click();
+    cy.get('tbody > tr > td').last().type('Test new row');
+    cy.get('[data-cy=toggle-row-headers]').click();
+    cy.get('[data-cy=column-remove]').click();
+    cy.get('[data-cy=row-remove]').click();
+    cy.get('[data-cy=table-remove]').click();
   });
 });

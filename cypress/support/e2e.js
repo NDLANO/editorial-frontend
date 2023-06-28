@@ -63,8 +63,8 @@ const mockTokenAllPermissions =
   'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJuZGxhX3N5c3RlbSIsImV4cCI6MzI1MTg3MDY0MzAsImd0eSI6ImNsaWVudC1jcmVkZW50aWFscyIsImh0dHBzOi8vbmRsYS5uby9uZGxhX2lkIjoieHh4eXl5IiwiaWF0IjoxNjg3NTY0ODkwLCJpc3MiOiJodHRwczovL25kbGEuZXUuYXV0aDAuY29tLyIsInBlcm1pc3Npb25zIjpbImFydGljbGVzOnB1Ymxpc2giLCJhcnRpY2xlczp3cml0ZSIsImF1ZGlvOndyaXRlIiwiY29uY2VwdDphZG1pbiIsImNvbmNlcHQ6d3JpdGUiLCJkcmFmdHM6YWRtaW4iLCJkcmFmdHM6cHVibGlzaCIsImRyYWZ0czp3cml0ZSIsImRyYWZ0czpodG1sIiwiZnJvbnRwYWdlOndyaXRlIiwiaW1hZ2VzOndyaXRlIiwibGVhcm5pbmdwYXRoOmFkbWluIiwibGVhcm5pbmdwYXRoOnB1Ymxpc2giLCJsZWFybmluZ3BhdGg6d3JpdGUiLCJ0YXhvbm9teTphZG1pbiIsInRheG9ub215OndyaXRlIl0sInN1YiI6Inh4eHl5eUBjbGllbnRzIn0.1SVkHhIe_A47fSTyVNnsSfOGvqaulddKEJho2iG--l4';
 
 export const setToken = () => {
-  const needRealToken = Cypress.env('RECORD_FIXTURES');
-  if (!needRealToken) {
+  const useMockToken = !!Cypress.env('USE_FIXTURES');
+  if (useMockToken) {
     console.log('Running against mocks so using mock-token');
     setLocalStorage(mockTokenAllPermissions, false);
   } else if (token && !isMockToken) {

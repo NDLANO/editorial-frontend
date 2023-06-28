@@ -14,7 +14,13 @@ describe('Selecting text and using the toolbar', () => {
     setToken();
     editorRoutes();
     cy.visit('/subject-matter/learning-resource/new');
-    cy.apiwait(['@zendeskToken','@getUserData','@getUsersResponsible','@licenses','@statusMachine']);
+    cy.apiwait([
+      '@zendeskToken',
+      '@getUserData',
+      '@getUsersResponsible',
+      '@licenses',
+      '@statusMachine',
+    ]);
     cy.get('[data-slate-editor=true][contentEditable=true]').should('exist');
     cy.get('[data-cy=slate-editor] [data-slate-editor=true]').first().click();
     cy.get('[data-slate-node=element] > p').should('be.visible');
@@ -52,14 +58,15 @@ describe('Selecting text and using the toolbar', () => {
         cy.wrap($el).type('{selectAll}');
         cy.get('[data-testid=toolbar-button-heading-3]').click();
       });
-      cy.get('[data-cy=slate-editor] [data-slate-editor=true]')
-        .first().type('{selectAll}This is test content{selectAll}');
-      cy.get('[data-testid=toolbar-button-quote]').click();
-      cy.get('[data-testid=toolbar-button-quote][data-active=true]').should('exist');
-      cy.get('span')
-        .contains('This is test content').type('{end}{enter}{enter} test new line{selectAll}');
-      cy.get('blockquote').contains('test new line').should('not.exist');
-  
+    cy.get('[data-cy=slate-editor] [data-slate-editor=true]')
+      .first()
+      .type('{selectAll}This is test content{selectAll}');
+    cy.get('[data-testid=toolbar-button-quote]').click();
+    cy.get('[data-testid=toolbar-button-quote][data-active=true]').should('exist');
+    cy.get('span')
+      .contains('This is test content')
+      .type('{end}{enter}{enter} test new line{selectAll}');
+    cy.get('blockquote').contains('test new line').should('not.exist');
   });
 
   it('can create a valid link', () => {
@@ -77,10 +84,10 @@ describe('Selecting text and using the toolbar', () => {
         cy.get('a[href="http://www.vg.no"]')
           .should('have.prop', 'href')
           .and('equal', 'http://www.vg.no/');
-        cy.get('a[href="http://www.vg.no"][data-slate-node=element]')
-          .contains('This is a test link');
+        cy.get('a[href="http://www.vg.no"][data-slate-node=element]').contains(
+          'This is a test link',
+        );
       });
-
   });
 
   it('All lists work properly', () => {
@@ -119,7 +126,7 @@ describe('Selecting text and using the toolbar', () => {
         cy.get('[data-testid=toolbar-button-definition-list]').click();
         cy.get('[data-testid=toolbar-button-definition-list][data-active=true]').should('exist');
         cy.get('dl > dt').should('have.length', 1);
-        cy.wrap($el).type('{end}{enter}').tab().type(' Definition description');
+        cy.wrap($el).type('{enter}').tab().type(' Definition description');
         cy.get('dl > dd').should('have.length', 1);
       });
   });
@@ -143,15 +150,8 @@ describe('Selecting text and using the toolbar', () => {
   });
 
   it('Creates math', () => {
-    cy.get('[data-cy=slate-editor] [data-slate-editor=true]')
-      .first()
-      .click()
-      .type('1+1')
-      .blur();
-    cy.get('[data-cy=slate-editor] [data-slate-editor=true]')
-      .first()
-      .type('{selectAll}')
-      .blur();
+    cy.get('[data-cy=slate-editor] [data-slate-editor=true]').first().click().type('1+1').blur();
+    cy.get('[data-cy=slate-editor] [data-slate-editor=true]').first().type('{selectAll}').blur();
     cy.get('[data-testid=toolbar-button-mathml]').click({ force: true });
     cy.get('[data-cy=math]').should('exist');
   });

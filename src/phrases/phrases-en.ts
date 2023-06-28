@@ -494,6 +494,7 @@ const phrases = {
     description: 'Description',
     rss: 'Rss feed',
     adminError: "You don't have access to create or update podcast series.",
+    hasRSS: 'Activate RSS-feed for this series',
   },
   podcastForm: {
     title: 'Podcast episode',
@@ -696,8 +697,8 @@ const phrases = {
       description: 'Content',
       conceptContent: 'Description',
       grepCodes: 'Curriculum connection',
-      desktopBannerId: 'Desktop banner',
-      mobileBannerId: 'Mobile banner',
+      desktopBannerId: 'Wide subject page image',
+      mobileBannerId: 'Narrow subject page image',
       concepts: 'Concepts',
       relatedContent: 'Related content',
       subjects: 'Subject',

@@ -89,23 +89,21 @@ const SlateVisualElementPicker = ({
     onVisualElementClose();
   };
   return (
-    <>
-      <VisualElementModalWrapper
-        isOpen={isOpen}
-        label={label}
-        resource={resource}
-        onClose={onVisualElementClose}
-      >
-        <VisualElementSearch
-          articleLanguage={articleLanguage}
-          selectedResource={resource}
-          handleVisualElementChange={onVisualElementAdd}
-          closeModal={onVisualElementClose}
-          showCheckbox={showCheckbox}
-          checkboxAction={(image: IImageMetaInformationV3) => checkboxAction(image, formikContext)}
-        />
-      </VisualElementModalWrapper>
-    </>
+    <VisualElementModalWrapper
+      isOpen={isOpen}
+      label={label}
+      resource={resource}
+      onClose={onVisualElementClose}
+    >
+      <VisualElementSearch
+        articleLanguage={articleLanguage}
+        selectedResource={resource}
+        handleVisualElementChange={onVisualElementAdd}
+        closeModal={onVisualElementClose}
+        showCheckbox={showCheckbox}
+        checkboxAction={(image: IImageMetaInformationV3) => checkboxAction(image, formikContext)}
+      />
+    </VisualElementModalWrapper>
   );
 };
 

@@ -8,7 +8,6 @@
 
 import { useState } from 'react';
 import { Node } from '@ndla/types-taxonomy';
-import config from '../../../config';
 import { TAXONOMY_ADMIN_SCOPE } from '../../../constants';
 import { EditMode } from '../../../interfaces';
 import { SUBJECT_NODE, TOPIC_NODE } from '../../../modules/nodes/nodeApiTypes';
@@ -71,16 +70,8 @@ const SettingsMenuDropdownType = ({
         <ToggleVisibility node={node} editModeHandler={editModeHandler} rootNodeId={rootNodeId} />
         {isTaxonomyAdmin && <EditGrepCodes node={node} editModeHandler={editModeHandler} />}
         {isTaxonomyAdmin && <EditSubjectpageOption node={node} />}
-        {config.versioningEnabled === 'true' && (
-          <>
-            <RequestNodePublish
-              node={node}
-              editModeHandler={editModeHandler}
-              rootNodeId={rootNodeId}
-            />
-            <ToNodeDiff node={node} />
-          </>
-        )}
+        <RequestNodePublish node={node} editModeHandler={editModeHandler} rootNodeId={rootNodeId} />
+        <ToNodeDiff node={node} />
         {isTaxonomyAdmin && (
           <DeleteNode
             node={node}
@@ -109,16 +100,8 @@ const SettingsMenuDropdownType = ({
         )}
         <AddExistingToNode editModeHandler={editModeHandler} currentNode={node} />
         <ToggleVisibility node={node} editModeHandler={editModeHandler} rootNodeId={rootNodeId} />
-        {config.versioningEnabled === 'true' && (
-          <>
-            <RequestNodePublish
-              node={node}
-              editModeHandler={editModeHandler}
-              rootNodeId={rootNodeId}
-            />
-            <ToNodeDiff node={node} />
-          </>
-        )}
+        <RequestNodePublish node={node} editModeHandler={editModeHandler} rootNodeId={rootNodeId} />
+        <ToNodeDiff node={node} />
         {false && <CopyRevisionDate node={node} editModeHandler={editModeHandler} />}
         {isTaxonomyAdmin && (
           <DeleteNode

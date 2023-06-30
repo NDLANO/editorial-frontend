@@ -124,23 +124,18 @@ const App = ({ isClient }: Props) => {
                     path="/structure/*"
                     element={<PrivateRoute component={<StructurePage />} />}
                   />
-                  {config.versioningEnabled === 'true' && (
-                    <>
-                      <Route
-                        path="/taxonomyVersions/*"
-                        element={<PrivateRoute component={<TaxonomyVersionsPage />} />}
-                      />
-                      <Route
-                        path="/publishRequests/*"
-                        element={<PrivateRoute component={<PublishRequestsPage />} />}
-                      />
-                      <Route
-                        path="/nodeDiff/:nodeId"
-                        element={<PrivateRoute component={<NodeDiffPage />} />}
-                      />
-                    </>
-                  )}
-
+                  <Route
+                    path="/taxonomyVersions/*"
+                    element={<PrivateRoute component={<TaxonomyVersionsPage />} />}
+                  />
+                  <Route
+                    path="/publishRequests/*"
+                    element={<PrivateRoute component={<PublishRequestsPage />} />}
+                  />
+                  <Route
+                    path="/nodeDiff/:nodeId"
+                    element={<PrivateRoute component={<NodeDiffPage />} />}
+                  />
                   <Route path="/forbidden" element={<ForbiddenPage />} />
                   <Route path="*" element={<NotFoundPage />} />
                 </Routes>

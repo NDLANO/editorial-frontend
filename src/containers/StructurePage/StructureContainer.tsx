@@ -178,7 +178,7 @@ const StructureContainer = () => {
             />
           </AddResourceModal>
         )}
-        {config.versioningEnabled === 'true' && isTaxonomyAdmin && <StickyVersionSelector />}
+        {isTaxonomyAdmin && <StickyVersionSelector />}
         <Footer showLocaleSelector />
       </Wrapper>
     </ErrorBoundary>

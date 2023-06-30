@@ -28,7 +28,7 @@ import { Dictionary } from '../../../interfaces';
 import { groupResourcesByType } from '../../../util/taxonomyHelpers';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 import { useAuth0Responsibles } from '../../../modules/auth0/auth0Queries';
-import { DRAFT_WRITE_SCOPE } from '../../../constants';
+import { DRAFT_RESPONSIBLE } from '../../../constants';
 import PlannedResourceForm from '../plannedResource/PlannedResourceForm';
 import AddExistingResource from '../plannedResource/AddExistingResource';
 
@@ -74,7 +74,7 @@ const ResourcesContainer = ({
   const currentNodeId = currentNode.id;
 
   const { data: users } = useAuth0Responsibles(
-    { permission: DRAFT_WRITE_SCOPE },
+    { permission: DRAFT_RESPONSIBLE },
     { select: (users) => keyBy(users, (u) => u.app_metadata.ndla_id) },
   );
 

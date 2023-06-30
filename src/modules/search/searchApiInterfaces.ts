@@ -45,4 +45,6 @@ export interface MultiSearchApiQuery {
   'revision-date-from'?: string;
   'revision-date-to'?: string;
   prioritized?: boolean;
+  'draft-status'?: string;
+  'include-other-statuses'?: boolean;
 }

@@ -14,6 +14,7 @@ import { getResourceLanguages } from '../../../../util/resourceHelpers';
 import { getTagName } from '../../../../util/formHelper';
 import { SearchParams } from './SearchForm';
 import {
+  DRAFT_RESPONSIBLE,
   DRAFT_WRITE_SCOPE,
   FAVOURITES_SUBJECT_ID,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
@@ -49,7 +50,7 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
   );
 
   const { data: responsibles } = useAuth0Responsibles(
-    { permission: DRAFT_WRITE_SCOPE },
+    { permission: DRAFT_RESPONSIBLE },
     {
       select: (users) =>
         sortBy(

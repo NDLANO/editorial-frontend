@@ -18,6 +18,7 @@ const phrases = {
     agreementPage: `Agreement ${titleTemplate}`,
     welcomePage: `Frontpage ${titleTemplate}`,
     structurePage: `Structure ${titleTemplate}`,
+    programmePage: `Programmes ${titleTemplate}`,
     versionsPage: `Versions ${titleTemplate}`,
     audioUploaderPage: `Audio ${titleTemplate}`,
     imageUploaderPage: `Image ${titleTemplate}`,
@@ -1382,6 +1383,14 @@ const phrases = {
   },
   environment: { production: '', staging: 'Staging', test: 'Test' },
   taxonomy: {
+    nodeType: {
+      PROGRAMME: 'programme',
+      SUBJECT: 'subject',
+      TOPIC: 'topic',
+    },
+    addNode: 'Add {{nodeType}}',
+    newNode: 'New {{nodeType}}',
+    newNodeName: 'Name of new element',
     editStructure: 'Edit structure',
     editSubjectpage: 'Edit subjectpage',
     deleteSubject: 'Delete subject',

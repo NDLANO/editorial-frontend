@@ -49,6 +49,7 @@ const ForbiddenPage = loadable(() => import('../ForbiddenPage/ForbiddenPage'));
 const SubjectMatterPage = loadable(() => import('./SubjectMatterPage'));
 const MediaPage = loadable(() => import('./MediaPage'));
 const StructurePage = loadable(() => import('../StructurePage/StructurePage'));
+const ProgrammePage = loadable(() => import('../StructurePage/ProgrammePage'));
 const EditMarkupPage = loadable(() => import('../EditMarkupPage/EditMarkupPage'));
 const PreviewDraftPage = loadable(() => import('../PreviewDraftPage/PreviewDraftPage'));
 const NdlaFilm = loadable(() => import('../NdlaFilm/NdlaFilm'));
@@ -123,6 +124,10 @@ const App = ({ isClient }: Props) => {
                   <Route
                     path="/structure/*"
                     element={<PrivateRoute component={<StructurePage />} />}
+                  />
+                  <Route
+                    path="/programme/*"
+                    element={<PrivateRoute component={<ProgrammePage />} />}
                   />
                   <Route
                     path="/taxonomyVersions/*"

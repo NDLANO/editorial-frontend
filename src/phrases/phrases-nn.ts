@@ -18,6 +18,7 @@ const phrases = {
     agreementPage: `Avtale ${titleTemplate}`,
     welcomePage: `Forside ${titleTemplate}`,
     structurePage: `Struktur ${titleTemplate}`,
+    programmePage: `Programfag ${titleTemplate}`,
     versionsPage: `Versjonar ${titleTemplate}`,
     audioUploaderPage: `Lyd ${titleTemplate}`,
     imageUploaderPage: `Bilete ${titleTemplate}`,
@@ -1384,6 +1385,14 @@ const phrases = {
   },
   environment: { production: '', staging: 'staging', test: 'test' },
   taxonomy: {
+    nodeType: {
+      PROGRAMME: 'programfag',
+      SUBJECT: 'fag',
+      TOPIC: 'emne',
+    },
+    addNode: 'Legg til {{nodeType}}',
+    newNode: 'Nytt {{nodeType}}',
+    newNodeName: 'Navn på nytt element',
     editStructure: 'Rediger struktur',
     editSubjectpage: 'Rediger fagforside',
     deleteSubject: 'Slett fag',

@@ -271,6 +271,7 @@ const fetchNodeTree = async ({
 interface UseChildNodesWithArticleTypeParams extends WithTaxonomyVersion {
   id: string;
   language: string;
+  nodeType?: NodeType[];
 }
 
 export const childNodesWithArticleTypeQueryKey = (

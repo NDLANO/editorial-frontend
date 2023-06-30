@@ -11,7 +11,7 @@ import isEqual from 'lodash/isEqual';
 import partition from 'lodash/partition';
 import sortBy from 'lodash/sortBy';
 import { IUserData } from '@ndla/types-backend/draft-api';
-import { NodeChild, Node } from '@ndla/types-taxonomy';
+import { NodeChild, Node, NodeType } from '@ndla/types-taxonomy';
 import { DragEndEvent } from '@dnd-kit/core';
 import {
   childNodesWithArticleTypeQueryKey,
@@ -32,6 +32,7 @@ interface Props {
   resourceSectionRef: MutableRefObject<HTMLDivElement | null>;
   renderBeforeTitle?: RenderBeforeFunction;
   setShowAddTopicModal: (value: boolean) => void;
+  childNodeTypes: NodeType[];
 }
 
 const RootNode = ({
@@ -43,12 +44,13 @@ const RootNode = ({
   resourceSectionRef,
   renderBeforeTitle,
   setShowAddTopicModal,
+  childNodeTypes,
 }: Props) => {
   const { i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
   const locale = i18n.language;
   const childNodesQuery = useChildNodesWithArticleType(
-    { id: node.id, language: locale, taxonomyVersion },
+    { id: node.id, language: locale, nodeType: childNodeTypes, taxonomyVersion },
     {
       enabled: openedPaths[0] === node.id,
       select: (childNodes) => groupChildNodes(childNodes),

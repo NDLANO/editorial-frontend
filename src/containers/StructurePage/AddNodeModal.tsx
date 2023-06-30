@@ -8,6 +8,7 @@
 
 import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
+import { NodeType } from '@ndla/types-taxonomy';
 import { ChangeEvent, useState, SyntheticEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { spacing, colors } from '@ndla/core';
@@ -34,9 +35,10 @@ const FormWrapper = styled.form`
 
 interface Props {
   onClose: () => void;
+  nodeType: NodeType;
 }
 
-const AddSubjectModal = ({ onClose }: Props) => {
+const AddNodeModal = ({ onClose, nodeType }: Props) => {
   const { t } = useTranslation();
   const addNodeMutation = useAddNodeMutation();
   const { taxonomyVersion } = useTaxonomyVersion();
@@ -48,7 +50,7 @@ const AddSubjectModal = ({ onClose }: Props) => {
     await addNodeMutation.mutateAsync({
       body: {
         name,
-        nodeType: SUBJECT_NODE,
+        nodeType: nodeType,
         root: true,
       },
       taxonomyVersion,
@@ -74,18 +76,21 @@ const AddSubjectModal = ({ onClose }: Props) => {
   };
 
   return (
-    <TaxonomyLightbox title={t('taxonomy.addSubject')} onClose={onClose}>
+    <TaxonomyLightbox
+      title={t('taxonomy.addNode', { nodeType: t(`taxonomy.nodeType.${nodeType}`) })}
+      onClose={onClose}
+    >
       <>
         <FormWrapper>
           <StyledInputField
-            label={t('taxonomy.newSubject')}
-            name={t('taxonomy.newSubject')}
+            label={t('taxonomy.newNode', { nodeType: t(`taxonomy.nodeType.${nodeType}`) })}
+            name={t('taxonomy.newNode', { nodeType: t(`taxonomy.nodeType.${nodeType}`) })}
             labelHidden
             type="text"
             data-testid="addSubjectInputField"
             value={inputValue}
             onChange={handleInputChange}
-            placeholder={t('taxonomy.subjectName')}
+            placeholder={t('taxonomy.newNodeName')}
             error={error ? t('taxonomy.errorMessage') : undefined}
           />
           <ButtonV2 type="submit" onClick={handleClick} disabled={!inputValue}>
@@ -97,4 +102,4 @@ const AddSubjectModal = ({ onClose }: Props) => {
   );
 };
 
-export default AddSubjectModal;
+export default AddNodeModal;

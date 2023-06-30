@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { breakpoints } from '@ndla/core';
-import { NodeChild, Node } from '@ndla/types-taxonomy';
+import { NodeChild, Node, NodeType } from '@ndla/types-taxonomy';
 import ErrorBoundary from '../../components/ErrorBoundary';
 import { REMEMBER_FAVORITE_NODES, TAXONOMY_ADMIN_SCOPE } from '../../constants';
 import { useSession } from '../Session/SessionProvider';
@@ -24,7 +24,6 @@ import StructureResources from './resourceComponents/StructureResources';
 import Footer from '../App/components/Footer';
 import { useTaxonomyVersion } from '../StructureVersion/TaxonomyVersionProvider';
 import StickyVersionSelector from './StickyVersionSelector';
-import config from '../../config';
 import { createGuard } from '../../util/guards';
 import { GridContainer, Column } from '../../components/Layout/Layout';
 import StructureBanner from './StructureBanner';
@@ -49,9 +48,19 @@ const Wrapper = styled.div`
   flex: 1;
 `;
 
-const StructureContainer = () => {
+interface Props {
+  rootNodeType?: NodeType;
+  childNodeTypes?: NodeType[];
+  rootPath?: string;
+}
+
+const StructureContainer = ({
+  rootNodeType = 'SUBJECT',
+  childNodeTypes = ['TOPIC'],
+  rootPath = '/structure/',
+}: Props) => {
   const location = useLocation();
-  const paths = location.pathname.replace('/structure/', '').split('/');
+  const paths = location.pathname.replace(rootPath, '').split('/');
   const [subject, topic, ...rest] = paths;
   const joinedRest = rest.join('/');
   const subtopics = joinedRest.length > 0 ? joinedRest : undefined;
@@ -79,7 +88,7 @@ const StructureContainer = () => {
     }, {}) ?? {};
   const favoriteNodeIds = Object.keys(favoriteNodes);
   const nodesQuery = useNodes(
-    { language: i18n.language, nodeType: 'SUBJECT', taxonomyVersion },
+    { language: i18n.language, nodeType: rootNodeType, isContext: true, taxonomyVersion },
     {
       select: (nodes) => nodes.sort((a, b) => a.name?.localeCompare(b.name)),
       placeholderData: [],
@@ -104,11 +113,11 @@ const StructureContainer = () => {
 
   const handleStructureToggle = (path: string) => {
     const { search } = location;
-    const currentPath = location.pathname.replace('/structure/', '');
+    const currentPath = location.pathname.replace(rootPath, '');
     const levelAbove = removeLastItemFromUrl(currentPath);
     const newPath = currentPath === path ? levelAbove : path;
     const deleteSearch = !!params.subject && !newPath.includes(params.subject);
-    navigate(`/structure/${newPath.concat(deleteSearch ? '' : search)}`);
+    navigate(`${rootPath}${newPath.concat(deleteSearch ? '' : search)}`);
   };
 
   const getFavoriteNodes = (nodes: Node[] = [], favoriteNodeIds: string[] = []) => {
@@ -131,7 +140,11 @@ const StructureContainer = () => {
       <Wrapper>
         <GridContainer breakpoint={breakpoints.desktop}>
           <Column colEnd={7}>
-            <StructureBanner onChange={toggleShowFavorites} checked={showFavorites} />
+            <StructureBanner
+              onChange={toggleShowFavorites}
+              checked={showFavorites}
+              nodeType={rootNodeType}
+            />
             <StyledStructureContainer>
               {userDataQuery.isInitialLoading || nodesQuery.isInitialLoading ? (
                 <Spinner />
@@ -148,6 +161,7 @@ const StructureContainer = () => {
                       node={node}
                       toggleOpen={handleStructureToggle}
                       setShowAddTopicModal={setShowAddTopicModal}
+                      childNodeTypes={childNodeTypes}
                     />
                   ))}
                 </StructureWrapper>

@@ -163,6 +163,7 @@ export type ConfigType = {
   disableCSP: string | undefined;
   usernamePasswordEnabled: boolean;
   translateServiceUrl: string;
+  isVercel: boolean;
 };
 
 const config: ConfigType = {
@@ -204,6 +205,7 @@ const config: ConfigType = {
     usernamePasswordEnabled(),
   ),
   translateServiceUrl: getEnvironmentVariabel('NDKM_URL', getTranslateServiceUrl()),
+  isVercel: getEnvironmentVariabel('IS_VERCEL', 'false') === 'true',
 };
 
 export function getUniversalConfig(): ConfigType {

@@ -120,7 +120,7 @@ export const subjectpageApiTypeToFormikType = (
     language: selectedLanguage,
     description: plainTextToEditorValue(subjectpage?.about?.description ?? ''),
     title: plainTextToEditorValue(subjectpage?.about?.title ?? ''),
-    mobileBannerId: subjectpage?.banner.mobileId,
+    mobileBannerId: subjectpage?.banner.mobileId || subjectpage?.banner.desktopId,
     desktopBannerId: subjectpage?.banner.desktopId,
     visualElement: embed ?? [],
     editorsChoices: editorsChoices ?? [],

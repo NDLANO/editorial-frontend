@@ -37,7 +37,7 @@ import GoToSearch from './GoToSearch';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 import { useSearchNodes } from '../../../modules/nodes/nodeQueries';
 import { SUBJECT_NODE } from '../../../modules/nodes/nodeApiTypes';
-import { FAVOURITES_SUBJECT_ID } from '../../../constants';
+import { FAVOURITES_SUBJECT_ID, PUBLISHED } from '../../../constants';
 
 const RevisionsWrapper = styled.div`
   ${mq.range({ from: breakpoints.tabletWide })} {
@@ -90,6 +90,8 @@ const Revisions = ({ userData }: Props) => {
       'page-size': 6,
       language,
       fallback: true,
+      'draft-status': PUBLISHED,
+      'include-other-statuses': true,
     },
     {
       enabled: !!userData?.favoriteSubjects?.length,

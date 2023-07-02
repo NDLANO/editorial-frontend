@@ -1,7 +1,8 @@
 {
   "compilerOptions": {
     "baseUrl": "src",
-    "target": "es5",
+    "target": "es6",
+    "module": "commonjs",
     "esModuleInterop": true,
     "outDir": "build",
     "jsx": "react-jsx",

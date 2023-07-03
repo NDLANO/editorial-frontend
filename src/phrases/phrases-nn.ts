@@ -1405,6 +1405,8 @@ const phrases = {
     resources: 'Ressurser',
     existingTopic: 'Eksisterande emne',
     newTopic: 'Nytt emne',
+    nodeSettings: 'Innstillinger',
+    programmeSettings: 'Programfaginnstillinger',
     subjectSettings: 'Faginnstillinger',
     topicSettings: 'Emneinnstillinger',
     currentVersion: 'Noverande versjon',

@@ -183,6 +183,7 @@ const fetchChildNodesWithArticleType = async ({
   if (childNodes.length === 0) return [];
 
   const childIds = childNodes
+    .filter((n) => n.contentUri?.includes('urn:article'))
     .map((n) => Number(n.contentUri?.split(':').pop()))
     .filter((id) => !!id);
 

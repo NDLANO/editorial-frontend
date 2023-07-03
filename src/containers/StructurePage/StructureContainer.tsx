@@ -52,12 +52,14 @@ interface Props {
   rootNodeType?: NodeType;
   childNodeTypes?: NodeType[];
   rootPath?: string;
+  showResourceColumn?: boolean;
 }
 
 const StructureContainer = ({
   rootNodeType = 'SUBJECT',
   childNodeTypes = ['TOPIC'],
   rootPath = '/structure/',
+  showResourceColumn = true,
 }: Props) => {
   const location = useLocation();
   const paths = location.pathname.replace(rootPath, '').split('/');
@@ -168,16 +170,18 @@ const StructureContainer = ({
               )}
             </StyledStructureContainer>
           </Column>
-          <Column colStart={7}>
-            {currentNode && isChildNode(currentNode) && (
-              <StructureResources
-                currentChildNode={currentNode}
-                setCurrentNode={setCurrentNode}
-                resourceRef={resourceSection}
-                userData={userDataQuery.data}
-              />
-            )}
-          </Column>
+          {showResourceColumn && (
+            <Column colStart={7}>
+              {currentNode && isChildNode(currentNode) && (
+                <StructureResources
+                  currentChildNode={currentNode}
+                  setCurrentNode={setCurrentNode}
+                  resourceRef={resourceSection}
+                  userData={userDataQuery.data}
+                />
+              )}
+            </Column>
+          )}
         </GridContainer>
         {showAddTopicModal && (
           <AddResourceModal

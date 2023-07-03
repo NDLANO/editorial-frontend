@@ -20,6 +20,7 @@ const ProgrammePage = () => {
         rootNodeType="PROGRAMME"
         childNodeTypes={['PROGRAMME', 'SUBJECT']}
         rootPath="/programme/"
+        showResourceColumn={false}
       />
     </TaxonomyVersionProvider>
   );

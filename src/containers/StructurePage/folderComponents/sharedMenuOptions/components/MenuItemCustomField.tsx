@@ -13,7 +13,7 @@ import { spacing, colors } from '@ndla/core';
 import { Plus } from '@ndla/icons/action';
 import styled from '@emotion/styled';
 import { Node, Metadata } from '@ndla/types-taxonomy';
-import { SUBJECT_NODE } from '../../../../../modules/nodes/nodeApiTypes';
+import { SUBJECT_NODE, TOPIC_NODE } from '../../../../../modules/nodes/nodeApiTypes';
 import {
   getNodeTypeFromNodeId,
   getRootIdForNode,
@@ -126,7 +126,8 @@ const MenuItemCustomField = ({ node, onCurrentNodeChanged }: Props) => {
 
   return (
     <>
-      {nodeType === SUBJECT_NODE ? subjectSettings : topicSettings}
+      {nodeType === SUBJECT_NODE && subjectSettings}
+      {nodeType === TOPIC_NODE && topicSettings}
       {filterHardcodedMetadataValues()
         .sort((a, b) => a[0].localeCompare(b[0]))
         .map(([key, value]) => (

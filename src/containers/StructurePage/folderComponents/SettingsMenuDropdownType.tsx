@@ -10,7 +10,7 @@ import { useState } from 'react';
 import { Node } from '@ndla/types-taxonomy';
 import { TAXONOMY_ADMIN_SCOPE } from '../../../constants';
 import { EditMode } from '../../../interfaces';
-import { SUBJECT_NODE, TOPIC_NODE } from '../../../modules/nodes/nodeApiTypes';
+import { PROGRAMME, SUBJECT_NODE, TOPIC_NODE } from '../../../modules/nodes/nodeApiTypes';
 import { getNodeTypeFromNodeId } from '../../../modules/nodes/nodeUtil';
 import { useSession } from '../../Session/SessionProvider';
 import DeleteNode from './sharedMenuOptions/DeleteNode';
@@ -54,7 +54,32 @@ const SettingsMenuDropdownType = ({
 
   const isTaxonomyAdmin = userPermissions?.includes(TAXONOMY_ADMIN_SCOPE);
 
-  if (nodeType === SUBJECT_NODE) {
+  if (nodeType === PROGRAMME) {
+    return (
+      <>
+        {isTaxonomyAdmin && <ChangeNodeName editModeHandler={editModeHandler} node={node} />}
+        {isTaxonomyAdmin && (
+          <EditCustomFields
+            toggleEditMode={toggleEditMode}
+            editMode={editMode}
+            node={node}
+            onCurrentNodeChanged={onCurrentNodeChanged}
+          />
+        )}
+        {isTaxonomyAdmin && <EditSubjectpageOption node={node} />}
+        <ToNodeDiff node={node} />
+        {isTaxonomyAdmin && (
+          <DeleteNode
+            node={node}
+            nodeChildren={nodeChildren}
+            editModeHandler={editModeHandler}
+            rootNodeId={rootNodeId}
+            onCurrentNodeChanged={onCurrentNodeChanged}
+          />
+        )}
+      </>
+    );
+  } else if (nodeType === SUBJECT_NODE) {
     return (
       <>
         {isTaxonomyAdmin && <ChangeNodeName editModeHandler={editModeHandler} node={node} />}

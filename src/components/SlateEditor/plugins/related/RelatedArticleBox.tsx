@@ -6,7 +6,8 @@
  *
  */
 
-import { useEffect, useRef, useState, MouseEvent, ReactNode } from 'react';
+import { useEffect, useRef, useState, MouseEvent, ReactNode, useCallback } from 'react';
+import { Root, Anchor, Portal } from '@radix-ui/react-popover';
 import { Editor, Transforms } from 'slate';
 import { ReactEditor, RenderElementProps } from 'slate-react';
 import { useTranslation } from 'react-i18next';
@@ -23,6 +24,7 @@ import EditRelated from './EditRelated';
 import { RelatedElement } from '.';
 import { useTaxonomyVersion } from '../../../../containers/StructureVersion/TaxonomyVersionProvider';
 import { fetchNodes } from '../../../../modules/nodes/nodeApi';
+import Overlay from '../../../Overlay';
 
 interface Props {
   attributes: RenderElementProps['attributes'];
@@ -120,7 +122,7 @@ const RelatedArticleBox = ({ attributes, editor, element, onRemoveClick, childre
       embedsToMeta(element.data, i18n.language, taxonomyVersion).then(setEmbeds);
       firstRender.current = false;
     } else {
-      setEditMode(true);
+      setTimeout(() => setEditMode(true), 0);
     }
   }, [element.data, i18n.language, taxonomyVersion]);
 
@@ -170,19 +172,26 @@ const RelatedArticleBox = ({ attributes, editor, element, onRemoveClick, childre
     setNodeData(newEmbeds.map((embed) => embed.embedData));
   };
 
+  const onOpenChange = useCallback(() => {
+    setEditMode(false);
+  }, []);
+
   return (
     <div contentEditable={false} {...attributes}>
-      {editMode && (
-        <EditRelated
-          data-testid="editRelated"
-          onRemoveClick={onRemoveClick}
-          embeds={embeds}
-          insertExternal={insertExternal}
-          onInsertBlock={insertInternal}
-          onExit={() => setEditMode(false)}
-          updateArticles={updateArticles}
-        />
-      )}
+      {editMode && <Overlay />}
+      <Root open={editMode} onOpenChange={onOpenChange}>
+        <Anchor />
+        <Portal>
+          <EditRelated
+            data-testid="editRelated"
+            onRemoveClick={onRemoveClick}
+            embeds={embeds}
+            insertExternal={insertExternal}
+            onInsertBlock={insertInternal}
+            updateArticles={updateArticles}
+          />
+        </Portal>
+      </Root>
       <RelatedArticleListV2
         data-testid="relatedWrapper"
         headingButtons={

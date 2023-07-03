@@ -36,7 +36,7 @@ interface FormValues {
 
 export const podcastEmbedFormRules: RulesType<FormValues> = {
   alttext: {
-    required: true,
+    required: false,
   },
 };
 
@@ -109,16 +109,6 @@ const SlatePodcastForm = ({ setHasError, isValid, dirty, close }: SlatePodcastFo
 
   return (
     <Form>
-      <StyledFormikField name="alttext">
-        {({ field }) => (
-          <Input
-            white
-            {...field}
-            label={t('form.name.alttext')}
-            placeholder={t('form.name.alttext')}
-          />
-        )}
-      </StyledFormikField>
       <ButtonWrapper>
         <ButtonV2 onClick={close}>{t('form.abort')}</ButtonV2>
         <ButtonV2 disabled={!isValid || !dirty} type="submit">

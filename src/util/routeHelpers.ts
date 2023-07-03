@@ -47,6 +47,11 @@ export function toEditConcept(conceptId: number, locale?: string) {
   return locale ? `${path}/${locale}` : path;
 }
 
+export function toEditGlossary(glossaryId: number, locale?: string) {
+  const path = `/glossary/${glossaryId}/edit`;
+  return locale ? `${path}/${locale}` : path;
+}
+
 export function toEditMarkup(id: number | string, language: string) {
   return `/edit-markup/${id}/${language}`;
 }

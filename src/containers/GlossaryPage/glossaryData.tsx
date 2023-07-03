@@ -1,4 +1,12 @@
-export const WordClasses = {
+/**
+ * Copyright (c) 2023-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+export const WORD_CLASSES = {
   ADJECTIVE: 'adjective',
   ADVERB: 'adverb',
   CONJUNCTION: 'conjunction',
@@ -35,3 +43,7 @@ export const WordClasses = {
   VERB_COMPLEMENT: 'verb-complement',
   VERB_OBJECT: 'verb-object',
 };
+
+export const LANGUAGES = ['ar', 'de', 'en', 'es', 'nb', 'nn', 'se', 'sma', 'so', 'ti', 'zh'];
+
+export const TRANSCRIPTION_OPTIONS = ['traditional', 'pinyin'];

@@ -1,5 +1,5 @@
-/*
- * Copyright (c) 2019-present, NDLA.
+/**
+ * Copyright (c) 2023-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { INewConcept } from '@ndla/types-backend/concept-api';
 import { useFetchConceptData } from '../FormikForm/formikConceptHooks';
-import { toEditConcept } from '../../util/routeHelpers';
+import { toEditGlossary } from '../../util/routeHelpers';
 import GlossaryForm from './GlossaryForm/GlossaryForm';
 
 interface Props {
@@ -32,7 +32,7 @@ const CreateGlossary = ({ inModal = false, addGlossaryInModal }: Props) => {
     if (inModal && addGlossaryInModal) {
       addGlossaryInModal(savedConcept);
     } else {
-      navigate(toEditConcept(savedConcept.id, createdConcept.language));
+      navigate(toEditGlossary(savedConcept.id, createdConcept.language));
     }
     return savedConcept;
   };

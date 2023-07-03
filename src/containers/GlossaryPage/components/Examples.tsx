@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-present, NDLA.
+ * Copyright (c) 2023-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
@@ -8,116 +8,84 @@
 
 import { IGlossExample } from '@ndla/types-backend/build/concept-api';
 import { FieldRemoveButton } from '@ndla/forms';
-import { FormEvent, MouseEvent, useState } from 'react';
 import { ButtonV2 } from '@ndla/button';
 import { useTranslation } from 'react-i18next';
+import { AccordionContent, AccordionHeader, AccordionItem, AccordionRoot } from '@ndla/accordion';
+import { FieldArray } from 'formik';
+import LanguageVariant from './LanguageVariant';
 
-import Example from './Example';
 interface Props {
   label: string;
   onChange: (event: { target: { value: IGlossExample[][]; name: string } }) => void;
   errorMessages?: string[];
   showError?: boolean;
-  placeholder?: string;
   disabled?: boolean;
   values: IGlossExample[][];
+  name: string;
 }
 
-type ExampleListProps = {
-  examples: IGlossExample[];
-  /*handleExampleChange: (
-    event: FormEvent<HTMLSelectElement> | FormEvent<HTMLInputElement> | any,
-    fieldname: string,
-    index: number,
-  ) => void;
-  removeExample: (event: MouseEvent<HTMLButtonElement>, index: number) => void;
-  */
-  index: number;
-};
-
-// An example can be given in multiple languages
-const ExampleList = ({ examples, index }: ExampleListProps) => {
-  const [example, changeExample] = useState<IGlossExample[]>([]);
-
-  const addExample = (index: number) => {
-    const newExample = [...example];
-    newExample.push({ example: '', language: '', transcriptions: {} });
-    //onExamplesChange(newExamples, index);
-  };
-
-  const removeExample = (e: MouseEvent<HTMLButtonElement>, index: number) => {
-    e.preventDefault();
-    const newExample = example;
-    newExample.splice(index);
-    // onExamplesChange(newExamples, index);
-  };
-
-  const handleExampleChange = (
-    evt: FormEvent<HTMLInputElement> | FormEvent<HTMLSelectElement> | any,
-    fieldName: string,
-    index: number,
-  ) => {};
-
-  return (
-    <div key={index}>
-      Example #{index + 1}
-      {examples.map((example, index) => {
-        return (
-          <>
-            <Example
-              example={example}
-              key={`example_${index}`}
-              index={index}
-              handleExampleChange={handleExampleChange}
-              removeExample={removeExample}
-            />
-            <FieldRemoveButton onClick={(evt) => removeExample(evt, index)}>
-              {'Remove this transcription'}
-            </FieldRemoveButton>
-          </>
-        );
-      })}
-    </div>
-  );
-};
-
-const Examples = ({ label, onChange, values: examples, ...rest }: Props) => {
+const Examples = ({ onChange, values: exampleLists, name }: Props) => {
   const { t } = useTranslation();
 
   const addExampleList = () => {
-    const newExamples = [...examples];
-    newExamples.push([{ example: '', language: '', transcriptions: {} }]);
-    onExamplesChange(newExamples);
+    const newExampleLists = [...exampleLists];
+    newExampleLists.push([{ example: '', language: '', transcriptions: {} }]);
+    onExamplesChange(newExampleLists);
   };
 
-  const removeExampleList = (e: MouseEvent<HTMLButtonElement>, index: number) => {
-    e.preventDefault();
-    const newExamples = examples;
-    newExamples.splice(index);
-    onExamplesChange(newExamples);
+  const removeExampleList = (index: number) => {
+    const newExampleLists = exampleLists;
+    newExampleLists.splice(index, 1);
+    onExamplesChange(newExampleLists);
+  };
+
+  const handleExampleListChange = (
+    example_list_index: number,
+    newLanguageVariants: IGlossExample[],
+  ) => {
+    const newExampleLists = exampleLists;
+    newExampleLists[example_list_index] = newLanguageVariants;
+    onExamplesChange(newExampleLists);
   };
 
   const onExamplesChange = (newExamples: IGlossExample[][]) => {
     onChange({
       target: {
         value: newExamples,
-        name: 'glossData.examples',
+        name,
       },
     });
   };
 
-  const handleExampleChange = () => {};
-
   return (
     <>
-      {examples.map((e, i) => (
-        <>
-          <ExampleList examples={e} index={i} key={i} />
-          <FieldRemoveButton onClick={(evt) => removeExampleList(evt, i)}>
-            {'Remove this example'}
-          </FieldRemoveButton>
-        </>
-      ))}
+      <FieldArray
+        name="glossData.examples"
+        render={(arrayHelpers: any) => (
+          <>
+            {exampleLists.map((examples, index) => (
+              <div key={`example_list_${index}`}>
+                <AccordionRoot collapsible type="single">
+                  <AccordionItem value="1">
+                    <AccordionHeader>{`Example ${index + 1}`} </AccordionHeader>
+                    <AccordionContent>
+                      <LanguageVariant
+                        examples={examples}
+                        index={index}
+                        arrayHelpers={arrayHelpers}
+                        handleExampleListChange={handleExampleListChange}
+                      />
+                    </AccordionContent>
+                  </AccordionItem>
+                </AccordionRoot>
+                <FieldRemoveButton onClick={() => removeExampleList(index)}>
+                  Fjern eksempel
+                </FieldRemoveButton>
+              </div>
+            ))}
+          </>
+        )}
+      />
       <ButtonV2 variant="outline" onClick={addExampleList} data-cy="addExample">
         {t('form.concept.glossData.add', {
           type: t(`form.concept.glossData.examples`),

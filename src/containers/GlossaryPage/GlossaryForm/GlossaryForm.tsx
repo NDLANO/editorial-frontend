@@ -1,5 +1,5 @@
-/*
- * Copyright (c) 2019-present, NDLA.
+/**
+ * Copyright (c) 2023-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
@@ -17,7 +17,7 @@ import {
 import { IArticle } from '@ndla/types-backend/draft-api';
 import { Formik, FormikProps, FormikHelpers } from 'formik';
 import { useTranslation } from 'react-i18next';
-import { toEditConcept } from '../../../util/routeHelpers';
+import { toEditGlossary } from '../../../util/routeHelpers';
 import { ARCHIVED, PUBLISHED, UNPUBLISHED } from '../../../constants';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
 import validateFormik, { getWarnings, RulesType } from '../../../components/formikValidationSchema';
@@ -42,7 +42,7 @@ import FormWrapper from '../../../components/FormWrapper';
 import { useSession } from '../../Session/SessionProvider';
 import FormAccordion from '../../../components/Accordion/FormAccordion';
 import FormAccordions from '../../../components/Accordion/FormAccordions';
-import GlossData from '../components/GlossData';
+import GlossDataSection from '../components/GlossDataSection';
 
 const STATUSES_RESPONSIBLE_NOT_REQUIRED = [PUBLISHED, ARCHIVED, UNPUBLISHED];
 
@@ -156,8 +156,7 @@ const GlossaryForm = ({
     const initialStatus = status?.current;
     const newStatus = values.status?.current;
     const statusChange = initialStatus !== newStatus;
-
-    /*try {
+    try {
       let savedConcept: IConcept;
       if ('onCreate' in upsertProps) {
         savedConcept = await upsertProps.onCreate(getNewConceptType(values, licenses, 'gloss'));
@@ -179,7 +178,6 @@ const GlossaryForm = ({
       formikHelpers.setSubmitting(false);
       setSavedToServer(false);
     }
-    */
   };
 
   const initialValues = conceptApiTypeToFormType(
@@ -203,7 +201,7 @@ const GlossaryForm = ({
       onSubmit={handleSubmit}
       enableReinitialize
       validateOnMount
-      //validate={(values) => validateFormik(values, conceptFormRules, t)}
+      validate={(values) => validateFormik(values, conceptFormRules, t)}
       initialStatus={{ warnings: initialWarnings }}
     >
       {(formikProps) => {
@@ -213,7 +211,7 @@ const GlossaryForm = ({
         const getEntity = requirements
           ? () => conceptFormTypeToApiType(values, licenses, 'glossary', concept?.updatedBy)
           : undefined;
-        const editUrl = values.id ? (lang: string) => toEditConcept(values.id!, lang) : undefined;
+        const editUrl = values.id ? (lang: string) => toEditGlossary(values.id!, lang) : undefined;
         return (
           <FormWrapper inModal={inModal}>
             <HeaderWithLanguage
@@ -233,7 +231,7 @@ const GlossaryForm = ({
                 <ConceptContent />
               </FormAccordion>
               <FormAccordion id="glossData" title={t('form.glossDataSection')} hasError={false}>
-                <GlossData />
+                <GlossDataSection />
               </FormAccordion>
               <FormAccordion
                 id="copyright"

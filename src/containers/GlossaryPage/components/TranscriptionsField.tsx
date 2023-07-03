@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-present, NDLA.
+ * Copyright (c) 2023-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
@@ -9,7 +9,8 @@
 import { FormEvent, MouseEvent } from 'react';
 import { ButtonV2 } from '@ndla/button';
 import { useTranslation } from 'react-i18next';
-import Transcription, { TranscriptionType } from './Transcription';
+import { FieldRemoveButton } from '@ndla/forms';
+import Transcription from './Transcription';
 
 interface Props {
   name: string;
@@ -21,7 +22,7 @@ interface Props {
   values: { [key: string]: string };
 }
 
-const TranscriptionsField = ({ name, onChange, values: transcriptions, ...rest }: Props) => {
+const TranscriptionsField = ({ name, onChange, values: transcriptions }: Props) => {
   const { t } = useTranslation();
 
   const transcriptionsArray = Object.entries(transcriptions).map(([key, value]) => ({
@@ -34,6 +35,7 @@ const TranscriptionsField = ({ name, onChange, values: transcriptions, ...rest }
       acc[key] = value;
       return acc;
     }, {});
+
     onChange({
       target: {
         value: transcriptionsObject,
@@ -49,7 +51,6 @@ const TranscriptionsField = ({ name, onChange, values: transcriptions, ...rest }
   };
 
   const removeTranscription = (e: MouseEvent<HTMLButtonElement>, index: number) => {
-    e.preventDefault();
     const newTranscriptions = [...transcriptionsArray];
     newTranscriptions.splice(index, 1);
     onTranscriptionChange(newTranscriptions);
@@ -61,6 +62,7 @@ const TranscriptionsField = ({ name, onChange, values: transcriptions, ...rest }
     index: number,
   ) => {
     const newTranscriptions = [...transcriptionsArray];
+
     newTranscriptions[index] = {
       ...newTranscriptions[index],
       [fieldName]: evt.currentTarget.value,
@@ -71,15 +73,20 @@ const TranscriptionsField = ({ name, onChange, values: transcriptions, ...rest }
   return (
     <>
       {transcriptionsArray.map((transcription, index) => (
-        <Transcription
-          key={`transcription_${index}`} // eslint-disable-line react/no-array-index-key
-          index={index}
-          transcription={transcription}
-          value={transcription}
-          handleTranscriptionChange={handleTranscriptionChange}
-          removeTranscription={removeTranscription}
-          {...rest}
-        />
+        <div key={index}>
+          {transcriptionsArray.length > 0 && (
+            <FieldRemoveButton onClick={(evt) => removeTranscription(evt, index)} />
+          )}
+
+          <Transcription
+            key={`transcription_${index}`} // eslint-disable-line react/no-array-index-key
+            index={index}
+            transcription={transcription}
+            value={transcription}
+            handleTranscriptionChange={handleTranscriptionChange}
+            removeTranscription={removeTranscription}
+          />
+        </div>
       ))}
       <ButtonV2 variant="outline" onClick={addTranscription} data-cy="addTranscription">
         {t('form.concept.glossData.add', {

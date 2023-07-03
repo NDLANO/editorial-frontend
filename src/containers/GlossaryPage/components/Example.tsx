@@ -1,64 +1,65 @@
 /**
- * Copyright (c) 2016-present, NDLA.
+ * Copyright (c) 2023-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
  *
  */
 
-import { FormEvent, MouseEvent } from 'react';
-import { FieldSection, Input, FieldRemoveButton } from '@ndla/forms';
+import { FieldHeader, FieldSection, FieldSplitter, Input, Select } from '@ndla/forms';
 import { IGlossExample } from '@ndla/types-backend/build/concept-api';
 import TranscriptionsField from './TranscriptionsField';
+import { LANGUAGES } from '../glossaryData';
 
 interface Props {
-  placeholder?: string;
-  labelRemove?: string;
   example: IGlossExample;
   index: number;
-  handleExampleChange: (
-    event: FormEvent<HTMLSelectElement> | FormEvent<HTMLInputElement> | any,
-    fieldname: string,
-    index: number,
-  ) => void;
-  removeExample: (event: MouseEvent<HTMLButtonElement>, index: number) => void;
+  onChange: (event: { target: { value: IGlossExample; name: string } }) => void;
+  name: string;
 }
 
-const Example = ({
-  labelRemove,
-  placeholder,
-  example,
-  index,
-  handleExampleChange,
-  removeExample,
-}: Props) => {
+const Example = ({ example, index, onChange, name }: Props) => {
+  const handleExampleChange = (evt: any, fieldName: string) => {
+    const target = evt.target ?? evt.currentTarget;
+
+    if (target) {
+      const newExample = { ...example, [fieldName]: target.value };
+      onChange({
+        target: {
+          value: newExample,
+          name,
+        },
+      });
+    }
+  };
+
   return (
     <>
       <FieldSection>
-        <>
+        <FieldSplitter>
+          <Select value={example.language} onChange={(e) => handleExampleChange(e, 'language')}>
+            <option value="" />
+            {LANGUAGES.map((l, language_index) => (
+              <option value={l} key={language_index}>
+                {l}
+              </option>
+            ))}
+          </Select>
+
           <Input
             type="text"
-            placeholder={placeholder}
+            placeholder={'Example'}
             value={example.example}
-            onChange={(e) => handleExampleChange(example, 'example', index)}
+            onChange={(e) => handleExampleChange(e, 'example')}
           />
-          <Input
-            type="text"
-            placeholder={placeholder}
-            value={example.language}
-            onChange={(e) => handleExampleChange(example, 'language', index)}
-          />
-        </>
-        <>
-          <FieldRemoveButton onClick={(evt) => removeExample(evt, index)}>
-            {'Remove this transcription'}
-          </FieldRemoveButton>
-        </>
+        </FieldSplitter>
       </FieldSection>
+      <FieldHeader title={'Transcriptions'} />
+
       <TranscriptionsField
         name={'transcriptions'}
         values={example.transcriptions}
-        onChange={(e) => handleExampleChange(e, 'transcriptions', index)}
+        onChange={(e) => handleExampleChange(e, 'transcriptions')}
       />
     </>
   );

@@ -6,13 +6,7 @@
  *
  */
 
-import {
-  IConcept,
-  IGlossData,
-  ILicense,
-  INewConcept,
-  IUpdatedConcept,
-} from '@ndla/types-backend/concept-api';
+import { IConcept, ILicense, INewConcept, IUpdatedConcept } from '@ndla/types-backend/concept-api';
 import { IArticle } from '@ndla/types-backend/draft-api';
 import {
   plainTextToEditorValue,
@@ -38,27 +32,20 @@ export const conceptApiTypeToFormType = (
   const license = concept?.copyright?.license?.license;
   const conceptLicense = license === 'unknown' ? undefined : license;
 
-  const example1 = [
+  const emptyExample = [
     {
-      example: 'Det var avbrudd i eksamen',
-      language: 'no',
-      transcriptions: { nb: 'Det var avbrudd i eksamen', nn: 'Det var avbrott i eksamen' },
+      example: '',
+      language: '',
+      transcriptions: {},
     },
   ];
 
-  const example2 = [
-    {
-      example: 'Drive på uten avbrudd',
-      language: 'no',
-      transcriptions: { nb: 'Drive på uten avbrudd', nn: 'Drive på uten avbrot' },
-    },
-  ];
-  const testGlossData = concept?.glossData ?? {
-    gloss: 'Avbrudd',
-    wordClass: 'n',
-    originalLanguage: 'no',
-    transcriptions: { nb: 'Avbrudd', nn: 'Avrbod' },
-    examples: [example1, example2],
+  const emptyGlossData = {
+    gloss: '',
+    wordClass: '',
+    originalLanguage: '',
+    transcriptions: {},
+    examples: [emptyExample],
   };
 
   // Make sure to omit the content field from concept. It will crash Slate.
@@ -86,7 +73,8 @@ export const conceptApiTypeToFormType = (
     visualElement: embedTagToEditorValue(concept?.visualElement?.visualElement ?? ''),
     origin: concept?.copyright?.origin,
     responsibleId: concept === undefined ? ndlaId : concept?.responsible?.responsibleId,
-    glossData: concept?.glossData || testGlossData,
+    glossData: concept?.glossData ?? emptyGlossData,
+    conceptType: concept?.conceptType || 'concept',
   };
 };
 
@@ -97,26 +85,33 @@ export const getNewConceptType = (
   values: ConceptFormValues,
   licenses: ILicense[],
   conceptType: string,
-): INewConcept => ({
-  language: values.language,
-  title: editorValueToPlainText(values.title),
-  content: editorValueToPlainText(values.conceptContent),
-  copyright: {
-    license: licenses.find((license) => license.license === values.license),
-    origin: values.origin,
-    creators: values.creators ?? [],
-    processors: values.processors ?? [],
-    rightsholders: values.rightsholders ?? [],
-  },
-  source: values.source,
-  tags: values.tags,
-  metaImage: metaImageFromForm(values),
-  subjectIds: values.subjects.map((subject) => subject.id),
-  articleIds: values.articles.map((a) => a.id),
-  visualElement: editorValueToEmbedTag(values.visualElement),
-  responsibleId: values.responsibleId,
-  conceptType: 'concept',
-});
+): INewConcept => {
+  const baseConcept: INewConcept = {
+    language: values.language,
+    title: editorValueToPlainText(values.title),
+    content: editorValueToPlainText(values.conceptContent),
+    copyright: {
+      license: licenses.find((license) => license.license === values.license),
+      origin: values.origin,
+      creators: values.creators ?? [],
+      processors: values.processors ?? [],
+      rightsholders: values.rightsholders ?? [],
+    },
+    source: values.source,
+    tags: values.tags,
+    metaImage: metaImageFromForm(values),
+    subjectIds: values.subjects.map((subject) => subject.id),
+    articleIds: values.articles.map((a) => a.id),
+    visualElement: editorValueToEmbedTag(values.visualElement),
+    responsibleId: values.responsibleId,
+    conceptType: conceptType,
+  };
+  if (conceptType === 'gloss') {
+    baseConcept.glossData = values.glossData;
+  }
+
+  return baseConcept;
+};
 
 export const getUpdatedConceptType = (
   values: ConceptFormValues,
@@ -164,6 +159,6 @@ export const conceptFormTypeToApiType = (
       license: licenses.find((license) => license.license === values.license),
     },
     supportedLanguages: values.supportedLanguages,
-    conceptType: 'concept',
+    conceptType,
   };
 };

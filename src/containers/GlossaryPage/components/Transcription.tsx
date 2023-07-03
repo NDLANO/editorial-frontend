@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-present, NDLA.
+ * Copyright (c) 2023-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
@@ -7,7 +7,8 @@
  */
 
 import { FormEvent, MouseEvent } from 'react';
-import { FieldSection, Input, FieldRemoveButton, FieldSplitter } from '@ndla/forms';
+import { Input, FieldSplitter, Select } from '@ndla/forms';
+import { TRANSCRIPTION_OPTIONS } from '../glossaryData';
 
 export interface TranscriptionType {
   key: string;
@@ -15,8 +16,6 @@ export interface TranscriptionType {
 }
 
 interface Props {
-  placeholder?: string;
-  labelRemove?: string;
   transcription: { key: string; value: string };
   index: number;
   handleTranscriptionChange: (
@@ -28,37 +27,29 @@ interface Props {
   value: TranscriptionType;
 }
 
-const Transcription = ({
-  labelRemove,
-  placeholder,
-  transcription,
-  index,
-  handleTranscriptionChange,
-  removeTranscription,
-  value,
-}: Props) => (
-  <FieldSection>
+const Transcription = ({ transcription, index, handleTranscriptionChange, value }: Props) => (
+  <>
     <FieldSplitter>
-      <Input
-        type="text"
-        // eslint-disable-next-line jsx-a11y/no-autofocus
-        placeholder={placeholder}
-        value={transcription.key}
+      <Select
         onChange={(e) => handleTranscriptionChange(e, 'key', index)}
-      />
+        value={transcription.key}
+      >
+        <option value="" />
+        {TRANSCRIPTION_OPTIONS.map((t, index) => (
+          <option value={t} key={index}>
+            {t}
+          </option>
+        ))}
+      </Select>
       <Input
         type="text"
+        placeholder={'Transcription'}
         value={transcription.value}
         onChange={(e) => handleTranscriptionChange(e, 'value', index)}
         data-cy="transcription-selector"
       />
     </FieldSplitter>
-    <>
-      <FieldRemoveButton onClick={(evt) => removeTranscription(evt, index)}>
-        {labelRemove}
-      </FieldRemoveButton>
-    </>
-  </FieldSection>
+  </>
 );
 
 export default Transcription;

@@ -34,7 +34,7 @@ export const defaultEmbedBlock = (data: Partial<Embed>, allowDecorative?: boolea
     { text: '' },
   );
   if (block.type === 'image-embed') {
-    block.allowDecorative = allowDecorative !== undefined;
+    block.allowDecorative = allowDecorative !== false;
   }
   return block;
 };

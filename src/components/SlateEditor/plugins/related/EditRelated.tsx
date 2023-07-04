@@ -6,9 +6,9 @@
  *
  */
 
-import { MouseEvent, useState } from 'react';
+import { HTMLAttributes, MouseEvent, forwardRef, useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ButtonV2, IconButtonV2 } from '@ndla/button';
+import { IconButtonV2 } from '@ndla/button';
 import styled from '@emotion/styled';
 import { RelatedContentEmbed, SectionHeading } from '@ndla/ui';
 import Tooltip from '@ndla/tooltip';
@@ -17,11 +17,12 @@ import { colors, spacing } from '@ndla/core';
 import { DeleteForever } from '@ndla/icons/editor';
 import { RelatedContentEmbedData, RelatedContentMetaData } from '@ndla/types-embed';
 import { DragEndEvent } from '@dnd-kit/core';
+import { Content } from '@radix-ui/react-popover';
+import Tabs from '@ndla/tabs';
 import { search } from '../../../../modules/search/searchApi';
 import AsyncDropdown from '../../../Dropdown/asyncDropdown/AsyncDropdown';
-import Overlay from '../../../Overlay';
-import ContentLink from '../../../../containers/ArticlePage/components/ContentLink';
 import DndList from '../../../DndList';
+import ContentLink from '../../../../containers/ArticlePage/components/ContentLink';
 
 const StyledUl = styled.ul`
   margin: 0;
@@ -34,17 +35,21 @@ const HeadingWrapper = styled.div`
   align-items: center;
 `;
 
-const StyledBorderDiv = styled('div')`
-  position: relative;
+const StyledBorderDiv = styled(Content)`
+  width: 600px;
   border: 2px solid ${colors.brand.tertiary};
   padding: ${spacing.large};
   padding-top: 0;
   background-color: ${colors.white};
-  z-index: 3;
+  max-height: 1100px;
+  overflow-y: scroll;
+  z-index: 5;
 `;
 
-const StyledOr = styled('div')`
-  margin: 10px 0;
+const StyledTabs = styled(Tabs)`
+  [data-tab-panel] {
+    padding: ${spacing.normal} 0;
+  }
 `;
 
 const ButtonWrapper = styled.div`
@@ -62,82 +67,78 @@ const RelatedArticleWrapper = styled.div`
   }
 `;
 
-interface Props {
+interface Props extends HTMLAttributes<HTMLDivElement> {
   onRemoveClick: (e: MouseEvent<HTMLButtonElement>) => void;
   updateArticles: (newEmbeds: RelatedContentMetaData[]) => void;
-  onExit: () => void;
   embeds: RelatedContentMetaData[];
   onInsertBlock: (articleId: string) => void;
   insertExternal: (url: string, title: string) => Promise<void>;
 }
 
-const EditRelated = ({
-  onRemoveClick,
-  updateArticles,
-  insertExternal,
-  embeds,
-  onInsertBlock,
-  onExit,
-}: Props) => {
-  const { t } = useTranslation();
-  const [externalToEdit, setExternalToEdit] = useState<RelatedContentMetaData | undefined>(
-    undefined,
-  );
-  const [showAddExternal, setShowAddExternal] = useState(false);
+type TabType = 'internalArticle' | 'externalArticle';
 
-  const toggleAddExternal = () => {
-    setShowAddExternal((prevState) => !prevState);
-  };
+const EditRelated = forwardRef<HTMLDivElement, Props>(
+  ({ onRemoveClick, updateArticles, insertExternal, embeds, onInsertBlock, ...rest }, ref) => {
+    const { t } = useTranslation();
+    const [currentTab, setCurrentTab] = useState<TabType>('internalArticle');
+    const [externalToEdit, setExternalToEdit] = useState<RelatedContentMetaData | undefined>(
+      undefined,
+    );
 
-  const searchForArticles = async (query: string, page: number | undefined) => {
-    return search({
-      query,
-      page,
-      'context-types': 'standard, topic-article',
-    });
-  };
-
-  const onDragEnd = (_event: DragEndEvent, items: RelatedContentMetaData[]) => {
-    updateArticles(items);
-  };
-
-  const deleteRelatedArticle = (
-    e: MouseEvent<HTMLButtonElement>,
-    deleteEmbed: RelatedContentMetaData,
-  ) => {
-    e.stopPropagation();
-    const newEmbeds = embeds.filter((embed) => embed.seq !== deleteEmbed.seq);
-    updateArticles(newEmbeds);
-  };
-
-  const onExternalEdit = (editEmbed: RelatedContentMetaData, title: string, url: string) => {
-    const newEmbedData: RelatedContentEmbedData = {
-      ...editEmbed.embedData,
-      title,
-      url,
+    const searchForArticles = async (query: string, page: number | undefined) => {
+      return search({
+        query,
+        page,
+        'context-types': 'standard, topic-article',
+      });
     };
-    const newEmbed: RelatedContentMetaData = {
-      ...editEmbed,
-      embedData: newEmbedData,
+
+    const onTabChange = useCallback((tab: TabType) => {
+      if (tab === 'internalArticle') {
+        setExternalToEdit(undefined);
+      }
+      setCurrentTab(tab);
+    }, []);
+
+    const onDragEnd = (_event: DragEndEvent, items: RelatedContentMetaData[]) => {
+      updateArticles(items);
     };
-    const newEmbeds = embeds.map((embed) => (editEmbed.seq === embed.seq ? newEmbed : embed));
-    updateArticles(newEmbeds);
-  };
 
-  const onCloseExternalEdit = () => {
-    setExternalToEdit(undefined);
-    setShowAddExternal(false);
-  };
+    const deleteRelatedArticle = (
+      e: MouseEvent<HTMLButtonElement>,
+      deleteEmbed: RelatedContentMetaData,
+    ) => {
+      e.stopPropagation();
+      if (
+        !deleteEmbed.embedData.articleId &&
+        deleteEmbed.embedData.url === externalToEdit?.embedData.url
+      ) {
+        setExternalToEdit(undefined);
+      }
+      const newEmbeds = embeds.filter((embed) => embed.seq !== deleteEmbed.seq);
+      updateArticles(newEmbeds);
+    };
 
-  return (
-    <>
-      <Overlay onExit={onExit} />
-      <StyledBorderDiv>
+    const onExternalEdit = (editEmbed: RelatedContentMetaData, title: string, url: string) => {
+      const newEmbedData: RelatedContentEmbedData = {
+        ...editEmbed.embedData,
+        title,
+        url,
+      };
+      const newEmbed: RelatedContentMetaData = {
+        ...editEmbed,
+        embedData: newEmbedData,
+      };
+      const newEmbeds = embeds.map((embed) => (editEmbed.seq === embed.seq ? newEmbed : embed));
+      updateArticles(newEmbeds);
+    };
+
+    return (
+      <StyledBorderDiv {...rest} sticky="always" avoidCollisions={false} ref={ref}>
         <HeadingWrapper>
           <SectionHeading className="c-related-articles__component-title" headingLevel="h3">
             {t('form.related.title')}
           </SectionHeading>
-
           <Tooltip tooltip={t('form.remove')}>
             <IconButtonV2
               data-cy="close-related-button"
@@ -170,7 +171,7 @@ const EditRelated = ({
                         colorTheme="light"
                         onClick={() => {
                           setExternalToEdit(embed);
-                          setShowAddExternal(true);
+                          setCurrentTab('externalArticle');
                         }}
                       >
                         <Pencil />
@@ -192,38 +193,49 @@ const EditRelated = ({
             )}
           />
         </StyledUl>
-        <div data-cy="styled-article-modal">
-          <AsyncDropdown
-            clearInputField
-            idField="id"
-            labelField="title"
-            placeholder={t('form.content.relatedArticle.placeholder')}
-            apiAction={searchForArticles}
-            onClick={(e) => e.stopPropagation()}
-            onChange={(selected) => selected && onInsertBlock(selected.id.toString())}
-            showPagination
-          />
-          <StyledOr>{t('taxonomy.or')}</StyledOr>
-          <ButtonV2 data-testid="showAddExternal" onClick={toggleAddExternal}>
-            {t('form.content.relatedArticle.addExternal')}
-          </ButtonV2>
-        </div>
-      </StyledBorderDiv>
-      {showAddExternal && (
-        <ContentLink
-          onAddLink={(title, url) => {
-            if (externalToEdit) {
-              onExternalEdit(externalToEdit, title, url);
-            }
-            insertExternal(title, url);
-          }}
-          onClose={onCloseExternalEdit}
-          initialTitle={externalToEdit?.embedData.title}
-          initialUrl={externalToEdit?.embedData.url}
+        <StyledTabs
+          variant="underlined"
+          value={currentTab}
+          onValueChange={(val) => onTabChange(val as TabType)}
+          tabs={[
+            {
+              title: t('form.article.add'),
+              id: 'internalArticle',
+              content: (
+                <AsyncDropdown
+                  clearInputField
+                  idField="id"
+                  labelField="title"
+                  placeholder={t('form.content.relatedArticle.placeholder')}
+                  apiAction={searchForArticles}
+                  onClick={(e) => e.stopPropagation()}
+                  onChange={(selected) => selected && onInsertBlock(selected.id.toString())}
+                  showPagination
+                />
+              ),
+            },
+            {
+              title: t('form.content.relatedArticle.addExternal'),
+              id: 'externalArticle',
+              content: (
+                <ContentLink
+                  onAddLink={(title, url) => {
+                    if (externalToEdit) {
+                      onExternalEdit(externalToEdit, title, url);
+                    }
+                    insertExternal(title, url);
+                    setExternalToEdit(undefined);
+                  }}
+                  initialTitle={externalToEdit?.embedData.title}
+                  initialUrl={externalToEdit?.embedData.url}
+                />
+              ),
+            },
+          ]}
         />
-      )}
-    </>
-  );
-};
+      </StyledBorderDiv>
+    );
+  },
+);
 
 export default EditRelated;

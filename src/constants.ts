@@ -39,9 +39,11 @@ export const DRAFT_ADMIN_SCOPE = 'drafts:admin';
 export const DRAFT_WRITE_SCOPE = 'drafts:write';
 export const DRAFT_HTML_SCOPE = 'drafts:html';
 export const DRAFT_PUBLISH_SCOPE = 'drafts:publish';
+export const DRAFT_RESPONSIBLE = 'drafts:responsible';
 
 export const CONCEPT_ADMIN_SCOPE = 'concept:admin';
 export const CONCEPT_WRITE_SCOPE = 'concept:write';
+export const CONCEPT_RESPONSIBLE = 'concept:responsible';
 
 export const TAXONOMY_WRITE_SCOPE = 'taxonomy:write';
 export const TAXONOMY_ADMIN_SCOPE = 'taxonomy:admin';

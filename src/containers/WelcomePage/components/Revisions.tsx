@@ -15,9 +15,8 @@ import { Select, SingleValue } from '@ndla/select';
 import Pager from '@ndla/pager';
 import sortBy from 'lodash/sortBy';
 import styled from '@emotion/styled';
-import { mq, breakpoints, spacing, fonts } from '@ndla/core';
+import { mq, breakpoints } from '@ndla/core';
 import { IMultiSearchSummary } from '@ndla/types-backend/search-api';
-import { Switch } from '@ndla/switch';
 import Tooltip from '@ndla/tooltip';
 import {
   ControlWrapperDashboard,
@@ -38,7 +37,7 @@ import GoToSearch from './GoToSearch';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 import { useSearchNodes } from '../../../modules/nodes/nodeQueries';
 import { SUBJECT_NODE } from '../../../modules/nodes/nodeApiTypes';
-import { FAVOURITES_SUBJECT_ID } from '../../../constants';
+import { FAVOURITES_SUBJECT_ID, PUBLISHED } from '../../../constants';
 
 const RevisionsWrapper = styled.div`
   ${mq.range({ from: breakpoints.tabletWide })} {
@@ -74,7 +73,7 @@ const Revisions = ({ userData }: Props) => {
   const { taxonomyVersion } = useTaxonomyVersion();
 
   const tableTitles: TitleElement<SortOptionRevision>[] = [
-    { title: t('form.name.title'), sortableField: 'title' },
+    { title: t('form.name.title'), sortableField: 'title', width: '40%' },
     { title: t('welcomePage.workList.status'), sortableField: 'status', width: '15%' },
     { title: t('welcomePage.workList.primarySubject') },
     { title: t('welcomePage.revisionDate'), sortableField: 'revisionDate' },
@@ -91,6 +90,8 @@ const Revisions = ({ userData }: Props) => {
       'page-size': 6,
       language,
       fallback: true,
+      'draft-status': PUBLISHED,
+      'include-other-statuses': true,
     },
     {
       enabled: !!userData?.favoriteSubjects?.length,
@@ -109,16 +110,19 @@ const Revisions = ({ userData }: Props) => {
     {
       select: (res) => ({
         ...res,
-        results: sortBy(res.results, (r) => r.metadata.customFields.subjectCategory === 'archive'),
+        results: sortBy(res.results, (r) => r.name),
       }),
       enabled: !!userData?.favoriteSubjects?.length,
     },
   );
 
-  const favoriteSubjects = useMemo(
-    () => subjectData?.results.map((s) => ({ label: s.name, value: s.id })),
-    [subjectData],
-  );
+  const favoriteSubjects = useMemo(() => {
+    const archivedAtBottom = sortBy(
+      subjectData?.results,
+      (r) => r.metadata.customFields.subjectCategory === 'archive',
+    );
+    return archivedAtBottom.map((s) => ({ label: s.name, value: s.id }));
+  }, [subjectData]);
 
   const getDataPrimaryConnectionToFavorite = useCallback(
     (results: IMultiSearchSummary[] | undefined) => {

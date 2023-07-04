@@ -10,17 +10,16 @@ import { setToken } from '../../support/e2e';
 import editorRoutes from './editorRoutes';
 
 describe('can enter both element types SlateBlockPicker and SlateVisualElementPicker and add, remove, open and close them', () => {
-  before(() => {
-    setToken();
-    editorRoutes();
-    cy.visit('/subject-matter/learning-resource/new');
-    cy.get('[data-slate-editor=true][contentEditable=true]').should('exist');
-  });
 
   beforeEach(() => {
-    cy.get('[data-slate-node=element] > p').clear();
-    cy.get('[data-slate-node=element] > p').should('exist');
-    cy.get('[data-slate-node=element] > p').should('be.visible').first().click().clear();
+    setToken();
+    editorRoutes();
+    cy.visit('/subject-matter/learning-resource/new', { timeout: 20000 });
+    cy.apiwait(['@zendeskToken','@getUserData','@getUsersResponsible','@licenses','@statusMachine']);
+    cy.get('[data-slate-editor=true][contentEditable=true]').should('exist');
+    cy.get('[data-cy=slate-editor] [data-slate-editor=true]').first().focus();
+    cy.get('[data-slate-node=element] > p').should('be.visible');
+    cy.get('[data-slate-node=element] > p').click();
     cy.get('[data-cy=slate-block-picker]').should('exist');
     cy.get('[data-cy=slate-block-picker]').should('be.visible');
     cy.get('[data-cy=slate-block-picker]').click();
@@ -30,23 +29,46 @@ describe('can enter both element types SlateBlockPicker and SlateVisualElementPi
 
   it('adds and removes factAside', () => {
     cy.get('[data-cy="create-factAside"]').click();
+    cy.get('[data-cy=remove-fact-aside]').should('be.visible');
     cy.get('[data-cy=remove-fact-aside]').click();
   });
 
   it('adds and removes table', () => {
     cy.get('[data-cy=create-table]').click();
-    cy.get('[data-cy=slate-editor] [data-slate-editor=true]').focus();
+    cy.get('[data-cy=table-remove]').should('be.visible');
     cy.get('[data-cy=table-remove]').click();
   });
 
   it('adds and removes bodybox', () => {
     cy.get('[data-cy=create-bodybox]').click();
+    cy.get('[data-cy="remove-bodybox"]').should('be.visible');
     cy.get('[data-cy="remove-bodybox"]').click();
   });
 
   it('adds and removes details', () => {
     cy.get('[data-cy=create-details]').click();
+    cy.get('[data-cy="remove-details"]').should('be.visible');
     cy.get('[data-cy="remove-details"]').click();
+  });
+
+  it('adds and removes grid', () => {
+    cy.get('[data-cy=create-grid]').click();
+    cy.get('[data-cy="remove-grid"]').should('be.visible');
+    cy.get('[data-cy="remove-grid"]').click();
+  });
+
+  it('adds and removes code-block', () => {
+    cy.get('[data-cy=create-code]').click();
+    cy.get('[data-cy="modal-header"]').should('exist');
+    cy.get('[data-cy="modal-body"]').should('exist');
+    cy.get('[data-cy="modal-body"]').within(() => {
+      cy.get('input[type=text]').first().click().type('Title');
+      cy.get('select').select('HTML');
+      cy.get('textarea').first().click().type('Some <strong>markup</strong>{enter}Newline');
+      cy.get('span').contains('Lagre').click();
+    });
+    cy.get('[data-cy="remove-code"]').should('be.visible');
+    cy.get('[data-cy="remove-code"]').click();
   });
 
   it('opens and closes image', () => {
@@ -59,6 +81,7 @@ describe('can enter both element types SlateBlockPicker and SlateVisualElementPi
     cy.get('[data-cy="modal-header"]').should('exist');
     cy.get('[data-cy="modal-body"]').should('exist');
     cy.apiwait('@editor/images/imageList');
+    cy.get('[data-cy="close-modal-button"]').should('be.visible');
     cy.get('[data-cy="close-modal-button"]').click();
   });
 
@@ -74,6 +97,7 @@ describe('can enter both element types SlateBlockPicker and SlateVisualElementPi
     cy.get('[data-cy="select-image-from-list"]').first().click();
     cy.apiwait('@editor/images/image');
     cy.get('[data-cy="use-image"]').click();
+    cy.get('[data-cy=remove-element]').should('be.visible');
     cy.get('[data-cy=remove-element]').click();
   });
 
@@ -84,6 +108,7 @@ describe('can enter both element types SlateBlockPicker and SlateVisualElementPi
     cy.get('[data-cy="modal-header"]').should('exist');
     cy.get('[data-cy="modal-body"]').should('exist');
     cy.apiwait('@editor/videos/videoListBrightcove');
+    cy.get('[data-cy="close-modal-button"]').should('be.visible');
     cy.get('[data-cy="close-modal-button"]').click();
   });
 
@@ -127,6 +152,7 @@ describe('can enter both element types SlateBlockPicker and SlateVisualElementPi
 
     cy.get('[data-cy="modal-header"]').should('exist');
     cy.get('[data-cy="modal-body"]').should('exist');
+    cy.get('[data-cy="close-modal-button"]').should('be.visible');
     cy.get('[data-cy="close-modal-button"]').click();
   });
 
@@ -134,6 +160,7 @@ describe('can enter both element types SlateBlockPicker and SlateVisualElementPi
     cy.get('[data-cy=create-file]').click();
     cy.get('[data-cy="modal-header"]').should('exist');
     cy.get('[data-cy="modal-body"]').should('exist');
+    cy.get('[data-cy="close-modal-button"]').should('be.visible');
     cy.get('[data-cy="close-modal-button"]').click();
   });
 
@@ -141,6 +168,7 @@ describe('can enter both element types SlateBlockPicker and SlateVisualElementPi
     cy.get('[data-cy=create-url]').click();
     cy.get('[data-cy="modal-header"]').should('exist');
     cy.get('[data-cy="modal-body"]').should('exist');
+    cy.get('[data-cy="close-modal-button"]').should('be.visible');
     cy.get('[data-cy="close-modal-button"]').click();
   });
 
@@ -149,8 +177,9 @@ describe('can enter both element types SlateBlockPicker and SlateVisualElementPi
     cy.apiroute('GET', '**/search-api/v1/search/editorial/*', 'search');
 
     cy.get('[data-cy=create-related]').click();
-    cy.get('[data-cy="styled-article-modal"]').should('exist');
+    cy.get('[data-tab-panel=""]').should('exist');
     cy.apiwait('@search');
+    cy.get('[data-cy="close-related-button"]').should('be.visible');
     cy.get('[data-cy="close-related-button"]').click();
   });
 });

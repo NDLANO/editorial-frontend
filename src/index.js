@@ -6,7 +6,6 @@
  *
  */
 
-import express from 'express';
 import config from './config';
 
 let app = require('./server/server').default;
@@ -23,12 +22,14 @@ if (module.hot) {
   console.info('✅  Server-side HMR Enabled!'); // eslint-disable-line no-console
 }
 
-export default express()
-  .use((req, res) => app.handle(req, res))
-  .listen(config.port, function (err) {
+if (!config.isVercel) {
+  app.listen(config.port, function (err) {
     if (err) {
       console.error(err);
       return;
     }
     console.log(`> Started on port ${config.port}`); // eslint-disable-line no-console
   });
+}
+
+export default app;

@@ -194,7 +194,7 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
       if (articleIdInInput) {
         const article = await getArticle(Number(articleIdInInput));
         const res = await searchResources({ ids: String(article.id), 'article-types': 'standard' });
-        if (res.results.length) {
+        if (res.totalCount > 0) {
           preview = res.results[0];
           resourceId = preview.contexts.length ? preview.contexts[0].id : undefined;
         } else {

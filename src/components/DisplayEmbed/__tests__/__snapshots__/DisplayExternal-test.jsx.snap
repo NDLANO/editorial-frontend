@@ -62,7 +62,7 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
 .emotion-0 {
   position: absolute;
   top: 0;
-  right: -28.799999999999997px;
+  right: -48px;
 }
 
 .emotion-0>* {

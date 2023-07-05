@@ -65,13 +65,6 @@ export const useSearchDrafts = (
   );
 };
 
-export const useResponsibleUserData = (article?: IArticle) => {
-  return useAuth0Users(
-    { uniqueUserIds: article?.responsible?.responsibleId! },
-    { enabled: !!article?.responsible?.responsibleId },
-  );
-};
-
 export const licensesQueryKey = () => [LICENSES];
 
 export const useLicenses = <ReturnType = ILicense[]>(

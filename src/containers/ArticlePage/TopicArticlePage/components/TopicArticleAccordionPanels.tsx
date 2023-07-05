@@ -30,6 +30,8 @@ interface Props {
   taxonomy?: ArticleTaxonomy;
   updateNotes: (art: IUpdatedArticle) => Promise<IArticle>;
   articleLanguage: string;
+  existInTaxonomy: boolean;
+  setExistInTaxonomy: (value: boolean) => void;
 }
 
 const TopicArticleAccordionPanels = ({
@@ -38,6 +40,8 @@ const TopicArticleAccordionPanels = ({
   updateNotes,
   articleLanguage,
   taxonomy,
+  existInTaxonomy,
+  setExistInTaxonomy,
 }: Props) => {
   const { t } = useTranslation();
   const { userPermissions } = useSession();
@@ -58,9 +62,15 @@ const TopicArticleAccordionPanels = ({
           id={'topic-article-taxonomy'}
           title={t('form.taxonomySection')}
           className={'u-6/6'}
-          hasError={false}
+          hasError={!existInTaxonomy}
         >
-          <TopicArticleTaxonomy article={article} updateNotes={updateNotes} taxonomy={taxonomy} />
+          <TopicArticleTaxonomy
+            article={article}
+            updateNotes={updateNotes}
+            taxonomy={taxonomy}
+            existInTaxonomy={existInTaxonomy}
+            setExistInTaxonomy={setExistInTaxonomy}
+          />
         </FormAccordion>
       )}
       <FormAccordion

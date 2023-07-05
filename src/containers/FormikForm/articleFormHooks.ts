@@ -145,6 +145,7 @@ export function useArticleFormHooks<T extends ArticleFormType>({
     values: T,
     formikHelpers: FormikHelpers<T>,
     saveAsNew = false,
+    articleHasTax?: boolean,
   ): Promise<void> => {
     formikHelpers.setSubmitting(true);
     const initialStatus = articleStatus?.current;
@@ -156,22 +157,32 @@ export function useArticleFormHooks<T extends ArticleFormType>({
 
     let savedArticle: IArticle;
     try {
-      savedArticle = await updateArticle({
-        ...newArticle,
-        revision: revision || newArticle.revision,
-        ...(statusChange ? { status: newStatus } : {}),
-      });
+      if (!articleHasTax) {
+        createMessage({
+          message:
+            newArticle.articleType === 'topic-article'
+              ? t('alertModal.missingTaxTopic')
+              : t('alertModal.missingTax'),
+          timeToLive: 0,
+        });
+      } else {
+        savedArticle = await updateArticle({
+          ...newArticle,
+          revision: revision || newArticle.revision,
+          ...(statusChange ? { status: newStatus } : {}),
+        });
 
-      await deleteRemovedFiles(article?.content?.content ?? '', newArticle.content ?? '');
+        await deleteRemovedFiles(article?.content?.content ?? '', newArticle.content ?? '');
 
-      setSavedToServer(true);
-      const newInitialValues = getInitialValues(savedArticle, articleLanguage, ndlaId);
-      formikHelpers.resetForm({ values: newInitialValues });
-      if (rules) {
-        const newInitialWarnings = getWarnings(newInitialValues, rules, t, savedArticle);
-        formikHelpers.setStatus({ warnings: newInitialWarnings });
+        setSavedToServer(true);
+        const newInitialValues = getInitialValues(savedArticle, articleLanguage, ndlaId);
+        formikHelpers.resetForm({ values: newInitialValues });
+        if (rules) {
+          const newInitialWarnings = getWarnings(newInitialValues, rules, t, savedArticle);
+          formikHelpers.setStatus({ warnings: newInitialWarnings });
+        }
+        formikHelpers.setFieldValue('notes', [], false);
       }
-      formikHelpers.setFieldValue('notes', [], false);
     } catch (e) {
       const err = e as NdlaErrorPayload;
       if (err && err.status && err.status === 409) {

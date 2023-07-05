@@ -1350,6 +1350,8 @@ const phrases = {
     noArticleInProd: 'No article found in prod',
     taxonomy: 'There was a problem loading taxonomy',
     versionSelect: 'This article does not exist in the selected version',
+    taxRequired: 'The article is not added to taxonomy',
+    taxRequiredTopic: 'The topic is not added to taxonomy',
     errorWhenFetchingTaxonomyArticle: 'There was a problem fetching the underlying article',
     unsavedTaxonomy:
       'You have unsaved changes. Press cancel again if you are sure you want to continue.',
@@ -1379,6 +1381,10 @@ const phrases = {
     delete: 'Delete',
     confirm: 'Confirm',
     loginAgain: 'Login again',
+    missingTax:
+      'The article is not added to taxonomy. Position the article in taxonomy to be able to save',
+    missingTaxTopic:
+      'The topic is not added to taxonomy. Position the topic in taxonomy to be able to save',
   },
   environment: { production: '', staging: 'Staging', test: 'Test' },
   taxonomy: {

@@ -6,7 +6,7 @@
  *
  */
 
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Formik, FormikProps } from 'formik';
 import { IArticle, IUpdatedArticle, IStatus } from '@ndla/types-backend/draft-api';
@@ -56,6 +56,9 @@ const LearningResourceForm = ({
   articleChanged,
   articleLanguage,
 }: Props) => {
+  const [existInTaxonomy, setExistInTaxonomy] = useState(
+    !!articleTaxonomy?.resources.find((r) => r.breadcrumbs?.length),
+  );
   const { t } = useTranslation();
   const { ndlaId } = useSession();
   const { data: licenses } = useLicenses({ placeholderData: [] });
@@ -114,6 +117,8 @@ const LearningResourceForm = ({
                 taxonomy={articleTaxonomy}
                 updateNotes={updateArticle}
                 handleSubmit={handleSubmit}
+                existInTaxonomy={existInTaxonomy}
+                setExistInTaxonomy={setExistInTaxonomy}
               />
             </MainContent>
             <CommentSection savedStatus={article?.status} />
@@ -125,7 +130,7 @@ const LearningResourceForm = ({
           savedToServer={savedToServer}
           getEntity={getArticle}
           onSaveClick={(saveAsNewVersion?: boolean) => {
-            handleSubmit(values, formik, saveAsNewVersion || false);
+            handleSubmit(values, formik, saveAsNewVersion || false, existInTaxonomy);
           }}
           entityStatus={article?.status}
           statusStateMachine={statusStateMachine.data}

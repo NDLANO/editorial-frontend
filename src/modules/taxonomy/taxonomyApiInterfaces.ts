@@ -4,6 +4,7 @@ export interface TaxonomyElement {
   id: string;
   name: string;
   metadata: Metadata;
+  breadcrumbs?: string[];
 }
 
 export interface SubjectTopic extends TaxonomyElement {

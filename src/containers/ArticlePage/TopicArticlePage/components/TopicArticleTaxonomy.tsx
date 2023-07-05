@@ -58,6 +58,8 @@ type Props = {
   setIsOpen?: (open: boolean) => void;
   updateNotes: (art: IUpdatedArticle) => Promise<IArticle>;
   taxonomy: ArticleTaxonomy;
+  existInTaxonomy: boolean;
+  setExistInTaxonomy: (value: boolean) => void;
 };
 
 interface StructureSubject extends SubjectType {
@@ -82,7 +84,14 @@ const ButtonContainer = styled.div`
   gap: ${spacing.xsmall};
 `;
 
-const TopicArticleTaxonomy = ({ article, setIsOpen, updateNotes, taxonomy }: Props) => {
+const TopicArticleTaxonomy = ({
+  article,
+  setIsOpen,
+  updateNotes,
+  taxonomy,
+  existInTaxonomy,
+  setExistInTaxonomy,
+}: Props) => {
   const [structure, setStructure] = useState<StructureSubject[]>([]);
   const [status, setStatus] = useState('loading');
   const [isDirty, setIsDirty] = useState(false);
@@ -193,6 +202,7 @@ const TopicArticleTaxonomy = ({ article, setIsOpen, updateNotes, taxonomy }: Pro
     try {
       if (stagedNewTopics.length > 0) {
         await addNewTopic(stagedNewTopics, i18n.language);
+        setExistInTaxonomy(true);
       }
 
       updateNotes({
@@ -338,6 +348,9 @@ const TopicArticleTaxonomy = ({ article, setIsOpen, updateNotes, taxonomy }: Pro
         getSubjectTopics={getSubjectTopics}
         stageTaxonomyChanges={stageTaxonomyChanges}
       />
+      {!existInTaxonomy && (
+        <FormikFieldHelp error>{t('errorMessage.taxRequiredTopic')}</FormikFieldHelp>
+      )}
       {showWarning && <FormikFieldHelp error>{t('errorMessage.unsavedTaxonomy')}</FormikFieldHelp>}
       <ButtonContainer>
         <ButtonV2 variant="outline" onClick={onCancel} disabled={status === 'loading'}>

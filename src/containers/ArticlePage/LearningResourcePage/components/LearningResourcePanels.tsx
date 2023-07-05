@@ -32,6 +32,8 @@ interface Props {
   taxonomy?: ArticleTaxonomy;
   updateNotes: (art: IUpdatedArticle) => Promise<IArticle>;
   articleLanguage: string;
+  existInTaxonomy: boolean;
+  setExistInTaxonomy: (value: boolean) => void;
 }
 
 const LearningResourcePanels = ({
@@ -40,6 +42,8 @@ const LearningResourcePanels = ({
   updateNotes,
   handleSubmit,
   articleLanguage,
+  existInTaxonomy,
+  setExistInTaxonomy,
 }: Props) => {
   const { t } = useTranslation();
   const { userPermissions } = useSession();
@@ -67,12 +71,14 @@ const LearningResourcePanels = ({
           id={'learning-resource-taxonomy'}
           title={t('form.taxonomySection')}
           className={'u-6/6'}
-          hasError={false}
+          hasError={!existInTaxonomy}
         >
           <LearningResourceTaxonomy
             article={article}
             updateNotes={updateNotes}
             taxonomy={taxonomy}
+            existInTaxonomy={existInTaxonomy}
+            setExistInTaxonomy={setExistInTaxonomy}
           />
         </FormAccordion>
       )}

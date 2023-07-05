@@ -27,6 +27,7 @@ interface Props {
   topic: StagedTopic;
   type: string;
   setRelevance?: (topicId: string, relevanceId: string) => void;
+  activeTopicConnectionLength: number;
 }
 
 const StyledFlexWrapper = styled.div`
@@ -40,6 +41,7 @@ const ActiveTopicConnection = ({
   setRelevance,
   type,
   topic,
+  activeTopicConnectionLength,
 }: Props) => {
   const { t } = useTranslation();
   if (!topic.breadcrumb) {
@@ -85,7 +87,10 @@ const ActiveTopicConnection = ({
             relevanceId={topic.relevanceId}
             onChange={(relevanceId) => setRelevance && setRelevance(topic.id, relevanceId)}
           />
-          <RemoveButton onClick={() => removeConnection && removeConnection(topic.id)} />
+
+          {activeTopicConnectionLength > 1 && (
+            <RemoveButton onClick={() => removeConnection && removeConnection(topic.id)} />
+          )}
         </StyledFlexWrapper>
       </StyledConnections>
       <SharedTopicConnections topic={topic} />

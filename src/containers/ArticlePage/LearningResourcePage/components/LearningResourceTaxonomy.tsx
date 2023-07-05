@@ -92,6 +92,8 @@ interface Props {
   taxonomy: ArticleTaxonomy;
   updateNotes: (art: IUpdatedArticle) => Promise<IArticle>;
   setIsOpen?: (open: boolean) => void;
+  existInTaxonomy: boolean;
+  setExistInTaxonomy: (value: boolean) => void;
 }
 
 type Status = 'success' | 'loading' | 'initial';
@@ -102,7 +104,14 @@ const ButtonContainer = styled.div`
   gap: ${spacing.xsmall};
 `;
 
-const LearningResourceTaxonomy = ({ article, taxonomy, updateNotes, setIsOpen }: Props) => {
+const LearningResourceTaxonomy = ({
+  article,
+  taxonomy,
+  updateNotes,
+  setIsOpen,
+  existInTaxonomy,
+  setExistInTaxonomy,
+}: Props) => {
   const [resourceId, setResourceId] = useState<string>('');
   const [structure, setStructure] = useState<LearningResourceSubjectType[]>([]);
   const [status, setStatus] = useState<Status>('loading');
@@ -282,6 +291,7 @@ const LearningResourceTaxonomy = ({ article, taxonomy, updateNotes, setIsOpen }:
         setStatus('success');
         setIsDirty(false);
         silentlyRefetchResourceTaxonomy();
+        setExistInTaxonomy(!!taxonomyChanges.topics.length);
       }
     } catch (err) {
       handleError(err);
@@ -484,6 +494,7 @@ const LearningResourceTaxonomy = ({ article, taxonomy, updateNotes, setIsOpen }:
         getSubjectTopics={getSubjectTopics}
         allowMultipleSubjectsOpen={false}
       />
+      {!existInTaxonomy && <FormikFieldHelp error>{t('errorMessage.taxRequired')}</FormikFieldHelp>}
       {showWarning && <FormikFieldHelp error>{t('errorMessage.unsavedTaxonomy')}</FormikFieldHelp>}
       <ButtonContainer>
         <ButtonV2 variant="outline" onClick={onCancel}>

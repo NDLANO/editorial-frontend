@@ -21,7 +21,12 @@ interface Props {
 const ActiveTopicConnections = ({ activeTopics, ...rest }: Props) => (
   <StyledConnectionsWrapper>
     {activeTopics.map((topic) => (
-      <ActiveTopicConnection key={topic.id} topic={topic} {...rest} />
+      <ActiveTopicConnection
+        key={topic.id}
+        topic={topic}
+        activeTopicConnectionLength={activeTopics.length}
+        {...rest}
+      />
     ))}
   </StyledConnectionsWrapper>
 );

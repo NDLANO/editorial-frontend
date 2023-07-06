@@ -40,16 +40,18 @@ export type EditMode =
   | 'openCustomFields'
   | 'toggleMetadataVisibility'
   | 'editGrepCodes'
-  | 'addExistingNode'
+  | 'moveExistingNode'
   | 'addTopic'
   | 'deleteSubject'
   | 'requestPublish'
   | 'deleteNode'
+  | 'disconnectFromParent'
   | 'copyResources'
   | 'cloneResources'
   | 'copyRevisionDate'
   | 'swapTopicArticle'
   | 'setResourcesPrimary'
+  | 'connectExistingNode'
   | '';
 
 export interface SearchResultBase<T> {

@@ -30,7 +30,7 @@ import { EditModeHandler } from '../SettingsMenuDropdownType';
 interface Props {
   editModeHandler: EditModeHandler;
   currentNode: Node;
-  nodeType?: NodeType;
+  nodeType: NodeType;
 }
 
 const StyledSuccessIcon = styled(Done)`
@@ -66,14 +66,13 @@ const StyledActionContent = styled.div`
   padding-left: ${spacing.normal};
 `;
 
-const AddExistingToNode = ({
+const ConnectExistingNode = ({
   editModeHandler: { editMode, toggleEditMode },
   currentNode,
-  nodeType = 'TOPIC',
+  nodeType,
 }: Props) => {
   const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
-  const deleteNodeConnectionMutation = useDeleteNodeConnectionMutation();
   const addNodeConnectionMutation = usePostNodeConnectionMutation();
   const [error, setError] = useState<string | undefined>(undefined);
   const [loading, setLoading] = useState(false);
@@ -81,32 +80,22 @@ const AddExistingToNode = ({
   const qc = useQueryClient();
 
   useEffect(() => {
-    if (success && editMode === 'addExistingNode') {
+    if (success && editMode === 'connectExistingNode') {
       setSuccess(false);
     }
   }, [editMode, success]);
 
-  const toggleEditModeFunc = () => toggleEditMode('addExistingNode');
+  const toggleEditModeFunc = () => toggleEditMode('connectExistingNode');
 
   const handleSubmit = async (node: Node) => {
     setLoading(true);
     setError(undefined);
     toggleEditModeFunc();
     try {
-      // drop all parent connections and replace with this.
-      const connections = await fetchConnectionsForNode({ id: node.id, taxonomyVersion });
-      const parentConnections = connections.filter((conn) => conn.type.startsWith('parent'));
-      parentConnections.map(async (parentConnection) => {
-        await deleteNodeConnectionMutation.mutateAsync({
-          taxonomyVersion,
-          id: parentConnection.connectionId,
-        });
-      });
       await addNodeConnectionMutation.mutateAsync({
         taxonomyVersion,
         body: { parentId: currentNode.id, childId: node.id },
       });
-
       // Invalidate all childNode-queries, since we don't know where the added node is from
       qc.invalidateQueries(
         childNodesWithArticleTypeQueryKey({
@@ -122,7 +111,7 @@ const AddExistingToNode = ({
     }
   };
 
-  if (editMode === 'addExistingNode') {
+  if (editMode === 'connectExistingNode') {
     return (
       <Wrapper>
         <RoundIcon open small smallIcon icon={<Plus />} />
@@ -145,19 +134,19 @@ const AddExistingToNode = ({
     <StyledMenuWrapper>
       <MenuItemButton onClick={toggleEditModeFunc}>
         <RoundIcon small icon={<Plus />} />
-        {t('taxonomy.addExistingNode', { nodeType: t(`taxonomy.nodeType.${nodeType}`) })}
+        {t('taxonomy.connectExistingNode', { nodeType: t(`taxonomy.nodeType.${nodeType}`) })}
       </MenuItemButton>
       <StyledActionContent>
         {loading && (
           <MenuContent>
             <Spinner size="normal" margin="0px 4px" />
-            {t('taxonomy.addExistingLoading')}
+            {t('taxonomy.connectExistingLoading')}
           </MenuContent>
         )}
         {success && (
           <MenuContent>
             <StyledSuccessIcon />
-            {t('taxonomy.addExistingSuccess')}
+            {t('taxonomy.connectExistingSuccess')}
           </MenuContent>
         )}
         {error && (
@@ -168,4 +157,4 @@ const AddExistingToNode = ({
   );
 };
 
-export default AddExistingToNode;
+export default ConnectExistingNode;

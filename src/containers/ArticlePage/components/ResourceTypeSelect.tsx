@@ -65,6 +65,7 @@ const ResourceTypeSelect = ({
       isSearchable
       isClearable={isClearable}
       id="select-resource-type"
+      required
     />
   );
 };

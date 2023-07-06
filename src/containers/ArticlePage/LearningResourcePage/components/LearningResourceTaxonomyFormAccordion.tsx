@@ -53,6 +53,7 @@ import { ArticleTaxonomy } from '../../../FormikForm/formikDraftHooks';
 import VersionSelect from '../../components/VersionSelect';
 import { useVersions } from '../../../../modules/taxonomy/versions/versionQueries';
 import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
+import FormAccordion from '../../../../components/Accordion/FormAccordion';
 
 const blacklistedResourceTypes = [RESOURCE_TYPE_LEARNING_PATH];
 
@@ -104,7 +105,7 @@ const ButtonContainer = styled.div`
   gap: ${spacing.xsmall};
 `;
 
-const LearningResourceTaxonomy = ({
+const LearningResourceTaxonomyFormAccordion = ({
   article,
   taxonomy,
   updateNotes,
@@ -123,6 +124,7 @@ const LearningResourceTaxonomy = ({
   });
   const [taxonomyChanges, setTaxonomyChanges] = useState<TaxonomyChanges>({ ...emptyTaxonomy });
   const [availableResourceTypes, setAvailableResourceTypes] = useState<ResourceType[]>([]);
+  const [taxonomyMounted, setTaxonomyMounted] = useState(false);
 
   const { t, i18n } = useTranslation();
   const { userPermissions } = useSession();
@@ -410,18 +412,20 @@ const LearningResourceTaxonomy = ({
   };
 
   useEffect(() => {
-    fetchTaxonomy();
-    fetchTaxonomyChoices();
+    if (taxonomyMounted) {
+      fetchTaxonomy();
+      fetchTaxonomyChoices();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [taxonomyMounted]);
 
   useEffect(() => {
-    if (prevTaxVersion.current || prevTaxVersion.current === '') {
+    if (taxonomyMounted && (prevTaxVersion.current || prevTaxVersion.current === '')) {
       if (prevTaxVersion.current !== taxonomyVersion) fetchTaxonomy();
     }
     prevTaxVersion.current = taxonomyVersion;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [taxonomyVersion]);
+  }, [taxonomyVersion, taxonomyMounted]);
 
   const filteredResourceTypes = useMemo(
     () =>
@@ -452,9 +456,6 @@ const LearningResourceTaxonomy = ({
       />
     );
   }
-  if (status === 'loading') {
-    return <Spinner />;
-  }
 
   const mainResource = taxonomy.resources?.[0];
   const mainEntity = mainResource && {
@@ -466,7 +467,13 @@ const LearningResourceTaxonomy = ({
   const isTaxonomyAdmin = userPermissions?.includes(TAXONOMY_ADMIN_SCOPE);
 
   return (
-    <>
+    <FormAccordion
+      id={'learning-resource-taxonomy'}
+      title={t('form.taxonomySection')}
+      className={'u-6/6'}
+      hasError={!existInTaxonomy}
+    >
+      {status === 'loading' && <Spinner />}
       {isTaxonomyAdmin && (
         <TaxonomyConnectionErrors
           articleType={article.articleType ?? 'standard'}
@@ -493,6 +500,7 @@ const LearningResourceTaxonomy = ({
         stageTaxonomyChanges={stageTaxonomyChanges}
         getSubjectTopics={getSubjectTopics}
         allowMultipleSubjectsOpen={false}
+        setTaxonomyMounted={setTaxonomyMounted}
       />
       {!existInTaxonomy && <FormikFieldHelp error>{t('errorMessage.taxRequired')}</FormikFieldHelp>}
       {showWarning && <FormikFieldHelp error>{t('errorMessage.unsavedTaxonomy')}</FormikFieldHelp>}
@@ -508,8 +516,8 @@ const LearningResourceTaxonomy = ({
           formIsDirty={isDirty}
         />
       </ButtonContainer>
-    </>
+    </FormAccordion>
   );
 };
 
-export default LearningResourceTaxonomy;
+export default LearningResourceTaxonomyFormAccordion;

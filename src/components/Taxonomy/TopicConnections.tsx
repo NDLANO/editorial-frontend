@@ -20,7 +20,7 @@ import ActiveTopicConnections from './ActiveTopicConnections';
 import HowToHelper from '../HowTo/HowToHelper';
 import StructureButtons from '../../containers/ArticlePage/LearningResourcePage/components/taxonomy/StructureButtons';
 import { SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
-import { StagedTopic } from '../../containers/ArticlePage/TopicArticlePage/components/TopicArticleTaxonomy';
+import { StagedTopic } from '../../containers/ArticlePage/TopicArticlePage/components/TopicArticleTaxonomyFormAccordion';
 import { getBreadcrumbFromPath } from '../../util/taxonomyHelpers';
 import { LocaleType } from '../../interfaces';
 import { useTaxonomyVersion } from '../../containers/StructureVersion/TaxonomyVersionProvider';
@@ -38,6 +38,7 @@ interface Props {
   stageTaxonomyChanges: (properties: any) => void;
   getSubjectTopics: (subjectId: string) => Promise<void>;
   setRelevance: (topicId: string, relevanceId: string) => void;
+  setTaxonomyMounted: (v: boolean) => void;
 }
 
 const TopicConnections = ({
@@ -49,6 +50,7 @@ const TopicConnections = ({
   stageTaxonomyChanges,
   getSubjectTopics,
   setRelevance,
+  setTaxonomyMounted,
 }: Props) => {
   const { t } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
@@ -58,7 +60,8 @@ const TopicConnections = ({
 
   useEffect(() => {
     fetchFavoriteSubjects();
-  }, []);
+    setTaxonomyMounted(true);
+  }, [setTaxonomyMounted]);
 
   const fetchFavoriteSubjects = async () => {
     const result = await fetchUserData();

@@ -19,7 +19,7 @@ import SharedTopicConnections from './SharedTopicConnections';
 import Breadcrumb from './Breadcrumb';
 import RelevanceOption from './RelevanceOption';
 import RemoveButton from './RemoveButton';
-import { StagedTopic } from '../../containers/ArticlePage/TopicArticlePage/components/TopicArticleTaxonomy';
+import { StagedTopic } from '../../containers/ArticlePage/TopicArticlePage/components/TopicArticleTaxonomyFormAccordion';
 
 interface Props {
   removeConnection?: (id: string) => void;

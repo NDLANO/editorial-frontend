@@ -8,7 +8,7 @@
 
 import { StyledConnectionsWrapper } from '../../style/LearningResourceTaxonomyStyles';
 import ActiveTopicConnection from './ActiveTopicConnection';
-import { StagedTopic } from '../../containers/ArticlePage/TopicArticlePage/components/TopicArticleTaxonomy';
+import { StagedTopic } from '../../containers/ArticlePage/TopicArticlePage/components/TopicArticleTaxonomyFormAccordion';
 
 interface Props {
   removeConnection?: (id: string) => void;

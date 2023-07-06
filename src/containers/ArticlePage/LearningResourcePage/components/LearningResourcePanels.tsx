@@ -14,7 +14,7 @@ import RelatedContentFieldGroup from '../../components/RelatedContentFieldGroup'
 import { TAXONOMY_WRITE_SCOPE } from '../../../../constants';
 import { CopyrightFieldGroup, VersionAndNotesPanel, MetaDataField } from '../../../FormikForm';
 import GrepCodesField from '../../../FormikForm/GrepCodesField';
-import LearningResourceTaxonomy from './LearningResourceTaxonomy';
+import LearningResourceTaxonomyFormAccordion from './LearningResourceTaxonomyFormAccordion';
 import LearningResourceContent from './LearningResourceContent';
 import { LearningResourceFormType } from '../../../FormikForm/articleFormHooks';
 import { useSession } from '../../../Session/SessionProvider';
@@ -67,20 +67,13 @@ const LearningResourcePanels = ({
         />
       </FormAccordion>
       {article && taxonomy && !!userPermissions?.includes(TAXONOMY_WRITE_SCOPE) && (
-        <FormAccordion
-          id={'learning-resource-taxonomy'}
-          title={t('form.taxonomySection')}
-          className={'u-6/6'}
-          hasError={!existInTaxonomy}
-        >
-          <LearningResourceTaxonomy
-            article={article}
-            updateNotes={updateNotes}
-            taxonomy={taxonomy}
-            existInTaxonomy={existInTaxonomy}
-            setExistInTaxonomy={setExistInTaxonomy}
-          />
-        </FormAccordion>
+        <LearningResourceTaxonomyFormAccordion
+          article={article}
+          updateNotes={updateNotes}
+          taxonomy={taxonomy}
+          existInTaxonomy={existInTaxonomy}
+          setExistInTaxonomy={setExistInTaxonomy}
+        />
       )}
       <FormAccordion
         id={'learning-resource-copyright'}

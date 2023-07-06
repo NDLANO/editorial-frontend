@@ -89,8 +89,10 @@ const StructureContainer = ({
       return acc;
     }, {}) ?? {};
   const favoriteNodeIds = Object.keys(favoriteNodes);
+  // Need different filtering for programme
+  const rootOrContext = rootNodeType === 'PROGRAMME' ? { isRoot: true } : { isContext: true };
   const nodesQuery = useNodes(
-    { language: i18n.language, nodeType: rootNodeType, isContext: true, taxonomyVersion },
+    { language: i18n.language, nodeType: rootNodeType, ...rootOrContext, taxonomyVersion },
     {
       select: (nodes) => nodes.sort((a, b) => a.name?.localeCompare(b.name)),
       placeholderData: [],

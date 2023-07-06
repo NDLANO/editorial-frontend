@@ -66,6 +66,17 @@ const SettingsMenuDropdownType = ({
             onCurrentNodeChanged={onCurrentNodeChanged}
           />
         )}
+        <AddExistingToNode
+          editModeHandler={editModeHandler}
+          currentNode={node}
+          nodeType="PROGRAMME"
+        />
+        <ToggleVisibility
+          node={node}
+          editModeHandler={editModeHandler}
+          rootNodeId={rootNodeId}
+          rootNodeType="PROGRAMME"
+        />
         {isTaxonomyAdmin && <EditSubjectpageOption node={node} />}
         <ToNodeDiff node={node} />
         {isTaxonomyAdmin && (

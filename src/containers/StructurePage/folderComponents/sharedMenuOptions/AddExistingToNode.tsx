@@ -14,7 +14,7 @@ import { spacing, colors } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
 import { Plus } from '@ndla/icons/action';
 import { Done } from '@ndla/icons/editor';
-import { Node } from '@ndla/types-taxonomy';
+import { Node, NodeType } from '@ndla/types-taxonomy';
 import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
 import {
   useDeleteNodeConnectionMutation,
@@ -30,6 +30,7 @@ import { EditModeHandler } from '../SettingsMenuDropdownType';
 interface Props {
   editModeHandler: EditModeHandler;
   currentNode: Node;
+  nodeType?: NodeType;
 }
 
 const StyledSuccessIcon = styled(Done)`
@@ -68,6 +69,7 @@ const StyledActionContent = styled.div`
 const AddExistingToNode = ({
   editModeHandler: { editMode, toggleEditMode },
   currentNode,
+  nodeType = 'TOPIC',
 }: Props) => {
   const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
@@ -79,27 +81,26 @@ const AddExistingToNode = ({
   const qc = useQueryClient();
 
   useEffect(() => {
-    if (success && editMode === 'addExistingTopic') {
+    if (success && editMode === 'addExistingNode') {
       setSuccess(false);
     }
   }, [editMode, success]);
 
-  const toggleEditModeFunc = () => toggleEditMode('addExistingTopic');
+  const toggleEditModeFunc = () => toggleEditMode('addExistingNode');
 
   const handleSubmit = async (node: Node) => {
     setLoading(true);
     setError(undefined);
     toggleEditModeFunc();
     try {
+      // drop all parent connections and replace with this.
       const connections = await fetchConnectionsForNode({ id: node.id, taxonomyVersion });
-      const parentConnection = connections.find((conn) => conn.type.startsWith('parent'));
-      if (!parentConnection) {
-        setError('taxonomy.errorMessage');
-        return;
-      }
-      await deleteNodeConnectionMutation.mutateAsync({
-        taxonomyVersion,
-        id: parentConnection.connectionId,
+      const parentConnections = connections.filter((conn) => conn.type.startsWith('parent'));
+      parentConnections.map(async (parentConnection) => {
+        await deleteNodeConnectionMutation.mutateAsync({
+          taxonomyVersion,
+          id: parentConnection.connectionId,
+        });
       });
       await addNodeConnectionMutation.mutateAsync({
         taxonomyVersion,
@@ -121,22 +122,19 @@ const AddExistingToNode = ({
     }
   };
 
-  if (editMode === 'addExistingTopic') {
+  if (editMode === 'addExistingNode') {
     return (
       <Wrapper>
         <RoundIcon open small smallIcon icon={<Plus />} />
         <NodeSearchDropdown
-          placeholder={t('taxonomy.existingTopic')}
+          placeholder={t('taxonomy.existingNode')}
           onChange={handleSubmit}
-          searchNodeType={'TOPIC'}
+          searchNodeType={nodeType}
           filter={(node) => {
-            return (
-              !!node.path &&
-              !node.paths?.some((p) => {
-                const split = p.replace('/', '').split('/');
-                return split[split.length - 2] === currentNode.id.replace('urn:', '');
-              })
-            );
+            return !node.paths?.some((p) => {
+              const split = p.replace('/', '').split('/');
+              return split[split.length - 2] === currentNode.id.replace('urn:', '');
+            });
           }}
         />
       </Wrapper>
@@ -147,7 +145,7 @@ const AddExistingToNode = ({
     <StyledMenuWrapper>
       <MenuItemButton onClick={toggleEditModeFunc}>
         <RoundIcon small icon={<Plus />} />
-        {t('taxonomy.addExistingTopic')}
+        {t('taxonomy.addExistingNode', { nodeType: t(`taxonomy.nodeType.${nodeType}`) })}
       </MenuItemButton>
       <StyledActionContent>
         {loading && (

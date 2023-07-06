@@ -40,7 +40,7 @@ export type EditMode =
   | 'openCustomFields'
   | 'toggleMetadataVisibility'
   | 'editGrepCodes'
-  | 'addExistingTopic'
+  | 'addExistingNode'
   | 'addTopic'
   | 'deleteSubject'
   | 'requestPublish'

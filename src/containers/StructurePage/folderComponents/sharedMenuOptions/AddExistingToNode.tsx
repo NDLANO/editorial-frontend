@@ -92,7 +92,7 @@ const AddExistingToNode = ({
     toggleEditModeFunc();
     try {
       const connections = await fetchConnectionsForNode({ id: node.id, taxonomyVersion });
-      const parentConnection = connections.find((conn) => conn.type === 'parent-topic');
+      const parentConnection = connections.find((conn) => conn.type.startsWith('parent'));
       if (!parentConnection) {
         setError('taxonomy.errorMessage');
         return;

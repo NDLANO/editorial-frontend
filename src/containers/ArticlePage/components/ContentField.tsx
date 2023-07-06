@@ -20,6 +20,7 @@ import handleError from '../../../util/handleError';
 import ContentLink from './ContentLink';
 import { ArticleFormType } from '../../FormikForm/articleFormHooks';
 import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropdown';
+import TaxonomyLightbox from '../../../components/Taxonomy/TaxonomyLightbox';
 
 interface Props {
   field: FieldInputProps<ArticleFormType['relatedContent']>;
@@ -127,7 +128,17 @@ const ContentField = ({ field, form }: Props) => {
         </ButtonV2>
       </StyledButtonWrapper>
       {showAddExternal && (
-        <ContentLink onAddLink={addExternalLink} onClose={() => setShowAddExternal(false)} />
+        <TaxonomyLightbox
+          title={t('form.content.relatedArticle.searchExternal')}
+          onClose={() => setShowAddExternal(false)}
+        >
+          <ContentLink
+            onAddLink={(title, url) => {
+              addExternalLink(title, url);
+              setShowAddExternal(false);
+            }}
+          />
+        </TaxonomyLightbox>
       )}
     </>
   );

@@ -147,6 +147,7 @@ const EditImage = ({ embed, saveEmbedUpdates, setEditModus, language }: Props) =
               onSave={onSave}
               isDecorative={state.isDecorative}
               handleCheck={handleCheck}
+              allowDecorative={embed.allowDecorative}
             />
           </StyledEditorContent>
         </StyledEditorWrapper>

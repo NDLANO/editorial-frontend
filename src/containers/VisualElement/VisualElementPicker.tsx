@@ -18,9 +18,10 @@ interface Props {
   editor: Editor;
   language: string;
   types?: string[];
+  allowDecorative?: boolean;
 }
 
-const VisualElementPicker = ({ editor, language, types }: Props) => {
+const VisualElementPicker = ({ editor, language, types, allowDecorative }: Props) => {
   const { t } = useTranslation();
   const onInsertBlock = (block: Element) => {
     Editor.withoutNormalizing(editor, () => {
@@ -52,6 +53,7 @@ const VisualElementPicker = ({ editor, language, types }: Props) => {
           resource={selectedResource}
           onVisualElementClose={resetSelectedResource}
           onInsertBlock={onInsertBlock}
+          allowDecorative={allowDecorative}
         />
       )}
       <VisualElementMenu onSelect={onSelect} types={types} />

@@ -15,7 +15,7 @@ import { defaultFileBlock } from '../file/utils';
 import VisualElementModalWrapper from '../../../../containers/VisualElement/VisualElementModalWrapper';
 import getCurrentBlock from '../../utils/getCurrentBlock';
 import { TYPE_TABLE_CELL } from '../table/types';
-import { Embed } from '../../../../interfaces';
+import { Embed, ImageEmbed } from '../../../../interfaces';
 import VisualElementSearch from '../../../../containers/VisualElement/VisualElementSearch';
 
 export const checkboxAction = (
@@ -55,6 +55,7 @@ interface Props {
   onInsertBlock: (block: Element, selectBlock?: boolean) => void;
   isOpen: boolean;
   label?: string;
+  allowDecorative?: boolean;
 }
 
 const SlateVisualElementPicker = ({
@@ -64,6 +65,7 @@ const SlateVisualElementPicker = ({
   onInsertBlock,
   isOpen,
   label,
+  allowDecorative,
 }: Props) => {
   const formikContext = useFormikContext<{ metaImageAlt?: string; metaImageId?: string }>();
   const { values } = formikContext;
@@ -73,6 +75,11 @@ const SlateVisualElementPicker = ({
 
   const onVisualElementAdd = (visualElement: Embed | DOMStringMap[]) => {
     if (isEmbed(visualElement)) {
+      // this only happens when it is set by VisualElementField
+      if (allowDecorative === false && visualElement.resource === 'image') {
+        visualElement = visualElement as ImageEmbed;
+        visualElement.allowDecorative = allowDecorative;
+      }
       const blockToInsert = getNewEmbed(editor, visualElement);
       onInsertBlock(blockToInsert);
     } else {

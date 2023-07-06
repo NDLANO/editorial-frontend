@@ -40,6 +40,7 @@ const VisualElementField = ({ types }: Props) => {
                 label={t('form.visualElement.label')}
                 language={formik.values.language}
                 types={types}
+                allowDecorative={false}
                 {...field}
               />
             </>

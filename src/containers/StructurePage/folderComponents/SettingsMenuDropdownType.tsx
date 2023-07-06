@@ -127,7 +127,6 @@ const SettingsMenuDropdownType = ({
         {isTaxonomyAdmin && rootNodeId !== node.id && (
           <DisconnectFromParent
             node={node}
-            nodeChildren={nodeChildren}
             editModeHandler={editModeHandler}
             onCurrentNodeChanged={onCurrentNodeChanged}
           />

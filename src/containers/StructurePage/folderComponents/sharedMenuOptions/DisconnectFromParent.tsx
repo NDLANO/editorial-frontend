@@ -14,12 +14,7 @@ import { Node, NodeChild } from '@ndla/types-taxonomy';
 import AlertModal from '../../../../components/AlertModal';
 import RoundIcon from '../../../../components/RoundIcon';
 import { updateStatusDraft } from '../../../../modules/draft/draftApi';
-import {
-  useDeleteNodeConnectionMutation,
-  useDeleteNodeMutation,
-} from '../../../../modules/nodes/nodeMutations';
-import { queryTopics } from '../../../../modules/taxonomy';
-import { ARCHIVED } from '../../../../constants';
+import { useDeleteNodeConnectionMutation } from '../../../../modules/nodes/nodeMutations';
 import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
 import { EditModeHandler } from '../SettingsMenuDropdownType';
 import MenuItemButton from './components/MenuItemButton';
@@ -29,15 +24,12 @@ import { StyledErrorMessage } from '../styles';
 
 interface Props {
   node: Node | NodeChild;
-  nodeChildren: Node[];
   editModeHandler: EditModeHandler;
   onCurrentNodeChanged: (node?: Node) => void;
-  rootNodeId?: string;
 }
 
 const DisconnectFromParent = ({
   node,
-  nodeChildren,
   editModeHandler: { editMode, toggleEditMode },
   onCurrentNodeChanged,
 }: Props) => {
@@ -48,13 +40,11 @@ const DisconnectFromParent = ({
   const navigate = useNavigate();
   const location = useLocation();
 
-  const disabled = nodeChildren && nodeChildren.length !== 0;
-
   const deleteNodeConnectionMutation = useDeleteNodeConnectionMutation();
 
   const toggleDisconnect = () => toggleEditMode('disconnectFromParent');
 
-  const onDelete = async (): Promise<void> => {
+  const onDisconnect = async (): Promise<void> => {
     setLoading(true);
     setError(undefined);
     toggleDisconnect();
@@ -72,7 +62,7 @@ const DisconnectFromParent = ({
   };
   return (
     <>
-      <MenuItemButton data-testid="disconnectNode" disabled={disabled} onClick={toggleDisconnect}>
+      <MenuItemButton data-testid="disconnectNode" onClick={toggleDisconnect}>
         <RoundIcon small icon={<DeleteForever />} />
         {t('taxonomy.disconnectNode')}
       </MenuItemButton>
@@ -87,7 +77,7 @@ const DisconnectFromParent = ({
           },
           {
             text: t('alertModal.disconnect'),
-            onClick: onDelete,
+            onClick: onDisconnect,
           },
         ]}
         onCancel={toggleDisconnect}

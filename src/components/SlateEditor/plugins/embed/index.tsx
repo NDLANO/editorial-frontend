@@ -94,7 +94,8 @@ export const embedSerializer: SlateSerializer = {
 };
 
 export const embedPlugin =
-  (language: string, locale?: LocaleType, disableNormalize?: boolean) => (editor: Editor) => {
+  (language: string, locale?: LocaleType, disableNormalize?: boolean, allowDecorative?: boolean) =>
+  (editor: Editor) => {
     const {
       renderElement: nextRenderElement,
       normalizeNode: nextNormalizeNode,
@@ -110,6 +111,7 @@ export const embedPlugin =
             element={element}
             language={language}
             locale={locale}
+            allowDecorative={allowDecorative !== false}
           >
             {children}
           </SlateFigure>

@@ -40,6 +40,7 @@ interface Props {
   language: string;
   locale?: LocaleType;
   children: ReactNode;
+  allowDecorative: boolean;
 }
 
 interface ChangesProp {
@@ -48,7 +49,15 @@ interface ChangesProp {
   [x: string]: string;
 }
 
-const SlateFigure = ({ attributes, editor, element, language, locale = 'nb', children }: Props) => {
+const SlateFigure = ({
+  attributes,
+  editor,
+  element,
+  language,
+  locale = 'nb',
+  children,
+  allowDecorative,
+}: Props) => {
   const embed = element.data;
   const { t } = useTranslation();
 
@@ -91,6 +100,7 @@ const SlateFigure = ({ attributes, editor, element, language, locale = 'nb', chi
           active={isActive()}
           isSelectedForCopy={isSelected}
           pathToEmbed={pathToEmbed}
+          allowDecorative={allowDecorative}
         >
           {children}
         </SlateImage>

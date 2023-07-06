@@ -33,7 +33,7 @@ const VisualElement = ({
   allowDecorative,
 }: Props) => {
   const plugins = useMemo(() => {
-    return [embedPlugin(language, undefined, true)];
+    return [embedPlugin(language, undefined, true, false)];
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedResource]);
 

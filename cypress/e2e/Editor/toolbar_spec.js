@@ -65,7 +65,7 @@ describe('Selecting text and using the toolbar', () => {
     cy.get('[data-testid=toolbar-button-quote][data-active=true]').should('exist');
     cy.get('span')
       .contains('This is test content')
-      .type('{selectAll}{rightArrow}{enter}{enter} test new line{selectAll}');
+      .type('{end}{enter}{enter} test new line{selectAll}');
     cy.get('blockquote').contains('test new line').should('not.exist');
   });
 

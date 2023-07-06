@@ -41,13 +41,10 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
   const [queryInput, setQueryInput] = useState(search.query ?? '');
   const [isHasPublished, setIsHasPublished] = useState(false);
 
-  const { data: users } = useAuth0Editors(
-    { permission: DRAFT_WRITE_SCOPE },
-    {
-      select: (users) => users.map((u) => ({ id: `${u.app_metadata.ndla_id}`, name: u.name })),
-      placeholderData: [],
-    },
-  );
+  const { data: users } = useAuth0Editors({
+    select: (users) => users.map((u) => ({ id: `${u.app_metadata.ndla_id}`, name: u.name })),
+    placeholderData: [],
+  });
 
   const { data: responsibles } = useAuth0Responsibles(
     { permission: DRAFT_RESPONSIBLE },

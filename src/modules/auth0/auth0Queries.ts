@@ -27,14 +27,13 @@ export interface Auth0Editors {
   permission: string;
 }
 
-export const auth0EditorsQueryKey = (params?: Partial<Auth0Editors>) => [AUTH0_EDITORS, params];
+export const auth0EditorsQueryKey = [AUTH0_EDITORS];
 export const useAuth0Editors = <ReturnType>(
-  params: Auth0Editors,
   options: UseQueryOptions<Auth0UserData[], unknown, ReturnType>,
 ) =>
   useQuery<Auth0UserData[], unknown, ReturnType>(
-    auth0EditorsQueryKey(params),
-    () => fetchAuth0Editors(params.permission),
+    auth0EditorsQueryKey,
+    () => fetchAuth0Editors(),
     options,
   );
 

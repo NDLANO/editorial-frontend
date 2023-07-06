@@ -75,12 +75,7 @@ const VisualElementEditor = ({
           });
         }}
       >
-        <VisualElementPicker
-          editor={editor}
-          types={types}
-          language={language}
-          allowDecorative={allowDecorative}
-        />
+        <VisualElementPicker editor={editor} types={types} language={language} />
         <Editable
           readOnly={true}
           renderElement={renderElement}

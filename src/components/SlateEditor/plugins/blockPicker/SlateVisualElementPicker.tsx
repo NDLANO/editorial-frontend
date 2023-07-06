@@ -55,7 +55,6 @@ interface Props {
   onInsertBlock: (block: Element, selectBlock?: boolean) => void;
   isOpen: boolean;
   label?: string;
-  allowDecorative?: boolean;
 }
 
 const SlateVisualElementPicker = ({
@@ -65,7 +64,6 @@ const SlateVisualElementPicker = ({
   onInsertBlock,
   isOpen,
   label,
-  allowDecorative,
 }: Props) => {
   const formikContext = useFormikContext<{ metaImageAlt?: string; metaImageId?: string }>();
   const { values } = formikContext;
@@ -75,11 +73,6 @@ const SlateVisualElementPicker = ({
 
   const onVisualElementAdd = (visualElement: Embed | DOMStringMap[]) => {
     if (isEmbed(visualElement)) {
-      // this only happens when it is set by VisualElementField
-      if (allowDecorative === false && visualElement.resource === 'image') {
-        visualElement = visualElement as ImageEmbed;
-        visualElement.allowDecorative = String(allowDecorative);
-      }
       const blockToInsert = getNewEmbed(editor, visualElement);
       onInsertBlock(blockToInsert);
     } else {

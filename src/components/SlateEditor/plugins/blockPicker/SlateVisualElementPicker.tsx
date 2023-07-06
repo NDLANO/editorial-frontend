@@ -78,7 +78,7 @@ const SlateVisualElementPicker = ({
       // this only happens when it is set by VisualElementField
       if (allowDecorative === false && visualElement.resource === 'image') {
         visualElement = visualElement as ImageEmbed;
-        visualElement.allowDecorative = allowDecorative;
+        visualElement.allowDecorative = String(allowDecorative);
       }
       const blockToInsert = getNewEmbed(editor, visualElement);
       onInsertBlock(blockToInsert);

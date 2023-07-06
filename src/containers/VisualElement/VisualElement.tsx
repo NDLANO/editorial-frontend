@@ -19,7 +19,6 @@ interface Props {
   value: EmbedElements[];
   selectedResource: string;
   resetSelectedResource: () => void;
-  allowDecorative?: boolean;
 }
 
 const VisualElement = ({
@@ -30,7 +29,6 @@ const VisualElement = ({
   value,
   selectedResource,
   resetSelectedResource,
-  allowDecorative,
 }: Props) => {
   const plugins = useMemo(() => {
     return [embedPlugin(language, undefined, true, false)];
@@ -47,7 +45,6 @@ const VisualElement = ({
       language={language}
       selectedResource={selectedResource}
       resetSelectedResource={resetSelectedResource}
-      allowDecorative={allowDecorative}
     />
   );
 };

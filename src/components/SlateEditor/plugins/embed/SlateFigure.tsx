@@ -40,7 +40,7 @@ interface Props {
   language: string;
   locale?: LocaleType;
   children: ReactNode;
-  allowDecorative: boolean;
+  allowDecorative?: boolean;
 }
 
 interface ChangesProp {

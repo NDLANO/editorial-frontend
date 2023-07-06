@@ -26,18 +26,9 @@ interface Props {
   selectedResource: string;
   resetSelectedResource: () => void;
   types?: string[];
-  allowDecorative?: boolean;
 }
 
-const VisualElementEditor = ({
-  name,
-  value,
-  plugins,
-  onChange,
-  types,
-  language,
-  allowDecorative,
-}: Props) => {
+const VisualElementEditor = ({ name, value, plugins, onChange, types, language }: Props) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const editor = useMemo(() => withHistory(withReact(withPlugins(createEditor(), plugins))), []);
 

@@ -94,7 +94,7 @@ const TopicArticleTaxonomyFormAccordion = ({
   setExistInTaxonomy,
 }: Props) => {
   const [structure, setStructure] = useState<StructureSubject[]>([]);
-  const [status, setStatus] = useState('loading');
+  const [status, setStatus] = useState('initial');
   const [isDirty, setIsDirty] = useState(false);
   const [stagedTopicChanges, setStagedTopicChanges] = useState<StagedTopic[]>([]);
   const [showWarning, setShowWarning] = useState(false);
@@ -104,6 +104,9 @@ const TopicArticleTaxonomyFormAccordion = ({
   const { data: versions } = useVersions();
   const qc = useQueryClient();
   const [taxonomyMounted, setTaxonomyMounted] = useState(false);
+  const [selectLoading, setSelectLoading] = useState(false);
+  const [selectError, setSelectError] = useState(false);
+  const [taxBlockLoading, setTaxBlockLoading] = useState(true);
 
   const { data: topics } = useNodes(
     {
@@ -118,6 +121,7 @@ const TopicArticleTaxonomyFormAccordion = ({
     (async () => {
       if (taxonomyMounted) {
         try {
+          setSelectLoading(true);
           const subjects = await fetchSubjects({ language: i18n.language, taxonomyVersion });
 
           const sortedSubjects = subjects.filter((subject) => subject.name).sort(sortByName);
@@ -145,8 +149,11 @@ const TopicArticleTaxonomyFormAccordion = ({
           setStatus('initial');
           setStagedTopicChanges(stagedTopicChanges);
           setStructure(sortedSubjects);
+          setSelectLoading(false);
+          setTaxBlockLoading(false);
         } catch (e) {
           handleError(e);
+          setSelectLoading(false);
           setStatus('error');
         }
       }
@@ -300,7 +307,7 @@ const TopicArticleTaxonomyFormAccordion = ({
     if (!newVersion || newVersion.value === taxonomyVersion) return;
     const oldVersion = taxonomyVersion;
     try {
-      setStatus('loading');
+      setSelectError(false);
       setIsDirty(false);
       changeVersion(newVersion.value);
       qc.removeQueries({
@@ -312,6 +319,7 @@ const TopicArticleTaxonomyFormAccordion = ({
     } catch (e) {
       handleError(e);
       setStatus('error');
+      setSelectError(true);
     }
   };
 
@@ -328,7 +336,7 @@ const TopicArticleTaxonomyFormAccordion = ({
       className={'u-6/6'}
       hasError={!existInTaxonomy}
     >
-      {status === 'loading' && <Spinner />}
+      {taxBlockLoading && <Spinner />}
       {status === 'error' && (
         <ErrorMessage
           illustration={{
@@ -349,7 +357,12 @@ const TopicArticleTaxonomyFormAccordion = ({
             articleType={article.articleType ?? 'topic-article'}
             taxonomy={taxonomy}
           />
-          <VersionSelect versions={versions ?? []} onVersionChanged={onVersionChanged} />
+          <VersionSelect
+            versions={versions ?? []}
+            onVersionChanged={onVersionChanged}
+            isLoading={selectLoading}
+            error={selectError}
+          />
         </>
       )}
       <TopicArticleConnections
@@ -374,6 +387,7 @@ const TopicArticleTaxonomyFormAccordion = ({
           disabled={!isDirty}
           onClick={handleSubmit}
           defaultText="saveTax"
+          loading={status === 'loading'}
         />
       </ButtonContainer>
     </FormAccordion>

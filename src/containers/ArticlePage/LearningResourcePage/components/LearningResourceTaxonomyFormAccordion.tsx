@@ -107,7 +107,10 @@ const LearningResourceTaxonomyFormAccordion = ({
 }: Props) => {
   const [resourceId, setResourceId] = useState<string>('');
   const [structure, setStructure] = useState<LearningResourceSubjectType[]>([]);
-  const [status, setStatus] = useState<Status>('loading');
+  const [status, setStatus] = useState<Status>('initial');
+  const [selectLoading, setSelectLoading] = useState(false);
+  const [selectError, setSelectError] = useState(false);
+  const [taxBlockLoading, setTaxBlockLoading] = useState(true);
   const [error, setError] = useState<string | undefined>(undefined);
   const [isDirty, setIsDirty] = useState<boolean>(false);
   const [showWarning, setShowWarning] = useState<boolean>(false);
@@ -129,6 +132,8 @@ const LearningResourceTaxonomyFormAccordion = ({
     const { id } = article;
     if (!id) return;
     try {
+      setStatus('loading');
+      setSelectLoading(true);
       const resourceId = taxonomy.resources.length === 1 && taxonomy.resources[0].id;
 
       if (taxonomy.resources.length > 1) {
@@ -137,22 +142,18 @@ const LearningResourceTaxonomyFormAccordion = ({
         const fullResource = await fetchFullResource(resourceId, i18n.language);
 
         setResourceId(resourceId);
-        setStatus('initial');
         setResourceTaxonomy(fullResource);
         setTaxonomyChanges(fullResource);
-      } else {
-        // resource does not exist in taxonomy
         setStatus('initial');
-        setResourceTaxonomy({
-          ...emptyTaxonomy,
-        });
-        setTaxonomyChanges({
-          ...emptyTaxonomy,
-        });
+        setSelectLoading(false);
       }
+      setTaxBlockLoading(false);
     } catch (e) {
       handleError(e);
-      setError('errorMessage.versionSelect');
+      setStatus('initial');
+      setSelectLoading(false);
+      setSelectError(true);
+      setTaxBlockLoading(false);
     }
   };
 
@@ -185,8 +186,8 @@ const LearningResourceTaxonomyFormAccordion = ({
     const { id, title, revision } = article;
 
     if (!title?.language || !id) return;
-    setStatus('loading');
     try {
+      setStatus('loading');
       if (!reassignedResourceId) {
         await createResource({
           body: { contentUri: `urn:article:${id}`, name: title.title },
@@ -211,13 +212,15 @@ const LearningResourceTaxonomyFormAccordion = ({
           language: title.language,
           notes: ['Oppdatert taksonomi.'],
         });
-        setStatus('success');
         setIsDirty(false);
         silentlyRefetchResourceTaxonomy();
         setExistInTaxonomy(!!taxonomyChanges.topics.length);
+        setStatus('success');
+        setError(undefined);
       }
     } catch (err) {
       handleError(err);
+      setStatus('initial');
       setError('errorMessage.taxonomy');
     }
   };
@@ -296,7 +299,7 @@ const LearningResourceTaxonomyFormAccordion = ({
     if (!newVersion || newVersion.value === taxonomyVersion) return;
     const oldVersion = taxonomyVersion;
     try {
-      setStatus('loading');
+      setSelectError(false);
       setIsDirty(false);
       changeVersion(newVersion.value);
       qc.removeQueries({
@@ -307,7 +310,9 @@ const LearningResourceTaxonomyFormAccordion = ({
       });
     } catch (e) {
       handleError(e);
-      setError('errorMessage.taxonomy');
+      setSelectLoading(false);
+      setStatus('initial');
+      setSelectError(true);
     }
   };
 
@@ -347,7 +352,7 @@ const LearningResourceTaxonomyFormAccordion = ({
       className={'u-6/6'}
       hasError={!existInTaxonomy}
     >
-      {status === 'loading' && <Spinner />}
+      {taxBlockLoading && <Spinner />}
       {isTaxonomyAdmin && (
         <TaxonomyConnectionErrors
           articleType={article.articleType ?? 'standard'}
@@ -356,7 +361,12 @@ const LearningResourceTaxonomyFormAccordion = ({
       )}
       {isTaxonomyAdmin && resourceId && (
         <>
-          <VersionSelect versions={versions ?? []} onVersionChanged={onVersionChanged} />
+          <VersionSelect
+            versions={versions ?? []}
+            onVersionChanged={onVersionChanged}
+            isLoading={selectLoading}
+            error={selectError}
+          />
           <TaxonomyInfo taxonomyElement={mainEntity} updateMetadata={updateMetadata} />
         </>
       )}
@@ -387,6 +397,7 @@ const LearningResourceTaxonomyFormAccordion = ({
           onClick={handleSubmit}
           defaultText="saveTax"
           formIsDirty={isDirty}
+          loading={status === 'loading'}
         />
       </ButtonContainer>
     </FormAccordion>

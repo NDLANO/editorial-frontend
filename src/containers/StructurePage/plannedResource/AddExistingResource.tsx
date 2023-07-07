@@ -9,7 +9,7 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { InputV2 } from '@ndla/forms';
 import styled from '@emotion/styled';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { IArticleV2 } from '@ndla/types-backend/article-api';
 import { ILearningPathSummaryV2, ILearningPathV2 } from '@ndla/types-backend/learningpath-api';
@@ -25,13 +25,13 @@ import {
   learningpathSearch,
   updateLearningPathTaxonomy,
 } from '../../../modules/learningpath/learningpathApi';
-import { groupSearch, searchResources } from '../../../modules/search/searchApi';
+import { groupSearch } from '../../../modules/search/searchApi';
 import ArticlePreview from '../../../components/ArticlePreview';
 import { getArticle } from '../../../modules/article/articleApi';
 import handleError from '../../../util/handleError';
 import { usePostResourceForNodeMutation } from '../../../modules/nodes/nodeMutations';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
-import { resourcesWithNodeConnectionQueryKey } from '../../../modules/nodes/nodeQueries';
+import { resourcesWithNodeConnectionQueryKey, useNodes } from '../../../modules/nodes/nodeQueries';
 import Spinner from '../../../components/Spinner';
 import {
   ButtonWrapper,
@@ -91,19 +91,58 @@ type PossibleResources =
 
 const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, nodeId }: Props) => {
   const { t, i18n } = useTranslation();
-  const [preview, setPreview] = useState<Preview | undefined>(undefined);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [selectedType, setSelectedType] = useState(RESOURCE_TYPE_SUBJECT_MATERIAL);
   const [pastedUrl, setPastedUrl] = useState('');
   const [previewLoading, setPreviewLoading] = useState(false);
+  const [contentUri, setContentUri] = useState<string | undefined>();
+  const [resourceId, setResourceId] = useState<string | undefined>();
+  const [preview, setPreview] = useState<Preview | undefined>(undefined);
+  const [articleInputId, setArticleInputId] = useState<string | undefined>();
   const qc = useQueryClient();
   const { taxonomyVersion } = useTaxonomyVersion();
   const compKey = resourcesWithNodeConnectionQueryKey({ id: nodeId, language: i18n.language });
   const { mutateAsync: createNodeResource } = usePostResourceForNodeMutation({
     onSuccess: (_) => qc.invalidateQueries(compKey),
   });
-  const [resourceId, setResourceId] = useState<string | undefined>(undefined);
+  const { data: articleSearchData } = useNodes({
+    contentURI: `urn:article:${articleInputId}`,
+    taxonomyVersion,
+  });
+
+  useEffect(() => {
+    if (articleSearchData && articleSearchData.length) {
+      // articleSearchData.filter((node) => node.nodeType === 'TOPIC'); bedre å filtrere eller er det uid for alle artikler?
+      const res = articleSearchData[0];
+      if (res.id.includes('topic')) return;
+      setResourceId(res.id);
+      setContentUri(res.contentUri);
+    }
+  }, [articleSearchData]);
+
+  useEffect(() => {
+    if (!contentUri || !resourceId) return;
+    setPreviewLoading(true);
+    const fetchData = async () => {
+      setPreviewLoading(true);
+      let preview = undefined;
+      if (contentUri.includes('learningpath')) {
+        const learningpathId = contentUri.split('learningpath:')[1];
+        const res = await fetchLearningpaths([Number(learningpathId)]);
+        preview = res.length && toPreview(res[0]);
+      } else {
+        const previewId = contentUri.split('article:')[1];
+        const res = await getArticle(Number(previewId));
+        preview = res && toPreview(res);
+      }
+      if (preview) {
+        setPreview(preview);
+      }
+    };
+    fetchData();
+    setPreviewLoading(false);
+  }, [contentUri, resourceId]);
 
   const toPreview = (resource: PossibleResources): Preview => {
     if ('metaUrl' in resource) {
@@ -124,6 +163,63 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
     }
   };
 
+  const onSearch = async (query: string, page?: number) => {
+    const baseQuery = {
+      query,
+      page,
+      language: i18n.language,
+      fallback: true,
+    };
+    if (selectedType === RESOURCE_TYPE_LEARNING_PATH) {
+      return await learningpathSearch({ ...baseQuery, verificationStatus: 'CREATED_BY_NDLA' });
+    } else {
+      const res = await groupSearch({ ...baseQuery, 'resource-types': selectedType });
+      return res.pop() ?? emptySearchResults;
+    }
+  };
+
+  const resetPastedUrlStatesWithError = (error?: string) => {
+    setError(error ?? '');
+    setArticleInputId(undefined);
+    setPreview(undefined);
+    setPreviewLoading(false);
+    setResourceId(undefined);
+  };
+
+  const onPaste = async (evt: ChangeEvent<HTMLInputElement>) => {
+    const input = evt.target.value;
+    setPastedUrl(input);
+
+    if (!input) return;
+
+    const pastedIsNumber = /^-?\d+$/.test(input);
+    const articleIdInPathMatch = input.match(/article\/(\d+)/);
+    const articleIdInInput = articleIdInPathMatch
+      ? articleIdInPathMatch[1]
+      : pastedIsNumber && input;
+
+    if (articleIdInInput === articleInputId) return;
+    resetPastedUrlStatesWithError();
+
+    if (articleIdInInput) {
+      setArticleInputId(articleIdInInput);
+    } else {
+      const inputMatch = input.match(/ndla.no\/(.+)/);
+      const inputPath = inputMatch && inputMatch[1];
+      if (!inputPath) {
+        resetPastedUrlStatesWithError(t('errorMessage.invalidUrl'));
+        return;
+      }
+      try {
+        const resolvedUrl = await resolveUrls({ path: inputPath, taxonomyVersion });
+        setResourceId(resolvedUrl.id);
+        setContentUri(resolvedUrl.contentUri);
+      } catch (e) {
+        resetPastedUrlStatesWithError(t('taxonomy.noResources'));
+      }
+    }
+  };
+
   const findResourceIdLearningPath = async (learningpathId: number) => {
     await updateLearningPathTaxonomy(learningpathId, true);
     try {
@@ -141,10 +237,8 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
 
   const onAddResource = async () => {
     if (!preview) return;
-
     let id = resourceId;
-
-    if (!resourceId) {
+    if (!id) {
       const isLearningpath = selectedType === RESOURCE_TYPE_LEARNING_PATH && 'metaUrl' in preview;
       const isArticleOrDraft = 'paths' in preview;
       id = isLearningpath
@@ -154,102 +248,19 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
         : undefined;
     }
 
+    if (!id) {
+      return;
+    }
+
     if (existingResourceIds.includes(String(resourceId))) {
       resetPastedUrlStatesWithError(t('taxonomy.resource.addResourceConflict'));
       return;
     }
 
-    if (!id) return;
-
     await createNodeResource({ body: { resourceId: id, nodeId }, taxonomyVersion })
       .then((_) => onClose())
       .catch(() => resetPastedUrlStatesWithError('taxonomy.resource.creationFailed'));
     setLoading(false);
-  };
-
-  const resetPastedUrlStatesWithError = (error?: string) => {
-    error && setError(error);
-    setPreview(undefined);
-    setPreviewLoading(false);
-    setResourceId(undefined);
-  };
-
-  const onPaste = async (evt: ChangeEvent<HTMLInputElement>) => {
-    resetPastedUrlStatesWithError('');
-    const input = evt.target.value;
-    setPastedUrl(input);
-    if (!input) return;
-
-    const pastedIsNumber = /^-?\d+$/.test(input);
-    const articleIdInPathMatch = input.match(/article\/(\d+)/);
-    const articleIdInInput = articleIdInPathMatch
-      ? articleIdInPathMatch[1]
-      : pastedIsNumber && input;
-
-    let resourceId = undefined;
-    let preview = undefined;
-    setPreviewLoading(true);
-
-    try {
-      if (articleIdInInput) {
-        const article = await getArticle(Number(articleIdInInput));
-        const res = await searchResources({ ids: String(article.id), 'article-types': 'standard' });
-        if (res.totalCount > 0) {
-          preview = res.results[0];
-          resourceId = preview.contexts.length ? preview.contexts[0].id : undefined;
-        } else {
-          resetPastedUrlStatesWithError();
-          return;
-        }
-      } else {
-        const inputMatch = input.match(/ndla.no\/(.+)/);
-        const inputPath = inputMatch && inputMatch[1];
-
-        if (!inputPath) {
-          resetPastedUrlStatesWithError(t('errorMessage.invalidUrl'));
-          return;
-        }
-
-        const resolvedUrl = await resolveUrls({ path: inputPath, taxonomyVersion });
-        resourceId = resolvedUrl.id;
-        const previewUri = resolvedUrl.contentUri;
-
-        if (previewUri.includes('learningpath')) {
-          const learningpathId = resolvedUrl.contentUri.split('learningpath:')[1];
-          const results = await fetchLearningpaths([Number(learningpathId)]);
-          preview = results.length && results[0];
-        } else {
-          const previewId = resolvedUrl.contentUri.split('article:')[1];
-          preview = await getArticle(Number(previewId));
-        }
-      }
-
-      if (!preview) {
-        return;
-      }
-
-      setPreview(toPreview(preview));
-      setPreviewLoading(false);
-      setResourceId(resourceId);
-      setError('');
-    } catch (e) {
-      resetPastedUrlStatesWithError(t('taxonomy.noResources'));
-    }
-  };
-
-  const onSearch = async (query: string, page?: number) => {
-    const baseQuery = {
-      query,
-      page,
-      language: i18n.language,
-      fallback: true,
-    };
-    if (selectedType === RESOURCE_TYPE_LEARNING_PATH) {
-      return await learningpathSearch({ ...baseQuery, verificationStatus: 'CREATED_BY_NDLA' });
-    } else {
-      const res = await groupSearch({ ...baseQuery, 'resource-types': selectedType });
-      return res.pop() ?? emptySearchResults;
-    }
   };
 
   return (

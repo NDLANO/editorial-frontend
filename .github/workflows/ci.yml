@@ -50,7 +50,7 @@ jobs:
         run: yarn ndla-scripts vercel-github
         continue-on-error: true
       - name: Install Playwright Browsers
-        run: yarn playwright install --with-deps
+        run: yarn playwright install --with-deps chromium
       - name: 'E2E'
         run: yarn e2e:headless
   integration_tests:

@@ -15,44 +15,45 @@ import { ButtonV2 } from '@ndla/button';
 import { useTranslation } from 'react-i18next';
 import { ModalHeader, ModalBody, ModalCloseButton, Modal, ModalTitle } from '@ndla/modal';
 import { fetchUserData } from '../../modules/draft/draftApi';
-import { fetchTopic, fetchTopicConnections } from '../../modules/taxonomy';
+import { fetchSubjectTopics, fetchTopic, fetchTopicConnections } from '../../modules/taxonomy';
 import ActiveTopicConnections from './ActiveTopicConnections';
 import HowToHelper from '../HowTo/HowToHelper';
 import StructureButtons from '../../containers/ArticlePage/LearningResourcePage/components/taxonomy/StructureButtons';
 import { SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
 import { StagedTopic } from '../../containers/ArticlePage/TopicArticlePage/components/TopicArticleTaxonomyFormAccordion';
-import { getBreadcrumbFromPath } from '../../util/taxonomyHelpers';
+import { getBreadcrumbFromPath, groupTopics } from '../../util/taxonomyHelpers';
 import { LocaleType } from '../../interfaces';
 import { useTaxonomyVersion } from '../../containers/StructureVersion/TaxonomyVersionProvider';
+import handleError from '../../util/handleError';
+import {
+  LearningResourceSubjectType,
+  TaxonomyChanges,
+} from '../../containers/ArticlePage/LearningResourcePage/components/LearningResourceTaxonomyFormAccordion';
 
 const StyledModalHeader = styled(ModalHeader)`
   padding-bottom: 0;
 `;
 
 interface Props {
-  structure: SubjectType[];
+  structure: LearningResourceSubjectType[];
+  setStructure: (s: SubjectType[]) => void;
   activeTopics: StagedTopic[];
-  removeConnection: (id: string) => void;
-  setPrimaryConnection: (id: string) => void;
   allowMultipleSubjectsOpen: boolean;
   stageTaxonomyChanges: (properties: any) => void;
-  getSubjectTopics: (subjectId: string) => Promise<void>;
-  setRelevance: (topicId: string, relevanceId: string) => void;
   setTaxonomyMounted: (v: boolean) => void;
+  taxonomyChanges: TaxonomyChanges;
 }
 
 const TopicConnections = ({
   structure,
+  setStructure,
   activeTopics,
-  removeConnection,
-  setPrimaryConnection,
   allowMultipleSubjectsOpen,
   stageTaxonomyChanges,
-  getSubjectTopics,
-  setRelevance,
   setTaxonomyMounted,
+  taxonomyChanges,
 }: Props) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
   const [openedPaths, setOpenedPaths] = useState<string[]>([]);
   const [showFavorites, setShowFavorites] = useState(true);
@@ -63,11 +64,60 @@ const TopicConnections = ({
     setTaxonomyMounted(true);
   }, [setTaxonomyMounted]);
 
+  const setRelevance = (topicId: string, relevanceId: string) => {
+    const { topics } = taxonomyChanges;
+
+    stageTaxonomyChanges({
+      topics: topics?.map((topic) => ({
+        ...topic,
+        ...(topic.id === topicId && {
+          relevanceId,
+        }),
+      })),
+    });
+  };
+
+  const setPrimaryConnection = (id: string) => {
+    const { topics } = taxonomyChanges;
+
+    stageTaxonomyChanges({
+      topics: topics?.map((topic) => ({
+        ...topic,
+        isPrimary: topic.id === id,
+      })),
+    });
+  };
+
   const fetchFavoriteSubjects = async () => {
     const result = await fetchUserData();
     const favoriteSubjects = result.favoriteSubjects || [];
     setFavoriteSubjectIds(favoriteSubjects);
     setShowFavorites(favoriteSubjects.length > 0);
+  };
+
+  const updateSubject = (subjectId: string, newSubject: Partial<LearningResourceSubjectType>) => {
+    setStructure(
+      structure.map((subject) =>
+        subject.id === subjectId ? { ...subject, ...newSubject } : subject,
+      ),
+    );
+  };
+
+  const getSubjectTopics = async (subjectid: string) => {
+    if (structure.some((subject) => subject.id === subjectid && subject.topics)) {
+      return;
+    }
+    try {
+      const allTopics = await fetchSubjectTopics({
+        subject: subjectid,
+        language: i18n.language,
+        taxonomyVersion,
+      });
+      const groupedTopics = groupTopics(allTopics);
+      updateSubject(subjectid, { topics: groupedTopics });
+    } catch (err) {
+      handleError(err);
+    }
   };
 
   const getFavoriteSubjects = (subjects: SubjectType[], favoriteSubjectIds: string[]) =>
@@ -119,6 +169,18 @@ const TopicConnections = ({
     closeModal();
   };
 
+  const removeConnection = (id: string) => {
+    const { topics } = taxonomyChanges;
+    const updatedTopics = topics?.filter((topic) => topic.id !== id);
+
+    // Auto set primary of only one connection.
+    if (updatedTopics?.length === 1) {
+      updatedTopics[0].isPrimary = true;
+    }
+    stageTaxonomyChanges({
+      topics: updatedTopics,
+    });
+  };
   return (
     <>
       <FieldHeader title={t('taxonomy.topics.title')} subTitle={t('taxonomy.topics.subTitle')}>

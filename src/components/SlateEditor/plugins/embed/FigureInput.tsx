@@ -73,7 +73,7 @@ const FigureInput = ({
           warningText={!submitted && isEmpty(alt) ? t('form.image.alt.noText') : ''}
         />
       )}
-      {!(allowDecorative === false) && (
+      {allowDecorative && (
         <CheckboxItem
           label={t('form.image.isDecorative')}
           checked={isDecorative}

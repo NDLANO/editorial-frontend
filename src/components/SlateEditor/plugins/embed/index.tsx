@@ -111,7 +111,7 @@ export const embedPlugin =
             element={element}
             language={language}
             locale={locale}
-            allowDecorative={allowDecorative !== false}
+            allowDecorative={allowDecorative}
           >
             {children}
           </SlateFigure>

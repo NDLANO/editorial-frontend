@@ -51,7 +51,13 @@ interface StateProps {
   madeChanges: boolean;
 }
 
-const EditImage = ({ embed, saveEmbedUpdates, setEditModus, language, allowDecorative }: Props) => {
+const EditImage = ({
+  embed,
+  saveEmbedUpdates,
+  setEditModus,
+  language,
+  allowDecorative = true,
+}: Props) => {
   const [state, setState] = useState<StateProps>({
     alt: embed.alt,
     caption: embed.caption,
@@ -147,7 +153,7 @@ const EditImage = ({ embed, saveEmbedUpdates, setEditModus, language, allowDecor
               onSave={onSave}
               isDecorative={state.isDecorative}
               handleCheck={handleCheck}
-              allowDecorative={allowDecorative !== false}
+              allowDecorative={allowDecorative}
             />
           </StyledEditorContent>
         </StyledEditorWrapper>

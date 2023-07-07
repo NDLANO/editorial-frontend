@@ -10,6 +10,8 @@ import { test, expect } from '@playwright/test';
 import { mockRoute } from '../apiMock';
 import { responsiblesMock, zendeskMock } from '../mockResponses';
 
+const metaKey = process.platform === 'darwin' ? 'Meta' : 'Control';
+
 test.beforeEach(async ({ page }) => {
   const zendesk = await mockRoute({
     page,
@@ -46,7 +48,7 @@ test('can change text styling', async ({ page }) => {
   const el = page.locator('[data-cy="slate-editor"]');
   await el.click();
   await el.type('Text to style');
-  await el.press('Meta+A');
+  await el.press(`${metaKey}+A`);
   const bold = page.getByTestId('toolbar-button-bold');
   await bold.click();
   expect(bold).toHaveAttribute('data-active', 'true');
@@ -72,17 +74,17 @@ test('can change text styling', async ({ page }) => {
   expect(h2).toHaveAttribute('data-active', 'true');
   await h2.click();
   await el.click();
-  await el.press('Meta+A');
+  await el.press(`${metaKey}+A`);
   await el.type(' new heading ');
-  await el.press('Meta+A');
+  await el.press(`${metaKey}+A`);
   const h3 = page.getByTestId('toolbar-button-heading-3');
   await h3.click();
   expect(h3).toHaveAttribute('data-active', 'true');
   await h3.click();
   await el.click();
-  await el.press('Meta+A');
+  await el.press(`${metaKey}+A`);
   await el.type('This is test content');
-  await el.press('Meta+A');
+  await el.press(`${metaKey}+A`);
   const quote = page.getByTestId('toolbar-button-quote');
   await quote.click();
   expect(quote).toHaveAttribute('data-active', 'true');
@@ -98,7 +100,7 @@ test('can create a valid link', async ({ page }) => {
   const el = page.locator('[data-cy="slate-editor"]');
   await el.click();
   await el.type('This is a test link');
-  await el.press('Meta+A');
+  await el.press(`${metaKey}+A`);
   const link = page.getByTestId('toolbar-button-link');
   expect(link).toBeVisible();
   await link.click();
@@ -115,7 +117,7 @@ test('All lists work properly', async ({ page }) => {
   const el = page.locator('[data-cy="slate-editor"]');
   await el.click();
   await el.type('First item in list');
-  await el.press('Meta+A');
+  await el.press(`${metaKey}+A`);
   const numberedList = page.getByTestId('toolbar-button-numbered-list');
   await numberedList.click();
   await expect(numberedList).toHaveAttribute('data-active', 'true');
@@ -125,12 +127,12 @@ test('All lists work properly', async ({ page }) => {
   await el.press('Enter');
   await el.type('Second item in list');
   await expect(page.getByRole('listitem')).toHaveCount(2);
-  await el.press('Meta+A');
+  await el.press(`${metaKey}+A`);
   const bulletList = page.getByTestId('toolbar-button-bulleted-list');
   await bulletList.click();
   await expect(bulletList).toHaveAttribute('data-active', 'true');
   await expect(page.locator('ul > li')).toHaveCount(2);
-  await el.press('Meta+A');
+  await el.press(`${metaKey}+A`);
   const letterList = page.getByTestId('toolbar-button-letter-list');
   await letterList.click();
   await expect(letterList).toHaveAttribute('data-active', 'true');
@@ -141,7 +143,7 @@ test('Definition list work properly', async ({ page }) => {
   const el = page.locator('[data-cy="slate-editor"]');
   await el.click();
   await el.type('Definition term');
-  await el.press('Meta+A');
+  await el.press(`${metaKey}+A`);
   const definitionList = page.getByTestId('toolbar-button-definition-list');
   await definitionList.click();
   await expect(definitionList).toHaveAttribute('data-active', 'true');
@@ -163,7 +165,7 @@ test('Selecting multiple paragraphs gives multiple terms', async ({ page }) => {
   await el.press('Enter');
   await el.type('Definition term 3');
   await el.press('Enter');
-  await el.press('Meta+A');
+  await el.press(`${metaKey}+A`);
   const definitionList = page.getByTestId('toolbar-button-definition-list');
   await definitionList.click();
   await expect(definitionList).toHaveAttribute('data-active', 'true');
@@ -174,7 +176,7 @@ test('Creates math', async ({ page }) => {
   const el = page.locator('[data-cy="slate-editor"]');
   await el.click();
   await el.type('1+1');
-  await el.press('Meta+A');
+  await el.press(`${metaKey}+A`);
   const math = page.getByTestId('toolbar-button-mathml');
   await math.click();
   await expect(page.locator('[data-cy="math"]')).toBeVisible();

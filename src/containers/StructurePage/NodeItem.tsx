@@ -29,7 +29,7 @@ import DndList from '../../components/DndList';
 import { DragHandle } from '../../components/DraggableItem';
 
 export type RenderBeforeFunction = (
-  input: NodeChild | Node,
+  node: NodeChild | Node,
   isRoot: boolean,
   isTaxonomyAdmin: boolean,
   articleType?: string,
@@ -71,6 +71,7 @@ interface Props {
   isLoading?: boolean;
   renderBeforeTitle?: RenderBeforeFunction;
   setShowAddTopicModal: (value: boolean) => void;
+  addTopicModalEnabled: boolean;
 }
 
 const NodeItem = ({
@@ -89,6 +90,7 @@ const NodeItem = ({
   nodes,
   renderBeforeTitle,
   setShowAddTopicModal,
+  addTopicModalEnabled,
 }: Props) => {
   const { t } = useTranslation();
   const { userPermissions } = useSession();
@@ -150,6 +152,7 @@ const NodeItem = ({
             jumpToResources={() => resourceSectionRef?.current?.scrollIntoView()}
             nodeChildren={nodes ?? []}
             setShowAddTopicModal={setShowAddTopicModal}
+            addTopicModalEnabled={addTopicModalEnabled}
           />
         )}
         {isLoading && (
@@ -182,6 +185,7 @@ const NodeItem = ({
                   toggleOpen={toggleOpen}
                   onDragEnd={onDragEnd}
                   setShowAddTopicModal={setShowAddTopicModal}
+                  addTopicModalEnabled={addTopicModalEnabled}
                 />
               )}
               dragHandle={

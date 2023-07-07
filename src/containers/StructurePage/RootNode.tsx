@@ -123,6 +123,7 @@ const RootNode = ({
       isFavorite={isFavorite}
       isLoading={childNodesQuery.isInitialLoading}
       setShowAddTopicModal={setShowAddTopicModal}
+      addTopicModalEnabled={childNodeTypes.includes('TOPIC')}
     />
   );
 };

@@ -97,7 +97,21 @@ const SettingsMenuDropdownType = ({
         )}
       </>
     );
-  } else if (nodeType === SUBJECT_NODE) {
+  }
+  if (nodeType === SUBJECT_NODE) {
+    if (rootNodeId !== node.id) {
+      return (
+        <>
+          {isTaxonomyAdmin && (
+            <DisconnectFromParent
+              node={node}
+              editModeHandler={editModeHandler}
+              onCurrentNodeChanged={onCurrentNodeChanged}
+            />
+          )}
+        </>
+      );
+    }
     return (
       <>
         {isTaxonomyAdmin && <ChangeNodeName editModeHandler={editModeHandler} node={node} />}
@@ -124,16 +138,10 @@ const SettingsMenuDropdownType = ({
             onCurrentNodeChanged={onCurrentNodeChanged}
           />
         )}
-        {isTaxonomyAdmin && rootNodeId !== node.id && (
-          <DisconnectFromParent
-            node={node}
-            editModeHandler={editModeHandler}
-            onCurrentNodeChanged={onCurrentNodeChanged}
-          />
-        )}
       </>
     );
-  } else if (nodeType === TOPIC_NODE) {
+  }
+  if (nodeType === TOPIC_NODE) {
     return (
       <>
         {isTaxonomyAdmin && <PublishChildNodeResources node={node} />}
@@ -179,7 +187,8 @@ const SettingsMenuDropdownType = ({
         )}
       </>
     );
-  } else return null;
+  }
+  return null;
 };
 
 export default SettingsMenuDropdownType;

@@ -7,48 +7,35 @@
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Option, Select, SingleValue } from '@ndla/select';
-import { ResourceType } from '@ndla/types-taxonomy';
 import { selectedResourceTypeValue } from '../../../util/taxonomyHelpers';
-import { RESOURCE_TYPE_LEARNING_PATH } from '../../../constants';
-import { ResourceResourceType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 
-const blacklistedResourceTypes = [RESOURCE_TYPE_LEARNING_PATH];
-
-interface Resource {
+interface ResourceType {
   id: string;
   name: string;
   parentId?: string;
 }
 
+interface ResourceTypeWithSubtypes extends ResourceType {
+  subtypes?: ResourceType[];
+}
+
 interface Props {
-  resourceTypes?: Resource[];
-  availableResourceTypes: ResourceType[];
+  onChangeSelectedResource: (value: SingleValue) => void;
+  resourceTypes?: ResourceType[];
+  availableResourceTypes: ResourceTypeWithSubtypes[];
   isClearable?: boolean;
-  stageTaxonomyChanges: (properties: any) => void;
 }
 const ResourceTypeSelect = ({
   availableResourceTypes,
   resourceTypes,
+  onChangeSelectedResource,
   isClearable = false,
-  stageTaxonomyChanges,
 }: Props) => {
   const { t } = useTranslation();
 
-  const filteredResourceTypes = useMemo(
-    () =>
-      availableResourceTypes
-        .filter((rt) => !blacklistedResourceTypes.includes(rt.id))
-        .map((rt) => ({
-          ...rt,
-          subtype:
-            rt.subtypes && rt.subtypes.filter((st) => !blacklistedResourceTypes.includes(st.id)),
-        })),
-    [availableResourceTypes],
-  );
-
   const options: Option[] = useMemo(
     () =>
-      filteredResourceTypes.flatMap((resourceType) =>
+      availableResourceTypes.flatMap((resourceType) =>
         resourceType.subtypes
           ? resourceType.subtypes.map((subtype) => ({
               label: `${resourceType.name} - ${subtype.name}`,
@@ -56,7 +43,7 @@ const ResourceTypeSelect = ({
             }))
           : { label: resourceType.name, value: resourceType.id },
       ),
-    [filteredResourceTypes],
+    [availableResourceTypes],
   );
 
   const value = useMemo(
@@ -66,36 +53,6 @@ const ResourceTypeSelect = ({
         : undefined,
     [options, resourceTypes],
   );
-
-  const onChangeSelectedResource = (value: SingleValue) => {
-    const options = value?.value?.split(',') ?? [];
-    const selectedResource = availableResourceTypes.find(
-      (resourceType) => resourceType.id === options[0],
-    );
-
-    if (selectedResource) {
-      const resourceTypes: ResourceResourceType[] = [
-        {
-          name: selectedResource.name,
-          id: selectedResource.id,
-          parentId: '',
-          connectionId: '',
-        },
-      ];
-
-      if (options.length > 1) {
-        const subType = selectedResource.subtypes?.find((subtype) => subtype.id === options[1]);
-        if (subType)
-          resourceTypes.push({
-            id: subType.id,
-            name: subType.name,
-            parentId: selectedResource.id,
-            connectionId: '',
-          });
-      }
-      stageTaxonomyChanges({ resourceTypes });
-    }
-  };
 
   return (
     <Select

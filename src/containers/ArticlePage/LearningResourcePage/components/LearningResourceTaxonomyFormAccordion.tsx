@@ -6,7 +6,7 @@
  *
  */
 
-import { MouseEvent, useState, useEffect, useRef } from 'react';
+import { MouseEvent, useState, useEffect, useRef, useMemo } from 'react';
 import styled from '@emotion/styled';
 import { Spinner } from '@ndla/icons';
 import { spacing } from '@ndla/core';
@@ -32,7 +32,11 @@ import TopicConnections from '../../../../components/Taxonomy/TopicConnections';
 import SaveButton from '../../../../components/SaveButton';
 import ResourceTypeSelect from '../../components/ResourceTypeSelect';
 import TaxonomyInfo from './taxonomy/TaxonomyInfo';
-import { TAXONOMY_ADMIN_SCOPE, RESOURCE_FILTER_CORE } from '../../../../constants';
+import {
+  TAXONOMY_ADMIN_SCOPE,
+  RESOURCE_FILTER_CORE,
+  RESOURCE_TYPE_LEARNING_PATH,
+} from '../../../../constants';
 import { FormikFieldHelp } from '../../../../components/FormikField';
 import {
   ResourceResourceType,
@@ -48,6 +52,8 @@ import VersionSelect from '../../components/VersionSelect';
 import { useVersions } from '../../../../modules/taxonomy/versions/versionQueries';
 import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
 import FormAccordion from '../../../../components/Accordion/FormAccordion';
+
+const blacklistedResourceTypes = [RESOURCE_TYPE_LEARNING_PATH];
 
 const emptyTaxonomy = {
   resourceTypes: [],
@@ -316,6 +322,47 @@ const LearningResourceTaxonomyFormAccordion = ({
     }
   };
 
+  const onChangeSelectedResource = (value: SingleValue) => {
+    const options = value?.value?.split(',') ?? [];
+    const selectedResource = availableResourceTypes.find(
+      (resourceType) => resourceType.id === options[0],
+    );
+
+    if (selectedResource) {
+      const resourceTypes: ResourceResourceType[] = [
+        {
+          name: selectedResource.name,
+          id: selectedResource.id,
+          parentId: '',
+          connectionId: '',
+        },
+      ];
+
+      if (options.length > 1) {
+        const subType = selectedResource.subtypes?.find((subtype) => subtype.id === options[1]);
+        if (subType)
+          resourceTypes.push({
+            id: subType.id,
+            name: subType.name,
+            parentId: selectedResource.id,
+            connectionId: '',
+          });
+      }
+      stageTaxonomyChanges({ resourceTypes });
+    }
+  };
+  const filteredResourceTypes = useMemo(
+    () =>
+      availableResourceTypes
+        .filter((rt) => !blacklistedResourceTypes.includes(rt.id))
+        .map((rt) => ({
+          ...rt,
+          subtype:
+            rt.subtypes && rt.subtypes.filter((st) => !blacklistedResourceTypes.includes(st.id)),
+        })),
+    [availableResourceTypes],
+  );
+
   useEffect(() => {
     if (taxonomyMounted) {
       fetchTaxonomy();
@@ -371,9 +418,9 @@ const LearningResourceTaxonomyFormAccordion = ({
         </>
       )}
       <ResourceTypeSelect
-        availableResourceTypes={availableResourceTypes}
+        availableResourceTypes={filteredResourceTypes}
         resourceTypes={taxonomyChanges.resourceTypes}
-        stageTaxonomyChanges={stageTaxonomyChanges}
+        onChangeSelectedResource={onChangeSelectedResource}
       />
       <TopicConnections
         structure={structure}

@@ -140,7 +140,7 @@ const Navigation = () => {
                     <StyledLogoDiv>
                       <Logo to="/" label={t('logo.altText')} />
                     </StyledLogoDiv>
-                    {/* <SavedSearchDropdown onClose={closeMenu} /> */}
+                    <SavedSearchDropdown onClose={closeMenu} />
                   </LeftContent>
                   <SessionContainer close={closeMenu} />
                 </StyledHeaderItems>

@@ -189,7 +189,7 @@ test('opens and closes related content', async ({ page }) => {
   });
   await page.locator('[data-cy="create-related"]').click();
   await relatedContent;
-  await expect(page.locator('[data-cy="styled-article-modal"]')).toBeVisible();
+  await expect(page.getByTestId('editRelated')).toBeVisible();
   await page.locator("[data-cy='close-related-button']").click();
   await expect(page.locator('[data-cy="styled-article-modal"]')).toHaveCount(0);
 });

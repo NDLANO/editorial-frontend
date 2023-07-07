@@ -33,10 +33,8 @@ export const fetchAuth0UsersFromUserIds = async (
   return users;
 };
 
-export const fetchAuth0Editors = (permission: string): Promise<Auth0UserData[]> =>
-  fetchAuthorized(`/get_editors?permission=${permission}`).then((r) =>
-    resolveJsonOrRejectWithError<Auth0UserData[]>(r),
-  );
+export const fetchAuth0Editors = (): Promise<Auth0UserData[]> =>
+  fetchAuthorized(`/get_editors`).then((r) => resolveJsonOrRejectWithError<Auth0UserData[]>(r));
 
 export const fetchAuth0Responsibles = (permission: string): Promise<Auth0UserData[]> =>
   fetchAuthorized(`/get_responsibles?permission=${permission}`).then((r) =>

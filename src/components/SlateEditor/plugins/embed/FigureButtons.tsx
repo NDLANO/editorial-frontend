@@ -21,11 +21,11 @@ import { IconButtonV2 } from '@ndla/button';
 import { Embed } from '../../../../interfaces';
 
 const rightAdjustedStyle = css`
-  right: -${spacingUnit * 1.2}px;
+  right: -${spacing.large};
 `;
 
 const leftAdjustedStyle = css`
-  left: -${spacingUnit * 1.2}px;
+  left: -${spacing.large};
 `;
 
 interface StyledFigureButtonsProps {

@@ -257,7 +257,8 @@ type Keys =
   | 'license'
   | 'model-released'
   | 'responsible-ids'
-  | 'subjects';
+  | 'subjects'
+  | 'filter-inactive';
 
 export type SearchObjectType = {
   [K in Keys]?: string;

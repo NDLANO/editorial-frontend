@@ -26,12 +26,18 @@ type SearchParamsOfType<O> = { [k in SearchParamsWithOnlyType<O>]: O };
 
 export type SearchFormSelector =
   | CheckboxSelectorType
+  | CheckboxReverseSelectorType
   | ObjectSelectorType
   | DatePickerSelectorType
   | TextInputSelectorType;
 
 interface CheckboxSelectorType extends SearchFormSelectorBase {
   formElementType: 'check-box';
+  parameterName: keyof SearchParamsOfType<boolean>;
+}
+
+interface CheckboxReverseSelectorType extends SearchFormSelectorBase {
+  formElementType: 'check-box-reverse';
   parameterName: keyof SearchParamsOfType<boolean>;
 }
 
@@ -87,6 +93,16 @@ const Selector = ({ formType, selector, onFieldChange, searchObject }: SelectorP
           name={selector.parameterName}
           checked={checkboxValue ?? false}
           onChange={(e) => onFieldChange(selector.parameterName, e.currentTarget.checked, e)}
+        />
+      );
+    }
+    case 'check-box-reverse': {
+      const checkboxValue = searchObject[selector.parameterName];
+      return (
+        <CheckboxSelector
+          name={selector.parameterName}
+          checked={!(checkboxValue ?? false)}
+          onChange={(e) => onFieldChange(selector.parameterName, !e.currentTarget.checked, e)}
         />
       );
     }

@@ -6,6 +6,11 @@ export const brightcoveTokenMock = {
   expires_in: 300,
 };
 
+export const userDataMock = {
+  userId: 'test_user_id',
+  latestEditedArticles: ['532'],
+};
+
 export const responsiblesMock = [
   {
     created_at: '2021-06-14T12:48:29.655Z',

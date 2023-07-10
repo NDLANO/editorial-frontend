@@ -12,14 +12,14 @@ import styled from '@emotion/styled';
 import { spacing, colors } from '@ndla/core';
 import { ButtonV2 } from '@ndla/button';
 import { InputV2 } from '@ndla/forms';
-import { NodeType, Node } from '@ndla/types-taxonomy';
+import { Node, NodeType } from '@ndla/types-taxonomy';
 import { useQueryClient } from '@tanstack/react-query';
 import TaxonomyLightbox from '../../components/Taxonomy/TaxonomyLightbox';
 import {
   useAddNodeMutation,
   usePostNodeConnectionMutation,
 } from '../../modules/nodes/nodeMutations';
-import { connectionsForNodeQueryKey } from '../../modules/nodes/nodeQueries';
+import { childNodesWithArticleTypeQueryKey } from '../../modules/nodes/nodeQueries';
 import handleError from '../../util/handleError';
 import { useTaxonomyVersion } from '../StructureVersion/TaxonomyVersionProvider';
 
@@ -40,13 +40,14 @@ const FormWrapper = styled.form`
 interface Props {
   onClose: () => void;
   nodeType: NodeType;
+  rootId?: string;
   parentNode?: Node;
 }
 
-const AddNodeModal = ({ onClose, nodeType, parentNode }: Props) => {
+const AddNodeModal = ({ onClose, nodeType, rootId, parentNode }: Props) => {
   const { t } = useTranslation();
   const addNodeMutation = useAddNodeMutation();
-  const compkey = connectionsForNodeQueryKey({ id: parentNode?.id });
+  const compkey = childNodesWithArticleTypeQueryKey({ id: rootId });
   const addNodeToParentMutation = usePostNodeConnectionMutation({
     onSuccess: (_) => {
       qc.invalidateQueries(compkey);
@@ -63,7 +64,7 @@ const AddNodeModal = ({ onClose, nodeType, parentNode }: Props) => {
       body: {
         name,
         nodeType: nodeType,
-        root: !parentNode,
+        root: !rootId,
       },
       taxonomyVersion,
     });

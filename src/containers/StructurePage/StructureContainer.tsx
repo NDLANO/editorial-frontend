@@ -159,6 +159,7 @@ const StructureContainer = ({
     <AddNodeModal
       onClose={() => setShowAddChildModal(false)}
       nodeType={rootNodeType}
+      rootId={subject}
       parentNode={currentNode}
     />
   );

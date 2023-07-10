@@ -29,6 +29,7 @@ import { GridContainer, Column } from '../../components/Layout/Layout';
 import StructureBanner from './StructureBanner';
 import PlannedResourceForm from './plannedResource/PlannedResourceForm';
 import AddResourceModal from './plannedResource/AddResourceModal';
+import AddNodeModal from './AddNodeModal';
 
 const StructureWrapper = styled.ul`
   margin: 0;
@@ -77,7 +78,7 @@ const StructureContainer = ({
   const [showFavorites, setShowFavorites] = useState(
     window.localStorage.getItem(REMEMBER_FAVORITE_NODES) === 'true',
   );
-  const [showAddTopicModal, setShowAddTopicModal] = useState(false);
+  const [showAddChildModal, setShowAddChildModal] = useState(false);
 
   const resourceSection = useRef<HTMLDivElement>(null);
   const firstRender = useRef(true);
@@ -139,6 +140,29 @@ const StructureContainer = ({
 
   const isTaxonomyAdmin = userPermissions?.includes(TAXONOMY_ADMIN_SCOPE);
 
+  const addChildTooltip = childNodeTypes.includes('TOPIC')
+    ? t('taxonomy.addTopicHeader')
+    : t('taxonomy.addNode', { nodeType: t('taxonomy.nodeType.PROGRAMME') });
+  const childModal = childNodeTypes.includes('TOPIC') ? (
+    <AddResourceModal
+      onClose={() => setShowAddChildModal(false)}
+      title={t('taxonomy.addTopicHeader')}
+    >
+      <PlannedResourceForm
+        onClose={() => setShowAddChildModal(false)}
+        articleType="topic-article"
+        node={currentNode}
+        userData={userDataQuery.data}
+      />
+    </AddResourceModal>
+  ) : (
+    <AddNodeModal
+      onClose={() => setShowAddChildModal(false)}
+      nodeType={rootNodeType}
+      parentNode={currentNode}
+    />
+  );
+
   return (
     <ErrorBoundary>
       <Wrapper>
@@ -164,7 +188,8 @@ const StructureContainer = ({
                       key={node.id}
                       node={node}
                       toggleOpen={handleStructureToggle}
-                      setShowAddTopicModal={setShowAddTopicModal}
+                      setShowAddChildModal={setShowAddChildModal}
+                      addChildTooltip={addChildTooltip}
                       childNodeTypes={childNodeTypes}
                     />
                   ))}
@@ -185,19 +210,7 @@ const StructureContainer = ({
             </Column>
           )}
         </GridContainer>
-        {showAddTopicModal && (
-          <AddResourceModal
-            onClose={() => setShowAddTopicModal(false)}
-            title={t('taxonomy.addTopicHeader')}
-          >
-            <PlannedResourceForm
-              onClose={() => setShowAddTopicModal(false)}
-              articleType="topic-article"
-              node={currentNode}
-              userData={userDataQuery.data}
-            />
-          </AddResourceModal>
-        )}
+        {showAddChildModal && childModal}
         {isTaxonomyAdmin && <StickyVersionSelector />}
         <Footer showLocaleSelector />
       </Wrapper>

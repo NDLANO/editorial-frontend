@@ -70,8 +70,8 @@ interface Props {
   nodes?: NodeChildWithChildren[];
   isLoading?: boolean;
   renderBeforeTitle?: RenderBeforeFunction;
-  setShowAddTopicModal: (value: boolean) => void;
-  addTopicModalEnabled: boolean;
+  setShowAddChildModal: (value: boolean) => void;
+  addChildTooltip: string;
 }
 
 const NodeItem = ({
@@ -89,8 +89,8 @@ const NodeItem = ({
   isLoading,
   nodes,
   renderBeforeTitle,
-  setShowAddTopicModal,
-  addTopicModalEnabled,
+  setShowAddChildModal,
+  addChildTooltip,
 }: Props) => {
   const { t } = useTranslation();
   const { userPermissions } = useSession();
@@ -151,8 +151,8 @@ const NodeItem = ({
             onCurrentNodeChanged={(node) => onNodeSelected(node)}
             jumpToResources={() => resourceSectionRef?.current?.scrollIntoView()}
             nodeChildren={nodes ?? []}
-            setShowAddTopicModal={setShowAddTopicModal}
-            addTopicModalEnabled={addTopicModalEnabled}
+            setShowAddChildModal={setShowAddChildModal}
+            addChildTooltip={addChildTooltip}
           />
         )}
         {isLoading && (
@@ -184,8 +184,8 @@ const NodeItem = ({
                   nodes={t.childNodes}
                   toggleOpen={toggleOpen}
                   onDragEnd={onDragEnd}
-                  setShowAddTopicModal={setShowAddTopicModal}
-                  addTopicModalEnabled={addTopicModalEnabled}
+                  setShowAddChildModal={setShowAddChildModal}
+                  addChildTooltip={addChildTooltip}
                 />
               )}
               dragHandle={

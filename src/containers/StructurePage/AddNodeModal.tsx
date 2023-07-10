@@ -6,16 +6,20 @@
  *
  */
 
-import styled from '@emotion/styled';
-import { ButtonV2 } from '@ndla/button';
-import { NodeType } from '@ndla/types-taxonomy';
 import { ChangeEvent, useState, SyntheticEvent } from 'react';
 import { useTranslation } from 'react-i18next';
+import styled from '@emotion/styled';
 import { spacing, colors } from '@ndla/core';
+import { ButtonV2 } from '@ndla/button';
 import { InputV2 } from '@ndla/forms';
+import { NodeType, Node } from '@ndla/types-taxonomy';
+import { useQueryClient } from '@tanstack/react-query';
 import TaxonomyLightbox from '../../components/Taxonomy/TaxonomyLightbox';
-import { SUBJECT_NODE } from '../../modules/nodes/nodeApiTypes';
-import { useAddNodeMutation } from '../../modules/nodes/nodeMutations';
+import {
+  useAddNodeMutation,
+  usePostNodeConnectionMutation,
+} from '../../modules/nodes/nodeMutations';
+import { connectionsForNodeQueryKey } from '../../modules/nodes/nodeQueries';
 import handleError from '../../util/handleError';
 import { useTaxonomyVersion } from '../StructureVersion/TaxonomyVersionProvider';
 
@@ -36,22 +40,40 @@ const FormWrapper = styled.form`
 interface Props {
   onClose: () => void;
   nodeType: NodeType;
+  parentNode?: Node;
 }
 
-const AddNodeModal = ({ onClose, nodeType }: Props) => {
+const AddNodeModal = ({ onClose, nodeType, parentNode }: Props) => {
   const { t } = useTranslation();
   const addNodeMutation = useAddNodeMutation();
+  const compkey = connectionsForNodeQueryKey({ id: parentNode?.id });
+  const addNodeToParentMutation = usePostNodeConnectionMutation({
+    onSuccess: (_) => {
+      qc.invalidateQueries(compkey);
+    },
+  });
   const { taxonomyVersion } = useTaxonomyVersion();
+  const qc = useQueryClient();
 
   const [inputValue, setInputValue] = useState('');
   const [error, setError] = useState(false);
 
   const addNode = async (name: string) => {
-    await addNodeMutation.mutateAsync({
+    return await addNodeMutation.mutateAsync({
       body: {
         name,
         nodeType: nodeType,
-        root: true,
+        root: !parentNode,
+      },
+      taxonomyVersion,
+    });
+  };
+
+  const connectNode = async (parentId: string, childId: string) => {
+    await addNodeToParentMutation.mutateAsync({
+      body: {
+        parentId,
+        childId,
       },
       taxonomyVersion,
     });
@@ -61,7 +83,11 @@ const AddNodeModal = ({ onClose, nodeType }: Props) => {
     e.preventDefault();
 
     try {
-      await addNode(inputValue);
+      const nodeUrl = await addNode(inputValue);
+      const nodeId = nodeUrl.replace('/v1/nodes/', '');
+      if (parentNode) {
+        await connectNode(parentNode.id, nodeId);
+      }
       setInputValue('');
       onClose();
     } catch (error) {

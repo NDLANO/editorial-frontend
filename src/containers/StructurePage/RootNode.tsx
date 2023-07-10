@@ -31,7 +31,8 @@ interface Props {
   onNodeSelected: (node?: Node) => void;
   resourceSectionRef: MutableRefObject<HTMLDivElement | null>;
   renderBeforeTitle?: RenderBeforeFunction;
-  setShowAddTopicModal: (value: boolean) => void;
+  setShowAddChildModal: (value: boolean) => void;
+  addChildTooltip: string;
   childNodeTypes: NodeType[];
 }
 
@@ -43,7 +44,8 @@ const RootNode = ({
   onNodeSelected,
   resourceSectionRef,
   renderBeforeTitle,
-  setShowAddTopicModal,
+  setShowAddChildModal,
+  addChildTooltip,
   childNodeTypes,
 }: Props) => {
   const { i18n } = useTranslation();
@@ -122,8 +124,8 @@ const RootNode = ({
       isRoot={true}
       isFavorite={isFavorite}
       isLoading={childNodesQuery.isInitialLoading}
-      setShowAddTopicModal={setShowAddTopicModal}
-      addTopicModalEnabled={childNodeTypes.includes('TOPIC')}
+      setShowAddChildModal={setShowAddChildModal}
+      addChildTooltip={addChildTooltip}
     />
   );
 };

@@ -211,6 +211,7 @@ const phrases = {
     podcastSeries: 'Ny podkastserie',
     agreement: 'Ny avtale',
     structure: 'Strukturredigering',
+    programme: 'Programfagredigering',
     taxonomyVersions: 'Taksonomiversjoner',
     publishRequests: 'Publiseringsforespørsler',
     searchContent: 'Søk innhold',

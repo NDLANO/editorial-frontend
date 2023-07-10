@@ -161,6 +161,14 @@ const OpenMenu = ({ close }: Props) => {
               </StyledMenuItem>
             </Link>
             {userPermissions?.includes(TAXONOMY_ADMIN_SCOPE) && (
+              <Link css={styledListElement} to="/programme" onClick={close}>
+                <StyledMenuItem>
+                  <Taxonomy />
+                  {t('subNavigation.programme')}
+                </StyledMenuItem>
+              </Link>
+            )}
+            {userPermissions?.includes(TAXONOMY_ADMIN_SCOPE) && (
               <Link css={styledListElement} to="/taxonomyVersions" onClick={close}>
                 <StyledMenuItem>
                   <Taxonomy />

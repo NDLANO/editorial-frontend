@@ -210,6 +210,7 @@ const phrases = {
     podcastSeries: 'New Podcast series',
     agreement: 'New Agreement',
     structure: 'Structure',
+    programme: 'Programmes',
     taxonomyVersions: 'Taxonomy Versions',
     publishRequests: 'Publish Requests',
     searchContent: 'Search content',

@@ -34,7 +34,7 @@ const StructureErrorIcon = (
   isPublished?: boolean,
 ) => {
   const { t } = useTranslation();
-  if (isRoot || node.nodeType === 'PROGRAMME') return null;
+  if (isRoot || node.nodeType !== 'TOPIC') return null;
   if (articleType === 'topic-article') {
     if (!isPublished) {
       const notPublishedWarning = t('taxonomy.info.notPublished');

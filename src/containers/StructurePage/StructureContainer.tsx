@@ -64,10 +64,10 @@ const StructureContainer = ({
 }: Props) => {
   const location = useLocation();
   const paths = location.pathname.replace(rootPath, '').split('/');
-  const [subject, topic, ...rest] = paths;
+  const [rootId, childId, ...rest] = paths;
   const joinedRest = rest.join('/');
-  const subtopics = joinedRest.length > 0 ? joinedRest : undefined;
-  const params = { subject, topic, subtopics };
+  const children = joinedRest.length > 0 ? joinedRest : undefined;
+  const params = { rootId, childId, children };
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
@@ -121,7 +121,7 @@ const StructureContainer = ({
     const currentPath = location.pathname.replace(rootPath, '');
     const levelAbove = removeLastItemFromUrl(currentPath);
     const newPath = currentPath === path ? levelAbove : path;
-    const deleteSearch = !!params.subject && !newPath.includes(params.subject);
+    const deleteSearch = !!params.rootId && !newPath.includes(params.rootId);
     navigate(`${rootPath}${newPath.concat(deleteSearch ? '' : search)}`);
   };
 
@@ -130,7 +130,7 @@ const StructureContainer = ({
   };
 
   const nodes = showFavorites
-    ? getFavoriteNodes(nodesQuery.data, [...favoriteNodeIds, subject])
+    ? getFavoriteNodes(nodesQuery.data, [...favoriteNodeIds, rootId])
     : nodesQuery.data!;
 
   const toggleShowFavorites = () => {
@@ -159,7 +159,7 @@ const StructureContainer = ({
     <AddNodeModal
       onClose={() => setShowAddChildModal(false)}
       nodeType={rootNodeType}
-      rootId={subject}
+      rootId={rootId}
       parentNode={currentNode}
     />
   );

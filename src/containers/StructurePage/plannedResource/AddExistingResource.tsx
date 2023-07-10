@@ -25,7 +25,7 @@ import {
   learningpathSearch,
   updateLearningPathTaxonomy,
 } from '../../../modules/learningpath/learningpathApi';
-import { groupSearch } from '../../../modules/search/searchApi';
+import { search } from '../../../modules/search/searchApi';
 import ArticlePreview from '../../../components/ArticlePreview';
 import { getArticle } from '../../../modules/article/articleApi';
 import handleError from '../../../util/handleError';
@@ -173,8 +173,8 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
     if (selectedType === RESOURCE_TYPE_LEARNING_PATH) {
       return await learningpathSearch({ ...baseQuery, verificationStatus: 'CREATED_BY_NDLA' });
     } else {
-      const res = await groupSearch({ ...baseQuery, 'resource-types': selectedType });
-      return res.pop() ?? emptySearchResults;
+      const res = await search({ ...baseQuery, 'resource-types': selectedType });
+      return res ?? emptySearchResults;
     }
   };
 

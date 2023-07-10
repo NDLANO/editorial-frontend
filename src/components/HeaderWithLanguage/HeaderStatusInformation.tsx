@@ -4,7 +4,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import { Children, isValidElement, ReactElement, ReactNode, useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import SafeLink from '@ndla/safelink';
@@ -18,7 +18,6 @@ import { ILearningPathV2 } from '@ndla/types-backend/learningpath-api';
 import config from '../../config';
 import LearningpathConnection from './LearningpathConnection';
 import EmbedConnection from './EmbedInformation/EmbedConnection';
-import { unreachable } from '../../util/guards';
 import formatDate from '../../util/formatDate';
 
 export const StyledSplitter = styled.div`
@@ -34,26 +33,6 @@ const StyledStatusWrapper = styled.div`
   white-space: nowrap;
 `;
 
-/** Helper component to only render splitter if children are rendering */
-const Splitter = ({
-  children,
-  disableSplitter,
-}: {
-  children?: ReactNode;
-  disableSplitter?: boolean;
-}) => {
-  const validChildren = Children.toArray(children).filter((child) =>
-    isValidElement(child),
-  ) as ReactElement[];
-  if (!Children.count(validChildren)) return null;
-  return (
-    <>
-      {children && !disableSplitter && <StyledSplitter />}
-      {children}
-    </>
-  );
-};
-
 export const getWarnStatus = (date?: string): 'warn' | 'expired' | undefined => {
   if (!date) return undefined;
   const parsedDate = new Date(date);
@@ -67,33 +46,24 @@ export const getWarnStatus = (date?: string): 'warn' | 'expired' | undefined => 
   if (warnDate > parsedDate) return 'warn';
 };
 
-export const StyledTimeIcon = styled(Time)<{
-  status: 'warn' | 'expired';
-  height?: string;
-  width?: string;
-}>`
-  height: ${(p) => (p.height ? p.height : spacing.normal)};
-  width: ${(p) => (p.width ? p.width : spacing.normal)};
-  fill: ${(p) => {
-    switch (p.status) {
-      case 'warn':
-        return '#c77623';
-      case 'expired':
-        return colors.support.red;
-      default:
-        unreachable(p.status);
-    }
-  }};
+export const StyledTimeIcon = styled(Time)`
+  &[data-status='warn'] {
+    fill: #c77623;
+  }
+  &[data-status='expired'] {
+    fill: ${colors.support.red};
+  }
+  width: 24px;
+  height: 24px;
 `;
 
 interface Props {
+  compact?: boolean;
   noStatus?: boolean;
   statusText?: string;
   isNewLanguage?: boolean;
   published: boolean;
   taxonomyPaths?: string[];
-  indentLeft?: boolean;
-  fontSize?: number;
   type?: string;
   id?: number;
   setHasConnections?: (hasConnections: boolean) => void;
@@ -102,14 +72,58 @@ interface Props {
   hasRSS?: boolean;
 }
 
+const StyledStatus = styled.p`
+  ${fonts.sizes('16', '1.1')};
+  font-weight: ${fonts.weight.semibold};
+  margin: 0 ${spacing.small} 0;
+  color: ${colors.brand.primary};
+  &[data-compact='true'] {
+    ${fonts.sizes('10', '1.1')};
+    margin: 0 ${spacing.xsmall} 0;
+  }
+`;
+
+const StyledSmallText = styled.small`
+  color: ${colors.text.light};
+  ${fonts.sizes('16', '1.1')};
+  padding-right: ${spacing.xsmall};
+  font-weight: ${fonts.weight.normal};
+  color: ${colors.brand.primary};
+  &[data-compact='true'] {
+    color: #000;
+    ${fonts.sizes('9', '1.1')};
+  }
+`;
+
+const StyledCheckIcon = styled(Check)`
+  height: ${spacing.normal};
+  width: ${spacing.normal};
+  fill: ${colors.support.green};
+`;
+
+const StyledWarnIcon = styled(AlertCircle)`
+  height: ${spacing.normal};
+  width: ${spacing.normal};
+  fill: ${colors.support.yellow};
+`;
+
+const StyledRssIcon = styled(RssFeed)`
+  height: ${spacing.normal};
+  width: ${spacing.normal};
+  fill: ${colors.support.green};
+`;
+
+const StyledLink = styled(SafeLink)`
+  box-shadow: inset 0 0;
+`;
+
 const HeaderStatusInformation = ({
   noStatus,
   statusText,
   isNewLanguage,
   published,
   taxonomyPaths,
-  indentLeft = false,
-  fontSize,
+  compact,
   type,
   id,
   setHasConnections,
@@ -123,183 +137,105 @@ const HeaderStatusInformation = ({
   const [concepts, setConcepts] = useState<IConceptSummary[]>([]);
 
   useEffect(() => {
-    const allConnections = [...learningpaths, ...articles, ...concepts];
-    setHasConnections?.(allConnections.length > 0);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [learningpaths, articles, concepts]);
+    setHasConnections?.(!!learningpaths?.length ?? !!articles?.length ?? !!concepts?.length);
+  }, [learningpaths, articles, concepts, setHasConnections]);
 
-  const StyledStatus = styled.p`
-    ${fonts.sizes(fontSize || 16, 1.1)};
-    font-weight: ${fonts.weight.semibold};
-    margin: 0 ${fontSize && fontSize <= 12 ? spacing.xsmall : spacing.small} 0;
-    ${indentLeft ? 0 : spacing.small};
-    color: ${colors.brand.primary};
-  `;
+  const expirationColor = useMemo(() => getWarnStatus(expirationDate), [expirationDate]);
 
-  const StyledSmallText = styled.small`
-    color: ${fontSize && fontSize <= 12 ? '#000' : colors.text.light};
-    padding-right: ${spacing.xsmall};
-    ${fonts.sizes((fontSize && fontSize - 1) || 16, 1.1)};
-    font-weight: ${fonts.weight.normal};
-    color: ${colors.brand.primary};
-  `;
-
-  const StyledCheckIcon = styled(Check)`
-    height: ${spacing.normal};
-    width: ${spacing.normal};
-    fill: ${colors.support.green};
-  `;
-
-  const StyledWarnIcon = styled(AlertCircle)`
-    height: ${spacing.normal};
-    width: ${spacing.normal};
-    fill: ${colors.support.yellow};
-  `;
-
-  const StyledRssIcon = styled(RssFeed)`
-    height: ${spacing.normal};
-    width: ${spacing.normal};
-    fill: ${colors.support.green};
-  `;
-
-  const StyledLink = styled(SafeLink)`
-    box-shadow: inset 0 0;
-  `;
-
-  const expirationColor = getWarnStatus(expirationDate);
-  const revisionDateExpiration =
-    (type === 'standard' || type === 'topic-article') && expirationColor && expirationDate ? (
-      <Tooltip
-        tooltip={t(`form.workflow.expiration.${expirationColor}`, {
-          date: formatDate(expirationDate),
-        })}
-      >
-        <div>
-          <StyledTimeIcon status={expirationColor} />
-        </div>
-      </Tooltip>
-    ) : null;
-
-  const multipleTaxonomyIcon = taxonomyPaths && taxonomyPaths?.length > 2 && (
-    <Tooltip tooltip={t('form.workflow.multipleTaxonomy')}>
-      <div>
-        <StyledWarnIcon />
-      </div>
-    </Tooltip>
-  );
-
-  const publishedIcon = (
-    <Tooltip tooltip={t('form.workflow.published')}>
-      <div>
-        <StyledCheckIcon />
-      </div>
-    </Tooltip>
-  );
-
-  const publishedIconLink = (
-    <StyledLink target="_blank" to={`${config.ndlaFrontendDomain}/article/${id}`}>
-      {publishedIcon}
-    </StyledLink>
-  );
-
-  const rssLink = hasRSS && id !== undefined && (
-    <StyledLink target="_blank" to={`${config.ndlaFrontendDomain}/podkast/${id}/feed.xml`}>
-      <StyledRssIcon title={t('podcastSeriesForm.rss')} />
-    </StyledLink>
-  );
-
-  const learningpathConnections =
-    type === 'standard' || type === 'topic-article' ? (
-      <LearningpathConnection
-        id={id}
-        learningpaths={learningpaths}
-        setLearningpaths={setLearningpaths}
-      />
-    ) : null;
-
-  const imageConnections = type === 'image' && (
-    <EmbedConnection
-      id={id}
-      type="image"
-      articles={articles}
-      setArticles={setArticles}
-      concepts={concepts}
-      setConcepts={setConcepts}
-    />
-  );
-  const audioConnections =
-    type === 'audio' || type === 'podcast' ? (
-      <EmbedConnection id={id} type="audio" articles={articles} setArticles={setArticles} />
-    ) : null;
-  const conceptConnecions =
-    type === 'concept' ? (
-      <EmbedConnection id={id} type="concept" articles={articles} setArticles={setArticles} />
-    ) : null;
-  const articleConnections =
-    type === 'standard' || type === 'topic-article' ? (
-      <EmbedConnection id={id} type="article" articles={articles} setArticles={setArticles} />
-    ) : null;
-
-  const hideSplitter =
-    (!articleConnections || !conceptConnecions || !learningpathConnections) &&
-    !revisionDateExpiration &&
-    !published &&
-    !multipleTaxonomyIcon;
-
-  const StatusIcons = (
-    <>
-      <Splitter disableSplitter={indentLeft || hideSplitter}>
-        {articleConnections}
-        {conceptConnecions}
-        {learningpathConnections}
-        {revisionDateExpiration}
+  if (!noStatus || isNewLanguage) {
+    return (
+      <StyledStatusWrapper>
+        {type === 'standard' || type === 'topic-article' ? (
+          <>
+            <EmbedConnection id={id} type="article" articles={articles} setArticles={setArticles} />
+            <LearningpathConnection
+              id={id}
+              learningpaths={learningpaths}
+              setLearningpaths={setLearningpaths}
+            />
+            {!!expirationColor && !!expirationDate && (
+              <Tooltip
+                tooltip={t(`form.workflow.expiration.${expirationColor}`, {
+                  date: formatDate(expirationDate),
+                })}
+              >
+                <div>
+                  <StyledTimeIcon data-status={expirationColor} />
+                </div>
+              </Tooltip>
+            )}
+          </>
+        ) : type === 'concept' ? (
+          <EmbedConnection id={id} type="concept" articles={articles} setArticles={setArticles} />
+        ) : null}
         {published &&
-          (taxonomyPaths && taxonomyPaths?.length > 0 ? publishedIconLink : publishedIcon)}
-        {multipleTaxonomyIcon}
-      </Splitter>
-    </>
-  );
-
-  const ResponsibleInfo = (
-    <div>
-      <StyledSmallText>{`${t('form.responsible.label')}:`}</StyledSmallText>
-      {responsibleName || t('form.responsible.noResponsible')}
-    </div>
-  );
-
-  if (noStatus && isNewLanguage) {
-    return (
-      <StyledStatusWrapper>
-        {StatusIcons}
-        <Splitter>
-          <StyledStatus>
-            {ResponsibleInfo}
-            {t('form.status.new_language')}
-          </StyledStatus>
-        </Splitter>
-      </StyledStatusWrapper>
-    );
-  } else if (!noStatus) {
-    return (
-      <StyledStatusWrapper>
-        {StatusIcons}
-        <Splitter>
-          <StyledStatus>
-            {ResponsibleInfo}
+          (taxonomyPaths && taxonomyPaths?.length > 0 ? (
+            <Tooltip tooltip={t('form.workflow.published')}>
+              <StyledLink target="_blank" to={`${config.ndlaFrontendDomain}/article/${id}`}>
+                <StyledCheckIcon />
+              </StyledLink>
+            </Tooltip>
+          ) : (
+            <Tooltip tooltip={t('form.workflow.published')}>
+              <div>
+                <StyledCheckIcon />
+              </div>
+            </Tooltip>
+          ))}
+        {taxonomyPaths && taxonomyPaths?.length > 2 && (
+          <Tooltip tooltip={t('form.workflow.multipleTaxonomy')}>
             <div>
-              <StyledSmallText>{t('form.workflow.statusLabel')}:</StyledSmallText>
+              <StyledWarnIcon />
+            </div>
+          </Tooltip>
+        )}
+        <StyledStatus data-compact={compact}>
+          <div>
+            <StyledSmallText data-compact={compact}>{`${t(
+              'form.responsible.label',
+            )}:`}</StyledSmallText>
+            {responsibleName || t('form.responsible.noResponsible')}
+          </div>
+          {noStatus ? (
+            t('form.status.new_language')
+          ) : (
+            <div>
+              <StyledSmallText data-compact={compact}>
+                {t('form.workflow.statusLabel')}:
+              </StyledSmallText>
               {isNewLanguage ? t('form.status.new_language') : statusText || t('form.status.new')}
             </div>
-          </StyledStatus>
-        </Splitter>
+          )}
+        </StyledStatus>
       </StyledStatusWrapper>
     );
   } else if (type === 'image') {
-    return <StyledStatusWrapper>{imageConnections}</StyledStatusWrapper>;
+    return (
+      <StyledStatusWrapper>
+        <EmbedConnection
+          id={id}
+          type="image"
+          articles={articles}
+          setArticles={setArticles}
+          concepts={concepts}
+          setConcepts={setConcepts}
+        />
+      </StyledStatusWrapper>
+    );
   } else if (type === 'audio' || type === 'podcast') {
-    return <StyledStatusWrapper>{audioConnections}</StyledStatusWrapper>;
-  } else if (type === 'podcast-series') {
-    return <StyledStatusWrapper>{rssLink}</StyledStatusWrapper>;
+    return (
+      <StyledStatusWrapper>
+        <EmbedConnection id={id} type="audio" articles={articles} setArticles={setArticles} />
+      </StyledStatusWrapper>
+    );
+  } else if (type === 'podcast-series' && hasRSS && id !== undefined) {
+    return (
+      <StyledStatusWrapper>
+        <StyledLink target="_blank" to={`${config.ndlaFrontendDomain}/podkast/${id}/feed.xml`}>
+          <StyledRssIcon title={t('podcastSeriesForm.rss')} />
+        </StyledLink>
+      </StyledStatusWrapper>
+    );
   }
   return null;
 };

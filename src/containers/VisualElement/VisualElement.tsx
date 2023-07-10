@@ -19,6 +19,7 @@ interface Props {
   value: EmbedElements[];
   selectedResource: string;
   resetSelectedResource: () => void;
+  allowDecorative: false;
 }
 
 const VisualElement = ({
@@ -29,9 +30,10 @@ const VisualElement = ({
   value,
   selectedResource,
   resetSelectedResource,
+  allowDecorative,
 }: Props) => {
   const plugins = useMemo(() => {
-    return [embedPlugin(language, undefined, true, false)];
+    return [embedPlugin(language, undefined, true, allowDecorative)];
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedResource]);
 

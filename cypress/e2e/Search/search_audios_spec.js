@@ -13,7 +13,11 @@ describe('Search audios', () => {
     setToken();
     cy.apiroute('GET', '/draft-api/v1/drafts/licenses/', 'licenses');
     cy.apiroute('GET', '/taxonomy/v1/subjects?language=nb', 'allSubjects');
-    cy.apiroute('GET', '/audio-api/v1/audio/?exclude-revision-log=false&fallback=false&include-other-statuses=false&page=1&page-size=10&sort=-relevance*', 'searchAudios');
+    cy.apiroute(
+      'GET',
+      '/audio-api/v1/audio/?exclude-revision-log=false&fallback=false&filter-inactive=true&include-other-statuses=false&page=1&page-size=10&sort=-relevance*',
+      'searchAudios',
+    );
     cy.apiroute('GET', '/get_zendesk_token', 'zendeskToken');
     cy.visit('/search/audio?page=1&page-size=10&sort=-relevance');
     cy.apiwait(['@licenses', '@searchAudios', '@allSubjects', '@zendeskToken']);
@@ -21,9 +25,7 @@ describe('Search audios', () => {
 
   it('Can use text input', () => {
     cy.apiroute('GET', '**/audio-api/v1/audio/?*query=Test*', 'searchAudioQuery');
-    cy.get('input[name="query"]')
-      .type('Test')
-      .blur();
+    cy.get('input[name="query"]').type('Test').blur();
     cy.apiwait('@searchAudioQuery');
     cy.get('span[data-cy="totalCount"').contains(/^Antall søketreff: \d+/);
     cy.get('input[name="query"]').clear();
@@ -32,9 +34,7 @@ describe('Search audios', () => {
 
   it('Can use audiotype dropdown', () => {
     cy.apiroute('GET', '**/audio-api/v1/audio/?audio-type=podcast*', 'searchAudioType');
-    cy.get('select[name="audio-type"]')
-      .select('Podkast')
-      .blur();
+    cy.get('select[name="audio-type"]').select('Podkast').blur();
     cy.apiwait('@searchAudioType');
     cy.get('span[data-cy="totalCount"').contains(/^Antall søketreff: \d+/);
     cy.get('select[name="audio-type"]').select('Velg lydfiltype');
@@ -42,10 +42,12 @@ describe('Search audios', () => {
   });
 
   it('Can use language dropdown', () => {
-    cy.apiroute('GET', '**/audio-api/v1/audio/?exclude-revision-log=false&fallback=false&include-other-statuses=false&language=en&page=1&page-size=10&sort=-relevance*', 'searchAudioLang');
-    cy.get('select[name="language"]')
-      .select('Engelsk')
-      .blur();
+    cy.apiroute(
+      'GET',
+      '**/audio-api/v1/audio/?exclude-revision-log=false&fallback=false&filter-inactive=true&include-other-statuses=false&language=en&page=1&page-size=10&sort=-relevance*',
+      'searchAudioLang',
+    );
+    cy.get('select[name="language"]').select('Engelsk').blur();
     cy.apiwait('@searchAudioLang');
     cy.get('span[data-cy="totalCount"').contains(/^Antall søketreff: \d+/);
     cy.get('select[name="language"]').select('Velg språk');

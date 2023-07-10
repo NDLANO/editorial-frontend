@@ -1,0 +1,84 @@
+{
+  "id" : "6317543916112",
+  "account_id" : "4806596774001",
+  "ad_keys" : null,
+  "clip_source_video_id" : null,
+  "complete" : true,
+  "created_at" : "2022-12-20T12:52:31.665Z",
+  "created_by" : {
+    "type" : "user",
+    "id" : "76076229774",
+    "email" : "signe.hogh@ndla.no"
+  },
+  "cue_points" : [ ],
+  "custom_fields" : {
+    "license" : "Navngivelse-Ingen Bearbeidelse",
+    "licenseinfo" : "Fotograf: Jarle Sten Olsen",
+    "licenseinfo2" : "Redaksjonelt: Anna Maria Holvik",
+    "licenseinfo3" : "Redaksjonelt: Rebecca Elisabeth Mohr"
+  },
+  "delivery_type" : "dynamic_origin",
+  "description" : null,
+  "digital_master_id" : null,
+  "duration" : 229909,
+  "economics" : "FREE",
+  "folder_id" : "63a19ca57933c24133580f3e",
+  "geo" : null,
+  "has_digital_master" : true,
+  "images" : {
+    "poster" : {
+      "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/c63e0072-d91a-44c4-91b0-9e0cbe08b60a/418b8027-1438-4e17-a41d-436445df91fd/1280x720/match/image.jpg",
+      "sources" : [ {
+        "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/c63e0072-d91a-44c4-91b0-9e0cbe08b60a/418b8027-1438-4e17-a41d-436445df91fd/1280x720/match/image.jpg",
+        "height" : 720,
+        "width" : 1280
+      } ]
+    },
+    "thumbnail" : {
+      "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/c63e0072-d91a-44c4-91b0-9e0cbe08b60a/99a01062-a1eb-4789-99c2-406cb1b7caa4/160x90/match/image.jpg",
+      "sources" : [ {
+        "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/c63e0072-d91a-44c4-91b0-9e0cbe08b60a/99a01062-a1eb-4789-99c2-406cb1b7caa4/160x90/match/image.jpg",
+        "height" : 90,
+        "width" : 160
+      } ]
+    }
+  },
+  "link" : {
+    "text" : "6317544311112"
+  },
+  "long_description" : null,
+  "name" : "Este es nuestro instituto",
+  "original_filename" : "Este es nuestro institutoX.mp4",
+  "projection" : null,
+  "published_at" : "2022-12-20T12:52:31.665Z",
+  "reference_id" : null,
+  "schedule" : null,
+  "sharing" : null,
+  "state" : "ACTIVE",
+  "tags" : [ ],
+  "text_tracks" : [ {
+    "id" : "f176dd13-9169-4fac-b59b-e74fd267ef5a",
+    "account_id" : "4806596774001",
+    "src" : "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/c63e0072-d91a-44c4-91b0-9e0cbe08b60a/f176dd13-9169-4fac-b59b-e74fd267ef5a/text.vtt?fastly_token=NjRhODQ0NDFfMzYzMTFhNGEyMjJlZmFkOTM3NGZmNWEyYzZkODYzMDViMDg3OWRmNzczODJhNWUzMmU4NGRkMzg3ZWU0NmUxMF9odHRwOi8vaG91c2UtZmFzdGx5LXNpZ25lZC1ldS13ZXN0LTEtcHJvZC5icmlnaHRjb3ZlY2RuLmNvbS9tZWRpYS92MS90ZXh0L3Z0dC9jbGVhci80ODA2NTk2Nzc0MDAxL2M2M2UwMDcyLWQ5MWEtNDRjNC05MWIwLTllMGNiZTA4YjYwYS9mMTc2ZGQxMy05MTY5LTRmYWMtYjU5Yi1lNzRmZDI2N2VmNWEvdGV4dC52dHQ%3D",
+    "srclang" : "es",
+    "label" : "Español",
+    "kind" : "captions",
+    "mime_type" : "text/webvtt",
+    "status" : "published",
+    "asset_id" : null,
+    "sources" : [ {
+      "src" : "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/c63e0072-d91a-44c4-91b0-9e0cbe08b60a/f176dd13-9169-4fac-b59b-e74fd267ef5a/text.vtt?fastly_token=NjRhODQ0NDFfMzYzMTFhNGEyMjJlZmFkOTM3NGZmNWEyYzZkODYzMDViMDg3OWRmNzczODJhNWUzMmU4NGRkMzg3ZWU0NmUxMF9odHRwOi8vaG91c2UtZmFzdGx5LXNpZ25lZC1ldS13ZXN0LTEtcHJvZC5icmlnaHRjb3ZlY2RuLmNvbS9tZWRpYS92MS90ZXh0L3Z0dC9jbGVhci80ODA2NTk2Nzc0MDAxL2M2M2UwMDcyLWQ5MWEtNDRjNC05MWIwLTllMGNiZTA4YjYwYS9mMTc2ZGQxMy05MTY5LTRmYWMtYjU5Yi1lNzRmZDI2N2VmNWEvdGV4dC52dHQ%3D"
+    }, {
+      "src" : "https://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/c63e0072-d91a-44c4-91b0-9e0cbe08b60a/f176dd13-9169-4fac-b59b-e74fd267ef5a/text.vtt?fastly_token=NjRhODQ0NDFfYTE4MjRiYzhkN2YwODJmM2I5M2EwYWJhMzhmYTg2N2JiZmRhYjJhMDM5MTU5NTQ0M2MyMjRlOWZjNzYxZWM5YV9odHRwczovL2hvdXNlLWZhc3RseS1zaWduZWQtZXUtd2VzdC0xLXByb2QuYnJpZ2h0Y292ZWNkbi5jb20vbWVkaWEvdjEvdGV4dC92dHQvY2xlYXIvNDgwNjU5Njc3NDAwMS9jNjNlMDA3Mi1kOTFhLTQ0YzQtOTFiMC05ZTBjYmUwOGI2MGEvZjE3NmRkMTMtOTE2OS00ZmFjLWI1OWItZTc0ZmQyNjdlZjVhL3RleHQudnR0"
+    } ],
+    "in_band_metadata_track_dispatch_type" : "",
+    "default" : false
+  } ],
+  "transcripts" : [ ],
+  "updated_at" : "2023-07-04T09:59:30.031Z",
+  "updated_by" : {
+    "type" : "internal"
+  },
+  "playback_rights_id" : "primary",
+  "ingestion_profile_id" : "f984445692374bd99e6270d8"
+}

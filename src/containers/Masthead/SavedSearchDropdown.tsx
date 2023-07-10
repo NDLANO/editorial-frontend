@@ -73,9 +73,10 @@ interface Props {
 }
 
 const SearchDropdown = ({ onClose }: Props) => {
-  const { t, i18n } = useTranslation();
+  const [menuOpen, setMenuOpen] = useState(false);
+  const { t } = useTranslation();
   const { data: userData } = useUserData({
-    enabled: isValid(getAccessToken()) && getAccessTokenPersonal(),
+    enabled: isValid(getAccessToken()) && getAccessTokenPersonal() && menuOpen,
   });
   const userDataMutation = useUpdateUserDataMutation();
   const location = useLocation();
@@ -83,7 +84,6 @@ const SearchDropdown = ({ onClose }: Props) => {
   const queryFromUrl = queryString.parse(location.search).query ?? '';
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const [menuOpen, setMenuOpen] = useState(false);
   const [query, setQuery] = useState(queryFromUrl);
 
   const onMenuOpen = useCallback(

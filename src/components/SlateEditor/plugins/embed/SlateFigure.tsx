@@ -159,6 +159,7 @@ const SlateFigure = ({ attributes, editor, element, language, locale = 'nb', chi
       }
       return (
         <DisplayExternal
+          attributes={attributes}
           onRemoveClick={onRemoveClick}
           embed={embed}
           language={language}

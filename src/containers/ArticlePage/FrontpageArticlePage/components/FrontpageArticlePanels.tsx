@@ -15,7 +15,7 @@ import RevisionNotes from '../../components/RevisionNotes';
 import FrontpageArticleFormContent from './FrontpageArticleFormContent';
 import FormAccordions from '../../../../components/Accordion/FormAccordions';
 import FormAccordion from '../../../../components/Accordion/FormAccordion';
-import { useFrontpageArticle } from './FrontpageArticleProvider';
+import { useFrontpageArticle } from '../../../../components/FrontpageArticleProvider';
 
 interface Props {
   handleSubmit: (
@@ -40,7 +40,6 @@ const FrontpageArticlePanels = ({ article, handleSubmit, articleLanguage }: Prop
         className={'u-4/6@desktop u-push-1/6@desktop'}
         hasError={!!(errors.title || errors.introduction || errors.content)}
         data-wide={isFrontpageArticle}
-        data-frontpage={article?.articleType === 'frontpage-article'}
       >
         <FrontpageArticleFormContent
           articleLanguage={articleLanguage}

@@ -546,7 +546,7 @@ const phrases = {
     },
     isFrontpageArticle: {
       description:
-        'Her styrar du om artikkelen skal visas som ein forside artikkel for deg i editoren',
+        'Her styrar du om artikkelen skal visas som ein forsideartikkel for deg i editoren',
     },
   },
   gridForm: {

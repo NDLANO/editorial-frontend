@@ -34,7 +34,7 @@ import FrontpageArticlePanels from './FrontpageArticlePanels';
 import { useSession } from '../../../../containers/Session/SessionProvider';
 import CommentSection from '../../components/CommentSection';
 import { FlexWrapper, MainContent } from '../../styles';
-import { useFrontpageArticle } from './FrontpageArticleProvider';
+import { useFrontpageArticle } from '../../../../components/FrontpageArticleProvider';
 
 interface Props {
   article?: IArticle;

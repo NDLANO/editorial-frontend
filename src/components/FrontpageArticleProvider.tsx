@@ -6,12 +6,19 @@
  *
  */
 
-import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useState } from 'react';
+import {
+  createContext,
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+  useCallback,
+  useContext,
+  useState,
+} from 'react';
 
-const FrontpageArticleContext = createContext<[boolean, Dispatch<SetStateAction<boolean>>]>([
-  false,
-  (val) => val,
-]);
+const FrontpageArticleContext = createContext<
+  [boolean, Dispatch<SetStateAction<boolean>>] | undefined
+>([false, (val) => val]);
 
 interface Props {
   children: ReactNode;
@@ -32,19 +39,26 @@ export const FrontpageArticleProvider = ({ children, initialValue = false }: Pro
 export const useFrontpageArticle = () => {
   const context = useContext(FrontpageArticleContext);
 
+  if (context === undefined) {
+    throw new Error('useFrontpageArticle can only be used witin a FrontpageArticleContext');
+  }
+
   const [isFrontpageArticle, setFrontpageArticle] = context;
 
-  const toggleFrontpageArticle = (articleId: number) => {
-    const frontpageArticleIds = getArticleIdList();
+  const toggleFrontpageArticle = useCallback(
+    (articleId: number) => {
+      const frontpageArticleIds = getArticleIdList();
 
-    if (frontpageArticleIds.includes(articleId)) {
-      updateFrontpageArticleList(frontpageArticleIds.filter((value) => value !== articleId));
-      setFrontpageArticle(false);
-    } else {
-      updateFrontpageArticleList([...frontpageArticleIds, articleId]);
-      setFrontpageArticle(true);
-    }
-  };
+      if (frontpageArticleIds.includes(articleId)) {
+        updateFrontpageArticleList(frontpageArticleIds.filter((value) => value !== articleId));
+        setFrontpageArticle(false);
+      } else {
+        updateFrontpageArticleList(frontpageArticleIds.concat([articleId]));
+        setFrontpageArticle(true);
+      }
+    },
+    [setFrontpageArticle],
+  );
 
   return {
     isFrontpageArticle,

@@ -10,8 +10,7 @@ import styled from '@emotion/styled';
 import { fonts, colors } from '@ndla/core';
 import { Switch } from '@ndla/switch';
 import { useTranslation } from 'react-i18next';
-import FormikField from '../../components/FormikField';
-import { useFrontpageArticle } from '../ArticlePage/FrontpageArticlePage/components/FrontpageArticleProvider';
+import { useFrontpageArticle } from '../../components/FrontpageArticleProvider';
 
 const StyledSwitch = styled(Switch)`
   > label {
@@ -19,6 +18,19 @@ const StyledSwitch = styled(Switch)`
     font-weight: ${fonts.weight.semibold};
     color: ${colors.text.primary};
   }
+`;
+
+const StyledLabel = styled.label`
+  font-size: 1.5rem;
+`;
+
+const StyledParagraph = styled.p`
+  margin: 0.2em 0;
+  font-size: 0.75em;
+`;
+
+const SwitchContentWrapper = styled.div`
+  margin-top: 2rem;
 `;
 
 interface Props {
@@ -29,20 +41,16 @@ const FrontpageArticleSwitch = ({ articleId }: Props) => {
   const { isFrontpageArticle, toggleFrontpageArticle } = useFrontpageArticle();
   const { t } = useTranslation();
   return (
-    <FormikField
-      name="frontpageArticle"
-      label={t('frontpageArticleForm.title')}
-      description={t('frontpageArticleForm.isFrontpageArticle.description')}
-    >
-      {() => (
-        <StyledSwitch
-          id={articleId}
-          label={t('frontpageArticleForm.title')}
-          checked={isFrontpageArticle}
-          onChange={() => toggleFrontpageArticle(articleId!)}
-        />
-      )}
-    </FormikField>
+    <SwitchContentWrapper>
+      <StyledLabel>{t('frontpageArticleForm.title')}</StyledLabel>
+      <StyledParagraph>{t('frontpageArticleForm.isFrontpageArticle.description')}</StyledParagraph>
+      <StyledSwitch
+        id={articleId}
+        label={t('frontpageArticleForm.title')}
+        checked={isFrontpageArticle}
+        onChange={() => toggleFrontpageArticle(articleId!)}
+      />
+    </SwitchContentWrapper>
   );
 };
 

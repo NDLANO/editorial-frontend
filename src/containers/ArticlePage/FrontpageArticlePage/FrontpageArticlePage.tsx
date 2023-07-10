@@ -10,7 +10,7 @@ import ResourcePage from '../../../components/ResourcePage';
 import CreateFrontpageArticle from './CreateFrontpageArticle';
 import EditFrontpageArticle from './EditFrontpageArticle';
 import { articleResourcePageStyle } from '../styles';
-import { FrontpageArticleProvider } from './components/FrontpageArticleProvider';
+import { FrontpageArticleProvider } from '../../../components/FrontpageArticleProvider';
 
 const FrontpageArticlePage = () => (
   <FrontpageArticleProvider initialValue={false}>

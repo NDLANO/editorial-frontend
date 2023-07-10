@@ -7,11 +7,11 @@
  */
 
 import { HelmetWithTracker } from '@ndla/tracker';
-import { Hero, HeroContentType, OneColumn } from '@ndla/ui';
+import { Hero, HeroContentType } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
-import { spacing } from '@ndla/core';
-import { css } from '@emotion/react';
+import { spacing, colors } from '@ndla/core';
+import styled from '@emotion/styled';
 import PreviewDraft from '../../components/PreviewDraft/PreviewDraft';
 import { getContentTypeFromResourceTypes } from '../../util/resourceHelpers';
 import { useTaxonomyVersion } from '../StructureVersion/TaxonomyVersionProvider';
@@ -19,15 +19,15 @@ import LanguageSelector from './LanguageSelector';
 import { useDraft } from '../../modules/draft/draftQueries';
 import { useNodes } from '../../modules/nodes/nodeQueries';
 
-const frontpageStyling = css`
-  background-color: #f7fafd;
-  display: flex;
-  flex-flow: column;
-  justify-content: center;
-  align-items: center;
-  margin: unset;
-  max-width: unset;
-  padding: 0 ${spacing.normal};
+const StyledOneColumn = styled.div`
+  &[data-wide='true'] {
+    background-color: ${colors.background.frontpageArticle};
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0 ${spacing.normal};
+  }
 `;
 
 const PreviewDraftPage = () => {
@@ -63,9 +63,8 @@ const PreviewDraftPage = () => {
       >
         <LanguageSelector supportedLanguages={draft.data?.supportedLanguages ?? []} />
       </Hero>
-
       <HelmetWithTracker title={`${draft.data?.title?.title} ${t('htmlTitles.titleTemplate')}`} />
-      <OneColumn css={isFrontpage ? frontpageStyling : undefined}>
+      <StyledOneColumn data-wide={isFrontpage}>
         <PreviewDraft
           type="article"
           draft={draft.data!}
@@ -73,7 +72,7 @@ const PreviewDraftPage = () => {
           contentType={contentType}
           language={language}
         />
-      </OneColumn>
+      </StyledOneColumn>
     </>
   );
 };

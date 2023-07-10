@@ -545,7 +545,7 @@ const phrases = {
     },
     isFrontpageArticle: {
       description:
-        'Here you control if the article is to be portrayed as a frontpage article for you in the editor',
+        'Controls whether the article is displayed as a frontpage article in the editor.',
     },
   },
   gridForm: {

@@ -17,9 +17,9 @@ import { usePreviousLocation } from '../util/routeHelpers';
 import Footer from '../containers/App/components/Footer';
 import Spinner from './Spinner';
 import { NynorskTranslateProvider } from './NynorskTranslateProvider';
-import { useFrontpageArticle } from '../containers/ArticlePage/FrontpageArticlePage/components/FrontpageArticleProvider';
 import { FRONTPAGE_ARTICLE_WIDTH } from '../containers/ArticlePage/styles';
 import { MAX_PAGE_WIDTH } from '../constants';
+import { useFrontpageArticle } from './FrontpageArticleProvider';
 
 const NotFoundPage = loadable(() => import('../containers/NotFoundPage/NotFoundPage'));
 

@@ -16,7 +16,7 @@ import '../DisplayEmbed/helpers/h5pResizer';
 import formatDate from '../../util/formatDate';
 import { usePreviewArticle } from '../../modules/article/articleGqlQueries';
 import config from '../../config';
-import { isFrontpageArticle } from '../../containers/ArticlePage/FrontpageArticlePage/components/FrontpageArticleProvider';
+import { isFrontpageArticle } from '../FrontpageArticleProvider';
 
 interface BaseProps {
   label: string;
@@ -93,6 +93,7 @@ export const PreviewDraft = ({ type, draft: draftProp, label, contentType, langu
       content,
       copyright: draft.copyright!,
       published: draft.published ? formatDate(draft.published) : '',
+      footNotes: [],
     };
   }, [transformedContent.data, draft]);
 
@@ -101,16 +102,8 @@ export const PreviewDraft = ({ type, draft: draftProp, label, contentType, langu
   }
   const isFrontpage = isFrontpageArticle(draft.id);
 
-  if (draftProp.articleType === 'frontpage-article') {
-    return (
-      <FrontpageArticle
-        //@ts-ignore
-        article={article}
-        id={draft.id.toString()}
-        renderMarkdown={renderMarkdown}
-        isWide={isFrontpage}
-      />
-    );
+  if (!!article && draftProp.articleType === 'frontpage-article') {
+    return <FrontpageArticle article={article} id={draft.id.toString()} isWide={isFrontpage} />;
   }
 
   return (

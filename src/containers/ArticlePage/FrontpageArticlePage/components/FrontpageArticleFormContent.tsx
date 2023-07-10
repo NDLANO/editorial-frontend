@@ -75,7 +75,7 @@ import { gridPlugin } from '../../../../components/SlateEditor/plugins/grid';
 import { TYPE_GRID } from '../../../../components/SlateEditor/plugins/grid/types';
 import { TYPE_KEY_FIGURE } from '../../../../components/SlateEditor/plugins/keyFigure/types';
 import { keyFigurePlugin } from '../../../../components/SlateEditor/plugins/keyFigure';
-import { useFrontpageArticle } from './FrontpageArticleProvider';
+import { useFrontpageArticle } from '../../../../components/FrontpageArticleProvider';
 
 const StyledFormikField = styled(FormikField)`
   display: flex;

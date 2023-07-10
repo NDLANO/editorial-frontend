@@ -17,7 +17,10 @@ import Spinner from '../../../components/Spinner';
 import { LocaleType } from '../../../interfaces';
 import NotFound from '../../NotFoundPage/NotFoundPage';
 import { TranslateType, useTranslateToNN } from '../../../components/NynorskTranslateProvider';
-import { isFrontpageArticle, useFrontpageArticle } from './components/FrontpageArticleProvider';
+import {
+  isFrontpageArticle,
+  useFrontpageArticle,
+} from '../../../components/FrontpageArticleProvider';
 
 const translateFields: TranslateType[] = [
   {

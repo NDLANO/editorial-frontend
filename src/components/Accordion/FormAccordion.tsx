@@ -69,10 +69,8 @@ const StyledAccordionContent = styled(AccordionContent)`
     align-items: center;
     justify-content: center;
 
-    &[data-wide='true'] {
-      > div {
-        max-width: ${FRONTPAGE_ARTICLE_MAXIMUM_WIDTH}px;
-      }
+    > div {
+      max-width: ${FRONTPAGE_ARTICLE_MAXIMUM_WIDTH}px;
     }
   }
 `;

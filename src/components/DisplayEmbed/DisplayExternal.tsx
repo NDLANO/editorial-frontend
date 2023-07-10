@@ -38,7 +38,7 @@ const ExpandableButton = styled.div`
 
 type EmbedType = ExternalEmbed | H5pEmbed;
 
-interface Props extends HTMLAttributes<HTMLElement> {
+interface Props extends HTMLAttributes<HTMLDivElement> {
   pathToEmbed: Path;
   editor: Editor;
   embed: EmbedType;

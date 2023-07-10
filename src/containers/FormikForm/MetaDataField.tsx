@@ -8,9 +8,6 @@
 
 import { useTranslation } from 'react-i18next';
 import { IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
-import { Switch } from '@ndla/switch';
-import styled from '@emotion/styled';
-import { colors, fonts } from '@ndla/core';
 import FormikField from '../../components/FormikField';
 import PlainTextEditor from '../../components/SlateEditor/PlainTextEditor';
 import { textTransformPlugin } from '../../components/SlateEditor/plugins/textTransform';
@@ -20,8 +17,8 @@ import AvailabilityField from './components/AvailabilityField';
 import { DRAFT_ADMIN_SCOPE } from '../../constants';
 import { useSession } from '../Session/SessionProvider';
 import { fetchSearchTags } from '../../modules/draft/draftApi';
-import { useFrontpageArticle } from '../ArticlePage/FrontpageArticlePage/components/FrontpageArticleProvider';
 import FrontpageArticleSwitch from './FrontpageArticleSwitch';
+
 interface Props {
   articleLanguage: string;
   showCheckbox?: boolean;
@@ -93,8 +90,8 @@ const MetaDataField = ({
           />
         )}
       </FormikField>
-      {articleType === 'frontpage-article' ? (
-        <FrontpageArticleSwitch articleId={articleId!} />
+      {!!articleId && articleType === 'frontpage-article' ? (
+        <FrontpageArticleSwitch articleId={articleId} />
       ) : null}
     </>
   );

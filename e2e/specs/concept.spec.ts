@@ -50,12 +50,6 @@ test.beforeEach(async ({ page }) => {
     fixture: 'concept_note_users',
   });
 
-  const editorialSearch = mockRoute({
-    page,
-    path: '**/search-api/v1/search/editorial/?article-types=topic-article*',
-    fixture: 'concept_editorial_search',
-  });
-
   const responsibles = mockRoute({
     page,
     path: '**/get_responsibles?permission=drafts:responsible',
@@ -95,7 +89,6 @@ test.beforeEach(async ({ page }) => {
     statusStateMachine,
     usageSearch,
     response,
-    editorialSearch,
     subjects,
     noteUsers,
     responsibles,

@@ -1,0 +1,858 @@
+[ {
+  "id" : "6317543916112",
+  "account_id" : "4806596774001",
+  "ad_keys" : null,
+  "clip_source_video_id" : null,
+  "complete" : true,
+  "created_at" : "2022-12-20T12:52:31.665Z",
+  "created_by" : {
+    "type" : "user",
+    "id" : "76076229774",
+    "email" : "signe.hogh@ndla.no"
+  },
+  "cue_points" : [ ],
+  "custom_fields" : {
+    "license" : "Navngivelse-Ingen Bearbeidelse",
+    "licenseinfo" : "Fotograf: Jarle Sten Olsen",
+    "licenseinfo2" : "Redaksjonelt: Anna Maria Holvik",
+    "licenseinfo3" : "Redaksjonelt: Rebecca Elisabeth Mohr"
+  },
+  "delivery_type" : "dynamic_origin",
+  "description" : null,
+  "digital_master_id" : null,
+  "duration" : 229909,
+  "economics" : "FREE",
+  "folder_id" : "63a19ca57933c24133580f3e",
+  "geo" : null,
+  "has_digital_master" : true,
+  "images" : {
+    "poster" : {
+      "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/c63e0072-d91a-44c4-91b0-9e0cbe08b60a/418b8027-1438-4e17-a41d-436445df91fd/1280x720/match/image.jpg",
+      "sources" : [ {
+        "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/c63e0072-d91a-44c4-91b0-9e0cbe08b60a/418b8027-1438-4e17-a41d-436445df91fd/1280x720/match/image.jpg",
+        "height" : 720,
+        "width" : 1280
+      } ]
+    },
+    "thumbnail" : {
+      "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/c63e0072-d91a-44c4-91b0-9e0cbe08b60a/99a01062-a1eb-4789-99c2-406cb1b7caa4/160x90/match/image.jpg",
+      "sources" : [ {
+        "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/c63e0072-d91a-44c4-91b0-9e0cbe08b60a/99a01062-a1eb-4789-99c2-406cb1b7caa4/160x90/match/image.jpg",
+        "height" : 90,
+        "width" : 160
+      } ]
+    }
+  },
+  "link" : {
+    "text" : "6317544311112"
+  },
+  "long_description" : null,
+  "name" : "Este es nuestro instituto",
+  "original_filename" : "Este es nuestro institutoX.mp4",
+  "projection" : null,
+  "published_at" : "2022-12-20T12:52:31.665Z",
+  "reference_id" : null,
+  "schedule" : null,
+  "sharing" : null,
+  "state" : "ACTIVE",
+  "tags" : [ ],
+  "text_tracks" : [ {
+    "id" : "f176dd13-9169-4fac-b59b-e74fd267ef5a",
+    "account_id" : "4806596774001",
+    "src" : "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/c63e0072-d91a-44c4-91b0-9e0cbe08b60a/f176dd13-9169-4fac-b59b-e74fd267ef5a/text.vtt?fastly_token=NjRhODQ0M2ZfZGUzM2U0MzdmNDgxNTk3MDU3ZmUwNGNhODgxYWZmMjY2YTlmODY3YTI4YzBlZTJlZWE2NmVkNzAwNGJkNGMwMF9odHRwOi8vaG91c2UtZmFzdGx5LXNpZ25lZC1ldS13ZXN0LTEtcHJvZC5icmlnaHRjb3ZlY2RuLmNvbS9tZWRpYS92MS90ZXh0L3Z0dC9jbGVhci80ODA2NTk2Nzc0MDAxL2M2M2UwMDcyLWQ5MWEtNDRjNC05MWIwLTllMGNiZTA4YjYwYS9mMTc2ZGQxMy05MTY5LTRmYWMtYjU5Yi1lNzRmZDI2N2VmNWEvdGV4dC52dHQ%3D",
+    "srclang" : "es",
+    "label" : "Español",
+    "kind" : "captions",
+    "mime_type" : "text/webvtt",
+    "status" : "published",
+    "asset_id" : null,
+    "sources" : [ {
+      "src" : "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/c63e0072-d91a-44c4-91b0-9e0cbe08b60a/f176dd13-9169-4fac-b59b-e74fd267ef5a/text.vtt?fastly_token=NjRhODQ0M2ZfZGUzM2U0MzdmNDgxNTk3MDU3ZmUwNGNhODgxYWZmMjY2YTlmODY3YTI4YzBlZTJlZWE2NmVkNzAwNGJkNGMwMF9odHRwOi8vaG91c2UtZmFzdGx5LXNpZ25lZC1ldS13ZXN0LTEtcHJvZC5icmlnaHRjb3ZlY2RuLmNvbS9tZWRpYS92MS90ZXh0L3Z0dC9jbGVhci80ODA2NTk2Nzc0MDAxL2M2M2UwMDcyLWQ5MWEtNDRjNC05MWIwLTllMGNiZTA4YjYwYS9mMTc2ZGQxMy05MTY5LTRmYWMtYjU5Yi1lNzRmZDI2N2VmNWEvdGV4dC52dHQ%3D"
+    }, {
+      "src" : "https://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/c63e0072-d91a-44c4-91b0-9e0cbe08b60a/f176dd13-9169-4fac-b59b-e74fd267ef5a/text.vtt?fastly_token=NjRhODQ0M2ZfODg4YjAxODNhNWExM2JlZGQxMjViZDJkMWZiMDVkODFhNjU4YTAyM2M1M2FiODllMDM3MWI4YzVjMzQ1YTc2MF9odHRwczovL2hvdXNlLWZhc3RseS1zaWduZWQtZXUtd2VzdC0xLXByb2QuYnJpZ2h0Y292ZWNkbi5jb20vbWVkaWEvdjEvdGV4dC92dHQvY2xlYXIvNDgwNjU5Njc3NDAwMS9jNjNlMDA3Mi1kOTFhLTQ0YzQtOTFiMC05ZTBjYmUwOGI2MGEvZjE3NmRkMTMtOTE2OS00ZmFjLWI1OWItZTc0ZmQyNjdlZjVhL3RleHQudnR0"
+    } ],
+    "in_band_metadata_track_dispatch_type" : "",
+    "default" : false
+  } ],
+  "transcripts" : [ ],
+  "updated_at" : "2023-07-04T09:59:30.031Z",
+  "updated_by" : {
+    "type" : "internal"
+  },
+  "playback_rights_id" : "primary",
+  "ingestion_profile_id" : "f984445692374bd99e6270d8"
+}, {
+  "id" : "5796541790001",
+  "account_id" : "4806596774001",
+  "ad_keys" : null,
+  "clip_source_video_id" : null,
+  "complete" : true,
+  "created_at" : "2018-06-12T10:35:22.961Z",
+  "created_by" : {
+    "type" : "unknown"
+  },
+  "cue_points" : [ ],
+  "custom_fields" : {
+    "license" : "Navngivelse-Del på samme vilkår",
+    "yt_privacy_status" : "private",
+    "licenseinfo" : "Opphavsmann: Tom Jarle Christiansen"
+  },
+  "delivery_type" : "dynamic_origin",
+  "description" : null,
+  "digital_master_id" : null,
+  "duration" : 407696,
+  "economics" : "AD_SUPPORTED",
+  "folder_id" : null,
+  "geo" : null,
+  "has_digital_master" : true,
+  "images" : {
+    "poster" : {
+      "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/77ecf304-638e-4d8a-847b-d0a4a2cc509e/f3645b4a-bd6d-4f92-8a5e-ee6490538305/1280x720/match/image.jpg",
+      "sources" : [ {
+        "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/77ecf304-638e-4d8a-847b-d0a4a2cc509e/f3645b4a-bd6d-4f92-8a5e-ee6490538305/1280x720/match/image.jpg",
+        "height" : 720,
+        "width" : 1280
+      } ]
+    },
+    "thumbnail" : {
+      "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/77ecf304-638e-4d8a-847b-d0a4a2cc509e/cdb2ffbe-4fb0-4a68-80d8-aa8e3139a028/160x90/match/image.jpg",
+      "sources" : [ {
+        "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/77ecf304-638e-4d8a-847b-d0a4a2cc509e/cdb2ffbe-4fb0-4a68-80d8-aa8e3139a028/160x90/match/image.jpg",
+        "height" : 90,
+        "width" : 160
+      } ]
+    }
+  },
+  "link" : null,
+  "long_description" : null,
+  "name" : "Volum av parallellepiped",
+  "original_filename" : "download-original",
+  "projection" : null,
+  "published_at" : "2018-06-12T10:35:22.961Z",
+  "reference_id" : "132707",
+  "schedule" : null,
+  "sharing" : null,
+  "state" : "ACTIVE",
+  "tags" : [ "matematikk r2", "parallelepiped", "parallellepiped", "vector", "vektor", "volum", "volume" ],
+  "text_tracks" : [ {
+    "id" : "fc453429-816b-46b8-969f-7dd50a7f1f25",
+    "account_id" : "4806596774001",
+    "src" : "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/77ecf304-638e-4d8a-847b-d0a4a2cc509e/fc453429-816b-46b8-969f-7dd50a7f1f25/text.vtt?fastly_token=NjRhODQ1MGZfMjQ5M2E5ZGJmZmZmNjdlYzAyMzYwNWJkNjFmNjNmMDBhZTNlYzRkMjdiZjczNjEyMDVkMWViZWRkZTdkYTIyZV9odHRwOi8vaG91c2UtZmFzdGx5LXNpZ25lZC1ldS13ZXN0LTEtcHJvZC5icmlnaHRjb3ZlY2RuLmNvbS9tZWRpYS92MS90ZXh0L3Z0dC9jbGVhci80ODA2NTk2Nzc0MDAxLzc3ZWNmMzA0LTYzOGUtNGQ4YS04NDdiLWQwYTRhMmNjNTA5ZS9mYzQ1MzQyOS04MTZiLTQ2YjgtOTY5Zi03ZGQ1MGE3ZjFmMjUvdGV4dC52dHQ%3D",
+    "srclang" : "nn-NO",
+    "label" : "Nynorsk",
+    "kind" : "captions",
+    "mime_type" : "text/webvtt",
+    "status" : "published",
+    "asset_id" : null,
+    "sources" : [ {
+      "src" : "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/77ecf304-638e-4d8a-847b-d0a4a2cc509e/fc453429-816b-46b8-969f-7dd50a7f1f25/text.vtt?fastly_token=NjRhODQ1MGZfMjQ5M2E5ZGJmZmZmNjdlYzAyMzYwNWJkNjFmNjNmMDBhZTNlYzRkMjdiZjczNjEyMDVkMWViZWRkZTdkYTIyZV9odHRwOi8vaG91c2UtZmFzdGx5LXNpZ25lZC1ldS13ZXN0LTEtcHJvZC5icmlnaHRjb3ZlY2RuLmNvbS9tZWRpYS92MS90ZXh0L3Z0dC9jbGVhci80ODA2NTk2Nzc0MDAxLzc3ZWNmMzA0LTYzOGUtNGQ4YS04NDdiLWQwYTRhMmNjNTA5ZS9mYzQ1MzQyOS04MTZiLTQ2YjgtOTY5Zi03ZGQ1MGE3ZjFmMjUvdGV4dC52dHQ%3D"
+    }, {
+      "src" : "https://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/77ecf304-638e-4d8a-847b-d0a4a2cc509e/fc453429-816b-46b8-969f-7dd50a7f1f25/text.vtt?fastly_token=NjRhODQ1MGZfMjY2YTdkZjRiNjRkYjNiMGM0NWUzYzQ1NzVjZGU1ZGVkMTQ1ZGE4MDQxNjI2ZjQ5N2Q5NmVlZGY0MTE5MGJkY19odHRwczovL2hvdXNlLWZhc3RseS1zaWduZWQtZXUtd2VzdC0xLXByb2QuYnJpZ2h0Y292ZWNkbi5jb20vbWVkaWEvdjEvdGV4dC92dHQvY2xlYXIvNDgwNjU5Njc3NDAwMS83N2VjZjMwNC02MzhlLTRkOGEtODQ3Yi1kMGE0YTJjYzUwOWUvZmM0NTM0MjktODE2Yi00NmI4LTk2OWYtN2RkNTBhN2YxZjI1L3RleHQudnR0"
+    } ],
+    "in_band_metadata_track_dispatch_type" : "",
+    "default" : false
+  }, {
+    "id" : "8ba76a60-3f2a-44fa-ace0-173af53a9926",
+    "account_id" : "4806596774001",
+    "src" : "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/77ecf304-638e-4d8a-847b-d0a4a2cc509e/8ba76a60-3f2a-44fa-ace0-173af53a9926/text.vtt?fastly_token=NjRhODQ1MGZfMjg4OWEwNjRjYjY4NDUyZmZkM2I3YzdkZTg5ODZlYjJlYzdmNjkyNmJjNDM5OTZkNWIyMmQ3YWExOWUwMmI4OF9odHRwOi8vaG91c2UtZmFzdGx5LXNpZ25lZC1ldS13ZXN0LTEtcHJvZC5icmlnaHRjb3ZlY2RuLmNvbS9tZWRpYS92MS90ZXh0L3Z0dC9jbGVhci80ODA2NTk2Nzc0MDAxLzc3ZWNmMzA0LTYzOGUtNGQ4YS04NDdiLWQwYTRhMmNjNTA5ZS84YmE3NmE2MC0zZjJhLTQ0ZmEtYWNlMC0xNzNhZjUzYTk5MjYvdGV4dC52dHQ%3D",
+    "srclang" : "no-NO",
+    "label" : "Bokmål",
+    "kind" : "captions",
+    "mime_type" : "text/webvtt",
+    "status" : "published",
+    "asset_id" : null,
+    "sources" : [ {
+      "src" : "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/77ecf304-638e-4d8a-847b-d0a4a2cc509e/8ba76a60-3f2a-44fa-ace0-173af53a9926/text.vtt?fastly_token=NjRhODQ1MGZfMjg4OWEwNjRjYjY4NDUyZmZkM2I3YzdkZTg5ODZlYjJlYzdmNjkyNmJjNDM5OTZkNWIyMmQ3YWExOWUwMmI4OF9odHRwOi8vaG91c2UtZmFzdGx5LXNpZ25lZC1ldS13ZXN0LTEtcHJvZC5icmlnaHRjb3ZlY2RuLmNvbS9tZWRpYS92MS90ZXh0L3Z0dC9jbGVhci80ODA2NTk2Nzc0MDAxLzc3ZWNmMzA0LTYzOGUtNGQ4YS04NDdiLWQwYTRhMmNjNTA5ZS84YmE3NmE2MC0zZjJhLTQ0ZmEtYWNlMC0xNzNhZjUzYTk5MjYvdGV4dC52dHQ%3D"
+    }, {
+      "src" : "https://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/77ecf304-638e-4d8a-847b-d0a4a2cc509e/8ba76a60-3f2a-44fa-ace0-173af53a9926/text.vtt?fastly_token=NjRhODQ1MGZfMzJjYTc1YmZlMGY2N2IxZWVjODg2OTA3MjdiMmQxY2E1NzI3ODFkNDNmODVmNzQ4NDNlZmUyOGRjNWJhYjhjZV9odHRwczovL2hvdXNlLWZhc3RseS1zaWduZWQtZXUtd2VzdC0xLXByb2QuYnJpZ2h0Y292ZWNkbi5jb20vbWVkaWEvdjEvdGV4dC92dHQvY2xlYXIvNDgwNjU5Njc3NDAwMS83N2VjZjMwNC02MzhlLTRkOGEtODQ3Yi1kMGE0YTJjYzUwOWUvOGJhNzZhNjAtM2YyYS00NGZhLWFjZTAtMTczYWY1M2E5OTI2L3RleHQudnR0"
+    } ],
+    "in_band_metadata_track_dispatch_type" : "",
+    "default" : false
+  } ],
+  "transcripts" : [ ],
+  "updated_at" : "2023-07-03T09:52:22.109Z",
+  "updated_by" : {
+    "type" : "internal"
+  },
+  "playback_rights_id" : null,
+  "ingestion_profile_id" : null
+}, {
+  "id" : "5796542976001",
+  "account_id" : "4806596774001",
+  "ad_keys" : null,
+  "clip_source_video_id" : null,
+  "complete" : true,
+  "created_at" : "2018-06-12T10:35:23.018Z",
+  "created_by" : {
+    "type" : "unknown"
+  },
+  "cue_points" : [ ],
+  "custom_fields" : {
+    "yt_privacy_status" : "private",
+    "licenseinfo" : "Opphavsmann: Tom Jarle Christiansen",
+    "license" : "Navngivelse-Del på samme vilkår"
+  },
+  "delivery_type" : "dynamic_origin",
+  "description" : null,
+  "digital_master_id" : null,
+  "duration" : 347463,
+  "economics" : "AD_SUPPORTED",
+  "folder_id" : null,
+  "geo" : null,
+  "has_digital_master" : true,
+  "images" : {
+    "thumbnail" : {
+      "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/1650dc1a-1f7b-40ae-96b6-a00367d252e8/0fc34415-b1aa-4ac2-8da6-8fb1bf6b4ef2/160x90/match/image.jpg",
+      "sources" : [ {
+        "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/1650dc1a-1f7b-40ae-96b6-a00367d252e8/0fc34415-b1aa-4ac2-8da6-8fb1bf6b4ef2/160x90/match/image.jpg",
+        "height" : 90,
+        "width" : 160
+      } ]
+    },
+    "poster" : {
+      "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/1650dc1a-1f7b-40ae-96b6-a00367d252e8/4fd00774-37b2-4f22-b3c4-f74f76aa8293/1280x720/match/image.jpg",
+      "sources" : [ {
+        "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/1650dc1a-1f7b-40ae-96b6-a00367d252e8/4fd00774-37b2-4f22-b3c4-f74f76aa8293/1280x720/match/image.jpg",
+        "height" : 720,
+        "width" : 1280
+      } ]
+    }
+  },
+  "link" : null,
+  "long_description" : null,
+  "name" : "Areal av trekanter",
+  "original_filename" : "download-original",
+  "projection" : null,
+  "published_at" : "2018-06-12T10:35:23.018Z",
+  "reference_id" : "132687",
+  "schedule" : null,
+  "sharing" : null,
+  "state" : "ACTIVE",
+  "tags" : [ "matematikk r2", "trekanter", "triangles", "vector", "vektor" ],
+  "text_tracks" : [ {
+    "id" : "198a97d5-0bf3-4b8e-92c9-13f99e7422d4",
+    "account_id" : "4806596774001",
+    "src" : "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/1650dc1a-1f7b-40ae-96b6-a00367d252e8/198a97d5-0bf3-4b8e-92c9-13f99e7422d4/text.vtt?fastly_token=NjRhODQ0YzhfOGUwZTg3MTkwYTJmNjQ1NWQ1Y2E0MWE5OTBhYjc2ZTcyZDZjZDdmZTZiNjFkZDcwN2FiYWIyYTZmMjNkOThlNl9odHRwOi8vaG91c2UtZmFzdGx5LXNpZ25lZC1ldS13ZXN0LTEtcHJvZC5icmlnaHRjb3ZlY2RuLmNvbS9tZWRpYS92MS90ZXh0L3Z0dC9jbGVhci80ODA2NTk2Nzc0MDAxLzE2NTBkYzFhLTFmN2ItNDBhZS05NmI2LWEwMDM2N2QyNTJlOC8xOThhOTdkNS0wYmYzLTRiOGUtOTJjOS0xM2Y5OWU3NDIyZDQvdGV4dC52dHQ%3D",
+    "srclang" : "nn-NO",
+    "label" : "Nynorsk",
+    "kind" : "captions",
+    "mime_type" : "text/webvtt",
+    "status" : "published",
+    "asset_id" : null,
+    "sources" : [ {
+      "src" : "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/1650dc1a-1f7b-40ae-96b6-a00367d252e8/198a97d5-0bf3-4b8e-92c9-13f99e7422d4/text.vtt?fastly_token=NjRhODQ0YzhfOGUwZTg3MTkwYTJmNjQ1NWQ1Y2E0MWE5OTBhYjc2ZTcyZDZjZDdmZTZiNjFkZDcwN2FiYWIyYTZmMjNkOThlNl9odHRwOi8vaG91c2UtZmFzdGx5LXNpZ25lZC1ldS13ZXN0LTEtcHJvZC5icmlnaHRjb3ZlY2RuLmNvbS9tZWRpYS92MS90ZXh0L3Z0dC9jbGVhci80ODA2NTk2Nzc0MDAxLzE2NTBkYzFhLTFmN2ItNDBhZS05NmI2LWEwMDM2N2QyNTJlOC8xOThhOTdkNS0wYmYzLTRiOGUtOTJjOS0xM2Y5OWU3NDIyZDQvdGV4dC52dHQ%3D"
+    }, {
+      "src" : "https://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/1650dc1a-1f7b-40ae-96b6-a00367d252e8/198a97d5-0bf3-4b8e-92c9-13f99e7422d4/text.vtt?fastly_token=NjRhODQ0YzhfOWUwNjI1ZjJjMDI5NTYyYzgzMWRlOTM4NDdkZWYyMjMyMjBmYjA4MjA4OWYwOTY0OTM2ZGE3ODJhMDgzYmQzZl9odHRwczovL2hvdXNlLWZhc3RseS1zaWduZWQtZXUtd2VzdC0xLXByb2QuYnJpZ2h0Y292ZWNkbi5jb20vbWVkaWEvdjEvdGV4dC92dHQvY2xlYXIvNDgwNjU5Njc3NDAwMS8xNjUwZGMxYS0xZjdiLTQwYWUtOTZiNi1hMDAzNjdkMjUyZTgvMTk4YTk3ZDUtMGJmMy00YjhlLTkyYzktMTNmOTllNzQyMmQ0L3RleHQudnR0"
+    } ],
+    "in_band_metadata_track_dispatch_type" : "",
+    "default" : false
+  }, {
+    "id" : "8e05b7d2-38b2-4385-af7c-4c0dd08e09ee",
+    "account_id" : "4806596774001",
+    "src" : "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/1650dc1a-1f7b-40ae-96b6-a00367d252e8/8e05b7d2-38b2-4385-af7c-4c0dd08e09ee/text.vtt?fastly_token=NjRhODQ0YzhfY2E0Y2Y3Mzc3ZTg5NWZjZjNmOGE5ODZiYjU2ODliNzhlMzYzNmI4N2RkYmM0YWE1ZTgyNjlkZmZkZDIzMGQ2Zl9odHRwOi8vaG91c2UtZmFzdGx5LXNpZ25lZC1ldS13ZXN0LTEtcHJvZC5icmlnaHRjb3ZlY2RuLmNvbS9tZWRpYS92MS90ZXh0L3Z0dC9jbGVhci80ODA2NTk2Nzc0MDAxLzE2NTBkYzFhLTFmN2ItNDBhZS05NmI2LWEwMDM2N2QyNTJlOC84ZTA1YjdkMi0zOGIyLTQzODUtYWY3Yy00YzBkZDA4ZTA5ZWUvdGV4dC52dHQ%3D",
+    "srclang" : "no-NO",
+    "label" : "Bokmål",
+    "kind" : "captions",
+    "mime_type" : "text/webvtt",
+    "status" : "published",
+    "asset_id" : null,
+    "sources" : [ {
+      "src" : "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/1650dc1a-1f7b-40ae-96b6-a00367d252e8/8e05b7d2-38b2-4385-af7c-4c0dd08e09ee/text.vtt?fastly_token=NjRhODQ0YzhfY2E0Y2Y3Mzc3ZTg5NWZjZjNmOGE5ODZiYjU2ODliNzhlMzYzNmI4N2RkYmM0YWE1ZTgyNjlkZmZkZDIzMGQ2Zl9odHRwOi8vaG91c2UtZmFzdGx5LXNpZ25lZC1ldS13ZXN0LTEtcHJvZC5icmlnaHRjb3ZlY2RuLmNvbS9tZWRpYS92MS90ZXh0L3Z0dC9jbGVhci80ODA2NTk2Nzc0MDAxLzE2NTBkYzFhLTFmN2ItNDBhZS05NmI2LWEwMDM2N2QyNTJlOC84ZTA1YjdkMi0zOGIyLTQzODUtYWY3Yy00YzBkZDA4ZTA5ZWUvdGV4dC52dHQ%3D"
+    }, {
+      "src" : "https://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/1650dc1a-1f7b-40ae-96b6-a00367d252e8/8e05b7d2-38b2-4385-af7c-4c0dd08e09ee/text.vtt?fastly_token=NjRhODQ0YzhfNDE5Y2Q1ODEyMTc1ZTM0Mzc1OWViMGNlMDM2YjhjYzBjZTA2YTkxZWY4NDk1NGE4ZTY2YTE0MzdjN2MzZmUwZl9odHRwczovL2hvdXNlLWZhc3RseS1zaWduZWQtZXUtd2VzdC0xLXByb2QuYnJpZ2h0Y292ZWNkbi5jb20vbWVkaWEvdjEvdGV4dC92dHQvY2xlYXIvNDgwNjU5Njc3NDAwMS8xNjUwZGMxYS0xZjdiLTQwYWUtOTZiNi1hMDAzNjdkMjUyZTgvOGUwNWI3ZDItMzhiMi00Mzg1LWFmN2MtNGMwZGQwOGUwOWVlL3RleHQudnR0"
+    } ],
+    "in_band_metadata_track_dispatch_type" : "",
+    "default" : false
+  } ],
+  "transcripts" : [ ],
+  "updated_at" : "2023-07-03T08:19:23.257Z",
+  "updated_by" : {
+    "type" : "internal"
+  },
+  "playback_rights_id" : null,
+  "ingestion_profile_id" : null
+}, {
+  "id" : "6259836396001",
+  "account_id" : "4806596774001",
+  "ad_keys" : null,
+  "clip_source_video_id" : null,
+  "complete" : true,
+  "created_at" : "2021-06-21T10:40:30.966Z",
+  "created_by" : {
+    "type" : "user",
+    "id" : "76076229774",
+    "email" : "signe.hogh@ndla.no"
+  },
+  "cue_points" : [ ],
+  "custom_fields" : {
+    "license" : "Navngivelse-Ikkekommersiell-Ingen Bearbeidelse",
+    "licenseinfo" : "Rettighetshaver: film_konsulentene"
+  },
+  "delivery_type" : "dynamic_origin",
+  "description" : "Tre situasjoner og tre etiske dilemma. Vi møter et postbud som blir bedt om å videresende et bilde, en journalist må revurdere saken han skriver og en politiker må vurdere å dele videre forhold om en konkurrent før valget. Hva gjør de?",
+  "digital_master_id" : null,
+  "duration" : 276864,
+  "economics" : "FREE",
+  "folder_id" : "5c6672048283656b30d290b3",
+  "geo" : null,
+  "has_digital_master" : true,
+  "images" : {
+    "poster" : {
+      "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/47b3d076-d4db-4dc5-8fa5-6751fb4de5fd/177860e8-bbe3-456c-803e-febfeabdcd05/1280x720/match/image.jpg",
+      "sources" : [ {
+        "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/47b3d076-d4db-4dc5-8fa5-6751fb4de5fd/177860e8-bbe3-456c-803e-febfeabdcd05/1280x720/match/image.jpg",
+        "height" : 720,
+        "width" : 1280
+      } ]
+    },
+    "thumbnail" : {
+      "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/47b3d076-d4db-4dc5-8fa5-6751fb4de5fd/df54518d-f76e-4b13-9256-6b182172bacd/160x90/match/image.jpg",
+      "sources" : [ {
+        "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/47b3d076-d4db-4dc5-8fa5-6751fb4de5fd/df54518d-f76e-4b13-9256-6b182172bacd/160x90/match/image.jpg",
+        "height" : 90,
+        "width" : 160
+      } ]
+    }
+  },
+  "link" : null,
+  "long_description" : null,
+  "name" : "Etiske dilemma i kommunikasjon",
+  "original_filename" : "NDL_043_001_Etiske dilemma i kommunikasjon_MASTER-HD_BM.mp4",
+  "projection" : null,
+  "published_at" : "2021-06-21T10:40:30.971Z",
+  "reference_id" : null,
+  "schedule" : null,
+  "sharing" : null,
+  "state" : "ACTIVE",
+  "tags" : [ "etikk", "etisk dilemma", "etiske dilemma", "kommunikasjon", "mediekommunikasjon", "medier", "sosiale medier" ],
+  "text_tracks" : [ {
+    "id" : "4f94039e-b87d-4eec-bc63-1c0aba3d5ba7",
+    "account_id" : "4806596774001",
+    "src" : "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/47b3d076-d4db-4dc5-8fa5-6751fb4de5fd/4f94039e-b87d-4eec-bc63-1c0aba3d5ba7/text.vtt?fastly_token=NjRhODQ0NzZfMWM2MjEwZDJiMWVkZjNjZTgwNmJjMTQwODVjMjViOTU4ZmZmY2NlYmQ4MTc3NjFmMDVjNmUzYmVhZDU0ODAwOV9odHRwOi8vaG91c2UtZmFzdGx5LXNpZ25lZC1ldS13ZXN0LTEtcHJvZC5icmlnaHRjb3ZlY2RuLmNvbS9tZWRpYS92MS90ZXh0L3Z0dC9jbGVhci80ODA2NTk2Nzc0MDAxLzQ3YjNkMDc2LWQ0ZGItNGRjNS04ZmE1LTY3NTFmYjRkZTVmZC80Zjk0MDM5ZS1iODdkLTRlZWMtYmM2My0xYzBhYmEzZDViYTcvdGV4dC52dHQ%3D",
+    "srclang" : "nn-NO",
+    "label" : "Nynorsk",
+    "kind" : "captions",
+    "mime_type" : "text/webvtt",
+    "status" : null,
+    "asset_id" : null,
+    "sources" : [ {
+      "src" : "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/47b3d076-d4db-4dc5-8fa5-6751fb4de5fd/4f94039e-b87d-4eec-bc63-1c0aba3d5ba7/text.vtt?fastly_token=NjRhODQ0NzZfMWM2MjEwZDJiMWVkZjNjZTgwNmJjMTQwODVjMjViOTU4ZmZmY2NlYmQ4MTc3NjFmMDVjNmUzYmVhZDU0ODAwOV9odHRwOi8vaG91c2UtZmFzdGx5LXNpZ25lZC1ldS13ZXN0LTEtcHJvZC5icmlnaHRjb3ZlY2RuLmNvbS9tZWRpYS92MS90ZXh0L3Z0dC9jbGVhci80ODA2NTk2Nzc0MDAxLzQ3YjNkMDc2LWQ0ZGItNGRjNS04ZmE1LTY3NTFmYjRkZTVmZC80Zjk0MDM5ZS1iODdkLTRlZWMtYmM2My0xYzBhYmEzZDViYTcvdGV4dC52dHQ%3D"
+    }, {
+      "src" : "https://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/47b3d076-d4db-4dc5-8fa5-6751fb4de5fd/4f94039e-b87d-4eec-bc63-1c0aba3d5ba7/text.vtt?fastly_token=NjRhODQ0NzZfNDk3YzgxZWU3ODZkMzUwM2E0NTIxOTg5OThiYzA0ZTQ4ZTJhN2FiODJjZjU5MjBmZjlkOTQwMTQyNjdmNzY2MV9odHRwczovL2hvdXNlLWZhc3RseS1zaWduZWQtZXUtd2VzdC0xLXByb2QuYnJpZ2h0Y292ZWNkbi5jb20vbWVkaWEvdjEvdGV4dC92dHQvY2xlYXIvNDgwNjU5Njc3NDAwMS80N2IzZDA3Ni1kNGRiLTRkYzUtOGZhNS02NzUxZmI0ZGU1ZmQvNGY5NDAzOWUtYjg3ZC00ZWVjLWJjNjMtMWMwYWJhM2Q1YmE3L3RleHQudnR0"
+    } ],
+    "in_band_metadata_track_dispatch_type" : "",
+    "default" : false
+  }, {
+    "id" : "725ed755-96aa-4f21-b42c-6b33e3a83120",
+    "account_id" : "4806596774001",
+    "src" : "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/47b3d076-d4db-4dc5-8fa5-6751fb4de5fd/725ed755-96aa-4f21-b42c-6b33e3a83120/text.vtt?fastly_token=NjRhODQ0NzZfMTdmY2QwYWM3MjE2ZmEwY2IyMmYwYjdhMTA1OGIzYjM0MzY3NTUxMzljMWI3OGU5NTU5MDhhMTYxNTJhNzU3OV9odHRwOi8vaG91c2UtZmFzdGx5LXNpZ25lZC1ldS13ZXN0LTEtcHJvZC5icmlnaHRjb3ZlY2RuLmNvbS9tZWRpYS92MS90ZXh0L3Z0dC9jbGVhci80ODA2NTk2Nzc0MDAxLzQ3YjNkMDc2LWQ0ZGItNGRjNS04ZmE1LTY3NTFmYjRkZTVmZC83MjVlZDc1NS05NmFhLTRmMjEtYjQyYy02YjMzZTNhODMxMjAvdGV4dC52dHQ%3D",
+    "srclang" : "no",
+    "label" : "Bokmål",
+    "kind" : "captions",
+    "mime_type" : "text/webvtt",
+    "status" : null,
+    "asset_id" : null,
+    "sources" : [ {
+      "src" : "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/47b3d076-d4db-4dc5-8fa5-6751fb4de5fd/725ed755-96aa-4f21-b42c-6b33e3a83120/text.vtt?fastly_token=NjRhODQ0NzZfMTdmY2QwYWM3MjE2ZmEwY2IyMmYwYjdhMTA1OGIzYjM0MzY3NTUxMzljMWI3OGU5NTU5MDhhMTYxNTJhNzU3OV9odHRwOi8vaG91c2UtZmFzdGx5LXNpZ25lZC1ldS13ZXN0LTEtcHJvZC5icmlnaHRjb3ZlY2RuLmNvbS9tZWRpYS92MS90ZXh0L3Z0dC9jbGVhci80ODA2NTk2Nzc0MDAxLzQ3YjNkMDc2LWQ0ZGItNGRjNS04ZmE1LTY3NTFmYjRkZTVmZC83MjVlZDc1NS05NmFhLTRmMjEtYjQyYy02YjMzZTNhODMxMjAvdGV4dC52dHQ%3D"
+    }, {
+      "src" : "https://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/47b3d076-d4db-4dc5-8fa5-6751fb4de5fd/725ed755-96aa-4f21-b42c-6b33e3a83120/text.vtt?fastly_token=NjRhODQ0NzZfZGU1MjZkMDZjMmE5MmFjMzExODMyYzAyZTEzNzM2YjdlODUzNDBjOWFkM2Y5ZjdjMjBiMTMyM2U0ODkyMjhlZl9odHRwczovL2hvdXNlLWZhc3RseS1zaWduZWQtZXUtd2VzdC0xLXByb2QuYnJpZ2h0Y292ZWNkbi5jb20vbWVkaWEvdjEvdGV4dC92dHQvY2xlYXIvNDgwNjU5Njc3NDAwMS80N2IzZDA3Ni1kNGRiLTRkYzUtOGZhNS02NzUxZmI0ZGU1ZmQvNzI1ZWQ3NTUtOTZhYS00ZjIxLWI0MmMtNmIzM2UzYTgzMTIwL3RleHQudnR0"
+    } ],
+    "in_band_metadata_track_dispatch_type" : "",
+    "default" : true
+  } ],
+  "transcripts" : [ ],
+  "updated_at" : "2023-06-29T08:10:48.965Z",
+  "updated_by" : {
+    "type" : "user",
+    "id" : "76076229774",
+    "email" : "signe.hogh@ndla.no"
+  },
+  "playback_rights_id" : "primary",
+  "ingestion_profile_id" : null
+}, {
+  "id" : "6329897430112",
+  "account_id" : "4806596774001",
+  "ad_keys" : null,
+  "clip_source_video_id" : null,
+  "complete" : true,
+  "created_at" : "2023-06-22T08:49:08.681Z",
+  "created_by" : {
+    "type" : "user",
+    "id" : "76076229774",
+    "email" : "signe.hogh@ndla.no"
+  },
+  "cue_points" : [ ],
+  "custom_fields" : {
+    "license" : "Navngivelse-Del på samme vilkår",
+    "licenseinfo" : "Fotograf: Tom Knudsen"
+  },
+  "delivery_type" : "dynamic_origin",
+  "description" : null,
+  "digital_master_id" : null,
+  "duration" : 38635,
+  "economics" : "FREE",
+  "folder_id" : "5df9dff910ab342eaddb5043",
+  "geo" : null,
+  "has_digital_master" : true,
+  "images" : {
+    "poster" : {
+      "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/jit/4806596774001/49fe9803-70eb-4ad1-84a0-e5610a6df796/main/1280x720/19s317ms/match/image.jpg",
+      "sources" : [ {
+        "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/jit/4806596774001/49fe9803-70eb-4ad1-84a0-e5610a6df796/main/1280x720/19s317ms/match/image.jpg",
+        "height" : 720,
+        "width" : 1280
+      } ]
+    },
+    "thumbnail" : {
+      "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/jit/4806596774001/49fe9803-70eb-4ad1-84a0-e5610a6df796/main/160x90/19s317ms/match/image.jpg",
+      "sources" : [ {
+        "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/jit/4806596774001/49fe9803-70eb-4ad1-84a0-e5610a6df796/main/160x90/19s317ms/match/image.jpg",
+        "height" : 90,
+        "width" : 160
+      } ]
+    }
+  },
+  "link" : null,
+  "long_description" : null,
+  "name" : "Skyllerom",
+  "original_filename" : "2023_tk_ndla_ho_hamar-sykehus_skyllerom_v02.mp4",
+  "projection" : null,
+  "published_at" : "2023-06-22T08:49:08.681Z",
+  "reference_id" : null,
+  "schedule" : null,
+  "sharing" : null,
+  "state" : "ACTIVE",
+  "tags" : [ "helse og oppvekst", "helse og oppvekstfag" ],
+  "text_tracks" : [ {
+    "id" : "a3a809f1-2da5-4ca3-b2d8-9bf1f9843e28",
+    "account_id" : "4806596774001",
+    "src" : "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/49fe9803-70eb-4ad1-84a0-e5610a6df796/a3a809f1-2da5-4ca3-b2d8-9bf1f9843e28/text.vtt?fastly_token=NjRhODQzNjBfMTdiMmI2MWZkMjUzYTNiNDk5YmRmMWJiNTFkZmI5ZWIyNDJlZDZiY2QyOGE5NTRiOTlmYWIwYmVlZTg0OTViYl9odHRwOi8vaG91c2UtZmFzdGx5LXNpZ25lZC1ldS13ZXN0LTEtcHJvZC5icmlnaHRjb3ZlY2RuLmNvbS9tZWRpYS92MS90ZXh0L3Z0dC9jbGVhci80ODA2NTk2Nzc0MDAxLzQ5ZmU5ODAzLTcwZWItNGFkMS04NGEwLWU1NjEwYTZkZjc5Ni9hM2E4MDlmMS0yZGE1LTRjYTMtYjJkOC05YmYxZjk4NDNlMjgvdGV4dC52dHQ%3D",
+    "srclang" : "no",
+    "label" : "Bokmål",
+    "kind" : "captions",
+    "mime_type" : "text/webvtt",
+    "status" : "published",
+    "asset_id" : null,
+    "sources" : [ {
+      "src" : "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/49fe9803-70eb-4ad1-84a0-e5610a6df796/a3a809f1-2da5-4ca3-b2d8-9bf1f9843e28/text.vtt?fastly_token=NjRhODQzNjBfMTdiMmI2MWZkMjUzYTNiNDk5YmRmMWJiNTFkZmI5ZWIyNDJlZDZiY2QyOGE5NTRiOTlmYWIwYmVlZTg0OTViYl9odHRwOi8vaG91c2UtZmFzdGx5LXNpZ25lZC1ldS13ZXN0LTEtcHJvZC5icmlnaHRjb3ZlY2RuLmNvbS9tZWRpYS92MS90ZXh0L3Z0dC9jbGVhci80ODA2NTk2Nzc0MDAxLzQ5ZmU5ODAzLTcwZWItNGFkMS04NGEwLWU1NjEwYTZkZjc5Ni9hM2E4MDlmMS0yZGE1LTRjYTMtYjJkOC05YmYxZjk4NDNlMjgvdGV4dC52dHQ%3D"
+    }, {
+      "src" : "https://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/49fe9803-70eb-4ad1-84a0-e5610a6df796/a3a809f1-2da5-4ca3-b2d8-9bf1f9843e28/text.vtt?fastly_token=NjRhODQzNjBfYzFmN2ExOTVkMjM2ZmExMjZkMzM5MWQxNDQ0YWQ0MWVjYTUyZjMyZGRiYmQwMDdiYWU0YTQzNDVlMDdlNmRlYl9odHRwczovL2hvdXNlLWZhc3RseS1zaWduZWQtZXUtd2VzdC0xLXByb2QuYnJpZ2h0Y292ZWNkbi5jb20vbWVkaWEvdjEvdGV4dC92dHQvY2xlYXIvNDgwNjU5Njc3NDAwMS80OWZlOTgwMy03MGViLTRhZDEtODRhMC1lNTYxMGE2ZGY3OTYvYTNhODA5ZjEtMmRhNS00Y2EzLWIyZDgtOWJmMWY5ODQzZTI4L3RleHQudnR0"
+    } ],
+    "in_band_metadata_track_dispatch_type" : "",
+    "default" : false
+  }, {
+    "id" : "3f39a24a-5ee6-47f3-a650-9daba4733329",
+    "account_id" : "4806596774001",
+    "src" : "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/49fe9803-70eb-4ad1-84a0-e5610a6df796/3f39a24a-5ee6-47f3-a650-9daba4733329/text.vtt?fastly_token=NjRhODQzNjBfYjRmOWY3N2M4YWZjNDVhZTFmZDQzOWY5MzNiMmMyMGQ1ZWNhZDlhZTk0ZDU4ZjdjZWE1MjE0MGM5NDg4MzU3ZV9odHRwOi8vaG91c2UtZmFzdGx5LXNpZ25lZC1ldS13ZXN0LTEtcHJvZC5icmlnaHRjb3ZlY2RuLmNvbS9tZWRpYS92MS90ZXh0L3Z0dC9jbGVhci80ODA2NTk2Nzc0MDAxLzQ5ZmU5ODAzLTcwZWItNGFkMS04NGEwLWU1NjEwYTZkZjc5Ni8zZjM5YTI0YS01ZWU2LTQ3ZjMtYTY1MC05ZGFiYTQ3MzMzMjkvdGV4dC52dHQ%3D",
+    "srclang" : "no-NO",
+    "label" : "Nynorsk",
+    "kind" : "captions",
+    "mime_type" : "text/webvtt",
+    "status" : "published",
+    "asset_id" : null,
+    "sources" : [ {
+      "src" : "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/49fe9803-70eb-4ad1-84a0-e5610a6df796/3f39a24a-5ee6-47f3-a650-9daba4733329/text.vtt?fastly_token=NjRhODQzNjBfYjRmOWY3N2M4YWZjNDVhZTFmZDQzOWY5MzNiMmMyMGQ1ZWNhZDlhZTk0ZDU4ZjdjZWE1MjE0MGM5NDg4MzU3ZV9odHRwOi8vaG91c2UtZmFzdGx5LXNpZ25lZC1ldS13ZXN0LTEtcHJvZC5icmlnaHRjb3ZlY2RuLmNvbS9tZWRpYS92MS90ZXh0L3Z0dC9jbGVhci80ODA2NTk2Nzc0MDAxLzQ5ZmU5ODAzLTcwZWItNGFkMS04NGEwLWU1NjEwYTZkZjc5Ni8zZjM5YTI0YS01ZWU2LTQ3ZjMtYTY1MC05ZGFiYTQ3MzMzMjkvdGV4dC52dHQ%3D"
+    }, {
+      "src" : "https://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/49fe9803-70eb-4ad1-84a0-e5610a6df796/3f39a24a-5ee6-47f3-a650-9daba4733329/text.vtt?fastly_token=NjRhODQzNjBfZmZmMzljNWYzOTg5YzU5ZjE3Y2RiY2M1ZWM5OWMxMjg1NjBjNTVjNWMyMjQ1ZjNlZWI3MmI0NDgwMWZhMjlkYV9odHRwczovL2hvdXNlLWZhc3RseS1zaWduZWQtZXUtd2VzdC0xLXByb2QuYnJpZ2h0Y292ZWNkbi5jb20vbWVkaWEvdjEvdGV4dC92dHQvY2xlYXIvNDgwNjU5Njc3NDAwMS80OWZlOTgwMy03MGViLTRhZDEtODRhMC1lNTYxMGE2ZGY3OTYvM2YzOWEyNGEtNWVlNi00N2YzLWE2NTAtOWRhYmE0NzMzMzI5L3RleHQudnR0"
+    } ],
+    "in_band_metadata_track_dispatch_type" : "",
+    "default" : false
+  } ],
+  "transcripts" : [ ],
+  "updated_at" : "2023-06-27T10:31:25.665Z",
+  "updated_by" : {
+    "type" : "user",
+    "id" : "76076229774",
+    "email" : "signe.hogh@ndla.no"
+  },
+  "playback_rights_id" : "primary",
+  "ingestion_profile_id" : "f984445692374bd99e6270d8"
+}, {
+  "id" : "6318237328112",
+  "account_id" : "4806596774001",
+  "ad_keys" : null,
+  "clip_source_video_id" : null,
+  "complete" : true,
+  "created_at" : "2023-01-05T16:06:05.675Z",
+  "created_by" : {
+    "type" : "user",
+    "id" : "76076229774",
+    "email" : "signe.hogh@ndla.no"
+  },
+  "cue_points" : [ ],
+  "custom_fields" : {
+    "license" : "Opphavsrett",
+    "licenseinfo" : "Leverandør: Medietilsynet"
+  },
+  "delivery_type" : "dynamic_origin",
+  "description" : "Denne korte animasjonen handler om hvordan hjernens belønningssystem fungerer, om hva det har å si for avhengigheten vi kan føle for mobilsjekk, og om hvordan vi kan bruke andre deler av hjernen til selvregulering.",
+  "digital_master_id" : null,
+  "duration" : 89131,
+  "economics" : "FREE",
+  "folder_id" : "5c6672048283656b30d290b3",
+  "geo" : null,
+  "has_digital_master" : true,
+  "images" : {
+    "poster" : {
+      "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/390fca9e-09d5-4edb-9cbc-b294bfe2f4fd/389a7693-2cd7-4a2f-b4ac-9c60f786b72f/1280x720/match/image.jpg",
+      "sources" : [ {
+        "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/390fca9e-09d5-4edb-9cbc-b294bfe2f4fd/389a7693-2cd7-4a2f-b4ac-9c60f786b72f/1280x720/match/image.jpg",
+        "height" : 720,
+        "width" : 1280
+      } ]
+    },
+    "thumbnail" : {
+      "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/390fca9e-09d5-4edb-9cbc-b294bfe2f4fd/5fb515bb-496b-4174-9e1f-4b61b3cdf333/160x90/match/image.jpg",
+      "sources" : [ {
+        "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/390fca9e-09d5-4edb-9cbc-b294bfe2f4fd/5fb515bb-496b-4174-9e1f-4b61b3cdf333/160x90/match/image.jpg",
+        "height" : 90,
+        "width" : 160
+      } ]
+    }
+  },
+  "link" : null,
+  "long_description" : null,
+  "name" : "Hjernen",
+  "original_filename" : "Medietilsynet Hjernen Bokmål ed.mp4",
+  "projection" : null,
+  "published_at" : "2023-01-05T16:06:05.675Z",
+  "reference_id" : null,
+  "schedule" : null,
+  "sharing" : null,
+  "state" : "ACTIVE",
+  "tags" : [ "mediefag", "hjernen", "belønningssystem", "avhengighet", "selvregulering", "samfunnskunnskap" ],
+  "text_tracks" : [ {
+    "id" : "e76090ed-867d-460b-a55f-8da6dada0458",
+    "account_id" : "4806596774001",
+    "src" : "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/390fca9e-09d5-4edb-9cbc-b294bfe2f4fd/e76090ed-867d-460b-a55f-8da6dada0458/text.vtt?fastly_token=NjRhODQzOWJfYjk0MDgyMDBhOWVkNDJlZGY1MzhlN2JiOTMwZjkzY2VkYTMzZWRkNmFkNGNkNThhNjNhNGRmYTVmMDhlZThmY19odHRwOi8vaG91c2UtZmFzdGx5LXNpZ25lZC1ldS13ZXN0LTEtcHJvZC5icmlnaHRjb3ZlY2RuLmNvbS9tZWRpYS92MS90ZXh0L3Z0dC9jbGVhci80ODA2NTk2Nzc0MDAxLzM5MGZjYTllLTA5ZDUtNGVkYi05Y2JjLWIyOTRiZmUyZjRmZC9lNzYwOTBlZC04NjdkLTQ2MGItYTU1Zi04ZGE2ZGFkYTA0NTgvdGV4dC52dHQ%3D",
+    "srclang" : "no-NO",
+    "label" : "Bokmål",
+    "kind" : "captions",
+    "mime_type" : "text/webvtt",
+    "status" : "published",
+    "asset_id" : null,
+    "sources" : [ {
+      "src" : "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/390fca9e-09d5-4edb-9cbc-b294bfe2f4fd/e76090ed-867d-460b-a55f-8da6dada0458/text.vtt?fastly_token=NjRhODQzOWJfYjk0MDgyMDBhOWVkNDJlZGY1MzhlN2JiOTMwZjkzY2VkYTMzZWRkNmFkNGNkNThhNjNhNGRmYTVmMDhlZThmY19odHRwOi8vaG91c2UtZmFzdGx5LXNpZ25lZC1ldS13ZXN0LTEtcHJvZC5icmlnaHRjb3ZlY2RuLmNvbS9tZWRpYS92MS90ZXh0L3Z0dC9jbGVhci80ODA2NTk2Nzc0MDAxLzM5MGZjYTllLTA5ZDUtNGVkYi05Y2JjLWIyOTRiZmUyZjRmZC9lNzYwOTBlZC04NjdkLTQ2MGItYTU1Zi04ZGE2ZGFkYTA0NTgvdGV4dC52dHQ%3D"
+    }, {
+      "src" : "https://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/390fca9e-09d5-4edb-9cbc-b294bfe2f4fd/e76090ed-867d-460b-a55f-8da6dada0458/text.vtt?fastly_token=NjRhODQzOWJfMzFiYzc1OTJmZmQ5ODUyYjhjMmVlNGE3ZTZmZjZkN2I4ZWEyMDQ4ZTllNTA5ZTdlMDkwZjUzMDdiYjEwMmUwMl9odHRwczovL2hvdXNlLWZhc3RseS1zaWduZWQtZXUtd2VzdC0xLXByb2QuYnJpZ2h0Y292ZWNkbi5jb20vbWVkaWEvdjEvdGV4dC92dHQvY2xlYXIvNDgwNjU5Njc3NDAwMS8zOTBmY2E5ZS0wOWQ1LTRlZGItOWNiYy1iMjk0YmZlMmY0ZmQvZTc2MDkwZWQtODY3ZC00NjBiLWE1NWYtOGRhNmRhZGEwNDU4L3RleHQudnR0"
+    } ],
+    "in_band_metadata_track_dispatch_type" : "",
+    "default" : false
+  } ],
+  "transcripts" : [ ],
+  "updated_at" : "2023-06-26T08:18:28.665Z",
+  "updated_by" : {
+    "type" : "internal"
+  },
+  "playback_rights_id" : "primary",
+  "ingestion_profile_id" : "f984445692374bd99e6270d8"
+}, {
+  "id" : "5796529265001",
+  "account_id" : "4806596774001",
+  "ad_keys" : null,
+  "clip_source_video_id" : null,
+  "complete" : true,
+  "created_at" : "2018-06-12T09:47:16.037Z",
+  "created_by" : {
+    "type" : "unknown"
+  },
+  "cue_points" : [ ],
+  "custom_fields" : {
+    "yt_privacy_status" : "private",
+    "license" : "Navngivelse-Del på samme vilkår",
+    "licenseinfo" : "Opphavsmann: Rune Mathisen",
+    "licenseinfo2" : "Opphavsmann: Åge Jensen"
+  },
+  "delivery_type" : "dynamic_origin",
+  "description" : null,
+  "digital_master_id" : null,
+  "duration" : 217387,
+  "economics" : "AD_SUPPORTED",
+  "folder_id" : null,
+  "geo" : null,
+  "has_digital_master" : true,
+  "images" : {
+    "thumbnail" : {
+      "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/5bbbe84e-f236-4b14-b9e1-bbea711a2911/d9a2cb4c-259f-4b7c-9348-c83953e76b70/160x90/match/image.jpg",
+      "sources" : [ {
+        "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/5bbbe84e-f236-4b14-b9e1-bbea711a2911/d9a2cb4c-259f-4b7c-9348-c83953e76b70/160x90/match/image.jpg",
+        "height" : 90,
+        "width" : 160
+      } ]
+    },
+    "poster" : {
+      "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/5bbbe84e-f236-4b14-b9e1-bbea711a2911/ba3403ec-1060-45ab-a7e1-47a038b8378e/1280x720/match/image.jpg",
+      "sources" : [ {
+        "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/5bbbe84e-f236-4b14-b9e1-bbea711a2911/ba3403ec-1060-45ab-a7e1-47a038b8378e/1280x720/match/image.jpg",
+        "height" : 720,
+        "width" : 1280
+      } ]
+    }
+  },
+  "link" : null,
+  "long_description" : null,
+  "name" : "Skjærebrenner",
+  "original_filename" : "Skjærebrenning.mp4",
+  "projection" : null,
+  "published_at" : "2018-06-12T09:47:16.037Z",
+  "reference_id" : "127446",
+  "schedule" : null,
+  "sharing" : null,
+  "state" : "ACTIVE",
+  "tags" : [ "cutting", "metal", "metall", "skjærebrenner", "skjæring", "teknikk og industriell produksjon vg1", "torch" ],
+  "text_tracks" : [ {
+    "id" : "da27f3f2-9720-46c6-9056-7910156023e7",
+    "account_id" : "4806596774001",
+    "src" : "https://statisk.ndla.no/videotekster/5796529265001.nb-NO.vtt",
+    "srclang" : "nb-NO",
+    "label" : "Bokmål",
+    "kind" : "captions",
+    "mime_type" : null,
+    "status" : null,
+    "asset_id" : null,
+    "sources" : [ {
+      "src" : "https://statisk.ndla.no/videotekster/5796529265001.nb-NO.vtt"
+    } ],
+    "default" : true
+  }, {
+    "id" : "0fcbc916-7b74-40b8-83f4-8f1fb25a310e",
+    "account_id" : "4806596774001",
+    "src" : "https://statisk.ndla.no/videotekster/5796529265001.nn-NO.vtt",
+    "srclang" : "nn-NO",
+    "label" : "Nynorsk",
+    "kind" : "captions",
+    "mime_type" : null,
+    "status" : null,
+    "asset_id" : null,
+    "sources" : [ {
+      "src" : "https://statisk.ndla.no/videotekster/5796529265001.nn-NO.vtt"
+    } ],
+    "default" : false
+  } ],
+  "transcripts" : [ ],
+  "updated_at" : "2023-06-26T07:54:37.617Z",
+  "updated_by" : {
+    "type" : "user",
+    "id" : "76076229774",
+    "email" : "signe.hogh@ndla.no"
+  },
+  "playback_rights_id" : null,
+  "ingestion_profile_id" : "f984445692374bd99e6270d8"
+}, {
+  "id" : "6329966233112",
+  "account_id" : "4806596774001",
+  "ad_keys" : null,
+  "clip_source_video_id" : null,
+  "complete" : true,
+  "created_at" : "2023-06-23T10:18:15.587Z",
+  "created_by" : {
+    "type" : "user",
+    "id" : "76076229774",
+    "email" : "signe.hogh@ndla.no"
+  },
+  "cue_points" : [ ],
+  "custom_fields" : {
+    "license" : "Navngivelse-Del på samme vilkår",
+    "licenseinfo" : "Regissør: Håvard Krøvell-Velle v/ MK Volda"
+  },
+  "delivery_type" : "dynamic_origin",
+  "description" : null,
+  "digital_master_id" : null,
+  "duration" : 22464,
+  "economics" : "FREE",
+  "folder_id" : "5c6672048283656b30d290b3",
+  "geo" : null,
+  "has_digital_master" : true,
+  "images" : {
+    "poster" : {
+      "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/jit/4806596774001/fc4f179f-7903-4e69-aa66-7bb7eb0094d7/main/1280x720/11s232ms/match/image.jpg",
+      "sources" : [ {
+        "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/jit/4806596774001/fc4f179f-7903-4e69-aa66-7bb7eb0094d7/main/1280x720/11s232ms/match/image.jpg",
+        "height" : 720,
+        "width" : 1280
+      } ]
+    },
+    "thumbnail" : {
+      "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/jit/4806596774001/fc4f179f-7903-4e69-aa66-7bb7eb0094d7/main/160x90/11s232ms/match/image.jpg",
+      "sources" : [ {
+        "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/jit/4806596774001/fc4f179f-7903-4e69-aa66-7bb7eb0094d7/main/160x90/11s232ms/match/image.jpg",
+        "height" : 90,
+        "width" : 160
+      } ]
+    }
+  },
+  "link" : null,
+  "long_description" : null,
+  "name" : "Lampebord",
+  "original_filename" : "lampebord-large.mp4",
+  "projection" : null,
+  "published_at" : "2023-06-23T10:18:15.581Z",
+  "reference_id" : null,
+  "schedule" : null,
+  "sharing" : null,
+  "state" : "ACTIVE",
+  "tags" : [ "mediefag" ],
+  "text_tracks" : [ ],
+  "transcripts" : [ ],
+  "updated_at" : "2023-06-23T10:19:51.031Z",
+  "updated_by" : {
+    "type" : "user",
+    "id" : "76076229774",
+    "email" : "signe.hogh@ndla.no"
+  },
+  "playback_rights_id" : "primary",
+  "ingestion_profile_id" : "f984445692374bd99e6270d8"
+}, {
+  "id" : "6329908433112",
+  "account_id" : "4806596774001",
+  "ad_keys" : null,
+  "clip_source_video_id" : null,
+  "complete" : true,
+  "created_at" : "2023-06-22T13:12:42.603Z",
+  "created_by" : {
+    "type" : "user",
+    "id" : "76076229774",
+    "email" : "signe.hogh@ndla.no"
+  },
+  "cue_points" : [ ],
+  "custom_fields" : {
+    "license" : "Navngivelse-Del på samme vilkår",
+    "licenseinfo" : "Regissør: Håvard Krøvell-Velle v/ MK Volda "
+  },
+  "delivery_type" : "dynamic_origin",
+  "description" : null,
+  "digital_master_id" : null,
+  "duration" : 2283,
+  "economics" : "FREE",
+  "folder_id" : "5c6672048283656b30d290b3",
+  "geo" : null,
+  "has_digital_master" : true,
+  "images" : {
+    "poster" : {
+      "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/jit/4806596774001/fdf0d341-03a1-44cc-b0b3-403f74a34452/main/1280x720/1s141ms/match/image.jpg",
+      "sources" : [ {
+        "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/jit/4806596774001/fdf0d341-03a1-44cc-b0b3-403f74a34452/main/1280x720/1s141ms/match/image.jpg",
+        "height" : 720,
+        "width" : 1280
+      } ]
+    },
+    "thumbnail" : {
+      "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/jit/4806596774001/fdf0d341-03a1-44cc-b0b3-403f74a34452/main/160x90/1s141ms/match/image.jpg",
+      "sources" : [ {
+        "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/jit/4806596774001/fdf0d341-03a1-44cc-b0b3-403f74a34452/main/160x90/1s141ms/match/image.jpg",
+        "height" : 90,
+        "width" : 160
+      } ]
+    }
+  },
+  "link" : null,
+  "long_description" : null,
+  "name" : "Sjakk",
+  "original_filename" : "sjakk-large.mp4",
+  "projection" : null,
+  "published_at" : "2023-06-22T13:12:42.602Z",
+  "reference_id" : null,
+  "schedule" : null,
+  "sharing" : null,
+  "state" : "ACTIVE",
+  "tags" : [ "mediefag" ],
+  "text_tracks" : [ ],
+  "transcripts" : [ ],
+  "updated_at" : "2023-06-23T09:58:00.043Z",
+  "updated_by" : {
+    "type" : "user",
+    "id" : "76076229774",
+    "email" : "signe.hogh@ndla.no"
+  },
+  "playback_rights_id" : "primary",
+  "ingestion_profile_id" : "f984445692374bd99e6270d8"
+}, {
+  "id" : "5796786704001",
+  "account_id" : "4806596774001",
+  "ad_keys" : null,
+  "clip_source_video_id" : null,
+  "complete" : true,
+  "created_at" : "2018-06-12T22:02:03.108Z",
+  "created_by" : {
+    "type" : "unknown"
+  },
+  "cue_points" : [ ],
+  "custom_fields" : {
+    "licenseinfo" : "Leverandør: Terranova Media",
+    "license" : "Navngivelse-Ikkekommersiell-Ingen Bearbeidelse",
+    "yt_privacy_status" : "private"
+  },
+  "delivery_type" : "dynamic_origin",
+  "description" : null,
+  "digital_master_id" : null,
+  "duration" : 503147,
+  "economics" : "AD_SUPPORTED",
+  "folder_id" : "5c6672048283656b30d290b3",
+  "geo" : null,
+  "has_digital_master" : true,
+  "images" : {
+    "poster" : {
+      "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/44eca40f-129c-475c-b914-8a1c7589ff31/fa93815d-26fa-46a0-be17-bba669aa95d8/1280x720/match/image.jpg",
+      "sources" : [ {
+        "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/44eca40f-129c-475c-b914-8a1c7589ff31/fa93815d-26fa-46a0-be17-bba669aa95d8/1280x720/match/image.jpg",
+        "height" : 720,
+        "width" : 1280
+      } ]
+    },
+    "thumbnail" : {
+      "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/44eca40f-129c-475c-b914-8a1c7589ff31/3e6fabbd-3c5a-4963-a2cf-993af8babac6/160x90/match/image.jpg",
+      "sources" : [ {
+        "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/44eca40f-129c-475c-b914-8a1c7589ff31/3e6fabbd-3c5a-4963-a2cf-993af8babac6/160x90/match/image.jpg",
+        "height" : 90,
+        "width" : 160
+      } ]
+    }
+  },
+  "link" : null,
+  "long_description" : null,
+  "name" : "Hatytringer",
+  "original_filename" : "download-original",
+  "projection" : null,
+  "published_at" : "2018-06-12T22:02:03.108Z",
+  "reference_id" : "185179",
+  "schedule" : null,
+  "sharing" : null,
+  "state" : "ACTIVE",
+  "tags" : [ "hate speech", "hatytringar", "hatytringer", "lovbrot", "lovbrott", "lovbrudd", "psychology", "psykologi", "social media", "sosiale medier", "sosiale medium", "sosiologi og sosialantropologi", "folkehelse og livsmestring", "mediefag", "tverrfaglig tema" ],
+  "text_tracks" : [ {
+    "id" : "103cfa0f-c10b-4be7-ac53-f72e9cf3a2ea",
+    "account_id" : "4806596774001",
+    "src" : "https://statisk.ndla.no/videotekster/5796786704001.nb-NO.vtt",
+    "srclang" : "nb-NO",
+    "label" : "Bokmål",
+    "kind" : "captions",
+    "mime_type" : null,
+    "status" : null,
+    "asset_id" : null,
+    "sources" : [ {
+      "src" : "https://statisk.ndla.no/videotekster/5796786704001.nb-NO.vtt"
+    } ],
+    "default" : true
+  }, {
+    "id" : "fc4afae7-a80c-49ac-94b6-7f04a5b6c292",
+    "account_id" : "4806596774001",
+    "src" : "https://statisk.ndla.no/videotekster/5796786704001.nn-NO.vtt",
+    "srclang" : "nn-NO",
+    "label" : "Nynorsk",
+    "kind" : "captions",
+    "mime_type" : null,
+    "status" : null,
+    "asset_id" : null,
+    "sources" : [ {
+      "src" : "https://statisk.ndla.no/videotekster/5796786704001.nn-NO.vtt"
+    } ],
+    "default" : false
+  } ],
+  "transcripts" : [ ],
+  "updated_at" : "2023-06-21T09:41:17.270Z",
+  "updated_by" : {
+    "type" : "internal"
+  },
+  "playback_rights_id" : null,
+  "ingestion_profile_id" : null
+} ]

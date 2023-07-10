@@ -18,7 +18,7 @@ import { SafeLinkIconButton } from '@ndla/safelink';
 import { IconButtonV2 } from '@ndla/button';
 import { Embed } from '../../../../interfaces';
 
-const StyledFigureButtons = styled('div')`
+const StyledFigureButtons = styled.div`
   display: flex;
   flex-flow: row;
   justify-content: flex-end;

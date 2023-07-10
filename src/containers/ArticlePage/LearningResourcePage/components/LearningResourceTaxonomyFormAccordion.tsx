@@ -153,6 +153,7 @@ const LearningResourceTaxonomyFormAccordion = ({
         setStatus('initial');
         setSelectLoading(false);
       }
+      setStatus('initial');
       setTaxBlockLoading(false);
     } catch (e) {
       handleError(e);

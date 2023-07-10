@@ -7,7 +7,8 @@
 import { HTMLProps, MutableRefObject, ReactNode, useEffect } from 'react';
 import { colors } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
-import { DragVertical, Star } from '@ndla/icons/editor';
+import { DragVertical, Star, SubjectMatter, Taxonomy } from '@ndla/icons/editor';
+import { Subject } from '@ndla/icons/lib/contentType';
 import { NodeChild, Node } from '@ndla/types-taxonomy';
 import { DragEndEvent } from '@dnd-kit/core';
 import { useTranslation } from 'react-i18next';
@@ -115,6 +116,18 @@ const NodeItem = ({
     onNodeSelected(item);
   };
 
+  let icon = <Subject />; // Used for topics
+  switch (item.nodeType) {
+    case 'SUBJECT':
+      icon = <SubjectMatter />;
+      break;
+    case 'PROGRAMME':
+      icon = <Taxonomy />;
+      break;
+  }
+
+  const typeIcon = <RoundIcon smallIcon={icon} />;
+
   return (
     <StyledStructureItem
       connectionId={connectionId}
@@ -140,6 +153,7 @@ const NodeItem = ({
           isVisible={item.metadata?.visible}
         >
           {renderBeforeTitle?.(item, !!isRoot, isTaxonomyAdmin, articleType, isPublished)}
+          {typeIcon}
           {item.name}
         </ItemTitleButton>
         {isActive && (

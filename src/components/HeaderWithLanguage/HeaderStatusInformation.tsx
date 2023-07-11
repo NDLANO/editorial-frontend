@@ -11,7 +11,6 @@ import SafeLink from '@ndla/safelink';
 import { colors, fonts, spacing } from '@ndla/core';
 import { RssFeed, Time } from '@ndla/icons/common';
 import { Check, AlertCircle } from '@ndla/icons/editor';
-import Tooltip from '@ndla/tooltip';
 import { IConceptSummary } from '@ndla/types-backend/concept-api';
 import { IMultiSearchSummary } from '@ndla/types-backend/search-api';
 import { ILearningPathV2 } from '@ndla/types-backend/learningpath-api';
@@ -154,15 +153,16 @@ const HeaderStatusInformation = ({
               setLearningpaths={setLearningpaths}
             />
             {!!expirationColor && !!expirationDate && (
-              <Tooltip
-                tooltip={t(`form.workflow.expiration.${expirationColor}`, {
+              <StyledTimeIcon
+                data-status={expirationColor}
+                title={t(`form.workflow.expiration.${expirationColor}`, {
                   date: formatDate(expirationDate),
                 })}
-              >
-                <div>
-                  <StyledTimeIcon data-status={expirationColor} />
-                </div>
-              </Tooltip>
+                aria-label={t(`form.workflow.expiration.${expirationColor}`, {
+                  date: formatDate(expirationDate),
+                })}
+                aria-hidden={false}
+              />
             )}
           </>
         ) : type === 'concept' ? (
@@ -182,12 +182,14 @@ const HeaderStatusInformation = ({
             <StyledCheckIcon
               aria-label={t('form.workflow.published')}
               title={t('form.workflow.published')}
+              aria-hidden={false}
             />
           ))}
         {taxonomyPaths && taxonomyPaths?.length > 2 && (
           <StyledWarnIcon
             aria-label={t('form.workflow.multipleTaxonomy')}
             title={t('form.workflow.multipleTaxonomy')}
+            aria-hidden={false}
           />
         )}
         <StyledStatus data-compact={compact}>

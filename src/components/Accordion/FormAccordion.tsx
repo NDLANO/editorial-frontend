@@ -6,7 +6,7 @@
  *
  */
 
-import { ReactNode } from 'react';
+import { ReactNode, memo } from 'react';
 import styled from '@emotion/styled';
 import { AccordionContent, AccordionHeader, AccordionItem } from '@ndla/accordion';
 import { colors, misc, spacing } from '@ndla/core';
@@ -77,4 +77,4 @@ const FormAccordion = ({
   );
 };
 
-export default FormAccordion;
+export default memo(FormAccordion);

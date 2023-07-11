@@ -22,7 +22,6 @@ import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
 import validateFormik, { getWarnings, RulesType } from '../../../components/formikValidationSchema';
 import {
   conceptApiTypeToFormType,
-  conceptFormTypeToApiType,
   getNewConceptType,
   getUpdatedConceptType,
 } from '../conceptTransformers';
@@ -201,12 +200,7 @@ const ConceptForm = ({
       initialStatus={{ warnings: initialWarnings }}
     >
       {(formikProps) => {
-        const { values, errors }: FormikProps<ConceptFormValues> = formikProps;
-        const { id, revision, status, created, updated } = values;
-        const requirements = id && revision && status && created && updated;
-        const getEntity = requirements
-          ? () => conceptFormTypeToApiType(values, licenses, concept?.updatedBy)
-          : undefined;
+        const { errors }: FormikProps<ConceptFormValues> = formikProps;
         return (
           <FormWrapper inModal={inModal}>
             <HeaderWithLanguage
@@ -266,7 +260,6 @@ const ConceptForm = ({
               isNewlyCreated={isNewlyCreated}
               showSimpleFooter={!concept?.id}
               onClose={onClose}
-              getApiConcept={getEntity}
               responsibleId={concept?.responsible?.responsibleId}
             />
           </FormWrapper>

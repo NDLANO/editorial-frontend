@@ -50,7 +50,6 @@ interface Props {
   language: string;
   id?: number;
   taxonomy?: ArticleTaxonomy;
-  isSubmitting?: boolean;
   noStatus?: boolean;
   article?: IArticle;
   supportedLanguages: string[];
@@ -62,7 +61,6 @@ interface Props {
 }
 
 const HeaderWithLanguage = ({
-  isSubmitting,
   noStatus = false,
   type,
   taxonomy,
@@ -119,7 +117,6 @@ const HeaderWithLanguage = ({
             noStatus={noStatus}
             isNewLanguage={isNewLanguage}
             type={type}
-            isSubmitting={isSubmitting}
           />
         ) : (
           <HeaderLanguagePill current>

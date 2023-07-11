@@ -7,6 +7,7 @@
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import { colors } from '@ndla/core';
+import { memo } from 'react';
 import FormikField from '../../../components/FormikField/FormikField';
 import AddRevisionDateField from '../../FormikForm/AddRevisionDateField';
 
@@ -41,4 +42,4 @@ const RevisionNotes = () => {
   );
 };
 
-export default RevisionNotes;
+export default memo(RevisionNotes);

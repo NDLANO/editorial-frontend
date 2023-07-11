@@ -12,15 +12,14 @@ import { FooterLinkButton } from '@ndla/editor';
 import { colors, spacing } from '@ndla/core';
 import { ButtonV2 } from '@ndla/button';
 import { Launch } from '@ndla/icons/common';
-import { IConcept, IStatus as ConceptStatus } from '@ndla/types-backend/concept-api';
-import { IUpdatedArticle, IStatus as DraftStatus } from '@ndla/types-backend/draft-api';
+import { IStatus as ConceptStatus } from '@ndla/types-backend/concept-api';
+import { IStatus as DraftStatus } from '@ndla/types-backend/draft-api';
 import { useFormikContext } from 'formik';
-import { useEffect, useState } from 'react';
+import { memo, useCallback, useEffect, useState } from 'react';
 import { SingleValue } from '@ndla/select';
 import { Switch } from '@ndla/switch';
 import { toPreviewDraft } from '../../util/routeHelpers';
 import SaveMultiButton from '../SaveMultiButton';
-import { createGuard, createReturnTypeGuard } from '../../util/guards';
 import { NewMessageType, useMessages } from '../../containers/Messages/MessagesProvider';
 import { ConceptStatusStateMachineType, DraftStatusStateMachineType } from '../../interfaces';
 import ResponsibleSelect from '../../containers/FormikForm/components/ResponsibleSelect';
@@ -34,12 +33,11 @@ import { articleResourcePageStyle } from '../../containers/ArticlePage/styles';
 interface Props {
   formIsDirty: boolean;
   savedToServer: boolean;
-  getEntity?: () => IUpdatedArticle | IConcept;
   entityStatus?: DraftStatus;
   showSimpleFooter: boolean;
   onSaveClick: (saveAsNewVersion?: boolean) => void;
   statusStateMachine?: ConceptStatusStateMachineType | DraftStatusStateMachineType;
-  validateEntity?: (id: number, updatedEntity: IUpdatedArticle) => Promise<{ id: number }>;
+  validateEntity?: () => Promise<{ id: number } | undefined>;
   isArticle?: boolean;
   isConcept: boolean;
   hideSecondaryButton: boolean;
@@ -85,7 +83,6 @@ const STATUSES_RESET_RESPONSIBLE = [ARCHIVED, UNPUBLISHED];
 function EditorFooter<T extends FormValues>({
   formIsDirty,
   savedToServer,
-  getEntity,
   entityStatus,
   showSimpleFooter,
   onSaveClick,
@@ -121,12 +118,78 @@ function EditorFooter<T extends FormValues>({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [newStatus]);
 
-  const onSave = (saveAsNewVersion?: boolean | undefined) => {
-    if (STATUSES_RESET_RESPONSIBLE.find((s) => s === status?.value)) {
-      updateResponsible(null);
+  const catchError = useCallback(
+    (error: any, createMessage: (message: NewMessageType) => void) => {
+      if (error?.json?.messages) {
+        createMessage(formatErrorMessage(error));
+      } else {
+        createMessage(error);
+      }
+    },
+    [formatErrorMessage],
+  );
+
+  const updateResponsible = useCallback(
+    async (responsible: SingleValue) => {
+      try {
+        setResponsible(responsible);
+        setFieldValue('responsibleId', responsible ? responsible.value : null);
+      } catch (error) {
+        catchError(error, createMessage);
+      }
+    },
+    [catchError, createMessage, setFieldValue],
+  );
+
+  const onSave = useCallback(
+    (saveAsNewVersion?: boolean | undefined) => {
+      if (STATUSES_RESET_RESPONSIBLE.find((s) => s === status?.value)) {
+        updateResponsible(null);
+      }
+      onSaveClick(saveAsNewVersion);
+    },
+    [onSaveClick, status?.value, updateResponsible],
+  );
+
+  const onValidateClick = useCallback(async () => {
+    if (!values.id || !isArticle) {
+      return;
     }
-    onSaveClick(saveAsNewVersion);
-  };
+
+    try {
+      await validateEntity?.();
+      createMessage({
+        translationKey: 'form.validationOk',
+        severity: 'success',
+      });
+    } catch (error) {
+      catchError(error, createMessage);
+    }
+  }, [catchError, createMessage, isArticle, validateEntity, values.id]);
+
+  const updateStatus = useCallback(
+    async (status: SingleValue) => {
+      try {
+        // Set new status field and update form (which we listen for changes to in the useEffect above)
+        setNewStatus(status);
+        if (status?.value !== PUBLISHED) {
+          setStatus(status);
+        }
+        setFieldValue('status', { current: status?.value });
+      } catch (error) {
+        catchError(error, createMessage);
+      }
+    },
+    [catchError, createMessage, setFieldValue],
+  );
+
+  const updatePrioritized = useCallback(
+    (prioritized: boolean) => {
+      setPrioritizedOn(prioritized);
+      setFieldValue('prioritized', prioritized);
+    },
+    [setFieldValue],
+  );
 
   const saveButton = (
     <SaveMultiButton
@@ -139,61 +202,6 @@ function EditorFooter<T extends FormValues>({
       disabled={!!hasErrors}
     />
   );
-
-  const catchError = (error: any, createMessage: (message: NewMessageType) => void) => {
-    if (error?.json?.messages) {
-      createMessage(formatErrorMessage(error));
-    } else {
-      createMessage(error);
-    }
-  };
-
-  const isDraftApiType = createGuard<IUpdatedArticle, IConcept>('subjectIds', {
-    lacksProp: true,
-  });
-
-  const onValidateClick = async () => {
-    const { id, revision } = values;
-    if (!getEntity) return;
-    const entity = getEntity();
-    if (!isDraftApiType(entity)) return;
-    const updatedEntity = { ...entity, revision: revision ?? entity.revision };
-    try {
-      await validateEntity?.(id, updatedEntity);
-      createMessage({
-        translationKey: 'form.validationOk',
-        severity: 'success',
-      });
-    } catch (error) {
-      catchError(error, createMessage);
-    }
-  };
-  const updateResponsible = async (responsible: SingleValue) => {
-    try {
-      setResponsible(responsible);
-      setFieldValue('responsibleId', responsible ? responsible.value : null);
-    } catch (error) {
-      catchError(error, createMessage);
-    }
-  };
-
-  const updateStatus = async (status: SingleValue) => {
-    try {
-      // Set new status field and update form (which we listen for changes to in the useEffect above)
-      setNewStatus(status);
-      if (status?.value !== PUBLISHED) {
-        setStatus(status);
-      }
-      setFieldValue('status', { current: status?.value });
-    } catch (error) {
-      catchError(error, createMessage);
-    }
-  };
-
-  const updatePrioritized = (prioritized: boolean) => {
-    setPrioritizedOn(prioritized);
-    setFieldValue('prioritized', prioritized);
-  };
 
   const PrioritizedToggle = (
     <Switch
@@ -228,13 +236,11 @@ function EditorFooter<T extends FormValues>({
     );
   }
 
-  const isConceptType = createReturnTypeGuard<IConcept>('subjectIds');
-
   return (
     <Footer css={isArticle && articleResourcePageStyle}>
       <>
         <div data-cy="footerPreviewAndValidate">
-          {values.id && isConcept && getEntity && isConceptType(getEntity) && (
+          {values.id && isConcept && (
             <PreviewDraftLightboxV2
               type="concept"
               language={values.language}
@@ -251,7 +257,7 @@ function EditorFooter<T extends FormValues>({
             </FooterLinkButton>
           )}
           <StyledLine />
-          {values.id && isArticle && getEntity && (
+          {values.id && isArticle && (
             <FooterLinkButton bold onClick={() => onValidateClick()}>
               {t('form.validate')}
             </FooterLinkButton>
@@ -286,4 +292,4 @@ function EditorFooter<T extends FormValues>({
   );
 }
 
-export default EditorFooter;
+export default memo(EditorFooter);

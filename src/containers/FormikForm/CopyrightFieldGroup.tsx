@@ -6,6 +6,7 @@
  *
  */
 
+import { memo } from 'react';
 import LicenseField from './components/LicenseField';
 import { AgreementConnectionField, ContributorsField } from '.';
 import FormikField from '../../components/FormikField';
@@ -36,4 +37,4 @@ const CopyrightFieldGroup = ({ values, disableAgreements, enableLicenseNA }: Pro
   );
 };
 
-export default CopyrightFieldGroup;
+export default memo(CopyrightFieldGroup);

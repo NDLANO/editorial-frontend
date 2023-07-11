@@ -6,7 +6,7 @@
  *
  */
 
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { TFunction } from 'i18next';
 import { FormikHelpers } from 'formik';
 import { Descendant } from 'slate';
@@ -114,6 +114,12 @@ type HooksInputObject<T extends ArticleFormType> = {
   ndlaId?: string;
 };
 
+export type HandleSubmitFunc<T> = (
+  values: T,
+  formikHelpers: FormikHelpers<T>,
+  saveAsNew?: boolean,
+) => Promise<void>;
+
 export function useArticleFormHooks<T extends ArticleFormType>({
   getInitialValues,
   article,
@@ -130,7 +136,10 @@ export function useArticleFormHooks<T extends ArticleFormType>({
   const { createMessage, applicationError } = useMessages();
   const { data: licenses } = useLicenses({ placeholderData: [] });
   const [savedToServer, setSavedToServer] = useState(false);
-  const initialValues = getInitialValues(article, articleLanguage, ndlaId);
+  const initialValues = useMemo(
+    () => getInitialValues(article, articleLanguage, ndlaId),
+    [article, articleLanguage, getInitialValues, ndlaId],
+  );
 
   useEffect(() => {
     setSavedToServer(false);
@@ -141,58 +150,72 @@ export function useArticleFormHooks<T extends ArticleFormType>({
     }
   }, [articleLanguage, id]);
 
-  const handleSubmit = async (
-    values: T,
-    formikHelpers: FormikHelpers<T>,
-    saveAsNew = false,
-  ): Promise<void> => {
-    formikHelpers.setSubmitting(true);
-    const initialStatus = articleStatus?.current;
-    const newStatus = values.status?.current;
-    const statusChange = initialStatus !== newStatus;
-    const slateArticle = getArticleFromSlate(values, initialValues, licenses!, false);
+  const handleSubmit: HandleSubmitFunc<T> = useCallback(
+    async (values, formikHelpers, saveAsNew = false) => {
+      formikHelpers.setSubmitting(true);
+      const initialStatus = articleStatus?.current;
+      const newStatus = values.status?.current;
+      const statusChange = initialStatus !== newStatus;
+      const slateArticle = getArticleFromSlate(values, initialValues, licenses!, false);
 
-    const newArticle = saveAsNew ? { ...slateArticle, createNewVersion: true } : slateArticle;
+      const newArticle = saveAsNew ? { ...slateArticle, createNewVersion: true } : slateArticle;
 
-    let savedArticle: IArticle;
-    try {
-      savedArticle = await updateArticle({
-        ...newArticle,
-        revision: revision || newArticle.revision,
-        ...(statusChange ? { status: newStatus } : {}),
-      });
-
-      await deleteRemovedFiles(article?.content?.content ?? '', newArticle.content ?? '');
-
-      setSavedToServer(true);
-      const newInitialValues = getInitialValues(savedArticle, articleLanguage, ndlaId);
-      formikHelpers.resetForm({ values: newInitialValues });
-      if (rules) {
-        const newInitialWarnings = getWarnings(newInitialValues, rules, t, savedArticle);
-        formikHelpers.setStatus({ warnings: newInitialWarnings });
-      }
-      formikHelpers.setFieldValue('notes', [], false);
-    } catch (e) {
-      const err = e as NdlaErrorPayload;
-      if (err && err.status && err.status === 409) {
-        createMessage({
-          message: t('alertModal.needToRefresh'),
-          timeToLive: 0,
+      let savedArticle: IArticle;
+      try {
+        savedArticle = await updateArticle({
+          ...newArticle,
+          revision: revision || newArticle.revision,
+          ...(statusChange ? { status: newStatus } : {}),
         });
-      } else {
-        applicationError(err);
-      }
-      if (statusChange) {
-        if (newStatus === PUBLISHED) {
-          // if validation failed we need to set status back so it won't be saved as new status on next save
-          formikHelpers.setFieldValue('status', { current: initialStatus });
+
+        await deleteRemovedFiles(article?.content?.content ?? '', newArticle.content ?? '');
+
+        setSavedToServer(true);
+        const newInitialValues = getInitialValues(savedArticle, articleLanguage, ndlaId);
+        formikHelpers.resetForm({ values: newInitialValues });
+        if (rules) {
+          const newInitialWarnings = getWarnings(newInitialValues, rules, t, savedArticle);
+          formikHelpers.setStatus({ warnings: newInitialWarnings });
         }
+        formikHelpers.setFieldValue('notes', [], false);
+      } catch (e) {
+        const err = e as NdlaErrorPayload;
+        if (err && err.status && err.status === 409) {
+          createMessage({
+            message: t('alertModal.needToRefresh'),
+            timeToLive: 0,
+          });
+        } else {
+          applicationError(err);
+        }
+        if (statusChange) {
+          if (newStatus === PUBLISHED) {
+            // if validation failed we need to set status back so it won't be saved as new status on next save
+            formikHelpers.setFieldValue('status', { current: initialStatus });
+          }
+        }
+        setSavedToServer(false);
       }
-      setSavedToServer(false);
-    }
-    formikHelpers.setSubmitting(false);
-    await formikHelpers.validateForm();
-  };
+      formikHelpers.setSubmitting(false);
+      await formikHelpers.validateForm();
+    },
+    [
+      applicationError,
+      article?.content?.content,
+      articleLanguage,
+      articleStatus,
+      createMessage,
+      getArticleFromSlate,
+      getInitialValues,
+      initialValues,
+      licenses,
+      ndlaId,
+      revision,
+      rules,
+      t,
+      updateArticle,
+    ],
+  );
 
   return {
     savedToServer,

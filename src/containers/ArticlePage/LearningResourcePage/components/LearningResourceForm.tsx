@@ -6,18 +6,18 @@
  *
  */
 
-import { useMemo } from 'react';
+import { memo, useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Formik, FormikProps } from 'formik';
+import { Formik, useFormikContext } from 'formik';
 import { IArticle, IUpdatedArticle, IStatus } from '@ndla/types-backend/draft-api';
 import { AlertModalWrapper } from '../../../FormikForm';
 import validateFormik, { getWarnings } from '../../../../components/formikValidationSchema';
 import LearningResourcePanels from './LearningResourcePanels';
 import { isFormikFormDirty, learningResourceRules } from '../../../../util/formHelper';
-import { toEditArticle } from '../../../../util/routeHelpers';
 import HeaderWithLanguage from '../../../../components/HeaderWithLanguage';
 import EditorFooter from '../../../../components/SlateEditor/EditorFooter';
 import {
+  HandleSubmitFunc,
   LearningResourceFormType,
   useArticleFormHooks,
 } from '../../../FormikForm/articleFormHooks';
@@ -60,8 +60,11 @@ const LearningResourceForm = ({
 }: Props) => {
   const { t } = useTranslation();
   const { ndlaId } = useSession();
-  const { data: licenses } = useLicenses({ placeholderData: [] });
-  const statusStateMachine = useDraftStatusStateMachine({ articleId: article?.id });
+
+  const validate = useCallback(
+    (values: LearningResourceFormType) => validateFormik(values, learningResourceRules, t),
+    [t],
+  );
 
   const { savedToServer, formikRef, initialValues, handleSubmit } =
     useArticleFormHooks<LearningResourceFormType>({
@@ -78,77 +81,12 @@ const LearningResourceForm = ({
 
   const initialHTML = useMemo(() => blockContentToHTML(initialValues.content), [initialValues]);
 
-  const FormikChild = (formik: FormikProps<LearningResourceFormType>) => {
-    // eslint doesn't allow this to be inlined when using hooks (in usePreventWindowUnload)
-    const { values, dirty, isSubmitting } = formik;
-    const formIsDirty = isFormikFormDirty({
-      values,
-      initialValues,
-      dirty,
-      changed: articleChanged,
-      initialHTML,
-    });
-    usePreventWindowUnload(formIsDirty);
-    const getArticle = () =>
-      learningResourceFormTypeToDraftApiType(values, initialValues, licenses!, false);
+  const initialWarnings = useMemo(() => {
+    return {
+      warnings: getWarnings(initialValues, learningResourceRules, t, article),
+    };
+  }, [article, initialValues, t]);
 
-    return (
-      <StyledForm>
-        <HeaderWithLanguage
-          id={article?.id}
-          language={articleLanguage}
-          article={article}
-          status={article?.status}
-          supportedLanguages={supportedLanguages}
-          taxonomy={articleTaxonomy}
-          title={article?.title?.title}
-          isSubmitting={isSubmitting}
-          type="standard"
-          expirationDate={getExpirationDate(article)}
-        />
-        <TaxonomyVersionProvider>
-          <FlexWrapper>
-            <MainContent>
-              <LearningResourcePanels
-                articleLanguage={articleLanguage}
-                article={article}
-                taxonomy={articleTaxonomy}
-                updateNotes={updateArticle}
-                handleSubmit={handleSubmit}
-              />
-            </MainContent>
-            <CommentSection savedStatus={article?.status} />
-          </FlexWrapper>
-        </TaxonomyVersionProvider>
-        <EditorFooter
-          showSimpleFooter={!article}
-          formIsDirty={formIsDirty}
-          savedToServer={savedToServer}
-          getEntity={getArticle}
-          onSaveClick={(saveAsNewVersion?: boolean) => {
-            handleSubmit(values, formik, saveAsNewVersion || false);
-          }}
-          entityStatus={article?.status}
-          statusStateMachine={statusStateMachine.data}
-          validateEntity={validateDraft}
-          isArticle
-          isNewlyCreated={isNewlyCreated}
-          isConcept={false}
-          hideSecondaryButton={false}
-          responsibleId={article?.responsible?.responsibleId}
-          prioritized={article?.prioritized}
-        />
-        <AlertModalWrapper
-          isSubmitting={isSubmitting}
-          formIsDirty={formIsDirty}
-          severity="danger"
-          text={t('alertModal.notSaved')}
-        />
-      </StyledForm>
-    );
-  };
-
-  const initialWarnings = getWarnings(initialValues, learningResourceRules, t, article);
   const initialErrors = useMemo(
     () => validateFormik(initialValues, learningResourceRules, t),
     [initialValues, t],
@@ -163,12 +101,124 @@ const LearningResourceForm = ({
       validateOnBlur={false}
       validateOnMount
       onSubmit={handleSubmit}
-      validate={(values) => validateFormik(values, learningResourceRules, t)}
-      initialStatus={{ warnings: initialWarnings }}
+      validate={validate}
+      initialStatus={initialWarnings}
     >
-      {FormikChild}
+      <StyledForm>
+        <HeaderWithLanguage
+          id={article?.id}
+          language={articleLanguage}
+          article={article}
+          status={article?.status}
+          supportedLanguages={supportedLanguages}
+          taxonomy={articleTaxonomy}
+          title={article?.title?.title}
+          type="standard"
+          expirationDate={getExpirationDate(article)}
+        />
+        <FlexWrapper>
+          <MainContent>
+            <TaxonomyVersionProvider>
+              <LearningResourcePanels
+                articleLanguage={articleLanguage}
+                article={article}
+                taxonomy={articleTaxonomy}
+                updateNotes={updateArticle}
+                handleSubmit={handleSubmit}
+              />
+            </TaxonomyVersionProvider>
+          </MainContent>
+          <CommentSection savedStatus={article?.status} />
+        </FlexWrapper>
+        <FormFooter
+          initialHTML={initialHTML}
+          articleChanged={!!articleChanged}
+          isNewlyCreated={isNewlyCreated}
+          savedToServer={savedToServer}
+          handleSubmit={handleSubmit}
+          article={article}
+        />
+      </StyledForm>
     </Formik>
   );
 };
+
+interface FormFooterProps {
+  initialHTML: string;
+  articleChanged: boolean;
+  article?: IArticle;
+  isNewlyCreated: boolean;
+  savedToServer: boolean;
+  handleSubmit: HandleSubmitFunc<LearningResourceFormType>;
+}
+
+const _FormFooter = ({
+  initialHTML,
+  articleChanged,
+  article,
+  isNewlyCreated,
+  savedToServer,
+  handleSubmit,
+}: FormFooterProps) => {
+  const { t } = useTranslation();
+  const { data: licenses } = useLicenses();
+  const statusStateMachine = useDraftStatusStateMachine({ articleId: article?.id });
+  const formik = useFormikContext<LearningResourceFormType>();
+  const { values, dirty, isSubmitting, initialValues } = formik;
+
+  const formIsDirty = useMemo(
+    () =>
+      isFormikFormDirty({
+        values,
+        initialValues,
+        dirty,
+        changed: articleChanged,
+        initialHTML,
+      }),
+    [articleChanged, dirty, initialHTML, initialValues, values],
+  );
+
+  const onSave = useCallback(
+    (saveAsNew?: boolean) => handleSubmit(values, formik, saveAsNew),
+    [handleSubmit, values, formik],
+  );
+
+  const validateOnServer = useCallback(async () => {
+    if (!values.id) return;
+    const article = learningResourceFormTypeToDraftApiType(values, initialValues, licenses!, false);
+    const data = await validateDraft(values.id, article);
+    return data;
+  }, [initialValues, licenses, values]);
+
+  usePreventWindowUnload(formIsDirty);
+
+  return (
+    <>
+      <EditorFooter
+        showSimpleFooter={!article?.id}
+        formIsDirty={formIsDirty}
+        savedToServer={savedToServer}
+        onSaveClick={onSave}
+        entityStatus={article?.status}
+        statusStateMachine={statusStateMachine.data}
+        validateEntity={validateOnServer}
+        isArticle
+        isNewlyCreated={isNewlyCreated}
+        isConcept={false}
+        hideSecondaryButton={false}
+        responsibleId={article?.responsible?.responsibleId}
+        prioritized={article?.prioritized}
+      />
+      <AlertModalWrapper
+        isSubmitting={isSubmitting}
+        formIsDirty={formIsDirty}
+        severity="danger"
+        text={t('alertModal.notSaved')}
+      />
+    </>
+  );
+};
+
+const FormFooter = memo(_FormFooter);
 
 export default LearningResourceForm;

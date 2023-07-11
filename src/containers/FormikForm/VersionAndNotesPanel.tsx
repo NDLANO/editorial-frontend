@@ -6,7 +6,7 @@
  *
  */
 
-import { useEffect, useState, Fragment } from 'react';
+import { useEffect, useState, Fragment, memo } from 'react';
 import { spacing, colors } from '@ndla/core';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
@@ -198,4 +198,4 @@ const VersionAndNotesPanel = ({ article, type, currentLanguage }: Props) => {
   );
 };
 
-export default VersionAndNotesPanel;
+export default memo(VersionAndNotesPanel);

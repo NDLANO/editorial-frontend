@@ -12,6 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { IConcept } from '@ndla/types-backend/concept-api';
 import { IArticle } from '@ndla/types-backend/draft-api';
 import { useCallback, useMemo } from 'react';
+import { useFormikContext } from 'formik';
 import StyledFilledButton from '../StyledFilledButton';
 import { StyledSplitter } from './HeaderInformation';
 import HeaderLanguagePicker from './HeaderLanguagePicker';
@@ -78,7 +79,6 @@ interface Props {
   isNewLanguage: boolean;
   article?: IArticle;
   concept?: IConcept;
-  isSubmitting?: boolean;
   noStatus: boolean;
   disableDelete: boolean;
   language: string;
@@ -110,7 +110,6 @@ const translatableTypes = [
 
 const HeaderActions = ({
   isNewLanguage,
-  isSubmitting,
   noStatus,
   type,
   id,
@@ -121,6 +120,7 @@ const HeaderActions = ({
   supportedLanguages = [],
 }: Props) => {
   const { t } = useTranslation();
+  const { isSubmitting } = useFormikContext();
   const showTranslate = useIsTranslatableToNN();
 
   const editUrl = useCallback(

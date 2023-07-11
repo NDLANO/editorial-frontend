@@ -12,7 +12,6 @@ import { useTranslation } from 'react-i18next';
 import { FormikContextType } from 'formik';
 import styled from '@emotion/styled';
 import { FieldHeader } from '@ndla/forms';
-import Tooltip from '@ndla/tooltip';
 import { Eye } from '@ndla/icons/editor';
 import { IconButtonV2 } from '@ndla/button';
 import { colors } from '@ndla/core';
@@ -210,17 +209,16 @@ const LearningResourceContent = ({
               }}
             />
             <IconContainer>
-              <Tooltip tooltip={t('form.markdown.button')}>
-                <MarkdownButton
-                  aria-label={t('form.markdown.button')}
-                  variant="stripped"
-                  colorTheme="light"
-                  active={preview}
-                  onClick={() => setPreview(!preview)}
-                >
-                  <Eye />
-                </MarkdownButton>
-              </Tooltip>
+              <MarkdownButton
+                aria-label={t('form.markdown.button')}
+                title={t('form.markdown.button')}
+                variant="stripped"
+                colorTheme="light"
+                active={preview}
+                onClick={() => setPreview(!preview)}
+              >
+                <Eye />
+              </MarkdownButton>
               <HowToHelper pageId="Markdown" tooltip={t('form.markdown.helpLabel')} />
             </IconContainer>
           </StyledDiv>

@@ -27,7 +27,6 @@ interface Props {
   isNewlyCreated: boolean;
   showSimpleFooter: boolean;
   onClose?: () => void;
-  getApiConcept?: () => IConcept;
   responsibleId?: string;
 }
 
@@ -46,7 +45,6 @@ const ConceptFormFooter = ({
   isNewlyCreated,
   showSimpleFooter,
   onClose,
-  getApiConcept,
   responsibleId,
 }: Props) => {
   const { t } = useTranslation();
@@ -62,9 +60,9 @@ const ConceptFormFooter = ({
 
   const disableSave = Object.keys(errors).length > 0;
 
-  return (
-    <>
-      {inModal ? (
+  if (inModal) {
+    return (
+      <>
         <ButtonContainer>
           <ButtonV2 variant="outline" onClick={onClose}>
             {t('form.abort')}
@@ -81,30 +79,31 @@ const ConceptFormFooter = ({
             }}
           />
         </ButtonContainer>
-      ) : (
-        <EditorFooter
-          formIsDirty={formIsDirty}
-          savedToServer={savedToServer}
-          getEntity={getApiConcept}
-          entityStatus={entityStatus}
-          statusStateMachine={conceptStateMachine.data}
-          showSimpleFooter={showSimpleFooter}
-          onSaveClick={submitForm}
-          hideSecondaryButton
-          isConcept
-          isNewlyCreated={isNewlyCreated}
-          hasErrors={isSubmitting || !formIsDirty || disableSave}
-          responsibleId={responsibleId}
-        />
-      )}
-      {!inModal && (
-        <AlertModalWrapper
-          formIsDirty={formIsDirty}
-          isSubmitting={isSubmitting}
-          severity="danger"
-          text={t('alertModal.notSaved')}
-        />
-      )}
+      </>
+    );
+  }
+
+  return (
+    <>
+      <EditorFooter
+        formIsDirty={formIsDirty}
+        savedToServer={savedToServer}
+        entityStatus={entityStatus}
+        statusStateMachine={conceptStateMachine.data}
+        showSimpleFooter={showSimpleFooter}
+        onSaveClick={submitForm}
+        hideSecondaryButton
+        isConcept
+        isNewlyCreated={isNewlyCreated}
+        hasErrors={isSubmitting || !formIsDirty || disableSave}
+        responsibleId={responsibleId}
+      />
+      <AlertModalWrapper
+        formIsDirty={formIsDirty}
+        isSubmitting={isSubmitting}
+        severity="danger"
+        text={t('alertModal.notSaved')}
+      />
     </>
   );
 };

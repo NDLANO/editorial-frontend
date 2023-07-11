@@ -48,7 +48,7 @@ export const getWarnStatus = (date?: string): 'warn' | 'expired' | undefined => 
 
 export const StyledTimeIcon = styled(Time)`
   &[data-status='warn'] {
-    fill: #c77623;
+    fill: ${colors.tasksAndActivities.dark};
   }
   &[data-status='expired'] {
     fill: ${colors.support.red};

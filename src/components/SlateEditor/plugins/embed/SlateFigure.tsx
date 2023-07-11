@@ -56,7 +56,7 @@ const SlateFigure = ({
   language,
   locale = 'nb',
   children,
-  allowDecorative,
+  allowDecorative = true,
 }: Props) => {
   const embed = element.data;
   const { t } = useTranslation();

@@ -108,14 +108,13 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
   });
   const { data: articleSearchData } = useNodes({
     contentURI: `urn:article:${articleInputId}`,
+    nodeType: 'RESOURCE',
     taxonomyVersion,
   });
 
   useEffect(() => {
     if (articleSearchData && articleSearchData.length) {
-      // articleSearchData.filter((node) => node.nodeType === 'TOPIC'); bedre å filtrere eller er det uid for alle artikler?
       const res = articleSearchData[0];
-      if (res.id.includes('topic')) return;
       setResourceId(res.id);
       setContentUri(res.contentUri);
     }

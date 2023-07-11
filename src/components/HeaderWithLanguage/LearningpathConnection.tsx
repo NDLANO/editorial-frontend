@@ -12,7 +12,6 @@ import { colors } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
 import { LearningPath } from '@ndla/icons/contentType';
 import { ModalCloseButton, ModalBody, Modal, ModalTitle, ModalHeader } from '@ndla/modal';
-import Tooltip from '@ndla/tooltip';
 import { ButtonV2 } from '@ndla/button';
 import { ILearningPathV2 } from '@ndla/types-backend/learningpath-api';
 import { normalPaddingCSS } from '../HowTo';
@@ -46,11 +45,12 @@ const LearningpathConnection = ({ id, learningpaths, setLearningpaths }: Props) 
 
   return (
     <Modal
-      wrapperFunctionForButton={(button) => (
-        <Tooltip tooltip={t('form.learningpathConnections.sectionTitle')}>{button}</Tooltip>
-      )}
       activateButton={
-        <ButtonV2 variant="stripped">
+        <ButtonV2
+          variant="stripped"
+          aria-label={t('form.learningpathConnections.sectionTitle')}
+          title={t('form.learningpathConnections.sectionTitle')}
+        >
           <LearningpathIcon css={normalPaddingCSS} />
         </ButtonV2>
       }

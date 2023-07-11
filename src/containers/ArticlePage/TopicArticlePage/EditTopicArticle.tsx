@@ -86,6 +86,7 @@ const EditTopicArticle = ({ isNewlyCreated }: Props) => {
         article={article}
         isNewlyCreated={!!isNewlyCreated}
         updateArticle={updateArticle}
+        supportedLanguages={article.supportedLanguages}
       />
     </>
   );

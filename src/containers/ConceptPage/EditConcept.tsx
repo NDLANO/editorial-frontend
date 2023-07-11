@@ -86,6 +86,7 @@ const EditConcept = ({ isNewlyCreated }: Props) => {
         }}
         language={selectedLanguage!}
         subjects={subjects}
+        supportedLanguages={concept.supportedLanguages}
       />
     </>
   );

@@ -26,7 +26,6 @@ import SaveButton from '../../../components/SaveButton';
 import Field from '../../../components/Field';
 import Spinner from '../../../components/Spinner';
 import { isFormikFormDirty } from '../../../util/formHelper';
-import { toCreatePodcastFile, toEditPodcast } from '../../../util/routeHelpers';
 import { PodcastFormValues } from '../../../modules/audio/audioApiInterfaces';
 import { editorValueToPlainText } from '../../../util/articleContentConverter';
 import PodcastSeriesInformation from './PodcastSeriesInformation';
@@ -106,6 +105,7 @@ interface Props {
   onCreatePodcast?: (newPodcast: INewAudioMetaInformation, file?: string | Blob) => void;
   onUpdatePodcast?: (updatedPodcast: IUpdatedAudioMetaInformation, file?: string | Blob) => void;
   translating?: boolean;
+  supportedLanguages: string[];
 }
 
 const PodcastForm = ({
@@ -117,6 +117,7 @@ const PodcastForm = ({
   onCreatePodcast,
   onUpdatePodcast,
   translating,
+  supportedLanguages,
 }: Props) => {
   const { data: licenses } = useLicenses({ placeholderData: [] });
   const { t } = useTranslation();
@@ -235,17 +236,15 @@ const PodcastForm = ({
           dirty,
           changed: podcastChanged,
         });
-        const content = { ...audio, title: audio?.title.title ?? '', language };
         return (
           <FormWrapper inModal={inModal}>
             <HeaderWithLanguage
+              id={audio?.id}
+              language={language}
               noStatus
-              values={values}
+              supportedLanguages={supportedLanguages}
               type="podcast"
-              content={content}
-              editUrl={(lang: string) => {
-                return values.id ? toEditPodcast(values.id, lang) : toCreatePodcastFile();
-              }}
+              title={audio?.title.title}
             />
             {translating ? (
               <Spinner withWrapper />

@@ -27,7 +27,14 @@ const CreatePodcast = () => {
     navigate(toEditPodcast(createdPodcast.id, newPodcast.language));
   };
 
-  return <PodcastForm onCreatePodcast={onCreatePodcast} isNewlyCreated={false} language={locale} />;
+  return (
+    <PodcastForm
+      onCreatePodcast={onCreatePodcast}
+      supportedLanguages={[locale]}
+      isNewlyCreated={false}
+      language={locale}
+    />
+  );
 };
 
 export default CreatePodcast;

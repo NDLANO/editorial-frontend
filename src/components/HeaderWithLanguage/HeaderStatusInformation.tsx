@@ -170,24 +170,25 @@ const HeaderStatusInformation = ({
         ) : null}
         {published &&
           (taxonomyPaths && taxonomyPaths?.length > 0 ? (
-            <Tooltip tooltip={t('form.workflow.published')}>
-              <StyledLink target="_blank" to={`${config.ndlaFrontendDomain}/article/${id}`}>
-                <StyledCheckIcon />
-              </StyledLink>
-            </Tooltip>
+            <StyledLink
+              target="_blank"
+              aria-label={t('form.workflow.published')}
+              title={t('form.workflow.published')}
+              to={`${config.ndlaFrontendDomain}/article/${id}`}
+            >
+              <StyledCheckIcon />
+            </StyledLink>
           ) : (
-            <Tooltip tooltip={t('form.workflow.published')}>
-              <div>
-                <StyledCheckIcon />
-              </div>
-            </Tooltip>
+            <StyledCheckIcon
+              aria-label={t('form.workflow.published')}
+              title={t('form.workflow.published')}
+            />
           ))}
         {taxonomyPaths && taxonomyPaths?.length > 2 && (
-          <Tooltip tooltip={t('form.workflow.multipleTaxonomy')}>
-            <div>
-              <StyledWarnIcon />
-            </div>
-          </Tooltip>
+          <StyledWarnIcon
+            aria-label={t('form.workflow.multipleTaxonomy')}
+            title={t('form.workflow.multipleTaxonomy')}
+          />
         )}
         <StyledStatus data-compact={compact}>
           <div>

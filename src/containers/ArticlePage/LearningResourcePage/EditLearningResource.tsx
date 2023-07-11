@@ -87,6 +87,7 @@ const EditLearningResource = ({ isNewlyCreated }: Props) => {
         articleChanged={articleChanged || newLanguage}
         isNewlyCreated={!!isNewlyCreated}
         updateArticle={updateArticle}
+        supportedLanguages={article.supportedLanguages}
       />
     </>
   );

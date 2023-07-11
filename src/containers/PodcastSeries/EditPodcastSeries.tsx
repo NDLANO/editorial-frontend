@@ -82,6 +82,7 @@ const EditPodcastSeries = ({ isNewlyCreated }: Props) => {
       onUpdate={onUpdate}
       isNewlyCreated={!!isNewlyCreated}
       isNewLanguage={isNewLanguage}
+      supportedLanguages={podcastSeries.supportedLanguages}
     />
   );
 };

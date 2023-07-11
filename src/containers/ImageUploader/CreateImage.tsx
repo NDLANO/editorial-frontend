@@ -53,6 +53,7 @@ const CreateImage = ({
       licenses={imageLicenses}
       onSubmitFunc={onCreateImage}
       closeModal={closeModal}
+      supportedLanguages={[locale]}
     />
   );
 };

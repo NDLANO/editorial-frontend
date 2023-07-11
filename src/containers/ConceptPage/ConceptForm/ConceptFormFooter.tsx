@@ -62,24 +62,22 @@ const ConceptFormFooter = ({
 
   if (inModal) {
     return (
-      <>
-        <ButtonContainer>
-          <ButtonV2 variant="outline" onClick={onClose}>
-            {t('form.abort')}
-          </ButtonV2>
-          <SaveButton
-            type={!inModal ? 'submit' : 'button'}
-            isSaving={isSubmitting}
-            formIsDirty={formIsDirty}
-            showSaved={savedToServer && !formIsDirty}
-            disabled={disableSave}
-            onClick={(evt: { preventDefault: () => void }) => {
-              evt.preventDefault();
-              submitForm();
-            }}
-          />
-        </ButtonContainer>
-      </>
+      <ButtonContainer>
+        <ButtonV2 variant="outline" onClick={onClose}>
+          {t('form.abort')}
+        </ButtonV2>
+        <SaveButton
+          type={!inModal ? 'submit' : 'button'}
+          isSaving={isSubmitting}
+          formIsDirty={formIsDirty}
+          showSaved={savedToServer && !formIsDirty}
+          disabled={disableSave}
+          onClick={(evt: { preventDefault: () => void }) => {
+            evt.preventDefault();
+            submitForm();
+          }}
+        />
+      </ButtonContainer>
     );
   }
 

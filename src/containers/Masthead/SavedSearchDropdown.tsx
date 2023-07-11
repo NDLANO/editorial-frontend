@@ -10,7 +10,7 @@ import styled from '@emotion/styled';
 import { spacing, misc, colors, fonts } from '@ndla/core';
 import Downshift from 'downshift';
 import { useTranslation } from 'react-i18next';
-import { FormEvent, useCallback, useRef, useState } from 'react';
+import { FormEvent, useCallback, useMemo, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import queryString from 'query-string';
 import SavedSearchItem from './components/SavedSearchItem';
@@ -73,17 +73,24 @@ interface Props {
 }
 
 const SearchDropdown = ({ onClose }: Props) => {
-  const { t, i18n } = useTranslation();
+  const [menuOpen, setMenuOpen] = useState(false);
+  const { t } = useTranslation();
+  const enableUserData = useMemo(
+    () => isValid(getAccessToken()) && getAccessTokenPersonal() && menuOpen,
+    [menuOpen],
+  );
+
   const { data: userData } = useUserData({
-    enabled: isValid(getAccessToken()) && getAccessTokenPersonal(),
+    enabled: isValid(getAccessToken()) && getAccessTokenPersonal() && menuOpen,
+    select: (data) => (enableUserData ? data : undefined),
   });
+
   const userDataMutation = useUpdateUserDataMutation();
   const location = useLocation();
   const navigate = useNavigate();
   const queryFromUrl = queryString.parse(location.search).query ?? '';
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const [menuOpen, setMenuOpen] = useState(false);
   const [query, setQuery] = useState(queryFromUrl);
 
   const onMenuOpen = useCallback(

@@ -268,6 +268,7 @@ const phrases = {
       'revision-date-to': 'Revisjonsdato til',
       'exclude-revision-log': 'Ekskluder endringslogg',
       'responsible-ids': 'Velg ansvarleg',
+      'filter-inactive': 'Inkluder utgåtte fag',
     },
     tagType: {
       query: 'Innhald',
@@ -284,6 +285,7 @@ const phrases = {
       'revision-date-to': 'Revisjonsdato til',
       'exclude-revision-log': 'Endringslogg ekskludert',
       'responsible-ids': 'Ansvarleg',
+      'filter-inactive': 'Utgåtte fag inkludert',
     },
     btn: 'Søk',
     empty: 'Tøm',
@@ -312,6 +314,7 @@ const phrases = {
     },
     resultError: 'Noko gjekk feil med innlasting av type: {{type}}',
     favourites: 'Mine favorittfag',
+    archivedIncluded: 'Utgåtte fag inkludert',
   },
   subjectsPage: {
     subjects: 'Fag',

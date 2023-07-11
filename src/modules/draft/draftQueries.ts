@@ -65,13 +65,6 @@ export const useSearchDrafts = (
   );
 };
 
-export const useResponsibleUserData = (article?: IArticle) => {
-  return useAuth0Users(
-    { uniqueUserIds: article?.responsible?.responsibleId! },
-    { enabled: !!article?.responsible?.responsibleId },
-  );
-};
-
 export const licensesQueryKey = () => [LICENSES];
 
 export const useLicenses = <ReturnType = ILicense[]>(
@@ -88,8 +81,8 @@ export const useLicenses = <ReturnType = ILicense[]>(
 
 export const userDataQueryKey = () => [USER_DATA];
 
-export const useUserData = (options?: UseQueryOptions<IUserData>) =>
-  useQuery<IUserData>(userDataQueryKey(), fetchUserData, options);
+export const useUserData = (options?: UseQueryOptions<IUserData | undefined>) =>
+  useQuery<IUserData | undefined>(userDataQueryKey(), fetchUserData, options);
 
 export const useUpdateUserDataMutation = () => {
   const queryClient = useQueryClient();

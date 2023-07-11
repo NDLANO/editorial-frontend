@@ -7,7 +7,6 @@
  */
 
 import { useEffect, useMemo, useState } from 'react';
-
 import { useTranslation } from 'react-i18next';
 import sortBy from 'lodash/sortBy';
 import { flattenResourceTypesAndAddContextTypes } from '../../../../util/taxonomyHelpers';
@@ -42,13 +41,10 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
   const [queryInput, setQueryInput] = useState(search.query ?? '');
   const [isHasPublished, setIsHasPublished] = useState(false);
 
-  const { data: users } = useAuth0Editors(
-    { permission: DRAFT_WRITE_SCOPE },
-    {
-      select: (users) => users.map((u) => ({ id: `${u.app_metadata.ndla_id}`, name: u.name })),
-      placeholderData: [],
-    },
-  );
+  const { data: users } = useAuth0Editors({
+    select: (users) => users.map((u) => ({ id: `${u.app_metadata.ndla_id}`, name: u.name })),
+    placeholderData: [],
+  });
 
   const { data: responsibles } = useAuth0Responsibles(
     { permission: DRAFT_RESPONSIBLE },
@@ -123,6 +119,7 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
       'revision-date-to': '',
       'exclude-revision-log': false,
       'responsible-ids': '',
+      'filter-inactive': true,
     });
   };
 
@@ -169,17 +166,17 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
       formElementType: 'dropdown',
     },
     {
-      value: getTagName(search['responsible-ids'], responsibles),
-      parameterName: 'responsible-ids',
-      width: 25,
-      options: responsibles!,
-      formElementType: 'dropdown',
-    },
-    {
       value: getTagName(search['resource-types'], resourceTypes),
       parameterName: 'resource-types',
       width: 25,
       options: resourceTypes!.sort(sortByProperty('name')),
+      formElementType: 'dropdown',
+    },
+    {
+      value: getTagName(search['responsible-ids'], responsibles),
+      parameterName: 'responsible-ids',
+      width: 25,
+      options: responsibles!,
       formElementType: 'dropdown',
     },
     {
@@ -205,6 +202,12 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
       width: 25,
       options: getResourceLanguages(t),
       formElementType: 'dropdown',
+    },
+    {
+      value: search['filter-inactive']?.toString(),
+      parameterName: 'filter-inactive',
+      width: 25,
+      formElementType: 'check-box-reverse',
     },
     {
       value: search['exclude-revision-log']?.toString(),

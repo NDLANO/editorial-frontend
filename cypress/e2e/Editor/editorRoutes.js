@@ -17,7 +17,7 @@ const editorRoutes = (ARTICLE_ID) => {
   cy.apiroute('GET', '/concept-api/v1/drafts/status-state-machine/**', 'conceptStatusMachine');
 
   cy.intercept('GET', '/learningpath-api/v2/learningpaths/contains-article/*', { body: [] });
-  cy.apiroute('GET', `${taxonomyApi}/resources**`, 'taxonomyResourcesData');
+  cy.intercept('GET', `${taxonomyApi}/resources**`, { body: [] }).as('taxonomyResources');
   cy.intercept('GET', `${taxonomyApi}/topics**`, { body: [] }).as('taxonomyTopics');
   cy.intercept('GET', '/search-api/v1/search/editorial/**', {
     body: {

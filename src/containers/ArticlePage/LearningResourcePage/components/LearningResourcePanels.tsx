@@ -14,7 +14,7 @@ import RelatedContentFieldGroup from '../../components/RelatedContentFieldGroup'
 import { TAXONOMY_WRITE_SCOPE } from '../../../../constants';
 import { CopyrightFieldGroup, VersionAndNotesPanel, MetaDataField } from '../../../FormikForm';
 import GrepCodesField from '../../../FormikForm/GrepCodesField';
-import LearningResourceTaxonomyFormAccordion from './LearningResourceTaxonomyFormAccordion';
+import LearningResourceTaxonomy from './LearningResourceTaxonomy';
 import LearningResourceContent from './LearningResourceContent';
 import { LearningResourceFormType } from '../../../FormikForm/articleFormHooks';
 import { useSession } from '../../../Session/SessionProvider';
@@ -32,8 +32,6 @@ interface Props {
   taxonomy?: ArticleTaxonomy;
   updateNotes: (art: IUpdatedArticle) => Promise<IArticle>;
   articleLanguage: string;
-  existInTaxonomy: boolean;
-  setExistInTaxonomy: (value: boolean) => void;
 }
 
 const LearningResourcePanels = ({
@@ -42,8 +40,6 @@ const LearningResourcePanels = ({
   updateNotes,
   handleSubmit,
   articleLanguage,
-  existInTaxonomy,
-  setExistInTaxonomy,
 }: Props) => {
   const { t } = useTranslation();
   const { userPermissions } = useSession();
@@ -67,13 +63,18 @@ const LearningResourcePanels = ({
         />
       </FormAccordion>
       {article && taxonomy && !!userPermissions?.includes(TAXONOMY_WRITE_SCOPE) && (
-        <LearningResourceTaxonomyFormAccordion
-          article={article}
-          updateNotes={updateNotes}
-          taxonomy={taxonomy}
-          existInTaxonomy={existInTaxonomy}
-          setExistInTaxonomy={setExistInTaxonomy}
-        />
+        <FormAccordion
+          id={'learning-resource-taxonomy'}
+          title={t('form.taxonomySection')}
+          className={'u-6/6'}
+          hasError={false}
+        >
+          <LearningResourceTaxonomy
+            article={article}
+            updateNotes={updateNotes}
+            taxonomy={taxonomy}
+          />
+        </FormAccordion>
       )}
       <FormAccordion
         id={'learning-resource-copyright'}

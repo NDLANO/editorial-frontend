@@ -13,7 +13,7 @@ import config from '../../../../config';
 import TopicArticleContent from './TopicArticleContent';
 import RelatedContentFieldGroup from '../../components/RelatedContentFieldGroup';
 import { CopyrightFieldGroup, VersionAndNotesPanel, MetaDataField } from '../../../FormikForm';
-import TopicArticleTaxonomyFormAccordion from './TopicArticleTaxonomyFormAccordion';
+import TopicArticleTaxonomy from './TopicArticleTaxonomy';
 import { TAXONOMY_WRITE_SCOPE } from '../../../../constants';
 import GrepCodesField from '../../../FormikForm/GrepCodesField';
 import { TopicArticleFormType } from '../../../FormikForm/articleFormHooks';
@@ -30,8 +30,6 @@ interface Props {
   taxonomy?: ArticleTaxonomy;
   updateNotes: (art: IUpdatedArticle) => Promise<IArticle>;
   articleLanguage: string;
-  existInTaxonomy: boolean;
-  setExistInTaxonomy: (value: boolean) => void;
 }
 
 const TopicArticleAccordionPanels = ({
@@ -40,8 +38,6 @@ const TopicArticleAccordionPanels = ({
   updateNotes,
   articleLanguage,
   taxonomy,
-  existInTaxonomy,
-  setExistInTaxonomy,
 }: Props) => {
   const { t } = useTranslation();
   const { userPermissions } = useSession();
@@ -58,13 +54,14 @@ const TopicArticleAccordionPanels = ({
         <TopicArticleContent handleSubmit={handleSubmit} values={values} />
       </FormAccordion>
       {article && taxonomy && !!userPermissions?.includes(TAXONOMY_WRITE_SCOPE) && (
-        <TopicArticleTaxonomyFormAccordion
-          article={article}
-          updateNotes={updateNotes}
-          taxonomy={taxonomy}
-          existInTaxonomy={existInTaxonomy}
-          setExistInTaxonomy={setExistInTaxonomy}
-        />
+        <FormAccordion
+          id={'topic-article-taxonomy'}
+          title={t('form.taxonomySection')}
+          className={'u-6/6'}
+          hasError={false}
+        >
+          <TopicArticleTaxonomy article={article} updateNotes={updateNotes} taxonomy={taxonomy} />
+        </FormAccordion>
       )}
       <FormAccordion
         id={'topic-article-copyright'}

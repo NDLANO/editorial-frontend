@@ -114,7 +114,7 @@ const FrontpageArticleForm = ({
           savedToServer={savedToServer}
           getEntity={getArticle}
           onSaveClick={(saveAsNewVersion?: boolean) => {
-            handleSubmit(values, formik, saveAsNewVersion || false, true);
+            handleSubmit(values, formik, saveAsNewVersion || false);
           }}
           entityStatus={article?.status}
           statusStateMachine={statusStateMachine.data}

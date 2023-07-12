@@ -166,7 +166,7 @@ const WorkListTabContent = ({
   ];
 
   const lastPage = data?.totalCount ? Math.ceil(data?.totalCount / (data.pageSize ?? 1)) : 1;
-  const subjectIds = data?.aggregations?.flatMap((a) => a.values.map((v) => v.value));
+  const subjectIds = data?.aggregations.flatMap((a) => a.values.map((v) => v.value));
 
   return (
     <>

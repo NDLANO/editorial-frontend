@@ -1356,8 +1356,6 @@ const phrases = {
     noArticleInProd: 'Ingen artikkel funnet i prod',
     taxonomy: 'Det var et problem ved lasting av taksonomi',
     versionSelect: 'Artikkelen finnes ikke i valgt versjon',
-    taxRequired: 'Artikkelen mangler taksonomi',
-    taxRequiredTopic: 'Emnet mangler taksonomi',
     errorWhenFetchingTaxonomyArticle:
       'Det var et problem ved lasting av den underliggende artikkelen',
     unsavedTaxonomy: 'Du har ulagrede endringer. Trykk avbryt igjen hvis du ønsker å fortsette.',
@@ -1387,8 +1385,6 @@ const phrases = {
     delete: 'Slett',
     confirm: 'Bekreft',
     loginAgain: 'Logg inn på nytt',
-    missingTax: 'Artikkelen mangler taksonomi. Plasser artikkelen i taksonomi for å kunne lagre',
-    missingTaxTopic: 'Emnet mangler taksonomi. Plasser emnet i taksonomi for å kunne lagre',
   },
   environment: { production: '', staging: 'staging', test: 'test' },
   taxonomy: {

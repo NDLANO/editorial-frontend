@@ -12,7 +12,7 @@ import { Check } from '@ndla/icons/editor';
 import { colors, spacing, fonts } from '@ndla/core';
 import { ButtonV2 } from '@ndla/button';
 
-import { StagedTopic } from '../../../TopicArticlePage/components/TopicArticleTaxonomyFormAccordion';
+import { StagedTopic } from '../../../TopicArticlePage/components/TopicArticleTaxonomy';
 import { LocaleType } from '../../../../../interfaces';
 
 const StyledButton = styled(ButtonV2)`

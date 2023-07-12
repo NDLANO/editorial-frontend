@@ -6,7 +6,7 @@
  *
  */
 
-import { Children, ReactElement, useCallback, useMemo, useState } from 'react';
+import { Children, ReactElement, memo, useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { AccordionRoot } from '@ndla/accordion';
@@ -63,4 +63,4 @@ const FormAccordions = ({ defaultOpen, children }: Props) => {
   );
 };
 
-export default FormAccordions;
+export default memo(FormAccordions);

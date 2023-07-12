@@ -11,7 +11,7 @@ import { FileCompare } from '@ndla/icons/action';
 import { useTranslation } from 'react-i18next';
 import { IConcept } from '@ndla/types-backend/concept-api';
 import { IArticle } from '@ndla/types-backend/draft-api';
-import { useCallback, useMemo } from 'react';
+import { memo, useCallback, useMemo } from 'react';
 import { useFormikContext } from 'formik';
 import StyledFilledButton from '../StyledFilledButton';
 import { StyledSplitter } from './HeaderInformation';
@@ -40,39 +40,41 @@ interface PreviewLightBoxProps {
   currentLanguage: string;
 }
 
-const PreviewLightBox = ({ type, currentLanguage, article, concept }: PreviewLightBoxProps) => {
-  const { t } = useTranslation();
-  if (type === 'concept' && concept) {
-    return (
-      <PreviewDraftLightboxV2
-        type="conceptCompare"
-        concept={concept}
-        language={currentLanguage}
-        activateButton={
-          <StyledFilledButton type="button">
-            <FileCompare /> {t('form.previewLanguageArticle.button')}
-          </StyledFilledButton>
-        }
-      />
-    );
-  } else if (
-    (type === 'standard' || type === 'topic-article' || type === 'frontpage-article') &&
-    article
-  ) {
-    return (
-      <PreviewDraftLightboxV2
-        type="compare"
-        article={article}
-        language={currentLanguage}
-        activateButton={
-          <StyledFilledButton type="button">
-            <FileCompare /> {t('form.previewLanguageArticle.button')}
-          </StyledFilledButton>
-        }
-      />
-    );
-  } else return null;
-};
+const PreviewLightBox = memo(
+  ({ type, currentLanguage, article, concept }: PreviewLightBoxProps) => {
+    const { t } = useTranslation();
+    if (type === 'concept' && concept) {
+      return (
+        <PreviewDraftLightboxV2
+          type="conceptCompare"
+          concept={concept}
+          language={currentLanguage}
+          activateButton={
+            <StyledFilledButton type="button">
+              <FileCompare /> {t('form.previewLanguageArticle.button')}
+            </StyledFilledButton>
+          }
+        />
+      );
+    } else if (
+      (type === 'standard' || type === 'topic-article' || type === 'frontpage-article') &&
+      article
+    ) {
+      return (
+        <PreviewDraftLightboxV2
+          type="compare"
+          article={article}
+          language={currentLanguage}
+          activateButton={
+            <StyledFilledButton type="button">
+              <FileCompare /> {t('form.previewLanguageArticle.button')}
+            </StyledFilledButton>
+          }
+        />
+      );
+    } else return null;
+  },
+);
 
 interface Props {
   id: number;
@@ -203,4 +205,4 @@ const HeaderActions = ({
   );
 };
 
-export default HeaderActions;
+export default memo(HeaderActions);

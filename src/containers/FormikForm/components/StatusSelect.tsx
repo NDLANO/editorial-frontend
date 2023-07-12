@@ -7,7 +7,7 @@
  */
 import { useTranslation } from 'react-i18next';
 import { Select, SingleValue, Option } from '@ndla/select';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { IStatus as DraftStatus } from '@ndla/types-backend/draft-api';
 import { ConceptStatusStateMachineType, DraftStatusStateMachineType } from '../../../interfaces';
 import { PUBLISHED } from '../../../constants';
@@ -29,7 +29,10 @@ const StatusSelect = ({ status, setStatus, onSave, statusStateMachine, entitySta
   });
 
   const [options, setOptions] = useState<Option[]>([]);
-  const optionsWithGroupTitle = [{ label: t('editorFooter.statusLabel'), options: options }];
+  const optionsWithGroupTitle = useMemo(
+    () => [{ label: t('editorFooter.statusLabel'), options: options }],
+    [options, t],
+  );
 
   useEffect(() => {
     if (entityStatus && statusStateMachine) {
@@ -49,11 +52,14 @@ const StatusSelect = ({ status, setStatus, onSave, statusStateMachine, entitySta
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [entityStatus, statusStateMachine]);
 
-  const updateStatus = async (status: SingleValue) => {
-    if (status) {
-      onSave(status);
-    }
-  };
+  const updateStatus = useCallback(
+    async (status: SingleValue) => {
+      if (status) {
+        onSave(status);
+      }
+    },
+    [onSave],
+  );
 
   return (
     <Select<false>

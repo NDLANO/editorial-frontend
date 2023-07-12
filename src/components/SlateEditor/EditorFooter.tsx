@@ -191,34 +191,24 @@ function EditorFooter<T extends FormValues>({
     [setFieldValue],
   );
 
-  const saveButton = (
-    <SaveMultiButton
-      large
-      isSaving={isSubmitting}
-      formIsDirty={formIsDirty}
-      showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}
-      onClick={onSave}
-      hideSecondaryButton={hideSecondaryButton}
-      disabled={!!hasErrors}
-    />
-  );
-
-  const PrioritizedToggle = (
-    <Switch
-      checked={prioritizedOn}
-      onChange={updatePrioritized}
-      thumbCharacter={'P'}
-      label={t('editorFooter.prioritized')}
-      id="prioritized"
-    />
-  );
+  const onPreviewDraft = useCallback(() => {
+    window.open(toPreviewDraft(values.id, values.language));
+  }, [values.id, values.language]);
 
   if (showSimpleFooter) {
     return (
       <Footer css={isArticle && articleResourcePageStyle}>
         <StyledFooter>
           <StyledFooterControls>
-            {isArticle && PrioritizedToggle}
+            {isArticle && (
+              <Switch
+                checked={prioritizedOn}
+                onChange={updatePrioritized}
+                thumbCharacter={'P'}
+                label={t('editorFooter.prioritized')}
+                id="prioritized"
+              />
+            )}
             {articleOrConcept && (
               <Wrapper>
                 <ResponsibleSelect
@@ -229,7 +219,15 @@ function EditorFooter<T extends FormValues>({
                 />
               </Wrapper>
             )}
-            {saveButton}
+            <SaveMultiButton
+              large
+              isSaving={isSubmitting}
+              formIsDirty={formIsDirty}
+              showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}
+              onClick={onSave}
+              hideSecondaryButton={hideSecondaryButton}
+              disabled={!!hasErrors}
+            />
           </StyledFooterControls>
         </StyledFooter>
       </Footer>
@@ -248,34 +246,37 @@ function EditorFooter<T extends FormValues>({
             />
           )}
           {values.id && isArticle && (
-            <FooterLinkButton
-              bold
-              onClick={() => window.open(toPreviewDraft(values.id, values.language))}
-            >
+            <FooterLinkButton bold onClick={onPreviewDraft}>
               {t('form.preview.button')}
               <Launch />
             </FooterLinkButton>
           )}
           <StyledLine />
           {values.id && isArticle && (
-            <FooterLinkButton bold onClick={() => onValidateClick()}>
+            <FooterLinkButton bold onClick={onValidateClick}>
               {t('form.validate')}
             </FooterLinkButton>
           )}
         </div>
 
         <StyledFooterControls data-cy="footerStatus">
-          {isArticle && PrioritizedToggle}
-          {articleOrConcept && (
-            <Wrapper>
-              <ResponsibleSelect
-                responsible={responsible}
-                setResponsible={setResponsible}
-                onSave={updateResponsible}
-                responsibleId={responsibleId}
-              />
-            </Wrapper>
+          {isArticle && (
+            <Switch
+              checked={prioritizedOn}
+              onChange={updatePrioritized}
+              thumbCharacter={'P'}
+              label={t('editorFooter.prioritized')}
+              id="prioritized"
+            />
           )}
+          <Wrapper>
+            <ResponsibleSelect
+              responsible={responsible}
+              setResponsible={setResponsible}
+              onSave={updateResponsible}
+              responsibleId={responsibleId}
+            />
+          </Wrapper>
           <Wrapper>
             <StatusSelect
               status={status}
@@ -285,7 +286,15 @@ function EditorFooter<T extends FormValues>({
               entityStatus={entityStatus}
             />
           </Wrapper>
-          {saveButton}
+          <SaveMultiButton
+            large
+            isSaving={isSubmitting}
+            formIsDirty={formIsDirty}
+            showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}
+            onClick={onSave}
+            hideSecondaryButton={hideSecondaryButton}
+            disabled={!!hasErrors}
+          />
         </StyledFooterControls>
       </>
     </Footer>

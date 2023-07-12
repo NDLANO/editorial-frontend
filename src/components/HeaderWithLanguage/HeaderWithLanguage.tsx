@@ -104,6 +104,7 @@ const HeaderWithLanguage = ({
         expirationDate={expirationDate}
         responsibleId={responsible}
         hasRSS={hasRSS}
+        language={language}
       />
       <StyledLanguageWrapper>
         {id ? (

@@ -78,7 +78,7 @@ const TopicArticleAccordionPanels = ({
           !!(errors.creators || errors.rightsholders || errors.processors || errors.license)
         }
       >
-        <CopyrightFieldGroup values={values} enableLicenseNA />
+        <CopyrightFieldGroup enableLicenseNA />
       </FormAccordion>
       <FormAccordion
         id={'topic-article-metadata'}

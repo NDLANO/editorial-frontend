@@ -124,7 +124,6 @@ const LearningResourceForm = ({
                 article={article}
                 taxonomy={articleTaxonomy}
                 updateNotes={updateArticle}
-                handleSubmit={handleSubmit}
               />
             </TaxonomyVersionProvider>
           </MainContent>

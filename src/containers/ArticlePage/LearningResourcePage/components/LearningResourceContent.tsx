@@ -6,15 +6,16 @@
  *
  */
 
-import { useRef, useEffect, RefObject, useState } from 'react';
+import { useState, useMemo, useCallback, memo } from 'react';
 import { Descendant } from 'slate';
 import { useTranslation } from 'react-i18next';
-import { FormikContextType } from 'formik';
+import { FieldProps, useField, useFormikContext } from 'formik';
 import styled from '@emotion/styled';
 import { FieldHeader } from '@ndla/forms';
 import { Eye } from '@ndla/icons/editor';
 import { IconButtonV2 } from '@ndla/button';
 import { colors } from '@ndla/core';
+import { IAuthor } from '@ndla/types-backend/draft-api';
 import FormikField from '../../../../components/FormikField';
 import LearningResourceFootnotes, { FootnoteType } from './LearningResourceFootnotes';
 import LastUpdatedLine from '../../../../components/LastUpdatedLine/LastUpdatedLine';
@@ -52,7 +53,6 @@ import { markPlugin } from '../../../../components/SlateEditor/plugins/mark';
 import { listPlugin } from '../../../../components/SlateEditor/plugins/list';
 import { divPlugin } from '../../../../components/SlateEditor/plugins/div';
 import { LocaleType } from '../../../../interfaces';
-import { LearningResourceFormType } from '../../../FormikForm/articleFormHooks';
 import { dndPlugin } from '../../../../components/SlateEditor/plugins/DND';
 import { SlatePlugin } from '../../../../components/SlateEditor/interfaces';
 import { useSession } from '../../../Session/SessionProvider';
@@ -131,7 +131,7 @@ const actionsToShowInAreas = {
 export const plugins = (
   articleLanguage: string,
   locale: LocaleType,
-  handleSubmitRef: RefObject<() => void>,
+  handleSubmit: () => void,
 ): SlatePlugin[] => {
   return [
     sectionPlugin,
@@ -163,7 +163,7 @@ export const plugins = (
     toolbarPlugin,
     textTransformPlugin,
     breakPlugin,
-    saveHotkeyPlugin(() => handleSubmitRef.current && handleSubmitRef.current()),
+    saveHotkeyPlugin(handleSubmit),
     markPlugin,
     definitionListPlugin,
     listPlugin,
@@ -172,37 +172,26 @@ export const plugins = (
 };
 interface Props {
   articleLanguage: string;
-  handleBlur: (evt: { target: { name: string } }) => void;
-  values: LearningResourceFormType;
-  handleSubmit: () => Promise<void>;
-  formik: FormikContextType<LearningResourceFormType>;
+  articleId?: number;
 }
 
-const LearningResourceContent = ({
-  articleLanguage,
-  values: { id, language, creators, published },
-  handleSubmit,
-}: Props) => {
-  const { t, i18n } = useTranslation();
-  const { userPermissions } = useSession();
-  const handleSubmitRef = useRef(handleSubmit);
+const LearningResourceContent = ({ articleLanguage, articleId }: Props) => {
+  const { t } = useTranslation();
+
+  const [creatorsField] = useField<IAuthor[]>('creators');
 
   const [preview, setPreview] = useState(false);
 
-  useEffect(() => {
-    handleSubmitRef.current = handleSubmit;
-  }, [handleSubmit]);
-
   return (
     <>
-      <TitleField handleSubmit={handleSubmit} />
+      <TitleField />
       <StyledFormikField name="published">
         {({ field, form }) => (
           <StyledDiv>
             <LastUpdatedLine
               name={field.name}
-              creators={creators}
-              published={published}
+              creators={creatorsField.value}
+              published={field.value}
               allowEdit={true}
               onChange={(date) => {
                 form.setFieldValue(field.name, date);
@@ -224,43 +213,71 @@ const LearningResourceContent = ({
           </StyledDiv>
         )}
       </StyledFormikField>
-      <IngressField preview={preview} handleSubmit={handleSubmit} />
+      <IngressField preview={preview} />
       <StyledContentDiv name="content" label={t('form.content.label')} noBorder>
-        {({ field: { value, name, onChange }, form: { isSubmitting } }) => (
-          <>
-            <FieldHeader title={t('form.content.label')}>
-              {id && userPermissions?.includes(DRAFT_HTML_SCOPE) && (
-                <EditMarkupLink
-                  to={toEditMarkup(id, language ?? '')}
-                  title={t('editMarkup.linkTitle')}
-                />
-              )}
-            </FieldHeader>
-            <RichTextEditor
-              language={articleLanguage}
-              blockpickerOptions={{
-                actionsToShowInAreas,
-              }}
-              placeholder={t('form.content.placeholder')}
-              value={value}
-              submitted={isSubmitting}
-              plugins={plugins(articleLanguage ?? '', i18n.language, handleSubmitRef)}
-              data-cy="learning-resource-content"
-              onChange={(value) => {
-                onChange({
-                  target: {
-                    value,
-                    name,
-                  },
-                });
-              }}
-            />
-            {!isSubmitting && <LearningResourceFootnotes footnotes={findFootnotes(value)} />}
-          </>
+        {(fieldProps) => (
+          <ContentField articleLanguage={articleLanguage} articleId={articleId} {...fieldProps} />
         )}
       </StyledContentDiv>
     </>
   );
 };
 
-export default LearningResourceContent;
+interface ContentFieldProps extends FieldProps<Descendant[]> {
+  articleId?: number;
+  articleLanguage: string;
+}
+
+const ContentField = ({
+  articleId,
+  field: { name, onChange, value },
+  articleLanguage,
+}: ContentFieldProps) => {
+  const { t, i18n } = useTranslation();
+  const { userPermissions } = useSession();
+  const { isSubmitting, handleSubmit } = useFormikContext();
+  const blockPickerOptions = useMemo(() => ({ actionsToShowInAreas }), []);
+
+  const onSlateChange = useCallback(
+    (val: Descendant[]) => {
+      onChange({
+        target: {
+          value: val,
+          name,
+        },
+      });
+    },
+    [onChange, name],
+  );
+
+  const editorPlugins = useMemo(
+    () => plugins(articleLanguage ?? '', i18n.language, handleSubmit),
+    [articleLanguage, i18n.language, handleSubmit],
+  );
+
+  return (
+    <>
+      <FieldHeader title={t('form.content.label')}>
+        {articleId && userPermissions?.includes(DRAFT_HTML_SCOPE) && (
+          <EditMarkupLink
+            to={toEditMarkup(articleId, articleLanguage ?? '')}
+            title={t('editMarkup.linkTitle')}
+          />
+        )}
+      </FieldHeader>
+      <RichTextEditor
+        language={articleLanguage}
+        blockpickerOptions={blockPickerOptions}
+        placeholder={t('form.content.placeholder')}
+        value={value}
+        submitted={isSubmitting}
+        plugins={editorPlugins}
+        data-cy="learning-resource-content"
+        onChange={onSlateChange}
+      />
+      {!isSubmitting && <LearningResourceFootnotes footnotes={findFootnotes(value)} />}
+    </>
+  );
+};
+
+export default memo(LearningResourceContent);

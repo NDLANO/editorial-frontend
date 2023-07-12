@@ -6,7 +6,7 @@
  *
  */
 
-import { useMemo, FocusEvent, useEffect } from 'react';
+import { useMemo, useEffect, useCallback } from 'react';
 import { createEditor, Descendant } from 'slate';
 import { Slate, Editable, ReactEditor, withReact } from 'slate-react';
 import { withHistory } from 'slate-history';
@@ -40,6 +40,22 @@ const PlainTextEditor = ({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const editor = useMemo(() => withHistory(withReact(withPlugins(createEditor(), plugins))), []);
 
+  const onBlur = useCallback(() => {
+    ReactEditor.deselect(editor);
+  }, [editor]);
+
+  const onSlateChange = useCallback(
+    (val: Descendant[]) =>
+      onChange({
+        target: {
+          name: id,
+          value: val,
+          type: 'SlateEditorValue',
+        },
+      }),
+    [id, onChange],
+  );
+
   const { status, setStatus } = useFormikContext<ArticleFormType>();
 
   useEffect(() => {
@@ -52,31 +68,18 @@ const PlainTextEditor = ({
   }, [status]);
 
   return (
-    <Slate
-      editor={editor}
-      value={value}
-      onChange={(val: Descendant[]) => {
-        onChange({
-          target: {
-            name: id,
-            value: val,
-            type: 'SlateEditorValue',
-          },
-        });
-      }}
-    >
+    <Slate editor={editor} value={value} onChange={onSlateChange}>
       <Editable
-        onBlur={(event: FocusEvent<HTMLDivElement>) => {
-          // Forcing slate field to be deselected before selecting new field.
-          // Fixes a problem where slate field is not properly focused on click.
-          ReactEditor.deselect(editor);
-        }}
+        // Forcing slate field to be deselected before selecting new field.
+        // Fixes a problem where slate field is not properly focused on click.
+        onBlur={onBlur}
         // @ts-ignore is-hotkey and editor.onKeyDown does not have matching types
         onKeyDown={editor.onKeyDown}
         readOnly={submitted}
         className={className}
         placeholder={placeholder}
         data-cy={cy}
+        renderPlaceholder={undefined}
       />
     </Slate>
   );

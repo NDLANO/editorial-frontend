@@ -6,9 +6,10 @@
  *
  */
 
-import { useRef, useEffect } from 'react';
+import { useMemo, memo } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { useFormikContext } from 'formik';
 import PlainTextEditor from '../../components/SlateEditor/PlainTextEditor';
 import FormikField from '../../components/FormikField';
 
@@ -18,19 +19,18 @@ import saveHotkeyPlugin from '../../components/SlateEditor/plugins/saveHotkey';
 interface Props {
   maxLength?: number;
   name?: string;
-  handleSubmit: () => Promise<void>;
   type?: string;
 }
 
-const TitleField = ({ maxLength = 256, name = 'title', handleSubmit }: Props) => {
+const TitleField = ({ maxLength = 256, name = 'title' }: Props) => {
   const { t } = useTranslation();
-  const handleSubmitRef = useRef(handleSubmit);
+  const { handleSubmit } = useFormikContext();
 
-  useEffect(() => {
-    handleSubmitRef.current = handleSubmit;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [handleSubmit]);
-  const plugins = [textTransformPlugin, saveHotkeyPlugin(() => handleSubmitRef.current())];
+  const plugins = useMemo(
+    () => [textTransformPlugin, saveHotkeyPlugin(handleSubmit)],
+    [handleSubmit],
+  );
+
   return (
     <FormikField noBorder label={t('form.title.label')} name={name} title maxLength={maxLength}>
       {({ field, form: { isSubmitting } }) => (
@@ -49,4 +49,4 @@ const TitleField = ({ maxLength = 256, name = 'title', handleSubmit }: Props) =>
   );
 };
 
-export default TitleField;
+export default memo(TitleField);

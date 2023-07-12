@@ -227,7 +227,6 @@ const ConceptForm = ({
                 hasError={!!(errors.creators || errors.license)}
               >
                 <ConceptCopyright
-                  disableAgreements
                   label={t('form.concept.source')}
                   description={t('form.concept.markdown')}
                 />

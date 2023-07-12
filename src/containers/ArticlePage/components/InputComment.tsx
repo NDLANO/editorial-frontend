@@ -81,15 +81,16 @@ const InputComment = ({ comments, setComments }: Props) => {
     setInputValue(e.target.value);
   }, []);
 
-  const addComment = () => {
+  const addComment = useCallback(() => {
     // We need a temporary unique id in frontend before id is generated in draft-api when comment is created
     const uid = uniqueId();
     const updatedComments = [{ generatedId: uid, content: inputValue, isOpen: true }, ...comments];
     setComments(updatedComments);
-  };
+  }, [comments, inputValue, setComments]);
+
   const createComment = useRef<HTMLTextAreaElement>(null);
 
-  const handleFocus = () => {
+  const handleFocus = useCallback(() => {
     if (!clickedInputField) {
       const comment = getCommentWithInfoText(inputValue, userName, t);
       setInputValue(comment);
@@ -97,7 +98,18 @@ const InputComment = ({ comments, setComments }: Props) => {
     }
 
     setClickedInputField(true);
-  };
+  }, [clickedInputField, inputValue, t, userName]);
+
+  const onClickSmall = useCallback(() => {
+    setInputValue('');
+    setClickedInputField(false);
+  }, []);
+
+  const onClickMedium = useCallback(() => {
+    addComment();
+    setInputValue('');
+    setClickedInputField(false);
+  }, [addComment]);
 
   return (
     <CommentCard>
@@ -110,7 +122,7 @@ const InputComment = ({ comments, setComments }: Props) => {
           labelHidden
           value={inputValue}
           onChange={handleInputChange}
-          onFocus={() => handleFocus()}
+          onFocus={handleFocus}
           ref={createComment}
         />
         <ButtonWrapper>
@@ -119,10 +131,7 @@ const InputComment = ({ comments, setComments }: Props) => {
             size="xsmall"
             colorTheme="danger"
             disabled={!inputValue}
-            onClick={() => {
-              setInputValue('');
-              setClickedInputField(false);
-            }}
+            onClick={onClickSmall}
           >
             {t('form.abort')}
           </StyledButtonSmall>
@@ -131,11 +140,7 @@ const InputComment = ({ comments, setComments }: Props) => {
             shape="pill"
             size="xsmall"
             disabled={!inputValue}
-            onClick={() => {
-              addComment();
-              setInputValue('');
-              setClickedInputField(false);
-            }}
+            onClick={onClickMedium}
           >
             {t('form.comment')}
           </StyledButtonMedium>

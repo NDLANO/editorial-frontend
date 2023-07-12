@@ -6,7 +6,7 @@
  *
  */
 
-import { ElementType, MouseEvent, ReactNode, useCallback, useMemo } from 'react';
+import { ElementType, MouseEvent, ReactNode, memo, useCallback, useMemo } from 'react';
 import { colors, fonts } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
@@ -158,4 +158,4 @@ const ToolbarButton = ({ isActive, type, kind, handleOnClick }: Props) => {
   );
 };
 
-export default ToolbarButton;
+export default memo(ToolbarButton);

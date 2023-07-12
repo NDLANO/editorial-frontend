@@ -6,10 +6,9 @@
  *
  */
 
-import { ReactChild, useEffect, useState } from 'react';
+import { ReactNode, memo, useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { useFormikContext } from 'formik';
 import { ButtonV2 } from '@ndla/button';
 import styled from '@emotion/styled';
 import { ContentTypeBadge, constants } from '@ndla/ui';
@@ -23,8 +22,6 @@ import * as draftApi from '../../modules/draft/draftApi';
 import Spinner from '../Spinner';
 import handleError from '../../util/handleError';
 import { useMessages } from '../../containers/Messages/MessagesProvider';
-import { ArticleFormType } from '../../containers/FormikForm/articleFormHooks';
-import { ConceptFormValues } from '../../containers/ConceptPage/conceptInterfaces';
 import { fetchAuth0Users } from '../../modules/auth0/auth0Api';
 
 export const StyledSplitter = styled.div`
@@ -56,7 +53,7 @@ const StyledTitleHeaderWrapper = styled.div`
 
 const { contentTypes } = constants;
 
-export const types: Record<string, { form: string; cssModifier: string; icon: ReactChild }> = {
+export const types: Record<string, { form: string; cssModifier: string; icon: ReactNode }> = {
   standard: {
     form: 'learningResourceForm',
     cssModifier: 'article',
@@ -115,6 +112,7 @@ interface Props {
   formIsDirty?: boolean;
   taxonomyPaths?: string[];
   id?: number;
+  language: string;
   setHasConnections?: (hasConnections: boolean) => void;
   expirationDate?: string;
   responsibleId?: string;
@@ -135,12 +133,12 @@ const HeaderInformation = ({
   expirationDate,
   responsibleId,
   hasRSS,
+  language,
 }: Props) => {
   const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
   const { createMessage } = useMessages();
   const navigate = useNavigate();
-  const { values } = useFormikContext<ArticleFormType | ConceptFormValues>();
   const [responsibleName, setResponsibleName] = useState<string | undefined>(undefined);
 
   useEffect(() => {
@@ -151,8 +149,8 @@ const HeaderInformation = ({
     })();
   }, [responsibleId]);
 
-  const onSaveAsNew = async () => {
-    if (!values.id) return;
+  const onSaveAsNew = useCallback(async () => {
+    if (!id) return;
     try {
       if (formIsDirty) {
         createMessage({
@@ -162,15 +160,15 @@ const HeaderInformation = ({
         });
       } else {
         setLoading(true);
-        const newArticle = await draftApi.cloneDraft(values.id, values.language);
+        const newArticle = await draftApi.cloneDraft(id, language);
         // we don't set loading to false as the redirect will unmount this component anyway
-        navigate(toEditArticle(newArticle.id, newArticle.articleType, values.language));
+        navigate(toEditArticle(newArticle.id, newArticle.articleType, language));
       }
     } catch (e) {
       handleError(e);
       setLoading(false);
     }
-  };
+  }, [createMessage, formIsDirty, id, language, navigate]);
 
   return (
     <StyledHeader>
@@ -203,4 +201,4 @@ const HeaderInformation = ({
   );
 };
 
-export default HeaderInformation;
+export default memo(HeaderInformation);

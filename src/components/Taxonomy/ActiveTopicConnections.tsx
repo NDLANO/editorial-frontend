@@ -8,7 +8,7 @@
 
 import { StyledConnectionsWrapper } from '../../style/LearningResourceTaxonomyStyles';
 import ActiveTopicConnection from './ActiveTopicConnection';
-import { StagedTopic } from '../../containers/ArticlePage/TopicArticlePage/components/TopicArticleTaxonomyFormAccordion';
+import { StagedTopic } from '../../containers/ArticlePage/TopicArticlePage/components/TopicArticleTaxonomy';
 
 interface Props {
   removeConnection?: (id: string) => void;
@@ -21,12 +21,7 @@ interface Props {
 const ActiveTopicConnections = ({ activeTopics, ...rest }: Props) => (
   <StyledConnectionsWrapper>
     {activeTopics.map((topic) => (
-      <ActiveTopicConnection
-        key={topic.id}
-        topic={topic}
-        activeTopicConnectionLength={activeTopics.length}
-        {...rest}
-      />
+      <ActiveTopicConnection key={topic.id} topic={topic} {...rest} />
     ))}
   </StyledConnectionsWrapper>
 );

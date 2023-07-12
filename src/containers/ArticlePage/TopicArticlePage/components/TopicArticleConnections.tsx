@@ -20,7 +20,7 @@ import StructureFunctionButtons from './StructureFunctionButtons';
 import ActiveTopicConnections from '../../../../components/Taxonomy/ActiveTopicConnections';
 import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { LocaleType } from '../../../../interfaces';
-import { StagedTopic } from './TopicArticleTaxonomyFormAccordion';
+import { StagedTopic } from './TopicArticleTaxonomy';
 
 const StyledModalHeader = styled(ModalHeader)`
   padding-bottom: 0;
@@ -32,7 +32,6 @@ interface Props {
   allowMultipleSubjectsOpen?: boolean;
   stageTaxonomyChanges: ({ path, locale }: { path: string; locale?: LocaleType }) => void;
   getSubjectTopics: (subjectId: string, locale: LocaleType) => Promise<void>;
-  setTaxonomyMounted: (v: boolean) => void;
 }
 
 const TopicArticleConnections = ({
@@ -41,7 +40,6 @@ const TopicArticleConnections = ({
   allowMultipleSubjectsOpen,
   stageTaxonomyChanges,
   getSubjectTopics,
-  setTaxonomyMounted,
 }: Props) => {
   const { t, i18n } = useTranslation();
   const [openedPaths, setOpenedPaths] = useState<string[]>([]);
@@ -49,8 +47,7 @@ const TopicArticleConnections = ({
   const [favoriteSubjectIds, setFavoriteSubjectIds] = useState<string[]>([]);
   useEffect(() => {
     fetchFavoriteSubjects();
-    setTaxonomyMounted(true);
-  }, [setTaxonomyMounted]);
+  }, []);
 
   const fetchFavoriteSubjects = async () => {
     const result = await fetchUserData();

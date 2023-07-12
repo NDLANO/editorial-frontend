@@ -6,7 +6,7 @@
  *
  */
 
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Formik, FormikProps } from 'formik';
 import { IUpdatedArticle, IArticle, IStatus } from '@ndla/types-backend/draft-api';
@@ -55,9 +55,6 @@ const TopicArticleForm = ({
   articleLanguage,
   articleStatus,
 }: Props) => {
-  const [existInTaxonomy, setExistInTaxonomy] = useState(
-    !!articleTaxonomy?.topics.find((t) => t.breadcrumbs?.length),
-  );
   const { data: licenses } = useLicenses({ placeholderData: [] });
   const statusStateMachine = useDraftStatusStateMachine({ articleId: article?.id });
 
@@ -115,8 +112,6 @@ const TopicArticleForm = ({
                 updateNotes={updateArticle}
                 article={article}
                 handleSubmit={async () => handleSubmit(values, formik)}
-                existInTaxonomy={existInTaxonomy}
-                setExistInTaxonomy={setExistInTaxonomy}
               />
             </MainContent>
             <CommentSection savedStatus={article?.status} />
@@ -128,7 +123,7 @@ const TopicArticleForm = ({
           savedToServer={savedToServer}
           getEntity={getArticle}
           onSaveClick={(saveAsNewVersion) => {
-            handleSubmit(values, formik, saveAsNewVersion ?? false, existInTaxonomy);
+            handleSubmit(values, formik, saveAsNewVersion ?? false);
           }}
           entityStatus={article?.status}
           statusStateMachine={statusStateMachine.data}

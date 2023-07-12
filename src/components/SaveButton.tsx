@@ -13,7 +13,6 @@ import { colors, fonts, spacing } from '@ndla/core';
 import { Check } from '@ndla/icons/editor';
 import { ComponentProps } from 'react';
 import { useTranslation } from 'react-i18next';
-import Spinner from './Spinner';
 
 export const saveButtonAppearances: Record<string, SerializedStyles> = {
   saved: css`
@@ -41,7 +40,6 @@ export const saveButtonAppearances: Record<string, SerializedStyles> = {
 const StyledSpan = styled('span')`
   display: flex;
   justify-content: space-evenly;
-  align-items: center;
 `;
 
 const StyledCheck = styled(Check)`
@@ -67,7 +65,6 @@ interface Props extends ComponentProps<typeof ButtonV2> {
   showSaved?: boolean;
   defaultText?: string;
   formIsDirty?: boolean;
-  loading?: boolean;
 }
 
 const SaveButton = ({
@@ -76,7 +73,6 @@ const SaveButton = ({
   defaultText,
   formIsDirty = true,
   disabled,
-  loading,
   ...rest
 }: Props) => {
   const getModifier = () => {
@@ -96,7 +92,6 @@ const SaveButton = ({
         <StyledSpan>
           {t(`form.${modifier}`)}
           {showSaved && <StyledCheck />}
-          {loading && <Spinner appearance="small" />}
         </StyledSpan>
       </StyledSaveButton>
     </>

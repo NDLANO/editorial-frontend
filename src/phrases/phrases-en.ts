@@ -1395,6 +1395,7 @@ const phrases = {
       SUBJECT: 'subject',
       TOPIC: 'topic',
     },
+    previewProgrammes: 'Preview programmes in frontend',
     addNode: 'Add {{nodeType}}',
     newNode: 'New {{nodeType}}',
     newNodeName: 'Name of new element',

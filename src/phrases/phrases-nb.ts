@@ -1397,6 +1397,7 @@ const phrases = {
       SUBJECT: 'fag',
       TOPIC: 'emne',
     },
+    previewProgrammes: 'Forhåndsvis programfag i frontend',
     addNode: 'Legg til {{nodeType}}',
     newNode: 'Nytt {{nodeType}}',
     newNodeName: 'Navn på nytt element',

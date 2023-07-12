@@ -140,9 +140,11 @@ const SlateToolbar = () => {
     [editor],
   );
 
+  const onMouseDown = useCallback((e: MouseEvent) => e.preventDefault(), []);
+
   return (
     <Portal>
-      <ToolbarContainer ref={portalRef}>
+      <ToolbarContainer ref={portalRef} onMouseDown={onMouseDown}>
         {toolbarElements.mark.map((type) => (
           <ToolbarButton
             key={type}

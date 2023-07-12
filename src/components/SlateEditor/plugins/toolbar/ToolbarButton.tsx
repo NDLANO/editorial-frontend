@@ -6,7 +6,7 @@
  *
  */
 
-import { ElementType, MouseEvent, useCallback, useMemo } from 'react';
+import { ElementType, MouseEvent, ReactNode, useCallback, useMemo } from 'react';
 import { colors, fonts } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
@@ -38,11 +38,21 @@ const StyledHeadingSpan = styled.span`
 
 interface HeadingSpanProps {
   title: string;
+  children: ReactNode;
 }
 
-const HeadingSpan = ({ title }: HeadingSpanProps) => {
-  return <StyledHeadingSpan>{title}</StyledHeadingSpan>;
+const HeadingSpan = ({ title, children }: HeadingSpanProps) => {
+  return <StyledHeadingSpan title={title}>{children}</StyledHeadingSpan>;
 };
+
+interface HeadingProps {
+  title: string;
+}
+
+const HeadingOne = ({ title }: HeadingProps) => <HeadingSpan title={title}>H1</HeadingSpan>;
+const HeadingTwo = ({ title }: HeadingProps) => <HeadingSpan title={title}>H2</HeadingSpan>;
+const HeadingThree = ({ title }: HeadingProps) => <HeadingSpan title={title}>H3</HeadingSpan>;
+const HeadingFour = ({ title }: HeadingProps) => <HeadingSpan title={title}>H4</HeadingSpan>;
 
 // Fetched from https://github.com/ianstormtaylor/is-hotkey/blob/master/src/index.js
 const IS_MAC =
@@ -60,10 +70,10 @@ const icon: Record<string, ElementType> = {
   'numbered-list': ListNumbered,
   'bulleted-list': ListCircle,
   'letter-list': ListAlphabetical,
-  'heading-1': HeadingSpan,
-  'heading-2': HeadingSpan,
-  'heading-3': HeadingSpan,
-  'heading-4': HeadingSpan,
+  'heading-1': HeadingOne,
+  'heading-2': HeadingTwo,
+  'heading-3': HeadingThree,
+  'heading-4': HeadingFour,
   'definition-list': FormatList,
   mathml: Math,
   concept: Concept,

@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { Switch } from '@ndla/switch';
 import { useState } from 'react';
 import { ButtonV2 } from '@ndla/button';
-import { Plus } from '@ndla/icons/lib/action';
+import { Plus } from '@ndla/icons/action';
 import { spacing, colors } from '@ndla/core';
 import { ResourceGroupBanner, StyledShareIcon } from './styles';
 import { useSession } from '../Session/SessionProvider';

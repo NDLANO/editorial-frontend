@@ -54,6 +54,7 @@ const HeaderSupportedLanguages = ({
             to={editUrl(id, supportedLanguage)}
             component={replace ? LinkWithReplace : SafeLink}
             isSubmitting={isSubmitting}
+            key={`types_${supportedLanguage}`}
           >
             {t(`language.${supportedLanguage}`)}
           </HeaderLanguagePill>

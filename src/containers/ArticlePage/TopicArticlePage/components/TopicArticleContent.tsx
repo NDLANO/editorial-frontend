@@ -124,7 +124,7 @@ const TopicArticleContent = (props: Props) => {
 
   return (
     <>
-      <TitleField handleSubmit={handleSubmit} />
+      <TitleField />
       <StyledByLineFormikField name="published">
         {({ field, form }) => (
           <StyledDiv>
@@ -154,7 +154,7 @@ const TopicArticleContent = (props: Props) => {
           </StyledDiv>
         )}
       </StyledByLineFormikField>
-      <IngressField preview={preview} handleSubmit={handleSubmit} />
+      <IngressField preview={preview} />
       <VisualElementField />
       <FormikField name="content" label={t('form.content.label')} noBorder>
         {({ field: { value, name, onChange }, form: { isSubmitting } }) => (

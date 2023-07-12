@@ -1,5 +1,13 @@
 import { uuid } from '@ndla/util';
-import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useState } from 'react';
+import {
+  createContext,
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+  useCallback,
+  useContext,
+  useState,
+} from 'react';
 
 import { useTranslation } from 'react-i18next';
 import { MessageType } from './Messages';
@@ -34,6 +42,14 @@ export interface NewMessageType extends Omit<MessageType, 'id'> {
   id?: string;
 }
 
+const formatNewMessage = (newMessage: NewMessageType): MessageType => {
+  return {
+    ...newMessage,
+    id: newMessage.id ?? uuid(),
+    timeToLive: typeof newMessage.timeToLive === 'undefined' ? 1500 : newMessage.timeToLive,
+  };
+};
+
 export const MessagesProvider = ({ children, initialValues = [] }: Props) => {
   const messagesState = useState<MessageType[]>(initialValues);
   return <MessagesContext.Provider value={messagesState}>{children}</MessagesContext.Provider>;
@@ -47,68 +63,78 @@ export const useMessages = () => {
   }
   const [messages, setMessages] = context;
 
-  const formatNewMessage = (newMessage: NewMessageType): MessageType => {
-    return {
-      ...newMessage,
-      id: newMessage.id ?? uuid(),
-      timeToLive: typeof newMessage.timeToLive === 'undefined' ? 1500 : newMessage.timeToLive,
-    };
-  };
+  const errorMessageFromError = useCallback(
+    (error: MessageError): string => {
+      const jsonMessage = error?.json?.messages
+        ?.map((message) => `${message.field}: ${message.message}`)
+        .join(', ');
+      if (jsonMessage !== undefined) return jsonMessage;
 
-  const errorMessageFromError = (error: MessageError): string => {
-    const jsonMessage = error?.json?.messages
-      ?.map((message) => `${message.field}: ${message.message}`)
-      .join(', ');
-    if (jsonMessage !== undefined) return jsonMessage;
+      const errorMessages = error?.messages;
+      if (errorMessages && typeof errorMessages === 'string') return errorMessages;
+      return t('errorMessage.genericError');
+    },
+    [t],
+  );
 
-    const errorMessages = error?.messages;
-    if (errorMessages && typeof errorMessages === 'string') return errorMessages;
-    return t('errorMessage.genericError');
-  };
+  const formatErrorMessage = useCallback(
+    (error: MessageError): NewMessageType => {
+      return {
+        message: errorMessageFromError(error),
+        severity: 'danger',
+        timeToLive: 0,
+      };
+    },
+    [errorMessageFromError],
+  );
 
-  const formatErrorMessage = (error: MessageError): NewMessageType => {
-    return {
-      message: errorMessageFromError(error),
-      severity: 'danger',
-      timeToLive: 0,
-    };
-  };
+  const createMessage = useCallback(
+    (newMessage: NewMessageType) => {
+      const message = formatNewMessage(newMessage);
+      setMessages((messages) => {
+        if (!messages.some((msg) => msg.id === message.id)) {
+          return messages.concat(message);
+        } else {
+          return messages;
+        }
+      });
+    },
+    [setMessages],
+  );
 
-  const createMessage = (newMessage: NewMessageType) => {
-    const message = formatNewMessage(newMessage);
-    setMessages((messages) => {
-      if (!messages.some((msg) => msg.id === message.id)) {
-        return messages.concat(message);
+  const createMessages = useCallback(
+    (newMessages: NewMessageType[]) => {
+      const formattedMessages = newMessages.map((newMessage) => formatNewMessage(newMessage));
+      setMessages((messages) => [...messages, ...formattedMessages]);
+    },
+    [setMessages],
+  );
+
+  const applicationError = useCallback(
+    (error: MessageError) => {
+      const maybeMessages: MessageType[] | undefined = error.json?.messages?.map((m) => ({
+        id: uuid(),
+        message: `${m.field}: ${m.message}`,
+        severity: 'danger',
+        timeToLive: 0,
+      }));
+
+      const newMessages = maybeMessages ?? [];
+
+      if (newMessages.length === 0) {
+        createMessage(formatErrorMessage(error));
       } else {
-        return messages;
+        createMessages(newMessages);
       }
-    });
-  };
+    },
+    [createMessage, createMessages, formatErrorMessage],
+  );
 
-  const createMessages = (newMessages: NewMessageType[]) => {
-    const formattedMessages = newMessages.map((newMessage) => formatNewMessage(newMessage));
-    setMessages((messages) => [...messages, ...formattedMessages]);
-  };
-
-  const applicationError = (error: MessageError) => {
-    const maybeMessages: MessageType[] | undefined = error.json?.messages?.map((m) => ({
-      id: uuid(),
-      message: `${m.field}: ${m.message}`,
-      severity: 'danger',
-      timeToLive: 0,
-    }));
-
-    const newMessages = maybeMessages ?? [];
-
-    if (newMessages.length === 0) {
-      createMessage(formatErrorMessage(error));
-    } else {
-      createMessages(newMessages);
-    }
-  };
-
-  const clearMessage = (id: string) => setMessages((prev) => prev.filter((m) => m.id !== id));
-  const clearMessages = () => setMessages([]);
+  const clearMessage = useCallback(
+    (id: string) => setMessages((prev) => prev.filter((m) => m.id !== id)),
+    [setMessages],
+  );
+  const clearMessages = useCallback(() => setMessages([]), [setMessages]);
 
   return {
     messages,

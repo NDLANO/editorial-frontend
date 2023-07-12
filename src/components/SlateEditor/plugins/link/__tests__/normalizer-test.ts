@@ -16,7 +16,12 @@ import { TYPE_SECTION } from '../../section/types';
 import { TYPE_LINK, TYPE_CONTENT_LINK } from '../types';
 
 const editor = withHistory(
-  withReact(withPlugins(createEditor(), plugins('nb', 'nb', { current: () => {} }))),
+  withReact(
+    withPlugins(
+      createEditor(),
+      plugins('nb', 'nb', () => {}),
+    ),
+  ),
 );
 
 describe('link normalizer tests', () => {

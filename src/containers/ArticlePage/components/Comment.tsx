@@ -10,7 +10,6 @@ import { colors, spacing, fonts, misc } from '@ndla/core';
 import { TrashCanOutline, RightArrow, ExpandMore } from '@ndla/icons/action';
 import { IconButtonV2 } from '@ndla/button';
 import { useTranslation } from 'react-i18next';
-import Tooltip from '@ndla/tooltip';
 import { TextAreaV2 } from '@ndla/forms';
 import { ChangeEvent, useMemo, useState } from 'react';
 import { css } from '@emotion/react';
@@ -138,30 +137,28 @@ const Comment = ({
     <CommentCard>
       <CardContent>
         <TopButtonRow>
-          <Tooltip tooltip={tooltipText}>
-            <IconButtonV2
-              variant="ghost"
-              size="xsmall"
-              aria-label={tooltipText}
-              onClick={() => toggleOpen()}
-              aria-expanded={open}
-              aria-controls={commentId}
-            >
-              {open ? <ExpandMore /> : <RightArrow />}
-            </IconButtonV2>
-          </Tooltip>
+          <IconButtonV2
+            variant="ghost"
+            size="xsmall"
+            aria-label={tooltipText}
+            title={tooltipText}
+            onClick={() => toggleOpen()}
+            aria-expanded={open}
+            aria-controls={commentId}
+          >
+            {open ? <ExpandMore /> : <RightArrow />}
+          </IconButtonV2>
 
-          <Tooltip tooltip={t('form.workflow.deleteComment.title')}>
-            <IconButtonV2
-              variant="ghost"
-              size="xsmall"
-              aria-label={t('form.workflow.deleteComment.title')}
-              onClick={() => setModalOpen(true)}
-              colorTheme="danger"
-            >
-              <TrashCanOutline />
-            </IconButtonV2>
-          </Tooltip>
+          <IconButtonV2
+            variant="ghost"
+            size="xsmall"
+            aria-label={t('form.workflow.deleteComment.title')}
+            title={t('form.workflow.deleteComment.title')}
+            onClick={() => setModalOpen(true)}
+            colorTheme="danger"
+          >
+            <TrashCanOutline />
+          </IconButtonV2>
         </TopButtonRow>
         <StyledClickableTextArea
           value={inputValue}

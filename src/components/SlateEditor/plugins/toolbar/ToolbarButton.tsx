@@ -6,9 +6,9 @@
  *
  */
 
-import { MouseEvent } from 'react';
+import { ElementType, MouseEvent, ReactNode, memo, useCallback, useMemo } from 'react';
 import { colors, fonts } from '@ndla/core';
-import { TFunction, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import {
   Bold,
@@ -36,39 +36,58 @@ const StyledHeadingSpan = styled.span`
   ${fonts.sizes('14px', '14px')};
 `;
 
+interface HeadingSpanProps {
+  title: string;
+  children: ReactNode;
+}
+
+const HeadingSpan = ({ title, children }: HeadingSpanProps) => {
+  return <StyledHeadingSpan title={title}>{children}</StyledHeadingSpan>;
+};
+
+interface HeadingProps {
+  title: string;
+}
+
+const HeadingOne = ({ title }: HeadingProps) => <HeadingSpan title={title}>H1</HeadingSpan>;
+const HeadingTwo = ({ title }: HeadingProps) => <HeadingSpan title={title}>H2</HeadingSpan>;
+const HeadingThree = ({ title }: HeadingProps) => <HeadingSpan title={title}>H3</HeadingSpan>;
+const HeadingFour = ({ title }: HeadingProps) => <HeadingSpan title={title}>H4</HeadingSpan>;
+
 // Fetched from https://github.com/ianstormtaylor/is-hotkey/blob/master/src/index.js
 const IS_MAC =
   typeof window != 'undefined' && /Mac|iPod|iPhone|iPad/.test(window.navigator.platform);
 const options = { ctrl: IS_MAC ? 'cmd' : 'ctrl' };
-const toolbarIcon = (t: TFunction): Record<string, JSX.Element | undefined> => ({
-  bold: <Bold title={t('editorToolbar.bold', options)} />,
-  italic: <Italic title={t('editorToolbar.italic', options)} />,
-  underlined: <Underline title={t('editorToolbar.underlined', options)} />,
-  sub: <Subscript title={t('editorToolbar.sub', options)} />,
-  sup: <Superscript title={t('editorToolbar.sup', options)} />,
-  quote: <Quote title={t('editorToolbar.quote', options)} />,
-  link: <Link title={t('editorToolbar.link', options)} />,
-  'numbered-list': <ListNumbered title={t('editorToolbar.numberedList', options)} />,
-  'bulleted-list': <ListCircle title={t('editorToolbar.bulletedList', options)} />,
-  'letter-list': <ListAlphabetical title={t('editorToolbar.letterList', options)} />,
-  'heading-1': <StyledHeadingSpan>H1</StyledHeadingSpan>,
-  'heading-2': <StyledHeadingSpan>H2</StyledHeadingSpan>,
-  'heading-3': <StyledHeadingSpan>H3</StyledHeadingSpan>,
-  'heading-4': <StyledHeadingSpan>H4</StyledHeadingSpan>,
-  'definition-list': <FormatList title={t('editorToolbar.definitionList', options)} />,
-  mathml: <Math title={t('editorToolbar.mathml', options)} />,
-  concept: <Concept title={t('editorToolbar.concept', options)} />,
-  code: <Code title={t('editorToolbar.code', options)} />,
-  'code-block': <Code title={t('editorToolbar.codeblock', options)} />,
-  span: <Language title={t('editorToolbar.lang', options)} />,
-  left: <AlignLeft title={t('editorToolbar.leftAlign', options)} />,
-  center: <AlignCenter title={t('editorToolbar.centerAlign', options)} />,
-  right: <AlignRight title={t('editorToolbar.rightAlign', options)} />,
-});
 
-const StyledToolbarButton = styled.button<{ isActive: boolean }>`
+const icon: Record<string, ElementType> = {
+  bold: Bold,
+  italic: Italic,
+  underlined: Underline,
+  sub: Subscript,
+  sup: Superscript,
+  quote: Quote,
+  link: Link,
+  'numbered-list': ListNumbered,
+  'bulleted-list': ListCircle,
+  'letter-list': ListAlphabetical,
+  'heading-1': HeadingOne,
+  'heading-2': HeadingTwo,
+  'heading-3': HeadingThree,
+  'heading-4': HeadingFour,
+  'definition-list': FormatList,
+  mathml: Math,
+  concept: Concept,
+  code: Code,
+  'code-block': Code,
+  span: Language,
+  left: AlignLeft,
+  center: AlignCenter,
+  right: AlignRight,
+};
+
+const StyledToolbarButton = styled.button`
   display: inline-block;
-  background: ${(props) => (props.isActive ? colors.brand.lightest : colors.white)};
+  background: ${colors.white};
   cursor: pointer;
   padding: 8px 0.5rem 8px 0.5rem;
   border-width: 0px;
@@ -76,8 +95,12 @@ const StyledToolbarButton = styled.button<{ isActive: boolean }>`
   border-bottom-width: 1px;
   border-left-width: 1px;
   border-style: solid;
-  border-color: ${(props) => (props.isActive ? colors.brand.tertiary : colors.brand.greyLighter)};
-  ${(props) => props.isActive && 'border-width: 1px;'};
+  border-color: ${colors.brand.greyLighter};
+  &[data-active='true'] {
+    background: ${colors.brand.lightest};
+    border-width: 1px;
+    border-color: ${colors.brand.tertiary};
+  }
 
   :first-of-type {
     border-left-width: 1px;
@@ -114,18 +137,25 @@ interface Props {
 }
 
 const ToolbarButton = ({ isActive, type, kind, handleOnClick }: Props) => {
+  const Icon = useMemo(() => icon[type], [type]);
   const { t } = useTranslation();
-  const onMouseDown = (e: MouseEvent) => handleOnClick(e, kind, type);
+
+  const onClick = useCallback(
+    (e: MouseEvent) => handleOnClick(e, kind, type),
+    [handleOnClick, kind, type],
+  );
+
   return (
     <StyledToolbarButton
-      onMouseDown={onMouseDown}
+      onClick={onClick}
       data-testid={`toolbar-button-${type}`}
       data-active={isActive}
-      isActive={isActive}
     >
-      <ToolbarIcon>{toolbarIcon(t)[type]}</ToolbarIcon>
+      <ToolbarIcon>
+        <Icon title={t(`editorToolbar.${type}`, options)} />
+      </ToolbarIcon>
     </StyledToolbarButton>
   );
 };
 
-export default ToolbarButton;
+export default memo(ToolbarButton);

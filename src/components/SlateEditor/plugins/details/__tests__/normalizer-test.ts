@@ -16,7 +16,12 @@ import { TYPE_SECTION } from '../../section/types';
 import { TYPE_DETAILS, TYPE_SUMMARY } from '../types';
 
 const editor = withHistory(
-  withReact(withPlugins(createEditor(), plugins('nb', 'nb', { current: () => {} }))),
+  withReact(
+    withPlugins(
+      createEditor(),
+      plugins('nb', 'nb', () => {}),
+    ),
+  ),
 );
 
 describe('details normalizer tests', () => {

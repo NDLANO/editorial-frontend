@@ -11,7 +11,8 @@ import { FileCompare } from '@ndla/icons/action';
 import { useTranslation } from 'react-i18next';
 import { IConcept } from '@ndla/types-backend/concept-api';
 import { IArticle } from '@ndla/types-backend/draft-api';
-import { useCallback, useMemo } from 'react';
+import { memo, useCallback, useMemo } from 'react';
+import { useFormikContext } from 'formik';
 import StyledFilledButton from '../StyledFilledButton';
 import { StyledSplitter } from './HeaderInformation';
 import HeaderLanguagePicker from './HeaderLanguagePicker';
@@ -39,46 +40,47 @@ interface PreviewLightBoxProps {
   currentLanguage: string;
 }
 
-const PreviewLightBox = ({ type, currentLanguage, article, concept }: PreviewLightBoxProps) => {
-  const { t } = useTranslation();
-  if (type === 'concept' && concept) {
-    return (
-      <PreviewDraftLightboxV2
-        type="conceptCompare"
-        concept={concept}
-        language={currentLanguage}
-        activateButton={
-          <StyledFilledButton type="button">
-            <FileCompare /> {t('form.previewLanguageArticle.button')}
-          </StyledFilledButton>
-        }
-      />
-    );
-  } else if (
-    (type === 'standard' || type === 'topic-article' || type === 'frontpage-article') &&
-    article
-  ) {
-    return (
-      <PreviewDraftLightboxV2
-        type="compare"
-        article={article}
-        language={currentLanguage}
-        activateButton={
-          <StyledFilledButton type="button">
-            <FileCompare /> {t('form.previewLanguageArticle.button')}
-          </StyledFilledButton>
-        }
-      />
-    );
-  } else return null;
-};
+const PreviewLightBox = memo(
+  ({ type, currentLanguage, article, concept }: PreviewLightBoxProps) => {
+    const { t } = useTranslation();
+    if (type === 'concept' && concept) {
+      return (
+        <PreviewDraftLightboxV2
+          type="conceptCompare"
+          concept={concept}
+          language={currentLanguage}
+          activateButton={
+            <StyledFilledButton type="button">
+              <FileCompare /> {t('form.previewLanguageArticle.button')}
+            </StyledFilledButton>
+          }
+        />
+      );
+    } else if (
+      (type === 'standard' || type === 'topic-article' || type === 'frontpage-article') &&
+      article
+    ) {
+      return (
+        <PreviewDraftLightboxV2
+          type="compare"
+          article={article}
+          language={currentLanguage}
+          activateButton={
+            <StyledFilledButton type="button">
+              <FileCompare /> {t('form.previewLanguageArticle.button')}
+            </StyledFilledButton>
+          }
+        />
+      );
+    } else return null;
+  },
+);
 
 interface Props {
   id: number;
   isNewLanguage: boolean;
   article?: IArticle;
   concept?: IConcept;
-  isSubmitting?: boolean;
   noStatus: boolean;
   disableDelete: boolean;
   language: string;
@@ -110,7 +112,6 @@ const translatableTypes = [
 
 const HeaderActions = ({
   isNewLanguage,
-  isSubmitting,
   noStatus,
   type,
   id,
@@ -121,6 +122,7 @@ const HeaderActions = ({
   supportedLanguages = [],
 }: Props) => {
   const { t } = useTranslation();
+  const { isSubmitting } = useFormikContext();
   const showTranslate = useIsTranslatableToNN();
 
   const editUrl = useCallback(
@@ -203,4 +205,4 @@ const HeaderActions = ({
   );
 };
 
-export default HeaderActions;
+export default memo(HeaderActions);

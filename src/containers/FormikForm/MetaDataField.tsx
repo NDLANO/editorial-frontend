@@ -8,6 +8,7 @@
 
 import { useTranslation } from 'react-i18next';
 import { IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
+import { memo } from 'react';
 import FormikField from '../../components/FormikField';
 import PlainTextEditor from '../../components/SlateEditor/PlainTextEditor';
 import { textTransformPlugin } from '../../components/SlateEditor/plugins/textTransform';
@@ -86,4 +87,4 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
   );
 };
 
-export default MetaDataField;
+export default memo(MetaDataField);

@@ -6,7 +6,7 @@
  *
  */
 
-import { MouseEvent, useState, useEffect, useMemo, useRef } from 'react';
+import { MouseEvent, useState, useEffect, useMemo, useRef, memo } from 'react';
 import styled from '@emotion/styled';
 import { Spinner } from '@ndla/icons';
 import { spacing } from '@ndla/core';
@@ -501,4 +501,4 @@ const LearningResourceTaxonomy = ({ article, taxonomy, updateNotes, setIsOpen }:
   );
 };
 
-export default LearningResourceTaxonomy;
+export default memo(LearningResourceTaxonomy);

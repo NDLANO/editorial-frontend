@@ -44,7 +44,7 @@ const StyledCopyIcon = styled(Copy)`
 const Wrapper = styled.div`
   display: flex;
   align-items: center;
-  margin: calc(${spacing.small} / 2);
+  margin: ${spacing.xsmall};
 `;
 
 const LinkWrapper = styled.div`

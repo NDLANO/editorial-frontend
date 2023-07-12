@@ -43,7 +43,7 @@ const StyledSuccessIcon = styled(Done)`
 const Wrapper = styled.div`
   display: flex;
   align-items: center;
-  margin: calc(${spacing.small} / 2);
+  margin: ${spacing.xsmall};
 `;
 
 const MenuContent = styled.div`

@@ -1,0 +1,86 @@
+[
+  {
+    "id": "urn:resource:1:153040",
+    "name": "Vanninjeksjon i reservoarformasjonen",
+    "contentUri": "urn:article:532",
+    "path": "/subject:1:6951e039-c23e-483f-94bf-2194a1fb197d/topic:f731d600-98c4-4f56-a062-cf948cef34e4/resource:1:153040",
+    "paths": [
+      "/subject:1:01c27030-e8f8-4a7c-a5b3-489fdb8fea30/topic:2:182061/topic:2:155237/resource:1:153040",
+      "/subject:1:6951e039-c23e-483f-94bf-2194a1fb197d/topic:f731d600-98c4-4f56-a062-cf948cef34e4/resource:1:153040"
+    ],
+    "metadata": {
+      "grepCodes": [],
+      "visible": true,
+      "customFields": {}
+    },
+    "relevanceId": "urn:relevance:core",
+    "translations": [
+      {
+        "name": "Vanninjeksjon i reservoarformasjonen",
+        "language": "nb"
+      }
+    ],
+    "supportedLanguages": ["nb"],
+    "breadcrumbs": [
+      "Komplettering og brønnservice (TP-BRT vg2) - BETA",
+      "Reservoartrykk",
+      "Vanninjeksjon i reservoarformasjonen"
+    ],
+    "resourceTypes": [
+      {
+        "id": "urn:resourcetype:academicArticle",
+        "parentId": "urn:resourcetype:subjectMaterial",
+        "name": "Fagartikkel",
+        "translations": [
+          {
+            "name": "Article",
+            "language": "en"
+          },
+          {
+            "name": "Fagartikkel",
+            "language": "nb"
+          },
+          {
+            "name": "Fagartikkel",
+            "language": "nn"
+          },
+          {
+            "name": "Fágaartihkal",
+            "language": "se"
+          }
+        ],
+        "supportedLanguages": ["en", "nb", "nn", "se"],
+        "connectionId": "urn:resource-resourcetype:7241ab94-81d1-4c4b-95dc-1136144f86a0"
+      },
+      {
+        "id": "urn:resourcetype:subjectMaterial",
+        "parentId": null,
+        "name": "Fagstoff",
+        "translations": [
+          {
+            "name": "Subject Material",
+            "language": "en"
+          },
+          {
+            "name": "Fagstoff",
+            "language": "nb"
+          },
+          {
+            "name": "Fagstoff",
+            "language": "nn"
+          },
+          {
+            "name": "Fágaávnnas",
+            "language": "se"
+          }
+        ],
+        "supportedLanguages": ["en", "nb", "nn", "se"],
+        "connectionId": "urn:resource-resourcetype:675c3a87-a526-4bac-b22e-cd2a242e7cbe"
+      }
+    ],
+    "nodeType": "RESOURCE",
+    "contextId": "7082c041b6ec",
+    "url": "/vanninjeksjon-i-reservoarformasjonen__7082c041b6ec",
+    "contexts": []
+  }
+]

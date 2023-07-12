@@ -6,11 +6,10 @@
  *
  */
 
-import { MouseEvent, useState, useEffect, useMemo, useRef } from 'react';
+import { MouseEvent, useState, useEffect, useRef, useMemo } from 'react';
 import styled from '@emotion/styled';
 import { Spinner } from '@ndla/icons';
 import { spacing } from '@ndla/core';
-import { ErrorMessage } from '@ndla/ui';
 import { IUpdatedArticle, IArticle } from '@ndla/types-backend/draft-api';
 import { useQueryClient } from '@tanstack/react-query';
 import { SingleValue } from '@ndla/select';
@@ -20,7 +19,6 @@ import { ResourceType, Metadata } from '@ndla/types-taxonomy';
 import {
   fetchResourceTypes,
   fetchSubjects,
-  fetchSubjectTopics,
   fetchTopicConnections,
   fetchTopicResources,
   updateTaxonomy,
@@ -28,7 +26,7 @@ import {
   createResource,
   getResourceId,
 } from '../../../../modules/taxonomy';
-import { sortByName, groupTopics, getBreadcrumbFromPath } from '../../../../util/taxonomyHelpers';
+import { sortByName, getBreadcrumbFromPath } from '../../../../util/taxonomyHelpers';
 import handleError from '../../../../util/handleError';
 import TopicConnections from '../../../../components/Taxonomy/TopicConnections';
 import SaveButton from '../../../../components/SaveButton';
@@ -53,6 +51,7 @@ import { ArticleTaxonomy } from '../../../FormikForm/formikDraftHooks';
 import VersionSelect from '../../components/VersionSelect';
 import { useVersions } from '../../../../modules/taxonomy/versions/versionQueries';
 import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
+import FormAccordion from '../../../../components/Accordion/FormAccordion';
 
 const blacklistedResourceTypes = [RESOURCE_TYPE_LEARNING_PATH];
 
@@ -69,7 +68,7 @@ interface FullResource {
   metadata?: Metadata;
 }
 
-interface LearningResourceSubjectType extends SubjectType {
+export interface LearningResourceSubjectType extends SubjectType {
   topics?: SubjectTopic[];
 }
 
@@ -81,7 +80,7 @@ interface ResourceTaxonomy {
   metadata?: Metadata;
 }
 
-interface TaxonomyChanges {
+export interface TaxonomyChanges {
   resourceTypes: ResourceResourceType[];
   topics: ParentTopicWithRelevanceAndConnections[];
   metadata?: Metadata;
@@ -92,6 +91,8 @@ interface Props {
   taxonomy: ArticleTaxonomy;
   updateNotes: (art: IUpdatedArticle) => Promise<IArticle>;
   setIsOpen?: (open: boolean) => void;
+  existInTaxonomy: boolean;
+  setExistInTaxonomy: (value: boolean) => void;
 }
 
 type Status = 'success' | 'loading' | 'initial';
@@ -102,10 +103,20 @@ const ButtonContainer = styled.div`
   gap: ${spacing.xsmall};
 `;
 
-const LearningResourceTaxonomy = ({ article, taxonomy, updateNotes, setIsOpen }: Props) => {
+const LearningResourceTaxonomyFormAccordion = ({
+  article,
+  taxonomy,
+  updateNotes,
+  setIsOpen,
+  existInTaxonomy,
+  setExistInTaxonomy,
+}: Props) => {
   const [resourceId, setResourceId] = useState<string>('');
   const [structure, setStructure] = useState<LearningResourceSubjectType[]>([]);
-  const [status, setStatus] = useState<Status>('loading');
+  const [status, setStatus] = useState<Status>('initial');
+  const [selectLoading, setSelectLoading] = useState(false);
+  const [selectError, setSelectError] = useState(false);
+  const [taxBlockLoading, setTaxBlockLoading] = useState(true);
   const [error, setError] = useState<string | undefined>(undefined);
   const [isDirty, setIsDirty] = useState<boolean>(false);
   const [showWarning, setShowWarning] = useState<boolean>(false);
@@ -114,6 +125,7 @@ const LearningResourceTaxonomy = ({ article, taxonomy, updateNotes, setIsOpen }:
   });
   const [taxonomyChanges, setTaxonomyChanges] = useState<TaxonomyChanges>({ ...emptyTaxonomy });
   const [availableResourceTypes, setAvailableResourceTypes] = useState<ResourceType[]>([]);
+  const [taxonomyMounted, setTaxonomyMounted] = useState(false);
 
   const { t, i18n } = useTranslation();
   const { userPermissions } = useSession();
@@ -122,81 +134,12 @@ const LearningResourceTaxonomy = ({ article, taxonomy, updateNotes, setIsOpen }:
   const qc = useQueryClient();
   const prevTaxVersion = useRef(taxonomyVersion);
 
-  const onChangeSelectedResource = (value: SingleValue) => {
-    const options = value?.value?.split(',') ?? [];
-    const selectedResource = availableResourceTypes.find(
-      (resourceType) => resourceType.id === options[0],
-    );
-
-    if (selectedResource) {
-      const resourceTypes: ResourceResourceType[] = [
-        {
-          name: selectedResource.name,
-          id: selectedResource.id,
-          parentId: '',
-          connectionId: '',
-        },
-      ];
-
-      if (options.length > 1) {
-        const subType = selectedResource.subtypes?.find((subtype) => subtype.id === options[1]);
-        if (subType)
-          resourceTypes.push({
-            id: subType.id,
-            name: subType.name,
-            parentId: selectedResource.id,
-            connectionId: '',
-          });
-      }
-      stageTaxonomyChanges({ resourceTypes });
-    }
-  };
-
-  const getSubjectTopics = async (subjectid: string) => {
-    if (structure.some((subject) => subject.id === subjectid && subject.topics)) {
-      return;
-    }
-    try {
-      const allTopics = await fetchSubjectTopics({
-        subject: subjectid,
-        language: i18n.language,
-        taxonomyVersion,
-      });
-      const groupedTopics = groupTopics(allTopics);
-      updateSubject(subjectid, { topics: groupedTopics });
-    } catch (err) {
-      handleError(err);
-    }
-  };
-
-  const setPrimaryConnection = (id: string) => {
-    const { topics } = taxonomyChanges;
-
-    stageTaxonomyChanges({
-      topics: topics?.map((topic) => ({
-        ...topic,
-        isPrimary: topic.id === id,
-      })),
-    });
-  };
-
-  const setRelevance = (topicId: string, relevanceId: string) => {
-    const { topics } = taxonomyChanges;
-
-    stageTaxonomyChanges({
-      topics: topics?.map((topic) => ({
-        ...topic,
-        ...(topic.id === topicId && {
-          relevanceId,
-        }),
-      })),
-    });
-  };
-
   const fetchTaxonomy = async () => {
     const { id } = article;
     if (!id) return;
     try {
+      setStatus('loading');
+      setSelectLoading(true);
       const resourceId = taxonomy.resources.length === 1 && taxonomy.resources[0].id;
 
       if (taxonomy.resources.length > 1) {
@@ -205,22 +148,19 @@ const LearningResourceTaxonomy = ({ article, taxonomy, updateNotes, setIsOpen }:
         const fullResource = await fetchFullResource(resourceId, i18n.language);
 
         setResourceId(resourceId);
-        setStatus('initial');
         setResourceTaxonomy(fullResource);
         setTaxonomyChanges(fullResource);
-      } else {
-        // resource does not exist in taxonomy
         setStatus('initial');
-        setResourceTaxonomy({
-          ...emptyTaxonomy,
-        });
-        setTaxonomyChanges({
-          ...emptyTaxonomy,
-        });
+        setSelectLoading(false);
       }
+      setStatus('initial');
+      setTaxBlockLoading(false);
     } catch (e) {
       handleError(e);
-      setError('errorMessage.versionSelect');
+      setStatus('initial');
+      setSelectLoading(false);
+      setSelectError(true);
+      setTaxBlockLoading(false);
     }
   };
 
@@ -253,8 +193,8 @@ const LearningResourceTaxonomy = ({ article, taxonomy, updateNotes, setIsOpen }:
     const { id, title, revision } = article;
 
     if (!title?.language || !id) return;
-    setStatus('loading');
     try {
+      setStatus('loading');
       if (!reassignedResourceId) {
         await createResource({
           body: { contentUri: `urn:article:${id}`, name: title.title },
@@ -279,12 +219,15 @@ const LearningResourceTaxonomy = ({ article, taxonomy, updateNotes, setIsOpen }:
           language: title.language,
           notes: ['Oppdatert taksonomi.'],
         });
-        setStatus('success');
         setIsDirty(false);
         silentlyRefetchResourceTaxonomy();
+        setExistInTaxonomy(!!taxonomyChanges.topics.length);
+        setStatus('success');
+        setError(undefined);
       }
     } catch (err) {
       handleError(err);
+      setStatus('initial');
       setError('errorMessage.taxonomy');
     }
   };
@@ -336,27 +279,6 @@ const LearningResourceTaxonomy = ({ article, taxonomy, updateNotes, setIsOpen }:
     };
   };
 
-  const updateSubject = (subjectId: string, newSubject: Partial<LearningResourceSubjectType>) => {
-    setStructure(
-      structure.map((subject) =>
-        subject.id === subjectId ? { ...subject, ...newSubject } : subject,
-      ),
-    );
-  };
-
-  const removeConnection = (id: string) => {
-    const { topics } = taxonomyChanges;
-    const updatedTopics = topics?.filter((topic) => topic.id !== id);
-
-    // Auto set primary of only one connection.
-    if (updatedTopics?.length === 1) {
-      updatedTopics[0].isPrimary = true;
-    }
-    stageTaxonomyChanges({
-      topics: updatedTopics,
-    });
-  };
-
   const updateMetadata = (visible: boolean) => {
     const metadata = resourceTaxonomy.metadata;
     stageTaxonomyChanges({
@@ -384,7 +306,7 @@ const LearningResourceTaxonomy = ({ article, taxonomy, updateNotes, setIsOpen }:
     if (!newVersion || newVersion.value === taxonomyVersion) return;
     const oldVersion = taxonomyVersion;
     try {
-      setStatus('loading');
+      setSelectError(false);
       setIsDirty(false);
       changeVersion(newVersion.value);
       qc.removeQueries({
@@ -395,24 +317,41 @@ const LearningResourceTaxonomy = ({ article, taxonomy, updateNotes, setIsOpen }:
       });
     } catch (e) {
       handleError(e);
-      setError('errorMessage.taxonomy');
+      setSelectLoading(false);
+      setStatus('initial');
+      setSelectError(true);
     }
   };
 
-  useEffect(() => {
-    fetchTaxonomy();
-    fetchTaxonomyChoices();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const onChangeSelectedResource = (value: SingleValue) => {
+    const options = value?.value?.split(',') ?? [];
+    const selectedResource = availableResourceTypes.find(
+      (resourceType) => resourceType.id === options[0],
+    );
 
-  useEffect(() => {
-    if (prevTaxVersion.current || prevTaxVersion.current === '') {
-      if (prevTaxVersion.current !== taxonomyVersion) fetchTaxonomy();
+    if (selectedResource) {
+      const resourceTypes: ResourceResourceType[] = [
+        {
+          name: selectedResource.name,
+          id: selectedResource.id,
+          parentId: '',
+          connectionId: '',
+        },
+      ];
+
+      if (options.length > 1) {
+        const subType = selectedResource.subtypes?.find((subtype) => subtype.id === options[1]);
+        if (subType)
+          resourceTypes.push({
+            id: subType.id,
+            name: subType.name,
+            parentId: selectedResource.id,
+            connectionId: '',
+          });
+      }
+      stageTaxonomyChanges({ resourceTypes });
     }
-    prevTaxVersion.current = taxonomyVersion;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [taxonomyVersion]);
-
+  };
   const filteredResourceTypes = useMemo(
     () =>
       availableResourceTypes
@@ -425,25 +364,24 @@ const LearningResourceTaxonomy = ({ article, taxonomy, updateNotes, setIsOpen }:
     [availableResourceTypes],
   );
 
+  useEffect(() => {
+    if (taxonomyMounted) {
+      fetchTaxonomy();
+      fetchTaxonomyChoices();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [taxonomyMounted]);
+
+  useEffect(() => {
+    if (taxonomyMounted && (prevTaxVersion.current || prevTaxVersion.current === '')) {
+      if (prevTaxVersion.current !== taxonomyVersion) fetchTaxonomy();
+    }
+    prevTaxVersion.current = taxonomyVersion;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [taxonomyVersion, taxonomyMounted]);
+
   if (error) {
     changeVersion('');
-    return (
-      <ErrorMessage
-        illustration={{
-          url: '/Oops.gif',
-          altText: t('errorMessage.title'),
-        }}
-        messages={{
-          title: t('errorMessage.title'),
-          description: t(error),
-          back: t('errorMessage.back'),
-          goToFrontPage: t('errorMessage.goToFrontPage'),
-        }}
-      />
-    );
-  }
-  if (status === 'loading') {
-    return <Spinner />;
   }
 
   const mainResource = taxonomy.resources?.[0];
@@ -456,7 +394,13 @@ const LearningResourceTaxonomy = ({ article, taxonomy, updateNotes, setIsOpen }:
   const isTaxonomyAdmin = userPermissions?.includes(TAXONOMY_ADMIN_SCOPE);
 
   return (
-    <>
+    <FormAccordion
+      id={'learning-resource-taxonomy'}
+      title={t('form.taxonomySection')}
+      className={'u-6/6'}
+      hasError={!existInTaxonomy}
+    >
+      {taxBlockLoading && <Spinner />}
       {isTaxonomyAdmin && (
         <TaxonomyConnectionErrors
           articleType={article.articleType ?? 'standard'}
@@ -465,7 +409,12 @@ const LearningResourceTaxonomy = ({ article, taxonomy, updateNotes, setIsOpen }:
       )}
       {isTaxonomyAdmin && resourceId && (
         <>
-          <VersionSelect versions={versions ?? []} onVersionChanged={onVersionChanged} />
+          <VersionSelect
+            versions={versions ?? []}
+            onVersionChanged={onVersionChanged}
+            isLoading={selectLoading}
+            error={selectError}
+          />
           <TaxonomyInfo taxonomyElement={mainEntity} updateMetadata={updateMetadata} />
         </>
       )}
@@ -477,13 +426,14 @@ const LearningResourceTaxonomy = ({ article, taxonomy, updateNotes, setIsOpen }:
       <TopicConnections
         structure={structure}
         activeTopics={taxonomyChanges.topics}
-        removeConnection={removeConnection}
-        setPrimaryConnection={setPrimaryConnection}
-        setRelevance={setRelevance}
         stageTaxonomyChanges={stageTaxonomyChanges}
-        getSubjectTopics={getSubjectTopics}
         allowMultipleSubjectsOpen={false}
+        setTaxonomyMounted={setTaxonomyMounted}
+        setStructure={setStructure}
+        taxonomyChanges={taxonomyChanges}
       />
+      {error && <FormikFieldHelp error>{t(error)}</FormikFieldHelp>}
+      {!existInTaxonomy && <FormikFieldHelp error>{t('errorMessage.taxRequired')}</FormikFieldHelp>}
       {showWarning && <FormikFieldHelp error>{t('errorMessage.unsavedTaxonomy')}</FormikFieldHelp>}
       <ButtonContainer>
         <ButtonV2 variant="outline" onClick={onCancel}>
@@ -495,10 +445,11 @@ const LearningResourceTaxonomy = ({ article, taxonomy, updateNotes, setIsOpen }:
           onClick={handleSubmit}
           defaultText="saveTax"
           formIsDirty={isDirty}
+          loading={status === 'loading'}
         />
       </ButtonContainer>
-    </>
+    </FormAccordion>
   );
 };
 
-export default LearningResourceTaxonomy;
+export default LearningResourceTaxonomyFormAccordion;

@@ -12,7 +12,7 @@ import {
   StyledDuplicateConnectionLabel,
 } from '../../style/LearningResourceTaxonomyStyles';
 import Breadcrumb from './Breadcrumb';
-import { StagedTopic } from '../../containers/ArticlePage/TopicArticlePage/components/TopicArticleTaxonomy';
+import { StagedTopic } from '../../containers/ArticlePage/TopicArticlePage/components/TopicArticleTaxonomyFormAccordion';
 
 interface Props {
   topic: StagedTopic;

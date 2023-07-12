@@ -13,6 +13,7 @@ import { useMemo } from 'react';
 import { Version } from '@ndla/types-taxonomy';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 import { generateOptionGroups } from '../../../components/Taxonomy/OptGroupVersionSelector';
+import { FormikFieldHelp } from '../../../components/FormikField';
 
 const Wrapper = styled.div`
   margin-top: ${spacing.normal};
@@ -22,6 +23,8 @@ const Wrapper = styled.div`
 interface Props {
   onVersionChanged: (value: SingleValue) => void;
   versions?: Version[];
+  isLoading: boolean;
+  error: boolean;
 }
 
 const getCurrentTaxVersion = (versions: Version[], oldTaxVersion: string): SingleValue => {
@@ -29,7 +32,7 @@ const getCurrentTaxVersion = (versions: Version[], oldTaxVersion: string): Singl
   return currentVersion ? { value: currentVersion.hash, label: currentVersion.name } : null;
 };
 
-const VersionSelect = ({ versions = [], onVersionChanged }: Props) => {
+const VersionSelect = ({ versions = [], onVersionChanged, isLoading, error }: Props) => {
   const { taxonomyVersion } = useTaxonomyVersion();
   const { t } = useTranslation();
 
@@ -69,7 +72,9 @@ const VersionSelect = ({ versions = [], onVersionChanged }: Props) => {
         value={currentVersion}
         onChange={onVersionChanged}
         prefix={`${t('taxonomy.version')}: `}
+        isLoading={isLoading}
       />
+      {error && <FormikFieldHelp error>{t('errorMessage.versionSelect')}</FormikFieldHelp>}
     </Wrapper>
   );
 };

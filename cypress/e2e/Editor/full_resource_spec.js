@@ -25,7 +25,7 @@ describe('Edit article with everything', () => {
     cy.apiroute('GET', `/draft-api/v1/drafts/${ARTICLE_ID}?language=en&fallback=true`, 'draftEN');
     cy.get('header button').contains('Legg til språk').click().wait(200);
     cy.get('header a').contains('Engelsk').click();
-    cy.apiwait(['@draftEN', '@statusMachine', '@taxonomyTopics', '@taxonomyResources']);
+    cy.apiwait(['@draftEN', '@statusMachine', '@taxonomyTopics']);
     cy.get('article span').contains('Water english').should('exist');
   });
 

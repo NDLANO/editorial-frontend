@@ -7,8 +7,8 @@
 import { HTMLProps, MutableRefObject, ReactNode, useEffect } from 'react';
 import { colors } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
+import { Subject } from '@ndla/icons/contentType';
 import { DragVertical, Star, SubjectMatter, Taxonomy } from '@ndla/icons/editor';
-import { Subject } from '@ndla/icons/lib/contentType';
 import { NodeChild, Node } from '@ndla/types-taxonomy';
 import { DragEndEvent } from '@dnd-kit/core';
 import { useTranslation } from 'react-i18next';

@@ -1142,7 +1142,7 @@ const phrases = {
       alt: {
         label: 'Alt-text',
         placeholder: 'Alt-text',
-        noText: 'WCAG requires alt-text.',
+        noText: 'WCAG requires alt-text for images that are not decorative.',
       },
       caption: {
         label: 'Image caption',
@@ -1157,6 +1157,7 @@ const phrases = {
         show: 'Show byline',
         hide: 'Hide byline',
       },
+      isDecorative: 'This image is decorative in this context',
     },
     video: {
       caption: {

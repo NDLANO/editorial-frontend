@@ -1147,7 +1147,7 @@ const phrases = {
       alt: {
         label: 'Alt-tekst',
         placeholder: 'Alt-tekst',
-        noText: 'Universal utforming krever alt-tekst.',
+        noText: 'Universell utforming krever alt-tekst for bilde som ikkje er dekorative.',
       },
       dragdrop: {
         main: 'Dra og slipp',
@@ -1158,6 +1158,7 @@ const phrases = {
         show: 'Vis byline',
         hide: 'Skjul byline',
       },
+      isDecorative: 'Bildet er kun dekorativt i denne samanhengen',
     },
     video: {
       caption: {

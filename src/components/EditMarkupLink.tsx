@@ -46,7 +46,7 @@ const StyledLink = styled(Link, { shouldForwardProp })<StyledLinkProps>`
     }
   }
   &[data-in-header='true'] {
-    width: 25px;
+    width: ${spacing.normal};
     padding-left: 0.4em;
     padding-right: 1.2em;
     svg {

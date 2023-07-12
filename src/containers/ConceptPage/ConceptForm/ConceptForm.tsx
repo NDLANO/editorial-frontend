@@ -17,7 +17,6 @@ import {
 import { IArticle } from '@ndla/types-backend/draft-api';
 import { Formik, FormikProps, FormikHelpers } from 'formik';
 import { useTranslation } from 'react-i18next';
-import { toEditConcept } from '../../../util/routeHelpers';
 import { ARCHIVED, PUBLISHED, UNPUBLISHED } from '../../../constants';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
 import validateFormik, { getWarnings, RulesType } from '../../../components/formikValidationSchema';
@@ -61,6 +60,7 @@ interface Props {
   subjects: SubjectType[];
   initialTitle?: string;
   onUpserted?: (concept: IConceptSummary | IConcept) => void;
+  supportedLanguages: string[];
 }
 
 const conceptFormRules: RulesType<ConceptFormValues, IConcept> = {
@@ -129,6 +129,7 @@ const ConceptForm = ({
   conceptArticles,
   initialTitle,
   onUpserted,
+  supportedLanguages,
 }: Props) => {
   const [savedToServer, setSavedToServer] = useState(false);
   const { t } = useTranslation();
@@ -206,15 +207,16 @@ const ConceptForm = ({
         const getEntity = requirements
           ? () => conceptFormTypeToApiType(values, licenses, concept?.updatedBy)
           : undefined;
-        const editUrl = values.id ? (lang: string) => toEditConcept(values.id!, lang) : undefined;
         return (
           <FormWrapper inModal={inModal}>
             <HeaderWithLanguage
+              id={concept?.id}
+              language={language}
               concept={concept}
-              content={{ ...concept, title: concept?.title?.title, language }}
-              editUrl={editUrl}
+              status={concept?.status}
+              title={concept?.title.title ?? initialTitle}
               type="concept"
-              values={values}
+              supportedLanguages={supportedLanguages}
             />
             <FormAccordions defaultOpen={['content']}>
               <FormAccordion

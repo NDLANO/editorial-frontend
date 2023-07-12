@@ -13,7 +13,6 @@ import { IArticle, IUpdatedArticle, IStatus } from '@ndla/types-backend/draft-ap
 import { AlertModalWrapper } from '../../../FormikForm';
 import validateFormik, { getWarnings } from '../../../../components/formikValidationSchema';
 import { frontPageArticleRules, isFormikFormDirty } from '../../../../util/formHelper';
-import { toEditArticle } from '../../../../util/routeHelpers';
 import HeaderWithLanguage from '../../../../components/HeaderWithLanguage';
 import EditorFooter from '../../../../components/SlateEditor/EditorFooter';
 import {
@@ -41,6 +40,7 @@ interface Props {
   articleStatus?: IStatus;
   isNewlyCreated: boolean;
   articleChanged: boolean;
+  supportedLanguages: string[];
   updateArticle: (updatedArticle: IUpdatedArticle) => Promise<IArticle>;
   articleLanguage: string;
 }
@@ -52,6 +52,7 @@ const FrontpageArticleForm = ({
   updateArticle,
   articleChanged,
   articleLanguage,
+  supportedLanguages,
 }: Props) => {
   const { t } = useTranslation();
   const { isFrontpageArticle } = useFrontpageArticle();
@@ -86,15 +87,14 @@ const FrontpageArticleForm = ({
     usePreventWindowUnload(formIsDirty);
     const getArticle = () =>
       frontpageArticleFormTypeToDraftApiType(values, initialValues, licenses!, false);
-    const editUrl = values.id
-      ? (lang: string) => toEditArticle(values.id!, values.articleType, lang)
-      : undefined;
     return (
       <StyledForm>
         <HeaderWithLanguage
-          values={values}
-          content={{ ...article, title: article?.title?.title, language: articleLanguage }}
-          editUrl={editUrl}
+          id={article?.id}
+          title={article?.title?.title}
+          language={articleLanguage}
+          supportedLanguages={supportedLanguages}
+          status={article?.status}
           isSubmitting={isSubmitting}
           type="frontpage-article"
           expirationDate={getExpirationDate(article)}

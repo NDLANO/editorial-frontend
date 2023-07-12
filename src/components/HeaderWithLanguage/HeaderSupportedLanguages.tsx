@@ -7,7 +7,6 @@
 import { useTranslation } from 'react-i18next';
 import SafeLink from '@ndla/safelink';
 import { Check } from '@ndla/icons/editor';
-import Tooltip from '@ndla/tooltip';
 import HeaderLanguagePill from './HeaderLanguagePill';
 
 interface LinkWithReplaceProps {
@@ -21,7 +20,7 @@ const LinkWithReplace = ({ to, ...rest }: LinkWithReplaceProps) => {
 interface Props {
   id: number;
   language: string;
-  editUrl: (url: string) => string;
+  editUrl: (id: number, url: string) => string;
   supportedLanguages?: string[];
   isSubmitting?: boolean;
   replace?: boolean;
@@ -29,6 +28,7 @@ interface Props {
 
 const HeaderSupportedLanguages = ({
   supportedLanguages = [],
+  id,
   editUrl,
   isSubmitting,
   language,
@@ -44,22 +44,19 @@ const HeaderSupportedLanguages = ({
             {t(`language.${supportedLanguage}`)}
           </HeaderLanguagePill>
         ) : (
-          <Tooltip
-            key={`types_${supportedLanguage}`}
-            tooltip={t('language.change', {
-              language: t(`language.${supportedLanguage}`).toLowerCase(),
+          <HeaderLanguagePill
+            aria-label={t('language.change', {
+              language: t(`language.${supportedLanguage}`),
             })}
+            title={t('language.change', {
+              language: t(`language.${supportedLanguage}`),
+            })}
+            to={editUrl(id, supportedLanguage)}
+            component={replace ? LinkWithReplace : SafeLink}
+            isSubmitting={isSubmitting}
           >
-            <div>
-              <HeaderLanguagePill
-                to={editUrl(supportedLanguage)}
-                component={replace ? LinkWithReplace : SafeLink}
-                isSubmitting={isSubmitting}
-              >
-                {t(`language.${supportedLanguage}`)}
-              </HeaderLanguagePill>
-            </div>
-          </Tooltip>
+            {t(`language.${supportedLanguage}`)}
+          </HeaderLanguagePill>
         ),
       )}
     </>

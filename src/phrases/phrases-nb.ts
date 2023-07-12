@@ -1151,7 +1151,7 @@ const phrases = {
       alt: {
         label: 'Alt-tekst',
         placeholder: 'Alt-tekst',
-        noText: 'Universal utforming krever alt-tekst.',
+        noText: 'Universell utforming krever alt-tekst for bilder som ikke er dekorative.',
       },
       dragdrop: {
         main: 'Dra og slipp',
@@ -1162,6 +1162,7 @@ const phrases = {
         show: 'Vis byline',
         hide: 'Skjul byline',
       },
+      isDecorative: 'Bildet er kun dekorativt i denne sammenhengen',
     },
     video: {
       caption: {
@@ -1419,7 +1420,7 @@ const phrases = {
     contentType: 'Innholdstype',
     contentTypePlaceholder: 'Velg innholdstype',
     create: 'Opprett',
-    get: 'Hent',
+    add: 'Legg til',
     getExisting: 'Eller hent eksisterende ressurs',
     inProgress: 'Denne artikkelen er påbegynt',
     addPriority: 'Sett artikkel som prioritert',
@@ -1453,7 +1454,7 @@ const phrases = {
     searchResource: 'Søk etter ressurs',
     searchArticle: 'Søk etter emneartikkel',
     or: 'Eller',
-    urlPlaceholder: 'Lim inn lenke fra ndla.no',
+    urlPlaceholder: 'Lim inn lenke fra ndla.no eller en artikkel-id',
     wrongType: 'Obs! Denne ressursen er en annen type',
     noResources: 'Ingen ressurser funnet',
     addTopicDescription: 'Endre emnebeskrivelse',

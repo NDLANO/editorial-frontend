@@ -16,7 +16,7 @@ import HeaderLanguagePicker from './HeaderLanguagePicker';
 
 interface Props {
   articleType: string;
-  editUrl: (lang: string) => string;
+  editUrl: (id: number, lang: string) => string;
   id: number;
   isSubmitting: boolean;
   language: string;
@@ -77,7 +77,7 @@ const SimpleLanguageHeader = ({
               </HeaderLanguagePill>
             )}
             <StyledSplitter />
-            <HeaderLanguagePicker emptyLanguages={emptyLanguages} editUrl={editUrl} />
+            <HeaderLanguagePicker id={id} emptyLanguages={emptyLanguages} editUrl={editUrl} />
           </>
         ) : (
           <>

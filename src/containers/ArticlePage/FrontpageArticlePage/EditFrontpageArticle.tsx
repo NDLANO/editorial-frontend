@@ -96,6 +96,7 @@ const EditFrontpageArticle = ({ isNewlyCreated }: Props) => {
         articleChanged={articleChanged || newLanguage}
         isNewlyCreated={!!isNewlyCreated}
         updateArticle={updateArticle}
+        supportedLanguages={article.supportedLanguages}
       />
     </>
   );

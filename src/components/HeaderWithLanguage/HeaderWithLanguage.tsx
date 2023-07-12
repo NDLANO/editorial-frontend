@@ -6,16 +6,18 @@
  *
  */
 
-import { useState } from 'react';
+import { memo, useState } from 'react';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { IConcept } from '@ndla/types-backend/concept-api';
-import { IArticle } from '@ndla/types-backend/draft-api';
+import { IArticle, IStatus } from '@ndla/types-backend/draft-api';
 import { useTranslation } from 'react-i18next';
+import { Check } from '@ndla/icons/editor';
 import HeaderInformation from './HeaderInformation';
 import HeaderActions from './HeaderActions';
 import { getTaxonomyPathsFromTaxonomy } from './util';
 import { ArticleTaxonomy } from '../../containers/FormikForm/formikDraftHooks';
+import HeaderLanguagePill from './HeaderLanguagePill';
 
 export const StyledLanguageWrapper = styled.div`
   padding-left: ${spacing.small};
@@ -33,84 +35,66 @@ interface PathObject {
   paths?: string[];
 }
 
+export type FormHeaderType =
+  | 'image'
+  | 'audio'
+  | 'topic-article'
+  | 'standard'
+  | 'concept'
+  | 'podcast'
+  | 'podcast-series'
+  | 'frontpage-article';
+
 interface Props {
-  content: {
-    current?: object;
-    id?: number;
-    language?: string;
-    status?: {
-      current: string;
-      other: string[];
-    };
-    title?: string;
-    supportedLanguages?: string[];
-    hasRSS?: boolean;
-  };
+  title?: string;
+  language: string;
+  id?: number;
   taxonomy?: ArticleTaxonomy;
-  editUrl?: (url: string) => string;
   isSubmitting?: boolean;
   noStatus?: boolean;
   article?: IArticle;
+  supportedLanguages: string[];
   concept?: IConcept;
-  type:
-    | 'image'
-    | 'audio'
-    | 'iframe'
-    | 'topic-article'
-    | 'standard'
-    | 'concept'
-    | 'podcast'
-    | 'podcast-series'
-    | 'frontpage-article';
-  values: {
-    id?: number;
-    articleType?: string;
-    language?: string;
-    supportedLanguages?: string[];
-  };
+  type: FormHeaderType;
+  hasRSS?: boolean;
+  status?: IStatus;
   expirationDate?: string;
 }
 
 const HeaderWithLanguage = ({
-  content,
   isSubmitting,
   noStatus = false,
   type,
-  values,
   taxonomy,
   article,
+  hasRSS,
+  id,
   concept,
+  language,
+  status,
   expirationDate,
-  editUrl,
+  supportedLanguages,
+  title,
 }: Props) => {
-  const { t, i18n } = useTranslation();
-  const { articleType } = values;
-  const { id, title, status, hasRSS } = content;
+  const { t } = useTranslation();
 
   // true by default to disable language deletions until connections are retrieved.
   const [hasConnections, setHasConnections] = useState(true);
 
-  const language = content.language ?? i18n.language;
-  const supportedLanguages = values.supportedLanguages ?? [language];
-
   const isNewLanguage = !!id && !supportedLanguages.includes(language);
   const statusText = status?.current ? t(`form.status.${status.current.toLowerCase()}`) : '';
   const published = status?.current === 'PUBLISHED' || status?.other?.includes('PUBLISHED');
-  const multiType = articleType ?? type;
-  const isArticle =
-    multiType === 'standard' || multiType === 'topic-article' || multiType === 'frontpage-article';
+  const isArticle = type === 'standard' || type === 'topic-article' || type === 'frontpage-article';
   const responsible = isArticle
     ? article?.responsible?.responsibleId
     : concept?.responsible?.responsibleId;
 
   const taxonomyPaths = isArticle ? getTaxonomyPathsFromTaxonomy(taxonomy, id) : [];
 
-  const safeValues = { ...values, language, supportedLanguages };
-
   return (
     <header>
       <HeaderInformation
-        type={multiType}
+        type={type}
         noStatus={noStatus}
         statusText={statusText}
         isNewLanguage={isNewLanguage}
@@ -124,20 +108,28 @@ const HeaderWithLanguage = ({
         hasRSS={hasRSS}
       />
       <StyledLanguageWrapper>
-        <HeaderActions
-          disableDelete={hasConnections && supportedLanguages.length === 1}
-          article={article}
-          concept={concept}
-          values={safeValues}
-          noStatus={noStatus}
-          isNewLanguage={isNewLanguage}
-          type={multiType}
-          isSubmitting={isSubmitting}
-          editUrl={editUrl}
-        />
+        {id ? (
+          <HeaderActions
+            id={id}
+            language={language}
+            supportedLanguages={supportedLanguages}
+            disableDelete={hasConnections && supportedLanguages.length === 1}
+            article={article}
+            concept={concept}
+            noStatus={noStatus}
+            isNewLanguage={isNewLanguage}
+            type={type}
+            isSubmitting={isSubmitting}
+          />
+        ) : (
+          <HeaderLanguagePill current>
+            <Check />
+            {t(`language.${language}`)}
+          </HeaderLanguagePill>
+        )}
       </StyledLanguageWrapper>
     </header>
   );
 };
 
-export default HeaderWithLanguage;
+export default memo(HeaderWithLanguage);

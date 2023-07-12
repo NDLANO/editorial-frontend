@@ -171,7 +171,7 @@ const SubjectpageForm = ({
           <StyledForm>
             <SimpleLanguageHeader
               articleType={values.articleType!}
-              editUrl={(lang: string) => toEditSubjectpage(values.elementId!, lang, values.id)}
+              editUrl={(_, lang: string) => toEditSubjectpage(values.elementId!, lang, values.id)}
               id={values.id!}
               isSubmitting={isSubmitting}
               language={values.language}

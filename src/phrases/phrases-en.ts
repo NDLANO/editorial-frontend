@@ -1146,7 +1146,7 @@ const phrases = {
       alt: {
         label: 'Alt-text',
         placeholder: 'Alt-text',
-        noText: 'WCAG requires alt-text.',
+        noText: 'WCAG requires alt-text for images that are not decorative.',
       },
       caption: {
         label: 'Image caption',
@@ -1161,6 +1161,7 @@ const phrases = {
         show: 'Show byline',
         hide: 'Hide byline',
       },
+      isDecorative: 'This image is decorative in this context',
     },
     video: {
       caption: {
@@ -1417,7 +1418,7 @@ const phrases = {
     contentType: 'Content type',
     contentTypePlaceholder: 'Choose content type',
     create: 'Create',
-    get: 'Get',
+    add: 'Add',
     getExisting: 'Or get existing resource',
     inProgress: 'This article is in progress',
     addPriority: 'Set article as prioritized',
@@ -1450,7 +1451,7 @@ const phrases = {
     confirmDeleteTopic: 'Are you sure you want to delete this topic?',
     confirmDeleteSubject: 'Are you sure you want to delete this subject?',
     or: 'Eller',
-    urlPlaceholder: 'Paste in a link from ndla.no',
+    urlPlaceholder: 'Paste in a link from ndla.no or an article-id',
     wrongType: 'Note! This is a different resource type: ',
     noResources: 'No resources found',
     addTopicDescription: 'Change topic description',

@@ -104,8 +104,7 @@ const ContentView = ({
           published={
             concept.status?.current === 'PUBLISHED' || concept.status?.other.includes('PUBLISHED')
           }
-          indentLeft
-          fontSize={10}
+          compact
           responsibleName={responsibleName}
         />
       </StyledBreadcrumbs>

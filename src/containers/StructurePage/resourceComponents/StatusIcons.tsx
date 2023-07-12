@@ -96,9 +96,7 @@ const StatusIcons = ({ contentMetaLoading, resource, path }: Props) => {
             >
               <TimeIconWrapper>
                 <StyledTimeIcon
-                  status={expirationColor}
-                  width="24px"
-                  height="24px"
+                  data-status={expirationColor}
                   aria-label={t(`form.workflow.expiration.${expirationColor}`, {
                     date: formatDate(expirationDate),
                   })}

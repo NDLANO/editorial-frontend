@@ -224,16 +224,12 @@ const DisplayExternal = ({
       const elementHeight = startSize - startPosition + mouseUpEvent.pageY;
       const updatedElementHeight = elementHeight > minHeight ? elementHeight : minHeight;
 
-      Transforms.setNodes(
-        editor,
-        {
-          data: {
-            ...prevEmbed.current,
-            height: `${updatedElementHeight}px`,
-          },
-        },
-        { at: pathToEmbed },
-      );
+      const newData = {
+        ...prevEmbed.current,
+        height: `${updatedElementHeight}px`,
+      };
+
+      Transforms.setNodes(editor, { data: newData }, { at: pathToEmbed });
       setHeight(updatedElementHeight);
       setIsResizing(false);
     };

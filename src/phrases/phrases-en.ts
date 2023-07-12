@@ -544,6 +544,7 @@ const phrases = {
         'Use of illegal characters in permalink! Legal characters are numbers and letters, plus dashes.',
     },
     isFrontpageArticle: {
+      toggleArticle: 'Frontpage article view?',
       description:
         'Controls whether the article is displayed as a frontpage article in the editor.',
     },

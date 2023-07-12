@@ -33,14 +33,18 @@ const FrontpageArticlePanels = ({ article, handleSubmit, articleLanguage }: Prop
   const { isFrontpageArticle } = useFrontpageArticle();
 
   return (
-    <FormAccordions defaultOpen={['frontpage-article-content']}>
+    <FormAccordions
+      defaultOpen={['frontpage-article-content']}
+      articleId={article?.id}
+      articleType={article?.articleType}
+    >
       <FormAccordion
         id={'frontpage-article-content'}
         title={t('form.contentSection')}
         className={'u-4/6@desktop u-push-1/6@desktop'}
         hasError={!!(errors.title || errors.introduction || errors.content)}
-        data-wide={isFrontpageArticle}
-        data-frontpage={article?.articleType === 'frontpage-article'}
+        wide={isFrontpageArticle}
+        isFrontpageArticle={article?.articleType === 'frontpage-article'}
       >
         <FrontpageArticleFormContent
           articleLanguage={articleLanguage}
@@ -66,11 +70,7 @@ const FrontpageArticlePanels = ({ article, handleSubmit, articleLanguage }: Prop
         className={'u-6/6'}
         hasError={!!(errors.metaDescription || errors.metaImageAlt || errors.tags)}
       >
-        <MetaDataField
-          articleLanguage={articleLanguage}
-          articleType={article?.articleType}
-          articleId={article?.id}
-        />
+        <MetaDataField articleLanguage={articleLanguage} />
       </FormAccordion>
       <FormAccordion
         id={'frontpage-article-revisions'}

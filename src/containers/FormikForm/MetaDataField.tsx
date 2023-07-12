@@ -23,17 +23,9 @@ interface Props {
   articleLanguage: string;
   showCheckbox?: boolean;
   checkboxAction?: (image: IImageMetaInformationV3) => void;
-  articleType?: string;
-  articleId?: number;
 }
 
-const MetaDataField = ({
-  articleLanguage,
-  showCheckbox,
-  checkboxAction,
-  articleType,
-  articleId,
-}: Props) => {
+const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props) => {
   const { t } = useTranslation();
   const { userPermissions } = useSession();
   const plugins = [textTransformPlugin];
@@ -90,9 +82,6 @@ const MetaDataField = ({
           />
         )}
       </FormikField>
-      {!!articleId && articleType === 'frontpage-article' ? (
-        <FrontpageArticleSwitch articleId={articleId} />
-      ) : null}
     </>
   );
 };

@@ -81,8 +81,8 @@ export const useLicenses = <ReturnType = ILicense[]>(
 
 export const userDataQueryKey = () => [USER_DATA];
 
-export const useUserData = (options?: UseQueryOptions<IUserData>) =>
-  useQuery<IUserData>(userDataQueryKey(), fetchUserData, options);
+export const useUserData = (options?: UseQueryOptions<IUserData | undefined>) =>
+  useQuery<IUserData | undefined>(userDataQueryKey(), fetchUserData, options);
 
 export const useUpdateUserDataMutation = () => {
   const queryClient = useQueryClient();

@@ -36,6 +36,7 @@ export interface MultiSearchApiQuery {
   subjects?: CommaSeparatedList;
   'language-filter'?: CommaSeparatedList;
   'context-filters'?: CommaSeparatedList;
+  'article-types'?: CommaSeparatedList;
   'search-context'?: string;
   'grep-codes'?: CommaSeparatedList;
   'embed-id'?: number;

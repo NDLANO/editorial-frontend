@@ -88,7 +88,7 @@ const NdlaFilmForm = ({ filmFrontpage, selectedLanguage }: Props) => {
           <StyledForm>
             <SimpleLanguageHeader
               articleType={values.articleType}
-              editUrl={(lang: string) => toEditNdlaFilm(lang)}
+              editUrl={(_, lang) => toEditNdlaFilm(lang)}
               id={20}
               isSubmitting={isSubmitting}
               language={selectedLanguage}

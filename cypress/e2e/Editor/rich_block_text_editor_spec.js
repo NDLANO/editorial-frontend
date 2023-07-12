@@ -40,7 +40,6 @@ describe('Learning resource editing', () => {
 
   it('Can add all contributors', () => {
     cy.contains('Lisens og bruker').click();
-    cy.apiwait('@agreements');
     cy.get('h2')
       .contains('Opphavsperson')
       .parent()

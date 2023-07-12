@@ -9,7 +9,7 @@
 import { ChangeEvent, MouseEventHandler } from 'react';
 import styled from '@emotion/styled';
 import { spacing, colors } from '@ndla/core';
-import { StyledButtonWrapper, TextArea } from '@ndla/forms';
+import { CheckboxItem, StyledButtonWrapper, TextArea } from '@ndla/forms';
 import { ButtonV2 } from '@ndla/button';
 import { useTranslation } from 'react-i18next';
 import { useSlateContext } from '../../SlateContext';
@@ -29,9 +29,22 @@ interface Props {
   onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
   onAbort: MouseEventHandler<HTMLButtonElement>;
   onSave: MouseEventHandler<HTMLButtonElement>;
+  isDecorative?: boolean;
+  handleCheck: (isDecorative: boolean) => void;
+  allowDecorative?: boolean;
 }
 
-const FigureInput = ({ caption, alt, madeChanges, onChange, onAbort, onSave }: Props) => {
+const FigureInput = ({
+  caption,
+  alt,
+  madeChanges,
+  onChange,
+  onAbort,
+  onSave,
+  isDecorative,
+  handleCheck,
+  allowDecorative,
+}: Props) => {
   const { t } = useTranslation();
   const { submitted } = useSlateContext();
 
@@ -40,7 +53,7 @@ const FigureInput = ({ caption, alt, madeChanges, onChange, onAbort, onSave }: P
       {caption !== undefined && (
         <TextArea
           name="caption"
-          label={`${t('form.image.caption.label')}:`}
+          label={t('form.image.caption.label')}
           value={caption}
           onChange={onChange}
           type="text"
@@ -48,21 +61,30 @@ const FigureInput = ({ caption, alt, madeChanges, onChange, onAbort, onSave }: P
           white
         />
       )}
-      <TextArea
-        name="alt"
-        label={`${t('form.image.alt.label')}:`}
-        value={alt}
-        onChange={onChange}
-        type="text"
-        placeholder={t('form.image.alt.placeholder')}
-        white
-        warningText={!submitted && isEmpty(alt) ? t('form.image.alt.noText') : ''}
-      />
+      {!isDecorative && (
+        <TextArea
+          name="alt"
+          label={t('form.image.alt.label')}
+          value={alt}
+          onChange={onChange}
+          type="text"
+          placeholder={t('form.image.alt.placeholder')}
+          white
+          warningText={!submitted && isEmpty(alt) ? t('form.image.alt.noText') : ''}
+        />
+      )}
+      {allowDecorative && (
+        <CheckboxItem
+          label={t('form.image.isDecorative')}
+          checked={isDecorative}
+          onChange={() => handleCheck(!isDecorative)}
+        />
+      )}
       <StyledButtonWrapper paddingLeft>
         <ButtonV2 onClick={onAbort} variant="outline">
           {t('form.abort')}
         </ButtonV2>
-        <ButtonV2 disabled={!madeChanges || isEmpty(alt)} onClick={onSave}>
+        <ButtonV2 disabled={!madeChanges || (isEmpty(alt) && !isDecorative)} onClick={onSave}>
           {t('form.image.save')}
         </ButtonV2>
       </StyledButtonWrapper>

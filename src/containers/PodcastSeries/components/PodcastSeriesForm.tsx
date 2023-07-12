@@ -20,7 +20,6 @@ import validateFormik, { getWarnings, RulesType } from '../../../components/form
 import SaveButton from '../../../components/SaveButton';
 import Field from '../../../components/Field';
 import { isFormikFormDirty } from '../../../util/formHelper';
-import { toCreatePodcastSeries, toEditPodcastSeries } from '../../../util/routeHelpers';
 import { editorValueToPlainText } from '../../../util/articleContentConverter';
 import PodcastSeriesMetaData from './PodcastSeriesMetaData';
 import PodcastEpisodes from './PodcastEpisodes';
@@ -87,6 +86,7 @@ interface Props {
   onUpdate: (newPodcastSeries: INewSeries) => void;
   revision?: number;
   isNewLanguage?: boolean;
+  supportedLanguages: string[];
 }
 
 const PodcastSeriesForm = ({
@@ -96,6 +96,7 @@ const PodcastSeriesForm = ({
   onUpdate,
   language,
   isNewLanguage,
+  supportedLanguages,
 }: Props) => {
   const { t } = useTranslation();
   const [savedToServer, setSavedToServer] = useState(false);
@@ -176,23 +177,16 @@ const PodcastSeriesForm = ({
           changed: isNewLanguage,
         });
 
-        const content = {
-          ...podcastSeries,
-          title: podcastSeries?.title.title ?? '',
-          language,
-          hasRSS: values.hasRSS,
-        };
         return (
           <FormWrapper inModal={inModal}>
             <HeaderWithLanguage
+              id={podcastSeries?.id}
+              language={language}
               noStatus
-              values={values}
+              supportedLanguages={supportedLanguages}
               type="podcast-series"
-              content={content}
-              editUrl={(lang: string) => {
-                if (values.id) return toEditPodcastSeries(values.id, lang);
-                else return toCreatePodcastSeries();
-              }}
+              title={podcastSeries?.title.title}
+              hasRSS={podcastSeries?.hasRSS}
             />
             <FormAccordions defaultOpen={['podcast-series-podcastmeta']}>
               <FormAccordion

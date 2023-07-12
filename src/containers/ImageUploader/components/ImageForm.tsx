@@ -23,7 +23,6 @@ import validateFormik, { RulesType, getWarnings } from '../../../components/form
 import ImageMetaData from './ImageMetaData';
 import ImageContent from './ImageContent';
 import { AlertModalWrapper } from '../../FormikForm';
-import { toCreateImage, toEditImage } from '../../../util/routeHelpers';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage/HeaderWithLanguage';
 import ImageVersionNotes from './ImageVersionNotes';
 import { MAX_IMAGE_UPLOAD_SIZE } from '../../../constants';
@@ -94,6 +93,7 @@ interface Props {
   isSaving?: boolean;
   isNewLanguage?: boolean;
   language: string;
+  supportedLanguages: string[];
 }
 
 export type ImageFormErrorFields =
@@ -117,6 +117,7 @@ const ImageForm = ({
   isNewlyCreated,
   isSaving,
   isNewLanguage,
+  supportedLanguages,
 }: Props) => {
   const { t } = useTranslation();
   const [savedToServer, setSavedToServer] = useState(false);
@@ -191,19 +192,12 @@ const ImageForm = ({
         return (
           <FormWrapper inModal={inModal}>
             <HeaderWithLanguage
+              id={image?.id ? parseInt(image.id) : undefined}
+              language={language}
               noStatus
-              values={values}
+              supportedLanguages={supportedLanguages}
               type="image"
-              content={{
-                ...image,
-                language,
-                title: image?.title.title,
-                id: image?.id ? parseInt(image.id) : undefined,
-              }}
-              editUrl={(lang: string) => {
-                if (values.id) return toEditImage(values.id, lang);
-                else return toCreateImage();
-              }}
+              title={image?.title.title}
             />
             <FormAccordions defaultOpen={['content']}>
               <FormAccordion

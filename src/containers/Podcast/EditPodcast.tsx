@@ -15,6 +15,7 @@ import { toEditAudio } from '../../util/routeHelpers';
 import PodcastForm from './components/PodcastForm';
 import Spinner from '../../components/Spinner';
 import { TranslateType, useTranslateToNN } from '../../components/NynorskTranslateProvider';
+import NotFoundPage from '../NotFoundPage/NotFoundPage';
 
 interface Props {
   isNewlyCreated?: boolean;
@@ -94,13 +95,18 @@ const EditPodcast = ({ isNewlyCreated }: Props) => {
     return <Spinner withWrapper />;
   }
 
-  if (podcast?.audioType === 'standard') {
+  if (!podcastId || !podcast) {
+    return <NotFoundPage />;
+  }
+
+  if (podcast.audioType === 'standard') {
     return <Navigate replace to={toEditAudio(podcastId, podcastLanguage)} />;
   }
-  const newLanguage = !podcast?.supportedLanguages.includes(podcastLanguage);
+  const newLanguage = !podcast.supportedLanguages.includes(podcastLanguage);
   const language = podcastLanguage || locale;
   return (
     <PodcastForm
+      supportedLanguages={podcast.supportedLanguages}
       audio={podcast}
       language={language}
       podcastChanged={podcastChanged || newLanguage}

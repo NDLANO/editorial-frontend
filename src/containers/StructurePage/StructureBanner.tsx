@@ -12,7 +12,7 @@ import { Switch } from '@ndla/switch';
 import { NodeType } from '@ndla/types-taxonomy';
 import { useState } from 'react';
 import { ButtonV2 } from '@ndla/button';
-import { Plus } from '@ndla/icons/lib/action';
+import { Plus } from '@ndla/icons/action';
 import { spacing, colors } from '@ndla/core';
 import { ResourceGroupBanner, StyledShareIcon } from './styles';
 import { useSession } from '../Session/SessionProvider';

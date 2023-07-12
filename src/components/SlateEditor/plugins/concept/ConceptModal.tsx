@@ -173,6 +173,7 @@ const ConceptModal = ({
                       concept={concept}
                       conceptArticles={conceptArticles}
                       initialTitle={selectedText}
+                      supportedLanguages={concept?.supportedLanguages ?? [locale]}
                     />
                   ),
                 },

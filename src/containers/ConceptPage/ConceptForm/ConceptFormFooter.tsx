@@ -9,7 +9,7 @@
 import { useTranslation } from 'react-i18next';
 import { useFormikContext } from 'formik';
 import styled from '@emotion/styled';
-import { IConcept, IStatus } from '@ndla/types-backend/concept-api';
+import { IStatus } from '@ndla/types-backend/concept-api';
 import { spacing } from '@ndla/core';
 import { ButtonV2 } from '@ndla/button';
 import { isFormikFormDirty } from '../../../util/formHelper';
@@ -27,7 +27,6 @@ interface Props {
   isNewlyCreated: boolean;
   showSimpleFooter: boolean;
   onClose?: () => void;
-  getApiConcept?: () => IConcept;
   responsibleId?: string;
 }
 
@@ -46,7 +45,6 @@ const ConceptFormFooter = ({
   isNewlyCreated,
   showSimpleFooter,
   onClose,
-  getApiConcept,
   responsibleId,
 }: Props) => {
   const { t } = useTranslation();
@@ -62,49 +60,48 @@ const ConceptFormFooter = ({
 
   const disableSave = Object.keys(errors).length > 0;
 
+  if (inModal) {
+    return (
+      <ButtonContainer>
+        <ButtonV2 variant="outline" onClick={onClose}>
+          {t('form.abort')}
+        </ButtonV2>
+        <SaveButton
+          type={!inModal ? 'submit' : 'button'}
+          isSaving={isSubmitting}
+          formIsDirty={formIsDirty}
+          showSaved={savedToServer && !formIsDirty}
+          disabled={disableSave}
+          onClick={(evt: { preventDefault: () => void }) => {
+            evt.preventDefault();
+            submitForm();
+          }}
+        />
+      </ButtonContainer>
+    );
+  }
+
   return (
     <>
-      {inModal ? (
-        <ButtonContainer>
-          <ButtonV2 variant="outline" onClick={onClose}>
-            {t('form.abort')}
-          </ButtonV2>
-          <SaveButton
-            type={!inModal ? 'submit' : 'button'}
-            isSaving={isSubmitting}
-            formIsDirty={formIsDirty}
-            showSaved={savedToServer && !formIsDirty}
-            disabled={disableSave}
-            onClick={(evt: { preventDefault: () => void }) => {
-              evt.preventDefault();
-              submitForm();
-            }}
-          />
-        </ButtonContainer>
-      ) : (
-        <EditorFooter
-          formIsDirty={formIsDirty}
-          savedToServer={savedToServer}
-          getEntity={getApiConcept}
-          entityStatus={entityStatus}
-          statusStateMachine={conceptStateMachine.data}
-          showSimpleFooter={showSimpleFooter}
-          onSaveClick={submitForm}
-          hideSecondaryButton
-          isConcept
-          isNewlyCreated={isNewlyCreated}
-          hasErrors={isSubmitting || !formIsDirty || disableSave}
-          responsibleId={responsibleId}
-        />
-      )}
-      {!inModal && (
-        <AlertModalWrapper
-          formIsDirty={formIsDirty}
-          isSubmitting={isSubmitting}
-          severity="danger"
-          text={t('alertModal.notSaved')}
-        />
-      )}
+      <EditorFooter
+        formIsDirty={formIsDirty}
+        savedToServer={savedToServer}
+        entityStatus={entityStatus}
+        statusStateMachine={conceptStateMachine.data}
+        showSimpleFooter={showSimpleFooter}
+        onSaveClick={submitForm}
+        hideSecondaryButton
+        isConcept
+        isNewlyCreated={isNewlyCreated}
+        hasErrors={isSubmitting || !formIsDirty || disableSave}
+        responsibleId={responsibleId}
+      />
+      <AlertModalWrapper
+        formIsDirty={formIsDirty}
+        isSubmitting={isSubmitting}
+        severity="danger"
+        text={t('alertModal.notSaved')}
+      />
     </>
   );
 };

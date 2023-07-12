@@ -149,7 +149,7 @@ const SlateToolbar = () => {
           <ToolbarButton
             key={type}
             type={type}
-            kind={'mark'}
+            kind="mark"
             isActive={isMarkActive(editor, type)}
             handleOnClick={onButtonClick}
           />
@@ -158,7 +158,7 @@ const SlateToolbar = () => {
           <ToolbarButton
             key={type}
             type={type}
-            kind={'block'}
+            kind="block"
             isActive={
               type.includes('list')
                 ? isActiveList(type)
@@ -171,7 +171,7 @@ const SlateToolbar = () => {
           <ToolbarButton
             key={type}
             type={type}
-            kind={'inline'}
+            kind="inline"
             isActive={hasNodeWithProps(editor, specialRules[type] ?? { type })}
             handleOnClick={onButtonClick}
           />
@@ -181,7 +181,7 @@ const SlateToolbar = () => {
             <ToolbarButton
               key={index}
               type={type}
-              kind={'table'}
+              kind="table"
               isActive={hasCellAlignOfType(editor, type)}
               handleOnClick={onButtonClick}
             />

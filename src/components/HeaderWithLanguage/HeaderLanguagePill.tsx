@@ -9,33 +9,33 @@ import { css } from '@emotion/react';
 import { colors, fonts, spacing } from '@ndla/core';
 
 const languagePillStyle = css`
-  background: ${colors.brand.light};
   color: ${colors.brand.primary};
+  background: transparent;
+  padding: ${spacing.xsmall} ${spacing.small};
   box-shadow: none;
   border-radius: ${spacing.xsmall};
-  padding: ${spacing.xsmall} ${spacing.small};
-  ${fonts.sizes(16, 1.1)};
   font-weight: ${fonts.weight.semibold};
-  margin-right: ${spacing.xsmall};
   transition: all 200ms ease;
-  display: flex;
-  align-items: center;
-
-  .c-icon {
-    margin-right: ${spacing.xsmall};
+  margin-right: ${spacing.xsmall};
+  ${fonts.sizes(16, 1.1)};
+  &:focus,
+  &:hover:not([disabled]) {
+    color: #fff;
+    background: ${colors.brand.primary};
+    transform: translate(1px, 1px);
+  }
+  &[disabled] {
+    cursor: not-allowed;
+    opacity: 0.6;
   }
   &[data-current='true'] {
-    color: #${colors.brand.primary};
-    background: transparent;
-    &:focus,
-    &:hover:not([disabled]) {
-      color: #fff;
-      background: ${colors.brand.primary};
-      transform: translate(1px, 1px);
-    }
-    &[disabled] {
-      cursor: not-allowed;
-      opacity: 0.6;
+    background: ${colors.brand.light};
+    color: ${colors.brand.primary};
+    display: flex;
+    align-items: center;
+
+    .c-icon {
+      margin-right: ${spacing.xsmall};
     }
   }
 `;

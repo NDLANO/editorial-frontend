@@ -25,7 +25,7 @@ interface Props {
   initialValue?: boolean;
 }
 
-export const isFrontpageArticle = (draftId: number) => getArticleIdList().includes(draftId);
+export const articleIsFrontpageArticle = (draftId: number) => getArticleIdList().includes(draftId);
 
 export const FrontpageArticleProvider = ({ children, initialValue = false }: Props) => {
   const isFrontpageArticle = useState<boolean>(initialValue);
@@ -40,7 +40,7 @@ export const useFrontpageArticle = () => {
   const context = useContext(FrontpageArticleContext);
 
   if (context === undefined) {
-    throw new Error('useFrontpageArticle can only be used witin a FrontpageArticleContext');
+    throw new Error('useFrontpageArticle can only be used within a FrontpageArticleContext');
   }
 
   const [isFrontpageArticle, setFrontpageArticle] = context;

@@ -18,7 +18,7 @@ import { LocaleType } from '../../../interfaces';
 import NotFound from '../../NotFoundPage/NotFoundPage';
 import { TranslateType, useTranslateToNN } from '../../../components/NynorskTranslateProvider';
 import {
-  isFrontpageArticle,
+  articleIsFrontpageArticle,
   useFrontpageArticle,
 } from '../../../components/FrontpageArticleProvider';
 
@@ -82,7 +82,7 @@ const EditFrontpageArticle = ({ isNewlyCreated }: Props) => {
   }
   const newLanguage = !article.supportedLanguages.includes(selectedLanguage);
 
-  if (isFrontpageArticle(article.id)) {
+  if (articleIsFrontpageArticle(article.id)) {
     setFrontpageArticle(true);
   }
 

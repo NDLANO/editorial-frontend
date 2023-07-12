@@ -20,7 +20,7 @@ const StyledSwitch = styled(Switch)`
   }
 `;
 
-const StyledLabel = styled.label`
+const StyledTitle = styled.span`
   font-size: 1.5rem;
 `;
 
@@ -42,7 +42,7 @@ const FrontpageArticleSwitch = ({ articleId }: Props) => {
   const { t } = useTranslation();
   return (
     <SwitchContentWrapper>
-      <StyledLabel>{t('frontpageArticleForm.title')}</StyledLabel>
+      <StyledTitle>{t('frontpageArticleForm.title')}</StyledTitle>
       <StyledParagraph>{t('frontpageArticleForm.isFrontpageArticle.description')}</StyledParagraph>
       <StyledSwitch
         id={articleId}

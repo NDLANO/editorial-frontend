@@ -211,11 +211,7 @@ const FrontpageArticleFormContent = ({
 
   return (
     <StyledContentWrapper data-wide={isFrontpageArticle}>
-      {editSlug && slug !== undefined ? (
-        <SlugField handleSubmit={handleSubmit} />
-      ) : (
-        <TitleField handleSubmit={handleSubmit} />
-      )}
+      {editSlug && slug !== undefined ? <SlugField handleSubmit={handleSubmit} /> : <TitleField />}
       <StyledFormikField name="published">
         {({ field, form }) => (
           <StyledDiv>
@@ -259,7 +255,7 @@ const FrontpageArticleFormContent = ({
         )}
       </StyledFormikField>
 
-      <IngressField preview={preview} handleSubmit={handleSubmit} />
+      <IngressField preview={preview} />
       <StyledContentDiv name="content" label={t('form.content.label')} noBorder>
         {({ field: { value, name, onChange }, form: { isSubmitting } }) => (
           <>

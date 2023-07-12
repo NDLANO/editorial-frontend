@@ -44,26 +44,14 @@ const PreviewButton = styled(IconButtonV2)<{ active: boolean }>`
 const ConceptContent = () => {
   const { t } = useTranslation();
   const [preview, setPreview] = useState(false);
-  const [showWarning, setShowWarning] = useState(false);
   const formikContext = useFormikContext<ConceptFormValues>();
   const {
     values: { creators, updated },
-    submitForm,
-    isValid,
   } = formikContext;
-
-  const handleSubmit = () => {
-    const { submitForm, isValid } = formikContext;
-    if (isValid) {
-      submitForm();
-    } else {
-      setShowWarning(true);
-    }
-  };
 
   return (
     <>
-      <TitleField handleSubmit={submitForm} />
+      <TitleField />
       <ByLine>
         <LastUpdatedLine
           name={'lastUpdated'}
@@ -94,9 +82,7 @@ const ConceptContent = () => {
         placeholder={t('form.name.conceptContent')}
         preview={preview}
         concept
-        handleSubmit={handleSubmit}
       />
-      {!isValid && showWarning && <StyledHelpMessage error>{t('form.feil')}</StyledHelpMessage>}
     </>
   );
 };

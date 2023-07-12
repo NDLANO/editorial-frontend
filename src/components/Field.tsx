@@ -8,7 +8,6 @@
 
 import { ReactNode } from 'react';
 import styled from '@emotion/styled';
-import { css } from '@emotion/react';
 import { spacing } from '@ndla/core';
 
 interface StyledFieldProps {
@@ -29,37 +28,36 @@ export const StyledField = styled.div<StyledFieldProps>`
   & label {
     font-size: 1.5rem;
   }
-  ${(p) =>
-    p.noBorder &&
-    css`
-      & input {
-        border: none;
-        padding: 0;
-        margin: 0;
-        outline: none;
-      }
-    `};
-  ${(p) =>
-    p.right &&
-    css`
-      text-align: right;
-      margin-right: ${spacing.small};
-    `};
-  ${(p) =>
-    p.isTitle &&
-    css`
-      & input {
-        font-size: 2.11111rem;
-      }
+  &[data-no-border='true'] {
+    & input {
+      border: none;
+      padding: 0;
+      margin: 0;
+      outline: none;
+    }
+  }
+  &[data-right='true'] {
+    text-align: right;
+    margin-right: ${spacing.small};
+  }
+  &[data-is-title='true'] {
+    & input {
+      font-size: 2.11111rem;
+    }
 
-      & div {
-        font-size: 2.11111rem;
-      }
-    `};
+    & div {
+      font-size: 2.11111rem;
+    }
+  }
 `;
 
 const Field = ({ children, className, noBorder = false, title = false, right = false }: Props) => (
-  <StyledField noBorder={noBorder} right={right} isTitle={title} className={className}>
+  <StyledField
+    data-no-border={noBorder}
+    data-right={right}
+    data-is-title={title}
+    className={className}
+  >
     {children}
   </StyledField>
 );

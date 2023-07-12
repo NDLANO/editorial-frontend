@@ -6,7 +6,7 @@
  *
  */
 
-import { ReactNode } from 'react';
+import { ReactNode, memo } from 'react';
 import styled from '@emotion/styled';
 import { AccordionContent, AccordionHeader, AccordionItem } from '@ndla/accordion';
 import { colors, misc, spacing } from '@ndla/core';
@@ -63,7 +63,7 @@ const HeaderWrapper = styled.div`
 
 const StyledAccordionContent = styled(AccordionContent)`
   &[data-frontpage='true'] {
-    background-color: ${colors.background.frontpageArticle};
+    background-color: ${colors.background.lightBlue};
     width: 100% !important;
     inset: unset !important;
 
@@ -105,4 +105,4 @@ const FormAccordion = ({
   );
 };
 
-export default FormAccordion;
+export default memo(FormAccordion);

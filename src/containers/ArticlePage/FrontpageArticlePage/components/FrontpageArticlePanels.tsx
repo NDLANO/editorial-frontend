@@ -62,7 +62,7 @@ const FrontpageArticlePanels = ({ article, handleSubmit, articleLanguage }: Prop
           !!(errors.creators || errors.rightsholders || errors.processors || errors.license)
         }
       >
-        <CopyrightFieldGroup values={values} />
+        <CopyrightFieldGroup />
       </FormAccordion>
       <FormAccordion
         id={'frontpage-article-metadata'}
@@ -90,7 +90,7 @@ const FrontpageArticlePanels = ({ article, handleSubmit, articleLanguage }: Prop
           <VersionAndNotesPanel
             article={article}
             type="standard"
-            currentLanguage={values.language}
+            currentLanguage={articleLanguage}
           />
         </FormAccordion>
       )}

@@ -7,6 +7,7 @@
 
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useCallback } from 'react';
 import StyledFilledButton from '../../components/StyledFilledButton';
 import { useTranslateToNN } from '../NynorskTranslateProvider';
 
@@ -19,9 +20,14 @@ interface Props {
 
 const TranslateNbToNn = ({ id, editUrl }: Props) => {
   const { setShouldTranslate } = useTranslateToNN();
+
+  const onClick = useCallback(() => {
+    setShouldTranslate(true);
+  }, [setShouldTranslate]);
+
   const { t } = useTranslation();
   return (
-    <StyledLink to={editUrl(id, 'nn')} onClick={() => setShouldTranslate(true)}>
+    <StyledLink to={editUrl(id, 'nn')} onClick={onClick}>
       {t('form.variant.translate')}
     </StyledLink>
   );

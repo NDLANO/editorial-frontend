@@ -59,6 +59,7 @@ const SimpleLanguageHeader = ({
         title={title}
         isNewLanguage={isNewLanguage}
         id={id}
+        language={language}
       />
       <StyledLanguageWrapper>
         {id ? (

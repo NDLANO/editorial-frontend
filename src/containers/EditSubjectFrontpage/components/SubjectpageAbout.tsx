@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react';
 import { Spinner } from '@ndla/icons';
 import { useTranslation } from 'react-i18next';
 import { Descendant } from 'slate';
-import { FieldProps, useFormikContext } from 'formik';
+import { FieldProps } from 'formik';
 import FormikField from '../../../components/FormikField';
 import VisualElementField from '../../FormikForm/components/VisualElementField';
 import PlainTextEditor from '../../../components/SlateEditor/PlainTextEditor';
@@ -23,8 +23,6 @@ const SubjectpageAbout = ({ selectedLanguage }: Props) => {
   const { t } = useTranslation();
   const [showLoading, setShowLoading] = useState(false);
 
-  const { submitForm } = useFormikContext();
-
   useEffect(() => {
     setShowLoading(true);
     setTimeout(() => setShowLoading(false), 0);
@@ -35,7 +33,7 @@ const SubjectpageAbout = ({ selectedLanguage }: Props) => {
   }
   return (
     <>
-      <TitleField handleSubmit={submitForm} />
+      <TitleField />
       <FormikField
         noBorder
         label={t('subjectpageForm.description')}

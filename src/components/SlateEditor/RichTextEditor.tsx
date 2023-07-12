@@ -192,7 +192,7 @@ const RichTextEditor = ({
               <Spinner />
             ) : (
               <>
-                <SlateToolbar editor={editor} />
+                <SlateToolbar />
                 <SlateBlockPicker
                   editor={editor}
                   actions={actions}

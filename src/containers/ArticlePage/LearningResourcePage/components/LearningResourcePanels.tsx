@@ -7,8 +7,9 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { FormikHelpers, useFormikContext } from 'formik';
+import { useFormikContext } from 'formik';
 import { IUpdatedArticle, IArticle } from '@ndla/types-backend/draft-api';
+import { memo, useMemo } from 'react';
 import config from '../../../../config';
 import RelatedContentFieldGroup from '../../components/RelatedContentFieldGroup';
 import { TAXONOMY_WRITE_SCOPE } from '../../../../constants';
@@ -24,43 +25,27 @@ import FormAccordions from '../../../../components/Accordion/FormAccordions';
 import FormAccordion from '../../../../components/Accordion/FormAccordion';
 
 interface Props {
-  handleSubmit: (
-    values: LearningResourceFormType,
-    formikHelpers: FormikHelpers<LearningResourceFormType>,
-  ) => Promise<void>;
   article?: IArticle;
   taxonomy?: ArticleTaxonomy;
   updateNotes: (art: IUpdatedArticle) => Promise<IArticle>;
   articleLanguage: string;
 }
 
-const LearningResourcePanels = ({
-  article,
-  taxonomy,
-  updateNotes,
-  handleSubmit,
-  articleLanguage,
-}: Props) => {
+const LearningResourcePanels = ({ article, taxonomy, updateNotes, articleLanguage }: Props) => {
   const { t } = useTranslation();
   const { userPermissions } = useSession();
-  const formikContext = useFormikContext<LearningResourceFormType>();
-  const { values, errors, handleBlur } = formikContext;
+  const { errors } = useFormikContext<LearningResourceFormType>();
+  const defaultOpen = useMemo(() => ['learning-resource-content'], []);
 
   return (
-    <FormAccordions defaultOpen={['learning-resource-content']}>
+    <FormAccordions defaultOpen={defaultOpen}>
       <FormAccordion
         id={'learning-resource-content'}
         title={t('form.contentSection')}
         className={'u-4/6@desktop u-push-1/6@desktop'}
         hasError={!!(errors.title || errors.introduction || errors.content)}
       >
-        <LearningResourceContent
-          articleLanguage={articleLanguage}
-          formik={formikContext}
-          handleSubmit={() => handleSubmit(values, formikContext)}
-          handleBlur={handleBlur}
-          values={values}
-        />
+        <LearningResourceContent articleLanguage={articleLanguage} articleId={article?.id} />
       </FormAccordion>
       {article && taxonomy && !!userPermissions?.includes(TAXONOMY_WRITE_SCOPE) && (
         <FormAccordion
@@ -84,7 +69,7 @@ const LearningResourcePanels = ({
           !!(errors.creators || errors.rightsholders || errors.processors || errors.license)
         }
       >
-        <CopyrightFieldGroup values={values} />
+        <CopyrightFieldGroup />
       </FormAccordion>
       <FormAccordion
         id={'learning-resource-metadata'}
@@ -130,7 +115,7 @@ const LearningResourcePanels = ({
           <VersionAndNotesPanel
             article={article}
             type="standard"
-            currentLanguage={values.language}
+            currentLanguage={articleLanguage}
           />
         </FormAccordion>
       )}
@@ -138,4 +123,4 @@ const LearningResourcePanels = ({
   );
 };
 
-export default LearningResourcePanels;
+export default memo(LearningResourcePanels);

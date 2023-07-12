@@ -8,9 +8,16 @@ import { ElementType, HTMLProps, ReactNode } from 'react';
 import { css } from '@emotion/react';
 import { colors, fonts, spacing } from '@ndla/core';
 
-const currentStyle = css`
-  color: #${colors.brand.primary};
+const languagePillStyle = css`
+  color: ${colors.brand.primary};
   background: transparent;
+  padding: ${spacing.xsmall} ${spacing.small};
+  box-shadow: none;
+  border-radius: ${spacing.xsmall};
+  font-weight: ${fonts.weight.semibold};
+  transition: all 200ms ease;
+  margin-right: ${spacing.xsmall};
+  ${fonts.sizes(16, 1.1)};
   &:focus,
   &:hover:not([disabled]) {
     color: #fff;
@@ -21,23 +28,15 @@ const currentStyle = css`
     cursor: not-allowed;
     opacity: 0.6;
   }
-`;
+  &[data-current='true'] {
+    background: ${colors.brand.light};
+    color: ${colors.brand.primary};
+    display: flex;
+    align-items: center;
 
-const languagePillStyle = css`
-  background: ${colors.brand.light};
-  color: ${colors.brand.primary};
-  box-shadow: none;
-  border-radius: ${spacing.xsmall};
-  padding: ${spacing.xsmall} ${spacing.small};
-  ${fonts.sizes(16, 1.1)};
-  font-weight: ${fonts.weight.semibold};
-  margin-right: ${spacing.xsmall};
-  transition: all 200ms ease;
-  display: flex;
-  align-items: center;
-
-  .c-icon {
-    margin-right: ${spacing.xsmall};
+    .c-icon {
+      margin-right: ${spacing.xsmall};
+    }
   }
 `;
 
@@ -57,11 +56,7 @@ const LanguagePill = ({
   ...rest
 }: Props) => {
   return (
-    <Component
-      disabled={isSubmitting}
-      css={[languagePillStyle, !current ? currentStyle : '']}
-      {...rest}
-    >
+    <Component disabled={isSubmitting} data-current={current} css={languagePillStyle} {...rest}>
       {children}
     </Component>
   );

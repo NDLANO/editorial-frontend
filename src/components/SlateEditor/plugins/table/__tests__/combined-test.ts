@@ -18,7 +18,12 @@ import {
 } from '../../../../../util/articleContentConverter';
 
 const editor = withHistory(
-  withReact(withPlugins(createEditor(), plugins('nb', 'nb', { current: () => {} }))),
+  withReact(
+    withPlugins(
+      createEditor(),
+      plugins('nb', 'nb', () => {}),
+    ),
+  ),
 );
 
 describe('combined table plugin tests', () => {

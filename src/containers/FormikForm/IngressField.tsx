@@ -6,11 +6,12 @@
  *
  */
 
-import { useRef, useEffect } from 'react';
+import { useMemo } from 'react';
 import { Remarkable } from 'remarkable';
 import parse from 'html-react-parser';
 import { useTranslation } from 'react-i18next';
 
+import { useFormikContext } from 'formik';
 import StyledFormContainer from '../../components/SlateEditor/common/StyledFormContainer';
 import PlainTextEditor from '../../components/SlateEditor/PlainTextEditor';
 import FormikField from '../../components/FormikField';
@@ -36,25 +37,22 @@ interface Props {
   placeholder?: string;
   preview?: boolean;
   concept?: boolean;
-  handleSubmit: () => void;
 }
 
 const IngressField = ({
   name = 'introduction',
   maxLength = 300,
   placeholder,
-  handleSubmit,
   preview = false,
   concept = false,
 }: Props) => {
-  const handleSubmitRef = useRef(handleSubmit);
+  const { handleSubmit } = useFormikContext();
 
-  useEffect(() => {
-    handleSubmitRef.current = handleSubmit;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [handleSubmit]);
+  const plugins = useMemo(
+    () => [textTransformPlugin, saveHotkeyPlugin(handleSubmit)],
+    [handleSubmit],
+  );
 
-  const plugins = [textTransformPlugin, saveHotkeyPlugin(() => handleSubmitRef.current())];
   const { t } = useTranslation();
   return (
     <StyledFormContainer>

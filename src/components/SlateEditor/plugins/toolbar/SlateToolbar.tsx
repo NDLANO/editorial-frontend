@@ -6,9 +6,9 @@
  *
  */
 
-import { createRef, MouseEvent, useEffect } from 'react';
-import { Editor, Element } from 'slate';
-import { ReactEditor } from 'slate-react';
+import { createRef, memo, MouseEvent, useCallback, useEffect, useMemo } from 'react';
+import { Editor, Element, Range } from 'slate';
+import { useFocused, useSlate } from 'slate-react';
 import styled from '@emotion/styled';
 import { Portal } from '@radix-ui/react-portal';
 import ToolbarButton from './ToolbarButton';
@@ -66,60 +66,32 @@ const ToolbarContainer = styled.div`
   box-shadow: 3px 3px 5px #99999959;
 `;
 
-interface Props {
-  editor: Editor;
-}
-
-const onButtonClick = (event: MouseEvent, editor: Editor, kind: string, type: string) => {
-  if (kind === 'mark') {
-    toggleMark(event, editor, type);
-  } else if (kind === 'block') {
-    handleClickBlock(event, editor, type);
-  } else if (kind === 'inline') {
-    handleClickInline(event, editor, type);
-  } else if (kind === 'table') {
-    handleClickTable(event, editor, type);
-  }
-};
-
-const SlateToolbar = (props: Props) => {
+const SlateToolbar = () => {
   const portalRef = createRef<HTMLDivElement>();
+  const editor = useSlate();
+  const inFocus = useFocused();
+
+  const toolbarElements = useMemo(
+    () =>
+      window.location.pathname.includes('learning-resource')
+        ? learningResourceElements
+        : topicArticleElements,
+    [],
+  );
 
   useEffect(() => {
-    updateMenu();
-  });
-
-  const isActiveList = (editor: Editor, type: string) => {
-    if (type === 'definition-list') {
-      const path = getCurrentBlock(editor, TYPE_DEFINITION_LIST)?.[1];
-      if (path) {
-        return hasDefinitionListItem(editor);
-      }
-      return false;
-    }
-    return hasListItem(editor, type);
-  };
-
-  const updateMenu = () => {
     const menu = portalRef.current;
-    const {
-      editor: { selection },
-    } = props;
+    const selection = editor.selection;
     if (!menu) {
       return;
     }
     if (
-      !ReactEditor.isFocused(editor) ||
       !selection ||
-      !selection?.anchor ||
-      !selection?.focus ||
-      Editor.string(editor, { anchor: selection?.anchor, focus: selection?.focus }) === ''
+      !inFocus ||
+      Range.isCollapsed(selection) ||
+      Editor.string(editor, selection) === '' ||
+      !editor.shouldShowToolbar()
     ) {
-      menu.removeAttribute('style');
-      return;
-    }
-
-    if (!editor.shouldShowToolbar()) {
       menu.removeAttribute('style');
       return;
     }
@@ -137,78 +109,86 @@ const SlateToolbar = (props: Props) => {
 
     menu.style.top = `${rect.top + window.scrollY - menu.offsetHeight}px`;
     menu.style.left = `${left > 10 ? left : 10}px`;
-  };
+  });
 
-  const { editor } = props;
-
-  const toolbarElements = window.location.pathname.includes('learning-resource')
-    ? learningResourceElements
-    : topicArticleElements;
-
-  const markButtons = toolbarElements.mark.map((type) => (
-    <ToolbarButton
-      key={type}
-      type={type}
-      kind={'mark'}
-      isActive={isMarkActive(editor, type)}
-      handleOnClick={(event: MouseEvent, kind: string, type: string) => {
-        onButtonClick(event, editor, kind, type);
-      }}
-    />
-  ));
-
-  const blockButtons = toolbarElements.block.map((type) => (
-    <ToolbarButton
-      key={type}
-      type={type}
-      kind={'block'}
-      isActive={
-        type.includes('list')
-          ? isActiveList(editor, type)
-          : hasNodeWithProps(editor, specialRules[type] ?? { type })
+  const onButtonClick = useCallback(
+    (event: MouseEvent, kind: string, type: string) => {
+      if (kind === 'mark') {
+        toggleMark(event, editor, type);
+      } else if (kind === 'block') {
+        handleClickBlock(event, editor, type);
+      } else if (kind === 'inline') {
+        handleClickInline(event, editor, type);
+      } else if (kind === 'table') {
+        handleClickTable(event, editor, type);
       }
-      handleOnClick={(event: MouseEvent, kind: string, type: string) => {
-        onButtonClick(event, editor, kind, type);
-      }}
-    />
-  ));
-  const inlineButtons = toolbarElements.inline.map((type) => (
-    <ToolbarButton
-      key={type}
-      type={type}
-      kind={'inline'}
-      isActive={hasNodeWithProps(editor, specialRules[type] ?? { type })}
-      handleOnClick={(event: MouseEvent, kind: string, type: string) => {
-        onButtonClick(event, editor, kind, type);
-      }}
-    />
-  ));
+    },
+    [editor],
+  );
 
-  const tableCellElement = getCurrentBlock(editor, TYPE_TABLE_CELL)?.[0];
-  const tableButtons =
-    !!tableCellElement &&
-    toolbarElements.table?.map((type, index) => (
-      <ToolbarButton
-        key={index}
-        type={type}
-        kind={'table'}
-        isActive={hasCellAlignOfType(editor, type)}
-        handleOnClick={(event: MouseEvent, kind: string, type: string) => {
-          onButtonClick(event, editor, kind, type);
-        }}
-      />
-    ));
+  const isActiveList = useCallback(
+    (type: string) => {
+      if (type === 'definition-list') {
+        const path = getCurrentBlock(editor, TYPE_DEFINITION_LIST)?.[1];
+        if (path) {
+          return hasDefinitionListItem(editor);
+        }
+        return false;
+      }
+      return hasListItem(editor, type);
+    },
+    [editor],
+  );
+
+  const onMouseDown = useCallback((e: MouseEvent) => e.preventDefault(), []);
 
   return (
     <Portal>
-      <ToolbarContainer ref={portalRef}>
-        {markButtons}
-        {blockButtons}
-        {inlineButtons}
-        {tableButtons}
+      <ToolbarContainer ref={portalRef} onMouseDown={onMouseDown}>
+        {toolbarElements.mark.map((type) => (
+          <ToolbarButton
+            key={type}
+            type={type}
+            kind="mark"
+            isActive={isMarkActive(editor, type)}
+            handleOnClick={onButtonClick}
+          />
+        ))}
+        {toolbarElements.block.map((type) => (
+          <ToolbarButton
+            key={type}
+            type={type}
+            kind="block"
+            isActive={
+              type.includes('list')
+                ? isActiveList(type)
+                : hasNodeWithProps(editor, specialRules[type] ?? { type })
+            }
+            handleOnClick={onButtonClick}
+          />
+        ))}
+        {toolbarElements.inline.map((type) => (
+          <ToolbarButton
+            key={type}
+            type={type}
+            kind="inline"
+            isActive={hasNodeWithProps(editor, specialRules[type] ?? { type })}
+            handleOnClick={onButtonClick}
+          />
+        ))}
+        {getCurrentBlock(editor, TYPE_TABLE_CELL) &&
+          toolbarElements.table?.map((type, index) => (
+            <ToolbarButton
+              key={index}
+              type={type}
+              kind="table"
+              isActive={hasCellAlignOfType(editor, type)}
+              handleOnClick={onButtonClick}
+            />
+          ))}
       </ToolbarContainer>
     </Portal>
   );
 };
 
-export default SlateToolbar;
+export default memo(SlateToolbar);

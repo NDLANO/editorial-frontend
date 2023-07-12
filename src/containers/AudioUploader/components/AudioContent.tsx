@@ -29,10 +29,6 @@ interface Props extends BaseProps {
   formik: FormikContextType<AudioFormikType>;
 }
 
-const StyledDeleteButtonContainer = styled.div`
-  margin-left: 0.5rem;
-`;
-
 const PlayerWrapper = styled.div`
   display: flex;
   flex-direction: row;
@@ -62,12 +58,12 @@ const getPlayerObject = (
 
 const AudioContent = ({ formik }: Props) => {
   const { t } = useTranslation();
-  const { values, setFieldValue, submitForm } = formik;
+  const { values, setFieldValue } = formik;
   const playerObject = getPlayerObject(values);
 
   return (
     <>
-      <TitleField handleSubmit={submitForm} />
+      <TitleField />
 
       <FormikField noBorder name="audioFile" label={t('form.audio.file')}>
         {() => (

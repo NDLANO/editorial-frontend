@@ -21,7 +21,7 @@ import { useNodes } from '../../modules/nodes/nodeQueries';
 
 const StyledOneColumn = styled.div`
   &[data-wide='true'] {
-    background-color: ${colors.background.frontpageArticle};
+    background-color: ${colors.background.lightBlue};
     display: flex;
     flex-flow: column;
     justify-content: center;

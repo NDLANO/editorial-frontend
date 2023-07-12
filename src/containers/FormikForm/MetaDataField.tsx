@@ -18,7 +18,6 @@ import AvailabilityField from './components/AvailabilityField';
 import { DRAFT_ADMIN_SCOPE } from '../../constants';
 import { useSession } from '../Session/SessionProvider';
 import { fetchSearchTags } from '../../modules/draft/draftApi';
-import FrontpageArticleSwitch from './FrontpageArticleSwitch';
 
 interface Props {
   articleLanguage: string;
@@ -30,6 +29,7 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
   const { t } = useTranslation();
   const { userPermissions } = useSession();
   const plugins = [textTransformPlugin];
+
   return (
     <>
       <FormikField

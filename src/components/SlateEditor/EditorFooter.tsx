@@ -204,7 +204,7 @@ function EditorFooter<T extends FormValues>({
               <Switch
                 checked={prioritizedOn}
                 onChange={updatePrioritized}
-                thumbCharacter={'P'}
+                thumbCharacter="P"
                 label={t('editorFooter.prioritized')}
                 id="prioritized"
               />
@@ -264,7 +264,7 @@ function EditorFooter<T extends FormValues>({
             <Switch
               checked={prioritizedOn}
               onChange={updatePrioritized}
-              thumbCharacter={'P'}
+              thumbCharacter="P"
               label={t('editorFooter.prioritized')}
               id="prioritized"
             />

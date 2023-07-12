@@ -8,7 +8,7 @@
 
 import styled from '@emotion/styled';
 import { IconButtonV2 } from '@ndla/button';
-import { Pencil } from '@ndla/icons/lib/action';
+import { Pencil } from '@ndla/icons/action';
 import { ModalBody, ModalCloseButton, ModalHeader, ModalTitle, Modal } from '@ndla/modal';
 import { BlogPostEmbedData } from '@ndla/types-embed';
 import { BlogPostV2 } from '@ndla/ui';

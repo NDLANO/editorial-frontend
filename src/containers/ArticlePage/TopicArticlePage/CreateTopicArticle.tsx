@@ -34,6 +34,7 @@ const CreateTopicArticle = () => {
         updateArticle={createArticleAndPushRoute}
         isNewlyCreated={false}
         articleChanged={false}
+        supportedLanguages={[i18n.language]}
       />
     </>
   );

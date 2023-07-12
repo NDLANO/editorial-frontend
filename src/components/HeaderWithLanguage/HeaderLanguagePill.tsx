@@ -4,7 +4,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import { ElementType, ReactNode } from 'react';
+import { ElementType, HTMLProps, ReactNode } from 'react';
 import { css } from '@emotion/react';
 import { colors, fonts, spacing } from '@ndla/core';
 
@@ -41,7 +41,7 @@ const languagePillStyle = css`
   }
 `;
 
-interface Props {
+interface Props extends HTMLProps<HTMLElement> {
   children: ReactNode;
   component?: ElementType;
   isSubmitting?: boolean;

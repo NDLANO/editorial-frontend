@@ -41,6 +41,7 @@ interface Props {
   article?: IArticle;
   articleTaxonomy?: ArticleTaxonomy;
   articleStatus?: IStatus;
+  supportedLanguages: string[];
   isNewlyCreated: boolean;
   articleChanged: boolean;
   updateArticle: (updatedArticle: IUpdatedArticle) => Promise<IArticle>;
@@ -53,6 +54,7 @@ const LearningResourceForm = ({
   articleStatus,
   isNewlyCreated = false,
   updateArticle,
+  supportedLanguages,
   articleChanged,
   articleLanguage,
 }: Props) => {
@@ -92,18 +94,17 @@ const LearningResourceForm = ({
     usePreventWindowUnload(formIsDirty);
     const getArticle = () =>
       learningResourceFormTypeToDraftApiType(values, initialValues, licenses!, false);
-    const editUrl = values.id
-      ? (lang: string) => toEditArticle(values.id!, values.articleType, lang)
-      : undefined;
 
     return (
       <StyledForm>
         <HeaderWithLanguage
+          id={article?.id}
+          language={articleLanguage}
           article={article}
-          values={values}
+          status={article?.status}
+          supportedLanguages={supportedLanguages}
           taxonomy={articleTaxonomy}
-          content={{ ...article, title: article?.title?.title, language: articleLanguage }}
-          editUrl={editUrl}
+          title={article?.title?.title}
           isSubmitting={isSubmitting}
           type="standard"
           expirationDate={getExpirationDate(article)}

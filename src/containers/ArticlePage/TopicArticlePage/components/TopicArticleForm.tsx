@@ -11,7 +11,6 @@ import { useTranslation } from 'react-i18next';
 import { Formik, FormikProps } from 'formik';
 import { IUpdatedArticle, IArticle, IStatus } from '@ndla/types-backend/draft-api';
 import { AlertModalWrapper } from '../../../FormikForm';
-import { toEditArticle } from '../../../../util/routeHelpers';
 import validateFormik, { getWarnings } from '../../../../components/formikValidationSchema';
 import TopicArticleAccordionPanels from './TopicArticleAccordionPanels';
 import HeaderWithLanguage from '../../../../components/HeaderWithLanguage';
@@ -42,6 +41,7 @@ interface Props {
   articleStatus?: IStatus;
   articleChanged: boolean;
   isNewlyCreated: boolean;
+  supportedLanguages: string[];
   articleLanguage: string;
 }
 
@@ -51,6 +51,7 @@ const TopicArticleForm = ({
   updateArticle,
   articleChanged,
   isNewlyCreated,
+  supportedLanguages,
   articleLanguage,
   articleStatus,
 }: Props) => {
@@ -90,23 +91,17 @@ const TopicArticleForm = ({
     });
     usePreventWindowUnload(formIsDirty);
     const getArticle = () => topicArticleFormTypeToDraftApiType(values, initialValues, licenses!);
-    const editUrl = values.id
-      ? (lang: string) => toEditArticle(values.id!, values.articleType, lang)
-      : undefined;
 
     return (
       <StyledForm>
         <HeaderWithLanguage
+          id={article?.id}
+          language={articleLanguage}
           taxonomy={articleTaxonomy}
           article={article}
-          values={values}
-          content={{
-            ...article,
-            title: article?.title?.title,
-            language: articleLanguage,
-            supportedLanguages: values.supportedLanguages,
-          }}
-          editUrl={editUrl}
+          status={article?.status}
+          supportedLanguages={supportedLanguages}
+          title={article?.title?.title}
           isSubmitting={isSubmitting}
           type="topic-article"
           expirationDate={getExpirationDate(article)}

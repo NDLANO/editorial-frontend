@@ -13,14 +13,15 @@ import { useTranslateToNN } from '../NynorskTranslateProvider';
 const StyledLink = StyledFilledButton.withComponent(Link);
 
 interface Props {
-  editUrl: (lang: string) => string;
+  id: number;
+  editUrl: (id: number, lang: string) => string;
 }
 
-const TranslateNbToNn = ({ editUrl }: Props) => {
+const TranslateNbToNn = ({ id, editUrl }: Props) => {
   const { setShouldTranslate } = useTranslateToNN();
   const { t } = useTranslation();
   return (
-    <StyledLink to={editUrl('nn')} onClick={() => setShouldTranslate(true)}>
+    <StyledLink to={editUrl(id, 'nn')} onClick={() => setShouldTranslate(true)}>
       {t('form.variant.translate')}
     </StyledLink>
   );

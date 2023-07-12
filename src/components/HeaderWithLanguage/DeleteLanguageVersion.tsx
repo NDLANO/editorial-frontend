@@ -11,6 +11,8 @@ import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { DeleteForever } from '@ndla/icons/editor';
+import { colors } from '@ndla/core';
+import { ButtonV2 } from '@ndla/button';
 import { deleteLanguageVersionConcept } from '../../modules/concept/conceptApi';
 import { deleteLanguageVersionImage } from '../../modules/image/imageApi';
 import {
@@ -24,17 +26,31 @@ import {
   toCreateImage,
   toCreatePodcastFile,
   toCreatePodcastSeries,
-  toEditArticle,
   toEditAudio,
   toEditConcept,
+  toEditFrontPageArticle,
   toEditImage,
+  toEditLearningResource,
   toEditPodcast,
   toEditPodcastSeries,
+  toEditTopicArticle,
 } from '../../util/routeHelpers';
 import AlertModal from '../AlertModal';
-import StyledFilledButton from '../StyledFilledButton';
 import { useMessages } from '../../containers/Messages/MessagesProvider';
 import { NdlaErrorPayload } from '../../util/resolveJsonOrRejectWithError';
+
+const DeleteButton = styled(ButtonV2)`
+  span {
+    color: ${colors.brand.primary};
+  }
+  &:hover,
+  &:active,
+  &:focus-within {
+    span {
+      color: currentColor;
+    }
+  }
+`;
 
 const StyledWrapper = styled.div`
   flex-grow: 1;
@@ -45,17 +61,14 @@ const StyledWrapper = styled.div`
 const nonDeletableTypes = ['standard', 'topic-article', 'concept'];
 
 interface Props {
-  values: {
-    id?: number;
-    language: string;
-    supportedLanguages: string[];
-    articleType?: string;
-  };
+  language: string;
+  supportedLanguages: string[];
+  id: number;
   disabled: boolean;
   type: string;
 }
 
-const DeleteLanguageVersion = ({ values, type, disabled }: Props) => {
+const DeleteLanguageVersion = ({ id, language, supportedLanguages, type, disabled }: Props) => {
   const { t } = useTranslation();
   const [showDeleteWarning, setShowDeleteWarning] = useState(false);
   const { createMessage, formatErrorMessage } = useMessages();
@@ -66,8 +79,7 @@ const DeleteLanguageVersion = ({ values, type, disabled }: Props) => {
   };
 
   const deleteLanguageVersion = async () => {
-    const { id, supportedLanguages, language, articleType } = values;
-    if (id && supportedLanguages.includes(language)) {
+    if (supportedLanguages.includes(language)) {
       toggleShowDeleteWarning();
       const otherSupportedLanguage = supportedLanguages.find((lang) => lang !== language);
 
@@ -113,9 +125,18 @@ const DeleteLanguageVersion = ({ values, type, disabled }: Props) => {
                 : toEditConcept(id, otherSupportedLanguage!),
             );
             break;
-          default:
+          case 'standard':
             await deleteLanguageVersionDraft(id, language);
-            navigate(toEditArticle(id, articleType!, otherSupportedLanguage));
+            navigate(toEditLearningResource(id, otherSupportedLanguage!));
+            break;
+          case 'topic-article':
+            await deleteLanguageVersionDraft(id, language);
+            navigate(toEditTopicArticle(id, otherSupportedLanguage!));
+            break;
+
+          case 'frontpage-article':
+            await deleteLanguageVersionDraft(id, language);
+            navigate(toEditFrontPageArticle(id, otherSupportedLanguage!));
             break;
         }
       } catch (error) {
@@ -123,10 +144,8 @@ const DeleteLanguageVersion = ({ values, type, disabled }: Props) => {
       }
     }
   };
-  const { id, supportedLanguages, language } = values;
 
   if (
-    !id ||
     !supportedLanguages.includes(language) ||
     (nonDeletableTypes.includes(type) && supportedLanguages.length < 2)
   ) {
@@ -135,17 +154,19 @@ const DeleteLanguageVersion = ({ values, type, disabled }: Props) => {
 
   return (
     <StyledWrapper>
-      <StyledFilledButton
-        type="button"
+      <DeleteButton
         disabled={disabled}
-        deletable
+        variant="ghost"
+        colorTheme="danger"
         onClick={toggleShowDeleteWarning}
       >
         <DeleteForever />
-        {t('form.workflow.deleteLanguageVersion.button', {
-          languageVersion: t(`language.${language}`).toLowerCase(),
-        })}
-      </StyledFilledButton>
+        <span>
+          {t('form.workflow.deleteLanguageVersion.button', {
+            languageVersion: t(`language.${language}`).toLowerCase(),
+          })}
+        </span>
+      </DeleteButton>
       <AlertModal
         title={t('form.workflow.deleteLanguageVersion.title')}
         label={t('form.workflow.deleteLanguageVersion.title')}

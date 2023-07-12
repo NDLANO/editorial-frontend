@@ -110,6 +110,8 @@ export interface ImageEmbed {
   'upper-left-y'?: string;
   'upper-left-x'?: string;
   metaData?: any;
+  'is-decorative'?: string;
+  allowDecorative?: string;
 }
 
 export interface BrightcoveEmbed {
@@ -257,7 +259,8 @@ type Keys =
   | 'license'
   | 'model-released'
   | 'responsible-ids'
-  | 'subjects';
+  | 'subjects'
+  | 'filter-inactive';
 
 export type SearchObjectType = {
   [K in Keys]?: string;

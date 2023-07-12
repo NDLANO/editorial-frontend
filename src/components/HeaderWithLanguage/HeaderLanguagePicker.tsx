@@ -16,7 +16,7 @@ import { styledListElement } from '../StyledListElement/StyledListElement';
 import Overlay from '../Overlay';
 import { StyledDropdownOverlay } from '../Dropdown';
 
-const LanguagePicker = ({ emptyLanguages, editUrl }: Props) => {
+const LanguagePicker = ({ id, emptyLanguages, editUrl }: Props) => {
   const { t } = useTranslation();
   const [display, setDisplay] = useState(false);
   return (
@@ -43,7 +43,7 @@ const LanguagePicker = ({ emptyLanguages, editUrl }: Props) => {
                 <Link
                   css={styledListElement}
                   key={language.key}
-                  to={editUrl(language.key)}
+                  to={editUrl(id, language.key)}
                   onClick={() => setDisplay(false)}
                 >
                   {language.title}
@@ -59,11 +59,12 @@ const LanguagePicker = ({ emptyLanguages, editUrl }: Props) => {
 };
 
 interface Props {
+  id: number;
   emptyLanguages: {
     key: string;
     title: string;
   }[];
-  editUrl: (url: string) => string;
+  editUrl: (id: number, url: string) => string;
 }
 
 export default LanguagePicker;

@@ -268,6 +268,7 @@ const phrases = {
       'revision-date-to': 'Revisjonsdato til',
       'exclude-revision-log': 'Ekskluder endringslogg',
       'responsible-ids': 'Velg ansvarlig',
+      'filter-inactive': 'Inkluder utgåtte fag',
     },
     tagType: {
       query: 'Innhold',
@@ -284,6 +285,7 @@ const phrases = {
       'revision-date-to': 'Revisjonsdato til',
       'exclude-revision-log': 'Endringslogg ekskludert',
       'responsible-ids': 'Ansvarlig',
+      'filter-inactive': 'Utgåtte fag inkludert',
     },
     btn: 'Søk',
     empty: 'Tøm',
@@ -312,6 +314,7 @@ const phrases = {
     },
     resultError: 'Noe gikk feil med innlasting av type: {{type}}',
     favourites: 'Mine favorittfag',
+    archivedIncluded: 'Utgåtte fag inkludert',
   },
   subjectsPage: {
     subjects: 'Fag',
@@ -1144,7 +1147,7 @@ const phrases = {
       alt: {
         label: 'Alt-tekst',
         placeholder: 'Alt-tekst',
-        noText: 'Universal utforming krever alt-tekst.',
+        noText: 'Universell utforming krever alt-tekst for bilder som ikke er dekorative.',
       },
       dragdrop: {
         main: 'Dra og slipp',
@@ -1155,6 +1158,7 @@ const phrases = {
         show: 'Vis byline',
         hide: 'Skjul byline',
       },
+      isDecorative: 'Bildet er kun dekorativt i denne sammenhengen',
     },
     video: {
       caption: {
@@ -1416,7 +1420,7 @@ const phrases = {
     contentType: 'Innholdstype',
     contentTypePlaceholder: 'Velg innholdstype',
     create: 'Opprett',
-    get: 'Hent',
+    add: 'Legg til',
     getExisting: 'Eller hent eksisterende ressurs',
     inProgress: 'Denne artikkelen er påbegynt',
     addPriority: 'Sett artikkel som prioritert',
@@ -1450,7 +1454,7 @@ const phrases = {
     searchResource: 'Søk etter ressurs',
     searchArticle: 'Søk etter emneartikkel',
     or: 'Eller',
-    urlPlaceholder: 'Lim inn lenke fra ndla.no',
+    urlPlaceholder: 'Lim inn lenke fra ndla.no eller en artikkel-id',
     wrongType: 'Obs! Denne ressursen er en annen type',
     noResources: 'Ingen ressurser funnet',
     addTopicDescription: 'Endre emnebeskrivelse',

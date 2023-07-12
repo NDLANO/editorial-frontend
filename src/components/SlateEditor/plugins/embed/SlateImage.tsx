@@ -31,6 +31,7 @@ interface Props {
   visualElement: boolean;
   children: ReactNode;
   pathToEmbed: Path;
+  allowDecorative?: boolean;
 }
 
 const StyledButton = styled(ButtonV2)`
@@ -40,9 +41,11 @@ const StyledButton = styled(ButtonV2)`
     box-shadow: rgb(32, 88, 143) 0 0 0 2px;
   }
 `;
-
 const StyledSlateImage = styled.div<{ embed: ImageEmbed }>`
-  ${(props) => (!props.embed.alt ? 'border: 2px solid rgba(209,55,46,0.3);' : '')}
+  ${(props) =>
+    !props.embed['is-decorative'] && !props.embed.alt
+      ? 'border: 2px solid rgba(209,55,46,0.3);'
+      : ''}
 `;
 
 const StyledDiv = styled.div`
@@ -71,6 +74,7 @@ const SlateImage = ({
   visualElement,
   children,
   pathToEmbed,
+  allowDecorative,
 }: Props) => {
   const { t } = useTranslation();
   const [editMode, setEditMode] = useState(false);
@@ -123,6 +127,7 @@ const SlateImage = ({
           saveEmbedUpdates={saveEmbedUpdates}
           setEditModus={setEditMode}
           language={language}
+          allowDecorative={allowDecorative}
         />
       )}
       {!(visualElement && editMode) && (

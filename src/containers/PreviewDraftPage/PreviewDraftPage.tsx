@@ -7,7 +7,7 @@
  */
 
 import { HelmetWithTracker } from '@ndla/tracker';
-import { Hero, HeroContentType } from '@ndla/ui';
+import { Hero, HeroContentType, OneColumn } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { spacing, colors } from '@ndla/core';
@@ -19,7 +19,7 @@ import LanguageSelector from './LanguageSelector';
 import { useDraft } from '../../modules/draft/draftQueries';
 import { useNodes } from '../../modules/nodes/nodeQueries';
 
-const StyledOneColumn = styled.div`
+const StyledOneColumn = styled(OneColumn)`
   &[data-wide='true'] {
     background-color: ${colors.background.lightBlue};
     display: flex;

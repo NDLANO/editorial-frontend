@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2022-present, NDLA.
+ * Copyright (c) 2023-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
@@ -14,7 +14,7 @@ import { spacing, colors } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
 import { Plus } from '@ndla/icons/action';
 import { Done } from '@ndla/icons/editor';
-import { Node } from '@ndla/types-taxonomy';
+import { Node, NodeType } from '@ndla/types-taxonomy';
 import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
 import {
   useDeleteNodeConnectionMutation,
@@ -30,6 +30,7 @@ import { EditModeHandler } from '../SettingsMenuDropdownType';
 interface Props {
   editModeHandler: EditModeHandler;
   currentNode: Node;
+  nodeType?: NodeType;
 }
 
 const StyledSuccessIcon = styled(Done)`
@@ -42,7 +43,7 @@ const StyledSuccessIcon = styled(Done)`
 const Wrapper = styled.div`
   display: flex;
   align-items: center;
-  margin: calc(${spacing.small} / 2);
+  margin: ${spacing.xsmall};
 `;
 
 const MenuContent = styled.div`
@@ -65,9 +66,10 @@ const StyledActionContent = styled.div`
   padding-left: ${spacing.normal};
 `;
 
-const AddExistingToNode = ({
+const MoveExistingNode = ({
   editModeHandler: { editMode, toggleEditMode },
   currentNode,
+  nodeType = 'TOPIC',
 }: Props) => {
   const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
@@ -79,27 +81,26 @@ const AddExistingToNode = ({
   const qc = useQueryClient();
 
   useEffect(() => {
-    if (success && editMode === 'addExistingTopic') {
+    if (success && editMode === 'moveExistingNode') {
       setSuccess(false);
     }
   }, [editMode, success]);
 
-  const toggleEditModeFunc = () => toggleEditMode('addExistingTopic');
+  const toggleEditModeFunc = () => toggleEditMode('moveExistingNode');
 
   const handleSubmit = async (node: Node) => {
     setLoading(true);
     setError(undefined);
     toggleEditModeFunc();
     try {
+      // drop all parent connections and replace with this.
       const connections = await fetchConnectionsForNode({ id: node.id, taxonomyVersion });
-      const parentConnection = connections.find((conn) => conn.type.startsWith('parent'));
-      if (!parentConnection) {
-        setError('taxonomy.errorMessage');
-        return;
-      }
-      await deleteNodeConnectionMutation.mutateAsync({
-        taxonomyVersion,
-        id: parentConnection.connectionId,
+      const parentConnections = connections.filter((conn) => conn.type.startsWith('parent'));
+      parentConnections.map(async (parentConnection) => {
+        await deleteNodeConnectionMutation.mutateAsync({
+          taxonomyVersion,
+          id: parentConnection.connectionId,
+        });
       });
       await addNodeConnectionMutation.mutateAsync({
         taxonomyVersion,
@@ -121,22 +122,19 @@ const AddExistingToNode = ({
     }
   };
 
-  if (editMode === 'addExistingTopic') {
+  if (editMode === 'moveExistingNode') {
     return (
       <Wrapper>
         <RoundIcon open small smallIcon icon={<Plus />} />
         <NodeSearchDropdown
-          placeholder={t('taxonomy.existingTopic')}
+          placeholder={t('taxonomy.existingNode')}
           onChange={handleSubmit}
-          searchNodeType={'TOPIC'}
+          searchNodeType={nodeType}
           filter={(node) => {
-            return (
-              !!node.path &&
-              !node.paths?.some((p) => {
-                const split = p.replace('/', '').split('/');
-                return split[split.length - 2] === currentNode.id.replace('urn:', '');
-              })
-            );
+            return !node.paths?.some((p) => {
+              const split = p.replace('/', '').split('/');
+              return split[split.length - 2] === currentNode.id.replace('urn:', '');
+            });
           }}
         />
       </Wrapper>
@@ -147,7 +145,7 @@ const AddExistingToNode = ({
     <StyledMenuWrapper>
       <MenuItemButton onClick={toggleEditModeFunc}>
         <RoundIcon small icon={<Plus />} />
-        {t('taxonomy.addExistingTopic')}
+        {t('taxonomy.addExistingNode', { nodeType: t(`taxonomy.nodeType.${nodeType}`) })}
       </MenuItemButton>
       <StyledActionContent>
         {loading && (
@@ -170,4 +168,4 @@ const AddExistingToNode = ({
   );
 };
 
-export default AddExistingToNode;
+export default MoveExistingNode;

@@ -6,7 +6,7 @@
  *
  */
 import { Spinner } from '@ndla/icons';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
@@ -54,6 +54,7 @@ interface Props {
   childNodeTypes?: NodeType[];
   rootPath?: string;
   showResourceColumn?: boolean;
+  messageBox?: ReactNode;
 }
 
 const StructureContainer = ({
@@ -61,6 +62,7 @@ const StructureContainer = ({
   childNodeTypes = ['TOPIC'],
   rootPath = '/structure/',
   showResourceColumn = true,
+  messageBox,
 }: Props) => {
   const location = useLocation();
   const paths = location.pathname.replace(rootPath, '').split('/');
@@ -168,6 +170,7 @@ const StructureContainer = ({
     <ErrorBoundary>
       <Wrapper>
         <GridContainer breakpoint={breakpoints.desktop}>
+          {messageBox && <Column>{messageBox}</Column>}
           <Column colEnd={7}>
             <StructureBanner
               onChange={toggleShowFavorites}

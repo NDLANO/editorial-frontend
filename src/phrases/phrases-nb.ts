@@ -1577,6 +1577,7 @@ const phrases = {
         addField: 'Nytt metadata felt',
         languagePlaceholder: 'Visningsspråk ndla.no',
         explanationSubject: 'Forklaringsfag',
+        programmeSubject: 'Felles programfag',
         oldSubjectId: 'ID for videresending',
         subjectCategory: 'Fagkategori',
         subjectType: 'Fagtype',

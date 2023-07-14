@@ -6,7 +6,7 @@
  *
  */
 
-import { useFormikContext } from 'formik';
+import { Field, useFormikContext } from 'formik';
 import { FieldHeader, FieldSection, Input, Select } from '@ndla/forms';
 import { useTranslation } from 'react-i18next';
 import FormikField from '../../../components/FormikField';
@@ -23,70 +23,74 @@ const GlossDataSection = () => {
   if (!glossData) return <></>;
   return (
     <>
-      <FieldSection>
-        <FormikField name="glossData.gloss">
-          {({ field }) => (
-            <Input
-              label={t('form.concept.glossData.gloss')}
-              type="text"
-              value={glossData.gloss}
-              onChange={(e) => {
-                field.onChange({
-                  target: {
-                    name: field.name,
-                    value: e.currentTarget.value,
-                  },
-                });
-              }}
-            />
-          )}
-        </FormikField>
-        <FormikField name="glossData.wordClass">
-          {({ field }) => (
-            <Select
-              label={t('form.concept.glossData.wordClass')}
-              value={glossData.wordClass}
-              onChange={(e) => {
-                field.onChange({
-                  target: {
-                    name: field.name,
-                    value: e.currentTarget.value,
-                  },
-                });
-              }}
-            >
-              <option value="" />
-              {Object.entries(WORD_CLASSES).map((entry) => (
-                <option value={entry[1]} key={entry[0]}>
-                  {entry[1]}
-                </option>
-              ))}
-            </Select>
-          )}
-        </FormikField>
-        <FormikField name="glossData.originalLanguage">
-          {({ field }) => (
-            <Select
-              value={glossData.originalLanguage}
-              onChange={(e) => {
-                field.onChange({
-                  target: {
-                    name: field.name,
-                    value: e.currentTarget.value,
-                  },
-                });
-              }}
-            >
-              <option value="" />
-              {LANGUAGES.map((l, index) => (
-                <option value={l} key={index}>
-                  {l}
-                </option>
-              ))}
-            </Select>
-          )}
-        </FormikField>
-      </FieldSection>
+      <FormikField name="glossInfoErrors">
+        {() => (
+          <FieldSection>
+            <FormikField name="glossData.gloss">
+              {({ field }) => (
+                <Input
+                  label={t('form.concept.glossData.gloss')}
+                  type="text"
+                  value={glossData.gloss}
+                  onChange={(e) => {
+                    field.onChange({
+                      target: {
+                        name: field.name,
+                        value: e.currentTarget.value,
+                      },
+                    });
+                  }}
+                />
+              )}
+            </FormikField>
+            <FormikField name="glossData.wordClass">
+              {({ field }) => (
+                <Select
+                  label={t('form.concept.glossData.wordClass')}
+                  value={glossData.wordClass}
+                  onChange={(e) => {
+                    field.onChange({
+                      target: {
+                        name: field.name,
+                        value: e.currentTarget.value,
+                      },
+                    });
+                  }}
+                >
+                  <option value="" />
+                  {Object.entries(WORD_CLASSES).map((entry) => (
+                    <option value={entry[1]} key={entry[0]}>
+                      {entry[1]}
+                    </option>
+                  ))}
+                </Select>
+              )}
+            </FormikField>
+            <FormikField name="glossData.originalLanguage">
+              {({ field }) => (
+                <Select
+                  value={glossData.originalLanguage}
+                  onChange={(e) => {
+                    field.onChange({
+                      target: {
+                        name: field.name,
+                        value: e.currentTarget.value,
+                      },
+                    });
+                  }}
+                >
+                  <option value="" />
+                  {LANGUAGES.map((l, index) => (
+                    <option value={l} key={index}>
+                      {l}
+                    </option>
+                  ))}
+                </Select>
+              )}
+            </FormikField>
+          </FieldSection>
+        )}
+      </FormikField>
 
       {glossData.originalLanguage === 'zh' && (
         <>
@@ -99,7 +103,12 @@ const GlossDataSection = () => {
 
       <FieldHeader title={t('form.concept.glossData.examples')} />
       <FormikField name="glossData.examples">
-        {({ field }) => <Examples label="examples" values={glossData.examples} {...field} />}
+        {({ field, form }) => {
+          const { errors } = form;
+          return (
+            <Examples label="examples" values={glossData.examples} {...field} errors={errors} />
+          );
+        }}
       </FormikField>
     </>
   );

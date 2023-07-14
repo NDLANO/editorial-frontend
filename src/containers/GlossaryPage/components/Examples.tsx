@@ -13,6 +13,7 @@ import { useTranslation } from 'react-i18next';
 import { AccordionContent, AccordionHeader, AccordionItem, AccordionRoot } from '@ndla/accordion';
 import { FieldArray } from 'formik';
 import LanguageVariant from './LanguageVariant';
+import FormAccordion from '../../../components/Accordion/FormAccordion';
 
 interface Props {
   label: string;
@@ -22,9 +23,10 @@ interface Props {
   disabled?: boolean;
   values: IGlossExample[][];
   name: string;
+  errors: any;
 }
 
-const Examples = ({ onChange, values: exampleLists, name }: Props) => {
+const Examples = ({ onChange, values: exampleLists, name, errors }: Props) => {
   const { t } = useTranslation();
 
   const addExampleList = () => {
@@ -65,19 +67,20 @@ const Examples = ({ onChange, values: exampleLists, name }: Props) => {
           <>
             {exampleLists.map((examples, index) => (
               <div key={`example_list_${index}`}>
-                <AccordionRoot collapsible type="single">
-                  <AccordionItem value="1">
-                    <AccordionHeader>{`Example ${index + 1}`} </AccordionHeader>
-                    <AccordionContent>
-                      <LanguageVariant
-                        examples={examples}
-                        index={index}
-                        arrayHelpers={arrayHelpers}
-                        handleExampleListChange={handleExampleListChange}
-                      />
-                    </AccordionContent>
-                  </AccordionItem>
-                </AccordionRoot>
+                <FormAccordion
+                  id={`example_list_${index}`}
+                  title={`Example ${index + 1}`}
+                  hasError={errors && !!errors[`example_${index}`]}
+                >
+                  <LanguageVariant
+                    examples={examples}
+                    index={index}
+                    arrayHelpers={arrayHelpers}
+                    handleExampleListChange={handleExampleListChange}
+                    errorMessage={errors[`example_${index}`]}
+                  />
+                </FormAccordion>
+
                 <FieldRemoveButton onClick={() => removeExampleList(index)}>
                   Fjern eksempel
                 </FieldRemoveButton>

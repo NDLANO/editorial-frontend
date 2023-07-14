@@ -42,4 +42,6 @@ export interface ConceptFormValues {
   responsibleId?: string;
   conceptType: string;
   glossData?: IGlossData;
+  glossInfoErrors?: any;
+  glossExampleErrors?: any;
 }

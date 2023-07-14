@@ -12,15 +12,24 @@ import { ButtonV2 } from '@ndla/button';
 import { useTranslation } from 'react-i18next';
 import FormikField from '../../../components/FormikField';
 import Example from './Example';
+import { StyledErrorMessage } from 'containers/StructurePage/folderComponents/styles';
+import { error } from 'console';
 
 type Props = {
   examples: IGlossExample[];
   handleExampleListChange: (index: number, example: IGlossExample[]) => void;
   index: number;
   arrayHelpers: any;
+  errorMessage?: string;
 };
 
-const LanguageVariant = ({ examples, index, handleExampleListChange, arrayHelpers }: Props) => {
+const LanguageVariant = ({
+  examples,
+  index,
+  handleExampleListChange,
+  arrayHelpers,
+  errorMessage,
+}: Props) => {
   const { t } = useTranslation();
 
   const addLanguageVariant = () => {
@@ -51,6 +60,8 @@ const LanguageVariant = ({ examples, index, handleExampleListChange, arrayHelper
           {examples.map((example, example_index) => (
             <>
               <FieldHeader title={`Language ${example_index + 1}`} />
+              {errorMessage}
+
               <FormikField name={`glossData.examples.${index}.${example_index}`}>
                 {({ field }) => (
                   <>

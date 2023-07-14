@@ -13,6 +13,8 @@ import {
   IUpdatedConcept,
   ITagsSearchResult,
   IConceptSummary,
+  IGlossExample,
+  IGlossData,
 } from '@ndla/types-backend/concept-api';
 import { IArticle } from '@ndla/types-backend/draft-api';
 import { Formik, FormikProps, FormikHelpers } from 'formik';
@@ -120,6 +122,17 @@ const conceptFormRules: RulesType<ConceptFormValues, IConcept> = {
     onlyValidateIf: (values: ConceptFormValues) =>
       STATUSES_RESPONSIBLE_NOT_REQUIRED.every((status) => values.status?.current !== status),
   },
+  glossInfoErrors: {
+    test: (values) => {
+      if (values.glossData) {
+        const { gloss, wordClass, originalLanguage } = values.glossData;
+        if (!gloss || !wordClass || !originalLanguage)
+          return { translationKey: 'All fields required' };
+      }
+
+      return undefined;
+    },
+  },
 };
 
 const GlossaryForm = ({
@@ -201,7 +214,27 @@ const GlossaryForm = ({
       onSubmit={handleSubmit}
       enableReinitialize
       validateOnMount
-      validate={(values) => validateFormik(values, conceptFormRules, t)}
+      validate={(values) => {
+        const errors = validateFormik(values, conceptFormRules, t);
+
+        let examplesHasError = false;
+        values.glossData!.examples.forEach((languageVariant, example_index) => {
+          languageVariant.forEach((e: IGlossExample, language_index) => {
+            const name = `example_${example_index}`;
+            const { example, language } = e;
+            if (!example || !language) {
+              errors[name] = `Missing fields for Language ${language_index + 1}`;
+              if (!examplesHasError) {
+                examplesHasError = true;
+              }
+            }
+          });
+        });
+        if (examplesHasError) {
+          errors.glossExampleErrors = 'Error in examples';
+        }
+        return errors;
+      }}
       initialStatus={{ warnings: initialWarnings }}
     >
       {(formikProps) => {
@@ -230,7 +263,11 @@ const GlossaryForm = ({
               >
                 <ConceptContent />
               </FormAccordion>
-              <FormAccordion id="glossData" title={t('form.glossDataSection')} hasError={false}>
+              <FormAccordion
+                id="glossData"
+                title={t('form.glossDataSection')}
+                hasError={!!(errors.glossInfoErrors || errors.glossExampleErrors)}
+              >
                 <GlossDataSection />
               </FormAccordion>
               <FormAccordion

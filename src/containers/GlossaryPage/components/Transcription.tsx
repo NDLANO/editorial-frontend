@@ -7,9 +7,10 @@
  */
 
 import { FormEvent, MouseEvent } from 'react';
-import { Input, FieldSplitter, Select } from '@ndla/forms';
+import { Input, Select, FieldRemoveButton, FieldSection } from '@ndla/forms';
 import { useTranslation } from 'react-i18next';
 import { ROMANIZATION_OPTIONS } from '../glossaryData';
+import FormikField from '../../../components/FormikField';
 
 export interface TranscriptionType {
   key: string;
@@ -28,11 +29,19 @@ interface Props {
   value: TranscriptionType;
 }
 
-const Transcription = ({ transcription, index, handleTranscriptionChange, value }: Props) => {
+const Transcription = ({
+  transcription,
+  index,
+  handleTranscriptionChange,
+  value,
+  removeTranscription,
+}: Props) => {
   const { t } = useTranslation();
   return (
     <>
-      <FieldSplitter>
+      <FieldSection>
+        <FieldRemoveButton onClick={(evt) => removeTranscription(evt, index)} />
+
         <Select
           onChange={(e) => handleTranscriptionChange(e, 'key', index)}
           value={transcription.key}
@@ -57,7 +66,7 @@ const Transcription = ({ transcription, index, handleTranscriptionChange, value 
           onChange={(e) => handleTranscriptionChange(e, 'value', index)}
           data-cy="transcription-selector"
         />
-      </FieldSplitter>
+      </FieldSection>
     </>
   );
 };

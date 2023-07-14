@@ -74,10 +74,6 @@ const TranscriptionsField = ({ name, onChange, values: transcriptions }: Props) 
     <>
       {transcriptionsArray.map((transcription, index) => (
         <div key={index}>
-          {transcriptionsArray.length > 0 && (
-            <FieldRemoveButton onClick={(evt) => removeTranscription(evt, index)} />
-          )}
-
           <Transcription
             key={`transcription_${index}`} // eslint-disable-line react/no-array-index-key
             index={index}

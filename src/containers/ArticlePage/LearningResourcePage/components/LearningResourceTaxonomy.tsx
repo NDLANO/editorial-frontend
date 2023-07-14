@@ -326,6 +326,8 @@ const LearningResourceTaxonomy = ({ article, updateNotes, articleLanguage }: Pro
       if (!newVersion || newVersion.value === taxonomyVersion) return;
       const oldVersion = taxonomyVersion;
       changeVersion(newVersion.value);
+      setShowWarning(false);
+      updateTaxMutation.reset();
       qc.removeQueries({
         predicate: (query) => {
           const qk = query.queryKey as [string, Record<string, any>];
@@ -333,7 +335,7 @@ const LearningResourceTaxonomy = ({ article, updateNotes, articleLanguage }: Pro
         },
       });
     },
-    [changeVersion, qc, taxonomyVersion],
+    [changeVersion, qc, taxonomyVersion, updateTaxMutation],
   );
 
   const filteredResourceTypes = useMemo(

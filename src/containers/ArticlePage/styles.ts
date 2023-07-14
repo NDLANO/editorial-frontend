@@ -8,10 +8,10 @@
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import { COMMENT_WIDTH, SPACING_COMMENT } from './components/CommentSection';
-import { MAX_PAGE_WIDTH } from '../../constants';
+import { FRONTPAGE_ARTICLE_MAXIMUM_WIDTH, MAX_PAGE_WIDTH } from '../../constants';
 
 // Calculate the max width of edit resource page with comments displayed
-export const FRONTPAGE_ARTICLE_WIDTH = 1700;
+export const FRONTPAGE_ARTICLE_WIDTH = FRONTPAGE_ARTICLE_MAXIMUM_WIDTH + 600;
 export const MAX_WIDTH_WITH_COMMENTS = MAX_PAGE_WIDTH + COMMENT_WIDTH + SPACING_COMMENT;
 
 export const articleResourcePageStyle = css`

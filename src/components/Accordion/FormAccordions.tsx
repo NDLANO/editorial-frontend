@@ -84,7 +84,7 @@ const FormAccordions = ({ defaultOpen, children, articleId, articleType }: Props
         )}
         <OpenAllButton onClick={onChangeAll} variant="ghost">
           {allOpen ? t('accordion.closeAll') : t('accordion.openAll')}
-        </OpenAllButton>{' '}
+        </OpenAllButton>
       </FlexWrapper>
       <AccordionRoot type="multiple" value={openAccordions} onValueChange={setOpenAccordions}>
         {children}

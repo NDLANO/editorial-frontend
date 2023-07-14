@@ -545,7 +545,7 @@ const phrases = {
         'Bruk av ulovlige tegn i permalenken! Tillatte tegn er alle tall og bokstaver, og bindestrek',
     },
     isFrontpageArticle: {
-      toggleArticle: 'Forsideartikkel visning?',
+      toggleArticle: 'Vis bred editor',
       description:
         'Her styrar du om artikkelen skal visas som ein forsideartikkel for deg i editoren',
     },

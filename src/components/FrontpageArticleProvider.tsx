@@ -25,7 +25,7 @@ interface Props {
   initialValue?: boolean;
 }
 
-export const articleIsFrontpageArticle = (draftId: number) => getArticleIdList().includes(draftId);
+export const articleIsWide = (draftId: number) => getArticleIdList().includes(draftId);
 
 export const FrontpageArticleProvider = ({ children, initialValue = false }: Props) => {
   const isFrontpageArticle = useState<boolean>(initialValue);
@@ -68,9 +68,9 @@ export const useFrontpageArticle = () => {
 };
 
 const getArticleIdList: () => number[] = () =>
-  JSON.parse(localStorage.getItem('frontpage-articles') ?? '[]')
+  JSON.parse(localStorage.getItem('wide-articles') ?? '[]')
     .filter(Number)
     .map(Number);
 
 const updateFrontpageArticleList = (articles: number[]) =>
-  localStorage.setItem('frontpage-articles', JSON.stringify(articles));
+  localStorage.setItem('wide-articles', JSON.stringify(articles));

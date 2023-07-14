@@ -27,6 +27,7 @@ const StyledOneColumn = styled(OneColumn)`
     justify-content: center;
     align-items: center;
     padding: 0 ${spacing.normal};
+    max-width: 100%;
   }
 `;
 

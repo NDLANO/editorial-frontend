@@ -17,10 +17,7 @@ import Spinner from '../../../components/Spinner';
 import { LocaleType } from '../../../interfaces';
 import NotFound from '../../NotFoundPage/NotFoundPage';
 import { TranslateType, useTranslateToNN } from '../../../components/NynorskTranslateProvider';
-import {
-  articleIsFrontpageArticle,
-  useFrontpageArticle,
-} from '../../../components/FrontpageArticleProvider';
+import { articleIsWide, useFrontpageArticle } from '../../../components/FrontpageArticleProvider';
 
 const translateFields: TranslateType[] = [
   {
@@ -82,7 +79,7 @@ const EditFrontpageArticle = ({ isNewlyCreated }: Props) => {
   }
   const newLanguage = !article.supportedLanguages.includes(selectedLanguage);
 
-  if (articleIsFrontpageArticle(article.id)) {
+  if (articleIsWide(article.id)) {
     setFrontpageArticle(true);
   }
 

@@ -747,7 +747,6 @@ const phrases = {
       markdown: 'Feltet støtter markdown. Bruk formatet [Tekst](https://url) for å lage lenke.',
       subjects: 'Kun fag markert som forklaringsfag vil vises i lista.',
       glossDataSection: {
-        title: 'Glose',
         gloss: 'Glose',
         originalLanguage: 'orginalspråk',
         wordClass: 'ordtype',

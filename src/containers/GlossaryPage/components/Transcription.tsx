@@ -42,6 +42,14 @@ const Transcription = ({
       <FieldSection>
         <FieldRemoveButton onClick={(evt) => removeTranscription(evt, index)} />
 
+        <Input
+          type="text"
+          placeholder={t('form.concept.glossDataSection.transcription')}
+          value={transcription.value}
+          onChange={(e) => handleTranscriptionChange(e, 'value', index)}
+          data-cy="transcription-selector"
+        />
+
         <Select
           onChange={(e) => handleTranscriptionChange(e, 'key', index)}
           value={transcription.key}
@@ -59,13 +67,6 @@ const Transcription = ({
             </option>
           ))}
         </Select>
-        <Input
-          type="text"
-          placeholder={t('form.concept.glossDataSection.transcription')}
-          value={transcription.value}
-          onChange={(e) => handleTranscriptionChange(e, 'value', index)}
-          data-cy="transcription-selector"
-        />
       </FieldSection>
     </>
   );

@@ -9,7 +9,6 @@
 import { FormEvent, MouseEvent } from 'react';
 import { ButtonV2 } from '@ndla/button';
 import { useTranslation } from 'react-i18next';
-import { FieldRemoveButton } from '@ndla/forms';
 import Transcription from './Transcription';
 
 interface Props {
@@ -73,20 +72,18 @@ const TranscriptionsField = ({ name, onChange, values: transcriptions }: Props) 
   return (
     <>
       {transcriptionsArray.map((transcription, index) => (
-        <div key={index}>
-          <Transcription
-            key={`transcription_${index}`} // eslint-disable-line react/no-array-index-key
-            index={index}
-            transcription={transcription}
-            value={transcription}
-            handleTranscriptionChange={handleTranscriptionChange}
-            removeTranscription={removeTranscription}
-          />
-        </div>
+        <Transcription
+          key={`transcription_${index}`}
+          index={index}
+          transcription={transcription}
+          value={transcription}
+          handleTranscriptionChange={handleTranscriptionChange}
+          removeTranscription={removeTranscription}
+        />
       ))}
       <ButtonV2 variant="outline" onClick={addTranscription} data-cy="addTranscription">
         {t('form.concept.glossDataSection.add', {
-          label: t(`form.concept.glossDataSection.transcriptions`),
+          label: t(`form.concept.glossDataSection.transcription`).toLowerCase(),
         })}
       </ButtonV2>
     </>

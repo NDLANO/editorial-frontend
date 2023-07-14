@@ -39,29 +39,27 @@ const Example = ({ example, index, onChange, name }: Props) => {
   return (
     <>
       <FieldSection>
-        <FieldSplitter>
-          <Select value={example.language} onChange={(e) => handleExampleChange(e, 'language')}>
-            {!example.language && (
-              <option>
-                {t('form.concept.glossDataSection.choose', {
-                  label: t('form.concept.glossDataSection.language'),
-                })}
-              </option>
-            )}
-            {LANGUAGES.map((l, language_index) => (
-              <option value={l} key={language_index}>
-                {l}
-              </option>
-            ))}
-          </Select>
+        <Input
+          type="text"
+          placeholder={t('form.concept.glossDataSection.example')}
+          value={example.example}
+          onChange={(e) => handleExampleChange(e, 'example')}
+        />
 
-          <Input
-            type="text"
-            placeholder={t('form.concept.glossDataSection.example')}
-            value={example.example}
-            onChange={(e) => handleExampleChange(e, 'example')}
-          />
-        </FieldSplitter>
+        <Select value={example.language} onChange={(e) => handleExampleChange(e, 'language')}>
+          {!example.language && (
+            <option>
+              {t('form.concept.glossDataSection.choose', {
+                label: t('form.concept.glossDataSection.language'),
+              })}
+            </option>
+          )}
+          {LANGUAGES.map((l, language_index) => (
+            <option value={l} key={language_index}>
+              {l}
+            </option>
+          ))}
+        </Select>
       </FieldSection>
       <FieldHeader title={t('form.concept.glossDataSection.transcriptions')} />
 

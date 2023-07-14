@@ -7,7 +7,7 @@
  */
 
 import { IGlossExample } from '@ndla/types-backend/build/concept-api';
-import { FieldRemoveButton } from '@ndla/forms';
+import { FieldRemoveButton, FieldSection } from '@ndla/forms';
 import { ButtonV2 } from '@ndla/button';
 import { useTranslation } from 'react-i18next';
 import { AccordionContent, AccordionHeader, AccordionItem, AccordionRoot } from '@ndla/accordion';
@@ -66,7 +66,12 @@ const Examples = ({ onChange, values: exampleLists, name, errors }: Props) => {
         render={(arrayHelpers: any) => (
           <>
             {exampleLists.map((examples, index) => (
-              <div key={`example_list_${index}`}>
+              <FieldSection key={`example_list_${index}`}>
+                <FieldRemoveButton onClick={() => removeExampleList(index)}>
+                  {/*t('form.concept.glossDataSection.remove', {
+                    label: t(`form.concept.glossDataSection.example`).toLowerCase(),
+                  })*/}
+                </FieldRemoveButton>
                 <FormAccordion
                   id={`example_list_${index}`}
                   title={`${t('form.concept.glossDataSection.example')} ${index + 1}`}
@@ -80,18 +85,14 @@ const Examples = ({ onChange, values: exampleLists, name, errors }: Props) => {
                     errorMessage={errors[`example_${index}`]}
                   />
                 </FormAccordion>
-
-                <FieldRemoveButton onClick={() => removeExampleList(index)}>
-                  Fjern eksempel
-                </FieldRemoveButton>
-              </div>
+              </FieldSection>
             ))}
           </>
         )}
       />
       <ButtonV2 variant="outline" onClick={addExampleList} data-cy="addExample">
         {t('form.concept.glossDataSection.add', {
-          label: t(`form.concept.glossDataSection.examples`),
+          label: t(`form.concept.glossDataSection.example`).toLowerCase(),
         })}
       </ButtonV2>
     </>

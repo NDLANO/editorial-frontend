@@ -72,11 +72,11 @@ interface Props {
   id?: string;
   closeModal: () => void;
   activeTopics: StagedTopic[];
-  addTopic: (id: string | undefined, closeModal: () => void, locale?: LocaleType) => void;
+  addTopic: (id: string | undefined, closeModal: () => void) => void;
 }
 
 const StructureButtons = ({ isSubject, id, closeModal, activeTopics, addTopic }: Props) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   if (isSubject) {
     return null;
   }
@@ -86,7 +86,7 @@ const StructureButtons = ({ isSubject, id, closeModal, activeTopics, addTopic }:
   return (
     <StyledButtonWrapper>
       {currentIndex === -1 ? (
-        <StyledButton variant="outline" onClick={() => addTopic(id, closeModal, i18n.language)}>
+        <StyledButton variant="outline" onClick={() => addTopic(id, closeModal)}>
           {t('taxonomy.topics.filestructureButton')}
         </StyledButton>
       ) : (

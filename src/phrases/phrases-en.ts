@@ -1836,6 +1836,7 @@ const phrases = {
     },
   },
   delete: 'Delete',
+  reset: 'Reset',
   dragAndDrop: {
     handle: 'Drag handle',
   },

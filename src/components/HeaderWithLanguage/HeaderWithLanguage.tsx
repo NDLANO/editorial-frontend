@@ -13,10 +13,10 @@ import { IConcept } from '@ndla/types-backend/concept-api';
 import { IArticle, IStatus } from '@ndla/types-backend/draft-api';
 import { useTranslation } from 'react-i18next';
 import { Check } from '@ndla/icons/editor';
+import { Node } from '@ndla/types-taxonomy';
 import HeaderInformation from './HeaderInformation';
 import HeaderActions from './HeaderActions';
 import { getTaxonomyPathsFromTaxonomy } from './util';
-import { ArticleTaxonomy } from '../../containers/FormikForm/formikDraftHooks';
 import HeaderLanguagePill from './HeaderLanguagePill';
 
 export const StyledLanguageWrapper = styled.div`
@@ -25,15 +25,6 @@ export const StyledLanguageWrapper = styled.div`
   display: flex;
   align-items: center;
 `;
-
-export interface TaxonomyObject {
-  topics?: PathObject[];
-  resources?: PathObject[];
-}
-
-interface PathObject {
-  paths?: string[];
-}
 
 export type FormHeaderType =
   | 'image'
@@ -49,7 +40,7 @@ interface Props {
   title?: string;
   language: string;
   id?: number;
-  taxonomy?: ArticleTaxonomy;
+  taxonomy?: Node[];
   noStatus?: boolean;
   article?: IArticle;
   supportedLanguages: string[];

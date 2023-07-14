@@ -15,11 +15,12 @@ import {
   StyledRemoveConnectionButton,
   StyledPrimaryConnectionButton,
 } from '../../style/LearningResourceTaxonomyStyles';
-import SharedTopicConnections from './SharedTopicConnections';
 import Breadcrumb from './Breadcrumb';
 import RelevanceOption from './RelevanceOption';
 import RemoveButton from './RemoveButton';
 import { StagedTopic } from '../../containers/ArticlePage/TopicArticlePage/components/TopicArticleTaxonomy';
+import { useSearchNodes } from '../../modules/nodes/nodeQueries';
+import { useTaxonomyVersion } from '../../containers/StructureVersion/TaxonomyVersionProvider';
 
 interface Props {
   removeConnection?: (id: string) => void;
@@ -27,6 +28,7 @@ interface Props {
   topic: StagedTopic;
   type: string;
   setRelevance?: (topicId: string, relevanceId: string) => void;
+  primaryPath: string | undefined;
 }
 
 const StyledFlexWrapper = styled.div`
@@ -39,10 +41,23 @@ const ActiveTopicConnection = ({
   setPrimaryConnection,
   setRelevance,
   type,
+  primaryPath,
   topic,
 }: Props) => {
   const { t } = useTranslation();
-  if (!topic.breadcrumb) {
+  const { taxonomyVersion } = useTaxonomyVersion();
+
+  const breadcrumb = useSearchNodes({
+    ids: topic.path
+      .split('/')
+      .filter((id) => id && !id.includes('resource:'))
+      .map((id) => `urn:${id}`),
+    taxonomyVersion,
+  });
+  if (!breadcrumb.data) {
+    return null;
+  }
+  if (!breadcrumb.data?.results) {
     return (
       <StyledConnections error>
         <StyledErrorLabel>{t('taxonomy.topics.disconnectedTaxonomyWarning')}</StyledErrorLabel>
@@ -61,9 +76,8 @@ const ActiveTopicConnection = ({
     return (
       <>
         <StyledConnections>
-          <Breadcrumb breadcrumb={topic.breadcrumb} type={type} />
+          <Breadcrumb breadcrumb={breadcrumb.data.results} type={type} />
         </StyledConnections>
-        <SharedTopicConnections topic={topic} type={type} />
       </>
     );
   }
@@ -72,13 +86,13 @@ const ActiveTopicConnection = ({
       <StyledConnections>
         <StyledFlexWrapper>
           <StyledPrimaryConnectionButton
-            primary={topic.isPrimary}
+            primary={primaryPath === topic.path}
             type="button"
-            onClick={() => setPrimaryConnection?.(topic.id)}
+            onClick={() => setPrimaryConnection?.(topic.path)}
           >
             {t('form.topics.primaryTopic')}
           </StyledPrimaryConnectionButton>
-          <Breadcrumb breadcrumb={topic.breadcrumb} />
+          <Breadcrumb breadcrumb={breadcrumb.data.results} />
         </StyledFlexWrapper>
         <StyledFlexWrapper>
           <RelevanceOption
@@ -88,7 +102,6 @@ const ActiveTopicConnection = ({
           <RemoveButton onClick={() => removeConnection && removeConnection(topic.id)} />
         </StyledFlexWrapper>
       </StyledConnections>
-      <SharedTopicConnections topic={topic} />
     </>
   );
 };

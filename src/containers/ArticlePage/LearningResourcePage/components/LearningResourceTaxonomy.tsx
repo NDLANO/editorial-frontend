@@ -6,29 +6,21 @@
  *
  */
 
-import { MouseEvent, useState, useEffect, useMemo, useRef, memo } from 'react';
+import { MouseEvent, useState, useMemo, memo, useCallback } from 'react';
 import styled from '@emotion/styled';
-import { Spinner } from '@ndla/icons';
 import { spacing } from '@ndla/core';
-import { ErrorMessage } from '@ndla/ui';
 import { IUpdatedArticle, IArticle } from '@ndla/types-backend/draft-api';
 import { useQueryClient } from '@tanstack/react-query';
 import { SingleValue } from '@ndla/select';
 import { ButtonV2 } from '@ndla/button';
 import { useTranslation } from 'react-i18next';
-import { ResourceType, Metadata } from '@ndla/types-taxonomy';
-import {
-  fetchResourceTypes,
-  fetchSubjects,
-  fetchSubjectTopics,
-  fetchTopicConnections,
-  fetchTopicResources,
-  updateTaxonomy,
-  fetchFullResource as fetchResource,
-  createResource,
-  getResourceId,
-} from '../../../../modules/taxonomy';
-import { sortByName, groupTopics, getBreadcrumbFromPath } from '../../../../util/taxonomyHelpers';
+import { Node, ResourceTypeWithConnection, TaxonomyContext } from '@ndla/types-taxonomy';
+import partition from 'lodash/partition';
+import isEqual from 'lodash/isEqual';
+import sortBy from 'lodash/sortBy';
+import { Spinner } from '@ndla/icons';
+import { fetchSubjectTopics, createResource } from '../../../../modules/taxonomy';
+import { groupTopics } from '../../../../util/taxonomyHelpers';
 import handleError from '../../../../util/handleError';
 import TopicConnections from '../../../../components/Taxonomy/TopicConnections';
 import SaveButton from '../../../../components/SaveButton';
@@ -36,65 +28,28 @@ import ResourceTypeSelect from '../../components/ResourceTypeSelect';
 import TaxonomyInfo from './taxonomy/TaxonomyInfo';
 import {
   TAXONOMY_ADMIN_SCOPE,
-  RESOURCE_FILTER_CORE,
   RESOURCE_TYPE_LEARNING_PATH,
+  RESOURCE_FILTER_CORE,
 } from '../../../../constants';
 import { FormikFieldHelp } from '../../../../components/FormikField';
-import {
-  ResourceResourceType,
-  SubjectType,
-  SubjectTopic,
-  ParentTopicWithRelevanceAndConnections,
-} from '../../../../modules/taxonomy/taxonomyApiInterfaces';
-import { LocaleType } from '../../../../interfaces';
+import { SubjectType, SubjectTopic } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import TaxonomyConnectionErrors from '../../components/TaxonomyConnectionErrors';
 import { useSession } from '../../../Session/SessionProvider';
-import { ArticleTaxonomy } from '../../../FormikForm/formikDraftHooks';
 import VersionSelect from '../../components/VersionSelect';
 import { useVersions } from '../../../../modules/taxonomy/versions/versionQueries';
 import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
+import { useAllResourceTypes } from '../../../../modules/taxonomy/resourcetypes/resourceTypesQueries';
+import { useSubjects } from '../../../../modules/taxonomy/subjects';
+import { nodesQueryKey, useNodes } from '../../../../modules/nodes/nodeQueries';
+import { useUpdateTaxonomyMutation } from '../../../../modules/taxonomy/taxonomyMutations';
 
 const blacklistedResourceTypes = [RESOURCE_TYPE_LEARNING_PATH];
 
-const emptyTaxonomy = {
-  resourceTypes: [],
-  topics: [],
-  metadata: undefined,
-};
-
-interface FullResource {
-  name: string;
-  resourceTypes: ResourceResourceType[];
-  topics: ParentTopicWithRelevanceAndConnections[];
-  metadata?: Metadata;
-}
-
-interface LearningResourceSubjectType extends SubjectType {
-  topics?: SubjectTopic[];
-}
-
-interface ResourceTaxonomy {
-  resourceTypes: ResourceResourceType[];
-  topics: ParentTopicWithRelevanceAndConnections[];
-  id?: string;
-  name?: string;
-  metadata?: Metadata;
-}
-
-interface TaxonomyChanges {
-  resourceTypes: ResourceResourceType[];
-  topics: ParentTopicWithRelevanceAndConnections[];
-  metadata?: Metadata;
-}
-
 interface Props {
   article: IArticle;
-  taxonomy: ArticleTaxonomy;
   updateNotes: (art: IUpdatedArticle) => Promise<IArticle>;
-  setIsOpen?: (open: boolean) => void;
+  articleLanguage: string;
 }
-
-type Status = 'success' | 'loading' | 'initial';
 
 const ButtonContainer = styled.div`
   display: flex;
@@ -102,290 +57,274 @@ const ButtonContainer = styled.div`
   gap: ${spacing.xsmall};
 `;
 
-const LearningResourceTaxonomy = ({ article, taxonomy, updateNotes, setIsOpen }: Props) => {
-  const [resourceId, setResourceId] = useState<string>('');
-  const [structure, setStructure] = useState<LearningResourceSubjectType[]>([]);
-  const [status, setStatus] = useState<Status>('loading');
-  const [error, setError] = useState<string | undefined>(undefined);
-  const [isDirty, setIsDirty] = useState<boolean>(false);
-  const [showWarning, setShowWarning] = useState<boolean>(false);
-  const [resourceTaxonomy, setResourceTaxonomy] = useState<ResourceTaxonomy>({
-    ...emptyTaxonomy,
-  });
-  const [taxonomyChanges, setTaxonomyChanges] = useState<TaxonomyChanges>({ ...emptyTaxonomy });
-  const [availableResourceTypes, setAvailableResourceTypes] = useState<ResourceType[]>([]);
-
-  const { t, i18n } = useTranslation();
-  const { userPermissions } = useSession();
-  const { taxonomyVersion, changeVersion } = useTaxonomyVersion();
-  const { data: versions } = useVersions();
-  const qc = useQueryClient();
-  const prevTaxVersion = useRef(taxonomyVersion);
-
-  const onChangeSelectedResource = (value: SingleValue) => {
-    const options = value?.value?.split(',') ?? [];
-    const selectedResource = availableResourceTypes.find(
-      (resourceType) => resourceType.id === options[0],
-    );
-
-    if (selectedResource) {
-      const resourceTypes: ResourceResourceType[] = [
-        {
-          name: selectedResource.name,
-          id: selectedResource.id,
-          parentId: '',
-          connectionId: '',
-        },
-      ];
-
-      if (options.length > 1) {
-        const subType = selectedResource.subtypes?.find((subtype) => subtype.id === options[1]);
-        if (subType)
-          resourceTypes.push({
-            id: subType.id,
-            name: subType.name,
-            parentId: selectedResource.id,
-            connectionId: '',
-          });
-      }
-      stageTaxonomyChanges({ resourceTypes });
-    }
+export const contextToNode = (
+  context: TaxonomyContext,
+  contextNode: Node,
+  language: string,
+): Node => {
+  return {
+    breadcrumbs: context.breadcrumbs[language] ?? Object.values(context.breadcrumbs)[0] ?? [],
+    contentUri: contextNode.contentUri,
+    contextId: context.contextId,
+    contexts: [],
+    id: context.connectionId,
+    metadata: contextNode.metadata,
+    name: contextNode.name,
+    nodeType: contextNode.nodeType,
+    path: context.path,
+    paths: contextNode.paths,
+    resourceTypes: contextNode.resourceTypes,
+    supportedLanguages: contextNode.supportedLanguages,
+    relevanceId: context.relevanceId ?? RESOURCE_FILTER_CORE,
+    translations: contextNode.translations,
+    url: context.url,
   };
+};
 
-  const getSubjectTopics = async (subjectid: string) => {
-    if (structure.some((subject) => subject.id === subjectid && subject.topics)) {
-      return;
-    }
-    try {
-      const allTopics = await fetchSubjectTopics({
-        subject: subjectid,
-        language: i18n.language,
+export const toInitialResource = (resource: Node | undefined, language: string): TaxNode => {
+  return {
+    id: resource?.id ?? '',
+    path: resource?.contexts?.find((c) => c.isPrimary)?.path ?? '',
+    resourceTypes: resource?.resourceTypes ?? [],
+    metadata: resource?.metadata ?? {
+      grepCodes: [],
+      visible: true,
+      customFields: {},
+    },
+    placements: sortBy(
+      resource?.contexts
+        .filter((c) => c.rootId.includes('subject'))
+        .map((c) => contextToNode(c, resource, language)) ?? [],
+      (c) => c.id,
+    ),
+  };
+};
+
+export interface TaxNode extends Pick<Node, 'resourceTypes' | 'metadata' | 'id' | 'path'> {
+  placements: Node[];
+}
+
+export interface SubjectWithTopics extends SubjectType {
+  topics?: SubjectTopic[];
+}
+
+const LearningResourceTaxonomy = ({ article, updateNotes, articleLanguage }: Props) => {
+  const { t, i18n } = useTranslation();
+  const { taxonomyVersion, changeVersion } = useTaxonomyVersion();
+  const { userPermissions } = useSession();
+  const qc = useQueryClient();
+  const [workingResource, setWorkingResource] = useState<TaxNode>(
+    toInitialResource(undefined, i18n.language),
+  );
+
+  const updateTaxMutation = useUpdateTaxonomyMutation();
+
+  const nodesQuery = useNodes(
+    {
+      contentURI: `urn:article:${article.id}`,
+      taxonomyVersion,
+      language: articleLanguage,
+      includeContexts: true,
+    },
+    {
+      onSuccess: (data) => setWorkingResource(toInitialResource(data?.[0], i18n.language)),
+    },
+  );
+
+  const initialResource: TaxNode = useMemo(
+    () => JSON.parse(JSON.stringify(toInitialResource(nodesQuery.data?.[0], i18n.language))),
+    [i18n.language, nodesQuery.data],
+  );
+
+  const [resources, topics] = useMemo(
+    () => partition(nodesQuery.data, (node) => node.nodeType === 'RESOURCE'),
+    [nodesQuery.data],
+  );
+
+  const [subjects, setSubjects] = useState<SubjectWithTopics[]>([]);
+
+  useSubjects(
+    { language: i18n.language, taxonomyVersion },
+    {
+      select: (subject) =>
+        sortBy(
+          subject.filter((s) => !!s.name),
+          (s) => s.name,
+        ),
+      onSuccess: (data) => setSubjects(data),
+    },
+  );
+  const [showWarning, setShowWarning] = useState<boolean>(false);
+
+  const isDirty = useMemo(
+    () => !isEqual(initialResource, workingResource),
+    [initialResource, workingResource],
+  );
+
+  const allResourceTypesQuery = useAllResourceTypes(
+    { language: i18n.language, taxonomyVersion },
+    { select: (rts) => rts },
+  );
+
+  const { data: versions } = useVersions();
+
+  const onChangeSelectedResource = useCallback(
+    (value: SingleValue) => {
+      const options = value?.value?.split(',') ?? [];
+      const selectedResource = allResourceTypesQuery.data?.find((rt) => rt.id === options[0]);
+
+      if (selectedResource) {
+        const resourceTypes: ResourceTypeWithConnection[] = [
+          {
+            name: selectedResource.name,
+            id: selectedResource.id,
+            connectionId: '',
+            supportedLanguages: selectedResource.supportedLanguages,
+            translations: selectedResource.translations,
+          },
+        ];
+
+        if (options.length > 1) {
+          const subType = selectedResource.subtypes?.find((subtype) => subtype.id === options[1]);
+          if (subType)
+            resourceTypes.push({
+              id: subType.id,
+              name: subType.name,
+              connectionId: '',
+              supportedLanguages: subType.supportedLanguages,
+              translations: subType.translations,
+            });
+        }
+        setWorkingResource((res) => ({ ...res, resourceTypes }));
+      }
+    },
+    [allResourceTypesQuery.data],
+  );
+
+  const addTopicsToSubject = useCallback((subjectId: string, topics: SubjectTopic[]) => {
+    setSubjects((subjects) => subjects.map((s) => (s.id === subjectId ? { ...s, topics } : s)));
+  }, []);
+
+  const getSubjectTopics = useCallback(
+    async (subjectid: string) => {
+      if (subjects.some((subject) => subject.id === subjectid && subject.topics)) {
+        return;
+      }
+      try {
+        const allTopics = await fetchSubjectTopics({
+          subject: subjectid,
+          language: i18n.language,
+          taxonomyVersion,
+        });
+        const groupedTopics = groupTopics(allTopics);
+        addTopicsToSubject(subjectid, groupedTopics);
+      } catch (err) {
+        handleError(err);
+      }
+    },
+    [i18n.language, subjects, taxonomyVersion, addTopicsToSubject],
+  );
+
+  const setPrimaryConnection = useCallback(
+    (path: string) => setWorkingResource((res) => ({ ...res, path })),
+    [],
+  );
+
+  const setRelevance = useCallback((id: string, relevanceId: string) => {
+    setWorkingResource((res) => ({
+      ...res,
+      placements: res.placements.map((p) => (p.id === id ? { ...p, relevanceId } : p)),
+    }));
+  }, []);
+
+  const stageTaxonomyChanges = useCallback((placements: Node[]) => {
+    setWorkingResource((res) => ({
+      ...res,
+      placements,
+      path: placements.length === 1 ? placements[0].path : res.path,
+    }));
+  }, []);
+
+  const handleSubmit = useCallback(
+    async (evt: MouseEvent<HTMLButtonElement>) => {
+      evt.preventDefault();
+      let resourceId = workingResource.id;
+      if (!resourceId.length) {
+        const res = await createResource({
+          body: { contentUri: `urn:article:${article.id}`, name: article.title?.title ?? '' },
+          taxonomyVersion,
+        });
+        resourceId = res;
+        setWorkingResource((res) => ({ ...res, id: res.id }));
+      }
+
+      await updateTaxMutation.mutateAsync({
+        node: workingResource,
+        originalNode: initialResource,
         taxonomyVersion,
       });
-      const groupedTopics = groupTopics(allTopics);
-      updateSubject(subjectid, { topics: groupedTopics });
-    } catch (err) {
-      handleError(err);
-    }
-  };
-
-  const setPrimaryConnection = (id: string) => {
-    const { topics } = taxonomyChanges;
-
-    stageTaxonomyChanges({
-      topics: topics?.map((topic) => ({
-        ...topic,
-        isPrimary: topic.id === id,
-      })),
-    });
-  };
-
-  const setRelevance = (topicId: string, relevanceId: string) => {
-    const { topics } = taxonomyChanges;
-
-    stageTaxonomyChanges({
-      topics: topics?.map((topic) => ({
-        ...topic,
-        ...(topic.id === topicId && {
-          relevanceId,
+      await updateNotes({ revision: article.revision, notes: ['Oppdatert taksonomi.'] });
+      qc.invalidateQueries(
+        nodesQueryKey({
+          contentURI: `urn:article:${article.id}`,
+          taxonomyVersion,
+          language: articleLanguage,
+          includeContexts: true,
         }),
-      })),
-    });
-  };
-
-  const fetchTaxonomy = async () => {
-    const { id } = article;
-    if (!id) return;
-    try {
-      const resourceId = taxonomy.resources.length === 1 && taxonomy.resources[0].id;
-
-      if (taxonomy.resources.length > 1) {
-        setError('errorMessage.taxonomy');
-      } else if (resourceId) {
-        const fullResource = await fetchFullResource(resourceId, i18n.language);
-
-        setResourceId(resourceId);
-        setStatus('initial');
-        setResourceTaxonomy(fullResource);
-        setTaxonomyChanges(fullResource);
-      } else {
-        // resource does not exist in taxonomy
-        setStatus('initial');
-        setResourceTaxonomy({
-          ...emptyTaxonomy,
-        });
-        setTaxonomyChanges({
-          ...emptyTaxonomy,
-        });
-      }
-    } catch (e) {
-      handleError(e);
-      setError('errorMessage.versionSelect');
-    }
-  };
-
-  const fetchTaxonomyChoices = async () => {
-    try {
-      const [allResourceTypes, subjects] = await Promise.all([
-        fetchResourceTypes({ language: i18n.language, taxonomyVersion }),
-        fetchSubjects({ language: i18n.language, taxonomyVersion }),
-      ]);
-
-      const sortedSubjects = subjects.filter((subject) => subject.name).sort(sortByName);
-      if (!error) {
-        setAvailableResourceTypes(allResourceTypes.filter((resourceType) => resourceType.name));
-        setStructure(sortedSubjects);
-      }
-    } catch (e) {
-      handleError(e);
-      setError('errorMessage.taxonomy');
-    }
-  };
-
-  const stageTaxonomyChanges = (properties: Partial<TaxonomyChanges>) => {
-    setIsDirty(true);
-    setTaxonomyChanges({ ...taxonomyChanges, ...properties });
-  };
-
-  const handleSubmit = async (evt: MouseEvent<HTMLButtonElement>) => {
-    evt.preventDefault();
-    let reassignedResourceId = resourceId;
-    const { id, title, revision } = article;
-
-    if (!title?.language || !id) return;
-    setStatus('loading');
-    try {
-      if (!reassignedResourceId) {
-        await createResource({
-          body: { contentUri: `urn:article:${id}`, name: title.title },
-          taxonomyVersion,
-        });
-        reassignedResourceId = await getResourceId({
-          id,
-          language: title.language,
-          taxonomyVersion,
-        });
-        setResourceId(reassignedResourceId);
-      }
-      if (reassignedResourceId) {
-        await updateTaxonomy({
-          resourceId: reassignedResourceId,
-          resourceTaxonomy,
-          taxonomyChanges,
-          taxonomyVersion,
-        });
-        updateNotes({
-          revision: revision ?? 0,
-          language: title.language,
-          notes: ['Oppdatert taksonomi.'],
-        });
-        setStatus('success');
-        setIsDirty(false);
-        silentlyRefetchResourceTaxonomy();
-      }
-    } catch (err) {
-      handleError(err);
-      setError('errorMessage.taxonomy');
-    }
-  };
-
-  const silentlyRefetchResourceTaxonomy = async () => {
-    await new Promise((resolve) => {
-      setTimeout(resolve, 5000);
-    });
-    const resourceTaxonomy = await fetchFullResource(resourceId, i18n.language ?? '');
-    setResourceTaxonomy(resourceTaxonomy);
-  };
-
-  const fetchFullResource = async (
-    resourceId: string,
-    locale: LocaleType,
-  ): Promise<FullResource> => {
-    const { resourceTypes, metadata, parents, name } = await fetchResource({
-      id: resourceId,
-      language: locale,
+      );
+    },
+    [
+      article.id,
+      article.revision,
+      article.title?.title,
+      articleLanguage,
+      initialResource,
+      qc,
       taxonomyVersion,
-    });
-    const sortedParents = parents.filter((pt) => pt.path).sort((a, b) => (a.id < b.id ? -1 : 1));
+      updateNotes,
+      updateTaxMutation,
+      workingResource,
+    ],
+  );
 
-    const topicConnections = await Promise.all(
-      sortedParents.map((topic) => fetchTopicConnections({ id: topic.id, taxonomyVersion })),
-    );
-    const topicResources = await Promise.all(
-      sortedParents.map((topic) => fetchTopicResources({ topicUrn: topic.id, taxonomyVersion })),
-    );
-    const topicsWithConnectionsAndRelevanceId = sortedParents.map(async (topic, index) => {
-      const foundRelevanceId = topicResources[index]?.find(
-        (resource) => resource.id === resourceId,
-      )?.relevanceId;
-      const breadcrumb = await getBreadcrumbFromPath(topic.path, taxonomyVersion, locale);
-      return {
-        ...topic,
-        topicConnections: topicConnections[index],
-        relevanceId: foundRelevanceId ?? RESOURCE_FILTER_CORE,
-        breadcrumb,
-      };
-    });
-    const topics = await Promise.all(topicsWithConnectionsAndRelevanceId);
+  const removeConnection = useCallback(
+    (id: string) => {
+      const placements = workingResource.placements.filter((ctx) => ctx.id !== id);
+      if (placements.length === 1) {
+        setWorkingResource((res) => ({ ...res, path: placements[0].path, placements }));
+      } else {
+        setWorkingResource((res) => ({ ...res, placements }));
+      }
+    },
+    [workingResource.placements],
+  );
 
-    return {
-      name,
-      resourceTypes,
-      topics,
-      metadata,
-    };
-  };
-
-  const updateSubject = (subjectId: string, newSubject: Partial<LearningResourceSubjectType>) => {
-    setStructure(
-      structure.map((subject) =>
-        subject.id === subjectId ? { ...subject, ...newSubject } : subject,
-      ),
-    );
-  };
-
-  const removeConnection = (id: string) => {
-    const { topics } = taxonomyChanges;
-    const updatedTopics = topics?.filter((topic) => topic.id !== id);
-
-    // Auto set primary of only one connection.
-    if (updatedTopics?.length === 1) {
-      updatedTopics[0].isPrimary = true;
-    }
-    stageTaxonomyChanges({
-      topics: updatedTopics,
-    });
-  };
-
-  const updateMetadata = (visible: boolean) => {
-    const metadata = resourceTaxonomy.metadata;
-    stageTaxonomyChanges({
+  const updateMetadata = useCallback((visible: boolean) => {
+    setWorkingResource((res) => ({
+      ...res,
       metadata: {
-        customFields: {},
-        grepCodes: metadata?.grepCodes ?? [],
+        ...res.metadata,
         visible,
       },
-    });
-  };
+    }));
+  }, []);
 
-  const onCancel = () => {
+  const onReset = useCallback(() => {
     if (!isDirty) {
-      setIsOpen?.(false);
+      return;
+    } else if (!showWarning) {
+      setShowWarning(true);
     } else {
-      if (showWarning) {
-        setIsOpen?.(false);
-      } else {
-        setShowWarning(true);
-      }
+      setWorkingResource(initialResource);
+      setShowWarning(false);
+      changeVersion('draft');
     }
-  };
+  }, [changeVersion, initialResource, isDirty, showWarning]);
 
-  const onVersionChanged = (newVersion: SingleValue) => {
-    if (!newVersion || newVersion.value === taxonomyVersion) return;
-    const oldVersion = taxonomyVersion;
-    try {
-      setStatus('loading');
-      setIsDirty(false);
+  const onVersionChanged = useCallback(
+    (newVersion: SingleValue) => {
+      if (!newVersion || newVersion.value === taxonomyVersion) return;
+      const oldVersion = taxonomyVersion;
       changeVersion(newVersion.value);
       qc.removeQueries({
         predicate: (query) => {
@@ -393,65 +332,24 @@ const LearningResourceTaxonomy = ({ article, taxonomy, updateNotes, setIsOpen }:
           return qk[1]?.taxonomyVersion === oldVersion;
         },
       });
-    } catch (e) {
-      handleError(e);
-      setError('errorMessage.taxonomy');
-    }
-  };
-
-  useEffect(() => {
-    fetchTaxonomy();
-    fetchTaxonomyChoices();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    if (prevTaxVersion.current || prevTaxVersion.current === '') {
-      if (prevTaxVersion.current !== taxonomyVersion) fetchTaxonomy();
-    }
-    prevTaxVersion.current = taxonomyVersion;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [taxonomyVersion]);
+    },
+    [changeVersion, qc, taxonomyVersion],
+  );
 
   const filteredResourceTypes = useMemo(
     () =>
-      availableResourceTypes
-        .filter((rt) => !blacklistedResourceTypes.includes(rt.id))
+      allResourceTypesQuery.data
+        ?.filter((rt) => !blacklistedResourceTypes.includes(rt.id))
         .map((rt) => ({
           ...rt,
-          subtype:
-            rt.subtypes && rt.subtypes.filter((st) => !blacklistedResourceTypes.includes(st.id)),
-        })),
-    [availableResourceTypes],
+          subtype: rt?.subtypes.filter((st) => !blacklistedResourceTypes.includes(st.id)),
+        })) ?? [],
+    [allResourceTypesQuery.data],
   );
 
-  if (error) {
-    changeVersion('');
-    return (
-      <ErrorMessage
-        illustration={{
-          url: '/Oops.gif',
-          altText: t('errorMessage.title'),
-        }}
-        messages={{
-          title: t('errorMessage.title'),
-          description: t(error),
-          back: t('errorMessage.back'),
-          goToFrontPage: t('errorMessage.goToFrontPage'),
-        }}
-      />
-    );
-  }
-  if (status === 'loading') {
+  if (nodesQuery.isInitialLoading) {
     return <Spinner />;
   }
-
-  const mainResource = taxonomy.resources?.[0];
-  const mainEntity = mainResource && {
-    id: mainResource.id,
-    name: mainResource.name,
-    metadata: taxonomyChanges.metadata,
-  };
 
   const isTaxonomyAdmin = userPermissions?.includes(TAXONOMY_ADMIN_SCOPE);
 
@@ -460,23 +358,25 @@ const LearningResourceTaxonomy = ({ article, taxonomy, updateNotes, setIsOpen }:
       {isTaxonomyAdmin && (
         <TaxonomyConnectionErrors
           articleType={article.articleType ?? 'standard'}
-          taxonomy={taxonomy}
+          topics={topics}
+          resources={resources}
         />
       )}
-      {isTaxonomyAdmin && resourceId && (
+      {isTaxonomyAdmin && (
         <>
           <VersionSelect versions={versions ?? []} onVersionChanged={onVersionChanged} />
-          <TaxonomyInfo taxonomyElement={mainEntity} updateMetadata={updateMetadata} />
+          <TaxonomyInfo taxonomyElement={workingResource} updateMetadata={updateMetadata} />
         </>
       )}
       <ResourceTypeSelect
         availableResourceTypes={filteredResourceTypes}
-        resourceTypes={taxonomyChanges.resourceTypes}
+        resourceTypes={workingResource?.resourceTypes}
         onChangeSelectedResource={onChangeSelectedResource}
       />
       <TopicConnections
-        structure={structure}
-        activeTopics={taxonomyChanges.topics}
+        primaryPath={workingResource.path}
+        structure={subjects}
+        activeTopics={workingResource.placements}
         removeConnection={removeConnection}
         setPrimaryConnection={setPrimaryConnection}
         setRelevance={setRelevance}
@@ -484,14 +384,18 @@ const LearningResourceTaxonomy = ({ article, taxonomy, updateNotes, setIsOpen }:
         getSubjectTopics={getSubjectTopics}
         allowMultipleSubjectsOpen={false}
       />
+      {!!updateTaxMutation.error && (
+        <FormikFieldHelp error>{t('errorMessage.taxonomy')}</FormikFieldHelp>
+      )}
       {showWarning && <FormikFieldHelp error>{t('errorMessage.unsavedTaxonomy')}</FormikFieldHelp>}
       <ButtonContainer>
-        <ButtonV2 variant="outline" onClick={onCancel}>
-          {t('form.abort')}
+        <ButtonV2 variant="outline" disabled={!isDirty} onClick={onReset}>
+          {t('reset')}
         </ButtonV2>
         <SaveButton
-          showSaved={status === 'success' && !isDirty}
-          disabled={!isDirty || !taxonomyChanges.resourceTypes.length}
+          showSaved={updateTaxMutation.isSuccess && !isDirty}
+          isSaving={updateTaxMutation.isLoading}
+          disabled={!isDirty}
           onClick={handleSubmit}
           defaultText="saveTax"
           formIsDirty={isDirty}

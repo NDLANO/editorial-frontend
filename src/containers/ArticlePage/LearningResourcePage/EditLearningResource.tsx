@@ -17,6 +17,8 @@ import Spinner from '../../../components/Spinner';
 import { LocaleType } from '../../../interfaces';
 import NotFound from '../../NotFoundPage/NotFoundPage';
 import { TranslateType, useTranslateToNN } from '../../../components/NynorskTranslateProvider';
+import { useNodes } from '../../../modules/nodes/nodeQueries';
+import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 
 interface Props {
   isNewlyCreated?: boolean;
@@ -50,8 +52,22 @@ const EditLearningResource = ({ isNewlyCreated }: Props) => {
   const params = useParams<'selectedLanguage' | 'id'>();
   const selectedLanguage = params.selectedLanguage as LocaleType;
   const articleId = Number(params.id!) || undefined;
-  const { loading, article, taxonomy, setArticle, articleChanged, updateArticle } =
-    useFetchArticleData(articleId, selectedLanguage);
+  const { taxonomyVersion } = useTaxonomyVersion();
+  const taxonomyQuery = useNodes(
+    {
+      contentURI: `urn:article:${params.id}`,
+      taxonomyVersion,
+      language: selectedLanguage,
+      includeContexts: true,
+    },
+    {
+      enabled: !!params.selectedLanguage && !!params.id,
+    },
+  );
+  const { loading, article, setArticle, articleChanged, updateArticle } = useFetchArticleData(
+    articleId,
+    selectedLanguage,
+  );
 
   const { translate, shouldTranslate, translating } = useTranslateToNN();
 
@@ -63,7 +79,7 @@ const EditLearningResource = ({ isNewlyCreated }: Props) => {
     })();
   }, [article, loading, setArticle, shouldTranslate, translate]);
 
-  if (loading || translating) {
+  if (loading || translating || taxonomyQuery.isInitialLoading) {
     return <Spinner withWrapper />;
   }
 
@@ -81,7 +97,7 @@ const EditLearningResource = ({ isNewlyCreated }: Props) => {
       <HelmetWithTracker title={`${article.title?.title} ${t('htmlTitles.titleTemplate')}`} />
       <LearningResourceForm
         articleLanguage={selectedLanguage}
-        articleTaxonomy={taxonomy}
+        articleTaxonomy={taxonomyQuery.data}
         article={article}
         articleStatus={article.status}
         articleChanged={articleChanged || newLanguage}

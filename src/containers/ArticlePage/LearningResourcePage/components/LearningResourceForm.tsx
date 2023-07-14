@@ -10,6 +10,7 @@ import { memo, useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Formik, useFormikContext } from 'formik';
 import { IArticle, IUpdatedArticle, IStatus } from '@ndla/types-backend/draft-api';
+import { Node } from '@ndla/types-taxonomy';
 import { AlertModalWrapper } from '../../../FormikForm';
 import validateFormik, { getWarnings } from '../../../../components/formikValidationSchema';
 import LearningResourcePanels from './LearningResourcePanels';
@@ -29,7 +30,6 @@ import {
   getExpirationDate,
   learningResourceFormTypeToDraftApiType,
 } from '../../articleTransformers';
-import { ArticleTaxonomy } from '../../../FormikForm/formikDraftHooks';
 import { blockContentToHTML } from '../../../../util/articleContentConverter';
 import StyledForm from '../../../../components/StyledFormComponents';
 import { TaxonomyVersionProvider } from '../../../StructureVersion/TaxonomyVersionProvider';
@@ -39,7 +39,7 @@ import CommentSection from '../../components/CommentSection';
 
 interface Props {
   article?: IArticle;
-  articleTaxonomy?: ArticleTaxonomy;
+  articleTaxonomy?: Node[];
   articleStatus?: IStatus;
   supportedLanguages: string[];
   isNewlyCreated: boolean;

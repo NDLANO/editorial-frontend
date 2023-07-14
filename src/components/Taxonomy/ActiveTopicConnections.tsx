@@ -6,14 +6,15 @@
  *
  */
 
+import { Node } from '@ndla/types-taxonomy';
 import { StyledConnectionsWrapper } from '../../style/LearningResourceTaxonomyStyles';
 import ActiveTopicConnection from './ActiveTopicConnection';
-import { StagedTopic } from '../../containers/ArticlePage/TopicArticlePage/components/TopicArticleTaxonomy';
 
 interface Props {
   removeConnection?: (id: string) => void;
   setPrimaryConnection?: (id: string) => void;
-  activeTopics: StagedTopic[];
+  activeTopics: Node[];
+  primaryPath: string | undefined;
   type: string;
   setRelevance?: (topicId: string, relevanceId: string) => void;
 }

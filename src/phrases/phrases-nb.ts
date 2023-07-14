@@ -1839,6 +1839,7 @@ const phrases = {
     },
   },
   delete: 'Slett',
+  reset: 'Tilbakestill',
   dragAndDrop: {
     handle: 'Håndtak',
   },

@@ -14,28 +14,28 @@ import { Switch } from '@ndla/switch';
 import { ButtonV2 } from '@ndla/button';
 import { useTranslation } from 'react-i18next';
 import { ModalHeader, ModalBody, ModalCloseButton, Modal, ModalTitle } from '@ndla/modal';
+import { Node } from '@ndla/types-taxonomy';
 import { fetchUserData } from '../../modules/draft/draftApi';
-import { fetchTopic, fetchTopicConnections } from '../../modules/taxonomy';
 import ActiveTopicConnections from './ActiveTopicConnections';
 import HowToHelper from '../HowTo/HowToHelper';
 import StructureButtons from '../../containers/ArticlePage/LearningResourcePage/components/taxonomy/StructureButtons';
 import { SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
-import { StagedTopic } from '../../containers/ArticlePage/TopicArticlePage/components/TopicArticleTaxonomy';
-import { getBreadcrumbFromPath } from '../../util/taxonomyHelpers';
-import { LocaleType } from '../../interfaces';
 import { useTaxonomyVersion } from '../../containers/StructureVersion/TaxonomyVersionProvider';
+import { SubjectWithTopics } from '../../containers/ArticlePage/LearningResourcePage/components/LearningResourceTaxonomy';
+import { fetchNode } from '../../modules/nodes/nodeApi';
 
 const StyledModalHeader = styled(ModalHeader)`
   padding-bottom: 0;
 `;
 
 interface Props {
-  structure: SubjectType[];
-  activeTopics: StagedTopic[];
+  structure: SubjectWithTopics[];
+  activeTopics: Node[];
   removeConnection: (id: string) => void;
   setPrimaryConnection: (id: string) => void;
   allowMultipleSubjectsOpen: boolean;
-  stageTaxonomyChanges: (properties: any) => void;
+  primaryPath: string | undefined;
+  stageTaxonomyChanges: (contexts: Node[]) => void;
   getSubjectTopics: (subjectId: string) => Promise<void>;
   setRelevance: (topicId: string, relevanceId: string) => void;
 }
@@ -48,6 +48,7 @@ const TopicConnections = ({
   allowMultipleSubjectsOpen,
   stageTaxonomyChanges,
   getSubjectTopics,
+  primaryPath,
   setRelevance,
 }: Props) => {
   const { t } = useTranslation();
@@ -96,22 +97,10 @@ const TopicConnections = ({
     setOpenedPaths(paths);
   };
 
-  const addTopic = async (id: string | undefined, closeModal: () => void, locale?: LocaleType) => {
+  const addTopic = async (id: string | undefined, closeModal: () => void) => {
     if (id) {
-      const topicToAdd = await fetchTopic({ id, taxonomyVersion });
-      const topicConnections = await fetchTopicConnections({ id: topicToAdd.id, taxonomyVersion });
-      const breadcrumb = await getBreadcrumbFromPath(topicToAdd.path, taxonomyVersion, locale);
-      stageTaxonomyChanges({
-        topics: [
-          ...activeTopics,
-          {
-            ...topicToAdd,
-            breadcrumb,
-            topicConnections,
-            primary: activeTopics.length === 0,
-          },
-        ],
-      });
+      const topicToAdd = await fetchNode({ id, taxonomyVersion });
+      stageTaxonomyChanges(activeTopics.concat(topicToAdd));
     }
     closeModal();
   };
@@ -123,6 +112,7 @@ const TopicConnections = ({
       </FieldHeader>
       <ActiveTopicConnections
         activeTopics={activeTopics}
+        primaryPath={primaryPath}
         setRelevance={setRelevance}
         removeConnection={removeConnection}
         setPrimaryConnection={setPrimaryConnection}

@@ -10,6 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { useFormikContext } from 'formik';
 import { IUpdatedArticle, IArticle } from '@ndla/types-backend/draft-api';
 import { memo, useMemo } from 'react';
+import { Node } from '@ndla/types-taxonomy';
 import config from '../../../../config';
 import RelatedContentFieldGroup from '../../components/RelatedContentFieldGroup';
 import { TAXONOMY_WRITE_SCOPE } from '../../../../constants';
@@ -19,14 +20,13 @@ import LearningResourceTaxonomy from './LearningResourceTaxonomy';
 import LearningResourceContent from './LearningResourceContent';
 import { LearningResourceFormType } from '../../../FormikForm/articleFormHooks';
 import { useSession } from '../../../Session/SessionProvider';
-import { ArticleTaxonomy } from '../../../FormikForm/formikDraftHooks';
 import RevisionNotes from '../../components/RevisionNotes';
 import FormAccordions from '../../../../components/Accordion/FormAccordions';
 import FormAccordion from '../../../../components/Accordion/FormAccordion';
 
 interface Props {
   article?: IArticle;
-  taxonomy?: ArticleTaxonomy;
+  taxonomy?: Node[];
   updateNotes: (art: IUpdatedArticle) => Promise<IArticle>;
   articleLanguage: string;
 }
@@ -47,7 +47,7 @@ const LearningResourcePanels = ({ article, taxonomy, updateNotes, articleLanguag
       >
         <LearningResourceContent articleLanguage={articleLanguage} articleId={article?.id} />
       </FormAccordion>
-      {article && taxonomy && !!userPermissions?.includes(TAXONOMY_WRITE_SCOPE) && (
+      {!!article && !!taxonomy && !!userPermissions?.includes(TAXONOMY_WRITE_SCOPE) && (
         <FormAccordion
           id={'learning-resource-taxonomy'}
           title={t('form.taxonomySection')}
@@ -57,7 +57,7 @@ const LearningResourcePanels = ({ article, taxonomy, updateNotes, articleLanguag
           <LearningResourceTaxonomy
             article={article}
             updateNotes={updateNotes}
-            taxonomy={taxonomy}
+            articleLanguage={articleLanguage}
           />
         </FormAccordion>
       )}

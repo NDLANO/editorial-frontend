@@ -127,7 +127,7 @@ interface DoDiffResult<T> {
   changed: DiffResult<null>;
 }
 
-const doDiff = <T extends { id: string }>(
+export const doDiff = <T extends { id: string }>(
   original: T[] | undefined,
   other: T[] | undefined,
   skipFields: SkipKeys<T>,
@@ -257,7 +257,7 @@ const isObject = <T>(original: T | undefined, other: T | undefined) => {
   return isObjectLike(original) || isObjectLike(other);
 };
 
-const diffObject = <T>(
+export const diffObject = <T>(
   original: T | undefined,
   other: T | undefined,
   skipFields?: SkipKeys<T>,

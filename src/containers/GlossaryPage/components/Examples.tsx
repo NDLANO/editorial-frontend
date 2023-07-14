@@ -69,7 +69,7 @@ const Examples = ({ onChange, values: exampleLists, name, errors }: Props) => {
               <div key={`example_list_${index}`}>
                 <FormAccordion
                   id={`example_list_${index}`}
-                  title={`Example ${index + 1}`}
+                  title={`${t('form.concept.glossDataSection.example')} ${index + 1}`}
                   hasError={errors && !!errors[`example_${index}`]}
                 >
                   <LanguageVariant
@@ -90,8 +90,8 @@ const Examples = ({ onChange, values: exampleLists, name, errors }: Props) => {
         )}
       />
       <ButtonV2 variant="outline" onClick={addExampleList} data-cy="addExample">
-        {t('form.concept.glossData.add', {
-          type: t(`form.concept.glossData.examples`),
+        {t('form.concept.glossDataSection.add', {
+          label: t(`form.concept.glossDataSection.examples`),
         })}
       </ButtonV2>
     </>

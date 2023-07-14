@@ -12,8 +12,6 @@ import { ButtonV2 } from '@ndla/button';
 import { useTranslation } from 'react-i18next';
 import FormikField from '../../../components/FormikField';
 import Example from './Example';
-import { StyledErrorMessage } from 'containers/StructurePage/folderComponents/styles';
-import { error } from 'console';
 
 type Props = {
   examples: IGlossExample[];
@@ -59,7 +57,9 @@ const LanguageVariant = ({
         <>
           {examples.map((example, example_index) => (
             <>
-              <FieldHeader title={`Language ${example_index + 1}`} />
+              <FieldHeader
+                title={`${t('form.concept.glossDataSection.language')} ${example_index + 1}`}
+              />
               {errorMessage}
 
               <FormikField name={`glossData.examples.${index}.${example_index}`}>
@@ -77,13 +77,17 @@ const LanguageVariant = ({
 
               {examples.length > 1 && (
                 <FieldRemoveButton onClick={(e) => removeLanguageVariant(example_index)}>
-                  Remove language variant
+                  {t('form.concept.glossDataSection.remove', {
+                    label: t(`form.concept.glossDataSection.example`),
+                  })}
                 </FieldRemoveButton>
               )}
             </>
           ))}
           <ButtonV2 variant="outline" onClick={(e) => addLanguageVariant()}>
-            Add example in new langauge variant
+            {t('form.concept.glossDataSection.add', {
+              label: t(`form.concept.glossDataSection.languageVariant`),
+            })}
           </ButtonV2>
         </>
       )}

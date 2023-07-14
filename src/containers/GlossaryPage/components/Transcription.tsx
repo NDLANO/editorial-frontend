@@ -8,7 +8,8 @@
 
 import { FormEvent, MouseEvent } from 'react';
 import { Input, FieldSplitter, Select } from '@ndla/forms';
-import { TRANSCRIPTION_OPTIONS } from '../glossaryData';
+import { useTranslation } from 'react-i18next';
+import { ROMANIZATION_OPTIONS } from '../glossaryData';
 
 export interface TranscriptionType {
   key: string;
@@ -27,29 +28,38 @@ interface Props {
   value: TranscriptionType;
 }
 
-const Transcription = ({ transcription, index, handleTranscriptionChange, value }: Props) => (
-  <>
-    <FieldSplitter>
-      <Select
-        onChange={(e) => handleTranscriptionChange(e, 'key', index)}
-        value={transcription.key}
-      >
-        <option value="" />
-        {TRANSCRIPTION_OPTIONS.map((t, index) => (
-          <option value={t} key={index}>
-            {t}
-          </option>
-        ))}
-      </Select>
-      <Input
-        type="text"
-        placeholder={'Transcription'}
-        value={transcription.value}
-        onChange={(e) => handleTranscriptionChange(e, 'value', index)}
-        data-cy="transcription-selector"
-      />
-    </FieldSplitter>
-  </>
-);
+const Transcription = ({ transcription, index, handleTranscriptionChange, value }: Props) => {
+  const { t } = useTranslation();
+  return (
+    <>
+      <FieldSplitter>
+        <Select
+          onChange={(e) => handleTranscriptionChange(e, 'key', index)}
+          value={transcription.key}
+        >
+          {!transcription.key && (
+            <option>
+              {t('form.concept.glossDataSection.choose', {
+                label: t('form.concept.glossDataSection.romanization'),
+              })}
+            </option>
+          )}
+          {ROMANIZATION_OPTIONS.map((t, index) => (
+            <option value={t} key={index}>
+              {t}
+            </option>
+          ))}
+        </Select>
+        <Input
+          type="text"
+          placeholder={t('form.concept.glossDataSection.transcription')}
+          value={transcription.value}
+          onChange={(e) => handleTranscriptionChange(e, 'value', index)}
+          data-cy="transcription-selector"
+        />
+      </FieldSplitter>
+    </>
+  );
+};
 
 export default Transcription;

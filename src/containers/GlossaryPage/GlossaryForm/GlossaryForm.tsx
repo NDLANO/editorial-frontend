@@ -127,7 +127,7 @@ const conceptFormRules: RulesType<ConceptFormValues, IConcept> = {
       if (values.glossData) {
         const { gloss, wordClass, originalLanguage } = values.glossData;
         if (!gloss || !wordClass || !originalLanguage)
-          return { translationKey: 'All fields required' };
+          return { translationKey: 'form.concept.glossDataSection.glossMissingFields' };
       }
 
       return undefined;
@@ -223,7 +223,9 @@ const GlossaryForm = ({
             const name = `example_${example_index}`;
             const { example, language } = e;
             if (!example || !language) {
-              errors[name] = `Missing fields for Language ${language_index + 1}`;
+              errors[name] = `${t('form.concept.glossDataSection.missingFields', {
+                label: `${t(`form.concept.glossDataSection.language`)} ${language_index + 1}`,
+              })} `;
               if (!examplesHasError) {
                 examplesHasError = true;
               }
@@ -265,7 +267,7 @@ const GlossaryForm = ({
               </FormAccordion>
               <FormAccordion
                 id="glossData"
-                title={t('form.glossDataSection')}
+                title={t('form.concept.glossDataSection.gloss')}
                 hasError={!!(errors.glossInfoErrors || errors.glossExampleErrors)}
               >
                 <GlossDataSection />

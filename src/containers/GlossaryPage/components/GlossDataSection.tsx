@@ -29,7 +29,7 @@ const GlossDataSection = () => {
             <FormikField name="glossData.gloss">
               {({ field }) => (
                 <Input
-                  label={t('form.concept.glossData.gloss')}
+                  label={t('form.concept.glossDataSection.gloss')}
                   type="text"
                   value={glossData.gloss}
                   onChange={(e) => {
@@ -46,7 +46,7 @@ const GlossDataSection = () => {
             <FormikField name="glossData.wordClass">
               {({ field }) => (
                 <Select
-                  label={t('form.concept.glossData.wordClass')}
+                  label={t('form.concept.glossDataSection.wordClass')}
                   value={glossData.wordClass}
                   onChange={(e) => {
                     field.onChange({
@@ -57,7 +57,13 @@ const GlossDataSection = () => {
                     });
                   }}
                 >
-                  <option value="" />
+                  {!glossData.wordClass && (
+                    <option>
+                      {t('form.concept.glossDataSection.choose', {
+                        label: t('form.concept.glossDataSection.wordClass'),
+                      })}
+                    </option>
+                  )}
                   {Object.entries(WORD_CLASSES).map((entry) => (
                     <option value={entry[1]} key={entry[0]}>
                       {entry[1]}
@@ -79,7 +85,13 @@ const GlossDataSection = () => {
                     });
                   }}
                 >
-                  <option value="" />
+                  {!glossData.originalLanguage && (
+                    <option>
+                      {t('form.concept.glossDataSection.choose', {
+                        label: t('form.concept.glossDataSection.originalLanguage'),
+                      })}
+                    </option>
+                  )}
                   {LANGUAGES.map((l, index) => (
                     <option value={l} key={index}>
                       {l}
@@ -94,14 +106,14 @@ const GlossDataSection = () => {
 
       {glossData.originalLanguage === 'zh' && (
         <>
-          <FieldHeader title={t('form.concept.glossData.transcriptions')} />
+          <FieldHeader title={t('form.concept.glossDataSection.transcriptions')} />
           <FormikField name="glossData.transcriptions">
             {({ field }) => <TranscriptionsField values={glossData.transcriptions} {...field} />}
           </FormikField>
         </>
       )}
 
-      <FieldHeader title={t('form.concept.glossData.examples')} />
+      <FieldHeader title={t('form.concept.glossDataSection.examples')} />
       <FormikField name="glossData.examples">
         {({ field, form }) => {
           const { errors } = form;

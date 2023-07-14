@@ -8,6 +8,7 @@
 
 import { FieldHeader, FieldSection, FieldSplitter, Input, Select } from '@ndla/forms';
 import { IGlossExample } from '@ndla/types-backend/build/concept-api';
+import { useTranslation } from 'react-i18next';
 import TranscriptionsField from './TranscriptionsField';
 import { LANGUAGES } from '../glossaryData';
 
@@ -19,6 +20,8 @@ interface Props {
 }
 
 const Example = ({ example, index, onChange, name }: Props) => {
+  const { t } = useTranslation();
+
   const handleExampleChange = (evt: any, fieldName: string) => {
     const target = evt.target ?? evt.currentTarget;
 
@@ -38,7 +41,13 @@ const Example = ({ example, index, onChange, name }: Props) => {
       <FieldSection>
         <FieldSplitter>
           <Select value={example.language} onChange={(e) => handleExampleChange(e, 'language')}>
-            <option value="" />
+            {!example.language && (
+              <option>
+                {t('form.concept.glossDataSection.choose', {
+                  label: t('form.concept.glossDataSection.language'),
+                })}
+              </option>
+            )}
             {LANGUAGES.map((l, language_index) => (
               <option value={l} key={language_index}>
                 {l}
@@ -48,13 +57,13 @@ const Example = ({ example, index, onChange, name }: Props) => {
 
           <Input
             type="text"
-            placeholder={'Example'}
+            placeholder={t('form.concept.glossDataSection.example')}
             value={example.example}
             onChange={(e) => handleExampleChange(e, 'example')}
           />
         </FieldSplitter>
       </FieldSection>
-      <FieldHeader title={'Transcriptions'} />
+      <FieldHeader title={t('form.concept.glossDataSection.transcriptions')} />
 
       <TranscriptionsField
         name={'transcriptions'}

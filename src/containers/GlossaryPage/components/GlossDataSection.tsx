@@ -6,7 +6,7 @@
  *
  */
 
-import { Field, useFormikContext } from 'formik';
+import { useFormikContext } from 'formik';
 import { FieldHeader, FieldSection, Input, Select } from '@ndla/forms';
 import { useTranslation } from 'react-i18next';
 import FormikField from '../../../components/FormikField';
@@ -29,7 +29,7 @@ const GlossDataSection = () => {
             <FormikField name="glossData.gloss">
               {({ field }) => (
                 <Input
-                  label={t('form.concept.glossDataSection.gloss')}
+                  placeholder={t('form.concept.glossDataSection.gloss')}
                   type="text"
                   value={glossData.gloss}
                   onChange={(e) => {

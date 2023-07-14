@@ -115,7 +115,7 @@ export const subjectpageApiTypeToFormikType = (
     ? convertVisualElement({ ...visualElement, alt: visualElement.alt ?? '' })
     : undefined;
   return {
-    articleType: elementId.includes('subject') ? 'subjectpage' : 'filter',
+    articleType: elementId.includes('subject') ? 'subjectpage' : 'programme',
     supportedLanguages: subjectpage?.supportedLanguages ?? [],
     language: selectedLanguage,
     description: plainTextToEditorValue(subjectpage?.about?.description ?? ''),

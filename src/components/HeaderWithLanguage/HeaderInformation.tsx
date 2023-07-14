@@ -13,7 +13,7 @@ import { ButtonV2 } from '@ndla/button';
 import styled from '@emotion/styled';
 import { ContentTypeBadge, constants } from '@ndla/ui';
 import { colors, fonts, spacing } from '@ndla/core';
-import { Camera, Concept, Filter, SquareAudio } from '@ndla/icons/editor';
+import { Camera, Concept, Taxonomy, SquareAudio } from '@ndla/icons/editor';
 import { Podcast } from '@ndla/icons/common';
 import { List } from '@ndla/icons/action';
 import HeaderStatusInformation from './HeaderStatusInformation';
@@ -53,52 +53,43 @@ const StyledTitleHeaderWrapper = styled.div`
 
 const { contentTypes } = constants;
 
-export const types: Record<string, { form: string; cssModifier: string; icon: ReactNode }> = {
+const types: Record<string, { form: string; icon: ReactNode }> = {
   standard: {
     form: 'learningResourceForm',
-    cssModifier: 'article',
     icon: <ContentTypeBadge type={contentTypes.SUBJECT_MATERIAL} background size="small" />,
   },
   'topic-article': {
     form: 'topicArticleForm',
-    cssModifier: 'article',
     icon: <ContentTypeBadge type={contentTypes.TOPIC} background size="small" />,
   },
   subjectpage: {
     form: 'subjectpageForm',
-    cssModifier: 'article',
     icon: <ContentTypeBadge type={contentTypes.SUBJECT} background size="small" />,
   },
   'frontpage-article': {
     form: 'frontpageArticleForm',
-    cssModifier: 'article',
     icon: <ContentTypeBadge type={contentTypes.SUBJECT} background size="small" />,
   },
-  image: { form: 'imageForm', cssModifier: 'multimedia', icon: <Camera /> },
+  image: { form: 'imageForm', icon: <Camera /> },
   audio: {
     form: 'audioForm',
-    cssModifier: 'multimedia',
     icon: <SquareAudio />,
   },
   podcast: {
     form: 'podcastForm',
-    cssModifier: 'multimedia',
     icon: <Podcast />,
   },
   'podcast-series': {
     form: 'podcastSeriesForm',
-    cssModifier: 'multimedia',
     icon: <List />,
   },
   concept: {
     form: 'conceptform',
-    cssModifier: 'concept',
     icon: <Concept />,
   },
-  filter: {
-    form: 'filterform',
-    cssModifier: 'filter',
-    icon: <Filter />,
+  programme: {
+    form: 'programmepageForm',
+    icon: <Taxonomy />,
   },
 };
 

@@ -8,13 +8,14 @@
 
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useQueryClient } from '@tanstack/react-query';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { DeleteForever } from '@ndla/icons/editor';
 import { Node, NodeChild } from '@ndla/types-taxonomy';
 import AlertModal from '../../../../components/AlertModal';
 import RoundIcon from '../../../../components/RoundIcon';
-import { updateStatusDraft } from '../../../../modules/draft/draftApi';
 import { useDeleteNodeConnectionMutation } from '../../../../modules/nodes/nodeMutations';
+import { childNodesWithArticleTypeQueryKey } from '../../../../modules/nodes/nodeQueries';
 import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
 import { EditModeHandler } from '../SettingsMenuDropdownType';
 import MenuItemButton from './components/MenuItemButton';
@@ -35,12 +36,12 @@ const DisconnectFromParent = ({
 }: Props) => {
   const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
+  const { mutateAsync: disconnectNode } = useDeleteNodeConnectionMutation();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | undefined>(undefined);
   const navigate = useNavigate();
   const location = useLocation();
-
-  const deleteNodeConnectionMutation = useDeleteNodeConnectionMutation();
+  const qc = useQueryClient();
 
   const toggleDisconnect = () => toggleEditMode('disconnectFromParent');
 
@@ -48,18 +49,29 @@ const DisconnectFromParent = ({
     setLoading(true);
     setError(undefined);
     toggleDisconnect();
-    try {
-      if ('parentId' in node) {
-        await deleteNodeConnectionMutation.mutateAsync({ id: node.connectionId, taxonomyVersion });
-      }
-      navigate(location.pathname.split(node.id)[0], { replace: true });
-      onCurrentNodeChanged(undefined);
-    } catch (error) {
-      const e = error as Error;
-      setError(`${t('taxonomy.errorMessage')}${e.message ? `:${e.message}` : ''}`);
-      setLoading(false);
+    if ('connectionId' in node) {
+      await disconnectNode(
+        {
+          id: node.connectionId,
+          taxonomyVersion,
+        },
+        {
+          onSuccess: () => {
+            qc.invalidateQueries(
+              childNodesWithArticleTypeQueryKey({
+                taxonomyVersion,
+                language: i18n.language,
+              }),
+            );
+            navigate(location.pathname.split(node.id)[0], { replace: true });
+            onCurrentNodeChanged(undefined);
+          },
+          onError: () => setError(t('taxonomy.errorMessage')),
+        },
+      );
     }
   };
+
   return (
     <>
       <MenuItemButton data-testid="disconnectNode" onClick={toggleDisconnect}>

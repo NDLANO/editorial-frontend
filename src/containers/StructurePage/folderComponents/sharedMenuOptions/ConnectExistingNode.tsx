@@ -16,11 +16,7 @@ import { Plus } from '@ndla/icons/action';
 import { Done } from '@ndla/icons/editor';
 import { Node, NodeType } from '@ndla/types-taxonomy';
 import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
-import {
-  useDeleteNodeConnectionMutation,
-  usePostNodeConnectionMutation,
-} from '../../../../modules/nodes/nodeMutations';
-import { fetchConnectionsForNode } from '../../../../modules/nodes/nodeApi';
+import { usePostNodeConnectionMutation } from '../../../../modules/nodes/nodeMutations';
 import { childNodesWithArticleTypeQueryKey } from '../../../../modules/nodes/nodeQueries';
 import RoundIcon from '../../../../components/RoundIcon';
 import MenuItemButton from './components/MenuItemButton';
@@ -73,7 +69,7 @@ const ConnectExistingNode = ({
 }: Props) => {
   const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
-  const addNodeConnectionMutation = usePostNodeConnectionMutation();
+  const { mutateAsync: connectNode } = usePostNodeConnectionMutation();
   const [error, setError] = useState<string | undefined>(undefined);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -91,24 +87,25 @@ const ConnectExistingNode = ({
     setLoading(true);
     setError(undefined);
     toggleEditModeFunc();
-    try {
-      await addNodeConnectionMutation.mutateAsync({
+    await connectNode(
+      {
         taxonomyVersion,
         body: { parentId: currentNode.id, childId: node.id },
-      });
-      // Invalidate all childNode-queries, since we don't know where the added node is from
-      qc.invalidateQueries(
-        childNodesWithArticleTypeQueryKey({
-          taxonomyVersion,
-          language: i18n.language,
-        }),
-      );
-      setSuccess(true);
-    } catch (e) {
-      setError('taxonomy.errorMessage');
-    } finally {
-      setLoading(false);
-    }
+      },
+      {
+        onSuccess: () => {
+          qc.invalidateQueries(
+            childNodesWithArticleTypeQueryKey({
+              taxonomyVersion,
+              language: i18n.language,
+            }),
+          );
+          setSuccess(true);
+          setLoading(false);
+        },
+        onError: () => setError('taxonomy.errorMessage'),
+      },
+    );
   };
 
   if (editMode === 'connectExistingNode') {

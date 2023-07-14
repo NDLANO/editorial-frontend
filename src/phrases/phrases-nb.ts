@@ -425,8 +425,8 @@ const phrases = {
     removeArticle: 'Fjern artikkel',
     missingVisualElement: 'Visuelt element er påkrevd.',
   },
-  filterform: {
-    title: 'Filter',
+  programmepageForm: {
+    title: 'Programfag',
   },
   topicArticleForm: {
     visualElementTitle: {

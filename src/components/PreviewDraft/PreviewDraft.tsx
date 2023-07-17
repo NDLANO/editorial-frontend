@@ -97,10 +97,11 @@ export const PreviewDraft = ({ type, draft: draftProp, label, contentType, langu
     };
   }, [transformedContent.data, draft]);
 
+  const isWide = useMemo(() => articleIsWide(draft.id), [draft.id]);
+
   if (!transformedContent.data) {
     return null;
   }
-  const isWide = articleIsWide(draft.id);
 
   if (!!article && draftProp.articleType === 'frontpage-article') {
     return <FrontpageArticle article={article} id={draft.id.toString()} isWide={isWide} />;

@@ -65,6 +65,12 @@ const EditFrontpageArticle = ({ isNewlyCreated }: Props) => {
     })();
   }, [article, loading, setArticle, shouldTranslate, translate]);
 
+  useEffect(() => {
+    if (article && articleIsWide(article.id)) {
+      setWideArticle(true);
+    }
+  }, [article, setWideArticle]);
+
   if (loading || translating) {
     return <Spinner withWrapper />;
   }
@@ -78,10 +84,6 @@ const EditFrontpageArticle = ({ isNewlyCreated }: Props) => {
     return <Navigate replace to={replaceUrl} />;
   }
   const newLanguage = !article.supportedLanguages.includes(selectedLanguage);
-
-  if (articleIsWide(article.id)) {
-    setWideArticle(true);
-  }
 
   return (
     <>

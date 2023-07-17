@@ -39,7 +39,6 @@ const FlexWrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
-  vertical-align: center;
 `;
 
 const StyledSwitch = styled(Switch)`
@@ -79,7 +78,7 @@ const FormAccordions = ({ defaultOpen, children, articleId, articleType }: Props
             id={articleId}
             label={t('frontpageArticleForm.isFrontpageArticle.toggleArticle')}
             checked={isWideArticle}
-            onChange={() => toggleWideArticles(articleId!)}
+            onChange={() => toggleWideArticles(articleId)}
           />
         )}
         <OpenAllButton onClick={onChangeAll} variant="ghost">

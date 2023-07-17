@@ -100,10 +100,10 @@ export const PreviewDraft = ({ type, draft: draftProp, label, contentType, langu
   if (!transformedContent.data) {
     return null;
   }
-  const isFrontpage = articleIsWide(draft.id);
+  const isWide = articleIsWide(draft.id);
 
   if (!!article && draftProp.articleType === 'frontpage-article') {
-    return <FrontpageArticle article={article} id={draft.id.toString()} isWide={isFrontpage} />;
+    return <FrontpageArticle article={article} id={draft.id.toString()} isWide={isWide} />;
   }
 
   return (

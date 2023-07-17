@@ -545,8 +545,6 @@ const phrases = {
     },
     isFrontpageArticle: {
       toggleArticle: 'Show wide editor',
-      description:
-        'Controls whether the article is displayed as a frontpage article in the editor.',
     },
   },
   gridForm: {

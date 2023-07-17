@@ -546,8 +546,6 @@ const phrases = {
     },
     isFrontpageArticle: {
       toggleArticle: 'Vis bred editor',
-      description:
-        'Her styrer du om artikkelen skal vises som en forsideartikkel for deg i editoren',
     },
   },
   gridForm: {

@@ -75,7 +75,7 @@ import { gridPlugin } from '../../../../components/SlateEditor/plugins/grid';
 import { TYPE_GRID } from '../../../../components/SlateEditor/plugins/grid/types';
 import { TYPE_KEY_FIGURE } from '../../../../components/SlateEditor/plugins/keyFigure/types';
 import { keyFigurePlugin } from '../../../../components/SlateEditor/plugins/keyFigure';
-import { useFrontpageArticle } from '../../../../components/FrontpageArticleProvider';
+import { useWideArticle } from '../../../../components/WideArticleEditorProvider';
 
 const StyledFormikField = styled(FormikField)`
   display: flex;
@@ -200,7 +200,7 @@ const FrontpageArticleFormContent = ({
   const handleSubmitRef = useRef(handleSubmit);
   const { userPermissions } = useSession();
   const { t, i18n } = useTranslation();
-  const { isFrontpageArticle } = useFrontpageArticle();
+  const { isWideArticle } = useWideArticle();
 
   const [preview, setPreview] = useState(false);
   const [editSlug, setEditSlug] = useState(false);
@@ -210,7 +210,7 @@ const FrontpageArticleFormContent = ({
   }, [handleSubmit]);
 
   return (
-    <StyledContentWrapper data-wide={isFrontpageArticle}>
+    <StyledContentWrapper data-wide={isWideArticle}>
       {editSlug && slug !== undefined ? <SlugField handleSubmit={handleSubmit} /> : <TitleField />}
       <StyledFormikField name="published">
         {({ field, form }) => (

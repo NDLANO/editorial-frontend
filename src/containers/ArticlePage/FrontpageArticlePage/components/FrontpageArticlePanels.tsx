@@ -15,7 +15,7 @@ import RevisionNotes from '../../components/RevisionNotes';
 import FrontpageArticleFormContent from './FrontpageArticleFormContent';
 import FormAccordions from '../../../../components/Accordion/FormAccordions';
 import FormAccordion from '../../../../components/Accordion/FormAccordion';
-import { useFrontpageArticle } from '../../../../components/FrontpageArticleProvider';
+import { useWideArticle } from '../../../../components/WideArticleEditorProvider';
 
 interface Props {
   handleSubmit: (
@@ -30,7 +30,7 @@ const FrontpageArticlePanels = ({ article, handleSubmit, articleLanguage }: Prop
   const { t } = useTranslation();
   const formikContext = useFormikContext<FrontpageArticleFormType>();
   const { values, errors, handleBlur } = formikContext;
-  const { isFrontpageArticle } = useFrontpageArticle();
+  const { isWideArticle } = useWideArticle();
 
   return (
     <FormAccordions
@@ -43,7 +43,7 @@ const FrontpageArticlePanels = ({ article, handleSubmit, articleLanguage }: Prop
         title={t('form.contentSection')}
         className={'u-4/6@desktop u-push-1/6@desktop'}
         hasError={!!(errors.title || errors.introduction || errors.content)}
-        wide={isFrontpageArticle}
+        wide={isWideArticle}
         isFrontpageArticle={article?.articleType === 'frontpage-article'}
       >
         <FrontpageArticleFormContent

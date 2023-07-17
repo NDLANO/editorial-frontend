@@ -10,10 +10,10 @@ import ResourcePage from '../../../components/ResourcePage';
 import CreateFrontpageArticle from './CreateFrontpageArticle';
 import EditFrontpageArticle from './EditFrontpageArticle';
 import { articleResourcePageStyle } from '../styles';
-import { FrontpageArticleProvider } from '../../../components/FrontpageArticleProvider';
+import { WideArticleEditorProvider } from '../../../components/WideArticleEditorProvider';
 
 const FrontpageArticlePage = () => (
-  <FrontpageArticleProvider initialValue={false}>
+  <WideArticleEditorProvider initialValue={false}>
     <ResourcePage
       CreateComponent={CreateFrontpageArticle}
       EditComponent={EditFrontpageArticle}
@@ -21,7 +21,7 @@ const FrontpageArticlePage = () => (
       createUrl="/subject-matter/frontpage-article/new"
       css={articleResourcePageStyle}
     />
-  </FrontpageArticleProvider>
+  </WideArticleEditorProvider>
 );
 
 export default FrontpageArticlePage;

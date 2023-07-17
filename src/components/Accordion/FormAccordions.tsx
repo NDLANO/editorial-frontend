@@ -14,7 +14,7 @@ import { ButtonV2 } from '@ndla/button';
 import { fonts, spacing } from '@ndla/core';
 import { Switch } from '@ndla/switch';
 import { FormAccordionProps } from './FormAccordion';
-import { useFrontpageArticle } from '../FrontpageArticleProvider';
+import { useWideArticle } from '../WideArticleEditorProvider';
 
 type ChildType = ReactElement<FormAccordionProps> | undefined | false;
 
@@ -53,7 +53,7 @@ const StyledSwitch = styled(Switch)`
 const FormAccordions = ({ defaultOpen, children, articleId, articleType }: Props) => {
   const { t } = useTranslation();
   const [openAccordions, setOpenAccordions] = useState<string[]>(defaultOpen);
-  const { toggleFrontpageArticle, isFrontpageArticle } = useFrontpageArticle();
+  const { toggleWideArticles, isWideArticle } = useWideArticle();
   const accordionChildren = useMemo(
     () => Children.map(children, (c) => (!c ? false : c?.props?.id))?.filter(Boolean) ?? [],
     [children],
@@ -78,8 +78,8 @@ const FormAccordions = ({ defaultOpen, children, articleId, articleType }: Props
           <StyledSwitch
             id={articleId}
             label={t('frontpageArticleForm.isFrontpageArticle.toggleArticle')}
-            checked={isFrontpageArticle}
-            onChange={() => toggleFrontpageArticle(articleId!)}
+            checked={isWideArticle}
+            onChange={() => toggleWideArticles(articleId!)}
           />
         )}
         <OpenAllButton onClick={onChangeAll} variant="ghost">

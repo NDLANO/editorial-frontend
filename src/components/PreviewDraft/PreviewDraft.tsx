@@ -16,7 +16,7 @@ import '../DisplayEmbed/helpers/h5pResizer';
 import formatDate from '../../util/formatDate';
 import { usePreviewArticle } from '../../modules/article/articleGqlQueries';
 import config from '../../config';
-import { articleIsWide } from '../FrontpageArticleProvider';
+import { articleIsWide } from '../WideArticleEditorProvider';
 
 interface BaseProps {
   label: string;

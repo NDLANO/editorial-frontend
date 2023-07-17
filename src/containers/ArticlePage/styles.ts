@@ -7,9 +7,9 @@
 
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
+import { spacing } from '@ndla/core';
 import { COMMENT_WIDTH, SPACING_COMMENT } from './components/CommentSection';
 import { MAX_FRONTPAGE_ARTICLE_PAGE_WIDTH, MAX_PAGE_WIDTH } from '../../constants';
-import { spacing } from '@ndla/core';
 
 // Calculate the max width of edit resource page with comments displayed
 export const MAX_WIDTH_WITH_COMMENTS = MAX_PAGE_WIDTH + COMMENT_WIDTH + SPACING_COMMENT;

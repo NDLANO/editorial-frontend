@@ -16,10 +16,10 @@ describe('Subject editing', () => {
     setToken();
 
     cy.apiroute('GET', `${taxonomyApi}/versions`, 'allVersions');
-    cy.apiroute('GET', `${taxonomyApi}/nodes?language=nb&nodeType=SUBJECT`, 'allSubjects');
+    cy.apiroute('GET', `${taxonomyApi}/nodes?*`, 'allSubjects');
     cy.apiroute(
       'GET',
-      `${taxonomyApi}/nodes/${selectSubject}/nodes?language=nb&recursive=true`,
+      `${taxonomyApi}/nodes/${selectSubject}/nodes?*`,
       'allSubjectTopics',
     );
     cy.apiroute('GET', '/get_zendesk_token', 'zendeskToken');

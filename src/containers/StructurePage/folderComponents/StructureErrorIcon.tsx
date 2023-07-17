@@ -27,14 +27,14 @@ const StyledAlertIcon = styled(AlertCircle)`
 `;
 
 const StructureErrorIcon = (
-  item: Node,
+  node: Node,
   isRoot: boolean,
   isTaxonomyAdmin: boolean,
   articleType?: string,
   isPublished?: boolean,
 ) => {
   const { t } = useTranslation();
-  if (isRoot) return null;
+  if (isRoot || node.nodeType !== 'TOPIC') return null;
   if (articleType === 'topic-article') {
     if (!isPublished) {
       const notPublishedWarning = t('taxonomy.info.notPublished');
@@ -52,7 +52,7 @@ const StructureErrorIcon = (
 
   if (isTaxonomyAdmin) {
     const missingArticleTypeError = t('taxonomy.info.missingArticleType', {
-      id: getIdFromUrn(item.contentUri),
+      id: getIdFromUrn(node.contentUri),
     });
 
     const wrongArticleTypeError = t('taxonomy.info.wrongArticleType', {

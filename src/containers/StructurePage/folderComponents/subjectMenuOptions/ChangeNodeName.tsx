@@ -17,7 +17,7 @@ import { spacing } from '@ndla/core';
 import { Input } from '@ndla/forms';
 import { Pencil } from '@ndla/icons/action';
 import { ModalHeader, ModalBody, ModalCloseButton, Modal, ModalTitle } from '@ndla/modal';
-import { Translation, Node } from '@ndla/types-taxonomy';
+import { Translation, Node, NodeType } from '@ndla/types-taxonomy';
 import { EditModeHandler } from '../SettingsMenuDropdownType';
 import MenuItemButton from '../sharedMenuOptions/components/MenuItemButton';
 import RoundIcon from '../../../../components/RoundIcon';
@@ -107,9 +107,10 @@ const ChangeNodeName = ({ editModeHandler: { editMode, toggleEditMode }, node }:
 interface ModalProps {
   onClose: () => void;
   node: Node;
+  nodeType?: NodeType;
 }
 
-const ChangeNodeNameModal = ({ onClose, node }: ModalProps) => {
+const ChangeNodeNameModal = ({ onClose, node, nodeType = 'SUBJECT' }: ModalProps) => {
   const { t } = useTranslation();
   const [loadError, setLoadError] = useState('');
   const [updateError, setUpdateError] = useState('');
@@ -164,14 +165,14 @@ const ChangeNodeNameModal = ({ onClose, node }: ModalProps) => {
       handleError(e);
       setUpdateError(t('taxonomy.changeName.updateError'));
       qc.invalidateQueries(nodeTranslationsQueryKey({ id }));
-      qc.invalidateQueries(nodesQueryKey({ isRoot: true, taxonomyVersion }));
+      qc.invalidateQueries(nodesQueryKey({ nodeType: nodeType, taxonomyVersion }));
       qc.invalidateQueries(nodeQueryKey({ id }));
       formik.setSubmitting(false);
       return;
     }
 
     if (promises.length > 0) {
-      qc.invalidateQueries(nodesQueryKey({ isRoot: true, taxonomyVersion }));
+      qc.invalidateQueries(nodesQueryKey({ nodeType: nodeType, taxonomyVersion }));
       qc.invalidateQueries(nodeQueryKey({ id }));
     }
     await refetch();

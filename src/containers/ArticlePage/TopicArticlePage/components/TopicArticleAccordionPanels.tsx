@@ -20,7 +20,6 @@ import GrepCodesField from '../../../FormikForm/GrepCodesField';
 import { HandleSubmitFunc, TopicArticleFormType } from '../../../FormikForm/articleFormHooks';
 import { useSession } from '../../../Session/SessionProvider';
 import { onSaveAsVisualElement } from '../../../FormikForm/utils';
-import { ArticleTaxonomy } from '../../../FormikForm/formikDraftHooks';
 import RevisionNotes from '../../components/RevisionNotes';
 import FormAccordions from '../../../../components/Accordion/FormAccordions';
 import FormAccordion from '../../../../components/Accordion/FormAccordion';
@@ -28,7 +27,6 @@ import FormAccordion from '../../../../components/Accordion/FormAccordion';
 interface Props {
   handleSubmit: HandleSubmitFunc<TopicArticleFormType>;
   article?: IArticle;
-  taxonomy?: ArticleTaxonomy;
   updateNotes: (art: IUpdatedArticle) => Promise<IArticle>;
   articleLanguage: string;
 }
@@ -38,7 +36,6 @@ const TopicArticleAccordionPanels = ({
   article,
   updateNotes,
   articleLanguage,
-  taxonomy,
 }: Props) => {
   const { t } = useTranslation();
   const { userPermissions } = useSession();
@@ -60,14 +57,18 @@ const TopicArticleAccordionPanels = ({
       >
         <TopicArticleContent handleSubmit={onSubmit} values={values} />
       </FormAccordion>
-      {article && taxonomy && !!userPermissions?.includes(TAXONOMY_WRITE_SCOPE) && (
+      {article && !!userPermissions?.includes(TAXONOMY_WRITE_SCOPE) && (
         <FormAccordion
           id={'topic-article-taxonomy'}
           title={t('form.taxonomySection')}
           className={'u-6/6'}
           hasError={false}
         >
-          <TopicArticleTaxonomy article={article} updateNotes={updateNotes} taxonomy={taxonomy} />
+          <TopicArticleTaxonomy
+            article={article}
+            updateNotes={updateNotes}
+            articleLanguage={articleLanguage}
+          />
         </FormAccordion>
       )}
       <FormAccordion

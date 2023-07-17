@@ -98,12 +98,17 @@ const diffAndGroupChildren = <T extends Node = Node>(
         },
       },
     });
-    const resourcesDiff = doDiff(child.original?.resources, child.other?.resources, {
-      path: true,
-      paths: true,
-      contexts: true,
-      breadcrumbs: true,
-    });
+    const resourcesDiff = doDiff(
+      child.original?.resources,
+      child.other?.resources,
+      {
+        path: true,
+        paths: true,
+        contexts: true,
+        breadcrumbs: true,
+      },
+      'id',
+    );
     const diffedChildren = diffAndGroupChildren(child, other);
     const childrenDiffType = diffedChildren.some(
       (child) =>
@@ -127,20 +132,22 @@ interface DoDiffResult<T> {
   changed: DiffResult<null>;
 }
 
-export const doDiff = <T extends { id: string }>(
+export const doDiff = <T extends object, ID extends keyof T & string>(
   original: T[] | undefined,
   other: T[] | undefined,
   skipFields: SkipKeys<T>,
+  identifier: ID,
 ): DoDiffResult<T> => {
-  const grouped = createTagGroupings(original ?? [], other ?? []);
+  const grouped = createTagGroupings(original ?? [], other ?? [], identifier);
   const diff = Object.values(grouped).map((val) => diffObject(val.original, val.other, skipFields));
   const changed = diff.some((v) => v.changed.diffType !== 'NONE');
   return { diff, changed: { diffType: changed ? 'MODIFIED' : 'NONE' } };
 };
 
-const createTagGroupings = <Value extends { id: string }>(
+const createTagGroupings = <Value extends object, Identifier extends keyof Value & string>(
   original: Value[],
   other: Value[],
+  identifier: Identifier,
 ): Record<string, Grouping<Value>> => {
   const originalValues: TagGrouping<Value>[] = original.map((value) => ({
     value,
@@ -149,10 +156,13 @@ const createTagGroupings = <Value extends { id: string }>(
   const otherValues: TagGrouping<Value>[] = other.map((value) => ({ value, tag: 'other' }));
   const allChildren = originalValues.concat(otherValues);
   return allChildren.reduce<Record<string, Grouping<Value>>>((acc, curr) => {
-    if (acc[curr.value.id]) {
-      acc[curr.value.id][curr.tag] = curr.value;
+    //@ts-ignore
+    if (acc[curr.value[identifier]]) {
+      //@ts-ignore
+      acc[curr.value[identifier]][curr.tag] = curr.value;
     } else {
-      acc[curr.value.id] = { [curr.tag]: curr.value };
+      //@ts-ignore
+      acc[curr.value[identifier]] = { [curr.tag]: curr.value };
     }
     return acc;
   }, {});
@@ -166,12 +176,17 @@ const diffChildren = (
   if (viewType === 'flat') {
     return children.map((child) => {
       const { original, other } = child;
-      const diffedResources = doDiff(original?.resources, other?.resources, {
-        path: true,
-        paths: true,
-        contexts: true,
-        breadcrumbs: true,
-      });
+      const diffedResources = doDiff(
+        original?.resources,
+        other?.resources,
+        {
+          path: true,
+          paths: true,
+          contexts: true,
+          breadcrumbs: true,
+        },
+        'id',
+      );
       return {
         ...diffObject(original, other, {
           path: true,
@@ -209,7 +224,7 @@ export const diffTrees = (
   const originalRoot = originalTree?.root;
   const otherChildren = otherTree?.children.filter((c) => c.id !== otherTree.root.id) ?? [];
   const otherRoot = otherTree?.root;
-  const grouping = createTagGroupings(originalChildren, otherChildren);
+  const grouping = createTagGroupings(originalChildren, otherChildren, 'id');
 
   const rootDiff = diffObject(originalRoot, otherRoot, {
     path: true,
@@ -224,12 +239,17 @@ export const diffTrees = (
       },
     },
   });
-  const rootResourcesDiff = doDiff(originalRoot?.resources, otherRoot?.resources, {
-    path: true,
-    paths: true,
-    contexts: true,
-    breadcrumbs: true,
-  });
+  const rootResourcesDiff = doDiff(
+    originalRoot?.resources,
+    otherRoot?.resources,
+    {
+      path: true,
+      paths: true,
+      contexts: true,
+      breadcrumbs: true,
+    },
+    'id',
+  );
   const childrenDiff = diffChildren(
     { original: originalRoot, other: otherRoot },
     Object.values(grouping),

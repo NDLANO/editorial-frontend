@@ -28,11 +28,4 @@ export {
   addSubjectTopic,
 } from './subjects';
 
-export {
-  addTopic,
-  fetchTopic,
-  addTopicToTopic,
-  fetchTopicResources,
-  fetchTopicConnections,
-  updateTopicMetadata,
-} from './topics';
+export { addTopic, fetchTopic, addTopicToTopic, updateTopicMetadata } from './topics';

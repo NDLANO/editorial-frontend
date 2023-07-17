@@ -6,8 +6,8 @@
  *
  */
 
-import { ResourceType, ResolvedUrl } from '@ndla/types-taxonomy';
-import sortBy from 'lodash/sortBy';
+import orderBy from 'lodash/orderBy';
+import { ResourceType, ResolvedUrl, NodeConnectionPUT } from '@ndla/types-taxonomy';
 import { apiResourceUrl, httpFunctions } from '../../util/apiHelpers';
 import { createResourceResourceType, deleteResourceResourceType } from './resourcetypes';
 import { taxonomyApi } from '../../config';
@@ -62,43 +62,41 @@ export const updateTax = async (
   taxonomyVersion: string,
 ) => {
   const resourceTypesDiff = doDiff(
-    sortBy(originalNode.resourceTypes, (rt) => rt.id),
-    sortBy(node.resourceTypes, (rt) => rt.id),
+    originalNode.resourceTypes,
+    node.resourceTypes,
     { connectionId: true, supportedLanguages: true, translations: true },
+    'id',
   );
-  const placementDiff = doDiff(
-    sortBy(originalNode.placements, (p) => p.id),
-    sortBy(node.placements, (p) => p.id),
-    { path: true },
-  );
+  console.log(node.placements, originalNode.placements);
+  const resourceDiff = doDiff(originalNode.placements, node.placements, { isPrimary: true }, 'id');
 
-  if (placementDiff.changed.diffType !== 'NONE' || node.path !== originalNode.path) {
-    await Promise.all(
-      placementDiff.diff.map((diff) => {
-        if (diff.changed.diffType === 'ADDED') {
-          return postNodeConnection({
-            body: {
-              parentId: diff.id.other!,
-              childId: node.id,
-              primary: node.path === diff.path.other,
-              relevanceId: diff.relevanceId?.other!,
-            },
-            taxonomyVersion,
-          });
-        } else if (diff.changed.diffType === 'DELETED') {
-          return deleteNodeConnection({ id: diff.id.original!, taxonomyVersion });
-        } else if (diff.changed.diffType === 'MODIFIED' || diff.path.other === node.path) {
-          return putNodeConnection({
-            id: diff.id.original!,
-            body: {
-              relevanceId: diff.relevanceId?.other!,
-              primary: node.path === diff.path.other,
-            },
-            taxonomyVersion,
-          });
-        } else return Promise.resolve();
-      }),
-    );
+  const primaryConnection = node.placements.find((p) => p.isPrimary);
+  const originalPrimary = originalNode.placements.find((p) => p.isPrimary);
+
+  if (resourceDiff.changed.diffType !== 'NONE') {
+    const placementDiff = orderBy(resourceDiff.diff, (d) => d.isPrimary.other, 'desc');
+    console.log(placementDiff);
+    for (const diff of placementDiff) {
+      if (diff.changed.diffType === 'ADDED') {
+        await postNodeConnection({
+          body: {
+            parentId: diff.id.other!,
+            childId: node.id,
+            primary: diff.isPrimary.other!,
+            relevanceId: diff.relevanceId?.other!,
+          },
+          taxonomyVersion,
+        });
+      } else if (diff.changed.diffType === 'DELETED') {
+        await deleteNodeConnection({ id: diff.connectionId.original!, taxonomyVersion });
+      } else if (diff.changed.diffType === 'MODIFIED') {
+        await putNodeConnection({
+          id: diff.connectionId.original!,
+          body: { primary: diff.isPrimary.other!, relevanceId: diff.relevanceId?.other },
+          taxonomyVersion,
+        });
+      }
+    }
   }
 
   if (node.metadata.visible !== originalNode.metadata.visible) {

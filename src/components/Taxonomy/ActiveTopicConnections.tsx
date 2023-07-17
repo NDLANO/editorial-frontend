@@ -6,14 +6,14 @@
  *
  */
 
-import { Node } from '@ndla/types-taxonomy';
 import { StyledConnectionsWrapper } from '../../style/LearningResourceTaxonomyStyles';
 import ActiveTopicConnection from './ActiveTopicConnection';
+import { MinimalNodeChild } from '../../containers/ArticlePage/LearningResourcePage/components/LearningResourceTaxonomy';
 
 interface Props {
   removeConnection?: (id: string) => void;
   setPrimaryConnection?: (id: string) => void;
-  activeTopics: Node[];
+  activeTopics: MinimalNodeChild[];
   primaryPath: string | undefined;
   type: string;
   setRelevance?: (topicId: string, relevanceId: string) => void;
@@ -21,8 +21,8 @@ interface Props {
 
 const ActiveTopicConnections = ({ activeTopics, ...rest }: Props) => (
   <StyledConnectionsWrapper>
-    {activeTopics.map((topic) => (
-      <ActiveTopicConnection key={topic.id} topic={topic} {...rest} />
+    {activeTopics.map((node) => (
+      <ActiveTopicConnection key={node.id} node={node} {...rest} />
     ))}
   </StyledConnectionsWrapper>
 );

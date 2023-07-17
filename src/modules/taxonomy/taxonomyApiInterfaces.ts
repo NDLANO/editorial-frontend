@@ -36,26 +36,6 @@ export interface Resource extends TaxonomyElement {
   grepCodes: string[];
 }
 
-export interface ResourceWithParentTopics extends Resource {
-  parents: ParentTopic[];
-}
-
-export interface ParentTopic extends TaxonomyElement {
-  id: string;
-  name: string;
-  contentUri: string;
-  path: string;
-  isPrimary: boolean;
-  connectionId: string;
-  paths: string[];
-}
-
-export type ParentTopicWithRelevanceAndConnections = ParentTopic & {
-  topicConnections: TopicConnections[];
-  relevanceId: string;
-  breadcrumb: TaxonomyElement[];
-};
-
 export interface TopicConnections {
   isPrimary: boolean;
   connectionId: string;

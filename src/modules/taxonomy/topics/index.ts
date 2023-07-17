@@ -6,11 +6,11 @@
  *
  */
 
-import { Metadata, NodeChild } from '@ndla/types-taxonomy';
+import { Metadata } from '@ndla/types-taxonomy';
 import { resolveLocation } from '../../../util/resolveJsonOrRejectWithError';
 import { apiResourceUrl, httpFunctions } from '../../../util/apiHelpers';
 import { taxonomyApi } from '../../../config';
-import { Topic, TopicConnections } from '../taxonomyApiInterfaces';
+import { Topic } from '../taxonomyApiInterfaces';
 import { WithTaxonomyVersion } from '../../../interfaces';
 import { TopicPostBody, TopicSubtopicPostBody } from './topicApiInterfaces';
 
@@ -29,24 +29,6 @@ const fetchTopic = ({ id, language, taxonomyVersion }: TopicGetParams): Promise<
     url: `${baseUrl}/${id}`,
     taxonomyVersion,
     queryParams: { language },
-  });
-};
-
-interface TopicResourcesGetParams extends WithTaxonomyVersion {
-  topicUrn: string;
-  language?: string;
-  relevance?: string;
-}
-const fetchTopicResources = ({
-  topicUrn,
-  language,
-  relevance,
-  taxonomyVersion,
-}: TopicResourcesGetParams): Promise<NodeChild[]> => {
-  return fetchAndResolve({
-    url: `${baseUrl}/${topicUrn}/resources`,
-    taxonomyVersion,
-    queryParams: { language, relevance },
   });
 };
 
@@ -76,17 +58,6 @@ const addTopicToTopic = ({ body, taxonomyVersion }: TopicSubtopicPostParams): Pr
   });
 };
 
-interface TopicConnectionsGetParams extends WithTaxonomyVersion {
-  id: string;
-}
-
-const fetchTopicConnections = ({
-  id,
-  taxonomyVersion,
-}: TopicConnectionsGetParams): Promise<TopicConnections[]> => {
-  return fetchAndResolve({ url: `${baseUrl}/${id}/connections`, taxonomyVersion });
-};
-
 interface TopicMetadataPutParams extends WithTaxonomyVersion {
   topicId: string;
   body: Partial<Metadata>;
@@ -104,11 +75,4 @@ const updateTopicMetadata = ({
   });
 };
 
-export {
-  fetchTopic,
-  addTopic,
-  addTopicToTopic,
-  fetchTopicResources,
-  fetchTopicConnections,
-  updateTopicMetadata,
-};
+export { fetchTopic, addTopic, addTopicToTopic, updateTopicMetadata };

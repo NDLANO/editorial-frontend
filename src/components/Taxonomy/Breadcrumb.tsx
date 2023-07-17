@@ -3,14 +3,12 @@ import styled from '@emotion/styled';
 import { colors, fonts } from '@ndla/core';
 import SafeLink from '@ndla/safelink';
 import { ChevronRight } from '@ndla/icons/common';
-import { TaxonomyElement } from '../../modules/taxonomy/taxonomyApiInterfaces';
-interface Props {
-  breadcrumb: Array<TaxonomyElement>;
-  type?: string;
-}
+import { MinimalNodeChild } from '../../containers/ArticlePage/LearningResourcePage/components/LearningResourceTaxonomy';
 
-interface StyleProps {
-  isVisible?: boolean;
+interface Props {
+  error?: boolean;
+  type?: string;
+  breadcrumb: MinimalNodeChild[];
 }
 
 const StyledBreadCrumb = styled('div')`
@@ -20,25 +18,33 @@ const StyledBreadCrumb = styled('div')`
   }
 `;
 
-const StyledLink = styled(SafeLink)<StyleProps>`
-  font-style: ${(props) => !props.isVisible && 'italic'};
-  color: ${(props) => (!props.isVisible ? colors.brand.grey : colors.brand.primary)};
+const StyledLink = styled(SafeLink)`
+  &[data-visible='false'] {
+    font-style: italic;
+    color: ${colors.brand.grey};
+  }
+  &[data-visible='true'] {
+    color: ${colors.brand.primary};
+  }
 `;
 
 const StyledSpan = styled.span`
   white-space: 'nowrap';
 `;
 
-export default function Breadcrumb({ breadcrumb, type }: Props) {
+export default function Breadcrumb({ breadcrumb, type, error }: Props) {
   let url = '/structure';
   return (
     <StyledBreadCrumb>
       {breadcrumb.map((path, index) => {
         url = `${url}/${path.id}`;
         return (
-          <Fragment key={`${path.name}_${index}`}>
+          <Fragment key={`${path.id}_${index}`}>
             <StyledSpan>
-              <StyledLink isVisible={path.metadata ? path.metadata.visible : true} to={url}>
+              <StyledLink
+                data-visible={error ? true : path.metadata ? path.metadata.visible : true}
+                to={url}
+              >
                 {path.name}
               </StyledLink>
             </StyledSpan>

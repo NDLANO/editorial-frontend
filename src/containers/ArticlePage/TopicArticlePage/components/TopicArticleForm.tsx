@@ -10,6 +10,7 @@ import { memo, useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Formik, FormikHelpers, useFormikContext } from 'formik';
 import { IUpdatedArticle, IArticle, IStatus, ILicense } from '@ndla/types-backend/draft-api';
+import { Node } from '@ndla/types-taxonomy';
 import { AlertModalWrapper } from '../../../FormikForm';
 import validateFormik, { getWarnings } from '../../../../components/formikValidationSchema';
 import TopicArticleAccordionPanels from './TopicArticleAccordionPanels';
@@ -25,7 +26,6 @@ import {
 } from '../../articleTransformers';
 import { validateDraft } from '../../../../modules/draft/draftApi';
 import { isFormikFormDirty, topicArticleRules } from '../../../../util/formHelper';
-import { ArticleTaxonomy } from '../../../FormikForm/formikDraftHooks';
 import { blockContentToHTML } from '../../../../util/articleContentConverter';
 import StyledForm from '../../../../components/StyledFormComponents';
 import { TaxonomyVersionProvider } from '../../../StructureVersion/TaxonomyVersionProvider';
@@ -35,7 +35,7 @@ import CommentSection from '../../components/CommentSection';
 
 interface Props {
   article?: IArticle;
-  articleTaxonomy?: ArticleTaxonomy;
+  articleTaxonomy?: Node[];
   revision?: number;
   updateArticle: (art: IUpdatedArticle) => Promise<IArticle>;
   articleStatus?: IStatus;
@@ -117,7 +117,6 @@ const TopicArticleForm = ({
           <MainContent>
             <TaxonomyVersionProvider>
               <TopicArticleAccordionPanels
-                taxonomy={articleTaxonomy}
                 articleLanguage={articleLanguage}
                 updateNotes={updateArticle}
                 article={article}

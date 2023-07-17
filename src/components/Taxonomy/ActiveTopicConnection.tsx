@@ -9,6 +9,7 @@
 import { Cross } from '@ndla/icons/action';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
+import { NodeChild } from '@ndla/types-taxonomy';
 import {
   StyledConnections,
   StyledErrorLabel,
@@ -21,11 +22,12 @@ import RemoveButton from './RemoveButton';
 import { StagedTopic } from '../../containers/ArticlePage/TopicArticlePage/components/TopicArticleTaxonomy';
 import { useSearchNodes } from '../../modules/nodes/nodeQueries';
 import { useTaxonomyVersion } from '../../containers/StructureVersion/TaxonomyVersionProvider';
+import { MinimalNodeChild } from '../../containers/ArticlePage/LearningResourcePage/components/LearningResourceTaxonomy';
 
 interface Props {
   removeConnection?: (id: string) => void;
-  setPrimaryConnection?: (id: string) => void;
-  topic: StagedTopic;
+  setPrimaryConnection?: (connectionId: string) => void;
+  node: MinimalNodeChild;
   type: string;
   setRelevance?: (topicId: string, relevanceId: string) => void;
   primaryPath: string | undefined;
@@ -42,13 +44,13 @@ const ActiveTopicConnection = ({
   setRelevance,
   type,
   primaryPath,
-  topic,
+  node,
 }: Props) => {
   const { t } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
 
   const breadcrumb = useSearchNodes({
-    ids: topic.path
+    ids: node.path
       .split('/')
       .filter((id) => id && !id.includes('resource:'))
       .map((id) => `urn:${id}`),
@@ -61,10 +63,10 @@ const ActiveTopicConnection = ({
     return (
       <StyledConnections error>
         <StyledErrorLabel>{t('taxonomy.topics.disconnectedTaxonomyWarning')}</StyledErrorLabel>
-        <Breadcrumb breadcrumb={[topic]} />
+        <Breadcrumb breadcrumb={[node]} />
         <StyledRemoveConnectionButton
           type="button"
-          onClick={() => removeConnection && removeConnection(topic.id)}
+          onClick={() => removeConnection && removeConnection(node.id)}
         >
           <Cross />
         </StyledRemoveConnectionButton>
@@ -86,9 +88,9 @@ const ActiveTopicConnection = ({
       <StyledConnections>
         <StyledFlexWrapper>
           <StyledPrimaryConnectionButton
-            primary={primaryPath === topic.path}
+            primary={primaryPath === node.path}
             type="button"
-            onClick={() => setPrimaryConnection?.(topic.path)}
+            onClick={() => setPrimaryConnection?.(node.id)}
           >
             {t('form.topics.primaryTopic')}
           </StyledPrimaryConnectionButton>
@@ -96,10 +98,10 @@ const ActiveTopicConnection = ({
         </StyledFlexWrapper>
         <StyledFlexWrapper>
           <RelevanceOption
-            relevanceId={topic.relevanceId}
-            onChange={(relevanceId) => setRelevance && setRelevance(topic.id, relevanceId)}
+            relevanceId={node.relevanceId}
+            onChange={(relevanceId) => setRelevance && setRelevance(node.id, relevanceId)}
           />
-          <RemoveButton onClick={() => removeConnection && removeConnection(topic.id)} />
+          <RemoveButton onClick={() => removeConnection && removeConnection(node.id)} />
         </StyledFlexWrapper>
       </StyledConnections>
     </>

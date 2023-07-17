@@ -10,7 +10,7 @@ import { ReactNode, memo } from 'react';
 import styled from '@emotion/styled';
 import { AccordionContent, AccordionHeader, AccordionItem } from '@ndla/accordion';
 import { colors, misc, spacing } from '@ndla/core';
-import { FRONTPAGE_ARTICLE_MAXIMUM_WIDTH } from '../../constants';
+import { MAX_FRONTPAGE_ARTICLE_PAGE_WIDTH } from '../../constants';
 
 export interface FormAccordionProps {
   children: ReactNode;
@@ -74,7 +74,7 @@ const StyledAccordionContent = styled(AccordionContent)`
 
   &[data-wide='true'] {
     > div {
-      max-width: ${FRONTPAGE_ARTICLE_MAXIMUM_WIDTH}px;
+      max-width: ${MAX_FRONTPAGE_ARTICLE_PAGE_WIDTH}px;
     }
   }
 `;

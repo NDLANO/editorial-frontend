@@ -17,9 +17,9 @@ import { usePreviousLocation } from '../util/routeHelpers';
 import Footer from '../containers/App/components/Footer';
 import Spinner from './Spinner';
 import { NynorskTranslateProvider } from './NynorskTranslateProvider';
-import { FRONTPAGE_ARTICLE_WIDTH } from '../containers/ArticlePage/styles';
 import { MAX_PAGE_WIDTH } from '../constants';
 import { useFrontpageArticle } from './FrontpageArticleProvider';
+import { MAX_WIDTH_FRONTPAGE_WITH_COMMENTS } from '../containers/ArticlePage/styles';
 
 const NotFoundPage = loadable(() => import('../containers/NotFoundPage/NotFoundPage'));
 
@@ -36,7 +36,7 @@ const PageContent = styled.div`
   padding-right: 24px;
 
   &[data-wide='true'] {
-    max-width: ${FRONTPAGE_ARTICLE_WIDTH}px;
+    max-width: ${MAX_WIDTH_FRONTPAGE_WITH_COMMENTS}px;
   }
   max-width: ${MAX_PAGE_WIDTH}px;
 `;

@@ -19,8 +19,6 @@ export const RESOURCE_TYPE_EXTERNAL_LEARNING_RESOURCES = 'urn:resourcetype:exter
 export const RESOURCE_TYPE_SOURCE_MATERIAL = 'urn:resourcetype:SourceMaterial';
 export const RESOURCE_TYPE_CONCEPT = 'urn:resourcetype:concept'; // Not yet added to @ndla/ui
 
-export const FRONTPAGE_ARTICLE_MAXIMUM_WIDTH = 1100;
-
 export const ITUNES_STANDARD_MINIMUM_WIDTH = 1400;
 export const ITUNES_STANDARD_MAXIMUM_WIDTH = 3000;
 
@@ -66,6 +64,7 @@ export const TAXONOMY_CUSTOM_FIELD_IS_PUBLISHING = 'isPublishing';
 export const MAX_IMAGE_UPLOAD_SIZE = 1024 * 1024 * 40; // 40MB.
 
 export const MAX_PAGE_WIDTH = 1024;
+export const MAX_FRONTPAGE_ARTICLE_PAGE_WIDTH = 1100;
 
 export const LOCALE_VALUES = ['nb', 'nn', 'en', 'se', 'sma'] as const;
 

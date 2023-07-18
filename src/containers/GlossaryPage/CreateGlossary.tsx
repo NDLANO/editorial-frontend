@@ -1,5 +1,5 @@
-/**
- * Copyright (c) 2023-present, NDLA.
+/*
+ * Copyright (c) 2019-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
@@ -12,14 +12,14 @@ import { HelmetWithTracker } from '@ndla/tracker';
 import { INewConcept } from '@ndla/types-backend/concept-api';
 import { useFetchConceptData } from '../FormikForm/formikConceptHooks';
 import { toEditGlossary } from '../../util/routeHelpers';
-import GlossaryForm from './GlossaryForm/GlossaryForm';
+import ConceptForm from '../ConceptPage/ConceptForm/ConceptForm';
 
 interface Props {
   inModal?: boolean;
-  addGlossaryInModal?: Function;
+  addConceptInModal?: Function;
 }
 
-const CreateGlossary = ({ inModal = false, addGlossaryInModal }: Props) => {
+const CreateGlossary = ({ inModal = false, addConceptInModal }: Props) => {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const { subjects, createConcept, fetchSearchTags, conceptArticles } = useFetchConceptData(
@@ -29,8 +29,8 @@ const CreateGlossary = ({ inModal = false, addGlossaryInModal }: Props) => {
 
   const createConceptAndPushRoute = async (createdConcept: INewConcept) => {
     const savedConcept = await createConcept(createdConcept);
-    if (inModal && addGlossaryInModal) {
-      addGlossaryInModal(savedConcept);
+    if (inModal && addConceptInModal) {
+      addConceptInModal(savedConcept);
     } else {
       navigate(toEditGlossary(savedConcept.id, createdConcept.language));
     }
@@ -40,13 +40,15 @@ const CreateGlossary = ({ inModal = false, addGlossaryInModal }: Props) => {
   return (
     <>
       <HelmetWithTracker title={t(`conceptform.title`)} />
-      <GlossaryForm
+      <ConceptForm
         language={i18n.language}
         upsertProps={{ onCreate: createConceptAndPushRoute }}
         fetchConceptTags={fetchSearchTags}
         inModal={inModal}
         subjects={subjects}
         conceptArticles={conceptArticles}
+        supportedLanguages={[i18n.language]}
+        conceptType="gloss"
       />
     </>
   );

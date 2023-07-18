@@ -13,10 +13,12 @@ import {
   IUpdatedConcept,
   ITagsSearchResult,
   IConceptSummary,
+  IGlossExample,
 } from '@ndla/types-backend/concept-api';
 import { IArticle } from '@ndla/types-backend/draft-api';
 import { Formik, FormikProps, FormikHelpers } from 'formik';
 import { useTranslation } from 'react-i18next';
+import GlossDataSection from '../../GlossaryPage/components/GlossDataSection';
 import { ARCHIVED, PUBLISHED, UNPUBLISHED } from '../../../constants';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
 import validateFormik, { getWarnings, RulesType } from '../../../components/formikValidationSchema';
@@ -60,9 +62,10 @@ interface Props {
   initialTitle?: string;
   onUpserted?: (concept: IConceptSummary | IConcept) => void;
   supportedLanguages: string[];
+  conceptType?: string;
 }
 
-const conceptFormRules: RulesType<ConceptFormValues, IConcept> = {
+const conceptFormBaseRules: RulesType<ConceptFormValues, IConcept> = {
   title: {
     required: true,
     warnings: {
@@ -87,9 +90,7 @@ const conceptFormRules: RulesType<ConceptFormValues, IConcept> = {
       languageMatch: true,
     },
   },
-  subjects: {
-    minItems: 1,
-  },
+
   visualElement: {
     warnings: {
       languageMatch: true,
@@ -115,6 +116,28 @@ const conceptFormRules: RulesType<ConceptFormValues, IConcept> = {
   },
 };
 
+const conceptRules: RulesType<ConceptFormValues, IConcept> = {
+  ...conceptFormBaseRules,
+  subjects: {
+    minItems: 1,
+  },
+};
+
+const glossRules: RulesType<ConceptFormValues, IConcept> = {
+  ...conceptFormBaseRules,
+  glossInfoErrors: {
+    test: (values) => {
+      if (values.glossData) {
+        const { gloss, wordClass, originalLanguage } = values.glossData;
+        if (!gloss || !wordClass || !originalLanguage)
+          return { translationKey: 'form.concept.glossDataSection.glossMissingFields' };
+      }
+
+      return undefined;
+    },
+  },
+};
+
 const ConceptForm = ({
   concept,
   conceptChanged,
@@ -129,6 +152,7 @@ const ConceptForm = ({
   initialTitle,
   onUpserted,
   supportedLanguages,
+  conceptType = 'concept',
 }: Props) => {
   const [savedToServer, setSavedToServer] = useState(false);
   const { t } = useTranslation();
@@ -154,10 +178,10 @@ const ConceptForm = ({
     try {
       let savedConcept: IConcept;
       if ('onCreate' in upsertProps) {
-        savedConcept = await upsertProps.onCreate(getNewConceptType(values, licenses, 'concept'));
+        savedConcept = await upsertProps.onCreate(getNewConceptType(values, licenses, conceptType));
       } else {
         const conceptWithStatus = {
-          ...getUpdatedConceptType(values, licenses, 'concept'),
+          ...getUpdatedConceptType(values, licenses, conceptType),
           ...(statusChange ? { status: newStatus } : {}),
         };
         savedConcept = await upsertProps.onUpdate(conceptWithStatus, revision!);
@@ -183,11 +207,40 @@ const ConceptForm = ({
     ndlaId,
     initialTitle,
   );
-  const initialWarnings = getWarnings(initialValues, conceptFormRules, t, concept);
+
+  const isGloss = conceptType === 'gloss';
+  const formRules = isGloss ? glossRules : conceptRules;
+  const initialWarnings = getWarnings(initialValues, formRules, t, concept);
   const initialErrors = useMemo(
-    () => validateFormik(initialValues, conceptFormRules, t),
-    [initialValues, t],
+    () => validateFormik(initialValues, formRules, t),
+    [initialValues, t, formRules],
   );
+
+  const validateConceptForm = (values: ConceptFormValues) => {
+    const errors = validateFormik(values, formRules, t);
+
+    if (isGloss) {
+      let examplesHasError = false;
+      values.glossData!.examples.forEach((languageVariant, example_index) => {
+        languageVariant.forEach((e: IGlossExample, language_index) => {
+          const name = `example_${example_index}`;
+          const { example, language } = e;
+          if (!example || !language) {
+            errors[name] = `${t('form.concept.glossDataSection.missingFields', {
+              label: `${t(`form.concept.glossDataSection.language`)} ${language_index + 1}`,
+            })} `;
+            if (!examplesHasError) {
+              examplesHasError = true;
+            }
+          }
+        });
+      });
+      if (examplesHasError) {
+        errors.glossExampleErrors = 'Error in examples';
+      }
+    }
+    return errors;
+  };
 
   return (
     <Formik
@@ -196,7 +249,7 @@ const ConceptForm = ({
       onSubmit={handleSubmit}
       enableReinitialize
       validateOnMount
-      validate={(values) => validateFormik(values, conceptFormRules, t)}
+      validate={(values) => validateConceptForm(values)}
       initialStatus={{ warnings: initialWarnings }}
     >
       {(formikProps) => {
@@ -221,6 +274,15 @@ const ConceptForm = ({
               >
                 <ConceptContent />
               </FormAccordion>
+              {conceptType === 'gloss' && (
+                <FormAccordion
+                  id="glossData"
+                  title={t('form.concept.glossDataSection.gloss')}
+                  hasError={!!(errors.glossInfoErrors || errors.glossExampleErrors)}
+                >
+                  <GlossDataSection />
+                </FormAccordion>
+              )}
               <FormAccordion
                 id="copyright"
                 title={t('form.copyrightSection')}

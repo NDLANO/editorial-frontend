@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) 2023-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -10,7 +10,7 @@ import { HelmetWithTracker } from '@ndla/tracker';
 import { useTranslation } from 'react-i18next';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import GlossaryForm from './GlossaryForm/GlossaryForm';
+import ConceptForm from '../ConceptPage/ConceptForm/ConceptForm';
 import { useFetchConceptData } from '../FormikForm/formikConceptHooks';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import Spinner from '../../components/Spinner';
@@ -74,7 +74,7 @@ const EditGlossary = ({ isNewlyCreated }: Props) => {
   return (
     <>
       <HelmetWithTracker title={`${concept.title.title} ${t('htmlTitles.titleTemplate')}`} />
-      <GlossaryForm
+      <ConceptForm
         inModal={false}
         concept={concept}
         conceptArticles={conceptArticles}
@@ -86,6 +86,8 @@ const EditGlossary = ({ isNewlyCreated }: Props) => {
         }}
         language={selectedLanguage!}
         subjects={subjects}
+        supportedLanguages={concept.supportedLanguages}
+        conceptType="gloss"
       />
     </>
   );

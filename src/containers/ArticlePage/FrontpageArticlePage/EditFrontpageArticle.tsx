@@ -17,6 +17,7 @@ import Spinner from '../../../components/Spinner';
 import { LocaleType } from '../../../interfaces';
 import NotFound from '../../NotFoundPage/NotFoundPage';
 import { TranslateType, useTranslateToNN } from '../../../components/NynorskTranslateProvider';
+import { useWideArticle, articleIsWide } from '../../../components/WideArticleEditorProvider';
 
 const translateFields: TranslateType[] = [
   {
@@ -54,6 +55,7 @@ const EditFrontpageArticle = ({ isNewlyCreated }: Props) => {
     selectedLanguage,
   );
   const { translate, shouldTranslate, translating } = useTranslateToNN();
+  const { setWideArticle } = useWideArticle();
 
   useEffect(() => {
     (async () => {
@@ -62,6 +64,12 @@ const EditFrontpageArticle = ({ isNewlyCreated }: Props) => {
       }
     })();
   }, [article, loading, setArticle, shouldTranslate, translate]);
+
+  useEffect(() => {
+    if (article && articleIsWide(article.id)) {
+      setWideArticle(true);
+    }
+  }, [article, setWideArticle]);
 
   if (loading || translating) {
     return <Spinner withWrapper />;
@@ -76,6 +84,7 @@ const EditFrontpageArticle = ({ isNewlyCreated }: Props) => {
     return <Navigate replace to={replaceUrl} />;
   }
   const newLanguage = !article.supportedLanguages.includes(selectedLanguage);
+
   return (
     <>
       <HelmetWithTracker title={`${article.title?.title} ${t('htmlTitles.titleTemplate')}`} />

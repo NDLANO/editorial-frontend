@@ -8,7 +8,7 @@
 
 import { useCallback, useEffect, useMemo } from 'react';
 import { Remarkable } from 'remarkable';
-import { ContentTypeBadge, Article } from '@ndla/ui';
+import { ContentTypeBadge, Article, FrontpageArticle } from '@ndla/ui';
 import { IArticle, ICopyright } from '@ndla/types-backend/draft-api';
 import { transform } from '@ndla/article-converter';
 import { LocaleType } from '../../interfaces';
@@ -16,6 +16,7 @@ import '../DisplayEmbed/helpers/h5pResizer';
 import formatDate from '../../util/formatDate';
 import { usePreviewArticle } from '../../modules/article/articleGqlQueries';
 import config from '../../config';
+import { articleIsWide } from '../WideArticleEditorProvider';
 
 interface BaseProps {
   label: string;
@@ -42,6 +43,7 @@ interface FormArticle {
   visualElement?: string;
   published?: string;
   copyright?: ICopyright;
+  articleType?: string;
 }
 
 type Props = PreviewArticleV2Props | PreviewFormArticleV2Props;
@@ -91,11 +93,18 @@ export const PreviewDraft = ({ type, draft: draftProp, label, contentType, langu
       content,
       copyright: draft.copyright!,
       published: draft.published ? formatDate(draft.published) : '',
+      footNotes: [],
     };
   }, [transformedContent.data, draft]);
 
+  const isWide = useMemo(() => articleIsWide(draft.id), [draft.id]);
+
   if (!transformedContent.data) {
     return null;
+  }
+
+  if (!!article && draftProp.articleType === 'frontpage-article') {
+    return <FrontpageArticle article={article} id={draft.id.toString()} isWide={isWide} />;
   }
 
   return (

@@ -10,12 +10,17 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { toPreviewDraft } from '../../util/routeHelpers';
+import { MAX_FRONTPAGE_ARTICLE_PAGE_WIDTH } from '../../constants';
 
 const StyledSelect = styled.select`
   max-width: 972px;
   margin: 0 auto;
   width: 100%;
   display: block;
+
+  &[data-wide='true'] {
+    max-width: ${MAX_FRONTPAGE_ARTICLE_PAGE_WIDTH}px;
+  }
 `;
 
 interface Props {

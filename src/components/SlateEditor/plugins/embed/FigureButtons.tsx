@@ -6,12 +6,10 @@
  *
  */
 
-import { ReactNode, MouseEvent } from 'react';
-
+import { ReactNode, MouseEvent, useMemo } from 'react';
 import styled from '@emotion/styled';
-import { css } from '@emotion/react';
 import Tooltip from '@ndla/tooltip';
-import { spacing, spacingUnit } from '@ndla/core';
+import { spacing } from '@ndla/core';
 import { Link as LinkIcon } from '@ndla/icons/common';
 import { Pencil } from '@ndla/icons/action';
 import { DeleteForever } from '@ndla/icons/editor';
@@ -20,35 +18,20 @@ import { SafeLinkIconButton } from '@ndla/safelink';
 import { IconButtonV2 } from '@ndla/button';
 import { Embed } from '../../../../interfaces';
 
-const rightAdjustedStyle = css`
-  right: -${spacing.large};
-`;
-
-const leftAdjustedStyle = css`
-  left: -${spacing.large};
-`;
-
-interface StyledFigureButtonsProps {
-  align: string;
-  withMargin: boolean | undefined;
-}
-
-const StyledFigureButtons = styled('div')`
+const StyledFigureButtons = styled.div`
+  display: flex;
+  flex-flow: row;
+  justify-content: flex-end;
   position: absolute;
-  top: 0;
+  top: -${spacing.large};
+  right: ${spacing.small};
 
-  ${(p: StyledFigureButtonsProps) =>
-    p.align !== 'left' && p.align !== 'right' && rightAdjustedStyle}
-  ${(p) => p.align === 'right' && rightAdjustedStyle}
-  ${(p) => p.align === 'left' && leftAdjustedStyle}
   > * {
     margin-bottom: ${spacing.xsmall};
   }
-  ${(p) =>
-    p.withMargin &&
-    css`
-      margin: ${spacing.small};
-    `}
+  &[data-margin='true'] {
+    margin: ${spacing.small};
+  }
 `;
 
 interface Props {
@@ -63,15 +46,6 @@ interface Props {
   children?: ReactNode;
 }
 
-interface embedProps {
-  path: string;
-  editTitle: string;
-}
-
-interface urlProps {
-  [key: string]: embedProps;
-}
-
 const FigureButtons = ({
   embed,
   figureType,
@@ -84,39 +58,42 @@ const FigureButtons = ({
   children,
 }: Props) => {
   const { t } = useTranslation();
-  const url: urlProps = {
-    audio: {
-      path: '/media/audio-upload',
-      editTitle: t('form.editAudio'),
-    },
-    podcast: {
-      path: '/media/podcast-upload',
-      editTitle: t('form.editPodcast'),
-    },
-    image: {
-      path: '/media/image-upload',
-      editTitle: t('form.editOriginalImage'),
-    },
-  };
+  const url = useMemo(
+    () => ({
+      audio: {
+        path: '/media/audio-upload',
+        editTitle: t('form.editAudio'),
+      },
+      podcast: {
+        path: '/media/podcast-upload',
+        editTitle: t('form.editPodcast'),
+      },
+      image: {
+        path: '/media/image-upload',
+        editTitle: t('form.editOriginalImage'),
+      },
+    }),
+    [t],
+  );
 
   return (
-    <StyledFigureButtons
-      align={'align' in embed && !!embed.align ? embed.align : ''}
-      theme={{}}
-      withMargin={withMargin}
-      contentEditable={false}
-    >
-      <Tooltip tooltip={tooltip}>
-        <IconButtonV2
-          aria-label={tooltip}
-          colorTheme="danger"
-          variant="ghost"
-          onClick={onRemoveClick}
-          data-cy="remove-element"
+    <StyledFigureButtons data-margin={withMargin} contentEditable={false}>
+      {(figureType === 'video' || figureType === 'image') && (
+        <Tooltip
+          tooltip={figureType === 'video' ? t('form.video.editVideo') : t('form.image.editImage')}
         >
-          <DeleteForever />
-        </IconButtonV2>
-      </Tooltip>
+          <IconButtonV2
+            aria-label={
+              figureType === 'video' ? t('form.video.editVideo') : t('form.image.editImage')
+            }
+            variant="ghost"
+            colorTheme="light"
+            onClick={onEdit}
+          >
+            <Pencil />
+          </IconButtonV2>
+        </Tooltip>
+      )}
       {(figureType === 'image' || figureType === 'audio' || figureType === 'podcast') &&
         (embed.resource === 'image' || embed.resource === 'audio') && (
           <Tooltip tooltip={url[figureType].editTitle}>
@@ -166,22 +143,17 @@ const FigureButtons = ({
           {children}
         </>
       )}
-      {(figureType === 'video' || figureType === 'image') && (
-        <Tooltip
-          tooltip={figureType === 'video' ? t('form.video.editVideo') : t('form.image.editImage')}
+      <Tooltip tooltip={tooltip}>
+        <IconButtonV2
+          aria-label={tooltip}
+          colorTheme="danger"
+          variant="ghost"
+          onClick={onRemoveClick}
+          data-cy="remove-element"
         >
-          <IconButtonV2
-            aria-label={
-              figureType === 'video' ? t('form.video.editVideo') : t('form.image.editImage')
-            }
-            variant="ghost"
-            colorTheme="light"
-            onClick={onEdit}
-          >
-            <Pencil />
-          </IconButtonV2>
-        </Tooltip>
-      )}
+          <DeleteForever />
+        </IconButtonV2>
+      </Tooltip>
     </StyledFigureButtons>
   );
 };

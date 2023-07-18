@@ -77,12 +77,14 @@ import { TYPE_KEY_FIGURE } from '../../../../components/SlateEditor/plugins/keyF
 import { keyFigurePlugin } from '../../../../components/SlateEditor/plugins/keyFigure';
 import { campaignBlockPlugin } from '../../../../components/SlateEditor/plugins/campaignBlock';
 import { TYPE_CAMPAIGN_BLOCK } from '../../../../components/SlateEditor/plugins/campaignBlock/types';
+import { useWideArticle } from '../../../../components/WideArticleEditorProvider';
 
 const StyledFormikField = styled(FormikField)`
   display: flex;
   margin-top: 0;
   align-items: center;
   justify-content: space-between;
+  width: 100%;
 `;
 
 const IconContainer = styled.div`
@@ -101,13 +103,20 @@ const StyledContentDiv = styled(FormikField)`
   position: static;
 `;
 
-const MarkdownButton = styled(IconButtonV2)<{ active: boolean }>`
-  color: ${(p) => (p.active ? colors.brand.primary : colors.brand.light)};
+const StyledContentWrapper = styled.div`
+  &[data-wide='true'] {
+    width: 100%;
+  }
 `;
 
-const SlugButton = styled(IconButtonV2)<{ active: boolean }>`
-  color: ${(p) => (p.active ? colors.brand.primary : colors.brand.light)};
+const StyledIconButton = styled(IconButtonV2)`
+  color: ${colors.brand.light};
+
+  &[data-active='true'] {
+    color: ${colors.brand.primary};
+  }
 `;
+
 const visualElements = [
   TYPE_EMBED_H5P,
   TYPE_EMBED_BRIGHTCOVE,
@@ -179,14 +188,13 @@ export const plugins = (
     campaignBlockPlugin,
   ];
 };
-type Props = {
+interface Props {
   articleLanguage: string;
   handleBlur: (evt: { target: { name: string } }) => void;
   values: FrontpageArticleFormType;
   handleSubmit: () => Promise<void>;
-} & {
   formik: FormikContextType<FrontpageArticleFormType>;
-};
+}
 
 const FrontpageArticleFormContent = ({
   articleLanguage,
@@ -196,6 +204,7 @@ const FrontpageArticleFormContent = ({
   const handleSubmitRef = useRef(handleSubmit);
   const { userPermissions } = useSession();
   const { t, i18n } = useTranslation();
+  const { isWideArticle } = useWideArticle();
 
   const [preview, setPreview] = useState(false);
   const [editSlug, setEditSlug] = useState(false);
@@ -205,7 +214,7 @@ const FrontpageArticleFormContent = ({
   }, [handleSubmit]);
 
   return (
-    <>
+    <StyledContentWrapper data-wide={isWideArticle}>
       {editSlug && slug !== undefined ? <SlugField handleSubmit={handleSubmit} /> : <TitleField />}
       <StyledFormikField name="published">
         {({ field, form }) => (
@@ -222,27 +231,27 @@ const FrontpageArticleFormContent = ({
             <IconContainer>
               {slug && (
                 <Tooltip tooltip={t('form.slug.edit')}>
-                  <SlugButton
+                  <StyledIconButton
                     aria-label={t('form.slug.edit')}
                     variant="stripped"
                     colorTheme="light"
-                    active={editSlug}
+                    data-active={editSlug}
                     onClick={() => setEditSlug(!editSlug)}
                   >
                     <Link />
-                  </SlugButton>
+                  </StyledIconButton>
                 </Tooltip>
               )}
               <Tooltip tooltip={t('form.markdown.button')}>
-                <MarkdownButton
+                <StyledIconButton
                   aria-label={t('form.markdown.button')}
                   variant="stripped"
                   colorTheme="light"
-                  active={preview}
+                  data-active={preview}
                   onClick={() => setPreview(!preview)}
                 >
                   <Eye />
-                </MarkdownButton>
+                </StyledIconButton>
               </Tooltip>
               <HowToHelper pageId="Markdown" tooltip={t('form.markdown.helpLabel')} />
             </IconContainer>
@@ -285,7 +294,7 @@ const FrontpageArticleFormContent = ({
           </>
         )}
       </StyledContentDiv>
-    </>
+    </StyledContentWrapper>
   );
 };
 

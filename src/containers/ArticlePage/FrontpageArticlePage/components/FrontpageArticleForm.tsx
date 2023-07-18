@@ -34,6 +34,7 @@ import FrontpageArticlePanels from './FrontpageArticlePanels';
 import { useSession } from '../../../../containers/Session/SessionProvider';
 import CommentSection from '../../components/CommentSection';
 import { FlexWrapper, MainContent } from '../../styles';
+import { useWideArticle } from '../../../../components/WideArticleEditorProvider';
 
 interface Props {
   article?: IArticle;
@@ -55,7 +56,7 @@ const FrontpageArticleForm = ({
   supportedLanguages,
 }: Props) => {
   const { t } = useTranslation();
-
+  const { isWideArticle } = useWideArticle();
   const { ndlaId } = useSession();
   const { savedToServer, formikRef, initialValues, handleSubmit } =
     useArticleFormHooks<FrontpageArticleFormType>({
@@ -100,7 +101,7 @@ const FrontpageArticleForm = ({
           expirationDate={getExpirationDate(article)}
         />
         <FlexWrapper>
-          <MainContent>
+          <MainContent data-wide={isWideArticle}>
             <FrontpageArticlePanels
               articleLanguage={articleLanguage}
               article={article}

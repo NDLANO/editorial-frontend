@@ -229,9 +229,10 @@ const PreviewConceptCompare = ({ concept, language }: CompareConceptPreviewProps
   const { data: licenses } = useLicenses({ placeholderData: [] });
   const { t } = useTranslation();
   const { values } = useFormikContext<ConceptFormValues>();
+  const type = values.glossData ? 'gloss' : 'concept';
   const formConcept = useMemo(
-    () => conceptFormTypeToApiType(values, licenses!, concept.updatedBy),
-    [values, licenses, concept.updatedBy],
+    () => conceptFormTypeToApiType(values, licenses!, type, concept.updatedBy),
+    [values, licenses, type, concept.updatedBy],
   );
   return (
     <TwoArticleWrapper>
@@ -271,9 +272,10 @@ const PreviewConceptCompare = ({ concept, language }: CompareConceptPreviewProps
 const PreviewConcept = ({ language }: ConceptPreviewProps) => {
   const { data: licenses } = useLicenses({ placeholderData: [] });
   const { values } = useFormikContext<ConceptFormValues>();
+  const type = values.glossData ? 'gloss' : 'concept';
   const formConcept = useMemo(
-    () => conceptFormTypeToApiType(values, licenses!),
-    [values, licenses],
+    () => conceptFormTypeToApiType(values, licenses!, type),
+    [values, licenses, type],
   );
 
   return (

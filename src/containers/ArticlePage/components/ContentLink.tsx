@@ -5,37 +5,42 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import { Input } from '@ndla/forms';
-import TaxonomyLightbox from '../../../components/Taxonomy/TaxonomyLightbox';
+import { spacing } from '@ndla/core';
+import { ButtonV2 } from '@ndla/button';
 
 const StyledContent = styled.div`
+  display: flex;
+  flex-direction: column;
   width: 100%;
+  gap: ${spacing.small};
+`;
 
-  > * {
-    width: 100%;
-  }
-
-  & form {
-    background-color: white;
-  }
+const StyledSaveButton = styled(ButtonV2)`
+  align-self: flex-end;
+  width: auto;
 `;
 
 interface Props {
   onAddLink: (title: string, url: string) => void;
-  onClose: () => void;
   initialTitle?: string;
   initialUrl?: string;
 }
 
-const ContentLink = ({ onAddLink, onClose, initialTitle = '', initialUrl = '' }: Props) => {
+const ContentLink = ({ onAddLink, initialTitle = '', initialUrl = '' }: Props) => {
   const { t } = useTranslation();
   const [title, setTitle] = useState(initialTitle);
   const [url, setUrl] = useState(initialUrl);
   const [showError, setShowError] = useState(false);
+
+  useEffect(() => {
+    setTitle(initialTitle);
+    setUrl(initialUrl);
+  }, [initialTitle, initialUrl]);
 
   const isEmpty = (title: string) => {
     return title === '';
@@ -49,47 +54,38 @@ const ContentLink = ({ onAddLink, onClose, initialTitle = '', initialUrl = '' }:
   const handleSubmit = () => {
     if (!isEmpty(title) && isUrl(url)) {
       onAddLink(title, url);
-      onClose();
+      setTitle('');
+      setUrl('');
+      setShowError(false);
     } else {
       setShowError(true);
     }
   };
 
   return (
-    <TaxonomyLightbox
-      title={t('form.content.relatedArticle.searchExternal')}
-      onClose={onClose}
-      actions={[
-        {
-          text: t('form.save'),
-          onClick: handleSubmit,
-          'data-testid': 'taxonomyLightboxButton',
-        },
-      ]}
-    >
-      <StyledContent>
-        <Input
-          warningText={
-            showError && isEmpty(title) ? t('form.relatedContent.link.missingTitle') : undefined
-          }
-          data-testid="addExternalTitleInput"
-          type="text"
-          placeholder={t('form.relatedContent.link.titlePlaceholder')}
-          value={title}
-          onChange={(e: ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)}
-        />
-        <Input
-          warningText={
-            showError && !isUrl(url) ? t('form.relatedContent.link.missingUrl') : undefined
-          }
-          data-testid="addExternalUrlInput"
-          type="text"
-          placeholder={t('form.relatedContent.link.urlPlaceholder')}
-          value={url}
-          onChange={(e: ChangeEvent<HTMLInputElement>) => setUrl(e.target.value)}
-        />
-      </StyledContent>
-    </TaxonomyLightbox>
+    <StyledContent>
+      <Input
+        warningText={
+          showError && isEmpty(title) ? t('form.relatedContent.link.missingTitle') : undefined
+        }
+        data-testid="addExternalTitleInput"
+        type="text"
+        placeholder={t('form.relatedContent.link.titlePlaceholder')}
+        value={title}
+        onChange={(e: ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)}
+      />
+      <Input
+        warningText={
+          showError && !isUrl(url) ? t('form.relatedContent.link.missingUrl') : undefined
+        }
+        data-testid="addExternalUrlInput"
+        type="text"
+        placeholder={t('form.relatedContent.link.urlPlaceholder')}
+        value={url}
+        onChange={(e: ChangeEvent<HTMLInputElement>) => setUrl(e.target.value)}
+      />
+      <StyledSaveButton onClick={handleSubmit}>{t('save')}</StyledSaveButton>
+    </StyledContent>
   );
 };
 

@@ -13,7 +13,7 @@ import { spacing, colors } from '@ndla/core';
 import { Plus } from '@ndla/icons/action';
 import styled from '@emotion/styled';
 import { Node, Metadata } from '@ndla/types-taxonomy';
-import { SUBJECT_NODE } from '../../../../../modules/nodes/nodeApiTypes';
+import { PROGRAMME, SUBJECT_NODE, TOPIC_NODE } from '../../../../../modules/nodes/nodeApiTypes';
 import {
   getNodeTypeFromNodeId,
   getRootIdForNode,
@@ -28,12 +28,14 @@ import {
   TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_OLD_SUBJECT_ID,
   TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES,
+  TAXONOMY_CUSTOM_FIELD_PROGRAMME_SUBJECT,
 } from '../../../../../constants';
 import GroupTopicResources from '../../topicMenuOptions/GroupTopicResources';
 import TaxonomyMetadataLanguageSelector from '../../subjectMenuOptions/TaxonomyMetadataLanguageSelector';
 import SubjectCategorySelector from '../../subjectMenuOptions/SubjectCategorySelector';
 import SubjectTypeSelector from '../../subjectMenuOptions/SubjectTypeSelector';
 import ToggleExplanationSubject from '../../subjectMenuOptions/ToggleExplanationSubject';
+import ToggleProgrammeSubject from '../../subjectMenuOptions/ToggleProgrammeSubject';
 import ConstantMetaField from './ConstantMetaField';
 import CustomFieldComponent from './CustomFieldComponent';
 import { useTaxonomyVersion } from '../../../../StructureVersion/TaxonomyVersionProvider';
@@ -74,7 +76,8 @@ const MenuItemCustomField = ({ node, onCurrentNodeChanged }: Props) => {
     }
   }, [customFields]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const filteredRootFields = [
+  const filteredProgrammeFields = [TAXONOMY_CUSTOM_FIELD_PROGRAMME_SUBJECT];
+  const filteredSubjectFields = [
     TAXONOMY_CUSTOM_FIELD_LANGUAGE,
     TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
     TAXONOMY_CUSTOM_FIELD_SUBJECT_OLD_SUBJECT_ID,
@@ -82,17 +85,28 @@ const MenuItemCustomField = ({ node, onCurrentNodeChanged }: Props) => {
     TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE,
     TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH,
   ];
-  const filteredChildFields = [
+  const filteredTopicFields = [
     TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES,
     TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH,
   ];
 
   const filterHardcodedMetadataValues = () => {
     return Object.entries(customFields).filter(([taxonomyMetadataField, _]) => {
-      const fieldsToFilter = nodeType === SUBJECT_NODE ? filteredRootFields : filteredChildFields;
+      let fieldsToFilter = filteredTopicFields;
+      if (nodeType === SUBJECT_NODE) {
+        fieldsToFilter = filteredSubjectFields;
+      } else if (nodeType === PROGRAMME) {
+        fieldsToFilter = filteredProgrammeFields;
+      }
       return !fieldsToFilter.includes(taxonomyMetadataField);
     });
   };
+
+  const programmeSettings = (
+    <>
+      <ToggleProgrammeSubject customFields={customFields} updateFields={setCustomFields} />
+    </>
+  );
 
   const topicSettings = (
     <>
@@ -126,7 +140,9 @@ const MenuItemCustomField = ({ node, onCurrentNodeChanged }: Props) => {
 
   return (
     <>
-      {nodeType === SUBJECT_NODE ? subjectSettings : topicSettings}
+      {nodeType === PROGRAMME && programmeSettings}
+      {nodeType === SUBJECT_NODE && subjectSettings}
+      {nodeType === TOPIC_NODE && topicSettings}
       {filterHardcodedMetadataValues()
         .sort((a, b) => a[0].localeCompare(b[0]))
         .map(([key, value]) => (

@@ -166,7 +166,15 @@ const OpenMenu = ({ close }: Props) => {
                 {t('subNavigation.structure')}
               </StyledMenuItem>
             </Link>
-            {userPermissions?.includes(TAXONOMY_ADMIN_SCOPE) && config.versioningEnabled && (
+            {userPermissions?.includes(TAXONOMY_ADMIN_SCOPE) && (
+              <Link css={styledListElement} to="/programme" onClick={close}>
+                <StyledMenuItem>
+                  <Taxonomy />
+                  {t('subNavigation.programme')}
+                </StyledMenuItem>
+              </Link>
+            )}
+            {userPermissions?.includes(TAXONOMY_ADMIN_SCOPE) && (
               <Link css={styledListElement} to="/taxonomyVersions" onClick={close}>
                 <StyledMenuItem>
                   <Taxonomy />
@@ -174,14 +182,12 @@ const OpenMenu = ({ close }: Props) => {
                 </StyledMenuItem>
               </Link>
             )}
-            {config.versioningEnabled === 'true' && (
-              <Link css={styledListElement} to="publishRequests" onClick={close}>
-                <StyledMenuItem>
-                  <Taxonomy />
-                  {t('subNavigation.publishRequests')}
-                </StyledMenuItem>
-              </Link>
-            )}
+            <Link css={styledListElement} to="publishRequests" onClick={close}>
+              <StyledMenuItem>
+                <Taxonomy />
+                {t('subNavigation.publishRequests')}
+              </StyledMenuItem>
+            </Link>
             <Link css={styledListElement} to={toEditNdlaFilm()} onClick={close}>
               <StyledMenuItem>
                 <ContentTypeBadge type={contentTypes.SUBJECT} background size="xx-small" />

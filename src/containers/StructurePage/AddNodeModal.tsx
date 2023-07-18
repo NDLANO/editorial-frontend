@@ -6,15 +6,20 @@
  *
  */
 
-import styled from '@emotion/styled';
-import { ButtonV2 } from '@ndla/button';
 import { ChangeEvent, useState, SyntheticEvent } from 'react';
 import { useTranslation } from 'react-i18next';
+import styled from '@emotion/styled';
 import { spacing, colors } from '@ndla/core';
+import { ButtonV2 } from '@ndla/button';
 import { InputV2 } from '@ndla/forms';
+import { Node, NodeType } from '@ndla/types-taxonomy';
+import { useQueryClient } from '@tanstack/react-query';
 import TaxonomyLightbox from '../../components/Taxonomy/TaxonomyLightbox';
-import { SUBJECT_NODE } from '../../modules/nodes/nodeApiTypes';
-import { useAddNodeMutation } from '../../modules/nodes/nodeMutations';
+import {
+  useAddNodeMutation,
+  usePostNodeConnectionMutation,
+} from '../../modules/nodes/nodeMutations';
+import { childNodesWithArticleTypeQueryKey } from '../../modules/nodes/nodeQueries';
 import handleError from '../../util/handleError';
 import { useTaxonomyVersion } from '../StructureVersion/TaxonomyVersionProvider';
 
@@ -34,22 +39,42 @@ const FormWrapper = styled.form`
 
 interface Props {
   onClose: () => void;
+  nodeType: NodeType;
+  rootId?: string;
+  parentNode?: Node;
 }
 
-const AddSubjectModal = ({ onClose }: Props) => {
+const AddNodeModal = ({ onClose, nodeType, rootId, parentNode }: Props) => {
   const { t } = useTranslation();
   const addNodeMutation = useAddNodeMutation();
+  const compkey = childNodesWithArticleTypeQueryKey({ id: rootId });
+  const addNodeToParentMutation = usePostNodeConnectionMutation({
+    onSuccess: (_) => {
+      qc.invalidateQueries(compkey);
+    },
+  });
   const { taxonomyVersion } = useTaxonomyVersion();
+  const qc = useQueryClient();
 
   const [inputValue, setInputValue] = useState('');
   const [error, setError] = useState(false);
 
   const addNode = async (name: string) => {
-    await addNodeMutation.mutateAsync({
+    return await addNodeMutation.mutateAsync({
       body: {
         name,
-        nodeType: SUBJECT_NODE,
-        root: true,
+        nodeType: nodeType,
+        root: !rootId,
+      },
+      taxonomyVersion,
+    });
+  };
+
+  const connectNode = async (parentId: string, childId: string) => {
+    await addNodeToParentMutation.mutateAsync({
+      body: {
+        parentId,
+        childId,
       },
       taxonomyVersion,
     });
@@ -59,7 +84,11 @@ const AddSubjectModal = ({ onClose }: Props) => {
     e.preventDefault();
 
     try {
-      await addNode(inputValue);
+      const nodeUrl = await addNode(inputValue);
+      const nodeId = nodeUrl.replace('/v1/nodes/', '');
+      if (parentNode) {
+        await connectNode(parentNode.id, nodeId);
+      }
       setInputValue('');
       onClose();
     } catch (error) {
@@ -74,18 +103,21 @@ const AddSubjectModal = ({ onClose }: Props) => {
   };
 
   return (
-    <TaxonomyLightbox title={t('taxonomy.addSubject')} onClose={onClose}>
+    <TaxonomyLightbox
+      title={t('taxonomy.addNode', { nodeType: t(`taxonomy.nodeType.${nodeType}`) })}
+      onClose={onClose}
+    >
       <>
         <FormWrapper>
           <StyledInputField
-            label={t('taxonomy.newSubject')}
-            name={t('taxonomy.newSubject')}
+            label={t('taxonomy.newNode', { nodeType: t(`taxonomy.nodeType.${nodeType}`) })}
+            name={t('taxonomy.newNode', { nodeType: t(`taxonomy.nodeType.${nodeType}`) })}
             labelHidden
             type="text"
             data-testid="addSubjectInputField"
             value={inputValue}
             onChange={handleInputChange}
-            placeholder={t('taxonomy.subjectName')}
+            placeholder={t('taxonomy.newNodeName')}
             error={error ? t('taxonomy.errorMessage') : undefined}
           />
           <ButtonV2 type="submit" onClick={handleClick} disabled={!inputValue}>
@@ -97,4 +129,4 @@ const AddSubjectModal = ({ onClose }: Props) => {
   );
 };
 
-export default AddSubjectModal;
+export default AddNodeModal;

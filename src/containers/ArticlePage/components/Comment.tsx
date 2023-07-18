@@ -10,7 +10,6 @@ import { colors, spacing, fonts, misc } from '@ndla/core';
 import { TrashCanOutline, RightArrow, ExpandMore } from '@ndla/icons/action';
 import { IconButtonV2 } from '@ndla/button';
 import { useTranslation } from 'react-i18next';
-import Tooltip from '@ndla/tooltip';
 import { TextAreaV2 } from '@ndla/forms';
 import { ChangeEvent, useMemo, useState } from 'react';
 import { css } from '@emotion/react';
@@ -78,33 +77,29 @@ const TopButtonRow = styled.div`
 export type CommentType = { generatedId?: string; content: string; isOpen: boolean } | IComment;
 
 interface Props {
-  comment: CommentType;
-  allOpen: boolean | undefined;
-  setAllOpen: (v: boolean | undefined) => void;
   comments: CommentType[];
   setComments: (c: CommentType[]) => void;
   onDelete: (index: number) => void;
   index: number;
+  setCommentsOpen: (commentsOpen: boolean[]) => void;
+  commentsOpen: boolean[];
 }
 
 const Comment = ({
-  comment,
-  allOpen,
-  setAllOpen,
   comments,
   setComments,
   onDelete,
   index,
+  setCommentsOpen,
+  commentsOpen,
 }: Props) => {
   const { t } = useTranslation();
+  const comment = comments[index];
+
   const [inputValue, setInputValue] = useState(comment?.content);
-
-  const open = useMemo(
-    () => (allOpen !== undefined ? allOpen : comment.isOpen),
-    [allOpen, comment.isOpen],
-  );
-
   const [modalOpen, setModalOpen] = useState(false);
+
+  const open = useMemo(() => commentsOpen[index], [commentsOpen, index]);
 
   const handleInputChange = (e: ChangeEvent<HTMLTextAreaElement>): void => {
     setInputValue(e.target.value);
@@ -117,8 +112,11 @@ const Comment = ({
   };
 
   const toggleOpen = (value?: boolean) => {
-    setAllOpen(undefined);
     const _open = value !== undefined ? value : !open;
+    const updatedCommentsOpen: boolean[] = commentsOpen?.map((c: boolean, i: number) =>
+      i === index ? _open : c,
+    );
+    setCommentsOpen(updatedCommentsOpen);
     const updatedComments = comments.map((c, i) => (index === i ? { ...c, isOpen: _open } : c));
     setComments(updatedComments);
   };
@@ -139,30 +137,28 @@ const Comment = ({
     <CommentCard>
       <CardContent>
         <TopButtonRow>
-          <Tooltip tooltip={tooltipText}>
-            <IconButtonV2
-              variant="ghost"
-              size="xsmall"
-              aria-label={tooltipText}
-              onClick={() => toggleOpen()}
-              aria-expanded={open}
-              aria-controls={commentId}
-            >
-              {open ? <ExpandMore /> : <RightArrow />}
-            </IconButtonV2>
-          </Tooltip>
+          <IconButtonV2
+            variant="ghost"
+            size="xsmall"
+            aria-label={tooltipText}
+            title={tooltipText}
+            onClick={() => toggleOpen()}
+            aria-expanded={open}
+            aria-controls={commentId}
+          >
+            {open ? <ExpandMore /> : <RightArrow />}
+          </IconButtonV2>
 
-          <Tooltip tooltip={t('form.workflow.deleteComment.title')}>
-            <IconButtonV2
-              variant="ghost"
-              size="xsmall"
-              aria-label={t('form.workflow.deleteComment.title')}
-              onClick={() => setModalOpen(true)}
-              colorTheme="danger"
-            >
-              <TrashCanOutline />
-            </IconButtonV2>
-          </Tooltip>
+          <IconButtonV2
+            variant="ghost"
+            size="xsmall"
+            aria-label={t('form.workflow.deleteComment.title')}
+            title={t('form.workflow.deleteComment.title')}
+            onClick={() => setModalOpen(true)}
+            colorTheme="danger"
+          >
+            <TrashCanOutline />
+          </IconButtonV2>
         </TopButtonRow>
         <StyledClickableTextArea
           value={inputValue}

@@ -8,6 +8,7 @@
 
 import { useTranslation } from 'react-i18next';
 import { FieldProps, FormikValues } from 'formik';
+import { memo } from 'react';
 import FormikField from '../../components/FormikField';
 import GrepCodesFieldContent from './GrepCodesFieldContent';
 
@@ -24,4 +25,4 @@ const GrepCodesField = () => {
   );
 };
 
-export default GrepCodesField;
+export default memo(GrepCodesField);

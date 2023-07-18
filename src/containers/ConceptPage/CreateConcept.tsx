@@ -47,6 +47,7 @@ const CreateConcept = ({ inModal = false, addConceptInModal }: Props) => {
         inModal={inModal}
         subjects={subjects}
         conceptArticles={conceptArticles}
+        supportedLanguages={[i18n.language]}
       />
     </>
   );

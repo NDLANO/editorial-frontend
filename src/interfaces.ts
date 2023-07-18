@@ -40,16 +40,18 @@ export type EditMode =
   | 'openCustomFields'
   | 'toggleMetadataVisibility'
   | 'editGrepCodes'
-  | 'addExistingTopic'
+  | 'moveExistingNode'
   | 'addTopic'
   | 'deleteSubject'
   | 'requestPublish'
   | 'deleteNode'
+  | 'disconnectFromParent'
   | 'copyResources'
   | 'cloneResources'
   | 'copyRevisionDate'
   | 'swapTopicArticle'
   | 'setResourcesPrimary'
+  | 'connectExistingNode'
   | '';
 
 export interface SearchResultBase<T> {
@@ -110,6 +112,8 @@ export interface ImageEmbed {
   'upper-left-y'?: string;
   'upper-left-x'?: string;
   metaData?: any;
+  'is-decorative'?: string;
+  allowDecorative?: string;
 }
 
 export interface BrightcoveEmbed {
@@ -257,7 +261,8 @@ type Keys =
   | 'license'
   | 'model-released'
   | 'responsible-ids'
-  | 'subjects';
+  | 'subjects'
+  | 'filter-inactive';
 
 export type SearchObjectType = {
   [K in Keys]?: string;

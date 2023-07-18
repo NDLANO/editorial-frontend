@@ -6,8 +6,9 @@
  *
  */
 
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, HTMLAttributes } from 'react';
 import { useTranslation } from 'react-i18next';
+import { RenderElementProps } from 'slate-react';
 import './helpers/h5pResizer';
 import { Transforms, Editor, Path } from 'slate';
 import styled from '@emotion/styled';
@@ -37,7 +38,7 @@ const ExpandableButton = styled.div`
 
 type EmbedType = ExternalEmbed | H5pEmbed;
 
-interface Props {
+interface Props extends HTMLAttributes<HTMLDivElement> {
   pathToEmbed: Path;
   editor: Editor;
   embed: EmbedType;
@@ -45,6 +46,7 @@ interface Props {
   language: string;
   active: boolean;
   isSelectedForCopy: boolean;
+  attributes?: RenderElementProps['attributes'];
 }
 
 interface EmbedProperties {
@@ -64,6 +66,8 @@ const DisplayExternal = ({
   language,
   active,
   isSelectedForCopy,
+  attributes,
+  children,
 }: Props) => {
   const [isEditMode, setIsEditMode] = useState(false);
   const [error, setError] = useState(false);
@@ -220,16 +224,12 @@ const DisplayExternal = ({
       const elementHeight = startSize - startPosition + mouseUpEvent.pageY;
       const updatedElementHeight = elementHeight > minHeight ? elementHeight : minHeight;
 
-      Transforms.setNodes(
-        editor,
-        {
-          data: {
-            ...prevEmbed.current,
-            height: `${updatedElementHeight}px`,
-          },
-        },
-        { at: pathToEmbed },
-      );
+      const newData = {
+        ...prevEmbed.current,
+        height: `${updatedElementHeight}px`,
+      };
+
+      Transforms.setNodes(editor, { data: newData }, { at: pathToEmbed });
       setHeight(updatedElementHeight);
       setIsResizing(false);
     };
@@ -239,7 +239,7 @@ const DisplayExternal = ({
   };
 
   return (
-    <div className={'c-figure'}>
+    <div {...attributes} className={'c-figure'}>
       <FigureButtons
         language={language}
         tooltip={t('form.external.remove', {
@@ -299,6 +299,7 @@ const DisplayExternal = ({
         onClose={closeEditEmbed}
         allowedProvider={allowedProvider}
       />
+      {children}
     </div>
   );
 };

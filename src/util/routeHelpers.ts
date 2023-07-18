@@ -23,6 +23,14 @@ export function toEditArticle(articleId: number | string, articleType: string, l
   return locale ? `${path}/${locale}` : path;
 }
 
+export function toEditTopicArticle(id: number, locale: string) {
+  return `/subject-matter/topic-article/${id}/edit/${locale}`;
+}
+
+export function toEditLearningResource(id: number, locale: string) {
+  return `/subject-matter/learning-resource/${id}/edit/${locale}`;
+}
+
 export const toEditGenericArticle = (articleId: number | string) => {
   return `/subject-matter/article/${articleId}`;
 };
@@ -66,6 +74,10 @@ export function toCreateTopicArticle() {
 
 export function toCreateFrontPageArticle() {
   return '/subject-matter/frontpage-article/new';
+}
+
+export function toEditFrontPageArticle(id: number, locale: string) {
+  return `subject-matter/frontpage-article/${id}/edit/${locale}`;
 }
 
 export function toCreateSubjectpage(subjectId: string, locale: string) {

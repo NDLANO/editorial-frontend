@@ -43,7 +43,7 @@ interface FormValues {
 
 export const audioEmbedFormRules: RulesType<FormValues> = {
   alttext: {
-    required: true,
+    required: false,
   },
   type: {
     required: true,
@@ -149,16 +149,6 @@ const AudioEmbedForm = ({
         title={audio.title}
         speech={values.type === 'minimal'}
       />
-      <StyledFormikField name="alttext">
-        {({ field }: FieldProps) => (
-          <Input
-            white
-            {...field}
-            label={t('form.name.alttext')}
-            placeholder={t('form.name.alttext')}
-          />
-        )}
-      </StyledFormikField>
       <ButtonWrapper>
         <ButtonV2 onClick={onClose}>{t('form.abort')}</ButtonV2>
         <ButtonV2 disabled={!isValid || !dirty} type="submit">

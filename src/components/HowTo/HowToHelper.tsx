@@ -11,6 +11,8 @@ import { css } from '@emotion/react';
 import { spacing, colors } from '@ndla/core';
 import { ArticleInModal } from '@ndla/howto';
 import { InformationOutline } from '@ndla/icons/common';
+import { ButtonV2 } from '@ndla/button';
+import { memo } from 'react';
 
 const extraPaddedCSS = css`
   width: calc(${spacing.normal} * 1.5);
@@ -46,13 +48,12 @@ interface Props {
 const HowToHelper = ({ pageId, tooltip, extraIconPadding }: Props) => (
   <ArticleInModal
     pageId={pageId}
-    tooltip={tooltip}
     activateButton={
-      <div>
+      <ButtonV2 variant="stripped" aria-label={tooltip} title={tooltip}>
         <HelpIcon css={[extraIconPadding ? extraPaddedCSS : normalPaddingCSS]} />
-      </div>
+      </ButtonV2>
     }
   />
 );
 
-export default HowToHelper;
+export default memo(HowToHelper);

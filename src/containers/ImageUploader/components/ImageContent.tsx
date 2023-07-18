@@ -40,14 +40,14 @@ interface Props {
 
 const ImageContent = ({ formik }: Props) => {
   const { t } = useTranslation();
-  const { values, errors, setFieldValue, submitForm } = formik;
+  const { values, errors, setFieldValue } = formik;
 
   // We use the timestamp to avoid caching of the `imageFile` url in the browser
   const timestamp = new Date().getTime();
   const imgSrc = values.filepath || `${values.imageFile}?width=600&ts=${timestamp}`;
   return (
     <>
-      <TitleField handleSubmit={submitForm} />
+      <TitleField />
       {!values.imageFile && (
         <UploadDropZone
           name="imageFile"

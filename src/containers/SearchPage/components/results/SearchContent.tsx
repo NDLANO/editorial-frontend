@@ -169,8 +169,7 @@ const SearchContent = ({ content, locale, responsibleName }: Props) => {
                 content.status?.other.includes('PUBLISHED')
               )
             }
-            indentLeft
-            fontSize={10}
+            compact
             expirationDate={expirationDate}
             type={content.learningResourceType}
             responsibleName={responsibleName}

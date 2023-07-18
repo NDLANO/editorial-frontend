@@ -8,6 +8,7 @@
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { colors } from '@ndla/core';
+import { memo } from 'react';
 import formatDate from '../../util/formatDate';
 
 import DateEdit from './DateEdit';
@@ -55,4 +56,4 @@ const LastUpdatedLine = ({
   );
 };
 
-export default LastUpdatedLine;
+export default memo(LastUpdatedLine);

@@ -15,7 +15,12 @@ import { TYPE_SECTION } from '../../section/types';
 import { TYPE_PARAGRAPH } from '../types';
 
 const editor = withHistory(
-  withReact(withPlugins(createEditor(), plugins('nb', 'nb', { current: () => {} }))),
+  withReact(
+    withPlugins(
+      createEditor(),
+      plugins('nb', 'nb', () => {}),
+    ),
+  ),
 );
 
 describe('paragraph normalizer tests', () => {

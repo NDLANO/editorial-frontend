@@ -6,12 +6,11 @@
  *
  */
 
-import { useMemo } from 'react';
+import { memo, useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Formik, FormikProps } from 'formik';
-import { IUpdatedArticle, IArticle, IStatus } from '@ndla/types-backend/draft-api';
+import { Formik, FormikHelpers, useFormikContext } from 'formik';
+import { IUpdatedArticle, IArticle, IStatus, ILicense } from '@ndla/types-backend/draft-api';
 import { AlertModalWrapper } from '../../../FormikForm';
-import { toEditArticle } from '../../../../util/routeHelpers';
 import validateFormik, { getWarnings } from '../../../../components/formikValidationSchema';
 import TopicArticleAccordionPanels from './TopicArticleAccordionPanels';
 import HeaderWithLanguage from '../../../../components/HeaderWithLanguage';
@@ -42,6 +41,7 @@ interface Props {
   articleStatus?: IStatus;
   articleChanged: boolean;
   isNewlyCreated: boolean;
+  supportedLanguages: string[];
   articleLanguage: string;
 }
 
@@ -51,14 +51,19 @@ const TopicArticleForm = ({
   updateArticle,
   articleChanged,
   isNewlyCreated,
+  supportedLanguages,
   articleLanguage,
   articleStatus,
 }: Props) => {
   const { data: licenses } = useLicenses({ placeholderData: [] });
-  const statusStateMachine = useDraftStatusStateMachine({ articleId: article?.id });
-
   const { t } = useTranslation();
   const { ndlaId } = useSession();
+
+  const validate = useCallback(
+    (values: TopicArticleFormType) => validateFormik(values, topicArticleRules, t),
+    [t],
+  );
+
   const { savedToServer, formikRef, initialValues, handleSubmit } =
     useArticleFormHooks<TopicArticleFormType>({
       getInitialValues: draftApiTypeToTopicArticleFormType,
@@ -75,82 +80,11 @@ const TopicArticleForm = ({
 
   const initialHTML = useMemo(() => blockContentToHTML(initialValues.content), [initialValues]);
 
-  const FormikChild = (formik: FormikProps<TopicArticleFormType>) => {
-    // eslint doesn't allow this to be inlined when using hooks (in usePreventWindowUnload)
-    const { values, dirty, isSubmitting } = formik;
-    const formIsDirty = isFormikFormDirty({
-      values,
-      initialValues,
-      dirty,
-      changed: articleChanged,
-      initialHTML,
-    });
-    usePreventWindowUnload(formIsDirty);
-    const getArticle = () => topicArticleFormTypeToDraftApiType(values, initialValues, licenses!);
-    const editUrl = values.id
-      ? (lang: string) => toEditArticle(values.id!, values.articleType, lang)
-      : undefined;
+  const initialWarnings = useMemo(
+    () => getWarnings(initialValues, topicArticleRules, t, article),
+    [article, initialValues, t],
+  );
 
-    return (
-      <StyledForm>
-        <HeaderWithLanguage
-          taxonomy={articleTaxonomy}
-          article={article}
-          values={values}
-          content={{
-            ...article,
-            title: article?.title?.title,
-            language: articleLanguage,
-            supportedLanguages: values.supportedLanguages,
-          }}
-          editUrl={editUrl}
-          isSubmitting={isSubmitting}
-          type="topic-article"
-          expirationDate={getExpirationDate(article)}
-        />
-        <TaxonomyVersionProvider>
-          <FlexWrapper>
-            <MainContent>
-              <TopicArticleAccordionPanels
-                taxonomy={articleTaxonomy}
-                articleLanguage={articleLanguage}
-                updateNotes={updateArticle}
-                article={article}
-                handleSubmit={async () => handleSubmit(values, formik)}
-              />
-            </MainContent>
-            <CommentSection savedStatus={article?.status} />
-          </FlexWrapper>
-        </TaxonomyVersionProvider>
-        <EditorFooter
-          showSimpleFooter={!article?.id}
-          formIsDirty={formIsDirty}
-          savedToServer={savedToServer}
-          getEntity={getArticle}
-          onSaveClick={(saveAsNewVersion) => {
-            handleSubmit(values, formik, saveAsNewVersion ?? false);
-          }}
-          entityStatus={article?.status}
-          statusStateMachine={statusStateMachine.data}
-          validateEntity={validateDraft}
-          isArticle
-          isNewlyCreated={isNewlyCreated}
-          isConcept={false}
-          hideSecondaryButton={false}
-          responsibleId={article?.responsible?.responsibleId}
-          prioritized={article?.prioritized}
-        />
-        <AlertModalWrapper
-          isSubmitting={isSubmitting}
-          formIsDirty={formIsDirty}
-          severity="danger"
-          text={t('alertModal.notSaved')}
-        />
-      </StyledForm>
-    );
-  };
-
-  const initialWarnings = getWarnings(initialValues, topicArticleRules, t, article);
   const initialErrors = useMemo(
     () => validateFormik(initialValues, topicArticleRules, t),
     [initialValues, t],
@@ -164,12 +98,130 @@ const TopicArticleForm = ({
       validateOnBlur={false}
       innerRef={formikRef}
       onSubmit={handleSubmit}
-      validate={(values) => validateFormik(values, topicArticleRules, t)}
-      initialStatus={{ warnings: initialWarnings }}
+      validate={validate}
+      initialStatus={initialWarnings}
     >
-      {FormikChild}
+      <StyledForm>
+        <HeaderWithLanguage
+          id={article?.id}
+          language={articleLanguage}
+          taxonomy={articleTaxonomy}
+          article={article}
+          status={article?.status}
+          supportedLanguages={supportedLanguages}
+          title={article?.title?.title}
+          type="topic-article"
+          expirationDate={getExpirationDate(article)}
+        />
+        <FlexWrapper>
+          <MainContent>
+            <TaxonomyVersionProvider>
+              <TopicArticleAccordionPanels
+                taxonomy={articleTaxonomy}
+                articleLanguage={articleLanguage}
+                updateNotes={updateArticle}
+                article={article}
+                handleSubmit={handleSubmit}
+              />
+            </TaxonomyVersionProvider>
+          </MainContent>
+          <CommentSection savedStatus={article?.status} />
+        </FlexWrapper>
+        <FormFooter
+          licenses={licenses ?? []}
+          initialHTML={initialHTML}
+          articleChanged={!!articleChanged}
+          isNewlyCreated={isNewlyCreated}
+          savedToServer={savedToServer}
+          handleSubmit={handleSubmit}
+          article={article}
+        />
+      </StyledForm>
     </Formik>
   );
 };
+
+interface FormFooterProps {
+  initialHTML: string;
+  articleChanged: boolean;
+  article?: IArticle;
+  isNewlyCreated: boolean;
+  savedToServer: boolean;
+  licenses: ILicense[];
+  handleSubmit: (
+    values: TopicArticleFormType,
+    formikHelpers: FormikHelpers<TopicArticleFormType>,
+    saveAsNew?: boolean,
+  ) => Promise<void>;
+}
+
+const _FormFooter = ({
+  initialHTML,
+  articleChanged,
+  article,
+  isNewlyCreated,
+  savedToServer,
+  licenses,
+  handleSubmit,
+}: FormFooterProps) => {
+  const { t } = useTranslation();
+  const statusStateMachine = useDraftStatusStateMachine({ articleId: article?.id });
+  const formik = useFormikContext<TopicArticleFormType>();
+  const { values, dirty, isSubmitting, initialValues } = formik;
+
+  const formIsDirty = useMemo(
+    () =>
+      isFormikFormDirty({
+        values,
+        initialValues,
+        dirty,
+        changed: articleChanged,
+        initialHTML,
+      }),
+    [articleChanged, dirty, initialHTML, initialValues, values],
+  );
+
+  const onSave = useCallback(
+    (saveAsNew?: boolean) => handleSubmit(values, formik, saveAsNew),
+    [handleSubmit, values, formik],
+  );
+
+  const validateOnServer = useCallback(async () => {
+    if (!values.id) return;
+    const article = topicArticleFormTypeToDraftApiType(values, initialValues, licenses!, false);
+    const data = await validateDraft(values.id, article);
+    return data;
+  }, [initialValues, licenses, values]);
+
+  usePreventWindowUnload(formIsDirty);
+
+  return (
+    <>
+      <EditorFooter
+        showSimpleFooter={!article?.id}
+        formIsDirty={formIsDirty}
+        savedToServer={savedToServer}
+        onSaveClick={onSave}
+        entityStatus={article?.status}
+        statusStateMachine={statusStateMachine.data}
+        validateEntity={validateOnServer}
+        isArticle
+        isNewlyCreated={isNewlyCreated}
+        isConcept={false}
+        hideSecondaryButton={false}
+        responsibleId={article?.responsible?.responsibleId}
+        prioritized={article?.prioritized}
+      />
+      <AlertModalWrapper
+        isSubmitting={isSubmitting}
+        formIsDirty={formIsDirty}
+        severity="danger"
+        text={t('alertModal.notSaved')}
+      />
+    </>
+  );
+};
+
+const FormFooter = memo(_FormFooter);
 
 export default TopicArticleForm;

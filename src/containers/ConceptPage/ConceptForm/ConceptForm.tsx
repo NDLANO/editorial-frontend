@@ -17,13 +17,11 @@ import {
 import { IArticle } from '@ndla/types-backend/draft-api';
 import { Formik, FormikProps, FormikHelpers } from 'formik';
 import { useTranslation } from 'react-i18next';
-import { toEditConcept } from '../../../util/routeHelpers';
 import { ARCHIVED, PUBLISHED, UNPUBLISHED } from '../../../constants';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
 import validateFormik, { getWarnings, RulesType } from '../../../components/formikValidationSchema';
 import {
   conceptApiTypeToFormType,
-  conceptFormTypeToApiType,
   getNewConceptType,
   getUpdatedConceptType,
 } from '../conceptTransformers';
@@ -61,6 +59,7 @@ interface Props {
   subjects: SubjectType[];
   initialTitle?: string;
   onUpserted?: (concept: IConceptSummary | IConcept) => void;
+  supportedLanguages: string[];
 }
 
 const conceptFormRules: RulesType<ConceptFormValues, IConcept> = {
@@ -129,6 +128,7 @@ const ConceptForm = ({
   conceptArticles,
   initialTitle,
   onUpserted,
+  supportedLanguages,
 }: Props) => {
   const [savedToServer, setSavedToServer] = useState(false);
   const { t } = useTranslation();
@@ -210,11 +210,13 @@ const ConceptForm = ({
         return (
           <FormWrapper inModal={inModal}>
             <HeaderWithLanguage
+              id={concept?.id}
+              language={language}
               concept={concept}
-              content={{ ...concept, title: concept?.title?.title, language }}
-              editUrl={editUrl}
+              status={concept?.status}
+              title={concept?.title.title ?? initialTitle}
               type="concept"
-              values={values}
+              supportedLanguages={supportedLanguages}
             />
             <FormAccordions defaultOpen={['content']}>
               <FormAccordion
@@ -231,7 +233,6 @@ const ConceptForm = ({
                 hasError={!!(errors.creators || errors.license)}
               >
                 <ConceptCopyright
-                  disableAgreements
                   label={t('form.concept.source')}
                   description={t('form.concept.markdown')}
                 />
@@ -264,7 +265,6 @@ const ConceptForm = ({
               isNewlyCreated={isNewlyCreated}
               showSimpleFooter={!concept?.id}
               onClose={onClose}
-              getApiConcept={getEntity}
               responsibleId={concept?.responsible?.responsibleId}
             />
           </FormWrapper>

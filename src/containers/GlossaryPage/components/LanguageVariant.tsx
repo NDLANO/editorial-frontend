@@ -79,7 +79,7 @@ const LanguageVariant = ({ examples, index, arrayHelpers, errorMessage }: Props)
           ))}
           <ButtonV2 variant="outline" onClick={() => addLanguageVariant()}>
             {t('form.concept.glossDataSection.add', {
-              label: t(`form.concept.glossDataSection.languageVariant`),
+              label: t(`form.concept.glossDataSection.languageVariant`).toLowerCase(),
             })}
           </ButtonV2>
         </>

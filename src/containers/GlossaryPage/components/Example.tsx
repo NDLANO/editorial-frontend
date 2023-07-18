@@ -50,7 +50,7 @@ const Example = ({ example, onChange, name }: Props) => {
           {!example.language && (
             <option>
               {t('form.concept.glossDataSection.choose', {
-                label: t('form.concept.glossDataSection.language'),
+                label: t('form.concept.glossDataSection.language').toLowerCase(),
               })}
             </option>
           )}

@@ -55,7 +55,7 @@ const Transcription = ({
           {!transcription.key && (
             <option>
               {t('form.concept.glossDataSection.choose', {
-                label: t('form.concept.glossDataSection.romanization'),
+                label: t('form.concept.glossDataSection.romanization').toLowerCase(),
               })}
             </option>
           )}

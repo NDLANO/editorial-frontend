@@ -60,7 +60,7 @@ const GlossDataSection = () => {
                   {!glossData.wordClass && (
                     <option>
                       {t('form.concept.glossDataSection.choose', {
-                        label: t('form.concept.glossDataSection.wordClass'),
+                        label: t('form.concept.glossDataSection.wordClass').toLowerCase(),
                       })}
                     </option>
                   )}
@@ -88,7 +88,7 @@ const GlossDataSection = () => {
                   {!glossData.originalLanguage && (
                     <option>
                       {t('form.concept.glossDataSection.choose', {
-                        label: t('form.concept.glossDataSection.originalLanguage'),
+                        label: t('form.concept.glossDataSection.originalLanguage').toLowerCase(),
                       })}
                     </option>
                   )}

@@ -17,10 +17,9 @@ type Props = {
   examples: IGlossExample[];
   index: number;
   arrayHelpers: any;
-  errorMessage?: string;
 };
 
-const LanguageVariant = ({ examples, index, arrayHelpers, errorMessage }: Props) => {
+const LanguageVariant = ({ examples, index, arrayHelpers }: Props) => {
   const { t } = useTranslation();
 
   const addLanguageVariant = () => {
@@ -53,18 +52,14 @@ const LanguageVariant = ({ examples, index, arrayHelpers, errorMessage }: Props)
               <FieldHeader
                 title={`${t('form.concept.glossDataSection.language')} ${example_index + 1}`}
               />
-              {errorMessage}
-
               <FormikField name={`glossData.examples.${index}.${example_index}`}>
                 {({ field }) => (
-                  <>
-                    <Example
-                      example={example}
-                      index={example_index}
-                      handleLanguageVariantChange={handleLanguageVariantChange}
-                      {...field}
-                    />
-                  </>
+                  <Example
+                    example={example}
+                    index={example_index}
+                    handleLanguageVariantChange={handleLanguageVariantChange}
+                    {...field}
+                  />
                 )}
               </FormikField>
 

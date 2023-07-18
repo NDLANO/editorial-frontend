@@ -63,12 +63,8 @@ const Examples = ({ onChange, values: exampleLists, name, errors }: Props) => {
                   title={`${t('form.concept.glossDataSection.example')} ${index + 1}`}
                   hasError={errors && !!errors[`example_${index}`]}
                 >
-                  <LanguageVariant
-                    examples={examples}
-                    index={index}
-                    arrayHelpers={arrayHelpers}
-                    errorMessage={errors[`example_${index}`]}
-                  />
+                  {errors && errors[`example_${index}`]}
+                  <LanguageVariant examples={examples} index={index} arrayHelpers={arrayHelpers} />
                 </FormAccordion>
               </FieldSection>
             ))}

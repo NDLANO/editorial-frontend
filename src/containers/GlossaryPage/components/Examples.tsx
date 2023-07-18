@@ -10,7 +10,6 @@ import { IGlossExample } from '@ndla/types-backend/build/concept-api';
 import { FieldRemoveButton, FieldSection } from '@ndla/forms';
 import { ButtonV2 } from '@ndla/button';
 import { useTranslation } from 'react-i18next';
-import { AccordionContent, AccordionHeader, AccordionItem, AccordionRoot } from '@ndla/accordion';
 import { FieldArray } from 'formik';
 import LanguageVariant from './LanguageVariant';
 import FormAccordion from '../../../components/Accordion/FormAccordion';
@@ -67,11 +66,7 @@ const Examples = ({ onChange, values: exampleLists, name, errors }: Props) => {
           <>
             {exampleLists.map((examples, index) => (
               <FieldSection key={`example_list_${index}`}>
-                <FieldRemoveButton onClick={() => removeExampleList(index)}>
-                  {/*t('form.concept.glossDataSection.remove', {
-                    label: t(`form.concept.glossDataSection.example`).toLowerCase(),
-                  })*/}
-                </FieldRemoveButton>
+                <FieldRemoveButton onClick={() => removeExampleList(index)} />
                 <FormAccordion
                   id={`example_list_${index}`}
                   title={`${t('form.concept.glossDataSection.example')} ${index + 1}`}
@@ -81,7 +76,6 @@ const Examples = ({ onChange, values: exampleLists, name, errors }: Props) => {
                     examples={examples}
                     index={index}
                     arrayHelpers={arrayHelpers}
-                    handleExampleListChange={handleExampleListChange}
                     errorMessage={errors[`example_${index}`]}
                   />
                 </FormAccordion>

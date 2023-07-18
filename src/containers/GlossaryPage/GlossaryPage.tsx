@@ -18,7 +18,7 @@ const GlossaryPage = () => (
     CreateComponent={CreateGlossary}
     EditComponent={EditGlossary}
     useHook={useConcept}
-    createUrl="/glossary/new"
+    createUrl="/gloss/new"
   />
 );
 

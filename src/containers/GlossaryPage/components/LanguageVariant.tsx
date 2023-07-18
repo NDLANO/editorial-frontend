@@ -15,19 +15,12 @@ import Example from './Example';
 
 type Props = {
   examples: IGlossExample[];
-  handleExampleListChange: (index: number, example: IGlossExample[]) => void;
   index: number;
   arrayHelpers: any;
   errorMessage?: string;
 };
 
-const LanguageVariant = ({
-  examples,
-  index,
-  handleExampleListChange,
-  arrayHelpers,
-  errorMessage,
-}: Props) => {
+const LanguageVariant = ({ examples, index, arrayHelpers, errorMessage }: Props) => {
   const { t } = useTranslation();
 
   const addLanguageVariant = () => {
@@ -76,7 +69,7 @@ const LanguageVariant = ({
               </FormikField>
 
               {examples.length > 1 && (
-                <FieldRemoveButton onClick={(e) => removeLanguageVariant(example_index)}>
+                <FieldRemoveButton onClick={() => removeLanguageVariant(example_index)}>
                   {t('form.concept.glossDataSection.remove', {
                     label: t(`form.concept.glossDataSection.example`),
                   })}
@@ -84,7 +77,7 @@ const LanguageVariant = ({
               )}
             </>
           ))}
-          <ButtonV2 variant="outline" onClick={(e) => addLanguageVariant()}>
+          <ButtonV2 variant="outline" onClick={() => addLanguageVariant()}>
             {t('form.concept.glossDataSection.add', {
               label: t(`form.concept.glossDataSection.languageVariant`),
             })}

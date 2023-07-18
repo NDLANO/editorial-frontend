@@ -6,7 +6,7 @@
  *
  */
 
-import { FieldHeader, FieldSection, FieldSplitter, Input, Select } from '@ndla/forms';
+import { FieldHeader, FieldSection, Input, Select } from '@ndla/forms';
 import { IGlossExample } from '@ndla/types-backend/build/concept-api';
 import { useTranslation } from 'react-i18next';
 import TranscriptionsField from './TranscriptionsField';
@@ -19,7 +19,7 @@ interface Props {
   name: string;
 }
 
-const Example = ({ example, index, onChange, name }: Props) => {
+const Example = ({ example, onChange, name }: Props) => {
   const { t } = useTranslation();
 
   const handleExampleChange = (evt: any, fieldName: string) => {

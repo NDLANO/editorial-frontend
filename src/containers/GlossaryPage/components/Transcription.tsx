@@ -10,9 +10,8 @@ import { FormEvent, MouseEvent } from 'react';
 import { Input, Select, FieldRemoveButton, FieldSection } from '@ndla/forms';
 import { useTranslation } from 'react-i18next';
 import { ROMANIZATION_OPTIONS } from '../glossaryData';
-import FormikField from '../../../components/FormikField';
 
-export interface TranscriptionType {
+interface TranscriptionType {
   key: string;
   value: string;
 }
@@ -33,7 +32,6 @@ const Transcription = ({
   transcription,
   index,
   handleTranscriptionChange,
-  value,
   removeTranscription,
 }: Props) => {
   const { t } = useTranslation();

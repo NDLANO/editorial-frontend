@@ -94,7 +94,6 @@ const App = ({ isClient }: Props) => {
               <Zendesk />
               <Helmet meta={[{ name: 'description', content: t('meta.description') }]} />
               <StyledContent>
-                hi
                 <Navigation />
                 <Routes>
                   <Route path="/" element={<WelcomePage />} />
@@ -113,10 +112,7 @@ const App = ({ isClient }: Props) => {
                     element={<PrivateRoute component={<EditMarkupPage />} />}
                   />
                   <Route path="/concept/*" element={<PrivateRoute component={<ConceptPage />} />} />
-                  <Route
-                    path="/glossary/*"
-                    element={<PrivateRoute component={<GlossaryPage />} />}
-                  />
+                  <Route path="/gloss/*" element={<PrivateRoute component={<GlossaryPage />} />} />
                   <Route path="/preview/:draftId/:language/*" element={<PreviewDraftPage />} />
                   <Route path="/media/*" element={<PrivateRoute component={<MediaPage />} />} />
                   <Route

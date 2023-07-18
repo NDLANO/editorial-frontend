@@ -200,13 +200,7 @@ const ConceptForm = ({
       initialStatus={{ warnings: initialWarnings }}
     >
       {(formikProps) => {
-        const { values, errors }: FormikProps<ConceptFormValues> = formikProps;
-        const { id, revision, status, created, updated } = values;
-        const requirements = id && revision && status && created && updated;
-        const getEntity = requirements
-          ? () => conceptFormTypeToApiType(values, licenses, 'concept', concept?.updatedBy)
-          : undefined;
-        const editUrl = values.id ? (lang: string) => toEditConcept(values.id!, lang) : undefined;
+        const { errors }: FormikProps<ConceptFormValues> = formikProps;
         return (
           <FormWrapper inModal={inModal}>
             <HeaderWithLanguage

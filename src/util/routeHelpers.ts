@@ -55,7 +55,7 @@ export function toEditConcept(conceptId: number, locale?: string) {
   return locale ? `${path}/${locale}` : path;
 }
 
-export function toEditGlossary(glossaryId: number, locale?: string) {
+export function toEditGloss(glossaryId: number, locale?: string) {
   const path = `/gloss/${glossaryId}/edit`;
   return locale ? `${path}/${locale}` : path;
 }

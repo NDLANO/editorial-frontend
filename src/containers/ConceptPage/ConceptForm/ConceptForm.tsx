@@ -18,6 +18,7 @@ import {
 import { IArticle } from '@ndla/types-backend/draft-api';
 import { Formik, FormikProps, FormikHelpers } from 'formik';
 import { useTranslation } from 'react-i18next';
+import { FormHeaderType } from '../../../components/HeaderWithLanguage/HeaderWithLanguage';
 import GlossDataSection from '../../GlossaryPage/components/GlossDataSection';
 import { ARCHIVED, PUBLISHED, UNPUBLISHED } from '../../../constants';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
@@ -262,7 +263,7 @@ const ConceptForm = ({
               concept={concept}
               status={concept?.status}
               title={concept?.title.title ?? initialTitle}
-              type="concept"
+              type={conceptType as FormHeaderType}
               supportedLanguages={supportedLanguages}
             />
             <FormAccordions defaultOpen={['content']}>

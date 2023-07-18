@@ -1655,6 +1655,9 @@ const phrases = {
   conceptform: {
     title: 'Forklaring',
   },
+  glossForm: {
+    title: 'Glose',
+  },
   editorFooter: {
     buttonLabel: 'Kvalitetssikring',
     heading: 'Kvalitetssikring:',

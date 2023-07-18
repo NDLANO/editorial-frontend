@@ -87,6 +87,10 @@ const types: Record<string, { form: string; icon: ReactNode }> = {
     form: 'conceptform',
     icon: <Concept />,
   },
+  gloss: {
+    form: 'glossForm',
+    icon: <Concept />,
+  },
   programme: {
     form: 'programmepageForm',
     icon: <Taxonomy />,

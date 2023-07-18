@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { INewConcept } from '@ndla/types-backend/concept-api';
 import { useFetchConceptData } from '../FormikForm/formikConceptHooks';
-import { toEditGlossary } from '../../util/routeHelpers';
+import { toEditGloss } from '../../util/routeHelpers';
 import ConceptForm from '../ConceptPage/ConceptForm/ConceptForm';
 
 interface Props {
@@ -32,7 +32,7 @@ const CreateGlossary = ({ inModal = false, addConceptInModal }: Props) => {
     if (inModal && addConceptInModal) {
       addConceptInModal(savedConcept);
     } else {
-      navigate(toEditGlossary(savedConcept.id, createdConcept.language));
+      navigate(toEditGloss(savedConcept.id, createdConcept.language));
     }
     return savedConcept;
   };

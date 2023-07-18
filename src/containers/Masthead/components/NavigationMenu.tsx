@@ -26,6 +26,7 @@ import {
   toCreatePodcastSeries,
   toEditNdlaFilm,
   toCreateFrontPageArticle,
+  toCreateGloss,
 } from '../../../util/routeHelpers';
 import { useSession } from '../../Session/SessionProvider';
 import { AUDIO_ADMIN_SCOPE, DRAFT_ADMIN_SCOPE, TAXONOMY_ADMIN_SCOPE } from '../../../constants';
@@ -118,6 +119,11 @@ const OpenMenu = ({ close }: Props) => {
             <Link css={styledListElement} to={toCreateConcept()} onClick={close}>
               <StyledMenuItem>
                 <Concept /> {t('subNavigation.newConcept')}
+              </StyledMenuItem>
+            </Link>
+            <Link css={styledListElement} to={toCreateGloss()} onClick={close}>
+              <StyledMenuItem>
+                <Concept /> {t('subNavigation.newGloss')}
               </StyledMenuItem>
             </Link>
             <Link css={styledListElement} to={toCreateImage()} onClick={close}>

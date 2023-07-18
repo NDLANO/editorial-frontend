@@ -219,6 +219,7 @@ const phrases = {
     film: 'Edit NDLA film',
     h5p: 'Edit H5P',
     newConcept: 'Create new concept',
+    newGloss: 'Create new gloss',
     newSubject: 'Create new subject',
     newFrontpageArticle: 'Create new About-NDLA article',
     creationMovedInfo: 'Topics and resources need to be created from structure',

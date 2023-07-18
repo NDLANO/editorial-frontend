@@ -79,6 +79,10 @@ export function toCreateConcept() {
   return '/concept/new';
 }
 
+export function toCreateGloss() {
+  return '/gloss/new';
+}
+
 export function toLogin() {
   return '/login';
 }

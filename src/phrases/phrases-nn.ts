@@ -220,6 +220,7 @@ const phrases = {
     film: 'Rediger NDLA film',
     h5p: 'Rediger H5P',
     newConcept: 'Opprett forklaring',
+    newGloss: 'Opprett glose',
     newSubject: 'Opprett fag',
     newFrontpageArticle: 'Opprett Om-NDLA-artikkel',
     creationMovedInfo: 'Emner og ressursar må opprettast frå strukturredigeringa',

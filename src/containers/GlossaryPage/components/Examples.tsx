@@ -40,15 +40,6 @@ const Examples = ({ onChange, values: exampleLists, name, errors }: Props) => {
     onExamplesChange(newExampleLists);
   };
 
-  const handleExampleListChange = (
-    example_list_index: number,
-    newLanguageVariants: IGlossExample[],
-  ) => {
-    const newExampleLists = exampleLists;
-    newExampleLists[example_list_index] = newLanguageVariants;
-    onExamplesChange(newExampleLists);
-  };
-
   const onExamplesChange = (newExamples: IGlossExample[][]) => {
     onChange({
       target: {

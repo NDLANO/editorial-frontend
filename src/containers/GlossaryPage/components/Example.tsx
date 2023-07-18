@@ -56,7 +56,7 @@ const Example = ({ example, onChange, name }: Props) => {
           )}
           {LANGUAGES.map((l, language_index) => (
             <option value={l} key={language_index}>
-              {l}
+              {t(`languages.${l}`)}
             </option>
           ))}
         </Select>

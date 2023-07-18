@@ -94,7 +94,7 @@ const GlossDataSection = () => {
                   )}
                   {LANGUAGES.map((l, index) => (
                     <option value={l} key={index}>
-                      {l}
+                      {t(`languages.${l}`)}
                     </option>
                   ))}
                 </Select>

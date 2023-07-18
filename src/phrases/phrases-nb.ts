@@ -263,6 +263,7 @@ const phrases = {
       status: 'Velg status',
       'draft-status': 'Velg status',
       'audio-type': 'Velg lydfiltype',
+      'concept-type': 'Velg forklaringstype',
       license: 'Velg lisens',
       'revision-date-from': 'Revisjonsdato fra',
       'revision-date-to': 'Revisjonsdato til',
@@ -278,6 +279,7 @@ const phrases = {
       status: 'Status',
       'draft-status': 'Status',
       'audio-type': 'Lydfiltype',
+      'concept-type': 'Forklaringstype',
       license: 'Lisens',
       'model-released': 'Modellklarering',
       'revision-date-from': 'Revisjonsdato fra',
@@ -298,6 +300,10 @@ const phrases = {
     audioType: {
       standard: 'Lydfil',
       podcast: 'Podkast',
+    },
+    conceptType: {
+      concept: 'Forklaring',
+      gloss: 'Glose',
     },
     order: 'Rekkefølge',
     asc: 'Stigende',

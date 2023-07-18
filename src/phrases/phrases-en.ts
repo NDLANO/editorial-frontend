@@ -262,6 +262,7 @@ const phrases = {
       status: 'Select status',
       'draft-status': 'Select status',
       'audio-type': 'Select audio file type',
+      'concept-type': 'Select concept type',
       license: 'Select license',
       'revision-date-from': 'Revisiondate from',
       'revision-date-to': 'Revisiondate to',
@@ -277,6 +278,7 @@ const phrases = {
       status: 'Status',
       'draft-status': 'Status',
       'audio-type': 'Audio file type',
+      'concept-type': 'Concept type',
       license: 'License',
       'model-released': 'Model released',
       'revision-date-from': 'Revisiondate from',
@@ -297,6 +299,10 @@ const phrases = {
     audioType: {
       standard: 'Audio',
       podcast: 'Podcast',
+    },
+    conceptType: {
+      concept: 'Concept',
+      gloss: 'Gloss',
     },
     order: 'Rekkefølge',
     asc: 'Ascending',

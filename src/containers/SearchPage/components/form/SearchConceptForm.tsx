@@ -90,12 +90,18 @@ const SearchConceptForm = ({ search: doSearch, searchObject: search, subjects }:
       query: '',
       language: '',
       'audio-type': '',
+      'concept-type': '',
       license: '',
       subjects: '',
       users: '',
       status: '',
     });
   };
+
+  const getConceptTypes = () => [
+    { id: 'concept', name: t('searchForm.conceptType.concept') },
+    { id: 'gloss', name: t('searchForm.conceptType.gloss') },
+  ];
 
   const sortByProperty = (property: string) => {
     type Sortable = { [key: string]: any };
@@ -107,6 +113,13 @@ const SearchConceptForm = ({ search: doSearch, searchObject: search, subjects }:
 
   const selectors: SearchFormSelector[] = [
     {
+      parameterName: 'concept-type',
+      value: getTagName(search['concept-type'], getConceptTypes()),
+      options: getConceptTypes(),
+      formElementType: 'dropdown',
+      width: 50,
+    },
+    {
       parameterName: 'subjects',
       value: getTagName(search.subjects, subjects),
       options: subjects
@@ -115,12 +128,12 @@ const SearchConceptForm = ({ search: doSearch, searchObject: search, subjects }:
         )
         .sort(sortByProperty('name')),
       formElementType: 'dropdown',
-      width: 25,
+      width: 50,
     },
     {
       value: getTagName(search['responsible-ids'], responsibles),
       parameterName: 'responsible-ids',
-      width: 25,
+      width: 50,
       options: responsibles!,
       formElementType: 'dropdown',
     },

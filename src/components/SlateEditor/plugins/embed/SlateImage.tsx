@@ -8,7 +8,7 @@
 
 import { ReactNode, useState, MouseEvent } from 'react';
 import styled from '@emotion/styled';
-import { ReactEditor, RenderElementProps, useSlateStatic } from 'slate-react';
+import { RenderElementProps, useSlateStatic } from 'slate-react';
 import { ButtonV2 } from '@ndla/button';
 import { useTranslation } from 'react-i18next';
 import { parseMarkdown } from '@ndla/util';
@@ -41,11 +41,11 @@ const StyledButton = styled(ButtonV2)`
     box-shadow: rgb(32, 88, 143) 0 0 0 2px;
   }
 `;
-const StyledSlateImage = styled.div<{ embed: ImageEmbed }>`
-  ${(props) =>
-    !props.embed['is-decorative'] && !props.embed.alt
-      ? 'border: 2px solid rgba(209,55,46,0.3);'
-      : ''}
+
+const StyledSlateImage = styled.div`
+  &[data-border='false'] {
+    border: 2px solid rgba(209, 55, 46, 0.3);
+  }
 `;
 
 const StyledDiv = styled.div`
@@ -54,12 +54,10 @@ const StyledDiv = styled.div`
   }
 `;
 
-interface StyledImgProps {
-  showOutline?: boolean;
-}
-
-const StyledImg = styled.img<StyledImgProps>`
-  box-shadow: ${(props) => (props.showOutline ? 'rgb(32, 88, 143) 0 0 0 2px' : 'none')};
+const StyledImg = styled.img`
+  &[data-outline='true'] {
+    box-shadow: 'rgb(32, 88, 143) 0 0 0 2px';
+  }
 `;
 
 const SlateImage = ({
@@ -111,16 +109,8 @@ const SlateImage = ({
       {...attributes}
       draggable={!visualElement && !editMode}
       className={constructFigureClassName()}
-      embed={embed}
+      data-border={!!embed.alt && embed['is-decorative']}
     >
-      <FigureButtons
-        tooltip={t('form.image.removeImage')}
-        onRemoveClick={onRemoveClick}
-        embed={embed}
-        onEdit={() => setEditMode(true)}
-        figureType="image"
-        language={language}
-      />
       {editMode && (
         <EditImage
           embed={embed}
@@ -142,6 +132,14 @@ const SlateImage = ({
           }}
         >
           <figure {...figureClass}>
+            <FigureButtons
+              tooltip={t('form.image.removeImage')}
+              onRemoveClick={onRemoveClick}
+              embed={embed}
+              onEdit={() => setEditMode(true)}
+              figureType="image"
+              language={language}
+            />
             <StyledImg
               alt={embed.alt}
               sizes={
@@ -155,7 +153,7 @@ const SlateImage = ({
                     '100vw'
               }
               srcSet={getSrcSets(embed.resource_id, transformData(), language)}
-              showOutline={showCopyOutline}
+              data-outline={showCopyOutline}
             />
             <figcaption className="c-figure__caption" contentEditable={false}>
               <StyledDiv className="c-figure__info">

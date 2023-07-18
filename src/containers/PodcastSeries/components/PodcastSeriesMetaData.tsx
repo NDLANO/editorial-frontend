@@ -6,29 +6,25 @@
  *
  */
 
-import { SyntheticEvent } from 'react';
 import { useTranslation } from 'react-i18next';
-
-import { useFormikContext } from 'formik';
+import { CheckboxItem } from '@ndla/forms';
 import FormikField from '../../../components/FormikField';
 import { MetaImageSearch, TitleField } from '../../FormikForm';
-import { PodcastSeriesFormikType } from './PodcastSeriesForm';
 import PlainTextEditor from '../../../components/SlateEditor/PlainTextEditor';
 import { textTransformPlugin } from '../../../components/SlateEditor/plugins/textTransform';
 
 interface Props {
   language?: string;
   onImageLoad?: (width: number, height: number) => void;
+  hasRSS?: boolean;
 }
 
 const PodcastSeriesMetaData = ({ language, onImageLoad }: Props) => {
   const { t } = useTranslation();
-  const formikContext = useFormikContext<PodcastSeriesFormikType>();
-  const { submitForm } = formikContext;
   const plugins = [textTransformPlugin];
   return (
     <>
-      <TitleField handleSubmit={submitForm} />
+      <TitleField />
 
       <FormikField name="description" label={t('podcastSeriesForm.description')}>
         {({ field }) => (
@@ -50,6 +46,23 @@ const PodcastSeriesMetaData = ({ language, onImageLoad }: Props) => {
             showRemoveButton
             language={language}
             {...field}
+          />
+        )}
+      </FormikField>
+
+      <FormikField name="hasRSS">
+        {({ field }) => (
+          <CheckboxItem
+            label={t('podcastSeriesForm.hasRSS')}
+            checked={field.value}
+            onChange={() =>
+              field.onChange({
+                target: {
+                  name: field.name,
+                  value: !field.value,
+                },
+              })
+            }
           />
         )}
       </FormikField>

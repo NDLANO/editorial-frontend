@@ -39,9 +39,11 @@ export const DRAFT_ADMIN_SCOPE = 'drafts:admin';
 export const DRAFT_WRITE_SCOPE = 'drafts:write';
 export const DRAFT_HTML_SCOPE = 'drafts:html';
 export const DRAFT_PUBLISH_SCOPE = 'drafts:publish';
+export const DRAFT_RESPONSIBLE = 'drafts:responsible';
 
 export const CONCEPT_ADMIN_SCOPE = 'concept:admin';
 export const CONCEPT_WRITE_SCOPE = 'concept:write';
+export const CONCEPT_RESPONSIBLE = 'concept:responsible';
 
 export const TAXONOMY_WRITE_SCOPE = 'taxonomy:write';
 export const TAXONOMY_ADMIN_SCOPE = 'taxonomy:admin';
@@ -58,6 +60,7 @@ export const TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY = 'subjectCategory';
 export const TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE = 'subjectType';
 export const TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH = 'requestPublish';
 export const TAXONOMY_CUSTOM_FIELD_IS_PUBLISHING = 'isPublishing';
+export const TAXONOMY_CUSTOM_FIELD_PROGRAMME_SUBJECT = 'programfag';
 
 export const MAX_IMAGE_UPLOAD_SIZE = 1024 * 1024 * 40; // 40MB.
 

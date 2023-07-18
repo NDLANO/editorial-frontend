@@ -6,7 +6,7 @@
  *
  */
 
-import { ReactElement } from 'react';
+import { ReactElement, useCallback } from 'react';
 import get from 'lodash/get';
 import { useTranslation } from 'react-i18next';
 import { Field, FieldAttributes, FormikValues, FieldProps, useFormikContext } from 'formik';
@@ -65,8 +65,21 @@ const FormikField = ({
         },
       }
     : {};
+
+  const getRemainingLabel = useCallback(
+    (maxLength: number, remaining: number) => {
+      return t('form.remainingCharacters', { maxLength, remaining });
+    },
+    [t],
+  );
+
   return (
-    <StyledField noBorder={noBorder} right={right} isTitle={title} className={className}>
+    <StyledField
+      data-no-border={noBorder}
+      data-right={right}
+      data-is-title={title}
+      className={className}
+    >
       <FormikFieldLabel label={label} name={name} noBorder={noBorder} />
       <FormikFieldDescription description={description} obligatory={obligatory} />
       <Field name={name} maxLength={maxLength} {...rest} {...fieldActions}>
@@ -85,15 +98,13 @@ const FormikField = ({
       {showMaxLength && maxLength && (
         <FormikRemainingCharacters
           maxLength={maxLength}
-          getRemainingLabel={(maxLength, remaining) =>
-            t('form.remainingCharacters', { maxLength, remaining })
-          }
+          getRemainingLabel={getRemainingLabel}
           value={isSlateValue ? Node.string(values[name][0]) : values[name]}
         />
       )}
       {showError && get(errors, name) && (
         <FormikFieldHelp error={!!get(errors, name)}>
-          <StyledErrorPreLine>{get(errors, name)}</StyledErrorPreLine>
+          <StyledErrorPreLine>{get(errors, name) as string}</StyledErrorPreLine>
         </FormikFieldHelp>
       )}
       {status && status['warnings'] && (

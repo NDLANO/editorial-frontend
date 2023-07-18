@@ -9,14 +9,15 @@
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import { Switch } from '@ndla/switch';
+import { NodeType } from '@ndla/types-taxonomy';
 import { useState } from 'react';
 import { ButtonV2 } from '@ndla/button';
-import { Plus } from '@ndla/icons/lib/action';
+import { Plus } from '@ndla/icons/action';
 import { spacing, colors } from '@ndla/core';
 import { ResourceGroupBanner, StyledShareIcon } from './styles';
 import { useSession } from '../Session/SessionProvider';
 import { TAXONOMY_ADMIN_SCOPE } from '../../constants';
-import AddSubjectModal from './AddSubjectModal';
+import AddNodeModal from './AddNodeModal';
 
 const FlexWrapper = styled.div`
   display: flex;
@@ -30,9 +31,10 @@ const AddSubjectButton = styled(ButtonV2)`
 interface Props {
   onChange: (checked: boolean) => void;
   checked: boolean;
+  nodeType: NodeType;
 }
 
-const StructureBanner = ({ onChange, checked }: Props) => {
+const StructureBanner = ({ onChange, checked, nodeType }: Props) => {
   const [addSubjectModalOpen, setAddSubjectModalOpen] = useState(false);
 
   const { t } = useTranslation();
@@ -60,11 +62,13 @@ const StructureBanner = ({ onChange, checked }: Props) => {
             onClick={() => setAddSubjectModalOpen(true)}
             data-testid="AddSubjectButton"
           >
-            <Plus /> {t('taxonomy.addSubject')}
+            <Plus /> {t('taxonomy.addNode', { nodeType: t(`taxonomy.nodeType.${nodeType}`) })}
           </AddSubjectButton>
         )}
       </FlexWrapper>
-      {addSubjectModalOpen && <AddSubjectModal onClose={() => setAddSubjectModalOpen(false)} />}
+      {addSubjectModalOpen && (
+        <AddNodeModal onClose={() => setAddSubjectModalOpen(false)} nodeType={nodeType} />
+      )}
     </ResourceGroupBanner>
   );
 };

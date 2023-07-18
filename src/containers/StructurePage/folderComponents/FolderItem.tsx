@@ -47,7 +47,8 @@ interface Props {
   rootNodeId: string;
   onCurrentNodeChanged: (node?: Node) => void;
   nodeChildren: Node[];
-  setShowAddTopicModal: (value: boolean) => void;
+  setShowAddChildModal: (value: boolean) => void;
+  addChildTooltip: string;
 }
 
 const FolderItem = ({
@@ -58,7 +59,8 @@ const FolderItem = ({
   rootNodeId,
   onCurrentNodeChanged,
   nodeChildren,
-  setShowAddTopicModal,
+  setShowAddChildModal,
+  addChildTooltip,
 }: Props) => {
   const { t } = useTranslation();
   const showJumpToResources = isMainActive && node.id.includes('topic');
@@ -73,12 +75,12 @@ const FolderItem = ({
             onCurrentNodeChanged={onCurrentNodeChanged}
             nodeChildren={nodeChildren}
           />
-          <Tooltip tooltip={t('taxonomy.addTopicHeader')}>
+          <Tooltip tooltip={addChildTooltip}>
             <IconButtonV2
-              onClick={() => setShowAddTopicModal(true)}
+              onClick={() => setShowAddChildModal(true)}
               size="xsmall"
               variant="stripped"
-              aria-label={t('taxonomy.addTopicHeader')}
+              aria-label={addChildTooltip}
             >
               <Plus />
             </IconButtonV2>

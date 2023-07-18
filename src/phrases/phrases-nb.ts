@@ -14,10 +14,11 @@ const phrases = {
     createLearningResourcePage: `Fagstoff ${titleTemplate}`,
     createTopicArticlePage: `Emne ${titleTemplate}`,
     createSubjectpage: `Fagforside ${titleTemplate}`,
-    createFrontPageArticePage: `Innholdsartikkel ${titleTemplate}`,
+    createFrontPageArticePage: `Om-NDLA-artikkel ${titleTemplate}`,
     agreementPage: `Avtale ${titleTemplate}`,
     welcomePage: `Forside ${titleTemplate}`,
     structurePage: `Struktur ${titleTemplate}`,
+    programmePage: `Programfag ${titleTemplate}`,
     versionsPage: `Versjoner ${titleTemplate}`,
     audioUploaderPage: `Lyd ${titleTemplate}`,
     imageUploaderPage: `Bilde ${titleTemplate}`,
@@ -139,6 +140,7 @@ const phrases = {
     updated: 'Oppdatert',
     primaryConnection: 'Vis kun ressurser med primærkobling til mine favorittfag',
     primaryConnectionLabel: 'Vis kun primærkobling',
+    prioritizedLabel: 'Vis kun prioriterte',
     workList: {
       heading: 'Mine arbeidsoppgaver',
       description: 'Artikler hvor du står som ansvarlig',
@@ -191,7 +193,7 @@ const phrases = {
   },
   articleType: {
     'topic-article': 'Emne',
-    'frontpage-article': 'Innholdsartikkel',
+    'frontpage-article': 'Om-NDLA-artikkel',
     standard: 'Læringsressurs',
   },
   subNavigation: {
@@ -209,6 +211,7 @@ const phrases = {
     podcastSeries: 'Ny podkastserie',
     agreement: 'Ny avtale',
     structure: 'Strukturredigering',
+    programme: 'Programfagredigering',
     taxonomyVersions: 'Taksonomiversjoner',
     publishRequests: 'Publiseringsforespørsler',
     searchContent: 'Søk innhold',
@@ -220,7 +223,7 @@ const phrases = {
     h5p: 'Rediger H5P',
     newConcept: 'Opprett forklaring',
     newSubject: 'Opprett fag',
-    newFrontpageArticle: 'Opprett innholdsartikkel',
+    newFrontpageArticle: 'Opprett Om-NDLA-artikkel',
     creationMovedInfo: 'Emner og ressurser må opprettes fra strukturredigering',
   },
   logo: {
@@ -267,6 +270,7 @@ const phrases = {
       'revision-date-to': 'Revisjonsdato til',
       'exclude-revision-log': 'Ekskluder endringslogg',
       'responsible-ids': 'Velg ansvarlig',
+      'filter-inactive': 'Inkluder utgåtte fag',
     },
     tagType: {
       query: 'Innhold',
@@ -283,6 +287,7 @@ const phrases = {
       'revision-date-to': 'Revisjonsdato til',
       'exclude-revision-log': 'Endringslogg ekskludert',
       'responsible-ids': 'Ansvarlig',
+      'filter-inactive': 'Utgåtte fag inkludert',
     },
     btn: 'Søk',
     empty: 'Tøm',
@@ -311,6 +316,7 @@ const phrases = {
     },
     resultError: 'Noe gikk feil med innlasting av type: {{type}}',
     favourites: 'Mine favorittfag',
+    archivedIncluded: 'Utgåtte fag inkludert',
   },
   subjectsPage: {
     subjects: 'Fag',
@@ -419,8 +425,8 @@ const phrases = {
     removeArticle: 'Fjern artikkel',
     missingVisualElement: 'Visuelt element er påkrevd.',
   },
-  filterform: {
-    title: 'Filter',
+  programmepageForm: {
+    title: 'Programfag',
   },
   topicArticleForm: {
     visualElementTitle: {
@@ -494,6 +500,7 @@ const phrases = {
     description: 'Beskrivelse',
     rss: 'Rss-feed',
     adminError: 'Du har ikke tilgang til å opprette eller endre podkastserier.',
+    hasRSS: 'Aktiver RSS-feed for denne serien',
   },
   podcastForm: {
     title: 'Podkastepisode',
@@ -534,7 +541,7 @@ const phrases = {
     },
   },
   frontpageArticleForm: {
-    title: 'Innholdsartikkel',
+    title: 'Om-NDLA-artikkel',
     validation: {
       illegalSlug:
         'Bruk av ulovlige tegn i permalenken! Tillatte tegn er alle tall og bokstaver, og bindestrek',
@@ -584,26 +591,27 @@ const phrases = {
   },
   editorToolbar: {
     bold: 'Fet\n({{ctrl}}+b)',
-    bulletedList: 'Punktliste\n({{ctrl}}+l)',
+    'bulleted-list': 'Punktliste\n({{ctrl}}+l)',
     code: 'Kode\n({{ctrl}}+k)',
-    codeblock: 'Kodeblokk',
+    'code-block': 'Kodeblokk',
     concept: 'Forklaring\n({{ctrl}}+alt+c)',
     footnote: 'Fotnote\n({{ctrl}}+alt+f)',
-    headingOne: 'Overskrift 1',
-    headingThree: 'Overskrift 3\n({{ctrl}}+3)',
-    headingTwo: 'Overskrift 2\n({{ctrl}}+2)',
+    'heading-1': 'Overskrift 1',
+    'heading-2': 'Overskrift 2\n({{ctrl}}+2)',
+    'heading-3': 'Overskrift 3\n({{ctrl}}+3)',
+    'heading-4': 'Overskrift 4\n({{ctrl}}+4)',
     italic: 'Kursiv\n({{ctrl}}+i)',
-    lang: 'Språk\n(alt+l)',
-    letterList: 'Bokstavliste\n({{ctrl}}+alt+a)',
+    span: 'Språk\n(alt+l)',
+    'letter-list': 'Bokstavliste\n({{ctrl}}+alt+a)',
     link: 'Lenke\n({{ctrl}}+alt+l)',
     mathml: 'Matte\n(ctrl+m)',
-    numberedList: 'Nummerert liste\n({{ctrl}}+alt+1)',
+    'numbered-list': 'Nummerert liste\n({{ctrl}}+alt+1)',
     quote: 'Sitat\n({{ctrl}}+alt+b)',
     sub: 'Senket\n({{ctrl}}+alt+s)',
     sup: 'Hevet\n({{ctrl}}+alt+h)',
     twoColumnList: 'To-kolonners liste',
     underlined: 'Understreket',
-    definitionList: 'Definisjonsliste\n({{ctrl}}+alt+d)',
+    'definition-list': 'Definisjonsliste\n({{ctrl}}+alt+d)',
   },
   editorBlockpicker: {
     heading: 'Legg til',
@@ -698,8 +706,8 @@ const phrases = {
       description: 'Innhold',
       conceptContent: 'Beskrivelse',
       grepCodes: 'Læreplankobling',
-      desktopBannerId: 'Banner til desktop',
-      mobileBannerId: 'Banner til mobil',
+      desktopBannerId: 'Bredt fagsidebilde',
+      mobileBannerId: 'Smalt fagsidebilde',
       concepts: 'Forklaringer',
       relatedContent: 'Relatert innhold',
       subjects: 'Fag',
@@ -1146,7 +1154,7 @@ const phrases = {
       alt: {
         label: 'Alt-tekst',
         placeholder: 'Alt-tekst',
-        noText: 'Universal utforming krever alt-tekst.',
+        noText: 'Universell utforming krever alt-tekst for bilder som ikke er dekorative.',
       },
       dragdrop: {
         main: 'Dra og slipp',
@@ -1157,6 +1165,7 @@ const phrases = {
         show: 'Vis byline',
         hide: 'Skjul byline',
       },
+      isDecorative: 'Bildet er kun dekorativt i denne sammenhengen',
     },
     video: {
       caption: {
@@ -1382,22 +1391,39 @@ const phrases = {
     continue: 'Fortsett',
     delete: 'Slett',
     confirm: 'Bekreft',
+    disconnect: 'Koble fra',
     loginAgain: 'Logg inn på nytt',
   },
   environment: { production: '', staging: 'staging', test: 'test' },
   taxonomy: {
+    nodeType: {
+      PROGRAMME: 'programfag',
+      SUBJECT: 'fag',
+      TOPIC: 'emne',
+    },
+    previewProgrammes: 'Forhåndsvis programfag i frontend',
+    addNode: 'Legg til {{nodeType}}',
+    newNode: 'Nytt {{nodeType}}',
+    newNodeName: 'Navn på nytt element',
     editStructure: 'Rediger struktur',
     editSubjectpage: 'Rediger fagforside',
     deleteSubject: 'Slett fag',
     addSubject: 'Legg til fag',
     subjectName: 'Navn på nytt fag',
-    addExistingTopic: 'Flytt eksisterende emne hit',
-    addExistingLoading: 'Flytter emne',
-    addExistingSuccess: 'Emnet har blitt flyttet!',
+    addExistingNode: 'Flytt eksisterende {{nodeType}} hit',
+    addExistingLoading: 'Flytter ...',
+    addExistingSuccess: 'Noden har blitt flyttet!',
+    existingNode: 'Eksisterende node',
+    connectExistingNode: 'Knytt {{nodeType}} til denne noden',
+    connectExistingLoading: 'Legger til ...',
+    connectExistingSuccess: 'Noden har blitt tilknyttet!',
+    disconnectNode: 'Fjern fra foreldernode',
+    confirmDisconnect: 'Er du sikker på at du vil koble fra denne noden?',
     newSubject: 'Nytt fag',
-    existingTopic: 'Eksisterende emne',
     newTopic: 'Nytt emne',
     resources: 'Ressurser',
+    nodeSettings: 'Innstillinger',
+    programmeSettings: 'Programfaginnstillinger',
     subjectSettings: 'Faginnstillinger',
     topicSettings: 'Emneinnstillinger',
     currentVersion: 'Nåværende versjon',
@@ -1414,8 +1440,10 @@ const phrases = {
     contentType: 'Innholdstype',
     contentTypePlaceholder: 'Velg innholdstype',
     create: 'Opprett',
-    get: 'Hent',
+    add: 'Legg til',
     getExisting: 'Eller hent eksisterende ressurs',
+    inProgress: 'Denne artikkelen er påbegynt',
+    addPriority: 'Sett artikkel som prioritert',
     changeName: {
       loadError: 'Klarte ikke hente oversettelser',
       updateError: 'Klarte ikke oppdatere oversettelser',
@@ -1426,7 +1454,7 @@ const phrases = {
       name: 'Navn',
       namePlaceholder: 'Fagnavn',
       delete: 'Slett',
-      title: 'Endre fagnavn',
+      title: 'Endre navn',
       cancel: 'Avbryt',
       add: 'Legg til',
       noTranslations:
@@ -1446,7 +1474,7 @@ const phrases = {
     searchResource: 'Søk etter ressurs',
     searchArticle: 'Søk etter emneartikkel',
     or: 'Eller',
-    urlPlaceholder: 'Lim inn lenke fra ndla.no',
+    urlPlaceholder: 'Lim inn lenke fra ndla.no eller en artikkel-id',
     wrongType: 'Obs! Denne ressursen er en annen type',
     noResources: 'Ingen ressurser funnet',
     addTopicDescription: 'Endre emnebeskrivelse',
@@ -1553,6 +1581,7 @@ const phrases = {
         addField: 'Nytt metadata felt',
         languagePlaceholder: 'Visningsspråk ndla.no',
         explanationSubject: 'Forklaringsfag',
+        programmeSubject: 'Felles programfag',
         oldSubjectId: 'ID for videresending',
         subjectCategory: 'Fagkategori',
         subjectType: 'Fagtype',
@@ -1572,7 +1601,7 @@ const phrases = {
   },
   contextTypes: {
     topic: 'Emne',
-    frontpage: 'Innholdsartikkel',
+    frontpage: 'Om-NDLA-artikkel',
   },
   ndlaFilm: {
     editor: {
@@ -1617,6 +1646,7 @@ const phrases = {
     statusLabel: 'Status:',
     changeHeader: 'Endringer',
     saveAsNew: 'Lagre som kopi',
+    prioritized: 'Prioritert',
   },
   taxonomyVersions: {
     title: 'Taksonomiversjoner',
@@ -1841,6 +1871,9 @@ const phrases = {
       imageAfter: 'Høyre bilde',
       insertImageAfter: 'Sett inn bilde til høyre',
     },
+  },
+  dragAndDrop: {
+    handle: 'Håndtak',
   },
 };
 

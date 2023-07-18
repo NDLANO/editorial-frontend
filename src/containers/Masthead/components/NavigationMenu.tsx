@@ -120,12 +120,6 @@ const OpenMenu = ({ close }: Props) => {
                 <Concept /> {t('subNavigation.newConcept')}
               </StyledMenuItem>
             </Link>
-            <Link css={styledListElement} to={toCreateFrontPageArticle()} onClick={close}>
-              <StyledMenuItem>
-                <ContentTypeBadge type={contentTypes.SUBJECT_MATERIAL} background size="xx-small" />
-                {t('subNavigation.newFrontpageArticle')}
-              </StyledMenuItem>
-            </Link>
             <Link css={styledListElement} to={toCreateImage()} onClick={close}>
               <StyledMenuItem>
                 <Camera />
@@ -152,6 +146,12 @@ const OpenMenu = ({ close }: Props) => {
                 </StyledMenuItem>
               </Link>
             )}
+            <Link css={styledListElement} to={toCreateFrontPageArticle()} onClick={close}>
+              <StyledMenuItem>
+                <ContentTypeBadge type={contentTypes.SUBJECT_MATERIAL} background size="xx-small" />
+                {t('subNavigation.newFrontpageArticle')}
+              </StyledMenuItem>
+            </Link>
           </div>
           <div>
             <Link css={styledListElement} to="/structure" onClick={close}>
@@ -160,7 +160,15 @@ const OpenMenu = ({ close }: Props) => {
                 {t('subNavigation.structure')}
               </StyledMenuItem>
             </Link>
-            {userPermissions?.includes(TAXONOMY_ADMIN_SCOPE) && config.versioningEnabled && (
+            {userPermissions?.includes(TAXONOMY_ADMIN_SCOPE) && (
+              <Link css={styledListElement} to="/programme" onClick={close}>
+                <StyledMenuItem>
+                  <Taxonomy />
+                  {t('subNavigation.programme')}
+                </StyledMenuItem>
+              </Link>
+            )}
+            {userPermissions?.includes(TAXONOMY_ADMIN_SCOPE) && (
               <Link css={styledListElement} to="/taxonomyVersions" onClick={close}>
                 <StyledMenuItem>
                   <Taxonomy />
@@ -168,14 +176,12 @@ const OpenMenu = ({ close }: Props) => {
                 </StyledMenuItem>
               </Link>
             )}
-            {config.versioningEnabled === 'true' && (
-              <Link css={styledListElement} to="publishRequests" onClick={close}>
-                <StyledMenuItem>
-                  <Taxonomy />
-                  {t('subNavigation.publishRequests')}
-                </StyledMenuItem>
-              </Link>
-            )}
+            <Link css={styledListElement} to="publishRequests" onClick={close}>
+              <StyledMenuItem>
+                <Taxonomy />
+                {t('subNavigation.publishRequests')}
+              </StyledMenuItem>
+            </Link>
             <Link css={styledListElement} to={toEditNdlaFilm()} onClick={close}>
               <StyledMenuItem>
                 <ContentTypeBadge type={contentTypes.SUBJECT} background size="xx-small" />

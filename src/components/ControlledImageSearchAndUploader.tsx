@@ -116,6 +116,7 @@ const ImageSearchAndUploader = ({
               onSubmitFunc={updateImage}
               closeModal={closeModal}
               licenses={imageLicenses}
+              supportedLanguages={image?.supportedLanguages ?? [locale]}
             />
           ) : (
             <EditorErrorMessage msg={t('errorMessage.description')} />

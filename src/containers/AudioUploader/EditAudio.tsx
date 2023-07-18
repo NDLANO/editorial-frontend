@@ -15,7 +15,6 @@ import Spinner from '../../components/Spinner';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { fetchAudio, updateAudio } from '../../modules/audio/audioApi';
 import { TranslateType, useTranslateToNN } from '../../components/NynorskTranslateProvider';
-import handleError from '../../util/handleError';
 
 interface Props {
   isNewlyCreated?: boolean;
@@ -88,6 +87,7 @@ const EditAudio = ({ isNewlyCreated }: Props) => {
       audioLanguage={audioLanguage}
       isNewlyCreated={isNewlyCreated}
       isNewLanguage={isNewLanguage}
+      supportedLanguages={audio.supportedLanguages}
     />
   );
 };

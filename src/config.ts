@@ -144,7 +144,6 @@ export type ConfigType = {
   host: string | undefined;
   componentName: string | undefined;
   isNdlaProdEnvironment: boolean;
-  versioningEnabled: string;
   ndlaEnvironment: string;
   learningpathFrontendDomain: string;
   localConverter: boolean;
@@ -163,6 +162,7 @@ export type ConfigType = {
   disableCSP: string | undefined;
   usernamePasswordEnabled: boolean;
   translateServiceUrl: string;
+  isVercel: boolean;
 };
 
 const config: ConfigType = {
@@ -175,7 +175,6 @@ const config: ConfigType = {
   logEnvironment: getEnvironmentVariabel('NDLA_ENVIRONMENT', 'local'),
   logglyApiKey: getEnvironmentVariabel('LOGGLY_API_KEY'),
   isNdlaProdEnvironment: ndlaEnvironment === 'prod',
-  versioningEnabled: getEnvironmentVariabel('ENABLE_VERSIONING', 'true'),
   ndlaApiUrl: getEnvironmentVariabel('NDLA_API_URL', getNdlaApiUrl(ndlaEnvironment)),
   ndlaBaseUrl: ndlaBaseUrl(),
   ndlaFrontendDomain: getEnvironmentVariabel('FRONTEND_DOMAIN', ndlaFrontendDomain()),
@@ -204,6 +203,7 @@ const config: ConfigType = {
     usernamePasswordEnabled(),
   ),
   translateServiceUrl: getEnvironmentVariabel('NDKM_URL', getTranslateServiceUrl()),
+  isVercel: getEnvironmentVariabel('IS_VERCEL', 'false') === 'true',
 };
 
 export function getUniversalConfig(): ConfigType {

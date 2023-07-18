@@ -7,10 +7,10 @@
  */
 import { useTranslation } from 'react-i18next';
 import { Select, SingleValue } from '@ndla/select';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import sortBy from 'lodash/sortBy';
 import { useAuth0Responsibles } from '../../../modules/auth0/auth0Queries';
-import { DRAFT_WRITE_SCOPE } from '../../../constants';
+import { DRAFT_RESPONSIBLE } from '../../../constants';
 
 interface Props {
   responsible: SingleValue;
@@ -23,7 +23,7 @@ const ResponsibleSelect = ({ responsible, setResponsible, onSave, responsibleId 
   const { t } = useTranslation();
 
   const { data: users, isInitialLoading } = useAuth0Responsibles(
-    { permission: DRAFT_WRITE_SCOPE },
+    { permission: DRAFT_RESPONSIBLE },
     {
       select: (users) =>
         sortBy(
@@ -36,7 +36,12 @@ const ResponsibleSelect = ({ responsible, setResponsible, onSave, responsibleId 
       placeholderData: [],
     },
   );
-  const optionsWithGroupTitle = [{ label: t('form.responsible.label'), options: users ?? [] }];
+  const optionsWithGroupTitle = useMemo(
+    () => [{ label: t('form.responsible.label'), options: users ?? [] }],
+    [t, users],
+  );
+
+  const noOptionsMessage = useMemo(() => () => t('form.responsible.noResults'), [t]);
 
   const [enableRequired, setEnableRequired] = useState(false);
 
@@ -58,9 +63,13 @@ const ResponsibleSelect = ({ responsible, setResponsible, onSave, responsibleId 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [responsible]);
 
-  const updateResponsible = async (responsible: SingleValue) => {
-    onSave(responsible);
-  };
+  const updateResponsible = useCallback(
+    async (responsible: SingleValue) => {
+      onSave(responsible);
+    },
+    [onSave],
+  );
+
   return (
     <div data-cy="responsible-select">
       <Select<false>
@@ -70,7 +79,7 @@ const ResponsibleSelect = ({ responsible, setResponsible, onSave, responsibleId 
         value={responsible}
         onChange={updateResponsible}
         isLoading={isInitialLoading}
-        noOptionsMessage={() => t('form.responsible.noResults')}
+        noOptionsMessage={noOptionsMessage}
         isSearchable
         isClearable
         closeMenuOnSelect

@@ -14,8 +14,15 @@ import { Switch } from '@ndla/switch';
 import { spacing } from '@ndla/core';
 import { RESOURCE_FILTER_CORE, RESOURCE_FILTER_SUPPLEMENTARY } from '../../constants';
 
-const StyledSwitch = styled(Switch)`
+export const StyledSwitch = styled(Switch)`
   margin-left: -${spacing.nsmall};
+`;
+
+export const StyledToggleSwitch = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-left: 10px;
 `;
 
 interface Props {
@@ -45,12 +52,5 @@ const RelevanceOption = ({ relevanceId, onChange }: Props) => {
     </Tooltip>
   );
 };
-
-const StyledToggleSwitch = styled('div')`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-left: 10px;
-`;
 
 export default RelevanceOption;

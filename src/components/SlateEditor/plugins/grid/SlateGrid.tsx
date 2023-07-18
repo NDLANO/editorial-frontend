@@ -95,7 +95,7 @@ export const SlateGrid = ({ element, editor, children }: Props) => {
           >
             <Pencil />
           </IconButtonV2>
-          <DeleteButton aria-label={t('delete')} onClick={handleRemove} />
+          <DeleteButton aria-label={t('delete')} data-cy="remove-grid" onClick={handleRemove} />
         </ButtonContainer>
         <StyledGrid
           border="none"

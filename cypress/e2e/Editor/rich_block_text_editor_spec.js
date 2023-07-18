@@ -40,12 +40,11 @@ describe('Learning resource editing', () => {
 
   it('Can add all contributors', () => {
     cy.contains('Lisens og bruker').click();
-    cy.apiwait('@agreements');
     cy.get('h2')
       .contains('Opphavsperson')
       .parent()
       .parent()
-      .within((_) => {
+      .within(() => {
         cy.get('[data-cy=addContributor]').click();
         cy.get('input[type="text"]').last().type('Ola Nordmann').blur();
         cy.get('[data-cy="contributor-selector"]').last().select('originator');
@@ -55,7 +54,7 @@ describe('Learning resource editing', () => {
       .contains('Rettighetshaver')
       .parent()
       .parent()
-      .within((_) => {
+      .within(() => {
         cy.get('[data-cy=addContributor]').click();
         cy.get('input[type="text"]').type('Ola Nordmann').blur();
         cy.get('[data-cy="contributor-selector"]').select('rightsholder');
@@ -64,7 +63,7 @@ describe('Learning resource editing', () => {
       .contains('Bearbeider')
       .parent()
       .parent()
-      .within((_) => {
+      .within(() => {
         cy.get('[data-cy=addContributor]').click();
         cy.get('input[type="text"]').last().type('Ola Nordmann').blur();
         cy.get('[data-cy="contributor-selector"]').last().select('processor');

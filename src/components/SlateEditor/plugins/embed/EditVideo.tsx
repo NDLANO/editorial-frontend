@@ -69,7 +69,7 @@ export const toVideoEmbedFormValues = (embed: BrightcoveEmbed | ExternalEmbed): 
 
 export const brightcoveEmbedFormRules: RulesType<FormValues> = {
   alttext: {
-    required: true,
+    required: false,
   },
   caption: {
     required: true,
@@ -162,16 +162,6 @@ const VideoEmbedForm = ({ setHasError, close, embed, isValid, dirty }: VideoEmbe
     <Form>
       {embed.resource === 'brightcove' && (
         <>
-          <StyledFormikField name="alttext" showError>
-            {({ field }: FieldProps) => (
-              <Input
-                white
-                {...field}
-                placeholder={t('topicArticleForm.fields.alt.placeholder')}
-                label={t('topicArticleForm.fields.alt.label')}
-              />
-            )}
-          </StyledFormikField>
           <StyledFormikField name="caption">
             {({ field }) => (
               <TextArea

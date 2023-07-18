@@ -76,6 +76,7 @@ export interface NodeResourceMeta {
   notes?: IEditorNote[];
   revisions?: IRevisionMeta[];
   responsible?: IDraftResponsible;
+  started?: boolean;
 }
 
 export const nodeResourceMetasQueryKey = (params: Partial<UseNodeResourceMetas>) => [
@@ -131,7 +132,7 @@ const fetchNodeResourceMetas = async (
     : Promise.resolve([]);
   const [articles, learningpaths] = await Promise.all([articlesPromise, learningpathsPromise]);
   const transformedArticles: NodeResourceMeta[] = articles.map(
-    ({ status, grepCodes, articleType, id, revision, revisions, notes, responsible }) => ({
+    ({ status, grepCodes, articleType, id, revision, revisions, notes, responsible, started }) => ({
       status,
       grepCodes,
       articleType,
@@ -140,6 +141,7 @@ const fetchNodeResourceMetas = async (
       responsible,
       revisions,
       notes,
+      started,
     }),
   );
   const transformedLearningpaths: NodeResourceMeta[] = learningpaths.map((lp) => ({
@@ -181,6 +183,7 @@ const fetchChildNodesWithArticleType = async ({
   if (childNodes.length === 0) return [];
 
   const childIds = childNodes
+    .filter((n) => n.contentUri?.includes('urn:article'))
     .map((n) => Number(n.contentUri?.split(':').pop()))
     .filter((id) => !!id);
 
@@ -269,6 +272,7 @@ const fetchNodeTree = async ({
 interface UseChildNodesWithArticleTypeParams extends WithTaxonomyVersion {
   id: string;
   language: string;
+  nodeType?: NodeType[];
 }
 
 export const childNodesWithArticleTypeQueryKey = (

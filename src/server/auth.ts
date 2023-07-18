@@ -80,8 +80,8 @@ async function fetchAuth0UsersByQuery(token: string, query: string, page: number
   }).then((res) => res.json());
 }
 
-export const getEditors = async (managementToken: ManagementToken, permission: string) => {
-  const query = `include_totals=true&q=app_metadata.roles:"${permission}"`;
+export const getEditors = async (managementToken: ManagementToken) => {
+  const query = `include_totals=true&q=app_metadata.isOrWasEdUser:true`;
 
   const firstPage = await fetchAuth0UsersByQuery(managementToken.access_token, query, 0);
   const numberOfPages = Math.ceil(firstPage.total / firstPage.length);

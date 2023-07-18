@@ -73,12 +73,7 @@ const Html = (props: Props) => {
             __html: `window.assets = ${serialize(assets)}`,
           }}
         />
-        <script
-          type="text/javascript"
-          src={assets['client.js']}
-          defer
-          crossOrigin={(process.env.NODE_ENV !== 'production').toString()}
-        />
+        <script type="text/javascript" src={assets['client.js']} defer crossOrigin="anonymous" />
         <script
           type="text/x-mathjax-config"
           defer

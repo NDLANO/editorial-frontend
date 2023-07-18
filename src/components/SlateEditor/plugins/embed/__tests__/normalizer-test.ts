@@ -16,7 +16,12 @@ import { TYPE_SECTION } from '../../section/types';
 import { TYPE_EMBED_AUDIO, TYPE_EMBED_H5P, TYPE_EMBED_IMAGE } from '../types';
 
 const editor = withHistory(
-  withReact(withPlugins(createEditor(), plugins('nb', 'nb', { current: () => {} }))),
+  withReact(
+    withPlugins(
+      createEditor(),
+      plugins('nb', 'nb', () => {}),
+    ),
+  ),
 );
 
 describe('embed normalizer tests', () => {

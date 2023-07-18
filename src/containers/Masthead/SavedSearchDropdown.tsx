@@ -10,7 +10,7 @@ import styled from '@emotion/styled';
 import { spacing, misc, colors, fonts } from '@ndla/core';
 import Downshift from 'downshift';
 import { useTranslation } from 'react-i18next';
-import { FormEvent, useCallback, useRef, useState } from 'react';
+import { FormEvent, useCallback, useMemo, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import queryString from 'query-string';
 import SavedSearchItem from './components/SavedSearchItem';
@@ -20,6 +20,9 @@ import { isValid } from '../../util/jwtHelper';
 import { parseSearchParams } from '../SearchPage/components/form/SearchForm';
 import { toSearch } from '../../util/routeHelpers';
 import MastheadSearchForm from './components/MastheadSearchForm';
+import { useSavedSearchUrl } from '../WelcomePage/hooks/savedSearchHook';
+import Spinner from '../../components/Spinner';
+import { StyledErrorMessage } from '../TaxonomyVersions/components/StyledErrorMessage';
 
 const DropdownWrapper = styled.div`
   position: relative;
@@ -70,17 +73,24 @@ interface Props {
 }
 
 const SearchDropdown = ({ onClose }: Props) => {
+  const [menuOpen, setMenuOpen] = useState(false);
   const { t } = useTranslation();
-  const { data } = useUserData({
-    enabled: isValid(getAccessToken()) && getAccessTokenPersonal(),
+  const enableUserData = useMemo(
+    () => isValid(getAccessToken()) && getAccessTokenPersonal() && menuOpen,
+    [menuOpen],
+  );
+
+  const { data: userData } = useUserData({
+    enabled: isValid(getAccessToken()) && getAccessTokenPersonal() && menuOpen,
+    select: (data) => (enableUserData ? data : undefined),
   });
+
   const userDataMutation = useUpdateUserDataMutation();
   const location = useLocation();
   const navigate = useNavigate();
   const queryFromUrl = queryString.parse(location.search).query ?? '';
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const [menuOpen, setMenuOpen] = useState(false);
   const [query, setQuery] = useState(queryFromUrl);
 
   const onMenuOpen = useCallback(
@@ -91,8 +101,12 @@ const SearchDropdown = ({ onClose }: Props) => {
     [onClose],
   );
 
+  const { searchObjects, getSavedSearchData, loading, error } = useSavedSearchUrl(userData);
+
+  const savedSearchData = getSavedSearchData(searchObjects);
+
   const deleteSearch = (index: number) => {
-    const reduced_array = data?.savedSearches?.filter((_, idx) => idx !== index);
+    const reduced_array = userData?.savedSearches?.filter((_, idx) => idx !== index);
     userDataMutation.mutate({ savedSearches: reduced_array });
   };
   const onSearchQuerySubmit = (searchQuery: string) => {
@@ -147,15 +161,19 @@ const SearchDropdown = ({ onClose }: Props) => {
             {isOpen ? (
               <StyledDropdown {...getMenuProps()}>
                 <StyledTitle>{t('welcomePage.savedSearch')}</StyledTitle>
-                {data?.savedSearches?.length ? (
-                  data.savedSearches.map((item, index) => (
+                {error ? (
+                  <StyledErrorMessage>{t('errorMessage.description')}</StyledErrorMessage>
+                ) : loading ? (
+                  <Spinner appearance="small" />
+                ) : userData?.savedSearches?.length ? (
+                  savedSearchData.map((item, index) => (
                     <StyledSavedSearchItem
                       key={`${item}_${index}`}
-                      searchText={item}
-                      userData={data}
+                      searchText={item.text}
                       deleteSearch={deleteSearch}
                       index={index}
                       data-highlighted={highlightedIndex === index}
+                      url={item.url}
                       {...getItemProps({
                         index,
                         item,

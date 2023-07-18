@@ -12,7 +12,7 @@ import { Eye } from '@ndla/icons/editor';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { Switch } from '@ndla/switch';
-import { Node } from '@ndla/types-taxonomy';
+import { Node, NodeType } from '@ndla/types-taxonomy';
 import { useQueryClient } from '@tanstack/react-query';
 import { EditModeHandler } from '../SettingsMenuDropdownType';
 import { useUpdateNodeMetadataMutation } from '../../../../modules/nodes/nodeMutations';
@@ -25,6 +25,7 @@ interface Props {
   node: Node;
   editModeHandler: EditModeHandler;
   rootNodeId: string;
+  rootNodeType?: NodeType;
 }
 
 export const DropDownWrapper = styled('div')`
@@ -39,6 +40,7 @@ const ToggleVisibility = ({
   node,
   editModeHandler: { toggleEditMode, editMode },
   rootNodeId,
+  rootNodeType = 'SUBJECT',
 }: Props) => {
   const { t, i18n } = useTranslation();
   const { name, id, metadata } = node;
@@ -50,7 +52,7 @@ const ToggleVisibility = ({
   const qc = useQueryClient();
   const compKey = nodesQueryKey({
     language: i18n.language,
-    nodeType: 'SUBJECT',
+    nodeType: rootNodeType,
     taxonomyVersion,
   });
 

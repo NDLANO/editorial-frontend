@@ -6,13 +6,13 @@
 
 import { memo, MutableRefObject } from 'react';
 import { useTranslation } from 'react-i18next';
-import { DropResult } from 'react-beautiful-dnd';
 import { useQueryClient } from '@tanstack/react-query';
 import isEqual from 'lodash/isEqual';
 import partition from 'lodash/partition';
 import sortBy from 'lodash/sortBy';
 import { IUserData } from '@ndla/types-backend/draft-api';
-import { NodeChild, Node } from '@ndla/types-taxonomy';
+import { NodeChild, Node, NodeType } from '@ndla/types-taxonomy';
+import { DragEndEvent } from '@dnd-kit/core';
 import {
   childNodesWithArticleTypeQueryKey,
   useChildNodesWithArticleType,
@@ -31,7 +31,9 @@ interface Props {
   onNodeSelected: (node?: Node) => void;
   resourceSectionRef: MutableRefObject<HTMLDivElement | null>;
   renderBeforeTitle?: RenderBeforeFunction;
-  setShowAddTopicModal: (value: boolean) => void;
+  setShowAddChildModal: (value: boolean) => void;
+  addChildTooltip: string;
+  childNodeTypes: NodeType[];
 }
 
 const RootNode = ({
@@ -42,13 +44,15 @@ const RootNode = ({
   onNodeSelected,
   resourceSectionRef,
   renderBeforeTitle,
-  setShowAddTopicModal,
+  setShowAddChildModal,
+  addChildTooltip,
+  childNodeTypes,
 }: Props) => {
   const { i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
   const locale = i18n.language;
   const childNodesQuery = useChildNodesWithArticleType(
-    { id: node.id, language: locale, taxonomyVersion },
+    { id: node.id, language: locale, nodeType: childNodeTypes, taxonomyVersion },
     {
       enabled: openedPaths[0] === node.id,
       select: (childNodes) => groupChildNodes(childNodes),
@@ -79,19 +83,16 @@ const RootNode = ({
     onSettled: () => qc.invalidateQueries(compKey),
   });
 
-  const onDragEnd = async (dropResult: DropResult, nodes: NodeChild[]) => {
-    const { draggableId, source, destination } = dropResult;
-    if (!destination) return;
-    const currentRank = nodes[source.index].rank;
-    const destinationRank = nodes[destination.index].rank;
-    if (currentRank === destinationRank) return;
-    const newRank = currentRank > destinationRank ? destinationRank : destinationRank + 1;
+  const onDragEnd = async ({ active, over }: DragEndEvent, nodes: NodeChild[]) => {
+    const [source, dest] = [nodes[active.data.current?.index], nodes[over?.data.current?.index]];
+    if (!source || !dest || source.rank === dest.rank) return;
+    const newRank = source.rank > dest.rank ? dest.rank : dest.rank + 1;
     await updateNodeConnection({
-      id: draggableId,
+      id: source.connectionId,
       body: {
         rank: newRank,
-        relevanceId: nodes[source.index].relevanceId,
-        primary: nodes[source.index].isPrimary,
+        relevanceId: source.relevanceId,
+        primary: source.isPrimary,
       },
       taxonomyVersion,
     });
@@ -112,7 +113,6 @@ const RootNode = ({
       item={node}
       nodes={childNodesQuery.data}
       openedPaths={openedPaths}
-      level={1}
       onNodeSelected={onNodeSelected}
       toggleOpen={toggleOpen}
       toggleFavorite={toggleFavorite}
@@ -124,7 +124,8 @@ const RootNode = ({
       isRoot={true}
       isFavorite={isFavorite}
       isLoading={childNodesQuery.isInitialLoading}
-      setShowAddTopicModal={setShowAddTopicModal}
+      setShowAddChildModal={setShowAddChildModal}
+      addChildTooltip={addChildTooltip}
     />
   );
 };

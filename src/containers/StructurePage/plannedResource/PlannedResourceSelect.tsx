@@ -40,6 +40,7 @@ const PlannedResourceSelect = ({
             required
             inModal
             isSearchable
+            matchFrom="any"
             defaultValue={defaultValue}
             noOptionsMessage={() => t('form.responsible.noResults')}
             onChange={(value: SingleValue) =>

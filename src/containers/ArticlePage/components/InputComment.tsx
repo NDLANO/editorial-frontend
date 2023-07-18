@@ -7,7 +7,7 @@
 
 import styled from '@emotion/styled';
 import { colors, fonts, spacing, misc } from '@ndla/core';
-import { useTranslation } from 'react-i18next';
+import { TFunction, useTranslation } from 'react-i18next';
 import { TextAreaV2 } from '@ndla/forms';
 import { ChangeEvent, useCallback, useRef, useState } from 'react';
 import uniqueId from 'lodash/uniqueId';
@@ -51,6 +51,21 @@ const ButtonWrapper = styled.div`
   gap: ${spacing.xsmall};
 `;
 
+export const getCommentWithInfoText = (
+  comment: string,
+  userName: string | undefined,
+  t: TFunction,
+) => {
+  const currentDate = new Date();
+  const dateTime = formatDateForBackend(currentDate);
+  const formattedDate = formatDate(dateTime);
+  const formattedTime = format(currentDate, 'HH:mm');
+
+  return `${comment}\n${t('form.workflow.addComment.createdBy')} ${
+    userName?.split(' ')[0]
+  } (${formattedDate} - ${formattedTime})`;
+};
+
 interface Props {
   comments: CommentType[];
   setComments: (c: CommentType[]) => void;
@@ -66,31 +81,35 @@ const InputComment = ({ comments, setComments }: Props) => {
     setInputValue(e.target.value);
   }, []);
 
-  const addComment = () => {
+  const addComment = useCallback(() => {
     // We need a temporary unique id in frontend before id is generated in draft-api when comment is created
     const uid = uniqueId();
     const updatedComments = [{ generatedId: uid, content: inputValue, isOpen: true }, ...comments];
     setComments(updatedComments);
-  };
+  }, [comments, inputValue, setComments]);
+
   const createComment = useRef<HTMLTextAreaElement>(null);
 
-  const handleFocus = () => {
-    const currentDate = new Date();
-    const dateTime = formatDateForBackend(currentDate);
-    const formattedDate = formatDate(dateTime);
-    const formattedTime = format(currentDate, 'HH:mm');
-
+  const handleFocus = useCallback(() => {
     if (!clickedInputField) {
-      setInputValue(
-        `${inputValue}\n${t('form.workflow.addComment.createdBy')} ${
-          userName?.split(' ')[0]
-        } (${formattedDate} - ${formattedTime})`,
-      );
+      const comment = getCommentWithInfoText(inputValue, userName, t);
+      setInputValue(comment);
       setTimeout(() => createComment.current?.setSelectionRange(0, 0), 0);
     }
 
     setClickedInputField(true);
-  };
+  }, [clickedInputField, inputValue, t, userName]);
+
+  const onClickSmall = useCallback(() => {
+    setInputValue('');
+    setClickedInputField(false);
+  }, []);
+
+  const onClickMedium = useCallback(() => {
+    addComment();
+    setInputValue('');
+    setClickedInputField(false);
+  }, [addComment]);
 
   return (
     <CommentCard>
@@ -103,7 +122,7 @@ const InputComment = ({ comments, setComments }: Props) => {
           labelHidden
           value={inputValue}
           onChange={handleInputChange}
-          onFocus={() => handleFocus()}
+          onFocus={handleFocus}
           ref={createComment}
         />
         <ButtonWrapper>
@@ -112,10 +131,7 @@ const InputComment = ({ comments, setComments }: Props) => {
             size="xsmall"
             colorTheme="danger"
             disabled={!inputValue}
-            onClick={() => {
-              setInputValue('');
-              setClickedInputField(false);
-            }}
+            onClick={onClickSmall}
           >
             {t('form.abort')}
           </StyledButtonSmall>
@@ -124,11 +140,7 @@ const InputComment = ({ comments, setComments }: Props) => {
             shape="pill"
             size="xsmall"
             disabled={!inputValue}
-            onClick={() => {
-              addComment();
-              setInputValue('');
-              setClickedInputField(false);
-            }}
+            onClick={onClickMedium}
           >
             {t('form.comment')}
           </StyledButtonMedium>

@@ -12,7 +12,6 @@ import { colors } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
 import { SubjectMaterial } from '@ndla/icons/contentType';
 import { ModalHeader, ModalCloseButton, ModalBody, Modal, ModalTitle } from '@ndla/modal';
-import Tooltip from '@ndla/tooltip';
 import { ButtonV2 } from '@ndla/button';
 import { IConceptSummary } from '@ndla/types-backend/concept-api';
 import { IMultiSearchSummary } from '@ndla/types-backend/search-api';
@@ -75,13 +74,18 @@ const EmbedConnection = ({ id, type, articles, setArticles, concepts, setConcept
     };
   }, [id, type, setArticles, setConcepts]);
 
+  if (!articles?.length && !concepts?.length) {
+    return null;
+  }
+
   return (
     <Modal
-      wrapperFunctionForButton={(activateButton: any) => (
-        <Tooltip tooltip={t(`form.embedConnections.info.${type}`)}>{activateButton}</Tooltip>
-      )}
       activateButton={
-        <ButtonV2 variant="stripped">
+        <ButtonV2
+          variant="stripped"
+          aria-label={t(`form.embedConnections.info.${type}`)}
+          title={t(`form.embedConnections.info.${type}`)}
+        >
           <ImageInformationIcon css={normalPaddingCSS} />
         </ButtonV2>
       }

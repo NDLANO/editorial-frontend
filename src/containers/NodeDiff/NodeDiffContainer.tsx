@@ -10,7 +10,7 @@ import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
 import { spacing, fonts } from '@ndla/core';
 import { ContentLoader, MessageBox } from '@ndla/ui';
-import { ChevronRight } from '@ndla/icons/lib/common';
+import { ChevronRight } from '@ndla/icons/common';
 import isEqual from 'lodash/isEqual';
 import { Fragment, ReactNode, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';

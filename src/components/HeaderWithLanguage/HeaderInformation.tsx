@@ -6,15 +6,14 @@
  *
  */
 
-import { ReactChild, useEffect, useState } from 'react';
+import { ReactNode, memo, useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { useFormikContext } from 'formik';
 import { ButtonV2 } from '@ndla/button';
 import styled from '@emotion/styled';
 import { ContentTypeBadge, constants } from '@ndla/ui';
 import { colors, fonts, spacing } from '@ndla/core';
-import { Camera, Concept, Filter, SquareAudio } from '@ndla/icons/editor';
+import { Camera, Concept, Taxonomy, SquareAudio } from '@ndla/icons/editor';
 import { Podcast } from '@ndla/icons/common';
 import { List } from '@ndla/icons/action';
 import HeaderStatusInformation from './HeaderStatusInformation';
@@ -23,8 +22,6 @@ import * as draftApi from '../../modules/draft/draftApi';
 import Spinner from '../Spinner';
 import handleError from '../../util/handleError';
 import { useMessages } from '../../containers/Messages/MessagesProvider';
-import { ArticleFormType } from '../../containers/FormikForm/articleFormHooks';
-import { ConceptFormValues } from '../../containers/ConceptPage/conceptInterfaces';
 import { fetchAuth0Users } from '../../modules/auth0/auth0Api';
 
 export const StyledSplitter = styled.div`
@@ -56,52 +53,43 @@ const StyledTitleHeaderWrapper = styled.div`
 
 const { contentTypes } = constants;
 
-export const types: Record<string, { form: string; cssModifier: string; icon: ReactChild }> = {
+const types: Record<string, { form: string; icon: ReactNode }> = {
   standard: {
     form: 'learningResourceForm',
-    cssModifier: 'article',
     icon: <ContentTypeBadge type={contentTypes.SUBJECT_MATERIAL} background size="small" />,
   },
   'topic-article': {
     form: 'topicArticleForm',
-    cssModifier: 'article',
     icon: <ContentTypeBadge type={contentTypes.TOPIC} background size="small" />,
   },
   subjectpage: {
     form: 'subjectpageForm',
-    cssModifier: 'article',
     icon: <ContentTypeBadge type={contentTypes.SUBJECT} background size="small" />,
   },
   'frontpage-article': {
     form: 'frontpageArticleForm',
-    cssModifier: 'article',
     icon: <ContentTypeBadge type={contentTypes.SUBJECT} background size="small" />,
   },
-  image: { form: 'imageForm', cssModifier: 'multimedia', icon: <Camera /> },
+  image: { form: 'imageForm', icon: <Camera /> },
   audio: {
     form: 'audioForm',
-    cssModifier: 'multimedia',
     icon: <SquareAudio />,
   },
   podcast: {
     form: 'podcastForm',
-    cssModifier: 'multimedia',
     icon: <Podcast />,
   },
   'podcast-series': {
     form: 'podcastSeriesForm',
-    cssModifier: 'multimedia',
     icon: <List />,
   },
   concept: {
     form: 'conceptform',
-    cssModifier: 'concept',
     icon: <Concept />,
   },
-  filter: {
-    form: 'filterform',
-    cssModifier: 'filter',
-    icon: <Filter />,
+  programme: {
+    form: 'programmepageForm',
+    icon: <Taxonomy />,
   },
 };
 
@@ -115,9 +103,11 @@ interface Props {
   formIsDirty?: boolean;
   taxonomyPaths?: string[];
   id?: number;
+  language: string;
   setHasConnections?: (hasConnections: boolean) => void;
   expirationDate?: string;
   responsibleId?: string;
+  hasRSS?: boolean;
 }
 
 const HeaderInformation = ({
@@ -133,12 +123,13 @@ const HeaderInformation = ({
   setHasConnections,
   expirationDate,
   responsibleId,
+  hasRSS,
+  language,
 }: Props) => {
   const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
   const { createMessage } = useMessages();
   const navigate = useNavigate();
-  const { values } = useFormikContext<ArticleFormType | ConceptFormValues>();
   const [responsibleName, setResponsibleName] = useState<string | undefined>(undefined);
 
   useEffect(() => {
@@ -149,8 +140,8 @@ const HeaderInformation = ({
     })();
   }, [responsibleId]);
 
-  const onSaveAsNew = async () => {
-    if (!values.id) return;
+  const onSaveAsNew = useCallback(async () => {
+    if (!id) return;
     try {
       if (formIsDirty) {
         createMessage({
@@ -160,15 +151,15 @@ const HeaderInformation = ({
         });
       } else {
         setLoading(true);
-        const newArticle = await draftApi.cloneDraft(values.id, values.language);
+        const newArticle = await draftApi.cloneDraft(id, language);
         // we don't set loading to false as the redirect will unmount this component anyway
-        navigate(toEditArticle(newArticle.id, newArticle.articleType, values.language));
+        navigate(toEditArticle(newArticle.id, newArticle.articleType, language));
       }
     } catch (e) {
       handleError(e);
       setLoading(false);
     }
-  };
+  }, [createMessage, formIsDirty, id, language, navigate]);
 
   return (
     <StyledHeader>
@@ -195,9 +186,10 @@ const HeaderInformation = ({
         setHasConnections={setHasConnections}
         expirationDate={expirationDate}
         responsibleName={responsibleName}
+        hasRSS={hasRSS}
       />
     </StyledHeader>
   );
 };
 
-export default HeaderInformation;
+export default memo(HeaderInformation);

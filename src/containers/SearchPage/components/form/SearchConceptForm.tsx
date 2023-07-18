@@ -13,6 +13,7 @@ import { getResourceLanguages } from '../../../../util/resourceHelpers';
 import { getTagName } from '../../../../util/formHelper';
 import { SearchParams } from './SearchForm';
 import {
+  CONCEPT_RESPONSIBLE,
   CONCEPT_WRITE_SCOPE,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
 } from '../../../../constants';
@@ -32,16 +33,13 @@ interface Props {
 const SearchConceptForm = ({ search: doSearch, searchObject: search, subjects }: Props) => {
   const { t } = useTranslation();
   const [queryInput, setQueryInput] = useState(search.query ?? '');
-  const { data: users } = useAuth0Editors(
-    { permission: CONCEPT_WRITE_SCOPE },
-    {
-      select: (users) => users.map((u) => ({ id: `${u.app_metadata.ndla_id}`, name: u.name })),
-      placeholderData: [],
-    },
-  );
+  const { data: users } = useAuth0Editors({
+    select: (users) => users.map((u) => ({ id: `${u.app_metadata.ndla_id}`, name: u.name })),
+    placeholderData: [],
+  });
 
   const { data: responsibles } = useAuth0Responsibles(
-    { permission: CONCEPT_WRITE_SCOPE },
+    { permission: CONCEPT_RESPONSIBLE },
     {
       select: (users) =>
         sortBy(

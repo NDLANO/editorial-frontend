@@ -20,7 +20,6 @@ import validateFormik, { getWarnings, RulesType } from '../../../components/form
 import SaveButton from '../../../components/SaveButton';
 import Field from '../../../components/Field';
 import { isFormikFormDirty } from '../../../util/formHelper';
-import { toCreatePodcastSeries, toEditPodcastSeries } from '../../../util/routeHelpers';
 import { editorValueToPlainText } from '../../../util/articleContentConverter';
 import PodcastSeriesMetaData from './PodcastSeriesMetaData';
 import PodcastEpisodes from './PodcastEpisodes';
@@ -75,6 +74,7 @@ export interface PodcastSeriesFormikType {
   metaImageAlt?: string;
   episodes: IAudioMetaInformation[];
   supportedLanguages: string[];
+  hasRSS?: boolean;
 }
 
 interface Props {
@@ -86,6 +86,7 @@ interface Props {
   onUpdate: (newPodcastSeries: INewSeries) => void;
   revision?: number;
   isNewLanguage?: boolean;
+  supportedLanguages: string[];
 }
 
 const PodcastSeriesForm = ({
@@ -95,6 +96,7 @@ const PodcastSeriesForm = ({
   onUpdate,
   language,
   isNewLanguage,
+  supportedLanguages,
 }: Props) => {
   const { t } = useTranslation();
   const [savedToServer, setSavedToServer] = useState(false);
@@ -112,7 +114,8 @@ const PodcastSeriesForm = ({
       values.title === undefined ||
       values.language === undefined ||
       values.coverPhotoId === undefined ||
-      values.metaImageAlt === undefined
+      values.metaImageAlt === undefined ||
+      values.hasRSS === undefined
     ) {
       actions.setSubmitting(false);
       setSavedToServer(false);
@@ -130,6 +133,7 @@ const PodcastSeriesForm = ({
       coverPhotoAltText: values.metaImageAlt,
       language: values.language,
       episodes: values.episodes.map((ep) => ep.id),
+      hasRSS: values.hasRSS,
     };
 
     await onUpdate(newPodcastSeries);
@@ -173,18 +177,16 @@ const PodcastSeriesForm = ({
           changed: isNewLanguage,
         });
 
-        const content = { ...podcastSeries, title: podcastSeries?.title.title ?? '', language };
         return (
           <FormWrapper inModal={inModal}>
             <HeaderWithLanguage
+              id={podcastSeries?.id}
+              language={language}
               noStatus
-              values={values}
+              supportedLanguages={supportedLanguages}
               type="podcast-series"
-              content={content}
-              editUrl={(lang: string) => {
-                if (values.id) return toEditPodcastSeries(values.id, lang);
-                else return toCreatePodcastSeries();
-              }}
+              title={podcastSeries?.title.title}
+              hasRSS={podcastSeries?.hasRSS}
             />
             <FormAccordions defaultOpen={['podcast-series-podcastmeta']}>
               <FormAccordion

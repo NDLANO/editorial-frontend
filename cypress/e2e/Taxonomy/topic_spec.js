@@ -13,17 +13,23 @@ const selectSubject = 'urn:subject:20';
 const selectTopic = 'urn:topic:1:186732';
 
 describe('Topic editing', () => {
-  before(() => {
+  beforeEach(() => {
     setToken();
 
     cy.apiroute('GET', `${taxonomyApi}/versions`, 'allVersions');
-    cy.apiroute('GET', `${taxonomyApi}/nodes?language=nb&nodeType=SUBJECT`, 'allSubjects');
     cy.apiroute(
       'GET',
-      `${taxonomyApi}/nodes/${selectSubject}/nodes?language=nb&recursive=true`,
+      `/draft-api/v1/drafts/ids/?fallback=true&ids=*`,
+      'emptyDraftIds',
+    );
+    cy.apiroute('GET', `${taxonomyApi}/nodes?*`, 'allSubjects');
+    cy.apiroute(
+      'GET',
+      `${taxonomyApi}/nodes/${selectSubject}/nodes?*`,
       'allSubjectTopics',
     );
     cy.apiroute('GET', '/get_zendesk_token', 'zendeskToken');
+    cy.apiroute('GET', '/get_responsibles?*', 'getUsersResponsible');
     cy.intercept('GET', '/draft-api/v1/user-data', {
       userId: 'user_id',
       latestEditedArticles: ['400', '800'],
@@ -31,10 +37,6 @@ describe('Topic editing', () => {
 
     cy.visit(`/structure/${selectSubject}/${selectTopic}`);
     cy.apiwait(['@allVersions', '@allSubjects', '@allSubjectTopics']);
-  });
-
-  beforeEach(() => {
-    setToken();
   });
 
   it('should have a settings menu where everything works', () => {

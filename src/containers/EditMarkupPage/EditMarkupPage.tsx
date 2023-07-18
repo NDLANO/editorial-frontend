@@ -213,7 +213,7 @@ const EditMarkupPage = () => {
         <HeaderSupportedLanguages
           supportedLanguages={draft?.supportedLanguages}
           language={language}
-          editUrl={(lang: string) => toEditMarkup(draftId, lang)}
+          editUrl={toEditMarkup}
           id={draftId}
           isSubmitting={isSubmitting}
           replace={true}

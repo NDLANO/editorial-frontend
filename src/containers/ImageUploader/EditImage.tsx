@@ -8,7 +8,6 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
-import { unstable_batchedUpdates } from 'react-dom';
 import {
   IImageMetaInformationV3,
   IUpdateImageMetaInformation,
@@ -112,6 +111,7 @@ const EditImage = ({ isNewlyCreated }: Props) => {
       isNewlyCreated={isNewlyCreated}
       licenses={imageLicenses}
       isNewLanguage={isNewLanguage}
+      supportedLanguages={image.supportedLanguages}
     />
   );
 };

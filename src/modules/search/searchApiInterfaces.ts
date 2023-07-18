@@ -36,6 +36,7 @@ export interface MultiSearchApiQuery {
   subjects?: CommaSeparatedList;
   'language-filter'?: CommaSeparatedList;
   'context-filters'?: CommaSeparatedList;
+  'article-types'?: CommaSeparatedList;
   'search-context'?: string;
   'grep-codes'?: CommaSeparatedList;
   'embed-id'?: number;
@@ -44,4 +45,7 @@ export interface MultiSearchApiQuery {
   'aggregate-paths'?: CommaSeparatedList;
   'revision-date-from'?: string;
   'revision-date-to'?: string;
+  prioritized?: boolean;
+  'draft-status'?: string;
+  'include-other-statuses'?: boolean;
 }

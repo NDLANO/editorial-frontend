@@ -26,7 +26,6 @@ import { AlertModalWrapper } from '../../FormikForm';
 import AudioMetaData from './AudioMetaData';
 import AudioContent from './AudioContent';
 import AudioManuscript from './AudioManuscript';
-import { toCreateAudioFile, toEditAudio } from '../../../util/routeHelpers';
 import validateFormik, { getWarnings, RulesType } from '../../../components/formikValidationSchema';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
 import { audioApiTypeToFormType } from '../../../util/audioHelpers';
@@ -104,6 +103,7 @@ interface Props {
   onUpdateAudio?: (audio: IUpdatedAudioMetaInformation, file?: string | Blob) => Promise<void>;
   audio?: IAudioMetaInformation;
   audioLanguage: string;
+  supportedLanguages: string[];
   isNewlyCreated?: boolean;
   isNewLanguage?: boolean;
 }
@@ -115,6 +115,7 @@ const AudioForm = ({
   onCreateAudio,
   onUpdateAudio,
   isNewLanguage,
+  supportedLanguages,
 }: Props) => {
   const { t } = useTranslation();
   const [savedToServer, setSavedToServer] = useState(false);
@@ -199,14 +200,12 @@ const AudioForm = ({
         return (
           <FormWrapper>
             <HeaderWithLanguage
+              id={audio?.id}
+              language={audioLanguage}
               noStatus
-              values={values}
+              supportedLanguages={supportedLanguages}
               type="audio"
-              content={{ ...audio, language: audioLanguage, title: audio?.title.title }}
-              editUrl={(lang: string) => {
-                if (values.id) return toEditAudio(values.id, lang);
-                else return toCreateAudioFile();
-              }}
+              title={audio?.title.title}
             />
             <FormAccordions defaultOpen={['audio-upload-content']}>
               <FormAccordion

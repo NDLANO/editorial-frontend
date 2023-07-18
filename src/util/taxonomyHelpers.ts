@@ -115,42 +115,6 @@ export const groupResourcesByType = (
     .filter((rt) => rt.resources.length > 0);
 };
 
-const sortIntoCreateDeleteUpdate = <T extends { id: string }>({
-  changedItems,
-  originalItems,
-  updateProperties = [],
-}: {
-  changedItems: T[];
-  originalItems: T[];
-  updateProperties?: Array<keyof T>;
-}) => {
-  const updateItems: T[] = [];
-  const createItems: T[] = [];
-  const deleteItems = originalItems.filter((item) => {
-    const originalItemInChangedItem = changedItems.find(
-      (changedItem) => changedItem.id === item.id,
-    );
-    return !originalItemInChangedItem;
-  });
-  changedItems.forEach((changedItem) => {
-    const foundItem = originalItems.find((item) => item.id === changedItem.id);
-    if (foundItem) {
-      updateProperties.forEach((updateProperty) => {
-        if (foundItem[updateProperty] !== changedItem[updateProperty]) {
-          updateItems.push({
-            ...foundItem,
-            [updateProperty]: changedItem[updateProperty],
-          });
-        }
-      });
-    } else {
-      createItems.push(changedItem);
-    }
-  });
-
-  return [createItems, deleteItems, updateItems];
-};
-
 export const safeConcat = <T>(toAdd: T, existing?: T[]) =>
   existing ? existing.concat(toAdd) : [toAdd];
 
@@ -180,9 +144,11 @@ const insertChild = (
   });
 };
 
+const parentIsRoot = (node: NodeChild) => node.path.startsWith(node.parentId.replace('urn:', '/'));
+
 const groupChildNodes = (childNodes: NodeChild[]) =>
   childNodes.reduce((acc, curr) => {
-    if (curr.parentId.includes('subject')) return acc;
+    if (parentIsRoot(curr)) return acc;
     const withoutCurrent = acc.filter((node) => node.id !== curr.id);
     return insertChild(withoutCurrent, curr);
   }, childNodes);
@@ -237,7 +203,6 @@ export const nodePathToUrnPath = (path: string) => path.replace(/\//g, '/urn:').
 export {
   groupChildNodes,
   flattenResourceTypesAndAddContextTypes,
-  sortIntoCreateDeleteUpdate,
   groupTopics,
   sortByName,
   selectedResourceTypeValue,

@@ -10,7 +10,7 @@ import { ButtonV2 } from '@ndla/button';
 import { spacing, fonts } from '@ndla/core';
 import { IStatus } from '@ndla/types-backend/draft-api';
 import { useField } from 'formik';
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useMemo, memo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ARCHIVED, PUBLISHED, UNPUBLISHED } from '../../../constants';
 import Comment, { CommentType } from './Comment';
@@ -51,60 +51,53 @@ interface Props {
   savedStatus?: IStatus;
 }
 const CommentSection = ({ savedStatus }: Props) => {
-  const [allOpen, setAllOpen] = useState<boolean | undefined>(undefined);
   const { t } = useTranslation();
 
-  const [comments] = useField<CommentType[]>('comments');
+  const [_, { value }, { setValue }] = useField<CommentType[]>('comments');
+  const [commentsOpen, setCommentsOpen] = useState<boolean[]>(value.map((c) => c.isOpen));
+  const allOpen = useMemo(() => commentsOpen.every((o) => !!o) ?? undefined, [commentsOpen]);
 
-  const updateComments = useCallback(
-    (c: CommentType[]) => comments.onChange({ target: { name: 'comments', value: c } }),
-    [comments],
+  const onDelete = useCallback(
+    (index: number) => {
+      const updatedList = value?.filter((_c, i) => i !== index);
+      setValue(updatedList);
+    },
+    [value, setValue],
   );
 
-  const onDelete = (index: number) => {
-    const updatedList = comments.value?.filter((_c, i) => i !== index);
-
-    updateComments(updatedList);
-  };
-
   const toggleAllOpen = (allOpen: boolean) => {
-    setAllOpen(allOpen);
-    comments.onChange({
-      target: { name: 'comments', value: comments.value.map((c) => ({ ...c, isOpen: allOpen })) },
-    });
+    setCommentsOpen(value.map(() => allOpen));
+    setValue(value.map((c) => ({ ...c, isOpen: allOpen })));
   };
   const commentsHidden = RESET_COMMENTS_STATUSES.some((s) => s === savedStatus?.current);
 
   return (
-    <>
-      <CommentColumn data-hidden={commentsHidden} aria-hidden={commentsHidden}>
-        <InputComment comments={comments.value ?? []} setComments={updateComments} />
-        {comments.value.length ? (
-          <StyledOpenCloseAll
-            variant="stripped"
-            onClick={() => toggleAllOpen(allOpen !== undefined ? !allOpen : true)}
-            fontWeight="semibold"
-          >
-            {allOpen ? t('form.hideAll') : t('form.openAll')}
-          </StyledOpenCloseAll>
-        ) : null}
-        <StyledList>
-          {comments.value.map((comment, index) => (
-            <Comment
-              key={'id' in comment ? comment.id : comment.generatedId}
-              comment={comment}
-              setComments={updateComments}
-              comments={comments.value ?? []}
-              allOpen={allOpen}
-              onDelete={onDelete}
-              index={index}
-              setAllOpen={setAllOpen}
-            />
-          ))}
-        </StyledList>
-      </CommentColumn>
-    </>
+    <CommentColumn data-hidden={commentsHidden} aria-hidden={commentsHidden}>
+      <InputComment comments={value ?? []} setComments={setValue} />
+      {value.length ? (
+        <StyledOpenCloseAll
+          variant="stripped"
+          onClick={() => toggleAllOpen(allOpen !== undefined ? !allOpen : true)}
+          fontWeight="semibold"
+        >
+          {allOpen ? t('form.hideAll') : t('form.openAll')}
+        </StyledOpenCloseAll>
+      ) : null}
+      <StyledList>
+        {value.map((comment, index) => (
+          <Comment
+            key={'id' in comment ? comment.id : comment.generatedId}
+            setComments={setValue}
+            comments={value ?? []}
+            onDelete={onDelete}
+            index={index}
+            setCommentsOpen={setCommentsOpen}
+            commentsOpen={commentsOpen}
+          />
+        ))}
+      </StyledList>
+    </CommentColumn>
   );
 };
 
-export default CommentSection;
+export default memo(CommentSection);

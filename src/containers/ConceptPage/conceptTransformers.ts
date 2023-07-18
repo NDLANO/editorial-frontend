@@ -32,20 +32,12 @@ export const conceptApiTypeToFormType = (
   const license = concept?.copyright?.license?.license;
   const conceptLicense = license === 'unknown' ? undefined : license;
 
-  const emptyExample = [
-    {
-      example: '',
-      language: '',
-      transcriptions: {},
-    },
-  ];
-
   const emptyGlossData = {
     gloss: '',
     wordClass: '',
     originalLanguage: '',
     transcriptions: {},
-    examples: [emptyExample],
+    examples: [],
   };
 
   // Make sure to omit the content field from concept. It will crash Slate.

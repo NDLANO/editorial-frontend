@@ -14,7 +14,6 @@ import {
   ITagsSearchResult,
   IConceptSummary,
   IGlossExample,
-  IGlossData,
 } from '@ndla/types-backend/concept-api';
 import { IArticle } from '@ndla/types-backend/draft-api';
 import { Formik, FormikProps, FormikHelpers } from 'formik';
@@ -95,9 +94,6 @@ const conceptFormRules: RulesType<ConceptFormValues, IConcept> = {
       apiField: 'metaImage',
       languageMatch: true,
     },
-  },
-  subjects: {
-    minItems: 1,
   },
   visualElement: {
     warnings: {

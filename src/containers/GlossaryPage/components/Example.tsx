@@ -61,13 +61,17 @@ const Example = ({ example, onChange, name }: Props) => {
           ))}
         </Select>
       </FieldSection>
-      <FieldHeader title={t('form.concept.glossDataSection.transcriptions')} />
 
-      <TranscriptionsField
-        name={'transcriptions'}
-        values={example.transcriptions}
-        onChange={(e) => handleExampleChange(e, 'transcriptions')}
-      />
+      {example.language === 'zh' && (
+        <>
+          <FieldHeader title={t('form.concept.glossDataSection.transcriptions')} />
+          <TranscriptionsField
+            name={'transcriptions'}
+            values={example.transcriptions}
+            onChange={(e) => handleExampleChange(e, 'transcriptions')}
+          />
+        </>
+      )}
     </>
   );
 };

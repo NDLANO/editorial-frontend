@@ -19,6 +19,14 @@ import { SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
 import { parseImageUrl } from '../../util/formHelper';
 import { IN_PROGRESS } from '../../constants';
 
+const emptyGlossData = {
+  gloss: '',
+  wordClass: '',
+  originalLanguage: '',
+  transcriptions: {},
+  examples: [],
+};
+
 export const conceptApiTypeToFormType = (
   concept: IConcept | undefined,
   language: string,
@@ -31,14 +39,6 @@ export const conceptApiTypeToFormType = (
     subjects.filter((s) => concept?.subjectIds?.find((id) => id === s.id)) ?? [];
   const license = concept?.copyright?.license?.license;
   const conceptLicense = license === 'unknown' ? undefined : license;
-
-  const emptyGlossData = {
-    gloss: '',
-    wordClass: '',
-    originalLanguage: '',
-    transcriptions: {},
-    examples: [],
-  };
 
   // Make sure to omit the content field from concept. It will crash Slate.
   return {
@@ -152,5 +152,6 @@ export const conceptFormTypeToApiType = (
     },
     supportedLanguages: values.supportedLanguages,
     conceptType,
+    glossData: values.glossData ?? emptyGlossData,
   };
 };

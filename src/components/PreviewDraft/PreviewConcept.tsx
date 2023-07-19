@@ -9,7 +9,7 @@
 import { extractEmbedMeta } from '@ndla/article-converter';
 import { IConcept } from '@ndla/types-backend/concept-api';
 import { ConceptVisualElementMeta } from '@ndla/types-embed';
-import { ConceptNotionV2 } from '@ndla/ui';
+import { ConceptNotionV2, Gloss } from '@ndla/ui';
 import { useTaxonomyVersion } from '../../containers/StructureVersion/TaxonomyVersionProvider';
 import { usePreviewArticle } from '../../modules/article/articleGqlQueries';
 import { useSearchNodes } from '../../modules/nodes/nodeQueries';
@@ -37,17 +37,32 @@ const PreviewConcept = ({ concept, language }: Props) => {
 
   const visualElementMeta = extractEmbedMeta(data ?? '') as ConceptVisualElementMeta;
 
+  const isGloss = concept.conceptType === 'gloss';
+
   return (
-    <ConceptNotionV2
-      title={concept.title.title}
-      content={concept.content?.content}
-      visualElement={visualElementMeta}
-      metaImage={concept.metaImage}
-      copyright={concept.copyright}
-      tags={concept.tags?.tags}
-      subjects={subjects?.results?.map((res) => res.name)}
-      previewAlt
-    />
+    <>
+      {isGloss ? (
+        <Gloss
+          title={concept.title}
+          glossData={concept.glossData!}
+          audio={{
+            title: '',
+            src: undefined,
+          }}
+        />
+      ) : (
+        <ConceptNotionV2
+          title={concept.title.title}
+          content={concept.content?.content}
+          visualElement={visualElementMeta}
+          metaImage={concept.metaImage}
+          copyright={concept.copyright}
+          tags={concept.tags?.tags}
+          subjects={subjects?.results?.map((res) => res.name)}
+          previewAlt
+        />
+      )}
+    </>
   );
 };
 

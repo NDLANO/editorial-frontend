@@ -63,10 +63,10 @@ const LanguageVariant = ({ examples, index, arrayHelpers }: Props) => {
                 )}
               </FormikField>
 
-              {examples.length > 1 && (
+              {examples && examples.length > 1 && (
                 <FieldRemoveButton onClick={() => removeLanguageVariant(example_index)}>
                   {t('form.concept.glossDataSection.remove', {
-                    label: t(`form.concept.glossDataSection.example`),
+                    label: t(`form.concept.glossDataSection.languageVariant`).toLowerCase(),
                   })}
                 </FieldRemoveButton>
               )}

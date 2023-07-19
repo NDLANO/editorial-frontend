@@ -149,7 +149,7 @@
     "@ndla/tabs": "^3.0.4",
     "@ndla/tooltip": "^4.1.11",
     "@ndla/tracker": "^4.0.2",
-    "@ndla/ui": "^42.1.0",
+    "@ndla/ui": "^42.1.1",
     "@ndla/util": "^3.1.13",
     "@ndla/video-search": "^4.1.7",
     "@radix-ui/react-popover": "^1.0.3",

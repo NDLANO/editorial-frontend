@@ -9,13 +9,14 @@
 import { HelmetWithTracker } from '@ndla/tracker';
 import { useTranslation } from 'react-i18next';
 import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import ConceptForm from './ConceptForm/ConceptForm';
 import { useFetchConceptData } from '../FormikForm/formikConceptHooks';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import Spinner from '../../components/Spinner';
 import { LocaleType } from '../../interfaces';
 import { TranslateType, useTranslateToNN } from '../../components/NynorskTranslateProvider';
+import { toEditGloss } from '../../util/routeHelpers';
 
 const translateFields: TranslateType[] = [
   {
@@ -51,6 +52,12 @@ const EditConcept = ({ isNewlyCreated }: Props) => {
     subjects,
     updateConcept,
   } = useFetchConceptData(conceptId, selectedLanguage!);
+
+  // TODO: fjern etter conceptType er i IConceptSummary
+  const navigate = useNavigate();
+  if (concept?.glossData) {
+    navigate(toEditGloss(concept.id, selectedLanguage));
+  }
 
   const { shouldTranslate, translate, translating } = useTranslateToNN();
 

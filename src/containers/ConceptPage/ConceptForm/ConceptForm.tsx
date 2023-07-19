@@ -126,6 +126,7 @@ const conceptRules: RulesType<ConceptFormValues, IConcept> = {
 
 const glossRules: RulesType<ConceptFormValues, IConcept> = {
   ...conceptFormBaseRules,
+
   glossInfoErrors: {
     test: (values) => {
       if (values.glossData) {
@@ -133,7 +134,27 @@ const glossRules: RulesType<ConceptFormValues, IConcept> = {
         if (!gloss || !wordClass || !originalLanguage)
           return { translationKey: 'form.concept.glossDataSection.glossMissingFields' };
       }
+      return undefined;
+    },
+  },
 
+  glossTranscriptionErrors: {
+    onlyValidateIf: (values: ConceptFormValues) => {
+      if (values.glossData && values.glossData.originalLanguage === 'zh') {
+        return Object.keys(values.glossData.transcriptions).length !== 0;
+      }
+      return false;
+    },
+    test: (values) => {
+      if (values.glossData) {
+        const { transcriptions } = values.glossData;
+        if (Object.keys(transcriptions).length !== 0) {
+          const hasMissingField = Object.entries(transcriptions).flat().includes('');
+          if (hasMissingField) {
+            return { translationKey: 'form.concept.glossDataSection.transcriptionMissingFields' };
+          }
+        }
+      }
       return undefined;
     },
   },
@@ -219,17 +240,33 @@ const ConceptForm = ({
 
   const validateConceptForm = (values: ConceptFormValues) => {
     const errors = validateFormik(values, formRules, t);
-
     if (isGloss) {
       let examplesHasError = false;
       values.glossData!.examples.forEach((languageVariant, example_index) => {
+        let exampleHasError = false;
         languageVariant.forEach((e: IGlossExample, language_index) => {
-          const name = `example_${example_index}`;
-          const { example, language } = e;
+          const name = `glossData.examples.${example_index}.${language_index}`;
+          const { example, language, transcriptions } = e;
           if (!example || !language) {
-            errors[name] = `${t('form.concept.glossDataSection.missingFields', {
-              label: `${t(`form.concept.glossDataSection.language`)} ${language_index + 1}`,
-            })} `;
+            errors[name] = t('form.concept.glossDataSection.languageMissingFields');
+            if (!exampleHasError) {
+              exampleHasError = true;
+            }
+          }
+          if (Object.keys(transcriptions).length !== 0) {
+            const hasMissingField = Object.entries(transcriptions).flat().includes('');
+            if (hasMissingField) {
+              errors[`glossData.examples.${example_index}.${language_index}.transcriptions`] = t(
+                'form.concept.glossDataSection.transcriptionMissingFields',
+              );
+              if (!exampleHasError) {
+                exampleHasError = true;
+              }
+            }
+          }
+
+          if (exampleHasError) {
+            errors[`glossData.examples.${example_index}`] = 'Error in example';
             if (!examplesHasError) {
               examplesHasError = true;
             }
@@ -279,7 +316,13 @@ const ConceptForm = ({
                 <FormAccordion
                   id="glossData"
                   title={t('form.concept.glossDataSection.gloss')}
-                  hasError={!!(errors.glossInfoErrors || errors.glossExampleErrors)}
+                  hasError={
+                    !!(
+                      errors.glossInfoErrors ||
+                      errors.glossExampleErrors ||
+                      errors.glossTranscriptionErrors
+                    )
+                  }
                 >
                   <GlossDataSection />
                 </FormAccordion>

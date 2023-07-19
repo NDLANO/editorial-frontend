@@ -42,6 +42,7 @@ export interface ConceptFormValues {
   responsibleId?: string;
   conceptType: string;
   glossData?: IGlossData;
-  glossInfoErrors?: any;
-  glossExampleErrors?: any;
+  glossInfoErrors?: Record<string, string>;
+  glossExampleErrors?: Record<string, string>;
+  glossTranscriptionErrors?: Record<string, string>;
 }

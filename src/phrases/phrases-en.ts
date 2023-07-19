@@ -875,8 +875,9 @@ const phrases = {
         add: 'Add {{label}}',
         remove: 'Remove {{label}}',
         choose: 'Choose {{label}}',
-        missingFields: 'All fields for {{label}} must be filled out.',
+        languageMissingFields: 'All fields for a language must be filled out.',
         glossMissingFields: 'A glossary entry must include all fields.',
+        transcriptionMissingFields: 'A transcription can not be empty.',
       },
     },
     conceptList: {

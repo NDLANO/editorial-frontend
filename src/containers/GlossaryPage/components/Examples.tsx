@@ -10,79 +10,52 @@ import { IGlossExample } from '@ndla/types-backend/build/concept-api';
 import { FieldRemoveButton, FieldSection } from '@ndla/forms';
 import { ButtonV2 } from '@ndla/button';
 import { useTranslation } from 'react-i18next';
-import { FieldArray } from 'formik';
+import { FieldArray, useFormikContext } from 'formik';
 import LanguageVariant from './LanguageVariant';
 import FormAccordion from '../../../components/Accordion/FormAccordion';
 
 interface Props {
   label: string;
-  onChange: (event: { target: { value: IGlossExample[][]; name: string } }) => void;
-  errorMessages?: string[];
-  showError?: boolean;
-  disabled?: boolean;
-  values: IGlossExample[][];
-  name: string;
-  errors: any;
+  exampleLists: IGlossExample[][];
 }
 
-const Examples = ({ onChange, values: exampleLists, name, errors }: Props) => {
+const Examples = ({ label, exampleLists }: Props) => {
   const { t } = useTranslation();
 
-  const addExampleList = () => {
-    const newExampleLists = [...exampleLists];
-    newExampleLists.push([{ example: '', language: '', transcriptions: {} }]);
-    onExamplesChange(newExampleLists);
-  };
-
-  const removeExampleList = (index: number) => {
-    const newExampleLists = exampleLists;
-    newExampleLists.splice(index, 1);
-    onExamplesChange(newExampleLists);
-  };
-
-  const onExamplesChange = (newExamples: IGlossExample[][]) => {
-    onChange({
-      target: {
-        value: newExamples,
-        name,
-      },
-    });
-  };
+  const formikContext = useFormikContext<any>();
+  const { errors } = formikContext;
 
   return (
-    <>
-      <FieldArray
-        name="glossData.examples"
-        render={(arrayHelpers: any) => (
-          <>
-            {exampleLists.map((examples, index) => (
-              <FieldSection key={`example_list_${index}`}>
-                <FieldRemoveButton onClick={() => removeExampleList(index)} />
-                <div>
-                  <FormAccordion
-                    id={`example_list_${index}`}
-                    title={`${t('form.concept.glossDataSection.example')} ${index + 1}`}
-                    hasError={errors && !!errors[`example_${index}`]}
-                  >
-                    {errors && errors[`example_${index}`]}
-                    <LanguageVariant
-                      examples={examples}
-                      index={index}
-                      arrayHelpers={arrayHelpers}
-                    />
-                  </FormAccordion>
-                </div>
-              </FieldSection>
-            ))}
-          </>
-        )}
-      />
-      <ButtonV2 variant="outline" onClick={addExampleList} data-cy="addExample">
-        {t('form.concept.glossDataSection.add', {
-          label: t(`form.concept.glossDataSection.example`).toLowerCase(),
-        })}
-      </ButtonV2>
-    </>
+    <FieldArray
+      name={label}
+      render={(arrayHelpers: any) => (
+        <>
+          {exampleLists.map((examples, index) => (
+            <FieldSection key={`${label}.${index}`}>
+              <FieldRemoveButton onClick={() => arrayHelpers.remove(index)} />
+              <div>
+                <FormAccordion
+                  id={`${label}.accordion.${index}`}
+                  title={`${t('form.concept.glossDataSection.example')} ${index + 1}`}
+                  hasError={!!errors[`${label}.${index}`]}
+                >
+                  <LanguageVariant label={label} examples={examples} index={index} />
+                </FormAccordion>
+              </div>
+            </FieldSection>
+          ))}
+          <ButtonV2
+            variant="outline"
+            onClick={() => arrayHelpers.push([{ example: '', language: '', transcriptions: {} }])}
+            data-cy="addExample"
+          >
+            {t('form.concept.glossDataSection.add', {
+              label: t(`form.concept.glossDataSection.example`).toLowerCase(),
+            })}
+          </ButtonV2>
+        </>
+      )}
+    />
   );
 };
 

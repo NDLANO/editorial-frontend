@@ -776,8 +776,9 @@ const phrases = {
         add: 'Legg til {{label}}',
         remove: 'Fjern {{label}}',
         choose: 'Velg {{label}}',
-        missingFields: 'Alle felter for {{label}} må fylles ut.',
+        languageMissingFields: 'Alle felter for et språk må fylles ut.',
         glossMissingFields: 'En glose må inneholde alle felter.',
+        transcriptionMissingFields: 'En transkripsjon kan ikke være tom.',
       },
     },
     conceptList: {

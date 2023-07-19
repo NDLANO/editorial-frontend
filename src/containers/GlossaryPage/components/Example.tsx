@@ -9,8 +9,9 @@
 import { FieldHeader, FieldSection, Input, Select } from '@ndla/forms';
 import { IGlossExample } from '@ndla/types-backend/build/concept-api';
 import { useTranslation } from 'react-i18next';
-import TranscriptionsField from './TranscriptionsField';
+import TranscriptionFieldList from './TranscriptionFieldList';
 import { LANGUAGES } from '../glossaryData';
+import FormikField from '../../../components/FormikField';
 
 interface Props {
   example: IGlossExample;
@@ -37,42 +38,45 @@ const Example = ({ example, onChange, name }: Props) => {
   };
 
   return (
-    <>
-      <FieldSection>
-        <Input
-          type="text"
-          placeholder={t('form.concept.glossDataSection.example')}
-          value={example.example}
-          onChange={(e) => handleExampleChange(e, 'example')}
-        />
-
-        <Select value={example.language} onChange={(e) => handleExampleChange(e, 'language')}>
-          {!example.language && (
-            <option>
-              {t('form.concept.glossDataSection.choose', {
-                label: t('form.concept.glossDataSection.language').toLowerCase(),
-              })}
-            </option>
-          )}
-          {LANGUAGES.map((l, language_index) => (
-            <option value={l} key={language_index}>
-              {t(`languages.${l}`)}
-            </option>
-          ))}
-        </Select>
-      </FieldSection>
-
-      {example.language === 'zh' && (
+    <FormikField name={`${name}.transcriptions`}>
+      {() => (
         <>
-          <FieldHeader title={t('form.concept.glossDataSection.transcriptions')} />
-          <TranscriptionsField
-            name={'transcriptions'}
-            values={example.transcriptions}
-            onChange={(e) => handleExampleChange(e, 'transcriptions')}
-          />
+          <FieldSection>
+            <Input
+              type="text"
+              placeholder={t('form.concept.glossDataSection.example')}
+              value={example.example}
+              onChange={(e) => handleExampleChange(e, 'example')}
+            />
+
+            <Select value={example.language} onChange={(e) => handleExampleChange(e, 'language')}>
+              {!example.language && (
+                <option>
+                  {t('form.concept.glossDataSection.choose', {
+                    label: t('form.concept.glossDataSection.language').toLowerCase(),
+                  })}
+                </option>
+              )}
+              {LANGUAGES.map((l, language_index) => (
+                <option value={l} key={language_index}>
+                  {t(`languages.${l}`)}
+                </option>
+              ))}
+            </Select>
+          </FieldSection>
+          {example.language === 'zh' && (
+            <>
+              <FieldHeader title={t('form.concept.glossDataSection.transcriptions')} />
+              <TranscriptionFieldList
+                name={`${name}.transcriptions`}
+                values={example.transcriptions}
+                onChange={(e) => handleExampleChange(e, 'transcriptions')}
+              />
+            </>
+          )}
         </>
       )}
-    </>
+    </FormikField>
   );
 };
 

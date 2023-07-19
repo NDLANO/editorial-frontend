@@ -1422,7 +1422,7 @@ const phrases = {
     resources: 'Ressurser',
     newTopic: 'Nytt emne',
     nodeSettings: 'Innstillinger',
-    programmeSettings: 'Utdanningsprogram-instillinger',
+    programmeSettings: 'Utdanningsprogram-instillingar',
     subjectSettings: 'Faginnstillinger',
     topicSettings: 'Emneinnstillinger',
     currentVersion: 'Noverande versjon',

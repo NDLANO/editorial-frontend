@@ -72,7 +72,6 @@ const SlateCampaignBlock = ({ element, editor, attributes, children }: Props) =>
   const onSave = useCallback(
     (data: CampaignBlockEmbedData) => {
       setIsEditing(false);
-
       const properties = {
         data: data,
         isFirstEdit: false,
@@ -94,9 +93,13 @@ const SlateCampaignBlock = ({ element, editor, attributes, children }: Props) =>
   useEffect(() => {
     if (campaignBlock?.imageBeforeId) {
       fetchImage(campaignBlock.imageBeforeId).then((img) => setLeftImage(img));
+    } else {
+      setLeftImage(undefined);
     }
     if (campaignBlock?.imageAfterId) {
       fetchImage(campaignBlock.imageAfterId).then((img) => setRightImage(img));
+    } else {
+      setRightImage(undefined);
     }
   }, [campaignBlock?.imageAfterId, campaignBlock?.imageBeforeId]);
   //

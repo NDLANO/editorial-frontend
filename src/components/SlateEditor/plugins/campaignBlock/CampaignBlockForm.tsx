@@ -64,6 +64,9 @@ const rules: RulesType<CampaignBlockFormValues> = {
   linkText: {
     required: true,
   },
+  imageAfterId: {
+    required: true,
+  },
 };
 
 const toInitialValues = (

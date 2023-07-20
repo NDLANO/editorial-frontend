@@ -11,9 +11,9 @@ import { FieldHeader, FieldSection, Input, Select } from '@ndla/forms';
 import { useTranslation } from 'react-i18next';
 import FormikField from '../../../components/FormikField';
 import { ConceptFormValues } from '../../ConceptPage/conceptInterfaces';
-import Examples from './Examples';
-import { WORD_CLASSES, LANGUAGES } from '../glossaryData';
-import TranscriptionFieldList from './TranscriptionFieldList';
+import ExamplesFieldArray from './ExamplesFieldArray';
+import { WORD_CLASSES, LANGUAGES } from '../glossData';
+import TranscriptionFieldArray from './TranscriptionFieldArray';
 
 const GlossDataSection = () => {
   const formikContext = useFormikContext<ConceptFormValues>();
@@ -111,7 +111,7 @@ const GlossDataSection = () => {
               <FieldHeader title={t('form.concept.glossDataSection.transcriptions')} />
               <FormikField name="glossData.transcriptions">
                 {({ field }) => (
-                  <TranscriptionFieldList values={glossData.transcriptions} {...field} />
+                  <TranscriptionFieldArray values={glossData.transcriptions} {...field} />
                 )}
               </FormikField>
             </>
@@ -120,7 +120,7 @@ const GlossDataSection = () => {
       )}
 
       <FieldHeader title={t('form.concept.glossDataSection.examples')} />
-      <Examples label="glossData.examples" exampleLists={glossData.examples} />
+      <ExamplesFieldArray label="glossData.examples" exampleLists={glossData.examples} />
     </>
   );
 };

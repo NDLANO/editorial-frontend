@@ -9,8 +9,8 @@
 import { FieldHeader, FieldSection, Input, Select } from '@ndla/forms';
 import { IGlossExample } from '@ndla/types-backend/build/concept-api';
 import { useTranslation } from 'react-i18next';
-import TranscriptionFieldList from './TranscriptionFieldList';
-import { LANGUAGES } from '../glossaryData';
+import TranscriptionFieldArray from './TranscriptionFieldArray';
+import { LANGUAGES } from '../glossData';
 import FormikField from '../../../components/FormikField';
 
 interface Props {
@@ -67,7 +67,7 @@ const Example = ({ example, onChange, name }: Props) => {
           {example.language === 'zh' && (
             <>
               <FieldHeader title={t('form.concept.glossDataSection.transcriptions')} />
-              <TranscriptionFieldList
+              <TranscriptionFieldArray
                 name={`${name}.transcriptions`}
                 values={example.transcriptions}
                 onChange={(e) => handleExampleChange(e, 'transcriptions')}

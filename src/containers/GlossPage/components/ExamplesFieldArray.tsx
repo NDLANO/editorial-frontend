@@ -11,7 +11,7 @@ import { FieldRemoveButton, FieldSection } from '@ndla/forms';
 import { ButtonV2 } from '@ndla/button';
 import { useTranslation } from 'react-i18next';
 import { FieldArray, useFormikContext } from 'formik';
-import LanguageVariant from './LanguageVariant';
+import LanguageVariantFieldArray from './LanguageVariantFieldArray';
 import FormAccordion from '../../../components/Accordion/FormAccordion';
 
 interface Props {
@@ -19,7 +19,7 @@ interface Props {
   exampleLists: IGlossExample[][];
 }
 
-const Examples = ({ label, exampleLists }: Props) => {
+const ExamplesFieldArray = ({ label, exampleLists }: Props) => {
   const { t } = useTranslation();
 
   const formikContext = useFormikContext<any>();
@@ -39,7 +39,7 @@ const Examples = ({ label, exampleLists }: Props) => {
                   title={`${t('form.concept.glossDataSection.example')} ${index + 1}`}
                   hasError={!!errors[`${label}.${index}`]}
                 >
-                  <LanguageVariant label={label} examples={examples} index={index} />
+                  <LanguageVariantFieldArray label={label} examples={examples} index={index} />
                 </FormAccordion>
               </div>
             </FieldSection>
@@ -59,4 +59,4 @@ const Examples = ({ label, exampleLists }: Props) => {
   );
 };
 
-export default Examples;
+export default ExamplesFieldArray;

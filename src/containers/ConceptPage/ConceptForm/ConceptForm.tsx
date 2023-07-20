@@ -19,7 +19,7 @@ import { IArticle } from '@ndla/types-backend/draft-api';
 import { Formik, FormikProps, FormikHelpers } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { FormHeaderType } from '../../../components/HeaderWithLanguage/HeaderWithLanguage';
-import GlossDataSection from '../../GlossaryPage/components/GlossDataSection';
+import GlossDataSection from '../../GlossPage/components/GlossDataSection';
 import { ARCHIVED, PUBLISHED, UNPUBLISHED } from '../../../constants';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
 import validateFormik, { getWarnings, RulesType } from '../../../components/formikValidationSchema';

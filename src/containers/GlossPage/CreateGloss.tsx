@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-present, NDLA.
+ * Copyright (c) 2023-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
@@ -19,7 +19,7 @@ interface Props {
   addConceptInModal?: Function;
 }
 
-const CreateGlossary = ({ inModal = false, addConceptInModal }: Props) => {
+const CreateGloss = ({ inModal = false, addConceptInModal }: Props) => {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const { subjects, createConcept, fetchSearchTags, conceptArticles } = useFetchConceptData(
@@ -54,4 +54,4 @@ const CreateGlossary = ({ inModal = false, addConceptInModal }: Props) => {
   );
 };
 
-export default CreateGlossary;
+export default CreateGloss;

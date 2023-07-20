@@ -10,19 +10,15 @@ import { useTranslation } from 'react-i18next';
 import { Select } from '@ndla/forms';
 import { FieldArray } from 'formik';
 import TranscriptionField from './TranscriptionField';
-import { ROMANIZATION_OPTIONS } from '../glossaryData';
+import { ROMANIZATION_OPTIONS } from '../glossData';
 
 interface Props {
   name: string;
   onChange: (event: { target: { value: { [key: string]: string }; name: string } }) => void;
-  errorMessages?: string[];
-  showError?: boolean;
-  placeholder?: string;
-  disabled?: boolean;
   values: { [key: string]: string };
 }
 
-const TranscriptionFieldList = ({ name, onChange, values: transcriptions }: Props) => {
+const TranscriptionFieldArray = ({ name, onChange, values: transcriptions }: Props) => {
   const { t } = useTranslation();
 
   const transcriptionKeys = Object.keys(transcriptions);
@@ -83,4 +79,4 @@ const TranscriptionFieldList = ({ name, onChange, values: transcriptions }: Prop
   );
 };
 
-export default TranscriptionFieldList;
+export default TranscriptionFieldArray;

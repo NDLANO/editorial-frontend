@@ -20,7 +20,7 @@ type Props = {
   index: number;
 };
 
-const LanguageVariant = ({ examples, index: languageIndex, label }: Props) => {
+const LanguageVariantFieldArray = ({ examples, index: languageIndex, label }: Props) => {
   const { t } = useTranslation();
 
   return (
@@ -69,4 +69,4 @@ const LanguageVariant = ({ examples, index: languageIndex, label }: Props) => {
   );
 };
 
-export default LanguageVariant;
+export default LanguageVariantFieldArray;

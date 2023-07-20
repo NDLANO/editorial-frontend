@@ -36,7 +36,7 @@ interface Props {
   isNewlyCreated?: boolean;
 }
 
-const EditGlossary = ({ isNewlyCreated }: Props) => {
+const EditGloss = ({ isNewlyCreated }: Props) => {
   const params = useParams<'id' | 'selectedLanguage'>();
   const conceptId = Number(params.id) || undefined;
   const selectedLanguage = params.selectedLanguage as LocaleType;
@@ -93,4 +93,4 @@ const EditGlossary = ({ isNewlyCreated }: Props) => {
   );
 };
 
-export default EditGlossary;
+export default EditGloss;

@@ -38,16 +38,17 @@ const PageContent = styled.div`
   padding-left: 24px;
   padding-right: 24px;
 
-  &[data-wide='true'] {
-    max-width: ${MAX_WIDTH_FRONTPAGE_WITH_COMMENTS}px !important;
-  }
+  max-width: ${MAX_PAGE_WIDTH}px;
 
   &[data-frontpage='true'] {
     max-width: ${MAX_DEFAULT_WIDTH_FRONTPAGE_WITH_COMMENTS}px;
   }
 
-  max-width: ${MAX_PAGE_WIDTH}px;
+  &[data-wide='true'] {
+    max-width: ${MAX_WIDTH_FRONTPAGE_WITH_COMMENTS}px;
+  }
 `;
+
 interface ResourceComponentProps {
   isNewlyCreated?: boolean;
 }

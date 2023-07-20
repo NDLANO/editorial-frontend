@@ -13,7 +13,7 @@ import FormikField from '../../../components/FormikField';
 import { ConceptFormValues } from '../../ConceptPage/conceptInterfaces';
 import ExamplesFieldArray from './ExamplesFieldArray';
 import { WORD_CLASSES, LANGUAGES } from '../glossData';
-import TranscriptionFieldArray from './TranscriptionFieldArray';
+import TranscriptionsField from './TranscriptionsField';
 
 const GlossDataSection = () => {
   const formikContext = useFormikContext<ConceptFormValues>();
@@ -111,7 +111,7 @@ const GlossDataSection = () => {
               <FieldHeader title={t('form.concept.glossDataSection.transcriptions')} />
               <FormikField name="glossData.transcriptions">
                 {({ field }) => (
-                  <TranscriptionFieldArray values={glossData.transcriptions} {...field} />
+                  <TranscriptionsField values={glossData.transcriptions} {...field} />
                 )}
               </FormikField>
             </>
@@ -120,7 +120,7 @@ const GlossDataSection = () => {
       )}
 
       <FieldHeader title={t('form.concept.glossDataSection.examples')} />
-      <ExamplesFieldArray label="glossData.examples" exampleLists={glossData.examples} />
+      <ExamplesFieldArray name="glossData.examples" exampleLists={glossData.examples} />
     </>
   );
 };

@@ -15,11 +15,11 @@ import LanguageVariantFieldArray from './LanguageVariantFieldArray';
 import FormAccordion from '../../../components/Accordion/FormAccordion';
 
 interface Props {
-  label: string;
+  name: string;
   exampleLists: IGlossExample[][];
 }
 
-const ExamplesFieldArray = ({ label, exampleLists }: Props) => {
+const ExamplesFieldArray = ({ name, exampleLists }: Props) => {
   const { t } = useTranslation();
 
   const formikContext = useFormikContext<any>();
@@ -27,19 +27,19 @@ const ExamplesFieldArray = ({ label, exampleLists }: Props) => {
 
   return (
     <FieldArray
-      name={label}
+      name={name}
       render={(arrayHelpers: any) => (
         <>
           {exampleLists.map((examples, index) => (
-            <FieldSection key={`${label}.${index}`}>
+            <FieldSection key={`${name}.${index}`}>
               <FieldRemoveButton onClick={() => arrayHelpers.remove(index)} />
               <div>
                 <FormAccordion
-                  id={`${label}.accordion.${index}`}
+                  id={`${name}.accordion.${index}`}
                   title={`${t('form.concept.glossDataSection.example')} ${index + 1}`}
-                  hasError={!!errors[`${label}.${index}`]}
+                  hasError={!!errors[`${name}.${index}`]}
                 >
-                  <LanguageVariantFieldArray label={label} examples={examples} index={index} />
+                  <LanguageVariantFieldArray name={`${name}.${index}`} examples={examples} />
                 </FormAccordion>
               </div>
             </FieldSection>

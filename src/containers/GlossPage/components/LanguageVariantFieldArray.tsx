@@ -11,21 +11,18 @@ import { FieldHeader, FieldRemoveButton } from '@ndla/forms';
 import { ButtonV2 } from '@ndla/button';
 import { useTranslation } from 'react-i18next';
 import { FieldArray } from 'formik';
-import FormikField from '../../../components/FormikField';
-import Example from './Example';
+import ExampleField from './ExampleField';
 
 type Props = {
-  label: string;
+  name: string;
   examples: IGlossExample[];
-  index: number;
 };
 
-const LanguageVariantFieldArray = ({ examples, index: languageIndex, label }: Props) => {
+const LanguageVariantFieldArray = ({ examples, name }: Props) => {
   const { t } = useTranslation();
-
   return (
     <FieldArray
-      name={`${label}.${languageIndex}`}
+      name={name}
       render={(arrayHelpers) => (
         <>
           {examples.map((example, example_index) => (
@@ -43,16 +40,11 @@ const LanguageVariantFieldArray = ({ examples, index: languageIndex, label }: Pr
                 </FieldRemoveButton>
               )}
 
-              <FormikField name={`${label}.${languageIndex}.${example_index}`}>
-                {({ field }) => (
-                  <Example
-                    name={`${label}.${languageIndex}.${example_index}`}
-                    example={example}
-                    index={example_index}
-                    {...field}
-                  />
-                )}
-              </FormikField>
+              <ExampleField
+                name={`${name}.${example_index}`}
+                example={example}
+                index={example_index}
+              />
             </>
           ))}
           <ButtonV2

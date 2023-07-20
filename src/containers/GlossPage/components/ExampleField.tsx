@@ -9,47 +9,49 @@
 import { FieldHeader, FieldSection, Input, Select } from '@ndla/forms';
 import { IGlossExample } from '@ndla/types-backend/build/concept-api';
 import { useTranslation } from 'react-i18next';
-import TranscriptionFieldArray from './TranscriptionFieldArray';
+import TranscriptionsField from './TranscriptionsField';
 import { LANGUAGES } from '../glossData';
 import FormikField from '../../../components/FormikField';
 
 interface Props {
   example: IGlossExample;
   index: number;
-  onChange: (event: { target: { value: IGlossExample; name: string } }) => void;
   name: string;
 }
 
-const Example = ({ example, onChange, name }: Props) => {
+const ExampleField = ({ example, name }: Props) => {
   const { t } = useTranslation();
 
-  const handleExampleChange = (evt: any, fieldName: string) => {
-    const target = evt.target ?? evt.currentTarget;
-
-    if (target) {
-      const newExample = { ...example, [fieldName]: target.value };
-      onChange({
-        target: {
-          value: newExample,
-          name,
-        },
-      });
-    }
-  };
-
   return (
-    <FormikField name={`${name}.transcriptions`}>
-      {() => (
+    <FormikField name={name}>
+      {({ field }) => (
         <>
           <FieldSection>
             <Input
               type="text"
               placeholder={t('form.concept.glossDataSection.example')}
               value={example.example}
-              onChange={(e) => handleExampleChange(e, 'example')}
+              onChange={(e) =>
+                field.onChange({
+                  target: {
+                    value: { ...example, example: e.currentTarget.value },
+                    name,
+                  },
+                })
+              }
             />
 
-            <Select value={example.language} onChange={(e) => handleExampleChange(e, 'language')}>
+            <Select
+              value={example.language}
+              onChange={(e) =>
+                field.onChange({
+                  target: {
+                    value: { ...example, language: e.currentTarget.value },
+                    name,
+                  },
+                })
+              }
+            >
               {!example.language && (
                 <option>
                   {t('form.concept.glossDataSection.choose', {
@@ -64,13 +66,13 @@ const Example = ({ example, onChange, name }: Props) => {
               ))}
             </Select>
           </FieldSection>
+
           {example.language === 'zh' && (
             <>
               <FieldHeader title={t('form.concept.glossDataSection.transcriptions')} />
-              <TranscriptionFieldArray
+              <TranscriptionsField
                 name={`${name}.transcriptions`}
                 values={example.transcriptions}
-                onChange={(e) => handleExampleChange(e, 'transcriptions')}
               />
             </>
           )}
@@ -80,4 +82,4 @@ const Example = ({ example, onChange, name }: Props) => {
   );
 };
 
-export default Example;
+export default ExampleField;

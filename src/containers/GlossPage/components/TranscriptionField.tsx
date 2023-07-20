@@ -13,11 +13,11 @@ import FormikField from '../../../components/FormikField';
 interface Props {
   label: string;
   name: string;
-  arrayHelpers: any;
   value?: string;
+  removeField: () => void;
 }
 
-const TranscriptionField = ({ name, value, label, arrayHelpers }: Props) => {
+const TranscriptionField = ({ name, value, label, removeField }: Props) => {
   const { t } = useTranslation();
 
   return (
@@ -39,7 +39,7 @@ const TranscriptionField = ({ name, value, label, arrayHelpers }: Props) => {
                 })
               }
             />
-            <FieldRemoveButton onClick={() => arrayHelpers.remove(label)} />
+            <FieldRemoveButton onClick={() => removeField()} />
           </FieldSection>
         </>
       )}

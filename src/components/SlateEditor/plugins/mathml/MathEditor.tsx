@@ -6,12 +6,12 @@
  *
  */
 
-import { MouseEvent, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Editor, Node, Path, Transforms } from 'slate';
 import { ReactEditor, RenderElementProps, useFocused, useSelected } from 'slate-react';
 import { colors } from '@ndla/core';
 import he from 'he';
-import { Portal } from '@radix-ui/react-portal';
+import { Content, Root, Trigger } from '@radix-ui/react-popover';
 import EditMath from './EditMath';
 import MathML from './MathML';
 import BlockMenu from './BlockMenu';
@@ -45,37 +45,73 @@ const MathEditor = ({ element, children, attributes, editor }: Props & RenderEle
   const selected = useSelected();
   const focused = useFocused();
 
-  const mathMLRef = attributes.ref;
-
   useEffect(() => {
     setNodeInfo(getInfoFromNode(element));
   }, [element]);
 
-  const getMenuPosition = () => {
-    if (mathMLRef.current) {
-      const rect = mathMLRef.current.getBoundingClientRect();
-      return {
-        top: window.scrollY + rect.top + rect.height,
-        left: rect.left,
+  const toggleEdit = useCallback(() => setEditMode((prev) => !prev), []);
+
+  const handleSave = useCallback(
+    (mathML: string) => {
+      const properties = {
+        data: { innerHTML: mathML },
       };
-    }
-    return {
-      top: 0,
-      left: 0,
-    };
-  };
+      const path = ReactEditor.findPath(editor, element);
 
-  const toggleMenu = (event: MouseEvent | Event) => {
-    event.preventDefault();
-    event.stopPropagation();
-    setShowMenu((prev) => !prev);
-  };
+      const nextPath = Path.next(path);
 
-  const toggleEdit = () => {
-    setEditMode((prev) => !prev);
-  };
+      setIsFirstEdit(false);
+      setEditMode(false);
+      setShowMenu(false);
 
-  const onExit = () => {
+      setTimeout(() => {
+        ReactEditor.focus(editor);
+        if (isFirstEdit) {
+          Transforms.setNodes(editor, properties, {
+            at: path,
+            voids: true,
+            match: (node) => node === element,
+          });
+
+          const mathAsString = new DOMParser().parseFromString(mathML, 'text/xml').firstChild
+            ?.textContent;
+
+          Transforms.insertText(editor, mathAsString || '', {
+            at: path,
+            voids: true,
+          });
+
+          // Insertion of concept consists of insert an empty mathml and then updating it with content. By merging the events we can consider them as one action and undo both with ctrl+z.
+          mergeLastUndos(editor);
+        } else {
+          Transforms.setNodes(editor, properties, {
+            at: path,
+            voids: true,
+            match: (node) => node === element,
+          });
+        }
+        Transforms.select(editor, {
+          anchor: { path: nextPath, offset: 0 },
+          focus: { path: nextPath, offset: 0 },
+        });
+      }, 0);
+    },
+    [editor, element, isFirstEdit],
+  );
+
+  const handleRemove = useCallback(() => {
+    const path = ReactEditor.findPath(editor, element);
+    ReactEditor.focus(editor);
+    Transforms.select(editor, Editor.start(editor, Path.next(path)));
+
+    Transforms.unwrapNodes(editor, {
+      at: path,
+      match: (node) => node === element,
+      voids: true,
+    });
+  }, [editor, element]);
+
+  const onExit = useCallback(() => {
     const elementPath = ReactEditor.findPath(editor, element);
 
     if (isFirstEdit) {
@@ -92,105 +128,42 @@ const MathEditor = ({ element, children, attributes, editor }: Props & RenderEle
       setEditMode(false);
       setShowMenu(false);
     }
-  };
-
-  const handleSave = (mathML: string) => {
-    const properties = {
-      data: { innerHTML: mathML },
-    };
-    const path = ReactEditor.findPath(editor, element);
-
-    const nextPath = Path.next(path);
-
-    setIsFirstEdit(false);
-    setEditMode(false);
-    setShowMenu(false);
-
-    setTimeout(() => {
-      ReactEditor.focus(editor);
-      if (isFirstEdit) {
-        Transforms.setNodes(editor, properties, {
-          at: path,
-          voids: true,
-          match: (node) => node === element,
-        });
-
-        const mathAsString = new DOMParser().parseFromString(mathML, 'text/xml').firstChild
-          ?.textContent;
-
-        Transforms.insertText(editor, mathAsString || '', {
-          at: path,
-          voids: true,
-        });
-
-        // Insertion of concept consists of insert an empty mathml and then updating it with content. By merging the events we can consider them as one action and undo both with ctrl+z.
-        mergeLastUndos(editor);
-      } else {
-        Transforms.setNodes(editor, properties, {
-          at: path,
-          voids: true,
-          match: (node) => node === element,
-        });
-      }
-      Transforms.select(editor, {
-        anchor: { path: nextPath, offset: 0 },
-        focus: { path: nextPath, offset: 0 },
-      });
-    }, 0);
-  };
-
-  const handleRemove = () => {
-    const path = ReactEditor.findPath(editor, element);
-    ReactEditor.focus(editor);
-    Transforms.select(editor, Editor.start(editor, Path.next(path)));
-
-    Transforms.unwrapNodes(editor, {
-      at: path,
-      match: (node) => node === element,
-      voids: true,
-    });
-  };
-
-  const { top, left } = getMenuPosition();
-
-  useEffect(() => {
-    ReactEditor.blur(editor);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [editor, element, handleRemove, isFirstEdit]);
 
   return (
-    // eslint-disable-next-line jsx-a11y/click-events-have-key-events
-    <span
-      role="button"
-      tabIndex={0}
-      onClick={toggleMenu}
-      contentEditable={false}
-      style={{ boxShadow: selected && focused ? `0 0 0 1px ${colors.brand.tertiary}` : 'none' }}
-      {...attributes}
-    >
-      <MathML model={nodeInfo.model} editor={editor} element={element} onDoubleClick={toggleEdit} />
-      {showMenu && (
-        <Portal>
-          <BlockMenu
-            top={top}
-            left={left}
-            toggleMenu={toggleMenu}
-            handleRemove={handleRemove}
-            toggleEdit={toggleEdit}
+    <Root open={showMenu} onOpenChange={setShowMenu}>
+      <Trigger>
+        <span
+          role="button"
+          tabIndex={0}
+          contentEditable={false}
+          style={{
+            boxShadow: selected && focused ? `0 0 0 1px ${colors.brand.tertiary}` : 'none',
+          }}
+          {...attributes}
+        >
+          <MathML
+            model={nodeInfo.model}
+            editor={editor}
+            element={element}
+            onDoubleClick={toggleEdit}
           />
-        </Portal>
-      )}
-      {editMode && (
-        <EditMath
-          onExit={onExit}
-          model={nodeInfo.model}
-          handleSave={handleSave}
-          isEditMode={editMode}
-          handleRemove={handleRemove}
-        />
-      )}
-      {children}
-    </span>
+          <Content>
+            <BlockMenu handleRemove={handleRemove} toggleEdit={toggleEdit} />
+          </Content>
+          {editMode && (
+            <EditMath
+              onExit={onExit}
+              model={nodeInfo.model}
+              handleSave={handleSave}
+              isEditMode={editMode}
+              handleRemove={handleRemove}
+            />
+          )}
+          {children}
+        </span>
+      </Trigger>
+    </Root>
   );
 };
 

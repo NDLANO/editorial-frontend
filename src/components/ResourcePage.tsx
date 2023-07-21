@@ -18,7 +18,10 @@ import Footer from '../containers/App/components/Footer';
 import Spinner from './Spinner';
 import { NynorskTranslateProvider } from './NynorskTranslateProvider';
 import { MAX_PAGE_WIDTH } from '../constants';
-import { MAX_WIDTH_FRONTPAGE_WITH_COMMENTS } from '../containers/ArticlePage/styles';
+import {
+  MAX_DEFAULT_WIDTH_FRONTPAGE_WITH_COMMENTS,
+  MAX_WIDTH_FRONTPAGE_WITH_COMMENTS,
+} from '../containers/ArticlePage/styles';
 import { useWideArticle } from './WideArticleEditorProvider';
 
 const NotFoundPage = loadable(() => import('../containers/NotFoundPage/NotFoundPage'));
@@ -35,11 +38,17 @@ const PageContent = styled.div`
   padding-left: 24px;
   padding-right: 24px;
 
+  max-width: ${MAX_PAGE_WIDTH}px;
+
+  &[data-frontpage='true'] {
+    max-width: ${MAX_DEFAULT_WIDTH_FRONTPAGE_WITH_COMMENTS}px;
+  }
+
   &[data-wide='true'] {
     max-width: ${MAX_WIDTH_FRONTPAGE_WITH_COMMENTS}px;
   }
-  max-width: ${MAX_PAGE_WIDTH}px;
 `;
+
 interface ResourceComponentProps {
   isNewlyCreated?: boolean;
 }
@@ -58,6 +67,7 @@ interface Props<T extends BaseResource> {
   ) => UseQueryResult<T>;
   createUrl: string;
   titleTranslationKey?: string;
+  isFrontpageArticle?: boolean;
 }
 
 const ResourcePage = <T extends BaseResource>({
@@ -67,13 +77,18 @@ const ResourcePage = <T extends BaseResource>({
   createUrl,
   titleTranslationKey,
   className,
+  isFrontpageArticle,
 }: Props<T>) => {
   const { t } = useTranslation();
   const previousLocation = usePreviousLocation();
   const { isWideArticle } = useWideArticle();
   return (
     <Wrapper>
-      <PageContent className={className} data-wide={isWideArticle}>
+      <PageContent
+        className={className}
+        data-wide={isWideArticle}
+        data-frontpage={isFrontpageArticle}
+      >
         {titleTranslationKey && <HelmetWithTracker title={t(titleTranslationKey)} />}
         <Routes>
           <Route path="new" element={<CreateComponent />} />

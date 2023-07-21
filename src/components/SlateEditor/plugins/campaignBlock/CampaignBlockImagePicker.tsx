@@ -36,7 +36,7 @@ const CampaignBlockImagePicker = () => {
 
   return (
     <ImagePickerWrapper>
-      <FieldHeader title="Bilder" />
+      <FieldHeader title={t('campaignBlockForm.image.images')} />
       <PickerWrapper>
         <ImagePicker
           titleText={t('campaignBlockForm.image.imageBefore')}

@@ -1873,6 +1873,7 @@ const phrases = {
       insertImageBefore: 'Sett inn bilde til venstre',
       imageAfter: 'Høyre bilde',
       insertImageAfter: 'Sett inn bilde til høyre',
+      images: 'Bildar',
     },
   },
   dragAndDrop: {

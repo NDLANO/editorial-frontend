@@ -1870,6 +1870,7 @@ const phrases = {
       insertImageBefore: 'Insert left image',
       imageAfter: 'Right image',
       insertImageAfter: 'Insert right image',
+      title: 'Images',
     },
   },
   dragAndDrop: {

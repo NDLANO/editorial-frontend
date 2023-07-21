@@ -83,3 +83,103 @@ export const responsiblesMock = [
     },
   },
 ];
+
+export const draftUpdateMock = {
+  "id": 800,
+  "oldNdlaUrl": "//red.ndla.no/node/167916",
+  "revision": 5,
+  "status": {
+    "current": "IN_PROGRESS",
+    "other": [
+      "PUBLISHED"
+    ]
+  },
+  "title": {
+    "title": "TEST",
+    "language": "nb"
+  },
+  "content": {
+    "content": "<section><p>CONTENTS</p></section>",
+    "language": "nb"
+  },
+  "copyright": {
+    "license": {
+      "license": "CC-BY-SA-4.0",
+      "description": "Creative Commons Attribution-ShareAlike 4.0 International",
+      "url": "https://creativecommons.org/licenses/by-sa/4.0/"
+    },
+    "creators": [
+      {
+        "type": "Writer",
+        "name": "Test user"
+      }
+    ],
+    "processors": [],
+    "rightsholders": []
+  },
+  "tags": {
+    "tags": [
+      "administrative rutiner",
+      "garanti",
+      "klager",
+      "reklamasjon"
+    ],
+    "language": "nb"
+  },
+  "requiredLibraries": [],
+  "introduction": {
+    "introduction": "INGRESS",
+    "language": "nb"
+  },
+  "metaDescription": {
+    "metaDescription": "123",
+    "language": "nb"
+  },
+  "metaImage": {
+    "url": "https://api.test.ndla.no/image-api/raw/id/23264",
+    "alt": "Kunde med handleposer",
+    "language": "nb"
+  },
+  "created": "2016-06-28T09:27:41Z",
+  "updated": "2023-07-21T13:31:12Z",
+  "updatedBy": "f-jBTU8O8kYbUW20lMeIuTSv",
+  "published": "2017-03-07T18:52:45Z",
+  "articleType": "standard",
+  "supportedLanguages": [
+    "nb",
+    "nn"
+  ],
+  "notes": [
+    {
+      "note": "Status endret",
+      "user": "f-jBTU8O8kYbUW20lMeIuTSv",
+      "status": {
+        "current": "IN_PROGRESS",
+        "other": [
+          "PUBLISHED"
+        ]
+      },
+      "timestamp": "2023-07-21T08:39:17Z"
+    }
+  ],
+  "editorLabels": [],
+  "grepCodes": [],
+  "conceptIds": [],
+  "availability": "everyone",
+  "relatedContent": [],
+  "revisions": [
+    {
+      "id": "87c2a25e-ae26-475e-a1e0-96c0db46a0f1",
+      "revisionDate": "2030-01-01T00:00:00Z",
+      "note": "Automatisk revisjonsdato satt av systemet.",
+      "status": "needs-revision"
+    }
+  ],
+  "responsible": {
+    "responsibleId": "f-jBTU8O8kYbUW20lMeIuTSv",
+    "lastUpdated": "2023-07-21T08:39:17Z"
+  },
+  "comments": [],
+  "prioritized": false,
+  "started": true
+}

@@ -82,7 +82,7 @@ const EditGloss = ({ isNewlyCreated }: Props) => {
         fetchConceptTags={fetchSearchTags}
         isNewlyCreated={isNewlyCreated}
         upsertProps={{
-          onUpdate: (concept: any) => updateConcept(conceptId, concept),
+          onUpdate: (concept) => updateConcept(conceptId, concept),
         }}
         language={selectedLanguage!}
         subjects={subjects}

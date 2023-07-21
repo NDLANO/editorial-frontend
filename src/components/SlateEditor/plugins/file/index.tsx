@@ -8,10 +8,10 @@
 
 import { Descendant, Editor, Element } from 'slate';
 import { RenderElementProps } from 'slate-react';
+import { FileEmbedData } from '@ndla/types-embed';
 import FileList from './FileList';
-import { createEmbedTag } from '../../../../util/embedTagHelpers';
+import { createEmbedTagV2, reduceElementDataAttributesV2 } from '../../../../util/embedTagHelpers';
 import { SlateSerializer } from '../../interfaces';
-import { File } from '../../../../interfaces';
 import { defaultFileBlock } from './utils';
 import { defaultBlockNormalizer, NormalizerConfig } from '../../utils/defaultNormalizer';
 import { afterOrBeforeTextBlockElement } from '../../utils/normalizationHelpers';
@@ -20,7 +20,7 @@ import { TYPE_PARAGRAPH } from '../paragraph/types';
 
 export interface FileElement {
   type: 'file';
-  data: File[];
+  data: FileEmbedData[];
   children: Descendant[];
 }
 
@@ -39,17 +39,16 @@ export const fileSerializer: SlateSerializer = {
   deserialize(el: HTMLElement) {
     if (el.tagName.toLowerCase() !== 'div') return;
     if (el.dataset.type !== TYPE_FILE) return;
+    const children = Array.from(el.children).map((el) =>
+      reduceElementDataAttributesV2(Array.from(el.attributes)),
+    );
 
-    const children: DOMStringMap[] = [];
-    el.childNodes.forEach((node) => {
-      children.push((node as HTMLEmbedElement).dataset);
-    });
     return defaultFileBlock(children);
   },
   serialize(node: Descendant) {
     if (!Element.isElement(node)) return;
     if (node.type !== TYPE_FILE) return;
-    return <div data-type="file">{node.data.map((file) => createEmbedTag(file))}</div>;
+    return <div data-type="file">{node.data.map((file) => createEmbedTagV2(file))}</div>;
   },
 };
 

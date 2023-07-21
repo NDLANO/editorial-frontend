@@ -10,14 +10,8 @@ export const arrMove = <T>(array: T[], fromIndex: number, toIndex: number): T[] 
   if (fromIndex === toIndex) {
     return array;
   }
-  const item = array[fromIndex];
-
-  return array.reduce<T[]>((acc, curr, i) => {
-    if (i === fromIndex) {
-      return acc;
-    } else if (i === toIndex) {
-      return acc.concat(curr).concat(item);
-    }
-    return acc.concat(curr);
-  }, []);
+  const copy = [...array];
+  const item = copy.splice(fromIndex, 1)[0];
+  copy.splice(toIndex, 0, item);
+  return copy;
 };

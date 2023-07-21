@@ -13,12 +13,13 @@ import debounce from 'lodash/debounce';
 // eslint-disable-next-line lodash/import-scope
 import { DebouncedFunc } from 'lodash';
 import styled from '@emotion/styled';
-import { withTranslation, TFunction, CustomWithTranslation } from 'react-i18next';
+import { withTranslation, CustomWithTranslation } from 'react-i18next';
 import { FieldHeader, FieldHeaderIconStyle } from '@ndla/forms';
 import { FileListEditor } from '@ndla/editor';
 import { Cross, Plus } from '@ndla/icons/action';
 import Tooltip from '@ndla/tooltip';
 import { spacing } from '@ndla/core';
+import { FileEmbedData } from '@ndla/types-embed';
 import config from '../../../../config';
 import { File, UnsavedFile } from '../../../../interfaces';
 import { headFileAtRemote } from '../../../../modules/draft/draftApi';
@@ -33,13 +34,6 @@ const StyledSection = styled.section`
     font-size: 1rem;
   }
 `;
-
-const formatFile = (file: File, t: TFunction): File => ({
-  ...file,
-  formats: [
-    { url: file.url, fileType: file.type, tooltip: `${t(`form.file.download`)} ${file.title}` },
-  ],
-});
 
 const compareArray = (arr1: File[], arr2: File[]) => {
   if (arr1.length !== arr2.length) {
@@ -72,7 +66,7 @@ interface Props extends CustomWithTranslation {
 }
 
 interface State {
-  files: File[];
+  files: FileEmbedData[];
   missingFilePaths: string[];
   showFileUploader: boolean;
   currentDebounce?: DebouncedFunc<() => void>;
@@ -82,8 +76,8 @@ class FileList extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.checkForRemoteFiles.bind(this);
-    const { element, t } = this.props;
-    const files = element.data.map((file) => formatFile(file, t));
+    const { element } = this.props;
+    const files = element.data;
     this.state = { files, missingFilePaths: [], showFileUploader: false };
     this.checkForRemoteFiles(files);
   }
@@ -156,12 +150,17 @@ class FileList extends Component<Props, State> {
   };
 
   onAddFileToList = (files: UnsavedFile[]) => {
-    const { t } = this.props;
     this.setState({
       showFileUploader: false,
     });
-    const newFiles = files.map((file) => {
-      return formatFile({ ...file, url: config.ndlaApiUrl + file.path, resource: 'file' }, t);
+    const newFiles: FileEmbedData[] = files.map((file) => {
+      return {
+        resource: 'file',
+        type: file.type,
+        path: file.path,
+        title: file.title,
+        url: config.ndlaApiUrl + file.path,
+      };
     });
     this.setState(
       (prevState) => ({

@@ -18,7 +18,7 @@ const phrases = {
     agreementPage: `Avtale ${titleTemplate}`,
     welcomePage: `Forside ${titleTemplate}`,
     structurePage: `Struktur ${titleTemplate}`,
-    programmePage: `Programfag ${titleTemplate}`,
+    programmePage: `Utdanningsprogram ${titleTemplate}`,
     versionsPage: `Versjonar ${titleTemplate}`,
     audioUploaderPage: `Lyd ${titleTemplate}`,
     imageUploaderPage: `Bilete ${titleTemplate}`,
@@ -211,7 +211,7 @@ const phrases = {
     podcastSeries: 'Ny podkastserie',
     agreement: 'Ny avtale',
     structure: 'Strukturredigering',
-    programme: 'Programfagredigering',
+    programme: 'Redigering av utdanningsprogram',
     taxonomyVersions: 'Taksonomiversjonar',
     publishRequests: 'Publiseringsforespørjingar',
     searchContent: 'Søk innhald',
@@ -433,7 +433,7 @@ const phrases = {
     missingVisualElement: 'Visuelt element er påkrevd.',
   },
   programmepageForm: {
-    title: 'Programfag',
+    title: 'Utdanningsprogram',
   },
   topicArticleForm: {
     visualElementTitle: {
@@ -1421,11 +1421,11 @@ const phrases = {
   environment: { production: '', staging: 'staging', test: 'test' },
   taxonomy: {
     nodeType: {
-      PROGRAMME: 'programfag',
+      PROGRAMME: 'utdanningsprogram',
       SUBJECT: 'fag',
       TOPIC: 'emne',
     },
-    previewProgrammes: 'Forhåndsvis programfag i frontend',
+    previewProgrammes: 'Forhåndsvis utdanningsprogram i frontend',
     addNode: 'Legg til {{nodeType}}',
     newNode: 'Nytt {{nodeType}}',
     newNodeName: 'Namn på nytt element',
@@ -1447,7 +1447,7 @@ const phrases = {
     resources: 'Ressurser',
     newTopic: 'Nytt emne',
     nodeSettings: 'Innstillinger',
-    programmeSettings: 'Programfaginnstillinger',
+    programmeSettings: 'Utdanningsprogram-instillingar',
     subjectSettings: 'Faginnstillinger',
     topicSettings: 'Emneinnstillinger',
     currentVersion: 'Noverande versjon',

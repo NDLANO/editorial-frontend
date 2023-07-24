@@ -20,8 +20,7 @@ const GlossDataSection = () => {
   const { glossData } = formikContext.values;
   const { t } = useTranslation();
 
-  if (!glossData) return <></>;
-  return (
+  return glossData ? (
     <>
       <FormikField name="glossInfoErrors">
         {() => (
@@ -122,7 +121,7 @@ const GlossDataSection = () => {
       <FieldHeader title={t('form.concept.glossDataSection.examples')} />
       <ExamplesFieldArray name="glossData.examples" examplesLists={glossData.examples} />
     </>
-  );
+  ) : null;
 };
 
 export default GlossDataSection;

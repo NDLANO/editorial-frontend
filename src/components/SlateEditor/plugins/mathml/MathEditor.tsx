@@ -132,7 +132,7 @@ const MathEditor = ({ element, children, attributes, editor }: Props & RenderEle
 
   return (
     <Root open={showMenu} onOpenChange={setShowMenu}>
-      <Trigger>
+      <Trigger asChild>
         <span
           role="button"
           tabIndex={0}

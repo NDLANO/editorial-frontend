@@ -59,9 +59,9 @@ const ExampleField = ({ example, name }: Props) => {
                   })}
                 </option>
               )}
-              {LANGUAGES.map((l, language_index) => (
-                <option value={l} key={language_index}>
-                  {t(`languages.${l}`)}
+              {LANGUAGES.map((language, language_index) => (
+                <option value={language} key={language_index}>
+                  {t(`languages.${language}`)}
                 </option>
               ))}
             </Select>

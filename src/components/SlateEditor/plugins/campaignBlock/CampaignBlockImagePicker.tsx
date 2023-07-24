@@ -144,7 +144,7 @@ const ImagePicker = ({ id, onChange, buttonText, titleText }: ImageProps) => {
             onChange(undefined);
           }}
           tabIndex={-1}
-          data-cy="remove-element"
+          data-testid="remove-element"
         >
           <DeleteForever />
         </IconButtonV2>

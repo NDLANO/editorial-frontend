@@ -55,7 +55,7 @@ const SlateCampaignBlock = ({ element, editor, attributes, children }: Props) =>
   const [leftImage, setLeftImage] = useState<IImageMetaInformationV3 | undefined>(undefined);
   const [rightImage, setRightImage] = useState<IImageMetaInformationV3 | undefined>(undefined);
 
-  const onClose = () => {
+  const onClose = useCallback(() => {
     ReactEditor.focus(editor);
     setIsEditing(false);
     if (element.isFirstEdit) {
@@ -67,7 +67,7 @@ const SlateCampaignBlock = ({ element, editor, attributes, children }: Props) =>
         Transforms.select(editor, Path.next(path));
       }, 0);
     }
-  };
+  }, [editor, element]);
 
   const onSave = useCallback(
     (data: CampaignBlockEmbedData) => {
@@ -103,8 +103,11 @@ const SlateCampaignBlock = ({ element, editor, attributes, children }: Props) =>
     }
   }, [campaignBlock?.imageAfterId, campaignBlock?.imageBeforeId]);
   //
-  const handleRemove = () =>
-    Transforms.removeNodes(editor, { at: ReactEditor.findPath(editor, element), voids: true });
+  const handleRemove = useCallback(
+    () =>
+      Transforms.removeNodes(editor, { at: ReactEditor.findPath(editor, element), voids: true }),
+    [editor, element],
+  );
 
   return (
     <div {...attributes}>

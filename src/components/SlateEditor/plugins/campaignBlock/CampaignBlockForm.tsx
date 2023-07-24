@@ -20,6 +20,7 @@ import validateFormik, { RulesType } from '../../../formikValidationSchema';
 import { supportedLanguages } from '../../../../i18n2';
 import FormikField from '../../../FormikField';
 import CampaignBlockImagePicker from './CampaignBlockImagePicker';
+import { TYPE_CAMPAIGN_BLOCK } from './types';
 
 interface Props {
   initialData?: CampaignBlockEmbedData;
@@ -74,7 +75,7 @@ const toInitialValues = (
   initialData?: CampaignBlockEmbedData,
 ): CampaignBlockFormValues => {
   return {
-    resource: 'campaign-block',
+    resource: TYPE_CAMPAIGN_BLOCK,
     title: initialData?.title ?? '',
     titleLanguage: initialData?.titleLanguage ?? lang,
     description: initialData?.description ?? '',
@@ -138,13 +139,18 @@ const CampaignBlockForm = ({ initialData, onSave, onCancel }: Props) => {
     [onSave],
   );
 
+  const onValidate = useCallback(
+    (values: CampaignBlockFormValues) => validateFormik(values, rules, t),
+    [t],
+  );
+
   return (
     <Formik
       initialValues={initialValues}
       initialErrors={initialErrors}
       onSubmit={onSubmit}
       validateOnMount
-      validate={(values) => validateFormik(values, rules, t)}
+      validate={onValidate}
     >
       {({ dirty, isValid, handleSubmit }) => (
         <>

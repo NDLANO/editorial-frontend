@@ -22,7 +22,9 @@ const TranscriptionsField = ({ name, values: transcriptions }: Props) => {
   const { t } = useTranslation();
 
   const transcriptionKeys = Object.keys(transcriptions);
-  const availableRomanizations = ROMANIZATION_OPTIONS.filter((o) => !transcriptionKeys.includes(o));
+  const availableRomanizations = ROMANIZATION_OPTIONS.filter(
+    (option) => !transcriptionKeys.includes(option),
+  );
 
   return (
     <FormikField name={name}>
@@ -38,17 +40,14 @@ const TranscriptionsField = ({ name, values: transcriptions }: Props) => {
                   name={`${name}.${key}`}
                   value={transcriptions[key]}
                   removeField={() => {
-                    const copy: { [key: string]: string } = {};
-                    Object.keys(transcriptions).forEach((k) => {
-                      if (k !== key) {
-                        copy[k] = transcriptions[k];
-                      }
-                    });
-
                     field.onChange({
                       target: {
                         name,
-                        value: copy,
+                        value: Object.keys(transcriptions)
+                          .filter((transcriptionKey) => transcriptionKey !== key)
+                          .reduce((newTranscription, key) =>
+                            Object.assign(newTranscription, ([key] = transcriptions[key]), {}),
+                          ),
                       },
                     });
                   }}
@@ -75,9 +74,9 @@ const TranscriptionsField = ({ name, values: transcriptions }: Props) => {
                 })}
               </option>
 
-              {availableRomanizations.map((t, index) => (
-                <option value={t} key={index}>
-                  {t}
+              {availableRomanizations.map((option, index) => (
+                <option value={option} key={index}>
+                  {option}
                 </option>
               ))}
             </Select>

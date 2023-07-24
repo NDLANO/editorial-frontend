@@ -85,6 +85,12 @@ test.beforeEach(async ({ page }) => {
     fixture: 'editor_usage_search',
   });
 
+  const containsArticle = mockRoute({
+    page,
+    path: '**/learningpath-api/v2/learningpaths/contains-article/800',
+    fixture: 'editor_contains_article',
+  });
+
   await page.goto(`/subject-matter/learning-resource/800/edit/nb`);
   await Promise.all([
     licenses,
@@ -99,6 +105,7 @@ test.beforeEach(async ({ page }) => {
     taxonomyResources,
     taxonomyTopics,
     searchApi,
+    containsArticle,
   ]);
 });
 
@@ -114,7 +121,6 @@ test('can enter title, ingress, content and responsible then save', async ({ pag
     page,
     path: '**/draft-api/v1/drafts/800',
     fixture: 'editor_draft_update',
-    overrideValue: JSON.stringify(draftUpdateMock)
   });
 
   await expect(
@@ -140,7 +146,7 @@ test('can enter title, ingress, content and responsible then save', async ({ pag
     page
       .locator('[data-testid="saveLearningResourceButtonWrapper"]')
       .getByRole('button')
-      .getByText('Lagret')
+      .getByText('Lagret'),
   ).toHaveCount(1);
 });
 
@@ -150,9 +156,13 @@ test('Can add all contributors', async ({ page }) => {
   let index = 0;
   for (const contrib of await page.locator('[data-cy="addContributor"]').all()) {
     await contrib.click();
-    await page.keyboard.type("Test user");
-    await page.locator('[data-cy="contributor-selector"]').last().selectOption(contributorValues[index]);
-    index === 0 && expect(page.locator('[data-cy="contributor-selector"]').first()).toHaveValue('writer');
+    await page.keyboard.type('Test user');
+    await page
+      .locator('[data-cy="contributor-selector"]')
+      .last()
+      .selectOption(contributorValues[index]);
+    index === 0 &&
+      expect(page.locator('[data-cy="contributor-selector"]').first()).toHaveValue('writer');
     index++;
-  };
+  }
 });

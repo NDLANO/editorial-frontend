@@ -7,7 +7,7 @@
  */
 
 import { FieldHeader, FieldSection, Input, Select } from '@ndla/forms';
-import { IGlossExample } from '@ndla/types-backend/build/concept-api';
+import { IGlossExample } from '@ndla/types-backend/concept-api';
 import { useTranslation } from 'react-i18next';
 import TranscriptionsField from './TranscriptionsField';
 import { LANGUAGES } from '../glossData';

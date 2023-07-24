@@ -140,7 +140,7 @@ const glossRules: RulesType<ConceptFormValues, IConcept> = {
 
   glossTranscriptionErrors: {
     onlyValidateIf: (values: ConceptFormValues) => {
-      if (values.glossData && values.glossData.originalLanguage === 'zh') {
+      if (values?.glossData?.originalLanguage === 'zh') {
         return Object.keys(values.glossData.transcriptions).length !== 0;
       }
       return false;

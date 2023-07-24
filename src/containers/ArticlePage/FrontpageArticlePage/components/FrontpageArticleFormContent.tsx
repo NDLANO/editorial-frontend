@@ -75,6 +75,8 @@ import { gridPlugin } from '../../../../components/SlateEditor/plugins/grid';
 import { TYPE_GRID } from '../../../../components/SlateEditor/plugins/grid/types';
 import { TYPE_KEY_FIGURE } from '../../../../components/SlateEditor/plugins/keyFigure/types';
 import { keyFigurePlugin } from '../../../../components/SlateEditor/plugins/keyFigure';
+import { campaignBlockPlugin } from '../../../../components/SlateEditor/plugins/campaignBlock';
+import { TYPE_CAMPAIGN_BLOCK } from '../../../../components/SlateEditor/plugins/campaignBlock/types';
 import { useWideArticle } from '../../../../components/WideArticleEditorProvider';
 
 const StyledFormikField = styled(FormikField)`
@@ -131,6 +133,7 @@ const actions = [
   TYPE_GRID,
   TYPE_BLOGPOST,
   TYPE_KEY_FIGURE,
+  TYPE_CAMPAIGN_BLOCK,
 ].concat(visualElements);
 
 const actionsToShowInAreas = {
@@ -182,6 +185,7 @@ export const plugins = (
     listPlugin,
     gridPlugin,
     blogPostPlugin,
+    campaignBlockPlugin,
   ];
 };
 interface Props {

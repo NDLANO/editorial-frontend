@@ -638,6 +638,7 @@ const phrases = {
       contactBlock: 'Contact block',
       blogPost: 'Blog post',
       grid: 'Grid',
+      campaignBlock: 'Kampanjeblokk',
     },
   },
   form: {
@@ -729,6 +730,9 @@ const phrases = {
       border: 'Show border',
       background: 'Background',
       contentType: 'Content type',
+      linkText: 'Link text',
+      titleLanguage: 'Title language',
+      descriptionlanguage: 'Description language',
     },
     previewProductionArticle: {
       button: 'Compare current version with old version',
@@ -1859,6 +1863,16 @@ const phrases = {
     },
   },
   delete: 'Delete',
+  campaignBlockForm: {
+    title: 'Edit campaign block',
+    image: {
+      imageBefore: 'Left image',
+      insertImageBefore: 'Insert left image',
+      imageAfter: 'Right image',
+      insertImageAfter: 'Insert right image',
+      images: 'Images',
+    },
+  },
   dragAndDrop: {
     handle: 'Drag handle',
   },

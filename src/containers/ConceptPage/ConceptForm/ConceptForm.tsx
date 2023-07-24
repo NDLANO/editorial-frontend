@@ -241,39 +241,24 @@ const ConceptForm = ({
   const validateConceptForm = (values: ConceptFormValues) => {
     const errors = validateFormik(values, formRules, t);
     if (isGloss) {
-      let examplesHasError = false;
       values.glossData!.examples.forEach((languageVariant, example_index) => {
-        let exampleHasError = false;
         languageVariant.forEach((e: IGlossExample, language_index) => {
           const name = `glossData.examples.${example_index}.${language_index}`;
           const { example, language, transcriptions } = e;
           if (!example || !language) {
             errors[name] = t('form.concept.glossDataSection.languageMissingFields');
-            if (!exampleHasError) {
-              exampleHasError = true;
-            }
           }
-          if (Object.keys(transcriptions).length !== 0) {
-            const hasMissingField = Object.entries(transcriptions).flat().includes('');
-            if (hasMissingField) {
-              errors[`glossData.examples.${example_index}.${language_index}.transcriptions`] = t(
-                'form.concept.glossDataSection.transcriptionMissingFields',
-              );
-              if (!exampleHasError) {
-                exampleHasError = true;
-              }
-            }
+          if (Object.values(transcriptions).includes('')) {
+            errors[`${name}.transcriptions`] = t(
+              'form.concept.glossDataSection.transcriptionMissingFields',
+            );
           }
-
-          if (exampleHasError) {
+          if (errors[name] || errors[`${name}.transcriptions`]) {
             errors[`glossData.examples.${example_index}`] = 'Error in example';
-            if (!examplesHasError) {
-              examplesHasError = true;
-            }
           }
         });
       });
-      if (examplesHasError) {
+      if (errors['glossData.examples']) {
         errors.glossExampleErrors = 'Error in examples';
       }
     }

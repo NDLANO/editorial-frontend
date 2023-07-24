@@ -30,7 +30,7 @@ const LanguageVariantFieldArray = ({ examples, name }: Props) => {
               <FieldHeader
                 title={`${t('form.concept.glossDataSection.language')} ${example_index + 1}`}
               />
-              {examples && examples.length > 1 && (
+              {examples?.length > 1 && (
                 <FieldRemoveButton onClick={() => arrayHelpers.remove(example_index)}>
                   {t('form.concept.glossDataSection.remove', {
                     label: `${t('form.concept.glossDataSection.languageVariant').toLowerCase()} ${

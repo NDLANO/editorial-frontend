@@ -120,7 +120,7 @@ const GlossDataSection = () => {
       )}
 
       <FieldHeader title={t('form.concept.glossDataSection.examples')} />
-      <ExamplesFieldArray name="glossData.examples" exampleLists={glossData.examples} />
+      <ExamplesFieldArray name="glossData.examples" examplesLists={glossData.examples} />
     </>
   );
 };

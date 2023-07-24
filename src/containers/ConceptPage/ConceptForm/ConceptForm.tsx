@@ -146,14 +146,11 @@ const glossRules: RulesType<ConceptFormValues, IConcept> = {
       return false;
     },
     test: (values) => {
-      if (values.glossData) {
-        const { transcriptions } = values.glossData;
-        if (Object.keys(transcriptions).length !== 0) {
-          const hasMissingField = Object.entries(transcriptions).flat().includes('');
-          if (hasMissingField) {
-            return { translationKey: 'form.concept.glossDataSection.transcriptionMissingFields' };
-          }
-        }
+      const hasMissingField =
+        values.glossData?.transcriptions &&
+        Object.values(values.glossData.transcriptions).includes('');
+      if (hasMissingField) {
+        return { translationKey: 'form.concept.glossDataSection.transcriptionMissingFields' };
       }
       return undefined;
     },

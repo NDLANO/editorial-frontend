@@ -6,19 +6,19 @@
  *
  */
 
-import { useFormikContext } from 'formik';
+import { useField } from 'formik';
 import { FieldHeader, FieldSection, Input, Select } from '@ndla/forms';
 import { useTranslation } from 'react-i18next';
 // eslint-disable-next-line no-restricted-imports
 import { WordClass } from '@ndla/ui/lib/model/WordClass';
+import { IGlossData } from '@ndla/types-backend/concept-api';
 import FormikField from '../../../components/FormikField';
-import { ConceptFormValues } from '../../ConceptPage/conceptInterfaces';
 import ExamplesFieldArray from './ExamplesFieldArray';
 import { LANGUAGES } from '../glossData';
 import TranscriptionsField from './TranscriptionsField';
+
 const GlossDataSection = () => {
-  const formikContext = useFormikContext<ConceptFormValues>();
-  const { glossData } = formikContext.values;
+  const [{ value: glossData }] = useField<IGlossData>('glossData');
   const { t } = useTranslation();
 
   return glossData ? (
@@ -29,6 +29,7 @@ const GlossDataSection = () => {
             <FormikField name="glossData.gloss">
               {({ field }) => (
                 <Input
+                  name={'glossData.gloss'}
                   placeholder={t('form.concept.glossDataSection.gloss')}
                   type="text"
                   value={field.value}
@@ -96,7 +97,7 @@ const GlossDataSection = () => {
       )}
 
       <FieldHeader title={t('form.concept.glossDataSection.examples')} />
-      <ExamplesFieldArray name="glossData.examples" examplesLists={glossData.examples} />
+      <ExamplesFieldArray name="glossData.examples" examples={glossData.examples} />
     </>
   ) : null;
 };

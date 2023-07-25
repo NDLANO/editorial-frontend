@@ -16,10 +16,10 @@ import FormAccordion from '../../../components/Accordion/FormAccordion';
 
 interface Props {
   name: string;
-  examplesLists: IGlossExample[][];
+  examples: IGlossExample[][];
 }
 
-const ExamplesFieldArray = ({ name, examplesLists }: Props) => {
+const ExamplesFieldArray = ({ name, examples }: Props) => {
   const { t } = useTranslation();
 
   const formikContext = useFormikContext<any>();
@@ -30,7 +30,7 @@ const ExamplesFieldArray = ({ name, examplesLists }: Props) => {
       name={name}
       render={(arrayHelpers: any) => (
         <>
-          {examplesLists.map((examples, index) => (
+          {examples.map((examples, index) => (
             <FieldSection key={`${name}.${index}`}>
               <FieldRemoveButton onClick={() => arrayHelpers.remove(index)} />
               <div>

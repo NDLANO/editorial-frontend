@@ -6,7 +6,7 @@
  *
  */
 
-import { IGlossExample } from '@ndla/types-backend/build/concept-api';
+import { IGlossExample } from '@ndla/types-backend/concept-api';
 import { FieldRemoveButton, FieldSection } from '@ndla/forms';
 import { ButtonV2 } from '@ndla/button';
 import { useTranslation } from 'react-i18next';

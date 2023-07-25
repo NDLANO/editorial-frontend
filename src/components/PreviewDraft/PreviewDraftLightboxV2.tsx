@@ -229,7 +229,7 @@ const PreviewConceptCompare = ({ concept, language }: CompareConceptPreviewProps
   const { data: licenses } = useLicenses({ placeholderData: [] });
   const { t } = useTranslation();
   const { values } = useFormikContext<ConceptFormValues>();
-  const type = values.glossData ? 'gloss' : 'concept';
+  const type = values.conceptType;
   const formConcept = useMemo(
     () => conceptFormTypeToApiType(values, licenses!, type, concept.updatedBy),
     [values, licenses, type, concept.updatedBy],

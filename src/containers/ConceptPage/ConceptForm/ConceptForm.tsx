@@ -231,9 +231,9 @@ const ConceptForm = ({
   const validateConceptForm = (values: ConceptFormValues) => {
     const errors = validateFormik(values, formRules, t);
     if (isGloss) {
-      values.glossData!.examples.forEach((languageVariant, example_index) => {
-        languageVariant.forEach((e: IGlossExample, language_index) => {
-          const name = `glossData.examples.${example_index}.${language_index}`;
+      values.glossData!.examples.forEach((languageVariant, exampleIndex) => {
+        languageVariant.forEach((e: IGlossExample, languageIndex) => {
+          const name = `glossData.examples.${exampleIndex}.${languageIndex}`;
           const { example, language, transcriptions } = e;
           if (!example || !language) {
             errors[name] = t('form.concept.glossDataSection.languageMissingFields');
@@ -244,7 +244,7 @@ const ConceptForm = ({
             );
           }
           if (errors[name] || errors[`${name}.transcriptions`]) {
-            errors[`glossData.examples.${example_index}`] = 'Error in example';
+            errors[`glossData.examples.${exampleIndex}`] = 'Error in example';
           }
         });
       });

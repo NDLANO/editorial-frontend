@@ -17,7 +17,6 @@ import { colors } from '@ndla/core';
 
 import { IngressField, TitleField } from '../../FormikForm';
 import HowToHelper from '../../../components/HowTo/HowToHelper';
-import { StyledHelpMessage } from '../../../components/FormikField/FormikFieldHelp';
 import VisualElementField from '../../FormikForm/components/VisualElementField';
 
 import { ConceptFormValues } from '../conceptInterfaces';

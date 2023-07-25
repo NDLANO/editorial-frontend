@@ -39,7 +39,7 @@ const TranscriptionField = ({ name, value, label, removeField }: Props) => {
                 })
               }
             />
-            <FieldRemoveButton onClick={() => removeField()} />
+            <FieldRemoveButton onClick={removeField} />
           </FieldSection>
         </>
       )}

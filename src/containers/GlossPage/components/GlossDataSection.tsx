@@ -31,7 +31,7 @@ const GlossDataSection = () => {
                 <Input
                   placeholder={t('form.concept.glossDataSection.gloss')}
                   type="text"
-                  value={glossData.gloss}
+                  value={field.value}
                   {...field}
                 />
               )}
@@ -40,7 +40,7 @@ const GlossDataSection = () => {
               {({ field }) => (
                 <Select
                   label={t('form.concept.glossDataSection.wordClass')}
-                  value={glossData.wordClass}
+                  value={field.value}
                   {...field}
                 >
                   {!glossData.wordClass && (
@@ -60,7 +60,7 @@ const GlossDataSection = () => {
             </FormikField>
             <FormikField name="glossData.originalLanguage">
               {({ field }) => (
-                <Select value={glossData.originalLanguage} {...field}>
+                <Select value={field.value} {...field}>
                   {!glossData.originalLanguage && (
                     <option>
                       {t('form.concept.glossDataSection.choose', {

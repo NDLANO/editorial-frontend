@@ -128,13 +128,9 @@ const glossRules: RulesType<ConceptFormValues, IConcept> = {
   ...conceptFormBaseRules,
 
   glossInfoErrors: {
-    test: (values) => {
-      if (values.glossData) {
-        const { gloss, wordClass, originalLanguage } = values.glossData;
-        if (!gloss || !wordClass || !originalLanguage)
-          return { translationKey: 'form.concept.glossDataSection.glossMissingFields' };
-      }
-      return undefined;
+    test: ({ glossData }) => {
+      if (!glossData?.gloss || !glossData?.wordClass || !glossData.originalLanguage)
+        return { translationKey: 'form.concept.glossDataSection.glossMissingFields' };
     },
   },
 
@@ -145,11 +141,8 @@ const glossRules: RulesType<ConceptFormValues, IConcept> = {
       }
       return false;
     },
-    test: (values) => {
-      const hasMissingField =
-        values.glossData?.transcriptions &&
-        Object.values(values.glossData.transcriptions).includes('');
-      if (hasMissingField) {
+    test: ({ glossData }) => {
+      if (glossData?.transcriptions && Object.values(glossData.transcriptions).includes('')) {
         return { translationKey: 'form.concept.glossDataSection.transcriptionMissingFields' };
       }
       return undefined;

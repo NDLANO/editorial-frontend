@@ -6,7 +6,7 @@
  *
  */
 
-import { useEffect, useState, MouseEvent } from 'react';
+import { useEffect, useState, MouseEvent, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import sortBy from 'lodash/sortBy';
 import { getResourceLanguages } from '../../../../util/resourceHelpers';
@@ -95,10 +95,13 @@ const SearchConceptForm = ({ search: doSearch, searchObject: search, subjects }:
     });
   };
 
-  const getConceptTypes = () => [
-    { id: 'concept', name: t('searchForm.conceptType.concept') },
-    { id: 'gloss', name: t('searchForm.conceptType.gloss') },
-  ];
+  const conceptTypes = useMemo(
+    () => [
+      { id: 'concept', name: t('searchForm.conceptType.concept') },
+      { id: 'gloss', name: t('searchForm.conceptType.gloss') },
+    ],
+    [t],
+  );
 
   const sortByProperty = (property: string) => {
     type Sortable = { [key: string]: any };
@@ -111,8 +114,8 @@ const SearchConceptForm = ({ search: doSearch, searchObject: search, subjects }:
   const selectors: SearchFormSelector[] = [
     {
       parameterName: 'concept-type',
-      value: getTagName(search['concept-type'], getConceptTypes()),
-      options: getConceptTypes(),
+      value: getTagName(search['concept-type'], conceptTypes),
+      options: conceptTypes,
       formElementType: 'dropdown',
       width: 50,
     },

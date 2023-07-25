@@ -30,14 +30,7 @@ const TranscriptionField = ({ name, value, label, removeField }: Props) => {
               placeholder={t('form.concept.glossDataSection.transcription')}
               value={value ?? ''}
               data-cy="transcription-selector"
-              onChange={(e) =>
-                field.onChange({
-                  target: {
-                    name,
-                    value: e.currentTarget.value,
-                  },
-                })
-              }
+              {...field}
             />
             <FieldRemoveButton onClick={removeField} />
           </FieldSection>

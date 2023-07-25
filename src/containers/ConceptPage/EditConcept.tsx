@@ -53,7 +53,6 @@ const EditConcept = ({ isNewlyCreated }: Props) => {
     updateConcept,
   } = useFetchConceptData(conceptId, selectedLanguage!);
 
-  // TODO: fjern etter conceptType er i IConceptSummary
   const navigate = useNavigate();
   if (concept?.glossData) {
     navigate(toEditGloss(concept.id, selectedLanguage));

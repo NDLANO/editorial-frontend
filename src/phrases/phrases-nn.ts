@@ -646,6 +646,7 @@ const phrases = {
       contactBlock: 'Kontaktblokk',
       blogPost: 'Bloggpost',
       grid: 'Grid',
+      campaignBlock: 'Kampanjeblokk',
     },
   },
   form: {
@@ -737,6 +738,9 @@ const phrases = {
       border: 'Vis ramme',
       background: 'Bakgrunn',
       contentType: 'Innhaldstype',
+      linkText: 'Lenketekst',
+      titleLanguage: 'Tittel-språk',
+      descriptionlanguage: 'Beskrivelse-språk',
     },
     previewProductionArticle: {
       button: 'Samanlikn gjeldande versjon med gamal versjon',
@@ -1890,6 +1894,16 @@ const phrases = {
     },
   },
   delete: 'Slett',
+  campaignBlockForm: {
+    title: 'Rediger kampanjeblokk',
+    image: {
+      imageBefore: 'Venstre bilde',
+      insertImageBefore: 'Sett inn bilde til venstre',
+      imageAfter: 'Høyre bilde',
+      insertImageAfter: 'Sett inn bilde til høyre',
+      images: 'Bildar',
+    },
+  },
   dragAndDrop: {
     handle: 'Handtak',
   },

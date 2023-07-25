@@ -8,8 +8,9 @@
 
 import { HelmetWithTracker } from '@ndla/tracker';
 import { useTranslation } from 'react-i18next';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { IUpdatedConcept } from '@ndla/types-backend/build/concept-api';
 import ConceptForm from './ConceptForm/ConceptForm';
 import { useFetchConceptData } from '../FormikForm/formikConceptHooks';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
@@ -39,7 +40,7 @@ interface Props {
 
 const EditConcept = ({ isNewlyCreated }: Props) => {
   const params = useParams<'id' | 'selectedLanguage'>();
-  const conceptId = Number(params.id) || undefined;
+  const conceptId = Number(params.id);
   const selectedLanguage = params.selectedLanguage as LocaleType;
   const { t } = useTranslation();
   const {
@@ -52,6 +53,13 @@ const EditConcept = ({ isNewlyCreated }: Props) => {
     subjects,
     updateConcept,
   } = useFetchConceptData(conceptId, selectedLanguage!);
+
+  const onUpdate = useCallback(
+    (concept: IUpdatedConcept) => {
+      return updateConcept(conceptId, concept);
+    },
+    [conceptId, updateConcept],
+  );
 
   const navigate = useNavigate();
   if (concept?.glossData) {
@@ -88,7 +96,7 @@ const EditConcept = ({ isNewlyCreated }: Props) => {
         fetchConceptTags={fetchSearchTags}
         isNewlyCreated={isNewlyCreated}
         upsertProps={{
-          onUpdate: (concept) => updateConcept(conceptId, concept),
+          onUpdate,
         }}
         language={selectedLanguage!}
         subjects={subjects}

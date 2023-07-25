@@ -8,8 +8,9 @@
 
 import { HelmetWithTracker } from '@ndla/tracker';
 import { useTranslation } from 'react-i18next';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { IUpdatedConcept } from '@ndla/types-backend/concept-api';
 import ConceptForm from '../ConceptPage/ConceptForm/ConceptForm';
 import { useFetchConceptData } from '../FormikForm/formikConceptHooks';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
@@ -38,7 +39,7 @@ interface Props {
 
 const EditGloss = ({ isNewlyCreated }: Props) => {
   const params = useParams<'id' | 'selectedLanguage'>();
-  const conceptId = Number(params.id) || undefined;
+  const conceptId = Number(params.id);
   const selectedLanguage = params.selectedLanguage as LocaleType;
   const { t } = useTranslation();
   const {
@@ -53,6 +54,13 @@ const EditGloss = ({ isNewlyCreated }: Props) => {
   } = useFetchConceptData(conceptId, selectedLanguage!);
 
   const { shouldTranslate, translate, translating } = useTranslateToNN();
+
+  const onUpdate = useCallback(
+    (concept: IUpdatedConcept) => {
+      return updateConcept(conceptId, concept);
+    },
+    [conceptId, updateConcept],
+  );
 
   useEffect(() => {
     (async () => {
@@ -81,9 +89,7 @@ const EditGloss = ({ isNewlyCreated }: Props) => {
         conceptChanged={conceptChanged || newLanguage}
         fetchConceptTags={fetchSearchTags}
         isNewlyCreated={isNewlyCreated}
-        upsertProps={{
-          onUpdate: (concept) => updateConcept(conceptId, concept),
-        }}
+        upsertProps={{ onUpdate }}
         language={selectedLanguage!}
         subjects={subjects}
         supportedLanguages={concept.supportedLanguages}

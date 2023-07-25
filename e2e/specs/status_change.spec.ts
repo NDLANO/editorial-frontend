@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2023-present, NDLA.
+ * Copyright (c) 2019-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
@@ -8,7 +8,7 @@
 
 import { test, expect } from '@playwright/test';
 import { mockRoute } from '../apiMock';
-import { userDataMock, responsiblesMock, zendeskMock } from '../mockResponses';
+import { zendeskMock, responsiblesMock, userDataMock, draftMock } from '../mockResponses';
 
 test.beforeEach(async ({ page }) => {
   const licenses = mockRoute({
@@ -22,12 +22,6 @@ test.beforeEach(async ({ page }) => {
     path: '**/get_zendesk_token',
     fixture: 'editor_zendesk_token',
     overrideValue: JSON.stringify(zendeskMock),
-  });
-
-  const statuses = mockRoute({
-    page,
-    path: '**/draft-api/v1/drafts/status-state-machine/*',
-    fixture: 'editor_status_state_machine',
   });
 
   const responsibles = mockRoute({
@@ -91,17 +85,23 @@ test.beforeEach(async ({ page }) => {
     fixture: 'editor_contains_article',
   });
 
-  await page.goto(`/subject-matter/learning-resource/800/edit/nb`);
+  const statusMachine = mockRoute({
+    page,
+    path: '**/draft-api/v1/drafts/status-state-machine/*',
+    fixture: 'editor_status_machine'
+  })
+
+  await page.goto('/subject-matter/learning-resource/800/edit/nb');
   await Promise.all([
     licenses,
     zendesk,
-    statuses,
+    statusMachine,
     responsibles,
     userData,
+    draftHistory,
     draftData,
     draftUpdate,
     draftValidate,
-    draftHistory,
     taxonomyResources,
     taxonomyTopics,
     searchApi,
@@ -109,12 +109,11 @@ test.beforeEach(async ({ page }) => {
   ]);
 });
 
-test('can enter title, ingress, content and responsible then save', async ({ page }) => {
-  const userData = mockRoute({
+test('can change status correctly', async ({ page }) => {
+  const draftResponsible = mockRoute({
     page,
-    path: '**/draft-api/v1/user-data',
-    fixture: 'editor_user_data',
-    overrideValue: JSON.stringify(userDataMock),
+    path: '**/get_responsibles',
+    fixture: 'editor_responsibles',
   });
 
   const draftUpdate = mockRoute({
@@ -123,46 +122,26 @@ test('can enter title, ingress, content and responsible then save', async ({ pag
     fixture: 'editor_draft_update',
   });
 
-  await expect(
-    page.locator('[data-testid="saveLearningResourceButtonWrapper"]').getByRole('button').first(),
-  ).toBeDisabled();
-  await page.locator('[data-cy="learning-resource-title"]').click();
-  await page.keyboard.type('TITTEL');
-  await page.locator('[data-cy="learning-resource-ingress"]').click();
-  await page.keyboard.type('INGRESS');
-  await page.locator('[data-cy="slate-editor"]').click();
-  await page.keyboard.type('CONTENT');
-  await page.locator('[data-cy="responsible-select"]').click();
+
+  await page.getByTestId('status-select').click();
+  await page.locator('*[id^="react-select-3-option"]', { hasText: 'I arbeid' }).click();
+  await draftResponsible;
+  await page.locator('[data-cy=responsible-select]').click();
   await page.keyboard.type('Test user');
   await page.keyboard.press('Enter');
-  await page
-    .locator('[data-testid="saveLearningResourceButtonWrapper"]')
-    .getByRole('button')
-    .first()
-    .click();
-  await userData;
-  await draftUpdate;
-  await expect(
-    page
-      .locator('[data-testid="saveLearningResourceButtonWrapper"]')
-      .getByRole('button')
-      .getByText('Lagret'),
-  ).toHaveCount(1);
-});
-
-test('Can add all contributors', async ({ page }) => {
-  await page.getByRole('heading').getByRole('button').getByText('Lisens og bruker').click();
-  const contributorValues = ['originator', 'rightsholder', 'processor'];
-  let index = 0;
-  for (const contrib of await page.locator('[data-cy="addContributor"]').all()) {
-    await contrib.click();
-    await page.keyboard.type('Test user');
+  await page.getByTestId('saveLearningResourceButtonWrapper').getByRole('button').first().click();
+  expect(
     await page
-      .locator('[data-cy="contributor-selector"]')
-      .last()
-      .selectOption(contributorValues[index]);
-    index === 0 &&
-      expect(page.locator('[data-cy="contributor-selector"]').first()).toHaveValue('writer');
-    index++;
-  }
+      .getByTestId('saveLearningResourceButtonWrapper')
+      .getByRole('button')
+      .first().textContent(),
+  ).toEqual('Lagrer...');
+  await draftUpdate;
+  expect(
+    await page
+      .getByTestId('saveLearningResourceButtonWrapper')
+      .getByRole('button')
+      .first()
+      .textContent(),
+  ).toEqual('Lagret ');
 });

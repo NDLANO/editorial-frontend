@@ -83,3 +83,84 @@ export const responsiblesMock = [
     },
   },
 ];
+
+export const draftMock = {
+  id: 800,
+  oldNdlaUrl: '//red.ndla.no/node/22149',
+  revision: 10,
+  status: {
+    current: 'PROPOSAL',
+    other: ['IMPORTED', 'PUBLISHED'],
+  },
+  title: {
+    title: 'Forskningsprosessen',
+    language: 'nb',
+  },
+  content: {
+    content: '<section><p> TEST </p></section>',
+    language: 'nb',
+  },
+  copyright: {
+    license: {
+      license: 'CC-BY-NC-ND-4.0',
+      description: 'Creative Commons Attribution-NonCommercial-NoDerivs 4.0 International',
+      url: 'https://creativecommons.org/licenses/by-nc-nd/4.0/',
+    },
+    origin: 'Ragna Marie Tørdal',
+    creators: [
+      {
+        type: 'Writer',
+        name: 'Elisabet Romedal',
+      },
+      {
+        type: 'writer',
+        name: 'Olav Kristensen',
+      },
+    ],
+    processors: [],
+    rightsholders: [],
+  },
+  tags: {
+    tags: ['empiri', 'forskningsprosess', 'forskningsprosjekt'],
+    language: 'nb',
+  },
+  requiredLibraries: [],
+  introduction: {
+    introduction: ' TEST ',
+    language: 'nb',
+  },
+  metaDescription: {
+    metaDescription: 'TEST meta description',
+    language: 'nb',
+  },
+  metaImage: {
+    url: 'https://test.api.ndla.no/image-api/raw/id/43392',
+    alt: 'Test. Foto.',
+    language: 'nb',
+  },
+  created: '2010-09-06T21:40:09Z',
+  updated: '2019-10-09T17:39:49Z',
+  updatedBy: 'fsexOCfJFGOKuy1C2e71OsvQwq0NWKAK',
+  published: '2018-03-05T15:56:12Z',
+  articleType: 'standard',
+  supportedLanguages: ['nb', 'nn'],
+  notes: [
+    {
+      note: 'Status endret',
+      user: 'fsexOCfJFGOKuy1C2e71OsvQwq0NWKAK',
+      status: {
+        current: 'PROPOSAL',
+        other: ['IMPORTED', 'PUBLISHED'],
+      },
+      timestamp: '2019-10-09T17:39:47Z',
+    },
+  ],
+  conceptIds: [],
+  revisions: [
+    {
+      revisionDate: '2030-01-01T00:00:00Z',
+      note: 'Automatisk revisjonsdato satt av systemet.',
+      status: 'needs-revision',
+    },
+  ],
+};

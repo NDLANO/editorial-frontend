@@ -9,12 +9,13 @@
 import { useFormikContext } from 'formik';
 import { FieldHeader, FieldSection, Input, Select } from '@ndla/forms';
 import { useTranslation } from 'react-i18next';
+// eslint-disable-next-line no-restricted-imports
+import { WordClass } from '@ndla/ui/lib/model/WordClass';
 import FormikField from '../../../components/FormikField';
 import { ConceptFormValues } from '../../ConceptPage/conceptInterfaces';
 import ExamplesFieldArray from './ExamplesFieldArray';
-import { WORD_CLASSES, LANGUAGES } from '../glossData';
+import { LANGUAGES } from '../glossData';
 import TranscriptionsField from './TranscriptionsField';
-
 const GlossDataSection = () => {
   const formikContext = useFormikContext<ConceptFormValues>();
   const { glossData } = formikContext.values;
@@ -31,14 +32,7 @@ const GlossDataSection = () => {
                   placeholder={t('form.concept.glossDataSection.gloss')}
                   type="text"
                   value={glossData.gloss}
-                  onChange={(e) => {
-                    field.onChange({
-                      target: {
-                        name: field.name,
-                        value: e.currentTarget.value,
-                      },
-                    });
-                  }}
+                  {...field}
                 />
               )}
             </FormikField>
@@ -47,14 +41,7 @@ const GlossDataSection = () => {
                 <Select
                   label={t('form.concept.glossDataSection.wordClass')}
                   value={glossData.wordClass}
-                  onChange={(e) => {
-                    field.onChange({
-                      target: {
-                        name: field.name,
-                        value: e.currentTarget.value,
-                      },
-                    });
-                  }}
+                  {...field}
                 >
                   {!glossData.wordClass && (
                     <option>
@@ -63,9 +50,9 @@ const GlossDataSection = () => {
                       })}
                     </option>
                   )}
-                  {Object.entries(WORD_CLASSES).map((entry) => (
+                  {Object.entries(WordClass).map((entry) => (
                     <option value={entry[1]} key={entry[0]}>
-                      {entry[1]}
+                      {t(`wordClass.${entry[1]}`)}
                     </option>
                   ))}
                 </Select>
@@ -73,17 +60,7 @@ const GlossDataSection = () => {
             </FormikField>
             <FormikField name="glossData.originalLanguage">
               {({ field }) => (
-                <Select
-                  value={glossData.originalLanguage}
-                  onChange={(e) => {
-                    field.onChange({
-                      target: {
-                        name: field.name,
-                        value: e.currentTarget.value,
-                      },
-                    });
-                  }}
-                >
+                <Select value={glossData.originalLanguage} {...field}>
                   {!glossData.originalLanguage && (
                     <option>
                       {t('form.concept.glossDataSection.choose', {

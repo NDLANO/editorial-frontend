@@ -8,7 +8,7 @@
 
 import { test, expect } from '@playwright/test';
 import { mockRoute } from '../apiMock';
-import { zendeskMock, responsiblesMock, userDataMock, draftMock } from '../mockResponses';
+import { zendeskMock, responsiblesMock, userDataMock } from '../mockResponses';
 
 test.beforeEach(async ({ page }) => {
   const licenses = mockRoute({
@@ -47,13 +47,7 @@ test.beforeEach(async ({ page }) => {
   const draftData = mockRoute({
     page,
     path: '**/draft-api/v1/drafts/800*',
-    fixture: 'editor_draft_data',
-  });
-
-  const draftUpdate = mockRoute({
-    page,
-    path: '**/draft-api/v1/drafts/800',
-    fixture: 'editor_draft_update',
+    fixture: 'editor_draft_published',
   });
 
   const draftValidate = mockRoute({
@@ -88,8 +82,8 @@ test.beforeEach(async ({ page }) => {
   const statusMachine = mockRoute({
     page,
     path: '**/draft-api/v1/drafts/status-state-machine/*',
-    fixture: 'editor_status_machine'
-  })
+    fixture: 'editor_status_machine',
+  });
 
   await page.goto('/subject-matter/learning-resource/800/edit/nb');
   await Promise.all([
@@ -100,7 +94,6 @@ test.beforeEach(async ({ page }) => {
     userData,
     draftHistory,
     draftData,
-    draftUpdate,
     draftValidate,
     taxonomyResources,
     taxonomyTopics,
@@ -110,33 +103,39 @@ test.beforeEach(async ({ page }) => {
 });
 
 test('can change status correctly', async ({ page }) => {
-  const draftResponsible = mockRoute({
-    page,
-    path: '**/get_responsibles',
-    fixture: 'editor_responsibles',
-  });
-
-  const draftUpdate = mockRoute({
-    page,
-    path: '**/draft-api/v1/drafts/800',
-    fixture: 'editor_draft_update',
-  });
-
-
   await page.getByTestId('status-select').click();
   await page.locator('*[id^="react-select-3-option"]', { hasText: 'I arbeid' }).click();
-  await draftResponsible;
   await page.locator('[data-cy=responsible-select]').click();
   await page.keyboard.type('Test user');
   await page.keyboard.press('Enter');
+
+  await page.unroute('**/draft-api/v1/drafts/800*');
+  await mockRoute({
+    page,
+    path: '**/draft-api/v1/drafts/800*',
+    fixture: 'editor_draft_in_progress',
+  });
+
   await page.getByTestId('saveLearningResourceButtonWrapper').getByRole('button').first().click();
-  expect(
-    await page
-      .getByTestId('saveLearningResourceButtonWrapper')
-      .getByRole('button')
-      .first().textContent(),
-  ).toEqual('Lagrer...');
-  await draftUpdate;
+  await page.getByTestId('status-select').click();
+  await page.locator('*[id^="react-select-3-option"]', { hasText: 'Sisteblikk' }).click();
+
+  await page.unroute('**/draft-api/v1/drafts/800*');
+  await mockRoute({
+    page,
+    path: '**/draft-api/v1/drafts/800*',
+    fixture: 'editor_draft_internal_review',
+  });
+  await page.getByTestId('saveLearningResourceButtonWrapper').getByRole('button').first().click();
+  await page.getByTestId('status-select').click();
+
+  await page.locator('*[id^="react-select-3-option"]', { hasText: 'Publiser' }).click();
+  await page.unroute('**/draft-api/v1/drafts/800*');
+  await mockRoute({
+    page,
+    path: '**/draft-api/v1/drafts/800*',
+    fixture: 'editor_draft_published',
+  });
   expect(
     await page
       .getByTestId('saveLearningResourceButtonWrapper')
@@ -144,4 +143,5 @@ test('can change status correctly', async ({ page }) => {
       .first()
       .textContent(),
   ).toEqual('Lagret ');
+  await page.getByTestId('select-status').all();
 });

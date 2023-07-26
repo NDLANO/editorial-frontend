@@ -53,13 +53,7 @@ test.beforeEach(async ({ page }) => {
   const draftData = mockRoute({
     page,
     path: '**/draft-api/v1/drafts/800*',
-    fixture: 'editor_draft_data',
-  });
-
-  const draftUpdate = mockRoute({
-    page,
-    path: '**/draft-api/v1/drafts/800',
-    fixture: 'editor_draft_update',
+    fixture: 'editor_draft_in_progress',
   });
 
   const draftValidate = mockRoute({
@@ -99,7 +93,6 @@ test.beforeEach(async ({ page }) => {
     responsibles,
     userData,
     draftData,
-    draftUpdate,
     draftValidate,
     draftHistory,
     taxonomyResources,
@@ -120,11 +113,11 @@ test('can enter title, ingress, content and responsible then save', async ({ pag
   const draftUpdate = mockRoute({
     page,
     path: '**/draft-api/v1/drafts/800',
-    fixture: 'editor_draft_update',
+    fixture: 'editor_draft_in_progress',
   });
 
   await expect(
-    page.locator('[data-testid="saveLearningResourceButtonWrapper"]').getByRole('button').first(),
+    page.getByTestId('saveLearningResourceButtonWrapper').getByRole('button').first(),
   ).toBeDisabled();
   await page.locator('[data-cy="learning-resource-title"]').click();
   await page.keyboard.type('TITTEL');
@@ -135,19 +128,16 @@ test('can enter title, ingress, content and responsible then save', async ({ pag
   await page.locator('[data-cy="responsible-select"]').click();
   await page.keyboard.type('Test user');
   await page.keyboard.press('Enter');
-  await page
-    .locator('[data-testid="saveLearningResourceButtonWrapper"]')
-    .getByRole('button')
-    .first()
-    .click();
+  await page.getByTestId('saveLearningResourceButtonWrapper').getByRole('button').first().click();
   await userData;
   await draftUpdate;
-  await expect(
-    page
-      .locator('[data-testid="saveLearningResourceButtonWrapper"]')
+  expect(
+    await page
+      .getByTestId('saveLearningResourceButtonWrapper')
       .getByRole('button')
-      .getByText('Lagret'),
-  ).toHaveCount(1);
+      .first()
+      .textContent(),
+  ).toEqual('Lagret ');
 });
 
 test('Can add all contributors', async ({ page }) => {

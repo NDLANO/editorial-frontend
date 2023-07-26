@@ -3,8 +3,8 @@
   "oldNdlaUrl": "//red.ndla.no/node/22149",
   "revision": 10,
   "status": {
-    "current": "PROPOSAL",
-    "other": ["IMPORTED", "PUBLISHED"]
+    "current": "PUBLISHED",
+    "other": ["IMPORTED"]
   },
   "title": {
     "title": "Forskningsprosessen",
@@ -63,7 +63,7 @@
       "note": "Status endret",
       "user": "fsexOCfJFGOKuy1C2e71OsvQwq0NWKAK",
       "status": {
-        "current": "PROPOSAL",
+        "current": "PUBLISHED",
         "other": ["IMPORTED", "PUBLISHED"]
       },
       "timestamp": "2019-10-09T17:39:47Z"

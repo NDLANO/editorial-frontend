@@ -1,13 +1,13 @@
 {
   "id": 800,
-  "oldNdlaUrl": "//red.ndla.no/node/167916",
-  "revision": 14,
+  "oldNdlaUrl": "//red.ndla.no/node/22149",
+  "revision": 10,
   "status": {
-    "current": "IN_PROGRESS",
-    "other": ["IMPORTED", "PUBLISHED"]
+    "current": "INTERNAL_REVIEW",
+    "other": ["IMPORTED"]
   },
   "title": {
-    "title": "Misfornøyde kunder er gull verdt Some change",
+    "title": "Forskningsprosessen",
     "language": "nb"
   },
   "content": {
@@ -16,11 +16,11 @@
   },
   "copyright": {
     "license": {
-      "license": "CC-BY-SA-4.0",
-      "description": "Creative Commons Attribution-ShareAlike 4.0 International",
-      "url": "https://creativecommons.org/licenses/by-sa/4.0/"
+      "license": "CC-BY-NC-ND-4.0",
+      "description": "Creative Commons Attribution-NonCommercial-NoDerivs 4.0 International",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/"
     },
-    "origin": "",
+    "origin": "Ragna Marie Tørdal",
     "creators": [
       {
         "type": "Writer",
@@ -35,45 +35,41 @@
     "rightsholders": []
   },
   "tags": {
-    "tags": ["administrative rutiner", "garanti", "klager", "reklamasjon"],
+    "tags": ["empiri", "forskningsprosess", "forskningsprosjekt"],
     "language": "nb"
   },
   "requiredLibraries": [],
   "introduction": {
-    "introduction": "TEST",
+    "introduction": " Cypress Test ",
     "language": "nb"
   },
   "metaDescription": {
-    "metaDescription": "TEST",
+    "metaDescription": "Forskere forsøker å framskaffe ny kunnskap om et fenomen.",
     "language": "nb"
   },
   "metaImage": {
-    "url": "https://api.test.ndla.no/image-api/raw/id/23264",
-    "alt": "Kunde med handleposer",
+    "url": "https://test.api.ndla.no/image-api/raw/id/43392",
+    "alt": "Jente med kolbe med farget veske. Foto.",
     "language": "nb"
   },
-  "created": "2016-06-28T09:27:41Z",
-  "updated": "2020-06-26T10:31:57Z",
-  "updatedBy": "XVtdp6Ik4kdLDjMTQE2CIxnGB6Gvhr2n",
-  "published": "2017-03-07T18:52:45Z",
+  "created": "2010-09-06T21:40:09Z",
+  "updated": "2019-10-09T17:39:49Z",
+  "updatedBy": "fsexOCfJFGOKuy1C2e71OsvQwq0NWKAK",
+  "published": "2018-03-05T15:56:12Z",
   "articleType": "standard",
   "supportedLanguages": ["nb", "nn"],
   "notes": [
     {
       "note": "Status endret",
-      "user": "tXiamHcvp3TZ87iSy2A5Ph424l23K4Fi",
+      "user": "fsexOCfJFGOKuy1C2e71OsvQwq0NWKAK",
       "status": {
-        "current": "IN_PROGRESS",
+        "current": "INTERNAL_REVIEW",
         "other": ["IMPORTED", "PUBLISHED"]
       },
-      "timestamp": "2020-09-18T15:15:55Z"
+      "timestamp": "2019-10-09T17:39:47Z"
     }
   ],
-  "editorLabels": [],
-  "grepCodes": [],
   "conceptIds": [],
-  "availability": "everyone",
-  "relatedContent": [],
   "revisions": [
     {
       "revisionDate": "2030-01-01T00:00:00Z",

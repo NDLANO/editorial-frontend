@@ -1,17 +1,17 @@
 {
-  "id": 533,
-  "oldNdlaUrl": "//red.ndla.no/node/153041",
-  "revision": 35,
+  "id": 800,
+  "oldNdlaUrl": "//red.ndla.no/node/167916",
+  "revision": 14,
   "status": {
-    "current": "PUBLISHED",
+    "current": "IN_PROGRESS",
     "other": ["IMPORTED"]
   },
   "title": {
-    "title": "Gassinjeksjon i Some change",
+    "title": "Misfornøyde kunder er gull verdt Some change",
     "language": "nb"
   },
   "content": {
-    "content": "<section><p> Cypress Test </p></section>",
+    "content": "<section><p> Cypress test </p></section>",
     "language": "nb"
   },
   "copyright": {
@@ -24,42 +24,51 @@
     "creators": [
       {
         "type": "Writer",
-        "name": "Anna Aabø"
+        "name": "Elisabet Romedal"
+      },
+      {
+        "type": "writer",
+        "name": "Olav Kristensen"
       }
     ],
     "processors": [],
-    "rightsholders": [
-      {
-        "type": "Supplier",
-        "name": "Cerpus AS"
-      }
-    ]
+    "rightsholders": []
   },
   "tags": {
-    "tags": ["drivmekanisme", "gassinjeksjon", "reservoartrykk"],
+    "tags": ["administrative rutiner", "garanti", "klager", "reklamasjon"],
     "language": "nb"
   },
   "requiredLibraries": [],
   "introduction": {
-    "introduction": "cypress test",
+    "introduction": "TEST",
     "language": "nb"
   },
   "metaDescription": {
-    "metaDescription": "cypress test",
+    "metaDescription": "TEST",
     "language": "nb"
   },
   "metaImage": {
-    "url": "https://api.test.ndla.no/image-api/raw/id/4378",
-    "alt": "Gassinjeksjon i reservoar. Illustrasjon.",
+    "url": "https://api.test.ndla.no/image-api/raw/id/23264",
+    "alt": "Kunde med handleposer",
     "language": "nb"
   },
-  "created": "2015-11-24T16:12:51Z",
-  "updated": "2021-03-23T08:17:31Z",
+  "created": "2016-06-28T09:27:41Z",
+  "updated": "2020-06-26T10:31:57Z",
   "updatedBy": "XVtdp6Ik4kdLDjMTQE2CIxnGB6Gvhr2n",
-  "published": "2018-06-29T08:13:49Z",
+  "published": "2017-03-07T18:52:45Z",
   "articleType": "standard",
-  "supportedLanguages": ["nb"],
-  "notes": [],
+  "supportedLanguages": ["nb", "nn"],
+  "notes": [
+    {
+      "note": "Status endret",
+      "user": "tXiamHcvp3TZ87iSy2A5Ph424l23K4Fi",
+      "status": {
+        "current": "IN_PROGRESS",
+        "other": ["IMPORTED", "PUBLISHED"]
+      },
+      "timestamp": "2020-09-18T15:15:55Z"
+    }
+  ],
   "editorLabels": [],
   "grepCodes": [],
   "conceptIds": [],
@@ -67,7 +76,6 @@
   "relatedContent": [],
   "revisions": [
     {
-      "id": "90cca8e3-a2eb-48b4-bc52-2330ad5f5f3f",
       "revisionDate": "2030-01-01T00:00:00Z",
       "note": "Automatisk revisjonsdato satt av systemet.",
       "status": "needs-revision"

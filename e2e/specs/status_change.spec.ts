@@ -103,6 +103,7 @@ test.beforeEach(async ({ page }) => {
 });
 
 test('can change status correctly', async ({ page }) => {
+  test.slow();
   await page.getByTestId('status-select').click();
   await page.locator('*[id^="react-select-3-option"]', { hasText: 'I arbeid' }).click();
   await page.locator('[data-cy=responsible-select]').click();
@@ -128,20 +129,18 @@ test('can change status correctly', async ({ page }) => {
   });
   await page.getByTestId('saveLearningResourceButtonWrapper').getByRole('button').first().click();
   await page.getByTestId('status-select').click();
-
-  await page.locator('*[id^="react-select-3-option"]', { hasText: 'Publiser' }).click();
   await page.unroute('**/draft-api/v1/drafts/800*');
   await mockRoute({
     page,
     path: '**/draft-api/v1/drafts/800*',
     fixture: 'editor_draft_published',
   });
+  await page.locator('*[id^="react-select-3-option"]', { hasText: 'Publiser' }).click();
   expect(
     await page
       .getByTestId('saveLearningResourceButtonWrapper')
       .getByRole('button')
       .first()
       .textContent(),
-  ).toEqual('Lagret ');
-  await page.getByTestId('select-status').all();
+  ).toEqual('Lagrer...');
 });

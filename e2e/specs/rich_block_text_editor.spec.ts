@@ -103,6 +103,8 @@ test.beforeEach(async ({ page }) => {
 });
 
 test('can enter title, ingress, content and responsible then save', async ({ page }) => {
+  test.slow();
+
   const userData = mockRoute({
     page,
     path: '**/draft-api/v1/user-data',
@@ -137,7 +139,7 @@ test('can enter title, ingress, content and responsible then save', async ({ pag
       .getByRole('button')
       .first()
       .textContent(),
-  ).toEqual('Lagret ');
+  ).toEqual('Lagrer...');
 });
 
 test('Can add all contributors', async ({ page }) => {

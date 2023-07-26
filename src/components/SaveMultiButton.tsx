@@ -7,10 +7,10 @@
  */
 
 import styled from '@emotion/styled';
-import { MultiButton } from '@ndla/button';
 import { Check } from '@ndla/icons/editor';
 import { useTranslation } from 'react-i18next';
 import { saveButtonAppearances } from './SaveButton';
+import MultiButton from './MultiButton';
 
 type SaveModifiers = 'save' | 'saving' | 'saved';
 

@@ -4,7 +4,7 @@
   "revision": 14,
   "status": {
     "current": "IN_PROGRESS",
-    "other": ["IMPORTED"]
+    "other": ["IMPORTED", "PUBLISHED"]
   },
   "title": {
     "title": "Misfornøyde kunder er gull verdt Some change",

@@ -103,7 +103,6 @@ test.beforeEach(async ({ page }) => {
 });
 
 test('can change status correctly', async ({ page }) => {
-  test.slow();
   await page.getByTestId('status-select').click();
   await page.locator('*[id^="react-select-3-option"]', { hasText: 'I arbeid' }).click();
   await page.locator('[data-cy=responsible-select]').click();

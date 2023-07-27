@@ -8,7 +8,7 @@
 
 import { test, expect } from '@playwright/test';
 import { mockRoute } from '../apiMock';
-import { userDataMock, responsiblesMock, zendeskMock, draftUpdateMock } from '../mockResponses';
+import { userDataMock, responsiblesMock, zendeskMock } from '../mockResponses';
 
 test.beforeEach(async ({ page }) => {
   const licenses = mockRoute({

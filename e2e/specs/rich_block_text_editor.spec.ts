@@ -62,12 +62,6 @@ test.beforeEach(async ({ page }) => {
     },
   });
 
-  const draftUpdate = mockRoute({
-    page,
-    path: '**/draft-api/v1/drafts/800',
-    fixture: 'editor_draft_update',
-  });
-
   const draftValidate = mockRoute({
     page,
     path: '**/draft-api/v1/drafts/800/validate/',
@@ -105,7 +99,6 @@ test.beforeEach(async ({ page }) => {
     responsibles,
     userData,
     draftData,
-    draftUpdate,
     draftValidate,
     draftHistory,
     taxonomyResources,
@@ -116,19 +109,6 @@ test.beforeEach(async ({ page }) => {
 });
 
 test('can enter title, ingress, content and responsible then save', async ({ page }) => {
-  const userData = mockRoute({
-    page,
-    path: '**/draft-api/v1/user-data',
-    fixture: 'editor_user_data',
-    overrideValue: JSON.stringify(userDataMock),
-  });
-
-  const draftUpdate = mockRoute({
-    page,
-    path: '**/draft-api/v1/drafts/800',
-    fixture: 'editor_draft_update',
-  });
-
   await expect(
     page.locator('[data-testid="saveLearningResourceButtonWrapper"]').getByRole('button').first(),
   ).toBeDisabled();
@@ -146,8 +126,6 @@ test('can enter title, ingress, content and responsible then save', async ({ pag
     .getByRole('button')
     .first()
     .click();
-  await userData;
-  await draftUpdate;
   await expect(
     page
       .locator('[data-testid="saveLearningResourceButtonWrapper"]')

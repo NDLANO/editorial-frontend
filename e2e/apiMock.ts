@@ -19,15 +19,15 @@ interface MockRoute {
   overrideRoute?: boolean;
 }
 
-export async function mockRoute({
+export const mockRoute = async ({
   page,
   path,
   fixture,
   overrideValue,
   overrideRoute,
   status = 200,
-}: MockRoute) {
-  if (!!overrideRoute) {
+}: MockRoute) => {
+  if (overrideRoute) {
     await page.unroute(path);
   }
 
@@ -54,4 +54,4 @@ export async function mockRoute({
       }
     }
   });
-}
+};

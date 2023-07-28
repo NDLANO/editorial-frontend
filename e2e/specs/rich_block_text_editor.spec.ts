@@ -8,7 +8,7 @@
 
 import { test, expect } from '@playwright/test';
 import { mockRoute } from '../apiMock';
-import { userDataMock, responsiblesMock, zendeskMock, draftUpdateMock } from '../mockResponses';
+import { userDataMock, responsiblesMock, zendeskMock, copyrightMock } from '../mockResponses';
 
 test.beforeEach(async ({ page }) => {
   const licenses = mockRoute({
@@ -54,6 +54,12 @@ test.beforeEach(async ({ page }) => {
     page,
     path: '**/draft-api/v1/drafts/800*',
     fixture: 'editor_draft_data',
+    overrideValue: (value) => {
+      return JSON.stringify({
+        ...JSON.parse(value),
+        copyright: copyrightMock,
+      });
+    },
   });
 
   const draftUpdate = mockRoute({

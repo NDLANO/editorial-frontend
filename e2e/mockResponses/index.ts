@@ -11,6 +11,27 @@ export const userDataMock = {
   latestEditedArticles: ['532'],
 };
 
+export const copyrightMock = {
+  license: {
+    license: 'CC-BY-NC-ND-4.0',
+    description: 'Creative Commons Attribution-NonCommercial-NoDerivs 4.0 International',
+    url: 'https://creativecommons.org/licenses/by-nc-nd/4.0/',
+  },
+  origin: 'Test User',
+  creators: [
+    {
+      type: 'Writer',
+      name: 'Test writer',
+    },
+    {
+      type: 'writer',
+      name: 'Test writeerrr',
+    },
+  ],
+  processors: [],
+  rightsholders: [],
+};
+
 export const responsiblesMock = [
   {
     created_at: '2021-06-14T12:48:29.655Z',

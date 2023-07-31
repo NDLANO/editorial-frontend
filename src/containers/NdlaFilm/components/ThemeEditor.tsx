@@ -83,7 +83,7 @@ const ThemeEditor = ({ onUpdateMovieTheme, selectedLanguage }: Props) => {
       <ThemeNameModal
         onSaveTheme={onAddTheme}
         createTheme={true}
-        activateButton={<ButtonV2 data-cy="add-theme-modal">Lag ny gruppe</ButtonV2>}
+        activateButton={<ButtonV2 data-testid="add-theme-modal">Lag ny gruppe</ButtonV2>}
         messages={{
           save: t('ndlaFilm.editor.createThemeGroup'),
           cancel: t('ndlaFilm.editor.cancel'),

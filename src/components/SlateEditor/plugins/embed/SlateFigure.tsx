@@ -110,7 +110,6 @@ const SlateFigure = ({
         <SlateVideo
           attributes={attributes}
           embed={embed}
-          language={language}
           onRemoveClick={onRemoveClick}
           saveEmbedUpdates={saveEmbedUpdates}
           active={isActive()}
@@ -157,7 +156,6 @@ const SlateFigure = ({
           <SlateVideo
             attributes={attributes}
             embed={embed}
-            language={language}
             onRemoveClick={onRemoveClick}
             saveEmbedUpdates={saveEmbedUpdates}
             active={isActive()}

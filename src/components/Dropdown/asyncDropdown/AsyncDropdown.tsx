@@ -21,6 +21,11 @@ import { inputWrapperStyles } from '../../../containers/StructurePage/plannedRes
 const IconWrapper = styled.div`
   padding: 0 ${spacing.small};
 `;
+
+const StyledSpinner = styled(Spinner)`
+  margin: 0;
+`;
+
 interface InputPropsOptionsRef extends GetInputPropsOptions {
   ref?: Ref<HTMLInputElement>;
 }
@@ -237,7 +242,7 @@ export const AsyncDropdown = <ApiType extends ApiTypeValues>({
                 data-testid={'dropdownInput'}
                 after={
                   <IconWrapper>
-                    {loading ? <Spinner size="normal" margin="0" /> : <Search />}
+                    {loading ? <StyledSpinner size="normal" /> : <Search />}
                   </IconWrapper>
                 }
                 white={white}

@@ -31,7 +31,6 @@ interface Props {
   onNodeSelected: (node?: Node) => void;
   resourceSectionRef: MutableRefObject<HTMLDivElement | null>;
   renderBeforeTitle?: RenderBeforeFunction;
-  setShowAddChildModal: (value: boolean) => void;
   addChildTooltip: string;
   childNodeTypes: NodeType[];
 }
@@ -44,7 +43,6 @@ const RootNode = ({
   onNodeSelected,
   resourceSectionRef,
   renderBeforeTitle,
-  setShowAddChildModal,
   addChildTooltip,
   childNodeTypes,
 }: Props) => {
@@ -124,7 +122,6 @@ const RootNode = ({
       isRoot={true}
       isFavorite={isFavorite}
       isLoading={childNodesQuery.isInitialLoading}
-      setShowAddChildModal={setShowAddChildModal}
       addChildTooltip={addChildTooltip}
     />
   );

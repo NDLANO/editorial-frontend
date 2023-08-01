@@ -36,6 +36,10 @@ interface Props {
   type: ActionType;
 }
 
+const StyledSpinner = styled(Spinner)`
+  margin: 0px 4px;
+`;
+
 const StyledCopyIcon = styled(Copy)`
   width: 8px;
   height: 8px;
@@ -188,7 +192,7 @@ const CopyNodeResources = ({
       </MenuItemButton>
       {showDisplay && (
         <StyledDiv>
-          {done ? <StyledDone /> : <Spinner size="normal" margin="0px 4px" />}
+          {done ? <StyledDone /> : <StyledSpinner size="normal" />}
           {`${prefixText} (${count}/${totalAmount})`}
         </StyledDiv>
       )}

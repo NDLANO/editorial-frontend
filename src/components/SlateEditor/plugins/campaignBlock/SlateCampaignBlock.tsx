@@ -8,7 +8,15 @@
 
 import { IconButtonV2 } from '@ndla/button';
 import { Pencil } from '@ndla/icons/action';
-import { Modal, ModalBody, ModalCloseButton, ModalHeader, ModalTitle } from '@ndla/modal';
+import {
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalHeader,
+  ModalTitle,
+  ModalTrigger,
+} from '@ndla/modal';
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Editor, Path, Transforms } from 'slate';
@@ -110,53 +118,51 @@ const SlateCampaignBlock = ({ element, editor, attributes, children }: Props) =>
   );
 
   return (
-    <div {...attributes}>
-      {campaignBlock && (
-        <CampaignBlockWrapper contentEditable={false}>
-          <ButtonContainer>
-            <IconButtonV2
-              variant="ghost"
-              aria-label={t('contactBlockForm.edit')}
-              onClick={() => setIsEditing(true)}
-            >
-              <Pencil />
-            </IconButtonV2>
-            <DeleteButton aria-label={t('delete')} onClick={handleRemove} />
-          </ButtonContainer>
-          <CampaignBlock
-            title={{ title: campaignBlock.title, language: campaignBlock.titleLanguage }}
-            description={{
-              text: campaignBlock.description,
-              language: campaignBlock.descriptionLanguage,
-            }}
-            headingLevel={campaignBlock.headingLevel}
-            url={{ url: campaignBlock.url, text: campaignBlock.urlText }}
-            imageBefore={
-              leftImage && { src: leftImage.image.imageUrl, alt: leftImage.alttext.alttext }
-            }
-            imageAfter={
-              rightImage && { src: rightImage.image.imageUrl, alt: rightImage.alttext.alttext }
-            }
-          />
-        </CampaignBlockWrapper>
-      )}
-      {isEditing && (
-        <Modal size={{ width: 'large', height: 'full' }} controlled isOpen onClose={onClose}>
-          {(close) => (
-            <>
-              <StyledModalHeader>
-                <ModalTitle>{t('campaignBlockForm.title')}</ModalTitle>
-                <ModalCloseButton onClick={close} />
-              </StyledModalHeader>
-              <StyledModalBody>
-                <CampaignBlockForm initialData={campaignBlock} onSave={onSave} onCancel={close} />
-              </StyledModalBody>
-            </>
-          )}
-        </Modal>
-      )}
-      {children}
-    </div>
+    <Modal open={isEditing} onOpenChange={setIsEditing}>
+      <div {...attributes}>
+        {campaignBlock && (
+          <CampaignBlockWrapper contentEditable={false}>
+            <ButtonContainer>
+              <ModalTrigger>
+                <IconButtonV2
+                  variant="ghost"
+                  aria-label={t('contactBlockForm.edit')}
+                  onClick={() => setIsEditing(true)}
+                >
+                  <Pencil />
+                </IconButtonV2>
+              </ModalTrigger>
+              <DeleteButton aria-label={t('delete')} onClick={handleRemove} />
+            </ButtonContainer>
+            <CampaignBlock
+              title={{ title: campaignBlock.title, language: campaignBlock.titleLanguage }}
+              description={{
+                text: campaignBlock.description,
+                language: campaignBlock.descriptionLanguage,
+              }}
+              headingLevel={campaignBlock.headingLevel}
+              url={{ url: campaignBlock.url, text: campaignBlock.urlText }}
+              imageBefore={
+                leftImage && { src: leftImage.image.imageUrl, alt: leftImage.alttext.alttext }
+              }
+              imageAfter={
+                rightImage && { src: rightImage.image.imageUrl, alt: rightImage.alttext.alttext }
+              }
+            />
+          </CampaignBlockWrapper>
+        )}
+        {children}
+        <ModalContent size={{ width: 'large', height: 'full' }}>
+          <StyledModalHeader>
+            <ModalTitle>{t('campaignBlockForm.title')}</ModalTitle>
+            <ModalCloseButton />
+          </StyledModalHeader>
+          <StyledModalBody>
+            <CampaignBlockForm initialData={campaignBlock} onSave={onSave} onCancel={onClose} />
+          </StyledModalBody>
+        </ModalContent>
+      </div>
+    </Modal>
   );
 };
 

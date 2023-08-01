@@ -6,17 +6,17 @@
  *
  */
 
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { FieldArray, Formik, FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 
-import { ButtonV2 } from '@ndla/button';
+import { ButtonV2, CloseButton } from '@ndla/button';
 import { spacing } from '@ndla/core';
 import { Input } from '@ndla/forms';
 import { Pencil } from '@ndla/icons/action';
-import { ModalHeader, ModalBody, ModalCloseButton, Modal, ModalTitle } from '@ndla/modal';
+import { ModalHeader, ModalBody, Modal, ModalTitle, ModalContent, ModalTrigger } from '@ndla/modal';
 import { Translation, Node, NodeType } from '@ndla/types-taxonomy';
 import { EditModeHandler } from '../SettingsMenuDropdownType';
 import MenuItemButton from '../sharedMenuOptions/components/MenuItemButton';
@@ -88,18 +88,33 @@ const rules: RulesType<Translation, Translation> = {
 
 const ChangeNodeName = ({ editModeHandler: { editMode, toggleEditMode }, node }: Props) => {
   const { t } = useTranslation();
+
+  const onModalChange = useCallback(
+    (open: boolean) => {
+      if (open) {
+        toggleEditMode('changeSubjectName');
+      } else toggleEditMode('');
+    },
+    [toggleEditMode],
+  );
+
+  const onClose = useCallback(() => {
+    toggleEditMode('');
+  }, [toggleEditMode]);
+
   return (
     <>
-      <MenuItemButton
-        data-testid="changeNodeNameButton"
-        onClick={() => toggleEditMode('changeSubjectName')}
-      >
-        <RoundIcon small icon={<Pencil />} />
-        {t('taxonomy.changeName.buttonTitle')}
-      </MenuItemButton>
-      {editMode === 'changeSubjectName' && (
-        <ChangeNodeNameModal node={node} onClose={() => toggleEditMode('changeSubjectName')} />
-      )}
+      <Modal open={editMode === 'changeSubjectName'} onOpenChange={onModalChange}>
+        <ModalTrigger>
+          <MenuItemButton data-testid="changeNodeNameButton">
+            <RoundIcon small icon={<Pencil />} />
+            {t('taxonomy.changeName.buttonTitle')}
+          </MenuItemButton>
+        </ModalTrigger>
+        <ModalContent>
+          <ChangeNodeNameContent node={node} onClose={onClose} />
+        </ModalContent>
+      </Modal>
     </>
   );
 };
@@ -110,7 +125,7 @@ interface ModalProps {
   nodeType?: NodeType;
 }
 
-const ChangeNodeNameModal = ({ onClose, node, nodeType = 'SUBJECT' }: ModalProps) => {
+const ChangeNodeNameContent = ({ onClose, node, nodeType = 'SUBJECT' }: ModalProps) => {
   const { t } = useTranslation();
   const [loadError, setLoadError] = useState('');
   const [updateError, setUpdateError] = useState('');
@@ -191,110 +206,101 @@ const ChangeNodeNameModal = ({ onClose, node, nodeType = 'SUBJECT' }: ModalProps
   }
 
   return (
-    <Modal controlled isOpen onClose={() => onClose()}>
-      {(onCloseModal: () => void) => (
-        <>
-          <ModalHeader>
-            <ModalTitle>{t('taxonomy.changeName.title')}</ModalTitle>
-            <ModalCloseButton title={t('dialog.close')} onClick={onCloseModal} />
-          </ModalHeader>
-          <StyledModalBody>
-            <Formik
-              initialValues={initialValues}
-              onSubmit={(_, __) => {}}
-              validate={(values) => {
-                const errors = values.translations.map((translation) =>
-                  validateFormik(translation, rules, t),
-                );
-                if (errors.some((err) => Object.keys(err).length > 0)) {
-                  return { translations: errors };
-                }
-              }}
-              enableReinitialize={true}
-            >
-              {(formik) => {
-                const { values, dirty, isSubmitting, isValid } = formik;
-                const takenLanguages = values.translations.reduce(
-                  (prev, curr) => ({ ...prev, [curr.language]: '' }),
-                  {},
-                );
-                const availableLanguages = subjectpageLanguages.filter(
-                  (trans) => !Object.prototype.hasOwnProperty.call(takenLanguages, trans),
-                );
-                const formIsDirty: boolean = isFormikFormDirty({
-                  values,
-                  initialValues,
-                  dirty,
-                });
+    <>
+      <ModalHeader>
+        <ModalTitle>{t('taxonomy.changeName.title')}</ModalTitle>
+        <CloseButton title={t('dialog.close')} onClick={onClose} />
+      </ModalHeader>
+      <StyledModalBody>
+        <Formik
+          initialValues={initialValues}
+          onSubmit={(_, __) => {}}
+          validate={(values) => {
+            const errors = values.translations.map((translation) =>
+              validateFormik(translation, rules, t),
+            );
+            if (errors.some((err) => Object.keys(err).length > 0)) {
+              return { translations: errors };
+            }
+          }}
+          enableReinitialize={true}
+        >
+          {(formik) => {
+            const { values, dirty, isSubmitting, isValid } = formik;
+            const takenLanguages = values.translations.reduce(
+              (prev, curr) => ({ ...prev, [curr.language]: '' }),
+              {},
+            );
+            const availableLanguages = subjectpageLanguages.filter(
+              (trans) => !Object.prototype.hasOwnProperty.call(takenLanguages, trans),
+            );
+            const formIsDirty: boolean = isFormikFormDirty({
+              values,
+              initialValues,
+              dirty,
+            });
 
-                if (formIsDirty) {
-                  setUpdateError('');
-                  setSaved(false);
-                }
-                return (
-                  <StyledForm>
-                    <p>{`${t('taxonomy.changeName.defaultName')}: ${name}`}</p>
-                    {values.translations.length === 0 && (
-                      <>{t('taxonomy.changeName.noTranslations')}</>
-                    )}
-                    <FieldArray name="translations">
-                      {({ push, remove }) => (
-                        <>
-                          {values.translations.map((trans, i) => (
-                            <Row key={i}>
-                              <StyledFormikField
-                                name={`translations.${i}.name`}
-                                label={t(`language.${trans.language}`)}
-                              >
-                                {({ field }) => (
-                                  <Row>
-                                    <Input
-                                      {...field}
-                                      data-testid={`subjectName_${trans.language}`}
-                                    />
-                                    <StyledDeleteButton
-                                      aria-label={t('form.remove')}
-                                      onClick={() => remove(i)}
-                                      data-testid={`subjectName_${trans.language}_delete`}
-                                    />
-                                  </Row>
-                                )}
-                              </StyledFormikField>
-                            </Row>
-                          ))}
-                          <AddNodeTranslation
-                            defaultName={name}
-                            onAddTranslation={push}
-                            availableLanguages={availableLanguages}
-                          />
-                        </>
-                      )}
-                    </FieldArray>
-                    <StyledUIField right noBorder>
-                      <Row justifyContent="end">
-                        <StyledCancelButton onClick={onCloseModal}>
-                          {t('taxonomy.changeName.cancel')}
-                        </StyledCancelButton>
-                        <SaveButton
-                          data-testid="saveNodeTranslationsButton"
-                          size="large"
-                          isSaving={isSubmitting}
-                          showSaved={!formIsDirty && saved}
-                          formIsDirty={formIsDirty}
-                          onClick={() => onSubmit(formik)}
-                          disabled={!isValid}
-                        />
-                      </Row>
-                    </StyledUIField>
-                    {updateError && <StyledErrorMessage>{updateError}</StyledErrorMessage>}
-                  </StyledForm>
-                );
-              }}
-            </Formik>
-          </StyledModalBody>
-        </>
-      )}
-    </Modal>
+            if (formIsDirty) {
+              setUpdateError('');
+              setSaved(false);
+            }
+            return (
+              <StyledForm>
+                <p>{`${t('taxonomy.changeName.defaultName')}: ${name}`}</p>
+                {values.translations.length === 0 && <>{t('taxonomy.changeName.noTranslations')}</>}
+                <FieldArray name="translations">
+                  {({ push, remove }) => (
+                    <>
+                      {values.translations.map((trans, i) => (
+                        <Row key={i}>
+                          <StyledFormikField
+                            name={`translations.${i}.name`}
+                            label={t(`language.${trans.language}`)}
+                          >
+                            {({ field }) => (
+                              <Row>
+                                <Input {...field} data-testid={`subjectName_${trans.language}`} />
+                                <StyledDeleteButton
+                                  aria-label={t('form.remove')}
+                                  onClick={() => remove(i)}
+                                  data-testid={`subjectName_${trans.language}_delete`}
+                                />
+                              </Row>
+                            )}
+                          </StyledFormikField>
+                        </Row>
+                      ))}
+                      <AddNodeTranslation
+                        defaultName={name}
+                        onAddTranslation={push}
+                        availableLanguages={availableLanguages}
+                      />
+                    </>
+                  )}
+                </FieldArray>
+                <StyledUIField right noBorder>
+                  <Row justifyContent="end">
+                    <StyledCancelButton onClick={onClose}>
+                      {t('taxonomy.changeName.cancel')}
+                    </StyledCancelButton>
+                    <SaveButton
+                      data-testid="saveNodeTranslationsButton"
+                      size="large"
+                      isSaving={isSubmitting}
+                      showSaved={!formIsDirty && saved}
+                      formIsDirty={formIsDirty}
+                      onClick={() => onSubmit(formik)}
+                      disabled={!isValid}
+                    />
+                  </Row>
+                </StyledUIField>
+                {updateError && <StyledErrorMessage>{updateError}</StyledErrorMessage>}
+              </StyledForm>
+            );
+          }}
+        </Formik>
+      </StyledModalBody>
+    </>
   );
 };
 

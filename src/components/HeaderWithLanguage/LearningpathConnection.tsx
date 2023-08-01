@@ -11,7 +11,15 @@ import styled from '@emotion/styled';
 import { colors } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
 import { LearningPath } from '@ndla/icons/contentType';
-import { ModalCloseButton, ModalBody, Modal, ModalTitle, ModalHeader } from '@ndla/modal';
+import {
+  ModalCloseButton,
+  ModalBody,
+  Modal,
+  ModalTitle,
+  ModalHeader,
+  ModalTrigger,
+  ModalContent,
+} from '@ndla/modal';
 import { ButtonV2 } from '@ndla/button';
 import { ILearningPathV2 } from '@ndla/types-backend/learningpath-api';
 import { normalPaddingCSS } from '../HowTo';
@@ -44,8 +52,8 @@ const LearningpathConnection = ({ id, learningpaths, setLearningpaths }: Props) 
   }
 
   return (
-    <Modal
-      activateButton={
+    <Modal>
+      <ModalTrigger>
         <ButtonV2
           variant="stripped"
           aria-label={t('form.learningpathConnections.sectionTitle')}
@@ -53,19 +61,16 @@ const LearningpathConnection = ({ id, learningpaths, setLearningpaths }: Props) 
         >
           <LearningpathIcon css={normalPaddingCSS} />
         </ButtonV2>
-      }
-    >
-      {(onClose: () => void) => (
-        <>
-          <ModalHeader>
-            <ModalTitle>{t('form.learningpathConnections.title')}</ModalTitle>
-            <ModalCloseButton title={t('dialog.close')} onClick={onClose} />
-          </ModalHeader>
-          <ModalBody>
-            <ElementList elements={learningpaths} isEditable={false} />
-          </ModalBody>
-        </>
-      )}
+      </ModalTrigger>
+      <ModalContent>
+        <ModalHeader>
+          <ModalTitle>{t('form.learningpathConnections.title')}</ModalTitle>
+          <ModalCloseButton />
+        </ModalHeader>
+        <ModalBody>
+          <ElementList elements={learningpaths} isEditable={false} />
+        </ModalBody>
+      </ModalContent>
     </Modal>
   );
 };

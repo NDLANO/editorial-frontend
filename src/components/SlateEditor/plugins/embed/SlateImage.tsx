@@ -9,12 +9,16 @@
 import { ReactNode, useState, MouseEvent } from 'react';
 import styled from '@emotion/styled';
 import { RenderElementProps, useSlateStatic } from 'slate-react';
-import { ButtonV2 } from '@ndla/button';
+import { IconButtonV2 } from '@ndla/button';
 import { useTranslation } from 'react-i18next';
 import { parseMarkdown } from '@ndla/util';
 import { Editor, Path } from 'slate';
+import { Modal, ModalContent, ModalTrigger } from '@ndla/modal';
+import { Pencil } from '@ndla/icons/action';
+import { SafeLinkIconButton } from '@ndla/safelink';
+import { DeleteForever, Link } from '@ndla/icons/editor';
 import { getSrcSets } from '../../../../util/imageEditorUtil';
-import FigureButtons from './FigureButtons';
+import { StyledFigureButtons } from './FigureButtons';
 import EditImage from './EditImage';
 import { ImageEmbed } from '../../../../interfaces';
 import { isTable } from '../table/slateHelpers';
@@ -34,14 +38,6 @@ interface Props {
   allowDecorative?: boolean;
 }
 
-const StyledButton = styled(ButtonV2)`
-  min-width: -webkit-fill-available;
-  min-width: -moz-available;
-  &:focus img {
-    box-shadow: rgb(32, 88, 143) 0 0 0 2px;
-  }
-`;
-
 const StyledSlateImage = styled.div`
   &[data-border='false'] {
     border: 2px solid rgba(209, 55, 46, 0.3);
@@ -51,6 +47,7 @@ const StyledSlateImage = styled.div`
 const StyledDiv = styled.div`
   p {
     margin: 0;
+    text-align: center;
   }
 `;
 
@@ -105,43 +102,63 @@ const SlateImage = ({
   };
 
   return (
-    <StyledSlateImage
-      {...attributes}
-      draggable={!visualElement && !editMode}
-      className={constructFigureClassName()}
-      data-border={!!embed.alt && embed['is-decorative']}
-    >
-      {editMode && (
-        <EditImage
-          embed={embed}
-          saveEmbedUpdates={saveEmbedUpdates}
-          setEditModus={setEditMode}
-          language={language}
-          allowDecorative={allowDecorative}
-        />
-      )}
-      {!(visualElement && editMode) && (
-        <StyledButton
-          contentEditable={false}
-          variant="stripped"
-          data-label={t('imageEditor.editImage')}
-          onClick={(evt) => {
-            evt.preventDefault();
-            evt.stopPropagation();
-            setEditMode(true);
-          }}
-        >
+    <Modal open={editMode} onOpenChange={setEditMode}>
+      <StyledSlateImage
+        {...attributes}
+        draggable={!visualElement && !editMode}
+        className={constructFigureClassName()}
+        data-border={!!embed.alt && embed['is-decorative']}
+      >
+        <ModalContent modalMargin="none">
+          <EditImage
+            embed={embed}
+            saveEmbedUpdates={saveEmbedUpdates}
+            setEditModus={setEditMode}
+            language={language}
+            allowDecorative={allowDecorative}
+          />
+        </ModalContent>
+        {!visualElement && (
           <figure {...figureClass}>
-            <FigureButtons
-              tooltip={t('form.image.removeImage')}
-              onRemoveClick={onRemoveClick}
-              embed={embed}
-              onEdit={() => setEditMode(true)}
-              figureType="image"
-              language={language}
-            />
+            <StyledFigureButtons>
+              <ModalTrigger>
+                <IconButtonV2
+                  aria-label={t('form.image.editImage')}
+                  title={t('form.image.editImage')}
+                  variant="ghost"
+                  colorTheme="light"
+                >
+                  <Pencil />
+                </IconButtonV2>
+              </ModalTrigger>
+              <SafeLinkIconButton
+                variant="ghost"
+                colorTheme="light"
+                to={`/media/image-upload/${embed.resource_id}/edit/${language}`}
+                target="_blank"
+                title={t('form.editOriginalImage')}
+                aria-label={t('form.editOriginalImage')}
+                tabIndex={-1}
+              >
+                <Link />
+              </SafeLinkIconButton>
+              <IconButtonV2
+                title={t('form.image.removeImage')}
+                aria-label={t('form.image.removeImage')}
+                colorTheme="danger"
+                variant="ghost"
+                onClick={onRemoveClick}
+                data-cy="remove-element"
+              >
+                <DeleteForever />
+              </IconButtonV2>
+            </StyledFigureButtons>
             <StyledImg
               alt={embed.alt}
+              onClick={(e) => {
+                e.stopPropagation();
+                setEditMode(true);
+              }}
               sizes={
                 inTable
                   ? '(min-width: 1024px) 180px, (min-width: 768px) 180px, 100vw'
@@ -161,10 +178,10 @@ const SlateImage = ({
               </StyledDiv>
             </figcaption>
           </figure>
-        </StyledButton>
-      )}
-      {children}
-    </StyledSlateImage>
+        )}
+        {children}
+      </StyledSlateImage>
+    </Modal>
   );
 };
 

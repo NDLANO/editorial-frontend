@@ -15,10 +15,14 @@ import { breakpoints, parseMarkdown } from '@ndla/util';
 import { useTranslation } from 'react-i18next';
 import Tooltip from '@ndla/tooltip';
 import { colors, spacing, fonts, mq } from '@ndla/core';
-import { Modal } from '@ndla/modal';
+import { Modal, ModalContent, ModalTrigger } from '@ndla/modal';
+import { Pencil } from '@ndla/icons/action';
+import { SafeLinkIconButton } from '@ndla/safelink';
+import { Link } from '@ndla/icons/common';
+import { DeleteForever } from '@ndla/icons/editor';
 import config from '../../../../config';
 import { isNumeric } from '../../../validators';
-import FigureButtons from './FigureButtons';
+import { StyledFigureButtons } from './FigureButtons';
 import EditVideo, { toVideoEmbedFormValues, brightcoveEmbedFormRules } from './EditVideo';
 import { fetchBrightcoveVideo } from '../../../../modules/video/brightcoveApi';
 import {
@@ -63,7 +67,6 @@ export const SlateVideoWrapper = styled('div', { shouldForwardProp })<SlateVideo
 interface Props {
   attributes: RenderElementProps['attributes'];
   embed: BrightcoveEmbed | ExternalEmbed;
-  language: string;
   onRemoveClick: (event: MouseEvent) => void;
   saveEmbedUpdates: (change: { [x: string]: string }) => void;
   active: boolean;
@@ -117,7 +120,6 @@ const StyledText = styled.p`
 const SlateVideo = ({
   attributes,
   embed,
-  language,
   onRemoveClick,
   saveEmbedUpdates,
   active,
@@ -193,40 +195,68 @@ const SlateVideo = ({
 
   return (
     <>
-      <Modal controlled isOpen={editMode} onClose={() => setEditMode(false)}>
-        {(close) => (
-          <EditVideo
-            embed={embed}
-            close={close}
-            activeSrc={getUrl(showLinkedVideo)}
-            saveEmbedUpdates={saveEmbedUpdates}
-            setHasError={setHasError}
-          />
-        )}
-      </Modal>
       <div draggable {...attributes}>
         <Figure id={'videoid' in embed ? embed.videoid : embed.url}>
-          <FigureButtons
-            tooltip={t('form.video.remove')}
-            onRemoveClick={onRemoveClick}
-            embed={embed}
-            onEdit={toggleEditModus}
-            figureType="video"
-            language={language}
-          >
-            {linkedVideoId && (
-              <Tooltip tooltip={linkedVideoTooltip}>
+          <StyledFigureButtons>
+            <Modal open={editMode} onOpenChange={setEditMode}>
+              <ModalTrigger>
                 <IconButtonV2
-                  aria-label={linkedVideoTooltip}
+                  aria-label={t('form.image.editVideo')}
+                  title={t('form.image.editVideo')}
+                  colorTheme="light"
+                  variant="ghost"
+                >
+                  <Pencil />
+                </IconButtonV2>
+              </ModalTrigger>
+              <ModalContent>
+                <EditVideo
+                  embed={embed}
+                  close={toggleEditModus}
+                  activeSrc={getUrl(showLinkedVideo)}
+                  saveEmbedUpdates={saveEmbedUpdates}
+                  setHasError={setHasError}
+                />
+              </ModalContent>
+            </Modal>
+            {embed.resource === 'brightcove' && (
+              <>
+                <SafeLinkIconButton
+                  title={t('form.video.brightcove')}
+                  aria-label={t('form.video.brightcove')}
                   variant="ghost"
                   colorTheme="light"
-                  onClick={switchEmbedSource}
+                  to={`https://studio.brightcove.com/products/videocloud/media/videos/${
+                    embed.videoid.split('&t=')[0]
+                  }`}
+                  target="_blank"
                 >
-                  <StyledText>{t('form.video.linkedVideoButton')}</StyledText>
-                </IconButtonV2>
-              </Tooltip>
+                  <Link />
+                </SafeLinkIconButton>
+                {linkedVideoId && (
+                  <Tooltip tooltip={linkedVideoTooltip}>
+                    <IconButtonV2
+                      aria-label={linkedVideoTooltip}
+                      variant="ghost"
+                      colorTheme="light"
+                      onClick={switchEmbedSource}
+                    >
+                      <StyledText>{t('form.video.linkedVideoButton')}</StyledText>
+                    </IconButtonV2>
+                  </Tooltip>
+                )}
+              </>
             )}
-          </FigureButtons>
+            <IconButtonV2
+              aria-label={t('form.video.remove')}
+              colorTheme="danger"
+              variant="ghost"
+              onClick={onRemoveClick}
+              data-cy="remove-element"
+            >
+              <DeleteForever />
+            </IconButtonV2>
+          </StyledFigureButtons>
           <SlateVideoWrapper
             hasError={hasError}
             showOutline={showCopyOutline}

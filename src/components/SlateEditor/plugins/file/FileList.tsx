@@ -19,13 +19,21 @@ import { FileListEditor } from '@ndla/editor';
 import { Cross, Plus } from '@ndla/icons/action';
 import Tooltip from '@ndla/tooltip';
 import { spacing } from '@ndla/core';
+import {
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalHeader,
+  ModalTrigger,
+} from '@ndla/modal';
 import config from '../../../../config';
 import { File, UnsavedFile } from '../../../../interfaces';
 import { headFileAtRemote } from '../../../../modules/draft/draftApi';
 import { arrMove } from '../../../../util/arrayHelpers';
-import AddFileToList from './AddFileToList';
 import { FileElement } from '.';
 import { TYPE_FILE } from './types';
+import FileUploader from '../../../FileUploader';
 
 const StyledSection = styled.section`
   margin-bottom: ${spacing.normal};
@@ -189,12 +197,8 @@ class FileList extends Component<Props, State> {
     );
   };
 
-  onOpenFileUploader = () => {
-    this.setState({ showFileUploader: true });
-  };
-
-  onCloseFileUploader = () => {
-    this.setState({ showFileUploader: false });
+  onChangeShow = (show: boolean) => {
+    this.setState({ showFileUploader: show });
   };
 
   render() {
@@ -207,11 +211,26 @@ class FileList extends Component<Props, State> {
       <>
         <StyledSection {...attributes} contentEditable={false}>
           <FieldHeader title={t('form.file.label')}>
-            <Tooltip tooltip={t('form.file.addFile')}>
-              <button tabIndex={-1} type="button" onClick={this.onOpenFileUploader}>
-                <Plus css={FieldHeaderIconStyle} />
-              </button>
-            </Tooltip>
+            <Modal open={showFileUploader} onOpenChange={this.onChangeShow}>
+              <ModalTrigger>
+                <button
+                  tabIndex={-1}
+                  type="button"
+                  title={t('form.file.addFile')}
+                  aria-label={t('form.file.addFile')}
+                >
+                  <Plus css={FieldHeaderIconStyle} />
+                </button>
+              </ModalTrigger>
+              <ModalContent>
+                <ModalHeader>
+                  <ModalCloseButton />
+                </ModalHeader>
+                <ModalBody>
+                  <FileUploader onFileSave={this.onAddFileToList} />
+                </ModalBody>
+              </ModalContent>
+            </Modal>
             <Tooltip tooltip={t('form.file.removeList')}>
               <button tabIndex={-1} type="button" onClick={this.removeFileList}>
                 <Cross css={FieldHeaderIconStyle} />
@@ -237,11 +256,6 @@ class FileList extends Component<Props, State> {
               checkboxLabel: t('form.file.showPdf'),
               checkboxTooltip: t('form.file.showPdfTooltip'),
             }}
-          />
-          <AddFileToList
-            onFileSave={this.onAddFileToList}
-            onClose={this.onCloseFileUploader}
-            showFileUploader={showFileUploader}
           />
           {children}
         </StyledSection>

@@ -14,10 +14,12 @@ import { useState } from 'react';
 import { ButtonV2 } from '@ndla/button';
 import { Plus } from '@ndla/icons/action';
 import { spacing, colors } from '@ndla/core';
+import { Modal, ModalContent, ModalTrigger } from '@ndla/modal';
 import { ResourceGroupBanner, StyledShareIcon } from './styles';
 import { useSession } from '../Session/SessionProvider';
 import { TAXONOMY_ADMIN_SCOPE } from '../../constants';
-import AddNodeModal from './AddNodeModal';
+import AddNodeModalContent from './AddNodeModalContent';
+import TaxonomyLightbox from '../../components/Taxonomy/TaxonomyLightbox';
 
 const FlexWrapper = styled.div`
   display: flex;
@@ -57,18 +59,29 @@ const StructureBanner = ({ onChange, checked, nodeType }: Props) => {
         />
 
         {isTaxonomyAdmin && (
-          <AddSubjectButton
-            size="small"
-            onClick={() => setAddSubjectModalOpen(true)}
-            data-testid="AddSubjectButton"
-          >
-            <Plus /> {t('taxonomy.addNode', { nodeType: t(`taxonomy.nodeType.${nodeType}`) })}
-          </AddSubjectButton>
+          <Modal open={addSubjectModalOpen} onOpenChange={setAddSubjectModalOpen}>
+            <ModalTrigger>
+              <AddSubjectButton
+                size="small"
+                onClick={() => setAddSubjectModalOpen(true)}
+                data-testid="AddSubjectButton"
+              >
+                <Plus /> {t('taxonomy.addNode', { nodeType: t(`taxonomy.nodeType.${nodeType}`) })}
+              </AddSubjectButton>
+            </ModalTrigger>
+            <ModalContent position="top">
+              <TaxonomyLightbox
+                title={t('taxonomy.addNode', { nodeType: t(`taxonomy.nodeType.${nodeType}`) })}
+              >
+                <AddNodeModalContent
+                  onClose={() => setAddSubjectModalOpen(false)}
+                  nodeType={nodeType}
+                />
+              </TaxonomyLightbox>
+            </ModalContent>
+          </Modal>
         )}
       </FlexWrapper>
-      {addSubjectModalOpen && (
-        <AddNodeModal onClose={() => setAddSubjectModalOpen(false)} nodeType={nodeType} />
-      )}
     </ResourceGroupBanner>
   );
 };

@@ -13,7 +13,7 @@ import { NodeType } from '@ndla/types-taxonomy';
 import { useState } from 'react';
 import { ButtonV2 } from '@ndla/button';
 import { Plus } from '@ndla/icons/action';
-import { spacing, colors } from '@ndla/core';
+import { spacing } from '@ndla/core';
 import { Modal, ModalContent, ModalTrigger } from '@ndla/modal';
 import { ResourceGroupBanner, StyledShareIcon } from './styles';
 import { useSession } from '../Session/SessionProvider';

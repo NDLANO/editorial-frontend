@@ -209,7 +209,7 @@ const ChangeNodeNameContent = ({ onClose, node, nodeType = 'SUBJECT' }: ModalPro
     <>
       <ModalHeader>
         <ModalTitle>{t('taxonomy.changeName.title')}</ModalTitle>
-        <CloseButton title={t('dialog.close')} onClick={onClose} />
+        <CloseButton title={t('dialog.close')} data-cy="close-modal-button" onClick={onClose} />
       </ModalHeader>
       <StyledModalBody>
         <Formik

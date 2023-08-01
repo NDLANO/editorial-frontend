@@ -6,11 +6,11 @@
  *
  */
 
-import { ButtonV2 } from '@ndla/button';
+import { ButtonV2, CloseButton } from '@ndla/button';
 import styled from '@emotion/styled';
 import { spacing, colors, fonts } from '@ndla/core';
 import { BookOpen } from '@ndla/icons/common';
-import { ModalCloseButton, ModalPosition, ModalTitle } from '@ndla/modal';
+import { ModalCloseButton, ModalTitle } from '@ndla/modal';
 import Spinner from '../Spinner';
 
 const StyledHeader = styled.div`
@@ -77,10 +77,9 @@ interface Props {
     'data-testid'?: string;
     loading?: boolean;
   }[];
-  position?: ModalPosition;
 }
 
-const TaxonomyLightbox = ({ children, title, actions = [], position = 'top' }: Props) => {
+const TaxonomyLightbox = ({ children, title, actions = [] }: Props) => {
   return (
     <>
       <StyledHeader>
@@ -90,7 +89,9 @@ const TaxonomyLightbox = ({ children, title, actions = [], position = 'top' }: P
           </StyledIconWrapper>
           <StyledTitle as="h2">{title}</StyledTitle>
         </StyledTitleWrapper>
-        <ModalCloseButton data-testid="taxonomyLightboxCloseButton" />
+        <ModalCloseButton>
+          <CloseButton data-testid="taxonomyLightboxCloseButton" />
+        </ModalCloseButton>
       </StyledHeader>
       <StyledContent>
         {children}

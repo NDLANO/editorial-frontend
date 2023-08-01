@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import { MouseEvent, ReactNode } from 'react';
+import { MouseEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { IMovieTheme } from '@ndla/types-backend/frontpage-api';
 import { ButtonV2, IconButtonV2 } from '@ndla/button';
@@ -114,18 +114,13 @@ const ThemeEditor = ({ onUpdateMovieTheme, selectedLanguage }: Props) => {
                 activateButton={
                   <IconButtonV2
                     aria-label={t('ndlaFilm.editor.editMovieGroupName')}
+                    title={t('ndlaFilm.editor.editMovieGroupName')}
                     variant="ghost"
                     colorTheme="lighter"
-                    onClick={(e: MouseEvent<HTMLButtonElement>) => e.preventDefault()}
                   >
                     <Pencil />
                   </IconButtonV2>
                 }
-                wrapperFunctionForButton={(activateButton: ReactNode) => (
-                  <Tooltip tooltip={t('ndlaFilm.editor.editMovieGroupName')}>
-                    {activateButton}
-                  </Tooltip>
-                )}
                 messages={{
                   save: t('ndlaFilm.editor.saveNameChanges'),
                   cancel: t('ndlaFilm.editor.cancel'),

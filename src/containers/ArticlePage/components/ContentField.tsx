@@ -13,6 +13,7 @@ import { FieldHeader } from '@ndla/forms';
 import { ButtonV2 } from '@ndla/button';
 import { IArticle, IArticleSummary, IRelatedContentLink } from '@ndla/types-backend/draft-api';
 import { FieldInputProps, FormikHelpers } from 'formik';
+import { Modal, ModalContent, ModalTrigger } from '@ndla/modal';
 import { fetchDraft, searchDrafts } from '../../../modules/draft/draftApi';
 import ElementList from '../../FormikForm/components/ElementList';
 import { ConvertedRelatedContent, RelatedContent } from '../../../interfaces';
@@ -122,24 +123,23 @@ const ContentField = ({ field, form }: Props) => {
         clearInputField
         showPagination
       />
-      <StyledButtonWrapper>
-        <ButtonV2 onClick={() => setShowAddExternal(true)}>
-          {t('form.relatedContent.addExternal')}
-        </ButtonV2>
-      </StyledButtonWrapper>
-      {showAddExternal && (
-        <TaxonomyLightbox
-          title={t('form.content.relatedArticle.searchExternal')}
-          onClose={() => setShowAddExternal(false)}
-        >
-          <ContentLink
-            onAddLink={(title, url) => {
-              addExternalLink(title, url);
-              setShowAddExternal(false);
-            }}
-          />
-        </TaxonomyLightbox>
-      )}
+      <Modal open={showAddExternal} onOpenChange={setShowAddExternal}>
+        <StyledButtonWrapper>
+          <ModalTrigger>
+            <ButtonV2>{t('form.relatedContent.addExternal')}</ButtonV2>
+          </ModalTrigger>
+        </StyledButtonWrapper>
+        <ModalContent position="top">
+          <TaxonomyLightbox title={t('form.content.relatedArticle.searchExternal')}>
+            <ContentLink
+              onAddLink={(title, url) => {
+                addExternalLink(title, url);
+                setShowAddExternal(false);
+              }}
+            />
+          </TaxonomyLightbox>
+        </ModalContent>
+      </Modal>
     </>
   );
 };

@@ -53,10 +53,6 @@ const InlineImageSearch = ({ name }: Props) => {
     return (
       <MetaImageField
         image={image}
-        onImageSelectOpen={() => {
-          setFieldValue(name, undefined);
-          setImage(undefined);
-        }}
         onImageRemove={() => {
           setFieldValue(name, undefined);
           setFieldValue('metaImageAlt', undefined, true);

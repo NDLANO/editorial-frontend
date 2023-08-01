@@ -9,7 +9,15 @@
 import styled from '@emotion/styled';
 import { IconButtonV2 } from '@ndla/button';
 import { Pencil } from '@ndla/icons/action';
-import { Modal, ModalBody, ModalCloseButton, ModalHeader, ModalTitle } from '@ndla/modal';
+import {
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalHeader,
+  ModalTitle,
+  ModalTrigger,
+} from '@ndla/modal';
 import { IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
 import { KeyFigureEmbedData } from '@ndla/types-embed';
 import { KeyFigure } from '@ndla/ui';
@@ -102,43 +110,37 @@ const SlateKeyFigure = ({ element, editor, attributes, children }: Props) => {
   }, [data?.imageId, setImage]);
 
   return (
-    <div {...attributes}>
-      {data && image && (
-        <KeyFigureWrapper contentEditable={false}>
-          <ButtonContainer>
-            <IconButtonV2
-              variant="ghost"
-              onClick={() => setIsEditing(true)}
-              aria-label={t('keyFigureForm.edit')}
-            >
-              <Pencil />
-            </IconButtonV2>
-            <DeleteButton aria-label={t('delete')} onClick={handleRemove} />
-          </ButtonContainer>
-          <KeyFigure
-            title={data.title}
-            subtitle={data.subtitle}
-            image={{ src: image.image.imageUrl, alt: image.alttext.alttext }}
-          />
-        </KeyFigureWrapper>
-      )}
-      {isEditing && (
-        <Modal controlled isOpen size="normal" onClose={onClose}>
-          {(close) => (
-            <>
-              <StyledModalHeader>
-                <ModalTitle>{t('keyFigureForm.title')}</ModalTitle>
-                <ModalCloseButton onClick={close} />
-              </StyledModalHeader>
-              <StyledModalBody>
-                <KeyFigureForm onSave={onSave} initialData={data} onCancel={close} />
-              </StyledModalBody>
-            </>
-          )}
-        </Modal>
-      )}
-      {children}
-    </div>
+    <Modal open={isEditing} onOpenChange={setIsEditing}>
+      <div {...attributes}>
+        {data && image && (
+          <KeyFigureWrapper contentEditable={false}>
+            <ButtonContainer>
+              <ModalTrigger>
+                <IconButtonV2 variant="ghost" aria-label={t('keyFigureForm.edit')}>
+                  <Pencil />
+                </IconButtonV2>
+              </ModalTrigger>
+              <DeleteButton aria-label={t('delete')} onClick={handleRemove} />
+            </ButtonContainer>
+            <KeyFigure
+              title={data.title}
+              subtitle={data.subtitle}
+              image={{ src: image.image.imageUrl, alt: image.alttext.alttext }}
+            />
+          </KeyFigureWrapper>
+        )}
+        {children}
+        <ModalContent>
+          <StyledModalHeader>
+            <ModalTitle>{t('keyFigureForm.title')}</ModalTitle>
+            <ModalCloseButton />
+          </StyledModalHeader>
+          <StyledModalBody>
+            <KeyFigureForm onSave={onSave} initialData={data} onCancel={onClose} />
+          </StyledModalBody>
+        </ModalContent>
+      </div>
+    </Modal>
   );
 };
 

@@ -14,7 +14,7 @@ import { useTranslation } from 'react-i18next';
 import { colors, fonts } from '@ndla/core';
 import { AlignCenter, AlignLeft, AlignRight } from '@ndla/icons/editor';
 import { ButtonV2, IconButtonV2 } from '@ndla/button';
-import { Minus, Pencil, Plus } from '@ndla/icons/action';
+import { Minus, Plus } from '@ndla/icons/action';
 import { TableElement } from './interfaces';
 import getCurrentBlock from '../../utils/getCurrentBlock';
 import { TYPE_TABLE_CAPTION } from './types';
@@ -23,7 +23,6 @@ import { DRAFT_HTML_SCOPE } from '../../../../constants';
 import { isTable, isTableHead } from './slateHelpers';
 import { alignColumn } from './slateActions';
 import {
-  editColgroups,
   insertColumn,
   insertRow,
   insertTableHead,
@@ -31,6 +30,7 @@ import {
   removeRow,
   toggleRowHeaders,
 } from './toolbarActions';
+import EditColgroupsModal from './EditColgroupsModal';
 
 const StyledTableActions = styled.div`
   background: ${colors.white};
@@ -178,9 +178,6 @@ const TableActions = ({ editor, element }: Props) => {
         case 'toggle-row-headers':
           toggleRowHeaders(editor, tablePath);
           break;
-        case 'edit-colgroups':
-          editColgroups(editor, tablePath);
-          break;
         default:
       }
     }
@@ -200,17 +197,7 @@ const TableActions = ({ editor, element }: Props) => {
   return (
     <StyledWrapper contentEditable={false} show={show}>
       <StyledTableActions>
-        {showEditColgroups && (
-          <ButtonV2
-            data-cy={'edit-colgroups'}
-            variant="stripped"
-            title={t('form.content.table.edit-colgroups')}
-            onMouseDown={(e: MouseEvent<HTMLButtonElement>) => handleOnClick(e, 'edit-colgroups')}
-          >
-            {t('form.content.table.colgroups')}
-            <Pencil />
-          </ButtonV2>
-        )}
+        {showEditColgroups && <EditColgroupsModal element={element} />}
         <ActionGrid>
           {/* Row 1 - Row actions */}
           <StyledRowTitle>{`${t('form.content.table.row')}:`}</StyledRowTitle>

@@ -33,6 +33,10 @@ interface Props {
   nodeType?: NodeType;
 }
 
+const StyledSpinner = styled(Spinner)`
+  margin: 0px 4px;
+`;
+
 const StyledSuccessIcon = styled(Done)`
   border-radius: 90px;
   margin: 5px;
@@ -150,7 +154,7 @@ const MoveExistingNode = ({
       <StyledActionContent>
         {loading && (
           <MenuContent>
-            <Spinner size="normal" margin="0px 4px" />
+            <StyledSpinner size="normal" />
             {t('taxonomy.addExistingLoading')}
           </MenuContent>
         )}

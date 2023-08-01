@@ -6,7 +6,7 @@
  */
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ModalBody, Modal } from '@ndla/modal';
+import { ModalBody, Modal, ModalTrigger, ModalContent } from '@ndla/modal';
 import { FieldHeader } from '@ndla/forms';
 import { useField, useFormikContext } from 'formik';
 import { ButtonV2 } from '@ndla/button';
@@ -43,7 +43,7 @@ const SubjectpageBanner = ({ title, fieldName }: Props) => {
   const onImageChange = (image: IImageMetaInformationV3) => {
     setImage(image);
     updateFormik(parseInt(image.id));
-    onImageSelectClose();
+    setShowImageSelect(false);
   };
 
   const updateFormik = (value?: number) => {
@@ -60,31 +60,29 @@ const SubjectpageBanner = ({ title, fieldName }: Props) => {
   }, []);
 
   return (
-    <>
+    <Modal open={showImageSelect} onOpenChange={setShowImageSelect}>
       <FieldHeader title={title} />
-      {image ? (
-        <SubjectpageBannerImage image={image} onImageSelectOpen={onImageSelectOpen} />
-      ) : (
-        <ButtonV2 onClick={onImageSelectOpen}>{t('subjectpageForm.addBanner')}</ButtonV2>
+      {image && <SubjectpageBannerImage image={image} onImageSelectOpen={onImageSelectOpen} />}
+      {!image && (
+        <ModalTrigger>
+          <ButtonV2>{t('subjectpageForm.addBanner')}</ButtonV2>
+        </ModalTrigger>
       )}
-
-      <Modal controlled isOpen={showImageSelect} onClose={onImageSelectClose} size="large">
-        {(close) => (
-          <ModalBody>
-            <ImageSearchAndUploader
-              inModal
-              locale={i18n.language}
-              language={values.language}
-              closeModal={close}
-              fetchImage={(id) => fetchImage(id, values.language)}
-              searchImages={searchImages}
-              onError={onError}
-              onImageSelect={onImageChange}
-            />
-          </ModalBody>
-        )}
-      </Modal>
-    </>
+      <ModalContent size="large">
+        <ModalBody>
+          <ImageSearchAndUploader
+            inModal
+            locale={i18n.language}
+            language={values.language}
+            closeModal={onImageSelectClose}
+            fetchImage={(id) => fetchImage(id, values.language)}
+            searchImages={searchImages}
+            onError={onError}
+            onImageSelect={onImageChange}
+          />
+        </ModalBody>
+      </ModalContent>
+    </Modal>
   );
 };
 

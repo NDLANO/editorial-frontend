@@ -37,8 +37,8 @@ test.beforeEach(async ({ page }) => {
 
 test('Can add a movie to the slideshow', async ({ page }) => {
   await page.getByTestId('dropdownInput').first().fill('Brukerstøtte');
-  await page.getByTestId('dropdown-items').locator('[id="downshift-1-item-0"]').click();
-  await page.getByTestId('elementListItem').getByRole('img').first().click();
+  await page.getByTestId('dropdown-items').getByText('Brukerstøtte').first().click();
+  await page.getByTestId('dropdown-items').blur();
 });
 
 test('Can remove movie from list', async ({ page }) => {
@@ -78,8 +78,8 @@ test('Can save changes with new data', async ({ page }) => {
     .getByRole('combobox')
     .getByPlaceholder('Legg til film i "Testgruppe"')
     .fill('Brukerstøtte');
-  await page.getByTestId('dropdown-items').locator('[id="downshift-7-item-0"]').click();
-  await page.getByTestId('elementListItem').getByRole('img').last().click();
+  await page.getByTestId('dropdown-items').getByText('Brukerstøtte').first().click();
+  await page.getByTestId('dropdown-items').blur();
   await page.unroute('**/frontpage-api/v1/filmfrontpage');
   await mockRoute({
     page,

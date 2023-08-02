@@ -6,13 +6,21 @@
  *
  */
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import { Structure } from '@ndla/editor';
 import { FieldHeader } from '@ndla/forms';
 import { ButtonV2 } from '@ndla/button';
 import { useTranslation } from 'react-i18next';
-import { ModalHeader, ModalBody, ModalCloseButton, Modal, ModalTitle } from '@ndla/modal';
+import {
+  ModalHeader,
+  ModalBody,
+  ModalCloseButton,
+  Modal,
+  ModalTitle,
+  ModalTrigger,
+  ModalContent,
+} from '@ndla/modal';
 import { Switch } from '@ndla/switch';
 import { fetchUserData } from '../../../../modules/draft/draftApi';
 import { HowToHelper } from '../../../../components/HowTo';
@@ -42,6 +50,7 @@ const TopicArticleConnections = ({
   getSubjectTopics,
 }: Props) => {
   const { t, i18n } = useTranslation();
+  const [open, setOpen] = useState(false);
   const [openedPaths, setOpenedPaths] = useState<string[]>([]);
   const [showFavorites, setShowFavorites] = useState(true);
   const [favoriteSubjectIds, setFavoriteSubjectIds] = useState<string[]>([]);
@@ -59,6 +68,8 @@ const TopicArticleConnections = ({
   const getFavoriteSubjects = (subjects: SubjectType[], favoriteSubjectIds: string[]) => {
     return subjects.filter((e) => favoriteSubjectIds.includes(e.id));
   };
+
+  const closeModal = useCallback(() => setOpen(false), []);
 
   const handleOpenToggle = async ({
     path,
@@ -102,59 +113,53 @@ const TopicArticleConnections = ({
         <HowToHelper pageId="TaxonomyTopicConnections" tooltip={t('taxonomy.topics.helpLabel')} />
       </FieldHeader>
       <ActiveTopicConnections activeTopics={activeTopics} type="topic-article" />
-      <Modal
-        animation="subtle"
-        size={{ width: 'large', height: 'large' }}
-        activateButton={<ButtonV2>{t(`taxonomy.topics.${'chooseTaxonomyPlacement'}`)}</ButtonV2>}
-      >
-        {(closeModal: () => void) => (
-          <>
-            <StyledModalHeader>
-              <ModalTitle>{t('taxonomy.topics.filestructureHeading')}</ModalTitle>
-              <Switch
-                onChange={toggleShowFavorites}
-                checked={showFavorites}
-                label={t('taxonomy.favorites')}
-                id={'favorites'}
-              />
-              <ModalCloseButton
-                title={t('taxonomy.topics.filestructureClose')}
-                onClick={closeModal}
-              />
-            </StyledModalHeader>
-            <ModalBody>
-              <hr />
-              <Structure
-                openedPaths={openedPaths}
-                structure={
-                  showFavorites ? getFavoriteSubjects(structure, favoriteSubjectIds) : structure
-                }
-                toggleOpen={handleOpenToggle}
-                renderListItems={({
-                  path,
-                  isSubject,
-                  isOpen,
-                  id,
-                }: {
-                  path: string;
-                  isSubject: boolean;
-                  isOpen: boolean;
-                  id: string;
-                }) => {
-                  return (
-                    <StructureFunctionButtons
-                      isOpen={isOpen}
-                      id={id}
-                      isSubject={isSubject}
-                      activeTopics={activeTopics}
-                      addTopic={() => addTopic(path, closeModal, i18n.language)}
-                    />
-                  );
-                }}
-              />
-            </ModalBody>
-          </>
-        )}
+      <Modal open={open} onOpenChange={setOpen}>
+        <ModalTrigger>
+          <ButtonV2>{t(`taxonomy.topics.${'chooseTaxonomyPlacement'}`)}</ButtonV2>
+        </ModalTrigger>
+        <ModalContent animation="subtle" size={{ width: 'large', height: 'large' }}>
+          <StyledModalHeader>
+            <ModalTitle>{t('taxonomy.topics.filestructureHeading')}</ModalTitle>
+            <Switch
+              onChange={toggleShowFavorites}
+              checked={showFavorites}
+              label={t('taxonomy.favorites')}
+              id={'favorites'}
+            />
+            <ModalCloseButton title={t('taxonomy.topics.filestructureClose')} />
+          </StyledModalHeader>
+          <ModalBody>
+            <hr />
+            <Structure
+              openedPaths={openedPaths}
+              structure={
+                showFavorites ? getFavoriteSubjects(structure, favoriteSubjectIds) : structure
+              }
+              toggleOpen={handleOpenToggle}
+              renderListItems={({
+                path,
+                isSubject,
+                isOpen,
+                id,
+              }: {
+                path: string;
+                isSubject: boolean;
+                isOpen: boolean;
+                id: string;
+              }) => {
+                return (
+                  <StructureFunctionButtons
+                    isOpen={isOpen}
+                    id={id}
+                    isSubject={isSubject}
+                    activeTopics={activeTopics}
+                    addTopic={() => addTopic(path, closeModal, i18n.language)}
+                  />
+                );
+              }}
+            />
+          </ModalBody>
+        </ModalContent>
       </Modal>
     </>
   );

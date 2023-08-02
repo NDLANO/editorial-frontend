@@ -8,7 +8,6 @@
 
 import styled from '@emotion/styled';
 import { shadows } from '@ndla/core';
-import { Modal } from '@ndla/modal';
 import { FormikValues } from 'formik';
 import { useState } from 'react';
 import ImageEditor from '../../../../containers/ImageEditor/ImageEditor';
@@ -23,10 +22,6 @@ const StyledEditorContent = styled.div`
 const StyledEditorWrapper = styled.div`
   background-color: white;
   max-height: 80vh;
-`;
-
-const StyledModal = styled(Modal)`
-  padding: 0;
 `;
 
 interface Props {
@@ -128,31 +123,27 @@ const EditImage = ({ embed, saveEmbedUpdates, setEditModus, language, allowDecor
   };
 
   return (
-    <StyledModal onClose={() => setEditModus(false)} isOpen controlled size="normal">
-      {() => (
-        <StyledEditorWrapper contentEditable={false}>
-          <StyledEditorContent>
-            <ImageEditor
-              embed={embed}
-              onUpdatedImageSettings={onUpdatedImageSettings}
-              imageUpdates={state.imageUpdates}
-              language={language}
-            />
-            <FigureInput
-              caption={state.caption}
-              alt={state.alt}
-              madeChanges={state.madeChanges}
-              onChange={onChange}
-              onAbort={onAbort}
-              onSave={onSave}
-              isDecorative={state.isDecorative}
-              handleCheck={handleCheck}
-              allowDecorative={allowDecorative}
-            />
-          </StyledEditorContent>
-        </StyledEditorWrapper>
-      )}
-    </StyledModal>
+    <StyledEditorWrapper contentEditable={false}>
+      <StyledEditorContent>
+        <ImageEditor
+          embed={embed}
+          onUpdatedImageSettings={onUpdatedImageSettings}
+          imageUpdates={state.imageUpdates}
+          language={language}
+        />
+        <FigureInput
+          caption={state.caption}
+          alt={state.alt}
+          madeChanges={state.madeChanges}
+          onChange={onChange}
+          onAbort={onAbort}
+          onSave={onSave}
+          isDecorative={state.isDecorative}
+          handleCheck={handleCheck}
+          allowDecorative={allowDecorative}
+        />
+      </StyledEditorContent>
+    </StyledEditorWrapper>
   );
 };
 

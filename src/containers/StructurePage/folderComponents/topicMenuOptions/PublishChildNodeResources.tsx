@@ -50,6 +50,10 @@ const LinkWrapper = styled.div`
   margin-top: 0.5em;
 `;
 
+const StyledSpinner = styled(Spinner)`
+  margin: 0px 4px;
+`;
+
 const StyledDone = styled(Done)`
   margin: 0px 4px;
   color: green;
@@ -145,7 +149,7 @@ const PublishChildNodeResources = ({ node }: Props) => {
       </MenuItemButton>
       {showDisplay && (
         <StyledDiv>
-          {done ? <StyledDone /> : <Spinner size="normal" margin="0px 4px" />}
+          {done ? <StyledDone /> : <StyledSpinner size="normal" />}
           {`${publishText} (${publishedCount}/${publishableCount})`}
         </StyledDiv>
       )}

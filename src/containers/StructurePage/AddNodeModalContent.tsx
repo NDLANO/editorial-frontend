@@ -14,7 +14,6 @@ import { ButtonV2 } from '@ndla/button';
 import { InputV2 } from '@ndla/forms';
 import { Node, NodeType } from '@ndla/types-taxonomy';
 import { useQueryClient } from '@tanstack/react-query';
-import TaxonomyLightbox from '../../components/Taxonomy/TaxonomyLightbox';
 import {
   useAddNodeMutation,
   usePostNodeConnectionMutation,
@@ -44,7 +43,7 @@ interface Props {
   parentNode?: Node;
 }
 
-const AddNodeModal = ({ onClose, nodeType, rootId, parentNode }: Props) => {
+const AddNodeModalContent = ({ onClose, nodeType, rootId, parentNode }: Props) => {
   const { t } = useTranslation();
   const addNodeMutation = useAddNodeMutation();
   const compkey = childNodesWithArticleTypeQueryKey({ id: rootId });
@@ -103,30 +102,23 @@ const AddNodeModal = ({ onClose, nodeType, rootId, parentNode }: Props) => {
   };
 
   return (
-    <TaxonomyLightbox
-      title={t('taxonomy.addNode', { nodeType: t(`taxonomy.nodeType.${nodeType}`) })}
-      onClose={onClose}
-    >
-      <>
-        <FormWrapper>
-          <StyledInputField
-            label={t('taxonomy.newNode', { nodeType: t(`taxonomy.nodeType.${nodeType}`) })}
-            name={t('taxonomy.newNode', { nodeType: t(`taxonomy.nodeType.${nodeType}`) })}
-            labelHidden
-            type="text"
-            data-testid="addSubjectInputField"
-            value={inputValue}
-            onChange={handleInputChange}
-            placeholder={t('taxonomy.newNodeName')}
-            error={error ? t('taxonomy.errorMessage') : undefined}
-          />
-          <ButtonV2 type="submit" onClick={handleClick} disabled={!inputValue}>
-            {t('form.save')}
-          </ButtonV2>
-        </FormWrapper>
-      </>
-    </TaxonomyLightbox>
+    <FormWrapper>
+      <StyledInputField
+        label={t('taxonomy.newNode', { nodeType: t(`taxonomy.nodeType.${nodeType}`) })}
+        name={t('taxonomy.newNode', { nodeType: t(`taxonomy.nodeType.${nodeType}`) })}
+        labelHidden
+        type="text"
+        data-testid="addSubjectInputField"
+        value={inputValue}
+        onChange={handleInputChange}
+        placeholder={t('taxonomy.newNodeName')}
+        error={error ? t('taxonomy.errorMessage') : undefined}
+      />
+      <ButtonV2 type="submit" onClick={handleClick} disabled={!inputValue}>
+        {t('form.save')}
+      </ButtonV2>
+    </FormWrapper>
   );
 };
 
-export default AddNodeModal;
+export default AddNodeModalContent;

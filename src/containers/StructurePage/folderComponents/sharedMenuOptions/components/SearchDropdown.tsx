@@ -22,6 +22,10 @@ const DropdownWrapper = styled.div`
   width: 100%;
 `;
 
+const StyledSpinner = styled(Spinner)`
+  margin: 0px;
+`;
+
 interface DropdownItem<Type> {
   id: string | number;
   name: string;
@@ -100,7 +104,7 @@ const SearchDropdown = <ParamType extends BaseParams, InnerType, ApiType, Type>(
               id={id}
               data-testid="inlineDropdownInput"
               iconRight={
-                searchQuery.isInitialLoading ? <Spinner size="normal" margin="0" /> : <Search />
+                searchQuery.isInitialLoading ? <StyledSpinner size="normal" /> : <Search />
               }
             />
             <DropdownMenu

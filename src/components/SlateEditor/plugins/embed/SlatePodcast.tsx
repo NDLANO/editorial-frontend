@@ -12,7 +12,7 @@ import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import { Figure } from '@ndla/ui';
 import { colors } from '@ndla/core';
-import { Modal } from '@ndla/modal';
+import { Modal, ModalContent, ModalTrigger } from '@ndla/modal';
 import { fetchAudio } from '../../../../modules/audio/audioApi';
 import { NdlaErrorPayload, onError } from '../../../../util/resolveJsonOrRejectWithError';
 import AudioPlayerMounter from './AudioPlayerMounter';
@@ -61,6 +61,8 @@ const SlatePodcast = ({
   const [audio, setAudio] = useState<Audio>({} as Audio);
   const showCopyOutline = isSelectedForCopy;
 
+  const close = useCallback(() => setEditing(false), []);
+
   const setHasError = useCallback((hasError: boolean) => _setHasError(hasError), []);
 
   useEffect(() => {
@@ -89,30 +91,17 @@ const SlatePodcast = ({
   }, [embed, language]);
 
   return (
-    <>
-      <Modal controlled isOpen={editing} onClose={() => setEditing(false)}>
-        {(close) => (
-          <EditPodcast
-            close={close}
-            embed={embed}
-            locale={locale}
-            language={language}
-            podcast={audio}
-            setHasError={setHasError}
-            saveEmbedUpdates={saveEmbedUpdates}
-          />
-        )}
-      </Modal>
-      <div draggable {...attributes}>
-        <Figure id={`${audio.id}`}>
-          <>
-            <FigureButtons
-              figureType="podcast"
-              tooltip={t('form.podcast.remove')}
-              onRemoveClick={onRemoveClick}
-              embed={embed}
-              language={language}
-            />
+    <div draggable {...attributes}>
+      <Figure id={`${audio.id}`}>
+        <FigureButtons
+          figureType="podcast"
+          tooltip={t('form.podcast.remove')}
+          onRemoveClick={onRemoveClick}
+          embed={embed}
+          language={language}
+        />
+        <Modal open={editing} onOpenChange={setEditing}>
+          <ModalTrigger>
             <SlatePodcastWrapper
               showCopyOutline={showCopyOutline}
               hasError={hasError}
@@ -126,11 +115,21 @@ const SlatePodcast = ({
             >
               {audio.id && <AudioPlayerMounter audio={audio} locale={locale} speech={false} />}
             </SlatePodcastWrapper>
-          </>
-        </Figure>
-        {children}
-      </div>
-    </>
+          </ModalTrigger>
+          <ModalContent>
+            <EditPodcast
+              close={close}
+              embed={embed}
+              locale={locale}
+              podcast={audio}
+              setHasError={setHasError}
+              saveEmbedUpdates={saveEmbedUpdates}
+            />
+          </ModalContent>
+        </Modal>
+      </Figure>
+      {children}
+    </div>
   );
 };
 

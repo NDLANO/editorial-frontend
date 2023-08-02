@@ -102,7 +102,7 @@ const EditVideo = ({ embed, saveEmbedUpdates, activeSrc, close, setHasError }: P
     <>
       <ModalHeader>
         <ModalTitle>{t('form.video.editVideo')}</ModalTitle>
-        <ModalCloseButton onClick={close} />
+        <ModalCloseButton />
       </ModalHeader>
       <ModalBody>
         <SlateVideoWrapper>

@@ -37,12 +37,12 @@ interface Props extends RenderElementProps {
 const CampaignBlockWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
 `;
 
 const ButtonContainer = styled.div`
   display: flex;
   justify-content: flex-end;
-  width: 100%;
 `;
 
 const StyledModalHeader = styled(ModalHeader)`
@@ -119,9 +119,9 @@ const SlateCampaignBlock = ({ element, editor, attributes, children }: Props) =>
 
   return (
     <Modal open={isEditing} onOpenChange={setIsEditing}>
-      <div {...attributes}>
+      <CampaignBlockWrapper {...attributes}>
         {campaignBlock && (
-          <CampaignBlockWrapper contentEditable={false}>
+          <div contentEditable={false}>
             <ButtonContainer>
               <ModalTrigger>
                 <IconButtonV2
@@ -149,7 +149,7 @@ const SlateCampaignBlock = ({ element, editor, attributes, children }: Props) =>
                 rightImage && { src: rightImage.image.imageUrl, alt: rightImage.alttext.alttext }
               }
             />
-          </CampaignBlockWrapper>
+          </div>
         )}
         {children}
         <ModalContent size={{ width: 'large', height: 'full' }}>
@@ -161,7 +161,7 @@ const SlateCampaignBlock = ({ element, editor, attributes, children }: Props) =>
             <CampaignBlockForm initialData={campaignBlock} onSave={onSave} onCancel={onClose} />
           </StyledModalBody>
         </ModalContent>
-      </div>
+      </CampaignBlockWrapper>
     </Modal>
   );
 };

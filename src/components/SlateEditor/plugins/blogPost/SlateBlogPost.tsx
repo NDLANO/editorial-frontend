@@ -35,7 +35,6 @@ const BlogPostWrapper = styled.div`
 const ButtonContainer = styled.div`
   display: flex;
   justify-content: flex-end;
-  width: 100%;
 `;
 
 const imageUrl = `${config.ndlaApiUrl}/image-api/raw/id/`;
@@ -95,9 +94,9 @@ const SlateBlogPost = ({ element, editor, attributes, children }: Props) => {
 
   return (
     <Modal open={isEditing} onOpenChange={setIsEditing}>
-      <div {...attributes}>
+      <BlogPostWrapper {...attributes}>
         {data && (
-          <BlogPostWrapper contentEditable={false}>
+          <div contentEditable={false}>
             <ButtonContainer>
               <ModalTrigger>
                 <IconButtonV2
@@ -120,10 +119,10 @@ const SlateBlogPost = ({ element, editor, attributes, children }: Props) => {
                 alt: '',
               }}
             />
-          </BlogPostWrapper>
+          </div>
         )}
         {children}
-      </div>
+      </BlogPostWrapper>
       <ModalContent>
         <StyledModalHeader>
           <ModalTitle>{t('blogPostForm.title')}</ModalTitle>

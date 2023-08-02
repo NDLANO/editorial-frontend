@@ -39,13 +39,11 @@ const KeyFigureWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
 `;
 
 const ButtonContainer = styled.div`
   display: flex;
   justify-content: flex-end;
-  width: 100%;
 `;
 
 const StyledModalHeader = styled(ModalHeader)`
@@ -111,9 +109,9 @@ const SlateKeyFigure = ({ element, editor, attributes, children }: Props) => {
 
   return (
     <Modal open={isEditing} onOpenChange={setIsEditing}>
-      <div {...attributes}>
+      <KeyFigureWrapper {...attributes}>
         {data && image && (
-          <KeyFigureWrapper contentEditable={false}>
+          <div contentEditable={false}>
             <ButtonContainer>
               <ModalTrigger>
                 <IconButtonV2 variant="ghost" aria-label={t('keyFigureForm.edit')}>
@@ -127,7 +125,7 @@ const SlateKeyFigure = ({ element, editor, attributes, children }: Props) => {
               subtitle={data.subtitle}
               image={{ src: image.image.imageUrl, alt: image.alttext.alttext }}
             />
-          </KeyFigureWrapper>
+          </div>
         )}
         {children}
         <ModalContent>
@@ -139,7 +137,7 @@ const SlateKeyFigure = ({ element, editor, attributes, children }: Props) => {
             <KeyFigureForm onSave={onSave} initialData={data} onCancel={onClose} />
           </StyledModalBody>
         </ModalContent>
-      </div>
+      </KeyFigureWrapper>
     </Modal>
   );
 };

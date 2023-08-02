@@ -137,6 +137,7 @@ const ThemeEditor = ({ onUpdateMovieTheme, selectedLanguage }: Props) => {
                   variant="ghost"
                   colorTheme="danger"
                   onClick={() => onDeleteTheme(index)}
+                  data-testid={'deleteThemeButton'}
                 >
                   <DeleteForever />
                 </IconButtonV2>

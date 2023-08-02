@@ -13,8 +13,8 @@ import { zendeskMock } from '../mockResponses';
 test.beforeEach(async ({ page }) => {
   const filmFrontpage = mockRoute({
     page,
-    path: '**/frontpage-api/v1/filmfrontpage',
-    fixture: 'film_filmfrontpage',
+    path: '**/frontpage-api/v1/filmfrontpage/',
+    fixture: 'film_frontpage',
   });
 
   const allMovies = mockRoute({
@@ -25,7 +25,7 @@ test.beforeEach(async ({ page }) => {
 
   const zendeskToken = mockRoute({
     page,
-    path: '/get_zendesk_token',
+    path: '**/get_zendesk_token',
     fixture: 'film_zendesk_token',
     overrideValue: JSON.stringify(zendeskMock),
   });
@@ -36,22 +36,31 @@ test.beforeEach(async ({ page }) => {
 });
 
 test('Can add a movie to the slideshow', async ({ page }) => {
-  await page.getByTestId('dropdownInput').first().click();
-  await page.keyboard.type('Brukerstøtte');
+  await page.getByTestId('dropdownInput').first().fill('Brukerstøtte');
   await page.getByTestId('dropdown-items').locator('[id="downshift-1-item-0"]').click();
   await page.getByTestId('elementListItem').getByRole('img').first().click();
 });
 
-test('Can remove movie from slideshow', async ({ page }) => {
-  await expect(page.getByTestId('elementListItem').filter({ hasText: 'Catfish' })).toBeVisible();
+test('Can remove movie from list', async ({ page }) => {
+  await page.unroute('**/frontpage-api/v1/filmfrontpage');
+  await mockRoute({
+    page,
+    path: '**/frontpage-api/v1/filmfrontpage/',
+    fixture: 'film_frontpage_update',
+  });
+  await expect(
+    page.getByTestId('elementListItem').filter({ hasText: 'Brukerstøtte' }),
+  ).toBeVisible();
   await page
     .getByTestId('elementListItem')
-    .filter({ hasText: 'Catfish' })
+    .filter({ hasText: 'Brukerstøtte' })
     .getByTestId('elementListItemDeleteButton')
     .click();
-  await expect(page.getByTestId('elementListItem').filter({ hasText: 'Catfish' })).toBeVisible({
-    visible: false,
-  });
+  await expect(page.getByTestId('elementListItem').filter({ hasText: 'Brukerstøtte' })).toBeVisible(
+    {
+      visible: false,
+    },
+  );
 });
 
 test('Can add theme', async ({ page }) => {
@@ -59,4 +68,42 @@ test('Can add theme', async ({ page }) => {
   await page.keyboard.type('Ny testgruppe');
   await page.getByRole('button', { name: 'Opprett gruppe' }).click();
   await expect(page.getByRole('heading', { name: 'Ny testgruppe' })).toBeVisible();
+});
+
+test('Can save changes with new data', async ({ page }) => {
+  await page.getByTestId('add-theme-modal').click();
+  await page.keyboard.type('Testgruppe');
+  await page.getByRole('button', { name: 'Opprett gruppe' }).click();
+  await page
+    .getByRole('combobox')
+    .getByPlaceholder('Legg til film i "Testgruppe"')
+    .fill('Brukerstøtte');
+  await page.getByTestId('dropdown-items').locator('[id="downshift-7-item-0"]').click();
+  await page.getByTestId('elementListItem').getByRole('img').last().click();
+  await page.unroute('**/frontpage-api/v1/filmfrontpage');
+  await mockRoute({
+    page,
+    path: '**/frontpage-api/v1/filmfrontpage/',
+    fixture: 'film_frontpage_update',
+  });
+  await page.getByRole('button', { name: 'Lagre' }).click();
+  await expect(
+    page.getByTestId('elementListItem').filter({ hasText: 'Brukerstøtte' }),
+  ).toBeVisible();
+  await page.waitForTimeout(700);
+  await page.getByTestId('deleteThemeButton').last().click();
+
+  await page.unroute('**/frontpage-api/v1/filmfrontpage');
+  await mockRoute({
+    page,
+    path: '**/frontpage-api/v1/filmfrontpage/',
+    fixture: 'film_frontpage',
+  });
+  await page.getByRole('button', { name: 'Lagre' }).click();
+  await page.waitForTimeout(700);
+  await expect(page.getByTestId('elementListItem').filter({ hasText: 'Brukerstøtte' })).toBeVisible(
+    {
+      visible: false,
+    },
+  );
 });

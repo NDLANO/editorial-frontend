@@ -37,12 +37,12 @@ interface Props extends RenderElementProps {
 const ContactBlockWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
 `;
 
 const ButtonContainer = styled.div`
   display: flex;
   justify-content: flex-end;
-  width: 100%;
 `;
 
 const StyledModalHeader = styled(ModalHeader)`
@@ -109,9 +109,9 @@ const SlateContactBlock = ({ element, editor, attributes, children }: Props) => 
 
   return (
     <Modal open={isEditing} onOpenChange={setIsEditing}>
-      <div {...attributes}>
+      <ContactBlockWrapper {...attributes}>
         {contactBlock && image && (
-          <ContactBlockWrapper contentEditable={false}>
+          <div contentEditable={false}>
             <ButtonContainer>
               <ModalTrigger>
                 <IconButtonV2 variant="ghost" aria-label={t('contactBlockForm.edit')}>
@@ -129,10 +129,10 @@ const SlateContactBlock = ({ element, editor, attributes, children }: Props) => 
               blob={contactBlock.blob}
               blobColor={contactBlock.blobColor}
             />
-          </ContactBlockWrapper>
+          </div>
         )}
         {children}
-      </div>
+      </ContactBlockWrapper>
       <ModalContent>
         <StyledModalHeader>
           <ModalTitle>{t('contactBlockForm.title')}</ModalTitle>

@@ -12,21 +12,25 @@ import { RenderElementProps } from 'slate-react';
 import './helpers/h5pResizer';
 import { Transforms, Editor, Path } from 'slate';
 import styled from '@emotion/styled';
-import { Expandable } from '@ndla/icons/editor';
+import { DeleteForever, Expandable } from '@ndla/icons/editor';
+import { IconButtonV2 } from '@ndla/button';
+import { Link } from '@ndla/icons/common';
 import handleError from '../../util/handleError';
 import EditorErrorMessage from '../SlateEditor/EditorErrorMessage';
 import DisplayExternalModal from './helpers/DisplayExternalModal';
 import { fetchExternalOembed } from '../../util/apiHelpers';
 import { urlOrigin, getIframeSrcFromHtmlString, urlDomain } from '../../util/htmlHelpers';
 import { EXTERNAL_WHITELIST_PROVIDERS } from '../../constants';
-import FigureButtons from '../SlateEditor/plugins/embed/FigureButtons';
+import { StyledFigureButtons } from '../SlateEditor/plugins/embed/FigureButtons';
 import config from '../../config';
 import { getH5pLocale } from '../H5PElement/h5pApi';
 import { Embed, ExternalEmbed, H5pEmbed } from '../../interfaces';
 import SlateResourceBox from './SlateResourceBox';
 
-const ApplyBoxshadow = styled('div')<{ showCopyOutline: boolean }>`
-  box-shadow: ${(props) => props.showCopyOutline && 'rgb(32, 88, 143) 0 0 0 2px'};
+const ApplyBoxshadow = styled.div`
+  &[data-showCopyOutline='true'] {
+    box-shadow: rgb(32, 88, 143) 0 0 0 2px;
+  }
 `;
 
 const ExpandableButton = styled.div`
@@ -240,34 +244,42 @@ const DisplayExternal = ({
 
   return (
     <div {...attributes} className={'c-figure'}>
-      <FigureButtons
-        language={language}
-        tooltip={t('form.external.remove', {
-          type: providerName || t('form.external.title'),
-        })}
-        onRemoveClick={onRemoveClick}
-        embed={embed}
-        providerName={providerName}
-        figureType="external"
-        onEdit={
-          allowedProvider.name
-            ? (evt) => {
-                evt.preventDefault();
-                evt.stopPropagation();
-                openEditEmbed(evt);
-              }
-            : undefined
-        }
-      />
+      <StyledFigureButtons>
+        {allowedProvider.name && (
+          <IconButtonV2
+            aria-label={t('form.external.edit', { type: providerName || t('form.external.title') })}
+            variant="ghost"
+            colorTheme="light"
+            onClick={(evt) => {
+              evt.preventDefault();
+              evt.stopPropagation();
+              openEditEmbed(evt);
+            }}
+          >
+            <Link />
+          </IconButtonV2>
+        )}
+        <IconButtonV2
+          aria-label={t('form.external.remove', {
+            type: providerName || t('form.external.title'),
+          })}
+          colorTheme="danger"
+          variant="ghost"
+          onClick={onRemoveClick}
+          data-cy="remove-element"
+        >
+          <DeleteForever />
+        </IconButtonV2>{' '}
+      </StyledFigureButtons>
       {(embed.resource === 'iframe' || embed.resource === 'external') &&
       embed.type === 'fullscreen' ? (
-        <ApplyBoxshadow showCopyOutline={showCopyOutline}>
+        <ApplyBoxshadow data-showCopyOutline={showCopyOutline}>
           <SlateResourceBox embed={embed} language={language} />
         </ApplyBoxshadow>
       ) : (
         <ApplyBoxshadow
           ref={iframeWrapper}
-          showCopyOutline={showCopyOutline}
+          data-showCopyOutline={showCopyOutline}
           style={{ pointerEvents: isResizing ? 'none' : 'auto' }}
         >
           <iframe

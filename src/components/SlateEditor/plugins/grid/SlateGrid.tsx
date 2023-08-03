@@ -26,6 +26,7 @@ import { Editor, Path, Transforms } from 'slate';
 import { ReactEditor, RenderElementProps } from 'slate-react';
 import { GridElement } from '.';
 import DeleteButton from '../../../DeleteButton';
+import { StyledFigureButtons } from '../embed/FigureButtons';
 import GridForm from './GridForm';
 
 interface Props extends RenderElementProps {
@@ -44,15 +45,7 @@ const StyledModalBody = styled(ModalBody)`
 const GridWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
-
-const ButtonContainer = styled.div`
-  padding: ${spacing.nsmall};
-  justify-content: flex-end;
-  display: flex;
-  width: 100%;
+  position: relative;
 `;
 
 const StyledGrid = styled(Grid)`
@@ -93,36 +86,30 @@ export const SlateGrid = ({ element, editor, children }: Props) => {
   );
 
   return (
-    <>
-      <GridWrapper>
-        <ButtonContainer>
-          <Modal open={isEditing} onOpenChange={setIsEditing}>
-            <ModalTrigger>
-              <IconButtonV2 variant="ghost" aria-label={t('gridForm.title')}>
-                <Pencil />
-              </IconButtonV2>
-            </ModalTrigger>
-            <ModalContent size="small">
-              <StyledModalHeader>
-                <ModalTitle>{t('gridForm.title')}</ModalTitle>
-                <ModalCloseButton />
-              </StyledModalHeader>
-              <StyledModalBody>
-                <GridForm onCancel={onClose} initialData={element.data} onSave={onSave} />
-              </StyledModalBody>
-            </ModalContent>
-          </Modal>
+    <GridWrapper>
+      <StyledFigureButtons>
+        <Modal open={isEditing} onOpenChange={setIsEditing}>
+          <ModalTrigger>
+            <IconButtonV2 variant="ghost" aria-label={t('gridForm.title')}>
+              <Pencil />
+            </IconButtonV2>
+          </ModalTrigger>
+          <ModalContent size="small">
+            <StyledModalHeader>
+              <ModalTitle>{t('gridForm.title')}</ModalTitle>
+              <ModalCloseButton />
+            </StyledModalHeader>
+            <StyledModalBody>
+              <GridForm onCancel={onClose} initialData={element.data} onSave={onSave} />
+            </StyledModalBody>
+          </ModalContent>
+        </Modal>
 
-          <DeleteButton aria-label={t('delete')} data-cy="remove-grid" onClick={handleRemove} />
-        </ButtonContainer>
-        <StyledGrid
-          border="none"
-          columns={element.data.columns}
-          background={element.data.background}
-        >
-          {children}
-        </StyledGrid>
-      </GridWrapper>
-    </>
+        <DeleteButton aria-label={t('delete')} data-cy="remove-grid" onClick={handleRemove} />
+      </StyledFigureButtons>
+      <StyledGrid border="none" columns={element.data.columns} background={element.data.background}>
+        {children}
+      </StyledGrid>
+    </GridWrapper>
   );
 };

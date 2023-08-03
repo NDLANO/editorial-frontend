@@ -18,6 +18,7 @@ import { Editor, Path, Transforms } from 'slate';
 import { ReactEditor, RenderElementProps } from 'slate-react';
 import config from '../../../../config';
 import DeleteButton from '../../../DeleteButton';
+import { StyledFigureButtons } from '../embed/FigureButtons';
 import BlogPostForm from './BlogPostForm';
 import { BlogPostElement } from './types';
 
@@ -30,11 +31,10 @@ const BlogPostWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-`;
 
-const ButtonContainer = styled.div`
-  display: flex;
-  justify-content: flex-end;
+  > div:first-child {
+    position: relative;
+  }
 `;
 
 const imageUrl = `${config.ndlaApiUrl}/image-api/raw/id/`;
@@ -97,7 +97,7 @@ const SlateBlogPost = ({ element, editor, attributes, children }: Props) => {
       <BlogPostWrapper {...attributes}>
         {data && (
           <div contentEditable={false}>
-            <ButtonContainer>
+            <StyledFigureButtons>
               <ModalTrigger>
                 <IconButtonV2
                   variant="ghost"
@@ -108,7 +108,7 @@ const SlateBlogPost = ({ element, editor, attributes, children }: Props) => {
                 </IconButtonV2>
               </ModalTrigger>
               <DeleteButton aria-label={t('delete')} onClick={handleRemove} />
-            </ButtonContainer>
+            </StyledFigureButtons>
             <BlogPostV2
               title={{ title: data.title, language: data.language }}
               author={data.author}

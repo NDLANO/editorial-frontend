@@ -13,10 +13,13 @@ import styled from '@emotion/styled';
 import { Figure } from '@ndla/ui';
 import { colors } from '@ndla/core';
 import { Modal, ModalContent, ModalTrigger } from '@ndla/modal';
-
+import { IconButtonV2 } from '@ndla/button';
+import { DeleteForever } from '@ndla/icons/editor';
+import { SafeLinkIconButton } from '@ndla/safelink';
+import { Link } from '@ndla/icons/common';
 import EditAudio, { audioEmbedFormRules, toAudioEmbedFormValues } from './EditAudio';
 import AudioPlayerMounter from './AudioPlayerMounter';
-import FigureButtons from './FigureButtons';
+import { StyledFigureButtons } from './FigureButtons';
 import { SlateAudio as Audio, LocaleType, AudioEmbed } from '../../../../interfaces';
 import { fetchAudio } from '../../../../modules/audio/audioApi';
 import { NdlaErrorPayload, onError } from '../../../../util/resolveJsonOrRejectWithError';
@@ -97,16 +100,32 @@ const SlateAudio = ({
   }, []);
 
   return (
-    <div draggable {...attributes}>
+    <div draggable {...attributes} contentEditable={true}>
       <Figure id={`${audio.id}`}>
         {!speech && (
-          <FigureButtons
-            tooltip={t('form.audio.remove')}
-            onRemoveClick={onRemoveClick}
-            embed={embed}
-            figureType="audio"
-            language={language}
-          />
+          <StyledFigureButtons>
+            <SafeLinkIconButton
+              variant="ghost"
+              colorTheme="light"
+              to={`/media/audio-upload/${embed.resource_id}/edit/${language}`}
+              target="_blank"
+              title={t('form.editAudio')}
+              aria-label={t('form.editAudio')}
+              tabIndex={-1}
+            >
+              <Link />
+            </SafeLinkIconButton>
+            <IconButtonV2
+              title={t('form.audio.remove')}
+              aria-label={t('form.audio.remove')}
+              colorTheme="danger"
+              variant="ghost"
+              onClick={onRemoveClick}
+              data-cy="remove-element"
+            >
+              <DeleteForever />
+            </IconButtonV2>
+          </StyledFigureButtons>
         )}
         <Modal open={editMode} onOpenChange={setEditMode}>
           <ModalTrigger>

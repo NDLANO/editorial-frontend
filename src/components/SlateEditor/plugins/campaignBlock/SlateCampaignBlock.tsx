@@ -29,6 +29,7 @@ import { CampaignBlockElement } from '.';
 import DeleteButton from '../../../DeleteButton';
 import { fetchImage } from '../../../../modules/image/imageApi';
 import CampaignBlockForm from './CampaignBlockForm';
+import { StyledFigureButtons } from '../embed/FigureButtons';
 
 interface Props extends RenderElementProps {
   element: CampaignBlockElement;
@@ -38,11 +39,10 @@ const CampaignBlockWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-`;
 
-const ButtonContainer = styled.div`
-  display: flex;
-  justify-content: flex-end;
+  > div:first-child {
+    position: relative;
+  }
 `;
 
 const StyledModalHeader = styled(ModalHeader)`
@@ -122,7 +122,7 @@ const SlateCampaignBlock = ({ element, editor, attributes, children }: Props) =>
       <CampaignBlockWrapper {...attributes}>
         {campaignBlock && (
           <div contentEditable={false}>
-            <ButtonContainer>
+            <StyledFigureButtons>
               <ModalTrigger>
                 <IconButtonV2
                   variant="ghost"
@@ -133,7 +133,7 @@ const SlateCampaignBlock = ({ element, editor, attributes, children }: Props) =>
                 </IconButtonV2>
               </ModalTrigger>
               <DeleteButton aria-label={t('delete')} onClick={handleRemove} />
-            </ButtonContainer>
+            </StyledFigureButtons>
             <CampaignBlock
               title={{ title: campaignBlock.title, language: campaignBlock.titleLanguage }}
               description={{

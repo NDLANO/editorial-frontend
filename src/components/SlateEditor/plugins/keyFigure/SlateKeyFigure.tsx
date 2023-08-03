@@ -28,6 +28,7 @@ import { ReactEditor, RenderElementProps } from 'slate-react';
 import { KeyFigureElement } from '.';
 import { fetchImage } from '../../../../modules/image/imageApi';
 import DeleteButton from '../../../DeleteButton';
+import { StyledFigureButtons } from '../embed/FigureButtons';
 import KeyFigureForm from './KeyFigureForm';
 
 interface Props extends RenderElementProps {
@@ -39,11 +40,10 @@ const KeyFigureWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-`;
 
-const ButtonContainer = styled.div`
-  display: flex;
-  justify-content: flex-end;
+  > div:first-child {
+    position: relative;
+  }
 `;
 
 const StyledModalHeader = styled(ModalHeader)`
@@ -112,14 +112,14 @@ const SlateKeyFigure = ({ element, editor, attributes, children }: Props) => {
       <KeyFigureWrapper {...attributes}>
         {data && image && (
           <div contentEditable={false}>
-            <ButtonContainer>
+            <StyledFigureButtons>
               <ModalTrigger>
                 <IconButtonV2 variant="ghost" aria-label={t('keyFigureForm.edit')}>
                   <Pencil />
                 </IconButtonV2>
               </ModalTrigger>
               <DeleteButton aria-label={t('delete')} onClick={handleRemove} />
-            </ButtonContainer>
+            </StyledFigureButtons>
             <KeyFigure
               title={data.title}
               subtitle={data.subtitle}

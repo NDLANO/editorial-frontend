@@ -119,7 +119,7 @@ const SlateImage = ({
           />
         </ModalContent>
         {!visualElement && (
-          <figure {...figureClass}>
+          <figure {...figureClass} contentEditable={false}>
             <StyledFigureButtons>
               <ModalTrigger>
                 <IconButtonV2

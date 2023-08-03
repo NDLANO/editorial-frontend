@@ -13,10 +13,14 @@ import { useTranslation } from 'react-i18next';
 import { Figure } from '@ndla/ui';
 import { colors } from '@ndla/core';
 import { Modal, ModalContent, ModalTrigger } from '@ndla/modal';
-import { fetchAudio } from '../../../../modules/audio/audioApi';
+import { SafeLinkIconButton } from '@ndla/safelink';
+import { Link } from '@ndla/icons/common';
+import { IconButtonV2 } from '@ndla/button';
+import { DeleteForever } from '@ndla/icons/editor';
 import { NdlaErrorPayload, onError } from '../../../../util/resolveJsonOrRejectWithError';
+import { fetchAudio } from '../../../../modules/audio/audioApi';
 import AudioPlayerMounter from './AudioPlayerMounter';
-import FigureButtons from './FigureButtons';
+import { StyledFigureButtons } from './FigureButtons';
 import { SlateAudio as Audio, LocaleType, AudioEmbed } from '../../../../interfaces';
 import EditPodcast, { podcastEmbedFormRules, toPodcastEmbedFormValues } from './EditPodcast';
 import validateFormik from '../../../formikValidationSchema';
@@ -91,15 +95,31 @@ const SlatePodcast = ({
   }, [embed, language]);
 
   return (
-    <div draggable {...attributes}>
+    <div draggable {...attributes} contentEditable={false}>
       <Figure id={`${audio.id}`}>
-        <FigureButtons
-          figureType="podcast"
-          tooltip={t('form.podcast.remove')}
-          onRemoveClick={onRemoveClick}
-          embed={embed}
-          language={language}
-        />
+        <StyledFigureButtons>
+          <SafeLinkIconButton
+            variant="ghost"
+            colorTheme="light"
+            to={`/media/podcast-upload/${embed.resource_id}/edit/${language}`}
+            target="_blank"
+            title={t('form.editPodcast')}
+            aria-label={t('form.editPodcast')}
+            tabIndex={-1}
+          >
+            <Link />
+          </SafeLinkIconButton>
+          <IconButtonV2
+            title={t('form.podcast.remove')}
+            aria-label={t('form.podcast.remove')}
+            colorTheme="danger"
+            variant="ghost"
+            onClick={onRemoveClick}
+            data-cy="remove-element"
+          >
+            <DeleteForever />
+          </IconButtonV2>
+        </StyledFigureButtons>
         <Modal open={editing} onOpenChange={setEditing}>
           <ModalTrigger>
             <SlatePodcastWrapper

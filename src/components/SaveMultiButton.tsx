@@ -85,6 +85,7 @@ const SaveMultiButton = ({
                   {
                     label: t('form.save'),
                     value: 'save',
+                    enable: !disabledButton,
                   },
                 ]
           }

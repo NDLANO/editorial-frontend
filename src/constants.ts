@@ -66,7 +66,7 @@ export const MAX_IMAGE_UPLOAD_SIZE = 1024 * 1024 * 40; // 40MB.
 
 export const MAX_PAGE_WIDTH = 1024;
 export const MAX_FRONTPAGE_ARTICLE_WIDTH = 1400;
-export const DEFAULT_FRONTPAGE_ARTICLE_WIDTH = 1173;
+export const DEFAULT_FRONTPAGE_ARTICLE_WIDTH = 1073;
 
 export const LOCALE_VALUES = ['nb', 'nn', 'en', 'se', 'sma'] as const;
 

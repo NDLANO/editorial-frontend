@@ -40,8 +40,12 @@ const CampaignBlockWrapper = styled.div`
   flex-direction: column;
   align-items: center;
 
-  > div:first-child {
-    position: relative;
+  > div {
+    width: 100%;
+
+    &:first-child {
+      position: relative;
+    }
   }
 `;
 

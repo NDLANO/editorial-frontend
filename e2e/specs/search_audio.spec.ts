@@ -8,7 +8,7 @@
 
 import { test, expect } from '@playwright/test';
 import { mockRoute } from '../apiMock';
-import { zendeskMock } from '../mockResponses';
+import { userDataMock, zendeskMock } from '../mockResponses';
 
 test.beforeEach(async ({ page }) => {
   const licenses = mockRoute({
@@ -36,8 +36,21 @@ test.beforeEach(async ({ page }) => {
     overrideValue: JSON.stringify(zendeskMock),
   });
 
+  const notesUser = mockRoute({
+    page,
+    path: '**/get_note_users?*',
+    fixture: 'search_note_users',
+  });
+
+  const userData = mockRoute({
+    page,
+    path: '**/user-data*',
+    fixture: 'search_user_data',
+    overrideValue: JSON.stringify(userDataMock),
+  });
+
   await page.goto('/search/audio?page=1&page-size=10&sort=-relevance');
-  await Promise.all([licenses, allSubjects, search, zendesk]);
+  await Promise.all([licenses, allSubjects, search, zendesk, notesUser, userData]);
 });
 
 test('Can use text input', async ({ page }) => {

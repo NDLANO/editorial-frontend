@@ -7,45 +7,84 @@
  */
 
 import { IGlossExample } from '@ndla/types-backend/concept-api';
-import { FieldRemoveButton, FieldSection } from '@ndla/forms';
+import { FieldRemoveButton, FieldSplitter } from '@ndla/forms';
 import { ButtonV2 } from '@ndla/button';
+import { spacing, colors } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
-import { FieldArray, useFormikContext } from 'formik';
+import { FieldArray } from 'formik';
+import styled from '@emotion/styled';
 import LanguageVariantFieldArray from './LanguageVariantFieldArray';
-import FormAccordion from '../../../components/Accordion/FormAccordion';
+import FormikField from '../../../components/FormikField';
 
 interface Props {
   name: string;
   examples: IGlossExample[][];
 }
 
+const StyledExamplesField = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+
+  &:not(:first-of-type) {
+    border-top: 1px solid ${colors.brand.greyLight};
+  }
+
+  > :first-child {
+    min-width: 75%;
+    display: flex;
+
+    > :first-child {
+      min-width: 100%;
+    }
+  }
+`;
+
+const ExamplesWrapper = styled.div`
+  > :last-child {
+    margin-top: ${spacing.small};
+  }
+`;
+
+const StyledFormikField = styled(FormikField)`
+  margin: 0;
+`;
+
+const StyledFieldRemoveButton = styled(FieldRemoveButton)`
+  padding: 0;
+`;
+
 const ExamplesFieldArray = ({ name, examples }: Props) => {
   const { t } = useTranslation();
-
-  const formikContext = useFormikContext<any>();
-  const { errors } = formikContext;
-
   return (
     <FieldArray
       name={name}
       render={(arrayHelpers: any) => (
-        <>
-          {examples.map((examples, index) => (
-            <FieldSection key={`${name}.${index}`}>
-              <FieldRemoveButton onClick={() => arrayHelpers.remove(index)} />
-              <div>
-                <FormAccordion
-                  id={`${name}.accordion.${index}`}
-                  title={`${t('form.concept.glossDataSection.example')} ${index + 1}`}
-                  hasError={!!errors[`${name}.${index}`]}
-                >
-                  <LanguageVariantFieldArray name={`${name}.${index}`} examples={examples} />
-                </FormAccordion>
-              </div>
-            </FieldSection>
+        <ExamplesWrapper>
+          {examples.map((languageVariantExamples, index) => (
+            <>
+              <StyledExamplesField key={`${name}.${index}`}>
+                <FieldSplitter>
+                  <div>
+                    <StyledFormikField name={`${name}.${index}`} showError={false}>
+                      {({ field }) => (
+                        <LanguageVariantFieldArray
+                          examples={languageVariantExamples}
+                          {...field}
+                          removeFromParentArray={() => arrayHelpers.remove(index)}
+                        />
+                      )}
+                    </StyledFormikField>
+                  </div>
+                </FieldSplitter>
+
+                <StyledFieldRemoveButton onClick={() => arrayHelpers.remove(index)}>
+                  Fjern eksempel
+                </StyledFieldRemoveButton>
+              </StyledExamplesField>
+            </>
           ))}
           <ButtonV2
-            variant="outline"
             onClick={() => arrayHelpers.push([{ example: '', language: '', transcriptions: {} }])}
             data-cy="addExample"
           >
@@ -53,7 +92,7 @@ const ExamplesFieldArray = ({ name, examples }: Props) => {
               label: t(`form.concept.glossDataSection.example`).toLowerCase(),
             })}
           </ButtonV2>
-        </>
+        </ExamplesWrapper>
       )}
     />
   );

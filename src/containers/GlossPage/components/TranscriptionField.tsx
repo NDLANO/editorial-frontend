@@ -6,7 +6,7 @@
  *
  */
 
-import { Input, FieldRemoveButton, FieldSection } from '@ndla/forms';
+import { Input, FieldRemoveButton } from '@ndla/forms';
 import { useTranslation } from 'react-i18next';
 import FormikField from '../../../components/FormikField';
 
@@ -24,16 +24,14 @@ const TranscriptionField = ({ name, value, label, removeField }: Props) => {
     <FormikField name={name}>
       {({ field }) => (
         <>
-          <FieldSection>
-            <Input
-              label={label}
-              placeholder={t('form.concept.glossDataSection.transcription')}
-              value={value ?? ''}
-              data-cy="transcription-selector"
-              {...field}
-            />
-            <FieldRemoveButton onClick={removeField} />
-          </FieldSection>
+          <Input
+            label={label}
+            placeholder={t('form.concept.glossDataSection.transcription')}
+            value={value ?? ''}
+            data-cy="transcription-selector"
+            {...field}
+          />
+          <FieldRemoveButton onClick={removeField} />
         </>
       )}
     </FormikField>

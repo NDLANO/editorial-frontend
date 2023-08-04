@@ -6,9 +6,11 @@
  *
  */
 
-import { FieldHeader, FieldSection, Input, Select } from '@ndla/forms';
+import { FieldHeader, Input, Select } from '@ndla/forms';
 import { IGlossExample } from '@ndla/types-backend/concept-api';
+import { spacing } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
+import styled from '@emotion/styled';
 import TranscriptionsField from './TranscriptionsField';
 import { LANGUAGES } from '../glossData';
 import FormikField from '../../../components/FormikField';
@@ -19,53 +21,64 @@ interface Props {
   name: string;
 }
 
+const StyledExampleField = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+
+  > :first-child {
+    padding-right: ${spacing.small};
+  }
+`;
+
+const StyledFormikField = styled(FormikField)`
+  margin: 0px;
+`;
+
 const ExampleField = ({ example, name }: Props) => {
   const { t } = useTranslation();
 
   return (
-    <FormikField name={name}>
+    <StyledFormikField name={name}>
       {({ field }) => (
-        <>
-          <FieldSection>
-            <Input
-              type="text"
-              placeholder={t('form.concept.glossDataSection.example')}
-              value={example.example}
-              onChange={(e) =>
-                field.onChange({
-                  target: {
-                    value: { ...example, example: e.currentTarget.value },
-                    name,
-                  },
-                })
-              }
-            />
-
-            <Select
-              value={example.language}
-              onChange={(e) =>
-                field.onChange({
-                  target: {
-                    value: { ...example, language: e.currentTarget.value },
-                    name,
-                  },
-                })
-              }
-            >
-              {!example.language && (
-                <option>
-                  {t('form.concept.glossDataSection.choose', {
-                    label: t('form.concept.glossDataSection.language').toLowerCase(),
-                  })}
-                </option>
-              )}
-              {LANGUAGES.map((language, languageIndex) => (
-                <option value={language} key={languageIndex}>
-                  {t(`languages.${language}`)}
-                </option>
-              ))}
-            </Select>
-          </FieldSection>
+        <StyledExampleField>
+          <Input
+            type="text"
+            placeholder={t('form.concept.glossDataSection.example')}
+            value={example.example}
+            onChange={(e) =>
+              field.onChange({
+                target: {
+                  value: { ...example, example: e.currentTarget.value },
+                  name,
+                },
+              })
+            }
+          />
+          <Select
+            value={example.language}
+            onChange={(e) =>
+              field.onChange({
+                target: {
+                  value: { ...example, language: e.currentTarget.value },
+                  name,
+                },
+              })
+            }
+          >
+            {!example.language && (
+              <option>
+                {t('form.concept.glossDataSection.choose', {
+                  label: t('form.concept.glossDataSection.language').toLowerCase(),
+                })}
+              </option>
+            )}
+            {LANGUAGES.map((language, languageIndex) => (
+              <option value={language} key={languageIndex}>
+                {t(`languages.${language}`)}
+              </option>
+            ))}
+          </Select>
 
           {example.language === 'zh' && (
             <>
@@ -76,9 +89,9 @@ const ExampleField = ({ example, name }: Props) => {
               />
             </>
           )}
-        </>
+        </StyledExampleField>
       )}
-    </FormikField>
+    </StyledFormikField>
   );
 };
 

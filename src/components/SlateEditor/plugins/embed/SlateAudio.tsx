@@ -108,31 +108,33 @@ const SlateAudio = ({
             language={language}
           />
         )}
-        <Modal open={editMode} onOpenChange={setEditMode}>
-          <ModalTrigger>
-            <SlateAudioWrapper
-              showCopyOutline={showCopyOutline}
-              hasError={!!error}
-              contentEditable={false}
-              role="button"
-              draggable
-              className="c-placeholder-editmode"
-              tabIndex={0}
-            >
-              {audio.id && <AudioPlayerMounter audio={audio} locale={locale} speech={speech} />}
-            </SlateAudioWrapper>
-          </ModalTrigger>
-          <ModalContent>
-            <EditAudio
-              saveEmbedUpdates={saveEmbedUpdates}
-              setHasError={setHasError}
-              audio={audio}
-              embed={embed}
-              onExit={toggleEdit}
-              type={embed.type || 'standard'}
-            />
-          </ModalContent>
-        </Modal>
+        {audio.id && (
+          <Modal open={editMode} onOpenChange={setEditMode}>
+            <ModalTrigger>
+              <SlateAudioWrapper
+                showCopyOutline={showCopyOutline}
+                hasError={!!error}
+                contentEditable={false}
+                role="button"
+                draggable
+                className="c-placeholder-editmode"
+                tabIndex={0}
+              >
+                <AudioPlayerMounter audio={audio} locale={locale} speech={speech} />
+              </SlateAudioWrapper>
+            </ModalTrigger>
+            <ModalContent>
+              <EditAudio
+                saveEmbedUpdates={saveEmbedUpdates}
+                setHasError={setHasError}
+                audio={audio}
+                embed={embed}
+                onExit={toggleEdit}
+                type={embed.type || 'standard'}
+              />
+            </ModalContent>
+          </Modal>
+        )}
       </Figure>
       {children}
     </div>

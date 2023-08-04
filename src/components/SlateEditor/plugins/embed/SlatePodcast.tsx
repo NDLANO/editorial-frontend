@@ -100,33 +100,35 @@ const SlatePodcast = ({
           embed={embed}
           language={language}
         />
-        <Modal open={editing} onOpenChange={setEditing}>
-          <ModalTrigger>
-            <SlatePodcastWrapper
-              showCopyOutline={showCopyOutline}
-              hasError={hasError}
-              contentEditable={false}
-              role="button"
-              className="c-placeholder-editomode"
-              draggable
-              tabIndex={0}
-              onKeyPress={() => setEditing(true)}
-              onClick={() => setEditing(true)}
-            >
-              {audio.id && <AudioPlayerMounter audio={audio} locale={locale} speech={false} />}
-            </SlatePodcastWrapper>
-          </ModalTrigger>
-          <ModalContent>
-            <EditPodcast
-              close={close}
-              embed={embed}
-              locale={locale}
-              podcast={audio}
-              setHasError={setHasError}
-              saveEmbedUpdates={saveEmbedUpdates}
-            />
-          </ModalContent>
-        </Modal>
+        {audio.id && (
+          <Modal open={editing} onOpenChange={setEditing}>
+            <ModalTrigger>
+              <SlatePodcastWrapper
+                showCopyOutline={showCopyOutline}
+                hasError={hasError}
+                contentEditable={false}
+                role="button"
+                className="c-placeholder-editomode"
+                draggable
+                tabIndex={0}
+                onKeyPress={() => setEditing(true)}
+                onClick={() => setEditing(true)}
+              >
+                <AudioPlayerMounter audio={audio} locale={locale} speech={false} />
+              </SlatePodcastWrapper>
+            </ModalTrigger>
+            <ModalContent>
+              <EditPodcast
+                close={close}
+                embed={embed}
+                locale={locale}
+                podcast={audio}
+                setHasError={setHasError}
+                saveEmbedUpdates={saveEmbedUpdates}
+              />
+            </ModalContent>
+          </Modal>
+        )}
       </Figure>
       {children}
     </div>

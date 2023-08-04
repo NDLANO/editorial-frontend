@@ -5,6 +5,7 @@ import { TYPE_ASIDE } from '../plugins/aside/types';
 import { TYPE_QUOTE } from '../plugins/blockquote/types';
 import { TYPE_BODYBOX } from '../plugins/bodybox/types';
 import { TYPE_CODEBLOCK } from '../plugins/codeBlock/types';
+import { TYPE_DEFINITION_LIST } from '../plugins/definitionList/types';
 import { TYPE_DETAILS } from '../plugins/details/types';
 import {
   TYPE_EMBED_AUDIO,
@@ -37,6 +38,7 @@ export const textBlockElements: Element['type'][] = [
   TYPE_ASIDE,
   TYPE_BODYBOX,
   TYPE_DETAILS,
+  TYPE_DEFINITION_LIST,
 ];
 
 export const lastTextBlockElement: Element['type'][] = [TYPE_PARAGRAPH];

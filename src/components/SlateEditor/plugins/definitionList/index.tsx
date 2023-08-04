@@ -131,12 +131,6 @@ export const definitionListPlugin = (editor: Editor) => {
         }
       }
 
-      if (Editor.hasPath(editor, Path.parent(nodepath))) {
-        const [parentNode, parentPath] = Editor.node(editor, Path.parent(nodepath));
-        if (Element.isElement(parentNode) && parentNode.type !== TYPE_SECTION) {
-          Transforms.liftNodes(editor, { at: parentPath });
-        }
-      }
       if (defaultBlockNormalizer(editor, entry, normalizerDLConfig)) {
         return;
       }

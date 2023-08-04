@@ -1169,6 +1169,7 @@ const phrases = {
         hide: 'Skjul byline',
       },
       isDecorative: 'Bildet er kun dekorativt i denne samanhengen',
+      showBorder: 'Vis bilderamme',
     },
     video: {
       caption: {

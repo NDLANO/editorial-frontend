@@ -46,6 +46,10 @@ const StyledButton = styled(ButtonV2)`
   margin-top: ${spacing.small};
 `;
 
+const StyledFieldRemoveButton = styled(FieldRemoveButton)`
+  padding: 0;
+`;
+
 const LanguageVariantFieldArray = ({ examples, name, removeFromParentArray }: Props) => {
   const { t } = useTranslation();
 
@@ -57,7 +61,7 @@ const LanguageVariantFieldArray = ({ examples, name, removeFromParentArray }: Pr
           <>
             {examples.map((example, exampleIndex) => (
               <StyledLanguageVariantField key={exampleIndex}>
-                <FieldRemoveButton
+                <StyledFieldRemoveButton
                   onClick={() =>
                     examples.length === 1
                       ? removeFromParentArray()

@@ -28,7 +28,7 @@ import { Embed, ExternalEmbed, H5pEmbed } from '../../interfaces';
 import SlateResourceBox from './SlateResourceBox';
 
 const ApplyBoxshadow = styled.div`
-  &[data-showCopyOutline='true'] {
+  &[data-show-copy-outline='true'] {
     box-shadow: rgb(32, 88, 143) 0 0 0 2px;
   }
 `;
@@ -248,6 +248,7 @@ const DisplayExternal = ({
         {allowedProvider.name && (
           <IconButtonV2
             aria-label={t('form.external.edit', { type: providerName || t('form.external.title') })}
+            title={t('form.external.edit', { type: providerName || t('form.external.title') })}
             variant="ghost"
             colorTheme="light"
             onClick={(evt) => {
@@ -263,23 +264,26 @@ const DisplayExternal = ({
           aria-label={t('form.external.remove', {
             type: providerName || t('form.external.title'),
           })}
+          title={t('form.external.remove', {
+            type: providerName || t('form.external.title'),
+          })}
           colorTheme="danger"
           variant="ghost"
           onClick={onRemoveClick}
           data-cy="remove-element"
         >
           <DeleteForever />
-        </IconButtonV2>{' '}
+        </IconButtonV2>
       </StyledFigureButtons>
       {(embed.resource === 'iframe' || embed.resource === 'external') &&
       embed.type === 'fullscreen' ? (
-        <ApplyBoxshadow data-showCopyOutline={showCopyOutline}>
+        <ApplyBoxshadow data-show-copy-outline={showCopyOutline}>
           <SlateResourceBox embed={embed} language={language} />
         </ApplyBoxshadow>
       ) : (
         <ApplyBoxshadow
           ref={iframeWrapper}
-          data-showCopyOutline={showCopyOutline}
+          data-show-copy-outline={showCopyOutline}
           style={{ pointerEvents: isResizing ? 'none' : 'auto' }}
         >
           <iframe

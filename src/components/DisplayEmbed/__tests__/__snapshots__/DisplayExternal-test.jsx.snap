@@ -255,7 +255,7 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
   margin: 0;
 }
 
-.emotion-3[data-showCopyOutline='true'] {
+.emotion-3[data-show-copy-outline='true'] {
   box-shadow: rgb(32, 88, 143) 0 0 0 2px;
 }
 
@@ -269,6 +269,7 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
 <div>
   <div
     class="c-figure"
+    contenteditable="false"
   >
     <div
       class="emotion-0"
@@ -276,6 +277,7 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
       <button
         aria-label="Rediger eksternt element"
         class="emotion-1"
+        title="Rediger eksternt element"
         type="button"
       >
         <svg
@@ -305,6 +307,7 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
         aria-label="Fjern eksternt element"
         class="emotion-2"
         data-cy="remove-element"
+        title="Fjern eksternt element"
         type="button"
       >
         <svg
@@ -334,7 +337,6 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
           </g>
         </svg>
       </button>
-       
     </div>
     <div
       class="emotion-3"

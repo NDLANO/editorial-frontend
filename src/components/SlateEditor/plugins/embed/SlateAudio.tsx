@@ -100,58 +100,59 @@ const SlateAudio = ({
   }, []);
 
   return (
-    <div draggable {...attributes} contentEditable={true}>
+    <div draggable {...attributes}>
       <Figure id={`${audio.id}`}>
-        {!speech && (
-          <StyledFigureButtons>
-            <SafeLinkIconButton
-              variant="ghost"
-              colorTheme="light"
-              to={`/media/audio-upload/${embed.resource_id}/edit/${language}`}
-              target="_blank"
-              title={t('form.editAudio')}
-              aria-label={t('form.editAudio')}
-              tabIndex={-1}
-            >
-              <Link />
-            </SafeLinkIconButton>
-            <IconButtonV2
-              title={t('form.audio.remove')}
-              aria-label={t('form.audio.remove')}
-              colorTheme="danger"
-              variant="ghost"
-              onClick={onRemoveClick}
-              data-cy="remove-element"
-            >
-              <DeleteForever />
-            </IconButtonV2>
-          </StyledFigureButtons>
-        )}
-        <Modal open={editMode} onOpenChange={setEditMode}>
-          <ModalTrigger>
-            <SlateAudioWrapper
-              showCopyOutline={showCopyOutline}
-              hasError={!!error}
-              contentEditable={false}
-              role="button"
-              draggable
-              className="c-placeholder-editmode"
-              tabIndex={0}
-            >
-              {audio.id && <AudioPlayerMounter audio={audio} locale={locale} speech={speech} />}
-            </SlateAudioWrapper>
-          </ModalTrigger>
-          <ModalContent>
-            <EditAudio
-              saveEmbedUpdates={saveEmbedUpdates}
-              setHasError={setHasError}
-              audio={audio}
-              embed={embed}
-              onExit={toggleEdit}
-              type={embed.type || 'standard'}
-            />
-          </ModalContent>
-        </Modal>
+        <div contentEditable={false}>
+          {!speech && (
+            <StyledFigureButtons>
+              <SafeLinkIconButton
+                variant="ghost"
+                colorTheme="light"
+                to={`/media/audio-upload/${embed.resource_id}/edit/${language}`}
+                target="_blank"
+                title={t('form.editAudio')}
+                aria-label={t('form.editAudio')}
+              >
+                <Link />
+              </SafeLinkIconButton>
+              <IconButtonV2
+                title={t('form.audio.remove')}
+                aria-label={t('form.audio.remove')}
+                colorTheme="danger"
+                variant="ghost"
+                onClick={onRemoveClick}
+                data-cy="remove-element"
+              >
+                <DeleteForever />
+              </IconButtonV2>
+            </StyledFigureButtons>
+          )}
+          <Modal open={editMode} onOpenChange={setEditMode}>
+            <ModalTrigger>
+              <SlateAudioWrapper
+                showCopyOutline={showCopyOutline}
+                hasError={!!error}
+                contentEditable={false}
+                role="button"
+                draggable
+                className="c-placeholder-editmode"
+                tabIndex={0}
+              >
+                {audio.id && <AudioPlayerMounter audio={audio} locale={locale} speech={speech} />}
+              </SlateAudioWrapper>
+            </ModalTrigger>
+            <ModalContent>
+              <EditAudio
+                saveEmbedUpdates={saveEmbedUpdates}
+                setHasError={setHasError}
+                audio={audio}
+                embed={embed}
+                onExit={toggleEdit}
+                type={embed.type || 'standard'}
+              />
+            </ModalContent>
+          </Modal>
+        </div>
       </Figure>
       {children}
     </div>

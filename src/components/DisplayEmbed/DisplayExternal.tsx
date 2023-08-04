@@ -243,7 +243,7 @@ const DisplayExternal = ({
   };
 
   return (
-    <div {...attributes} className={'c-figure'}>
+    <div {...attributes} className={'c-figure'} contentEditable={false}>
       <StyledFigureButtons>
         {allowedProvider.name && (
           <IconButtonV2

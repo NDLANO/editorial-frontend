@@ -95,58 +95,59 @@ const SlatePodcast = ({
   }, [embed, language]);
 
   return (
-    <div draggable {...attributes} contentEditable={false}>
+    <div draggable {...attributes}>
       <Figure id={`${audio.id}`}>
-        <StyledFigureButtons>
-          <SafeLinkIconButton
-            variant="ghost"
-            colorTheme="light"
-            to={`/media/podcast-upload/${embed.resource_id}/edit/${language}`}
-            target="_blank"
-            title={t('form.editPodcast')}
-            aria-label={t('form.editPodcast')}
-            tabIndex={-1}
-          >
-            <Link />
-          </SafeLinkIconButton>
-          <IconButtonV2
-            title={t('form.podcast.remove')}
-            aria-label={t('form.podcast.remove')}
-            colorTheme="danger"
-            variant="ghost"
-            onClick={onRemoveClick}
-            data-cy="remove-element"
-          >
-            <DeleteForever />
-          </IconButtonV2>
-        </StyledFigureButtons>
-        <Modal open={editing} onOpenChange={setEditing}>
-          <ModalTrigger>
-            <SlatePodcastWrapper
-              showCopyOutline={showCopyOutline}
-              hasError={hasError}
-              contentEditable={false}
-              role="button"
-              className="c-placeholder-editomode"
-              draggable
-              tabIndex={0}
-              onKeyPress={() => setEditing(true)}
-              onClick={() => setEditing(true)}
+        <div contentEditable={false}>
+          <StyledFigureButtons>
+            <SafeLinkIconButton
+              variant="ghost"
+              colorTheme="light"
+              to={`/media/podcast-upload/${embed.resource_id}/edit/${language}`}
+              target="_blank"
+              title={t('form.editPodcast')}
+              aria-label={t('form.editPodcast')}
             >
-              {audio.id && <AudioPlayerMounter audio={audio} locale={locale} speech={false} />}
-            </SlatePodcastWrapper>
-          </ModalTrigger>
-          <ModalContent>
-            <EditPodcast
-              close={close}
-              embed={embed}
-              locale={locale}
-              podcast={audio}
-              setHasError={setHasError}
-              saveEmbedUpdates={saveEmbedUpdates}
-            />
-          </ModalContent>
-        </Modal>
+              <Link />
+            </SafeLinkIconButton>
+            <IconButtonV2
+              title={t('form.podcast.remove')}
+              aria-label={t('form.podcast.remove')}
+              colorTheme="danger"
+              variant="ghost"
+              onClick={onRemoveClick}
+              data-cy="remove-element"
+            >
+              <DeleteForever />
+            </IconButtonV2>
+          </StyledFigureButtons>
+          <Modal open={editing} onOpenChange={setEditing}>
+            <ModalTrigger>
+              <SlatePodcastWrapper
+                showCopyOutline={showCopyOutline}
+                hasError={hasError}
+                contentEditable={false}
+                role="button"
+                className="c-placeholder-editomode"
+                draggable
+                tabIndex={0}
+                onKeyPress={() => setEditing(true)}
+                onClick={() => setEditing(true)}
+              >
+                {audio.id && <AudioPlayerMounter audio={audio} locale={locale} speech={false} />}
+              </SlatePodcastWrapper>
+            </ModalTrigger>
+            <ModalContent>
+              <EditPodcast
+                close={close}
+                embed={embed}
+                locale={locale}
+                podcast={audio}
+                setHasError={setHasError}
+                saveEmbedUpdates={saveEmbedUpdates}
+              />
+            </ModalContent>
+          </Modal>
+        </div>
       </Figure>
       {children}
     </div>

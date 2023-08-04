@@ -138,7 +138,6 @@ const SlateImage = ({
                 target="_blank"
                 title={t('form.editOriginalImage')}
                 aria-label={t('form.editOriginalImage')}
-                tabIndex={-1}
               >
                 <Link />
               </SafeLinkIconButton>

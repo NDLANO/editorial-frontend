@@ -44,12 +44,18 @@ const StyledModalBody = styled(ModalBody)`
 
 const GridWrapper = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   position: relative;
 `;
 
 const StyledGrid = styled(Grid)`
   width: 100%;
+`;
+
+const ButtonContainer = styled.div`
+  position: absolute;
+  align-self: start;
+  right: -${spacing.large};
 `;
 
 export const SlateGrid = ({ element, editor, children }: Props) => {
@@ -87,10 +93,14 @@ export const SlateGrid = ({ element, editor, children }: Props) => {
 
   return (
     <GridWrapper>
-      <StyledFigureButtons>
+      <StyledGrid border="none" columns={element.data.columns} background={element.data.background}>
+        {children}
+      </StyledGrid>
+      <ButtonContainer>
+        <DeleteButton aria-label={t('delete')} data-cy="remove-grid" onClick={handleRemove} />
         <Modal open={isEditing} onOpenChange={setIsEditing}>
           <ModalTrigger>
-            <IconButtonV2 variant="ghost" aria-label={t('gridForm.title')}>
+            <IconButtonV2 tabIndex={0} variant="ghost" aria-label={t('gridForm.title')}>
               <Pencil />
             </IconButtonV2>
           </ModalTrigger>
@@ -104,12 +114,7 @@ export const SlateGrid = ({ element, editor, children }: Props) => {
             </StyledModalBody>
           </ModalContent>
         </Modal>
-
-        <DeleteButton aria-label={t('delete')} data-cy="remove-grid" onClick={handleRemove} />
-      </StyledFigureButtons>
-      <StyledGrid border="none" columns={element.data.columns} background={element.data.background}>
-        {children}
-      </StyledGrid>
+      </ButtonContainer>
     </GridWrapper>
   );
 };

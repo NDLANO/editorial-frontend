@@ -170,7 +170,7 @@ const phrases = {
     emptyButton: 'Tøm',
     title: 'Tittel',
     language: 'Språk',
-    contentNoHits: 'Ikke noe innhold samsvarte med søket ditt på: {{query}}',
+    contentNoHits: 'Ingen treff i innhold samsvarte med søket ditt på: {{query}}',
     'podcast-seriesNoHits': 'Ingen serier samsvarte med søket ditt på: {{query}}',
     conceptNoHits: 'Ingen forklaringer samsvarte med søket ditt på: {{query}}',
     audioNoHits: 'Ingen lydfiler samsvarte med søket ditt på: {{query}}',

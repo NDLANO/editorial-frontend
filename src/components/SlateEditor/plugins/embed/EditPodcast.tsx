@@ -12,17 +12,14 @@ import { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { spacing } from '@ndla/core';
 import { ButtonV2 } from '@ndla/button';
-import { Input } from '@ndla/forms';
 import { ModalBody, ModalCloseButton, ModalHeader, ModalTitle } from '@ndla/modal';
 import { AudioEmbed, LocaleType, SlateAudio } from '../../../../interfaces';
-import FormikField from '../../../FormikField';
 import validateFormik, { RulesType } from '../../../formikValidationSchema';
 import AudioPlayerMounter from './AudioPlayerMounter';
 
 interface Props {
   podcast: SlateAudio;
   embed: AudioEmbed;
-  language: string;
   close: () => void;
   speech?: boolean;
   locale: LocaleType;
@@ -46,15 +43,7 @@ export const toPodcastEmbedFormValues = (embed: AudioEmbed): FormValues => {
   };
 };
 
-const EditPodcast = ({
-  podcast,
-  embed,
-  language,
-  locale,
-  close,
-  setHasError,
-  saveEmbedUpdates,
-}: Props) => {
+const EditPodcast = ({ podcast, embed, locale, close, setHasError, saveEmbedUpdates }: Props) => {
   const { t } = useTranslation();
   const initialValues = useMemo(() => toPodcastEmbedFormValues(embed), [embed]);
   const handleSubmit = ({ alttext }: FormValues) => {
@@ -66,7 +55,7 @@ const EditPodcast = ({
     <>
       <ModalHeader>
         <ModalTitle id="editPodcastEmbed">{t('form.editPodcast')}</ModalTitle>
-        <ModalCloseButton onClick={close} />
+        <ModalCloseButton />
       </ModalHeader>
       <ModalBody>
         <AudioPlayerMounter audio={podcast} locale={locale} speech={false} />
@@ -94,10 +83,6 @@ const ButtonWrapper = styled.div`
   justify-content: flex-end;
   gap: ${spacing.small};
   padding: ${spacing.small} 0;
-`;
-
-const StyledFormikField = styled(FormikField)`
-  margin-top: ${spacing.small};
 `;
 
 const SlatePodcastForm = ({ setHasError, isValid, dirty, close }: SlatePodcastFormProps) => {

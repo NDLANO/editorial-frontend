@@ -12,7 +12,7 @@ import { RenderElementProps } from 'slate-react';
 import { Portal } from '@radix-ui/react-portal';
 import { ButtonV2 } from '@ndla/button';
 import styled from '@emotion/styled';
-import { Modal } from '@ndla/modal';
+import { Modal, ModalContent, ModalTrigger } from '@ndla/modal';
 import { useTranslation } from 'react-i18next';
 import { colors, spacing } from '@ndla/core';
 import config from '../../../../config';
@@ -82,6 +82,7 @@ const Link = (props: Props) => {
   } = props;
   const linkRef = useRef<HTMLAnchorElement>(null);
   const [model, setModel] = useState<Model | undefined>();
+  const startOpen = useRef(!hasHrefOrContentId(element));
   const [editMode, setEditMode] = useState(!hasHrefOrContentId(element));
 
   const { t } = useTranslation();
@@ -130,32 +131,34 @@ const Link = (props: Props) => {
   const isInline = isNodeInCurrentSelection(editor, element);
 
   return (
-    <StyledLink {...attributes} href={model?.href} ref={linkRef}>
-      {children}
-      {model && (
-        <>
-          {isInline && (
-            <Portal>
-              <StyledLinkMenu top={top} left={left}>
-                <ButtonV2 variant="link" onClick={toggleEditMode}>
-                  {t('form.content.link.change')}
-                </ButtonV2>{' '}
-                | {t('form.content.link.goTo')}{' '}
-                <a href={model?.href} target="_blank" rel="noopener noreferrer">
-                  {' '}
-                  {model?.href}
-                </a>
-              </StyledLinkMenu>
-            </Portal>
-          )}
-          <Modal controlled isOpen={editMode} onClose={toggleEditMode}>
-            {(close) => (
-              <EditLink {...props} model={model} closeEditMode={close} onChange={onChange} />
+    <Modal defaultOpen={startOpen.current} open={editMode} onOpenChange={toggleEditMode}>
+      <StyledLink {...attributes} href={model?.href} ref={linkRef}>
+        {children}
+        {model && (
+          <>
+            {isInline && (
+              <Portal>
+                <StyledLinkMenu top={top} left={left}>
+                  <ModalTrigger>
+                    <ButtonV2 variant="link">{t('form.content.link.change')}</ButtonV2>
+                  </ModalTrigger>{' '}
+                  | {t('form.content.link.goTo')}{' '}
+                  <a href={model?.href} target="_blank" rel="noopener noreferrer">
+                    {' '}
+                    {model?.href}
+                  </a>
+                </StyledLinkMenu>
+              </Portal>
             )}
-          </Modal>
-        </>
-      )}
-    </StyledLink>
+          </>
+        )}
+      </StyledLink>
+      <ModalContent>
+        {model && (
+          <EditLink {...props} model={model} closeEditMode={toggleEditMode} onChange={onChange} />
+        )}
+      </ModalContent>
+    </Modal>
   );
 };
 

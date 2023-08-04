@@ -11,7 +11,15 @@ import styled from '@emotion/styled';
 import { colors } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
 import { SubjectMaterial } from '@ndla/icons/contentType';
-import { ModalHeader, ModalCloseButton, ModalBody, Modal, ModalTitle } from '@ndla/modal';
+import {
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  Modal,
+  ModalTitle,
+  ModalTrigger,
+  ModalContent,
+} from '@ndla/modal';
 import { ButtonV2 } from '@ndla/button';
 import { IConceptSummary } from '@ndla/types-backend/concept-api';
 import { IMultiSearchSummary } from '@ndla/types-backend/search-api';
@@ -79,8 +87,8 @@ const EmbedConnection = ({ id, type, articles, setArticles, concepts, setConcept
   }
 
   return (
-    <Modal
-      activateButton={
+    <Modal>
+      <ModalTrigger>
         <ButtonV2
           variant="stripped"
           aria-label={t(`form.embedConnections.info.${type}`)}
@@ -88,58 +96,55 @@ const EmbedConnection = ({ id, type, articles, setArticles, concepts, setConcept
         >
           <ImageInformationIcon css={normalPaddingCSS} />
         </ButtonV2>
-      }
-    >
-      {(onClose: () => void) => (
-        <>
-          <ModalHeader>
-            <ModalTitle>
-              {t('form.embedConnections.title', {
-                resource: t(`form.embedConnections.type.${type}`),
-              })}
-            </ModalTitle>
-            <ModalCloseButton title={t('dialog.close')} onClick={onClose} />
-          </ModalHeader>
-          <ModalBody>
-            <p>
-              {t('form.embedConnections.sectionTitleArticle', {
-                resource: t(`form.embedConnections.type.${type}`),
-              })}{' '}
-              <em>
-                ({t('form.embedConnections.articles', { count: articles ? articles.length : 0 })})
-              </em>
-            </p>
-            <ElementList
-              elements={articles?.map((obj) => ({
-                ...obj,
-                articleType: obj.learningResourceType,
-              }))}
-              isEditable={false}
-            />
+      </ModalTrigger>
+      <ModalContent>
+        <ModalHeader>
+          <ModalTitle>
+            {t('form.embedConnections.title', {
+              resource: t(`form.embedConnections.type.${type}`),
+            })}
+          </ModalTitle>
+          <ModalCloseButton />
+        </ModalHeader>
+        <ModalBody>
+          <p>
+            {t('form.embedConnections.sectionTitleArticle', {
+              resource: t(`form.embedConnections.type.${type}`),
+            })}{' '}
+            <em>
+              ({t('form.embedConnections.articles', { count: articles ? articles.length : 0 })})
+            </em>
+          </p>
+          <ElementList
+            elements={articles?.map((obj) => ({
+              ...obj,
+              articleType: obj.learningResourceType,
+            }))}
+            isEditable={false}
+          />
 
-            {type === 'image' && (
-              <>
-                <p>
-                  {t('form.embedConnections.sectionTitleConcept', {
-                    resource: t(`form.embedConnections.type.${type}`),
-                  })}{' '}
-                  <em>
-                    (
-                    {t('form.embedConnections.concepts', {
-                      count: concepts ? concepts.length : 0,
-                    })}
-                    )
-                  </em>
-                </p>
-                <ElementList
-                  elements={concepts?.map((obj) => ({ ...obj, articleType: 'concept' })) ?? []}
-                  isEditable={false}
-                />
-              </>
-            )}
-          </ModalBody>
-        </>
-      )}
+          {type === 'image' && (
+            <>
+              <p>
+                {t('form.embedConnections.sectionTitleConcept', {
+                  resource: t(`form.embedConnections.type.${type}`),
+                })}{' '}
+                <em>
+                  (
+                  {t('form.embedConnections.concepts', {
+                    count: concepts ? concepts.length : 0,
+                  })}
+                  )
+                </em>
+              </p>
+              <ElementList
+                elements={concepts?.map((obj) => ({ ...obj, articleType: 'concept' })) ?? []}
+                isEditable={false}
+              />
+            </>
+          )}
+        </ModalBody>
+      </ModalContent>
     </Modal>
   );
 };

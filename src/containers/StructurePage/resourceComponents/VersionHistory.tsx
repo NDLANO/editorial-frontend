@@ -13,8 +13,16 @@ import { spacing, colors } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
 import { VersionHistory as UIVersionHistory } from '@ndla/editor';
 import { IEditorNote } from '@ndla/types-backend/draft-api';
-import { ButtonV2, CloseButton } from '@ndla/button';
-import { ModalBody, ModalHeader, ModalTitle, Modal } from '@ndla/modal';
+import { ButtonV2 } from '@ndla/button';
+import {
+  ModalBody,
+  ModalHeader,
+  ModalTitle,
+  Modal,
+  ModalTrigger,
+  ModalContent,
+  ModalCloseButton,
+} from '@ndla/modal';
 import { ContentTypeBadge } from '@ndla/ui';
 import { ResourceWithNodeConnectionAndMeta } from './StructureResources';
 import ResourceItemLink from '../../../components/Taxonomy/ResourceItemLink';
@@ -68,9 +76,8 @@ const VersionHistory = ({ resource, contentType }: Props) => {
     return null;
   }
   return (
-    <Modal
-      position="top"
-      activateButton={
+    <Modal>
+      <ModalTrigger>
         <StyledButton
           colorTheme="light"
           size="xsmall"
@@ -79,15 +86,15 @@ const VersionHistory = ({ resource, contentType }: Props) => {
         >
           {t(`form.status.${resource.contentMeta.status.current.toLowerCase()}`)}
         </StyledButton>
-      }
-    >
-      {(close) => <ModalContent onClose={close} contentType={contentType} resource={resource} />}
+      </ModalTrigger>
+      <ModalContent position="top">
+        <VersionHistoryContent contentType={contentType} resource={resource} />
+      </ModalContent>
     </Modal>
   );
 };
 
 interface ModalContentProps {
-  onClose: () => void;
   contentType: string;
   resource: ResourceWithNodeConnectionAndMeta;
 }
@@ -100,7 +107,7 @@ interface VersionHistoryNotes {
   status: string;
 }
 
-const ModalContent = ({ onClose, contentType, resource }: ModalContentProps) => {
+const VersionHistoryContent = ({ contentType, resource }: ModalContentProps) => {
   const { t, i18n } = useTranslation();
   const [notes, setNotes] = useState<VersionHistoryNotes[] | undefined>(undefined);
 
@@ -136,7 +143,7 @@ const ModalContent = ({ onClose, contentType, resource }: ModalContentProps) => 
     <>
       <StyledModalHeader>
         <ModalTitle>{t('form.workflowSection')}</ModalTitle>
-        <CloseButton onClick={onClose} />
+        <ModalCloseButton />
       </StyledModalHeader>
       <StyledModalBody>
         <LinkWrapper>

@@ -6,7 +6,7 @@
  *
  */
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import {
   IConcept,
   INewConcept,
@@ -171,10 +171,6 @@ const ConceptForm = ({
   const { applicationError } = useMessages();
   const { data: licenses = [] } = useLicenses({ placeholderData: [] });
   const { ndlaId } = useSession();
-
-  useEffect(() => {
-    setSavedToServer(false);
-  }, [concept]);
 
   const handleSubmit = async (
     values: ConceptFormValues,

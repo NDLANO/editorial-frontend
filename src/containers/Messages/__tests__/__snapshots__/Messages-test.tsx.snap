@@ -17,37 +17,31 @@ exports[`Messages A message is removed if the modal is closed 1`] = `
   inset: 0;
   background: rgba(1, 1, 1, 0.3);
   z-index: 100;
+  -webkit-animation-duration: var(--duration);
+  animation-duration: var(--duration);
+  -webkit-animation-timing-function: ease-in-out;
+  animation-timing-function: ease-in-out;
+}
+
+.emotion-1[data-state='open'] {
+  -webkit-animation-name: overlayFadeIn;
+  animation-name: overlayFadeIn;
+}
+
+.emotion-1[data-state='closed'] {
+  -webkit-animation-name: overlayFadeOut;
+  animation-name: overlayFadeOut;
 }
 
 .emotion-3 {
+  --margin: 0px;
   position: fixed;
   inset: 0;
-  overflow: auto;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  -webkit-justify-content: center;
-  justify-content: center;
+  margin: auto;
   z-index: 100;
-}
-
-.emotion-5 {
-  --margin: 0px;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  position: fixed;
+  height: -webkit-min-content;
+  height: -moz-min-content;
+  height: min-content;
   max-height: 85%;
   max-width: 95%;
   overflow-y: auto;
@@ -56,105 +50,183 @@ exports[`Messages A message is removed if the modal is closed 1`] = `
   padding-top: env(safe-area-inset-top);
   padding-left: env(safe-area-inset-left);
   padding-right: env(safe-area-inset-right);
+  -webkit-animation-duration: var(--duration);
+  animation-duration: var(--duration);
+  -webkit-animation-timing-function: ease-in-out;
+  animation-timing-function: ease-in-out;
 }
 
 @media (min-width: 37.5625em) {
-  .emotion-5[data-margin='small'] {
+  .emotion-3[data-margin='small'] {
     --margin: 24px;
   }
 }
 
-.emotion-5[data-position='top'] {
+.emotion-3[data-position='top'] {
   top: var(--margin);
   bottom: unset;
 }
 
-.emotion-5[data-position='bottom'] {
+.emotion-3[data-position='bottom'] {
   bottom: var(--margin);
   top: unset;
 }
 
-.emotion-5[data-position='left'] {
+.emotion-3[data-position='left'] {
   left: var(--margin);
   right: unset;
 }
 
-.emotion-5[data-position='right'] {
+.emotion-3[data-position='right'] {
   right: var(--margin);
   left: unset;
 }
 
-.emotion-5[data-size='full'] {
+.emotion-3[data-size='full'] {
   min-height: 100%;
   min-width: 100%;
   inset: 0;
 }
 
-.emotion-5[data-width='xsmall'],
-.emotion-5[data-size='xsmall'] {
+.emotion-3[data-width='xsmall'],
+.emotion-3[data-size='xsmall'] {
   width: 300px;
 }
 
-.emotion-5[data-width='small'],
-.emotion-5[data-size='small'] {
+.emotion-3[data-width='small'],
+.emotion-3[data-size='small'] {
   width: 500px;
 }
 
-.emotion-5[data-width='normal'],
-.emotion-5[data-size='normal'] {
+.emotion-3[data-width='normal'],
+.emotion-3[data-size='normal'] {
   width: 700px;
 }
 
-.emotion-5[data-width='large'],
-.emotion-5[data-size='large'] {
+.emotion-3[data-width='large'],
+.emotion-3[data-size='large'] {
   width: 1100px;
 }
 
-.emotion-5[data-width='full'] {
+.emotion-3[data-width='full'] {
   width: 100%;
   min-width: 100%;
   left: 0;
   right: 0;
 }
 
-.emotion-5[data-height='xsmall'] {
+.emotion-3[data-height='xsmall'] {
   height: 300px;
 }
 
-.emotion-5[data-height='small'] {
+.emotion-3[data-height='small'] {
   height: 500px;
 }
 
-.emotion-5[data-height='normal'] {
+.emotion-3[data-height='normal'] {
   height: 700px;
 }
 
-.emotion-5[data-height='large'] {
+.emotion-3[data-height='large'] {
   height: 1100px;
 }
 
-.emotion-5[data-height='full'] {
+.emotion-3[data-height='full'] {
   height: 100%;
   min-height: 100%;
   top: 0;
   bottom: 0;
 }
 
-.emotion-5[data-expands='true'] {
-  width: unset;
-  height: unset;
+.emotion-3[data-expands='true'] {
+  width: -webkit-min-content;
+  width: -moz-min-content;
+  width: min-content;
+  height: -webkit-min-content;
+  height: -moz-min-content;
+  height: min-content;
   max-width: 100%;
   max-height: 100%;
 }
 
+.emotion-3[data-animation-name='fade'][data-state='open'] {
+  -webkit-animation-name: modalFadeIn;
+  animation-name: modalFadeIn;
+}
+
+.emotion-3[data-animation-name='fade'][data-state='closed'] {
+  -webkit-animation-name: modalFadeOut;
+  animation-name: modalFadeOut;
+}
+
+.emotion-3[data-animation-name='zoom'][data-state='open'] {
+  -webkit-animation-name: modalZoomIn;
+  animation-name: modalZoomIn;
+}
+
+.emotion-3[data-animation-name='zoom'][data-state='closed'] {
+  -webkit-animation-name: modalZoomOut;
+  animation-name: modalZoomOut;
+}
+
+.emotion-3[data-animation-name='subtle'][data-state='open'] {
+  -webkit-animation-name: modalSubtleIn;
+  animation-name: modalSubtleIn;
+}
+
+.emotion-3[data-animation-name='subtle'][data-state='closed'] {
+  -webkit-animation-name: modalSubtleOut;
+  animation-name: modalSubtleOut;
+}
+
+.emotion-3[data-animation-name='slideIn'][data-position='top'][data-state='open'] {
+  -webkit-animation-name: modalSlideTopIn;
+  animation-name: modalSlideTopIn;
+}
+
+.emotion-3[data-animation-name='slideIn'][data-position='top'][data-state='closed'] {
+  -webkit-animation-name: modalSlideTopOut;
+  animation-name: modalSlideTopOut;
+}
+
+.emotion-3[data-animation-name='slideIn'][data-position='right'][data-state='open'] {
+  -webkit-animation-name: modalSlideRightIn;
+  animation-name: modalSlideRightIn;
+}
+
+.emotion-3[data-animation-name='slideIn'][data-position='right'][data-state='closed'] {
+  -webkit-animation-name: modalSlideRightOut;
+  animation-name: modalSlideRightOut;
+}
+
+.emotion-3[data-animation-name='slideIn'][data-position='bottom'][data-state='open'] {
+  -webkit-animation-name: modalSlideBottomIn;
+  animation-name: modalSlideBottomIn;
+}
+
+.emotion-3[data-animation-name='slideIn'][data-position='bottom'][data-state='closed'] {
+  -webkit-animation-name: modalSlideBottomOut;
+  animation-name: modalSlideBottomOut;
+}
+
+.emotion-3[data-animation-name='slideIn'][data-position='left'][data-state='open'] {
+  -webkit-animation-name: modalSlideLeftIn;
+  animation-name: modalSlideLeftIn;
+}
+
+.emotion-3[data-animation-name='slideIn'][data-position='left'][data-state='closed'] {
+  -webkit-animation-name: modalSlideLeftOut;
+  animation-name: modalSlideLeftOut;
+}
+
 @media (max-width: 37.5625em) {
-  .emotion-5 {
+  .emotion-3 {
     min-width: 100%;
     min-height: 100%;
   }
 }
 
-.emotion-6 {
+.emotion-5 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -168,7 +240,7 @@ exports[`Messages A message is removed if the modal is closed 1`] = `
   color: white;
 }
 
-.emotion-7 {
+.emotion-6 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -191,7 +263,7 @@ exports[`Messages A message is removed if the modal is closed 1`] = `
   justify-content: space-between;
 }
 
-.emotion-7 h1 {
+.emotion-6 h1 {
   margin: 0;
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
@@ -204,18 +276,18 @@ exports[`Messages A message is removed if the modal is closed 1`] = `
   color: #444;
 }
 
-.emotion-7 h1[lang='zh'],
-.emotion-7 h1[lang='zh-Hans'],
-.emotion-7 h1[lang='zh-Hant'] {
+.emotion-6 h1[lang='zh'],
+.emotion-6 h1[lang='zh-Hans'],
+.emotion-6 h1[lang='zh-Hant'] {
   font-size: calc(22px * 1.11);
   font-size: calc(1.2222222222222223rem * 1.11);
 }
 
-.emotion-7 h1 {
+.emotion-6 h1 {
   color: #fff;
 }
 
-.emotion-9 {
+.emotion-8 {
   -webkit-flex: 1;
   -ms-flex: 1;
   flex: 1;
@@ -223,7 +295,7 @@ exports[`Messages A message is removed if the modal is closed 1`] = `
   color: #fff;
 }
 
-.emotion-10 {
+.emotion-9 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -266,54 +338,69 @@ exports[`Messages A message is removed if the modal is closed 1`] = `
   line-height: 1;
   border-color: transparent;
   min-height: unset;
-  margin-left: auto;
-  color: #fff;
-  justify-self: flex-end;
 }
 
-.emotion-10:hover,
-.emotion-10:focus-visible {
+.emotion-9:hover,
+.emotion-9:focus-visible {
   color: #fff;
   background-color: #20588f;
   border-color: #20588f;
 }
 
-.emotion-10[disabled] {
+.emotion-9[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-10[lang='zh'],
-.emotion-10[lang='zh-Hans'],
-.emotion-10[lang='zh-Hant'] {
+.emotion-9[lang='zh'],
+.emotion-9[lang='zh-Hans'],
+.emotion-9[lang='zh-Hant'] {
   font-size: calc(14px * 1.11);
   font-size: calc(0.7777777777777778rem * 1.11);
 }
 
-.emotion-10:hover,
-.emotion-10:active,
-.emotion-10:focus-visible {
+.emotion-9:hover,
+.emotion-9:active,
+.emotion-9:focus-visible {
   color: #20588f;
   background: #deebf6;
   border-color: #deebf6;
 }
 
-.emotion-10[disabled] {
+.emotion-9[disabled] {
   color: #777777;
   background-color: transparent;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-10 svg {
+.emotion-9 svg {
   width: 24px;
   height: 24px;
   margin: 0;
 }
 
-.emotion-11 {
+.emotion-9 svg {
+  color: #fff;
+}
+
+.emotion-9:hover,
+.emotion-9:focus,
+.emotion-9:focus-within,
+.emotion-9:focus-visible {
+  background-color: #fff;
+}
+
+.emotion-9:hover svg,
+.emotion-9:focus svg,
+.emotion-9:focus-within svg,
+.emotion-9:focus-visible svg {
+  color: #20588f;
+}
+
+.emotion-10 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -321,12 +408,12 @@ exports[`Messages A message is removed if the modal is closed 1`] = `
   gap: 12px;
 }
 
-.emotion-12 {
+.emotion-11 {
   width: 27px;
   height: 27px;
 }
 
-.emotion-13 {
+.emotion-12 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -364,73 +451,43 @@ exports[`Messages A message is removed if the modal is closed 1`] = `
     class="emotion-1 emotion-2"
     data-aria-hidden="true"
     data-state="open"
-    style="pointer-events: auto; opacity: 0;"
+    style="pointer-events: auto; --duration: 400ms;"
   />
   <div
+    aria-describedby="radix-:rb:"
+    aria-labelledby="radix-:ra:"
     class="emotion-3 emotion-4"
+    data-animation-name="zoom"
+    data-margin="small"
+    data-position="center"
+    data-size="normal"
+    data-state="open"
+    id="radix-:r9:"
+    role="dialog"
+    style="--duration: 400ms; pointer-events: auto;"
+    tabindex="-1"
   >
     <div
-      aria-describedby="radix-:rb:"
-      aria-label="Pass på!"
-      aria-labelledby="radix-:ra:"
       class="emotion-5"
-      data-margin="small"
-      data-position="center"
-      data-size="normal"
-      data-state="open"
-      id="radix-:r9:"
-      role="dialog"
-      style="opacity: 0; transform: translateY(40px) translateZ(0); pointer-events: auto;"
-      tabindex="-1"
     >
       <div
-        class="emotion-6"
+        class="emotion-6 emotion-7"
+        data-cy="modal-header"
       >
-        <div
-          class="emotion-7 emotion-8"
-          data-cy="modal-header"
+        <h1
+          class="emotion-8"
         >
-          <h1
-            class="emotion-9"
-          >
-            Pass på!
-          </h1>
-          <button
-            aria-label="Lukk"
-            class="emotion-10"
-            data-testid="closeAlert"
-            type="button"
-          >
-            <svg
-              aria-hidden="true"
-              class="c-icon"
-              data-license="Apache License 2.0"
-              data-source="Material Design"
-              fill="currentColor"
-              height="1em"
-              preserveAspectRatio="xMidYMid meet"
-              style="vertical-align: middle;"
-              viewBox="0 0 24 24"
-              width="1em"
-            >
-              <g>
-                <path
-                  d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
-                />
-                <path
-                  d="M0 0h24v24H0z"
-                  fill="none"
-                />
-              </g>
-            </svg>
-          </button>
-        </div>
-        <div
-          class="emotion-11"
+          Pass på!
+        </h1>
+        <button
+          aria-label="Lukk"
+          class="emotion-9"
+          data-testid="closeAlert"
+          type="button"
         >
           <svg
             aria-hidden="true"
-            class="c-icon emotion-12"
+            class="c-icon"
             data-license="Apache License 2.0"
             data-source="Material Design"
             fill="currentColor"
@@ -442,20 +499,46 @@ exports[`Messages A message is removed if the modal is closed 1`] = `
           >
             <g>
               <path
-                d="M0 0h24v24H0V0z"
-                fill="none"
+                d="M19 6.4 17.6 5 12 10.6 6.4 5 5 6.4l5.6 5.6L5 17.6 6.4 19l5.6-5.6 5.6 5.6 1.4-1.4-5.6-5.6z"
               />
               <path
-                d="M11 15h2v2h-2zm0-8h2v6h-2zm.99-5C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                d="M0 0h24v24H0z"
+                fill="none"
               />
             </g>
           </svg>
-          Testmessage
-        </div>
-        <div
-          class="emotion-13"
-        />
+        </button>
       </div>
+      <div
+        class="emotion-10"
+      >
+        <svg
+          aria-hidden="true"
+          class="c-icon emotion-11"
+          data-license="Apache License 2.0"
+          data-source="Material Design"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
+          style="vertical-align: middle;"
+          viewBox="0 0 24 24"
+          width="1em"
+        >
+          <g>
+            <path
+              d="M0 0h24v24H0V0z"
+              fill="none"
+            />
+            <path
+              d="M11 15h2v2h-2zm0-8h2v6h-2zm1-5a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16z"
+            />
+          </g>
+        </svg>
+        Testmessage
+      </div>
+      <div
+        class="emotion-12"
+      />
     </div>
   </div>
   <span
@@ -509,37 +592,31 @@ exports[`Messages A single message renders correctly 1`] = `
   inset: 0;
   background: rgba(1, 1, 1, 0.3);
   z-index: 100;
+  -webkit-animation-duration: var(--duration);
+  animation-duration: var(--duration);
+  -webkit-animation-timing-function: ease-in-out;
+  animation-timing-function: ease-in-out;
+}
+
+.emotion-1[data-state='open'] {
+  -webkit-animation-name: overlayFadeIn;
+  animation-name: overlayFadeIn;
+}
+
+.emotion-1[data-state='closed'] {
+  -webkit-animation-name: overlayFadeOut;
+  animation-name: overlayFadeOut;
 }
 
 .emotion-3 {
+  --margin: 0px;
   position: fixed;
   inset: 0;
-  overflow: auto;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  -webkit-justify-content: center;
-  justify-content: center;
+  margin: auto;
   z-index: 100;
-}
-
-.emotion-5 {
-  --margin: 0px;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  position: fixed;
+  height: -webkit-min-content;
+  height: -moz-min-content;
+  height: min-content;
   max-height: 85%;
   max-width: 95%;
   overflow-y: auto;
@@ -548,105 +625,183 @@ exports[`Messages A single message renders correctly 1`] = `
   padding-top: env(safe-area-inset-top);
   padding-left: env(safe-area-inset-left);
   padding-right: env(safe-area-inset-right);
+  -webkit-animation-duration: var(--duration);
+  animation-duration: var(--duration);
+  -webkit-animation-timing-function: ease-in-out;
+  animation-timing-function: ease-in-out;
 }
 
 @media (min-width: 37.5625em) {
-  .emotion-5[data-margin='small'] {
+  .emotion-3[data-margin='small'] {
     --margin: 24px;
   }
 }
 
-.emotion-5[data-position='top'] {
+.emotion-3[data-position='top'] {
   top: var(--margin);
   bottom: unset;
 }
 
-.emotion-5[data-position='bottom'] {
+.emotion-3[data-position='bottom'] {
   bottom: var(--margin);
   top: unset;
 }
 
-.emotion-5[data-position='left'] {
+.emotion-3[data-position='left'] {
   left: var(--margin);
   right: unset;
 }
 
-.emotion-5[data-position='right'] {
+.emotion-3[data-position='right'] {
   right: var(--margin);
   left: unset;
 }
 
-.emotion-5[data-size='full'] {
+.emotion-3[data-size='full'] {
   min-height: 100%;
   min-width: 100%;
   inset: 0;
 }
 
-.emotion-5[data-width='xsmall'],
-.emotion-5[data-size='xsmall'] {
+.emotion-3[data-width='xsmall'],
+.emotion-3[data-size='xsmall'] {
   width: 300px;
 }
 
-.emotion-5[data-width='small'],
-.emotion-5[data-size='small'] {
+.emotion-3[data-width='small'],
+.emotion-3[data-size='small'] {
   width: 500px;
 }
 
-.emotion-5[data-width='normal'],
-.emotion-5[data-size='normal'] {
+.emotion-3[data-width='normal'],
+.emotion-3[data-size='normal'] {
   width: 700px;
 }
 
-.emotion-5[data-width='large'],
-.emotion-5[data-size='large'] {
+.emotion-3[data-width='large'],
+.emotion-3[data-size='large'] {
   width: 1100px;
 }
 
-.emotion-5[data-width='full'] {
+.emotion-3[data-width='full'] {
   width: 100%;
   min-width: 100%;
   left: 0;
   right: 0;
 }
 
-.emotion-5[data-height='xsmall'] {
+.emotion-3[data-height='xsmall'] {
   height: 300px;
 }
 
-.emotion-5[data-height='small'] {
+.emotion-3[data-height='small'] {
   height: 500px;
 }
 
-.emotion-5[data-height='normal'] {
+.emotion-3[data-height='normal'] {
   height: 700px;
 }
 
-.emotion-5[data-height='large'] {
+.emotion-3[data-height='large'] {
   height: 1100px;
 }
 
-.emotion-5[data-height='full'] {
+.emotion-3[data-height='full'] {
   height: 100%;
   min-height: 100%;
   top: 0;
   bottom: 0;
 }
 
-.emotion-5[data-expands='true'] {
-  width: unset;
-  height: unset;
+.emotion-3[data-expands='true'] {
+  width: -webkit-min-content;
+  width: -moz-min-content;
+  width: min-content;
+  height: -webkit-min-content;
+  height: -moz-min-content;
+  height: min-content;
   max-width: 100%;
   max-height: 100%;
 }
 
+.emotion-3[data-animation-name='fade'][data-state='open'] {
+  -webkit-animation-name: modalFadeIn;
+  animation-name: modalFadeIn;
+}
+
+.emotion-3[data-animation-name='fade'][data-state='closed'] {
+  -webkit-animation-name: modalFadeOut;
+  animation-name: modalFadeOut;
+}
+
+.emotion-3[data-animation-name='zoom'][data-state='open'] {
+  -webkit-animation-name: modalZoomIn;
+  animation-name: modalZoomIn;
+}
+
+.emotion-3[data-animation-name='zoom'][data-state='closed'] {
+  -webkit-animation-name: modalZoomOut;
+  animation-name: modalZoomOut;
+}
+
+.emotion-3[data-animation-name='subtle'][data-state='open'] {
+  -webkit-animation-name: modalSubtleIn;
+  animation-name: modalSubtleIn;
+}
+
+.emotion-3[data-animation-name='subtle'][data-state='closed'] {
+  -webkit-animation-name: modalSubtleOut;
+  animation-name: modalSubtleOut;
+}
+
+.emotion-3[data-animation-name='slideIn'][data-position='top'][data-state='open'] {
+  -webkit-animation-name: modalSlideTopIn;
+  animation-name: modalSlideTopIn;
+}
+
+.emotion-3[data-animation-name='slideIn'][data-position='top'][data-state='closed'] {
+  -webkit-animation-name: modalSlideTopOut;
+  animation-name: modalSlideTopOut;
+}
+
+.emotion-3[data-animation-name='slideIn'][data-position='right'][data-state='open'] {
+  -webkit-animation-name: modalSlideRightIn;
+  animation-name: modalSlideRightIn;
+}
+
+.emotion-3[data-animation-name='slideIn'][data-position='right'][data-state='closed'] {
+  -webkit-animation-name: modalSlideRightOut;
+  animation-name: modalSlideRightOut;
+}
+
+.emotion-3[data-animation-name='slideIn'][data-position='bottom'][data-state='open'] {
+  -webkit-animation-name: modalSlideBottomIn;
+  animation-name: modalSlideBottomIn;
+}
+
+.emotion-3[data-animation-name='slideIn'][data-position='bottom'][data-state='closed'] {
+  -webkit-animation-name: modalSlideBottomOut;
+  animation-name: modalSlideBottomOut;
+}
+
+.emotion-3[data-animation-name='slideIn'][data-position='left'][data-state='open'] {
+  -webkit-animation-name: modalSlideLeftIn;
+  animation-name: modalSlideLeftIn;
+}
+
+.emotion-3[data-animation-name='slideIn'][data-position='left'][data-state='closed'] {
+  -webkit-animation-name: modalSlideLeftOut;
+  animation-name: modalSlideLeftOut;
+}
+
 @media (max-width: 37.5625em) {
-  .emotion-5 {
+  .emotion-3 {
     min-width: 100%;
     min-height: 100%;
   }
 }
 
-.emotion-6 {
+.emotion-5 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -660,7 +815,7 @@ exports[`Messages A single message renders correctly 1`] = `
   color: white;
 }
 
-.emotion-7 {
+.emotion-6 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -683,7 +838,7 @@ exports[`Messages A single message renders correctly 1`] = `
   justify-content: space-between;
 }
 
-.emotion-7 h1 {
+.emotion-6 h1 {
   margin: 0;
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
@@ -696,18 +851,18 @@ exports[`Messages A single message renders correctly 1`] = `
   color: #444;
 }
 
-.emotion-7 h1[lang='zh'],
-.emotion-7 h1[lang='zh-Hans'],
-.emotion-7 h1[lang='zh-Hant'] {
+.emotion-6 h1[lang='zh'],
+.emotion-6 h1[lang='zh-Hans'],
+.emotion-6 h1[lang='zh-Hant'] {
   font-size: calc(22px * 1.11);
   font-size: calc(1.2222222222222223rem * 1.11);
 }
 
-.emotion-7 h1 {
+.emotion-6 h1 {
   color: #fff;
 }
 
-.emotion-9 {
+.emotion-8 {
   -webkit-flex: 1;
   -ms-flex: 1;
   flex: 1;
@@ -715,7 +870,7 @@ exports[`Messages A single message renders correctly 1`] = `
   color: #fff;
 }
 
-.emotion-10 {
+.emotion-9 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -758,54 +913,69 @@ exports[`Messages A single message renders correctly 1`] = `
   line-height: 1;
   border-color: transparent;
   min-height: unset;
-  margin-left: auto;
-  color: #fff;
-  justify-self: flex-end;
 }
 
-.emotion-10:hover,
-.emotion-10:focus-visible {
+.emotion-9:hover,
+.emotion-9:focus-visible {
   color: #fff;
   background-color: #20588f;
   border-color: #20588f;
 }
 
-.emotion-10[disabled] {
+.emotion-9[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-10[lang='zh'],
-.emotion-10[lang='zh-Hans'],
-.emotion-10[lang='zh-Hant'] {
+.emotion-9[lang='zh'],
+.emotion-9[lang='zh-Hans'],
+.emotion-9[lang='zh-Hant'] {
   font-size: calc(14px * 1.11);
   font-size: calc(0.7777777777777778rem * 1.11);
 }
 
-.emotion-10:hover,
-.emotion-10:active,
-.emotion-10:focus-visible {
+.emotion-9:hover,
+.emotion-9:active,
+.emotion-9:focus-visible {
   color: #20588f;
   background: #deebf6;
   border-color: #deebf6;
 }
 
-.emotion-10[disabled] {
+.emotion-9[disabled] {
   color: #777777;
   background-color: transparent;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-10 svg {
+.emotion-9 svg {
   width: 24px;
   height: 24px;
   margin: 0;
 }
 
-.emotion-11 {
+.emotion-9 svg {
+  color: #fff;
+}
+
+.emotion-9:hover,
+.emotion-9:focus,
+.emotion-9:focus-within,
+.emotion-9:focus-visible {
+  background-color: #fff;
+}
+
+.emotion-9:hover svg,
+.emotion-9:focus svg,
+.emotion-9:focus-within svg,
+.emotion-9:focus-visible svg {
+  color: #20588f;
+}
+
+.emotion-10 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -813,12 +983,12 @@ exports[`Messages A single message renders correctly 1`] = `
   gap: 12px;
 }
 
-.emotion-12 {
+.emotion-11 {
   width: 27px;
   height: 27px;
 }
 
-.emotion-13 {
+.emotion-12 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -856,73 +1026,43 @@ exports[`Messages A single message renders correctly 1`] = `
     class="emotion-1 emotion-2"
     data-aria-hidden="true"
     data-state="open"
-    style="pointer-events: auto; opacity: 0;"
+    style="pointer-events: auto; --duration: 400ms;"
   />
   <div
+    aria-describedby="radix-:r2:"
+    aria-labelledby="radix-:r1:"
     class="emotion-3 emotion-4"
+    data-animation-name="zoom"
+    data-margin="small"
+    data-position="center"
+    data-size="normal"
+    data-state="open"
+    id="radix-:r0:"
+    role="dialog"
+    style="--duration: 400ms; pointer-events: auto;"
+    tabindex="-1"
   >
     <div
-      aria-describedby="radix-:r2:"
-      aria-label="Pass på!"
-      aria-labelledby="radix-:r1:"
       class="emotion-5"
-      data-margin="small"
-      data-position="center"
-      data-size="normal"
-      data-state="open"
-      id="radix-:r0:"
-      role="dialog"
-      style="opacity: 0; transform: translateY(40px) translateZ(0); pointer-events: auto;"
-      tabindex="-1"
     >
       <div
-        class="emotion-6"
+        class="emotion-6 emotion-7"
+        data-cy="modal-header"
       >
-        <div
-          class="emotion-7 emotion-8"
-          data-cy="modal-header"
+        <h1
+          class="emotion-8"
         >
-          <h1
-            class="emotion-9"
-          >
-            Pass på!
-          </h1>
-          <button
-            aria-label="Lukk"
-            class="emotion-10"
-            data-testid="closeAlert"
-            type="button"
-          >
-            <svg
-              aria-hidden="true"
-              class="c-icon"
-              data-license="Apache License 2.0"
-              data-source="Material Design"
-              fill="currentColor"
-              height="1em"
-              preserveAspectRatio="xMidYMid meet"
-              style="vertical-align: middle;"
-              viewBox="0 0 24 24"
-              width="1em"
-            >
-              <g>
-                <path
-                  d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
-                />
-                <path
-                  d="M0 0h24v24H0z"
-                  fill="none"
-                />
-              </g>
-            </svg>
-          </button>
-        </div>
-        <div
-          class="emotion-11"
+          Pass på!
+        </h1>
+        <button
+          aria-label="Lukk"
+          class="emotion-9"
+          data-testid="closeAlert"
+          type="button"
         >
           <svg
             aria-hidden="true"
-            class="c-icon emotion-12"
+            class="c-icon"
             data-license="Apache License 2.0"
             data-source="Material Design"
             fill="currentColor"
@@ -934,20 +1074,46 @@ exports[`Messages A single message renders correctly 1`] = `
           >
             <g>
               <path
-                d="M0 0h24v24H0V0z"
-                fill="none"
+                d="M19 6.4 17.6 5 12 10.6 6.4 5 5 6.4l5.6 5.6L5 17.6 6.4 19l5.6-5.6 5.6 5.6 1.4-1.4-5.6-5.6z"
               />
               <path
-                d="M11 15h2v2h-2zm0-8h2v6h-2zm.99-5C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                d="M0 0h24v24H0z"
+                fill="none"
               />
             </g>
           </svg>
-          Testmessage
-        </div>
-        <div
-          class="emotion-13"
-        />
+        </button>
       </div>
+      <div
+        class="emotion-10"
+      >
+        <svg
+          aria-hidden="true"
+          class="c-icon emotion-11"
+          data-license="Apache License 2.0"
+          data-source="Material Design"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
+          style="vertical-align: middle;"
+          viewBox="0 0 24 24"
+          width="1em"
+        >
+          <g>
+            <path
+              d="M0 0h24v24H0V0z"
+              fill="none"
+            />
+            <path
+              d="M11 15h2v2h-2zm0-8h2v6h-2zm1-5a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16z"
+            />
+          </g>
+        </svg>
+        Testmessage
+      </div>
+      <div
+        class="emotion-12"
+      />
     </div>
   </div>
   <span
@@ -977,37 +1143,31 @@ exports[`Messages Several messages renders correctly 1`] = `
   inset: 0;
   background: rgba(1, 1, 1, 0.3);
   z-index: 100;
+  -webkit-animation-duration: var(--duration);
+  animation-duration: var(--duration);
+  -webkit-animation-timing-function: ease-in-out;
+  animation-timing-function: ease-in-out;
+}
+
+.emotion-1[data-state='open'] {
+  -webkit-animation-name: overlayFadeIn;
+  animation-name: overlayFadeIn;
+}
+
+.emotion-1[data-state='closed'] {
+  -webkit-animation-name: overlayFadeOut;
+  animation-name: overlayFadeOut;
 }
 
 .emotion-3 {
+  --margin: 0px;
   position: fixed;
   inset: 0;
-  overflow: auto;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  -webkit-justify-content: center;
-  justify-content: center;
+  margin: auto;
   z-index: 100;
-}
-
-.emotion-5 {
-  --margin: 0px;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  position: fixed;
+  height: -webkit-min-content;
+  height: -moz-min-content;
+  height: min-content;
   max-height: 85%;
   max-width: 95%;
   overflow-y: auto;
@@ -1016,105 +1176,183 @@ exports[`Messages Several messages renders correctly 1`] = `
   padding-top: env(safe-area-inset-top);
   padding-left: env(safe-area-inset-left);
   padding-right: env(safe-area-inset-right);
+  -webkit-animation-duration: var(--duration);
+  animation-duration: var(--duration);
+  -webkit-animation-timing-function: ease-in-out;
+  animation-timing-function: ease-in-out;
 }
 
 @media (min-width: 37.5625em) {
-  .emotion-5[data-margin='small'] {
+  .emotion-3[data-margin='small'] {
     --margin: 24px;
   }
 }
 
-.emotion-5[data-position='top'] {
+.emotion-3[data-position='top'] {
   top: var(--margin);
   bottom: unset;
 }
 
-.emotion-5[data-position='bottom'] {
+.emotion-3[data-position='bottom'] {
   bottom: var(--margin);
   top: unset;
 }
 
-.emotion-5[data-position='left'] {
+.emotion-3[data-position='left'] {
   left: var(--margin);
   right: unset;
 }
 
-.emotion-5[data-position='right'] {
+.emotion-3[data-position='right'] {
   right: var(--margin);
   left: unset;
 }
 
-.emotion-5[data-size='full'] {
+.emotion-3[data-size='full'] {
   min-height: 100%;
   min-width: 100%;
   inset: 0;
 }
 
-.emotion-5[data-width='xsmall'],
-.emotion-5[data-size='xsmall'] {
+.emotion-3[data-width='xsmall'],
+.emotion-3[data-size='xsmall'] {
   width: 300px;
 }
 
-.emotion-5[data-width='small'],
-.emotion-5[data-size='small'] {
+.emotion-3[data-width='small'],
+.emotion-3[data-size='small'] {
   width: 500px;
 }
 
-.emotion-5[data-width='normal'],
-.emotion-5[data-size='normal'] {
+.emotion-3[data-width='normal'],
+.emotion-3[data-size='normal'] {
   width: 700px;
 }
 
-.emotion-5[data-width='large'],
-.emotion-5[data-size='large'] {
+.emotion-3[data-width='large'],
+.emotion-3[data-size='large'] {
   width: 1100px;
 }
 
-.emotion-5[data-width='full'] {
+.emotion-3[data-width='full'] {
   width: 100%;
   min-width: 100%;
   left: 0;
   right: 0;
 }
 
-.emotion-5[data-height='xsmall'] {
+.emotion-3[data-height='xsmall'] {
   height: 300px;
 }
 
-.emotion-5[data-height='small'] {
+.emotion-3[data-height='small'] {
   height: 500px;
 }
 
-.emotion-5[data-height='normal'] {
+.emotion-3[data-height='normal'] {
   height: 700px;
 }
 
-.emotion-5[data-height='large'] {
+.emotion-3[data-height='large'] {
   height: 1100px;
 }
 
-.emotion-5[data-height='full'] {
+.emotion-3[data-height='full'] {
   height: 100%;
   min-height: 100%;
   top: 0;
   bottom: 0;
 }
 
-.emotion-5[data-expands='true'] {
-  width: unset;
-  height: unset;
+.emotion-3[data-expands='true'] {
+  width: -webkit-min-content;
+  width: -moz-min-content;
+  width: min-content;
+  height: -webkit-min-content;
+  height: -moz-min-content;
+  height: min-content;
   max-width: 100%;
   max-height: 100%;
 }
 
+.emotion-3[data-animation-name='fade'][data-state='open'] {
+  -webkit-animation-name: modalFadeIn;
+  animation-name: modalFadeIn;
+}
+
+.emotion-3[data-animation-name='fade'][data-state='closed'] {
+  -webkit-animation-name: modalFadeOut;
+  animation-name: modalFadeOut;
+}
+
+.emotion-3[data-animation-name='zoom'][data-state='open'] {
+  -webkit-animation-name: modalZoomIn;
+  animation-name: modalZoomIn;
+}
+
+.emotion-3[data-animation-name='zoom'][data-state='closed'] {
+  -webkit-animation-name: modalZoomOut;
+  animation-name: modalZoomOut;
+}
+
+.emotion-3[data-animation-name='subtle'][data-state='open'] {
+  -webkit-animation-name: modalSubtleIn;
+  animation-name: modalSubtleIn;
+}
+
+.emotion-3[data-animation-name='subtle'][data-state='closed'] {
+  -webkit-animation-name: modalSubtleOut;
+  animation-name: modalSubtleOut;
+}
+
+.emotion-3[data-animation-name='slideIn'][data-position='top'][data-state='open'] {
+  -webkit-animation-name: modalSlideTopIn;
+  animation-name: modalSlideTopIn;
+}
+
+.emotion-3[data-animation-name='slideIn'][data-position='top'][data-state='closed'] {
+  -webkit-animation-name: modalSlideTopOut;
+  animation-name: modalSlideTopOut;
+}
+
+.emotion-3[data-animation-name='slideIn'][data-position='right'][data-state='open'] {
+  -webkit-animation-name: modalSlideRightIn;
+  animation-name: modalSlideRightIn;
+}
+
+.emotion-3[data-animation-name='slideIn'][data-position='right'][data-state='closed'] {
+  -webkit-animation-name: modalSlideRightOut;
+  animation-name: modalSlideRightOut;
+}
+
+.emotion-3[data-animation-name='slideIn'][data-position='bottom'][data-state='open'] {
+  -webkit-animation-name: modalSlideBottomIn;
+  animation-name: modalSlideBottomIn;
+}
+
+.emotion-3[data-animation-name='slideIn'][data-position='bottom'][data-state='closed'] {
+  -webkit-animation-name: modalSlideBottomOut;
+  animation-name: modalSlideBottomOut;
+}
+
+.emotion-3[data-animation-name='slideIn'][data-position='left'][data-state='open'] {
+  -webkit-animation-name: modalSlideLeftIn;
+  animation-name: modalSlideLeftIn;
+}
+
+.emotion-3[data-animation-name='slideIn'][data-position='left'][data-state='closed'] {
+  -webkit-animation-name: modalSlideLeftOut;
+  animation-name: modalSlideLeftOut;
+}
+
 @media (max-width: 37.5625em) {
-  .emotion-5 {
+  .emotion-3 {
     min-width: 100%;
     min-height: 100%;
   }
 }
 
-.emotion-6 {
+.emotion-5 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1128,7 +1366,7 @@ exports[`Messages Several messages renders correctly 1`] = `
   color: white;
 }
 
-.emotion-7 {
+.emotion-6 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1151,7 +1389,7 @@ exports[`Messages Several messages renders correctly 1`] = `
   justify-content: space-between;
 }
 
-.emotion-7 h1 {
+.emotion-6 h1 {
   margin: 0;
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
@@ -1164,18 +1402,18 @@ exports[`Messages Several messages renders correctly 1`] = `
   color: #444;
 }
 
-.emotion-7 h1[lang='zh'],
-.emotion-7 h1[lang='zh-Hans'],
-.emotion-7 h1[lang='zh-Hant'] {
+.emotion-6 h1[lang='zh'],
+.emotion-6 h1[lang='zh-Hans'],
+.emotion-6 h1[lang='zh-Hant'] {
   font-size: calc(22px * 1.11);
   font-size: calc(1.2222222222222223rem * 1.11);
 }
 
-.emotion-7 h1 {
+.emotion-6 h1 {
   color: #fff;
 }
 
-.emotion-9 {
+.emotion-8 {
   -webkit-flex: 1;
   -ms-flex: 1;
   flex: 1;
@@ -1183,7 +1421,7 @@ exports[`Messages Several messages renders correctly 1`] = `
   color: #fff;
 }
 
-.emotion-10 {
+.emotion-9 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -1226,54 +1464,69 @@ exports[`Messages Several messages renders correctly 1`] = `
   line-height: 1;
   border-color: transparent;
   min-height: unset;
-  margin-left: auto;
-  color: #fff;
-  justify-self: flex-end;
 }
 
-.emotion-10:hover,
-.emotion-10:focus-visible {
+.emotion-9:hover,
+.emotion-9:focus-visible {
   color: #fff;
   background-color: #20588f;
   border-color: #20588f;
 }
 
-.emotion-10[disabled] {
+.emotion-9[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-10[lang='zh'],
-.emotion-10[lang='zh-Hans'],
-.emotion-10[lang='zh-Hant'] {
+.emotion-9[lang='zh'],
+.emotion-9[lang='zh-Hans'],
+.emotion-9[lang='zh-Hant'] {
   font-size: calc(14px * 1.11);
   font-size: calc(0.7777777777777778rem * 1.11);
 }
 
-.emotion-10:hover,
-.emotion-10:active,
-.emotion-10:focus-visible {
+.emotion-9:hover,
+.emotion-9:active,
+.emotion-9:focus-visible {
   color: #20588f;
   background: #deebf6;
   border-color: #deebf6;
 }
 
-.emotion-10[disabled] {
+.emotion-9[disabled] {
   color: #777777;
   background-color: transparent;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-10 svg {
+.emotion-9 svg {
   width: 24px;
   height: 24px;
   margin: 0;
 }
 
-.emotion-11 {
+.emotion-9 svg {
+  color: #fff;
+}
+
+.emotion-9:hover,
+.emotion-9:focus,
+.emotion-9:focus-within,
+.emotion-9:focus-visible {
+  background-color: #fff;
+}
+
+.emotion-9:hover svg,
+.emotion-9:focus svg,
+.emotion-9:focus-within svg,
+.emotion-9:focus-visible svg {
+  color: #20588f;
+}
+
+.emotion-10 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1281,12 +1534,12 @@ exports[`Messages Several messages renders correctly 1`] = `
   gap: 12px;
 }
 
-.emotion-12 {
+.emotion-11 {
   width: 27px;
   height: 27px;
 }
 
-.emotion-13 {
+.emotion-12 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1324,75 +1577,45 @@ exports[`Messages Several messages renders correctly 1`] = `
     class="emotion-1 emotion-2"
     data-aria-hidden="true"
     data-state="open"
-    style="pointer-events: auto; opacity: 0;"
+    style="pointer-events: auto; --duration: 400ms;"
   />
   <div
+    aria-describedby="radix-:r5:"
     aria-hidden="true"
+    aria-labelledby="radix-:r4:"
     class="emotion-3 emotion-4"
+    data-animation-name="zoom"
     data-aria-hidden="true"
+    data-margin="small"
+    data-position="center"
+    data-size="normal"
+    data-state="open"
+    id="radix-:r3:"
+    role="dialog"
+    style="--duration: 400ms; pointer-events: none;"
+    tabindex="-1"
   >
     <div
-      aria-describedby="radix-:r5:"
-      aria-label="Pass på!"
-      aria-labelledby="radix-:r4:"
       class="emotion-5"
-      data-margin="small"
-      data-position="center"
-      data-size="normal"
-      data-state="open"
-      id="radix-:r3:"
-      role="dialog"
-      style="opacity: 0; transform: translateY(40px) translateZ(0); pointer-events: none;"
-      tabindex="-1"
     >
       <div
-        class="emotion-6"
+        class="emotion-6 emotion-7"
+        data-cy="modal-header"
       >
-        <div
-          class="emotion-7 emotion-8"
-          data-cy="modal-header"
+        <h1
+          class="emotion-8"
         >
-          <h1
-            class="emotion-9"
-          >
-            Pass på!
-          </h1>
-          <button
-            aria-label="Lukk"
-            class="emotion-10"
-            data-testid="closeAlert"
-            type="button"
-          >
-            <svg
-              aria-hidden="true"
-              class="c-icon"
-              data-license="Apache License 2.0"
-              data-source="Material Design"
-              fill="currentColor"
-              height="1em"
-              preserveAspectRatio="xMidYMid meet"
-              style="vertical-align: middle;"
-              viewBox="0 0 24 24"
-              width="1em"
-            >
-              <g>
-                <path
-                  d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
-                />
-                <path
-                  d="M0 0h24v24H0z"
-                  fill="none"
-                />
-              </g>
-            </svg>
-          </button>
-        </div>
-        <div
-          class="emotion-11"
+          Pass på!
+        </h1>
+        <button
+          aria-label="Lukk"
+          class="emotion-9"
+          data-testid="closeAlert"
+          type="button"
         >
           <svg
             aria-hidden="true"
-            class="c-icon emotion-12"
+            class="c-icon"
             data-license="Apache License 2.0"
             data-source="Material Design"
             fill="currentColor"
@@ -1404,20 +1627,46 @@ exports[`Messages Several messages renders correctly 1`] = `
           >
             <g>
               <path
-                d="M0 0h24v24H0V0z"
-                fill="none"
+                d="M19 6.4 17.6 5 12 10.6 6.4 5 5 6.4l5.6 5.6L5 17.6 6.4 19l5.6-5.6 5.6 5.6 1.4-1.4-5.6-5.6z"
               />
               <path
-                d="M11 15h2v2h-2zm0-8h2v6h-2zm.99-5C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                d="M0 0h24v24H0z"
+                fill="none"
               />
             </g>
           </svg>
-          Testmessage
-        </div>
-        <div
-          class="emotion-13"
-        />
+        </button>
       </div>
+      <div
+        class="emotion-10"
+      >
+        <svg
+          aria-hidden="true"
+          class="c-icon emotion-11"
+          data-license="Apache License 2.0"
+          data-source="Material Design"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
+          style="vertical-align: middle;"
+          viewBox="0 0 24 24"
+          width="1em"
+        >
+          <g>
+            <path
+              d="M0 0h24v24H0V0z"
+              fill="none"
+            />
+            <path
+              d="M11 15h2v2h-2zm0-8h2v6h-2zm1-5a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16z"
+            />
+          </g>
+        </svg>
+        Testmessage
+      </div>
+      <div
+        class="emotion-12"
+      />
     </div>
   </div>
   <div
@@ -1425,75 +1674,45 @@ exports[`Messages Several messages renders correctly 1`] = `
     class="emotion-1 emotion-2"
     data-aria-hidden="true"
     data-state="open"
-    style="pointer-events: auto; opacity: 0;"
+    style="pointer-events: auto; --duration: 400ms;"
   />
   <div
+    aria-describedby="radix-:r8:"
     aria-hidden="true"
+    aria-labelledby="radix-:r7:"
     class="emotion-3 emotion-4"
+    data-animation-name="zoom"
     data-aria-hidden="true"
+    data-margin="small"
+    data-position="center"
+    data-size="normal"
+    data-state="open"
+    id="radix-:r6:"
+    role="dialog"
+    style="--duration: 400ms; pointer-events: auto;"
+    tabindex="-1"
   >
     <div
-      aria-describedby="radix-:r8:"
-      aria-label="Pass på!"
-      aria-labelledby="radix-:r7:"
       class="emotion-5"
-      data-margin="small"
-      data-position="center"
-      data-size="normal"
-      data-state="open"
-      id="radix-:r6:"
-      role="dialog"
-      style="opacity: 0; transform: translateY(40px) translateZ(0); pointer-events: auto;"
-      tabindex="-1"
     >
       <div
-        class="emotion-6"
+        class="emotion-6 emotion-7"
+        data-cy="modal-header"
       >
-        <div
-          class="emotion-7 emotion-8"
-          data-cy="modal-header"
+        <h1
+          class="emotion-8"
         >
-          <h1
-            class="emotion-9"
-          >
-            Pass på!
-          </h1>
-          <button
-            aria-label="Lukk"
-            class="emotion-10"
-            data-testid="closeAlert"
-            type="button"
-          >
-            <svg
-              aria-hidden="true"
-              class="c-icon"
-              data-license="Apache License 2.0"
-              data-source="Material Design"
-              fill="currentColor"
-              height="1em"
-              preserveAspectRatio="xMidYMid meet"
-              style="vertical-align: middle;"
-              viewBox="0 0 24 24"
-              width="1em"
-            >
-              <g>
-                <path
-                  d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
-                />
-                <path
-                  d="M0 0h24v24H0z"
-                  fill="none"
-                />
-              </g>
-            </svg>
-          </button>
-        </div>
-        <div
-          class="emotion-11"
+          Pass på!
+        </h1>
+        <button
+          aria-label="Lukk"
+          class="emotion-9"
+          data-testid="closeAlert"
+          type="button"
         >
           <svg
             aria-hidden="true"
-            class="c-icon emotion-12"
+            class="c-icon"
             data-license="Apache License 2.0"
             data-source="Material Design"
             fill="currentColor"
@@ -1505,20 +1724,46 @@ exports[`Messages Several messages renders correctly 1`] = `
           >
             <g>
               <path
-                d="M0 0h24v24H0V0z"
-                fill="none"
+                d="M19 6.4 17.6 5 12 10.6 6.4 5 5 6.4l5.6 5.6L5 17.6 6.4 19l5.6-5.6 5.6 5.6 1.4-1.4-5.6-5.6z"
               />
               <path
-                d="M11 15h2v2h-2zm0-8h2v6h-2zm.99-5C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                d="M0 0h24v24H0z"
+                fill="none"
               />
             </g>
           </svg>
-          Testmessage2
-        </div>
-        <div
-          class="emotion-13"
-        />
+        </button>
       </div>
+      <div
+        class="emotion-10"
+      >
+        <svg
+          aria-hidden="true"
+          class="c-icon emotion-11"
+          data-license="Apache License 2.0"
+          data-source="Material Design"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
+          style="vertical-align: middle;"
+          viewBox="0 0 24 24"
+          width="1em"
+        >
+          <g>
+            <path
+              d="M0 0h24v24H0V0z"
+              fill="none"
+            />
+            <path
+              d="M11 15h2v2h-2zm0-8h2v6h-2zm1-5a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16z"
+            />
+          </g>
+        </svg>
+        Testmessage2
+      </div>
+      <div
+        class="emotion-12"
+      />
     </div>
   </div>
   <span
@@ -1548,37 +1793,31 @@ exports[`Messages auth0 messages provides a cancel button 1`] = `
   inset: 0;
   background: rgba(1, 1, 1, 0.3);
   z-index: 100;
+  -webkit-animation-duration: var(--duration);
+  animation-duration: var(--duration);
+  -webkit-animation-timing-function: ease-in-out;
+  animation-timing-function: ease-in-out;
+}
+
+.emotion-1[data-state='open'] {
+  -webkit-animation-name: overlayFadeIn;
+  animation-name: overlayFadeIn;
+}
+
+.emotion-1[data-state='closed'] {
+  -webkit-animation-name: overlayFadeOut;
+  animation-name: overlayFadeOut;
 }
 
 .emotion-3 {
+  --margin: 0px;
   position: fixed;
   inset: 0;
-  overflow: auto;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  -webkit-justify-content: center;
-  justify-content: center;
+  margin: auto;
   z-index: 100;
-}
-
-.emotion-5 {
-  --margin: 0px;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  position: fixed;
+  height: -webkit-min-content;
+  height: -moz-min-content;
+  height: min-content;
   max-height: 85%;
   max-width: 95%;
   overflow-y: auto;
@@ -1587,105 +1826,183 @@ exports[`Messages auth0 messages provides a cancel button 1`] = `
   padding-top: env(safe-area-inset-top);
   padding-left: env(safe-area-inset-left);
   padding-right: env(safe-area-inset-right);
+  -webkit-animation-duration: var(--duration);
+  animation-duration: var(--duration);
+  -webkit-animation-timing-function: ease-in-out;
+  animation-timing-function: ease-in-out;
 }
 
 @media (min-width: 37.5625em) {
-  .emotion-5[data-margin='small'] {
+  .emotion-3[data-margin='small'] {
     --margin: 24px;
   }
 }
 
-.emotion-5[data-position='top'] {
+.emotion-3[data-position='top'] {
   top: var(--margin);
   bottom: unset;
 }
 
-.emotion-5[data-position='bottom'] {
+.emotion-3[data-position='bottom'] {
   bottom: var(--margin);
   top: unset;
 }
 
-.emotion-5[data-position='left'] {
+.emotion-3[data-position='left'] {
   left: var(--margin);
   right: unset;
 }
 
-.emotion-5[data-position='right'] {
+.emotion-3[data-position='right'] {
   right: var(--margin);
   left: unset;
 }
 
-.emotion-5[data-size='full'] {
+.emotion-3[data-size='full'] {
   min-height: 100%;
   min-width: 100%;
   inset: 0;
 }
 
-.emotion-5[data-width='xsmall'],
-.emotion-5[data-size='xsmall'] {
+.emotion-3[data-width='xsmall'],
+.emotion-3[data-size='xsmall'] {
   width: 300px;
 }
 
-.emotion-5[data-width='small'],
-.emotion-5[data-size='small'] {
+.emotion-3[data-width='small'],
+.emotion-3[data-size='small'] {
   width: 500px;
 }
 
-.emotion-5[data-width='normal'],
-.emotion-5[data-size='normal'] {
+.emotion-3[data-width='normal'],
+.emotion-3[data-size='normal'] {
   width: 700px;
 }
 
-.emotion-5[data-width='large'],
-.emotion-5[data-size='large'] {
+.emotion-3[data-width='large'],
+.emotion-3[data-size='large'] {
   width: 1100px;
 }
 
-.emotion-5[data-width='full'] {
+.emotion-3[data-width='full'] {
   width: 100%;
   min-width: 100%;
   left: 0;
   right: 0;
 }
 
-.emotion-5[data-height='xsmall'] {
+.emotion-3[data-height='xsmall'] {
   height: 300px;
 }
 
-.emotion-5[data-height='small'] {
+.emotion-3[data-height='small'] {
   height: 500px;
 }
 
-.emotion-5[data-height='normal'] {
+.emotion-3[data-height='normal'] {
   height: 700px;
 }
 
-.emotion-5[data-height='large'] {
+.emotion-3[data-height='large'] {
   height: 1100px;
 }
 
-.emotion-5[data-height='full'] {
+.emotion-3[data-height='full'] {
   height: 100%;
   min-height: 100%;
   top: 0;
   bottom: 0;
 }
 
-.emotion-5[data-expands='true'] {
-  width: unset;
-  height: unset;
+.emotion-3[data-expands='true'] {
+  width: -webkit-min-content;
+  width: -moz-min-content;
+  width: min-content;
+  height: -webkit-min-content;
+  height: -moz-min-content;
+  height: min-content;
   max-width: 100%;
   max-height: 100%;
 }
 
+.emotion-3[data-animation-name='fade'][data-state='open'] {
+  -webkit-animation-name: modalFadeIn;
+  animation-name: modalFadeIn;
+}
+
+.emotion-3[data-animation-name='fade'][data-state='closed'] {
+  -webkit-animation-name: modalFadeOut;
+  animation-name: modalFadeOut;
+}
+
+.emotion-3[data-animation-name='zoom'][data-state='open'] {
+  -webkit-animation-name: modalZoomIn;
+  animation-name: modalZoomIn;
+}
+
+.emotion-3[data-animation-name='zoom'][data-state='closed'] {
+  -webkit-animation-name: modalZoomOut;
+  animation-name: modalZoomOut;
+}
+
+.emotion-3[data-animation-name='subtle'][data-state='open'] {
+  -webkit-animation-name: modalSubtleIn;
+  animation-name: modalSubtleIn;
+}
+
+.emotion-3[data-animation-name='subtle'][data-state='closed'] {
+  -webkit-animation-name: modalSubtleOut;
+  animation-name: modalSubtleOut;
+}
+
+.emotion-3[data-animation-name='slideIn'][data-position='top'][data-state='open'] {
+  -webkit-animation-name: modalSlideTopIn;
+  animation-name: modalSlideTopIn;
+}
+
+.emotion-3[data-animation-name='slideIn'][data-position='top'][data-state='closed'] {
+  -webkit-animation-name: modalSlideTopOut;
+  animation-name: modalSlideTopOut;
+}
+
+.emotion-3[data-animation-name='slideIn'][data-position='right'][data-state='open'] {
+  -webkit-animation-name: modalSlideRightIn;
+  animation-name: modalSlideRightIn;
+}
+
+.emotion-3[data-animation-name='slideIn'][data-position='right'][data-state='closed'] {
+  -webkit-animation-name: modalSlideRightOut;
+  animation-name: modalSlideRightOut;
+}
+
+.emotion-3[data-animation-name='slideIn'][data-position='bottom'][data-state='open'] {
+  -webkit-animation-name: modalSlideBottomIn;
+  animation-name: modalSlideBottomIn;
+}
+
+.emotion-3[data-animation-name='slideIn'][data-position='bottom'][data-state='closed'] {
+  -webkit-animation-name: modalSlideBottomOut;
+  animation-name: modalSlideBottomOut;
+}
+
+.emotion-3[data-animation-name='slideIn'][data-position='left'][data-state='open'] {
+  -webkit-animation-name: modalSlideLeftIn;
+  animation-name: modalSlideLeftIn;
+}
+
+.emotion-3[data-animation-name='slideIn'][data-position='left'][data-state='closed'] {
+  -webkit-animation-name: modalSlideLeftOut;
+  animation-name: modalSlideLeftOut;
+}
+
 @media (max-width: 37.5625em) {
-  .emotion-5 {
+  .emotion-3 {
     min-width: 100%;
     min-height: 100%;
   }
 }
 
-.emotion-6 {
+.emotion-5 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1699,7 +2016,7 @@ exports[`Messages auth0 messages provides a cancel button 1`] = `
   color: white;
 }
 
-.emotion-7 {
+.emotion-6 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1722,7 +2039,7 @@ exports[`Messages auth0 messages provides a cancel button 1`] = `
   justify-content: space-between;
 }
 
-.emotion-7 h1 {
+.emotion-6 h1 {
   margin: 0;
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
@@ -1735,18 +2052,18 @@ exports[`Messages auth0 messages provides a cancel button 1`] = `
   color: #444;
 }
 
-.emotion-7 h1[lang='zh'],
-.emotion-7 h1[lang='zh-Hans'],
-.emotion-7 h1[lang='zh-Hant'] {
+.emotion-6 h1[lang='zh'],
+.emotion-6 h1[lang='zh-Hans'],
+.emotion-6 h1[lang='zh-Hant'] {
   font-size: calc(22px * 1.11);
   font-size: calc(1.2222222222222223rem * 1.11);
 }
 
-.emotion-7 h1 {
+.emotion-6 h1 {
   color: #fff;
 }
 
-.emotion-9 {
+.emotion-8 {
   -webkit-flex: 1;
   -ms-flex: 1;
   flex: 1;
@@ -1754,7 +2071,7 @@ exports[`Messages auth0 messages provides a cancel button 1`] = `
   color: #fff;
 }
 
-.emotion-10 {
+.emotion-9 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -1797,54 +2114,69 @@ exports[`Messages auth0 messages provides a cancel button 1`] = `
   line-height: 1;
   border-color: transparent;
   min-height: unset;
-  margin-left: auto;
-  color: #fff;
-  justify-self: flex-end;
 }
 
-.emotion-10:hover,
-.emotion-10:focus-visible {
+.emotion-9:hover,
+.emotion-9:focus-visible {
   color: #fff;
   background-color: #20588f;
   border-color: #20588f;
 }
 
-.emotion-10[disabled] {
+.emotion-9[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-10[lang='zh'],
-.emotion-10[lang='zh-Hans'],
-.emotion-10[lang='zh-Hant'] {
+.emotion-9[lang='zh'],
+.emotion-9[lang='zh-Hans'],
+.emotion-9[lang='zh-Hant'] {
   font-size: calc(14px * 1.11);
   font-size: calc(0.7777777777777778rem * 1.11);
 }
 
-.emotion-10:hover,
-.emotion-10:active,
-.emotion-10:focus-visible {
+.emotion-9:hover,
+.emotion-9:active,
+.emotion-9:focus-visible {
   color: #20588f;
   background: #deebf6;
   border-color: #deebf6;
 }
 
-.emotion-10[disabled] {
+.emotion-9[disabled] {
   color: #777777;
   background-color: transparent;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-10 svg {
+.emotion-9 svg {
   width: 24px;
   height: 24px;
   margin: 0;
 }
 
-.emotion-11 {
+.emotion-9 svg {
+  color: #fff;
+}
+
+.emotion-9:hover,
+.emotion-9:focus,
+.emotion-9:focus-within,
+.emotion-9:focus-visible {
+  background-color: #fff;
+}
+
+.emotion-9:hover svg,
+.emotion-9:focus svg,
+.emotion-9:focus-within svg,
+.emotion-9:focus-visible svg {
+  color: #20588f;
+}
+
+.emotion-10 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1852,12 +2184,12 @@ exports[`Messages auth0 messages provides a cancel button 1`] = `
   gap: 12px;
 }
 
-.emotion-12 {
+.emotion-11 {
   width: 27px;
   height: 27px;
 }
 
-.emotion-13 {
+.emotion-12 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1872,7 +2204,7 @@ exports[`Messages auth0 messages provides a cancel button 1`] = `
   margin-top: 12px;
 }
 
-.emotion-14 {
+.emotion-13 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -1912,41 +2244,41 @@ exports[`Messages auth0 messages provides a cancel button 1`] = `
   margin-left: 0;
 }
 
-.emotion-14:hover,
-.emotion-14:focus-visible {
+.emotion-13:hover,
+.emotion-13:focus-visible {
   color: #20588f;
   background-color: #ceddea;
   border-color: #ceddea;
 }
 
-.emotion-14[disabled] {
+.emotion-13[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-14[lang='zh'],
-.emotion-14[lang='zh-Hans'],
-.emotion-14[lang='zh-Hant'] {
+.emotion-13[lang='zh'],
+.emotion-13[lang='zh-Hans'],
+.emotion-13[lang='zh-Hant'] {
   font-size: calc(16px * 1.11);
   font-size: calc(0.8888888888888888rem * 1.11);
 }
 
-.emotion-14:hover {
+.emotion-13:hover {
   color: #fff;
   background: #20588f;
   border-color: #20588f;
 }
 
-.emotion-14[disabled] {
+.emotion-13[disabled] {
   color: #777777;
   background-color: transparent;
   border-color: #777777;
   cursor: not-allowed;
 }
 
-.emotion-14:only-child {
+.emotion-13:only-child {
   margin-left: auto;
 }
 
@@ -1973,73 +2305,43 @@ exports[`Messages auth0 messages provides a cancel button 1`] = `
     class="emotion-1 emotion-2"
     data-aria-hidden="true"
     data-state="open"
-    style="pointer-events: auto; opacity: 0;"
+    style="pointer-events: auto; --duration: 400ms;"
   />
   <div
+    aria-describedby="radix-:re:"
+    aria-labelledby="radix-:rd:"
     class="emotion-3 emotion-4"
+    data-animation-name="zoom"
+    data-margin="small"
+    data-position="center"
+    data-size="normal"
+    data-state="open"
+    id="radix-:rc:"
+    role="dialog"
+    style="--duration: 400ms; pointer-events: auto;"
+    tabindex="-1"
   >
     <div
-      aria-describedby="radix-:re:"
-      aria-label="Pass på!"
-      aria-labelledby="radix-:rd:"
       class="emotion-5"
-      data-margin="small"
-      data-position="center"
-      data-size="normal"
-      data-state="open"
-      id="radix-:rc:"
-      role="dialog"
-      style="opacity: 0; transform: translateY(40px) translateZ(0); pointer-events: auto;"
-      tabindex="-1"
     >
       <div
-        class="emotion-6"
+        class="emotion-6 emotion-7"
+        data-cy="modal-header"
       >
-        <div
-          class="emotion-7 emotion-8"
-          data-cy="modal-header"
+        <h1
+          class="emotion-8"
         >
-          <h1
-            class="emotion-9"
-          >
-            Pass på!
-          </h1>
-          <button
-            aria-label="Lukk"
-            class="emotion-10"
-            data-testid="closeAlert"
-            type="button"
-          >
-            <svg
-              aria-hidden="true"
-              class="c-icon"
-              data-license="Apache License 2.0"
-              data-source="Material Design"
-              fill="currentColor"
-              height="1em"
-              preserveAspectRatio="xMidYMid meet"
-              style="vertical-align: middle;"
-              viewBox="0 0 24 24"
-              width="1em"
-            >
-              <g>
-                <path
-                  d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
-                />
-                <path
-                  d="M0 0h24v24H0z"
-                  fill="none"
-                />
-              </g>
-            </svg>
-          </button>
-        </div>
-        <div
-          class="emotion-11"
+          Pass på!
+        </h1>
+        <button
+          aria-label="Lukk"
+          class="emotion-9"
+          data-testid="closeAlert"
+          type="button"
         >
           <svg
             aria-hidden="true"
-            class="c-icon emotion-12"
+            class="c-icon"
             data-license="Apache License 2.0"
             data-source="Material Design"
             fill="currentColor"
@@ -2051,32 +2353,58 @@ exports[`Messages auth0 messages provides a cancel button 1`] = `
           >
             <g>
               <path
-                d="M0 0h24v24H0V0z"
-                fill="none"
+                d="M19 6.4 17.6 5 12 10.6 6.4 5 5 6.4l5.6 5.6L5 17.6 6.4 19l5.6-5.6 5.6 5.6 1.4-1.4-5.6-5.6z"
               />
               <path
-                d="M11 15h2v2h-2zm0-8h2v6h-2zm.99-5C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                d="M0 0h24v24H0z"
+                fill="none"
               />
             </g>
           </svg>
-          Testmessage
-        </div>
-        <div
-          class="emotion-13"
+        </button>
+      </div>
+      <div
+        class="emotion-10"
+      >
+        <svg
+          aria-hidden="true"
+          class="c-icon emotion-11"
+          data-license="Apache License 2.0"
+          data-source="Material Design"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
+          style="vertical-align: middle;"
+          viewBox="0 0 24 24"
+          width="1em"
         >
-          <button
-            class="emotion-14"
-            type="button"
-          >
-            Avbryt
-          </button>
-          <button
-            class="emotion-14"
-            type="button"
-          >
-            Logg inn på nytt
-          </button>
-        </div>
+          <g>
+            <path
+              d="M0 0h24v24H0V0z"
+              fill="none"
+            />
+            <path
+              d="M11 15h2v2h-2zm0-8h2v6h-2zm1-5a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16z"
+            />
+          </g>
+        </svg>
+        Testmessage
+      </div>
+      <div
+        class="emotion-12"
+      >
+        <button
+          class="emotion-13"
+          type="button"
+        >
+          Avbryt
+        </button>
+        <button
+          class="emotion-13"
+          type="button"
+        >
+          Logg inn på nytt
+        </button>
       </div>
     </div>
   </div>

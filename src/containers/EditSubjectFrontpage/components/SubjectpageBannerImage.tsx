@@ -12,6 +12,7 @@ import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
 import { colors } from '@ndla/core';
 import { IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
+import { ModalTrigger } from '@ndla/modal';
 import MetaInformation from '../../../components/MetaInformation';
 import config from '../../../config';
 
@@ -29,7 +30,9 @@ interface Props {
 const SubjectpageBannerImage = ({ image, onImageSelectOpen }: Props) => {
   const { t } = useTranslation();
   const imageAction = (
-    <StyledButton onClick={onImageSelectOpen}>{t('subjectpageForm.changeBanner')}</StyledButton>
+    <ModalTrigger>
+      <StyledButton onClick={onImageSelectOpen}>{t('subjectpageForm.changeBanner')}</StyledButton>
+    </ModalTrigger>
   );
   const metaInformationTranslations = {
     title: t('form.metaImage.imageTitle'),

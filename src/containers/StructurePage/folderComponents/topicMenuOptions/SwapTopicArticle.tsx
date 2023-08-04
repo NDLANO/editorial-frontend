@@ -34,6 +34,10 @@ interface Props {
   editModeHandler: EditModeHandler;
 }
 
+const StyledSpinner = styled(Spinner)`
+  margin: 0px 4px;
+`;
+
 const Wrapper = styled.div`
   display: flex;
   align-items: center;
@@ -145,7 +149,7 @@ const SwapTopicArticle = ({
       <StyledActionContent>
         {putNodeMutation.isLoading && (
           <MenuContent>
-            <Spinner margin="0px 4px" />
+            <StyledSpinner />
           </MenuContent>
         )}
         {putNodeMutation.isSuccess && (

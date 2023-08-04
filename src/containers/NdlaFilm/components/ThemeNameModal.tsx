@@ -5,9 +5,9 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import { ReactElement, ReactNode, useState } from 'react';
+import { ReactElement, useCallback, useState } from 'react';
 import { NdlaFilmThemeEditorModal } from '@ndla/editor';
-import { Modal } from '@ndla/modal';
+import { Modal, ModalContent, ModalTrigger } from '@ndla/modal';
 import { ThemeNames } from './ThemeEditor';
 
 const blankTheme = {
@@ -44,7 +44,6 @@ interface Props {
     title: string;
   };
   createTheme?: boolean;
-  wrapperFunctionForButton?: (activateButton: ReactNode) => ReactNode;
 }
 
 const ThemeNameModal = ({
@@ -53,12 +52,14 @@ const ThemeNameModal = ({
   messages,
   onSaveTheme,
   createTheme,
-  wrapperFunctionForButton,
 }: Props) => {
+  const [open, setOpen] = useState(false);
+  const onCloseModal = useCallback(() => setOpen(false), []);
   const [newTheme, setNewTheme] = useState(initialState(initialTheme));
   return (
-    <Modal activateButton={activateButton} wrapperFunctionForButton={wrapperFunctionForButton}>
-      {(onCloseModal) => (
+    <Modal open={open} onOpenChange={setOpen}>
+      <ModalTrigger>{activateButton}</ModalTrigger>
+      <ModalContent>
         <NdlaFilmThemeEditorModal
           onClose={() => {
             if (createTheme) setNewTheme(blankTheme);
@@ -81,7 +82,7 @@ const ThemeNameModal = ({
           theme={newTheme}
           messages={messages}
         />
-      )}
+      </ModalContent>
     </Modal>
   );
 };

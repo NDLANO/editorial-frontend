@@ -1,7 +1,6 @@
-import { useTranslation } from 'react-i18next';
-import { ReactElement } from 'react';
+import { ReactElement, useCallback } from 'react';
 import styled from '@emotion/styled';
-import { ModalHeader, ModalBody, ModalCloseButton, Modal } from '@ndla/modal';
+import { ModalHeader, ModalBody, ModalCloseButton, Modal, ModalContent } from '@ndla/modal';
 
 interface Props {
   resource: string;
@@ -11,7 +10,7 @@ interface Props {
   label?: string;
 }
 
-const StyledModal = styled(Modal)`
+const StyledModalContent = styled(ModalContent)`
   padding: 0;
   width: 100% !important;
   height: 100%;
@@ -19,7 +18,7 @@ const StyledModal = styled(Modal)`
   overflow: hidden;
 `;
 
-const StyledVisualElementModal = styled(Modal)`
+const StyledVisualElementModalContent = styled(ModalContent)`
   h2 {
     margin-top: 0 !important;
   }
@@ -27,36 +26,38 @@ const StyledVisualElementModal = styled(Modal)`
 
 const StyledModalBody = styled.div`
   display: flex;
-  flex: 1;
+  height: 100%;
 `;
 
 const VisualElementModalWrapper = ({ resource, children, onClose, isOpen, label }: Props) => {
-  const { t } = useTranslation();
+  const onOpenChange = useCallback(
+    (open: boolean) => {
+      if (!open) {
+        onClose();
+      }
+    },
+    [onClose],
+  );
 
   if (resource === 'h5p') {
     return (
-      <StyledModal controlled isOpen={isOpen} size="large" onClose={onClose}>
-        {(_) => <StyledModalBody>{children}</StyledModalBody>}
-      </StyledModal>
+      <Modal open={isOpen} onOpenChange={onOpenChange}>
+        <StyledModalContent size="large">
+          <StyledModalBody>{children}</StyledModalBody>
+        </StyledModalContent>
+      </Modal>
     );
   }
+
   return (
-    <StyledVisualElementModal
-      controlled
-      aria-label={label}
-      isOpen={isOpen}
-      size="large"
-      onClose={onClose}
-    >
-      {(onCloseModal) => (
-        <>
-          <ModalHeader>
-            <ModalCloseButton title={t('dialog.close')} onClick={onCloseModal} />
-          </ModalHeader>
-          <ModalBody>{children}</ModalBody>
-        </>
-      )}
-    </StyledVisualElementModal>
+    <Modal open={isOpen} onOpenChange={onOpenChange}>
+      <StyledVisualElementModalContent aria-label={label} size="large">
+        <ModalHeader>
+          <ModalCloseButton />
+        </ModalHeader>
+        <ModalBody>{children}</ModalBody>
+      </StyledVisualElementModalContent>
+    </Modal>
   );
 };
 

@@ -9,7 +9,7 @@
 import { useCallback, useState } from 'react';
 import { Editor } from 'slate';
 import { RenderElementProps, useFocused, useSelected } from 'slate-react';
-import { Modal } from '@ndla/modal';
+import { Modal, ModalContent, ModalTrigger } from '@ndla/modal';
 import { colors } from '@ndla/core';
 import EditFootnote from './EditFootnote';
 import { FootnoteElement } from '.';
@@ -34,33 +34,34 @@ const Footnote = (props: Props) => {
   }, []);
 
   return (
-    <>
-      {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
-      <a
-        style={{ boxShadow: selected && focused ? `0 0 0 1px ${colors.brand.tertiary}` : 'none' }}
-        contentEditable={false}
-        {...attributes}
-        role="link"
-        tabIndex={0}
-        onClick={toggleEditMode}
-      >
-        <sup contentEditable={false} style={{ userSelect: 'none' }}>
-          [#]
-        </sup>
-        {children}
-      </a>
-      <Modal controlled isOpen={editMode} onClose={toggleEditMode}>
-        {(close) => (
-          <EditFootnote
-            editor={editor}
-            node={element}
-            existingFootnote={element.data}
-            closeDialog={close}
-            onChange={editor.onChange}
-          />
-        )}
-      </Modal>
-    </>
+    <Modal open={editMode} onOpenChange={toggleEditMode}>
+      <ModalTrigger>
+        {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
+        <a
+          style={{
+            boxShadow: selected && focused ? `0 0 0 1px ${colors.brand.tertiary}` : 'none',
+          }}
+          contentEditable={false}
+          {...attributes}
+          role="link"
+          tabIndex={0}
+        >
+          <sup contentEditable={false} style={{ userSelect: 'none' }}>
+            [#]
+          </sup>
+          {children}
+        </a>
+      </ModalTrigger>
+      <ModalContent>
+        <EditFootnote
+          editor={editor}
+          node={element}
+          existingFootnote={element.data}
+          closeDialog={toggleEditMode}
+          onChange={editor.onChange}
+        />
+      </ModalContent>
+    </Modal>
   );
 };
 

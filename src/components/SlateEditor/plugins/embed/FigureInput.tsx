@@ -30,6 +30,8 @@ interface Props {
   onAbort: MouseEventHandler<HTMLButtonElement>;
   onSave: MouseEventHandler<HTMLButtonElement>;
   isDecorative?: boolean;
+  border?: boolean;
+  onBorderChecked: () => void;
   handleCheck: (isDecorative: boolean) => void;
   allowDecorative?: boolean;
 }
@@ -44,6 +46,8 @@ const FigureInput = ({
   isDecorative,
   handleCheck,
   allowDecorative,
+  border,
+  onBorderChecked,
 }: Props) => {
   const { t } = useTranslation();
   const { submitted } = useSlateContext();
@@ -80,6 +84,11 @@ const FigureInput = ({
           onChange={() => handleCheck(!isDecorative)}
         />
       )}
+      <CheckboxItem
+        label={t('form.image.showBorder')}
+        checked={border}
+        onChange={onBorderChecked}
+      />
       <StyledButtonWrapper paddingLeft>
         <ButtonV2 onClick={onAbort} variant="outline">
           {t('form.abort')}

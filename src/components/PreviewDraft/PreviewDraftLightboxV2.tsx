@@ -11,7 +11,14 @@ import { useTranslation } from 'react-i18next';
 import { useFormikContext } from 'formik';
 import { spacing } from '@ndla/core';
 import { IConcept } from '@ndla/types-backend/concept-api';
-import { ModalCloseButton, ModalHeader, ModalSizeType, Modal } from '@ndla/modal';
+import {
+  ModalCloseButton,
+  ModalHeader,
+  ModalSizeType,
+  Modal,
+  ModalTrigger,
+  ModalContent,
+} from '@ndla/modal';
 import { IArticle } from '@ndla/types-backend/draft-api';
 import { OneColumn } from '@ndla/ui';
 import { ReactElement, useMemo, useState, ElementType } from 'react';
@@ -28,7 +35,6 @@ interface BaseProps {
   type: 'markup' | 'version' | 'compare' | 'conceptCompare' | 'concept';
   language: string;
   activateButton: ReactElement;
-  wrapperFunctionForButton?: (button: ReactElement) => ReactElement;
 }
 
 interface MarkupPreviewProps extends BaseProps {
@@ -300,19 +306,14 @@ const PreviewDraftLightboxV2 = (props: Props) => {
       ? 'full'
       : { width: 'large', height: 'full' };
   return (
-    <Modal
-      size={size}
-      activateButton={props.activateButton}
-      wrapperFunctionForButton={props.wrapperFunctionForButton}
-    >
-      {(onClose) => (
-        <>
-          <ModalHeader>
-            <ModalCloseButton onClick={onClose} />
-          </ModalHeader>
-          <Component {...props} />
-        </>
-      )}
+    <Modal>
+      <ModalTrigger>{props.activateButton}</ModalTrigger>
+      <ModalContent size={size}>
+        <ModalHeader>
+          <ModalCloseButton />
+        </ModalHeader>
+        <Component {...props} />
+      </ModalContent>
     </Modal>
   );
 };

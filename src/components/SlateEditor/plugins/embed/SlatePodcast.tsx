@@ -100,8 +100,8 @@ const SlatePodcast = ({
           embed={embed}
           language={language}
         />
-        {audio.id && (
-          <Modal open={editing} onOpenChange={setEditing}>
+        <Modal open={editing} onOpenChange={setEditing}>
+          {audio.id && (
             <ModalTrigger>
               <SlatePodcastWrapper
                 showCopyOutline={showCopyOutline}
@@ -117,18 +117,18 @@ const SlatePodcast = ({
                 <AudioPlayerMounter audio={audio} locale={locale} speech={false} />
               </SlatePodcastWrapper>
             </ModalTrigger>
-            <ModalContent>
-              <EditPodcast
-                close={close}
-                embed={embed}
-                locale={locale}
-                podcast={audio}
-                setHasError={setHasError}
-                saveEmbedUpdates={saveEmbedUpdates}
-              />
-            </ModalContent>
-          </Modal>
-        )}
+          )}
+          <ModalContent>
+            <EditPodcast
+              close={close}
+              embed={embed}
+              locale={locale}
+              podcast={audio}
+              setHasError={setHasError}
+              saveEmbedUpdates={saveEmbedUpdates}
+            />
+          </ModalContent>
+        </Modal>
       </Figure>
       {children}
     </div>

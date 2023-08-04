@@ -108,8 +108,8 @@ const SlateAudio = ({
             language={language}
           />
         )}
-        {audio.id && (
-          <Modal open={editMode} onOpenChange={setEditMode}>
+        <Modal open={editMode} onOpenChange={setEditMode}>
+          {audio.id && (
             <ModalTrigger>
               <SlateAudioWrapper
                 showCopyOutline={showCopyOutline}
@@ -123,18 +123,18 @@ const SlateAudio = ({
                 <AudioPlayerMounter audio={audio} locale={locale} speech={speech} />
               </SlateAudioWrapper>
             </ModalTrigger>
-            <ModalContent>
-              <EditAudio
-                saveEmbedUpdates={saveEmbedUpdates}
-                setHasError={setHasError}
-                audio={audio}
-                embed={embed}
-                onExit={toggleEdit}
-                type={embed.type || 'standard'}
-              />
-            </ModalContent>
-          </Modal>
-        )}
+          )}
+          <ModalContent>
+            <EditAudio
+              saveEmbedUpdates={saveEmbedUpdates}
+              setHasError={setHasError}
+              audio={audio}
+              embed={embed}
+              onExit={toggleEdit}
+              type={embed.type || 'standard'}
+            />
+          </ModalContent>
+        </Modal>
       </Figure>
       {children}
     </div>

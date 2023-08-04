@@ -36,6 +36,7 @@ const StyledExamplesField = styled.div`
 
     > :first-child {
       min-width: 100%;
+      margin-top: ${spacing.small};
     }
   }
 `;
@@ -79,7 +80,9 @@ const ExamplesFieldArray = ({ name, examples }: Props) => {
                 </FieldSplitter>
 
                 <StyledFieldRemoveButton onClick={() => arrayHelpers.remove(index)}>
-                  Fjern eksempel
+                  {t('form.concept.glossDataSection.remove', {
+                    label: t(`form.concept.glossDataSection.example`).toLowerCase(),
+                  })}
                 </StyledFieldRemoveButton>
               </StyledExamplesField>
             </>

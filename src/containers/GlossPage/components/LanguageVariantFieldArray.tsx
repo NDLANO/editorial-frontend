@@ -25,7 +25,6 @@ type Props = {
 const StyledLanguageVariantField = styled.div`
   display: flex;
   min-width: 100%;
-  align-items: center;
 
   > :second-child {
     display: flex;
@@ -61,18 +60,18 @@ const LanguageVariantFieldArray = ({ examples, name, removeFromParentArray }: Pr
           <>
             {examples.map((example, exampleIndex) => (
               <StyledLanguageVariantField key={exampleIndex}>
+                <ExampleField
+                  name={`${name}.${exampleIndex}`}
+                  example={example}
+                  index={exampleIndex}
+                />
                 <StyledFieldRemoveButton
                   onClick={() =>
                     examples.length === 1
                       ? removeFromParentArray()
                       : arrayHelpers.remove(exampleIndex)
                   }
-                />
-                <ExampleField
-                  name={`${name}.${exampleIndex}`}
-                  example={example}
-                  index={exampleIndex}
-                />
+                ></StyledFieldRemoveButton>
               </StyledLanguageVariantField>
             ))}
             <StyledButton

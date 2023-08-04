@@ -41,55 +41,55 @@ const ExampleField = ({ example, name }: Props) => {
   return (
     <StyledFormikField name={name}>
       {({ field }) => (
-        <StyledExampleField>
-          <Input
-            type="text"
-            placeholder={t('form.concept.glossDataSection.example')}
-            value={example.example}
-            onChange={(e) =>
-              field.onChange({
-                target: {
-                  value: { ...example, example: e.currentTarget.value },
-                  name,
-                },
-              })
-            }
-          />
-          <Select
-            value={example.language}
-            onChange={(e) =>
-              field.onChange({
-                target: {
-                  value: { ...example, language: e.currentTarget.value },
-                  name,
-                },
-              })
-            }
-          >
-            {!example.language && (
-              <option>
-                {t('form.concept.glossDataSection.choose', {
-                  label: t('form.concept.glossDataSection.language').toLowerCase(),
-                })}
-              </option>
-            )}
-            {LANGUAGES.map((language, languageIndex) => (
-              <option value={language} key={languageIndex}>
-                {t(`languages.${language}`)}
-              </option>
-            ))}
-          </Select>
-
+        <>
+          <StyledExampleField>
+            <Input
+              type="text"
+              placeholder={t('form.concept.glossDataSection.example')}
+              value={example.example}
+              onChange={(e) =>
+                field.onChange({
+                  target: {
+                    value: { ...example, example: e.currentTarget.value },
+                    name,
+                  },
+                })
+              }
+            />
+            <Select
+              value={example.language}
+              onChange={(e) =>
+                field.onChange({
+                  target: {
+                    value: { ...example, language: e.currentTarget.value },
+                    name,
+                  },
+                })
+              }
+            >
+              {!example.language && (
+                <option>
+                  {t('form.concept.glossDataSection.choose', {
+                    label: t('form.concept.glossDataSection.language').toLowerCase(),
+                  })}
+                </option>
+              )}
+              {LANGUAGES.map((language, languageIndex) => (
+                <option value={language} key={languageIndex}>
+                  {t(`languages.${language}`)}
+                </option>
+              ))}
+            </Select>
+          </StyledExampleField>
           {example.language === 'zh' && (
             <>
-              <FieldHeader title={t('form.concept.glossDataSection.transcriptions')} />
               <TranscriptionsField
                 name={`${name}.transcriptions`}
                 values={example.transcriptions}
               />
             </>
           )}
-        </StyledExampleField>
+        </>
       )}
     </StyledFormikField>
   );

@@ -7,7 +7,9 @@
  */
 
 import { Input, FieldRemoveButton } from '@ndla/forms';
+import { spacing } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
+import styled from '@emotion/styled';
 import FormikField from '../../../components/FormikField';
 
 interface Props {
@@ -17,13 +19,28 @@ interface Props {
   removeField: () => void;
 }
 
+const StyledTranscriptionField = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  margin: ${spacing.small} 0;
+
+  > :first-child {
+    padding-right: ${spacing.small};
+  }
+
+  > :last-child {
+    margin-bottom: ${spacing.small};
+  }
+`;
+
 const TranscriptionField = ({ name, value, label, removeField }: Props) => {
   const { t } = useTranslation();
 
   return (
     <FormikField name={name}>
       {({ field }) => (
-        <>
+        <StyledTranscriptionField>
           <Input
             label={label}
             placeholder={t('form.concept.glossDataSection.transcription')}
@@ -32,7 +49,7 @@ const TranscriptionField = ({ name, value, label, removeField }: Props) => {
             {...field}
           />
           <FieldRemoveButton onClick={removeField} />
-        </>
+        </StyledTranscriptionField>
       )}
     </FormikField>
   );

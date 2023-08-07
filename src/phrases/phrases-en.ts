@@ -316,6 +316,7 @@ const phrases = {
     resultError: 'Something went wrong with type: {{type}}',
     favourites: 'My favourite subjects',
     archivedIncluded: 'Archived subjects included',
+    error: 'Something went wrong with the search',
   },
   subjectsPage: {
     subjects: 'Subjects',
@@ -1168,6 +1169,7 @@ const phrases = {
         hide: 'Hide byline',
       },
       isDecorative: 'This image is decorative in this context',
+      showBorder: 'Show image border',
     },
     video: {
       caption: {

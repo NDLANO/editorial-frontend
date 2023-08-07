@@ -24,6 +24,7 @@ import { SlateAudio as Audio, LocaleType, AudioEmbed } from '../../../../interfa
 import { fetchAudio } from '../../../../modules/audio/audioApi';
 import { NdlaErrorPayload, onError } from '../../../../util/resolveJsonOrRejectWithError';
 import validateFormik from '../../../formikValidationSchema';
+import Spinner from '../../../Spinner';
 
 interface Props {
   attributes: RenderElementProps['attributes'];
@@ -65,6 +66,7 @@ const SlateAudio = ({
   const [error, _setHasError] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [audio, setAudio] = useState<Audio>({} as Audio);
+  const [audioLoading, setAudioLoading] = useState(false);
   const showCopyOutline = isSelectedForCopy && (!editMode || !active);
 
   const setHasError = useCallback((hasError: boolean) => _setHasError(hasError), []);
@@ -82,12 +84,15 @@ const SlateAudio = ({
   useEffect(() => {
     const getAudio = async () => {
       try {
+        setAudioLoading(true);
         const audio = await fetchAudio(parseInt(embed.resource_id), language);
         setAudio({
           ...audio,
           title: audio.title?.title || '',
         });
+        setAudioLoading(false);
       } catch (error) {
+        setAudioLoading(false);
         onError(error as NdlaErrorPayload);
       }
     };
@@ -102,7 +107,7 @@ const SlateAudio = ({
   return (
     <div draggable {...attributes}>
       <Figure id={`${audio.id}`}>
-        <div contentEditable={false}>
+        <div>
           {!speech && (
             <StyledFigureButtons>
               <SafeLinkIconButton
@@ -128,19 +133,23 @@ const SlateAudio = ({
             </StyledFigureButtons>
           )}
           <Modal open={editMode} onOpenChange={setEditMode}>
-            <ModalTrigger>
-              <SlateAudioWrapper
-                showCopyOutline={showCopyOutline}
-                hasError={!!error}
-                contentEditable={false}
-                role="button"
-                draggable
-                className="c-placeholder-editmode"
-                tabIndex={0}
-              >
-                {audio.id && <AudioPlayerMounter audio={audio} locale={locale} speech={speech} />}
-              </SlateAudioWrapper>
-            </ModalTrigger>
+            {audio.id ? (
+              <ModalTrigger disabled={!audio.id}>
+                <SlateAudioWrapper
+                  showCopyOutline={showCopyOutline}
+                  hasError={!!error}
+                  contentEditable={false}
+                  role="button"
+                  draggable
+                  className="c-placeholder-editmode"
+                  tabIndex={0}
+                >
+                  <AudioPlayerMounter audio={audio} locale={locale} speech={speech} />
+                </SlateAudioWrapper>
+              </ModalTrigger>
+            ) : (
+              audioLoading && <Spinner />
+            )}
             <ModalContent>
               <EditAudio
                 saveEmbedUpdates={saveEmbedUpdates}

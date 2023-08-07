@@ -155,9 +155,9 @@ const MathEditor = ({ element, children, attributes, editor }: Props & RenderEle
             <EditMath
               onExit={onExit}
               model={nodeInfo.model}
-              handleSave={handleSave}
+              onSave={handleSave}
               isEditMode={editMode}
-              handleRemove={handleRemove}
+              onRemove={handleRemove}
             />
           )}
           {children}

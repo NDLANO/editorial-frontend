@@ -87,7 +87,6 @@ const SlateTable = ({ attributes, children, element, editor }: Props) => {
         />
         {children}
       </StyledTable>
-      <EditColgroupsModal element={element} />
     </StyledWrapper>
   );
 };

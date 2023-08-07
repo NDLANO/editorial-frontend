@@ -6,12 +6,12 @@
  *
  */
 import { Spinner } from '@ndla/icons';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { breakpoints } from '@ndla/core';
-import { NodeChild, Node } from '@ndla/types-taxonomy';
+import { NodeChild, Node, NodeType } from '@ndla/types-taxonomy';
 import ErrorBoundary from '../../components/ErrorBoundary';
 import { REMEMBER_FAVORITE_NODES, TAXONOMY_ADMIN_SCOPE } from '../../constants';
 import { useSession } from '../Session/SessionProvider';
@@ -24,12 +24,9 @@ import StructureResources from './resourceComponents/StructureResources';
 import Footer from '../App/components/Footer';
 import { useTaxonomyVersion } from '../StructureVersion/TaxonomyVersionProvider';
 import StickyVersionSelector from './StickyVersionSelector';
-import config from '../../config';
 import { createGuard } from '../../util/guards';
 import { GridContainer, Column } from '../../components/Layout/Layout';
 import StructureBanner from './StructureBanner';
-import PlannedResourceForm from './plannedResource/PlannedResourceForm';
-import AddResourceModal from './plannedResource/AddResourceModal';
 
 const StructureWrapper = styled.ul`
   margin: 0;
@@ -49,13 +46,27 @@ const Wrapper = styled.div`
   flex: 1;
 `;
 
-const StructureContainer = () => {
+interface Props {
+  rootNodeType?: NodeType;
+  childNodeTypes?: NodeType[];
+  rootPath?: string;
+  showResourceColumn?: boolean;
+  messageBox?: ReactNode;
+}
+
+const StructureContainer = ({
+  rootNodeType = 'SUBJECT',
+  childNodeTypes = ['TOPIC'],
+  rootPath = '/structure/',
+  showResourceColumn = true,
+  messageBox,
+}: Props) => {
   const location = useLocation();
-  const paths = location.pathname.replace('/structure/', '').split('/');
-  const [subject, topic, ...rest] = paths;
+  const paths = location.pathname.replace(rootPath, '').split('/');
+  const [rootId, childId, ...rest] = paths;
   const joinedRest = rest.join('/');
-  const subtopics = joinedRest.length > 0 ? joinedRest : undefined;
-  const params = { subject, topic, subtopics };
+  const children = joinedRest.length > 0 ? joinedRest : undefined;
+  const params = { rootId, childId, children };
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
@@ -66,7 +77,6 @@ const StructureContainer = () => {
   const [showFavorites, setShowFavorites] = useState(
     window.localStorage.getItem(REMEMBER_FAVORITE_NODES) === 'true',
   );
-  const [showAddTopicModal, setShowAddTopicModal] = useState(false);
 
   const resourceSection = useRef<HTMLDivElement>(null);
   const firstRender = useRef(true);
@@ -78,8 +88,10 @@ const StructureContainer = () => {
       return acc;
     }, {}) ?? {};
   const favoriteNodeIds = Object.keys(favoriteNodes);
+  // Need different filtering for programme
+  const rootOrContext = rootNodeType === 'PROGRAMME' ? { isRoot: true } : { isContext: true };
   const nodesQuery = useNodes(
-    { language: i18n.language, nodeType: 'SUBJECT', taxonomyVersion },
+    { language: i18n.language, nodeType: rootNodeType, ...rootOrContext, taxonomyVersion },
     {
       select: (nodes) => nodes.sort((a, b) => a.name?.localeCompare(b.name)),
       placeholderData: [],
@@ -104,11 +116,11 @@ const StructureContainer = () => {
 
   const handleStructureToggle = (path: string) => {
     const { search } = location;
-    const currentPath = location.pathname.replace('/structure/', '');
+    const currentPath = location.pathname.replace(rootPath, '');
     const levelAbove = removeLastItemFromUrl(currentPath);
     const newPath = currentPath === path ? levelAbove : path;
-    const deleteSearch = !!params.subject && !newPath.includes(params.subject);
-    navigate(`/structure/${newPath.concat(deleteSearch ? '' : search)}`);
+    const deleteSearch = !!params.rootId && !newPath.includes(params.rootId);
+    navigate(`${rootPath}${newPath.concat(deleteSearch ? '' : search)}`);
   };
 
   const getFavoriteNodes = (nodes: Node[] = [], favoriteNodeIds: string[] = []) => {
@@ -116,7 +128,7 @@ const StructureContainer = () => {
   };
 
   const nodes = showFavorites
-    ? getFavoriteNodes(nodesQuery.data, [...favoriteNodeIds, subject])
+    ? getFavoriteNodes(nodesQuery.data, [...favoriteNodeIds, rootId])
     : nodesQuery.data!;
 
   const toggleShowFavorites = () => {
@@ -126,12 +138,21 @@ const StructureContainer = () => {
 
   const isTaxonomyAdmin = userPermissions?.includes(TAXONOMY_ADMIN_SCOPE);
 
+  const addChildTooltip = childNodeTypes.includes('TOPIC')
+    ? t('taxonomy.addTopicHeader')
+    : t('taxonomy.addNode', { nodeType: t('taxonomy.nodeType.PROGRAMME') });
+
   return (
     <ErrorBoundary>
       <Wrapper>
         <GridContainer breakpoint={breakpoints.desktop}>
+          {messageBox && <Column>{messageBox}</Column>}
           <Column colEnd={7}>
-            <StructureBanner onChange={toggleShowFavorites} checked={showFavorites} />
+            <StructureBanner
+              onChange={toggleShowFavorites}
+              checked={showFavorites}
+              nodeType={rootNodeType}
+            />
             <StyledStructureContainer>
               {userDataQuery.isInitialLoading || nodesQuery.isInitialLoading ? (
                 <Spinner />
@@ -147,38 +168,27 @@ const StructureContainer = () => {
                       key={node.id}
                       node={node}
                       toggleOpen={handleStructureToggle}
-                      setShowAddTopicModal={setShowAddTopicModal}
+                      addChildTooltip={addChildTooltip}
+                      childNodeTypes={childNodeTypes}
                     />
                   ))}
                 </StructureWrapper>
               )}
             </StyledStructureContainer>
           </Column>
-          <Column colStart={7}>
-            {currentNode && isChildNode(currentNode) && (
-              <StructureResources
-                currentChildNode={currentNode}
-                setCurrentNode={setCurrentNode}
-                resourceRef={resourceSection}
-                userData={userDataQuery.data}
-              />
-            )}
-          </Column>
+          {showResourceColumn && (
+            <Column colStart={7}>
+              {currentNode && isChildNode(currentNode) && (
+                <StructureResources
+                  currentChildNode={currentNode}
+                  setCurrentNode={setCurrentNode}
+                  resourceRef={resourceSection}
+                />
+              )}
+            </Column>
+          )}
         </GridContainer>
-        {showAddTopicModal && (
-          <AddResourceModal
-            onClose={() => setShowAddTopicModal(false)}
-            title={t('taxonomy.addTopicHeader')}
-          >
-            <PlannedResourceForm
-              onClose={() => setShowAddTopicModal(false)}
-              articleType="topic-article"
-              node={currentNode}
-              userData={userDataQuery.data}
-            />
-          </AddResourceModal>
-        )}
-        {config.versioningEnabled === 'true' && isTaxonomyAdmin && <StickyVersionSelector />}
+        {isTaxonomyAdmin && <StickyVersionSelector />}
         <Footer showLocaleSelector />
       </Wrapper>
     </ErrorBoundary>

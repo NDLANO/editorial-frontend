@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 import Tooltip from '@ndla/tooltip';
 import { Eye, Restore } from '@ndla/icons/editor';
 import { StyledAccordionsPanelIconButton } from '@ndla/accordion';
-import { IUpdatedArticle, IArticle } from '@ndla/types-backend/draft-api';
+import { IArticle } from '@ndla/types-backend/draft-api';
 
 import PreviewDraftLightboxV2 from '../../components/PreviewDraft/PreviewDraftLightboxV2';
 
@@ -41,11 +41,13 @@ const VersionActionButtons = ({
         type="version"
         article={version}
         language={currentLanguage}
-        wrapperFunctionForButton={(btn) => (
-          <Tooltip tooltip={t('form.previewVersion')}>{btn}</Tooltip>
-        )}
         activateButton={
-          <StyledAccordionsPanelIconButton type="button" data-testid="previewVersion">
+          <StyledAccordionsPanelIconButton
+            type="button"
+            title={t('form.previewVersion')}
+            aria-label={t('form.previewVersion')}
+            data-testid="previewVersion"
+          >
             <Eye />
           </StyledAccordionsPanelIconButton>
         }

@@ -5,11 +5,11 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import { ButtonV2 } from '@ndla/button';
+import { ButtonV2, CloseButton } from '@ndla/button';
 import { Transforms } from 'slate';
 import { spacing } from '@ndla/core';
 import { ReactEditor, useSlateStatic } from 'slate-react';
-import { ModalBody, ModalCloseButton, ModalHeader, Modal } from '@ndla/modal';
+import { ModalBody, ModalHeader } from '@ndla/modal';
 import { Input } from '@ndla/forms';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -133,49 +133,45 @@ const ConceptTagPicker = ({ element, onClose, language }: Props) => {
   }, [language, setTags, element.data.subjectId, t]);
 
   return (
-    <Modal controlled isOpen onClose={onClose} size={{ height: 'large', width: 'large' }}>
-      {() => (
-        <div>
-          <ModalHeader>
-            <ModalCloseButton title={t('dialog.close')} onClick={onClose} />
-          </ModalHeader>
-          <ModalBody>
-            <TwoColumn>
-              <FormInput>
-                <Input
-                  value={titleInput}
-                  onChange={onChangeTitleInput}
-                  placeholder={t('form.name.title')}
-                />
-                <Dropdown
-                  items={tags}
-                  onSelect={setSelectedTag}
-                  onReset={() => setSelectedTag(undefined)}
-                  selectedTag={selectedTag}
-                  placeholder={t('form.categories.label')}
-                />
-                <Dropdown
-                  items={subjects}
-                  onSelect={setSelectedSubject}
-                  onReset={() => setSelectedSubject(undefined)}
-                  selectedTag={selectedSubject}
-                  placeholder={t('form.name.subjects')}
-                />
-                <ConceptSearchResult
-                  tag={selectedTag?.id}
-                  subjectId={selectedSubject?.id}
-                  language={language}
-                  showResultCount
-                />
-              </FormInput>
-              <ButtonV2 onClick={onSave} disabled={!selectedTag}>
-                {t('form.save')}
-              </ButtonV2>
-            </TwoColumn>
-          </ModalBody>
-        </div>
-      )}
-    </Modal>
+    <div>
+      <ModalHeader>
+        <CloseButton onClick={onClose} />
+      </ModalHeader>
+      <ModalBody>
+        <TwoColumn>
+          <FormInput>
+            <Input
+              value={titleInput}
+              onChange={onChangeTitleInput}
+              placeholder={t('form.name.title')}
+            />
+            <Dropdown
+              items={tags}
+              onSelect={setSelectedTag}
+              onReset={() => setSelectedTag(undefined)}
+              selectedTag={selectedTag}
+              placeholder={t('form.categories.label')}
+            />
+            <Dropdown
+              items={subjects}
+              onSelect={setSelectedSubject}
+              onReset={() => setSelectedSubject(undefined)}
+              selectedTag={selectedSubject}
+              placeholder={t('form.name.subjects')}
+            />
+            <ConceptSearchResult
+              tag={selectedTag?.id}
+              subjectId={selectedSubject?.id}
+              language={language}
+              showResultCount
+            />
+          </FormInput>
+          <ButtonV2 onClick={onSave} disabled={!selectedTag}>
+            {t('form.save')}
+          </ButtonV2>
+        </TwoColumn>
+      </ModalBody>
+    </div>
   );
 };
 

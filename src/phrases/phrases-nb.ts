@@ -18,6 +18,7 @@ const phrases = {
     agreementPage: `Avtale ${titleTemplate}`,
     welcomePage: `Forside ${titleTemplate}`,
     structurePage: `Struktur ${titleTemplate}`,
+    programmePage: `Utdanningsprogram ${titleTemplate}`,
     versionsPage: `Versjoner ${titleTemplate}`,
     audioUploaderPage: `Lyd ${titleTemplate}`,
     imageUploaderPage: `Bilde ${titleTemplate}`,
@@ -169,7 +170,7 @@ const phrases = {
     emptyButton: 'Tøm',
     title: 'Tittel',
     language: 'Språk',
-    contentNoHits: 'Ingen innhold samsvarte med søket ditt på: {{query}}',
+    contentNoHits: 'Ingen treff i innhold samsvarte med søket ditt på: {{query}}',
     'podcast-seriesNoHits': 'Ingen serier samsvarte med søket ditt på: {{query}}',
     conceptNoHits: 'Ingen forklaringer samsvarte med søket ditt på: {{query}}',
     audioNoHits: 'Ingen lydfiler samsvarte med søket ditt på: {{query}}',
@@ -210,6 +211,7 @@ const phrases = {
     podcastSeries: 'Ny podkastserie',
     agreement: 'Ny avtale',
     structure: 'Strukturredigering',
+    programme: 'Rediger utdanningsprogram',
     taxonomyVersions: 'Taksonomiversjoner',
     publishRequests: 'Publiseringsforespørsler',
     searchContent: 'Søk innhold',
@@ -315,6 +317,7 @@ const phrases = {
     resultError: 'Noe gikk feil med innlasting av type: {{type}}',
     favourites: 'Mine favorittfag',
     archivedIncluded: 'Utgåtte fag inkludert',
+    error: 'Noe gikk galt med søket',
   },
   subjectsPage: {
     subjects: 'Fag',
@@ -423,8 +426,8 @@ const phrases = {
     removeArticle: 'Fjern artikkel',
     missingVisualElement: 'Visuelt element er påkrevd.',
   },
-  filterform: {
-    title: 'Filter',
+  programmepageForm: {
+    title: 'Utdanningsprogram',
   },
   topicArticleForm: {
     visualElementTitle: {
@@ -544,6 +547,9 @@ const phrases = {
       illegalSlug:
         'Bruk av ulovlige tegn i permalenken! Tillatte tegn er alle tall og bokstaver, og bindestrek',
     },
+    isFrontpageArticle: {
+      toggleArticle: 'Vis bred editor',
+    },
   },
   gridForm: {
     title: 'Grid',
@@ -634,6 +640,7 @@ const phrases = {
       contactBlock: 'Kontaktblokk',
       blogPost: 'Bloggpost',
       grid: 'Grid',
+      campaignBlock: 'Kampanjeblokk',
     },
   },
   form: {
@@ -726,6 +733,9 @@ const phrases = {
       border: 'Vis ramme',
       background: 'Bakgrunn',
       contentType: 'Innholdstype',
+      linkText: 'Lenketekst',
+      titleLanguage: 'Tittel-språk',
+      descriptionlanguage: 'Beskrivelse-språk',
     },
     previewProductionArticle: {
       button: 'Sammenlign gjeldende versjon med gammel versjon',
@@ -1160,6 +1170,7 @@ const phrases = {
         hide: 'Skjul byline',
       },
       isDecorative: 'Bildet er kun dekorativt i denne sammenhengen',
+      showBorder: 'Vis bilderamme',
     },
     video: {
       caption: {
@@ -1385,22 +1396,39 @@ const phrases = {
     continue: 'Fortsett',
     delete: 'Slett',
     confirm: 'Bekreft',
+    disconnect: 'Koble fra',
     loginAgain: 'Logg inn på nytt',
   },
   environment: { production: '', staging: 'staging', test: 'test' },
   taxonomy: {
+    nodeType: {
+      PROGRAMME: 'utdanningsprogram',
+      SUBJECT: 'fag',
+      TOPIC: 'emne',
+    },
+    previewProgrammes: 'Forhåndsvis utdanningsprogram i frontend',
+    addNode: 'Legg til {{nodeType}}',
+    newNode: 'Nytt {{nodeType}}',
+    newNodeName: 'Navn på nytt element',
     editStructure: 'Rediger struktur',
     editSubjectpage: 'Rediger fagforside',
     deleteSubject: 'Slett fag',
     addSubject: 'Legg til fag',
     subjectName: 'Navn på nytt fag',
-    addExistingTopic: 'Flytt eksisterende emne hit',
-    addExistingLoading: 'Flytter emne',
-    addExistingSuccess: 'Emnet har blitt flyttet!',
+    addExistingNode: 'Flytt eksisterende {{nodeType}} hit',
+    addExistingLoading: 'Flytter ...',
+    addExistingSuccess: 'Noden har blitt flyttet!',
+    existingNode: 'Eksisterende node',
+    connectExistingNode: 'Knytt {{nodeType}} til denne noden',
+    connectExistingLoading: 'Legger til ...',
+    connectExistingSuccess: 'Noden har blitt tilknyttet!',
+    disconnectNode: 'Fjern fra foreldernode',
+    confirmDisconnect: 'Er du sikker på at du vil koble fra denne noden?',
     newSubject: 'Nytt fag',
-    existingTopic: 'Eksisterende emne',
     newTopic: 'Nytt emne',
     resources: 'Ressurser',
+    nodeSettings: 'Innstillinger',
+    programmeSettings: 'Utdanningsprogram-instillinger',
     subjectSettings: 'Faginnstillinger',
     topicSettings: 'Emneinnstillinger',
     currentVersion: 'Nåværende versjon',
@@ -1431,7 +1459,7 @@ const phrases = {
       name: 'Navn',
       namePlaceholder: 'Fagnavn',
       delete: 'Slett',
-      title: 'Endre fagnavn',
+      title: 'Endre navn',
       cancel: 'Avbryt',
       add: 'Legg til',
       noTranslations:
@@ -1558,6 +1586,7 @@ const phrases = {
         addField: 'Nytt metadata felt',
         languagePlaceholder: 'Visningsspråk ndla.no',
         explanationSubject: 'Forklaringsfag',
+        programmeSubject: 'Felles programfag',
         oldSubjectId: 'ID for videresending',
         subjectCategory: 'Fagkategori',
         subjectType: 'Fagtype',
@@ -1840,6 +1869,16 @@ const phrases = {
   },
   delete: 'Slett',
   reset: 'Tilbakestill',
+  campaignBlockForm: {
+    title: 'Rediger kampanjeblokk',
+    image: {
+      imageBefore: 'Venstre bilde',
+      insertImageBefore: 'Sett inn bilde til venstre',
+      imageAfter: 'Høyre bilde',
+      insertImageAfter: 'Sett inn bilde til høyre',
+      images: 'Bilder',
+    },
+  },
   dragAndDrop: {
     handle: 'Håndtak',
   },

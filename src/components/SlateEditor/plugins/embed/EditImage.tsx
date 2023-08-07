@@ -8,9 +8,8 @@
 
 import styled from '@emotion/styled';
 import { shadows } from '@ndla/core';
-import { Modal } from '@ndla/modal';
 import { FormikValues } from 'formik';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import ImageEditor from '../../../../containers/ImageEditor/ImageEditor';
 import { ImageEmbed } from '../../../../interfaces';
 import { TransformData } from '../../../../util/imageEditorUtil';
@@ -25,10 +24,6 @@ const StyledEditorWrapper = styled.div`
   max-height: 80vh;
 `;
 
-const StyledModal = styled(Modal)`
-  padding: 0;
-`;
-
 interface Props {
   embed: ImageEmbed;
   saveEmbedUpdates: Function;
@@ -41,6 +36,7 @@ interface StateProps {
   alt: string;
   caption?: string;
   isDecorative?: boolean;
+  border?: boolean;
   imageUpdates:
     | {
         transformData: TransformData;
@@ -56,6 +52,7 @@ const EditImage = ({ embed, saveEmbedUpdates, setEditModus, language, allowDecor
     alt: embed.alt,
     caption: embed.caption,
     isDecorative: embed['is-decorative'] === 'true',
+    border: embed['border'] === 'true',
     imageUpdates: {
       transformData: {
         'focal-x': embed['focal-x'],
@@ -98,6 +95,7 @@ const EditImage = ({ embed, saveEmbedUpdates, setEditModus, language, allowDecor
       align: state.imageUpdates?.align,
       size: updatedSize,
       'is-decorative': state.isDecorative?.toString(),
+      border: state.border?.toString(),
     });
 
     setEditModus(false);
@@ -127,32 +125,34 @@ const EditImage = ({ embed, saveEmbedUpdates, setEditModus, language, allowDecor
     });
   };
 
+  const onBorderChecked = useCallback(() => {
+    setState((prev) => ({ ...prev, border: !prev.border, madeChanges: true }));
+  }, []);
+
   return (
-    <StyledModal onClose={() => setEditModus(false)} isOpen controlled size="normal">
-      {() => (
-        <StyledEditorWrapper contentEditable={false}>
-          <StyledEditorContent>
-            <ImageEditor
-              embed={embed}
-              onUpdatedImageSettings={onUpdatedImageSettings}
-              imageUpdates={state.imageUpdates}
-              language={language}
-            />
-            <FigureInput
-              caption={state.caption}
-              alt={state.alt}
-              madeChanges={state.madeChanges}
-              onChange={onChange}
-              onAbort={onAbort}
-              onSave={onSave}
-              isDecorative={state.isDecorative}
-              handleCheck={handleCheck}
-              allowDecorative={allowDecorative}
-            />
-          </StyledEditorContent>
-        </StyledEditorWrapper>
-      )}
-    </StyledModal>
+    <StyledEditorWrapper contentEditable={false}>
+      <StyledEditorContent>
+        <ImageEditor
+          embed={embed}
+          onUpdatedImageSettings={onUpdatedImageSettings}
+          imageUpdates={state.imageUpdates}
+          language={language}
+        />
+        <FigureInput
+          caption={state.caption}
+          alt={state.alt}
+          madeChanges={state.madeChanges}
+          onChange={onChange}
+          onAbort={onAbort}
+          onSave={onSave}
+          isDecorative={state.isDecorative}
+          handleCheck={handleCheck}
+          allowDecorative={allowDecorative}
+          onBorderChecked={onBorderChecked}
+          border={state.border}
+        />
+      </StyledEditorContent>
+    </StyledEditorWrapper>
   );
 };
 

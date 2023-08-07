@@ -10,7 +10,6 @@ import { RadioButtonGroup } from '@ndla/ui';
 import { ButtonV2 } from '@ndla/button';
 import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { ContactBlockEmbedData } from '@ndla/types-embed';

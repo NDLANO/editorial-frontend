@@ -13,7 +13,7 @@ import styled from '@emotion/styled';
 import { colors } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
 import { Select } from '@ndla/forms';
-import { MultiButton, ButtonV2 } from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 import { fetchSearchTags } from '../../../../../modules/concept/conceptApi';
 import AsyncSearchTags from '../../../../../components/Dropdown/asyncDropdown/AsyncSearchTags';
 import { MultiSelectDropdown } from '../../../../../components/Dropdown/MultiSelectDropdown';
@@ -24,6 +24,7 @@ import { useLicenses } from '../../../../../modules/draft/draftQueries';
 import { CONCEPT_ADMIN_SCOPE, END_CONTROL, PUBLISHED } from '../../../../../constants';
 import { ConceptStatusType } from '../../../../../interfaces';
 import { useSession } from '../../../../Session/SessionProvider';
+import MultiButton from '../../../../../components/MultiButton';
 
 export interface InlineFormConcept {
   title: string;

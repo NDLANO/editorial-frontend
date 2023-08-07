@@ -144,9 +144,11 @@ const insertChild = (
   });
 };
 
+const parentIsRoot = (node: NodeChild) => node.path.startsWith(node.parentId.replace('urn:', '/'));
+
 const groupChildNodes = (childNodes: NodeChild[]) =>
   childNodes.reduce((acc, curr) => {
-    if (curr.parentId.includes('subject')) return acc;
+    if (parentIsRoot(curr)) return acc;
     const withoutCurrent = acc.filter((node) => node.id !== curr.id);
     return insertChild(withoutCurrent, curr);
   }, childNodes);

@@ -23,5 +23,5 @@ export const StyledMenuItemInputField = styled('input')`
 export const StyledMenuItemEditField = styled('div')`
   display: flex;
   align-items: center;
-  margin: calc(${spacing.small} / 2);
+  margin: ${spacing.xsmall};
 `;

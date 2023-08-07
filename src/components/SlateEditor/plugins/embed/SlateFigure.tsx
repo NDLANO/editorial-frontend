@@ -110,7 +110,6 @@ const SlateFigure = ({
         <SlateVideo
           attributes={attributes}
           embed={embed}
-          language={language}
           onRemoveClick={onRemoveClick}
           saveEmbedUpdates={saveEmbedUpdates}
           active={isActive()}
@@ -157,7 +156,6 @@ const SlateFigure = ({
           <SlateVideo
             attributes={attributes}
             embed={embed}
-            language={language}
             onRemoveClick={onRemoveClick}
             saveEmbedUpdates={saveEmbedUpdates}
             active={isActive()}
@@ -168,18 +166,18 @@ const SlateFigure = ({
         );
       }
       return (
-        <div {...attributes}>
-          <DisplayExternal
-            onRemoveClick={onRemoveClick}
-            embed={embed}
-            language={language}
-            active={isActive()}
-            isSelectedForCopy={isSelected}
-            pathToEmbed={pathToEmbed}
-            editor={editor}
-          />
+        <DisplayExternal
+          attributes={attributes}
+          onRemoveClick={onRemoveClick}
+          embed={embed}
+          language={language}
+          active={isActive()}
+          isSelectedForCopy={isSelected}
+          pathToEmbed={pathToEmbed}
+          editor={editor}
+        >
           {children}
-        </div>
+        </DisplayExternal>
       );
     case 'error':
       return (

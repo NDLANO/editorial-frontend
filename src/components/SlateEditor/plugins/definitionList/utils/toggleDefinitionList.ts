@@ -6,9 +6,8 @@
  *
  */
 
-import { Editor, Range, Element, Transforms, Path } from 'slate';
+import { Editor, Range, Element, Transforms } from 'slate';
 import { firstTextBlockElement } from '../../../utils/normalizationHelpers';
-import { TYPE_SECTION } from '../../section/types';
 import { TYPE_DEFINITION_DESCRIPTION, TYPE_DEFINITION_TERM, TYPE_DEFINITION_LIST } from '../types';
 import { isDefinitionListItem } from './isDefinitionListItem';
 import isOnlySelectionOfDefinitionList from './isOnlySelectionOfDefinitionList';
@@ -31,11 +30,6 @@ export const toggleDefinitionList = (editor: Editor) => {
     Editor.withoutNormalizing(editor, () => {
       // The withoutNormalizing function is within its own scope and the selection check above does then not follow
       if (!Range.isRange(editor.selection)) {
-        return;
-      }
-
-      const [parent] = Editor.parent(editor, Path.parent(editor.selection.anchor.path));
-      if (Element.isElement(parent) && parent.type !== TYPE_SECTION) {
         return;
       }
 

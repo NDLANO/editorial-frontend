@@ -5,12 +5,14 @@
  */
 
 import { HTMLProps, MutableRefObject, ReactNode, useEffect } from 'react';
-import { colors } from '@ndla/core';
+import { colors, spacing } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
-import { DragVertical, Star } from '@ndla/icons/editor';
+import { Subject } from '@ndla/icons/contentType';
+import { DragVertical, Star, SubjectMatter, Taxonomy } from '@ndla/icons/editor';
 import { NodeChild, Node } from '@ndla/types-taxonomy';
 import { DragEndEvent } from '@dnd-kit/core';
 import { useTranslation } from 'react-i18next';
+import styled from '@emotion/styled';
 import Fade from '../../components/Taxonomy/Fade';
 import { createGuard } from '../../util/guards';
 import { nodePathToUrnPath } from '../../util/taxonomyHelpers';
@@ -29,7 +31,7 @@ import DndList from '../../components/DndList';
 import { DragHandle } from '../../components/DraggableItem';
 
 export type RenderBeforeFunction = (
-  input: NodeChild | Node,
+  node: NodeChild | Node,
   isRoot: boolean,
   isTaxonomyAdmin: boolean,
   articleType?: string,
@@ -48,6 +50,10 @@ const RoundIcon = ({
 }: RoundIconProps & Omit<HTMLProps<HTMLButtonElement>, 'as'>) => (
   <StyledIcon {...rest}>{smallIcon}</StyledIcon>
 );
+
+const StyledSpinner = styled(Spinner)`
+  margin: 4px ${spacing.normal};
+`;
 
 const isChildNode = createGuard<NodeChild & { articleType?: string; isPublished?: boolean }>(
   'connectionId',
@@ -70,7 +76,7 @@ interface Props {
   nodes?: NodeChildWithChildren[];
   isLoading?: boolean;
   renderBeforeTitle?: RenderBeforeFunction;
-  setShowAddTopicModal: (value: boolean) => void;
+  addChildTooltip: string;
 }
 
 const NodeItem = ({
@@ -88,7 +94,7 @@ const NodeItem = ({
   isLoading,
   nodes,
   renderBeforeTitle,
-  setShowAddTopicModal,
+  addChildTooltip,
 }: Props) => {
   const { t } = useTranslation();
   const { userPermissions } = useSession();
@@ -112,6 +118,18 @@ const NodeItem = ({
     toggleOpen(path);
     onNodeSelected(item);
   };
+
+  let icon = <Subject />; // Used for topics
+  switch (item.nodeType) {
+    case 'SUBJECT':
+      icon = <SubjectMatter />;
+      break;
+    case 'PROGRAMME':
+      icon = <Taxonomy />;
+      break;
+  }
+
+  const typeIcon = <RoundIcon smallIcon={icon} />;
 
   return (
     <StyledStructureItem
@@ -138,6 +156,7 @@ const NodeItem = ({
           isVisible={item.metadata?.visible}
         >
           {renderBeforeTitle?.(item, !!isRoot, isTaxonomyAdmin, articleType, isPublished)}
+          {typeIcon}
           {item.name}
         </ItemTitleButton>
         {isActive && (
@@ -149,12 +168,12 @@ const NodeItem = ({
             onCurrentNodeChanged={(node) => onNodeSelected(node)}
             jumpToResources={() => resourceSectionRef?.current?.scrollIntoView()}
             nodeChildren={nodes ?? []}
-            setShowAddTopicModal={setShowAddTopicModal}
+            addChildTooltip={addChildTooltip}
           />
         )}
         {isLoading && (
           <span>
-            <Spinner size="normal" margin="4px 26px" />
+            <StyledSpinner size="normal" />
           </span>
         )}
       </StyledItemBar>
@@ -181,7 +200,7 @@ const NodeItem = ({
                   nodes={t.childNodes}
                   toggleOpen={toggleOpen}
                   onDragEnd={onDragEnd}
-                  setShowAddTopicModal={setShowAddTopicModal}
+                  addChildTooltip={addChildTooltip}
                 />
               )}
               dragHandle={

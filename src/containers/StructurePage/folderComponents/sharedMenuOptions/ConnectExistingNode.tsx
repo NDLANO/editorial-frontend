@@ -14,13 +14,9 @@ import { spacing, colors } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
 import { Plus } from '@ndla/icons/action';
 import { Done } from '@ndla/icons/editor';
-import { Node } from '@ndla/types-taxonomy';
+import { Node, NodeType } from '@ndla/types-taxonomy';
 import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
-import {
-  useDeleteNodeConnectionMutation,
-  usePostNodeConnectionMutation,
-} from '../../../../modules/nodes/nodeMutations';
-import { fetchConnectionsForNode } from '../../../../modules/nodes/nodeApi';
+import { usePostNodeConnectionMutation } from '../../../../modules/nodes/nodeMutations';
 import { childNodesWithArticleTypeQueryKey } from '../../../../modules/nodes/nodeQueries';
 import RoundIcon from '../../../../components/RoundIcon';
 import MenuItemButton from './components/MenuItemButton';
@@ -30,7 +26,12 @@ import { EditModeHandler } from '../SettingsMenuDropdownType';
 interface Props {
   editModeHandler: EditModeHandler;
   currentNode: Node;
+  nodeType: NodeType;
 }
+
+const StyledSpinner = styled(Spinner)`
+  margin: 0px 4px;
+`;
 
 const StyledSuccessIcon = styled(Done)`
   border-radius: 90px;
@@ -42,7 +43,7 @@ const StyledSuccessIcon = styled(Done)`
 const Wrapper = styled.div`
   display: flex;
   align-items: center;
-  margin: calc(${spacing.small} / 2);
+  margin: ${spacing.xsmall};
 `;
 
 const MenuContent = styled.div`
@@ -65,78 +66,65 @@ const StyledActionContent = styled.div`
   padding-left: ${spacing.normal};
 `;
 
-const AddExistingToNode = ({
+const ConnectExistingNode = ({
   editModeHandler: { editMode, toggleEditMode },
   currentNode,
+  nodeType,
 }: Props) => {
   const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
-  const deleteNodeConnectionMutation = useDeleteNodeConnectionMutation();
-  const addNodeConnectionMutation = usePostNodeConnectionMutation();
+  const { mutateAsync: connectNode } = usePostNodeConnectionMutation();
   const [error, setError] = useState<string | undefined>(undefined);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const qc = useQueryClient();
 
   useEffect(() => {
-    if (success && editMode === 'addExistingTopic') {
+    if (success && editMode === 'connectExistingNode') {
       setSuccess(false);
     }
   }, [editMode, success]);
 
-  const toggleEditModeFunc = () => toggleEditMode('addExistingTopic');
+  const toggleEditModeFunc = () => toggleEditMode('connectExistingNode');
 
   const handleSubmit = async (node: Node) => {
     setLoading(true);
     setError(undefined);
     toggleEditModeFunc();
-    try {
-      const connections = await fetchConnectionsForNode({ id: node.id, taxonomyVersion });
-      const parentConnection = connections.find((conn) => conn.type.startsWith('parent'));
-      if (!parentConnection) {
-        setError('taxonomy.errorMessage');
-        return;
-      }
-      await deleteNodeConnectionMutation.mutateAsync({
-        taxonomyVersion,
-        id: parentConnection.connectionId,
-      });
-      await addNodeConnectionMutation.mutateAsync({
+    await connectNode(
+      {
         taxonomyVersion,
         body: { parentId: currentNode.id, childId: node.id },
-      });
-
-      // Invalidate all childNode-queries, since we don't know where the added node is from
-      qc.invalidateQueries(
-        childNodesWithArticleTypeQueryKey({
-          taxonomyVersion,
-          language: i18n.language,
-        }),
-      );
-      setSuccess(true);
-    } catch (e) {
-      setError('taxonomy.errorMessage');
-    } finally {
-      setLoading(false);
-    }
+      },
+      {
+        onSuccess: () => {
+          qc.invalidateQueries(
+            childNodesWithArticleTypeQueryKey({
+              taxonomyVersion,
+              language: i18n.language,
+            }),
+          );
+          setSuccess(true);
+          setLoading(false);
+        },
+        onError: () => setError('taxonomy.errorMessage'),
+      },
+    );
   };
 
-  if (editMode === 'addExistingTopic') {
+  if (editMode === 'connectExistingNode') {
     return (
       <Wrapper>
         <RoundIcon open small smallIcon icon={<Plus />} />
         <NodeSearchDropdown
-          placeholder={t('taxonomy.existingTopic')}
+          placeholder={t('taxonomy.existingNode')}
           onChange={handleSubmit}
-          searchNodeType={'TOPIC'}
+          searchNodeType={nodeType}
           filter={(node) => {
-            return (
-              !!node.path &&
-              !node.paths?.some((p) => {
-                const split = p.replace('/', '').split('/');
-                return split[split.length - 2] === currentNode.id.replace('urn:', '');
-              })
-            );
+            return !node.paths?.some((p) => {
+              const split = p.replace('/', '').split('/');
+              return split[split.length - 2] === currentNode.id.replace('urn:', '');
+            });
           }}
         />
       </Wrapper>
@@ -147,19 +135,19 @@ const AddExistingToNode = ({
     <StyledMenuWrapper>
       <MenuItemButton onClick={toggleEditModeFunc}>
         <RoundIcon small icon={<Plus />} />
-        {t('taxonomy.addExistingTopic')}
+        {t('taxonomy.connectExistingNode', { nodeType: t(`taxonomy.nodeType.${nodeType}`) })}
       </MenuItemButton>
       <StyledActionContent>
         {loading && (
           <MenuContent>
-            <Spinner size="normal" margin="0px 4px" />
-            {t('taxonomy.addExistingLoading')}
+            <StyledSpinner size="normal" />
+            {t('taxonomy.connectExistingLoading')}
           </MenuContent>
         )}
         {success && (
           <MenuContent>
             <StyledSuccessIcon />
-            {t('taxonomy.addExistingSuccess')}
+            {t('taxonomy.connectExistingSuccess')}
           </MenuContent>
         )}
         {error && (
@@ -170,4 +158,4 @@ const AddExistingToNode = ({
   );
 };
 
-export default AddExistingToNode;
+export default ConnectExistingNode;

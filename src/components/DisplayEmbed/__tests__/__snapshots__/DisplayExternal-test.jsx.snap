@@ -60,103 +60,32 @@ exports[`DisplayExternal renders external correctly 1`] = `
 
 exports[`DisplayExternal renders iframe correctly 1`] = `
 .emotion-0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex-flow: row;
+  -webkit-flex-flow: row;
+  -ms-flex-flow: row;
+  flex-flow: row;
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  -webkit-justify-content: flex-end;
+  justify-content: flex-end;
   position: absolute;
-  top: 0;
-  right: -48px;
+  top: -48px;
+  right: 12px;
 }
 
 .emotion-0>* {
   margin-bottom: 6px;
 }
 
+.emotion-0[data-margin='true'] {
+  margin: 12px;
+}
+
 .emotion-1 {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  -webkit-justify-content: center;
-  justify-content: center;
-  gap: 6px;
-  color: #fff;
-  background: #d1372e;
-  border: 2px solid #d1372e;
-  border-radius: 4px;
-  outline-width: 0;
-  cursor: pointer;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
-  font-weight: 600;
-  -webkit-transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
-  transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
-  box-shadow: none;
-  text-align: center;
-  padding: 4px 6px;
-  font-size: 14px;
-  font-size: 0.7777777777777778rem;
-  line-height: 18px;
-  min-height: 32px;
-  border-width: 1px;
-  outline-width: 2px;
-  color: #d1372e;
-  background: transparent;
-  border-color: transparent;
-  border-radius: 100%;
-  padding: 6px;
-  line-height: 1;
-  border-color: transparent;
-  min-height: unset;
-}
-
-.emotion-1:hover,
-.emotion-1:focus-visible {
-  color: #fff;
-  background-color: #d1372e;
-  border-color: #d1372e;
-}
-
-.emotion-1[disabled] {
-  color: #777777;
-  background-color: #e6e6e6;
-  border-color: transparent;
-  cursor: not-allowed;
-}
-
-.emotion-1[lang='zh'],
-.emotion-1[lang='zh-Hans'],
-.emotion-1[lang='zh-Hant'] {
-  font-size: calc(14px * 1.11);
-  font-size: calc(0.7777777777777778rem * 1.11);
-}
-
-.emotion-1:hover,
-.emotion-1:active,
-.emotion-1:focus-visible {
-  color: #fff;
-  background: #d1372e;
-  border-color: #d1372e;
-}
-
-.emotion-1[disabled] {
-  color: #777777;
-  background-color: transparent;
-  border-color: transparent;
-  cursor: not-allowed;
-}
-
-.emotion-1 svg {
-  width: 24px;
-  height: 24px;
-  margin: 0;
-}
-
-.emotion-2 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -201,11 +130,98 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
   min-height: unset;
 }
 
-.emotion-2:hover,
-.emotion-2:focus-visible {
+.emotion-1:hover,
+.emotion-1:focus-visible {
   color: #fff;
   background-color: #184673;
   border-color: #184673;
+}
+
+.emotion-1[disabled] {
+  color: #777777;
+  background-color: #e6e6e6;
+  border-color: transparent;
+  cursor: not-allowed;
+}
+
+.emotion-1[lang='zh'],
+.emotion-1[lang='zh-Hans'],
+.emotion-1[lang='zh-Hant'] {
+  font-size: calc(14px * 1.11);
+  font-size: calc(0.7777777777777778rem * 1.11);
+}
+
+.emotion-1:hover,
+.emotion-1:active,
+.emotion-1:focus-visible {
+  color: #20588f;
+  background: #ceddea;
+  border-color: #ceddea;
+}
+
+.emotion-1[disabled] {
+  color: #777777;
+  background-color: transparent;
+  border-color: transparent;
+  cursor: not-allowed;
+}
+
+.emotion-1 svg {
+  width: 24px;
+  height: 24px;
+  margin: 0;
+}
+
+.emotion-2 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  gap: 6px;
+  color: #fff;
+  background: #d1372e;
+  border: 2px solid #d1372e;
+  border-radius: 4px;
+  outline-width: 0;
+  cursor: pointer;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
+  font-weight: 600;
+  -webkit-transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
+  transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
+  box-shadow: none;
+  text-align: center;
+  padding: 4px 6px;
+  font-size: 14px;
+  font-size: 0.7777777777777778rem;
+  line-height: 18px;
+  min-height: 32px;
+  border-width: 1px;
+  outline-width: 2px;
+  color: #d1372e;
+  background: transparent;
+  border-color: transparent;
+  border-radius: 100%;
+  padding: 6px;
+  line-height: 1;
+  border-color: transparent;
+  min-height: unset;
+}
+
+.emotion-2:hover,
+.emotion-2:focus-visible {
+  color: #fff;
+  background-color: #d1372e;
+  border-color: #d1372e;
 }
 
 .emotion-2[disabled] {
@@ -225,9 +241,9 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
 .emotion-2:hover,
 .emotion-2:active,
 .emotion-2:focus-visible {
-  color: #20588f;
-  background: #ceddea;
-  border-color: #ceddea;
+  color: #fff;
+  background: #d1372e;
+  border-color: #d1372e;
 }
 
 .emotion-2[disabled] {
@@ -259,12 +275,47 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
       contenteditable="false"
     >
       <div
+        data-tooltip="Rediger eksternt element"
+        data-tooltip-container="true"
+      >
+        <button
+          aria-label="Rediger eksternt element"
+          class="emotion-1"
+          data-state="closed"
+          data-trigger="true"
+          type="button"
+        >
+          <svg
+            aria-hidden="true"
+            class="c-icon"
+            data-license="Apache License 2.0"
+            data-source="Material Design"
+            fill="currentColor"
+            height="1em"
+            preserveAspectRatio="xMidYMid meet"
+            style="vertical-align: middle;"
+            viewBox="0 0 24 24"
+            width="1em"
+          >
+            <g>
+              <path
+                d="M0 0h24v24H0z"
+                fill="none"
+              />
+              <path
+                d="M3.9 12c0-1.7 1.4-3.1 3.1-3.1h4V7H7a5 5 0 0 0 0 10h4v-1.9H7A3.1 3.1 0 0 1 3.9 12zM8 13h8v-2H8v2zm9-6h-4v1.9h4a3.1 3.1 0 0 1 0 6.2h-4V17h4a5 5 0 0 0 0-10z"
+              />
+            </g>
+          </svg>
+        </button>
+      </div>
+      <div
         data-tooltip="Fjern eksternt element"
         data-tooltip-container="true"
       >
         <button
           aria-label="Fjern eksternt element"
-          class="emotion-1"
+          class="emotion-2"
           data-cy="remove-element"
           data-state="closed"
           data-trigger="true"
@@ -288,46 +339,11 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
                 fill="none"
               />
               <path
-                d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z"
+                d="M6 19c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V7H6v12zm2.5-7.1 1.4-1.4 2.1 2 2.1-2 1.4 1.4-2 2.1 2 2.1-1.4 1.4-2.1-2-2.1 2-1.4-1.4 2-2.1-2-2.1zm7-7.9-1-1h-5l-1 1H5v2h14V4z"
               />
               <path
                 d="M0 0h24v24H0z"
                 fill="none"
-              />
-            </g>
-          </svg>
-        </button>
-      </div>
-      <div
-        data-tooltip="Rediger eksternt element"
-        data-tooltip-container="true"
-      >
-        <button
-          aria-label="Rediger eksternt element"
-          class="emotion-2"
-          data-state="closed"
-          data-trigger="true"
-          type="button"
-        >
-          <svg
-            aria-hidden="true"
-            class="c-icon"
-            data-license="Apache License 2.0"
-            data-source="Material Design"
-            fill="currentColor"
-            height="1em"
-            preserveAspectRatio="xMidYMid meet"
-            style="vertical-align: middle;"
-            viewBox="0 0 24 24"
-            width="1em"
-          >
-            <g>
-              <path
-                d="M0 0h24v24H0z"
-                fill="none"
-              />
-              <path
-                d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
               />
             </g>
           </svg>
@@ -370,7 +386,7 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
               fill="none"
             />
             <path
-              d="M12 5.83L15.17 9l1.41-1.41L12 3 7.41 7.59 8.83 9 12 5.83zm0 12.34L8.83 15l-1.41 1.41L12 21l4.59-4.59L15.17 15 12 18.17z"
+              d="M12 5.8 15.2 9l1.4-1.4L12 3 7.4 7.6 8.8 9 12 5.8zm0 12.4L8.8 15l-1.4 1.4L12 21l4.6-4.6-1.4-1.4-3.2 3.2z"
             />
           </g>
         </svg>

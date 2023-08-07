@@ -6,9 +6,8 @@
  *
  */
 
-import { Component, MouseEvent } from 'react';
-
-import { withTranslation, CustomWithTranslation, useTranslation } from 'react-i18next';
+import { MouseEvent } from 'react';
+import { useTranslation } from 'react-i18next';
 import { colors, spacing } from '@ndla/core';
 import { CloseButton } from '@ndla/button';
 import styled from '@emotion/styled';
@@ -70,22 +69,18 @@ const SearchTagContent = ({
   );
 };
 
-class SearchTag extends Component<Props & CustomWithTranslation> {
-  constructor(props: Props & CustomWithTranslation) {
-    super(props);
-    this.onRemove = this.onRemove.bind(this);
-    this.searchParamsFormatter = this.searchParamsFormatter.bind(this);
-  }
+const SearchTag = ({ tag, onRemoveItem }: Props) => {
+  const { t } = useTranslation();
 
-  onRemove(e: MouseEvent<HTMLButtonElement>) {
-    const { onRemoveItem, tag } = this.props;
+  const onRemove = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     e.stopPropagation();
     onRemoveItem(tag);
-  }
+  };
 
-  searchParamsFormatter = (selector: SearchFormSelector): string | number | boolean | undefined => {
-    const { t } = this.props;
+  const searchParamsFormatter = (
+    selector: SearchFormSelector,
+  ): string | number | boolean | undefined => {
     switch (selector.formElementType) {
       case 'date-picker':
         if (selector.value) return formatDate(selector.value);
@@ -104,19 +99,16 @@ class SearchTag extends Component<Props & CustomWithTranslation> {
     }
   };
 
-  render() {
-    const { tag } = this.props;
-    const tagValue = this.searchParamsFormatter(tag);
+  const tagValue = searchParamsFormatter(tag);
 
-    if (tagValue === undefined) return null;
+  if (tagValue === undefined) return null;
 
-    return (
-      <StyledDl>
-        <SearchTagContent tag={tag} tagValue={tagValue} />
-        <CloseButton onClick={this.onRemove} />
-      </StyledDl>
-    );
-  }
-}
+  return (
+    <StyledDl>
+      <SearchTagContent tag={tag} tagValue={tagValue} />
+      <CloseButton onClick={onRemove} />
+    </StyledDl>
+  );
+};
 
-export default withTranslation()(SearchTag);
+export default SearchTag;

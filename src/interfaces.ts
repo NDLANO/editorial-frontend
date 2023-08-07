@@ -40,16 +40,18 @@ export type EditMode =
   | 'openCustomFields'
   | 'toggleMetadataVisibility'
   | 'editGrepCodes'
-  | 'addExistingTopic'
+  | 'moveExistingNode'
   | 'addTopic'
   | 'deleteSubject'
   | 'requestPublish'
   | 'deleteNode'
+  | 'disconnectFromParent'
   | 'copyResources'
   | 'cloneResources'
   | 'copyRevisionDate'
   | 'swapTopicArticle'
   | 'setResourcesPrimary'
+  | 'connectExistingNode'
   | '';
 
 export interface SearchResultBase<T> {
@@ -112,6 +114,7 @@ export interface ImageEmbed {
   metaData?: any;
   'is-decorative'?: string;
   allowDecorative?: string;
+  border?: string;
 }
 
 export interface BrightcoveEmbed {

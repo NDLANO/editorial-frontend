@@ -19,7 +19,7 @@ import CustomFieldButton from './CustomFieldButton';
 const StyledMenuItemEditField = styled('div')`
   display: flex;
   align-items: center;
-  margin: calc(${spacing.small} / 2);
+  margin: ${spacing.xsmall};
 `;
 
 interface Props {

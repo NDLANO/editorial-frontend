@@ -8,7 +8,7 @@
 
 import { test, expect } from '@playwright/test';
 import { mockRoute } from '../apiMock';
-import { userDataMock, responsiblesMock, zendeskMock, copyrightMock } from '../mockResponses';
+import { userDataMock, responsiblesMock, zendeskMock, copyrightMock, getNoteUsersMock } from '../mockResponses';
 
 test.beforeEach(async ({ page }) => {
   const licenses = mockRoute({
@@ -91,6 +91,13 @@ test.beforeEach(async ({ page }) => {
     fixture: 'editor_contains_article',
   });
 
+  const getNoteUser = mockRoute({
+    page,
+    path: '**/get_note_users*',
+    fixture: 'editor_get_note_users',
+    overrideValue: JSON.stringify(getNoteUsersMock)
+  })
+
   await page.goto(`/subject-matter/learning-resource/800/edit/nb`);
   await Promise.all([
     licenses,
@@ -105,6 +112,7 @@ test.beforeEach(async ({ page }) => {
     taxonomyTopics,
     searchApi,
     containsArticle,
+    getNoteUser
   ]);
 });
 
@@ -122,13 +130,13 @@ test('can enter title, ingress, content and responsible then save', async ({ pag
   await page.keyboard.type('Test user');
   await page.keyboard.press('Enter');
   await page
-    .locator('[data-testid="saveLearningResourceButtonWrapper"]')
+    .getByTestId('saveLearningResourceButtonWrapper')
     .getByRole('button')
     .first()
     .click();
   await expect(
     page
-      .locator('[data-testid="saveLearningResourceButtonWrapper"]')
+      .getByTestId('saveLearningResourceButtonWrapper')
       .getByRole('button')
       .getByText('Lagret'),
   ).toHaveCount(1);

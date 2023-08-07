@@ -63,11 +63,11 @@ test('Can use text input', async ({ page }) => {
   await page.goto(
     '/search/audio?exclude-revision-log=false&fallback=false&filter-inactive=true&include-other-statuses=false&page=1&page-size=10&query=Test&sort=-relevance',
   );
-  await page.waitForResponse('**/audio-api/v1/audio/*');
+  await page.getByTestId('audio-search-result').first().waitFor();
   expect(await page.getByTestId('searchTotalCount').innerText()).toEqual('26');
   await page.locator('input[name="query"]').clear();
   await page.goto('/search/audio?page=1&page-size=10&sort=-relevance');
-  await page.waitForResponse('**/audio-api/v1/audio/*');
+  await page.getByTestId('audio-search-result').first().waitFor();
   expect(await page.getByTestId('searchTotalCount').innerText()).toEqual('3281');
 });
 
@@ -81,11 +81,11 @@ test('Can use audiotype dropdown', async ({ page }) => {
   await page.goto(
     '/search/audio?audio-type=podcast&exclude-revision-log=false&fallback=false&filter-inactive=true&include-other-statuses=false&page=1&page-size=10&sort=-relevance',
   );
-  await page.waitForResponse('**/audio-api/v1/audio/*');
+  await page.getByTestId('audio-search-result').first().waitFor();
   expect(await page.getByTestId('searchTotalCount').innerText()).toEqual('112');
   await page.locator('select[name="audio-type"]').selectOption({ index: 0 });
   await page.goto('/search/audio?page=1&page-size=10&sort=-relevance');
-  await page.waitForResponse('**/audio-api/v1/audio/*');
+  await page.getByTestId('audio-search-result').first().waitFor();
   expect(await page.getByTestId('searchTotalCount').innerText()).toEqual('3281');
 });
 
@@ -99,10 +99,10 @@ test('Can use language dropdown', async ({ page }) => {
   await page.goto(
     '/search/audio?exclude-revision-log=false&fallback=false&filter-inactive=true&include-other-statuses=false&language=en&page=1&page-size=10&sort=-relevance',
   );
-  await page.waitForResponse('**/audio-api/v1/audio/*');
+  await page.getByTestId('audio-search-result').first().waitFor();
   expect(await page.getByTestId('searchTotalCount').innerText()).toEqual('315');
   await page.locator('select[name="language"]').selectOption({ index: 0 });
   await page.goto('/search/audio?page=1&page-size=10&sort=-relevance');
-  await page.waitForResponse('**/audio-api/v1/audio/*');
+  await page.getByTestId('audio-search-result').first().waitFor();
   expect(await page.getByTestId('searchTotalCount').innerText()).toEqual('3281');
 });

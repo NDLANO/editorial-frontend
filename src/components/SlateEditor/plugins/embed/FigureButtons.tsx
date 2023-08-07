@@ -7,17 +7,22 @@
  */
 
 import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
+import { colors, spacing } from '@ndla/core';
 
 export const StyledFigureButtons = styled.div`
   display: flex;
   flex-flow: row;
   justify-content: flex-end;
   position: absolute;
-  top: -${spacing.large};
-  right: ${spacing.small};
+  right: ${spacing.nsmall};
+  top: ${spacing.nsmall};
+  z-index: 2;
+  gap: ${spacing.xxsmall};
 
-  > * {
-    margin-bottom: ${spacing.xsmall};
+  &[data-white='true'] {
+    > a,
+    button {
+      background-color: ${colors.white};
+    }
   }
 `;

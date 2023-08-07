@@ -120,7 +120,7 @@ const SlateImage = ({
         </ModalContent>
         {!visualElement && (
           <figure {...figureClass} contentEditable={false}>
-            <StyledFigureButtons>
+            <StyledFigureButtons data-white={true}>
               <ModalTrigger>
                 <IconButtonV2
                   aria-label={t('form.image.editImage')}

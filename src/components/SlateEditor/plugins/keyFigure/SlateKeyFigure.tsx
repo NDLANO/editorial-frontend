@@ -112,7 +112,7 @@ const SlateKeyFigure = ({ element, editor, attributes, children }: Props) => {
       <KeyFigureWrapper {...attributes}>
         {data && image && (
           <div contentEditable={false}>
-            <StyledFigureButtons>
+            <StyledFigureButtons data-white={true}>
               <ModalTrigger>
                 <IconButtonV2 variant="ghost" aria-label={t('keyFigureForm.edit')}>
                   <Pencil />

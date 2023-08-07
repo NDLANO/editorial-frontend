@@ -126,7 +126,7 @@ const SlateCampaignBlock = ({ element, editor, attributes, children }: Props) =>
       <CampaignBlockWrapper {...attributes}>
         {campaignBlock && (
           <div contentEditable={false}>
-            <StyledFigureButtons>
+            <StyledFigureButtons data-white={true}>
               <ModalTrigger>
                 <IconButtonV2
                   variant="ghost"

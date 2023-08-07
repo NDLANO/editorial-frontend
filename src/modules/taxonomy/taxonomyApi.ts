@@ -7,7 +7,7 @@
  */
 
 import orderBy from 'lodash/orderBy';
-import { ResourceType, ResolvedUrl, NodeConnectionPUT } from '@ndla/types-taxonomy';
+import { ResourceType, ResolvedUrl } from '@ndla/types-taxonomy';
 import { apiResourceUrl, httpFunctions } from '../../util/apiHelpers';
 import { createResourceResourceType, deleteResourceResourceType } from './resourcetypes';
 import { taxonomyApi } from '../../config';
@@ -67,15 +67,15 @@ export const updateTax = async (
     { connectionId: true, supportedLanguages: true, translations: true },
     'id',
   );
-  console.log(node.placements, originalNode.placements);
   const resourceDiff = doDiff(originalNode.placements, node.placements, { isPrimary: true }, 'id');
 
   const primaryConnection = node.placements.find((p) => p.isPrimary);
   const originalPrimary = originalNode.placements.find((p) => p.isPrimary);
 
-  if (resourceDiff.changed.diffType !== 'NONE') {
+  const diffChanged = primaryConnection?.connectionId !== originalPrimary?.connectionId;
+
+  if (resourceDiff.changed.diffType !== 'NONE' || diffChanged) {
     const placementDiff = orderBy(resourceDiff.diff, (d) => d.isPrimary.other, 'desc');
-    console.log(placementDiff);
     for (const diff of placementDiff) {
       if (diff.changed.diffType === 'ADDED') {
         await postNodeConnection({
@@ -89,7 +89,10 @@ export const updateTax = async (
         });
       } else if (diff.changed.diffType === 'DELETED') {
         await deleteNodeConnection({ id: diff.connectionId.original!, taxonomyVersion });
-      } else if (diff.changed.diffType === 'MODIFIED') {
+      } else if (
+        diff.changed.diffType === 'MODIFIED' ||
+        (diffChanged && diff.connectionId.other === primaryConnection?.connectionId)
+      ) {
         await putNodeConnection({
           id: diff.connectionId.original!,
           body: { primary: diff.isPrimary.other!, relevanceId: diff.relevanceId?.other },

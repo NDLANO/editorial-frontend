@@ -25,10 +25,10 @@ describe('Search audios', () => {
 
   it('Can use text input', () => {
     cy.apiroute('GET', '**/audio-api/v1/audio/?*query=Test*', 'searchAudioQuery');
-    cy.get('input[name="query"]').type('Test').blur();
+    cy.get('input[name="query"]').type('Test{enter}').blur();
     cy.apiwait('@searchAudioQuery');
     cy.get('span[data-cy="totalCount"').contains(/^Antall søketreff: \d+/);
-    cy.get('input[name="query"]').clear();
+    cy.get('input[name="query"]').clear().type('{enter}');
     cy.apiwait('@searchAudios');
   });
 

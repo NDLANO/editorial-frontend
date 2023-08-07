@@ -31,7 +31,7 @@ describe('Search content', () => {
 
   it('Can use text input', () => {
     cy.apiroute('GET', '/search-api/v1/search/editorial/?*query=Test*', 'searchQuery');
-    cy.get('input[name="query"]').type('Test').blur();
+    cy.get('input[name="query"]').type('Test{enter}').blur();
     cy.apiwait('@searchQuery');
     cy.get('span[data-cy="totalCount"').contains(/^Antall søketreff: \d+/);
     cy.get('input[name="query"]').clear();

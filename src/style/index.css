@@ -7,7 +7,7 @@
  */
 
 @import '../../node_modules/@ndla/ui/lib/all.css';
-@import '../../node_modules/flatpickr/dist/flatpickr.min.css';
+@import '../../node_modules/react-day-picker/dist/style.css';
 @import '../../node_modules/react-image-crop/dist/ReactCrop.css';
 @import './content-block.css';
 @import './form.css';

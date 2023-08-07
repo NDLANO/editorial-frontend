@@ -109,7 +109,7 @@ test('Can change language and fech new article', async ({ page }) => {
     fixture: 'language_handling_draft_en',
   });
 
-  await page.getByRole('button').getByText('Legg til språk').click();
+  await page.getByText('Legg til språk').click();
   await page.getByText('Engelsk').click();
 
   await draftUpdate;
@@ -117,5 +117,6 @@ test('Can change language and fech new article', async ({ page }) => {
 });
 
 test('Has access to the html-editor', async ({ page }) => {
-  await expect(page.getByTestId('edit-markup-link')).toBeVisible({ timeout: 10000 });
+  await page.getByTestId('edit-markup-link').waitFor();
+  await expect(page.getByTestId('edit-markup-link')).toBeVisible();
 });

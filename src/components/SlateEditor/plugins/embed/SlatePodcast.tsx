@@ -102,7 +102,7 @@ const SlatePodcast = ({
   return (
     <div draggable {...attributes}>
       <Figure id={`${audio.id}`}>
-        <div>
+        <div contentEditable={false}>
           <StyledFigureButtons>
             <SafeLinkIconButton
               variant="ghost"

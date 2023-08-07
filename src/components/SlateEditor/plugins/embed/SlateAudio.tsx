@@ -107,7 +107,7 @@ const SlateAudio = ({
   return (
     <div draggable {...attributes}>
       <Figure id={`${audio.id}`}>
-        <div>
+        <div contentEditable={false}>
           {!speech && (
             <StyledFigureButtons>
               <SafeLinkIconButton

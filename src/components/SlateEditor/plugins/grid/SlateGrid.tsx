@@ -27,6 +27,7 @@ import { ReactEditor, RenderElementProps } from 'slate-react';
 import { GridElement } from '.';
 import DeleteButton from '../../../DeleteButton';
 import GridForm from './GridForm';
+import { GridProvider } from './GridContext';
 
 interface Props extends RenderElementProps {
   element: GridElement;
@@ -115,13 +116,15 @@ export const SlateGrid = ({ element, editor, children }: Props) => {
 
           <DeleteButton aria-label={t('delete')} data-cy="remove-grid" onClick={handleRemove} />
         </ButtonContainer>
-        <StyledGrid
-          border="none"
-          columns={element.data.columns}
-          background={element.data.background}
-        >
-          {children}
-        </StyledGrid>
+        <GridProvider value={true}>
+          <StyledGrid
+            border="none"
+            columns={element.data.columns}
+            background={element.data.background}
+          >
+            {children}
+          </StyledGrid>
+        </GridProvider>
       </GridWrapper>
     </>
   );

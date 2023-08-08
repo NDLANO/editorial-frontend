@@ -79,7 +79,7 @@ const LinkBlockForm = ({ embed, existingEmbeds, onSave }: Props) => {
         test: (value) => {
           const exists = existingEmbeds.some((embed) => embed.url === value.url);
           if (!exists) return undefined;
-          return { translationKey: 'form.name.linkExists' };
+          return { translationKey: 'linkBlock.linkExists' };
         },
       },
     };

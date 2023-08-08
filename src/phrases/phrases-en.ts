@@ -1881,6 +1881,7 @@ const phrases = {
     delete: 'Delete link',
     edit: 'Edit link',
     create: 'Add new link',
+    linkExists: 'This link already exists in the block',
   },
   dragAndDrop: {
     handle: 'Drag handle',

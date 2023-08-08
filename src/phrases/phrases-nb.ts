@@ -1884,6 +1884,7 @@ const phrases = {
     delete: 'Slett lenke',
     edit: 'Rediger lenke',
     create: 'Sett inn lenke',
+    linkExists: 'Denne lenken finnes allerede i blokken',
   },
   dragAndDrop: {
     handle: 'Håndtak',

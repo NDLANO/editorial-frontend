@@ -14,6 +14,7 @@ import { ButtonV2 } from '@ndla/button';
 import { useTranslation } from 'react-i18next';
 import { useSlateContext } from '../../SlateContext';
 import { isEmpty } from '../../../validators';
+import { useInGrid } from '../grid/GridContext';
 
 export const StyledInputWrapper = styled.div`
   background: ${colors.brand.greyLightest};
@@ -49,6 +50,7 @@ const FigureInput = ({
   border,
   onBorderChecked,
 }: Props) => {
+  const inGrid = useInGrid();
   const { t } = useTranslation();
   const { submitted } = useSlateContext();
 
@@ -84,11 +86,13 @@ const FigureInput = ({
           onChange={() => handleCheck(!isDecorative)}
         />
       )}
-      <CheckboxItem
-        label={t('form.image.showBorder')}
-        checked={border}
-        onChange={onBorderChecked}
-      />
+      {inGrid && (
+        <CheckboxItem
+          label={t('form.image.showBorder')}
+          checked={border}
+          onChange={onBorderChecked}
+        />
+      )}
       <StyledButtonWrapper paddingLeft>
         <ButtonV2 onClick={onAbort} variant="outline">
           {t('form.abort')}

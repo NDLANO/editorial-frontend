@@ -48,7 +48,9 @@ test.beforeEach(async ({ page }) => {
     page,
     path: '**/draft-api/v1/drafts/800/history?language=nb&fallback=true',
     fixture: 'language_handling_draft_history',
+    overrideValue: (val) => JSON.stringify(JSON.parse(val).map((draft) => ({ ...draft, copyright: copyrightMock })))
   });
+
 
   const draftData = mockRoute({
     page,
@@ -61,7 +63,6 @@ test.beforeEach(async ({ page }) => {
     page,
     path: '**/draft-api/v1/drafts/800/validate/',
     fixture: 'language_handling_draft_validate',
-    overrideValue: (val) => JSON.stringify({ ...JSON.parse(val), copyright: copyrightMock })
   });
 
   const taxonomyResources = mockRoute({
@@ -116,6 +117,7 @@ test('Can change language and fech new article', async ({ page }) => {
   await page.getByText('Engelsk').click();
 
   await draftUpdate;
+  await page.getByText('Engelsk').waitFor();
   await expect(page.getByText('Engelsk')).toBeVisible();
 });
 

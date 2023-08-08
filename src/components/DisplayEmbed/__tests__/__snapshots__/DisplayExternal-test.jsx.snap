@@ -73,12 +73,15 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
   -webkit-justify-content: flex-end;
   justify-content: flex-end;
   position: absolute;
-  top: -48px;
-  right: 12px;
+  right: 16px;
+  top: 16px;
+  z-index: 2;
+  gap: 6px;
 }
 
-.emotion-0>* {
-  margin-bottom: 6px;
+.emotion-0[data-white='true']>a,
+.emotion-0[data-white='true'] button {
+  background-color: #fff;
 }
 
 .emotion-1 {

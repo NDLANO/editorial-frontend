@@ -56,6 +56,8 @@ import { TYPE_GRID } from '../grid/types';
 import { defaultGridBlock } from '../grid/utils';
 import { defaultContactBlock } from '../contactBlock/utils';
 import { TYPE_CAMPAIGN_BLOCK } from '../campaignBlock/types';
+import { TYPE_LINK_BLOCK_LIST } from '../linkBlockList/types';
+import { defaultLinkBlockList } from '../linkBlockList';
 
 interface Props {
   editor: Editor;
@@ -243,6 +245,10 @@ const SlateBlockPicker = ({
       }
       case TYPE_CAMPAIGN_BLOCK: {
         onInsertBlock(defaultCampaignBlock());
+        break;
+      }
+      case TYPE_LINK_BLOCK_LIST: {
+        onInsertBlock(defaultLinkBlockList());
         break;
       }
       default:

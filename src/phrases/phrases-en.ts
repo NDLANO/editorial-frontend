@@ -639,6 +639,7 @@ const phrases = {
       blogPost: 'Blog post',
       grid: 'Grid',
       campaignBlock: 'Kampanjeblokk',
+      linkBlockList: 'Link block',
     },
   },
   form: {
@@ -733,6 +734,7 @@ const phrases = {
       linkText: 'Link text',
       titleLanguage: 'Title language',
       descriptionlanguage: 'Description language',
+      url: 'Link',
     },
     previewProductionArticle: {
       button: 'Compare current version with old version',
@@ -1873,6 +1875,12 @@ const phrases = {
       insertImageAfter: 'Insert right image',
       images: 'Images',
     },
+  },
+  linkBlock: {
+    deleteBlock: 'Delete link block',
+    delete: 'Delete link',
+    edit: 'Edit link',
+    create: 'Add new link',
   },
   dragAndDrop: {
     handle: 'Drag handle',

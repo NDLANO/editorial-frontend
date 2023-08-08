@@ -57,6 +57,7 @@ import { ContactBlockElement } from './plugins/contactBlock';
 import { BlogPostElement } from './plugins/blogPost/types';
 import { CampaignBlockElement } from './plugins/campaignBlock';
 import { GridCellElement, GridElement } from './plugins/grid';
+import { LinkBlockListElement } from './plugins/linkBlockList/types';
 
 export type SlatePlugin = (editor: Editor) => Editor;
 
@@ -125,7 +126,8 @@ declare module 'slate' {
       | GridCellElement
       | KeyFigureElement
       | ContactBlockElement
-      | CampaignBlockElement;
+      | CampaignBlockElement
+      | LinkBlockListElement;
     Text: CustomTextWithMarks;
   }
 }

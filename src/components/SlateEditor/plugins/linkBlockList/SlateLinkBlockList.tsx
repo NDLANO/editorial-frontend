@@ -68,11 +68,10 @@ const SlateLinkBlockList = ({ attributes, editor, element, children }: Props) =>
   );
 
   const onSave = useCallback(
-    (embed: LinkBlockEmbedData) => {
-      const existingEmbed = element.data?.find((em) => em.url === embed.url);
+    (embed: LinkBlockEmbedData, index?: number) => {
       const path = ReactEditor.findPath(editor, element);
-      if (existingEmbed) {
-        const newData = element.data?.map((em) => (em.url === embed.url ? embed : em));
+      if (index !== undefined && element.data) {
+        const newData = element.data?.map((em, idx) => (index === idx ? embed : em));
         Transforms.setNodes(editor, { data: newData }, { at: path });
       } else {
         const existingData = element.data ?? [];
@@ -102,8 +101,8 @@ const SlateLinkBlockList = ({ attributes, editor, element, children }: Props) =>
   );
 
   const onDelete = useCallback(
-    (embed: LinkBlockEmbedData) => {
-      const newData = element.data?.filter((em) => em.url !== embed.url);
+    (index: number) => {
+      const newData = element.data?.filter((_, idx) => idx !== index);
       const path = ReactEditor.findPath(editor, element);
       if (!newData?.length) {
         Transforms.removeNodes(editor, { at: path, voids: true });
@@ -138,10 +137,11 @@ const SlateLinkBlockList = ({ attributes, editor, element, children }: Props) =>
         </IconButtonV2>
       </HeaderWrapper>
       <LinkBlockSection>
-        {element.data?.map((el) => (
+        {element.data?.map((el, index) => (
           <SlateLinkBlock
             key={el.url}
             link={el}
+            index={index}
             onDelete={onDelete}
             onSave={onSave}
             allEmbeds={element.data ?? []}
@@ -155,8 +155,9 @@ const SlateLinkBlockList = ({ attributes, editor, element, children }: Props) =>
 interface SlateLinkBlockProps {
   link: LinkBlockEmbedData;
   allEmbeds: LinkBlockEmbedData[];
-  onSave: (embed: LinkBlockEmbedData) => void;
-  onDelete: (embed: LinkBlockEmbedData) => void;
+  onSave: (embed: LinkBlockEmbedData, index: number) => void;
+  index: number;
+  onDelete: (index: number) => void;
 }
 
 const LinkBlockWrapper = styled.div`
@@ -169,7 +170,7 @@ const LinkBlockWrapper = styled.div`
   gap: ${spacing.small};
 `;
 
-const SlateLinkBlock = ({ link, onSave, onDelete, allEmbeds }: SlateLinkBlockProps) => {
+const SlateLinkBlock = ({ link, onSave, onDelete, allEmbeds, index }: SlateLinkBlockProps) => {
   const [open, setOpen] = useState(false);
   const { t } = useTranslation();
 
@@ -180,10 +181,10 @@ const SlateLinkBlock = ({ link, onSave, onDelete, allEmbeds }: SlateLinkBlockPro
 
   const onSaveElement = useCallback(
     (embed: LinkBlockEmbedData) => {
-      onSave(embed);
+      onSave(embed, index);
       setOpen(false);
     },
-    [onSave],
+    [onSave, index],
   );
 
   return (
@@ -203,7 +204,7 @@ const SlateLinkBlock = ({ link, onSave, onDelete, allEmbeds }: SlateLinkBlockPro
         colorTheme="danger"
         aria-label={t('linkBlock.delete')}
         title={t('linkBlock.delete')}
-        onClick={() => onDelete(link)}
+        onClick={() => onDelete(index)}
       >
         <DeleteForever />
       </IconButtonV2>

@@ -22,7 +22,12 @@ export const StyledFigureButtons = styled.div`
   &[data-white='true'] {
     > a,
     button {
-      background-color: ${colors.white};
+      background: ${colors.white};
+
+      &:hover {
+        background: transparent;
+        border-color: transparent;
+      }
     }
   }
 `;

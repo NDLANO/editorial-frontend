@@ -244,7 +244,7 @@ const DisplayExternal = ({
 
   return (
     <div {...attributes} className={'c-figure'} contentEditable={false}>
-      <StyledFigureButtons>
+      <StyledFigureButtons data-white={true}>
         {allowedProvider.name && (
           <IconButtonV2
             aria-label={t('form.external.edit', { type: providerName || t('form.external.title') })}

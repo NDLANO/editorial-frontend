@@ -81,7 +81,13 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
 
 .emotion-0[data-white='true']>a,
 .emotion-0[data-white='true'] button {
-  background-color: #fff;
+  background: #fff;
+}
+
+.emotion-0[data-white='true']>a:hover,
+.emotion-0[data-white='true'] button:hover {
+  background: transparent;
+  border-color: transparent;
 }
 
 .emotion-1 {
@@ -276,6 +282,7 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
   >
     <div
       class="emotion-0"
+      data-white="true"
     >
       <button
         aria-label="Rediger eksternt element"

@@ -1882,10 +1882,10 @@ const phrases = {
     handle: 'Handtak',
   },
   datePicker: {
-    chooseMonth: 'Måned:',
+    chooseMonth: 'Månad:',
     chooseYear: 'År:',
-    labelNext: 'Gå til neste måned',
-    previousMonth: 'Gå til forrige måned',
+    labelNext: 'Gå til neste månad',
+    previousMonth: 'Gå til forrige månad',
   },
 };
 

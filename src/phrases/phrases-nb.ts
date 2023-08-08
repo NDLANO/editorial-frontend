@@ -170,7 +170,7 @@ const phrases = {
     emptyButton: 'Tøm',
     title: 'Tittel',
     language: 'Språk',
-    contentNoHits: 'Ingen innhold samsvarte med søket ditt på: {{query}}',
+    contentNoHits: 'Ingen treff i innhold samsvarte med søket ditt på: {{query}}',
     'podcast-seriesNoHits': 'Ingen serier samsvarte med søket ditt på: {{query}}',
     conceptNoHits: 'Ingen forklaringer samsvarte med søket ditt på: {{query}}',
     audioNoHits: 'Ingen lydfiler samsvarte med søket ditt på: {{query}}',
@@ -317,6 +317,7 @@ const phrases = {
     resultError: 'Noe gikk feil med innlasting av type: {{type}}',
     favourites: 'Mine favorittfag',
     archivedIncluded: 'Utgåtte fag inkludert',
+    error: 'Noe gikk galt med søket',
   },
   subjectsPage: {
     subjects: 'Fag',
@@ -1169,6 +1170,7 @@ const phrases = {
         hide: 'Skjul byline',
       },
       isDecorative: 'Bildet er kun dekorativt i denne sammenhengen',
+      showBorder: 'Vis bilderamme',
     },
     video: {
       caption: {

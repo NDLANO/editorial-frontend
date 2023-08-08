@@ -84,7 +84,6 @@ const SlateBlockPicker = ({
 
   const [visualElementPickerOpen, setVisualElementPickerOpen] = useState(false);
   const [type, setType] = useState('');
-
   const { userPermissions } = useSession();
   const { t } = useTranslation();
 

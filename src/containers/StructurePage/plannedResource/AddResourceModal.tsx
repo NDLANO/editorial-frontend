@@ -9,7 +9,6 @@
 import styled from '@emotion/styled';
 import { ReactNode } from 'react';
 import { spacing } from '@ndla/core';
-import TaxonomyLightbox from '../../../components/Taxonomy/TaxonomyLightbox';
 
 const StyledContent = styled.div`
   width: 100%;
@@ -26,16 +25,10 @@ const StyledContent = styled.div`
 
 interface Props {
   children: ReactNode;
-  onClose: () => void;
-  title: string;
 }
 
-const AddResourceModal = ({ children, onClose, title }: Props) => {
-  return (
-    <TaxonomyLightbox title={title} onClose={onClose} height="normal">
-      <StyledContent>{children}</StyledContent>
-    </TaxonomyLightbox>
-  );
+const AddResourceModal = ({ children }: Props) => {
+  return <StyledContent>{children}</StyledContent>;
 };
 
 export default AddResourceModal;

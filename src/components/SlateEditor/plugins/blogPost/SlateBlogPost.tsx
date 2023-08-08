@@ -7,9 +7,9 @@
  */
 
 import styled from '@emotion/styled';
-import { IconButtonV2 } from '@ndla/button';
+import { CloseButton, IconButtonV2 } from '@ndla/button';
 import { Pencil } from '@ndla/icons/action';
-import { ModalBody, ModalCloseButton, ModalHeader, ModalTitle, Modal } from '@ndla/modal';
+import { ModalBody, ModalHeader, ModalTitle, Modal, ModalTrigger, ModalContent } from '@ndla/modal';
 import { BlogPostEmbedData } from '@ndla/types-embed';
 import { BlogPostV2 } from '@ndla/ui';
 import { useCallback, useState } from 'react';
@@ -35,7 +35,6 @@ const BlogPostWrapper = styled.div`
 const ButtonContainer = styled.div`
   display: flex;
   justify-content: flex-end;
-  width: 100%;
 `;
 
 const imageUrl = `${config.ndlaApiUrl}/image-api/raw/id/`;
@@ -94,48 +93,46 @@ const SlateBlogPost = ({ element, editor, attributes, children }: Props) => {
   `;
 
   return (
-    <div {...attributes}>
-      {data && (
-        <BlogPostWrapper contentEditable={false}>
-          <ButtonContainer>
-            <IconButtonV2
-              variant="ghost"
-              onClick={() => setIsEditing(true)}
-              aria-label={t('blogPostForm.title')}
-            >
-              <Pencil />
-            </IconButtonV2>
-            <DeleteButton aria-label={t('delete')} onClick={handleRemove} />
-          </ButtonContainer>
-          <BlogPostV2
-            title={{ title: data.title, language: data.language }}
-            author={data.author}
-            size={data.size}
-            url={data.url}
-            metaImage={{
-              url: `${imageUrl}/${data.imageId}`,
-              alt: '',
-            }}
-          />
-        </BlogPostWrapper>
-      )}
-      {isEditing && (
-        <Modal controlled isOpen size="large" onClose={onClose}>
-          {(close) => (
-            <>
-              <StyledModalHeader>
-                <ModalTitle>{t('blogPostForm.title')}</ModalTitle>
-                <ModalCloseButton onClick={close} />
-              </StyledModalHeader>
-              <StyledModalBody>
-                <BlogPostForm onSave={onSave} initialData={data} onCancel={close} />
-              </StyledModalBody>
-            </>
-          )}
-        </Modal>
-      )}
-      {children}
-    </div>
+    <Modal open={isEditing} onOpenChange={setIsEditing}>
+      <BlogPostWrapper {...attributes}>
+        {data && (
+          <div contentEditable={false}>
+            <ButtonContainer>
+              <ModalTrigger>
+                <IconButtonV2
+                  variant="ghost"
+                  onClick={() => setIsEditing(true)}
+                  aria-label={t('blogPostForm.title')}
+                >
+                  <Pencil />
+                </IconButtonV2>
+              </ModalTrigger>
+              <DeleteButton aria-label={t('delete')} onClick={handleRemove} />
+            </ButtonContainer>
+            <BlogPostV2
+              title={{ title: data.title, language: data.language }}
+              author={data.author}
+              size={data.size}
+              url={data.url}
+              metaImage={{
+                url: `${imageUrl}/${data.imageId}`,
+                alt: '',
+              }}
+            />
+          </div>
+        )}
+        {children}
+      </BlogPostWrapper>
+      <ModalContent>
+        <StyledModalHeader>
+          <ModalTitle>{t('blogPostForm.title')}</ModalTitle>
+          <CloseButton onClick={onClose} />
+        </StyledModalHeader>
+        <StyledModalBody>
+          <BlogPostForm onSave={onSave} initialData={data} onCancel={onClose} />
+        </StyledModalBody>
+      </ModalContent>
+    </Modal>
   );
 };
 

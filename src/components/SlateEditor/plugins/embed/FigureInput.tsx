@@ -14,6 +14,7 @@ import { ButtonV2 } from '@ndla/button';
 import { useTranslation } from 'react-i18next';
 import { useSlateContext } from '../../SlateContext';
 import { isEmpty } from '../../../validators';
+import { useInGrid } from '../grid/GridContext';
 
 export const StyledInputWrapper = styled.div`
   background: ${colors.brand.greyLightest};
@@ -30,6 +31,8 @@ interface Props {
   onAbort: MouseEventHandler<HTMLButtonElement>;
   onSave: MouseEventHandler<HTMLButtonElement>;
   isDecorative?: boolean;
+  border?: boolean;
+  onBorderChecked: () => void;
   handleCheck: (isDecorative: boolean) => void;
   allowDecorative?: boolean;
 }
@@ -44,7 +47,10 @@ const FigureInput = ({
   isDecorative,
   handleCheck,
   allowDecorative,
+  border,
+  onBorderChecked,
 }: Props) => {
+  const inGrid = useInGrid();
   const { t } = useTranslation();
   const { submitted } = useSlateContext();
 
@@ -78,6 +84,13 @@ const FigureInput = ({
           label={t('form.image.isDecorative')}
           checked={isDecorative}
           onChange={() => handleCheck(!isDecorative)}
+        />
+      )}
+      {inGrid && (
+        <CheckboxItem
+          label={t('form.image.showBorder')}
+          checked={border}
+          onChange={onBorderChecked}
         />
       )}
       <StyledButtonWrapper paddingLeft>

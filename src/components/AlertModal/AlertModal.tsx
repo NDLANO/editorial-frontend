@@ -6,15 +6,15 @@
  *
  */
 
-import { MouseEvent, ReactElement } from 'react';
+import { MouseEvent, ReactElement, useCallback, useRef } from 'react';
 import { Warning } from '@ndla/icons/editor';
 import { css, SerializedStyles } from '@emotion/react';
 import styled from '@emotion/styled';
 import { spacing, colors } from '@ndla/core';
-import { ModalHeader, Modal } from '@ndla/modal';
+import { ModalHeader, Modal, ModalContent } from '@ndla/modal';
 import { IconButtonV2 } from '@ndla/button';
-import { useTranslation } from 'react-i18next';
 import { Cross } from '@ndla/icons/action';
+import { useTranslation } from 'react-i18next';
 import AlertModalFooter from './AlertModalFooter';
 import { MessageSeverity } from '../../interfaces';
 
@@ -44,12 +44,6 @@ const StyledModalBody = styled.div`
   padding: ${spacing.normal};
 `;
 
-const IconButton = styled(IconButtonV2)`
-  margin-left: auto;
-  color: ${colors.white};
-  justify-self: flex-end;
-`;
-
 const Header = styled(ModalHeader)`
   display: flex;
   padding: 0;
@@ -73,6 +67,21 @@ const StyledBody = styled.div`
 const StyledIcon = styled(Warning)`
   width: 27px;
   height: 27px;
+`;
+
+const CloseButton = styled(IconButtonV2)`
+  svg {
+    color: ${colors.white};
+  }
+  &:hover,
+  &:focus,
+  &:focus-within,
+  &:focus-visible {
+    background-color: ${colors.white};
+    svg {
+      color: ${colors.brand.primary};
+    }
+  }
 `;
 
 interface Props {
@@ -101,25 +110,43 @@ const AlertModal = ({
   severity = 'danger',
 }: Props) => {
   const { t } = useTranslation();
+  const focusedElementBeforeModalRef = useRef<HTMLElement | null>(null);
+
+  const onOpenChange = useCallback(
+    (open: boolean) => {
+      if (!open) {
+        onCancel();
+      }
+    },
+    [onCancel],
+  );
 
   return (
-    <Modal controlled isOpen={!!show} onClose={onCancel} aria-label={label}>
-      {(close) => (
+    <Modal open={!!show} onOpenChange={onOpenChange} aria-label={label}>
+      <ModalContent
+        onOpenAutoFocus={() => {
+          focusedElementBeforeModalRef.current = document.activeElement as HTMLElement;
+        }}
+        onCloseAutoFocus={() => {
+          focusedElementBeforeModalRef.current?.focus();
+          focusedElementBeforeModalRef.current = null;
+        }}
+      >
         <StyledModalBody css={severities[severity]}>
           <Header>
             {title && <Heading>{title}</Heading>}
-            <IconButton
+            <CloseButton
               data-testid="closeAlert"
               variant="ghost"
               aria-label={t('close')}
               colorTheme="lighter"
               onClick={(e) => {
                 e.preventDefault();
-                close();
+                onCancel();
               }}
             >
               <Cross />
-            </IconButton>
+            </CloseButton>
           </Header>
           <StyledBody>
             <StyledIcon />
@@ -127,7 +154,7 @@ const AlertModal = ({
           </StyledBody>
           <AlertModalFooter actions={actions} component={component} />
         </StyledModalBody>
-      )}
+      </ModalContent>
     </Modal>
   );
 };

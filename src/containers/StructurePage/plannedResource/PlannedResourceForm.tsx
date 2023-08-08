@@ -15,7 +15,7 @@ import { ButtonV2 } from '@ndla/button';
 import { InputV2 } from '@ndla/forms';
 import { Option } from '@ndla/select';
 import sortBy from 'lodash/sortBy';
-import { IUpdatedArticle, IUserData } from '@ndla/types-backend/draft-api';
+import { IUpdatedArticle } from '@ndla/types-backend/draft-api';
 import { css } from '@emotion/react';
 import uniq from 'lodash/uniq';
 import { Node } from '@ndla/types-taxonomy';
@@ -47,6 +47,7 @@ import { createDraft, updateUserData } from '../../../modules/draft/draftApi';
 import { getRootIdForNode } from '../../../modules/nodes/nodeUtil';
 import Spinner from '../../../components/Spinner';
 import { getCommentWithInfoText } from '../../ArticlePage/components/InputComment';
+import { useUserData } from '../../../modules/draft/draftQueries';
 
 const StyledForm = styled.form`
   width: 100%;
@@ -139,12 +140,12 @@ interface Props {
   articleType: string;
   node: Node | undefined;
   onClose: () => void;
-  userData: IUserData | undefined;
 }
 
-const PlannedResourceForm = ({ articleType, node, onClose, userData }: Props) => {
+const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
   const [error, setError] = useState<string | undefined>(undefined);
   const [prioritized, setPrioritized] = useState(false);
+  const { data: userData } = useUserData();
 
   const { t, i18n } = useTranslation();
   const { ndlaId, userName } = useSession();

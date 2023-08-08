@@ -27,9 +27,6 @@ import StickyVersionSelector from './StickyVersionSelector';
 import { createGuard } from '../../util/guards';
 import { GridContainer, Column } from '../../components/Layout/Layout';
 import StructureBanner from './StructureBanner';
-import PlannedResourceForm from './plannedResource/PlannedResourceForm';
-import AddResourceModal from './plannedResource/AddResourceModal';
-import AddNodeModal from './AddNodeModal';
 
 const StructureWrapper = styled.ul`
   margin: 0;
@@ -80,7 +77,6 @@ const StructureContainer = ({
   const [showFavorites, setShowFavorites] = useState(
     window.localStorage.getItem(REMEMBER_FAVORITE_NODES) === 'true',
   );
-  const [showAddChildModal, setShowAddChildModal] = useState(false);
 
   const resourceSection = useRef<HTMLDivElement>(null);
   const firstRender = useRef(true);
@@ -145,26 +141,6 @@ const StructureContainer = ({
   const addChildTooltip = childNodeTypes.includes('TOPIC')
     ? t('taxonomy.addTopicHeader')
     : t('taxonomy.addNode', { nodeType: t('taxonomy.nodeType.PROGRAMME') });
-  const childModal = childNodeTypes.includes('TOPIC') ? (
-    <AddResourceModal
-      onClose={() => setShowAddChildModal(false)}
-      title={t('taxonomy.addTopicHeader')}
-    >
-      <PlannedResourceForm
-        onClose={() => setShowAddChildModal(false)}
-        articleType="topic-article"
-        node={currentNode}
-        userData={userDataQuery.data}
-      />
-    </AddResourceModal>
-  ) : (
-    <AddNodeModal
-      onClose={() => setShowAddChildModal(false)}
-      nodeType={rootNodeType}
-      rootId={rootId}
-      parentNode={currentNode}
-    />
-  );
 
   return (
     <ErrorBoundary>
@@ -192,7 +168,6 @@ const StructureContainer = ({
                       key={node.id}
                       node={node}
                       toggleOpen={handleStructureToggle}
-                      setShowAddChildModal={setShowAddChildModal}
                       addChildTooltip={addChildTooltip}
                       childNodeTypes={childNodeTypes}
                     />
@@ -208,13 +183,11 @@ const StructureContainer = ({
                   currentChildNode={currentNode}
                   setCurrentNode={setCurrentNode}
                   resourceRef={resourceSection}
-                  userData={userDataQuery.data}
                 />
               )}
             </Column>
           )}
         </GridContainer>
-        {showAddChildModal && childModal}
         {isTaxonomyAdmin && <StickyVersionSelector />}
         <Footer showLocaleSelector />
       </Wrapper>

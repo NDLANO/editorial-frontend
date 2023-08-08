@@ -114,6 +114,7 @@ export interface ImageEmbed {
   metaData?: any;
   'is-decorative'?: string;
   allowDecorative?: string;
+  border?: string;
 }
 
 export interface BrightcoveEmbed {

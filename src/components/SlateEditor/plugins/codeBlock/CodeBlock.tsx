@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import styled from '@emotion/styled';
 import { Editor, Path, Transforms } from 'slate';
 import { ReactEditor, RenderElementProps } from 'slate-react';
@@ -7,12 +7,20 @@ import { useTranslation } from 'react-i18next';
 
 import { IconButtonV2 } from '@ndla/button';
 import { DeleteForever } from '@ndla/icons/editor';
-import { Codeblock } from '@ndla/code';
+import { CodeBlockEditor, Codeblock } from '@ndla/code';
 import { CodeEmbedData } from '@ndla/types-embed';
 
+import {
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalHeader,
+  ModalTrigger,
+} from '@ndla/modal';
 import { CodeBlockType } from '../../../../interfaces';
-import EditCodeBlock from './EditCodeBlock';
 import { CodeblockElement } from '.';
+import AlertModal from '../../../AlertModal';
 
 const CodeDiv = styled.div`
   cursor: pointer;
@@ -55,10 +63,8 @@ const getInfoFromNode = (element: CodeblockElement): CodeEmbedData => {
 const CodeBlock = ({ attributes, editor, element, children }: Props) => {
   const embedData = getInfoFromNode(element);
   const [editMode, setEditMode] = useState<boolean>(!embedData.codeContent && !embedData.title);
-
-  const toggleEditMode = () => {
-    setEditMode(!editMode);
-  };
+  const [showWarning, setShowWarning] = useState(false);
+  const { t } = useTranslation();
 
   const handleSave = (codeBlock: CodeBlockType) => {
     const newData: CodeEmbedData = {
@@ -86,53 +92,93 @@ const CodeBlock = ({ attributes, editor, element, children }: Props) => {
     Transforms.removeNodes(editor, { at: ReactEditor.findPath(editor, element), voids: true });
   };
 
-  const handleUndo = () => {
-    Transforms.unwrapNodes(editor, { at: ReactEditor.findPath(editor, element), voids: true });
-  };
-
-  const onExit = () => {
-    ReactEditor.focus(editor);
-    setEditMode(false);
-    if (element.isFirstEdit) {
-      handleUndo();
-    }
-    const path = ReactEditor.findPath(editor, element);
-    if (Editor.hasPath(editor, Path.next(path))) {
-      setTimeout(() => {
-        Transforms.select(editor, Path.next(path));
-      }, 0);
-    }
-  };
+  const onOpenChange = useCallback(
+    (open: boolean) => {
+      if (open) {
+        setEditMode(true);
+      } else if (!element.isFirstEdit && !showWarning) {
+        setShowWarning(true);
+      } else {
+        ReactEditor.focus(editor);
+        setEditMode(false);
+        if (element.isFirstEdit) {
+          Transforms.unwrapNodes(editor, {
+            at: ReactEditor.findPath(editor, element),
+            voids: true,
+          });
+        }
+        const path = ReactEditor.findPath(editor, element);
+        if (Editor.hasPath(editor, Path.next(path))) {
+          setTimeout(() => {
+            Transforms.select(editor, Path.next(path));
+          }, 0);
+        }
+      }
+    },
+    [editor, element, showWarning],
+  );
 
   return (
-    <>
-      <CodeDiv
-        className="c-figure"
-        contentEditable={false}
-        draggable={!editMode}
-        onClick={toggleEditMode}
-        role="button"
-        {...attributes}
+    <Modal open={editMode} onOpenChange={onOpenChange}>
+      <ModalTrigger>
+        <CodeDiv
+          className="c-figure"
+          aria-label={t('codeEditor.subtitle')}
+          contentEditable={false}
+          draggable={!editMode}
+          role="button"
+          {...attributes}
+        >
+          <Codeblock
+            actionButton={<RemoveCodeBlock handleRemove={handleRemove} />}
+            code={embedData.codeContent}
+            format={embedData.codeFormat}
+            title={embedData.title}
+          />
+          {children}
+        </CodeDiv>
+      </ModalTrigger>
+      <ModalContent
+        size={{ width: 'large', height: 'large' }}
+        onCloseAutoFocus={(e) => e.preventDefault()}
       >
-        <Codeblock
-          actionButton={<RemoveCodeBlock handleRemove={handleRemove} />}
-          code={embedData.codeContent}
-          format={embedData.codeFormat}
-          title={embedData.title}
-        />
-        {children}
-      </CodeDiv>
-      {editMode && (
-        <EditCodeBlock
-          editor={editor}
-          onChange={editor.onChange}
-          closeDialog={onExit}
-          handleSave={handleSave}
-          embedData={embedData}
-          onExit={onExit}
-        />
-      )}
-    </>
+        <ModalHeader>
+          <ModalCloseButton />
+        </ModalHeader>
+        <ModalBody>
+          <CodeBlockEditor
+            content={{
+              code: embedData.codeContent,
+              format: embedData.codeFormat,
+              title: embedData.title || '',
+            }}
+            onSave={handleSave}
+            onAbort={() => onOpenChange(false)}
+          />
+        </ModalBody>
+      </ModalContent>
+
+      <AlertModal
+        title={t('unsavedChanges')}
+        label={t('unsavedChanges')}
+        show={showWarning}
+        text={t('code.continue')}
+        actions={[
+          {
+            text: t('form.abort'),
+            onClick: () => setShowWarning(false),
+          },
+          {
+            text: t('alertModal.continue'),
+            onClick: () => {
+              setShowWarning(false);
+              setEditMode(false);
+            },
+          },
+        ]}
+        onCancel={() => setShowWarning(false)}
+      />
+    </Modal>
   );
 };
 

@@ -9,8 +9,15 @@
 import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
 import { spacing } from '@ndla/core';
-import { ModalBody, ModalCloseButton, ModalHeader, ModalTitle, Modal } from '@ndla/modal';
-import Tooltip from '@ndla/tooltip';
+import {
+  ModalBody,
+  ModalCloseButton,
+  ModalHeader,
+  ModalTitle,
+  Modal,
+  ModalTrigger,
+  ModalContent,
+} from '@ndla/modal';
 import { ReactNode } from 'react';
 import { CustomWithTranslation, withTranslation } from 'react-i18next';
 import { HelpIcon } from './HowTo';
@@ -26,25 +33,23 @@ interface Props {
 }
 
 const HelpMessage = ({ children, t }: Props & CustomWithTranslation) => (
-  <Modal
-    wrapperFunctionForButton={(btn) => (
-      <Tooltip tooltip={t('editMarkup.helpMessage.tooltip')}>{btn}</Tooltip>
-    )}
-    activateButton={
-      <ButtonV2 variant="stripped">
+  <Modal>
+    <ModalTrigger>
+      <ButtonV2
+        variant="stripped"
+        title={t('editMarkup.helpMessage.tooltip')}
+        aria-label={t('editMarkup.helpMessage.tooltip')}
+      >
         <StyledHelpIcon />
       </ButtonV2>
-    }
-  >
-    {(onClose: () => void) => (
-      <>
-        <ModalHeader>
-          <ModalTitle>{t('editMarkup.helpMessage.tooltip')}</ModalTitle>
-          <ModalCloseButton onClick={onClose} title={t('dialog.close')} />
-        </ModalHeader>
-        <ModalBody>{children}</ModalBody>
-      </>
-    )}
+    </ModalTrigger>
+    <ModalContent>
+      <ModalHeader>
+        <ModalTitle>{t('editMarkup.helpMessage.tooltip')}</ModalTitle>
+        <ModalCloseButton />
+      </ModalHeader>
+      <ModalBody>{children}</ModalBody>
+    </ModalContent>
   </Modal>
 );
 

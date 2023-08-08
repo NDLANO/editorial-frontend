@@ -71,6 +71,7 @@ const MenuButton = styled(ButtonV2)`
 
 const MenuItems = styled(Content)`
   box-shadow: ${shadows.levitate1};
+  z-index: 200;
 `;
 
 const ToggleButton = styled(ButtonV2)`
@@ -110,7 +111,7 @@ export const MultiButton = ({
       {!hideSecondaryButton && (
         <>
           <Spacer data-disabled={disabled} />
-          <Root>
+          <Root modal={false}>
             <Trigger asChild>
               <ToggleButton size={large ? 'large' : undefined} disabled={isDisabled}>
                 <ChevronDown />

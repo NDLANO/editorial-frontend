@@ -13,6 +13,8 @@ import { IConceptSummary } from '@ndla/types-backend/concept-api';
 import { IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
 import { IMultiSearchSummary } from '@ndla/types-backend/search-api';
 import uniq from 'lodash/uniq';
+import styled from '@emotion/styled';
+import { colors } from '@ndla/core';
 import SearchResult, { SearchResultReturnType } from './SearchResult';
 import Spinner from '../../../../components/Spinner';
 import { ResultType } from '../../SearchContainer';
@@ -20,6 +22,10 @@ import { SearchParams } from '../form/SearchForm';
 import { LocaleType, SearchType } from '../../../../interfaces';
 import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { fetchAuth0Users } from '../../../../modules/auth0/auth0Api';
+
+const StyledSearchError = styled.p`
+  color: ${colors.support.red};
+`;
 
 export type ResultSummaryType =
   | IImageMetaInformationV3
@@ -35,6 +41,7 @@ interface Props {
   type: SearchType;
   locale: LocaleType;
   subjects: SubjectType[];
+  error: boolean;
 }
 
 const toResultReturnType = (
@@ -43,7 +50,15 @@ const toResultReturnType = (
 ): SearchResultReturnType[] =>
   results.map((result: ResultSummaryType) => ({ type: type, value: result }));
 
-const SearchList = ({ results, searchObject, type, searching = true, locale, subjects }: Props) => {
+const SearchList = ({
+  results,
+  searchObject,
+  type,
+  searching = true,
+  locale,
+  subjects,
+  error,
+}: Props) => {
   const { t } = useTranslation();
   const editingState = useState(false);
   const setEditing = editingState[1];
@@ -79,6 +94,7 @@ const SearchList = ({ results, searchObject, type, searching = true, locale, sub
   }, [responsibleIds]);
 
   if (searching) return <Spinner />;
+  if (error) return <StyledSearchError>{t('searchForm.error')}</StyledSearchError>;
   if (results.length === 0)
     return <p>{t(`searchPage.${type}NoHits`, { query: searchObject.query ?? '' })}</p>;
   return (

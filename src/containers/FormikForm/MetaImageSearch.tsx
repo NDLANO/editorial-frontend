@@ -6,7 +6,7 @@
  *
  */
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FieldHeader } from '@ndla/forms';
 import {
@@ -14,7 +14,14 @@ import {
   IUpdateImageMetaInformation,
 } from '@ndla/types-backend/image-api';
 import { ButtonV2 } from '@ndla/button';
-import { ModalBody, ModalCloseButton, Modal, ModalHeader } from '@ndla/modal';
+import {
+  ModalBody,
+  ModalCloseButton,
+  Modal,
+  ModalHeader,
+  ModalTrigger,
+  ModalContent,
+} from '@ndla/modal';
 import { FormikHandlers, useFormikContext } from 'formik';
 import { createFormData } from '../../util/formDataHelper';
 import {
@@ -74,12 +81,10 @@ const MetaImageSearch = ({
       },
     });
   };
-  const onImageSelectClose = () => {
-    setShowImageSelect(false);
-  };
+  const onImageSelectClose = useCallback(() => setShowImageSelect(false), []);
 
   const onImageSet = (image: IImageMetaInformationV3) => {
-    onImageSelectClose();
+    setShowImageSelect(false);
     setImage(image);
     setFieldValue(name, image.id);
     setFieldValue('metaImageAlt', image.alttext.alttext.trim(), true);
@@ -90,13 +95,9 @@ const MetaImageSearch = ({
   };
 
   const onImageRemove = () => {
-    onImageSelectClose();
+    setShowImageSelect(false);
     setImage(undefined);
     onChangeFormik(null);
-  };
-
-  const onImageSelectOpen = () => {
-    setShowImageSelect(true);
   };
 
   const onImageUpdate = async (
@@ -114,57 +115,46 @@ const MetaImageSearch = ({
     }
   };
 
-  const buttonId = 'popupMetaImageModal';
-
   return (
     <div>
       <FieldHeader title={t('form.metaImage.title')}>
         <HowToHelper pageId="MetaImage" tooltip={t('form.metaImage.helpLabel')} />
       </FieldHeader>
-      <Modal
-        controlled
-        aria-labelledby={buttonId}
-        isOpen={showImageSelect}
-        onClose={onImageSelectClose}
-        size="large"
-      >
-        {() => (
-          <>
-            <ModalHeader>
-              <ModalCloseButton title={t('dialog.close')} onClick={onImageSelectClose} />
-            </ModalHeader>
-            <ModalBody>
-              <ImageSearchAndUploader
-                inModal={true}
-                onImageSelect={onImageSet}
-                locale={locale}
-                language={language}
-                closeModal={onImageSelectClose}
-                fetchImage={(id) => fetchImage(id, language)}
-                searchImages={searchImages}
-                onError={onError}
-                updateImage={onImageUpdate}
-                image={image}
-                showCheckbox={showCheckbox}
-                checkboxAction={checkboxAction}
-              />
-            </ModalBody>
-          </>
+      <Modal open={showImageSelect} onOpenChange={setShowImageSelect}>
+        {!image && (
+          <ModalTrigger>
+            <ButtonV2>{t('form.metaImage.add')}</ButtonV2>
+          </ModalTrigger>
         )}
+        <ModalContent>
+          <ModalHeader>
+            <ModalCloseButton />
+          </ModalHeader>
+          <ModalBody>
+            <ImageSearchAndUploader
+              inModal={true}
+              onImageSelect={onImageSet}
+              locale={locale}
+              language={language}
+              closeModal={onImageSelectClose}
+              fetchImage={(id) => fetchImage(id, language)}
+              searchImages={searchImages}
+              onError={onError}
+              updateImage={onImageUpdate}
+              image={image}
+              showCheckbox={showCheckbox}
+              checkboxAction={checkboxAction}
+            />
+          </ModalBody>
+        </ModalContent>
       </Modal>
-
-      {!showImageSelect && image ? (
+      {!showImageSelect && image && (
         <MetaImageField
           image={image}
-          onImageSelectOpen={onImageSelectOpen}
           onImageRemove={onImageRemove}
           showRemoveButton={showRemoveButton}
           onImageLoad={onImageLoad}
         />
-      ) : (
-        <ButtonV2 id={buttonId} onClick={onImageSelectOpen}>
-          {t('form.metaImage.add')}
-        </ButtonV2>
       )}
     </div>
   );

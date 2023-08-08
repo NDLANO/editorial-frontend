@@ -25,11 +25,11 @@ import styled from '@emotion/styled';
 import { ContactBlock } from '@ndla/ui';
 import { IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
 import { ReactEditor, RenderElementProps } from 'slate-react';
+import { DeleteForever } from '@ndla/icons/editor';
 import { ContactBlockElement } from '.';
-import DeleteButton from '../../../DeleteButton';
 import ContactBlockForm from './ContactBlockForm';
 import { fetchImage } from '../../../../modules/image/imageApi';
-import { StyledFigureButtons } from '../embed/FigureButtons';
+import { StyledDeleteEmbedButton, StyledFigureButtons } from '../embed/FigureButtons';
 
 interface Props extends RenderElementProps {
   element: ContactBlockElement;
@@ -114,11 +114,22 @@ const SlateContactBlock = ({ element, editor, attributes, children }: Props) => 
           <div contentEditable={false}>
             <StyledFigureButtons>
               <ModalTrigger>
-                <IconButtonV2 variant="ghost" aria-label={t('contactBlockForm.edit')}>
+                <IconButtonV2
+                  colorTheme="light"
+                  aria-label={t('contactBlockForm.edit')}
+                  title={t('contactBlockForm.edit')}
+                >
                   <Pencil />
                 </IconButtonV2>
               </ModalTrigger>
-              <DeleteButton aria-label={t('delete')} onClick={handleRemove} />
+              <StyledDeleteEmbedButton
+                aria-label={t('delete')}
+                title={t('delete')}
+                colorTheme="danger"
+                onClick={handleRemove}
+              >
+                <DeleteForever />
+              </StyledDeleteEmbedButton>
             </StyledFigureButtons>
             <ContactBlock
               image={image}

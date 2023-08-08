@@ -19,7 +19,7 @@ import { SafeLinkIconButton } from '@ndla/safelink';
 import { Link } from '@ndla/icons/common';
 import EditAudio, { audioEmbedFormRules, toAudioEmbedFormValues } from './EditAudio';
 import AudioPlayerMounter from './AudioPlayerMounter';
-import { StyledFigureButtons } from './FigureButtons';
+import { StyledDeleteEmbedButton, StyledFigureButtons } from './FigureButtons';
 import { SlateAudio as Audio, LocaleType, AudioEmbed } from '../../../../interfaces';
 import { fetchAudio } from '../../../../modules/audio/audioApi';
 import { NdlaErrorPayload, onError } from '../../../../util/resolveJsonOrRejectWithError';
@@ -111,7 +111,6 @@ const SlateAudio = ({
           {!speech && (
             <StyledFigureButtons>
               <SafeLinkIconButton
-                variant="ghost"
                 colorTheme="light"
                 to={`/media/audio-upload/${embed.resource_id}/edit/${language}`}
                 target="_blank"
@@ -120,16 +119,15 @@ const SlateAudio = ({
               >
                 <Link />
               </SafeLinkIconButton>
-              <IconButtonV2
+              <StyledDeleteEmbedButton
                 title={t('form.audio.remove')}
                 aria-label={t('form.audio.remove')}
                 colorTheme="danger"
-                variant="ghost"
                 onClick={onRemoveClick}
                 data-cy="remove-element"
               >
                 <DeleteForever />
-              </IconButtonV2>
+              </StyledDeleteEmbedButton>
             </StyledFigureButtons>
           )}
           <Modal open={editMode} onOpenChange={setEditMode}>

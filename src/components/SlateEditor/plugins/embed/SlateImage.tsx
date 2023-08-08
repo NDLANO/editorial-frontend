@@ -18,7 +18,7 @@ import { Pencil } from '@ndla/icons/action';
 import { SafeLinkIconButton } from '@ndla/safelink';
 import { DeleteForever, Link } from '@ndla/icons/editor';
 import { getSrcSets } from '../../../../util/imageEditorUtil';
-import { StyledFigureButtons } from './FigureButtons';
+import { StyledDeleteEmbedButton, StyledFigureButtons } from './FigureButtons';
 import EditImage from './EditImage';
 import { ImageEmbed } from '../../../../interfaces';
 import { isTable } from '../table/slateHelpers';
@@ -125,14 +125,12 @@ const SlateImage = ({
                 <IconButtonV2
                   aria-label={t('form.image.editImage')}
                   title={t('form.image.editImage')}
-                  variant="ghost"
                   colorTheme="light"
                 >
                   <Pencil />
                 </IconButtonV2>
               </ModalTrigger>
               <SafeLinkIconButton
-                variant="ghost"
                 colorTheme="light"
                 to={`/media/image-upload/${embed.resource_id}/edit/${language}`}
                 target="_blank"
@@ -141,16 +139,15 @@ const SlateImage = ({
               >
                 <Link />
               </SafeLinkIconButton>
-              <IconButtonV2
+              <StyledDeleteEmbedButton
                 title={t('form.image.removeImage')}
                 aria-label={t('form.image.removeImage')}
                 colorTheme="danger"
-                variant="ghost"
                 onClick={onRemoveClick}
                 data-cy="remove-element"
               >
                 <DeleteForever />
-              </IconButtonV2>
+              </StyledDeleteEmbedButton>
             </StyledFigureButtons>
             <StyledImg
               alt={embed.alt}

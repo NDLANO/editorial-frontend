@@ -22,7 +22,7 @@ import { Link } from '@ndla/icons/common';
 import { DeleteForever } from '@ndla/icons/editor';
 import config from '../../../../config';
 import { isNumeric } from '../../../validators';
-import { StyledFigureButtons } from './FigureButtons';
+import { StyledDeleteEmbedButton, StyledFigureButtons } from './FigureButtons';
 import EditVideo, { toVideoEmbedFormValues, brightcoveEmbedFormRules } from './EditVideo';
 import { fetchBrightcoveVideo } from '../../../../modules/video/brightcoveApi';
 import {
@@ -203,7 +203,6 @@ const SlateVideo = ({
                 aria-label={t('form.image.editVideo')}
                 title={t('form.image.editVideo')}
                 colorTheme="light"
-                variant="ghost"
               >
                 <Pencil />
               </IconButtonV2>
@@ -223,7 +222,6 @@ const SlateVideo = ({
               <SafeLinkIconButton
                 title={t('form.video.brightcove')}
                 aria-label={t('form.video.brightcove')}
-                variant="ghost"
                 colorTheme="light"
                 to={`https://studio.brightcove.com/products/videocloud/media/videos/${
                   embed.videoid.split('&t=')[0]
@@ -235,7 +233,6 @@ const SlateVideo = ({
                 <Tooltip tooltip={linkedVideoTooltip}>
                   <IconButtonV2
                     aria-label={linkedVideoTooltip}
-                    variant="ghost"
                     colorTheme="light"
                     onClick={switchEmbedSource}
                   >
@@ -245,16 +242,15 @@ const SlateVideo = ({
               )}
             </>
           )}
-          <IconButtonV2
+          <StyledDeleteEmbedButton
             title={t('form.video.remove')}
             aria-label={t('form.video.remove')}
             colorTheme="danger"
-            variant="ghost"
             onClick={onRemoveClick}
             data-cy="remove-element"
           >
             <DeleteForever />
-          </IconButtonV2>
+          </StyledDeleteEmbedButton>
         </StyledFigureButtons>
         <SlateVideoWrapper
           hasError={hasError}

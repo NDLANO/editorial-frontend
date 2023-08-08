@@ -25,10 +25,10 @@ import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Editor, Path, Transforms } from 'slate';
 import { ReactEditor, RenderElementProps } from 'slate-react';
+import { DeleteForever } from '@ndla/icons/editor';
 import { KeyFigureElement } from '.';
 import { fetchImage } from '../../../../modules/image/imageApi';
-import DeleteButton from '../../../DeleteButton';
-import { StyledFigureButtons } from '../embed/FigureButtons';
+import { StyledDeleteEmbedButton, StyledFigureButtons } from '../embed/FigureButtons';
 import KeyFigureForm from './KeyFigureForm';
 
 interface Props extends RenderElementProps {
@@ -40,9 +40,11 @@ const KeyFigureWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  flex: 1;
 
   > div:first-child {
     position: relative;
+    width: 100%;
   }
 `;
 
@@ -112,13 +114,24 @@ const SlateKeyFigure = ({ element, editor, attributes, children }: Props) => {
       <KeyFigureWrapper {...attributes}>
         {data && image && (
           <div contentEditable={false}>
-            <StyledFigureButtons data-white={true}>
+            <StyledFigureButtons>
               <ModalTrigger>
-                <IconButtonV2 variant="ghost" aria-label={t('keyFigureForm.edit')}>
+                <IconButtonV2
+                  colorTheme="light"
+                  aria-label={t('keyFigureForm.edit')}
+                  title={t('keyFigureForm.edit')}
+                >
                   <Pencil />
                 </IconButtonV2>
               </ModalTrigger>
-              <DeleteButton aria-label={t('delete')} onClick={handleRemove} />
+              <StyledDeleteEmbedButton
+                colorTheme="danger"
+                aria-label={t('delete')}
+                title={t('delete')}
+                onClick={handleRemove}
+              >
+                <DeleteForever />
+              </StyledDeleteEmbedButton>
             </StyledFigureButtons>
             <KeyFigure
               title={data.title}

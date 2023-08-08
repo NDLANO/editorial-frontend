@@ -21,7 +21,10 @@ import DisplayExternalModal from './helpers/DisplayExternalModal';
 import { fetchExternalOembed } from '../../util/apiHelpers';
 import { urlOrigin, getIframeSrcFromHtmlString, urlDomain } from '../../util/htmlHelpers';
 import { EXTERNAL_WHITELIST_PROVIDERS } from '../../constants';
-import { StyledFigureButtons } from '../SlateEditor/plugins/embed/FigureButtons';
+import {
+  StyledDeleteEmbedButton,
+  StyledFigureButtons,
+} from '../SlateEditor/plugins/embed/FigureButtons';
 import config from '../../config';
 import { getH5pLocale } from '../H5PElement/h5pApi';
 import { Embed, ExternalEmbed, H5pEmbed } from '../../interfaces';
@@ -249,7 +252,6 @@ const DisplayExternal = ({
           <IconButtonV2
             aria-label={t('form.external.edit', { type: providerName || t('form.external.title') })}
             title={t('form.external.edit', { type: providerName || t('form.external.title') })}
-            variant="ghost"
             colorTheme="light"
             onClick={(evt) => {
               evt.preventDefault();
@@ -260,7 +262,7 @@ const DisplayExternal = ({
             <Link />
           </IconButtonV2>
         )}
-        <IconButtonV2
+        <StyledDeleteEmbedButton
           aria-label={t('form.external.remove', {
             type: providerName || t('form.external.title'),
           })}
@@ -268,12 +270,11 @@ const DisplayExternal = ({
             type: providerName || t('form.external.title'),
           })}
           colorTheme="danger"
-          variant="ghost"
           onClick={onRemoveClick}
           data-cy="remove-element"
         >
           <DeleteForever />
-        </IconButtonV2>
+        </StyledDeleteEmbedButton>
       </StyledFigureButtons>
       {(embed.resource === 'iframe' || embed.resource === 'external') &&
       embed.type === 'fullscreen' ? (

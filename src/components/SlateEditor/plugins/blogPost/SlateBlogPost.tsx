@@ -16,9 +16,9 @@ import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Editor, Path, Transforms } from 'slate';
 import { ReactEditor, RenderElementProps } from 'slate-react';
+import { DeleteForever } from '@ndla/icons/editor';
 import config from '../../../../config';
-import DeleteButton from '../../../DeleteButton';
-import { StyledFigureButtons } from '../embed/FigureButtons';
+import { StyledDeleteEmbedButton, StyledFigureButtons } from '../embed/FigureButtons';
 import BlogPostForm from './BlogPostForm';
 import { BlogPostElement } from './types';
 
@@ -100,14 +100,23 @@ const SlateBlogPost = ({ element, editor, attributes, children }: Props) => {
             <StyledFigureButtons>
               <ModalTrigger>
                 <IconButtonV2
-                  variant="ghost"
+                  colorTheme="light"
                   onClick={() => setIsEditing(true)}
                   aria-label={t('blogPostForm.title')}
+                  title={t('blogPostForm.title')}
                 >
                   <Pencil />
                 </IconButtonV2>
               </ModalTrigger>
-              <DeleteButton aria-label={t('delete')} onClick={handleRemove} />
+              <StyledDeleteEmbedButton
+                aria-label={t('delete')}
+                colorTheme="danger"
+                title={t('delete')}
+                data-testid="remove-blogpost"
+                onClick={handleRemove}
+              >
+                <DeleteForever />
+              </StyledDeleteEmbedButton>
             </StyledFigureButtons>
             <BlogPostV2
               title={{ title: data.title, language: data.language }}

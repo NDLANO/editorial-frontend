@@ -20,7 +20,7 @@ import { DeleteForever } from '@ndla/icons/editor';
 import { NdlaErrorPayload, onError } from '../../../../util/resolveJsonOrRejectWithError';
 import { fetchAudio } from '../../../../modules/audio/audioApi';
 import AudioPlayerMounter from './AudioPlayerMounter';
-import { StyledFigureButtons } from './FigureButtons';
+import { StyledDeleteEmbedButton, StyledFigureButtons } from './FigureButtons';
 import { SlateAudio as Audio, LocaleType, AudioEmbed } from '../../../../interfaces';
 import EditPodcast, { podcastEmbedFormRules, toPodcastEmbedFormValues } from './EditPodcast';
 import validateFormik from '../../../formikValidationSchema';
@@ -105,7 +105,6 @@ const SlatePodcast = ({
         <div contentEditable={false}>
           <StyledFigureButtons>
             <SafeLinkIconButton
-              variant="ghost"
               colorTheme="light"
               to={`/media/podcast-upload/${embed.resource_id}/edit/${language}`}
               target="_blank"
@@ -114,16 +113,15 @@ const SlatePodcast = ({
             >
               <Link />
             </SafeLinkIconButton>
-            <IconButtonV2
+            <StyledDeleteEmbedButton
               title={t('form.podcast.remove')}
               aria-label={t('form.podcast.remove')}
               colorTheme="danger"
-              variant="ghost"
               onClick={onRemoveClick}
               data-cy="remove-element"
             >
               <DeleteForever />
-            </IconButtonV2>
+            </StyledDeleteEmbedButton>
           </StyledFigureButtons>
           <Modal open={editing} onOpenChange={setEditing}>
             {audio.id ? (

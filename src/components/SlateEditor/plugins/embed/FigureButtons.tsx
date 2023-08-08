@@ -7,7 +7,21 @@
  */
 
 import styled from '@emotion/styled';
+import { IconButtonV2 } from '@ndla/button';
 import { colors, spacing } from '@ndla/core';
+
+export const StyledDeleteEmbedButton = styled(IconButtonV2)`
+  &:hover,
+  &:focus,
+  &:focus-within,
+  &:focus-visible,
+  &:active {
+    background-color: ${colors.white};
+    svg {
+      color: ${colors.support.red};
+    }
+  }
+`;
 
 export const StyledFigureButtons = styled.div`
   display: flex;
@@ -18,16 +32,4 @@ export const StyledFigureButtons = styled.div`
   top: ${spacing.nsmall};
   z-index: 2;
   gap: ${spacing.xsmall};
-
-  &[data-white='true'] {
-    > a,
-    button {
-      background: ${colors.white};
-
-      &:hover {
-        background: transparent;
-        border-color: transparent;
-      }
-    }
-  }
 `;

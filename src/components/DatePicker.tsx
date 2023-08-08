@@ -38,7 +38,8 @@ const getDatePickerTranslations = (t: TFunction): Partial<Labels> => {
 
 const StyledInput = styled.input`
   border-radius: ${misc.borderRadius};
-  width: 100px;
+  min-width: 80px;
+  flex: 0;
 `;
 
 const MIN_YEAR = 1900;

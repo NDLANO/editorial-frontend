@@ -8,7 +8,7 @@
 
 import { test, expect } from '@playwright/test';
 import { mockRoute } from '../apiMock';
-import { zendeskMock, responsiblesMock, userDataMock } from '../mockResponses';
+import { zendeskMock, responsiblesMock, userDataMock, copyrightMock } from '../mockResponses';
 
 test.beforeEach(async ({ page }) => {
   const licenses = mockRoute({
@@ -54,12 +54,14 @@ test.beforeEach(async ({ page }) => {
     page,
     path: '**/draft-api/v1/drafts/800*',
     fixture: 'language_handling_draft_nb',
+    overrideValue: (val) => JSON.stringify({ ...JSON.parse(val), copyright: copyrightMock })
   });
 
   const draftValidate = mockRoute({
     page,
     path: '**/draft-api/v1/drafts/800/validate/',
     fixture: 'language_handling_draft_validate',
+    overrideValue: (val) => JSON.stringify({ ...JSON.parse(val), copyright: copyrightMock })
   });
 
   const taxonomyResources = mockRoute({
@@ -107,6 +109,7 @@ test('Can change language and fech new article', async ({ page }) => {
     page,
     path: '**/drafts-api/v1/drafts/1?language=en&fallback=true',
     fixture: 'language_handling_draft_en',
+    overrideValue: (val) => JSON.stringify({ ...JSON.parse(val), copyright: copyrightMock })
   });
 
   await page.getByText('Legg til språk').click();

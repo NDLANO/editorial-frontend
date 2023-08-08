@@ -5,13 +5,14 @@
  */
 
 import { HTMLProps, MutableRefObject, ReactNode, useEffect } from 'react';
-import { colors } from '@ndla/core';
+import { colors, spacing } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
 import { Subject } from '@ndla/icons/contentType';
 import { DragVertical, Star, SubjectMatter, Taxonomy } from '@ndla/icons/editor';
 import { NodeChild, Node } from '@ndla/types-taxonomy';
 import { DragEndEvent } from '@dnd-kit/core';
 import { useTranslation } from 'react-i18next';
+import styled from '@emotion/styled';
 import Fade from '../../components/Taxonomy/Fade';
 import { createGuard } from '../../util/guards';
 import { nodePathToUrnPath } from '../../util/taxonomyHelpers';
@@ -50,6 +51,10 @@ const RoundIcon = ({
   <StyledIcon {...rest}>{smallIcon}</StyledIcon>
 );
 
+const StyledSpinner = styled(Spinner)`
+  margin: 4px ${spacing.normal};
+`;
+
 const isChildNode = createGuard<NodeChild & { articleType?: string; isPublished?: boolean }>(
   'connectionId',
 );
@@ -71,7 +76,6 @@ interface Props {
   nodes?: NodeChildWithChildren[];
   isLoading?: boolean;
   renderBeforeTitle?: RenderBeforeFunction;
-  setShowAddChildModal: (value: boolean) => void;
   addChildTooltip: string;
 }
 
@@ -90,7 +94,6 @@ const NodeItem = ({
   isLoading,
   nodes,
   renderBeforeTitle,
-  setShowAddChildModal,
   addChildTooltip,
 }: Props) => {
   const { t } = useTranslation();
@@ -165,13 +168,12 @@ const NodeItem = ({
             onCurrentNodeChanged={(node) => onNodeSelected(node)}
             jumpToResources={() => resourceSectionRef?.current?.scrollIntoView()}
             nodeChildren={nodes ?? []}
-            setShowAddChildModal={setShowAddChildModal}
             addChildTooltip={addChildTooltip}
           />
         )}
         {isLoading && (
           <span>
-            <Spinner size="normal" margin="4px 26px" />
+            <StyledSpinner size="normal" />
           </span>
         )}
       </StyledItemBar>
@@ -198,7 +200,6 @@ const NodeItem = ({
                   nodes={t.childNodes}
                   toggleOpen={toggleOpen}
                   onDragEnd={onDragEnd}
-                  setShowAddChildModal={setShowAddChildModal}
                   addChildTooltip={addChildTooltip}
                 />
               )}

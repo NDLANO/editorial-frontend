@@ -73,7 +73,7 @@ const ElementListItem = ({
 
   return (
     <StyledListItem
-      data-cy="elementListItem"
+      data-testid="elementListItem"
       delete={deleteIndex === index}
       onAnimationEnd={deleteIndex === index ? executeDeleteFile : undefined}
     >
@@ -126,7 +126,7 @@ const ElementListItem = ({
               aria-label={messages?.removeElement || ''}
               variant="ghost"
               colorTheme="danger"
-              data-cy="elementListItemDeleteButton"
+              data-testid="elementListItemDeleteButton"
               onClick={() => deleteFile(index)}
             >
               <DeleteForever />

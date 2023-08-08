@@ -5,18 +5,25 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { ReactNode, useMemo } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import styled from '@emotion/styled';
 import { spacing, fonts } from '@ndla/core';
-import { ButtonV2 } from '@ndla/button';
-import { NodeChild } from '@ndla/types-taxonomy';
+import { ButtonV2, IconButtonV2 } from '@ndla/button';
+import { NodeChild, ResourceType } from '@ndla/types-taxonomy';
 import { useTranslation } from 'react-i18next';
+import { Modal, ModalContent, ModalTrigger } from '@ndla/modal';
+import { Plus } from '@ndla/icons/action';
+import { FieldHeader } from '@ndla/forms';
 import { Dictionary } from '../../../interfaces';
 import { NodeResourceMeta } from '../../../modules/nodes/nodeQueries';
 import { ResourceGroupBanner, StyledShareIcon } from '../styles';
 import ApproachingRevisionDate from './ApproachingRevisionDate';
 import GroupResourceSwitch from './GroupResourcesSwitch';
 import { ResourceWithNodeConnectionAndMeta } from './StructureResources';
+import TaxonomyLightbox from '../../../components/Taxonomy/TaxonomyLightbox';
+import AddResourceModal from '../plannedResource/AddResourceModal';
+import PlannedResourceForm from '../plannedResource/PlannedResourceForm';
+import AddExistingResource from '../plannedResource/AddExistingResource';
 
 const PublishedText = styled.div`
   font-weight: ${fonts.weight.normal};
@@ -56,8 +63,8 @@ interface Props {
   contentMeta: Dictionary<NodeResourceMeta>;
   currentNode: NodeChild;
   onCurrentNodeChanged: (changedNode: NodeChild) => void;
-  addButton?: ReactNode;
   resources: ResourceWithNodeConnectionAndMeta[];
+  resourceTypes: Pick<ResourceType, 'id' | 'name'>[];
   articleIds?: number[];
 }
 
@@ -66,9 +73,10 @@ const ResourceBanner = ({
   contentMeta,
   currentNode,
   onCurrentNodeChanged,
-  addButton,
+  resourceTypes,
   resources,
 }: Props) => {
+  const [open, setOpen] = useState(false);
   const elementCount = Object.values(contentMeta).length;
   const publishedCount = useMemo(() => getPublishedCount(contentMeta), [contentMeta]);
   const { t } = useTranslation();
@@ -79,6 +87,8 @@ const ResourceBanner = ({
       : undefined;
     return resourceRevisions.concat([currentNodeRevision]);
   }, [contentMeta, currentNode.contentUri, resources]);
+
+  const close = useCallback(() => setOpen(false), []);
 
   return (
     <ResourceGroupBanner>
@@ -115,7 +125,28 @@ const ResourceBanner = ({
         <Content>
           <StyledShareIcon />
           {title}
-          {addButton}
+          <Modal open={open} onOpenChange={setOpen}>
+            <ModalTrigger>
+              <IconButtonV2 size="xsmall" variant="stripped" aria-label={t('taxonomy.addResource')}>
+                <Plus />
+              </IconButtonV2>
+            </ModalTrigger>
+            <ModalContent size={{ width: 'normal', height: 'normal' }} position="top">
+              <TaxonomyLightbox title={t('taxonomy.addResource')}>
+                <AddResourceModal>
+                  <FieldHeader title={t('taxonomy.createResource')} />
+                  <PlannedResourceForm onClose={close} articleType="standard" node={currentNode} />
+                  <FieldHeader title={t('taxonomy.getExisting')} />
+                  <AddExistingResource
+                    resourceTypes={resourceTypes}
+                    nodeId={currentNode.id}
+                    onClose={close}
+                    existingResourceIds={resources.map((r) => r.id)}
+                  />
+                </AddResourceModal>
+              </TaxonomyLightbox>
+            </ModalContent>
+          </Modal>
         </Content>
       </BannerWrapper>
     </ResourceGroupBanner>

@@ -24,6 +24,10 @@ const ErrorMessage = styled.p`
   margin: 0;
 `;
 
+const StyledSpinner = styled(Spinner)`
+  margin: 0px;
+`;
+
 const StyledNodeContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -130,7 +134,7 @@ const PublishRequestsContainer = () => {
                   <StyledTitleRow>
                     <NodeIconType node={node} />
                     {node.metadata.customFields[TAXONOMY_CUSTOM_FIELD_IS_PUBLISHING] === 'true' && (
-                      <Spinner size="nsmall" margin="0" />
+                      <StyledSpinner size="nsmall" />
                     )}
                     {node.name}
                   </StyledTitleRow>

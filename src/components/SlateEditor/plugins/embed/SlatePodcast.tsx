@@ -12,7 +12,7 @@ import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import { Figure } from '@ndla/ui';
 import { colors } from '@ndla/core';
-import { Modal } from '@ndla/modal';
+import { Modal, ModalContent, ModalTrigger } from '@ndla/modal';
 import { fetchAudio } from '../../../../modules/audio/audioApi';
 import { NdlaErrorPayload, onError } from '../../../../util/resolveJsonOrRejectWithError';
 import AudioPlayerMounter from './AudioPlayerMounter';
@@ -20,6 +20,7 @@ import FigureButtons from './FigureButtons';
 import { SlateAudio as Audio, LocaleType, AudioEmbed } from '../../../../interfaces';
 import EditPodcast, { podcastEmbedFormRules, toPodcastEmbedFormValues } from './EditPodcast';
 import validateFormik from '../../../formikValidationSchema';
+import Spinner from '../../../Spinner';
 
 interface Props {
   attributes: RenderElementProps['attributes'];
@@ -59,7 +60,10 @@ const SlatePodcast = ({
   const [editing, setEditing] = useState(false);
   const [hasError, _setHasError] = useState(false);
   const [audio, setAudio] = useState<Audio>({} as Audio);
+  const [audioLoading, setAudioLoading] = useState(false);
   const showCopyOutline = isSelectedForCopy;
+
+  const close = useCallback(() => setEditing(false), []);
 
   const setHasError = useCallback((hasError: boolean) => _setHasError(hasError), []);
 
@@ -75,12 +79,15 @@ const SlatePodcast = ({
   useEffect(() => {
     const getAudio = async () => {
       try {
+        setAudioLoading(true);
         const audio = await fetchAudio(parseInt(embed.resource_id), language);
         setAudio({
           ...audio,
           title: audio.title?.title || '',
         });
+        setAudioLoading(false);
       } catch (error) {
+        setAudioLoading(false);
         onError(error as NdlaErrorPayload);
       }
     };
@@ -89,48 +96,49 @@ const SlatePodcast = ({
   }, [embed, language]);
 
   return (
-    <>
-      <Modal controlled isOpen={editing} onClose={() => setEditing(false)}>
-        {(close) => (
-          <EditPodcast
-            close={close}
-            embed={embed}
-            locale={locale}
-            language={language}
-            podcast={audio}
-            setHasError={setHasError}
-            saveEmbedUpdates={saveEmbedUpdates}
-          />
-        )}
-      </Modal>
-      <div draggable {...attributes}>
-        <Figure id={`${audio.id}`}>
-          <>
-            <FigureButtons
-              figureType="podcast"
-              tooltip={t('form.podcast.remove')}
-              onRemoveClick={onRemoveClick}
+    <div draggable {...attributes}>
+      <Figure id={`${audio.id}`}>
+        <FigureButtons
+          figureType="podcast"
+          tooltip={t('form.podcast.remove')}
+          onRemoveClick={onRemoveClick}
+          embed={embed}
+          language={language}
+        />
+        <Modal open={editing} onOpenChange={setEditing}>
+          {audio.id ? (
+            <ModalTrigger disabled={!audio.id}>
+              <SlatePodcastWrapper
+                showCopyOutline={showCopyOutline}
+                hasError={hasError}
+                contentEditable={false}
+                role="button"
+                className="c-placeholder-editomode"
+                draggable
+                tabIndex={0}
+                onKeyPress={() => setEditing(true)}
+                onClick={() => setEditing(true)}
+              >
+                <AudioPlayerMounter audio={audio} locale={locale} speech={false} />
+              </SlatePodcastWrapper>
+            </ModalTrigger>
+          ) : (
+            audioLoading && <Spinner />
+          )}
+          <ModalContent>
+            <EditPodcast
+              close={close}
               embed={embed}
-              language={language}
+              locale={locale}
+              podcast={audio}
+              setHasError={setHasError}
+              saveEmbedUpdates={saveEmbedUpdates}
             />
-            <SlatePodcastWrapper
-              showCopyOutline={showCopyOutline}
-              hasError={hasError}
-              contentEditable={false}
-              role="button"
-              className="c-placeholder-editomode"
-              draggable
-              tabIndex={0}
-              onKeyPress={() => setEditing(true)}
-              onClick={() => setEditing(true)}
-            >
-              {audio.id && <AudioPlayerMounter audio={audio} locale={locale} speech={false} />}
-            </SlatePodcastWrapper>
-          </>
-        </Figure>
-        {children}
-      </div>
-    </>
+          </ModalContent>
+        </Modal>
+      </Figure>
+      {children}
+    </div>
   );
 };
 

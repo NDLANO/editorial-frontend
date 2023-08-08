@@ -13,12 +13,13 @@ import { ReactEditor, RenderElementProps, useSelected } from 'slate-react';
 import styled from '@emotion/styled';
 import { IConcept, IConceptSummary } from '@ndla/types-backend/concept-api';
 import { ConceptEmbedData } from '@ndla/types-embed';
-import ConceptModal from '../ConceptModal';
+import { Modal, ModalContent } from '@ndla/modal';
 import { useFetchConceptData } from '../../../../../containers/FormikForm/formikConceptHooks';
 import mergeLastUndos from '../../../utils/mergeLastUndos';
 import { TYPE_CONCEPT_BLOCK } from './types';
 import { ConceptBlockElement } from './interfaces';
 import BlockConceptPreview from './BlockConceptPreview';
+import ConceptModalContent from '../ConceptModalContent';
 
 const getConceptDataAttributes = ({ id }: IConceptSummary | IConcept): ConceptEmbedData => ({
   contentId: id.toString(),
@@ -117,37 +118,40 @@ const BlockConcept = ({ element, locale, editor, attributes, children }: Props) 
   }, [element]);
 
   return (
-    <StyledWrapper
-      {...attributes}
-      // eslint-disable-next-line jsx-a11y/tabindex-no-positive
-      tabIndex={1}
-      isSelected={isSelected}
-      draggable={true}
-      className="c-figure u-float"
-    >
-      {concept && (
-        <div contentEditable={false}>
-          <BlockConceptPreview
+    <Modal open={!conceptId && showConcept} onOpenChange={setShowConcept}>
+      <StyledWrapper
+        {...attributes}
+        // eslint-disable-next-line jsx-a11y/tabindex-no-positive
+        tabIndex={1}
+        isSelected={isSelected}
+        draggable={true}
+        className="c-figure u-float"
+      >
+        {concept && (
+          <div contentEditable={false}>
+            <BlockConceptPreview
+              concept={concept}
+              handleRemove={handleRemove}
+              id={concept.id}
+              isBlockView
+            />
+          </div>
+        )}
+        <ModalContent size={{ width: 'large', height: 'large' }}>
+          <ConceptModalContent
+            onClose={onClose}
+            addConcept={addConcept}
+            locale={locale}
             concept={concept}
+            subjects={subjects}
             handleRemove={handleRemove}
-            id={concept.id}
-            isBlockView
+            selectedText={''}
+            {...conceptHooks}
           />
-        </div>
-      )}
-      <ConceptModal
-        isOpen={!conceptId && showConcept}
-        onClose={onClose}
-        addConcept={addConcept}
-        locale={locale}
-        concept={concept}
-        subjects={subjects}
-        handleRemove={handleRemove}
-        selectedText={''}
-        {...conceptHooks}
-      />
-      {children}
-    </StyledWrapper>
+        </ModalContent>
+        {children}
+      </StyledWrapper>
+    </Modal>
   );
 };
 

@@ -10,10 +10,18 @@ import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { useQueryClient } from '@tanstack/react-query';
-import { ButtonV2, CloseButton } from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 import { spacing } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
-import { ModalBody, ModalHeader, ModalTitle, Modal } from '@ndla/modal';
+import {
+  ModalBody,
+  ModalHeader,
+  ModalTitle,
+  Modal,
+  ModalTrigger,
+  ModalContent,
+  ModalCloseButton,
+} from '@ndla/modal';
 import { Node } from '@ndla/types-taxonomy';
 import { TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH } from '../../../constants';
 import { useUpdateNodeMetadataMutation } from '../../../modules/nodes/nodeMutations';
@@ -56,38 +64,35 @@ const DeletePublishRequests = ({ nodes }: Props) => {
   );
 
   return (
-    <Modal
-      activateButton={
+    <Modal>
+      <ModalTrigger>
         <ButtonV2 size="small" colorTheme="danger">
           {t('delete')}
         </ButtonV2>
-      }
-    >
-      {(close) => (
-        <>
-          <ModalHeader>
-            <ModalTitle>{t('publishRequests.deleteAll')}</ModalTitle>
-            <CloseButton onClick={close} />
-          </ModalHeader>
-          <ModalBody>
-            <p>{t('publishRequests.deleteAllInfo')}</p>
-            <ButtonContainer>
-              <ButtonV2 variant="outline" onClick={close}>
-                {t('cancel')}
-              </ButtonV2>
-              <ButtonV2
-                variant="outline"
-                colorTheme="danger"
-                onClick={() => onDelete(nodes)}
-                disabled={isLoading}
-              >
-                {isLoading && <Spinner margin="0" size="small" />}
-                {t('delete')}
-              </ButtonV2>
-            </ButtonContainer>
-          </ModalBody>
-        </>
-      )}
+      </ModalTrigger>
+      <ModalContent>
+        <ModalHeader>
+          <ModalTitle>{t('publishRequests.deleteAll')}</ModalTitle>
+          <ModalCloseButton />
+        </ModalHeader>
+        <ModalBody>
+          <p>{t('publishRequests.deleteAllInfo')}</p>
+          <ButtonContainer>
+            <ModalCloseButton>
+              <ButtonV2 variant="outline">{t('cancel')}</ButtonV2>
+            </ModalCloseButton>
+            <ButtonV2
+              variant="outline"
+              colorTheme="danger"
+              onClick={() => onDelete(nodes)}
+              disabled={isLoading}
+            >
+              {isLoading && <Spinner size="small" />}
+              {t('delete')}
+            </ButtonV2>
+          </ButtonContainer>
+        </ModalBody>
+      </ModalContent>
     </Modal>
   );
 };

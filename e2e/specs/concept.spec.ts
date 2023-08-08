@@ -15,7 +15,7 @@ test.beforeEach(async ({ page }) => {
   const zendesk = mockRoute({
     page,
     path: '**/get_zendesk_token',
-    fixture: 'film_zendesk_token',
+    fixture: 'concept_zendesk_token',
     overrideValue: JSON.stringify(zendeskMock),
   });
 

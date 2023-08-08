@@ -7,10 +7,18 @@
  */
 
 import styled from '@emotion/styled';
-import { ButtonV2, CloseButton } from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 import { BookOpen } from '@ndla/icons/common';
 import { spacing, colors } from '@ndla/core';
-import { ModalBody, ModalHeader, Modal, ModalTitle } from '@ndla/modal';
+import {
+  ModalBody,
+  ModalHeader,
+  Modal,
+  ModalTitle,
+  ModalTrigger,
+  ModalContent,
+  ModalCloseButton,
+} from '@ndla/modal';
 import { IArticle } from '@ndla/types-backend/draft-api';
 import { useQueryClient } from '@tanstack/react-query';
 import { useCallback, useMemo } from 'react';
@@ -57,22 +65,19 @@ const GrepCodesModal = ({ codes, contentType, contentUri, revision, currentNodeI
   const draftId = Number(getIdFromUrn(contentUri));
   if (contentType === 'learning-path' || !draftId || !revision) return null;
   return (
-    <Modal
-      size="large"
-      activateButton={
+    <Modal>
+      <ModalTrigger>
         <StyledButton size="xsmall" colorTheme="lighter">{`GREP (${codes.length})`}</StyledButton>
-      }
-    >
-      {(close) => (
-        <ModalContent
+      </ModalTrigger>
+      <ModalContent size="large">
+        <GrepCodeContent
           codes={codes}
           revision={revision}
           draftId={draftId}
-          onClose={close}
           currentNodeId={currentNodeId}
           contentUri={contentUri!}
         />
-      )}
+      </ModalContent>
     </Modal>
   );
 };
@@ -81,16 +86,14 @@ interface ModalContentProps {
   codes: string[];
   draftId: number;
   revision: number;
-  onClose: () => void;
   currentNodeId: string;
   contentUri: string;
 }
 
-const ModalContent = ({
+const GrepCodeContent = ({
   codes,
   draftId,
   revision,
-  onClose,
   currentNodeId,
   contentUri,
 }: ModalContentProps) => {
@@ -131,7 +134,7 @@ const ModalContent = ({
           <BookOpen />
         </StyledIconWrapper>
         <ModalTitle>{t('form.name.grepCodes')}</ModalTitle>
-        <CloseButton onClick={onClose} />
+        <ModalCloseButton />
       </StyledModalHeader>
       <ModalBody>
         <GrepCodesForm codes={codes} onUpdate={onUpdateGrepCodes} />

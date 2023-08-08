@@ -8,7 +8,15 @@
 
 import { IconButtonV2 } from '@ndla/button';
 import { Pencil } from '@ndla/icons/action';
-import { Modal, ModalBody, ModalCloseButton, ModalHeader, ModalTitle } from '@ndla/modal';
+import {
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalHeader,
+  ModalTitle,
+  ModalTrigger,
+} from '@ndla/modal';
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Editor, Path, Transforms } from 'slate';
@@ -29,12 +37,12 @@ interface Props extends RenderElementProps {
 const ContactBlockWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
 `;
 
 const ButtonContainer = styled.div`
   display: flex;
   justify-content: flex-end;
-  width: 100%;
 `;
 
 const StyledModalHeader = styled(ModalHeader)`
@@ -100,47 +108,41 @@ const SlateContactBlock = ({ element, editor, attributes, children }: Props) => 
     Transforms.removeNodes(editor, { at: ReactEditor.findPath(editor, element), voids: true });
 
   return (
-    <div {...attributes}>
-      {contactBlock && image && (
-        <ContactBlockWrapper contentEditable={false}>
-          <ButtonContainer>
-            <IconButtonV2
-              variant="ghost"
-              aria-label={t('contactBlockForm.edit')}
-              onClick={() => setIsEditing(true)}
-            >
-              <Pencil />
-            </IconButtonV2>
-            <DeleteButton aria-label={t('delete')} onClick={handleRemove} />
-          </ButtonContainer>
-          <ContactBlock
-            image={image}
-            jobTitle={contactBlock.jobTitle}
-            name={contactBlock.name}
-            description={contactBlock.description}
-            email={contactBlock.email}
-            blob={contactBlock.blob}
-            blobColor={contactBlock.blobColor}
-          />
-        </ContactBlockWrapper>
-      )}
-      {isEditing && (
-        <Modal controlled isOpen onClose={onClose}>
-          {(close) => (
-            <>
-              <StyledModalHeader>
-                <ModalTitle>{t('contactBlockForm.title')}</ModalTitle>
-                <ModalCloseButton onClick={close} />
-              </StyledModalHeader>
-              <StyledModalBody>
-                <ContactBlockForm initialData={contactBlock} onSave={onSave} onCancel={close} />
-              </StyledModalBody>
-            </>
-          )}
-        </Modal>
-      )}
-      {children}
-    </div>
+    <Modal open={isEditing} onOpenChange={setIsEditing}>
+      <ContactBlockWrapper {...attributes}>
+        {contactBlock && image && (
+          <div contentEditable={false}>
+            <ButtonContainer>
+              <ModalTrigger>
+                <IconButtonV2 variant="ghost" aria-label={t('contactBlockForm.edit')}>
+                  <Pencil />
+                </IconButtonV2>
+              </ModalTrigger>
+              <DeleteButton aria-label={t('delete')} onClick={handleRemove} />
+            </ButtonContainer>
+            <ContactBlock
+              image={image}
+              jobTitle={contactBlock.jobTitle}
+              name={contactBlock.name}
+              description={contactBlock.description}
+              email={contactBlock.email}
+              blob={contactBlock.blob}
+              blobColor={contactBlock.blobColor}
+            />
+          </div>
+        )}
+        {children}
+      </ContactBlockWrapper>
+      <ModalContent>
+        <StyledModalHeader>
+          <ModalTitle>{t('contactBlockForm.title')}</ModalTitle>
+          <ModalCloseButton />
+        </StyledModalHeader>
+        <StyledModalBody>
+          <ContactBlockForm initialData={contactBlock} onSave={onSave} onCancel={onClose} />
+        </StyledModalBody>
+      </ModalContent>
+    </Modal>
   );
 };
 

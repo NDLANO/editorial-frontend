@@ -12,7 +12,7 @@ import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { Figure } from '@ndla/ui';
 import { colors } from '@ndla/core';
-import { Modal } from '@ndla/modal';
+import { Modal, ModalContent, ModalTrigger } from '@ndla/modal';
 
 import EditAudio, { audioEmbedFormRules, toAudioEmbedFormValues } from './EditAudio';
 import AudioPlayerMounter from './AudioPlayerMounter';
@@ -21,6 +21,7 @@ import { SlateAudio as Audio, LocaleType, AudioEmbed } from '../../../../interfa
 import { fetchAudio } from '../../../../modules/audio/audioApi';
 import { NdlaErrorPayload, onError } from '../../../../util/resolveJsonOrRejectWithError';
 import validateFormik from '../../../formikValidationSchema';
+import Spinner from '../../../Spinner';
 
 interface Props {
   attributes: RenderElementProps['attributes'];
@@ -62,6 +63,7 @@ const SlateAudio = ({
   const [error, _setHasError] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [audio, setAudio] = useState<Audio>({} as Audio);
+  const [audioLoading, setAudioLoading] = useState(false);
   const showCopyOutline = isSelectedForCopy && (!editMode || !active);
 
   const setHasError = useCallback((hasError: boolean) => _setHasError(hasError), []);
@@ -79,12 +81,15 @@ const SlateAudio = ({
   useEffect(() => {
     const getAudio = async () => {
       try {
+        setAudioLoading(true);
         const audio = await fetchAudio(parseInt(embed.resource_id), language);
         setAudio({
           ...audio,
           title: audio.title?.title || '',
         });
+        setAudioLoading(false);
       } catch (error) {
+        setAudioLoading(false);
         onError(error as NdlaErrorPayload);
       }
     };
@@ -92,52 +97,54 @@ const SlateAudio = ({
     getAudio();
   }, [embed, language]);
 
-  const toggleEdit = () => {
-    setEditMode(!editMode);
-  };
+  const toggleEdit = useCallback(() => {
+    setEditMode((prev) => !prev);
+  }, []);
 
   return (
-    <>
-      <Modal controlled isOpen={editMode} onClose={() => setEditMode(false)}>
-        {(close) => (
-          <EditAudio
-            saveEmbedUpdates={saveEmbedUpdates}
-            setHasError={setHasError}
-            audio={audio}
+    <div draggable {...attributes}>
+      <Figure id={`${audio.id}`}>
+        {!speech && (
+          <FigureButtons
+            tooltip={t('form.audio.remove')}
+            onRemoveClick={onRemoveClick}
             embed={embed}
-            onExit={close}
-            type={embed.type || 'standard'}
+            figureType="audio"
+            language={language}
           />
         )}
-      </Modal>
-      <div draggable {...attributes}>
-        <Figure id={`${audio.id}`}>
-          {!speech && (
-            <FigureButtons
-              tooltip={t('form.audio.remove')}
-              onRemoveClick={onRemoveClick}
-              embed={embed}
-              figureType="audio"
-              language={language}
-            />
+        <Modal open={editMode} onOpenChange={setEditMode}>
+          {audio.id ? (
+            <ModalTrigger disabled={!audio.id}>
+              <SlateAudioWrapper
+                showCopyOutline={showCopyOutline}
+                hasError={!!error}
+                contentEditable={false}
+                role="button"
+                draggable
+                className="c-placeholder-editmode"
+                tabIndex={0}
+              >
+                <AudioPlayerMounter audio={audio} locale={locale} speech={speech} />
+              </SlateAudioWrapper>
+            </ModalTrigger>
+          ) : (
+            audioLoading && <Spinner />
           )}
-          <SlateAudioWrapper
-            showCopyOutline={showCopyOutline}
-            hasError={!!error}
-            contentEditable={false}
-            role="button"
-            draggable
-            className="c-placeholder-editmode"
-            tabIndex={0}
-            onKeyPress={toggleEdit}
-            onClick={toggleEdit}
-          >
-            {audio.id && <AudioPlayerMounter audio={audio} locale={locale} speech={speech} />}
-          </SlateAudioWrapper>
-        </Figure>
-        {children}
-      </div>
-    </>
+          <ModalContent>
+            <EditAudio
+              saveEmbedUpdates={saveEmbedUpdates}
+              setHasError={setHasError}
+              audio={audio}
+              embed={embed}
+              onExit={toggleEdit}
+              type={embed.type || 'standard'}
+            />
+          </ModalContent>
+        </Modal>
+      </Figure>
+      {children}
+    </div>
   );
 };
 

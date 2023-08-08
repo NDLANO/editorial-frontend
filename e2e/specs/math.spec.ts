@@ -39,9 +39,28 @@ test.beforeEach(async ({ page }) => {
         fixture: 'math_status_state_machine',
     });
 
+
+    const wirisEditor = mockRoute({
+        page,
+        path: 'https://www.wiris.net/client/editor/tick?httpstatus=true',
+        fixture: 'math_wiris_editor'
+    });
+
+    const wirisTick = mockRoute({
+        page,
+        path: 'https://www.wiris.net/client/editor/mathml2internal?httpstatus=true',
+        fixture: 'math_ml_internal'
+    });
+
+    const wirisHand = mockRoute({
+        page,
+        path: 'https://www.wiris.net/client/hand/hand.js?httpstatus=true',
+        fixture: 'math_hand'
+    })
+
     await page.goto('/subject-matter/learning-resource/new');
 
-    await Promise.all([zendesk, responsibles, licenses, statuses]);
+    await Promise.all([zendesk, responsibles, licenses, statuses, wirisEditor, wirisHand, wirisTick]);
 
 
     const el = page.locator('[data-cy="slate-editor"]');

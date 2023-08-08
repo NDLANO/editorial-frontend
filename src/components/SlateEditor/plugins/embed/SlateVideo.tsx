@@ -196,7 +196,7 @@ const SlateVideo = ({
   return (
     <div draggable {...attributes} contentEditable={false}>
       <Figure id={'videoid' in embed ? embed.videoid : embed.url}>
-        <StyledFigureButtons>
+        <StyledFigureButtons data-white={true}>
           <Modal open={editMode} onOpenChange={setEditMode}>
             <ModalTrigger>
               <IconButtonV2

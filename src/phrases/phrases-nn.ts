@@ -1886,6 +1886,7 @@ const phrases = {
     chooseYear: 'År:',
     labelNext: 'Gå til neste månad',
     previousMonth: 'Gå til forrige månad',
+    goToToday: 'Gå til dagens dato',
   },
 };
 

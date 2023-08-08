@@ -7,12 +7,20 @@
  */
 
 import { ReactNode, useCallback, useMemo, useState } from 'react';
-import { DayPicker, Dropdown, Labels, DropdownProps, CustomComponents } from 'react-day-picker';
+import {
+  DayPicker,
+  Dropdown,
+  Labels,
+  DropdownProps,
+  CustomComponents,
+  useNavigation,
+} from 'react-day-picker';
 import { nb, nn, enGB } from 'date-fns/locale';
 import { TFunction, useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { Arrow, Content, Portal, Root, Trigger } from '@radix-ui/react-popover';
 import { colors, misc } from '@ndla/core';
+import { ButtonV2 } from '@ndla/button';
 
 interface Props {
   children: ReactNode;
@@ -44,6 +52,17 @@ const StyledInput = styled.input`
 
 const MIN_YEAR = 1900;
 const MAX_YEAR = 3000;
+
+const DatePickerFooter = () => {
+  const { t } = useTranslation();
+  const { goToDate } = useNavigation();
+
+  return (
+    <ButtonV2 variant="outline" onClick={() => goToDate(new Date())}>
+      {t('datePicker.goToToday')}
+    </ButtonV2>
+  );
+};
 
 const DatePickerDropdown = (props: DropdownProps) => {
   if (props.name === 'months') {
@@ -97,6 +116,7 @@ const DatePicker = ({ children, value, onChange }: Props) => {
             fromYear={MIN_YEAR}
             toYear={MAX_YEAR}
             labels={translations}
+            footer={<DatePickerFooter />}
           />
         </StyledContent>
       </Portal>

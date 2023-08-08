@@ -1883,6 +1883,7 @@ const phrases = {
     chooseYear: 'Year:',
     labelNext: 'Go to next month',
     previousMonth: 'Go to previous month',
+    goToToday: 'Go to today',
   },
 };
 

@@ -96,12 +96,12 @@ const MoveExistingNode = ({
       // drop all parent connections and replace with this.
       const connections = await fetchConnectionsForNode({ id: node.id, taxonomyVersion });
       const parentConnections = connections.filter((conn) => conn.type.startsWith('parent'));
-      parentConnections.map(async (parentConnection) => {
+      for (const parentConnection of parentConnections) {
         await deleteNodeConnectionMutation.mutateAsync({
           taxonomyVersion,
           id: parentConnection.connectionId,
         });
-      });
+      }
       await addNodeConnectionMutation.mutateAsync({
         taxonomyVersion,
         body: { parentId: currentNode.id, childId: node.id },

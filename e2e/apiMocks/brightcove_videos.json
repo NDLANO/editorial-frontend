@@ -1,4 +1,196 @@
 [ {
+  "id" : "5796547987001",
+  "account_id" : "4806596774001",
+  "ad_keys" : null,
+  "clip_source_video_id" : null,
+  "complete" : true,
+  "created_at" : "2018-06-12T10:35:22.963Z",
+  "created_by" : {
+    "type" : "unknown"
+  },
+  "cue_points" : [ ],
+  "custom_fields" : {
+    "yt_privacy_status" : "private",
+    "license" : "Navngivelse-Del på samme vilkår",
+    "licenseinfo" : "Opphavsmann: Tom Jarle Christiansen"
+  },
+  "delivery_type" : "dynamic_origin",
+  "description" : null,
+  "digital_master_id" : null,
+  "duration" : 418122,
+  "economics" : "AD_SUPPORTED",
+  "folder_id" : null,
+  "geo" : null,
+  "has_digital_master" : true,
+  "images" : {
+    "thumbnail" : {
+      "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/49cb0794-f69e-4a90-86dd-b64545e0ac15/36e0cda3-e4d0-4eaa-b919-1136377eca75/160x90/match/image.jpg",
+      "sources" : [ {
+        "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/49cb0794-f69e-4a90-86dd-b64545e0ac15/36e0cda3-e4d0-4eaa-b919-1136377eca75/160x90/match/image.jpg",
+        "height" : 90,
+        "width" : 160
+      } ]
+    },
+    "poster" : {
+      "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/49cb0794-f69e-4a90-86dd-b64545e0ac15/084bcfc3-c749-4702-8cef-caefc654191e/1280x720/match/image.jpg",
+      "sources" : [ {
+        "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/49cb0794-f69e-4a90-86dd-b64545e0ac15/084bcfc3-c749-4702-8cef-caefc654191e/1280x720/match/image.jpg",
+        "height" : 720,
+        "width" : 1280
+      } ]
+    }
+  },
+  "link" : null,
+  "long_description" : null,
+  "name" : "Vektorprodukt og høyrehåndsregel",
+  "original_filename" : "download-original",
+  "projection" : null,
+  "published_at" : "2018-06-12T10:35:22.963Z",
+  "reference_id" : "132685",
+  "schedule" : null,
+  "sharing" : null,
+  "state" : "ACTIVE",
+  "tags" : [ "geomtri", "matematikk r2", "vector", "vector product", "vektor", "vektorprodukt" ],
+  "text_tracks" : [ {
+    "id" : "3e79e2c2-81ee-42fe-a36f-22769860e23c",
+    "account_id" : "4806596774001",
+    "src" : "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/49cb0794-f69e-4a90-86dd-b64545e0ac15/3e79e2c2-81ee-42fe-a36f-22769860e23c/text.vtt?fastly_token=NjRjNDA4ZjVfYWJhZWQ0MGQ3MTAxMmQ1OGE4YTFhNjI5NWI1YzlhODMzY2E0MGJhNWY3NGVjMjI5OTRiNzgyMWVjNmJiYWFhZl9odHRwOi8vaG91c2UtZmFzdGx5LXNpZ25lZC1ldS13ZXN0LTEtcHJvZC5icmlnaHRjb3ZlY2RuLmNvbS9tZWRpYS92MS90ZXh0L3Z0dC9jbGVhci80ODA2NTk2Nzc0MDAxLzQ5Y2IwNzk0LWY2OWUtNGE5MC04NmRkLWI2NDU0NWUwYWMxNS8zZTc5ZTJjMi04MWVlLTQyZmUtYTM2Zi0yMjc2OTg2MGUyM2MvdGV4dC52dHQ%3D",
+    "srclang" : "nn-NO",
+    "label" : "Nynorsk",
+    "kind" : "captions",
+    "mime_type" : "text/webvtt",
+    "status" : "published",
+    "asset_id" : null,
+    "sources" : [ {
+      "src" : "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/49cb0794-f69e-4a90-86dd-b64545e0ac15/3e79e2c2-81ee-42fe-a36f-22769860e23c/text.vtt?fastly_token=NjRjNDA4ZjVfYWJhZWQ0MGQ3MTAxMmQ1OGE4YTFhNjI5NWI1YzlhODMzY2E0MGJhNWY3NGVjMjI5OTRiNzgyMWVjNmJiYWFhZl9odHRwOi8vaG91c2UtZmFzdGx5LXNpZ25lZC1ldS13ZXN0LTEtcHJvZC5icmlnaHRjb3ZlY2RuLmNvbS9tZWRpYS92MS90ZXh0L3Z0dC9jbGVhci80ODA2NTk2Nzc0MDAxLzQ5Y2IwNzk0LWY2OWUtNGE5MC04NmRkLWI2NDU0NWUwYWMxNS8zZTc5ZTJjMi04MWVlLTQyZmUtYTM2Zi0yMjc2OTg2MGUyM2MvdGV4dC52dHQ%3D"
+    }, {
+      "src" : "https://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/49cb0794-f69e-4a90-86dd-b64545e0ac15/3e79e2c2-81ee-42fe-a36f-22769860e23c/text.vtt?fastly_token=NjRjNDA4ZjVfMmUwMWJmZTY3YTE0NjY4ZGEwZDhkMjY4Y2NmZjg4YjVjMGVhNjhiMTczMjlmOTJiYjc2ZTE5ZTlhMWI3NzVlZF9odHRwczovL2hvdXNlLWZhc3RseS1zaWduZWQtZXUtd2VzdC0xLXByb2QuYnJpZ2h0Y292ZWNkbi5jb20vbWVkaWEvdjEvdGV4dC92dHQvY2xlYXIvNDgwNjU5Njc3NDAwMS80OWNiMDc5NC1mNjllLTRhOTAtODZkZC1iNjQ1NDVlMGFjMTUvM2U3OWUyYzItODFlZS00MmZlLWEzNmYtMjI3Njk4NjBlMjNjL3RleHQudnR0"
+    } ],
+    "in_band_metadata_track_dispatch_type" : "",
+    "default" : false
+  }, {
+    "id" : "6fdc82fc-eff7-4806-b28b-1fade2297b2c",
+    "account_id" : "4806596774001",
+    "src" : "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/49cb0794-f69e-4a90-86dd-b64545e0ac15/6fdc82fc-eff7-4806-b28b-1fade2297b2c/text.vtt?fastly_token=NjRjNDA4ZjVfNjA2Y2E0YzkxZmZkMGNjODU1ZjBiNTc1MGFlM2I3ZjJlNmE2MTk4YjU5YWFjMzAxYzMxNDUyZTNlZWNmM2M0Nl9odHRwOi8vaG91c2UtZmFzdGx5LXNpZ25lZC1ldS13ZXN0LTEtcHJvZC5icmlnaHRjb3ZlY2RuLmNvbS9tZWRpYS92MS90ZXh0L3Z0dC9jbGVhci80ODA2NTk2Nzc0MDAxLzQ5Y2IwNzk0LWY2OWUtNGE5MC04NmRkLWI2NDU0NWUwYWMxNS82ZmRjODJmYy1lZmY3LTQ4MDYtYjI4Yi0xZmFkZTIyOTdiMmMvdGV4dC52dHQ%3D",
+    "srclang" : "no-NO",
+    "label" : "Bokmål",
+    "kind" : "captions",
+    "mime_type" : "text/webvtt",
+    "status" : "published",
+    "asset_id" : null,
+    "sources" : [ {
+      "src" : "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/49cb0794-f69e-4a90-86dd-b64545e0ac15/6fdc82fc-eff7-4806-b28b-1fade2297b2c/text.vtt?fastly_token=NjRjNDA4ZjVfNjA2Y2E0YzkxZmZkMGNjODU1ZjBiNTc1MGFlM2I3ZjJlNmE2MTk4YjU5YWFjMzAxYzMxNDUyZTNlZWNmM2M0Nl9odHRwOi8vaG91c2UtZmFzdGx5LXNpZ25lZC1ldS13ZXN0LTEtcHJvZC5icmlnaHRjb3ZlY2RuLmNvbS9tZWRpYS92MS90ZXh0L3Z0dC9jbGVhci80ODA2NTk2Nzc0MDAxLzQ5Y2IwNzk0LWY2OWUtNGE5MC04NmRkLWI2NDU0NWUwYWMxNS82ZmRjODJmYy1lZmY3LTQ4MDYtYjI4Yi0xZmFkZTIyOTdiMmMvdGV4dC52dHQ%3D"
+    }, {
+      "src" : "https://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/49cb0794-f69e-4a90-86dd-b64545e0ac15/6fdc82fc-eff7-4806-b28b-1fade2297b2c/text.vtt?fastly_token=NjRjNDA4ZjVfN2YwYWRlMzUyZDM1ZDlhNjNhNjcyNzlhYzk0YWM0MGM0NDBkMTBiMzVhNDM1YTA0OGQ1Nzk3OGE1YzI4MDY0Nl9odHRwczovL2hvdXNlLWZhc3RseS1zaWduZWQtZXUtd2VzdC0xLXByb2QuYnJpZ2h0Y292ZWNkbi5jb20vbWVkaWEvdjEvdGV4dC92dHQvY2xlYXIvNDgwNjU5Njc3NDAwMS80OWNiMDc5NC1mNjllLTRhOTAtODZkZC1iNjQ1NDVlMGFjMTUvNmZkYzgyZmMtZWZmNy00ODA2LWIyOGItMWZhZGUyMjk3YjJjL3RleHQudnR0"
+    } ],
+    "in_band_metadata_track_dispatch_type" : "",
+    "default" : false
+  } ],
+  "transcripts" : [ ],
+  "updated_at" : "2023-07-14T07:00:36.646Z",
+  "updated_by" : {
+    "type" : "internal"
+  },
+  "playback_rights_id" : null,
+  "ingestion_profile_id" : null
+}, {
+  "id" : "6303082946001",
+  "account_id" : "4806596774001",
+  "ad_keys" : null,
+  "clip_source_video_id" : null,
+  "complete" : true,
+  "created_at" : "2022-04-06T15:06:17.850Z",
+  "created_by" : {
+    "type" : "user",
+    "id" : "76076229774",
+    "email" : "signe.hogh@ndla.no"
+  },
+  "cue_points" : [ ],
+  "custom_fields" : {
+    "license" : "Navngivelse-Ikkekommersiell-Ingen Bearbeidelse",
+    "licenseinfo" : "Kunstner: Ahmed Umar",
+    "licenseinfo2" : "Rettighetshaver: Hå gamle prestegård"
+  },
+  "delivery_type" : "dynamic_origin",
+  "description" : null,
+  "digital_master_id" : null,
+  "duration" : 498283,
+  "economics" : "AD_SUPPORTED",
+  "folder_id" : "5d01085a7e881b348110a00d",
+  "geo" : null,
+  "has_digital_master" : true,
+  "images" : {
+    "poster" : {
+      "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/4450fdca-6fc4-4842-b798-1dd6edfb0303/ab74336d-a7c4-48e2-8ac5-b742b06bd4e6/1280x720/match/image.jpg",
+      "sources" : [ {
+        "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/4450fdca-6fc4-4842-b798-1dd6edfb0303/ab74336d-a7c4-48e2-8ac5-b742b06bd4e6/1280x720/match/image.jpg",
+        "height" : 720,
+        "width" : 1280
+      } ]
+    },
+    "thumbnail" : {
+      "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/4450fdca-6fc4-4842-b798-1dd6edfb0303/c27af5b2-3b1a-4ee5-bef4-2dcf45b5029e/160x90/match/image.jpg",
+      "sources" : [ {
+        "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/4450fdca-6fc4-4842-b798-1dd6edfb0303/c27af5b2-3b1a-4ee5-bef4-2dcf45b5029e/160x90/match/image.jpg",
+        "height" : 90,
+        "width" : 160
+      } ]
+    }
+  },
+  "link" : null,
+  "long_description" : null,
+  "name" : "Ahmed-Umar_utstilling-2021 (1)",
+  "original_filename" : "Ahmed-Umar_utstilling-2021 (1).mp4",
+  "projection" : null,
+  "published_at" : "2022-04-06T15:06:17.858Z",
+  "reference_id" : null,
+  "schedule" : null,
+  "sharing" : null,
+  "state" : "ACTIVE",
+  "tags" : [ "amuletter", "islam", "kunst", "kvinner", "religion", "religion og etikk", "revolusjon", "sudan", "sunni-islam", "wahhabisme" ],
+  "text_tracks" : [ {
+    "id" : "cfc882b0-02d7-486b-8bb2-293b388693ea",
+    "account_id" : "4806596774001",
+    "src" : "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/4450fdca-6fc4-4842-b798-1dd6edfb0303/cfc882b0-02d7-486b-8bb2-293b388693ea/text.vtt?fastly_token=NjRjNDA5NTJfY2RjNTJkOGMzNTA2MDc1Mzg1MDU3ODA0ZjI4Y2E5NjExOGFlODY3YWRlYmE5ZTI0YjFmMDFmNTcyOWM2ZTAxY19odHRwOi8vaG91c2UtZmFzdGx5LXNpZ25lZC1ldS13ZXN0LTEtcHJvZC5icmlnaHRjb3ZlY2RuLmNvbS9tZWRpYS92MS90ZXh0L3Z0dC9jbGVhci80ODA2NTk2Nzc0MDAxLzQ0NTBmZGNhLTZmYzQtNDg0Mi1iNzk4LTFkZDZlZGZiMDMwMy9jZmM4ODJiMC0wMmQ3LTQ4NmItOGJiMi0yOTNiMzg4NjkzZWEvdGV4dC52dHQ%3D",
+    "srclang" : "nn-NO",
+    "label" : "Nynorsk",
+    "kind" : "captions",
+    "mime_type" : "text/webvtt",
+    "status" : "published",
+    "asset_id" : null,
+    "sources" : [ {
+      "src" : "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/4450fdca-6fc4-4842-b798-1dd6edfb0303/cfc882b0-02d7-486b-8bb2-293b388693ea/text.vtt?fastly_token=NjRjNDA5NTJfY2RjNTJkOGMzNTA2MDc1Mzg1MDU3ODA0ZjI4Y2E5NjExOGFlODY3YWRlYmE5ZTI0YjFmMDFmNTcyOWM2ZTAxY19odHRwOi8vaG91c2UtZmFzdGx5LXNpZ25lZC1ldS13ZXN0LTEtcHJvZC5icmlnaHRjb3ZlY2RuLmNvbS9tZWRpYS92MS90ZXh0L3Z0dC9jbGVhci80ODA2NTk2Nzc0MDAxLzQ0NTBmZGNhLTZmYzQtNDg0Mi1iNzk4LTFkZDZlZGZiMDMwMy9jZmM4ODJiMC0wMmQ3LTQ4NmItOGJiMi0yOTNiMzg4NjkzZWEvdGV4dC52dHQ%3D"
+    }, {
+      "src" : "https://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/4450fdca-6fc4-4842-b798-1dd6edfb0303/cfc882b0-02d7-486b-8bb2-293b388693ea/text.vtt?fastly_token=NjRjNDA5NTJfOTUzMzQyMWZmNTM3YzFhYzgzY2NmYTM4MzRmOTFiODlhNDdlMjVmZGViNjlhYzgyZTAwNmM5MDYzZjE0NTZlN19odHRwczovL2hvdXNlLWZhc3RseS1zaWduZWQtZXUtd2VzdC0xLXByb2QuYnJpZ2h0Y292ZWNkbi5jb20vbWVkaWEvdjEvdGV4dC92dHQvY2xlYXIvNDgwNjU5Njc3NDAwMS80NDUwZmRjYS02ZmM0LTQ4NDItYjc5OC0xZGQ2ZWRmYjAzMDMvY2ZjODgyYjAtMDJkNy00ODZiLThiYjItMjkzYjM4ODY5M2VhL3RleHQudnR0"
+    } ],
+    "in_band_metadata_track_dispatch_type" : "",
+    "default" : false
+  }, {
+    "id" : "fb695da9-1fe6-458d-81a5-2732952a6b58",
+    "account_id" : "4806596774001",
+    "src" : "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/4450fdca-6fc4-4842-b798-1dd6edfb0303/fb695da9-1fe6-458d-81a5-2732952a6b58/text.vtt?fastly_token=NjRjNDA5NTJfN2JiODFhM2VkZDVlNDk3MzBmMTNkYjViNzczYTdhMWQ2OGRiM2ZjMTU4NDQzNmZhZjRlODA3YTJlZGU0YTMzZl9odHRwOi8vaG91c2UtZmFzdGx5LXNpZ25lZC1ldS13ZXN0LTEtcHJvZC5icmlnaHRjb3ZlY2RuLmNvbS9tZWRpYS92MS90ZXh0L3Z0dC9jbGVhci80ODA2NTk2Nzc0MDAxLzQ0NTBmZGNhLTZmYzQtNDg0Mi1iNzk4LTFkZDZlZGZiMDMwMy9mYjY5NWRhOS0xZmU2LTQ1OGQtODFhNS0yNzMyOTUyYTZiNTgvdGV4dC52dHQ%3D",
+    "srclang" : "no-NO",
+    "label" : "Bokmål",
+    "kind" : "captions",
+    "mime_type" : "text/webvtt",
+    "status" : "published",
+    "asset_id" : null,
+    "sources" : [ {
+      "src" : "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/4450fdca-6fc4-4842-b798-1dd6edfb0303/fb695da9-1fe6-458d-81a5-2732952a6b58/text.vtt?fastly_token=NjRjNDA5NTJfN2JiODFhM2VkZDVlNDk3MzBmMTNkYjViNzczYTdhMWQ2OGRiM2ZjMTU4NDQzNmZhZjRlODA3YTJlZGU0YTMzZl9odHRwOi8vaG91c2UtZmFzdGx5LXNpZ25lZC1ldS13ZXN0LTEtcHJvZC5icmlnaHRjb3ZlY2RuLmNvbS9tZWRpYS92MS90ZXh0L3Z0dC9jbGVhci80ODA2NTk2Nzc0MDAxLzQ0NTBmZGNhLTZmYzQtNDg0Mi1iNzk4LTFkZDZlZGZiMDMwMy9mYjY5NWRhOS0xZmU2LTQ1OGQtODFhNS0yNzMyOTUyYTZiNTgvdGV4dC52dHQ%3D"
+    }, {
+      "src" : "https://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/4450fdca-6fc4-4842-b798-1dd6edfb0303/fb695da9-1fe6-458d-81a5-2732952a6b58/text.vtt?fastly_token=NjRjNDA5NTJfOGE1NDY2OWFkNTRkZTU3OTVlYWFkNGM2YzEyZjZiMWY1NjgxMDAxYTBjYjVlMzhjNTQ0Yzc0NmZiNzhlYTc3ZF9odHRwczovL2hvdXNlLWZhc3RseS1zaWduZWQtZXUtd2VzdC0xLXByb2QuYnJpZ2h0Y292ZWNkbi5jb20vbWVkaWEvdjEvdGV4dC92dHQvY2xlYXIvNDgwNjU5Njc3NDAwMS80NDUwZmRjYS02ZmM0LTQ4NDItYjc5OC0xZGQ2ZWRmYjAzMDMvZmI2OTVkYTktMWZlNi00NThkLTgxYTUtMjczMjk1MmE2YjU4L3RleHQudnR0"
+    } ],
+    "in_band_metadata_track_dispatch_type" : "",
+    "default" : false
+  } ],
+  "transcripts" : [ ],
+  "updated_at" : "2023-07-13T09:54:42.714Z",
+  "updated_by" : {
+    "type" : "internal"
+  },
+  "playback_rights_id" : "primary",
+  "ingestion_profile_id" : null
+}, {
   "id" : "6317543916112",
   "account_id" : "4806596774001",
   "ad_keys" : null,
@@ -59,7 +251,7 @@
   "text_tracks" : [ {
     "id" : "f176dd13-9169-4fac-b59b-e74fd267ef5a",
     "account_id" : "4806596774001",
-    "src" : "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/c63e0072-d91a-44c4-91b0-9e0cbe08b60a/f176dd13-9169-4fac-b59b-e74fd267ef5a/text.vtt?fastly_token=NjRhODQ0M2ZfZGUzM2U0MzdmNDgxNTk3MDU3ZmUwNGNhODgxYWZmMjY2YTlmODY3YTI4YzBlZTJlZWE2NmVkNzAwNGJkNGMwMF9odHRwOi8vaG91c2UtZmFzdGx5LXNpZ25lZC1ldS13ZXN0LTEtcHJvZC5icmlnaHRjb3ZlY2RuLmNvbS9tZWRpYS92MS90ZXh0L3Z0dC9jbGVhci80ODA2NTk2Nzc0MDAxL2M2M2UwMDcyLWQ5MWEtNDRjNC05MWIwLTllMGNiZTA4YjYwYS9mMTc2ZGQxMy05MTY5LTRmYWMtYjU5Yi1lNzRmZDI2N2VmNWEvdGV4dC52dHQ%3D",
+    "src" : "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/c63e0072-d91a-44c4-91b0-9e0cbe08b60a/f176dd13-9169-4fac-b59b-e74fd267ef5a/text.vtt?fastly_token=NjRjNDA4MTlfZmEzZGI2Y2RiNDE0Y2ZmODk3ZmNkZmJhZWZkMjYzY2Q4NzY5MmVmZGRhNjliOTcxZjFhOWI5NDI3NzM4MzM4N19odHRwOi8vaG91c2UtZmFzdGx5LXNpZ25lZC1ldS13ZXN0LTEtcHJvZC5icmlnaHRjb3ZlY2RuLmNvbS9tZWRpYS92MS90ZXh0L3Z0dC9jbGVhci80ODA2NTk2Nzc0MDAxL2M2M2UwMDcyLWQ5MWEtNDRjNC05MWIwLTllMGNiZTA4YjYwYS9mMTc2ZGQxMy05MTY5LTRmYWMtYjU5Yi1lNzRmZDI2N2VmNWEvdGV4dC52dHQ%3D",
     "srclang" : "es",
     "label" : "Español",
     "kind" : "captions",
@@ -67,9 +259,9 @@
     "status" : "published",
     "asset_id" : null,
     "sources" : [ {
-      "src" : "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/c63e0072-d91a-44c4-91b0-9e0cbe08b60a/f176dd13-9169-4fac-b59b-e74fd267ef5a/text.vtt?fastly_token=NjRhODQ0M2ZfZGUzM2U0MzdmNDgxNTk3MDU3ZmUwNGNhODgxYWZmMjY2YTlmODY3YTI4YzBlZTJlZWE2NmVkNzAwNGJkNGMwMF9odHRwOi8vaG91c2UtZmFzdGx5LXNpZ25lZC1ldS13ZXN0LTEtcHJvZC5icmlnaHRjb3ZlY2RuLmNvbS9tZWRpYS92MS90ZXh0L3Z0dC9jbGVhci80ODA2NTk2Nzc0MDAxL2M2M2UwMDcyLWQ5MWEtNDRjNC05MWIwLTllMGNiZTA4YjYwYS9mMTc2ZGQxMy05MTY5LTRmYWMtYjU5Yi1lNzRmZDI2N2VmNWEvdGV4dC52dHQ%3D"
+      "src" : "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/c63e0072-d91a-44c4-91b0-9e0cbe08b60a/f176dd13-9169-4fac-b59b-e74fd267ef5a/text.vtt?fastly_token=NjRjNDA4MTlfZmEzZGI2Y2RiNDE0Y2ZmODk3ZmNkZmJhZWZkMjYzY2Q4NzY5MmVmZGRhNjliOTcxZjFhOWI5NDI3NzM4MzM4N19odHRwOi8vaG91c2UtZmFzdGx5LXNpZ25lZC1ldS13ZXN0LTEtcHJvZC5icmlnaHRjb3ZlY2RuLmNvbS9tZWRpYS92MS90ZXh0L3Z0dC9jbGVhci80ODA2NTk2Nzc0MDAxL2M2M2UwMDcyLWQ5MWEtNDRjNC05MWIwLTllMGNiZTA4YjYwYS9mMTc2ZGQxMy05MTY5LTRmYWMtYjU5Yi1lNzRmZDI2N2VmNWEvdGV4dC52dHQ%3D"
     }, {
-      "src" : "https://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/c63e0072-d91a-44c4-91b0-9e0cbe08b60a/f176dd13-9169-4fac-b59b-e74fd267ef5a/text.vtt?fastly_token=NjRhODQ0M2ZfODg4YjAxODNhNWExM2JlZGQxMjViZDJkMWZiMDVkODFhNjU4YTAyM2M1M2FiODllMDM3MWI4YzVjMzQ1YTc2MF9odHRwczovL2hvdXNlLWZhc3RseS1zaWduZWQtZXUtd2VzdC0xLXByb2QuYnJpZ2h0Y292ZWNkbi5jb20vbWVkaWEvdjEvdGV4dC92dHQvY2xlYXIvNDgwNjU5Njc3NDAwMS9jNjNlMDA3Mi1kOTFhLTQ0YzQtOTFiMC05ZTBjYmUwOGI2MGEvZjE3NmRkMTMtOTE2OS00ZmFjLWI1OWItZTc0ZmQyNjdlZjVhL3RleHQudnR0"
+      "src" : "https://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/c63e0072-d91a-44c4-91b0-9e0cbe08b60a/f176dd13-9169-4fac-b59b-e74fd267ef5a/text.vtt?fastly_token=NjRjNDA4MTlfZWNjYTQ0Y2M1MTNjM2NkZTczNDU3NjJjNTIyNjAwODJhMTc3MDY4ZTIxNDgwMTVlOTVhYWMwMzNjMzliMDViM19odHRwczovL2hvdXNlLWZhc3RseS1zaWduZWQtZXUtd2VzdC0xLXByb2QuYnJpZ2h0Y292ZWNkbi5jb20vbWVkaWEvdjEvdGV4dC92dHQvY2xlYXIvNDgwNjU5Njc3NDAwMS9jNjNlMDA3Mi1kOTFhLTQ0YzQtOTFiMC05ZTBjYmUwOGI2MGEvZjE3NmRkMTMtOTE2OS00ZmFjLWI1OWItZTc0ZmQyNjdlZjVhL3RleHQudnR0"
     } ],
     "in_band_metadata_track_dispatch_type" : "",
     "default" : false
@@ -137,7 +329,7 @@
   "text_tracks" : [ {
     "id" : "fc453429-816b-46b8-969f-7dd50a7f1f25",
     "account_id" : "4806596774001",
-    "src" : "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/77ecf304-638e-4d8a-847b-d0a4a2cc509e/fc453429-816b-46b8-969f-7dd50a7f1f25/text.vtt?fastly_token=NjRhODQ1MGZfMjQ5M2E5ZGJmZmZmNjdlYzAyMzYwNWJkNjFmNjNmMDBhZTNlYzRkMjdiZjczNjEyMDVkMWViZWRkZTdkYTIyZV9odHRwOi8vaG91c2UtZmFzdGx5LXNpZ25lZC1ldS13ZXN0LTEtcHJvZC5icmlnaHRjb3ZlY2RuLmNvbS9tZWRpYS92MS90ZXh0L3Z0dC9jbGVhci80ODA2NTk2Nzc0MDAxLzc3ZWNmMzA0LTYzOGUtNGQ4YS04NDdiLWQwYTRhMmNjNTA5ZS9mYzQ1MzQyOS04MTZiLTQ2YjgtOTY5Zi03ZGQ1MGE3ZjFmMjUvdGV4dC52dHQ%3D",
+    "src" : "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/77ecf304-638e-4d8a-847b-d0a4a2cc509e/fc453429-816b-46b8-969f-7dd50a7f1f25/text.vtt?fastly_token=NjRjNDA4ZTlfZTg0OWU4NTQ5YmM1YzFkMmViMTIwMjczYzAxYzNiMDA1MjhjYjlkOWU4MDM4YzNmZDA2NDUzOTY5OTU1MzFiN19odHRwOi8vaG91c2UtZmFzdGx5LXNpZ25lZC1ldS13ZXN0LTEtcHJvZC5icmlnaHRjb3ZlY2RuLmNvbS9tZWRpYS92MS90ZXh0L3Z0dC9jbGVhci80ODA2NTk2Nzc0MDAxLzc3ZWNmMzA0LTYzOGUtNGQ4YS04NDdiLWQwYTRhMmNjNTA5ZS9mYzQ1MzQyOS04MTZiLTQ2YjgtOTY5Zi03ZGQ1MGE3ZjFmMjUvdGV4dC52dHQ%3D",
     "srclang" : "nn-NO",
     "label" : "Nynorsk",
     "kind" : "captions",
@@ -145,16 +337,16 @@
     "status" : "published",
     "asset_id" : null,
     "sources" : [ {
-      "src" : "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/77ecf304-638e-4d8a-847b-d0a4a2cc509e/fc453429-816b-46b8-969f-7dd50a7f1f25/text.vtt?fastly_token=NjRhODQ1MGZfMjQ5M2E5ZGJmZmZmNjdlYzAyMzYwNWJkNjFmNjNmMDBhZTNlYzRkMjdiZjczNjEyMDVkMWViZWRkZTdkYTIyZV9odHRwOi8vaG91c2UtZmFzdGx5LXNpZ25lZC1ldS13ZXN0LTEtcHJvZC5icmlnaHRjb3ZlY2RuLmNvbS9tZWRpYS92MS90ZXh0L3Z0dC9jbGVhci80ODA2NTk2Nzc0MDAxLzc3ZWNmMzA0LTYzOGUtNGQ4YS04NDdiLWQwYTRhMmNjNTA5ZS9mYzQ1MzQyOS04MTZiLTQ2YjgtOTY5Zi03ZGQ1MGE3ZjFmMjUvdGV4dC52dHQ%3D"
+      "src" : "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/77ecf304-638e-4d8a-847b-d0a4a2cc509e/fc453429-816b-46b8-969f-7dd50a7f1f25/text.vtt?fastly_token=NjRjNDA4ZTlfZTg0OWU4NTQ5YmM1YzFkMmViMTIwMjczYzAxYzNiMDA1MjhjYjlkOWU4MDM4YzNmZDA2NDUzOTY5OTU1MzFiN19odHRwOi8vaG91c2UtZmFzdGx5LXNpZ25lZC1ldS13ZXN0LTEtcHJvZC5icmlnaHRjb3ZlY2RuLmNvbS9tZWRpYS92MS90ZXh0L3Z0dC9jbGVhci80ODA2NTk2Nzc0MDAxLzc3ZWNmMzA0LTYzOGUtNGQ4YS04NDdiLWQwYTRhMmNjNTA5ZS9mYzQ1MzQyOS04MTZiLTQ2YjgtOTY5Zi03ZGQ1MGE3ZjFmMjUvdGV4dC52dHQ%3D"
     }, {
-      "src" : "https://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/77ecf304-638e-4d8a-847b-d0a4a2cc509e/fc453429-816b-46b8-969f-7dd50a7f1f25/text.vtt?fastly_token=NjRhODQ1MGZfMjY2YTdkZjRiNjRkYjNiMGM0NWUzYzQ1NzVjZGU1ZGVkMTQ1ZGE4MDQxNjI2ZjQ5N2Q5NmVlZGY0MTE5MGJkY19odHRwczovL2hvdXNlLWZhc3RseS1zaWduZWQtZXUtd2VzdC0xLXByb2QuYnJpZ2h0Y292ZWNkbi5jb20vbWVkaWEvdjEvdGV4dC92dHQvY2xlYXIvNDgwNjU5Njc3NDAwMS83N2VjZjMwNC02MzhlLTRkOGEtODQ3Yi1kMGE0YTJjYzUwOWUvZmM0NTM0MjktODE2Yi00NmI4LTk2OWYtN2RkNTBhN2YxZjI1L3RleHQudnR0"
+      "src" : "https://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/77ecf304-638e-4d8a-847b-d0a4a2cc509e/fc453429-816b-46b8-969f-7dd50a7f1f25/text.vtt?fastly_token=NjRjNDA4ZTlfNGJkNzE3ZmUzM2U5YjY3Mzk1NWJiOGVkYWU0MmIyZmE5ZDE2ZjYwOWFkYWFiMDQyNTA1OWIxMGI5MGQ3N2I1MV9odHRwczovL2hvdXNlLWZhc3RseS1zaWduZWQtZXUtd2VzdC0xLXByb2QuYnJpZ2h0Y292ZWNkbi5jb20vbWVkaWEvdjEvdGV4dC92dHQvY2xlYXIvNDgwNjU5Njc3NDAwMS83N2VjZjMwNC02MzhlLTRkOGEtODQ3Yi1kMGE0YTJjYzUwOWUvZmM0NTM0MjktODE2Yi00NmI4LTk2OWYtN2RkNTBhN2YxZjI1L3RleHQudnR0"
     } ],
     "in_band_metadata_track_dispatch_type" : "",
     "default" : false
   }, {
     "id" : "8ba76a60-3f2a-44fa-ace0-173af53a9926",
     "account_id" : "4806596774001",
-    "src" : "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/77ecf304-638e-4d8a-847b-d0a4a2cc509e/8ba76a60-3f2a-44fa-ace0-173af53a9926/text.vtt?fastly_token=NjRhODQ1MGZfMjg4OWEwNjRjYjY4NDUyZmZkM2I3YzdkZTg5ODZlYjJlYzdmNjkyNmJjNDM5OTZkNWIyMmQ3YWExOWUwMmI4OF9odHRwOi8vaG91c2UtZmFzdGx5LXNpZ25lZC1ldS13ZXN0LTEtcHJvZC5icmlnaHRjb3ZlY2RuLmNvbS9tZWRpYS92MS90ZXh0L3Z0dC9jbGVhci80ODA2NTk2Nzc0MDAxLzc3ZWNmMzA0LTYzOGUtNGQ4YS04NDdiLWQwYTRhMmNjNTA5ZS84YmE3NmE2MC0zZjJhLTQ0ZmEtYWNlMC0xNzNhZjUzYTk5MjYvdGV4dC52dHQ%3D",
+    "src" : "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/77ecf304-638e-4d8a-847b-d0a4a2cc509e/8ba76a60-3f2a-44fa-ace0-173af53a9926/text.vtt?fastly_token=NjRjNDA4ZTlfNDhiMTExNjY2NmEyOTc0ZTBhNDk4YzE2Y2I3ZjRlNzhkMzBjYzAwNjVhZmRkMzgzMmJmYWZmYjZiM2IzNDdjNl9odHRwOi8vaG91c2UtZmFzdGx5LXNpZ25lZC1ldS13ZXN0LTEtcHJvZC5icmlnaHRjb3ZlY2RuLmNvbS9tZWRpYS92MS90ZXh0L3Z0dC9jbGVhci80ODA2NTk2Nzc0MDAxLzc3ZWNmMzA0LTYzOGUtNGQ4YS04NDdiLWQwYTRhMmNjNTA5ZS84YmE3NmE2MC0zZjJhLTQ0ZmEtYWNlMC0xNzNhZjUzYTk5MjYvdGV4dC52dHQ%3D",
     "srclang" : "no-NO",
     "label" : "Bokmål",
     "kind" : "captions",
@@ -162,9 +354,9 @@
     "status" : "published",
     "asset_id" : null,
     "sources" : [ {
-      "src" : "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/77ecf304-638e-4d8a-847b-d0a4a2cc509e/8ba76a60-3f2a-44fa-ace0-173af53a9926/text.vtt?fastly_token=NjRhODQ1MGZfMjg4OWEwNjRjYjY4NDUyZmZkM2I3YzdkZTg5ODZlYjJlYzdmNjkyNmJjNDM5OTZkNWIyMmQ3YWExOWUwMmI4OF9odHRwOi8vaG91c2UtZmFzdGx5LXNpZ25lZC1ldS13ZXN0LTEtcHJvZC5icmlnaHRjb3ZlY2RuLmNvbS9tZWRpYS92MS90ZXh0L3Z0dC9jbGVhci80ODA2NTk2Nzc0MDAxLzc3ZWNmMzA0LTYzOGUtNGQ4YS04NDdiLWQwYTRhMmNjNTA5ZS84YmE3NmE2MC0zZjJhLTQ0ZmEtYWNlMC0xNzNhZjUzYTk5MjYvdGV4dC52dHQ%3D"
+      "src" : "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/77ecf304-638e-4d8a-847b-d0a4a2cc509e/8ba76a60-3f2a-44fa-ace0-173af53a9926/text.vtt?fastly_token=NjRjNDA4ZTlfNDhiMTExNjY2NmEyOTc0ZTBhNDk4YzE2Y2I3ZjRlNzhkMzBjYzAwNjVhZmRkMzgzMmJmYWZmYjZiM2IzNDdjNl9odHRwOi8vaG91c2UtZmFzdGx5LXNpZ25lZC1ldS13ZXN0LTEtcHJvZC5icmlnaHRjb3ZlY2RuLmNvbS9tZWRpYS92MS90ZXh0L3Z0dC9jbGVhci80ODA2NTk2Nzc0MDAxLzc3ZWNmMzA0LTYzOGUtNGQ4YS04NDdiLWQwYTRhMmNjNTA5ZS84YmE3NmE2MC0zZjJhLTQ0ZmEtYWNlMC0xNzNhZjUzYTk5MjYvdGV4dC52dHQ%3D"
     }, {
-      "src" : "https://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/77ecf304-638e-4d8a-847b-d0a4a2cc509e/8ba76a60-3f2a-44fa-ace0-173af53a9926/text.vtt?fastly_token=NjRhODQ1MGZfMzJjYTc1YmZlMGY2N2IxZWVjODg2OTA3MjdiMmQxY2E1NzI3ODFkNDNmODVmNzQ4NDNlZmUyOGRjNWJhYjhjZV9odHRwczovL2hvdXNlLWZhc3RseS1zaWduZWQtZXUtd2VzdC0xLXByb2QuYnJpZ2h0Y292ZWNkbi5jb20vbWVkaWEvdjEvdGV4dC92dHQvY2xlYXIvNDgwNjU5Njc3NDAwMS83N2VjZjMwNC02MzhlLTRkOGEtODQ3Yi1kMGE0YTJjYzUwOWUvOGJhNzZhNjAtM2YyYS00NGZhLWFjZTAtMTczYWY1M2E5OTI2L3RleHQudnR0"
+      "src" : "https://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/77ecf304-638e-4d8a-847b-d0a4a2cc509e/8ba76a60-3f2a-44fa-ace0-173af53a9926/text.vtt?fastly_token=NjRjNDA4ZTlfMTAzOWFkZTI0ZjA4OWYyMGU1ZTczYTM1OTY3ZTkyZGRkODYzYjY4OTU5NDMwZTcxNTQ2YzI1NDEyNTcwMTY3M19odHRwczovL2hvdXNlLWZhc3RseS1zaWduZWQtZXUtd2VzdC0xLXByb2QuYnJpZ2h0Y292ZWNkbi5jb20vbWVkaWEvdjEvdGV4dC92dHQvY2xlYXIvNDgwNjU5Njc3NDAwMS83N2VjZjMwNC02MzhlLTRkOGEtODQ3Yi1kMGE0YTJjYzUwOWUvOGJhNzZhNjAtM2YyYS00NGZhLWFjZTAtMTczYWY1M2E5OTI2L3RleHQudnR0"
     } ],
     "in_band_metadata_track_dispatch_type" : "",
     "default" : false
@@ -232,7 +424,7 @@
   "text_tracks" : [ {
     "id" : "198a97d5-0bf3-4b8e-92c9-13f99e7422d4",
     "account_id" : "4806596774001",
-    "src" : "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/1650dc1a-1f7b-40ae-96b6-a00367d252e8/198a97d5-0bf3-4b8e-92c9-13f99e7422d4/text.vtt?fastly_token=NjRhODQ0YzhfOGUwZTg3MTkwYTJmNjQ1NWQ1Y2E0MWE5OTBhYjc2ZTcyZDZjZDdmZTZiNjFkZDcwN2FiYWIyYTZmMjNkOThlNl9odHRwOi8vaG91c2UtZmFzdGx5LXNpZ25lZC1ldS13ZXN0LTEtcHJvZC5icmlnaHRjb3ZlY2RuLmNvbS9tZWRpYS92MS90ZXh0L3Z0dC9jbGVhci80ODA2NTk2Nzc0MDAxLzE2NTBkYzFhLTFmN2ItNDBhZS05NmI2LWEwMDM2N2QyNTJlOC8xOThhOTdkNS0wYmYzLTRiOGUtOTJjOS0xM2Y5OWU3NDIyZDQvdGV4dC52dHQ%3D",
+    "src" : "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/1650dc1a-1f7b-40ae-96b6-a00367d252e8/198a97d5-0bf3-4b8e-92c9-13f99e7422d4/text.vtt?fastly_token=NjRjNDA4YTJfNGMzMDExM2NlZDUzODcxM2ZlM2M4YmU2NTY4Y2UxNTg1OTYyMTA1NjE5NTdlMWIxNTJlNjQ2MmZiOWM4MzEyMF9odHRwOi8vaG91c2UtZmFzdGx5LXNpZ25lZC1ldS13ZXN0LTEtcHJvZC5icmlnaHRjb3ZlY2RuLmNvbS9tZWRpYS92MS90ZXh0L3Z0dC9jbGVhci80ODA2NTk2Nzc0MDAxLzE2NTBkYzFhLTFmN2ItNDBhZS05NmI2LWEwMDM2N2QyNTJlOC8xOThhOTdkNS0wYmYzLTRiOGUtOTJjOS0xM2Y5OWU3NDIyZDQvdGV4dC52dHQ%3D",
     "srclang" : "nn-NO",
     "label" : "Nynorsk",
     "kind" : "captions",
@@ -240,16 +432,16 @@
     "status" : "published",
     "asset_id" : null,
     "sources" : [ {
-      "src" : "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/1650dc1a-1f7b-40ae-96b6-a00367d252e8/198a97d5-0bf3-4b8e-92c9-13f99e7422d4/text.vtt?fastly_token=NjRhODQ0YzhfOGUwZTg3MTkwYTJmNjQ1NWQ1Y2E0MWE5OTBhYjc2ZTcyZDZjZDdmZTZiNjFkZDcwN2FiYWIyYTZmMjNkOThlNl9odHRwOi8vaG91c2UtZmFzdGx5LXNpZ25lZC1ldS13ZXN0LTEtcHJvZC5icmlnaHRjb3ZlY2RuLmNvbS9tZWRpYS92MS90ZXh0L3Z0dC9jbGVhci80ODA2NTk2Nzc0MDAxLzE2NTBkYzFhLTFmN2ItNDBhZS05NmI2LWEwMDM2N2QyNTJlOC8xOThhOTdkNS0wYmYzLTRiOGUtOTJjOS0xM2Y5OWU3NDIyZDQvdGV4dC52dHQ%3D"
+      "src" : "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/1650dc1a-1f7b-40ae-96b6-a00367d252e8/198a97d5-0bf3-4b8e-92c9-13f99e7422d4/text.vtt?fastly_token=NjRjNDA4YTJfNGMzMDExM2NlZDUzODcxM2ZlM2M4YmU2NTY4Y2UxNTg1OTYyMTA1NjE5NTdlMWIxNTJlNjQ2MmZiOWM4MzEyMF9odHRwOi8vaG91c2UtZmFzdGx5LXNpZ25lZC1ldS13ZXN0LTEtcHJvZC5icmlnaHRjb3ZlY2RuLmNvbS9tZWRpYS92MS90ZXh0L3Z0dC9jbGVhci80ODA2NTk2Nzc0MDAxLzE2NTBkYzFhLTFmN2ItNDBhZS05NmI2LWEwMDM2N2QyNTJlOC8xOThhOTdkNS0wYmYzLTRiOGUtOTJjOS0xM2Y5OWU3NDIyZDQvdGV4dC52dHQ%3D"
     }, {
-      "src" : "https://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/1650dc1a-1f7b-40ae-96b6-a00367d252e8/198a97d5-0bf3-4b8e-92c9-13f99e7422d4/text.vtt?fastly_token=NjRhODQ0YzhfOWUwNjI1ZjJjMDI5NTYyYzgzMWRlOTM4NDdkZWYyMjMyMjBmYjA4MjA4OWYwOTY0OTM2ZGE3ODJhMDgzYmQzZl9odHRwczovL2hvdXNlLWZhc3RseS1zaWduZWQtZXUtd2VzdC0xLXByb2QuYnJpZ2h0Y292ZWNkbi5jb20vbWVkaWEvdjEvdGV4dC92dHQvY2xlYXIvNDgwNjU5Njc3NDAwMS8xNjUwZGMxYS0xZjdiLTQwYWUtOTZiNi1hMDAzNjdkMjUyZTgvMTk4YTk3ZDUtMGJmMy00YjhlLTkyYzktMTNmOTllNzQyMmQ0L3RleHQudnR0"
+      "src" : "https://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/1650dc1a-1f7b-40ae-96b6-a00367d252e8/198a97d5-0bf3-4b8e-92c9-13f99e7422d4/text.vtt?fastly_token=NjRjNDA4YTJfMTUyNThlNDBmNzcwYzdkOTNjYjliMzY2OTNlOTRmNjE0OTg2YTg0MDVmZmM3OTkxYzFjMzJlMDhmNmRhNzEwNV9odHRwczovL2hvdXNlLWZhc3RseS1zaWduZWQtZXUtd2VzdC0xLXByb2QuYnJpZ2h0Y292ZWNkbi5jb20vbWVkaWEvdjEvdGV4dC92dHQvY2xlYXIvNDgwNjU5Njc3NDAwMS8xNjUwZGMxYS0xZjdiLTQwYWUtOTZiNi1hMDAzNjdkMjUyZTgvMTk4YTk3ZDUtMGJmMy00YjhlLTkyYzktMTNmOTllNzQyMmQ0L3RleHQudnR0"
     } ],
     "in_band_metadata_track_dispatch_type" : "",
     "default" : false
   }, {
     "id" : "8e05b7d2-38b2-4385-af7c-4c0dd08e09ee",
     "account_id" : "4806596774001",
-    "src" : "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/1650dc1a-1f7b-40ae-96b6-a00367d252e8/8e05b7d2-38b2-4385-af7c-4c0dd08e09ee/text.vtt?fastly_token=NjRhODQ0YzhfY2E0Y2Y3Mzc3ZTg5NWZjZjNmOGE5ODZiYjU2ODliNzhlMzYzNmI4N2RkYmM0YWE1ZTgyNjlkZmZkZDIzMGQ2Zl9odHRwOi8vaG91c2UtZmFzdGx5LXNpZ25lZC1ldS13ZXN0LTEtcHJvZC5icmlnaHRjb3ZlY2RuLmNvbS9tZWRpYS92MS90ZXh0L3Z0dC9jbGVhci80ODA2NTk2Nzc0MDAxLzE2NTBkYzFhLTFmN2ItNDBhZS05NmI2LWEwMDM2N2QyNTJlOC84ZTA1YjdkMi0zOGIyLTQzODUtYWY3Yy00YzBkZDA4ZTA5ZWUvdGV4dC52dHQ%3D",
+    "src" : "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/1650dc1a-1f7b-40ae-96b6-a00367d252e8/8e05b7d2-38b2-4385-af7c-4c0dd08e09ee/text.vtt?fastly_token=NjRjNDA4YTJfMjIwMjZjNmMyNTE2M2IwMjQ4YjQ3ZjkwOTcyY2U3YWFmZDE3MjMyZDEwZDBkODM1MmZiZDYzM2FkNzdlNGU4OV9odHRwOi8vaG91c2UtZmFzdGx5LXNpZ25lZC1ldS13ZXN0LTEtcHJvZC5icmlnaHRjb3ZlY2RuLmNvbS9tZWRpYS92MS90ZXh0L3Z0dC9jbGVhci80ODA2NTk2Nzc0MDAxLzE2NTBkYzFhLTFmN2ItNDBhZS05NmI2LWEwMDM2N2QyNTJlOC84ZTA1YjdkMi0zOGIyLTQzODUtYWY3Yy00YzBkZDA4ZTA5ZWUvdGV4dC52dHQ%3D",
     "srclang" : "no-NO",
     "label" : "Bokmål",
     "kind" : "captions",
@@ -257,9 +449,9 @@
     "status" : "published",
     "asset_id" : null,
     "sources" : [ {
-      "src" : "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/1650dc1a-1f7b-40ae-96b6-a00367d252e8/8e05b7d2-38b2-4385-af7c-4c0dd08e09ee/text.vtt?fastly_token=NjRhODQ0YzhfY2E0Y2Y3Mzc3ZTg5NWZjZjNmOGE5ODZiYjU2ODliNzhlMzYzNmI4N2RkYmM0YWE1ZTgyNjlkZmZkZDIzMGQ2Zl9odHRwOi8vaG91c2UtZmFzdGx5LXNpZ25lZC1ldS13ZXN0LTEtcHJvZC5icmlnaHRjb3ZlY2RuLmNvbS9tZWRpYS92MS90ZXh0L3Z0dC9jbGVhci80ODA2NTk2Nzc0MDAxLzE2NTBkYzFhLTFmN2ItNDBhZS05NmI2LWEwMDM2N2QyNTJlOC84ZTA1YjdkMi0zOGIyLTQzODUtYWY3Yy00YzBkZDA4ZTA5ZWUvdGV4dC52dHQ%3D"
+      "src" : "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/1650dc1a-1f7b-40ae-96b6-a00367d252e8/8e05b7d2-38b2-4385-af7c-4c0dd08e09ee/text.vtt?fastly_token=NjRjNDA4YTJfMjIwMjZjNmMyNTE2M2IwMjQ4YjQ3ZjkwOTcyY2U3YWFmZDE3MjMyZDEwZDBkODM1MmZiZDYzM2FkNzdlNGU4OV9odHRwOi8vaG91c2UtZmFzdGx5LXNpZ25lZC1ldS13ZXN0LTEtcHJvZC5icmlnaHRjb3ZlY2RuLmNvbS9tZWRpYS92MS90ZXh0L3Z0dC9jbGVhci80ODA2NTk2Nzc0MDAxLzE2NTBkYzFhLTFmN2ItNDBhZS05NmI2LWEwMDM2N2QyNTJlOC84ZTA1YjdkMi0zOGIyLTQzODUtYWY3Yy00YzBkZDA4ZTA5ZWUvdGV4dC52dHQ%3D"
     }, {
-      "src" : "https://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/1650dc1a-1f7b-40ae-96b6-a00367d252e8/8e05b7d2-38b2-4385-af7c-4c0dd08e09ee/text.vtt?fastly_token=NjRhODQ0YzhfNDE5Y2Q1ODEyMTc1ZTM0Mzc1OWViMGNlMDM2YjhjYzBjZTA2YTkxZWY4NDk1NGE4ZTY2YTE0MzdjN2MzZmUwZl9odHRwczovL2hvdXNlLWZhc3RseS1zaWduZWQtZXUtd2VzdC0xLXByb2QuYnJpZ2h0Y292ZWNkbi5jb20vbWVkaWEvdjEvdGV4dC92dHQvY2xlYXIvNDgwNjU5Njc3NDAwMS8xNjUwZGMxYS0xZjdiLTQwYWUtOTZiNi1hMDAzNjdkMjUyZTgvOGUwNWI3ZDItMzhiMi00Mzg1LWFmN2MtNGMwZGQwOGUwOWVlL3RleHQudnR0"
+      "src" : "https://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/1650dc1a-1f7b-40ae-96b6-a00367d252e8/8e05b7d2-38b2-4385-af7c-4c0dd08e09ee/text.vtt?fastly_token=NjRjNDA4YTJfNDU0ZTQwNjIzNmQ1ZWNiMDU4OWNmMzAzMmE0MjcxYzhiNTJiOTVhMDU0YWRiN2U3YTAyNzNmYzk3OThkOTgyOF9odHRwczovL2hvdXNlLWZhc3RseS1zaWduZWQtZXUtd2VzdC0xLXByb2QuYnJpZ2h0Y292ZWNkbi5jb20vbWVkaWEvdjEvdGV4dC92dHQvY2xlYXIvNDgwNjU5Njc3NDAwMS8xNjUwZGMxYS0xZjdiLTQwYWUtOTZiNi1hMDAzNjdkMjUyZTgvOGUwNWI3ZDItMzhiMi00Mzg1LWFmN2MtNGMwZGQwOGUwOWVlL3RleHQudnR0"
     } ],
     "in_band_metadata_track_dispatch_type" : "",
     "default" : false
@@ -328,7 +520,7 @@
   "text_tracks" : [ {
     "id" : "4f94039e-b87d-4eec-bc63-1c0aba3d5ba7",
     "account_id" : "4806596774001",
-    "src" : "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/47b3d076-d4db-4dc5-8fa5-6751fb4de5fd/4f94039e-b87d-4eec-bc63-1c0aba3d5ba7/text.vtt?fastly_token=NjRhODQ0NzZfMWM2MjEwZDJiMWVkZjNjZTgwNmJjMTQwODVjMjViOTU4ZmZmY2NlYmQ4MTc3NjFmMDVjNmUzYmVhZDU0ODAwOV9odHRwOi8vaG91c2UtZmFzdGx5LXNpZ25lZC1ldS13ZXN0LTEtcHJvZC5icmlnaHRjb3ZlY2RuLmNvbS9tZWRpYS92MS90ZXh0L3Z0dC9jbGVhci80ODA2NTk2Nzc0MDAxLzQ3YjNkMDc2LWQ0ZGItNGRjNS04ZmE1LTY3NTFmYjRkZTVmZC80Zjk0MDM5ZS1iODdkLTRlZWMtYmM2My0xYzBhYmEzZDViYTcvdGV4dC52dHQ%3D",
+    "src" : "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/47b3d076-d4db-4dc5-8fa5-6751fb4de5fd/4f94039e-b87d-4eec-bc63-1c0aba3d5ba7/text.vtt?fastly_token=NjRjNDA4NTBfMzNjNGM5NzFhYzk3MTYzYjIzNDZjYWEwMzEzNDNmNDBiN2Q0YWRkNTExY2M1MjljNmM1MGViNzllY2UwOTA5NF9odHRwOi8vaG91c2UtZmFzdGx5LXNpZ25lZC1ldS13ZXN0LTEtcHJvZC5icmlnaHRjb3ZlY2RuLmNvbS9tZWRpYS92MS90ZXh0L3Z0dC9jbGVhci80ODA2NTk2Nzc0MDAxLzQ3YjNkMDc2LWQ0ZGItNGRjNS04ZmE1LTY3NTFmYjRkZTVmZC80Zjk0MDM5ZS1iODdkLTRlZWMtYmM2My0xYzBhYmEzZDViYTcvdGV4dC52dHQ%3D",
     "srclang" : "nn-NO",
     "label" : "Nynorsk",
     "kind" : "captions",
@@ -336,16 +528,16 @@
     "status" : null,
     "asset_id" : null,
     "sources" : [ {
-      "src" : "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/47b3d076-d4db-4dc5-8fa5-6751fb4de5fd/4f94039e-b87d-4eec-bc63-1c0aba3d5ba7/text.vtt?fastly_token=NjRhODQ0NzZfMWM2MjEwZDJiMWVkZjNjZTgwNmJjMTQwODVjMjViOTU4ZmZmY2NlYmQ4MTc3NjFmMDVjNmUzYmVhZDU0ODAwOV9odHRwOi8vaG91c2UtZmFzdGx5LXNpZ25lZC1ldS13ZXN0LTEtcHJvZC5icmlnaHRjb3ZlY2RuLmNvbS9tZWRpYS92MS90ZXh0L3Z0dC9jbGVhci80ODA2NTk2Nzc0MDAxLzQ3YjNkMDc2LWQ0ZGItNGRjNS04ZmE1LTY3NTFmYjRkZTVmZC80Zjk0MDM5ZS1iODdkLTRlZWMtYmM2My0xYzBhYmEzZDViYTcvdGV4dC52dHQ%3D"
+      "src" : "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/47b3d076-d4db-4dc5-8fa5-6751fb4de5fd/4f94039e-b87d-4eec-bc63-1c0aba3d5ba7/text.vtt?fastly_token=NjRjNDA4NTBfMzNjNGM5NzFhYzk3MTYzYjIzNDZjYWEwMzEzNDNmNDBiN2Q0YWRkNTExY2M1MjljNmM1MGViNzllY2UwOTA5NF9odHRwOi8vaG91c2UtZmFzdGx5LXNpZ25lZC1ldS13ZXN0LTEtcHJvZC5icmlnaHRjb3ZlY2RuLmNvbS9tZWRpYS92MS90ZXh0L3Z0dC9jbGVhci80ODA2NTk2Nzc0MDAxLzQ3YjNkMDc2LWQ0ZGItNGRjNS04ZmE1LTY3NTFmYjRkZTVmZC80Zjk0MDM5ZS1iODdkLTRlZWMtYmM2My0xYzBhYmEzZDViYTcvdGV4dC52dHQ%3D"
     }, {
-      "src" : "https://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/47b3d076-d4db-4dc5-8fa5-6751fb4de5fd/4f94039e-b87d-4eec-bc63-1c0aba3d5ba7/text.vtt?fastly_token=NjRhODQ0NzZfNDk3YzgxZWU3ODZkMzUwM2E0NTIxOTg5OThiYzA0ZTQ4ZTJhN2FiODJjZjU5MjBmZjlkOTQwMTQyNjdmNzY2MV9odHRwczovL2hvdXNlLWZhc3RseS1zaWduZWQtZXUtd2VzdC0xLXByb2QuYnJpZ2h0Y292ZWNkbi5jb20vbWVkaWEvdjEvdGV4dC92dHQvY2xlYXIvNDgwNjU5Njc3NDAwMS80N2IzZDA3Ni1kNGRiLTRkYzUtOGZhNS02NzUxZmI0ZGU1ZmQvNGY5NDAzOWUtYjg3ZC00ZWVjLWJjNjMtMWMwYWJhM2Q1YmE3L3RleHQudnR0"
+      "src" : "https://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/47b3d076-d4db-4dc5-8fa5-6751fb4de5fd/4f94039e-b87d-4eec-bc63-1c0aba3d5ba7/text.vtt?fastly_token=NjRjNDA4NTBfM2I2M2NlZGFlYzgzNDM1Y2MxM2FjY2ZjMjFhYTE4OWRiNWZlOTcwZGYwNWRiOWM5MWRiNWZkMGFkZjIxMGZhM19odHRwczovL2hvdXNlLWZhc3RseS1zaWduZWQtZXUtd2VzdC0xLXByb2QuYnJpZ2h0Y292ZWNkbi5jb20vbWVkaWEvdjEvdGV4dC92dHQvY2xlYXIvNDgwNjU5Njc3NDAwMS80N2IzZDA3Ni1kNGRiLTRkYzUtOGZhNS02NzUxZmI0ZGU1ZmQvNGY5NDAzOWUtYjg3ZC00ZWVjLWJjNjMtMWMwYWJhM2Q1YmE3L3RleHQudnR0"
     } ],
     "in_band_metadata_track_dispatch_type" : "",
     "default" : false
   }, {
     "id" : "725ed755-96aa-4f21-b42c-6b33e3a83120",
     "account_id" : "4806596774001",
-    "src" : "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/47b3d076-d4db-4dc5-8fa5-6751fb4de5fd/725ed755-96aa-4f21-b42c-6b33e3a83120/text.vtt?fastly_token=NjRhODQ0NzZfMTdmY2QwYWM3MjE2ZmEwY2IyMmYwYjdhMTA1OGIzYjM0MzY3NTUxMzljMWI3OGU5NTU5MDhhMTYxNTJhNzU3OV9odHRwOi8vaG91c2UtZmFzdGx5LXNpZ25lZC1ldS13ZXN0LTEtcHJvZC5icmlnaHRjb3ZlY2RuLmNvbS9tZWRpYS92MS90ZXh0L3Z0dC9jbGVhci80ODA2NTk2Nzc0MDAxLzQ3YjNkMDc2LWQ0ZGItNGRjNS04ZmE1LTY3NTFmYjRkZTVmZC83MjVlZDc1NS05NmFhLTRmMjEtYjQyYy02YjMzZTNhODMxMjAvdGV4dC52dHQ%3D",
+    "src" : "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/47b3d076-d4db-4dc5-8fa5-6751fb4de5fd/725ed755-96aa-4f21-b42c-6b33e3a83120/text.vtt?fastly_token=NjRjNDA4NTBfNjNkMTI3OTYwYTM2ZTEwNjBiYTFiMTRjZTQyYzBmYTFiZmY0YjczNTExOTBmM2Q1OGE2YzU4YjljZWU5YzdjOF9odHRwOi8vaG91c2UtZmFzdGx5LXNpZ25lZC1ldS13ZXN0LTEtcHJvZC5icmlnaHRjb3ZlY2RuLmNvbS9tZWRpYS92MS90ZXh0L3Z0dC9jbGVhci80ODA2NTk2Nzc0MDAxLzQ3YjNkMDc2LWQ0ZGItNGRjNS04ZmE1LTY3NTFmYjRkZTVmZC83MjVlZDc1NS05NmFhLTRmMjEtYjQyYy02YjMzZTNhODMxMjAvdGV4dC52dHQ%3D",
     "srclang" : "no",
     "label" : "Bokmål",
     "kind" : "captions",
@@ -353,9 +545,9 @@
     "status" : null,
     "asset_id" : null,
     "sources" : [ {
-      "src" : "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/47b3d076-d4db-4dc5-8fa5-6751fb4de5fd/725ed755-96aa-4f21-b42c-6b33e3a83120/text.vtt?fastly_token=NjRhODQ0NzZfMTdmY2QwYWM3MjE2ZmEwY2IyMmYwYjdhMTA1OGIzYjM0MzY3NTUxMzljMWI3OGU5NTU5MDhhMTYxNTJhNzU3OV9odHRwOi8vaG91c2UtZmFzdGx5LXNpZ25lZC1ldS13ZXN0LTEtcHJvZC5icmlnaHRjb3ZlY2RuLmNvbS9tZWRpYS92MS90ZXh0L3Z0dC9jbGVhci80ODA2NTk2Nzc0MDAxLzQ3YjNkMDc2LWQ0ZGItNGRjNS04ZmE1LTY3NTFmYjRkZTVmZC83MjVlZDc1NS05NmFhLTRmMjEtYjQyYy02YjMzZTNhODMxMjAvdGV4dC52dHQ%3D"
+      "src" : "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/47b3d076-d4db-4dc5-8fa5-6751fb4de5fd/725ed755-96aa-4f21-b42c-6b33e3a83120/text.vtt?fastly_token=NjRjNDA4NTBfNjNkMTI3OTYwYTM2ZTEwNjBiYTFiMTRjZTQyYzBmYTFiZmY0YjczNTExOTBmM2Q1OGE2YzU4YjljZWU5YzdjOF9odHRwOi8vaG91c2UtZmFzdGx5LXNpZ25lZC1ldS13ZXN0LTEtcHJvZC5icmlnaHRjb3ZlY2RuLmNvbS9tZWRpYS92MS90ZXh0L3Z0dC9jbGVhci80ODA2NTk2Nzc0MDAxLzQ3YjNkMDc2LWQ0ZGItNGRjNS04ZmE1LTY3NTFmYjRkZTVmZC83MjVlZDc1NS05NmFhLTRmMjEtYjQyYy02YjMzZTNhODMxMjAvdGV4dC52dHQ%3D"
     }, {
-      "src" : "https://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/47b3d076-d4db-4dc5-8fa5-6751fb4de5fd/725ed755-96aa-4f21-b42c-6b33e3a83120/text.vtt?fastly_token=NjRhODQ0NzZfZGU1MjZkMDZjMmE5MmFjMzExODMyYzAyZTEzNzM2YjdlODUzNDBjOWFkM2Y5ZjdjMjBiMTMyM2U0ODkyMjhlZl9odHRwczovL2hvdXNlLWZhc3RseS1zaWduZWQtZXUtd2VzdC0xLXByb2QuYnJpZ2h0Y292ZWNkbi5jb20vbWVkaWEvdjEvdGV4dC92dHQvY2xlYXIvNDgwNjU5Njc3NDAwMS80N2IzZDA3Ni1kNGRiLTRkYzUtOGZhNS02NzUxZmI0ZGU1ZmQvNzI1ZWQ3NTUtOTZhYS00ZjIxLWI0MmMtNmIzM2UzYTgzMTIwL3RleHQudnR0"
+      "src" : "https://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/47b3d076-d4db-4dc5-8fa5-6751fb4de5fd/725ed755-96aa-4f21-b42c-6b33e3a83120/text.vtt?fastly_token=NjRjNDA4NTBfMzU0NWE5MzMyZmExM2ExMTMyNjc0YTA0NWZjMjFmYmQ1YmU4MDRjYjllN2JmNDA4NmUwNjNmYWRlNGI5NGJlMl9odHRwczovL2hvdXNlLWZhc3RseS1zaWduZWQtZXUtd2VzdC0xLXByb2QuYnJpZ2h0Y292ZWNkbi5jb20vbWVkaWEvdjEvdGV4dC92dHQvY2xlYXIvNDgwNjU5Njc3NDAwMS80N2IzZDA3Ni1kNGRiLTRkYzUtOGZhNS02NzUxZmI0ZGU1ZmQvNzI1ZWQ3NTUtOTZhYS00ZjIxLWI0MmMtNmIzM2UzYTgzMTIwL3RleHQudnR0"
     } ],
     "in_band_metadata_track_dispatch_type" : "",
     "default" : true
@@ -426,7 +618,7 @@
   "text_tracks" : [ {
     "id" : "a3a809f1-2da5-4ca3-b2d8-9bf1f9843e28",
     "account_id" : "4806596774001",
-    "src" : "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/49fe9803-70eb-4ad1-84a0-e5610a6df796/a3a809f1-2da5-4ca3-b2d8-9bf1f9843e28/text.vtt?fastly_token=NjRhODQzNjBfMTdiMmI2MWZkMjUzYTNiNDk5YmRmMWJiNTFkZmI5ZWIyNDJlZDZiY2QyOGE5NTRiOTlmYWIwYmVlZTg0OTViYl9odHRwOi8vaG91c2UtZmFzdGx5LXNpZ25lZC1ldS13ZXN0LTEtcHJvZC5icmlnaHRjb3ZlY2RuLmNvbS9tZWRpYS92MS90ZXh0L3Z0dC9jbGVhci80ODA2NTk2Nzc0MDAxLzQ5ZmU5ODAzLTcwZWItNGFkMS04NGEwLWU1NjEwYTZkZjc5Ni9hM2E4MDlmMS0yZGE1LTRjYTMtYjJkOC05YmYxZjk4NDNlMjgvdGV4dC52dHQ%3D",
+    "src" : "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/49fe9803-70eb-4ad1-84a0-e5610a6df796/a3a809f1-2da5-4ca3-b2d8-9bf1f9843e28/text.vtt?fastly_token=NjRjNDA3M2FfODk0MWM0MTFmMzdiMTY5NDdiYjM5MzAzNmUzMjhiYmU4YzI4MTQ1YTEyOWVhNjkzNTYwNzI5YjczOWE0Y2YzY19odHRwOi8vaG91c2UtZmFzdGx5LXNpZ25lZC1ldS13ZXN0LTEtcHJvZC5icmlnaHRjb3ZlY2RuLmNvbS9tZWRpYS92MS90ZXh0L3Z0dC9jbGVhci80ODA2NTk2Nzc0MDAxLzQ5ZmU5ODAzLTcwZWItNGFkMS04NGEwLWU1NjEwYTZkZjc5Ni9hM2E4MDlmMS0yZGE1LTRjYTMtYjJkOC05YmYxZjk4NDNlMjgvdGV4dC52dHQ%3D",
     "srclang" : "no",
     "label" : "Bokmål",
     "kind" : "captions",
@@ -434,16 +626,16 @@
     "status" : "published",
     "asset_id" : null,
     "sources" : [ {
-      "src" : "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/49fe9803-70eb-4ad1-84a0-e5610a6df796/a3a809f1-2da5-4ca3-b2d8-9bf1f9843e28/text.vtt?fastly_token=NjRhODQzNjBfMTdiMmI2MWZkMjUzYTNiNDk5YmRmMWJiNTFkZmI5ZWIyNDJlZDZiY2QyOGE5NTRiOTlmYWIwYmVlZTg0OTViYl9odHRwOi8vaG91c2UtZmFzdGx5LXNpZ25lZC1ldS13ZXN0LTEtcHJvZC5icmlnaHRjb3ZlY2RuLmNvbS9tZWRpYS92MS90ZXh0L3Z0dC9jbGVhci80ODA2NTk2Nzc0MDAxLzQ5ZmU5ODAzLTcwZWItNGFkMS04NGEwLWU1NjEwYTZkZjc5Ni9hM2E4MDlmMS0yZGE1LTRjYTMtYjJkOC05YmYxZjk4NDNlMjgvdGV4dC52dHQ%3D"
+      "src" : "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/49fe9803-70eb-4ad1-84a0-e5610a6df796/a3a809f1-2da5-4ca3-b2d8-9bf1f9843e28/text.vtt?fastly_token=NjRjNDA3M2FfODk0MWM0MTFmMzdiMTY5NDdiYjM5MzAzNmUzMjhiYmU4YzI4MTQ1YTEyOWVhNjkzNTYwNzI5YjczOWE0Y2YzY19odHRwOi8vaG91c2UtZmFzdGx5LXNpZ25lZC1ldS13ZXN0LTEtcHJvZC5icmlnaHRjb3ZlY2RuLmNvbS9tZWRpYS92MS90ZXh0L3Z0dC9jbGVhci80ODA2NTk2Nzc0MDAxLzQ5ZmU5ODAzLTcwZWItNGFkMS04NGEwLWU1NjEwYTZkZjc5Ni9hM2E4MDlmMS0yZGE1LTRjYTMtYjJkOC05YmYxZjk4NDNlMjgvdGV4dC52dHQ%3D"
     }, {
-      "src" : "https://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/49fe9803-70eb-4ad1-84a0-e5610a6df796/a3a809f1-2da5-4ca3-b2d8-9bf1f9843e28/text.vtt?fastly_token=NjRhODQzNjBfYzFmN2ExOTVkMjM2ZmExMjZkMzM5MWQxNDQ0YWQ0MWVjYTUyZjMyZGRiYmQwMDdiYWU0YTQzNDVlMDdlNmRlYl9odHRwczovL2hvdXNlLWZhc3RseS1zaWduZWQtZXUtd2VzdC0xLXByb2QuYnJpZ2h0Y292ZWNkbi5jb20vbWVkaWEvdjEvdGV4dC92dHQvY2xlYXIvNDgwNjU5Njc3NDAwMS80OWZlOTgwMy03MGViLTRhZDEtODRhMC1lNTYxMGE2ZGY3OTYvYTNhODA5ZjEtMmRhNS00Y2EzLWIyZDgtOWJmMWY5ODQzZTI4L3RleHQudnR0"
+      "src" : "https://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/49fe9803-70eb-4ad1-84a0-e5610a6df796/a3a809f1-2da5-4ca3-b2d8-9bf1f9843e28/text.vtt?fastly_token=NjRjNDA3M2FfYmI3YTM1YWU0ZDEzMTg1OGFkMDNkYjIwNjY1ODRmY2NlOWFiZTNjOTE2Y2ZhYzI4NGQ2OGVlN2VmNmU2NjhlYl9odHRwczovL2hvdXNlLWZhc3RseS1zaWduZWQtZXUtd2VzdC0xLXByb2QuYnJpZ2h0Y292ZWNkbi5jb20vbWVkaWEvdjEvdGV4dC92dHQvY2xlYXIvNDgwNjU5Njc3NDAwMS80OWZlOTgwMy03MGViLTRhZDEtODRhMC1lNTYxMGE2ZGY3OTYvYTNhODA5ZjEtMmRhNS00Y2EzLWIyZDgtOWJmMWY5ODQzZTI4L3RleHQudnR0"
     } ],
     "in_band_metadata_track_dispatch_type" : "",
     "default" : false
   }, {
     "id" : "3f39a24a-5ee6-47f3-a650-9daba4733329",
     "account_id" : "4806596774001",
-    "src" : "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/49fe9803-70eb-4ad1-84a0-e5610a6df796/3f39a24a-5ee6-47f3-a650-9daba4733329/text.vtt?fastly_token=NjRhODQzNjBfYjRmOWY3N2M4YWZjNDVhZTFmZDQzOWY5MzNiMmMyMGQ1ZWNhZDlhZTk0ZDU4ZjdjZWE1MjE0MGM5NDg4MzU3ZV9odHRwOi8vaG91c2UtZmFzdGx5LXNpZ25lZC1ldS13ZXN0LTEtcHJvZC5icmlnaHRjb3ZlY2RuLmNvbS9tZWRpYS92MS90ZXh0L3Z0dC9jbGVhci80ODA2NTk2Nzc0MDAxLzQ5ZmU5ODAzLTcwZWItNGFkMS04NGEwLWU1NjEwYTZkZjc5Ni8zZjM5YTI0YS01ZWU2LTQ3ZjMtYTY1MC05ZGFiYTQ3MzMzMjkvdGV4dC52dHQ%3D",
+    "src" : "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/49fe9803-70eb-4ad1-84a0-e5610a6df796/3f39a24a-5ee6-47f3-a650-9daba4733329/text.vtt?fastly_token=NjRjNDA3M2FfYzg4MGVjMDViM2VhMTgzMjVjNDE4OWI2NjYwMzM5MTRjNjRlY2RmMjdlNjVkYWVkNTg1ZTBlNDhmNmJlMGE0Nl9odHRwOi8vaG91c2UtZmFzdGx5LXNpZ25lZC1ldS13ZXN0LTEtcHJvZC5icmlnaHRjb3ZlY2RuLmNvbS9tZWRpYS92MS90ZXh0L3Z0dC9jbGVhci80ODA2NTk2Nzc0MDAxLzQ5ZmU5ODAzLTcwZWItNGFkMS04NGEwLWU1NjEwYTZkZjc5Ni8zZjM5YTI0YS01ZWU2LTQ3ZjMtYTY1MC05ZGFiYTQ3MzMzMjkvdGV4dC52dHQ%3D",
     "srclang" : "no-NO",
     "label" : "Nynorsk",
     "kind" : "captions",
@@ -451,9 +643,9 @@
     "status" : "published",
     "asset_id" : null,
     "sources" : [ {
-      "src" : "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/49fe9803-70eb-4ad1-84a0-e5610a6df796/3f39a24a-5ee6-47f3-a650-9daba4733329/text.vtt?fastly_token=NjRhODQzNjBfYjRmOWY3N2M4YWZjNDVhZTFmZDQzOWY5MzNiMmMyMGQ1ZWNhZDlhZTk0ZDU4ZjdjZWE1MjE0MGM5NDg4MzU3ZV9odHRwOi8vaG91c2UtZmFzdGx5LXNpZ25lZC1ldS13ZXN0LTEtcHJvZC5icmlnaHRjb3ZlY2RuLmNvbS9tZWRpYS92MS90ZXh0L3Z0dC9jbGVhci80ODA2NTk2Nzc0MDAxLzQ5ZmU5ODAzLTcwZWItNGFkMS04NGEwLWU1NjEwYTZkZjc5Ni8zZjM5YTI0YS01ZWU2LTQ3ZjMtYTY1MC05ZGFiYTQ3MzMzMjkvdGV4dC52dHQ%3D"
+      "src" : "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/49fe9803-70eb-4ad1-84a0-e5610a6df796/3f39a24a-5ee6-47f3-a650-9daba4733329/text.vtt?fastly_token=NjRjNDA3M2FfYzg4MGVjMDViM2VhMTgzMjVjNDE4OWI2NjYwMzM5MTRjNjRlY2RmMjdlNjVkYWVkNTg1ZTBlNDhmNmJlMGE0Nl9odHRwOi8vaG91c2UtZmFzdGx5LXNpZ25lZC1ldS13ZXN0LTEtcHJvZC5icmlnaHRjb3ZlY2RuLmNvbS9tZWRpYS92MS90ZXh0L3Z0dC9jbGVhci80ODA2NTk2Nzc0MDAxLzQ5ZmU5ODAzLTcwZWItNGFkMS04NGEwLWU1NjEwYTZkZjc5Ni8zZjM5YTI0YS01ZWU2LTQ3ZjMtYTY1MC05ZGFiYTQ3MzMzMjkvdGV4dC52dHQ%3D"
     }, {
-      "src" : "https://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/49fe9803-70eb-4ad1-84a0-e5610a6df796/3f39a24a-5ee6-47f3-a650-9daba4733329/text.vtt?fastly_token=NjRhODQzNjBfZmZmMzljNWYzOTg5YzU5ZjE3Y2RiY2M1ZWM5OWMxMjg1NjBjNTVjNWMyMjQ1ZjNlZWI3MmI0NDgwMWZhMjlkYV9odHRwczovL2hvdXNlLWZhc3RseS1zaWduZWQtZXUtd2VzdC0xLXByb2QuYnJpZ2h0Y292ZWNkbi5jb20vbWVkaWEvdjEvdGV4dC92dHQvY2xlYXIvNDgwNjU5Njc3NDAwMS80OWZlOTgwMy03MGViLTRhZDEtODRhMC1lNTYxMGE2ZGY3OTYvM2YzOWEyNGEtNWVlNi00N2YzLWE2NTAtOWRhYmE0NzMzMzI5L3RleHQudnR0"
+      "src" : "https://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/49fe9803-70eb-4ad1-84a0-e5610a6df796/3f39a24a-5ee6-47f3-a650-9daba4733329/text.vtt?fastly_token=NjRjNDA3M2FfOTlhNjdhNjhlODBlNjBmYzNhOTllODZlNTQ0ZTk1ZTQ5NWE0ZWUyZTkzMDc5ZjQ4NzA1NjRhM2Q4NGQyODY5NV9odHRwczovL2hvdXNlLWZhc3RseS1zaWduZWQtZXUtd2VzdC0xLXByb2QuYnJpZ2h0Y292ZWNkbi5jb20vbWVkaWEvdjEvdGV4dC92dHQvY2xlYXIvNDgwNjU5Njc3NDAwMS80OWZlOTgwMy03MGViLTRhZDEtODRhMC1lNTYxMGE2ZGY3OTYvM2YzOWEyNGEtNWVlNi00N2YzLWE2NTAtOWRhYmE0NzMzMzI5L3RleHQudnR0"
     } ],
     "in_band_metadata_track_dispatch_type" : "",
     "default" : false
@@ -524,7 +716,7 @@
   "text_tracks" : [ {
     "id" : "e76090ed-867d-460b-a55f-8da6dada0458",
     "account_id" : "4806596774001",
-    "src" : "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/390fca9e-09d5-4edb-9cbc-b294bfe2f4fd/e76090ed-867d-460b-a55f-8da6dada0458/text.vtt?fastly_token=NjRhODQzOWJfYjk0MDgyMDBhOWVkNDJlZGY1MzhlN2JiOTMwZjkzY2VkYTMzZWRkNmFkNGNkNThhNjNhNGRmYTVmMDhlZThmY19odHRwOi8vaG91c2UtZmFzdGx5LXNpZ25lZC1ldS13ZXN0LTEtcHJvZC5icmlnaHRjb3ZlY2RuLmNvbS9tZWRpYS92MS90ZXh0L3Z0dC9jbGVhci80ODA2NTk2Nzc0MDAxLzM5MGZjYTllLTA5ZDUtNGVkYi05Y2JjLWIyOTRiZmUyZjRmZC9lNzYwOTBlZC04NjdkLTQ2MGItYTU1Zi04ZGE2ZGFkYTA0NTgvdGV4dC52dHQ%3D",
+    "src" : "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/390fca9e-09d5-4edb-9cbc-b294bfe2f4fd/e76090ed-867d-460b-a55f-8da6dada0458/text.vtt?fastly_token=NjRjNDA3NzVfMWUzMGU0MzNmMzQ2ZDhhMmJiNGRiYjEwMWM2Mjc2OGM1Y2Y5M2IyNzNlZTg0YzFiYjkwZTAyMWY0OWMxMjhmMl9odHRwOi8vaG91c2UtZmFzdGx5LXNpZ25lZC1ldS13ZXN0LTEtcHJvZC5icmlnaHRjb3ZlY2RuLmNvbS9tZWRpYS92MS90ZXh0L3Z0dC9jbGVhci80ODA2NTk2Nzc0MDAxLzM5MGZjYTllLTA5ZDUtNGVkYi05Y2JjLWIyOTRiZmUyZjRmZC9lNzYwOTBlZC04NjdkLTQ2MGItYTU1Zi04ZGE2ZGFkYTA0NTgvdGV4dC52dHQ%3D",
     "srclang" : "no-NO",
     "label" : "Bokmål",
     "kind" : "captions",
@@ -532,9 +724,9 @@
     "status" : "published",
     "asset_id" : null,
     "sources" : [ {
-      "src" : "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/390fca9e-09d5-4edb-9cbc-b294bfe2f4fd/e76090ed-867d-460b-a55f-8da6dada0458/text.vtt?fastly_token=NjRhODQzOWJfYjk0MDgyMDBhOWVkNDJlZGY1MzhlN2JiOTMwZjkzY2VkYTMzZWRkNmFkNGNkNThhNjNhNGRmYTVmMDhlZThmY19odHRwOi8vaG91c2UtZmFzdGx5LXNpZ25lZC1ldS13ZXN0LTEtcHJvZC5icmlnaHRjb3ZlY2RuLmNvbS9tZWRpYS92MS90ZXh0L3Z0dC9jbGVhci80ODA2NTk2Nzc0MDAxLzM5MGZjYTllLTA5ZDUtNGVkYi05Y2JjLWIyOTRiZmUyZjRmZC9lNzYwOTBlZC04NjdkLTQ2MGItYTU1Zi04ZGE2ZGFkYTA0NTgvdGV4dC52dHQ%3D"
+      "src" : "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/390fca9e-09d5-4edb-9cbc-b294bfe2f4fd/e76090ed-867d-460b-a55f-8da6dada0458/text.vtt?fastly_token=NjRjNDA3NzVfMWUzMGU0MzNmMzQ2ZDhhMmJiNGRiYjEwMWM2Mjc2OGM1Y2Y5M2IyNzNlZTg0YzFiYjkwZTAyMWY0OWMxMjhmMl9odHRwOi8vaG91c2UtZmFzdGx5LXNpZ25lZC1ldS13ZXN0LTEtcHJvZC5icmlnaHRjb3ZlY2RuLmNvbS9tZWRpYS92MS90ZXh0L3Z0dC9jbGVhci80ODA2NTk2Nzc0MDAxLzM5MGZjYTllLTA5ZDUtNGVkYi05Y2JjLWIyOTRiZmUyZjRmZC9lNzYwOTBlZC04NjdkLTQ2MGItYTU1Zi04ZGE2ZGFkYTA0NTgvdGV4dC52dHQ%3D"
     }, {
-      "src" : "https://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/390fca9e-09d5-4edb-9cbc-b294bfe2f4fd/e76090ed-867d-460b-a55f-8da6dada0458/text.vtt?fastly_token=NjRhODQzOWJfMzFiYzc1OTJmZmQ5ODUyYjhjMmVlNGE3ZTZmZjZkN2I4ZWEyMDQ4ZTllNTA5ZTdlMDkwZjUzMDdiYjEwMmUwMl9odHRwczovL2hvdXNlLWZhc3RseS1zaWduZWQtZXUtd2VzdC0xLXByb2QuYnJpZ2h0Y292ZWNkbi5jb20vbWVkaWEvdjEvdGV4dC92dHQvY2xlYXIvNDgwNjU5Njc3NDAwMS8zOTBmY2E5ZS0wOWQ1LTRlZGItOWNiYy1iMjk0YmZlMmY0ZmQvZTc2MDkwZWQtODY3ZC00NjBiLWE1NWYtOGRhNmRhZGEwNDU4L3RleHQudnR0"
+      "src" : "https://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/390fca9e-09d5-4edb-9cbc-b294bfe2f4fd/e76090ed-867d-460b-a55f-8da6dada0458/text.vtt?fastly_token=NjRjNDA3NzVfZmE5NzE4NGVlZDYwZjIyNGE2NzQ0M2EzNzc2MGRlYzhkNzI0NmZlODY5N2VjYjdhZGUzYzE2ZTlhNzBmNzY4OF9odHRwczovL2hvdXNlLWZhc3RseS1zaWduZWQtZXUtd2VzdC0xLXByb2QuYnJpZ2h0Y292ZWNkbi5jb20vbWVkaWEvdjEvdGV4dC92dHQvY2xlYXIvNDgwNjU5Njc3NDAwMS8zOTBmY2E5ZS0wOWQ1LTRlZGItOWNiYy1iMjk0YmZlMmY0ZmQvZTc2MDkwZWQtODY3ZC00NjBiLWE1NWYtOGRhNmRhZGEwNDU4L3RleHQudnR0"
     } ],
     "in_band_metadata_track_dispatch_type" : "",
     "default" : false
@@ -702,157 +894,4 @@
   },
   "playback_rights_id" : "primary",
   "ingestion_profile_id" : "f984445692374bd99e6270d8"
-}, {
-  "id" : "6329908433112",
-  "account_id" : "4806596774001",
-  "ad_keys" : null,
-  "clip_source_video_id" : null,
-  "complete" : true,
-  "created_at" : "2023-06-22T13:12:42.603Z",
-  "created_by" : {
-    "type" : "user",
-    "id" : "76076229774",
-    "email" : "signe.hogh@ndla.no"
-  },
-  "cue_points" : [ ],
-  "custom_fields" : {
-    "license" : "Navngivelse-Del på samme vilkår",
-    "licenseinfo" : "Regissør: Håvard Krøvell-Velle v/ MK Volda "
-  },
-  "delivery_type" : "dynamic_origin",
-  "description" : null,
-  "digital_master_id" : null,
-  "duration" : 2283,
-  "economics" : "FREE",
-  "folder_id" : "5c6672048283656b30d290b3",
-  "geo" : null,
-  "has_digital_master" : true,
-  "images" : {
-    "poster" : {
-      "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/jit/4806596774001/fdf0d341-03a1-44cc-b0b3-403f74a34452/main/1280x720/1s141ms/match/image.jpg",
-      "sources" : [ {
-        "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/jit/4806596774001/fdf0d341-03a1-44cc-b0b3-403f74a34452/main/1280x720/1s141ms/match/image.jpg",
-        "height" : 720,
-        "width" : 1280
-      } ]
-    },
-    "thumbnail" : {
-      "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/jit/4806596774001/fdf0d341-03a1-44cc-b0b3-403f74a34452/main/160x90/1s141ms/match/image.jpg",
-      "sources" : [ {
-        "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/jit/4806596774001/fdf0d341-03a1-44cc-b0b3-403f74a34452/main/160x90/1s141ms/match/image.jpg",
-        "height" : 90,
-        "width" : 160
-      } ]
-    }
-  },
-  "link" : null,
-  "long_description" : null,
-  "name" : "Sjakk",
-  "original_filename" : "sjakk-large.mp4",
-  "projection" : null,
-  "published_at" : "2023-06-22T13:12:42.602Z",
-  "reference_id" : null,
-  "schedule" : null,
-  "sharing" : null,
-  "state" : "ACTIVE",
-  "tags" : [ "mediefag" ],
-  "text_tracks" : [ ],
-  "transcripts" : [ ],
-  "updated_at" : "2023-06-23T09:58:00.043Z",
-  "updated_by" : {
-    "type" : "user",
-    "id" : "76076229774",
-    "email" : "signe.hogh@ndla.no"
-  },
-  "playback_rights_id" : "primary",
-  "ingestion_profile_id" : "f984445692374bd99e6270d8"
-}, {
-  "id" : "5796786704001",
-  "account_id" : "4806596774001",
-  "ad_keys" : null,
-  "clip_source_video_id" : null,
-  "complete" : true,
-  "created_at" : "2018-06-12T22:02:03.108Z",
-  "created_by" : {
-    "type" : "unknown"
-  },
-  "cue_points" : [ ],
-  "custom_fields" : {
-    "licenseinfo" : "Leverandør: Terranova Media",
-    "license" : "Navngivelse-Ikkekommersiell-Ingen Bearbeidelse",
-    "yt_privacy_status" : "private"
-  },
-  "delivery_type" : "dynamic_origin",
-  "description" : null,
-  "digital_master_id" : null,
-  "duration" : 503147,
-  "economics" : "AD_SUPPORTED",
-  "folder_id" : "5c6672048283656b30d290b3",
-  "geo" : null,
-  "has_digital_master" : true,
-  "images" : {
-    "poster" : {
-      "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/44eca40f-129c-475c-b914-8a1c7589ff31/fa93815d-26fa-46a0-be17-bba669aa95d8/1280x720/match/image.jpg",
-      "sources" : [ {
-        "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/44eca40f-129c-475c-b914-8a1c7589ff31/fa93815d-26fa-46a0-be17-bba669aa95d8/1280x720/match/image.jpg",
-        "height" : 720,
-        "width" : 1280
-      } ]
-    },
-    "thumbnail" : {
-      "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/44eca40f-129c-475c-b914-8a1c7589ff31/3e6fabbd-3c5a-4963-a2cf-993af8babac6/160x90/match/image.jpg",
-      "sources" : [ {
-        "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/44eca40f-129c-475c-b914-8a1c7589ff31/3e6fabbd-3c5a-4963-a2cf-993af8babac6/160x90/match/image.jpg",
-        "height" : 90,
-        "width" : 160
-      } ]
-    }
-  },
-  "link" : null,
-  "long_description" : null,
-  "name" : "Hatytringer",
-  "original_filename" : "download-original",
-  "projection" : null,
-  "published_at" : "2018-06-12T22:02:03.108Z",
-  "reference_id" : "185179",
-  "schedule" : null,
-  "sharing" : null,
-  "state" : "ACTIVE",
-  "tags" : [ "hate speech", "hatytringar", "hatytringer", "lovbrot", "lovbrott", "lovbrudd", "psychology", "psykologi", "social media", "sosiale medier", "sosiale medium", "sosiologi og sosialantropologi", "folkehelse og livsmestring", "mediefag", "tverrfaglig tema" ],
-  "text_tracks" : [ {
-    "id" : "103cfa0f-c10b-4be7-ac53-f72e9cf3a2ea",
-    "account_id" : "4806596774001",
-    "src" : "https://statisk.ndla.no/videotekster/5796786704001.nb-NO.vtt",
-    "srclang" : "nb-NO",
-    "label" : "Bokmål",
-    "kind" : "captions",
-    "mime_type" : null,
-    "status" : null,
-    "asset_id" : null,
-    "sources" : [ {
-      "src" : "https://statisk.ndla.no/videotekster/5796786704001.nb-NO.vtt"
-    } ],
-    "default" : true
-  }, {
-    "id" : "fc4afae7-a80c-49ac-94b6-7f04a5b6c292",
-    "account_id" : "4806596774001",
-    "src" : "https://statisk.ndla.no/videotekster/5796786704001.nn-NO.vtt",
-    "srclang" : "nn-NO",
-    "label" : "Nynorsk",
-    "kind" : "captions",
-    "mime_type" : null,
-    "status" : null,
-    "asset_id" : null,
-    "sources" : [ {
-      "src" : "https://statisk.ndla.no/videotekster/5796786704001.nn-NO.vtt"
-    } ],
-    "default" : false
-  } ],
-  "transcripts" : [ ],
-  "updated_at" : "2023-06-21T09:41:17.270Z",
-  "updated_by" : {
-    "type" : "internal"
-  },
-  "playback_rights_id" : null,
-  "ingestion_profile_id" : null
 } ]

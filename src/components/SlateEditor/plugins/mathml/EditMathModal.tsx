@@ -83,13 +83,13 @@ const EditMathModal = ({
           <hr />
           <StyledMathEditorWrapper id={`mathEditorContainer-${id}`} />
           <StyledButtonWrapper>
-            <ButtonV2 variant="outline" onClick={previewMath}>
+            <ButtonV2 data-testid="preview-math" variant="outline" onClick={previewMath}>
               {t('form.preview.button')}
             </ButtonV2>
-            <ButtonV2 data-cy="save-math" variant="outline" onClick={handleSave}>
+            <ButtonV2 data-testid="save-math" variant="outline" onClick={handleSave}>
               {t('form.save')}
             </ButtonV2>
-            <ButtonV2 variant="outline" onClick={handleExit}>
+            <ButtonV2 data-testid="abort-math" variant="outline" onClick={handleExit}>
               {t('form.abort')}
             </ButtonV2>
             <ButtonV2 variant="outline" onClick={handleRemove}>
@@ -103,6 +103,7 @@ const EditMathModal = ({
             dangerouslySetInnerHTML={{
               __html: renderMathML,
             }}
+            data-testid="preview-math-text"
           />
           <AlertModal
             title={t('unsavedChanges')}

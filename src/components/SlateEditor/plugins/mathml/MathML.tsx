@@ -82,7 +82,7 @@ const MathML = ({ model, element, editor, onDoubleClick }: Props) => {
   }
 
   return (
-    <StyledSpan data-cy="math" onDoubleClick={onDoubleClick}>
+    <StyledSpan data-testid="math" onDoubleClick={onDoubleClick}>
       {/* @ts-ignore math does not exist in JSX, but this hack works by setting innerHTML manually. */}
       <math
         // eslint-disable-next-line react/no-unknown-property

@@ -6,10 +6,10 @@
  *
  */
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { uuid } from '@ndla/util';
-import EditMathModal from './EditMathModal';
 import { useTranslation } from 'react-i18next';
+import EditMathModal from './EditMathModal';
 
 const emptyMathTag = '<math xmlns="http://www.w3.org/1998/Math/MathML"/>';
 
@@ -43,7 +43,6 @@ const EditMath = ({ model: { innerHTML }, onExit, onRemove, onSave, isEditMode }
   useEffect(() => {
     const script = document.createElement('script');
     script.src = 'https://www.wiris.net/client/editor/editor';
-
     script.onload = () => {
       setMathEditor(
         // @ts-ignore
@@ -51,20 +50,23 @@ const EditMath = ({ model: { innerHTML }, onExit, onRemove, onSave, isEditMode }
           language: ['nb', 'nn'].includes(language) ? 'no' : language,
         }),
       );
-      mathEditor?.setMathML(innerHTML ?? emptyMathTag);
-      mathEditor?.insertInto(document.getElementById(`mathEditorContainer-${id}`));
-      mathEditor?.focus();
     };
 
     document.head.appendChild(script);
-  }, [mathEditor?.getMathML]);
+  }, [language]);
 
   const handleExit = () => {
-    if (innerHTML ?? emptyMathTag !== mathEditor?.getMathML()) {
+    if ((innerHTML ?? emptyMathTag) !== mathEditor?.getMathML()) {
       return setOpenDiscardModal(true);
     }
     return onExit();
   };
+
+  if (mathEditor) {
+    mathEditor?.setMathML(renderedMathML ?? emptyMathTag);
+    mathEditor?.insertInto(document.getElementById(`mathEditorContainer-${id}`));
+    mathEditor?.focus();
+  }
 
   return (
     <EditMathModal

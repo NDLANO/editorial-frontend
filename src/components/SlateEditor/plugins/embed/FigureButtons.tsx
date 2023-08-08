@@ -17,7 +17,7 @@ export const StyledFigureButtons = styled.div`
   right: ${spacing.nsmall};
   top: ${spacing.nsmall};
   z-index: 2;
-  gap: ${spacing.xxsmall};
+  gap: ${spacing.xsmall};
 
   &[data-white='true'] {
     > a,

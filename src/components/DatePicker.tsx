@@ -7,7 +7,7 @@
  */
 
 import { ReactNode, useCallback, useMemo, useState } from 'react';
-import { DayPicker, Labels, useInput } from 'react-day-picker';
+import { DayPicker, Dropdown, Labels, DropdownProps, CustomComponents } from 'react-day-picker';
 import { nb, nn, enGB } from 'date-fns/locale';
 import { TFunction, useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
@@ -36,13 +36,30 @@ const getDatePickerTranslations = (t: TFunction): Partial<Labels> => {
   };
 };
 
-const currentYear = new Date().getFullYear();
+const StyledInput = styled.input`
+  border-radius: ${misc.borderRadius};
+  width: 100px;
+`;
+
+const MIN_YEAR = 1900;
+const MAX_YEAR = 3000;
+
+const DatePickerDropdown = (props: DropdownProps) => {
+  if (props.name === 'months') {
+    return <Dropdown {...props} />;
+  }
+  const { children, ...rest } = props;
+  //@ts-ignore
+  return <StyledInput type="number" min={MIN_YEAR} max={MAX_YEAR} {...rest} />;
+};
 
 const DatePicker = ({ children, value, onChange }: Props) => {
   const [open, setOpen] = useState(false);
   const { t, i18n } = useTranslation();
 
   const translations = useMemo(() => getDatePickerTranslations(t), [t]);
+
+  const components: CustomComponents = useMemo(() => ({ Dropdown: DatePickerDropdown }), []);
 
   const locale = useMemo(() => {
     if (i18n.language === 'en') {
@@ -67,6 +84,7 @@ const DatePicker = ({ children, value, onChange }: Props) => {
         <StyledContent>
           <Arrow />
           <DayPicker
+            components={components}
             mode="single"
             captionLayout="dropdown-buttons"
             locale={locale}
@@ -74,8 +92,9 @@ const DatePicker = ({ children, value, onChange }: Props) => {
             onSelect={onSelect}
             showOutsideDays
             fixedWeeks
-            fromYear={currentYear - 10}
-            toYear={currentYear}
+            defaultMonth={value}
+            fromYear={MIN_YEAR}
+            toYear={MAX_YEAR}
             labels={translations}
           />
         </StyledContent>

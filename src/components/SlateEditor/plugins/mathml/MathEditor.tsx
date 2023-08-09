@@ -6,7 +6,7 @@
  *
  */
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Editor, Node, Path, Transforms } from 'slate';
 import { ReactEditor, RenderElementProps, useFocused, useSelected } from 'slate-react';
 import { colors } from '@ndla/core';
@@ -14,7 +14,6 @@ import he from 'he';
 import { Content, Root, Trigger } from '@radix-ui/react-popover';
 import EditMath from './EditMath';
 import MathML from './MathML';
-import BlockMenu from './BlockMenu';
 import { MathmlElement } from '.';
 import mergeLastUndos from '../../utils/mergeLastUndos';
 
@@ -38,18 +37,12 @@ interface Props {
 }
 
 const MathEditor = ({ element, children, attributes, editor }: Props & RenderElementProps) => {
-  const [nodeInfo, setNodeInfo] = useState(() => getInfoFromNode(element));
+  const nodeInfo = useMemo(() => getInfoFromNode(element), [element]);
   const [isFirstEdit, setIsFirstEdit] = useState(nodeInfo.isFirstEdit);
   const [editMode, setEditMode] = useState(isFirstEdit);
   const [showMenu, setShowMenu] = useState(false);
   const selected = useSelected();
   const focused = useFocused();
-
-  useEffect(() => {
-    setNodeInfo(getInfoFromNode(element));
-  }, [element]);
-
-  const toggleEdit = useCallback(() => setEditMode((prev) => !prev), []);
 
   const handleSave = useCallback(
     (mathML: string) => {
@@ -144,25 +137,21 @@ const MathEditor = ({ element, children, attributes, editor }: Props & RenderEle
         >
           <MathML
             model={nodeInfo.model}
+            onDoubleClick={() => setEditMode(true)}
             editor={editor}
             element={element}
-            onDoubleClick={toggleEdit}
           />
-          <Content>
-            <BlockMenu handleRemove={handleRemove} toggleEdit={toggleEdit} />
-          </Content>
-          {editMode && (
-            <EditMath
-              onExit={onExit}
-              model={nodeInfo.model}
-              onSave={handleSave}
-              isEditMode={editMode}
-              onRemove={handleRemove}
-            />
-          )}
-          {children}
+          <EditMath
+            onExit={onExit}
+            onSave={handleSave}
+            onRemove={handleRemove}
+            model={nodeInfo.model}
+            isEditMode={editMode}
+            onOpenChange={() => setEditMode(true)}
+          />
         </span>
       </Trigger>
+      {children}
     </Root>
   );
 };

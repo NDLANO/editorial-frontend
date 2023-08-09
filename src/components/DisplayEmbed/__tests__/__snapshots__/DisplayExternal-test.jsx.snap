@@ -79,17 +79,6 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
   gap: 6px;
 }
 
-.emotion-0[data-white='true']>a,
-.emotion-0[data-white='true'] button {
-  background: #fff;
-}
-
-.emotion-0[data-white='true']>a:hover,
-.emotion-0[data-white='true'] button:hover {
-  background: transparent;
-  border-color: transparent;
-}
-
 .emotion-1 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
@@ -124,10 +113,6 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
   line-height: 18px;
   min-height: 32px;
   border-width: 1px;
-  outline-width: 2px;
-  color: #20588f;
-  background: transparent;
-  border-color: transparent;
   border-radius: 100%;
   padding: 6px;
   line-height: 1;
@@ -154,21 +139,6 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
 .emotion-1[lang='zh-Hant'] {
   font-size: calc(14px * 1.11);
   font-size: calc(0.7777777777777778rem * 1.11);
-}
-
-.emotion-1:hover,
-.emotion-1:active,
-.emotion-1:focus-visible {
-  color: #20588f;
-  background: #ceddea;
-  border-color: #ceddea;
-}
-
-.emotion-1[disabled] {
-  color: #777777;
-  background-color: transparent;
-  border-color: transparent;
-  cursor: not-allowed;
 }
 
 .emotion-1 svg {
@@ -211,10 +181,6 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
   line-height: 18px;
   min-height: 32px;
   border-width: 1px;
-  outline-width: 2px;
-  color: #d1372e;
-  background: transparent;
-  border-color: transparent;
   border-radius: 100%;
   padding: 6px;
   line-height: 1;
@@ -243,25 +209,26 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
   font-size: calc(0.7777777777777778rem * 1.11);
 }
 
-.emotion-2:hover,
-.emotion-2:active,
-.emotion-2:focus-visible {
-  color: #fff;
-  background: #d1372e;
-  border-color: #d1372e;
-}
-
-.emotion-2[disabled] {
-  color: #777777;
-  background-color: transparent;
-  border-color: transparent;
-  cursor: not-allowed;
-}
-
 .emotion-2 svg {
   width: 24px;
   height: 24px;
   margin: 0;
+}
+
+.emotion-2:hover,
+.emotion-2:focus,
+.emotion-2:focus-within,
+.emotion-2:focus-visible,
+.emotion-2:active {
+  background-color: #fff;
+}
+
+.emotion-2:hover svg,
+.emotion-2:focus svg,
+.emotion-2:focus-within svg,
+.emotion-2:focus-visible svg,
+.emotion-2:active svg {
+  color: #d1372e;
 }
 
 .emotion-3[data-show-copy-outline='true'] {

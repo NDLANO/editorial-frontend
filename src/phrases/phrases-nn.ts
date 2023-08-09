@@ -737,6 +737,7 @@ const phrases = {
       titleLanguage: 'Tittel-språk',
       descriptionlanguage: 'Beskrivelse-språk',
       url: 'Lenke',
+      date: 'Dato',
     },
     previewProductionArticle: {
       button: 'Samanlikn gjeldande versjon med gamal versjon',
@@ -1885,6 +1886,7 @@ const phrases = {
     delete: 'Slett lenke',
     edit: 'Rediger lenke',
     create: 'Sett inn lenke',
+    chooseDate: 'Velg dato',
     linkExists: 'Denne lenka finnast allereie i blokka',
   },
   dragAndDrop: {

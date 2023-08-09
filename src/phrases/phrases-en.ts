@@ -736,6 +736,7 @@ const phrases = {
       titleLanguage: 'Title language',
       descriptionlanguage: 'Description language',
       url: 'Link',
+      date: 'Date',
     },
     previewProductionArticle: {
       button: 'Compare current version with old version',
@@ -1882,6 +1883,7 @@ const phrases = {
     delete: 'Delete link',
     edit: 'Edit link',
     create: 'Add new link',
+    chooseDate: 'Choose date',
     linkExists: 'This link already exists in the block',
   },
   dragAndDrop: {

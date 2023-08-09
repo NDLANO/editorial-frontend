@@ -11,6 +11,8 @@ import { css } from '@emotion/react';
 import validateFormik, { RulesType } from '../../../formikValidationSchema';
 import { supportedLanguages } from '../../../../i18n2';
 import FormikField from '../../../FormikField';
+import InlineDatePicker from '../../../../containers/FormikForm/components/InlineDatePicker';
+import { formatDateForBackend } from '../../../../util/formatDate';
 
 interface Props {
   embed?: LinkBlockEmbedData;
@@ -18,7 +20,9 @@ interface Props {
   onSave: (embed: LinkBlockEmbedData) => void;
 }
 
-interface LinkBlockFormValues extends LinkBlockEmbedData {}
+interface LinkBlockFormValues extends Omit<LinkBlockEmbedData, 'date'> {
+  date?: Date;
+}
 
 const toInitialValues = (
   initialData: LinkBlockEmbedData | undefined,
@@ -28,7 +32,7 @@ const toInitialValues = (
     resource: 'link-block',
     title: initialData?.title || '',
     language: initialData?.language || language,
-    date: initialData?.date || '',
+    date: initialData?.date ? new Date(initialData.date) : undefined,
     url: initialData?.url || '',
   };
 };
@@ -49,7 +53,7 @@ const inputStyle = css`
   flex-direction: column;
 `;
 
-const SelectWrapper = styled.div`
+const FieldWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${spacing.xsmall};
@@ -92,6 +96,23 @@ const LinkBlockForm = ({ embed, existingEmbeds, onSave }: Props) => {
     [t, rules],
   );
 
+  const onFormSaved = useCallback(
+    ({ date, title, url, language }: LinkBlockFormValues) => {
+      const embed = {
+        resource: 'link-block',
+        title,
+        date: date ? formatDateForBackend(new Date(date)) : '',
+        url,
+        language,
+        test: {
+          test2: 'hallo',
+        },
+      } as const;
+      onSave(embed);
+    },
+    [onSave],
+  );
+
   const initialValues = useMemo(
     () => toInitialValues(embed, i18n.language),
     [embed, i18n.language],
@@ -112,7 +133,7 @@ const LinkBlockForm = ({ embed, existingEmbeds, onSave }: Props) => {
           initialValues={initialValues}
           initialErrors={initialErrors}
           validateOnMount
-          onSubmit={onSave}
+          onSubmit={onFormSaved}
           validate={validate}
         >
           {({ dirty, isValid, handleSubmit }) => (
@@ -124,7 +145,7 @@ const LinkBlockForm = ({ embed, existingEmbeds, onSave }: Props) => {
               </StyledFormikField>
               <StyledFormikField name="language">
                 {({ field }: FieldProps) => (
-                  <SelectWrapper>
+                  <FieldWrapper>
                     <label htmlFor="language">{t('form.name.language')}</label>
                     <select {...field} title={t('blogPostForm.languageExplanation')}>
                       {supportedLanguages.map((lang) => (
@@ -133,7 +154,7 @@ const LinkBlockForm = ({ embed, existingEmbeds, onSave }: Props) => {
                         </option>
                       ))}
                     </select>
-                  </SelectWrapper>
+                  </FieldWrapper>
                 )}
               </StyledFormikField>
               <StyledFormikField name="url" showError>
@@ -141,16 +162,18 @@ const LinkBlockForm = ({ embed, existingEmbeds, onSave }: Props) => {
                   <InputV2 label={t('form.name.url')} customCss={inputStyle} {...field} />
                 )}
               </StyledFormikField>
-              {/* <StyledFormikField name="validTo"> */}
-              {/*   {({ field }) => ( */}
-              {/*     <InlineDatePicker */}
-              {/*       placeholder={t('form.validDate.to.placeholder')} */}
-              {/*       label={t('form.validDate.to.label')} */}
-              {/*       locale={i18n.language} */}
-              {/*       {...field} */}
-              {/*     /> */}
-              {/*   )} */}
-              {/* </StyledFormikField> */}
+              <StyledFormikField name="date">
+                {({ field }) => (
+                  <FieldWrapper>
+                    <label>{t('form.name.date')}</label>
+                    <InlineDatePicker
+                      placeholder={t('linkBlock.chooseDate')}
+                      locale={i18n.language}
+                      {...field}
+                    />
+                  </FieldWrapper>
+                )}
+              </StyledFormikField>
               <ButtonContainer>
                 <ModalCloseButton>
                   <ButtonV2 variant="outline">{t('cancel')}</ButtonV2>

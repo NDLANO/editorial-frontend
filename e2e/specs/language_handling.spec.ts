@@ -8,7 +8,7 @@
 
 import { test, expect } from '@playwright/test';
 import { mockRoute } from '../apiMock';
-import { zendeskMock, responsiblesMock, userDataMock, copyrightMock } from '../mockResponses';
+import { zendeskMock, responsiblesMock, userDataMock, copyrightMock, getNoteUsersMock } from '../mockResponses';
 
 test.beforeEach(async ({ page }) => {
   const licenses = mockRoute({
@@ -46,7 +46,7 @@ test.beforeEach(async ({ page }) => {
 
   const draftHistory = mockRoute({
     page,
-    path: '**/draft-api/v1/drafts/800/history?language=nb&fallback=true',
+    path: '**/draft-api/v1/drafts/800/history*',
     fixture: 'language_handling_draft_history',
     overrideValue: (val) => JSON.stringify(JSON.parse(val).map((draft) => ({ ...draft, copyright: copyrightMock })))
   });
@@ -88,6 +88,13 @@ test.beforeEach(async ({ page }) => {
     fixture: 'language_handling_contains_article',
   });
 
+  const getNoteUsers = mockRoute({
+    page,
+    path: '**/get_note_users*',
+    fixture: 'language_handling_get_note_users',
+    overrideValue: JSON.stringify(getNoteUsersMock)
+  })
+
   page.goto(`/subject-matter/learning-resource/800/edit/nb`);
   await Promise.all([
     licenses,
@@ -102,22 +109,13 @@ test.beforeEach(async ({ page }) => {
     taxonomyTopics,
     searchApi,
     containsArticle,
+    getNoteUsers
   ]);
 });
 
 test('Can change language and fech new article', async ({ page }) => {
-  const draftUpdate = mockRoute({
-    page,
-    path: '**/drafts-api/v1/drafts/1?language=en&fallback=true',
-    fixture: 'language_handling_draft_en',
-    overrideValue: (val) => JSON.stringify({ ...JSON.parse(val), copyright: copyrightMock })
-  });
-
   await page.getByText('Legg til språk').click();
   await page.getByText('Engelsk').click();
-
-  await draftUpdate;
-  await page.getByText('Engelsk').waitFor();
   await expect(page.getByText('Engelsk')).toBeVisible();
 });
 

@@ -54,12 +54,12 @@ test.beforeEach(async ({ page }) => {
     page,
     path: '**/draft-api/v1/drafts/800*',
     fixture: 'editor_draft_in_progress',
-    overrideValue: (value) => {
-      return JSON.stringify({
+    overrideValue: (value) =>
+      JSON.stringify({
         ...JSON.parse(value),
         copyright: copyrightMock,
-      });
-    },
+      })
+
   });
 
   const draftValidate = mockRoute({
@@ -96,7 +96,7 @@ test.beforeEach(async ({ page }) => {
     path: '**/get_note_users*',
     fixture: 'editor_get_note_users',
     overrideValue: JSON.stringify(getNoteUsersMock)
-  })
+  });
 
   await page.goto(`/subject-matter/learning-resource/800/edit/nb`);
   await Promise.all([
@@ -117,8 +117,10 @@ test.beforeEach(async ({ page }) => {
 });
 
 test('can enter title, ingress, content and responsible then save', async ({ page }) => {
+  const saveButton = page.getByTestId('saveLearningResourceButtonWrapper').getByRole('button').first()
+
   await expect(
-    page.getByTestId('saveLearningResourceButtonWrapper').getByRole('button').first(),
+    saveButton
   ).toBeDisabled();
   await page.locator('[data-cy="learning-resource-title"]').click();
   await page.keyboard.type('TITTEL');
@@ -129,18 +131,9 @@ test('can enter title, ingress, content and responsible then save', async ({ pag
   await page.locator('[data-cy="responsible-select"]').click();
   await page.keyboard.type('Test user');
   await page.keyboard.press('Enter');
-  await page
-    .getByTestId('saveLearningResourceButtonWrapper')
-    .getByRole('button')
-    .first()
-    .click();
-  expect(await
-    page
-      .getByTestId('saveLearningResourceButtonWrapper')
-      .getByRole('button')
-      .first()
-      .textContent(),
-  ).toEqual('Lagrer...');
+  await saveButton.click();
+  await saveButton.getByText('Lagret').waitFor();
+  expect(await saveButton.textContent()).toEqual('Lagret ');
 });
 
 test('Can add all contributors', async ({ page }) => {

@@ -130,11 +130,6 @@ test('can add notes then save', async ({ page }) => {
 });
 
 test('Open previews', async ({ page }) => {
-  await mockRoute({
-    page,
-    path: '/graphq-api/graphql',
-    fixture: 'version_converted_article',
-  });
   await page.getByRole('heading', { name: 'Versjonslogg og merknader' }).click();
   await page.getByTestId('previewVersion').last().click();
   await page.getByRole('article').first().waitFor();
@@ -145,11 +140,6 @@ test('Open previews', async ({ page }) => {
 });
 
 test('Can reset to prod', async ({ page }) => {
-  await mockRoute({
-    page,
-    path: '/article-api/v2/articles/800',
-    fixture: 'version_article_800',
-  });
   await page.getByRole('heading', { name: 'Versjonslogg og merknader' }).click();
   await page.getByTestId('resetToVersion').first().click();
   await expect(page.getByText('Innhold er tilbakestilt')).toBeVisible();

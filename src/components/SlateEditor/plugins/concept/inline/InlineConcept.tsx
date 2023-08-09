@@ -13,11 +13,12 @@ import { ReactEditor, RenderElementProps } from 'slate-react';
 import uniqueId from 'lodash/uniqueId';
 import { IConcept, IConceptSummary } from '@ndla/types-backend/concept-api';
 import { ConceptEmbedData } from '@ndla/types-embed';
+import { Modal, ModalContent } from '@ndla/modal';
 import { ConceptInlineElement } from '../inline/interfaces';
-import ConceptModal from '../ConceptModal';
 import { useFetchConceptData } from '../../../../../containers/FormikForm/formikConceptHooks';
 import { TYPE_CONCEPT_INLINE } from './types';
 import SlateNotion from './SlateNotion';
+import ConceptModalContent from '../ConceptModalContent';
 
 const getConceptDataAttributes = (
   concept: IConcept | IConceptSummary,
@@ -107,25 +108,26 @@ const InlineConcept = (props: Props) => {
   }, [element]);
 
   return (
-    <>
+    <Modal open={!concept?.id && showConcept}>
       <SlateNotion handleRemove={handleRemove} attributes={attributes} concept={concept} id={uuid}>
         {children}
       </SlateNotion>
-      <ConceptModal
-        isOpen={!concept?.id && showConcept}
-        onClose={onClose}
-        addConcept={addConcept}
-        locale={locale}
-        concept={concept}
-        subjects={subjects}
-        handleRemove={handleRemove}
-        selectedText={nodeText}
-        fetchSearchTags={fetchSearchTags}
-        createConcept={createConcept}
-        updateConcept={updateConcept}
-        conceptArticles={conceptArticles}
-      />
-    </>
+      <ModalContent size={{ width: 'large', height: 'large' }}>
+        <ConceptModalContent
+          onClose={onClose}
+          addConcept={addConcept}
+          locale={locale}
+          concept={concept}
+          subjects={subjects}
+          handleRemove={handleRemove}
+          selectedText={nodeText}
+          fetchSearchTags={fetchSearchTags}
+          createConcept={createConcept}
+          updateConcept={updateConcept}
+          conceptArticles={conceptArticles}
+        />
+      </ModalContent>
+    </Modal>
   );
 };
 

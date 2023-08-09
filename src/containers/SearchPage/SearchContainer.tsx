@@ -59,7 +59,11 @@ const SearchContainer = ({ searchHook, type }: Props) => {
   const { taxonomyVersion } = useTaxonomyVersion();
   const { data: subjectData } = useSubjects({ language: locale, taxonomyVersion });
   const [searchObject, setSearchObject] = useState(parseSearchParams(location.search));
-  const { data: results, isInitialLoading: isSearching } = searchHook(searchObject);
+  const {
+    data: results,
+    isInitialLoading: isSearching,
+    error: searchError,
+  } = searchHook(searchObject);
   const nextPage = (searchObject?.page ?? 1) + 1;
   // preload next page.
   searchHook({ ...searchObject, page: nextPage });
@@ -128,6 +132,7 @@ const SearchContainer = ({ searchHook, type }: Props) => {
           type={type}
           locale={locale}
           subjects={subjects}
+          error={!!searchError}
         />
         <Pager
           page={searchObject.page ?? 1}

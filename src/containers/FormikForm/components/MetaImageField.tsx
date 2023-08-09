@@ -31,7 +31,6 @@ const StyledImage = styled.img`
 
 interface Props {
   image: IImageMetaInformationV3;
-  onImageSelectOpen: () => void;
   onImageRemove: () => void;
   showRemoveButton: boolean;
   onImageLoad?: (width: number, height: number) => void;

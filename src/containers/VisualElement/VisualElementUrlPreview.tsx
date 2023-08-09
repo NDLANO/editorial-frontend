@@ -20,7 +20,15 @@ import {
 import { Link as LinkIcon } from '@ndla/icons/common';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
-import { ModalBody, ModalCloseButton, Modal, ModalHeader, ModalTitle } from '@ndla/modal';
+import {
+  ModalBody,
+  ModalCloseButton,
+  Modal,
+  ModalHeader,
+  ModalTitle,
+  ModalTrigger,
+  ModalContent,
+} from '@ndla/modal';
 import Tooltip from '@ndla/tooltip';
 import { SafeLinkIconButton } from '@ndla/safelink';
 import { IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
@@ -295,26 +303,24 @@ const VisualElementUrlPreview = ({
         }
         subTitle={getSubTitle()}
       >
-        <Modal
-          activateButton={
-            <div>
-              <Tooltip tooltip={t('form.content.link.validDomains')}>
-                <HelpIcon css={normalPaddingCSS} />
-              </Tooltip>
-            </div>
-          }
-        >
-          {(onClose: () => void) => (
-            <>
-              <ModalHeader>
-                <ModalTitle>{t('form.content.link.validDomains')}</ModalTitle>
-                <ModalCloseButton title={t('dialog.close')} onClick={onClose} />
-              </ModalHeader>
-              <ModalBody>
-                <UrlAllowList allowList={EXTERNAL_WHITELIST_PROVIDERS} />
-              </ModalBody>
-            </>
-          )}
+        <Modal>
+          <ModalTrigger>
+            <IconButtonV2
+              aria-label={t('form.content.link.validDomains')}
+              title={t('form.content.link.validDomains')}
+            >
+              <HelpIcon css={normalPaddingCSS} />
+            </IconButtonV2>
+          </ModalTrigger>
+          <ModalContent>
+            <ModalHeader>
+              <ModalTitle>{t('form.content.link.validDomains')}</ModalTitle>
+              <ModalCloseButton />
+            </ModalHeader>
+            <ModalBody>
+              <UrlAllowList allowList={EXTERNAL_WHITELIST_PROVIDERS} />
+            </ModalBody>
+          </ModalContent>
         </Modal>
       </FieldHeader>
       <FieldSection>
@@ -400,7 +406,31 @@ const VisualElementUrlPreview = ({
                 </div>
               </ImageWrapper>
             ) : (
-              <ButtonV2 onClick={() => setImageModalOpen(true)}>{t('form.metaImage.add')}</ButtonV2>
+              <Modal open={imageModalOpen} onOpenChange={setImageModalOpen}>
+                <ModalTrigger>
+                  <ButtonV2>{t('form.metaImage.add')}</ButtonV2>
+                </ModalTrigger>
+                <ModalContent size="large">
+                  <ModalHeader>
+                    <ModalCloseButton />
+                  </ModalHeader>
+                  <ModalBody>
+                    <ImageSearchAndUploader
+                      inModal={true}
+                      locale={language}
+                      language={language}
+                      closeModal={() => {}}
+                      fetchImage={(id) => fetchImage(id, articleLanguage)}
+                      searchImages={searchImages}
+                      onError={onError}
+                      onImageSelect={(image) => {
+                        setImage(image);
+                        setImageModalOpen(false);
+                      }}
+                    />
+                  </ModalBody>
+                </ModalContent>
+              </Modal>
             )}
           </ImageInputWrapper>
           <ContentInputWrapper>
@@ -425,38 +455,6 @@ const VisualElementUrlPreview = ({
           </StyledPreviewWrapper>
         )
       )}
-      <Modal
-        controlled
-        isOpen={imageModalOpen}
-        onClose={() => setImageModalOpen(false)}
-        size="large"
-      >
-        {() => (
-          <>
-            <ModalHeader>
-              <ModalCloseButton
-                title={t('dialog.close')}
-                onClick={() => setImageModalOpen(false)}
-              />
-            </ModalHeader>
-            <ModalBody>
-              <ImageSearchAndUploader
-                inModal={true}
-                locale={language}
-                language={language}
-                closeModal={() => {}}
-                fetchImage={(id) => fetchImage(id, articleLanguage)}
-                searchImages={searchImages}
-                onError={onError}
-                onImageSelect={(image) => {
-                  setImage(image);
-                  setImageModalOpen(false);
-                }}
-              />
-            </ModalBody>
-          </>
-        )}
-      </Modal>
     </>
   );
 };

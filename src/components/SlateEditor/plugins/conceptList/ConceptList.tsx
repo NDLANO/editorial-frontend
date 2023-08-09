@@ -15,6 +15,7 @@ import { ReactNode, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Editor, Transforms } from 'slate';
 import { RenderElementProps, ReactEditor, useSelected } from 'slate-react';
+import { Modal, ModalContent, ModalTrigger } from '@ndla/modal';
 import { ConceptListElement } from '.';
 import ConceptSearchResult from './ConceptSearchResult';
 import ConceptTagPicker from './ConceptTagPicker';
@@ -69,10 +70,6 @@ const ConceptList = ({ element, language, editor, attributes, children }: Props)
     Transforms.removeNodes(editor, { at: [], match: (node) => element === node });
   };
 
-  const onEditClick = () => {
-    setEditMode(true);
-  };
-
   const { tag, title, subjectId } = element.data;
 
   return (
@@ -96,22 +93,26 @@ const ConceptList = ({ element, language, editor, attributes, children }: Props)
               <DeleteForever />
             </IconButtonV2>
           </Tooltip>
-          <Tooltip tooltip={t('form.conceptList.edit')}>
-            <IconButtonV2
-              aria-label={t('form.conceptList.edit')}
-              variant="ghost"
-              colorTheme="light"
-              onClick={onEditClick}
-            >
-              <Pencil />
-            </IconButtonV2>
-          </Tooltip>
+          <Modal open={editMode} onOpenChange={setEditMode}>
+            <ModalTrigger>
+              <IconButtonV2
+                aria-label={t('form.conceptList.edit')}
+                title={t('form.conceptList.edit')}
+                variant="ghost"
+                colorTheme="light"
+              >
+                <Pencil />
+              </IconButtonV2>
+            </ModalTrigger>
+            <ModalContent size={{ height: 'large', width: 'large' }}>
+              <ConceptTagPicker element={element} onClose={onClose} language={language} />
+            </ModalContent>
+          </Modal>
         </ButtonContainer>
         {title && <StyledHeader contentEditable={false}>{title}</StyledHeader>}
         {tag && <ConceptSearchResult tag={tag} subjectId={subjectId} language={language} />}
         {children}
       </StyledWrapper>
-      {editMode && <ConceptTagPicker element={element} onClose={onClose} language={language} />}
     </>
   );
 };

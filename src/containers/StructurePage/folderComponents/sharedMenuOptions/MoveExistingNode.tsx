@@ -33,6 +33,10 @@ interface Props {
   nodeType?: NodeType;
 }
 
+const StyledSpinner = styled(Spinner)`
+  margin: 0px 4px;
+`;
+
 const StyledSuccessIcon = styled(Done)`
   border-radius: 90px;
   margin: 5px;
@@ -96,12 +100,12 @@ const MoveExistingNode = ({
       // drop all parent connections and replace with this.
       const connections = await fetchConnectionsForNode({ id: node.id, taxonomyVersion });
       const parentConnections = connections.filter((conn) => conn.type.startsWith('parent'));
-      parentConnections.map(async (parentConnection) => {
+      for (const parentConnection of parentConnections) {
         await deleteNodeConnectionMutation.mutateAsync({
           taxonomyVersion,
           id: parentConnection.connectionId,
         });
-      });
+      }
       await addNodeConnectionMutation.mutateAsync({
         taxonomyVersion,
         body: { parentId: currentNode.id, childId: node.id },
@@ -150,7 +154,7 @@ const MoveExistingNode = ({
       <StyledActionContent>
         {loading && (
           <MenuContent>
-            <Spinner size="normal" margin="0px 4px" />
+            <StyledSpinner size="normal" />
             {t('taxonomy.addExistingLoading')}
           </MenuContent>
         )}

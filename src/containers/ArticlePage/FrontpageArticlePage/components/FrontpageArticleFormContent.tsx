@@ -105,8 +105,10 @@ const StyledContentDiv = styled(FormikField)`
 
 const StyledContentWrapper = styled.div`
   &[data-wide='true'] {
-    width: 100%;
+    max-width: 1100px;
   }
+
+  max-width: 773px;
 `;
 
 const StyledIconButton = styled(IconButtonV2)`
@@ -220,7 +222,6 @@ const FrontpageArticleFormContent = ({
         {({ field, form }) => (
           <StyledDiv>
             <LastUpdatedLine
-              name={field.name}
               creators={creators}
               published={published}
               allowEdit={true}

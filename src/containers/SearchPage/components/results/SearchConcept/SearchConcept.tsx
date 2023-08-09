@@ -51,6 +51,7 @@ const SearchConcept = ({ concept, locale, subjects, editingState, responsibleNam
   const updateLocalConcept = (newConcept: IConcept): void => {
     const localConcept: IConceptSummary = {
       id: newConcept.id,
+      conceptType: newConcept.conceptType,
       title: newConcept.title,
       content: newConcept.content ?? { content: '', language: 'und' },
       metaImage: newConcept.metaImage ?? { alt: '', url: '', language: 'und' },

@@ -19,6 +19,7 @@ import { Modal, ModalContent, ModalTrigger } from '@ndla/modal';
 import { useTranslation } from 'react-i18next';
 import { DeleteForever } from '@ndla/icons/editor';
 import { format } from 'date-fns';
+import { enGB, nb, nn } from 'date-fns/locale';
 import { LinkBlockListElement } from './types';
 import LinkBlockForm from './LinkBlockForm';
 
@@ -176,8 +177,9 @@ const SlateLinkBlock = ({ link, onSave, onDelete, allEmbeds, index }: SlateLinkB
   const { t } = useTranslation();
 
   const date = useMemo(() => {
-    return link.date ? format(new Date(link.date), 'dd.LLLL.yy') : '';
-  }, [link.date]);
+    const format = link.language === 'nb' ? nb : link.language === 'nn' ? nn : enGB;
+    return link.date ? format(new Date(link.date), 'dd. LLLL. yy', { locale }) : '';
+  }, [link.date, link.language]);
 
   const otherEmbeds = useMemo(
     () => allEmbeds.filter((el) => el.url !== link.url),

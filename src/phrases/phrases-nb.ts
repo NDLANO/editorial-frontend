@@ -1881,6 +1881,14 @@ const phrases = {
   dragAndDrop: {
     handle: 'Håndtak',
   },
+
+  datePicker: {
+    chooseMonth: 'Måned:',
+    chooseYear: 'År:',
+    labelNext: 'Gå til neste måned',
+    previousMonth: 'Gå til forrige måned',
+    goToToday: 'Gå til dagens dato',
+  },
 };
 
 export default phrases;

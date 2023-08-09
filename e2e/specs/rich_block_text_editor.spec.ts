@@ -8,7 +8,7 @@
 
 import { test, expect } from '@playwright/test';
 import { mockRoute } from '../apiMock';
-import { userDataMock, responsiblesMock, zendeskMock, draftUpdateMock } from '../mockResponses';
+import { userDataMock, responsiblesMock, zendeskMock, copyrightMock, getNoteUsersMock } from '../mockResponses';
 
 test.beforeEach(async ({ page }) => {
   const licenses = mockRoute({
@@ -54,12 +54,12 @@ test.beforeEach(async ({ page }) => {
     page,
     path: '**/draft-api/v1/drafts/800*',
     fixture: 'editor_draft_data',
-  });
-
-  const draftUpdate = mockRoute({
-    page,
-    path: '**/draft-api/v1/drafts/800',
-    fixture: 'editor_draft_update',
+    overrideValue: (value) => {
+      return JSON.stringify({
+        ...JSON.parse(value),
+        copyright: copyrightMock,
+      });
+    },
   });
 
   const draftValidate = mockRoute({
@@ -91,6 +91,13 @@ test.beforeEach(async ({ page }) => {
     fixture: 'editor_contains_article',
   });
 
+  const getNoteUser = mockRoute({
+    page,
+    path: '**/get_note_users*',
+    fixture: 'editor_get_note_users',
+    overrideValue: JSON.stringify(getNoteUsersMock)
+  })
+
   await page.goto(`/subject-matter/learning-resource/800/edit/nb`);
   await Promise.all([
     licenses,
@@ -99,30 +106,17 @@ test.beforeEach(async ({ page }) => {
     responsibles,
     userData,
     draftData,
-    draftUpdate,
     draftValidate,
     draftHistory,
     taxonomyResources,
     taxonomyTopics,
     searchApi,
     containsArticle,
+    getNoteUser
   ]);
 });
 
 test('can enter title, ingress, content and responsible then save', async ({ page }) => {
-  const userData = mockRoute({
-    page,
-    path: '**/draft-api/v1/user-data',
-    fixture: 'editor_user_data',
-    overrideValue: JSON.stringify(userDataMock),
-  });
-
-  const draftUpdate = mockRoute({
-    page,
-    path: '**/draft-api/v1/drafts/800',
-    fixture: 'editor_draft_update',
-  });
-
   await expect(
     page.locator('[data-testid="saveLearningResourceButtonWrapper"]').getByRole('button').first(),
   ).toBeDisabled();
@@ -136,15 +130,13 @@ test('can enter title, ingress, content and responsible then save', async ({ pag
   await page.keyboard.type('Test user');
   await page.keyboard.press('Enter');
   await page
-    .locator('[data-testid="saveLearningResourceButtonWrapper"]')
+    .getByTestId('saveLearningResourceButtonWrapper')
     .getByRole('button')
     .first()
     .click();
-  await userData;
-  await draftUpdate;
   await expect(
     page
-      .locator('[data-testid="saveLearningResourceButtonWrapper"]')
+      .getByTestId('saveLearningResourceButtonWrapper')
       .getByRole('button')
       .getByText('Lagret'),
   ).toHaveCount(1);

@@ -134,14 +134,6 @@ export function toEditImage(imageId: number | string, language: string) {
   return `/media/image-upload/${imageId}/edit/${language}`;
 }
 
-export function toCreateAgreement() {
-  return '/agreement/new';
-}
-
-export function toEditAgreement(agreementId: number) {
-  return `/agreement/${agreementId}/edit`;
-}
-
 export function toPreviewDraft(draftId: number, language: string) {
   return `/preview/${draftId}/${language}`;
 }

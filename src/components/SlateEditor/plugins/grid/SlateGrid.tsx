@@ -28,6 +28,7 @@ import { GridElement } from '.';
 import DeleteButton from '../../../DeleteButton';
 import { StyledFigureButtons } from '../embed/FigureButtons';
 import GridForm from './GridForm';
+import { GridProvider } from './GridContext';
 
 interface Props extends RenderElementProps {
   element: GridElement;
@@ -93,14 +94,11 @@ export const SlateGrid = ({ element, editor, children }: Props) => {
 
   return (
     <GridWrapper>
-      <StyledGrid border="none" columns={element.data.columns} background={element.data.background}>
-        {children}
-      </StyledGrid>
       <ButtonContainer>
         <DeleteButton aria-label={t('delete')} data-cy="remove-grid" onClick={handleRemove} />
         <Modal open={isEditing} onOpenChange={setIsEditing}>
           <ModalTrigger>
-            <IconButtonV2 tabIndex={0} variant="ghost" aria-label={t('gridForm.title')}>
+            <IconButtonV2 variant="ghost" aria-label={t('gridForm.title')}>
               <Pencil />
             </IconButtonV2>
           </ModalTrigger>
@@ -115,6 +113,15 @@ export const SlateGrid = ({ element, editor, children }: Props) => {
           </ModalContent>
         </Modal>
       </ButtonContainer>
+      <GridProvider value={true}>
+        <StyledGrid
+          border="none"
+          columns={element.data.columns}
+          background={element.data.background}
+        >
+          {children}
+        </StyledGrid>
+      </GridProvider>
     </GridWrapper>
   );
 };

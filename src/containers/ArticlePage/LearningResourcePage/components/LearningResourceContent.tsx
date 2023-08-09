@@ -189,7 +189,6 @@ const LearningResourceContent = ({ articleLanguage, articleId }: Props) => {
         {({ field, form }) => (
           <StyledDiv>
             <LastUpdatedLine
-              name={field.name}
               creators={creatorsField.value}
               published={field.value}
               allowEdit={true}

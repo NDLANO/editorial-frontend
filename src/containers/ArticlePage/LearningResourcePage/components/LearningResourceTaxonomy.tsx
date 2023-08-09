@@ -122,7 +122,7 @@ export const toInitialResource = (resource: Node | undefined, language: string):
       resource?.contexts
         .filter((c) => c.rootId.includes('subject'))
         .map((c) => contextToMinimalNodeChild(c, language)),
-      (c) => c.id,
+      (c) => c.connectionId,
     ),
   };
 };
@@ -145,7 +145,7 @@ const LearningResourceTaxonomy = ({ article, updateNotes, articleLanguage }: Pro
     toInitialResource(undefined, i18n.language),
   );
 
-  console.log(workingResource);
+  //console.log(workingResource);
 
   const primaryPath = useMemo(() => {
     return workingResource.placements.find((p) => p.isPrimary)?.path ?? '';

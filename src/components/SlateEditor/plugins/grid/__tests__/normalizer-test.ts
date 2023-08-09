@@ -35,18 +35,22 @@ describe('normalizing grid tests', () => {
             children: [
               {
                 type: TYPE_GRID_CELL,
+                data: { parallaxCell: 'false' },
                 children: [{ type: TYPE_PARAGRAPH, children: [{ text: 'a' }] }],
               },
               {
                 type: TYPE_GRID_CELL,
+                data: { parallaxCell: 'false' },
                 children: [{ type: TYPE_PARAGRAPH, children: [{ text: 'a' }] }],
               },
               {
                 type: TYPE_GRID_CELL,
+                data: { parallaxCell: 'false' },
                 children: [{ type: TYPE_PARAGRAPH, children: [{ text: 'a' }] }],
               },
               {
                 type: TYPE_GRID_CELL,
+                data: { parallaxCell: 'false' },
                 children: [{ type: TYPE_PARAGRAPH, children: [{ text: 'a' }] }],
               },
             ],
@@ -70,10 +74,12 @@ describe('normalizing grid tests', () => {
             children: [
               {
                 type: TYPE_GRID_CELL,
+                data: { parallaxCell: 'false' },
                 children: [{ type: TYPE_PARAGRAPH, children: [{ text: 'a' }] }],
               },
               {
                 type: TYPE_GRID_CELL,
+                data: { parallaxCell: 'false' },
                 children: [{ type: TYPE_PARAGRAPH, children: [{ text: 'a' }] }],
               },
             ],
@@ -103,10 +109,12 @@ describe('normalizing grid tests', () => {
             children: [
               {
                 type: TYPE_GRID_CELL,
+                data: { parallaxCell: 'false' },
                 children: [{ type: TYPE_PARAGRAPH, children: [{ text: 'a' }] }],
               },
               {
                 type: TYPE_GRID_CELL,
+                data: { parallaxCell: 'false' },
                 children: [{ type: TYPE_PARAGRAPH, children: [{ text: 'a' }] }],
               },
             ],
@@ -130,18 +138,22 @@ describe('normalizing grid tests', () => {
             children: [
               {
                 type: TYPE_GRID_CELL,
+                data: { parallaxCell: 'false' },
                 children: [{ type: TYPE_PARAGRAPH, children: [{ text: 'a' }] }],
               },
               {
                 type: TYPE_GRID_CELL,
+                data: { parallaxCell: 'false' },
                 children: [{ type: TYPE_PARAGRAPH, children: [{ text: 'a' }] }],
               },
               {
                 type: TYPE_GRID_CELL,
+                data: { parallaxCell: 'false' },
                 children: [{ type: TYPE_PARAGRAPH, children: [{ text: '' }] }],
               },
               {
                 type: TYPE_GRID_CELL,
+                data: { parallaxCell: 'false' },
                 children: [{ type: TYPE_PARAGRAPH, children: [{ text: '' }] }],
               },
             ],

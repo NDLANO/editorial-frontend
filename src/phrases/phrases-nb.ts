@@ -170,7 +170,7 @@ const phrases = {
     emptyButton: 'Tøm',
     title: 'Tittel',
     language: 'Språk',
-    contentNoHits: 'Ingen innhold samsvarte med søket ditt på: {{query}}',
+    contentNoHits: 'Ingen treff i innhold samsvarte med søket ditt på: {{query}}',
     'podcast-seriesNoHits': 'Ingen serier samsvarte med søket ditt på: {{query}}',
     conceptNoHits: 'Ingen forklaringer samsvarte med søket ditt på: {{query}}',
     audioNoHits: 'Ingen lydfiler samsvarte med søket ditt på: {{query}}',
@@ -317,6 +317,7 @@ const phrases = {
     resultError: 'Noe gikk feil med innlasting av type: {{type}}',
     favourites: 'Mine favorittfag',
     archivedIncluded: 'Utgåtte fag inkludert',
+    error: 'Noe gikk galt med søket',
   },
   subjectsPage: {
     subjects: 'Fag',
@@ -1888,6 +1889,14 @@ const phrases = {
   },
   dragAndDrop: {
     handle: 'Håndtak',
+  },
+
+  datePicker: {
+    chooseMonth: 'Måned:',
+    chooseYear: 'År:',
+    labelNext: 'Gå til neste måned',
+    previousMonth: 'Gå til forrige måned',
+    goToToday: 'Gå til dagens dato',
   },
 };
 

@@ -17,7 +17,6 @@ import { colors } from '@ndla/core';
 
 import { IngressField, TitleField } from '../../FormikForm';
 import HowToHelper from '../../../components/HowTo/HowToHelper';
-import { StyledHelpMessage } from '../../../components/FormikField/FormikFieldHelp';
 import VisualElementField from '../../FormikForm/components/VisualElementField';
 
 import { ConceptFormValues } from '../conceptInterfaces';
@@ -53,12 +52,7 @@ const ConceptContent = () => {
     <>
       <TitleField />
       <ByLine>
-        <LastUpdatedLine
-          name={'lastUpdated'}
-          onChange={() => {}}
-          creators={creators}
-          published={updated}
-        />
+        <LastUpdatedLine onChange={() => {}} creators={creators} published={updated} />
         <IconContainer>
           <Tooltip tooltip={t('form.markdown.button')}>
             <PreviewButton

@@ -14,8 +14,9 @@ interface MockRoute {
   page: Page;
   path: string | RegExp;
   fixture: string;
-  overrideValue?: string;
+  overrideValue?: string | ((value: string) => string);
   status?: number;
+  overrideRoute?: boolean;
 }
 
 export const mockRoute = async ({
@@ -23,14 +24,26 @@ export const mockRoute = async ({
   path,
   fixture,
   overrideValue,
+  overrideRoute,
   status = 200,
 }: MockRoute) => {
+  if (overrideRoute) {
+    await page.unroute(path);
+  }
+
   return await page.route(path, async (route) => {
     if (process.env.RECORD_FIXTURES === 'true') {
       const res = await route.fetch();
       const text = await res.text();
+      const override = overrideValue
+        ? typeof overrideValue === 'string'
+          ? overrideValue
+          : overrideValue(text)
+        : undefined;
       await mkdir(mockDir, { recursive: true });
-      await writeFile(`${mockDir}${fixture}.json`, overrideValue ?? text, { flag: 'w' });
+      await writeFile(`${mockDir}${fixture}.json`, override ?? text, {
+        flag: 'w',
+      });
       return route.fulfill({ body: text, status });
     } else {
       try {

@@ -92,6 +92,8 @@ const LearningResourceForm = ({
     [initialValues, t],
   );
 
+  const contexts = articleTaxonomy?.flatMap((node) => node.contexts);
+
   return (
     <Formik
       key={articleLanguage}
@@ -111,7 +113,7 @@ const LearningResourceForm = ({
           article={article}
           status={article?.status}
           supportedLanguages={supportedLanguages}
-          taxonomy={articleTaxonomy}
+          taxonomy={contexts}
           title={article?.title?.title}
           type="standard"
           expirationDate={getExpirationDate(article)}

@@ -90,6 +90,8 @@ const TopicArticleForm = ({
     [initialValues, t],
   );
 
+  const contexts = articleTaxonomy?.flatMap((node) => node.contexts);
+
   return (
     <Formik
       validateOnMount
@@ -105,7 +107,7 @@ const TopicArticleForm = ({
         <HeaderWithLanguage
           id={article?.id}
           language={articleLanguage}
-          taxonomy={articleTaxonomy}
+          taxonomy={contexts}
           article={article}
           status={article?.status}
           supportedLanguages={supportedLanguages}

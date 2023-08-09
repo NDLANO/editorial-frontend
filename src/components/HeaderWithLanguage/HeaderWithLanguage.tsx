@@ -13,10 +13,9 @@ import { IConcept } from '@ndla/types-backend/concept-api';
 import { IArticle, IStatus } from '@ndla/types-backend/draft-api';
 import { useTranslation } from 'react-i18next';
 import { Check } from '@ndla/icons/editor';
-import { Node } from '@ndla/types-taxonomy';
+import { TaxonomyContext } from '@ndla/types-taxonomy';
 import HeaderInformation from './HeaderInformation';
 import HeaderActions from './HeaderActions';
-import { getTaxonomyPathsFromTaxonomy } from './util';
 import HeaderLanguagePill from './HeaderLanguagePill';
 
 export const StyledLanguageWrapper = styled.div`
@@ -40,7 +39,7 @@ interface Props {
   title?: string;
   language: string;
   id?: number;
-  taxonomy?: Node[];
+  taxonomy?: TaxonomyContext[];
   noStatus?: boolean;
   article?: IArticle;
   supportedLanguages: string[];
@@ -54,7 +53,7 @@ interface Props {
 const HeaderWithLanguage = ({
   noStatus = false,
   type,
-  taxonomy,
+  taxonomy = [],
   article,
   hasRSS,
   id,
@@ -78,8 +77,6 @@ const HeaderWithLanguage = ({
     ? article?.responsible?.responsibleId
     : concept?.responsible?.responsibleId;
 
-  const taxonomyPaths = isArticle ? getTaxonomyPathsFromTaxonomy(taxonomy, id) : [];
-
   return (
     <header>
       <HeaderInformation
@@ -90,7 +87,7 @@ const HeaderWithLanguage = ({
         title={title}
         id={id}
         published={published}
-        taxonomyPaths={taxonomyPaths}
+        multipleTaxonomy={taxonomy.length > 1}
         setHasConnections={setHasConnections}
         expirationDate={expirationDate}
         responsibleId={responsible}

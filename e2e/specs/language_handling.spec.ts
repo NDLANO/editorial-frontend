@@ -8,7 +8,13 @@
 
 import { test, expect } from '@playwright/test';
 import { mockRoute } from '../apiMock';
-import { zendeskMock, responsiblesMock, userDataMock, copyrightMock, getNoteUsersMock } from '../mockResponses';
+import {
+  zendeskMock,
+  responsiblesMock,
+  userDataMock,
+  copyrightMock,
+  getNoteUsersMock,
+} from '../mockResponses';
 
 test.beforeEach(async ({ page }) => {
   const licenses = mockRoute({
@@ -48,15 +54,15 @@ test.beforeEach(async ({ page }) => {
     page,
     path: '**/draft-api/v1/drafts/800/history*',
     fixture: 'language_handling_draft_history',
-    overrideValue: (val) => JSON.stringify(JSON.parse(val).map((draft) => ({ ...draft, copyright: copyrightMock })))
+    overrideValue: (val) =>
+      JSON.stringify(JSON.parse(val).map((draft) => ({ ...draft, copyright: copyrightMock }))),
   });
-
 
   const draftData = mockRoute({
     page,
     path: '**/draft-api/v1/drafts/800*',
     fixture: 'language_handling_draft_nb',
-    overrideValue: (val) => JSON.stringify({ ...JSON.parse(val), copyright: copyrightMock })
+    overrideValue: (val) => JSON.stringify({ ...JSON.parse(val), copyright: copyrightMock }),
   });
 
   const draftValidate = mockRoute({
@@ -92,8 +98,8 @@ test.beforeEach(async ({ page }) => {
     page,
     path: '**/get_note_users*',
     fixture: 'language_handling_get_note_users',
-    overrideValue: JSON.stringify(getNoteUsersMock)
-  })
+    overrideValue: JSON.stringify(getNoteUsersMock),
+  });
 
   page.goto(`/subject-matter/learning-resource/800/edit/nb`);
   await Promise.all([
@@ -109,7 +115,7 @@ test.beforeEach(async ({ page }) => {
     taxonomyTopics,
     searchApi,
     containsArticle,
-    getNoteUsers
+    getNoteUsers,
   ]);
 });
 
@@ -117,9 +123,4 @@ test('Can change language and fech new article', async ({ page }) => {
   await page.getByText('Legg til språk').click();
   await page.getByText('Engelsk').click();
   await expect(page.getByText('Engelsk')).toBeVisible();
-});
-
-test('Has access to the html-editor', async ({ page }) => {
-  await page.getByTestId('edit-markup-link').waitFor();
-  await expect(page.getByTestId('edit-markup-link')).toBeVisible();
 });

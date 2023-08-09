@@ -5,10 +5,14 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+import { useCallback, useMemo } from 'react';
+import { format } from 'date-fns';
 import styled from '@emotion/styled';
-import { colors } from '@ndla/core';
-import { useTranslation } from 'react-i18next';
-import DateTimeInput from '../../../components/DateTime/DateTimeInput';
+import { colors, misc, spacing } from '@ndla/core';
+import { ButtonV2 } from '@ndla/button';
+import { Calendar } from '@ndla/icons/editor';
+import DatePicker from '../../../components/DatePicker';
+import { formatDateForBackend } from '../../../util/formatDate';
 
 export interface DateChangedEvent {
   target: {
@@ -30,23 +34,69 @@ interface Props {
   placeholder?: string;
 }
 
-const StyledDTI = styled(DateTimeInput)`
+const StyledButton = styled(ButtonV2)`
+  width: 100%;
   height: 100%;
-  border-radius: 3px;
-  border-color: ${colors.brand.greyLighter};
-  padding-left: 1rem;
+  justify-content: space-between;
+  border-radius: ${misc.borderRadius};
+  border: 1px solid ${colors.brand.greyLighter};
+  color: ${colors.brand.greyMedium};
+  padding-left: ${spacing.nsmall};
+  padding-right: ${spacing.xsmall};
+  svg {
+    color: ${colors.brand.tertiary};
+    width: 24px;
+    height: 24px;
+  }
+
+  &[data-has-value='true'] {
+    color: ${colors.text.primary};
+  }
+
+  &:hover,
+  &:focus,
+  &:focus-within,
+  &:active,
+  &:focus-visible {
+    border: 1px solid ${colors.brand.greyLighter};
+    padding-left: ${spacing.nsmall};
+    padding-right: ${spacing.xsmall};
+    color: ${colors.brand.greyMedium};
+    &[data-has-value='true'] {
+      color: ${colors.text.primary};
+    }
+  }
 `;
 
 const InlineDatePicker = ({ onChange, value, name, placeholder }: Props) => {
-  const { i18n } = useTranslation();
+  const dateValue = useMemo(() => (value ? new Date(value) : undefined), [value]);
+  const displayValue = useMemo(
+    () => (dateValue ? format(dateValue, 'dd/MM/yyyy') : undefined),
+    [dateValue],
+  );
+  const onValueChange = useCallback(
+    (value?: Date) => {
+      if (!value) return;
+      const target = {
+        name,
+        value: formatDateForBackend(value),
+        type: 'DateTime',
+      };
+      return onChange({
+        target,
+        currentTarget: target,
+      });
+    },
+    [name, onChange],
+  );
+
   return (
-    <StyledDTI
-      placeholder={placeholder}
-      onChange={onChange}
-      name={name}
-      value={value}
-      locale={i18n.language}
-    />
+    <DatePicker onChange={onValueChange} value={dateValue}>
+      <StyledButton variant="stripped" data-has-value={!!displayValue}>
+        {displayValue ?? placeholder}
+        <Calendar />
+      </StyledButton>
+    </DatePicker>
   );
 };
 

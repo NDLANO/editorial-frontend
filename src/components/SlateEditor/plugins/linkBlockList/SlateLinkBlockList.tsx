@@ -177,7 +177,7 @@ const SlateLinkBlock = ({ link, onSave, onDelete, allEmbeds, index }: SlateLinkB
   const { t } = useTranslation();
 
   const date = useMemo(() => {
-    const format = link.language === 'nb' ? nb : link.language === 'nn' ? nn : enGB;
+    const locale = link.language === 'nb' ? nb : link.language === 'nn' ? nn : enGB;
     return link.date ? format(new Date(link.date), 'dd. LLLL. yy', { locale }) : '';
   }, [link.date, link.language]);
 

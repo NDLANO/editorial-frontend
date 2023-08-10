@@ -106,6 +106,8 @@ const StyledContentDiv = styled(FormikField)`
 `;
 
 const StyledContentWrapper = styled.div`
+  width: 100%;
+
   &[data-wide='true'] {
     max-width: 1100px;
   }

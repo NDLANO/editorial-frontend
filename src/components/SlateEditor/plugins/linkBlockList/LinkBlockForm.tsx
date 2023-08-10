@@ -1,3 +1,11 @@
+/**
+ * Copyright (c) 2023-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 import { LinkBlockEmbedData } from '@ndla/types-embed';
 import { useTranslation } from 'react-i18next';
 import { FieldProps, Formik } from 'formik';
@@ -30,10 +38,10 @@ const toInitialValues = (
 ): LinkBlockFormValues => {
   return {
     resource: 'link-block',
-    title: initialData?.title || '',
-    language: initialData?.language || language,
+    title: initialData?.title ?? '',
+    language: initialData?.language ?? language,
     date: initialData?.date ? new Date(initialData.date) : undefined,
-    url: initialData?.url || '',
+    url: initialData?.url ?? '',
   };
 };
 

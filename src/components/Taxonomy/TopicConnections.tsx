@@ -38,7 +38,6 @@ interface Props {
   addConnection: (node: NodeChild) => void;
   removeConnection: (id: string) => void;
   setPrimaryConnection: (connectionId: string) => void;
-  primaryPath: string | undefined;
   getSubjectTopics: (subjectId: string) => Promise<void>;
   setRelevance: (topicId: string, relevanceId: string) => void;
 }
@@ -50,7 +49,6 @@ const TopicConnections = ({
   removeConnection,
   setPrimaryConnection,
   getSubjectTopics,
-  primaryPath,
   setRelevance,
 }: Props) => {
   const { t } = useTranslation();
@@ -103,7 +101,6 @@ const TopicConnections = ({
       </FieldHeader>
       <ActiveTopicConnections
         activeTopics={selectedNodes}
-        primaryPath={primaryPath}
         setRelevance={setRelevance}
         removeConnection={removeConnection}
         setPrimaryConnection={setPrimaryConnection}
@@ -142,7 +139,7 @@ const TopicConnections = ({
                   closeModal();
                 }}
               />
-            ))}{' '}
+            ))}
           </ModalBody>
         </ModalContent>
       </Modal>

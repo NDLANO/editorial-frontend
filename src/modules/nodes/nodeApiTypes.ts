@@ -29,6 +29,7 @@ export interface GetChildNodesParams {
   language?: string;
   nodeType?: NodeType[];
   recursive?: boolean;
+  includeContexts?: boolean;
 }
 
 export interface GetNodeResourcesParams {

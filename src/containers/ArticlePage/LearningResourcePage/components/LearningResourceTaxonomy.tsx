@@ -14,7 +14,13 @@ import { useQueryClient } from '@tanstack/react-query';
 import { SingleValue } from '@ndla/select';
 import { ButtonV2 } from '@ndla/button';
 import { useTranslation } from 'react-i18next';
-import { Node, NodeChild, ResourceTypeWithConnection, TaxonomyContext } from '@ndla/types-taxonomy';
+import {
+  Metadata,
+  Node,
+  NodeChild,
+  ResourceTypeWithConnection,
+  TaxonomyContext,
+} from '@ndla/types-taxonomy';
 import partition from 'lodash/partition';
 import isEqual from 'lodash/isEqual';
 import sortBy from 'lodash/sortBy';
@@ -26,11 +32,7 @@ import TopicConnections from '../../../../components/Taxonomy/TopicConnections';
 import SaveButton from '../../../../components/SaveButton';
 import ResourceTypeSelect from '../../components/ResourceTypeSelect';
 import TaxonomyInfo from './taxonomy/TaxonomyInfo';
-import {
-  TAXONOMY_ADMIN_SCOPE,
-  RESOURCE_TYPE_LEARNING_PATH,
-  RESOURCE_FILTER_CORE,
-} from '../../../../constants';
+import { TAXONOMY_ADMIN_SCOPE, RESOURCE_TYPE_LEARNING_PATH } from '../../../../constants';
 import { FormikFieldHelp } from '../../../../components/FormikField';
 import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import TaxonomyConnectionErrors from '../../components/TaxonomyConnectionErrors';
@@ -59,8 +61,11 @@ const ButtonContainer = styled.div`
 `;
 
 export interface MinimalNodeChild
-  extends Pick<NodeChild, 'id' | 'relevanceId' | 'isPrimary' | 'path' | 'name' | 'connectionId'> {
-  metadata?: Pick<NodeChild['metadata'], 'visible'>;
+  extends Pick<
+    NodeChild,
+    'id' | 'relevanceId' | 'isPrimary' | 'path' | 'name' | 'connectionId' | 'breadcrumbs'
+  > {
+  metadata: Pick<Metadata, 'visible'>;
 }
 
 export const contextToMinimalNodeChild = (
@@ -70,6 +75,7 @@ export const contextToMinimalNodeChild = (
   const crumb = context.breadcrumbs[articleLanguage] ?? Object.values(context.breadcrumbs)[0] ?? [];
   return {
     id: context.parentIds[context.parentIds.length - 1],
+    breadcrumbs: crumb,
     relevanceId: context.relevanceId,
     connectionId: context.connectionId,
     isPrimary: context.isPrimary,
@@ -78,34 +84,6 @@ export const contextToMinimalNodeChild = (
     metadata: {
       visible: context.isVisible,
     },
-  };
-};
-
-export const contextToNode = (
-  context: TaxonomyContext,
-  contextNode: Node,
-  language: string,
-): NodeChild => {
-  return {
-    breadcrumbs: context.breadcrumbs[language] ?? Object.values(context.breadcrumbs)[0] ?? [],
-    contentUri: contextNode.contentUri,
-    contexts: [],
-    id: context.connectionId,
-    metadata: contextNode.metadata,
-    name: contextNode.name,
-    nodeType: contextNode.nodeType,
-    path: context.path,
-    paths: contextNode.paths,
-    resourceTypes: contextNode.resourceTypes,
-    supportedLanguages: contextNode.supportedLanguages,
-    relevanceId: context.relevanceId ?? RESOURCE_FILTER_CORE,
-    translations: contextNode.translations,
-    url: context.url,
-    connectionId: context.connectionId,
-    isPrimary: context.isPrimary,
-    parentId: context.parentIds[context.parentIds.length - 2],
-    parent: '',
-    rank: context.rank,
   };
 };
 
@@ -144,12 +122,6 @@ const LearningResourceTaxonomy = ({ article, updateNotes, articleLanguage }: Pro
   const [workingResource, setWorkingResource] = useState<TaxNode>(
     toInitialResource(undefined, i18n.language),
   );
-
-  //console.log(workingResource);
-
-  const primaryPath = useMemo(() => {
-    return workingResource.placements.find((p) => p.isPrimary)?.path ?? '';
-  }, [workingResource.placements]);
 
   const updateTaxMutation = useUpdateTaxonomyMutation({
     onError: () => setIsError(true),
@@ -282,11 +254,12 @@ const LearningResourceTaxonomy = ({ article, updateNotes, articleLanguage }: Pro
         path: node.path,
         isPrimary: res.placements.length === 0,
         relevanceId: node.relevanceId,
-        connectionId: '',
-        name: node.name,
+        breadcrumbs: node.breadcrumbs,
         metadata: {
           visible: node.metadata.visible,
         },
+        connectionId: '',
+        name: node.name,
       };
       return { ...res, placements: res.placements.concat(newPlacement) };
     });
@@ -417,7 +390,6 @@ const LearningResourceTaxonomy = ({ article, updateNotes, articleLanguage }: Pro
       />
       <TopicConnections
         addConnection={addConnection}
-        primaryPath={primaryPath}
         structure={subjects}
         selectedNodes={workingResource.placements}
         removeConnection={removeConnection}

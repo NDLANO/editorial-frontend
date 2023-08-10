@@ -7,7 +7,7 @@
  */
 
 import orderBy from 'lodash/orderBy';
-import { ResourceType, ResolvedUrl } from '@ndla/types-taxonomy';
+import { ResolvedUrl, Node } from '@ndla/types-taxonomy';
 import { apiResourceUrl, httpFunctions } from '../../util/apiHelpers';
 import { createResourceResourceType, deleteResourceResourceType } from './resourcetypes';
 import { taxonomyApi } from '../../config';
@@ -16,6 +16,7 @@ import { TaxNode } from '../../containers/ArticlePage/LearningResourcePage/compo
 import { doDiff } from '../../containers/NodeDiff/diffUtils';
 import {
   deleteNodeConnection,
+  postNode,
   postNodeConnection,
   putNodeConnection,
   putNodeMetadata,
@@ -24,21 +25,6 @@ import {
 const baseUrl = apiResourceUrl(taxonomyApi);
 
 const { fetchAndResolve } = httpFunctions;
-
-interface ResourceTypesGetParams extends WithTaxonomyVersion {
-  language: string;
-}
-/* Option items */
-const fetchResourceTypes = ({
-  language,
-  taxonomyVersion,
-}: ResourceTypesGetParams): Promise<ResourceType[]> => {
-  return fetchAndResolve({
-    url: `${baseUrl}/resource-types`,
-    taxonomyVersion,
-    queryParams: { language },
-  });
-};
 
 interface ResolveUrlsParams extends WithTaxonomyVersion {
   path: string;
@@ -126,4 +112,37 @@ export const updateTax = async (
   }
 };
 
-export { fetchResourceTypes, resolveUrls };
+export interface CreateTopicNodeConnections extends WithTaxonomyVersion {
+  articleId: number;
+  placements: Node[];
+}
+
+export const createTopicNodeConnections = async ({
+  articleId,
+  placements,
+  taxonomyVersion,
+}: CreateTopicNodeConnections) => {
+  const placementPromises = placements.map(async (placement) => {
+    const location = await postNode({
+      body: {
+        contentUri: `urn:article:${articleId}`,
+        name: placement.name,
+        nodeType: 'TOPIC',
+        visible: placement.metadata.visible,
+      },
+      taxonomyVersion,
+    });
+
+    const nodeId = location.replace('/v1/nodes/', '');
+    await postNodeConnection({
+      body: {
+        childId: nodeId,
+        parentId: placement.id,
+      },
+      taxonomyVersion,
+    });
+  });
+  await Promise.resolve(placementPromises);
+};
+
+export { resolveUrls };

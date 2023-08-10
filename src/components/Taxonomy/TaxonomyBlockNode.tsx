@@ -40,7 +40,7 @@ interface Props {
   openedPaths: string[];
   toggleOpen: (node: Node) => void;
   onSelect: (node: NodeChild) => void;
-  selectedNodes: MinimalNodeChild[];
+  selectedNodes: MinimalNodeChild[] | Node[];
 }
 
 export const RootNode = ({ node, toggleOpen, openedPaths, onSelect, selectedNodes }: Props) => {
@@ -92,7 +92,7 @@ interface NodeItemProps {
   onSelect: (node: NodeChild) => void;
   toggleOpen: (node: Node) => void;
   openedPaths: string[];
-  selectedNodes: MinimalNodeChild[];
+  selectedNodes: MinimalNodeChild[] | Node[];
   parentActive: boolean;
 }
 

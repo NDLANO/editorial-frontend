@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-export { fetchResourceTypes } from './taxonomyApi';
 
 export {
   fetchResource,
@@ -20,12 +19,6 @@ export {
   createResourceResourceType,
 } from './resourcetypes';
 
-export {
-  fetchSubjects,
-  fetchSubject,
-  fetchSubjectTopics,
-  updateSubject,
-  addSubjectTopic,
-} from './subjects';
+export { fetchSubjects, fetchSubject, updateSubject } from './subjects';
 
-export { addTopic, fetchTopic, addTopicToTopic, updateTopicMetadata } from './topics';
+export { fetchTopic } from './topics';

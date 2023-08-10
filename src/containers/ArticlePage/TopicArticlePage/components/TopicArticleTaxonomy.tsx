@@ -10,36 +10,23 @@ import { MouseEvent, useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import partition from 'lodash/partition';
-import { Spinner } from '@ndla/icons';
 import { ErrorMessage } from '@ndla/ui';
 import { ButtonV2 } from '@ndla/button';
 import { spacing } from '@ndla/core';
 import { IUpdatedArticle, IArticle } from '@ndla/types-backend/draft-api';
 import { SingleValue } from '@ndla/select';
 import { useQueryClient } from '@tanstack/react-query';
-import { Metadata } from '@ndla/types-taxonomy';
+import { Metadata, Node } from '@ndla/types-taxonomy';
 import isEqual from 'lodash/isEqual';
-import {
-  fetchSubjectTopics,
-  addTopicToTopic,
-  addSubjectTopic,
-  addTopic,
-  updateTopicMetadata,
-} from '../../../../modules/taxonomy';
-import {
-  groupTopics,
-  pathToUrnArray,
-  getBreadcrumbFromPath,
-} from '../../../../util/taxonomyHelpers';
+import sortBy from 'lodash/sortBy';
+import differenceBy from 'lodash/differenceBy';
+import { groupChildNodes } from '../../../../util/taxonomyHelpers';
 import handleError from '../../../../util/handleError';
 import SaveButton from '../../../../components/SaveButton';
 import TopicArticleConnections from './TopicArticleConnections';
 
 import { FormikFieldHelp } from '../../../../components/FormikField';
-import { LocaleType } from '../../../../interfaces';
 import {
-  SubjectTopic,
-  SubjectType,
   TaxonomyElement,
   TopicConnections,
 } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
@@ -49,13 +36,10 @@ import { useSession } from '../../../Session/SessionProvider';
 import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
 import VersionSelect from '../../components/VersionSelect';
 import { useVersions } from '../../../../modules/taxonomy/versions/versionQueries';
-import { useNodes } from '../../../../modules/nodes/nodeQueries';
-import {
-  SubjectWithTopics,
-  TaxNode,
-  toInitialResource,
-} from '../../LearningResourcePage/components/LearningResourceTaxonomy';
-import { useUpdateTaxonomyMutation } from '../../../../modules/taxonomy/taxonomyMutations';
+import { nodesQueryKey, useNodes } from '../../../../modules/nodes/nodeQueries';
+import { fetchChildNodes } from '../../../../modules/nodes/nodeApi';
+import { NodeWithChildren } from '../../../../components/Taxonomy/TaxonomyBlockNode';
+import { useCreateTopicNodeConnectionsMutation } from '../../../../modules/taxonomy/taxonomyMutations';
 
 type Props = {
   article: IArticle;
@@ -83,36 +67,45 @@ const ButtonContainer = styled.div`
 
 const TopicArticleTaxonomy = ({ article, updateNotes, articleLanguage }: Props) => {
   const [status, setStatus] = useState('loading');
-  const [stagedTopicChanges, setStagedTopicChanges] = useState<StagedTopic[]>([]);
   const [showWarning, setShowWarning] = useState(false);
-  const [subjects, setSubjects] = useState<SubjectWithTopics[]>([]);
-  const { t, i18n } = useTranslation();
+  const [subjects, setSubjects] = useState<NodeWithChildren[]>([]);
+  const { t } = useTranslation();
   const { userPermissions } = useSession();
   const { taxonomyVersion, changeVersion } = useTaxonomyVersion();
   const { data: versions } = useVersions();
   const qc = useQueryClient();
 
-  const updateTaxMutation = useUpdateTaxonomyMutation();
-
-  const [workingResource, setWorkingResource] = useState<TaxNode>(
-    toInitialResource(undefined, i18n.language),
+  useNodes(
+    { language: articleLanguage, taxonomyVersion, nodeType: 'SUBJECT' },
+    {
+      select: (subject) =>
+        sortBy(
+          subject.filter((s) => !!s.name),
+          (s) => s.name,
+        ),
+      onSuccess: (data) => setSubjects(data),
+    },
   );
+
+  const [placements, setPlacements] = useState<Node[]>([]);
+
+  const createTopicNodeConnectionsMutation = useCreateTopicNodeConnectionsMutation();
 
   const nodesQuery = useNodes(
     {
-      language: i18n.language,
+      language: articleLanguage,
       contentURI: `urn:article:${article.id}`,
       taxonomyVersion,
       includeContexts: true,
     },
     {
-      onSuccess: (data) => setWorkingResource(toInitialResource(data?.[0], articleLanguage)),
+      onSuccess: setPlacements,
     },
   );
 
-  const initialResource: TaxNode = useMemo(
-    () => JSON.parse(JSON.stringify(toInitialResource(nodesQuery.data?.[0], i18n.language))),
-    [i18n.language, nodesQuery.data],
+  const initialPlacements: Node[] = useMemo(
+    () => JSON.parse(JSON.stringify(nodesQuery.data ?? [])),
+    [nodesQuery.data],
   );
 
   const [resources, topics] = useMemo(
@@ -121,79 +114,60 @@ const TopicArticleTaxonomy = ({ article, updateNotes, articleLanguage }: Props) 
   );
 
   const isDirty = useMemo(
-    () => !isEqual(initialResource, workingResource),
-    [initialResource, workingResource],
+    () => !isEqual(initialPlacements, placements),
+    [initialPlacements, placements],
   );
 
-  const addTopicsToSubject = useCallback((subjectId: string, topics: SubjectTopic[]) => {
-    setSubjects((subjects) => subjects.map((s) => (s.id === subjectId ? { ...s, topics } : s)));
-  }, []);
-
   const getSubjectTopics = useCallback(
-    async (subjectId: string, locale: LocaleType) => {
-      if (subjects.some((subject) => subject.id === subjectId && subject.topics)) {
+    async (subjectId: string) => {
+      if (subjects.some((subject) => subject.id === subjectId && !!subject.childNodes)) {
         return;
       }
       try {
-        const allTopics = await fetchSubjectTopics({
-          subject: subjectId,
-          language: locale,
+        const nodes = await fetchChildNodes({
+          id: subjectId,
+          language: articleLanguage,
           taxonomyVersion,
+          recursive: true,
         });
-        const groupedTopics = groupTopics(allTopics);
-        addTopicsToSubject(subjectId, groupedTopics);
-      } catch (e) {
-        handleError(e);
+        const childNodes = groupChildNodes(nodes);
+        setSubjects((subjects) =>
+          subjects.map((s) => (s.id === subjectId ? { ...s, childNodes } : s)),
+        );
+      } catch (err) {
+        handleError(err);
       }
     },
-    [addTopicsToSubject, subjects, taxonomyVersion],
+    [articleLanguage, subjects, taxonomyVersion],
   );
 
-  const stageTaxonomyChanges = async ({ path, locale }: { path: string; locale?: LocaleType }) => {
-    if (path) {
-      const breadcrumb = await getBreadcrumbFromPath(path, taxonomyVersion, locale);
-      const newTopic: StagedTopic = {
-        id: 'staged',
-        name: article.title?.title ?? '',
-        path: `${path}/staged`,
-        breadcrumb,
-        metadata: {
-          grepCodes: [],
-          visible: false,
-          customFields: {},
-        },
-      };
-
-      setIsDirty(true);
-      setStagedTopicChanges((prev) => [...prev, newTopic]);
-    }
-  };
-
-  const addNewTopic = async (stagedNewTopics: StagedTopic[], locale?: LocaleType) => {
-    const existingTopics = stagedTopicChanges.filter((t) => !stagedNewTopics.includes(t));
-    const newTopics = await Promise.all(
-      stagedNewTopics.map((topic) => createAndPlaceTopic(topic, article.id, locale)),
-    );
-    setIsDirty(false);
-    setStagedTopicChanges(existingTopics.concat(newTopics));
-    setStatus('success');
-  };
+  const addConnection = useCallback((node: Node) => {
+    setPlacements((placements) => placements.concat(node));
+  }, []);
 
   const handleSubmit = async (evt: MouseEvent<HTMLButtonElement>) => {
     evt.preventDefault();
-    setStatus('loading');
-
-    const stagedNewTopics = stagedTopicChanges.filter((topic) => topic.id === 'staged');
+    const newNodes = differenceBy(placements, initialPlacements, (p) => p.id);
+    if (!newNodes.length) return;
     try {
-      if (stagedNewTopics.length > 0) {
-        await addNewTopic(stagedNewTopics, i18n.language);
-      }
-
-      updateNotes({
+      await createTopicNodeConnectionsMutation.mutateAsync({
+        placements: newNodes,
+        articleId: article.id,
+        taxonomyVersion,
+      });
+      await updateNotes({
         revision: article.revision,
         language: article.title?.language,
         notes: ['Oppdatert taksonomi.'],
       });
+      qc.invalidateQueries(
+        nodesQueryKey({
+          contentURI: `urn:article:${article.id}`,
+          taxonomyVersion,
+          language: articleLanguage,
+          includeContexts: true,
+        }),
+      );
     } catch (err) {
       handleError(err);
       setStatus('error');
@@ -206,84 +180,27 @@ const TopicArticleTaxonomy = ({ article, updateNotes, articleLanguage }: Props) 
     } else if (!showWarning) {
       setShowWarning(true);
     } else {
-      setWorkingResource(initialResource);
+      setPlacements(initialPlacements);
       setShowWarning(false);
       changeVersion('draft');
     }
-  }, [changeVersion, initialResource, isDirty, showWarning]);
+  }, [changeVersion, initialPlacements, isDirty, showWarning]);
 
-  const createAndPlaceTopic = async (
-    topic: StagedTopic,
-    articleId: number,
-    locale?: LocaleType,
-  ): Promise<StagedTopic> => {
-    const newTopicPath = await addTopic({
-      body: {
-        name: topic.name,
-        contentUri: `urn:article:${articleId}`,
-      },
-      taxonomyVersion,
-    });
-
-    const paths = pathToUrnArray(topic.path);
-    const newTopicId = newTopicPath.split('/').pop() ?? '';
-
-    if (paths.length > 2) {
-      // we are placing it under a topic
-      const parentTopicId = paths.slice(-2)[0];
-      await addTopicToTopic({
-        body: {
-          subtopicid: newTopicId,
-          topicid: parentTopicId,
-        },
-        taxonomyVersion,
-      });
-    } else {
-      // we are placing it under a subject
-      await addSubjectTopic({
-        body: {
-          topicid: newTopicId,
-          subjectid: paths[0],
-        },
-        taxonomyVersion,
-      });
-    }
-    if (!topic.metadata.visible) {
-      await updateTopicMetadata({
-        topicId: newTopicId,
-        body: { visible: topic.metadata.visible },
-        taxonomyVersion,
-      });
-    }
-    const newPath = topic.path.replace('staged', newTopicId.replace('urn:', ''));
-    const breadcrumb = await getBreadcrumbFromPath(newPath, taxonomyVersion, locale);
-    return {
-      name: topic.name,
-      id: newTopicId,
-      path: newPath,
-      breadcrumb,
-      metadata: topic.metadata,
-    };
-  };
-
-  const onVersionChanged = (newVersion: SingleValue) => {
-    if (!newVersion || newVersion.value === taxonomyVersion) return;
-    const oldVersion = taxonomyVersion;
-    try {
-      setStatus('loading');
-      setIsDirty(false);
+  const onVersionChanged = useCallback(
+    (newVersion: SingleValue) => {
+      if (!newVersion || newVersion.value === taxonomyVersion) return;
+      const oldVersion = taxonomyVersion;
       changeVersion(newVersion.value);
+      setShowWarning(false);
       qc.removeQueries({
         predicate: (query) => {
           const qk = query.queryKey as [string, Record<string, any>];
           return qk[1]?.taxonomyVersion === oldVersion;
         },
       });
-    } catch (e) {
-      handleError(e);
-      setStatus('error');
-    }
-  };
+    },
+    [changeVersion, qc, taxonomyVersion],
+  );
 
   // if (status === 'loading') {
   //   return <Spinner />;
@@ -321,23 +238,27 @@ const TopicArticleTaxonomy = ({ article, updateNotes, articleLanguage }: Props) 
         </>
       )}
       <TopicArticleConnections
+        addConnection={addConnection}
         structure={subjects}
-        activeTopics={topics}
+        selectedNodes={placements}
         getSubjectTopics={getSubjectTopics}
-        stageTaxonomyChanges={stageTaxonomyChanges}
       />
       {showWarning && <FormikFieldHelp error>{t('errorMessage.unsavedTaxonomy')}</FormikFieldHelp>}
       <ButtonContainer>
-        <ButtonV2 variant="outline" onClick={onReset} disabled={status === 'loading'}>
+        <ButtonV2
+          variant="outline"
+          onClick={onReset}
+          disabled={!isDirty || createTopicNodeConnectionsMutation.isLoading}
+        >
           {t('reset')}
         </ButtonV2>
         <SaveButton
-          formIsDirty={isDirty}
-          isSaving={status === 'loading'}
-          showSaved={status === 'success' && !isDirty}
+          isSaving={createTopicNodeConnectionsMutation.isLoading}
+          showSaved={createTopicNodeConnectionsMutation.isSuccess && !isDirty}
           disabled={!isDirty}
           onClick={handleSubmit}
           defaultText="saveTax"
+          formIsDirty={isDirty}
         />
       </ButtonContainer>
     </>

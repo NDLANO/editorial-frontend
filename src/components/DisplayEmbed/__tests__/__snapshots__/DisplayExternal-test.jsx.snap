@@ -73,16 +73,10 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
   -webkit-justify-content: flex-end;
   justify-content: flex-end;
   position: absolute;
-  top: -48px;
-  right: 12px;
-}
-
-.emotion-0>* {
-  margin-bottom: 6px;
-}
-
-.emotion-0[data-margin='true'] {
-  margin: 12px;
+  right: 16px;
+  top: 16px;
+  z-index: 2;
+  gap: 6px;
 }
 
 .emotion-1 {
@@ -119,10 +113,6 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
   line-height: 18px;
   min-height: 32px;
   border-width: 1px;
-  outline-width: 2px;
-  color: #20588f;
-  background: transparent;
-  border-color: transparent;
   border-radius: 100%;
   padding: 6px;
   line-height: 1;
@@ -149,21 +139,6 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
 .emotion-1[lang='zh-Hant'] {
   font-size: calc(14px * 1.11);
   font-size: calc(0.7777777777777778rem * 1.11);
-}
-
-.emotion-1:hover,
-.emotion-1:active,
-.emotion-1:focus-visible {
-  color: #20588f;
-  background: #ceddea;
-  border-color: #ceddea;
-}
-
-.emotion-1[disabled] {
-  color: #777777;
-  background-color: transparent;
-  border-color: transparent;
-  cursor: not-allowed;
 }
 
 .emotion-1 svg {
@@ -206,10 +181,6 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
   line-height: 18px;
   min-height: 32px;
   border-width: 1px;
-  outline-width: 2px;
-  color: #d1372e;
-  background: transparent;
-  border-color: transparent;
   border-radius: 100%;
   padding: 6px;
   line-height: 1;
@@ -238,25 +209,30 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
   font-size: calc(0.7777777777777778rem * 1.11);
 }
 
-.emotion-2:hover,
-.emotion-2:active,
-.emotion-2:focus-visible {
-  color: #fff;
-  background: #d1372e;
-  border-color: #d1372e;
-}
-
-.emotion-2[disabled] {
-  color: #777777;
-  background-color: transparent;
-  border-color: transparent;
-  cursor: not-allowed;
-}
-
 .emotion-2 svg {
   width: 24px;
   height: 24px;
   margin: 0;
+}
+
+.emotion-2:hover,
+.emotion-2:focus,
+.emotion-2:focus-within,
+.emotion-2:focus-visible,
+.emotion-2:active {
+  background-color: #fff;
+}
+
+.emotion-2:hover svg,
+.emotion-2:focus svg,
+.emotion-2:focus-within svg,
+.emotion-2:focus-visible svg,
+.emotion-2:active svg {
+  color: #d1372e;
+}
+
+.emotion-3[data-show-copy-outline='true'] {
+  box-shadow: rgb(32, 88, 143) 0 0 0 2px;
 }
 
 .emotion-4 {
@@ -269,86 +245,75 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
 <div>
   <div
     class="c-figure"
+    contenteditable="false"
   >
     <div
       class="emotion-0"
-      contenteditable="false"
+      data-white="true"
     >
-      <div
-        data-tooltip="Rediger eksternt element"
-        data-tooltip-container="true"
+      <button
+        aria-label="Rediger eksternt element"
+        class="emotion-1"
+        title="Rediger eksternt element"
+        type="button"
       >
-        <button
-          aria-label="Rediger eksternt element"
-          class="emotion-1"
-          data-state="closed"
-          data-trigger="true"
-          type="button"
+        <svg
+          aria-hidden="true"
+          class="c-icon"
+          data-license="Apache License 2.0"
+          data-source="Material Design"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
+          style="vertical-align: middle;"
+          viewBox="0 0 24 24"
+          width="1em"
         >
-          <svg
-            aria-hidden="true"
-            class="c-icon"
-            data-license="Apache License 2.0"
-            data-source="Material Design"
-            fill="currentColor"
-            height="1em"
-            preserveAspectRatio="xMidYMid meet"
-            style="vertical-align: middle;"
-            viewBox="0 0 24 24"
-            width="1em"
-          >
-            <g>
-              <path
-                d="M0 0h24v24H0z"
-                fill="none"
-              />
-              <path
-                d="M3.9 12c0-1.7 1.4-3.1 3.1-3.1h4V7H7a5 5 0 0 0 0 10h4v-1.9H7A3.1 3.1 0 0 1 3.9 12zM8 13h8v-2H8v2zm9-6h-4v1.9h4a3.1 3.1 0 0 1 0 6.2h-4V17h4a5 5 0 0 0 0-10z"
-              />
-            </g>
-          </svg>
-        </button>
-      </div>
-      <div
-        data-tooltip="Fjern eksternt element"
-        data-tooltip-container="true"
+          <g>
+            <path
+              d="M0 0h24v24H0z"
+              fill="none"
+            />
+            <path
+              d="M3.9 12c0-1.7 1.4-3.1 3.1-3.1h4V7H7a5 5 0 0 0 0 10h4v-1.9H7A3.1 3.1 0 0 1 3.9 12zM8 13h8v-2H8v2zm9-6h-4v1.9h4a3.1 3.1 0 0 1 0 6.2h-4V17h4a5 5 0 0 0 0-10z"
+            />
+          </g>
+        </svg>
+      </button>
+      <button
+        aria-label="Fjern eksternt element"
+        class="emotion-2"
+        data-cy="remove-element"
+        title="Fjern eksternt element"
+        type="button"
       >
-        <button
-          aria-label="Fjern eksternt element"
-          class="emotion-2"
-          data-cy="remove-element"
-          data-state="closed"
-          data-trigger="true"
-          type="button"
+        <svg
+          aria-hidden="true"
+          class="c-icon"
+          data-license="Apache License 2.0"
+          data-source="Material Design"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
+          style="vertical-align: middle;"
+          viewBox="0 0 24 24"
+          width="1em"
         >
-          <svg
-            aria-hidden="true"
-            class="c-icon"
-            data-license="Apache License 2.0"
-            data-source="Material Design"
-            fill="currentColor"
-            height="1em"
-            preserveAspectRatio="xMidYMid meet"
-            style="vertical-align: middle;"
-            viewBox="0 0 24 24"
-            width="1em"
-          >
-            <g>
-              <path
-                d="M0 0h24v24H0V0z"
-                fill="none"
-              />
-              <path
-                d="M6 19c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V7H6v12zm2.5-7.1 1.4-1.4 2.1 2 2.1-2 1.4 1.4-2 2.1 2 2.1-1.4 1.4-2.1-2-2.1 2-1.4-1.4 2-2.1-2-2.1zm7-7.9-1-1h-5l-1 1H5v2h14V4z"
-              />
-              <path
-                d="M0 0h24v24H0z"
-                fill="none"
-              />
-            </g>
-          </svg>
-        </button>
-      </div>
+          <g>
+            <path
+              d="M0 0h24v24H0V0z"
+              fill="none"
+            />
+            <path
+              d="M6 19c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V7H6v12zm2.5-7.1 1.4-1.4 2.1 2 2.1-2 1.4 1.4-2 2.1 2 2.1-1.4 1.4-2.1-2-2.1 2-1.4-1.4 2-2.1-2-2.1zm7-7.9-1-1h-5l-1 1H5v2h14V4z"
+            />
+            <path
+              d="M0 0h24v24H0z"
+              fill="none"
+            />
+          </g>
+        </svg>
+      </button>
     </div>
     <div
       class="emotion-3"

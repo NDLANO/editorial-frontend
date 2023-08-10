@@ -12,7 +12,8 @@ import { Editor, Transforms } from 'slate';
 import { ReactEditor, RenderElementProps } from 'slate-react';
 import { IconButtonV2 } from '@ndla/button';
 import { Pin } from '@ndla/icons/common';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { GridCellElement } from '.';
 
 interface Props extends RenderElementProps {
@@ -27,18 +28,26 @@ const StyledButton = styled(IconButtonV2)`
 `;
 
 const GridCell = ({ element, editor, attributes, children }: Props) => {
+  const { t } = useTranslation();
   const onClickSticky = useCallback(() => {
     const parallaxCell = element.data?.parallaxCell === 'true' ? 'false' : 'true';
     const path = ReactEditor.findPath(editor, element);
     Transforms.setNodes(editor, { data: { ...element.data, parallaxCell } }, { at: path });
   }, [editor, element]);
 
+  const label = useMemo(
+    () =>
+      element.data?.parallaxCell !== 'true' ? t('gridForm.setSticky') : t('gridform.unsetSticky'),
+    [t, element.data?.parallaxCell],
+  );
+
   return (
     <StyledGridCell {...attributes}>
       <StyledButton
         onClick={onClickSticky}
         variant={element.data?.parallaxCell === 'true' ? 'solid' : 'ghost'}
-        aria-label="sticky"
+        aria-label={label}
+        title={label}
       >
         <Pin />
       </StyledButton>

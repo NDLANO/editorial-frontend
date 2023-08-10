@@ -557,6 +557,8 @@ const phrases = {
       white: 'Kvit',
       transparent: 'Transparent',
     },
+    setSticky: 'Lås innhald til cella ved sida av',
+    unsetSticky: 'Frigjer innhald frå cella ved sida av',
   },
   blogPostForm: {
     title: 'Rediger bloggpost',

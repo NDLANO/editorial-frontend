@@ -33,7 +33,7 @@ export const defaultLinkBlockList = () =>
 
 export const linkBlockListSerializer: SlateSerializer = {
   deserialize(el) {
-    if (el.tagName.toLowerCase() !== 'nav' || el.dataset.type !== 'link-block-list') return;
+    if (el.tagName.toLowerCase() !== 'nav' || el.dataset.type !== TYPE_LINK_BLOCK_LIST) return;
 
     return slatejsx(
       'element',

@@ -11,6 +11,7 @@ import { spacing, colors } from '@ndla/core';
 import { Editor, Transforms } from 'slate';
 import { ReactEditor, RenderElementProps } from 'slate-react';
 import { IconButtonV2 } from '@ndla/button';
+import { Pin } from '@ndla/icons/common';
 import { useCallback } from 'react';
 import { GridCellElement } from '.';
 
@@ -21,8 +22,6 @@ interface Props extends RenderElementProps {
 
 const StyledButton = styled(IconButtonV2)`
   position: absolute;
-  width: 40px;
-  height: 40px;
   top: ${spacing.xxsmall};
   right: ${spacing.xxsmall};
 `;
@@ -41,7 +40,7 @@ const GridCell = ({ element, editor, attributes, children }: Props) => {
         variant={element.data?.parallaxCell === 'true' ? 'solid' : 'ghost'}
         aria-label="sticky"
       >
-        S
+        <Pin />
       </StyledButton>
       {children}
     </StyledGridCell>

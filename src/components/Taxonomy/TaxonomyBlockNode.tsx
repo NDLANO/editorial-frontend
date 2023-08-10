@@ -1,3 +1,11 @@
+/**
+ * Copyright (c) 2023-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 import { Node, NodeChild } from '@ndla/types-taxonomy';
 import { useCallback, useMemo } from 'react';
 import styled from '@emotion/styled';
@@ -22,6 +30,7 @@ export interface NodeWithChildren extends Node {
 const ItemBar = styled(StyledItemBar)`
   display: flex;
   justify-content: space-between;
+  padding: 0 ${spacing.small};
   &:hover,
   &:active,
   &:focus-within {
@@ -40,21 +49,34 @@ interface Props {
   openedPaths: string[];
   toggleOpen: (node: Node) => void;
   onSelect: (node: NodeChild) => void;
+  onRootSelected?: (node: NodeWithChildren) => void;
   selectedNodes: MinimalNodeChild[] | Node[];
 }
 
-export const RootNode = ({ node, toggleOpen, openedPaths, onSelect, selectedNodes }: Props) => {
+export const TaxonomyBlockNode = ({
+  node,
+  toggleOpen,
+  openedPaths,
+  onSelect,
+  selectedNodes,
+  onRootSelected,
+}: Props) => {
+  const { t } = useTranslation();
   const isOpen = useMemo(() => openedPaths.includes(node.id), [openedPaths, node.id]);
   const isActive = useMemo(
     () => openedPaths[openedPaths.length - 1] === node.id,
     [openedPaths, node.id],
   );
 
+  const isSelected = useMemo(() => {
+    return selectedNodes.some((sel) => sel.id === node.id);
+  }, [selectedNodes, node]);
+
   const onClick = useCallback(() => toggleOpen(node), [node, toggleOpen]);
 
   return (
     <StyledStructureItem key={node.path} greyedOut={!isActive}>
-      <StyledItemBar highlight={isActive}>
+      <ItemBar highlight={isActive}>
         <ItemTitleButton
           type="button"
           hasChildNodes
@@ -65,7 +87,22 @@ export const RootNode = ({ node, toggleOpen, openedPaths, onSelect, selectedNode
         >
           {node.name}
         </ItemTitleButton>
-      </StyledItemBar>
+        {isSelected ? (
+          <StyledChecked>
+            <Check />
+            <span>{t('taxonomy.topics.addedTopic')}</span>
+          </StyledChecked>
+        ) : onRootSelected ? (
+          <StyledButton
+            data-select-button=""
+            variant="outline"
+            size="small"
+            onClick={() => onRootSelected(node)}
+          >
+            {t('taxonomy.topics.filestructureButton')}
+          </StyledButton>
+        ) : null}
+      </ItemBar>
       {isOpen && node.childNodes && (
         <Fade show fadeType="fadeInTop">
           <StyledStructureWrapper>
@@ -179,4 +216,4 @@ const ChildNode = ({
   );
 };
 
-export default RootNode;
+export default TaxonomyBlockNode;

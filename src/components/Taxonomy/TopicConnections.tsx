@@ -26,7 +26,7 @@ import { fetchUserData } from '../../modules/draft/draftApi';
 import ActiveTopicConnections from './ActiveTopicConnections';
 import HowToHelper from '../HowTo/HowToHelper';
 import { MinimalNodeChild } from '../../containers/ArticlePage/LearningResourcePage/components/LearningResourceTaxonomy';
-import RootNode, { NodeWithChildren } from './TaxonomyBlockNode';
+import TaxonomyBlockNode, { NodeWithChildren } from './TaxonomyBlockNode';
 
 const StyledModalHeader = styled(ModalHeader)`
   padding-bottom: 0;
@@ -128,7 +128,7 @@ const TopicConnections = ({
           <ModalBody>
             <hr />
             {nodes.map((node) => (
-              <RootNode
+              <TaxonomyBlockNode
                 key={node.id}
                 node={node}
                 openedPaths={openedPaths}

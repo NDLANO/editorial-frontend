@@ -21,11 +21,13 @@ import {
   ModalContent,
 } from '@ndla/modal';
 import { Switch } from '@ndla/switch';
-import { NodeChild, Node } from '@ndla/types-taxonomy';
+import { Node } from '@ndla/types-taxonomy';
 import { fetchUserData } from '../../../../modules/draft/draftApi';
 import { HowToHelper } from '../../../../components/HowTo';
 import ActiveTopicConnections from '../../../../components/Taxonomy/ActiveTopicConnections';
-import RootNode, { NodeWithChildren } from '../../../../components/Taxonomy/TaxonomyBlockNode';
+import TaxonomyBlockNode, {
+  NodeWithChildren,
+} from '../../../../components/Taxonomy/TaxonomyBlockNode';
 import { MinimalNodeChild } from '../../LearningResourcePage/components/LearningResourceTaxonomy';
 
 const StyledModalHeader = styled(ModalHeader)`
@@ -35,7 +37,7 @@ const StyledModalHeader = styled(ModalHeader)`
 interface Props {
   structure: NodeWithChildren[];
   selectedNodes: MinimalNodeChild[] | Node[];
-  addConnection: (node: NodeChild) => void;
+  addConnection: (node: Node) => void;
   getSubjectTopics: (subjectId: string) => Promise<void>;
 }
 
@@ -116,12 +118,16 @@ const TopicArticleConnections = ({
           <ModalBody>
             <hr />
             {nodes.map((node) => (
-              <RootNode
+              <TaxonomyBlockNode
                 key={node.id}
                 node={node}
                 openedPaths={openedPaths}
                 toggleOpen={handleOpenToggle}
                 selectedNodes={selectedNodes}
+                onRootSelected={(node) => {
+                  addConnection(node);
+                  closeModal();
+                }}
                 onSelect={(node) => {
                   addConnection(node);
                   closeModal();

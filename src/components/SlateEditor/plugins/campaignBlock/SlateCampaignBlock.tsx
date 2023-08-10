@@ -25,10 +25,11 @@ import styled from '@emotion/styled';
 import { CampaignBlock } from '@ndla/ui';
 import { IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
 import { ReactEditor, RenderElementProps } from 'slate-react';
+import { DeleteForever } from '@ndla/icons/editor';
 import { CampaignBlockElement } from '.';
-import DeleteButton from '../../../DeleteButton';
 import { fetchImage } from '../../../../modules/image/imageApi';
 import CampaignBlockForm from './CampaignBlockForm';
+import { StyledDeleteEmbedButton, StyledFigureButtons } from '../embed/FigureButtons';
 
 interface Props extends RenderElementProps {
   element: CampaignBlockElement;
@@ -41,12 +42,11 @@ const CampaignBlockWrapper = styled.div`
 
   > div {
     width: 100%;
-  }
-`;
 
-const ButtonContainer = styled.div`
-  display: flex;
-  justify-content: flex-end;
+    &:first-child {
+      position: relative;
+    }
+  }
 `;
 
 const StyledModalHeader = styled(ModalHeader)`
@@ -126,18 +126,27 @@ const SlateCampaignBlock = ({ element, editor, attributes, children }: Props) =>
       <CampaignBlockWrapper {...attributes}>
         {campaignBlock && (
           <div contentEditable={false}>
-            <ButtonContainer>
+            <StyledFigureButtons data-white={true}>
               <ModalTrigger>
                 <IconButtonV2
-                  variant="ghost"
+                  colorTheme="light"
                   aria-label={t('contactBlockForm.edit')}
+                  title={t('contactBlockForm.edit')}
                   onClick={() => setIsEditing(true)}
                 >
                   <Pencil />
                 </IconButtonV2>
               </ModalTrigger>
-              <DeleteButton aria-label={t('delete')} onClick={handleRemove} />
-            </ButtonContainer>
+              <StyledDeleteEmbedButton
+                aria-label={t('delete')}
+                colorTheme="danger"
+                title={t('delete')}
+                data-testid="remove-blogpost"
+                onClick={handleRemove}
+              >
+                <DeleteForever />
+              </StyledDeleteEmbedButton>
+            </StyledFigureButtons>
             <CampaignBlock
               title={{ title: campaignBlock.title, language: campaignBlock.titleLanguage }}
               description={{

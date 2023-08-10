@@ -13,10 +13,13 @@ import styled from '@emotion/styled';
 import { Figure } from '@ndla/ui';
 import { colors } from '@ndla/core';
 import { Modal, ModalContent, ModalTrigger } from '@ndla/modal';
-
+import { IconButtonV2 } from '@ndla/button';
+import { DeleteForever } from '@ndla/icons/editor';
+import { SafeLinkIconButton } from '@ndla/safelink';
+import { Link } from '@ndla/icons/common';
 import EditAudio, { audioEmbedFormRules, toAudioEmbedFormValues } from './EditAudio';
 import AudioPlayerMounter from './AudioPlayerMounter';
-import FigureButtons from './FigureButtons';
+import { StyledDeleteEmbedButton, StyledFigureButtons } from './FigureButtons';
 import { SlateAudio as Audio, LocaleType, AudioEmbed } from '../../../../interfaces';
 import { fetchAudio } from '../../../../modules/audio/audioApi';
 import { NdlaErrorPayload, onError } from '../../../../util/resolveJsonOrRejectWithError';
@@ -104,44 +107,59 @@ const SlateAudio = ({
   return (
     <div draggable {...attributes}>
       <Figure id={`${audio.id}`}>
-        {!speech && (
-          <FigureButtons
-            tooltip={t('form.audio.remove')}
-            onRemoveClick={onRemoveClick}
-            embed={embed}
-            figureType="audio"
-            language={language}
-          />
-        )}
-        <Modal open={editMode} onOpenChange={setEditMode}>
-          {audio.id ? (
-            <ModalTrigger disabled={!audio.id}>
-              <SlateAudioWrapper
-                showCopyOutline={showCopyOutline}
-                hasError={!!error}
-                contentEditable={false}
-                role="button"
-                draggable
-                className="c-placeholder-editmode"
-                tabIndex={0}
+        <div contentEditable={false}>
+          {!speech && (
+            <StyledFigureButtons>
+              <SafeLinkIconButton
+                colorTheme="light"
+                to={`/media/audio-upload/${embed.resource_id}/edit/${language}`}
+                target="_blank"
+                title={t('form.editAudio')}
+                aria-label={t('form.editAudio')}
               >
-                <AudioPlayerMounter audio={audio} locale={locale} speech={speech} />
-              </SlateAudioWrapper>
-            </ModalTrigger>
-          ) : (
-            audioLoading && <Spinner />
+                <Link />
+              </SafeLinkIconButton>
+              <StyledDeleteEmbedButton
+                title={t('form.audio.remove')}
+                aria-label={t('form.audio.remove')}
+                colorTheme="danger"
+                onClick={onRemoveClick}
+                data-cy="remove-element"
+              >
+                <DeleteForever />
+              </StyledDeleteEmbedButton>
+            </StyledFigureButtons>
           )}
-          <ModalContent>
-            <EditAudio
-              saveEmbedUpdates={saveEmbedUpdates}
-              setHasError={setHasError}
-              audio={audio}
-              embed={embed}
-              onExit={toggleEdit}
-              type={embed.type || 'standard'}
-            />
-          </ModalContent>
-        </Modal>
+          <Modal open={editMode} onOpenChange={setEditMode}>
+            {audio.id ? (
+              <ModalTrigger disabled={!audio.id}>
+                <SlateAudioWrapper
+                  showCopyOutline={showCopyOutline}
+                  hasError={!!error}
+                  contentEditable={false}
+                  role="button"
+                  draggable
+                  className="c-placeholder-editmode"
+                  tabIndex={0}
+                >
+                  <AudioPlayerMounter audio={audio} locale={locale} speech={speech} />
+                </SlateAudioWrapper>
+              </ModalTrigger>
+            ) : (
+              audioLoading && <Spinner />
+            )}
+            <ModalContent>
+              <EditAudio
+                saveEmbedUpdates={saveEmbedUpdates}
+                setHasError={setHasError}
+                audio={audio}
+                embed={embed}
+                onExit={toggleEdit}
+                type={embed.type || 'standard'}
+              />
+            </ModalContent>
+          </Modal>
+        </div>
       </Figure>
       {children}
     </div>

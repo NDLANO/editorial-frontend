@@ -13,10 +13,14 @@ import { useTranslation } from 'react-i18next';
 import { Figure } from '@ndla/ui';
 import { colors } from '@ndla/core';
 import { Modal, ModalContent, ModalTrigger } from '@ndla/modal';
-import { fetchAudio } from '../../../../modules/audio/audioApi';
+import { SafeLinkIconButton } from '@ndla/safelink';
+import { Link } from '@ndla/icons/common';
+import { IconButtonV2 } from '@ndla/button';
+import { DeleteForever } from '@ndla/icons/editor';
 import { NdlaErrorPayload, onError } from '../../../../util/resolveJsonOrRejectWithError';
+import { fetchAudio } from '../../../../modules/audio/audioApi';
 import AudioPlayerMounter from './AudioPlayerMounter';
-import FigureButtons from './FigureButtons';
+import { StyledDeleteEmbedButton, StyledFigureButtons } from './FigureButtons';
 import { SlateAudio as Audio, LocaleType, AudioEmbed } from '../../../../interfaces';
 import EditPodcast, { podcastEmbedFormRules, toPodcastEmbedFormValues } from './EditPodcast';
 import validateFormik from '../../../formikValidationSchema';
@@ -98,44 +102,59 @@ const SlatePodcast = ({
   return (
     <div draggable {...attributes}>
       <Figure id={`${audio.id}`}>
-        <FigureButtons
-          figureType="podcast"
-          tooltip={t('form.podcast.remove')}
-          onRemoveClick={onRemoveClick}
-          embed={embed}
-          language={language}
-        />
-        <Modal open={editing} onOpenChange={setEditing}>
-          {audio.id ? (
-            <ModalTrigger disabled={!audio.id}>
-              <SlatePodcastWrapper
-                showCopyOutline={showCopyOutline}
-                hasError={hasError}
-                contentEditable={false}
-                role="button"
-                className="c-placeholder-editomode"
-                draggable
-                tabIndex={0}
-                onKeyPress={() => setEditing(true)}
-                onClick={() => setEditing(true)}
-              >
-                <AudioPlayerMounter audio={audio} locale={locale} speech={false} />
-              </SlatePodcastWrapper>
-            </ModalTrigger>
-          ) : (
-            audioLoading && <Spinner />
-          )}
-          <ModalContent>
-            <EditPodcast
-              close={close}
-              embed={embed}
-              locale={locale}
-              podcast={audio}
-              setHasError={setHasError}
-              saveEmbedUpdates={saveEmbedUpdates}
-            />
-          </ModalContent>
-        </Modal>
+        <div contentEditable={false}>
+          <StyledFigureButtons>
+            <SafeLinkIconButton
+              colorTheme="light"
+              to={`/media/podcast-upload/${embed.resource_id}/edit/${language}`}
+              target="_blank"
+              title={t('form.editPodcast')}
+              aria-label={t('form.editPodcast')}
+            >
+              <Link />
+            </SafeLinkIconButton>
+            <StyledDeleteEmbedButton
+              title={t('form.podcast.remove')}
+              aria-label={t('form.podcast.remove')}
+              colorTheme="danger"
+              onClick={onRemoveClick}
+              data-cy="remove-element"
+            >
+              <DeleteForever />
+            </StyledDeleteEmbedButton>
+          </StyledFigureButtons>
+          <Modal open={editing} onOpenChange={setEditing}>
+            {audio.id ? (
+              <ModalTrigger disabled={!audio.id}>
+                <SlatePodcastWrapper
+                  showCopyOutline={showCopyOutline}
+                  hasError={hasError}
+                  contentEditable={false}
+                  role="button"
+                  className="c-placeholder-editomode"
+                  draggable
+                  tabIndex={0}
+                  onKeyPress={() => setEditing(true)}
+                  onClick={() => setEditing(true)}
+                >
+                  <AudioPlayerMounter audio={audio} locale={locale} speech={false} />
+                </SlatePodcastWrapper>
+              </ModalTrigger>
+            ) : (
+              audioLoading && <Spinner />
+            )}
+            <ModalContent>
+              <EditPodcast
+                close={close}
+                embed={embed}
+                locale={locale}
+                podcast={audio}
+                setHasError={setHasError}
+                saveEmbedUpdates={saveEmbedUpdates}
+              />
+            </ModalContent>
+          </Modal>
+        </div>
       </Figure>
       {children}
     </div>

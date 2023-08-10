@@ -1879,6 +1879,13 @@ const phrases = {
   dragAndDrop: {
     handle: 'Drag handle',
   },
+  datePicker: {
+    chooseMonth: 'Month:',
+    chooseYear: 'Year:',
+    labelNext: 'Go to next month',
+    previousMonth: 'Go to previous month',
+    goToToday: 'Go to today',
+  },
 };
 
 export default phrases;

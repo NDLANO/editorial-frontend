@@ -1368,7 +1368,7 @@ const phrases = {
     versionSelect: 'This article does not exist in the selected version',
     errorWhenFetchingTaxonomyArticle: 'There was a problem fetching the underlying article',
     unsavedTaxonomy:
-      'You have unsaved changes. Press cancel again if you are sure you want to continue.',
+      'You have unsaved changes. Press reset again if you are sure you want to continue.',
     auth0:
       'Authentication error. Press cancel to take care of any changes you have made before logging in again. The following error message came from auth0: {{message}}',
     statusCode: {

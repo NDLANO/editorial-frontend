@@ -556,6 +556,8 @@ const phrases = {
       white: 'White',
       transparent: 'Transparent',
     },
+    setSticky: 'Lock content to adjacent grid cell',
+    unsetSticky: 'Unlock content from adjacent grid cell',
   },
   blogPostForm: {
     title: 'Edit blog post',

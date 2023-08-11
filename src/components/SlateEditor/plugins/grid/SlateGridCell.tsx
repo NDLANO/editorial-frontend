@@ -23,6 +23,7 @@ interface Props extends RenderElementProps {
 
 const StyledButton = styled(IconButtonV2)`
   position: absolute;
+  z-index: 10;
   top: ${spacing.xxsmall};
   right: ${spacing.xxsmall};
 `;
@@ -37,13 +38,14 @@ const GridCell = ({ element, editor, attributes, children }: Props) => {
 
   const label = useMemo(
     () =>
-      element.data?.parallaxCell !== 'true' ? t('gridForm.setSticky') : t('gridform.unsetSticky'),
+      element.data?.parallaxCell !== 'true' ? t('gridForm.setSticky') : t('gridForm.unsetSticky'),
     [t, element.data?.parallaxCell],
   );
 
   return (
     <StyledGridCell {...attributes}>
       <StyledButton
+        contentEditable={false}
         onClick={onClickSticky}
         variant={element.data?.parallaxCell === 'true' ? 'solid' : 'ghost'}
         aria-label={label}

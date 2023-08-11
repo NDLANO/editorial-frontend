@@ -129,7 +129,6 @@ const TopicArticleContent = (props: Props) => {
         {({ field, form }) => (
           <StyledDiv>
             <LastUpdatedLine
-              name={field.name}
               creators={creators}
               published={published}
               allowEdit={true}

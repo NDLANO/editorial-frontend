@@ -7,10 +7,19 @@
  */
 
 @import '../../node_modules/@ndla/ui/lib/all.css';
-@import '../../node_modules/flatpickr/dist/flatpickr.min.css';
+@import '../../node_modules/react-day-picker/dist/style.css';
 @import '../../node_modules/react-image-crop/dist/ReactCrop.css';
 @import './content-block.css';
 @import './form.css';
+
+/* DatePicker styling */
+.rdp-months {
+  width: min-content;
+}
+
+.rdp-caption_dropdowns {
+  justify-content: space-between;
+}
 
 .c-audio-search {
   width: 70%;

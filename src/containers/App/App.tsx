@@ -43,7 +43,6 @@ const Logout = loadable(() => import('../Logout/Logout'));
 const PrivateRoute = loadable(() => import('../PrivateRoute/PrivateRoute'));
 const WelcomePage = loadable(() => import('../WelcomePage/WelcomePage'));
 const SearchPage = loadable(() => import('./SearchPage'));
-const AgreementPage = loadable(() => import('../AgreementPage/AgreementPage'));
 const NotFoundPage = loadable(() => import('../NotFoundPage/NotFoundPage'));
 const ForbiddenPage = loadable(() => import('../ForbiddenPage/ForbiddenPage'));
 const SubjectMatterPage = loadable(() => import('./SubjectMatterPage'));
@@ -115,10 +114,6 @@ const App = ({ isClient }: Props) => {
                   <Route path="/concept/*" element={<PrivateRoute component={<ConceptPage />} />} />
                   <Route path="/preview/:draftId/:language/*" element={<PreviewDraftPage />} />
                   <Route path="/media/*" element={<PrivateRoute component={<MediaPage />} />} />
-                  <Route
-                    path="/agreement/*"
-                    element={<PrivateRoute component={<AgreementPage />} />}
-                  />
                   <Route path="/film/*" element={<PrivateRoute component={<NdlaFilm />} />} />
                   <Route path="/h5p/*" element={<PrivateRoute component={<H5PPage />} />} />
                   <Route

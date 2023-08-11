@@ -26,7 +26,9 @@ import { Editor, Path, Transforms } from 'slate';
 import { ReactEditor, RenderElementProps } from 'slate-react';
 import { GridElement } from '.';
 import DeleteButton from '../../../DeleteButton';
+import { StyledFigureButtons } from '../embed/FigureButtons';
 import GridForm from './GridForm';
+import { GridProvider } from './GridContext';
 
 interface Props extends RenderElementProps {
   element: GridElement;
@@ -43,20 +45,18 @@ const StyledModalBody = styled(ModalBody)`
 
 const GridWrapper = styled.div`
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
-
-const ButtonContainer = styled.div`
-  padding: ${spacing.nsmall};
-  justify-content: flex-end;
-  display: flex;
-  width: 100%;
+  flex-direction: row;
+  position: relative;
 `;
 
 const StyledGrid = styled(Grid)`
   width: 100%;
+`;
+
+const ButtonContainer = styled.div`
+  position: absolute;
+  align-self: start;
+  right: -${spacing.large};
 `;
 
 export const SlateGrid = ({ element, editor, children }: Props) => {
@@ -93,28 +93,27 @@ export const SlateGrid = ({ element, editor, children }: Props) => {
   );
 
   return (
-    <>
-      <GridWrapper>
-        <ButtonContainer>
-          <Modal open={isEditing} onOpenChange={setIsEditing}>
-            <ModalTrigger>
-              <IconButtonV2 variant="ghost" aria-label={t('gridForm.title')}>
-                <Pencil />
-              </IconButtonV2>
-            </ModalTrigger>
-            <ModalContent size="small">
-              <StyledModalHeader>
-                <ModalTitle>{t('gridForm.title')}</ModalTitle>
-                <ModalCloseButton />
-              </StyledModalHeader>
-              <StyledModalBody>
-                <GridForm onCancel={onClose} initialData={element.data} onSave={onSave} />
-              </StyledModalBody>
-            </ModalContent>
-          </Modal>
-
-          <DeleteButton aria-label={t('delete')} data-cy="remove-grid" onClick={handleRemove} />
-        </ButtonContainer>
+    <GridWrapper>
+      <ButtonContainer>
+        <DeleteButton aria-label={t('delete')} data-cy="remove-grid" onClick={handleRemove} />
+        <Modal open={isEditing} onOpenChange={setIsEditing}>
+          <ModalTrigger>
+            <IconButtonV2 variant="ghost" aria-label={t('gridForm.title')}>
+              <Pencil />
+            </IconButtonV2>
+          </ModalTrigger>
+          <ModalContent size="small">
+            <StyledModalHeader>
+              <ModalTitle>{t('gridForm.title')}</ModalTitle>
+              <ModalCloseButton />
+            </StyledModalHeader>
+            <StyledModalBody>
+              <GridForm onCancel={onClose} initialData={element.data} onSave={onSave} />
+            </StyledModalBody>
+          </ModalContent>
+        </Modal>
+      </ButtonContainer>
+      <GridProvider value={true}>
         <StyledGrid
           border="none"
           columns={element.data.columns}
@@ -122,7 +121,7 @@ export const SlateGrid = ({ element, editor, children }: Props) => {
         >
           {children}
         </StyledGrid>
-      </GridWrapper>
-    </>
+      </GridProvider>
+    </GridWrapper>
   );
 };

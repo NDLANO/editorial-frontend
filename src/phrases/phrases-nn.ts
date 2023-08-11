@@ -1370,7 +1370,8 @@ const phrases = {
     versionSelect: 'Artikkelen finst ikkje i vald versjon',
     errorWhenFetchingTaxonomyArticle:
       'Det var eit problem ved lasting av den underliggande artikkelen',
-    unsavedTaxonomy: 'Du har ulagra endringar. Trykk tilbakestill igjen viss du ønsker å fortsette.',
+    unsavedTaxonomy:
+      'Du har ulagra endringar. Trykk tilbakestill igjen viss du ønsker å fortsette.',
     auth0:
       'Autentiseringsfeil. Trykk avbryt for å ta vare på eventuelle endringer du har gjort før du logger inn på nytt. Følgende feilmelding kom fra auth0: {{message}}',
     statusCode: {

@@ -8,7 +8,13 @@
 
 import { test, expect } from '@playwright/test';
 import { mockRoute } from '../apiMock';
-import { userDataMock, responsiblesMock, zendeskMock, copyrightMock, getNoteUsersMock } from '../mockResponses';
+import {
+  userDataMock,
+  responsiblesMock,
+  zendeskMock,
+  copyrightMock,
+  getNoteUsersMock,
+} from '../mockResponses';
 
 test.beforeEach(async ({ page }) => {
   const licenses = mockRoute({
@@ -58,8 +64,7 @@ test.beforeEach(async ({ page }) => {
       JSON.stringify({
         ...JSON.parse(value),
         copyright: copyrightMock,
-      })
-
+      }),
   });
 
   const draftValidate = mockRoute({
@@ -95,7 +100,7 @@ test.beforeEach(async ({ page }) => {
     page,
     path: '**/get_note_users*',
     fixture: 'editor_get_note_users',
-    overrideValue: JSON.stringify(getNoteUsersMock)
+    overrideValue: JSON.stringify(getNoteUsersMock),
   });
 
   await page.goto(`/subject-matter/learning-resource/800/edit/nb`);
@@ -112,16 +117,17 @@ test.beforeEach(async ({ page }) => {
     taxonomyTopics,
     searchApi,
     containsArticle,
-    getNoteUser
+    getNoteUser,
   ]);
 });
 
 test('can enter title, ingress, content and responsible then save', async ({ page }) => {
-  const saveButton = page.getByTestId('saveLearningResourceButtonWrapper').getByRole('button').first()
+  const saveButton = page
+    .getByTestId('saveLearningResourceButtonWrapper')
+    .getByRole('button')
+    .first();
 
-  await expect(
-    saveButton
-  ).toBeDisabled();
+  await expect(saveButton).toBeDisabled();
   await page.locator('[data-cy="learning-resource-title"]').click();
   await page.keyboard.type('TITTEL');
   await page.locator('[data-cy="learning-resource-ingress"]').click();
@@ -132,8 +138,7 @@ test('can enter title, ingress, content and responsible then save', async ({ pag
   await page.keyboard.type('Test user');
   await page.keyboard.press('Enter');
   await saveButton.click();
-  await saveButton.getByText('Lagret').waitFor();
-  expect(await saveButton.textContent()).toEqual('Lagret ');
+  await expect(saveButton).toContainText('Lagret');
 });
 
 test('Can add all contributors', async ({ page }) => {

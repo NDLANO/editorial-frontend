@@ -13,7 +13,7 @@ import { DeleteForever } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
 import { IconButtonV2 } from '@ndla/button';
 import { Link } from '@ndla/icons/common';
-import { SafeLinkButton } from '@ndla/safelink';
+import { SafeLinkIconButton } from '@ndla/safelink';
 import { IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
 import { convertFieldWithFallback } from '../../../util/convertFieldWithFallback';
 import MetaInformation from '../../../components/MetaInformation';
@@ -56,15 +56,14 @@ const MetaImageField = ({ image, onImageRemove, onImageLoad }: Props) => {
         </IconButtonV2>
       </Tooltip>
       <Tooltip tooltip={t('form.image.editImage')}>
-        <SafeLinkButton
+        <SafeLinkIconButton
           variant="ghost"
           colorTheme="light"
-          shape="pill"
           to={`/media/image-upload/${image.id}/edit/${image.title.language}`}
           target="_blank"
         >
           <Link />
-        </SafeLinkButton>
+        </SafeLinkIconButton>
       </Tooltip>
     </>
   );

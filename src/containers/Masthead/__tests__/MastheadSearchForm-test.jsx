@@ -26,7 +26,9 @@ test('MastheadSearchForm redirects on ndla url paste with id at the end', () => 
     push: jest.fn(),
   };
 
-  const { container } = render(wrapper(<MastheadSearchForm query="" onSearchQuerySubmit={noop} />));
+  const { container } = render(
+    wrapper(<MastheadSearchForm query="" onSearchQuerySubmit={noop} onChange={noop} />),
+  );
   expect(container).toMatchSnapshot();
   setTimeout(() => {
     expect(historyMock.push.calledOnce).toBeTruthy();
@@ -49,6 +51,7 @@ test('MastheadSearchForm redirects on ndla url paste with taxonomy id at the end
     wrapper(
       <MastheadSearchForm
         query="https://ndla-frontend.test.api.ndla.no/article/urn:subject:100/urn:topic:1:179373"
+        onChange={noop}
         onSearchQuerySubmit={noop}
       />,
     ),
@@ -69,7 +72,11 @@ test('MastheadSearchForm redirects on old ndla url paste with new id', () => {
 
   const { container } = render(
     wrapper(
-      <MastheadSearchForm query="https://ndla.no/nb/node/4737?fag=36" onSearchQuerySubmit={noop} />,
+      <MastheadSearchForm
+        query="https://ndla.no/nb/node/4737?fag=36"
+        onChange={noop}
+        onSearchQuerySubmit={noop}
+      />,
     ),
   );
   expect(container).toMatchSnapshot();
@@ -89,6 +96,7 @@ test('MastheadSearchForm invalid id at the end of the url', () => {
   const { container } = render(
     wrapper(
       <MastheadSearchForm
+        onChange={noop}
         query="https://ndla-frontend.test.api.ndla.no/article/urn:subject:100/urn:topic:1:179373/urn:resource:1:16838"
         onSearchQuerySubmit={noop}
       />,
@@ -107,7 +115,7 @@ test('MastheadSearchForm redirects on ndla node id pasted', () => {
   nock('http://ndla-api').get('/draft-api/v1/drafts/external_id/4737').reply(200, { id: '123' });
 
   const { container } = render(
-    wrapper(<MastheadSearchForm query="#4737" onSearchQuerySubmit={noop} />),
+    wrapper(<MastheadSearchForm query="#4737" onChange={noop} onSearchQuerySubmit={noop} />),
   );
   expect(container).toMatchSnapshot();
   setTimeout(() => {

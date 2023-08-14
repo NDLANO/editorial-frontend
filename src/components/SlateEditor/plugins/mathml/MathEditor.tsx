@@ -203,7 +203,7 @@ const MathEditor = ({ element, children, attributes, editor }: Props & RenderEle
         </Root>
         {children}
       </InlineDiv>
-      <ModalContent>
+      <ModalContent size="large">
         <EditMath
           onExit={onExit}
           onSave={handleSave}

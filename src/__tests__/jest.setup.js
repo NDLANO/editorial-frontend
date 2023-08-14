@@ -6,7 +6,6 @@
  *
  */
 
-import 'regenerator-runtime/runtime';
 import '@testing-library/jest-dom';
 import '@testing-library/jest-dom/extend-expect';
 
@@ -21,15 +20,3 @@ global.DEFAULT_TIMEOUT = process.env.DEFAULT_TIMEOUT
 const jestTimeout = process.env.JEST_TIMEOUT ? parseInt(process.env.JEST_TIMEOUT, 10) : 30000;
 
 jest.setTimeout(jestTimeout);
-
-/* eslint-disable */
-// fix: `matchMedia` not present, legacy browsers require a polyfill
-global.matchMedia =
-  global.matchMedia ||
-  function () {
-    return {
-      matches: false,
-      addListener() {},
-      removeListener() {},
-    };
-  };

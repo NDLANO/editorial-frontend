@@ -19,6 +19,14 @@ jest.useFakeTimers();
 
 const history = createMemoryHistory();
 
+beforeEach(() => {
+  const reload = jest.fn();
+
+  jest
+    .spyOn(window, 'location', 'get')
+    .mockImplementation(() => ({ reload } as unknown as Location));
+});
+
 const wrapper = (messages: MessageType[]) => (
   <Router location={history.location} navigator={history}>
     <IntlWrapper>
@@ -48,7 +56,7 @@ describe('Messages', () => {
 
   test('A message is removed if the modal is closed', async () => {
     const messages: MessageType[] = [{ id: uuid(), message: 'Testmessage', timeToLive: 10000 }];
-    const { container, baseElement } = render(wrapper(messages));
+    const { baseElement } = render(wrapper(messages));
     const portal = baseElement.querySelector('div[role="dialog"]') as HTMLElement;
     expect(baseElement).toMatchSnapshot();
     const closeButton = await findByTestId(portal, 'closeAlert');

@@ -21,8 +21,7 @@ import { TYPE_GRID, TYPE_GRID_CELL } from './types';
 import { defaultGridCellBlock } from './utils';
 import { TYPE_EMBED_IMAGE } from '../embed/types';
 import { TYPE_BLOGPOST } from '../blogPost/types';
-import StyledGridCell from './SlateGridCell';
-import { defaultParagraphBlock } from '../paragraph/utils';
+import SlateGridCell from './SlateGridCell';
 import { TYPE_HEADING } from '../heading/types';
 import { TYPE_LIST } from '../list/types';
 
@@ -34,6 +33,9 @@ export interface GridElement {
 
 export interface GridCellElement {
   type: 'grid-cell';
+  data: {
+    parallaxCell: string;
+  };
   children: Descendant[];
 }
 
@@ -76,11 +78,12 @@ export const gridSerializer: SlateSerializer = {
             background: attributes['background'],
           },
         },
-        children.map((child) => {
-          const children = Element.isElement(child) ? child.children : defaultParagraphBlock();
-          return slatejsx('element', { type: TYPE_GRID_CELL }, children);
-        }),
+        children,
       );
+    }
+    if (el.dataset.type === TYPE_GRID_CELL) {
+      const attributes = reduceElementDataAttributesV2(Array.from(el.attributes));
+      return slatejsx('element', { type: TYPE_GRID_CELL, data: attributes }, children);
     }
   },
   serialize(node: Descendant, children: JSX.Element[]) {
@@ -96,7 +99,11 @@ export const gridSerializer: SlateSerializer = {
         </div>
       );
     } else if (Element.isElement(node) && node.type === TYPE_GRID_CELL) {
-      return <div>{children}</div>;
+      return (
+        <div data-type={TYPE_GRID_CELL} data-parallax-cell={node.data?.parallaxCell ?? 'false'}>
+          {children}
+        </div>
+      );
     }
   },
 };
@@ -112,7 +119,11 @@ export const gridPlugin = (editor: Editor) => {
         </SlateGrid>
       );
     } else if (element.type === TYPE_GRID_CELL) {
-      return <StyledGridCell {...attributes}>{children}</StyledGridCell>;
+      return (
+        <SlateGridCell editor={editor} element={element} attributes={attributes}>
+          {children}
+        </SlateGridCell>
+      );
     }
     return nextRenderElement?.({ attributes, children, element });
   };

@@ -1,4 +1,3 @@
-import AgreementConnectionField from './AgreementConnectionField';
 import CopyrightFieldGroup from './CopyrightFieldGroup';
 import IngressField from './IngressField';
 import TitleField from './TitleField';
@@ -7,7 +6,6 @@ import AddNotesField from './AddNotesField';
 import LicenseField from './components/LicenseField';
 import AlertModalWrapper from './AlertModalWrapper';
 import MetaImageSearch from './MetaImageSearch';
-import DatePicker from './components/DatePicker';
 import Checkbox from './components/Checkbox';
 import ContributorsField from './components/ContributorsField';
 import MetaDataField from './MetaDataField';
@@ -17,8 +15,6 @@ import SlugField from './SlugField';
 export {
   CopyrightFieldGroup,
   AlertModalWrapper,
-  AgreementConnectionField,
-  DatePicker,
   IngressField,
   TitleField,
   VersionAndNotesPanel,

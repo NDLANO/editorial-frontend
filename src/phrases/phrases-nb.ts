@@ -557,6 +557,8 @@ const phrases = {
       white: 'Hvit',
       transparent: 'Transparent',
     },
+    setSticky: 'Lås innhold til cellen ved siden av',
+    unsetSticky: 'Frigjør innhold fra cellen ved siden av',
   },
   blogPostForm: {
     title: 'Rediger bloggpost',
@@ -1880,6 +1882,14 @@ const phrases = {
   },
   dragAndDrop: {
     handle: 'Håndtak',
+  },
+
+  datePicker: {
+    chooseMonth: 'Måned:',
+    chooseYear: 'År:',
+    labelNext: 'Gå til neste måned',
+    previousMonth: 'Gå til forrige måned',
+    goToToday: 'Gå til dagens dato',
   },
 };
 

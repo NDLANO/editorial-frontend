@@ -6,8 +6,6 @@
  *
  */
 
-import './raf-polyfill';
-
 import prettier from 'prettier/standalone';
 import parseHTML from 'prettier/parser-html';
 

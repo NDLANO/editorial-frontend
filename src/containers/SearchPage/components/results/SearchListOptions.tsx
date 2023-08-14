@@ -50,7 +50,7 @@ const SearchListOptions = ({
     <StyledOptionContainer>
       <div>
         <StyledOptionSpan data-cy="totalCount">
-          {t('searchPage.totalCount')}: <b>{totalCount}</b>
+          {t('searchPage.totalCount')}: <b data-testid="searchTotalCount">{totalCount}</b>
         </StyledOptionSpan>
         <select onChange={handlePageSizeChange} value={pageSize}>
           {pageSizeOptions.map((size) => (

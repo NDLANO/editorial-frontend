@@ -32,8 +32,8 @@ describe('Edit article with everything', () => {
   it('Can edit the published date', () => {
     // check that article is not dirty
     cy.get('[data-testid=saveLearningResourceButtonWrapper] button').first().should('be.disabled');
-    cy.get('span[name=published] > button').click();
-    cy.get('.flatpickr-day ').first().click();
+    cy.get('[data-testid=last-edited]').first().click();
+    cy.get('body').type('{esc}{esc}', { force: true });
     cy.get('[data-cy=responsible-select]').click().type('Ed test {enter}');
     cy.get('[data-testid=saveLearningResourceButtonWrapper] button').first().click();
     cy.apiwait(['@getUserData', '@patchUserData']);

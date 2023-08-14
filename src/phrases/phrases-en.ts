@@ -556,6 +556,8 @@ const phrases = {
       white: 'White',
       transparent: 'Transparent',
     },
+    setSticky: 'Lock content to adjacent grid cell',
+    unsetSticky: 'Unlock content from adjacent grid cell',
   },
   blogPostForm: {
     title: 'Edit blog post',
@@ -1877,6 +1879,13 @@ const phrases = {
   },
   dragAndDrop: {
     handle: 'Drag handle',
+  },
+  datePicker: {
+    chooseMonth: 'Month:',
+    chooseYear: 'Year:',
+    labelNext: 'Go to next month',
+    previousMonth: 'Go to previous month',
+    goToToday: 'Go to today',
   },
 };
 

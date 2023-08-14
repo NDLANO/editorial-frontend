@@ -36,6 +36,11 @@ const getInfoFromNode = (node: MathmlElement) => {
   };
 };
 
+const StyledContent = styled(Content)`
+  padding: ${spacing.small};
+  z-index: 100;
+`;
+
 const MathWrapper = styled.span`
   &[data-state='open'] {
     box-shadow: 0 0 0 1px ${colors.brand.tertiary};
@@ -190,7 +195,7 @@ const MathEditor = ({ element, children, attributes, editor }: Props & RenderEle
               />
             </MathWrapper>
           </Trigger>
-          <Content>
+          <StyledContent>
             <StyledMenu>
               <ModalTrigger>
                 <ButtonV2 variant="link">{t('form.edit')}</ButtonV2>
@@ -199,7 +204,7 @@ const MathEditor = ({ element, children, attributes, editor }: Props & RenderEle
                 {t('form.remove')}
               </ButtonV2>
             </StyledMenu>
-          </Content>
+          </StyledContent>
         </Root>
         {children}
       </InlineDiv>

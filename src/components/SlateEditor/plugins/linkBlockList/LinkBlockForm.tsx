@@ -61,6 +61,11 @@ const inputStyle = css`
   flex-direction: column;
 `;
 
+const DateWrapper = styled.div`
+  display: flex;
+  gap: ${spacing.xsmall};
+`;
+
 const FieldWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -168,14 +173,15 @@ const LinkBlockForm = ({ embed, existingEmbeds, onSave }: Props) => {
                 )}
               </StyledFormikField>
               <StyledFormikField name="date">
-                {({ field }) => (
+                {({ field, form }: FieldProps) => (
                   <FieldWrapper>
                     <label>{t('form.name.date')}</label>
-                    <InlineDatePicker
-                      placeholder={t('linkBlock.chooseDate')}
-                      locale={i18n.language}
-                      {...field}
-                    />
+                    <DateWrapper>
+                      <InlineDatePicker placeholder={t('linkBlock.chooseDate')} {...field} />
+                      <ButtonV2 onClick={() => form.setFieldValue('date', '')}>
+                        {t('reset')}
+                      </ButtonV2>
+                    </DateWrapper>
                   </FieldWrapper>
                 )}
               </StyledFormikField>

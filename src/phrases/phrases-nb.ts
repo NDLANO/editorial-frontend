@@ -1873,6 +1873,7 @@ const phrases = {
     },
   },
   delete: 'Slett',
+  reset: 'Tilbakestill',
   campaignBlockForm: {
     title: 'Rediger kampanjeblokk',
     image: {

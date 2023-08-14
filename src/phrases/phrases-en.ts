@@ -1870,6 +1870,7 @@ const phrases = {
     },
   },
   delete: 'Delete',
+  reset: 'Reset',
   campaignBlockForm: {
     title: 'Edit campaign block',
     image: {

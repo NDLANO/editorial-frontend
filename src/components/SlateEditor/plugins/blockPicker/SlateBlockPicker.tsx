@@ -68,7 +68,7 @@ interface Props {
 
 const StyledBlockPickerWrapper = styled.div`
   position: absolute;
-  z-index: 1;
+  z-index: 15;
 `;
 
 const SlateBlockPicker = ({

@@ -8,6 +8,7 @@
 
 import { render } from '@testing-library/react';
 import EditorErrorMessage from '../EditorErrorMessage';
+import IntlWrapper from '../../../util/__tests__/IntlWrapper';
 
 test('EditorErrorMessage renders', () => {
   const embed = {
@@ -16,7 +17,9 @@ test('EditorErrorMessage renders', () => {
   };
 
   const { container } = render(
-    <EditorErrorMessage embed={embed} msg={embed.message} onRemoveClick={() => {}} />,
+    <IntlWrapper>
+      <EditorErrorMessage embed={embed} msg={embed.message} onRemoveClick={() => {}} />
+    </IntlWrapper>,
   );
 
   expect(container).toMatchSnapshot();

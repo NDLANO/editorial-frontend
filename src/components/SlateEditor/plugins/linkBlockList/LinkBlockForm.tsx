@@ -112,9 +112,6 @@ const LinkBlockForm = ({ embed, existingEmbeds, onSave }: Props) => {
         date: date ? formatDateForBackend(new Date(date)) : '',
         url,
         language,
-        test: {
-          test2: 'hallo',
-        },
       } as const;
       onSave(embed);
     },

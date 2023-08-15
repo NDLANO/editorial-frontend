@@ -41,7 +41,7 @@ describe('Search concepts', () => {
 
   it('Can use text input', () => {
     cy.apiroute('GET', '**/concept-api/v1/drafts/?*query=Test*', 'searchConceptQuery');
-    cy.get('input[name="query"]').type('Test').blur();
+    cy.get('input[name="query"]').type('Test{enter}').blur();
     cy.apiwait('@searchConceptQuery');
     cy.get('span[data-cy="totalCount"').contains(/^Antall søketreff: \d+/);
     cy.get('input[name="query"]').clear();

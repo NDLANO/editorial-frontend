@@ -15,7 +15,6 @@ import { getTagName } from '../../../../util/formHelper';
 import { SearchParams } from './SearchForm';
 import {
   DRAFT_RESPONSIBLE,
-  DRAFT_WRITE_SCOPE,
   FAVOURITES_SUBJECT_ID,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
 } from '../../../../constants';
@@ -90,14 +89,19 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
       status = search.status;
     }
     const searchObj = { ...search, 'include-other-statuses': includeOtherStatuses, [name]: value };
-    doSearch(
-      name !== 'draft-status'
-        ? searchObj
-        : { ...searchObj, 'draft-status': status, fallback: false },
-    );
+
+    if (name !== 'query') {
+      doSearch(
+        name !== 'draft-status'
+          ? searchObj
+          : { ...searchObj, 'draft-status': status, fallback: false },
+      );
+    }
   };
 
-  const handleSearch = () => doSearch({ ...search, fallback: false, page: 1 });
+  const handleSearch = () => {
+    doSearch({ ...search, fallback: false, page: 1, query: queryInput });
+  };
 
   const removeTagItem = (tag: SearchFormSelector) => {
     if (tag.parameterName === 'query') setQueryInput('');

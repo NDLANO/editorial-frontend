@@ -13,7 +13,7 @@ import { spacing } from '@ndla/core';
 import { ButtonV2 } from '@ndla/button';
 import { SearchParams } from './SearchForm';
 import SearchTagGroup from './SearchTagGroup';
-import Selector, { SearchFormSelector } from './Selector';
+import Selector, { SearchFormSelector, TextInputSelectorType } from './Selector';
 import { DateChangedEvent } from '../../../FormikForm/components/InlineDatePicker';
 
 type FormEvents = FormEvent<HTMLInputElement> | FormEvent<HTMLSelectElement>;
@@ -89,12 +89,19 @@ const GenericSearchForm = ({
   removeTag,
 }: Props) => {
   const { t } = useTranslation();
-  const selectors: SearchFormSelector[] = [
+
+  const baseQuery: TextInputSelectorType = {
+    parameterName: 'query',
+    width: type === 'content' ? 25 : 50,
+    formElementType: 'text-input',
+  };
+
+  const selectors: SearchFormSelector[] = [{ ...baseQuery, value: query }, ...baseSelectors];
+
+  const tags: SearchFormSelector[] = [
     {
-      parameterName: 'query',
-      width: type === 'content' ? 25 : 50,
-      value: query,
-      formElementType: 'text-input',
+      ...baseQuery,
+      value: searchObject.query,
     },
     ...baseSelectors,
   ];
@@ -130,7 +137,7 @@ const GenericSearchForm = ({
         </StyledButton>
       </ButtonContainer>
       <StyledTagline>
-        <SearchTagGroup onRemoveItem={removeTag} tagTypes={selectors} />
+        <SearchTagGroup onRemoveItem={removeTag} tagTypes={tags} />
       </StyledTagline>
     </StyledForm>
   );

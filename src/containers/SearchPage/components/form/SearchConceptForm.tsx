@@ -14,7 +14,6 @@ import { getTagName } from '../../../../util/formHelper';
 import { SearchParams } from './SearchForm';
 import {
   CONCEPT_RESPONSIBLE,
-  CONCEPT_WRITE_SCOPE,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
 } from '../../../../constants';
 import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
@@ -55,7 +54,7 @@ const SearchConceptForm = ({ search: doSearch, searchObject: search, subjects }:
 
   const onFieldChange: OnFieldChangeFunction = (name, value, evt) => {
     if (name === 'query' && evt) setQueryInput(evt.currentTarget.value);
-    doSearch({ ...search, [name]: value });
+    else doSearch({ ...search, [name]: value });
   };
 
   useEffect(() => {
@@ -73,7 +72,7 @@ const SearchConceptForm = ({ search: doSearch, searchObject: search, subjects }:
     });
   };
 
-  const handleSearch = () => doSearch({ ...search, page: 1 });
+  const handleSearch = () => doSearch({ ...search, page: 1, query: queryInput });
 
   const removeTagItem = (tag: SearchFormSelector) => {
     if (tag.parameterName === 'query') setQueryInput('');

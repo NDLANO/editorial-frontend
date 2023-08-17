@@ -182,7 +182,7 @@ const RootFields = () => {
             <>
               {t('frontpageForm.frontpageArticle')}
               <SafeLink
-                to={`/${toEditFrontPageArticle(articleField.value.id, i18n.language)}`}
+                to={toEditFrontPageArticle(articleField.value.id, i18n.language)}
                 target="_blank"
               >
                 {articleField.value.title.title}

@@ -30,6 +30,7 @@ const phrases = {
     h5pPage: `H5P ${titleTemplate}`,
     publishRequestsPage: `Publiseringsforespørsler ${titleTemplate}`,
     nodeDiffPage: `Sammenlign noder ${titleTemplate}`,
+    editFrontpage: 'Rediger forside',
     search: {
       'podcast-series': `Søk podkastserier ${titleTemplate}`,
       audio: `Søk lydfiler ${titleTemplate}`,
@@ -225,6 +226,7 @@ const phrases = {
     newSubject: 'Opprett fag',
     newFrontpageArticle: 'Opprett Om-NDLA-artikkel',
     creationMovedInfo: 'Emner og ressurser må opprettes fra strukturredigering',
+    frontpage: 'Rediger forside',
   },
   logo: {
     altText: 'Nasjonal digital læringsarena',
@@ -1890,6 +1892,19 @@ const phrases = {
     labelNext: 'Gå til neste måned',
     previousMonth: 'Gå til forrige måned',
     goToToday: 'Gå til dagens dato',
+  },
+  remove: 'Fjern',
+  frontpageForm: {
+    error: 'En feil oppsto',
+    changeArticle: 'Endre artikkel',
+    addArticle: 'Legg til artikkel',
+    changeFrontpageArticle: 'Endre forsideartikkel',
+    search: 'Søk etter artikkel',
+    frontpageArticle: 'Forsideartikkel:',
+    noFrontpageArticle: 'Ingen forsideartikkel valgt',
+    failedTitle: 'Klarte ikke vise tittel',
+    openChildren: 'Vis barn',
+    closeChildren: 'Skjul barn',
   },
 };
 

@@ -48,6 +48,8 @@ export const CONCEPT_RESPONSIBLE = 'concept:responsible';
 export const TAXONOMY_WRITE_SCOPE = 'taxonomy:write';
 export const TAXONOMY_ADMIN_SCOPE = 'taxonomy:admin';
 
+export const FRONTPAGE_ADMIN_SCOPE = 'frontpage:admin';
+
 export const AUDIO_ADMIN_SCOPE = 'audio:admin';
 
 export const TAXONOMY_CUSTOM_FIELD_LANGUAGE = 'language';

@@ -135,7 +135,7 @@ const FrontpageNode = ({ name, remove, index, level, replace }: Props) => {
     <NodeWrapper>
       <NodeContentWrapper>
         <TitleWrapper>
-          {!level && (
+          {level < 2 && (
             <OpenButton
               data-open={isOpen}
               variant="stripped"
@@ -160,7 +160,7 @@ const FrontpageNode = ({ name, remove, index, level, replace }: Props) => {
               variant="ghost"
               aria-label={t('frontpageForm.addArticle')}
               title={t('frontpageForm.addArticle')}
-              disabled={!!level}
+              disabled={level > 1}
             >
               <Plus />
             </IconButtonV2>

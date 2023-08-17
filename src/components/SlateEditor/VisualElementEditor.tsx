@@ -6,6 +6,7 @@
  *
  */
 
+import styled from '@emotion/styled';
 import { useEffect, useMemo } from 'react';
 import { FormikHandlers } from 'formik';
 import isEqual from 'lodash/isEqual';
@@ -27,6 +28,10 @@ interface Props {
   resetSelectedResource: () => void;
   types?: string[];
 }
+
+const StyledEditable = styled(Editable)`
+  outline: none;
+`;
 
 const VisualElementEditor = ({ name, value, plugins, onChange, types, language }: Props) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -56,7 +61,7 @@ const VisualElementEditor = ({ name, value, plugins, onChange, types, language }
     <SlateProvider>
       <Slate
         editor={editor}
-        value={value}
+        initialValue={value}
         onChange={(val: Descendant[]) => {
           onChange({
             target: {
@@ -67,7 +72,7 @@ const VisualElementEditor = ({ name, value, plugins, onChange, types, language }
         }}
       >
         <VisualElementPicker editor={editor} types={types} language={language} />
-        <Editable
+        <StyledEditable
           readOnly={true}
           renderElement={renderElement}
           onDragStart={(e) => {

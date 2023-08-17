@@ -148,7 +148,7 @@ const FrontpageNode = ({ name, remove, index, level, replace }: Props) => {
             </OpenButton>
           )}
           <TitleLink
-            to={`/${toEditFrontPageArticle(field.value.articleId, i18n.language)}`}
+            to={toEditFrontPageArticle(field.value.articleId, i18n.language)}
             target="_blank"
           >
             {field.value.article?.title.title ?? t('frontpageForm.failedTitle')}

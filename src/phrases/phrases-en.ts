@@ -644,6 +644,7 @@ const phrases = {
       blogPost: 'Blog post',
       grid: 'Grid',
       campaignBlock: 'Kampanjeblokk',
+      linkBlockList: 'Link block',
     },
   },
   form: {
@@ -738,6 +739,8 @@ const phrases = {
       linkText: 'Link text',
       titleLanguage: 'Title language',
       descriptionlanguage: 'Description language',
+      url: 'Link',
+      date: 'Date',
     },
     previewProductionArticle: {
       button: 'Compare current version with old version',
@@ -1869,6 +1872,7 @@ const phrases = {
     },
   },
   delete: 'Delete',
+  reset: 'Reset',
   campaignBlockForm: {
     title: 'Edit campaign block',
     image: {
@@ -1878,6 +1882,14 @@ const phrases = {
       insertImageAfter: 'Insert right image',
       images: 'Images',
     },
+  },
+  linkBlock: {
+    deleteBlock: 'Delete link block',
+    delete: 'Delete link',
+    edit: 'Edit link',
+    create: 'Add new link',
+    chooseDate: 'Choose date',
+    linkExists: 'This link already exists in the block',
   },
   dragAndDrop: {
     handle: 'Drag handle',

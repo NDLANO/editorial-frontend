@@ -126,6 +126,7 @@ const FrontpageEditPage = () => {
           onSubmit={onSubmit}
           validate={validate}
           validateOnMount
+          enableReinitialize
         >
           {({ handleSubmit }) => (
             <form onSubmit={handleSubmit}>

@@ -13,7 +13,6 @@ import { Editor } from 'slate';
 import { RenderElementProps } from 'slate-react';
 import { fonts } from '@ndla/core';
 import DeleteButton from '../../../DeleteButton';
-import EditColgroupsModal from './EditColgroupsModal';
 import { TableElement } from './interfaces';
 import { removeTable } from './slateActions';
 
@@ -61,6 +60,14 @@ const StyledTable = styled.table`
   tbody .table_header:first-child {
     border-right: 3px solid #a5bcd3;
     border-bottom: 1px solid rgb(239, 240, 242);
+  }
+
+  td ol,
+  td ol li p,
+  td ul,
+  td ul li p {
+    font-size: unset;
+    line-height: unset !important;
   }
 `;
 

@@ -31,9 +31,9 @@ const StyledDragHandle = styled(DragHandle)`
   align-self: flex-start;
 `;
 
-const FrontpageNodeList: ComponentType<Props> = ({ name, replace, remove, level }: Props) => {
+const FrontpageNodeList: ComponentType<Props> = ({ name, replace, remove, level, move }: Props) => {
   const { t } = useTranslation();
-  const [menuField, _, { setValue }] = useField<MenuWithArticle[]>(name);
+  const [menuField] = useField<MenuWithArticle[]>(name);
 
   const sortableItems = useMemo(
     () => menuField.value.map((menu) => ({ ...menu, id: menu.articleId })),
@@ -41,10 +41,12 @@ const FrontpageNodeList: ComponentType<Props> = ({ name, replace, remove, level 
   );
 
   const onDragEnd = useCallback(
-    (_: DragEndEvent, items: MenuWithArticle[]) => {
-      setValue(items);
+    ({ active, over }: DragEndEvent) => {
+      if (active.data.current?.index !== undefined && over?.data.current?.index !== undefined) {
+        move(active!.data!.current!.index!, over!.data.current!.index!);
+      }
     },
-    [setValue],
+    [move],
   );
 
   return (

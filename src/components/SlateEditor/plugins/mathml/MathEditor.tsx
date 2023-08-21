@@ -6,17 +6,21 @@
  *
  */
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { Editor, Node, Path, Transforms } from 'slate';
-import { ReactEditor, RenderElementProps, useFocused, useSelected } from 'slate-react';
-import { colors } from '@ndla/core';
+import { ReactEditor, RenderElementProps } from 'slate-react';
+import { colors, spacing } from '@ndla/core';
 import he from 'he';
 import { Content, Root, Trigger } from '@radix-ui/react-popover';
-import EditMath from './EditMath';
+import styled from '@emotion/styled';
+import { Modal, ModalContent, ModalTrigger } from '@ndla/modal';
+import { ButtonV2 } from '@ndla/button';
+import { useTranslation } from 'react-i18next';
+import EditMath, { MathMLType, emptyMathTag } from './EditMath';
 import MathML from './MathML';
-import BlockMenu from './BlockMenu';
 import { MathmlElement } from '.';
 import mergeLastUndos from '../../utils/mergeLastUndos';
+import AlertModal from '../../../AlertModal';
 
 const getInfoFromNode = (node: MathmlElement) => {
   const data = node.data ? node.data : {};
@@ -32,24 +36,55 @@ const getInfoFromNode = (node: MathmlElement) => {
   };
 };
 
+const StyledContent = styled(Content)`
+  padding: ${spacing.small};
+  z-index: 100;
+`;
+
+const MathWrapper = styled.span`
+  &[data-state='open'] {
+    box-shadow: 0 0 0 1px ${colors.brand.tertiary};
+  }
+`;
+
+const InlineDiv = styled.div`
+  display: inline;
+`;
+
 interface Props {
   editor: Editor;
   element: MathmlElement;
 }
 
+const StyledMenu = styled.span`
+  display: flex;
+  gap: ${spacing.xsmall};
+  padding: ${spacing.xsmall};
+  background-color: white;
+  border: 1px solid ${colors.brand.greyLight};
+`;
+
 const MathEditor = ({ element, children, attributes, editor }: Props & RenderElementProps) => {
-  const [nodeInfo, setNodeInfo] = useState(() => getInfoFromNode(element));
+  const { t } = useTranslation();
+  const nodeInfo = useMemo(() => getInfoFromNode(element), [element]);
   const [isFirstEdit, setIsFirstEdit] = useState(nodeInfo.isFirstEdit);
+  const [mathEditor, setMathEditor] = useState<MathMLType | undefined>(undefined);
   const [editMode, setEditMode] = useState(isFirstEdit);
   const [showMenu, setShowMenu] = useState(false);
-  const selected = useSelected();
-  const focused = useFocused();
+  const [openDiscardModal, setOpenDiscardModal] = useState(false);
 
-  useEffect(() => {
-    setNodeInfo(getInfoFromNode(element));
-  }, [element]);
-
-  const toggleEdit = useCallback(() => setEditMode((prev) => !prev), []);
+  const onOpenChange = useCallback(
+    (open: boolean) => {
+      if (open) {
+        setEditMode(open);
+      } else if ((nodeInfo.model.innerHTML ?? emptyMathTag) !== mathEditor?.getMathML()) {
+        setOpenDiscardModal(true);
+      } else {
+        setEditMode(false);
+      }
+    },
+    [mathEditor, nodeInfo.model.innerHTML],
+  );
 
   const handleSave = useCallback(
     (mathML: string) => {
@@ -112,6 +147,14 @@ const MathEditor = ({ element, children, attributes, editor }: Props & RenderEle
   }, [editor, element]);
 
   const onExit = useCallback(() => {
+    if (
+      (nodeInfo.model.innerHTML ?? emptyMathTag !== mathEditor?.getMathML()) &&
+      !openDiscardModal
+    ) {
+      setOpenDiscardModal(true);
+      return;
+    }
+    setOpenDiscardModal(false);
     const elementPath = ReactEditor.findPath(editor, element);
 
     if (isFirstEdit) {
@@ -128,42 +171,71 @@ const MathEditor = ({ element, children, attributes, editor }: Props & RenderEle
       setEditMode(false);
       setShowMenu(false);
     }
-  }, [editor, element, handleRemove, isFirstEdit]);
+  }, [
+    editor,
+    element,
+    handleRemove,
+    isFirstEdit,
+    mathEditor,
+    nodeInfo.model.innerHTML,
+    openDiscardModal,
+  ]);
 
   return (
-    <Root open={showMenu} onOpenChange={setShowMenu}>
-      <Trigger asChild>
-        <span
-          role="button"
-          tabIndex={0}
-          contentEditable={false}
-          style={{
-            boxShadow: selected && focused ? `0 0 0 1px ${colors.brand.tertiary}` : 'none',
-          }}
-          {...attributes}
-        >
-          <MathML
-            model={nodeInfo.model}
-            editor={editor}
-            element={element}
-            onDoubleClick={toggleEdit}
-          />
-          <Content>
-            <BlockMenu handleRemove={handleRemove} toggleEdit={toggleEdit} />
-          </Content>
-          {editMode && (
-            <EditMath
-              onExit={onExit}
-              model={nodeInfo.model}
-              handleSave={handleSave}
-              isEditMode={editMode}
-              handleRemove={handleRemove}
-            />
-          )}
-          {children}
-        </span>
-      </Trigger>
-    </Root>
+    <Modal open={editMode} onOpenChange={onOpenChange}>
+      <InlineDiv {...attributes} contentEditable={false}>
+        <Root open={showMenu} onOpenChange={setShowMenu}>
+          <Trigger asChild>
+            <MathWrapper role="button" tabIndex={0}>
+              <MathML
+                model={nodeInfo.model}
+                onDoubleClick={() => setEditMode(true)}
+                editor={editor}
+                element={element}
+              />
+            </MathWrapper>
+          </Trigger>
+          <StyledContent>
+            <StyledMenu>
+              <ModalTrigger>
+                <ButtonV2 variant="link">{t('form.edit')}</ButtonV2>
+              </ModalTrigger>
+              <ButtonV2 variant="link" onClick={handleRemove}>
+                {t('form.remove')}
+              </ButtonV2>
+            </StyledMenu>
+          </StyledContent>
+        </Root>
+        {children}
+      </InlineDiv>
+      <ModalContent size="large">
+        <EditMath
+          onExit={onExit}
+          onSave={handleSave}
+          onRemove={handleRemove}
+          model={nodeInfo.model}
+          mathEditor={mathEditor}
+          setMathEditor={setMathEditor}
+        />
+        <AlertModal
+          title={t('unsavedChanges')}
+          label={t('unsavedChanges')}
+          show={openDiscardModal}
+          text={t('mathEditor.continue')}
+          actions={[
+            {
+              text: t('form.abort'),
+              onClick: () => setOpenDiscardModal(false),
+            },
+            {
+              text: t('alertModal.continue'),
+              onClick: onExit,
+            },
+          ]}
+          onCancel={() => setOpenDiscardModal(false)}
+        />
+      </ModalContent>
+    </Modal>
   );
 };
 

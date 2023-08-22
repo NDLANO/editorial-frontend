@@ -58,6 +58,7 @@ const H5PPage = loadable(() => import('../H5PPage/H5PPage'));
 const TaxonomyVersionsPage = loadable(() => import('../TaxonomyVersions/TaxonomyVersionsPage'));
 const PublishRequestsPage = loadable(() => import('../PublishRequests/PublishRequestsPage'));
 const NodeDiffPage = loadable(() => import('../NodeDiff/NodeDiffPage'));
+const FrontpageEditPage = loadable(() => import('../FrontpageEditPage/FrontpageEditPage'));
 
 const StyledContent = styled.div`
   display: flex;
@@ -135,6 +136,10 @@ const App = ({ isClient }: Props) => {
                   <Route
                     path="/nodeDiff/:nodeId"
                     element={<PrivateRoute component={<NodeDiffPage />} />}
+                  />
+                  <Route
+                    path="/frontpage/"
+                    element={<PrivateRoute component={<FrontpageEditPage />} />}
                   />
                   <Route path="/forbidden" element={<ForbiddenPage />} />
                   <Route path="*" element={<NotFoundPage />} />

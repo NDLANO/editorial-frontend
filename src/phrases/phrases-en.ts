@@ -30,6 +30,7 @@ const phrases = {
     h5pPage: `H5P ${titleTemplate}`,
     publishRequestsPage: `Publish Requests ${titleTemplate}`,
     nodeDiffPage: `Compare Nodes ${titleTemplate}`,
+    editFrontpage: 'Edit front page',
     search: {
       'podcast-series': `Search podcast series ${titleTemplate}`,
       audio: `Search audio files ${titleTemplate}`,
@@ -224,6 +225,7 @@ const phrases = {
     newSubject: 'Create new subject',
     newFrontpageArticle: 'Create new About-NDLA article',
     creationMovedInfo: 'Topics and resources need to be created from structure',
+    frontpage: 'Edit front page',
   },
   logo: {
     altText: 'The Norwegian Digital Learning Arena',
@@ -1898,6 +1900,20 @@ const phrases = {
     labelNext: 'Go to next month',
     previousMonth: 'Go to previous month',
     goToToday: 'Go to today',
+  },
+  remove: 'Remove',
+  frontpageForm: {
+    error: 'An error occurred',
+    changeArticle: 'Change article',
+    addArticle: 'Add article',
+    addArticleToMenu: 'Add article to menu',
+    changeFrontpageArticle: 'Change front page article',
+    search: 'Search for an article',
+    frontpageArticle: 'Front page article:',
+    noFrontpageArticle: 'Front page article not set',
+    failedTitle: 'Failed to show title',
+    openChildren: 'Show children',
+    closeChildren: 'Hide children',
   },
 };
 

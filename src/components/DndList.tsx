@@ -31,7 +31,7 @@ interface Props<T extends { id: UniqueIdentifier }> {
   items: T[];
   disabled?: boolean;
   dragHandle?: ReactElement<ComponentProps<typeof IconButtonV2>>;
-  renderItem: (item: T) => ReactElement;
+  renderItem: (item: T, index: number) => ReactElement;
   onDragEnd: (event: DragEndEvent, items: T[]) => void;
 }
 const DndList = <T extends { id: UniqueIdentifier }>({
@@ -81,7 +81,7 @@ const DndList = <T extends { id: UniqueIdentifier }>({
             index={index}
             dragHandle={dragHandle}
           >
-            {renderItem(item)}
+            {renderItem(item, index)}
           </DraggableItem>
         ))}
       </SortableContext>

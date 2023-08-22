@@ -6,7 +6,7 @@
  *
  */
 
-import { memo, useCallback, useMemo } from 'react';
+import { memo, useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Formik, useFormikContext } from 'formik';
 import { IArticle, IUpdatedArticle, IStatus } from '@ndla/types-backend/draft-api';
@@ -36,6 +36,7 @@ import { TaxonomyVersionProvider } from '../../../StructureVersion/TaxonomyVersi
 import { useSession } from '../../../../containers/Session/SessionProvider';
 import { FlexWrapper, MainContent } from '../../styles';
 import CommentSection from '../../components/CommentSection';
+import AlertModal from '../../../../components/AlertModal';
 
 interface Props {
   article?: IArticle;
@@ -58,6 +59,7 @@ const LearningResourceForm = ({
   articleChanged,
   articleLanguage,
 }: Props) => {
+  const [showTaxWarning, setShowTaxWarning] = useState(false);
   const { t } = useTranslation();
   const { ndlaId } = useSession();
 
@@ -66,18 +68,37 @@ const LearningResourceForm = ({
     [t],
   );
 
-  const { savedToServer, formikRef, initialValues, handleSubmit } =
-    useArticleFormHooks<LearningResourceFormType>({
-      getInitialValues: draftApiTypeToLearningResourceFormType,
-      article,
-      t,
-      articleStatus,
-      updateArticle,
-      getArticleFromSlate: learningResourceFormTypeToDraftApiType,
-      articleLanguage,
-      rules: learningResourceRules,
-      ndlaId,
-    });
+  const {
+    savedToServer,
+    formikRef,
+    initialValues,
+    handleSubmit: _handleSubmit,
+  } = useArticleFormHooks<LearningResourceFormType>({
+    getInitialValues: draftApiTypeToLearningResourceFormType,
+    article,
+    t,
+    articleStatus,
+    updateArticle,
+    getArticleFromSlate: learningResourceFormTypeToDraftApiType,
+    articleLanguage,
+    rules: learningResourceRules,
+    ndlaId,
+  });
+  const contexts = useMemo(
+    () => articleTaxonomy?.flatMap((node) => node.contexts),
+    [articleTaxonomy],
+  );
+
+  const handleSubmit: HandleSubmitFunc<LearningResourceFormType> = useCallback(
+    async (values, helpers, saveAsNew) => {
+      if (!contexts?.length) {
+        setShowTaxWarning(true);
+        return;
+      }
+      return await _handleSubmit(values, helpers, saveAsNew);
+    },
+    [_handleSubmit, contexts?.length],
+  );
 
   const initialHTML = useMemo(() => blockContentToHTML(initialValues.content), [initialValues]);
 
@@ -91,8 +112,6 @@ const LearningResourceForm = ({
     () => validateFormik(initialValues, learningResourceRules, t),
     [initialValues, t],
   );
-
-  const contexts = articleTaxonomy?.flatMap((node) => node.contexts);
 
   return (
     <Formik
@@ -138,6 +157,14 @@ const LearningResourceForm = ({
           savedToServer={savedToServer}
           handleSubmit={handleSubmit}
           article={article}
+        />
+        <AlertModal
+          title={t('errorMessage.missingTaxTitle')}
+          label={t('errorMessage.missingTaxTitle')}
+          show={showTaxWarning}
+          text={t('errorMessage.missingTax')}
+          onCancel={() => setShowTaxWarning(false)}
+          severity={'danger'}
         />
       </StyledForm>
     </Formik>

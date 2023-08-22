@@ -275,7 +275,7 @@ const LearningResourceTaxonomy = ({ article, updateNotes, articleLanguage }: Pro
           body: { contentUri: `urn:article:${article.id}`, name: article.title?.title ?? '' },
           taxonomyVersion,
         });
-        resourceId = res;
+        resourceId = res.replace('/v1/resources/', '');
         setWorkingResource((res) => ({ ...res, id: res.id }));
       }
 

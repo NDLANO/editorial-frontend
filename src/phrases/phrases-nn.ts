@@ -1385,6 +1385,9 @@ const phrases = {
     grepCodes: 'Følgande koder har feil format eller eksisterer ikkje, og blir ikkje lagt til: ',
     errorOnSave: 'Noko gjekk gale under lagring av artikkelen.',
     genericError: 'Noko gjekk gale, handlinga kunne ikkje utførast.',
+    missingTaxTitle: 'Ikkje i taksonomi!',
+    missingTax:
+      'Artiklar og emnar kan ikkje lagrast uten å plasserast i taksonomien. Oppdater taksonomi-blokka og lagre på nytt.',
   },
   warningMessage: {
     fieldWithWrongLanguage: 'Dette feltet er henta frå språkkode: {{language}}',

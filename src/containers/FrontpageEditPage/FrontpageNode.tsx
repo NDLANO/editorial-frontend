@@ -19,7 +19,7 @@ import { DeleteForever } from '@ndla/icons/editor';
 import SafeLink from '@ndla/safelink';
 import { MenuWithArticle } from './types';
 import FrontpageArticleSearch from './FrontpageArticleSearch';
-import FrontpageNodeList from './FrontpageNodeList';
+import FrontpageNodeList, { FRONTPAGE_DEPTH_LIMIT } from './FrontpageNodeList';
 import { toEditFrontPageArticle } from '../../util/routeHelpers';
 
 interface Props extends Pick<ArrayHelpers, 'remove' | 'replace'> {
@@ -135,7 +135,7 @@ const FrontpageNode = ({ name, remove, index, level, replace }: Props) => {
     <NodeWrapper>
       <NodeContentWrapper>
         <TitleWrapper>
-          {level < 2 && (
+          {level < FRONTPAGE_DEPTH_LIMIT && (
             <OpenButton
               data-open={isOpen}
               variant="stripped"
@@ -160,7 +160,7 @@ const FrontpageNode = ({ name, remove, index, level, replace }: Props) => {
               variant="ghost"
               aria-label={t('frontpageForm.addArticle')}
               title={t('frontpageForm.addArticle')}
-              disabled={level > 1}
+              disabled={level > FRONTPAGE_DEPTH_LIMIT - 1}
             >
               <Plus />
             </IconButtonV2>

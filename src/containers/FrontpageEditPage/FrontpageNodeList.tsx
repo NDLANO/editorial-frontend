@@ -21,6 +21,8 @@ interface Props extends FieldArrayRenderProps {
   level: number;
 }
 
+export const FRONTPAGE_DEPTH_LIMIT = 2;
+
 const StyledList = styled.ul`
   list-style: none;
   margin: 0px;
@@ -53,7 +55,7 @@ const FrontpageNodeList: ComponentType<Props> = ({ name, replace, remove, level,
     <StyledList>
       <DndList
         items={sortableItems}
-        disabled={menuField.value.length < 2}
+        disabled={menuField.value.length < FRONTPAGE_DEPTH_LIMIT}
         onDragEnd={onDragEnd}
         dragHandle={
           <StyledDragHandle aria-label={t('dragAndDrop.handle')}>

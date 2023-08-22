@@ -84,7 +84,7 @@ const EditButtonWrapper = styled.div`
 `;
 
 const FrontpageNode = ({ name, remove, index, level, replace }: Props) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
   const [field] = useField<MenuWithArticle>(name);
   const { t, i18n } = useTranslation();
 

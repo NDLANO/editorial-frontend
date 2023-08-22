@@ -41,7 +41,7 @@ describe('Workflow features', () => {
     cy.apiroute('POST', `/graphql-api/graphql`, `converted-article-${ARTICLE_ID}`);
     cy.get('[data-testid=previewVersion]').first().click();
     cy.apiwait(`@converted-article-${ARTICLE_ID}`);
-    cy.get(`article[id=${ARTICLE_ID}]`).should('exist');
+    cy.get(`h1[id=${ARTICLE_ID}]`).should('exist');
     cy.get('[data-cy=close-modal-button]').should('exist').click();
   });
 

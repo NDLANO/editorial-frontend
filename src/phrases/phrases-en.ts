@@ -556,6 +556,8 @@ const phrases = {
       white: 'White',
       transparent: 'Transparent',
     },
+    setSticky: 'Lock content to adjacent grid cell',
+    unsetSticky: 'Unlock content from adjacent grid cell',
   },
   blogPostForm: {
     title: 'Edit blog post',
@@ -640,6 +642,7 @@ const phrases = {
       blogPost: 'Blog post',
       grid: 'Grid',
       campaignBlock: 'Kampanjeblokk',
+      linkBlockList: 'Link block',
     },
   },
   form: {
@@ -734,6 +737,8 @@ const phrases = {
       linkText: 'Link text',
       titleLanguage: 'Title language',
       descriptionlanguage: 'Description language',
+      url: 'Link',
+      date: 'Date',
     },
     previewProductionArticle: {
       button: 'Compare current version with old version',
@@ -1875,6 +1880,14 @@ const phrases = {
       insertImageAfter: 'Insert right image',
       images: 'Images',
     },
+  },
+  linkBlock: {
+    deleteBlock: 'Delete link block',
+    delete: 'Delete link',
+    edit: 'Edit link',
+    create: 'Add new link',
+    chooseDate: 'Choose date',
+    linkExists: 'This link already exists in the block',
   },
   dragAndDrop: {
     handle: 'Drag handle',

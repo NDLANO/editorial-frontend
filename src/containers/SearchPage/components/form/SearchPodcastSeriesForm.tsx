@@ -42,10 +42,10 @@ const SearchAudioForm = ({
 
   const onFieldChange: OnFieldChangeFunction = (name, value, evt) => {
     if (name === 'query' && evt) setQueryInput(evt.currentTarget.value);
-    doSearch({ ...search, [name]: value });
+    else doSearch({ ...search, [name]: value });
   };
 
-  const handleSearch = () => doSearch({ ...search, page: 1 });
+  const handleSearch = () => doSearch({ ...search, page: 1, query: queryInput });
 
   const removeTagItem = (tag: SearchFormSelector) => {
     if (tag.parameterName === 'query') setQueryInput('');

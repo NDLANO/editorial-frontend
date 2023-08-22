@@ -50,4 +50,5 @@ export const blocks = [
   TYPE_GRID,
   TYPE_KEY_FIGURE,
   TYPE_CAMPAIGN_BLOCK,
+  TYPE_EMBED_IMAGE,
 ];

@@ -200,8 +200,8 @@ const SlateVideo = ({
           <Modal open={editMode} onOpenChange={setEditMode}>
             <ModalTrigger>
               <IconButtonV2
-                aria-label={t('form.image.editVideo')}
-                title={t('form.image.editVideo')}
+                aria-label={t('form.video.editVideo')}
+                title={t('form.video.editVideo')}
                 colorTheme="light"
               >
                 <Pencil />

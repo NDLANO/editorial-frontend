@@ -62,14 +62,16 @@ const StatusSelect = ({ status, setStatus, onSave, statusStateMachine, entitySta
   );
 
   return (
-    <Select<false>
-      options={optionsWithGroupTitle}
-      menuPlacement="top"
-      placeholder={t('searchForm.types.status')}
-      value={status}
-      onChange={updateStatus}
-      closeMenuOnSelect
-    />
+    <div data-testid="status-select">
+      <Select<false>
+        options={optionsWithGroupTitle}
+        menuPlacement="top"
+        placeholder={t('searchForm.types.status')}
+        value={status}
+        onChange={updateStatus}
+        closeMenuOnSelect
+      />
+    </div>
   );
 };
 

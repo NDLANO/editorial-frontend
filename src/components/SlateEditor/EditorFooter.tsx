@@ -259,7 +259,7 @@ function EditorFooter<T extends FormValues>({
           )}
         </div>
 
-        <StyledFooterControls data-cy="footerStatus">
+        <StyledFooterControls>
           {isArticle && (
             <Switch
               checked={prioritizedOn}

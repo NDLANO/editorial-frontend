@@ -72,7 +72,7 @@ export function toCreateFrontPageArticle() {
 }
 
 export function toEditFrontPageArticle(id: number, locale: string) {
-  return `subject-matter/frontpage-article/${id}/edit/${locale}`;
+  return `/subject-matter/frontpage-article/${id}/edit/${locale}`;
 }
 
 export function toCreateSubjectpage(subjectId: string, locale: string) {

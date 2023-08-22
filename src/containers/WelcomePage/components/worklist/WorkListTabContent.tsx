@@ -128,8 +128,8 @@ const WorkListTabContent = ({
             {
               id: `contentType_${res.id}`,
               data:
-                res.learningResourceType === 'topic-article'
-                  ? 'Emne'
+                res.learningResourceType !== 'standard'
+                  ? t(`articleType.${res.learningResourceType}`)
                   : res.contexts?.[0]?.resourceTypes?.map((context) => context.name).join(' - '),
             },
             {

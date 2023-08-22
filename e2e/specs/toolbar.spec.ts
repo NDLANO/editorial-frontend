@@ -177,7 +177,7 @@ test('Creates math', async ({ page }) => {
   await el.click();
   await el.type('1+1');
   await el.press(`${metaKey}+A`);
-  const math = page.getByTestId('toolbar-button-mathml');
-  await math.click();
-  await expect(page.locator('[data-cy="math"]')).toBeVisible();
+  await page.getByTestId('toolbar-button-mathml').click();
+  await expect(page.getByTestId('math')).toBeVisible();
 });
+

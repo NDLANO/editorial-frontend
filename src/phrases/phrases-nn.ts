@@ -557,6 +557,8 @@ const phrases = {
       white: 'Kvit',
       transparent: 'Transparent',
     },
+    setSticky: 'Lås innhald til cella ved sida av',
+    unsetSticky: 'Frigjer innhald frå cella ved sida av',
   },
   blogPostForm: {
     title: 'Rediger bloggpost',
@@ -641,6 +643,7 @@ const phrases = {
       blogPost: 'Bloggpost',
       grid: 'Grid',
       campaignBlock: 'Kampanjeblokk',
+      linkBlockList: 'Lenkeblokk',
     },
   },
   form: {
@@ -735,6 +738,8 @@ const phrases = {
       linkText: 'Lenketekst',
       titleLanguage: 'Tittel-språk',
       descriptionlanguage: 'Beskrivelse-språk',
+      url: 'Lenke',
+      date: 'Dato',
     },
     previewProductionArticle: {
       button: 'Samanlikn gjeldande versjon med gamal versjon',
@@ -1879,6 +1884,14 @@ const phrases = {
       insertImageAfter: 'Sett inn bilde til høyre',
       images: 'Bildar',
     },
+  },
+  linkBlock: {
+    deleteBlock: 'Slett lenkeblokk',
+    delete: 'Slett lenke',
+    edit: 'Rediger lenke',
+    create: 'Sett inn lenke',
+    chooseDate: 'Velg dato',
+    linkExists: 'Denne lenka finnast allereie i blokka',
   },
   dragAndDrop: {
     handle: 'Handtak',

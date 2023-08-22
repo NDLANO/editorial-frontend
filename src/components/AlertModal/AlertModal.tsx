@@ -132,7 +132,7 @@ const AlertModal = ({
           focusedElementBeforeModalRef.current = null;
         }}
       >
-        <StyledModalBody css={severities[severity]}>
+        <StyledModalBody css={severities[severity]} data-testid="alert-modal">
           <Header>
             {title && <Heading>{title}</Heading>}
             <CloseButton

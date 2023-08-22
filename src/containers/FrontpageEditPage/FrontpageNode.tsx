@@ -14,7 +14,7 @@ import { ChevronRight } from '@ndla/icons/common';
 import { ArrayHelpers, FieldArray, useField } from 'formik';
 import { useCallback, useMemo, useState } from 'react';
 import { IArticleSummaryV2 } from '@ndla/types-backend/build/article-api';
-import { Pencil, Plus } from '@ndla/icons/action';
+import { Plus } from '@ndla/icons/action';
 import { DeleteForever } from '@ndla/icons/editor';
 import SafeLink from '@ndla/safelink';
 import { MenuWithArticle } from './types';
@@ -42,7 +42,6 @@ const NodeWrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  margin-right: ${spacing.small};
 `;
 
 const TitleLink = styled(SafeLink)`
@@ -81,7 +80,6 @@ const OpenButton = styled(ButtonV2)`
 
 const EditButtonWrapper = styled.div`
   display: flex;
-  gap: ${spacing.small};
   align-self: flex-end;
 `;
 
@@ -108,18 +106,6 @@ const FrontpageNode = ({ name, remove, index, level, replace }: Props) => {
       replace(index, updatedExisting);
     },
     [field.value, index, replace],
-  );
-
-  const onChange = useCallback(
-    (val: IArticleSummaryV2) => {
-      const changedMenu: MenuWithArticle = {
-        articleId: val.id,
-        article: val,
-        menu: field.value.menu,
-      };
-      replace(index, changedMenu);
-    },
-    [field.value?.menu, index, replace],
   );
 
   const openLabel = useMemo(
@@ -155,6 +141,18 @@ const FrontpageNode = ({ name, remove, index, level, replace }: Props) => {
           </TitleLink>
         </TitleWrapper>
         <EditButtonWrapper>
+          {!field.value.menu.length && (
+            <IconButtonV2
+              aria-label={t('remove')}
+              title={t('remove')}
+              hidden={!!field.value.menu.length}
+              variant="ghost"
+              colorTheme="danger"
+              onClick={onRemove}
+            >
+              <DeleteForever />
+            </IconButtonV2>
+          )}
           <FrontpageArticleSearch onChange={onAdd}>
             <IconButtonV2
               variant="ghost"
@@ -165,24 +163,6 @@ const FrontpageNode = ({ name, remove, index, level, replace }: Props) => {
               <Plus />
             </IconButtonV2>
           </FrontpageArticleSearch>
-          <FrontpageArticleSearch articleId={field.value.articleId} onChange={onChange}>
-            <IconButtonV2
-              variant="ghost"
-              aria-label={t('frontpageForm.changeArticle')}
-              title={t('frontpageForm.changeArticle')}
-            >
-              <Pencil />
-            </IconButtonV2>
-          </FrontpageArticleSearch>
-          <IconButtonV2
-            aria-label={t('remove')}
-            title={t('remove')}
-            variant="ghost"
-            colorTheme="danger"
-            onClick={onRemove}
-          >
-            <DeleteForever />
-          </IconButtonV2>
         </EditButtonWrapper>
       </NodeContentWrapper>
       {!!field.value.menu.length && isOpen && (

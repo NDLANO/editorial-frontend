@@ -220,6 +220,7 @@ const LearningResourceTaxonomy = ({ article, updateNotes, articleLanguage }: Pro
           id: subjectId,
           language: i18n.language,
           taxonomyVersion,
+          nodeType: ['TOPIC'],
           recursive: true,
         });
         const childNodes = groupChildNodes(nodes);

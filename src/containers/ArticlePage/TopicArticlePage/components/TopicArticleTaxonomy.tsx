@@ -128,6 +128,7 @@ const TopicArticleTaxonomy = ({ article, updateNotes, articleLanguage }: Props) 
           id: subjectId,
           language: articleLanguage,
           taxonomyVersion,
+          nodeType: ['TOPIC'],
           recursive: true,
         });
         const childNodes = groupChildNodes(nodes);

@@ -75,13 +75,14 @@ export const TaxonomyBlockNode = ({
   const onClick = useCallback(() => toggleOpen(node), [node, toggleOpen]);
 
   return (
-    <StyledStructureItem key={node.path} greyedOut={!isActive}>
+    <StyledStructureItem key={node.path}>
       <ItemBar highlight={isActive}>
         <ItemTitleButton
           type="button"
           hasChildNodes
           isRootNode={false}
           lastItemClickable
+          isVisible={node.metadata.visible}
           arrowDirection={isOpen ? 90 : 0}
           onClick={onClick}
         >
@@ -173,7 +174,7 @@ const ChildNode = ({
   const onSelected = useCallback(() => onSelect(node), [node, onSelect]);
 
   return (
-    <StyledStructureItem key={node.path} greyedOut={parentActive}>
+    <StyledStructureItem key={node.path} greyedOut={!parentActive && !isActive}>
       <ItemBar highlight={isActive}>
         <ItemTitleButton
           type="button"

@@ -53,9 +53,25 @@ const Wrapper = styled.div`
   justify-content: space-between;
 `;
 
-const ArticleTitle = styled.span`
-  display: inline-flex;
+const ArticleTitle = styled.div`
+  display: flex;
+  align-items: center;
   gap: ${spacing.xsmall};
+  span {
+    display: inline-flex;
+    gap: ${spacing.xsmall};
+  }
+`;
+
+const StyledSafeLink = styled(SafeLink)`
+  color: ${colors.brand.primary};
+  text-decoration: underline;
+  text-underline-offset: ${spacing.xsmall};
+  box-shadow: none;
+  &:hover,
+  &:focus-visible {
+    text-decoration: none;
+  }
 `;
 
 const ButtonWrapper = styled.div`
@@ -179,31 +195,21 @@ const RootFields = () => {
       </Heading>
       <Wrapper>
         <ArticleTitle>
-          {articleField.value ? (
-            <>
-              {t('frontpageForm.frontpageArticle')}
-              <SafeLink
-                to={toEditFrontPageArticle(articleField.value.id, i18n.language)}
-                target="_blank"
-              >
-                {articleField.value.title.title}
-              </SafeLink>
-            </>
-          ) : (
-            t('frontpageForm.noFrontpageArticle')
-          )}
-        </ArticleTitle>
-        <ButtonWrapper>
-          <FrontpageArticleSearch onChange={onAddNew}>
-            <IconButtonV2
-              colorTheme="primary"
-              variant="outline"
-              aria-label={t('frontpageForm.addArticle')}
-              title={t('frontpageForm.addArticle')}
-            >
-              <Plus />
-            </IconButtonV2>
-          </FrontpageArticleSearch>
+          <span>
+            {articleField.value ? (
+              <>
+                {t('frontpageForm.frontpageArticle')}
+                <StyledSafeLink
+                  to={toEditFrontPageArticle(articleField.value.id, i18n.language)}
+                  target="_blank"
+                >
+                  {articleField.value.title.title}
+                </StyledSafeLink>
+              </>
+            ) : (
+              t('frontpageForm.noFrontpageArticle')
+            )}
+          </span>
           <FrontpageArticleSearch articleId={idField.value} onChange={onChange}>
             <IconButtonV2
               colorTheme="primary"
@@ -212,6 +218,18 @@ const RootFields = () => {
               title={t('frontpageForm.changeFrontpageArticle')}
             >
               <Pencil />
+            </IconButtonV2>
+          </FrontpageArticleSearch>
+        </ArticleTitle>
+        <ButtonWrapper>
+          <FrontpageArticleSearch onChange={onAddNew}>
+            <IconButtonV2
+              colorTheme="primary"
+              variant="outline"
+              aria-label={t('frontpageForm.addArticleToMenu')}
+              title={t('frontpageForm.addArticleToMenu')}
+            >
+              <Plus />
             </IconButtonV2>
           </FrontpageArticleSearch>
           <SaveButton type="submit" disabled={!dirty} isSaving={isSubmitting}>

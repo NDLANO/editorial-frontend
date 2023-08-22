@@ -1906,6 +1906,7 @@ const phrases = {
     error: 'An error occurred',
     changeArticle: 'Change article',
     addArticle: 'Add article',
+    addArticleToMenu: 'Add article to menu',
     changeFrontpageArticle: 'Change front page article',
     search: 'Search for an article',
     frontpageArticle: 'Front page article:',

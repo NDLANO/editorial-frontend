@@ -1909,6 +1909,7 @@ const phrases = {
     error: 'Ein feil oppsto',
     changeArticle: 'Endre artikkel',
     addArticle: 'Legg til artikkel',
+    addArticleToMenu: 'Legg til artikkel i meny',
     changeFrontpageArticle: 'Endre forsideartikkel',
     search: 'Søk etter artikkel',
     frontpageArticle: 'Forsideartikkel:',

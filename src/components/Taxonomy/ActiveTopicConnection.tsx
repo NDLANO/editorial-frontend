@@ -21,6 +21,7 @@ interface Props {
   node: MinimalNodeChild | Node;
   type: string;
   setRelevance?: (topicId: string, relevanceId: string) => void;
+  disableRemove?: boolean;
 }
 
 const StyledFlexWrapper = styled.div`
@@ -71,6 +72,7 @@ const ActiveTopicConnection = ({
   setRelevance,
   type,
   node,
+  disableRemove,
 }: Props) => {
   const { t } = useTranslation();
 
@@ -98,7 +100,7 @@ const ActiveTopicConnection = ({
           relevanceId={node.relevanceId}
           onChange={(relevanceId) => setRelevance?.(node.id, relevanceId)}
         />
-        <RemoveButton onClick={() => removeConnection?.(node.id)} />
+        <RemoveButton onClick={() => removeConnection?.(node.id)} disabled={disableRemove} />
       </StyledFlexWrapper>
     </StyledConnections>
   );

@@ -114,11 +114,13 @@ export const updateTax = async (
 
 export interface CreateTopicNodeConnections extends WithTaxonomyVersion {
   articleId: number;
+  name: string;
   placements: Node[];
 }
 
 export const createTopicNodeConnections = async ({
   articleId,
+  name,
   placements,
   taxonomyVersion,
 }: CreateTopicNodeConnections) => {
@@ -126,7 +128,7 @@ export const createTopicNodeConnections = async ({
     const location = await postNode({
       body: {
         contentUri: `urn:article:${articleId}`,
-        name: placement.name,
+        name: name,
         nodeType: 'TOPIC',
         visible: placement.metadata.visible,
       },

@@ -177,6 +177,7 @@ const TopicArticleTaxonomy = ({ article, updateNotes, articleLanguage }: Props) 
     try {
       await createTopicNodeConnectionsMutation.mutateAsync({
         placements: newNodes,
+        name: article.title?.title ?? '',
         articleId: article.id,
         taxonomyVersion,
       });

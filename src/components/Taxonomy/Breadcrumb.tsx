@@ -19,12 +19,10 @@ const StyledBreadCrumb = styled.div`
 `;
 
 const StyledLink = styled(SafeLink)`
+  color: ${colors.brand.primary};
   &[data-visible='false'] {
     font-style: italic;
     color: ${colors.brand.grey};
-  }
-  &[data-visible='true'] {
-    color: ${colors.brand.primary};
   }
 `;
 

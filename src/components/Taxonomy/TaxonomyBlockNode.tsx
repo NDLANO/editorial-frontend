@@ -134,7 +134,7 @@ interface NodeItemProps {
   parentActive: boolean;
 }
 
-const StyledChecked = styled('div')`
+const StyledChecked = styled.div`
   ${fonts.sizes(16, 1.1)}
 
   font-weight: ${fonts.weight.semibold};

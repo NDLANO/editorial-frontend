@@ -39,6 +39,7 @@ const StyledPrimaryConnectionButton = styled.button`
   background: ${colors.support.green};
   opacity: 0.3;
   transition: opacity 100ms ease;
+  cursor: pointer;
   &:hover,
   &:focus {
     opacity: 1;

@@ -11,7 +11,6 @@ import { taxonomyApi } from '../../../config';
 import { Resource, Topic } from '../taxonomyApiInterfaces';
 import { resolveLocation } from '../../../util/resolveJsonOrRejectWithError';
 import { WithTaxonomyVersion } from '../../../interfaces';
-import { ResourcePostBody } from './resourceApiInterfaces';
 
 const baseUrl = apiResourceUrl(taxonomyApi);
 const resourcesUrl = apiResourceUrl(`${taxonomyApi}/resources`);
@@ -31,19 +30,6 @@ export const fetchResource = ({
     url: `${resourcesUrl}/${id}`,
     taxonomyVersion,
     queryParams: { language },
-  });
-};
-
-interface ResourcePostParams extends WithTaxonomyVersion {
-  body: ResourcePostBody;
-}
-
-export const createResource = ({ body, taxonomyVersion }: ResourcePostParams): Promise<string> => {
-  return postAndResolve({
-    url: resourcesUrl,
-    body: JSON.stringify(body),
-    taxonomyVersion,
-    alternateResolve: resolveLocation,
   });
 };
 

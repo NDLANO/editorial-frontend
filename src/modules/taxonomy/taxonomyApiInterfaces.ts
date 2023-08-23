@@ -1,21 +1,9 @@
 import { Metadata } from '@ndla/types-taxonomy';
 
-export interface TaxonomyElement {
+interface TaxonomyElement {
   id: string;
   name: string;
   metadata: Metadata;
-}
-
-export interface SubjectTopic extends TaxonomyElement {
-  contentUri: string;
-  isPrimary: boolean;
-  relevanceId?: string;
-  parentId: string;
-  path: string;
-  paths: string[];
-  connectionId: string;
-  subtopics?: SubjectTopic[];
-  rank: number;
 }
 
 export interface Topic extends TaxonomyElement {
@@ -36,15 +24,7 @@ export interface Resource extends TaxonomyElement {
   grepCodes: string[];
 }
 
-export interface TopicConnections {
-  isPrimary: boolean;
-  connectionId: string;
-  paths: string[];
-  targetId: string;
-  type: string;
-}
-
-export interface ResourceResourceType {
+interface ResourceResourceType {
   id: string;
   name: string;
   parentId?: string;

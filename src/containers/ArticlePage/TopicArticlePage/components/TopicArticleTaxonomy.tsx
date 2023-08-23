@@ -16,7 +16,7 @@ import { spacing } from '@ndla/core';
 import { IUpdatedArticle, IArticle } from '@ndla/types-backend/draft-api';
 import { SingleValue } from '@ndla/select';
 import { useQueryClient } from '@tanstack/react-query';
-import { Metadata, Node } from '@ndla/types-taxonomy';
+import { Node } from '@ndla/types-taxonomy';
 import isEqual from 'lodash/isEqual';
 import sortBy from 'lodash/sortBy';
 import differenceBy from 'lodash/differenceBy';
@@ -26,10 +26,6 @@ import SaveButton from '../../../../components/SaveButton';
 import TopicArticleConnections from './TopicArticleConnections';
 
 import { FormikFieldHelp } from '../../../../components/FormikField';
-import {
-  TaxonomyElement,
-  TopicConnections,
-} from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import TaxonomyConnectionErrors from '../../components/TaxonomyConnectionErrors';
 import { TAXONOMY_ADMIN_SCOPE } from '../../../../constants';
 import { useSession } from '../../../Session/SessionProvider';
@@ -46,18 +42,6 @@ type Props = {
   updateNotes: (art: IUpdatedArticle) => Promise<IArticle>;
   articleLanguage: string;
 };
-
-export interface StagedTopic extends TaxonomyElement {
-  id: string;
-  name: string;
-  path: string;
-  paths?: string[];
-  breadcrumb?: TaxonomyElement[];
-  topicConnections?: TopicConnections[];
-  relevanceId?: string;
-  isPrimary?: boolean;
-  metadata: Metadata;
-}
 
 const ButtonContainer = styled.div`
   display: flex;

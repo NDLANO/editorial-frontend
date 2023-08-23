@@ -6,13 +6,7 @@
  *
  */
 
-export {
-  fetchResource,
-  createResource,
-  queryResources,
-  queryTopics,
-  queryLearningPathResource,
-} from './resources';
+export { fetchResource, queryResources, queryTopics, queryLearningPathResource } from './resources';
 export {
   fetchAllResourceTypes,
   fetchResourceType,

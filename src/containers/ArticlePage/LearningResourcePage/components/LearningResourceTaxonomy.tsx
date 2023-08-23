@@ -25,7 +25,6 @@ import partition from 'lodash/partition';
 import isEqual from 'lodash/isEqual';
 import sortBy from 'lodash/sortBy';
 import { Spinner } from '@ndla/icons';
-import { createResource } from '../../../../modules/taxonomy';
 import { groupChildNodes } from '../../../../util/taxonomyHelpers';
 import handleError from '../../../../util/handleError';
 import TopicConnections from '../../../../components/Taxonomy/TopicConnections';
@@ -43,7 +42,7 @@ import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionPro
 import { useAllResourceTypes } from '../../../../modules/taxonomy/resourcetypes/resourceTypesQueries';
 import { nodesQueryKey, useNodes } from '../../../../modules/nodes/nodeQueries';
 import { useUpdateTaxonomyMutation } from '../../../../modules/taxonomy/taxonomyMutations';
-import { fetchChildNodes } from '../../../../modules/nodes/nodeApi';
+import { fetchChildNodes, postNode } from '../../../../modules/nodes/nodeApi';
 import { NodeWithChildren } from '../../../../components/Taxonomy/TaxonomyBlockNode';
 
 const blacklistedResourceTypes = [RESOURCE_TYPE_LEARNING_PATH];
@@ -271,8 +270,12 @@ const LearningResourceTaxonomy = ({ article, updateNotes, articleLanguage }: Pro
       evt.preventDefault();
       let resourceId = workingResource.id;
       if (!resourceId.length) {
-        const res = await createResource({
-          body: { contentUri: `urn:article:${article.id}`, name: article.title?.title ?? '' },
+        const res = await postNode({
+          body: {
+            contentUri: `urn:article:${article.id}`,
+            name: article.title?.title ?? '',
+            nodeType: 'RESOURCE',
+          },
           taxonomyVersion,
         });
         resourceId = res.replace('/v1/resources/', '');

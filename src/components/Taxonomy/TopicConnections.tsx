@@ -90,9 +90,13 @@ const TopicConnections = ({
     setOpenedPaths(paths);
   };
 
-  const addNode = useCallback((node: NodeChild) => addConnection(node), [addConnection]);
-
-  const closeModal = useCallback(() => setOpen(false), []);
+  const addNode = useCallback(
+    (node: NodeChild) => {
+      addConnection(node);
+      setOpen(false);
+    },
+    [addConnection],
+  );
 
   return (
     <>
@@ -134,10 +138,7 @@ const TopicConnections = ({
                 openedPaths={openedPaths}
                 toggleOpen={handleOpenToggle}
                 selectedNodes={selectedNodes}
-                onSelect={(node) => {
-                  addNode(node);
-                  closeModal();
-                }}
+                onSelect={addNode}
               />
             ))}
           </ModalBody>

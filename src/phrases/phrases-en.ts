@@ -1385,6 +1385,7 @@ const phrases = {
     missingTaxTitle: 'Not in taxonomy!',
     missingTax:
       'Articles and topics cannot be saved without being placed in the taxonomy. Update the taxonomy block and save again.',
+    invalidTopicPlacements: 'Topics without placement in taxonomy',
   },
   warningMessage: {
     fieldWithWrongLanguage: 'This value is fetched from language code: {{language}}',

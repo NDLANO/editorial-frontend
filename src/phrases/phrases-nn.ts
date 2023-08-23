@@ -1387,7 +1387,8 @@ const phrases = {
     genericError: 'Noko gjekk gale, handlinga kunne ikkje utførast.',
     missingTaxTitle: 'Ikkje i taksonomi!',
     missingTax:
-      'Artiklar og emnar kan ikkje lagrast uten å plasserast i taksonomien. Oppdater taksonomi-blokka og lagre på nytt.',
+      'Artiklar og emner kan ikkje lagrast uten å plasserast i taksonomien. Oppdater taksonomi-blokka og lagre på nytt.',
+    invalidTopicPlacements: 'Emner uten plassering i taksonomi',
   },
   warningMessage: {
     fieldWithWrongLanguage: 'Dette feltet er henta frå språkkode: {{language}}',

@@ -1388,6 +1388,7 @@ const phrases = {
     missingTaxTitle: 'Ikke i taksonomi!',
     missingTax:
       'Artikler og emner kan ikke lagres uten å plasseres i taksonomien. Oppdater taksonomi-blokken og lagre på nytt.',
+    invalidTopicPlacements: 'Emner uten plassering i taksonomi',
   },
   warningMessage: {
     fieldWithWrongLanguage: 'Dette feltet er hentet fra språkkode: {{language}}',

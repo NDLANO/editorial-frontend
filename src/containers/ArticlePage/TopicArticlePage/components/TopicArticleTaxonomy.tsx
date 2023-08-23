@@ -12,7 +12,7 @@ import styled from '@emotion/styled';
 import partition from 'lodash/partition';
 import { ErrorMessage } from '@ndla/ui';
 import { ButtonV2 } from '@ndla/button';
-import { spacing } from '@ndla/core';
+import { spacing, colors } from '@ndla/core';
 import { IUpdatedArticle, IArticle } from '@ndla/types-backend/draft-api';
 import { SingleValue } from '@ndla/select';
 import { useQueryClient } from '@tanstack/react-query';
@@ -49,6 +49,23 @@ const ButtonContainer = styled.div`
   gap: ${spacing.xsmall};
 `;
 
+const InvalidPlacementsWrapper = styled.ul`
+  display: flex;
+  flex-direction: column;
+  gap: ${spacing.xsmall};
+  width: 100%;
+  padding: 0px;
+  margin: 0px 0px ${spacing.normal} ${spacing.normal};
+`;
+
+const InvalidPlacement = styled.li`
+  width: 100%;
+  color: ${colors.support.red};
+  margin: 0px;
+  margin: 0px;
+  padding: 0px;
+`;
+
 const TopicArticleTaxonomy = ({ article, updateNotes, articleLanguage }: Props) => {
   const [status, setStatus] = useState('loading');
   const [showWarning, setShowWarning] = useState(false);
@@ -72,6 +89,7 @@ const TopicArticleTaxonomy = ({ article, updateNotes, articleLanguage }: Props) 
   );
 
   const [placements, setPlacements] = useState<Node[]>([]);
+  const [invalidPlacements, setInvalidPlacements] = useState<Node[]>([]);
 
   const createTopicNodeConnectionsMutation = useCreateTopicNodeConnectionsMutation();
 
@@ -83,7 +101,21 @@ const TopicArticleTaxonomy = ({ article, updateNotes, articleLanguage }: Props) 
       includeContexts: true,
     },
     {
-      onSuccess: setPlacements,
+      onSuccess: (data) => {
+        const [validPlacements, invalidPlacements] = data.reduce<[Node[], Node[]]>(
+          (acc, curr) => {
+            if (curr.breadcrumbs?.length) {
+              acc[0].push(curr);
+            } else {
+              acc[1].push(curr);
+            }
+            return acc;
+          },
+          [[], []],
+        );
+        setPlacements(validPlacements);
+        setInvalidPlacements(invalidPlacements);
+      },
     },
   );
 
@@ -187,9 +219,6 @@ const TopicArticleTaxonomy = ({ article, updateNotes, articleLanguage }: Props) 
     [changeVersion, qc, taxonomyVersion],
   );
 
-  // if (status === 'loading') {
-  //   return <Spinner />;
-  // }
   if (status === 'error') {
     changeVersion('');
     return (
@@ -228,6 +257,16 @@ const TopicArticleTaxonomy = ({ article, updateNotes, articleLanguage }: Props) 
         selectedNodes={placements}
         getSubjectTopics={getSubjectTopics}
       />
+      {!!invalidPlacements.length && isTaxonomyAdmin && (
+        <details>
+          <summary>{t('errorMessage.invalidTopicPlacements')}</summary>
+          <InvalidPlacementsWrapper>
+            {invalidPlacements.map((placement) => (
+              <InvalidPlacement key={placement.id}>{placement.id}</InvalidPlacement>
+            ))}
+          </InvalidPlacementsWrapper>
+        </details>
+      )}
       {showWarning && <FormikFieldHelp error>{t('errorMessage.unsavedTaxonomy')}</FormikFieldHelp>}
       <ButtonContainer>
         <ButtonV2

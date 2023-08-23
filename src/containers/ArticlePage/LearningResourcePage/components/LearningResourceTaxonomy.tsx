@@ -281,7 +281,7 @@ const LearningResourceTaxonomy = ({
           },
           taxonomyVersion,
         });
-        resourceId = res.replace('/v1/resources/', '');
+        resourceId = res.replace('/v1/nodes/', '');
         setWorkingResource((r) => ({ ...r, id: resourceId }));
       }
 

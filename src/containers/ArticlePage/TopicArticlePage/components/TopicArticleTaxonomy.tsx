@@ -41,6 +41,7 @@ type Props = {
   article: IArticle;
   updateNotes: (art: IUpdatedArticle) => Promise<IArticle>;
   articleLanguage: string;
+  hasTaxEntries: boolean;
 };
 
 const ButtonContainer = styled.div`
@@ -82,7 +83,7 @@ const partitionByValidity = (nodes: Node[]) => {
   return [validPlacements, invalidPlacements];
 };
 
-const TopicArticleTaxonomy = ({ article, updateNotes, articleLanguage }: Props) => {
+const TopicArticleTaxonomy = ({ article, updateNotes, articleLanguage, hasTaxEntries }: Props) => {
   const [status, setStatus] = useState('loading');
   const [showWarning, setShowWarning] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
@@ -257,6 +258,7 @@ const TopicArticleTaxonomy = ({ article, updateNotes, articleLanguage }: Props) 
 
   return (
     <>
+      {!hasTaxEntries && <FormikFieldHelp error>{t('errorMessage.missingTax')}</FormikFieldHelp>}
       {isTaxonomyAdmin && (
         <>
           <TaxonomyConnectionErrors

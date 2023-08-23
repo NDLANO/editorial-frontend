@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { useFormikContext } from 'formik';
 import { IUpdatedArticle, IArticle } from '@ndla/types-backend/draft-api';
 import { memo, useMemo } from 'react';
-import { Node } from '@ndla/types-taxonomy';
+import { Node, TaxonomyContext } from '@ndla/types-taxonomy';
 import config from '../../../../config';
 import RelatedContentFieldGroup from '../../components/RelatedContentFieldGroup';
 import { TAXONOMY_WRITE_SCOPE } from '../../../../constants';
@@ -29,9 +29,16 @@ interface Props {
   taxonomy?: Node[];
   updateNotes: (art: IUpdatedArticle) => Promise<IArticle>;
   articleLanguage: string;
+  contexts?: TaxonomyContext[];
 }
 
-const LearningResourcePanels = ({ article, taxonomy, updateNotes, articleLanguage }: Props) => {
+const LearningResourcePanels = ({
+  article,
+  taxonomy,
+  updateNotes,
+  articleLanguage,
+  contexts,
+}: Props) => {
   const { t } = useTranslation();
   const { userPermissions } = useSession();
   const { errors } = useFormikContext<LearningResourceFormType>();
@@ -52,12 +59,13 @@ const LearningResourcePanels = ({ article, taxonomy, updateNotes, articleLanguag
           id={'learning-resource-taxonomy'}
           title={t('form.taxonomySection')}
           className={'u-6/6'}
-          hasError={false}
+          hasError={!contexts?.length}
         >
           <LearningResourceTaxonomy
             article={article}
             updateNotes={updateNotes}
             articleLanguage={articleLanguage}
+            hasTaxEntries={!!contexts?.length}
           />
         </FormAccordion>
       )}

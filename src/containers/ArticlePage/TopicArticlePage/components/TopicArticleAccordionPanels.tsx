@@ -29,6 +29,7 @@ interface Props {
   article?: IArticle;
   updateNotes: (art: IUpdatedArticle) => Promise<IArticle>;
   articleLanguage: string;
+  hasTaxonomyEntries: boolean;
 }
 
 const TopicArticleAccordionPanels = ({
@@ -36,6 +37,7 @@ const TopicArticleAccordionPanels = ({
   article,
   updateNotes,
   articleLanguage,
+  hasTaxonomyEntries,
 }: Props) => {
   const { t } = useTranslation();
   const { userPermissions } = useSession();
@@ -62,12 +64,13 @@ const TopicArticleAccordionPanels = ({
           id={'topic-article-taxonomy'}
           title={t('form.taxonomySection')}
           className={'u-6/6'}
-          hasError={false}
+          hasError={!hasTaxonomyEntries}
         >
           <TopicArticleTaxonomy
             article={article}
             updateNotes={updateNotes}
             articleLanguage={articleLanguage}
+            hasTaxEntires={hasTaxonomyEntries}
           />
         </FormAccordion>
       )}

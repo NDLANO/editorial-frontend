@@ -51,6 +51,7 @@ interface Props {
   article: IArticle;
   updateNotes: (art: IUpdatedArticle) => Promise<IArticle>;
   articleLanguage: string;
+  hasTaxEntries: boolean;
 }
 
 const ButtonContainer = styled.div`
@@ -112,7 +113,12 @@ export interface SubjectWithTopics extends SubjectType {
   topics?: NodeChild[];
 }
 
-const LearningResourceTaxonomy = ({ article, updateNotes, articleLanguage }: Props) => {
+const LearningResourceTaxonomy = ({
+  article,
+  updateNotes,
+  articleLanguage,
+  hasTaxEntries,
+}: Props) => {
   const { t, i18n } = useTranslation();
   const { taxonomyVersion, changeVersion } = useTaxonomyVersion();
   const { userPermissions } = useSession();
@@ -377,6 +383,7 @@ const LearningResourceTaxonomy = ({ article, updateNotes, articleLanguage }: Pro
 
   return (
     <>
+      {!hasTaxEntries && <FormikFieldHelp error>{t('errorMessage.missingTax')}</FormikFieldHelp>}
       {isTaxonomyAdmin && (
         <TaxonomyConnectionErrors
           articleType={article.articleType ?? 'standard'}

@@ -145,6 +145,7 @@ const LearningResourceForm = ({
                 article={article}
                 taxonomy={articleTaxonomy}
                 updateNotes={updateArticle}
+                contexts={contexts}
               />
             </TaxonomyVersionProvider>
           </MainContent>

@@ -144,6 +144,7 @@ const TopicArticleForm = ({
                 updateNotes={updateArticle}
                 article={article}
                 handleSubmit={handleSubmit}
+                hasTaxonomyEntries={!!articleTaxonomy?.length}
               />
             </TaxonomyVersionProvider>
           </MainContent>

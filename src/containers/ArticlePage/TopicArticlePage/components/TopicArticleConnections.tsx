@@ -21,7 +21,7 @@ import {
   ModalContent,
 } from '@ndla/modal';
 import { Switch } from '@ndla/switch';
-import { Node } from '@ndla/types-taxonomy';
+import { Node, NodeChild } from '@ndla/types-taxonomy';
 import { fetchUserData } from '../../../../modules/draft/draftApi';
 import { HowToHelper } from '../../../../components/HowTo';
 import ActiveTopicConnections from '../../../../components/Taxonomy/ActiveTopicConnections';
@@ -88,6 +88,14 @@ const TopicArticleConnections = ({
     setOpenedPaths(paths);
   };
 
+  const onAdd = useCallback(
+    (node: NodeWithChildren | NodeChild) => {
+      addConnection(node);
+      closeModal();
+    },
+    [addConnection, closeModal],
+  );
+
   const toggleShowFavorites = () => {
     setShowFavorites(!showFavorites);
   };
@@ -124,14 +132,8 @@ const TopicArticleConnections = ({
                 openedPaths={openedPaths}
                 toggleOpen={handleOpenToggle}
                 selectedNodes={selectedNodes}
-                onRootSelected={(node) => {
-                  addConnection(node);
-                  closeModal();
-                }}
-                onSelect={(node) => {
-                  addConnection(node);
-                  closeModal();
-                }}
+                onRootSelected={onAdd}
+                onSelect={onAdd}
               />
             ))}
           </ModalBody>

@@ -55,7 +55,7 @@ const Breadcrumb = ({ node, type, error }: Props) => {
                 {crumb.name}
               </StyledLink>
             </StyledSpan>
-            {type !== 'topic-article' && index + 1 !== crumbs.length && <ChevronRight />}
+            {index + 1 !== crumbs.length && <ChevronRight />}
           </Fragment>
         );
       })}

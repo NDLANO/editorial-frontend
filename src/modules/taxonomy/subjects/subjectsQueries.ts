@@ -7,9 +7,9 @@
  */
 
 import { useQuery, UseQueryOptions } from '@tanstack/react-query';
-import { fetchSubject, fetchSubjects } from '.';
+import { fetchSubjects } from '.';
 import { WithTaxonomyVersion } from '../../../interfaces';
-import { SUBJECT, SUBJECTS } from '../../../queryKeys';
+import { SUBJECTS } from '../../../queryKeys';
 import { SubjectType } from '../taxonomyApiInterfaces';
 
 interface UseSubjectsParams extends WithTaxonomyVersion {
@@ -25,13 +25,3 @@ export const useSubjects = (
 ) => {
   return useQuery<SubjectType[]>(subjectsQueryKey(params), () => fetchSubjects(params), options);
 };
-
-interface UseSubjectParams extends WithTaxonomyVersion {
-  id: string;
-  language?: string;
-}
-
-export const subjectQueryKey = (params?: Partial<UseSubjectParams>) => [SUBJECT, params];
-
-export const useSubject = (params: UseSubjectParams, options: UseQueryOptions<SubjectType>) =>
-  useQuery<SubjectType>(subjectQueryKey(params), () => fetchSubject(params), options);

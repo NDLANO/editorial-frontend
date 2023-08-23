@@ -12,8 +12,6 @@ import sortBy from 'lodash/sortBy';
 import uniqBy from 'lodash/uniqBy';
 import { NodeChild, ResourceType } from '@ndla/types-taxonomy';
 import { FlattenedResourceType } from '../interfaces';
-import { SubjectTopic, TaxonomyElement } from '../modules/taxonomy/taxonomyApiInterfaces';
-import { fetchTopic, fetchSubject } from '../modules/taxonomy';
 import { getContentTypeFromResourceTypes } from './resourceHelpers';
 import { ResourceWithNodeConnectionAndMeta } from '../containers/StructurePage/resourceComponents/StructureResources';
 import { NodeChildWithChildren } from '../modules/nodes/nodeQueries';
@@ -24,12 +22,6 @@ export const getIdFromUrn = (urn?: string) => {
   const [, , id] = urn.split(':');
   const idWithoutRevision = parseInt(id.split('#')[0]);
   return idWithoutRevision;
-};
-
-const sortByName = (a: TaxonomyElement, b: TaxonomyElement) => {
-  if (a.name < b.name) return -1;
-  if (a.name > b.name) return 1;
-  return 0;
 };
 
 const flattenResourceTypesAndAddContextTypes = (
@@ -118,17 +110,6 @@ export const groupResourcesByType = (
 export const safeConcat = <T>(toAdd: T, existing?: T[]) =>
   existing ? existing.concat(toAdd) : [toAdd];
 
-const insertSubTopic = (topics: SubjectTopic[], subTopic: SubjectTopic): SubjectTopic[] => {
-  return topics.map((topic) => {
-    if (topic.id === subTopic.parentId) {
-      return { ...topic, subtopics: safeConcat(subTopic, topic.subtopics) };
-    }
-    if (topic.subtopics) {
-      return { ...topic, subtopics: insertSubTopic(topic.subtopics, subTopic) };
-    }
-    return topic;
-  });
-};
 const insertChild = (
   childNodes: NodeChildWithChildren[],
   childNode: NodeChildWithChildren,
@@ -153,16 +134,6 @@ const groupChildNodes = (childNodes: NodeChild[]) =>
     return insertChild(withoutCurrent, curr);
   }, childNodes);
 
-const groupTopics = (allTopics: SubjectTopic[]) =>
-  allTopics.reduce((acc, curr) => {
-    const mainTopic = curr.parentId.includes('subject');
-    if (mainTopic) return acc;
-    return insertSubTopic(
-      acc.filter((topic) => topic.id !== curr.id),
-      curr,
-    );
-  }, allTopics);
-
 const selectedResourceTypeValue = (resourceTypes: { id: string; parentId?: string }[]): string => {
   if (resourceTypes.length === 0) {
     return '';
@@ -175,37 +146,6 @@ const selectedResourceTypeValue = (resourceTypes: { id: string; parentId?: strin
   return resourceTypes[0].id;
 };
 
-const pathToUrnArray = (path: string) =>
-  path
-    .split('/')
-    .splice(1)
-    .map((url) => `urn:${url}`);
-
-const getBreadcrumbFromPath = async (
-  path: string,
-  taxonomyVersion: string,
-  language?: string,
-): Promise<TaxonomyElement[]> => {
-  const [subjectPath, ...topicPaths] = pathToUrnArray(path);
-  const subjectAndTopics = await Promise.all([
-    fetchSubject({ id: subjectPath, language, taxonomyVersion }),
-    ...topicPaths.map((id) => fetchTopic({ id, language, taxonomyVersion })),
-  ]);
-  return subjectAndTopics.map((element) => ({
-    id: element.id,
-    name: element.name,
-    metadata: element.metadata,
-  }));
-};
-
 export const nodePathToUrnPath = (path: string) => path.replace(/\//g, '/urn:').substr(1);
 
-export {
-  groupChildNodes,
-  flattenResourceTypesAndAddContextTypes,
-  groupTopics,
-  sortByName,
-  selectedResourceTypeValue,
-  pathToUrnArray,
-  getBreadcrumbFromPath,
-};
+export { groupChildNodes, flattenResourceTypesAndAddContextTypes, selectedResourceTypeValue };

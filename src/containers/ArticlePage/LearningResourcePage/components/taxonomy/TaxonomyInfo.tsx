@@ -11,7 +11,7 @@ import { colors } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
 import { Switch } from '@ndla/switch';
 import { FieldHeader } from '@ndla/forms';
-import { TaxonomyElement } from '../../../../../modules/taxonomy/taxonomyApiInterfaces';
+import { TaxNode } from '../LearningResourceTaxonomy';
 
 type StyledIdProps = {
   isVisible: boolean;
@@ -28,10 +28,8 @@ const StyledId = styled.span`
   color: ${(props: StyledIdProps) => (!props.isVisible ? colors.brand.grey : colors.brand.primary)};
 `;
 
-type LocalElement = Omit<TaxonomyElement, 'metadata'> & Partial<Pick<TaxonomyElement, 'metadata'>>;
-
 interface Props {
-  taxonomyElement?: LocalElement;
+  taxonomyElement?: TaxNode;
   updateMetadata: (visible: boolean) => void;
 }
 
@@ -48,7 +46,7 @@ const TaxonomyInfo = ({ taxonomyElement, updateMetadata }: Props) => {
           <Switch
             onChange={() => updateMetadata(!taxonomyElement.metadata?.visible)}
             checked={taxonomyElement.metadata ? taxonomyElement.metadata.visible : true}
-            label=""
+            label={t('metadata.changeVisibility')}
             id={'visibility'}
           />
         </TaxonomyInfoDiv>

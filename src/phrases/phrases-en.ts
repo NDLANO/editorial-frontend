@@ -1375,7 +1375,7 @@ const phrases = {
     versionSelect: 'This article does not exist in the selected version',
     errorWhenFetchingTaxonomyArticle: 'There was a problem fetching the underlying article',
     unsavedTaxonomy:
-      'You have unsaved changes. Press cancel again if you are sure you want to continue.',
+      'You have unsaved changes. Press reset again if you are sure you want to continue.',
     auth0:
       'Authentication error. Press cancel to take care of any changes you have made before logging in again. The following error message came from auth0: {{message}}',
     statusCode: {
@@ -1384,6 +1384,10 @@ const phrases = {
     grepCodes: 'The following codes have wrong format or does not exist, and will not be added: ',
     errorOnSave: 'Something went wrong when saving the article.',
     genericError: 'Something went wrong, the action could not be completed.',
+    missingTaxTitle: 'Not in taxonomy!',
+    missingTax:
+      'Articles and topics cannot be saved without being placed in the taxonomy. Update the taxonomy block and save again.',
+    invalidTopicPlacements: 'Topics without placement in taxonomy',
   },
   warningMessage: {
     fieldWithWrongLanguage: 'This value is fetched from language code: {{language}}',

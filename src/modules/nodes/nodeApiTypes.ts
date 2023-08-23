@@ -22,12 +22,14 @@ export interface GetNodeParams {
   language?: string;
   nodeType?: NodeType;
   value?: string;
+  includeContexts?: boolean;
 }
 
 export interface GetChildNodesParams {
   language?: string;
   nodeType?: NodeType[];
   recursive?: boolean;
+  includeContexts?: boolean;
 }
 
 export interface GetNodeResourcesParams {

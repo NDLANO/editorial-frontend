@@ -8,18 +8,14 @@
 
 import { apiResourceUrl, httpFunctions } from '../../../util/apiHelpers';
 import { taxonomyApi } from '../../../config';
-import { SubjectTopic, SubjectType } from '../taxonomyApiInterfaces';
-import {
-  resolveLocation,
-  resolveVoidOrRejectWithError,
-} from '../../../util/resolveJsonOrRejectWithError';
+import { SubjectType } from '../taxonomyApiInterfaces';
+import { resolveVoidOrRejectWithError } from '../../../util/resolveJsonOrRejectWithError';
 import { WithTaxonomyVersion } from '../../../interfaces';
-import { useSubject, useSubjects } from './subjectsQueries';
-import { SubjectPutBody, SubjectTopicPostBody } from './subjectApiInterfaces';
+import { useSubjects } from './subjectsQueries';
+import { SubjectPutBody } from './subjectApiInterfaces';
 
 const subjectsUrl = apiResourceUrl(`${taxonomyApi}/subjects`);
-const subjectTopicsUrl = apiResourceUrl(`${taxonomyApi}/subject-topics`);
-const { fetchAndResolve, postAndResolve, putAndResolve } = httpFunctions;
+const { fetchAndResolve, putAndResolve } = httpFunctions;
 
 interface FetchSubjectsParams extends WithTaxonomyVersion {
   language: string;
@@ -56,36 +52,6 @@ const fetchSubject = ({
   });
 };
 
-interface FetchSubjectTopicsParams extends WithTaxonomyVersion {
-  subject: string;
-  language: string;
-}
-
-const fetchSubjectTopics = ({
-  subject,
-  language,
-  taxonomyVersion,
-}: FetchSubjectTopicsParams): Promise<SubjectTopic[]> => {
-  return fetchAndResolve({
-    url: `${subjectsUrl}/${subject}/topics`,
-    taxonomyVersion,
-    queryParams: { language, recursive: true },
-  });
-};
-
-interface SubjectTopicPostParams extends WithTaxonomyVersion {
-  body: SubjectTopicPostBody;
-}
-
-const addSubjectTopic = ({ body, taxonomyVersion }: SubjectTopicPostParams): Promise<string> => {
-  return postAndResolve({
-    url: subjectTopicsUrl,
-    taxonomyVersion,
-    body: JSON.stringify(body),
-    alternateResolve: resolveLocation,
-  });
-};
-
 interface SubjectPutParams extends WithTaxonomyVersion {
   id: string;
   body: SubjectPutBody;
@@ -100,12 +66,4 @@ const updateSubject = ({ id, body, taxonomyVersion }: SubjectPutParams): Promise
   });
 };
 
-export {
-  fetchSubjects,
-  fetchSubject,
-  fetchSubjectTopics,
-  addSubjectTopic,
-  updateSubject,
-  useSubjects,
-  useSubject,
-};
+export { fetchSubjects, fetchSubject, updateSubject, useSubjects };

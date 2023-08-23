@@ -6,7 +6,7 @@
  *
  */
 
-import { flattenResourceTypesAndAddContextTypes, pathToUrnArray } from '../taxonomyHelpers';
+import { flattenResourceTypesAndAddContextTypes } from '../taxonomyHelpers';
 import { resourceTypesMock, flattenedResourceTypes } from './taxonomyMocks';
 
 test('taxonomy/flattenResourceTypesAndAddContextTypes flattening', () => {
@@ -18,11 +18,4 @@ test('taxonomy/flattenResourceTypesAndAddContextTypes flattening', () => {
   expect(flattenResourceTypesAndAddContextTypes(resourceTypesMock, t)).toEqual(
     flattenedResourceTypes,
   );
-});
-
-test('pathToUrnArray', () => {
-  const array = pathToUrnArray('/bla/blabla');
-  array.forEach((path) => {
-    expect(path.startsWith('urn:')).toBe(true);
-  });
 });

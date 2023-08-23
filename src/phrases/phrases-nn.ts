@@ -1377,7 +1377,8 @@ const phrases = {
     versionSelect: 'Artikkelen finst ikkje i vald versjon',
     errorWhenFetchingTaxonomyArticle:
       'Det var eit problem ved lasting av den underliggande artikkelen',
-    unsavedTaxonomy: 'Du har ulagra endringar. Trykk avbryt igjen viss du ønsker å fortsette.',
+    unsavedTaxonomy:
+      'Du har ulagra endringar. Trykk tilbakestill igjen viss du ønsker å fortsette.',
     auth0:
       'Autentiseringsfeil. Trykk avbryt for å ta vare på eventuelle endringer du har gjort før du logger inn på nytt. Følgende feilmelding kom fra auth0: {{message}}',
     statusCode: {
@@ -1386,6 +1387,10 @@ const phrases = {
     grepCodes: 'Følgande koder har feil format eller eksisterer ikkje, og blir ikkje lagt til: ',
     errorOnSave: 'Noko gjekk gale under lagring av artikkelen.',
     genericError: 'Noko gjekk gale, handlinga kunne ikkje utførast.',
+    missingTaxTitle: 'Ikkje i taksonomi!',
+    missingTax:
+      'Artiklar og emner kan ikkje lagrast uten å plasserast i taksonomien. Oppdater taksonomi-blokka og lagre på nytt.',
+    invalidTopicPlacements: 'Emner uten plassering i taksonomi',
   },
   warningMessage: {
     fieldWithWrongLanguage: 'Dette feltet er henta frå språkkode: {{language}}',

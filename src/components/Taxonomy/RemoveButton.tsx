@@ -25,13 +25,14 @@ const StyledRemoveCircle = styled(RemoveCircle)`
 
 interface Props {
   onClick: () => void;
+  disabled?: boolean;
 }
 
-const RemoveButton = ({ onClick }: Props) => {
+const RemoveButton = ({ onClick, disabled }: Props) => {
   const { t } = useTranslation();
   return (
     <Tooltip tooltip={t('taxonomy.removeResource')}>
-      <StyledRemoveButton onClick={onClick} variant="stripped">
+      <StyledRemoveButton onClick={onClick} variant="stripped" disabled={disabled}>
         <StyledRemoveCircle />
       </StyledRemoveButton>
     </Tooltip>

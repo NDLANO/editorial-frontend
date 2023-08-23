@@ -66,9 +66,26 @@ const InvalidPlacement = styled.li`
   padding: 0px;
 `;
 
+const partitionByValidity = (nodes: Node[]) => {
+  const [validPlacements, invalidPlacements] = nodes.reduce<[Node[], Node[]]>(
+    (acc, curr) => {
+      if (curr.breadcrumbs?.length) {
+        acc[0].push(curr);
+      } else {
+        acc[1].push(curr);
+      }
+      return acc;
+    },
+    [[], []],
+  );
+
+  return [validPlacements, invalidPlacements];
+};
+
 const TopicArticleTaxonomy = ({ article, updateNotes, articleLanguage }: Props) => {
   const [status, setStatus] = useState('loading');
   const [showWarning, setShowWarning] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
   const [subjects, setSubjects] = useState<NodeWithChildren[]>([]);
   const { t } = useTranslation();
   const { userPermissions } = useSession();
@@ -102,17 +119,7 @@ const TopicArticleTaxonomy = ({ article, updateNotes, articleLanguage }: Props) 
     },
     {
       onSuccess: (data) => {
-        const [validPlacements, invalidPlacements] = data.reduce<[Node[], Node[]]>(
-          (acc, curr) => {
-            if (curr.breadcrumbs?.length) {
-              acc[0].push(curr);
-            } else {
-              acc[1].push(curr);
-            }
-            return acc;
-          },
-          [[], []],
-        );
+        const [validPlacements, invalidPlacements] = partitionByValidity(data);
         setPlacements(validPlacements);
         setInvalidPlacements(invalidPlacements);
       },
@@ -120,7 +127,7 @@ const TopicArticleTaxonomy = ({ article, updateNotes, articleLanguage }: Props) 
   );
 
   const initialPlacements: Node[] = useMemo(
-    () => JSON.parse(JSON.stringify(nodesQuery.data ?? [])),
+    () => JSON.parse(JSON.stringify(partitionByValidity(nodesQuery.data ?? [])[0])),
     [nodesQuery.data],
   );
 
@@ -164,6 +171,7 @@ const TopicArticleTaxonomy = ({ article, updateNotes, articleLanguage }: Props) 
 
   const handleSubmit = async (evt: MouseEvent<HTMLButtonElement>) => {
     evt.preventDefault();
+    setIsSaving(true);
     const newNodes = differenceBy(placements, initialPlacements, (p) => p.id);
     if (!newNodes.length) return;
     try {
@@ -177,7 +185,7 @@ const TopicArticleTaxonomy = ({ article, updateNotes, articleLanguage }: Props) 
         language: article.title?.language,
         notes: ['Oppdatert taksonomi.'],
       });
-      qc.invalidateQueries(
+      await qc.invalidateQueries(
         nodesQueryKey({
           contentURI: `urn:article:${article.id}`,
           taxonomyVersion,
@@ -185,9 +193,11 @@ const TopicArticleTaxonomy = ({ article, updateNotes, articleLanguage }: Props) 
           includeContexts: true,
         }),
       );
+      setIsSaving(false);
     } catch (err) {
       handleError(err);
       setStatus('error');
+      setIsSaving(false);
     }
   };
 
@@ -277,7 +287,7 @@ const TopicArticleTaxonomy = ({ article, updateNotes, articleLanguage }: Props) 
           {t('reset')}
         </ButtonV2>
         <SaveButton
-          isSaving={createTopicNodeConnectionsMutation.isLoading}
+          isSaving={isSaving}
           showSaved={createTopicNodeConnectionsMutation.isSuccess && !isDirty}
           disabled={!isDirty}
           onClick={handleSubmit}

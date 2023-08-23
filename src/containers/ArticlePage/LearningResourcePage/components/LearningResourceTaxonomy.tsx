@@ -118,6 +118,7 @@ const LearningResourceTaxonomy = ({ article, updateNotes, articleLanguage }: Pro
   const { userPermissions } = useSession();
   const qc = useQueryClient();
   const [isError, setIsError] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
   const [workingResource, setWorkingResource] = useState<TaxNode>(
     toInitialResource(undefined, i18n.language),
   );
@@ -268,6 +269,7 @@ const LearningResourceTaxonomy = ({ article, updateNotes, articleLanguage }: Pro
   const handleSubmit = useCallback(
     async (evt: MouseEvent<HTMLButtonElement>) => {
       evt.preventDefault();
+      setIsSaving(true);
       let resourceId = workingResource.id;
       if (!resourceId.length) {
         const res = await postNode({
@@ -288,7 +290,7 @@ const LearningResourceTaxonomy = ({ article, updateNotes, articleLanguage }: Pro
         taxonomyVersion,
       });
       await updateNotes({ revision: article.revision, notes: ['Oppdatert taksonomi.'] });
-      qc.invalidateQueries(
+      await qc.invalidateQueries(
         nodesQueryKey({
           contentURI: `urn:article:${article.id}`,
           taxonomyVersion,
@@ -296,6 +298,7 @@ const LearningResourceTaxonomy = ({ article, updateNotes, articleLanguage }: Pro
           includeContexts: true,
         }),
       );
+      setIsSaving(false);
     },
     [
       article.id,
@@ -409,7 +412,7 @@ const LearningResourceTaxonomy = ({ article, updateNotes, articleLanguage }: Pro
         </ButtonV2>
         <SaveButton
           showSaved={updateTaxMutation.isSuccess && !isDirty}
-          isSaving={updateTaxMutation.isLoading}
+          isSaving={isSaving}
           disabled={!isDirty}
           onClick={handleSubmit}
           defaultText="saveTax"

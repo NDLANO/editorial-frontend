@@ -32,8 +32,8 @@ export const useCreateTopicNodeConnectionsMutation = (
   options?: UseMutationOptions<void, unknown, UseCreateTopicNodeConnections>,
 ) => {
   return useMutation<void, unknown, UseCreateTopicNodeConnections>(
-    ({ articleId, placements, taxonomyVersion }) =>
-      createTopicNodeConnections({ articleId, placements, taxonomyVersion }),
+    ({ articleId, placements, name, taxonomyVersion }) =>
+      createTopicNodeConnections({ articleId, placements, name, taxonomyVersion }),
     options,
   );
 };

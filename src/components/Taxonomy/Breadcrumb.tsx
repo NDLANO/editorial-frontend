@@ -8,7 +8,6 @@ import { MinimalNodeChild } from '../../containers/ArticlePage/LearningResourceP
 
 interface Props {
   error?: boolean;
-  type?: string;
   node: Node | MinimalNodeChild;
 }
 
@@ -33,7 +32,7 @@ const StyledSpan = styled.span`
   white-space: 'nowrap';
 `;
 
-const Breadcrumb = ({ node, type, error }: Props) => {
+const Breadcrumb = ({ node, error }: Props) => {
   let url = '/structure';
 
   const crumbs = useMemo(() => {

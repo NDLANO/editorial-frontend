@@ -76,7 +76,7 @@ const ActiveTopicConnection = ({
   if (type === 'topic-article') {
     return (
       <StyledConnections>
-        <Breadcrumb node={node} type={type} />
+        <Breadcrumb node={node} />
       </StyledConnections>
     );
   }

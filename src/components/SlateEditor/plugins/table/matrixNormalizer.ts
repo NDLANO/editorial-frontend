@@ -22,6 +22,7 @@ import {
   isTableBody,
   getTableBodyWidth,
 } from './slateHelpers';
+import { TYPE_TABLE_CELL, TYPE_TABLE_CELL_HEADER } from './types';
 
 // Before placing a cell in the table matrix, make sure the cell has the required space
 // If not, add the required space by inserting empty cells.
@@ -118,10 +119,15 @@ const normalizeRow = (
         // i. If table does not have headers on rows
         //    Make sure cells in body has scope=undefined and isHeader=false
         if (!rowHeaders && (scope || isHeader)) {
-          updateCell(editor, cell, {
-            scope: undefined,
-            isHeader: false,
-          });
+          updateCell(
+            editor,
+            cell,
+            {
+              scope: undefined,
+              isHeader: false,
+            },
+            TYPE_TABLE_CELL,
+          );
           return true;
         }
 
@@ -131,10 +137,15 @@ const normalizeRow = (
         if (rowHeaders) {
           if (index === 0) {
             if (scope !== 'row' || !isHeader) {
-              updateCell(editor, cell, {
-                scope: 'row',
-                isHeader: true,
-              });
+              updateCell(
+                editor,
+                cell,
+                {
+                  scope: 'row',
+                  isHeader: true,
+                },
+                TYPE_TABLE_CELL_HEADER,
+              );
               return true;
             }
           } else {

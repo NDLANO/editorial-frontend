@@ -17,6 +17,7 @@ import {
   TYPE_TABLE_ROW,
   TYPE_TABLE_HEAD,
   TYPE_TABLE_BODY,
+  TYPE_TABLE_CELL_HEADER,
 } from './types';
 
 export const defaultTableBlock = (height: number, width: number) => {
@@ -49,13 +50,26 @@ export const defaultTableCellBlock = () => {
   ) as TableCellElement;
 };
 
-export const defaultTableRowBlock = (width: number) => {
+export const defaultTableCellHeaderBlock = () => {
+  return slatejsx(
+    'element',
+    {
+      type: TYPE_TABLE_CELL_HEADER,
+    },
+    {
+      ...defaultParagraphBlock(),
+      serializeAsText: true,
+    },
+  ) as TableCellElement;
+};
+
+export const defaultTableRowBlock = (width: number, header = false) => {
   return slatejsx(
     'element',
     {
       type: TYPE_TABLE_ROW,
     },
-    [...Array(width)].map(() => defaultTableCellBlock()),
+    [...Array(width)].map(() => (header ? defaultTableCellHeaderBlock() : defaultTableCellBlock())),
   );
 };
 
@@ -65,7 +79,7 @@ export const defaultTableHeadBlock = (width: number) => {
     {
       type: TYPE_TABLE_HEAD,
     },
-    defaultTableRowBlock(width),
+    [defaultTableRowBlock(width, true)],
   );
 };
 

@@ -23,6 +23,7 @@ import {
   TYPE_TABLE_BODY,
   TYPE_TABLE_CAPTION,
   TYPE_TABLE_CELL,
+  TYPE_TABLE_CELL_HEADER,
   TYPE_TABLE_HEAD,
   TYPE_TABLE_ROW,
 } from './types';
@@ -47,7 +48,14 @@ export const isTableRow = (node?: Node): node is TableRowElement => {
 };
 
 export const isTableCell = (node?: Node): node is TableCellElement => {
-  return Element.isElement(node) && node.type === TYPE_TABLE_CELL;
+  return (
+    Element.isElement(node) &&
+    (node.type === TYPE_TABLE_CELL || node.type === TYPE_TABLE_CELL_HEADER)
+  );
+};
+
+export const isTableCellHeader = (node?: Node): node is TableCellElement => {
+  return Element.isElement(node) && node.type === TYPE_TABLE_CELL_HEADER;
 };
 
 export const hasCellAlignOfType = (editor: Editor, type: string) => {

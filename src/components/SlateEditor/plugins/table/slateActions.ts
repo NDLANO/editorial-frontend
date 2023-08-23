@@ -58,11 +58,13 @@ export const updateCell = (
   editor: Editor,
   cell: TableCellElement,
   data: Partial<TableCellElement['data']>,
+  cellType?: TableCellElement['type'],
 ) => {
   Transforms.setNodes(
     editor,
     {
       ...cell,
+      type: cellType ?? cell.type,
       data: {
         ...cell.data,
         ...data,

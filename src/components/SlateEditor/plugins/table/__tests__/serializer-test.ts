@@ -20,6 +20,7 @@ import {
   TYPE_TABLE_ROW,
   TYPE_TABLE_CELL,
   TYPE_TABLE_BODY,
+  TYPE_TABLE_CELL_HEADER,
 } from '../types';
 
 describe('table serializing tests', () => {
@@ -50,12 +51,11 @@ describe('table serializing tests', () => {
                     type: TYPE_TABLE_ROW,
                     children: [
                       {
-                        type: TYPE_TABLE_CELL,
+                        type: TYPE_TABLE_CELL_HEADER,
                         data: {
                           isHeader: true,
                           colspan: 1,
                           rowspan: 1,
-                          scope: undefined,
                         },
                         children: [
                           {
@@ -69,12 +69,11 @@ describe('table serializing tests', () => {
                         ],
                       },
                       {
-                        type: TYPE_TABLE_CELL,
+                        type: TYPE_TABLE_CELL_HEADER,
                         data: {
                           isHeader: true,
                           colspan: 1,
                           rowspan: 1,
-                          scope: undefined,
                         },
                         children: [
                           {
@@ -103,7 +102,6 @@ describe('table serializing tests', () => {
                           isHeader: false,
                           colspan: 1,
                           rowspan: 1,
-                          scope: undefined,
                         },
                         children: [
                           {
@@ -122,7 +120,6 @@ describe('table serializing tests', () => {
                           isHeader: false,
                           colspan: 1,
                           rowspan: 1,
-                          scope: undefined,
                         },
                         children: [
                           {
@@ -146,7 +143,6 @@ describe('table serializing tests', () => {
                           isHeader: false,
                           colspan: 1,
                           rowspan: 1,
-                          scope: undefined,
                         },
                         children: [
                           {
@@ -165,7 +161,6 @@ describe('table serializing tests', () => {
                           isHeader: false,
                           colspan: 1,
                           rowspan: 1,
-                          scope: undefined,
                         },
                         children: [
                           {
@@ -218,7 +213,7 @@ describe('table serializing tests', () => {
                     type: TYPE_TABLE_ROW,
                     children: [
                       {
-                        type: TYPE_TABLE_CELL,
+                        type: TYPE_TABLE_CELL_HEADER,
                         data: {
                           isHeader: true,
                           colspan: 1,
@@ -237,7 +232,7 @@ describe('table serializing tests', () => {
                         ],
                       },
                       {
-                        type: TYPE_TABLE_CELL,
+                        type: TYPE_TABLE_CELL_HEADER,
                         data: {
                           isHeader: true,
                           colspan: 1,
@@ -266,7 +261,7 @@ describe('table serializing tests', () => {
                     type: TYPE_TABLE_ROW,
                     children: [
                       {
-                        type: TYPE_TABLE_CELL,
+                        type: TYPE_TABLE_CELL_HEADER,
                         data: {
                           isHeader: true,
                           colspan: 1,

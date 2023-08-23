@@ -12,7 +12,7 @@ describe('Search images', () => {
   beforeEach(() => {
     setToken();
     cy.apiroute('GET', '/draft-api/v1/drafts/licenses/', 'licenses');
-    cy.apiroute('GET', '/taxonomy/v1/subjects?language=nb', 'allSubjects');
+    cy.apiroute('GET', '/taxonomy/v1/nodes?language=nb&nodeType=SUBJECT', 'allSubjects');
     cy.apiroute(
       'GET',
       '/image-api/v3/images/?exclude-revision-log=false&fallback=false&filter-inactive=true&include-other-statuses=false&page=1&page-size=10&sort=-relevance',

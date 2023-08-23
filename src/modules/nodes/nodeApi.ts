@@ -339,3 +339,21 @@ export const putResourcesPrimary = ({
     taxonomyVersion,
   });
 };
+
+export interface CloneNodeParams extends WithTaxonomyVersion {
+  id: string;
+  body: {
+    contentUri?: string;
+    name: string;
+    id?: string;
+  };
+}
+
+export const cloneNode = ({ id, body, taxonomyVersion }: CloneNodeParams): Promise<string> => {
+  return postAndResolve({
+    url: `${baseUrl}/${id}/clone`,
+    taxonomyVersion,
+    body: JSON.stringify(body),
+    alternateResolve: resolveLocation,
+  });
+};

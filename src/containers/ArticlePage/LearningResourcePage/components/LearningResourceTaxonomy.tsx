@@ -33,7 +33,6 @@ import ResourceTypeSelect from '../../components/ResourceTypeSelect';
 import TaxonomyInfo from './taxonomy/TaxonomyInfo';
 import { TAXONOMY_ADMIN_SCOPE, RESOURCE_TYPE_LEARNING_PATH } from '../../../../constants';
 import { FormikFieldHelp } from '../../../../components/FormikField';
-import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import TaxonomyConnectionErrors from '../../components/TaxonomyConnectionErrors';
 import { useSession } from '../../../Session/SessionProvider';
 import VersionSelect from '../../components/VersionSelect';
@@ -107,10 +106,6 @@ export const toInitialResource = (resource: Node | undefined, language: string):
 
 export interface TaxNode extends Pick<Node, 'resourceTypes' | 'metadata' | 'id'> {
   placements: MinimalNodeChild[];
-}
-
-export interface SubjectWithTopics extends SubjectType {
-  topics?: NodeChild[];
 }
 
 const LearningResourceTaxonomy = ({

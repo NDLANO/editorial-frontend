@@ -24,12 +24,12 @@ import Tabs from '@ndla/tabs';
 import { Search } from '@ndla/icons/common';
 import Pager from '@ndla/pager';
 
+import { Node } from '@ndla/types-taxonomy';
 import { searchConcepts } from '../../../../modules/concept/conceptApi';
 import SearchForm from '../../../../containers/SearchPage/components/form/SearchForm';
 import SearchConceptResults from './SearchConceptResults';
 import ConceptForm from '../../../../containers/ConceptPage/ConceptForm/ConceptForm';
 import { ConceptQuery } from '../../../../modules/concept/conceptApiInterfaces';
-import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 
 const type = 'concept';
 
@@ -42,7 +42,7 @@ interface Props {
   onClose: () => void;
   locale: string;
   selectedText?: string;
-  subjects: SubjectType[];
+  subjects: Node[];
   updateConcept: (id: number, updatedConcept: IUpdatedConcept) => Promise<IConcept>;
   conceptArticles: IArticle[];
 }

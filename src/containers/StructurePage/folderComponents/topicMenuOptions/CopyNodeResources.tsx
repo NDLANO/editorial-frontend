@@ -19,10 +19,13 @@ import RoundIcon from '../../../../components/RoundIcon';
 import { EditModeHandler } from '../SettingsMenuDropdownType';
 import MenuItemButton from '../sharedMenuOptions/components/MenuItemButton';
 import NodeSearchDropdown from '../sharedMenuOptions/components/NodeSearchDropdown';
-import { fetchNodeResources, postResourceForNode } from '../../../../modules/nodes/nodeApi';
+import {
+  cloneNode,
+  fetchNodeResources,
+  postResourceForNode,
+} from '../../../../modules/nodes/nodeApi';
 import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
 import { cloneDraft } from '../../../../modules/draft/draftApi';
-import { cloneResource } from '../../../../modules/taxonomy/resources';
 import { learningpathCopy } from '../../../../modules/learningpath/learningpathApi';
 import { EditMode } from '../../../../interfaces';
 import AlertModal from '../../../../components/AlertModal';
@@ -145,14 +148,14 @@ const CopyNodeResources = ({
     if (resourceType === 'article' && id) {
       const clonedArticle = await cloneDraft(id, undefined, false);
       const body = { contentUri: `urn:article:${clonedArticle.id}`, name: resource.name };
-      return await cloneResource({ id: resource.id, taxonomyVersion, body });
+      return await cloneNode({ id: resource.id, taxonomyVersion, body });
     } else if (resourceType === 'learningpath' && id) {
       const lpBody = { title: resource.name, language };
       const clonedLp = await learningpathCopy(id, lpBody);
       const body = { contentUri: `urn:learningpath:${clonedLp.id}`, name: resource.name };
-      return await cloneResource({ id: resource.id, taxonomyVersion, body });
+      return await cloneNode({ id: resource.id, taxonomyVersion, body });
     } else {
-      return await cloneResource({
+      return await cloneNode({
         id: resource.id,
         taxonomyVersion,
         body: { name: resource.name },

@@ -40,7 +40,7 @@ import {
   inputWrapperStyles,
 } from './PlannedResourceForm';
 import { resolveUrls } from '../../../modules/taxonomy/taxonomyApi';
-import { queryLearningPathResource } from '../../../modules/taxonomy';
+import { fetchNodes } from '../../../modules/nodes/nodeApi';
 
 const StyledOrDivider = styled.div`
   display: flex;
@@ -222,7 +222,10 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
   const findResourceIdLearningPath = async (learningpathId: number) => {
     await updateLearningPathTaxonomy(learningpathId, true);
     try {
-      const resource = await queryLearningPathResource({ learningpathId, taxonomyVersion });
+      const resource = await fetchNodes({
+        contentURI: `urn:learningpath:${learningpathId}`,
+        taxonomyVersion,
+      });
       if (resource.length > 0) {
         return resource[0].id;
       } else throw Error(`Could not find resource after updating for ${learningpathId}`);

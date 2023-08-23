@@ -12,7 +12,7 @@ const taxonomyApi = `/taxonomy/v1`;
 describe('Search concepts', () => {
   beforeEach(() => {
     setToken();
-    cy.apiroute('GET', `${taxonomyApi}/subjects?language=nb`, 'allSubjects');
+    cy.apiroute('GET', `${taxonomyApi}/nodes?language=nb&nodeType=SUBJECT`, 'allSubjects');
     cy.apiroute('GET', '/concept-api/v1/drafts/status-state-machine/', 'conceptStatusMachine');
     cy.apiroute(
       'GET',

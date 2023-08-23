@@ -16,13 +16,7 @@ import {
   fetchUserData,
   updateUserData as apiUpdateUserData,
 } from '../../modules/draft/draftApi';
-import { Resource, Topic } from '../../modules/taxonomy/taxonomyApiInterfaces';
 import { useTaxonomyVersion } from '../StructureVersion/TaxonomyVersionProvider';
-
-export interface ArticleTaxonomy {
-  resources: Resource[];
-  topics: Topic[];
-}
 
 export function useFetchArticleData(articleId: number | undefined, language: string) {
   const [article, _setArticle] = useState<IArticle | undefined>(undefined);

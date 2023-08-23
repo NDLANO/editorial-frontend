@@ -14,11 +14,11 @@ import { colors } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
 import { Select } from '@ndla/forms';
 import { ButtonV2 } from '@ndla/button';
+import { Node } from '@ndla/types-taxonomy';
 import { fetchSearchTags } from '../../../../../modules/concept/conceptApi';
 import AsyncSearchTags from '../../../../../components/Dropdown/asyncDropdown/AsyncSearchTags';
 import { MultiSelectDropdown } from '../../../../../components/Dropdown/MultiSelectDropdown';
 import { InputField } from './SearchStyles';
-import { SubjectType } from '../../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { getLicensesWithTranslations } from '../../../../../util/licenseHelpers';
 import { useLicenses } from '../../../../../modules/draft/draftQueries';
 import { CONCEPT_ADMIN_SCOPE, END_CONTROL, PUBLISHED } from '../../../../../constants';
@@ -29,7 +29,7 @@ import MultiButton from '../../../../../components/MultiButton';
 export interface InlineFormConcept {
   title: string;
   license: string;
-  subjects: SubjectType[];
+  subjects: Node[];
   tags: string[];
   newStatus?: ConceptStatusType;
 }
@@ -43,7 +43,7 @@ interface Props {
   status: string;
   language: string;
   onSubmit: (c: InlineFormConcept) => void;
-  allSubjects: SubjectType[];
+  allSubjects: Node[];
   cancel: () => void;
 }
 

@@ -168,7 +168,7 @@ const CopyNodeResources = ({
       <Wrapper>
         <RoundIcon open small smallIcon icon={<Copy />} />
         <NodeSearchDropdown
-          placeholder={t('taxonomy.existingTopic')}
+          placeholder={t('taxonomy.existingNode')}
           onChange={(node) => cloneOrCopyResources(node, type)}
           searchNodeType={'TOPIC'}
           filter={(node) => {

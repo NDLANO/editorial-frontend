@@ -70,7 +70,7 @@ const TopicArticleAccordionPanels = ({
             article={article}
             updateNotes={updateNotes}
             articleLanguage={articleLanguage}
-            hasTaxEntires={hasTaxonomyEntries}
+            hasTaxEntries={hasTaxonomyEntries}
           />
         </FormAccordion>
       )}

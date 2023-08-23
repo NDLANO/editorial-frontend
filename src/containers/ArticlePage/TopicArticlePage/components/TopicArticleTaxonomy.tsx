@@ -289,7 +289,7 @@ const TopicArticleTaxonomy = ({ article, updateNotes, articleLanguage }: Props) 
         <SaveButton
           isSaving={isSaving}
           showSaved={createTopicNodeConnectionsMutation.isSuccess && !isDirty}
-          disabled={!isDirty}
+          disabled={!isDirty || nodesQuery.isFetching}
           onClick={handleSubmit}
           defaultText="saveTax"
           formIsDirty={isDirty}

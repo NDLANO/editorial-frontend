@@ -413,7 +413,7 @@ const LearningResourceTaxonomy = ({ article, updateNotes, articleLanguage }: Pro
         <SaveButton
           showSaved={updateTaxMutation.isSuccess && !isDirty}
           isSaving={isSaving}
-          disabled={!isDirty}
+          disabled={!isDirty || nodesQuery.isFetching}
           onClick={handleSubmit}
           defaultText="saveTax"
           formIsDirty={isDirty}

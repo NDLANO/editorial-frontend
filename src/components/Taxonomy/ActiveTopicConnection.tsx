@@ -60,9 +60,7 @@ const StyledConnections = styled.div`
   border-radius: ${misc.borderRadius};
   div > span {
     padding: ${spacing.xsmall};
-    ${fonts.sizes(16, 1.1)} &:nth-of-type(2) {
-      font-weight: ${fonts.weight.semibold};
-    }
+    ${fonts.sizes(16, 1.1)};
   }
 `;
 

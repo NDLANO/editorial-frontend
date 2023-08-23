@@ -287,7 +287,7 @@ const LearningResourceTaxonomy = ({
           taxonomyVersion,
         });
         resourceId = res.replace('/v1/resources/', '');
-        setWorkingResource((res) => ({ ...res, id: res.id }));
+        setWorkingResource((r) => ({ ...r, id: resourceId }));
       }
 
       await updateTaxMutation.mutateAsync({
@@ -343,25 +343,20 @@ const LearningResourceTaxonomy = ({
       setWorkingResource(initialResource);
       setIsError(false);
       setShowWarning(false);
+      updateTaxMutation.reset();
       changeVersion('draft');
     }
-  }, [changeVersion, initialResource, isDirty, showWarning]);
+  }, [changeVersion, initialResource, isDirty, showWarning, updateTaxMutation]);
 
   const onVersionChanged = useCallback(
     (newVersion: SingleValue) => {
       if (!newVersion || newVersion.value === taxonomyVersion) return;
-      const oldVersion = taxonomyVersion;
       changeVersion(newVersion.value);
       setShowWarning(false);
       setIsError(false);
-      qc.removeQueries({
-        predicate: (query) => {
-          const qk = query.queryKey as [string, Record<string, any>];
-          return qk[1]?.taxonomyVersion === oldVersion;
-        },
-      });
+      updateTaxMutation.reset();
     },
-    [changeVersion, qc, taxonomyVersion],
+    [changeVersion, taxonomyVersion, updateTaxMutation],
   );
 
   const filteredResourceTypes = useMemo(

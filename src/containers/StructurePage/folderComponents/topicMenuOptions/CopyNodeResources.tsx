@@ -139,7 +139,7 @@ const CopyNodeResources = ({
 
   const clone = async (resource: NodeChild): Promise<string> => {
     const newLocation = await _clone(resource);
-    return await copy({ ...resource, id: newLocation.replace('/v1/resources/', '') });
+    return await copy({ ...resource, id: newLocation.replace('/v1/nodes/', '') });
   };
 
   const _clone = async (resource: NodeChild): Promise<string> => {

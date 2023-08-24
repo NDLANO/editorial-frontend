@@ -45,7 +45,7 @@ describe('combined table plugin tests', () => {
       '<section><table><thead><tr><th align="right">1</th></tr></thead><tbody><tr><td><p>2</p></td></tr></tbody></table></section>';
 
     const expected =
-      '<section><table><thead><tr><th align="right"><p>1</p></th></tr></thead><tbody><tr><td align="right"><p>2</p></td></tr></tbody></table></section>';
+      '<section><table><thead><tr><th align="right" scope="col"><p>1</p></th></tr></thead><tbody><tr><td align="right"><p>2</p></td></tr></tbody></table></section>';
 
     const deserialized = blockContentToEditorValue(initial);
 

@@ -158,6 +158,7 @@ describe('table normalizer tests', () => {
                           colspan: 1,
                           rowspan: 1,
                           align: 'right',
+                          scope: 'col',
                         },
                         children: [
                           {
@@ -176,6 +177,7 @@ describe('table normalizer tests', () => {
                           isHeader: true,
                           colspan: 1,
                           rowspan: 1,
+                          scope: 'col',
                         },
                         children: [
                           {
@@ -405,6 +407,7 @@ describe('table normalizer tests', () => {
                           colspan: 1,
                           rowspan: 1,
                           align: 'right',
+                          scope: 'col',
                         },
                         children: [
                           {
@@ -424,6 +427,7 @@ describe('table normalizer tests', () => {
                           colspan: 1,
                           rowspan: 1,
                           align: 'right',
+                          scope: 'col',
                         },
                         children: [
                           {
@@ -638,6 +642,7 @@ describe('table normalizer tests', () => {
                           colspan: 1,
                           rowspan: 1,
                           align: 'right',
+                          scope: 'col',
                         },
                         children: [
                           {
@@ -657,6 +662,7 @@ describe('table normalizer tests', () => {
                           colspan: 1,
                           rowspan: 1,
                           align: 'right',
+                          scope: 'col',
                         },
                         children: [
                           {

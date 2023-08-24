@@ -52,7 +52,6 @@ interface TableCellData {
   headers?: string;
   isHeader?: boolean;
   scope?: 'row' | 'col';
-  isNum?: boolean;
 }
 
 export type TableMatrix = TableCellElement[][];

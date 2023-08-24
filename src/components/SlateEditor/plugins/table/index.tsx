@@ -79,7 +79,7 @@ const normalizerConfig: NormalizerConfig = {
   },
 };
 
-const TABLE_TAGS: { [key: string]: string } = {
+const TABLE_TAGS = {
   th: 'table-cell-header',
   td: 'table-cell',
 };
@@ -218,7 +218,11 @@ export const tableSerializer: SlateSerializer = {
       }
 
       if (node.type === TYPE_TABLE_CELL_HEADER || node.data.isHeader) {
-        return <th {...props}>{children}</th>;
+        return (
+          <th {...props} scope={node.data.scope}>
+            {children}
+          </th>
+        );
       }
       return <td {...props}>{children}</td>;
     }
@@ -258,7 +262,6 @@ export const tablePlugin = (editor: Editor) => {
             colSpan={element.data.colspan}
             align={parsedAlign}
             {...attributes}
-            className={`${element.data.isNum ? '.number' : ''}`}
           >
             {children}
           </td>
@@ -270,7 +273,12 @@ export const tablePlugin = (editor: Editor) => {
         return <tbody {...attributes}>{children}</tbody>;
       case TYPE_TABLE_CELL_HEADER:
         return (
-          <StyledTH rowSpan={element.data.rowspan} colSpan={element.data.colspan} {...attributes}>
+          <StyledTH
+            rowSpan={element.data.rowspan}
+            colSpan={element.data.colspan}
+            scope={element.data.scope}
+            {...attributes}
+          >
             {children}
           </StyledTH>
         );
@@ -376,8 +384,8 @@ export const tablePlugin = (editor: Editor) => {
       }
 
       // Numbers need to be right aligned default
-      if (!isNaN(Number(Node.string(node))) && Node.string(node) !== '' && !node.data.isNum) {
-        updateCell(editor, node, { isNum: true });
+      if (!isNaN(Number(Node.string(node))) && !node.data.align && Node.string(node) !== '') {
+        updateCell(editor, node, { align: 'right' });
       }
     }
 
@@ -395,22 +403,13 @@ export const tablePlugin = (editor: Editor) => {
 
       // ii. Make sure cells in TableHead are marked as isHeader.
       //     Cells in TableBody will not be altered if rowHeaders=true on Table.
-      if ((isTableHead(body) || isTableBody(body)) && isTable(table)) {
+      if (isTableHead(body) && isTable(table)) {
         for (const [, cell] of node.children.entries()) {
-          if (table.rowHeaders && isTableBody(body)) {
-            continue;
-          }
-
-          const shouldBeHeader = isTableHead(body);
-          const expectedScope = shouldBeHeader && table.rowHeaders ? 'col' : undefined;
-          if (
-            isTableCell(cell) &&
-            (cell.data.isHeader !== shouldBeHeader || expectedScope !== cell.data.scope)
-          ) {
+          if (isTableCell(cell) && !cell.data.isHeader) {
             return HistoryEditor.withoutSaving(editor, () => {
               updateCell(editor, cell, {
-                isHeader: shouldBeHeader,
-                scope: expectedScope,
+                isHeader: true,
+                scope: 'col',
               });
             });
           }

@@ -8,7 +8,7 @@
  */
 
 import compact from 'lodash/compact';
-import { Editor, Path, Transforms } from 'slate';
+import { Editor, Path, Transforms, Node } from 'slate';
 import { ReactEditor } from 'slate-react';
 import { defaultTableRowBlock } from './defaultBlocks';
 import { TableMatrix, TableHeadElement, TableBodyElement } from './interfaces';
@@ -96,24 +96,12 @@ const normalizeRow = (
       if (isHead) {
         // i. If table has row headers.
         //    Make sure scope='col' and isHeader=true
-        if (rowHeaders) {
-          if (scope !== 'col' || !isHeader) {
-            updateCell(editor, cell, {
-              scope: rowHeaders ? 'col' : undefined,
-              isHeader: true,
-            });
-            return true;
-          }
-        } else {
-          // ii. If table does not have rowHeaders
-          // Make sure cells in header has scope=undefined and isHeader=true
-          if (scope || !isHeader) {
-            updateCell(editor, cell, {
-              scope: undefined,
-              isHeader: true,
-            });
-            return true;
-          }
+        if (isTableCell(cell) && Node.string(cell) !== '' && (scope !== 'col' || !isHeader)) {
+          updateCell(editor, cell, {
+            scope: 'col',
+            isHeader: true,
+          });
+          return true;
         }
       } else {
         // i. If table does not have headers on rows

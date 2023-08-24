@@ -98,7 +98,7 @@ export const alignColumn = (editor: Editor, tablePath: Path, align: string) => {
     Editor.withoutNormalizing(editor, () => {
       column.forEach((cell) => {
         updateCell(editor, cell, {
-          align: align === 'left' ? undefined : align,
+          align: align,
         });
       });
     });

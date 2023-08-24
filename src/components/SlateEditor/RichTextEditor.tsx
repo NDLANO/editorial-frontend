@@ -100,7 +100,9 @@ const RichTextEditor = ({
       editor.mathjaxInitialized = false;
       window.MathJax?.typesetClear();
       Editor.normalize(editor, { force: true });
-      ReactEditor.focus(editor);
+      if (editor.lastSelection || editor.lastSelectedBlock) {
+        ReactEditor.focus(editor);
+      }
       // Try to select previous selection if it exists
       if (editor.lastSelection) {
         const edges = Range.edges(editor.lastSelection);

@@ -73,15 +73,10 @@ test.beforeEach(async ({ page }) => {
     fixture: 'editor_draft_validate',
   });
 
-  const taxonomyResources = mockRoute({
+  const taxonomyNodes = mockRoute({
     page,
-    path: '**/taxonomy/v1/resources*',
-    fixture: 'editor_taxonomy_resources',
-  });
-  const taxonomyTopics = mockRoute({
-    page,
-    path: '**/taxonomy/v1/topics*',
-    fixture: 'editor_taxonomy_topics',
+    path: '**/taxonomy/v1/nodes*',
+    fixture: 'editor_taxonomy_nodes',
   });
 
   const searchApi = mockRoute({
@@ -113,8 +108,7 @@ test.beforeEach(async ({ page }) => {
     draftData,
     draftValidate,
     draftHistory,
-    taxonomyResources,
-    taxonomyTopics,
+    taxonomyNodes,
     searchApi,
     containsArticle,
     getNoteUser,

@@ -13,7 +13,7 @@ describe('Search content', () => {
   beforeEach(() => {
     setToken();
     cy.apiroute('GET', `${taxonomyApi}/resource-types?language=nb`, 'resourceTypes');
-    cy.apiroute('GET', `${taxonomyApi}/subjects?language=nb`, 'allSubjects');
+    cy.apiroute('GET', `${taxonomyApi}/nodes?language=nb&nodeType=SUBJECT`, 'allSubjects');
     cy.apiroute('GET', '/draft-api/v1/drafts/status-state-machine/', 'statusMachine');
     cy.apiroute('GET', '/search-api/v1/search/editorial/*', 'search');
     cy.intercept('GET', '/get_editors*', [

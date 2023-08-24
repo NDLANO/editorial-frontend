@@ -12,16 +12,14 @@ import {
 } from '@ndla/types-backend/frontpage-api';
 import { ILearningPathV2 } from '@ndla/types-backend/learningpath-api';
 import { IArticle } from '@ndla/types-backend/draft-api';
+import { Node } from '@ndla/types-taxonomy';
 import * as frontpageApi from '../../modules/frontpage/frontpageApi';
 import { getUrnFromId } from '../../util/subjectHelpers';
 import { LocaleType } from '../../interfaces';
 import { fetchDraft } from '../../modules/draft/draftApi';
-import { fetchResource } from '../../modules/taxonomy/resources';
-import { updateSubject } from '../../modules/taxonomy/subjects';
-import { fetchTopic } from '../../modules/taxonomy/topics';
 import { fetchLearningpath } from '../../modules/learningpath/learningpathApi';
-import { Resource, Topic } from '../../modules/taxonomy/taxonomyApiInterfaces';
 import { useTaxonomyVersion } from '../StructureVersion/TaxonomyVersionProvider';
+import { fetchNode, putNode } from '../../modules/nodes/nodeApi';
 
 export function useFetchSubjectpageData(
   elementId: string,
@@ -35,12 +33,8 @@ export function useFetchSubjectpageData(
   const { taxonomyVersion } = useTaxonomyVersion();
 
   const fetchElementList = async (taxonomyUrns: string[], taxonomyVersion: string) => {
-    const taxonomyElements = await Promise.all<Topic | Resource>(
-      taxonomyUrns.map((urn) =>
-        urn.split(':')[1] === 'topic'
-          ? fetchTopic({ id: urn, taxonomyVersion })
-          : fetchResource({ id: urn, taxonomyVersion }),
-      ),
+    const taxonomyElements = await Promise.all<Node>(
+      taxonomyUrns.map((urn) => fetchNode({ id: urn, taxonomyVersion })),
     );
 
     const elementIds = taxonomyElements
@@ -69,9 +63,10 @@ export function useFetchSubjectpageData(
 
   const createSubjectpage = async (subjectPage: INewSubjectFrontPageData) => {
     const savedSubjectpage = await frontpageApi.createSubjectpage(subjectPage);
-    await updateSubject({
+    await putNode({
       id: elementId,
-      body: { name: savedSubjectpage.name, contentUri: getUrnFromId(savedSubjectpage.id) },
+      name: savedSubjectpage.name,
+      contentUri: getUrnFromId(savedSubjectpage.id),
       taxonomyVersion,
     });
     setSubjectpage(savedSubjectpage);

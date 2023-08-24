@@ -28,8 +28,8 @@ import SearchSort from './components/sort/SearchSort';
 import { toSearch } from '../../util/routeHelpers';
 import { SearchType } from '../../interfaces';
 import SearchSaveButton from './SearchSaveButton';
-import { useSubjects } from '../../modules/taxonomy/subjects';
 import { useTaxonomyVersion } from '../StructureVersion/TaxonomyVersionProvider';
+import { useNodes } from '../../modules/nodes/nodeQueries';
 
 const StyledSearchHeader = styled.div`
   display: flex;
@@ -56,7 +56,11 @@ const SearchContainer = ({ searchHook, type }: Props) => {
   const navigate = useNavigate();
   const locale = i18n.language;
   const { taxonomyVersion } = useTaxonomyVersion();
-  const { data: subjectData } = useSubjects({ language: locale, taxonomyVersion });
+  const { data: subjectData } = useNodes({
+    language: locale,
+    nodeType: 'SUBJECT',
+    taxonomyVersion,
+  });
   const [searchObject, setSearchObject] = useState(parseSearchParams(location.search));
   const {
     data: results,

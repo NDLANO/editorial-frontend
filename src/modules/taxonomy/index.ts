@@ -6,13 +6,8 @@
  *
  */
 
-export { fetchResource, queryResources, queryTopics, queryLearningPathResource } from './resources';
 export {
   fetchAllResourceTypes,
   fetchResourceType,
   createResourceResourceType,
 } from './resourcetypes';
-
-export { fetchSubjects, fetchSubject, updateSubject } from './subjects';
-
-export { fetchTopic } from './topics';

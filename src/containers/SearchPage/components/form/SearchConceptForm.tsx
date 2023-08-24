@@ -9,6 +9,7 @@
 import { useEffect, useState, MouseEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import sortBy from 'lodash/sortBy';
+import { Node } from '@ndla/types-taxonomy';
 import { getResourceLanguages } from '../../../../util/resourceHelpers';
 import { getTagName } from '../../../../util/formHelper';
 import { SearchParams } from './SearchForm';
@@ -16,7 +17,6 @@ import {
   CONCEPT_RESPONSIBLE,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
 } from '../../../../constants';
-import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { useAuth0Editors, useAuth0Responsibles } from '../../../../modules/auth0/auth0Queries';
 import { useConceptStateMachine } from '../../../../modules/concept/conceptQueries';
 import GenericSearchForm, { OnFieldChangeFunction } from './GenericSearchForm';
@@ -24,7 +24,7 @@ import { SearchFormSelector } from './Selector';
 
 interface Props {
   search: (o: SearchParams) => void;
-  subjects: SubjectType[];
+  subjects: Node[];
   searchObject: SearchParams;
   locale: string;
 }

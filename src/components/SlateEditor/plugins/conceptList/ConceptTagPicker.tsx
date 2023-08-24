@@ -14,12 +14,12 @@ import { Input } from '@ndla/forms';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
+import { Node } from '@ndla/types-taxonomy';
 import { ConceptListElement } from '.';
 import { fetchAllSubjects, fetchAllTags } from '../../../../modules/concept/conceptApi';
 import ConceptSearchResult from './ConceptSearchResult';
 import Dropdown, { DropdownItem } from '../../../Dropdown/Dropdown';
-import { fetchSubject } from '../../../../modules/taxonomy';
-import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
+import { fetchNode } from '../../../../modules/nodes/nodeApi';
 
 const TwoColumn = styled.div`
   display: flex;
@@ -89,7 +89,7 @@ const ConceptTagPicker = ({ element, onClose, language }: Props) => {
     const initialize = async () => {
       // If subjectId exists, fetch subject name and set selected subject
       if (element.data.subjectId) {
-        fetchSubject({
+        fetchNode({
           id: element.data.subjectId,
           language,
           taxonomyVersion: 'default',
@@ -116,11 +116,11 @@ const ConceptTagPicker = ({ element, onClose, language }: Props) => {
 
       const subjectIds: string[] = await fetchAllSubjects();
       const subjectResults = await Promise.allSettled(
-        subjectIds.map((id) => fetchSubject({ id, language, taxonomyVersion: 'default' })),
+        subjectIds.map((id) => fetchNode({ id, language, taxonomyVersion: 'default' })),
       );
       const subjects = (
         subjectResults.filter((result) => result.status === 'fulfilled') as Array<
-          PromiseFulfilledResult<SubjectType>
+          PromiseFulfilledResult<Node>
         >
       ).map((res) => {
         const subject = res.value;

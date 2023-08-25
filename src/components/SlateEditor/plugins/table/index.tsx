@@ -84,7 +84,7 @@ const TABLE_TAGS = {
   td: 'table-cell',
 };
 
-const StyledTH = styled.th`
+const StyledTh = styled.th`
   border: 1px solid ${colors.brand.lighter};
   background-color: transparent !important;
   text-align: top;
@@ -101,6 +101,9 @@ export const tableSerializer: SlateSerializer = {
     if (tagName === 'table') {
       const rowHeaders = !!el.querySelector('tbody th');
       const childNodes = Array.from(el.childNodes) as HTMLElement[];
+
+      // Colgroup and col is removed from the table when in the editor due to normalization.
+      // We append the colgroup into the html in the serialization.
       const colgroups =
         childNodes
           .filter((child) =>
@@ -115,6 +118,7 @@ export const tableSerializer: SlateSerializer = {
           colgroups,
           rowHeaders,
         },
+        // We ensure the children of of the table only includes the wrapper elements and not direct table rows or cells.
         children.filter(
           (child) =>
             Element.isElement(child) &&
@@ -137,7 +141,7 @@ export const tableSerializer: SlateSerializer = {
     if (tagName === 'tbody') {
       return slatejsx('element', { type: TYPE_TABLE_BODY }, children);
     }
-
+    // We treat th and td the same as they're both cell elements. Ensuring they both have the same formatting options/data object
     if (tagName === 'th' || tagName === 'td') {
       const filter = ['rowspan', 'colspan', 'align', 'valign', 'class', 'scope', 'id', 'headers'];
       const attrs = reduceElementDataAttributes(el, filter);
@@ -178,7 +182,6 @@ export const tableSerializer: SlateSerializer = {
       }
       return <caption>{children}</caption>;
     }
-
     if (node.type === TYPE_TABLE) {
       const [caption, ...rest] = children;
       if (caption.type === 'caption') {
@@ -273,14 +276,14 @@ export const tablePlugin = (editor: Editor) => {
         return <tbody {...attributes}>{children}</tbody>;
       case TYPE_TABLE_CELL_HEADER:
         return (
-          <StyledTH
+          <StyledTh
             rowSpan={element.data.rowspan}
             colSpan={element.data.colspan}
             scope={element.data.scope}
             {...attributes}
           >
             {children}
-          </StyledTH>
+          </StyledTh>
         );
       default:
         return renderElement?.({ attributes, children, element });

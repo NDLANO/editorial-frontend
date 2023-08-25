@@ -152,7 +152,7 @@ describe('table normalizer tests', () => {
                     type: TYPE_TABLE_ROW,
                     children: [
                       {
-                        type: TYPE_TABLE_CELL,
+                        type: TYPE_TABLE_CELL_HEADER,
                         data: {
                           isHeader: true,
                           colspan: 1,
@@ -172,7 +172,7 @@ describe('table normalizer tests', () => {
                         ],
                       },
                       {
-                        type: TYPE_TABLE_CELL,
+                        type: TYPE_TABLE_CELL_HEADER,
                         data: {
                           isHeader: true,
                           colspan: 1,
@@ -401,7 +401,7 @@ describe('table normalizer tests', () => {
                     type: TYPE_TABLE_ROW,
                     children: [
                       {
-                        type: TYPE_TABLE_CELL,
+                        type: TYPE_TABLE_CELL_HEADER,
                         data: {
                           isHeader: true,
                           colspan: 1,

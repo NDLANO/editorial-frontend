@@ -94,13 +94,21 @@ const normalizeRow = (
       const { scope, isHeader } = cell.data;
       // A. Normalize table head
       if (isHead) {
-        // i. If table has row headers.
-        //    Make sure scope='col' and isHeader=true
-        if (isTableCell(cell) && Node.string(cell) !== '' && (scope !== 'col' || !isHeader)) {
-          updateCell(editor, cell, {
-            scope: 'col',
-            isHeader: true,
-          });
+        // i. If cell in header
+        //    Make sure scope='col' and isHeader=true and type is correct
+        if (
+          isTableCell(cell) &&
+          (scope !== 'col' || !isHeader || cell.type !== TYPE_TABLE_CELL_HEADER)
+        ) {
+          updateCell(
+            editor,
+            cell,
+            {
+              scope: 'col',
+              isHeader: true,
+            },
+            TYPE_TABLE_CELL_HEADER,
+          );
           return true;
         }
       } else {

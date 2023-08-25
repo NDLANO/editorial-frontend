@@ -55,6 +55,11 @@ export const defaultTableCellHeaderBlock = () => {
     'element',
     {
       type: TYPE_TABLE_CELL_HEADER,
+      data: {
+        isHeader: true,
+        colspan: 1,
+        rowspan: 1,
+      },
     },
     {
       ...defaultParagraphBlock(),

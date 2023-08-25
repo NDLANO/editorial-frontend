@@ -384,7 +384,7 @@ export const tablePlugin = (editor: Editor) => {
       }
 
       // Numbers need to be right aligned default
-      if (!isNaN(Number(Node.string(node))) && !node.data.align && Node.string(node) !== '') {
+      if (!isNaN(Number(Node.string(node))) && !node.data?.align && Node.string(node) !== '') {
         updateCell(editor, node, { align: 'right' });
       }
     }

@@ -6,7 +6,7 @@
  *
  */
 
-import { useRef, useEffect, RefObject, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { FormikContextType } from 'formik';
@@ -153,7 +153,7 @@ const actionsToShowInAreas = {
 export const plugins = (
   articleLanguage: string,
   locale: LocaleType,
-  handleSubmitRef: RefObject<() => void>,
+  handleSubmit: VoidFunction,
 ): SlatePlugin[] => {
   return [
     sectionPlugin,
@@ -186,7 +186,7 @@ export const plugins = (
     toolbarPlugin,
     textTransformPlugin,
     breakPlugin,
-    saveHotkeyPlugin(() => handleSubmitRef.current && handleSubmitRef.current()),
+    saveHotkeyPlugin(handleSubmit),
     markPlugin,
     definitionListPlugin,
     listPlugin,
@@ -209,7 +209,6 @@ const FrontpageArticleFormContent = ({
   values: { id, language, creators, published, slug },
   handleSubmit,
 }: Props) => {
-  const handleSubmitRef = useRef(handleSubmit);
   const { userPermissions } = useSession();
   const { t, i18n } = useTranslation();
   const { isWideArticle } = useWideArticle();
@@ -217,13 +216,18 @@ const FrontpageArticleFormContent = ({
   const [preview, setPreview] = useState(false);
   const [editSlug, setEditSlug] = useState(false);
 
-  useEffect(() => {
-    handleSubmitRef.current = handleSubmit;
-  }, [handleSubmit]);
+  const editorPlugins = useMemo(
+    () => plugins(articleLanguage ?? '', i18n.language, handleSubmit),
+    [articleLanguage, handleSubmit, i18n.language],
+  );
 
   return (
     <StyledContentWrapper data-wide={isWideArticle}>
-      {editSlug && slug !== undefined ? <SlugField handleSubmit={handleSubmit} /> : <TitleField />}
+      {editSlug && slug !== undefined ? (
+        <SlugField handleSubmit={handleSubmit} />
+      ) : (
+        <TitleField handleSubmit={handleSubmit} />
+      )}
       <StyledFormikField name="published">
         {({ field, form }) => (
           <StyledDiv>
@@ -266,7 +270,7 @@ const FrontpageArticleFormContent = ({
         )}
       </StyledFormikField>
 
-      <IngressField preview={preview} />
+      <IngressField preview={preview} handleSubmit={handleSubmit} />
       <StyledContentDiv name="content" label={t('form.content.label')} noBorder>
         {({ field: { value, name, onChange }, form: { isSubmitting } }) => (
           <>
@@ -287,7 +291,7 @@ const FrontpageArticleFormContent = ({
               placeholder={t('form.content.placeholder')}
               value={value}
               submitted={isSubmitting}
-              plugins={plugins(articleLanguage ?? '', i18n.language, handleSubmitRef)}
+              plugins={editorPlugins}
               data-cy="frontpage-article-content"
               onChange={(value) => {
                 onChange({

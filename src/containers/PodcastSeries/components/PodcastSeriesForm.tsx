@@ -198,6 +198,7 @@ const PodcastSeriesForm = ({
                 )}
               >
                 <PodcastSeriesMetaData
+                  handleSubmit={() => handleSubmit(values, formikProps)}
                   language={language}
                   onImageLoad={(width, height) => {
                     size.current = [width, height];

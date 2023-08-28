@@ -145,7 +145,7 @@ const LearningResourceForm = ({
             <TaxonomyVersionProvider>
               <LearningResourcePanels
                 // Formik does not allow for invalid form submissions through their handleSubmit function, so we have to bypass formik
-                handleSubmit={_handleSubmit}
+                handleSubmit={handleSubmit}
                 articleLanguage={articleLanguage}
                 article={article}
                 taxonomy={articleTaxonomy}

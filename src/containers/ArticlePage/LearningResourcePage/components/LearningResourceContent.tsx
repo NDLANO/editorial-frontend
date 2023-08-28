@@ -177,16 +177,26 @@ interface Props {
   handleSubmit: HandleSubmitFunc<LearningResourceFormType>;
 }
 
-const LearningResourceContent = ({ articleLanguage, articleId, handleSubmit }: Props) => {
+const LearningResourceContent = ({
+  articleLanguage,
+  articleId,
+  handleSubmit: _handleSubmit,
+}: Props) => {
   const { t } = useTranslation();
 
   const [creatorsField] = useField<IAuthor[]>('creators');
 
   const [preview, setPreview] = useState(false);
 
+  const formikContext = useFormikContext<LearningResourceFormType>();
+
+  const handleSubmit = useCallback(() => {
+    _handleSubmit(formikContext.values, formikContext);
+  }, [_handleSubmit, formikContext]);
+
   return (
     <>
-      <TitleField />
+      <TitleField handleSubmit={handleSubmit} />
       <StyledFormikField name="published">
         {({ field, form }) => (
           <StyledDiv>
@@ -214,7 +224,7 @@ const LearningResourceContent = ({ articleLanguage, articleId, handleSubmit }: P
           </StyledDiv>
         )}
       </StyledFormikField>
-      <IngressField preview={preview} />
+      <IngressField preview={preview} handleSubmit={handleSubmit} />
       <StyledContentDiv name="content" label={t('form.content.label')} noBorder>
         {(fieldProps) => (
           <ContentField
@@ -232,23 +242,20 @@ const LearningResourceContent = ({ articleLanguage, articleId, handleSubmit }: P
 interface ContentFieldProps extends FieldProps<Descendant[]> {
   articleId?: number;
   articleLanguage: string;
-  handleSubmit: HandleSubmitFunc<LearningResourceFormType>;
+  handleSubmit: () => void;
 }
 
 const ContentField = ({
   articleId,
   field: { name, onChange, value },
   articleLanguage,
-  handleSubmit: _handleSubmit,
+  handleSubmit,
 }: ContentFieldProps) => {
   const { t, i18n } = useTranslation();
   const { userPermissions } = useSession();
-  const formikHelpers = useFormikContext<LearningResourceFormType>();
-  const blockPickerOptions = useMemo(() => ({ actionsToShowInAreas }), []);
+  const { isSubmitting } = useFormikContext<LearningResourceFormType>();
 
-  const handleSubmit = useCallback(() => {
-    _handleSubmit(formikHelpers.values, formikHelpers);
-  }, [_handleSubmit, formikHelpers]);
+  const blockPickerOptions = useMemo(() => ({ actionsToShowInAreas }), []);
 
   const onSlateChange = useCallback(
     (val: Descendant[]) => {
@@ -264,7 +271,7 @@ const ContentField = ({
 
   const editorPlugins = useMemo(
     () => plugins(articleLanguage ?? '', i18n.language, handleSubmit),
-    [articleLanguage, i18n.language, handleSubmit],
+    [articleLanguage, handleSubmit, i18n.language],
   );
 
   return (
@@ -282,14 +289,12 @@ const ContentField = ({
         blockpickerOptions={blockPickerOptions}
         placeholder={t('form.content.placeholder')}
         value={value}
-        submitted={formikHelpers.isSubmitting}
+        submitted={isSubmitting}
         plugins={editorPlugins}
         data-cy="learning-resource-content"
         onChange={onSlateChange}
       />
-      {!formikHelpers.isSubmitting && (
-        <LearningResourceFootnotes footnotes={findFootnotes(value)} />
-      )}
+      {!isSubmitting && <LearningResourceFootnotes footnotes={findFootnotes(value)} />}
     </>
   );
 };

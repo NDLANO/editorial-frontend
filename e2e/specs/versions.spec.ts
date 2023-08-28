@@ -7,8 +7,14 @@
  */
 
 import { test, expect } from '@playwright/test';
-import { mockRoute } from '../apiMock';
-import { zendeskMock, responsiblesMock, userDataMock, getNoteUsersMock, copyrightMock } from '../mockResponses';
+import { mockGraphqlRoute, mockRoute } from '../apiMock';
+import {
+  zendeskMock,
+  responsiblesMock,
+  userDataMock,
+  getNoteUsersMock,
+  copyrightMock,
+} from '../mockResponses';
 
 test.beforeEach(async ({ page }) => {
   const licenses = mockRoute({
@@ -48,14 +54,15 @@ test.beforeEach(async ({ page }) => {
     page,
     path: '**/draft-api/v1/drafts/800/history?language=nb&fallback=true',
     fixture: 'version_draft_history',
-    overrideValue: (val) => JSON.stringify(JSON.parse(val).map((draft) => ({ ...draft, copyright: copyrightMock })))
+    overrideValue: (val) =>
+      JSON.stringify(JSON.parse(val).map((draft) => ({ ...draft, copyright: copyrightMock }))),
   });
 
   const draftData = mockRoute({
     page,
     path: '**/draft-api/v1/drafts/800*',
     fixture: 'version_draft_data',
-    overrideValue: (val) => (JSON.stringify({ ...JSON.parse(val), copyright: copyrightMock }))
+    overrideValue: (val) => JSON.stringify({ ...JSON.parse(val), copyright: copyrightMock }),
   });
 
   const draftValidate = mockRoute({
@@ -91,7 +98,7 @@ test.beforeEach(async ({ page }) => {
     page,
     path: '**/get_note_users*',
     fixture: 'version_get_note_users',
-    overrideValue: JSON.stringify(getNoteUsersMock)
+    overrideValue: JSON.stringify(getNoteUsersMock),
   });
 
   const searchApiEditorial = mockRoute({
@@ -130,11 +137,17 @@ test('can add notes then save', async ({ page }) => {
 });
 
 test('Open previews', async ({ page }) => {
+  await mockGraphqlRoute({
+    page,
+    operationName: 'transformArticle',
+    fixture: 'version_grapqhl_transformArticle',
+  });
+
   await page.getByRole('heading', { name: 'Versjonslogg og merknader' }).click();
   await page.getByTestId('previewVersion').last().click();
   await page.getByRole('article').first().waitFor();
   await expect(page.locator('[data-cy="close-modal-button"]')).toBeVisible();
-  expect(await page.getByRole('article').count()).toBe(2)
+  expect(await page.getByRole('article').count()).toBe(2);
   await page.locator('[data-cy="close-modal-button"]').click();
   await expect(page.getByTestId('preview-draft-modal')).toBeVisible({ visible: false });
 });

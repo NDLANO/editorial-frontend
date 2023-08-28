@@ -55,3 +55,40 @@ export const mockRoute = async ({
     }
   });
 };
+
+interface GraphqlMockRoute {
+  page: Page;
+  operationName: string;
+  fixture: string;
+  overrideRoute?: boolean;
+}
+
+export const mockGraphqlRoute = async ({
+  page,
+  operationName,
+  fixture,
+  overrideRoute,
+}: GraphqlMockRoute) => {
+  if (overrideRoute) {
+    await page.unroute('**/graphql-api/graphql');
+  }
+
+  return await page.route('**/graphql-api/graphql', async (route) => {
+    if (process.env.RECORD_FIXTURES === 'true') {
+      const body = await route.request().postDataJSON();
+      const res = await route.fetch();
+      if (body.operationName === operationName) {
+        await mkdir(mockDir, { recursive: true });
+        await writeFile(`${mockDir}${fixture}.json`, await res.text(), { flag: 'w' });
+        return route.fulfill({ contentType: 'application/json', body: body });
+      }
+    } else {
+      try {
+        const res = await readFile(`${mockDir}${fixture}.json`, 'utf-8');
+        return route.fulfill({ contentType: 'application/json', body: res });
+      } catch (e) {
+        route.abort();
+      }
+    }
+  });
+};

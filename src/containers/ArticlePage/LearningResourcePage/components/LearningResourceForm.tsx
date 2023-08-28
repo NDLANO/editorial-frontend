@@ -64,7 +64,10 @@ const LearningResourceForm = ({
   const { ndlaId } = useSession();
 
   const validate = useCallback(
-    (values: LearningResourceFormType) => validateFormik(values, learningResourceRules, t),
+    (values: LearningResourceFormType) => {
+      const val = validateFormik(values, learningResourceRules, t);
+      return val;
+    },
     [t],
   );
 
@@ -141,6 +144,8 @@ const LearningResourceForm = ({
           <MainContent>
             <TaxonomyVersionProvider>
               <LearningResourcePanels
+                // Formik does not allow for invalid form submissions through their handleSubmit function, so we have to bypass formik
+                handleSubmit={_handleSubmit}
                 articleLanguage={articleLanguage}
                 article={article}
                 taxonomy={articleTaxonomy}

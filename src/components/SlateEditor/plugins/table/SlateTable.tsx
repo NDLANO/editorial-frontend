@@ -61,6 +61,14 @@ const StyledTable = styled.table`
     border: 1px solid ${colors.brand.lighter} !important;
     border-right: 3px solid ${colors.brand.tertiary} !important;
   }
+
+  td ol,
+  td ol li p,
+  td ul,
+  td ul li p {
+    font-size: unset;
+    line-height: unset !important;
+  }
 `;
 
 const StyledWrapper = styled.div`

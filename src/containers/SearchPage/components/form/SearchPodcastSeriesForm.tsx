@@ -8,16 +8,16 @@
 
 import { useEffect, useState, MouseEvent } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Node } from '@ndla/types-taxonomy';
 import { getResourceLanguages } from '../../../../util/resourceHelpers';
 import { getTagName } from '../../../../util/formHelper';
 import { SearchParams } from './SearchForm';
-import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import GenericSearchForm, { OnFieldChangeFunction } from './GenericSearchForm';
 import { SearchFormSelector } from './Selector';
 
 interface Props {
   search: (o: SearchParams) => void;
-  subjects: SubjectType[];
+  subjects: Node[];
   searchObject: SearchParams;
   locale: string;
 }

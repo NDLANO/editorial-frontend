@@ -6,27 +6,22 @@
  *
  */
 
-import { Cross } from '@ndla/icons/action';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
-import {
-  StyledConnections,
-  StyledErrorLabel,
-  StyledRemoveConnectionButton,
-  StyledPrimaryConnectionButton,
-} from '../../style/LearningResourceTaxonomyStyles';
-import SharedTopicConnections from './SharedTopicConnections';
+import { misc, spacing, fonts, colors } from '@ndla/core';
+import { Node } from '@ndla/types-taxonomy';
 import Breadcrumb from './Breadcrumb';
 import RelevanceOption from './RelevanceOption';
 import RemoveButton from './RemoveButton';
-import { StagedTopic } from '../../containers/ArticlePage/TopicArticlePage/components/TopicArticleTaxonomy';
+import { MinimalNodeChild } from '../../containers/ArticlePage/LearningResourcePage/components/LearningResourceTaxonomy';
 
 interface Props {
   removeConnection?: (id: string) => void;
-  setPrimaryConnection?: (id: string) => void;
-  topic: StagedTopic;
+  setPrimaryConnection?: (connectionId: string) => void;
+  node: MinimalNodeChild | Node;
   type: string;
   setRelevance?: (topicId: string, relevanceId: string) => void;
+  disableRemove?: boolean;
 }
 
 const StyledFlexWrapper = styled.div`
@@ -34,62 +29,78 @@ const StyledFlexWrapper = styled.div`
   align-items: center;
 `;
 
+const StyledPrimaryConnectionButton = styled.button`
+  border: 0;
+  border-radius: ${misc.borderRadius};
+  padding: ${spacing.xsmall} ${spacing.small};
+  margin-right: ${spacing.xsmall};
+  text-transform: uppercase;
+  ${fonts.sizes(14, 1.1)};
+  font-weight: ${fonts.weight.semibold};
+  background: ${colors.support.green};
+  opacity: 0.3;
+  transition: opacity 100ms ease;
+  cursor: pointer;
+  &:hover,
+  &:focus {
+    opacity: 1;
+  }
+  &[data-primary='true'] {
+    opacity: 1;
+  }
+`;
+
+const StyledConnections = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: ${colors.brand.greyLightest};
+  padding: ${spacing.xsmall};
+  margin-bottom: 2px;
+  border-radius: ${misc.borderRadius};
+  div > span {
+    padding: ${spacing.xsmall};
+    ${fonts.sizes(16, 1.1)};
+  }
+`;
+
 const ActiveTopicConnection = ({
   removeConnection,
   setPrimaryConnection,
   setRelevance,
   type,
-  topic,
+  node,
+  disableRemove,
 }: Props) => {
   const { t } = useTranslation();
-  if (!topic.breadcrumb) {
-    return (
-      <StyledConnections error>
-        <StyledErrorLabel>{t('taxonomy.topics.disconnectedTaxonomyWarning')}</StyledErrorLabel>
-        <Breadcrumb breadcrumb={[topic]} />
-        <StyledRemoveConnectionButton
-          type="button"
-          onClick={() => removeConnection && removeConnection(topic.id)}
-        >
-          <Cross />
-        </StyledRemoveConnectionButton>
-      </StyledConnections>
-    );
-  }
 
   if (type === 'topic-article') {
     return (
-      <>
-        <StyledConnections>
-          <Breadcrumb breadcrumb={topic.breadcrumb} type={type} />
-        </StyledConnections>
-        <SharedTopicConnections topic={topic} type={type} />
-      </>
+      <StyledConnections>
+        <Breadcrumb node={node} />
+      </StyledConnections>
     );
   }
   return (
-    <>
-      <StyledConnections>
-        <StyledFlexWrapper>
-          <StyledPrimaryConnectionButton
-            primary={topic.isPrimary}
-            type="button"
-            onClick={() => setPrimaryConnection?.(topic.id)}
-          >
-            {t('form.topics.primaryTopic')}
-          </StyledPrimaryConnectionButton>
-          <Breadcrumb breadcrumb={topic.breadcrumb} />
-        </StyledFlexWrapper>
-        <StyledFlexWrapper>
-          <RelevanceOption
-            relevanceId={topic.relevanceId}
-            onChange={(relevanceId) => setRelevance && setRelevance(topic.id, relevanceId)}
-          />
-          <RemoveButton onClick={() => removeConnection && removeConnection(topic.id)} />
-        </StyledFlexWrapper>
-      </StyledConnections>
-      <SharedTopicConnections topic={topic} />
-    </>
+    <StyledConnections>
+      <StyledFlexWrapper>
+        <StyledPrimaryConnectionButton
+          data-primary={'isPrimary' in node ? node.isPrimary : false}
+          type="button"
+          onClick={() => setPrimaryConnection?.(node.id)}
+        >
+          {t('form.topics.primaryTopic')}
+        </StyledPrimaryConnectionButton>
+        <Breadcrumb node={node} />
+      </StyledFlexWrapper>
+      <StyledFlexWrapper>
+        <RelevanceOption
+          relevanceId={node.relevanceId}
+          onChange={(relevanceId) => setRelevance?.(node.id, relevanceId)}
+        />
+        <RemoveButton onClick={() => removeConnection?.(node.id)} disabled={disableRemove} />
+      </StyledFlexWrapper>
+    </StyledConnections>
   );
 };
 

@@ -13,6 +13,7 @@ import { LicenseByline } from '@ndla/notion';
 import { colors } from '@ndla/core';
 import styled from '@emotion/styled';
 import { IConceptSummary } from '@ndla/types-backend/concept-api';
+import { Node } from '@ndla/types-taxonomy';
 import {
   StyledInfo,
   StyledConceptView,
@@ -25,7 +26,6 @@ import formatDate from '../../../../../util/formatDate';
 import { toEditConcept } from '../../../../../util/routeHelpers';
 import HeaderStatusInformation from '../../../../../components/HeaderWithLanguage/HeaderStatusInformation';
 import { LocaleType } from '../../../../../interfaces';
-import { SubjectType } from '../../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { useLicenses } from '../../../../../modules/draft/draftQueries';
 
 interface Props {
@@ -33,7 +33,7 @@ interface Props {
   locale: LocaleType;
   title: string;
   content: string;
-  breadcrumbs: SubjectType[];
+  breadcrumbs: Node[];
   setShowForm: () => void;
   editing: boolean;
   responsibleName?: string;

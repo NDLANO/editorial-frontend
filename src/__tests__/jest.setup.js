@@ -7,8 +7,7 @@
  */
 
 import '@testing-library/jest-dom';
-import '@testing-library/jest-dom/extend-expect';
-
+import '@testing-library/jest-dom/jest-globals';
 import { TextEncoder } from 'util';
 
 global.TextEncoder = TextEncoder;

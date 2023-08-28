@@ -62,7 +62,7 @@ interface Props {
   statusText?: string;
   isNewLanguage?: boolean;
   published: boolean;
-  taxonomyPaths?: string[];
+  multipleTaxonomy?: boolean;
   type?: string;
   id?: number;
   setHasConnections?: (hasConnections: boolean) => void;
@@ -121,7 +121,7 @@ const HeaderStatusInformation = ({
   statusText,
   isNewLanguage,
   published,
-  taxonomyPaths,
+  multipleTaxonomy,
   compact,
   type,
   id,
@@ -168,24 +168,17 @@ const HeaderStatusInformation = ({
         ) : type === 'concept' ? (
           <EmbedConnection id={id} type="concept" articles={articles} setArticles={setArticles} />
         ) : null}
-        {published &&
-          (taxonomyPaths && taxonomyPaths?.length > 0 ? (
-            <StyledLink
-              target="_blank"
-              aria-label={t('form.workflow.published')}
-              title={t('form.workflow.published')}
-              to={`${config.ndlaFrontendDomain}/article/${id}`}
-            >
-              <StyledCheckIcon />
-            </StyledLink>
-          ) : (
-            <StyledCheckIcon
-              aria-label={t('form.workflow.published')}
-              title={t('form.workflow.published')}
-              aria-hidden={false}
-            />
-          ))}
-        {taxonomyPaths && taxonomyPaths?.length > 2 && (
+        {published && (
+          <StyledLink
+            target="_blank"
+            aria-label={t('form.workflow.published')}
+            title={t('form.workflow.published')}
+            to={`${config.ndlaFrontendDomain}/article/${id}`}
+          >
+            <StyledCheckIcon />
+          </StyledLink>
+        )}
+        {multipleTaxonomy && (
           <StyledWarnIcon
             aria-label={t('form.workflow.multipleTaxonomy')}
             title={t('form.workflow.multipleTaxonomy')}

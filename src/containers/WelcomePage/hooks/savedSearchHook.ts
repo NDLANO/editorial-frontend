@@ -6,7 +6,7 @@
  *
  */
 
-import { ResourceType } from '@ndla/types-taxonomy';
+import { Node, ResourceType } from '@ndla/types-taxonomy';
 import { useTranslation } from 'react-i18next';
 import { useEffect, useMemo, useState } from 'react';
 import queryString from 'query-string';
@@ -20,9 +20,8 @@ import { ISearchResultV3 } from '@ndla/types-backend/image-api';
 import { IMultiSearchResult } from '@ndla/types-backend/search-api';
 import { SearchObjectType, SearchResultBase } from '../../../interfaces';
 import { useAuth0Users } from '../../../modules/auth0/auth0Queries';
-import { SubjectType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import { transformQuery } from '../../../util/searchHelpers';
-import { fetchResourceType, fetchSubject } from '../../../modules/taxonomy';
+import { fetchResourceType } from '../../../modules/taxonomy';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 import { FAVOURITES_SUBJECT_ID } from '../../../constants';
 import { search } from '../../../modules/search/searchApi';
@@ -33,6 +32,7 @@ import { AudioSearchParams, SeriesSearchParams } from '../../../modules/audio/au
 import { ConceptQuery } from '../../../modules/concept/conceptApiInterfaces';
 import { MultiSearchApiQuery } from '../../../modules/search/searchApiInterfaces';
 import { ImageSearchQuery } from '../../../modules/image/imageApiInterfaces';
+import { fetchNode } from '../../../modules/nodes/nodeApi';
 
 type QueryType =
   | AudioSearchParams
@@ -76,7 +76,7 @@ export const useSavedSearchUrl = (currentUserData: IUserData | undefined): Searc
 
   const { savedSearches: searchText, favoriteSubjects } = currentUserData || {};
 
-  const [subjectData, setSubjectData] = useState<SubjectType[]>([]);
+  const [subjectData, setSubjectData] = useState<Node[]>([]);
   const [resourceTypeData, setResourceTypeData] = useState<ResourceType[]>([]);
   const [searchResultData, setSearchResultData] = useState<SearchResultBase<any>[]>([]);
   const [dataFetchLoading, setDataFetchLoading] = useState(false);
@@ -128,7 +128,7 @@ export const useSavedSearchUrl = (currentUserData: IUserData | undefined): Searc
           .filter((searchObject) => !searchObject?.includes(FAVOURITES_SUBJECT_ID) && searchObject);
         const subjectData = await Promise.all(
           subjects.map((subject) =>
-            fetchSubject({ id: subject ?? '', language: i18n.language, taxonomyVersion }),
+            fetchNode({ id: subject ?? '', language: i18n.language, taxonomyVersion }),
           ),
         );
         setSubjectData(subjectData);

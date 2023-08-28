@@ -11,17 +11,17 @@ import { Dispatch, SetStateAction, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Concept } from '@ndla/icons/editor';
 import { IConcept, IConceptSummary } from '@ndla/types-backend/concept-api';
+import { Node } from '@ndla/types-taxonomy';
 import { convertFieldWithFallback } from '../../../../../util/convertFieldWithFallback';
 import ContentView from './ContentView';
 import FormView from './FormView';
-import { SubjectType } from '../../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { LocaleType } from '../../../../../interfaces';
 import { StyledSearchImageContainer, StyledSearchResult } from '../../form/StyledSearchComponents';
 
 interface Props {
   concept: IConceptSummary;
   locale: LocaleType;
-  subjects: SubjectType[];
+  subjects: Node[];
   editingState: [boolean, Dispatch<SetStateAction<boolean>>];
   responsibleName?: string;
 }

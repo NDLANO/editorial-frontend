@@ -19,7 +19,7 @@ test.beforeEach(async ({ page }) => {
 
   const allSubjects = mockRoute({
     page,
-    path: '**/taxonomy/v1/subjects?language=nb',
+    path: '**/taxonomy/v1/nodes?language=nb&nodeType=SUBJECT',
     fixture: 'search_audio_all_subjects',
   });
 
@@ -27,6 +27,12 @@ test.beforeEach(async ({ page }) => {
     page,
     path: '**/audio-api/v1/audio/?exclude-revision-log=false&fallback=false&filter-inactive=true&include-other-statuses=false&page=1&page-size=10&sort=-relevance*',
     fixture: 'search_audio_search',
+  });
+
+  const searchNextPage = mockRoute({
+    page,
+    path: '**/audio-api/v1/audio/?exclude-revision-log=false&fallback=false&filter-inactive=true&include-other-statuses=false&page=2&page-size=10&sort=-relevance*',
+    fixture: 'search_audio_next_search',
   });
 
   const zendesk = mockRoute({
@@ -50,7 +56,7 @@ test.beforeEach(async ({ page }) => {
   });
 
   await page.goto('/search/audio?page=1&page-size=10&sort=-relevance');
-  await Promise.all([licenses, allSubjects, search, zendesk, notesUser, userData]);
+  await Promise.all([licenses, allSubjects, search, searchNextPage, zendesk, notesUser, userData]);
 });
 
 test('Can use text input', async ({ page }) => {

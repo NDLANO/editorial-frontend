@@ -18,7 +18,7 @@ import { CopyrightFieldGroup, VersionAndNotesPanel, MetaDataField } from '../../
 import GrepCodesField from '../../../FormikForm/GrepCodesField';
 import LearningResourceTaxonomy from './LearningResourceTaxonomy';
 import LearningResourceContent from './LearningResourceContent';
-import { LearningResourceFormType } from '../../../FormikForm/articleFormHooks';
+import { HandleSubmitFunc, LearningResourceFormType } from '../../../FormikForm/articleFormHooks';
 import { useSession } from '../../../Session/SessionProvider';
 import RevisionNotes from '../../components/RevisionNotes';
 import FormAccordions from '../../../../components/Accordion/FormAccordions';
@@ -28,6 +28,7 @@ interface Props {
   article?: IArticle;
   taxonomy?: Node[];
   updateNotes: (art: IUpdatedArticle) => Promise<IArticle>;
+  handleSubmit: HandleSubmitFunc<LearningResourceFormType>;
   articleLanguage: string;
   contexts?: TaxonomyContext[];
 }
@@ -38,6 +39,7 @@ const LearningResourcePanels = ({
   updateNotes,
   articleLanguage,
   contexts,
+  handleSubmit,
 }: Props) => {
   const { t } = useTranslation();
   const { userPermissions } = useSession();
@@ -52,7 +54,11 @@ const LearningResourcePanels = ({
         className={'u-4/6@desktop u-push-1/6@desktop'}
         hasError={!!(errors.title || errors.introduction || errors.content)}
       >
-        <LearningResourceContent articleLanguage={articleLanguage} articleId={article?.id} />
+        <LearningResourceContent
+          articleLanguage={articleLanguage}
+          articleId={article?.id}
+          handleSubmit={handleSubmit}
+        />
       </FormAccordion>
       {!!article && !!taxonomy && !!userPermissions?.includes(TAXONOMY_WRITE_SCOPE) && (
         <FormAccordion

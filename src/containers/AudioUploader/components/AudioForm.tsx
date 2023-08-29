@@ -214,7 +214,7 @@ const AudioForm = ({
                 title={t('form.contentSection')}
                 hasError={hasError(['title', 'audioFile'])}
               >
-                <AudioContent />
+                <AudioContent handleSubmit={handleSubmit} />
               </FormAccordion>
               <FormAccordion
                 id="podcast-upload-podcastmanus"

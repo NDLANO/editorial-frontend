@@ -8,8 +8,6 @@
 
 import { Diff, diff_match_patch } from 'diff-match-patch';
 
-const chalk = require('chalk');
-
 const differ = new diff_match_patch();
 
 const allowedConversions = [
@@ -143,27 +141,24 @@ export function diffHTML(oldHtml: string, newHtml: string) {
 
   const diffs = differ.diff_main(oldHtml, cleanHtml);
   differ.diff_cleanupEfficiency(diffs);
-  let diffString = '';
 
   let shouldWarn = false;
 
   diffs.forEach((diff, index) => {
     // green for additions, red for deletions
     // grey for common parts
-    const [result, value] = diff;
+    const [result] = diff;
     if (result === 1) {
-      diffString += `${chalk.underline.green(value)}`;
       // Some diffs are allowed
       if (!isRemovalAllowed(index, diffs)) {
         shouldWarn = true;
       }
     } else if (result === -1) {
-      diffString += `${chalk.underline.red(value)}`;
       // Some diffs are allowed
       if (!isRemovalAllowed(index, diffs)) {
         shouldWarn = true;
       }
     }
   });
-  return { diff: diffString, warn: shouldWarn };
+  return { warn: shouldWarn };
 }

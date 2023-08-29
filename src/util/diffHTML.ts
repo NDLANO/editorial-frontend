@@ -15,6 +15,7 @@ const allowedConversions = [
   ['&quot;', '"'],
 ];
 const brWrappers = ['strong', 'em', 'u', 'code', 'sup', 'sub'];
+const tagRegexes = brWrappers.map((tag) => new RegExp(`</${tag}><${tag}>`, 'g'));
 
 interface Value {
   current: string;
@@ -52,7 +53,7 @@ function allowTHeadInsertion({ current, next, previous }: Value) {
 
 // I.E "<p>some "text".</p>" -> "<p>some &quot;text&quot;.</p>"
 function allowQuotEntityReplacement({ current, next }: Value) {
-  const result = allowedConversions.map((pair) => {
+  for (const pair of allowedConversions) {
     if (current === pair[1] && next === pair[0]) {
       return true;
     }
@@ -64,9 +65,8 @@ function allowQuotEntityReplacement({ current, next }: Value) {
     ) {
       return true;
     }
-    return false;
-  });
-  return result.find((res) => res);
+  }
+  return false;
 }
 
 // I.E "<h6>...</h6>" -> "<h3>...</h3>"
@@ -100,10 +100,7 @@ function allowStrongRemoval({ current, next, previous }: Value) {
   return false;
 }
 function allowBrWrapping({ current }: Value) {
-  if (current === 'br/') {
-    return true;
-  }
-  return false;
+  return current === 'br/';
 }
 
 // I.E. <br/> => <br>
@@ -111,28 +108,27 @@ function allowSlashRemoval({ current, next }: Value) {
   return current === '/' && next.startsWith('>');
 }
 
+const removalFns = [
+  allowSpaceRemovalBetweenTags,
+  allowTHeadInsertion,
+  allowHeadingConversion,
+  allowQuotEntityReplacement,
+  allowSpaceReplacement,
+  allowStrongRemoval,
+  allowSlashRemoval,
+  allowBrWrapping,
+];
+
 function isRemovalAllowed(index: number, diffs: Diff[]) {
   const values = getValues(index, diffs);
   if (values) {
-    const result = [
-      allowSpaceRemovalBetweenTags,
-      allowTHeadInsertion,
-      allowHeadingConversion,
-      allowQuotEntityReplacement,
-      allowSpaceReplacement,
-      allowStrongRemoval,
-      allowSlashRemoval,
-      allowBrWrapping,
-    ].find((fn) => fn(values) === true);
-    return result !== undefined;
+    return removalFns.some((fn) => fn(values));
   }
   return false;
 }
 
 const cleanUpHtml = (newHtml: string) =>
-  brWrappers
-    .map((tag) => new RegExp(`</${tag}><${tag}>`, 'g'))
-    .reduce((currString, currRegExp) => currString.replace(currRegExp, ''), newHtml);
+  tagRegexes.reduce((currString, currRegExp) => currString.replace(currRegExp, ''), newHtml);
 
 export function diffHTML(oldHtml: string, newHtml: string) {
   // we remove some noise coming from Slate, ex </strong><strong>
@@ -142,23 +138,19 @@ export function diffHTML(oldHtml: string, newHtml: string) {
   const diffs = differ.diff_main(oldHtml, cleanHtml);
   differ.diff_cleanupEfficiency(diffs);
 
-  let shouldWarn = false;
-
-  diffs.forEach((diff, index) => {
-    // green for additions, red for deletions
-    // grey for common parts
+  for (const [index, diff] of diffs.entries()) {
     const [result] = diff;
     if (result === 1) {
       // Some diffs are allowed
       if (!isRemovalAllowed(index, diffs)) {
-        shouldWarn = true;
+        return true;
       }
     } else if (result === -1) {
       // Some diffs are allowed
       if (!isRemovalAllowed(index, diffs)) {
-        shouldWarn = true;
+        return true;
       }
     }
-  });
-  return { warn: shouldWarn };
+  }
+  return false;
 }

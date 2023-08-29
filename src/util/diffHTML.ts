@@ -6,10 +6,11 @@
  *
  */
 
-const chalk = require('chalk');
-const Differ = require('diff-match-patch');
+import { Diff, diff_match_patch } from 'diff-match-patch';
 
-const differ = new Differ();
+const chalk = require('chalk');
+
+const differ = new diff_match_patch();
 
 const allowedConversions = [
   ['&#x27;', "'"],
@@ -17,10 +18,16 @@ const allowedConversions = [
 ];
 const brWrappers = ['strong', 'em', 'u', 'code', 'sup', 'sub'];
 
+interface Value {
+  current: string;
+  next: string;
+  previous: string;
+}
+
 /**
  * Get current, next and previous diff values. Return undefined if one of them is undefiend
  */
-function getValues(index, diffs) {
+function getValues(index: number, diffs: Diff[]) {
   const prevDiff = diffs[index - 1];
   const nextDiff = diffs[index + 1];
   const diff = diffs[index];
@@ -36,17 +43,17 @@ function getValues(index, diffs) {
 }
 
 // I.E "<h2>Oppgaver</h2> <ol>...</ol>" -> "<h2>Oppgaver</h2><ol>...</ol>"
-function allowSpaceRemovalBetweenTags({ current, next, previous }) {
+function allowSpaceRemovalBetweenTags({ current, next, previous }: Value) {
   return previous[previous.length] !== '>' && current === ' ' && next[0] === '<';
 }
 
 // I.E "<table><tbody>...</tbody></table>" -> "<table><thead>...</thead><tbody>...</tbody></table>"
-function allowTHeadInsertion({ current, next, previous }) {
+function allowTHeadInsertion({ current, next, previous }: Value) {
   return previous.endsWith('<table><t') && current === 'body' && next === 'head';
 }
 
 // I.E "<p>some "text".</p>" -> "<p>some &quot;text&quot;.</p>"
-function allowQuotEntityReplacement({ current, next }) {
+function allowQuotEntityReplacement({ current, next }: Value) {
   const result = allowedConversions.map((pair) => {
     if (current === pair[1] && next === pair[0]) {
       return true;
@@ -65,7 +72,7 @@ function allowQuotEntityReplacement({ current, next }) {
 }
 
 // I.E "<h6>...</h6>" -> "<h3>...</h3>"
-function allowHeadingConversion({ current, next, previous }) {
+function allowHeadingConversion({ current, next, previous }: Value) {
   return (
     (previous.endsWith('</h') || previous.endsWith('<h')) &&
     (current === '4' || current === '5' || current === '6') &&
@@ -74,12 +81,12 @@ function allowHeadingConversion({ current, next, previous }) {
 }
 
 // I.E "<mo>&#xa0;</mo>" -> "<mo>&nbsp;</mo>"
-function allowSpaceReplacement({ current, next }) {
+function allowSpaceReplacement({ current, next }: Value) {
   return current === '#xa0' && next === 'nbsp';
 }
 
 // I.E "<mo>&#xa0;</mo>" -> "<mo>&nbsp;</mo>"
-function allowStrongRemoval({ current, next, previous }) {
+function allowStrongRemoval({ current, next, previous }: Value) {
   // I.E. <strong><math>...</math></strong> -> <math>...</math>
   if (current === 'strong><' && next.startsWith('math')) {
     return true;
@@ -94,7 +101,7 @@ function allowStrongRemoval({ current, next, previous }) {
   }
   return false;
 }
-function allowBrWrapping({ current }) {
+function allowBrWrapping({ current }: Value) {
   if (current === 'br/') {
     return true;
   }
@@ -102,11 +109,11 @@ function allowBrWrapping({ current }) {
 }
 
 // I.E. <br/> => <br>
-function allowSlashRemoval({ current, next }) {
+function allowSlashRemoval({ current, next }: Value) {
   return current === '/' && next.startsWith('>');
 }
 
-function isRemovalAllowed(index, diffs) {
+function isRemovalAllowed(index: number, diffs: Diff[]) {
   const values = getValues(index, diffs);
   if (values) {
     const result = [
@@ -124,12 +131,12 @@ function isRemovalAllowed(index, diffs) {
   return false;
 }
 
-const cleanUpHtml = (newHtml) =>
+const cleanUpHtml = (newHtml: string) =>
   brWrappers
     .map((tag) => new RegExp(`</${tag}><${tag}>`, 'g'))
     .reduce((currString, currRegExp) => currString.replace(currRegExp, ''), newHtml);
 
-export function diffHTML(oldHtml, newHtml) {
+export function diffHTML(oldHtml: string, newHtml: string) {
   // we remove some noise coming from Slate, ex </strong><strong>
   // we run it twice to remove nested mark tags
   const cleanHtml = cleanUpHtml(cleanUpHtml(newHtml));

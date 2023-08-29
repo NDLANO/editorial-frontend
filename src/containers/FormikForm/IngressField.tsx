@@ -11,7 +11,6 @@ import { Remarkable } from 'remarkable';
 import parse from 'html-react-parser';
 import { useTranslation } from 'react-i18next';
 
-import { useFormikContext } from 'formik';
 import StyledFormContainer from '../../components/SlateEditor/common/StyledFormContainer';
 import PlainTextEditor from '../../components/SlateEditor/PlainTextEditor';
 import FormikField from '../../components/FormikField';
@@ -37,6 +36,7 @@ interface Props {
   placeholder?: string;
   preview?: boolean;
   concept?: boolean;
+  handleSubmit: () => void;
 }
 
 const IngressField = ({
@@ -45,9 +45,8 @@ const IngressField = ({
   placeholder,
   preview = false,
   concept = false,
+  handleSubmit,
 }: Props) => {
-  const { handleSubmit } = useFormikContext();
-
   const plugins = useMemo(
     () => [textTransformPlugin, saveHotkeyPlugin(handleSubmit)],
     [handleSubmit],

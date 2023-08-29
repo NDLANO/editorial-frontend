@@ -15,12 +15,12 @@ import { IMultiSearchSummary } from '@ndla/types-backend/search-api';
 import uniq from 'lodash/uniq';
 import styled from '@emotion/styled';
 import { colors } from '@ndla/core';
+import { Node } from '@ndla/types-taxonomy';
 import SearchResult, { SearchResultReturnType } from './SearchResult';
 import Spinner from '../../../../components/Spinner';
 import { ResultType } from '../../SearchContainer';
 import { SearchParams } from '../form/SearchForm';
 import { LocaleType, SearchType } from '../../../../interfaces';
-import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { fetchAuth0Users } from '../../../../modules/auth0/auth0Api';
 
 const StyledSearchError = styled.p`
@@ -40,7 +40,7 @@ interface Props {
   searchObject: SearchParams;
   type: SearchType;
   locale: LocaleType;
-  subjects: SubjectType[];
+  subjects: Node[];
   error: boolean;
 }
 

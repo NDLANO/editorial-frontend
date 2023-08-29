@@ -206,7 +206,7 @@ const ImageForm = ({
                 className="u-4/6@desktop u-push-1/6@desktop"
                 hasError={hasError(['title', 'imageFile', 'caption', 'alttext'])}
               >
-                <ImageContent />
+                <ImageContent handleSubmit={handleSubmit} />
               </FormAccordion>
               <FormAccordion
                 id="metadata"

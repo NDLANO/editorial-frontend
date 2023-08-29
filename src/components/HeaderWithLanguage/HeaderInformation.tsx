@@ -101,7 +101,7 @@ interface Props {
   isNewLanguage: boolean;
   title?: string;
   formIsDirty?: boolean;
-  taxonomyPaths?: string[];
+  multipleTaxonomy?: boolean;
   id?: number;
   language: string;
   setHasConnections?: (hasConnections: boolean) => void;
@@ -119,7 +119,7 @@ const HeaderInformation = ({
   isNewLanguage,
   title,
   formIsDirty,
-  taxonomyPaths,
+  multipleTaxonomy,
   setHasConnections,
   expirationDate,
   responsibleId,
@@ -180,7 +180,7 @@ const HeaderInformation = ({
         statusText={statusText}
         isNewLanguage={isNewLanguage}
         published={published}
-        taxonomyPaths={taxonomyPaths}
+        multipleTaxonomy={multipleTaxonomy}
         type={type}
         id={id}
         setHasConnections={setHasConnections}

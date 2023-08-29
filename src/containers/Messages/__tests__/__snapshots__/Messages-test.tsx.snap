@@ -469,6 +469,7 @@ exports[`Messages A message is removed if the modal is closed 1`] = `
   >
     <div
       class="emotion-5"
+      data-testid="alert-modal"
     >
       <div
         class="emotion-6 emotion-7"
@@ -1044,6 +1045,7 @@ exports[`Messages A single message renders correctly 1`] = `
   >
     <div
       class="emotion-5"
+      data-testid="alert-modal"
     >
       <div
         class="emotion-6 emotion-7"
@@ -1597,6 +1599,7 @@ exports[`Messages Several messages renders correctly 1`] = `
   >
     <div
       class="emotion-5"
+      data-testid="alert-modal"
     >
       <div
         class="emotion-6 emotion-7"
@@ -1694,6 +1697,7 @@ exports[`Messages Several messages renders correctly 1`] = `
   >
     <div
       class="emotion-5"
+      data-testid="alert-modal"
     >
       <div
         class="emotion-6 emotion-7"
@@ -2323,6 +2327,7 @@ exports[`Messages auth0 messages provides a cancel button 1`] = `
   >
     <div
       class="emotion-5"
+      data-testid="alert-modal"
     >
       <div
         class="emotion-6 emotion-7"

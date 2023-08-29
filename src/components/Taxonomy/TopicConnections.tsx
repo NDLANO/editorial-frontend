@@ -6,9 +6,8 @@
  *
  */
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import styled from '@emotion/styled';
-import { Structure } from '@ndla/editor';
 import { FieldHeader } from '@ndla/forms';
 import { Switch } from '@ndla/switch';
 import { ButtonV2 } from '@ndla/button';
@@ -22,50 +21,47 @@ import {
   ModalTrigger,
   ModalContent,
 } from '@ndla/modal';
+import { Node, NodeChild } from '@ndla/types-taxonomy';
 import { fetchUserData } from '../../modules/draft/draftApi';
-import { fetchTopic, fetchTopicConnections } from '../../modules/taxonomy';
 import ActiveTopicConnections from './ActiveTopicConnections';
 import HowToHelper from '../HowTo/HowToHelper';
-import StructureButtons from '../../containers/ArticlePage/LearningResourcePage/components/taxonomy/StructureButtons';
-import { SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
-import { StagedTopic } from '../../containers/ArticlePage/TopicArticlePage/components/TopicArticleTaxonomy';
-import { getBreadcrumbFromPath } from '../../util/taxonomyHelpers';
-import { LocaleType } from '../../interfaces';
-import { useTaxonomyVersion } from '../../containers/StructureVersion/TaxonomyVersionProvider';
+import { MinimalNodeChild } from '../../containers/ArticlePage/LearningResourcePage/components/LearningResourceTaxonomy';
+import TaxonomyBlockNode, { NodeWithChildren } from './TaxonomyBlockNode';
 
 const StyledModalHeader = styled(ModalHeader)`
   padding-bottom: 0;
 `;
 
 interface Props {
-  structure: SubjectType[];
-  activeTopics: StagedTopic[];
+  structure: NodeWithChildren[];
+  selectedNodes: MinimalNodeChild[];
+  addConnection: (node: NodeChild) => void;
   removeConnection: (id: string) => void;
-  setPrimaryConnection: (id: string) => void;
-  allowMultipleSubjectsOpen: boolean;
-  stageTaxonomyChanges: (properties: any) => void;
+  setPrimaryConnection: (connectionId: string) => void;
   getSubjectTopics: (subjectId: string) => Promise<void>;
   setRelevance: (topicId: string, relevanceId: string) => void;
 }
 
 const TopicConnections = ({
   structure,
-  activeTopics,
+  selectedNodes,
+  addConnection,
   removeConnection,
   setPrimaryConnection,
-  allowMultipleSubjectsOpen,
-  stageTaxonomyChanges,
   getSubjectTopics,
   setRelevance,
 }: Props) => {
-  const [open, setOpen] = useState(false);
   const { t } = useTranslation();
-  const { taxonomyVersion } = useTaxonomyVersion();
+  const [open, setOpen] = useState(false);
   const [openedPaths, setOpenedPaths] = useState<string[]>([]);
   const [showFavorites, setShowFavorites] = useState(true);
   const [favoriteSubjectIds, setFavoriteSubjectIds] = useState<string[]>([]);
 
-  const closeModal = useCallback(() => setOpen(false), []);
+  const nodes = useMemo(
+    () =>
+      showFavorites ? structure.filter((node) => favoriteSubjectIds.includes(node.id)) : structure,
+    [favoriteSubjectIds, showFavorites, structure],
+  );
 
   useEffect(() => {
     fetchFavoriteSubjects();
@@ -78,54 +74,29 @@ const TopicConnections = ({
     setShowFavorites(favoriteSubjects.length > 0);
   };
 
-  const getFavoriteSubjects = (subjects: SubjectType[], favoriteSubjectIds: string[]) =>
-    subjects.filter((e) => favoriteSubjectIds.includes(e.id));
-
-  const handleOpenToggle = ({
-    path,
-    isSubject,
-    id,
-  }: {
-    path: string;
-    isSubject: Boolean;
-    id: string;
-  }) => {
+  const handleOpenToggle = ({ id }: Node) => {
     let paths = [...openedPaths];
-    const index = paths.indexOf(path);
+    const index = paths.indexOf(id);
+    const isSubject = id.includes('subject');
     if (index === -1) {
-      // Has other subjects open and !allowMultipleSubjectsOpen?
       if (isSubject) {
         getSubjectTopics(id);
-        if (!allowMultipleSubjectsOpen) {
-          paths = [];
-        }
+        paths = [];
       }
-      paths.push(path);
+      paths.push(id);
     } else {
       paths.splice(index, 1);
     }
     setOpenedPaths(paths);
   };
 
-  const addTopic = async (id: string | undefined, closeModal: () => void, locale?: LocaleType) => {
-    if (id) {
-      const topicToAdd = await fetchTopic({ id, taxonomyVersion });
-      const topicConnections = await fetchTopicConnections({ id: topicToAdd.id, taxonomyVersion });
-      const breadcrumb = await getBreadcrumbFromPath(topicToAdd.path, taxonomyVersion, locale);
-      stageTaxonomyChanges({
-        topics: [
-          ...activeTopics,
-          {
-            ...topicToAdd,
-            breadcrumb,
-            topicConnections,
-            primary: activeTopics.length === 0,
-          },
-        ],
-      });
-    }
-    closeModal();
-  };
+  const addNode = useCallback(
+    (node: NodeChild) => {
+      addConnection(node);
+      setOpen(false);
+    },
+    [addConnection],
+  );
 
   return (
     <>
@@ -133,7 +104,7 @@ const TopicConnections = ({
         <HowToHelper pageId="TaxonomySubjectConnections" tooltip={t('taxonomy.topics.helpLabel')} />
       </FieldHeader>
       <ActiveTopicConnections
-        activeTopics={activeTopics}
+        activeTopics={selectedNodes}
         setRelevance={setRelevance}
         removeConnection={removeConnection}
         setPrimaryConnection={setPrimaryConnection}
@@ -143,7 +114,11 @@ const TopicConnections = ({
         <ModalTrigger>
           <ButtonV2>{t('taxonomy.topics.filestructureButton')}</ButtonV2>
         </ModalTrigger>
-        <ModalContent animation="subtle" size={{ width: 'large', height: 'large' }}>
+        <ModalContent
+          aria-label={t('taxonomy.topics.filestructureHeading')}
+          animation="subtle"
+          size={{ width: 'large', height: 'large' }}
+        >
           <StyledModalHeader>
             <ModalTitle>{t('taxonomy.topics.filestructureHeading')}</ModalTitle>
             <Switch
@@ -156,22 +131,16 @@ const TopicConnections = ({
           </StyledModalHeader>
           <ModalBody>
             <hr />
-            <Structure
-              openedPaths={openedPaths}
-              structure={
-                showFavorites ? getFavoriteSubjects(structure, favoriteSubjectIds) : structure
-              }
-              toggleOpen={handleOpenToggle}
-              renderListItems={({ isSubject, id }: { isSubject: boolean; id: string }) => (
-                <StructureButtons
-                  id={id}
-                  isSubject={isSubject}
-                  closeModal={closeModal}
-                  activeTopics={activeTopics}
-                  addTopic={addTopic}
-                />
-              )}
-            />
+            {nodes.map((node) => (
+              <TaxonomyBlockNode
+                key={node.id}
+                node={node}
+                openedPaths={openedPaths}
+                toggleOpen={handleOpenToggle}
+                selectedNodes={selectedNodes}
+                onSelect={addNode}
+              />
+            ))}
           </ModalBody>
         </ModalContent>
       </Modal>

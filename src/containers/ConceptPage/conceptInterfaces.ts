@@ -9,7 +9,7 @@
 import { Descendant } from 'slate';
 import { IStatus, IAuthor } from '@ndla/types-backend/concept-api';
 import { IArticle } from '@ndla/types-backend/draft-api';
-import { SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
+import { Node } from '@ndla/types-taxonomy';
 
 export interface ConceptFormValues {
   id?: number;
@@ -35,7 +35,7 @@ export interface ConceptFormValues {
   metaImageId: string;
   processors: IAuthor[];
   rightsholders: IAuthor[];
-  subjects: SubjectType[];
+  subjects: Node[];
   supportedLanguages: string[];
   updated?: string;
   origin?: string;

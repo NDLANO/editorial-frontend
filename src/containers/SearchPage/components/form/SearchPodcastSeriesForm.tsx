@@ -8,16 +8,16 @@
 
 import { useEffect, useState, MouseEvent } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Node } from '@ndla/types-taxonomy';
 import { getResourceLanguages } from '../../../../util/resourceHelpers';
 import { getTagName } from '../../../../util/formHelper';
 import { SearchParams } from './SearchForm';
-import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import GenericSearchForm, { OnFieldChangeFunction } from './GenericSearchForm';
 import { SearchFormSelector } from './Selector';
 
 interface Props {
   search: (o: SearchParams) => void;
-  subjects: SubjectType[];
+  subjects: Node[];
   searchObject: SearchParams;
   locale: string;
 }
@@ -42,10 +42,10 @@ const SearchAudioForm = ({
 
   const onFieldChange: OnFieldChangeFunction = (name, value, evt) => {
     if (name === 'query' && evt) setQueryInput(evt.currentTarget.value);
-    doSearch({ ...search, [name]: value });
+    else doSearch({ ...search, [name]: value });
   };
 
-  const handleSearch = () => doSearch({ ...search, page: 1 });
+  const handleSearch = () => doSearch({ ...search, page: 1, query: queryInput });
 
   const removeTagItem = (tag: SearchFormSelector) => {
     if (tag.parameterName === 'query') setQueryInput('');

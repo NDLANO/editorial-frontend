@@ -9,17 +9,16 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import sortBy from 'lodash/sortBy';
+import { Node } from '@ndla/types-taxonomy';
 import { flattenResourceTypesAndAddContextTypes } from '../../../../util/taxonomyHelpers';
 import { getResourceLanguages } from '../../../../util/resourceHelpers';
 import { getTagName } from '../../../../util/formHelper';
 import { SearchParams } from './SearchForm';
 import {
   DRAFT_RESPONSIBLE,
-  DRAFT_WRITE_SCOPE,
   FAVOURITES_SUBJECT_ID,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
 } from '../../../../constants';
-import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { useAuth0Editors, useAuth0Responsibles } from '../../../../modules/auth0/auth0Queries';
 import { useAllResourceTypes } from '../../../../modules/taxonomy/resourcetypes/resourceTypesQueries';
 import { useDraftStatusStateMachine } from '../../../../modules/draft/draftQueries';
@@ -29,7 +28,7 @@ import { SearchFormSelector } from './Selector';
 
 interface Props {
   search: (o: SearchParams) => void;
-  subjects: SubjectType[];
+  subjects: Node[];
   searchObject: SearchParams;
   locale: string;
   favouriteSubjectIDs?: string;
@@ -90,14 +89,19 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
       status = search.status;
     }
     const searchObj = { ...search, 'include-other-statuses': includeOtherStatuses, [name]: value };
-    doSearch(
-      name !== 'draft-status'
-        ? searchObj
-        : { ...searchObj, 'draft-status': status, fallback: false },
-    );
+
+    if (name !== 'query') {
+      doSearch(
+        name !== 'draft-status'
+          ? searchObj
+          : { ...searchObj, 'draft-status': status, fallback: false },
+      );
+    }
   };
 
-  const handleSearch = () => doSearch({ ...search, fallback: false, page: 1 });
+  const handleSearch = () => {
+    doSearch({ ...search, fallback: false, page: 1, query: queryInput });
+  };
 
   const removeTagItem = (tag: SearchFormSelector) => {
     if (tag.parameterName === 'query') setQueryInput('');
@@ -140,8 +144,15 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
   };
 
   const sortedSubjects = useMemo(() => {
-    const favoriteSubject: SubjectType = {
+    const favoriteSubject: Node = {
       id: FAVOURITES_SUBJECT_ID,
+      breadcrumbs: [],
+      contexts: [],
+      paths: [],
+      resourceTypes: [],
+      supportedLanguages: [],
+      translations: [],
+      nodeType: 'SUBJECT',
       name: t('searchForm.favourites'),
       contentUri: '',
       path: '',

@@ -30,6 +30,7 @@ const phrases = {
     h5pPage: `H5P ${titleTemplate}`,
     publishRequestsPage: `Publiseringsforespørsler ${titleTemplate}`,
     nodeDiffPage: `Samanlikne nodar ${titleTemplate}`,
+    editFrontpage: 'Rediger forside',
     search: {
       'podcast-series': `Søk podkastserier ${titleTemplate}`,
       audio: `Søk lydfiler ${titleTemplate}`,
@@ -225,6 +226,7 @@ const phrases = {
     newSubject: 'Opprett fag',
     newFrontpageArticle: 'Opprett Om-NDLA-artikkel',
     creationMovedInfo: 'Emner og ressursar må opprettast frå strukturredigeringa',
+    frontpage: 'Rediger forside',
   },
   logo: {
     altText: 'Nasjonal digital læringsarena',
@@ -643,6 +645,7 @@ const phrases = {
       blogPost: 'Bloggpost',
       grid: 'Grid',
       campaignBlock: 'Kampanjeblokk',
+      linkBlockList: 'Lenkeblokk',
     },
   },
   form: {
@@ -737,6 +740,8 @@ const phrases = {
       linkText: 'Lenketekst',
       titleLanguage: 'Tittel-språk',
       descriptionlanguage: 'Beskrivelse-språk',
+      url: 'Lenke',
+      date: 'Dato',
     },
     previewProductionArticle: {
       button: 'Samanlikn gjeldande versjon med gamal versjon',
@@ -1372,7 +1377,8 @@ const phrases = {
     versionSelect: 'Artikkelen finst ikkje i vald versjon',
     errorWhenFetchingTaxonomyArticle:
       'Det var eit problem ved lasting av den underliggande artikkelen',
-    unsavedTaxonomy: 'Du har ulagra endringar. Trykk avbryt igjen viss du ønsker å fortsette.',
+    unsavedTaxonomy:
+      'Du har ulagra endringar. Trykk tilbakestill igjen viss du ønsker å fortsette.',
     auth0:
       'Autentiseringsfeil. Trykk avbryt for å ta vare på eventuelle endringer du har gjort før du logger inn på nytt. Følgende feilmelding kom fra auth0: {{message}}',
     statusCode: {
@@ -1381,6 +1387,10 @@ const phrases = {
     grepCodes: 'Følgande koder har feil format eller eksisterer ikkje, og blir ikkje lagt til: ',
     errorOnSave: 'Noko gjekk gale under lagring av artikkelen.',
     genericError: 'Noko gjekk gale, handlinga kunne ikkje utførast.',
+    missingTaxTitle: 'Ikkje i taksonomi!',
+    missingTax:
+      'Artiklar og emner kan ikkje lagrast uten å plasserast i taksonomien. Oppdater taksonomi-blokka og lagre på nytt.',
+    invalidTopicPlacements: 'Emner uten plassering i taksonomi',
   },
   warningMessage: {
     fieldWithWrongLanguage: 'Dette feltet er henta frå språkkode: {{language}}',
@@ -1870,6 +1880,7 @@ const phrases = {
     },
   },
   delete: 'Slett',
+  reset: 'Tilbakestill',
   campaignBlockForm: {
     title: 'Rediger kampanjeblokk',
     image: {
@@ -1880,6 +1891,14 @@ const phrases = {
       images: 'Bildar',
     },
   },
+  linkBlock: {
+    deleteBlock: 'Slett lenkeblokk',
+    delete: 'Slett lenke',
+    edit: 'Rediger lenke',
+    create: 'Sett inn lenke',
+    chooseDate: 'Velg dato',
+    linkExists: 'Denne lenka finnast allereie i blokka',
+  },
   dragAndDrop: {
     handle: 'Handtak',
   },
@@ -1889,6 +1908,20 @@ const phrases = {
     labelNext: 'Gå til neste månad',
     previousMonth: 'Gå til forrige månad',
     goToToday: 'Gå til dagens dato',
+  },
+  remove: 'Fjern',
+  frontpageForm: {
+    error: 'Ein feil oppsto',
+    changeArticle: 'Endre artikkel',
+    addArticle: 'Legg til artikkel',
+    addArticleToMenu: 'Legg til artikkel i meny',
+    changeFrontpageArticle: 'Endre forsideartikkel',
+    search: 'Søk etter artikkel',
+    frontpageArticle: 'Forsideartikkel:',
+    noFrontpageArticle: 'Ingen forsideartikkel valgt',
+    failedTitle: 'Klarte ikkje vise tittel',
+    openChildren: 'Vis barn',
+    closeChildren: 'Skjul barn',
   },
 };
 

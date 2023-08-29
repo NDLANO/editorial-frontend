@@ -16,6 +16,8 @@ import { LocaleType } from '../../../interfaces';
 import { useFetchArticleData } from '../../FormikForm/formikDraftHooks';
 import NotFound from '../../NotFoundPage/NotFoundPage';
 import { TranslateType, useTranslateToNN } from '../../../components/NynorskTranslateProvider';
+import { useNodes } from '../../../modules/nodes/nodeQueries';
+import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 
 interface Props {
   isNewlyCreated?: boolean;
@@ -49,10 +51,25 @@ const EditTopicArticle = ({ isNewlyCreated }: Props) => {
   const articleId = Number(params.id!) || undefined;
   const selectedLanguage = params.selectedLanguage as LocaleType;
   const { t } = useTranslation();
-  const { loading, article, taxonomy, setArticle, articleChanged, updateArticle } =
-    useFetchArticleData(articleId, selectedLanguage);
+  const { taxonomyVersion } = useTaxonomyVersion();
+  const { loading, article, setArticle, articleChanged, updateArticle } = useFetchArticleData(
+    articleId,
+    selectedLanguage,
+  );
 
   const { shouldTranslate, translate, translating } = useTranslateToNN();
+
+  const taxonomyQuery = useNodes(
+    {
+      contentURI: `urn:article:${params.id}`,
+      taxonomyVersion,
+      language: selectedLanguage,
+      includeContexts: true,
+    },
+    {
+      enabled: !!params.selectedLanguage && !!params.id,
+    },
+  );
 
   useEffect(() => {
     (async () => {
@@ -79,7 +96,7 @@ const EditTopicArticle = ({ isNewlyCreated }: Props) => {
     <>
       <HelmetWithTracker title={`${article.title?.title} ${t('htmlTitles.titleTemplate')}`} />
       <TopicArticleForm
-        articleTaxonomy={taxonomy}
+        articleTaxonomy={taxonomyQuery.data}
         articleStatus={article.status}
         articleLanguage={selectedLanguage}
         articleChanged={articleChanged || newLanguage}

@@ -10,6 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { useFormikContext } from 'formik';
 import { IUpdatedArticle, IArticle } from '@ndla/types-backend/draft-api';
 import { memo, useMemo } from 'react';
+import { Node, TaxonomyContext } from '@ndla/types-taxonomy';
 import config from '../../../../config';
 import RelatedContentFieldGroup from '../../components/RelatedContentFieldGroup';
 import { TAXONOMY_WRITE_SCOPE } from '../../../../constants';
@@ -17,21 +18,29 @@ import { CopyrightFieldGroup, VersionAndNotesPanel, MetaDataField } from '../../
 import GrepCodesField from '../../../FormikForm/GrepCodesField';
 import LearningResourceTaxonomy from './LearningResourceTaxonomy';
 import LearningResourceContent from './LearningResourceContent';
-import { LearningResourceFormType } from '../../../FormikForm/articleFormHooks';
+import { HandleSubmitFunc, LearningResourceFormType } from '../../../FormikForm/articleFormHooks';
 import { useSession } from '../../../Session/SessionProvider';
-import { ArticleTaxonomy } from '../../../FormikForm/formikDraftHooks';
 import RevisionNotes from '../../components/RevisionNotes';
 import FormAccordions from '../../../../components/Accordion/FormAccordions';
 import FormAccordion from '../../../../components/Accordion/FormAccordion';
 
 interface Props {
   article?: IArticle;
-  taxonomy?: ArticleTaxonomy;
+  taxonomy?: Node[];
   updateNotes: (art: IUpdatedArticle) => Promise<IArticle>;
+  handleSubmit: HandleSubmitFunc<LearningResourceFormType>;
   articleLanguage: string;
+  contexts?: TaxonomyContext[];
 }
 
-const LearningResourcePanels = ({ article, taxonomy, updateNotes, articleLanguage }: Props) => {
+const LearningResourcePanels = ({
+  article,
+  taxonomy,
+  updateNotes,
+  articleLanguage,
+  contexts,
+  handleSubmit,
+}: Props) => {
   const { t } = useTranslation();
   const { userPermissions } = useSession();
   const { errors } = useFormikContext<LearningResourceFormType>();
@@ -45,19 +54,24 @@ const LearningResourcePanels = ({ article, taxonomy, updateNotes, articleLanguag
         className={'u-4/6@desktop u-push-1/6@desktop'}
         hasError={!!(errors.title || errors.introduction || errors.content)}
       >
-        <LearningResourceContent articleLanguage={articleLanguage} articleId={article?.id} />
+        <LearningResourceContent
+          articleLanguage={articleLanguage}
+          articleId={article?.id}
+          handleSubmit={handleSubmit}
+        />
       </FormAccordion>
-      {article && taxonomy && !!userPermissions?.includes(TAXONOMY_WRITE_SCOPE) && (
+      {!!article && !!taxonomy && !!userPermissions?.includes(TAXONOMY_WRITE_SCOPE) && (
         <FormAccordion
           id={'learning-resource-taxonomy'}
           title={t('form.taxonomySection')}
           className={'u-6/6'}
-          hasError={false}
+          hasError={!contexts?.length}
         >
           <LearningResourceTaxonomy
             article={article}
             updateNotes={updateNotes}
-            taxonomy={taxonomy}
+            articleLanguage={articleLanguage}
+            hasTaxEntries={!!contexts?.length}
           />
         </FormAccordion>
       )}

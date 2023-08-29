@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { UseQueryResult } from '@tanstack/react-query';
@@ -21,7 +21,6 @@ import { HelmetWithTracker } from '@ndla/tracker';
 import { OneColumn } from '@ndla/ui';
 import Pager from '@ndla/pager';
 import { Search } from '@ndla/icons/common';
-import debounce from 'lodash/debounce';
 import SearchList from './components/results/SearchList';
 import SearchListOptions from './components/results/SearchListOptions';
 import SearchForm, { parseSearchParams, SearchParams } from './components/form/SearchForm';
@@ -29,8 +28,8 @@ import SearchSort from './components/sort/SearchSort';
 import { toSearch } from '../../util/routeHelpers';
 import { SearchType } from '../../interfaces';
 import SearchSaveButton from './SearchSaveButton';
-import { useSubjects } from '../../modules/taxonomy/subjects';
 import { useTaxonomyVersion } from '../StructureVersion/TaxonomyVersionProvider';
+import { useNodes } from '../../modules/nodes/nodeQueries';
 
 const StyledSearchHeader = styled.div`
   display: flex;
@@ -57,7 +56,11 @@ const SearchContainer = ({ searchHook, type }: Props) => {
   const navigate = useNavigate();
   const locale = i18n.language;
   const { taxonomyVersion } = useTaxonomyVersion();
-  const { data: subjectData } = useSubjects({ language: locale, taxonomyVersion });
+  const { data: subjectData } = useNodes({
+    language: locale,
+    nodeType: 'SUBJECT',
+    taxonomyVersion,
+  });
   const [searchObject, setSearchObject] = useState(parseSearchParams(location.search));
   const {
     data: results,
@@ -73,7 +76,7 @@ const SearchContainer = ({ searchHook, type }: Props) => {
 
   const subjects = subjectData ?? [];
 
-  const _onQueryPush = (newSearchObject: SearchParams) => {
+  const onQueryPush = (newSearchObject: SearchParams) => {
     const searchQuery = {
       ...searchObject,
       ...newSearchObject,
@@ -87,10 +90,6 @@ const SearchContainer = ({ searchHook, type }: Props) => {
     setSearchObject(newQuery);
     navigate(toSearch(newQuery, type));
   };
-
-  // useMemo ensures that _onQueryPush remains the same.
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const onQueryPush = useMemo(() => debounce(_onQueryPush, 400), []);
 
   const onSortOrderChange = (sort: string): void => {
     onQueryPush({ ...searchObject, sort, page: 1 });

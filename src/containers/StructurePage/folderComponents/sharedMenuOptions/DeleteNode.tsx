@@ -10,7 +10,6 @@ import {
   useDeleteNodeConnectionMutation,
   useDeleteNodeMutation,
 } from '../../../../modules/nodes/nodeMutations';
-import { queryTopics } from '../../../../modules/taxonomy';
 import { ARCHIVED } from '../../../../constants';
 import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
 import { EditModeHandler } from '../SettingsMenuDropdownType';
@@ -18,6 +17,7 @@ import MenuItemButton from './components/MenuItemButton';
 import Spinner from '../../../../components/Spinner';
 import Overlay from '../../../../components/Overlay';
 import { StyledErrorMessage } from '../styles';
+import { fetchNodes } from '../../../../modules/nodes/nodeApi';
 
 interface Props {
   node: Node | NodeChild;
@@ -58,8 +58,9 @@ const DeleteNode = ({
       }
       const articleId = Number(node.contentUri?.split(':')[2]);
       if ('parentId' in node && articleId) {
-        const topicPlacements = await queryTopics({
-          contentId: articleId,
+        const topicPlacements = await fetchNodes({
+          contentURI: `urn:article:${articleId}`,
+          nodeType: 'TOPIC',
           language: i18n.language,
           taxonomyVersion,
         });

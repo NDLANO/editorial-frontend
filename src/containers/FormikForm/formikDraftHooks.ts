@@ -16,18 +16,10 @@ import {
   fetchUserData,
   updateUserData as apiUpdateUserData,
 } from '../../modules/draft/draftApi';
-import { queryResources, queryTopics } from '../../modules/taxonomy';
-import { Resource, Topic } from '../../modules/taxonomy/taxonomyApiInterfaces';
 import { useTaxonomyVersion } from '../StructureVersion/TaxonomyVersionProvider';
-
-export interface ArticleTaxonomy {
-  resources: Resource[];
-  topics: Topic[];
-}
 
 export function useFetchArticleData(articleId: number | undefined, language: string) {
   const [article, _setArticle] = useState<IArticle | undefined>(undefined);
-  const [taxonomy, setTaxonony] = useState<ArticleTaxonomy>({ resources: [], topics: [] });
   const [articleChanged, setArticleChanged] = useState(false);
   const [loading, setLoading] = useState(true);
   const { taxonomyVersion } = useTaxonomyVersion();
@@ -37,17 +29,7 @@ export function useFetchArticleData(articleId: number | undefined, language: str
       if (articleId) {
         setLoading(true);
         const article = await fetchDraft(articleId, language);
-        const [resources, topics] = await Promise.all([
-          queryResources({
-            contentId: articleId,
-            language,
-            contentType: 'article',
-            taxonomyVersion,
-          }),
-          queryTopics({ contentId: articleId, language, contentType: 'article', taxonomyVersion }),
-        ]);
         _setArticle(article);
-        setTaxonony({ resources, topics });
         setArticleChanged(false);
         setLoading(false);
       }
@@ -93,7 +75,6 @@ export function useFetchArticleData(articleId: number | undefined, language: str
 
   return {
     article,
-    taxonomy,
     setArticle,
     articleChanged,
     updateArticle,

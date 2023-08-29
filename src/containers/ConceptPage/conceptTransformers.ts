@@ -8,6 +8,7 @@
 
 import { IConcept, ILicense, INewConcept, IUpdatedConcept } from '@ndla/types-backend/concept-api';
 import { IArticle } from '@ndla/types-backend/draft-api';
+import { Node } from '@ndla/types-taxonomy';
 import {
   plainTextToEditorValue,
   editorValueToPlainText,
@@ -15,14 +16,13 @@ import {
   editorValueToEmbedTag,
 } from '../../util/articleContentConverter';
 import { ConceptFormValues } from './conceptInterfaces';
-import { SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
 import { parseImageUrl } from '../../util/formHelper';
 import { IN_PROGRESS } from '../../constants';
 
 export const conceptApiTypeToFormType = (
   concept: IConcept | undefined,
   language: string,
-  subjects: SubjectType[],
+  subjects: Node[],
   articles: IArticle[],
   ndlaId: string | undefined,
   initialTitle = '',

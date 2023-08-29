@@ -12,12 +12,12 @@ import { IAudioSummary, ISeriesSummary } from '@ndla/types-backend/audio-api';
 import { IConceptSummary } from '@ndla/types-backend/concept-api';
 import { IImageMetaSummary } from '@ndla/types-backend/image-api';
 import { IMultiSearchSummary } from '@ndla/types-backend/search-api';
+import { Node } from '@ndla/types-taxonomy';
 import SearchContent from './SearchContent';
 import SearchConcept from './SearchConcept';
 import SearchImage from './SearchImage';
 import SearchAudio from './SearchAudio';
 import SearchPodcastSeries from './SearchPodcastSeries';
-import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { LocaleType, ReturnType } from '../../../../interfaces';
 
 type ContentReturnType = ReturnType<'content', IMultiSearchSummary>;
@@ -37,7 +37,7 @@ export type SearchResultReturnType =
 interface Props {
   result: SearchResultReturnType;
   locale: string;
-  subjects: SubjectType[];
+  subjects: Node[];
   editingState: [boolean, Dispatch<SetStateAction<boolean>>];
   responsibleName?: string;
 }

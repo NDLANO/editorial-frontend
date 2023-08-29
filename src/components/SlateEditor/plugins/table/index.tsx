@@ -14,6 +14,8 @@ import { ReactEditor, RenderElementProps, RenderLeafProps } from 'slate-react';
 import { HistoryEditor } from 'slate-history';
 import { jsx as slatejsx } from 'slate-hyperscript';
 import equals from 'lodash/fp/equals';
+import styled from '@emotion/styled';
+import { colors, fonts } from '@ndla/core';
 import { SlateSerializer } from '../../interfaces';
 import {
   reduceElementDataAttributes,
@@ -44,6 +46,7 @@ import {
   TYPE_TABLE_CAPTION,
   TYPE_TABLE_ROW,
   TYPE_TABLE_CELL,
+  TYPE_TABLE_CELL_HEADER,
 } from './types';
 import {
   isTable,
@@ -76,11 +79,20 @@ const normalizerConfig: NormalizerConfig = {
   },
 };
 
-export const TABLE_TAGS: { [key: string]: string } = {
-  th: 'table-cell',
-  tr: 'table-row',
+const TABLE_TAGS = {
+  th: 'table-cell-header',
   td: 'table-cell',
 };
+
+const StyledTh = styled.th`
+  border: 1px solid ${colors.brand.lighter};
+  background-color: transparent !important;
+  text-align: top;
+  vertical-align: inherit;
+  border-bottom: 3px solid ${colors.brand.tertiary} !important;
+  font-weight: ${fonts.weight.bold};
+  vertical-align: text-top;
+`;
 
 export const tableSerializer: SlateSerializer = {
   deserialize(el: HTMLElement, children: Descendant[]) {
@@ -89,6 +101,9 @@ export const tableSerializer: SlateSerializer = {
     if (tagName === 'table') {
       const rowHeaders = !!el.querySelector('tbody th');
       const childNodes = Array.from(el.childNodes) as HTMLElement[];
+
+      // Colgroup and col is removed from the table when in the editor due to normalization.
+      // We append the colgroup into the html in the serialization.
       const colgroups =
         childNodes
           .filter((child) =>
@@ -103,6 +118,7 @@ export const tableSerializer: SlateSerializer = {
           colgroups,
           rowHeaders,
         },
+        // We ensure the children of of the table only includes the wrapper elements and not direct table rows or cells.
         children.filter(
           (child) =>
             Element.isElement(child) &&
@@ -125,51 +141,32 @@ export const tableSerializer: SlateSerializer = {
     if (tagName === 'tbody') {
       return slatejsx('element', { type: TYPE_TABLE_BODY }, children);
     }
-
-    const tableTag = TABLE_TAGS[tagName];
-    if (!tableTag) return;
-    let data: object = {
-      isHeader: tagName === 'th',
-    };
+    // We treat th and td the same as they're both cell elements. Ensuring they both have the same formatting options/data object
     if (tagName === 'th' || tagName === 'td') {
       const filter = ['rowspan', 'colspan', 'align', 'valign', 'class', 'scope', 'id', 'headers'];
       const attrs = reduceElementDataAttributes(el, filter);
       const colspan = attrs.colspan && parseInt(attrs.colspan);
       const rowspan = attrs.rowspan && parseInt(attrs.rowspan);
-      const id = attrs.id || undefined;
-      const scope = attrs.scope === 'row' || attrs.scope === 'col' ? attrs.scope : undefined;
-      data = {
+      const data = {
         ...attrs,
         colspan: colspan || 1,
         rowspan: rowspan || 1,
         isHeader: tagName === 'th',
-        scope,
-        id,
       };
+      if (equals(children, [{ text: '' }])) {
+        children = [
+          {
+            ...defaultParagraphBlock(),
+            serializeAsText: true,
+          },
+        ];
+      }
+      return slatejsx('element', { type: TABLE_TAGS[tagName], data }, children);
     }
-    if (equals(children, [{ text: '' }])) {
-      children = [
-        {
-          ...defaultParagraphBlock(),
-          serializeAsText: true,
-        },
-      ];
-    }
-    return slatejsx('element', { type: tableTag, data }, children);
+    return;
   },
   serialize(node: Descendant, children: JSX.Element[]) {
     if (!Element.isElement(node)) return;
-    if (
-      ![
-        TYPE_TABLE,
-        TYPE_TABLE_HEAD,
-        TYPE_TABLE_BODY,
-        TYPE_TABLE_ROW,
-        TYPE_TABLE_CELL,
-        TYPE_TABLE_CAPTION,
-      ].includes(node.type)
-    )
-      return;
 
     if (node.type === TYPE_TABLE_HEAD) {
       return <thead>{children}</thead>;
@@ -185,7 +182,6 @@ export const tableSerializer: SlateSerializer = {
       }
       return <caption>{children}</caption>;
     }
-
     if (node.type === TYPE_TABLE) {
       const [caption, ...rest] = children;
       if (caption.type === 'caption') {
@@ -211,7 +207,7 @@ export const tableSerializer: SlateSerializer = {
     if (node.type === TYPE_TABLE_ROW) {
       return <tr>{children}</tr>;
     }
-    if (node.type === TYPE_TABLE_CELL) {
+    if (node.type === TYPE_TABLE_CELL || node.type === TYPE_TABLE_CELL_HEADER) {
       const data = node.data;
       const props = removeEmptyElementDataAttributes({ ...data });
 
@@ -223,9 +219,13 @@ export const tableSerializer: SlateSerializer = {
       if (data.rowspan === 1) {
         delete props.rowspan;
       }
-      delete props.isHeader;
-      if (node.data.isHeader) {
-        return <th {...props}>{children}</th>;
+
+      if (node.type === TYPE_TABLE_CELL_HEADER || node.data.isHeader) {
+        return (
+          <th {...props} scope={node.data.scope}>
+            {children}
+          </th>
+        );
       }
       return <td {...props}>{children}</td>;
     }
@@ -261,7 +261,6 @@ export const tablePlugin = (editor: Editor) => {
         ) as TdHTMLAttributes<HTMLTableCellElement>['align'];
         return (
           <td
-            className={element.data.isHeader ? 'table_header' : ''}
             rowSpan={element.data.rowspan}
             colSpan={element.data.colspan}
             align={parsedAlign}
@@ -275,8 +274,19 @@ export const tablePlugin = (editor: Editor) => {
         return <thead {...attributes}>{children}</thead>;
       case TYPE_TABLE_BODY:
         return <tbody {...attributes}>{children}</tbody>;
+      case TYPE_TABLE_CELL_HEADER:
+        return (
+          <StyledTh
+            rowSpan={element.data.rowspan}
+            colSpan={element.data.colspan}
+            scope={element.data.scope}
+            {...attributes}
+          >
+            {children}
+          </StyledTh>
+        );
       default:
-        return renderElement && renderElement({ attributes, children, element });
+        return renderElement?.({ attributes, children, element });
     }
   };
 
@@ -296,7 +306,7 @@ export const tablePlugin = (editor: Editor) => {
         </WithPlaceHolder>
       );
     }
-    return renderLeaf && renderLeaf(props);
+    return renderLeaf?.(props);
   };
 
   editor.normalizeNode = (entry) => {
@@ -375,6 +385,11 @@ export const tablePlugin = (editor: Editor) => {
           },
         );
       }
+
+      // Numbers need to be right aligned default
+      if (!isNaN(Number(Node.string(node))) && !node.data?.align && Node.string(node) !== '') {
+        updateCell(editor, node, { align: 'right' });
+      }
     }
 
     // D. TableRow normalizer
@@ -391,22 +406,13 @@ export const tablePlugin = (editor: Editor) => {
 
       // ii. Make sure cells in TableHead are marked as isHeader.
       //     Cells in TableBody will not be altered if rowHeaders=true on Table.
-      if ((isTableHead(body) || isTableBody(body)) && isTable(table)) {
+      if (isTableHead(body) && isTable(table)) {
         for (const [, cell] of node.children.entries()) {
-          if (table.rowHeaders && isTableBody(body)) {
-            continue;
-          }
-
-          const shouldBeHeader = isTableHead(body);
-          const expectedScope = shouldBeHeader && table.rowHeaders ? 'col' : undefined;
-          if (
-            isTableCell(cell) &&
-            (cell.data.isHeader !== shouldBeHeader || expectedScope !== cell.data.scope)
-          ) {
+          if (isTableCell(cell) && !cell.data.isHeader) {
             return HistoryEditor.withoutSaving(editor, () => {
               updateCell(editor, cell, {
-                isHeader: shouldBeHeader,
-                scope: expectedScope,
+                isHeader: true,
+                scope: 'col',
               });
             });
           }
@@ -448,7 +454,7 @@ export const tablePlugin = (editor: Editor) => {
     if (validKeys.includes(event.key)) {
       const entry = getCurrentBlock(editor, TYPE_TABLE);
       if (!entry) {
-        return onKeyDown && onKeyDown(event);
+        return onKeyDown?.(event);
       }
       const [tableNode, tablePath] = entry;
 
@@ -470,7 +476,7 @@ export const tablePlugin = (editor: Editor) => {
     if (event.key === KEY_ENTER) {
       const entry = getCurrentBlock(editor, TYPE_TABLE_CAPTION);
       if (!entry) {
-        return onKeyDown && onKeyDown(event);
+        return onKeyDown?.(event);
       }
       const [captionNode] = entry;
 
@@ -478,7 +484,7 @@ export const tablePlugin = (editor: Editor) => {
         return event.preventDefault();
       }
     }
-    onKeyDown && onKeyDown(event);
+    onKeyDown?.(event);
   };
 
   return editor;

@@ -10,8 +10,9 @@ import styled from '@emotion/styled';
 import { MouseEvent, ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Editor } from 'slate';
+import { TableStyling } from '@ndla/ui';
+import { colors } from '@ndla/core';
 import { RenderElementProps } from 'slate-react';
-import { fonts } from '@ndla/core';
 import DeleteButton from '../../../DeleteButton';
 import { TableElement } from './interfaces';
 import { removeTable } from './slateActions';
@@ -39,27 +40,26 @@ const StyledTable = styled.table`
   &:after {
     display: none;
   }
+
   td,
   th {
     min-height: 29px;
+
+    p {
+      margin-top: 0;
+      &:last-child {
+        margin: 0;
+      }
+    }
   }
-  td p {
-    margin-top: 0;
-  }
-  td p:last-child {
-    margin: 0;
-  }
+
   .c-figure {
     float: unset;
   }
-  .table_header {
-    vertical-align: inherit;
-    border-bottom: 3px solid #a5bcd3;
-    font-weight: ${fonts.weight.bold};
-  }
-  tbody .table_header:first-child {
-    border-right: 3px solid #a5bcd3;
-    border-bottom: 1px solid rgb(239, 240, 242);
+
+  tbody th:first-child {
+    border: 1px solid ${colors.brand.lighter} !important;
+    border-right: 3px solid ${colors.brand.tertiary} !important;
   }
 
   td ol,
@@ -84,7 +84,7 @@ const SlateTable = ({ attributes, children, element, editor }: Props) => {
   const { t } = useTranslation();
   return (
     <StyledWrapper>
-      <StyledTable {...attributes}>
+      <StyledTable css={TableStyling} {...attributes}>
         <DeleteButton
           variant="stripped"
           onClick={(e: MouseEvent<HTMLButtonElement>) => removeTable(editor, element)}

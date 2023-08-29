@@ -256,7 +256,7 @@ const PodcastForm = ({
                   className="u-4/6@desktop u-push-1/6@desktop"
                   hasError={['title', 'audioFile'].some((field) => field in errors)}
                 >
-                  <AudioContent />
+                  <AudioContent handleSubmit={handleSubmit} />
                 </FormAccordion>
                 <FormAccordion
                   id="podcast-upload-podcastmanus"

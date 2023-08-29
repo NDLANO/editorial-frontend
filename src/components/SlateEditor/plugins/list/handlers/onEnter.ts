@@ -71,7 +71,7 @@ const onEnter = (event: KeyboardEvent, editor: Editor, next?: (event: KeyboardEv
     return;
   }
 
-  // If at the start of list-item, insert av new list item at current path
+  // If at the start of list-item, insert a new list item at current path
   const listItemStart = Editor.start(editor, currentListItemPath);
   if (Point.equals(listItemStart, editor.selection.anchor)) {
     Transforms.insertNodes(

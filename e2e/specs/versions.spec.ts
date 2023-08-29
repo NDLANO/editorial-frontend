@@ -139,8 +139,8 @@ test('can add notes then save', async ({ page }) => {
 test('Open previews', async ({ page }) => {
   await mockGraphqlRoute({
     page,
-    operationName: 'transformArticle',
-    fixture: 'version_grapqhl_transformArticle',
+    operationNames: ['transformArticle'],
+    fixture: 'version_grapqhl',
   });
 
   await page.getByRole('heading', { name: 'Versjonslogg og merknader' }).click();

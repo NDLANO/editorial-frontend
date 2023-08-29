@@ -58,14 +58,14 @@ export const mockRoute = async ({
 
 interface GraphqlMockRoute {
   page: Page;
-  operationName: string;
+  operationNames: string[];
   fixture: string;
   overrideRoute?: boolean;
 }
 
 export const mockGraphqlRoute = async ({
   page,
-  operationName,
+  operationNames,
   fixture,
   overrideRoute,
 }: GraphqlMockRoute) => {
@@ -77,17 +77,22 @@ export const mockGraphqlRoute = async ({
     if (process.env.RECORD_FIXTURES === 'true') {
       const body = await route.request().postDataJSON();
       const res = await route.fetch();
-      if (body.operationName === operationName) {
+      if (operationNames.includes(body.operationName)) {
         await mkdir(mockDir, { recursive: true });
-        await writeFile(`${mockDir}${fixture}.json`, await res.text(), { flag: 'w' });
-        return route.fulfill({ contentType: 'application/json', body: body });
+        await writeFile(`${mockDir}${fixture}_${body.operationName}.json`, await res.text(), {
+          flag: 'w',
+        });
+        return route.fulfill({ contentType: 'application/json', body: await res.text() });
       }
     } else {
-      try {
-        const res = await readFile(`${mockDir}${fixture}.json`, 'utf-8');
-        return route.fulfill({ contentType: 'application/json', body: res });
-      } catch (e) {
-        route.abort();
+      const body = await route.request().postDataJSON();
+      if (operationNames.includes(body.operationName)) {
+        try {
+          const res = await readFile(`${mockDir}${fixture}_${body.operationName}.json`, 'utf-8');
+          return route.fulfill({ contentType: 'application/json', body: res });
+        } catch (e) {
+          route.abort();
+        }
       }
     }
   });

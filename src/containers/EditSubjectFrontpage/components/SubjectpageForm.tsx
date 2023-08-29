@@ -195,6 +195,7 @@ const SubjectpageForm = ({
               editorsChoices={values.editorsChoices}
               elementId={values.elementId!}
               errors={errors}
+              handleSubmit={handleSubmit}
             />
             <Field right>
               <SaveButton

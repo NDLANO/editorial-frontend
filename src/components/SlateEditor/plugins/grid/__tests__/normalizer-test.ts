@@ -16,7 +16,12 @@ import { TYPE_GRID, TYPE_GRID_CELL } from '../types';
 import { TYPE_PARAGRAPH } from '../../paragraph/types';
 
 const editor = withHistory(
-  withReact(withPlugins(createEditor(), plugins('nb', 'nn', { current: () => {} }))),
+  withReact(
+    withPlugins(
+      createEditor(),
+      plugins('nb', 'nn', () => {}),
+    ),
+  ),
 );
 
 describe('normalizing grid tests', () => {

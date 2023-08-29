@@ -75,6 +75,7 @@ import { TYPE_TABLE } from '../../../../components/SlateEditor/plugins/table/typ
 import { TYPE_CODEBLOCK } from '../../../../components/SlateEditor/plugins/codeBlock/types';
 import { TYPE_FILE } from '../../../../components/SlateEditor/plugins/file/types';
 import { TYPE_GRID } from '../../../../components/SlateEditor/plugins/grid/types';
+import { HandleSubmitFunc, LearningResourceFormType } from '../../../FormikForm/articleFormHooks';
 
 const StyledFormikField = styled(FormikField)`
   display: flex;
@@ -173,18 +174,29 @@ export const plugins = (
 interface Props {
   articleLanguage: string;
   articleId?: number;
+  handleSubmit: HandleSubmitFunc<LearningResourceFormType>;
 }
 
-const LearningResourceContent = ({ articleLanguage, articleId }: Props) => {
+const LearningResourceContent = ({
+  articleLanguage,
+  articleId,
+  handleSubmit: _handleSubmit,
+}: Props) => {
   const { t } = useTranslation();
 
   const [creatorsField] = useField<IAuthor[]>('creators');
 
   const [preview, setPreview] = useState(false);
 
+  const formikContext = useFormikContext<LearningResourceFormType>();
+
+  const handleSubmit = useCallback(() => {
+    _handleSubmit(formikContext.values, formikContext);
+  }, [_handleSubmit, formikContext]);
+
   return (
     <>
-      <TitleField />
+      <TitleField handleSubmit={handleSubmit} />
       <StyledFormikField name="published">
         {({ field, form }) => (
           <StyledDiv>
@@ -212,10 +224,15 @@ const LearningResourceContent = ({ articleLanguage, articleId }: Props) => {
           </StyledDiv>
         )}
       </StyledFormikField>
-      <IngressField preview={preview} />
+      <IngressField preview={preview} handleSubmit={handleSubmit} />
       <StyledContentDiv name="content" label={t('form.content.label')} noBorder>
         {(fieldProps) => (
-          <ContentField articleLanguage={articleLanguage} articleId={articleId} {...fieldProps} />
+          <ContentField
+            articleLanguage={articleLanguage}
+            articleId={articleId}
+            {...fieldProps}
+            handleSubmit={handleSubmit}
+          />
         )}
       </StyledContentDiv>
     </>
@@ -225,16 +242,19 @@ const LearningResourceContent = ({ articleLanguage, articleId }: Props) => {
 interface ContentFieldProps extends FieldProps<Descendant[]> {
   articleId?: number;
   articleLanguage: string;
+  handleSubmit: () => void;
 }
 
 const ContentField = ({
   articleId,
   field: { name, onChange, value },
   articleLanguage,
+  handleSubmit,
 }: ContentFieldProps) => {
   const { t, i18n } = useTranslation();
   const { userPermissions } = useSession();
-  const { isSubmitting, handleSubmit } = useFormikContext();
+  const { isSubmitting } = useFormikContext<LearningResourceFormType>();
+
   const blockPickerOptions = useMemo(() => ({ actionsToShowInAreas }), []);
 
   const onSlateChange = useCallback(
@@ -251,7 +271,7 @@ const ContentField = ({
 
   const editorPlugins = useMemo(
     () => plugins(articleLanguage ?? '', i18n.language, handleSubmit),
-    [articleLanguage, i18n.language, handleSubmit],
+    [articleLanguage, handleSubmit, i18n.language],
   );
 
   return (

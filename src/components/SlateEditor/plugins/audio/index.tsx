@@ -43,44 +43,37 @@ export const audioSerializer: SlateSerializer = {
   },
 };
 
-export const audioPlugin =
-  (language: string, disableNormalize?: boolean, allowDecorative?: boolean) => (editor: Editor) => {
-    const {
-      renderElement: nextRenderElement,
-      normalizeNode: nextNormalizeNode,
-      isVoid: nextIsVoid,
-    } = editor;
+export const audioPlugin = (language: string, disableNormalize?: boolean) => (editor: Editor) => {
+  const {
+    renderElement: nextRenderElement,
+    normalizeNode: nextNormalizeNode,
+    isVoid: nextIsVoid,
+  } = editor;
 
-    editor.renderElement = ({ attributes, children, element }: RenderElementProps) => {
-      if (element.type === TYPE_AUDIO) {
-        return (
-          <SlateAudio
-            attributes={attributes}
-            editor={editor}
-            element={element}
-            language={language}
-            allowDecorative={allowDecorative}
-          >
-            {children}
-          </SlateAudio>
-        );
-      }
-      return nextRenderElement?.({ attributes, children, element });
-    };
-
-    editor.normalizeNode = (entry) => {
-      const [node] = entry;
-      if (Element.isElement(node) && node.type === TYPE_AUDIO) {
-        if (!disableNormalize && defaultBlockNormalizer(editor, entry, normalizerConfig)) {
-          return;
-        }
-      }
-      nextNormalizeNode(entry);
-    };
-
-    editor.isVoid = (element: Element) => {
-      return element.type === TYPE_AUDIO ? true : nextIsVoid(element);
-    };
-
-    return editor;
+  editor.renderElement = ({ attributes, children, element }: RenderElementProps) => {
+    if (element.type === TYPE_AUDIO) {
+      return (
+        <SlateAudio attributes={attributes} editor={editor} element={element} language={language}>
+          {children}
+        </SlateAudio>
+      );
+    }
+    return nextRenderElement?.({ attributes, children, element });
   };
+
+  editor.normalizeNode = (entry) => {
+    const [node] = entry;
+    if (Element.isElement(node) && node.type === TYPE_AUDIO) {
+      if (!disableNormalize && defaultBlockNormalizer(editor, entry, normalizerConfig)) {
+        return;
+      }
+    }
+    nextNormalizeNode(entry);
+  };
+
+  editor.isVoid = (element: Element) => {
+    return element.type === TYPE_AUDIO ? true : nextIsVoid(element);
+  };
+
+  return editor;
+};

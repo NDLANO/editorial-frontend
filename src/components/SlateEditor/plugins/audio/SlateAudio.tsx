@@ -30,7 +30,6 @@ interface Props extends RenderElementProps {
   element: AudioElement;
   editor: Editor;
   language: string;
-  allowDecorative?: boolean;
 }
 
 const AudioWrapper = styled.div`

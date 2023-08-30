@@ -20,7 +20,7 @@ export const removeEmptyElementDataAttributes = (obj: Dictionary<any>) => {
   return newObject;
 };
 
-const reduceRegexp = /-[a-z]/g;
+const reduceRegexp = /(-|_)[a-z]/g;
 
 export const reduceElementDataAttributesV2 = (
   attributes: Attr[],

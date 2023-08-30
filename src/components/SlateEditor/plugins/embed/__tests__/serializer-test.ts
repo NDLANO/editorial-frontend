@@ -14,12 +14,12 @@ import {
 import { TYPE_PARAGRAPH } from '../../paragraph/types';
 import { TYPE_SECTION } from '../../section/types';
 import {
-  TYPE_EMBED_AUDIO,
   TYPE_EMBED_BRIGHTCOVE,
   TYPE_EMBED_EXTERNAL,
   TYPE_EMBED_H5P,
   TYPE_EMBED_IMAGE,
 } from '../types';
+import { TYPE_AUDIO } from '../../audio/types';
 
 describe('embed image serializing tests', () => {
   const editorWithImage: Descendant[] = [
@@ -150,10 +150,10 @@ describe('embed audio serializing tests', () => {
         { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
 
         {
-          type: TYPE_EMBED_AUDIO,
+          type: TYPE_AUDIO,
           data: {
             resource: 'audio',
-            resource_id: '123',
+            resourceId: '123',
             type: 'standard',
             url: 'https://test.url',
           },
@@ -169,7 +169,7 @@ describe('embed audio serializing tests', () => {
   ];
 
   const htmlWithAudio =
-    '<section><ndlaembed data-resource="audio" data-resource_id="123" data-type="standard" data-url="https://test.url"></ndlaembed></section>';
+    '<section><ndlaembed data-resource="audio" data-resource-id="123" data-type="standard" data-url="https://test.url"></ndlaembed></section>';
 
   test('serializing audio', () => {
     const res = blockContentToHTML(editorWithAudio);
@@ -189,10 +189,10 @@ describe('embed podcast serializing tests', () => {
       children: [
         { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
         {
-          type: TYPE_EMBED_AUDIO,
+          type: TYPE_AUDIO,
           data: {
             resource: 'audio',
-            resource_id: '123',
+            resourceId: '123',
             type: 'podcast',
             url: 'https://test.url',
           },
@@ -208,7 +208,7 @@ describe('embed podcast serializing tests', () => {
   ];
 
   const htmlWithPodcast =
-    '<section><ndlaembed data-resource="audio" data-resource_id="123" data-type="podcast" data-url="https://test.url"></ndlaembed></section>';
+    '<section><ndlaembed data-resource="audio" data-resource-id="123" data-type="podcast" data-url="https://test.url"></ndlaembed></section>';
 
   test('serializing podcast', () => {
     const res = blockContentToHTML(editorWithPodcast);

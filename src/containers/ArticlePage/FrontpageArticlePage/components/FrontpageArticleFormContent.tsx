@@ -61,7 +61,6 @@ import { TYPE_CODEBLOCK } from '../../../../components/SlateEditor/plugins/codeB
 import {
   TYPE_EMBED_H5P,
   TYPE_EMBED_BRIGHTCOVE,
-  TYPE_EMBED_AUDIO,
   TYPE_EMBED_EXTERNAL,
   TYPE_EMBED_IMAGE,
 } from '../../../../components/SlateEditor/plugins/embed/types';
@@ -80,6 +79,8 @@ import { TYPE_CAMPAIGN_BLOCK } from '../../../../components/SlateEditor/plugins/
 import { useWideArticle } from '../../../../components/WideArticleEditorProvider';
 import { linkBlockListPlugin } from '../../../../components/SlateEditor/plugins/linkBlockList';
 import { TYPE_LINK_BLOCK_LIST } from '../../../../components/SlateEditor/plugins/linkBlockList/types';
+import { audioPlugin } from '../../../../components/SlateEditor/plugins/audio';
+import { TYPE_AUDIO } from '../../../../components/SlateEditor/plugins/audio/types';
 
 const StyledFormikField = styled(FormikField)`
   display: flex;
@@ -126,7 +127,7 @@ const StyledIconButton = styled(IconButtonV2)`
 const visualElements = [
   TYPE_EMBED_H5P,
   TYPE_EMBED_BRIGHTCOVE,
-  TYPE_EMBED_AUDIO,
+  TYPE_AUDIO,
   TYPE_EMBED_EXTERNAL,
   TYPE_EMBED_IMAGE,
 ];
@@ -150,18 +151,15 @@ const actionsToShowInAreas = {
 };
 
 // Plugins are checked from last to first
-export const plugins = (
-  articleLanguage: string,
-  locale: LocaleType,
-  handleSubmit: VoidFunction,
-): SlatePlugin[] => {
+export const plugins = (articleLanguage: string, handleSubmit: VoidFunction): SlatePlugin[] => {
   return [
     sectionPlugin,
     spanPlugin,
     divPlugin,
     paragraphPlugin(articleLanguage),
     footnotePlugin,
-    embedPlugin(articleLanguage, locale),
+    embedPlugin(articleLanguage),
+    audioPlugin(articleLanguage),
     bodyboxPlugin,
     asidePlugin,
     detailsPlugin,
@@ -210,15 +208,15 @@ const FrontpageArticleFormContent = ({
   handleSubmit,
 }: Props) => {
   const { userPermissions } = useSession();
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const { isWideArticle } = useWideArticle();
 
   const [preview, setPreview] = useState(false);
   const [editSlug, setEditSlug] = useState(false);
 
   const editorPlugins = useMemo(
-    () => plugins(articleLanguage ?? '', i18n.language, handleSubmit),
-    [articleLanguage, handleSubmit, i18n.language],
+    () => plugins(articleLanguage ?? '', handleSubmit),
+    [articleLanguage, handleSubmit],
   );
 
   return (

@@ -229,7 +229,7 @@ export const learningResourceRules: RulesType<LearningResourceFormType, IArticle
         'image-embed',
         'brightcove-embed',
         'h5p-embed',
-        'audio-embed',
+        'audio',
         'error-embed',
         'external-embed',
       ).map((node) => (node as EmbedElements).data);

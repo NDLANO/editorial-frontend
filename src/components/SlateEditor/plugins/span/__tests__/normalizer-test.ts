@@ -19,7 +19,7 @@ const editor = withHistory(
   withReact(
     withPlugins(
       createEditor(),
-      plugins('nb', 'nb', () => {}),
+      plugins('nb', () => {}),
     ),
   ),
 );

@@ -14,7 +14,6 @@ import {
   Embed,
   ImageEmbed,
   H5pEmbed,
-  AudioEmbed,
   BrightcoveEmbed,
   ErrorEmbed,
   ExternalEmbed,
@@ -41,12 +40,6 @@ export interface H5PEmbedElement {
 export interface BrightcoveEmbedElement {
   type: 'brightcove-embed';
   data: BrightcoveEmbed;
-  children: Descendant[];
-}
-
-export interface AudioEmbedElement {
-  type: 'audio-embed';
-  data: AudioEmbed;
   children: Descendant[];
 }
 

@@ -34,7 +34,6 @@ import {
 } from './plugins/table/interfaces';
 import { RelatedElement } from './plugins/related';
 import {
-  AudioEmbedElement,
   BrightcoveEmbedElement,
   ErrorEmbedElement,
   ExternalEmbedElement,

@@ -9,9 +9,9 @@
 import { ReactEditor, RenderElementProps, useSelected } from 'slate-react';
 import { Editor, Path, Transforms } from 'slate';
 import { useTranslation } from 'react-i18next';
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { spacing, colors } from '@ndla/core';
-import { AudioEmbedData } from '@ndla/types-embed';
+import { AudioEmbedData, AudioMetaData } from '@ndla/types-embed';
 import { Modal, ModalContent, ModalTrigger } from '@ndla/modal';
 import styled from '@emotion/styled';
 import { AudioEmbed } from '@ndla/ui';
@@ -68,6 +68,19 @@ const SlateAudio = ({ element, editor, attributes, language, children }: Props) 
     enabled: !!parseInt(element.data?.resourceId ?? ''),
   });
 
+  const embed: AudioMetaData | undefined = useMemo(
+    () =>
+      element.data
+        ? {
+            status: !!audioMetaQuery.error || !audioMetaQuery.data ? 'error' : 'success',
+            data: audioMetaQuery.data!,
+            embedData: element.data,
+            resource: 'audio',
+          }
+        : undefined,
+    [audioMetaQuery.data, audioMetaQuery.error, element.data],
+  );
+
   const handleRemove = () => {
     Transforms.removeNodes(editor, { at: ReactEditor.findPath(editor, element), voids: true });
   };
@@ -107,19 +120,19 @@ const SlateAudio = ({ element, editor, attributes, language, children }: Props) 
         {...attributes}
         contentEditable={false}
         data-selected={isSelected}
-        data-type={element.data?.type}
+        data-type={embed?.embedData.type}
       >
         {audioMetaQuery.isInitialLoading && <Spinner />}
-        {audioMetaQuery.data && element.data && (
+        {!!embed && (
           <>
-            <FigureButtons data-type={element.data.type}>
-              {element.data.type !== 'minimal' && (
+            <FigureButtons data-type={embed.embedData.type}>
+              {embed.embedData.type !== 'minimal' && (
                 <>
                   <SafeLinkIconButton
                     colorTheme="light"
-                    to={`/media/${element.data.type === 'podcast' ? 'podcast' : 'audio'}-upload/${
-                      element.data.resourceId
-                    }/edit/${language}`}
+                    to={`/media/${
+                      embed.embedData.type === 'podcast' ? 'podcast' : 'audio'
+                    }-upload/${embed.embedData.resourceId}/edit/${language}`}
                     target="_blank"
                     title={t('form.editAudio')}
                     aria-label={t('form.editAudio')}
@@ -137,7 +150,7 @@ const SlateAudio = ({ element, editor, attributes, language, children }: Props) 
                   </StyledDeleteEmbedButton>
                 </>
               )}
-              {element.data.type !== 'podcast' && (
+              {embed.embedData.type !== 'podcast' && (
                 <ModalTrigger>
                   <IconButtonV2
                     title={t('form.audio.edit')}
@@ -149,14 +162,7 @@ const SlateAudio = ({ element, editor, attributes, language, children }: Props) 
                 </ModalTrigger>
               )}
             </FigureButtons>
-            <AudioEmbed
-              embed={{
-                resource: 'audio',
-                status: 'success',
-                embedData: element.data,
-                data: audioMetaQuery.data,
-              }}
-            />
+            <AudioEmbed embed={embed} />
           </>
         )}
       </AudioWrapper>

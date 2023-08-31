@@ -50,7 +50,7 @@ export const responsiblesMock = [
       },
     ],
     locale: 'no',
-    name: 'Test User',
+    name: 'Ed Test',
     nickname: 'test.user',
     picture:
       'https://lh3.googleusercontent.com/a/AAcHTtdP-YafscMocsuVKilO3ynXklOb0KEeMseHVvF6f9WS=s96-c',
@@ -60,7 +60,7 @@ export const responsiblesMock = [
     last_ip: 'test_ip',
     logins_count: 416,
     app_metadata: {
-      ndla_id: '-2CqVRhF5aohP2yWCI93fdSc',
+      ndla_id: 'Gxfx7B-MXoFdgVZZ6p611C6w',
       roles: [
         'articles:write',
         'audio:admin',
@@ -107,30 +107,39 @@ export const responsiblesMock = [
 
 export const getNoteUsersMock = [
   {
-    email: "asdasd@knowit.no",
+    email: 'asdasd@knowit.no',
     email_verified: true,
-    name: "Test test",
-    given_name: "Test",
-    family_name: "test",
-    picture: "",
-    locale: "no",
-    updated_at: "2021-03-23T09:23:42.899Z",
-    user_id: "",
-    nickname: "tt",
+    name: 'Test test',
+    given_name: 'Test',
+    family_name: 'test',
+    picture: '',
+    locale: 'no',
+    updated_at: '2021-03-23T09:23:42.899Z',
+    user_id: '',
+    nickname: 'tt',
     identities: [
       {
-        provider: "test",
-        access_token: "test",
+        provider: 'test',
+        access_token: 'test',
         expires_in: 3599,
-        user_id: "1337",
-        connection: "test",
-        isSocial: true
-      }
+        user_id: '1337',
+        connection: 'test',
+        isSocial: true,
+      },
     ],
-    created_at: "2020-12-14T14:08:59.594Z",
-    last_login: "2021-03-22T14:54:16.407Z",
-    last_ip: "12.34.56.78",
+    created_at: '2020-12-14T14:08:59.594Z',
+    last_login: '2021-03-22T14:54:16.407Z',
+    last_ip: '12.34.56.78',
     logins_count: 1337,
-    app_metadata: { "ndla_id": "L33T", "roles": ["drafts:admin"] }
-  }
-]
+    app_metadata: { ndla_id: 'L33T', roles: ['drafts:admin'] },
+  },
+];
+
+export const editorsMock = [
+  {
+    name: 'Ed Test',
+    app_metadata: {
+      ndla_id: 'Gxfx7B-MXoFdgVZZ6p611C6w',
+    },
+  },
+];

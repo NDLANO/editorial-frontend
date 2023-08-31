@@ -1604,11 +1604,13 @@ const phrases = {
         subjectType: 'Fagtype',
         resourceGroupPlaceholder: 'Gruppering av ressurser',
         RGTooltip: 'Vis ressurser Gruppert eller Ugruppert',
+        subjectLMA: 'LMA for faget',
       },
       placeholders: {
         category: 'Velg kategori',
         language: 'Velg språkkode',
         type: 'Velg type',
+        lma: 'Velg LMA',
       },
     },
   },

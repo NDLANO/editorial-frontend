@@ -7,7 +7,7 @@
  */
 
 import { test, expect } from '@playwright/test';
-import { mockRoute } from '../apiMock';
+import { mockRoute, mockWaitResponse } from '../apiMock';
 import { editorMock, responsiblesMock, userDataMock, zendeskMock } from '../mockResponses';
 
 test.beforeEach(async ({ page }) => {
@@ -93,7 +93,8 @@ test.beforeEach(async ({ page }) => {
 
 test.afterEach(
   async ({ page }) =>
-    await page.waitForResponse(
+    await mockWaitResponse(
+      page,
       '**/image-api/v3/images/?exclude-revision-log=false&fallback=false&filter-inactive=true&include-other-statuses=false&page=1&page-size=10&sort=-relevance',
     ),
 );

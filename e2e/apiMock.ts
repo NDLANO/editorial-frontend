@@ -55,3 +55,9 @@ export const mockRoute = async ({
     }
   });
 };
+
+export const mockWaitResponse = async (page: Page, url: string) => {
+  if (process.env.RECORD_FIXTURES === 'true') {
+    await page.waitForResponse(url);
+  }
+};

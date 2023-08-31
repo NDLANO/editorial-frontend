@@ -155,7 +155,6 @@ const SlateAudio = ({ element, editor, attributes, language, children }: Props) 
                 status: 'success',
                 embedData: element.data,
                 data: audioMetaQuery.data,
-                seq: 1,
               }}
             />
           </>

@@ -122,8 +122,9 @@ const SlateAudio = ({ element, editor, attributes, language, children }: Props) 
         data-selected={isSelected}
         data-type={embed?.embedData.type}
       >
-        {audioMetaQuery.isInitialLoading && <Spinner />}
-        {!!embed && (
+        {audioMetaQuery.isInitialLoading ? (
+          <Spinner />
+        ) : embed ? (
           <>
             <FigureButtons data-type={embed.embedData.type}>
               {embed.embedData.type !== 'minimal' && (
@@ -164,7 +165,7 @@ const SlateAudio = ({ element, editor, attributes, language, children }: Props) 
             </FigureButtons>
             <AudioEmbed embed={embed} />
           </>
-        )}
+        ) : null}
       </AudioWrapper>
       <ModalContent>
         {!!element.data && !!audioMetaQuery.data && (

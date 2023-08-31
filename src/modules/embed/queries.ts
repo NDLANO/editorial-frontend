@@ -6,17 +6,18 @@
  *
  */
 
-import { AudioEmbedData, AudioMeta } from '@ndla/types-embed';
+import { AudioMeta } from '@ndla/types-embed';
 import { IImageMetaInformationV3 } from '@ndla/types-backend/build/image-api';
 import { UseQueryOptions, useQuery } from '@tanstack/react-query';
 import { fetchAudio } from '../audio/audioApi';
 import { fetchImage } from '../image/imageApi';
+import { AUDIO_EMBED } from '../../queryKeys';
 
-const fetchMeta = async (embed: AudioEmbedData): Promise<AudioMeta> => {
-  const audio = await fetchAudio(parseInt(embed.resourceId));
+const fetchMeta = async (resourceId: string, language: string): Promise<AudioMeta> => {
+  const audio = await fetchAudio(parseInt(resourceId), language);
   let image: IImageMetaInformationV3 | undefined;
   if (audio.podcastMeta?.coverPhoto.id) {
-    image = await fetchImage(audio.podcastMeta?.coverPhoto.id);
+    image = await fetchImage(audio.podcastMeta?.coverPhoto.id, language);
   }
 
   return {
@@ -25,6 +26,14 @@ const fetchMeta = async (embed: AudioEmbedData): Promise<AudioMeta> => {
   };
 };
 
-export const useAudioMeta = (embed: AudioEmbedData, options?: UseQueryOptions<AudioMeta>) => {
-  return useQuery<AudioMeta>(['audio', embed.resourceId], () => fetchMeta(embed), options);
+export const useAudioMeta = (
+  resourceId: string,
+  language: string,
+  options?: UseQueryOptions<AudioMeta>,
+) => {
+  return useQuery<AudioMeta>(
+    [AUDIO_EMBED, resourceId, language],
+    () => fetchMeta(resourceId, language),
+    options,
+  );
 };

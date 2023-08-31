@@ -64,7 +64,7 @@ const SlateAudio = ({ element, editor, attributes, language, children }: Props) 
   const [isEditing, setIsEditing] = useState(false);
   const isSelected = useSelected();
 
-  const audioMetaQuery = useAudioMeta(element.data!, {
+  const audioMetaQuery = useAudioMeta(element.data?.resourceId!, language, {
     enabled: !!parseInt(element.data?.resourceId ?? ''),
   });
 

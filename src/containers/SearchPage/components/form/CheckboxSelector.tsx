@@ -20,11 +20,11 @@ const CheckboxSelector = ({ name, checked, onChange }: Props) => {
 
   return (
     <ToggleItem
-      data-testid="search-checkbox"
       id={`checkbox-${name}`}
       label={t(`searchForm.types.${name}`)}
       onChange={onChange}
       checked={checked}
+      component="div"
     />
   );
 };

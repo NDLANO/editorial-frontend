@@ -10,11 +10,12 @@ import { useMemo } from 'react';
 import { FormikHandlers } from 'formik';
 import VisualElementEditor from '../../components/SlateEditor/VisualElementEditor';
 import { EmbedElements, embedPlugin } from '../../components/SlateEditor/plugins/embed';
+import { VisualElementType } from '../../containers/VisualElement/VisualElementMenu';
 
 interface Props {
   onChange: FormikHandlers['handleChange'];
   name: string;
-  types: string[];
+  types: VisualElementType[];
   language: string;
   value: EmbedElements[];
   selectedResource: string;

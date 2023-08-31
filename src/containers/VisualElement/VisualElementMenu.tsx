@@ -9,6 +9,7 @@
 import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
 import { colors, spacing } from '@ndla/core';
+import { Audio } from '@ndla/icons/common';
 import { Cross, Plus } from '@ndla/icons/action';
 import { Camera, H5P, Link, Video } from '@ndla/icons/editor';
 import { useState } from 'react';
@@ -40,9 +41,11 @@ const DisplayContainer = styled.div<StyledDivProps>`
 `;
 
 interface Props {
-  types?: string[];
+  types?: VisualElementType[];
   onSelect: Function;
 }
+
+export type VisualElementType = 'image' | 'video' | 'h5p' | 'url' | 'audio';
 
 const VisualElementMenu = ({ onSelect, types = ['image', 'video', 'h5p', 'url'] }: Props) => {
   const [isOpen, setOpen] = useState(false);
@@ -71,6 +74,10 @@ const VisualElementMenu = ({ onSelect, types = ['image', 'video', 'h5p', 'url'] 
     {
       type: 'url',
       component: <Link />,
+    },
+    {
+      type: 'audio',
+      component: <Audio />,
     },
   ];
 

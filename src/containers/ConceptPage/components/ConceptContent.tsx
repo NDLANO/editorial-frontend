@@ -73,7 +73,7 @@ const ConceptContent = () => {
           <HowToHelper pageId="Markdown" tooltip={t('form.markdown.helpLabel')} />
         </IconContainer>
       </ByLine>
-      <VisualElementField />
+      <VisualElementField types={['image', 'video', 'audio']} />
 
       <IngressField
         name="conceptContent"

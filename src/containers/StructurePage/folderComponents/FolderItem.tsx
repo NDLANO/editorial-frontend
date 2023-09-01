@@ -44,6 +44,7 @@ const StyledFolderWrapper = styled.div`
 const ControlButtonsWrapper = styled.div`
   display: flex;
   align-items: center;
+  gap: ${spacing.xxsmall};
 `;
 
 const IconButtonContainer = styled.div`

@@ -47,6 +47,7 @@ const ControlWrapper = styled.div`
 const Content = styled.div`
   display: flex;
   align-items: center;
+  gap: ${spacing.xxsmall};
 `;
 const RightContent = styled(Content)`
   gap: ${spacing.small};

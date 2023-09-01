@@ -14,6 +14,7 @@ import FocusTrapReact from 'focus-trap-react';
 import styled from '@emotion/styled';
 import { IconButtonV2 } from '@ndla/button';
 import { Menu } from '@ndla/icons/common';
+import SafeLink from '@ndla/safelink';
 import SessionContainer from './SessionContainer';
 import NavigationMenu from './NavigationMenu';
 import Overlay from '../../../components/Overlay';
@@ -138,7 +139,14 @@ const Navigation = () => {
                       <Menu />
                     </IconButtonV2>
                     <StyledLogoDiv>
-                      <Logo to="/" label={t('logo.altText')} />
+                      <SafeLink
+                        to="/"
+                        aria-label={t('logo.altText')}
+                        title={t('logo.altText')}
+                        reloadDocument
+                      >
+                        <Logo label={t('logo.altText')} />
+                      </SafeLink>
                     </StyledLogoDiv>
                     <SavedSearchDropdown onClose={closeMenu} />
                   </LeftContent>

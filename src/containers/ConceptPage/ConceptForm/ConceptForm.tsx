@@ -281,7 +281,7 @@ const ConceptForm = ({
                 title={t('form.contentSection')}
                 hasError={!!(errors.title || errors.conceptContent)}
               >
-                <ConceptContent />
+                <ConceptContent isGloss={isGloss} />
               </FormAccordion>
               {conceptType === 'gloss' && (
                 <FormAccordion

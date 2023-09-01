@@ -99,6 +99,7 @@ const App = ({ isClient }: Props) => {
                 <Routes>
                   <Route path="/" element={<WelcomePage />} />
                   <Route path="login/*" element={<Login />} />
+                  <Route path="logout/*" element={<Logout />} />
                   <Route
                     path="/subjectpage/*"
                     element={<PrivateRoute component={<Subjectpage />} />}

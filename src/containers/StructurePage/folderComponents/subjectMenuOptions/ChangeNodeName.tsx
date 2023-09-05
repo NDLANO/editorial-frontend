@@ -245,7 +245,7 @@ const ChangeNodeNameContent = ({ onClose, node, nodeType = 'SUBJECT' }: ModalPro
               setSaved(false);
             }
             return (
-              <StyledForm>
+              <StyledForm data-testid="edit-node-name-form">
                 <p>{`${t('taxonomy.changeName.defaultName')}: ${name}`}</p>
                 {values.translations.length === 0 && <>{t('taxonomy.changeName.noTranslations')}</>}
                 <FieldArray name="translations">

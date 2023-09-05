@@ -19,6 +19,8 @@ interface MockRoute {
   overrideRoute?: boolean;
 }
 
+const skipHttpMethods = ['POST', 'PATCH', 'PUT', 'DELETE'];
+
 export const mockRoute = async ({
   page,
   path,
@@ -33,8 +35,9 @@ export const mockRoute = async ({
 
   return await page.route(path, async (route) => {
     if (process.env.RECORD_FIXTURES === 'true') {
-      const res = await route.fetch();
-      const text = await res.text();
+      const text = skipHttpMethods.includes(route.request().method())
+        ? ''
+        : await (await route.fetch()).text();
       const override = overrideValue
         ? typeof overrideValue === 'string'
           ? overrideValue

@@ -169,7 +169,7 @@ describe('embed audio serializing tests', () => {
   ];
 
   const htmlWithAudio =
-    '<section><ndlaembed data-resource="audio" data-resource-id="123" data-type="standard" data-url="https://test.url"></ndlaembed></section>';
+    '<section><ndlaembed data-resource="audio" data-resource_id="123" data-type="standard" data-url="https://test.url"></ndlaembed></section>';
 
   test('serializing audio', () => {
     const res = blockContentToHTML(editorWithAudio);
@@ -208,7 +208,7 @@ describe('embed podcast serializing tests', () => {
   ];
 
   const htmlWithPodcast =
-    '<section><ndlaembed data-resource="audio" data-resource-id="123" data-type="podcast" data-url="https://test.url"></ndlaembed></section>';
+    '<section><ndlaembed data-resource="audio" data-resource_id="123" data-type="podcast" data-url="https://test.url"></ndlaembed></section>';
 
   test('serializing podcast', () => {
     const res = blockContentToHTML(editorWithPodcast);

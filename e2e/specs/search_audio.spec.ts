@@ -7,7 +7,7 @@
  */
 
 import { test, expect } from '@playwright/test';
-import { mockRoute } from '../apiMock';
+import { mockRoute, mockWaitResponse } from '../apiMock';
 import { userDataMock, zendeskMock } from '../mockResponses';
 
 test.beforeEach(async ({ page }) => {
@@ -59,56 +59,50 @@ test.beforeEach(async ({ page }) => {
   await Promise.all([licenses, allSubjects, search, searchNextPage, zendesk, notesUser, userData]);
 });
 
+const totalSearchCount = '3284';
+
+test.afterEach(async ({ page }) => mockWaitResponse(page, '**/audio-api/v1/audio/?*'));
+
 test('Can use text input', async ({ page }) => {
-  await page.locator('input[name="query"]').fill('Test');
   await mockRoute({
     page,
     path: '**/audio-api/v1/audio/?*query=Test*',
     fixture: 'search_audio_query',
   });
-  await page.goto(
-    '/search/audio?exclude-revision-log=false&fallback=false&filter-inactive=true&include-other-statuses=false&page=1&page-size=10&query=Test&sort=-relevance',
-  );
+  await page.locator('input[name="query"]').fill('Test');
+  await page.getByRole('button', { name: 'Søk', exact: true }).click();
   await page.getByTestId('audio-search-result').first().waitFor();
-  expect(await page.getByTestId('searchTotalCount').innerText()).toEqual('26');
+  expect(await page.getByTestId('searchTotalCount').innerText()).toEqual('27');
   await page.locator('input[name="query"]').clear();
-  await page.goto('/search/audio?page=1&page-size=10&sort=-relevance');
+  await page.getByRole('button', { name: 'Søk', exact: true }).click();
   await page.getByTestId('audio-search-result').first().waitFor();
-  expect(await page.getByTestId('searchTotalCount').innerText()).toEqual('3281');
+  expect(await page.getByTestId('searchTotalCount').innerText()).toEqual(totalSearchCount);
 });
 
 test('Can use audiotype dropdown', async ({ page }) => {
-  await page.locator('select[name="audio-type"]').selectOption({ index: 1 });
   await mockRoute({
     page,
     path: '**/audio-api/v1/audio/?*audio-type=podcast*',
     fixture: 'search_audio_type',
   });
-  await page.goto(
-    '/search/audio?audio-type=podcast&exclude-revision-log=false&fallback=false&filter-inactive=true&include-other-statuses=false&page=1&page-size=10&sort=-relevance',
-  );
+  await page.locator('select[name="audio-type"]').selectOption({ label: 'Podkast' });
   await page.getByTestId('audio-search-result').first().waitFor();
-  expect(await page.getByTestId('searchTotalCount').innerText()).toEqual('112');
-  await page.locator('select[name="audio-type"]').selectOption({ index: 0 });
-  await page.goto('/search/audio?page=1&page-size=10&sort=-relevance');
+  expect(await page.getByTestId('searchTotalCount').innerText()).toEqual('113');
+  await page.locator('select[name="audio-type"]').selectOption({ label: 'Velg lydfiltype' });
   await page.getByTestId('audio-search-result').first().waitFor();
-  expect(await page.getByTestId('searchTotalCount').innerText()).toEqual('3281');
+  expect(await page.getByTestId('searchTotalCount').innerText()).toEqual(totalSearchCount);
 });
 
 test('Can use language dropdown', async ({ page }) => {
-  await page.locator('select[name="language"]').selectOption({ index: 1 });
   await mockRoute({
     page,
     path: '**/audio-api/v1/audio/?*language=en*',
     fixture: 'search_audio_lang',
   });
-  await page.goto(
-    '/search/audio?exclude-revision-log=false&fallback=false&filter-inactive=true&include-other-statuses=false&language=en&page=1&page-size=10&sort=-relevance',
-  );
+  await page.locator('select[name="language"]').selectOption({ label: 'Engelsk' });
   await page.getByTestId('audio-search-result').first().waitFor();
   expect(await page.getByTestId('searchTotalCount').innerText()).toEqual('315');
-  await page.locator('select[name="language"]').selectOption({ index: 0 });
-  await page.goto('/search/audio?page=1&page-size=10&sort=-relevance');
+  await page.locator('select[name="language"]').selectOption({ label: 'Velg språk' });
   await page.getByTestId('audio-search-result').first().waitFor();
-  expect(await page.getByTestId('searchTotalCount').innerText()).toEqual('3281');
+  expect(await page.getByTestId('searchTotalCount').innerText()).toEqual(totalSearchCount);
 });

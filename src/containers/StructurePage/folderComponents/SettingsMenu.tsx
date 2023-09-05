@@ -32,13 +32,10 @@ const StyledIconButton = styled(IconButtonV2)`
   margin-left: ${spacing.xsmall};
   border: 1px solid ${colors.brand.greyDark};
   background-color: ${colors.white};
-  width: 28px;
+  width: 32px;
   padding: 0;
-  height: 28px;
-  svg {
-    width: 20px;
-    height: 20px;
-  }
+  height: 32px;
+
   &:focus,
   &:hover,
   &:focus-within {

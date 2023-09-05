@@ -72,7 +72,7 @@ const SearchConcept = ({ concept, locale, subjects, editingState, responsibleNam
   };
 
   return (
-    <StyledSearchResult>
+    <StyledSearchResult data-testid="concept-search-result">
       <StyledSearchImageContainer>
         {metaImageSrc ? (
           <img src={`${metaImageSrc}?width=200&language=${locale}`} alt={metaImageAlt} />

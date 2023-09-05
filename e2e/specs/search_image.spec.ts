@@ -91,13 +91,9 @@ test.beforeEach(async ({ page }) => {
   ]);
 });
 
-test.afterEach(
-  async ({ page }) =>
-    await mockWaitResponse(
-      page,
-      '**/image-api/v3/images/?exclude-revision-log=false&fallback=false&filter-inactive=true&include-other-statuses=false&page=1&page-size=10&sort=-relevance',
-    ),
-);
+test.afterEach(async ({ page }) => await mockWaitResponse(page, '**/image-api/v3/images/**'));
+
+const totalSearchCount = '65043';
 
 test('Can use text input', async ({ page }) => {
   await mockRoute({
@@ -112,7 +108,7 @@ test('Can use text input', async ({ page }) => {
   await page.locator('input[name="query"]').clear();
   await page.getByRole('button', { name: 'Søk', exact: true }).click();
   await page.getByTestId('image-search-result').first().waitFor();
-  expect(await page.getByTestId('searchTotalCount').innerText()).toEqual('65043');
+  expect(await page.getByTestId('searchTotalCount').innerText()).toEqual(totalSearchCount);
 });
 
 test('Can use model released dropdown', async ({ page }) => {
@@ -126,7 +122,7 @@ test('Can use model released dropdown', async ({ page }) => {
   expect(await page.getByTestId('searchTotalCount').innerText()).toEqual('693');
   await page.locator('select[name="model-released"]').selectOption({ index: 0 });
   await page.getByTestId('image-search-result').first().waitFor();
-  expect(await page.getByTestId('searchTotalCount').innerText()).toEqual('65043');
+  expect(await page.getByTestId('searchTotalCount').innerText()).toEqual(totalSearchCount);
 });
 
 test('Can use language dropdown', async ({ page }) => {
@@ -140,7 +136,7 @@ test('Can use language dropdown', async ({ page }) => {
   expect(await page.getByTestId('searchTotalCount').innerText()).toEqual('22135');
   await page.locator('select[name="language"]').selectOption({ index: 0 });
   await page.getByTestId('image-search-result').first().waitFor();
-  expect(await page.getByTestId('searchTotalCount').innerText()).toEqual('65043');
+  expect(await page.getByTestId('searchTotalCount').innerText()).toEqual(totalSearchCount);
 });
 
 test('Can use license dropdown', async ({ page }) => {
@@ -154,5 +150,5 @@ test('Can use license dropdown', async ({ page }) => {
   expect(await page.getByTestId('searchTotalCount').innerText()).toEqual('814');
   await page.locator('select[name="license"]').selectOption({ index: 0 });
   await page.getByTestId('image-search-result').first().waitFor();
-  expect(await page.getByTestId('searchTotalCount').innerText()).toEqual('65043');
+  expect(await page.getByTestId('searchTotalCount').innerText()).toEqual(totalSearchCount);
 });

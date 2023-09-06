@@ -19,7 +19,6 @@ import Accordion, {
 } from '@ndla/accordion';
 import { VersionLogTag, VersionHistory } from '@ndla/editor';
 import { IArticle, IEditorNote } from '@ndla/types-backend/draft-api';
-
 import FormikField from '../../components/FormikField';
 import { fetchDraftHistory } from '../../modules/draft/draftApi';
 import handleError from '../../util/handleError';

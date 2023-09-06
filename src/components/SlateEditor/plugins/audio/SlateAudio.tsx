@@ -52,6 +52,7 @@ const AudioWrapper = styled.div`
 const FigureButtons = styled(StyledFigureButtons)`
   right: ${spacing.small};
   top: ${spacing.medium};
+  z-index: 1;
   &[data-type='minimal'] {
     position: static;
     top: unset;

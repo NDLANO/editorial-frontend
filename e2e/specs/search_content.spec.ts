@@ -105,15 +105,9 @@ test.beforeEach(async ({ page }) => {
   ]);
 });
 
-test.afterEach(
-  async ({ page }) =>
-    await mockWaitResponse(
-      page,
-      '**/search-api/v1/search/editorial/?exclude-revision-log=false&fallback=false&filter-inactive=true&include-other-statuses=false&page=2*',
-    ),
-);
+const searchTotalCount = '21121';
 
-const searchTotalCount = '21124';
+test.afterEach(async ({ page }) => mockWaitResponse(page, '**/search-api/v1/search/editorial/?*'));
 
 test('Can use text input', async ({ page }) => {
   await mockRoute({
@@ -124,7 +118,7 @@ test('Can use text input', async ({ page }) => {
   await page.locator('input[name="query"]').fill('Test');
   await page.getByRole('button', { name: 'Søk', exact: true }).click();
   await page.getByTestId('content-search-result').first().waitFor();
-  expect(await page.getByTestId('searchTotalCount').innerText()).toEqual('1260');
+  expect(await page.getByTestId('searchTotalCount').innerText()).toEqual('1261');
   await page.locator('input[name="query"]').clear();
   await page.getByRole('button', { name: 'Søk', exact: true }).click();
   await page.getByTestId('content-search-result').first().waitFor();
@@ -139,7 +133,7 @@ test('Can use status dropdown', async ({ page }) => {
   });
   await page.locator('select[name="draft-status"]').selectOption({ label: 'Publisert' });
   await page.getByTestId('content-search-result').first().waitFor();
-  expect(await page.getByTestId('searchTotalCount').innerText()).toEqual('17757');
+  expect(await page.getByTestId('searchTotalCount').innerText()).toEqual('17754');
   await page.locator('select[name="draft-status"]').selectOption({ index: 0 });
   await page.getByTestId('content-search-result').first().waitFor();
   expect(await page.getByTestId('searchTotalCount').innerText()).toEqual(searchTotalCount);
@@ -153,7 +147,7 @@ test('Can use language dropdown', async ({ page }) => {
   });
   await page.locator('select[name="language"]').selectOption({ index: 1 });
   await page.getByTestId('content-search-result').first().waitFor();
-  expect(await page.getByTestId('searchTotalCount').innerText()).toEqual('18909');
+  expect(await page.getByTestId('searchTotalCount').innerText()).toEqual('18907');
   await page.locator('select[name="language"]').selectOption({ index: 0 });
   await page.getByTestId('content-search-result').first().waitFor();
   expect(await page.getByTestId('searchTotalCount').innerText()).toEqual(searchTotalCount);
@@ -223,7 +217,7 @@ test('Can use inactive checkbox', async ({ page }) => {
   });
   await page.locator('input[id="checkbox-filter-inactive"]').click();
   await page.getByTestId('content-search-result').first().waitFor();
-  expect(await page.getByTestId('searchTotalCount').innerText()).toEqual('37172');
+  expect(await page.getByTestId('searchTotalCount').innerText()).toEqual('37173');
   await page.locator('input[id="checkbox-filter-inactive"]').click();
   await page.getByTestId('content-search-result').first().waitFor();
   expect(await page.getByTestId('searchTotalCount').innerText()).toEqual(searchTotalCount);

@@ -19,7 +19,7 @@ test.beforeEach(async ({ page }) => {
 
   const draftIds = mockRoute({
     page,
-    path: '**/draft-api/v1/draft-ids?fallback=true&ids=*',
+    path: '**/draft-api/v1/drafts/ids?*',
     fixture: 'taxonomy_draft_ids',
   });
 
@@ -80,7 +80,7 @@ test('should have settingsMenu available after clicking button', async ({ page }
     .click();
   await page.getByTestId('settings-button').click();
   expect(await page.getByTestId('settings-menu-modal').count()).toEqual(1);
-  await mockWaitResponse(page, '**/**');
+  await mockWaitResponse(page, '**/taxonomy/v1/nodes/**');
 });
 
 test('should be able to change name of node', async ({ page }) => {
@@ -107,7 +107,7 @@ test('should be able to change name of node', async ({ page }) => {
   await page.getByTestId('subjectName_nb').fill('Nytt navn');
   await page.getByTestId('saveNodeTranslationsButton').click();
   expect(await page.getByTestId('subjectName_nb').count()).toEqual(1);
-  await mockWaitResponse(page, '**/**');
+  await mockWaitResponse(page, '**/taxonomy/v1/nodes/**');
 });
 
 test('should be able to delete name of node', async ({ page }) => {
@@ -134,7 +134,7 @@ test('should be able to delete name of node', async ({ page }) => {
   await page.getByTestId('subjectName_nb_delete').click();
   await page.getByTestId('saveNodeTranslationsButton').click();
   expect(await page.getByTestId('subjectName_nb').count()).toEqual(0);
-  await mockWaitResponse(page, '**/**');
+  await mockWaitResponse(page, '**/taxonomy/v1/nodes/**');
 });
 
 test('should be able to change visibility', async ({ page }) => {

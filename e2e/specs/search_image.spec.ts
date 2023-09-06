@@ -8,7 +8,19 @@
 
 import { test, expect } from '@playwright/test';
 import { mockRoute, mockWaitResponse } from '../apiMock';
-import { editorMock, responsiblesMock, userDataMock, zendeskMock } from '../mockResponses';
+import {
+  copyrightMock,
+  editorMock,
+  responsiblesMock,
+  userDataMock,
+  zendeskMock,
+} from '../mockResponses';
+
+const imageCopyrightMock = (val: any) =>
+  JSON.stringify({
+    ...JSON.parse(val),
+    results: JSON.parse(val).results.map((image) => ({ ...image, copyright: copyrightMock })),
+  });
 
 test.beforeEach(async ({ page }) => {
   const licenses = mockRoute({
@@ -34,12 +46,14 @@ test.beforeEach(async ({ page }) => {
     page,
     path: '**/image-api/v3/images/?exclude-revision-log=false&fallback=false&filter-inactive=true&include-other-statuses=false&page=1&page-size=10&sort=-relevance',
     fixture: 'search_image_search',
+    overrideValue: imageCopyrightMock,
   });
 
   const searchNextPage = mockRoute({
     page,
     path: '**/image-api/v3/images/?exclude-revision-log=false&fallback=false&filter-inactive=true&include-other-statuses=false&page=2&page-size=10&sort=-relevance',
     fixture: 'search_image_next_search',
+    overrideValue: imageCopyrightMock,
   });
 
   const zendesk = mockRoute({
@@ -100,6 +114,7 @@ test('Can use text input', async ({ page }) => {
     page,
     path: '**/image-api/v3/images/?exclude-revision-log=false&fallback=false&filter-inactive=true&include-other-statuses=false&page=*&page-size=10&query=Test&sort=-relevance*',
     fixture: 'search_image_query_search',
+    overrideValue: imageCopyrightMock,
   });
   await page.locator('input[name="query"]').fill('Test');
   await page.getByRole('button', { name: 'Søk', exact: true }).click();
@@ -116,6 +131,7 @@ test('Can use model released dropdown', async ({ page }) => {
     page,
     path: '**/image-api/v3/images/?exclude-revision-log=false&fallback=false&filter-inactive=true&include-other-statuses=false&model-released=yes&page=*&page-size=10&sort=-relevance',
     fixture: 'search_image_model_released_search',
+    overrideValue: imageCopyrightMock,
   });
   await page.locator('select[name="model-released"]').selectOption({ index: 1 });
   await page.getByTestId('image-search-result').first().waitFor();
@@ -130,6 +146,7 @@ test('Can use language dropdown', async ({ page }) => {
     page,
     path: '**/image-api/v3/images/?exclude-revision-log=false&fallback=false&filter-inactive=true&include-other-statuses=false&language=nb&page=*&page-size=10&sort=-relevance',
     fixture: 'search_image_lang_search',
+    overrideValue: imageCopyrightMock,
   });
   await page.locator('select[name="language"]').selectOption({ index: 1 });
   await page.getByTestId('image-search-result').first().waitFor();
@@ -144,6 +161,7 @@ test('Can use license dropdown', async ({ page }) => {
     page,
     path: '**/image-api/v3/images/?exclude-revision-log=false&fallback=false&filter-inactive=true&include-other-statuses=false&license=CC0-1.0&page=*&page-size=10&sort=-relevance',
     fixture: 'search_image_license_search',
+    overrideValue: imageCopyrightMock,
   });
   await page.locator('select[name="license"]').selectOption({ index: 1 });
   await page.getByTestId('image-search-result').first().waitFor();

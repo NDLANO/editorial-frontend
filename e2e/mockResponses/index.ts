@@ -51,7 +51,7 @@ export const responsiblesMock = [
       },
     ],
     locale: 'no',
-    name: 'Test User',
+    name: 'Ed Test',
     nickname: 'test.user',
     picture:
       'https://lh3.googleusercontent.com/a/AAcHTtdP-YafscMocsuVKilO3ynXklOb0KEeMseHVvF6f9WS=s96-c',
@@ -61,7 +61,7 @@ export const responsiblesMock = [
     last_ip: 'test_ip',
     logins_count: 416,
     app_metadata: {
-      ndla_id: '-2CqVRhF5aohP2yWCI93fdSc',
+      ndla_id: 'Gxfx7B-MXoFdgVZZ6p611C6w',
       roles: [
         'articles:write',
         'audio:admin',
@@ -153,3 +153,11 @@ export const taxonomyNodeSubjectMock = {
   url: '/test_12e482391',
   contexts: [],
 };
+export const editorsMock = [
+  {
+    name: 'Ed Test',
+    app_metadata: {
+      ndla_id: 'Gxfx7B-MXoFdgVZZ6p611C6w',
+    },
+  },
+];

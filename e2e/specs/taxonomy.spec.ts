@@ -37,7 +37,7 @@ test.beforeEach(async ({ page }) => {
 
   const zendeskToken = mockRoute({
     page,
-    path: '**/get_zendesk_token?*',
+    path: '**/get_zendesk_token',
     fixture: 'taxonomy_get_zendesk',
     overrideValue: JSON.stringify(zendeskMock),
   });
@@ -76,7 +76,7 @@ test('should have settingsMenu available after clicking button', async ({ page }
   await page.getByTestId('structure').waitFor();
   await page
     .getByTestId('structure')
-    .getByRole('button', { name: '1-jonas-testfag', exact: true })
+    .getByRole('button', { name: 'Engelsk 1', exact: true })
     .click();
   await page.getByTestId('settings-button').click();
   expect(await page.getByTestId('settings-menu-modal').count()).toEqual(1);
@@ -87,16 +87,16 @@ test('should be able to change name of node', async ({ page }) => {
   await page.getByTestId('structure').waitFor();
   await page
     .getByTestId('structure')
-    .getByRole('button', { name: '1-jonas-testfag', exact: true })
+    .getByRole('button', { name: 'Engelsk 1', exact: true })
     .click();
   await mockRoute({
     page,
-    path: '**/taxonomy/v1/nodes/*/translations',
+    path: '**/taxonomy/v1/nodes/urn:subject:1:c8d6ed8b-d376-4c7b-b73a-3a1d48c3a357/translations',
     fixture: 'taxonomy_change_name_translations_add',
   });
   await mockRoute({
     page,
-    path: '**/taxonomy/v1/nodes/*/translations/nb',
+    path: '**/taxonomy/v1/nodes/urn:subject:1:c8d6ed8b-d376-4c7b-b73a-3a1d48c3a357/translations/nb',
     fixture: 'taxonomy_change_name_translations_nb_put',
   });
   await page.getByTestId('settings-button').click();
@@ -113,19 +113,19 @@ test('should be able to change name of node', async ({ page }) => {
 test('should be able to delete name of node', async ({ page }) => {
   await mockRoute({
     page,
-    path: '**/taxonomy/v1/nodes/*/translations',
+    path: '**/taxonomy/v1/nodes/urn:subject:1:c8d6ed8b-d376-4c7b-b73a-3a1d48c3a357/translations',
     fixture: 'taxonomy_change_name_translations_delete',
-    overrideValue: JSON.stringify([{ name: '1-jonas-testfag', language: 'nb' }]),
+    overrideValue: JSON.stringify([{ name: 'Engelsk 1', language: 'nb' }]),
   });
   await mockRoute({
     page,
-    path: '**/taxonomy/v1/nodes/*/translations/nb',
+    path: '**/taxonomy/v1/nodes/urn:subject:1:c8d6ed8b-d376-4c7b-b73a-3a1d48c3a357/translations/nb',
     fixture: 'taxonomy_change_name_translations_nb_delete',
   });
   await page.getByTestId('structure').waitFor();
   await page
     .getByTestId('structure')
-    .getByRole('button', { name: '1-jonas-testfag', exact: true })
+    .getByRole('button', { name: 'Engelsk 1', exact: true })
     .click();
   await page.getByTestId('settings-button').click();
   await page.getByTestId('changeNodeNameButton').click();
@@ -140,7 +140,7 @@ test('should be able to delete name of node', async ({ page }) => {
 test('should be able to change visibility', async ({ page }) => {
   await mockRoute({
     page,
-    path: '**/taxonomy/v1/nodes/*/metadata',
+    path: '**/taxonomy/v1/nodes/urn:subject:1:c8d6ed8b-d376-4c7b-b73a-3a1d48c3a357/metadata',
     fixture: 'taxonomy_change_visibility',
     overrideValue: JSON.stringify({
       grepCodes: ['ASD'],
@@ -153,7 +153,7 @@ test('should be able to change visibility', async ({ page }) => {
 
   await page
     .getByTestId('structure')
-    .getByRole('button', { name: '1-jonas-testfag', exact: true })
+    .getByRole('button', { name: 'Engelsk 1', exact: true })
     .click();
   await page.getByTestId('settings-button').click();
   await page.getByTestId('toggleVisibilityButton').click();

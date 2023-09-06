@@ -27,12 +27,7 @@ const StyledConnectionsWrapper = styled.div`
 const ActiveTopicConnections = ({ activeTopics, ...rest }: Props) => (
   <StyledConnectionsWrapper>
     {activeTopics.map((node) => (
-      <ActiveTopicConnection
-        key={node.id}
-        disableRemove={activeTopics.length < 2}
-        node={node}
-        {...rest}
-      />
+      <ActiveTopicConnection key={node.id} node={node} {...rest} />
     ))}
   </StyledConnectionsWrapper>
 );

@@ -58,11 +58,13 @@ export const updateCell = (
   editor: Editor,
   cell: TableCellElement,
   data: Partial<TableCellElement['data']>,
+  cellType?: TableCellElement['type'],
 ) => {
   Transforms.setNodes(
     editor,
     {
       ...cell,
+      type: cellType ?? cell.type,
       data: {
         ...cell.data,
         ...data,
@@ -96,7 +98,7 @@ export const alignColumn = (editor: Editor, tablePath: Path, align: string) => {
     Editor.withoutNormalizing(editor, () => {
       column.forEach((cell) => {
         updateCell(editor, cell, {
-          align: align === 'left' ? undefined : align,
+          align: align,
         });
       });
     });

@@ -1903,13 +1903,13 @@
     "@ndla/icons" "^4.0.5"
     "@radix-ui/react-accordion" "^1.1.2"
 
-"@ndla/article-converter@^2.5.16":
-  version "2.5.16"
-  resolved "https://registry.yarnpkg.com/@ndla/article-converter/-/article-converter-2.5.16.tgz#1096f733926c36ad5245136ed934390a885ca8c8"
-  integrity sha512-Ql/BpOSOuH6CF1iZffq9BLdDS+29+gqCLRucMMPiPm0K+IDQ/PuW3F717SganxgA//OHhrrPiBsggcHkc91LiA==
+"@ndla/article-converter@^2.5.17":
+  version "2.5.17"
+  resolved "https://registry.yarnpkg.com/@ndla/article-converter/-/article-converter-2.5.17.tgz#7e6c89add91692b99e20fe3b8369fc2ed743eb96"
+  integrity sha512-E9ius9DhF6cLEx9v80O5ugb+GPE/WJxxy862BMcj3mZXnG0dgQyio0hvG5tH69WLkpH/YsZ+L1ZAoVKFSdxEpg==
   dependencies:
     "@ndla/code" "^2.2.25"
-    "@ndla/ui" "^44.0.16"
+    "@ndla/ui" "^44.0.17"
     html-react-parser "^3.0.8"
     lodash "^4.17.20"
 
@@ -2020,10 +2020,10 @@
   dependencies:
     "@ndla/util" "^3.1.15"
 
-"@ndla/howto@^3.3.19":
-  version "3.3.19"
-  resolved "https://registry.yarnpkg.com/@ndla/howto/-/howto-3.3.19.tgz#dc644a8ba320e4261c2695ae9a994d707b8d951f"
-  integrity sha512-Mqbs83qoR7B3oW7ReDBqXoXdxmhMyHTWRd80SpSWWeKUsECinE2hii/pyNNECM4/z2gHOAFrt7XiiiiQvF6mEA==
+"@ndla/howto@^3.3.20":
+  version "3.3.20"
+  resolved "https://registry.yarnpkg.com/@ndla/howto/-/howto-3.3.20.tgz#f4f4a351653ff4df530f60dd3a0d9d2eb9e9e82e"
+  integrity sha512-fZtxM4Oq6fN9ejItKpQTDvRcT08n2aQgoetAmYVCeR64EL1I5U/ASqtkSdglHes+wRYkiyH9tCdFBb7Xye+zKg==
   dependencies:
     "@ndla/button" "^11.0.5"
     "@ndla/core" "^4.1.6"
@@ -2032,7 +2032,7 @@
     "@ndla/modal" "^4.0.4"
     "@ndla/notion" "^5.0.19"
     "@ndla/tooltip" "^4.1.17"
-    "@ndla/ui" "^44.0.16"
+    "@ndla/ui" "^44.0.17"
     "@ndla/util" "^3.1.15"
     remarkable "^2.0.1"
 
@@ -2043,17 +2043,17 @@
   dependencies:
     "@ndla/core" "^4.1.6"
 
-"@ndla/image-search@^6.0.65":
-  version "6.0.65"
-  resolved "https://registry.yarnpkg.com/@ndla/image-search/-/image-search-6.0.65.tgz#60c223b420e27730f177f482dbc5f369d87c0790"
-  integrity sha512-uaknS2bcT0JwMi6SJWu0biMwlxNaUNlMVPSbuxcdwf45VfXHQAW26Rhx4kMysVmhFagAOhzyQVFjy+V+mOqmiw==
+"@ndla/image-search@^6.0.66":
+  version "6.0.66"
+  resolved "https://registry.yarnpkg.com/@ndla/image-search/-/image-search-6.0.66.tgz#8692bfb174d9856b983f13df6b837d8c897811a3"
+  integrity sha512-fAO85lRtILSIUEm/Z/If2CecKsHElTJ6hoF0kiN4nFscyXMoLHQuW8ZAbrMXxuk3MlXh96HygFWAdrA2DxrAWQ==
   dependencies:
     "@ndla/button" "^11.0.5"
     "@ndla/core" "^4.1.6"
     "@ndla/forms" "^4.3.20"
     "@ndla/icons" "^4.0.5"
     "@ndla/pager" "^2.2.19"
-    "@ndla/ui" "^44.0.16"
+    "@ndla/ui" "^44.0.17"
     "@ndla/util" "^3.1.15"
     pretty-bytes "^5.6.0"
 
@@ -2171,10 +2171,10 @@
   resolved "https://registry.yarnpkg.com/@ndla/types-taxonomy/-/types-taxonomy-1.0.18.tgz#854258b5355aa911aaa91b262b72bd3fa3225116"
   integrity sha512-wxJgzE+dzvLsYyw5AXNcfxJMV64/rfdN3UGOry2y9zxcLdyVnJPZ+mLJZ5kwndEKWjSGNCFBsLweycl4QZXUcw==
 
-"@ndla/ui@^44.0.16":
-  version "44.0.16"
-  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-44.0.16.tgz#3ad9719f9738f098fd66a285dd34e6eeb530a23b"
-  integrity sha512-/yzMaXN57kvlpenDBI/Vro3da5yW+37+R1l/ZfISVXzOzFvhYFr46fdMN41LSdnOmpGcc1JbADtLRnrVfHJVKg==
+"@ndla/ui@^44.0.17":
+  version "44.0.17"
+  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-44.0.17.tgz#a1a17bd01d871921ff718b32e20fe9235b08ffcc"
+  integrity sha512-Y/2Si4kcvma+3YKPajWRm3HGzDRzod++tRKAZTCD5tNqySv97Iq0JI/K/RsIEnD50QGBGYgb4ysTtZZDg0wPtw==
   dependencies:
     "@ndla/accordion" "^2.2.20"
     "@ndla/article-scripts" "^3.0.20"
@@ -3186,6 +3186,11 @@
   resolved "https://registry.yarnpkg.com/@types/connect/-/connect-3.4.32.tgz#aa0e9616b9435ccad02bc52b5b454ffc2c70ba28"
   dependencies:
     "@types/node" "*"
+
+"@types/diff-match-patch@^1.0.32":
+  version "1.0.32"
+  resolved "https://registry.yarnpkg.com/@types/diff-match-patch/-/diff-match-patch-1.0.32.tgz#d9c3b8c914aa8229485351db4865328337a3d09f"
+  integrity sha512-bPYT5ECFiblzsVzyURaNhljBH2Gh1t9LowgUwciMrNAhFewLkHT2H0Mto07Y4/3KCOGZHRQll3CTtQZ0X11D/A==
 
 "@types/eslint-scope@^3.7.3":
   version "3.7.4"

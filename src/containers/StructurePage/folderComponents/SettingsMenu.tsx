@@ -63,7 +63,7 @@ const SettingsMenu = ({ node, rootNodeId, onCurrentNodeChanged, nodeChildren }: 
       <Trigger asChild>
         <StyledIconButton
           variant="stripped"
-          data-cy="settings-button"
+          data-testid="settings-button"
           aria-label={t(`taxonomy.${nodeType.toLowerCase()}Settings`)}
           colorTheme="primary"
         >
@@ -73,7 +73,7 @@ const SettingsMenu = ({ node, rootNodeId, onCurrentNodeChanged, nodeChildren }: 
       <Portal>
         <>
           <Content side="right" sideOffset={10} asChild>
-            <StyledDivWrapper>
+            <StyledDivWrapper data-testid="settings-menu-modal">
               <Header>
                 <TitleWrapper>
                   <RoundIcon icon={<Settings />} open />

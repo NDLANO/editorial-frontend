@@ -7,7 +7,7 @@
  */
 
 import { test, expect } from '@playwright/test';
-import { mockRoute } from '../apiMock';
+import { mockRoute, mockWaitResponse } from '../apiMock';
 import {
   zendeskMock,
   responsiblesMock,
@@ -96,6 +96,12 @@ test.beforeEach(async ({ page }) => {
     overrideValue: JSON.stringify(getNoteUsersMock),
   });
 
+  const searchEmbed = mockRoute({
+    page,
+    path: '**/search-api/v1/search/editorial/?*',
+    fixture: 'language_handling_search_embed',
+  });
+
   page.goto(`/subject-matter/learning-resource/800/edit/nb`);
   await Promise.all([
     licenses,
@@ -110,8 +116,11 @@ test.beforeEach(async ({ page }) => {
     searchApi,
     containsArticle,
     getNoteUsers,
+    searchEmbed,
   ]);
 });
+
+test.afterEach(async ({ page }) => await mockWaitResponse(page, '**/**'));
 
 test('Can change language and fech new article', async ({ page }) => {
   await page.getByText('Legg til språk').click();

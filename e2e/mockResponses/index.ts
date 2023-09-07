@@ -9,6 +9,7 @@ export const brightcoveTokenMock = {
 export const userDataMock = {
   userId: 'test_user_id',
   latestEditedArticles: ['532'],
+  favoriteSubjects: [],
 };
 
 export const copyrightMock = {
@@ -134,6 +135,24 @@ export const getNoteUsersMock = [
     app_metadata: { ndla_id: 'PrcePFwCDOsb2_g0Kcb-maN0', roles: ['drafts:admin'] },
   },
 ];
+
+export const taxonomyNodeSubjectMock = {
+  id: 'urn:subject:test',
+  name: 'test fag',
+  contentUri: null,
+  path: '/subject:test',
+  paths: ['/subject:test'],
+  metadata: { grepCodes: [], visible: true, customFields: {} },
+  relevanceId: 'urn:relevance:core',
+  translations: [],
+  supportedLanguages: [],
+  breadcrumbs: ['test'],
+  resourceTypes: [],
+  nodeType: 'SUBJECT',
+  contextId: '12e482391',
+  url: '/test_12e482391',
+  contexts: [],
+};
 
 export const editorMock = [
   {

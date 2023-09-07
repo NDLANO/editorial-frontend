@@ -40,7 +40,7 @@ const SearchImage = ({ image, locale }: Props) => {
   const license = licenses && licenses.find((l) => image.copyright.license.license === l.license);
 
   return (
-    <StyledSearchResult>
+    <StyledSearchResult data-testid="image-search-result">
       <StyledSearchImageContainer>
         <img src={image.image.imageUrl + '?width=200'} alt={`${image.alttext.alttext}`} />
       </StyledSearchImageContainer>

@@ -60,7 +60,7 @@ export const responsiblesMock = [
     last_ip: 'test_ip',
     logins_count: 416,
     app_metadata: {
-      ndla_id: 'Gxfx7B-MXoFdgVZZ6p611C6w',
+      ndla_id: 'PrcePFwCDOsb2_g0Kcb-maN0',
       roles: [
         'articles:write',
         'audio:admin',
@@ -109,7 +109,7 @@ export const getNoteUsersMock = [
   {
     email: 'asdasd@knowit.no',
     email_verified: true,
-    name: 'Test test',
+    name: 'Ed Test',
     given_name: 'Test',
     family_name: 'test',
     picture: '',
@@ -131,7 +131,7 @@ export const getNoteUsersMock = [
     last_login: '2021-03-22T14:54:16.407Z',
     last_ip: '12.34.56.78',
     logins_count: 1337,
-    app_metadata: { ndla_id: 'Gxfx7B-MXoFdgVZZ6p611C6w', roles: ['drafts:admin'] },
+    app_metadata: { ndla_id: 'PrcePFwCDOsb2_g0Kcb-maN0', roles: ['drafts:admin'] },
   },
 ];
 
@@ -139,7 +139,7 @@ export const editorMock = [
   {
     name: 'Ed Test',
     app_metadata: {
-      ndla_id: 'Gxfx7B-MXoFdgVZZ6p611C6w',
+      ndla_id: 'PrcePFwCDOsb2_g0Kcb-maN0',
     },
   },
 ];

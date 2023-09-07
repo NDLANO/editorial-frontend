@@ -125,6 +125,7 @@ const LearningResourcePanels = ({
           title={t('form.workflowSection')}
           className={'u-6/6'}
           hasError={!!errors.notes}
+          data-testid={'learning-resource-workflow'}
         >
           <VersionAndNotesPanel
             article={article}

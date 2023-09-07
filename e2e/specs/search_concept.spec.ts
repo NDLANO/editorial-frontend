@@ -13,7 +13,7 @@ import {
   userDataMock,
   zendeskMock,
   getNoteUsersMock,
-  editorsMock,
+  editorMock,
 } from '../mockResponses';
 
 test.beforeEach(async ({ page }) => {
@@ -33,7 +33,7 @@ test.beforeEach(async ({ page }) => {
     page,
     path: '**/get_editors',
     fixture: 'search_concept_get_editors',
-    overrideValue: JSON.stringify(editorsMock),
+    overrideValue: JSON.stringify(editorMock),
   });
 
   const searchConcept = mockRoute({

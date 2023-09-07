@@ -38,13 +38,13 @@ test.beforeEach(async ({ page }) => {
 
   const searchConcept = mockRoute({
     page,
-    path: '**/concept-api/v1/drafts/?exclude-revision-log=false&fallback=false&filter-inactive=true&include-other-statuses=false&page=1*',
+    path: '**/concept-api/v1/drafts/?exclude-revision-log=false&fallback=false&filter-inactive=true&include-other-statuses=false&page=1&page-size=10&sort=-lastUpdated',
     fixture: 'search_concept_search',
   });
 
   const searchNextPage = mockRoute({
     page,
-    path: '**/concept-api/v1/drafts/?exclude-revision-log=false&fallback=false&filter-inactive=true&include-other-statuses=false&page=2*',
+    path: '**/concept-api/v1/drafts/?exclude-revision-log=false&fallback=false&filter-inactive=true&include-other-statuses=false&page=2&page-size=10&sort=-lastUpdated',
     fixture: 'search_concept_next_search',
   });
 
@@ -163,7 +163,7 @@ test('Can use subject dropdown', async ({ page }) => {
 test('Can use responsible dropdown', async ({ page }) => {
   await mockRoute({
     page,
-    path: '**/concept-api/v1/drafts/?exclude-revision-log=false&fallback=false&filter-inactive=true&include-other-statuses=false&page=*&page-size=10&responsible-ids=PrcePFwCDOsb2_g0Kcb-maN0&sort=-lastUpdated',
+    path: '**/concept-api/v1/drafts/?exclude-revision-log=false&fallback=false&filter-inactive=true&include-other-statuses=false&page=*&page-size=10&responsible-ids=Gxfx7B-MXoFdgVZZ6p611C6w&sort=-lastUpdated',
     fixture: 'search_concept_responsible_search',
   });
   await page.locator('select[name="responsible-ids"]').selectOption({ label: 'Ed Test' });
@@ -177,7 +177,7 @@ test('Can use responsible dropdown', async ({ page }) => {
 test('Can use user dropdown', async ({ page }) => {
   await mockRoute({
     page,
-    path: '**/concept-api/v1/drafts/?exclude-revision-log=false&fallback=false&filter-inactive=true&include-other-statuses=false&page=*&page-size=10&sort=-lastUpdated&users=PrcePFwCDOsb2_g0Kcb-maN0',
+    path: '**/concept-api/v1/drafts/?exclude-revision-log=false&fallback=false&filter-inactive=true&include-other-statuses=false&page=*&page-size=10&sort=-lastUpdated&users=%22Gxfx7B-MXoFdgVZZ6p611C6w%22',
     fixture: 'search_concept_users_search',
   });
   await page.locator('select[name="users"]').selectOption({ label: 'Ed Test' });

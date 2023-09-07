@@ -24,6 +24,7 @@ const CheckboxSelector = ({ name, checked, onChange }: Props) => {
       label={t(`searchForm.types.${name}`)}
       onChange={onChange}
       checked={checked}
+      component="div"
     />
   );
 };

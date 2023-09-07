@@ -60,6 +60,12 @@ To circumvent api call flakiness all request are mocked when the tests are run o
 $ yarn e2e:record
 ```
 
+Playwright tests can also be run in headless mode with mocked API calls.
+
+```
+$ yarn e2e:headless
+```
+
 ### Code style
 
 _tl;dr_: Use prettier and eslint!

@@ -94,6 +94,7 @@ const FrontpageArticleForm = ({
         <HeaderWithLanguage
           id={article?.id}
           title={article?.title?.title}
+          article={article}
           language={articleLanguage}
           supportedLanguages={supportedLanguages}
           status={article?.status}

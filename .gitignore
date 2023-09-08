@@ -8,8 +8,6 @@ yarn-error.log
 /build/
 /cache/
 /coverage/
-/cypress/screenshots
-/cypress/videos
 /htdocs/
 scripts/.cache/
 .vscode

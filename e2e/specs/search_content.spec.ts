@@ -44,13 +44,13 @@ test.beforeEach(async ({ page }) => {
 
   const searchcontent = mockRoute({
     page,
-    path: '**/search-api/v1/search/editorial/?exclude-revision-log=false&fallback=false&filter-inactive=true&include-other-statuses=false&page=1*',
+    path: '**/search-api/v1/search/editorial/?exclude-revision-log=false&fallback=false&filter-inactive=true&include-other-statuses=false&page=1&page-size=10&sort=-lastUpdated',
     fixture: 'search_content_search',
   });
 
   const searchNextPage = mockRoute({
     page,
-    path: '**/search-api/v1/search/editorial/?exclude-revision-log=false&fallback=false&filter-inactive=true&include-other-statuses=false&page=2*',
+    path: '**/search-api/v1/search/editorial/?exclude-revision-log=false&fallback=false&filter-inactive=true&include-other-statuses=false&page=2&page-size=10&sort=-lastUpdated',
     fixture: 'search_content_next_search',
   });
 
@@ -219,7 +219,7 @@ test('Can use inactive checkbox', async ({ page }) => {
   });
   await page.locator('input[id="checkbox-filter-inactive"]').click();
   await page.getByTestId('content-search-result').first().waitFor();
-  expect(await page.getByTestId('searchTotalCount').innerText()).toEqual('37174');
+  expect(await page.getByTestId('searchTotalCount').innerText()).toEqual('37176');
   await page.locator('input[id="checkbox-filter-inactive"]').click();
   await page.getByTestId('content-search-result').first().waitFor();
   expect(await page.getByTestId('searchTotalCount').innerText()).toEqual(searchTotalCount);

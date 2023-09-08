@@ -127,3 +127,21 @@ test('Can change language and fech new article', async ({ page }) => {
   await page.getByText('Engelsk').click();
   await expect(page.getByText('Engelsk')).toBeVisible();
 });
+
+test('Can edit published date', async ({ page }) => {
+  const saveButton = page
+    .getByTestId('saveLearningResourceButtonWrapper')
+    .getByRole('button')
+    .first();
+  await expect(saveButton).toBeDisabled();
+  const lastUpdatedDate = await page.getByTestId('last-edited').textContent();
+  await page.getByTestId('last-edited').click();
+  await page.locator('td[class="rdp-cell"]').first().click();
+  const currentSelectedDate = await page.getByTestId('last-edited').textContent();
+  expect(lastUpdatedDate === currentSelectedDate).toBeFalsy();
+});
+
+test('Has access to html-editor', async ({ page }) => {
+  await page.getByTestId('edit-markup-link').waitFor();
+  await expect(page.getByTestId('edit-markup-link')).toBeVisible();
+});

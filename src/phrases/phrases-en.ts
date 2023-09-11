@@ -549,7 +549,7 @@ const phrases = {
         'Use of illegal characters in permalink! Legal characters are numbers and letters, plus dashes.',
     },
     isFrontpageArticle: {
-      toggleArticle: 'Show wide editor',
+      toggleArticle: 'Wide editor',
     },
   },
   gridForm: {

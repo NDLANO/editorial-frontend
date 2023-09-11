@@ -142,7 +142,13 @@ const NodeItem = ({
         {isRoot && (
           <RoundIcon
             onClick={toggleFavorite}
-            smallIcon={<Star color={isFavorite ? colors.favoriteColor : colors.brand.greyDark} />}
+            smallIcon={
+              <Star
+                color={isFavorite ? colors.favoriteColor : colors.brand.greyDark}
+                data-testid="star-icon"
+              />
+            }
+            data-testid="favourite-subject"
           />
         )}
         <ItemTitleButton

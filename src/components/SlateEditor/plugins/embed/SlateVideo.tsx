@@ -155,7 +155,7 @@ const SlateVideo = ({
     const idWithoutTimestamp = embed.videoid?.split('&')[0];
 
     fetchBrightcoveVideo(idWithoutTimestamp).then((v) => {
-      if (isNumeric(v.link?.text)) {
+      if (isNumeric(v.link?.text.trim())) {
         setLinkedVideoId(v.link?.text);
       }
     });

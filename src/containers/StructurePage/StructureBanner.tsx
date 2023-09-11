@@ -56,6 +56,7 @@ const StructureBanner = ({ onChange, checked, nodeType }: Props) => {
           checked={checked}
           label={t('taxonomy.favorites')}
           id={'favorites'}
+          data-testid="switch-favorites"
         />
 
         {isTaxonomyAdmin && (

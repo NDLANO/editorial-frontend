@@ -550,7 +550,7 @@ const phrases = {
         'Bruk av ulovlige tegn i permalenken! Tillatte tegn er alle tall og bokstaver, og bindestrek',
     },
     isFrontpageArticle: {
-      toggleArticle: 'Vis bred editor',
+      toggleArticle: 'Bred editor',
     },
   },
   gridForm: {

@@ -41,11 +41,7 @@ const checkIfContentHasChanged = (
   const newHTML = toHTMLFunction(currentValue);
 
   const diff = diffHTML(newHTML, initialHTML || toHTMLFunction(initialContent));
-
-  if (diff.warn) {
-    return true;
-  }
-  return false;
+  return diff;
 };
 
 interface FormikFields {

@@ -7,7 +7,7 @@
  *
  */
 
-import { Editor, Element, Node } from 'slate';
+import { Editor, Element, Node, Path } from 'slate';
 import { jsx as slatejsx } from 'slate-hyperscript';
 import { defaultTableCellBlock } from './defaultBlocks';
 import {
@@ -111,4 +111,11 @@ export const createIdenticalRow = (element: TableRowElement) => {
       return defaultTableCellBlock();
     }),
   );
+};
+
+export const isInTableCellHeader = (editor: Editor, path?: Path) => {
+  if (path) {
+    const [parent] = Editor.parent(editor, path);
+    return Element.isElement(parent) && parent.type === TYPE_TABLE_CELL_HEADER;
+  }
 };

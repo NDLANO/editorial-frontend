@@ -145,6 +145,7 @@ const actions = [
 
 const actionsToShowInAreas = {
   'table-cell': [TYPE_EMBED_IMAGE],
+  'table-cell-header': [TYPE_EMBED_IMAGE],
   section: actions,
   'grid-cell': [TYPE_EMBED_IMAGE, TYPE_KEY_FIGURE, TYPE_BLOGPOST],
 };

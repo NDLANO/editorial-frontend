@@ -124,7 +124,8 @@ const actionsToShowInAreas = {
   details: actions,
   aside: actions,
   bodybox: actions,
-  'table-cell': ['image'],
+  'table-cell': [TYPE_EMBED_IMAGE],
+  'table-cell-header': [TYPE_EMBED_IMAGE],
   'grid-cell': [TYPE_EMBED_IMAGE],
 };
 

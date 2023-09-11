@@ -118,4 +118,5 @@ export const isInTableCellHeader = (editor: Editor, path?: Path) => {
     const [parent] = Editor.parent(editor, path);
     return Element.isElement(parent) && parent.type === TYPE_TABLE_CELL_HEADER;
   }
+  return false;
 };

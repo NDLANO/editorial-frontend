@@ -878,7 +878,7 @@ const phrases = {
       qualityAssurance: 'Kvalitetssikring',
       saveAsNew: 'Lag kopi',
       deleteLanguageVersion: {
-        button: 'Slett språkversjon',
+        button: 'Slett {{languageVersion}} versjon',
         title: 'Slett språkversjon',
         modal: 'Er du sikker på at du vil slette denne språkversjonen?',
       },

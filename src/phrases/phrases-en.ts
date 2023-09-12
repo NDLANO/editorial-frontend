@@ -877,7 +877,7 @@ const phrases = {
       qualityAssurance: 'Quality assurance',
       saveAsNew: 'Make copy',
       deleteLanguageVersion: {
-        button: 'Delete language version',
+        button: 'Delete {{languageVersion}} version',
         title: 'Delete language version',
         modal: 'Are you sure that you want to delete this language version?',
       },

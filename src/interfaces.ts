@@ -6,7 +6,7 @@
 
 import { IAudioMetaInformation } from '@ndla/types-backend/audio-api';
 import { IArticle, IRelatedContentLink } from '@ndla/types-backend/draft-api';
-import { AudioEmbedData } from '@ndla/types-embed';
+import { AudioEmbedData, ImageEmbedData } from '@ndla/types-embed';
 import { SearchTypeValues, LOCALE_VALUES } from './constants';
 
 export interface FormikStatus {
@@ -98,25 +98,6 @@ export type RelatedContent = IRelatedContentLink | number;
 export type ConvertedRelatedContent = RelatedContent | IArticle;
 
 export type MessageSeverity = 'danger' | 'info' | 'success' | 'warning';
-export interface ImageEmbed {
-  resource: 'image';
-  resource_id: string;
-  size?: string;
-  align?: string;
-  alt: string;
-  caption?: string;
-  url?: string;
-  'focal-x'?: string;
-  'focal-y'?: string;
-  'lower-right-y'?: string;
-  'lower-right-x'?: string;
-  'upper-left-y'?: string;
-  'upper-left-x'?: string;
-  metaData?: any;
-  'is-decorative'?: string;
-  allowDecorative?: string;
-  border?: string;
-}
 
 export interface BrightcoveEmbed {
   resource: 'brightcove' | 'video';
@@ -156,7 +137,7 @@ export interface ErrorEmbed {
 }
 
 export type Embed =
-  | ImageEmbed
+  | ImageEmbedData
   | BrightcoveEmbed
   | AudioEmbedData
   | H5pEmbed

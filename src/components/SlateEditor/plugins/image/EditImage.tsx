@@ -10,8 +10,9 @@ import styled from '@emotion/styled';
 import { shadows } from '@ndla/core';
 import { FormikValues } from 'formik';
 import { useCallback, useState } from 'react';
+import { ImageEmbedData } from '@ndla/types-embed';
+import { IImageMetaInformationV3 } from '@ndla/types-backend/build/image-api';
 import ImageEditor from '../../../../containers/ImageEditor/ImageEditor';
-import { ImageEmbed } from '../../../../interfaces';
 import { TransformData } from '../../../../util/imageEditorUtil';
 import FigureInput from './FigureInput';
 
@@ -25,11 +26,18 @@ const StyledEditorWrapper = styled.div`
 `;
 
 interface Props {
-  embed: ImageEmbed;
-  saveEmbedUpdates: Function;
-  setEditModus: Function;
+  embed: ImageEmbedData;
+  saveEmbedUpdates: (embed: ImageEmbedData) => void;
+  setEditModus: (editModus: boolean) => void;
   language: string;
   allowDecorative?: boolean;
+  image: IImageMetaInformationV3;
+}
+
+export interface ImageUpdates {
+  transformData: TransformData;
+  align?: string;
+  size?: string;
 }
 
 interface StateProps {
@@ -37,30 +45,31 @@ interface StateProps {
   caption?: string;
   isDecorative?: boolean;
   border?: boolean;
-  imageUpdates:
-    | {
-        transformData: TransformData;
-        align?: string;
-        size?: string;
-      }
-    | undefined;
+  imageUpdates: ImageUpdates | undefined;
   madeChanges: boolean;
 }
 
-const EditImage = ({ embed, saveEmbedUpdates, setEditModus, language, allowDecorative }: Props) => {
+const EditImage = ({
+  embed,
+  saveEmbedUpdates,
+  setEditModus,
+  language,
+  allowDecorative,
+  image,
+}: Props) => {
   const [state, setState] = useState<StateProps>({
     alt: embed.alt,
     caption: embed.caption,
-    isDecorative: embed['is-decorative'] === 'true',
-    border: embed['border'] === 'true',
+    isDecorative: allowDecorative && !embed.alt.length,
+    border: embed.border === 'true',
     imageUpdates: {
       transformData: {
-        'focal-x': embed['focal-x'],
-        'focal-y': embed['focal-y'],
-        'upper-left-x': embed['upper-left-x'],
-        'upper-left-y': embed['upper-left-y'],
-        'lower-right-x': embed['lower-right-x'],
-        'lower-right-y': embed['lower-right-y'],
+        focalX: embed.focalX,
+        focalY: embed.focalY,
+        upperLeftX: embed.upperLeftX,
+        upperLeftY: embed.upperLeftY,
+        lowerRightX: embed.lowerRightX,
+        lowerRightY: embed.lowerRightY,
       },
       align: embed.align,
       size: embed.size,
@@ -68,7 +77,7 @@ const EditImage = ({ embed, saveEmbedUpdates, setEditModus, language, allowDecor
     madeChanges: false,
   });
 
-  const onUpdatedImageSettings = (transformedData: NonNullable<StateProps['imageUpdates']>) => {
+  const onUpdatedImageSettings = (transformedData: ImageUpdates) => {
     setState({
       ...state,
       imageUpdates: {
@@ -89,15 +98,29 @@ const EditImage = ({ embed, saveEmbedUpdates, setEditModus, language, allowDecor
       }
     }
 
-    saveEmbedUpdates({
-      ...state,
-      ...state.imageUpdates?.transformData,
+    const newEmbed: ImageEmbedData = {
+      resource: 'image',
+      resourceId: embed.resourceId,
+      size: state.imageUpdates?.size,
       align: state.imageUpdates?.align,
-      size: updatedSize,
-      'is-decorative': state.isDecorative?.toString(),
-      border: state.border?.toString(),
-    });
+      alt: state.alt,
+      caption: state.caption,
+      url: embed.url,
+      border: state.border !== undefined ? (state.border ? 'true' : 'false') : undefined,
+    };
 
+    if (state.imageUpdates?.transformData.focalX) {
+      newEmbed.focalY = state.imageUpdates.transformData.focalY;
+      newEmbed.focalX = state.imageUpdates.transformData.focalX;
+    }
+
+    if (state.imageUpdates?.transformData.upperLeftX) {
+      newEmbed.upperLeftX = state.imageUpdates.transformData.upperLeftX;
+      newEmbed.upperLeftY = state.imageUpdates.transformData.upperLeftY;
+      newEmbed.lowerRightY = state.imageUpdates.transformData.lowerRightY;
+      newEmbed.lowerRightX = state.imageUpdates.transformData.lowerRightX;
+    }
+    saveEmbedUpdates(newEmbed);
     setEditModus(false);
   };
 
@@ -133,6 +156,7 @@ const EditImage = ({ embed, saveEmbedUpdates, setEditModus, language, allowDecor
     <StyledEditorWrapper contentEditable={false}>
       <StyledEditorContent>
         <ImageEditor
+          image={image}
           embed={embed}
           onUpdatedImageSettings={onUpdatedImageSettings}
           imageUpdates={state.imageUpdates}

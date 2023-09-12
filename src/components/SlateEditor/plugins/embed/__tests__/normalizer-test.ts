@@ -13,8 +13,9 @@ import withPlugins from '../../../utils/withPlugins';
 import { plugins } from '../../../../../containers/ArticlePage/LearningResourcePage/components/LearningResourceContent';
 import { TYPE_PARAGRAPH } from '../../paragraph/types';
 import { TYPE_SECTION } from '../../section/types';
-import { TYPE_EMBED_H5P, TYPE_EMBED_IMAGE } from '../types';
+import { TYPE_EMBED_H5P } from '../types';
 import { TYPE_AUDIO } from '../../audio/types';
+import { TYPE_IMAGE } from '../../image/types';
 
 const editor = withHistory(
   withReact(
@@ -32,7 +33,7 @@ describe('embed normalizer tests', () => {
         type: TYPE_SECTION,
         children: [
           {
-            type: TYPE_EMBED_IMAGE,
+            type: TYPE_IMAGE,
             children: [
               {
                 text: '',
@@ -40,7 +41,7 @@ describe('embed normalizer tests', () => {
             ],
             data: {
               resource: 'image',
-              resource_id: '123',
+              resourceId: '123',
               size: 'small',
               align: 'right',
               alt: 'test-alt',
@@ -88,7 +89,7 @@ describe('embed normalizer tests', () => {
             children: [{ text: '' }],
           },
           {
-            type: TYPE_EMBED_IMAGE,
+            type: TYPE_IMAGE,
             children: [
               {
                 text: '',
@@ -96,7 +97,7 @@ describe('embed normalizer tests', () => {
             ],
             data: {
               resource: 'image',
-              resource_id: '123',
+              resourceId: '123',
               size: 'small',
               align: 'right',
               alt: 'test-alt',

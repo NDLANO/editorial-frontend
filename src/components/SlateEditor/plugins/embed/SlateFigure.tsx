@@ -10,7 +10,6 @@ import { ReactNode } from 'react';
 import { Editor, Transforms, Path } from 'slate';
 import { RenderElementProps, ReactEditor, useSelected } from 'slate-react';
 import { useTranslation } from 'react-i18next';
-import SlateImage from './SlateImage';
 import SlateVideo from './SlateVideo';
 import EditorErrorMessage from '../../EditorErrorMessage';
 import DisplayExternal from '../../../DisplayEmbed/DisplayExternal';
@@ -19,19 +18,13 @@ import {
   ErrorEmbedElement,
   ExternalEmbedElement,
   H5PEmbedElement,
-  ImageEmbedElement,
 } from '.';
 import { isSlateEmbed } from './utils';
 
 interface Props {
   attributes: RenderElementProps['attributes'];
   editor: Editor;
-  element:
-    | H5PEmbedElement
-    | BrightcoveEmbedElement
-    | ErrorEmbedElement
-    | ExternalEmbedElement
-    | ImageEmbedElement;
+  element: H5PEmbedElement | BrightcoveEmbedElement | ErrorEmbedElement | ExternalEmbedElement;
   language: string;
   children: ReactNode;
   allowDecorative?: boolean;
@@ -81,23 +74,6 @@ const SlateFigure = ({
   };
 
   switch (embed.resource) {
-    case 'image':
-      return (
-        <SlateImage
-          attributes={attributes}
-          embed={embed}
-          language={language}
-          onRemoveClick={onRemoveClick}
-          saveEmbedUpdates={saveEmbedUpdates}
-          visualElement={false}
-          active={isActive()}
-          isSelectedForCopy={isSelected}
-          pathToEmbed={pathToEmbed}
-          allowDecorative={allowDecorative}
-        >
-          {children}
-        </SlateImage>
-      );
     case 'brightcove':
       return (
         <SlateVideo

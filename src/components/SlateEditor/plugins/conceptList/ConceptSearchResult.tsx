@@ -52,7 +52,7 @@ const getVisualElement = (embed: Embed) => {
     return {
       resource: embed.resource,
       image: {
-        src: `${config.ndlaApiUrl}/image-api/raw/id/${embed.resource_id}`,
+        src: `${config.ndlaApiUrl}/image-api/raw/id/${embed.resourceId}`,
         alt: embed.alt,
       },
     };

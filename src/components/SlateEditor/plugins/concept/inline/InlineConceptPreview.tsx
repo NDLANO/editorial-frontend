@@ -66,8 +66,8 @@ const InlineConceptPreview = ({ concept, handleRemove, id, isBlockView }: Props)
     if (!visualElement) return null;
     switch (visualElement?.resource) {
       case 'image': {
-        const wrapperUrl = `${config.ndlaApiUrl}/image-api/raw/id/${visualElement.resource_id}`;
-        const srcSet = getSrcSets(visualElement.resource_id, visualElement);
+        const wrapperUrl = `${config.ndlaApiUrl}/image-api/raw/id/${visualElement.resourceId}`;
+        const srcSet = getSrcSets(visualElement.resourceId, visualElement);
         return (
           <ImageWrapper url={wrapperUrl}>
             <img alt={visualElement?.alt} src={visualElement?.url} srcSet={srcSet} />

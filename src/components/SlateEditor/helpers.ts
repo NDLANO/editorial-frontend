@@ -11,11 +11,11 @@ import {
   TYPE_EMBED_ERROR,
   TYPE_EMBED_EXTERNAL,
   TYPE_EMBED_H5P,
-  TYPE_EMBED_IMAGE,
 } from './plugins/embed/types';
 import { TYPE_FILE } from './plugins/file/types';
 import { TYPE_FOOTNOTE } from './plugins/footnote/types';
 import { TYPE_GRID } from './plugins/grid/types';
+import { TYPE_IMAGE } from './plugins/image/types';
 import { TYPE_KEY_FIGURE } from './plugins/keyFigure/types';
 import { TYPE_LINK, TYPE_CONTENT_LINK } from './plugins/link/types';
 import { TYPE_MATHML } from './plugins/mathml/types';
@@ -42,7 +42,7 @@ export const blocks = [
   TYPE_EMBED_ERROR,
   TYPE_EMBED_EXTERNAL,
   TYPE_EMBED_H5P,
-  TYPE_EMBED_IMAGE,
+  TYPE_IMAGE,
   TYPE_FILE,
   TYPE_RELATED,
   TYPE_TABLE,
@@ -50,5 +50,5 @@ export const blocks = [
   TYPE_GRID,
   TYPE_KEY_FIGURE,
   TYPE_CAMPAIGN_BLOCK,
-  TYPE_EMBED_IMAGE,
+  TYPE_IMAGE,
 ];

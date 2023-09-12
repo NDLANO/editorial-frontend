@@ -9,7 +9,7 @@ import { cloneElement } from 'react';
 import escapeHtml from 'escape-html';
 import compact from 'lodash/compact';
 import toArray from 'lodash/toArray';
-import { Descendant, Node, Text } from 'slate';
+import { Descendant, Element, Node, Text } from 'slate';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { Plain } from './slatePlainSerializer';
 import { convertFromHTML } from './convertFromHTML';
@@ -51,6 +51,8 @@ import { contactBlockSerializer } from '../components/SlateEditor/plugins/contac
 import { campaignBlockSerializer } from '../components/SlateEditor/plugins/campaignBlock';
 import { linkBlockListSerializer } from '../components/SlateEditor/plugins/linkBlockList';
 import { audioSerializer } from '../components/SlateEditor/plugins/audio';
+import { imageSerializer } from '../components/SlateEditor/plugins/image';
+import { TYPE_IMAGE } from '../components/SlateEditor/plugins/image/types';
 
 export const sectionSplitter = (html: string) => {
   const node = document.createElement('div');
@@ -107,6 +109,7 @@ const extendedRules: SlateSerializer[] = [
   contactBlockSerializer,
   campaignBlockSerializer,
   linkBlockListSerializer,
+  imageSerializer,
   audioSerializer,
   embedSerializer,
   bodyboxSerializer,
@@ -242,7 +245,8 @@ export function embedTagToEditorValue(embedTag: string) {
 
 export function editorValueToEmbed(editorValue?: Descendant[]) {
   const embed = editorValue && editorValue[0];
-  if (embed && isSlateEmbed(embed)) return embed.data;
+  if (embed && (isSlateEmbed(embed) || (Element.isElement(embed) && embed.type === TYPE_IMAGE)))
+    return embed.data;
   else return undefined;
 }
 

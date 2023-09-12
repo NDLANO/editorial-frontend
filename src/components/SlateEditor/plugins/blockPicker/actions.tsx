@@ -27,12 +27,7 @@ import { List } from '@ndla/icons/action';
 import HowToHelper from '../../../HowTo/HowToHelper';
 import { TYPE_CONCEPT_BLOCK } from '../concept/block/types';
 import { DRAFT_ADMIN_SCOPE } from '../../../../constants';
-import {
-  TYPE_EMBED_BRIGHTCOVE,
-  TYPE_EMBED_EXTERNAL,
-  TYPE_EMBED_H5P,
-  TYPE_EMBED_IMAGE,
-} from '../embed/types';
+import { TYPE_EMBED_BRIGHTCOVE, TYPE_EMBED_EXTERNAL, TYPE_EMBED_H5P } from '../embed/types';
 import { TYPE_ASIDE } from '../aside/types';
 import { TYPE_DETAILS } from '../details/types';
 import { TYPE_TABLE } from '../table/types';
@@ -48,6 +43,7 @@ import { TYPE_CAMPAIGN_BLOCK } from '../campaignBlock/types';
 import { TYPE_GRID } from '../grid/types';
 import { TYPE_LINK_BLOCK_LIST } from '../linkBlockList/types';
 import { TYPE_AUDIO } from '../audio/types';
+import { TYPE_IMAGE } from '../image/types';
 
 const renderArticleInModal = (pageId: string) => <HowToHelper pageId={pageId} extraIconPadding />;
 
@@ -85,7 +81,7 @@ export const commonActions: Action[] = [
     helpIcon: renderArticleInModal('BodyBox'),
   },
   {
-    data: { type: TYPE_EMBED_IMAGE, object: 'image' },
+    data: { type: TYPE_IMAGE, object: 'image' },
     icon: <Camera />,
     helpIcon: renderArticleInModal('Images'),
   },

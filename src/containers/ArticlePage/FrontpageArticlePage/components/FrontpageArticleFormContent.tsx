@@ -45,7 +45,6 @@ import { breakPlugin } from '../../../../components/SlateEditor/plugins/break';
 import { markPlugin } from '../../../../components/SlateEditor/plugins/mark';
 import { listPlugin } from '../../../../components/SlateEditor/plugins/list';
 import { divPlugin } from '../../../../components/SlateEditor/plugins/div';
-import { LocaleType } from '../../../../interfaces';
 import { FrontpageArticleFormType } from '../../../FormikForm/articleFormHooks';
 import { dndPlugin } from '../../../../components/SlateEditor/plugins/DND';
 import { SlatePlugin } from '../../../../components/SlateEditor/interfaces';
@@ -62,7 +61,6 @@ import {
   TYPE_EMBED_H5P,
   TYPE_EMBED_BRIGHTCOVE,
   TYPE_EMBED_EXTERNAL,
-  TYPE_EMBED_IMAGE,
 } from '../../../../components/SlateEditor/plugins/embed/types';
 import { TYPE_FILE } from '../../../../components/SlateEditor/plugins/file/types';
 import { contactBlockPlugin } from '../../../../components/SlateEditor/plugins/contactBlock';
@@ -81,6 +79,8 @@ import { linkBlockListPlugin } from '../../../../components/SlateEditor/plugins/
 import { TYPE_LINK_BLOCK_LIST } from '../../../../components/SlateEditor/plugins/linkBlockList/types';
 import { audioPlugin } from '../../../../components/SlateEditor/plugins/audio';
 import { TYPE_AUDIO } from '../../../../components/SlateEditor/plugins/audio/types';
+import { TYPE_IMAGE } from '../../../../components/SlateEditor/plugins/image/types';
+import { imagePlugin } from '../../../../components/SlateEditor/plugins/image';
 
 const StyledFormikField = styled(FormikField)`
   display: flex;
@@ -129,7 +129,7 @@ const visualElements = [
   TYPE_EMBED_BRIGHTCOVE,
   TYPE_AUDIO,
   TYPE_EMBED_EXTERNAL,
-  TYPE_EMBED_IMAGE,
+  TYPE_IMAGE,
 ];
 
 const actions = [
@@ -145,9 +145,9 @@ const actions = [
 ].concat(visualElements);
 
 const actionsToShowInAreas = {
-  'table-cell': [TYPE_EMBED_IMAGE],
+  'table-cell': [TYPE_IMAGE],
   section: actions,
-  'grid-cell': [TYPE_EMBED_IMAGE, TYPE_KEY_FIGURE, TYPE_BLOGPOST],
+  'grid-cell': [TYPE_IMAGE, TYPE_KEY_FIGURE, TYPE_BLOGPOST],
 };
 
 // Plugins are checked from last to first
@@ -159,6 +159,7 @@ export const plugins = (articleLanguage: string, handleSubmit: VoidFunction): Sl
     paragraphPlugin(articleLanguage),
     footnotePlugin,
     embedPlugin(articleLanguage),
+    imagePlugin(articleLanguage),
     audioPlugin(articleLanguage),
     bodyboxPlugin,
     asidePlugin,

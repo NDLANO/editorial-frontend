@@ -9,12 +9,12 @@ import { MouseEvent } from 'react';
 import config from '../config';
 
 export interface TransformData {
-  'focal-x'?: string;
-  'focal-y'?: string;
-  'upper-left-x'?: string;
-  'upper-left-y'?: string;
-  'lower-right-x'?: string;
-  'lower-right-y'?: string;
+  focalX?: string;
+  focalY?: string;
+  upperLeftX?: string;
+  upperLeftY?: string;
+  lowerRightX?: string;
+  lowerRightY?: string;
 }
 
 export function getElementOffset(el: HTMLImageElement) {
@@ -58,21 +58,21 @@ export function getImageDimensions(e: HTMLImageElement) {
 
 export function getCrop(transformData: TransformData) {
   if (
-    transformData['upper-left-x'] === undefined ||
-    transformData['upper-left-y'] === undefined ||
-    transformData['lower-right-x'] === undefined ||
-    transformData['lower-right-y'] === undefined
+    transformData.upperLeftX === undefined ||
+    transformData.upperLeftY === undefined ||
+    transformData.lowerRightX === undefined ||
+    transformData.lowerRightY === undefined
   ) {
     return undefined;
   }
-  return `cropStartX=${transformData['upper-left-x']}&cropStartY=${transformData['upper-left-y']}&cropEndX=${transformData['lower-right-x']}&cropEndY=${transformData['lower-right-y']}`;
+  return `cropStartX=${transformData.upperLeftX}&cropStartY=${transformData.upperLeftY}&cropEndX=${transformData.lowerRightX}&cropEndY=${transformData.lowerRightY}`;
 }
 
 export function getFocalPoint(transformData: TransformData) {
-  if (transformData['focal-x'] === undefined || transformData['focal-y'] === undefined) {
+  if (transformData.focalX === undefined || transformData.focalY === undefined) {
     return undefined;
   }
-  return `focalX=${transformData['focal-x']}&focalY=${transformData['focal-y']}`;
+  return `focalX=${transformData.focalX}&focalY=${transformData.focalY}`;
 }
 
 const imageWidths = [1440, 1120, 1000, 960, 800, 640, 480, 320];

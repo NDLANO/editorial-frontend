@@ -6,7 +6,7 @@
  */
 
 import isEqual from 'lodash/fp/isEqual';
-import { Descendant, Node } from 'slate';
+import { Descendant, Element, Node } from 'slate';
 import { IArticle, ILicense, IArticleMetaImage } from '@ndla/types-backend/draft-api';
 import { isUserProvidedEmbedDataValid } from './embedTagHelpers';
 import { findNodesByType } from './slateHelpers';
@@ -22,6 +22,7 @@ import {
 } from '../containers/FormikForm/articleFormHooks';
 import { EmbedElements } from '../components/SlateEditor/plugins/embed';
 import { isSlateEmbed } from '../components/SlateEditor/plugins/embed/utils';
+import { TYPE_IMAGE } from '../components/SlateEditor/plugins/image/types';
 
 export const DEFAULT_LICENSE: ILicense = {
   description: 'Creative Commons Attribution-ShareAlike 4.0 International',
@@ -222,7 +223,7 @@ export const learningResourceRules: RulesType<LearningResourceFormType, IArticle
     test: (values) => {
       const embeds = findNodesByType(
         values.content ?? [],
-        'image-embed',
+        'image',
         'brightcove-embed',
         'h5p-embed',
         'audio',
@@ -265,14 +266,14 @@ export const topicArticleRules: RulesType<TopicArticleFormType, IArticle> = {
   visualElementAlt: {
     required: false,
     onlyValidateIf: (values) =>
-      isSlateEmbed(values.visualElement[0]) && values.visualElement[0].data.resource === 'image',
+      Element.isElement(values.visualElement[0]) && values.visualElement[0].type === TYPE_IMAGE,
   },
   visualElementCaption: {
     required: false,
     onlyValidateIf: (values) =>
-      isSlateEmbed(values.visualElement[0]) &&
-      (values.visualElement[0].data.resource === 'image' ||
-        values.visualElement[0].data.resource === 'brightcove'),
+      (isSlateEmbed(values.visualElement[0]) &&
+        values.visualElement[0].data.resource === 'brightcove') ||
+      (Element.isElement(values.visualElement[0]) && values.visualElement[0].type === TYPE_IMAGE),
     warnings: {
       languageMatch: true,
       apiField: 'visualElement',
@@ -281,7 +282,7 @@ export const topicArticleRules: RulesType<TopicArticleFormType, IArticle> = {
   visualElement: {
     required: false,
     test: (values) =>
-      isSlateEmbed(values.visualElement[0]) && values.visualElement[0].data.resource !== 'image'
+      Element.isElement(values.visualElement[0]) && values.visualElement[0].type === TYPE_IMAGE
         ? { translationKey: 'topicArticleForm.validation.illegalResource' }
         : undefined,
   },

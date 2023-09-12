@@ -41,7 +41,6 @@ import {
   TYPE_EMBED_ERROR,
   TYPE_EMBED_EXTERNAL,
   TYPE_EMBED_H5P,
-  TYPE_EMBED_IMAGE,
 } from '../embed/types';
 import { TYPE_RELATED } from '../related/types';
 import { TYPE_CODEBLOCK } from '../codeBlock/types';
@@ -58,6 +57,7 @@ import { TYPE_CAMPAIGN_BLOCK } from '../campaignBlock/types';
 import { TYPE_LINK_BLOCK_LIST } from '../linkBlockList/types';
 import { defaultLinkBlockList } from '../linkBlockList';
 import { TYPE_AUDIO } from '../audio/types';
+import { TYPE_IMAGE } from '../image/types';
 
 interface Props {
   editor: Editor;
@@ -205,9 +205,13 @@ const SlateBlockPicker = ({
         setType(data.object);
         break;
       }
+      case TYPE_IMAGE: {
+        setVisualElementPickerOpen(true);
+        setType(data.object);
+        break;
+      }
       case TYPE_FILE:
       case TYPE_EMBED_H5P:
-      case TYPE_EMBED_IMAGE:
       case TYPE_EMBED_ERROR:
       case TYPE_EMBED_EXTERNAL:
       case TYPE_EMBED_BRIGHTCOVE: {

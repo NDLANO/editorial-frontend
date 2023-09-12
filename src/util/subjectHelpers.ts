@@ -12,10 +12,10 @@ import {
   INewSubjectFrontPageData,
   IUpdatedSubjectFrontPageData,
 } from '@ndla/types-backend/frontpage-api';
-import { IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
 import { ILearningPathV2 } from '@ndla/types-backend/learningpath-api';
 import { IArticle } from '@ndla/types-backend/draft-api';
-import { BrightcoveEmbed, ImageEmbed } from '../interfaces';
+import { ImageEmbedData } from '@ndla/types-embed';
+import { BrightcoveEmbed } from '../interfaces';
 import {
   editorValueToEmbed,
   editorValueToPlainText,
@@ -62,9 +62,11 @@ export const subjectpageFormikTypeToPostType = (
   values: SubjectPageFormikType,
   editorsChoicesUrns?: string[],
 ): INewSubjectFrontPageData => {
-  const visualElement = editorValueToEmbed(values.visualElement)! as ImageEmbed | BrightcoveEmbed;
+  const visualElement = editorValueToEmbed(values.visualElement)! as
+    | ImageEmbedData
+    | BrightcoveEmbed;
   const alt = visualElement.resource === 'image' ? visualElement.alt : visualElement.caption;
-  const id = visualElement.resource === 'image' ? visualElement.resource_id : visualElement.videoid;
+  const id = visualElement.resource === 'image' ? visualElement.resourceId : visualElement.videoid;
   return {
     about: [
       {

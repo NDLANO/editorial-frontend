@@ -6,7 +6,7 @@
  *
  */
 
-import { MouseEvent, useEffect, useState } from 'react';
+import { MouseEvent, useState } from 'react';
 import { IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
 import { ButtonV2 } from '@ndla/button';
 import { colors } from '@ndla/core';
@@ -14,13 +14,14 @@ import styled from '@emotion/styled';
 import { Crop, FocalPoint } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
 import { useTranslation } from 'react-i18next';
+import { ImageEmbedData } from '@ndla/types-embed';
 import ImageTransformEditor from './ImageTransformEditor';
 import ImageAlignButton from './ImageAlignButton';
 import ImageSizeButton from './ImageSizeButton';
 import ImageEditorButton from './ImageEditorButton';
-import { ImageEmbed } from '../../interfaces';
-import { fetchImage } from '../../modules/image/imageApi';
 import ShowBylineButton from './ShowBylineButton';
+import { ImageUpdates } from '../../components/SlateEditor/plugins/image/EditImage';
+import { TransformData } from '../../util/imageEditorUtil';
 
 const StyledImageEditorMenu = styled('div')`
   color: white;
@@ -42,62 +43,41 @@ const sizes = ['xsmall', 'small', 'medium'];
 
 const bylineOptions = ['hide', 'show'];
 
-const defaultData = {
+const defaultData: Record<string, TransformData> = {
   focalPoint: {
-    'focal-x': undefined,
-    'focal-y': undefined,
+    focalX: undefined,
+    focalY: undefined,
   },
   crop: {
-    'upper-left-x': undefined,
-    'upper-left-y': undefined,
-    'lower-right-x': undefined,
-    'lower-right-y': undefined,
-    'focal-x': undefined,
-    'focal-y': undefined,
+    upperLeftX: undefined,
+    upperLeftY: undefined,
+    lowerRightX: undefined,
+    lowerRightY: undefined,
+    focalX: undefined,
+    focalY: undefined,
   },
-};
+} as const;
 
 interface Props {
-  embed: ImageEmbed;
+  embed: ImageEmbedData;
   onUpdatedImageSettings: Function;
-  imageUpdates:
-    | {
-        transformData: {
-          'focal-x'?: string;
-          'focal-y'?: string;
-          'upper-left-x'?: string;
-          'upper-left-y'?: string;
-          'lower-right-x'?: string;
-          'lower-right-y'?: string;
-        };
-        align?: string;
-        size?: string;
-      }
-    | undefined;
+  imageUpdates: ImageUpdates | undefined;
   language: string;
+  image: IImageMetaInformationV3;
 }
 
 type StateProp = 'crop' | 'focalPoint' | undefined;
 
-const ImageEditor = ({ embed, onUpdatedImageSettings, imageUpdates, language }: Props) => {
+const ImageEditor = ({ embed, onUpdatedImageSettings, image, imageUpdates, language }: Props) => {
   const { t } = useTranslation();
   const [editType, setEditType] = useState<StateProp>(undefined);
-  const [image, setImage] = useState<IImageMetaInformationV3 | undefined>(undefined);
-
-  useEffect(() => {
-    const getImage = async () => {
-      const img = await fetchImage(embed.resource_id, language);
-      setImage(img);
-    };
-    getImage();
-  }, [embed, language]);
 
   const onFocalPointChange = (focalPoint: { x: number; y: number }) => {
     onUpdatedImageSettings({
       transformData: {
         ...imageUpdates?.transformData,
-        'focal-x': focalPoint.x.toString(),
-        'focal-y': focalPoint.y.toString(),
+        focalX: focalPoint.x.toString(),
+        focalY: focalPoint.y.toString(),
       },
     });
   };
@@ -111,10 +91,10 @@ const ImageEditor = ({ embed, onUpdatedImageSettings, imageUpdates, language }: 
     } else {
       onUpdatedImageSettings({
         transformData: {
-          'upper-left-x': crop.x.toString(),
-          'upper-left-y': crop.y.toString(),
-          'lower-right-x': (crop.x + width).toString(),
-          'lower-right-y': (crop.y + height).toString(),
+          upperLeftX: crop.x.toString(),
+          upperLeftY: crop.y.toString(),
+          lowerRightX: (crop.x + width).toString(),
+          lowerRightY: (crop.y + height).toString(),
           ...defaultData.focalPoint,
         },
       });
@@ -150,8 +130,8 @@ const ImageEditor = ({ embed, onUpdatedImageSettings, imageUpdates, language }: 
   };
 
   const imageCancelButtonNeeded =
-    (editType === 'focalPoint' && imageUpdates?.transformData['focal-x']) ||
-    (editType === 'crop' && imageUpdates?.transformData['upper-left-x']);
+    (editType === 'focalPoint' && imageUpdates?.transformData.focalX) ||
+    (editType === 'crop' && imageUpdates?.transformData.upperLeftX);
 
   return (
     <div>
@@ -209,7 +189,7 @@ const ImageEditor = ({ embed, onUpdatedImageSettings, imageUpdates, language }: 
             <Tooltip tooltip={t('form.image.focalPoint')}>
               <ImageEditorButton
                 tabIndex={-1}
-                isActive={embed['focal-x'] !== undefined}
+                isActive={embed.focalX !== undefined}
                 onClick={(evt: MouseEvent<HTMLButtonElement>) => onEditorTypeSet(evt, 'focalPoint')}
               >
                 <FocalPoint />
@@ -227,7 +207,7 @@ const ImageEditor = ({ embed, onUpdatedImageSettings, imageUpdates, language }: 
           {isModifiable() && (
             <Tooltip tooltip={t('form.image.crop')}>
               <ImageEditorButton
-                isActive={embed['upper-left-x'] !== undefined}
+                isActive={embed.upperLeftX !== undefined}
                 onClick={(evt: MouseEvent<HTMLButtonElement>) => onEditorTypeSet(evt, 'crop')}
                 tabIndex={-1}
               >

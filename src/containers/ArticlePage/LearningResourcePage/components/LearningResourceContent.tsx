@@ -67,7 +67,6 @@ import {
   TYPE_EMBED_BRIGHTCOVE,
   TYPE_EMBED_EXTERNAL,
   TYPE_EMBED_H5P,
-  TYPE_EMBED_IMAGE,
 } from '../../../../components/SlateEditor/plugins/embed/types';
 import { TYPE_TABLE } from '../../../../components/SlateEditor/plugins/table/types';
 import { TYPE_CODEBLOCK } from '../../../../components/SlateEditor/plugins/codeBlock/types';
@@ -76,6 +75,8 @@ import { TYPE_GRID } from '../../../../components/SlateEditor/plugins/grid/types
 import { HandleSubmitFunc, LearningResourceFormType } from '../../../FormikForm/articleFormHooks';
 import { audioPlugin } from '../../../../components/SlateEditor/plugins/audio';
 import { TYPE_AUDIO } from '../../../../components/SlateEditor/plugins/audio/types';
+import { TYPE_IMAGE } from '../../../../components/SlateEditor/plugins/image/types';
+import { imagePlugin } from '../../../../components/SlateEditor/plugins/image';
 
 const StyledFormikField = styled(FormikField)`
   display: flex;
@@ -116,7 +117,7 @@ const visualElements = [
   TYPE_EMBED_BRIGHTCOVE,
   TYPE_AUDIO,
   TYPE_EMBED_EXTERNAL,
-  TYPE_EMBED_IMAGE,
+  TYPE_IMAGE,
 ];
 
 const actions = [TYPE_TABLE, TYPE_CODEBLOCK, TYPE_FILE, TYPE_GRID].concat(visualElements);
@@ -125,7 +126,7 @@ const actionsToShowInAreas = {
   aside: actions,
   bodybox: actions,
   'table-cell': ['image'],
-  'grid-cell': [TYPE_EMBED_IMAGE],
+  'grid-cell': [TYPE_IMAGE],
 };
 
 // Plugins are checked from last to first
@@ -136,6 +137,7 @@ export const plugins = (articleLanguage: string, handleSubmit: () => void): Slat
     divPlugin,
     paragraphPlugin(articleLanguage),
     footnotePlugin,
+    imagePlugin(articleLanguage),
     audioPlugin(articleLanguage),
     embedPlugin(articleLanguage),
     bodyboxPlugin,

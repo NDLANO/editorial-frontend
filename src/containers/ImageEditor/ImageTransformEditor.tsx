@@ -6,10 +6,10 @@
  */
 
 import styled from '@emotion/styled';
-import { ImageEmbed } from '../../interfaces';
+import { ImageEmbedData } from '@ndla/types-embed';
 import ImageFocalPointEdit from './ImageFocalPointEdit';
 import ImageCropEdit from './ImageCropEdit';
-import { getSrcSets } from '../../util/imageEditorUtil';
+import { TransformData, getSrcSets } from '../../util/imageEditorUtil';
 
 const StyledImg = styled.img`
   min-width: -webkit-fill-available;
@@ -17,19 +17,12 @@ const StyledImg = styled.img`
 `;
 
 interface Props {
-  embed: ImageEmbed;
+  embed: ImageEmbedData;
   language: string;
   editType?: string;
   onFocalPointChange: (focalPoint: { x: number; y: number }) => void;
   onCropComplete: (crop: ReactCrop.Crop, size: ReactCrop.PixelCrop) => void;
-  transformData?: {
-    'upper-left-x'?: string;
-    'upper-left-y'?: string;
-    'lower-right-x'?: string;
-    'lower-right-y'?: string;
-    'focal-x'?: string;
-    'focal-y'?: string;
-  };
+  transformData?: TransformData;
 }
 
 const ImageTransformEditor = ({
@@ -64,7 +57,7 @@ const ImageTransformEditor = ({
         <figure>
           <StyledImg
             alt={embed.alt}
-            srcSet={getSrcSets(embed.resource_id, transformData, language)}
+            srcSet={getSrcSets(embed.resourceId, transformData, language)}
           />
         </figure>
       );

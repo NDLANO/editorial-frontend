@@ -6,9 +6,9 @@
  */
 
 import { IFilmFrontPageData } from '@ndla/types-backend/frontpage-api';
-import { TYPE_EMBED_IMAGE } from '../../components/SlateEditor/plugins/embed/types';
 import { FilmFormikType } from '../../containers/NdlaFilm/components/NdlaFilmForm';
 import { getInitialValues, getIdFromUrn, getUrnFromId } from '../ndlaFilmHelpers';
+import { TYPE_IMAGE } from '../../components/SlateEditor/plugins/image/types';
 
 const filmFrontPage: IFilmFrontPageData = {
   name: 'Film',
@@ -77,14 +77,14 @@ const filmFrontPageAfterTransformation: FilmFormikType = {
   ],
   visualElement: [
     {
-      type: TYPE_EMBED_IMAGE,
+      type: TYPE_IMAGE,
       data: {
         alt: 'Et bilde Foto.',
         metaData: {
           id: '37',
         },
         resource: 'image',
-        resource_id: '37',
+        resourceId: '37',
         url: 'https://test.api.ndla.no/image-api/raw/id/37',
       },
       children: [

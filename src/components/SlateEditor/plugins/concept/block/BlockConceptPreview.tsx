@@ -86,7 +86,7 @@ const BlockConceptPreview = ({ concept, handleRemove, id, isBlockView }: Props) 
     if (!embed) return;
     switch (embed?.resource) {
       case 'image': {
-        const imageUrl = `${config.ndlaApiUrl}/image-api/raw/id/${embed.resource_id}`;
+        const imageUrl = `${config.ndlaApiUrl}/image-api/raw/id/${embed.resourceId}`;
         return {
           resource: embed.resource,
           url: embed.url,

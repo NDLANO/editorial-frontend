@@ -12,7 +12,6 @@ import SlateFigure from './SlateFigure';
 import { SlateSerializer } from '../../interfaces';
 import {
   Embed,
-  ImageEmbed,
   H5pEmbed,
   BrightcoveEmbed,
   ErrorEmbed,
@@ -24,12 +23,6 @@ import { defaultBlockNormalizer, NormalizerConfig } from '../../utils/defaultNor
 import { afterOrBeforeTextBlockElement } from '../../utils/normalizationHelpers';
 import { TYPE_PARAGRAPH } from '../paragraph/types';
 import { TYPE_NDLA_EMBED } from './types';
-
-export interface ImageEmbedElement {
-  type: 'image-embed';
-  data: ImageEmbed;
-  children: Descendant[];
-}
 
 export interface H5PEmbedElement {
   type: 'h5p-embed';
@@ -56,7 +49,6 @@ export interface ExternalEmbedElement {
 }
 
 export type EmbedElements =
-  | ImageEmbedElement
   | H5PEmbedElement
   | BrightcoveEmbedElement
   | ErrorEmbedElement

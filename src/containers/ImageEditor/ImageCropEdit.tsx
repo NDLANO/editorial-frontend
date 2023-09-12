@@ -7,38 +7,30 @@
 
 import { useState } from 'react';
 import ReactCrop from 'react-image-crop';
+import { ImageEmbedData } from '@ndla/types-embed';
 import config from '../../config';
-import { ImageEmbed } from '../../interfaces';
+import { TransformData } from '../../util/imageEditorUtil';
 
 interface Props {
-  embed: ImageEmbed;
+  embed: ImageEmbedData;
   language: string;
   onCropComplete: (crop: ReactCrop.Crop, pixelCrop: ReactCrop.PixelCrop) => void;
-  transformData?: {
-    'focal-x'?: string;
-    'focal-y'?: string;
-    'upper-left-x'?: string;
-    'upper-left-y'?: string;
-    'lower-right-x'?: string;
-    'lower-right-y'?: string;
-  };
+  transformData?: TransformData;
 }
 
 const ImageCropEdit = ({ embed, language, onCropComplete, transformData }: Props) => {
-  const src = `${config.ndlaApiUrl}/image-api/raw/id/${embed.resource_id}?language=${language}`;
+  const src = `${config.ndlaApiUrl}/image-api/raw/id/${embed.resourceId}?language=${language}`;
   const [crop, setCrop] = useState<ReactCrop.Crop | undefined>(
     transformData &&
-      !!transformData['upper-left-x'] &&
-      !!transformData['upper-left-y'] &&
-      !!transformData['lower-right-x'] &&
-      !!transformData['lower-right-y']
+      !!transformData.upperLeftX &&
+      !!transformData.upperLeftY &&
+      !!transformData.lowerRightX &&
+      !!transformData.lowerRightY
       ? {
-          x: parseInt(transformData!['upper-left-x']),
-          y: parseInt(transformData!['upper-left-y']),
-          width:
-            parseInt(transformData!['lower-right-x']) - parseInt(transformData!['upper-left-x']),
-          height:
-            parseInt(transformData!['lower-right-y']) - parseInt(transformData!['upper-left-y']),
+          x: parseInt(transformData!.upperLeftX),
+          y: parseInt(transformData!.upperLeftY),
+          width: parseInt(transformData!.lowerRightX) - parseInt(transformData!.upperLeftX),
+          height: parseInt(transformData!.lowerRightY) - parseInt(transformData!.upperLeftY),
         }
       : undefined,
   );

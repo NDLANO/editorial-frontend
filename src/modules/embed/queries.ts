@@ -37,3 +37,15 @@ export const useAudioMeta = (
     options,
   );
 };
+
+export const useImageMeta = (
+  resourceId: string,
+  language: string,
+  options?: UseQueryOptions<IImageMetaInformationV3>,
+) => {
+  return useQuery<IImageMetaInformationV3>(
+    ['image', resourceId, language],
+    () => fetchImage(resourceId, language),
+    options,
+  );
+};

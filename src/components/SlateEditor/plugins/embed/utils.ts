@@ -14,7 +14,6 @@ import {
   TYPE_EMBED_ERROR,
   TYPE_EMBED_EXTERNAL,
   TYPE_EMBED_H5P,
-  TYPE_EMBED_IMAGE,
 } from './types';
 import {
   BrightcoveEmbedElement,
@@ -22,7 +21,6 @@ import {
   ErrorEmbedElement,
   ExternalEmbedElement,
   H5PEmbedElement,
-  ImageEmbedElement,
 } from '.';
 
 export const defaultEmbedBlock = (data: Partial<Embed>) =>
@@ -30,19 +28,13 @@ export const defaultEmbedBlock = (data: Partial<Embed>) =>
 
 export const isSlateEmbed = (
   node: Node,
-): node is
-  | H5PEmbedElement
-  | ImageEmbedElement
-  | ErrorEmbedElement
-  | ExternalEmbedElement
-  | BrightcoveEmbedElement => {
+): node is H5PEmbedElement | ErrorEmbedElement | ExternalEmbedElement | BrightcoveEmbedElement => {
   return (
     Element.isElement(node) &&
     (node.type === TYPE_EMBED_BRIGHTCOVE ||
       node.type === TYPE_EMBED_ERROR ||
       node.type === TYPE_EMBED_EXTERNAL ||
-      node.type === TYPE_EMBED_H5P ||
-      node.type === TYPE_EMBED_IMAGE)
+      node.type === TYPE_EMBED_H5P)
   );
 };
 
@@ -53,8 +45,6 @@ export const defineTypeOfEmbed = (type?: string) => {
     return TYPE_EMBED_EXTERNAL;
   } else if (type === 'h5p') {
     return TYPE_EMBED_H5P;
-  } else if (type === 'image') {
-    return TYPE_EMBED_IMAGE;
   } else if (type === undefined) {
     return TYPE_EMBED_ERROR;
   }
@@ -68,5 +58,4 @@ export const isEmbedType = (type: string) =>
   type === TYPE_EMBED_BRIGHTCOVE ||
   type === TYPE_EMBED_H5P ||
   type === TYPE_EMBED_ERROR ||
-  type === TYPE_EMBED_IMAGE ||
   type === TYPE_EMBED_EXTERNAL;

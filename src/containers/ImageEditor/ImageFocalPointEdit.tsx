@@ -10,13 +10,14 @@ import { MouseEvent, useRef, useState } from 'react';
 import { ButtonV2 } from '@ndla/button';
 import { colors } from '@ndla/core';
 import styled from '@emotion/styled';
+import { ImageEmbedData } from '@ndla/types-embed';
 import {
   getElementOffset,
   getClientPos,
   getImageDimensions,
   getSrcSets,
+  TransformData,
 } from '../../util/imageEditorUtil';
-import { ImageEmbed } from '../../interfaces';
 
 const StyledFocalPointButton = styled(ButtonV2)`
   display: block;
@@ -41,17 +42,10 @@ const StyledFocalPointContainer = styled('div')`
 `;
 
 interface Props {
-  embed: ImageEmbed;
+  embed: ImageEmbedData;
   language: string;
   onFocalPointChange: (focalPoint: { x: number; y: number }) => void;
-  transformData?: {
-    'focal-x'?: string;
-    'focal-y'?: string;
-    'upper-left-x'?: string;
-    'upper-left-y'?: string;
-    'lower-right-x'?: string;
-    'lower-right-y'?: string;
-  };
+  transformData?: TransformData;
 }
 
 type Marker = {
@@ -92,11 +86,11 @@ const ImageFocalPointEdit = ({ embed, language, onFocalPointChange, transformDat
     const dimensions = getImageDimensions(target);
     let x, y;
     if (transformData) {
-      x = transformData['focal-x']
-        ? (parseInt(transformData['focal-x']) / 100) * dimensions.current.width
+      x = transformData.focalX
+        ? (parseInt(transformData.focalX) / 100) * dimensions.current.width
         : undefined;
-      y = transformData['focal-y']
-        ? (parseInt(transformData['focal-y']) / 100) * dimensions.current.height
+      y = transformData.focalY
+        ? (parseInt(transformData.focalY) / 100) * dimensions.current.height
         : undefined;
     }
     setMarker({
@@ -121,7 +115,7 @@ const ImageFocalPointEdit = ({ embed, language, onFocalPointChange, transformDat
             alt={embed.alt}
             ref={focalImgRef}
             onLoad={(e) => setXandY(e.target as HTMLImageElement)}
-            srcSet={getSrcSets(embed.resource_id, transformData, language)}
+            srcSet={getSrcSets(embed.resourceId, transformData, language)}
           />
         </StyledFocalPointButton>
         <StyledFocalPointMarker style={style} />

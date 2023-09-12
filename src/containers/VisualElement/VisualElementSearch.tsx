@@ -94,7 +94,7 @@ const VisualElementSearch = ({
           onImageSelect={(image) =>
             handleVisualElementChange({
               resource: selectedResource,
-              resource_id: image.id,
+              resourceId: image.id,
               size: 'full',
               align: '',
               alt: convertFieldWithFallback<'alttext'>(image, 'alttext', ''),

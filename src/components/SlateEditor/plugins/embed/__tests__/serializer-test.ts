@@ -13,13 +13,9 @@ import {
 } from '../../../../../util/articleContentConverter';
 import { TYPE_PARAGRAPH } from '../../paragraph/types';
 import { TYPE_SECTION } from '../../section/types';
-import {
-  TYPE_EMBED_BRIGHTCOVE,
-  TYPE_EMBED_EXTERNAL,
-  TYPE_EMBED_H5P,
-  TYPE_EMBED_IMAGE,
-} from '../types';
+import { TYPE_EMBED_BRIGHTCOVE, TYPE_EMBED_EXTERNAL, TYPE_EMBED_H5P } from '../types';
 import { TYPE_AUDIO } from '../../audio/types';
+import { TYPE_IMAGE } from '../../image/types';
 
 describe('embed image serializing tests', () => {
   const editorWithImage: Descendant[] = [
@@ -29,7 +25,7 @@ describe('embed image serializing tests', () => {
         { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
 
         {
-          type: TYPE_EMBED_IMAGE,
+          type: TYPE_IMAGE,
           children: [
             {
               text: '',
@@ -37,7 +33,7 @@ describe('embed image serializing tests', () => {
           ],
           data: {
             resource: 'image',
-            resource_id: '123',
+            resourceId: '123',
             size: 'small',
             align: 'right',
             alt: 'test-alt',

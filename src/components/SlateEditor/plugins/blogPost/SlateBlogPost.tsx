@@ -94,7 +94,7 @@ const SlateBlogPost = ({ element, editor, attributes, children }: Props) => {
 
   return (
     <Modal open={isEditing} onOpenChange={setIsEditing}>
-      <BlogPostWrapper {...attributes}>
+      <BlogPostWrapper {...attributes} data-testid="slate-blog-post">
         {data && (
           <div contentEditable={false}>
             <StyledFigureButtons>

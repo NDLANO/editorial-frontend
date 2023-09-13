@@ -111,7 +111,7 @@ const SlateKeyFigure = ({ element, editor, attributes, children }: Props) => {
 
   return (
     <Modal open={isEditing} onOpenChange={setIsEditing}>
-      <KeyFigureWrapper {...attributes}>
+      <KeyFigureWrapper {...attributes} data-testid="slate-key-figure">
         {data && image && (
           <div contentEditable={false}>
             <StyledFigureButtons>
@@ -128,6 +128,7 @@ const SlateKeyFigure = ({ element, editor, attributes, children }: Props) => {
                 colorTheme="danger"
                 aria-label={t('delete')}
                 title={t('delete')}
+                data-testid="remove-keyfigure"
                 onClick={handleRemove}
               >
                 <DeleteForever />

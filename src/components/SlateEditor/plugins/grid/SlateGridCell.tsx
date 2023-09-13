@@ -43,7 +43,7 @@ const GridCell = ({ element, editor, attributes, children }: Props) => {
   );
 
   return (
-    <StyledGridCell {...attributes}>
+    <StyledGridCell {...attributes} data-testid="grid-cell">
       <StyledButton
         contentEditable={false}
         onClick={onClickSticky}

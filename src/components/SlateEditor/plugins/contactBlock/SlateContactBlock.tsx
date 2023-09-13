@@ -109,7 +109,7 @@ const SlateContactBlock = ({ element, editor, attributes, children }: Props) => 
 
   return (
     <Modal open={isEditing} onOpenChange={setIsEditing}>
-      <ContactBlockWrapper {...attributes}>
+      <ContactBlockWrapper {...attributes} data-testid="slate-contact-block">
         {contactBlock && image && (
           <div contentEditable={false}>
             <StyledFigureButtons>
@@ -127,6 +127,7 @@ const SlateContactBlock = ({ element, editor, attributes, children }: Props) => 
                 title={t('delete')}
                 colorTheme="danger"
                 onClick={handleRemove}
+                data-testid="remove-contactBlock"
               >
                 <DeleteForever />
               </StyledDeleteEmbedButton>

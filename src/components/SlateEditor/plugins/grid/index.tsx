@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import { Descendant, Editor, Element, Transforms } from 'slate';
 import { RenderElementProps } from 'slate-react';
 import { GridType } from '@ndla/ui';

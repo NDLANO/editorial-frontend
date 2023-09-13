@@ -76,6 +76,9 @@ test('adds and removes details', async ({ page }) => {
 test('adds and removes grid', async ({ page }) => {
   await page.locator('[data-cy="create-grid"]').click();
   await expect(page.locator('[data-cy="remove-grid"]')).toBeVisible();
+  await page.getByTestId("grid-cell").first().click();
+  await page.locator('[data-cy="slate-block-picker"]').click();
+  expect(await page.locator("[data-cy='slate-block-picker-menu']").getByRole('button').count()).toEqual(2);
   await page.locator('[data-cy="remove-grid"]').click();
   await expect(page.locator('[data-cy="remove-grid"]')).toHaveCount(0);
 });

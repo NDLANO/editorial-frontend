@@ -29,6 +29,5 @@
     },
     "downlevelIteration": true
   },
-  "include": ["src/**/*", "custom-typings/*", "./jest.config.js"],
-  "exclude": ["**/*-test.*"]
+  "include": ["src/**/*", "custom-typings/*", "./jest.config.js"]
 }

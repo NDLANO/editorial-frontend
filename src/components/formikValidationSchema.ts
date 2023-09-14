@@ -21,6 +21,12 @@ import {
 import handleError from '../util/handleError';
 import { bytesToSensibleFormat } from '../util/fileSizeUtil';
 
+// Taken directly from https://html.spec.whatwg.org/multipage/input.html#valid-e-mail-address
+// We don't really need spec compliance, but why not include it?
+const EMAIL_REGEX =
+  // eslint-disable-next-line no-useless-escape
+  /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+
 const appendError = (error: string, newError: string): string =>
   error ? `${error} \n ${newError}` : newError;
 
@@ -29,6 +35,7 @@ interface RuleObject<FormikValuesType, ApiType = any> {
   minLength?: number;
   maxLength?: number;
   required?: boolean;
+  email?: boolean;
   allObjectFieldsRequired?: boolean;
   dateBefore?: boolean;
   dateAfter?: boolean;
@@ -110,6 +117,18 @@ const validateFormik = <FormikValuesType>(
             t('validation.dateAfterInvalid', {
               label,
               beforeLabel: t('form.validDate.from.label').toLowerCase(),
+            }),
+          );
+        }
+      }
+
+      if (rules[ruleKey].email) {
+        const email = value;
+        if (!email.match(EMAIL_REGEX)) {
+          errors[ruleKey] = appendError(
+            errors[ruleKey],
+            t('validation.email', {
+              label,
             }),
           );
         }

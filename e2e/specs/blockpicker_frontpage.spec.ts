@@ -83,7 +83,7 @@ test('adds and removes keyfigure', async ({ page }) => {
     expect(lagreButton).toBeEnabled();
     await lagreButton.click();
     expect(page.getByTestId('slate-key-figure')).toBeVisible();
-    await page.getByTestId('remove-keyfigure').click();
+    await page.getByTestId('remove-key-figure').click();
     expect(await page.getByTestId('slate-key-figure').count()).toEqual(0);
 });
 
@@ -116,7 +116,7 @@ test('adds and removes contactblock', async ({ page }) => {
     expect(lagreButton).toBeEnabled();
     await lagreButton.click();
     expect(page.getByTestId('slate-contact-block')).toBeVisible();
-    await page.getByTestId('remove-contactBlock').click();
+    await page.getByTestId('remove-contact-block').click();
     expect(await page.getByTestId('slate-contact-block').count()).toEqual(0);
 });
 
@@ -137,6 +137,6 @@ test('adds and removes campaignblock', async ({ page }) => {
     expect(lagreButton).toBeEnabled();
     await lagreButton.click();
     expect(page.getByTestId('slate-campaign-block')).toBeVisible();
-    await page.getByTestId('remove-campaignBlock').click();
+    await page.getByTestId('remove-campaign-block').click();
     expect(await page.getByTestId('slate-campaign-block').count()).toEqual(0);
 });

@@ -141,7 +141,7 @@ const SlateCampaignBlock = ({ element, editor, attributes, children }: Props) =>
                 aria-label={t('delete')}
                 colorTheme="danger"
                 title={t('delete')}
-                data-testid="remove-campaignBlock"
+                data-testid="remove-campaign-block"
                 onClick={handleRemove}
               >
                 <DeleteForever />

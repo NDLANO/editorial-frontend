@@ -128,7 +128,7 @@ const SlateKeyFigure = ({ element, editor, attributes, children }: Props) => {
                 colorTheme="danger"
                 aria-label={t('delete')}
                 title={t('delete')}
-                data-testid="remove-keyfigure"
+                data-testid="remove-key-figure"
                 onClick={handleRemove}
               >
                 <DeleteForever />

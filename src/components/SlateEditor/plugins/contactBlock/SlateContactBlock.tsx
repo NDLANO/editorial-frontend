@@ -127,7 +127,7 @@ const SlateContactBlock = ({ element, editor, attributes, children }: Props) => 
                 title={t('delete')}
                 colorTheme="danger"
                 onClick={handleRemove}
-                data-testid="remove-contactBlock"
+                data-testid="remove-contact-block"
               >
                 <DeleteForever />
               </StyledDeleteEmbedButton>

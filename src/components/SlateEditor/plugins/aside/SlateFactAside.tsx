@@ -83,7 +83,7 @@ const SlateFactAside = ({ children, onRemoveClick, attributes, onMoveContent }: 
             aria-label={t('form.remove')}
             variant="stripped"
             onMouseDown={onRemoveClick}
-            data-cy="remove-fact-aside"
+            data-testid="remove-fact-aside"
           />
         </ButtonContainer>
         {children}

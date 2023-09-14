@@ -123,7 +123,7 @@ const Details = ({ children, editor, element, attributes }: Props & RenderElemen
       <ButtonContainer>
         <MoveContentButton onMouseDown={onMoveContent} />
         <DeleteButton
-          data-cy="remove-details"
+          data-testid="remove-details"
           aria-label={t('form.remove')}
           variant="stripped"
           onMouseDown={onRemoveClick}

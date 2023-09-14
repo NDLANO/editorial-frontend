@@ -292,7 +292,7 @@ const FrontpageArticleFormContent = ({
               value={value}
               submitted={isSubmitting}
               plugins={editorPlugins}
-              data-cy="frontpage-article-content"
+              data-testid="frontpage-article-content"
               onChange={(value) => {
                 onChange({
                   target: {

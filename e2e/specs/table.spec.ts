@@ -43,11 +43,11 @@ test.beforeEach(async ({ page }) => {
 });
 
 test('all table functions work', async ({ page }) => {
-  const el = page.locator('[data-cy="slate-editor"]');
+  const el = page.getByTestId('slate-editor');
   await el.click();
-  await page.locator('[data-cy="slate-block-picker"]').click();
+  await page.getByTestId('slate-block-picker').click();
   await expect(page.locator('[data-cy="slate-block-picker-menu"]')).toBeVisible();
-  await page.locator('[data-cy="create-table"]').click();
+  await page.getByTestId('create-table').click();
   const caption = page.locator('caption');
   await caption.click();
   await page.keyboard.type('TITTEL!');
@@ -58,19 +58,19 @@ test('all table functions work', async ({ page }) => {
   await page.keyboard.type('Header 1');
   await page.keyboard.press('ArrowRight');
   await page.keyboard.type('Header 2');
-  await page.locator('[data-cy="column-add"]').click();
+  await page.getByTestId('column-add').click();
   await page.locator('thead > tr > th').last().click();
   await page.keyboard.type('Test new column');
-  await page.locator('[data-cy="row-remove"]').click();
-  await page.locator('[data-cy="head-add"]').click();
+  await page.getByTestId('row-remove').click();
+  await page.getByTestId('head-add').click();
   await page.locator('thead > tr > th').last().click();
   await page.keyboard.type('Test new header');
   await page.keyboard.press('ArrowDown');
-  await page.locator('[data-cy="row-add"]').click();
+  await page.getByTestId('row-add').click();
   await page.locator('tbody > tr > td').last().click();
   await page.keyboard.type('Test new row');
-  await page.locator('[data-cy="toggle-row-headers"]').click();
-  await page.locator('[data-cy="column-remove"]').click();
-  await page.locator('[data-cy="row-remove"]').click();
-  await page.locator('[data-cy="table-remove"]').click();
+  await page.getByTestId('toggle-row-headers').click();
+  await page.getByTestId('column-remove').click();
+  await page.getByTestId('row-remove').click();
+  await page.getByTestId('table-remove').click();
 });

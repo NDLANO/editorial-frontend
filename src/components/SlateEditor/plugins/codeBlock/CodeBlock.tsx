@@ -42,7 +42,7 @@ const RemoveCodeBlock = ({ handleRemove }: RemoveCodeBlockProps) => {
       variant="ghost"
       colorTheme="danger"
       aria-label={t('form.remove')}
-      data-cy="remove-code"
+      data-testid="remove-code"
       onClick={handleRemove}
     >
       <DeleteForever />

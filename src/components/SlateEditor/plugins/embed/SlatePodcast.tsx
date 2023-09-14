@@ -118,7 +118,7 @@ const SlatePodcast = ({
               aria-label={t('form.podcast.remove')}
               colorTheme="danger"
               onClick={onRemoveClick}
-              data-cy="remove-element"
+              data-testid="remove-element"
             >
               <DeleteForever />
             </StyledDeleteEmbedButton>

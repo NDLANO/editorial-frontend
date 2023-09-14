@@ -88,7 +88,7 @@ const SlateTable = ({ attributes, children, element, editor }: Props) => {
         <DeleteButton
           variant="stripped"
           onClick={(e: MouseEvent<HTMLButtonElement>) => removeTable(editor, element)}
-          data-cy="table-remove"
+          data-testid="table-remove"
           aria-label={t('form.content.table.table-remove')}
           tabIndex={-1}
         />

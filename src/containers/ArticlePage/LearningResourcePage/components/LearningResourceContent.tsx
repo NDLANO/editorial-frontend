@@ -291,7 +291,7 @@ const ContentField = ({
         value={value}
         submitted={isSubmitting}
         plugins={editorPlugins}
-        data-cy="learning-resource-content"
+        data-testid="learning-resource-content"
         onChange={onSlateChange}
       />
       {!isSubmitting && <LearningResourceFootnotes footnotes={findFootnotes(value)} />}

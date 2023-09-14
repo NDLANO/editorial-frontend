@@ -331,7 +331,6 @@ const SlateBlockPicker = ({
         <Portal>
           <StyledBlockPickerWrapper ref={portalRef} data-testid="slate-block-picker-button">
             <SlateBlockMenu
-              cy="slate-block-picker"
               isOpen={blockPickerOpen}
               heading={t('editorBlockpicker.heading')}
               actions={getActionsForArea()

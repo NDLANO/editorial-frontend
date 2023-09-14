@@ -61,7 +61,7 @@ test.beforeEach(async ({ page }) => {
 
   await Promise.all([zendesk, responsibles, licenses, statuses, wirisEditor, wirisHand, wirisTick]);
 
-  const el = page.locator('[data-cy="slate-editor"]');
+  const el = page.getByTestId('slate-editor');
   await el.click();
   await el.type('111+1');
   await el.press(`${metaKey}+A`);

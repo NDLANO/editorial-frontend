@@ -39,8 +39,7 @@ test.beforeEach(async ({ page }) => {
   await page.goto('/subject-matter/learning-resource/new');
 
   await Promise.all([zendesk, responsibles, licenses, statuses]);
-  const el = page.locator('slate-editor');
-  await el.click();
+  await page.getByTestId('slate-editor').click();
   await page.getByTestId('slate-block-picker').click();
   await expect(page.getByTestId('slate-block-picker-menu')).toBeVisible();
 });

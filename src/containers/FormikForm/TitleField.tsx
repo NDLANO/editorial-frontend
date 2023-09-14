@@ -37,7 +37,7 @@ const TitleField = ({ maxLength = 256, name = 'title', handleSubmit }: Props) =>
           {...field}
           className={'title'}
           placeholder={t('form.title.label')}
-          cy="learning-resource-title"
+          data-testid="learning-resource-title"
           plugins={plugins}
           submitted={isSubmitting}
           handleSubmit={handleSubmit}

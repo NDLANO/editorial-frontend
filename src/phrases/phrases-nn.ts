@@ -1365,6 +1365,7 @@ const phrases = {
     podcastImageSize: 'Metabilete må være mellom 1400 og 3000 pikslar breitt.',
     unfinishedRevision: 'Det må være minst ein planlagd revisjon.',
     missingRevision: 'Det må være minst ein revisjon.',
+    email: 'Eposten må være på eit gyldig format',
   },
   errorMessage: {
     title: 'Oops, noko gjekk gale',

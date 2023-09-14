@@ -1363,6 +1363,7 @@ const phrases = {
     podcastImageSize: 'A meta image must be between 1400 and 3000 pixels wide.',
     unfinishedRevision: 'You must have at least one planned revision.',
     missingRevision: 'There must be at least one revision.',
+    email: 'The email must be of a valid format.',
   },
   errorMessage: {
     title: 'Oops, something went wrong',

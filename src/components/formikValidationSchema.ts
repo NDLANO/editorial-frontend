@@ -17,6 +17,7 @@ import {
   isNumeric,
   objectHasBothField,
   validDateRange,
+  isEmail,
 } from './validators';
 import handleError from '../util/handleError';
 import { bytesToSensibleFormat } from '../util/fileSizeUtil';
@@ -39,6 +40,7 @@ interface RuleObject<FormikValuesType, ApiType = any> {
   urlOrNumber?: boolean;
   maxSize?: number;
   translationKey?: string;
+  email?: boolean;
   warnings?: {
     apiField?: keyof ApiType;
     languageMatch?: boolean;
@@ -170,6 +172,10 @@ const validateFormik = <FormikValuesType>(
       if (rules[ruleKey].urlOrNumber && !isUrl(value) && !isNumeric(value)) {
         errors[ruleKey] = appendError(errors[ruleKey], t('validation.urlOrNumber', { label }));
       }
+      if (rules[ruleKey].email && !isEmail(value)) {
+        errors[ruleKey] = appendError(errors[ruleKey], t('validation.email', { label }));
+      }
+
       const testFunction = rules[ruleKey].test;
       if (testFunction) {
         const testError = testFunction(values);

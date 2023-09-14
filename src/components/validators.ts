@@ -94,3 +94,7 @@ export const isNumeric = (value: any) => !Number.isNaN(value - parseFloat(value)
 
 export const objectHasBothField = (obj: Dictionary<any>) =>
   Object.keys(obj).filter((key) => isEmpty(obj[key])).length === 0;
+
+const emailRegex = /^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/;
+
+export const isEmail = (value: string) => emailRegex.test(value);

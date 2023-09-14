@@ -98,7 +98,11 @@ export const SlateGrid = ({ element, editor, children }: Props) => {
         <DeleteButton aria-label={t('delete')} data-cy="remove-grid" onClick={handleRemove} />
         <Modal open={isEditing} onOpenChange={setIsEditing}>
           <ModalTrigger>
-            <IconButtonV2 variant="ghost" aria-label={t('gridForm.title')}>
+            <IconButtonV2
+              variant="ghost"
+              aria-label={t('gridForm.title')}
+              data-testid="edit-grid-button"
+            >
               <Pencil />
             </IconButtonV2>
           </ModalTrigger>

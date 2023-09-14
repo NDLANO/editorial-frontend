@@ -32,7 +32,7 @@ interface Props {
 const FormView = ({ concept, cancel, subjects, updateLocalConcept }: Props) => {
   const { t, i18n } = useTranslation();
   const languageOptions = concept.supportedLanguages.map((lan) => ({
-    title: t(`language.${lan}`),
+    title: t(`languages.${lan}`),
     value: lan,
   }));
 

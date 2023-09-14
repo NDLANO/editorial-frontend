@@ -37,7 +37,7 @@ const SearchPodcastSeries = ({ series }: Props) => {
         <StyledSearchDescription>
           {`${t('searchPage.language')}: `}
           {series.supportedLanguages?.map((lang) => (
-            <StyledSearchOtherLink key={lang}>{t(`language.${lang}`)}</StyledSearchOtherLink>
+            <StyledSearchOtherLink key={lang}>{t(`languages.${lang}`)}</StyledSearchOtherLink>
           ))}
         </StyledSearchDescription>
       </StyledSearchContent>

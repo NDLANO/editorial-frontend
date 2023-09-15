@@ -25,6 +25,7 @@ import { LocaleType } from './interfaces';
 
 declare global {
   interface Window {
+    h5pResizerInitialized?: boolean;
     initialState: {
       locale: string;
     };

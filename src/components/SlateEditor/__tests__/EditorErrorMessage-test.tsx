@@ -18,7 +18,7 @@ test('EditorErrorMessage renders', () => {
 
   const { container } = render(
     <IntlWrapper>
-      <EditorErrorMessage embed={embed} msg={embed.message} onRemoveClick={() => {}} />
+      <EditorErrorMessage msg={embed.message} onRemoveClick={() => {}} />
     </IntlWrapper>,
   );
 

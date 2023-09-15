@@ -129,11 +129,7 @@ const actionsToShowInAreas = {
 };
 
 // Plugins are checked from last to first
-export const plugins = (
-  articleLanguage: string,
-  locale: LocaleType,
-  handleSubmit: () => void,
-): SlatePlugin[] => {
+export const plugins = (articleLanguage: string, locale: LocaleType): SlatePlugin[] => {
   return [
     sectionPlugin,
     spanPlugin,
@@ -164,7 +160,7 @@ export const plugins = (
     toolbarPlugin,
     textTransformPlugin,
     breakPlugin,
-    saveHotkeyPlugin(handleSubmit),
+    saveHotkeyPlugin,
     markPlugin,
     definitionListPlugin,
     listPlugin,
@@ -188,15 +184,9 @@ const LearningResourceContent = ({
 
   const [preview, setPreview] = useState(false);
 
-  const formikContext = useFormikContext<LearningResourceFormType>();
-
-  const handleSubmit = useCallback(() => {
-    _handleSubmit(formikContext.values, formikContext);
-  }, [_handleSubmit, formikContext]);
-
   return (
     <>
-      <TitleField handleSubmit={handleSubmit} />
+      <TitleField />
       <StyledFormikField name="published">
         {({ field, form }) => (
           <StyledDiv>
@@ -224,15 +214,10 @@ const LearningResourceContent = ({
           </StyledDiv>
         )}
       </StyledFormikField>
-      <IngressField preview={preview} handleSubmit={handleSubmit} />
+      <IngressField preview={preview} />
       <StyledContentDiv name="content" label={t('form.content.label')} noBorder>
         {(fieldProps) => (
-          <ContentField
-            articleLanguage={articleLanguage}
-            articleId={articleId}
-            {...fieldProps}
-            handleSubmit={handleSubmit}
-          />
+          <ContentField articleLanguage={articleLanguage} articleId={articleId} {...fieldProps} />
         )}
       </StyledContentDiv>
     </>
@@ -249,7 +234,6 @@ const ContentField = ({
   articleId,
   field: { name, onChange, value },
   articleLanguage,
-  handleSubmit,
 }: ContentFieldProps) => {
   const { t, i18n } = useTranslation();
   const { userPermissions } = useSession();
@@ -270,8 +254,8 @@ const ContentField = ({
   );
 
   const editorPlugins = useMemo(
-    () => plugins(articleLanguage ?? '', i18n.language, handleSubmit),
-    [articleLanguage, handleSubmit, i18n.language],
+    () => plugins(articleLanguage ?? '', i18n.language),
+    [articleLanguage, i18n.language],
   );
 
   return (

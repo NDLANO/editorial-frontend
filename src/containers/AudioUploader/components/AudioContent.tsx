@@ -6,7 +6,7 @@
  *
  */
 
-import { FormEvent, useCallback } from 'react';
+import { FormEvent } from 'react';
 
 import { useTranslation } from 'react-i18next';
 import { useFormikContext } from 'formik';
@@ -64,13 +64,9 @@ const AudioContent = <T extends AudioFormikType | PodcastFormValues>({
   const { values, setFieldValue } = formikContext;
   const playerObject = getPlayerObject(values);
 
-  const handleSubmit = useCallback(() => {
-    _handleSubmit(formikContext.values, formikContext);
-  }, [_handleSubmit, formikContext]);
-
   return (
     <>
-      <TitleField handleSubmit={handleSubmit} />
+      <TitleField />
       <FormikField noBorder name="audioFile" label={t('form.audio.file')}>
         {() => (
           <>

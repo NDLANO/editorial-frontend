@@ -15,14 +15,7 @@ import { TYPE_PARAGRAPH } from '../../paragraph/types';
 import { TYPE_SECTION } from '../../section/types';
 import { TYPE_FILE } from '../types';
 
-const editor = withHistory(
-  withReact(
-    withPlugins(
-      createEditor(),
-      plugins('nb', 'nb', () => {}),
-    ),
-  ),
-);
+const editor = withHistory(withReact(withPlugins(createEditor(), plugins('nb', 'nb'))));
 
 describe('file normalizer tests', () => {
   test('adds paragraphs around file element', () => {

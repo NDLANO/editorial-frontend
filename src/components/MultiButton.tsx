@@ -97,7 +97,6 @@ export const MultiButton = ({
   mainId,
   children,
 }: Props) => {
-  console.log('MAIN ID', mainId);
   const hideSecondaryButton = secondaryButtons.length === 0;
 
   const isDisabled = secondaryButtons.find((button) => button.enable) ? false : disabled;

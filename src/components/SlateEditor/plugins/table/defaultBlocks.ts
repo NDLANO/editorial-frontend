@@ -38,7 +38,6 @@ export const defaultTableCellBlock = () => {
     {
       type: TYPE_TABLE_CELL,
       data: {
-        isHeader: false,
         colspan: 1,
         rowspan: 1,
       },
@@ -56,7 +55,6 @@ export const defaultTableCellHeaderBlock = () => {
     {
       type: TYPE_TABLE_CELL_HEADER,
       data: {
-        isHeader: true,
         colspan: 1,
         rowspan: 1,
       },

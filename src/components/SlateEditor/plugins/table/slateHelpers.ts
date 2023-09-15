@@ -47,16 +47,12 @@ export const isTableRow = (node?: Node): node is TableRowElement => {
   return Element.isElement(node) && node.type === TYPE_TABLE_ROW;
 };
 
-export const isTableCell = (node?: Node): node is TableCellElement => {
-  return (
-    Element.isElement(node) &&
-    (node.type === TYPE_TABLE_CELL || node.type === TYPE_TABLE_CELL_HEADER)
-  );
-};
+export const isTableCell = (node?: Node): node is TableCellElement =>
+  Element.isElement(node) &&
+  (node.type === TYPE_TABLE_CELL || node.type === TYPE_TABLE_CELL_HEADER);
 
-export const isTableCellHeader = (node?: Node): node is TableCellElement => {
-  return Element.isElement(node) && node.type === TYPE_TABLE_CELL_HEADER;
-};
+export const isTableCellHeader = (node?: Node): node is TableCellElement =>
+  Element.isElement(node) && node.type === TYPE_TABLE_CELL_HEADER;
 
 export const hasCellAlignOfType = (editor: Editor, type: string) => {
   // For all selected table cells

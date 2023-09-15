@@ -98,11 +98,11 @@ test('blockpicker to give limited options in table', async ({ page }) => {
   await page.locator('thead > tr > th').first().click();
   expect(page.locator('[data-cy="slate-block-picker"]')).toBeVisible({ visible: false });
 
-  await page.locator('thead > tr > td').first().click();
-  expect(page.locator('[data-cy="slate-block-picker"]')).toBeVisible();
+  await page.locator('tbody > tr > td').first().click();
+  await expect(page.locator('[data-cy="slate-block-picker"]')).toBeVisible();
   await page.locator('[data-cy="slate-block-picker"]').click();
-  expect(page.locator('[data-cy="create-image"]')).toBeVisible();
-  expect(page.locator('[data-cy="slate-block-picker-menu"]').getByRole('button').count()).toEqual(
-    2,
-  );
+  await expect(page.locator('[data-cy="create-image"]')).toBeVisible();
+  expect(
+    await page.locator('[data-cy="slate-block-picker-menu"]').getByRole('button').count(),
+  ).toEqual(2);
 });

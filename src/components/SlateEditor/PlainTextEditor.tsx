@@ -70,6 +70,7 @@ const PlainTextEditor = ({
   return (
     <Slate editor={editor} value={value} onChange={onSlateChange}>
       <Editable
+        id={id}
         // Forcing slate field to be deselected before selecting new field.
         // Fixes a problem where slate field is not properly focused on click.
         onBlur={onBlur}

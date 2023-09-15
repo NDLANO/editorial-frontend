@@ -29,11 +29,11 @@ import { useSession } from '../../../../containers/Session/SessionProvider';
 import getCurrentBlock from '../../utils/getCurrentBlock';
 import { TYPE_PARAGRAPH } from '../paragraph/types';
 import { isParagraph } from '../paragraph/utils';
-import { isTableCell } from '../table/slateHelpers';
+import { isInTableCellHeader, isTableCell } from '../table/slateHelpers';
 import { defaultTableBlock } from '../table/defaultBlocks';
 import { TYPE_BODYBOX } from '../bodybox/types';
 import { TYPE_DETAILS } from '../details/types';
-import { TYPE_TABLE } from '../table/types';
+import { TYPE_TABLE, TYPE_TABLE_CELL_HEADER } from '../table/types';
 import { TYPE_ASIDE } from '../aside/types';
 import { TYPE_FILE } from '../file/types';
 import {
@@ -111,6 +111,7 @@ const SlateBlockPicker = ({
   };
 
   const show =
+    !isInTableCellHeader(editor, selectedParagraphPath) &&
     isParagraph(selectedParagraph) &&
     Node.string(selectedParagraph) === '' &&
     selectedParagraph.children.length === 1 &&

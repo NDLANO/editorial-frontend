@@ -16,14 +16,7 @@ import { TYPE_SECTION } from '../../section/types';
 import { TYPE_EMBED_H5P, TYPE_EMBED_IMAGE } from '../types';
 import { TYPE_AUDIO } from '../../audio/types';
 
-const editor = withHistory(
-  withReact(
-    withPlugins(
-      createEditor(),
-      plugins('nb', () => {}),
-    ),
-  ),
-);
+const editor = withHistory(withReact(withPlugins(createEditor(), plugins('nb'))));
 
 describe('embed normalizer tests', () => {
   test('adds paragraphs around embed', () => {

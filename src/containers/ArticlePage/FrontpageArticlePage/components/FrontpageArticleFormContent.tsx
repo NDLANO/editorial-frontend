@@ -45,7 +45,6 @@ import { breakPlugin } from '../../../../components/SlateEditor/plugins/break';
 import { markPlugin } from '../../../../components/SlateEditor/plugins/mark';
 import { listPlugin } from '../../../../components/SlateEditor/plugins/list';
 import { divPlugin } from '../../../../components/SlateEditor/plugins/div';
-import { LocaleType } from '../../../../interfaces';
 import { FrontpageArticleFormType } from '../../../FormikForm/articleFormHooks';
 import { dndPlugin } from '../../../../components/SlateEditor/plugins/DND';
 import { SlatePlugin } from '../../../../components/SlateEditor/interfaces';
@@ -151,7 +150,7 @@ const actionsToShowInAreas = {
 };
 
 // Plugins are checked from last to first
-export const plugins = (articleLanguage: string, handleSubmit: VoidFunction): SlatePlugin[] => {
+export const plugins = (articleLanguage: string): SlatePlugin[] => {
   return [
     sectionPlugin,
     spanPlugin,
@@ -184,7 +183,7 @@ export const plugins = (articleLanguage: string, handleSubmit: VoidFunction): Sl
     toolbarPlugin,
     textTransformPlugin,
     breakPlugin,
-    saveHotkeyPlugin(handleSubmit),
+    saveHotkeyPlugin,
     markPlugin,
     definitionListPlugin,
     listPlugin,
@@ -198,14 +197,12 @@ interface Props {
   articleLanguage: string;
   handleBlur: (evt: { target: { name: string } }) => void;
   values: FrontpageArticleFormType;
-  handleSubmit: () => Promise<void>;
   formik: FormikContextType<FrontpageArticleFormType>;
 }
 
 const FrontpageArticleFormContent = ({
   articleLanguage,
   values: { id, language, creators, published, slug },
-  handleSubmit,
 }: Props) => {
   const { userPermissions } = useSession();
   const { t } = useTranslation();
@@ -214,18 +211,11 @@ const FrontpageArticleFormContent = ({
   const [preview, setPreview] = useState(false);
   const [editSlug, setEditSlug] = useState(false);
 
-  const editorPlugins = useMemo(
-    () => plugins(articleLanguage ?? '', handleSubmit),
-    [articleLanguage, handleSubmit],
-  );
+  const editorPlugins = useMemo(() => plugins(articleLanguage ?? ''), [articleLanguage]);
 
   return (
     <StyledContentWrapper data-wide={isWideArticle}>
-      {editSlug && slug !== undefined ? (
-        <SlugField handleSubmit={handleSubmit} />
-      ) : (
-        <TitleField handleSubmit={handleSubmit} />
-      )}
+      {editSlug && slug !== undefined ? <SlugField /> : <TitleField />}
       <StyledFormikField name="published">
         {({ field, form }) => (
           <StyledDiv>
@@ -268,7 +258,7 @@ const FrontpageArticleFormContent = ({
         )}
       </StyledFormikField>
 
-      <IngressField preview={preview} handleSubmit={handleSubmit} />
+      <IngressField preview={preview} />
       <StyledContentDiv name="content" label={t('form.content.label')} noBorder>
         {({ field: { value, name, onChange }, form: { isSubmitting } }) => (
           <>

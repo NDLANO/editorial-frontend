@@ -129,7 +129,7 @@ const actionsToShowInAreas = {
 };
 
 // Plugins are checked from last to first
-export const plugins = (articleLanguage: string, handleSubmit: () => void): SlatePlugin[] => {
+export const plugins = (articleLanguage: string): SlatePlugin[] => {
   return [
     sectionPlugin,
     spanPlugin,
@@ -161,7 +161,7 @@ export const plugins = (articleLanguage: string, handleSubmit: () => void): Slat
     toolbarPlugin,
     textTransformPlugin,
     breakPlugin,
-    saveHotkeyPlugin(handleSubmit),
+    saveHotkeyPlugin,
     markPlugin,
     definitionListPlugin,
     listPlugin,
@@ -185,15 +185,9 @@ const LearningResourceContent = ({
 
   const [preview, setPreview] = useState(false);
 
-  const formikContext = useFormikContext<LearningResourceFormType>();
-
-  const handleSubmit = useCallback(() => {
-    _handleSubmit(formikContext.values, formikContext);
-  }, [_handleSubmit, formikContext]);
-
   return (
     <>
-      <TitleField handleSubmit={handleSubmit} />
+      <TitleField />
       <StyledFormikField name="published">
         {({ field, form }) => (
           <StyledDiv>
@@ -221,15 +215,10 @@ const LearningResourceContent = ({
           </StyledDiv>
         )}
       </StyledFormikField>
-      <IngressField preview={preview} handleSubmit={handleSubmit} />
+      <IngressField preview={preview} />
       <StyledContentDiv name="content" label={t('form.content.label')} noBorder>
         {(fieldProps) => (
-          <ContentField
-            articleLanguage={articleLanguage}
-            articleId={articleId}
-            {...fieldProps}
-            handleSubmit={handleSubmit}
-          />
+          <ContentField articleLanguage={articleLanguage} articleId={articleId} {...fieldProps} />
         )}
       </StyledContentDiv>
     </>
@@ -246,7 +235,6 @@ const ContentField = ({
   articleId,
   field: { name, onChange, value },
   articleLanguage,
-  handleSubmit,
 }: ContentFieldProps) => {
   const { t } = useTranslation();
   const { userPermissions } = useSession();
@@ -266,10 +254,7 @@ const ContentField = ({
     [onChange, name],
   );
 
-  const editorPlugins = useMemo(
-    () => plugins(articleLanguage ?? '', handleSubmit),
-    [articleLanguage, handleSubmit],
-  );
+  const editorPlugins = useMemo(() => plugins(articleLanguage ?? ''), [articleLanguage]);
 
   return (
     <>

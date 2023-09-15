@@ -9,7 +9,6 @@
 import { useTranslation } from 'react-i18next';
 import { useFormikContext } from 'formik';
 import { IUpdatedArticle, IArticle } from '@ndla/types-backend/draft-api';
-import { useCallback } from 'react';
 import config from '../../../../config';
 import TopicArticleContent from './TopicArticleContent';
 import RelatedContentFieldGroup from '../../components/RelatedContentFieldGroup';
@@ -17,7 +16,7 @@ import { CopyrightFieldGroup, VersionAndNotesPanel, MetaDataField } from '../../
 import TopicArticleTaxonomy from './TopicArticleTaxonomy';
 import { TAXONOMY_WRITE_SCOPE } from '../../../../constants';
 import GrepCodesField from '../../../FormikForm/GrepCodesField';
-import { HandleSubmitFunc, TopicArticleFormType } from '../../../FormikForm/articleFormHooks';
+import { TopicArticleFormType } from '../../../FormikForm/articleFormHooks';
 import { useSession } from '../../../Session/SessionProvider';
 import { onSaveAsVisualElement } from '../../../FormikForm/utils';
 import RevisionNotes from '../../components/RevisionNotes';
@@ -25,7 +24,6 @@ import FormAccordions from '../../../../components/Accordion/FormAccordions';
 import FormAccordion from '../../../../components/Accordion/FormAccordion';
 
 interface Props {
-  handleSubmit: HandleSubmitFunc<TopicArticleFormType>;
   article?: IArticle;
   updateNotes: (art: IUpdatedArticle) => Promise<IArticle>;
   articleLanguage: string;
@@ -33,7 +31,6 @@ interface Props {
 }
 
 const TopicArticleAccordionPanels = ({
-  handleSubmit,
   article,
   updateNotes,
   articleLanguage,
@@ -42,11 +39,6 @@ const TopicArticleAccordionPanels = ({
   const { t } = useTranslation();
   const { userPermissions } = useSession();
   const formikContext = useFormikContext<TopicArticleFormType>();
-
-  const onSubmit = useCallback(
-    () => handleSubmit(formikContext.values, formikContext),
-    [formikContext, handleSubmit],
-  );
 
   const { values, errors } = formikContext;
   return (
@@ -57,7 +49,7 @@ const TopicArticleAccordionPanels = ({
         className={'u-4/6@desktop u-push-1/6@desktop'}
         hasError={!!(errors.title || errors.introduction || errors.content || errors.visualElement)}
       >
-        <TopicArticleContent handleSubmit={onSubmit} values={values} />
+        <TopicArticleContent values={values} />
       </FormAccordion>
       {article && !!userPermissions?.includes(TAXONOMY_WRITE_SCOPE) && (
         <FormAccordion

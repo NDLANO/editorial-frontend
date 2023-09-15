@@ -110,7 +110,7 @@ const HeaderWithLanguage = ({
         ) : (
           <HeaderLanguagePill current>
             <Check />
-            {t(`language.${language}`)}
+            {t(`languages.${language}`)}
           </HeaderLanguagePill>
         )}
       </StyledLanguageWrapper>

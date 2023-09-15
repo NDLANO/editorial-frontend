@@ -51,7 +51,7 @@ const SearchAudio = ({ audio, locale }: Props) => {
         <StyledSearchDescription>
           {`${t('searchPage.language')}: `}
           {audio.supportedLanguages?.map((lang) => (
-            <StyledSearchOtherLink key={lang}>{t(`language.${lang}`)}</StyledSearchOtherLink>
+            <StyledSearchOtherLink key={lang}>{t(`languages.${lang}`)}</StyledSearchOtherLink>
           ))}
         </StyledSearchDescription>
         {license && (

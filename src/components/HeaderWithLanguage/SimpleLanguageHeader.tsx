@@ -37,15 +37,15 @@ const SimpleLanguageHeader = ({
   const isNewLanguage = !!id && !supportedLanguages.includes(language);
 
   const languages = [
-    { key: 'nn', title: t('language.nn'), include: true },
-    { key: 'en', title: t('language.en'), include: true },
-    { key: 'nb', title: t('language.nb'), include: true },
-    { key: 'sma', title: t('language.sma'), include: true },
-    { key: 'se', title: t('language.se'), include: true },
-    { key: 'und', title: t('language.und'), include: false },
-    { key: 'de', title: t('language.de'), include: true },
-    { key: 'es', title: t('language.es'), include: true },
-    { key: 'ukr', title: t('language.ukr'), include: false },
+    { key: 'nn', title: t('languages.nn'), include: true },
+    { key: 'en', title: t('languages.en'), include: true },
+    { key: 'nb', title: t('languages.nb'), include: true },
+    { key: 'sma', title: t('languages.sma'), include: true },
+    { key: 'se', title: t('languages.se'), include: true },
+    { key: 'und', title: t('languages.und'), include: false },
+    { key: 'de', title: t('languages.de'), include: true },
+    { key: 'es', title: t('languages.es'), include: true },
+    { key: 'ukr', title: t('languages.ukr'), include: false },
   ];
   const emptyLanguages = languages.filter(
     (lang) => lang.key !== language && !supportedLanguages.includes(lang.key) && lang.include,
@@ -74,7 +74,7 @@ const SimpleLanguageHeader = ({
             {isNewLanguage && (
               <HeaderLanguagePill current key={`types_${language}`}>
                 <Check />
-                {t(`language.${language}`)}
+                {t(`languages.${language}`)}
               </HeaderLanguagePill>
             )}
             <StyledSplitter />
@@ -84,7 +84,7 @@ const SimpleLanguageHeader = ({
           <>
             <HeaderLanguagePill current>
               <Check />
-              {t(`language.${language}`)}
+              {t(`languages.${language}`)}
             </HeaderLanguagePill>
           </>
         )}

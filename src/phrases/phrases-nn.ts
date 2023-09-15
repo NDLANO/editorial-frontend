@@ -740,6 +740,7 @@ const phrases = {
       descriptionlanguage: 'Beskrivelse-språk',
       url: 'Lenke',
       date: 'Dato',
+      sides: 'Hvilken side skal bilde vises',
     },
     previewProductionArticle: {
       button: 'Samanlikn gjeldande versjon med gamal versjon',
@@ -1871,12 +1872,9 @@ const phrases = {
   reset: 'Tilbakestill',
   campaignBlockForm: {
     title: 'Rediger kampanjeblokk',
-    image: {
-      imageBefore: 'Venstre bilde',
-      insertImageBefore: 'Sett inn bilde til venstre',
-      imageAfter: 'Høyre bilde',
-      insertImageAfter: 'Sett inn bilde til høyre',
-      images: 'Bildar',
+    sides: {
+      left: 'Venstre',
+      right: 'Høyre',
     },
   },
   linkBlock: {

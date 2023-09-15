@@ -4,7 +4,7 @@ import { Editor, Path, Transforms } from 'slate';
 import { ReactEditor, RenderElementProps } from 'slate-react';
 import he from 'he';
 import { useTranslation } from 'react-i18next';
-
+import Prism from 'prismjs';
 import { IconButtonV2 } from '@ndla/button';
 import { DeleteForever } from '@ndla/icons/editor';
 import { CodeBlockEditor, Codeblock } from '@ndla/code';
@@ -48,6 +48,11 @@ const RemoveCodeBlock = ({ handleRemove }: RemoveCodeBlockProps) => {
       <DeleteForever />
     </IconButtonV2>
   );
+};
+
+const highlightCode = (code: string, language: string) => {
+  const highlighted = Prism.highlight(code, Prism.languages[language], language);
+  return highlighted;
 };
 
 const getInfoFromNode = (element: CodeblockElement): CodeEmbedData => {
@@ -134,6 +139,7 @@ const CodeBlock = ({ attributes, editor, element, children }: Props) => {
             code={embedData.codeContent}
             format={embedData.codeFormat}
             title={embedData.title}
+            highlightedCode={highlightCode(embedData.codeContent, embedData.codeFormat)}
           />
           {children}
         </CodeDiv>

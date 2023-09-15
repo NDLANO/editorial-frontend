@@ -594,6 +594,7 @@ const phrases = {
     title: 'Key figure',
     edit: 'Edit key figure',
   },
+
   editorToolbar: {
     bold: 'Bold\n({{ctrl}}+b)',
     'bulleted-list': 'Bulleted list\n({{ctrl}}+l)',
@@ -739,6 +740,7 @@ const phrases = {
       descriptionlanguage: 'Description language',
       url: 'Link',
       date: 'Date',
+      sides: 'Image side',
     },
     previewProductionArticle: {
       button: 'Compare current version with old version',
@@ -1867,12 +1869,9 @@ const phrases = {
   reset: 'Reset',
   campaignBlockForm: {
     title: 'Edit campaign block',
-    image: {
-      imageBefore: 'Left image',
-      insertImageBefore: 'Insert left image',
-      imageAfter: 'Right image',
-      insertImageAfter: 'Insert right image',
-      images: 'Images',
+    sides: {
+      left: 'Left',
+      right: 'Right',
     },
   },
   linkBlock: {

@@ -6,10 +6,10 @@
  *
  */
 
-import { FormEvent } from 'react';
+import { FormEvent, useCallback } from 'react';
 
 import { useTranslation } from 'react-i18next';
-import { connect, FormikContextType } from 'formik';
+import { useFormikContext } from 'formik';
 import { UploadDropZone, FieldHeader } from '@ndla/forms';
 import styled from '@emotion/styled';
 import Tooltip from '@ndla/tooltip';
@@ -22,11 +22,11 @@ import { AudioFormikType } from './AudioForm';
 import { TitleField } from '../../FormikForm';
 import AudioCopyInfo from './AudioCopyInfo';
 import AudioFileInfoModal from './AudioFileInfoModal';
+import { HandleSubmitFunc } from '../../FormikForm/articleFormHooks';
+import { PodcastFormValues } from '../../../modules/audio/audioApiInterfaces';
 
-interface BaseProps {}
-
-interface Props extends BaseProps {
-  formik: FormikContextType<AudioFormikType>;
+interface Props<T extends AudioFormikType | PodcastFormValues> {
+  handleSubmit: HandleSubmitFunc<T>;
 }
 
 const PlayerWrapper = styled.div`
@@ -56,15 +56,21 @@ const getPlayerObject = (
   return undefined;
 };
 
-const AudioContent = ({ formik }: Props) => {
+const AudioContent = <T extends AudioFormikType | PodcastFormValues>({
+  handleSubmit: _handleSubmit,
+}: Props<T>) => {
   const { t } = useTranslation();
-  const { values, setFieldValue } = formik;
+  const formikContext = useFormikContext<T>();
+  const { values, setFieldValue } = formikContext;
   const playerObject = getPlayerObject(values);
+
+  const handleSubmit = useCallback(() => {
+    _handleSubmit(formikContext.values, formikContext);
+  }, [_handleSubmit, formikContext]);
 
   return (
     <>
-      <TitleField />
-
+      <TitleField handleSubmit={handleSubmit} />
       <FormikField noBorder name="audioFile" label={t('form.audio.file')}>
         {() => (
           <>
@@ -110,4 +116,4 @@ const AudioContent = ({ formik }: Props) => {
   );
 };
 
-export default connect<BaseProps, AudioFormikType>(AudioContent);
+export default AudioContent;

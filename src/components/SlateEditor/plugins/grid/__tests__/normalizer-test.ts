@@ -16,7 +16,12 @@ import { TYPE_GRID, TYPE_GRID_CELL } from '../types';
 import { TYPE_PARAGRAPH } from '../../paragraph/types';
 
 const editor = withHistory(
-  withReact(withPlugins(createEditor(), plugins('nb', 'nn', { current: () => {} }))),
+  withReact(
+    withPlugins(
+      createEditor(),
+      plugins('nb', () => {}),
+    ),
+  ),
 );
 
 describe('normalizing grid tests', () => {
@@ -35,18 +40,22 @@ describe('normalizing grid tests', () => {
             children: [
               {
                 type: TYPE_GRID_CELL,
+                data: { parallaxCell: 'false' },
                 children: [{ type: TYPE_PARAGRAPH, children: [{ text: 'a' }] }],
               },
               {
                 type: TYPE_GRID_CELL,
+                data: { parallaxCell: 'false' },
                 children: [{ type: TYPE_PARAGRAPH, children: [{ text: 'a' }] }],
               },
               {
                 type: TYPE_GRID_CELL,
+                data: { parallaxCell: 'false' },
                 children: [{ type: TYPE_PARAGRAPH, children: [{ text: 'a' }] }],
               },
               {
                 type: TYPE_GRID_CELL,
+                data: { parallaxCell: 'false' },
                 children: [{ type: TYPE_PARAGRAPH, children: [{ text: 'a' }] }],
               },
             ],
@@ -70,10 +79,12 @@ describe('normalizing grid tests', () => {
             children: [
               {
                 type: TYPE_GRID_CELL,
+                data: { parallaxCell: 'false' },
                 children: [{ type: TYPE_PARAGRAPH, children: [{ text: 'a' }] }],
               },
               {
                 type: TYPE_GRID_CELL,
+                data: { parallaxCell: 'false' },
                 children: [{ type: TYPE_PARAGRAPH, children: [{ text: 'a' }] }],
               },
             ],
@@ -103,10 +114,12 @@ describe('normalizing grid tests', () => {
             children: [
               {
                 type: TYPE_GRID_CELL,
+                data: { parallaxCell: 'false' },
                 children: [{ type: TYPE_PARAGRAPH, children: [{ text: 'a' }] }],
               },
               {
                 type: TYPE_GRID_CELL,
+                data: { parallaxCell: 'false' },
                 children: [{ type: TYPE_PARAGRAPH, children: [{ text: 'a' }] }],
               },
             ],
@@ -130,18 +143,22 @@ describe('normalizing grid tests', () => {
             children: [
               {
                 type: TYPE_GRID_CELL,
+                data: { parallaxCell: 'false' },
                 children: [{ type: TYPE_PARAGRAPH, children: [{ text: 'a' }] }],
               },
               {
                 type: TYPE_GRID_CELL,
+                data: { parallaxCell: 'false' },
                 children: [{ type: TYPE_PARAGRAPH, children: [{ text: 'a' }] }],
               },
               {
                 type: TYPE_GRID_CELL,
+                data: { parallaxCell: 'false' },
                 children: [{ type: TYPE_PARAGRAPH, children: [{ text: '' }] }],
               },
               {
                 type: TYPE_GRID_CELL,
+                data: { parallaxCell: 'false' },
                 children: [{ type: TYPE_PARAGRAPH, children: [{ text: '' }] }],
               },
             ],

@@ -206,12 +206,12 @@ const ImageForm = ({
                 className="u-4/6@desktop u-push-1/6@desktop"
                 hasError={hasError(['title', 'imageFile', 'caption', 'alttext'])}
               >
-                <ImageContent />
+                <ImageContent handleSubmit={handleSubmit} />
               </FormAccordion>
               <FormAccordion
                 id="metadata"
                 title={t('form.metadataSection')}
-                className="u-4/6@desktop u-push-1/6@desktop"
+                className={'u-6/6'}
                 hasError={hasError(['tags', 'rightsholders', 'creators', 'processors', 'license'])}
               >
                 <ImageMetaData imageLanguage={language} imageTags={values.tags} />
@@ -219,7 +219,7 @@ const ImageForm = ({
               <FormAccordion
                 id="image-upload-version-history"
                 title={t('form.workflowSection')}
-                className="u-4/6@desktop u-push-1/6@desktop"
+                className={'u-6/6'}
                 hasError={false}
               >
                 <ImageVersionNotes image={image} />

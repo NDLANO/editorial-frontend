@@ -24,6 +24,8 @@ export const IMAGE = 'image';
 
 export const AUDIO = 'audio';
 
+export const AUDIO_EMBED = 'audio';
+
 export const PODCAST_SERIES = 'podcastSeries';
 
 export const DRAFT = 'draft';
@@ -40,6 +42,12 @@ export const SUBJECT = 'subject';
 
 export const FILM_FRONTPAGE_QUERY = 'filmFrontpage';
 export const FILM_SLIDESHOW = 'filmSlideshow';
+
+export const FRONTPAGE = 'frontpage';
+
+export const ARTICLE = 'article';
+
+export const ARTICLE_SEARCH = 'articleSearch';
 
 export const NODE = 'node';
 export const NODES = 'nodes';

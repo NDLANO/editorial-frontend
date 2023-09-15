@@ -6,7 +6,7 @@
  *
  */
 
-import { useRef, useEffect, RefObject, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { FormikContextType } from 'formik';
@@ -61,7 +61,6 @@ import { TYPE_CODEBLOCK } from '../../../../components/SlateEditor/plugins/codeB
 import {
   TYPE_EMBED_H5P,
   TYPE_EMBED_BRIGHTCOVE,
-  TYPE_EMBED_AUDIO,
   TYPE_EMBED_EXTERNAL,
   TYPE_EMBED_IMAGE,
 } from '../../../../components/SlateEditor/plugins/embed/types';
@@ -78,6 +77,10 @@ import { keyFigurePlugin } from '../../../../components/SlateEditor/plugins/keyF
 import { campaignBlockPlugin } from '../../../../components/SlateEditor/plugins/campaignBlock';
 import { TYPE_CAMPAIGN_BLOCK } from '../../../../components/SlateEditor/plugins/campaignBlock/types';
 import { useWideArticle } from '../../../../components/WideArticleEditorProvider';
+import { linkBlockListPlugin } from '../../../../components/SlateEditor/plugins/linkBlockList';
+import { TYPE_LINK_BLOCK_LIST } from '../../../../components/SlateEditor/plugins/linkBlockList/types';
+import { audioPlugin } from '../../../../components/SlateEditor/plugins/audio';
+import { TYPE_AUDIO } from '../../../../components/SlateEditor/plugins/audio/types';
 
 const StyledFormikField = styled(FormikField)`
   display: flex;
@@ -104,6 +107,8 @@ const StyledContentDiv = styled(FormikField)`
 `;
 
 const StyledContentWrapper = styled.div`
+  width: 100%;
+
   &[data-wide='true'] {
     max-width: 1100px;
   }
@@ -122,7 +127,7 @@ const StyledIconButton = styled(IconButtonV2)`
 const visualElements = [
   TYPE_EMBED_H5P,
   TYPE_EMBED_BRIGHTCOVE,
-  TYPE_EMBED_AUDIO,
+  TYPE_AUDIO,
   TYPE_EMBED_EXTERNAL,
   TYPE_EMBED_IMAGE,
 ];
@@ -136,6 +141,7 @@ const actions = [
   TYPE_BLOGPOST,
   TYPE_KEY_FIGURE,
   TYPE_CAMPAIGN_BLOCK,
+  TYPE_LINK_BLOCK_LIST,
 ].concat(visualElements);
 
 const actionsToShowInAreas = {
@@ -145,18 +151,15 @@ const actionsToShowInAreas = {
 };
 
 // Plugins are checked from last to first
-export const plugins = (
-  articleLanguage: string,
-  locale: LocaleType,
-  handleSubmitRef: RefObject<() => void>,
-): SlatePlugin[] => {
+export const plugins = (articleLanguage: string, handleSubmit: VoidFunction): SlatePlugin[] => {
   return [
     sectionPlugin,
     spanPlugin,
     divPlugin,
     paragraphPlugin(articleLanguage),
     footnotePlugin,
-    embedPlugin(articleLanguage, locale),
+    embedPlugin(articleLanguage),
+    audioPlugin(articleLanguage),
     bodyboxPlugin,
     asidePlugin,
     detailsPlugin,
@@ -181,13 +184,14 @@ export const plugins = (
     toolbarPlugin,
     textTransformPlugin,
     breakPlugin,
-    saveHotkeyPlugin(() => handleSubmitRef.current && handleSubmitRef.current()),
+    saveHotkeyPlugin(handleSubmit),
     markPlugin,
     definitionListPlugin,
     listPlugin,
     gridPlugin,
     blogPostPlugin,
     campaignBlockPlugin,
+    linkBlockListPlugin,
   ];
 };
 interface Props {
@@ -203,26 +207,29 @@ const FrontpageArticleFormContent = ({
   values: { id, language, creators, published, slug },
   handleSubmit,
 }: Props) => {
-  const handleSubmitRef = useRef(handleSubmit);
   const { userPermissions } = useSession();
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const { isWideArticle } = useWideArticle();
 
   const [preview, setPreview] = useState(false);
   const [editSlug, setEditSlug] = useState(false);
 
-  useEffect(() => {
-    handleSubmitRef.current = handleSubmit;
-  }, [handleSubmit]);
+  const editorPlugins = useMemo(
+    () => plugins(articleLanguage ?? '', handleSubmit),
+    [articleLanguage, handleSubmit],
+  );
 
   return (
     <StyledContentWrapper data-wide={isWideArticle}>
-      {editSlug && slug !== undefined ? <SlugField handleSubmit={handleSubmit} /> : <TitleField />}
+      {editSlug && slug !== undefined ? (
+        <SlugField handleSubmit={handleSubmit} />
+      ) : (
+        <TitleField handleSubmit={handleSubmit} />
+      )}
       <StyledFormikField name="published">
         {({ field, form }) => (
           <StyledDiv>
             <LastUpdatedLine
-              name={field.name}
               creators={creators}
               published={published}
               allowEdit={true}
@@ -261,7 +268,7 @@ const FrontpageArticleFormContent = ({
         )}
       </StyledFormikField>
 
-      <IngressField preview={preview} />
+      <IngressField preview={preview} handleSubmit={handleSubmit} />
       <StyledContentDiv name="content" label={t('form.content.label')} noBorder>
         {({ field: { value, name, onChange }, form: { isSubmitting } }) => (
           <>
@@ -282,7 +289,7 @@ const FrontpageArticleFormContent = ({
               placeholder={t('form.content.placeholder')}
               value={value}
               submitted={isSubmitting}
-              plugins={plugins(articleLanguage ?? '', i18n.language, handleSubmitRef)}
+              plugins={editorPlugins}
               data-cy="frontpage-article-content"
               onChange={(value) => {
                 onChange({

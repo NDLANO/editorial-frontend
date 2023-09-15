@@ -1,4 +1,5 @@
 import { TYPE_ASIDE } from './plugins/aside/types';
+import { TYPE_AUDIO } from './plugins/audio/types';
 import { TYPE_BLOGPOST } from './plugins/blogPost/types';
 import { TYPE_BODYBOX } from './plugins/bodybox/types';
 import { TYPE_CAMPAIGN_BLOCK } from './plugins/campaignBlock/types';
@@ -6,7 +7,6 @@ import { TYPE_CODEBLOCK } from './plugins/codeBlock/types';
 import { TYPE_CONCEPT_INLINE } from './plugins/concept/inline/types';
 import { TYPE_DETAILS } from './plugins/details/types';
 import {
-  TYPE_EMBED_AUDIO,
   TYPE_EMBED_BRIGHTCOVE,
   TYPE_EMBED_ERROR,
   TYPE_EMBED_EXTERNAL,
@@ -37,7 +37,7 @@ export const blocks = [
   TYPE_BODYBOX,
   TYPE_CODEBLOCK,
   TYPE_DETAILS,
-  TYPE_EMBED_AUDIO,
+  TYPE_AUDIO,
   TYPE_EMBED_BRIGHTCOVE,
   TYPE_EMBED_ERROR,
   TYPE_EMBED_EXTERNAL,
@@ -50,4 +50,5 @@ export const blocks = [
   TYPE_GRID,
   TYPE_KEY_FIGURE,
   TYPE_CAMPAIGN_BLOCK,
+  TYPE_EMBED_IMAGE,
 ];

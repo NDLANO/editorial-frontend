@@ -14,13 +14,20 @@ import {
   RelatedArticle,
   TableMaterial,
 } from '@ndla/icons/editor';
-import { Announcement, Download, Insights, Person, Podcast, VolumeUp } from '@ndla/icons/common';
+import {
+  Announcement,
+  Download,
+  Insights,
+  Link,
+  Person,
+  Podcast,
+  VolumeUp,
+} from '@ndla/icons/common';
 import { List } from '@ndla/icons/action';
 import HowToHelper from '../../../HowTo/HowToHelper';
 import { TYPE_CONCEPT_BLOCK } from '../concept/block/types';
 import { DRAFT_ADMIN_SCOPE } from '../../../../constants';
 import {
-  TYPE_EMBED_AUDIO,
   TYPE_EMBED_BRIGHTCOVE,
   TYPE_EMBED_EXTERNAL,
   TYPE_EMBED_H5P,
@@ -39,6 +46,8 @@ import { TYPE_CONTACT_BLOCK } from '../contactBlock/types';
 import { TYPE_BLOGPOST } from '../blogPost/types';
 import { TYPE_CAMPAIGN_BLOCK } from '../campaignBlock/types';
 import { TYPE_GRID } from '../grid/types';
+import { TYPE_LINK_BLOCK_LIST } from '../linkBlockList/types';
+import { TYPE_AUDIO } from '../audio/types';
 
 const renderArticleInModal = (pageId: string) => <HowToHelper pageId={pageId} extraIconPadding />;
 
@@ -86,12 +95,12 @@ export const commonActions: Action[] = [
     helpIcon: renderArticleInModal('Videos'),
   },
   {
-    data: { type: TYPE_EMBED_AUDIO, object: 'audio' },
+    data: { type: TYPE_AUDIO, object: 'audio' },
     icon: <VolumeUp />,
     helpIcon: renderArticleInModal('Audios'),
   },
   {
-    data: { type: TYPE_EMBED_AUDIO, object: 'podcast' },
+    data: { type: TYPE_AUDIO, object: 'podcast' },
     icon: <Podcast />,
     helpIcon: renderArticleInModal('Podcasts'),
   },
@@ -159,5 +168,10 @@ export const frontpageActions = commonActions.concat(
     data: { type: TYPE_CAMPAIGN_BLOCK, object: 'campaignBlock' },
     icon: <Announcement />,
     helpIcon: renderArticleInModal('CampaignBlock'),
+  },
+  {
+    data: { type: TYPE_LINK_BLOCK_LIST, object: 'linkBlockList' },
+    icon: <Link />,
+    helpIcon: renderArticleInModal('LinkBlockList'),
   },
 );

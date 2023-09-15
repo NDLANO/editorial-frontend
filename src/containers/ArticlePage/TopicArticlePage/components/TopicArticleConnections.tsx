@@ -6,9 +6,8 @@
  *
  */
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import styled from '@emotion/styled';
-import { Structure } from '@ndla/editor';
 import { FieldHeader } from '@ndla/forms';
 import { ButtonV2 } from '@ndla/button';
 import { useTranslation } from 'react-i18next';
@@ -22,41 +21,43 @@ import {
   ModalContent,
 } from '@ndla/modal';
 import { Switch } from '@ndla/switch';
+import { Node, NodeChild } from '@ndla/types-taxonomy';
 import { fetchUserData } from '../../../../modules/draft/draftApi';
 import { HowToHelper } from '../../../../components/HowTo';
-import StructureFunctionButtons from './StructureFunctionButtons';
 import ActiveTopicConnections from '../../../../components/Taxonomy/ActiveTopicConnections';
-import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
-import { LocaleType } from '../../../../interfaces';
-import { StagedTopic } from './TopicArticleTaxonomy';
+import TaxonomyBlockNode, {
+  NodeWithChildren,
+} from '../../../../components/Taxonomy/TaxonomyBlockNode';
+import { MinimalNodeChild } from '../../LearningResourcePage/components/LearningResourceTaxonomy';
 
 const StyledModalHeader = styled(ModalHeader)`
   padding-bottom: 0;
 `;
 
 interface Props {
-  structure: SubjectType[];
-  activeTopics: StagedTopic[];
-  allowMultipleSubjectsOpen?: boolean;
-  stageTaxonomyChanges: ({ path, locale }: { path: string; locale?: LocaleType }) => void;
-  getSubjectTopics: (subjectId: string, locale: LocaleType) => Promise<void>;
+  structure: NodeWithChildren[];
+  selectedNodes: MinimalNodeChild[] | Node[];
+  addConnection: (node: Node) => void;
+  getSubjectTopics: (subjectId: string) => Promise<void>;
 }
 
 const TopicArticleConnections = ({
   structure,
-  activeTopics,
-  allowMultipleSubjectsOpen,
-  stageTaxonomyChanges,
+  selectedNodes,
+  addConnection,
   getSubjectTopics,
 }: Props) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const [openedPaths, setOpenedPaths] = useState<string[]>([]);
   const [showFavorites, setShowFavorites] = useState(true);
   const [favoriteSubjectIds, setFavoriteSubjectIds] = useState<string[]>([]);
-  useEffect(() => {
-    fetchFavoriteSubjects();
-  }, []);
+
+  const nodes = useMemo(
+    () =>
+      showFavorites ? structure.filter((node) => favoriteSubjectIds.includes(node.id)) : structure,
+    [favoriteSubjectIds, showFavorites, structure],
+  );
 
   const fetchFavoriteSubjects = async () => {
     const result = await fetchUserData();
@@ -65,41 +66,35 @@ const TopicArticleConnections = ({
     setShowFavorites(favoriteSubjects.length > 0);
   };
 
-  const getFavoriteSubjects = (subjects: SubjectType[], favoriteSubjectIds: string[]) => {
-    return subjects.filter((e) => favoriteSubjectIds.includes(e.id));
-  };
+  useEffect(() => {
+    fetchFavoriteSubjects();
+  }, []);
 
   const closeModal = useCallback(() => setOpen(false), []);
 
-  const handleOpenToggle = async ({
-    path,
-    isSubject,
-    id,
-  }: {
-    path: string;
-    isSubject: boolean;
-    id: string;
-  }) => {
+  const handleOpenToggle = ({ id }: Node) => {
     let paths = [...openedPaths];
-    const index = paths.indexOf(path);
+    const index = paths.indexOf(id);
+    const isSubject = id.includes('subject');
     if (index === -1) {
       if (isSubject) {
-        getSubjectTopics(id, i18n.language);
-        if (!allowMultipleSubjectsOpen) {
-          paths = [];
-        }
+        getSubjectTopics(id);
+        paths = [];
       }
-      paths.push(path);
+      paths.push(id);
     } else {
       paths.splice(index, 1);
     }
     setOpenedPaths(paths);
   };
 
-  const addTopic = async (path: string, closeModal: () => void, locale?: LocaleType) => {
-    stageTaxonomyChanges({ path, locale });
-    closeModal();
-  };
+  const onAdd = useCallback(
+    (node: NodeWithChildren | NodeChild) => {
+      addConnection(node);
+      closeModal();
+    },
+    [addConnection, closeModal],
+  );
 
   const toggleShowFavorites = () => {
     setShowFavorites(!showFavorites);
@@ -112,7 +107,7 @@ const TopicArticleConnections = ({
       >
         <HowToHelper pageId="TaxonomyTopicConnections" tooltip={t('taxonomy.topics.helpLabel')} />
       </FieldHeader>
-      <ActiveTopicConnections activeTopics={activeTopics} type="topic-article" />
+      <ActiveTopicConnections activeTopics={selectedNodes} type="topic-article" />
       <Modal open={open} onOpenChange={setOpen}>
         <ModalTrigger>
           <ButtonV2>{t(`taxonomy.topics.${'chooseTaxonomyPlacement'}`)}</ButtonV2>
@@ -130,34 +125,17 @@ const TopicArticleConnections = ({
           </StyledModalHeader>
           <ModalBody>
             <hr />
-            <Structure
-              openedPaths={openedPaths}
-              structure={
-                showFavorites ? getFavoriteSubjects(structure, favoriteSubjectIds) : structure
-              }
-              toggleOpen={handleOpenToggle}
-              renderListItems={({
-                path,
-                isSubject,
-                isOpen,
-                id,
-              }: {
-                path: string;
-                isSubject: boolean;
-                isOpen: boolean;
-                id: string;
-              }) => {
-                return (
-                  <StructureFunctionButtons
-                    isOpen={isOpen}
-                    id={id}
-                    isSubject={isSubject}
-                    activeTopics={activeTopics}
-                    addTopic={() => addTopic(path, closeModal, i18n.language)}
-                  />
-                );
-              }}
-            />
+            {nodes.map((node) => (
+              <TaxonomyBlockNode
+                key={node.id}
+                node={node}
+                openedPaths={openedPaths}
+                toggleOpen={handleOpenToggle}
+                selectedNodes={selectedNodes}
+                onRootSelected={onAdd}
+                onSelect={onAdd}
+              />
+            ))}
           </ModalBody>
         </ModalContent>
       </Modal>

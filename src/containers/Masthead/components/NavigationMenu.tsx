@@ -29,7 +29,12 @@ import {
   toCreateGloss,
 } from '../../../util/routeHelpers';
 import { useSession } from '../../Session/SessionProvider';
-import { AUDIO_ADMIN_SCOPE, DRAFT_ADMIN_SCOPE, TAXONOMY_ADMIN_SCOPE } from '../../../constants';
+import {
+  AUDIO_ADMIN_SCOPE,
+  DRAFT_ADMIN_SCOPE,
+  FRONTPAGE_ADMIN_SCOPE,
+  TAXONOMY_ADMIN_SCOPE,
+} from '../../../constants';
 
 const StyledMenuItem = styled.span`
   display: flex;
@@ -200,6 +205,14 @@ const OpenMenu = ({ close }: Props) => {
                 {t('subNavigation.h5p')}
               </StyledMenuItem>
             </Link>
+            {userPermissions?.includes(FRONTPAGE_ADMIN_SCOPE) && (
+              <Link css={styledListElement} to="/frontpage" onClick={close}>
+                <StyledMenuItem>
+                  <ContentTypeBadge type={contentTypes.SUBJECT} background size="xx-small" />
+                  {t('subNavigation.frontpage')}
+                </StyledMenuItem>
+              </Link>
+            )}
             {userPermissions?.includes(DRAFT_ADMIN_SCOPE) && (
               <a
                 css={styledListElement}

@@ -7,13 +7,13 @@
  */
 
 import queryString from 'query-string';
+import { Node } from '@ndla/types-taxonomy';
 import SearchContentForm from './SearchContentForm';
 import SearchAudioForm from './SearchAudioForm';
 import SearchPodcastSeriesForm from './SearchPodcastSeriesForm';
 import SearchImageForm from './SearchImageForm';
 import SearchConceptForm from './SearchConceptForm';
 import { SearchType } from '../../../../interfaces';
-import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 
 export interface SearchParams {
   query?: string;
@@ -85,7 +85,7 @@ interface Props {
   type: SearchType;
   searchObject: SearchParams;
   search: (o: SearchParams) => void;
-  subjects: SubjectType[];
+  subjects: Node[];
   locale: string;
 }
 

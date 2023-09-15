@@ -49,6 +49,8 @@ import { gridSerializer } from '../components/SlateEditor/plugins/grid';
 import { keyFigureSerializer } from '../components/SlateEditor/plugins/keyFigure';
 import { contactBlockSerializer } from '../components/SlateEditor/plugins/contactBlock';
 import { campaignBlockSerializer } from '../components/SlateEditor/plugins/campaignBlock';
+import { linkBlockListSerializer } from '../components/SlateEditor/plugins/linkBlockList';
+import { audioSerializer } from '../components/SlateEditor/plugins/audio';
 
 export const sectionSplitter = (html: string) => {
   const node = document.createElement('div');
@@ -104,6 +106,8 @@ const extendedRules: SlateSerializer[] = [
   keyFigureSerializer,
   contactBlockSerializer,
   campaignBlockSerializer,
+  linkBlockListSerializer,
+  audioSerializer,
   embedSerializer,
   bodyboxSerializer,
   divSerializer,

@@ -29,15 +29,14 @@ import { useSession } from '../../../../containers/Session/SessionProvider';
 import getCurrentBlock from '../../utils/getCurrentBlock';
 import { TYPE_PARAGRAPH } from '../paragraph/types';
 import { isParagraph } from '../paragraph/utils';
-import { isTableCell } from '../table/slateHelpers';
+import { isInTableCellHeader, isTableCell } from '../table/slateHelpers';
 import { defaultTableBlock } from '../table/defaultBlocks';
 import { TYPE_BODYBOX } from '../bodybox/types';
 import { TYPE_DETAILS } from '../details/types';
-import { TYPE_TABLE } from '../table/types';
+import { TYPE_TABLE, TYPE_TABLE_CELL_HEADER } from '../table/types';
 import { TYPE_ASIDE } from '../aside/types';
 import { TYPE_FILE } from '../file/types';
 import {
-  TYPE_EMBED_AUDIO,
   TYPE_EMBED_BRIGHTCOVE,
   TYPE_EMBED_ERROR,
   TYPE_EMBED_EXTERNAL,
@@ -56,6 +55,9 @@ import { TYPE_GRID } from '../grid/types';
 import { defaultGridBlock } from '../grid/utils';
 import { defaultContactBlock } from '../contactBlock/utils';
 import { TYPE_CAMPAIGN_BLOCK } from '../campaignBlock/types';
+import { TYPE_LINK_BLOCK_LIST } from '../linkBlockList/types';
+import { defaultLinkBlockList } from '../linkBlockList';
+import { TYPE_AUDIO } from '../audio/types';
 
 interface Props {
   editor: Editor;
@@ -68,7 +70,7 @@ interface Props {
 
 const StyledBlockPickerWrapper = styled.div`
   position: absolute;
-  z-index: 1;
+  z-index: 15;
 `;
 
 const SlateBlockPicker = ({
@@ -109,6 +111,7 @@ const SlateBlockPicker = ({
   };
 
   const show =
+    !isInTableCellHeader(editor, selectedParagraphPath) &&
     isParagraph(selectedParagraph) &&
     Node.string(selectedParagraph) === '' &&
     selectedParagraph.children.length === 1 &&
@@ -198,9 +201,13 @@ const SlateBlockPicker = ({
         onInsertBlock(defaultAsideBlock(data.object), true);
         break;
       }
+      case TYPE_AUDIO: {
+        setVisualElementPickerOpen(true);
+        setType(data.object);
+        break;
+      }
       case TYPE_FILE:
       case TYPE_EMBED_H5P:
-      case TYPE_EMBED_AUDIO:
       case TYPE_EMBED_IMAGE:
       case TYPE_EMBED_ERROR:
       case TYPE_EMBED_EXTERNAL:
@@ -243,6 +250,10 @@ const SlateBlockPicker = ({
       }
       case TYPE_CAMPAIGN_BLOCK: {
         onInsertBlock(defaultCampaignBlock());
+        break;
+      }
+      case TYPE_LINK_BLOCK_LIST: {
+        onInsertBlock(defaultLinkBlockList());
         break;
       }
       default:

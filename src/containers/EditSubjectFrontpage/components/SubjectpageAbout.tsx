@@ -5,23 +5,34 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Spinner } from '@ndla/icons';
 import { useTranslation } from 'react-i18next';
 import { Descendant } from 'slate';
-import { FieldProps } from 'formik';
+import { FieldProps, FormikProps, useFormikContext } from 'formik';
 import FormikField from '../../../components/FormikField';
 import VisualElementField from '../../FormikForm/components/VisualElementField';
 import PlainTextEditor from '../../../components/SlateEditor/PlainTextEditor';
 import { TitleField } from '../../FormikForm';
+import { SubjectPageFormikType } from '../../../util/subjectHelpers';
+import { FilmFormikType } from '../../NdlaFilm/components/NdlaFilmForm';
 
-interface Props {
+interface Props<T extends SubjectPageFormikType | FilmFormikType> {
   selectedLanguage?: string;
+  handleSubmit: (formik: FormikProps<T>) => void;
 }
 
-const SubjectpageAbout = ({ selectedLanguage }: Props) => {
+const SubjectpageAbout = <T extends SubjectPageFormikType | FilmFormikType>({
+  selectedLanguage,
+  handleSubmit: _handleSubmit,
+}: Props<T>) => {
   const { t } = useTranslation();
   const [showLoading, setShowLoading] = useState(false);
+  const formikContext = useFormikContext<T>();
+
+  const handleSubmit = useCallback(() => {
+    _handleSubmit(formikContext);
+  }, [_handleSubmit, formikContext]);
 
   useEffect(() => {
     setShowLoading(true);
@@ -33,7 +44,7 @@ const SubjectpageAbout = ({ selectedLanguage }: Props) => {
   }
   return (
     <>
-      <TitleField />
+      <TitleField handleSubmit={handleSubmit} />
       <FormikField
         noBorder
         label={t('subjectpageForm.description')}

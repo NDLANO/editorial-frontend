@@ -99,6 +99,7 @@ const NdlaFilmForm = ({ filmFrontpage, selectedLanguage }: Props) => {
               errors={errors}
               formIsDirty={formIsDirty}
               selectedLanguage={selectedLanguage}
+              handleSubmit={handleSubmit}
             />
             <Field right>
               <SaveButton

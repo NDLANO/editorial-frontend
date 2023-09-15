@@ -30,6 +30,7 @@ const phrases = {
     h5pPage: `H5P ${titleTemplate}`,
     publishRequestsPage: `Publiseringsforespørsler ${titleTemplate}`,
     nodeDiffPage: `Samanlikne nodar ${titleTemplate}`,
+    editFrontpage: 'Rediger forside',
     search: {
       'podcast-series': `Søk podkastserier ${titleTemplate}`,
       audio: `Søk lydfiler ${titleTemplate}`,
@@ -98,15 +99,13 @@ const phrases = {
       rules: 'Regler for bruk av videoen:',
     },
   },
-  language: {
-    en: 'Engelsk',
-    es: 'Spansk',
-    nb: 'Bokmål',
-    nn: 'Nynorsk',
-    se: 'Nordsamisk',
-    sma: 'Sørsamisk',
+  languages: {
+    // Adds to list from frontend-packages
+    ar: 'Arabisk',
+    no: 'Norsk',
+    so: 'Somali',
+    ti: 'Tigrinja',
     und: 'Udefinert',
-    de: 'Tysk',
     ukr: 'Ukrainsk',
     empty: 'Ingen fleire språk',
     change: 'Bytt til {{language}} versjon',
@@ -226,6 +225,7 @@ const phrases = {
     newSubject: 'Opprett fag',
     newFrontpageArticle: 'Opprett Om-NDLA-artikkel',
     creationMovedInfo: 'Emner og ressursar må opprettast frå strukturredigeringa',
+    frontpage: 'Rediger forside',
   },
   logo: {
     altText: 'Nasjonal digital læringsarena',
@@ -555,7 +555,7 @@ const phrases = {
         'Bruk av ulovlige tegn i permalenken! Tillatte tegn er alle tall og bokstaver, og bindestrek',
     },
     isFrontpageArticle: {
-      toggleArticle: 'Vis brei editor',
+      toggleArticle: 'Brei editor',
     },
   },
   gridForm: {
@@ -564,6 +564,8 @@ const phrases = {
       white: 'Kvit',
       transparent: 'Transparent',
     },
+    setSticky: 'Lås innhald til cella ved sida av',
+    unsetSticky: 'Frigjer innhald frå cella ved sida av',
   },
   blogPostForm: {
     title: 'Rediger bloggpost',
@@ -648,6 +650,7 @@ const phrases = {
       blogPost: 'Bloggpost',
       grid: 'Grid',
       campaignBlock: 'Kampanjeblokk',
+      linkBlockList: 'Lenkeblokk',
     },
   },
   form: {
@@ -742,6 +745,8 @@ const phrases = {
       linkText: 'Lenketekst',
       titleLanguage: 'Tittel-språk',
       descriptionlanguage: 'Beskrivelse-språk',
+      url: 'Lenke',
+      date: 'Dato',
     },
     previewProductionArticle: {
       button: 'Samanlikn gjeldande versjon med gamal versjon',
@@ -896,7 +901,7 @@ const phrases = {
       qualityAssurance: 'Kvalitetssikring',
       saveAsNew: 'Lag kopi',
       deleteLanguageVersion: {
-        button: 'Slett språkversjon',
+        button: 'Slett {{languageVersion}} versjon',
         title: 'Slett språkversjon',
         modal: 'Er du sikker på at du vil slette denne språkversjonen?',
       },
@@ -1383,6 +1388,7 @@ const phrases = {
     podcastImageSize: 'Metabilete må være mellom 1400 og 3000 pikslar breitt.',
     unfinishedRevision: 'Det må være minst ein planlagd revisjon.',
     missingRevision: 'Det må være minst ein revisjon.',
+    email: 'E-postadressa er ikkje gyldig.',
   },
   errorMessage: {
     title: 'Oops, noko gjekk gale',
@@ -1395,7 +1401,8 @@ const phrases = {
     versionSelect: 'Artikkelen finst ikkje i vald versjon',
     errorWhenFetchingTaxonomyArticle:
       'Det var eit problem ved lasting av den underliggande artikkelen',
-    unsavedTaxonomy: 'Du har ulagra endringar. Trykk avbryt igjen viss du ønsker å fortsette.',
+    unsavedTaxonomy:
+      'Du har ulagra endringar. Trykk tilbakestill igjen viss du ønsker å fortsette.',
     auth0:
       'Autentiseringsfeil. Trykk avbryt for å ta vare på eventuelle endringer du har gjort før du logger inn på nytt. Følgende feilmelding kom fra auth0: {{message}}',
     statusCode: {
@@ -1404,6 +1411,10 @@ const phrases = {
     grepCodes: 'Følgande koder har feil format eller eksisterer ikkje, og blir ikkje lagt til: ',
     errorOnSave: 'Noko gjekk gale under lagring av artikkelen.',
     genericError: 'Noko gjekk gale, handlinga kunne ikkje utførast.',
+    missingTaxTitle: 'Ikkje i taksonomi!',
+    missingTax:
+      'Artiklar og emner kan ikkje lagrast uten å plasserast i taksonomien. Oppdater taksonomi-blokka og lagre på nytt.',
+    invalidTopicPlacements: 'Emner uten plassering i taksonomi',
   },
   warningMessage: {
     fieldWithWrongLanguage: 'Dette feltet er henta frå språkkode: {{language}}',
@@ -1875,17 +1886,6 @@ const phrases = {
     notVisible: 'er ikkje synleg',
     changeVisibility: 'Endre synlegheit',
   },
-  languages: {
-    ar: 'Arabisk',
-    de: 'Tysk',
-    en: 'Engelsk',
-    es: 'Spansk',
-    se: 'Nordsamisk',
-    sma: 'Sørsamisk',
-    so: 'Somali',
-    ti: 'Tigrinja',
-    zh: 'Kinesisk',
-  },
   unsavedChanges: 'Ulagra endringar',
   messages: {
     severity: {
@@ -1896,6 +1896,7 @@ const phrases = {
     },
   },
   delete: 'Slett',
+  reset: 'Tilbakestill',
   campaignBlockForm: {
     title: 'Rediger kampanjeblokk',
     image: {
@@ -1906,8 +1907,37 @@ const phrases = {
       images: 'Bildar',
     },
   },
+  linkBlock: {
+    deleteBlock: 'Slett lenkeblokk',
+    delete: 'Slett lenke',
+    edit: 'Rediger lenke',
+    create: 'Sett inn lenke',
+    chooseDate: 'Velg dato',
+    linkExists: 'Denne lenka finnast allereie i blokka',
+  },
   dragAndDrop: {
     handle: 'Handtak',
+  },
+  datePicker: {
+    chooseMonth: 'Månad:',
+    chooseYear: 'År:',
+    labelNext: 'Gå til neste månad',
+    previousMonth: 'Gå til forrige månad',
+    goToToday: 'Gå til dagens dato',
+  },
+  remove: 'Fjern',
+  frontpageForm: {
+    error: 'Ein feil oppsto',
+    changeArticle: 'Endre artikkel',
+    addArticle: 'Legg til artikkel',
+    addArticleToMenu: 'Legg til artikkel i meny',
+    changeFrontpageArticle: 'Endre forsideartikkel',
+    search: 'Søk etter artikkel',
+    frontpageArticle: 'Forsideartikkel:',
+    noFrontpageArticle: 'Ingen forsideartikkel valgt',
+    failedTitle: 'Klarte ikkje vise tittel',
+    openChildren: 'Vis barn',
+    closeChildren: 'Skjul barn',
   },
 };
 

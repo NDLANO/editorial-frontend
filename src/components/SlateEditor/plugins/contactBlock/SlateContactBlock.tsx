@@ -25,10 +25,11 @@ import styled from '@emotion/styled';
 import { ContactBlock } from '@ndla/ui';
 import { IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
 import { ReactEditor, RenderElementProps } from 'slate-react';
+import { DeleteForever } from '@ndla/icons/editor';
 import { ContactBlockElement } from '.';
-import DeleteButton from '../../../DeleteButton';
 import ContactBlockForm from './ContactBlockForm';
 import { fetchImage } from '../../../../modules/image/imageApi';
+import { StyledDeleteEmbedButton, StyledFigureButtons } from '../embed/FigureButtons';
 
 interface Props extends RenderElementProps {
   element: ContactBlockElement;
@@ -38,11 +39,10 @@ const ContactBlockWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-`;
 
-const ButtonContainer = styled.div`
-  display: flex;
-  justify-content: flex-end;
+  > div:first-child {
+    position: relative;
+  }
 `;
 
 const StyledModalHeader = styled(ModalHeader)`
@@ -112,14 +112,25 @@ const SlateContactBlock = ({ element, editor, attributes, children }: Props) => 
       <ContactBlockWrapper {...attributes}>
         {contactBlock && image && (
           <div contentEditable={false}>
-            <ButtonContainer>
+            <StyledFigureButtons>
               <ModalTrigger>
-                <IconButtonV2 variant="ghost" aria-label={t('contactBlockForm.edit')}>
+                <IconButtonV2
+                  colorTheme="light"
+                  aria-label={t('contactBlockForm.edit')}
+                  title={t('contactBlockForm.edit')}
+                >
                   <Pencil />
                 </IconButtonV2>
               </ModalTrigger>
-              <DeleteButton aria-label={t('delete')} onClick={handleRemove} />
-            </ButtonContainer>
+              <StyledDeleteEmbedButton
+                aria-label={t('delete')}
+                title={t('delete')}
+                colorTheme="danger"
+                onClick={handleRemove}
+              >
+                <DeleteForever />
+              </StyledDeleteEmbedButton>
+            </StyledFigureButtons>
             <ContactBlock
               image={image}
               jobTitle={contactBlock.jobTitle}

@@ -1,11 +1,11 @@
-import { TaxonomyObject } from './HeaderWithLanguage';
+import { Node } from '@ndla/types-taxonomy';
 
 export const getTaxonomyPathsFromTaxonomy = (
-  taxonomy?: TaxonomyObject,
+  taxonomy?: Pick<Node, 'paths'>[],
   articleId?: number,
 ): string[] => {
-  const resourcePaths = taxonomy?.resources?.flatMap((r) => r.paths) ?? [];
-  const topicPaths = taxonomy?.topics?.flatMap((t) => t.paths) ?? [];
+  const taxPaths = taxonomy?.flatMap((t) => t.paths) ?? [];
   const articlePath = articleId ? `/article/${articleId}` : undefined;
-  return [...resourcePaths, ...topicPaths, articlePath].filter((p): p is string => p !== undefined);
+  const paths = articlePath ? taxPaths.concat(articlePath) : taxPaths;
+  return paths.filter((p): p is string => p !== undefined);
 };

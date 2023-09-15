@@ -37,8 +37,8 @@ const PlainTextEditor = ({
   plugins,
   cy,
 }: Props) => {
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const editor = useMemo(() => withHistory(withReact(withPlugins(createEditor(), plugins))), []);
+  const _editor = useMemo(() => withHistory(withReact(createEditor())), []);
+  const editor = useMemo(() => withPlugins(_editor, plugins), [_editor, plugins]);
 
   const onBlur = useCallback(() => {
     ReactEditor.deselect(editor);
@@ -70,6 +70,7 @@ const PlainTextEditor = ({
   return (
     <Slate editor={editor} value={value} onChange={onSlateChange}>
       <Editable
+        id={id}
         // Forcing slate field to be deselected before selecting new field.
         // Fixes a problem where slate field is not properly focused on click.
         onBlur={onBlur}

@@ -77,7 +77,7 @@ export function toCreateFrontPageArticle() {
 }
 
 export function toEditFrontPageArticle(id: number, locale: string) {
-  return `subject-matter/frontpage-article/${id}/edit/${locale}`;
+  return `/subject-matter/frontpage-article/${id}/edit/${locale}`;
 }
 
 export function toCreateSubjectpage(subjectId: string, locale: string) {
@@ -141,14 +141,6 @@ export function toCreateImage() {
 
 export function toEditImage(imageId: number | string, language: string) {
   return `/media/image-upload/${imageId}/edit/${language}`;
-}
-
-export function toCreateAgreement() {
-  return '/agreement/new';
-}
-
-export function toEditAgreement(agreementId: number) {
-  return `/agreement/${agreementId}/edit`;
 }
 
 export function toPreviewDraft(draftId: number, language: string) {

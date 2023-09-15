@@ -6,22 +6,28 @@
  *
  */
 
-import { StyledConnectionsWrapper } from '../../style/LearningResourceTaxonomyStyles';
+import styled from '@emotion/styled';
+import { spacing } from '@ndla/core';
+import { Node } from '@ndla/types-taxonomy';
 import ActiveTopicConnection from './ActiveTopicConnection';
-import { StagedTopic } from '../../containers/ArticlePage/TopicArticlePage/components/TopicArticleTaxonomy';
+import { MinimalNodeChild } from '../../containers/ArticlePage/LearningResourcePage/components/LearningResourceTaxonomy';
 
 interface Props {
   removeConnection?: (id: string) => void;
   setPrimaryConnection?: (id: string) => void;
-  activeTopics: StagedTopic[];
+  activeTopics: MinimalNodeChild[] | Node[];
   type: string;
   setRelevance?: (topicId: string, relevanceId: string) => void;
 }
 
+const StyledConnectionsWrapper = styled.div`
+  padding-bottom: ${spacing.small};
+`;
+
 const ActiveTopicConnections = ({ activeTopics, ...rest }: Props) => (
   <StyledConnectionsWrapper>
-    {activeTopics.map((topic) => (
-      <ActiveTopicConnection key={topic.id} topic={topic} {...rest} />
+    {activeTopics.map((node) => (
+      <ActiveTopicConnection key={node.id} node={node} {...rest} />
     ))}
   </StyledConnectionsWrapper>
 );

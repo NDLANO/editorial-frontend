@@ -1,0 +1,158 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EditorErrorMessage renders 1`] = `
+.emotion-0 {
+  position: relative;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+  border: 1px solid #d1372e;
+  color: #d1372e;
+  padding: 1rem;
+}
+
+.emotion-1 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  gap: 6px;
+  color: #fff;
+  background: #d1372e;
+  border: 2px solid #d1372e;
+  border-radius: 4px;
+  outline-width: 0;
+  cursor: pointer;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
+  font-weight: 600;
+  -webkit-transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
+  transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
+  box-shadow: none;
+  text-align: center;
+  padding: 4px 6px;
+  font-size: 14px;
+  font-size: 0.7777777777777778rem;
+  line-height: 18px;
+  min-height: 32px;
+  border-width: 1px;
+  outline-width: 2px;
+  color: #d1372e;
+  background: transparent;
+  border-color: transparent;
+  border-radius: 100%;
+  padding: 6px;
+  line-height: 1;
+  border-color: transparent;
+  min-height: unset;
+}
+
+.emotion-1:hover,
+.emotion-1:focus-visible {
+  color: #fff;
+  background-color: #d1372e;
+  border-color: #d1372e;
+}
+
+.emotion-1[disabled] {
+  color: #777777;
+  background-color: #e6e6e6;
+  border-color: transparent;
+  cursor: not-allowed;
+}
+
+.emotion-1[lang='zh'],
+.emotion-1[lang='zh-Hans'],
+.emotion-1[lang='zh-Hant'] {
+  font-size: calc(14px * 1.11);
+  font-size: calc(0.7777777777777778rem * 1.11);
+}
+
+.emotion-1:hover,
+.emotion-1:active,
+.emotion-1:focus-visible {
+  color: #fff;
+  background: #d1372e;
+  border-color: #d1372e;
+}
+
+.emotion-1[disabled] {
+  color: #777777;
+  background-color: transparent;
+  border-color: transparent;
+  cursor: not-allowed;
+}
+
+.emotion-1 svg {
+  width: 24px;
+  height: 24px;
+  margin: 0;
+}
+
+<div>
+  <div
+    class="emotion-0"
+    contenteditable="false"
+  >
+    <div>
+      <span>
+        This is error
+      </span>
+    </div>
+    <div
+      data-tooltip="Fjern"
+      data-tooltip-container="true"
+    >
+      <button
+        aria-label="Fjern"
+        class="emotion-1"
+        contenteditable="false"
+        data-cy="close-related-button"
+        data-state="closed"
+        data-trigger="true"
+        type="button"
+      >
+        <svg
+          aria-hidden="true"
+          class="c-icon"
+          data-license="Apache License 2.0"
+          data-source="Material Design"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
+          style="vertical-align: middle;"
+          viewBox="0 0 24 24"
+          width="1em"
+        >
+          <g>
+            <path
+              d="M0 0h24v24H0V0z"
+              fill="none"
+            />
+            <path
+              d="M6 19c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V7H6v12zm2.5-7.1 1.4-1.4 2.1 2 2.1-2 1.4 1.4-2 2.1 2 2.1-1.4 1.4-2.1-2-2.1 2-1.4-1.4 2-2.1-2-2.1zm7-7.9-1-1h-5l-1 1H5v2h14V4z"
+            />
+            <path
+              d="M0 0h24v24H0z"
+              fill="none"
+            />
+          </g>
+        </svg>
+      </button>
+    </div>
+  </div>
+</div>
+`;

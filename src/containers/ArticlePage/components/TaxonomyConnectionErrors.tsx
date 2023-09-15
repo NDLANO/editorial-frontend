@@ -6,7 +6,7 @@
  *
  */
 
-import { ReactNode } from 'react';
+import { ReactNode, useMemo } from 'react';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import { AlertCircle } from '@ndla/icons/editor';
@@ -16,7 +16,7 @@ import Tooltip from '@ndla/tooltip';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { InformationOutline } from '@ndla/icons/common';
-import { Resource, Topic } from '../../../modules/taxonomy/taxonomyApiInterfaces';
+import { Node } from '@ndla/types-taxonomy';
 import { toStructure } from '../../../util/routeHelpers';
 
 const StyledWarnIcon = styled(AlertCircle)`
@@ -38,10 +38,8 @@ const StyledId = styled.span<{ isVisible: boolean }>`
 
 interface Props {
   articleType: string;
-  taxonomy?: {
-    topics?: Topic[];
-    resources?: Resource[];
-  };
+  topics: Node[];
+  resources: Node[];
 }
 
 const iconCSS = css`
@@ -60,15 +58,6 @@ export const HelpIcon = styled(InformationOutline)`
   ${iconCSS}
 `;
 
-const getWrongConnections = ({ articleType, taxonomy }: Props): (Resource | Topic)[] => {
-  if (articleType === 'standard') {
-    return taxonomy?.topics ?? [];
-  } else if (articleType === 'topic-article') {
-    return taxonomy?.resources ?? [];
-  }
-  return [];
-};
-
 const getOtherArticleType = (articleType: string): string => {
   return articleType === 'standard' ? 'topic-article' : 'standard';
 };
@@ -80,10 +69,14 @@ const LinkWrapper = ({ children, path }: { children: ReactNode; path: string }) 
   return <Link to={toStructure(path)}>{children}</Link>;
 };
 
-const TaxonomyConnectionErrors = ({ taxonomy, articleType }: Props) => {
+const TaxonomyConnectionErrors = ({ topics, resources, articleType }: Props) => {
   const { t } = useTranslation();
 
-  const wrongConnections = getWrongConnections({ articleType, taxonomy });
+  const wrongConnections = useMemo(
+    () => (articleType === 'standard' ? topics : articleType === 'topic-article' ? resources : []),
+    [articleType, resources, topics],
+  );
+
   if (wrongConnections.length < 1) return null;
 
   const wrongTooltip = t('taxonomy.info.wrongArticleType', {

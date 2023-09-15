@@ -12,6 +12,7 @@ import {
   INewSubjectFrontPageData,
   IUpdatedSubjectFrontPageData,
   INewOrUpdatedFilmFrontPageData,
+  IFrontPage,
 } from '@ndla/types-backend/frontpage-api';
 import { LocaleType } from '../../interfaces';
 import {
@@ -21,6 +22,15 @@ import {
 } from '../../util/apiHelpers';
 
 const baseUrl = apiResourceUrl('/frontpage-api/v1');
+
+export const fetchFrontpage = () =>
+  fetchAuthorized(`${baseUrl}/frontpage`).then((r) => resolveJsonOrRejectWithError<IFrontPage>(r));
+
+export const postFrontpage = (frontpage: IFrontPage) =>
+  fetchAuthorized(`${baseUrl}/frontpage`, {
+    method: 'POST',
+    body: JSON.stringify(frontpage),
+  }).then((r) => resolveJsonOrRejectWithError<IFrontPage>(r));
 
 export const fetchFilmFrontpage = () =>
   fetchAuthorized(`${baseUrl}/filmfrontpage/`).then((r) =>

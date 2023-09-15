@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 import { useTranslation } from 'react-i18next';
-import { FieldProps, FormikErrors, FormikHelpers, FormikValues } from 'formik';
+import { FieldProps, FormikErrors, FormikHelpers, FormikProps, FormikValues } from 'formik';
 import SubjectpageAbout from '../../EditSubjectFrontpage/components/SubjectpageAbout';
 import { Values } from '../../../components/SlateEditor/editorTypes';
 import ThemeEditor from './ThemeEditor';
@@ -13,6 +13,7 @@ import SlideshowEditor from './SlideshowEditor';
 import FormikField from '../../../components/FormikField';
 import FormAccordions from '../../../components/Accordion/FormAccordions';
 import FormAccordion from '../../../components/Accordion/FormAccordion';
+import { FilmFormikType } from './NdlaFilmForm';
 
 interface Props {
   selectedLanguage: string;
@@ -21,9 +22,10 @@ interface Props {
 interface ComponentProps extends Props {
   errors: FormikErrors<Values>;
   formIsDirty: boolean;
+  handleSubmit: (formik: FormikProps<FilmFormikType>) => void;
 }
 
-const SubjectpageAccordionPanels = ({ errors, selectedLanguage }: ComponentProps) => {
+const SubjectpageAccordionPanels = ({ errors, selectedLanguage, handleSubmit }: ComponentProps) => {
   const { t } = useTranslation();
   const onUpdateMovieList = (
     field: FieldProps<FormikValues>['field'],
@@ -47,7 +49,7 @@ const SubjectpageAccordionPanels = ({ errors, selectedLanguage }: ComponentProps
         className="u-4/6@desktop u-push-1/6@desktop"
         hasError={['title', 'description', 'visualElement'].some((field) => field in errors)}
       >
-        <SubjectpageAbout selectedLanguage={selectedLanguage} />
+        <SubjectpageAbout selectedLanguage={selectedLanguage} handleSubmit={handleSubmit} />
       </FormAccordion>
       <FormAccordion
         id="slideshow"

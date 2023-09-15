@@ -115,7 +115,7 @@ const SearchContent = ({ content, locale, responsibleName }: Props) => {
   const expirationDate = getExpirationDate(content);
 
   return (
-    <StyledSearchResult>
+    <StyledSearchResult data-testid="content-search-result">
       <StyledSearchImageContainer>
         <img src={imageUrl} alt={alt} />
       </StyledSearchImageContainer>

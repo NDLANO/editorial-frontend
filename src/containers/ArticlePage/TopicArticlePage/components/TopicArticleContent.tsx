@@ -6,10 +6,9 @@
  *
  */
 
-import { useRef, useEffect, RefObject, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { FieldHeader } from '@ndla/forms';
 import { useTranslation } from 'react-i18next';
-import { connect } from 'formik';
 import styled from '@emotion/styled';
 import Tooltip from '@ndla/tooltip';
 import { Eye } from '@ndla/icons/editor';
@@ -45,7 +44,6 @@ import { dndPlugin } from '../../../../components/SlateEditor/plugins/DND';
 import { SlatePlugin } from '../../../../components/SlateEditor/interfaces';
 import { useSession } from '../../../Session/SessionProvider';
 import { spanPlugin } from '../../../../components/SlateEditor/plugins/span';
-import { blogPostPlugin } from '../../../../components/SlateEditor/plugins/blogPost';
 import { definitionListPlugin } from '../../../../components/SlateEditor/plugins/definitionList';
 
 const StyledByLineFormikField = styled(FormikField)`
@@ -73,7 +71,7 @@ const MarkdownButton = styled(IconButtonV2)<{ active: boolean }>`
   color: ${(p) => (p.active ? colors.brand.primary : colors.brand.light)};
 `;
 
-const createPlugins = (language: string, handleSubmitRef: RefObject<() => void>): SlatePlugin[] => {
+const createPlugins = (language: string, handleSubmit: VoidFunction): SlatePlugin[] => {
   // Plugins are checked from last to first
   return [
     sectionPlugin,
@@ -96,7 +94,7 @@ const createPlugins = (language: string, handleSubmitRef: RefObject<() => void>)
     toolbarPlugin,
     textTransformPlugin,
     breakPlugin,
-    saveHotkeyPlugin(() => handleSubmitRef.current && handleSubmitRef.current()),
+    saveHotkeyPlugin(handleSubmit),
   ];
 };
 
@@ -113,23 +111,17 @@ const TopicArticleContent = (props: Props) => {
   } = props;
   const { userPermissions } = useSession();
   const [preview, setPreview] = useState(false);
-  const handleSubmitRef = useRef(handleSubmit);
   const plugins = useMemo(() => {
-    return createPlugins(language ?? '', handleSubmitRef);
-  }, [language]);
-
-  useEffect(() => {
-    handleSubmitRef.current = handleSubmit;
-  }, [handleSubmit]);
+    return createPlugins(language ?? '', handleSubmit);
+  }, [language, handleSubmit]);
 
   return (
     <>
-      <TitleField />
+      <TitleField handleSubmit={handleSubmit} />
       <StyledByLineFormikField name="published">
         {({ field, form }) => (
           <StyledDiv>
             <LastUpdatedLine
-              name={field.name}
               creators={creators}
               published={published}
               allowEdit={true}
@@ -154,7 +146,7 @@ const TopicArticleContent = (props: Props) => {
           </StyledDiv>
         )}
       </StyledByLineFormikField>
-      <IngressField preview={preview} />
+      <IngressField preview={preview} handleSubmit={handleSubmit} />
       <VisualElementField />
       <FormikField name="content" label={t('form.content.label')} noBorder>
         {({ field: { value, name, onChange }, form: { isSubmitting } }) => (
@@ -186,4 +178,4 @@ const TopicArticleContent = (props: Props) => {
   );
 };
 
-export default connect(TopicArticleContent);
+export default TopicArticleContent;

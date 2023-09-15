@@ -61,11 +61,8 @@ const RichTextEditor = ({
   language,
   blockpickerOptions = {},
 }: Props) => {
-  const editor = useMemo(
-    () => withReact(withHistory(withPlugins(createEditor(), plugins))),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [],
-  );
+  const _editor = useMemo(() => withReact(withHistory(createEditor())), []);
+  const editor = useMemo(() => withPlugins(_editor, plugins), [_editor, plugins]);
   const [isFirstNormalize, setIsFirstNormalize] = useState(true);
   const prevSubmitted = useRef(submitted);
 
@@ -100,7 +97,9 @@ const RichTextEditor = ({
       editor.mathjaxInitialized = false;
       window.MathJax?.typesetClear();
       Editor.normalize(editor, { force: true });
-      ReactEditor.focus(editor);
+      if (editor.lastSelection || editor.lastSelectedBlock) {
+        ReactEditor.focus(editor);
+      }
       // Try to select previous selection if it exists
       if (editor.lastSelection) {
         const edges = Range.edges(editor.lastSelection);

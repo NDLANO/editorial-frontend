@@ -34,7 +34,7 @@ const SearchAudio = ({ audio, locale }: Props) => {
   const { data: licenses } = useLicenses();
   const license = licenses && licenses.find((l) => audio.license === l.license);
   return (
-    <StyledSearchResult>
+    <StyledSearchResult data-testid="audio-search-result">
       <StyledSearchImageContainer>
         {audio.audioType === 'podcast' ? <Podcast /> : <Audio />}
       </StyledSearchImageContainer>
@@ -51,7 +51,7 @@ const SearchAudio = ({ audio, locale }: Props) => {
         <StyledSearchDescription>
           {`${t('searchPage.language')}: `}
           {audio.supportedLanguages?.map((lang) => (
-            <StyledSearchOtherLink key={lang}>{t(`language.${lang}`)}</StyledSearchOtherLink>
+            <StyledSearchOtherLink key={lang}>{t(`languages.${lang}`)}</StyledSearchOtherLink>
           ))}
         </StyledSearchDescription>
         {license && (

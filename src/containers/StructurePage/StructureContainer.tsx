@@ -157,7 +157,7 @@ const StructureContainer = ({
               {userDataQuery.isInitialLoading || nodesQuery.isInitialLoading ? (
                 <Spinner />
               ) : (
-                <StructureWrapper data-cy="structure">
+                <StructureWrapper data-testid="structure">
                   {nodes!.map((node) => (
                     <RootNode
                       renderBeforeTitle={StructureErrorIcon}

@@ -52,7 +52,7 @@ interface DatePickerSelectorType extends SearchFormSelectorBase {
   parameterName: keyof SearchParamsOfType<string>;
 }
 
-interface TextInputSelectorType extends SearchFormSelectorBase {
+export interface TextInputSelectorType extends SearchFormSelectorBase {
   formElementType: 'text-input';
 }
 

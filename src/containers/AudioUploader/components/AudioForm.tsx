@@ -214,19 +214,19 @@ const AudioForm = ({
                 title={t('form.contentSection')}
                 hasError={hasError(['title', 'audioFile'])}
               >
-                <AudioContent />
+                <AudioContent handleSubmit={handleSubmit} />
               </FormAccordion>
               <FormAccordion
                 id="podcast-upload-podcastmanus"
                 title={t('podcastForm.fields.manuscript')}
-                className="u-4/6@desktop u-push-1/6@desktop"
+                className={'u-6/6'}
                 hasError={[].some((field) => field in errors)}
               >
                 <AudioManuscript />
               </FormAccordion>
               <FormAccordion
                 id="audio-upload-metadataSection"
-                className="u-4/6@desktop u-push-1/6@desktop"
+                className={'u-6/6'}
                 title={t('form.metadataSection')}
                 hasError={hasError(['tags', 'creators', 'rightsholders', 'processors', 'license'])}
               >

@@ -180,7 +180,7 @@ const PreviewCompare = ({ article, language }: ComparePreviewProps) => {
         <PreviewTitleWrapper className="u-4/6@desktop u-push-1/6@desktop">
           <h2>
             {t(`form.previewLanguageArticle.title`, {
-              language: t(`language.${language}`).toLowerCase(),
+              language: t(`languages.${language}`).toLowerCase(),
             })}
           </h2>
         </PreviewTitleWrapper>
@@ -195,13 +195,13 @@ const PreviewCompare = ({ article, language }: ComparePreviewProps) => {
         <PreviewTitleWrapper className="u-4/6@desktop u-push-1/6@desktop">
           <h2>
             {t('form.previewLanguageArticle.title', {
-              language: t(`language.${previewLanguage}`).toLowerCase(),
+              language: t(`languages.${previewLanguage}`).toLowerCase(),
             })}
           </h2>
           <select onChange={(evt) => setPreviewLanguage(evt.target.value)} value={previewLanguage}>
             {article.supportedLanguages.map((language) => (
               <option key={language} value={language}>
-                {t(`language.${language}`)}
+                {t(`languages.${language}`)}
               </option>
             ))}
           </select>
@@ -246,7 +246,7 @@ const PreviewConceptCompare = ({ concept, language }: CompareConceptPreviewProps
         <PreviewTitleWrapper>
           <PreviewHeading>
             {t('form.previewLanguageArticle.title', {
-              language: t(`language.${language}`).toLowerCase(),
+              language: t(`languages.${language}`).toLowerCase(),
             })}
           </PreviewHeading>
         </PreviewTitleWrapper>
@@ -256,13 +256,13 @@ const PreviewConceptCompare = ({ concept, language }: CompareConceptPreviewProps
         <PreviewTitleWrapper>
           <PreviewHeading>
             {t('form.previewLanguageArticle.title', {
-              language: t(`language.${previewLanguage}`).toLowerCase(),
+              language: t(`languages.${previewLanguage}`).toLowerCase(),
             })}
           </PreviewHeading>
           <select onChange={(evt) => setPreviewLanguage(evt.target.value)} value={previewLanguage}>
             {concept.supportedLanguages.map((language) => (
               <option key={language} value={language}>
-                {t(`language.${language}`)}
+                {t(`languages.${language}`)}
               </option>
             ))}
           </select>

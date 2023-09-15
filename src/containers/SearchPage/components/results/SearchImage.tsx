@@ -40,7 +40,7 @@ const SearchImage = ({ image, locale }: Props) => {
   const license = licenses && licenses.find((l) => image.copyright.license.license === l.license);
 
   return (
-    <StyledSearchResult>
+    <StyledSearchResult data-testid="image-search-result">
       <StyledSearchImageContainer>
         <img src={image.image.imageUrl + '?width=200'} alt={`${image.alttext.alttext}`} />
       </StyledSearchImageContainer>
@@ -51,7 +51,7 @@ const SearchImage = ({ image, locale }: Props) => {
         <StyledSearchDescription>
           {`${t('searchPage.language')}: `}
           {image.supportedLanguages?.map((lang) => (
-            <StyledOtherLink key={lang}>{t(`language.${lang}`)}</StyledOtherLink>
+            <StyledOtherLink key={lang}>{t(`languages.${lang}`)}</StyledOtherLink>
           ))}
         </StyledSearchDescription>
         <StyledImageMeta

@@ -37,19 +37,20 @@ export interface TableRowElement {
 }
 
 export interface TableCellElement {
-  type: 'table-cell';
-  data: {
-    id?: string;
-    rowspan: number;
-    colspan: number;
-    align?: string;
-    valign?: string;
-    class?: string;
-    headers?: string;
-    isHeader: boolean;
-    scope?: 'row' | 'col';
-  };
+  type: 'table-cell' | 'table-cell-header';
+  data: TableCellData;
   children: Descendant[];
+}
+
+interface TableCellData {
+  id?: string;
+  rowspan: number;
+  colspan: number;
+  align?: string;
+  valign?: string;
+  class?: string;
+  headers?: string;
+  scope?: 'row' | 'col';
 }
 
 export type TableMatrix = TableCellElement[][];

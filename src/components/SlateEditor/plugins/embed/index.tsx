@@ -11,11 +11,9 @@ import { RenderElementProps } from 'slate-react';
 import SlateFigure from './SlateFigure';
 import { SlateSerializer } from '../../interfaces';
 import {
-  LocaleType,
   Embed,
   ImageEmbed,
   H5pEmbed,
-  AudioEmbed,
   BrightcoveEmbed,
   ErrorEmbed,
   ExternalEmbed,
@@ -45,12 +43,6 @@ export interface BrightcoveEmbedElement {
   children: Descendant[];
 }
 
-export interface AudioEmbedElement {
-  type: 'audio-embed';
-  data: AudioEmbed;
-  children: Descendant[];
-}
-
 export interface ErrorEmbedElement {
   type: 'error-embed';
   data: ErrorEmbed;
@@ -68,8 +60,7 @@ export type EmbedElements =
   | H5PEmbedElement
   | BrightcoveEmbedElement
   | ErrorEmbedElement
-  | ExternalEmbedElement
-  | AudioEmbedElement;
+  | ExternalEmbedElement;
 
 const normalizerConfig: NormalizerConfig = {
   previous: {
@@ -94,8 +85,7 @@ export const embedSerializer: SlateSerializer = {
 };
 
 export const embedPlugin =
-  (language: string, locale?: LocaleType, disableNormalize?: boolean, allowDecorative?: boolean) =>
-  (editor: Editor) => {
+  (language: string, disableNormalize?: boolean, allowDecorative?: boolean) => (editor: Editor) => {
     const {
       renderElement: nextRenderElement,
       normalizeNode: nextNormalizeNode,
@@ -110,7 +100,6 @@ export const embedPlugin =
             editor={editor}
             element={element}
             language={language}
-            locale={locale}
             allowDecorative={allowDecorative}
           >
             {children}

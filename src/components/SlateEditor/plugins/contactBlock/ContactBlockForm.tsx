@@ -43,6 +43,7 @@ const rules: RulesType<ContactBlockFormValues> = {
   },
   email: {
     required: true,
+    email: true,
   },
   metaImageId: {
     required: true,

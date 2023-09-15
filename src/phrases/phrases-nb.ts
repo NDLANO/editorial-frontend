@@ -1365,6 +1365,7 @@ const phrases = {
     podcastImageSize: 'Metabilde må være mellom 1400 og 3000 piksler bredt.',
     unfinishedRevision: 'Det må være minst en planlagt revisjon.',
     missingRevision: 'Det må være minst en revisjon.',
+    email: 'E-postadressen er ikke gyldig.',
   },
   errorMessage: {
     title: 'Oops, noe gikk galt',

@@ -95,7 +95,6 @@ export const isNumeric = (value: any) => !Number.isNaN(value - parseFloat(value)
 export const objectHasBothField = (obj: Dictionary<any>) =>
   Object.keys(obj).filter((key) => isEmpty(obj[key])).length === 0;
 
-const EMAIL_REGEX =
-  /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+const EMAIL_REGEX = /^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{1,})$/;
 
 export const isEmail = (value: string) => EMAIL_REGEX.test(value);

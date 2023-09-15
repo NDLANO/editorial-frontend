@@ -15,7 +15,7 @@ import { TYPE_PARAGRAPH } from '../../paragraph/types';
 import { TYPE_SECTION } from '../../section/types';
 import { TYPE_LINK, TYPE_CONTENT_LINK } from '../types';
 
-const editor = withHistory(withReact(withPlugins(createEditor(), plugins('nb', 'nb'))));
+const editor = withHistory(withReact(withPlugins(createEditor(), plugins('nb'))));
 
 describe('link normalizer tests', () => {
   test('Remove any elements in links', () => {

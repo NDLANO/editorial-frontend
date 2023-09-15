@@ -53,6 +53,7 @@ import {
   isTableBody,
   isTableCaption,
   isTableCell,
+  isTableCellHeader,
   isTableHead,
   isTableRow,
 } from './slateHelpers';
@@ -151,7 +152,6 @@ export const tableSerializer: SlateSerializer = {
         ...attrs,
         colspan: colspan || 1,
         rowspan: rowspan || 1,
-        isHeader: tagName === 'th',
       };
       if (equals(children, [{ text: '' }])) {
         children = [
@@ -220,7 +220,7 @@ export const tableSerializer: SlateSerializer = {
         delete props.rowspan;
       }
 
-      if (node.type === TYPE_TABLE_CELL_HEADER || node.data.isHeader) {
+      if (node.type === TYPE_TABLE_CELL_HEADER) {
         return (
           <th {...props} scope={node.data.scope}>
             {children}
@@ -373,7 +373,7 @@ export const tablePlugin = (editor: Editor) => {
     }
 
     // C. TableCell normalizer
-    if (isTableCell(node)) {
+    if (isTableCell(node) || isTableCellHeader(node)) {
       // Cells should only contain elements. If not, wrap content in paragraph
       if (!Element.isElementList(node.children)) {
         return Transforms.wrapNodes(
@@ -406,16 +406,20 @@ export const tablePlugin = (editor: Editor) => {
       const [body, bodyPath] = Editor.node(editor, Path.parent(path));
       const [table] = Editor.node(editor, Path.parent(bodyPath));
 
-      // ii. Make sure cells in TableHead are marked as isHeader.
+      // ii. Make sure cells in TableHead are set to TYPE_TABLE_CELL_HEADER.
       //     Cells in TableBody will not be altered if rowHeaders=true on Table.
       if (isTableHead(body) && isTable(table)) {
         for (const [, cell] of node.children.entries()) {
-          if (isTableCell(cell) && !cell.data.isHeader) {
+          if (isTableCell(cell) && cell.type !== TYPE_TABLE_CELL_HEADER) {
             return HistoryEditor.withoutSaving(editor, () => {
-              updateCell(editor, cell, {
-                isHeader: true,
-                scope: 'col',
-              });
+              updateCell(
+                editor,
+                cell,
+                {
+                  scope: 'col',
+                },
+                TYPE_TABLE_CELL_HEADER,
+              );
             });
           }
         }

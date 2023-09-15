@@ -17,7 +17,7 @@ import {
   blockContentToHTML,
 } from '../../../../../util/articleContentConverter';
 
-const editor = withHistory(withReact(withPlugins(createEditor(), plugins('nb', 'nb'))));
+const editor = withHistory(withReact(withPlugins(createEditor(), plugins('nb'))));
 
 describe('combined table plugin tests', () => {
   test('id in th and td is preserved on serialize and normalize', () => {

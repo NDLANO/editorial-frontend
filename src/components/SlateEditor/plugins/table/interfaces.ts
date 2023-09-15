@@ -50,7 +50,6 @@ interface TableCellData {
   valign?: string;
   class?: string;
   headers?: string;
-  isHeader?: boolean;
   scope?: 'row' | 'col';
 }
 

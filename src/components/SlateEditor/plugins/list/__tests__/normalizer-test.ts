@@ -15,7 +15,7 @@ import { plugins } from '../../../../../containers/ArticlePage/LearningResourceP
 import { TYPE_PARAGRAPH } from '../../paragraph/types';
 import { TYPE_SECTION } from '../../section/types';
 
-const editor = withHistory(withReact(withPlugins(createEditor(), plugins('nb', 'nb'))));
+const editor = withHistory(withReact(withPlugins(createEditor(), plugins('nb'))));
 
 describe('list normalizer tests', () => {
   test('Unwrap list item not placed inside list', () => {

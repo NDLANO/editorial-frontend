@@ -23,7 +23,7 @@ import {
   TYPE_TABLE_CELL_HEADER,
 } from '../types';
 
-const editor = withHistory(withReact(withPlugins(createEditor(), plugins('nb', 'nb'))));
+const editor = withHistory(withReact(withPlugins(createEditor(), plugins('nb'))));
 
 describe('table normalizer tests', () => {
   test('Make sure non-row element in table-head or body is wrapped in row', () => {
@@ -70,7 +70,6 @@ describe('table normalizer tests', () => {
                       {
                         type: TYPE_TABLE_CELL,
                         data: {
-                          isHeader: false,
                           colspan: 1,
                           rowspan: 1,
                         },
@@ -88,7 +87,6 @@ describe('table normalizer tests', () => {
                       {
                         type: TYPE_TABLE_CELL,
                         data: {
-                          isHeader: false,
                           colspan: 1,
                           rowspan: 1,
                         },
@@ -147,7 +145,6 @@ describe('table normalizer tests', () => {
                       {
                         type: TYPE_TABLE_CELL_HEADER,
                         data: {
-                          isHeader: true,
                           colspan: 1,
                           rowspan: 1,
                           align: 'right',
@@ -167,7 +164,6 @@ describe('table normalizer tests', () => {
                       {
                         type: TYPE_TABLE_CELL_HEADER,
                         data: {
-                          isHeader: true,
                           colspan: 1,
                           rowspan: 1,
                           scope: 'col',
@@ -197,7 +193,6 @@ describe('table normalizer tests', () => {
                       {
                         type: TYPE_TABLE_CELL,
                         data: {
-                          isHeader: false,
                           colspan: 1,
                           rowspan: 1,
                           align: 'right',
@@ -216,7 +211,6 @@ describe('table normalizer tests', () => {
                       {
                         type: TYPE_TABLE_CELL,
                         data: {
-                          isHeader: false,
                           colspan: 1,
                           rowspan: 1,
                           align: 'right',
@@ -290,7 +284,6 @@ describe('table normalizer tests', () => {
                       {
                         type: TYPE_TABLE_CELL_HEADER,
                         data: {
-                          isHeader: true,
                           colspan: 1,
                           rowspan: 1,
                           align: 'right',
@@ -319,7 +312,6 @@ describe('table normalizer tests', () => {
                       {
                         type: TYPE_TABLE_CELL,
                         data: {
-                          isHeader: false,
                           colspan: 1,
                           rowspan: 1,
                         },
@@ -337,7 +329,6 @@ describe('table normalizer tests', () => {
                       {
                         type: TYPE_TABLE_CELL,
                         data: {
-                          isHeader: false,
                           colspan: 1,
                           rowspan: 1,
                         },
@@ -396,7 +387,6 @@ describe('table normalizer tests', () => {
                       {
                         type: TYPE_TABLE_CELL_HEADER,
                         data: {
-                          isHeader: true,
                           colspan: 1,
                           rowspan: 1,
                           align: 'right',
@@ -416,7 +406,6 @@ describe('table normalizer tests', () => {
                       {
                         type: TYPE_TABLE_CELL_HEADER,
                         data: {
-                          isHeader: true,
                           colspan: 1,
                           rowspan: 1,
                           align: 'right',
@@ -446,7 +435,6 @@ describe('table normalizer tests', () => {
                       {
                         type: TYPE_TABLE_CELL,
                         data: {
-                          isHeader: false,
                           colspan: 1,
                           rowspan: 1,
                           align: 'right',
@@ -465,7 +453,6 @@ describe('table normalizer tests', () => {
                       {
                         type: TYPE_TABLE_CELL,
                         data: {
-                          isHeader: false,
                           colspan: 1,
                           rowspan: 1,
                           align: 'right',
@@ -523,7 +510,6 @@ describe('table normalizer tests', () => {
                       {
                         type: TYPE_TABLE_CELL_HEADER,
                         data: {
-                          isHeader: true,
                           colspan: 1,
                           rowspan: 1,
                           align: 'right',
@@ -542,7 +528,6 @@ describe('table normalizer tests', () => {
                       {
                         type: TYPE_TABLE_CELL_HEADER,
                         data: {
-                          isHeader: true,
                           colspan: 1,
                           rowspan: 1,
                           align: 'right',
@@ -571,7 +556,6 @@ describe('table normalizer tests', () => {
                       {
                         type: TYPE_TABLE_CELL,
                         data: {
-                          isHeader: false,
                           colspan: 1,
                           rowspan: 1,
                           align: 'right',
@@ -631,7 +615,6 @@ describe('table normalizer tests', () => {
                       {
                         type: TYPE_TABLE_CELL_HEADER,
                         data: {
-                          isHeader: true,
                           colspan: 1,
                           rowspan: 1,
                           align: 'right',
@@ -651,7 +634,6 @@ describe('table normalizer tests', () => {
                       {
                         type: TYPE_TABLE_CELL_HEADER,
                         data: {
-                          isHeader: true,
                           colspan: 1,
                           rowspan: 1,
                           align: 'right',
@@ -681,7 +663,6 @@ describe('table normalizer tests', () => {
                       {
                         type: TYPE_TABLE_CELL,
                         data: {
-                          isHeader: false,
                           colspan: 1,
                           rowspan: 1,
                           align: 'right',
@@ -700,7 +681,6 @@ describe('table normalizer tests', () => {
                       {
                         type: TYPE_TABLE_CELL,
                         data: {
-                          isHeader: false,
                           colspan: 1,
                           rowspan: 1,
                         },
@@ -766,7 +746,6 @@ describe('table normalizer tests', () => {
                       {
                         type: TYPE_TABLE_CELL_HEADER,
                         data: {
-                          isHeader: false,
                           colspan: 1,
                           rowspan: 1,
                           align: 'right',
@@ -785,7 +764,6 @@ describe('table normalizer tests', () => {
                       {
                         type: TYPE_TABLE_CELL_HEADER,
                         data: {
-                          isHeader: true,
                           colspan: 1,
                           rowspan: 1,
                           align: 'right',
@@ -814,7 +792,6 @@ describe('table normalizer tests', () => {
                       {
                         type: TYPE_TABLE_CELL,
                         data: {
-                          isHeader: false,
                           colspan: 1,
                           rowspan: 2,
                           align: 'right',
@@ -833,7 +810,6 @@ describe('table normalizer tests', () => {
                       {
                         type: TYPE_TABLE_CELL,
                         data: {
-                          isHeader: true,
                           colspan: 1,
                           rowspan: 1,
                           align: 'right',
@@ -857,7 +833,6 @@ describe('table normalizer tests', () => {
                       {
                         type: TYPE_TABLE_CELL,
                         data: {
-                          isHeader: false,
                           colspan: 1,
                           rowspan: 1,
                           align: 'right',
@@ -917,7 +892,6 @@ describe('table normalizer tests', () => {
                       {
                         type: TYPE_TABLE_CELL_HEADER,
                         data: {
-                          isHeader: true,
                           colspan: 1,
                           rowspan: 1,
                           scope: 'col',
@@ -937,7 +911,6 @@ describe('table normalizer tests', () => {
                       {
                         type: TYPE_TABLE_CELL_HEADER,
                         data: {
-                          isHeader: true,
                           colspan: 1,
                           rowspan: 1,
                           scope: 'col',
@@ -967,7 +940,6 @@ describe('table normalizer tests', () => {
                       {
                         type: TYPE_TABLE_CELL_HEADER,
                         data: {
-                          isHeader: true,
                           colspan: 1,
                           rowspan: 2,
                           scope: 'row',
@@ -987,7 +959,6 @@ describe('table normalizer tests', () => {
                       {
                         type: TYPE_TABLE_CELL,
                         data: {
-                          isHeader: false,
                           colspan: 1,
                           rowspan: 1,
                           align: 'right',
@@ -1011,7 +982,6 @@ describe('table normalizer tests', () => {
                       {
                         type: TYPE_TABLE_CELL,
                         data: {
-                          isHeader: false,
                           colspan: 1,
                           rowspan: 1,
                           align: 'right',

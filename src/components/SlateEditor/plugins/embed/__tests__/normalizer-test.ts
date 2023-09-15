@@ -13,9 +13,10 @@ import withPlugins from '../../../utils/withPlugins';
 import { plugins } from '../../../../../containers/ArticlePage/LearningResourcePage/components/LearningResourceContent';
 import { TYPE_PARAGRAPH } from '../../paragraph/types';
 import { TYPE_SECTION } from '../../section/types';
-import { TYPE_EMBED_AUDIO, TYPE_EMBED_H5P, TYPE_EMBED_IMAGE } from '../types';
+import { TYPE_EMBED_H5P, TYPE_EMBED_IMAGE } from '../types';
+import { TYPE_AUDIO } from '../../audio/types';
 
-const editor = withHistory(withReact(withPlugins(createEditor(), plugins('nb', 'nb'))));
+const editor = withHistory(withReact(withPlugins(createEditor(), plugins('nb'))));
 
 describe('embed normalizer tests', () => {
   test('adds paragraphs around embed', () => {
@@ -54,7 +55,7 @@ describe('embed normalizer tests', () => {
             },
           },
           {
-            type: TYPE_EMBED_AUDIO,
+            type: TYPE_AUDIO,
             children: [
               {
                 text: '',
@@ -62,7 +63,7 @@ describe('embed normalizer tests', () => {
             ],
             data: {
               resource: 'audio',
-              resource_id: '123',
+              resourceId: '123',
               type: 'standard',
               url: 'https://test.url',
             },
@@ -118,7 +119,7 @@ describe('embed normalizer tests', () => {
             children: [{ text: '' }],
           },
           {
-            type: TYPE_EMBED_AUDIO,
+            type: TYPE_AUDIO,
             children: [
               {
                 text: '',
@@ -126,7 +127,7 @@ describe('embed normalizer tests', () => {
             ],
             data: {
               resource: 'audio',
-              resource_id: '123',
+              resourceId: '123',
               type: 'standard',
               url: 'https://test.url',
             },

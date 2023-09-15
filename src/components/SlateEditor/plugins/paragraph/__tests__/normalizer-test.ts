@@ -14,7 +14,7 @@ import { plugins } from '../../../../../containers/ArticlePage/LearningResourceP
 import { TYPE_SECTION } from '../../section/types';
 import { TYPE_PARAGRAPH } from '../types';
 
-const editor = withHistory(withReact(withPlugins(createEditor(), plugins('nb', 'nb'))));
+const editor = withHistory(withReact(withPlugins(createEditor(), plugins('nb'))));
 
 describe('paragraph normalizer tests', () => {
   test('Remove serializeAsText from paragraph that is not placed in list-item', () => {

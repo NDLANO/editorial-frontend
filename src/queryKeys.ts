@@ -24,6 +24,8 @@ export const IMAGE = 'image';
 
 export const AUDIO = 'audio';
 
+export const AUDIO_EMBED = 'audio';
+
 export const PODCAST_SERIES = 'podcastSeries';
 
 export const DRAFT = 'draft';

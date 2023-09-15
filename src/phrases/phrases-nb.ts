@@ -741,7 +741,7 @@ const phrases = {
       descriptionlanguage: 'Beskrivelse-språk',
       url: 'Lenke',
       date: 'Dato',
-      sides: 'Hvilken side skal bilde vises',
+      sides: 'Hvilken side bildet skal vises på',
     },
     previewProductionArticle: {
       button: 'Sammenlign gjeldende versjon med gammel versjon',

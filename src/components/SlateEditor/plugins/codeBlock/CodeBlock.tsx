@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import styled from '@emotion/styled';
 import { Editor, Path, Transforms } from 'slate';
 import { ReactEditor, RenderElementProps } from 'slate-react';
@@ -123,6 +123,11 @@ const CodeBlock = ({ attributes, editor, element, children }: Props) => {
     [editor, element, showWarning],
   );
 
+  const highlightedCode = useMemo(
+    () => highlightCode(embedData.codeContent, embedData.codeFormat),
+    [embedData.codeContent, embedData.codeFormat],
+  );
+
   return (
     <Modal open={editMode} onOpenChange={onOpenChange}>
       <ModalTrigger>
@@ -139,7 +144,7 @@ const CodeBlock = ({ attributes, editor, element, children }: Props) => {
             code={embedData.codeContent}
             format={embedData.codeFormat}
             title={embedData.title}
-            highlightedCode={highlightCode(embedData.codeContent, embedData.codeFormat)}
+            highlightedCode={highlightedCode}
           />
           {children}
         </CodeDiv>

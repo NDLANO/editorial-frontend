@@ -117,7 +117,6 @@
     "@ndla/article-scripts": "^3.0.21",
     "@ndla/audio-search": "^4.0.21",
     "@ndla/button": "^11.0.7",
-    "@ndla/carousel": "^4.0.0",
     "@ndla/code": "^3.0.1",
     "@ndla/editor": "^4.1.25",
     "@ndla/error-reporter": "^1.0.32",

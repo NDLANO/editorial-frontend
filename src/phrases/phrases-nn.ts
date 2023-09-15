@@ -740,7 +740,7 @@ const phrases = {
       descriptionlanguage: 'Beskrivelse-språk',
       url: 'Lenke',
       date: 'Dato',
-      sides: 'Hvilken side skal bilde vises',
+      sides: 'Kva for ein side bilete skal vises på',
     },
     previewProductionArticle: {
       button: 'Samanlikn gjeldande versjon med gamal versjon',
@@ -1874,7 +1874,7 @@ const phrases = {
     title: 'Rediger kampanjeblokk',
     sides: {
       left: 'Venstre',
-      right: 'Høyre',
+      right: 'Høgre',
     },
   },
   linkBlock: {

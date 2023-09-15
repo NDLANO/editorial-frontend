@@ -52,7 +52,6 @@ import { breakPlugin } from '../../../../components/SlateEditor/plugins/break';
 import { markPlugin } from '../../../../components/SlateEditor/plugins/mark';
 import { listPlugin } from '../../../../components/SlateEditor/plugins/list';
 import { divPlugin } from '../../../../components/SlateEditor/plugins/div';
-import { LocaleType } from '../../../../interfaces';
 import { dndPlugin } from '../../../../components/SlateEditor/plugins/DND';
 import { SlatePlugin } from '../../../../components/SlateEditor/interfaces';
 import { useSession } from '../../../Session/SessionProvider';
@@ -65,7 +64,6 @@ import { blockConceptPlugin } from '../../../../components/SlateEditor/plugins/c
 import { definitionListPlugin } from '../../../../components/SlateEditor/plugins/definitionList';
 import { gridPlugin } from '../../../../components/SlateEditor/plugins/grid';
 import {
-  TYPE_EMBED_AUDIO,
   TYPE_EMBED_BRIGHTCOVE,
   TYPE_EMBED_EXTERNAL,
   TYPE_EMBED_H5P,
@@ -76,6 +74,8 @@ import { TYPE_CODEBLOCK } from '../../../../components/SlateEditor/plugins/codeB
 import { TYPE_FILE } from '../../../../components/SlateEditor/plugins/file/types';
 import { TYPE_GRID } from '../../../../components/SlateEditor/plugins/grid/types';
 import { HandleSubmitFunc, LearningResourceFormType } from '../../../FormikForm/articleFormHooks';
+import { audioPlugin } from '../../../../components/SlateEditor/plugins/audio';
+import { TYPE_AUDIO } from '../../../../components/SlateEditor/plugins/audio/types';
 
 const StyledFormikField = styled(FormikField)`
   display: flex;
@@ -114,7 +114,7 @@ const findFootnotes = (content: Descendant[]): FootnoteType[] =>
 const visualElements = [
   TYPE_EMBED_H5P,
   TYPE_EMBED_BRIGHTCOVE,
-  TYPE_EMBED_AUDIO,
+  TYPE_AUDIO,
   TYPE_EMBED_EXTERNAL,
   TYPE_EMBED_IMAGE,
 ];
@@ -129,18 +129,15 @@ const actionsToShowInAreas = {
 };
 
 // Plugins are checked from last to first
-export const plugins = (
-  articleLanguage: string,
-  locale: LocaleType,
-  handleSubmit: () => void,
-): SlatePlugin[] => {
+export const plugins = (articleLanguage: string, handleSubmit: () => void): SlatePlugin[] => {
   return [
     sectionPlugin,
     spanPlugin,
     divPlugin,
     paragraphPlugin(articleLanguage),
     footnotePlugin,
-    embedPlugin(articleLanguage, locale),
+    audioPlugin(articleLanguage),
+    embedPlugin(articleLanguage),
     bodyboxPlugin,
     asidePlugin,
     detailsPlugin,
@@ -251,7 +248,7 @@ const ContentField = ({
   articleLanguage,
   handleSubmit,
 }: ContentFieldProps) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const { userPermissions } = useSession();
   const { isSubmitting } = useFormikContext<LearningResourceFormType>();
 
@@ -270,8 +267,8 @@ const ContentField = ({
   );
 
   const editorPlugins = useMemo(
-    () => plugins(articleLanguage ?? '', i18n.language, handleSubmit),
-    [articleLanguage, handleSubmit, i18n.language],
+    () => plugins(articleLanguage ?? '', handleSubmit),
+    [articleLanguage, handleSubmit],
   );
 
   return (

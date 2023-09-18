@@ -82,56 +82,52 @@ test('adds and removes grid', async ({ page }) => {
 
 test('adds and removes keyfigure', async ({ page }) => {
   await page.locator("[data-cy='create-keyFigure']").click();
-  const lagreButton = page.getByRole('button', { name: 'Lagre', exact: true });
-  expect(lagreButton).toBeDisabled();
+  await expect(page.getByRole('button', { name: 'Lagre', exact: true })).toBeDisabled();
   await page.locator("input[name='title']").fill('test');
   await page.locator("input[name='subtitle']").fill('test');
   await page.locator('[data-cy="select-image-from-list"]').first().click();
   await page.locator('[data-cy="use-image"]').click();
-  expect(lagreButton).toBeEnabled();
-  await lagreButton.click();
-  expect(page.getByTestId('slate-key-figure')).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Lagre', exact: true })).toBeEnabled();
+  await page.getByRole('button', { name: 'Lagre', exact: true }).click();
+  await expect(page.getByTestId('slate-key-figure')).toBeVisible();
   await page.getByTestId('remove-key-figure').click();
   expect(await page.getByTestId('slate-key-figure').count()).toEqual(0);
 });
 
 test('adds and removes blogpost', async ({ page }) => {
   await page.locator("[data-cy='create-blogPost']").click();
-  const lagreButton = page.getByRole('button', { name: 'Lagre', exact: true });
-  expect(lagreButton).toBeDisabled();
+  await expect(page.getByRole('button', { name: 'Lagre', exact: true })).toBeDisabled();
   await page.locator("input[name='title']").fill('test');
   await page.locator("input[name='author']").fill('test');
   await page.locator("input[name='link']").fill('https://test.test');
   await page.locator('[data-cy="select-image-from-list"]').first().click();
   await page.locator('[data-cy="use-image"]').click();
-  expect(lagreButton).toBeEnabled();
-  await lagreButton.click();
-  expect(page.getByTestId('slate-blog-post')).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Lagre', exact: true })).toBeEnabled();
+  await page.getByRole('button', { name: 'Lagre', exact: true }).click();
+  await expect(page.getByTestId('slate-blog-post')).toBeVisible();
   await page.getByTestId('remove-blogpost').click();
   expect(await page.getByTestId('slate-blog-post').count()).toEqual(0);
 });
 
 test('adds and removes contactblock', async ({ page }) => {
   await page.locator("[data-cy='create-contactBlock']").click();
-  const lagreButton = page.getByRole('button', { name: 'Lagre', exact: true });
-  expect(lagreButton).toBeDisabled();
+  await expect(page.getByRole('button', { name: 'Lagre', exact: true })).toBeDisabled();
   await page.locator("input[name='name']").fill('test');
   await page.locator("input[name='jobTitle']").fill('test');
   await page.locator("input[name='email']").fill('email');
   await page.locator("textarea[name='description']").fill('email');
   await page.locator('[data-cy="select-image-from-list"]').first().click();
   await page.locator('[data-cy="use-image"]').click();
-  expect(lagreButton).toBeEnabled();
-  await lagreButton.click();
-  expect(page.getByTestId('slate-contact-block')).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Lagre', exact: true })).toBeEnabled();
+  await page.getByRole('button', { name: 'Lagre', exact: true }).click();
+  await expect(page.getByTestId('slate-contact-block')).toBeVisible();
   await page.getByTestId('remove-contact-block').click();
   expect(await page.getByTestId('slate-contact-block').count()).toEqual(0);
 });
 
 test('adds and removes campaignblock', async ({ page }) => {
   await page.locator("[data-cy='create-campaignBlock']").click();
-  const lagreButton = page.getByRole('button', { name: 'Lagre', exact: true });
-  expect(lagreButton).toBeDisabled();
+  await expect(page.getByRole('button', { name: 'Lagre', exact: true })).toBeDisabled();
   await page.locator("input[name='title']").fill('test');
   await page.locator("textarea[name='description']").fill('test');
   await page.locator("input[name='link']").fill('https://test.test');
@@ -142,9 +138,9 @@ test('adds and removes campaignblock', async ({ page }) => {
   await page.getByRole('button', { name: 'Sett inn bilde til høyre', exact: true }).click();
   await page.locator('[data-cy="select-image-from-list"]').first().click();
   await page.locator('[data-cy="use-image"]').click();
-  expect(lagreButton).toBeEnabled();
-  await lagreButton.click();
-  expect(page.getByTestId('slate-campaign-block')).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Lagre', exact: true })).toBeEnabled();
+  await page.getByRole('button', { name: 'Lagre', exact: true }).click();
+  await expect(page.getByTestId('slate-campaign-block')).toBeVisible();
   await page.getByTestId('remove-campaign-block').click();
   expect(await page.getByTestId('slate-campaign-block').count()).toEqual(0);
 });

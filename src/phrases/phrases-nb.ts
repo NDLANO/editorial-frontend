@@ -99,15 +99,13 @@ const phrases = {
       rules: 'Regler for bruk av videoen:',
     },
   },
-  language: {
-    en: 'Engelsk',
-    es: 'Spansk',
-    nb: 'Bokmål',
-    nn: 'Nynorsk',
-    se: 'Nordsamisk',
-    sma: 'Sørsamisk',
+  languages: {
+    // Adds to list from frontend-packages
+    ar: 'Arabisk',
+    no: 'Norsk',
+    so: 'Somali',
+    ti: 'Tigrinja',
     und: 'Udefinert',
-    de: 'Tysk',
     ukr: 'Ukrainsk',
     empty: 'Ingen flere språk',
     change: 'Bytt til {{language}} versjon',
@@ -1365,6 +1363,7 @@ const phrases = {
     podcastImageSize: 'Metabilde må være mellom 1400 og 3000 piksler bredt.',
     unfinishedRevision: 'Det må være minst en planlagt revisjon.',
     missingRevision: 'Det må være minst en revisjon.',
+    email: 'E-postadressen er ikke gyldig.',
   },
   errorMessage: {
     title: 'Oops, noe gikk galt',
@@ -1858,17 +1857,6 @@ const phrases = {
     visible: 'er synlig',
     notVisible: 'er ikke synlig',
     changeVisibility: 'Endre synlighet',
-  },
-  languages: {
-    ar: 'Arabisk',
-    de: 'Tysk',
-    en: 'Engelsk',
-    es: 'Spansk',
-    se: 'Nordsamisk',
-    sma: 'Sørsamisk',
-    so: 'Somali',
-    ti: 'Tigrinja',
-    zh: 'Kinesisk',
   },
   unsavedChanges: 'Ulagrede endringer',
   messages: {

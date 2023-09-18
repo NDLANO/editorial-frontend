@@ -52,7 +52,6 @@ import { breakPlugin } from '../../../../components/SlateEditor/plugins/break';
 import { markPlugin } from '../../../../components/SlateEditor/plugins/mark';
 import { listPlugin } from '../../../../components/SlateEditor/plugins/list';
 import { divPlugin } from '../../../../components/SlateEditor/plugins/div';
-import { LocaleType } from '../../../../interfaces';
 import { dndPlugin } from '../../../../components/SlateEditor/plugins/DND';
 import { SlatePlugin } from '../../../../components/SlateEditor/interfaces';
 import { useSession } from '../../../Session/SessionProvider';
@@ -65,7 +64,6 @@ import { blockConceptPlugin } from '../../../../components/SlateEditor/plugins/c
 import { definitionListPlugin } from '../../../../components/SlateEditor/plugins/definitionList';
 import { gridPlugin } from '../../../../components/SlateEditor/plugins/grid';
 import {
-  TYPE_EMBED_AUDIO,
   TYPE_EMBED_BRIGHTCOVE,
   TYPE_EMBED_EXTERNAL,
   TYPE_EMBED_H5P,
@@ -76,6 +74,8 @@ import { TYPE_CODEBLOCK } from '../../../../components/SlateEditor/plugins/codeB
 import { TYPE_FILE } from '../../../../components/SlateEditor/plugins/file/types';
 import { TYPE_GRID } from '../../../../components/SlateEditor/plugins/grid/types';
 import { HandleSubmitFunc, LearningResourceFormType } from '../../../FormikForm/articleFormHooks';
+import { audioPlugin } from '../../../../components/SlateEditor/plugins/audio';
+import { TYPE_AUDIO } from '../../../../components/SlateEditor/plugins/audio/types';
 
 const StyledFormikField = styled(FormikField)`
   display: flex;
@@ -114,7 +114,7 @@ const findFootnotes = (content: Descendant[]): FootnoteType[] =>
 const visualElements = [
   TYPE_EMBED_H5P,
   TYPE_EMBED_BRIGHTCOVE,
-  TYPE_EMBED_AUDIO,
+  TYPE_AUDIO,
   TYPE_EMBED_EXTERNAL,
   TYPE_EMBED_IMAGE,
 ];
@@ -124,23 +124,20 @@ const actionsToShowInAreas = {
   details: actions,
   aside: actions,
   bodybox: actions,
-  'table-cell': ['image'],
+  'table-cell': [TYPE_EMBED_IMAGE],
   'grid-cell': [TYPE_EMBED_IMAGE],
 };
 
 // Plugins are checked from last to first
-export const plugins = (
-  articleLanguage: string,
-  locale: LocaleType,
-  handleSubmit: () => void,
-): SlatePlugin[] => {
+export const plugins = (articleLanguage: string): SlatePlugin[] => {
   return [
     sectionPlugin,
     spanPlugin,
     divPlugin,
     paragraphPlugin(articleLanguage),
     footnotePlugin,
-    embedPlugin(articleLanguage, locale),
+    audioPlugin(articleLanguage),
+    embedPlugin(articleLanguage),
     bodyboxPlugin,
     asidePlugin,
     detailsPlugin,
@@ -164,7 +161,7 @@ export const plugins = (
     toolbarPlugin,
     textTransformPlugin,
     breakPlugin,
-    saveHotkeyPlugin(handleSubmit),
+    saveHotkeyPlugin,
     markPlugin,
     definitionListPlugin,
     listPlugin,
@@ -188,15 +185,9 @@ const LearningResourceContent = ({
 
   const [preview, setPreview] = useState(false);
 
-  const formikContext = useFormikContext<LearningResourceFormType>();
-
-  const handleSubmit = useCallback(() => {
-    _handleSubmit(formikContext.values, formikContext);
-  }, [_handleSubmit, formikContext]);
-
   return (
     <>
-      <TitleField handleSubmit={handleSubmit} />
+      <TitleField />
       <StyledFormikField name="published">
         {({ field, form }) => (
           <StyledDiv>
@@ -224,15 +215,10 @@ const LearningResourceContent = ({
           </StyledDiv>
         )}
       </StyledFormikField>
-      <IngressField preview={preview} handleSubmit={handleSubmit} />
+      <IngressField preview={preview} />
       <StyledContentDiv name="content" label={t('form.content.label')} noBorder>
         {(fieldProps) => (
-          <ContentField
-            articleLanguage={articleLanguage}
-            articleId={articleId}
-            {...fieldProps}
-            handleSubmit={handleSubmit}
-          />
+          <ContentField articleLanguage={articleLanguage} articleId={articleId} {...fieldProps} />
         )}
       </StyledContentDiv>
     </>
@@ -249,9 +235,8 @@ const ContentField = ({
   articleId,
   field: { name, onChange, value },
   articleLanguage,
-  handleSubmit,
 }: ContentFieldProps) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const { userPermissions } = useSession();
   const { isSubmitting } = useFormikContext<LearningResourceFormType>();
 
@@ -269,10 +254,7 @@ const ContentField = ({
     [onChange, name],
   );
 
-  const editorPlugins = useMemo(
-    () => plugins(articleLanguage ?? '', i18n.language, handleSubmit),
-    [articleLanguage, handleSubmit, i18n.language],
-  );
+  const editorPlugins = useMemo(() => plugins(articleLanguage ?? ''), [articleLanguage]);
 
   return (
     <>

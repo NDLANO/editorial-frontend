@@ -1,5 +1,6 @@
 // ES2015ified version of  H5P iframe Resizer
 // See  for src and additonal comments https://h5p.org/sites/all/modules/h5p/library/js/h5p-resizer.js
+//@ts-nocheck Use this file as-is.
 (function iife() {
   if (!window.postMessage || !window.addEventListener || window.h5pResizerInitialized) {
     return; // Not supported

@@ -20,7 +20,7 @@ export const removeEmptyElementDataAttributes = (obj: Dictionary<any>) => {
   return newObject;
 };
 
-const reduceRegexp = /-[a-z]/g;
+const reduceRegexp = /(-|_)[a-z]/g;
 
 export const reduceElementDataAttributesV2 = (
   attributes: Attr[],
@@ -131,7 +131,11 @@ export const createEmbedTagV2 = <T extends object>(
   const dataSet = entries.reduce<Record<string, string>>((acc, [key, value]) => {
     const newKey = key.replace(attributeRegex, (m) => `-${m.toLowerCase()}`);
     if (value != null && typeof value === 'string') {
-      acc[`data-${newKey}`] = value.toString();
+      if (key === 'resourceId') {
+        acc['data-resource_id'] = value.toString();
+      } else {
+        acc[`data-${newKey}`] = value.toString();
+      }
     }
     return acc;
   }, {});

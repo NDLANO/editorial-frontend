@@ -255,7 +255,7 @@ const ChangeNodeNameContent = ({ onClose, node, nodeType = 'SUBJECT' }: ModalPro
                         <Row key={i}>
                           <StyledFormikField
                             name={`translations.${i}.name`}
-                            label={t(`language.${trans.language}`)}
+                            label={t(`languages.${trans.language}`)}
                           >
                             {({ field }) => (
                               <Row>

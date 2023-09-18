@@ -25,7 +25,7 @@ interface ComponentProps extends Props {
   handleSubmit: (formik: FormikProps<FilmFormikType>) => void;
 }
 
-const SubjectpageAccordionPanels = ({ errors, selectedLanguage, handleSubmit }: ComponentProps) => {
+const SubjectpageAccordionPanels = ({ errors, selectedLanguage }: ComponentProps) => {
   const { t } = useTranslation();
   const onUpdateMovieList = (
     field: FieldProps<FormikValues>['field'],
@@ -49,7 +49,7 @@ const SubjectpageAccordionPanels = ({ errors, selectedLanguage, handleSubmit }: 
         className="u-4/6@desktop u-push-1/6@desktop"
         hasError={['title', 'description', 'visualElement'].some((field) => field in errors)}
       >
-        <SubjectpageAbout selectedLanguage={selectedLanguage} handleSubmit={handleSubmit} />
+        <SubjectpageAbout selectedLanguage={selectedLanguage} />
       </FormAccordion>
       <FormAccordion
         id="slideshow"

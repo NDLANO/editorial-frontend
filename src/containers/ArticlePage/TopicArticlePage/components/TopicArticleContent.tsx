@@ -71,7 +71,7 @@ const MarkdownButton = styled(IconButtonV2)<{ active: boolean }>`
   color: ${(p) => (p.active ? colors.brand.primary : colors.brand.light)};
 `;
 
-const createPlugins = (language: string, handleSubmit: VoidFunction): SlatePlugin[] => {
+const createPlugins = (language: string): SlatePlugin[] => {
   // Plugins are checked from last to first
   return [
     sectionPlugin,
@@ -94,30 +94,28 @@ const createPlugins = (language: string, handleSubmit: VoidFunction): SlatePlugi
     toolbarPlugin,
     textTransformPlugin,
     breakPlugin,
-    saveHotkeyPlugin(handleSubmit),
+    saveHotkeyPlugin,
   ];
 };
 
 interface Props {
   values: TopicArticleFormType;
-  handleSubmit: () => Promise<void>;
 }
 
 const TopicArticleContent = (props: Props) => {
   const { t } = useTranslation();
   const {
     values: { id, language, creators, published },
-    handleSubmit,
   } = props;
   const { userPermissions } = useSession();
   const [preview, setPreview] = useState(false);
   const plugins = useMemo(() => {
-    return createPlugins(language ?? '', handleSubmit);
-  }, [language, handleSubmit]);
+    return createPlugins(language ?? '');
+  }, [language]);
 
   return (
     <>
-      <TitleField handleSubmit={handleSubmit} />
+      <TitleField />
       <StyledByLineFormikField name="published">
         {({ field, form }) => (
           <StyledDiv>
@@ -146,7 +144,7 @@ const TopicArticleContent = (props: Props) => {
           </StyledDiv>
         )}
       </StyledByLineFormikField>
-      <IngressField preview={preview} handleSubmit={handleSubmit} />
+      <IngressField preview={preview} />
       <VisualElementField />
       <FormikField name="content" label={t('form.content.label')} noBorder>
         {({ field: { value, name, onChange }, form: { isSubmitting } }) => (

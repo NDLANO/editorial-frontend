@@ -102,7 +102,6 @@ const scriptSrc = (() => {
     'https://*.zendesk.com',
     'https://static.zdassets.com',
     'https://zendesk-eu.my.sentry.io',
-    'https://*.hotjar.com',
     'widget-mediator.zopim.com',
     'https://*.clarity.ms',
   ];
@@ -146,7 +145,6 @@ const frameSrc = (() => {
     '*.commoncraft.com',
     'commoncraft.com',
     '*.brightcove.net',
-    'https://*.hotjar.com',
     'fast.wistia.com',
     'https://khanacademy.org',
     '*.khanacademy.org',

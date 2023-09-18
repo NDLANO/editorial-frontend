@@ -6,27 +6,25 @@
  *
  */
 
-import { MouseEvent, useMemo, useEffect } from 'react';
-import styled from '@emotion/styled';
-import { useTranslation } from 'react-i18next';
-import { FieldProps, Form, Formik, FormikProps } from 'formik';
-import { AudioPlayer } from '@ndla/ui';
-import { spacing } from '@ndla/core';
 import { ModalBody, ModalHeader, ModalTitle } from '@ndla/modal';
+import { AudioEmbedData } from '@ndla/types-embed';
+import { FieldProps, Form, Formik, useFormikContext } from 'formik';
+import { useCallback, useMemo, MouseEvent } from 'react';
+import { useTranslation } from 'react-i18next';
+import { IAudioMetaInformation } from '@ndla/types-backend/audio-api';
+import { spacing } from '@ndla/core';
+import { AudioPlayer } from '@ndla/ui';
 import { ButtonV2 } from '@ndla/button';
-import { Input } from '@ndla/forms';
-import ObjectSelector from '../../../ObjectSelector';
-import { SlateAudio, AudioEmbed } from '../../../../interfaces';
+import styled from '@emotion/styled';
 import validateFormik, { RulesType } from '../../../formikValidationSchema';
 import FormikField from '../../../FormikField';
+import ObjectSelector from '../../../ObjectSelector';
 
 interface Props {
-  audio: SlateAudio;
-  embed: AudioEmbed;
-  onExit: () => void;
-  type: string;
-  setHasError: (error: boolean) => void;
-  saveEmbedUpdates: (updates: Record<string, string>) => void;
+  embed: AudioEmbedData;
+  audio: IAudioMetaInformation;
+  onCancel: () => void;
+  onSave: (embed: AudioEmbedData) => void;
 }
 
 const ButtonWrapper = styled.div`
@@ -37,34 +35,36 @@ const ButtonWrapper = styled.div`
 `;
 
 interface FormValues {
-  alttext: string;
   type: string;
 }
 
+export const toAudioEmbedFormValues = (embed: AudioEmbedData): FormValues => {
+  return {
+    type: embed.type,
+  };
+};
+
 export const audioEmbedFormRules: RulesType<FormValues> = {
-  alttext: {
-    required: false,
-  },
   type: {
     required: true,
   },
 };
 
-export const toAudioEmbedFormValues = (embed: AudioEmbed, type: string): FormValues => {
-  return {
-    alttext: embed.alt ?? '',
-    type,
-  };
-};
-
-const EditAudio = ({ embed, onExit, type, audio, setHasError, saveEmbedUpdates }: Props) => {
+const AudioEmbedForm = ({ embed, onCancel, onSave, audio }: Props) => {
   const { t } = useTranslation();
-  const initialValues = useMemo(() => toAudioEmbedFormValues(embed, type), [embed, type]);
-  const handleSubmit = ({ alttext, type }: FormValues) => {
-    saveEmbedUpdates({ alt: alttext, type });
-    setHasError(false);
-    onExit();
-  };
+  const initialValues = useMemo(() => toAudioEmbedFormValues(embed), [embed]);
+
+  const validate = useCallback(
+    (values: FormValues) => validateFormik(values, audioEmbedFormRules, t),
+    [t],
+  );
+
+  const handleSubmit = useCallback(
+    (values: FormValues) => {
+      onSave({ ...embed, ...values });
+    },
+    [embed, onSave],
+  );
 
   return (
     <>
@@ -74,50 +74,26 @@ const EditAudio = ({ embed, onExit, type, audio, setHasError, saveEmbedUpdates }
       <ModalBody>
         <Formik
           initialValues={initialValues}
-          validate={(values) => validateFormik(values, audioEmbedFormRules, t)}
+          validate={validate}
           enableReinitialize
           validateOnMount
           onSubmit={handleSubmit}
         >
-          {(formik) => (
-            <AudioEmbedForm audio={audio} {...formik} setHasError={setHasError} close={onExit} />
-          )}
+          <EmbedForm audio={audio} onCancel={onCancel} />
         </Formik>
       </ModalBody>
     </>
   );
 };
 
-interface AudioEmbedFormProps extends FormikProps<FormValues> {
-  setHasError: (hasError: boolean) => void;
-  close: () => void;
-  audio: SlateAudio;
+interface EmbedFormProps {
+  onCancel: () => void;
+  audio: IAudioMetaInformation;
 }
 
-const StyledFormikField = styled(FormikField)`
-  margin-top: ${spacing.small};
-`;
-
-const AudioEmbedForm = ({
-  setHasError,
-  close,
-  audio,
-  isValid,
-  dirty,
-  values,
-  initialErrors,
-}: AudioEmbedFormProps) => {
+const EmbedForm = ({ onCancel, audio }: EmbedFormProps) => {
   const { t } = useTranslation();
-
-  useEffect(() => {
-    setHasError(!isValid);
-  }, [isValid, setHasError]);
-
-  const onClose = () => {
-    setHasError(!!Object.keys(initialErrors).length);
-    close();
-  };
-
+  const { isValid, dirty, values } = useFormikContext<FormValues>();
   return (
     <Form>
       <FormikField name="type">
@@ -146,11 +122,11 @@ const AudioEmbedForm = ({
       </FormikField>
       <AudioPlayer
         src={audio.audioFile.url}
-        title={audio.title}
+        title={audio.title.title}
         speech={values.type === 'minimal'}
       />
       <ButtonWrapper>
-        <ButtonV2 onClick={onClose}>{t('form.abort')}</ButtonV2>
+        <ButtonV2 onClick={onCancel}>{t('form.abort')}</ButtonV2>
         <ButtonV2 disabled={!isValid || !dirty} type="submit">
           {t('form.save')}
         </ButtonV2>
@@ -159,4 +135,4 @@ const AudioEmbedForm = ({
   );
 };
 
-export default EditAudio;
+export default AudioEmbedForm;

@@ -114,7 +114,7 @@ test('adds and removes contactblock', async ({ page }) => {
   await expect(page.getByRole('button', { name: 'Lagre', exact: true })).toBeDisabled();
   await page.locator("input[name='name']").fill('test');
   await page.locator("input[name='jobTitle']").fill('test');
-  await page.locator("input[name='email']").fill('email');
+  await page.locator("input[name='email']").fill('email@email.no');
   await page.locator("textarea[name='description']").fill('email');
   await page.locator('[data-cy="select-image-from-list"]').first().click();
   await page.locator('[data-cy="use-image"]').click();

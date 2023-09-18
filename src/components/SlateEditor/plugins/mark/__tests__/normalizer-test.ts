@@ -14,14 +14,7 @@ import { plugins } from '../../../../../containers/ArticlePage/LearningResourceP
 import { TYPE_PARAGRAPH } from '../../paragraph/types';
 import { TYPE_SECTION } from '../../section/types';
 
-const editor = withHistory(
-  withReact(
-    withPlugins(
-      createEditor(),
-      plugins('nb', () => {}),
-    ),
-  ),
-);
+const editor = withHistory(withReact(withPlugins(createEditor(), plugins('nb'))));
 
 describe('mark normalizer tests', () => {
   test('Remove marks from empty text nodes', () => {

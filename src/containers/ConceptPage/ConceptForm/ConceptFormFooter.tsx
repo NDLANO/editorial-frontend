@@ -18,6 +18,7 @@ import SaveButton from '../../../components/SaveButton';
 import { AlertModalWrapper } from '../../FormikForm';
 import { ConceptFormValues } from '../conceptInterfaces';
 import { useConceptStateMachine } from '../../../modules/concept/conceptQueries';
+import { SAVE_BUTTON_ID } from '../../../constants';
 
 interface Props {
   entityStatus?: IStatus;
@@ -67,6 +68,7 @@ const ConceptFormFooter = ({
           {t('form.abort')}
         </ButtonV2>
         <SaveButton
+          id={SAVE_BUTTON_ID}
           type={!inModal ? 'submit' : 'button'}
           isSaving={isSubmitting}
           formIsDirty={formIsDirty}

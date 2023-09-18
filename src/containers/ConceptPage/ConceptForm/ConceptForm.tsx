@@ -217,7 +217,7 @@ const ConceptForm = ({
                 title={t('form.contentSection')}
                 hasError={!!(errors.title || errors.conceptContent)}
               >
-                <ConceptContent handleSubmit={handleSubmit} />
+                <ConceptContent />
               </FormAccordion>
               <FormAccordion
                 id="copyright"

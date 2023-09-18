@@ -46,6 +46,7 @@ interface Props {
   onClick: (value: string) => void;
   disabled?: boolean;
   large?: boolean;
+  mainId?: string;
   menuPosition?: 'top' | 'bottom';
   children?: ReactElement;
 }
@@ -93,6 +94,7 @@ export const MultiButton = ({
   disabled,
   large,
   menuPosition = 'top',
+  mainId,
   children,
 }: Props) => {
   const hideSecondaryButton = secondaryButtons.length === 0;
@@ -102,6 +104,7 @@ export const MultiButton = ({
   return (
     <Wrapper>
       <MainButton
+        id={mainId}
         size={large ? 'large' : undefined}
         disabled={disabled}
         onClick={() => onClick(mainButton.value)}

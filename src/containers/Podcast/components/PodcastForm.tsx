@@ -35,6 +35,7 @@ import { useLicenses } from '../../../modules/draft/draftQueries';
 import FormWrapper from '../../../components/FormWrapper';
 import FormAccordions from '../../../components/Accordion/FormAccordions';
 import FormAccordion from '../../../components/Accordion/FormAccordion';
+import { SAVE_BUTTON_ID } from '../../../constants';
 
 const podcastRules: RulesType<PodcastFormValues, IAudioMetaInformation> = {
   title: {
@@ -302,6 +303,7 @@ const PodcastForm = ({
                 {t('form.abort')}
               </ButtonV2>
               <SaveButton
+                id={SAVE_BUTTON_ID}
                 type={!inModal ? 'submit' : 'button'}
                 isSaving={isSubmitting}
                 showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}

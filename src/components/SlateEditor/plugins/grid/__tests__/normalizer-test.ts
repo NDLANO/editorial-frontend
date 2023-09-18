@@ -15,14 +15,7 @@ import { TYPE_SECTION } from '../../section/types';
 import { TYPE_GRID, TYPE_GRID_CELL } from '../types';
 import { TYPE_PARAGRAPH } from '../../paragraph/types';
 
-const editor = withHistory(
-  withReact(
-    withPlugins(
-      createEditor(),
-      plugins('nb', () => {}),
-    ),
-  ),
-);
+const editor = withHistory(withReact(withPlugins(createEditor(), plugins('nb'))));
 
 describe('normalizing grid tests', () => {
   test('column of two should have only two cells', () => {

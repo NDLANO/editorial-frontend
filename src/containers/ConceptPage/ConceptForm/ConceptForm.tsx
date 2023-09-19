@@ -17,6 +17,7 @@ import {
 import { IArticle } from '@ndla/types-backend/draft-api';
 import { Formik, FormikProps, FormikHelpers } from 'formik';
 import { useTranslation } from 'react-i18next';
+import { Node } from '@ndla/types-taxonomy';
 import { ARCHIVED, PUBLISHED, UNPUBLISHED } from '../../../constants';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
 import validateFormik, { getWarnings, RulesType } from '../../../components/formikValidationSchema';
@@ -27,7 +28,6 @@ import {
 } from '../conceptTransformers';
 import { ConceptArticles, ConceptCopyright, ConceptContent, ConceptMetaData } from '../components';
 import { ConceptFormValues } from '../conceptInterfaces';
-import { SubjectType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import ConceptFormFooter from './ConceptFormFooter';
 import { MessageError, useMessages } from '../../Messages/MessagesProvider';
 import { useLicenses } from '../../../modules/draft/draftQueries';
@@ -35,6 +35,7 @@ import FormWrapper from '../../../components/FormWrapper';
 import { useSession } from '../../../containers/Session/SessionProvider';
 import FormAccordion from '../../../components/Accordion/FormAccordion';
 import FormAccordions from '../../../components/Accordion/FormAccordions';
+import { isEmpty } from '../../../components/validators';
 
 const STATUSES_RESPONSIBLE_NOT_REQUIRED = [PUBLISHED, ARCHIVED, UNPUBLISHED];
 
@@ -56,7 +57,7 @@ interface Props {
   conceptArticles: IArticle[];
   onClose?: () => void;
   language: string;
-  subjects: SubjectType[];
+  subjects: Node[];
   initialTitle?: string;
   onUpserted?: (concept: IConceptSummary | IConcept) => void;
   supportedLanguages: string[];
@@ -140,6 +141,7 @@ const ConceptForm = ({
     values: ConceptFormValues,
     formikHelpers: FormikHelpers<ConceptFormValues>,
   ) => {
+    if (!values.subjects.length || isEmpty(values.title) || isEmpty(values.conceptContent)) return;
     formikHelpers.setSubmitting(true);
     const revision = concept?.revision;
     const status = concept?.status;

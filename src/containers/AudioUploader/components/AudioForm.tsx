@@ -34,6 +34,7 @@ import { useLicenses } from '../../../modules/draft/draftQueries';
 import FormWrapper from '../../../components/FormWrapper';
 import FormAccordions from '../../../components/Accordion/FormAccordions';
 import FormAccordion from '../../../components/Accordion/FormAccordion';
+import { SAVE_BUTTON_ID } from '../../../constants';
 
 export interface AudioFormikType {
   id?: number;
@@ -214,19 +215,19 @@ const AudioForm = ({
                 title={t('form.contentSection')}
                 hasError={hasError(['title', 'audioFile'])}
               >
-                <AudioContent />
+                <AudioContent handleSubmit={handleSubmit} />
               </FormAccordion>
               <FormAccordion
                 id="podcast-upload-podcastmanus"
                 title={t('podcastForm.fields.manuscript')}
-                className="u-4/6@desktop u-push-1/6@desktop"
+                className={'u-6/6'}
                 hasError={[].some((field) => field in errors)}
               >
                 <AudioManuscript />
               </FormAccordion>
               <FormAccordion
                 id="audio-upload-metadataSection"
-                className="u-4/6@desktop u-push-1/6@desktop"
+                className={'u-6/6'}
                 title={t('form.metadataSection')}
                 hasError={hasError(['tags', 'creators', 'rightsholders', 'processors', 'license'])}
               >
@@ -238,6 +239,7 @@ const AudioForm = ({
                 {t('form.abort')}
               </ButtonV2>
               <SaveButton
+                id={SAVE_BUTTON_ID}
                 isSaving={isSubmitting}
                 formIsDirty={formIsDirty}
                 showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}

@@ -13,12 +13,13 @@ import { ReactEditor } from 'slate-react';
 import { TableElement } from './interfaces';
 import getCurrentBlock from '../../utils/getCurrentBlock';
 import { getTableAsMatrix, getTableBodyAsMatrix } from './matrix';
-import { TYPE_TABLE_CELL, TYPE_TABLE_ROW, TYPE_TABLE_BODY } from './types';
+import { TYPE_TABLE_ROW, TYPE_TABLE_BODY, TYPE_TABLE_CELL_HEADER, TYPE_TABLE_HEAD } from './types';
 import {
   getTableBodyWidth,
   isTable,
   isTableBody,
   isTableCell,
+  isTableCellHeader,
   isTableHead,
   isTableRow,
 } from './slateHelpers';
@@ -29,6 +30,7 @@ import {
   defaultTableHeadBlock,
   defaultTableRowBlock,
   defaultTableBodyBlock,
+  defaultTableCellHeaderBlock,
 } from './defaultBlocks';
 
 export const toggleRowHeaders = (editor: Editor, path: Path) => {
@@ -194,11 +196,11 @@ export const insertTableHead = (editor: Editor) => {
         ...defaultTableHeadBlock(0),
         children: [
           {
-            ...defaultTableRowBlock(0),
+            ...defaultTableRowBlock(0, true),
             children: rowElement.children.map((cell) => {
-              if (Element.isElement(cell) && cell.type === TYPE_TABLE_CELL) {
+              if (Element.isElement(cell) && cell.type === TYPE_TABLE_CELL_HEADER) {
                 return {
-                  ...defaultTableCellBlock(),
+                  ...defaultTableCellHeaderBlock(),
                   data: {
                     ...cell.data,
                     rowspan: 1,
@@ -206,11 +208,10 @@ export const insertTableHead = (editor: Editor) => {
                 };
               }
               return {
-                ...defaultTableCellBlock(),
+                ...defaultTableCellHeaderBlock(),
                 data: {
                   rowspan: 1,
                   colspan: 1,
-                  isHeader: true,
                 },
               };
             }),
@@ -345,12 +346,15 @@ export const insertRow = (editor: Editor, tableElement: TableElement, path: Path
                 at: newRowPath,
               });
             }
+            const maybeTableHead = Editor.parent(editor, currentRowPath)[0];
+            const isInTableHead =
+              Element.isElement(maybeTableHead) && maybeTableHead.type === TYPE_TABLE_HEAD;
 
             // D. Insert new cell with matching colspan.
             Transforms.insertNodes(
               editor,
               {
-                ...defaultTableCellBlock(),
+                ...(isInTableHead ? defaultTableCellHeaderBlock() : defaultTableCellBlock()),
                 data: {
                   ...cell.data,
                   rowspan: 1,
@@ -418,7 +422,9 @@ export const insertColumn = (editor: Editor, tableElement: TableElement, path: P
             Transforms.insertNodes(
               editor,
               {
-                ...defaultTableCellBlock(),
+                ...(isTableCellHeader(cell)
+                  ? defaultTableCellHeaderBlock()
+                  : defaultTableCellBlock()),
                 data: {
                   ...cell.data,
                   colspan: 1,

@@ -8,8 +8,6 @@
 
 import { useMemo, memo } from 'react';
 import { useTranslation } from 'react-i18next';
-
-import { useFormikContext } from 'formik';
 import PlainTextEditor from '../../components/SlateEditor/PlainTextEditor';
 import FormikField from '../../components/FormikField';
 
@@ -24,12 +22,8 @@ interface Props {
 
 const TitleField = ({ maxLength = 256, name = 'title' }: Props) => {
   const { t } = useTranslation();
-  const { handleSubmit } = useFormikContext();
 
-  const plugins = useMemo(
-    () => [textTransformPlugin, saveHotkeyPlugin(handleSubmit)],
-    [handleSubmit],
-  );
+  const plugins = useMemo(() => [textTransformPlugin, saveHotkeyPlugin], []);
 
   return (
     <FormikField noBorder label={t('form.title.label')} name={name} title maxLength={maxLength}>
@@ -42,7 +36,6 @@ const TitleField = ({ maxLength = 256, name = 'title' }: Props) => {
           cy="learning-resource-title"
           plugins={plugins}
           submitted={isSubmitting}
-          handleSubmit={handleSubmit}
         />
       )}
     </FormikField>

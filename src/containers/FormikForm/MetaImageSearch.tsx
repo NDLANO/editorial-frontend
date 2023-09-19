@@ -126,7 +126,7 @@ const MetaImageSearch = ({
             <ButtonV2>{t('form.metaImage.add')}</ButtonV2>
           </ModalTrigger>
         )}
-        <ModalContent>
+        <ModalContent size={{ width: 'large', height: 'large' }}>
           <ModalHeader>
             <ModalCloseButton />
           </ModalHeader>

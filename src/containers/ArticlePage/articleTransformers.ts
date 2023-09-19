@@ -60,7 +60,6 @@ const draftApiTypeToArticleFormType = (
   const license = article?.copyright?.license?.license;
   const articleLicense = !license || license === 'unknown' ? DEFAULT_LICENSE.license : license;
   return {
-    agreementId: article?.copyright?.agreementId,
     articleType,
     content: contentFunc(article?.content?.content ?? ''),
     creators: article?.copyright?.creators ?? [],

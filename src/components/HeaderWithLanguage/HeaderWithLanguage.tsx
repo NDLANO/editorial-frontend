@@ -13,10 +13,9 @@ import { IConcept } from '@ndla/types-backend/concept-api';
 import { IArticle, IStatus } from '@ndla/types-backend/draft-api';
 import { useTranslation } from 'react-i18next';
 import { Check } from '@ndla/icons/editor';
+import { TaxonomyContext } from '@ndla/types-taxonomy';
 import HeaderInformation from './HeaderInformation';
 import HeaderActions from './HeaderActions';
-import { getTaxonomyPathsFromTaxonomy } from './util';
-import { ArticleTaxonomy } from '../../containers/FormikForm/formikDraftHooks';
 import HeaderLanguagePill from './HeaderLanguagePill';
 
 export const StyledLanguageWrapper = styled.div`
@@ -25,15 +24,6 @@ export const StyledLanguageWrapper = styled.div`
   display: flex;
   align-items: center;
 `;
-
-export interface TaxonomyObject {
-  topics?: PathObject[];
-  resources?: PathObject[];
-}
-
-interface PathObject {
-  paths?: string[];
-}
 
 export type FormHeaderType =
   | 'image'
@@ -49,7 +39,7 @@ interface Props {
   title?: string;
   language: string;
   id?: number;
-  taxonomy?: ArticleTaxonomy;
+  taxonomy?: TaxonomyContext[];
   noStatus?: boolean;
   article?: IArticle;
   supportedLanguages: string[];
@@ -63,7 +53,7 @@ interface Props {
 const HeaderWithLanguage = ({
   noStatus = false,
   type,
-  taxonomy,
+  taxonomy = [],
   article,
   hasRSS,
   id,
@@ -87,8 +77,6 @@ const HeaderWithLanguage = ({
     ? article?.responsible?.responsibleId
     : concept?.responsible?.responsibleId;
 
-  const taxonomyPaths = isArticle ? getTaxonomyPathsFromTaxonomy(taxonomy, id) : [];
-
   return (
     <header>
       <HeaderInformation
@@ -99,7 +87,7 @@ const HeaderWithLanguage = ({
         title={title}
         id={id}
         published={published}
-        taxonomyPaths={taxonomyPaths}
+        multipleTaxonomy={taxonomy.length > 1}
         setHasConnections={setHasConnections}
         expirationDate={expirationDate}
         responsibleId={responsible}
@@ -112,7 +100,7 @@ const HeaderWithLanguage = ({
             id={id}
             language={language}
             supportedLanguages={supportedLanguages}
-            disableDelete={hasConnections && supportedLanguages.length === 1}
+            disableDelete={hasConnections || (isArticle && supportedLanguages.length === 1)}
             article={article}
             concept={concept}
             noStatus={noStatus}
@@ -122,7 +110,7 @@ const HeaderWithLanguage = ({
         ) : (
           <HeaderLanguagePill current>
             <Check />
-            {t(`language.${language}`)}
+            {t(`languages.${language}`)}
           </HeaderLanguagePill>
         )}
       </StyledLanguageWrapper>

@@ -9,6 +9,8 @@
 import config from './config';
 import { WhitelistProvider } from './interfaces';
 
+export const SAVE_BUTTON_ID = 'editor-save-button';
+
 export const NAVIGATION_HEADER_MARGIN = '95px';
 
 export const RESOURCE_TYPE_LEARNING_PATH = 'urn:resourcetype:learningPath';
@@ -47,6 +49,8 @@ export const CONCEPT_RESPONSIBLE = 'concept:responsible';
 
 export const TAXONOMY_WRITE_SCOPE = 'taxonomy:write';
 export const TAXONOMY_ADMIN_SCOPE = 'taxonomy:admin';
+
+export const FRONTPAGE_ADMIN_SCOPE = 'frontpage:admin';
 
 export const AUDIO_ADMIN_SCOPE = 'audio:admin';
 

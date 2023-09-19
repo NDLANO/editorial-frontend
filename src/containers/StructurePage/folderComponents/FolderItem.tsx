@@ -14,6 +14,7 @@ import { Plus } from '@ndla/icons/action';
 import { Node } from '@ndla/types-taxonomy';
 import { Modal, ModalContent, ModalTrigger } from '@ndla/modal';
 import { useCallback, useState } from 'react';
+import Tooltip from '@ndla/tooltip';
 import { Row } from '../../../components';
 import Spinner from '../../../components/Spinner';
 import SettingsMenu from './SettingsMenu';
@@ -43,6 +44,11 @@ const StyledFolderWrapper = styled.div`
 const ControlButtonsWrapper = styled.div`
   display: flex;
   align-items: center;
+  gap: ${spacing.xxsmall};
+`;
+
+const IconButtonContainer = styled.div`
+  display: flex;
 `;
 
 interface Props {
@@ -83,21 +89,25 @@ const FolderItem = ({
             nodeChildren={nodeChildren}
           />
           <Modal open={open} onOpenChange={setOpen}>
-            <ModalTrigger>
-              <IconButtonV2
-                size="xsmall"
-                variant="stripped"
-                title={addChildTooltip}
-                aria-label={addChildTooltip}
-              >
-                <Plus />
-              </IconButtonV2>
-            </ModalTrigger>
+            <Tooltip tooltip={addChildTooltip}>
+              <IconButtonContainer>
+                <ModalTrigger>
+                  <IconButtonV2
+                    size="xsmall"
+                    variant="ghost"
+                    title={addChildTooltip}
+                    aria-label={addChildTooltip}
+                  >
+                    <Plus />
+                  </IconButtonV2>
+                </ModalTrigger>
+              </IconButtonContainer>
+            </Tooltip>
             <ModalContent
               size={node.id.includes('topic') ? { height: 'normal', width: 'normal' } : 'normal'}
               position="top"
             >
-              {node.id.includes('topic') ? (
+              {node.id.includes('topic') || node.id.includes('subject') ? (
                 <TaxonomyLightbox title={t('taxonomy.addTopicHeader')}>
                   <AddResourceModal>
                     <PlannedResourceForm node={node} articleType="topic-article" onClose={close} />

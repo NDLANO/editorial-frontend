@@ -21,6 +21,7 @@ import NdlaFilmAccordionPanels from './NdlaFilmAccordionPanels';
 import SaveButton from '../../../components/SaveButton';
 import StyledForm from '../../../components/StyledFormComponents';
 import { isSlateEmbed } from '../../../components/SlateEditor/plugins/embed/utils';
+import { SAVE_BUTTON_ID } from '../../../constants';
 
 interface Props {
   filmFrontpage: IFilmFrontPageData;
@@ -99,9 +100,11 @@ const NdlaFilmForm = ({ filmFrontpage, selectedLanguage }: Props) => {
               errors={errors}
               formIsDirty={formIsDirty}
               selectedLanguage={selectedLanguage}
+              handleSubmit={handleSubmit}
             />
             <Field right>
               <SaveButton
+                id={SAVE_BUTTON_ID}
                 size="large"
                 isSaving={isSubmitting}
                 showSaved={!formIsDirty && savedToServer}

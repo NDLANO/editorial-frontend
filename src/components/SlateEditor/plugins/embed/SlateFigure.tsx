@@ -12,33 +12,27 @@ import { RenderElementProps, ReactEditor, useSelected } from 'slate-react';
 import { useTranslation } from 'react-i18next';
 import SlateImage from './SlateImage';
 import SlateVideo from './SlateVideo';
-import SlateAudio from './SlateAudio';
-import SlatePodcast from './SlatePodcast';
 import EditorErrorMessage from '../../EditorErrorMessage';
 import DisplayExternal from '../../../DisplayEmbed/DisplayExternal';
 import {
-  AudioEmbedElement,
   BrightcoveEmbedElement,
   ErrorEmbedElement,
   ExternalEmbedElement,
   H5PEmbedElement,
   ImageEmbedElement,
 } from '.';
-import { LocaleType } from '../../../../interfaces';
 import { isSlateEmbed } from './utils';
 
 interface Props {
   attributes: RenderElementProps['attributes'];
   editor: Editor;
   element:
-    | AudioEmbedElement
     | H5PEmbedElement
     | BrightcoveEmbedElement
     | ErrorEmbedElement
     | ExternalEmbedElement
     | ImageEmbedElement;
   language: string;
-  locale?: LocaleType;
   children: ReactNode;
   allowDecorative?: boolean;
 }
@@ -54,7 +48,6 @@ const SlateFigure = ({
   editor,
   element,
   language,
-  locale = 'nb',
   children,
   allowDecorative = true,
 }: Props) => {
@@ -117,36 +110,6 @@ const SlateFigure = ({
         >
           {children}
         </SlateVideo>
-      );
-    case 'audio':
-      if (embed.type === 'podcast') {
-        return (
-          <SlatePodcast
-            attributes={attributes}
-            embed={embed}
-            language={language}
-            locale={locale}
-            onRemoveClick={onRemoveClick}
-            saveEmbedUpdates={saveEmbedUpdates}
-            isSelectedForCopy={isSelected}
-          >
-            {children}
-          </SlatePodcast>
-        );
-      }
-      return (
-        <SlateAudio
-          attributes={attributes}
-          embed={embed}
-          language={language}
-          locale={locale}
-          onRemoveClick={onRemoveClick}
-          saveEmbedUpdates={saveEmbedUpdates}
-          active={isActive()}
-          isSelectedForCopy={isSelected}
-        >
-          {children}
-        </SlateAudio>
       );
     case 'external':
     case 'iframe':

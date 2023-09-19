@@ -6,7 +6,6 @@
  *
  */
 
-import { useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FieldProps } from 'formik';
 import { TextArea } from '@ndla/forms';
@@ -15,16 +14,11 @@ import FormikField from '../../components/FormikField';
 interface Props {
   maxLength?: number;
   name?: string;
-  handleSubmit: () => Promise<void>;
   type?: string;
 }
 
-const SlugField = ({ name = 'slug', handleSubmit }: Props) => {
+const SlugField = ({ name = 'slug' }: Props) => {
   const { t } = useTranslation();
-  const handleSubmitRef = useRef(handleSubmit);
-  useEffect(() => {
-    handleSubmitRef.current = handleSubmit;
-  }, [handleSubmit]);
   return (
     <>
       <FormikField name={name}>

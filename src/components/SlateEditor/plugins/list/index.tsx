@@ -162,7 +162,11 @@ export const listPlugin = (editor: Editor) => {
       } else if (element.listType === 'numbered-list') {
         const { start } = element.data;
         return (
-          <OrderedList start={start ? parseInt(start) : undefined} {...attributes}>
+          <OrderedList
+            start={start ? parseInt(start) : undefined}
+            className={`${start ? `ol-reset-${start}` : ''}`}
+            {...attributes}
+          >
             {children}
           </OrderedList>
         );

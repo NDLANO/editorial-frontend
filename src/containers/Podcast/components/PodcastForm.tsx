@@ -35,6 +35,7 @@ import { useLicenses } from '../../../modules/draft/draftQueries';
 import FormWrapper from '../../../components/FormWrapper';
 import FormAccordions from '../../../components/Accordion/FormAccordions';
 import FormAccordion from '../../../components/Accordion/FormAccordion';
+import { SAVE_BUTTON_ID } from '../../../constants';
 
 const podcastRules: RulesType<PodcastFormValues, IAudioMetaInformation> = {
   title: {
@@ -256,12 +257,12 @@ const PodcastForm = ({
                   className="u-4/6@desktop u-push-1/6@desktop"
                   hasError={['title', 'audioFile'].some((field) => field in errors)}
                 >
-                  <AudioContent />
+                  <AudioContent handleSubmit={handleSubmit} />
                 </FormAccordion>
                 <FormAccordion
                   id="podcast-upload-podcastmanus"
                   title={t('podcastForm.fields.manuscript')}
-                  className="u-4/6@desktop u-push-1/6@desktop"
+                  className={'u-6/6'}
                   hasError={[].some((field) => field in errors)}
                 >
                   <AudioManuscript />
@@ -269,7 +270,7 @@ const PodcastForm = ({
                 <FormAccordion
                   id="podcast-upload-podcastmeta"
                   title={t('form.podcastSection')}
-                  className="u-4/6@desktop u-push-1/6@desktop"
+                  className={'u-6/6'}
                   hasError={['introduction', 'coverPhotoId', 'metaImageAlt'].some(
                     (field) => field in errors,
                   )}
@@ -287,7 +288,7 @@ const PodcastForm = ({
                 <FormAccordion
                   id="podcast-upload-metadata"
                   title={t('form.metadataSection')}
-                  className="u-4/6@desktop u-push-1/6@desktop"
+                  className={'u-6/6'}
                   hasError={['tags', 'creators', 'rightsholders', 'processors', 'license'].some(
                     (field) => field in errors,
                   )}
@@ -302,6 +303,7 @@ const PodcastForm = ({
                 {t('form.abort')}
               </ButtonV2>
               <SaveButton
+                id={SAVE_BUTTON_ID}
                 type={!inModal ? 'submit' : 'button'}
                 isSaving={isSubmitting}
                 showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}

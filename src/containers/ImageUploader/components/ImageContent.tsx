@@ -6,7 +6,7 @@
  *
  */
 
-import { connect, FieldProps, FormikContextType } from 'formik';
+import { FieldProps, useFormikContext } from 'formik';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import { UploadDropZone, TextArea } from '@ndla/forms';
@@ -34,13 +34,10 @@ const StyledDeleteButtonContainer = styled.div`
   flex-direction: row;
 `;
 
-interface Props {
-  formik: FormikContextType<ImageFormikType>;
-}
-
-const ImageContent = ({ formik }: Props) => {
+const ImageContent = () => {
   const { t } = useTranslation();
-  const { values, errors, setFieldValue } = formik;
+  const formikContext = useFormikContext<ImageFormikType>();
+  const { values, errors, setFieldValue } = formikContext;
 
   // We use the timestamp to avoid caching of the `imageFile` url in the browser
   const timestamp = new Date().getTime();
@@ -128,4 +125,4 @@ const ImageContent = ({ formik }: Props) => {
   );
 };
 
-export default connect<any, any>(ImageContent);
+export default ImageContent;

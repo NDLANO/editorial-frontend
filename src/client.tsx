@@ -25,6 +25,7 @@ import { LocaleType } from './interfaces';
 
 declare global {
   interface Window {
+    h5pResizerInitialized?: boolean;
     initialState: {
       locale: string;
     };
@@ -101,7 +102,7 @@ const AppWrapper = ({ basename }: { basename?: string }) => {
 const RouterComponent = ({ base }: { base: string }) => {
   return (
     <BrowserRouter key={base} basename={base}>
-      <App isClient={true} key={base} />
+      <App key={base} />
     </BrowserRouter>
   );
 };

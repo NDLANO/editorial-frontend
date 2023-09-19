@@ -10,22 +10,22 @@ import { useState, useEffect } from 'react';
 import { IConcept, INewConcept, IUpdatedConcept } from '@ndla/types-backend/concept-api';
 import { IArticle, IUserData } from '@ndla/types-backend/draft-api';
 import uniq from 'lodash/uniq';
+import { Node } from '@ndla/types-taxonomy';
 import * as conceptApi from '../../modules/concept/conceptApi';
-import * as taxonomyApi from '../../modules/taxonomy';
 import { fetchSearchTags } from '../../modules/concept/conceptApi';
 import { fetchDraft } from '../../modules/draft/draftApi';
 import handleError from '../../util/handleError';
-import { SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from '../../constants';
 import { useTaxonomyVersion } from '../StructureVersion/TaxonomyVersionProvider';
 import { useUpdateUserDataMutation, useUserData } from '../../modules/draft/draftQueries';
+import { fetchNodes } from '../../modules/nodes/nodeApi';
 
 export function useFetchConceptData(conceptId: number | undefined, locale: string) {
   const [concept, setConcept] = useState<IConcept>();
   const [conceptArticles, setConceptArticles] = useState<IArticle[]>([]);
   const [conceptChanged, setConceptChanged] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [subjects, setSubjects] = useState<SubjectType[]>([]);
+  const [subjects, setSubjects] = useState<Node[]>([]);
   const { taxonomyVersion } = useTaxonomyVersion();
   const { mutateAsync } = useUpdateUserDataMutation();
   const { data } = useUserData();
@@ -52,12 +52,11 @@ export function useFetchConceptData(conceptId: number | undefined, locale: strin
 
   useEffect(() => {
     const fetchSubjects = async () => {
-      const fetchedSubjects = await taxonomyApi.fetchSubjects({
+      const fetchedSubjects = await fetchNodes({
         language: locale,
-        metadataFilter: {
-          key: TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
-          value: 'true',
-        },
+        nodeType: 'SUBJECT',
+        key: TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
+        value: 'true',
         taxonomyVersion,
       });
       setSubjects(fetchedSubjects);

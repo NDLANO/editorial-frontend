@@ -7,14 +7,7 @@
     "outDir": "build",
     "jsx": "react-jsx",
     "jsxImportSource": "@emotion/react",
-    // isolatedModules and declaration are not allowed together at
-    // the moment, We set isolatedModules to true here to prevent
-    // accidental export of types. We disable it when we build the
-    // type declarations (see: build.tsconfig.json).
-    //
-    // We may change this approach if: https://github.com/Microsoft/TypeScript/issues/29490
-    // is resolved.
-    "isolatedModules": false,
+    "isolatedModules": true,
     // "declaration": true,
     "strict": true,
     "moduleResolution": "node",
@@ -36,6 +29,5 @@
     },
     "downlevelIteration": true
   },
-  "include": ["src/**/*", "custom-typings/*", "./jest.config.js"],
-  "exclude": ["**/*-test.*"]
+  "include": ["src/**/*", "custom-typings/*", "./jest.config.js"]
 }

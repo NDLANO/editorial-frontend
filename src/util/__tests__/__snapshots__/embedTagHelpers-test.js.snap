@@ -32,7 +32,7 @@ exports[`createEmbedTag creates image embed tag from object 1`] = `
 exports[`createEmbedTagV2 converts camel-case to kebab-case 1`] = `
 <ndlaembed
   data-resource="audio"
-  data-resource-id="123"
+  data-resource_id="123"
   data-type="standard"
   data-url="https://api.test.ndla.no/audio-api/v1/audio/3000"
 />

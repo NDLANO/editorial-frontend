@@ -7,7 +7,7 @@
  *
  */
 
-import { Editor, Element, Node } from 'slate';
+import { Editor, Element, Node, Path } from 'slate';
 import { jsx as slatejsx } from 'slate-hyperscript';
 import { defaultTableCellBlock } from './defaultBlocks';
 import {
@@ -23,6 +23,7 @@ import {
   TYPE_TABLE_BODY,
   TYPE_TABLE_CAPTION,
   TYPE_TABLE_CELL,
+  TYPE_TABLE_CELL_HEADER,
   TYPE_TABLE_HEAD,
   TYPE_TABLE_ROW,
 } from './types';
@@ -46,9 +47,12 @@ export const isTableRow = (node?: Node): node is TableRowElement => {
   return Element.isElement(node) && node.type === TYPE_TABLE_ROW;
 };
 
-export const isTableCell = (node?: Node): node is TableCellElement => {
-  return Element.isElement(node) && node.type === TYPE_TABLE_CELL;
-};
+export const isTableCell = (node?: Node): node is TableCellElement =>
+  Element.isElement(node) &&
+  (node.type === TYPE_TABLE_CELL || node.type === TYPE_TABLE_CELL_HEADER);
+
+export const isTableCellHeader = (node?: Node): node is TableCellElement =>
+  Element.isElement(node) && node.type === TYPE_TABLE_CELL_HEADER;
 
 export const hasCellAlignOfType = (editor: Editor, type: string) => {
   // For all selected table cells
@@ -103,4 +107,12 @@ export const createIdenticalRow = (element: TableRowElement) => {
       return defaultTableCellBlock();
     }),
   );
+};
+
+export const isInTableCellHeader = (editor: Editor, path?: Path) => {
+  if (path) {
+    const [parent] = Editor.parent(editor, path);
+    return Element.isElement(parent) && parent.type === TYPE_TABLE_CELL_HEADER;
+  }
+  return false;
 };

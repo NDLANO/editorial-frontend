@@ -39,9 +39,9 @@ const SearchContentLanguage = ({ language, content, contentType }: Props) => {
 
   const link =
     linkProps && linkProps.href ? (
-      <StyledAnchor {...linkProps}>{t(`language.${language}`)}</StyledAnchor>
+      <StyledAnchor {...linkProps}>{t(`languages.${language}`)}</StyledAnchor>
     ) : (
-      <StyledLink to={linkProps.to ?? ''}>{t(`language.${language}`)}</StyledLink>
+      <StyledLink to={linkProps.to ?? ''}>{t(`languages.${language}`)}</StyledLink>
     );
   return <StyledOtherLink>{link}</StyledOtherLink>;
 };

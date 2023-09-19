@@ -35,6 +35,7 @@ import FormWrapper from '../../../components/FormWrapper';
 import { useSession } from '../../../containers/Session/SessionProvider';
 import FormAccordion from '../../../components/Accordion/FormAccordion';
 import FormAccordions from '../../../components/Accordion/FormAccordions';
+import { isEmpty } from '../../../components/validators';
 
 const STATUSES_RESPONSIBLE_NOT_REQUIRED = [PUBLISHED, ARCHIVED, UNPUBLISHED];
 
@@ -140,6 +141,7 @@ const ConceptForm = ({
     values: ConceptFormValues,
     formikHelpers: FormikHelpers<ConceptFormValues>,
   ) => {
+    if (!values.subjects.length || isEmpty(values.title) || isEmpty(values.conceptContent)) return;
     formikHelpers.setSubmitting(true);
     const revision = concept?.revision;
     const status = concept?.status;
@@ -215,7 +217,7 @@ const ConceptForm = ({
                 title={t('form.contentSection')}
                 hasError={!!(errors.title || errors.conceptContent)}
               >
-                <ConceptContent handleSubmit={handleSubmit} />
+                <ConceptContent />
               </FormAccordion>
               <FormAccordion
                 id="copyright"

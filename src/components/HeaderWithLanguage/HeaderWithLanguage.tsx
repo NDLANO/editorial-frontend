@@ -100,7 +100,7 @@ const HeaderWithLanguage = ({
             id={id}
             language={language}
             supportedLanguages={supportedLanguages}
-            disableDelete={hasConnections && supportedLanguages.length === 1}
+            disableDelete={hasConnections || (isArticle && supportedLanguages.length === 1)}
             article={article}
             concept={concept}
             noStatus={noStatus}
@@ -110,7 +110,7 @@ const HeaderWithLanguage = ({
         ) : (
           <HeaderLanguagePill current>
             <Check />
-            {t(`language.${language}`)}
+            {t(`languages.${language}`)}
           </HeaderLanguagePill>
         )}
       </StyledLanguageWrapper>

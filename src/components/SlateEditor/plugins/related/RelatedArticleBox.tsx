@@ -41,12 +41,10 @@ const ButtonWrapper = styled.div`
 
 const externalEmbedToMeta = async (
   embedData: RelatedContentEmbedData,
-  seq: number,
 ): Promise<RelatedContentMetaData> => {
   return {
     resource: 'related-content',
     embedData,
-    seq,
     status: 'success',
     data: undefined,
   };
@@ -54,7 +52,6 @@ const externalEmbedToMeta = async (
 
 const internalEmbedToMeta = async (
   embedData: RelatedContentEmbedData,
-  seq: number,
   language: string,
   taxonomyVersion: string,
 ): Promise<RelatedContentMetaData> => {
@@ -68,7 +65,6 @@ const internalEmbedToMeta = async (
   if (!!article && !!nodes?.length) {
     return {
       resource: 'related-content',
-      seq,
       embedData,
       status: 'success',
       data: {
@@ -79,7 +75,6 @@ const internalEmbedToMeta = async (
   } else {
     return {
       resource: 'related-content',
-      seq,
       embedData,
       status: 'error',
       message: 'Failed to fetch data',
@@ -92,11 +87,11 @@ const embedsToMeta = async (
   language: string,
   taxonomyVersion: string,
 ) => {
-  const promises = embeds.map((embed, i) => {
+  const promises = embeds.map((embed) => {
     if (embed.articleId) {
-      return internalEmbedToMeta(embed, i, language, taxonomyVersion);
+      return internalEmbedToMeta(embed, language, taxonomyVersion);
     } else {
-      return externalEmbedToMeta(embed, i);
+      return externalEmbedToMeta(embed);
     }
   });
   return await Promise.all(promises);
@@ -134,7 +129,7 @@ const RelatedArticleBox = ({ attributes, editor, element, onRemoveClick, childre
     };
     const nodeData = (element.data ?? []).concat(newEmbed);
     setNodeData(nodeData);
-    const newMetaData = await externalEmbedToMeta(newEmbed, embeds.length + 1);
+    const newMetaData = await externalEmbedToMeta(newEmbed);
     setEmbeds((embeds) => embeds.concat(newMetaData));
   };
 
@@ -147,7 +142,6 @@ const RelatedArticleBox = ({ attributes, editor, element, onRemoveClick, childre
     const newEmbed: RelatedContentEmbedData = { resource: 'related-content', articleId };
     const embed = await internalEmbedToMeta(
       { resource: 'related-content', articleId },
-      existingNodes.length + 1,
       i18n.language,
       taxonomyVersion,
     );
@@ -218,8 +212,8 @@ const RelatedArticleBox = ({ attributes, editor, element, onRemoveClick, childre
           </ButtonWrapper>
         }
       >
-        {embeds.map((embed) => (
-          <RelatedContentEmbed key={`related-${embed.seq}`} embed={embed} />
+        {embeds.map((embed, index) => (
+          <RelatedContentEmbed key={`related-${index}`} embed={embed} />
         ))}
       </RelatedArticleListV2>
       {children}

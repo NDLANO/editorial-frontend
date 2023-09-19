@@ -9,6 +9,8 @@
 import config from './config';
 import { WhitelistProvider } from './interfaces';
 
+export const SAVE_BUTTON_ID = 'editor-save-button';
+
 export const NAVIGATION_HEADER_MARGIN = '95px';
 
 export const RESOURCE_TYPE_LEARNING_PATH = 'urn:resourcetype:learningPath';

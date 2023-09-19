@@ -6,7 +6,7 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { FormikErrors, FormikProps } from 'formik';
+import { FormikErrors } from 'formik';
 import { IArticle } from '@ndla/types-backend/draft-api';
 import { ILearningPathV2 } from '@ndla/types-backend/learningpath-api';
 import SubjectpageAbout from './SubjectpageAbout';
@@ -21,10 +21,9 @@ interface Props {
   editorsChoices: (IArticle | ILearningPathV2)[];
   elementId: string;
   errors: FormikErrors<SubjectPageFormikType>;
-  handleSubmit: (formik: FormikProps<SubjectPageFormikType>) => void;
 }
 
-const SubjectpageAccordionPanels = ({ editorsChoices, elementId, errors, handleSubmit }: Props) => {
+const SubjectpageAccordionPanels = ({ editorsChoices, elementId, errors }: Props) => {
   const { t } = useTranslation();
 
   const SubjectPageArticle = () => (
@@ -43,7 +42,7 @@ const SubjectpageAccordionPanels = ({ editorsChoices, elementId, errors, handleS
         className="u-4/6@desktop u-push-1/6@desktop"
         hasError={['title', 'description', 'visualElement'].some((field) => field in errors)}
       >
-        <SubjectpageAbout handleSubmit={handleSubmit} />
+        <SubjectpageAbout />
       </FormAccordion>
       <FormAccordion
         id="metadata"

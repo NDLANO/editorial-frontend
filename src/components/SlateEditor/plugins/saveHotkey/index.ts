@@ -9,10 +9,11 @@
 import { Editor, Transforms } from 'slate';
 import isHotkey from 'is-hotkey';
 import { ReactEditor } from 'slate-react';
+import { SAVE_BUTTON_ID } from '../../../../constants';
 
 const isSaveHotkey = isHotkey('mod+s');
 
-const saveHotkeyPlugin = (handleSubmit: () => void) => (editor: Editor) => {
+const saveHotkeyPlugin = (editor: Editor) => {
   const { onKeyDown: nextOnKeyDown } = editor;
   editor.onKeyDown = (e: KeyboardEvent) => {
     if (isSaveHotkey(e)) {
@@ -26,7 +27,7 @@ const saveHotkeyPlugin = (handleSubmit: () => void) => (editor: Editor) => {
         editor.lastSelectedBlock = Editor.node(editor, editor.selection)[0];
         ReactEditor.deselect(editor);
       }
-      handleSubmit();
+      document.getElementById(SAVE_BUTTON_ID)?.click();
     } else if (nextOnKeyDown) {
       nextOnKeyDown(e);
     }

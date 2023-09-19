@@ -252,7 +252,7 @@ test('reduceElementDataAttributesV2 leaves weird parameters alone', () => {
     { name: 'data-imageid', value: '1234' },
     { name: 'data-resource_id', value: '123' },
   ];
-  const expected = { imageid: '1234', resource_id: '123', 'aria-label': 'Test' };
+  const expected = { imageid: '1234', resourceId: '123', 'aria-label': 'Test' };
   const res = reduceElementDataAttributesV2(attributes);
   expect(res).toEqual(expected);
 });

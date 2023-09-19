@@ -15,14 +15,7 @@ import { TYPE_HEADING } from '../../heading/types';
 import { TYPE_PARAGRAPH } from '../../paragraph/types';
 import { TYPE_SECTION } from '../types';
 
-const editor = withHistory(
-  withReact(
-    withPlugins(
-      createEditor(),
-      plugins('nb', 'nb', () => {}),
-    ),
-  ),
-);
+const editor = withHistory(withReact(withPlugins(createEditor(), plugins('nb'))));
 
 describe('section normalizer tests', () => {
   test('adds paragraph to empty section', () => {

@@ -193,7 +193,7 @@ export const useSavedSearchUrl = (currentUserData: IUserData | undefined): Searc
   const filterToSearchTextMapping = (searchObject: SearchObjectType): SearchObjectType => ({
     type: searchObject.type && t(`searchTypes.${searchObject.type}`),
     query: searchObject.query && `"${searchObject.query}"`,
-    language: searchObject.language && t(`language.${searchObject.language}`),
+    language: searchObject.language && t(`languages.${searchObject.language}`),
     subjects:
       searchObject.subjects && searchObject.subjects === FAVOURITES_SUBJECT_ID
         ? t('searchForm.favourites')

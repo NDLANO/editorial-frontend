@@ -41,7 +41,7 @@ const LanguageSelector = ({ supportedLanguages }: Props) => {
     >
       {supportedLanguages.map((supportedLanguage) => (
         <option key={supportedLanguage} value={supportedLanguage}>
-          {t(`language.${supportedLanguage}`)}
+          {t(`languages.${supportedLanguage}`)}
         </option>
       ))}
     </StyledSelect>

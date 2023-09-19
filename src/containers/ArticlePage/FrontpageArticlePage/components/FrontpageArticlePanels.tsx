@@ -7,7 +7,7 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { FormikHelpers, useFormikContext } from 'formik';
+import { useFormikContext } from 'formik';
 import { IArticle } from '@ndla/types-backend/draft-api';
 import { CopyrightFieldGroup, VersionAndNotesPanel, MetaDataField } from '../../../FormikForm';
 import { FrontpageArticleFormType } from '../../../FormikForm/articleFormHooks';
@@ -18,15 +18,11 @@ import FormAccordion from '../../../../components/Accordion/FormAccordion';
 import { useWideArticle } from '../../../../components/WideArticleEditorProvider';
 
 interface Props {
-  handleSubmit: (
-    values: FrontpageArticleFormType,
-    formikHelpers: FormikHelpers<FrontpageArticleFormType>,
-  ) => Promise<void>;
   article?: IArticle;
   articleLanguage: string;
 }
 
-const FrontpageArticlePanels = ({ article, handleSubmit, articleLanguage }: Props) => {
+const FrontpageArticlePanels = ({ article, articleLanguage }: Props) => {
   const { t } = useTranslation();
   const formikContext = useFormikContext<FrontpageArticleFormType>();
   const { values, errors, handleBlur } = formikContext;
@@ -49,7 +45,6 @@ const FrontpageArticlePanels = ({ article, handleSubmit, articleLanguage }: Prop
         <FrontpageArticleFormContent
           articleLanguage={articleLanguage}
           formik={formikContext}
-          handleSubmit={() => handleSubmit(values, formikContext)}
           handleBlur={handleBlur}
           values={values}
         />

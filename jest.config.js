@@ -5,4 +5,5 @@ module.exports = {
   snapshotSerializers: ['@emotion/jest/serializer'],
   testEnvironment: 'jest-environment-jsdom',
   preset: 'ts-jest/presets/js-with-babel',
+  maxWorkers: '50%',
 };

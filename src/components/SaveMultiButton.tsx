@@ -34,6 +34,7 @@ const StyledCheck = styled(Check)`
 
 interface Props {
   isSaving: boolean;
+  saveId?: string;
   showSaved: boolean;
   formIsDirty?: boolean;
   large?: boolean;
@@ -50,6 +51,7 @@ const SaveMultiButton = ({
   large,
   disabled,
   onClick,
+  saveId,
   hideSecondaryButton,
   ...rest
 }: Props) => {
@@ -67,6 +69,7 @@ const SaveMultiButton = ({
     <>
       <Wrapper modifier={modifier} data-testid="saveLearningResourceButtonWrapper">
         <MultiButton
+          mainId={saveId}
           disabled={disabledButton}
           onClick={(value: string) => {
             const saveAsNewVersion = value === 'saveAsNew';

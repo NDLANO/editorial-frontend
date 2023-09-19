@@ -9,13 +9,14 @@
 import nock from 'nock';
 import { MemoryRouter } from 'react-router-dom';
 import { render } from '@testing-library/react';
+import { ReactNode } from 'react';
 import { MastheadSearchForm } from '../components/MastheadSearchForm';
 import { taxonomyApi } from '../../../config';
 import IntlWrapper from '../../../util/__tests__/IntlWrapper';
 
 const noop = () => {};
 
-const wrapper = (component) => (
+const wrapper = (component: ReactNode) => (
   <MemoryRouter>
     <IntlWrapper>{component}</IntlWrapper>
   </MemoryRouter>
@@ -27,15 +28,21 @@ test('MastheadSearchForm redirects on ndla url paste with id at the end', () => 
   };
 
   const { container } = render(
-    wrapper(<MastheadSearchForm query="" onSearchQuerySubmit={noop} onChange={noop} />),
+    wrapper(
+      <MastheadSearchForm
+        query=""
+        onSearchQuerySubmit={noop}
+        onChange={noop}
+        setQuery={noop}
+        setMenuOpen={noop}
+      />,
+    ),
   );
   expect(container).toMatchSnapshot();
   setTimeout(() => {
-    expect(historyMock.push.calledOnce).toBeTruthy();
-    expect(historyMock.push.calledWith('/subject-matter/learning-resource/3333/edit/nb')).toBe(
-      true,
-    );
-  }, global.DEFAULT_TIMEOUT);
+    expect(historyMock.push).toBeCalledTimes(1);
+    expect(historyMock.push).toBeCalledWith('/subject-matter/learning-resource/3333/edit/nb');
+  });
 });
 
 test('MastheadSearchForm redirects on ndla url paste with taxonomy id at the end', () => {
@@ -53,14 +60,16 @@ test('MastheadSearchForm redirects on ndla url paste with taxonomy id at the end
         query="https://ndla-frontend.test.api.ndla.no/article/urn:subject:100/urn:topic:1:179373"
         onChange={noop}
         onSearchQuerySubmit={noop}
+        setMenuOpen={noop}
+        setQuery={noop}
       />,
     ),
   );
   expect(container).toMatchSnapshot();
   setTimeout(() => {
-    expect(historyMock.push.calledOnce).toBeTruthy();
-    expect(historyMock.push.calledWith('/subject-matter/topic-article/4232/edit/nb')).toBe(true);
-  }, global.DEFAULT_TIMEOUT);
+    expect(historyMock.push).toBeCalledTimes(1);
+    expect(historyMock.push).toBeCalledWith('/subject-matter/topic-article/4232/edit/nb');
+  });
 });
 
 test('MastheadSearchForm redirects on old ndla url paste with new id', () => {
@@ -76,16 +85,16 @@ test('MastheadSearchForm redirects on old ndla url paste with new id', () => {
         query="https://ndla.no/nb/node/4737?fag=36"
         onChange={noop}
         onSearchQuerySubmit={noop}
+        setMenuOpen={noop}
+        setQuery={noop}
       />,
     ),
   );
   expect(container).toMatchSnapshot();
   setTimeout(() => {
-    expect(historyMock.push.calledOnce).toBeTruthy();
-    expect(historyMock.push.getCall(0).args[0]).toBe(
-      '/subject-matter/learning-resource/123/edit/nb',
-    );
-  }, global.DEFAULT_TIMEOUT);
+    expect(historyMock.push).toBeCalledTimes(1);
+    expect(historyMock.push).nthCalledWith(0, '/subject-matter/learning-resource/123/edit/nb');
+  });
 });
 
 test('MastheadSearchForm invalid id at the end of the url', () => {
@@ -99,13 +108,15 @@ test('MastheadSearchForm invalid id at the end of the url', () => {
         onChange={noop}
         query="https://ndla-frontend.test.api.ndla.no/article/urn:subject:100/urn:topic:1:179373/urn:resource:1:16838"
         onSearchQuerySubmit={noop}
+        setMenuOpen={noop}
+        setQuery={noop}
       />,
     ),
   );
   expect(container).toMatchSnapshot();
   setTimeout(() => {
-    expect(historyMock.push.calledOnce).toBe(false);
-  }, global.DEFAULT_TIMEOUT);
+    expect(historyMock.push).not.toBeCalledTimes(1);
+  });
 });
 
 test('MastheadSearchForm redirects on ndla node id pasted', () => {
@@ -115,11 +126,19 @@ test('MastheadSearchForm redirects on ndla node id pasted', () => {
   nock('http://ndla-api').get('/draft-api/v1/drafts/external_id/4737').reply(200, { id: '123' });
 
   const { container } = render(
-    wrapper(<MastheadSearchForm query="#4737" onChange={noop} onSearchQuerySubmit={noop} />),
+    wrapper(
+      <MastheadSearchForm
+        query="#4737"
+        onChange={noop}
+        onSearchQuerySubmit={noop}
+        setMenuOpen={noop}
+        setQuery={noop}
+      />,
+    ),
   );
   expect(container).toMatchSnapshot();
   setTimeout(() => {
-    expect(historyMock.push.calledOnce).toBeTruthy();
-    expect(historyMock.push.calledWith('/subject-matter/learning-resource/123/edit/nb')).toBe(true);
-  }, global.DEFAULT_TIMEOUT);
+    expect(historyMock.push).toBeCalledTimes(1);
+    expect(historyMock.push).toBeCalledWith('/subject-matter/learning-resource/123/edit/nb');
+  });
 });

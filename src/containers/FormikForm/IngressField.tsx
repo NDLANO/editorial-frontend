@@ -36,7 +36,6 @@ interface Props {
   placeholder?: string;
   preview?: boolean;
   concept?: boolean;
-  handleSubmit: () => void;
 }
 
 const IngressField = ({
@@ -45,12 +44,8 @@ const IngressField = ({
   placeholder,
   preview = false,
   concept = false,
-  handleSubmit,
 }: Props) => {
-  const plugins = useMemo(
-    () => [textTransformPlugin, saveHotkeyPlugin(handleSubmit)],
-    [handleSubmit],
-  );
+  const plugins = useMemo(() => [textTransformPlugin, saveHotkeyPlugin], []);
 
   const { t } = useTranslation();
   return (
@@ -74,7 +69,6 @@ const IngressField = ({
               placeholder={placeholder || t('form.introduction.label')}
               className="article_introduction"
               data-testid="learning-resource-ingress"
-              handleSubmit={handleSubmit}
               submitted={isSubmitting}
               plugins={plugins}
             />

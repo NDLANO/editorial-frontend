@@ -41,22 +41,22 @@ const HeaderSupportedLanguages = ({
         language === supportedLanguage ? (
           <HeaderLanguagePill current key={`types_${supportedLanguage}`}>
             <Check />
-            {t(`language.${supportedLanguage}`)}
+            {t(`languages.${supportedLanguage}`)}
           </HeaderLanguagePill>
         ) : (
           <HeaderLanguagePill
-            aria-label={t('language.change', {
-              language: t(`language.${supportedLanguage}`),
+            aria-label={t('languages.change', {
+              language: t(`languages.${supportedLanguage}`),
             })}
-            title={t('language.change', {
-              language: t(`language.${supportedLanguage}`),
+            title={t('languages.change', {
+              language: t(`languages.${supportedLanguage}`),
             })}
             to={editUrl(id, supportedLanguage)}
             component={replace ? LinkWithReplace : SafeLink}
             isSubmitting={isSubmitting}
             key={`types_${supportedLanguage}`}
           >
-            {t(`language.${supportedLanguage}`)}
+            {t(`languages.${supportedLanguage}`)}
           </HeaderLanguagePill>
         ),
       )}

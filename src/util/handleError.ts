@@ -6,7 +6,7 @@
  *
  */
 
-const handleError = (error, ...rest) => {
+const handleError = (error: any, ...rest: any[]) => {
   if (process.env.NODE_ENV === 'production') {
     window.errorReporter.captureError(error);
     // No logging when unit testing

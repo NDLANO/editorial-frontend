@@ -89,7 +89,7 @@ const AddNodeTranslation = ({ onAddTranslation, availableLanguages, defaultName 
                     <Select {...field}>
                       {availableLanguages.map((lang) => (
                         <option value={lang} key={lang}>
-                          {t(`language.${lang}`)}
+                          {t(`languages.${lang}`)}
                         </option>
                       ))}
                     </Select>

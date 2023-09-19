@@ -57,15 +57,15 @@ const mapping: Record<string, ContentTypeType> = {
 };
 
 export const getResourceLanguages = (t: TFunction) => [
-  { id: 'nb', name: t('language.nb') },
-  { id: 'nn', name: t('language.nn') },
-  { id: 'en', name: t('language.en') },
-  { id: 'sma', name: t('language.sma') },
-  { id: 'se', name: t('language.se') },
-  { id: 'ukr', name: t('language.ukr') },
-  { id: 'und', name: t('language.und') },
-  { id: 'de', name: t('language.de') },
-  { id: 'es', name: t('language.es') },
+  { id: 'nb', name: t('languages.nb') },
+  { id: 'nn', name: t('languages.nn') },
+  { id: 'en', name: t('languages.en') },
+  { id: 'sma', name: t('languages.sma') },
+  { id: 'se', name: t('languages.se') },
+  { id: 'ukr', name: t('languages.ukr') },
+  { id: 'und', name: t('languages.und') },
+  { id: 'de', name: t('languages.de') },
+  { id: 'es', name: t('languages.es') },
 ];
 
 export const getContentTypeFromResourceTypes = (

@@ -18,16 +18,12 @@ interface Props {
   maxLength?: number;
   name?: string;
   type?: string;
-  handleSubmit: () => void;
 }
 
-const TitleField = ({ maxLength = 256, name = 'title', handleSubmit }: Props) => {
+const TitleField = ({ maxLength = 256, name = 'title' }: Props) => {
   const { t } = useTranslation();
 
-  const plugins = useMemo(
-    () => [textTransformPlugin, saveHotkeyPlugin(handleSubmit)],
-    [handleSubmit],
-  );
+  const plugins = useMemo(() => [textTransformPlugin, saveHotkeyPlugin], []);
 
   return (
     <FormikField noBorder label={t('form.title.label')} name={name} title maxLength={maxLength}>
@@ -40,7 +36,6 @@ const TitleField = ({ maxLength = 256, name = 'title', handleSubmit }: Props) =>
           data-testid="learning-resource-title"
           plugins={plugins}
           submitted={isSubmitting}
-          handleSubmit={handleSubmit}
         />
       )}
     </FormikField>

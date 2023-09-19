@@ -21,13 +21,11 @@ import '@fontsource/source-serif-pro/700.css';
 // import before all other imports component to make sure it is loaded before any emotion stuff.
 import '../../style/index.css';
 
-import { ReactElement, useContext, useEffect } from 'react';
+import { ReactElement } from 'react';
 import { Helmet } from 'react-helmet-async';
 import loadable from '@loadable/component';
-import { History } from 'history';
 import { PageContainer } from '@ndla/ui';
-import { configureTracker } from '@ndla/tracker';
-import { Route, Routes, UNSAFE_NavigationContext } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import Navigation from '../Masthead/components/Navigation';
@@ -66,24 +64,8 @@ const StyledContent = styled.div`
   flex: 1;
 `;
 
-interface Props {
-  isClient?: boolean;
-}
-
-const App = ({ isClient }: Props) => {
+const App = () => {
   const { t } = useTranslation();
-  // Listen has been partially removed.
-  const navigator = useContext(UNSAFE_NavigationContext).navigator as History;
-
-  useEffect(() => {
-    if (isClient) {
-      configureTracker({
-        listen: navigator.listen,
-        googleTagManagerId: config.googleTagManagerId,
-      });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <ErrorBoundary>

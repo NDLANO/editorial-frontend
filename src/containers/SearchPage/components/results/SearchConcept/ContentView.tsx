@@ -80,7 +80,7 @@ const ContentView = ({
               key={`language_${lang}_${concept.id}`}
               to={toEditConcept(concept.id, lang)}
             >
-              {t(`language.${lang}`)}
+              {t(`languages.${lang}`)}
             </StyledLink>
           ) : (
             ''

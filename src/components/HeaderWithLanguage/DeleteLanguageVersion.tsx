@@ -163,7 +163,7 @@ const DeleteLanguageVersion = ({ id, language, supportedLanguages, type, disable
         <DeleteForever />
         <span>
           {t('form.workflow.deleteLanguageVersion.button', {
-            languageVersion: t(`language.${language}`).toLowerCase(),
+            languageVersion: t(`languages.${language}`).toLowerCase(),
           })}
         </span>
       </DeleteButton>
@@ -179,7 +179,7 @@ const DeleteLanguageVersion = ({ id, language, supportedLanguages, type, disable
           },
           {
             text: t('form.workflow.deleteLanguageVersion.button', {
-              languageVersion: t(`language.${language}`).toLowerCase(),
+              languageVersion: t(`languages.${language}`).toLowerCase(),
             }),
             onClick: deleteLanguageVersion,
           },

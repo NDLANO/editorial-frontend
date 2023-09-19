@@ -69,13 +69,13 @@ test.beforeEach(async ({ page }) => {
 });
 
 test('editor is visible', async ({ page }) => {
-  const mathEditor = page.locator('[data-cy="modal-body"]').getByRole('application');
+  const mathEditor = page.getByTestId('modal-body').getByRole('application');
   await mathEditor.waitFor();
   await expect(mathEditor).toBeVisible();
 });
 
 test('contains text from slate editor', async ({ page }) => {
-  const mathEditor = page.locator('[data-cy="modal-body"]').getByRole('application');
+  const mathEditor = page.getByTestId('modal-body').getByRole('application');
   await mathEditor.waitFor();
   await mathEditor.locator('[class="wrs_container"]').waitFor();
   expect((await mathEditor.locator('[class="wrs_container"]').textContent())?.slice(1)).toEqual(
@@ -84,7 +84,7 @@ test('contains text from slate editor', async ({ page }) => {
 });
 
 test('can change text and save', async ({ page }) => {
-  const mathEditor = page.locator('[data-cy="modal-body"]').getByRole('application');
+  const mathEditor = page.getByTestId('modal-body').getByRole('application');
   await mathEditor.waitFor();
   await mathEditor.locator('[class="wrs_focusElementContainer"]').getByRole('textbox').click();
   await page.keyboard.type('=112');
@@ -93,7 +93,7 @@ test('can change text and save', async ({ page }) => {
 });
 
 test('can change preview when preview button pressed', async ({ page }) => {
-  const mathEditor = page.locator('[data-cy="modal-body"]').getByRole('application');
+  const mathEditor = page.getByTestId('modal-body').getByRole('application');
   await mathEditor.waitFor();
   expect(await page.getByTestId('preview-math-text').textContent()).toEqual('111+1');
   await mathEditor.locator('[class="wrs_focusElementContainer"]').getByRole('textbox').click();
@@ -103,7 +103,7 @@ test('can change preview when preview button pressed', async ({ page }) => {
 });
 
 test('can provide modal when leaving unchecked edits', async ({ page }) => {
-  const mathEditor = page.locator('[data-cy="modal-body"]').getByRole('application');
+  const mathEditor = page.getByTestId('modal-body').getByRole('application');
   await mathEditor.waitFor();
   await mathEditor.locator('[class="wrs_focusElementContainer"]').getByRole('textbox').click();
   await page.keyboard.type('=112');

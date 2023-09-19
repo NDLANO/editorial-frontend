@@ -64,8 +64,7 @@ const SlateCampaignBlock = ({ element, editor, attributes, children }: Props) =>
   const { t } = useTranslation();
   const [isEditing, setIsEditing] = useState(element.isFirstEdit);
   const campaignBlock = element.data;
-  const [leftImage, setLeftImage] = useState<IImageMetaInformationV3 | undefined>(undefined);
-  const [rightImage, setRightImage] = useState<IImageMetaInformationV3 | undefined>(undefined);
+  const [image, setImage] = useState<IImageMetaInformationV3 | undefined>(undefined);
 
   const onClose = useCallback(() => {
     ReactEditor.focus(editor);
@@ -103,18 +102,11 @@ const SlateCampaignBlock = ({ element, editor, attributes, children }: Props) =>
   );
 
   useEffect(() => {
-    if (campaignBlock?.imageBeforeId) {
-      fetchImage(campaignBlock.imageBeforeId).then((img) => setLeftImage(img));
-    } else {
-      setLeftImage(undefined);
+    if (campaignBlock?.imageId) {
+      fetchImage(campaignBlock.imageId).then((img) => setImage(img));
     }
-    if (campaignBlock?.imageAfterId) {
-      fetchImage(campaignBlock.imageAfterId).then((img) => setRightImage(img));
-    } else {
-      setRightImage(undefined);
-    }
-  }, [campaignBlock?.imageAfterId, campaignBlock?.imageBeforeId]);
-  //
+  }, [campaignBlock?.imageId, setImage]);
+
   const handleRemove = useCallback(
     () =>
       Transforms.removeNodes(editor, { at: ReactEditor.findPath(editor, element), voids: true }),
@@ -155,12 +147,8 @@ const SlateCampaignBlock = ({ element, editor, attributes, children }: Props) =>
               }}
               headingLevel={campaignBlock.headingLevel}
               url={{ url: campaignBlock.url, text: campaignBlock.urlText }}
-              imageBefore={
-                leftImage && { src: leftImage.image.imageUrl, alt: leftImage.alttext.alttext }
-              }
-              imageAfter={
-                rightImage && { src: rightImage.image.imageUrl, alt: rightImage.alttext.alttext }
-              }
+              image={image && { src: image.image.imageUrl, alt: image.alttext.alttext }}
+              imageSide={campaignBlock.imageSide}
             />
           </div>
         )}

@@ -46,40 +46,40 @@ test.beforeEach(async ({ page }) => {
   await Promise.all([zendesk, responsibles, licenses, statuses]);
   const el = page.locator('[data-cy="slate-editor"]');
   await el.click();
-  await page.locator('[data-cy="slate-block-picker"]').click();
-  await expect(page.locator('[data-cy="slate-block-picker-menu"]')).toBeVisible();
+  await page.getByTestId('slate-block-picker').click();
+  await expect(page.getByTestId('slate-block-picker-menu')).toBeVisible();
 });
 
 test('adds and removes factAside', async ({ page }) => {
-  await page.locator('[data-cy="create-factAside"]').click();
+  await page.getByTestId('create-factAside').click();
   await expect(page.locator('[data-cy="remove-fact-aside"]')).toBeVisible();
   await page.locator('[data-cy="remove-fact-aside"]').click();
   await expect(page.locator('[data-cy="remove-fact-aside"]')).toHaveCount(0);
 });
 
 test('adds and removes table', async ({ page }) => {
-  await page.locator('[data-cy="create-table"]').click();
+  await page.getByTestId('create-table').click();
   await expect(page.locator('[data-cy="table-remove"]')).toBeVisible();
   await page.locator('[data-cy="table-remove"]').click();
   await expect(page.locator('[data-cy="table-remove"]')).toHaveCount(0);
 });
 
 test('adds and removes bodybox', async ({ page }) => {
-  await page.locator('[data-cy="create-bodybox"]').click();
+  await page.getByTestId('create-bodybox').click();
   await expect(page.locator('[data-cy="remove-bodybox"]')).toBeVisible();
   await page.locator('[data-cy="remove-bodybox"]').click();
   await expect(page.locator('[data-cy="remove-bodybox"]')).toHaveCount(0);
 });
 
 test('adds and removes details', async ({ page }) => {
-  await page.locator('[data-cy="create-details"]').click();
+  await page.getByTestId('create-details').click();
   await expect(page.locator('[data-cy="remove-details"]')).toBeVisible();
   await page.locator('[data-cy="remove-details"]').click();
   await expect(page.locator('[data-cy="remove-details"]')).toHaveCount(0);
 });
 
 test('adds and removes grid', async ({ page }) => {
-  await page.locator('[data-cy="create-grid"]').click();
+  await page.getByTestId('create-grid').click();
   await expect(page.locator('[data-cy="remove-grid"]')).toBeVisible();
   await page.getByTestId('grid-cell').first().click();
   await page.locator('[data-cy="slate-block-picker"]').click();
@@ -91,9 +91,9 @@ test('adds and removes grid', async ({ page }) => {
 });
 
 test('adds and removes code-block', async ({ page }) => {
-  await page.locator('[data-cy="create-code"]').click();
-  await expect(page.locator('[data-cy="modal-header"]')).toBeVisible();
-  const modalBody = page.locator('[data-cy="modal-body"]');
+  await page.getByTestId('create-code').click();
+  await expect(page.getByTestId('modal-header')).toBeVisible();
+  const modalBody = page.getByTestId('modal-body');
   await modalBody.locator('input').first().fill('Tittel');
   await modalBody.locator('select').selectOption('HTML');
   await modalBody.locator('textarea').first().fill('Some <strong>markup</strong>{enter}Newline');
@@ -120,11 +120,11 @@ test('adds and removes image', async ({ page }) => {
     fixture: 'blockpicker_image',
     overrideValue: (val) => JSON.stringify({ ...JSON.parse(val), copyright: copyrightMock }),
   });
-  await page.locator('[data-cy="create-image"]').click();
+  await page.getByTestId('create-image').click();
   await images;
-  await page.locator('[data-cy="select-image-from-list"]').first().click();
+  await page.getByTestId('select-image-from-list').first().click();
   await image;
-  await page.locator('[data-cy="use-image"]').click();
+  await page.getByTestId('use-image').click();
   await expect(page.locator('[data-cy="remove-element"]')).toBeVisible();
   await page.locator('[data-cy="remove-element"]').click();
   await expect(page.locator('[data-cy="remove-element"]')).toHaveCount(0);
@@ -152,9 +152,9 @@ test('opens and closes video', async ({ page }) => {
     path: '**/playback/v1/accounts/*/videos/6317543916112',
     fixture: 'brightcove_playback',
   });
-  await page.locator('[data-cy="create-video"]').click();
+  await page.getByTestId('create-video').click();
   await Promise.all([brightcoveToken, brightcoveVideos]);
-  await page.locator('[data-cy="use-video"]').first().click();
+  await page.getByTestId('use-video').first().click();
   await Promise.all([brightcoveVideo, brightcovePlayback]);
   await expect(page.locator('[data-cy="remove-element"]')).toBeVisible();
   await page.locator('[data-cy="remove-element"]').click();
@@ -173,28 +173,28 @@ test('opens and closes audio', async ({ page }) => {
     path: '**/audio-api/v1/audio/*?language=nb',
     fixture: 'blockpicker_any_audio',
   });
-  await page.locator('[data-cy="create-audio"]').click();
+  await page.getByTestId('create-audio').click();
   await Promise.all([audios, reusedAudio]);
-  await expect(page.locator('[data-cy="modal-header"]')).toBeVisible();
+  await expect(page.getByTestId('modal-header')).toBeVisible();
   await page.getByRole('button').getByText('Velg lyd').first().click();
-  await expect(page.locator('[data-cy="modal-header"]')).toHaveCount(0);
+  await expect(page.getByTestId('modal-header')).toHaveCount(0);
   await expect(page.locator('[data-cy="remove-element"]')).toBeVisible();
   await page.locator('[data-cy="remove-element"]').click();
   await expect(page.locator('[data-cy="remove-element"]')).toHaveCount(0);
 });
 
 test('opens and closes file', async ({ page }) => {
-  await page.locator('[data-cy="create-file"]').click();
-  await expect(page.locator('[data-cy="modal-header"]')).toBeVisible();
-  await page.locator("[data-cy='close-modal-button']").click();
-  await expect(page.locator('[data-cy="modal-header"]')).toHaveCount(0);
+  await page.getByTestId('create-file').click();
+  await expect(page.getByTestId('modal-header')).toBeVisible();
+  await page.getByTestId('close-modal-button').click();
+  await expect(page.getByTestId('modal-header')).toHaveCount(0);
 });
 
 test('opens and closes url', async ({ page }) => {
-  await page.locator('[data-cy="create-url"]').click();
-  await expect(page.locator('[data-cy="modal-header"]')).toBeVisible();
-  await page.locator("[data-cy='close-modal-button']").click();
-  await expect(page.locator('[data-cy="modal-header"]')).toHaveCount(0);
+  await page.getByTestId('create-url').click();
+  await expect(page.getByTestId('modal-header')).toBeVisible();
+  await page.getByTestId('close-modal-button').click();
+  await expect(page.getByTestId('modal-header')).toHaveCount(0);
 });
 
 test('opens and closes related content', async ({ page }) => {
@@ -203,7 +203,7 @@ test('opens and closes related content', async ({ page }) => {
     path: '**/search-api/v1/search/editorial/*',
     fixture: 'blockpicker_related_content',
   });
-  await page.locator('[data-cy="create-related"]').click();
+  await page.getByTestId('create-related').click();
   await relatedContent;
   await expect(page.getByTestId('editRelated')).toBeVisible();
   await page.locator("[data-cy='close-related-button']").click();

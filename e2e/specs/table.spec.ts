@@ -45,9 +45,9 @@ test.beforeEach(async ({ page }) => {
 test('all table functions work', async ({ page }) => {
   const el = page.locator('[data-cy="slate-editor"]');
   await el.click();
-  await page.locator('[data-cy="slate-block-picker"]').click();
-  await expect(page.locator('[data-cy="slate-block-picker-menu"]')).toBeVisible();
-  await page.locator('[data-cy="create-table"]').click();
+  await page.getByTestId('slate-block-picker').click();
+  await expect(page.getByTestId('slate-block-picker-menu')).toBeVisible();
+  await page.getByTestId('create-table').click();
   const caption = page.locator('caption');
   await caption.click();
   await page.keyboard.type('TITTEL!');

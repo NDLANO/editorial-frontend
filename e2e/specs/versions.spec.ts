@@ -146,9 +146,9 @@ test('Open previews', async ({ page }) => {
   await page.getByRole('heading', { name: 'Versjonslogg og merknader' }).click();
   await page.getByTestId('previewVersion').last().click();
   await page.getByRole('article').first().waitFor();
-  await expect(page.locator('[data-cy="close-modal-button"]')).toBeVisible();
+  await expect(page.getByTestId('close-modal-button')).toBeVisible();
   expect(await page.getByRole('article').count()).toBe(2);
-  await page.locator('[data-cy="close-modal-button"]').click();
+  await page.getByTestId('close-modal-button').click();
   await expect(page.getByTestId('preview-draft-modal')).toBeVisible({ visible: false });
 });
 

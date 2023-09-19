@@ -740,7 +740,7 @@ const phrases = {
       descriptionlanguage: 'Beskrivelse-språk',
       url: 'Lenke',
       date: 'Dato',
-      sides: 'Kva for ein side bilete skal vises på',
+      sides: 'Kva for ei side biletet skal vises på',
     },
     previewProductionArticle: {
       button: 'Samanlikn gjeldande versjon med gamal versjon',

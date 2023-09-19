@@ -22,6 +22,7 @@ export const audioApiTypeToFormType = (
     processors: [],
     rightsholders: [],
     license: DEFAULT_LICENSE,
+    processed: false,
   };
   const license = audio?.copyright.license.license;
   const audioLicense = !license || license === 'unknown' ? DEFAULT_LICENSE.license : license;

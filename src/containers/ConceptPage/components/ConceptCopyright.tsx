@@ -17,7 +17,7 @@ interface Props {
 const ConceptCopyright = ({ label, description }: Props) => {
   return (
     <>
-      <CopyrightFieldGroup enableLicenseNA={true} disableOrigin={true} />
+      <CopyrightFieldGroup enableLicenseNA={true} />
       <FormikField label={label} name="source" description={description} />
     </>
   );

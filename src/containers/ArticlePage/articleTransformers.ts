@@ -72,6 +72,7 @@ const draftApiTypeToArticleFormType = (
     metaImageId: parseImageUrl(article?.metaImage),
     notes: [],
     processors: article?.copyright?.processors ?? [],
+    processed: article?.copyright?.processed ?? false,
     published: article?.published,
     revision: article?.revision,
     rightsholders: article?.copyright?.rightsholders ?? [],
@@ -166,6 +167,7 @@ export const learningResourceFormTypeToDraftApiType = (
       creators: article.creators,
       processors: article.processors,
       rightsholders: article.rightsholders,
+      processed: article.processed,
     },
     introduction: editorValueToPlainText(article.introduction),
     language: article.language,
@@ -205,6 +207,7 @@ export const frontpageArticleFormTypeToDraftApiType = (
       creators: article.creators,
       processors: article.processors,
       rightsholders: article.rightsholders,
+      processed: article.processed,
     },
     introduction: editorValueToPlainText(article.introduction),
     language: article.language,
@@ -240,7 +243,7 @@ export const topicArticleFormTypeToDraftApiType = (
     creators: article.creators,
     processors: article.processors,
     rightsholders: article.rightsholders,
-    agreementId: article.agreementId,
+    processed: article.processed,
   };
 
   return {

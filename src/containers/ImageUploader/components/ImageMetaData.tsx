@@ -13,8 +13,8 @@ import { fetchSearchTags } from '../../../modules/image/imageApi';
 import FormikField from '../../../components/FormikField';
 import { LicenseField, ContributorsField } from '../../FormikForm';
 import AsyncSearchTags from '../../../components/Dropdown/asyncDropdown/AsyncSearchTags';
-
-const contributorTypes = ['creators', 'rightsholders', 'processors'];
+import OriginField from '../../FormikForm/components/OriginField';
+import CopyrightFieldGroup from '../../FormikForm/CopyrightFieldGroup';
 
 interface Props {
   imageTags: string[];
@@ -42,12 +42,7 @@ const ImageMetaData = ({ imageTags, imageLanguage }: Props) => {
           />
         )}
       </FormikField>
-      <FormikField name="license">
-        {({ field }: { field: FieldInputProps<string> }) => <LicenseField {...field} />}
-      </FormikField>
-      <FormikField label={t('form.origin.label')} name="origin" />
-      <ContributorsField contributorTypes={contributorTypes} />
-
+      <CopyrightFieldGroup />
       <FormikField
         name="modelReleased"
         label={t('form.modelReleased.label')}

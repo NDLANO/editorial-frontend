@@ -42,7 +42,6 @@ const deleteRemovedFiles = async (oldArticleContent: string, newArticleContent: 
 };
 
 export interface ArticleFormType {
-  agreementId?: number;
   articleType: string;
   availability: string;
   conceptIds: number[];
@@ -80,6 +79,7 @@ export interface ArticleFormType {
   slug?: string;
   comments?: IComment[];
   prioritized: boolean;
+  processed: boolean;
 }
 
 export interface LearningResourceFormType extends ArticleFormType {

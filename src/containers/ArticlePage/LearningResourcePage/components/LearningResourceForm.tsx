@@ -88,7 +88,10 @@ const LearningResourceForm = ({
     ndlaId,
   });
   const contexts = useMemo(
-    () => articleTaxonomy?.flatMap((node) => node.contexts),
+    () =>
+      articleTaxonomy
+        ?.flatMap((node) => node.contexts)
+        .filter((context) => !context.rootId.includes('programme')),
     [articleTaxonomy],
   );
 

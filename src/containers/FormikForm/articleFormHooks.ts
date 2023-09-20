@@ -80,11 +80,10 @@ export interface ArticleFormType {
   comments?: IComment[];
   prioritized: boolean;
   processed: boolean;
-}
-
-export interface LearningResourceFormType extends ArticleFormType {
   origin?: string;
 }
+
+export interface LearningResourceFormType extends ArticleFormType {}
 
 export interface TopicArticleFormType extends ArticleFormType {
   visualElement: Descendant[];
@@ -132,7 +131,7 @@ export function useArticleFormHooks<T extends ArticleFormType>({
   ndlaId,
 }: HooksInputObject<T>) {
   const { id, revision } = article ?? {};
-  const formikRef: any = useRef<any>(null); // TODO: Formik bruker any for denne ref'en men kanskje vi skulle gjort noe kulere?
+  const formikRef: any = useRef<any>(null);
   const { createMessage, applicationError } = useMessages();
   const { data: licenses } = useLicenses({ placeholderData: [] });
   const [savedToServer, setSavedToServer] = useState(false);

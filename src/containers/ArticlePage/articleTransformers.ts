@@ -67,6 +67,7 @@ const draftApiTypeToArticleFormType = (
     introduction: plainTextToEditorValue(article?.introduction?.introduction ?? ''),
     language,
     license: articleLicense,
+    origin: article?.copyright?.origin,
     metaDescription: plainTextToEditorValue(article?.metaDescription?.metaDescription ?? ''),
     metaImageAlt: article?.metaImage?.alt ?? '',
     metaImageId: parseImageUrl(article?.metaImage),
@@ -111,7 +112,6 @@ export const draftApiTypeToLearningResourceFormType = (
       ndlaId,
       blockContentToEditorValue,
     ),
-    origin: article?.copyright?.origin,
   };
 };
 
@@ -203,6 +203,7 @@ export const frontpageArticleFormTypeToDraftApiType = (
     articleType: 'frontpage-article',
     content: blockContentToHTML(article.content),
     copyright: {
+      origin: article.origin,
       license: licenses.find((lic) => lic.license === article.license),
       creators: article.creators,
       processors: article.processors,
@@ -240,6 +241,7 @@ export const topicArticleFormTypeToDraftApiType = (
 
   const copyright = {
     license: licenses.find((l) => l.license === article.license),
+    origin: article.origin,
     creators: article.creators,
     processors: article.processors,
     rightsholders: article.rightsholders,

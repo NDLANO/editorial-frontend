@@ -1139,6 +1139,10 @@ const phrases = {
     origin: {
       label: 'Opphav',
     },
+    processed: {
+      label: 'Bearbeidet',
+      description: 'Innholdet har blitt bearbeidet',
+    },
     image: {
       file: 'Bilde',
       save: 'Lagre bilde',

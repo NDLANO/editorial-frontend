@@ -1139,6 +1139,10 @@ const phrases = {
     origin: {
       label: 'Opphav',
     },
+    processed: {
+      label: 'Omarbeidd',
+      description: 'Innhaldet har vorte omarbeidd',
+    },
     image: {
       file: 'Bilete',
       save: 'Lagre bilete',

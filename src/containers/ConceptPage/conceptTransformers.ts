@@ -19,14 +19,6 @@ import { ConceptFormValues } from './conceptInterfaces';
 import { parseImageUrl } from '../../util/formHelper';
 import { IN_PROGRESS } from '../../constants';
 
-const emptyGlossData = {
-  gloss: '',
-  wordClass: '',
-  originalLanguage: '',
-  transcriptions: {},
-  examples: [],
-};
-
 export const conceptApiTypeToFormType = (
   concept: IConcept | undefined,
   language: string,
@@ -34,6 +26,7 @@ export const conceptApiTypeToFormType = (
   articles: IArticle[],
   ndlaId: string | undefined,
   initialTitle = '',
+  conceptType?: 'concept' | 'gloss',
 ): ConceptFormValues => {
   const conceptSubjects =
     subjects.filter((s) => concept?.subjectIds?.find((id) => id === s.id)) ?? [];
@@ -65,8 +58,12 @@ export const conceptApiTypeToFormType = (
     visualElement: embedTagToEditorValue(concept?.visualElement?.visualElement ?? ''),
     origin: concept?.copyright?.origin,
     responsibleId: concept === undefined ? ndlaId : concept?.responsible?.responsibleId,
-    glossData: concept?.glossData ?? emptyGlossData,
-    conceptType: concept?.conceptType || 'concept',
+    conceptType: conceptType || 'concept',
+    gloss: concept?.glossData?.gloss ?? '',
+    originalLanguage: concept?.glossData?.originalLanguage ?? '',
+    wordClass: concept?.glossData?.wordClass ?? '',
+    transcriptions: concept?.glossData?.transcriptions ?? {},
+    examples: concept?.glossData?.examples ?? [],
   };
 };
 
@@ -97,10 +94,18 @@ export const getNewConceptType = (
     visualElement: editorValueToEmbedTag(values.visualElement),
     responsibleId: values.responsibleId,
     conceptType: conceptType,
+    ...(conceptType === 'gloss'
+      ? {
+          glossData: {
+            gloss: values.gloss ?? '',
+            wordClass: values.wordClass ?? '',
+            originalLanguage: values.originalLanguage ?? '',
+            examples: values.examples ?? [],
+            transcriptions: values.transcriptions ?? {},
+          },
+        }
+      : {}),
   };
-  if (conceptType === 'gloss') {
-    baseConcept.glossData = values.glossData;
-  }
 
   return baseConcept;
 };
@@ -152,6 +157,12 @@ export const conceptFormTypeToApiType = (
     },
     supportedLanguages: values.supportedLanguages,
     conceptType,
-    glossData: values.glossData ?? emptyGlossData,
+    glossData: {
+      gloss: values?.gloss ?? '',
+      originalLanguage: values.originalLanguage ?? '',
+      wordClass: values.wordClass ?? '',
+      transcriptions: values.transcriptions ?? {},
+      examples: values.examples ?? [],
+    },
   };
 };

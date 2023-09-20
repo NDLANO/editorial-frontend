@@ -7,7 +7,7 @@
  */
 
 import { IGlossExample } from '@ndla/types-backend/concept-api';
-import { FieldRemoveButton } from '@ndla/forms';
+import { FieldRemoveButton, FieldSection } from '@ndla/forms';
 import { ButtonV2 } from '@ndla/button';
 import { spacing } from '@ndla/core';
 
@@ -15,27 +15,6 @@ import { useTranslation } from 'react-i18next';
 import { FieldArray } from 'formik';
 import styled from '@emotion/styled';
 import ExampleField from './ExampleField';
-
-type Props = {
-  name: string;
-  examples: IGlossExample[];
-  removeFromParentArray: () => void;
-};
-
-const StyledLanguageVariantField = styled.div`
-  display: flex;
-  min-width: 100%;
-
-  > :second-child {
-    display: flex;
-    justify-content: center;
-  }
-
-  > :last-child {
-    margin: ${spacing.small} 0 !important;
-    flex-grow: 1;
-  }
-`;
 
 const Wrapper = styled.div`
   margin-bottom: ${spacing.small};
@@ -45,9 +24,11 @@ const StyledButton = styled(ButtonV2)`
   margin-top: ${spacing.small};
 `;
 
-const StyledFieldRemoveButton = styled(FieldRemoveButton)`
-  padding: 0;
-`;
+type Props = {
+  name: string;
+  examples: IGlossExample[];
+  removeFromParentArray: () => void;
+};
 
 const LanguageVariantFieldArray = ({ examples, name, removeFromParentArray }: Props) => {
   const { t } = useTranslation();
@@ -59,20 +40,24 @@ const LanguageVariantFieldArray = ({ examples, name, removeFromParentArray }: Pr
         render={(arrayHelpers) => (
           <>
             {examples.map((example, exampleIndex) => (
-              <StyledLanguageVariantField key={exampleIndex}>
+              <FieldSection key={exampleIndex}>
                 <ExampleField
                   name={`${name}.${exampleIndex}`}
                   example={example}
                   index={exampleIndex}
                 />
-                <StyledFieldRemoveButton
-                  onClick={() =>
-                    examples.length === 1
-                      ? removeFromParentArray()
-                      : arrayHelpers.remove(exampleIndex)
-                  }
-                ></StyledFieldRemoveButton>
-              </StyledLanguageVariantField>
+                <div>
+                  <FieldRemoveButton
+                    onClick={() =>
+                      examples.length === 1
+                        ? removeFromParentArray()
+                        : arrayHelpers.remove(exampleIndex)
+                    }
+                  >
+                    {t('form.concept.glossDataSection.remove')}
+                  </FieldRemoveButton>
+                </div>
+              </FieldSection>
             ))}
             <StyledButton
               variant="outline"

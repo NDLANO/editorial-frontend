@@ -46,6 +46,9 @@ const TranscriptionField = ({ name, value, label, removeField }: Props) => {
             placeholder={t('form.concept.glossDataSection.transcription')}
             value={value ?? ''}
             data-cy="transcription-selector"
+            warningText={
+              !value ? t('form.concept.glossDataSection.transcriptionMissingFields') : ''
+            }
             {...field}
           />
           <FieldRemoveButton onClick={removeField} />

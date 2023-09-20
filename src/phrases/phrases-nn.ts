@@ -884,7 +884,7 @@ const phrases = {
         language: 'Språk',
         languageVariant: 'Språkvariant',
         add: 'Legg til {{label}}',
-        remove: 'Fjern {{label}}',
+        remove: 'Ta bort',
         choose: 'Velg {{label}}',
         languageMissingFields: 'Alle felt for eit språk må fylles ut.',
         glossMissingFields: 'Ein glose må innehalde alle felt.',

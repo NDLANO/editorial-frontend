@@ -8,7 +8,6 @@
 
 import { useTranslation } from 'react-i18next';
 import { Select } from '@ndla/forms';
-import styled from '@emotion/styled';
 import TranscriptionField from './TranscriptionField';
 import { ROMANIZATION_OPTIONS } from '../glossData';
 import FormikField from '../../../components/FormikField';
@@ -17,12 +16,6 @@ interface Props {
   name: string;
   values: { [key: string]: string };
 }
-
-const StyledTranscriptionsField = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-`;
 
 const TranscriptionsField = ({ name, values: transcriptions }: Props) => {
   const { t } = useTranslation();
@@ -33,7 +26,7 @@ const TranscriptionsField = ({ name, values: transcriptions }: Props) => {
   );
 
   return (
-    <FormikField name={name}>
+    <FormikField name={name} showError={false}>
       {({ field }) => (
         <>
           {Object.keys(transcriptions).map((key) => (

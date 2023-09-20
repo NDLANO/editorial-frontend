@@ -13,7 +13,6 @@ import {
   IUpdatedConcept,
   ITagsSearchResult,
   IConceptSummary,
-  IGlossExample,
 } from '@ndla/types-backend/concept-api';
 import { IArticle } from '@ndla/types-backend/draft-api';
 import { Formik, FormikProps, FormikHelpers } from 'formik';
@@ -64,7 +63,7 @@ interface Props {
   initialTitle?: string;
   onUpserted?: (concept: IConceptSummary | IConcept) => void;
   supportedLanguages: string[];
-  conceptType?: string;
+  conceptType?: 'concept' | 'gloss';
 }
 
 const conceptFormBaseRules: RulesType<ConceptFormValues, IConcept> = {
@@ -127,26 +126,36 @@ const conceptRules: RulesType<ConceptFormValues, IConcept> = {
 
 const glossRules: RulesType<ConceptFormValues, IConcept> = {
   ...conceptFormBaseRules,
-
-  glossInfoErrors: {
-    test: ({ glossData }) => {
-      if (!glossData?.gloss || !glossData?.wordClass || !glossData.originalLanguage)
-        return { translationKey: 'form.concept.glossDataSection.glossMissingFields' };
+  gloss: {
+    test: (values) => {
+      if (!values.gloss || !values.wordClass || !values.originalLanguage)
+        return {
+          translationKey: 'form.concept.glossDataSection.glossMissingFields',
+        };
     },
   },
-
-  glossTranscriptionErrors: {
-    onlyValidateIf: (values: ConceptFormValues) => {
-      if (values?.glossData?.originalLanguage === 'zh') {
-        return Object.keys(values.glossData.transcriptions).length !== 0;
+  transcriptions: {
+    onlyValidateIf: (values) => {
+      if (values.originalLanguage === 'zh' && values.transcriptions) {
+        return Object.keys(values.transcriptions).length !== 0;
       }
       return false;
     },
-    test: ({ glossData }) => {
-      if (glossData?.transcriptions && Object.values(glossData.transcriptions).includes('')) {
+    test: (values) => {
+      if (values.transcriptions && Object.values(values.transcriptions).includes('')) {
         return { translationKey: 'form.concept.glossDataSection.transcriptionMissingFields' };
       }
-      return undefined;
+    },
+  },
+  examples: {
+    onlyValidateIf: (values) => !!values.examples?.length,
+    test: (values) => {
+      const hasError = values.examples?.some((exampleGroup) =>
+        exampleGroup.some((ex) => !ex.example || !ex.language),
+      );
+      if (hasError) {
+        return { translationKey: 'form.concept.glossDataSection.languageMissingFields' };
+      }
     },
   },
 };
@@ -177,7 +186,12 @@ const ConceptForm = ({
     values: ConceptFormValues,
     formikHelpers: FormikHelpers<ConceptFormValues>,
   ) => {
-    if (!values.subjects.length || isEmpty(values.title) || isEmpty(values.conceptContent)) return;
+    if (
+      (!values.subjects.length && values.conceptType === 'concept') ||
+      isEmpty(values.title) ||
+      isEmpty(values.conceptContent)
+    )
+      return;
     formikHelpers.setSubmitting(true);
     const revision = concept?.revision;
     const status = concept?.status;
@@ -216,6 +230,7 @@ const ConceptForm = ({
     conceptArticles,
     ndlaId,
     initialTitle,
+    conceptType,
   );
 
   const isGloss = conceptType === 'gloss';
@@ -226,33 +241,6 @@ const ConceptForm = ({
     [initialValues, t, formRules],
   );
 
-  const validateConceptForm = (values: ConceptFormValues) => {
-    const errors = validateFormik(values, formRules, t);
-    if (isGloss) {
-      values.glossData!.examples.forEach((languageVariant, exampleIndex) => {
-        languageVariant.forEach((e: IGlossExample, languageIndex) => {
-          const name = `glossData.examples.${exampleIndex}.${languageIndex}`;
-          const { example, language, transcriptions } = e;
-          if (!example || !language) {
-            errors[name] = t('form.concept.glossDataSection.languageMissingFields');
-          }
-          if (Object.values(transcriptions).includes('')) {
-            errors[`${name}.transcriptions`] = t(
-              'form.concept.glossDataSection.transcriptionMissingFields',
-            );
-          }
-          if (errors[name] || errors[`${name}.transcriptions`]) {
-            errors[`glossData.examples.${exampleIndex}`] = 'Error in example';
-          }
-        });
-      });
-      if (errors['glossData.examples']) {
-        errors.glossExampleErrors = 'Error in examples';
-      }
-    }
-    return errors;
-  };
-
   return (
     <Formik
       initialValues={initialValues}
@@ -260,7 +248,7 @@ const ConceptForm = ({
       onSubmit={handleSubmit}
       enableReinitialize
       validateOnMount
-      validate={(values) => validateConceptForm(values)}
+      validate={(values) => validateFormik(values, formRules, t)}
       initialStatus={{ warnings: initialWarnings }}
     >
       {(formikProps) => {
@@ -289,13 +277,7 @@ const ConceptForm = ({
                 <FormAccordion
                   id="glossData"
                   title={t('form.concept.glossDataSection.gloss')}
-                  hasError={
-                    !!(
-                      errors.glossInfoErrors ||
-                      errors.glossExampleErrors ||
-                      errors.glossTranscriptionErrors
-                    )
-                  }
+                  hasError={!!(errors.gloss || errors.examples || errors.transcriptions)}
                 >
                   <GlossDataSection />
                 </FormAccordion>

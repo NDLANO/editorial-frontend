@@ -11,7 +11,7 @@ import { IStatus, IAuthor, IGlossData } from '@ndla/types-backend/concept-api';
 import { IArticle } from '@ndla/types-backend/draft-api';
 import { Node } from '@ndla/types-taxonomy';
 
-export interface ConceptFormValues {
+export interface ConceptFormValues extends Partial<IGlossData> {
   id?: number;
   language: string;
   revision?: number;
@@ -41,8 +41,4 @@ export interface ConceptFormValues {
   origin?: string;
   responsibleId?: string;
   conceptType: string;
-  glossData?: IGlossData;
-  glossInfoErrors?: Record<string, string>;
-  glossExampleErrors?: Record<string, string>;
-  glossTranscriptionErrors?: Record<string, string>;
 }

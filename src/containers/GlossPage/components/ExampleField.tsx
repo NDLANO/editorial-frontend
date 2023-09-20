@@ -6,9 +6,8 @@
  *
  */
 
-import { FieldHeader, Input, Select } from '@ndla/forms';
+import { Input, Select, FieldSplitter } from '@ndla/forms';
 import { IGlossExample } from '@ndla/types-backend/concept-api';
-import { spacing } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import TranscriptionsField from './TranscriptionsField';
@@ -21,32 +20,26 @@ interface Props {
   name: string;
 }
 
-const StyledExampleField = styled.div`
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-
-  > :first-child {
-    padding-right: ${spacing.small};
-  }
-`;
-
 const StyledFormikField = styled(FormikField)`
   margin: 0px;
 `;
 
 const ExampleField = ({ example, name }: Props) => {
   const { t } = useTranslation();
-
   return (
-    <StyledFormikField name={name}>
+    <StyledFormikField name={name} showError={false}>
       {({ field }) => (
         <>
-          <StyledExampleField>
+          <FieldSplitter>
             <Input
               type="text"
               placeholder={t('form.concept.glossDataSection.example')}
               value={example.example}
+              warningText={
+                !example.example || !example.language
+                  ? t('form.concept.glossDataSection.languageMissingFields')
+                  : ''
+              }
               onChange={(e) =>
                 field.onChange({
                   target: {
@@ -80,14 +73,9 @@ const ExampleField = ({ example, name }: Props) => {
                 </option>
               ))}
             </Select>
-          </StyledExampleField>
+          </FieldSplitter>
           {example.language === 'zh' && (
-            <>
-              <TranscriptionsField
-                name={`${name}.transcriptions`}
-                values={example.transcriptions}
-              />
-            </>
+            <TranscriptionsField name={`${name}.transcriptions`} values={example.transcriptions} />
           )}
         </>
       )}

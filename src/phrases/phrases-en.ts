@@ -883,7 +883,7 @@ const phrases = {
         language: 'Language',
         languageVariant: 'Language variant',
         add: 'Add {{label}}',
-        remove: 'Remove {{label}}',
+        remove: 'Remove',
         choose: 'Choose {{label}}',
         languageMissingFields: 'All fields for a language must be filled out.',
         glossMissingFields: 'A glossary entry must include all fields.',

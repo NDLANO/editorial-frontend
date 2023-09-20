@@ -91,7 +91,7 @@ export const PreviewDraft = ({ type, draft: draftProp, label, contentType, langu
       title: draft.title ?? '',
       introduction: draft.introduction ?? '',
       content,
-      copyright: draft.copyright!,
+      copyright: draft.copyright,
       published: draft.published ? formatDate(draft.published) : '',
       footNotes: [],
     };

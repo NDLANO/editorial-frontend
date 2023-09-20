@@ -24,7 +24,7 @@ const StyledIFrame = styled.iframe`
   overflow: hidden;
 `;
 
-interface OnSelectObject {
+export interface OnSelectObject {
   path?: string;
   title?: string;
 }

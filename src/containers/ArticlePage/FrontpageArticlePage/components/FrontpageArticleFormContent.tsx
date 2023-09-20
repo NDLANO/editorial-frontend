@@ -58,7 +58,6 @@ import { definitionListPlugin } from '../../../../components/SlateEditor/plugins
 import { TYPE_TABLE } from '../../../../components/SlateEditor/plugins/table/types';
 import { TYPE_CODEBLOCK } from '../../../../components/SlateEditor/plugins/codeBlock/types';
 import {
-  TYPE_EMBED_H5P,
   TYPE_EMBED_BRIGHTCOVE,
   TYPE_EMBED_EXTERNAL,
   TYPE_EMBED_IMAGE,
@@ -80,6 +79,8 @@ import { linkBlockListPlugin } from '../../../../components/SlateEditor/plugins/
 import { TYPE_LINK_BLOCK_LIST } from '../../../../components/SlateEditor/plugins/linkBlockList/types';
 import { audioPlugin } from '../../../../components/SlateEditor/plugins/audio';
 import { TYPE_AUDIO } from '../../../../components/SlateEditor/plugins/audio/types';
+import { TYPE_H5P } from '../../../../components/SlateEditor/plugins/h5p/types';
+import { h5pPlugin } from '../../../../components/SlateEditor/plugins/h5p';
 
 const StyledFormikField = styled(FormikField)`
   display: flex;
@@ -124,7 +125,7 @@ const StyledIconButton = styled(IconButtonV2)`
 `;
 
 const visualElements = [
-  TYPE_EMBED_H5P,
+  TYPE_H5P,
   TYPE_EMBED_BRIGHTCOVE,
   TYPE_AUDIO,
   TYPE_EMBED_EXTERNAL,
@@ -158,6 +159,7 @@ export const plugins = (articleLanguage: string): SlatePlugin[] => {
     paragraphPlugin(articleLanguage),
     footnotePlugin,
     embedPlugin(articleLanguage),
+    h5pPlugin(articleLanguage),
     audioPlugin(articleLanguage),
     bodyboxPlugin,
     asidePlugin,

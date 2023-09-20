@@ -11,8 +11,8 @@ import VideoSearch from '@ndla/video-search';
 import AudioSearch from '@ndla/audio-search';
 import { IAudioSummary } from '@ndla/types-backend/audio-api';
 import { IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
+import { H5pEmbedData } from '@ndla/types-embed';
 import config from '../../config';
-import H5PElement from '../../components/H5PElement/H5PElement';
 import { EXTERNAL_WHITELIST_PROVIDERS } from '../../constants';
 import VisualElementUrlPreview from './VisualElementUrlPreview';
 import ImageSearchAndUploader from '../../components/ImageSearchAndUploader';
@@ -26,8 +26,9 @@ import {
   VideoSearchQuery,
 } from '../../modules/video/brightcoveApi';
 import { AudioSearchParams } from '../../modules/audio/audioApiInterfaces';
-import { Embed, ExternalEmbed, H5pEmbed } from '../../interfaces';
+import { Embed, ExternalEmbed } from '../../interfaces';
 import FileUploader from '../../components/FileUploader';
+import H5PElement from '../../components/H5PElement/H5PElement';
 
 const titles = (t: TFunction, resource: string) => ({
   [resource]: t(`form.visualElement.${resource.toLowerCase()}`),
@@ -42,7 +43,7 @@ interface Props {
   closeModal: () => void;
   showCheckbox?: boolean;
   checkboxAction?: (image: IImageMetaInformationV3) => void;
-  embed?: H5pEmbed | ExternalEmbed;
+  embed?: H5pEmbedData | ExternalEmbed;
 }
 
 interface LocalAudioSearchParams extends Omit<AudioSearchParams, 'audio-type' | 'page-size'> {
@@ -154,13 +155,16 @@ const VisualElementSearch = ({
         <H5PElement
           canReturnResources={true}
           h5pUrl={selectedResourceUrl}
-          onSelect={(h5p) =>
-            handleVisualElementChange({
-              resource: 'h5p',
-              path: h5p.path!,
+          onSelect={(h5p) => {
+            const url = `${config.h5pApiUrl}${h5p.path}`;
+            const data: H5pEmbedData = {
+              url,
               title: h5p.title,
-            })
-          }
+              path: h5p.path ?? '',
+              resource: 'h5p',
+            };
+            handleVisualElementChange(data);
+          }}
           onClose={closeModal}
           locale={articleLanguage ?? locale}
         />

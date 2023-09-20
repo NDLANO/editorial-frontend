@@ -13,7 +13,6 @@ import { SlateSerializer } from '../../interfaces';
 import {
   Embed,
   ImageEmbed,
-  H5pEmbed,
   BrightcoveEmbed,
   ErrorEmbed,
   ExternalEmbed,
@@ -28,12 +27,6 @@ import { TYPE_NDLA_EMBED } from './types';
 export interface ImageEmbedElement {
   type: 'image-embed';
   data: ImageEmbed;
-  children: Descendant[];
-}
-
-export interface H5PEmbedElement {
-  type: 'h5p-embed';
-  data: H5pEmbed;
   children: Descendant[];
 }
 
@@ -57,7 +50,6 @@ export interface ExternalEmbedElement {
 
 export type EmbedElements =
   | ImageEmbedElement
-  | H5PEmbedElement
   | BrightcoveEmbedElement
   | ErrorEmbedElement
   | ExternalEmbedElement;

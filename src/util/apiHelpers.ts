@@ -7,7 +7,8 @@
  */
 import fetch from 'cross-fetch';
 import queryString from 'query-string';
-import { BrightcoveAccessToken, H5POembed } from '../interfaces';
+import { H5pPreviewResponse, OembedProxyData } from '@ndla/types-embed';
+import { BrightcoveAccessToken } from '../interfaces';
 import config from '../config';
 import { apiBaseUrl, getAccessToken, isAccessTokenValid, renewAuth } from './authHelpers';
 import { resolveJsonOrRejectWithError, throwErrorPayload } from './resolveJsonOrRejectWithError';
@@ -147,23 +148,26 @@ export const fetchWithBrightCoveToken = (url: string) => {
   });
 };
 
-export const fetchOembed = async (url: string, options?: FetchConfigType): Promise<H5POembed> => {
-  const data = await fetchAuthorized(url, options);
+export const fetchH5pOembed = async (
+  url: string,
+  options?: FetchConfigType,
+): Promise<H5pPreviewResponse> => {
+  const data = await fetchAuthorized(
+    `${config.h5pApiUrl}/oembed/preview?${queryString.stringify({ url })}`,
+    options,
+  );
   return resolveJsonOrRejectWithError(data);
 };
 
-const setH5pOembedUrl = (query: { url: string }) =>
-  `${config.h5pApiUrl}/oembed/preview?${queryString.stringify(query)}`;
-
-const setOembedUrl = (query: { url: string }) =>
-  `${apiResourceUrl('/oembed-proxy/v1/oembed')}?${queryString.stringify(query)}`;
-
-export const fetchExternalOembed = (url: string, options?: FetchConfigType) => {
-  let setOembed = setOembedUrl({ url });
-  if (config.h5pApiUrl && url.includes(config.h5pApiUrl)) {
-    setOembed = setH5pOembedUrl({ url });
-  }
-  return fetchOembed(setOembed, options);
+export const fetchExternalOembed = async (
+  url: string,
+  options?: FetchConfigType,
+): Promise<OembedProxyData> => {
+  const data = await fetchAuthorized(
+    `${apiResourceUrl('/oembed-proxy/v1/oembed')}?${queryString.stringify({ url })}`,
+    options,
+  );
+  return resolveJsonOrRejectWithError(data);
 };
 
 export { resolveJsonOrRejectWithError, throwErrorPayload };

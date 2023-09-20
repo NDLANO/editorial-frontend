@@ -6,7 +6,7 @@
  *
  */
 
-import { IAuthor } from '@ndla/types-backend/draft-api';
+import { H5pLicenseInformation } from '@ndla/types-embed';
 import config from '../../config';
 import { fetchReAuthorized, resolveJsonOrRejectWithError } from '../../util/apiHelpers';
 
@@ -48,6 +48,15 @@ export const editH5PiframeUrl = (url: string, locale: string = ''): Promise<{ ur
 
 export const getH5pLocale = (language: string) => {
   return language === 'en' ? 'en-gb' : 'nn' === language ? 'nn-no' : 'nb-no';
+};
+
+export const fetchH5pLicenseInformation = async (
+  resourceId: string,
+): Promise<H5pLicenseInformation | undefined> => {
+  const url = `${config.h5pApiUrl}/v2/resource/${resourceId}/copyright`;
+  return fetch(url)
+    .then((r) => resolveJsonOrRejectWithError<H5pLicenseInformation>(r))
+    .catch((_) => undefined);
 };
 
 export const fetchH5PInfo = async (resourceId: string): Promise<H5PInfo> => {

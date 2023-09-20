@@ -19,15 +19,13 @@ import handleError from '../../util/handleError';
 import EditorErrorMessage from '../SlateEditor/EditorErrorMessage';
 import DisplayExternalModal from './helpers/DisplayExternalModal';
 import { fetchExternalOembed } from '../../util/apiHelpers';
-import { urlOrigin, getIframeSrcFromHtmlString, urlDomain } from '../../util/htmlHelpers';
+import { getIframeSrcFromHtmlString, urlDomain } from '../../util/htmlHelpers';
 import { EXTERNAL_WHITELIST_PROVIDERS } from '../../constants';
 import {
   StyledDeleteEmbedButton,
   StyledFigureButtons,
 } from '../SlateEditor/plugins/embed/FigureButtons';
-import config from '../../config';
-import { getH5pLocale } from '../H5PElement/h5pApi';
-import { Embed, ExternalEmbed, H5pEmbed } from '../../interfaces';
+import { Embed, ExternalEmbed } from '../../interfaces';
 import SlateResourceBox from './SlateResourceBox';
 
 const ApplyBoxshadow = styled.div`
@@ -43,7 +41,7 @@ const ExpandableButton = styled.div`
   cursor: pointer;
 `;
 
-type EmbedType = ExternalEmbed | H5pEmbed;
+type EmbedType = ExternalEmbed;
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   pathToEmbed: Path;
@@ -86,20 +84,15 @@ const DisplayExternal = ({
   const iframeWrapper = useRef(null);
 
   const getPropsFromEmbed = async () => {
-    const origin = embed.url ? urlOrigin(embed.url) : config.h5pApiUrl;
-    const domain = embed.url ? urlDomain(embed.url) : config.h5pApiUrl;
-    const cssUrl = encodeURIComponent(`${config.ndlaFrontendDomain}/static/h5p-custom-css.css`);
+    const domain = urlDomain(embed.url);
 
-    if (embed.resource === 'external' || embed.resource === 'h5p') {
+    if (embed.resource === 'external') {
       try {
-        const base = embed.resource === 'h5p' ? `${origin}${embed.path}` : embed.url;
-        const url =
-          config.h5pApiUrl && base.includes(config.h5pApiUrl)
-            ? `${base}?locale=${getH5pLocale(language)}&cssUrl=${cssUrl}`
-            : base;
+        const base = embed.url;
+        const url = base;
 
         const data = await fetchExternalOembed(url);
-        const src = getIframeSrcFromHtmlString(data.html);
+        const src = data.html ? getIframeSrcFromHtmlString(data.html) : undefined;
 
         if (src) {
           setHeight(0);
@@ -147,12 +140,6 @@ const DisplayExternal = ({
     if (prevEmbedElement.resource !== embed.resource) {
       getPropsFromEmbed();
     } else if (
-      embed.resource === 'h5p' &&
-      prevEmbedElement.resource === 'h5p' &&
-      embed.path !== prevEmbedElement.path
-    ) {
-      getPropsFromEmbed();
-    } else if (
       (embed.resource === 'external' || embed.resource === 'iframe') &&
       (prevEmbedElement.resource === 'external' || prevEmbedElement.resource === 'iframe') &&
       embed.url !== prevEmbedElement.url
@@ -198,7 +185,7 @@ const DisplayExternal = ({
   }
 
   // H5P does not provide its name
-  const providerName = properties.domain?.includes('h5p') ? 'H5P' : properties.provider;
+  const providerName = properties.provider;
 
   const [allowedProvider] = EXTERNAL_WHITELIST_PROVIDERS.filter((whitelistProvider) =>
     properties.type === 'iframe' && properties.domain

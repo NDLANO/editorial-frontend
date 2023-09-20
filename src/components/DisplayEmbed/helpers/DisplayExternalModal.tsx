@@ -1,7 +1,8 @@
 import { useTranslation } from 'react-i18next';
+import { H5pEmbedData } from '@ndla/types-embed';
 import VisualElementSearch from '../../../containers/VisualElement/VisualElementSearch';
 import VisualElementModalWrapper from '../../../containers/VisualElement/VisualElementModalWrapper';
-import { Embed, ExternalEmbed, H5pEmbed, WhitelistProvider } from '../../../interfaces';
+import { Embed, ExternalEmbed, WhitelistProvider } from '../../../interfaces';
 import { isEmbed } from '../../SlateEditor/plugins/blockPicker/SlateVisualElementPicker';
 
 interface Props {
@@ -9,7 +10,7 @@ interface Props {
   type: string;
   onEditEmbed: (embed: Embed) => void;
   onClose: () => void;
-  embed: H5pEmbed | ExternalEmbed;
+  embed: H5pEmbedData | ExternalEmbed;
   isEditMode: boolean;
   allowedProvider: WhitelistProvider;
 }

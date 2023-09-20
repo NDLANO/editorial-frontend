@@ -178,7 +178,7 @@ const VisualElementUrlPreview = ({
     if (whiteListedUrl) {
       try {
         const data = await fetchExternalOembed(url || '');
-        const src = getIframeSrcFromHtmlString(data.html);
+        const src = data.html ? getIframeSrcFromHtmlString(data.html) : undefined;
 
         if (preview) {
           setEmbedUrl(src ?? undefined);

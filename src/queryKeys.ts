@@ -25,6 +25,7 @@ export const IMAGE = 'image';
 export const AUDIO = 'audio';
 
 export const AUDIO_EMBED = 'audio';
+export const H5P_EMBED = 'h5p';
 
 export const PODCAST_SERIES = 'podcastSeries';
 

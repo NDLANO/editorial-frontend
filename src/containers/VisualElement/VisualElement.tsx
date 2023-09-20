@@ -11,6 +11,7 @@ import { FormikHandlers } from 'formik';
 import VisualElementEditor from '../../components/SlateEditor/VisualElementEditor';
 import { EmbedElements, embedPlugin } from '../../components/SlateEditor/plugins/embed';
 import { audioPlugin } from '../../components/SlateEditor/plugins/audio';
+import { h5pPlugin } from '../../components/SlateEditor/plugins/h5p';
 
 interface Props {
   onChange: FormikHandlers['handleChange'];
@@ -34,7 +35,11 @@ const VisualElement = ({
   allowDecorative = false,
 }: Props) => {
   const plugins = useMemo(() => {
-    return [audioPlugin(language, true), embedPlugin(language, true, allowDecorative)];
+    return [
+      audioPlugin(language, true),
+      h5pPlugin(language, true),
+      embedPlugin(language, true, allowDecorative),
+    ];
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedResource]);
 

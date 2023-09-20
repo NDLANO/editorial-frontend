@@ -18,7 +18,6 @@ import {
   BrightcoveEmbedElement,
   ErrorEmbedElement,
   ExternalEmbedElement,
-  H5PEmbedElement,
   ImageEmbedElement,
 } from '.';
 import { isSlateEmbed } from './utils';
@@ -26,12 +25,7 @@ import { isSlateEmbed } from './utils';
 interface Props {
   attributes: RenderElementProps['attributes'];
   editor: Editor;
-  element:
-    | H5PEmbedElement
-    | BrightcoveEmbedElement
-    | ErrorEmbedElement
-    | ExternalEmbedElement
-    | ImageEmbedElement;
+  element: BrightcoveEmbedElement | ErrorEmbedElement | ExternalEmbedElement | ImageEmbedElement;
   language: string;
   children: ReactNode;
   allowDecorative?: boolean;
@@ -113,8 +107,7 @@ const SlateFigure = ({
       );
     case 'external':
     case 'iframe':
-    case 'h5p':
-      if (embed.resource !== 'h5p' && embed.url?.includes('youtu')) {
+      if (embed.url?.includes('youtu')) {
         return (
           <SlateVideo
             attributes={attributes}

@@ -237,7 +237,7 @@ const CampaignBlockForm = ({ initialData, onSave, onCancel }: Props) => {
               />
             )}
           </StyledFormikField>
-          <InlineImageSearch name={'metaImageId'} />
+          <InlineImageSearch name={'metaImageId'} disableAltEditing />
           <ButtonContainer>
             <ButtonV2 variant="outline" onClick={onCancel}>
               {t('cancel')}

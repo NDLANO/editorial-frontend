@@ -79,7 +79,7 @@ const FolderItem = ({
   const showJumpToResources = isMainActive && node.id.includes('topic');
 
   return (
-    <StyledFolderWrapper data-cy="folderWrapper">
+    <StyledFolderWrapper data-testid="folderWrapper">
       {isMainActive && (
         <ControlButtonsWrapper>
           <SettingsMenu

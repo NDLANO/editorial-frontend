@@ -334,7 +334,7 @@ const SlateBlockPicker = ({
       />
       {!visualElementPickerOpen && (
         <Portal>
-          <StyledBlockPickerWrapper ref={portalRef} data-cy="slate-block-picker-button">
+          <StyledBlockPickerWrapper ref={portalRef} data-testid="slate-block-picker-button">
             <SlateBlockMenu
               data-testid="slate-block-picker"
               isOpen={blockPickerOpen}

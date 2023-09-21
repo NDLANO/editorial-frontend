@@ -102,7 +102,6 @@ const SearchDropdown = <ParamType extends BaseParams, InnerType, ApiType, Type>(
               {...getInputProps({ placeholder })}
               white
               id={id}
-              data-testid="inlineDropdownInput"
               iconRight={
                 searchQuery.isInitialLoading ? <StyledSpinner size="normal" /> : <Search />
               }

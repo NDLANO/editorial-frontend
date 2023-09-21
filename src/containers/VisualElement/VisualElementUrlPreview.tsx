@@ -387,7 +387,7 @@ const VisualElementUrlPreview = ({
                       variant="ghost"
                       colorTheme="danger"
                       onClick={() => setImage(undefined)}
-                      data-cy="remove-element"
+                      data-testid="remove-element"
                     >
                       <DeleteForever />
                     </IconButtonV2>

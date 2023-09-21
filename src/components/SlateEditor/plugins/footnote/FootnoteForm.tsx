@@ -100,7 +100,7 @@ const FootnoteForm = ({ isEdit, footnote, onRemove, onClose, onSave }: Props) =>
             <ButtonV2 variant="outline" onClick={onClose}>
               {t('form.abort')}
             </ButtonV2>
-            <ButtonV2 data-cy="save_footnote" onClick={submitForm}>
+            <ButtonV2 data-testid="save_footnote" onClick={submitForm}>
               {t('form.save')}
             </ButtonV2>
           </ButtonContainer>

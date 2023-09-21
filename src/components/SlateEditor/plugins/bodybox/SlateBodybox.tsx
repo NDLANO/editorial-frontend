@@ -74,7 +74,7 @@ const SlateBodybox = (props: Props & RenderElementProps) => {
         <DeleteButton
           aria-label={t('form.remove')}
           tabIndex={-1}
-          data-cy="remove-bodybox"
+          data-testid="remove-bodybox"
           colorTheme="danger"
           onMouseDown={onRemoveClick}
         />

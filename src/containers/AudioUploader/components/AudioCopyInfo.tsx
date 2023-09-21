@@ -43,8 +43,8 @@ const AudioFormInfo = ({ values }: Props) => {
 
   const tCopiedLanguage =
     i18n.language === 'en'
-      ? t('language.' + copiedLanguage)
-      : t('language.' + copiedLanguage).toLowerCase();
+      ? t('languages.' + copiedLanguage)
+      : t('languages.' + copiedLanguage).toLowerCase();
 
   return (
     <div>

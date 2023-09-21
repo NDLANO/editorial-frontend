@@ -100,7 +100,7 @@ const H5PElement = ({ h5pUrl, onSelect, onClose, locale, canReturnResources }: P
   };
 
   return (
-    <FlexWrapper data-cy="h5p-editor">
+    <FlexWrapper data-testid="h5p-editor">
       {fetchFailed && (
         <ErrorMessage
           illustration={{

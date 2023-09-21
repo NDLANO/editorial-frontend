@@ -1,10 +1,36 @@
-import { useCallback, useState } from 'react';
+import { highlight, languages } from 'prismjs';
+import 'prismjs/components/prism-clike';
+import 'prismjs/components/prism-markup';
+import 'prismjs/components/prism-markup-templating';
+import 'prismjs/components/prism-php';
+import 'prismjs/components/prism-css';
+import 'prismjs/components/prism-javascript';
+import 'prismjs/components/prism-jsx';
+import 'prismjs/components/prism-c';
+import 'prismjs/components/prism-csharp';
+import 'prismjs/components/prism-cpp';
+import 'prismjs/components/prism-diff';
+import 'prismjs/components/prism-ini';
+import 'prismjs/components/prism-json';
+import 'prismjs/components/prism-java';
+import 'prismjs/components/prism-kotlin';
+import 'prismjs/components/prism-lua';
+import 'prismjs/components/prism-markdown';
+import 'prismjs/components/prism-matlab';
+import 'prismjs/components/prism-nsis';
+import 'prismjs/components/prism-python';
+import 'prismjs/components/prism-ruby';
+import 'prismjs/components/prism-rust';
+import 'prismjs/components/prism-sql';
+import 'prismjs/components/prism-powershell';
+import 'prismjs/components/prism-vhdl';
+import 'prismjs/components/prism-bash';
+import { useCallback, useMemo, useState } from 'react';
 import styled from '@emotion/styled';
 import { Editor, Path, Transforms } from 'slate';
 import { ReactEditor, RenderElementProps } from 'slate-react';
 import he from 'he';
 import { useTranslation } from 'react-i18next';
-
 import { IconButtonV2 } from '@ndla/button';
 import { DeleteForever } from '@ndla/icons/editor';
 import { CodeBlockEditor, Codeblock } from '@ndla/code';
@@ -42,16 +68,19 @@ const RemoveCodeBlock = ({ handleRemove }: RemoveCodeBlockProps) => {
       variant="ghost"
       colorTheme="danger"
       aria-label={t('form.remove')}
-      data-cy="remove-code"
+      data-testid="remove-code"
       onClick={handleRemove}
     >
       <DeleteForever />
     </IconButtonV2>
   );
 };
+const highlightCode = (code: string, language: string): string => {
+  const highlighted = highlight(code, languages[language], language);
+  return highlighted;
+};
 
-const getInfoFromNode = (element: CodeblockElement): CodeEmbedData => {
-  const { data } = element;
+const getInfoFromNode = (data: CodeEmbedData): CodeEmbedData => {
   return {
     resource: 'code-block',
     codeContent: he.decode(data.codeContent || '') as string,
@@ -61,10 +90,17 @@ const getInfoFromNode = (element: CodeblockElement): CodeEmbedData => {
 };
 
 const CodeBlock = ({ attributes, editor, element, children }: Props) => {
-  const embedData = getInfoFromNode(element);
+  const embedData = useMemo(() => getInfoFromNode(element.data), [element.data]);
   const [editMode, setEditMode] = useState<boolean>(!embedData.codeContent && !embedData.title);
   const [showWarning, setShowWarning] = useState(false);
   const { t } = useTranslation();
+
+  const highlightedCode = useMemo(() => {
+    if (!embedData.codeFormat?.length || !embedData.codeContent?.length) {
+      return embedData.codeContent;
+    }
+    return highlightCode(embedData.codeContent, embedData.codeFormat);
+  }, [embedData.codeContent, embedData.codeFormat]);
 
   const handleSave = (codeBlock: CodeBlockType) => {
     const newData: CodeEmbedData = {
@@ -134,6 +170,7 @@ const CodeBlock = ({ attributes, editor, element, children }: Props) => {
             code={embedData.codeContent}
             format={embedData.codeFormat}
             title={embedData.title}
+            highlightedCode={highlightedCode}
           />
           {children}
         </CodeDiv>
@@ -153,6 +190,7 @@ const CodeBlock = ({ attributes, editor, element, children }: Props) => {
               title: embedData.title || '',
             }}
             onSave={handleSave}
+            highlight={highlightCode}
             onAbort={() => onOpenChange(false)}
           />
         </ModalBody>

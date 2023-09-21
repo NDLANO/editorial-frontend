@@ -9,6 +9,8 @@
 import config from './config';
 import { WhitelistProvider } from './interfaces';
 
+export const SAVE_BUTTON_ID = 'editor-save-button';
+
 export const NAVIGATION_HEADER_MARGIN = '95px';
 
 export const RESOURCE_TYPE_LEARNING_PATH = 'urn:resourcetype:learningPath';
@@ -60,6 +62,7 @@ export const TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT = 'forklaringsfag';
 export const TAXONOMY_CUSTOM_FIELD_SUBJECT_OLD_SUBJECT_ID = 'old-subject-id';
 export const TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY = 'subjectCategory';
 export const TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE = 'subjectType';
+export const TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA = 'subjectLMA';
 export const TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH = 'requestPublish';
 export const TAXONOMY_CUSTOM_FIELD_IS_PUBLISHING = 'isPublishing';
 export const TAXONOMY_CUSTOM_FIELD_PROGRAMME_SUBJECT = 'programfag';

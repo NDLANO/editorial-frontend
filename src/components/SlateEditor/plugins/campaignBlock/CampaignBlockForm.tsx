@@ -6,7 +6,7 @@
  *
  */
 
-import { HeadingLevel } from '@ndla/ui';
+import { HeadingLevel, RadioButtonGroup } from '@ndla/ui';
 import { CampaignBlockEmbedData } from '@ndla/types-embed';
 import { useTranslation } from 'react-i18next';
 import { useCallback, useMemo } from 'react';
@@ -19,8 +19,8 @@ import { ButtonV2 } from '@ndla/button';
 import validateFormik, { RulesType } from '../../../formikValidationSchema';
 import { supportedLanguages } from '../../../../i18n2';
 import FormikField from '../../../FormikField';
-import CampaignBlockImagePicker from './CampaignBlockImagePicker';
 import { TYPE_CAMPAIGN_BLOCK } from './types';
+import InlineImageSearch from '../../../../containers/ConceptPage/components/InlineImageSearch';
 
 interface Props {
   initialData?: CampaignBlockEmbedData;
@@ -37,8 +37,8 @@ export interface CampaignBlockFormValues {
   headingLevel: HeadingLevel;
   link: string;
   linkText: string;
-  imageBeforeId?: string;
-  imageAfterId?: string;
+  metaImageId?: string;
+  imageSide?: CampaignBlockEmbedData['imageSide'];
 }
 
 const rules: RulesType<CampaignBlockFormValues> = {
@@ -65,9 +65,6 @@ const rules: RulesType<CampaignBlockFormValues> = {
   linkText: {
     required: true,
   },
-  imageAfterId: {
-    required: true,
-  },
 };
 
 const toInitialValues = (
@@ -80,8 +77,8 @@ const toInitialValues = (
     titleLanguage: initialData?.titleLanguage ?? lang,
     description: initialData?.description ?? '',
     descriptionLanguage: initialData?.descriptionLanguage ?? lang,
-    imageBeforeId: initialData?.imageBeforeId,
-    imageAfterId: initialData?.imageAfterId,
+    metaImageId: initialData?.imageId,
+    imageSide: initialData?.imageSide ?? 'left',
     headingLevel: initialData?.headingLevel ?? 'h2',
     link: initialData?.url ?? '',
     linkText: initialData?.urlText ?? '',
@@ -119,6 +116,8 @@ const UrlWrapper = styled.div`
   gap: ${spacing.small};
 `;
 
+const sides: CampaignBlockEmbedData['imageSide'][] = ['left', 'right'];
+
 const CampaignBlockForm = ({ initialData, onSave, onCancel }: Props) => {
   const { t, i18n } = useTranslation();
   const initialValues = useMemo(
@@ -129,11 +128,17 @@ const CampaignBlockForm = ({ initialData, onSave, onCancel }: Props) => {
 
   const onSubmit = useCallback(
     (values: CampaignBlockFormValues) => {
-      const { link, linkText, ...rest } = values;
       onSave({
-        ...rest,
-        url: link,
-        urlText: linkText,
+        resource: TYPE_CAMPAIGN_BLOCK,
+        headingLevel: values.headingLevel,
+        title: values.title,
+        titleLanguage: values.titleLanguage,
+        description: values.description,
+        descriptionLanguage: values.descriptionLanguage,
+        imageSide: values.imageSide,
+        url: values.link,
+        urlText: values.linkText,
+        imageId: values.metaImageId,
       });
     },
     [onSave],
@@ -141,6 +146,15 @@ const CampaignBlockForm = ({ initialData, onSave, onCancel }: Props) => {
 
   const onValidate = useCallback(
     (values: CampaignBlockFormValues) => validateFormik(values, rules, t),
+    [t],
+  );
+
+  const imageSides = useMemo(
+    () =>
+      sides.map((value) => ({
+        title: t(`campaignBlockForm.sides.${value}`),
+        value: value!,
+      })),
     [t],
   );
 
@@ -210,7 +224,20 @@ const CampaignBlockForm = ({ initialData, onSave, onCancel }: Props) => {
               )}
             </StyledUrlFormikField>
           </UrlWrapper>
-          <CampaignBlockImagePicker />
+          <StyledFormikField name="imageSide">
+            {({ field }) => (
+              <RadioButtonGroup
+                label={t('form.name.sides')}
+                selected={field.value}
+                uniqeIds
+                options={imageSides}
+                onChange={(value: string) =>
+                  field.onChange({ target: { name: field.name, value: value } })
+                }
+              />
+            )}
+          </StyledFormikField>
+          <InlineImageSearch name={'metaImageId'} />
           <ButtonContainer>
             <ButtonV2 variant="outline" onClick={onCancel}>
               {t('cancel')}

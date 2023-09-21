@@ -98,15 +98,13 @@ const phrases = {
     hasCopiedTitle: 'Copied!',
     download: 'Download',
   },
-  language: {
-    en: 'English',
-    es: 'Spanish',
-    nb: 'Norwegian - Bokmål',
-    nn: 'Norwegian - Nynorsk',
-    se: 'Northern Sami',
-    sma: 'Southern Sami',
+  languages: {
+    // Adds to list from frontend-packages
+    ar: 'Arabic',
+    no: 'Norwegian',
+    so: 'Somali',
+    ti: 'Tigrinya',
     und: 'Undetermined',
-    de: 'German',
     ukr: 'Ukranian',
     empty: 'No languages left',
     change: 'Change to {{language}} version',
@@ -596,6 +594,7 @@ const phrases = {
     title: 'Key figure',
     edit: 'Edit key figure',
   },
+
   editorToolbar: {
     bold: 'Bold\n({{ctrl}}+b)',
     'bulleted-list': 'Bulleted list\n({{ctrl}}+l)',
@@ -741,6 +740,7 @@ const phrases = {
       descriptionlanguage: 'Description language',
       url: 'Link',
       date: 'Date',
+      sides: 'Image side',
     },
     previewProductionArticle: {
       button: 'Compare current version with old version',
@@ -1363,6 +1363,7 @@ const phrases = {
     podcastImageSize: 'A meta image must be between 1400 and 3000 pixels wide.',
     unfinishedRevision: 'You must have at least one planned revision.',
     missingRevision: 'There must be at least one revision.',
+    email: 'The email address is not valid.',
   },
   errorMessage: {
     title: 'Oops, something went wrong',
@@ -1600,11 +1601,13 @@ const phrases = {
         subjectType: 'Subject type',
         resourceGroupPlaceholder: 'Grouping of resources',
         RGTooltip: 'Show resources Grouped or Ungrouped',
+        subjectLMA: 'Responsible for the subject',
       },
       placeholders: {
         category: 'Choose category',
         language: 'Choose language',
         type: 'Choose type',
+        lma: 'Choose responsible',
       },
     },
   },
@@ -1855,17 +1858,6 @@ const phrases = {
     notVisible: 'is not visible',
     changeVisibility: 'Change visibility',
   },
-  languages: {
-    ar: 'Arabic',
-    de: 'German',
-    en: 'English',
-    es: 'Spanish',
-    se: 'Northern Sámi',
-    sma: 'Southern Sámi',
-    so: 'Somali',
-    ti: 'Tigrinya',
-    zh: 'Chinese',
-  },
   unsavedChanges: 'Unsaved changes',
   messages: {
     severity: {
@@ -1879,12 +1871,9 @@ const phrases = {
   reset: 'Reset',
   campaignBlockForm: {
     title: 'Edit campaign block',
-    image: {
-      imageBefore: 'Left image',
-      insertImageBefore: 'Insert left image',
-      imageAfter: 'Right image',
-      insertImageAfter: 'Insert right image',
-      images: 'Images',
+    sides: {
+      left: 'Left',
+      right: 'Right',
     },
   },
   linkBlock: {

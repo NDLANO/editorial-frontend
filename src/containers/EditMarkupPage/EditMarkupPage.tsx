@@ -173,7 +173,7 @@ const EditMarkupPage = () => {
       const content = standardizeContent(editorContent ?? '');
       const updatedDraft = await updateDraft(draftId, {
         content,
-        revision: draft?.revision ?? -1,
+        revision: draft?.revision ?? 1,
         language,
       });
       setDraft(updatedDraft);

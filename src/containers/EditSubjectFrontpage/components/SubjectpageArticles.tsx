@@ -74,7 +74,7 @@ const SubjectpageArticles = ({ editorsChoices, elementId, fieldName }: Props) =>
       />
       <ElementList
         elements={resources}
-        data-cy="editors-choices-article-list"
+        data-testid="editors-choices-article-list"
         messages={{
           dragElement: t('form.file.changeOrder'),
           removeElement: t('subjectpageForm.removeArticle'),

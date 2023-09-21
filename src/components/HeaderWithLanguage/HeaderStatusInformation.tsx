@@ -80,6 +80,9 @@ const StyledStatus = styled.p`
     ${fonts.sizes('10', '1.1')};
     margin: 0 ${spacing.xsmall} 0;
   }
+  span {
+    display: block;
+  }
 `;
 
 const StyledSmallText = styled.small`
@@ -186,21 +189,21 @@ const HeaderStatusInformation = ({
           />
         )}
         <StyledStatus data-compact={compact}>
-          <div>
+          <span>
             <StyledSmallText data-compact={compact}>{`${t(
               'form.responsible.label',
             )}:`}</StyledSmallText>
             {responsibleName || t('form.responsible.noResponsible')}
-          </div>
+          </span>
           {noStatus ? (
             t('form.status.new_language')
           ) : (
-            <div>
+            <span>
               <StyledSmallText data-compact={compact}>
                 {t('form.workflow.statusLabel')}:
               </StyledSmallText>
               {isNewLanguage ? t('form.status.new_language') : statusText || t('form.status.new')}
-            </div>
+            </span>
           )}
         </StyledStatus>
       </StyledStatusWrapper>

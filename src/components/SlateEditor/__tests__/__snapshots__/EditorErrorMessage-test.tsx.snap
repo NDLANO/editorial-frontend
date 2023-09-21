@@ -120,8 +120,8 @@ exports[`EditorErrorMessage renders 1`] = `
         aria-label="Fjern"
         class="emotion-1"
         contenteditable="false"
-        data-cy="close-related-button"
         data-state="closed"
+        data-testid="close-related-button"
         data-trigger="true"
         type="button"
       >

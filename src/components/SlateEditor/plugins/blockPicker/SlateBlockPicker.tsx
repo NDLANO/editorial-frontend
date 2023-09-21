@@ -33,11 +33,10 @@ import { isInTableCellHeader, isTableCell } from '../table/slateHelpers';
 import { defaultTableBlock } from '../table/defaultBlocks';
 import { TYPE_BODYBOX } from '../bodybox/types';
 import { TYPE_DETAILS } from '../details/types';
-import { TYPE_TABLE, TYPE_TABLE_CELL_HEADER } from '../table/types';
+import { TYPE_TABLE } from '../table/types';
 import { TYPE_ASIDE } from '../aside/types';
 import { TYPE_FILE } from '../file/types';
 import {
-  TYPE_EMBED_AUDIO,
   TYPE_EMBED_BRIGHTCOVE,
   TYPE_EMBED_ERROR,
   TYPE_EMBED_EXTERNAL,
@@ -58,6 +57,7 @@ import { defaultContactBlock } from '../contactBlock/utils';
 import { TYPE_CAMPAIGN_BLOCK } from '../campaignBlock/types';
 import { TYPE_LINK_BLOCK_LIST } from '../linkBlockList/types';
 import { defaultLinkBlockList } from '../linkBlockList';
+import { TYPE_AUDIO } from '../audio/types';
 
 interface Props {
   editor: Editor;
@@ -201,9 +201,13 @@ const SlateBlockPicker = ({
         onInsertBlock(defaultAsideBlock(data.object), true);
         break;
       }
+      case TYPE_AUDIO: {
+        setVisualElementPickerOpen(true);
+        setType(data.object);
+        break;
+      }
       case TYPE_FILE:
       case TYPE_EMBED_H5P:
-      case TYPE_EMBED_AUDIO:
       case TYPE_EMBED_IMAGE:
       case TYPE_EMBED_ERROR:
       case TYPE_EMBED_EXTERNAL:
@@ -330,9 +334,9 @@ const SlateBlockPicker = ({
       />
       {!visualElementPickerOpen && (
         <Portal>
-          <StyledBlockPickerWrapper ref={portalRef} data-cy="slate-block-picker-button">
+          <StyledBlockPickerWrapper ref={portalRef} data-testid="slate-block-picker-button">
             <SlateBlockMenu
-              cy="slate-block-picker"
+              data-testid="slate-block-picker"
               isOpen={blockPickerOpen}
               heading={t('editorBlockpicker.heading')}
               actions={getActionsForArea()

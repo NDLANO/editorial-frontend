@@ -40,9 +40,9 @@ test.beforeEach(async ({ page }) => {
   await Promise.all([zendesk, responsibles, licenses, statuses]);
 
   await page.goto('/subject-matter/learning-resource/new');
-  await page.locator('[data-cy="slate-editor"]').click();
-  await page.locator('[data-cy="slate-block-picker"]').click();
-  await page.locator('[data-cy="create-table"]').click();
+  await page.getByTestId('slate-editor').click();
+  await page.getByTestId('slate-block-picker').click();
+  await page.getByTestId('create-table').click();
 });
 
 test('can fill table caption', async ({ page }) => {
@@ -62,25 +62,25 @@ test('can move around and place text in table', async ({ page }) => {
   await page.keyboard.type('Header 2');
   await expect(page.locator('thead > tr > th').first()).toHaveText('Header 1');
   await expect(page.locator('thead > tr > th').last()).toHaveText('Header 2');
-  await page.locator('[data-cy="column-add"]').click();
+  await page.getByTestId('column-add').click();
   expect(await page.locator('th').count()).toEqual(3);
   expect(await page.locator('td').count()).toEqual(3);
 
   await page.locator('thead > tr > th').last().click();
   await page.keyboard.type('Test new header');
   await page.keyboard.press('ArrowDown');
-  await page.locator('[data-cy="row-add"]').click();
+  await page.getByTestId('row-add').click();
   await page.locator('tbody > tr > td').last().click();
   expect(await page.locator('tr').count()).toEqual(3);
   expect(await page.locator('td').count()).toEqual(6);
   await page.keyboard.type('Test new row');
-  await page.locator('[data-cy="toggle-row-headers"]').click();
+  await page.getByTestId('toggle-row-headers').click();
   expect(await page.locator('th').count()).toEqual(5);
   expect(await page.locator('td').count()).toEqual(4);
-  await page.locator('[data-cy="column-remove"]').click();
+  await page.getByTestId('column-remove').click();
   expect(await page.locator('th').count()).toEqual(4);
   expect(await page.locator('td').count()).toEqual(2);
-  await page.locator('[data-cy="row-remove"]').click();
+  await page.getByTestId('row-remove').click();
   expect(await page.locator('tr').count()).toEqual(2);
 });
 
@@ -88,18 +88,18 @@ test('can add rows and columns', async ({ page }) => {
   await page.locator('thead > tr > th').last().click();
   await page.keyboard.type('Test new header');
   await page.keyboard.press('ArrowDown');
-  await page.locator('[data-cy="row-add"]').click();
+  await page.getByTestId('row-add').click();
   await page.locator('tbody > tr > td').last().click();
   expect(await page.locator('tr').count()).toEqual(3);
   expect(await page.locator('td').count()).toEqual(4);
   await page.keyboard.type('Test new row');
-  await page.locator('[data-cy="toggle-row-headers"]').click();
+  await page.getByTestId('toggle-row-headers').click();
   expect(await page.locator('th').count()).toEqual(4);
   expect(await page.locator('td').count()).toEqual(2);
-  await page.locator('[data-cy="column-remove"]').click();
+  await page.getByTestId('column-remove').click();
   expect(await page.locator('th').count()).toEqual(3);
   expect(await page.locator('td').count()).toEqual(0);
-  await page.locator('[data-cy="row-remove"]').click();
+  await page.getByTestId('row-remove').click();
   expect(await page.locator('tr').count()).toEqual(2);
 });
 
@@ -108,11 +108,11 @@ test('can remove and add table headers', async ({ page }) => {
   expect(await page.locator('td').count()).toEqual(2);
   expect(await page.locator('tr').count()).toEqual(2);
   await page.locator('thead > tr > th').first().click();
-  await page.locator('[data-cy="row-remove"]').click();
+  await page.getByTestId('row-remove').click();
   expect(await page.locator('th').count()).toEqual(0);
   expect(await page.locator('td').count()).toEqual(2);
   expect(await page.locator('tr').count()).toEqual(1);
-  await page.locator('[data-cy="head-add"]').click();
+  await page.getByTestId('head-add').click();
   expect(await page.locator('th').count()).toEqual(2);
   expect(await page.locator('td').count()).toEqual(2);
   expect(await page.locator('tr').count()).toEqual(2);
@@ -123,7 +123,7 @@ test('can toggle row headers', async ({ page }) => {
   expect(await page.locator('td').count()).toEqual(2);
   expect(await page.locator('tr').count()).toEqual(2);
   await page.locator('tbody > tr > td').first().click();
-  await page.locator('[data-cy="toggle-row-headers"]').click();
+  await page.getByTestId('toggle-row-headers').click();
   expect(await page.locator('th').count()).toEqual(3);
   expect(await page.locator('td').count()).toEqual(1);
   expect(await page.locator('tr').count()).toEqual(2);
@@ -131,13 +131,11 @@ test('can toggle row headers', async ({ page }) => {
 
 test('blockpicker to give limited options in table', async ({ page }) => {
   await page.locator('thead > tr > th').first().click();
-  expect(page.locator('[data-cy="slate-block-picker"]')).toBeVisible({ visible: false });
+  expect(page.getByTestId('slate-block-picker')).toBeVisible({ visible: false });
 
   await page.locator('tbody > tr > td').first().click();
-  await expect(page.locator('[data-cy="slate-block-picker"]')).toBeVisible();
-  await page.locator('[data-cy="slate-block-picker"]').click();
-  await expect(page.locator('[data-cy="create-image"]')).toBeVisible();
-  expect(
-    await page.locator('[data-cy="slate-block-picker-menu"]').getByRole('button').count(),
-  ).toEqual(2);
+  await expect(page.getByTestId('slate-block-picker')).toBeVisible();
+  await page.getByTestId('slate-block-picker').click();
+  await expect(page.getByTestId('create-image')).toBeVisible();
+  expect(await page.getByTestId('slate-block-picker-menu').getByRole('button').count()).toEqual(2);
 });

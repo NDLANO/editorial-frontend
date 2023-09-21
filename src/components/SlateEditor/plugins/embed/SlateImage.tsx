@@ -144,7 +144,7 @@ const SlateImage = ({
                 aria-label={t('form.image.removeImage')}
                 colorTheme="danger"
                 onClick={onRemoveClick}
-                data-cy="remove-element"
+                data-testid="remove-element"
               >
                 <DeleteForever />
               </StyledDeleteEmbedButton>

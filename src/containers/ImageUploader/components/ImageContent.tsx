@@ -16,11 +16,9 @@ import { DeleteForever } from '@ndla/icons/editor';
 import { ImageMeta } from '@ndla/image-search';
 import { IconButtonV2 } from '@ndla/button';
 import { animations, spacing, colors } from '@ndla/core';
-import { useCallback } from 'react';
 import FormikField from '../../../components/FormikField';
 import { ImageFormikType } from '../imageTransformers';
 import { TitleField } from '../../FormikForm';
-import { HandleSubmitFunc } from '../../FormikForm/articleFormHooks';
 
 const StyledImage = styled.img`
   margin: ${spacing.normal} 0;
@@ -36,25 +34,17 @@ const StyledDeleteButtonContainer = styled.div`
   flex-direction: row;
 `;
 
-interface Props {
-  handleSubmit: HandleSubmitFunc<ImageFormikType>;
-}
-
-const ImageContent = ({ handleSubmit: _handleSubmit }: Props) => {
+const ImageContent = () => {
   const { t } = useTranslation();
   const formikContext = useFormikContext<ImageFormikType>();
   const { values, errors, setFieldValue } = formikContext;
-
-  const handleSubmit = useCallback(() => {
-    _handleSubmit(formikContext.values, formikContext);
-  }, [_handleSubmit, formikContext]);
 
   // We use the timestamp to avoid caching of the `imageFile` url in the browser
   const timestamp = new Date().getTime();
   const imgSrc = values.filepath || `${values.imageFile}?width=600&ts=${timestamp}`;
   return (
     <>
-      <TitleField handleSubmit={handleSubmit} />
+      <TitleField />
       {!values.imageFile && (
         <UploadDropZone
           name="imageFile"

@@ -91,21 +91,17 @@ const normalizeRow = (
 
     const row = matrix[rowIndex].entries();
     for (const [index, cell] of row) {
-      const { scope, isHeader } = cell.data;
+      const { scope } = cell.data;
       // A. Normalize table head
       if (isHead) {
         // i. If cell in header
         //    Make sure scope='col' and isHeader=true and type is correct
-        if (
-          isTableCell(cell) &&
-          (scope !== 'col' || !isHeader || cell.type !== TYPE_TABLE_CELL_HEADER)
-        ) {
+        if (isTableCell(cell) && (cell.type !== TYPE_TABLE_CELL_HEADER || scope !== 'col')) {
           updateCell(
             editor,
             cell,
             {
               scope: 'col',
-              isHeader: true,
             },
             TYPE_TABLE_CELL_HEADER,
           );
@@ -114,13 +110,12 @@ const normalizeRow = (
       } else {
         // i. If table does not have headers on rows
         //    Make sure cells in body has scope=undefined and isHeader=false
-        if (!rowHeaders && (scope || isHeader)) {
+        if (!rowHeaders && (scope || cell.type === TYPE_TABLE_CELL_HEADER)) {
           updateCell(
             editor,
             cell,
             {
               scope: undefined,
-              isHeader: false,
             },
             TYPE_TABLE_CELL,
           );
@@ -132,24 +127,30 @@ const normalizeRow = (
         //    Other cells should not be a header
         if (rowHeaders) {
           if (index === 0) {
-            if (scope !== 'row' || !isHeader) {
+            if (scope !== 'row' || cell.type !== TYPE_TABLE_CELL_HEADER) {
               updateCell(
                 editor,
                 cell,
                 {
                   scope: 'row',
-                  isHeader: true,
                 },
                 TYPE_TABLE_CELL_HEADER,
               );
               return true;
             }
           } else {
-            if ((scope || isHeader) && getPrevCell(matrix, rowIndex, index) !== cell) {
-              updateCell(editor, cell, {
-                scope: undefined,
-                isHeader: false,
-              });
+            if (
+              (scope || cell.type === TYPE_TABLE_CELL_HEADER) &&
+              getPrevCell(matrix, rowIndex, index) !== cell
+            ) {
+              updateCell(
+                editor,
+                cell,
+                {
+                  scope: undefined,
+                },
+                TYPE_TABLE_CELL,
+              );
               return true;
             }
           }

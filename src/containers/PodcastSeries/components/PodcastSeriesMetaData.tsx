@@ -17,15 +17,14 @@ interface Props {
   language?: string;
   onImageLoad?: (width: number, height: number) => void;
   hasRSS?: boolean;
-  handleSubmit: () => void;
 }
 
-const PodcastSeriesMetaData = ({ language, onImageLoad, handleSubmit }: Props) => {
+const PodcastSeriesMetaData = ({ language, onImageLoad }: Props) => {
   const { t } = useTranslation();
   const plugins = [textTransformPlugin];
   return (
     <>
-      <TitleField handleSubmit={handleSubmit} />
+      <TitleField />
 
       <FormikField name="description" label={t('podcastSeriesForm.description')}>
         {({ field }) => (

@@ -8,7 +8,6 @@ import { TYPE_CODEBLOCK } from '../plugins/codeBlock/types';
 import { TYPE_DEFINITION_LIST } from '../plugins/definitionList/types';
 import { TYPE_DETAILS } from '../plugins/details/types';
 import {
-  TYPE_EMBED_AUDIO,
   TYPE_EMBED_BRIGHTCOVE,
   TYPE_EMBED_ERROR,
   TYPE_EMBED_EXTERNAL,
@@ -19,6 +18,7 @@ import { TYPE_HEADING } from '../plugins/heading/types';
 import { TYPE_LIST } from '../plugins/list/types';
 import { TYPE_PARAGRAPH } from '../plugins/paragraph/types';
 import { TYPE_TABLE } from '../plugins/table/types';
+import { TYPE_AUDIO } from '../plugins/audio/types';
 
 export const firstTextBlockElement: Element['type'][] = [TYPE_PARAGRAPH, TYPE_HEADING, TYPE_QUOTE];
 
@@ -28,7 +28,7 @@ export const textBlockElements: Element['type'][] = [
   TYPE_LIST,
   TYPE_QUOTE,
   TYPE_TABLE,
-  TYPE_EMBED_AUDIO,
+  TYPE_AUDIO,
   TYPE_EMBED_BRIGHTCOVE,
   TYPE_EMBED_EXTERNAL,
   TYPE_EMBED_ERROR,

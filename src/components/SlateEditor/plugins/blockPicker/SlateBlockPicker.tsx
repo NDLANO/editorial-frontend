@@ -73,9 +73,6 @@ const StyledBlockPickerWrapper = styled.div`
   z-index: 15;
 `;
 
-const isDuplicateAction = (action: Action, index: number, actions: Action[]) =>
-  actions.findIndex(({ data: { type } }) => type === action.data.type) === index;
-
 const SlateBlockPicker = ({
   editor,
   actionsToShowInAreas,
@@ -350,8 +347,7 @@ const SlateBlockPicker = ({
                 .map((action) => ({
                   ...action,
                   label: t(`editorBlockpicker.actions.${action.data.object}`),
-                }))
-                .filter(isDuplicateAction)}
+                }))}
               onToggleOpen={(open) => {
                 ReactEditor.focus(editor);
                 setBlockPickerOpen(open);

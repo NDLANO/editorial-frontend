@@ -1601,11 +1601,13 @@ const phrases = {
         subjectType: 'Subject type',
         resourceGroupPlaceholder: 'Grouping of resources',
         RGTooltip: 'Show resources Grouped or Ungrouped',
+        subjectLMA: 'Responsible for the subject',
       },
       placeholders: {
         category: 'Choose category',
         language: 'Choose language',
         type: 'Choose type',
+        lma: 'Choose responsible',
       },
     },
   },

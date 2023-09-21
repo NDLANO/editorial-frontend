@@ -40,9 +40,9 @@ test.beforeEach(async ({ page }) => {
   await Promise.all([zendesk, responsibles, licenses, statuses]);
 
   await page.goto('/subject-matter/learning-resource/new');
-  await page.locator('[data-cy="slate-editor"]').click();
-  await page.locator('[data-cy="slate-block-picker"]').click();
-  await page.locator('[data-cy="create-grid"]').click();
+  await page.getByTestId('slate-editor').click();
+  await page.getByTestId('slate-block-picker').click();
+  await page.getByTestId('create-grid').click();
 });
 
 test('can select multiple different sizes', async ({ page }) => {

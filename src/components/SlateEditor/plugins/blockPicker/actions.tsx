@@ -150,6 +150,11 @@ export const commonActions: Action[] = [
 
 export const frontpageActions = commonActions.concat(
   {
+    data: { type: TYPE_GRID, object: 'grid' },
+    icon: <Grid />,
+    helpIcon: renderArticleInModal('Grid'),
+  },
+  {
     data: { type: TYPE_BLOGPOST, object: 'blogPost' },
     icon: <BlogPost />,
     helpIcon: renderArticleInModal('BlogPost'),

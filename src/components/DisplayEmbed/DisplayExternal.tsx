@@ -271,7 +271,7 @@ const DisplayExternal = ({
           })}
           colorTheme="danger"
           onClick={onRemoveClick}
-          data-cy="remove-element"
+          data-testid="remove-element"
         >
           <DeleteForever />
         </StyledDeleteEmbedButton>

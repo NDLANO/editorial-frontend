@@ -19,7 +19,7 @@ export const DeleteButton = ({ children, ...rest }: Props) => (
       colorTheme="danger"
       variant="ghost"
       contentEditable={false}
-      data-cy="close-related-button"
+      data-testid="close-related-button"
       {...rest}
     >
       <DeleteForever />

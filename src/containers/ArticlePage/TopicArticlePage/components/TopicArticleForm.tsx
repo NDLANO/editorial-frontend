@@ -111,7 +111,9 @@ const TopicArticleForm = ({
     [_handleSubmit, articleTaxonomy?.length],
   );
 
-  const contexts = articleTaxonomy?.flatMap((node) => node.contexts);
+  const contexts = articleTaxonomy
+    ?.flatMap((node) => node.contexts)
+    .filter((context) => !context.rootId.includes('programme'));
 
   return (
     <Formik

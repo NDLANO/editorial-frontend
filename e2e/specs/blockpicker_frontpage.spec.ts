@@ -58,35 +58,33 @@ test.beforeEach(async ({ page }) => {
   await page.goto('/subject-matter/frontpage-article/new');
 
   await Promise.all([zendesk, responsibles, licenses, statuses, images, image]);
-  const el = page.locator('[data-cy="slate-editor"]');
+  const el = page.getByTestId('slate-editor');
   await el.click();
-  await page.locator('[data-cy="slate-block-picker"]').click();
-  await expect(page.locator('[data-cy="slate-block-picker-menu"]')).toBeVisible();
+  await page.getByTestId('slate-block-picker').click();
+  await expect(page.getByTestId('slate-block-picker-menu')).toBeVisible();
 });
 
 test('adds and removes grid', async ({ page }) => {
-  await page.locator("[data-cy='create-grid']").click();
+  await page.getByTestId('create-grid').click();
   expect(await page.getByTestId('grid-cell').count()).toEqual(2);
   await page.getByTestId('grid-cell').first().click();
-  await page.locator('[data-cy="slate-block-picker"]').click();
-  await expect(page.locator("[data-cy='create-keyFigure']")).toBeVisible();
-  await expect(page.locator("[data-cy='create-image']")).toBeVisible();
-  await expect(page.locator("[data-cy='create-blogPost']")).toBeVisible();
-  expect(
-    await page.locator("[data-cy='slate-block-picker-menu']").getByRole('button').count(),
-  ).toEqual(6);
-  await expect(page.locator('[data-cy="remove-grid"]')).toBeVisible();
-  await page.locator('[data-cy="remove-grid"]').click();
-  await expect(page.locator('[data-cy="remove-grid"]')).toHaveCount(0);
+  await page.getByTestId('slate-block-picker').click();
+  await expect(page.getByTestId('create-keyFigure')).toBeVisible();
+  await expect(page.getByTestId('create-image')).toBeVisible();
+  await expect(page.getByTestId('create-blogPost')).toBeVisible();
+  expect(await page.getByTestId('slate-block-picker-menu').getByRole('button').count()).toEqual(6);
+  await expect(page.getByTestId('remove-grid')).toBeVisible();
+  await page.getByTestId('remove-grid').click();
+  await expect(page.getByTestId('remove-grid')).toHaveCount(0);
 });
 
 test('adds and removes keyfigure', async ({ page }) => {
-  await page.locator("[data-cy='create-keyFigure']").click();
+  await page.getByTestId('create-keyFigure').click();
   await expect(page.getByRole('button', { name: 'Lagre', exact: true })).toBeDisabled();
   await page.locator("input[name='title']").fill('test');
   await page.locator("input[name='subtitle']").fill('test');
-  await page.locator('[data-cy="select-image-from-list"]').first().click();
-  await page.locator('[data-cy="use-image"]').click();
+  await page.getByTestId('select-image-from-list').first().click();
+  await page.getByTestId('use-image').click();
   await expect(page.getByRole('button', { name: 'Lagre', exact: true })).toBeEnabled();
   await page.getByRole('button', { name: 'Lagre', exact: true }).click();
   await expect(page.getByTestId('slate-key-figure')).toBeVisible();
@@ -95,13 +93,13 @@ test('adds and removes keyfigure', async ({ page }) => {
 });
 
 test('adds and removes blogpost', async ({ page }) => {
-  await page.locator("[data-cy='create-blogPost']").click();
+  await page.getByTestId('create-blogPost').click();
   await expect(page.getByRole('button', { name: 'Lagre', exact: true })).toBeDisabled();
   await page.locator("input[name='title']").fill('test');
   await page.locator("input[name='author']").fill('test');
   await page.locator("input[name='link']").fill('https://test.test');
-  await page.locator('[data-cy="select-image-from-list"]').first().click();
-  await page.locator('[data-cy="use-image"]').click();
+  await page.getByTestId('select-image-from-list').first().click();
+  await page.getByTestId('use-image').click();
   await expect(page.getByRole('button', { name: 'Lagre', exact: true })).toBeEnabled();
   await page.getByRole('button', { name: 'Lagre', exact: true }).click();
   await expect(page.getByTestId('slate-blog-post')).toBeVisible();
@@ -110,14 +108,14 @@ test('adds and removes blogpost', async ({ page }) => {
 });
 
 test('adds and removes contactblock', async ({ page }) => {
-  await page.locator("[data-cy='create-contactBlock']").click();
+  await page.getByTestId('create-contactBlock').click();
   await expect(page.getByRole('button', { name: 'Lagre', exact: true })).toBeDisabled();
   await page.locator("input[name='name']").fill('test');
   await page.locator("input[name='jobTitle']").fill('test');
   await page.locator("input[name='email']").fill('email@email.no');
   await page.locator("textarea[name='description']").fill('email');
-  await page.locator('[data-cy="select-image-from-list"]').first().click();
-  await page.locator('[data-cy="use-image"]').click();
+  await page.getByTestId('select-image-from-list').first().click();
+  await page.getByTestId('use-image').click();
   await expect(page.getByRole('button', { name: 'Lagre', exact: true })).toBeEnabled();
   await page.getByRole('button', { name: 'Lagre', exact: true }).click();
   await expect(page.getByTestId('slate-contact-block')).toBeVisible();
@@ -126,18 +124,14 @@ test('adds and removes contactblock', async ({ page }) => {
 });
 
 test('adds and removes campaignblock', async ({ page }) => {
-  await page.locator("[data-cy='create-campaignBlock']").click();
+  await page.getByTestId('create-campaignBlock').click();
   await expect(page.getByRole('button', { name: 'Lagre', exact: true })).toBeDisabled();
   await page.locator("input[name='title']").fill('test');
   await page.locator("textarea[name='description']").fill('test');
   await page.locator("input[name='link']").fill('https://test.test');
   await page.locator("input[name='linkText']").fill('Test page');
-  await page.getByRole('button', { name: 'Sett inn bilde til venstre', exact: true }).click();
-  await page.locator('[data-cy="select-image-from-list"]').first().click();
-  await page.locator('[data-cy="use-image"]').click();
-  await page.getByRole('button', { name: 'Sett inn bilde til høyre', exact: true }).click();
-  await page.locator('[data-cy="select-image-from-list"]').first().click();
-  await page.locator('[data-cy="use-image"]').click();
+  await page.getByTestId('select-image-from-list').first().click();
+  await page.getByTestId('use-image').click();
   await expect(page.getByRole('button', { name: 'Lagre', exact: true })).toBeEnabled();
   await page.getByRole('button', { name: 'Lagre', exact: true }).click();
   await expect(page.getByTestId('slate-campaign-block')).toBeVisible();

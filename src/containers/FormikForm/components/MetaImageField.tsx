@@ -50,7 +50,7 @@ const MetaImageField = ({ image, onImageRemove, onImageLoad }: Props) => {
           variant="ghost"
           onClick={onImageRemove}
           tabIndex={-1}
-          data-cy="remove-element"
+          data-testid="remove-element"
         >
           <DeleteForever />
         </IconButtonV2>

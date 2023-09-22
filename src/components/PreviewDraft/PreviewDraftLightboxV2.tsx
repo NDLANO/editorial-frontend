@@ -112,6 +112,7 @@ const PreviewVersion = ({ article, language }: VersionPreviewProps) => {
     const apiType = learningResourceFormTypeToDraftApiType(values, initialValues, licenses);
     return {
       id: article.id,
+      articleType: article.articleType,
       title: apiType.title ?? '',
       content: apiType.content ?? '',
       introduction: apiType.introduction ?? '',
@@ -119,7 +120,7 @@ const PreviewVersion = ({ article, language }: VersionPreviewProps) => {
       published: apiType.published,
       copyright: apiType.copyright,
     };
-  }, [values, initialValues, licenses, article.id]);
+  }, [values, initialValues, licenses, article.id, article.articleType]);
 
   return (
     <TwoArticleWrapper>

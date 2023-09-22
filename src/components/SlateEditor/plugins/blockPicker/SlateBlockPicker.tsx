@@ -340,9 +340,10 @@ const SlateBlockPicker = ({
               isOpen={blockPickerOpen}
               heading={t('editorBlockpicker.heading')}
               actions={getActionsForArea()
-                .filter((action) => {
-                  return !action.requiredScope || userPermissions?.includes(action.requiredScope);
-                })
+                .filter(
+                  (action) =>
+                    !action.requiredScope || userPermissions?.includes(action.requiredScope),
+                )
                 .map((action) => ({
                   ...action,
                   label: t(`editorBlockpicker.actions.${action.data.object}`),

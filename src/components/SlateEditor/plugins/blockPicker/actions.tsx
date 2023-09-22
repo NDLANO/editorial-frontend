@@ -140,12 +140,6 @@ export const commonActions: Action[] = [
     helpIcon: renderArticleInModal('ConceptList'),
     requiredScope: DRAFT_ADMIN_SCOPE,
   },
-  {
-    data: { type: TYPE_GRID, object: 'grid' },
-    icon: <Grid />,
-    helpIcon: renderArticleInModal('Grid'),
-    requiredScope: DRAFT_ADMIN_SCOPE,
-  },
 ];
 
 export const frontpageActions = commonActions.concat(
@@ -180,3 +174,10 @@ export const frontpageActions = commonActions.concat(
     helpIcon: renderArticleInModal('LinkBlockList'),
   },
 );
+
+export const learningResourceActions = commonActions.concat({
+  data: { type: TYPE_GRID, object: 'grid' },
+  icon: <Grid />,
+  helpIcon: renderArticleInModal('Grid'),
+  requiredScope: DRAFT_ADMIN_SCOPE,
+});

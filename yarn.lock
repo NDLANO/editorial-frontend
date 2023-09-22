@@ -2105,10 +2105,10 @@
     "@ndla/util" "^3.2.0"
     tiny-warning "^1.0.3"
 
-"@ndla/types-backend@^0.2.20":
-  version "0.2.20"
-  resolved "https://registry.yarnpkg.com/@ndla/types-backend/-/types-backend-0.2.20.tgz#35ceb2779a0b8d7929770cf6e5299a3bda1e04ae"
-  integrity sha512-Ek68Sdb/Qdbm7kOklvXx6+KzS7r57cT5EVAhFXrThYaLuDrGcc1HgZ9tRyxHAFtnR6pj16qeAD/gA/zi/iDdkw==
+"@ndla/types-backend@^0.2.21":
+  version "0.2.21"
+  resolved "https://registry.yarnpkg.com/@ndla/types-backend/-/types-backend-0.2.21.tgz#2bc89233e45c8ed25c54aeff967ba4fc1c33d8ed"
+  integrity sha512-g3RD8NRaieKj5CO4JdJm9jDUELGl2dtTL6ch4jQ2HlqrfibNqU3m8hYvmVpvIt1DROFtRg16zVTLkzahOo1Znw==
 
 "@ndla/types-embed@^4.0.0":
   version "4.0.0"

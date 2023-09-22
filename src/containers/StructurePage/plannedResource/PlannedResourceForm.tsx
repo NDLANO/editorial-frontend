@@ -187,7 +187,10 @@ const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
       select: (res) =>
         res
           .flatMap((parent) =>
-            parent.subtypes?.map((s) => ({ label: `${parent.name} - ${s.name}`, value: s.id })),
+            parent.subtypes?.map((s) => ({
+              label: `${parent.name} - ${s.name}`,
+              value: `${s.id},${parent.id}`,
+            })),
           )
           .filter((r) => !!r) as Option[],
       placeholderData: [],
@@ -236,13 +239,24 @@ const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
         });
 
         if (!isTopicArticle) {
+          const [childContentType, parentContentType] = values.contentType.split(',');
           await createResourceResourceType({
             body: {
               resourceId: resourceId,
-              resourceTypeId: values.contentType,
+              resourceTypeId: childContentType,
             },
             taxonomyVersion,
           });
+
+          if (parentContentType) {
+            await createResourceResourceType({
+              body: {
+                resourceId: resourceId,
+                resourceTypeId: parentContentType,
+              },
+              taxonomyVersion,
+            });
+          }
         }
         if (!(addNodeMutationLoading || postResourceLoading || createResourceTypeLoading)) {
           onClose();

@@ -9,6 +9,7 @@
 import { test, expect } from '@playwright/test';
 import { mockRoute } from '../apiMock';
 import { responsiblesMock, zendeskMock } from '../mockResponses';
+import { languages } from '../../src/components/SlateEditor/plugins/span/LanguageSelector'
 
 const metaKey = process.platform === 'darwin' ? 'Meta' : 'Control';
 
@@ -180,3 +181,17 @@ test('Creates math', async ({ page }) => {
   await page.getByTestId('toolbar-button-mathml').click();
   await expect(page.getByTestId('math')).toBeVisible();
 });
+
+test('Language label buttons are available, and labels can be set', async ({ page }) => {
+  await page.getByTestId('slate-editor').click();
+  await page.keyboard.type('Hello')
+  await page.keyboard.press(`${metaKey}+A`)
+  await expect(page.getByTestId('toolbar-button-span')).toBeVisible();
+  await page.getByTestId('toolbar-button-span').click();
+  for (const lang in languages) {
+    expect(page.getByTestId(`language-button-${languages[lang]}`)).toBeDefined();
+  }
+  await page.getByTestId(`language-button-${languages[0]}`).click();
+  await page.keyboard.press(`${metaKey}+A`)
+  await expect(page.getByTestId(`selected-language-${languages[0]}`)).toBeVisible();
+})

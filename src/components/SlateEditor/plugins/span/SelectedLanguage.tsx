@@ -38,6 +38,7 @@ const SelectedLanguage = ({ language, onClick }: Props) => {
   const selected = useSelected();
   return (
     <StyledLanguagePicker
+      data-testid={`selected-language-${language}`}
       selected={selected}
       className="selected-language"
       onClick={onClick}

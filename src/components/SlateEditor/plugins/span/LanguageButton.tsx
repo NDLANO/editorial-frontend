@@ -34,6 +34,7 @@ const LanguageButton = ({ language, onClick, isActive }: Props) => {
 
   return (
     <StyledLanguageButton
+      data-testid={`language-button-${language}`}
       isActive={isActive}
       type="button"
       onClick={() => onClick(language)}

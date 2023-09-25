@@ -46,14 +46,20 @@ test.beforeEach(async ({ page }) => {
 });
 
 test('can change text styling', async ({ page }) => {
-  const el = page.getByTestId('slate-editor');
-  await el.click();
+  await page.getByTestId('slate-editor').click();
   await page.keyboard.type('text to style');
   await page.keyboard.press(`${metaKey}+A`);
-  const bold = page.getByTestId('toolbar-button-bold');
-  await bold.click();
-  expect(bold).toHaveAttribute('data-active', 'true');
-  await bold.click();
+  await page.getByTestId('toolbar-button-bold').click();
+  expect(page.getByTestId('toolbar-button-bold')).toHaveAttribute('data-active', 'true');
+  await page.getByTestId('toolbar-button-bold').click();
+  // const el = page.getByTestId('slate-editor');
+  // await el.click();
+  // await page.keyboard.type('text to style');
+  // await page.keyboard.press(`${metaKey}+A`);
+  // const bold = page.getByTestId('toolbar-button-bold');
+  // await bold.click();
+  // expect(bold).toHaveAttribute('data-active', 'true');
+  // await bold.click();
   const italic = page.getByTestId('toolbar-button-italic');
   await italic.click();
   expect(italic).toHaveAttribute('data-active', 'true');
@@ -74,7 +80,8 @@ test('can change text styling', async ({ page }) => {
   await h2.click();
   expect(h2).toHaveAttribute('data-active', 'true');
   await h2.click();
-  await el.click();
+  // await el.click();
+  await page.getByTestId('slate-editor').click();
   await page.keyboard.press(`${metaKey}+A`);
   await page.keyboard.type(' new heading ');
   await page.keyboard.press(`${metaKey}+A`);
@@ -82,7 +89,8 @@ test('can change text styling', async ({ page }) => {
   await h3.click();
   expect(h3).toHaveAttribute('data-active', 'true');
   await h3.click();
-  await el.click();
+  // await el.click();
+  await page.getByTestId('slate-editor').click();
   await page.keyboard.press(`${metaKey}+A`);
   await page.keyboard.type('This is test content');
   await page.keyboard.press(`${metaKey}+A`);

@@ -46,20 +46,15 @@ test.beforeEach(async ({ page }) => {
 });
 
 test('can change text styling', async ({ page }) => {
-  await page.getByTestId('slate-editor').click();
-  await page.keyboard.type('text to style');
-  await page.keyboard.press(`${metaKey}+A`);
-  await page.getByTestId('toolbar-button-bold').click();
-  expect(page.getByTestId('toolbar-button-bold')).toHaveAttribute('data-active', 'true');
-  await page.getByTestId('toolbar-button-bold').click();
-  // const el = page.getByTestId('slate-editor');
-  // await el.click();
-  // await page.keyboard.type('text to style');
-  // await page.keyboard.press(`${metaKey}+A`);
-  // const bold = page.getByTestId('toolbar-button-bold');
-  // await bold.click();
-  // expect(bold).toHaveAttribute('data-active', 'true');
-  // await bold.click();
+  const el = page.getByTestId('slate-editor');
+  await el.click();
+  await el.type('text to style');
+  await el.press(`${metaKey}+A`);
+  const bold = page.getByTestId('toolbar-button-bold');
+  await bold.waitFor();
+  await bold.click();
+  expect(bold).toHaveAttribute('data-active', 'true');
+  await bold.click();
   const italic = page.getByTestId('toolbar-button-italic');
   await italic.click();
   expect(italic).toHaveAttribute('data-active', 'true');
@@ -80,8 +75,7 @@ test('can change text styling', async ({ page }) => {
   await h2.click();
   expect(h2).toHaveAttribute('data-active', 'true');
   await h2.click();
-  // await el.click();
-  await page.getByTestId('slate-editor').click();
+  await el.click();
   await page.keyboard.press(`${metaKey}+A`);
   await page.keyboard.type(' new heading ');
   await page.keyboard.press(`${metaKey}+A`);
@@ -89,8 +83,7 @@ test('can change text styling', async ({ page }) => {
   await h3.click();
   expect(h3).toHaveAttribute('data-active', 'true');
   await h3.click();
-  // await el.click();
-  await page.getByTestId('slate-editor').click();
+  await el.click();
   await page.keyboard.press(`${metaKey}+A`);
   await page.keyboard.type('This is test content');
   await page.keyboard.press(`${metaKey}+A`);
@@ -106,9 +99,12 @@ test('can change text styling', async ({ page }) => {
 });
 
 test('can create a valid link', async ({ page }) => {
-  await page.getByTestId('slate-editor').click();
-  await page.keyboard.type('This is a test link');
-  await page.keyboard.press(`${metaKey}+A`);
+  const el = page.getByTestId('slate-editor');
+  await el.click();
+  await el.type('This is a test link');
+  await el.press(`${metaKey}+A`);
+  await expect(page.getByTestId('toolbar-button-link')).toBeAttached();
+  await expect(page.getByTestId('toolbar-button-link')).toBeVisible();
   const link = page.getByTestId('toolbar-button-link');
   expect(link).toBeVisible();
   await link.click();
@@ -122,24 +118,26 @@ test('can create a valid link', async ({ page }) => {
 });
 
 test('All lists work properly', async ({ page }) => {
-  await page.getByTestId('slate-editor').click();
-  await page.keyboard.type('First item in the list');
-  await page.keyboard.press(`${metaKey}+A`);
+  const el = page.getByTestId('slate-editor');
+  await el.click();
+  await el.type('First item in the list');
+  await el.press(`${metaKey}+A`);
   const numberedList = page.getByTestId('toolbar-button-numbered-list');
+  await numberedList.waitFor();
   await numberedList.click();
   await expect(numberedList).toHaveAttribute('data-active', 'true');
   await expect(page.getByRole('listitem')).toHaveCount(1);
-  await page.keyboard.press('ArrowRight');
-  await page.keyboard.press('End');
-  await page.keyboard.press('Enter');
-  await page.keyboard.type('Second item in the list');
+  await el.press('ArrowRight');
+  await el.press('End');
+  await el.press('Enter');
+  await el.type('Second item in the list');
   await expect(page.getByRole('listitem')).toHaveCount(2);
-  await page.keyboard.press(`${metaKey}+A`);
+  await el.press(`${metaKey}+A`);
   const bulletList = page.getByTestId('toolbar-button-bulleted-list');
   await bulletList.click();
   await expect(bulletList).toHaveAttribute('data-active', 'true');
   await expect(page.locator('ul > li')).toHaveCount(2);
-  await page.keyboard.press(`${metaKey}+A`);
+  await el.press(`${metaKey}+A`);
   const letterList = page.getByTestId('toolbar-button-letter-list');
   await letterList.click();
   await expect(letterList).toHaveAttribute('data-active', 'true');
@@ -147,54 +145,63 @@ test('All lists work properly', async ({ page }) => {
 });
 
 test('Definition list work properly', async ({ page }) => {
-  await page.getByTestId('slate-editor').click();
-  await page.keyboard.type('Definition term');
-  await page.keyboard.press(`${metaKey}+A`);
+  const el = page.getByTestId('slate-editor');
+  await el.click();
+  await el.type('Definition term');
+  await el.press(`${metaKey}+A`);
   const definitionList = page.getByTestId('toolbar-button-definition-list');
+  await definitionList.waitFor();
   await definitionList.click();
   await expect(definitionList).toHaveAttribute('data-active', 'true');
   await expect(page.locator('dl > dt')).toHaveCount(1);
-  await page.keyboard.press('ArrowRight');
-  await page.keyboard.press('End');
-  await page.keyboard.press('Enter');
-  await page.keyboard.press('Tab');
-  await page.keyboard.type('Definition description');
+  await el.press('ArrowRight');
+  await el.press('End');
+  await el.press('Enter');
+  await el.press('Tab');
+  await el.type('Definition description');
   await expect(page.locator('dl > dd')).toHaveCount(1);
 });
 
 test('Selecting multiple paragraphs gives multiple terms', async ({ page }) => {
-  await page.getByTestId('slate-editor').click();
-  await page.keyboard.type('Definition term 1');
-  await page.keyboard.press('Enter');
-  await page.keyboard.type('Definition term 2');
-  await page.keyboard.press('Enter');
-  await page.keyboard.type('Definition term 3');
-  await page.keyboard.press('Enter');
-  await page.keyboard.press(`${metaKey}+A`);
+  const el = await page.getByTestId('slate-editor');
+  await el.click();
+  await el.type('Definition term 1');
+  await el.press('Enter');
+  await el.type('Definition term 2');
+  await el.press('Enter');
+  await el.type('Definition term 3');
+  await el.press('Enter');
+  await el.press(`${metaKey}+A`);
   const definitionList = page.getByTestId('toolbar-button-definition-list');
+  await definitionList.waitFor();
   await definitionList.click();
   await expect(definitionList).toHaveAttribute('data-active', 'true');
   await expect(page.locator('dl > dt')).toHaveCount(3);
 });
 
 test('Creates math', async ({ page }) => {
-  await page.getByTestId('slate-editor').click();
-  await page.keyboard.type('1+1');
-  await page.keyboard.press(`${metaKey}+A`);
-  await page.getByTestId('toolbar-button-mathml').click();
+  const el = page.getByTestId('slate-editor');
+  await el.click();
+  await el.type('1+1');
+  await el.press(`${metaKey}+A`);
+  const mathButton = page.getByTestId('toolbar-button-mathml');
+  await mathButton.waitFor();
+  await mathButton.click();
   await expect(page.getByTestId('math')).toBeVisible();
 });
 
 test('Language label buttons are available, and labels can be set', async ({ page }) => {
-  await page.getByTestId('slate-editor').click();
-  await page.keyboard.type('Hello');
-  await page.keyboard.press(`${metaKey}+A`);
-  await expect(page.getByTestId('toolbar-button-span')).toBeVisible();
-  await page.getByTestId('toolbar-button-span').click();
+  const el = page.getByTestId('slate-editor');
+  await el.click();
+  await el.type('Hello');
+  await el.press(`${metaKey}+A`);
+  const languageButton = page.getByTestId('toolbar-button-span');
+  await languageButton.click();
   for (const lang in languages) {
     expect(page.getByTestId(`language-button-${languages[lang]}`)).toBeDefined();
   }
-  await page.getByTestId(`language-button-${languages[0]}`).click();
-  await page.keyboard.press(`${metaKey}+A`);
+  const firstLangButton = page.getByTestId(`language-button-${languages[0]}`);
+  await firstLangButton.click();
+  await el.press(`${metaKey}+A`);
   await expect(page.getByTestId(`selected-language-${languages[0]}`)).toBeVisible();
 });

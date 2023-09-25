@@ -153,7 +153,7 @@ describe('embed audio serializing tests', () => {
           type: TYPE_AUDIO,
           data: {
             resource: 'audio',
-            resourceId: '123',
+            resource_id: '123',
             type: 'standard',
             url: 'https://test.url',
           },
@@ -192,7 +192,7 @@ describe('embed podcast serializing tests', () => {
           type: TYPE_AUDIO,
           data: {
             resource: 'audio',
-            resourceId: '123',
+            resource_id: '123',
             type: 'podcast',
             url: 'https://test.url',
           },

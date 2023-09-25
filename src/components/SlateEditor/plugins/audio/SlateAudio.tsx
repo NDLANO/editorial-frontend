@@ -65,10 +65,9 @@ const SlateAudio = ({ element, editor, attributes, language, children }: Props) 
   const [isEditing, setIsEditing] = useState(false);
   const isSelected = useSelected();
 
-  const audioMetaQuery = useAudioMeta(element.data?.resourceId!, language, {
-    enabled: !!parseInt(element.data?.resourceId ?? ''),
+  const audioMetaQuery = useAudioMeta(element.data?.resource_id!, language, {
+    enabled: !!parseInt(element.data?.resource_id ?? ''),
   });
-
   const embed: AudioMetaData | undefined = useMemo(
     () =>
       element.data
@@ -134,7 +133,7 @@ const SlateAudio = ({ element, editor, attributes, language, children }: Props) 
                     colorTheme="light"
                     to={`/media/${
                       embed.embedData.type === 'podcast' ? 'podcast' : 'audio'
-                    }-upload/${embed.embedData.resourceId}/edit/${language}`}
+                    }-upload/${embed.embedData.resource_id}/edit/${language}`}
                     target="_blank"
                     title={t('form.editAudio')}
                     aria-label={t('form.editAudio')}

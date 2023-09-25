@@ -63,7 +63,7 @@ describe('embed normalizer tests', () => {
             ],
             data: {
               resource: 'audio',
-              resourceId: '123',
+              resource_id: '123',
               type: 'standard',
               url: 'https://test.url',
             },
@@ -127,7 +127,7 @@ describe('embed normalizer tests', () => {
             ],
             data: {
               resource: 'audio',
-              resourceId: '123',
+              resource_id: '123',
               type: 'standard',
               url: 'https://test.url',
             },

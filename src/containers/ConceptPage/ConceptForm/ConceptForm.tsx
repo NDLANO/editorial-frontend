@@ -280,7 +280,7 @@ const ConceptForm = ({
               >
                 <ConceptContent isGloss={isGloss} />
               </FormAccordion>
-              {conceptType === 'gloss' && (
+              {isGloss && (
                 <FormAccordion
                   id="glossData"
                   title={t('form.concept.glossDataSection.gloss')}

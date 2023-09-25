@@ -101,6 +101,7 @@ const phrases = {
   languages: {
     // Adds to list from frontend-packages
     ar: 'Arabic',
+    la: 'Latin',
     no: 'Norwegian',
     so: 'Somali',
     ti: 'Tigrinya',

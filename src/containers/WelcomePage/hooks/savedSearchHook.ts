@@ -225,6 +225,8 @@ export const useSavedSearchUrl = (currentUserData: IUserData | undefined): Searc
       t(`imageSearch.modelReleased.${searchObject['model-released']}`),
     'filter-inactive':
       searchObject['filter-inactive'] === 'false' ? t('searchForm.archivedIncluded') : undefined,
+    'concept-type':
+      searchObject['concept-type'] && t(`searchForm.conceptType.${searchObject['concept-type']}`),
   });
 
   const getSavedSearchData = (searchObjects: SearchObjectType[]): SavedSearchObjectType[] =>

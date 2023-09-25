@@ -7,11 +7,11 @@
  */
 
 import { Descendant } from 'slate';
-import { IStatus, IAuthor, IGlossData } from '@ndla/types-backend/concept-api';
+import { IStatus, IAuthor, IGlossExample } from '@ndla/types-backend/concept-api';
 import { IArticle } from '@ndla/types-backend/draft-api';
 import { Node } from '@ndla/types-taxonomy';
 
-export interface ConceptFormValues extends Partial<IGlossData> {
+export interface ConceptFormValues {
   id?: number;
   language: string;
   revision?: number;
@@ -41,4 +41,13 @@ export interface ConceptFormValues extends Partial<IGlossData> {
   origin?: string;
   responsibleId?: string;
   conceptType: string;
+  gloss?: {
+    gloss: string;
+    wordClass: string;
+    originalLanguage: string;
+  };
+  examples?: IGlossExample[][];
+  transcriptions?: {
+    [key: string]: string;
+  };
 }

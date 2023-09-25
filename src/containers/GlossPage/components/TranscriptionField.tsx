@@ -36,7 +36,6 @@ const StyledTranscriptionField = styled.div`
 
 const TranscriptionField = ({ name, value, label, removeField }: Props) => {
   const { t } = useTranslation();
-
   return (
     <FormikField name={name}>
       {({ field }) => (
@@ -46,9 +45,6 @@ const TranscriptionField = ({ name, value, label, removeField }: Props) => {
             placeholder={t('form.concept.glossDataSection.transcription')}
             value={value ?? ''}
             data-cy="transcription-selector"
-            warningText={
-              !value ? t('form.concept.glossDataSection.transcriptionMissingFields') : ''
-            }
             {...field}
           />
           <FieldRemoveButton onClick={removeField} />

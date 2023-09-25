@@ -59,11 +59,17 @@ export const conceptApiTypeToFormType = (
     origin: concept?.copyright?.origin,
     responsibleId: concept === undefined ? ndlaId : concept?.responsible?.responsibleId,
     conceptType: conceptType || 'concept',
-    gloss: concept?.glossData?.gloss ?? '',
-    originalLanguage: concept?.glossData?.originalLanguage ?? '',
-    wordClass: concept?.glossData?.wordClass ?? '',
-    transcriptions: concept?.glossData?.transcriptions ?? {},
-    examples: concept?.glossData?.examples ?? [],
+    ...(conceptType === 'gloss'
+      ? {
+          gloss: {
+            gloss: concept?.glossData?.gloss ?? '',
+            wordClass: concept?.glossData?.wordClass ?? '',
+            originalLanguage: concept?.glossData?.originalLanguage ?? '',
+          },
+          examples: concept?.glossData?.examples ?? [],
+          transcriptions: concept?.glossData?.transcriptions ?? {},
+        }
+      : {}),
   };
 };
 
@@ -97,9 +103,9 @@ export const getNewConceptType = (
     ...(conceptType === 'gloss'
       ? {
           glossData: {
-            gloss: values.gloss ?? '',
-            wordClass: values.wordClass ?? '',
-            originalLanguage: values.originalLanguage ?? '',
+            gloss: values.gloss?.gloss ?? '',
+            wordClass: values.gloss?.wordClass ?? '',
+            originalLanguage: values.gloss?.originalLanguage ?? '',
             examples: values.examples ?? [],
             transcriptions: values.transcriptions ?? {},
           },
@@ -158,11 +164,11 @@ export const conceptFormTypeToApiType = (
     supportedLanguages: values.supportedLanguages,
     conceptType,
     glossData: {
-      gloss: values?.gloss ?? '',
-      originalLanguage: values.originalLanguage ?? '',
-      wordClass: values.wordClass ?? '',
-      transcriptions: values.transcriptions ?? {},
+      gloss: values.gloss?.gloss ?? '',
+      wordClass: values.gloss?.wordClass ?? '',
+      originalLanguage: values.gloss?.originalLanguage ?? '',
       examples: values.examples ?? [],
+      transcriptions: values.transcriptions ?? {},
     },
   };
 };

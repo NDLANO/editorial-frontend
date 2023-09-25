@@ -787,6 +787,7 @@ const phrases = {
         remove: 'Ta bort',
         choose: 'Velg {{label}}',
         languageMissingFields: 'Alle felter for et språk må fylles ut.',
+        exampleMissingFields: 'Alle felter for et eksempel må fylles ut.',
         glossMissingFields: 'En glose må inneholde alle felter.',
         transcriptionMissingFields: 'En transkripsjon kan ikke være tom.',
       },

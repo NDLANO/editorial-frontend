@@ -8,39 +8,42 @@
 
 import { useTranslation } from 'react-i18next';
 import { Select } from '@ndla/forms';
+import { useField } from 'formik';
+import { useMemo } from 'react';
 import TranscriptionField from './TranscriptionField';
-import { ROMANIZATION_OPTIONS } from '../glossData';
 import FormikField from '../../../components/FormikField';
+import { ROMANIZATION_OPTIONS } from '../glossData';
 
 interface Props {
   name: string;
-  values: { [key: string]: string };
 }
 
-const TranscriptionsField = ({ name, values: transcriptions }: Props) => {
+const TranscriptionsField = ({ name }: Props) => {
+  const [_, { value }] = useField<{ [key: string]: string }>(name);
   const { t } = useTranslation();
 
-  const transcriptionKeys = Object.keys(transcriptions);
-  const availableRomanizations = ROMANIZATION_OPTIONS.filter(
-    (option) => !transcriptionKeys.includes(option),
+  const transcriptionKeys = Object.keys(value);
+  const availableRomanizations = useMemo(
+    () => ROMANIZATION_OPTIONS.filter((option) => !transcriptionKeys.includes(option)),
+    [transcriptionKeys],
   );
-
   return (
-    <FormikField name={name} showError={false}>
+    <FormikField name={name}>
       {({ field }) => (
         <>
-          {Object.keys(transcriptions).map((key) => (
+          {Object.keys(value).map((key) => (
             <TranscriptionField
               key={key}
               label={key}
               name={`${name}.${key}`}
-              value={transcriptions[key]}
+              value={value[key]}
               removeField={() => {
-                const { [key]: _, ...newTranscriptions } = transcriptions;
+                // Delete key from value object, keep remainingTranscriptions
+                const { [key]: _, ...remainingTranscriptions } = value;
                 field.onChange({
                   target: {
                     name,
-                    value: newTranscriptions,
+                    value: remainingTranscriptions,
                   },
                 });
               }}
@@ -54,7 +57,7 @@ const TranscriptionsField = ({ name, values: transcriptions }: Props) => {
                 field.onChange({
                   target: {
                     name,
-                    value: { ...transcriptions, [e.currentTarget.value]: '' },
+                    value: { ...value, [e.currentTarget.value]: '' },
                   },
                 })
               }

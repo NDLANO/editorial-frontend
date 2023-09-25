@@ -15,6 +15,7 @@ import { useTranslation } from 'react-i18next';
 import { FieldArray } from 'formik';
 import styled from '@emotion/styled';
 import ExampleField from './ExampleField';
+import { emptyGlossExample } from '../glossData';
 
 const Wrapper = styled.div`
   margin-bottom: ${spacing.small};
@@ -32,20 +33,15 @@ type Props = {
 
 const LanguageVariantFieldArray = ({ examples, name, removeFromParentArray }: Props) => {
   const { t } = useTranslation();
-
   return (
     <Wrapper>
       <FieldArray
         name={name}
         render={(arrayHelpers) => (
           <>
-            {examples.map((example, exampleIndex) => (
+            {examples?.map((example, exampleIndex) => (
               <FieldSection key={exampleIndex}>
-                <ExampleField
-                  name={`${name}.${exampleIndex}`}
-                  example={example}
-                  index={exampleIndex}
-                />
+                <ExampleField name={`${name}.${exampleIndex}`} example={example} />
                 <div>
                   <FieldRemoveButton
                     onClick={() =>
@@ -59,10 +55,7 @@ const LanguageVariantFieldArray = ({ examples, name, removeFromParentArray }: Pr
                 </div>
               </FieldSection>
             ))}
-            <StyledButton
-              variant="outline"
-              onClick={() => arrayHelpers.push({ example: '', language: '', transcriptions: {} })}
-            >
+            <StyledButton variant="outline" onClick={() => arrayHelpers.push(emptyGlossExample)}>
               {t('form.concept.glossDataSection.add', {
                 label: t(`form.concept.glossDataSection.languageVariant`).toLowerCase(),
               })}

@@ -13,12 +13,12 @@ import {
   IUpdatedConcept,
   ITagsSearchResult,
   IConceptSummary,
+  IGlossExample,
 } from '@ndla/types-backend/concept-api';
 import { IArticle } from '@ndla/types-backend/draft-api';
 import { Formik, FormikProps, FormikHelpers } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { Node } from '@ndla/types-taxonomy';
-import { FormHeaderType } from '../../../components/HeaderWithLanguage/HeaderWithLanguage';
 import GlossDataSection from '../../GlossPage/components/GlossDataSection';
 import { ARCHIVED, PUBLISHED, UNPUBLISHED } from '../../../constants';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
@@ -124,39 +124,37 @@ const conceptRules: RulesType<ConceptFormValues, IConcept> = {
   },
 };
 
-const glossRules: RulesType<ConceptFormValues, IConcept> = {
+const glossRules: RulesType<ConceptFormValues, IConcept, IGlossExample> = {
   ...conceptFormBaseRules,
   gloss: {
     test: (values) => {
-      if (!values.gloss || !values.wordClass || !values.originalLanguage)
+      if (!values.gloss?.gloss || !values.gloss?.wordClass || !values.gloss?.originalLanguage)
         return {
           translationKey: 'form.concept.glossDataSection.glossMissingFields',
         };
     },
   },
-  transcriptions: {
-    onlyValidateIf: (values) => {
-      if (values.originalLanguage === 'zh' && values.transcriptions) {
-        return Object.keys(values.transcriptions).length !== 0;
-      }
-      return false;
-    },
-    test: (values) => {
-      if (values.transcriptions && Object.values(values.transcriptions).includes('')) {
-        return { translationKey: 'form.concept.glossDataSection.transcriptionMissingFields' };
-      }
+  examples: {
+    nestedValidationRules: {
+      example: {
+        test: (values) => {
+          const transcriptionMissingText =
+            values.transcriptions && Object.values(values.transcriptions).some((t) => !t);
+
+          if (!values.example || !values.language || transcriptionMissingText)
+            return { translationKey: 'form.concept.glossDataSection.exampleMissingFields' };
+        },
+      },
     },
   },
-  examples: {
-    onlyValidateIf: (values) => !!values.examples?.length,
-    test: (values) => {
-      const hasError = values.examples?.some((exampleGroup) =>
-        exampleGroup.some((ex) => !ex.example || !ex.language),
-      );
-      if (hasError) {
-        return { translationKey: 'form.concept.glossDataSection.languageMissingFields' };
-      }
-    },
+  // håndtere disse litt annerledes??
+  'transcriptions.pinyin': {
+    required: true,
+    onlyValidateIf: (values) => values.transcriptions?.pinyin !== undefined,
+  },
+  'transcriptions.traditional': {
+    required: true,
+    onlyValidateIf: (values) => values.transcriptions?.traditional !== undefined,
   },
 };
 
@@ -261,7 +259,7 @@ const ConceptForm = ({
               concept={concept}
               status={concept?.status}
               title={concept?.title.title ?? initialTitle}
-              type={conceptType as FormHeaderType}
+              type={conceptType}
               supportedLanguages={supportedLanguages}
             />
             <FormAccordions defaultOpen={['content']}>
@@ -277,7 +275,9 @@ const ConceptForm = ({
                 <FormAccordion
                   id="glossData"
                   title={t('form.concept.glossDataSection.gloss')}
-                  hasError={!!(errors.gloss || errors.examples || errors.transcriptions)}
+                  hasError={
+                    !!(errors.gloss || Object.keys(errors).find((e) => e.includes('examples')))
+                  }
                 >
                   <GlossDataSection />
                 </FormAccordion>

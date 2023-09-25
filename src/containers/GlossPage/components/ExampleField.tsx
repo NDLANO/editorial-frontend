@@ -16,7 +16,6 @@ import FormikField from '../../../components/FormikField';
 
 interface Props {
   example: IGlossExample;
-  index: number;
   name: string;
 }
 
@@ -26,8 +25,9 @@ const StyledFormikField = styled(FormikField)`
 
 const ExampleField = ({ example, name }: Props) => {
   const { t } = useTranslation();
+
   return (
-    <StyledFormikField name={name} showError={false}>
+    <StyledFormikField name={name}>
       {({ field }) => (
         <>
           <FieldSplitter>
@@ -35,11 +35,6 @@ const ExampleField = ({ example, name }: Props) => {
               type="text"
               placeholder={t('form.concept.glossDataSection.example')}
               value={example.example}
-              warningText={
-                !example.example || !example.language
-                  ? t('form.concept.glossDataSection.languageMissingFields')
-                  : ''
-              }
               onChange={(e) =>
                 field.onChange({
                   target: {
@@ -74,9 +69,7 @@ const ExampleField = ({ example, name }: Props) => {
               ))}
             </Select>
           </FieldSplitter>
-          {example.language === 'zh' && (
-            <TranscriptionsField name={`${name}.transcriptions`} values={example.transcriptions} />
-          )}
+          {example.language === 'zh' && <TranscriptionsField name={`${name}.transcriptions`} />}
         </>
       )}
     </StyledFormikField>

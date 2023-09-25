@@ -9,84 +9,98 @@
 import { useField } from 'formik';
 import { FieldHeader, FieldSection, Input, Select } from '@ndla/forms';
 import { useTranslation } from 'react-i18next';
-// eslint-disable-next-line no-restricted-imports
-import { WordClass } from '@ndla/ui/lib/model/WordClass';
-import { IGlossExample } from '@ndla/types-backend/concept-api';
+import { constants } from '@ndla/ui';
+import { IGlossData } from '@ndla/types-backend/concept-api';
 import FormikField from '../../../components/FormikField';
 import ExamplesFieldArray from './ExamplesFieldArray';
 import { LANGUAGES } from '../glossData';
 import TranscriptionsField from './TranscriptionsField';
 
 const GlossDataSection = () => {
-  const [examples] = useField<IGlossExample[][]>('examples');
-  const [transcriptions] = useField<{ [key: string]: string }>('transcriptions');
-  const [originalLanguage] = useField<string>('originalLanguage');
+  const [
+    _,
+    {
+      value: { originalLanguage },
+    },
+  ] = useField<IGlossData>('gloss');
 
   const { t } = useTranslation();
+
+  const {
+    WordClass: { WordClass },
+  } = constants;
+
   return (
     <>
-      <FieldSection>
-        <FormikField name="gloss">
-          {({ field }) => (
-            <Input
-              placeholder={t('form.concept.glossDataSection.gloss')}
-              type="text"
-              value={field.value}
-              {...field}
-            />
-          )}
-        </FormikField>
-        <FormikField name="wordClass" showError={false}>
-          {({ field }) => (
-            <Select
-              label={t('form.concept.glossDataSection.wordClass')}
-              value={field.value}
-              {...field}
-            >
-              {!field.value && (
-                <option>
-                  {t('form.concept.glossDataSection.choose', {
-                    label: t('form.concept.glossDataSection.wordClass').toLowerCase(),
-                  })}
-                </option>
+      <FormikField name="gloss">
+        {({ field }) => (
+          <FieldSection>
+            <FormikField name={`${field.name}.gloss`}>
+              {({ field }) => (
+                <Input
+                  placeholder={t('form.concept.glossDataSection.gloss')}
+                  type="text"
+                  value={field.value}
+                  {...field}
+                />
               )}
-              {Object.entries(WordClass)?.map((entry) => (
-                <option value={entry[1]} key={entry[0]}>
-                  {t(`wordClass.${entry[1]}`)}
-                </option>
-              ))}
-            </Select>
-          )}
-        </FormikField>
-        <FormikField name="originalLanguage">
-          {({ field }) => (
-            <Select value={field.value} {...field}>
-              {!field.value && (
-                <option>
-                  {t('form.concept.glossDataSection.choose', {
-                    label: t('form.concept.glossDataSection.originalLanguage').toLowerCase(),
+            </FormikField>
+            <FormikField name={`${field.name}.wordClass`}>
+              {({ field }) => (
+                <Select
+                  label={t('form.concept.glossDataSection.wordClass')}
+                  value={field.value}
+                  {...field}
+                >
+                  {!field.value && (
+                    <option>
+                      {t('form.concept.glossDataSection.choose', {
+                        label: t('form.concept.glossDataSection.wordClass').toLowerCase(),
+                      })}
+                    </option>
+                  )}
+                  {Object.entries(WordClass)?.map((entry) => {
+                    const [key, value] = entry;
+                    return (
+                      <option value={value} key={key}>
+                        {t(`wordClass.${entry[1]}`)}
+                      </option>
+                    );
                   })}
-                </option>
+                </Select>
               )}
+            </FormikField>
+            <FormikField name={`${field.name}.originalLanguage`}>
+              {({ field }) => (
+                <Select value={field.value} {...field}>
+                  {!field.value && (
+                    <option>
+                      {t('form.concept.glossDataSection.choose', {
+                        label: t('form.concept.glossDataSection.originalLanguage').toLowerCase(),
+                      })}
+                    </option>
+                  )}
 
-              {LANGUAGES.map((language, index) => (
-                <option value={language} key={index}>
-                  {t(`languages.${language}`)}
-                </option>
-              ))}
-            </Select>
-          )}
-        </FormikField>
-      </FieldSection>
+                  {LANGUAGES.map((language, index) => (
+                    <option value={language} key={index}>
+                      {t(`languages.${language}`)}
+                    </option>
+                  ))}
+                </Select>
+              )}
+            </FormikField>
+          </FieldSection>
+        )}
+      </FormikField>
 
-      {originalLanguage.value === 'zh' && (
+      {originalLanguage === 'zh' && (
         <>
           <FieldHeader title={t('form.concept.glossDataSection.transcriptions')} />
-          <TranscriptionsField name="transcriptions" values={transcriptions.value ?? {}} />
+          <TranscriptionsField name="transcriptions" />
         </>
       )}
       <FieldHeader title={t('form.concept.glossDataSection.examples')} />
-      <ExamplesFieldArray name="examples" examples={examples.value ?? []} />
+      <ExamplesFieldArray name="examples" />
     </>
   );
 };

@@ -9,7 +9,7 @@
 import { test, expect } from '@playwright/test';
 import { mockRoute } from '../apiMock';
 import { responsiblesMock, zendeskMock } from '../mockResponses';
-import { languages } from '../../src/components/SlateEditor/plugins/span/LanguageSelector'
+import { languages } from '../../src/components/SlateEditor/plugins/span/LanguageSelector';
 
 const metaKey = process.platform === 'darwin' ? 'Meta' : 'Control';
 
@@ -48,8 +48,8 @@ test.beforeEach(async ({ page }) => {
 test('can change text styling', async ({ page }) => {
   const el = page.getByTestId('slate-editor');
   await el.click();
-  await el.type('Text to style');
-  await el.press(`${metaKey}+A`);
+  await page.keyboard.type('text to style');
+  await page.keyboard.press(`${metaKey}+A`);
   const bold = page.getByTestId('toolbar-button-bold');
   await bold.click();
   expect(bold).toHaveAttribute('data-active', 'true');
@@ -75,33 +75,32 @@ test('can change text styling', async ({ page }) => {
   expect(h2).toHaveAttribute('data-active', 'true');
   await h2.click();
   await el.click();
-  await el.press(`${metaKey}+A`);
-  await el.type(' new heading ');
-  await el.press(`${metaKey}+A`);
+  await page.keyboard.press(`${metaKey}+A`);
+  await page.keyboard.type(' new heading ');
+  await page.keyboard.press(`${metaKey}+A`);
   const h3 = page.getByTestId('toolbar-button-heading-3');
   await h3.click();
   expect(h3).toHaveAttribute('data-active', 'true');
   await h3.click();
   await el.click();
-  await el.press(`${metaKey}+A`);
-  await el.type('This is test content');
-  await el.press(`${metaKey}+A`);
+  await page.keyboard.press(`${metaKey}+A`);
+  await page.keyboard.type('This is test content');
+  await page.keyboard.press(`${metaKey}+A`);
   const quote = page.getByTestId('toolbar-button-quote');
   await quote.click();
   expect(quote).toHaveAttribute('data-active', 'true');
-  await el.press('ArrowRight');
-  await el.press('End');
-  await el.press('Enter');
-  await el.press('Enter');
-  await el.type('test new line');
+  await page.keyboard.press('ArrowRight');
+  await page.keyboard.press('End');
+  await page.keyboard.press('Enter');
+  await page.keyboard.press('Enter');
+  await page.keyboard.type('Test new line');
   await expect(page.getByRole('blockquote')).toHaveText('This is test content');
 });
 
 test('can create a valid link', async ({ page }) => {
-  const el = page.getByTestId('slate-editor');
-  await el.click();
-  await el.type('This is a test link');
-  await el.press(`${metaKey}+A`);
+  await page.getByTestId('slate-editor').click();
+  await page.keyboard.type('This is a test link');
+  await page.keyboard.press(`${metaKey}+A`);
   const link = page.getByTestId('toolbar-button-link');
   expect(link).toBeVisible();
   await link.click();
@@ -115,25 +114,24 @@ test('can create a valid link', async ({ page }) => {
 });
 
 test('All lists work properly', async ({ page }) => {
-  const el = page.getByTestId('slate-editor');
-  await el.click();
-  await el.type('First item in list');
-  await el.press(`${metaKey}+A`);
+  await page.getByTestId('slate-editor').click();
+  await page.keyboard.type('First item in the list');
+  await page.keyboard.press(`${metaKey}+A`);
   const numberedList = page.getByTestId('toolbar-button-numbered-list');
   await numberedList.click();
   await expect(numberedList).toHaveAttribute('data-active', 'true');
   await expect(page.getByRole('listitem')).toHaveCount(1);
-  await el.press('ArrowRight');
-  await el.press('End');
-  await el.press('Enter');
-  await el.type('Second item in list');
+  await page.keyboard.press('ArrowRight');
+  await page.keyboard.press('End');
+  await page.keyboard.press('Enter');
+  await page.keyboard.type('Second item in the list');
   await expect(page.getByRole('listitem')).toHaveCount(2);
-  await el.press(`${metaKey}+A`);
+  await page.keyboard.press(`${metaKey}+A`);
   const bulletList = page.getByTestId('toolbar-button-bulleted-list');
   await bulletList.click();
   await expect(bulletList).toHaveAttribute('data-active', 'true');
   await expect(page.locator('ul > li')).toHaveCount(2);
-  await el.press(`${metaKey}+A`);
+  await page.keyboard.press(`${metaKey}+A`);
   const letterList = page.getByTestId('toolbar-button-letter-list');
   await letterList.click();
   await expect(letterList).toHaveAttribute('data-active', 'true');
@@ -141,32 +139,30 @@ test('All lists work properly', async ({ page }) => {
 });
 
 test('Definition list work properly', async ({ page }) => {
-  const el = page.getByTestId('slate-editor');
-  await el.click();
-  await el.type('Definition term');
-  await el.press(`${metaKey}+A`);
+  await page.getByTestId('slate-editor').click();
+  await page.keyboard.type('Definition term');
+  await page.keyboard.press(`${metaKey}+A`);
   const definitionList = page.getByTestId('toolbar-button-definition-list');
   await definitionList.click();
   await expect(definitionList).toHaveAttribute('data-active', 'true');
   await expect(page.locator('dl > dt')).toHaveCount(1);
-  await el.press('ArrowRight');
-  await el.press('End');
-  await el.press('Enter');
-  await el.press('Tab');
-  await el.type('Definition description');
+  await page.keyboard.press('ArrowRight');
+  await page.keyboard.press('End');
+  await page.keyboard.press('Enter');
+  await page.keyboard.press('Tab');
+  await page.keyboard.type('Definition description');
   await expect(page.locator('dl > dd')).toHaveCount(1);
 });
 
 test('Selecting multiple paragraphs gives multiple terms', async ({ page }) => {
-  const el = page.getByTestId('slate-editor');
-  await el.click();
-  await el.type('Definition term 1');
-  await el.press('Enter');
-  await el.type('Definition term 2');
-  await el.press('Enter');
-  await el.type('Definition term 3');
-  await el.press('Enter');
-  await el.press(`${metaKey}+A`);
+  await page.getByTestId('slate-editor').click();
+  await page.keyboard.type('Definition term 1');
+  await page.keyboard.press('Enter');
+  await page.keyboard.type('Definition term 2');
+  await page.keyboard.press('Enter');
+  await page.keyboard.type('Definition term 3');
+  await page.keyboard.press('Enter');
+  await page.keyboard.press(`${metaKey}+A`);
   const definitionList = page.getByTestId('toolbar-button-definition-list');
   await definitionList.click();
   await expect(definitionList).toHaveAttribute('data-active', 'true');
@@ -174,24 +170,23 @@ test('Selecting multiple paragraphs gives multiple terms', async ({ page }) => {
 });
 
 test('Creates math', async ({ page }) => {
-  const el = page.getByTestId('slate-editor');
-  await el.click();
-  await el.type('1+1');
-  await el.press(`${metaKey}+A`);
+  await page.getByTestId('slate-editor').click();
+  await page.keyboard.type('1+1');
+  await page.keyboard.press(`${metaKey}+A`);
   await page.getByTestId('toolbar-button-mathml').click();
   await expect(page.getByTestId('math')).toBeVisible();
 });
 
 test('Language label buttons are available, and labels can be set', async ({ page }) => {
   await page.getByTestId('slate-editor').click();
-  await page.keyboard.type('Hello')
-  await page.keyboard.press(`${metaKey}+A`)
+  await page.keyboard.type('Hello');
+  await page.keyboard.press(`${metaKey}+A`);
   await expect(page.getByTestId('toolbar-button-span')).toBeVisible();
   await page.getByTestId('toolbar-button-span').click();
   for (const lang in languages) {
     expect(page.getByTestId(`language-button-${languages[lang]}`)).toBeDefined();
   }
   await page.getByTestId(`language-button-${languages[0]}`).click();
-  await page.keyboard.press(`${metaKey}+A`)
+  await page.keyboard.press(`${metaKey}+A`);
   await expect(page.getByTestId(`selected-language-${languages[0]}`)).toBeVisible();
-})
+});

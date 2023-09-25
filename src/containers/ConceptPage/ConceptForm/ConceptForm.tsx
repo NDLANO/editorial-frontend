@@ -6,7 +6,7 @@
  *
  */
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import {
   IConcept,
   INewConcept,
@@ -233,10 +233,19 @@ const ConceptForm = ({
 
   const isGloss = conceptType === 'gloss';
   const formRules = isGloss ? glossRules : conceptRules;
+
   const initialWarnings = getWarnings(initialValues, formRules, t, concept);
   const initialErrors = useMemo(
     () => validateFormik(initialValues, formRules, t),
     [initialValues, t, formRules],
+  );
+
+  const validate = useCallback(
+    (values: ConceptFormValues) => {
+      const val = validateFormik(values, formRules, t);
+      return val;
+    },
+    [t, formRules],
   );
 
   return (
@@ -246,7 +255,7 @@ const ConceptForm = ({
       onSubmit={handleSubmit}
       enableReinitialize
       validateOnMount
-      validate={(values) => validateFormik(values, formRules, t)}
+      validate={validate}
       initialStatus={{ warnings: initialWarnings }}
     >
       {(formikProps) => {

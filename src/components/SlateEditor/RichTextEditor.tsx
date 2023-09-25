@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { createEditor, Descendant, Editor, NodeEntry, Range, Transforms } from 'slate';
 import {
@@ -49,6 +50,7 @@ interface Props {
   language: string;
   actions?: Action[];
   blockpickerOptions?: Partial<BlockPickerOptions>;
+  toolbarVariant: 'learning-resource' | 'topic-article' | 'frontpage-article';
 }
 
 const RichTextEditor = ({
@@ -59,6 +61,7 @@ const RichTextEditor = ({
   actions = commonActions,
   submitted,
   language,
+  toolbarVariant = 'learning-resource',
   blockpickerOptions = {},
 }: Props) => {
   const _editor = useMemo(() => withReact(withHistory(createEditor())), []);
@@ -191,7 +194,7 @@ const RichTextEditor = ({
               <Spinner />
             ) : (
               <>
-                <SlateToolbar />
+                <SlateToolbar variant={toolbarVariant} />
                 <SlateBlockPicker
                   editor={editor}
                   actions={actions}

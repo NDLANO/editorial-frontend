@@ -160,6 +160,7 @@ const TopicArticleContent = (props: Props) => {
               value={value}
               submitted={isSubmitting}
               plugins={plugins}
+              toolbarVariant="topic-article"
               onChange={(value) => {
                 onChange({
                   target: {

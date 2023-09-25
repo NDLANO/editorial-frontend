@@ -276,6 +276,7 @@ const ContentField = ({
         submitted={isSubmitting}
         plugins={editorPlugins}
         data-testid="learning-resource-content"
+        toolbarVariant="learning-resource"
         onChange={onSlateChange}
       />
       {!isSubmitting && <LearningResourceFootnotes footnotes={findFootnotes(value)} />}

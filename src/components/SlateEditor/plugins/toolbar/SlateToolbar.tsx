@@ -24,6 +24,12 @@ import { hasCellAlignOfType } from '../table/slateHelpers';
 import { TYPE_DEFINITION_LIST } from '../definitionList/types';
 import hasDefinitionListItem from '../definitionList/utils/hasDefinitionListItem';
 
+const minimalElements: { [key: string]: string[] } = {
+  mark: ['bold', 'italic', 'code', 'sub', 'sup'],
+  block: [],
+  inline: ['span'],
+};
+
 const topicArticleElements: { [key: string]: string[] } = {
   mark: ['bold', 'italic', 'code', 'sub', 'sup'],
   block: ['quote', 'heading-2', 'heading-3', 'heading-4', 'definition-list', ...listTypes],
@@ -66,18 +72,27 @@ const ToolbarContainer = styled.div`
   box-shadow: 3px 3px 5px #99999959;
 `;
 
-const SlateToolbar = () => {
+type Props = {
+  variant: 'topic-article' | 'learning-resource' | 'frontpage-article' | 'minimal';
+};
+
+const SlateToolbar = ({ variant = 'learning-resource' }: Props) => {
   const portalRef = createRef<HTMLDivElement>();
   const editor = useSlate();
   const inFocus = useFocused();
 
-  const toolbarElements = useMemo(
-    () =>
-      window.location.pathname.includes('learning-resource')
-        ? learningResourceElements
-        : topicArticleElements,
-    [],
-  );
+  const toolbarElements = useMemo(() => {
+    switch (variant) {
+      case 'learning-resource':
+        return learningResourceElements;
+      case 'minimal':
+        return minimalElements;
+      case 'topic-article':
+      case 'frontpage-article':
+      default:
+        return topicArticleElements;
+    }
+  }, [variant]);
 
   useEffect(() => {
     const menu = portalRef.current;
@@ -90,7 +105,7 @@ const SlateToolbar = () => {
       !inFocus ||
       Range.isCollapsed(selection) ||
       Editor.string(editor, selection) === '' ||
-      !editor.shouldShowToolbar()
+      !editor.shouldShowToolbar?.()
     ) {
       menu.removeAttribute('style');
       return;

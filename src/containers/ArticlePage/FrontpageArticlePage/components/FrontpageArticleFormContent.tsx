@@ -281,6 +281,7 @@ const FrontpageArticleFormContent = ({
               submitted={isSubmitting}
               plugins={editorPlugins}
               data-testid="frontpage-article-content"
+              toolbarVariant="frontpage-article"
               onChange={(value) => {
                 onChange({
                   target: {

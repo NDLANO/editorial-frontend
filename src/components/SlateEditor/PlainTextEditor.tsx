@@ -8,13 +8,14 @@
 
 import { useMemo, useEffect, useCallback } from 'react';
 import { createEditor, Descendant } from 'slate';
-import { Slate, Editable, ReactEditor, withReact } from 'slate-react';
+import { Slate, Editable, ReactEditor, RenderLeafProps, withReact } from 'slate-react';
 import { withHistory } from 'slate-history';
 import { FormikHandlers, useFormikContext } from 'formik';
 import { SlatePlugin } from './interfaces';
 import withPlugins from './utils/withPlugins';
 import { ArticleFormType } from '../../containers/FormikForm/articleFormHooks';
 import { FormikStatus } from '../../interfaces';
+import { SlateToolbar } from './plugins/toolbar';
 
 interface Props {
   id: string;
@@ -66,8 +67,21 @@ const PlainTextEditor = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status]);
 
+  const renderLeaf = useCallback((renderProps: RenderLeafProps) => {
+    const { attributes, children } = renderProps;
+    if (editor.renderLeaf) {
+      const ret = editor.renderLeaf(renderProps);
+      if (ret) {
+        return ret;
+      }
+    }
+    return <span {...attributes}>{children}</span>;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <Slate editor={editor} value={value} onChange={onSlateChange}>
+      <SlateToolbar variant={'minimal'} />
       <Editable
         id={id}
         // Forcing slate field to be deselected before selecting new field.
@@ -79,6 +93,7 @@ const PlainTextEditor = ({
         className={className}
         placeholder={placeholder}
         renderPlaceholder={undefined}
+        renderLeaf={renderLeaf}
         {...rest}
       />
     </Slate>

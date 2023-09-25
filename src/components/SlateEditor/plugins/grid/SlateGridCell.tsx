@@ -61,6 +61,8 @@ const GridCell = ({ element, editor, attributes, children }: Props) => {
 
 const StyledGridCell = styled.div`
   position: relative;
+  display: flex;
+  flex-direction: column;
   border: 1px solid ${colors.brand.light};
   min-width: 50px;
 

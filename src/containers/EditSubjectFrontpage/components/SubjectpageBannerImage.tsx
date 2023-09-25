@@ -37,6 +37,7 @@ const SubjectpageBannerImage = ({ image, onImageSelectOpen }: Props) => {
   const metaInformationTranslations = {
     title: t('form.metaImage.imageTitle'),
     copyright: t('form.metaImage.copyright'),
+    alt: t('form.name.alttext'),
   };
   const src = `${config.ndlaApiUrl}/image-api/raw/id/${image.id}`;
   return (

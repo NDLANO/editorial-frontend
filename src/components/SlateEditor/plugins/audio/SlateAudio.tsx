@@ -146,7 +146,7 @@ const SlateAudio = ({ element, editor, attributes, language, children }: Props) 
                     aria-label={t('form.audio.remove')}
                     colorTheme="danger"
                     onClick={handleRemove}
-                    data-cy="remove-element"
+                    data-testid="remove-element"
                   >
                     <DeleteForever />
                   </StyledDeleteEmbedButton>

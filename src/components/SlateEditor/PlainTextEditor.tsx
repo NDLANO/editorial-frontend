@@ -24,7 +24,6 @@ interface Props {
   className?: string;
   placeholder?: string;
   plugins?: SlatePlugin[];
-  cy?: string;
 }
 
 const PlainTextEditor = ({
@@ -35,7 +34,7 @@ const PlainTextEditor = ({
   className,
   placeholder,
   plugins,
-  cy,
+  ...rest
 }: Props) => {
   const _editor = useMemo(() => withHistory(withReact(createEditor())), []);
   const editor = useMemo(() => withPlugins(_editor, plugins), [_editor, plugins]);
@@ -79,8 +78,8 @@ const PlainTextEditor = ({
         readOnly={submitted}
         className={className}
         placeholder={placeholder}
-        data-cy={cy}
         renderPlaceholder={undefined}
+        {...rest}
       />
     </Slate>
   );

@@ -334,15 +334,16 @@ const SlateBlockPicker = ({
       />
       {!visualElementPickerOpen && (
         <Portal>
-          <StyledBlockPickerWrapper ref={portalRef} data-cy="slate-block-picker-button">
+          <StyledBlockPickerWrapper ref={portalRef} data-testid="slate-block-picker-button">
             <SlateBlockMenu
               data-testid="slate-block-picker"
               isOpen={blockPickerOpen}
               heading={t('editorBlockpicker.heading')}
               actions={getActionsForArea()
-                .filter((action) => {
-                  return !action.requiredScope || userPermissions?.includes(action.requiredScope);
-                })
+                .filter(
+                  (action) =>
+                    !action.requiredScope || userPermissions?.includes(action.requiredScope),
+                )
                 .map((action) => ({
                   ...action,
                   label: t(`editorBlockpicker.actions.${action.data.object}`),

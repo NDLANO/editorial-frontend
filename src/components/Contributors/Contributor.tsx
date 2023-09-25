@@ -65,7 +65,7 @@ const Contributor = ({
           value={contributor.type}
           onChange={(e) => handleContributorChange(e, 'type', index)}
           onBlur={(e) => handleContributorChange(e, 'type', index)}
-          data-cy="contributor-selector"
+          data-testid="contributor-selector"
         >
           <option value="" />
           {contributorTypeItems.map((item: ContributorTypeItem) => (

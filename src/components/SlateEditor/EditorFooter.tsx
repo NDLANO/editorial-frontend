@@ -238,7 +238,7 @@ function EditorFooter<T extends FormValues>({
   return (
     <Footer css={isArticle && articleResourcePageStyle}>
       <>
-        <div data-cy="footerPreviewAndValidate">
+        <div data-testid="footerPreviewAndValidate">
           {values.id && isConcept && (
             <PreviewDraftLightboxV2
               type="concept"

@@ -76,6 +76,7 @@ import { TYPE_GRID } from '../../../../components/SlateEditor/plugins/grid/types
 import { HandleSubmitFunc, LearningResourceFormType } from '../../../FormikForm/articleFormHooks';
 import { audioPlugin } from '../../../../components/SlateEditor/plugins/audio';
 import { TYPE_AUDIO } from '../../../../components/SlateEditor/plugins/audio/types';
+import { learningResourceActions } from '../../../../components/SlateEditor/plugins/blockPicker/actions';
 
 const StyledFormikField = styled(FormikField)`
   display: flex;
@@ -267,13 +268,14 @@ const ContentField = ({
         )}
       </FieldHeader>
       <RichTextEditor
+        actions={learningResourceActions}
         language={articleLanguage}
         blockpickerOptions={blockPickerOptions}
         placeholder={t('form.content.placeholder')}
         value={value}
         submitted={isSubmitting}
         plugins={editorPlugins}
-        data-cy="learning-resource-content"
+        data-testid="learning-resource-content"
         onChange={onSlateChange}
       />
       {!isSubmitting && <LearningResourceFootnotes footnotes={findFootnotes(value)} />}

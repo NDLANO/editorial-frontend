@@ -39,45 +39,44 @@ test.beforeEach(async ({ page }) => {
   await page.goto('/subject-matter/learning-resource/new');
 
   await Promise.all([zendesk, responsibles, licenses, statuses]);
-  const el = page.locator('[data-cy="slate-editor"]');
-  await el.click();
+  await page.getByTestId('slate-editor').click();
   await page.getByTestId('slate-block-picker').click();
   await expect(page.getByTestId('slate-block-picker-menu')).toBeVisible();
 });
 
 test('adds and removes factAside', async ({ page }) => {
   await page.getByTestId('create-factAside').click();
-  await expect(page.locator('[data-cy="remove-fact-aside"]')).toBeVisible();
-  await page.locator('[data-cy="remove-fact-aside"]').click();
-  await expect(page.locator('[data-cy="remove-fact-aside"]')).toHaveCount(0);
+  await expect(page.getByTestId('remove-fact-aside')).toBeVisible();
+  await page.getByTestId('remove-fact-aside').click();
+  await expect(page.getByTestId('remove-fact-aside')).toHaveCount(0);
 });
 
 test('adds and removes table', async ({ page }) => {
   await page.getByTestId('create-table').click();
-  await expect(page.locator('[data-cy="table-remove"]')).toBeVisible();
-  await page.locator('[data-cy="table-remove"]').click();
-  await expect(page.locator('[data-cy="table-remove"]')).toHaveCount(0);
+  await expect(page.getByTestId('table-remove')).toBeVisible();
+  await page.getByTestId('table-remove').click();
+  await expect(page.getByTestId('table-remove')).toHaveCount(0);
 });
 
 test('adds and removes bodybox', async ({ page }) => {
   await page.getByTestId('create-bodybox').click();
-  await expect(page.locator('[data-cy="remove-bodybox"]')).toBeVisible();
-  await page.locator('[data-cy="remove-bodybox"]').click();
-  await expect(page.locator('[data-cy="remove-bodybox"]')).toHaveCount(0);
+  await expect(page.getByTestId('remove-bodybox')).toBeVisible();
+  await page.getByTestId('remove-bodybox').click();
+  await expect(page.getByTestId('remove-bodybox')).toHaveCount(0);
 });
 
 test('adds and removes details', async ({ page }) => {
   await page.getByTestId('create-details').click();
-  await expect(page.locator('[data-cy="remove-details"]')).toBeVisible();
-  await page.locator('[data-cy="remove-details"]').click();
-  await expect(page.locator('[data-cy="remove-details"]')).toHaveCount(0);
+  await expect(page.getByTestId('remove-details')).toBeVisible();
+  await page.getByTestId('remove-details').click();
+  await expect(page.getByTestId('remove-details')).toHaveCount(0);
 });
 
 test('adds and removes grid', async ({ page }) => {
   await page.getByTestId('create-grid').click();
-  await expect(page.locator('[data-cy="remove-grid"]')).toBeVisible();
-  await page.locator('[data-cy="remove-grid"]').click();
-  await expect(page.locator('[data-cy="remove-grid"]')).toHaveCount(0);
+  await expect(page.getByTestId('remove-grid')).toBeVisible();
+  await page.getByTestId('remove-grid').click();
+  await expect(page.getByTestId('remove-grid')).toHaveCount(0);
 });
 
 test('adds and removes code-block', async ({ page }) => {
@@ -88,9 +87,9 @@ test('adds and removes code-block', async ({ page }) => {
   await modalBody.locator('select').selectOption('HTML');
   await modalBody.locator('textarea').first().fill('Some <strong>markup</strong>{enter}Newline');
   await page.getByRole('button').getByText('Lagre').click();
-  await expect(page.locator('[data-cy="remove-code"]')).toBeVisible();
-  await page.locator('[data-cy="remove-code"]').click();
-  await expect(page.locator('[data-cy="remove-code"]')).toHaveCount(0);
+  await expect(page.getByTestId('remove-code')).toBeVisible();
+  await page.getByTestId('remove-code').click();
+  await expect(page.getByTestId('remove-code')).toHaveCount(0);
 });
 
 test('adds and removes image', async ({ page }) => {
@@ -104,14 +103,13 @@ test('adds and removes image', async ({ page }) => {
     path: '**/image-api/v3/images/63415?language=nb',
     fixture: 'blockpicker_image',
   });
+  await Promise.all([images, image]);
   await page.getByTestId('create-image').click();
-  await images;
   await page.getByTestId('select-image-from-list').first().click();
-  await image;
   await page.getByTestId('use-image').click();
-  await expect(page.locator('[data-cy="remove-element"]')).toBeVisible();
-  await page.locator('[data-cy="remove-element"]').click();
-  await expect(page.locator('[data-cy="remove-element"]')).toHaveCount(0);
+  await expect(page.getByTestId('remove-element')).toBeVisible();
+  await page.getByTestId('remove-element').click();
+  await expect(page.getByTestId('remove-element')).toHaveCount(0);
 });
 
 test('opens and closes video', async ({ page }) => {
@@ -136,13 +134,12 @@ test('opens and closes video', async ({ page }) => {
     path: '**/playback/v1/accounts/*/videos/6317543916112',
     fixture: 'brightcove_playback',
   });
+  await Promise.all([brightcoveToken, brightcoveVideos, brightcoveVideo, brightcovePlayback]);
   await page.getByTestId('create-video').click();
-  await Promise.all([brightcoveToken, brightcoveVideos]);
   await page.getByTestId('use-video').first().click();
-  await Promise.all([brightcoveVideo, brightcovePlayback]);
-  await expect(page.locator('[data-cy="remove-element"]')).toBeVisible();
-  await page.locator('[data-cy="remove-element"]').click();
-  await expect(page.locator('[data-cy="remove-element"]')).toHaveCount(0);
+  await expect(page.getByTestId('remove-element')).toBeVisible();
+  await page.getByTestId('remove-element').click();
+  await expect(page.getByTestId('remove-element')).toHaveCount(0);
 });
 
 test('opens and closes audio', async ({ page }) => {
@@ -157,14 +154,14 @@ test('opens and closes audio', async ({ page }) => {
     path: '**/audio-api/v1/audio/*?language=nb',
     fixture: 'blockpicker_any_audio',
   });
-  await page.getByTestId('create-audio').click();
   await Promise.all([audios, reusedAudio]);
+  await page.getByTestId('create-audio').click();
   await expect(page.getByTestId('modal-header')).toBeVisible();
   await page.getByRole('button').getByText('Velg lyd').first().click();
   await expect(page.getByTestId('modal-header')).toHaveCount(0);
-  await expect(page.locator('[data-cy="remove-element"]')).toBeVisible();
-  await page.locator('[data-cy="remove-element"]').click();
-  await expect(page.locator('[data-cy="remove-element"]')).toHaveCount(0);
+  await expect(page.getByTestId('remove-element')).toBeVisible();
+  await page.getByTestId('remove-element').click();
+  await expect(page.getByTestId('remove-element')).toHaveCount(0);
 });
 
 test('opens and closes file', async ({ page }) => {
@@ -182,14 +179,13 @@ test('opens and closes url', async ({ page }) => {
 });
 
 test('opens and closes related content', async ({ page }) => {
-  const relatedContent = mockRoute({
+  await mockRoute({
     page,
     path: '**/search-api/v1/search/editorial/*',
     fixture: 'blockpicker_related_content',
   });
   await page.getByTestId('create-related').click();
-  await relatedContent;
   await expect(page.getByTestId('editRelated')).toBeVisible();
-  await page.locator("[data-cy='close-related-button']").click();
-  await expect(page.locator('[data-cy="styled-article-modal"]')).toHaveCount(0);
+  await page.getByTestId('close-related-button').click();
+  await expect(page.getByTestId('styled-article-modal')).toHaveCount(0);
 });

@@ -1855,13 +1855,13 @@
     "@ndla/icons" "^4.0.6"
     "@radix-ui/react-accordion" "^1.1.2"
 
-"@ndla/article-converter@^4.0.7":
-  version "4.0.7"
-  resolved "https://registry.yarnpkg.com/@ndla/article-converter/-/article-converter-4.0.7.tgz#15d935885487f609c7802c931e5dbf33d2442d3d"
-  integrity sha512-G59k39XudWzbAKlFE6IFeD3CbgTZZKKDlbmMumV97ZfzOVqyi3VjlXVQEUG8afGTq8Us77e3DZijpvINW6R+7w==
+"@ndla/article-converter@^4.0.8":
+  version "4.0.8"
+  resolved "https://registry.yarnpkg.com/@ndla/article-converter/-/article-converter-4.0.8.tgz#30daa9e729b89b5fb47dfee8173b741dbe5a809d"
+  integrity sha512-iiQ4Z0ewNMgFgtPD0QoVIOXqPVzysCb95mU1TefSfRswuG2G7GRxVeLuQwtszm9t7vugoWD6Mf0/pxP2pjJvPA==
   dependencies:
     "@ndla/code" "^4.0.0"
-    "@ndla/ui" "^45.0.6"
+    "@ndla/ui" "^45.0.7"
     html-react-parser "^3.0.8"
     lodash "^4.17.20"
 
@@ -1969,10 +1969,10 @@
   dependencies:
     "@ndla/util" "^3.2.0"
 
-"@ndla/howto@^3.3.34":
-  version "3.3.34"
-  resolved "https://registry.yarnpkg.com/@ndla/howto/-/howto-3.3.34.tgz#0fa03df2483ca5f5091cd2eb88b70e5968602641"
-  integrity sha512-IOCcCtwmV9YVOc+ICrx+kVmn975w98wsyCDEHgjwgQC6ffIYhL4XBxCQxi8w1njd9wXwyKU1tfIPAcIMytbqFA==
+"@ndla/howto@^3.3.35":
+  version "3.3.35"
+  resolved "https://registry.yarnpkg.com/@ndla/howto/-/howto-3.3.35.tgz#55469436857575e6afdb50ac512bee40e9f423b9"
+  integrity sha512-5nQfajlc/9/usSkfa2aE98UYnFfjWZO6Un4qWixOrwhqcpQDNInn5ovIwztOjQ5uhZOfGdrNjQ2ozD3tvvafkQ==
   dependencies:
     "@ndla/button" "^11.0.7"
     "@ndla/core" "^4.1.7"
@@ -1981,7 +1981,7 @@
     "@ndla/modal" "^4.0.7"
     "@ndla/notion" "^5.0.23"
     "@ndla/tooltip" "^4.1.18"
-    "@ndla/ui" "^45.0.6"
+    "@ndla/ui" "^45.0.7"
     "@ndla/util" "^3.2.0"
     remarkable "^2.0.1"
 
@@ -1992,17 +1992,17 @@
   dependencies:
     "@ndla/core" "^4.1.7"
 
-"@ndla/image-search@^6.0.80":
-  version "6.0.80"
-  resolved "https://registry.yarnpkg.com/@ndla/image-search/-/image-search-6.0.80.tgz#48ea2b1d688def71d6c5f2ce47347ab346697b96"
-  integrity sha512-TFtQaUN6ZhPN5MPi04652dXJo5ts9n/5Zx6i/PtVKQnXp857cz0ef4+j2E29BzT5YMIu5A1d4tas1idTJ3SeYQ==
+"@ndla/image-search@^6.0.81":
+  version "6.0.81"
+  resolved "https://registry.yarnpkg.com/@ndla/image-search/-/image-search-6.0.81.tgz#6ef28b90087f7c2acc5aa1bec3080cf9976f83e0"
+  integrity sha512-sp1wa4+zGkHYzyk3GHPRey4Nr+bTqJ31UaSGEH2o5ZjZcWo1RtcCSaPGiUlxKH16/FHxfD6mZc5T4tJw5h9uQQ==
   dependencies:
     "@ndla/button" "^11.0.7"
     "@ndla/core" "^4.1.7"
     "@ndla/forms" "^4.3.23"
     "@ndla/icons" "^4.0.6"
     "@ndla/pager" "^2.2.21"
-    "@ndla/ui" "^45.0.6"
+    "@ndla/ui" "^45.0.7"
     "@ndla/util" "^3.2.0"
     pretty-bytes "^5.6.0"
 
@@ -2097,10 +2097,10 @@
     "@radix-ui/react-tooltip" "^1.0.6"
     html-react-parser "^3.0.8"
 
-"@ndla/tracker@^5.0.0":
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/@ndla/tracker/-/tracker-5.0.0.tgz#4eacbc004a0670a691ed5e99bc37bcb3258beef2"
-  integrity sha512-kI1n9rEV+QKUwAdXyXnXQSGUumsVoMLCKTyKZfMeUNuFvkps+3dZVVSD+CUiyKym9L2AEgfyP4u1j+EL/p1+ZQ==
+"@ndla/tracker@^5.0.1":
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/@ndla/tracker/-/tracker-5.0.1.tgz#e85cb94cbb2a58cc53011a7e28062055a6027aef"
+  integrity sha512-2s/K/fwTP8MKaNO8eeVeKl6L4tR3fkKozhnagHrL6Te4ANCPQmzG7Ca4n6qjoBRuTYKBXQt5pY3IB8QYtmIUqw==
   dependencies:
     "@ndla/util" "^3.2.0"
     tiny-warning "^1.0.3"
@@ -2120,10 +2120,10 @@
   resolved "https://registry.yarnpkg.com/@ndla/types-taxonomy/-/types-taxonomy-1.0.18.tgz#854258b5355aa911aaa91b262b72bd3fa3225116"
   integrity sha512-wxJgzE+dzvLsYyw5AXNcfxJMV64/rfdN3UGOry2y9zxcLdyVnJPZ+mLJZ5kwndEKWjSGNCFBsLweycl4QZXUcw==
 
-"@ndla/ui@^45.0.6":
-  version "45.0.6"
-  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-45.0.6.tgz#ca217c9b07bb8d5a1b780b3938ea6ff5b0fd66c6"
-  integrity sha512-Zh9X6PfiJxKfqX7Shysz2auvpSw4VURSknxNlMGNMcHs5dkLyqDthRcOAb1QRTsN482emEgBFxGfha43nilpzw==
+"@ndla/ui@^45.0.7":
+  version "45.0.7"
+  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-45.0.7.tgz#1c8a9e6d785bd32b027e6893eecb2b42c05a35da"
+  integrity sha512-LZvAbdcCu99uQIPFykxAOXUeTAM2Y5EwGjhdLjDtClaOhQciQZJ60cYT3c3kJG/bxLOzhdZDv7F5ZrIES/xtng==
   dependencies:
     "@ndla/accordion" "^2.2.22"
     "@ndla/article-scripts" "^3.0.21"

@@ -45,7 +45,7 @@ test.beforeEach(async ({ page }) => {
 });
 
 test('can change text styling', async ({ page }) => {
-  const el = page.locator('[data-cy="slate-editor"]');
+  const el = page.getByTestId('slate-editor');
   await el.click();
   await el.type('Text to style');
   await el.press(`${metaKey}+A`);
@@ -97,7 +97,7 @@ test('can change text styling', async ({ page }) => {
 });
 
 test('can create a valid link', async ({ page }) => {
-  const el = page.locator('[data-cy="slate-editor"]');
+  const el = page.getByTestId('slate-editor');
   await el.click();
   await el.type('This is a test link');
   await el.press(`${metaKey}+A`);
@@ -114,7 +114,7 @@ test('can create a valid link', async ({ page }) => {
 });
 
 test('All lists work properly', async ({ page }) => {
-  const el = page.locator('[data-cy="slate-editor"]');
+  const el = page.getByTestId('slate-editor');
   await el.click();
   await el.type('First item in list');
   await el.press(`${metaKey}+A`);
@@ -140,7 +140,7 @@ test('All lists work properly', async ({ page }) => {
 });
 
 test('Definition list work properly', async ({ page }) => {
-  const el = page.locator('[data-cy="slate-editor"]');
+  const el = page.getByTestId('slate-editor');
   await el.click();
   await el.type('Definition term');
   await el.press(`${metaKey}+A`);
@@ -157,7 +157,7 @@ test('Definition list work properly', async ({ page }) => {
 });
 
 test('Selecting multiple paragraphs gives multiple terms', async ({ page }) => {
-  const el = page.locator('[data-cy="slate-editor"]');
+  const el = page.getByTestId('slate-editor');
   await el.click();
   await el.type('Definition term 1');
   await el.press('Enter');
@@ -173,11 +173,10 @@ test('Selecting multiple paragraphs gives multiple terms', async ({ page }) => {
 });
 
 test('Creates math', async ({ page }) => {
-  const el = page.locator('[data-cy="slate-editor"]');
+  const el = page.getByTestId('slate-editor');
   await el.click();
   await el.type('1+1');
   await el.press(`${metaKey}+A`);
   await page.getByTestId('toolbar-button-mathml').click();
   await expect(page.getByTestId('math')).toBeVisible();
 });
-

@@ -29,10 +29,12 @@ import {
   TAXONOMY_CUSTOM_FIELD_SUBJECT_OLD_SUBJECT_ID,
   TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES,
   TAXONOMY_CUSTOM_FIELD_PROGRAMME_SUBJECT,
+  TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA,
 } from '../../../../../constants';
 import GroupTopicResources from '../../topicMenuOptions/GroupTopicResources';
 import TaxonomyMetadataLanguageSelector from '../../subjectMenuOptions/TaxonomyMetadataLanguageSelector';
 import SubjectCategorySelector from '../../subjectMenuOptions/SubjectCategorySelector';
+import SubjectLMASelector from '../../subjectMenuOptions/SubjectLMASelector';
 import SubjectTypeSelector from '../../subjectMenuOptions/SubjectTypeSelector';
 import ToggleExplanationSubject from '../../subjectMenuOptions/ToggleExplanationSubject';
 import ToggleProgrammeSubject from '../../subjectMenuOptions/ToggleProgrammeSubject';
@@ -84,6 +86,7 @@ const MenuItemCustomField = ({ node, onCurrentNodeChanged }: Props) => {
     TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY,
     TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE,
     TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH,
+    TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA,
   ];
   const filteredTopicFields = [
     TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES,
@@ -125,6 +128,7 @@ const MenuItemCustomField = ({ node, onCurrentNodeChanged }: Props) => {
         customFields={customFields}
         updateCustomFields={setCustomFields}
       />
+      <SubjectLMASelector customFields={customFields} updateCustomFields={setCustomFields} />
       <SubjectCategorySelector customFields={customFields} updateCustomFields={setCustomFields} />
       <SubjectTypeSelector customFields={customFields} updateCustomFields={setCustomFields} />
       <ToggleExplanationSubject customFields={customFields} updateFields={setCustomFields} />

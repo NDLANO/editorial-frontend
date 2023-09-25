@@ -9,6 +9,7 @@
 import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FieldProps, Formik, FieldInputProps } from 'formik';
+import { Descendant } from 'slate';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import { InputV2 } from '@ndla/forms';
@@ -19,13 +20,20 @@ import { ButtonV2 } from '@ndla/button';
 import validateFormik, { RulesType } from '../../../formikValidationSchema';
 import FormikField from '../../../FormikField';
 import InlineImageSearch from '../../../../containers/ConceptPage/components/InlineImageSearch';
-import { supportedLanguages } from '../../../../i18n2';
+
+import PlainTextEditor from '../../PlainTextEditor';
+import { spanPlugin } from '../span';
+import { toolbarPlugin } from '../toolbar';
+import {
+  editorValueToPlainText,
+  plainTextToEditorValue,
+} from '../../../../util/articleContentConverter';
 
 interface BlogPostFormValues {
   resource: 'blog-post';
   metaImageId?: number;
   language: string;
-  title: string;
+  title: Descendant[];
   size?: 'normal' | 'large';
   author?: string;
   link: string;
@@ -58,7 +66,7 @@ const StyledSelect = styled.select`
 const toInitialValues = (initialData?: BlogPostEmbedData): BlogPostFormValues => {
   return {
     resource: 'blog-post',
-    title: initialData?.title ?? '',
+    title: plainTextToEditorValue(initialData?.title ?? ''),
     metaImageId: initialData?.imageId ? parseInt(initialData.imageId) : undefined,
     size: initialData?.size ?? 'normal',
     language: initialData?.language ?? 'nb',
@@ -92,6 +100,7 @@ const BlogPostForm = ({ initialData, onSave, onCancel }: Props) => {
   const { t } = useTranslation();
   const initialValues = useMemo(() => toInitialValues(initialData), [initialData]);
   const initialErrors = useMemo(() => validateFormik(initialValues, rules, t), [initialValues, t]);
+  const plugins = useMemo(() => [spanPlugin, toolbarPlugin], []);
 
   const onSubmit = useCallback(
     (values: BlogPostFormValues) => {
@@ -103,7 +112,7 @@ const BlogPostForm = ({ initialData, onSave, onCancel }: Props) => {
         resource: 'blog-post',
         imageId: values.metaImageId.toString(),
         language: values.language,
-        title: values.title,
+        title: editorValueToPlainText(values.title),
         size: values.size,
         author: values.author ?? '',
         url: values.link,
@@ -124,28 +133,18 @@ const BlogPostForm = ({ initialData, onSave, onCancel }: Props) => {
     >
       {({ dirty, isValid, handleSubmit }) => (
         <>
-          <StyledFormikField name="title" showError>
-            {({ field }: FieldProps) => (
-              <InputV2
-                customCss={inputStyle}
-                label={t('form.name.title')}
+          <FormikField name="title" showError>
+            {({ field, form: { isSubmitting } }: FieldProps) => (
+              <PlainTextEditor
+                css={inputStyle}
+                id={field.name}
+                placeholder={t('form.name.title')}
                 {...field}
-                after={
-                  <StyledFormikField name="language">
-                    {({ field }: FieldProps) => (
-                      <StyledSelect {...field} title={t('blogPostForm.languageExplanation')}>
-                        {supportedLanguages.map((lang) => (
-                          <option value={lang} key={lang}>
-                            {t(`languages.${lang}`)}
-                          </option>
-                        ))}
-                      </StyledSelect>
-                    )}
-                  </StyledFormikField>
-                }
+                plugins={plugins}
+                submitted={isSubmitting}
               />
             )}
-          </StyledFormikField>
+          </FormikField>
           <StyledFormikField name="author" showError>
             {({ field }: FieldProps) => (
               <InputV2 customCss={inputStyle} label={t('form.name.author')} {...field} />

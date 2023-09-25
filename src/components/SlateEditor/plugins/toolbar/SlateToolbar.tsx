@@ -61,7 +61,7 @@ const specialRules: { [key: string]: Partial<Element> } = {
 const ToolbarContainer = styled.div`
   border-radius: 4px;
   position: absolute;
-  z-index: 11;
+  z-index: 111;
   top: -10000px;
   left: -10000px;
   margin-top: -6px;

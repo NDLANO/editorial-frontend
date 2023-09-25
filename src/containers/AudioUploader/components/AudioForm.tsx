@@ -34,6 +34,7 @@ import { useLicenses } from '../../../modules/draft/draftQueries';
 import FormWrapper from '../../../components/FormWrapper';
 import FormAccordions from '../../../components/Accordion/FormAccordions';
 import FormAccordion from '../../../components/Accordion/FormAccordion';
+import { SAVE_BUTTON_ID } from '../../../constants';
 
 export interface AudioFormikType {
   id?: number;
@@ -238,6 +239,7 @@ const AudioForm = ({
                 {t('form.abort')}
               </ButtonV2>
               <SaveButton
+                id={SAVE_BUTTON_ID}
                 isSaving={isSubmitting}
                 formIsDirty={formIsDirty}
                 showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}

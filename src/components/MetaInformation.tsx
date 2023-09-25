@@ -23,14 +23,16 @@ const StyledStrong = styled.strong`
 interface Props {
   title?: string;
   copyright?: string;
+  alt?: string;
   translations: {
     title: string;
     copyright: string;
+    alt: string;
   };
   action: ReactNode;
 }
 
-const MetaInformation = ({ title, copyright, translations, action }: Props) => (
+const MetaInformation = ({ title, copyright, translations, action, alt }: Props) => (
   <StyleMetaInformation>
     <div>{action || null}</div>
     <div>
@@ -38,6 +40,12 @@ const MetaInformation = ({ title, copyright, translations, action }: Props) => (
       <span>{title}</span>
       <StyledStrong>{copyright ? translations.copyright : ''}</StyledStrong>
       <span>{copyright}</span>
+      {!!alt && (
+        <>
+          <StyledStrong>{translations.alt}</StyledStrong>
+          <span>{alt}</span>
+        </>
+      )}
     </div>
   </StyleMetaInformation>
 );

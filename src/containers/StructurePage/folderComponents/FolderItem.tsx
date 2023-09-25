@@ -79,7 +79,7 @@ const FolderItem = ({
   const showJumpToResources = isMainActive && node.id.includes('topic');
 
   return (
-    <StyledFolderWrapper data-cy="folderWrapper">
+    <StyledFolderWrapper data-testid="folderWrapper">
       {isMainActive && (
         <ControlButtonsWrapper>
           <SettingsMenu
@@ -88,7 +88,7 @@ const FolderItem = ({
             onCurrentNodeChanged={onCurrentNodeChanged}
             nodeChildren={nodeChildren}
           />
-          <Modal open={open} onOpenChange={setOpen}>
+          <Modal open={open} onOpenChange={setOpen} modal={false}>
             <Tooltip tooltip={addChildTooltip}>
               <IconButtonContainer>
                 <ModalTrigger>
@@ -104,10 +104,11 @@ const FolderItem = ({
               </IconButtonContainer>
             </Tooltip>
             <ModalContent
+              forceOverlay
               size={node.id.includes('topic') ? { height: 'normal', width: 'normal' } : 'normal'}
               position="top"
             >
-              {node.id.includes('topic') ? (
+              {node.id.includes('topic') || node.id.includes('subject') ? (
                 <TaxonomyLightbox title={t('taxonomy.addTopicHeader')}>
                   <AddResourceModal>
                     <PlannedResourceForm node={node} articleType="topic-article" onClose={close} />

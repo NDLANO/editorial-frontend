@@ -33,7 +33,7 @@ import { isInTableCellHeader, isTableCell } from '../table/slateHelpers';
 import { defaultTableBlock } from '../table/defaultBlocks';
 import { TYPE_BODYBOX } from '../bodybox/types';
 import { TYPE_DETAILS } from '../details/types';
-import { TYPE_TABLE, TYPE_TABLE_CELL_HEADER } from '../table/types';
+import { TYPE_TABLE } from '../table/types';
 import { TYPE_ASIDE } from '../aside/types';
 import { TYPE_FILE } from '../file/types';
 import {
@@ -334,15 +334,16 @@ const SlateBlockPicker = ({
       />
       {!visualElementPickerOpen && (
         <Portal>
-          <StyledBlockPickerWrapper ref={portalRef} data-cy="slate-block-picker-button">
+          <StyledBlockPickerWrapper ref={portalRef} data-testid="slate-block-picker-button">
             <SlateBlockMenu
-              cy="slate-block-picker"
+              data-testid="slate-block-picker"
               isOpen={blockPickerOpen}
               heading={t('editorBlockpicker.heading')}
               actions={getActionsForArea()
-                .filter((action) => {
-                  return !action.requiredScope || userPermissions?.includes(action.requiredScope);
-                })
+                .filter(
+                  (action) =>
+                    !action.requiredScope || userPermissions?.includes(action.requiredScope),
+                )
                 .map((action) => ({
                   ...action,
                   label: t(`editorBlockpicker.actions.${action.data.object}`),

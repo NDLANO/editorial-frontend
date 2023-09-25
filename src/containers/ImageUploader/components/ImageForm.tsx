@@ -25,7 +25,7 @@ import ImageContent from './ImageContent';
 import { AlertModalWrapper } from '../../FormikForm';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage/HeaderWithLanguage';
 import ImageVersionNotes from './ImageVersionNotes';
-import { MAX_IMAGE_UPLOAD_SIZE } from '../../../constants';
+import { MAX_IMAGE_UPLOAD_SIZE, SAVE_BUTTON_ID } from '../../../constants';
 import { imageApiTypeToFormType, ImageFormikType } from '../imageTransformers';
 import { editorValueToPlainText } from '../../../util/articleContentConverter';
 import FormWrapper from '../../../components/FormWrapper';
@@ -206,7 +206,7 @@ const ImageForm = ({
                 className="u-4/6@desktop u-push-1/6@desktop"
                 hasError={hasError(['title', 'imageFile', 'caption', 'alttext'])}
               >
-                <ImageContent handleSubmit={handleSubmit} />
+                <ImageContent />
               </FormAccordion>
               <FormAccordion
                 id="metadata"
@@ -240,6 +240,7 @@ const ImageForm = ({
                 </ButtonV2>
               )}
               <SaveButton
+                id={SAVE_BUTTON_ID}
                 type={!inModal ? 'submit' : 'button'}
                 isSaving={isSubmitting || isSaving}
                 disabled={!isValid}

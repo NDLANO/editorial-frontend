@@ -76,6 +76,7 @@ import { TYPE_GRID } from '../../../../components/SlateEditor/plugins/grid/types
 import { HandleSubmitFunc, LearningResourceFormType } from '../../../FormikForm/articleFormHooks';
 import { audioPlugin } from '../../../../components/SlateEditor/plugins/audio';
 import { TYPE_AUDIO } from '../../../../components/SlateEditor/plugins/audio/types';
+import { learningResourceActions } from '../../../../components/SlateEditor/plugins/blockPicker/actions';
 
 const StyledFormikField = styled(FormikField)`
   display: flex;
@@ -129,7 +130,7 @@ const actionsToShowInAreas = {
 };
 
 // Plugins are checked from last to first
-export const plugins = (articleLanguage: string, handleSubmit: () => void): SlatePlugin[] => {
+export const plugins = (articleLanguage: string): SlatePlugin[] => {
   return [
     sectionPlugin,
     spanPlugin,
@@ -161,7 +162,7 @@ export const plugins = (articleLanguage: string, handleSubmit: () => void): Slat
     toolbarPlugin,
     textTransformPlugin,
     breakPlugin,
-    saveHotkeyPlugin(handleSubmit),
+    saveHotkeyPlugin,
     markPlugin,
     definitionListPlugin,
     listPlugin,
@@ -185,15 +186,9 @@ const LearningResourceContent = ({
 
   const [preview, setPreview] = useState(false);
 
-  const formikContext = useFormikContext<LearningResourceFormType>();
-
-  const handleSubmit = useCallback(() => {
-    _handleSubmit(formikContext.values, formikContext);
-  }, [_handleSubmit, formikContext]);
-
   return (
     <>
-      <TitleField handleSubmit={handleSubmit} />
+      <TitleField />
       <StyledFormikField name="published">
         {({ field, form }) => (
           <StyledDiv>
@@ -221,15 +216,10 @@ const LearningResourceContent = ({
           </StyledDiv>
         )}
       </StyledFormikField>
-      <IngressField preview={preview} handleSubmit={handleSubmit} />
+      <IngressField preview={preview} />
       <StyledContentDiv name="content" label={t('form.content.label')} noBorder>
         {(fieldProps) => (
-          <ContentField
-            articleLanguage={articleLanguage}
-            articleId={articleId}
-            {...fieldProps}
-            handleSubmit={handleSubmit}
-          />
+          <ContentField articleLanguage={articleLanguage} articleId={articleId} {...fieldProps} />
         )}
       </StyledContentDiv>
     </>
@@ -246,7 +236,6 @@ const ContentField = ({
   articleId,
   field: { name, onChange, value },
   articleLanguage,
-  handleSubmit,
 }: ContentFieldProps) => {
   const { t } = useTranslation();
   const { userPermissions } = useSession();
@@ -266,10 +255,7 @@ const ContentField = ({
     [onChange, name],
   );
 
-  const editorPlugins = useMemo(
-    () => plugins(articleLanguage ?? '', handleSubmit),
-    [articleLanguage, handleSubmit],
-  );
+  const editorPlugins = useMemo(() => plugins(articleLanguage ?? ''), [articleLanguage]);
 
   return (
     <>
@@ -282,13 +268,14 @@ const ContentField = ({
         )}
       </FieldHeader>
       <RichTextEditor
+        actions={learningResourceActions}
         language={articleLanguage}
         blockpickerOptions={blockPickerOptions}
         placeholder={t('form.content.placeholder')}
         value={value}
         submitted={isSubmitting}
         plugins={editorPlugins}
-        data-cy="learning-resource-content"
+        data-testid="learning-resource-content"
         onChange={onSlateChange}
       />
       {!isSubmitting && <LearningResourceFootnotes footnotes={findFootnotes(value)} />}

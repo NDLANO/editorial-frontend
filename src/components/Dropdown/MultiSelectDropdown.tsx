@@ -132,7 +132,7 @@ export const MultiSelectDropdown = <T extends { id: string }>({
             labelField={labelField}
             values={value}
             removeItem={removeItem}
-            testid="multiselect"
+            data-testid="multiselect"
           />
           <DropdownMenu
             multiSelect

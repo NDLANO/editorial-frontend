@@ -127,7 +127,7 @@ const ResourceBanner = ({
         <Content>
           <StyledShareIcon />
           {title}
-          <Modal open={open} onOpenChange={setOpen}>
+          <Modal open={open} onOpenChange={setOpen} modal={false}>
             <Tooltip tooltip={t('taxonomy.addResource')}>
               <ModalTrigger>
                 <IconButtonV2 size="xsmall" variant="ghost" aria-label={t('taxonomy.addResource')}>
@@ -135,7 +135,7 @@ const ResourceBanner = ({
                 </IconButtonV2>
               </ModalTrigger>
             </Tooltip>
-            <ModalContent size={{ width: 'normal', height: 'normal' }} position="top">
+            <ModalContent size={{ width: 'normal', height: 'normal' }} position="top" forceOverlay>
               <TaxonomyLightbox title={t('taxonomy.addResource')}>
                 <AddResourceModal>
                   <FieldHeader title={t('taxonomy.createResource')} />

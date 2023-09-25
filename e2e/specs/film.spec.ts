@@ -36,7 +36,7 @@ test.beforeEach(async ({ page }) => {
 });
 
 test('Can add a movie to the slideshow', async ({ page }) => {
-  await page.getByTestId('dropdownInput').first().fill('Brukerstøtte');
+  await page.getByTestId('dropdown-input').first().fill('Brukerstøtte');
   await page.getByTestId('dropdown-items').getByText('Brukerstøtte').first().click();
   await page.getByTestId('dropdown-items').blur();
 });

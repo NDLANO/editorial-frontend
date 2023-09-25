@@ -104,7 +104,7 @@ const KeyFigureForm = ({ onSave, initialData, onCancel }: Props) => {
               <InputV2 customCss={inputStyle} label={t('form.name.subtitle')} {...field} />
             )}
           </StyledFormikField>
-          <InlineImageSearch name={'metaImageId'} />
+          <InlineImageSearch name={'metaImageId'} disableAltEditing />
           <ButtonContainer>
             <ButtonV2 variant="outline" onClick={onCancel}>
               {t('cancel')}

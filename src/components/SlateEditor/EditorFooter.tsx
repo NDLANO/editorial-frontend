@@ -24,7 +24,7 @@ import { NewMessageType, useMessages } from '../../containers/Messages/MessagesP
 import { ConceptStatusStateMachineType, DraftStatusStateMachineType } from '../../interfaces';
 import ResponsibleSelect from '../../containers/FormikForm/components/ResponsibleSelect';
 import StatusSelect from '../../containers/FormikForm/components/StatusSelect';
-import { ARCHIVED, PUBLISHED, UNPUBLISHED } from '../../constants';
+import { ARCHIVED, PUBLISHED, SAVE_BUTTON_ID, UNPUBLISHED } from '../../constants';
 import PreviewDraftLightboxV2 from '../PreviewDraft/PreviewDraftLightboxV2';
 import { useSession } from '../../containers/Session/SessionProvider';
 import Footer from '../Footer/Footer';
@@ -221,6 +221,7 @@ function EditorFooter<T extends FormValues>({
             )}
             <SaveMultiButton
               large
+              saveId={SAVE_BUTTON_ID}
               isSaving={isSubmitting}
               formIsDirty={formIsDirty}
               showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}
@@ -237,7 +238,7 @@ function EditorFooter<T extends FormValues>({
   return (
     <Footer css={isArticle && articleResourcePageStyle}>
       <>
-        <div data-cy="footerPreviewAndValidate">
+        <div data-testid="footerPreviewAndValidate">
           {values.id && isConcept && (
             <PreviewDraftLightboxV2
               type="concept"
@@ -288,6 +289,7 @@ function EditorFooter<T extends FormValues>({
           </Wrapper>
           <SaveMultiButton
             large
+            saveId={SAVE_BUTTON_ID}
             isSaving={isSubmitting}
             formIsDirty={formIsDirty}
             showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}

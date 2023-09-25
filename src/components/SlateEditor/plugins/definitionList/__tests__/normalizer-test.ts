@@ -15,14 +15,7 @@ import { TYPE_DEFINITION_DESCRIPTION, TYPE_DEFINITION_LIST, TYPE_DEFINITION_TERM
 import { TYPE_SECTION } from '../../section/types';
 import { TYPE_PARAGRAPH } from '../../paragraph/types';
 
-const editor = withHistory(
-  withReact(
-    withPlugins(
-      createEditor(),
-      plugins('nb', () => {}),
-    ),
-  ),
-);
+const editor = withHistory(withReact(withPlugins(createEditor(), plugins('nb'))));
 
 describe('definition normalizing tests', () => {
   test('should not remove any description or term', () => {

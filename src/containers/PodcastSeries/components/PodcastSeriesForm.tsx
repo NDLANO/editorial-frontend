@@ -27,6 +27,7 @@ import {
   AUDIO_ADMIN_SCOPE,
   ITUNES_STANDARD_MAXIMUM_WIDTH,
   ITUNES_STANDARD_MINIMUM_WIDTH,
+  SAVE_BUTTON_ID,
 } from '../../../constants';
 import { podcastSeriesTypeToFormType } from '../../../util/audioHelpers';
 import FormWrapper from '../../../components/FormWrapper';
@@ -198,7 +199,6 @@ const PodcastSeriesForm = ({
                 )}
               >
                 <PodcastSeriesMetaData
-                  handleSubmit={() => handleSubmit(values, formikProps)}
                   language={language}
                   onImageLoad={(width, height) => {
                     size.current = [width, height];
@@ -222,6 +222,7 @@ const PodcastSeriesForm = ({
                 {t('form.abort')}
               </ButtonV2>
               <SaveButton
+                id={SAVE_BUTTON_ID}
                 disabled={!isAudioAdmin}
                 isSaving={isSubmitting}
                 showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}

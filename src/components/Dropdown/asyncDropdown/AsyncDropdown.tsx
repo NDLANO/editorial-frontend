@@ -239,7 +239,7 @@ export const AsyncDropdown = <ApiType extends ApiTypeValues>({
                 name="search-input-field"
                 label={label ?? placeholder}
                 labelHidden={!label}
-                data-testid={'dropdownInput'}
+                data-testid={'dropdown-input'}
                 after={
                   <IconWrapper>
                     {loading ? <StyledSpinner size="normal" /> : <Search />}

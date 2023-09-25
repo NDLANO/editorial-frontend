@@ -6,7 +6,7 @@
  *
  */
 
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import { useFormikContext } from 'formik';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
@@ -21,7 +21,6 @@ import VisualElementField from '../../FormikForm/components/VisualElementField';
 
 import { ConceptFormValues } from '../conceptInterfaces';
 import LastUpdatedLine from '../../../components/LastUpdatedLine/LastUpdatedLine';
-import { HandleSubmitFunc } from '../../FormikForm/articleFormHooks';
 
 const ByLine = styled.div`
   display: flex;
@@ -46,11 +45,10 @@ const PreviewButton = styled(IconButtonV2)`
 `;
 
 interface Props {
-  handleSubmit: HandleSubmitFunc<ConceptFormValues>;
   isGloss: boolean;
 }
 
-const ConceptContent = ({ handleSubmit: _handleSubmit, isGloss }: Props) => {
+const ConceptContent = ({ isGloss }: Props) => {
   const { t } = useTranslation();
   const [preview, setPreview] = useState(false);
   const formikContext = useFormikContext<ConceptFormValues>();
@@ -58,13 +56,9 @@ const ConceptContent = ({ handleSubmit: _handleSubmit, isGloss }: Props) => {
     values: { creators, updated },
   } = formikContext;
 
-  const handleSubmit = useCallback(() => {
-    _handleSubmit(formikContext.values, formikContext);
-  }, [_handleSubmit, formikContext]);
-
   return (
     <>
-      <TitleField handleSubmit={handleSubmit} />
+      <TitleField />
       <ByLine>
         <LastUpdatedLine onChange={() => {}} creators={creators} published={updated} />
         <IconContainer>
@@ -90,7 +84,6 @@ const ConceptContent = ({ handleSubmit: _handleSubmit, isGloss }: Props) => {
         placeholder={t('form.name.conceptContent')}
         preview={preview}
         concept
-        handleSubmit={handleSubmit}
       />
     </>
   );

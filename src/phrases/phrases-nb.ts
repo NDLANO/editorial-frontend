@@ -748,6 +748,7 @@ const phrases = {
       descriptionlanguage: 'Beskrivelse-språk',
       url: 'Lenke',
       date: 'Dato',
+      sides: 'Hvilken side bildet skal vises på',
     },
     previewProductionArticle: {
       button: 'Sammenlign gjeldende versjon med gammel versjon',
@@ -1629,11 +1630,13 @@ const phrases = {
         subjectType: 'Fagtype',
         resourceGroupPlaceholder: 'Gruppering av ressurser',
         RGTooltip: 'Vis ressurser Gruppert eller Ugruppert',
+        subjectLMA: 'LMA for faget',
       },
       placeholders: {
         category: 'Velg kategori',
         language: 'Velg språkkode',
         type: 'Velg type',
+        lma: 'Velg LMA',
       },
     },
   },
@@ -1900,12 +1903,9 @@ const phrases = {
   reset: 'Tilbakestill',
   campaignBlockForm: {
     title: 'Rediger kampanjeblokk',
-    image: {
-      imageBefore: 'Venstre bilde',
-      insertImageBefore: 'Sett inn bilde til venstre',
-      imageAfter: 'Høyre bilde',
-      insertImageAfter: 'Sett inn bilde til høyre',
-      images: 'Bilder',
+    sides: {
+      left: 'Venstre',
+      right: 'Høyre',
     },
   },
   linkBlock: {

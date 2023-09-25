@@ -129,11 +129,7 @@ test('Can change language and fech new article', async ({ page }) => {
 });
 
 test('Can edit published date', async ({ page }) => {
-  const saveButton = page
-    .getByTestId('saveLearningResourceButtonWrapper')
-    .getByRole('button')
-    .first();
-  await expect(saveButton).toBeDisabled();
+  await expect(page.locator('[id="editor-save-button"]')).toBeDisabled({ timeout: 10000 });
   const lastUpdatedDate = await page.getByTestId('last-edited').textContent();
   await page.getByTestId('last-edited').click();
   await page.locator('td[class="rdp-cell"]').first().click();

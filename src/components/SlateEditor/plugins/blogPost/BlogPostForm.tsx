@@ -159,7 +159,7 @@ const BlogPostForm = ({ initialData, onSave, onCancel }: Props) => {
           <StyledFormikField name="size" showError>
             {({ field }: FieldProps) => <SizeField field={field} />}
           </StyledFormikField>
-          <InlineImageSearch name={'metaImageId'} />
+          <InlineImageSearch name={'metaImageId'} disableAltEditing />
           <ButtonContainer>
             <ButtonV2 variant="outline" onClick={onCancel}>
               {t('cancel')}

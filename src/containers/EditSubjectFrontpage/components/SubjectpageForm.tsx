@@ -36,6 +36,7 @@ import StyledForm from '../../../components/StyledFormComponents';
 import { NdlaErrorPayload } from '../../../util/resolveJsonOrRejectWithError';
 import { isSlateEmbed } from '../../../components/SlateEditor/plugins/embed/utils';
 import { fetchNodes } from '../../../modules/nodes/nodeApi';
+import { SAVE_BUTTON_ID } from '../../../constants';
 
 interface Props {
   subjectpage?: ISubjectPageData;
@@ -195,10 +196,10 @@ const SubjectpageForm = ({
               editorsChoices={values.editorsChoices}
               elementId={values.elementId!}
               errors={errors}
-              handleSubmit={handleSubmit}
             />
             <Field right>
               <SaveButton
+                id={SAVE_BUTTON_ID}
                 size="large"
                 isSaving={isSubmitting}
                 showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}

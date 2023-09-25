@@ -122,13 +122,13 @@ test('can enter title, ingress, content and responsible then save', async ({ pag
     .first();
 
   await expect(saveButton).toBeDisabled();
-  await page.locator('[data-cy="learning-resource-title"]').click();
+  await page.getByTestId('learning-resource-title').click();
   await page.keyboard.type('TITTEL');
-  await page.locator('[data-cy="learning-resource-ingress"]').click();
+  await page.getByTestId('learning-resource-ingress').click();
   await page.keyboard.type('INGRESS');
-  await page.locator('[data-cy="slate-editor"]').click();
+  await page.getByTestId('slate-editor').click();
   await page.keyboard.type('CONTENT');
-  await page.locator('[data-cy="responsible-select"]').click();
+  await page.getByTestId('responsible-select').click();
   await page.keyboard.type('Test user');
   await page.keyboard.press('Enter');
   await saveButton.click();
@@ -139,15 +139,11 @@ test('Can add all contributors', async ({ page }) => {
   await page.getByRole('heading').getByRole('button').getByText('Lisens og bruker').click();
   const contributorValues = ['originator', 'rightsholder', 'processor'];
   let index = 0;
-  for (const contrib of await page.locator('[data-cy="addContributor"]').all()) {
+  for (const contrib of await page.getByTestId('addContributor').all()) {
     await contrib.click();
     await page.keyboard.type('Test user');
-    await page
-      .locator('[data-cy="contributor-selector"]')
-      .last()
-      .selectOption(contributorValues[index]);
-    index === 0 &&
-      expect(page.locator('[data-cy="contributor-selector"]').first()).toHaveValue('writer');
+    await page.getByTestId('contributor-selector').last().selectOption(contributorValues[index]);
+    index === 0 && expect(page.getByTestId('contributor-selector').first()).toHaveValue('writer');
     index++;
   }
 });

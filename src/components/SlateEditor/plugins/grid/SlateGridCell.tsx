@@ -43,13 +43,14 @@ const GridCell = ({ element, editor, attributes, children }: Props) => {
   );
 
   return (
-    <StyledGridCell {...attributes}>
+    <StyledGridCell {...attributes} data-testid="slate-grid-cell">
       <StyledButton
         contentEditable={false}
         onClick={onClickSticky}
         variant={element.data?.parallaxCell === 'true' ? 'solid' : 'ghost'}
         aria-label={label}
         title={label}
+        data-testid="grid-cell-parallax"
       >
         <Pin />
       </StyledButton>

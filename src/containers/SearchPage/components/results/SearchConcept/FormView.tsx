@@ -84,6 +84,7 @@ const FormView = ({ concept, cancel, subjects, updateLocalConcept }: Props) => {
         license: licenses!.find((l) => l.license === formConcept.license),
         rightsholders: fullConcept.copyright?.rightsholders || [],
         processors: fullConcept.copyright?.processors || [],
+        processed: fullConcept.copyright?.processed ?? false,
       },
       responsibleId: fullConcept?.responsible?.responsibleId,
     };

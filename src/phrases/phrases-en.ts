@@ -1139,6 +1139,10 @@ const phrases = {
     origin: {
       label: 'Origin',
     },
+    processed: {
+      label: 'Processed',
+      description: 'The content has been processed',
+    },
     image: {
       file: 'Image',
       save: 'Save image',

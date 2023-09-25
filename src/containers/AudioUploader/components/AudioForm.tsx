@@ -54,6 +54,7 @@ export interface AudioFormikType {
   creators: IAuthor[];
   processors: IAuthor[];
   rightsholders: IAuthor[];
+  processed: boolean;
   origin: string;
   license: string;
 }
@@ -152,6 +153,7 @@ const AudioForm = ({
           creators: values.creators,
           processors: values.processors,
           rightsholders: values.rightsholders,
+          processed: values.processed,
         },
       };
       if (audio?.revision) {

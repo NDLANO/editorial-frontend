@@ -27,7 +27,6 @@ export interface Values {
   metaImageId: string;
   metaImageAlt: string;
   supportedLanguages: Array<string>;
-  agreementId: string;
   language: string;
   articleType: string;
   status: Array<string>;

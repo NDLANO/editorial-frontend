@@ -7,10 +7,11 @@
  */
 
 import { memo } from 'react';
-import { useField } from 'formik';
 import LicenseField from './components/LicenseField';
 import { ContributorsField } from '.';
 import FormikField from '../../components/FormikField';
+import OriginField from './components/OriginField';
+import ProcessedField from './components/ProcessedField';
 
 const contributorTypes = ['creators', 'rightsholders', 'processors'];
 
@@ -18,20 +19,15 @@ interface Props {
   enableLicenseNA?: boolean;
 }
 
-const CopyrightFieldGroup = <T extends { agreementId?: number }>({ enableLicenseNA }: Props) => {
-  const [agreementId] = useField<T>('agreementId');
+const CopyrightFieldGroup = ({ enableLicenseNA }: Props) => {
   return (
     <>
       <ContributorsField contributorTypes={contributorTypes} />
       <FormikField name="license">
-        {({ field }) => (
-          <LicenseField
-            disabled={!!agreementId.value}
-            enableLicenseNA={enableLicenseNA}
-            {...field}
-          />
-        )}
+        {({ field }) => <LicenseField enableLicenseNA={enableLicenseNA} {...field} />}
       </FormikField>
+      <OriginField />
+      <ProcessedField />
     </>
   );
 };

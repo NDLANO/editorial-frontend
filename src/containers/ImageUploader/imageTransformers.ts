@@ -21,6 +21,7 @@ export interface ImageFormikType {
   creators: IAuthor[];
   processors: IAuthor[];
   rightsholders: IAuthor[];
+  processed: boolean;
   origin: string;
   license?: string;
   modelReleased: string;
@@ -46,6 +47,7 @@ export const imageApiTypeToFormType = (
     creators: image?.copyright.creators ?? [],
     processors: image?.copyright.processors ?? [],
     rightsholders: image?.copyright.rightsholders ?? [],
+    processed: image?.copyright.processed ?? false,
     origin: image?.copyright.origin ?? '',
     license:
       image?.copyright.license.license !== 'unknown' ? image?.copyright.license.license : undefined,

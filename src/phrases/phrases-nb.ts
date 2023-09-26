@@ -102,6 +102,7 @@ const phrases = {
   languages: {
     // Adds to list from frontend-packages
     ar: 'Arabisk',
+    la: 'Latin',
     no: 'Norsk',
     so: 'Somali',
     ti: 'Tigrinja',
@@ -1164,6 +1165,10 @@ const phrases = {
     },
     origin: {
       label: 'Opphav',
+    },
+    processed: {
+      label: 'Bearbeidet',
+      description: 'Innholdet har blitt bearbeidet',
     },
     image: {
       file: 'Bilde',

@@ -35,6 +35,7 @@ export interface ConceptFormValues {
   metaImageId: string;
   processors: IAuthor[];
   rightsholders: IAuthor[];
+  processed: boolean;
   subjects: Node[];
   supportedLanguages: string[];
   updated?: string;

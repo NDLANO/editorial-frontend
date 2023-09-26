@@ -49,6 +49,7 @@ export const conceptApiTypeToFormType = (
     creators: concept?.copyright?.creators ?? [],
     rightsholders: concept?.copyright?.rightsholders ?? [],
     processors: concept?.copyright?.processors ?? [],
+    processed: concept?.copyright?.processed ?? false,
     source: concept?.source ?? '',
     license: conceptLicense,
     metaImageId: parseImageUrl(concept?.metaImage),
@@ -80,41 +81,38 @@ export const getNewConceptType = (
   values: ConceptFormValues,
   licenses: ILicense[],
   conceptType: string,
-): INewConcept => {
-  const baseConcept: INewConcept = {
-    language: values.language,
-    title: editorValueToPlainText(values.title),
-    content: editorValueToPlainText(values.conceptContent),
-    copyright: {
-      license: licenses.find((license) => license.license === values.license),
-      origin: values.origin,
-      creators: values.creators ?? [],
-      processors: values.processors ?? [],
-      rightsholders: values.rightsholders ?? [],
-    },
-    source: values.source,
-    tags: values.tags,
-    metaImage: metaImageFromForm(values),
-    subjectIds: values.subjects.map((subject) => subject.id),
-    articleIds: values.articles.map((a) => a.id),
-    visualElement: editorValueToEmbedTag(values.visualElement),
-    responsibleId: values.responsibleId,
-    conceptType: conceptType,
-    ...(conceptType === 'gloss'
-      ? {
-          glossData: {
-            gloss: values.gloss?.gloss ?? '',
-            wordClass: values.gloss?.wordClass ?? '',
-            originalLanguage: values.gloss?.originalLanguage ?? '',
-            examples: values.examples ?? [],
-            transcriptions: values.transcriptions ?? {},
-          },
-        }
-      : {}),
-  };
-
-  return baseConcept;
-};
+): INewConcept => ({
+  language: values.language,
+  title: editorValueToPlainText(values.title),
+  content: editorValueToPlainText(values.conceptContent),
+  copyright: {
+    license: licenses.find((license) => license.license === values.license),
+    origin: values.origin,
+    creators: values.creators ?? [],
+    processors: values.processors ?? [],
+    rightsholders: values.rightsholders ?? [],
+    processed: values.processed ?? false,
+  },
+  source: values.source,
+  tags: values.tags,
+  metaImage: metaImageFromForm(values),
+  subjectIds: values.subjects.map((subject) => subject.id),
+  articleIds: values.articles.map((a) => a.id),
+  visualElement: editorValueToEmbedTag(values.visualElement),
+  responsibleId: values.responsibleId,
+  conceptType: conceptType,
+  ...(conceptType === 'gloss'
+    ? {
+        glossData: {
+          gloss: values.gloss?.gloss ?? '',
+          wordClass: values.gloss?.wordClass ?? '',
+          originalLanguage: values.gloss?.originalLanguage ?? '',
+          examples: values.examples ?? [],
+          transcriptions: values.transcriptions ?? {},
+        },
+      }
+    : {}),
+});
 
 export const getUpdatedConceptType = (
   values: ConceptFormValues,

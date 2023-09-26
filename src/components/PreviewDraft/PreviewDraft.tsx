@@ -9,7 +9,7 @@
 import { useCallback, useEffect, useMemo } from 'react';
 import { Remarkable } from 'remarkable';
 import { ContentTypeBadge, Article, FrontpageArticle } from '@ndla/ui';
-import { IArticle, ICopyright } from '@ndla/types-backend/draft-api';
+import { IArticle, IDraftCopyright } from '@ndla/types-backend/draft-api';
 import { transform } from '@ndla/article-converter';
 import { LocaleType } from '../../interfaces';
 import '../DisplayEmbed/helpers/h5pResizer';
@@ -42,7 +42,7 @@ interface FormArticle {
   introduction?: string;
   visualElement?: string;
   published?: string;
-  copyright?: ICopyright;
+  copyright?: IDraftCopyright;
   articleType?: string;
 }
 

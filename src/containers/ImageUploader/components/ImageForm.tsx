@@ -158,6 +158,7 @@ const ImageForm = ({
         creators: values.creators,
         processors: values.processors,
         rightsholders: values.rightsholders,
+        processed: values.processed,
       },
       modelReleased: values.modelReleased,
     };

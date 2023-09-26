@@ -20,7 +20,7 @@ interface Props {
   onClose: () => void;
 }
 
-const languages = ['ar', 'de', 'en', 'es', 'no', 'se', 'sma', 'so', 'ti', 'zh'];
+export const languages = ['ar', 'de', 'en', 'es', 'fr', 'la', 'no', 'se', 'sma', 'so', 'ti', 'zh'];
 
 const Container = styled.div`
   display: flex;

@@ -9,6 +9,7 @@ import isObject from 'lodash/fp/isObject';
 import { TYPE_NDLA_EMBED } from '../components/SlateEditor/plugins/embed/types';
 import { isEmpty } from '../components/validators';
 import { Dictionary, Embed } from '../interfaces';
+import { TYPE_AUDIO } from '../components/SlateEditor/plugins/audio/types';
 
 export const removeEmptyElementDataAttributes = (obj: Dictionary<any>) => {
   const newObject: Dictionary<string> = {};
@@ -109,8 +110,7 @@ export const parseEmbedTag = (embedTag?: string): Embed | undefined => {
   if (embedElements.length !== 1) {
     return undefined;
   }
-
-  const isAudioType = embedElements[0].getAttribute('data-resource') === 'audio';
+  const isAudioType = embedElements[0].getAttribute('data-resource') === TYPE_AUDIO;
   const obj = isAudioType
     ? reduceElementDataAttributesV2(Array.from(embedElements[0].attributes))
     : reduceElementDataAttributes(embedElements[0]);

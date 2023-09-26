@@ -24,14 +24,6 @@ const StyledTranscriptionField = styled.div`
   width: 100%;
   justify-content: space-between;
   margin: ${spacing.small} 0;
-
-  > :first-child {
-    padding-right: ${spacing.small};
-  }
-
-  > :last-child {
-    margin-bottom: ${spacing.small};
-  }
 `;
 
 const TranscriptionField = ({ name, value, label, removeField }: Props) => {
@@ -44,7 +36,6 @@ const TranscriptionField = ({ name, value, label, removeField }: Props) => {
             label={label}
             placeholder={t('form.concept.glossDataSection.transcription')}
             value={value ?? ''}
-            data-cy="transcription-selector"
             {...field}
           />
           <FieldRemoveButton onClick={removeField} />

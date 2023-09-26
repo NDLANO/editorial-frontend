@@ -16,9 +16,9 @@ import LanguageVariantFieldArray from './LanguageVariantFieldArray';
 import FormikField from '../../../components/FormikField';
 import { emptyGlossExample } from '../glossData';
 
-const StyledExamplesField = styled.div`
-  &:not(:first-of-type) {
-    border-top: 1px solid ${colors.brand.greyLight};
+const StyledExample = styled.div`
+  &:not(:last-of-type) {
+    border-bottom: 1px solid ${colors.brand.greyLight};
   }
 `;
 
@@ -36,8 +36,8 @@ const ExamplesFieldArray = ({ name }: Props) => {
       render={(arrayHelpers) => (
         <>
           {value.map((languageVariantExamples, index) => (
-            <StyledExamplesField key={`${name}.${index}`}>
-              <FormikField name={`${name}.${index}`} showError={false}>
+            <StyledExample key={`${name}.${index}`}>
+              <FormikField name={`${name}.${index}`}>
                 {({ field }) => (
                   <LanguageVariantFieldArray
                     examples={languageVariantExamples}
@@ -46,13 +46,12 @@ const ExamplesFieldArray = ({ name }: Props) => {
                   />
                 )}
               </FormikField>
-            </StyledExamplesField>
+            </StyledExample>
           ))}
           <ButtonV2
             onClick={() => {
               arrayHelpers.push([emptyGlossExample]);
             }}
-            data-cy="addExample"
           >
             {t('form.concept.glossDataSection.add', {
               label: t(`form.concept.glossDataSection.example`).toLowerCase(),

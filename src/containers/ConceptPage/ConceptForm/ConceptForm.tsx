@@ -147,14 +147,18 @@ const glossRules: RulesType<ConceptFormValues, IConcept, IGlossExample> = {
       },
     },
   },
-  // håndtere disse litt annerledes??
-  'transcriptions.pinyin': {
-    required: true,
-    onlyValidateIf: (values) => values.transcriptions?.pinyin !== undefined,
-  },
-  'transcriptions.traditional': {
-    required: true,
-    onlyValidateIf: (values) => values.transcriptions?.traditional !== undefined,
+  transcriptions: {
+    onlyValidateIf: (values) => {
+      if (values.transcriptions) {
+        return Object.keys(values.transcriptions).length !== 0;
+      }
+      return false;
+    },
+    test: (values) => {
+      if (values.transcriptions && Object.values(values.transcriptions).includes('')) {
+        return { translationKey: 'form.concept.glossDataSection.transcriptionMissingFields' };
+      }
+    },
   },
 };
 
@@ -234,7 +238,10 @@ const ConceptForm = ({
   const isGloss = conceptType === 'gloss';
   const formRules = isGloss ? glossRules : conceptRules;
 
-  const initialWarnings = getWarnings(initialValues, formRules, t, concept);
+  const initialWarnings = useMemo(
+    () => getWarnings(initialValues, formRules, t, concept),
+    [concept, formRules, initialValues, t],
+  );
   const initialErrors = useMemo(
     () => validateFormik(initialValues, formRules, t),
     [initialValues, t, formRules],
@@ -285,7 +292,11 @@ const ConceptForm = ({
                   id="glossData"
                   title={t('form.concept.glossDataSection.gloss')}
                   hasError={
-                    !!(errors.gloss || Object.keys(errors).find((e) => e.includes('examples')))
+                    !!(
+                      errors.gloss ||
+                      Object.keys(errors).find((e) => e.includes('examples')) ||
+                      errors.transcriptions
+                    )
                   }
                 >
                   <GlossDataSection />

@@ -40,7 +40,7 @@ export interface ConceptFormValues {
   updated?: string;
   origin?: string;
   responsibleId?: string;
-  conceptType: string;
+  conceptType: 'concept' | 'gloss';
   gloss?: {
     gloss: string;
     wordClass: string;

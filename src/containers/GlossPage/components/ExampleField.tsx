@@ -21,6 +21,8 @@ interface Props {
 
 const StyledFormikField = styled(FormikField)`
   margin: 0px;
+  // Important is to override styling with higher specificity coming from FieldSection
+  border-top: none !important;
 `;
 
 const ExampleField = ({ example, name }: Props) => {

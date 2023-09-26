@@ -1646,7 +1646,8 @@ const phrases = {
     closeModal: 'Close',
   },
   conceptform: {
-    title: 'Concept',
+    concept: 'Concept',
+    gloss: 'Gloss',
   },
   editorFooter: {
     buttonLabel: 'Quality ensurance',

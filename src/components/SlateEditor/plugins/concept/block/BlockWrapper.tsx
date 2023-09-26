@@ -98,8 +98,6 @@ const BlockWrapper = ({ element, locale, editor, attributes, children }: Props) 
     }
   }, [editor, element]);
 
-  console.log(concept);
-
   return (
     <Modal open={isEditing} onOpenChange={setIsEditing}>
       <StyledWrapper
@@ -129,7 +127,7 @@ const BlockWrapper = ({ element, locale, editor, attributes, children }: Props) 
             subjects={subjects}
             handleRemove={handleRemove}
             selectedText={''}
-            isGloss={element.type === 'gloss-block'}
+            isGloss={element.type === TYPE_GLOSS_BLOCK}
             {...conceptHooks}
           />
         </ModalContent>

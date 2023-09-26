@@ -13,6 +13,4 @@ export const defaultConceptBlock = () =>
   slatejsx('element', { type: TYPE_CONCEPT_BLOCK, data: {}, isFirstEdit: true }, [{ text: '' }]);
 
 export const defaultGlossBlock = () =>
-  slatejsx('element', { type: TYPE_GLOSS_BLOCK, isGloss: true, isFirstEdit: true, data: {} }, [
-    { text: '' },
-  ]);
+  slatejsx('element', { type: TYPE_GLOSS_BLOCK, isFirstEdit: true, data: {} }, [{ text: '' }]);

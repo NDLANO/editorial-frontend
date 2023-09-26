@@ -8,13 +8,13 @@ import { RenderElementProps } from 'slate-react';
 import { useTranslation } from 'react-i18next';
 import Tooltip from '@ndla/tooltip';
 import { Check, DeleteForever, Warning } from '@ndla/icons/editor';
+import { SafeLinkIconButton } from '@ndla/safelink';
+import { IconButtonV2 } from '@ndla/button';
+import { css } from '@emotion/react';
 import { Link as LinkIcon } from '@ndla/icons/common';
 import { PUBLISHED } from '../../../../../constants';
 import SlateInlineConcept from './SlateInlineConcept';
 import SlateInlineGloss from './SlateInlineGloss';
-import { SafeLinkIconButton } from '@ndla/safelink';
-import { IconButtonV2 } from '@ndla/button';
-import { css } from '@emotion/react';
 
 const StyledDeleteForever = styled(DeleteForever)`
   color: ${colors.support.red};

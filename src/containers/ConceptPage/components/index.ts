@@ -11,4 +11,4 @@ import ConceptContent from './ConceptContent';
 import ConceptCopyright from './ConceptCopyright';
 import ConceptMetaData from './ConceptMetaData';
 
-export { ConceptArticles, ConceptContent, ConceptCopyright, ConceptMetaData };
+export { ConceptArticles, ConceptContent, ConceptMetaData };

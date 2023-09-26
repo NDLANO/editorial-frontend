@@ -93,7 +93,6 @@ export const getNewConceptType = (
     rightsholders: values.rightsholders ?? [],
     processed: values.processed ?? false,
   },
-  source: values.source,
   tags: values.tags,
   metaImage: metaImageFromForm(values),
   subjectIds: values.subjects.map((subject) => subject.id),

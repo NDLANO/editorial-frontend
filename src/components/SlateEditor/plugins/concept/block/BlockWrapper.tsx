@@ -6,20 +6,27 @@
  *
  */
 
-import { useState, useEffect, ReactNode, useCallback } from 'react';
-import { colors } from '@ndla/core';
+import { useState, ReactNode, useCallback } from 'react';
 import { Editor, Element, Transforms, Path } from 'slate';
+import { useTranslation } from 'react-i18next';
 import { ReactEditor, RenderElementProps, useSelected } from 'slate-react';
 import styled from '@emotion/styled';
 import { IConcept, IConceptSummary } from '@ndla/types-backend/concept-api';
 import { ConceptEmbedData } from '@ndla/types-embed';
 import { Modal, ModalContent } from '@ndla/modal';
+import { spacing, colors } from '@ndla/core';
+import { Check, AlertCircle, DeleteForever } from '@ndla/icons/editor';
+import { IconButtonV2 } from '@ndla/button';
+import { Link as LinkIcon } from '@ndla/icons/common';
+import { SafeLinkIconButton } from '@ndla/safelink';
+import Tooltip from '@ndla/tooltip';
 import { useFetchConceptData } from '../../../../../containers/FormikForm/formikConceptHooks';
 import { TYPE_CONCEPT_BLOCK, TYPE_GLOSS_BLOCK } from './types';
 import { ConceptBlockElement } from './interfaces';
 import ConceptModalContent from '../ConceptModalContent';
 import SlateBlockConcept from './SlateBlockConcept';
 import SlateBlockGloss from './SlateBlockGloss';
+import { PUBLISHED } from '../../../../../constants';
 
 const getConceptDataAttributes = ({ id }: IConceptSummary | IConcept): ConceptEmbedData => ({
   contentId: id.toString(),
@@ -49,6 +56,27 @@ const StyledWrapper = styled.div`
   &[data-solid-border='true'] {
     border: 2px solid ${colors.brand.primary};
   }
+`;
+const StyledCheckIcon = styled(Check)`
+  margin-left: ${spacing.xsmall};
+  width: ${spacing.normal};
+  height: ${spacing.normal};
+  fill: ${colors.support.green};
+`;
+
+const StyledAlertCircle = styled(AlertCircle)`
+  margin-left: ${spacing.xsmall};
+  margin-top: ${spacing.xsmall};
+  height: ${spacing.normal};
+  width: ${spacing.normal};
+  fill: ${colors.brand.grey};
+`;
+
+const ButtonContainer = styled.div`
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  right: -${spacing.large};
 `;
 
 const BlockWrapper = ({ element, locale, editor, attributes, children }: Props) => {
@@ -110,12 +138,9 @@ const BlockWrapper = ({ element, locale, editor, attributes, children }: Props) 
       >
         {concept && (
           <div contentEditable={false}>
-            {concept?.conceptType === 'concept' && (
-              <SlateBlockConcept concept={concept} handleRemove={handleRemove} isBlockView />
-            )}
-            {concept?.conceptType === 'gloss' && (
-              <SlateBlockGloss concept={concept} handleRemove={handleRemove} />
-            )}
+            <ConceptButtonContainer concept={concept} handleRemove={handleRemove} />
+            {concept?.conceptType === 'concept' && <SlateBlockConcept concept={concept} />}
+            {concept?.conceptType === 'gloss' && <SlateBlockGloss concept={concept} />}
           </div>
         )}
         <ModalContent size={{ width: 'large', height: 'large' }}>
@@ -134,6 +159,52 @@ const BlockWrapper = ({ element, locale, editor, attributes, children }: Props) 
         {children}
       </StyledWrapper>
     </Modal>
+  );
+};
+
+interface ButtonContainerProps {
+  concept: IConcept | IConceptSummary;
+  handleRemove: () => void;
+}
+
+const ConceptButtonContainer = ({ concept, handleRemove }: ButtonContainerProps) => {
+  const { t, i18n } = useTranslation();
+  return (
+    <ButtonContainer>
+      <IconButtonV2
+        aria-label={t('form.concept.removeConcept')}
+        title={t('form.concept.removeConcept')}
+        variant="ghost"
+        colorTheme="danger"
+        onClick={handleRemove}
+      >
+        <DeleteForever />
+      </IconButtonV2>
+      <SafeLinkIconButton
+        aria-label={t('form.concept.edit')}
+        title={t('form.concept.edit')}
+        variant="ghost"
+        colorTheme="light"
+        to={`/concept/${concept.id}/edit/${concept.content?.language ?? i18n.language}`}
+        target="_blank"
+      >
+        <LinkIcon />
+      </SafeLinkIconButton>
+      {(concept?.status.current === PUBLISHED || concept?.status.other.includes(PUBLISHED)) && (
+        <Tooltip tooltip={t('form.workflow.published')}>
+          <StyledCheckIcon />
+        </Tooltip>
+      )}
+      {concept?.status.current !== PUBLISHED && (
+        <Tooltip
+          tooltip={t('form.workflow.currentStatus', {
+            status: t(`form.status.${concept?.status.current.toLowerCase()}`),
+          })}
+        >
+          <StyledAlertCircle />
+        </Tooltip>
+      )}
+    </ButtonContainer>
   );
 };
 

@@ -18,7 +18,6 @@ import { defaultBlockNormalizer, NormalizerConfig } from '../../../utils/default
 import { afterOrBeforeTextBlockElement } from '../../../utils/normalizationHelpers';
 import { TYPE_NDLA_EMBED } from '../../embed/types';
 import { TYPE_PARAGRAPH } from '../../paragraph/types';
-import BlockConcept from './BlockConcept';
 import BlockWrapper from './BlockWrapper';
 import { TYPE_CONCEPT_BLOCK, TYPE_GLOSS_BLOCK } from './types';
 

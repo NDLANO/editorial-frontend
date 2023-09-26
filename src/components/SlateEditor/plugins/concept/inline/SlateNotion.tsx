@@ -7,7 +7,7 @@ import { ReactNode } from 'react';
 import { RenderElementProps } from 'slate-react';
 import { useTranslation } from 'react-i18next';
 import Tooltip from '@ndla/tooltip';
-import { Check, DeleteForever, Warning } from '@ndla/icons/editor';
+import { AlertCircle, Check, DeleteForever, Warning } from '@ndla/icons/editor';
 import { SafeLinkIconButton } from '@ndla/safelink';
 import { IconButtonV2 } from '@ndla/button';
 import { css } from '@emotion/react';
@@ -37,10 +37,6 @@ const StyledDiv = styled.div`
   flex-direction: inherit;
   gap: ${spacing.xxsmall};
   padding-left: ${spacing.xxsmall};
-`;
-
-const StyledTooltip = styled(Tooltip)`
-  margin-right: auto;
 `;
 
 const BaselineIcon = styled.div`
@@ -80,6 +76,12 @@ const StyledButton = styled.button`
   }
 `;
 
+const StyledAlertCircle = styled(AlertCircle)`
+  height: ${spacing.normal};
+  width: ${spacing.normal};
+  fill: ${colors.brand.grey};
+`;
+
 const ButtonCSS = css`
   padding: unset;
   margin-right: ${spacing.xsmall};
@@ -117,9 +119,9 @@ const SlateNotion = ({ children, attributes, id, concept, handleRemove }: Props)
                   <StyledDiv>
                     {(concept?.status.current === PUBLISHED ||
                       concept?.status.other.includes(PUBLISHED)) && (
-                      <StyledTooltip tooltip={t('form.workflow.published')}>
+                      <Tooltip tooltip={t('form.workflow.published')}>
                         <StyledCheckIcon />
-                      </StyledTooltip>
+                      </Tooltip>
                     )}
                     {concept?.status.current !== PUBLISHED && (
                       <Tooltip
@@ -127,7 +129,7 @@ const SlateNotion = ({ children, attributes, id, concept, handleRemove }: Props)
                           status: t(`form.status.${concept?.status.current.toLowerCase()}`),
                         })}
                       >
-                        <Warning />
+                        <StyledAlertCircle />
                       </Tooltip>
                     )}
                   </StyledDiv>
@@ -137,6 +139,7 @@ const SlateNotion = ({ children, attributes, id, concept, handleRemove }: Props)
                     onClick={handleRemove}
                     tabIndex={-1}
                     aria-label={t('form.concept.removeConcept')}
+                    title={t('form.concept.removeConcept')}
                     css={ButtonCSS}
                   >
                     <StyledDeleteForever />
@@ -147,6 +150,7 @@ const SlateNotion = ({ children, attributes, id, concept, handleRemove }: Props)
                     tabIndex={-1}
                     colorTheme="lighter"
                     variant="ghost"
+                    title={t('form.concept.edit')}
                     aria-label={t('form.concept.edit')}
                     css={ButtonCSS}
                   >

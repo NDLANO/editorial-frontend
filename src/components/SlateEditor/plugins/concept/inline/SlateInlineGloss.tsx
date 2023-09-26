@@ -1,3 +1,11 @@
+/*
+ * Copyright (c) 2023-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 import { IConcept } from '@ndla/types-backend/concept-api';
 import { Gloss } from '@ndla/ui';
 import { useEffect, useMemo } from 'react';
@@ -15,21 +23,18 @@ const SlateInlineGloss = ({ concept }: Props) => {
     if (embed?.resource === 'audio') {
       return {
         url: embed.url,
-        title: embed.pageUrl ?? 'oopsie',
+        title: embed.pageUrl ?? '',
       };
     }
   }, [concept.visualElement?.visualElement]);
+
   useEffect(() => {
     addShowConceptDefinitionClickListeners();
   }, []);
 
-  if (!concept.glossData) return null;
-
-  return (
-    <>
-      <Gloss audio={audio ?? { title: '' }} title={concept.title} glossData={concept.glossData} />
-    </>
-  );
+  return concept.glossData ? (
+    <Gloss audio={audio ?? { title: '' }} title={concept.title} glossData={concept.glossData} />
+  ) : null;
 };
 
 export default SlateInlineGloss;

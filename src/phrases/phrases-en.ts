@@ -890,7 +890,7 @@ const phrases = {
         languageMissingFields: 'All fields for a language must be filled out.',
         exampleMissingFields: 'An example entry must include all fields.',
         glossMissingFields: 'A glossary entry must include all fields.',
-        transcriptionMissingFields: 'A transcription can not be empty.',
+        transcriptionMissingFields: 'A transcription cannot be empty.',
       },
     },
     conceptList: {

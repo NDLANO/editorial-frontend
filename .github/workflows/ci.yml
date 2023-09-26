@@ -42,15 +42,14 @@ jobs:
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
       - name: 'Install'
         run: yarn install --frozen-lockfile
+      - name: 'Check-all'
+        run: yarn check-all
       - name: 'Build'
         run: yarn build
+      - name: 'Deploy vercel build'
+        run: yarn ndla-scripts vercel-github
+        continue-on-error: true
       - name: Install Playwright Browsers
         run: yarn playwright install --with-deps chromium
       - name: 'E2E'
         run: yarn e2e:headless
-      - name: 'Check-all'
-        run: yarn check-all
-
-      - name: 'Deploy vercel build'
-        run: yarn ndla-scripts vercel-github
-        continue-on-error: true

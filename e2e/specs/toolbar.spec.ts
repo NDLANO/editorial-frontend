@@ -48,7 +48,7 @@ test.beforeEach(async ({ page }) => {
 test('can change text styling', async ({ page }) => {
   const el = page.getByTestId('slate-editor');
   await el.click();
-  await el.type('text to style');
+  await el.getByRole('textbox').fill('text to style');
   await el.press(`${metaKey}+A`);
   const bold = page.getByTestId('toolbar-button-bold');
   await bold.waitFor();
@@ -84,9 +84,9 @@ test('can change text styling', async ({ page }) => {
   expect(h3).toHaveAttribute('data-active', 'true');
   await h3.click();
   await el.click();
-  await page.keyboard.press(`${metaKey}+A`);
-  await page.keyboard.type('This is test content');
-  await page.keyboard.press(`${metaKey}+A`);
+  await el.press(`${metaKey}+A`);
+  await el.type('This is test content');
+  await el.press(`${metaKey}+A`);
   const quote = page.getByTestId('toolbar-button-quote');
   await quote.click();
   expect(quote).toHaveAttribute('data-active', 'true');
@@ -101,7 +101,7 @@ test('can change text styling', async ({ page }) => {
 test('can create a valid link', async ({ page }) => {
   const el = page.getByTestId('slate-editor');
   await el.click();
-  await el.type('This is a test link');
+  await el.getByRole('textbox').fill('This is a test link');
   await el.press(`${metaKey}+A`);
   await expect(page.getByTestId('toolbar-button-link')).toBeAttached();
   await expect(page.getByTestId('toolbar-button-link')).toBeVisible();
@@ -163,7 +163,7 @@ test('Definition list work properly', async ({ page }) => {
 });
 
 test('Selecting multiple paragraphs gives multiple terms', async ({ page }) => {
-  const el = await page.getByTestId('slate-editor');
+  const el = page.getByTestId('slate-editor');
   await el.click();
   await el.type('Definition term 1');
   await el.press('Enter');
@@ -182,7 +182,7 @@ test('Selecting multiple paragraphs gives multiple terms', async ({ page }) => {
 test('Creates math', async ({ page }) => {
   const el = page.getByTestId('slate-editor');
   await el.click();
-  await el.type('1+1');
+  await el.getByRole('textbox').fill('1+1');
   await el.press(`${metaKey}+A`);
   const mathButton = page.getByTestId('toolbar-button-mathml');
   await mathButton.waitFor();
@@ -193,7 +193,7 @@ test('Creates math', async ({ page }) => {
 test('Language label buttons are available, and labels can be set', async ({ page }) => {
   const el = page.getByTestId('slate-editor');
   await el.click();
-  await el.type('Hello');
+  await el.getByRole('textbox').fill('Hello');
   await el.press(`${metaKey}+A`);
   const languageButton = page.getByTestId('toolbar-button-span');
   await languageButton.click();

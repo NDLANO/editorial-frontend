@@ -110,8 +110,12 @@ export const parseEmbedTag = (embedTag?: string): Embed | undefined => {
     return undefined;
   }
 
-  const obj = reduceElementDataAttributes(embedElements[0]);
+  const isAudioType = embedElements[0].getAttribute('data-resource') === 'audio';
+  const obj = isAudioType
+    ? reduceElementDataAttributesV2(Array.from(embedElements[0].attributes))
+    : reduceElementDataAttributes(embedElements[0]);
   delete obj.id;
+
   return obj as unknown as Embed;
 };
 

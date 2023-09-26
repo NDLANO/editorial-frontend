@@ -164,6 +164,7 @@ const PodcastForm = ({
         creators: values.creators,
         processors: values.processors,
         rightsholders: values.rightsholders,
+        processed: values.processed,
       },
       podcastMeta: {
         introduction: values.introduction ? editorValueToPlainText(values.introduction) : '',

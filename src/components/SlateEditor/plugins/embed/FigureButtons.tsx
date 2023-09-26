@@ -30,6 +30,6 @@ export const StyledFigureButtons = styled.div`
   position: absolute;
   right: ${spacing.nsmall};
   top: ${spacing.nsmall};
-  z-index: 2;
+  z-index: 1;
   gap: ${spacing.xsmall};
 `;

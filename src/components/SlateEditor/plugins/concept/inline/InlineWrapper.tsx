@@ -14,9 +14,9 @@ import uniqueId from 'lodash/uniqueId';
 import { IConcept, IConceptSummary } from '@ndla/types-backend/concept-api';
 import { ConceptEmbedData } from '@ndla/types-embed';
 import { Modal, ModalContent } from '@ndla/modal';
-import { ConceptInlineElement } from '../inline/interfaces';
+import { ConceptInlineElement } from './interfaces';
 import { useFetchConceptData } from '../../../../../containers/FormikForm/formikConceptHooks';
-import { TYPE_CONCEPT_INLINE } from './types';
+import { TYPE_CONCEPT_INLINE, TYPE_GLOSS_INLINE } from './types';
 import SlateNotion from './SlateNotion';
 import ConceptModalContent from '../ConceptModalContent';
 
@@ -38,15 +38,11 @@ interface Props {
   children: ReactNode;
 }
 
-const InlineConcept = (props: Props) => {
+const InlineWrapper = (props: Props) => {
   const { children, element, locale, editor, attributes } = props;
   const nodeText = Node.string(element).trim();
   const uuid = useMemo(() => uniqueId(), []);
   const [showConcept, setShowConcept] = useState(false);
-
-  const toggleConceptModal = () => {
-    setShowConcept(!showConcept);
-  };
 
   const { concept, subjects, fetchSearchTags, conceptArticles, createConcept, updateConcept } =
     useFetchConceptData(parseInt(element.data.contentId), locale);
@@ -62,7 +58,6 @@ const InlineConcept = (props: Props) => {
   };
 
   const addConcept = (addedConcept: IConceptSummary | IConcept) => {
-    toggleConceptModal();
     setTimeout(() => {
       handleSelectionChange(true);
       const data = getConceptDataAttributes(addedConcept, nodeText);
@@ -81,7 +76,6 @@ const InlineConcept = (props: Props) => {
   };
 
   const handleRemove = () => {
-    toggleConceptModal();
     setTimeout(() => {
       handleSelectionChange(false);
       const path = ReactEditor.findPath(editor, element);
@@ -96,7 +90,6 @@ const InlineConcept = (props: Props) => {
     if (!element.data.contentId) {
       handleRemove();
     } else {
-      toggleConceptModal();
       handleSelectionChange(false);
     }
   };
@@ -125,10 +118,11 @@ const InlineConcept = (props: Props) => {
           createConcept={createConcept}
           updateConcept={updateConcept}
           conceptArticles={conceptArticles}
+          isGloss={element.type === TYPE_GLOSS_INLINE}
         />
       </ModalContent>
     </Modal>
   );
 };
 
-export default InlineConcept;
+export default InlineWrapper;

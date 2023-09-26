@@ -36,7 +36,7 @@ import { codeblockSerializer } from '../components/SlateEditor/plugins/codeBlock
 import { blogPostSerializer } from '../components/SlateEditor/plugins/blogPost';
 import { noEmbedSerializer } from '../components/SlateEditor/plugins/noEmbed';
 import { defaultEmbedBlock, isSlateEmbed } from '../components/SlateEditor/plugins/embed/utils';
-import { parseEmbedTag, createEmbedTag } from './embedTagHelpers';
+import { parseEmbedTag, createEmbedTag, createEmbedTagV2 } from './embedTagHelpers';
 import { Embed } from '../interfaces';
 import { divSerializer } from '../components/SlateEditor/plugins/div';
 import { spanSerializer } from '../components/SlateEditor/plugins/span';

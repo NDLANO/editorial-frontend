@@ -18,7 +18,7 @@ import {
   ErrorEmbed,
   ExternalEmbed,
 } from '../../../../interfaces';
-import { createEmbedTag, parseEmbedTag } from '../../../../util/embedTagHelpers';
+import { createEmbedTag, createEmbedTagV2, parseEmbedTag } from '../../../../util/embedTagHelpers';
 import { defaultEmbedBlock, isSlateEmbed, isSlateEmbedElement } from './utils';
 import { defaultBlockNormalizer, NormalizerConfig } from '../../utils/defaultNormalizer';
 import { afterOrBeforeTextBlockElement } from '../../utils/normalizationHelpers';

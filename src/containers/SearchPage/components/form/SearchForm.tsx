@@ -37,6 +37,7 @@ export interface SearchParams {
   'exclude-revision-log'?: boolean | undefined;
   'responsible-ids'?: string;
   'filter-inactive'?: boolean;
+  'concept-type'?: string;
 }
 
 export const parseSearchParams = (locationSearch: string): SearchParams => {
@@ -76,6 +77,7 @@ export const parseSearchParams = (locationSearch: string): SearchParams => {
     'exclude-revision-log': parseBooleanParam('exclude-revision-log'),
     'responsible-ids': queryStringObject['responsible-ids'],
     'filter-inactive': parseBooleanParam('filter-inactive', true),
+    'concept-type': queryStringObject['concept-type'],
   };
 };
 

@@ -7,42 +7,21 @@
  */
 
 import { ReactNode, useEffect, useMemo } from 'react';
-import { Link } from 'react-router-dom';
 import { Remarkable } from 'remarkable';
-import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
-import { DeleteForever } from '@ndla/icons/editor';
-import { Link as LinkIcon } from '@ndla/icons/common';
 import { ImageLink } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
 import { IConcept } from '@ndla/types-backend/concept-api';
 import { NotionDialogContent, NotionDialogText, NotionDialogLicenses } from '@ndla/notion';
-import Tooltip from '@ndla/tooltip';
 import { addShowConceptDefinitionClickListeners } from '@ndla/article-scripts';
-import IconButton from '../../../../IconButton';
 import { getSrcSets } from '../../../../../util/imageEditorUtil';
 import { getYoutubeEmbedUrl } from '../../../../../util/videoUtil';
 import { parseEmbedTag } from '../../../../../util/embedTagHelpers';
 import config from '../../../../../config';
 import { Embed } from '../../../../../interfaces';
 
-const StyledFigureButtons = styled('span')<{ isBlockView?: boolean }>`
-  position: absolute;
-  top: 0;
-  z-index: 1;
-  right: 0;
-  ${(p) => (p.isBlockView ? 'transform: translateX(100%);' : '')}
-  margin-top: ${spacing.xsmall};
-  > * {
-    margin-bottom: ${spacing.xsmall};
-  }
-`;
-
 interface Props {
   concept: IConcept;
-  isBlockView?: boolean;
   handleRemove: () => void;
-  id: number | string;
 }
 interface ImageWrapperProps {
   children: ReactNode;
@@ -52,7 +31,7 @@ interface ImageWrapperProps {
 const ImageWrapper = ({ children, url }: ImageWrapperProps) =>
   url ? <ImageLink src={url}>{children}</ImageLink> : <>{children}</>;
 
-const InlineConceptPreview = ({ concept, handleRemove, id, isBlockView }: Props) => {
+const SlateInlineConcept = ({ concept, handleRemove }: Props) => {
   const { t } = useTranslation();
   useEffect(() => {
     addShowConceptDefinitionClickListeners();
@@ -137,30 +116,8 @@ const InlineConceptPreview = ({ concept, handleRemove, id, isBlockView }: Props)
         }
         authors={concept.copyright?.creators.map((creator) => creator.name)}
       />
-
-      <StyledFigureButtons isBlockView={isBlockView}>
-        <Tooltip tooltip={t('form.concept.removeConcept')}>
-          <div>
-            <IconButton color="red" type="button" onClick={handleRemove} tabIndex={-1}>
-              <DeleteForever />
-            </IconButton>
-          </div>
-        </Tooltip>
-        <Tooltip tooltip={t('form.concept.edit')}>
-          <div>
-            <IconButton
-              as={Link}
-              to={`/concept/${id}/edit/${concept.content?.language}`}
-              target="_blank"
-              tabIndex={-1}
-            >
-              <LinkIcon />
-            </IconButton>
-          </div>
-        </Tooltip>
-      </StyledFigureButtons>
     </>
   );
 };
 
-export default InlineConceptPreview;
+export default SlateInlineConcept;

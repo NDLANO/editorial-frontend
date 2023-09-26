@@ -19,7 +19,8 @@ import { afterOrBeforeTextBlockElement } from '../../../utils/normalizationHelpe
 import { TYPE_NDLA_EMBED } from '../../embed/types';
 import { TYPE_PARAGRAPH } from '../../paragraph/types';
 import BlockConcept from './BlockConcept';
-import { TYPE_CONCEPT_BLOCK } from './types';
+import BlockWrapper from './BlockWrapper';
+import { TYPE_CONCEPT_BLOCK, TYPE_GLOSS_BLOCK } from './types';
 
 const normalizerConfig: NormalizerConfig = {
   previous: {
@@ -41,7 +42,7 @@ export const blockConceptSerializer: SlateSerializer = {
       return slatejsx(
         'element',
         {
-          type: TYPE_CONCEPT_BLOCK,
+          type: embedAttributes.conceptType === 'concept' ? TYPE_CONCEPT_BLOCK : TYPE_GLOSS_BLOCK,
           data: embedAttributes,
         },
         { text: '' },
@@ -49,7 +50,11 @@ export const blockConceptSerializer: SlateSerializer = {
     }
   },
   serialize(node: Descendant) {
-    if (!Element.isElement(node) || node.type !== TYPE_CONCEPT_BLOCK) return;
+    if (
+      !Element.isElement(node) ||
+      (node.type !== TYPE_CONCEPT_BLOCK && node.type !== TYPE_GLOSS_BLOCK)
+    )
+      return;
     return createEmbedTagV2(node.data);
   },
 };
@@ -59,20 +64,23 @@ export const blockConceptPlugin = (locale: string) => (editor: Editor) => {
 
   editor.renderElement = (props: RenderElementProps) => {
     const { element, attributes, children } = props;
-    if (element.type === TYPE_CONCEPT_BLOCK) {
+    if (element.type === TYPE_CONCEPT_BLOCK || element.type === TYPE_GLOSS_BLOCK) {
       return (
-        <BlockConcept attributes={attributes} element={element} editor={editor} locale={locale}>
+        <BlockWrapper attributes={attributes} element={element} editor={editor} locale={locale}>
           {children}
-        </BlockConcept>
+        </BlockWrapper>
       );
     }
-    return renderElement && renderElement(props);
+    return renderElement?.(props);
   };
 
   editor.normalizeNode = (entry) => {
     const [node] = entry;
 
-    if (Element.isElement(node) && node.type === TYPE_CONCEPT_BLOCK) {
+    if (
+      Element.isElement(node) &&
+      (node.type === TYPE_CONCEPT_BLOCK || node.type === TYPE_GLOSS_BLOCK)
+    ) {
       if (defaultBlockNormalizer(editor, entry, normalizerConfig)) {
         return;
       }
@@ -81,7 +89,7 @@ export const blockConceptPlugin = (locale: string) => (editor: Editor) => {
   };
 
   editor.isVoid = (element) => {
-    if (element.type === TYPE_CONCEPT_BLOCK) {
+    if (element.type === TYPE_CONCEPT_BLOCK || element.type === TYPE_GLOSS_BLOCK) {
       return true;
     }
     return isVoid(element);

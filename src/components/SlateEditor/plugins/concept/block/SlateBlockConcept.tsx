@@ -7,11 +7,9 @@
  */
 
 import { useEffect, useMemo } from 'react';
-import { Link } from 'react-router-dom';
 import { Remarkable } from 'remarkable';
 import styled from '@emotion/styled';
-import { colors, spacing } from '@ndla/core';
-import { DeleteForever, AlertCircle, Check } from '@ndla/icons/editor';
+import { DeleteForever, Check, Warning } from '@ndla/icons/editor';
 import { Link as LinkIcon } from '@ndla/icons/common';
 import { ConceptNotion } from '@ndla/ui';
 import { IConcept } from '@ndla/types-backend/concept-api';
@@ -25,33 +23,7 @@ import { parseEmbedTag } from '../../../../../util/embedTagHelpers';
 import config from '../../../../../config';
 import { Embed } from '../../../../../interfaces';
 import { PUBLISHED } from '../../../../../constants';
-
-const StyledCheckIcon = styled(Check)`
-  width: ${spacing.normal};
-  height: ${spacing.normal};
-  fill: ${colors.support.green};
-  margin-left: 8px;
-`;
-
-const StyledWarnIcon = styled(AlertCircle)`
-  height: ${spacing.normal};
-  width: ${spacing.normal};
-  fill: ${colors.brand.grey};
-  margin-left: 8px;
-`;
-
-const FigureButtonsContainer = styled.span<{ isBlockView?: boolean }>`
-  position: absolute;
-  top: 0;
-  z-index: 1;
-  right: 0;
-  ${(p) => (p.isBlockView ? 'transform: translateX(100%);' : '')}
-  margin-top: ${spacing.xsmall};
-
-  > * {
-    margin-bottom: ${spacing.xsmall};
-  }
-`;
+import { StyledFigureButtons } from '../../embed/FigureButtons';
 
 const StyledTooltip = styled(Tooltip)`
   margin-right: auto;
@@ -61,7 +33,6 @@ interface Props {
   concept: IConcept;
   isBlockView?: boolean;
   handleRemove: () => void;
-  id: number | string;
 }
 
 const getType = (
@@ -72,7 +43,7 @@ const getType = (
   }
   return type;
 };
-const BlockConceptPreview = ({ concept, handleRemove, id, isBlockView }: Props) => {
+const SlateBlockConcept = ({ concept, handleRemove, isBlockView }: Props) => {
   const { t, i18n } = useTranslation();
   useEffect(() => {
     addShowConceptDefinitionClickListeners();
@@ -142,8 +113,7 @@ const BlockConceptPreview = ({ concept, handleRemove, id, isBlockView }: Props) 
         type={getType(visualElement?.resource)}
         disableScripts={true}
       />
-
-      <FigureButtonsContainer isBlockView={isBlockView}>
+      <StyledFigureButtons>
         <Tooltip tooltip={t('form.concept.removeConcept')}>
           <IconButtonV2
             aria-label={t('form.concept.removeConcept')}
@@ -159,7 +129,7 @@ const BlockConceptPreview = ({ concept, handleRemove, id, isBlockView }: Props) 
             aria-label={t('form.concept.edit')}
             variant="ghost"
             colorTheme="light"
-            to={`/concept/${id}/edit/${concept.content?.language ?? i18n.language}`}
+            to={`/concept/${concept.id}/edit/${concept.content?.language ?? i18n.language}`}
             target="_blank"
           >
             <LinkIcon />
@@ -167,9 +137,7 @@ const BlockConceptPreview = ({ concept, handleRemove, id, isBlockView }: Props) 
         </Tooltip>
         {(concept?.status.current === PUBLISHED || concept?.status.other.includes(PUBLISHED)) && (
           <StyledTooltip tooltip={t('form.workflow.published')}>
-            <div>
-              <StyledCheckIcon />
-            </div>
+            <Check />
           </StyledTooltip>
         )}
         {concept?.status.current !== PUBLISHED && (
@@ -178,14 +146,12 @@ const BlockConceptPreview = ({ concept, handleRemove, id, isBlockView }: Props) 
               status: t(`form.status.${concept?.status.current.toLowerCase()}`),
             })}
           >
-            <div>
-              <StyledWarnIcon />
-            </div>
+            <Warning />
           </Tooltip>
         )}
-      </FigureButtonsContainer>
+      </StyledFigureButtons>
     </>
   );
 };
 
-export default BlockConceptPreview;
+export default SlateBlockConcept;

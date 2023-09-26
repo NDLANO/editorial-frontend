@@ -25,7 +25,7 @@ import {
 } from '@ndla/icons/common';
 import { List } from '@ndla/icons/action';
 import HowToHelper from '../../../HowTo/HowToHelper';
-import { TYPE_CONCEPT_BLOCK } from '../concept/block/types';
+import { TYPE_CONCEPT_BLOCK, TYPE_GLOSS_BLOCK } from '../concept/block/types';
 import { DRAFT_ADMIN_SCOPE } from '../../../../constants';
 import {
   TYPE_EMBED_BRIGHTCOVE,
@@ -139,6 +139,11 @@ export const commonActions: Action[] = [
     icon: <List />,
     helpIcon: renderArticleInModal('ConceptList'),
     requiredScope: DRAFT_ADMIN_SCOPE,
+  },
+  {
+    data: { type: TYPE_GLOSS_BLOCK, object: 'gloss' },
+    icon: <Concept />,
+    helpIcon: renderArticleInModal('Gloss'),
   },
 ];
 

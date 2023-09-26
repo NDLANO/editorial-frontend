@@ -1649,7 +1649,8 @@ const phrases = {
     closeModal: 'Lukk',
   },
   conceptform: {
-    title: 'Forklaring',
+    concept: 'Forklaring',
+    gloss: 'Glose',
   },
   editorFooter: {
     buttonLabel: 'Kvalitetssikring',

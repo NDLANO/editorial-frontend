@@ -45,6 +45,7 @@ interface Props {
   subjects: Node[];
   updateConcept: (id: number, updatedConcept: IUpdatedConcept) => Promise<IConcept>;
   conceptArticles: IArticle[];
+  isGloss?: boolean;
 }
 
 const ConceptModalContent = ({
@@ -59,6 +60,7 @@ const ConceptModalContent = ({
   concept,
   fetchSearchTags,
   conceptArticles,
+  isGloss,
 }: Props) => {
   const { t } = useTranslation();
   const [searchObject, updateSearchObject] = useState<ConceptQuery>({
@@ -67,6 +69,7 @@ const ConceptModalContent = ({
     'page-size': 10,
     language: locale,
     query: `${selectedText}`,
+    'concept-type': isGloss ? 'gloss' : 'concept',
   });
   const [results, setConcepts] = useState<IConceptSearchResult>({
     language: locale,

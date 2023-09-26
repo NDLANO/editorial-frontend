@@ -23,8 +23,8 @@ import { defaultRelatedBlock } from '../related';
 import { defaultCampaignBlock } from '../campaignBlock/utils';
 import { TYPE_LIST_ITEM } from '../list/types';
 import { defaultConceptListBlock } from '../conceptList/utils';
-import { TYPE_CONCEPT_BLOCK } from '../concept/block/types';
-import { defaultConceptBlock } from '../concept/block/utils';
+import { TYPE_CONCEPT_BLOCK, TYPE_GLOSS_BLOCK } from '../concept/block/types';
+import { defaultConceptBlock, defaultGlossBlock } from '../concept/block/utils';
 import { useSession } from '../../../../containers/Session/SessionProvider';
 import getCurrentBlock from '../../utils/getCurrentBlock';
 import { TYPE_PARAGRAPH } from '../paragraph/types';
@@ -254,6 +254,10 @@ const SlateBlockPicker = ({
       }
       case TYPE_LINK_BLOCK_LIST: {
         onInsertBlock(defaultLinkBlockList());
+        break;
+      }
+      case TYPE_GLOSS_BLOCK: {
+        onInsertBlock(defaultGlossBlock());
         break;
       }
       default:

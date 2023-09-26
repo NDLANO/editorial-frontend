@@ -19,7 +19,7 @@ import { ButtonV2 } from '@ndla/button';
 import validateFormik, { RulesType } from '../../../formikValidationSchema';
 import FormikField from '../../../FormikField';
 import InlineImageSearch from '../../../../containers/ConceptPage/components/InlineImageSearch';
-import { supportedLanguages } from '../../../../i18n2';
+import { frontpageLanguages } from '../../../../i18n2';
 
 interface BlogPostFormValues {
   resource: 'blog-post';
@@ -134,7 +134,7 @@ const BlogPostForm = ({ initialData, onSave, onCancel }: Props) => {
                   <StyledFormikField name="language">
                     {({ field }: FieldProps) => (
                       <StyledSelect {...field} title={t('blogPostForm.languageExplanation')}>
-                        {supportedLanguages.map((lang) => (
+                        {frontpageLanguages.map((lang) => (
                           <option value={lang} key={lang}>
                             {t(`languages.${lang}`)}
                           </option>

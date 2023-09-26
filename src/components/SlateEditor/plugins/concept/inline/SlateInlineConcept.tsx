@@ -9,7 +9,6 @@
 import { ReactNode, useEffect, useMemo } from 'react';
 import { Remarkable } from 'remarkable';
 import { ImageLink } from '@ndla/ui';
-import { useTranslation } from 'react-i18next';
 import { IConcept } from '@ndla/types-backend/concept-api';
 import { NotionDialogContent, NotionDialogText, NotionDialogLicenses } from '@ndla/notion';
 import { addShowConceptDefinitionClickListeners } from '@ndla/article-scripts';
@@ -21,7 +20,6 @@ import { Embed } from '../../../../../interfaces';
 
 interface Props {
   concept: IConcept;
-  handleRemove: () => void;
 }
 interface ImageWrapperProps {
   children: ReactNode;
@@ -31,8 +29,7 @@ interface ImageWrapperProps {
 const ImageWrapper = ({ children, url }: ImageWrapperProps) =>
   url ? <ImageLink src={url}>{children}</ImageLink> : <>{children}</>;
 
-const SlateInlineConcept = ({ concept, handleRemove }: Props) => {
-  const { t } = useTranslation();
+const SlateInlineConcept = ({ concept }: Props) => {
   useEffect(() => {
     addShowConceptDefinitionClickListeners();
   }, []);

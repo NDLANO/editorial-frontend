@@ -155,12 +155,8 @@ const SlateNotion = ({ children, attributes, id, concept, handleRemove }: Props)
                 </>
               }
             >
-              {concept?.conceptType === 'concept' && (
-                <SlateInlineConcept concept={concept} handleRemove={handleRemove} />
-              )}
-              {concept?.conceptType === 'gloss' && (
-                <SlateInlineGloss concept={concept} handleRemove={handleRemove} />
-              )}
+              {concept?.conceptType === 'concept' && <SlateInlineConcept concept={concept} />}
+              {concept?.conceptType === 'gloss' && <SlateInlineGloss concept={concept} />}
             </NotionDialog>
           </Portal>
         </div>

@@ -16,7 +16,7 @@ import { ConceptEmbedData } from '@ndla/types-embed';
 import { Modal, ModalContent } from '@ndla/modal';
 import { ConceptInlineElement } from './interfaces';
 import { useFetchConceptData } from '../../../../../containers/FormikForm/formikConceptHooks';
-import { TYPE_CONCEPT_INLINE, TYPE_GLOSS_INLINE } from './types';
+import { TYPE_CONCEPT_INLINE } from './types';
 import SlateNotion from './SlateNotion';
 import ConceptModalContent from '../ConceptModalContent';
 
@@ -42,8 +42,7 @@ const InlineWrapper = (props: Props) => {
   const { children, element, locale, editor, attributes } = props;
   const nodeText = Node.string(element).trim();
   const uuid = useMemo(() => uniqueId(), []);
-  const [showConcept, setShowConcept] = useState(false);
-
+  const [isEditing, setIsEditing] = useState(element.isFirstEdit);
   const { concept, subjects, fetchSearchTags, conceptArticles, createConcept, updateConcept } =
     useFetchConceptData(parseInt(element.data.contentId), locale);
 
@@ -58,32 +57,29 @@ const InlineWrapper = (props: Props) => {
   };
 
   const addConcept = (addedConcept: IConceptSummary | IConcept) => {
-    setTimeout(() => {
-      handleSelectionChange(true);
-      const data = getConceptDataAttributes(addedConcept, nodeText);
-      if (element) {
-        const path = ReactEditor.findPath(editor, element);
-        Transforms.setNodes(
-          editor,
-          { data },
-          {
-            at: path,
-            match: (node) => Element.isElement(node) && node.type === TYPE_CONCEPT_INLINE,
-          },
-        );
-      }
-    }, 0);
+    setIsEditing(false);
+    handleSelectionChange(true);
+    const data = getConceptDataAttributes(addedConcept, nodeText);
+    if (element) {
+      const path = ReactEditor.findPath(editor, element);
+      Transforms.setNodes(
+        editor,
+        { data },
+        {
+          at: path,
+          match: (node) => Element.isElement(node) && node.type === TYPE_CONCEPT_INLINE,
+        },
+      );
+    }
   };
 
   const handleRemove = () => {
-    setTimeout(() => {
-      handleSelectionChange(false);
-      const path = ReactEditor.findPath(editor, element);
-      Transforms.unwrapNodes(editor, {
-        at: path,
-        match: (node) => Element.isElement(node) && node.type === TYPE_CONCEPT_INLINE,
-      });
-    }, 0);
+    handleSelectionChange(false);
+    const path = ReactEditor.findPath(editor, element);
+    Transforms.unwrapNodes(editor, {
+      at: path,
+      match: (node) => Element.isElement(node) && node.type === TYPE_CONCEPT_INLINE,
+    });
   };
 
   const onClose = () => {
@@ -94,14 +90,8 @@ const InlineWrapper = (props: Props) => {
     }
   };
 
-  useEffect(() => {
-    if (!element.data.contentId) {
-      setShowConcept(true);
-    }
-  }, [element]);
-
   return (
-    <Modal open={!concept?.id && showConcept}>
+    <Modal open={isEditing}>
       <SlateNotion handleRemove={handleRemove} attributes={attributes} concept={concept} id={uuid}>
         {children}
       </SlateNotion>
@@ -118,7 +108,6 @@ const InlineWrapper = (props: Props) => {
           createConcept={createConcept}
           updateConcept={updateConcept}
           conceptArticles={conceptArticles}
-          isGloss={element.type === TYPE_GLOSS_INLINE}
         />
       </ModalContent>
     </Modal>

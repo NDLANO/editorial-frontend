@@ -10,7 +10,8 @@ import { ConceptEmbedData } from '@ndla/types-embed';
 import { Descendant } from 'slate';
 
 export interface ConceptInlineElement {
-  type: 'concept-inline' | 'gloss-inline';
+  type: 'concept-inline';
   data: ConceptEmbedData;
+  isFirstEdit?: boolean;
   children: Descendant[];
 }

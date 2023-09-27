@@ -132,7 +132,7 @@ const SearchConceptForm = ({ search: doSearch, searchObject: search, subjects }:
     {
       value: getTagName(search['responsible-ids'], responsibles),
       parameterName: 'responsible-ids',
-      width: 25
+      width: 25,
       options: responsibles!,
       formElementType: 'dropdown',
     },

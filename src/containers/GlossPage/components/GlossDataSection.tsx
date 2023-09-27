@@ -59,14 +59,11 @@ const GlossDataSection = () => {
                       })}
                     </option>
                   )}
-                  {Object.entries(WordClass)?.map((entry) => {
-                    const [key, value] = entry;
-                    return (
+                  {Object.entries(WordClass)?.map(([key,value]) => (
                       <option value={value} key={key}>
                         {t(`wordClass.${entry[1]}`)}
                       </option>
-                    );
-                  })}
+                  ))}
                 </Select>
               )}
             </FormikField>

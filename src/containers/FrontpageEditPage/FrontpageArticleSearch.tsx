@@ -12,17 +12,17 @@ import { spacing, misc, colors } from '@ndla/core';
 import { ReactNode, useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Heading } from '@ndla/ui';
-import { IArticleSummaryV2 } from '@ndla/types-backend/build/article-api';
+import { IMultiSearchSummary } from '@ndla/types-backend/search-api';
 import { useFormikContext } from 'formik';
 import AsyncDropdown from '../../components/Dropdown/asyncDropdown/AsyncDropdown';
-import { searchArticles } from '../../modules/article/articleApi';
+import { searchResources } from '../../modules/search/searchApi';
 import { extractArticleIds } from './frontpageHelpers';
 import { MenuWithArticle } from './types';
 
 interface Props {
   articleId?: number;
   children?: ReactNode;
-  onChange: (article: IArticleSummaryV2) => void;
+  onChange: (article: IMultiSearchSummary) => void;
 }
 
 const PopoverContent = styled(Content)`
@@ -47,7 +47,7 @@ const FrontpageArticleSearch = ({ articleId, children, onChange }: Props) => {
   }, [values]);
 
   const onSearch = useCallback((query: string, page?: number) => {
-    return searchArticles({ articleTypes: ['frontpage-article'], page, query });
+    return searchResources({ 'article-types': 'frontpage-article', page, query });
   }, []);
 
   return (
@@ -58,7 +58,7 @@ const FrontpageArticleSearch = ({ articleId, children, onChange }: Props) => {
           <Heading element="h1" headingStyle="h3" margin="none">
             {articleId ? t('frontpageForm.changeArticle') : t('frontpageForm.addArticle')}
           </Heading>
-          <AsyncDropdown<IArticleSummaryV2>
+          <AsyncDropdown<IMultiSearchSummary>
             idField="id"
             labelField="title"
             placeholder={t('frontpageForm.search')}

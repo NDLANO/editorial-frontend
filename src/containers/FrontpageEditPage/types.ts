@@ -6,10 +6,10 @@
  *
  */
 
-import { IArticleSummaryV2 } from '@ndla/types-backend/build/article-api';
+import { IMultiSearchSummary } from '@ndla/types-backend/search-api';
 
 export interface MenuWithArticle {
   articleId: number;
-  article?: IArticleSummaryV2;
+  article?: IMultiSearchSummary;
   menu: MenuWithArticle[];
 }

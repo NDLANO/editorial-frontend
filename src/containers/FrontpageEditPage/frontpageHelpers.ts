@@ -6,7 +6,7 @@
  *
  */
 
-import { IArticleSummaryV2, ISearchResultV2 } from '@ndla/types-backend/build/article-api';
+import { IMultiSearchSummary, IMultiSearchResult } from '@ndla/types-backend/search-api';
 import { IMenu } from '@ndla/types-backend/frontpage-api';
 import keyBy from 'lodash/keyBy';
 import { MenuWithArticle } from './types';
@@ -18,14 +18,14 @@ export const extractArticleIds = (menu: IMenu): number[] => {
 
 const _addArticlesToMenu = (
   menu: IMenu,
-  articles: Record<number, IArticleSummaryV2>,
+  articles: Record<number, IMultiSearchSummary>,
 ): MenuWithArticle => {
   const article = articles[menu.articleId];
   const children = menu.menu.map((m) => _addArticlesToMenu(m, articles));
   return { article: article, articleId: menu.articleId, menu: children };
 };
 
-export const addArticlesToAboutMenu = (menu: IMenu | undefined, articles: ISearchResultV2) => {
+export const addArticlesToAboutMenu = (menu: IMenu | undefined, articles: IMultiSearchResult) => {
   if (!menu) return { articleId: -1, menu: [] };
   const keyedArticles = keyBy(articles.results, (a) => a.id);
   return _addArticlesToMenu(menu, keyedArticles);

@@ -17,10 +17,10 @@ import SafeLink from '@ndla/safelink';
 import { IconButtonV2 } from '@ndla/button';
 import { Pencil, Plus } from '@ndla/icons/action';
 import { FieldArray, Formik, useField, useFormikContext } from 'formik';
-import { IArticleSummaryV2 } from '@ndla/types-backend/build/article-api';
+import { IMultiSearchSummary } from '@ndla/types-backend/search-api';
 import { useFrontpage } from '../../modules/frontpage/frontpageQueries';
 import { useUpdateFrontpageMutation } from '../../modules/frontpage/frontpageMutations';
-import { useArticleSearch } from '../../modules/article/articleQueries';
+import { useSearch } from '../../modules/search/searchQueries';
 import FrontpageArticleSearch from './FrontpageArticleSearch';
 import {
   addArticlesToAboutMenu,
@@ -95,10 +95,7 @@ const FrontpageEditPage = () => {
     [frontpageQuery.data],
   );
 
-  const articlesQuery = useArticleSearch(
-    { ids: articleIds.join(',') },
-    { enabled: !!articleIds.length },
-  );
+  const articlesQuery = useSearch({ ids: articleIds.join(',') }, { enabled: !!articleIds.length });
 
   const transformedMenu: MenuWithArticle | undefined = useMemo(() => {
     if (frontpageQuery.isInitialLoading || articlesQuery.isInitialLoading || !articlesQuery.data) {
@@ -165,11 +162,11 @@ const RootFields = () => {
   const { t, i18n } = useTranslation();
   const { isSubmitting, dirty } = useFormikContext();
   const [idField, , idHelpers] = useField<number>('articleId');
-  const [articleField, , articleHelpers] = useField<IArticleSummaryV2>('article');
+  const [articleField, , articleHelpers] = useField<IMultiSearchSummary>('article');
   const [menuField, , menuHelpers] = useField<MenuWithArticle[]>('menu');
 
   const onAddNew = useCallback(
-    (val: IArticleSummaryV2) => {
+    (val: IMultiSearchSummary) => {
       const newMenuItem: MenuWithArticle = {
         articleId: val.id,
         article: val,
@@ -181,7 +178,7 @@ const RootFields = () => {
   );
 
   const onChange = useCallback(
-    (val: IArticleSummaryV2) => {
+    (val: IMultiSearchSummary) => {
       idHelpers.setValue(val.id);
       articleHelpers.setValue(val);
     },

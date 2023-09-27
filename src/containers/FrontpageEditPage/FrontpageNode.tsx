@@ -13,7 +13,7 @@ import { ButtonV2, IconButtonV2 } from '@ndla/button';
 import { ChevronRight } from '@ndla/icons/common';
 import { ArrayHelpers, FieldArray, useField } from 'formik';
 import { useCallback, useMemo, useState } from 'react';
-import { IArticleSummaryV2 } from '@ndla/types-backend/build/article-api';
+import { IMultiSearchSummary } from '@ndla/types-backend/search-api';
 import { Plus } from '@ndla/icons/action';
 import { DeleteForever } from '@ndla/icons/editor';
 import SafeLink from '@ndla/safelink';
@@ -91,7 +91,7 @@ const FrontpageNode = ({ name, remove, index, level, replace }: Props) => {
   const onRemove = useCallback(() => remove(index), [index, remove]);
 
   const onAdd = useCallback(
-    (val: IArticleSummaryV2) => {
+    (val: IMultiSearchSummary) => {
       const newMenu: MenuWithArticle = {
         articleId: val.id,
         article: val,

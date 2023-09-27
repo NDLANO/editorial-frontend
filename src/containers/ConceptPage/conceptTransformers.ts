@@ -101,17 +101,16 @@ export const getNewConceptType = (
   visualElement: editorValueToEmbedTag(values.visualElement),
   responsibleId: values.responsibleId,
   conceptType: conceptType,
-  ...(conceptType === 'gloss'
-    ? {
-        glossData: {
+  glossData:
+    conceptType === 'gloss'
+      ? {
           gloss: values.gloss?.gloss ?? '',
           wordClass: values.gloss?.wordClass ?? '',
           originalLanguage: values.gloss?.originalLanguage ?? '',
           examples: values.examples ?? [],
           transcriptions: values.transcriptions ?? {},
-        },
-      }
-    : {}),
+        }
+      : undefined,
 });
 
 export const getUpdatedConceptType = (
@@ -161,12 +160,15 @@ export const conceptFormTypeToApiType = (
     },
     supportedLanguages: values.supportedLanguages,
     conceptType,
-    glossData: {
-      gloss: values.gloss?.gloss ?? '',
-      wordClass: values.gloss?.wordClass ?? '',
-      originalLanguage: values.gloss?.originalLanguage ?? '',
-      examples: values.examples ?? [],
-      transcriptions: values.transcriptions ?? {},
-    },
+    glossData:
+      conceptType === 'gloss'
+        ? {
+            gloss: values.gloss?.gloss ?? '',
+            wordClass: values.gloss?.wordClass ?? '',
+            originalLanguage: values.gloss?.originalLanguage ?? '',
+            examples: values.examples ?? [],
+            transcriptions: values.transcriptions ?? {},
+          }
+        : undefined,
   };
 };

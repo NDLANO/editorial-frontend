@@ -116,7 +116,7 @@ const SearchConceptForm = ({ search: doSearch, searchObject: search, subjects }:
       value: getTagName(search['concept-type'], conceptTypes),
       options: conceptTypes,
       formElementType: 'dropdown',
-      width: 50,
+      width: 25,
     },
     {
       parameterName: 'subjects',

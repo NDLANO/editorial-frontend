@@ -120,7 +120,9 @@ const SlateNotion = ({ children, attributes, id, concept, handleRemove }: Props)
                     {(concept?.status.current === PUBLISHED ||
                       concept?.status.other.includes(PUBLISHED)) && (
                       <Tooltip tooltip={t('form.workflow.published')}>
-                        <StyledCheckIcon />
+                        <div>
+                          <StyledCheckIcon />
+                        </div>
                       </Tooltip>
                     )}
                     {concept?.status.current !== PUBLISHED && (
@@ -129,7 +131,9 @@ const SlateNotion = ({ children, attributes, id, concept, handleRemove }: Props)
                           status: t(`form.status.${concept?.status.current.toLowerCase()}`),
                         })}
                       >
-                        <StyledAlertCircle />
+                        <div>
+                          <StyledAlertCircle />
+                        </div>
                       </Tooltip>
                     )}
                   </StyledDiv>

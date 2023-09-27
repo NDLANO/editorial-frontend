@@ -6,12 +6,13 @@
  *
  */
 
-import { IGlossExample } from '@ndla/types-backend/concept-api';
-import { ButtonV2 } from '@ndla/button';
-import { colors } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
 import { FieldArray, useField } from 'formik';
 import styled from '@emotion/styled';
+import { ButtonV2 } from '@ndla/button';
+import { colors } from '@ndla/core';
+import { IGlossExample } from '@ndla/types-backend/concept-api';
+
 import LanguageVariantFieldArray from './LanguageVariantFieldArray';
 import FormikField from '../../../components/FormikField';
 import { emptyGlossExample } from '../glossData';

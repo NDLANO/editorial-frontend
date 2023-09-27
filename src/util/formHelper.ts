@@ -229,7 +229,9 @@ export const learningResourceRules: RulesType<LearningResourceFormType, IArticle
         'error-embed',
         'external-embed',
       ).map((node) => (node as EmbedElements).data);
-      const notValidEmbeds = embeds.filter((embed) => !isUserProvidedEmbedDataValid(embed));
+      const notValidEmbeds = embeds.filter(
+        (embed) => embed && !isUserProvidedEmbedDataValid(embed),
+      );
       const embedsHasErrors = notValidEmbeds.length > 0;
 
       return embedsHasErrors
@@ -265,14 +267,14 @@ export const topicArticleRules: RulesType<TopicArticleFormType, IArticle> = {
   visualElementAlt: {
     required: false,
     onlyValidateIf: (values) =>
-      isSlateEmbed(values.visualElement[0]) && values.visualElement[0].data.resource === 'image',
+      isSlateEmbed(values.visualElement[0]) && values.visualElement[0].data?.resource === 'image',
   },
   visualElementCaption: {
     required: false,
     onlyValidateIf: (values) =>
       isSlateEmbed(values.visualElement[0]) &&
-      (values.visualElement[0].data.resource === 'image' ||
-        values.visualElement[0].data.resource === 'brightcove'),
+      (values.visualElement[0].data?.resource === 'image' ||
+        values.visualElement[0].data?.resource === 'brightcove'),
     warnings: {
       languageMatch: true,
       apiField: 'visualElement',
@@ -281,7 +283,7 @@ export const topicArticleRules: RulesType<TopicArticleFormType, IArticle> = {
   visualElement: {
     required: false,
     test: (values) =>
-      isSlateEmbed(values.visualElement[0]) && values.visualElement[0].data.resource !== 'image'
+      isSlateEmbed(values.visualElement[0]) && values.visualElement[0].data?.resource !== 'image'
         ? { translationKey: 'topicArticleForm.validation.illegalResource' }
         : undefined,
   },

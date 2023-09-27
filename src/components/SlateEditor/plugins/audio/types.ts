@@ -13,6 +13,6 @@ export const TYPE_AUDIO = 'audio';
 
 export interface AudioElement {
   type: 'audio';
-  data: AudioEmbedData;
+  data?: AudioEmbedData;
   children: Descendant[];
 }

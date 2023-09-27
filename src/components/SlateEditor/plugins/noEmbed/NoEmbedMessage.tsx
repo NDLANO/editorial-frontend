@@ -22,7 +22,7 @@ const NoEmbedMessage = ({ attributes, element }: Props) => {
 
   const text = Node.string(element);
   const embed = element.data;
-  const msg = text.length > 0 ? text : t('noEmbedMessage.deleteOnSave', { type: embed.resource });
+  const msg = text.length > 0 ? text : t('noEmbedMessage.deleteOnSave', { type: embed?.resource });
 
   return <EditorErrorMessage attributes={attributes} msg={msg} />;
 };

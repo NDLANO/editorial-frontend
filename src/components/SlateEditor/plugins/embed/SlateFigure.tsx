@@ -69,7 +69,7 @@ const SlateFigure = ({
     });
   };
 
-  switch (embed.resource) {
+  switch (embed?.resource) {
     case 'image':
       return (
         <SlateImage
@@ -146,7 +146,7 @@ const SlateFigure = ({
         <EditorErrorMessage
           attributes={attributes}
           msg={t('form.content.figure.notSupported', {
-            mediaType: embed.resource,
+            mediaType: embed?.resource,
           })}
         >
           {children}

@@ -147,8 +147,8 @@ export const createEmbedTagV2 = <T extends object>(
   return <ndlaembed {...dataSet}></ndlaembed>;
 };
 
-export const createEmbedTag = (data: { [key: string]: any }) => {
-  if (Object.keys(data).length === 0) {
+export const createEmbedTag = (data?: { [key: string]: any }) => {
+  if (!data || Object.keys(data).length === 0) {
     return undefined;
   }
   const props: Dictionary<string> = {};

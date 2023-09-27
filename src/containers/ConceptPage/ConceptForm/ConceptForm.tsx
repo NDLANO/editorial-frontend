@@ -73,13 +73,6 @@ const conceptFormBaseRules: RulesType<ConceptFormValues, IConcept> = {
       languageMatch: true,
     },
   },
-  conceptContent: {
-    required: true,
-    warnings: {
-      apiField: 'content',
-      languageMatch: true,
-    },
-  },
   creators: {
     allObjectFieldsRequired: true,
   },
@@ -119,6 +112,13 @@ const conceptFormBaseRules: RulesType<ConceptFormValues, IConcept> = {
 
 const conceptRules: RulesType<ConceptFormValues, IConcept> = {
   ...conceptFormBaseRules,
+  conceptContent: {
+    required: true,
+    warnings: {
+      apiField: 'content',
+      languageMatch: true,
+    },
+  },
   subjects: {
     minItems: 1,
   },
@@ -126,6 +126,12 @@ const conceptRules: RulesType<ConceptFormValues, IConcept> = {
 
 const glossRules: RulesType<ConceptFormValues, IConcept, IGlossExample> = {
   ...conceptFormBaseRules,
+  conceptContent: {
+    warnings: {
+      apiField: 'content',
+      languageMatch: true,
+    },
+  },
   gloss: {
     test: (values) => {
       if (!values.gloss?.gloss || !values.gloss?.wordClass || !values.gloss?.originalLanguage)

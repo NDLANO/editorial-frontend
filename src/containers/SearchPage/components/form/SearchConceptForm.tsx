@@ -127,7 +127,7 @@ const SearchConceptForm = ({ search: doSearch, searchObject: search, subjects }:
         )
         .sort(sortByProperty('name')),
       formElementType: 'dropdown',
-      width: 50,
+      width: 25,
     },
     {
       value: getTagName(search['responsible-ids'], responsibles),

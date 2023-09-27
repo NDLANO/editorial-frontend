@@ -10,7 +10,7 @@ import { Descendant } from 'slate';
 import { IStatus, IAuthor, IGlossExample } from '@ndla/types-backend/concept-api';
 import { IArticle } from '@ndla/types-backend/draft-api';
 import { Node } from '@ndla/types-taxonomy';
-
+import { ROMANIZATION_OPTIONS } from '../GlossPage/glossData';
 export interface ConceptFormValues {
   id?: number;
   language: string;
@@ -49,6 +49,6 @@ export interface ConceptFormValues {
   };
   examples?: IGlossExample[][];
   transcriptions?: {
-    [key: string]: string;
+    [key in (typeof ROMANIZATION_OPTIONS)[number]]?: string;
   };
 }

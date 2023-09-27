@@ -8,6 +8,6 @@
 
 export const LANGUAGES = ['ar', 'de', 'en', 'es', 'nb', 'nn', 'se', 'sma', 'so', 'ti', 'zh'];
 
-export const ROMANIZATION_OPTIONS = ['traditional', 'pinyin'];
+export const ROMANIZATION_OPTIONS = ['traditional', 'pinyin'] as const;
 
 export const emptyGlossExample = { example: '', language: '', transcriptions: {} };

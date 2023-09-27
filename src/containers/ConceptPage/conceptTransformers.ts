@@ -80,7 +80,7 @@ const metaImageFromForm = (v: ConceptFormValues) =>
 export const getNewConceptType = (
   values: ConceptFormValues,
   licenses: ILicense[],
-  conceptType: string,
+  conceptType: 'concept' | 'gloss',
 ): INewConcept => ({
   language: values.language,
   title: editorValueToPlainText(values.title),
@@ -116,7 +116,7 @@ export const getNewConceptType = (
 export const getUpdatedConceptType = (
   values: ConceptFormValues,
   licenses: ILicense[],
-  conceptType: string,
+  conceptType: 'concept' | 'gloss',
 ): IUpdatedConcept => ({
   ...getNewConceptType(values, licenses, conceptType),
   metaImage: metaImageFromForm(values) ?? null,
@@ -125,7 +125,7 @@ export const getUpdatedConceptType = (
 export const conceptFormTypeToApiType = (
   values: ConceptFormValues,
   licenses: ILicense[],
-  conceptType: string,
+  conceptType: 'concept' | 'gloss',
   updatedBy?: string[],
 ): IConcept => {
   return {

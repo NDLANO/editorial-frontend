@@ -71,7 +71,6 @@ const conceptFormRules: RulesType<ConceptFormValues, IConcept> = {
     },
   },
   conceptContent: {
-    required: true,
     warnings: {
       apiField: 'content',
       languageMatch: true,

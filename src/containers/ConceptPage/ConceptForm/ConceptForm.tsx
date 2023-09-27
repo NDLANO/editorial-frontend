@@ -254,10 +254,7 @@ const ConceptForm = ({
   );
 
   const validate = useCallback(
-    (values: ConceptFormValues) => {
-      const val = validateFormik(values, formRules, t);
-      return val;
-    },
+    (values: ConceptFormValues) => validateFormik(values, formRules, t),
     [t, formRules],
   );
 

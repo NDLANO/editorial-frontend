@@ -59,10 +59,10 @@ const GlossDataSection = () => {
                       })}
                     </option>
                   )}
-                  {Object.entries(WordClass)?.map(([key,value]) => (
-                      <option value={value} key={key}>
-                        {t(`wordClass.${entry[1]}`)}
-                      </option>
+                  {Object.entries(WordClass)?.map(([key, value]) => (
+                    <option value={value} key={key}>
+                      {t(`wordClass.${value}`)}
+                    </option>
                   ))}
                 </Select>
               )}

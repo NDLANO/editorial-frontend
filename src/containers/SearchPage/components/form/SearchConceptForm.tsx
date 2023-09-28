@@ -94,11 +94,11 @@ const SearchConceptForm = ({ search: doSearch, searchObject: search, subjects }:
       query: '',
       language: '',
       'audio-type': '',
+      'concept-type': '',
       license: '',
       subjects: '',
       users: '',
       status: '',
-      'concept-type': '',
     });
   };
 

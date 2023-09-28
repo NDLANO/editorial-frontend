@@ -92,7 +92,7 @@ const GenericSearchForm = ({
 
   const baseQuery: TextInputSelectorType = {
     parameterName: 'query',
-    width: type === 'content' ? 25 : 50,
+    width: type === 'content' || type === 'concept' ? 25 : 50,
     formElementType: 'text-input',
   };
 

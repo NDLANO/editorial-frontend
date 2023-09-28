@@ -249,7 +249,7 @@ export function editorValueToEmbed(editorValue?: Descendant[]) {
 export function editorValueToEmbedTag(editorValue?: Descendant[]) {
   const embed = editorValueToEmbed(editorValue);
   if (embed) {
-    const embedTag = createEmbedTag(embed);
+    const embedTag = embed?.resource === 'audio' ? createEmbedTagV2(embed) : createEmbedTag(embed);
     return embedTag ? renderToStaticMarkup(embedTag) : '';
   }
   return '';

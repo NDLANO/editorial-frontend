@@ -12,12 +12,12 @@ import { useTranslation } from 'react-i18next';
 import { Editor, Element, Transforms } from 'slate';
 import SlateVisualElementPicker from '../../components/SlateEditor/plugins/blockPicker/SlateVisualElementPicker';
 import { isEmpty } from '../../components/validators';
-import VisualElementMenu from './VisualElementMenu';
+import VisualElementMenu, { VisualElementType } from './VisualElementMenu';
 
 interface Props {
   editor: Editor;
   language: string;
-  types?: string[];
+  types?: VisualElementType[];
 }
 
 const VisualElementPicker = ({ editor, language, types }: Props) => {

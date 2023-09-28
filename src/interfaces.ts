@@ -256,7 +256,8 @@ type Keys =
   | 'model-released'
   | 'responsible-ids'
   | 'subjects'
-  | 'filter-inactive';
+  | 'filter-inactive'
+  | 'concept-type';
 
 export type SearchObjectType = {
   [K in Keys]?: string;

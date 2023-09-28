@@ -36,8 +36,8 @@ export interface SearchParams {
   'revision-date-to'?: string;
   'exclude-revision-log'?: boolean | undefined;
   'responsible-ids'?: string;
-  'filter-inactive'?: boolean;
   'concept-type'?: string;
+  'filter-inactive'?: boolean;
 }
 
 export const parseSearchParams = (locationSearch: string): SearchParams => {
@@ -61,6 +61,7 @@ export const parseSearchParams = (locationSearch: string): SearchParams => {
     'include-other-statuses': parseBooleanParam('include-other-statuses'),
     'resource-types': queryStringObject['resource-types'],
     'audio-type': queryStringObject['audio-type'],
+    'concept-type': queryStringObject['concept-type'],
     'model-released': queryStringObject['model-released'],
     fallback: parseBooleanParam('fallback'),
     language: queryStringObject.language,
@@ -77,7 +78,6 @@ export const parseSearchParams = (locationSearch: string): SearchParams => {
     'exclude-revision-log': parseBooleanParam('exclude-revision-log'),
     'responsible-ids': queryStringObject['responsible-ids'],
     'filter-inactive': parseBooleanParam('filter-inactive', true),
-    'concept-type': queryStringObject['concept-type'],
   };
 };
 

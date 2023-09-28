@@ -68,7 +68,6 @@ const SlateAudio = ({ element, editor, attributes, language, children }: Props) 
   const audioMetaQuery = useAudioMeta(element.data?.resourceId!, language, {
     enabled: !!parseInt(element.data?.resourceId ?? ''),
   });
-
   const embed: AudioMetaData | undefined = useMemo(
     () =>
       element.data

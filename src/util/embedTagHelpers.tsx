@@ -9,6 +9,7 @@ import isObject from 'lodash/fp/isObject';
 import { TYPE_NDLA_EMBED } from '../components/SlateEditor/plugins/embed/types';
 import { isEmpty } from '../components/validators';
 import { Dictionary, Embed } from '../interfaces';
+import { TYPE_AUDIO } from '../components/SlateEditor/plugins/audio/types';
 
 export const removeEmptyElementDataAttributes = (obj: Dictionary<any>) => {
   const newObject: Dictionary<string> = {};
@@ -109,9 +110,12 @@ export const parseEmbedTag = (embedTag?: string): Embed | undefined => {
   if (embedElements.length !== 1) {
     return undefined;
   }
-
-  const obj = reduceElementDataAttributes(embedElements[0]);
+  const isAudioType = embedElements[0].getAttribute('data-resource') === TYPE_AUDIO;
+  const obj = isAudioType
+    ? reduceElementDataAttributesV2(Array.from(embedElements[0].attributes))
+    : reduceElementDataAttributes(embedElements[0]);
   delete obj.id;
+
   return obj as unknown as Embed;
 };
 
@@ -143,8 +147,8 @@ export const createEmbedTagV2 = <T extends object>(
   return <ndlaembed {...dataSet}></ndlaembed>;
 };
 
-export const createEmbedTag = (data: { [key: string]: any }) => {
-  if (Object.keys(data).length === 0) {
+export const createEmbedTag = (data?: { [key: string]: any }) => {
+  if (!data || Object.keys(data).length === 0) {
     return undefined;
   }
   const props: Dictionary<string> = {};

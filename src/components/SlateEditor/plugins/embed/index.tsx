@@ -24,6 +24,7 @@ import { defaultBlockNormalizer, NormalizerConfig } from '../../utils/defaultNor
 import { afterOrBeforeTextBlockElement } from '../../utils/normalizationHelpers';
 import { TYPE_PARAGRAPH } from '../paragraph/types';
 import { TYPE_NDLA_EMBED } from './types';
+import { AudioElement } from '../audio/types';
 
 export interface ImageEmbedElement {
   type: 'image-embed';
@@ -60,7 +61,8 @@ export type EmbedElements =
   | H5PEmbedElement
   | BrightcoveEmbedElement
   | ErrorEmbedElement
-  | ExternalEmbedElement;
+  | ExternalEmbedElement
+  | AudioElement;
 
 const normalizerConfig: NormalizerConfig = {
   previous: {

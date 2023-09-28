@@ -31,6 +31,7 @@ export type FormHeaderType =
   | 'topic-article'
   | 'standard'
   | 'concept'
+  | 'gloss'
   | 'podcast'
   | 'podcast-series'
   | 'frontpage-article';

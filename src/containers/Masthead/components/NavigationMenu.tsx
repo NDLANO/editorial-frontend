@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { Launch, Audio, Podcast } from '@ndla/icons/common';
 import styled from '@emotion/styled';
 import { spacing, animations, colors } from '@ndla/core';
-import { Camera, Concept, H5P, Taxonomy, Video } from '@ndla/icons/editor';
+import { Camera, Concept, Globe, H5P, Taxonomy, Video } from '@ndla/icons/editor';
 import { List } from '@ndla/icons/action';
 //@ts-ignore
 import { ContentTypeBadge, constants } from '@ndla/ui';
@@ -26,6 +26,7 @@ import {
   toCreatePodcastSeries,
   toEditNdlaFilm,
   toCreateFrontPageArticle,
+  toCreateGloss,
 } from '../../../util/routeHelpers';
 import { useSession } from '../../Session/SessionProvider';
 import {
@@ -123,6 +124,11 @@ const OpenMenu = ({ close }: Props) => {
             <Link css={styledListElement} to={toCreateConcept()} onClick={close}>
               <StyledMenuItem>
                 <Concept /> {t('subNavigation.newConcept')}
+              </StyledMenuItem>
+            </Link>
+            <Link css={styledListElement} to={toCreateGloss()} onClick={close}>
+              <StyledMenuItem>
+                <Globe /> {t('subNavigation.newGloss')}
               </StyledMenuItem>
             </Link>
             <Link css={styledListElement} to={toCreateImage()} onClick={close}>

@@ -102,6 +102,7 @@ const phrases = {
   languages: {
     // Adds to list from frontend-packages
     ar: 'Arabisk',
+    la: 'Latin',
     no: 'Norsk',
     so: 'Somali',
     ti: 'Tigrinja',
@@ -1144,6 +1145,10 @@ const phrases = {
     },
     origin: {
       label: 'Opphav',
+    },
+    processed: {
+      label: 'Omarbeidd',
+      description: 'Innhaldet har vorte omarbeidd',
     },
     image: {
       file: 'Bilete',

@@ -8,7 +8,12 @@
 
 import { test, expect } from '@playwright/test';
 import { mockRoute } from '../apiMock';
-import { brightcoveTokenMock, responsiblesMock, zendeskMock } from '../mockResponses';
+import {
+  brightcoveTokenMock,
+  copyrightMock,
+  responsiblesMock,
+  zendeskMock,
+} from '../mockResponses';
 test.beforeEach(async ({ page }) => {
   const zendesk = mockRoute({
     page,
@@ -75,6 +80,9 @@ test('adds and removes details', async ({ page }) => {
 test('adds and removes grid', async ({ page }) => {
   await page.getByTestId('create-grid').click();
   await expect(page.getByTestId('remove-grid')).toBeVisible();
+  await page.getByTestId('slate-grid-cell').first().click();
+  await page.getByTestId('slate-block-picker').click();
+  expect(await page.getByTestId('slate-block-picker-menu').getByRole('button').count()).toEqual(2);
   await page.getByTestId('remove-grid').click();
   await expect(page.getByTestId('remove-grid')).toHaveCount(0);
 });
@@ -97,11 +105,17 @@ test('adds and removes image', async ({ page }) => {
     page,
     path: '**/image-api/v3/images/?fallback=true&language=nb&page=1&page-size=16',
     fixture: 'blockpicker_images',
+    overrideValue: (val) =>
+      JSON.stringify({
+        ...JSON.parse(val),
+        results: JSON.parse(val).results.map((image) => ({ ...image, copyright: copyrightMock })),
+      }),
   });
   const image = mockRoute({
     page,
     path: '**/image-api/v3/images/63415?language=nb',
     fixture: 'blockpicker_image',
+    overrideValue: (val) => JSON.stringify({ ...JSON.parse(val), copyright: copyrightMock }),
   });
   await Promise.all([images, image]);
   await page.getByTestId('create-image').click();

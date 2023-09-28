@@ -29,8 +29,12 @@ interface Props extends RenderElementProps {
 
 const BlogPostWrapper = styled.div`
   display: flex;
+  height: 100%;
   flex-direction: column;
   align-items: center;
+  div[contenteditable] {
+    height: 100%;
+  }
 
   > div:first-child {
     position: relative;
@@ -94,7 +98,7 @@ const SlateBlogPost = ({ element, editor, attributes, children }: Props) => {
 
   return (
     <Modal open={isEditing} onOpenChange={setIsEditing}>
-      <BlogPostWrapper {...attributes}>
+      <BlogPostWrapper {...attributes} data-testid="slate-blog-post">
         {data && (
           <div contentEditable={false}>
             <StyledFigureButtons>

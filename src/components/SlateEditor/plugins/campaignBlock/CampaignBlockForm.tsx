@@ -17,7 +17,7 @@ import { spacing } from '@ndla/core';
 import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
 import validateFormik, { RulesType } from '../../../formikValidationSchema';
-import { supportedLanguages } from '../../../../i18n2';
+import { frontpageLanguages } from '../../../../i18n2';
 import FormikField from '../../../FormikField';
 import { TYPE_CAMPAIGN_BLOCK } from './types';
 import InlineImageSearch from '../../../../containers/ConceptPage/components/InlineImageSearch';
@@ -178,7 +178,7 @@ const CampaignBlockForm = ({ initialData, onSave, onCancel }: Props) => {
                   <StyledFormikField name="titleLanguage">
                     {({ field }: FieldProps) => (
                       <StyledSelect {...field} title={t('blogPostForm.languageExplanation')}>
-                        {supportedLanguages.map((lang) => (
+                        {frontpageLanguages.map((lang) => (
                           <option value={lang} key={lang}>
                             {t(`languages.${lang}`)}
                           </option>
@@ -200,7 +200,7 @@ const CampaignBlockForm = ({ initialData, onSave, onCancel }: Props) => {
                   <StyledFormikField name="descriptionLanguage">
                     {({ field }: FieldProps) => (
                       <StyledSelect {...field} title={t('blogPostForm.languageExplanation')}>
-                        {supportedLanguages.map((lang) => (
+                        {frontpageLanguages.map((lang) => (
                           <option value={lang} key={lang}>
                             {t(`languages.${lang}`)}
                           </option>

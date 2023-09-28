@@ -21,6 +21,7 @@ import SaveButton from '../../../components/SaveButton';
 import { isFormikFormDirty } from '../../../util/formHelper';
 import validateFormik, { RulesType, getWarnings } from '../../../components/formikValidationSchema';
 import ImageMetaData from './ImageMetaData';
+import ImageCopyright from './ImageCopyright';
 import ImageContent from './ImageContent';
 import { AlertModalWrapper } from '../../FormikForm';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage/HeaderWithLanguage';
@@ -158,6 +159,7 @@ const ImageForm = ({
         creators: values.creators,
         processors: values.processors,
         rightsholders: values.rightsholders,
+        processed: values.processed,
       },
       modelReleased: values.modelReleased,
     };
@@ -209,10 +211,17 @@ const ImageForm = ({
                 <ImageContent />
               </FormAccordion>
               <FormAccordion
+                id="copyright"
+                title={t('form.copyrightSection')}
+                hasError={hasError(['rightsholders', 'creators', 'processors', 'license'])}
+              >
+                <ImageCopyright />
+              </FormAccordion>
+              <FormAccordion
                 id="metadata"
                 title={t('form.metadataSection')}
                 className={'u-6/6'}
-                hasError={hasError(['tags', 'rightsholders', 'creators', 'processors', 'license'])}
+                hasError={hasError(['tags'])}
               >
                 <ImageMetaData imageLanguage={language} imageTags={values.tags} />
               </FormAccordion>

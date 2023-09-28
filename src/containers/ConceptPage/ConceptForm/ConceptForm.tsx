@@ -195,9 +195,9 @@ const ConceptForm = ({
     formikHelpers: FormikHelpers<ConceptFormValues>,
   ) => {
     if (
-      (!values.subjects.length && values.conceptType === 'concept') ||
-      isEmpty(values.title) ||
-      isEmpty(values.conceptContent)
+      ((!values.subjects.length || isEmpty(values.conceptContent)) &&
+        values.conceptType === 'concept') ||
+      isEmpty(values.title)
     )
       return;
     formikHelpers.setSubmitting(true);

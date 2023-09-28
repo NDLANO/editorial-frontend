@@ -22,20 +22,14 @@ const SlateBlockGloss = ({ concept }: Props) => {
     if (embed?.resource === 'audio') {
       return {
         url: embed.url,
-        title: embed.pageUrl ?? 'oopsie',
+        title: embed.pageUrl ?? '',
       };
     }
   }, [concept.visualElement?.visualElement]);
 
-  if (!concept.glossData) return null;
-
-  return (
-    <Gloss
-      title={concept.title}
-      audio={audio ?? { url: '', title: '' }}
-      glossData={concept.glossData}
-    />
-  );
+  return concept.glossData ? (
+    <Gloss title={concept.title} audio={audio} glossData={concept.glossData} />
+  ) : null;
 };
 
 export default SlateBlockGloss;

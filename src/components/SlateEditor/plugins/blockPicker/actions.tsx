@@ -7,6 +7,7 @@ import {
   Concept,
   FactBoxMaterial,
   Framed,
+  Globe,
   Grid,
   Link as LinkIcon,
   PlayBoxOutline,
@@ -142,7 +143,7 @@ export const commonActions: Action[] = [
   },
   {
     data: { type: TYPE_GLOSS_BLOCK, object: 'gloss' },
-    icon: <Concept />,
+    icon: <Globe />,
     helpIcon: renderArticleInModal('Gloss'),
   },
 ];

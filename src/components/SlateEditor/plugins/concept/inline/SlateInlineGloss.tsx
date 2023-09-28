@@ -33,7 +33,7 @@ const SlateInlineGloss = ({ concept }: Props) => {
   }, []);
 
   return concept.glossData ? (
-    <Gloss audio={audio ?? { title: '' }} title={concept.title} glossData={concept.glossData} />
+    <Gloss audio={audio} title={concept.title} glossData={concept.glossData} />
   ) : null;
 };
 

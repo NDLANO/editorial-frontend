@@ -49,7 +49,7 @@ const StyledWrapper = styled.div`
   ul {
     margin-top: 0;
   }
-  padding: 5px;
+  padding: ${spacing.xsmall};
 
   border: 2px dashed ${colors.brand.greyLighter};
 
@@ -151,8 +151,7 @@ const BlockWrapper = ({ element, locale, editor, attributes, children }: Props) 
             concept={concept}
             subjects={subjects}
             handleRemove={handleRemove}
-            selectedText={''}
-            isGloss={element.type === TYPE_GLOSS_BLOCK}
+            conceptType={element.type === 'gloss-block' ? 'gloss' : 'concept'}
             {...conceptHooks}
           />
         </ModalContent>

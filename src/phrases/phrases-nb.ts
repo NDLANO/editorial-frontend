@@ -652,6 +652,7 @@ const phrases = {
       grid: 'Grid',
       campaignBlock: 'Kampanjeblokk',
       linkBlockList: 'Lenkeblokk',
+      gloss: 'Glose',
     },
   },
   form: {
@@ -777,6 +778,7 @@ const phrases = {
       create: 'Opprett ny glose',
       edit: 'Rediger glose',
       remove: 'Ta bort glose',
+      removeExample: 'Ta bort eksempel',
       source: 'Kilde',
       markdown: 'Feltet støtter markdown. Bruk formatet [Tekst](https://url) for å lage lenke.',
       subjects: 'Kun fag markert som forklaringsfag vil vises i lista.',
@@ -1684,8 +1686,7 @@ const phrases = {
     closeModal: 'Lukk',
   },
   conceptform: {
-    concept: 'Forklaring',
-    gloss: 'Glose',
+    title: 'Forklaring',
   },
   glossForm: {
     title: 'Glose',

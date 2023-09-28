@@ -30,8 +30,7 @@ import SearchForm from '../../../../containers/SearchPage/components/form/Search
 import SearchConceptResults from './SearchConceptResults';
 import ConceptForm from '../../../../containers/ConceptPage/ConceptForm/ConceptForm';
 import { ConceptQuery } from '../../../../modules/concept/conceptApiInterfaces';
-
-const type = 'concept';
+import { ConceptType } from '../../../../containers/ConceptPage/conceptInterfaces';
 
 interface Props {
   addConcept: (concept: IConceptSummary | IConcept) => void;
@@ -45,7 +44,7 @@ interface Props {
   subjects: Node[];
   updateConcept: (id: number, updatedConcept: IUpdatedConcept) => Promise<IConcept>;
   conceptArticles: IArticle[];
-  isGloss?: boolean;
+  conceptType?: ConceptType;
 }
 
 const ConceptModalContent = ({
@@ -53,14 +52,14 @@ const ConceptModalContent = ({
   subjects,
   locale,
   handleRemove,
-  selectedText,
+  selectedText = '',
   addConcept,
   updateConcept,
   createConcept,
   concept,
   fetchSearchTags,
   conceptArticles,
-  isGloss,
+  conceptType,
 }: Props) => {
   const { t } = useTranslation();
   const [searchObject, updateSearchObject] = useState<ConceptQuery>({
@@ -69,7 +68,7 @@ const ConceptModalContent = ({
     'page-size': 10,
     language: locale,
     query: `${selectedText}`,
-    'concept-type': isGloss ? 'gloss' : 'concept',
+    'concept-type': conceptType,
   });
   const [results, setConcepts] = useState<IConceptSearchResult>({
     language: locale,
@@ -104,6 +103,7 @@ const ConceptModalContent = ({
     () => debounce((params: ConceptQuery) => searchConcept(params), 400),
     [searchConcept],
   );
+
   return (
     <div>
       <ModalHeader>
@@ -127,7 +127,7 @@ const ConceptModalContent = ({
                     {t(`searchPage.header.concept`)}
                   </h2>
                   <SearchForm
-                    type={type}
+                    type={'concept'}
                     search={(params) => {
                       updateSearchObject(params);
                       debouncedSearchConcept(params);
@@ -154,7 +154,7 @@ const ConceptModalContent = ({
               ),
             },
             {
-              title: t(`form.${concept?.conceptType}.create`),
+              title: t(`form.${conceptType}.create`),
               id: 'newConcept',
               content: (
                 <ConceptForm
@@ -169,6 +169,7 @@ const ConceptModalContent = ({
                   conceptArticles={conceptArticles}
                   initialTitle={selectedText}
                   supportedLanguages={concept?.supportedLanguages ?? [locale]}
+                  conceptType={conceptType}
                 />
               ),
             },

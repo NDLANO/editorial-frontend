@@ -652,6 +652,7 @@ const phrases = {
       grid: 'Grid',
       campaignBlock: 'Kampanjeblokk',
       linkBlockList: 'Link block',
+      gloss: 'Gloss',
     },
   },
   form: {
@@ -877,6 +878,7 @@ const phrases = {
       create: 'Create gloss',
       edit: 'Edit gloss',
       remove: 'Remove gloss',
+      removeExample: 'Ta bort eksempel',
       source: 'Source',
       markdown: 'The field supports markdown. Use the format [Text](https://url) to create a link.',
       subjects: 'Only subjects marked as explanation subjects will be displayed in the list.',
@@ -1681,8 +1683,7 @@ const phrases = {
     closeModal: 'Close',
   },
   conceptform: {
-    concept: 'Concept',
-    gloss: 'Gloss',
+    title: 'Concept',
   },
   glossForm: {
     title: 'Gloss',

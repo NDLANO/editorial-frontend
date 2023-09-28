@@ -7,7 +7,7 @@ import { ReactNode } from 'react';
 import { RenderElementProps } from 'slate-react';
 import { useTranslation } from 'react-i18next';
 import Tooltip from '@ndla/tooltip';
-import { AlertCircle, Check, DeleteForever, Warning } from '@ndla/icons/editor';
+import { AlertCircle, Check, DeleteForever } from '@ndla/icons/editor';
 import { SafeLinkIconButton } from '@ndla/safelink';
 import { IconButtonV2 } from '@ndla/button';
 import { css } from '@emotion/react';
@@ -114,7 +114,7 @@ const SlateNotion = ({ children, attributes, id, concept, handleRemove }: Props)
           <Portal>
             <NotionDialog
               title={concept?.title.title ?? ''}
-              subTitle={t(`conceptform.${concept?.conceptType}`)}
+              subTitle={t(`${concept?.conceptType}form.title`)}
               id={id}
               headerContent={
                 <>

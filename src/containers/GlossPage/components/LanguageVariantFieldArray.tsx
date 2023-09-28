@@ -50,7 +50,7 @@ const LanguageVariantFieldArray = ({ examples, name, removeFromParentArray }: Pr
                         : arrayHelpers.remove(exampleIndex)
                     }
                   >
-                    {t('form.gloss.remove')}
+                    {t('form.gloss.removeExample')}
                   </FieldRemoveButton>
                 </div>
               </FieldSection>

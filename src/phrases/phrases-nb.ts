@@ -1688,7 +1688,7 @@ const phrases = {
   conceptform: {
     title: 'Forklaring',
   },
-  glossForm: {
+  glossform: {
     title: 'Glose',
   },
   editorFooter: {

@@ -6,10 +6,12 @@
  *
  */
 
+import { IAudioMetaInformation } from '@ndla/types-backend/audio-api';
 import { IConcept } from '@ndla/types-backend/build/concept-api';
 import { Gloss } from '@ndla/ui';
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Embed } from '../../../../../interfaces';
+import { fetchAudio } from '../../../../../modules/audio/audioApi';
 import { parseEmbedTag } from '../../../../../util/embedTagHelpers';
 
 interface Props {
@@ -17,18 +19,22 @@ interface Props {
 }
 
 const SlateBlockGloss = ({ concept }: Props) => {
-  const audio = useMemo(() => {
-    const embed: Embed | undefined = parseEmbedTag(concept.visualElement?.visualElement);
+  const [audio, setAudio] = useState<IAudioMetaInformation | undefined>(undefined);
+  const embed: Embed | undefined = parseEmbedTag(concept.visualElement?.visualElement);
+
+  useEffect(() => {
     if (embed?.resource === 'audio') {
-      return {
-        url: embed.url,
-        title: embed.pageUrl ?? '',
-      };
+      fetchAudio(Number(embed?.resourceId)).then((aud) => setAudio(aud));
     }
-  }, [concept.visualElement?.visualElement]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [setAudio, embed?.resource]);
 
   return concept.glossData ? (
-    <Gloss title={concept.title} audio={audio} glossData={concept.glossData} />
+    <Gloss
+      audio={{ src: audio?.audioFile.url, title: audio?.title.title ?? '' }}
+      glossData={concept.glossData}
+      title={concept.title}
+    />
   ) : null;
 };
 

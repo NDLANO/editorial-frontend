@@ -8,32 +8,38 @@
 
 import { IConcept } from '@ndla/types-backend/concept-api';
 import { Gloss } from '@ndla/ui';
-import { useEffect, useMemo } from 'react';
+import { useEffect, useState } from 'react';
 import { addShowConceptDefinitionClickListeners } from '@ndla/article-scripts';
+import { IAudioMetaInformation } from '@ndla/types-backend/audio-api';
 import { Embed } from '../../../../../interfaces';
 import { parseEmbedTag } from '../../../../../util/embedTagHelpers';
+import { fetchAudio } from '../../../../../modules/audio/audioApi';
 
 interface Props {
   concept: IConcept;
 }
 
 const SlateInlineGloss = ({ concept }: Props) => {
-  const audio = useMemo(() => {
-    const embed: Embed | undefined = parseEmbedTag(concept.visualElement?.visualElement);
+  const [audio, setAudio] = useState<IAudioMetaInformation | undefined>(undefined);
+  const embed: Embed | undefined = parseEmbedTag(concept.visualElement?.visualElement);
+
+  useEffect(() => {
     if (embed?.resource === 'audio') {
-      return {
-        url: embed.url,
-        title: embed.pageUrl ?? '',
-      };
+      fetchAudio(Number(embed?.resourceId)).then((aud) => setAudio(aud));
     }
-  }, [concept.visualElement?.visualElement]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [setAudio, embed?.resource]);
 
   useEffect(() => {
     addShowConceptDefinitionClickListeners();
   }, []);
 
   return concept.glossData ? (
-    <Gloss audio={audio} title={concept.title} glossData={concept.glossData} />
+    <Gloss
+      audio={{ src: audio?.audioFile.url, title: audio?.title.title ?? '' }}
+      title={concept.title}
+      glossData={concept.glossData}
+    />
   ) : null;
 };
 

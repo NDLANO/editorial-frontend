@@ -35,7 +35,7 @@ const ExampleField = ({ example, name }: Props) => {
           <FieldSplitter>
             <Input
               type="text"
-              placeholder={t('form.concept.glossDataSection.example')}
+              placeholder={t('form.gloss.example')}
               value={example.example}
               onChange={(e) =>
                 field.onChange({
@@ -59,8 +59,8 @@ const ExampleField = ({ example, name }: Props) => {
             >
               {!example.language && (
                 <option>
-                  {t('form.concept.glossDataSection.choose', {
-                    label: t('form.concept.glossDataSection.language').toLowerCase(),
+                  {t('form.gloss.choose', {
+                    label: t('form.gloss.language').toLowerCase(),
                   })}
                 </option>
               )}

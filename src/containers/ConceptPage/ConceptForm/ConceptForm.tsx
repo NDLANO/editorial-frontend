@@ -136,7 +136,7 @@ const glossRules: RulesType<ConceptFormValues, IConcept, IGlossExample> = {
     test: (values) => {
       if (!values.gloss?.gloss || !values.gloss?.wordClass || !values.gloss?.originalLanguage)
         return {
-          translationKey: 'form.concept.glossDataSection.glossMissingFields',
+          translationKey: 'form.gloss.glossMissingFields',
         };
     },
   },
@@ -148,7 +148,7 @@ const glossRules: RulesType<ConceptFormValues, IConcept, IGlossExample> = {
             values?.transcriptions && Object.values(values.transcriptions).some((t) => !t);
 
           if (!values?.example || !values?.language || transcriptionMissingText)
-            return { translationKey: 'form.concept.glossDataSection.exampleMissingFields' };
+            return { translationKey: 'form.gloss.exampleMissingFields' };
         },
       },
     },
@@ -162,7 +162,7 @@ const glossRules: RulesType<ConceptFormValues, IConcept, IGlossExample> = {
     },
     test: (values) => {
       if (values.transcriptions && Object.values(values.transcriptions).includes('')) {
-        return { translationKey: 'form.concept.glossDataSection.transcriptionMissingFields' };
+        return { translationKey: 'form.gloss.transcriptionMissingFields' };
       }
     },
   },
@@ -293,7 +293,7 @@ const ConceptForm = ({
               {isGloss && (
                 <FormAccordion
                   id="glossData"
-                  title={t('form.concept.glossDataSection.gloss')}
+                  title={t('form.gloss.gloss')}
                   hasError={
                     !!(
                       errors.gloss ||

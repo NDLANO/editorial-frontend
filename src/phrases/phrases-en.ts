@@ -878,6 +878,7 @@ const phrases = {
         gloss: 'Gloss',
         originalLanguage: 'Original language',
         wordClass: 'Word class',
+        glossHeading: 'Gloss, word class and original language',
         transcriptions: 'Transcriptions',
         transcription: 'Transcription',
         romanization: 'Romanization',

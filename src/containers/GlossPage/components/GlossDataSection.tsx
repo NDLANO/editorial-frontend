@@ -7,6 +7,7 @@
  */
 
 import { useField } from 'formik';
+import styled from '@emotion/styled';
 import { FieldHeader, FieldSection, Input, Select } from '@ndla/forms';
 import { useTranslation } from 'react-i18next';
 import { constants } from '@ndla/ui';
@@ -15,6 +16,10 @@ import FormikField from '../../../components/FormikField';
 import ExamplesFieldArray from './ExamplesFieldArray';
 import { LANGUAGES } from '../glossData';
 import TranscriptionsField from './TranscriptionsField';
+
+const StyledFormikField = styled(FormikField)`
+  margin-top: 0px;
+`;
 
 const GlossDataSection = () => {
   const [_, { value }] = useField<IGlossData>('gloss');
@@ -26,10 +31,11 @@ const GlossDataSection = () => {
 
   return (
     <>
+      <FieldHeader title={t('form.concept.glossDataSection.glossHeading')} />
       <FormikField name="gloss">
         {({ field }) => (
           <FieldSection>
-            <FormikField name={`${field.name}.gloss`}>
+            <StyledFormikField name={`${field.name}.gloss`}>
               {({ field }) => (
                 <Input
                   placeholder={t('form.concept.glossDataSection.gloss')}
@@ -38,8 +44,8 @@ const GlossDataSection = () => {
                   {...field}
                 />
               )}
-            </FormikField>
-            <FormikField name={`${field.name}.wordClass`}>
+            </StyledFormikField>
+            <StyledFormikField name={`${field.name}.wordClass`}>
               {({ field }) => (
                 <Select
                   label={t('form.concept.glossDataSection.wordClass')}
@@ -60,8 +66,8 @@ const GlossDataSection = () => {
                   ))}
                 </Select>
               )}
-            </FormikField>
-            <FormikField name={`${field.name}.originalLanguage`}>
+            </StyledFormikField>
+            <StyledFormikField name={`${field.name}.originalLanguage`}>
               {({ field }) => (
                 <Select value={field.value} {...field}>
                   {!field.value && (
@@ -79,7 +85,7 @@ const GlossDataSection = () => {
                   ))}
                 </Select>
               )}
-            </FormikField>
+            </StyledFormikField>
           </FieldSection>
         )}
       </FormikField>

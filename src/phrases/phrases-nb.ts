@@ -778,6 +778,7 @@ const phrases = {
         gloss: 'Glose',
         originalLanguage: 'Originalspråk',
         wordClass: 'Ordtype',
+        glossHeading: 'Glose, ordtype og originalspråk',
         transcriptions: 'Transkripsjoner',
         transcription: 'Transkripsjon',
         romanization: 'Skriftsystem',

@@ -36,7 +36,7 @@ const ExamplesFieldArray = ({ name }: Props) => {
       name={name}
       render={(arrayHelpers) => (
         <>
-          {value.map((languageVariantExamples, index) => (
+          {value?.map((languageVariantExamples, index) => (
             <StyledExample key={`${name}.${index}`}>
               <FormikField name={`${name}.${index}`}>
                 {({ field }) => (

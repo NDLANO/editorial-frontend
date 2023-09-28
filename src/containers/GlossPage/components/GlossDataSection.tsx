@@ -17,13 +17,7 @@ import { LANGUAGES } from '../glossData';
 import TranscriptionsField from './TranscriptionsField';
 
 const GlossDataSection = () => {
-  const [
-    _,
-    {
-      value: { originalLanguage },
-    },
-  ] = useField<IGlossData>('gloss');
-
+  const [_, { value }] = useField<IGlossData>('gloss');
   const { t } = useTranslation();
 
   const {
@@ -90,7 +84,7 @@ const GlossDataSection = () => {
         )}
       </FormikField>
 
-      {originalLanguage === 'zh' && (
+      {value?.originalLanguage === 'zh' && (
         <>
           <FieldHeader title={t('form.concept.glossDataSection.transcriptions')} />
           <TranscriptionsField name="transcriptions" />

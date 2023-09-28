@@ -15,7 +15,7 @@ import {
   embedTagToEditorValue,
   editorValueToEmbedTag,
 } from '../../util/articleContentConverter';
-import { ConceptFormValues } from './conceptInterfaces';
+import { ConceptFormValues, ConceptType } from './conceptInterfaces';
 import { parseImageUrl } from '../../util/formHelper';
 import { IN_PROGRESS } from '../../constants';
 
@@ -26,6 +26,7 @@ export const conceptApiTypeToFormType = (
   articles: IArticle[],
   ndlaId: string | undefined,
   initialTitle = '',
+  conceptType?: ConceptType,
 ): ConceptFormValues => {
   const conceptSubjects =
     subjects.filter((s) => concept?.subjectIds?.find((id) => id === s.id)) ?? [];
@@ -58,6 +59,18 @@ export const conceptApiTypeToFormType = (
     visualElement: embedTagToEditorValue(concept?.visualElement?.visualElement ?? ''),
     origin: concept?.copyright?.origin,
     responsibleId: concept === undefined ? ndlaId : concept?.responsible?.responsibleId,
+    conceptType: conceptType || 'concept',
+    ...(conceptType === 'gloss'
+      ? {
+          gloss: {
+            gloss: concept?.glossData?.gloss ?? '',
+            wordClass: concept?.glossData?.wordClass ?? '',
+            originalLanguage: concept?.glossData?.originalLanguage ?? '',
+          },
+          examples: concept?.glossData?.examples ?? [],
+          transcriptions: concept?.glossData?.transcriptions ?? {},
+        }
+      : {}),
   };
 };
 
@@ -67,6 +80,7 @@ const metaImageFromForm = (v: ConceptFormValues) =>
 export const getNewConceptType = (
   values: ConceptFormValues,
   licenses: ILicense[],
+  conceptType: ConceptType,
 ): INewConcept => ({
   language: values.language,
   title: editorValueToPlainText(values.title),
@@ -86,20 +100,32 @@ export const getNewConceptType = (
   articleIds: values.articles.map((a) => a.id),
   visualElement: editorValueToEmbedTag(values.visualElement),
   responsibleId: values.responsibleId,
-  conceptType: 'concept',
+  conceptType: conceptType,
+  glossData:
+    conceptType === 'gloss'
+      ? {
+          gloss: values.gloss?.gloss ?? '',
+          wordClass: values.gloss?.wordClass ?? '',
+          originalLanguage: values.gloss?.originalLanguage ?? '',
+          examples: values.examples ?? [],
+          transcriptions: values.transcriptions ?? {},
+        }
+      : undefined,
 });
 
 export const getUpdatedConceptType = (
   values: ConceptFormValues,
   licenses: ILicense[],
+  conceptType: ConceptType,
 ): IUpdatedConcept => ({
-  ...getNewConceptType(values, licenses),
+  ...getNewConceptType(values, licenses, conceptType),
   metaImage: metaImageFromForm(values) ?? null,
 });
 
 export const conceptFormTypeToApiType = (
   values: ConceptFormValues,
   licenses: ILicense[],
+  conceptType: ConceptType,
   updatedBy?: string[],
 ): IConcept => {
   return {
@@ -133,6 +159,16 @@ export const conceptFormTypeToApiType = (
       license: licenses.find((license) => license.license === values.license),
     },
     supportedLanguages: values.supportedLanguages,
-    conceptType: 'concept',
+    conceptType,
+    glossData:
+      conceptType === 'gloss'
+        ? {
+            gloss: values.gloss?.gloss ?? '',
+            wordClass: values.gloss?.wordClass ?? '',
+            originalLanguage: values.gloss?.originalLanguage ?? '',
+            examples: values.examples ?? [],
+            transcriptions: values.transcriptions ?? {},
+          }
+        : undefined,
   };
 };

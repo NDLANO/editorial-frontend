@@ -55,6 +55,11 @@ export function toEditConcept(conceptId: number, locale?: string) {
   return locale ? `${path}/${locale}` : path;
 }
 
+export function toEditGloss(glossId: number, locale?: string) {
+  const path = `/gloss/${glossId}/edit`;
+  return locale ? `${path}/${locale}` : path;
+}
+
 export function toEditMarkup(id: number | string, language: string) {
   return `/edit-markup/${id}/${language}`;
 }
@@ -84,6 +89,10 @@ export function toCreateSubjectpage(subjectId: string, locale: string) {
 
 export function toCreateConcept() {
   return '/concept/new';
+}
+
+export function toCreateGloss() {
+  return '/gloss/new';
 }
 
 export function toLogin() {

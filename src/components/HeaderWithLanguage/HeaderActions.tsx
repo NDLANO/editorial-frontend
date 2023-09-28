@@ -26,6 +26,7 @@ import {
   toEditAudio,
   toEditConcept,
   toEditFrontPageArticle,
+  toEditGloss,
   toEditImage,
   toEditLearningResource,
   toEditPodcast,
@@ -43,7 +44,7 @@ interface PreviewLightBoxProps {
 const PreviewLightBox = memo(
   ({ type, currentLanguage, article, concept }: PreviewLightBoxProps) => {
     const { t } = useTranslation();
-    if (type === 'concept' && concept) {
+    if ((type === 'concept' || type === 'gloss') && concept) {
       return (
         <PreviewDraftLightboxV2
           type="conceptCompare"
@@ -90,6 +91,7 @@ interface Props {
 
 const toMapping = {
   concept: toEditConcept,
+  gloss: toEditGloss,
   audio: toEditAudio,
   'podcast-series': toEditPodcastSeries,
   podcast: toEditPodcast,
@@ -102,6 +104,7 @@ const toMapping = {
 const translatableTypes = [
   'audio',
   'concept',
+  'gloss',
   'standard',
   'topic-article',
   'podcast',

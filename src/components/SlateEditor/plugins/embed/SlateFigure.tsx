@@ -14,24 +14,13 @@ import SlateImage from './SlateImage';
 import SlateVideo from './SlateVideo';
 import EditorErrorMessage from '../../EditorErrorMessage';
 import DisplayExternal from '../../../DisplayEmbed/DisplayExternal';
-import {
-  BrightcoveEmbedElement,
-  ErrorEmbedElement,
-  ExternalEmbedElement,
-  H5PEmbedElement,
-  ImageEmbedElement,
-} from '.';
+import { EmbedElements } from '.';
 import { isSlateEmbed } from './utils';
 
 interface Props {
   attributes: RenderElementProps['attributes'];
   editor: Editor;
-  element:
-    | H5PEmbedElement
-    | BrightcoveEmbedElement
-    | ErrorEmbedElement
-    | ExternalEmbedElement
-    | ImageEmbedElement;
+  element: EmbedElements;
   language: string;
   children: ReactNode;
   allowDecorative?: boolean;
@@ -80,7 +69,7 @@ const SlateFigure = ({
     });
   };
 
-  switch (embed.resource) {
+  switch (embed?.resource) {
     case 'image':
       return (
         <SlateImage
@@ -157,7 +146,7 @@ const SlateFigure = ({
         <EditorErrorMessage
           attributes={attributes}
           msg={t('form.content.figure.notSupported', {
-            mediaType: embed.resource,
+            mediaType: embed?.resource,
           })}
         >
           {children}

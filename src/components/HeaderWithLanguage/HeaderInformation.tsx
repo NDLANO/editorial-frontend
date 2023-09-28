@@ -13,7 +13,7 @@ import { ButtonV2 } from '@ndla/button';
 import styled from '@emotion/styled';
 import { ContentTypeBadge, constants } from '@ndla/ui';
 import { colors, fonts, spacing } from '@ndla/core';
-import { Camera, Concept, Taxonomy, SquareAudio } from '@ndla/icons/editor';
+import { Camera, Concept, Taxonomy, SquareAudio, Globe } from '@ndla/icons/editor';
 import { Podcast } from '@ndla/icons/common';
 import { List } from '@ndla/icons/action';
 import HeaderStatusInformation from './HeaderStatusInformation';
@@ -86,6 +86,10 @@ const types: Record<string, { form: string; icon: ReactNode }> = {
   concept: {
     form: 'conceptform',
     icon: <Concept />,
+  },
+  gloss: {
+    form: 'glossForm',
+    icon: <Globe />,
   },
   programme: {
     form: 'programmepageForm',

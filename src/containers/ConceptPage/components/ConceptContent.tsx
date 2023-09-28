@@ -36,11 +36,19 @@ const IconContainer = styled.div`
   width: 64px;
 `;
 
-const PreviewButton = styled(IconButtonV2)<{ active: boolean }>`
-  color: ${(p) => (p.active ? colors.brand.primary : colors.brand.light)};
+const PreviewButton = styled(IconButtonV2)`
+  color: ${colors.brand.light};
+
+  &[data-active='true'] {
+    color: ${colors.brand.primary};
+  }
 `;
 
-const ConceptContent = () => {
+interface Props {
+  isGloss: boolean;
+}
+
+const ConceptContent = ({ isGloss }: Props) => {
   const { t } = useTranslation();
   const [preview, setPreview] = useState(false);
   const formikContext = useFormikContext<ConceptFormValues>();
@@ -59,7 +67,7 @@ const ConceptContent = () => {
               aria-label={t('form.markdown.button')}
               variant="stripped"
               colorTheme="light"
-              active={preview}
+              data-active={preview}
               onClick={() => setPreview(!preview)}
             >
               <Eye />
@@ -68,7 +76,7 @@ const ConceptContent = () => {
           <HowToHelper pageId="Markdown" tooltip={t('form.markdown.helpLabel')} />
         </IconContainer>
       </ByLine>
-      <VisualElementField />
+      <VisualElementField types={isGloss ? ['audio'] : ['image', 'video']} />
 
       <IngressField
         name="conceptContent"

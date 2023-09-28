@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-present, NDLA.
+ * Copyright (c) 2023-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
@@ -12,15 +12,15 @@ import { HelmetWithTracker } from '@ndla/tracker';
 import { INewConcept } from '@ndla/types-backend/concept-api';
 import { useCallback } from 'react';
 import { useFetchConceptData } from '../FormikForm/formikConceptHooks';
-import { toEditConcept } from '../../util/routeHelpers';
-import ConceptForm from './ConceptForm/ConceptForm';
+import { toEditGloss } from '../../util/routeHelpers';
+import ConceptForm from '../ConceptPage/ConceptForm/ConceptForm';
 
 interface Props {
   inModal?: boolean;
   addConceptInModal?: Function;
 }
 
-const CreateConcept = ({ inModal = false, addConceptInModal }: Props) => {
+const CreateGloss = ({ inModal = false, addConceptInModal }: Props) => {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const { subjects, createConcept, fetchSearchTags, conceptArticles } = useFetchConceptData(
@@ -34,7 +34,7 @@ const CreateConcept = ({ inModal = false, addConceptInModal }: Props) => {
       if (inModal && addConceptInModal) {
         addConceptInModal(savedConcept);
       } else {
-        navigate(toEditConcept(savedConcept.id, createdConcept.language));
+        navigate(toEditGloss(savedConcept.id, createdConcept.language));
       }
       return savedConcept;
     },
@@ -52,9 +52,10 @@ const CreateConcept = ({ inModal = false, addConceptInModal }: Props) => {
         subjects={subjects}
         conceptArticles={conceptArticles}
         supportedLanguages={[i18n.language]}
+        conceptType="gloss"
       />
     </>
   );
 };
 
-export default CreateConcept;
+export default CreateGloss;

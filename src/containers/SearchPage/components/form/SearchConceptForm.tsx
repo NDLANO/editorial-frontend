@@ -6,7 +6,7 @@
  *
  */
 
-import { useEffect, useState, MouseEvent } from 'react';
+import { useEffect, useState, MouseEvent, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import sortBy from 'lodash/sortBy';
 import { Node } from '@ndla/types-taxonomy';
@@ -86,6 +86,7 @@ const SearchConceptForm = ({ search: doSearch, searchObject: search, subjects }:
       query: '',
       language: '',
       'audio-type': '',
+      'concept-type': '',
       license: '',
       subjects: '',
       users: '',
@@ -101,7 +102,22 @@ const SearchConceptForm = ({ search: doSearch, searchObject: search, subjects }:
     };
   };
 
+  const conceptTypes = useMemo(
+    () => [
+      { id: 'concept', name: t('searchForm.conceptType.concept') },
+      { id: 'gloss', name: t('searchForm.conceptType.gloss') },
+    ],
+    [t],
+  );
+
   const selectors: SearchFormSelector[] = [
+    {
+      parameterName: 'concept-type',
+      value: getTagName(search['concept-type'], conceptTypes),
+      options: conceptTypes,
+      formElementType: 'dropdown',
+      width: 25,
+    },
     {
       parameterName: 'subjects',
       value: getTagName(search.subjects, subjects),

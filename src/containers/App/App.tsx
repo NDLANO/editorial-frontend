@@ -51,6 +51,7 @@ const EditMarkupPage = loadable(() => import('../EditMarkupPage/EditMarkupPage')
 const PreviewDraftPage = loadable(() => import('../PreviewDraftPage/PreviewDraftPage'));
 const NdlaFilm = loadable(() => import('../NdlaFilm/NdlaFilm'));
 const ConceptPage = loadable(() => import('../ConceptPage/ConceptPage'));
+const GlossPage = loadable(() => import('../GlossPage/GlossPage'));
 const Subjectpage = loadable(() => import('../EditSubjectFrontpage/Subjectpage'));
 const H5PPage = loadable(() => import('../H5PPage/H5PPage'));
 const TaxonomyVersionsPage = loadable(() => import('../TaxonomyVersions/TaxonomyVersionsPage'));
@@ -95,6 +96,7 @@ const App = () => {
                     element={<PrivateRoute component={<EditMarkupPage />} />}
                   />
                   <Route path="/concept/*" element={<PrivateRoute component={<ConceptPage />} />} />
+                  <Route path="/gloss/*" element={<PrivateRoute component={<GlossPage />} />} />
                   <Route path="/preview/:draftId/:language/*" element={<PreviewDraftPage />} />
                   <Route path="/media/*" element={<PrivateRoute component={<MediaPage />} />} />
                   <Route path="/film/*" element={<PrivateRoute component={<NdlaFilm />} />} />

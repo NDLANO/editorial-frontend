@@ -237,7 +237,7 @@ const PreviewConceptCompare = ({ concept, language }: CompareConceptPreviewProps
   const { t } = useTranslation();
   const { values } = useFormikContext<ConceptFormValues>();
   const formConcept = useMemo(
-    () => conceptFormTypeToApiType(values, licenses!, concept.updatedBy),
+    () => conceptFormTypeToApiType(values, licenses!, values.conceptType, concept.updatedBy),
     [values, licenses, concept.updatedBy],
   );
   return (
@@ -278,8 +278,9 @@ const PreviewConceptCompare = ({ concept, language }: CompareConceptPreviewProps
 const PreviewConcept = ({ language }: ConceptPreviewProps) => {
   const { data: licenses } = useLicenses({ placeholderData: [] });
   const { values } = useFormikContext<ConceptFormValues>();
+
   const formConcept = useMemo(
-    () => conceptFormTypeToApiType(values, licenses!),
+    () => conceptFormTypeToApiType(values, licenses!, values.conceptType),
     [values, licenses],
   );
 

@@ -14,7 +14,6 @@ import FormikField from '../../../components/FormikField';
 import { LicenseField, ContributorsField } from '../../FormikForm';
 import AsyncSearchTags from '../../../components/Dropdown/asyncDropdown/AsyncSearchTags';
 import OriginField from '../../FormikForm/components/OriginField';
-import CopyrightFieldGroup from '../../FormikForm/CopyrightFieldGroup';
 
 interface Props {
   imageTags: string[];
@@ -42,7 +41,6 @@ const ImageMetaData = ({ imageTags, imageLanguage }: Props) => {
           />
         )}
       </FormikField>
-      <CopyrightFieldGroup />
       <FormikField
         name="modelReleased"
         label={t('form.modelReleased.label')}

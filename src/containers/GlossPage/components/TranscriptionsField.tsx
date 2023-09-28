@@ -10,6 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { Select } from '@ndla/forms';
 import { useField } from 'formik';
 import { useMemo } from 'react';
+import { IGlossData } from '@ndla/types-backend/build/concept-api';
 import TranscriptionField from './TranscriptionField';
 import FormikField from '../../../components/FormikField';
 import { ROMANIZATION_OPTIONS } from '../glossData';
@@ -19,7 +20,7 @@ interface Props {
 }
 
 const TranscriptionsField = ({ name }: Props) => {
-  const [_, { value }] = useField<{ [key: string]: string }>(name);
+  const [_, { value }] = useField<IGlossData['transcriptions']>(name);
   const { t } = useTranslation();
 
   const transcriptionKeys = Object.keys(value);
@@ -31,12 +32,12 @@ const TranscriptionsField = ({ name }: Props) => {
     <FormikField name={name}>
       {({ field }) => (
         <>
-          {Object.keys(value).map((key) => (
+          {Object.entries(value).map(([key, val]) => (
             <TranscriptionField
               key={key}
               label={key}
               name={`${name}.${key}`}
-              value={value[key]}
+              value={val}
               removeField={() => {
                 // Delete key from value object, keep remainingTranscriptions
                 const { [key]: _, ...remainingTranscriptions } = value;

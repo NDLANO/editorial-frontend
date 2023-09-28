@@ -29,7 +29,7 @@ import {
   getUpdatedConceptType,
 } from '../conceptTransformers';
 import { ConceptArticles, ConceptCopyright, ConceptContent, ConceptMetaData } from '../components';
-import { ConceptFormValues } from '../conceptInterfaces';
+import { ConceptFormValues, ConceptType } from '../conceptInterfaces';
 import ConceptFormFooter from './ConceptFormFooter';
 import { MessageError, useMessages } from '../../Messages/MessagesProvider';
 import { useLicenses } from '../../../modules/draft/draftQueries';
@@ -63,7 +63,7 @@ interface Props {
   initialTitle?: string;
   onUpserted?: (concept: IConceptSummary | IConcept) => void;
   supportedLanguages: string[];
-  conceptType?: 'concept' | 'gloss';
+  conceptType?: ConceptType;
 }
 
 const conceptFormBaseRules: RulesType<ConceptFormValues, IConcept> = {
@@ -145,9 +145,9 @@ const glossRules: RulesType<ConceptFormValues, IConcept, IGlossExample> = {
       example: {
         test: (values) => {
           const transcriptionMissingText =
-            values.transcriptions && Object.values(values.transcriptions).some((t) => !t);
+            values?.transcriptions && Object.values(values.transcriptions).some((t) => !t);
 
-          if (!values.example || !values.language || transcriptionMissingText)
+          if (!values?.example || !values?.language || transcriptionMissingText)
             return { translationKey: 'form.concept.glossDataSection.exampleMissingFields' };
         },
       },

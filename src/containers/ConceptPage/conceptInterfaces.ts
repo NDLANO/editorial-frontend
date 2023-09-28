@@ -7,10 +7,12 @@
  */
 
 import { Descendant } from 'slate';
-import { IStatus, IAuthor, IGlossExample } from '@ndla/types-backend/concept-api';
+import { IStatus, IAuthor, IGlossExample, IGlossData } from '@ndla/types-backend/concept-api';
 import { IArticle } from '@ndla/types-backend/draft-api';
 import { Node } from '@ndla/types-taxonomy';
-import { ROMANIZATION_OPTIONS } from '../GlossPage/glossData';
+
+export type ConceptType = 'concept' | 'gloss';
+
 export interface ConceptFormValues {
   id?: number;
   language: string;
@@ -41,14 +43,12 @@ export interface ConceptFormValues {
   updated?: string;
   origin?: string;
   responsibleId?: string;
-  conceptType: 'concept' | 'gloss';
+  conceptType: ConceptType;
   gloss?: {
     gloss: string;
     wordClass: string;
     originalLanguage: string;
   };
   examples?: IGlossExample[][];
-  transcriptions?: {
-    [key in (typeof ROMANIZATION_OPTIONS)[number]]?: string;
-  };
+  transcriptions?: IGlossData['transcriptions'];
 }

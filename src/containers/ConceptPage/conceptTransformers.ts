@@ -15,7 +15,7 @@ import {
   embedTagToEditorValue,
   editorValueToEmbedTag,
 } from '../../util/articleContentConverter';
-import { ConceptFormValues } from './conceptInterfaces';
+import { ConceptFormValues, ConceptType } from './conceptInterfaces';
 import { parseImageUrl } from '../../util/formHelper';
 import { IN_PROGRESS } from '../../constants';
 
@@ -26,7 +26,7 @@ export const conceptApiTypeToFormType = (
   articles: IArticle[],
   ndlaId: string | undefined,
   initialTitle = '',
-  conceptType?: 'concept' | 'gloss',
+  conceptType?: ConceptType,
 ): ConceptFormValues => {
   const conceptSubjects =
     subjects.filter((s) => concept?.subjectIds?.find((id) => id === s.id)) ?? [];
@@ -80,7 +80,7 @@ const metaImageFromForm = (v: ConceptFormValues) =>
 export const getNewConceptType = (
   values: ConceptFormValues,
   licenses: ILicense[],
-  conceptType: 'concept' | 'gloss',
+  conceptType: ConceptType,
 ): INewConcept => ({
   language: values.language,
   title: editorValueToPlainText(values.title),
@@ -116,7 +116,7 @@ export const getNewConceptType = (
 export const getUpdatedConceptType = (
   values: ConceptFormValues,
   licenses: ILicense[],
-  conceptType: 'concept' | 'gloss',
+  conceptType: ConceptType,
 ): IUpdatedConcept => ({
   ...getNewConceptType(values, licenses, conceptType),
   metaImage: metaImageFromForm(values) ?? null,
@@ -125,7 +125,7 @@ export const getUpdatedConceptType = (
 export const conceptFormTypeToApiType = (
   values: ConceptFormValues,
   licenses: ILicense[],
-  conceptType: 'concept' | 'gloss',
+  conceptType: ConceptType,
   updatedBy?: string[],
 ): IConcept => {
   return {

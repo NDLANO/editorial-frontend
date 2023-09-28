@@ -102,9 +102,11 @@ const SlateNotion = ({ children, attributes, id, concept, handleRemove }: Props)
     <span data-notion id={id}>
       <StyledButton
         type="button"
-        aria-label={t('concept.showDescription', { title: concept?.title.title ?? '' })}
-        {...attributes}
+        aria-label={t(`${concept?.conceptType}.showDescription`, {
+          title: concept?.title.title ?? '',
+        })}
         data-notion-link
+        {...attributes}
       >
         <div>
           {children}
@@ -142,20 +144,20 @@ const SlateNotion = ({ children, attributes, id, concept, handleRemove }: Props)
                     variant="ghost"
                     onClick={handleRemove}
                     tabIndex={-1}
-                    aria-label={t('form.concept.removeConcept')}
-                    title={t('form.concept.removeConcept')}
+                    aria-label={t(`form.${concept?.conceptType}.remove`)}
+                    title={t(`form.${concept?.conceptType}.remove`)}
                     css={ButtonCSS}
                   >
                     <StyledDeleteForever />
                   </IconButtonV2>
                   <SafeLinkIconButton
-                    to={`/concept/${concept?.id}/edit/${concept?.content?.language}`}
+                    to={`/${concept?.conceptType}/${concept?.id}/edit/${concept?.content?.language}`}
                     target="_blank"
                     tabIndex={-1}
                     colorTheme="lighter"
                     variant="ghost"
-                    title={t('form.concept.edit')}
-                    aria-label={t('form.concept.edit')}
+                    title={t(`form.${concept?.conceptType}.edit`)}
+                    aria-label={t(`form.${concept?.conceptType}.edit`)}
                     css={ButtonCSS}
                   >
                     <LinkIcon />

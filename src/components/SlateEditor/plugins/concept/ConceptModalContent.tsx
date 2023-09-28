@@ -111,7 +111,9 @@ const ConceptModalContent = ({
       </ModalHeader>
       <ModalBody>
         {concept?.id && (
-          <ButtonV2 onClick={handleRemove}>{t('form.content.concept.remove')}</ButtonV2>
+          <ButtonV2 onClick={handleRemove}>
+            {t(`form.content.${concept.conceptType}.remove`)}
+          </ButtonV2>
         )}
         <Tabs
           tabs={[
@@ -152,7 +154,7 @@ const ConceptModalContent = ({
               ),
             },
             {
-              title: t('form.concept.create'),
+              title: t(`form.${concept?.conceptType}.create`),
               id: 'newConcept',
               content: (
                 <ConceptForm

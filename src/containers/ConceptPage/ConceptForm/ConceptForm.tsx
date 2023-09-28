@@ -225,8 +225,8 @@ const ConceptForm = ({
                 hasError={!!(errors.creators || errors.license)}
               >
                 <ConceptCopyright
-                  label={t('form.concept.source')}
-                  description={t('form.concept.markdown')}
+                  label={t(`form.${concept?.conceptType}.source`)}
+                  description={t(`form.${concept?.conceptType}.markdown`)}
                 />
               </FormAccordion>
               <FormAccordion

@@ -172,8 +172,8 @@ const ConceptButtonContainer = ({ concept, handleRemove }: ButtonContainerProps)
   return (
     <ButtonContainer>
       <IconButtonV2
-        aria-label={t('form.concept.removeConcept')}
-        title={t('form.concept.removeConcept')}
+        title={t(`form.${concept?.conceptType}.remove`)}
+        aria-label={t(`form.${concept?.conceptType}.remove`)}
         variant="ghost"
         colorTheme="danger"
         onClick={handleRemove}
@@ -181,11 +181,13 @@ const ConceptButtonContainer = ({ concept, handleRemove }: ButtonContainerProps)
         <DeleteForever />
       </IconButtonV2>
       <SafeLinkIconButton
-        aria-label={t('form.concept.edit')}
-        title={t('form.concept.edit')}
+        arial-label={t(`form.${concept?.conceptType}.edit`)}
+        title={t(`form.${concept?.conceptType}.edit`)}
         variant="ghost"
         colorTheme="light"
-        to={`/concept/${concept.id}/edit/${concept.content?.language ?? i18n.language}`}
+        to={`/${concept.conceptType}/${concept.id}/edit/${
+          concept.content?.language ?? i18n.language
+        }`}
         target="_blank"
       >
         <LinkIcon />

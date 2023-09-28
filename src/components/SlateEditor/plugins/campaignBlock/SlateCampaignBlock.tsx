@@ -115,7 +115,7 @@ const SlateCampaignBlock = ({ element, editor, attributes, children }: Props) =>
 
   return (
     <Modal open={isEditing} onOpenChange={setIsEditing}>
-      <CampaignBlockWrapper {...attributes}>
+      <CampaignBlockWrapper {...attributes} data-testid="slate-campaign-block">
         {campaignBlock && (
           <div contentEditable={false}>
             <StyledFigureButtons data-white={true}>
@@ -133,7 +133,7 @@ const SlateCampaignBlock = ({ element, editor, attributes, children }: Props) =>
                 aria-label={t('delete')}
                 colorTheme="danger"
                 title={t('delete')}
-                data-testid="remove-blogpost"
+                data-testid="remove-campaign-block"
                 onClick={handleRemove}
               >
                 <DeleteForever />

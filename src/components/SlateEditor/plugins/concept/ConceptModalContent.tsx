@@ -127,7 +127,7 @@ const ConceptModalContent = ({
                     {t(`searchPage.header.concept`)}
                   </h2>
                   <SearchForm
-                    type={'concept'}
+                    type="concept"
                     search={(params) => {
                       updateSearchObject(params);
                       debouncedSearchConcept(params);

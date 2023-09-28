@@ -193,7 +193,9 @@ const ConceptButtonContainer = ({ concept, handleRemove }: ButtonContainerProps)
       </SafeLinkIconButton>
       {(concept?.status.current === PUBLISHED || concept?.status.other.includes(PUBLISHED)) && (
         <Tooltip tooltip={t('form.workflow.published')}>
-          <StyledCheckIcon />
+          <div>
+            <StyledCheckIcon />
+          </div>
         </Tooltip>
       )}
       {concept?.status.current !== PUBLISHED && (
@@ -202,7 +204,9 @@ const ConceptButtonContainer = ({ concept, handleRemove }: ButtonContainerProps)
             status: t(`form.status.${concept?.status.current.toLowerCase()}`),
           })}
         >
-          <StyledAlertCircle />
+          <div>
+            <StyledAlertCircle />
+          </div>
         </Tooltip>
       )}
     </ButtonContainer>

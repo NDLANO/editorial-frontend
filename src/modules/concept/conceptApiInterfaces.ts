@@ -22,4 +22,5 @@ export interface ConceptQuery {
   'embed-id'?: number;
   'embed-resource'?: string;
   'responsible-ids'?: string;
+  'concept-type'?: string;
 }

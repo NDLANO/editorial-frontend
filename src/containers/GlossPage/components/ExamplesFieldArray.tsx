@@ -54,8 +54,8 @@ const ExamplesFieldArray = ({ name }: Props) => {
               arrayHelpers.push([emptyGlossExample]);
             }}
           >
-            {t('form.concept.glossDataSection.add', {
-              label: t(`form.concept.glossDataSection.example`).toLowerCase(),
+            {t('form.gloss.add', {
+              label: t(`form.gloss.example`).toLowerCase(),
             })}
           </ButtonV2>
         </>

@@ -30,8 +30,7 @@ import SearchForm from '../../../../containers/SearchPage/components/form/Search
 import SearchConceptResults from './SearchConceptResults';
 import ConceptForm from '../../../../containers/ConceptPage/ConceptForm/ConceptForm';
 import { ConceptQuery } from '../../../../modules/concept/conceptApiInterfaces';
-
-const type = 'concept';
+import { ConceptType } from '../../../../containers/ConceptPage/conceptInterfaces';
 
 interface Props {
   addConcept: (concept: IConceptSummary | IConcept) => void;
@@ -45,6 +44,7 @@ interface Props {
   subjects: Node[];
   updateConcept: (id: number, updatedConcept: IUpdatedConcept) => Promise<IConcept>;
   conceptArticles: IArticle[];
+  conceptType?: ConceptType;
 }
 
 const ConceptModalContent = ({
@@ -52,13 +52,14 @@ const ConceptModalContent = ({
   subjects,
   locale,
   handleRemove,
-  selectedText,
+  selectedText = '',
   addConcept,
   updateConcept,
   createConcept,
   concept,
   fetchSearchTags,
   conceptArticles,
+  conceptType,
 }: Props) => {
   const { t } = useTranslation();
   const [searchObject, updateSearchObject] = useState<ConceptQuery>({
@@ -67,6 +68,7 @@ const ConceptModalContent = ({
     'page-size': 10,
     language: locale,
     query: `${selectedText}`,
+    'concept-type': conceptType,
   });
   const [results, setConcepts] = useState<IConceptSearchResult>({
     language: locale,
@@ -101,6 +103,7 @@ const ConceptModalContent = ({
     () => debounce((params: ConceptQuery) => searchConcept(params), 400),
     [searchConcept],
   );
+
   return (
     <div>
       <ModalHeader>
@@ -108,7 +111,9 @@ const ConceptModalContent = ({
       </ModalHeader>
       <ModalBody>
         {concept?.id && (
-          <ButtonV2 onClick={handleRemove}>{t('form.content.concept.remove')}</ButtonV2>
+          <ButtonV2 onClick={handleRemove}>
+            {t(`form.content.${concept.conceptType}.remove`)}
+          </ButtonV2>
         )}
         <Tabs
           tabs={[
@@ -122,7 +127,7 @@ const ConceptModalContent = ({
                     {t(`searchPage.header.concept`)}
                   </h2>
                   <SearchForm
-                    type={type}
+                    type="concept"
                     search={(params) => {
                       updateSearchObject(params);
                       debouncedSearchConcept(params);
@@ -149,7 +154,7 @@ const ConceptModalContent = ({
               ),
             },
             {
-              title: t('form.concept.create'),
+              title: t(`form.${conceptType}.create`),
               id: 'newConcept',
               content: (
                 <ConceptForm
@@ -164,6 +169,7 @@ const ConceptModalContent = ({
                   conceptArticles={conceptArticles}
                   initialTitle={selectedText}
                   supportedLanguages={concept?.supportedLanguages ?? [locale]}
+                  conceptType={conceptType}
                 />
               ),
             },

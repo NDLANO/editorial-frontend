@@ -79,6 +79,14 @@ const SearchConceptForm = ({ search: doSearch, searchObject: search, subjects }:
     doSearch({ ...search, [tag.parameterName]: '' });
   };
 
+  const conceptTypes = useMemo(
+    () => [
+      { id: 'concept', name: t('searchForm.conceptType.concept') },
+      { id: 'gloss', name: t('searchForm.conceptType.gloss') },
+    ],
+    [t],
+  );
+
   const emptySearch = (evt: MouseEvent<HTMLButtonElement>) => {
     evt.persist();
     setQueryInput('');
@@ -101,14 +109,6 @@ const SearchConceptForm = ({ search: doSearch, searchObject: search, subjects }:
       return a[property]?.localeCompare(b[property]);
     };
   };
-
-  const conceptTypes = useMemo(
-    () => [
-      { id: 'concept', name: t('searchForm.conceptType.concept') },
-      { id: 'gloss', name: t('searchForm.conceptType.gloss') },
-    ],
-    [t],
-  );
 
   const selectors: SearchFormSelector[] = [
     {

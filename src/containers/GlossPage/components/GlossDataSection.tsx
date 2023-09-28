@@ -31,14 +31,14 @@ const GlossDataSection = () => {
 
   return (
     <>
-      <FieldHeader title={t('form.concept.glossDataSection.glossHeading')} />
+      <FieldHeader title={t('form.gloss.glossHeading')} />
       <FormikField name="gloss">
         {({ field }) => (
           <FieldSection>
             <StyledFormikField name={`${field.name}.gloss`}>
               {({ field }) => (
                 <Input
-                  placeholder={t('form.concept.glossDataSection.gloss')}
+                  placeholder={t('form.gloss.gloss')}
                   type="text"
                   value={field.value}
                   {...field}
@@ -47,15 +47,11 @@ const GlossDataSection = () => {
             </StyledFormikField>
             <StyledFormikField name={`${field.name}.wordClass`}>
               {({ field }) => (
-                <Select
-                  label={t('form.concept.glossDataSection.wordClass')}
-                  value={field.value}
-                  {...field}
-                >
+                <Select label={t('form.gloss.wordClass')} value={field.value} {...field}>
                   {!field.value && (
                     <option>
-                      {t('form.concept.glossDataSection.choose', {
-                        label: t('form.concept.glossDataSection.wordClass').toLowerCase(),
+                      {t('form.gloss.choose', {
+                        label: t('form.gloss.wordClass').toLowerCase(),
                       })}
                     </option>
                   )}
@@ -72,8 +68,8 @@ const GlossDataSection = () => {
                 <Select value={field.value} {...field}>
                   {!field.value && (
                     <option>
-                      {t('form.concept.glossDataSection.choose', {
-                        label: t('form.concept.glossDataSection.originalLanguage').toLowerCase(),
+                      {t('form.gloss.choose', {
+                        label: t('form.gloss.originalLanguage').toLowerCase(),
                       })}
                     </option>
                   )}
@@ -92,11 +88,11 @@ const GlossDataSection = () => {
 
       {value?.originalLanguage === 'zh' && (
         <>
-          <FieldHeader title={t('form.concept.glossDataSection.transcriptions')} />
+          <FieldHeader title={t('form.gloss.transcriptions')} />
           <TranscriptionsField name="transcriptions" />
         </>
       )}
-      <FieldHeader title={t('form.concept.glossDataSection.examples')} />
+      <FieldHeader title={t('form.gloss.examples')} />
       <ExamplesFieldArray name="examples" />
     </>
   );

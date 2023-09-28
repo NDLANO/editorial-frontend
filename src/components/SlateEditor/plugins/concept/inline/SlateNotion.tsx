@@ -7,32 +7,36 @@ import { ReactNode } from 'react';
 import { RenderElementProps } from 'slate-react';
 import { useTranslation } from 'react-i18next';
 import Tooltip from '@ndla/tooltip';
-import { AlertCircle, Check } from '@ndla/icons/editor';
+import { AlertCircle, Check, DeleteForever } from '@ndla/icons/editor';
+import { SafeLinkIconButton } from '@ndla/safelink';
+import { IconButtonV2 } from '@ndla/button';
+import { css } from '@emotion/react';
+import { Link as LinkIcon } from '@ndla/icons/common';
 import { PUBLISHED } from '../../../../../constants';
-import InlineConceptPreview from './InlineConceptPreview';
+import SlateInlineConcept from './SlateInlineConcept';
+import SlateInlineGloss from './SlateInlineGloss';
+
+const StyledDeleteForever = styled(DeleteForever)`
+  color: ${colors.support.red};
+
+  &:hover {
+    color: ${colors.white};
+  }
+`;
 
 const StyledCheckIcon = styled(Check)`
-  margin-left: 10px;
+  margin-left: ${spacing.xsmall};
   width: ${spacing.normal};
   height: ${spacing.normal};
   fill: ${colors.support.green};
-`;
-
-const StyledWarnIcon = styled(AlertCircle)`
-  margin-left: 5px;
-  height: ${spacing.normal};
-  width: ${spacing.normal};
-  fill: ${colors.brand.grey};
 `;
 
 const StyledDiv = styled.div`
   display: flex;
   flex: 1;
   flex-direction: inherit;
-`;
-
-const StyledTooltip = styled(Tooltip)`
-  margin-right: auto;
+  gap: ${spacing.xxsmall};
+  padding-left: ${spacing.xxsmall};
 `;
 
 const BaselineIcon = styled.div`
@@ -72,6 +76,17 @@ const StyledButton = styled.button`
   }
 `;
 
+const StyledAlertCircle = styled(AlertCircle)`
+  height: ${spacing.normal};
+  width: ${spacing.normal};
+  fill: ${colors.brand.grey};
+`;
+
+const ButtonCSS = css`
+  padding: unset;
+  margin-right: ${spacing.xsmall};
+`;
+
 interface Props {
   attributes: RenderElementProps['attributes'];
   concept?: IConcept;
@@ -87,9 +102,11 @@ const SlateNotion = ({ children, attributes, id, concept, handleRemove }: Props)
     <span data-notion id={id}>
       <StyledButton
         type="button"
-        aria-label={t('concept.showDescription', { title: concept?.title.title ?? '' })}
-        {...attributes}
+        aria-label={t(`${concept?.conceptType}.showDescription`, {
+          title: concept?.title.title ?? '',
+        })}
         data-notion-link
+        {...attributes}
       >
         <div>
           {children}
@@ -97,40 +114,59 @@ const SlateNotion = ({ children, attributes, id, concept, handleRemove }: Props)
           <Portal>
             <NotionDialog
               title={concept?.title.title ?? ''}
-              subTitle={t('conceptform.title')}
+              subTitle={t(`${concept?.conceptType}form.title`)}
               id={id}
-              customCSS={''}
               headerContent={
-                <StyledDiv>
-                  {(concept?.status.current === PUBLISHED ||
-                    concept?.status.other.includes(PUBLISHED)) && (
-                    <StyledTooltip tooltip={t('form.workflow.published')}>
-                      <div>
-                        <StyledCheckIcon />
-                      </div>
-                    </StyledTooltip>
-                  )}
-                  {concept?.status.current !== PUBLISHED && (
-                    <Tooltip
-                      tooltip={t('form.workflow.currentStatus', {
-                        status: t(`form.status.${concept?.status.current.toLowerCase()}`),
-                      })}
-                    >
-                      <div>
-                        <StyledWarnIcon />
-                      </div>
-                    </Tooltip>
-                  )}
-                </StyledDiv>
+                <>
+                  <StyledDiv>
+                    {(concept?.status.current === PUBLISHED ||
+                      concept?.status.other.includes(PUBLISHED)) && (
+                      <Tooltip tooltip={t('form.workflow.published')}>
+                        <div>
+                          <StyledCheckIcon />
+                        </div>
+                      </Tooltip>
+                    )}
+                    {concept?.status.current !== PUBLISHED && (
+                      <Tooltip
+                        tooltip={t('form.workflow.currentStatus', {
+                          status: t(`form.status.${concept?.status.current.toLowerCase()}`),
+                        })}
+                      >
+                        <div>
+                          <StyledAlertCircle />
+                        </div>
+                      </Tooltip>
+                    )}
+                  </StyledDiv>
+                  <IconButtonV2
+                    colorTheme="danger"
+                    variant="ghost"
+                    onClick={handleRemove}
+                    tabIndex={-1}
+                    aria-label={t(`form.${concept?.conceptType}.remove`)}
+                    title={t(`form.${concept?.conceptType}.remove`)}
+                    css={ButtonCSS}
+                  >
+                    <StyledDeleteForever />
+                  </IconButtonV2>
+                  <SafeLinkIconButton
+                    to={`/${concept?.conceptType}/${concept?.id}/edit/${concept?.content?.language}`}
+                    target="_blank"
+                    tabIndex={-1}
+                    colorTheme="lighter"
+                    variant="ghost"
+                    title={t(`form.${concept?.conceptType}.edit`)}
+                    aria-label={t(`form.${concept?.conceptType}.edit`)}
+                    css={ButtonCSS}
+                  >
+                    <LinkIcon />
+                  </SafeLinkIconButton>
+                </>
               }
             >
-              {concept && (
-                <InlineConceptPreview
-                  concept={concept}
-                  handleRemove={handleRemove}
-                  id={concept.id}
-                />
-              )}
+              {concept?.conceptType === 'concept' && <SlateInlineConcept concept={concept} />}
+              {concept?.conceptType === 'gloss' && <SlateInlineGloss concept={concept} />}
             </NotionDialog>
           </Portal>
         </div>

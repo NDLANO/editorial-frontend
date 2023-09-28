@@ -12,5 +12,6 @@ import { Descendant } from 'slate';
 export interface ConceptInlineElement {
   type: 'concept-inline';
   data: ConceptEmbedData;
+  isFirstEdit?: boolean;
   children: Descendant[];
 }

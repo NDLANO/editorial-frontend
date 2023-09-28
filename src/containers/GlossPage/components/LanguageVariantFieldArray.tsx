@@ -50,14 +50,14 @@ const LanguageVariantFieldArray = ({ examples, name, removeFromParentArray }: Pr
                         : arrayHelpers.remove(exampleIndex)
                     }
                   >
-                    {t('form.concept.glossDataSection.remove')}
+                    {t('form.gloss.removeExample')}
                   </FieldRemoveButton>
                 </div>
               </FieldSection>
             ))}
             <StyledButton variant="outline" onClick={() => arrayHelpers.push(emptyGlossExample)}>
-              {t('form.concept.glossDataSection.add', {
-                label: t(`form.concept.glossDataSection.languageVariant`).toLowerCase(),
+              {t('form.gloss.add', {
+                label: t(`form.gloss.languageVariant`).toLowerCase(),
               })}
             </StyledButton>
           </>

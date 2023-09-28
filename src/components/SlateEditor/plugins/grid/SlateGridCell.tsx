@@ -23,7 +23,7 @@ interface Props extends RenderElementProps {
 
 const StyledButton = styled(IconButtonV2)`
   position: absolute;
-  z-index: 10;
+  z-index: 2;
   top: ${spacing.xxsmall};
   right: ${spacing.xxsmall};
 `;

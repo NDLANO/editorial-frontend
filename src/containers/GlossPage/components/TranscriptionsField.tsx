@@ -64,8 +64,8 @@ const TranscriptionsField = ({ name }: Props) => {
               }
             >
               <option value={'placeholder'}>
-                {t('form.concept.glossDataSection.choose', {
-                  label: t('form.concept.glossDataSection.romanization').toLowerCase(),
+                {t('form.gloss.choose', {
+                  label: t('form.gloss.romanization').toLowerCase(),
                 })}
               </option>
 

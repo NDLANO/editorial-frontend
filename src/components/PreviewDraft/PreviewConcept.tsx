@@ -57,7 +57,7 @@ const PreviewConcept = ({ concept, language }: Props) => {
         <Gloss title={concept.title} glossData={concept.glossData!} audio={audioData} />
       ) : (
         <ConceptNotionV2
-          title={concept.title.title}
+          title={concept.title}
           content={concept.content?.content}
           visualElement={visualElementMeta}
           metaImage={concept.metaImage}
@@ -65,6 +65,7 @@ const PreviewConcept = ({ concept, language }: Props) => {
           tags={concept.tags?.tags}
           subjects={subjects?.results?.map((res) => res.name)}
           previewAlt
+          conceptType={concept.conceptType}
         />
       )}
     </>

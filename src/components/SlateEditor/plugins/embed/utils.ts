@@ -10,7 +10,6 @@ import { jsx as slatejsx } from 'slate-hyperscript';
 import { Element, Node } from 'slate';
 import { Embed } from '../../../../interfaces';
 import {
-  TYPE_EMBED_AUDIO,
   TYPE_EMBED_BRIGHTCOVE,
   TYPE_EMBED_ERROR,
   TYPE_EMBED_EXTERNAL,
@@ -18,7 +17,6 @@ import {
   TYPE_EMBED_IMAGE,
 } from './types';
 import {
-  AudioEmbedElement,
   BrightcoveEmbedElement,
   EmbedElements,
   ErrorEmbedElement,
@@ -26,6 +24,7 @@ import {
   H5PEmbedElement,
   ImageEmbedElement,
 } from '.';
+import { AudioElement, TYPE_AUDIO } from '../audio/types';
 
 export const defaultEmbedBlock = (data: Partial<Embed>) =>
   slatejsx('element', { type: defineTypeOfEmbed(data?.resource), data }, { text: '' });
@@ -35,25 +34,23 @@ export const isSlateEmbed = (
 ): node is
   | H5PEmbedElement
   | ImageEmbedElement
-  | AudioEmbedElement
+  | AudioElement
   | ErrorEmbedElement
   | ExternalEmbedElement
   | BrightcoveEmbedElement => {
   return (
     Element.isElement(node) &&
-    (node.type === TYPE_EMBED_AUDIO ||
-      node.type === TYPE_EMBED_BRIGHTCOVE ||
+    (node.type === TYPE_EMBED_BRIGHTCOVE ||
       node.type === TYPE_EMBED_ERROR ||
       node.type === TYPE_EMBED_EXTERNAL ||
       node.type === TYPE_EMBED_H5P ||
-      node.type === TYPE_EMBED_IMAGE)
+      node.type === TYPE_EMBED_IMAGE ||
+      node.type === TYPE_AUDIO)
   );
 };
 
 export const defineTypeOfEmbed = (type?: string) => {
-  if (type === 'audio') {
-    return TYPE_EMBED_AUDIO;
-  } else if (type === 'video' || type === 'brightcove') {
+  if (type === 'video' || type === 'brightcove') {
     return TYPE_EMBED_BRIGHTCOVE;
   } else if (type === 'external' || type === 'iframe') {
     return TYPE_EMBED_EXTERNAL;
@@ -61,6 +58,8 @@ export const defineTypeOfEmbed = (type?: string) => {
     return TYPE_EMBED_H5P;
   } else if (type === 'image') {
     return TYPE_EMBED_IMAGE;
+  } else if (type === 'audio') {
+    return TYPE_AUDIO;
   } else if (type === undefined) {
     return TYPE_EMBED_ERROR;
   }
@@ -71,7 +70,6 @@ export const isSlateEmbedElement = (element: Element): element is EmbedElements 
   isEmbedType(element.type);
 
 export const isEmbedType = (type: string) =>
-  type === TYPE_EMBED_AUDIO ||
   type === TYPE_EMBED_BRIGHTCOVE ||
   type === TYPE_EMBED_H5P ||
   type === TYPE_EMBED_ERROR ||

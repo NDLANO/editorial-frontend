@@ -6,10 +6,11 @@
  *
  */
 
-import { memo, useCallback, useMemo } from 'react';
+import { memo, useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Formik, useFormikContext } from 'formik';
 import { IArticle, IUpdatedArticle, IStatus } from '@ndla/types-backend/draft-api';
+import { Node } from '@ndla/types-taxonomy';
 import { AlertModalWrapper } from '../../../FormikForm';
 import validateFormik, { getWarnings } from '../../../../components/formikValidationSchema';
 import LearningResourcePanels from './LearningResourcePanels';
@@ -29,17 +30,17 @@ import {
   getExpirationDate,
   learningResourceFormTypeToDraftApiType,
 } from '../../articleTransformers';
-import { ArticleTaxonomy } from '../../../FormikForm/formikDraftHooks';
 import { blockContentToHTML } from '../../../../util/articleContentConverter';
 import StyledForm from '../../../../components/StyledFormComponents';
 import { TaxonomyVersionProvider } from '../../../StructureVersion/TaxonomyVersionProvider';
 import { useSession } from '../../../../containers/Session/SessionProvider';
 import { FlexWrapper, MainContent } from '../../styles';
 import CommentSection from '../../components/CommentSection';
+import AlertModal from '../../../../components/AlertModal';
 
 interface Props {
   article?: IArticle;
-  articleTaxonomy?: ArticleTaxonomy;
+  articleTaxonomy?: Node[];
   articleStatus?: IStatus;
   supportedLanguages: string[];
   isNewlyCreated: boolean;
@@ -58,26 +59,52 @@ const LearningResourceForm = ({
   articleChanged,
   articleLanguage,
 }: Props) => {
+  const [showTaxWarning, setShowTaxWarning] = useState(false);
   const { t } = useTranslation();
   const { ndlaId } = useSession();
 
   const validate = useCallback(
-    (values: LearningResourceFormType) => validateFormik(values, learningResourceRules, t),
+    (values: LearningResourceFormType) => {
+      const val = validateFormik(values, learningResourceRules, t);
+      return val;
+    },
     [t],
   );
 
-  const { savedToServer, formikRef, initialValues, handleSubmit } =
-    useArticleFormHooks<LearningResourceFormType>({
-      getInitialValues: draftApiTypeToLearningResourceFormType,
-      article,
-      t,
-      articleStatus,
-      updateArticle,
-      getArticleFromSlate: learningResourceFormTypeToDraftApiType,
-      articleLanguage,
-      rules: learningResourceRules,
-      ndlaId,
-    });
+  const {
+    savedToServer,
+    formikRef,
+    initialValues,
+    handleSubmit: _handleSubmit,
+  } = useArticleFormHooks<LearningResourceFormType>({
+    getInitialValues: draftApiTypeToLearningResourceFormType,
+    article,
+    t,
+    articleStatus,
+    updateArticle,
+    getArticleFromSlate: learningResourceFormTypeToDraftApiType,
+    articleLanguage,
+    rules: learningResourceRules,
+    ndlaId,
+  });
+  const contexts = useMemo(
+    () =>
+      articleTaxonomy
+        ?.flatMap((node) => node.contexts)
+        .filter((context) => !context.rootId.includes('programme')),
+    [articleTaxonomy],
+  );
+
+  const handleSubmit: HandleSubmitFunc<LearningResourceFormType> = useCallback(
+    async (values, helpers, saveAsNew) => {
+      if (!contexts?.length) {
+        setShowTaxWarning(true);
+        return;
+      }
+      return await _handleSubmit(values, helpers, saveAsNew);
+    },
+    [_handleSubmit, contexts?.length],
+  );
 
   const initialHTML = useMemo(() => blockContentToHTML(initialValues.content), [initialValues]);
 
@@ -111,7 +138,7 @@ const LearningResourceForm = ({
           article={article}
           status={article?.status}
           supportedLanguages={supportedLanguages}
-          taxonomy={articleTaxonomy}
+          taxonomy={contexts}
           title={article?.title?.title}
           type="standard"
           expirationDate={getExpirationDate(article)}
@@ -120,10 +147,13 @@ const LearningResourceForm = ({
           <MainContent>
             <TaxonomyVersionProvider>
               <LearningResourcePanels
+                // Formik does not allow for invalid form submissions through their handleSubmit function, so we have to bypass formik
+                handleSubmit={handleSubmit}
                 articleLanguage={articleLanguage}
                 article={article}
                 taxonomy={articleTaxonomy}
                 updateNotes={updateArticle}
+                contexts={contexts}
               />
             </TaxonomyVersionProvider>
           </MainContent>
@@ -136,6 +166,14 @@ const LearningResourceForm = ({
           savedToServer={savedToServer}
           handleSubmit={handleSubmit}
           article={article}
+        />
+        <AlertModal
+          title={t('errorMessage.missingTaxTitle')}
+          label={t('errorMessage.missingTaxTitle')}
+          show={showTaxWarning}
+          text={t('errorMessage.missingTax')}
+          onCancel={() => setShowTaxWarning(false)}
+          severity={'danger'}
         />
       </StyledForm>
     </Formik>

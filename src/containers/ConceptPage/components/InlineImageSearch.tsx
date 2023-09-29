@@ -27,9 +27,10 @@ const StyledTitleDiv = styled.div`
 
 interface Props {
   name: string;
+  disableAltEditing?: boolean;
 }
 
-const InlineImageSearch = ({ name }: Props) => {
+const InlineImageSearch = ({ name, disableAltEditing }: Props) => {
   const { t, i18n } = useTranslation();
   const { setFieldValue, values, setFieldTouched } = useFormikContext<ConceptFormValues>();
   const [image, setImage] = useState<IImageMetaInformationV3 | undefined>();
@@ -52,6 +53,7 @@ const InlineImageSearch = ({ name }: Props) => {
   if (image) {
     return (
       <MetaImageField
+        disableAltEditing={disableAltEditing}
         image={image}
         onImageRemove={() => {
           setFieldValue(name, undefined);

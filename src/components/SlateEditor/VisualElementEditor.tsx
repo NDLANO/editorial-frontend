@@ -17,6 +17,7 @@ import { SlateProvider } from './SlateContext';
 import { SlatePlugin } from './interfaces';
 import withPlugins from './utils/withPlugins';
 import VisualElementPicker from '../../containers/VisualElement/VisualElementPicker';
+import { VisualElementType } from '../../containers/VisualElement/VisualElementMenu';
 
 interface Props {
   name: string;
@@ -26,7 +27,7 @@ interface Props {
   language: string;
   selectedResource: string;
   resetSelectedResource: () => void;
-  types?: string[];
+  types?: VisualElementType[];
 }
 
 const StyledEditable = styled(Editable)`

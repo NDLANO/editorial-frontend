@@ -15,7 +15,7 @@ import { StyledLink } from '../styles';
 import TableTitle from './TableTitle';
 import TableComponent, { FieldElement, Prefix, TitleElement } from './TableComponent';
 import { SortOptionLastUsed } from './LastUsedItems';
-import { toEditConcept } from '../../../util/routeHelpers';
+import { toEditConcept, toEditGloss } from '../../../util/routeHelpers';
 import formatDate from '../../../util/formatDate';
 
 interface Props {
@@ -49,7 +49,10 @@ const LastUsedConcepts = ({
         {
           id: `title_${a.id}`,
           data: (
-            <StyledLink to={toEditConcept(a.id)} title={a.title?.title}>
+            <StyledLink
+              to={a.conceptType === 'concept' ? toEditConcept(a.id) : toEditGloss(a.id)}
+              title={a.title?.title}
+            >
               {a.title.title}
             </StyledLink>
           ),

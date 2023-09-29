@@ -8,7 +8,13 @@
 
 import { test, expect } from '@playwright/test';
 import { mockRoute } from '../apiMock';
-import { zendeskMock, responsiblesMock, userDataMock, copyrightMock, getNoteUsersMock } from '../mockResponses';
+import {
+  zendeskMock,
+  responsiblesMock,
+  userDataMock,
+  copyrightMock,
+  getNoteUsersMock,
+} from '../mockResponses';
 
 test.beforeEach(async ({ page }) => {
   const licenses = mockRoute({
@@ -48,7 +54,7 @@ test.beforeEach(async ({ page }) => {
     page,
     path: '**/draft-api/v1/drafts/800*',
     fixture: 'status_changer_draft_published',
-    overrideValue: overrideCopyright
+    overrideValue: overrideCopyright,
   });
 
   const draftValidate = mockRoute({
@@ -57,15 +63,10 @@ test.beforeEach(async ({ page }) => {
     fixture: 'status_changer_draft_validate',
   });
 
-  const taxonomyResources = mockRoute({
+  const taxonomyNodes = mockRoute({
     page,
-    path: '**/taxonomy/v1/resources*',
-    fixture: 'status_changer_taxonomy_resources',
-  });
-  const taxonomyTopics = mockRoute({
-    page,
-    path: '**/taxonomy/v1/topics*',
-    fixture: 'status_changer_taxonomy_topics',
+    path: '**/taxonomy/v1/nodes*',
+    fixture: 'status_changer_taxonomy_nodes',
   });
 
   const containsArticle = mockRoute({
@@ -83,16 +84,15 @@ test.beforeEach(async ({ page }) => {
   const searchApiEditorial = mockRoute({
     page,
     path: '**/search-api/v1/search/editorial/*',
-    fixture: 'status_changer_search_editorial'
+    fixture: 'status_changer_search_editorial',
   });
 
   const getNoteUser = mockRoute({
     page,
     path: '**/get_note_users*',
     fixture: 'status_changer_get_note_users',
-    overrideValue: JSON.stringify(getNoteUsersMock)
-  })
-
+    overrideValue: JSON.stringify(getNoteUsersMock),
+  });
 
   await page.goto('/subject-matter/learning-resource/800/edit/nb');
 
@@ -105,21 +105,23 @@ test.beforeEach(async ({ page }) => {
     draftHistory,
     draftData,
     draftValidate,
-    taxonomyResources,
-    taxonomyTopics,
+    taxonomyNodes,
     containsArticle,
     searchApiEditorial,
-    getNoteUser
+    getNoteUser,
   ]);
 });
 
 test('can change status correctly', async ({ page }) => {
   const statusSelect = page.getByTestId('status-select');
-  const saveButton = page.getByTestId('saveLearningResourceButtonWrapper').getByRole('button').first();
+  const saveButton = page
+    .getByTestId('saveLearningResourceButtonWrapper')
+    .getByRole('button')
+    .first();
 
   await statusSelect.click();
   await page.locator('*[id^="react-select-3-option"]', { hasText: 'I arbeid' }).click();
-  await page.locator('[data-cy=responsible-select]').click();
+  await page.getByTestId('responsible-select').click();
   await page.keyboard.type('Ed test');
   await page.keyboard.press('Enter');
 
@@ -128,7 +130,7 @@ test('can change status correctly', async ({ page }) => {
     path: '**/draft-api/v1/drafts/800*',
     fixture: 'status_changer_draft_in_progress',
     overrideRoute: true,
-    overrideValue: overrideCopyright
+    overrideValue: overrideCopyright,
   });
 
   await saveButton.click();
@@ -140,7 +142,7 @@ test('can change status correctly', async ({ page }) => {
     path: '**/draft-api/v1/drafts/800*',
     fixture: 'status_changer_draft_internal_review',
     overrideRoute: true,
-    overrideValue: overrideCopyright
+    overrideValue: overrideCopyright,
   });
 
   await statusSelect.click();
@@ -154,7 +156,7 @@ test('can change status correctly', async ({ page }) => {
     path: '**/draft-api/v1/drafts/800*',
     fixture: 'status_changer_draft_published',
     overrideRoute: true,
-    overrideValue: overrideCopyright
+    overrideValue: overrideCopyright,
   });
 
   await statusSelect.click();
@@ -162,10 +164,10 @@ test('can change status correctly', async ({ page }) => {
 
   await saveButton.getByText('Lagret').waitFor();
   await expect(statusSelect.getByText('Publisert')).toBeVisible();
-
 });
 
-const overrideCopyright = (value: string) => JSON.stringify({
-  ...JSON.parse(value),
-  copyright: copyrightMock,
-})
+const overrideCopyright = (value: string) =>
+  JSON.stringify({
+    ...JSON.parse(value),
+    copyright: copyrightMock,
+  });

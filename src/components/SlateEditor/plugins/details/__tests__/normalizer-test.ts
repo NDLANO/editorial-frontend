@@ -15,14 +15,7 @@ import { TYPE_PARAGRAPH } from '../../paragraph/types';
 import { TYPE_SECTION } from '../../section/types';
 import { TYPE_DETAILS, TYPE_SUMMARY } from '../types';
 
-const editor = withHistory(
-  withReact(
-    withPlugins(
-      createEditor(),
-      plugins('nb', 'nb', () => {}),
-    ),
-  ),
-);
+const editor = withHistory(withReact(withPlugins(createEditor(), plugins('nb'))));
 
 describe('details normalizer tests', () => {
   test('adds paragraphs around details element', () => {

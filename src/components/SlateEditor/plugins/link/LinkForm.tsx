@@ -103,7 +103,7 @@ const LinkForm = ({ onSave, link, isEdit, onRemove, onClose }: Props) => {
       validate={(values) => validateFormik(values, linkValidationRules, t, 'linkForm')}
     >
       {({ submitForm, values }) => (
-        <Form data-cy="link_form">
+        <Form data-testid="link_form">
           <FormikField
             name="text"
             type="text"

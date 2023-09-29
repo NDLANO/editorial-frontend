@@ -62,7 +62,7 @@ interface Props {
   statusText?: string;
   isNewLanguage?: boolean;
   published: boolean;
-  taxonomyPaths?: string[];
+  multipleTaxonomy?: boolean;
   type?: string;
   id?: number;
   setHasConnections?: (hasConnections: boolean) => void;
@@ -79,6 +79,9 @@ const StyledStatus = styled.p`
   &[data-compact='true'] {
     ${fonts.sizes('10', '1.1')};
     margin: 0 ${spacing.xsmall} 0;
+  }
+  span {
+    display: block;
   }
 `;
 
@@ -121,7 +124,7 @@ const HeaderStatusInformation = ({
   statusText,
   isNewLanguage,
   published,
-  taxonomyPaths,
+  multipleTaxonomy,
   compact,
   type,
   id,
@@ -168,24 +171,17 @@ const HeaderStatusInformation = ({
         ) : type === 'concept' ? (
           <EmbedConnection id={id} type="concept" articles={articles} setArticles={setArticles} />
         ) : null}
-        {published &&
-          (taxonomyPaths && taxonomyPaths?.length > 0 ? (
-            <StyledLink
-              target="_blank"
-              aria-label={t('form.workflow.published')}
-              title={t('form.workflow.published')}
-              to={`${config.ndlaFrontendDomain}/article/${id}`}
-            >
-              <StyledCheckIcon />
-            </StyledLink>
-          ) : (
-            <StyledCheckIcon
-              aria-label={t('form.workflow.published')}
-              title={t('form.workflow.published')}
-              aria-hidden={false}
-            />
-          ))}
-        {taxonomyPaths && taxonomyPaths?.length > 2 && (
+        {published && (
+          <StyledLink
+            target="_blank"
+            aria-label={t('form.workflow.published')}
+            title={t('form.workflow.published')}
+            to={`${config.ndlaFrontendDomain}/${type === 'concept' ? type : 'article'}/${id}`}
+          >
+            <StyledCheckIcon />
+          </StyledLink>
+        )}
+        {multipleTaxonomy && (
           <StyledWarnIcon
             aria-label={t('form.workflow.multipleTaxonomy')}
             title={t('form.workflow.multipleTaxonomy')}
@@ -193,21 +189,21 @@ const HeaderStatusInformation = ({
           />
         )}
         <StyledStatus data-compact={compact}>
-          <div>
+          <span>
             <StyledSmallText data-compact={compact}>{`${t(
               'form.responsible.label',
             )}:`}</StyledSmallText>
             {responsibleName || t('form.responsible.noResponsible')}
-          </div>
+          </span>
           {noStatus ? (
             t('form.status.new_language')
           ) : (
-            <div>
+            <span>
               <StyledSmallText data-compact={compact}>
                 {t('form.workflow.statusLabel')}:
               </StyledSmallText>
               {isNewLanguage ? t('form.status.new_language') : statusText || t('form.status.new')}
-            </div>
+            </span>
           )}
         </StyledStatus>
       </StyledStatusWrapper>

@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import { Descendant, Editor, Element, Transforms } from 'slate';
 import { RenderElementProps } from 'slate-react';
 import { GridType } from '@ndla/ui';
@@ -24,6 +23,7 @@ import { TYPE_BLOGPOST } from '../blogPost/types';
 import SlateGridCell from './SlateGridCell';
 import { TYPE_HEADING } from '../heading/types';
 import { TYPE_LIST } from '../list/types';
+import { TYPE_KEY_FIGURE } from '../keyFigure/types';
 
 export interface GridElement {
   type: 'grid';
@@ -56,7 +56,14 @@ const normalizerConfig: NormalizerConfig = {
 
 const normalizerConfigGridCell: NormalizerConfig = {
   nodes: {
-    allowed: [TYPE_BLOGPOST, TYPE_PARAGRAPH, TYPE_EMBED_IMAGE, TYPE_HEADING, TYPE_LIST],
+    allowed: [
+      TYPE_KEY_FIGURE,
+      TYPE_BLOGPOST,
+      TYPE_PARAGRAPH,
+      TYPE_EMBED_IMAGE,
+      TYPE_HEADING,
+      TYPE_LIST,
+    ],
     defaultType: TYPE_PARAGRAPH,
   },
 };
@@ -95,7 +102,7 @@ export const gridSerializer: SlateSerializer = {
           data-border={node.data.border}
           data-background={node.data.background}
         >
-          {children.filter((child) => React.Children.count(child.props?.['children']) > 0)}
+          {children}
         </div>
       );
     } else if (Element.isElement(node) && node.type === TYPE_GRID_CELL) {

@@ -25,6 +25,7 @@ import DndList from '../../../DndList';
 import ContentLink from '../../../../containers/ArticlePage/components/ContentLink';
 
 const StyledUl = styled.ul`
+  list-style: none;
   margin: 0;
   padding: 0;
 `;
@@ -67,6 +68,9 @@ const RelatedArticleWrapper = styled.div`
   }
 `;
 
+type ExternalToEdit = RelatedContentMetaData & {
+  index: number;
+};
 interface Props extends HTMLAttributes<HTMLDivElement> {
   onRemoveClick: (e: MouseEvent<HTMLButtonElement>) => void;
   updateArticles: (newEmbeds: RelatedContentMetaData[]) => void;
@@ -81,9 +85,7 @@ const EditRelated = forwardRef<HTMLDivElement, Props>(
   ({ onRemoveClick, updateArticles, insertExternal, embeds, onInsertBlock, ...rest }, ref) => {
     const { t } = useTranslation();
     const [currentTab, setCurrentTab] = useState<TabType>('internalArticle');
-    const [externalToEdit, setExternalToEdit] = useState<RelatedContentMetaData | undefined>(
-      undefined,
-    );
+    const [externalToEdit, setExternalToEdit] = useState<ExternalToEdit | undefined>(undefined);
 
     const searchForArticles = async (query: string, page: number | undefined) => {
       return search({
@@ -107,6 +109,7 @@ const EditRelated = forwardRef<HTMLDivElement, Props>(
     const deleteRelatedArticle = (
       e: MouseEvent<HTMLButtonElement>,
       deleteEmbed: RelatedContentMetaData,
+      index: number,
     ) => {
       e.stopPropagation();
       if (
@@ -115,11 +118,11 @@ const EditRelated = forwardRef<HTMLDivElement, Props>(
       ) {
         setExternalToEdit(undefined);
       }
-      const newEmbeds = embeds.filter((embed) => embed.seq !== deleteEmbed.seq);
+      const newEmbeds = embeds.filter((_, idx) => index !== idx);
       updateArticles(newEmbeds);
     };
 
-    const onExternalEdit = (editEmbed: RelatedContentMetaData, title: string, url: string) => {
+    const onExternalEdit = (editEmbed: ExternalToEdit, title: string, url: string) => {
       const newEmbedData: RelatedContentEmbedData = {
         ...editEmbed.embedData,
         title,
@@ -129,7 +132,7 @@ const EditRelated = forwardRef<HTMLDivElement, Props>(
         ...editEmbed,
         embedData: newEmbedData,
       };
-      const newEmbeds = embeds.map((embed) => (editEmbed.seq === embed.seq ? newEmbed : embed));
+      const newEmbeds = embeds.map((embed, idx) => (idx === editEmbed.index ? newEmbed : embed));
       updateArticles(newEmbeds);
     };
 
@@ -141,7 +144,7 @@ const EditRelated = forwardRef<HTMLDivElement, Props>(
           </SectionHeading>
           <Tooltip tooltip={t('form.remove')}>
             <IconButtonV2
-              data-cy="close-related-button"
+              data-testid="close-related-button"
               aria-label={t('form.remove')}
               variant="ghost"
               colorTheme="danger"
@@ -154,13 +157,14 @@ const EditRelated = forwardRef<HTMLDivElement, Props>(
         <p>{t('form.related.subtitle')}</p>
         <StyledUl>
           <DndList
-            items={embeds.map((embed) => ({
+            items={embeds.map((embed, index) => ({
               ...embed,
-              id: embed.embedData.articleId || embed.embedData.url!,
+              id: index + 1,
             }))}
+            disabled={embeds.length < 2}
             onDragEnd={onDragEnd}
-            renderItem={(embed) => (
-              <RelatedArticleWrapper>
+            renderItem={(embed, index) => (
+              <RelatedArticleWrapper key={index}>
                 <RelatedContentEmbed embed={embed} />
                 <ButtonWrapper>
                   {!embed.embedData.articleId && (
@@ -170,7 +174,7 @@ const EditRelated = forwardRef<HTMLDivElement, Props>(
                         variant="ghost"
                         colorTheme="light"
                         onClick={() => {
-                          setExternalToEdit(embed);
+                          setExternalToEdit({ ...embed, index });
                           setCurrentTab('externalArticle');
                         }}
                       >
@@ -183,7 +187,7 @@ const EditRelated = forwardRef<HTMLDivElement, Props>(
                       aria-label={t('form.content.relatedArticle.removeExternal')}
                       variant="ghost"
                       colorTheme="danger"
-                      onClick={(e) => deleteRelatedArticle(e, embed)}
+                      onClick={(e) => deleteRelatedArticle(e, embed, index)}
                     >
                       <DeleteForever />
                     </IconButtonV2>
@@ -222,8 +226,9 @@ const EditRelated = forwardRef<HTMLDivElement, Props>(
                   onAddLink={(title, url) => {
                     if (externalToEdit) {
                       onExternalEdit(externalToEdit, title, url);
+                    } else {
+                      insertExternal(title, url);
                     }
-                    insertExternal(title, url);
                     setExternalToEdit(undefined);
                   }}
                   initialTitle={externalToEdit?.embedData.title}

@@ -71,7 +71,7 @@ const ResponsibleSelect = ({ responsible, setResponsible, onSave, responsibleId 
   );
 
   return (
-    <div data-cy="responsible-select">
+    <div data-testid="responsible-select">
       <Select<false>
         options={optionsWithGroupTitle}
         menuPlacement="top"

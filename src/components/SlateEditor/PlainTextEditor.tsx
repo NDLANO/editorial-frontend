@@ -25,7 +25,6 @@ interface Props {
   className?: string;
   placeholder?: string;
   plugins?: SlatePlugin[];
-  cy?: string;
 }
 
 const StyledEditable = styled(Editable)`
@@ -40,10 +39,10 @@ const PlainTextEditor = ({
   className,
   placeholder,
   plugins,
-  cy,
+  ...rest
 }: Props) => {
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const editor = useMemo(() => withHistory(withReact(withPlugins(createEditor(), plugins))), []);
+  const _editor = useMemo(() => withHistory(withReact(createEditor())), []);
+  const editor = useMemo(() => withPlugins(_editor, plugins), [_editor, plugins]);
 
   const onBlur = useCallback(() => {
     ReactEditor.deselect(editor);
@@ -74,7 +73,8 @@ const PlainTextEditor = ({
 
   return (
     <Slate editor={editor} initialValue={value} onChange={onSlateChange}>
-      <StyledEditable
+      <Editable
+        id={id}
         // Forcing slate field to be deselected before selecting new field.
         // Fixes a problem where slate field is not properly focused on click.
         onBlur={onBlur}
@@ -83,8 +83,8 @@ const PlainTextEditor = ({
         readOnly={submitted}
         className={className}
         placeholder={placeholder}
-        data-cy={cy}
         renderPlaceholder={undefined}
+        {...rest}
       />
     </Slate>
   );

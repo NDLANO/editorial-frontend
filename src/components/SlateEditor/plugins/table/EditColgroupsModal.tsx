@@ -74,7 +74,7 @@ const EditColgroupsModal = ({ element }: Props) => {
     <Modal open={open} onOpenChange={setOpen}>
       <ModalTrigger>
         <ButtonV2
-          data-cy={'edit-colgroups'}
+          data-testid="edit-colgroups"
           variant="stripped"
           title={t('form.content.table.edit-colgroups')}
         >

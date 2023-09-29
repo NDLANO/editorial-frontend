@@ -11,11 +11,9 @@ import { RenderElementProps } from 'slate-react';
 import SlateFigure from './SlateFigure';
 import { SlateSerializer } from '../../interfaces';
 import {
-  LocaleType,
   Embed,
   ImageEmbed,
   H5pEmbed,
-  AudioEmbed,
   BrightcoveEmbed,
   ErrorEmbed,
   ExternalEmbed,
@@ -26,6 +24,7 @@ import { defaultBlockNormalizer, NormalizerConfig } from '../../utils/defaultNor
 import { afterOrBeforeTextBlockElement } from '../../utils/normalizationHelpers';
 import { TYPE_PARAGRAPH } from '../paragraph/types';
 import { TYPE_NDLA_EMBED } from './types';
+import { AudioElement } from '../audio/types';
 
 export interface ImageEmbedElement {
   type: 'image-embed';
@@ -42,12 +41,6 @@ export interface H5PEmbedElement {
 export interface BrightcoveEmbedElement {
   type: 'brightcove-embed';
   data: BrightcoveEmbed;
-  children: Descendant[];
-}
-
-export interface AudioEmbedElement {
-  type: 'audio-embed';
-  data: AudioEmbed;
   children: Descendant[];
 }
 
@@ -69,7 +62,7 @@ export type EmbedElements =
   | BrightcoveEmbedElement
   | ErrorEmbedElement
   | ExternalEmbedElement
-  | AudioEmbedElement;
+  | AudioElement;
 
 const normalizerConfig: NormalizerConfig = {
   previous: {
@@ -94,8 +87,7 @@ export const embedSerializer: SlateSerializer = {
 };
 
 export const embedPlugin =
-  (language: string, locale?: LocaleType, disableNormalize?: boolean, allowDecorative?: boolean) =>
-  (editor: Editor) => {
+  (language: string, disableNormalize?: boolean, allowDecorative?: boolean) => (editor: Editor) => {
     const {
       renderElement: nextRenderElement,
       normalizeNode: nextNormalizeNode,
@@ -110,7 +102,6 @@ export const embedPlugin =
             editor={editor}
             element={element}
             language={language}
-            locale={locale}
             allowDecorative={allowDecorative}
           >
             {children}

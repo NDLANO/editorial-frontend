@@ -11,6 +11,7 @@ import { RadioButtonGroup } from '@ndla/ui';
 import { IConcept, IConceptSummary, IUpdatedConcept } from '@ndla/types-backend/concept-api';
 import { useTranslation } from 'react-i18next';
 import { Spinner } from '@ndla/icons';
+import { Node } from '@ndla/types-taxonomy';
 import {
   fetchConcept,
   updateConcept,
@@ -19,20 +20,19 @@ import {
 import { StyledConceptView } from './SearchStyles';
 import ConceptForm, { InlineFormConcept } from './ConceptForm';
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from '../../../../../constants';
-import { SubjectType } from '../../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { useLicenses } from '../../../../../modules/draft/draftQueries';
 
 interface Props {
   concept: IConceptSummary;
   cancel: () => void;
-  subjects: SubjectType[];
+  subjects: Node[];
   updateLocalConcept: (concept: IConcept) => void;
 }
 
 const FormView = ({ concept, cancel, subjects, updateLocalConcept }: Props) => {
   const { t, i18n } = useTranslation();
   const languageOptions = concept.supportedLanguages.map((lan) => ({
-    title: t(`language.${lan}`),
+    title: t(`languages.${lan}`),
     value: lan,
   }));
 
@@ -84,6 +84,7 @@ const FormView = ({ concept, cancel, subjects, updateLocalConcept }: Props) => {
         license: licenses!.find((l) => l.license === formConcept.license),
         rightsholders: fullConcept.copyright?.rightsholders || [],
         processors: fullConcept.copyright?.processors || [],
+        processed: fullConcept.copyright?.processed ?? false,
       },
       responsibleId: fullConcept?.responsible?.responsibleId,
     };

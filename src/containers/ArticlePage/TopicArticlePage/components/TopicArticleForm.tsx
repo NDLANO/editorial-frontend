@@ -6,16 +6,21 @@
  *
  */
 
-import { memo, useCallback, useMemo } from 'react';
+import { memo, useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Formik, FormikHelpers, useFormikContext } from 'formik';
 import { IUpdatedArticle, IArticle, IStatus, ILicense } from '@ndla/types-backend/draft-api';
+import { Node } from '@ndla/types-taxonomy';
 import { AlertModalWrapper } from '../../../FormikForm';
 import validateFormik, { getWarnings } from '../../../../components/formikValidationSchema';
 import TopicArticleAccordionPanels from './TopicArticleAccordionPanels';
 import HeaderWithLanguage from '../../../../components/HeaderWithLanguage';
 import EditorFooter from '../../../../components/SlateEditor/EditorFooter';
-import { TopicArticleFormType, useArticleFormHooks } from '../../../FormikForm/articleFormHooks';
+import {
+  HandleSubmitFunc,
+  TopicArticleFormType,
+  useArticleFormHooks,
+} from '../../../FormikForm/articleFormHooks';
 import usePreventWindowUnload from '../../../FormikForm/preventWindowUnloadHook';
 import { useLicenses, useDraftStatusStateMachine } from '../../../../modules/draft/draftQueries';
 import {
@@ -25,17 +30,17 @@ import {
 } from '../../articleTransformers';
 import { validateDraft } from '../../../../modules/draft/draftApi';
 import { isFormikFormDirty, topicArticleRules } from '../../../../util/formHelper';
-import { ArticleTaxonomy } from '../../../FormikForm/formikDraftHooks';
 import { blockContentToHTML } from '../../../../util/articleContentConverter';
 import StyledForm from '../../../../components/StyledFormComponents';
 import { TaxonomyVersionProvider } from '../../../StructureVersion/TaxonomyVersionProvider';
 import { useSession } from '../../../../containers/Session/SessionProvider';
 import { FlexWrapper, MainContent } from '../../styles';
 import CommentSection from '../../components/CommentSection';
+import AlertModal from '../../../../components/AlertModal';
 
 interface Props {
   article?: IArticle;
-  articleTaxonomy?: ArticleTaxonomy;
+  articleTaxonomy?: Node[];
   revision?: number;
   updateArticle: (art: IUpdatedArticle) => Promise<IArticle>;
   articleStatus?: IStatus;
@@ -55,6 +60,7 @@ const TopicArticleForm = ({
   articleLanguage,
   articleStatus,
 }: Props) => {
+  const [showTaxWarning, setShowTaxWarning] = useState(false);
   const { data: licenses } = useLicenses({ placeholderData: [] });
   const { t } = useTranslation();
   const { ndlaId } = useSession();
@@ -64,19 +70,23 @@ const TopicArticleForm = ({
     [t],
   );
 
-  const { savedToServer, formikRef, initialValues, handleSubmit } =
-    useArticleFormHooks<TopicArticleFormType>({
-      getInitialValues: draftApiTypeToTopicArticleFormType,
-      article,
-      t,
-      articleStatus,
-      updateArticle,
-      licenses,
-      getArticleFromSlate: topicArticleFormTypeToDraftApiType,
-      articleLanguage,
-      rules: topicArticleRules,
-      ndlaId,
-    });
+  const {
+    savedToServer,
+    formikRef,
+    initialValues,
+    handleSubmit: _handleSubmit,
+  } = useArticleFormHooks<TopicArticleFormType>({
+    getInitialValues: draftApiTypeToTopicArticleFormType,
+    article,
+    t,
+    articleStatus,
+    updateArticle,
+    licenses,
+    getArticleFromSlate: topicArticleFormTypeToDraftApiType,
+    articleLanguage,
+    rules: topicArticleRules,
+    ndlaId,
+  });
 
   const initialHTML = useMemo(() => blockContentToHTML(initialValues.content), [initialValues]);
 
@@ -89,6 +99,21 @@ const TopicArticleForm = ({
     () => validateFormik(initialValues, topicArticleRules, t),
     [initialValues, t],
   );
+
+  const handleSubmit: HandleSubmitFunc<TopicArticleFormType> = useCallback(
+    async (values, helpers, saveAsNew) => {
+      if (!articleTaxonomy?.length) {
+        setShowTaxWarning(true);
+        return;
+      }
+      return await _handleSubmit(values, helpers, saveAsNew);
+    },
+    [_handleSubmit, articleTaxonomy?.length],
+  );
+
+  const contexts = articleTaxonomy
+    ?.flatMap((node) => node.contexts)
+    .filter((context) => !context.rootId.includes('programme'));
 
   return (
     <Formik
@@ -105,7 +130,7 @@ const TopicArticleForm = ({
         <HeaderWithLanguage
           id={article?.id}
           language={articleLanguage}
-          taxonomy={articleTaxonomy}
+          taxonomy={contexts}
           article={article}
           status={article?.status}
           supportedLanguages={supportedLanguages}
@@ -117,11 +142,10 @@ const TopicArticleForm = ({
           <MainContent>
             <TaxonomyVersionProvider>
               <TopicArticleAccordionPanels
-                taxonomy={articleTaxonomy}
                 articleLanguage={articleLanguage}
                 updateNotes={updateArticle}
                 article={article}
-                handleSubmit={handleSubmit}
+                hasTaxonomyEntries={!!articleTaxonomy?.length}
               />
             </TaxonomyVersionProvider>
           </MainContent>
@@ -135,6 +159,14 @@ const TopicArticleForm = ({
           savedToServer={savedToServer}
           handleSubmit={handleSubmit}
           article={article}
+        />
+        <AlertModal
+          title={t('errorMessage.missingTaxTitle')}
+          label={t('errorMessage.missingTaxTitle')}
+          show={showTaxWarning}
+          text={t('errorMessage.missingTax')}
+          onCancel={() => setShowTaxWarning(false)}
+          severity={'danger'}
         />
       </StyledForm>
     </Formik>

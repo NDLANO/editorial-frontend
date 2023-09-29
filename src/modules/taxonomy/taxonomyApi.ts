@@ -6,36 +6,25 @@
  *
  */
 
-import { ResourceType, Metadata, ResolvedUrl } from '@ndla/types-taxonomy';
+import orderBy from 'lodash/orderBy';
+import { ResolvedUrl, Node } from '@ndla/types-taxonomy';
 import { apiResourceUrl, httpFunctions } from '../../util/apiHelpers';
-import { updateResourceMetadata } from './resources';
-import { createDeleteResourceTypes } from './resourcetypes';
-import { createDeleteUpdateTopicResources } from './topicresouces';
+import { createResourceResourceType, deleteResourceResourceType } from './resourcetypes';
 import { taxonomyApi } from '../../config';
-import {
-  ParentTopicWithRelevanceAndConnections,
-  ResourceResourceType,
-} from './taxonomyApiInterfaces';
 import { WithTaxonomyVersion } from '../../interfaces';
+import { TaxNode } from '../../containers/ArticlePage/LearningResourcePage/components/LearningResourceTaxonomy';
+import { doDiff } from '../../containers/NodeDiff/diffUtils';
+import {
+  deleteNodeConnection,
+  postNode,
+  postNodeConnection,
+  putNodeConnection,
+  putNodeMetadata,
+} from '../nodes/nodeApi';
 
 const baseUrl = apiResourceUrl(taxonomyApi);
 
 const { fetchAndResolve } = httpFunctions;
-
-interface ResourceTypesGetParams extends WithTaxonomyVersion {
-  language: string;
-}
-/* Option items */
-const fetchResourceTypes = ({
-  language,
-  taxonomyVersion,
-}: ResourceTypesGetParams): Promise<ResourceType[]> => {
-  return fetchAndResolve({
-    url: `${baseUrl}/resource-types`,
-    taxonomyVersion,
-    queryParams: { language },
-  });
-};
 
 interface ResolveUrlsParams extends WithTaxonomyVersion {
   path: string;
@@ -49,47 +38,113 @@ const resolveUrls = ({ path, taxonomyVersion }: ResolveUrlsParams): Promise<Reso
   });
 };
 
-/* Queries */
-
-interface UpdateTaxonomyParams extends WithTaxonomyVersion {
-  resourceId: string;
-  resourceTaxonomy: {
-    resourceTypes: ResourceResourceType[];
-    topics: ParentTopicWithRelevanceAndConnections[];
-  };
-  taxonomyChanges: {
-    resourceTypes: ResourceResourceType[];
-    topics: ParentTopicWithRelevanceAndConnections[];
-    metadata?: Metadata;
-  };
+export interface UpdateTaxParams {
+  node: TaxNode;
+  originalNode: TaxNode;
 }
 
-/* Taxonomy actions */
-async function updateTaxonomy({
-  resourceId,
-  resourceTaxonomy,
-  taxonomyChanges,
+export const updateTax = async (
+  { node, originalNode }: UpdateTaxParams,
+  taxonomyVersion: string,
+) => {
+  const resourceTypesDiff = doDiff(
+    originalNode.resourceTypes,
+    node.resourceTypes,
+    { connectionId: true, supportedLanguages: true, translations: true },
+    'id',
+  );
+  const resourceDiff = doDiff(originalNode.placements, node.placements, { isPrimary: true }, 'id');
+
+  const primaryConnection = node.placements.find((p) => p.isPrimary);
+  const originalPrimary = originalNode.placements.find((p) => p.isPrimary);
+
+  const diffChanged = primaryConnection?.connectionId !== originalPrimary?.connectionId;
+
+  if (resourceDiff.changed.diffType !== 'NONE' || diffChanged) {
+    const placementDiff = orderBy(resourceDiff.diff, (d) => d.isPrimary.other, 'desc');
+    for (const diff of placementDiff) {
+      if (diff.changed.diffType === 'ADDED') {
+        await postNodeConnection({
+          body: {
+            parentId: diff.id.other!,
+            childId: node.id,
+            primary: diff.isPrimary.other!,
+            relevanceId: diff.relevanceId?.other!,
+          },
+          taxonomyVersion,
+        });
+      } else if (diff.changed.diffType === 'DELETED') {
+        await deleteNodeConnection({ id: diff.connectionId.original!, taxonomyVersion });
+      } else if (
+        diff.changed.diffType === 'MODIFIED' ||
+        (diffChanged && diff.connectionId.other === primaryConnection?.connectionId)
+      ) {
+        await putNodeConnection({
+          id: diff.connectionId.original!,
+          body: { primary: diff.isPrimary.other!, relevanceId: diff.relevanceId?.other },
+          taxonomyVersion,
+        });
+      }
+    }
+  }
+
+  if (node.metadata.visible !== originalNode.metadata.visible) {
+    await putNodeMetadata({
+      id: node.id,
+      meta: { visible: node.metadata.visible },
+      taxonomyVersion,
+    });
+  }
+
+  if (resourceTypesDiff.changed.diffType !== 'NONE') {
+    const rtPromises = resourceTypesDiff.diff.map((rt) => {
+      if (rt.changed.diffType === 'DELETED') {
+        return deleteResourceResourceType({ id: rt.connectionId.original!, taxonomyVersion });
+      } else if (rt.changed.diffType === 'ADDED') {
+        return createResourceResourceType({
+          body: { resourceId: node.id, resourceTypeId: rt.id.other! },
+          taxonomyVersion,
+        });
+      } else return Promise.resolve();
+    });
+
+    await Promise.all(rtPromises);
+  }
+};
+
+export interface CreateTopicNodeConnections extends WithTaxonomyVersion {
+  articleId: number;
+  name: string;
+  placements: Node[];
+}
+
+export const createTopicNodeConnections = async ({
+  articleId,
+  name,
+  placements,
   taxonomyVersion,
-}: UpdateTaxonomyParams): Promise<boolean> {
-  await Promise.all([
-    createDeleteResourceTypes({
-      resourceId,
-      resourceTypes: taxonomyChanges.resourceTypes,
-      originalResourceTypes: resourceTaxonomy.resourceTypes,
+}: CreateTopicNodeConnections) => {
+  const placementPromises = placements.map(async (placement) => {
+    const location = await postNode({
+      body: {
+        contentUri: `urn:article:${articleId}`,
+        name: name,
+        nodeType: 'TOPIC',
+        visible: placement.metadata.visible,
+      },
       taxonomyVersion,
-    }),
+    });
 
-    taxonomyChanges.metadata &&
-      updateResourceMetadata({ resourceId, body: taxonomyChanges.metadata, taxonomyVersion }),
-
-    createDeleteUpdateTopicResources({
-      resourceId,
-      topics: taxonomyChanges.topics,
-      originalTopics: resourceTaxonomy.topics,
+    const nodeId = location.replace('/v1/nodes/', '');
+    await postNodeConnection({
+      body: {
+        childId: nodeId,
+        parentId: placement.id,
+      },
       taxonomyVersion,
-    }),
-  ]);
-  return true;
-}
+    });
+  });
+  await Promise.resolve(placementPromises);
+};
 
-export { fetchResourceTypes, updateTaxonomy, resolveUrls };
+export { resolveUrls };

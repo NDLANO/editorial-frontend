@@ -10,6 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { INewConcept } from '@ndla/types-backend/concept-api';
+import { useCallback } from 'react';
 import { useFetchConceptData } from '../FormikForm/formikConceptHooks';
 import { toEditConcept } from '../../util/routeHelpers';
 import ConceptForm from './ConceptForm/ConceptForm';
@@ -27,22 +28,25 @@ const CreateConcept = ({ inModal = false, addConceptInModal }: Props) => {
     i18n.language,
   );
 
-  const createConceptAndPushRoute = async (createdConcept: INewConcept) => {
-    const savedConcept = await createConcept(createdConcept);
-    if (inModal && addConceptInModal) {
-      addConceptInModal(savedConcept);
-    } else {
-      navigate(toEditConcept(savedConcept.id, createdConcept.language));
-    }
-    return savedConcept;
-  };
+  const onCreate = useCallback(
+    async (createdConcept: INewConcept) => {
+      const savedConcept = await createConcept(createdConcept);
+      if (inModal && addConceptInModal) {
+        addConceptInModal(savedConcept);
+      } else {
+        navigate(toEditConcept(savedConcept.id, createdConcept.language));
+      }
+      return savedConcept;
+    },
+    [addConceptInModal, createConcept, inModal, navigate],
+  );
 
   return (
     <>
-      <HelmetWithTracker title={t(`conceptform.title`)} />
+      <HelmetWithTracker title={t(`conceptform.concept`)} />
       <ConceptForm
         language={i18n.language}
-        upsertProps={{ onCreate: createConceptAndPushRoute }}
+        upsertProps={{ onCreate }}
         fetchConceptTags={fetchSearchTags}
         inModal={inModal}
         subjects={subjects}

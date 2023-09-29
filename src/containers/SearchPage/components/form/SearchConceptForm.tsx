@@ -6,9 +6,10 @@
  *
  */
 
-import { useEffect, useState, MouseEvent } from 'react';
+import { useEffect, useState, MouseEvent, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import sortBy from 'lodash/sortBy';
+import { Node } from '@ndla/types-taxonomy';
 import { getResourceLanguages } from '../../../../util/resourceHelpers';
 import { getTagName } from '../../../../util/formHelper';
 import { SearchParams } from './SearchForm';
@@ -16,7 +17,6 @@ import {
   CONCEPT_RESPONSIBLE,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
 } from '../../../../constants';
-import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { useAuth0Editors, useAuth0Responsibles } from '../../../../modules/auth0/auth0Queries';
 import { useConceptStateMachine } from '../../../../modules/concept/conceptQueries';
 import GenericSearchForm, { OnFieldChangeFunction } from './GenericSearchForm';
@@ -24,7 +24,7 @@ import { SearchFormSelector } from './Selector';
 
 interface Props {
   search: (o: SearchParams) => void;
-  subjects: SubjectType[];
+  subjects: Node[];
   searchObject: SearchParams;
   locale: string;
 }
@@ -79,6 +79,14 @@ const SearchConceptForm = ({ search: doSearch, searchObject: search, subjects }:
     doSearch({ ...search, [tag.parameterName]: '' });
   };
 
+  const conceptTypes = useMemo(
+    () => [
+      { id: 'concept', name: t('searchForm.conceptType.concept') },
+      { id: 'gloss', name: t('searchForm.conceptType.gloss') },
+    ],
+    [t],
+  );
+
   const emptySearch = (evt: MouseEvent<HTMLButtonElement>) => {
     evt.persist();
     setQueryInput('');
@@ -86,6 +94,7 @@ const SearchConceptForm = ({ search: doSearch, searchObject: search, subjects }:
       query: '',
       language: '',
       'audio-type': '',
+      'concept-type': '',
       license: '',
       subjects: '',
       users: '',
@@ -102,6 +111,13 @@ const SearchConceptForm = ({ search: doSearch, searchObject: search, subjects }:
   };
 
   const selectors: SearchFormSelector[] = [
+    {
+      parameterName: 'concept-type',
+      value: getTagName(search['concept-type'], conceptTypes),
+      options: conceptTypes,
+      formElementType: 'dropdown',
+      width: 25,
+    },
     {
       parameterName: 'subjects',
       value: getTagName(search.subjects, subjects),

@@ -23,7 +23,7 @@ interface Props extends RenderElementProps {
 
 const StyledButton = styled(IconButtonV2)`
   position: absolute;
-  z-index: 10;
+  z-index: 2;
   top: ${spacing.xxsmall};
   right: ${spacing.xxsmall};
 `;
@@ -43,13 +43,14 @@ const GridCell = ({ element, editor, attributes, children }: Props) => {
   );
 
   return (
-    <StyledGridCell {...attributes}>
+    <StyledGridCell {...attributes} data-testid="slate-grid-cell">
       <StyledButton
         contentEditable={false}
         onClick={onClickSticky}
         variant={element.data?.parallaxCell === 'true' ? 'solid' : 'ghost'}
         aria-label={label}
         title={label}
+        data-testid="grid-cell-parallax"
       >
         <Pin />
       </StyledButton>
@@ -60,6 +61,8 @@ const GridCell = ({ element, editor, attributes, children }: Props) => {
 
 const StyledGridCell = styled.div`
   position: relative;
+  display: flex;
+  flex-direction: column;
   border: 1px solid ${colors.brand.light};
   min-width: 50px;
 

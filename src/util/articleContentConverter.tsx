@@ -36,7 +36,7 @@ import { codeblockSerializer } from '../components/SlateEditor/plugins/codeBlock
 import { blogPostSerializer } from '../components/SlateEditor/plugins/blogPost';
 import { noEmbedSerializer } from '../components/SlateEditor/plugins/noEmbed';
 import { defaultEmbedBlock, isSlateEmbed } from '../components/SlateEditor/plugins/embed/utils';
-import { parseEmbedTag, createEmbedTag } from './embedTagHelpers';
+import { parseEmbedTag, createEmbedTag, createEmbedTagV2 } from './embedTagHelpers';
 import { Embed } from '../interfaces';
 import { divSerializer } from '../components/SlateEditor/plugins/div';
 import { spanSerializer } from '../components/SlateEditor/plugins/span';
@@ -50,6 +50,7 @@ import { keyFigureSerializer } from '../components/SlateEditor/plugins/keyFigure
 import { contactBlockSerializer } from '../components/SlateEditor/plugins/contactBlock';
 import { campaignBlockSerializer } from '../components/SlateEditor/plugins/campaignBlock';
 import { linkBlockListSerializer } from '../components/SlateEditor/plugins/linkBlockList';
+import { audioSerializer } from '../components/SlateEditor/plugins/audio';
 
 export const sectionSplitter = (html: string) => {
   const node = document.createElement('div');
@@ -106,6 +107,7 @@ const extendedRules: SlateSerializer[] = [
   contactBlockSerializer,
   campaignBlockSerializer,
   linkBlockListSerializer,
+  audioSerializer,
   embedSerializer,
   bodyboxSerializer,
   divSerializer,
@@ -247,7 +249,7 @@ export function editorValueToEmbed(editorValue?: Descendant[]) {
 export function editorValueToEmbedTag(editorValue?: Descendant[]) {
   const embed = editorValueToEmbed(editorValue);
   if (embed) {
-    const embedTag = createEmbedTag(embed);
+    const embedTag = embed?.resource === 'audio' ? createEmbedTagV2(embed) : createEmbedTag(embed);
     return embedTag ? renderToStaticMarkup(embedTag) : '';
   }
   return '';

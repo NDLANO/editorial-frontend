@@ -52,7 +52,6 @@ import { breakPlugin } from '../../../../components/SlateEditor/plugins/break';
 import { markPlugin } from '../../../../components/SlateEditor/plugins/mark';
 import { listPlugin } from '../../../../components/SlateEditor/plugins/list';
 import { divPlugin } from '../../../../components/SlateEditor/plugins/div';
-import { LocaleType } from '../../../../interfaces';
 import { dndPlugin } from '../../../../components/SlateEditor/plugins/DND';
 import { SlatePlugin } from '../../../../components/SlateEditor/interfaces';
 import { useSession } from '../../../Session/SessionProvider';
@@ -65,7 +64,6 @@ import { blockConceptPlugin } from '../../../../components/SlateEditor/plugins/c
 import { definitionListPlugin } from '../../../../components/SlateEditor/plugins/definitionList';
 import { gridPlugin } from '../../../../components/SlateEditor/plugins/grid';
 import {
-  TYPE_EMBED_AUDIO,
   TYPE_EMBED_BRIGHTCOVE,
   TYPE_EMBED_EXTERNAL,
   TYPE_EMBED_H5P,
@@ -75,6 +73,10 @@ import { TYPE_TABLE } from '../../../../components/SlateEditor/plugins/table/typ
 import { TYPE_CODEBLOCK } from '../../../../components/SlateEditor/plugins/codeBlock/types';
 import { TYPE_FILE } from '../../../../components/SlateEditor/plugins/file/types';
 import { TYPE_GRID } from '../../../../components/SlateEditor/plugins/grid/types';
+import { HandleSubmitFunc, LearningResourceFormType } from '../../../FormikForm/articleFormHooks';
+import { audioPlugin } from '../../../../components/SlateEditor/plugins/audio';
+import { TYPE_AUDIO } from '../../../../components/SlateEditor/plugins/audio/types';
+import { learningResourceActions } from '../../../../components/SlateEditor/plugins/blockPicker/actions';
 
 const StyledFormikField = styled(FormikField)`
   display: flex;
@@ -113,7 +115,7 @@ const findFootnotes = (content: Descendant[]): FootnoteType[] =>
 const visualElements = [
   TYPE_EMBED_H5P,
   TYPE_EMBED_BRIGHTCOVE,
-  TYPE_EMBED_AUDIO,
+  TYPE_AUDIO,
   TYPE_EMBED_EXTERNAL,
   TYPE_EMBED_IMAGE,
 ];
@@ -123,23 +125,20 @@ const actionsToShowInAreas = {
   details: actions,
   aside: actions,
   bodybox: actions,
-  'table-cell': ['image'],
+  'table-cell': [TYPE_EMBED_IMAGE],
   'grid-cell': [TYPE_EMBED_IMAGE],
 };
 
 // Plugins are checked from last to first
-export const plugins = (
-  articleLanguage: string,
-  locale: LocaleType,
-  handleSubmit: () => void,
-): SlatePlugin[] => {
+export const plugins = (articleLanguage: string): SlatePlugin[] => {
   return [
     sectionPlugin,
     spanPlugin,
     divPlugin,
     paragraphPlugin(articleLanguage),
     footnotePlugin,
-    embedPlugin(articleLanguage, locale),
+    audioPlugin(articleLanguage),
+    embedPlugin(articleLanguage),
     bodyboxPlugin,
     asidePlugin,
     detailsPlugin,
@@ -163,7 +162,7 @@ export const plugins = (
     toolbarPlugin,
     textTransformPlugin,
     breakPlugin,
-    saveHotkeyPlugin(handleSubmit),
+    saveHotkeyPlugin,
     markPlugin,
     definitionListPlugin,
     listPlugin,
@@ -173,9 +172,14 @@ export const plugins = (
 interface Props {
   articleLanguage: string;
   articleId?: number;
+  handleSubmit: HandleSubmitFunc<LearningResourceFormType>;
 }
 
-const LearningResourceContent = ({ articleLanguage, articleId }: Props) => {
+const LearningResourceContent = ({
+  articleLanguage,
+  articleId,
+  handleSubmit: _handleSubmit,
+}: Props) => {
   const { t } = useTranslation();
 
   const [creatorsField] = useField<IAuthor[]>('creators');
@@ -225,6 +229,7 @@ const LearningResourceContent = ({ articleLanguage, articleId }: Props) => {
 interface ContentFieldProps extends FieldProps<Descendant[]> {
   articleId?: number;
   articleLanguage: string;
+  handleSubmit: () => void;
 }
 
 const ContentField = ({
@@ -232,9 +237,10 @@ const ContentField = ({
   field: { name, onChange, value },
   articleLanguage,
 }: ContentFieldProps) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const { userPermissions } = useSession();
-  const { isSubmitting, handleSubmit } = useFormikContext();
+  const { isSubmitting } = useFormikContext<LearningResourceFormType>();
+
   const blockPickerOptions = useMemo(() => ({ actionsToShowInAreas }), []);
 
   const onSlateChange = useCallback(
@@ -249,10 +255,7 @@ const ContentField = ({
     [onChange, name],
   );
 
-  const editorPlugins = useMemo(
-    () => plugins(articleLanguage ?? '', i18n.language, handleSubmit),
-    [articleLanguage, i18n.language, handleSubmit],
-  );
+  const editorPlugins = useMemo(() => plugins(articleLanguage ?? ''), [articleLanguage]);
 
   return (
     <>
@@ -265,13 +268,14 @@ const ContentField = ({
         )}
       </FieldHeader>
       <RichTextEditor
+        actions={learningResourceActions}
         language={articleLanguage}
         blockpickerOptions={blockPickerOptions}
         placeholder={t('form.content.placeholder')}
         value={value}
         submitted={isSubmitting}
         plugins={editorPlugins}
-        data-cy="learning-resource-content"
+        data-testid="learning-resource-content"
         onChange={onSlateChange}
       />
       {!isSubmitting && <LearningResourceFootnotes footnotes={findFootnotes(value)} />}

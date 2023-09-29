@@ -21,13 +21,11 @@ import '@fontsource/source-serif-pro/700.css';
 // import before all other imports component to make sure it is loaded before any emotion stuff.
 import '../../style/index.css';
 
-import { ReactElement, useContext, useEffect } from 'react';
+import { ReactElement } from 'react';
 import { Helmet } from 'react-helmet-async';
 import loadable from '@loadable/component';
-import { History } from 'history';
 import { PageContainer } from '@ndla/ui';
-import { configureTracker } from '@ndla/tracker';
-import { Route, Routes, UNSAFE_NavigationContext } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import Navigation from '../Masthead/components/Navigation';
@@ -53,11 +51,13 @@ const EditMarkupPage = loadable(() => import('../EditMarkupPage/EditMarkupPage')
 const PreviewDraftPage = loadable(() => import('../PreviewDraftPage/PreviewDraftPage'));
 const NdlaFilm = loadable(() => import('../NdlaFilm/NdlaFilm'));
 const ConceptPage = loadable(() => import('../ConceptPage/ConceptPage'));
+const GlossPage = loadable(() => import('../GlossPage/GlossPage'));
 const Subjectpage = loadable(() => import('../EditSubjectFrontpage/Subjectpage'));
 const H5PPage = loadable(() => import('../H5PPage/H5PPage'));
 const TaxonomyVersionsPage = loadable(() => import('../TaxonomyVersions/TaxonomyVersionsPage'));
 const PublishRequestsPage = loadable(() => import('../PublishRequests/PublishRequestsPage'));
 const NodeDiffPage = loadable(() => import('../NodeDiff/NodeDiffPage'));
+const FrontpageEditPage = loadable(() => import('../FrontpageEditPage/FrontpageEditPage'));
 
 const StyledContent = styled.div`
   display: flex;
@@ -65,24 +65,8 @@ const StyledContent = styled.div`
   flex: 1;
 `;
 
-interface Props {
-  isClient?: boolean;
-}
-
-const App = ({ isClient }: Props) => {
+const App = () => {
   const { t } = useTranslation();
-  // Listen has been partially removed.
-  const navigator = useContext(UNSAFE_NavigationContext).navigator as History;
-
-  useEffect(() => {
-    if (isClient) {
-      configureTracker({
-        listen: navigator.listen,
-        googleTagManagerId: config.googleTagManagerId,
-      });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <ErrorBoundary>
@@ -112,6 +96,7 @@ const App = ({ isClient }: Props) => {
                     element={<PrivateRoute component={<EditMarkupPage />} />}
                   />
                   <Route path="/concept/*" element={<PrivateRoute component={<ConceptPage />} />} />
+                  <Route path="/gloss/*" element={<PrivateRoute component={<GlossPage />} />} />
                   <Route path="/preview/:draftId/:language/*" element={<PreviewDraftPage />} />
                   <Route path="/media/*" element={<PrivateRoute component={<MediaPage />} />} />
                   <Route path="/film/*" element={<PrivateRoute component={<NdlaFilm />} />} />
@@ -135,6 +120,10 @@ const App = ({ isClient }: Props) => {
                   <Route
                     path="/nodeDiff/:nodeId"
                     element={<PrivateRoute component={<NodeDiffPage />} />}
+                  />
+                  <Route
+                    path="/frontpage/"
+                    element={<PrivateRoute component={<FrontpageEditPage />} />}
                   />
                   <Route path="/forbidden" element={<ForbiddenPage />} />
                   <Route path="*" element={<NotFoundPage />} />

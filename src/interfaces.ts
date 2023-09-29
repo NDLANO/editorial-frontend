@@ -5,7 +5,8 @@
  */
 
 import { IAudioMetaInformation } from '@ndla/types-backend/audio-api';
-import { IArticle, IRelatedContentLink, IComment } from '@ndla/types-backend/draft-api';
+import { IArticle, IRelatedContentLink } from '@ndla/types-backend/draft-api';
+import { AudioEmbedData } from '@ndla/types-embed';
 import { SearchTypeValues, LOCALE_VALUES } from './constants';
 
 export interface FormikStatus {
@@ -129,14 +130,6 @@ export interface BrightcoveEmbed {
   metaData?: any;
 }
 
-export interface AudioEmbed {
-  resource: 'audio';
-  resource_id: string;
-  type: string;
-  url: string;
-  alt?: string;
-}
-
 export interface H5pEmbed {
   resource: 'h5p';
   path: string;
@@ -165,7 +158,7 @@ export interface ErrorEmbed {
 export type Embed =
   | ImageEmbed
   | BrightcoveEmbed
-  | AudioEmbed
+  | AudioEmbedData
   | H5pEmbed
   | ExternalEmbed
   | ErrorEmbed;
@@ -263,7 +256,8 @@ type Keys =
   | 'model-released'
   | 'responsible-ids'
   | 'subjects'
-  | 'filter-inactive';
+  | 'filter-inactive'
+  | 'concept-type';
 
 export type SearchObjectType = {
   [K in Keys]?: string;

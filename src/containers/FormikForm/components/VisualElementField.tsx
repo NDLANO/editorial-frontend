@@ -11,6 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { ErrorMessage, useFormikContext } from 'formik';
 import { FieldHeader } from '@ndla/forms';
 import VisualElement from '../../VisualElement/VisualElement';
+import { VisualElementType } from '../../VisualElement/VisualElementMenu';
 import FormikField, { FormikFieldHelp } from '../../../components/FormikField';
 import HowToHelper from '../../../components/HowTo/HowToHelper';
 
@@ -21,7 +22,7 @@ const StyledErrorPreLine = styled.span`
 const extraErrorFields = ['visualElementCaption', 'visualElementAlt'];
 
 interface Props {
-  types?: string[];
+  types?: VisualElementType[];
 }
 const VisualElementField = ({ types }: Props) => {
   const { t } = useTranslation();

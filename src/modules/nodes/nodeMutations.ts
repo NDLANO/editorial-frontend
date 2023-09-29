@@ -101,7 +101,12 @@ export const useUpdateNodeMetadataMutation = () => {
               id: rootId,
               language: i18n.language,
             })
-          : nodesQueryKey({ isRoot: true, taxonomyVersion });
+          : nodesQueryKey({
+              isContext: true,
+              nodeType: 'SUBJECT',
+              language: i18n.language,
+              taxonomyVersion,
+            });
         await qc.cancelQueries(key);
         const prevNodes = qc.getQueryData<Node[]>(key) ?? [];
         const newNodes = prevNodes.map((node) => {
@@ -118,7 +123,12 @@ export const useUpdateNodeMetadataMutation = () => {
               id: rootId,
               language: i18n.language,
             })
-          : nodesQueryKey({ taxonomyVersion, isRoot: true });
+          : nodesQueryKey({
+              language: i18n.language,
+              nodeType: 'SUBJECT',
+              isContext: true,
+              taxonomyVersion,
+            });
         qc.invalidateQueries(key);
       },
     },

@@ -71,7 +71,7 @@ test.beforeEach(async ({ page }) => {
 
   const licenses = mockRoute({
     page,
-    path: '**/concept-api/v1/drafts/licenses/',
+    path: '**/draft-api/v1/drafts/licenses/',
     fixture: 'concept_licenses',
   });
 
@@ -108,7 +108,7 @@ test('Can change language and fetch new concept', async ({ page }) => {
 
   const subjects = mockRoute({
     page,
-    path: '**/taxonomy/v1/subjects?key=forklaringsfag&language=en&value=true',
+    path: '**/taxonomy/v1/nodes?key=forklaringsfag&language=nb&nodeType=SUBJECT&value=true',
     fixture: 'concept_subjects',
   });
 

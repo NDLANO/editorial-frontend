@@ -10,7 +10,8 @@ import { ConceptEmbedData } from '@ndla/types-embed';
 import { Descendant } from 'slate';
 
 export interface ConceptBlockElement {
-  type: 'concept-block';
+  type: 'concept-block' | 'gloss-block';
   data: ConceptEmbedData;
+  isFirstEdit?: boolean;
   children: Descendant[];
 }

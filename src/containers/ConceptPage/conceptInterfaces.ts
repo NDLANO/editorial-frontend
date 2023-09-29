@@ -7,9 +7,11 @@
  */
 
 import { Descendant } from 'slate';
-import { IStatus, IAuthor } from '@ndla/types-backend/concept-api';
+import { IStatus, IAuthor, IGlossExample, IGlossData } from '@ndla/types-backend/concept-api';
 import { IArticle } from '@ndla/types-backend/draft-api';
-import { SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
+import { Node } from '@ndla/types-taxonomy';
+
+export type ConceptType = 'concept' | 'gloss';
 
 export interface ConceptFormValues {
   id?: number;
@@ -35,9 +37,18 @@ export interface ConceptFormValues {
   metaImageId: string;
   processors: IAuthor[];
   rightsholders: IAuthor[];
-  subjects: SubjectType[];
+  processed: boolean;
+  subjects: Node[];
   supportedLanguages: string[];
   updated?: string;
   origin?: string;
   responsibleId?: string;
+  conceptType: ConceptType;
+  gloss?: {
+    gloss: string;
+    wordClass: string;
+    originalLanguage: string;
+  };
+  examples?: IGlossExample[][];
+  transcriptions?: IGlossData['transcriptions'];
 }

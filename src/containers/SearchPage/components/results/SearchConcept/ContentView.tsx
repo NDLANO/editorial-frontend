@@ -13,6 +13,7 @@ import { LicenseByline } from '@ndla/notion';
 import { colors } from '@ndla/core';
 import styled from '@emotion/styled';
 import { IConceptSummary } from '@ndla/types-backend/concept-api';
+import { Node } from '@ndla/types-taxonomy';
 import {
   StyledInfo,
   StyledConceptView,
@@ -22,10 +23,9 @@ import {
   Crumb,
 } from './SearchStyles';
 import formatDate from '../../../../../util/formatDate';
-import { toEditConcept } from '../../../../../util/routeHelpers';
+import { toEditConcept, toEditGloss } from '../../../../../util/routeHelpers';
 import HeaderStatusInformation from '../../../../../components/HeaderWithLanguage/HeaderStatusInformation';
 import { LocaleType } from '../../../../../interfaces';
-import { SubjectType } from '../../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { useLicenses } from '../../../../../modules/draft/draftQueries';
 
 interface Props {
@@ -33,7 +33,7 @@ interface Props {
   locale: LocaleType;
   title: string;
   content: string;
-  breadcrumbs: SubjectType[];
+  breadcrumbs: Node[];
   setShowForm: () => void;
   editing: boolean;
   responsibleName?: string;
@@ -46,6 +46,11 @@ const StyledButton = styled(ButtonV2)`
   padding: 4px 6px;
   margin-left: 5px;
 `;
+
+const toEditConceptPage = (concept: IConceptSummary, locale?: string) =>
+  concept.conceptType === 'concept'
+    ? toEditConcept(concept.id, locale)
+    : toEditGloss(concept.id, locale);
 
 const ContentView = ({
   concept,
@@ -64,7 +69,7 @@ const ContentView = ({
   return (
     <StyledConceptView>
       <h2>
-        <StyledLink noShadow to={toEditConcept(concept.id)}>
+        <StyledLink noShadow to={toEditConceptPage(concept)}>
           {title}
         </StyledLink>
         {false && !editing && <StyledButton onClick={setShowForm}>{t('form.edit')}</StyledButton>}
@@ -78,9 +83,9 @@ const ContentView = ({
             <StyledLink
               other
               key={`language_${lang}_${concept.id}`}
-              to={toEditConcept(concept.id, lang)}
+              to={toEditConceptPage(concept, lang)}
             >
-              {t(`language.${lang}`)}
+              {t(`languages.${lang}`)}
             </StyledLink>
           ) : (
             ''

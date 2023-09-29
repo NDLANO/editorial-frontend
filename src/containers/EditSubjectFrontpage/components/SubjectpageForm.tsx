@@ -31,12 +31,12 @@ import {
   subjectpageFormikTypeToPostType,
 } from '../../../util/subjectHelpers';
 import { useMessages } from '../../Messages/MessagesProvider';
-import { queryLearningPathResource, queryResources, queryTopics } from '../../../modules/taxonomy';
-import { Resource, Topic } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 import StyledForm from '../../../components/StyledFormComponents';
 import { NdlaErrorPayload } from '../../../util/resolveJsonOrRejectWithError';
 import { isSlateEmbed } from '../../../components/SlateEditor/plugins/embed/utils';
+import { fetchNodes } from '../../../modules/nodes/nodeApi';
+import { SAVE_BUTTON_ID } from '../../../constants';
 
 interface Props {
   subjectpage?: ISubjectPageData;
@@ -108,14 +108,28 @@ const SubjectpageForm = ({
   usePreventWindowUnload(unsaved);
 
   const fetchTaxonomyUrns = async (choices: (IArticle | ILearningPathV2)[], language: string) => {
-    const fetched = await Promise.all<Topic[] | ILearningPathV2[] | Resource[]>(
+    const fetched = await Promise.all(
       choices.map((choice) => {
         if ('articleType' in choice && choice.articleType === 'topic-article') {
-          return queryTopics({ contentId: choice.id, language, taxonomyVersion });
+          return fetchNodes({
+            contentURI: `urn:article:${choice.id}`,
+            nodeType: 'TOPIC',
+            language,
+            taxonomyVersion,
+          });
         } else if ('learningsteps' in choice && typeof choice.id === 'number') {
-          return queryLearningPathResource({ learningpathId: choice.id, taxonomyVersion });
+          return fetchNodes({
+            contentURI: `urn:learningpath:${choice.id}`,
+            nodeType: 'RESOURCE',
+            taxonomyVersion,
+          });
         }
-        return queryResources({ contentId: choice.id, language, taxonomyVersion });
+        return fetchNodes({
+          contentURI: `urn:article:${choice.id}`,
+          nodeType: 'RESOURCE',
+          language,
+          taxonomyVersion,
+        });
       }),
     );
 
@@ -185,6 +199,7 @@ const SubjectpageForm = ({
             />
             <Field right>
               <SaveButton
+                id={SAVE_BUTTON_ID}
                 size="large"
                 isSaving={isSubmitting}
                 showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}

@@ -60,7 +60,6 @@ const draftApiTypeToArticleFormType = (
   const license = article?.copyright?.license?.license;
   const articleLicense = !license || license === 'unknown' ? DEFAULT_LICENSE.license : license;
   return {
-    agreementId: article?.copyright?.agreementId,
     articleType,
     content: contentFunc(article?.content?.content ?? ''),
     creators: article?.copyright?.creators ?? [],
@@ -68,11 +67,13 @@ const draftApiTypeToArticleFormType = (
     introduction: plainTextToEditorValue(article?.introduction?.introduction ?? ''),
     language,
     license: articleLicense,
+    origin: article?.copyright?.origin,
     metaDescription: plainTextToEditorValue(article?.metaDescription?.metaDescription ?? ''),
     metaImageAlt: article?.metaImage?.alt ?? '',
     metaImageId: parseImageUrl(article?.metaImage),
     notes: [],
     processors: article?.copyright?.processors ?? [],
+    processed: article?.copyright?.processed ?? false,
     published: article?.published,
     revision: article?.revision,
     rightsholders: article?.copyright?.rightsholders ?? [],
@@ -111,7 +112,6 @@ export const draftApiTypeToLearningResourceFormType = (
       ndlaId,
       blockContentToEditorValue,
     ),
-    origin: article?.copyright?.origin,
   };
 };
 
@@ -167,6 +167,7 @@ export const learningResourceFormTypeToDraftApiType = (
       creators: article.creators,
       processors: article.processors,
       rightsholders: article.rightsholders,
+      processed: article.processed,
     },
     introduction: editorValueToPlainText(article.introduction),
     language: article.language,
@@ -202,10 +203,12 @@ export const frontpageArticleFormTypeToDraftApiType = (
     articleType: 'frontpage-article',
     content: blockContentToHTML(article.content),
     copyright: {
+      origin: article.origin,
       license: licenses.find((lic) => lic.license === article.license),
       creators: article.creators,
       processors: article.processors,
       rightsholders: article.rightsholders,
+      processed: article.processed,
     },
     introduction: editorValueToPlainText(article.introduction),
     language: article.language,
@@ -238,10 +241,11 @@ export const topicArticleFormTypeToDraftApiType = (
 
   const copyright = {
     license: licenses.find((l) => l.license === article.license),
+    origin: article.origin,
     creators: article.creators,
     processors: article.processors,
     rightsholders: article.rightsholders,
-    agreementId: article.agreementId,
+    processed: article.processed,
   };
 
   return {

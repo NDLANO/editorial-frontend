@@ -94,6 +94,7 @@ const FrontpageArticleForm = ({
         <HeaderWithLanguage
           id={article?.id}
           title={article?.title?.title}
+          article={article}
           language={articleLanguage}
           supportedLanguages={supportedLanguages}
           status={article?.status}
@@ -102,11 +103,7 @@ const FrontpageArticleForm = ({
         />
         <FlexWrapper>
           <MainContent data-wide={isWideArticle}>
-            <FrontpageArticlePanels
-              articleLanguage={articleLanguage}
-              article={article}
-              handleSubmit={handleSubmit}
-            />
+            <FrontpageArticlePanels articleLanguage={articleLanguage} article={article} />
           </MainContent>
           <CommentSection savedStatus={article?.status} />
         </FlexWrapper>

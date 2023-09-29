@@ -192,7 +192,7 @@ const VisualElementSearch = ({
           onAudioSelect={(audio: IAudioSummary) =>
             handleVisualElementChange({
               resource: 'audio',
-              resource_id: audio.id.toString(),
+              resourceId: audio.id.toString(),
               type: audioType,
               url: audio.url,
             })

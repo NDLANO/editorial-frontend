@@ -6,6 +6,7 @@ import { STORED_LANGUAGE_KEY } from './constants';
 import { LocaleType } from './interfaces';
 
 export const supportedLanguages: LocaleType[] = ['nb', 'nn', 'en'];
+export const frontpageLanguages: LocaleType[] = ['nb', 'nn', 'en', 'se'];
 export const subjectpageLanguages: LocaleType[] = ['nb', 'nn', 'en', 'se', 'sma'];
 
 export const initializeI18n = (i18n: i18n): void => {

@@ -30,6 +30,7 @@ const phrases = {
     h5pPage: `H5P ${titleTemplate}`,
     publishRequestsPage: `Publish Requests ${titleTemplate}`,
     nodeDiffPage: `Compare Nodes ${titleTemplate}`,
+    editFrontpage: 'Edit front page',
     search: {
       'podcast-series': `Search podcast series ${titleTemplate}`,
       audio: `Search audio files ${titleTemplate}`,
@@ -97,15 +98,14 @@ const phrases = {
     hasCopiedTitle: 'Copied!',
     download: 'Download',
   },
-  language: {
-    en: 'English',
-    es: 'Spanish',
-    nb: 'Norwegian - Bokmål',
-    nn: 'Norwegian - Nynorsk',
-    se: 'Northern Sami',
-    sma: 'Southern Sami',
+  languages: {
+    // Adds to list from frontend-packages
+    ar: 'Arabic',
+    la: 'Latin',
+    no: 'Norwegian',
+    so: 'Somali',
+    ti: 'Tigrinya',
     und: 'Undetermined',
-    de: 'German',
     ukr: 'Ukranian',
     empty: 'No languages left',
     change: 'Change to {{language}} version',
@@ -221,9 +221,11 @@ const phrases = {
     film: 'Edit NDLA film',
     h5p: 'Edit H5P',
     newConcept: 'Create new concept',
+    newGloss: 'Create new gloss',
     newSubject: 'Create new subject',
     newFrontpageArticle: 'Create new About-NDLA article',
     creationMovedInfo: 'Topics and resources need to be created from structure',
+    frontpage: 'Edit front page',
   },
   logo: {
     altText: 'The Norwegian Digital Learning Arena',
@@ -264,6 +266,7 @@ const phrases = {
       status: 'Select status',
       'draft-status': 'Select status',
       'audio-type': 'Select audio file type',
+      'concept-type': 'Select concept type',
       license: 'Select license',
       'revision-date-from': 'Revisiondate from',
       'revision-date-to': 'Revisiondate to',
@@ -280,6 +283,7 @@ const phrases = {
       status: 'Status',
       'draft-status': 'Status',
       'audio-type': 'Audio file type',
+      'concept-type': 'Concept type',
       license: 'License',
       'model-released': 'Model released',
       'revision-date-from': 'Revisiondate from',
@@ -301,6 +305,10 @@ const phrases = {
     audioType: {
       standard: 'Audio',
       podcast: 'Podcast',
+    },
+    conceptType: {
+      concept: 'Concept',
+      gloss: 'Gloss',
     },
     order: 'Rekkefølge',
     asc: 'Ascending',
@@ -547,7 +555,7 @@ const phrases = {
         'Use of illegal characters in permalink! Legal characters are numbers and letters, plus dashes.',
     },
     isFrontpageArticle: {
-      toggleArticle: 'Show wide editor',
+      toggleArticle: 'Wide editor',
     },
   },
   gridForm: {
@@ -594,6 +602,7 @@ const phrases = {
     title: 'Key figure',
     edit: 'Edit key figure',
   },
+
   editorToolbar: {
     bold: 'Bold\n({{ctrl}}+b)',
     'bulleted-list': 'Bulleted list\n({{ctrl}}+l)',
@@ -643,6 +652,7 @@ const phrases = {
       grid: 'Grid',
       campaignBlock: 'Kampanjeblokk',
       linkBlockList: 'Link block',
+      gloss: 'Gloss',
     },
   },
   form: {
@@ -739,6 +749,7 @@ const phrases = {
       descriptionlanguage: 'Description language',
       url: 'Link',
       date: 'Date',
+      sides: 'Image side',
     },
     previewProductionArticle: {
       button: 'Compare current version with old version',
@@ -857,13 +868,37 @@ const phrases = {
     },
     concept: {
       create: 'Create concept',
-      addText: 'Choose a concept and press "connect to topic", or',
       edit: 'Edit concept',
-      addConcept: 'Add existing concept',
-      removeConcept: 'Remove concept',
+      remove: 'Remove concept',
       source: 'Source',
       markdown: 'The field supports markdown. Use the format [Text](https://url) to create a link.',
       subjects: 'Only subjects marked as explanation subjects will be displayed in the list.',
+    },
+    gloss: {
+      create: 'Create gloss',
+      edit: 'Edit gloss',
+      remove: 'Remove gloss',
+      removeExample: 'Ta bort eksempel',
+      source: 'Source',
+      markdown: 'The field supports markdown. Use the format [Text](https://url) to create a link.',
+      subjects: 'Only subjects marked as explanation subjects will be displayed in the list.',
+      gloss: 'Gloss',
+      originalLanguage: 'Original language',
+      wordClass: 'Word class',
+      glossHeading: 'Gloss, word class and original language',
+      transcriptions: 'Transcriptions',
+      transcription: 'Transcription',
+      romanization: 'Romanization',
+      example: 'Example',
+      examples: 'Examples',
+      language: 'Language',
+      languageVariant: 'Language variant',
+      add: 'Add {{label}}',
+      choose: 'Choose {{label}}',
+      languageMissingFields: 'All fields for a language must be filled out.',
+      exampleMissingFields: 'An example entry must include all fields.',
+      glossMissingFields: 'A glossary entry must include all fields.',
+      transcriptionMissingFields: 'A transcription cannot be empty.',
     },
     conceptList: {
       edit: 'Edit concept list',
@@ -875,7 +910,7 @@ const phrases = {
       qualityAssurance: 'Quality assurance',
       saveAsNew: 'Make copy',
       deleteLanguageVersion: {
-        button: 'Delete language version',
+        button: 'Delete {{languageVersion}} version',
         title: 'Delete language version',
         modal: 'Are you sure that you want to delete this language version?',
       },
@@ -1137,6 +1172,10 @@ const phrases = {
     origin: {
       label: 'Origin',
     },
+    processed: {
+      label: 'Processed',
+      description: 'The content has been processed',
+    },
     image: {
       file: 'Image',
       save: 'Save image',
@@ -1361,6 +1400,7 @@ const phrases = {
     podcastImageSize: 'A meta image must be between 1400 and 3000 pixels wide.',
     unfinishedRevision: 'You must have at least one planned revision.',
     missingRevision: 'There must be at least one revision.',
+    email: 'The email address is not valid.',
   },
   errorMessage: {
     title: 'Oops, something went wrong',
@@ -1373,7 +1413,7 @@ const phrases = {
     versionSelect: 'This article does not exist in the selected version',
     errorWhenFetchingTaxonomyArticle: 'There was a problem fetching the underlying article',
     unsavedTaxonomy:
-      'You have unsaved changes. Press cancel again if you are sure you want to continue.',
+      'You have unsaved changes. Press reset again if you are sure you want to continue.',
     auth0:
       'Authentication error. Press cancel to take care of any changes you have made before logging in again. The following error message came from auth0: {{message}}',
     statusCode: {
@@ -1382,6 +1422,10 @@ const phrases = {
     grepCodes: 'The following codes have wrong format or does not exist, and will not be added: ',
     errorOnSave: 'Something went wrong when saving the article.',
     genericError: 'Something went wrong, the action could not be completed.',
+    missingTaxTitle: 'Not in taxonomy!',
+    missingTax:
+      'Articles and topics cannot be saved without being placed in the taxonomy. Update the taxonomy block and save again.',
+    invalidTopicPlacements: 'Topics without placement in taxonomy',
   },
   warningMessage: {
     fieldWithWrongLanguage: 'This value is fetched from language code: {{language}}',
@@ -1594,11 +1638,13 @@ const phrases = {
         subjectType: 'Subject type',
         resourceGroupPlaceholder: 'Grouping of resources',
         RGTooltip: 'Show resources Grouped or Ungrouped',
+        subjectLMA: 'Responsible for the subject',
       },
       placeholders: {
         category: 'Choose category',
         language: 'Choose language',
         type: 'Choose type',
+        lma: 'Choose responsible',
       },
     },
   },
@@ -1638,6 +1684,9 @@ const phrases = {
   },
   conceptform: {
     title: 'Concept',
+  },
+  glossform: {
+    title: 'Gloss',
   },
   editorFooter: {
     buttonLabel: 'Quality ensurance',
@@ -1849,17 +1898,6 @@ const phrases = {
     notVisible: 'is not visible',
     changeVisibility: 'Change visibility',
   },
-  languages: {
-    ar: 'Arabic',
-    de: 'German',
-    en: 'English',
-    es: 'Spanish',
-    se: 'Northern Sámi',
-    sma: 'Southern Sámi',
-    so: 'Somali',
-    ti: 'Tigrinya',
-    zh: 'Chinese',
-  },
   unsavedChanges: 'Unsaved changes',
   messages: {
     severity: {
@@ -1873,12 +1911,9 @@ const phrases = {
   reset: 'Reset',
   campaignBlockForm: {
     title: 'Edit campaign block',
-    image: {
-      imageBefore: 'Left image',
-      insertImageBefore: 'Insert left image',
-      imageAfter: 'Right image',
-      insertImageAfter: 'Insert right image',
-      images: 'Images',
+    sides: {
+      left: 'Left',
+      right: 'Right',
     },
   },
   linkBlock: {
@@ -1898,6 +1933,20 @@ const phrases = {
     labelNext: 'Go to next month',
     previousMonth: 'Go to previous month',
     goToToday: 'Go to today',
+  },
+  remove: 'Remove',
+  frontpageForm: {
+    error: 'An error occurred',
+    changeArticle: 'Change article',
+    addArticle: 'Add article',
+    addArticleToMenu: 'Add article to menu',
+    changeFrontpageArticle: 'Change front page article',
+    search: 'Search for an article',
+    frontpageArticle: 'Front page article:',
+    noFrontpageArticle: 'Front page article not set',
+    failedTitle: 'Failed to show title',
+    openChildren: 'Show children',
+    closeChildren: 'Hide children',
   },
 };
 

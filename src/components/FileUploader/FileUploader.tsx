@@ -113,6 +113,7 @@ const allowedFiletypes = [
   '.xlsx',
   '.xml',
   '.f3d',
+  '.ino',
 ];
 
 const adminAllowedFiletypes = ['.mp4'];

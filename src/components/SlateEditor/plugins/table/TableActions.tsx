@@ -117,7 +117,7 @@ const TableIconButton = ({ operation, onClick, children }: TableIconButtonProps)
       variant="ghost"
       colorTheme="light"
       type="button"
-      data-cy={operation}
+      data-testid={operation}
       aria-label={t(`form.content.table.${operation}`)}
       onMouseDown={(e: MouseEvent<HTMLButtonElement>) => onClick(e, operation)}
     >
@@ -211,7 +211,7 @@ const TableActions = ({ editor, element }: Props) => {
           <StyledRightAlign>
             {showAddHeader && (
               <ButtonV2
-                data-cy={'head-add'}
+                data-testid="head-add"
                 variant="stripped"
                 title={t(`form.content.table.addHeader`)}
                 onMouseDown={(e: MouseEvent<HTMLButtonElement>) => handleOnClick(e, 'head-add')}
@@ -230,7 +230,7 @@ const TableActions = ({ editor, element }: Props) => {
             ))}
           </ActionGroup>
           <ButtonV2
-            data-cy={'toggle-row-headers'}
+            data-testid="toggle-row-headers"
             variant="stripped"
             onMouseDown={(e: MouseEvent<HTMLButtonElement>) =>
               handleOnClick(e, 'toggle-row-headers')

@@ -21,11 +21,12 @@ import SaveButton from '../../../components/SaveButton';
 import { isFormikFormDirty } from '../../../util/formHelper';
 import validateFormik, { RulesType, getWarnings } from '../../../components/formikValidationSchema';
 import ImageMetaData from './ImageMetaData';
+import ImageCopyright from './ImageCopyright';
 import ImageContent from './ImageContent';
 import { AlertModalWrapper } from '../../FormikForm';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage/HeaderWithLanguage';
 import ImageVersionNotes from './ImageVersionNotes';
-import { MAX_IMAGE_UPLOAD_SIZE } from '../../../constants';
+import { MAX_IMAGE_UPLOAD_SIZE, SAVE_BUTTON_ID } from '../../../constants';
 import { imageApiTypeToFormType, ImageFormikType } from '../imageTransformers';
 import { editorValueToPlainText } from '../../../util/articleContentConverter';
 import FormWrapper from '../../../components/FormWrapper';
@@ -158,6 +159,7 @@ const ImageForm = ({
         creators: values.creators,
         processors: values.processors,
         rightsholders: values.rightsholders,
+        processed: values.processed,
       },
       modelReleased: values.modelReleased,
     };
@@ -209,17 +211,24 @@ const ImageForm = ({
                 <ImageContent />
               </FormAccordion>
               <FormAccordion
+                id="copyright"
+                title={t('form.copyrightSection')}
+                hasError={hasError(['rightsholders', 'creators', 'processors', 'license'])}
+              >
+                <ImageCopyright />
+              </FormAccordion>
+              <FormAccordion
                 id="metadata"
                 title={t('form.metadataSection')}
-                className="u-4/6@desktop u-push-1/6@desktop"
-                hasError={hasError(['tags', 'rightsholders', 'creators', 'processors', 'license'])}
+                className={'u-6/6'}
+                hasError={hasError(['tags'])}
               >
                 <ImageMetaData imageLanguage={language} imageTags={values.tags} />
               </FormAccordion>
               <FormAccordion
                 id="image-upload-version-history"
                 title={t('form.workflowSection')}
-                className="u-4/6@desktop u-push-1/6@desktop"
+                className={'u-6/6'}
                 hasError={false}
               >
                 <ImageVersionNotes image={image} />
@@ -240,6 +249,7 @@ const ImageForm = ({
                 </ButtonV2>
               )}
               <SaveButton
+                id={SAVE_BUTTON_ID}
                 type={!inModal ? 'submit' : 'button'}
                 isSaving={isSubmitting || isSaving}
                 disabled={!isValid}

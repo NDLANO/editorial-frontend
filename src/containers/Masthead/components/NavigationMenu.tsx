@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { Launch, Audio, Podcast } from '@ndla/icons/common';
 import styled from '@emotion/styled';
 import { spacing, animations, colors } from '@ndla/core';
-import { Camera, Concept, H5P, Taxonomy, Video } from '@ndla/icons/editor';
+import { Camera, Concept, Globe, H5P, Taxonomy, Video } from '@ndla/icons/editor';
 import { List } from '@ndla/icons/action';
 //@ts-ignore
 import { ContentTypeBadge, constants } from '@ndla/ui';
@@ -26,9 +26,15 @@ import {
   toCreatePodcastSeries,
   toEditNdlaFilm,
   toCreateFrontPageArticle,
+  toCreateGloss,
 } from '../../../util/routeHelpers';
 import { useSession } from '../../Session/SessionProvider';
-import { AUDIO_ADMIN_SCOPE, DRAFT_ADMIN_SCOPE, TAXONOMY_ADMIN_SCOPE } from '../../../constants';
+import {
+  AUDIO_ADMIN_SCOPE,
+  DRAFT_ADMIN_SCOPE,
+  FRONTPAGE_ADMIN_SCOPE,
+  TAXONOMY_ADMIN_SCOPE,
+} from '../../../constants';
 
 const StyledMenuItem = styled.span`
   display: flex;
@@ -120,6 +126,11 @@ const OpenMenu = ({ close }: Props) => {
                 <Concept /> {t('subNavigation.newConcept')}
               </StyledMenuItem>
             </Link>
+            <Link css={styledListElement} to={toCreateGloss()} onClick={close}>
+              <StyledMenuItem>
+                <Globe /> {t('subNavigation.newGloss')}
+              </StyledMenuItem>
+            </Link>
             <Link css={styledListElement} to={toCreateImage()} onClick={close}>
               <StyledMenuItem>
                 <Camera />
@@ -194,6 +205,14 @@ const OpenMenu = ({ close }: Props) => {
                 {t('subNavigation.h5p')}
               </StyledMenuItem>
             </Link>
+            {userPermissions?.includes(FRONTPAGE_ADMIN_SCOPE) && (
+              <Link css={styledListElement} to="/frontpage" onClick={close}>
+                <StyledMenuItem>
+                  <ContentTypeBadge type={contentTypes.SUBJECT} background size="xx-small" />
+                  {t('subNavigation.frontpage')}
+                </StyledMenuItem>
+              </Link>
+            )}
             {userPermissions?.includes(DRAFT_ADMIN_SCOPE) && (
               <a
                 css={styledListElement}

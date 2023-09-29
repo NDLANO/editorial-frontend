@@ -112,6 +112,7 @@ const PreviewVersion = ({ article, language }: VersionPreviewProps) => {
     const apiType = learningResourceFormTypeToDraftApiType(values, initialValues, licenses);
     return {
       id: article.id,
+      articleType: article.articleType,
       title: apiType.title ?? '',
       content: apiType.content ?? '',
       introduction: apiType.introduction ?? '',
@@ -119,7 +120,7 @@ const PreviewVersion = ({ article, language }: VersionPreviewProps) => {
       published: apiType.published,
       copyright: apiType.copyright,
     };
-  }, [values, initialValues, licenses, article.id]);
+  }, [values, initialValues, licenses, article.id, article.articleType]);
 
   return (
     <TwoArticleWrapper>
@@ -180,7 +181,7 @@ const PreviewCompare = ({ article, language }: ComparePreviewProps) => {
         <PreviewTitleWrapper className="u-4/6@desktop u-push-1/6@desktop">
           <h2>
             {t(`form.previewLanguageArticle.title`, {
-              language: t(`language.${language}`).toLowerCase(),
+              language: t(`languages.${language}`).toLowerCase(),
             })}
           </h2>
         </PreviewTitleWrapper>
@@ -195,13 +196,13 @@ const PreviewCompare = ({ article, language }: ComparePreviewProps) => {
         <PreviewTitleWrapper className="u-4/6@desktop u-push-1/6@desktop">
           <h2>
             {t('form.previewLanguageArticle.title', {
-              language: t(`language.${previewLanguage}`).toLowerCase(),
+              language: t(`languages.${previewLanguage}`).toLowerCase(),
             })}
           </h2>
           <select onChange={(evt) => setPreviewLanguage(evt.target.value)} value={previewLanguage}>
             {article.supportedLanguages.map((language) => (
               <option key={language} value={language}>
-                {t(`language.${language}`)}
+                {t(`languages.${language}`)}
               </option>
             ))}
           </select>
@@ -236,7 +237,7 @@ const PreviewConceptCompare = ({ concept, language }: CompareConceptPreviewProps
   const { t } = useTranslation();
   const { values } = useFormikContext<ConceptFormValues>();
   const formConcept = useMemo(
-    () => conceptFormTypeToApiType(values, licenses!, concept.updatedBy),
+    () => conceptFormTypeToApiType(values, licenses!, values.conceptType, concept.updatedBy),
     [values, licenses, concept.updatedBy],
   );
   return (
@@ -245,7 +246,7 @@ const PreviewConceptCompare = ({ concept, language }: CompareConceptPreviewProps
         <PreviewTitleWrapper>
           <PreviewHeading>
             {t('form.previewLanguageArticle.title', {
-              language: t(`language.${language}`).toLowerCase(),
+              language: t(`languages.${language}`).toLowerCase(),
             })}
           </PreviewHeading>
         </PreviewTitleWrapper>
@@ -255,13 +256,13 @@ const PreviewConceptCompare = ({ concept, language }: CompareConceptPreviewProps
         <PreviewTitleWrapper>
           <PreviewHeading>
             {t('form.previewLanguageArticle.title', {
-              language: t(`language.${previewLanguage}`).toLowerCase(),
+              language: t(`languages.${previewLanguage}`).toLowerCase(),
             })}
           </PreviewHeading>
           <select onChange={(evt) => setPreviewLanguage(evt.target.value)} value={previewLanguage}>
             {concept.supportedLanguages.map((language) => (
               <option key={language} value={language}>
-                {t(`language.${language}`)}
+                {t(`languages.${language}`)}
               </option>
             ))}
           </select>
@@ -277,8 +278,9 @@ const PreviewConceptCompare = ({ concept, language }: CompareConceptPreviewProps
 const PreviewConcept = ({ language }: ConceptPreviewProps) => {
   const { data: licenses } = useLicenses({ placeholderData: [] });
   const { values } = useFormikContext<ConceptFormValues>();
+
   const formConcept = useMemo(
-    () => conceptFormTypeToApiType(values, licenses!),
+    () => conceptFormTypeToApiType(values, licenses!, values.conceptType),
     [values, licenses],
   );
 

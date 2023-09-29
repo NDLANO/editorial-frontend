@@ -8,7 +8,7 @@
  */
 
 import compact from 'lodash/compact';
-import { Editor, Path, Transforms } from 'slate';
+import { Editor, Path, Transforms, Node } from 'slate';
 import { ReactEditor } from 'slate-react';
 import { defaultTableRowBlock } from './defaultBlocks';
 import { TableMatrix, TableHeadElement, TableBodyElement } from './interfaces';
@@ -22,6 +22,7 @@ import {
   isTableBody,
   getTableBodyWidth,
 } from './slateHelpers';
+import { TYPE_TABLE_CELL, TYPE_TABLE_CELL_HEADER } from './types';
 
 // Before placing a cell in the table matrix, make sure the cell has the required space
 // If not, add the required space by inserting empty cells.
@@ -90,38 +91,34 @@ const normalizeRow = (
 
     const row = matrix[rowIndex].entries();
     for (const [index, cell] of row) {
-      const { scope, isHeader } = cell.data;
+      const { scope } = cell.data;
       // A. Normalize table head
       if (isHead) {
-        // i. If table has row headers.
-        //    Make sure scope='col' and isHeader=true
-        if (rowHeaders) {
-          if (scope !== 'col' || !isHeader) {
-            updateCell(editor, cell, {
-              scope: rowHeaders ? 'col' : undefined,
-              isHeader: true,
-            });
-            return true;
-          }
-        } else {
-          // ii. If table does not have rowHeaders
-          // Make sure cells in header has scope=undefined and isHeader=true
-          if (scope || !isHeader) {
-            updateCell(editor, cell, {
-              scope: undefined,
-              isHeader: true,
-            });
-            return true;
-          }
+        // i. If cell in header
+        //    Make sure scope='col' and isHeader=true and type is correct
+        if (isTableCell(cell) && (cell.type !== TYPE_TABLE_CELL_HEADER || scope !== 'col')) {
+          updateCell(
+            editor,
+            cell,
+            {
+              scope: 'col',
+            },
+            TYPE_TABLE_CELL_HEADER,
+          );
+          return true;
         }
       } else {
         // i. If table does not have headers on rows
         //    Make sure cells in body has scope=undefined and isHeader=false
-        if (!rowHeaders && (scope || isHeader)) {
-          updateCell(editor, cell, {
-            scope: undefined,
-            isHeader: false,
-          });
+        if (!rowHeaders && (scope || cell.type === TYPE_TABLE_CELL_HEADER)) {
+          updateCell(
+            editor,
+            cell,
+            {
+              scope: undefined,
+            },
+            TYPE_TABLE_CELL,
+          );
           return true;
         }
 
@@ -130,19 +127,30 @@ const normalizeRow = (
         //    Other cells should not be a header
         if (rowHeaders) {
           if (index === 0) {
-            if (scope !== 'row' || !isHeader) {
-              updateCell(editor, cell, {
-                scope: 'row',
-                isHeader: true,
-              });
+            if (scope !== 'row' || cell.type !== TYPE_TABLE_CELL_HEADER) {
+              updateCell(
+                editor,
+                cell,
+                {
+                  scope: 'row',
+                },
+                TYPE_TABLE_CELL_HEADER,
+              );
               return true;
             }
           } else {
-            if ((scope || isHeader) && getPrevCell(matrix, rowIndex, index) !== cell) {
-              updateCell(editor, cell, {
-                scope: undefined,
-                isHeader: false,
-              });
+            if (
+              (scope || cell.type === TYPE_TABLE_CELL_HEADER) &&
+              getPrevCell(matrix, rowIndex, index) !== cell
+            ) {
+              updateCell(
+                editor,
+                cell,
+                {
+                  scope: undefined,
+                },
+                TYPE_TABLE_CELL,
+              );
               return true;
             }
           }

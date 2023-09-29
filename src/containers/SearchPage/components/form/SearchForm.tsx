@@ -7,13 +7,13 @@
  */
 
 import queryString from 'query-string';
+import { Node } from '@ndla/types-taxonomy';
 import SearchContentForm from './SearchContentForm';
 import SearchAudioForm from './SearchAudioForm';
 import SearchPodcastSeriesForm from './SearchPodcastSeriesForm';
 import SearchImageForm from './SearchImageForm';
 import SearchConceptForm from './SearchConceptForm';
 import { SearchType } from '../../../../interfaces';
-import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 
 export interface SearchParams {
   query?: string;
@@ -36,6 +36,7 @@ export interface SearchParams {
   'revision-date-to'?: string;
   'exclude-revision-log'?: boolean | undefined;
   'responsible-ids'?: string;
+  'concept-type'?: string;
   'filter-inactive'?: boolean;
 }
 
@@ -60,6 +61,7 @@ export const parseSearchParams = (locationSearch: string): SearchParams => {
     'include-other-statuses': parseBooleanParam('include-other-statuses'),
     'resource-types': queryStringObject['resource-types'],
     'audio-type': queryStringObject['audio-type'],
+    'concept-type': queryStringObject['concept-type'],
     'model-released': queryStringObject['model-released'],
     fallback: parseBooleanParam('fallback'),
     language: queryStringObject.language,
@@ -83,7 +85,7 @@ interface Props {
   type: SearchType;
   searchObject: SearchParams;
   search: (o: SearchParams) => void;
-  subjects: SubjectType[];
+  subjects: Node[];
   locale: string;
 }
 

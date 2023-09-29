@@ -15,7 +15,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { searchNodes } from '../../../../modules/nodes/nodeApi';
 import formatDate from '../../../../util/formatDate';
-import { toEditConcept } from '../../../../util/routeHelpers';
+import { toEditConcept, toEditGloss } from '../../../../util/routeHelpers';
 import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
 import {
   ControlWrapperDashboard,
@@ -46,6 +46,7 @@ interface Concept {
   title: string;
   status: IStatus;
   lastUpdated: string;
+  type: string;
   subjects: { value: string; label: string }[];
 }
 
@@ -67,6 +68,7 @@ const fetchConceptData = async (
     id: concept.id,
     title: concept.title?.title,
     status: concept.status,
+    type: concept.conceptType,
     lastUpdated: concept.responsible ? formatDate(concept.responsible.lastUpdated) : '',
     subjects:
       subjects?.results.map((subject) => ({ value: subject.id, label: subject.name })) ?? [],
@@ -105,7 +107,10 @@ const ConceptListTabContent = ({
         {
           id: `title_${res.id}`,
           data: (
-            <StyledLink to={toEditConcept(res.id)} title={res.title}>
+            <StyledLink
+              to={res.type === 'concept' ? toEditConcept(res.id) : toEditGloss(res.id)}
+              title={res.title}
+            >
               {res.title}
             </StyledLink>
           ),
@@ -115,6 +120,10 @@ const ConceptListTabContent = ({
           id: `status_${res.id}`,
           data: <StatusCell status={res.status} />,
           title: t(`form.status.${res.status.current.toLowerCase()}`),
+        },
+        {
+          id: `type_${res.id}`,
+          data: t(`searchForm.conceptType.${res.type}`),
         },
         {
           id: `concept_subject_${res.id}`,
@@ -139,7 +148,8 @@ const ConceptListTabContent = ({
 
   const tableTitles: TitleElement<SortOption>[] = [
     { title: t('welcomePage.workList.title'), sortableField: 'title' },
-    { title: t('welcomePage.workList.status'), sortableField: 'status', width: '20%' },
+    { title: t('welcomePage.workList.status'), sortableField: 'status', width: '10%' },
+    { title: t('welcomePage.workList.contentType'), width: '10%' },
     { title: t('welcomePage.workList.conceptSubject') },
     {
       title: t('welcomePage.workList.date'),

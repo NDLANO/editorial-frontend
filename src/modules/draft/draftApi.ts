@@ -13,14 +13,10 @@ import {
   IArticle,
   ITagsSearchResult,
   IArticleTag,
-  IAgreementSearchResult,
   IGrepCodesSearchResult,
   IUserData,
   ISearchResult,
-  IAgreement,
   IUpdatedUserData,
-  IUpdatedAgreement,
-  INewAgreement,
   IUploadedFile,
 } from '@ndla/types-backend/draft-api';
 import {
@@ -160,31 +156,6 @@ export const fetchSearchTags = async (
 
 export const fetchLicenses = async (): Promise<ILicense[]> =>
   fetchAuthorized(`${baseUrl}/licenses/`).then((r) => resolveJsonOrRejectWithError<ILicense[]>(r));
-
-export const fetchAgreements = async (query: string): Promise<IAgreementSearchResult> =>
-  fetchAuthorized(`${baseAgreementsUrl}?query=${query}`).then((r) =>
-    resolveJsonOrRejectWithError<IAgreementSearchResult>(r),
-  );
-
-export const fetchAgreement = async (id: number): Promise<IAgreement> =>
-  fetchAuthorized(`${baseAgreementsUrl}/${id}`).then((r) =>
-    resolveJsonOrRejectWithError<IAgreement>(r),
-  );
-
-export const updateAgreement = async (
-  id: number,
-  agreement: IUpdatedAgreement,
-): Promise<IAgreement> =>
-  fetchAuthorized(`${baseAgreementsUrl}/${id}`, {
-    method: 'PATCH',
-    body: JSON.stringify(agreement),
-  }).then((r) => resolveJsonOrRejectWithError<IAgreement>(r));
-
-export const createAgreement = async (agreement: INewAgreement): Promise<IAgreement> =>
-  fetchAuthorized(`${baseAgreementsUrl}/`, {
-    method: 'POST',
-    body: JSON.stringify(agreement),
-  }).then((r) => resolveJsonOrRejectWithError<IAgreement>(r));
 
 export const fetchGrepCodes = async (query: string): Promise<IGrepCodesSearchResult> =>
   fetchAuthorized(`${baseUrl}/grep-codes/?query=${query}`).then((r) =>

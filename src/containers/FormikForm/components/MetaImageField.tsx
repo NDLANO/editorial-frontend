@@ -30,13 +30,14 @@ const StyledImage = styled.img`
 `;
 
 interface Props {
+  disableAltEditing?: boolean;
   image: IImageMetaInformationV3;
   onImageRemove: () => void;
   showRemoveButton: boolean;
   onImageLoad?: (width: number, height: number) => void;
 }
 
-const MetaImageField = ({ image, onImageRemove, onImageLoad }: Props) => {
+const MetaImageField = ({ image, onImageRemove, onImageLoad, disableAltEditing }: Props) => {
   const { t } = useTranslation();
   const copyright = image.copyright.creators.map((creator) => creator.name).join(', ');
   const title = convertFieldWithFallback<'title'>(image, 'title', '');
@@ -50,7 +51,7 @@ const MetaImageField = ({ image, onImageRemove, onImageLoad }: Props) => {
           variant="ghost"
           onClick={onImageRemove}
           tabIndex={-1}
-          data-cy="remove-element"
+          data-testid="remove-element"
         >
           <DeleteForever />
         </IconButtonV2>
@@ -70,6 +71,7 @@ const MetaImageField = ({ image, onImageRemove, onImageLoad }: Props) => {
   const metaInformationTranslations = {
     title: t('form.metaImage.imageTitle'),
     copyright: t('form.metaImage.copyright'),
+    alt: t('form.name.alttext'),
   };
   const imageUrl = `${image.image.imageUrl}?width=400`;
   const { width, height } = image.image?.dimensions || { width: 0, height: 0 };
@@ -84,16 +86,19 @@ const MetaImageField = ({ image, onImageRemove, onImageLoad }: Props) => {
           title={title}
           copyright={copyright}
           action={imageAction}
+          alt={disableAltEditing ? alt : undefined}
           translations={metaInformationTranslations}
         />
       </MetaImageContainer>
-      <FormikField
-        label={t('topicArticleForm.fields.alt.label')}
-        name="metaImageAlt"
-        noBorder
-        placeholder={t('topicArticleForm.fields.alt.placeholder')}
-        maxLength={300}
-      />
+      {!disableAltEditing && (
+        <FormikField
+          label={t('topicArticleForm.fields.alt.label')}
+          name="metaImageAlt"
+          noBorder
+          placeholder={t('topicArticleForm.fields.alt.placeholder')}
+          maxLength={300}
+        />
+      )}
     </>
   );
 };

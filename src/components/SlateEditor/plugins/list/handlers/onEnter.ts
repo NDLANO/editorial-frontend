@@ -7,16 +7,13 @@ import { defaultListItemBlock } from '../utils/defaultBlocks';
 import { TYPE_PARAGRAPH } from '../../paragraph/types';
 
 const onEnter = (event: KeyboardEvent, editor: Editor, next?: (event: KeyboardEvent) => void) => {
-  if (event.shiftKey && next) return next(event);
-
-  if (!editor.selection && next) return next(event);
-  else if (!editor.selection) return undefined;
+  if (event.shiftKey || !editor.selection) return next?.(event);
 
   const listItemEntry = getCurrentBlock(editor, TYPE_LIST_ITEM);
   const paragraphEntry = getCurrentBlock(editor, TYPE_PARAGRAPH);
 
   if (!listItemEntry || !paragraphEntry) {
-    return next && next(event);
+    return next?.(event);
   }
 
   const [currentListItem, currentListItemPath] = listItemEntry;
@@ -24,15 +21,15 @@ const onEnter = (event: KeyboardEvent, editor: Editor, next?: (event: KeyboardEv
 
   // Check that list and paragraph are of correct type.
   if (!Element.isElement(currentListItem) || currentListItem.type !== TYPE_LIST_ITEM) {
-    return next && next(event);
+    return next?.(event);
   }
   if (!Element.isElement(currentParagraph) || currentParagraph.type !== TYPE_PARAGRAPH) {
-    return next && next(event);
+    return next?.(event);
   }
 
   // Paragraph must be a direct child of list item
   if (!Path.isChild(currentParagraphPath, currentListItemPath)) {
-    return next && next(event);
+    return next?.(event);
   }
 
   event.preventDefault();
@@ -62,12 +59,8 @@ const onEnter = (event: KeyboardEvent, editor: Editor, next?: (event: KeyboardEv
   });
 
   // If at end of list-item, insert a new list item.
-  const nextPoint = Editor.after(editor, Range.end(editor.selection));
   const listItemEnd = Editor.end(editor, currentListItemPath);
-  if (
-    (nextPoint && Point.equals(listItemEnd, nextPoint)) ||
-    Point.equals(listItemEnd, editor.selection.anchor)
-  ) {
+  if (Point.equals(listItemEnd, editor.selection.anchor)) {
     const nextPath = Path.next(currentListItemPath);
     Transforms.insertNodes(
       editor,
@@ -78,11 +71,22 @@ const onEnter = (event: KeyboardEvent, editor: Editor, next?: (event: KeyboardEv
     return;
   }
 
+  // If at the start of list-item, insert a new list item at current path
+  const listItemStart = Editor.start(editor, currentListItemPath);
+  if (Point.equals(listItemStart, editor.selection.anchor)) {
+    Transforms.insertNodes(
+      editor,
+      { ...defaultListItemBlock(), children: [defaultParagraphBlock()] },
+      { at: currentListItemPath },
+    );
+    return;
+  }
   // Split current listItem at selection.
   Transforms.splitNodes(editor, {
     match: (node) => Element.isElement(node) && node.type === TYPE_LIST_ITEM,
     mode: 'lowest',
   });
+  Transforms.select(editor, Editor.start(editor, Path.next(currentListItemPath)));
 };
 
 export default onEnter;

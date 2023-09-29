@@ -13,8 +13,8 @@ import { LicenseField, ContributorsField } from '../../FormikForm';
 import FormikField from '../../../components/FormikField';
 import AsyncSearchTags from '../../../components/Dropdown/asyncDropdown/AsyncSearchTags';
 import { AudioFormikType } from './AudioForm';
-
-const contributorTypes = ['creators', 'rightsholders', 'processors'];
+import OriginField from '../../FormikForm/components/OriginField';
+import CopyrightFieldGroup from '../../FormikForm/CopyrightFieldGroup';
 
 const AudioMetaData = () => {
   const {
@@ -40,9 +40,7 @@ const AudioMetaData = () => {
           />
         )}
       </FormikField>
-      <FormikField name="license">{({ field }) => <LicenseField {...field} />}</FormikField>
-      <FormikField label={t('form.origin.label')} name="origin" />
-      <ContributorsField contributorTypes={contributorTypes} />
+      <CopyrightFieldGroup />
     </>
   );
 };

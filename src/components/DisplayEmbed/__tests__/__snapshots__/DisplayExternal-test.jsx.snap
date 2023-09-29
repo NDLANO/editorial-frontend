@@ -283,7 +283,7 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
       <button
         aria-label="Fjern eksternt element"
         class="emotion-2"
-        data-cy="remove-element"
+        data-testid="remove-element"
         title="Fjern eksternt element"
         type="button"
       >

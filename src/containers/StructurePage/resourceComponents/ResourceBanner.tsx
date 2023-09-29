@@ -14,6 +14,7 @@ import { useTranslation } from 'react-i18next';
 import { Modal, ModalContent, ModalTrigger } from '@ndla/modal';
 import { Plus } from '@ndla/icons/action';
 import { FieldHeader } from '@ndla/forms';
+import Tooltip from '@ndla/tooltip';
 import { Dictionary } from '../../../interfaces';
 import { NodeResourceMeta } from '../../../modules/nodes/nodeQueries';
 import { ResourceGroupBanner, StyledShareIcon } from '../styles';
@@ -46,6 +47,7 @@ const ControlWrapper = styled.div`
 const Content = styled.div`
   display: flex;
   align-items: center;
+  gap: ${spacing.xxsmall};
 `;
 const RightContent = styled(Content)`
   gap: ${spacing.small};
@@ -125,13 +127,15 @@ const ResourceBanner = ({
         <Content>
           <StyledShareIcon />
           {title}
-          <Modal open={open} onOpenChange={setOpen}>
-            <ModalTrigger>
-              <IconButtonV2 size="xsmall" variant="stripped" aria-label={t('taxonomy.addResource')}>
-                <Plus />
-              </IconButtonV2>
-            </ModalTrigger>
-            <ModalContent size={{ width: 'normal', height: 'normal' }} position="top">
+          <Modal open={open} onOpenChange={setOpen} modal={false}>
+            <Tooltip tooltip={t('taxonomy.addResource')}>
+              <ModalTrigger>
+                <IconButtonV2 size="xsmall" variant="ghost" aria-label={t('taxonomy.addResource')}>
+                  <Plus />
+                </IconButtonV2>
+              </ModalTrigger>
+            </Tooltip>
+            <ModalContent size={{ width: 'normal', height: 'normal' }} position="top" forceOverlay>
               <TaxonomyLightbox title={t('taxonomy.addResource')}>
                 <AddResourceModal>
                   <FieldHeader title={t('taxonomy.createResource')} />

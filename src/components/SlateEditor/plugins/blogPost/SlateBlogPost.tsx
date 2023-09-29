@@ -29,11 +29,26 @@ interface Props extends RenderElementProps {
 
 const BlogPostWrapper = styled.div`
   display: flex;
+  height: 100%;
   flex-direction: column;
   align-items: center;
+  div[contenteditable] {
+    height: 100%;
+  }
 
   > div:first-child {
     position: relative;
+  }
+`;
+
+const StyledModalHeader = styled(ModalHeader)`
+  padding-bottom: 0px;
+`;
+
+const StyledModalBody = styled(ModalBody)`
+  padding-top: 0px;
+  h2 {
+    margin: 0px;
   }
 `;
 
@@ -81,20 +96,9 @@ const SlateBlogPost = ({ element, editor, attributes, children }: Props) => {
     [editor, element],
   );
 
-  const StyledModalHeader = styled(ModalHeader)`
-    padding-bottom: 0px;
-  `;
-
-  const StyledModalBody = styled(ModalBody)`
-    padding-top: 0px;
-    h2 {
-      margin: 0px;
-    }
-  `;
-
   return (
     <Modal open={isEditing} onOpenChange={setIsEditing}>
-      <BlogPostWrapper {...attributes}>
+      <BlogPostWrapper {...attributes} data-testid="slate-blog-post">
         {data && (
           <div contentEditable={false}>
             <StyledFigureButtons>

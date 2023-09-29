@@ -26,7 +26,7 @@ const GlossDataSection = () => {
   const { t } = useTranslation();
 
   const {
-    WordClass: { WordClass },
+    wordClass: { wordClass },
   } = constants;
 
   return (
@@ -59,7 +59,7 @@ const GlossDataSection = () => {
                       })}
                     </option>
                   )}
-                  {Object.entries(WordClass)?.map(([key, value]) => (
+                  {Object.entries(wordClass)?.map(([key, value]) => (
                     <option value={value} key={key}>
                       {t(`wordClass.${value}`)}
                     </option>

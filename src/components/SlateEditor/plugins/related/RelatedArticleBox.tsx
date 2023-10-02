@@ -25,6 +25,11 @@ import { RelatedElement } from '.';
 import { useTaxonomyVersion } from '../../../../containers/StructureVersion/TaxonomyVersionProvider';
 import { fetchNodes } from '../../../../modules/nodes/nodeApi';
 import Overlay from '../../../Overlay';
+import {
+  toEditFrontPageArticle,
+  toEditLearningResource,
+  toEditTopicArticle,
+} from '../../../../util/routeHelpers';
 
 interface Props {
   attributes: RenderElementProps['attributes'];
@@ -63,13 +68,24 @@ const internalEmbedToMeta = async (
   }).catch(() => undefined);
 
   if (!!article && !!nodes?.length) {
+    const func =
+      article.articleType === 'frontpage-article'
+        ? toEditFrontPageArticle
+        : article.articleType === 'topic-article'
+        ? toEditTopicArticle
+        : toEditLearningResource;
     return {
       resource: 'related-content',
       embedData,
       status: 'success',
       data: {
         article,
-        resource: nodes[0]!,
+        resource: {
+          ...nodes[0],
+          path: func(article.id, language),
+          // Overriding paths is required in order to make ed links work
+          paths: [],
+        },
       },
     };
   } else {

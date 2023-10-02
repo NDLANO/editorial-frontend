@@ -15,7 +15,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { searchNodes } from '../../../../modules/nodes/nodeApi';
 import formatDate from '../../../../util/formatDate';
-import { toEditConcept } from '../../../../util/routeHelpers';
+import { toEditConcept, toEditGloss } from '../../../../util/routeHelpers';
 import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
 import {
   ControlWrapperDashboard,
@@ -107,7 +107,10 @@ const ConceptListTabContent = ({
         {
           id: `title_${res.id}`,
           data: (
-            <StyledLink to={toEditConcept(res.id)} title={res.title}>
+            <StyledLink
+              to={res.type === 'concept' ? toEditConcept(res.id) : toEditGloss(res.id)}
+              title={res.title}
+            >
               {res.title}
             </StyledLink>
           ),

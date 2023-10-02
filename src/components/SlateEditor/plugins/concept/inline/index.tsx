@@ -14,7 +14,7 @@ import {
   createEmbedTagV2,
   reduceElementDataAttributesV2,
 } from '../../../../../util/embedTagHelpers';
-import InlineConcept from './InlineConcept';
+import InlineConcept from './InlineWrapper';
 import { KEY_BACKSPACE } from '../../../utils/keys';
 import { SlateSerializer } from '../../../interfaces';
 import { TYPE_CONCEPT_INLINE } from './types';
@@ -74,7 +74,7 @@ const onBackspace = (
       }
     }
   }
-  return nextOnKeyDown && nextOnKeyDown(e);
+  return nextOnKeyDown?.(e);
 };
 
 export const inlineConceptPlugin = (locale: string) => (editor: Editor) => {
@@ -93,7 +93,7 @@ export const inlineConceptPlugin = (locale: string) => (editor: Editor) => {
         </InlineConcept>
       );
     }
-    return nextRenderElement && nextRenderElement(props);
+    return nextRenderElement?.(props);
   };
 
   editor.isInline = (element: Element) => {

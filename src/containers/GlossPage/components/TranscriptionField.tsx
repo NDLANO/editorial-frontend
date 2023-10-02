@@ -34,7 +34,7 @@ const TranscriptionField = ({ name, value, label, removeField }: Props) => {
         <StyledTranscriptionField>
           <Input
             label={label}
-            placeholder={t('form.concept.glossDataSection.transcription')}
+            placeholder={t('form.gloss.transcription')}
             value={value ?? ''}
             {...field}
           />

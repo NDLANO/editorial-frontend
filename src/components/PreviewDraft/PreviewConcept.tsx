@@ -64,8 +64,8 @@ const PreviewConcept = ({ concept, language }: Props) => {
           copyright={concept.copyright}
           tags={concept.tags?.tags}
           subjects={subjects?.results?.map((res) => res.name)}
-          previewAlt
           conceptType={concept.conceptType}
+          previewAlt
         />
       )}
     </>

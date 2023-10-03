@@ -74,14 +74,11 @@ interface Props {
 
 const SearchDropdown = ({ onClose }: Props) => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const { t } = useTranslation();
-  const enableUserData = useMemo(
-    () => isValid(getAccessToken()) && getAccessTokenPersonal() && menuOpen,
-    [menuOpen],
-  );
+  const [enableUserData, setEnableUserData] = useState(false);
 
+  const { t } = useTranslation();
   const { data: userData } = useUserData({
-    enabled: isValid(getAccessToken()) && getAccessTokenPersonal() && menuOpen,
+    enabled: isValid(getAccessToken()) && getAccessTokenPersonal() && enableUserData,
     select: (data) => (enableUserData ? data : undefined),
   });
 
@@ -95,10 +92,12 @@ const SearchDropdown = ({ onClose }: Props) => {
 
   const onMenuOpen = useCallback(
     (open: boolean): void => {
+      if (!enableUserData)
+        setEnableUserData(isValid(getAccessToken()) && getAccessTokenPersonal() && open);
       setMenuOpen(open);
       onClose();
     },
-    [onClose],
+    [enableUserData, onClose],
   );
 
   const { searchObjects, getSavedSearchData, loading, error } = useSavedSearchUrl(userData);

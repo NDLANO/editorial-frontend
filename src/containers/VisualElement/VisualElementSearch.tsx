@@ -11,6 +11,7 @@ import VideoSearch from '@ndla/video-search';
 import AudioSearch from '@ndla/audio-search';
 import { IAudioSummary } from '@ndla/types-backend/audio-api';
 import { IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
+import { BrightcoveApiType } from '@ndla/types-embed';
 import config from '../../config';
 import H5PElement from '../../components/H5PElement/H5PElement';
 import { EXTERNAL_WHITELIST_PROVIDERS } from '../../constants';
@@ -20,11 +21,7 @@ import { convertFieldWithFallback } from '../../util/convertFieldWithFallback';
 import { fetchImage, searchImages } from '../../modules/image/imageApi';
 import { fetchAudio, searchAudio } from '../../modules/audio/audioApi';
 import { onError } from '../../util/resolveJsonOrRejectWithError';
-import {
-  BrightcoveApiType,
-  searchVideos,
-  VideoSearchQuery,
-} from '../../modules/video/brightcoveApi';
+import { searchVideos, VideoSearchQuery } from '../../modules/video/brightcoveApi';
 import { AudioSearchParams } from '../../modules/audio/audioApiInterfaces';
 import { Embed, ExternalEmbed, H5pEmbed } from '../../interfaces';
 import FileUploader from '../../components/FileUploader';
@@ -140,7 +137,7 @@ const VisualElementSearch = ({
                     ? config.brightcoveCopyrightPlayerId!
                     : config.brightcovePlayerId!,
                 metaData: video,
-                title: video.name,
+                title: video.name ?? '',
               })
             }
             onError={onError}

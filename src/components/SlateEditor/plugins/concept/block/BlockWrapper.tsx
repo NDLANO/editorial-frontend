@@ -6,27 +6,26 @@
  *
  */
 
-import { useState, ReactNode, useCallback } from 'react';
+import { useState, ReactNode, useCallback, useMemo } from 'react';
 import { Editor, Element, Transforms, Path } from 'slate';
 import { useTranslation } from 'react-i18next';
 import { ReactEditor, RenderElementProps, useSelected } from 'slate-react';
 import styled from '@emotion/styled';
 import { IConcept, IConceptSummary } from '@ndla/types-backend/concept-api';
-import { ConceptEmbedData } from '@ndla/types-embed';
+import { ConceptEmbedData, ConceptMetaData } from '@ndla/types-embed';
 import { Modal, ModalContent } from '@ndla/modal';
 import { spacing, colors } from '@ndla/core';
 import { Check, AlertCircle, DeleteForever } from '@ndla/icons/editor';
 import { IconButtonV2 } from '@ndla/button';
 import { Link as LinkIcon } from '@ndla/icons/common';
 import { SafeLinkIconButton } from '@ndla/safelink';
-import Tooltip from '@ndla/tooltip';
+import { ConceptEmbed } from '@ndla/ui';
 import { useFetchConceptData } from '../../../../../containers/FormikForm/formikConceptHooks';
 import { TYPE_CONCEPT_BLOCK, TYPE_GLOSS_BLOCK } from './types';
 import { ConceptBlockElement } from './interfaces';
 import ConceptModalContent from '../ConceptModalContent';
-import SlateBlockConcept from './SlateBlockConcept';
-import SlateBlockGloss from './SlateBlockGloss';
 import { PUBLISHED } from '../../../../../constants';
+import { useConceptVisualElement } from '../../../../../modules/embed/queries';
 
 const getConceptDataAttributes = ({ id }: IConceptSummary | IConcept): ConceptEmbedData => ({
   contentId: id.toString(),
@@ -45,47 +44,37 @@ interface Props {
 
 const StyledWrapper = styled.div`
   position: relative;
-  white-space: normal;
-  ul {
-    margin-top: 0;
-  }
-  padding: ${spacing.xsmall};
-
-  border: 2px dashed ${colors.brand.greyLighter};
-
   &[data-solid-border='true'] {
-    border: 2px solid ${colors.brand.primary};
+    outline: 2px solid ${colors.brand.primary};
   }
-`;
-const StyledCheckIcon = styled(Check)`
-  margin-left: ${spacing.xsmall};
-  width: ${spacing.normal};
-  height: ${spacing.normal};
-  fill: ${colors.support.green};
-`;
-
-const StyledAlertCircle = styled(AlertCircle)`
-  margin-left: ${spacing.xsmall};
-  margin-top: ${spacing.xsmall};
-  height: ${spacing.normal};
-  width: ${spacing.normal};
-  fill: ${colors.brand.grey};
-`;
-
-const ButtonContainer = styled.div`
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  right: -${spacing.large};
 `;
 
 const BlockWrapper = ({ element, locale, editor, attributes, children }: Props) => {
   const isSelected = useSelected();
   const [isEditing, setIsEditing] = useState(element.isFirstEdit);
-  const { concept, subjects, ...conceptHooks } = useFetchConceptData(
+  const { concept, subjects, loading, ...conceptHooks } = useFetchConceptData(
     parseInt(element.data.contentId),
     locale,
   );
+
+  const visualElementQuery = useConceptVisualElement(
+    concept?.id!,
+    concept?.visualElement?.visualElement!,
+    locale,
+    {
+      enabled: !!concept?.id && !!concept?.visualElement?.visualElement.length,
+    },
+  );
+
+  const embed: ConceptMetaData | undefined = useMemo(() => {
+    if (!element.data || !concept) return undefined;
+    return {
+      status: !concept && !loading ? 'error' : 'success',
+      data: { concept, visualElement: visualElementQuery.data },
+      embedData: element.data,
+      resource: 'concept',
+    };
+  }, [element.data, concept, loading, visualElementQuery.data]);
 
   const addConcept = useCallback(
     (addedConcept: IConceptSummary | IConcept) => {
@@ -128,19 +117,15 @@ const BlockWrapper = ({ element, locale, editor, attributes, children }: Props) 
 
   return (
     <Modal open={isEditing} onOpenChange={setIsEditing}>
-      <StyledWrapper
-        {...attributes}
-        // eslint-disable-next-line jsx-a11y/tabindex-no-positive
-        tabIndex={1}
-        data-solid-border={isSelected}
-        draggable={true}
-        className="c-figure u-float"
-      >
-        {concept && (
+      <StyledWrapper {...attributes} data-solid-border={isSelected} draggable={true}>
+        {concept && embed && (
           <div contentEditable={false}>
-            <ConceptButtonContainer concept={concept} handleRemove={handleRemove} />
-            {concept?.conceptType === 'concept' && <SlateBlockConcept concept={concept} />}
-            {concept?.conceptType === 'gloss' && <SlateBlockGloss concept={concept} />}
+            <ConceptButtonContainer
+              concept={concept}
+              handleRemove={handleRemove}
+              language={locale}
+            />
+            <ConceptEmbed embed={embed} />
           </div>
         )}
         <ModalContent size={{ width: 'large', height: 'large' }}>
@@ -164,10 +149,34 @@ const BlockWrapper = ({ element, locale, editor, attributes, children }: Props) 
 interface ButtonContainerProps {
   concept: IConcept | IConceptSummary;
   handleRemove: () => void;
+  language: string;
 }
 
-const ConceptButtonContainer = ({ concept, handleRemove }: ButtonContainerProps) => {
-  const { t, i18n } = useTranslation();
+const ButtonContainer = styled.div`
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: ${spacing.xsmall};
+  right: -${spacing.large};
+`;
+
+const IconWrapper = styled.div`
+  svg {
+    height: ${spacing.normal};
+    width: ${spacing.normal};
+    fill: ${colors.brand.grey};
+  }
+  &[data-color='green'] {
+    svg {
+      fill: ${colors.support.green};
+    }
+  }
+`;
+
+const ConceptButtonContainer = ({ concept, handleRemove, language }: ButtonContainerProps) => {
+  const { t } = useTranslation();
+  const translatedCurrent = t(`form.status.${concept?.status.current?.toLowerCase()}`);
   return (
     <ButtonContainer>
       <IconButtonV2
@@ -184,30 +193,27 @@ const ConceptButtonContainer = ({ concept, handleRemove }: ButtonContainerProps)
         title={t(`form.${concept?.conceptType}.edit`)}
         variant="ghost"
         colorTheme="light"
-        to={`/${concept.conceptType}/${concept.id}/edit/${
-          concept.content?.language ?? i18n.language
-        }`}
+        to={`/${concept.conceptType}/${concept.id}/edit/${language}`}
         target="_blank"
       >
         <LinkIcon />
       </SafeLinkIconButton>
       {(concept?.status.current === PUBLISHED || concept?.status.other.includes(PUBLISHED)) && (
-        <Tooltip tooltip={t('form.workflow.published')}>
-          <div>
-            <StyledCheckIcon />
-          </div>
-        </Tooltip>
+        <IconWrapper
+          aria-label={t('form.workflow.published')}
+          title={t('form.workflow.published')}
+          data-color="green"
+        >
+          <Check />
+        </IconWrapper>
       )}
       {concept?.status.current !== PUBLISHED && (
-        <Tooltip
-          tooltip={t('form.workflow.currentStatus', {
-            status: t(`form.status.${concept?.status.current.toLowerCase()}`),
-          })}
+        <IconWrapper
+          aria-label={t('form.workflow.currentStatus', { status: translatedCurrent })}
+          title={t('form.workflow.currentStatus', { status: translatedCurrent })}
         >
-          <div>
-            <StyledAlertCircle />
-          </div>
-        </Tooltip>
+          <AlertCircle />
+        </IconWrapper>
       )}
     </ButtonContainer>
   );

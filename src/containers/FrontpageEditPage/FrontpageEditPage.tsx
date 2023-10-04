@@ -7,7 +7,8 @@
  */
 
 import { HelmetWithTracker } from '@ndla/tracker';
-import { Heading, OneColumn } from '@ndla/ui';
+import { OneColumn } from '@ndla/ui';
+import { Heading } from '@ndla/typography';
 import { useTranslation } from 'react-i18next';
 import { Spinner } from '@ndla/icons';
 import { colors, misc, spacing } from '@ndla/core';

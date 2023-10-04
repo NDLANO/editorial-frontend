@@ -10,7 +10,7 @@ import { FieldProps, Form, Formik, FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { ButtonV2 } from '@ndla/button';
 import { Select, Input } from '@ndla/forms';
-import { Heading } from '@ndla/ui';
+import { Heading } from '@ndla/typography';
 import { spacing } from '@ndla/core';
 import styled from '@emotion/styled';
 import { Translation } from '@ndla/types-taxonomy';

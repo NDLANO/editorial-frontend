@@ -176,7 +176,9 @@ const HeaderStatusInformation = ({
             target="_blank"
             aria-label={t('form.workflow.published')}
             title={t('form.workflow.published')}
-            to={`${config.ndlaFrontendDomain}/${type === 'concept' ? type : 'article'}/${id}`}
+            to={`${config.ndlaFrontendDomain}/${
+              type === 'concept' || type === 'gloss' ? 'concept' : 'article'
+            }/${id}`}
           >
             <StyledCheckIcon />
           </StyledLink>

@@ -6,7 +6,8 @@
  *
  */
 
-import { HeadingLevel, RadioButtonGroup } from '@ndla/ui';
+import { RadioButtonGroup } from '@ndla/ui';
+import { HeadingLevel } from '@ndla/typography';
 import { CampaignBlockEmbedData } from '@ndla/types-embed';
 import { useTranslation } from 'react-i18next';
 import { useCallback, useMemo } from 'react';

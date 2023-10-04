@@ -11,7 +11,7 @@ import { Content, Portal as PopoverPortal, Root, Trigger } from '@radix-ui/react
 import { spacing, misc, colors } from '@ndla/core';
 import { ReactNode, useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Heading } from '@ndla/ui';
+import { Heading } from '@ndla/typography';
 import { IArticleSummaryV2 } from '@ndla/types-backend/build/article-api';
 import { useFormikContext } from 'formik';
 import AsyncDropdown from '../../components/Dropdown/asyncDropdown/AsyncDropdown';

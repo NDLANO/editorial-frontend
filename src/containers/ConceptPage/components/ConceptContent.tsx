@@ -77,14 +77,15 @@ const ConceptContent = ({ isGloss }: Props) => {
         </IconContainer>
       </ByLine>
       <VisualElementField types={isGloss ? ['audio'] : ['image', 'video']} />
-
-      <IngressField
-        name="conceptContent"
-        maxLength={800}
-        placeholder={t('form.name.conceptContent')}
-        preview={preview}
-        concept
-      />
+      {!isGloss && (
+        <IngressField
+          name="conceptContent"
+          maxLength={800}
+          placeholder={t('form.name.conceptContent')}
+          preview={preview}
+          concept
+        />
+      )}
     </>
   );
 };

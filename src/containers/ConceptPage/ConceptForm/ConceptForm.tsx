@@ -126,12 +126,6 @@ const conceptRules: RulesType<ConceptFormValues, IConcept> = {
 
 const glossRules: RulesType<ConceptFormValues, IConcept, IGlossExample> = {
   ...conceptFormBaseRules,
-  conceptContent: {
-    warnings: {
-      apiField: 'content',
-      languageMatch: true,
-    },
-  },
   gloss: {
     test: (values) => {
       if (!values.gloss?.gloss || !values.gloss?.wordClass || !values.gloss?.originalLanguage)

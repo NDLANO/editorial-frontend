@@ -76,7 +76,7 @@ const ConceptContent = ({ isGloss }: Props) => {
           <HowToHelper pageId="Markdown" tooltip={t('form.markdown.helpLabel')} />
         </IconContainer>
       </ByLine>
-      <VisualElementField types={isGloss ? ['audio'] : ['image', 'video']} />
+      <VisualElementField types={isGloss ? ['audio'] : ['image', 'video']} isGloss={isGloss} />
       {!isGloss && (
         <IngressField
           name="conceptContent"

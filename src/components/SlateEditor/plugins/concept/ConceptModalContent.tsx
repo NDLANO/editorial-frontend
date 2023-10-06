@@ -79,6 +79,8 @@ const ConceptModalContent = ({
   });
   const [searching, setSearching] = useState(false);
 
+  const conceptTypeTabs: ConceptType[] = conceptType ? [conceptType] : ['concept', 'gloss'];
+
   const searchConcept = useCallback(async (searchParam: ConceptQuery) => {
     if (!searching) {
       setSearching(true);
@@ -153,9 +155,9 @@ const ConceptModalContent = ({
                 </div>
               ),
             },
-            {
-              title: t(`form.${conceptType}.create`),
-              id: 'newConcept',
+            ...conceptTypeTabs.map((ct) => ({
+              title: t(`form.${ct}.create`),
+              id: `new_${ct}`,
               content: (
                 <ConceptForm
                   onUpserted={addConcept}
@@ -169,10 +171,10 @@ const ConceptModalContent = ({
                   conceptArticles={conceptArticles}
                   initialTitle={selectedText}
                   supportedLanguages={concept?.supportedLanguages ?? [locale]}
-                  conceptType={conceptType}
+                  conceptType={ct}
                 />
               ),
-            },
+            })),
           ]}
         />
       </ModalBody>

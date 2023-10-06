@@ -231,7 +231,6 @@ const InlineWrapper = (props: Props) => {
           createConcept={createConcept}
           updateConcept={updateConcept}
           conceptArticles={conceptArticles}
-          conceptType="concept"
         />
       </ModalContent>
     </Modal>

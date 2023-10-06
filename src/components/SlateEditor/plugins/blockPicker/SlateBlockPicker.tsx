@@ -150,9 +150,6 @@ const BlockPickerButton = styled(IconButtonV2)`
 `;
 
 const getLeftAdjust = (parent?: Node) => {
-  // const parent =
-  //   selectedParagraphPath && Editor.node(editor, Path.parent(selectedParagraphPath))?.[0];
-
   if (Element.isElement(parent) && parent.type === TYPE_LIST_ITEM) {
     return 110;
   }

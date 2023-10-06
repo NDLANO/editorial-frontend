@@ -392,7 +392,7 @@ const SlateBlockPicker = ({
           <PopoverTrigger asChild ref={portalRef}>
             <BlockPickerButton
               colorTheme="light"
-              data-testid="slate-block-picker-button"
+              data-testid="slate-block-picker"
               aria-label={blockPickerOpen ? t('slateBlockMenu.close') : t('slateBlockMenu.open')}
               title={blockPickerOpen ? t('slateBlockMenu.close') : t('slateBlockMenu.open')}
             >
@@ -400,14 +400,23 @@ const SlateBlockPicker = ({
             </BlockPickerButton>
           </PopoverTrigger>
         </Portal>
-        <StyledContent side="right" sideOffset={6} data-testid="slate-block-picker">
+        <StyledContent
+          side="right"
+          sideOffset={6}
+          data-testid="slate-block-picker-menu"
+          avoidCollisions={false}
+        >
           <BlockPickerTitle>{t('editorBlockpicker.heading')}</BlockPickerTitle>
           <StyledList>
             {getActionsForArea()
               .filter((a) => !a.requiredScope || userPermissions?.includes(a.requiredScope))
               .map((action) => (
                 <li key={action.data.object}>
-                  <ActionButton onClick={() => onElementAdd(action.data)} variant="stripped">
+                  <ActionButton
+                    onClick={() => onElementAdd(action.data)}
+                    variant="stripped"
+                    data-testid={`create-${action.data.object}`}
+                  >
                     {action.icon}
                     {t(`editorBlockpicker.actions.${action.data.object}`)}
                   </ActionButton>

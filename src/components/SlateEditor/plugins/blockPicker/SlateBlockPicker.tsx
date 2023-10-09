@@ -16,6 +16,7 @@ import { Portal } from '@radix-ui/react-portal';
 import { ButtonV2, IconButtonV2 } from '@ndla/button';
 import { Plus } from '@ndla/icons/action';
 import { shadows, colors, spacing, fonts, animations } from '@ndla/core';
+import { Heading } from '@ndla/typography';
 import SlateVisualElementPicker from './SlateVisualElementPicker';
 import { Action, ActionData } from './actions';
 import { defaultAsideBlock } from '../aside/utils';
@@ -78,12 +79,9 @@ const StyledContent = styled(PopoverContent)`
   ${animations.fadeInLeft(animations.durations.fast)};
 `;
 
-const BlockPickerTitle = styled.p`
+const BlockPickerLabel = styled(Heading)`
   font-weight: ${fonts.weight.normal};
-  text-transform: uppercase;
-  font-family: ${fonts.sans};
   color: ${colors.text.light};
-  margin: 0px;
 `;
 
 const StyledList = styled.ul`
@@ -416,7 +414,9 @@ const SlateBlockPicker = ({
           data-testid="slate-block-picker-menu"
           avoidCollisions={false}
         >
-          <BlockPickerTitle>{t('editorBlockpicker.heading')}</BlockPickerTitle>
+          <BlockPickerLabel element="h1" headingStyle="list-title" margin="none">
+            {t('editorBlockpicker.heading')}
+          </BlockPickerLabel>
           <StyledList>
             {getActionsForArea()
               .filter((a) => !a.requiredScope || userPermissions?.includes(a.requiredScope))

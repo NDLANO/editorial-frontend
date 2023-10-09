@@ -24,7 +24,7 @@ export const removeEmptyElementDataAttributes = (obj: Dictionary<any>) => {
 const reduceRegexp = /(-|_)[a-z]/g;
 
 export const reduceElementDataAttributesV2 = (
-  attributes: Attr[],
+  attributes: Pick<Attr, 'name' | 'value'>[],
   filter?: string[],
 ): Record<string, string> => {
   const _attributes = attributes.filter((a) => a.name !== 'style');

@@ -10,15 +10,17 @@ import { IconButtonV2 } from '@ndla/button';
 import { colors } from '@ndla/core';
 import { Pencil } from '@ndla/icons/action';
 import { DeleteForever } from '@ndla/icons/editor';
-import Tooltip from '@ndla/tooltip';
-import { ReactNode, useState } from 'react';
+import { ReactNode, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Editor, Transforms } from 'slate';
 import { RenderElementProps, ReactEditor, useSelected } from 'slate-react';
 import { Modal, ModalContent, ModalTrigger } from '@ndla/modal';
+import { ConceptListEmbedData, ConceptListMetaData } from '@ndla/types-embed';
+import { ConceptListEmbed } from '@ndla/ui';
 import { ConceptListElement } from '.';
-import ConceptSearchResult from './ConceptSearchResult';
 import ConceptTagPicker from './ConceptTagPicker';
+import { useConceptListMeta } from '../../../../modules/embed/queries';
+import { useSearchConcepts } from '../../../../modules/concept/conceptQueries';
 
 interface Props {
   element: ConceptListElement;
@@ -28,26 +30,17 @@ interface Props {
   children: ReactNode;
 }
 
-const StyledWrapper = styled.div<{ isSelected: boolean }>`
+const StyledWrapper = styled.div`
   position: relative;
-  padding: 5px;
-  border: ${(p) =>
-    p.isSelected ? `2px solid ${colors.brand.primary}` : `2px dashed ${colors.brand.greyLighter}`};
-
-  & > h2 {
-    margin-bottom: 0;
+  &[data-selected='true'] {
+    outline: 2px solid ${colors.brand.primary};
   }
-  & p {
-    margin: 0;
-  }
-`;
-
-const StyledHeader = styled.h2`
-  margin-bottom: 0;
 `;
 
 const ButtonContainer = styled.div`
   position: absolute;
+  display: flex;
+  flex-direction: column;
   top: 0;
   right: 0;
   padding-left: 5px;
@@ -58,6 +51,32 @@ const ConceptList = ({ element, language, editor, attributes, children }: Props)
   const [editMode, setEditMode] = useState<boolean>(!!element.isFirstEdit);
   const isSelected = useSelected();
   const { t } = useTranslation();
+
+  const conceptsQuery = useSearchConcepts(
+    { subjects: element.data?.subjectId, tags: element.data?.tag, language, 'page-size': 200 },
+    { enabled: !!element.data?.tag },
+  );
+
+  const conceptListQuery = useConceptListMeta(
+    element.data.tag,
+    element.data.subjectId,
+    language,
+    conceptsQuery.data?.results ?? [],
+    { enabled: !!element.data.tag && !!conceptsQuery.data?.results.length },
+  );
+
+  const embed: ConceptListMetaData | undefined = useMemo(() => {
+    if (!element.data || !conceptsQuery.data) return;
+    return {
+      resource: 'concept-list',
+      status: 'success',
+      embedData: element.data,
+      data: conceptListQuery.data ?? {
+        concepts: conceptsQuery.data.results.map((c) => ({ concept: c })),
+      },
+    };
+  }, [conceptListQuery.data, conceptsQuery.data, element.data]);
+
   const onClose = () => {
     ReactEditor.focus(editor);
     if (element.isFirstEdit) {
@@ -66,34 +85,34 @@ const ConceptList = ({ element, language, editor, attributes, children }: Props)
     setEditMode(false);
   };
 
+  const onSave = (embed: ConceptListEmbedData) => {
+    ReactEditor.focus(editor);
+    Transforms.setNodes<ConceptListElement>(
+      editor,
+      { data: embed, isFirstEdit: false },
+      { match: (node) => node === element, at: [] },
+    );
+    onClose();
+  };
+
   const onRemoveClick = () => {
     Transforms.removeNodes(editor, { at: [], match: (node) => element === node });
   };
 
-  const { tag, title, subjectId } = element.data;
-
   return (
-    <>
-      <StyledWrapper
-        {...attributes}
-        isSelected={isSelected}
-        // eslint-disable-next-line jsx-a11y/tabindex-no-positive
-        tabIndex={1}
-        draggable
-        className="c-figure u-float"
-      >
-        <ButtonContainer contentEditable={false}>
-          <Tooltip tooltip={t('form.conceptList.remove')}>
+    <Modal open={editMode} onOpenChange={setEditMode}>
+      <StyledWrapper {...attributes} data-selected={isSelected} draggable>
+        <div contentEditable={false}>
+          <ButtonContainer>
             <IconButtonV2
               aria-label={t('form.conceptList.remove')}
+              title={t('form.conceptList.remove')}
               variant="ghost"
               colorTheme="danger"
               onClick={onRemoveClick}
             >
               <DeleteForever />
             </IconButtonV2>
-          </Tooltip>
-          <Modal open={editMode} onOpenChange={setEditMode}>
             <ModalTrigger>
               <IconButtonV2
                 aria-label={t('form.conceptList.edit')}
@@ -104,16 +123,15 @@ const ConceptList = ({ element, language, editor, attributes, children }: Props)
                 <Pencil />
               </IconButtonV2>
             </ModalTrigger>
-            <ModalContent size={{ height: 'large', width: 'large' }}>
-              <ConceptTagPicker element={element} onClose={onClose} language={language} />
-            </ModalContent>
-          </Modal>
-        </ButtonContainer>
-        {title && <StyledHeader contentEditable={false}>{title}</StyledHeader>}
-        {tag && <ConceptSearchResult tag={tag} subjectId={subjectId} language={language} />}
+          </ButtonContainer>
+          {embed && <ConceptListEmbed embed={embed} />}
+        </div>
         {children}
       </StyledWrapper>
-    </>
+      <ModalContent size={{ height: 'large', width: 'large' }}>
+        <ConceptTagPicker element={element} onClose={onClose} language={language} onSave={onSave} />
+      </ModalContent>
+    </Modal>
   );
 };
 

@@ -6,20 +6,21 @@
  */
 
 import { ButtonV2, CloseButton } from '@ndla/button';
-import { Transforms } from 'slate';
 import { spacing } from '@ndla/core';
-import { ReactEditor, useSlateStatic } from 'slate-react';
 import { ModalBody, ModalHeader } from '@ndla/modal';
 import { Input } from '@ndla/forms';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { Node } from '@ndla/types-taxonomy';
+import { Spinner } from '@ndla/icons';
+import { Figure, BlockConcept } from '@ndla/ui';
+import { ConceptListEmbedData } from '@ndla/types-embed';
 import { ConceptListElement } from '.';
 import { fetchAllSubjects, fetchAllTags } from '../../../../modules/concept/conceptApi';
-import ConceptSearchResult from './ConceptSearchResult';
 import Dropdown, { DropdownItem } from '../../../Dropdown/Dropdown';
 import { fetchNode } from '../../../../modules/nodes/nodeApi';
+import { useSearchConcepts } from '../../../../modules/concept/conceptQueries';
 
 const TwoColumn = styled.div`
   display: flex;
@@ -35,13 +36,19 @@ const FormInput = styled.div`
   flex: 1;
 `;
 
+const StyledList = styled.ul`
+  display: block;
+  list-style: none;
+`;
+
 interface Props {
   element: ConceptListElement;
   onClose: () => void;
+  onSave: (embed: ConceptListEmbedData) => void;
   language: string;
 }
 
-const ConceptTagPicker = ({ element, onClose, language }: Props) => {
+const ConceptTagPicker = ({ element, onClose, language, onSave: onSaveProp }: Props) => {
   const { t } = useTranslation();
   const [selectedTag, setSelectedTag] = useState<DropdownItem | undefined>(
     element.data.tag ? { name: element.data.tag, id: element.data.tag } : undefined,
@@ -55,34 +62,22 @@ const ConceptTagPicker = ({ element, onClose, language }: Props) => {
   const [tags, setTags] = useState<DropdownItem[]>([]);
   const [subjects, setSubjects] = useState<DropdownItem[]>([]);
 
-  const editor = useSlateStatic();
+  const conceptSearchQuery = useSearchConcepts(
+    { subjects: selectedSubject?.id, tags: selectedTag?.id, language, 'page-size': 200 },
+    { enabled: !!selectedTag?.id },
+  );
 
   const onChangeTitleInput = (e: ChangeEvent<HTMLInputElement>) => {
-    const {
-      target: { value },
-    } = e;
-    setTitleInput(value);
+    setTitleInput(e.target.value);
   };
 
   const onSave = () => {
-    ReactEditor.focus(editor);
-    Transforms.setNodes<ConceptListElement>(
-      editor,
-      {
-        data: {
-          resource: 'concept-list',
-          tag: selectedTag?.id ?? '',
-          title: titleInput,
-          subjectId: selectedSubject?.id ?? '',
-        },
-        isFirstEdit: false,
-      },
-      {
-        match: (node) => node === element,
-        at: [],
-      },
-    );
-    onClose();
+    onSaveProp({
+      resource: 'concept-list',
+      tag: selectedTag?.id ?? '',
+      title: titleInput,
+      subjectId: selectedSubject?.id ?? '',
+    });
   };
 
   useEffect(() => {
@@ -159,14 +154,33 @@ const ConceptTagPicker = ({ element, onClose, language }: Props) => {
               selectedTag={selectedSubject}
               placeholder={t('form.name.subjects')}
             />
-            <ConceptSearchResult
-              tag={selectedTag?.id}
-              subjectId={selectedSubject?.id}
-              language={language}
-              showResultCount
-            />
+            {conceptSearchQuery.isInitialLoading ? (
+              <Spinner />
+            ) : conceptSearchQuery.data?.results.length ? (
+              <div>
+                <p>{`${t('searchPage.totalCount')}: ${conceptSearchQuery.data.totalCount}`}</p>
+                <Figure type="full" resizeIframe>
+                  <StyledList>
+                    {conceptSearchQuery.data.results?.map((concept) => (
+                      <li key={concept.id}>
+                        <BlockConcept
+                          title={concept.title}
+                          content={concept.content.content}
+                          metaImage={concept.metaImage}
+                          copyright={concept.copyright}
+                          source={concept.source}
+                          conceptType={concept.conceptType}
+                        />
+                      </li>
+                    ))}
+                  </StyledList>
+                </Figure>
+              </div>
+            ) : (
+              <p>{t('conceptSearch.noResults')}</p>
+            )}
           </FormInput>
-          <ButtonV2 onClick={onSave} disabled={!selectedTag}>
+          <ButtonV2 onClick={onSave} disabled={!selectedTag || conceptSearchQuery.isInitialLoading}>
             {t('form.save')}
           </ButtonV2>
         </TwoColumn>

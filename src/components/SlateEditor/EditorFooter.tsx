@@ -8,7 +8,6 @@
 
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
-import { FooterLinkButton } from '@ndla/editor';
 import { colors, spacing } from '@ndla/core';
 import { ButtonV2 } from '@ndla/button';
 import { Launch } from '@ndla/icons/common';
@@ -18,6 +17,7 @@ import { useFormikContext } from 'formik';
 import { memo, useCallback, useEffect, useState } from 'react';
 import { SingleValue } from '@ndla/select';
 import { Switch } from '@ndla/switch';
+import { SafeLinkButton } from '@ndla/safelink';
 import { toPreviewDraft } from '../../util/routeHelpers';
 import SaveMultiButton from '../SaveMultiButton';
 import { NewMessageType, useMessages } from '../../containers/Messages/MessagesProvider';
@@ -191,10 +191,6 @@ function EditorFooter<T extends FormValues>({
     [setFieldValue],
   );
 
-  const onPreviewDraft = useCallback(() => {
-    window.open(toPreviewDraft(values.id, values.language));
-  }, [values.id, values.language]);
-
   if (showSimpleFooter) {
     return (
       <Footer css={isArticle && articleResourcePageStyle}>
@@ -247,16 +243,20 @@ function EditorFooter<T extends FormValues>({
             />
           )}
           {values.id && isArticle && (
-            <FooterLinkButton bold onClick={onPreviewDraft}>
+            <SafeLinkButton
+              variant="link"
+              to={toPreviewDraft(values.id, values.language)}
+              target="_blank"
+            >
               {t('form.preview.button')}
               <Launch />
-            </FooterLinkButton>
+            </SafeLinkButton>
           )}
           <StyledLine />
           {values.id && isArticle && (
-            <FooterLinkButton bold onClick={onValidateClick}>
+            <ButtonV2 variant="link" onClick={onValidateClick}>
               {t('form.validate')}
-            </FooterLinkButton>
+            </ButtonV2>
           )}
         </div>
 

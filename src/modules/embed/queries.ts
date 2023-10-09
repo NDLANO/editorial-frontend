@@ -6,25 +6,11 @@
  *
  */
 
-import { AudioMeta } from '@ndla/types-embed';
-import { IImageMetaInformationV3 } from '@ndla/types-backend/build/image-api';
+import { AudioMeta, ConceptListData, ConceptVisualElementMeta } from '@ndla/types-embed';
 import { UseQueryOptions, useQuery } from '@tanstack/react-query';
-import { fetchAudio } from '../audio/audioApi';
-import { fetchImage } from '../image/imageApi';
+import { IConceptSummary } from '@ndla/types-backend/concept-api';
 import { AUDIO_EMBED } from '../../queryKeys';
-
-const fetchMeta = async (resourceId: string, language: string): Promise<AudioMeta> => {
-  const audio = await fetchAudio(parseInt(resourceId), language);
-  let image: IImageMetaInformationV3 | undefined;
-  if (audio.podcastMeta?.coverPhoto.id) {
-    image = await fetchImage(audio.podcastMeta?.coverPhoto.id, language);
-  }
-
-  return {
-    ...audio,
-    imageMeta: image,
-  };
-};
+import { fetchAudioMeta, fetchConceptListMeta, fetchConceptVisualElement } from './embedApi';
 
 export const useAudioMeta = (
   resourceId: string,
@@ -33,7 +19,37 @@ export const useAudioMeta = (
 ) => {
   return useQuery<AudioMeta>(
     [AUDIO_EMBED, resourceId, language],
-    () => fetchMeta(resourceId, language),
+    () => fetchAudioMeta(resourceId, language),
     options,
+  );
+};
+
+export const useConceptVisualElement = (
+  conceptId: number,
+  visualElement: string,
+  language: string,
+  options?: UseQueryOptions<ConceptVisualElementMeta | undefined>,
+) => {
+  return useQuery<ConceptVisualElementMeta | undefined>(
+    ['conceptVisualElement', conceptId, language],
+    () => fetchConceptVisualElement(visualElement, language),
+    {
+      ...options,
+      retry: false,
+    },
+  );
+};
+
+export const useConceptListMeta = (
+  tag: string,
+  subject: string | undefined,
+  language: string,
+  concepts: IConceptSummary[],
+  options?: UseQueryOptions<ConceptListData>,
+) => {
+  return useQuery<ConceptListData>(
+    ['conceptListMeta', tag, subject],
+    () => fetchConceptListMeta(concepts, language),
+    { ...options, retry: false },
   );
 };

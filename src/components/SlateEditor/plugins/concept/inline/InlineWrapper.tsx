@@ -6,19 +6,26 @@
  *
  */
 
-import { useState, useEffect, ReactNode, useMemo } from 'react';
-
+import { useState, ReactNode, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Editor, Element, Node, Transforms, Path } from 'slate';
 import { ReactEditor, RenderElementProps } from 'slate-react';
-import uniqueId from 'lodash/uniqueId';
+import styled from '@emotion/styled';
+import { Spinner } from '@ndla/icons';
+import { SafeLinkIconButton } from '@ndla/safelink';
+import { colors, spacing } from '@ndla/core';
+import { IconButtonV2 } from '@ndla/button';
 import { IConcept, IConceptSummary } from '@ndla/types-backend/concept-api';
-import { ConceptEmbedData } from '@ndla/types-embed';
+import { AlertCircle, Check, DeleteForever, Link } from '@ndla/icons/editor';
+import { ConceptEmbedData, ConceptMetaData } from '@ndla/types-embed';
 import { Modal, ModalContent } from '@ndla/modal';
+import { ConceptEmbed, InlineConcept } from '@ndla/ui';
 import { ConceptInlineElement } from './interfaces';
 import { useFetchConceptData } from '../../../../../containers/FormikForm/formikConceptHooks';
 import { TYPE_CONCEPT_INLINE } from './types';
-import SlateNotion from './SlateNotion';
 import ConceptModalContent from '../ConceptModalContent';
+import { useConceptVisualElement } from '../../../../../modules/embed/queries';
+import { PUBLISHED } from '../../../../../constants';
 
 const getConceptDataAttributes = (
   concept: IConcept | IConceptSummary,
@@ -38,13 +45,65 @@ interface Props {
   children: ReactNode;
 }
 
+const StyledIconWrapper = styled.div`
+  svg {
+    height: ${spacing.normal};
+    width: ${spacing.normal};
+    fill: ${colors.brand.grey};
+  }
+  &[data-color='green'] {
+    svg {
+      fill: ${colors.support.green};
+    }
+  }
+`;
+
+const ConceptWrapper = styled.div`
+  position: relative;
+  display: inline;
+`;
+
+const HiddenChildren = styled.div`
+  position: absolute;
+  left: 0;
+  display: none;
+`;
+
 const InlineWrapper = (props: Props) => {
+  const { t } = useTranslation();
   const { children, element, locale, editor, attributes } = props;
   const nodeText = Node.string(element).trim();
-  const uuid = useMemo(() => uniqueId(), []);
   const [isEditing, setIsEditing] = useState(element.isFirstEdit);
-  const { concept, subjects, fetchSearchTags, conceptArticles, createConcept, updateConcept } =
-    useFetchConceptData(parseInt(element.data.contentId), locale);
+  const {
+    concept,
+    subjects,
+    loading,
+    fetchSearchTags,
+    conceptArticles,
+    createConcept,
+    updateConcept,
+  } = useFetchConceptData(parseInt(element.data.contentId), locale);
+
+  const visualElementQuery = useConceptVisualElement(
+    concept?.id!,
+    concept?.visualElement?.visualElement!,
+    locale,
+    {
+      enabled: !!concept?.id && !!concept?.visualElement?.visualElement.length,
+    },
+  );
+
+  const embed: ConceptMetaData | undefined = useMemo(() => {
+    // This will be in an error state until the data is either fetched or fails, allowing
+    // us to show normal text while loading. If the data is fetched, ConceptEmbed automatically updates.
+    if (!element.data || !concept) return undefined;
+    return {
+      status: !concept && !loading ? 'error' : 'success',
+      data: { concept, visualElement: visualElementQuery.data },
+      embedData: element.data,
+      resource: 'concept',
+    };
+  }, [concept, element.data, loading, visualElementQuery.data]);
 
   const handleSelectionChange = (isNewConcept: boolean) => {
     ReactEditor.focus(editor);
@@ -92,9 +151,73 @@ const InlineWrapper = (props: Props) => {
 
   return (
     <Modal open={isEditing}>
-      <SlateNotion handleRemove={handleRemove} attributes={attributes} concept={concept} id={uuid}>
-        {children}
-      </SlateNotion>
+      <ConceptWrapper {...attributes}>
+        {/* Without a hidden clone of children, inserting a new concept will crash the app, as ConceptEmbed won't render it yet*/}
+        <HiddenChildren>{children}</HiddenChildren>
+        {!embed ? (
+          <Spinner />
+        ) : embed.status === 'error' ? (
+          <ConceptEmbed embed={embed} />
+        ) : (
+          <InlineConcept
+            title={embed.data.concept.title}
+            content={embed.data.concept.content?.content}
+            metaImage={embed.data.concept.metaImage}
+            copyright={embed.data.concept.copyright}
+            source={embed.data.concept.source}
+            visualElement={embed.data.visualElement}
+            // This is where we expect children to exist, but it only exists after data has been fetched.
+            linkText={children}
+            conceptType={embed.data.concept.conceptType}
+            glossData={embed.data.concept.glossData}
+            headerButtons={
+              <>
+                {concept?.status.current === PUBLISHED ||
+                  (concept?.status.other.includes(PUBLISHED) && (
+                    <StyledIconWrapper
+                      data-color="green"
+                      aria-label={t('form.workflow.published')}
+                      title={t('form.workflow.published')}
+                    >
+                      <Check />
+                    </StyledIconWrapper>
+                  ))}
+                {concept?.status.current !== PUBLISHED && (
+                  <StyledIconWrapper
+                    aria-label={t('form.workflow.currentStatus', {
+                      status: t(`form.status.${concept?.status.current.toLowerCase()}`),
+                    })}
+                    title={t('form.workflow.currentStatus', {
+                      status: t(`form.status.${concept?.status.current.toLowerCase()}`),
+                    })}
+                  >
+                    <AlertCircle />
+                  </StyledIconWrapper>
+                )}
+                <IconButtonV2
+                  colorTheme="danger"
+                  variant="ghost"
+                  onClick={handleRemove}
+                  aria-label={t(`form.${concept?.conceptType}.remove`)}
+                  title={t(`form.${concept?.conceptType}.remove`)}
+                >
+                  <DeleteForever />
+                </IconButtonV2>
+                <SafeLinkIconButton
+                  to={`/${concept?.conceptType}/${concept?.id}/edit/${concept?.content?.language}`}
+                  target="_blank"
+                  colorTheme="lighter"
+                  variant="ghost"
+                  title={t(`form.${concept?.conceptType}.edit`)}
+                  aria-label={t(`form.${concept?.conceptType}.edit`)}
+                >
+                  <Link />
+                </SafeLinkIconButton>
+              </>
+            }
+          />
+        )}
+      </ConceptWrapper>
       <ModalContent size={{ width: 'large', height: 'large' }}>
         <ConceptModalContent
           onClose={onClose}

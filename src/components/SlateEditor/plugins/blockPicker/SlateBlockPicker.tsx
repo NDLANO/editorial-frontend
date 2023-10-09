@@ -90,7 +90,6 @@ const StyledList = styled.ul`
   flex-direction: column;
   li {
     display: flex;
-    flex: 1;
     gap: ${spacing.normal};
     justify-content: space-between;
     margin: 0px;

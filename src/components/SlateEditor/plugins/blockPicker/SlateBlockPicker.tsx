@@ -6,7 +6,7 @@
  *
  */
 
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Editor, Element, Node, Location, Range, Path, Transforms } from 'slate';
 import { useTranslation } from 'react-i18next';
 import { ReactEditor } from 'slate-react';
@@ -106,8 +106,8 @@ const ActionButton = styled(ButtonV2)`
   font-weight: ${fonts.weight.semibold};
   svg {
     color: ${colors.brand.tertiary};
-    width: 24px;
-    height: 24px;
+    width: ${spacing.normal};
+    height: ${spacing.normal};
   }
   transition: color 200ms ease;
   &:hover,
@@ -122,10 +122,9 @@ const ActionButton = styled(ButtonV2)`
 const BlockPickerButton = styled(IconButtonV2)`
   position: absolute;
   z-index: 15;
-  border-color: ${colors.brand.primary};
+  border: 2px solid ${colors.brand.primary};
   height: ${spacing.large};
   width: ${spacing.large};
-  border-width: 2px;
   transition: background 200ms ease, transform 200ms ease;
   svg {
     transition: transform 300ms ease;
@@ -180,6 +179,11 @@ const SlateBlockPicker = ({
   const { userPermissions } = useSession();
   const { t } = useTranslation();
 
+  const blockPickerLabel = useMemo(
+    () => (blockPickerOpen ? t('slateBlockMenu.close') : t('slateBlockMenu.open')),
+    [blockPickerOpen, t],
+  );
+
   const [selectedParagraph, selectedParagraphPath] = getCurrentBlock(editor, TYPE_PARAGRAPH) || [];
 
   useEffect(() => {
@@ -197,12 +201,18 @@ const SlateBlockPicker = ({
     });
 
     if (
+      // If there is no selection, return.
       !selection ||
+      // If the current selection is not a paragraph, return.
       !selectedParagraph ||
+      // Do not show block picker in table headers.
       isInTableCellHeader(editor, selectedParagraphPath) ||
+      // If the current paragraph contains text, return.
       Node.string(selectedParagraph) !== '' ||
+      // If `shouldShowBlockPicker` returns false, return.
       !editor.shouldShowBlockPicker?.() ||
       illegalBlock ||
+      // If the node is an element and it is not included in the allowed pick areas, return.
       (Element.isElement(node[0]) && !allowedPickAreas.includes(node[0].type))
     ) {
       el.style.display = 'none';
@@ -393,8 +403,8 @@ const SlateBlockPicker = ({
             <BlockPickerButton
               colorTheme="light"
               data-testid="slate-block-picker"
-              aria-label={blockPickerOpen ? t('slateBlockMenu.close') : t('slateBlockMenu.open')}
-              title={blockPickerOpen ? t('slateBlockMenu.close') : t('slateBlockMenu.open')}
+              aria-label={blockPickerLabel}
+              title={blockPickerLabel}
             >
               <Plus />
             </BlockPickerButton>

@@ -78,6 +78,7 @@ test('adds and removes details', async ({ page }) => {
 });
 
 test('adds and removes grid', async ({ page }) => {
+  await page.mouse.wheel(0, 50);
   await page.getByTestId('create-grid').click();
   await expect(page.getByTestId('remove-grid')).toBeVisible();
   await page.getByTestId('slate-grid-cell').first().click();

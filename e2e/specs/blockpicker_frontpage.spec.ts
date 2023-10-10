@@ -65,6 +65,7 @@ test.beforeEach(async ({ page }) => {
 });
 
 test('adds and removes grid', async ({ page }) => {
+  await page.mouse.wheel(0, 50);
   await page.getByTestId('create-grid').click();
   expect(await page.getByTestId('slate-grid-cell').count()).toEqual(2);
   await page.getByTestId('slate-grid-cell').first().click();

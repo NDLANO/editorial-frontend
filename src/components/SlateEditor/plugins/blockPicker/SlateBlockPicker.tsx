@@ -6,13 +6,17 @@
  *
  */
 
-import { createRef, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Editor, Element, Node, Location, Range, Path, Transforms } from 'slate';
 import { useTranslation } from 'react-i18next';
 import { ReactEditor } from 'slate-react';
-import { Portal } from '@radix-ui/react-portal';
-import { SlateBlockMenu } from '@ndla/editor';
 import styled from '@emotion/styled';
+import { Popover, PopoverContent, PopoverTrigger } from '@radix-ui/react-popover';
+import { Portal } from '@radix-ui/react-portal';
+import { ButtonV2, IconButtonV2 } from '@ndla/button';
+import { Plus } from '@ndla/icons/action';
+import { shadows, colors, spacing, fonts, animations } from '@ndla/core';
+import { Heading } from '@ndla/typography';
 import SlateVisualElementPicker from './SlateVisualElementPicker';
 import { Action, ActionData } from './actions';
 import { defaultAsideBlock } from '../aside/utils';
@@ -28,7 +32,6 @@ import { defaultConceptBlock, defaultGlossBlock } from '../concept/block/utils';
 import { useSession } from '../../../../containers/Session/SessionProvider';
 import getCurrentBlock from '../../utils/getCurrentBlock';
 import { TYPE_PARAGRAPH } from '../paragraph/types';
-import { isParagraph } from '../paragraph/utils';
 import { isInTableCellHeader, isTableCell } from '../table/slateHelpers';
 import { defaultTableBlock } from '../table/defaultBlocks';
 import { TYPE_BODYBOX } from '../bodybox/types';
@@ -68,10 +71,93 @@ interface Props {
   articleLanguage: string;
 }
 
-const StyledBlockPickerWrapper = styled.div`
+const StyledContent = styled(PopoverContent)`
+  background-color: ${colors.white};
+  z-index: 10;
+  padding: ${spacing.normal};
+  box-shadow: ${shadows.levitate1};
+  ${animations.fadeInLeft(animations.durations.fast)};
+`;
+
+const BlockPickerLabel = styled(Heading)`
+  font-weight: ${fonts.weight.normal};
+  color: ${colors.text.light};
+`;
+
+const StyledList = styled.ul`
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  li {
+    display: flex;
+    gap: ${spacing.normal};
+    justify-content: space-between;
+    margin: 0px;
+  }
+`;
+
+const ActionButton = styled(ButtonV2)`
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  color: ${colors.brand.primary};
+  font-weight: ${fonts.weight.semibold};
+  svg {
+    color: ${colors.brand.tertiary};
+    width: ${spacing.normal};
+    height: ${spacing.normal};
+  }
+  transition: color 200ms ease;
+  &:hover,
+  &:focus-within {
+    text-decoration: none;
+    svg {
+      color: ${colors.brand.primary};
+    }
+  }
+`;
+
+const BlockPickerButton = styled(IconButtonV2)`
   position: absolute;
   z-index: 15;
+  border: 2px solid ${colors.brand.primary};
+  height: ${spacing.large};
+  width: ${spacing.large};
+  transition: background 200ms ease, transform 200ms ease;
+  svg {
+    transition: transform 300ms ease;
+    height: ${spacing.medium};
+    width: ${spacing.medium};
+  }
+  &:hover,
+  &:focus-visible {
+    border-color: ${colors.brand.primary};
+    background-color: ${colors.brand.tertiary};
+    color: ${colors.brand.primary};
+  }
+  &:active {
+    transform: scale(0.9);
+  }
+
+  &[data-state='open'] {
+    svg {
+      transform: rotate(135deg);
+    }
+  }
 `;
+
+const getLeftAdjust = (parent?: Node) => {
+  if (Element.isElement(parent) && parent.type === TYPE_LIST_ITEM) {
+    return 110;
+  }
+  if (isTableCell(parent)) {
+    return 100;
+  }
+  if (Element.isElement(parent) && parent.type === TYPE_GRID) {
+    return -100;
+  }
+
+  return 78;
+};
 
 const SlateBlockPicker = ({
   editor,
@@ -83,73 +169,62 @@ const SlateBlockPicker = ({
 }: Props) => {
   const [blockPickerOpen, setBlockPickerOpen] = useState(false);
   const [lastActiveSelection, setLastActiveSelection] = useState<Range>();
+  const portalRef = useRef<HTMLButtonElement | null>(null);
 
   const [visualElementPickerOpen, setVisualElementPickerOpen] = useState(false);
   const [type, setType] = useState('');
   const { userPermissions } = useSession();
   const { t } = useTranslation();
 
+  const blockPickerLabel = useMemo(
+    () => (blockPickerOpen ? t('slateBlockMenu.close') : t('slateBlockMenu.open')),
+    [blockPickerOpen, t],
+  );
+
   const [selectedParagraph, selectedParagraphPath] = getCurrentBlock(editor, TYPE_PARAGRAPH) || [];
 
-  const selection = editor.selection;
+  useEffect(() => {
+    const el = portalRef.current;
+    const { selection } = editor;
+    if (!el) return;
 
-  const getLeftAdjust = () => {
+    const [node] = Editor.nodes(editor, {
+      match: (node) => Element.isElement(node) && !editor.isInline(node),
+      mode: 'lowest',
+    });
+
+    const [illegalBlock] = Editor.nodes(editor, {
+      match: (node) => Element.isElement(node) && illegalAreas.includes(node.type),
+    });
+
+    if (
+      // If there is no selection, return.
+      !selection ||
+      // If the current selection is not a paragraph, return.
+      !selectedParagraph ||
+      // Do not show block picker in table headers.
+      isInTableCellHeader(editor, selectedParagraphPath) ||
+      // If the current paragraph contains text, return.
+      Node.string(selectedParagraph) !== '' ||
+      // If `shouldShowBlockPicker` returns false, return.
+      !editor.shouldShowBlockPicker?.() ||
+      illegalBlock ||
+      // If the node is an element and it is not included in the allowed pick areas, return.
+      (Element.isElement(node[0]) && !allowedPickAreas.includes(node[0].type))
+    ) {
+      el.style.display = 'none';
+      return;
+    }
     const parent =
       selectedParagraphPath && Editor.node(editor, Path.parent(selectedParagraphPath))?.[0];
-
-    if (Element.isElement(parent) && parent.type === TYPE_LIST_ITEM) {
-      return 110;
-    }
-    if (isTableCell(parent)) {
-      return 100;
-    }
-    if (Element.isElement(parent) && parent.type === TYPE_GRID) {
-      return -100;
-    }
-
-    return 78;
-  };
-
-  const show =
-    !isInTableCellHeader(editor, selectedParagraphPath) &&
-    isParagraph(selectedParagraph) &&
-    Node.string(selectedParagraph) === '' &&
-    selectedParagraph.children.length === 1 &&
-    selectedParagraphPath &&
-    selection &&
-    Path.isDescendant(selection.anchor.path, selectedParagraphPath) &&
-    Range.isCollapsed(selection);
-
-  const portalRef = createRef<HTMLDivElement>();
-
-  useEffect(() => {
-    setTimeout(() => {
-      updateMenu();
-    }, 0);
-  });
-
-  const updateMenu = () => {
-    const menu = portalRef.current;
-    if (!menu) {
-      return;
-    }
-    if (!show || !selectedParagraph) {
-      menu.removeAttribute('style');
-      return;
-    }
-
-    if (!editor.shouldShowToolbar()) {
-      menu.removeAttribute('style');
-      return;
-    }
-
+    const leftAdjust = getLeftAdjust(parent);
     const domElement = ReactEditor.toDOMNode(editor, selectedParagraph);
     const rect = domElement.getBoundingClientRect();
-
-    const left = rect.left + window.scrollX - getLeftAdjust();
-    menu.style.top = `${rect.top + window.scrollY - 14}px`;
-    menu.style.left = `${left}px`;
-  };
+    el.style.display = 'block';
+    const left = rect.left + window.scrollX - leftAdjust;
+    el.style.top = `${rect.top + window.scrollY - 14}px`;
+    el.style.left = `${left}px`;
+  });
 
   useEffect(() => {
     if (Location.isLocation(editor.selection)) {
@@ -157,11 +232,21 @@ const SlateBlockPicker = ({
     }
   }, [editor.selection]);
 
-  const onVisualElementClose = () => {
+  const onOpenChange = useCallback(
+    (open: boolean) => {
+      setBlockPickerOpen(open);
+      if (!open && !visualElementPickerOpen) {
+        ReactEditor.focus(editor);
+      }
+    },
+    [editor, visualElementPickerOpen],
+  );
+
+  const onVisualElementClose = useCallback(() => {
     setVisualElementPickerOpen(false);
     setType('');
     ReactEditor.focus(editor);
-  };
+  }, [editor]);
 
   const onInsertBlock = (block: Element, selectBlock?: boolean) => {
     setTimeout(() => {
@@ -266,29 +351,6 @@ const SlateBlockPicker = ({
     }
   };
 
-  const shouldShowMenuPicker = () => {
-    const [node] = Editor.nodes(editor, {
-      match: (node) => Element.isElement(node) && !editor.isInline(node),
-      mode: 'lowest',
-    });
-
-    const [illegalBlock] = Editor.nodes(editor, {
-      match: (node) => Element.isElement(node) && illegalAreas.includes(node.type),
-    });
-
-    return (
-      editor.shouldShowBlockPicker &&
-      editor.shouldShowBlockPicker() &&
-      (blockPickerOpen ||
-        (node &&
-          Element.isElement(node[0]) &&
-          Node.string(node[0]).length === 0 &&
-          node[0].children.length === 1 &&
-          !illegalBlock &&
-          allowedPickAreas.includes(node[0].type)))
-    );
-  };
-
   const getActionsForArea = () => {
     if (!lastActiveSelection) return actions;
     if (
@@ -323,10 +385,6 @@ const SlateBlockPicker = ({
     return actions;
   };
 
-  if ((!shouldShowMenuPicker() || !show) && !visualElementPickerOpen) {
-    return null;
-  }
-
   return (
     <>
       <SlateVisualElementPicker
@@ -336,33 +394,47 @@ const SlateBlockPicker = ({
         onVisualElementClose={onVisualElementClose}
         onInsertBlock={onInsertBlock}
       />
-      {!visualElementPickerOpen && (
+      <Popover open={blockPickerOpen} onOpenChange={onOpenChange}>
         <Portal>
-          <StyledBlockPickerWrapper ref={portalRef} data-testid="slate-block-picker-button">
-            <SlateBlockMenu
+          <PopoverTrigger asChild ref={portalRef}>
+            <BlockPickerButton
+              colorTheme="light"
               data-testid="slate-block-picker"
-              isOpen={blockPickerOpen}
-              heading={t('editorBlockpicker.heading')}
-              actions={getActionsForArea()
-                .filter(
-                  (action) =>
-                    !action.requiredScope || userPermissions?.includes(action.requiredScope),
-                )
-                .map((action) => ({
-                  ...action,
-                  label: t(`editorBlockpicker.actions.${action.data.object}`),
-                }))}
-              onToggleOpen={(open) => {
-                ReactEditor.focus(editor);
-                setBlockPickerOpen(open);
-              }}
-              clickItem={(data: ActionData) => {
-                onElementAdd(data);
-              }}
-            />
-          </StyledBlockPickerWrapper>
+              aria-label={blockPickerLabel}
+              title={blockPickerLabel}
+            >
+              <Plus />
+            </BlockPickerButton>
+          </PopoverTrigger>
         </Portal>
-      )}
+        <StyledContent
+          side="right"
+          sideOffset={6}
+          data-testid="slate-block-picker-menu"
+          avoidCollisions={false}
+        >
+          <BlockPickerLabel element="h1" headingStyle="list-title" margin="none">
+            {t('editorBlockpicker.heading')}
+          </BlockPickerLabel>
+          <StyledList>
+            {getActionsForArea()
+              .filter((a) => !a.requiredScope || userPermissions?.includes(a.requiredScope))
+              .map((action) => (
+                <li key={action.data.object}>
+                  <ActionButton
+                    onClick={() => onElementAdd(action.data)}
+                    variant="stripped"
+                    data-testid={`create-${action.data.object}`}
+                  >
+                    {action.icon}
+                    {t(`editorBlockpicker.actions.${action.data.object}`)}
+                  </ActionButton>
+                  {action.helpIcon}
+                </li>
+              ))}
+          </StyledList>
+        </StyledContent>
+      </Popover>
     </>
   );
 };

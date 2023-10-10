@@ -36,6 +36,7 @@ export type PartialRecord<K extends keyof any, T> = {
 
 export type EditMode =
   | 'changeSubjectName'
+  | 'changeSubjectLinks'
   | 'deleteTopic'
   | 'addExistingSubjectTopic'
   | 'openCustomFields'
@@ -256,8 +257,7 @@ type Keys =
   | 'model-released'
   | 'responsible-ids'
   | 'subjects'
-  | 'filter-inactive'
-  | 'concept-type';
+  | 'filter-inactive';
 
 export type SearchObjectType = {
   [K in Keys]?: string;

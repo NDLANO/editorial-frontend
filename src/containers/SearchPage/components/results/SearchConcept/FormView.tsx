@@ -73,7 +73,6 @@ const FormView = ({ concept, cancel, subjects, updateLocalConcept }: Props) => {
 
     const newConcept: IUpdatedConcept = {
       content: fullConcept.content?.content,
-      source: fullConcept.source,
       language: language,
       subjectIds: formConcept.subjects.map((s) => s.id),
       tags: formConcept.tags,

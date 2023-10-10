@@ -28,16 +28,17 @@ import {
   getNewConceptType,
   getUpdatedConceptType,
 } from '../conceptTransformers';
-import { ConceptArticles, ConceptCopyright, ConceptContent, ConceptMetaData } from '../components';
+import { ConceptArticles, ConceptContent, ConceptMetaData } from '../components';
 import { ConceptFormValues, ConceptType } from '../conceptInterfaces';
 import ConceptFormFooter from './ConceptFormFooter';
 import { MessageError, useMessages } from '../../Messages/MessagesProvider';
 import { useLicenses } from '../../../modules/draft/draftQueries';
 import FormWrapper from '../../../components/FormWrapper';
-import { useSession } from '../../../containers/Session/SessionProvider';
+import { useSession } from '../../Session/SessionProvider';
 import FormAccordion from '../../../components/Accordion/FormAccordion';
 import FormAccordions from '../../../components/Accordion/FormAccordions';
 import { isEmpty } from '../../../components/validators';
+import CopyrightFieldGroup from '../../FormikForm/CopyrightFieldGroup';
 
 const STATUSES_RESPONSIBLE_NOT_REQUIRED = [PUBLISHED, ARCHIVED, UNPUBLISHED];
 
@@ -304,10 +305,7 @@ const ConceptForm = ({
                 title={t('form.copyrightSection')}
                 hasError={!!(errors.creators || errors.license)}
               >
-                <ConceptCopyright
-                  label={t(`form.${conceptType}.source`)}
-                  description={t(`form.${conceptType}.markdown`)}
-                />
+                <CopyrightFieldGroup enableLicenseNA={true} />
               </FormAccordion>
               <FormAccordion
                 id="metadata"

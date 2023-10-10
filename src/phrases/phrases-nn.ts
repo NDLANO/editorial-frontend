@@ -1940,10 +1940,10 @@ const phrases = {
   remove: 'Fjern',
   frontpageForm: {
     error: 'Ein feil oppsto',
-    changeArticle: 'Endre artikkel',
+    changeArticle: 'Velg artikkel',
     addArticle: 'Legg til artikkel',
     addArticleToMenu: 'Legg til artikkel i meny',
-    changeFrontpageArticle: 'Endre forsideartikkel',
+    changeFrontpageArticle: 'Skift forsideartikkel',
     search: 'Søk etter artikkel',
     frontpageArticle: 'Forsideartikkel:',
     noFrontpageArticle: 'Ingen forsideartikkel valgt',

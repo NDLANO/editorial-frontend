@@ -1937,7 +1937,7 @@ const phrases = {
   remove: 'Remove',
   frontpageForm: {
     error: 'An error occurred',
-    changeArticle: 'Change article',
+    changeArticle: 'Choose article',
     addArticle: 'Add article',
     addArticleToMenu: 'Add article to menu',
     changeFrontpageArticle: 'Change front page article',

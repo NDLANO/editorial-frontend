@@ -40,6 +40,7 @@ export interface CampaignBlockFormValues {
   linkText: string;
   metaImageId?: string;
   imageSide?: CampaignBlockEmbedData['imageSide'];
+  alt?: string;
 }
 
 const rules: RulesType<CampaignBlockFormValues> = {
@@ -83,12 +84,16 @@ const toInitialValues = (
     headingLevel: initialData?.headingLevel ?? 'h2',
     link: initialData?.url ?? '',
     linkText: initialData?.urlText ?? '',
+    alt: initialData?.alt ?? '',
   };
 };
 
 const inputStyle = css`
   display: flex;
   flex-direction: column;
+  & > label {
+    white-space: nowrap;
+  }
 `;
 
 const StyledFormikField = styled(FormikField)`
@@ -106,7 +111,7 @@ const StyledSelect = styled.select`
 `;
 
 const ButtonContainer = styled.div`
-  padding-top: ${spacing.small};
+  margin-top: ${spacing.small};
   display: flex;
   justify-content: flex-end;
   gap: ${spacing.small};
@@ -140,6 +145,7 @@ const CampaignBlockForm = ({ initialData, onSave, onCancel }: Props) => {
         url: values.link,
         urlText: values.linkText,
         imageId: values.metaImageId,
+        alt: values.alt,
       });
     },
     [onSave],
@@ -238,7 +244,12 @@ const CampaignBlockForm = ({ initialData, onSave, onCancel }: Props) => {
               />
             )}
           </StyledFormikField>
-          <InlineImageSearch name={'metaImageId'} />
+          <InlineImageSearch name="metaImageId" disableAltEditing />
+          <StyledFormikField name="alt">
+            {({ field }: FieldProps) => (
+              <InputV2 customCss={inputStyle} label={t('form.name.metaImageAlt')} {...field} />
+            )}
+          </StyledFormikField>
           <ButtonContainer>
             <ButtonV2 variant="outline" onClick={onCancel}>
               {t('cancel')}

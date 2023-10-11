@@ -25,6 +25,7 @@ import { AudioElement } from './types';
 import { useAudioMeta } from '../../../../modules/embed/queries';
 import { StyledDeleteEmbedButton, StyledFigureButtons } from '../embed/FigureButtons';
 import AudioEmbedForm from './AudioEmbedForm';
+import parseMarkdown from '../../../../util/parseMarkdown';
 
 interface Props extends RenderElementProps {
   element: AudioElement;
@@ -73,7 +74,17 @@ const SlateAudio = ({ element, editor, attributes, language, children }: Props) 
       element.data
         ? {
             status: !!audioMetaQuery.error || !audioMetaQuery.data ? 'error' : 'success',
-            data: audioMetaQuery.data!,
+            data: {
+              ...audioMetaQuery.data!,
+              manuscript: audioMetaQuery.data?.manuscript
+                ? {
+                    ...audioMetaQuery.data.manuscript,
+                    manuscript: parseMarkdown({
+                      markdown: audioMetaQuery.data.manuscript.manuscript,
+                    }),
+                  }
+                : undefined,
+            },
             embedData: element.data,
             resource: 'audio',
           }

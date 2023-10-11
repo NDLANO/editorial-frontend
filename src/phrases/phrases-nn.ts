@@ -1483,7 +1483,11 @@ const phrases = {
         'Ingen omsetjingar tilgjengeleg! Standardnamn vil brukes inntil dette er lagt inn.',
     },
     changeSubjectLinks: {
+      buildsOn: 'Byggjer på',
       buttonTitle: 'Endre faglenkjer',
+      cancel: 'Avbryt',
+      connectedTo: 'Kobla til',
+      leadsTo: 'Leier til',
       loadError: 'Klarte ikkje hente faglenkjer',
       title: 'Endre faglenkjer',
     },

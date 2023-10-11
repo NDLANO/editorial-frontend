@@ -1480,8 +1480,12 @@ const phrases = {
       noTranslations: 'No translations available! Using default name as fallback.',
     },
     changeSubjectLinks: {
+      buildsOn: 'Builds on',
       buttonTitle: 'Change subject links',
+      cancel: 'Cancel',
+      connectedTo: 'Connected to',
       loadError: 'Could not fetch subject links',
+      leadsTo: 'Leads to',
       title: 'Change subject links',
     },
     addTopic: 'Add topic',

@@ -6,21 +6,36 @@
  *
  */
 
-import { Formik } from 'formik';
+import { FieldProps, Formik, FormikProps } from 'formik';
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { CloseButton } from '@ndla/button';
+import { ButtonV2, CloseButton } from '@ndla/button';
 import { Pencil } from '@ndla/icons/action';
 import { Modal, ModalBody, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from '@ndla/modal';
+import { Select } from '@ndla/select';
 import { Node, NodeType } from '@ndla/types-taxonomy';
 
 import { EditModeHandler } from '../SettingsMenuDropdownType';
 import MenuItemButton from '../sharedMenuOptions/components/MenuItemButton';
 import { StyledErrorMessage } from '../styles';
 import { useFetchSubjectpageData } from '../../../FormikForm/formikSubjectpageHooks';
+import { Row } from '../../../../components';
+import UIField from '../../../../components/Field';
+import FormikField from '../../../../components/FormikField';
 import RoundIcon from '../../../../components/RoundIcon';
+import SaveButton from '../../../../components/SaveButton';
 import Spinner from '../../../../components/Spinner';
+import StyledForm from '../../../../components/StyledFormComponents';
+import { useTaxonomyVersion } from '../../../../containers/StructureVersion/TaxonomyVersionProvider';
+import { useNodes } from '../../../../modules/nodes/nodeQueries';
+import { isFormikFormDirty } from '../../../../util/formHelper';
+
+interface FormikSubjectLinksValues {
+  connectedTo: string[];
+  buildsOn: string[];
+  leadsTo: string[];
+}
 
 interface Props {
   node: Node;
@@ -67,15 +82,32 @@ interface ModalProps {
 }
 
 const ChangeSubjectLinksContent = ({ onClose, node, nodeType = 'SUBJECT' }: ModalProps) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [loadError, setLoadError] = useState('');
+  const [updateError, setUpdateError] = useState('');
+  const [saved, setSaved] = useState(false);
+  const { taxonomyVersion } = useTaxonomyVersion();
   const { id, contentUri } = node;
+
+  const nodesQuery = useNodes(
+    { language: i18n.language, nodeType: 'SUBJECT', isContext: true, taxonomyVersion },
+    {
+      select: (nodes) => nodes.sort((a, b) => a.name?.localeCompare(b.name)),
+      placeholderData: [],
+    },
+  );
+
+  console.log(nodesQuery.data);
 
   const { loading, subjectpage, updateSubjectpage } = useFetchSubjectpageData(
     id,
     'nb',
     contentUri?.split(':').pop(),
   );
+
+  const onSubmit = async (formik: FormikProps<FormikSubjectLinksValues>) => {
+    formik.setSubmitting(true);
+  };
 
   if (loading) {
     return <Spinner />;
@@ -100,7 +132,77 @@ const ChangeSubjectLinksContent = ({ onClose, node, nodeType = 'SUBJECT' }: Moda
         <CloseButton title={t('dialog.close')} data-testid="close-modal-button" onClick={onClose} />
       </ModalHeader>
       <ModalBody>
-        <Formik initialValues={initialValues} onSubmit={(_, __) => {}}></Formik>
+        <Formik initialValues={initialValues} onSubmit={(_, __) => {}} enableReinitialize={true}>
+          {(formik) => {
+            const { values, dirty, isSubmitting, isValid } = formik;
+            const formIsDirty: boolean = isFormikFormDirty({ values, initialValues, dirty });
+            if (formIsDirty) {
+              setUpdateError('');
+              setSaved(false);
+            }
+            return (
+              <StyledForm>
+                <FormikField
+                  name="connectedTo"
+                  label={t('taxonomy.changeSubjectLinks.connectedTo')}
+                >
+                  {({ field }: FieldProps) => {
+                    return (
+                      <Select
+                        {...field}
+                        options={(nodesQuery.data ?? []).map((subject) => {
+                          return { value: subject.id, label: subject.name };
+                        })}
+                        isMulti
+                        isSearchable
+                      />
+                    );
+                  }}
+                </FormikField>
+                <FormikField name="buildsOn" label={t('taxonomy.changeSubjectLinks.buildsOn')}>
+                  {({ field }: FieldProps) => {
+                    return (
+                      <Select
+                        {...field}
+                        options={(nodesQuery.data ?? []).map((subject) => {
+                          return { value: subject.id, label: subject.name };
+                        })}
+                        isMulti
+                        isSearchable
+                      />
+                    );
+                  }}
+                </FormikField>
+                <FormikField name="leadsTo" label={t('taxonomy.changeSubjectLinks.leadsTo')}>
+                  {({ field }: FieldProps) => {
+                    return (
+                      <Select
+                        {...field}
+                        options={(nodesQuery.data ?? []).map((subject) => {
+                          return { value: subject.id, label: subject.name };
+                        })}
+                        isMulti
+                        isSearchable
+                      />
+                    );
+                  }}
+                </FormikField>
+                <UIField right noBorder>
+                  <Row justifyContent="end">
+                    <ButtonV2 onClick={onClose}>{t('taxonomy.changeSubjectLinks.cancel')}</ButtonV2>
+                    <SaveButton
+                      size="large"
+                      isSaving={isSubmitting}
+                      showSaved={!formIsDirty && saved}
+                      formIsDirty={formIsDirty}
+                      onClick={() => onSubmit}
+                    />
+                  </Row>
+                </UIField>
+              </StyledForm>
+            );
+          }}
+        </Formik>
       </ModalBody>
     </>
   );

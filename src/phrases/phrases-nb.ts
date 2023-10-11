@@ -1483,7 +1483,11 @@ const phrases = {
         'Ingen oversettelser tilgjengelig. Standardnavn vil brukes inntil dette er lagt inn.',
     },
     changeSubjectLinks: {
+      buildsOn: 'Bygger på',
       buttonTitle: 'Endre faglenker',
+      cancel: 'Avbryt',
+      connectedTo: 'Koblet til',
+      leadsTo: 'Leder til',
       loadError: 'Klarte ikke hente faglenker',
       title: 'Endre faglenker',
     },

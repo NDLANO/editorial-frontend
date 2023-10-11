@@ -1484,6 +1484,8 @@ const phrases = {
     },
     changeSubjectLinks: {
       buttonTitle: 'Endre faglenker',
+      loadError: 'Klarte ikke hente faglenker',
+      title: 'Endre faglenker',
     },
     addTopic: 'Legg til nytt emne',
     addTopicHeader: 'Legg til emne',

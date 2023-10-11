@@ -29,15 +29,8 @@ export const getUrnFromId = (id?: number | string): string | undefined =>
   id ? `urn:frontpage:${id}` : undefined;
 
 export interface SubjectPageFormikType {
-  facebook?: string;
-  goTo: string[];
   id?: number;
-  latestContent?: string[];
-  layout: string;
-  mostRead?: string[];
   name: string;
-  topical?: string;
-  twitter?: string;
   supportedLanguages?: string[];
   visualElement: Descendant[];
   articleType: string;
@@ -83,10 +76,6 @@ export const subjectpageFormikTypeToPostType = (
       desktopImageId: values.desktopBannerId!,
     },
     editorsChoices: editorsChoicesUrns,
-    facebook: values.facebook,
-    goTo: values.goTo,
-    latestContent: values.latestContent,
-    layout: values.layout,
     metaDescription: [
       {
         metaDescription: values.metaDescription
@@ -95,10 +84,7 @@ export const subjectpageFormikTypeToPostType = (
         language: values.language,
       },
     ],
-    mostRead: values.mostRead,
     name: values.name,
-    topical: values.topical,
-    twitter: values.twitter,
   };
 };
 
@@ -124,16 +110,9 @@ export const subjectpageApiTypeToFormikType = (
     desktopBannerId: subjectpage?.banner.desktopId,
     visualElement: embed ?? [],
     editorsChoices: editorsChoices ?? [],
-    facebook: subjectpage?.facebook,
-    goTo: subjectpage?.goTo ?? [],
     id: subjectpage?.id,
-    latestContent: subjectpage?.latestContent,
-    layout: subjectpage?.layout ?? 'single',
     metaDescription: plainTextToEditorValue(subjectpage?.metaDescription || ''),
-    mostRead: subjectpage?.mostRead ?? [],
     name: subjectpage?.about?.title ?? elementName ?? '',
-    topical: subjectpage?.topical ?? '',
-    twitter: subjectpage?.twitter ?? '',
     elementId,
   };
 };

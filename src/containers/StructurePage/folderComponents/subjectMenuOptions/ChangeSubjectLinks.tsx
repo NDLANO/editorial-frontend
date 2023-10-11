@@ -6,16 +6,21 @@
  *
  */
 
-import { useCallback } from 'react';
+import { Formik } from 'formik';
+import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { CloseButton } from '@ndla/button';
 import { Pencil } from '@ndla/icons/action';
-import { Modal, ModalContent, ModalTrigger } from '@ndla/modal';
+import { Modal, ModalBody, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from '@ndla/modal';
 import { Node, NodeType } from '@ndla/types-taxonomy';
 
 import { EditModeHandler } from '../SettingsMenuDropdownType';
 import MenuItemButton from '../sharedMenuOptions/components/MenuItemButton';
+import { StyledErrorMessage } from '../styles';
+import { useFetchSubjectpageData } from '../../../FormikForm/formikSubjectpageHooks';
 import RoundIcon from '../../../../components/RoundIcon';
+import Spinner from '../../../../components/Spinner';
 
 interface Props {
   node: Node;
@@ -62,7 +67,43 @@ interface ModalProps {
 }
 
 const ChangeSubjectLinksContent = ({ onClose, node, nodeType = 'SUBJECT' }: ModalProps) => {
-  return <div>Test</div>;
+  const { t } = useTranslation();
+  const [loadError, setLoadError] = useState('');
+  const { id, contentUri } = node;
+
+  const { loading, subjectpage, updateSubjectpage } = useFetchSubjectpageData(
+    id,
+    'nb',
+    contentUri?.split(':').pop(),
+  );
+
+  if (loading) {
+    return <Spinner />;
+  }
+
+  console.log(subjectpage);
+
+  const initialValues = {
+    connectedTo: subjectpage?.connectedTo ?? [],
+    buildsOn: subjectpage?.buildsOn ?? [],
+    leadsTo: subjectpage?.leadsTo ?? [],
+  };
+
+  if (loadError) {
+    return <StyledErrorMessage>{loadError}</StyledErrorMessage>;
+  }
+
+  return (
+    <>
+      <ModalHeader>
+        <ModalTitle>{t('taxonomy.changeSubjectLinks.title')}</ModalTitle>
+        <CloseButton title={t('dialog.close')} data-testid="close-modal-button" onClick={onClose} />
+      </ModalHeader>
+      <ModalBody>
+        <Formik initialValues={initialValues} onSubmit={(_, __) => {}}></Formik>
+      </ModalBody>
+    </>
+  );
 };
 
 export default ChangeSubjectLinks;

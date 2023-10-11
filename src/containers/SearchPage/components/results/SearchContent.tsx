@@ -162,7 +162,9 @@ const SearchContent = ({ content, locale, responsibleName }: Props) => {
             <StyledSearchBreadcrumb style={{ marginRight: 0 }} />
           )}
           <HeaderStatusInformation
+            id={content.id}
             statusText={statusType()}
+            inSearch
             published={
               !!(
                 content.status?.current === 'PUBLISHED' ||

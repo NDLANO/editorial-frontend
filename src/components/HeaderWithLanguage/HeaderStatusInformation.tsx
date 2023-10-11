@@ -69,6 +69,7 @@ interface Props {
   expirationDate?: string;
   responsibleName?: string;
   hasRSS?: boolean;
+  inSearch?: boolean;
 }
 
 const StyledStatus = styled.p`
@@ -129,6 +130,7 @@ const HeaderStatusInformation = ({
   type,
   id,
   setHasConnections,
+  inSearch,
   expirationDate,
   responsibleName,
   hasRSS,
@@ -147,7 +149,7 @@ const HeaderStatusInformation = ({
   if (!noStatus || isNewLanguage) {
     return (
       <StyledStatusWrapper>
-        {type === 'standard' || type === 'topic-article' ? (
+        {(type === 'standard' || type === 'topic-article') && !inSearch ? (
           <>
             <EmbedConnection id={id} type="article" articles={articles} setArticles={setArticles} />
             <LearningpathConnection
@@ -168,7 +170,7 @@ const HeaderStatusInformation = ({
               />
             )}
           </>
-        ) : type === 'concept' ? (
+        ) : type === 'concept' && !inSearch ? (
           <EmbedConnection id={id} type="concept" articles={articles} setArticles={setArticles} />
         ) : null}
         {published && (

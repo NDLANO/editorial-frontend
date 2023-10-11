@@ -139,7 +139,7 @@ const HeaderStatusInformation = ({
   const [concepts, setConcepts] = useState<IConceptSummary[]>([]);
 
   useEffect(() => {
-    setHasConnections?.(!!learningpaths?.length ?? !!articles?.length ?? !!concepts?.length);
+    setHasConnections?.(!!learningpaths?.length || !!articles?.length || !!concepts?.length);
   }, [learningpaths, articles, concepts, setHasConnections]);
 
   const expirationColor = useMemo(() => getWarnStatus(expirationDate), [expirationDate]);

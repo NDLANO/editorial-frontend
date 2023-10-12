@@ -97,8 +97,6 @@ const ChangeSubjectLinksContent = ({ onClose, node, nodeType = 'SUBJECT' }: Moda
     },
   );
 
-  console.log(nodesQuery.data);
-
   const { loading, subjectpage, updateSubjectpage } = useFetchSubjectpageData(
     id,
     'nb',
@@ -107,13 +105,12 @@ const ChangeSubjectLinksContent = ({ onClose, node, nodeType = 'SUBJECT' }: Moda
 
   const onSubmit = async (formik: FormikProps<FormikSubjectLinksValues>) => {
     formik.setSubmitting(true);
+    console.log(formik.values);
   };
 
   if (loading) {
     return <Spinner />;
   }
-
-  console.log(subjectpage);
 
   const initialValues = {
     connectedTo: subjectpage?.connectedTo ?? [],
@@ -134,7 +131,7 @@ const ChangeSubjectLinksContent = ({ onClose, node, nodeType = 'SUBJECT' }: Moda
       <ModalBody>
         <Formik initialValues={initialValues} onSubmit={(_, __) => {}} enableReinitialize={true}>
           {(formik) => {
-            const { values, dirty, isSubmitting, isValid } = formik;
+            const { values, dirty, isSubmitting, isValid, setValues } = formik;
             const formIsDirty: boolean = isFormikFormDirty({ values, initialValues, dirty });
             if (formIsDirty) {
               setUpdateError('');
@@ -153,6 +150,7 @@ const ChangeSubjectLinksContent = ({ onClose, node, nodeType = 'SUBJECT' }: Moda
                         options={(nodesQuery.data ?? []).map((subject) => {
                           return { value: subject.id, label: subject.name };
                         })}
+                        onChange={(v) => field.onChange({ target: { name: field.name, value: v } })}
                         isMulti
                         isSearchable
                       />
@@ -167,6 +165,7 @@ const ChangeSubjectLinksContent = ({ onClose, node, nodeType = 'SUBJECT' }: Moda
                         options={(nodesQuery.data ?? []).map((subject) => {
                           return { value: subject.id, label: subject.name };
                         })}
+                        onChange={(v) => field.onChange({ target: { name: field.name, value: v } })}
                         isMulti
                         isSearchable
                       />
@@ -181,6 +180,7 @@ const ChangeSubjectLinksContent = ({ onClose, node, nodeType = 'SUBJECT' }: Moda
                         options={(nodesQuery.data ?? []).map((subject) => {
                           return { value: subject.id, label: subject.name };
                         })}
+                        onChange={(v) => field.onChange({ target: { name: field.name, value: v } })}
                         isMulti
                         isSearchable
                       />
@@ -193,9 +193,9 @@ const ChangeSubjectLinksContent = ({ onClose, node, nodeType = 'SUBJECT' }: Moda
                     <SaveButton
                       size="large"
                       isSaving={isSubmitting}
-                      showSaved={!formIsDirty && saved}
-                      formIsDirty={formIsDirty}
-                      onClick={() => onSubmit}
+                      showSaved={saved}
+                      onClick={() => onSubmit(formik)}
+                      disabled={!isValid}
                     />
                   </Row>
                 </UIField>

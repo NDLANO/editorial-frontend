@@ -6,7 +6,7 @@
 
 import { IAudioMetaInformation } from '@ndla/types-backend/audio-api';
 import { IArticle, IRelatedContentLink } from '@ndla/types-backend/draft-api';
-import { AudioEmbedData } from '@ndla/types-embed';
+import { AudioEmbedData, H5pEmbedData } from '@ndla/types-embed';
 import { SearchTypeValues, LOCALE_VALUES } from './constants';
 
 export interface FormikStatus {
@@ -159,7 +159,7 @@ export type Embed =
   | ImageEmbed
   | BrightcoveEmbed
   | AudioEmbedData
-  | H5pEmbed
+  | H5pEmbedData
   | ExternalEmbed
   | ErrorEmbed;
 

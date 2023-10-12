@@ -224,7 +224,7 @@ export const learningResourceRules: RulesType<LearningResourceFormType, IArticle
         values.content ?? [],
         'image-embed',
         'brightcove-embed',
-        'h5p-embed',
+        'h5p',
         'audio',
         'error-embed',
         'external-embed',

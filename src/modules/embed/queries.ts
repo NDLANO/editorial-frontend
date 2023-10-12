@@ -6,11 +6,16 @@
  *
  */
 
-import { AudioMeta, ConceptListData, ConceptVisualElementMeta } from '@ndla/types-embed';
+import { AudioMeta, ConceptListData, ConceptVisualElementMeta, H5pData } from '@ndla/types-embed';
 import { UseQueryOptions, useQuery } from '@tanstack/react-query';
 import { IConceptSummary } from '@ndla/types-backend/concept-api';
 import { AUDIO_EMBED } from '../../queryKeys';
-import { fetchAudioMeta, fetchConceptListMeta, fetchConceptVisualElement } from './embedApi';
+import {
+  fetchAudioMeta,
+  fetchConceptListMeta,
+  fetchConceptVisualElement,
+  fetchH5pMeta,
+} from './embedApi';
 
 export const useAudioMeta = (
   resourceId: string,
@@ -22,6 +27,13 @@ export const useAudioMeta = (
     () => fetchAudioMeta(resourceId, language),
     options,
   );
+};
+
+export const useH5pMeta = (path: string, url: string, options?: UseQueryOptions<H5pData>) => {
+  return useQuery<H5pData>(['h5pMeta', path, url], () => fetchH5pMeta(path, url), {
+    ...options,
+    retry: false,
+  });
 };
 
 export const useConceptVisualElement = (

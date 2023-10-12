@@ -7,7 +7,7 @@
  */
 
 import { FieldProps, Formik, FormikProps } from 'formik';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { ButtonV2, CloseButton } from '@ndla/button';
@@ -30,11 +30,18 @@ import StyledForm from '../../../../components/StyledFormComponents';
 import { useTaxonomyVersion } from '../../../../containers/StructureVersion/TaxonomyVersionProvider';
 import { useNodes } from '../../../../modules/nodes/nodeQueries';
 import { isFormikFormDirty } from '../../../../util/formHelper';
+import handleError from '../../../../util/handleError';
+
+interface SelectOptions {
+  id?: string;
+  value: string;
+  label: string;
+}
 
 interface FormikSubjectLinksValues {
-  connectedTo: string[];
-  buildsOn: string[];
-  leadsTo: string[];
+  connectedTo: SelectOptions[];
+  buildsOn: SelectOptions[];
+  leadsTo: SelectOptions[];
 }
 
 interface Props {
@@ -89,13 +96,19 @@ const ChangeSubjectLinksContent = ({ onClose, node, nodeType = 'SUBJECT' }: Moda
   const { taxonomyVersion } = useTaxonomyVersion();
   const { id, contentUri } = node;
 
-  const nodesQuery = useNodes(
+  const subjects = useNodes(
     { language: i18n.language, nodeType: 'SUBJECT', isContext: true, taxonomyVersion },
     {
       select: (nodes) => nodes.sort((a, b) => a.name?.localeCompare(b.name)),
       placeholderData: [],
+      onError: (error) => {
+        handleError(error);
+        setLoadError(t('taxonomy.changeSubjectLinks.loadError'));
+      },
     },
-  );
+  ).data?.map((subject) => {
+    return { value: subject.id, label: subject.name };
+  });
 
   const { loading, subjectpage, updateSubjectpage } = useFetchSubjectpageData(
     id,
@@ -103,9 +116,32 @@ const ChangeSubjectLinksContent = ({ onClose, node, nodeType = 'SUBJECT' }: Moda
     contentUri?.split(':').pop(),
   );
 
+  console.log(subjectpage);
+
   const onSubmit = async (formik: FormikProps<FormikSubjectLinksValues>) => {
-    formik.setSubmitting(true);
-    console.log(formik.values);
+    const { setSubmitting, values } = formik;
+    setSubmitting(true);
+    console.log(values);
+
+    try {
+      await updateSubjectpage(
+        subjectpage && typeof subjectpage.id === 'number' ? subjectpage.id : '',
+        {
+          connectedTo: values.connectedTo.map((v) => v.value),
+          buildsOn: values.buildsOn.map((v) => v.value),
+          leadsTo: values.leadsTo.map((v) => v.value),
+        },
+      );
+    } catch (error) {
+      console.error(error);
+      handleError(error);
+      setUpdateError(t('taxonomy.changeSubjectLinks.updateError'));
+      setSubmitting(false);
+      return;
+    }
+
+    setSubmitting(false);
+    setSaved(true);
   };
 
   if (loading) {
@@ -113,9 +149,15 @@ const ChangeSubjectLinksContent = ({ onClose, node, nodeType = 'SUBJECT' }: Moda
   }
 
   const initialValues = {
-    connectedTo: subjectpage?.connectedTo ?? [],
-    buildsOn: subjectpage?.buildsOn ?? [],
-    leadsTo: subjectpage?.leadsTo ?? [],
+    connectedTo: subjectpage
+      ? (subjects ?? []).filter((subject) => subjectpage.connectedTo.includes(subject.value))
+      : [],
+    buildsOn: subjectpage
+      ? (subjects ?? []).filter((subject) => subjectpage.buildsOn.includes(subject.value))
+      : [],
+    leadsTo: subjectpage
+      ? (subjects ?? []).filter((subject) => subjectpage.leadsTo.includes(subject.value))
+      : [],
   };
 
   if (loadError) {
@@ -131,7 +173,7 @@ const ChangeSubjectLinksContent = ({ onClose, node, nodeType = 'SUBJECT' }: Moda
       <ModalBody>
         <Formik initialValues={initialValues} onSubmit={(_, __) => {}} enableReinitialize={true}>
           {(formik) => {
-            const { values, dirty, isSubmitting, isValid, setValues } = formik;
+            const { values, dirty, isSubmitting, isValid } = formik;
             const formIsDirty: boolean = isFormikFormDirty({ values, initialValues, dirty });
             if (formIsDirty) {
               setUpdateError('');
@@ -147,9 +189,7 @@ const ChangeSubjectLinksContent = ({ onClose, node, nodeType = 'SUBJECT' }: Moda
                     return (
                       <Select
                         {...field}
-                        options={(nodesQuery.data ?? []).map((subject) => {
-                          return { value: subject.id, label: subject.name };
-                        })}
+                        options={subjects || []}
                         onChange={(v) => field.onChange({ target: { name: field.name, value: v } })}
                         isMulti
                         isSearchable
@@ -162,9 +202,7 @@ const ChangeSubjectLinksContent = ({ onClose, node, nodeType = 'SUBJECT' }: Moda
                     return (
                       <Select
                         {...field}
-                        options={(nodesQuery.data ?? []).map((subject) => {
-                          return { value: subject.id, label: subject.name };
-                        })}
+                        options={subjects || []}
                         onChange={(v) => field.onChange({ target: { name: field.name, value: v } })}
                         isMulti
                         isSearchable
@@ -177,9 +215,7 @@ const ChangeSubjectLinksContent = ({ onClose, node, nodeType = 'SUBJECT' }: Moda
                     return (
                       <Select
                         {...field}
-                        options={(nodesQuery.data ?? []).map((subject) => {
-                          return { value: subject.id, label: subject.name };
-                        })}
+                        options={subjects || []}
                         onChange={(v) => field.onChange({ target: { name: field.name, value: v } })}
                         isMulti
                         isSearchable
@@ -199,6 +235,7 @@ const ChangeSubjectLinksContent = ({ onClose, node, nodeType = 'SUBJECT' }: Moda
                     />
                   </Row>
                 </UIField>
+                {updateError && <StyledErrorMessage>{updateError}</StyledErrorMessage>}
               </StyledForm>
             );
           }}

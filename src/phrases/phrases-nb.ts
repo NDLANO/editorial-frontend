@@ -1490,6 +1490,7 @@ const phrases = {
       leadsTo: 'Leder til',
       loadError: 'Klarte ikke hente faglenker',
       title: 'Endre faglenker',
+      updateError: 'Klarte ikke oppdatere faglenker',
     },
     addTopic: 'Legg til nytt emne',
     addTopicHeader: 'Legg til emne',

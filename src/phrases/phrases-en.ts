@@ -1487,6 +1487,7 @@ const phrases = {
       loadError: 'Could not fetch subject links',
       leadsTo: 'Leads to',
       title: 'Change subject links',
+      updateError: 'Could not update subject links',
     },
     addTopic: 'Add topic',
     addTopicHeader: 'Add topic',

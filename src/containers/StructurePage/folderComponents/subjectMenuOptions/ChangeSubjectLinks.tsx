@@ -116,12 +116,9 @@ const ChangeSubjectLinksContent = ({ onClose, node, nodeType = 'SUBJECT' }: Moda
     contentUri?.split(':').pop(),
   );
 
-  console.log(subjectpage);
-
   const onSubmit = async (formik: FormikProps<FormikSubjectLinksValues>) => {
     const { setSubmitting, values } = formik;
     setSubmitting(true);
-    console.log(values);
 
     try {
       await updateSubjectpage(

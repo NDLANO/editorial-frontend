@@ -41,6 +41,7 @@ test.beforeEach(async ({ page }) => {
 
   await page.goto('/subject-matter/learning-resource/new');
   await page.getByTestId('slate-editor').click();
+  await page.mouse.wheel(0, 50);
   await page.getByTestId('slate-block-picker').click();
   await page.getByTestId('create-grid').click();
 });

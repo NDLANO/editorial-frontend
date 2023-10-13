@@ -105,6 +105,9 @@ const ContentView = ({
           <Crumb />
         )}
         <HeaderStatusInformation
+          id={concept.id}
+          inSearch
+          type="concept"
           statusText={t(`form.status.${concept.status?.current.toLowerCase()}`)}
           published={
             concept.status?.current === 'PUBLISHED' || concept.status?.other.includes('PUBLISHED')

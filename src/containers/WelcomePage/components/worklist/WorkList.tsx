@@ -90,7 +90,7 @@ const WorkList = ({ ndlaId }: Props) => {
       aria-label={t('welcomePage.workList.ariaLabel')}
       tabs={[
         {
-          title: `${t('form.articleSection')} (${data?.totalCount ?? 0})`,
+          title: `${t('taxonomy.resources')} (${data?.totalCount ?? 0})`,
           id: 'articles',
           content: (
             <WorkListTabContent

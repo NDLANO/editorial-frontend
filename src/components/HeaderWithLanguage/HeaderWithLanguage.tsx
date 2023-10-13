@@ -101,7 +101,7 @@ const HeaderWithLanguage = ({
             id={id}
             language={language}
             supportedLanguages={supportedLanguages}
-            disableDelete={hasConnections || (isArticle && supportedLanguages.length === 1)}
+            disableDelete={(hasConnections || isArticle) && supportedLanguages.length === 1}
             article={article}
             concept={concept}
             noStatus={noStatus}

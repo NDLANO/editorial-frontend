@@ -29,6 +29,7 @@ interface BlogPostFormValues {
   size?: 'normal' | 'large';
   author?: string;
   link: string;
+  alt?: string;
 }
 
 const rules: RulesType<BlogPostFormValues> = {
@@ -64,10 +65,12 @@ const toInitialValues = (initialData?: BlogPostEmbedData): BlogPostFormValues =>
     language: initialData?.language ?? 'nb',
     link: initialData?.url ?? '',
     author: initialData?.author ?? '',
+    alt: initialData?.alt ?? '',
   };
 };
 
 const ButtonContainer = styled.div`
+  margin-top: ${spacing.small};
   display: flex;
   justify-content: flex-end;
   gap: ${spacing.small};
@@ -82,6 +85,9 @@ interface Props {
 const inputStyle = css`
   display: flex;
   flex-direction: column;
+  & > label {
+    white-space: nowrap;
+  }
 `;
 
 const StyledFormikField = styled(FormikField)`
@@ -107,6 +113,7 @@ const BlogPostForm = ({ initialData, onSave, onCancel }: Props) => {
         size: values.size,
         author: values.author ?? '',
         url: values.link,
+        alt: values.alt ?? '',
       };
 
       onSave(newData);
@@ -159,7 +166,12 @@ const BlogPostForm = ({ initialData, onSave, onCancel }: Props) => {
           <StyledFormikField name="size" showError>
             {({ field }: FieldProps) => <SizeField field={field} />}
           </StyledFormikField>
-          <InlineImageSearch name={'metaImageId'} disableAltEditing />
+          <InlineImageSearch name="metaImageId" disableAltEditing />
+          <StyledFormikField name="alt">
+            {({ field }: FieldProps) => (
+              <InputV2 customCss={inputStyle} label={t('form.name.metaImageAlt')} {...field} />
+            )}
+          </StyledFormikField>
           <ButtonContainer>
             <ButtonV2 variant="outline" onClick={onCancel}>
               {t('cancel')}

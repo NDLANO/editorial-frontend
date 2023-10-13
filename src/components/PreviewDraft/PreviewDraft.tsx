@@ -44,6 +44,7 @@ interface FormArticle {
   published?: string;
   copyright?: IDraftCopyright;
   articleType?: string;
+  language?: string;
 }
 
 type Props = PreviewArticleV2Props | PreviewFormArticleV2Props;
@@ -59,10 +60,11 @@ export const PreviewDraft = ({ type, draft: draftProp, label, contentType, langu
         introduction: draftProp.introduction?.introduction,
         published: draftProp.published,
         copyright: draftProp.copyright,
+        language: draftProp.title?.language ?? language,
       };
     }
     return draftProp;
-  }, [draftProp, type]);
+  }, [draftProp, type, language]);
 
   const transformedContent = usePreviewArticle(draft.content!, language, draft.visualElement);
 
@@ -86,6 +88,7 @@ export const PreviewDraft = ({ type, draft: draftProp, label, contentType, langu
     const content = transform(transformedContent.data, {
       previewAlt: true,
       frontendDomain: config.ndlaFrontendDomain,
+      articleLanguage: draft.language,
     });
     return {
       title: draft.title ?? '',
@@ -117,6 +120,7 @@ export const PreviewDraft = ({ type, draft: draftProp, label, contentType, langu
       locale={language as LocaleType}
       messages={{ label }}
       renderMarkdown={renderMarkdown}
+      lang={draft.language}
     />
   );
 };

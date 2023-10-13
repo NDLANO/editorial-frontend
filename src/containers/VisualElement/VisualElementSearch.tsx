@@ -6,7 +6,8 @@
  *
  */
 
-import { TFunction, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
+import { TFunction } from 'i18next';
 import VideoSearch from '@ndla/video-search';
 import AudioSearch from '@ndla/audio-search';
 import { IAudioSummary } from '@ndla/types-backend/audio-api';

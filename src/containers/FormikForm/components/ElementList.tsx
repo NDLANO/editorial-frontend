@@ -7,7 +7,7 @@
  */
 
 import { createRef, Component, MutableRefObject, MouseEvent as ReactMouseEvent } from 'react';
-import { CustomWithTranslation, withTranslation } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { spacing, spacingUnit, shadows } from '@ndla/core';
 import { IRelatedContentLink } from '@ndla/types-backend/draft-api';
@@ -43,7 +43,7 @@ export interface ElementType {
 
 interface ElementLink extends IRelatedContentLink {}
 
-interface Props extends CustomWithTranslation {
+interface Props extends WithTranslation {
   elements: (ElementType | ElementLink)[];
   articleType?: string;
   isEditable?: boolean;

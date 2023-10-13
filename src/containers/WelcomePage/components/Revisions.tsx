@@ -37,7 +37,7 @@ import GoToSearch from './GoToSearch';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 import { useSearchNodes } from '../../../modules/nodes/nodeQueries';
 import { SUBJECT_NODE } from '../../../modules/nodes/nodeApiTypes';
-import { FAVOURITES_SUBJECT_ID, PUBLISHED } from '../../../constants';
+import { FAVOURITES_SUBJECT_ID, PUBLISHED, STORED_SORT_OPTION_REVISION } from '../../../constants';
 
 const RevisionsWrapper = styled.div`
   ${mq.range({ from: breakpoints.tabletWide })} {
@@ -61,7 +61,10 @@ type SortOptionRevision = 'title' | 'revisionDate' | 'status';
 
 const Revisions = ({ userData }: Props) => {
   const [filterSubject, setFilterSubject] = useState<SingleValue | undefined>(undefined);
-  const [sortOption, setSortOption] = useState<Prefix<'-', SortOptionRevision>>('revisionDate');
+  const [sortOption, _setSortOption] = useState<Prefix<'-', SortOptionRevision>>(
+    (localStorage.getItem(STORED_SORT_OPTION_REVISION) as Prefix<'-', SortOptionRevision>) ||
+      'revisionDate',
+  );
   const [error, setError] = useState<string | undefined>(undefined);
   const [page, setPage] = useState(1);
   const [checked, setChecked] = useState(false);
@@ -187,6 +190,11 @@ const Revisions = ({ userData }: Props) => {
       ]) ?? [[]],
     [filteredData, t],
   );
+
+  const setSortOption = useCallback((s: Prefix<'-', SortOptionRevision>) => {
+    _setSortOption(s);
+    localStorage.setItem(STORED_SORT_OPTION_REVISION, s);
+  }, []);
 
   return (
     <RevisionsWrapper>

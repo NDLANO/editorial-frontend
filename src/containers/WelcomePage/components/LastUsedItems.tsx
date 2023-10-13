@@ -6,7 +6,7 @@
  *
  */
 
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import orderBy from 'lodash/orderBy';
 import Tabs from '@ndla/tabs';
@@ -17,6 +17,10 @@ import { useSearchDrafts } from '../../../modules/draft/draftQueries';
 import LastUsedResources from './LastUsedResources';
 import LastUsedConcepts from './LastUsedConcepts';
 import { useSearchConcepts } from '../../../modules/concept/conceptQueries';
+import {
+  STORED_SORT_OPTION_LAST_USED,
+  STORED_SORT_OPTION_LAST_USED_CONCEPT,
+} from '../../../constants';
 
 export type SortOptionLastUsed = 'title' | 'lastUpdated';
 
@@ -56,11 +60,16 @@ const LastUsedItems = ({ lastUsedResources = [], lastUsedConcepts = [] }: Props)
     i18n: { language },
   } = useTranslation();
 
-  const [sortOption, setSortOption] = useState<SortOptionType>('-lastUpdated');
+  const [sortOption, _setSortOption] = useState<SortOptionType>(
+    (localStorage.getItem(STORED_SORT_OPTION_LAST_USED) as SortOptionType) || '-lastUpdated',
+  );
   const [error, setError] = useState<string | undefined>(undefined);
   const [page, setPage] = useState(1);
 
-  const [sortOptionConcept, setSortOptionConcept] = useState<SortOptionType>('-lastUpdated');
+  const [sortOptionConcept, _setSortOptionConcept] = useState<SortOptionType>(
+    (localStorage.getItem(STORED_SORT_OPTION_LAST_USED_CONCEPT) as SortOptionType) ||
+      '-lastUpdated',
+  );
   const [errorConcept, setErrorConcept] = useState<string | undefined>(undefined);
   const [pageConcept, setPageConcept] = useState(1);
 
@@ -105,6 +114,16 @@ const LastUsedItems = ({ lastUsedResources = [], lastUsedConcepts = [] }: Props)
     { title: t('form.name.title'), sortableField: 'title' },
     { title: t('welcomePage.updated'), sortableField: 'lastUpdated', width: '40%' },
   ];
+
+  const setSortOption = useCallback((s: SortOptionType) => {
+    _setSortOption(s);
+    localStorage.setItem(STORED_SORT_OPTION_LAST_USED, s);
+  }, []);
+
+  const setSortOptionConcept = useCallback((s: SortOptionType) => {
+    _setSortOptionConcept(s);
+    localStorage.setItem(STORED_SORT_OPTION_LAST_USED_CONCEPT, s);
+  }, []);
 
   return (
     <Tabs

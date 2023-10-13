@@ -6,14 +6,15 @@
  *
  */
 
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import sortBy from 'lodash/sortBy';
 import partition from 'lodash/partition';
 import styled from '@emotion/styled';
 import { colors, spacing, misc } from '@ndla/core';
 import { ButtonV2 } from '@ndla/button';
 import { OneColumn } from '@ndla/ui';
 import { HelmetWithTracker } from '@ndla/tracker';
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { Version } from '@ndla/types-taxonomy';
 import { Row } from '../../components';
 import Footer from '../App/components/Footer';
@@ -49,7 +50,7 @@ const getPublishedAndOther = (
   const [published, other] = partition(versions, (v) => v.versionType === 'PUBLISHED');
   return {
     published: published[0],
-    other: other.sort((a, b) => new Date(a.created).getTime() - new Date(b.created).getTime()),
+    other: sortBy(other, 'created'),
   };
 };
 

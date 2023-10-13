@@ -8,7 +8,13 @@ import { HTMLProps, MutableRefObject, ReactNode, useEffect } from 'react';
 import { colors, spacing } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
 import { Subject } from '@ndla/icons/contentType';
-import { DragVertical, Star, SubjectMatter, Taxonomy } from '@ndla/icons/editor';
+import {
+  CloudUploadOutline,
+  DragVertical,
+  Star,
+  SubjectMatter,
+  Taxonomy,
+} from '@ndla/icons/editor';
 import { NodeChild, Node } from '@ndla/types-taxonomy';
 import { DragEndEvent } from '@dnd-kit/core';
 import { useTranslation } from 'react-i18next';
@@ -18,7 +24,7 @@ import { createGuard } from '../../util/guards';
 import { nodePathToUrnPath } from '../../util/taxonomyHelpers';
 import FolderItem from './folderComponents/FolderItem';
 import { useSession } from '../Session/SessionProvider';
-import { TAXONOMY_ADMIN_SCOPE } from '../../constants';
+import { TAXONOMY_ADMIN_SCOPE, TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH } from '../../constants';
 import {
   ItemTitleButton,
   StructureWrapper,
@@ -128,8 +134,8 @@ const NodeItem = ({
       icon = <Taxonomy />;
       break;
   }
-
   const typeIcon = <RoundIcon smallIcon={icon} />;
+  const publishing = item.metadata.customFields[TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH] === 'true';
 
   return (
     <StyledStructureItem
@@ -163,6 +169,12 @@ const NodeItem = ({
         >
           {renderBeforeTitle?.(item, !!isRoot, isTaxonomyAdmin, articleType, isPublished)}
           {typeIcon}
+          {publishing && (
+            <RoundIcon
+              smallIcon={<CloudUploadOutline color="green" size="nsmall" />}
+              title={t('diff.fields.requestPublish.title')}
+            />
+          )}
           {item.name}
         </ItemTitleButton>
         {isActive && (

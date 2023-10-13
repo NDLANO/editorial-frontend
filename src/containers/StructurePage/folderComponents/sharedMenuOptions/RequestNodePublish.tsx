@@ -1,4 +1,4 @@
-import { Check } from '@ndla/icons/editor';
+import { CloudUploadOutline } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -46,7 +46,7 @@ const RequestNodePublish = ({ node, rootNodeId }: Props) => {
       onClick={togglePublish}
       disabled={taxonomyVersion !== 'default' || metadata.customFields.isPublishing === 'true'}
     >
-      <RoundIcon small icon={<Check />} />
+      <RoundIcon small icon={<CloudUploadOutline />} />
       {t(
         hasRequested
           ? 'taxonomy.metadata.customFields.cancelPublishRequest'

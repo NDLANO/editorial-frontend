@@ -154,11 +154,11 @@ const SlateH5p = ({ element, editor, attributes, language, children }: Props) =>
                 </ModalTrigger>
               )}
               <StyledDeleteEmbedButton
-                title={t('form.audio.remove')}
-                aria-label={t('form.audio.remove')}
+                title={t('form.h5p.remove')}
+                aria-label={t('form.h5p.remove')}
                 colorTheme="danger"
                 onClick={handleRemove}
-                data-testid="remove-element"
+                data-testid="remove-h5p-element"
               >
                 <DeleteForever />
               </StyledDeleteEmbedButton>

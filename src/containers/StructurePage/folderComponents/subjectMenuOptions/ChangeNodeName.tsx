@@ -22,14 +22,10 @@ import { EditModeHandler } from '../SettingsMenuDropdownType';
 import MenuItemButton from '../sharedMenuOptions/components/MenuItemButton';
 import RoundIcon from '../../../../components/RoundIcon';
 import handleError from '../../../../util/handleError';
-import {
-  nodeQueryKey,
-  nodesQueryKey,
-  nodeTranslationsQueryKey,
-  useNodeTranslations,
-} from '../../../../modules/nodes/nodeQueries';
+import { nodeQueryKey, nodesQueryKey, useNode } from '../../../../modules/nodes/nodeQueries';
 import {
   useDeleteNodeTranslationMutation,
+  usePutNodeMutation,
   useUpdateNodeTranslationMutation,
 } from '../../../../modules/nodes/nodeMutations';
 import Spinner from '../../../../components/Spinner';
@@ -70,6 +66,7 @@ const StyledFormikField = styled(FormikField)`
 
 interface FormikTranslationFormValues {
   translations: Translation[];
+  name: string;
 }
 
 interface Props {
@@ -125,20 +122,23 @@ interface ModalProps {
   nodeType?: NodeType;
 }
 
+const BOGUS_LANGUAGE = 'asdasdasd';
+
 const ChangeNodeNameContent = ({ onClose, node, nodeType = 'SUBJECT' }: ModalProps) => {
   const { t } = useTranslation();
   const [loadError, setLoadError] = useState('');
   const [updateError, setUpdateError] = useState('');
   const [saved, setSaved] = useState(false);
   const { taxonomyVersion } = useTaxonomyVersion();
+  const qc = useQueryClient();
   const { id, name } = node;
 
-  const {
-    data: translations,
-    isInitialLoading: loading,
-    refetch,
-  } = useNodeTranslations(
-    { id, taxonomyVersion },
+  const nodeWithoutTranslationsQuery = useNode(
+    {
+      id: node.id,
+      language: BOGUS_LANGUAGE,
+      taxonomyVersion,
+    },
     {
       onError: (e) => {
         handleError(e);
@@ -146,9 +146,10 @@ const ChangeNodeNameContent = ({ onClose, node, nodeType = 'SUBJECT' }: ModalPro
       },
     },
   );
+
   const { mutateAsync: deleteNodeTranslation } = useDeleteNodeTranslationMutation();
   const { mutateAsync: updateNodeTranslation } = useUpdateNodeTranslationMutation();
-  const qc = useQueryClient();
+  const putNodeMutation = usePutNodeMutation();
 
   const toRecord = (translations: Translation[]): Record<string, Translation> =>
     translations.reduce((prev, curr) => ({ ...prev, [curr.language]: curr }), {});
@@ -161,49 +162,62 @@ const ChangeNodeNameContent = ({ onClose, node, nodeType = 'SUBJECT' }: ModalPro
     const deleted = Object.entries(initial).filter(([key]) => !newValues[key]);
     const toUpdate = Object.entries(newValues).filter(([key, value]) => value !== initial[key]);
 
-    const deleteCalls = deleted.map(([, d]) =>
-      deleteNodeTranslation({ id, language: d.language, taxonomyVersion }),
+    const promises: (() => Promise<any>)[] = [];
+
+    if (formik.initialValues.name !== formik.values.name) {
+      promises.push(() =>
+        putNodeMutation.mutateAsync({ id, taxonomyVersion, name: formik.values.name }),
+      );
+    }
+
+    deleted.forEach(([, d]) =>
+      promises.push(() => deleteNodeTranslation({ id, language: d.language, taxonomyVersion })),
     );
-    const updateCalls = toUpdate.map(([, u]) =>
-      updateNodeTranslation({
-        id,
-        language: u.language,
-        body: { name: u.name },
-        taxonomyVersion,
-      }),
+
+    toUpdate.forEach(([, u]) =>
+      promises.push(() =>
+        updateNodeTranslation({
+          id,
+          language: u.language,
+          body: { name: u.name },
+          taxonomyVersion,
+        }),
+      ),
     );
-    const promises = [...deleteCalls, ...updateCalls];
     try {
-      await Promise.all(promises);
+      for (const promise of promises) {
+        await promise();
+      }
     } catch (e) {
       console.error(e);
       handleError(e);
       setUpdateError(t('taxonomy.changeName.updateError'));
-      qc.invalidateQueries(nodeTranslationsQueryKey({ id }));
-      qc.invalidateQueries(nodesQueryKey({ nodeType: nodeType, taxonomyVersion }));
-      qc.invalidateQueries(nodeQueryKey({ id }));
+      await qc.invalidateQueries(nodesQueryKey({ nodeType: nodeType, taxonomyVersion }));
+      await qc.invalidateQueries(nodeQueryKey({ id, language: BOGUS_LANGUAGE, taxonomyVersion }));
       formik.setSubmitting(false);
       return;
     }
 
     if (promises.length > 0) {
-      qc.invalidateQueries(nodesQueryKey({ nodeType: nodeType, taxonomyVersion }));
-      qc.invalidateQueries(nodeQueryKey({ id }));
+      await qc.invalidateQueries(nodesQueryKey({ nodeType: nodeType, taxonomyVersion }));
+      await qc.invalidateQueries(nodeQueryKey({ id, language: BOGUS_LANGUAGE, taxonomyVersion }));
     }
-    await refetch();
     formik.resetForm({ values: formik.values, isSubmitting: false });
     setSaved(true);
   };
 
-  if (loading) {
+  if (nodeWithoutTranslationsQuery.isInitialLoading) {
     return <Spinner />;
   }
 
-  const initialValues = { translations: translations?.slice() ?? [] };
-
-  if (loadError) {
+  if (loadError || !nodeWithoutTranslationsQuery.data) {
     return <StyledErrorMessage>{loadError}</StyledErrorMessage>;
   }
+
+  const initialValues = {
+    translations: nodeWithoutTranslationsQuery.data.translations?.slice() ?? [],
+    name: nodeWithoutTranslationsQuery.data.name,
+  };
 
   return (
     <>
@@ -219,8 +233,21 @@ const ChangeNodeNameContent = ({ onClose, node, nodeType = 'SUBJECT' }: ModalPro
             const errors = values.translations.map((translation) =>
               validateFormik(translation, rules, t),
             );
-            if (errors.some((err) => Object.keys(err).length > 0)) {
-              return { translations: errors };
+
+            const nameErrors = validateFormik(
+              { name: values.name },
+              {
+                name: {
+                  required: true,
+                },
+              },
+              t,
+            );
+            if (
+              errors.some((err) => Object.keys(err).length > 0) ||
+              Object.keys(nameErrors).length > 0
+            ) {
+              return { translations: errors, ...nameErrors };
             }
           }}
           enableReinitialize={true}
@@ -246,7 +273,9 @@ const ChangeNodeNameContent = ({ onClose, node, nodeType = 'SUBJECT' }: ModalPro
             }
             return (
               <StyledForm data-testid="edit-node-name-form">
-                <p>{`${t('taxonomy.changeName.defaultName')}: ${name}`}</p>
+                <StyledFormikField name="name" label={t('taxonomy.changeName.defaultName')}>
+                  {({ field }) => <Input {...field} />}
+                </StyledFormikField>
                 {values.translations.length === 0 && <>{t('taxonomy.changeName.noTranslations')}</>}
                 <FieldArray name="translations">
                   {({ push, remove }) => (

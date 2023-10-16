@@ -1470,6 +1470,7 @@ const phrases = {
     addExistingLoading: 'Moving ...',
     addExistingSuccess: 'Node successfully moved',
     existingNode: 'Existing node',
+    workflow: 'in workflow',
     connectExistingNode: 'Connect {{nodeType}} to this node',
     connectExistingLoading: 'Connection ...',
     connectExistingSuccess: 'Node successfully connected!',

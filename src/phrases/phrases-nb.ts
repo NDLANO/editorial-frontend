@@ -1472,6 +1472,7 @@ const phrases = {
     addExistingLoading: 'Flytter ...',
     addExistingSuccess: 'Noden har blitt flyttet!',
     existingNode: 'Eksisterende node',
+    workflow: 'i arbeidsflyt',
     connectExistingNode: 'Knytt {{nodeType}} til denne noden',
     connectExistingLoading: 'Legger til ...',
     connectExistingSuccess: 'Noden har blitt tilknyttet!',

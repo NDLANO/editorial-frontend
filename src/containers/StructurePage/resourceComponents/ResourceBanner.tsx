@@ -54,10 +54,10 @@ const RightContent = styled(Content)`
   justify-content: space-between;
 `;
 
-const getPublishedCount = (contentMeta: Dictionary<NodeResourceMeta>) => {
+const getWorkflowCount = (contentMeta: Dictionary<NodeResourceMeta>) => {
   const contentMetaList = Object.values(contentMeta);
-  const publishedCount = contentMetaList.filter((c) => c.status?.current === 'PUBLISHED').length;
-  return publishedCount;
+  const workflowCount = contentMetaList.filter((c) => c.status?.current !== 'PUBLISHED').length;
+  return workflowCount;
 };
 
 interface Props {
@@ -80,7 +80,7 @@ const ResourceBanner = ({
 }: Props) => {
   const [open, setOpen] = useState(false);
   const elementCount = Object.values(contentMeta).length;
-  const publishedCount = useMemo(() => getPublishedCount(contentMeta), [contentMeta]);
+  const workflowCount = useMemo(() => getWorkflowCount(contentMeta), [contentMeta]);
   const { t } = useTranslation();
   const allRevisions = useMemo(() => {
     const resourceRevisions = resources.map((r) => r.contentMeta?.revisions).filter((r) => !!r);
@@ -106,8 +106,8 @@ const ResourceBanner = ({
             {t('taxonomy.jumpToStructure')}
           </ButtonV2>
           <ControlWrapper>
-            <PublishedText>{`${publishedCount}/${elementCount} ${t(
-              'form.notes.published',
+            <PublishedText>{`${workflowCount}/${elementCount} ${t(
+              'taxonomy.workflow',
             ).toLowerCase()}`}</PublishedText>
             <ApproachingRevisionDate revisions={allRevisions} />
             {currentNode && currentNode.id && (

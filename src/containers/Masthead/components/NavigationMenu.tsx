@@ -11,7 +11,15 @@ import { useTranslation } from 'react-i18next';
 import { Launch, Audio, Podcast } from '@ndla/icons/common';
 import styled from '@emotion/styled';
 import { spacing, animations, colors } from '@ndla/core';
-import { Camera, CloudUploadOutline, Concept, Globe, H5P, Taxonomy, Video } from '@ndla/icons/editor';
+import {
+  Camera,
+  CloudUploadOutline,
+  Concept,
+  Globe,
+  H5P,
+  Taxonomy,
+  Video,
+} from '@ndla/icons/editor';
 import { List } from '@ndla/icons/action';
 //@ts-ignore
 import { ContentTypeBadge, constants } from '@ndla/ui';

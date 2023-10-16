@@ -61,6 +61,20 @@ const StyledSpinner = styled(Spinner)`
   margin: 4px ${spacing.normal};
 `;
 
+const IconWrapper = styled.div`
+  margin: 1px ${spacing.xsmall};
+  svg {
+    height: ${spacing.small};
+    width: ${spacing.small};
+    fill: ${colors.brand.grey};
+  }
+  &[data-color='green'] {
+    svg {
+      fill: ${colors.support.green};
+    }
+  }
+`;
+
 const isChildNode = createGuard<NodeChild & { articleType?: string; isPublished?: boolean }>(
   'connectionId',
 );
@@ -134,7 +148,7 @@ const NodeItem = ({
       icon = <Taxonomy />;
       break;
   }
-  const typeIcon = <RoundIcon smallIcon={icon} />;
+
   const publishing = item.metadata.customFields[TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH] === 'true';
 
   return (
@@ -168,12 +182,11 @@ const NodeItem = ({
           isVisible={item.metadata?.visible}
         >
           {renderBeforeTitle?.(item, !!isRoot, isTaxonomyAdmin, articleType, isPublished)}
-          {typeIcon}
+          <IconWrapper>{icon}</IconWrapper>
           {publishing && (
-            <RoundIcon
-              smallIcon={<CloudUploadOutline color="green" size="nsmall" />}
-              title={t('diff.fields.requestPublish.title')}
-            />
+            <IconWrapper data-color="green">
+              <CloudUploadOutline title={t('diff.fields.requestPublish.title')} />
+            </IconWrapper>
           )}
           {item.name}
         </ItemTitleButton>

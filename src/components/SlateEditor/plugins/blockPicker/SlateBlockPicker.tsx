@@ -62,6 +62,7 @@ import { defaultLinkBlockList } from '../linkBlockList';
 import { TYPE_AUDIO } from '../audio/types';
 import { TYPE_H5P } from '../h5p/types';
 import { defaultH5pBlock } from '../h5p/utils';
+import { BLOCK_PICKER_TRIGGER_ID } from '../../../../constants';
 
 interface Props {
   editor: Editor;
@@ -144,6 +145,9 @@ const BlockPickerButton = styled(IconButtonV2)`
       transform: rotate(135deg);
     }
   }
+  &[hidden] {
+    display: none;
+  }
 `;
 
 const getLeftAdjust = (parent?: Node) => {
@@ -213,7 +217,7 @@ const SlateBlockPicker = ({
       // If the node is an element and it is not included in the allowed pick areas, return.
       (Element.isElement(node[0]) && !allowedPickAreas.includes(node[0].type))
     ) {
-      el.style.display = 'none';
+      el.hidden = true;
       return;
     }
     const parent =
@@ -221,7 +225,7 @@ const SlateBlockPicker = ({
     const leftAdjust = getLeftAdjust(parent);
     const domElement = ReactEditor.toDOMNode(editor, selectedParagraph);
     const rect = domElement.getBoundingClientRect();
-    el.style.display = 'block';
+    el.hidden = false;
     const left = rect.left + window.scrollX - leftAdjust;
     el.style.top = `${rect.top + window.scrollY - 14}px`;
     el.style.left = `${left}px`;
@@ -404,6 +408,7 @@ const SlateBlockPicker = ({
             <BlockPickerButton
               colorTheme="light"
               data-testid="slate-block-picker"
+              id={BLOCK_PICKER_TRIGGER_ID}
               aria-label={blockPickerLabel}
               title={blockPickerLabel}
             >

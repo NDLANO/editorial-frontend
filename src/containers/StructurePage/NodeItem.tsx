@@ -62,7 +62,9 @@ const StyledSpinner = styled(Spinner)`
 `;
 
 const IconWrapper = styled.div`
-  margin: 1px ${spacing.xsmall};
+  margin-right: ${spacing.xsmall};
+  margin-left: ${spacing.xsmall};
+  margint.bottom: 3px;
   svg {
     height: ${spacing.small};
     width: ${spacing.small};

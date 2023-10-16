@@ -805,6 +805,7 @@ const phrases = {
     editOriginalImage: 'Edit orginal image',
     editAudio: 'Edit audio',
     editPodcast: 'Edit podcast',
+    editH5p: 'Edit H5P',
     resetToProd: {
       button: 'Reset to prod',
       modal: 'Do you want to reset the draft as it is on the ndla frontpage?',
@@ -1232,6 +1233,9 @@ const phrases = {
       toLinkedVideo: 'Switch to interpreted video',
       fromLinkedVideo: 'Switch back to original video',
       linkedVideoButton: 'IV',
+    },
+    h5p: {
+      remove: 'Remove H5P',
     },
     audio: {
       file: 'Audio file',

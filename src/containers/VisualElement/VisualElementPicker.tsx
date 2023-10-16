@@ -13,6 +13,7 @@ import { Editor, Element, Transforms } from 'slate';
 import SlateVisualElementPicker from '../../components/SlateEditor/plugins/blockPicker/SlateVisualElementPicker';
 import { isEmpty } from '../../components/validators';
 import VisualElementMenu, { VisualElementType } from './VisualElementMenu';
+import { defaultH5pBlock } from '../../components/SlateEditor/plugins/h5p/utils';
 
 interface Props {
   editor: Editor;
@@ -35,6 +36,10 @@ const VisualElementPicker = ({ editor, language, types }: Props) => {
   };
 
   const onSelect = (visualElement: string) => {
+    if (visualElement === 'h5p') {
+      onInsertBlock(defaultH5pBlock());
+      return;
+    }
     setSelectedResource(visualElement);
   };
 

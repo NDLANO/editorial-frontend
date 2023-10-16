@@ -843,6 +843,7 @@ const phrases = {
     editOriginalImage: 'Rediger original bilde',
     editAudio: 'Endre lyd',
     editPodcast: 'Endre podkast',
+    editH5p: 'Endre H5P',
     resetToProd: {
       button: 'Tilbakestill endringer',
       modal: 'Vil du tilbakestille utkastet til slik det er på ndla forsiden?',
@@ -1232,6 +1233,9 @@ const phrases = {
       toLinkedVideo: 'Bytt til synstolket versjon',
       fromLinkedVideo: 'Bytt tilbake til original versjon',
       linkedVideoButton: 'ST',
+    },
+    h5p: {
+      remove: 'Ta bort H5P',
     },
     audio: {
       file: 'Lydfil',

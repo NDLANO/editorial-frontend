@@ -37,7 +37,6 @@ import {
   BrightcoveEmbedElement,
   ErrorEmbedElement,
   ExternalEmbedElement,
-  H5PEmbedElement,
   ImageEmbedElement,
 } from './plugins/embed';
 import { BodyboxElement } from './plugins/bodybox';
@@ -58,6 +57,7 @@ import { CampaignBlockElement } from './plugins/campaignBlock';
 import { GridCellElement, GridElement } from './plugins/grid';
 import { LinkBlockListElement } from './plugins/linkBlockList/types';
 import { AudioElement } from './plugins/audio/types';
+import { H5pElement } from './plugins/h5p/types';
 
 export type SlatePlugin = (editor: Editor) => Editor;
 
@@ -113,7 +113,7 @@ declare module 'slate' {
       | AudioElement
       | ErrorEmbedElement
       | ExternalEmbedElement
-      | H5PEmbedElement
+      | H5pElement
       | BodyboxElement
       | DivElement
       | SpanElement

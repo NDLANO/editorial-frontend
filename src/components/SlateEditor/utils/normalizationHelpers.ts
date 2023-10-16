@@ -11,7 +11,6 @@ import {
   TYPE_EMBED_BRIGHTCOVE,
   TYPE_EMBED_ERROR,
   TYPE_EMBED_EXTERNAL,
-  TYPE_EMBED_H5P,
 } from '../plugins/embed/types';
 import { TYPE_FILE } from '../plugins/file/types';
 import { TYPE_HEADING } from '../plugins/heading/types';
@@ -19,6 +18,7 @@ import { TYPE_LIST } from '../plugins/list/types';
 import { TYPE_PARAGRAPH } from '../plugins/paragraph/types';
 import { TYPE_TABLE } from '../plugins/table/types';
 import { TYPE_AUDIO } from '../plugins/audio/types';
+import { TYPE_H5P } from '../plugins/h5p/types';
 
 export const firstTextBlockElement: Element['type'][] = [TYPE_PARAGRAPH, TYPE_HEADING, TYPE_QUOTE];
 
@@ -32,7 +32,7 @@ export const textBlockElements: Element['type'][] = [
   TYPE_EMBED_BRIGHTCOVE,
   TYPE_EMBED_EXTERNAL,
   TYPE_EMBED_ERROR,
-  TYPE_EMBED_H5P,
+  TYPE_H5P,
   TYPE_FILE,
   TYPE_CODEBLOCK,
   TYPE_ASIDE,

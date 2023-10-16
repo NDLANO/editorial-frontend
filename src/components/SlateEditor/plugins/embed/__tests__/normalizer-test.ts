@@ -13,8 +13,9 @@ import withPlugins from '../../../utils/withPlugins';
 import { plugins } from '../../../../../containers/ArticlePage/LearningResourcePage/components/LearningResourceContent';
 import { TYPE_PARAGRAPH } from '../../paragraph/types';
 import { TYPE_SECTION } from '../../section/types';
-import { TYPE_EMBED_H5P, TYPE_EMBED_IMAGE } from '../types';
+import { TYPE_EMBED_IMAGE } from '../types';
 import { TYPE_AUDIO } from '../../audio/types';
+import { TYPE_H5P } from '../../h5p/types';
 
 const editor = withHistory(withReact(withPlugins(createEditor(), plugins('nb'))));
 
@@ -42,7 +43,7 @@ describe('embed normalizer tests', () => {
             },
           },
           {
-            type: TYPE_EMBED_H5P,
+            type: TYPE_H5P,
             children: [
               {
                 text: '',
@@ -102,7 +103,7 @@ describe('embed normalizer tests', () => {
             children: [{ text: '' }],
           },
           {
-            type: TYPE_EMBED_H5P,
+            type: TYPE_H5P,
             children: [
               {
                 text: '',

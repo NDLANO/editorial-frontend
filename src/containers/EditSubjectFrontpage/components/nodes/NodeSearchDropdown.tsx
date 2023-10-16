@@ -8,20 +8,25 @@
 
 import { useTranslation } from 'react-i18next';
 
+import { Node } from '@ndla/types-taxonomy';
+
 import SearchDropdown from './SearchDropdown';
 import { useSearchNodes } from '../../../../modules/nodes/nodeQueries';
 import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
 
 interface Props {
   onChange: (t: any) => void;
+  selectedItems?: Node[];
+  wide?: boolean;
 }
 
-const NodeSearchDropdown = ({ onChange }: Props) => {
+const NodeSearchDropdown = ({ onChange, selectedItems, wide }: Props) => {
   const { t } = useTranslation();
 
   const { taxonomyVersion } = useTaxonomyVersion();
   return (
     <SearchDropdown
+      selectedItems={selectedItems}
       id="search-dropdown"
       onChange={onChange}
       placeholder={t('subjectpageForm.addSubject')}
@@ -39,6 +44,7 @@ const NodeSearchDropdown = ({ onChange }: Props) => {
           })),
         };
       }}
+      wide={wide}
     />
   );
 };

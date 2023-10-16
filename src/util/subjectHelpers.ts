@@ -88,6 +88,9 @@ export const subjectpageFormikTypeToPostType = (
       },
     ],
     name: values.name,
+    connectedTo: values.connectedTo,
+    buildsOn: values.buildsOn,
+    leadsTo: values.leadsTo,
   };
 };
 

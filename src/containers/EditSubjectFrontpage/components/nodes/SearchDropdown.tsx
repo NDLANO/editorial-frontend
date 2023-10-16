@@ -11,6 +11,7 @@ import styled from '@emotion/styled';
 import { Input, DropdownMenu } from '@ndla/forms';
 import { Spinner } from '@ndla/icons';
 import { Search } from '@ndla/icons/common';
+import { Node } from '@ndla/types-taxonomy';
 import Downshift, { GetItemPropsOptions } from 'downshift';
 import { useState } from 'react';
 import { UseQueryOptions, UseQueryResult } from '@tanstack/react-query';
@@ -50,7 +51,9 @@ interface Props<ParamType extends BaseParams, InnerType, ApiType, Type = ApiType
   transform: (value: Type) => SearchResultBase<DropdownItem<InnerType>>;
   placeholder: string;
   preload?: boolean;
+  selectedItems?: Node[];
   id?: string;
+  wide?: boolean;
 }
 
 const SearchDropdown = <ParamType extends BaseParams, InnerType, ApiType, Type>({
@@ -61,7 +64,9 @@ const SearchDropdown = <ParamType extends BaseParams, InnerType, ApiType, Type>(
   transform,
   placeholder,
   preload = true,
+  selectedItems,
   id,
+  wide = false,
 }: Props<ParamType, InnerType, ApiType, Type>) => {
   const [query, setQuery] = useState('');
   const [page, setPage] = useState<number>(1);
@@ -113,11 +118,12 @@ const SearchDropdown = <ParamType extends BaseParams, InnerType, ApiType, Type>(
                 getItemProps({ ...props, item, disabled: !!item.disabled })
               }
               {...downShiftProps}
-              positionAbsolute
+              positionAbsolute={false}
               totalCount={transformed?.totalCount ?? 0}
               page={page}
               handlePageChange={(page: { page: number }) => setPage(page.page)}
-              wide
+              wide={wide}
+              selectedItems={selectedItems}
             />
           </DropdownWrapper>
         );

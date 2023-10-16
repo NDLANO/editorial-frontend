@@ -22,9 +22,9 @@ interface Props {
 
 const SubjectpageSubjectlinks = ({ subjects, fieldName }: Props) => {
   const { t } = useTranslation();
-  const [subjectList, setSubjectList] = useState<any[]>([]);
+  const [subjectList, setSubjectList] = useState<Node[]>([]);
   const { setFieldTouched } = useFormikContext();
-  const [FieldInputProps] = useField<string[]>('');
+  const [FieldInputProps] = useField<string[]>(fieldName);
   const { onChange } = FieldInputProps;
 
   const { data } = useSearchNodes({
@@ -63,8 +63,8 @@ const SubjectpageSubjectlinks = ({ subjects, fieldName }: Props) => {
   return (
     <>
       <FieldHeader title={t(`subjectpageForm.${fieldName}`)} />
-      <NodeList nodes={subjectList} nodeSet={'buildsOn'} onDelete={handleDeleteFromList} />
-      <NodeSearchDropdown onChange={handleAddToList} />
+      <NodeList nodes={subjectList} nodeSet={fieldName} onDelete={handleDeleteFromList} />
+      <NodeSearchDropdown selectedItems={subjectList} onChange={handleAddToList} />
     </>
   );
 };

@@ -57,6 +57,7 @@ const ButtonContainer = styled.div`
   display: flex;
   justify-content: flex-end;
   gap: ${spacing.xsmall};
+  margin-bottom: ${spacing.small};
 `;
 
 export interface MinimalNodeChild
@@ -416,6 +417,9 @@ const LearningResourceTaxonomy = ({
           formIsDirty={isDirty}
         />
       </ButtonContainer>
+      <FormikFieldHelp float="right" error>
+        {t('warningMessage.taxonomy')}
+      </FormikFieldHelp>
     </>
   );
 };

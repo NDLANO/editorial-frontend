@@ -306,7 +306,7 @@ const TopicArticleTaxonomy = ({ article, updateNotes, articleLanguage, hasTaxEnt
           formIsDirty={isDirty}
         />
       </ButtonContainer>
-      <FormikFieldHelp float="right" error>
+      <FormikFieldHelp float="right" warning>
         {t('warningMessage.taxonomy')}
       </FormikFieldHelp>
     </>

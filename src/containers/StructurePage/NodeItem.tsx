@@ -68,7 +68,7 @@ const IconWrapper = styled.div`
   svg {
     height: ${spacing.nsmall};
     width: ${spacing.nsmall};
-    fill: ${colors.brand.grey};
+    fill: ${colors.text.primary};
   }
   &[data-color='green'] {
     svg {

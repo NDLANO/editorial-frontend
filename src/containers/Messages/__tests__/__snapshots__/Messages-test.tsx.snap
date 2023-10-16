@@ -237,7 +237,7 @@ exports[`Messages A message is removed if the modal is closed 1`] = `
   gap: 24px;
   padding: 24px;
   background-color: #d1372e;
-  color: white;
+  color: #fff;
 }
 
 .emotion-6 {
@@ -293,6 +293,14 @@ exports[`Messages A message is removed if the modal is closed 1`] = `
   flex: 1;
   margin: 0;
   color: #fff;
+}
+
+.emotion-8[data-severity='info'] {
+  color: #444;
+}
+
+.emotion-8[data-severity='warning'] {
+  color: #444;
 }
 
 .emotion-9 {
@@ -386,6 +394,14 @@ exports[`Messages A message is removed if the modal is closed 1`] = `
   color: #fff;
 }
 
+.emotion-9 svg[data-severity='info'] {
+  color: #444;
+}
+
+.emotion-9 svg[data-severity='warning'] {
+  color: #444;
+}
+
 .emotion-9:hover,
 .emotion-9:focus,
 .emotion-9:focus-within,
@@ -477,6 +493,7 @@ exports[`Messages A message is removed if the modal is closed 1`] = `
       >
         <h1
           class="emotion-8"
+          data-severity="danger"
         >
           Pass på!
         </h1>
@@ -490,6 +507,7 @@ exports[`Messages A message is removed if the modal is closed 1`] = `
             aria-hidden="true"
             class="c-icon"
             data-license="Apache License 2.0"
+            data-severity="danger"
             data-source="Material Design"
             fill="currentColor"
             height="1em"
@@ -813,7 +831,7 @@ exports[`Messages A single message renders correctly 1`] = `
   gap: 24px;
   padding: 24px;
   background-color: #d1372e;
-  color: white;
+  color: #fff;
 }
 
 .emotion-6 {
@@ -869,6 +887,14 @@ exports[`Messages A single message renders correctly 1`] = `
   flex: 1;
   margin: 0;
   color: #fff;
+}
+
+.emotion-8[data-severity='info'] {
+  color: #444;
+}
+
+.emotion-8[data-severity='warning'] {
+  color: #444;
 }
 
 .emotion-9 {
@@ -962,6 +988,14 @@ exports[`Messages A single message renders correctly 1`] = `
   color: #fff;
 }
 
+.emotion-9 svg[data-severity='info'] {
+  color: #444;
+}
+
+.emotion-9 svg[data-severity='warning'] {
+  color: #444;
+}
+
 .emotion-9:hover,
 .emotion-9:focus,
 .emotion-9:focus-within,
@@ -1053,6 +1087,7 @@ exports[`Messages A single message renders correctly 1`] = `
       >
         <h1
           class="emotion-8"
+          data-severity="danger"
         >
           Pass på!
         </h1>
@@ -1066,6 +1101,7 @@ exports[`Messages A single message renders correctly 1`] = `
             aria-hidden="true"
             class="c-icon"
             data-license="Apache License 2.0"
+            data-severity="danger"
             data-source="Material Design"
             fill="currentColor"
             height="1em"
@@ -1365,7 +1401,7 @@ exports[`Messages Several messages renders correctly 1`] = `
   gap: 24px;
   padding: 24px;
   background-color: #d1372e;
-  color: white;
+  color: #fff;
 }
 
 .emotion-6 {
@@ -1421,6 +1457,14 @@ exports[`Messages Several messages renders correctly 1`] = `
   flex: 1;
   margin: 0;
   color: #fff;
+}
+
+.emotion-8[data-severity='info'] {
+  color: #444;
+}
+
+.emotion-8[data-severity='warning'] {
+  color: #444;
 }
 
 .emotion-9 {
@@ -1512,6 +1556,14 @@ exports[`Messages Several messages renders correctly 1`] = `
 
 .emotion-9 svg {
   color: #fff;
+}
+
+.emotion-9 svg[data-severity='info'] {
+  color: #444;
+}
+
+.emotion-9 svg[data-severity='warning'] {
+  color: #444;
 }
 
 .emotion-9:hover,
@@ -1607,6 +1659,7 @@ exports[`Messages Several messages renders correctly 1`] = `
       >
         <h1
           class="emotion-8"
+          data-severity="danger"
         >
           Pass på!
         </h1>
@@ -1620,6 +1673,7 @@ exports[`Messages Several messages renders correctly 1`] = `
             aria-hidden="true"
             class="c-icon"
             data-license="Apache License 2.0"
+            data-severity="danger"
             data-source="Material Design"
             fill="currentColor"
             height="1em"
@@ -1705,6 +1759,7 @@ exports[`Messages Several messages renders correctly 1`] = `
       >
         <h1
           class="emotion-8"
+          data-severity="danger"
         >
           Pass på!
         </h1>
@@ -1718,6 +1773,7 @@ exports[`Messages Several messages renders correctly 1`] = `
             aria-hidden="true"
             class="c-icon"
             data-license="Apache License 2.0"
+            data-severity="danger"
             data-source="Material Design"
             fill="currentColor"
             height="1em"
@@ -2017,7 +2073,7 @@ exports[`Messages auth0 messages provides a cancel button 1`] = `
   gap: 24px;
   padding: 24px;
   background-color: #d1372e;
-  color: white;
+  color: #fff;
 }
 
 .emotion-6 {
@@ -2073,6 +2129,14 @@ exports[`Messages auth0 messages provides a cancel button 1`] = `
   flex: 1;
   margin: 0;
   color: #fff;
+}
+
+.emotion-8[data-severity='info'] {
+  color: #444;
+}
+
+.emotion-8[data-severity='warning'] {
+  color: #444;
 }
 
 .emotion-9 {
@@ -2164,6 +2228,14 @@ exports[`Messages auth0 messages provides a cancel button 1`] = `
 
 .emotion-9 svg {
   color: #fff;
+}
+
+.emotion-9 svg[data-severity='info'] {
+  color: #444;
+}
+
+.emotion-9 svg[data-severity='warning'] {
+  color: #444;
 }
 
 .emotion-9:hover,
@@ -2335,6 +2407,7 @@ exports[`Messages auth0 messages provides a cancel button 1`] = `
       >
         <h1
           class="emotion-8"
+          data-severity="danger"
         >
           Pass på!
         </h1>
@@ -2348,6 +2421,7 @@ exports[`Messages auth0 messages provides a cancel button 1`] = `
             aria-hidden="true"
             class="c-icon"
             data-license="Apache License 2.0"
+            data-severity="danger"
             data-source="Material Design"
             fill="currentColor"
             height="1em"

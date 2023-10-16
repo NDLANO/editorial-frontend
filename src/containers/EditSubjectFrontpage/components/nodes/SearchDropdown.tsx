@@ -124,6 +124,7 @@ const SearchDropdown = <ParamType extends BaseParams, InnerType, ApiType, Type>(
               handlePageChange={(page: { page: number }) => setPage(page.page)}
               wide={wide}
               selectedItems={selectedItems}
+              multiSelect={true}
             />
           </DropdownWrapper>
         );

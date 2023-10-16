@@ -1523,16 +1523,6 @@ const phrases = {
       noTranslations:
         'Ingen omsetjingar tilgjengeleg! Standardnamn vil brukes inntil dette er lagt inn.',
     },
-    changeSubjectLinks: {
-      buildsOn: 'Byggjer på',
-      buttonTitle: 'Endre faglenkjer',
-      cancel: 'Avbryt',
-      connectedTo: 'Kobla til',
-      leadsTo: 'Leier til',
-      loadError: 'Klarte ikkje hente faglenkjer',
-      title: 'Endre faglenkjer',
-      updateError: 'Klarte ikkje oppdatere faglenkjer',
-    },
     addTopic: 'Legg til nytt emne',
     addTopicHeader: 'Legg til emne',
     createTopic: 'Opprett nytt emne',

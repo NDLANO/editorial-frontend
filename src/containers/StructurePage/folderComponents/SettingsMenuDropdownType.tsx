@@ -22,7 +22,6 @@ import ToNodeDiff from './sharedMenuOptions/ToNodeDiff';
 import ConnectExistingNode from './sharedMenuOptions/ConnectExistingNode';
 import MoveExistingNode from './sharedMenuOptions/MoveExistingNode';
 import ChangeNodeName from './subjectMenuOptions/ChangeNodeName';
-import ChangeSubjectLinks from './subjectMenuOptions/ChangeSubjectLinks';
 import EditSubjectpageOption from './subjectMenuOptions/EditSubjectpageOption';
 import PublishChildNodeResources from './topicMenuOptions/PublishChildNodeResources';
 import CopyNodeResources from './topicMenuOptions/CopyNodeResources';
@@ -124,7 +123,6 @@ const SettingsMenuDropdownType = ({
             onCurrentNodeChanged={onCurrentNodeChanged}
           />
         )}
-        {isTaxonomyAdmin && <ChangeSubjectLinks editModeHandler={editModeHandler} node={node} />}
         <MoveExistingNode editModeHandler={editModeHandler} currentNode={node} />
         <ToggleVisibility node={node} editModeHandler={editModeHandler} rootNodeId={rootNodeId} />
         {isTaxonomyAdmin && <EditGrepCodes node={node} editModeHandler={editModeHandler} />}

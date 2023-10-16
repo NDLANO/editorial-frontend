@@ -36,7 +36,6 @@ export type PartialRecord<K extends keyof any, T> = {
 
 export type EditMode =
   | 'changeSubjectName'
-  | 'changeSubjectLinks'
   | 'deleteTopic'
   | 'addExistingSubjectTopic'
   | 'openCustomFields'

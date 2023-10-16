@@ -55,7 +55,7 @@ const HeadingThree = ({ title }: HeadingProps) => <HeadingSpan title={title}>H3<
 const HeadingFour = ({ title }: HeadingProps) => <HeadingSpan title={title}>H4</HeadingSpan>;
 
 // Fetched from https://github.com/ianstormtaylor/is-hotkey/blob/master/src/index.js
-const IS_MAC =
+export const IS_MAC =
   typeof window != 'undefined' && /Mac|iPod|iPhone|iPad/.test(window.navigator.platform);
 const options = { ctrl: IS_MAC ? 'cmd' : 'ctrl' };
 

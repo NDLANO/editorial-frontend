@@ -629,6 +629,8 @@ const phrases = {
   },
   editorBlockpicker: {
     heading: 'Legg til',
+    open: 'Åpne meny ({{ctrl}}+Enter)',
+    close: 'Lukk meny',
     actions: {
       block: 'Seksjon',
       factAside: 'Faktaboks',

@@ -63,6 +63,7 @@ import { TYPE_AUDIO } from '../audio/types';
 import { TYPE_H5P } from '../h5p/types';
 import { defaultH5pBlock } from '../h5p/utils';
 import { BLOCK_PICKER_TRIGGER_ID } from '../../../../constants';
+import { IS_MAC } from '../toolbar/ToolbarButton';
 
 interface Props {
   editor: Editor;
@@ -182,7 +183,10 @@ const SlateBlockPicker = ({
   const { t } = useTranslation();
 
   const blockPickerLabel = useMemo(
-    () => (blockPickerOpen ? t('slateBlockMenu.close') : t('slateBlockMenu.open')),
+    () =>
+      blockPickerOpen
+        ? t('editorBlockpicker.close')
+        : t('editorBlockpicker.open', { ctrl: IS_MAC ? 'cmd' : 'ctrl' }),
     [blockPickerOpen, t],
   );
 

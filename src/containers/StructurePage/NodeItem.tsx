@@ -4,7 +4,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import { HTMLProps, MutableRefObject, ReactNode, useEffect } from 'react';
+import { HTMLProps, MutableRefObject, ReactNode, useEffect, useMemo } from 'react';
 import { colors, spacing } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
 import { Subject } from '@ndla/icons/contentType';
@@ -15,7 +15,7 @@ import {
   SubjectMatter,
   Taxonomy,
 } from '@ndla/icons/editor';
-import { NodeChild, Node } from '@ndla/types-taxonomy';
+import { NodeChild, Node, NodeType } from '@ndla/types-taxonomy';
 import { DragEndEvent } from '@dnd-kit/core';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
@@ -81,6 +81,25 @@ const isChildNode = createGuard<NodeChild & { articleType?: string; isPublished?
   'connectionId',
 );
 
+const getNodeIcon = (nodeType: NodeType): { icon: ReactNode; title: string } => {
+  switch (nodeType) {
+    case 'SUBJECT':
+      return {
+        icon: <SubjectMatter />,
+        title: 'subjectpageForm.title',
+      };
+    case 'PROGRAMME':
+      return {
+        icon: <Taxonomy />,
+        title: 'programmepageForm.title',
+      };
+    default:
+      return {
+        icon: <Subject />,
+        title: 'topicArticleForm.title',
+      };
+  }
+};
 interface Props {
   id: string;
   item: (NodeChild & { articleType?: string; isPublished?: boolean }) | Node;
@@ -141,16 +160,7 @@ const NodeItem = ({
     onNodeSelected(item);
   };
 
-  let icon = <Subject />; // Used for topics
-  switch (item.nodeType) {
-    case 'SUBJECT':
-      icon = <SubjectMatter />;
-      break;
-    case 'PROGRAMME':
-      icon = <Taxonomy />;
-      break;
-  }
-
+  const nodeTypeIcon = useMemo(() => getNodeIcon(item.nodeType), [item.nodeType]);
   const publishing = item.metadata.customFields[TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH] === 'true';
 
   return (
@@ -184,7 +194,9 @@ const NodeItem = ({
           isVisible={item.metadata?.visible}
         >
           {renderBeforeTitle?.(item, !!isRoot, isTaxonomyAdmin, articleType, isPublished)}
-          <IconWrapper>{icon}</IconWrapper>
+          <IconWrapper title={t(nodeTypeIcon.title)} aria-label={t(nodeTypeIcon.title)}>
+            {nodeTypeIcon.icon}
+          </IconWrapper>
           {publishing && (
             <IconWrapper
               data-color="green"

@@ -45,6 +45,18 @@ const SubjectpageAccordionPanels = ({
     />
   );
 
+  const SubjectPageConnectedTo = () => (
+    <SubjectpageSubjectlinks subjects={connectedTo} fieldName={'connectedTo'} />
+  );
+
+  const SubjectPageBuildsOn = () => (
+    <SubjectpageSubjectlinks subjects={buildsOn} fieldName={'buildsOn'} />
+  );
+
+  const SubjectPageLeadsTo = () => (
+    <SubjectpageSubjectlinks subjects={leadsTo} fieldName={'leadsTo'} />
+  );
+
   return (
     <FormAccordions defaultOpen={['about']}>
       <FormAccordion
@@ -71,7 +83,9 @@ const SubjectpageAccordionPanels = ({
         className="u-6/6"
         hasError={['connectedTo', 'buildsOn', 'leadsTo'].some((field) => field in errors)}
       >
-        <SubjectpageSubjectlinks buildsOn={buildsOn} connectedTo={connectedTo} leadsTo={leadsTo} />
+        <FormikField name={'buildsOn'}>{SubjectPageConnectedTo}</FormikField>
+        <FormikField name={'buildsOn'}>{SubjectPageBuildsOn}</FormikField>
+        <FormikField name={'leadsTo'}>{SubjectPageLeadsTo}</FormikField>
       </FormAccordion>
       <FormAccordion
         id="articles"

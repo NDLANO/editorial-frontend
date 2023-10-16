@@ -30,15 +30,11 @@ const NodeWrapper = styled.div`
 interface Props {
   nodes: { name: string }[];
   nodeSet: string;
-  onDelete: (list: string, id: string) => void;
+  onDelete: (id: string) => void;
 }
 
 const NodeList = ({ nodes, nodeSet, onDelete }: Props) => {
   const { t } = useTranslation();
-
-  console.log(nodeSet);
-  console.log(nodes);
-
   return (
     <NodeListWrapper>
       {nodes.map((node: any) => (
@@ -48,7 +44,7 @@ const NodeList = ({ nodes, nodeSet, onDelete }: Props) => {
             <IconButtonV2
               aria-label={t('subjectpageForm.removeSubject')}
               colorTheme="danger"
-              onClick={() => onDelete(nodeSet, node.id)}
+              onClick={() => onDelete(node.id)}
               variant="ghost"
             >
               <DeleteForever />

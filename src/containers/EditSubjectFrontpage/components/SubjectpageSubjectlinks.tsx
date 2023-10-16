@@ -4,27 +4,25 @@
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree. *
  */
+
 import { useField, useFormikContext } from 'formik';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { FieldHeader } from '@ndla/forms';
+import { Node } from '@ndla/types-taxonomy';
 
 import { NodeList, NodeSearchDropdown } from './nodes';
 import { useSearchNodes } from '../../../modules/nodes/nodeQueries';
 
 interface Props {
-  [index: string]: string[];
-  buildsOn: string[];
-  connectedTo: string[];
-  leadsTo: string[];
+  subjects: string[];
+  fieldName: string;
 }
 
-const SubjectpageSubjectlinks = (props: Props) => {
+const SubjectpageSubjectlinks = ({ subjects, fieldName }: Props) => {
   const { t } = useTranslation();
-  const [connectedToList, setConnectedToList] = useState<any[]>([]);
-  const [buildsOnList, setBuildsOnList] = useState<any[]>([]);
-  const [leadsToList, setLeadsToList] = useState<any[]>([]);
+  const [subjectList, setSubjectList] = useState<any[]>([]);
   const { setFieldTouched } = useFormikContext();
   const [FieldInputProps] = useField<string[]>('');
   const { onChange } = FieldInputProps;
@@ -33,49 +31,39 @@ const SubjectpageSubjectlinks = (props: Props) => {
     page: 1,
     taxonomyVersion: 'default',
     nodeType: 'SUBJECT',
-    ids: props.buildsOn.concat(props.connectedTo).concat(props.leadsTo),
+    ids: subjects,
   });
 
   useEffect(() => {
-    console.log(props);
-    setConnectedToList(
-      data ? data.results.filter((node) => props.connectedTo.includes(node.id)) : [],
-    );
-    setBuildsOnList(data ? data.results.filter((node) => props.buildsOn.includes(node.id)) : []);
-    setLeadsToList(data ? data.results.filter((node) => props.leadsTo.includes(node.id)) : []);
+    setSubjectList(data ? data.results.filter((node) => subjects.includes(node.id)) : []);
   }, [data]);
 
-  const handleDeleteFromList = (list: string, id: string) => {
-    if (list === 'connectedTo') {
-      setConnectedToList((prev) => prev.filter((l) => l.id !== id));
-    } else if (list === 'buildsOn') {
-      setBuildsOnList((prev) => prev.filter((l) => l.id !== id));
-    } else {
-      setLeadsToList((prev) => prev.filter((l) => l.id !== id));
-    }
-    // onChange({
-    //   target: { name: list, value: props[list].filter((l) => l !== id) },
-    // });
+  const handleDeleteFromList = (id: string) => {
+    const updatedList = subjectList.filter((item) => item.id !== id);
+    setSubjectList(updatedList);
+    updateFormik(updatedList.map((subject) => subject.id));
   };
 
-  const handleAddToList = (t: any) => {
-    setConnectedToList((prev) => [...prev, t]);
-    setBuildsOnList((prev) => [...prev, t]);
-    setLeadsToList((prev) => [...prev, t]);
-    console.log('æddabædda');
-    console.log(t);
+  const handleAddToList = (node: Node) => {
+    const updatedList = [...subjectList, node];
+    setSubjectList(updatedList);
+    updateFormik(updatedList.map((subject) => subject.id));
+  };
+
+  const updateFormik = (list: string[]) => {
+    setFieldTouched(fieldName, true, false);
+    onChange({
+      target: {
+        name: fieldName,
+        value: list || null,
+      },
+    });
   };
 
   return (
     <>
-      <FieldHeader title={t('subjectpageForm.connectedTo')} />
-      <NodeList nodes={connectedToList} nodeSet={'connectedTo'} onDelete={handleDeleteFromList} />
-      <NodeSearchDropdown onChange={handleAddToList} />
-      <FieldHeader title={t('subjectpageForm.buildsOn')} />
-      <NodeList nodes={buildsOnList} nodeSet={'buildsOn'} onDelete={handleDeleteFromList} />
-      <NodeSearchDropdown onChange={handleAddToList} />
-      <FieldHeader title={t('subjectpageForm.leadsTo')} />
-      <NodeList nodes={leadsToList} nodeSet={'leadsTo'} onDelete={handleDeleteFromList} />
+      <FieldHeader title={t(`subjectpageForm.${fieldName}`)} />
+      <NodeList nodes={subjectList} nodeSet={'buildsOn'} onDelete={handleDeleteFromList} />
       <NodeSearchDropdown onChange={handleAddToList} />
     </>
   );

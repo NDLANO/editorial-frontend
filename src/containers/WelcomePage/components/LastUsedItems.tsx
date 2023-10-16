@@ -112,7 +112,7 @@ const LastUsedItems = ({ lastUsedResources = [], lastUsedConcepts = [] }: Props)
       aria-label={t('welcomePage.lastUsed')}
       tabs={[
         {
-          title: `${t('form.articleSection')} (${data?.totalCount ?? 0})`,
+          title: `${t('taxonomy.resources')} (${data?.totalCount ?? 0})`,
           id: 'articles',
           content: (
             <LastUsedResources

@@ -48,6 +48,7 @@ const ButtonContainer = styled.div`
   display: flex;
   justify-content: flex-end;
   gap: ${spacing.xsmall};
+  margin-bottom: ${spacing.small};
 `;
 
 const InvalidPlacementsWrapper = styled.ul`
@@ -305,6 +306,9 @@ const TopicArticleTaxonomy = ({ article, updateNotes, articleLanguage, hasTaxEnt
           formIsDirty={isDirty}
         />
       </ButtonContainer>
+      <FormikFieldHelp float="right" warning>
+        {t('warningMessage.taxonomy')}
+      </FormikFieldHelp>
     </>
   );
 };

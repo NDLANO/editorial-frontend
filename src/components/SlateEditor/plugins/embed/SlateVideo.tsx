@@ -11,7 +11,8 @@ import styled from '@emotion/styled';
 import { RenderElementProps } from 'slate-react';
 import { ButtonV2, IconButtonV2 } from '@ndla/button';
 import { Figure } from '@ndla/ui';
-import { breakpoints, parseMarkdown } from '@ndla/util';
+import { breakpoints } from '@ndla/util';
+import parse from 'html-react-parser';
 import { useTranslation } from 'react-i18next';
 import Tooltip from '@ndla/tooltip';
 import { colors, spacing, fonts, mq } from '@ndla/core';
@@ -32,6 +33,7 @@ import {
 } from '../../../../util/videoUtil';
 import { ExternalEmbed, BrightcoveEmbed } from '../../../../interfaces';
 import validateFormik from '../../../formikValidationSchema';
+import parseMarkdown from '../../../../util/parseMarkdown';
 
 export const StyledVideo = styled.iframe`
   width: 100%;
@@ -271,7 +273,9 @@ const SlateVideo = ({
         </SlateVideoWrapper>
         <CaptionButton variant="stripped" onClick={toggleEditModus}>
           <StyledFigcaption>
-            <FigureInfo>{parseMarkdown(embed.caption ?? '')}</FigureInfo>
+            <FigureInfo>
+              {parse(parseMarkdown({ markdown: embed.caption ?? '', inline: true }))}
+            </FigureInfo>
           </StyledFigcaption>
         </CaptionButton>
       </Figure>

@@ -13,13 +13,9 @@ import {
 } from '../../../../../util/articleContentConverter';
 import { TYPE_PARAGRAPH } from '../../paragraph/types';
 import { TYPE_SECTION } from '../../section/types';
-import {
-  TYPE_EMBED_BRIGHTCOVE,
-  TYPE_EMBED_EXTERNAL,
-  TYPE_EMBED_H5P,
-  TYPE_EMBED_IMAGE,
-} from '../types';
+import { TYPE_EMBED_BRIGHTCOVE, TYPE_EMBED_EXTERNAL, TYPE_EMBED_IMAGE } from '../types';
 import { TYPE_AUDIO } from '../../audio/types';
+import { TYPE_H5P } from '../../h5p/types';
 
 describe('embed image serializing tests', () => {
   const editorWithImage: Descendant[] = [
@@ -229,7 +225,7 @@ describe('embed h5p serializing tests', () => {
         { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
 
         {
-          type: TYPE_EMBED_H5P,
+          type: TYPE_H5P,
           data: {
             resource: 'h5p',
             path: '/resource/123',

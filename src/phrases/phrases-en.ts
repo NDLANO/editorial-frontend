@@ -114,15 +114,15 @@ const phrases = {
     addSearch: 'Add new search',
     deleteSavedSearch: 'Delete saved search',
     deleteSearch: 'Delete search',
-    noArticles: 'Empty article list ...',
+    noArticles: 'Empty resource list ...',
     emptyLastUsed: 'Empty last edited list ...',
     emptyConcepts: 'Empty concept list ...',
-    emptyRevision: 'No articles in favorite subjects that need revision ...',
+    emptyRevision: 'No resources in favorite subjects that need revision ...',
     emptySavedSearch: 'No saved searches',
     guidelines: 'Guidelines',
     mustBeSearch: 'Link must be a search url',
     lastUsed: 'Last edited',
-    lastUsedDescription: 'Your recently edited articles',
+    lastUsedDescription: 'Your recently edited resources',
     lastUsedConcepts: 'Your recently edited concepts',
     savedSearch: 'Saved searches',
     saveSearch: 'Save search',
@@ -132,7 +132,7 @@ const phrases = {
     errorMessage: 'Failed to retrieve data',
     goToSearch: 'Go to search',
     revision: 'Revisjon',
-    revisionDescription: 'Articles in favorite subjects that need revision',
+    revisionDescription: 'Resources with a revision date within 365 days',
     revisionDate: 'Revision date',
     welcomeText: 'to ED',
     revisionInfo: 'Choose your favorite subjects by marking them with a star in structure editing',
@@ -142,7 +142,7 @@ const phrases = {
     prioritizedLabel: 'Only show prioritized',
     workList: {
       heading: 'My tasks',
-      description: 'Articles where you are responsible',
+      description: 'Resources where you are responsible',
       title: 'Title',
       status: 'Status',
       contentType: 'Content type',
@@ -634,6 +634,8 @@ const phrases = {
     'definition-list': 'Definition list\n({{ctrl}}+alt+d)',
   },
   editorBlockpicker: {
+    open: 'Open menu ({{ctrl}}+Enter)',
+    close: 'Close menu',
     heading: 'Add',
     actions: {
       block: 'Section',
@@ -811,6 +813,7 @@ const phrases = {
     editOriginalImage: 'Edit orginal image',
     editAudio: 'Edit audio',
     editPodcast: 'Edit podcast',
+    editH5p: 'Edit H5P',
     resetToProd: {
       button: 'Reset to prod',
       modal: 'Do you want to reset the draft as it is on the ndla frontpage?',
@@ -1242,6 +1245,9 @@ const phrases = {
       fromLinkedVideo: 'Switch back to original video',
       linkedVideoButton: 'IV',
     },
+    h5p: {
+      remove: 'Remove H5P',
+    },
     audio: {
       file: 'Audio file',
       title: {
@@ -1438,6 +1444,7 @@ const phrases = {
   },
   warningMessage: {
     fieldWithWrongLanguage: 'This value is fetched from language code: {{language}}',
+    taxonomy: 'All taxonomy changes require partial publishing',
   },
   notFound: {
     description: 'The page cannot be found',
@@ -1475,6 +1482,7 @@ const phrases = {
     addExistingLoading: 'Moving ...',
     addExistingSuccess: 'Node successfully moved',
     existingNode: 'Existing node',
+    workflow: 'in workflow',
     connectExistingNode: 'Connect {{nodeType}} to this node',
     connectExistingLoading: 'Connection ...',
     connectExistingSuccess: 'Node successfully connected!',

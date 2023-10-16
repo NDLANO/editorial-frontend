@@ -26,6 +26,7 @@ import { ConceptBlockElement } from './interfaces';
 import ConceptModalContent from '../ConceptModalContent';
 import { PUBLISHED } from '../../../../../constants';
 import { useConceptVisualElement } from '../../../../../modules/embed/queries';
+import parseMarkdown from '../../../../../util/parseMarkdown';
 
 const getConceptDataAttributes = ({ id }: IConceptSummary | IConcept): ConceptEmbedData => ({
   contentId: id.toString(),
@@ -70,7 +71,15 @@ const BlockWrapper = ({ element, locale, editor, attributes, children }: Props) 
     if (!element.data || !concept) return undefined;
     return {
       status: !concept && !loading ? 'error' : 'success',
-      data: { concept, visualElement: visualElementQuery.data },
+      data: {
+        concept: {
+          ...concept,
+          content: concept.content
+            ? { ...concept.content, content: parseMarkdown({ markdown: concept.content.content }) }
+            : undefined,
+        },
+        visualElement: visualElementQuery.data,
+      },
       embedData: element.data,
       resource: 'concept',
     };

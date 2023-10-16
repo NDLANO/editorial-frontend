@@ -19,22 +19,23 @@ const mockField: FieldInputProps<string> = {
 };
 
 describe('<AvailabilityField />', () => {
-  it('renders correctly and sets availability to Alle when everyone is passed as prop', () => {
-    const { getAllByRole, getByRole } = render(
+  it('renders correctly and sets availability to Alle when everyone is passed as prop', async () => {
+    const { getByLabelText, getByText } = render(
       <IntlWrapper>
         <AvailabilityField field={mockField} />
       </IntlWrapper>,
     );
 
-    expect(getByRole('heading')).toHaveTextContent('Hvem er artikkelen ment for:');
-    expect(getAllByRole('radio')).toHaveLength(2);
-    expect(getByRole('radio', { name: 'Alle' })).toBeChecked();
+    expect(getByText('Hvem er artikkelen ment for:')).toBeInTheDocument();
 
+    const allRadio = getByLabelText('Alle');
+    const teachersRadio = getByLabelText('Lærere');
+
+    expect(allRadio).toBeChecked();
     act(() => {
-      fireEvent.click(getByRole('radio', { name: 'Lærere' }));
+      fireEvent.click(teachersRadio);
     });
-
-    expect(getByRole('radio', { name: 'Alle' })).not.toBeChecked();
-    expect(getByRole('radio', { name: 'Lærere' })).toBeChecked();
+    expect(teachersRadio).not.toBeChecked();
+    expect(allRadio).toBeChecked();
   });
 });

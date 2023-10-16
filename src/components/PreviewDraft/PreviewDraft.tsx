@@ -6,8 +6,8 @@
  *
  */
 
-import { useCallback, useEffect, useMemo } from 'react';
-import { Remarkable } from 'remarkable';
+import { useEffect, useMemo } from 'react';
+import parse from 'html-react-parser';
 import { ContentTypeBadge, Article, FrontpageArticle } from '@ndla/ui';
 import { IArticle, IDraftCopyright } from '@ndla/types-backend/draft-api';
 import { transform } from '@ndla/article-converter';
@@ -17,6 +17,7 @@ import formatDate from '../../util/formatDate';
 import { usePreviewArticle } from '../../modules/article/articleGqlQueries';
 import config from '../../config';
 import { articleIsWide } from '../WideArticleEditorProvider';
+import parseMarkdown from '../../util/parseMarkdown';
 
 interface BaseProps {
   label: string;
@@ -44,6 +45,7 @@ interface FormArticle {
   published?: string;
   copyright?: IDraftCopyright;
   articleType?: string;
+  language?: string;
 }
 
 type Props = PreviewArticleV2Props | PreviewFormArticleV2Props;
@@ -59,10 +61,11 @@ export const PreviewDraft = ({ type, draft: draftProp, label, contentType, langu
         introduction: draftProp.introduction?.introduction,
         published: draftProp.published,
         copyright: draftProp.copyright,
+        language: draftProp.title?.language ?? language,
       };
     }
     return draftProp;
-  }, [draftProp, type]);
+  }, [draftProp, type, language]);
 
   const transformedContent = usePreviewArticle(draft.content!, language, draft.visualElement);
 
@@ -72,24 +75,16 @@ export const PreviewDraft = ({ type, draft: draftProp, label, contentType, langu
     }
   }, [transformedContent]);
 
-  const markdown = useMemo(() => {
-    const markdown = new Remarkable({ breaks: true });
-    markdown.inline.ruler.enable(['sub', 'sup']);
-    markdown.block.ruler.disable(['list']);
-    return markdown;
-  }, []);
-
-  const renderMarkdown = useCallback((text: string) => markdown.render(text), [markdown]);
-
   const article = useMemo(() => {
     if (!transformedContent.data) return;
     const content = transform(transformedContent.data, {
       previewAlt: true,
       frontendDomain: config.ndlaFrontendDomain,
+      articleLanguage: draft.language,
     });
     return {
       title: draft.title ?? '',
-      introduction: draft.introduction ?? '',
+      introduction: parse(parseMarkdown({ markdown: draft.introduction ?? '' })),
       content,
       copyright: draft.copyright,
       published: draft.published ? formatDate(draft.published) : '',
@@ -116,7 +111,7 @@ export const PreviewDraft = ({ type, draft: draftProp, label, contentType, langu
       id={draft.id.toString()}
       locale={language as LocaleType}
       messages={{ label }}
-      renderMarkdown={renderMarkdown}
+      lang={draft.language}
     />
   );
 };

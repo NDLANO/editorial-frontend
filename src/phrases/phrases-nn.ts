@@ -115,15 +115,15 @@ const phrases = {
     addSearch: 'Legg til nytt søk',
     deleteSavedSearch: 'Slett lagra søk',
     deleteSearch: 'Slett søk',
-    noArticles: 'Ingen artiklar ...',
+    noArticles: 'Ingen ressursar ...',
     emptyLastUsed: 'Ingen sist redigerte ...',
     emptyConcepts: 'Ingen forklaringar ...',
-    emptyRevision: 'Ingen artiklar i favorittfag som treng revisjon ...',
+    emptyRevision: 'Ingen ressursar i favorittfag som treng revisjon ...',
     emptySavedSearch: 'Ingen lagra søk',
     guidelines: 'Retningslinjer',
     mustBeSearch: 'Lenka må være til eit søk',
     lastUsed: 'Sist redigert',
-    lastUsedDescription: 'Artiklar du har redigert nyleg',
+    lastUsedDescription: 'Ressursar du har redigert nyleg',
     lastUsedConcepts: 'Forklaringar du har redigert nyleg',
     savedSearch: 'Lagra søk',
     saveSearch: 'Lagre søk',
@@ -133,7 +133,7 @@ const phrases = {
     errorMessage: 'Innhenting av data feila',
     goToSearch: 'Gå til søk',
     revision: 'Revisjon',
-    revisionDescription: 'Artiklar i favorittfag som treng revisjon',
+    revisionDescription: 'Ressursar som har revisjonsdato innen 365 dagar',
     revisionDate: 'Revisjonsdato',
     welcomeText: 'til ED',
     revisionInfo: 'Vel favorittfag ved å stjernemarkere i strukturredigering',
@@ -143,7 +143,7 @@ const phrases = {
     prioritizedLabel: 'Berre vis prioriterte',
     workList: {
       heading: 'Mine arbeidsoppgåver',
-      description: 'Artiklar der du står som ansvarleg',
+      description: 'Ressursar der du står som ansvarleg',
       title: 'Tittel',
       status: 'Status',
       contentType: 'Innhaldstype',
@@ -635,6 +635,8 @@ const phrases = {
   },
   editorBlockpicker: {
     heading: 'Legg til',
+    open: 'Åpne meny ({{ctrl}}+Enter)',
+    close: 'Lukk meny',
     actions: {
       block: 'Seksjon',
       factAside: 'Faktaboks',
@@ -811,6 +813,7 @@ const phrases = {
     editOriginalImage: 'Rediger original bilete',
     editAudio: 'Endre lyd',
     editPodcast: 'Endre podkast',
+    editH5p: 'Endre H5P',
     resetToProd: {
       button: 'Tilbakestill endringer',
       modal: 'Vil du tilbakestille utkastet til slik det er på ndla forsida?',
@@ -1242,6 +1245,9 @@ const phrases = {
       fromLinkedVideo: 'Bytt tilbake til original versjon',
       linkedVideoButton: 'ST',
     },
+    h5p: {
+      remove: 'Ta bort H5P',
+    },
     audio: {
       file: 'Lydfil',
       title: {
@@ -1440,6 +1446,7 @@ const phrases = {
   },
   warningMessage: {
     fieldWithWrongLanguage: 'Dette feltet er henta frå språkkode: {{language}}',
+    taxonomy: 'Alle taksonomiendringar krever delpublisering',
   },
   notFound: {
     description: 'Denne sida finnes ikkje.',
@@ -1477,6 +1484,7 @@ const phrases = {
     addExistingLoading: 'Flyttar ...',
     addExistingSuccess: 'Noden har blitt flytta!',
     existingNode: 'Eksisterande node',
+    workflow: 'i arbeidsflyt',
     connectExistingNode: 'Knytt {{nodeType}} til denne noden',
     connectExistingLoading: 'Legger til ...',
     connectExistingSuccess: 'Noden har blitt knytta til!',

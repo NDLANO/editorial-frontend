@@ -32,14 +32,6 @@ const ButtonContainer = styled.div`
   gap: ${spacing.xsmall};
 `;
 
-interface StyledDivProps {
-  hidden?: boolean;
-}
-
-const DisplayContainer = styled.div<StyledDivProps>`
-  display: ${(p) => (p.hidden ? 'none' : 'inline-block')};
-`;
-
 interface Props {
   types?: VisualElementType[];
   onSelect: Function;

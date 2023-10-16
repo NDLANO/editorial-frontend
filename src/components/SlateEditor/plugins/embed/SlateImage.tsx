@@ -11,7 +11,7 @@ import styled from '@emotion/styled';
 import { RenderElementProps, useSlateStatic } from 'slate-react';
 import { IconButtonV2 } from '@ndla/button';
 import { useTranslation } from 'react-i18next';
-import { parseMarkdown } from '@ndla/util';
+import parse from 'html-react-parser';
 import { Editor, Path } from 'slate';
 import { Modal, ModalContent, ModalTrigger } from '@ndla/modal';
 import { Pencil } from '@ndla/icons/action';
@@ -22,6 +22,7 @@ import { StyledDeleteEmbedButton, StyledFigureButtons } from './FigureButtons';
 import EditImage from './EditImage';
 import { ImageEmbed } from '../../../../interfaces';
 import { isTable } from '../table/slateHelpers';
+import parseMarkdown from '../../../../util/parseMarkdown';
 
 interface Props {
   active?: boolean;
@@ -170,7 +171,7 @@ const SlateImage = ({
             />
             <figcaption className="c-figure__caption" contentEditable={false}>
               <StyledDiv className="c-figure__info">
-                {embed.caption && parseMarkdown(embed.caption)}
+                {embed.caption && parse(parseMarkdown({ markdown: embed.caption, inline: true }))}
               </StyledDiv>
             </figcaption>
           </figure>

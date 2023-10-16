@@ -83,7 +83,6 @@ const ConceptContent = ({ isGloss }: Props) => {
           maxLength={800}
           placeholder={t('form.name.conceptContent')}
           preview={preview}
-          concept
         />
       )}
     </>

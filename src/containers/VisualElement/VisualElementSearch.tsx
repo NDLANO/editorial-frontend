@@ -6,14 +6,14 @@
  *
  */
 
-import { TFunction, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
+import { TFunction } from 'i18next';
 import VideoSearch from '@ndla/video-search';
 import AudioSearch from '@ndla/audio-search';
 import { IAudioSummary } from '@ndla/types-backend/audio-api';
 import { IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
 import { BrightcoveApiType } from '@ndla/types-embed';
 import config from '../../config';
-import H5PElement from '../../components/H5PElement/H5PElement';
 import { EXTERNAL_WHITELIST_PROVIDERS } from '../../constants';
 import VisualElementUrlPreview from './VisualElementUrlPreview';
 import ImageSearchAndUploader from '../../components/ImageSearchAndUploader';
@@ -143,24 +143,6 @@ const VisualElementSearch = ({
             onError={onError}
           />
         </>
-      );
-    }
-    case 'H5P':
-    case 'h5p': {
-      return (
-        <H5PElement
-          canReturnResources={true}
-          h5pUrl={selectedResourceUrl}
-          onSelect={(h5p) =>
-            handleVisualElementChange({
-              resource: 'h5p',
-              path: h5p.path!,
-              title: h5p.title,
-            })
-          }
-          onClose={closeModal}
-          locale={articleLanguage ?? locale}
-        />
       );
     }
     case 'audio':

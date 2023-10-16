@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
-import { TFunction, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
+import { TFunction } from 'i18next';
 import { Version, VersionType } from '@ndla/types-taxonomy';
 import ObjectSelector from '../ObjectSelector';
 

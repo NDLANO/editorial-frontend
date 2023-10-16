@@ -13,7 +13,6 @@ import { SlateSerializer } from '../../interfaces';
 import {
   Embed,
   ImageEmbed,
-  H5pEmbed,
   BrightcoveEmbed,
   ErrorEmbed,
   ExternalEmbed,
@@ -25,16 +24,11 @@ import { afterOrBeforeTextBlockElement } from '../../utils/normalizationHelpers'
 import { TYPE_PARAGRAPH } from '../paragraph/types';
 import { TYPE_NDLA_EMBED } from './types';
 import { AudioElement } from '../audio/types';
+import { H5pElement } from '../h5p/types';
 
 export interface ImageEmbedElement {
   type: 'image-embed';
   data: ImageEmbed;
-  children: Descendant[];
-}
-
-export interface H5PEmbedElement {
-  type: 'h5p-embed';
-  data: H5pEmbed;
   children: Descendant[];
 }
 
@@ -58,7 +52,7 @@ export interface ExternalEmbedElement {
 
 export type EmbedElements =
   | ImageEmbedElement
-  | H5PEmbedElement
+  | H5pElement
   | BrightcoveEmbedElement
   | ErrorEmbedElement
   | ExternalEmbedElement

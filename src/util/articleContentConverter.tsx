@@ -51,6 +51,7 @@ import { contactBlockSerializer } from '../components/SlateEditor/plugins/contac
 import { campaignBlockSerializer } from '../components/SlateEditor/plugins/campaignBlock';
 import { linkBlockListSerializer } from '../components/SlateEditor/plugins/linkBlockList';
 import { audioSerializer } from '../components/SlateEditor/plugins/audio';
+import { h5pSerializer } from '../components/SlateEditor/plugins/h5p';
 
 export const sectionSplitter = (html: string) => {
   const node = document.createElement('div');
@@ -108,6 +109,7 @@ const extendedRules: SlateSerializer[] = [
   campaignBlockSerializer,
   linkBlockListSerializer,
   audioSerializer,
+  h5pSerializer,
   embedSerializer,
   bodyboxSerializer,
   divSerializer,

@@ -1435,6 +1435,7 @@ const phrases = {
   },
   warningMessage: {
     fieldWithWrongLanguage: 'Dette feltet er henta frå språkkode: {{language}}',
+    taxonomy: 'Alle taksonomiendringar krever delpublisering',
   },
   notFound: {
     description: 'Denne sida finnes ikkje.',

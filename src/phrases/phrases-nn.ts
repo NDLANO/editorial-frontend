@@ -433,6 +433,12 @@ const phrases = {
     addArticle: 'Legg til artikkel',
     removeArticle: 'Fjern artikkel',
     missingVisualElement: 'Visuelt element er påkrevd.',
+    subjectlinks: 'Faglenkjer',
+    addSubject: 'Legg til fag',
+    removeSubject: 'Fjern fag',
+    connectedTo: 'Har samanheng med',
+    buildsOn: 'Byggjer på',
+    leadsTo: 'Leier til',
   },
   programmepageForm: {
     title: 'Utdanningsprogram',

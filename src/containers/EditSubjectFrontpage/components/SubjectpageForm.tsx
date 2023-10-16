@@ -193,9 +193,12 @@ const SubjectpageForm = ({
               title={values.name ?? ''}
             />
             <SubjectpageAccordionPanels
+              buildsOn={values.buildsOn}
+              connectedTo={values.connectedTo}
               editorsChoices={values.editorsChoices}
               elementId={values.elementId!}
               errors={errors}
+              leadsTo={values.leadsTo}
             />
             <Field right>
               <SaveButton

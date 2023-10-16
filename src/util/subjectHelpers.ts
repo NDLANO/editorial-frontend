@@ -42,6 +42,9 @@ export interface SubjectPageFormikType {
   language: string;
   elementId: string;
   title: Descendant[];
+  connectedTo: string[];
+  buildsOn: string[];
+  leadsTo: string[];
 }
 
 export const subjectpageFormikTypeToPatchType = (
@@ -114,5 +117,8 @@ export const subjectpageApiTypeToFormikType = (
     metaDescription: plainTextToEditorValue(subjectpage?.metaDescription || ''),
     name: subjectpage?.about?.title ?? elementName ?? '',
     elementId,
+    connectedTo: subjectpage?.connectedTo ?? [],
+    buildsOn: subjectpage?.buildsOn ?? [],
+    leadsTo: subjectpage?.leadsTo ?? [],
   };
 };

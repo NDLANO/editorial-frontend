@@ -12,18 +12,29 @@ import { ILearningPathV2 } from '@ndla/types-backend/learningpath-api';
 import SubjectpageAbout from './SubjectpageAbout';
 import SubjectpageMetadata from './SubjectpageMetadata';
 import SubjectpageArticles from './SubjectpageArticles';
+import SubjectpageSubjectlinks from './SubjectpageSubjectlinks';
 import FormikField from '../../../components/FormikField';
 import { SubjectPageFormikType } from '../../../util/subjectHelpers';
 import FormAccordions from '../../../components/Accordion/FormAccordions';
 import FormAccordion from '../../../components/Accordion/FormAccordion';
 
 interface Props {
+  buildsOn: string[];
+  connectedTo: string[];
   editorsChoices: (IArticle | ILearningPathV2)[];
   elementId: string;
   errors: FormikErrors<SubjectPageFormikType>;
+  leadsTo: string[];
 }
 
-const SubjectpageAccordionPanels = ({ editorsChoices, elementId, errors }: Props) => {
+const SubjectpageAccordionPanels = ({
+  buildsOn,
+  connectedTo,
+  editorsChoices,
+  elementId,
+  errors,
+  leadsTo,
+}: Props) => {
   const { t } = useTranslation();
 
   const SubjectPageArticle = () => (
@@ -53,6 +64,14 @@ const SubjectpageAccordionPanels = ({ editorsChoices, elementId, errors }: Props
         )}
       >
         <SubjectpageMetadata />
+      </FormAccordion>
+      <FormAccordion
+        id="subjectlinks"
+        title={t('subjectpageForm.subjectlinks')}
+        className="u-6/6"
+        hasError={['connectedTo', 'buildsOn', 'leadsTo'].some((field) => field in errors)}
+      >
+        <SubjectpageSubjectlinks buildsOn={buildsOn} connectedTo={connectedTo} leadsTo={leadsTo} />
       </FormAccordion>
       <FormAccordion
         id="articles"

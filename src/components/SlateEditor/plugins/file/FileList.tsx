@@ -13,7 +13,8 @@ import debounce from 'lodash/debounce';
 // eslint-disable-next-line lodash/import-scope
 import { DebouncedFunc } from 'lodash';
 import styled from '@emotion/styled';
-import { withTranslation, TFunction, CustomWithTranslation } from 'react-i18next';
+import { withTranslation, WithTranslation } from 'react-i18next';
+import { TFunction } from 'i18next';
 import { FieldHeader, FieldHeaderIconStyle } from '@ndla/forms';
 import { FileListEditor } from '@ndla/editor';
 import { Cross, Plus } from '@ndla/icons/action';
@@ -71,7 +72,7 @@ document.addEventListener('keydown', (event) => {
   okToRevert = (event.ctrlKey || event.metaKey) && event.key === 'z';
 });
 
-interface Props extends CustomWithTranslation {
+interface Props extends WithTranslation {
   attributes: RenderElementProps['attributes'];
   editor: Editor;
   element: FileElement;
@@ -264,4 +265,5 @@ class FileList extends Component<Props, State> {
   }
 }
 
+//@ts-ignore Temp fix. Replace this with a functional component
 export default withTranslation()(FileList);

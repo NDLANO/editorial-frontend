@@ -10,6 +10,7 @@ import { useState, ReactNode, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Editor, Element, Node, Transforms, Path } from 'slate';
 import { ReactEditor, RenderElementProps } from 'slate-react';
+import parse from 'html-react-parser';
 import styled from '@emotion/styled';
 import { Spinner } from '@ndla/icons';
 import { SafeLinkIconButton } from '@ndla/safelink';
@@ -26,6 +27,7 @@ import { TYPE_CONCEPT_INLINE } from './types';
 import ConceptModalContent from '../ConceptModalContent';
 import { useConceptVisualElement } from '../../../../../modules/embed/queries';
 import { PUBLISHED } from '../../../../../constants';
+import parseMarkdown from '../../../../../util/parseMarkdown';
 
 const getConceptDataAttributes = (
   concept: IConcept | IConceptSummary,
@@ -105,6 +107,12 @@ const InlineWrapper = (props: Props) => {
     };
   }, [concept, element.data, loading, visualElementQuery.data]);
 
+  const parsedContent = useMemo(() => {
+    if (embed?.status === 'success' && !!embed.data.concept.content) {
+      return parse(parseMarkdown({ markdown: embed.data.concept.content.content }));
+    }
+  }, [embed]);
+
   const handleSelectionChange = (isNewConcept: boolean) => {
     ReactEditor.focus(editor);
     if (isNewConcept) {
@@ -161,7 +169,7 @@ const InlineWrapper = (props: Props) => {
         ) : (
           <InlineConcept
             title={embed.data.concept.title}
-            content={embed.data.concept.content?.content}
+            content={parsedContent}
             metaImage={embed.data.concept.metaImage}
             copyright={embed.data.concept.copyright}
             source={embed.data.concept.source}

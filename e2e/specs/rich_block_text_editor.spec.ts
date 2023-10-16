@@ -126,7 +126,7 @@ test('can enter title, ingress, content and responsible then save', async ({ pag
   await page.keyboard.type('TITTEL');
   await page.getByTestId('learning-resource-ingress').click();
   await page.keyboard.type('INGRESS');
-  await page.getByTestId('slate-editor').click();
+  await page.getByTestId('slate-editor').click({ position: { x: 0, y: 0 } });
   await page.keyboard.type('CONTENT');
   await page.getByTestId('responsible-select').click();
   await page.keyboard.type('Test user');

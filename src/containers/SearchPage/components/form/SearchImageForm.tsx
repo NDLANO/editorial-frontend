@@ -8,7 +8,8 @@
 
 import { useEffect, useState, MouseEvent } from 'react';
 
-import { TFunction, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
+import { TFunction } from 'i18next';
 import { Node } from '@ndla/types-taxonomy';
 import { getResourceLanguages } from '../../../../util/resourceHelpers';
 import { getTagName } from '../../../../util/formHelper';

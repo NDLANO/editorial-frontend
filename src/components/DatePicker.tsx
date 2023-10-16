@@ -16,7 +16,8 @@ import {
   useNavigation,
 } from 'react-day-picker';
 import { nb, nn, enGB } from 'date-fns/locale';
-import { TFunction, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
+import { TFunction } from 'i18next';
 import styled from '@emotion/styled';
 import { Arrow, Content, Portal, Root, Trigger } from '@radix-ui/react-popover';
 import { colors, misc } from '@ndla/core';

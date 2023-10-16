@@ -62,12 +62,12 @@ const StyledSpinner = styled(Spinner)`
 `;
 
 const IconWrapper = styled.div`
-  margin-right: ${spacing.xsmall};
-  margin-left: ${spacing.xsmall};
-  margint.bottom: 3px;
+  padding: 0 ${spacing.xxsmall};
+  display: flex;
+  align-items: center;
   svg {
-    height: ${spacing.small};
-    width: ${spacing.small};
+    height: ${spacing.nsmall};
+    width: ${spacing.nsmall};
     fill: ${colors.brand.grey};
   }
   &[data-color='green'] {
@@ -186,8 +186,12 @@ const NodeItem = ({
           {renderBeforeTitle?.(item, !!isRoot, isTaxonomyAdmin, articleType, isPublished)}
           <IconWrapper>{icon}</IconWrapper>
           {publishing && (
-            <IconWrapper data-color="green">
-              <CloudUploadOutline title={t('diff.fields.requestPublish.title')} />
+            <IconWrapper
+              data-color="green"
+              title={t('diff.fields.requestPublish.title')}
+              aria-label={t('diff.fields.requestPublish.title')}
+            >
+              <CloudUploadOutline />
             </IconWrapper>
           )}
           {item.name}

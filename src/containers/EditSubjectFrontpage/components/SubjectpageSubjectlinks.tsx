@@ -36,7 +36,7 @@ const SubjectpageSubjectlinks = ({ subjects, fieldName }: Props) => {
 
   useEffect(() => {
     setSubjectList(data ? data.results.filter((node) => subjects.includes(node.id)) : []);
-  }, [data]);
+  }, []);
 
   const handleDeleteFromList = (id: string) => {
     const updatedList = subjectList.filter((item) => item.id !== id);

@@ -99,7 +99,7 @@ const SearchDropdown = <ParamType extends BaseParams, InnerType, ApiType, Type>(
 
   return (
     <Downshift
-      onInputValueChange={setQuery}
+      onInputValueChange={(query) => setQuery(query ?? '')}
       inputValue={query}
       itemToString={(e: DropdownItem<Type>) => e?.name}
       onChange={handleOnChange}

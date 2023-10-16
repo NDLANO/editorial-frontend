@@ -436,7 +436,7 @@ const phrases = {
     subjectlinks: 'Faglenker',
     addSubject: 'Legg til fag',
     removeSubject: 'Fjern fag',
-    connectedTo: 'Har sammenheng med',
+    connectedTo: 'Felles programfag sammen med',
     buildsOn: 'Bygger på',
     leadsTo: 'Leder til',
   },

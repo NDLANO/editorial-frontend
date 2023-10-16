@@ -435,7 +435,7 @@ const phrases = {
     subjectlinks: 'Subject links',
     addSubject: 'Add subject',
     removeSubject: 'Remove subject',
-    connectedTo: 'Connected to',
+    connectedTo: 'Common programme subject with',
     buildsOn: 'Builds on',
     leadsTo: 'Leads to',
   },

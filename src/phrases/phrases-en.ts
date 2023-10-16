@@ -628,6 +628,8 @@ const phrases = {
     'definition-list': 'Definition list\n({{ctrl}}+alt+d)',
   },
   editorBlockpicker: {
+    open: 'Open menu ({{ctrl}}+Enter)',
+    close: 'Close menu',
     heading: 'Add',
     actions: {
       block: 'Section',

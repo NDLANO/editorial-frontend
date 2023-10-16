@@ -7,15 +7,15 @@
  */
 
 import styled from '@emotion/styled';
-import { colors } from '@ndla/core';
+import { colors, spacing } from '@ndla/core';
 import Tooltip from '@ndla/tooltip';
 import { DeleteForever } from '@ndla/icons/editor';
 import { IconButtonV2 } from '@ndla/button';
 import { useTranslation } from 'react-i18next';
 
 const NodeListWrapper = styled.div`
-  margin-bottom: 15px;
-  margin-top: 15px;
+  margin-bottom: ${spacing.small};
+  margin-top: ${spacing.small};
 `;
 
 const NodeWrapper = styled.div`
@@ -23,8 +23,9 @@ const NodeWrapper = styled.div`
   background: ${colors.brand.greyLighter};
   display: flex;
   justify-content: space-between;
-  margin: 5px;
-  padding: 5px;
+  margin: ${spacing.xxsmall};
+  padding: ${spacing.xxsmall};
+  padding-left: ${spacing.small};
 `;
 
 interface Props {

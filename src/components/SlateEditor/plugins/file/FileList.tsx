@@ -6,19 +6,18 @@
  *
  */
 
-import { Component, ReactNode } from 'react';
-import { Editor, Element, Transforms } from 'slate';
-import { ReactEditor, RenderElementProps } from 'slate-react';
+import { ReactNode, useEffect, useRef, useState } from 'react';
 import debounce from 'lodash/debounce';
 // eslint-disable-next-line lodash/import-scope
 import { DebouncedFunc } from 'lodash';
+import { Editor, Element, Transforms } from 'slate';
+import { ReactEditor, RenderElementProps } from 'slate-react';
 import styled from '@emotion/styled';
-import { withTranslation, WithTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { TFunction } from 'i18next';
-import { FieldHeader, FieldHeaderIconStyle } from '@ndla/forms';
+import { FieldHeader } from '@ndla/forms';
 import { FileListEditor } from '@ndla/editor';
 import { Cross, Plus } from '@ndla/icons/action';
-import Tooltip from '@ndla/tooltip';
 import { spacing } from '@ndla/core';
 import {
   Modal,
@@ -28,10 +27,10 @@ import {
   ModalHeader,
   ModalTrigger,
 } from '@ndla/modal';
+import { IconButtonV2 } from '@ndla/button';
 import config from '../../../../config';
 import { File, UnsavedFile } from '../../../../interfaces';
 import { headFileAtRemote } from '../../../../modules/draft/draftApi';
-import { arrMove } from '../../../../util/arrayHelpers';
 import { FileElement } from '.';
 import { TYPE_FILE } from './types';
 import FileUploader from '../../../FileUploader';
@@ -50,100 +49,51 @@ const formatFile = (file: File, t: TFunction): File => ({
   ],
 });
 
-const compareArray = (arr1: File[], arr2: File[]) => {
-  if (arr1.length !== arr2.length) {
-    return false;
-  }
-  const a1 = [...arr1];
-  const a2 = [...arr2];
-  return (
-    a1.filter((item, key) => {
-      if (!a2 || !a2[key]) {
-        return false;
-      }
-      const a2Item = a2[key];
-      return item.title === a2Item.title && item.path === a2Item.path;
-    }).length === a1.length
-  );
-};
-
-let okToRevert = false;
-document.addEventListener('keydown', (event) => {
-  okToRevert = (event.ctrlKey || event.metaKey) && event.key === 'z';
-});
-
-interface Props extends WithTranslation {
+interface Props {
   attributes: RenderElementProps['attributes'];
   editor: Editor;
   element: FileElement;
-  locale?: string;
   children: ReactNode;
 }
 
-interface State {
-  files: File[];
-  missingFilePaths: string[];
-  showFileUploader: boolean;
-  currentDebounce?: DebouncedFunc<() => void>;
-}
+const getMissingFiles = async (files: File[]) => {
+  const missingFiles = files.map(async (file) => {
+    const exists = await headFileAtRemote(file.url);
+    return { ...file, exists: !!exists };
+  });
+  const resolvedFiles = await Promise.all(missingFiles);
+  return resolvedFiles.filter((f) => !f.exists).map((f) => f.path);
+};
 
-class FileList extends Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.checkForRemoteFiles.bind(this);
-    const { element, t } = this.props;
-    const files = element.data.map((file) => formatFile(file, t));
-    this.state = { files, missingFilePaths: [], showFileUploader: false };
-    this.checkForRemoteFiles(files);
-  }
+const FileList = ({ element, editor, attributes, children }: Props) => {
+  const { t } = useTranslation();
+  const [files, setFiles] = useState<File[]>(element.data);
+  const debounceFunc = useRef<DebouncedFunc<() => void> | null>(null);
+  const [missingFilePaths, setMissingFilePaths] = useState<string[]>([]);
+  const [showFileUploader, setShowFileUploader] = useState(false);
 
-  checkForRemoteFiles = async (files: File[]) => {
-    const missingFiles = files.map(async (file) => {
-      const exists = await headFileAtRemote(file.url);
-      return { ...file, exists: !!exists };
-    });
-    const resolvedFiles = await Promise.all(missingFiles);
-    const missingFilePaths = resolvedFiles.filter((f) => !f.exists).map((f) => f.path);
-    this.setState({ missingFilePaths });
+  useEffect(() => {
+    setFiles(element.data);
+  }, [element.data]);
+
+  useEffect(() => {
+    getMissingFiles(files).then(setMissingFilePaths);
+    // We only need to check this once, as adding further files guarantees them to "exist"
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const onUpdateFileName = (index: number, value: string) => {
+    debounceFunc.current?.cancel?.();
+    const data = files.map((file, i) => (i === index ? { ...file, title: value } : file));
+    setFiles(data);
+    debounceFunc.current = debounce(
+      () => Transforms.setNodes(editor, { data }, { at: ReactEditor.findPath(editor, element) }),
+      500,
+    );
+    debounceFunc.current?.();
   };
 
-  static getDerivedStateFromProps(props: Props, state: State) {
-    const files = props.element.data;
-    if (props && state.files && !compareArray(files, state.files) && okToRevert) {
-      okToRevert = false;
-      return { files };
-    }
-    okToRevert = false;
-    return null;
-  }
-
-  onUpdateFileName = (index: number, value: string) => {
-    const { element } = this.props;
-
-    const { currentDebounce } = this.state;
-    if (currentDebounce) {
-      currentDebounce.cancel();
-    }
-    // delay the save to editor until user have finished typing
-    const debounced = debounce(() => this.updateFilesToEditor(), 500);
-    debounced();
-    const newNodes = element.data.map((file, i) =>
-      i === index ? { ...file, title: value } : file,
-    );
-    this.setState({ currentDebounce: debounced, files: newNodes });
-  };
-
-  updateFilesToEditor() {
-    const { editor, element } = this.props;
-    Transforms.setNodes(
-      editor,
-      { data: this.state.files },
-      { at: ReactEditor.findPath(editor, element) },
-    );
-  }
-
-  removeFileList = () => {
-    const { editor, element } = this.props;
+  const removeFileList = () => {
     const path = ReactEditor.findPath(editor, element);
     ReactEditor.focus(editor);
     Transforms.removeNodes(editor, {
@@ -152,118 +102,102 @@ class FileList extends Component<Props, State> {
     });
   };
 
-  onDeleteFile = (indexToDelete: number) => {
-    const files = this.state.files;
+  const onDeleteFile = (indexToDelete: number) => {
     if (files.length === 1) {
-      this.removeFileList();
-    } else {
-      this.setState((prevState) => {
-        const newNodes = prevState.files.filter((_, i) => i !== indexToDelete);
-        return { files: newNodes };
-      }, this.updateFilesToEditor);
+      removeFileList();
+      return;
     }
+    const data = files.filter((_, i) => i !== indexToDelete);
+    setFiles(data);
+    Transforms.setNodes(editor, { data }, { at: ReactEditor.findPath(editor, element) });
   };
 
-  onAddFileToList = (files: UnsavedFile[]) => {
-    const { t } = this.props;
-    this.setState({
-      showFileUploader: false,
-    });
-    const newFiles = files.map((file) => {
-      return formatFile({ ...file, url: config.ndlaApiUrl + file.path, resource: 'file' }, t);
-    });
-    this.setState(
-      (prevState) => ({
-        files: prevState.files.concat(newFiles),
+  const onAddFileToList = (newFiles: UnsavedFile[]) => {
+    setShowFileUploader(false);
+    const data = files.concat(
+      newFiles.map((file) => {
+        return formatFile({ ...file, url: config.ndlaApiUrl + file.path, resource: 'file' }, t);
       }),
-      this.updateFilesToEditor,
     );
+    setFiles(data);
+    Transforms.setNodes(editor, { data }, { at: ReactEditor.findPath(editor, element) });
   };
 
-  onMovedFile = (fromIndex: number, toIndex: number) => {
-    this.setState(
-      (prevState) => ({ files: arrMove(prevState.files, fromIndex, toIndex) }),
-      this.updateFilesToEditor,
-    );
+  const onMovedFile = (from: number, to: number) => {
+    const fromElement = files[from];
+    const toElement = files[to];
+    const data = files.map((f, i) => (i === from ? toElement : i === to ? fromElement : f));
+    setFiles(data);
+    Transforms.setNodes(editor, { data }, { at: ReactEditor.findPath(editor, element) });
   };
 
-  onToggleRenderInline = (index: number) => {
-    this.setState(
-      (prevState) => ({
-        files: prevState.files.map((file, i) =>
-          index === i ? { ...file, display: file.display === 'block' ? 'inline' : 'block' } : file,
-        ),
-      }),
-      this.updateFilesToEditor,
+  const onToggleRenderInline = (index: number) => {
+    const data = files.map((f, i) =>
+      i === index ? { ...f, display: f.display === 'block' ? 'inline' : 'block' } : f,
     );
+    setFiles(data);
+    Transforms.setNodes(editor, { data }, { at: ReactEditor.findPath(editor, element) });
   };
 
-  onChangeShow = (show: boolean) => {
-    this.setState({ showFileUploader: show });
-  };
-
-  render() {
-    const { t, attributes, children } = this.props;
-    const { showFileUploader, files } = this.state;
-    if (files.length === 0) {
-      return null;
-    }
-    return (
-      <>
-        <StyledSection {...attributes} contentEditable={false}>
-          <FieldHeader title={t('form.file.label')}>
-            <Modal open={showFileUploader} onOpenChange={this.onChangeShow}>
-              <ModalTrigger>
-                <button
-                  tabIndex={-1}
-                  type="button"
-                  title={t('form.file.addFile')}
-                  aria-label={t('form.file.addFile')}
-                >
-                  <Plus css={FieldHeaderIconStyle} />
-                </button>
-              </ModalTrigger>
-              <ModalContent>
-                <ModalHeader>
-                  <ModalCloseButton />
-                </ModalHeader>
-                <ModalBody>
-                  <FileUploader onFileSave={this.onAddFileToList} />
-                </ModalBody>
-              </ModalContent>
-            </Modal>
-            <Tooltip tooltip={t('form.file.removeList')}>
-              <button tabIndex={-1} type="button" onClick={this.removeFileList}>
-                <Cross css={FieldHeaderIconStyle} />
-              </button>
-            </Tooltip>
-          </FieldHeader>
-          <FileListEditor
-            files={files}
-            missingFilePaths={this.state.missingFilePaths}
-            usePortal={true}
-            onEditFileName={this.onUpdateFileName}
-            onDeleteFile={this.onDeleteFile}
-            onMovedFile={this.onMovedFile}
-            onToggleRenderInline={this.onToggleRenderInline}
-            showRenderInlineCheckbox={true}
-            messages={{
-              placeholder: t('form.file.placeholder'),
-              changeName: t('form.file.changeName'),
-              changeOrder: t('form.file.changeOrder'),
-              removeFile: t('form.file.removeFile'),
-              missingFileTooltip: t('form.file.missingFileTooltip'),
-              missingTitle: t('form.file.missingTitle'),
-              checkboxLabel: t('form.file.showPdf'),
-              checkboxTooltip: t('form.file.showPdfTooltip'),
-            }}
-          />
-          {children}
-        </StyledSection>
-      </>
-    );
+  if (files.length === 0) {
+    return null;
   }
-}
+  return (
+    <StyledSection {...attributes} contentEditable={false}>
+      <FieldHeader title={t('form.file.label')}>
+        <Modal open={showFileUploader} onOpenChange={setShowFileUploader}>
+          <ModalTrigger>
+            <IconButtonV2
+              variant="ghost"
+              title={t('form.file.addFile')}
+              aria-label={t('form.file.addFile')}
+            >
+              <Plus />
+            </IconButtonV2>
+          </ModalTrigger>
+          <ModalContent>
+            <ModalHeader>
+              <ModalCloseButton />
+            </ModalHeader>
+            <ModalBody>
+              <FileUploader onFileSave={onAddFileToList} />
+            </ModalBody>
+          </ModalContent>
+        </Modal>
+        <IconButtonV2
+          variant="ghost"
+          colorTheme="danger"
+          title={t('form.file.removeList')}
+          aria-label={t('form.file.removeList')}
+          onClick={removeFileList}
+        >
+          <Cross />
+        </IconButtonV2>
+      </FieldHeader>
+      <FileListEditor
+        files={files}
+        missingFilePaths={missingFilePaths}
+        usePortal={true}
+        onEditFileName={onUpdateFileName}
+        onDeleteFile={onDeleteFile}
+        onMovedFile={onMovedFile}
+        onToggleRenderInline={onToggleRenderInline}
+        showRenderInlineCheckbox={true}
+        messages={{
+          placeholder: t('form.file.placeholder'),
+          changeName: t('form.file.changeName'),
+          changeOrder: t('form.file.changeOrder'),
+          removeFile: t('form.file.removeFile'),
+          missingFileTooltip: t('form.file.missingFileTooltip'),
+          missingTitle: t('form.file.missingTitle'),
+          checkboxLabel: t('form.file.showPdf'),
+          checkboxTooltip: t('form.file.showPdfTooltip'),
+        }}
+      />
+      {children}
+    </StyledSection>
+  );
+};
 
 //@ts-ignore Temp fix. Replace this with a functional component
-export default withTranslation()(FileList);
+export default FileList;

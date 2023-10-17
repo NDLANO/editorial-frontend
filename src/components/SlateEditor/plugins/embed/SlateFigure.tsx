@@ -102,8 +102,7 @@ const SlateFigure = ({
       );
     case 'external':
     case 'iframe':
-    case 'h5p':
-      if (embed.resource !== 'h5p' && embed.url?.includes('youtu')) {
+      if (embed.url?.includes('youtu')) {
         return (
           <SlateVideo
             attributes={attributes}

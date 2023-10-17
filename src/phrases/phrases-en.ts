@@ -628,6 +628,8 @@ const phrases = {
     'definition-list': 'Definition list\n({{ctrl}}+alt+d)',
   },
   editorBlockpicker: {
+    open: 'Open menu ({{ctrl}}+Enter)',
+    close: 'Close menu',
     heading: 'Add',
     actions: {
       block: 'Section',
@@ -805,6 +807,7 @@ const phrases = {
     editOriginalImage: 'Edit orginal image',
     editAudio: 'Edit audio',
     editPodcast: 'Edit podcast',
+    editH5p: 'Edit H5P',
     resetToProd: {
       button: 'Reset to prod',
       modal: 'Do you want to reset the draft as it is on the ndla frontpage?',
@@ -1233,6 +1236,9 @@ const phrases = {
       fromLinkedVideo: 'Switch back to original video',
       linkedVideoButton: 'IV',
     },
+    h5p: {
+      remove: 'Remove H5P',
+    },
     audio: {
       file: 'Audio file',
       title: {
@@ -1429,6 +1435,7 @@ const phrases = {
   },
   warningMessage: {
     fieldWithWrongLanguage: 'This value is fetched from language code: {{language}}',
+    taxonomy: 'All taxonomy changes require partial publishing',
   },
   notFound: {
     description: 'The page cannot be found',
@@ -1466,6 +1473,7 @@ const phrases = {
     addExistingLoading: 'Moving ...',
     addExistingSuccess: 'Node successfully moved',
     existingNode: 'Existing node',
+    workflow: 'in workflow',
     connectExistingNode: 'Connect {{nodeType}} to this node',
     connectExistingLoading: 'Connection ...',
     connectExistingSuccess: 'Node successfully connected!',

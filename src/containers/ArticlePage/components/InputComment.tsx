@@ -7,7 +7,8 @@
 
 import styled from '@emotion/styled';
 import { colors, fonts, spacing, misc } from '@ndla/core';
-import { TFunction, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
+import { TFunction } from 'i18next';
 import { TextAreaV2 } from '@ndla/forms';
 import { ChangeEvent, useCallback, useRef, useState } from 'react';
 import uniqueId from 'lodash/uniqueId';
@@ -61,9 +62,9 @@ export const getCommentWithInfoText = (
   const formattedDate = formatDate(dateTime);
   const formattedTime = format(currentDate, 'HH:mm');
 
-  return `${comment}\n${t('form.workflow.addComment.createdBy')} ${
-    userName?.split(' ')[0]
-  } (${formattedDate} - ${formattedTime})`;
+  return `${comment}\n${t('form.workflow.addComment.createdBy')} ${userName?.split(
+    ' ',
+  )[0]} (${formattedDate} - ${formattedTime})`;
 };
 
 interface Props {

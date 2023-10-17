@@ -629,6 +629,8 @@ const phrases = {
   },
   editorBlockpicker: {
     heading: 'Legg til',
+    open: 'Åpne meny ({{ctrl}}+Enter)',
+    close: 'Lukk meny',
     actions: {
       block: 'Seksjon',
       factAside: 'Faktaboks',
@@ -805,6 +807,7 @@ const phrases = {
     editOriginalImage: 'Rediger original bilete',
     editAudio: 'Endre lyd',
     editPodcast: 'Endre podkast',
+    editH5p: 'Endre H5P',
     resetToProd: {
       button: 'Tilbakestill endringer',
       modal: 'Vil du tilbakestille utkastet til slik det er på ndla forsida?',
@@ -1233,6 +1236,9 @@ const phrases = {
       fromLinkedVideo: 'Bytt tilbake til original versjon',
       linkedVideoButton: 'ST',
     },
+    h5p: {
+      remove: 'Ta bort H5P',
+    },
     audio: {
       file: 'Lydfil',
       title: {
@@ -1431,6 +1437,7 @@ const phrases = {
   },
   warningMessage: {
     fieldWithWrongLanguage: 'Dette feltet er henta frå språkkode: {{language}}',
+    taxonomy: 'Alle taksonomiendringar krever delpublisering',
   },
   notFound: {
     description: 'Denne sida finnes ikkje.',
@@ -1468,6 +1475,7 @@ const phrases = {
     addExistingLoading: 'Flyttar ...',
     addExistingSuccess: 'Noden har blitt flytta!',
     existingNode: 'Eksisterande node',
+    workflow: 'i arbeidsflyt',
     connectExistingNode: 'Knytt {{nodeType}} til denne noden',
     connectExistingLoading: 'Legger til ...',
     connectExistingSuccess: 'Noden har blitt knytta til!',

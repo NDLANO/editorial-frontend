@@ -11,8 +11,7 @@ import express from 'express';
 import compression from 'compression';
 import helmet from 'helmet';
 import bodyParser from 'body-parser';
-import prettier from 'prettier/standalone';
-import parseHTML from 'prettier/parser-html';
+import prettier from 'prettier';
 import proxy from 'express-http-proxy';
 import jwt from 'express-jwt';
 import jwksRsa from 'jwks-rsa';
@@ -105,11 +104,10 @@ app.get('/health', (req, res) => {
   res.status(OK).json({ status: OK, text: 'Health check ok' });
 });
 
-app.post('/format-html', (req, res) => {
-  const html = prettier.format(req.body.html, {
+app.post('/format-html', async (req, res) => {
+  const html = await prettier.format(req.body.html, {
     parser: 'html',
     printWidth: 1000000, // Avoid inserting linebreaks for long inline texts i.e. <p>Lorem ......... ipsum</p>
-    plugins: [parseHTML],
   });
   res.status(OK).json({ html });
 });

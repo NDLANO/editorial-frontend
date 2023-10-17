@@ -19,7 +19,7 @@ import {
   ModalContent,
 } from '@ndla/modal';
 import { ReactNode } from 'react';
-import { CustomWithTranslation, withTranslation } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import { HelpIcon } from './HowTo';
 
 const StyledHelpIcon = styled(HelpIcon)`
@@ -32,7 +32,7 @@ interface Props {
   children: ReactNode;
 }
 
-const HelpMessage = ({ children, t }: Props & CustomWithTranslation) => (
+const HelpMessage = ({ children, t }: Props & WithTranslation) => (
   <Modal>
     <ModalTrigger>
       <ButtonV2

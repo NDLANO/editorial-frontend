@@ -147,14 +147,14 @@ const ConceptListTabContent = ({
   );
 
   const tableTitles: TitleElement<SortOption>[] = [
-    { title: t('welcomePage.workList.title'), sortableField: 'title' },
-    { title: t('welcomePage.workList.status'), sortableField: 'status', width: '10%' },
-    { title: t('welcomePage.workList.contentType'), width: '10%' },
-    { title: t('welcomePage.workList.conceptSubject') },
+    { title: t('welcomePage.workList.title'), sortableField: 'title', width: '25%' },
+    { title: t('welcomePage.workList.status'), sortableField: 'status', width: '20%' },
+    { title: t('welcomePage.workList.contentType'), width: '20%' },
+    { title: t('welcomePage.workList.conceptSubject'), width: '20%' },
     {
       title: t('welcomePage.workList.date'),
       sortableField: 'responsibleLastUpdated',
-      width: '10%',
+      width: '15%',
     },
   ];
 
@@ -196,6 +196,7 @@ const ConceptListTabContent = ({
         sortOption={sortOption}
         error={error}
         noResultsText={t('welcomePage.emptyConcepts')}
+        minWidth="630px"
       />
       <Pager
         page={data?.page ?? 1}

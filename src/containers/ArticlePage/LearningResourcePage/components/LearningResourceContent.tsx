@@ -66,7 +66,6 @@ import { gridPlugin } from '../../../../components/SlateEditor/plugins/grid';
 import {
   TYPE_EMBED_BRIGHTCOVE,
   TYPE_EMBED_EXTERNAL,
-  TYPE_EMBED_H5P,
   TYPE_EMBED_IMAGE,
 } from '../../../../components/SlateEditor/plugins/embed/types';
 import { TYPE_TABLE } from '../../../../components/SlateEditor/plugins/table/types';
@@ -77,6 +76,8 @@ import { HandleSubmitFunc, LearningResourceFormType } from '../../../FormikForm/
 import { audioPlugin } from '../../../../components/SlateEditor/plugins/audio';
 import { TYPE_AUDIO } from '../../../../components/SlateEditor/plugins/audio/types';
 import { learningResourceActions } from '../../../../components/SlateEditor/plugins/blockPicker/actions';
+import { TYPE_H5P } from '../../../../components/SlateEditor/plugins/h5p/types';
+import { h5pPlugin } from '../../../../components/SlateEditor/plugins/h5p';
 
 const StyledFormikField = styled(FormikField)`
   display: flex;
@@ -113,7 +114,7 @@ const findFootnotes = (content: Descendant[]): FootnoteType[] =>
     .map((footnoteElement) => footnoteElement.data);
 
 const visualElements = [
-  TYPE_EMBED_H5P,
+  TYPE_H5P,
   TYPE_EMBED_BRIGHTCOVE,
   TYPE_AUDIO,
   TYPE_EMBED_EXTERNAL,
@@ -138,6 +139,7 @@ export const plugins = (articleLanguage: string): SlatePlugin[] => {
     paragraphPlugin(articleLanguage),
     footnotePlugin,
     audioPlugin(articleLanguage),
+    h5pPlugin(articleLanguage),
     embedPlugin(articleLanguage),
     bodyboxPlugin,
     asidePlugin,

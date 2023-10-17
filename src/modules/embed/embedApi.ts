@@ -17,6 +17,7 @@ import {
   ConceptListData,
   ConceptVisualElement,
   ConceptVisualElementMeta,
+  H5pData,
   H5pEmbedData,
   H5pMetaData,
   IframeEmbedData,
@@ -176,32 +177,37 @@ export const fetchVisualExternalMeta = async (
   }
 };
 
+export const fetchH5pMeta = async (path: string, url: string): Promise<H5pData> => {
+  const pathArr = path.split('/') || [];
+  const h5pId = pathArr[pathArr.length - 1];
+  const [oembedData, h5pLicenseInformation, h5pInfo] = await Promise.all([
+    // This differs from graphql. We only allow preview here
+    fetchH5pPreviewOembed(url),
+    fetchH5pLicenseInformation(h5pId),
+    fetchH5PInfo(h5pId),
+  ]);
+
+  return {
+    h5pLicenseInformation: {
+      h5p: {
+        ...h5pLicenseInformation?.h5p,
+        authors: h5pLicenseInformation?.h5p.authors ?? [],
+        title: h5pInfo?.title ?? '',
+      },
+    },
+    h5pUrl: url,
+    oembed: oembedData,
+  };
+};
+
 export const fetchVisualH5pMeta = async (embedData: H5pEmbedData): Promise<H5pMetaData> => {
   try {
-    const pathArr = embedData.path?.split('/') || [];
-    const h5pId = pathArr[pathArr.length - 1];
-    const [oembedData, h5pLicenseInformation, h5pInfo] = await Promise.all([
-      // This differs from graphql. We only allow preview here
-      fetchH5pPreviewOembed(embedData.url),
-      fetchH5pLicenseInformation(h5pId),
-      fetchH5PInfo(h5pId),
-    ]);
-
+    const data = await fetchH5pMeta(embedData.path, embedData.url);
     return {
       resource: 'h5p',
       status: 'success',
       embedData,
-      data: {
-        h5pLicenseInformation: {
-          h5p: {
-            ...h5pLicenseInformation?.h5p,
-            authors: h5pLicenseInformation?.h5p.authors ?? [],
-            title: h5pInfo?.title ?? '',
-          },
-        },
-        h5pUrl: embedData.url,
-        oembed: oembedData,
-      },
+      data,
     };
   } catch (e) {
     return {

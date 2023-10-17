@@ -6,6 +6,7 @@
  *
  */
 
+import parse from 'html-react-parser';
 import { extractEmbedMeta } from '@ndla/article-converter';
 import { IConcept } from '@ndla/types-backend/concept-api';
 import { ConceptVisualElementMeta } from '@ndla/types-embed';
@@ -14,6 +15,7 @@ import { useMemo } from 'react';
 import { useTaxonomyVersion } from '../../containers/StructureVersion/TaxonomyVersionProvider';
 import { usePreviewArticle } from '../../modules/article/articleGqlQueries';
 import { useSearchNodes } from '../../modules/nodes/nodeQueries';
+import parseMarkdown from '../../util/parseMarkdown';
 
 const getAudioData = (
   visualElement?: ConceptVisualElementMeta,
@@ -40,6 +42,11 @@ const PreviewConcept = ({ concept, language }: Props) => {
     { enabled: !!concept.visualElement?.visualElement },
   );
 
+  const parsedContent = useMemo(() => {
+    if (!concept.content) return;
+    return parse(parseMarkdown({ markdown: concept.content.content }));
+  }, [concept.content]);
+
   const { data: subjects } = useSearchNodes(
     {
       ids: concept.subjectIds!,
@@ -58,7 +65,7 @@ const PreviewConcept = ({ concept, language }: Props) => {
       ) : (
         <ConceptNotionV2
           title={concept.title}
-          content={concept.content?.content}
+          content={parsedContent}
           visualElement={visualElementMeta}
           metaImage={concept.metaImage}
           copyright={concept.copyright}

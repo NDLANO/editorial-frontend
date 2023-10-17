@@ -7,7 +7,6 @@
  */
 
 import { useMemo } from 'react';
-import { Remarkable } from 'remarkable';
 import parse from 'html-react-parser';
 import { useTranslation } from 'react-i18next';
 
@@ -18,16 +17,7 @@ import FormikField from '../../components/FormikField';
 import { textTransformPlugin } from '../../components/SlateEditor/plugins/textTransform';
 import saveHotkeyPlugin from '../../components/SlateEditor/plugins/saveHotkey';
 import { Plain } from '../../util/slatePlainSerializer';
-
-const markdown = new Remarkable({ breaks: true });
-markdown.inline.ruler.enable(['sub', 'sup']);
-
-const renderMarkdown = (text: string, concept: boolean) => {
-  if (!concept) {
-    markdown.block.ruler.disable(['list']);
-  }
-  return markdown.render(text);
-};
+import parseMarkdown from '../../util/parseMarkdown';
 
 interface Props {
   name?: string;
@@ -35,7 +25,6 @@ interface Props {
   type?: string;
   placeholder?: string;
   preview?: boolean;
-  concept?: boolean;
 }
 
 const IngressField = ({
@@ -43,7 +32,6 @@ const IngressField = ({
   maxLength = 300,
   placeholder,
   preview = false,
-  concept = false,
 }: Props) => {
   const plugins = useMemo(() => [textTransformPlugin, saveHotkeyPlugin], []);
 
@@ -60,7 +48,7 @@ const IngressField = ({
         {({ field, form: { isSubmitting } }) =>
           preview ? (
             <div className="article_introduction">
-              {parse(renderMarkdown(Plain.serialize(field.value), concept))}
+              {parse(parseMarkdown({ markdown: Plain.serialize(field.value) }))}
             </div>
           ) : (
             <PlainTextEditor

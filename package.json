@@ -168,7 +168,7 @@
     "html-react-parser": "^4.2.2",
     "i18next": "^23.5.1",
     "is-hotkey": "^0.1.4",
-    "jwks-rsa": "^1.12.3",
+    "jwks-rsa": "^3.1.0",
     "jwt-decode": "^3.1.2",
     "lodash": "^4.17.21",
     "marked": "^9.1.0",

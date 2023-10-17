@@ -13,7 +13,6 @@ import helmet from 'helmet';
 import bodyParser from 'body-parser';
 import prettier from 'prettier/standalone';
 import parseHTML from 'prettier/parser-html';
-import proxy from 'express-http-proxy';
 import jwt from 'express-jwt';
 import jwksRsa from 'jwks-rsa';
 import { OK, INTERNAL_SERVER_ERROR, NOT_ACCEPTABLE, FORBIDDEN } from '../httpCodes';
@@ -251,11 +250,6 @@ app.post('/translate', async (req, res) => {
     res.status(OK).json({ status: OK, text: 'No body' });
   }
 });
-
-if (process.env.NODE_ENV === 'development') {
-  // proxy js request to handle web worker crossorgin issue (only necessary under development)
-  app.get('/static/js/*', proxy('http://localhost:3001'));
-}
 
 app.get('*', (req, res) => {
   const paths = req.url.split('/');

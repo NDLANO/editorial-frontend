@@ -90,7 +90,7 @@ interface StyledStructureItemProps {
   connectionId?: string;
 }
 
-export const StyledStructureItem = styled.div<StyledStructureItemProps>`
+export const StyledStructureItem = styled.li<StyledStructureItemProps>`
   margin: 0;
   padding: 0;
   flex: 1;

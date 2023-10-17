@@ -43,7 +43,7 @@
     "@ndla/types-backend": "0.2.21",
     "@ndla/types-embed": "^4.0.2",
     "@ndla/types-taxonomy": "^1.0.18",
-    "@playwright/test": "^1.35.1",
+    "@playwright/test": "^1.39.0",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.10",
     "@tanstack/react-query-devtools": "^4.24.6",
     "@testing-library/jest-dom": "^6.1.3",

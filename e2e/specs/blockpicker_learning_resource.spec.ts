@@ -141,7 +141,7 @@ test('opens and closes video', async ({ page }) => {
   });
   const brightcoveVideo = mockRoute({
     page,
-    path: '**/v1/accounts/*/videos/6317543916112',
+    path: '**/v1/accounts/*/videos/6320387876112',
     fixture: 'brightcove_video',
   });
   const brightcovePlayback = mockRoute({

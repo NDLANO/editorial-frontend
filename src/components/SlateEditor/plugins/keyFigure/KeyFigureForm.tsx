@@ -9,7 +9,7 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
-import { InputV2 } from '@ndla/forms';
+import { CheckboxItem, InputV2 } from '@ndla/forms';
 import { KeyFigureEmbedData } from '@ndla/types-embed';
 import { spacing } from '@ndla/core';
 import { FieldProps, Formik } from 'formik';
@@ -31,6 +31,8 @@ interface KeyFigureFormValue {
   metaImageId: string;
   title: string;
   subtitle: string;
+  alt?: string;
+  isDecorative: boolean;
 }
 
 const toInitialValues = (initialData: KeyFigureEmbedData): KeyFigureFormValue => ({
@@ -38,6 +40,8 @@ const toInitialValues = (initialData: KeyFigureEmbedData): KeyFigureFormValue =>
   metaImageId: initialData?.imageId ?? '',
   title: initialData?.title ?? '',
   subtitle: initialData?.subtitle ?? '',
+  alt: initialData?.alt,
+  isDecorative: !!initialData?.alt,
 });
 
 const rules: RulesType<KeyFigureFormValue> = {
@@ -59,6 +63,11 @@ const StyledFormikField = styled(FormikField)`
 const inputStyle = css`
   display: flex;
   flex-direction: column;
+
+  label {
+    max-width: 100%;
+    width:100%;
+  }
 `;
 
 const ButtonContainer = styled.div`
@@ -79,6 +88,7 @@ const KeyFigureForm = ({ onSave, initialData, onCancel }: Props) => {
         imageId: values.metaImageId,
         title: values.title,
         subtitle: values.subtitle,
+        alt: values.isDecorative ? undefined : values.alt,
       };
       onSave(newData);
     },
@@ -104,7 +114,27 @@ const KeyFigureForm = ({ onSave, initialData, onCancel }: Props) => {
               <InputV2 customCss={inputStyle} label={t('form.name.subtitle')} {...field} />
             )}
           </StyledFormikField>
-          <InlineImageSearch name={'metaImageId'} disableAltEditing />
+          <InlineImageSearch name="metaImageId" disableAltEditing />
+          <StyledFormikField name="alt">
+            {({ field, form }: FieldProps) => (
+              <>
+                {!form.values.isDecorative && (
+                  <InputV2 customCss={inputStyle} label={t('form.name.metaImageAlt')} {...field} />
+                )}
+              </>
+            )}
+          </StyledFormikField>
+          <StyledFormikField name="isDecorative">
+            {({ field }: FieldProps) => (
+              <CheckboxItem
+                label={t('form.image.isDecorative')}
+                checked={field.value}
+                onChange={() =>
+                  field.onChange({ target: { name: field.name, value: !field.value } })
+                }
+              />
+            )}
+          </StyledFormikField>
           <ButtonContainer>
             <ButtonV2 variant="outline" onClick={onCancel}>
               {t('cancel')}

@@ -19,6 +19,7 @@ import { TYPE_LIST } from '../plugins/list/types';
 import { TYPE_PARAGRAPH } from '../plugins/paragraph/types';
 import { TYPE_TABLE } from '../plugins/table/types';
 import { TYPE_AUDIO } from '../plugins/audio/types';
+import { TYPE_GRID } from '../plugins/grid/types';
 
 export const firstTextBlockElement: Element['type'][] = [TYPE_PARAGRAPH, TYPE_HEADING, TYPE_QUOTE];
 
@@ -39,6 +40,7 @@ export const textBlockElements: Element['type'][] = [
   TYPE_BODYBOX,
   TYPE_DETAILS,
   TYPE_DEFINITION_LIST,
+  TYPE_GRID,
 ];
 
 export const lastTextBlockElement: Element['type'][] = [TYPE_PARAGRAPH];

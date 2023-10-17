@@ -6,8 +6,7 @@
  *
  */
 
-import prettier from 'prettier/standalone';
-import parseHTML from 'prettier/parser-html';
+import prettier from 'prettier';
 
 const localStorageMock = (function createLocalStorage() {
   let store = {};
@@ -30,7 +29,6 @@ const localStorageMock = (function createLocalStorage() {
 const prettify = (content) =>
   prettier.format(`${content}`, {
     parser: 'html',
-    plugins: [parseHTML],
   });
 global.prettifyHTML = prettify;
 

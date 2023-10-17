@@ -62,9 +62,9 @@ export const getCommentWithInfoText = (
   const formattedDate = formatDate(dateTime);
   const formattedTime = format(currentDate, 'HH:mm');
 
-  return `${comment}\n${t('form.workflow.addComment.createdBy')} ${
-    userName?.split(' ')[0]
-  } (${formattedDate} - ${formattedTime})`;
+  return `${comment}\n${t('form.workflow.addComment.createdBy')} ${userName?.split(
+    ' ',
+  )[0]} (${formattedDate} - ${formattedTime})`;
 };
 
 interface Props {

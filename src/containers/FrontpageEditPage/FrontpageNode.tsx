@@ -13,7 +13,7 @@ import { ButtonV2, IconButtonV2 } from '@ndla/button';
 import { ChevronRight } from '@ndla/icons/common';
 import { ArrayHelpers, FieldArray, useField } from 'formik';
 import { useCallback, useMemo, useState } from 'react';
-import { IArticleSummaryV2 } from '@ndla/types-backend/build/article-api';
+import { IArticleSummaryV2 } from '@ndla/types-backend/article-api';
 import { Plus } from '@ndla/icons/action';
 import { DeleteForever } from '@ndla/icons/editor';
 import SafeLink from '@ndla/safelink';

@@ -6,7 +6,7 @@
  *
  */
 
-import { ISearchResultV2 } from '@ndla/types-backend/build/article-api';
+import { ISearchResultV2 } from '@ndla/types-backend/article-api';
 import { UseQueryOptions, useQuery } from '@tanstack/react-query';
 import { ARTICLE } from '../../queryKeys';
 import { ArticleSearchParams, searchArticles } from './articleApi';

@@ -160,7 +160,7 @@ test('can change status correctly', async ({ page }) => {
   });
 
   await statusSelect.click();
-  await page.locator('*[id^="react-select-3-option"]', { hasText: 'Publiser' }).click();
+  await page.getByText('Publiser', { exact: true }).click();
 
   await saveButton.getByText('Lagret').waitFor();
   await expect(statusSelect.getByText('Publisert')).toBeVisible();

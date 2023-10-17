@@ -51,6 +51,8 @@ export const CONCEPT_RESPONSIBLE = 'concept:responsible';
 export const TAXONOMY_WRITE_SCOPE = 'taxonomy:write';
 export const TAXONOMY_ADMIN_SCOPE = 'taxonomy:admin';
 
+export const TAXONOMY_VERSION_DEFAULT = 'default';
+
 export const FRONTPAGE_ADMIN_SCOPE = 'frontpage:admin';
 
 export const AUDIO_ADMIN_SCOPE = 'audio:admin';

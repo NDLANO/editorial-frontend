@@ -92,8 +92,10 @@ const SearchDropdown = <ParamType extends BaseParams, InnerType, ApiType, Type>(
   );
   const transformed = searchQuery.data ? transform(searchQuery.data) : undefined;
 
-  const handleOnChange = (item: DropdownItem<InnerType>) => {
-    item && onChange(item.originalItem);
+  const handleOnChange = (item: DropdownItem<InnerType> | undefined) => {
+    if (item) {
+      onChange(item.originalItem);
+    }
     setQuery('');
   };
 

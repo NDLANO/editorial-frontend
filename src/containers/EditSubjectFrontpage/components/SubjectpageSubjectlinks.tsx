@@ -24,15 +24,18 @@ const SubjectpageSubjectlinks = ({ subjects, fieldName }: Props) => {
   const { t } = useTranslation();
   const [subjectList, setSubjectList] = useState<Node[]>([]);
   const { setFieldTouched } = useFormikContext();
-  const [FieldInputProps] = useField<string[]>(fieldName);
-  const { onChange } = FieldInputProps;
+  const [fieldInputProps] = useField<string[]>(fieldName);
 
-  const { data } = useSearchNodes({
-    page: 1,
-    taxonomyVersion: 'default',
-    nodeType: 'SUBJECT',
-    ids: subjects,
-  });
+  const { data } = useSearchNodes(
+    {
+      page: 1,
+      taxonomyVersion: 'default',
+      nodeType: 'SUBJECT',
+      pageSize: subjects.length,
+      ids: subjects,
+    },
+    { enabled: subjects.length > 0 },
+  );
 
   useEffect(() => {
     setSubjectList(data ? data.results.filter((node) => subjects.includes(node.id)) : []);
@@ -52,7 +55,7 @@ const SubjectpageSubjectlinks = ({ subjects, fieldName }: Props) => {
 
   const updateFormik = (list: string[]) => {
     setFieldTouched(fieldName, true, false);
-    onChange({
+    fieldInputProps.onChange({
       target: {
         name: fieldName,
         value: list || null,

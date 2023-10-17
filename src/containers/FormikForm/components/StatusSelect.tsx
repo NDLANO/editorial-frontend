@@ -36,9 +36,13 @@ const StatusSelect = ({ status, setStatus, onSave, statusStateMachine, entitySta
 
   useEffect(() => {
     if (entityStatus && statusStateMachine) {
-      const statuses =
-        statusStateMachine[entityStatus.current]?.map((s) => transformStatus(s)) ?? [];
-      setOptions(statuses);
+      const statuses = Object.keys(statusStateMachine)?.map((s) => transformStatus(s)) ?? [];
+      setOptions(
+        statuses.map((s) => ({
+          ...s,
+          isDisabled: !statusStateMachine[entityStatus.current].includes(s.value),
+        })),
+      );
       if (entityStatus.current === PUBLISHED) {
         setStatus({ label: t(`form.status.published`), value: PUBLISHED });
       } else {

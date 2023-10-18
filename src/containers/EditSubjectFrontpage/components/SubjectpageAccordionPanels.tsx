@@ -17,6 +17,9 @@ import FormikField from '../../../components/FormikField';
 import { SubjectPageFormikType } from '../../../util/subjectHelpers';
 import FormAccordions from '../../../components/Accordion/FormAccordions';
 import FormAccordion from '../../../components/Accordion/FormAccordion';
+import { useSearchNodes } from '../../../modules/nodes/nodeQueries';
+import { useEffect, useState } from 'react';
+import { Node } from '@ndla/types-taxonomy';
 
 interface Props {
   buildsOn: string[];
@@ -36,6 +39,25 @@ const SubjectpageAccordionPanels = ({
   leadsTo,
 }: Props) => {
   const { t } = useTranslation();
+  const [initSubjects, setInitSubejcts] = useState<null | Node[]>(null);
+  const subjectsLinks = buildsOn.concat(connectedTo).concat(leadsTo);
+
+  const { data } = useSearchNodes(
+    {
+      page: 1,
+      taxonomyVersion: 'default',
+      nodeType: 'SUBJECT',
+      pageSize: subjectsLinks.length,
+      ids: subjectsLinks,
+    },
+    { enabled: subjectsLinks.length > 0 && initSubjects === null },
+  );
+
+  useEffect(() => {
+    if (data && data.results.length > 0) {
+      setInitSubejcts(data.results);
+    }
+  }, [data?.results]);
 
   const SubjectPageArticle = () => (
     <SubjectpageArticles
@@ -71,15 +93,18 @@ const SubjectpageAccordionPanels = ({
         className="u-6/6"
         hasError={['connectedTo', 'buildsOn', 'leadsTo'].some((field) => field in errors)}
       >
-        <FormikField name={'buildsOn'}>
-          {() => <SubjectpageSubjectlinks subjects={connectedTo} fieldName={'connectedTo'} />}
-        </FormikField>
-        <FormikField name={'buildsOn'}>
-          {() => <SubjectpageSubjectlinks subjects={buildsOn} fieldName={'buildsOn'} />}
-        </FormikField>
-        <FormikField name={'leadsTo'}>
-          {() => <SubjectpageSubjectlinks subjects={leadsTo} fieldName={'leadsTo'} />}
-        </FormikField>
+        <SubjectpageSubjectlinks
+          subjects={(initSubjects ?? []).filter((subject) => connectedTo.includes(subject.id))}
+          fieldName={'connectedTo'}
+        />
+        <SubjectpageSubjectlinks
+          subjects={(initSubjects ?? []).filter((subject) => buildsOn.includes(subject.id))}
+          fieldName={'buildsOn'}
+        />
+        <SubjectpageSubjectlinks
+          subjects={(initSubjects ?? []).filter((subject) => leadsTo.includes(subject.id))}
+          fieldName={'leadsTo'}
+        />
       </FormAccordion>
       <FormAccordion
         id="articles"

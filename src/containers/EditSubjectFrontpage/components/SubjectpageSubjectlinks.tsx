@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import { useField, useFormikContext } from 'formik';
+import { useField } from 'formik';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -16,30 +16,18 @@ import { NodeList, NodeSearchDropdown } from './nodes';
 import { useSearchNodes } from '../../../modules/nodes/nodeQueries';
 
 interface Props {
-  subjects: string[];
+  subjects: Node[];
   fieldName: string;
 }
 
 const SubjectpageSubjectlinks = ({ subjects, fieldName }: Props) => {
   const { t } = useTranslation();
   const [subjectList, setSubjectList] = useState<Node[]>([]);
-  const { setFieldTouched } = useFormikContext();
-  const [fieldInputProps] = useField<string[]>(fieldName);
-
-  const { data } = useSearchNodes(
-    {
-      page: 1,
-      taxonomyVersion: 'default',
-      nodeType: 'SUBJECT',
-      pageSize: subjects.length,
-      ids: subjects,
-    },
-    { enabled: subjects.length > 0 },
-  );
+  const [field, _meta, helpers] = useField<string[]>(fieldName);
 
   useEffect(() => {
-    setSubjectList(data ? data.results.filter((node) => subjects.includes(node.id)) : []);
-  }, [data, subjects]);
+    setSubjectList(subjects);
+  }, [subjects]);
 
   const handleDeleteFromList = (id: string) => {
     const updatedList = subjectList.filter((item) => item.id !== id);
@@ -54,8 +42,8 @@ const SubjectpageSubjectlinks = ({ subjects, fieldName }: Props) => {
   };
 
   const updateFormik = (list: string[]) => {
-    setFieldTouched(fieldName, true, false);
-    fieldInputProps.onChange({
+    helpers.setTouched(true, false);
+    field.onChange({
       target: {
         name: fieldName,
         value: list || null,

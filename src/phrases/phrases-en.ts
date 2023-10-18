@@ -1502,7 +1502,7 @@ const phrases = {
     getExisting: 'Or get existing resource',
     inProgress: 'This article is in progress',
     addPriority: 'Set article as prioritized',
-    publishRequired: 'This change requires partial publishing of the taxonomy',
+    publishRequired: 'Title changes require partial publishing of the taxonomy',
     changeName: {
       loadError: 'Could not fetch translations',
       updateError: 'Could not update translations',

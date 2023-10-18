@@ -28,6 +28,7 @@ import TableComponent, { FieldElement, Prefix, TitleElement } from '../TableComp
 import TableTitle from '../TableTitle';
 import { SortOption } from './WorkList';
 import StatusCell from './StatusCell';
+import PageSizeDropdown from './PageSizeDropdown';
 
 interface Props {
   data?: IConceptSearchResult;
@@ -39,6 +40,8 @@ interface Props {
   setFilterSubject: (fs: SingleValue) => void;
   ndlaId?: string;
   setPageConcept: (page: number) => void;
+  pageSizeConcept: SingleValue;
+  setPageSizeConcept: (p: SingleValue) => void;
 }
 
 interface Concept {
@@ -85,6 +88,8 @@ const ConceptListTabContent = ({
   setFilterSubject,
   ndlaId,
   setPageConcept,
+  pageSizeConcept,
+  setPageSizeConcept,
 }: Props) => {
   const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
@@ -169,6 +174,9 @@ const ConceptListTabContent = ({
           Icon={Calendar}
         />
         <ControlWrapperDashboard>
+          <DropdownWrapper>
+            <PageSizeDropdown pageSize={pageSizeConcept} setPageSize={setPageSizeConcept} />
+          </DropdownWrapper>
           <DropdownWrapper>
             <Select<false>
               label={t('welcomePage.chooseSubject')}

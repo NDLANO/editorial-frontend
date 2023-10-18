@@ -21,12 +21,14 @@ interface Props {
 }
 
 export type SortOption = 'title' | 'responsibleLastUpdated' | 'status';
+const defaultPageSize = { label: '6', value: '6' };
 
 const WorkList = ({ ndlaId }: Props) => {
   const [sortOption, setSortOption] = useState<Prefix<'-', SortOption>>('-responsibleLastUpdated');
   const [filterSubject, setFilterSubject] = useState<SingleValue | undefined>(undefined);
   const [error, setError] = useState<string | undefined>(undefined);
   const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState<SingleValue>(defaultPageSize);
 
   const [sortOptionConcepts, setSortOptionConcepts] =
     useState<Prefix<'-', SortOption>>('-responsibleLastUpdated');
@@ -35,6 +37,7 @@ const WorkList = ({ ndlaId }: Props) => {
   );
   const [errorConceptList, setErrorConceptList] = useState<string | undefined>(undefined);
   const [pageConcept, setPageConcept] = useState(1);
+  const [pageSizeConcept, setPageSizeConcept] = useState<SingleValue>(defaultPageSize);
   const [prioritized, setPrioritized] = useState(false);
 
   const {
@@ -48,7 +51,7 @@ const WorkList = ({ ndlaId }: Props) => {
       ...(prioritized ? { prioritized: true } : {}),
       ...(filterSubject ? { subjects: filterSubject.value } : {}),
       page: page,
-      'page-size': 6,
+      'page-size': Number(pageSize!.value),
       language,
       fallback: true,
       'aggregate-paths': 'contexts.rootId',
@@ -65,7 +68,7 @@ const WorkList = ({ ndlaId }: Props) => {
       sort: sortOptionConcepts,
       ...(filterConceptSubject ? { subjects: filterConceptSubject.value } : {}),
       page: pageConcept,
-      'page-size': 6,
+      'page-size': Number(pageSizeConcept!.value),
       language,
       fallback: true,
     },
@@ -105,6 +108,8 @@ const WorkList = ({ ndlaId }: Props) => {
               setPage={setPage}
               setPrioritized={setPrioritized}
               prioritized={prioritized}
+              pageSize={pageSize}
+              setPageSize={setPageSize}
             />
           ),
         },
@@ -122,6 +127,8 @@ const WorkList = ({ ndlaId }: Props) => {
               setFilterSubject={setFilterConceptSubject}
               ndlaId={ndlaId}
               setPageConcept={setPageConcept}
+              pageSizeConcept={pageSizeConcept}
+              setPageSizeConcept={setPageSizeConcept}
             />
           ),
         },

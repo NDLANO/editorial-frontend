@@ -154,6 +154,8 @@ const phrases = {
       conceptSubject: 'Concept subject',
       sortAsc: 'Sort ascending',
       sortDesc: 'Sort descending',
+      pickPageSize: 'Choose the number of rows',
+      numberOfRows: 'Number of rows',
     },
     welcomeBack: 'Welcome',
   },

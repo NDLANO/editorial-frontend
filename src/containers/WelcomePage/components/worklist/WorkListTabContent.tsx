@@ -30,6 +30,7 @@ import TableTitle from '../TableTitle';
 import GoToSearch from '../GoToSearch';
 import { SortOption } from './WorkList';
 import StatusCell from './StatusCell';
+import PageSizeDropdown from './PageSizeDropdown';
 
 export const CellWrapper = styled.div`
   display: flex;
@@ -71,6 +72,8 @@ interface Props {
   setPage: (page: number) => void;
   setPrioritized: (prioritized: boolean) => void;
   prioritized: boolean;
+  pageSize: SingleValue;
+  setPageSize: (p: SingleValue) => void;
 }
 const WorkListTabContent = ({
   data,
@@ -84,6 +87,8 @@ const WorkListTabContent = ({
   setPage,
   setPrioritized,
   prioritized,
+  pageSize,
+  setPageSize,
 }: Props) => {
   const { t } = useTranslation();
 
@@ -178,6 +183,7 @@ const WorkListTabContent = ({
         />
         <StyledWorkListControls>
           <ControlWrapperDashboard>
+            <PageSizeDropdown pageSize={pageSize} setPageSize={setPageSize} />
             <SubjectDropdown
               subjectIds={subjectIds || []}
               filterSubject={filterSubject}

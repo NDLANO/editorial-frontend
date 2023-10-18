@@ -95,7 +95,8 @@ const SearchDropdown = ({ onClose }: Props) => {
       if (
         evt.key === '/' &&
         !menuOpen &&
-        !['input', 'textarea'].includes(document.activeElement?.tagName.toLowerCase() ?? '')
+        !['input', 'textarea'].includes(document.activeElement?.tagName.toLowerCase() ?? '') &&
+        !document.activeElement?.getAttribute('contenteditable')
       ) {
         evt.preventDefault();
         setMenuOpen(true);

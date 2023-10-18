@@ -5,10 +5,12 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FormikErrors } from 'formik';
 import { IArticle } from '@ndla/types-backend/draft-api';
 import { ILearningPathV2 } from '@ndla/types-backend/learningpath-api';
+import { Node } from '@ndla/types-taxonomy';
 import SubjectpageAbout from './SubjectpageAbout';
 import SubjectpageMetadata from './SubjectpageMetadata';
 import SubjectpageArticles from './SubjectpageArticles';
@@ -18,8 +20,6 @@ import { SubjectPageFormikType } from '../../../util/subjectHelpers';
 import FormAccordions from '../../../components/Accordion/FormAccordions';
 import FormAccordion from '../../../components/Accordion/FormAccordion';
 import { useSearchNodes } from '../../../modules/nodes/nodeQueries';
-import { useEffect, useState } from 'react';
-import { Node } from '@ndla/types-taxonomy';
 
 interface Props {
   buildsOn: string[];
@@ -57,7 +57,7 @@ const SubjectpageAccordionPanels = ({
     if (data && data.results.length > 0) {
       setInitSubejcts(data.results);
     }
-  }, [data?.results]);
+  }, [data]);
 
   const SubjectPageArticle = () => (
     <SubjectpageArticles

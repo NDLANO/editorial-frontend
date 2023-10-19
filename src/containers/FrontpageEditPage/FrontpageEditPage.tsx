@@ -18,7 +18,7 @@ import SafeLink from '@ndla/safelink';
 import { IconButtonV2 } from '@ndla/button';
 import { Pencil, Plus } from '@ndla/icons/action';
 import { FieldArray, Formik, useField, useFormikContext } from 'formik';
-import { IArticleSummaryV2 } from '@ndla/types-backend/build/article-api';
+import { IArticleSummaryV2 } from '@ndla/types-backend/article-api';
 import { useFrontpage } from '../../modules/frontpage/frontpageQueries';
 import { useUpdateFrontpageMutation } from '../../modules/frontpage/frontpageMutations';
 import { useArticleSearch } from '../../modules/article/articleQueries';

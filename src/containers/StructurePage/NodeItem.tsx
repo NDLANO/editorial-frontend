@@ -4,12 +4,18 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import { HTMLProps, MutableRefObject, ReactNode, useEffect } from 'react';
+import { HTMLProps, MutableRefObject, ReactNode, useEffect, useMemo } from 'react';
 import { colors, spacing } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
 import { Subject } from '@ndla/icons/contentType';
-import { DragVertical, Star, SubjectMatter, Taxonomy } from '@ndla/icons/editor';
-import { NodeChild, Node } from '@ndla/types-taxonomy';
+import {
+  CloudUploadOutline,
+  DragVertical,
+  Star,
+  SubjectMatter,
+  Taxonomy,
+} from '@ndla/icons/editor';
+import { NodeChild, Node, NodeType } from '@ndla/types-taxonomy';
 import { DragEndEvent } from '@dnd-kit/core';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
@@ -18,7 +24,7 @@ import { createGuard } from '../../util/guards';
 import { nodePathToUrnPath } from '../../util/taxonomyHelpers';
 import FolderItem from './folderComponents/FolderItem';
 import { useSession } from '../Session/SessionProvider';
-import { TAXONOMY_ADMIN_SCOPE } from '../../constants';
+import { TAXONOMY_ADMIN_SCOPE, TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH } from '../../constants';
 import {
   ItemTitleButton,
   StructureWrapper,
@@ -55,10 +61,45 @@ const StyledSpinner = styled(Spinner)`
   margin: 4px ${spacing.normal};
 `;
 
+const IconWrapper = styled.div`
+  padding: 0 ${spacing.xxsmall};
+  display: flex;
+  align-items: center;
+  svg {
+    height: ${spacing.nsmall};
+    width: ${spacing.nsmall};
+    fill: ${colors.text.primary};
+  }
+  &[data-color='green'] {
+    svg {
+      fill: ${colors.support.green};
+    }
+  }
+`;
+
 const isChildNode = createGuard<NodeChild & { articleType?: string; isPublished?: boolean }>(
   'connectionId',
 );
 
+const getNodeIcon = (nodeType: NodeType): { icon: ReactNode; title: string } => {
+  switch (nodeType) {
+    case 'SUBJECT':
+      return {
+        icon: <SubjectMatter />,
+        title: 'subjectpageForm.title',
+      };
+    case 'PROGRAMME':
+      return {
+        icon: <Taxonomy />,
+        title: 'programmepageForm.title',
+      };
+    default:
+      return {
+        icon: <Subject />,
+        title: 'topicArticleForm.title',
+      };
+  }
+};
 interface Props {
   id: string;
   item: (NodeChild & { articleType?: string; isPublished?: boolean }) | Node;
@@ -119,17 +160,8 @@ const NodeItem = ({
     onNodeSelected(item);
   };
 
-  let icon = <Subject />; // Used for topics
-  switch (item.nodeType) {
-    case 'SUBJECT':
-      icon = <SubjectMatter />;
-      break;
-    case 'PROGRAMME':
-      icon = <Taxonomy />;
-      break;
-  }
-
-  const typeIcon = <RoundIcon smallIcon={icon} />;
+  const nodeTypeIcon = useMemo(() => getNodeIcon(item.nodeType), [item.nodeType]);
+  const publishing = item.metadata.customFields[TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH] === 'true';
 
   return (
     <StyledStructureItem
@@ -162,7 +194,18 @@ const NodeItem = ({
           isVisible={item.metadata?.visible}
         >
           {renderBeforeTitle?.(item, !!isRoot, isTaxonomyAdmin, articleType, isPublished)}
-          {typeIcon}
+          <IconWrapper title={t(nodeTypeIcon.title)} aria-label={t(nodeTypeIcon.title)}>
+            {nodeTypeIcon.icon}
+          </IconWrapper>
+          {publishing && (
+            <IconWrapper
+              data-color="green"
+              title={t('diff.fields.requestPublish.title')}
+              aria-label={t('diff.fields.requestPublish.title')}
+            >
+              <CloudUploadOutline />
+            </IconWrapper>
+          )}
           {item.name}
         </ItemTitleButton>
         {isActive && (

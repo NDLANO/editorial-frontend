@@ -1,5 +1,5 @@
-import { Callback, i18n } from 'i18next';
-import { ComponentType } from 'react';
+import { $Tuple } from 'react-i18next/helpers';
+import { Callback, FlatNamespace, i18n, KeyPrefix, Namespace, TFunction } from 'i18next';
 import { LocaleType } from '../interfaces';
 
 declare module 'react-i18next' {
@@ -8,40 +8,21 @@ declare module 'react-i18next' {
     changeLanguage: (lng: LocaleType, callback?: Callback) => Promise<TFunction>;
   }
 
-  export interface CustomWithTranslation<
-    N extends Namespace = DefaultNamespace,
-    TKPrefix extends KeyPrefix<N> = undefined,
-  > {
-    t: TFunction<N, TKPrefix>;
+  export type CustomUseTranslationResponse<Ns extends Namespace, KPrefix> = [
+    t: TFunction<Ns, KPrefix>,
+    i18n: CustomI18n,
+    ready: boolean,
+  ] & {
+    t: TFunction<Ns, KPrefix>;
     i18n: CustomI18n;
-    tReady: boolean;
-  }
+    ready: boolean;
+  };
 
-  interface CustomUseTranslationResponse<N extends Namespace = DefaultNamespace>
-    extends Omit<UseTranslationResponse<N>, 'i18n'> {
-    i18n: CustomI18n;
-  }
-
-  function useTranslation<N extends Namespace = DefaultNamespace>(
-    ns?: N | Readonly<N>,
-    options?: UseTranslationOptions,
-  ): CustomUseTranslationResponse<N>;
-
-  export interface CustomWithTranslationProps {
-    i18n?: CustomI18n;
-    useSuspense?: boolean;
-  }
-
-  export function withTranslation<
-    N extends Namespace = DefaultNamespace,
-    TKPrefix extends KeyPrefix<N> = undefined,
+  export function useTranslation<
+    Ns extends FlatNamespace | $Tuple<FlatNamespace> | undefined = undefined,
+    KPrefix extends KeyPrefix<FallbackNs<Ns>> = undefined,
   >(
-    ns?: N,
-    options?: {
-      withRef?: boolean;
-      keyPrefix?: TKPrefix;
-    },
-  ): <T extends CustomWithTranslation>(
-    component: ComponentType<T>,
-  ) => ComponentType<Omit<T, keyof CustomWithTranslation<N>> & CustomWithTranslationProps>;
+    ns?: Ns,
+    options?: UseTranslationOptions<KPrefix>,
+  ): CustomUseTranslationResponse<FallbackNs<Ns>, KPrefix>;
 }

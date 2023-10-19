@@ -71,15 +71,10 @@ test.beforeEach(async ({ page }) => {
     fixture: 'version_draft_validate',
   });
 
-  const taxonomyResources = mockRoute({
+  const taxonomyNodes = mockRoute({
     page,
-    path: '**/taxonomy/v1/resources*',
-    fixture: 'version_taxonomy_resources',
-  });
-  const taxonomyTopics = mockRoute({
-    page,
-    path: '**/taxonomy/v1/topics*',
-    fixture: 'version_taxonomy_topics',
+    path: '**/taxonomy/v1/nodes*',
+    fixture: 'version_taxonomy_nodes',
   });
 
   const searchApi = mockRoute({
@@ -117,8 +112,7 @@ test.beforeEach(async ({ page }) => {
     draftData,
     draftValidate,
     draftHistory,
-    taxonomyResources,
-    taxonomyTopics,
+    taxonomyNodes,
     searchApi,
     containsArticle,
     getNoteUsers,
@@ -133,7 +127,7 @@ test('can add notes then save', async ({ page }) => {
   await page.getByTestId('notesInput').click();
   await page.keyboard.type('Test merknad');
   await page.getByTestId('saveLearningResourceButtonWrapper').first().click();
-  expect((await page.locator('table').nth(2).locator('tr').all()).length).toEqual(5);
+  expect((await page.locator('table').nth(2).locator('tr').all()).length).toEqual(6);
 });
 
 test('Open previews', async ({ page }) => {

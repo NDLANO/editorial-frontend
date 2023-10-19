@@ -118,8 +118,12 @@ const GrepCodeContent = ({
             qc.cancelQueries(key);
             qc.setQueryData<IArticle>(key, data);
             qc.invalidateQueries(key);
-            qc.setQueriesData<NodeResourceMeta[]>({ queryKey: nodeKey }, (data) =>
-              data?.map((meta) => (meta.contentUri === contentUri ? { ...meta, grepCodes } : meta)),
+            qc.setQueriesData<NodeResourceMeta[]>(
+              { queryKey: nodeKey },
+              (data) =>
+                data?.map((meta) =>
+                  meta.contentUri === contentUri ? { ...meta, grepCodes } : meta,
+                ),
             );
           },
         },

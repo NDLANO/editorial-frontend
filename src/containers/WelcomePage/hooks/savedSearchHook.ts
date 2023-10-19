@@ -210,15 +210,14 @@ export const useSavedSearchUrl = (currentUserData: IUserData | undefined): Searc
     'context-type': searchObject['context-type'] && t(`contextTypes.topic`),
     users:
       searchObject.users &&
-      `${t('searchForm.tagType.users')}: ${
-        userData?.find((u) => u.app_metadata.ndla_id === searchObject.users)?.name
-      }`,
+      `${t('searchForm.tagType.users')}: ${userData?.find(
+        (u) => u.app_metadata.ndla_id === searchObject.users,
+      )?.name}`,
     'responsible-ids':
       searchObject['responsible-ids'] &&
-      `${t(`searchForm.tagType.responsible-ids`)}: ${
-        responsibleData?.find((r) => r.app_metadata.ndla_id === searchObject['responsible-ids'])
-          ?.name
-      }`,
+      `${t(`searchForm.tagType.responsible-ids`)}: ${responsibleData?.find(
+        (r) => r.app_metadata.ndla_id === searchObject['responsible-ids'],
+      )?.name}`,
     license: searchObject.license && searchObject.license,
     'model-released':
       searchObject['model-released'] &&

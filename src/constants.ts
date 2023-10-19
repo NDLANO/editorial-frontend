@@ -10,6 +10,7 @@ import config from './config';
 import { WhitelistProvider } from './interfaces';
 
 export const SAVE_BUTTON_ID = 'editor-save-button';
+export const BLOCK_PICKER_TRIGGER_ID = 'block-picker-trigger';
 
 export const NAVIGATION_HEADER_MARGIN = '95px';
 

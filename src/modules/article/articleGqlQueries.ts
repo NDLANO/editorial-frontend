@@ -35,7 +35,7 @@ export const usePreviewArticle = (
   content: string,
   language: string,
   visualElement?: string,
-  options?: UseQueryOptions<string>,
+  options?: Partial<UseQueryOptions<string>>,
 ): UseQueryResult<string> => {
   return useTransformArticle(
     {
@@ -76,11 +76,11 @@ interface ReturnData {
 
 export const useTransformArticle = (
   params: UseTransformArticle,
-  options?: UseQueryOptions<string>,
+  options?: Partial<UseQueryOptions<string>>,
 ): UseQueryResult<string> => {
-  return useQuery<string>(
-    transformArticleQueryKeys.transformArticle(params),
-    async (): Promise<string> => {
+  return useQuery<string>({
+    queryKey: transformArticleQueryKeys.transformArticle(params),
+    queryFn: async (): Promise<string> => {
       const res = await request<ReturnData, UseTransformArticle>(
         gqlEndpoint,
         transformArticleMutation,
@@ -91,6 +91,6 @@ export const useTransformArticle = (
       );
       return res.transformArticleContent;
     },
-    options,
-  );
+    ...options,
+  });
 };

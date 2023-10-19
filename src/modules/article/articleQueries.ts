@@ -17,11 +17,11 @@ export const articleQueryKeys = {
 
 export const useArticleSearch = (
   params: ArticleSearchParams,
-  options?: UseQueryOptions<ISearchResultV2>,
+  options?: Partial<UseQueryOptions<ISearchResultV2>>,
 ) => {
-  return useQuery<ISearchResultV2>(
-    articleQueryKeys.search(params),
-    () => searchArticles(params),
-    options,
-  );
+  return useQuery<ISearchResultV2>({
+    queryKey: articleQueryKeys.search(params),
+    queryFn: () => searchArticles(params),
+    ...options,
+  });
 };

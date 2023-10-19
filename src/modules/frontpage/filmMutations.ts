@@ -16,17 +16,13 @@ import { filmQueryKeys } from './filmQueries';
 
 export const useUpdateFilmFrontpageMutation = () => {
   const queryClient = useQueryClient();
-  return useMutation<IFilmFrontPageData, unknown, INewOrUpdatedFilmFrontPageData>(
-    (data) => {
-      return updateFilmFrontpage(data);
+  return useMutation<IFilmFrontPageData, unknown, INewOrUpdatedFilmFrontPageData>({
+    mutationFn: (data) => updateFilmFrontpage(data),
+    onError: (_, __, previousFrontpage) => {
+      if (previousFrontpage) {
+        queryClient.setQueryData(filmQueryKeys.filmFrontpage, previousFrontpage);
+      }
     },
-    {
-      onError: (_, __, previousFrontpage) => {
-        if (previousFrontpage) {
-          queryClient.setQueryData(filmQueryKeys.filmFrontpage, previousFrontpage);
-        }
-      },
-      onSettled: () => queryClient.invalidateQueries({ queryKey: filmQueryKeys.filmFrontpage }),
-    },
-  );
+    onSettled: () => queryClient.invalidateQueries({ queryKey: filmQueryKeys.filmFrontpage }),
+  });
 };

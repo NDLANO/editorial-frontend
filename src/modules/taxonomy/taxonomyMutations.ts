@@ -18,22 +18,23 @@ import {
 interface UseUpdateTaxMutation extends WithTaxonomyVersion, UpdateTaxParams {}
 
 export const useUpdateTaxonomyMutation = (
-  options?: UseMutationOptions<void, unknown, UseUpdateTaxMutation>,
+  options?: Partial<UseMutationOptions<void, unknown, UseUpdateTaxMutation>>,
 ) => {
-  return useMutation<void, unknown, UseUpdateTaxMutation>(
-    ({ node, originalNode, taxonomyVersion }) => updateTax({ node, originalNode }, taxonomyVersion),
-    options,
-  );
+  return useMutation<void, unknown, UseUpdateTaxMutation>({
+    mutationFn: ({ node, originalNode, taxonomyVersion }) =>
+      updateTax({ node, originalNode }, taxonomyVersion),
+    ...options,
+  });
 };
 
 interface UseCreateTopicNodeConnections extends CreateTopicNodeConnections {}
 
 export const useCreateTopicNodeConnectionsMutation = (
-  options?: UseMutationOptions<void, unknown, UseCreateTopicNodeConnections>,
+  options?: Partial<UseMutationOptions<void, unknown, UseCreateTopicNodeConnections>>,
 ) => {
-  return useMutation<void, unknown, UseCreateTopicNodeConnections>(
-    ({ articleId, placements, name, taxonomyVersion }) =>
+  return useMutation<void, unknown, UseCreateTopicNodeConnections>({
+    mutationFn: ({ articleId, placements, name, taxonomyVersion }) =>
       createTopicNodeConnections({ articleId, placements, name, taxonomyVersion }),
-    options,
-  );
+    ...options,
+  });
 };

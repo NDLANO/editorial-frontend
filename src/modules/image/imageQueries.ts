@@ -25,12 +25,22 @@ export const imageQueryKeys = {
   search: (params?: Partial<ISearchParams>) => [SEARCH_IMAGES, params] as const,
 };
 
-export const useImage = (params: UseImage, options?: UseQueryOptions<IImageMetaInformationV3>) =>
-  useQuery<IImageMetaInformationV3>(
-    imageQueryKeys.image(params),
-    () => fetchImage(params.id, params.language),
-    options,
-  );
+export const useImage = (
+  params: UseImage,
+  options?: Partial<UseQueryOptions<IImageMetaInformationV3>>,
+) =>
+  useQuery<IImageMetaInformationV3>({
+    queryKey: imageQueryKeys.image(params),
+    queryFn: () => fetchImage(params.id, params.language),
+    ...options,
+  });
 
-export const useSearchImages = (query: ISearchParams, options?: UseQueryOptions<ISearchResultV3>) =>
-  useQuery<ISearchResultV3>(imageQueryKeys.search(query), () => searchImages(query), options);
+export const useSearchImages = (
+  query: ISearchParams,
+  options?: Partial<UseQueryOptions<ISearchResultV3>>,
+) =>
+  useQuery<ISearchResultV3>({
+    queryKey: imageQueryKeys.search(query),
+    queryFn: () => searchImages(query),
+    ...options,
+  });

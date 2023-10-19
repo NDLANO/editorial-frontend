@@ -24,30 +24,30 @@ export const conceptQueryKeys = {
   statusStateMachine: [CONCEPT_STATE_MACHINE] as const,
 };
 
-export const useConcept = (params: UseConcept, options?: UseQueryOptions<IConcept>) => {
-  return useQuery<IConcept>(
-    conceptQueryKeys.concept(params),
-    () => fetchConcept(params.id, params.language),
-    options,
-  );
+export const useConcept = (params: UseConcept, options?: Partial<UseQueryOptions<IConcept>>) => {
+  return useQuery<IConcept>({
+    queryKey: conceptQueryKeys.concept(params),
+    queryFn: () => fetchConcept(params.id, params.language),
+    ...options,
+  });
 };
 
 export const useSearchConcepts = (
   query: ConceptQuery,
-  options?: UseQueryOptions<IConceptSearchResult>,
+  options?: Partial<UseQueryOptions<IConceptSearchResult>>,
 ) =>
-  useQuery<IConceptSearchResult>(
-    conceptQueryKeys.searchConcepts(query),
-    () => searchConcepts(query),
-    options,
-  );
+  useQuery<IConceptSearchResult>({
+    queryKey: conceptQueryKeys.searchConcepts(query),
+    queryFn: () => searchConcepts(query),
+    ...options,
+  });
 
 export const useConceptStateMachine = (
-  options?: UseQueryOptions<ConceptStatusStateMachineType>,
+  options?: Partial<UseQueryOptions<ConceptStatusStateMachineType>>,
 ) => {
-  return useQuery<ConceptStatusStateMachineType>(
-    conceptQueryKeys.statusStateMachine,
-    () => fetchStatusStateMachine(),
-    options,
-  );
+  return useQuery<ConceptStatusStateMachineType>({
+    queryKey: conceptQueryKeys.statusStateMachine,
+    queryFn: () => fetchStatusStateMachine(),
+    ...options,
+  });
 };

@@ -170,7 +170,7 @@
     "jwt-decode": "^3.1.2",
     "lodash": "^4.17.21",
     "marked": "^9.1.0",
-    "monaco-editor": "0.23.0",
+    "monaco-editor": "0.43.0",
     "prettier": "^3.0.3",
     "prismjs": "^1.29.0",
     "process": "^0.11.10",

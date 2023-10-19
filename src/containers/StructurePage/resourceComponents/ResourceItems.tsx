@@ -23,10 +23,7 @@ import {
 } from '../../../modules/nodes/nodeMutations';
 import AlertModal from '../../../components/AlertModal';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
-import {
-  NodeResourceMeta,
-  resourcesWithNodeConnectionQueryKey,
-} from '../../../modules/nodes/nodeQueries';
+import { NodeResourceMeta, nodeQueryKeys } from '../../../modules/nodes/nodeQueries';
 import { ResourceWithNodeConnectionAndMeta } from './StructureResources';
 import { Auth0UserData, Dictionary } from '../../../interfaces';
 import DndList from '../../../components/DndList';
@@ -69,14 +66,14 @@ const ResourceItems = ({
   const { taxonomyVersion } = useTaxonomyVersion();
 
   const qc = useQueryClient();
-  const compKey = resourcesWithNodeConnectionQueryKey({
+  const compKey = nodeQueryKeys.resources({
     id: currentNodeId,
     language: i18n.language,
     taxonomyVersion,
   });
   const deleteNodeResource = useDeleteResourceForNodeMutation({
     onMutate: async ({ id }) => {
-      await qc.cancelQueries(compKey);
+      await qc.cancelQueries({ queryKey: compKey });
       const prevData = qc.getQueryData<NodeChild[]>(compKey) ?? [];
       const withoutDeleted = prevData.filter((res) => res.connectionId !== id);
       qc.setQueryData<NodeChild[]>(compKey, withoutDeleted);
@@ -85,7 +82,7 @@ const ResourceItems = ({
   });
 
   const onUpdateRank = async (id: string, newRank: number) => {
-    await qc.cancelQueries(compKey);
+    await qc.cancelQueries({ queryKey: compKey });
     const prevData = qc.getQueryData<NodeChild[]>(compKey) ?? [];
     const updated = prevData.map((r) => {
       if (r.connectionId === id) {
@@ -101,14 +98,14 @@ const ResourceItems = ({
   const { mutateAsync: updateNodeResource } = usePutResourceForNodeMutation({
     onMutate: ({ id, body }) => onUpdateRank(id, body.rank as number),
     onError: (e) => handleError(e),
-    onSuccess: () => qc.invalidateQueries(compKey),
+    onSuccess: () => qc.invalidateQueries({ queryKey: compKey }),
   });
 
   const onDelete = async (deleteId: string) => {
     setDeleteId('');
     await deleteNodeResource.mutateAsync(
       { id: deleteId, taxonomyVersion },
-      { onSuccess: () => qc.invalidateQueries(compKey) },
+      { onSuccess: () => qc.invalidateQueries({ queryKey: compKey }) },
     );
   };
 

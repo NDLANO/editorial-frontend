@@ -38,7 +38,7 @@ import {
   putResourcesPrimary,
   PutResourcesPrimaryParams,
 } from './nodeApi';
-import { childNodesWithArticleTypeQueryKey, nodesQueryKey } from './nodeQueries';
+import { nodeQueryKeys } from './nodeQueries';
 import {
   createResourceResourceType,
   ResourceResourceTypePostParams,
@@ -54,8 +54,8 @@ export const useAddNodeMutation = () => {
     ({ body, taxonomyVersion }) => postNode({ body, taxonomyVersion }),
     {
       onMutate: async ({ body: newNode, taxonomyVersion }) => {
-        const key = nodesQueryKey({ taxonomyVersion, isRoot: true });
-        await queryClient.cancelQueries(key);
+        const key = nodeQueryKeys.nodes({ taxonomyVersion, isRoot: true });
+        await queryClient.cancelQueries({ queryKey: key });
         const previousNodes = queryClient.getQueryData<Node[]>(key) ?? [];
         const optimisticNode: Node = {
           ...newNode,
@@ -76,7 +76,7 @@ export const useAddNodeMutation = () => {
       },
       onError: (e) => handleError(e),
       onSettled: (_, __, { taxonomyVersion }) =>
-        queryClient.invalidateQueries(nodesQueryKey({ taxonomyVersion })),
+        queryClient.invalidateQueries({ queryKey: nodeQueryKeys.nodes({ taxonomyVersion }) }),
     },
   );
 };
@@ -96,18 +96,18 @@ export const useUpdateNodeMetadataMutation = () => {
     {
       onMutate: async ({ id, metadata, rootId, taxonomyVersion }) => {
         const key = rootId
-          ? childNodesWithArticleTypeQueryKey({
+          ? nodeQueryKeys.childNodes({
               taxonomyVersion,
               id: rootId,
               language: i18n.language,
             })
-          : nodesQueryKey({
+          : nodeQueryKeys.nodes({
               isContext: true,
               nodeType: 'SUBJECT',
               language: i18n.language,
               taxonomyVersion,
             });
-        await qc.cancelQueries(key);
+        await qc.cancelQueries({ queryKey: key });
         const prevNodes = qc.getQueryData<Node[]>(key) ?? [];
         const newNodes = prevNodes.map((node) => {
           if (node.id === id) {
@@ -118,18 +118,18 @@ export const useUpdateNodeMetadataMutation = () => {
       },
       onSettled: (_, __, { rootId, taxonomyVersion }) => {
         const key = rootId
-          ? childNodesWithArticleTypeQueryKey({
+          ? nodeQueryKeys.childNodes({
               taxonomyVersion,
               id: rootId,
               language: i18n.language,
             })
-          : nodesQueryKey({
+          : nodeQueryKeys.nodes({
               language: i18n.language,
               nodeType: 'SUBJECT',
               isContext: true,
               taxonomyVersion,
             });
-        qc.invalidateQueries(key);
+        qc.invalidateQueries({ queryKey: key });
       },
     },
   );
@@ -148,26 +148,26 @@ export const useDeleteNodeMutation = () => {
     {
       onMutate: async ({ id, rootId, taxonomyVersion }) => {
         const key = rootId
-          ? childNodesWithArticleTypeQueryKey({
+          ? nodeQueryKeys.childNodes({
               taxonomyVersion,
               id: rootId,
               language: i18n.language,
             })
-          : nodesQueryKey({ taxonomyVersion, isRoot: true });
-        await qc.cancelQueries(key);
+          : nodeQueryKeys.nodes({ taxonomyVersion, isRoot: true });
+        await qc.cancelQueries({ queryKey: key });
         const prevNodes = qc.getQueryData<Node[]>(key) ?? [];
         const withoutDeleted = prevNodes.filter((s) => s.id !== id);
         qc.setQueryData<Node[]>(key, withoutDeleted);
       },
       onSettled: (_, __, { rootId, taxonomyVersion }) => {
         const key = rootId
-          ? childNodesWithArticleTypeQueryKey({
+          ? nodeQueryKeys.childNodes({
               taxonomyVersion,
               id: rootId,
               language: i18n.language,
             })
-          : nodesQueryKey({ taxonomyVersion, isRoot: true });
-        qc.invalidateQueries(key);
+          : nodeQueryKeys.nodes({ taxonomyVersion, isRoot: true });
+        qc.invalidateQueries({ queryKey: key });
       },
     },
   );

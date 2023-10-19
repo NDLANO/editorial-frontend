@@ -91,7 +91,7 @@ const EditRelated = forwardRef<HTMLDivElement, Props>(
       return search({
         query,
         page,
-        'context-types': 'standard, topic-article',
+        'context-types': 'standard',
       });
     };
 

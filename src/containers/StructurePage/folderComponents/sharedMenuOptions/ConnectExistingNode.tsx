@@ -17,7 +17,7 @@ import { Done } from '@ndla/icons/editor';
 import { Node, NodeType } from '@ndla/types-taxonomy';
 import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
 import { usePostNodeConnectionMutation } from '../../../../modules/nodes/nodeMutations';
-import { childNodesWithArticleTypeQueryKey } from '../../../../modules/nodes/nodeQueries';
+import { nodeQueryKeys } from '../../../../modules/nodes/nodeQueries';
 import RoundIcon from '../../../../components/RoundIcon';
 import MenuItemButton from './components/MenuItemButton';
 import NodeSearchDropdown from './components/NodeSearchDropdown';
@@ -98,12 +98,12 @@ const ConnectExistingNode = ({
       },
       {
         onSuccess: () => {
-          qc.invalidateQueries(
-            childNodesWithArticleTypeQueryKey({
+          qc.invalidateQueries({
+            queryKey: nodeQueryKeys.childNodes({
               taxonomyVersion,
               language: i18n.language,
             }),
-          );
+          });
           setSuccess(true);
           setLoading(false);
         },

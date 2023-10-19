@@ -24,7 +24,7 @@ import {
   usePublishVersionMutation,
   usePutVersionMutation,
 } from '../../../modules/taxonomy/versions/versionMutations';
-import { versionsQueryKey } from '../../../modules/taxonomy/versions/versionQueries';
+import { versionQueryKeys } from '../../../modules/taxonomy/versions/versionQueries';
 import { StyledErrorMessage } from './StyledErrorMessage';
 import Fade from '../../../components/Taxonomy/Fade';
 import {
@@ -66,12 +66,12 @@ const VersionForm = ({ version, existingVersions, onClose }: Props) => {
   const [error, setError] = useState<string | undefined>(undefined);
   const initialValues = versionTypeToVersionFormType(version);
   const qc = useQueryClient();
-  const versionsKey = versionsQueryKey();
+  const versionsKey = versionQueryKeys.versions();
 
   const versionPostMutation = usePostVersionMutation({
     onMutate: async ({ body }) => {
       setError(undefined);
-      await qc.cancelQueries(versionsKey);
+      await qc.cancelQueries({ queryKey: versionsKey });
       const optimisticVersion: Version = {
         id: '',
         versionType: 'BETA',
@@ -83,14 +83,14 @@ const VersionForm = ({ version, existingVersions, onClose }: Props) => {
       const existingVersions = qc.getQueryData<Version[]>(versionsKey) ?? [];
       qc.setQueryData<Version[]>(versionsKey, existingVersions.concat(optimisticVersion));
     },
-    onSuccess: () => qc.invalidateQueries(versionsKey),
+    onSuccess: () => qc.invalidateQueries({ queryKey: versionsKey }),
     onError: () => setError(t('taxonomyVersions.postError')),
   });
 
   const versionPutMutation = usePutVersionMutation({
     onMutate: async ({ id, body }) => {
       setError(undefined);
-      await qc.cancelQueries(versionsKey);
+      await qc.cancelQueries({ queryKey: versionsKey });
       const existingVersions = qc.getQueryData<Version[]>(versionsKey) ?? [];
       const newVersions = existingVersions.map((version) => {
         if (version.id === id) {
@@ -103,14 +103,14 @@ const VersionForm = ({ version, existingVersions, onClose }: Props) => {
       });
       qc.setQueryData<Version[]>(versionsKey, newVersions);
     },
-    onSuccess: () => qc.invalidateQueries(versionsKey),
+    onSuccess: () => qc.invalidateQueries({ queryKey: versionsKey }),
     onError: () => setError(t('taxonomyVersions.putError')),
   });
 
   const publishVersionMutation = usePublishVersionMutation({
     onMutate: async ({ id }) => {
       setError(undefined);
-      await qc.cancelQueries(versionsKey);
+      await qc.cancelQueries({ queryKey: versionsKey });
       const existingVersions = qc.getQueryData<Version[]>(versionsKey) ?? [];
       const updatedVersions: Version[] = existingVersions.map((version) => {
         if (version.id === id) {
@@ -119,7 +119,7 @@ const VersionForm = ({ version, existingVersions, onClose }: Props) => {
       });
       qc.setQueryData<Version[]>(versionsKey, updatedVersions);
     },
-    onSuccess: () => qc.invalidateQueries(versionsKey),
+    onSuccess: () => qc.invalidateQueries({ queryKey: versionsKey }),
     onError: () => setError(t('taxonomyVersions.publishError')),
   });
 

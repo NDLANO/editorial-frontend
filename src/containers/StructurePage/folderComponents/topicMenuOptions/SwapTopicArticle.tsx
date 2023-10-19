@@ -20,7 +20,7 @@ import RoundIcon from '../../../../components/RoundIcon';
 import { fetchDraft, updateDraft } from '../../../../modules/draft/draftApi';
 import { TOPIC_NODE } from '../../../../modules/nodes/nodeApiTypes';
 import { usePutNodeMutation } from '../../../../modules/nodes/nodeMutations';
-import { childNodesWithArticleTypeQueryKey } from '../../../../modules/nodes/nodeQueries';
+import { nodeQueryKeys } from '../../../../modules/nodes/nodeQueries';
 import { useSearch } from '../../../../modules/search/searchQueries';
 import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
 import { EditModeHandler } from '../SettingsMenuDropdownType';
@@ -93,13 +93,13 @@ const SwapTopicArticle = ({
         contentUri: `urn:article:${topic.id}`,
         taxonomyVersion,
       });
-      qc.invalidateQueries(
-        childNodesWithArticleTypeQueryKey({
+      qc.invalidateQueries({
+        queryKey: nodeQueryKeys.childNodes({
           taxonomyVersion,
           language: i18n.language,
           id: rootNodeId,
         }),
-      );
+      });
       const draft = await fetchDraft(topic.id, i18n.language);
       await updateDraft(
         draft.id,

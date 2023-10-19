@@ -31,7 +31,6 @@ import {
 } from './draftApi';
 import { DraftStatusStateMachineType } from '../../interfaces';
 import { DraftSearchQuery } from './draftApiInterfaces';
-import { useAuth0Users } from '../auth0/auth0Queries';
 
 export interface UseDraft {
   id: number;
@@ -39,11 +38,20 @@ export interface UseDraft {
   responsibleId?: string;
 }
 
-export const draftQueryKey = (params?: Partial<UseDraft>) => [DRAFT, params];
+export const draftQueryKeys = {
+  draft: (params?: Partial<UseDraft>) => [DRAFT, params] as const,
+  search: (params?: Partial<DraftSearchQuery>) => [SEARCH_DRAFTS, params] as const,
+  licenses: [LICENSES] as const,
+  userData: [USER_DATA] as const,
+  statusStateMachine: (params?: Partial<StatusStateMachineParams>) =>
+    [DRAFT_STATUS_STATE_MACHINE, params] as const,
+};
+
+draftQueryKeys.draft({ id: 1 });
 
 export const useDraft = (params: UseDraft, options?: UseQueryOptions<IArticle>) => {
   return useQuery<IArticle>(
-    draftQueryKey(params),
+    draftQueryKeys.draft(params),
     () => fetchDraft(params.id, params.language),
     options,
   );
@@ -52,25 +60,21 @@ interface UseSearchDrafts extends DraftSearchQuery {
   ids: number[];
 }
 
-const searchDraftQueryKey = (params: UseSearchDrafts) => [SEARCH_DRAFTS, params];
-
 export const useSearchDrafts = (
   params: UseSearchDrafts,
   options?: UseQueryOptions<ISearchResult>,
 ) => {
   return useQuery<ISearchResult>(
-    searchDraftQueryKey(params),
+    draftQueryKeys.search(params),
     () => searchAllDrafts(params.ids, params.language, params.sort),
     options,
   );
 };
 
-export const licensesQueryKey = () => [LICENSES];
-
 export const useLicenses = <ReturnType = ILicense[]>(
   options?: UseQueryOptions<ILicense[], unknown, ReturnType>,
 ) =>
-  useQuery<ILicense[], unknown, ReturnType>(licensesQueryKey(), fetchLicenses, {
+  useQuery<ILicense[], unknown, ReturnType>(draftQueryKeys.licenses, fetchLicenses, {
     refetchOnWindowFocus: false,
     refetchOnMount: false,
     refetchOnReconnect: false,
@@ -79,10 +83,8 @@ export const useLicenses = <ReturnType = ILicense[]>(
     ...options,
   });
 
-export const userDataQueryKey = () => [USER_DATA];
-
 export const useUserData = (options?: UseQueryOptions<IUserData | undefined>) =>
-  useQuery<IUserData | undefined>(userDataQueryKey(), fetchUserData, options);
+  useQuery<IUserData | undefined>(draftQueryKeys.userData, fetchUserData, options);
 
 export const useUpdateUserDataMutation = () => {
   const queryClient = useQueryClient();
@@ -92,8 +94,8 @@ export const useUpdateUserDataMutation = () => {
     },
     {
       onMutate: async (newUserData) => {
-        const key = userDataQueryKey();
-        await queryClient.cancelQueries(key);
+        const key = draftQueryKeys.userData;
+        await queryClient.cancelQueries({ queryKey: key });
         const previousUserData = queryClient.getQueryData<IUserData>(key);
         queryClient.setQueryData<IUserData>(key, {
           ...previousUserData,
@@ -104,10 +106,10 @@ export const useUpdateUserDataMutation = () => {
       },
       onError: (_, __, previousUserData) => {
         if (previousUserData) {
-          queryClient.setQueryData(userDataQueryKey(), previousUserData);
+          queryClient.setQueryData(draftQueryKeys.userData, previousUserData);
         }
       },
-      onSettled: () => queryClient.invalidateQueries(userDataQueryKey()),
+      onSettled: () => queryClient.invalidateQueries({ queryKey: draftQueryKeys.userData }),
     },
   );
 };
@@ -116,16 +118,12 @@ interface StatusStateMachineParams {
   articleId?: number;
 }
 
-export const draftStatusStateMachineQueryKey = (params?: Partial<StatusStateMachineParams>) => [
-  DRAFT_STATUS_STATE_MACHINE,
-  params,
-];
 export const useDraftStatusStateMachine = (
   params: StatusStateMachineParams = {},
   options?: UseQueryOptions<DraftStatusStateMachineType>,
 ) => {
   return useQuery<DraftStatusStateMachineType>(
-    draftStatusStateMachineQueryKey(params),
+    draftQueryKeys.statusStateMachine(params),
     () => fetchStatusStateMachine(params.articleId),
     options,
   );

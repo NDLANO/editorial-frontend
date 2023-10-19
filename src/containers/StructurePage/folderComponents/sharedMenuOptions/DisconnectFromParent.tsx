@@ -15,7 +15,7 @@ import { Node, NodeChild } from '@ndla/types-taxonomy';
 import AlertModal from '../../../../components/AlertModal';
 import RoundIcon from '../../../../components/RoundIcon';
 import { useDeleteNodeConnectionMutation } from '../../../../modules/nodes/nodeMutations';
-import { childNodesWithArticleTypeQueryKey } from '../../../../modules/nodes/nodeQueries';
+import { nodeQueryKeys } from '../../../../modules/nodes/nodeQueries';
 import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
 import { EditModeHandler } from '../SettingsMenuDropdownType';
 import MenuItemButton from './components/MenuItemButton';
@@ -57,12 +57,12 @@ const DisconnectFromParent = ({
         },
         {
           onSuccess: () => {
-            qc.invalidateQueries(
-              childNodesWithArticleTypeQueryKey({
+            qc.invalidateQueries({
+              queryKey: nodeQueryKeys.childNodes({
                 taxonomyVersion,
                 language: i18n.language,
               }),
-            );
+            });
             navigate(location.pathname.split(node.id)[0], { replace: true });
             onCurrentNodeChanged(undefined);
           },

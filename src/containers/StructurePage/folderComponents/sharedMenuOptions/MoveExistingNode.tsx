@@ -21,7 +21,7 @@ import {
   usePostNodeConnectionMutation,
 } from '../../../../modules/nodes/nodeMutations';
 import { fetchConnectionsForNode } from '../../../../modules/nodes/nodeApi';
-import { childNodesWithArticleTypeQueryKey } from '../../../../modules/nodes/nodeQueries';
+import { nodeQueryKeys } from '../../../../modules/nodes/nodeQueries';
 import RoundIcon from '../../../../components/RoundIcon';
 import MenuItemButton from './components/MenuItemButton';
 import NodeSearchDropdown from './components/NodeSearchDropdown';
@@ -112,12 +112,12 @@ const MoveExistingNode = ({
       });
 
       // Invalidate all childNode-queries, since we don't know where the added node is from
-      qc.invalidateQueries(
-        childNodesWithArticleTypeQueryKey({
+      qc.invalidateQueries({
+        queryKey: nodeQueryKeys.childNodes({
           taxonomyVersion,
           language: i18n.language,
         }),
-      );
+      });
       setSuccess(true);
     } catch (e) {
       setError('taxonomy.errorMessage');

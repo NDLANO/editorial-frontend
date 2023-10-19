@@ -31,7 +31,7 @@ import { getArticle } from '../../../modules/article/articleApi';
 import handleError from '../../../util/handleError';
 import { usePostResourceForNodeMutation } from '../../../modules/nodes/nodeMutations';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
-import { resourcesWithNodeConnectionQueryKey, useNodes } from '../../../modules/nodes/nodeQueries';
+import { nodeQueryKeys, useNodes } from '../../../modules/nodes/nodeQueries';
 import Spinner from '../../../components/Spinner';
 import {
   ButtonWrapper,
@@ -102,9 +102,9 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
   const [articleInputId, setArticleInputId] = useState<string | undefined>();
   const qc = useQueryClient();
   const { taxonomyVersion } = useTaxonomyVersion();
-  const compKey = resourcesWithNodeConnectionQueryKey({ id: nodeId, language: i18n.language });
+  const compKey = nodeQueryKeys.resources({ id: nodeId, language: i18n.language });
   const { mutateAsync: createNodeResource } = usePostResourceForNodeMutation({
-    onSuccess: (_) => qc.invalidateQueries(compKey),
+    onSuccess: (_) => qc.invalidateQueries({ queryKey: compKey }),
   });
   const { data: articleSearchData } = useNodes({
     contentURI: `urn:article:${articleInputId}`,

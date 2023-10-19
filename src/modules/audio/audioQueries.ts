@@ -22,11 +22,16 @@ export interface UseAudio {
   language?: string;
 }
 
-export const audioQueryKeys = (params?: Partial<UseAudio>) => [AUDIO, params];
+export const audioQueryKeys = {
+  audio: (params?: Partial<UseAudio>) => [AUDIO, params] as const,
+  search: (params?: Partial<AudioSearchParams>) => [SEARCH_AUDIO, params] as const,
+  podcastSeries: (params?: Partial<UseSeries>) => [PODCAST_SERIES, params] as const,
+  podcastSeriesSearch: (params?: Partial<SeriesSearchParams>) => [SEARCH_SERIES, params] as const,
+};
 
 export const useAudio = (params: UseAudio, options?: UseQueryOptions<IAudioMetaInformation>) =>
   useQuery<IAudioMetaInformation>(
-    audioQueryKeys(params),
+    audioQueryKeys.audio(params),
     () => fetchAudio(params.id, params.language),
     options,
   );
@@ -36,32 +41,29 @@ export interface UseSeries {
   language?: string;
 }
 
-export const seriesQueryKey = (params?: Partial<UseSeries>) => [PODCAST_SERIES, params];
-
 export const useSeries = (params: UseSeries, options?: UseQueryOptions<ISeries>) =>
-  useQuery<ISeries>(seriesQueryKey(params), () => fetchSeries(params.id, params.language), options);
+  useQuery<ISeries>(
+    audioQueryKeys.podcastSeries(params),
+    () => fetchSeries(params.id, params.language),
+    options,
+  );
 
-export const searchSeriesQueryKey = (params?: Partial<SeriesSearchParams>) => [
-  SEARCH_SERIES,
-  params,
-];
 export const useSearchSeries = (
   query: SeriesSearchParams,
   options?: UseQueryOptions<ISeriesSummarySearchResult>,
 ) =>
   useQuery<ISeriesSummarySearchResult>(
-    searchSeriesQueryKey(query),
+    audioQueryKeys.podcastSeriesSearch(query),
     () => searchSeries(query),
     options,
   );
 
-export const searchAudioQueryKey = (params?: Partial<AudioSearchParams>) => [SEARCH_AUDIO, params];
 export const useSearchAudio = (
   query: AudioSearchParams,
   options?: UseQueryOptions<IAudioSummarySearchResult>,
 ) =>
   useQuery<IAudioSummarySearchResult>(
-    searchAudioQueryKey(query),
+    audioQueryKeys.search(query),
     () => searchAudio(query),
     options,
   );

@@ -15,10 +15,15 @@ export interface Auth0Users {
   uniqueUserIds: string;
 }
 
-export const auth0UsersQueryKey = (params?: Partial<Auth0Users>) => [AUTH0_USERS, params];
+export const auth0QueryKeys = {
+  users: (params?: Partial<Auth0Users>) => [AUTH0_USERS, params] as const,
+  editors: [AUTH0_EDITORS] as const,
+  responsibles: (params?: Partial<Auth0Editors>) => [AUTH0_RESPONSIBLES, params] as const,
+};
+
 export const useAuth0Users = (params: Auth0Users, options: UseQueryOptions<Auth0UserData[]>) =>
   useQuery<Auth0UserData[]>(
-    auth0UsersQueryKey(params),
+    auth0QueryKeys.users(params),
     () => fetchAuth0Users(params.uniqueUserIds),
     options,
   );
@@ -27,26 +32,21 @@ export interface Auth0Editors {
   permission: string;
 }
 
-export const auth0EditorsQueryKey = [AUTH0_EDITORS];
 export const useAuth0Editors = <ReturnType>(
   options: UseQueryOptions<Auth0UserData[], unknown, ReturnType>,
 ) =>
   useQuery<Auth0UserData[], unknown, ReturnType>(
-    auth0EditorsQueryKey,
+    auth0QueryKeys.editors,
     () => fetchAuth0Editors(),
     options,
   );
 
-export const auth0ResponsiblesQueryKey = (params?: Partial<Auth0Editors>) => [
-  AUTH0_RESPONSIBLES,
-  params,
-];
 export const useAuth0Responsibles = <ReturnType>(
   params: Auth0Editors,
   options: UseQueryOptions<Auth0UserData[], unknown, ReturnType>,
 ) =>
   useQuery<Auth0UserData[], unknown, ReturnType>(
-    auth0ResponsiblesQueryKey(params),
+    auth0QueryKeys.responsibles(params),
     () => fetchAuth0Responsibles(params.permission),
     options,
   );

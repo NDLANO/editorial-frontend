@@ -19,7 +19,7 @@ import { useUpdateNodeMetadataMutation } from '../../../../modules/nodes/nodeMut
 import RoundIcon from '../../../../components/RoundIcon';
 import MenuItemButton from './components/MenuItemButton';
 import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
-import { nodesQueryKey } from '../../../../modules/nodes/nodeQueries';
+import { nodeQueryKeys } from '../../../../modules/nodes/nodeQueries';
 
 interface Props {
   node: Node;
@@ -50,7 +50,7 @@ const ToggleVisibility = ({
   const { mutateAsync: updateMetadata } = useUpdateNodeMetadataMutation();
 
   const qc = useQueryClient();
-  const compKey = nodesQueryKey({
+  const compKey = nodeQueryKeys.nodes({
     language: i18n.language,
     nodeType: rootNodeType,
     taxonomyVersion,
@@ -64,7 +64,7 @@ const ToggleVisibility = ({
         rootId: rootNodeId !== node.id ? rootNodeId : undefined,
         taxonomyVersion,
       },
-      { onSuccess: () => qc.invalidateQueries(compKey) },
+      { onSuccess: () => qc.invalidateQueries({ queryKey: compKey }) },
     );
     setVisible(!visible);
   };

@@ -18,35 +18,35 @@ export interface UseConcept {
   language?: string;
 }
 
-export const conceptQueryKey = (params?: Partial<UseConcept>) => [CONCEPT, params];
+export const conceptQueryKeys = {
+  concept: (params?: Partial<UseConcept>) => [CONCEPT, params] as const,
+  searchConcepts: (params?: Partial<ConceptQuery>) => [SEARCH_CONCEPTS, params] as const,
+  statusStateMachine: [CONCEPT_STATE_MACHINE] as const,
+};
 
 export const useConcept = (params: UseConcept, options?: UseQueryOptions<IConcept>) => {
   return useQuery<IConcept>(
-    conceptQueryKey(params),
+    conceptQueryKeys.concept(params),
     () => fetchConcept(params.id, params.language),
     options,
   );
 };
-
-export const searchConceptsQueryKey = (params?: Partial<ConceptQuery>) => [SEARCH_CONCEPTS, params];
 
 export const useSearchConcepts = (
   query: ConceptQuery,
   options?: UseQueryOptions<IConceptSearchResult>,
 ) =>
   useQuery<IConceptSearchResult>(
-    searchConceptsQueryKey(query),
+    conceptQueryKeys.searchConcepts(query),
     () => searchConcepts(query),
     options,
   );
-
-export const conceptStateMachineQueryKey = () => [CONCEPT_STATE_MACHINE];
 
 export const useConceptStateMachine = (
   options?: UseQueryOptions<ConceptStatusStateMachineType>,
 ) => {
   return useQuery<ConceptStatusStateMachineType>(
-    conceptStateMachineQueryKey(),
+    conceptQueryKeys.statusStateMachine,
     () => fetchStatusStateMachine(),
     options,
   );

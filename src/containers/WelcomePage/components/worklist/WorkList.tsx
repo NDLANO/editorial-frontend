@@ -8,13 +8,17 @@
 
 import { useTranslation } from 'react-i18next';
 import { SingleValue } from '@ndla/select';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Tabs from '@ndla/tabs';
 import { useSearch } from '../../../../modules/search/searchQueries';
 import WorkListTabContent from './WorkListTabContent';
 import { useSearchConcepts } from '../../../../modules/concept/conceptQueries';
 import ConceptListTabContent from './ConceptListTabContent';
 import { Prefix } from '../TableComponent';
+import {
+  STORED_SORT_OPTION_WORKLIST,
+  STORED_SORT_OPTION_WORKLIST_CONCEPT,
+} from '../../../../constants';
 
 interface Props {
   ndlaId: string;
@@ -23,13 +27,17 @@ interface Props {
 export type SortOption = 'title' | 'responsibleLastUpdated' | 'status';
 
 const WorkList = ({ ndlaId }: Props) => {
-  const [sortOption, setSortOption] = useState<Prefix<'-', SortOption>>('-responsibleLastUpdated');
+  const [sortOption, _setSortOption] = useState<Prefix<'-', SortOption>>(
+    (localStorage.getItem(STORED_SORT_OPTION_WORKLIST) as SortOption) || '-responsibleLastUpdated',
+  );
   const [filterSubject, setFilterSubject] = useState<SingleValue | undefined>(undefined);
   const [error, setError] = useState<string | undefined>(undefined);
   const [page, setPage] = useState(1);
 
-  const [sortOptionConcepts, setSortOptionConcepts] =
-    useState<Prefix<'-', SortOption>>('-responsibleLastUpdated');
+  const [sortOptionConcepts, _setSortOptionConcepts] = useState<Prefix<'-', SortOption>>(
+    (localStorage.getItem(STORED_SORT_OPTION_WORKLIST_CONCEPT) as SortOption) ||
+      '-responsibleLastUpdated',
+  );
   const [filterConceptSubject, setFilterConceptSubject] = useState<SingleValue | undefined>(
     undefined,
   );
@@ -83,6 +91,16 @@ const WorkList = ({ ndlaId }: Props) => {
   useEffect(() => {
     setPageConcept(1);
   }, [filterConceptSubject]);
+
+  const setSortOption = useCallback((s: Prefix<'-', SortOption>) => {
+    _setSortOption(s);
+    localStorage.setItem(STORED_SORT_OPTION_WORKLIST, s);
+  }, []);
+
+  const setSortOptionConcepts = useCallback((s: Prefix<'-', SortOption>) => {
+    _setSortOptionConcepts(s);
+    localStorage.setItem(STORED_SORT_OPTION_WORKLIST_CONCEPT, s);
+  }, []);
 
   return (
     <Tabs

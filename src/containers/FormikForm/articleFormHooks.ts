@@ -186,7 +186,7 @@ export function useArticleFormHooks<T extends ArticleFormType>({
             articleStatus?.other.find((s) => s === PUBLISHED))
         ) {
           createMessage({
-            message: t('taxonomy.publishRequired'),
+            message: t('taxonomy.titleChangeAlert'),
             severity: 'warning',
             timeToLive: 0,
           });

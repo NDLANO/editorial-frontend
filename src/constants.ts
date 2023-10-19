@@ -84,6 +84,9 @@ export const PLANNED = 'PLANNED';
 export const PUBLISHED = 'PUBLISHED';
 export const UNPUBLISHED = 'UNPUBLISHED';
 
+export const STORED_PAGE_SIZE = 'STORED_PAGE_SIZE';
+export const STORED_PAGE_SIZE_CONCEPT = 'STORED_PAGE_SIZE_CONCEPT';
+
 export const EXTERNAL_WHITELIST_PROVIDERS: WhitelistProvider[] = [
   { name: 'H5P', url: ['h5p'] },
   { name: 'YouTube', url: ['youtube.com', 'youtu.be'], height: '486px' },

@@ -8,13 +8,14 @@
 
 import { useTranslation } from 'react-i18next';
 import { SingleValue } from '@ndla/select';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Tabs from '@ndla/tabs';
 import { useSearch } from '../../../../modules/search/searchQueries';
 import WorkListTabContent from './WorkListTabContent';
 import { useSearchConcepts } from '../../../../modules/concept/conceptQueries';
 import ConceptListTabContent from './ConceptListTabContent';
 import { Prefix } from '../TableComponent';
+import { STORED_PAGE_SIZE, STORED_PAGE_SIZE_CONCEPT } from '../../../../constants';
 
 interface Props {
   ndlaId: string;
@@ -24,12 +25,21 @@ export type SortOption = 'title' | 'responsibleLastUpdated' | 'status';
 const defaultPageSize = { label: '6', value: '6' };
 
 const WorkList = ({ ndlaId }: Props) => {
+  const storedPageSize = localStorage.getItem(STORED_PAGE_SIZE);
   const [sortOption, setSortOption] = useState<Prefix<'-', SortOption>>('-responsibleLastUpdated');
   const [filterSubject, setFilterSubject] = useState<SingleValue | undefined>(undefined);
   const [error, setError] = useState<string | undefined>(undefined);
   const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState<SingleValue>(defaultPageSize);
+  const [pageSize, _setPageSize] = useState<SingleValue>(
+    storedPageSize
+      ? {
+          label: storedPageSize,
+          value: storedPageSize,
+        }
+      : defaultPageSize,
+  );
 
+  const storedPageSizeConcept = localStorage.getItem(STORED_PAGE_SIZE_CONCEPT);
   const [sortOptionConcepts, setSortOptionConcepts] =
     useState<Prefix<'-', SortOption>>('-responsibleLastUpdated');
   const [filterConceptSubject, setFilterConceptSubject] = useState<SingleValue | undefined>(
@@ -37,7 +47,14 @@ const WorkList = ({ ndlaId }: Props) => {
   );
   const [errorConceptList, setErrorConceptList] = useState<string | undefined>(undefined);
   const [pageConcept, setPageConcept] = useState(1);
-  const [pageSizeConcept, setPageSizeConcept] = useState<SingleValue>(defaultPageSize);
+  const [pageSizeConcept, _setPageSizeConcept] = useState<SingleValue>(
+    storedPageSizeConcept
+      ? {
+          label: storedPageSizeConcept,
+          value: storedPageSizeConcept,
+        }
+      : defaultPageSize,
+  );
   const [prioritized, setPrioritized] = useState(false);
 
   const {
@@ -86,6 +103,18 @@ const WorkList = ({ ndlaId }: Props) => {
   useEffect(() => {
     setPageConcept(1);
   }, [filterConceptSubject]);
+
+  const setPageSize = useCallback((p: SingleValue) => {
+    if (!p) return;
+    _setPageSize(p);
+    localStorage.setItem(STORED_PAGE_SIZE, p.value);
+  }, []);
+
+  const setPageSizeConcept = useCallback((p: SingleValue) => {
+    if (!p) return;
+    _setPageSizeConcept(p);
+    localStorage.setItem(STORED_PAGE_SIZE_CONCEPT, p.value);
+  }, []);
 
   return (
     <Tabs

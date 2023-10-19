@@ -63,7 +63,7 @@ interface Props<T extends BaseResource> {
   className?: string;
   useHook: (
     params: { id: number; language?: string },
-    options?: UseQueryOptions<T>,
+    options?: Partial<UseQueryOptions<T>>,
   ) => UseQueryResult<T>;
   createUrl: string;
   titleTranslationKey?: string;
@@ -114,7 +114,7 @@ interface EditResourceRedirectProps<T extends BaseResource> {
   isNewlyCreated: boolean;
   useHook: (
     params: { id: number; language?: string },
-    options?: UseQueryOptions<T>,
+    options?: Partial<UseQueryOptions<T>>,
   ) => UseQueryResult<T>;
   Component: ComponentType<ResourceComponentProps>;
 }

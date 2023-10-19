@@ -20,19 +20,25 @@ import {
 export const useAudioMeta = (
   resourceId: string,
   language: string,
-  options?: UseQueryOptions<AudioMeta>,
+  options?: Partial<UseQueryOptions<AudioMeta>>,
 ) => {
-  return useQuery<AudioMeta>(
-    [AUDIO_EMBED, resourceId, language],
-    () => fetchAudioMeta(resourceId, language),
-    options,
-  );
+  return useQuery<AudioMeta>({
+    queryKey: [AUDIO_EMBED, resourceId, language],
+    queryFn: () => fetchAudioMeta(resourceId, language),
+    ...options,
+  });
 };
 
-export const useH5pMeta = (path: string, url: string, options?: UseQueryOptions<H5pData>) => {
-  return useQuery<H5pData>(['h5pMeta', path, url], () => fetchH5pMeta(path, url), {
-    ...options,
+export const useH5pMeta = (
+  path: string,
+  url: string,
+  options?: Partial<UseQueryOptions<H5pData>>,
+) => {
+  return useQuery<H5pData>({
     retry: false,
+    queryKey: ['h5pMeta', path, url],
+    queryFn: () => fetchH5pMeta(path, url),
+    ...options,
   });
 };
 
@@ -40,16 +46,14 @@ export const useConceptVisualElement = (
   conceptId: number,
   visualElement: string,
   language: string,
-  options?: UseQueryOptions<ConceptVisualElementMeta | undefined>,
+  options?: Partial<UseQueryOptions<ConceptVisualElementMeta | undefined>>,
 ) => {
-  return useQuery<ConceptVisualElementMeta | undefined>(
-    ['conceptVisualElement', conceptId, language],
-    () => fetchConceptVisualElement(visualElement, language),
-    {
-      ...options,
-      retry: false,
-    },
-  );
+  return useQuery<ConceptVisualElementMeta | undefined>({
+    retry: false,
+    queryKey: ['conceptVisualElement', conceptId, language],
+    queryFn: () => fetchConceptVisualElement(visualElement, language),
+    ...options,
+  });
 };
 
 export const useConceptListMeta = (
@@ -57,11 +61,12 @@ export const useConceptListMeta = (
   subject: string | undefined,
   language: string,
   concepts: IConceptSummary[],
-  options?: UseQueryOptions<ConceptListData>,
+  options?: Partial<UseQueryOptions<ConceptListData>>,
 ) => {
-  return useQuery<ConceptListData>(
-    ['conceptListMeta', tag, subject],
-    () => fetchConceptListMeta(concepts, language),
-    { ...options, retry: false },
-  );
+  return useQuery<ConceptListData>({
+    retry: false,
+    queryKey: ['conceptListMeta', tag, subject],
+    queryFn: () => fetchConceptListMeta(concepts, language),
+    ...options,
+  });
 };

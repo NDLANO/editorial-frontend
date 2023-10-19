@@ -22,12 +22,12 @@ export const filmQueryKeys = {
   movies: (params: UseMovies) => [FILM_SLIDESHOW, params] as const,
 };
 
-export const useFilmFrontpageQuery = (options?: UseQueryOptions<IFilmFrontPageData>) => {
-  return useQuery<IFilmFrontPageData>(
-    filmQueryKeys.filmFrontpage,
-    () => fetchFilmFrontpage(),
-    options,
-  );
+export const useFilmFrontpageQuery = (options?: Partial<UseQueryOptions<IFilmFrontPageData>>) => {
+  return useQuery<IFilmFrontPageData>({
+    queryKey: filmQueryKeys.filmFrontpage,
+    queryFn: () => fetchFilmFrontpage(),
+    ...options,
+  });
 };
 
 const slideshowArticlesQueryObject = {
@@ -43,7 +43,7 @@ export interface UseMovies {
 
 export const useMoviesQuery = (
   params: UseMovies,
-  options: UseQueryOptions<IMultiSearchResult> = {},
+  options: Partial<UseQueryOptions<IMultiSearchResult>> = {},
 ) => {
   const { i18n } = useTranslation();
   const movieIds = params.movieUrns
@@ -51,12 +51,10 @@ export const useMoviesQuery = (
     .filter((id) => !isNaN(id));
   const ids = sortBy(movieIds).join(',');
 
-  return useQuery<IMultiSearchResult>(
-    filmQueryKeys.movies(params),
-    () => searchResources({ ...slideshowArticlesQueryObject, ids: ids }),
-    {
-      select: (res) => ({ ...res, results: sortMoviesByIdList(movieIds, res.results, i18n) }),
-      ...options,
-    },
-  );
+  return useQuery<IMultiSearchResult>({
+    queryKey: filmQueryKeys.movies(params),
+    queryFn: () => searchResources({ ...slideshowArticlesQueryObject, ids: ids }),
+    select: (res) => ({ ...res, results: sortMoviesByIdList(movieIds, res.results, i18n) }),
+    ...options,
+  });
 };

@@ -15,6 +15,10 @@ export const frontpageQueryKeys = {
   frontpage: [FRONTPAGE] as const,
 };
 
-export const useFrontpage = (options?: UseQueryOptions<IFrontPage>) => {
-  return useQuery<IFrontPage>(frontpageQueryKeys.frontpage, () => fetchFrontpage(), options);
+export const useFrontpage = (options?: Partial<UseQueryOptions<IFrontPage>>) => {
+  return useQuery<IFrontPage>({
+    queryKey: frontpageQueryKeys.frontpage,
+    queryFn: () => fetchFrontpage(),
+    ...options,
+  });
 };

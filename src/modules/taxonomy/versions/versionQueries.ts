@@ -18,7 +18,10 @@ export const versionQueryKeys = {
 };
 
 interface UseVersionsParams extends GetVersionsParams {}
-export const useVersions = (params?: UseVersionsParams, options?: UseQueryOptions<Version[]>) => {
+export const useVersions = (
+  params?: UseVersionsParams,
+  options?: Partial<UseQueryOptions<Version[]>>,
+) => {
   return useQuery<Version[]>(
     versionQueryKeys.versions(params),
     () => fetchVersions({ ...params }),
@@ -29,6 +32,13 @@ export const useVersions = (params?: UseVersionsParams, options?: UseQueryOption
 interface UseVersionParams {
   id: string;
 }
-export const useVersion = (params: UseVersionParams, options?: UseQueryOptions<Version>) => {
-  return useQuery<Version>([versionQueryKeys.version(params)], () => fetchVersion(params), options);
+export const useVersion = (
+  params: UseVersionParams,
+  options?: Partial<UseQueryOptions<Version>>,
+) => {
+  return useQuery<Version>({
+    queryKey: [versionQueryKeys.version(params)],
+    queryFn: () => fetchVersion(params),
+    ...options,
+  });
 };

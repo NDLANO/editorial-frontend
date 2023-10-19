@@ -23,23 +23,23 @@ interface UseResourceTypeParams extends WithTaxonomyVersion {
 }
 export const useResourceType = (
   params: UseResourceTypeParams,
-  options?: UseQueryOptions<ResourceType>,
+  options?: Partial<UseQueryOptions<ResourceType>>,
 ) =>
-  useQuery<ResourceType>(
-    resourceTypeQueryKeys.resourceType(params),
-    () => fetchResourceType(params),
-    options,
-  );
+  useQuery<ResourceType>({
+    queryKey: resourceTypeQueryKeys.resourceType(params),
+    queryFn: () => fetchResourceType(params),
+    ...options,
+  });
 
 interface UseAllResourceTypesParams extends WithTaxonomyVersion {
   language: string;
 }
 export const useAllResourceTypes = <ReturnType>(
   params: UseAllResourceTypesParams,
-  options?: UseQueryOptions<ResourceType[], unknown, ReturnType>,
+  options?: Partial<UseQueryOptions<ResourceType[], unknown, ReturnType>>,
 ) =>
-  useQuery<ResourceType[], unknown, ReturnType>(
-    resourceTypeQueryKeys.resourceTypes(params),
-    () => fetchAllResourceTypes(params),
-    options,
-  );
+  useQuery<ResourceType[], unknown, ReturnType>({
+    queryKey: resourceTypeQueryKeys.resourceTypes(params),
+    queryFn: () => fetchAllResourceTypes(params),
+    ...options,
+  });

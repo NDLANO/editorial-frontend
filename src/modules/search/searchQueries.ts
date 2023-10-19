@@ -24,7 +24,10 @@ export interface UseSearch extends MultiSearchApiQuery {
   favoriteSubjects?: string[];
 }
 
-export const useSearch = (query: UseSearch, options?: UseQueryOptions<IMultiSearchResult>) => {
+export const useSearch = (
+  query: UseSearch,
+  options?: Partial<UseQueryOptions<IMultiSearchResult>>,
+) => {
   const isFav = query.subjects === FAVOURITES_SUBJECT_ID;
 
   const { data, isInitialLoading } = useUserData({
@@ -36,12 +39,10 @@ export const useSearch = (query: UseSearch, options?: UseQueryOptions<IMultiSear
     subjects: isFav ? data?.favoriteSubjects?.join(',') : query.subjects,
   };
 
-  return useQuery<IMultiSearchResult>(
-    searchQueryKeys.search(actualQuery),
-    () => search(actualQuery),
-    {
-      ...options,
-      enabled: options?.enabled && !isInitialLoading,
-    },
-  );
+  return useQuery<IMultiSearchResult>({
+    queryKey: searchQueryKeys.search(actualQuery),
+    queryFn: () => search(actualQuery),
+    ...options,
+    enabled: options?.enabled && !isInitialLoading,
+  });
 };

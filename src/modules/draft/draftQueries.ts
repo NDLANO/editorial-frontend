@@ -49,12 +49,12 @@ export const draftQueryKeys = {
 
 draftQueryKeys.draft({ id: 1 });
 
-export const useDraft = (params: UseDraft, options?: UseQueryOptions<IArticle>) => {
-  return useQuery<IArticle>(
-    draftQueryKeys.draft(params),
-    () => fetchDraft(params.id, params.language),
-    options,
-  );
+export const useDraft = (params: UseDraft, options?: Partial<UseQueryOptions<IArticle>>) => {
+  return useQuery<IArticle>({
+    queryKey: draftQueryKeys.draft(params),
+    queryFn: () => fetchDraft(params.id, params.language),
+    ...options,
+  });
 };
 interface UseSearchDrafts extends DraftSearchQuery {
   ids: number[];
@@ -62,19 +62,21 @@ interface UseSearchDrafts extends DraftSearchQuery {
 
 export const useSearchDrafts = (
   params: UseSearchDrafts,
-  options?: UseQueryOptions<ISearchResult>,
+  options?: Partial<UseQueryOptions<ISearchResult>>,
 ) => {
-  return useQuery<ISearchResult>(
-    draftQueryKeys.search(params),
-    () => searchAllDrafts(params.ids, params.language, params.sort),
-    options,
-  );
+  return useQuery<ISearchResult>({
+    queryKey: draftQueryKeys.search(params),
+    queryFn: () => searchAllDrafts(params.ids, params.language, params.sort),
+    ...options,
+  });
 };
 
 export const useLicenses = <ReturnType = ILicense[]>(
-  options?: UseQueryOptions<ILicense[], unknown, ReturnType>,
+  options?: Partial<UseQueryOptions<ILicense[], unknown, ReturnType>>,
 ) =>
-  useQuery<ILicense[], unknown, ReturnType>(draftQueryKeys.licenses, fetchLicenses, {
+  useQuery<ILicense[], unknown, ReturnType>({
+    queryKey: draftQueryKeys.licenses,
+    queryFn: fetchLicenses,
     refetchOnWindowFocus: false,
     refetchOnMount: false,
     refetchOnReconnect: false,
@@ -83,8 +85,12 @@ export const useLicenses = <ReturnType = ILicense[]>(
     ...options,
   });
 
-export const useUserData = (options?: UseQueryOptions<IUserData | undefined>) =>
-  useQuery<IUserData | undefined>(draftQueryKeys.userData, fetchUserData, options);
+export const useUserData = (options?: Partial<UseQueryOptions<IUserData | undefined>>) =>
+  useQuery<IUserData | undefined>({
+    queryKey: draftQueryKeys.userData,
+    queryFn: fetchUserData,
+    ...options,
+  });
 
 export const useUpdateUserDataMutation = () => {
   const queryClient = useQueryClient();
@@ -120,11 +126,11 @@ interface StatusStateMachineParams {
 
 export const useDraftStatusStateMachine = (
   params: StatusStateMachineParams = {},
-  options?: UseQueryOptions<DraftStatusStateMachineType>,
+  options?: Partial<UseQueryOptions<DraftStatusStateMachineType>>,
 ) => {
-  return useQuery<DraftStatusStateMachineType>(
-    draftQueryKeys.statusStateMachine(params),
-    () => fetchStatusStateMachine(params.articleId),
-    options,
-  );
+  return useQuery<DraftStatusStateMachineType>({
+    queryKey: draftQueryKeys.statusStateMachine(params),
+    queryFn: () => fetchStatusStateMachine(params.articleId),
+    ...options,
+  });
 };

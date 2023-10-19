@@ -44,10 +44,10 @@ interface Props<ParamType extends BaseParams, InnerType, ApiType, Type = ApiType
   onChange: (value: InnerType) => void;
   useQuery: (
     params: ParamType,
-    options?: UseQueryOptions<ApiType, unknown, Type>,
+    options?: Partial<UseQueryOptions<ApiType, unknown, Type>>,
   ) => UseQueryResult<Type, unknown>;
   params?: ParamType;
-  options?: UseQueryOptions<ApiType, unknown, Type>;
+  options?: Partial<UseQueryOptions<ApiType, unknown, Type>>;
   transform: (value: Type) => SearchResultBase<DropdownItem<InnerType>>;
   placeholder: string;
   preload?: boolean;

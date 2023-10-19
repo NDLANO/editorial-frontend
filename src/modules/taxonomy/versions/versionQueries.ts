@@ -22,11 +22,11 @@ export const useVersions = (
   params?: UseVersionsParams,
   options?: Partial<UseQueryOptions<Version[]>>,
 ) => {
-  return useQuery<Version[]>(
-    versionQueryKeys.versions(params),
-    () => fetchVersions({ ...params }),
-    options,
-  );
+  return useQuery<Version[]>({
+    queryKey: versionQueryKeys.versions(params),
+    queryFn: () => fetchVersions({ ...params }),
+    ...options,
+  });
 };
 
 interface UseVersionParams {

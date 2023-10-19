@@ -12,16 +12,23 @@ import { VERSION, VERSIONS } from '../../../queryKeys';
 import { fetchVersion, fetchVersions } from './versionApi';
 import { GetVersionsParams } from './versionApiTypes';
 
+export const versionQueryKeys = {
+  version: (params?: Partial<UseVersionParams>) => [VERSION, params] as const,
+  versions: (params?: Partial<UseVersionsParams>) => [VERSIONS, params] as const,
+};
+
 interface UseVersionsParams extends GetVersionsParams {}
-export const versionsQueryKey = (params?: Partial<UseVersionsParams>) => [VERSIONS, params];
 export const useVersions = (params?: UseVersionsParams, options?: UseQueryOptions<Version[]>) => {
-  return useQuery<Version[]>(versionsQueryKey(params), () => fetchVersions({ ...params }), options);
+  return useQuery<Version[]>(
+    versionQueryKeys.versions(params),
+    () => fetchVersions({ ...params }),
+    options,
+  );
 };
 
 interface UseVersionParams {
   id: string;
 }
-export const versionQueryKey = (params?: Partial<UseVersionParams>) => [VERSION, params];
-export const useVersion = ({ id }: UseVersionParams, options?: UseQueryOptions<Version>) => {
-  return useQuery<Version>([VERSION, id], () => fetchVersion({ id }), options);
+export const useVersion = (params: UseVersionParams, options?: UseQueryOptions<Version>) => {
+  return useQuery<Version>([versionQueryKeys.version(params)], () => fetchVersion(params), options);
 };

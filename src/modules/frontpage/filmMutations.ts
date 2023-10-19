@@ -12,7 +12,7 @@ import {
   INewOrUpdatedFilmFrontPageData,
 } from '@ndla/types-backend/frontpage-api';
 import { updateFilmFrontpage } from './frontpageApi';
-import { filmFrontpageQueryKey } from './filmQueries';
+import { filmQueryKeys } from './filmQueries';
 
 export const useUpdateFilmFrontpageMutation = () => {
   const queryClient = useQueryClient();
@@ -23,10 +23,10 @@ export const useUpdateFilmFrontpageMutation = () => {
     {
       onError: (_, __, previousFrontpage) => {
         if (previousFrontpage) {
-          queryClient.setQueryData(filmFrontpageQueryKey(), previousFrontpage);
+          queryClient.setQueryData(filmQueryKeys.filmFrontpage, previousFrontpage);
         }
       },
-      onSettled: () => queryClient.invalidateQueries(filmFrontpageQueryKey()),
+      onSettled: () => queryClient.invalidateQueries(filmQueryKeys.filmFrontpage),
     },
   );
 };

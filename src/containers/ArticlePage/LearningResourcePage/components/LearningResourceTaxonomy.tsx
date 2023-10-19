@@ -39,7 +39,7 @@ import VersionSelect from '../../components/VersionSelect';
 import { useVersions } from '../../../../modules/taxonomy/versions/versionQueries';
 import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
 import { useAllResourceTypes } from '../../../../modules/taxonomy/resourcetypes/resourceTypesQueries';
-import { nodesQueryKey, useNodes } from '../../../../modules/nodes/nodeQueries';
+import { nodeQueryKeys, useNodes } from '../../../../modules/nodes/nodeQueries';
 import { useUpdateTaxonomyMutation } from '../../../../modules/taxonomy/taxonomyMutations';
 import { fetchChildNodes, postNode } from '../../../../modules/nodes/nodeApi';
 import { NodeWithChildren } from '../../../../components/Taxonomy/TaxonomyBlockNode';
@@ -293,7 +293,7 @@ const LearningResourceTaxonomy = ({
       });
       await updateNotes({ revision: article.revision, notes: ['Oppdatert taksonomi.'] });
       await qc.invalidateQueries(
-        nodesQueryKey({
+        nodeQueryKeys.nodes({
           contentURI: `urn:article:${article.id}`,
           taxonomyVersion,
           language: articleLanguage,

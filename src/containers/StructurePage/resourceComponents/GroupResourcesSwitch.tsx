@@ -19,7 +19,7 @@ import {
   TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE,
 } from '../../../constants';
 import { useUpdateNodeMetadataMutation } from '../../../modules/nodes/nodeMutations';
-import { childNodesWithArticleTypeQueryKey } from '../../../modules/nodes/nodeQueries';
+import { nodeQueryKeys } from '../../../modules/nodes/nodeQueries';
 import { getRootIdForNode, isRootNode } from '../../../modules/nodes/nodeUtil';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 
@@ -45,7 +45,7 @@ const GroupResourceSwitch = ({ node, onChanged }: Props) => {
   const { taxonomyVersion } = useTaxonomyVersion();
   const qc = useQueryClient();
 
-  const compKey = childNodesWithArticleTypeQueryKey({
+  const compKey = nodeQueryKeys.childNodes({
     taxonomyVersion,
     id: rootNodeId,
     language: i18n.language,

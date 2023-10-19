@@ -18,7 +18,7 @@ import {
   useAddNodeMutation,
   usePostNodeConnectionMutation,
 } from '../../modules/nodes/nodeMutations';
-import { childNodesWithArticleTypeQueryKey } from '../../modules/nodes/nodeQueries';
+import { nodeQueryKeys } from '../../modules/nodes/nodeQueries';
 import handleError from '../../util/handleError';
 import { useTaxonomyVersion } from '../StructureVersion/TaxonomyVersionProvider';
 
@@ -46,7 +46,7 @@ interface Props {
 const AddNodeModalContent = ({ onClose, nodeType, rootId, parentNode }: Props) => {
   const { t } = useTranslation();
   const addNodeMutation = useAddNodeMutation();
-  const compkey = childNodesWithArticleTypeQueryKey({ id: rootId });
+  const compkey = nodeQueryKeys.childNodes({ id: rootId });
   const addNodeToParentMutation = usePostNodeConnectionMutation({
     onSuccess: (_) => {
       qc.invalidateQueries(compkey);

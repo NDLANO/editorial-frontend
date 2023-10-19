@@ -22,7 +22,7 @@ import { EditModeHandler } from '../SettingsMenuDropdownType';
 import MenuItemButton from '../sharedMenuOptions/components/MenuItemButton';
 import RoundIcon from '../../../../components/RoundIcon';
 import handleError from '../../../../util/handleError';
-import { nodeQueryKey, nodesQueryKey, useNode } from '../../../../modules/nodes/nodeQueries';
+import { nodeQueryKeys, useNode } from '../../../../modules/nodes/nodeQueries';
 import {
   useDeleteNodeTranslationMutation,
   usePutNodeMutation,
@@ -192,15 +192,19 @@ const ChangeNodeNameContent = ({ onClose, node, nodeType = 'SUBJECT' }: ModalPro
       console.error(e);
       handleError(e);
       setUpdateError(t('taxonomy.changeName.updateError'));
-      await qc.invalidateQueries(nodesQueryKey({ nodeType: nodeType, taxonomyVersion }));
-      await qc.invalidateQueries(nodeQueryKey({ id, language: BOGUS_LANGUAGE, taxonomyVersion }));
+      await qc.invalidateQueries(nodeQueryKeys.nodes({ nodeType: nodeType, taxonomyVersion }));
+      await qc.invalidateQueries(
+        nodeQueryKeys.node({ id, language: BOGUS_LANGUAGE, taxonomyVersion }),
+      );
       formik.setSubmitting(false);
       return;
     }
 
     if (promises.length > 0) {
-      await qc.invalidateQueries(nodesQueryKey({ nodeType: nodeType, taxonomyVersion }));
-      await qc.invalidateQueries(nodeQueryKey({ id, language: BOGUS_LANGUAGE, taxonomyVersion }));
+      await qc.invalidateQueries(nodeQueryKeys.nodes({ nodeType: nodeType, taxonomyVersion }));
+      await qc.invalidateQueries(
+        nodeQueryKeys.node({ id, language: BOGUS_LANGUAGE, taxonomyVersion }),
+      );
     }
     formik.resetForm({ values: formik.values, isSubmitting: false });
     setSaved(true);

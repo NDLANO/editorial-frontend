@@ -23,10 +23,7 @@ import {
 } from '../../../modules/nodes/nodeMutations';
 import AlertModal from '../../../components/AlertModal';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
-import {
-  NodeResourceMeta,
-  resourcesWithNodeConnectionQueryKey,
-} from '../../../modules/nodes/nodeQueries';
+import { NodeResourceMeta, nodeQueryKeys } from '../../../modules/nodes/nodeQueries';
 import { ResourceWithNodeConnectionAndMeta } from './StructureResources';
 import { Auth0UserData, Dictionary } from '../../../interfaces';
 import DndList from '../../../components/DndList';
@@ -69,7 +66,7 @@ const ResourceItems = ({
   const { taxonomyVersion } = useTaxonomyVersion();
 
   const qc = useQueryClient();
-  const compKey = resourcesWithNodeConnectionQueryKey({
+  const compKey = nodeQueryKeys.resources({
     id: currentNodeId,
     language: i18n.language,
     taxonomyVersion,

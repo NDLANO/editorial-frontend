@@ -20,15 +20,17 @@ export interface UseImage {
   language?: string;
 }
 
-export const imageQueryKey = (params?: Partial<UseImage>) => [IMAGE, params];
+export const imageQueryKeys = {
+  image: (params?: Partial<UseImage>) => [IMAGE, params] as const,
+  search: (params?: Partial<ISearchParams>) => [SEARCH_IMAGES, params] as const,
+};
+
 export const useImage = (params: UseImage, options?: UseQueryOptions<IImageMetaInformationV3>) =>
   useQuery<IImageMetaInformationV3>(
-    imageQueryKey(params),
+    imageQueryKeys.image(params),
     () => fetchImage(params.id, params.language),
     options,
   );
 
-export const searchImagesQueryKey = (params?: Partial<ISearchParams>) => [SEARCH_IMAGES, params];
-
 export const useSearchImages = (query: ISearchParams, options?: UseQueryOptions<ISearchResultV3>) =>
-  useQuery<ISearchResultV3>(searchImagesQueryKey(query), () => searchImages(query), options);
+  useQuery<ISearchResultV3>(imageQueryKeys.search(query), () => searchImages(query), options);

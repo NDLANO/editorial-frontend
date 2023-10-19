@@ -26,10 +26,7 @@ import {
   useCreateResourceResourceTypeMutation,
   usePostResourceForNodeMutation,
 } from '../../../modules/nodes/nodeMutations';
-import {
-  childNodesWithArticleTypeQueryKey,
-  resourcesWithNodeConnectionQueryKey,
-} from '../../../modules/nodes/nodeQueries';
+import { nodeQueryKeys } from '../../../modules/nodes/nodeQueries';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 import { RESOURCE_NODE, TOPIC_NODE } from '../../../modules/nodes/nodeApiTypes';
 import FormikField from '../../../components/FormikField';
@@ -153,8 +150,8 @@ const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
   const { taxonomyVersion } = useTaxonomyVersion();
   const qc = useQueryClient();
   const nodeId = useMemo(() => node && getRootIdForNode(node), [node]);
-  const compKey = resourcesWithNodeConnectionQueryKey({ id: node?.id, language: i18n.language });
-  const compKeyChildNodes = childNodesWithArticleTypeQueryKey({
+  const compKey = nodeQueryKeys.resources({ id: node?.id, language: i18n.language });
+  const compKeyChildNodes = nodeQueryKeys.childNodes({
     taxonomyVersion,
     id: nodeId,
     language: i18n.language,

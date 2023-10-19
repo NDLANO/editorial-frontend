@@ -24,7 +24,7 @@ import {
   usePublishVersionMutation,
   usePutVersionMutation,
 } from '../../../modules/taxonomy/versions/versionMutations';
-import { versionsQueryKey } from '../../../modules/taxonomy/versions/versionQueries';
+import { versionQueryKeys } from '../../../modules/taxonomy/versions/versionQueries';
 import { StyledErrorMessage } from './StyledErrorMessage';
 import Fade from '../../../components/Taxonomy/Fade';
 import {
@@ -66,7 +66,7 @@ const VersionForm = ({ version, existingVersions, onClose }: Props) => {
   const [error, setError] = useState<string | undefined>(undefined);
   const initialValues = versionTypeToVersionFormType(version);
   const qc = useQueryClient();
-  const versionsKey = versionsQueryKey();
+  const versionsKey = versionQueryKeys.versions();
 
   const versionPostMutation = usePostVersionMutation({
     onMutate: async ({ body }) => {

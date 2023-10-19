@@ -25,13 +25,13 @@ import {
 import { Node } from '@ndla/types-taxonomy';
 import { TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH } from '../../../constants';
 import { useUpdateNodeMetadataMutation } from '../../../modules/nodes/nodeMutations';
-import { nodesQueryKey } from '../../../modules/nodes/nodeQueries';
+import { nodeQueryKeys } from '../../../modules/nodes/nodeQueries';
 
 interface Props {
   nodes: Node[];
 }
 
-const queryKey = nodesQueryKey({
+const queryKey = nodeQueryKeys.nodes({
   key: TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH,
   value: 'true',
   taxonomyVersion: 'default',

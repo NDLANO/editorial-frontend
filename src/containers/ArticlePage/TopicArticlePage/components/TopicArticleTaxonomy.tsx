@@ -32,7 +32,7 @@ import { useSession } from '../../../Session/SessionProvider';
 import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
 import VersionSelect from '../../components/VersionSelect';
 import { useVersions } from '../../../../modules/taxonomy/versions/versionQueries';
-import { nodesQueryKey, useNodes } from '../../../../modules/nodes/nodeQueries';
+import { nodeQueryKeys, useNodes } from '../../../../modules/nodes/nodeQueries';
 import { fetchChildNodes } from '../../../../modules/nodes/nodeApi';
 import { NodeWithChildren } from '../../../../components/Taxonomy/TaxonomyBlockNode';
 import { useCreateTopicNodeConnectionsMutation } from '../../../../modules/taxonomy/taxonomyMutations';
@@ -189,7 +189,7 @@ const TopicArticleTaxonomy = ({ article, updateNotes, articleLanguage, hasTaxEnt
         notes: ['Oppdatert taksonomi.'],
       });
       await qc.invalidateQueries(
-        nodesQueryKey({
+        nodeQueryKeys.nodes({
           contentURI: `urn:article:${article.id}`,
           taxonomyVersion,
           language: articleLanguage,
@@ -198,7 +198,7 @@ const TopicArticleTaxonomy = ({ article, updateNotes, articleLanguage, hasTaxEnt
       );
       setIsSaving(false);
       qc.invalidateQueries(
-        nodesQueryKey({
+        nodeQueryKeys.nodes({
           language: articleLanguage,
           taxonomyVersion,
           nodeType: 'SUBJECT',

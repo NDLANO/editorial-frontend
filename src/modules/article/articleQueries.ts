@@ -11,14 +11,16 @@ import { UseQueryOptions, useQuery } from '@tanstack/react-query';
 import { ARTICLE } from '../../queryKeys';
 import { ArticleSearchParams, searchArticles } from './articleApi';
 
-const articleSearchQueryKey = (params?: Partial<ArticleSearchParams>) => [ARTICLE, params];
+export const articleQueryKeys = {
+  search: (params?: Partial<ArticleSearchParams>) => [ARTICLE, params] as const,
+};
 
 export const useArticleSearch = (
   params: ArticleSearchParams,
   options?: UseQueryOptions<ISearchResultV2>,
 ) => {
   return useQuery<ISearchResultV2>(
-    articleSearchQueryKey(params),
+    articleQueryKeys.search(params),
     () => searchArticles(params),
     options,
   );

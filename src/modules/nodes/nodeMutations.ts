@@ -38,7 +38,7 @@ import {
   putResourcesPrimary,
   PutResourcesPrimaryParams,
 } from './nodeApi';
-import { childNodesWithArticleTypeQueryKey, nodesQueryKey } from './nodeQueries';
+import { nodeQueryKeys } from './nodeQueries';
 import {
   createResourceResourceType,
   ResourceResourceTypePostParams,
@@ -54,7 +54,7 @@ export const useAddNodeMutation = () => {
     ({ body, taxonomyVersion }) => postNode({ body, taxonomyVersion }),
     {
       onMutate: async ({ body: newNode, taxonomyVersion }) => {
-        const key = nodesQueryKey({ taxonomyVersion, isRoot: true });
+        const key = nodeQueryKeys.nodes({ taxonomyVersion, isRoot: true });
         await queryClient.cancelQueries(key);
         const previousNodes = queryClient.getQueryData<Node[]>(key) ?? [];
         const optimisticNode: Node = {
@@ -76,7 +76,7 @@ export const useAddNodeMutation = () => {
       },
       onError: (e) => handleError(e),
       onSettled: (_, __, { taxonomyVersion }) =>
-        queryClient.invalidateQueries(nodesQueryKey({ taxonomyVersion })),
+        queryClient.invalidateQueries(nodeQueryKeys.nodes({ taxonomyVersion })),
     },
   );
 };
@@ -96,12 +96,12 @@ export const useUpdateNodeMetadataMutation = () => {
     {
       onMutate: async ({ id, metadata, rootId, taxonomyVersion }) => {
         const key = rootId
-          ? childNodesWithArticleTypeQueryKey({
+          ? nodeQueryKeys.childNodes({
               taxonomyVersion,
               id: rootId,
               language: i18n.language,
             })
-          : nodesQueryKey({
+          : nodeQueryKeys.nodes({
               isContext: true,
               nodeType: 'SUBJECT',
               language: i18n.language,
@@ -118,12 +118,12 @@ export const useUpdateNodeMetadataMutation = () => {
       },
       onSettled: (_, __, { rootId, taxonomyVersion }) => {
         const key = rootId
-          ? childNodesWithArticleTypeQueryKey({
+          ? nodeQueryKeys.childNodes({
               taxonomyVersion,
               id: rootId,
               language: i18n.language,
             })
-          : nodesQueryKey({
+          : nodeQueryKeys.nodes({
               language: i18n.language,
               nodeType: 'SUBJECT',
               isContext: true,
@@ -148,12 +148,12 @@ export const useDeleteNodeMutation = () => {
     {
       onMutate: async ({ id, rootId, taxonomyVersion }) => {
         const key = rootId
-          ? childNodesWithArticleTypeQueryKey({
+          ? nodeQueryKeys.childNodes({
               taxonomyVersion,
               id: rootId,
               language: i18n.language,
             })
-          : nodesQueryKey({ taxonomyVersion, isRoot: true });
+          : nodeQueryKeys.nodes({ taxonomyVersion, isRoot: true });
         await qc.cancelQueries(key);
         const prevNodes = qc.getQueryData<Node[]>(key) ?? [];
         const withoutDeleted = prevNodes.filter((s) => s.id !== id);
@@ -161,12 +161,12 @@ export const useDeleteNodeMutation = () => {
       },
       onSettled: (_, __, { rootId, taxonomyVersion }) => {
         const key = rootId
-          ? childNodesWithArticleTypeQueryKey({
+          ? nodeQueryKeys.childNodes({
               taxonomyVersion,
               id: rootId,
               language: i18n.language,
             })
-          : nodesQueryKey({ taxonomyVersion, isRoot: true });
+          : nodeQueryKeys.nodes({ taxonomyVersion, isRoot: true });
         qc.invalidateQueries(key);
       },
     },

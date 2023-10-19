@@ -23,7 +23,7 @@ import { getContentTypeFromResourceTypes } from '../../../util/resourceHelpers';
 import RelevanceOption from '../../../components/Taxonomy/RelevanceOption';
 import ResourceItemLink from './ResourceItemLink';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
-import { resourcesWithNodeConnectionQueryKey } from '../../../modules/nodes/nodeQueries';
+import { nodeQueryKeys } from '../../../modules/nodes/nodeQueries';
 import { ResourceWithNodeConnectionAndMeta } from './StructureResources';
 import StatusIcons from './StatusIcons';
 import GrepCodesModal from './GrepCodesModal';
@@ -124,7 +124,7 @@ const Resource = ({
 
   const qc = useQueryClient();
   const { taxonomyVersion } = useTaxonomyVersion();
-  const compKey = resourcesWithNodeConnectionQueryKey({
+  const compKey = nodeQueryKeys.resources({
     id: currentNodeId,
     language: i18n.language,
   });

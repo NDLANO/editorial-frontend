@@ -10,6 +10,7 @@ import { request, gql, Variables } from 'graphql-request';
 import { useQuery, UseQueryOptions, UseQueryResult } from '@tanstack/react-query';
 import config from '../../config';
 import { apiResourceUrl } from '../../util/apiHelpers';
+import { TRANFSFORM_ARTICLE } from '../../queryKeys';
 
 const gqlEndpoint = config.localConverter
   ? 'http://localhost:4000/graphql-api/graphql'
@@ -25,10 +26,10 @@ interface UseTransformArticle extends Variables {
   absoluteUrl?: boolean;
 }
 
-export const transformArticleQueryKey = (params?: Partial<UseTransformArticle>) => [
-  'TRANSFORM_ARTICLE',
-  params,
-];
+export const transformArticleQueryKeys = {
+  transformArticle: (params?: Partial<UseTransformArticle>) =>
+    [TRANFSFORM_ARTICLE, params] as const,
+};
 
 export const usePreviewArticle = (
   content: string,
@@ -78,7 +79,7 @@ export const useTransformArticle = (
   options?: UseQueryOptions<string>,
 ): UseQueryResult<string> => {
   return useQuery<string>(
-    ['TRANSFORM_ARTICLE', params],
+    transformArticleQueryKeys.transformArticle(params),
     async (): Promise<string> => {
       const res = await request<ReturnData, UseTransformArticle>(
         gqlEndpoint,

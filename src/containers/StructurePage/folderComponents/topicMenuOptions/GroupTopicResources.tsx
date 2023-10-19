@@ -22,7 +22,7 @@ import { StyledMenuItemEditField, StyledMenuItemInputField } from '../styles';
 import { useUpdateNodeMetadataMutation } from '../../../../modules/nodes/nodeMutations';
 import { getRootIdForNode, isRootNode } from '../../../../modules/nodes/nodeUtil';
 import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
-import { childNodesWithArticleTypeQueryKey } from '../../../../modules/nodes/nodeQueries';
+import { nodeQueryKeys } from '../../../../modules/nodes/nodeQueries';
 
 interface Props {
   node: Node;
@@ -40,7 +40,7 @@ const GroupTopicResources = ({ node, hideIcon, onChanged }: Props) => {
   const qc = useQueryClient();
   const rootNodeId = getRootIdForNode(node);
   const { taxonomyVersion } = useTaxonomyVersion();
-  const compKey = childNodesWithArticleTypeQueryKey({
+  const compKey = nodeQueryKeys.childNodes({
     taxonomyVersion,
     id: rootNodeId,
     language: i18n.language,

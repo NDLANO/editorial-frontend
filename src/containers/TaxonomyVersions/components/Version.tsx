@@ -22,7 +22,7 @@ import VersionForm from './VersionForm';
 import { useDeleteVersionMutation } from '../../../modules/taxonomy/versions/versionMutations';
 import AlertModal from '../../../components/AlertModal';
 import config from '../../../config';
-import { versionsQueryKey } from '../../../modules/taxonomy/versions/versionQueries';
+import { versionQueryKeys } from '../../../modules/taxonomy/versions/versionQueries';
 import { StyledErrorMessage } from './StyledErrorMessage';
 
 interface Props {
@@ -108,7 +108,7 @@ const Version = ({ version }: Props) => {
   const [error, setError] = useState<string | undefined>(undefined);
   const [isEditing, setIsEditing] = useState(false);
   const qc = useQueryClient();
-  const key = versionsQueryKey();
+  const key = versionQueryKeys.versions();
 
   const deleteVersionMutation = useDeleteVersionMutation({
     onMutate: async ({ id }) => {

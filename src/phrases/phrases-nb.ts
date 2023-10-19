@@ -155,6 +155,8 @@ const phrases = {
       conceptSubject: 'Forklaringsfag',
       sortAsc: 'Sorter stigende',
       sortDesc: 'Sorter synkende',
+      pickPageSize: 'Velg antall rader',
+      numberOfRows: 'Antall rader',
     },
     welcomeBack: 'Velkommen',
   },

@@ -26,7 +26,6 @@ interface Props {
 
 const SubjectDropdown = ({ subjectIds, filterSubject, setFilterSubject }: Props) => {
   const { t, i18n } = useTranslation();
-  const { ndlaId } = useSession();
   const { taxonomyVersion } = useTaxonomyVersion();
 
   const { data: subjects } = useSearchNodes(

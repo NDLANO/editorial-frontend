@@ -26,6 +26,7 @@ import {
   StyledSwitch,
   StyledTopRowDashboardInfo,
   SwitchWrapper,
+  TopRowControls,
 } from '../styles';
 import TableComponent, { FieldElement, Prefix, TitleElement } from './TableComponent';
 import TableTitle from './TableTitle';
@@ -43,11 +44,6 @@ const RevisionsWrapper = styled.div`
   ${mq.range({ from: breakpoints.tabletWide })} {
     margin-top: 25px;
   }
-`;
-
-const StyledRevisionControls = styled.div`
-  display: flex;
-  flex-direction: column;
 `;
 
 const getLastPage = (totalCount: number, pageSize: number) =>
@@ -206,8 +202,8 @@ const Revisions = ({ userData }: Props) => {
             Icon={Alarm}
             infoText={t('welcomePage.revisionInfo')}
           />
-          <StyledRevisionControls>
-            <ControlWrapperDashboard>
+          <ControlWrapperDashboard>
+            <TopRowControls>
               <DropdownWrapper>
                 <Select<false>
                   label={t('welcomePage.chooseFavoriteSubject')}
@@ -229,7 +225,7 @@ const Revisions = ({ userData }: Props) => {
                 searchEnv="content"
                 revisionDateTo={currentDateAddYear}
               />
-            </ControlWrapperDashboard>
+            </TopRowControls>
             <Tooltip tooltip={t('welcomePage.primaryConnection')}>
               <SwitchWrapper>
                 <StyledSwitch
@@ -244,7 +240,7 @@ const Revisions = ({ userData }: Props) => {
                 />
               </SwitchWrapper>
             </Tooltip>
-          </StyledRevisionControls>
+          </ControlWrapperDashboard>
         </StyledTopRowDashboardInfo>
         <TableComponent
           isLoading={isInitialLoading}

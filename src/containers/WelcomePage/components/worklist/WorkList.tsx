@@ -16,6 +16,8 @@ import { useSearchConcepts } from '../../../../modules/concept/conceptQueries';
 import ConceptListTabContent from './ConceptListTabContent';
 import { Prefix } from '../TableComponent';
 import {
+  STORED_PAGE_SIZE,
+  STORED_PAGE_SIZE_CONCEPT,
   STORED_SORT_OPTION_WORKLIST,
   STORED_SORT_OPTION_WORKLIST_CONCEPT,
 } from '../../../../constants';
@@ -25,15 +27,26 @@ interface Props {
 }
 
 export type SortOption = 'title' | 'responsibleLastUpdated' | 'status';
+const defaultPageSize = { label: '6', value: '6' };
 
 const WorkList = ({ ndlaId }: Props) => {
+  const storedPageSize = localStorage.getItem(STORED_PAGE_SIZE);
   const [sortOption, _setSortOption] = useState<Prefix<'-', SortOption>>(
     (localStorage.getItem(STORED_SORT_OPTION_WORKLIST) as SortOption) || '-responsibleLastUpdated',
   );
   const [filterSubject, setFilterSubject] = useState<SingleValue | undefined>(undefined);
   const [error, setError] = useState<string | undefined>(undefined);
   const [page, setPage] = useState(1);
+  const [pageSize, _setPageSize] = useState<SingleValue>(
+    storedPageSize
+      ? {
+          label: storedPageSize,
+          value: storedPageSize,
+        }
+      : defaultPageSize,
+  );
 
+  const storedPageSizeConcept = localStorage.getItem(STORED_PAGE_SIZE_CONCEPT);
   const [sortOptionConcepts, _setSortOptionConcepts] = useState<Prefix<'-', SortOption>>(
     (localStorage.getItem(STORED_SORT_OPTION_WORKLIST_CONCEPT) as SortOption) ||
       '-responsibleLastUpdated',
@@ -43,6 +56,14 @@ const WorkList = ({ ndlaId }: Props) => {
   );
   const [errorConceptList, setErrorConceptList] = useState<string | undefined>(undefined);
   const [pageConcept, setPageConcept] = useState(1);
+  const [pageSizeConcept, _setPageSizeConcept] = useState<SingleValue>(
+    storedPageSizeConcept
+      ? {
+          label: storedPageSizeConcept,
+          value: storedPageSizeConcept,
+        }
+      : defaultPageSize,
+  );
   const [prioritized, setPrioritized] = useState(false);
 
   const {
@@ -56,7 +77,7 @@ const WorkList = ({ ndlaId }: Props) => {
       ...(prioritized ? { prioritized: true } : {}),
       ...(filterSubject ? { subjects: filterSubject.value } : {}),
       page: page,
-      'page-size': 6,
+      'page-size': Number(pageSize!.value),
       language,
       fallback: true,
       'aggregate-paths': 'contexts.rootId',
@@ -73,7 +94,7 @@ const WorkList = ({ ndlaId }: Props) => {
       sort: sortOptionConcepts,
       ...(filterConceptSubject ? { subjects: filterConceptSubject.value } : {}),
       page: pageConcept,
-      'page-size': 6,
+      'page-size': Number(pageSizeConcept!.value),
       language,
       fallback: true,
     },
@@ -91,6 +112,18 @@ const WorkList = ({ ndlaId }: Props) => {
   useEffect(() => {
     setPageConcept(1);
   }, [filterConceptSubject]);
+
+  const setPageSize = useCallback((p: SingleValue) => {
+    if (!p) return;
+    _setPageSize(p);
+    localStorage.setItem(STORED_PAGE_SIZE, p.value);
+  }, []);
+
+  const setPageSizeConcept = useCallback((p: SingleValue) => {
+    if (!p) return;
+    _setPageSizeConcept(p);
+    localStorage.setItem(STORED_PAGE_SIZE_CONCEPT, p.value);
+  }, []);
 
   const setSortOption = useCallback((s: Prefix<'-', SortOption>) => {
     _setSortOption(s);
@@ -123,6 +156,8 @@ const WorkList = ({ ndlaId }: Props) => {
               setPage={setPage}
               setPrioritized={setPrioritized}
               prioritized={prioritized}
+              pageSize={pageSize}
+              setPageSize={setPageSize}
             />
           ),
         },
@@ -140,6 +175,8 @@ const WorkList = ({ ndlaId }: Props) => {
               setFilterSubject={setFilterConceptSubject}
               ndlaId={ndlaId}
               setPageConcept={setPageConcept}
+              pageSizeConcept={pageSizeConcept}
+              setPageSizeConcept={setPageSizeConcept}
             />
           ),
         },

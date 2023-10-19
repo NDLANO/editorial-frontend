@@ -94,30 +94,26 @@ export const useUserData = (options?: Partial<UseQueryOptions<IUserData | undefi
 
 export const useUpdateUserDataMutation = () => {
   const queryClient = useQueryClient();
-  return useMutation<IUserData, unknown, IUpdatedUserData, IUserData>(
-    (data) => {
-      return updateUserData(data);
+  return useMutation<IUserData, unknown, IUpdatedUserData, IUserData>({
+    mutationFn: (data) => updateUserData(data),
+    onMutate: async (newUserData) => {
+      const key = draftQueryKeys.userData;
+      await queryClient.cancelQueries({ queryKey: key });
+      const previousUserData = queryClient.getQueryData<IUserData>(key);
+      queryClient.setQueryData<IUserData>(key, {
+        ...previousUserData,
+        userId: previousUserData?.userId!,
+        ...newUserData,
+      });
+      return previousUserData;
     },
-    {
-      onMutate: async (newUserData) => {
-        const key = draftQueryKeys.userData;
-        await queryClient.cancelQueries({ queryKey: key });
-        const previousUserData = queryClient.getQueryData<IUserData>(key);
-        queryClient.setQueryData<IUserData>(key, {
-          ...previousUserData,
-          userId: previousUserData?.userId!,
-          ...newUserData,
-        });
-        return previousUserData;
-      },
-      onError: (_, __, previousUserData) => {
-        if (previousUserData) {
-          queryClient.setQueryData(draftQueryKeys.userData, previousUserData);
-        }
-      },
-      onSettled: () => queryClient.invalidateQueries({ queryKey: draftQueryKeys.userData }),
+    onError: (_, __, previousUserData) => {
+      if (previousUserData) {
+        queryClient.setQueryData(draftQueryKeys.userData, previousUserData);
+      }
     },
-  );
+    onSettled: () => queryClient.invalidateQueries({ queryKey: draftQueryKeys.userData }),
+  });
 };
 
 interface StatusStateMachineParams {

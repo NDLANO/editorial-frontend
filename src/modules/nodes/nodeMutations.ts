@@ -50,35 +50,33 @@ interface UseAddNodeMutation extends WithTaxonomyVersion {
 
 export const useAddNodeMutation = () => {
   const queryClient = useQueryClient();
-  return useMutation<string, undefined, UseAddNodeMutation>(
-    ({ body, taxonomyVersion }) => postNode({ body, taxonomyVersion }),
-    {
-      onMutate: async ({ body: newNode, taxonomyVersion }) => {
-        const key = nodeQueryKeys.nodes({ taxonomyVersion, isRoot: true });
-        await queryClient.cancelQueries({ queryKey: key });
-        const previousNodes = queryClient.getQueryData<Node[]>(key) ?? [];
-        const optimisticNode: Node = {
-          ...newNode,
-          name: newNode.name ?? '',
-          contentUri: newNode.contentUri ?? '',
-          id: newNode.nodeId ?? '',
-          path: '',
-          paths: [],
-          translations: [],
-          supportedLanguages: [],
-          resourceTypes: [],
-          contexts: [],
-          metadata: { visible: true, grepCodes: [], customFields: {} },
-          breadcrumbs: [],
-        };
-        queryClient.setQueryData<Node[]>(key, [...previousNodes, optimisticNode]);
-        return previousNodes;
-      },
-      onError: (e) => handleError(e),
-      onSettled: (_, __, { taxonomyVersion }) =>
-        queryClient.invalidateQueries({ queryKey: nodeQueryKeys.nodes({ taxonomyVersion }) }),
+  return useMutation<string, undefined, UseAddNodeMutation>({
+    mutationFn: ({ body, taxonomyVersion }) => postNode({ body, taxonomyVersion }),
+    onMutate: async ({ body: newNode, taxonomyVersion }) => {
+      const key = nodeQueryKeys.nodes({ taxonomyVersion, isRoot: true });
+      await queryClient.cancelQueries({ queryKey: key });
+      const previousNodes = queryClient.getQueryData<Node[]>(key) ?? [];
+      const optimisticNode: Node = {
+        ...newNode,
+        name: newNode.name ?? '',
+        contentUri: newNode.contentUri ?? '',
+        id: newNode.nodeId ?? '',
+        path: '',
+        paths: [],
+        translations: [],
+        supportedLanguages: [],
+        resourceTypes: [],
+        contexts: [],
+        metadata: { visible: true, grepCodes: [], customFields: {} },
+        breadcrumbs: [],
+      };
+      queryClient.setQueryData<Node[]>(key, [...previousNodes, optimisticNode]);
+      return previousNodes;
     },
-  );
+    onError: (e) => handleError(e),
+    onSettled: (_, __, { taxonomyVersion }) =>
+      queryClient.invalidateQueries({ queryKey: nodeQueryKeys.nodes({ taxonomyVersion }) }),
+  });
 };
 
 interface UseUpdateNodeMetadataMutation extends WithTaxonomyVersion {
@@ -90,49 +88,48 @@ interface UseUpdateNodeMetadataMutation extends WithTaxonomyVersion {
 export const useUpdateNodeMetadataMutation = () => {
   const qc = useQueryClient();
   const { i18n } = useTranslation();
-  return useMutation<Metadata, unknown, UseUpdateNodeMetadataMutation>(
-    ({ id, metadata, taxonomyVersion }) =>
+  return useMutation<Metadata, unknown, UseUpdateNodeMetadataMutation>({
+    mutationFn: ({ id, metadata, taxonomyVersion }) =>
       putNodeMetadata({ id: id, meta: metadata, taxonomyVersion }),
-    {
-      onMutate: async ({ id, metadata, rootId, taxonomyVersion }) => {
-        const key = rootId
-          ? nodeQueryKeys.childNodes({
-              taxonomyVersion,
-              id: rootId,
-              language: i18n.language,
-            })
-          : nodeQueryKeys.nodes({
-              isContext: true,
-              nodeType: 'SUBJECT',
-              language: i18n.language,
-              taxonomyVersion,
-            });
-        await qc.cancelQueries({ queryKey: key });
-        const prevNodes = qc.getQueryData<Node[]>(key) ?? [];
-        const newNodes = prevNodes.map((node) => {
-          if (node.id === id) {
-            return { ...node, metadata: { ...node.metadata, ...metadata } };
-          } else return node;
-        });
-        qc.setQueryData<Node[]>(key, newNodes);
-      },
-      onSettled: (_, __, { rootId, taxonomyVersion }) => {
-        const key = rootId
-          ? nodeQueryKeys.childNodes({
-              taxonomyVersion,
-              id: rootId,
-              language: i18n.language,
-            })
-          : nodeQueryKeys.nodes({
-              language: i18n.language,
-              nodeType: 'SUBJECT',
-              isContext: true,
-              taxonomyVersion,
-            });
-        qc.invalidateQueries({ queryKey: key });
-      },
+
+    onMutate: async ({ id, metadata, rootId, taxonomyVersion }) => {
+      const key = rootId
+        ? nodeQueryKeys.childNodes({
+            taxonomyVersion,
+            id: rootId,
+            language: i18n.language,
+          })
+        : nodeQueryKeys.nodes({
+            isContext: true,
+            nodeType: 'SUBJECT',
+            language: i18n.language,
+            taxonomyVersion,
+          });
+      await qc.cancelQueries({ queryKey: key });
+      const prevNodes = qc.getQueryData<Node[]>(key) ?? [];
+      const newNodes = prevNodes.map((node) => {
+        if (node.id === id) {
+          return { ...node, metadata: { ...node.metadata, ...metadata } };
+        } else return node;
+      });
+      qc.setQueryData<Node[]>(key, newNodes);
     },
-  );
+    onSettled: (_, __, { rootId, taxonomyVersion }) => {
+      const key = rootId
+        ? nodeQueryKeys.childNodes({
+            taxonomyVersion,
+            id: rootId,
+            language: i18n.language,
+          })
+        : nodeQueryKeys.nodes({
+            language: i18n.language,
+            nodeType: 'SUBJECT',
+            isContext: true,
+            taxonomyVersion,
+          });
+      qc.invalidateQueries({ queryKey: key });
+    },
+  });
 };
 
 interface UseDeleteNodeMutation extends WithTaxonomyVersion {
@@ -143,34 +140,32 @@ interface UseDeleteNodeMutation extends WithTaxonomyVersion {
 export const useDeleteNodeMutation = () => {
   const qc = useQueryClient();
   const { i18n } = useTranslation();
-  return useMutation<void, unknown, UseDeleteNodeMutation>(
-    ({ id, taxonomyVersion }) => deleteNode({ id, taxonomyVersion }),
-    {
-      onMutate: async ({ id, rootId, taxonomyVersion }) => {
-        const key = rootId
-          ? nodeQueryKeys.childNodes({
-              taxonomyVersion,
-              id: rootId,
-              language: i18n.language,
-            })
-          : nodeQueryKeys.nodes({ taxonomyVersion, isRoot: true });
-        await qc.cancelQueries({ queryKey: key });
-        const prevNodes = qc.getQueryData<Node[]>(key) ?? [];
-        const withoutDeleted = prevNodes.filter((s) => s.id !== id);
-        qc.setQueryData<Node[]>(key, withoutDeleted);
-      },
-      onSettled: (_, __, { rootId, taxonomyVersion }) => {
-        const key = rootId
-          ? nodeQueryKeys.childNodes({
-              taxonomyVersion,
-              id: rootId,
-              language: i18n.language,
-            })
-          : nodeQueryKeys.nodes({ taxonomyVersion, isRoot: true });
-        qc.invalidateQueries({ queryKey: key });
-      },
+  return useMutation<void, unknown, UseDeleteNodeMutation>({
+    mutationFn: ({ id, taxonomyVersion }) => deleteNode({ id, taxonomyVersion }),
+    onMutate: async ({ id, rootId, taxonomyVersion }) => {
+      const key = rootId
+        ? nodeQueryKeys.childNodes({
+            taxonomyVersion,
+            id: rootId,
+            language: i18n.language,
+          })
+        : nodeQueryKeys.nodes({ taxonomyVersion, isRoot: true });
+      await qc.cancelQueries({ queryKey: key });
+      const prevNodes = qc.getQueryData<Node[]>(key) ?? [];
+      const withoutDeleted = prevNodes.filter((s) => s.id !== id);
+      qc.setQueryData<Node[]>(key, withoutDeleted);
     },
-  );
+    onSettled: (_, __, { rootId, taxonomyVersion }) => {
+      const key = rootId
+        ? nodeQueryKeys.childNodes({
+            taxonomyVersion,
+            id: rootId,
+            language: i18n.language,
+          })
+        : nodeQueryKeys.nodes({ taxonomyVersion, isRoot: true });
+      qc.invalidateQueries({ queryKey: key });
+    },
+  });
 };
 
 interface UseDeleteNodeTranslationMutation extends WithTaxonomyVersion {
@@ -179,9 +174,10 @@ interface UseDeleteNodeTranslationMutation extends WithTaxonomyVersion {
 }
 
 export const useDeleteNodeTranslationMutation = () => {
-  return useMutation<void, unknown, UseDeleteNodeTranslationMutation>(
-    ({ id, language, taxonomyVersion }) => deleteNodeTranslation({ id, language, taxonomyVersion }),
-  );
+  return useMutation<void, unknown, UseDeleteNodeTranslationMutation>({
+    mutationFn: ({ id, language, taxonomyVersion }) =>
+      deleteNodeTranslation({ id, language, taxonomyVersion }),
+  });
 };
 
 interface UseUpdateNodeTranslationMutation extends WithTaxonomyVersion {
@@ -191,10 +187,10 @@ interface UseUpdateNodeTranslationMutation extends WithTaxonomyVersion {
 }
 
 export const useUpdateNodeTranslationMutation = () => {
-  return useMutation<void, unknown, UseUpdateNodeTranslationMutation>(
-    ({ taxonomyVersion, id, language, body }) =>
+  return useMutation<void, unknown, UseUpdateNodeTranslationMutation>({
+    mutationFn: ({ taxonomyVersion, id, language, body }) =>
       putNodeTranslation({ id, language, body, taxonomyVersion }),
-  );
+  });
 };
 
 interface UseDeleteNodeConnectionMutation extends WithTaxonomyVersion {
@@ -202,12 +198,12 @@ interface UseDeleteNodeConnectionMutation extends WithTaxonomyVersion {
 }
 
 export const useDeleteNodeConnectionMutation = (
-  options?: UseMutationOptions<void, unknown, UseDeleteNodeConnectionMutation>,
+  options?: Partial<UseMutationOptions<void, unknown, UseDeleteNodeConnectionMutation>>,
 ) => {
-  return useMutation<void, unknown, UseDeleteNodeConnectionMutation>(
-    ({ id, taxonomyVersion }) => deleteNodeConnection({ id, taxonomyVersion }),
-    options,
-  );
+  return useMutation<void, unknown, UseDeleteNodeConnectionMutation>({
+    mutationFn: ({ id, taxonomyVersion }) => deleteNodeConnection({ id, taxonomyVersion }),
+    ...options,
+  });
 };
 
 interface UseUpdateNodeConnectionMutation extends WithTaxonomyVersion {
@@ -216,24 +212,24 @@ interface UseUpdateNodeConnectionMutation extends WithTaxonomyVersion {
 }
 
 export const useUpdateNodeConnectionMutation = (
-  options?: UseMutationOptions<void, unknown, UseUpdateNodeConnectionMutation>,
+  options?: Partial<UseMutationOptions<void, unknown, UseUpdateNodeConnectionMutation>>,
 ) => {
-  return useMutation<void, unknown, UseUpdateNodeConnectionMutation>(
-    ({ id, body, taxonomyVersion }) => putNodeConnection({ id, body, taxonomyVersion }),
-    options,
-  );
+  return useMutation<void, unknown, UseUpdateNodeConnectionMutation>({
+    mutationFn: ({ id, body, taxonomyVersion }) => putNodeConnection({ id, body, taxonomyVersion }),
+    ...options,
+  });
 };
 
 interface UsePostNodeConnectionMutation extends WithTaxonomyVersion {
   body: NodeConnectionPOST;
 }
 export const usePostNodeConnectionMutation = (
-  options?: UseMutationOptions<string, unknown, UsePostNodeConnectionMutation>,
+  options?: Partial<UseMutationOptions<string, unknown, UsePostNodeConnectionMutation>>,
 ) => {
-  return useMutation<string, unknown, UsePostNodeConnectionMutation>(
-    ({ body, taxonomyVersion }) => postNodeConnection({ body, taxonomyVersion }),
-    options,
-  );
+  return useMutation<string, unknown, UsePostNodeConnectionMutation>({
+    mutationFn: ({ body, taxonomyVersion }) => postNodeConnection({ body, taxonomyVersion }),
+    ...options,
+  });
 };
 
 interface UsePostResourceForNodeMutation extends WithTaxonomyVersion {
@@ -241,21 +237,22 @@ interface UsePostResourceForNodeMutation extends WithTaxonomyVersion {
 }
 
 export const usePostResourceForNodeMutation = (
-  options?: UseMutationOptions<string, unknown, UsePostResourceForNodeMutation>,
+  options?: Partial<UseMutationOptions<string, unknown, UsePostResourceForNodeMutation>>,
 ) => {
-  return useMutation<string, unknown, UsePostResourceForNodeMutation>(
-    ({ body, taxonomyVersion }) => postResourceForNode({ body, taxonomyVersion }),
-    options,
-  );
+  return useMutation<string, unknown, UsePostResourceForNodeMutation>({
+    mutationFn: ({ body, taxonomyVersion }) => postResourceForNode({ body, taxonomyVersion }),
+    ...options,
+  });
 };
 
 export const useCreateResourceResourceTypeMutation = (
-  options?: UseMutationOptions<string, unknown, ResourceResourceTypePostParams>,
+  options?: Partial<UseMutationOptions<string, unknown, ResourceResourceTypePostParams>>,
 ) => {
-  return useMutation<string, unknown, ResourceResourceTypePostParams>(
-    ({ body, taxonomyVersion }) => createResourceResourceType({ body, taxonomyVersion }),
-    options,
-  );
+  return useMutation<string, unknown, ResourceResourceTypePostParams>({
+    mutationFn: ({ body, taxonomyVersion }) =>
+      createResourceResourceType({ body, taxonomyVersion }),
+    ...options,
+  });
 };
 
 interface UseDeleteResourceForNodeMutation extends WithTaxonomyVersion {
@@ -263,12 +260,12 @@ interface UseDeleteResourceForNodeMutation extends WithTaxonomyVersion {
 }
 
 export const useDeleteResourceForNodeMutation = (
-  options?: UseMutationOptions<void, unknown, UseDeleteResourceForNodeMutation>,
+  options?: Partial<UseMutationOptions<void, unknown, UseDeleteResourceForNodeMutation>>,
 ) => {
-  return useMutation<void, unknown, UseDeleteResourceForNodeMutation>(
-    ({ id, taxonomyVersion }) => deleteResourceForNode({ id, taxonomyVersion }),
-    options,
-  );
+  return useMutation<void, unknown, UseDeleteResourceForNodeMutation>({
+    mutationFn: ({ id, taxonomyVersion }) => deleteResourceForNode({ id, taxonomyVersion }),
+    ...options,
+  });
 };
 
 interface UsePutResourceForNodeMutation extends WithTaxonomyVersion {
@@ -277,12 +274,13 @@ interface UsePutResourceForNodeMutation extends WithTaxonomyVersion {
 }
 
 export const usePutResourceForNodeMutation = (
-  options?: UseMutationOptions<void, unknown, UsePutResourceForNodeMutation>,
+  options?: Partial<UseMutationOptions<void, unknown, UsePutResourceForNodeMutation>>,
 ) => {
-  return useMutation<void, unknown, UsePutResourceForNodeMutation>(
-    ({ id, body, taxonomyVersion }) => putResourceForNode({ id, body, taxonomyVersion }),
-    options,
-  );
+  return useMutation<void, unknown, UsePutResourceForNodeMutation>({
+    mutationFn: ({ id, body, taxonomyVersion }) =>
+      putResourceForNode({ id, body, taxonomyVersion }),
+    ...options,
+  });
 };
 
 interface UsePublishNodeMutation {
@@ -292,27 +290,30 @@ interface UsePublishNodeMutation {
 }
 
 export const usePublishNodeMutation = (
-  options?: UseMutationOptions<void, unknown, UsePublishNodeMutation>,
+  options?: Partial<UseMutationOptions<void, unknown, UsePublishNodeMutation>>,
 ) => {
-  return useMutation<void, unknown, UsePublishNodeMutation>(
-    ({ id, targetId, sourceId }) => publishNode({ id, targetId, sourceId }),
-    options,
-  );
+  return useMutation<void, unknown, UsePublishNodeMutation>({
+    mutationFn: ({ id, targetId, sourceId }) => publishNode({ id, targetId, sourceId }),
+    ...options,
+  });
 };
 
 type UsePutNodeMutation = PutNodeParams;
 
 export const usePutNodeMutation = (
-  options?: UseMutationOptions<void, unknown, UsePutNodeMutation>,
+  options?: Partial<UseMutationOptions<void, unknown, UsePutNodeMutation>>,
 ) => {
-  return useMutation<void, unknown, UsePutNodeMutation>((params) => putNode(params), options);
+  return useMutation<void, unknown, UsePutNodeMutation>({
+    mutationFn: (params) => putNode(params),
+    ...options,
+  });
 };
 
 export const usePutResourcesPrimaryMutation = (
-  options?: UseMutationOptions<void, unknown, PutResourcesPrimaryParams>,
+  options?: Partial<UseMutationOptions<void, unknown, PutResourcesPrimaryParams>>,
 ) => {
-  return useMutation<void, unknown, PutResourcesPrimaryParams>(
-    (params) => putResourcesPrimary(params),
-    options,
-  );
+  return useMutation<void, unknown, PutResourcesPrimaryParams>({
+    mutationFn: (params) => putResourcesPrimary(params),
+    ...options,
+  });
 };

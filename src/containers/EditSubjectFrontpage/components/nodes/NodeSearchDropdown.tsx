@@ -16,7 +16,7 @@ import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionPro
 
 interface Props {
   onChange: (t: any) => void;
-  selectedItems?: Node[];
+  selectedItems: Node[];
   wide?: boolean;
 }
 

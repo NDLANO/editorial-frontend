@@ -5,9 +5,10 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import { useState } from 'react';
 import { Formik, FormikProps } from 'formik';
+import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+
 import {
   ISubjectPageData,
   INewSubjectFrontPageData,
@@ -15,28 +16,31 @@ import {
 } from '@ndla/types-backend/frontpage-api';
 import { ILearningPathV2 } from '@ndla/types-backend/learningpath-api';
 import { IArticle } from '@ndla/types-backend/draft-api';
+import { Node } from '@ndla/types-taxonomy';
+
+import SubjectpageAccordionPanels from './SubjectpageAccordionPanels';
+import { AlertModalWrapper } from '../../FormikForm';
+import usePreventWindowUnload from '../../FormikForm/preventWindowUnloadHook';
+import { useMessages } from '../../Messages/MessagesProvider';
+import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
+import validateFormik, { RulesType } from '../../../components/formikValidationSchema';
 import Field from '../../../components/Field';
 import SimpleLanguageHeader from '../../../components/HeaderWithLanguage/SimpleLanguageHeader';
-import { AlertModalWrapper } from '../../FormikForm';
-import validateFormik, { RulesType } from '../../../components/formikValidationSchema';
-import { isFormikFormDirty } from '../../../util/formHelper';
-import { toEditSubjectpage } from '../../../util/routeHelpers';
-import usePreventWindowUnload from '../../FormikForm/preventWindowUnloadHook';
-import SubjectpageAccordionPanels from './SubjectpageAccordionPanels';
 import SaveButton from '../../../components/SaveButton';
+import { isSlateEmbed } from '../../../components/SlateEditor/plugins/embed/utils';
+import StyledForm from '../../../components/StyledFormComponents';
+import { SAVE_BUTTON_ID } from '../../../constants';
+import { fetchNodes } from '../../../modules/nodes/nodeApi';
+import { useSearchNodes } from '../../../modules/nodes/nodeQueries';
+import { isFormikFormDirty } from '../../../util/formHelper';
+import { NdlaErrorPayload } from '../../../util/resolveJsonOrRejectWithError';
+import { toEditSubjectpage } from '../../../util/routeHelpers';
 import {
   subjectpageApiTypeToFormikType,
   SubjectPageFormikType,
   subjectpageFormikTypeToPatchType,
   subjectpageFormikTypeToPostType,
 } from '../../../util/subjectHelpers';
-import { useMessages } from '../../Messages/MessagesProvider';
-import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
-import StyledForm from '../../../components/StyledFormComponents';
-import { NdlaErrorPayload } from '../../../util/resolveJsonOrRejectWithError';
-import { isSlateEmbed } from '../../../components/SlateEditor/plugins/embed/utils';
-import { fetchNodes } from '../../../modules/nodes/nodeApi';
-import { SAVE_BUTTON_ID } from '../../../constants';
 
 interface Props {
   subjectpage?: ISubjectPageData;
@@ -107,6 +111,28 @@ const SubjectpageForm = ({
   const [unsaved, setUnsaved] = useState(false);
   usePreventWindowUnload(unsaved);
 
+  const subjectsLinks = (subjectpage?.buildsOn ?? [])
+    .concat(subjectpage?.connectedTo ?? [])
+    .concat(subjectpage?.leadsTo ?? []);
+
+  const { data: nodeData } = useSearchNodes(
+    {
+      page: 1,
+      taxonomyVersion: 'default',
+      nodeType: 'SUBJECT',
+      pageSize: subjectsLinks.length,
+      ids: subjectsLinks,
+    },
+    { enabled: subjectsLinks.length > 0 },
+  );
+
+  const subjectLinks = useMemo(() => {
+    if (nodeData && nodeData.results.length > 0) {
+      return nodeData.results;
+    }
+    return null;
+  }, [nodeData]);
+
   const fetchTaxonomyUrns = async (choices: (IArticle | ILearningPathV2)[], language: string) => {
     const fetched = await Promise.all(
       choices.map((choice) => {
@@ -164,6 +190,17 @@ const SubjectpageForm = ({
 
   const initialErrors = validateFormik(initialValues, subjectpageRules, t);
 
+  const transformToNodes = (list: string[]) => {
+    const nodeList: Node[] = [];
+    for (var i in list) {
+      const nodeFound = subjectLinks?.find((value) => value.id === list[i]);
+      if (nodeFound) {
+        nodeList.push(nodeFound);
+      }
+    }
+    return nodeList;
+  };
+
   return (
     <Formik
       initialValues={initialValues}
@@ -174,7 +211,6 @@ const SubjectpageForm = ({
     >
       {(formik: FormikProps<SubjectPageFormikType>) => {
         const { values, dirty, isSubmitting, errors, isValid } = formik;
-
         const formIsDirty: boolean = isFormikFormDirty({
           values,
           initialValues,
@@ -193,12 +229,12 @@ const SubjectpageForm = ({
               title={values.name ?? ''}
             />
             <SubjectpageAccordionPanels
-              buildsOn={values.buildsOn}
-              connectedTo={values.connectedTo}
+              buildsOn={transformToNodes(values.buildsOn)}
+              connectedTo={transformToNodes(values.connectedTo)}
               editorsChoices={values.editorsChoices}
               elementId={values.elementId!}
               errors={errors}
-              leadsTo={values.leadsTo}
+              leadsTo={transformToNodes(values.leadsTo)}
             />
             <Field right>
               <SaveButton

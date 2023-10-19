@@ -5,12 +5,13 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { FormikErrors } from 'formik';
+import { useTranslation } from 'react-i18next';
+
 import { IArticle } from '@ndla/types-backend/draft-api';
 import { ILearningPathV2 } from '@ndla/types-backend/learningpath-api';
 import { Node } from '@ndla/types-taxonomy';
+
 import SubjectpageAbout from './SubjectpageAbout';
 import SubjectpageMetadata from './SubjectpageMetadata';
 import SubjectpageArticles from './SubjectpageArticles';
@@ -19,15 +20,14 @@ import FormikField from '../../../components/FormikField';
 import { SubjectPageFormikType } from '../../../util/subjectHelpers';
 import FormAccordions from '../../../components/Accordion/FormAccordions';
 import FormAccordion from '../../../components/Accordion/FormAccordion';
-import { useSearchNodes } from '../../../modules/nodes/nodeQueries';
 
 interface Props {
-  buildsOn: string[];
-  connectedTo: string[];
+  buildsOn: Node[];
+  connectedTo: Node[];
   editorsChoices: (IArticle | ILearningPathV2)[];
   elementId: string;
   errors: FormikErrors<SubjectPageFormikType>;
-  leadsTo: string[];
+  leadsTo: Node[];
 }
 
 const SubjectpageAccordionPanels = ({
@@ -39,25 +39,6 @@ const SubjectpageAccordionPanels = ({
   leadsTo,
 }: Props) => {
   const { t } = useTranslation();
-  const [initSubjects, setInitSubejcts] = useState<null | Node[]>(null);
-  const subjectsLinks = buildsOn.concat(connectedTo).concat(leadsTo);
-
-  const { data } = useSearchNodes(
-    {
-      page: 1,
-      taxonomyVersion: 'default',
-      nodeType: 'SUBJECT',
-      pageSize: subjectsLinks.length,
-      ids: subjectsLinks,
-    },
-    { enabled: subjectsLinks.length > 0 && initSubjects === null },
-  );
-
-  useEffect(() => {
-    if (data && data.results.length > 0) {
-      setInitSubejcts(data.results);
-    }
-  }, [data]);
 
   const SubjectPageArticle = () => (
     <SubjectpageArticles
@@ -93,18 +74,9 @@ const SubjectpageAccordionPanels = ({
         className="u-6/6"
         hasError={['connectedTo', 'buildsOn', 'leadsTo'].some((field) => field in errors)}
       >
-        <SubjectpageSubjectlinks
-          subjects={(initSubjects ?? []).filter((subject) => connectedTo.includes(subject.id))}
-          fieldName={'connectedTo'}
-        />
-        <SubjectpageSubjectlinks
-          subjects={(initSubjects ?? []).filter((subject) => buildsOn.includes(subject.id))}
-          fieldName={'buildsOn'}
-        />
-        <SubjectpageSubjectlinks
-          subjects={(initSubjects ?? []).filter((subject) => leadsTo.includes(subject.id))}
-          fieldName={'leadsTo'}
-        />
+        <SubjectpageSubjectlinks subjects={connectedTo} fieldName={'connectedTo'} />
+        <SubjectpageSubjectlinks subjects={buildsOn} fieldName={'buildsOn'} />
+        <SubjectpageSubjectlinks subjects={leadsTo} fieldName={'leadsTo'} />
       </FormAccordion>
       <FormAccordion
         id="articles"

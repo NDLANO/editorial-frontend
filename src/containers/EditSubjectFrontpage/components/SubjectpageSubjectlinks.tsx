@@ -13,7 +13,6 @@ import { FieldHeader } from '@ndla/forms';
 import { Node } from '@ndla/types-taxonomy';
 
 import { NodeList, NodeSearchDropdown } from './nodes';
-import { useSearchNodes } from '../../../modules/nodes/nodeQueries';
 
 interface Props {
   subjects: Node[];
@@ -29,14 +28,13 @@ const SubjectpageSubjectlinks = ({ subjects, fieldName }: Props) => {
     setSubjectList(subjects);
   }, [subjects]);
 
-  const handleDeleteFromList = (id: string) => {
-    const updatedList = subjectList.filter((item) => item.id !== id);
+  const handleAddToList = (node: Node) => {
+    const updatedList = [...subjectList, node];
     setSubjectList(updatedList);
     updateFormik(updatedList.map((subject) => subject.id));
   };
 
-  const handleAddToList = (node: Node) => {
-    const updatedList = [...subjectList, node];
+  const onUpdateNodes = (updatedList: Node[]) => {
     setSubjectList(updatedList);
     updateFormik(updatedList.map((subject) => subject.id));
   };
@@ -54,7 +52,7 @@ const SubjectpageSubjectlinks = ({ subjects, fieldName }: Props) => {
   return (
     <>
       <FieldHeader title={t(`subjectpageForm.${fieldName}`)} />
-      <NodeList nodes={subjectList} nodeSet={fieldName} onDelete={handleDeleteFromList} />
+      <NodeList nodes={subjectList} nodeSet={fieldName} onUpdate={onUpdateNodes} />
       <NodeSearchDropdown selectedItems={subjectList} onChange={handleAddToList} />
     </>
   );

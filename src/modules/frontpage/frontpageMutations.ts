@@ -14,6 +14,6 @@ import { frontpageQueryKeys } from './frontpageQueries';
 export const useUpdateFrontpageMutation = () => {
   const qc = useQueryClient();
   return useMutation<IFrontPage, unknown, IFrontPage>(postFrontpage, {
-    onSettled: () => qc.invalidateQueries(frontpageQueryKeys.frontpage),
+    onSettled: () => qc.invalidateQueries({ queryKey: frontpageQueryKeys.frontpage }),
   });
 };

@@ -112,12 +112,12 @@ const MoveExistingNode = ({
       });
 
       // Invalidate all childNode-queries, since we don't know where the added node is from
-      qc.invalidateQueries(
-        nodeQueryKeys.childNodes({
+      qc.invalidateQueries({
+        queryKey: nodeQueryKeys.childNodes({
           taxonomyVersion,
           language: i18n.language,
         }),
-      );
+      });
       setSuccess(true);
     } catch (e) {
       setError('taxonomy.errorMessage');

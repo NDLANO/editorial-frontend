@@ -93,13 +93,13 @@ const SwapTopicArticle = ({
         contentUri: `urn:article:${topic.id}`,
         taxonomyVersion,
       });
-      qc.invalidateQueries(
-        nodeQueryKeys.childNodes({
+      qc.invalidateQueries({
+        queryKey: nodeQueryKeys.childNodes({
           taxonomyVersion,
           language: i18n.language,
           id: rootNodeId,
         }),
-      );
+      });
       const draft = await fetchDraft(topic.id, i18n.language);
       await updateDraft(
         draft.id,

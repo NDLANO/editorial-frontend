@@ -57,7 +57,7 @@ const DeletePublishRequests = ({ nodes }: Props) => {
         await mutateAsync({ id, metadata: newMeta, taxonomyVersion: 'default' });
       });
       await Promise.all(promises);
-      qc.invalidateQueries(queryKey);
+      qc.invalidateQueries({ queryKey: queryKey });
       qc.setQueryData(queryKey, []);
     },
     [mutateAsync, qc],

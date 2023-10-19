@@ -98,12 +98,12 @@ const ConnectExistingNode = ({
       },
       {
         onSuccess: () => {
-          qc.invalidateQueries(
-            nodeQueryKeys.childNodes({
+          qc.invalidateQueries({
+            queryKey: nodeQueryKeys.childNodes({
               taxonomyVersion,
               language: i18n.language,
             }),
-          );
+          });
           setSuccess(true);
           setLoading(false);
         },

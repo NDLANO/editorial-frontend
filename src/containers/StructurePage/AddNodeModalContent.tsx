@@ -49,7 +49,7 @@ const AddNodeModalContent = ({ onClose, nodeType, rootId, parentNode }: Props) =
   const compkey = nodeQueryKeys.childNodes({ id: rootId });
   const addNodeToParentMutation = usePostNodeConnectionMutation({
     onSuccess: (_) => {
-      qc.invalidateQueries(compkey);
+      qc.invalidateQueries({ queryKey: compkey });
     },
   });
   const { taxonomyVersion } = useTaxonomyVersion();

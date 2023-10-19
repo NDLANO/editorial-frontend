@@ -130,7 +130,7 @@ const Resource = ({
   });
 
   const onUpdateConnection = async (id: string, { relevanceId }: NodeConnectionPUT) => {
-    await qc.cancelQueries(compKey);
+    await qc.cancelQueries({ queryKey: compKey });
     const resources = qc.getQueryData<NodeChild[]>(compKey) ?? [];
     if (relevanceId) {
       const newResources = resources.map((res) => {
@@ -145,11 +145,11 @@ const Resource = ({
 
   const { mutateAsync: updateNodeConnection } = useUpdateNodeConnectionMutation({
     onMutate: async ({ id, body }) => onUpdateConnection(id, body),
-    onSettled: () => qc.invalidateQueries(compKey),
+    onSettled: () => qc.invalidateQueries({ queryKey: compKey }),
   });
   const { mutateAsync: updateResourceConnection } = usePutResourceForNodeMutation({
     onMutate: async ({ id, body }) => onUpdateConnection(id, body),
-    onSettled: () => qc.invalidateQueries(compKey),
+    onSettled: () => qc.invalidateQueries({ queryKey: compKey }),
   });
 
   const contentType =

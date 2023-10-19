@@ -135,7 +135,7 @@ const PublishChildNodeResources = ({ node }: Props) => {
         ),
     );
     await Promise.all([...draftPromises, ...learningpathPromises]);
-    await qc.invalidateQueries([RESOURCE_META, {}]);
+    await qc.invalidateQueries({ queryKey: [RESOURCE_META, {}] });
     setDone(true);
   };
 

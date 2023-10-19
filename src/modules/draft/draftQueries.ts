@@ -95,7 +95,7 @@ export const useUpdateUserDataMutation = () => {
     {
       onMutate: async (newUserData) => {
         const key = draftQueryKeys.userData;
-        await queryClient.cancelQueries(key);
+        await queryClient.cancelQueries({ queryKey: key });
         const previousUserData = queryClient.getQueryData<IUserData>(key);
         queryClient.setQueryData<IUserData>(key, {
           ...previousUserData,
@@ -109,7 +109,7 @@ export const useUpdateUserDataMutation = () => {
           queryClient.setQueryData(draftQueryKeys.userData, previousUserData);
         }
       },
-      onSettled: () => queryClient.invalidateQueries(draftQueryKeys.userData),
+      onSettled: () => queryClient.invalidateQueries({ queryKey: draftQueryKeys.userData }),
     },
   );
 };

@@ -57,12 +57,12 @@ const DisconnectFromParent = ({
         },
         {
           onSuccess: () => {
-            qc.invalidateQueries(
-              nodeQueryKeys.childNodes({
+            qc.invalidateQueries({
+              queryKey: nodeQueryKeys.childNodes({
                 taxonomyVersion,
                 language: i18n.language,
               }),
-            );
+            });
             navigate(location.pathname.split(node.id)[0], { replace: true });
             onCurrentNodeChanged(undefined);
           },

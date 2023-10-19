@@ -292,14 +292,14 @@ const LearningResourceTaxonomy = ({
         taxonomyVersion,
       });
       await updateNotes({ revision: article.revision, notes: ['Oppdatert taksonomi.'] });
-      await qc.invalidateQueries(
-        nodeQueryKeys.nodes({
+      await qc.invalidateQueries({
+        queryKey: nodeQueryKeys.nodes({
           contentURI: `urn:article:${article.id}`,
           taxonomyVersion,
           language: articleLanguage,
           includeContexts: true,
         }),
-      );
+      });
       setIsSaving(false);
     },
     [

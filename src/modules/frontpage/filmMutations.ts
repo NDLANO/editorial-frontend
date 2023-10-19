@@ -26,7 +26,7 @@ export const useUpdateFilmFrontpageMutation = () => {
           queryClient.setQueryData(filmQueryKeys.filmFrontpage, previousFrontpage);
         }
       },
-      onSettled: () => queryClient.invalidateQueries(filmQueryKeys.filmFrontpage),
+      onSettled: () => queryClient.invalidateQueries({ queryKey: filmQueryKeys.filmFrontpage }),
     },
   );
 };

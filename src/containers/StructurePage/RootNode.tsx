@@ -63,7 +63,7 @@ const RootNode = ({
   const qc = useQueryClient();
 
   const onUpdateRank = async (id: string, newRank: number) => {
-    await qc.cancelQueries(compKey);
+    await qc.cancelQueries({ queryKey: compKey });
     const prevData = qc.getQueryData<NodeChild[]>(compKey);
     const [toUpdate, other] = partition(prevData, (t) => t.connectionId === id);
     const updatedNode: NodeChild = { ...toUpdate[0], rank: newRank };
@@ -75,7 +75,7 @@ const RootNode = ({
 
   const { mutateAsync: updateNodeConnection } = useUpdateNodeConnectionMutation({
     onMutate: ({ id, body }) => onUpdateRank(id, body.rank!),
-    onSettled: () => qc.invalidateQueries(compKey),
+    onSettled: () => qc.invalidateQueries({ queryKey: compKey }),
   });
 
   const onDragEnd = async ({ active, over }: DragEndEvent, nodes: NodeChild[]) => {

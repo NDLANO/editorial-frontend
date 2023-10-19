@@ -188,22 +188,22 @@ const TopicArticleTaxonomy = ({ article, updateNotes, articleLanguage, hasTaxEnt
         language: article.title?.language,
         notes: ['Oppdatert taksonomi.'],
       });
-      await qc.invalidateQueries(
-        nodeQueryKeys.nodes({
+      await qc.invalidateQueries({
+        queryKey: nodeQueryKeys.nodes({
           contentURI: `urn:article:${article.id}`,
           taxonomyVersion,
           language: articleLanguage,
           includeContexts: true,
         }),
-      );
+      });
       setIsSaving(false);
-      qc.invalidateQueries(
-        nodeQueryKeys.nodes({
+      qc.invalidateQueries({
+        queryKey: nodeQueryKeys.nodes({
           language: articleLanguage,
           taxonomyVersion,
           nodeType: 'SUBJECT',
         }),
-      );
+      });
     } catch (err) {
       handleError(err);
       setStatus('error');

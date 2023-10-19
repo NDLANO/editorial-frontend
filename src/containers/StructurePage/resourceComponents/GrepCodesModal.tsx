@@ -115,9 +115,9 @@ const GrepCodeContent = ({
         { id: draftId, body: { grepCodes, revision } },
         {
           onSuccess: (data) => {
-            qc.cancelQueries(key);
+            qc.cancelQueries({ queryKey: key });
             qc.setQueryData<IArticle>(key, data);
-            qc.invalidateQueries(key);
+            qc.invalidateQueries({ queryKey: key });
             qc.setQueriesData<NodeResourceMeta[]>(
               { queryKey: nodeKey },
               (data) =>

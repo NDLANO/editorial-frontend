@@ -192,19 +192,25 @@ const ChangeNodeNameContent = ({ onClose, node, nodeType = 'SUBJECT' }: ModalPro
       console.error(e);
       handleError(e);
       setUpdateError(t('taxonomy.changeName.updateError'));
-      await qc.invalidateQueries(nodeQueryKeys.nodes({ nodeType: nodeType, taxonomyVersion }));
-      await qc.invalidateQueries(
-        nodeQueryKeys.node({ id, language: BOGUS_LANGUAGE, taxonomyVersion }),
-      );
+      await qc.invalidateQueries({
+        queryKey: nodeQueryKeys.nodes({ nodeType: nodeType, taxonomyVersion }),
+      });
+
+      await qc.invalidateQueries({
+        queryKey: nodeQueryKeys.node({ id, language: BOGUS_LANGUAGE, taxonomyVersion }),
+      });
       formik.setSubmitting(false);
       return;
     }
 
     if (promises.length > 0) {
-      await qc.invalidateQueries(nodeQueryKeys.nodes({ nodeType: nodeType, taxonomyVersion }));
-      await qc.invalidateQueries(
-        nodeQueryKeys.node({ id, language: BOGUS_LANGUAGE, taxonomyVersion }),
-      );
+      await qc.invalidateQueries({
+        queryKey: nodeQueryKeys.nodes({ nodeType: nodeType, taxonomyVersion }),
+      });
+
+      await qc.invalidateQueries({
+        queryKey: nodeQueryKeys.node({ id, language: BOGUS_LANGUAGE, taxonomyVersion }),
+      });
     }
     formik.resetForm({ values: formik.values, isSubmitting: false });
     setSaved(true);

@@ -159,13 +159,13 @@ const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
   const { mutateAsync: createNodeResource, isLoading: postResourceLoading } =
     usePostResourceForNodeMutation({
       onSuccess: (_) => {
-        qc.invalidateQueries(compKey);
-        qc.invalidateQueries(compKeyChildNodes);
+        qc.invalidateQueries({ queryKey: compKey });
+        qc.invalidateQueries({ queryKey: compKeyChildNodes });
       },
     });
   const { mutateAsync: createResourceResourceType, isLoading: createResourceTypeLoading } =
     useCreateResourceResourceTypeMutation({
-      onSuccess: (_) => qc.invalidateQueries(compKey),
+      onSuccess: (_) => qc.invalidateQueries({ queryKey: compKey }),
     });
   const initialValues = useMemo(() => toInitialValues(ndlaId, articleType), [ndlaId, articleType]);
   const isTopicArticle = articleType === 'topic-article';

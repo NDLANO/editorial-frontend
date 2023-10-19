@@ -55,7 +55,7 @@ export const useAddNodeMutation = () => {
     {
       onMutate: async ({ body: newNode, taxonomyVersion }) => {
         const key = nodeQueryKeys.nodes({ taxonomyVersion, isRoot: true });
-        await queryClient.cancelQueries(key);
+        await queryClient.cancelQueries({ queryKey: key });
         const previousNodes = queryClient.getQueryData<Node[]>(key) ?? [];
         const optimisticNode: Node = {
           ...newNode,
@@ -76,7 +76,7 @@ export const useAddNodeMutation = () => {
       },
       onError: (e) => handleError(e),
       onSettled: (_, __, { taxonomyVersion }) =>
-        queryClient.invalidateQueries(nodeQueryKeys.nodes({ taxonomyVersion })),
+        queryClient.invalidateQueries({ queryKey: nodeQueryKeys.nodes({ taxonomyVersion }) }),
     },
   );
 };
@@ -107,7 +107,7 @@ export const useUpdateNodeMetadataMutation = () => {
               language: i18n.language,
               taxonomyVersion,
             });
-        await qc.cancelQueries(key);
+        await qc.cancelQueries({ queryKey: key });
         const prevNodes = qc.getQueryData<Node[]>(key) ?? [];
         const newNodes = prevNodes.map((node) => {
           if (node.id === id) {
@@ -129,7 +129,7 @@ export const useUpdateNodeMetadataMutation = () => {
               isContext: true,
               taxonomyVersion,
             });
-        qc.invalidateQueries(key);
+        qc.invalidateQueries({ queryKey: key });
       },
     },
   );
@@ -154,7 +154,7 @@ export const useDeleteNodeMutation = () => {
               language: i18n.language,
             })
           : nodeQueryKeys.nodes({ taxonomyVersion, isRoot: true });
-        await qc.cancelQueries(key);
+        await qc.cancelQueries({ queryKey: key });
         const prevNodes = qc.getQueryData<Node[]>(key) ?? [];
         const withoutDeleted = prevNodes.filter((s) => s.id !== id);
         qc.setQueryData<Node[]>(key, withoutDeleted);
@@ -167,7 +167,7 @@ export const useDeleteNodeMutation = () => {
               language: i18n.language,
             })
           : nodeQueryKeys.nodes({ taxonomyVersion, isRoot: true });
-        qc.invalidateQueries(key);
+        qc.invalidateQueries({ queryKey: key });
       },
     },
   );

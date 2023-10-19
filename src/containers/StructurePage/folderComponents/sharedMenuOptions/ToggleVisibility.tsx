@@ -64,7 +64,7 @@ const ToggleVisibility = ({
         rootId: rootNodeId !== node.id ? rootNodeId : undefined,
         taxonomyVersion,
       },
-      { onSuccess: () => qc.invalidateQueries(compKey) },
+      { onSuccess: () => qc.invalidateQueries({ queryKey: compKey }) },
     );
     setVisible(!visible);
   };

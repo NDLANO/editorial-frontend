@@ -87,7 +87,9 @@ const NodeDiffcontainer = ({ originalHash, otherHash, nodeId }: Props) => {
 
   const publishNodeMutation = usePublishNodeMutation({
     onSettled: () =>
-      qc.invalidateQueries(nodeQueryKeys.tree({ id: nodeId, taxonomyVersion: originalHash })),
+      qc.invalidateQueries({
+        queryKey: nodeQueryKeys.tree({ id: nodeId, taxonomyVersion: originalHash }),
+      }),
   });
 
   useEffect(() => {

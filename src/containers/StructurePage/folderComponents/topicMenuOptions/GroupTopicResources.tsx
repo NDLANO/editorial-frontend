@@ -60,7 +60,7 @@ const GroupTopicResources = ({ node, hideIcon, onChanged }: Props) => {
         taxonomyVersion,
       },
       {
-        onSettled: () => qc.invalidateQueries(compKey),
+        onSettled: () => qc.invalidateQueries({ queryKey: compKey }),
         onSuccess: () => onChanged?.({ customFields }),
       },
     );

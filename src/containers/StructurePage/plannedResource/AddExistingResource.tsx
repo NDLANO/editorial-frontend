@@ -104,7 +104,7 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
   const { taxonomyVersion } = useTaxonomyVersion();
   const compKey = nodeQueryKeys.resources({ id: nodeId, language: i18n.language });
   const { mutateAsync: createNodeResource } = usePostResourceForNodeMutation({
-    onSuccess: (_) => qc.invalidateQueries(compKey),
+    onSuccess: (_) => qc.invalidateQueries({ queryKey: compKey }),
   });
   const { data: articleSearchData } = useNodes({
     contentURI: `urn:article:${articleInputId}`,

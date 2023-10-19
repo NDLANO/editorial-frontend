@@ -115,7 +115,9 @@ const CopyNodeResources = ({
     const action = type === 'cloneResources' ? clone : copy;
     await Promise.all(resources.map(async (res) => await doAction(res, action)));
     setDone(true);
-    qc.invalidateQueries(nodeQueryKeys.resources({ id: currentNode.id, taxonomyVersion }));
+    qc.invalidateQueries({
+      queryKey: nodeQueryKeys.resources({ id: currentNode.id, taxonomyVersion }),
+    });
   };
 
   const doAction = async (res: NodeChild, action: (res: NodeChild) => Promise<string>) => {

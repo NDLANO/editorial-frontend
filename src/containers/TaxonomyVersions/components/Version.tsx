@@ -113,12 +113,12 @@ const Version = ({ version }: Props) => {
   const deleteVersionMutation = useDeleteVersionMutation({
     onMutate: async ({ id }) => {
       setError(undefined);
-      await qc.cancelQueries(key);
+      await qc.cancelQueries({ queryKey: key });
       const existingVersions = qc.getQueryData<TaxVersion[]>(key) ?? [];
       const withoutDeleted = existingVersions.filter((version) => version.id !== id);
       qc.setQueryData<TaxVersion[]>(key, withoutDeleted);
     },
-    onSuccess: () => qc.invalidateQueries(key),
+    onSuccess: () => qc.invalidateQueries({ queryKey: key }),
     onError: () => setError(t('taxonomyVersions.deleteError')),
   });
 

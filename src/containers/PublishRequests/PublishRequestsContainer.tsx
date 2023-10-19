@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { spacing, colors, fonts } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
 import { OneColumn } from '@ndla/ui';
-import { Fragment, useMemo, useState } from 'react';
+import { Fragment, useEffect, useMemo, useState } from 'react';
 import sortBy from 'lodash/sortBy';
 import { useTranslation } from 'react-i18next';
 import isBefore from 'date-fns/isBefore';
@@ -84,16 +84,13 @@ const PublishRequestsContainer = () => {
     [nodesQuery],
   );
 
-  const versionsQuery = useVersions(
-    {},
-    {
-      onSuccess: (data) => {
-        if (!data[0]) {
-          setError('publishRequests.errors.noVersions');
-        }
-      },
-    },
-  );
+  const versionsQuery = useVersions();
+
+  useEffect(() => {
+    if (versionsQuery.isSuccess && versionsQuery.data?.length === 0) {
+      setError('publishRequests.errors.noVersions');
+    }
+  }, [versionsQuery.data?.length, versionsQuery.isSuccess]);
 
   const publishedVersion = versionsQuery.data?.filter((v) => v.versionType === 'PUBLISHED')?.[0];
   const betaVersions = versionsQuery.data

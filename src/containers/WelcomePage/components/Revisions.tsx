@@ -61,7 +61,6 @@ const Revisions = ({ userData }: Props) => {
     (localStorage.getItem(STORED_SORT_OPTION_REVISION) as Prefix<'-', SortOptionRevision>) ||
       'revisionDate',
   );
-  const [error, setError] = useState<string | undefined>(undefined);
   const [page, setPage] = useState(1);
   const [checked, setChecked] = useState(false);
 
@@ -80,7 +79,7 @@ const Revisions = ({ userData }: Props) => {
 
   const currentDateAddYear = formatDateForBackend(addYears(new Date(), 1));
 
-  const { data, isInitialLoading } = useSearch(
+  const { data, isInitialLoading, isError } = useSearch(
     {
       subjects: filterSubject ? filterSubject.value : userData?.favoriteSubjects?.join(','),
       'revision-date-to': currentDateAddYear,
@@ -94,10 +93,14 @@ const Revisions = ({ userData }: Props) => {
     },
     {
       enabled: !!userData?.favoriteSubjects?.length,
-      onError: () => setError(t('welcomePage.errorMessage')),
-      onSuccess: () => setError(undefined),
     },
   );
+
+  const error = useMemo(() => {
+    if (isError) {
+      return t('welcomePage.errorMessage');
+    }
+  }, [t, isError]);
 
   const { data: subjectData, isInitialLoading: isInitialLoadingSubjects } = useSearchNodes(
     {

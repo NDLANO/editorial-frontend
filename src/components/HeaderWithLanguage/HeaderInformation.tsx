@@ -112,6 +112,7 @@ interface Props {
   expirationDate?: string;
   responsibleId?: string;
   hasRSS?: boolean;
+  slug?: string;
 }
 
 const HeaderInformation = ({
@@ -129,6 +130,7 @@ const HeaderInformation = ({
   responsibleId,
   hasRSS,
   language,
+  slug,
 }: Props) => {
   const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
@@ -184,6 +186,7 @@ const HeaderInformation = ({
         statusText={statusText}
         isNewLanguage={isNewLanguage}
         published={published}
+        slug={slug}
         multipleTaxonomy={multipleTaxonomy}
         type={type}
         id={id}

@@ -140,7 +140,7 @@
     "@radix-ui/react-popover": "^1.0.3",
     "@radix-ui/react-portal": "^1.0.3",
     "@tanstack/react-query": "4.24.6",
-    "auth0-js": "^9.13.2",
+    "auth0-js": "^9.22.1",
     "body-parser": "^1.19.0",
     "buffer": "^6.0.3",
     "bunyan": "^1.8.13",

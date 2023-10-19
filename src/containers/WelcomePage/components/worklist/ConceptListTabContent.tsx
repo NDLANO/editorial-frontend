@@ -18,10 +18,10 @@ import formatDate from '../../../../util/formatDate';
 import { toEditConcept, toEditGloss } from '../../../../util/routeHelpers';
 import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
 import {
-  ControlWrapperDashboard,
   DropdownWrapper,
   StyledLink,
   StyledTopRowDashboardInfo,
+  TopRowControls,
 } from '../../styles';
 import GoToSearch from '../GoToSearch';
 import TableComponent, { FieldElement, Prefix, TitleElement } from '../TableComponent';
@@ -173,7 +173,7 @@ const ConceptListTabContent = ({
           description={t('welcomePage.workList.conceptDescription')}
           Icon={Calendar}
         />
-        <ControlWrapperDashboard>
+        <TopRowControls>
           <DropdownWrapper>
             <PageSizeDropdown pageSize={pageSizeConcept} setPageSize={setPageSizeConcept} />
           </DropdownWrapper>
@@ -194,7 +194,7 @@ const ConceptListTabContent = ({
             />
           </DropdownWrapper>
           <GoToSearch ndlaId={ndlaId} filterSubject={filterSubject?.value} searchEnv={'concept'} />
-        </ControlWrapperDashboard>
+        </TopRowControls>
       </StyledTopRowDashboardInfo>
       <TableComponent
         isLoading={isLoading}

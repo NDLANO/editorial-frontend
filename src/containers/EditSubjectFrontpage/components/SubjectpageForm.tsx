@@ -192,7 +192,7 @@ const SubjectpageForm = ({
 
   const transformToNodes = (list: string[]) => {
     const nodeList: Node[] = [];
-    for (var i in list) {
+    for (const i in list) {
       const nodeFound = subjectLinks?.find((value) => value.id === list[i]);
       if (nodeFound) {
         nodeList.push(nodeFound);

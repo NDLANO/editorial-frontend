@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 
 import { Node } from '@ndla/types-taxonomy';
 
-import SearchDropdown from './SearchDropdown';
+import SearchDropdown from '../../../StructurePage/folderComponents/sharedMenuOptions/components/SearchDropdown';
 import { useSearchNodes } from '../../../../modules/nodes/nodeQueries';
 import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
 
@@ -45,6 +45,8 @@ const NodeSearchDropdown = ({ onChange, selectedItems, wide }: Props) => {
         };
       }}
       wide={wide}
+      positionAbsolute={false}
+      isMultiSelect
     />
   );
 };

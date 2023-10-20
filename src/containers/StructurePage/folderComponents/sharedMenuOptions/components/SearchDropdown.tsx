@@ -6,14 +6,17 @@
  *
  */
 
+import Downshift, { GetItemPropsOptions } from 'downshift';
+import { useState } from 'react';
+
 import styled from '@emotion/styled';
 //@ts-ignore
 import { Input, DropdownMenu } from '@ndla/forms';
 import { Spinner } from '@ndla/icons';
 import { Search } from '@ndla/icons/common';
-import Downshift, { GetItemPropsOptions } from 'downshift';
-import { useState } from 'react';
+import { Node } from '@ndla/types-taxonomy';
 import { UseQueryOptions, UseQueryResult } from '@tanstack/react-query';
+
 import { SearchResultBase } from '../../../../../interfaces';
 import useDebounce from '../../../../../util/useDebounce';
 
@@ -51,7 +54,11 @@ interface Props<ParamType extends BaseParams, InnerType, ApiType, Type = ApiType
   transform: (value: Type) => SearchResultBase<DropdownItem<InnerType>>;
   placeholder: string;
   preload?: boolean;
+  selectedItems?: Node[];
   id?: string;
+  wide?: boolean;
+  positionAbsolute?: boolean;
+  isMultiSelect?: boolean;
 }
 
 const SearchDropdown = <ParamType extends BaseParams, InnerType, ApiType, Type>({
@@ -62,7 +69,11 @@ const SearchDropdown = <ParamType extends BaseParams, InnerType, ApiType, Type>(
   transform,
   placeholder,
   preload = true,
+  selectedItems,
   id,
+  wide = true,
+  positionAbsolute = true,
+  isMultiSelect = false,
 }: Props<ParamType, InnerType, ApiType, Type>) => {
   const [query, setQuery] = useState('');
   const [page, setPage] = useState<number>(1);
@@ -87,11 +98,17 @@ const SearchDropdown = <ParamType extends BaseParams, InnerType, ApiType, Type>(
     },
   );
   const transformed = searchQuery.data ? transform(searchQuery.data) : undefined;
-  const handleOnChange = (item: DropdownItem<InnerType>) => onChange(item.originalItem);
+  const handleOnChange = (item: DropdownItem<InnerType> | undefined) => {
+    if (item) {
+      onChange(item.originalItem);
+    }
+    setQuery('');
+  };
 
   return (
     <Downshift
       onInputValueChange={(query) => setQuery(query ?? '')}
+      inputValue={query}
       itemToString={(e: DropdownItem<Type>) => e?.name}
       onChange={handleOnChange}
     >
@@ -114,11 +131,13 @@ const SearchDropdown = <ParamType extends BaseParams, InnerType, ApiType, Type>(
                 getItemProps({ ...props, item, disabled: !!item.disabled })
               }
               {...downShiftProps}
-              positionAbsolute
+              positionAbsolute={positionAbsolute}
               totalCount={transformed?.totalCount ?? 0}
               page={page}
               handlePageChange={(page: { page: number }) => setPage(page.page)}
-              wide
+              wide={wide}
+              selectedItems={selectedItems}
+              multiSelect={isMultiSelect}
             />
           </DropdownWrapper>
         );

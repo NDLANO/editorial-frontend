@@ -53,7 +53,7 @@ const SubjectpageSubjectlinks = ({ subjects, fieldName }: Props) => {
     <>
       <FieldHeader title={t(`subjectpageForm.${fieldName}`)} />
       <NodeList nodes={subjectList} nodeSet={fieldName} onUpdate={onUpdateNodes} />
-      <NodeSearchDropdown selectedItems={subjectList} onChange={handleAddToList} />
+      <NodeSearchDropdown selectedItems={subjectList} onChange={handleAddToList} wide={false} />
     </>
   );
 };

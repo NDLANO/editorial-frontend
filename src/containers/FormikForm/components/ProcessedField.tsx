@@ -34,6 +34,7 @@ const ProcessedField = () => {
           />
         )}
       </FormikField>
+      {!originField.value?.length && <span>{t('form.processed.disabledCause')}</span>}
     </>
   );
 };

@@ -1180,6 +1180,7 @@ const phrases = {
     processed: {
       label: 'Bearbeidet',
       description: 'Innholdet har blitt bearbeidet',
+      disabledCause: 'Bearbeidet kan kun settes dersom opphav er satt',
     },
     image: {
       file: 'Bilde',

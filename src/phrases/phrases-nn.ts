@@ -1180,6 +1180,7 @@ const phrases = {
     processed: {
       label: 'Omarbeidd',
       description: 'Innhaldet har vorte omarbeidd',
+      disabledCause: 'Omarbeidd kan kun settes dersom opphav er satt',
     },
     image: {
       file: 'Bilete',

@@ -1180,6 +1180,7 @@ const phrases = {
     processed: {
       label: 'Processed',
       description: 'The content has been processed',
+      disabledCause: 'The processed field can only be set when origin is defined',
     },
     image: {
       file: 'Image',

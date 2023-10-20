@@ -8,7 +8,7 @@
 
 import { useTranslation } from 'react-i18next';
 import { SingleValue } from '@ndla/select';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import Tabs from '@ndla/tabs';
 import { useSearch } from '../../../../modules/search/searchQueries';
 import WorkListTabContent from './WorkListTabContent';
@@ -35,7 +35,6 @@ const WorkList = ({ ndlaId }: Props) => {
     (localStorage.getItem(STORED_SORT_OPTION_WORKLIST) as SortOption) || '-responsibleLastUpdated',
   );
   const [filterSubject, setFilterSubject] = useState<SingleValue | undefined>(undefined);
-  const [error, setError] = useState<string | undefined>(undefined);
   const [page, setPage] = useState(1);
   const [pageSize, _setPageSize] = useState<SingleValue>(
     storedPageSize
@@ -54,7 +53,6 @@ const WorkList = ({ ndlaId }: Props) => {
   const [filterConceptSubject, setFilterConceptSubject] = useState<SingleValue | undefined>(
     undefined,
   );
-  const [errorConceptList, setErrorConceptList] = useState<string | undefined>(undefined);
   const [pageConcept, setPageConcept] = useState(1);
   const [pageSizeConcept, _setPageSizeConcept] = useState<SingleValue>(
     storedPageSizeConcept
@@ -70,7 +68,7 @@ const WorkList = ({ ndlaId }: Props) => {
     t,
     i18n: { language },
   } = useTranslation();
-  const { data, isInitialLoading } = useSearch(
+  const searchQuery = useSearch(
     {
       'responsible-ids': ndlaId,
       sort: sortOption,
@@ -82,13 +80,10 @@ const WorkList = ({ ndlaId }: Props) => {
       fallback: true,
       'aggregate-paths': 'contexts.rootId',
     },
-    {
-      enabled: !!ndlaId,
-      onError: () => setError(t('welcomePage.errorMessage')),
-      onSuccess: () => setError(undefined),
-    },
+    { enabled: !!ndlaId },
   );
-  const { data: concepts, isInitialLoading: conceptsLoading } = useSearchConcepts(
+
+  const searchConceptsQuery = useSearchConcepts(
     {
       'responsible-ids': ndlaId,
       sort: sortOptionConcepts,
@@ -98,12 +93,20 @@ const WorkList = ({ ndlaId }: Props) => {
       language,
       fallback: true,
     },
-    {
-      enabled: !!ndlaId,
-      onError: () => setErrorConceptList(t('welcomePage.errorMessage')),
-      onSuccess: () => setErrorConceptList(undefined),
-    },
+    { enabled: !!ndlaId },
   );
+
+  const searchError = useMemo(() => {
+    if (searchQuery.isError) {
+      return t('welcomePage.errorMessage');
+    }
+  }, [searchQuery.isError, t]);
+
+  const searchConceptsError = useMemo(() => {
+    if (searchConceptsQuery.isError) {
+      return t('welcomePage.errorMessage');
+    }
+  }, [searchConceptsQuery.isError, t]);
 
   useEffect(() => {
     setPage(1);
@@ -141,16 +144,16 @@ const WorkList = ({ ndlaId }: Props) => {
       aria-label={t('welcomePage.workList.ariaLabel')}
       tabs={[
         {
-          title: `${t('taxonomy.resources')} (${data?.totalCount ?? 0})`,
+          title: `${t('taxonomy.resources')} (${searchQuery.data?.totalCount ?? 0})`,
           id: 'articles',
           content: (
             <WorkListTabContent
-              data={data}
+              data={searchQuery.data}
               filterSubject={filterSubject}
               setSortOption={setSortOption}
               setFilterSubject={setFilterSubject}
-              isLoading={isInitialLoading}
-              error={error}
+              isLoading={searchQuery.isInitialLoading}
+              error={searchError}
               sortOption={sortOption}
               ndlaId={ndlaId}
               setPage={setPage}
@@ -162,14 +165,14 @@ const WorkList = ({ ndlaId }: Props) => {
           ),
         },
         {
-          title: `${t('form.name.concepts')} (${concepts?.totalCount ?? 0})`,
+          title: `${t('form.name.concepts')} (${searchConceptsQuery.data?.totalCount ?? 0})`,
           id: 'concepts',
           content: (
             <ConceptListTabContent
-              data={concepts}
+              data={searchConceptsQuery.data}
               setSortOption={setSortOptionConcepts}
-              isLoading={conceptsLoading}
-              error={errorConceptList}
+              isLoading={searchConceptsQuery.isInitialLoading}
+              error={searchConceptsError}
               sortOption={sortOptionConcepts}
               filterSubject={filterConceptSubject}
               setFilterSubject={setFilterConceptSubject}

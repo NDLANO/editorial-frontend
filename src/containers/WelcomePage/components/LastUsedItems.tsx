@@ -63,52 +63,63 @@ const LastUsedItems = ({ lastUsedResources = [], lastUsedConcepts = [] }: Props)
   const [sortOption, _setSortOption] = useState<SortOptionType>(
     (localStorage.getItem(STORED_SORT_OPTION_LAST_USED) as SortOptionType) || '-lastUpdated',
   );
-  const [error, setError] = useState<string | undefined>(undefined);
   const [page, setPage] = useState(1);
 
   const [sortOptionConcept, _setSortOptionConcept] = useState<SortOptionType>(
     (localStorage.getItem(STORED_SORT_OPTION_LAST_USED_CONCEPT) as SortOptionType) ||
       '-lastUpdated',
   );
-  const [errorConcept, setErrorConcept] = useState<string | undefined>(undefined);
   const [pageConcept, setPageConcept] = useState(1);
 
-  const { data, isInitialLoading } = useSearchDrafts(
+  const searchDraftsQuery = useSearchDrafts(
     {
       ids: lastUsedResources!,
       sort: '-lastUpdated',
       language,
     },
-    {
-      enabled: !!lastUsedResources.length,
-      onError: () => setError(t('welcomePage.errorMessage')),
-      onSuccess: () => setError(undefined),
-    },
+    { enabled: !!lastUsedResources.length },
   );
 
-  const { data: conceptsData, isInitialLoading: isLoadingConcepts } = useSearchConcepts(
+  const searchConceptsQuery = useSearchConcepts(
     { ids: lastUsedConcepts.join(',')!, sort: '-lastUpdated', language },
     {
       enabled: !!lastUsedConcepts.length,
-      onError: () => setErrorConcept(t('welcomePage.errorMessage')),
-      onSuccess: () => setErrorConcept(undefined),
     },
   );
+
+  const draftsError = useMemo(() => {
+    if (searchDraftsQuery.isError) {
+      return t('welcomePage.errorMessage');
+    }
+  }, [searchDraftsQuery.isError, t]);
+
+  const conceptsError = useMemo(() => {
+    if (searchConceptsQuery.isError) {
+      return t('welcomePage.errorMessage');
+    }
+  }, [searchConceptsQuery.isError, t]);
+
   const sortedData = useMemo(
-    () => (data?.results ? getSortedPaginationData(page, sortOption, data.results) : []),
-    [data, page, sortOption],
+    () =>
+      searchDraftsQuery.data?.results
+        ? getSortedPaginationData(page, sortOption, searchDraftsQuery.data.results)
+        : [],
+    [searchDraftsQuery.data, page, sortOption],
   );
 
   const sortedConceptsData = useMemo(
     () =>
-      conceptsData?.results
-        ? getSortedPaginationData(pageConcept, sortOptionConcept, conceptsData.results)
+      searchConceptsQuery.data?.results
+        ? getSortedPaginationData(pageConcept, sortOptionConcept, searchConceptsQuery.data.results)
         : [],
-    [conceptsData, pageConcept, sortOptionConcept],
+    [searchConceptsQuery.data, pageConcept, sortOptionConcept],
   );
 
-  const lastPage = useMemo(() => getLastPage(data), [data]);
-  const lastPageConcepts = useMemo(() => getLastPage(conceptsData), [conceptsData]);
+  const lastPage = useMemo(() => getLastPage(searchDraftsQuery.data), [searchDraftsQuery.data]);
+  const lastPageConcepts = useMemo(
+    () => getLastPage(searchConceptsQuery.data),
+    [searchConceptsQuery.data],
+  );
 
   const tableTitles: TitleElement<SortOptionLastUsed>[] = [
     { title: t('form.name.title'), sortableField: 'title' },
@@ -131,34 +142,34 @@ const LastUsedItems = ({ lastUsedResources = [], lastUsedConcepts = [] }: Props)
       aria-label={t('welcomePage.lastUsed')}
       tabs={[
         {
-          title: `${t('taxonomy.resources')} (${data?.totalCount ?? 0})`,
+          title: `${t('taxonomy.resources')} (${searchDraftsQuery.data?.totalCount ?? 0})`,
           id: 'articles',
           content: (
             <LastUsedResources
               data={sortedData}
-              isLoading={isInitialLoading}
+              isLoading={searchDraftsQuery.isInitialLoading}
               page={page}
               setPage={setPage}
               lastPage={lastPage}
               sortOption={sortOption}
               setSortOption={setSortOption}
-              error={error}
+              error={draftsError}
               titles={tableTitles}
             />
           ),
         },
         {
-          title: `${t('form.name.concepts')} (${conceptsData?.totalCount ?? 0})`,
+          title: `${t('form.name.concepts')} (${searchConceptsQuery.data?.totalCount ?? 0})`,
           id: 'concepts',
           content: (
             <LastUsedConcepts
               data={sortedConceptsData}
-              isLoading={isLoadingConcepts}
+              isLoading={searchConceptsQuery.isInitialLoading}
               page={pageConcept}
               setPage={setPageConcept}
               sortOption={sortOptionConcept}
               setSortOption={setSortOptionConcept}
-              error={errorConcept}
+              error={conceptsError}
               lastPage={lastPageConcepts}
               titles={tableTitles}
             />

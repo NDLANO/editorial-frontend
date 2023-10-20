@@ -186,7 +186,7 @@ const RichTextEditor = ({
     <article>
       <SlateProvider isSubmitted={submitted}>
         <StyledSlateWrapper data-testid="slate-editor">
-          <Slate editor={editor} value={value} onChange={onChange}>
+          <Slate editor={editor} initialValue={value} onChange={onChange}>
             {isFirstNormalize ? (
               <Spinner />
             ) : (

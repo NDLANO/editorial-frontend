@@ -67,7 +67,7 @@ const PlainTextEditor = ({
   }, [status]);
 
   return (
-    <Slate editor={editor} value={value} onChange={onSlateChange}>
+    <Slate editor={editor} initialValue={value} onChange={onSlateChange}>
       <Editable
         id={id}
         // Forcing slate field to be deselected before selecting new field.

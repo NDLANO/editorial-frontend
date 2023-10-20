@@ -57,7 +57,7 @@ const VisualElementEditor = ({ name, value, plugins, onChange, types, language }
     <SlateProvider>
       <Slate
         editor={editor}
-        value={value}
+        initialValue={value}
         onChange={(val: Descendant[]) => {
           onChange({
             target: {

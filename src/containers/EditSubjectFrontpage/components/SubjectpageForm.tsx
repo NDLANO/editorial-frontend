@@ -31,7 +31,6 @@ import { isSlateEmbed } from '../../../components/SlateEditor/plugins/embed/util
 import StyledForm from '../../../components/StyledFormComponents';
 import { SAVE_BUTTON_ID } from '../../../constants';
 import { fetchNodes } from '../../../modules/nodes/nodeApi';
-import { useSearchNodes } from '../../../modules/nodes/nodeQueries';
 import { isFormikFormDirty } from '../../../util/formHelper';
 import { NdlaErrorPayload } from '../../../util/resolveJsonOrRejectWithError';
 import { toEditSubjectpage } from '../../../util/routeHelpers';
@@ -111,28 +110,6 @@ const SubjectpageForm = ({
   const [unsaved, setUnsaved] = useState(false);
   usePreventWindowUnload(unsaved);
 
-  const subjectsLinks = (subjectpage?.buildsOn ?? [])
-    .concat(subjectpage?.connectedTo ?? [])
-    .concat(subjectpage?.leadsTo ?? []);
-
-  const { data: nodeData } = useSearchNodes(
-    {
-      page: 1,
-      taxonomyVersion: 'default',
-      nodeType: 'SUBJECT',
-      pageSize: subjectsLinks.length,
-      ids: subjectsLinks,
-    },
-    { enabled: subjectsLinks.length > 0 },
-  );
-
-  const subjectLinks = useMemo(() => {
-    if (nodeData && nodeData.results.length > 0) {
-      return nodeData.results;
-    }
-    return null;
-  }, [nodeData]);
-
   const fetchTaxonomyUrns = async (choices: (IArticle | ILearningPathV2)[], language: string) => {
     const fetched = await Promise.all(
       choices.map((choice) => {
@@ -190,17 +167,6 @@ const SubjectpageForm = ({
 
   const initialErrors = validateFormik(initialValues, subjectpageRules, t);
 
-  const transformToNodes = (list: string[]) => {
-    const nodeList: Node[] = [];
-    for (const i in list) {
-      const nodeFound = subjectLinks?.find((value) => value.id === list[i]);
-      if (nodeFound) {
-        nodeList.push(nodeFound);
-      }
-    }
-    return nodeList;
-  };
-
   return (
     <Formik
       initialValues={initialValues}
@@ -229,12 +195,12 @@ const SubjectpageForm = ({
               title={values.name ?? ''}
             />
             <SubjectpageAccordionPanels
-              buildsOn={transformToNodes(values.buildsOn)}
-              connectedTo={transformToNodes(values.connectedTo)}
+              buildsOn={values.buildsOn}
+              connectedTo={values.connectedTo}
               editorsChoices={values.editorsChoices}
               elementId={values.elementId!}
               errors={errors}
-              leadsTo={transformToNodes(values.leadsTo)}
+              leadsTo={values.leadsTo}
             />
             <Field right>
               <SaveButton

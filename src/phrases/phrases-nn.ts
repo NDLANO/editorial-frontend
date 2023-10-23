@@ -878,14 +878,11 @@ const phrases = {
     },
     concept: {
       create: 'Opprett ny forklaring',
-      addText: 'Velg ei forklaring under og trykk "koble til fagtekst", eller',
       edit: 'Rediger forklaring',
       remove: 'Ta bort forklaring',
       source: 'Kjelde',
       markdown: 'Feltet støtter markdown. Bruk formatet [Tekst](https://url) for å lage lenke.',
       subjects: 'Berre fag markert som forklaringsfag vil visast i lista.',
-      addConcept: 'Legg til eksisterande forklaring',
-      removeConcept: 'Ta bort forklaring',
     },
     gloss: {
       create: 'Opprett ny glose',

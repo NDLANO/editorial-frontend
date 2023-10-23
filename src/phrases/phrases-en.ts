@@ -878,14 +878,11 @@ const phrases = {
     },
     concept: {
       create: 'Create concept',
-      addText: 'Choose a concept and press "connect to topic", or',
       edit: 'Edit concept',
       remove: 'Remove concept',
       source: 'Source',
       markdown: 'The field supports markdown. Use the format [Text](https://url) to create a link.',
       subjects: 'Only subjects marked as explanation subjects will be displayed in the list.',
-      addConcept: 'Add existing concept',
-      removeConcept: 'Remove concept',
     },
     gloss: {
       create: 'Create gloss',

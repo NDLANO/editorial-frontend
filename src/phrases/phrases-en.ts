@@ -434,6 +434,13 @@ const phrases = {
     addArticle: 'Add article',
     removeArticle: 'Remove article',
     missingVisualElement: 'Visual element is required',
+    subjectlinks: 'Subject links',
+    addSubject: 'Add subject',
+    moveSubject: 'Drag and drop',
+    removeSubject: 'Remove subject',
+    connectedTo: 'Common programme subject with',
+    buildsOn: 'Builds on',
+    leadsTo: 'Leads to',
   },
   programmepageForm: {
     title: 'Programme',

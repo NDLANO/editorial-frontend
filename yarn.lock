@@ -2013,10 +2013,10 @@
     "@ndla/util" "^4.0.0"
     tiny-warning "^1.0.3"
 
-"@ndla/types-backend@0.2.21":
-  version "0.2.21"
-  resolved "https://registry.yarnpkg.com/@ndla/types-backend/-/types-backend-0.2.21.tgz#2bc89233e45c8ed25c54aeff967ba4fc1c33d8ed"
-  integrity sha512-g3RD8NRaieKj5CO4JdJm9jDUELGl2dtTL6ch4jQ2HlqrfibNqU3m8hYvmVpvIt1DROFtRg16zVTLkzahOo1Znw==
+"@ndla/types-backend@^0.2.23":
+  version "0.2.23"
+  resolved "https://registry.yarnpkg.com/@ndla/types-backend/-/types-backend-0.2.23.tgz#dbd64746100e9ba4fc89332987ba3d89ed9fd503"
+  integrity sha512-jPU9uj/ItVyNnBCuPIqbSnOhfhVqC1nmEQzbV9cLCF0ijp7KmHpQ7UzfbG3zOg8/3GfuKVZT1Tk3vpVzlS4waQ==
 
 "@ndla/types-embed@^4.0.4":
   version "4.0.4"

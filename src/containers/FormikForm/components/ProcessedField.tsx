@@ -6,12 +6,14 @@
  *
  */
 
+import { useField } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { CheckboxItem, FieldHeader } from '@ndla/forms';
 import FormikField from '../../../components/FormikField';
 
 const ProcessedField = () => {
   const { t } = useTranslation();
+  const [originField] = useField<string>('origin');
   return (
     <>
       <FieldHeader title={t('form.processed.label')} width={3 / 4} />
@@ -20,6 +22,7 @@ const ProcessedField = () => {
           <CheckboxItem
             label={t('form.processed.description')}
             checked={field.value}
+            disabled={!originField.value?.length}
             onChange={() =>
               field.onChange({
                 target: {
@@ -31,6 +34,7 @@ const ProcessedField = () => {
           />
         )}
       </FormikField>
+      {!originField.value?.length && <span>{t('form.processed.disabledCause')}</span>}
     </>
   );
 };
